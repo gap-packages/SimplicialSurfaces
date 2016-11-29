@@ -302,53 +302,34 @@ SortedDegreesOfGenericSimplicialSurface := function(simpsurf)
 end;
 
 
-#TODO current position
-
-
+#############################################################################
 ##
-##  A method to test whether two simplicial surfaces are equal
+#!  @Description
+#!  Check if to generic simplicial surfaces are equal.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two generic simplicial surface objects as created 
+#!  by SimplicialSurface
+#! equality if the generators are possibly reordered
 ##
-##  TODO: check for equality if the generators are possibly reordered
-##
-InstallMethod( \=, "for two wild simplicial surfaces", true, 
-  [ IsSimplicialSurfaceRep, IsSimplicialSurfaceRep ], 0,  function( s1, s2 )
+InstallMethod( \=, "for two generic simplicial surfaces", true, 
+  [ IsGenericSimplicialSurfaceRep, IsGenericSimplicialSurfaceRep ], 0,  function( s1, s2 )
 
-        local vtx, rvtx, vert1, vert2;
+		if NrOfVerticesOfGenericSimplicialSurface(s1) <> NrOfVerticesOfGenericSimplicialSurface(s2) then
+			return false;
+		fi;
+		if NrOfEdgesOfGenericSimplicialSurface(s1) <> NrOfEdgesOfGenericSimplicialSurface(s2) then
+			return false;
+		fi;
+		if NrOfFacesOfGenericSimplicialSurface(s1) <> NrOfFacesOfGenericSimplicialSurface(s2) then
+			return false;
+		fi;
 
-        if EulerCharacteristic(s1) <> EulerCharacteristic(s2) then
-                return false;
-        fi;
-
-        if GeneratorsOfSimplicialSurface(s1) <>
-           GeneratorsOfSimplicialSurface(s2) then
-                return false;
-        fi;
-
-        if DegreesOfSimplicialSurface(s1) <>
-           DegreesOfSimplicialSurface(s2) then
-                return false;
-        fi;
-
-        if EdgesOfSimplicialSurface(s1) <>
-           EdgesOfSimplicialSurface(s2) then
-                return false;
-        fi;
-
-        vert1 := VerticesOfSimplicialSurface(s1);
-        vert2 := VerticesOfSimplicialSurface(s2);
-
-        if Length(vert1)<>Length(vert2) then return false; fi;
-
-        # vertices might come in different order.
-        for vtx in  vert1 do
-            # also check the reverse vertex
-            rvtx := [ vtx[1] ];
-            Append( rvtx, Reversed( vtx{[2..Length(vtx)]} ) );
-            if not vtx in vert2 and not rvtx in vert2 then
-                return false; 
-            fi;
-
-        od;
+		if EdgesOfGenericSimplicialSurface(s1) <> EdgesOfGenericSimplicialSurface(s2) then
+			return false;
+		fi;
+		if FacesOfGenericSimplicialSurface(s1) <> FacesOfGenericSimplicialSurface(s2) then
+			return false;
+		fi;
 
         return true;
 
@@ -356,11 +337,7 @@ end);
 
 
 
-#InstallMethod( \<, "for two simplicial surfaces", true, 
-#  [ IsSimplicialSurfaceRep, IsSimplicialSurfaceRep ], 0,
-#   LtSimplicialSurface );
-
-
+#TODO current position
 
 
 #############################################################################
