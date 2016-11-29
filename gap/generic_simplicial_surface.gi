@@ -1,6 +1,7 @@
-##############################################################################
+#########################################################################################
 ##
-#W  generic_simplicial_surface.gi      Generic Simplicial Surface       Markus Baumeister
+#W  generic_simplicial_surface.gi      Generic Simplicial Surface       Alice Niemeyer
+#W																		Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,
@@ -41,7 +42,7 @@ GenericSimplicialSurface :=  function( simpsurf )
     
     return Objectify( GenericSimplicialSurfaceType, simpsurf );
 
-end );
+end;
 
 
 #############################################################################
@@ -66,7 +67,7 @@ FacesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return simpsurf!.faces;
 
-end);
+end;
 
 #############################################################################
 ##
@@ -84,7 +85,7 @@ NrOfFacesOfGenericSimplicialSurface := function (simpsurf)
         fi;
         return simpsurf!.nrOfFaces;
 
-end);
+end;
 
 #############################################################################
 ##
@@ -102,7 +103,7 @@ EdgesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return simpsurf!.edges;
 
-end);
+end;
 
 #############################################################################
 ##
@@ -120,7 +121,7 @@ NrOfEdgesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return simpsurf!.edges;
 
-end);
+end;
 
 #############################################################################
 ##
@@ -138,7 +139,7 @@ VerticesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return [1..simpsurf!.nrOfVertices];
 
-end);
+end;
 
 #############################################################################
 ##
@@ -156,7 +157,7 @@ NrOfVerticesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return simpsurf!.nrOfVertices;
 
-end);
+end;
 
 #############################################################################
 ##
@@ -182,52 +183,126 @@ EulerCharacteristic := function (simpsurf)
         return simpsurf!.EulerCharacteristic;
     fi;
 
-    chi :=    NrOfVerticesOfSimplicialSurface(simpsurf)  # V
-            - NrOfEdgesOfSimplicialSurface(simpsurf)     # -E
-            + NrOfFacesOfSimplicialSurface(simpsurf);    # +F
+    chi :=    NrOfVerticesOfGenericSimplicialSurface(simpsurf)  # V
+            - NrOfEdgesOfGenericSimplicialSurface(simpsurf)     # -E
+            + NrOfFacesOfGenericSimplicialSurface(simpsurf);    # +F
 
 
      simpsurf!.EulerCharacteristic := chi;
 
      return chi;
 
-end);
+end;
 
 
-#TODO current position
+############################################################################
+##
+#! @Description
+#! This function returns the faces of the generic simplicial surface with
+#! respect to their vertices. The implicit orientation that is given
+#! through the edges will be represented here as well.
+#! @Returns a list of lists of integers, for each face a list of the
+#! contained vertices.
+#! @Arguments <simpsurf>, a generic simplicial surface
+#!
+FacesByVerticesOfGenericSimplicialSurface := function( simpsurf )
+	local faceList, i, face,intersectingEdges,vertices,j;
 
+	if IsBound(simpsurf!.FacesByVertices) then
+        return simpsurf!.FacesByVertices;
+    fi;
+
+	faceList := [];
+	for i in [1 .. NrOfFacesOfGenericSimplicialSurface(simpsurf)] do
+		face := FacesOfGenericSimplicialSurface(simpsurf)[i];
+		vertices := [];
+
+		# Intersect first and last edge to obtain first vertex
+		intersectingEdges := Intersection( Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[1]] ),
+				Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[Length(face)]] ) );
+		if Length(intersectingEdges) <> 1 then
+       		Error("FacesByVerticesOfGenericSimplicialSurface: Edge intersection is not unique.");
+		fi;
+		vertices[1] := intersectingEdges[1];
+
+		# Continue in the same way for the other edges
+		for j in [2 .. Length(face)] do
+			intersectingEdges := Intersection( Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[j-1]] ),
+				Set( EdgesOfGenericSimplicialSurface(simpsurf)[j] ) );
+			if Length(intersectingEdges) <> 1 then
+       			Error("FacesByVerticesOfGenericSimplicialSurface: Edge intersection is not unique.");
+			fi;
+			vertices[j] := intersectingEdges[1];
+		od;
+
+		faceList[i] := vertices;
+	od;
+
+	return faceList;
+end;
 
 
 #############################################################################
 ##
 #!  @Description
-#!  This function computes the degrees of the vertices of the simplicial 
+#!  This function computes the face-degrees of the vertices of the simplicial 
 #!  surface <simpsurf>.
-#!  The degree of a vertex is the number of faces incident to the vertex.
+#!  The face-degree of a vertex is the number of faces incident to the vertex.
+#!  @Returns a list of integers, containing for each
+#!  vertex of the simplicial suface its degree
+#!  @Arguments <simpsurf>, a simplicial surface object as created 
+#!  by SimplicialSurface
+#!
+UnsortedDegreesOfGenericSimplicialSurface := function(simpsurf)
+
+        local degrees, i, faces,j, deg;
+
+		if IsBound( simpsurf!.UnsortedDegrees ) then
+			return simpsurf!.UnsortedDegrees;
+		fi;
+
+		degrees := [];
+		faces := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
+		for i in [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)] do
+			deg := 0;
+			for j in [1 .. Length(faces)] do
+				if i in faces[j] then
+					deg := deg+1;
+				fi;
+			od;
+			degrees[i] := deg;
+		od;
+
+        simpsurf!.UnsortedDegrees := degrees;
+
+        return degrees;
+end;
+
+#############################################################################
+##
+#!  @Description
+#!  This function computes the face-degrees of the vertices of the simplicial 
+#!  surface <simpsurf> and returns them sorted.
+#!  The face-degree of a vertex is the number of faces incident to the vertex.
 #!  @Returns a list of integers in increasing order, containing for each
 #!  vertex of the simplicial suface its degree
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
 #!  by SimplicialSurface
 #!
-InstallGlobalFunction( DegreesOfSimplicialSurface, function(simpsurf)
+SortedDegreesOfGenericSimplicialSurface := function(simpsurf)
+		local degrees;
 
-        local degrees, i;
+		if IsBound( simpsurf!.SortedDegrees) then
+			return simpsurf!.SortedDegrees;
+		fi;
 
-# TODO noch nicht richtig fuer flaps
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: DegreesOfSimplicialSurface(simpsurf");
-            return fail;
-        fi;
-        if IsBound(simpsurf!.Degrees) then return simpsurf!.Degrees; fi;
-
-        degrees := List(VerticesOfSimplicialSurface(simpsurf), i-> Length(i));
-        Sort(degrees);
-
-        simpsurf!.Degrees := degrees;
-
+		degrees := UnsortedDegreesOfGenericSimplicialSurface( simpsurf );
+		simpsurf!.SortedDegrees := Sort( degrees );
         return degrees;
-end);
+end;
 
+
+#TODO current position
 
 
 ##
@@ -285,119 +360,8 @@ end);
 #  [ IsSimplicialSurfaceRep, IsSimplicialSurfaceRep ], 0,
 #   LtSimplicialSurface );
 
-#############################################################################
-##
-#!  @Description Given a wild coloured simplicial surface <simpsurf>, this
-#!  function determines the mr-type of each of the edges of <simpsurf>.
-#!  The mr-type of an edge of <simpsurf> is either "m" (for mirror) or 
-#!  "r" (for rotation). It is defined as followed. 
-#!  Suppose the edge  $e$ is incident to the vertices $v_1$ and 
-#!  $v_2$ and to the two faces $F$ and $F'$. Let $x$ and $y$ be the edges of
-#!  incident  incident to $F$ and $F'$ and to the same vertex $v_1$, say.
-#!  Then $e$ is of type $m$ if both $x$ and $y$ have the same colour, and $e$
-#!  is of type $r$ if $x$ and $y$ are different. As we assume the surface to
-#!  be wild coloured, this means that the colours of the other edges incident 
-#!  to $e$ and both faces $F$ and $F'$ are then also determined. As the # $'$
-#!  edges of the simplicial surface are pairs of points, the mr-type of 
-#!  the simplicial surface <simpsurf> can be encoded as a list of length 3. 
-#!   Each of the
-#!  entries is in turn  a list encoding the mr-type of all edges of a 
-#!  certain colour. Suppose that mrtype[1] is the list encoding the mr-type
-#!  of the red edges. Then mrtype[1][i] = 0 if the mr-type of the red edge
-#!  incident to the vertex i is unknown, mrtype[1][i] = 1 if the mr-type of 
-#!  the red edge incident to the vertex i is "m", and mrtype[1][i] = 2 if 
-#!  the mr-type of the red edge incident to the vertex i is "r". 
-#!  @Returns a list of three lists, each of which contains the 
-#!  entries 0, 1 or 2.
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
-#!  @BeginExample
-#! MrTypeOfSimplicialSurface(tetra);
-#! @EndExample
-#!
-InstallGlobalFunction( MrTypeOfSimplicialSurface, function (simpsurf)
- 
-        local mrtype, i, j, f, path, n, pos, g, gens;
-
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: MrTypeOfSimplicialSurface(simpsurf");
-            return fail;
-        fi;
-
-        if IsBound(simpsurf!.mrtype) and Length(simpsurf!.mrtype) > 0 
-           and simpsurf!.mrtype[1] <> 0 * simpsurf!.mrtype[1]  and
-                simpsurf!.mrtype[2] <> 0 * simpsurf!.mrtype[2] and
-                simpsurf!.mrtype[3] <> 0 * simpsurf!.mrtype[3]  then 
-            return simpsurf!.mrtype; 
-        fi;
-
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
-        n := Maximum(FacesOfSimplicialSurface(simpsurf));
-
-        mrtype := [];
-     
-        mrtype [1] := List( [1 .. n], i-> 0 );
-        mrtype [2] := List( [1 .. n], i-> 0 );
-        mrtype [3] := List( [1 .. n], i-> 0 );
-
-       for path in VerticesOfSimplicialSurface(simpsurf) do
-           for i in [ 1 .. Length(path)] do
-               if i < Length(path) then j  := i + 1; else j := 1; fi;
-               f := path[i][1]; # the face we are considering
-#               Print( f, " ");
-               g := Filtered( path[i]{[2,3]}, x -> (f^gens[x] = path[j][1]) );
-#               if Length(g) > 1 then
-#                   Print("# ear \n");
-#               fi; 
-               if Length(g) = 0 then continue; fi;
-               g := g[1]; # g is the permutation mapping f to next face
-
-               if Set(path[i]{[2,3]}) = Set(path[j]{[2,3]}) then
-                   # this is a mirror
-                   mrtype[g][f] := 1;
-                   mrtype[g][f^gens[g]] := 1;
-               elif Size(Intersection(Set(path[i]{[2,3]}), Set(path[j]{[2,3]})))=1 then
-                   # this is a rotation
-                   mrtype[g][f] := 2;
-                   mrtype[g][f^gens[g]] := 2;
-               else Error("?");
-               fi;
-            od;
-#            Print("\n");
-        od;
- 
-        simpsurf!.mrtype := mrtype;
-
-        return mrtype;
-
-end);
 
 
-#############################################################################
-##
-#!  @Description Given a wild coloured simplicial surface <simpsurf>, this
-#!  function determines the vertex group of the simplicial surface.
-#!  The vertex group of the simplicial surface <simpsurf> is defined to be
-#!  $F_3/R$, where $F_3$ is the free group on three generators and $R$ is 
-#!  the set of relations given by the vertex defining paths.
-#!  @Returns finitely presented group.
-#!
-InstallGlobalFunction( VertexGroupOfSimplicialSurface, function(simpsurf)
-
-        local vtxnames, rels, r,  gens, fgrp;
- 
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
-        fgrp := FreeGroup(Length(gens));
-        rels := [fgrp.1^2, fgrp.2^2, fgrp.3^2];
-
-        for vtxnames in VerticesOfSimplicialSurface(simpsurf) do
-            r := GetVertexRelation(gens, vtxnames, fgrp);
-            if r <> false then Add(rels, r); fi;
-        od;
-
-        return [fgrp,Set(rels)];
-      
-end);
 
 #############################################################################
 ##
@@ -488,537 +452,6 @@ IsConnectedSimplicialSurface := function(simpsurf)
 end;
 
 
-#############################################################################
-##
-##  AllSimplicialSurfaces( gens[, mrtype] ) . . . . all simplicial surfaces
-##  AllSimplicialSurfaces( grp[, mrtype] )
-##  AllSimplicialSurfaces( sig1, sig2, sig3[, mrtype] )
-##
-##
-#!  @Description
-#!  This function computes all wild-coloured simplicial surfaces generated
-#!  by a triple of involutions as specified in the input. If the optional
-#!  argument <mrtype> is present, only those wit a predefined mrtype are
-#!  constructed.
-#!  The involution triple can be given to the function in various ways.
-#!  Either they are input as a list <gens> of three involutions, or as
-#!  a group <grp> whose generators are the tree involutions, or they can
-#!  be input into the function as three arguments, one for each involution.
-#! 
-#!  In case the optional argument <mrtype>  is present, it can be used to
-#!  restrict to wild-colourings for which some or all edges have a predefined
-#!  colour. This is equivalent to marking the cycles of the three involutions
-#!  as follows. If the edge $(j, j^\sigma_i)$ of the involution $\sigma_i$ is
-#!  to be a reflection (mirror) let $k=1$, if it is to be a rotation, let 
-#!  $k=2$ and if it can be either let $k=0.$ Then set $mrtype[i][j] = k$.
-#!  @Returns a list of all wild-coloured simplicial surfaces with generating
-#!  set given by three involutions.
-#!  The function AllSimplicialSurfaces when called with the optional argument
-#!  <mrtype> now returns all wild-coloured simplicial surfaces whose edges
-#!  are coloured according to the restrictions imposed by <mrtype>.
-#!  @Arguments gens, a list of three involutions
-#!
-InstallGlobalFunction( AllSimplicialSurfaces, function(arg)
-
-
-	local faces, edges, vertices, grp, gens, i, j, k, 
-          allvtxnames, completedvertices, nrvtsface, 
-          FirstFreeVertex,  FindSimplicialSurface, 
-          AllSurfaces, level, n, allvertices, IsMirror, IsRotation,  
-          LoopOneVertexSignedWithBoundary,  faceinverse,
-          BreakPoint,  mrtype,         knownmrtype, cmpvertices;
-
-cmpvertices := function (v1, v2 )
-
-    if Length(v1) < Length(v2 ) then return true;
-    elif Length(v1) > Length(v2) then return false;
-    fi;
-    # now they have the same length
-    return v1 < v2;
-
-end;
-
-
-    mrtype := [];
-
-    if Length(arg) = 1 then
-        if IsGroup(arg[1]) then gens := GeneratorsOfGroup(arg[1]);
-        else gens := arg[1]; fi;
-    elif Length(arg) = 2 then
-        if IsGroup(arg[1]) then gens := GeneratorsOfGroup(arg[1]);
-        else gens := arg[1]; fi;
-        mrtype := arg[2];
-    elif Length(arg) = 3 then
-   	   gens := [arg[1],arg[2],arg[3]];
-    elif Length(arg) = 4 then
-   	   gens := [arg[1],arg[2],arg[3]];
-       mrtype := arg[4];
-    fi;
-    if not IsList(gens) or Length(gens) <> 3 then
-         Error("usage: AllSimplicialSurfaces( gens[, mrtype] )\n");
-    fi;
-    if not IsPerm(gens[1]) or not IsPerm(gens[2])
-        or not IsPerm(gens[3]) then
-         Error("usage: AllSimplicialSurfaces( gens[, mrtype] )\n");
-    fi;
-    if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
-        or gens[3]^2 <> One(gens[3]) then
-            Error("generators must be involutions\n");
-    fi;
-
-    if not IsList(mrtype) or not Length(mrtype) in [0,3] then
-            Error("usage: AllSimplicialSurfaces( gens[, mrtype] )\n");
-    fi;
-
-        
-
-    BreakPoint := false;
-    faces := ShallowCopy(MovedPoints(gens));
-    Sort(faces);
-    n := Length(faces);
-    faceinverse := List([1..n],i->0);
-
-    # store the position of face in in faces to avoid searching
-    for i in faces do
-        faceinverse[i] := Position(faces,i);
-    od;
-
-    for i in [ 1 .. 3] do
-        for j in [i+1 .. 3] do
-            if NrMovedPointsPerm( gens[i] * gens[j] ) <> n then
-                Print("Warning: Simplicial surface not vertex transitive\n");
-            fi;
-        od;
-    od;
- 
-
-    # if the argument mrtype was an empty list, then set all
-    # mr-types to 0 - meaning unknown.       
-    if Length(mrtype) = 0 then
-        knownmrtype := false;
-        mrtype := [];
-        mrtype [1] := List( [1 .. n], i-> 0 );
-        mrtype [2] := List( [1 .. n], i-> 0 );
-        mrtype [3] := List( [1 .. n], i-> 0 );
-    else
-        knownmrtype := true;
-    fi;
-
-    # mirror has mr-type 1
-    IsMirror := function( g, i )
-        return mrtype[g][faceinverse[i]]=1;
-    end;
-
-    # rotation has mr-type 2
-    IsRotation := function( g, i )
-        return mrtype[g][faceinverse[i]]=2;
-    end;
-
-    # unknown has mr-type 0
-
-    # now  we know that the simplicial surface is vertex transitive
-    # this implies in particular that any 2-cycle only occurs in one
-    # generator
-    grp := Group(gens);
-
-    # the edges are the 2-cycles of the transposition. We colour
-    # the edges according to the permutation sigi which gave rise
-    # to them. Note that no edge can arise from two different
-    # permutations.
-	edges := [Cycles(gens[1],faces),Cycles(gens[2],faces),Cycles(gens[3],faces)];
-    vertices := [];
-
-    # we now make a list of all possible vertices. This list will
-    # contain a particular vertex several times under several different
-    # names. A vertex is described by all triples (i, a,b) such a<b and
-    # that the vertex is adjacent to i and has edges gens[a] and gens[b].
-	allvertices := [];
-    for i in [ 1 .. n ] do
-        for j in [ 1 .. 3] do
-            for k in [j+1 .. 3] do
-                # k > j 
-                Add(allvertices,[faces[i],j,k]);
-            od;
-        od;
-    od;
-    #(f-1)*3 + (i-1)*2 + j-i
-    # 12 -> +1
-    # 13 -> +2
-    # 23 -> +3
-
-    #
-    # The following function finds all vertex defining paths
-    # around the vertex vtx when moving next with g around the vertex.
-    # For example, one such class could be [ (1,a,b), (4,a,c), (6,b,c) ]
-    # in particular this means that the vertices in one class yield a word
-    # either fixing all faces on the path or from a face with a boundary
-    # to another face with a boundary.
-    # In the given example acb is a word such that
-    # 1acb = 1 or, more specifically, 1a = 4, 4c=6, 6b = 1.
-    #
-    LoopOneVertexSignedWithBoundary :=
-            function(vtx,g,vtxnames,completedvertices,nrvtsface)
-            local  h, fac, i, j, pj, k, x, knownfaces, nvtx, nvtxnames,
-                   vtxnames_c, completedvertices_c, nrvtsface_c, poss;
-
-            # all already known names for this vertex 
-            # - known to be valid up to here
-            # all already known faces incident to this vertex
-            knownfaces := List(vtxnames, i-> i[1]);
-
-            i := vtx[1]; # the face
-            # consider each of the other two generators different to g
-
-#           PrintVertexLabels( gens, vtxnames ); Print("\n");
-
-            j :=  i^gens[g];
-            if i = j then
-                    # we have a boundary vertex
-                    # back to the current starting point of the path
-                    # and continue from there
-                    if Length(vtxnames) = 1 then
-                       # we are starting out with a boundary vertex
-                       # but marching in the wrong direction so turn around
-                       if vtx[2]=g then g := vtx[3];
-                       else g := vtx[2]; fi;
-#                      g := Difference(vtx[2],[g]);
-#                      g := g[1];
-                       j := i^gens[g];
-                    else
-                       # now we know that we are at the end of a 
-                       #  path of length at least 2
-                       # reverse path and continue at vertex at other end
-                       vtx := vtxnames[1];
-                       i := vtx[1];
-                       g := [];
-                       if i^gens[vtx[2]] <> vtxnames[2][1] then g := [vtx[2]];
-                       elif i^gens[vtx[3]] <> vtxnames[2][1] then g := [vtx[3]];
-                       fi;
-#                      g := Filtered(vtx{[2,3]}, j-> i^gens[j]<>vtxnames[2][1]);
-                       if g = [] then
-                           # we found an ear
-                           Print("we found an ear\n");
-                       else
-                           g := g[1];
-                           j := i^gens[g];
-                           vtxnames := Reversed(vtxnames);
-                       fi;
-                    fi;
-            fi;
-
-
-            if not j in knownfaces then
-
-
-                # if the edge of face j opposite the given vertex is
-                # known, then we have no choice 
-#                x := PositionsProperty(allvertices, 
-#                     v->(v[1]=j and (v[2] = g or v[3]=g)) );
-                x := (faceinverse[j]-1)*3;
-                if g = 1 then x := [x+1,x+2];
-                elif g=2 then x := [x+1,x+3];
-                else  x := [x+2,x+3]; fi;
-                # x are the positions of the two vertices adjacent to j 
-                # meeting the edge g from i to j 
-
-                # work out whether we have 
-                # a mirror (m) or a rotation (r) edge
-                if mrtype[g][faceinverse[i]]=1 then
-#                if IsMirror( g, i ) then  # h i g j -> use h next
-                    # if g is an m-edge the we use the same generator
-#                    poss := Difference( vtx{[2,3]}, [g] );
-                    if g = vtx[2] then poss:= [vtx[3]]; 
-                    elif g = vtx[3] then poss:=[vtx[2]];
-                    else poss := [vtx[2],vtx[3]]; fi;
-                elif mrtype[g][faceinverse[i]]=2 then
-#                elif IsRotation( g, i ) then # h i g j -> use neither h, g next
-                    # if g is an r-edge the we use the other generator
-                     poss := [6-vtx[2]-vtx[3]];
-#                    poss := Difference( [1..3], vtx{[2,3]} );
-                else 
-                    # the edge is not known, so just do not use g
-#                    poss := Difference([1..3],[g]);
-                    if g=1 then poss:=[2,3]; elif g=2 then poss:=[1,3]; 
-                    else poss := [1,2]; fi;
-                fi;
-                if completedvertices[x[1]] then 
-                    # the vertex is known. Do not consider the 
-                    # generator on that vertex as it is already on face j
-                    poss := Difference(poss,allvertices[x[1]]{[2,3]}); 
-                elif completedvertices[x[2]] then 
-                    poss := Difference(poss,allvertices[x[2]]{[2,3]});    
-                fi;
-
-                if poss = [] then # Print("contradiction "); 
-                return; fi;
-                # Error(); fi;
-
-                # we have not seen this face around the vertex yet
-                for h in poss  do
-                    # modify a new copy of vtxnames
-                    vtxnames_c := ShallowCopy(vtxnames);
-                    completedvertices_c := ShallowCopy(completedvertices);
-                    nrvtsface_c := ShallowCopy(nrvtsface);
-                    # choose to continue with vertex {j,g,h}
-                        # the vertex we are adding is making g into a
-                        # mirror if [g,h] was also in previous vertex
-                        k := Length(vtxnames_c);
-                        if k > 0 and g < h then
-                            if vtxnames_c[k][2]=g and 
-                               vtxnames_c[k][3]=h and 
-                               mrtype[g][faceinverse[j]]=2 then
-                               # g should be a rotation but is a mirror
-                               return;
-                            elif vtxnames_c[k][2]<>h and 
-                               vtxnames_c[k][3]<> h and 
-                               mrtype[g][faceinverse[j]]=1 then
-                               # g should be a mirror but is a rotation
-                               return;
-                            fi;
-                    #   elif k > 0 and h < g then
-# TODO: What was this and why is it commented out?                   
-#                            if vtxnames_c[k][2]=h and 
-#                               vtxnames_c[k][3]=g and 
-#                               mrtype[g][faceinverse[j]]=2 then
-#                               # g should be a rotation but is a mirror
-#                               Print("YEAH2\n"); return;
-#                            elif vtxnames_c[k][2]<>h and 
-#                               vtxnames_c[k][3]<> h and 
-#                               mrtype[g][faceinverse[j]]=1 then
-#                               # g should be a mirror but is a rotation
-#                               Error("YEAH2A\n"); return;
-#                            fi;
-                        fi;
-                    if g < h then
-                        Add( vtxnames_c, [j,g,h] );
-#                        k := Position(allvertices,[j,g,h]); # slow code
-                        k := (faceinverse[j]-1)*3 + (g-1)*2 + h-g;
-                    else
-                        Add( vtxnames_c, [j,h,g] );
-#                        k := Position(allvertices,[j,h,g]); # slow code
-                        k := (faceinverse[j]-1)*3 + (h-1)*2 + g-h;
-                    fi;
-                    # record that the vertex has been used again
-                    if completedvertices_c[k]  then
-                        # a vertex  can only be completed once - 
-                        # so this is no solution
-                        return;
-                    fi;
-                    completedvertices_c[k] := true;
-                    pj := faceinverse[j];
-                    nrvtsface_c[pj] := nrvtsface[pj]+1;
-                    if nrvtsface_c[pj] > 3 then
-                        # a face can only have 3 vertices - 
-                        # so this is no solution
-                        return;
-                    fi;
-                    # continue on with h               
-                    nvtx := [j,g,h];
-                    if h < g then nvtx  := [j,h,g]; fi;
-                    LoopOneVertexSignedWithBoundary(nvtx, h,vtxnames_c,
-                                  completedvertices_c,nrvtsface_c);
-                    # Then continue with the next h.
-                od;
-
-            else # now j in knownfaces 
-                # we found the face j twice around the vertex
-
-                if i = j then
-                    # we found the other  boundary of a vertex
-                    Add(allvtxnames,[vtxnames,completedvertices,nrvtsface]);
-                    return;
-                elif j <> vtxnames[1][1] then
-                   # we are not back at the start - so this is illegal
-                   return;
-                else
-                   # we are back at the start, hence g must be
-                   # an edge of the starting face!
-                   if g <> vtxnames[1][2] and g <> vtxnames[1][3] then
-                       # we did not end up where we started with g
-                       return;
-                   else
-                       # we are at the start so add 
-                       # but let the vertex start with smallest face
-                       if vtxnames[1]<>Minimum(vtxnames) then
-                            k := Position(vtxnames,Minimum(vtxnames));
-                            nvtxnames := vtxnames{[k..Length(vtxnames)]};
-                            Append(nvtxnames, vtxnames{[1..k-1]});
-                            vtxnames := nvtxnames;
-                       fi;
-                       Add(allvtxnames,[vtxnames,completedvertices,nrvtsface]);
-                       return;
-                   fi;
-                fi;
-             fi; # if not j in knownfaces 
-            return;
-        end;
-
-   
-    # The following function finds the first free vertex adjacent
-    # to a face for which as many vertices are known as possible
-
-    FirstFreeVertex := function(completedvertices, nrvtsface)
-
-        local face, v;
-        
-        # first find a face with as many know vertices as possible
-        if 2 in nrvtsface then 
-             face := faces[PositionProperty( nrvtsface, f-> f = 2 )];
-        elif 1 in nrvtsface then
-             face := faces[PositionProperty( nrvtsface, f-> f = 1 )];
-        elif 0 in nrvtsface then
-             face := faces[PositionProperty( nrvtsface, f-> f = 0 )];
-        else
-            # finished
-             return false;
-        fi;
- 
-        # this is the face with the most known vertices
-        for v in [1..Length(allvertices)] do
-            if not completedvertices[v] and 
-               allvertices[v][1] = face then
-                return v;
-            fi;
-        od;
-
-        return false;
-
-    end;
-
-    # Supposing that we have chosen an initial set of vertices,
-    # we now try to add the next vertex to our surface, recursively
-    # here vertices are the vertices of our surface known so far,
-    # completedvertices is a binary list telling us which vertices 
-    # are done, and nrvtsface the number of vertices per face for
-    # the surfaces under construction
-
-    FindSimplicialSurface := function(level,vertices,completedvertices,nrvtsface)
-    
-        local vtx, v, i, pi, g, h, vtxEquivalentnames, vertices_c, ss,
-              allvtxnames_c, completedvertices_c, nrvtsface_c, Li, x, edges;
-
-
-        # choose the first free vertex
-        # It can be fixed from now on, since it has to be
-        # somewhere in the surface
-        v := FirstFreeVertex(completedvertices, nrvtsface);
-#       Print("lv= ", level, " v= ", v, "\n");
-
-        if v = false then
-            ##  now we know that there is no more free vertex
-            edges :=  List( gens, g-> Cycles(g,MovedPoints(gens)));
-            edges  := List( edges, e->Filtered( e , c -> Length(c) = 2));
-
-            Sort( vertices, cmpvertices );
-            ss :=  SimplicialSurface(rec( faces := MovedPoints(gens),
-                edges := edges, vertices := vertices, generators := gens ));
-            ss!.mrtype := mrtype;
-            Add(AllSurfaces, ss );
-#               Error("COMPLETED?\n");
-            return;
-        fi;
-
-        vtx := allvertices[v];
-
-        # Now we find all the different names for vtx
-        i := vtx[1]; # the number of the face
-        pi := faceinverse[i];
-        g := vtx[2]; # the generator number labelling one edge
-        h := vtx[3]; # the generator number  labelling the other edge
-        vtxEquivalentnames := [vtx]; 
-
-        completedvertices[v] := true;
-        nrvtsface[pi] := nrvtsface[pi]+1;
-
-        # We store for vertex vtx all its vertex defining paths in allvtxnames
-        allvtxnames := [];
-        LoopOneVertexSignedWithBoundary(vtx,g,vtxEquivalentnames, 
-                                          completedvertices, nrvtsface);
-
-#        Print("Starting Vertex: \n");
-#        PrintVertexLabels( gens, vtxEquivalentnames );
- 
-       allvtxnames_c  := ShallowCopy(allvtxnames);
-
-        for Li in allvtxnames_c do
-             vertices_c := ShallowCopy(vertices);
-             Add(vertices_c, Li[1]);
-             completedvertices_c := ShallowCopy(Li[2]);
-             nrvtsface_c := ShallowCopy(Li[3]);
-             FindSimplicialSurface(level+1, vertices_c, completedvertices_c, 
-                                               nrvtsface_c);
-
-        od;
-        
-    end;
-
-
-    # This is a global variable in which we shall store all
-    # completed surfaces
-    AllSurfaces := []; 
-
-    # here we store whether a vertex has already been  completed
-    completedvertices := BlistList([1..Length(allvertices)],[]);
-    # in nrvtsface we store for each face how many vertices are known for
-    # this face
-    nrvtsface := List([1..n],i->0);
-    level := 0;
-
-    FindSimplicialSurface( level, [], completedvertices, nrvtsface); 
-
-    return AllSurfaces;
-
-end);
-
-
-
-# compute the double cover - extend old mr settings
-DoubleCoverOfSimplicialSurface := function (simpsurf)
-
-        local gens, newgens, i, j, mrtype, MapCycle, grp, N, mrtypenew;
-
-
-        N := NrOfFacesOfSimplicialSurface(simpsurf);
-
-# replace a mirror (i,j) by (i, -j)(-i, j) 
-# and a rotation (i,j) by (i,j)(-i,-j).
-# As GAP cannot permute negative numbers we represent
-# -i by i+N
-MapCycle := function (c, t)
-
-    local i, j;
-
-    if t = 0 then return One(c); fi;
-
-    i := c[1]; j := c[2];
-    if t = 1 then
-        return (i, j+N) * (i+N, j );
-    elif t = 2 then
-        return (i,j)*(i+N, j+N);
-    fi;
-
-end;
-
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
-        newgens := List( gens, i-> Cycles(i,
-            [ 1 .. Length(FacesOfSimplicialSurface(simpsurf)) ] ));
-
-        mrtype := MrTypeOfSimplicialSurface(simpsurf);
-        mrtypenew := [];
-
-        for i in [ 1 .. 3 ] do
-            newgens[i] := List( newgens[i], c -> MapCycle( c, mrtype[i][c[1]] ));
-            newgens[i] := Product( newgens[i] );
-            mrtypenew[i] := [];
-            for j in [ 1 .. N ] do
-                mrtypenew[i][j] := mrtype[i][j];
-                mrtypenew[i][j+N] := mrtype[i][j];
-            od;
-        od;
-
-        return SimplicialSurface( newgens[1], newgens[2], newgens[3], mrtypenew );
-       
-end;
 
 
 ###############################################################################
@@ -1177,390 +610,6 @@ InstallGlobalFunction( SnippOffEars, function( simpsurf )
                     vertices := StructuralCopy(newvertices)));
 end);
 
-
-##
-##    Compute the edges of a wild coloured simplicial surface from its
-##    generators - which are assumed to be  a triple of involutions
-## 
-EdgesFromCycles := function ( gens )
-
-    local edges, g;
-
-    edges := [];
-
-    for g in gens do
-        Append( edges,  Cycles( g, MovedPoints(gens) ) );
-    od;
-
-    return Filtered(edges, g->Length(g)=2);
-
-end;
-
-# auxilliary function
-# v is a vertex, i.e. a face path.
-# find all possible lists of generators that
-# support this walk. We assume that if v is a closed walk, then
-# it starts and ends with the same face.
-WalksForVertex := function( gens, v )
-
-    local  walks, g, w, i, j, nw, newwalks, iselig;
-
-
-    iselig := function( w )
-        local e;
-
-        for e in w do
-            if e[2]=e[3] then return false; fi;
-        od;
-        return true;
-    end;
-
-    walks := [[]];
-    if v[Length(v)] <> v[1] then
-        for i in [1..Length(v)-1] do
-            g := Filtered( gens, j-> v[i]^j=v[i+1] );
-            if g = [] then return false; fi;
-            newwalks := [];
-            # loop through all partial walks w and
-            # define |g| new walks by adding the elements
-            # of g to w
-            for w in walks do
-                for j in g do
-                    nw := ShallowCopy(List(w,i->ShallowCopy(i)));
-                    Add(nw,[v[i],Position(gens,j)]);
-                    Add(newwalks, nw );
-                od;
-            od;
-            walks := newwalks;
-        od;
-        i := Length(v);
-        g := Filtered( gens, j-> v[i]^j=v[i] );
-        if g = [] then return false; fi;
-        newwalks := [];
-        # loop through all partial walks w and
-        # define |g| new walks by adding the elements
-        # of g to w
-        for w in walks do
-            for j in g do
-                nw := ShallowCopy(List(w,i->ShallowCopy(i)));
-                Add(nw,[v[i],Position(gens,j)]);
-                Add(newwalks, nw );
-             od;
-        od;
-        walks := newwalks;
-
-#Error("x1");
-#                       
-#                        newwalks := [];
-#                        for w in walks do
-#                            for j in g do
-#                                nw := ShallowCopy(List(w,i->ShallowCopy(i)));
-#                                Add( nw, [v[Length(v)],Position(gens,j)] );
-#                                Add(newwalks, nw );
-#                            od;
-#                        od;
-# Error("x2");
-
-        else
-            for i in [1..Length(v)-1] do
-                g := Filtered( gens, j-> v[i]^j=v[i+1] );
-                if g = [] then return false; fi;
-                newwalks := [];
-                # loop through all partial walks w and
-                # define |g| new walks by adding the elements
-                # of g to w
-                for w in walks do
-                    for j in g do
-                        nw := ShallowCopy(List(w,i->ShallowCopy(i)));
-                        Add(nw,[v[i],Position(gens,j)]);
-                        Add(newwalks, nw );
-                    od;
-                od;
-                walks := newwalks;
-        od;
-    fi;
-
-    # now add second generator of first vtx
-    if v[Length(v)] <> v[1] then
-                  g := Filtered( gens, j-> v[1]^j=v[1] );
-                  if g = [] then return false; fi;
-                  newwalks := [];
-                  for w in walks do
-                      for j in g do
-                          nw := ShallowCopy(List(w,i->ShallowCopy(i)));
-                          Add(nw[1],Position(gens,j));
-                          Add(newwalks, nw );
-                     od;
-                  od;
-    else  # the second edge for first vertex
-                  g := Filtered( gens, j-> v[Length(v)-1]^j=v[1] );
-                  if g = [] then return false; fi;
-                  newwalks := [];
-                  for w in walks do
-                     for j in g do
-                          nw := ShallowCopy(List(w,i->ShallowCopy(i)));
-                          Add(nw[1],Position(gens,j));
-                          Add(newwalks, nw );
-                     od;
-                  od;
-     fi;
-     walks := newwalks;
-
-
-          # add in the second generator for each face around v   
-          j := Length(v); 
-          if v[Length(v)] = v[1] then  j := j-1; fi;
-                 
-          for w in walks do
-              for i in [2..j]do
-                   Add(w[i],w[i-1][2]);
-              od;
-          od;
-
-    # throw out walks which are not correct, i.e. have 
-    # two edges that are equal
-    walks := Filtered( walks, w -> iselig(w) );
-    return walks;
-end;
-
-##  auxilliary function
-## Test whether the generators match up with the vertices 
-TestGens := function(gens, vertices)
-
-            local v, i, vtx, allvertices, g, cart;
- 
-
-            cart := [];
-            allvertices := [];
-            for v in vertices do
-                  vtx := WalksForVertex(gens, v);
-                  if vtx = false then 
-                      Print("vertex without walk");
-                      return []; 
-                  fi;
-                  if vtx <> false then
-                      Add(allvertices,vtx);
-                      Add( cart, [1..Length(vtx)]);
-                  fi;
-            od;
-            cart := Cartesian(cart);
-            return List(cart,l->List([1..Length(l)],i->allvertices[i][l[i]]));
-
-#                 vtx := [];
-#                 # v = [f1, f2, f3 ..] faces around v
-#                 for i in [1..Length(v)-1]do
-#                    g := First( gens, j-> v[i]^j=v[i+1] );
-#                    if g = fail then return false; fi;
-#                    Add( vtx, [v[i], Position(gens,g)] );
-#                 od;
-#                 if v[Length(v)] <> v[1] then
-#                     # we do not have a closed path,
-#                     # which means last entry not equal to first
-#                     # [1,2,3] -> [[1,1],[2,2],[3,1],
-#                     g := First( gens, j-> v[1]^j=v[1] );
-#                     if g = fail then return false; fi;
-#                     Add(vtx[1],Position(gens,g));
-#                     g := First( gens, j-> v[Length(v)]^j=v[Length(v)] );
-#                     if g = fail then return false; fi;
-#                     Add( vtx, [v[Length(v)], Position(gens,g)] );
-#                 else # closed path
-#                     g := First( gens, j-> v[1]^j=v[Length(v)-1] );
-#                     if g = fail then return false; fi;
-#                     Add(vtx[1],Position(gens,g));
-#                 fi;
-#                 for i in [2..Length(v)-1]do
-#                     Add(vtx[i],vtx[i-1][2]);
-#                 od;
-#                 Add( allvertices, vtx );
-#            od;
-
-            return allvertices;
-
- end;
-
-
-#############################################################################
-##
-#!  @Description
-#!  This function takes as input a list of pairs of integers. Suppose the
-#!  integers occurring in this list of pairs is the set faces. Then this
-#!  function computes all triples of involutions acting on the set faces.
-#!  @Returns a list of lists, which are involution triples.
-#!  @Arguments a list of lists, which is a list of pairs of integers
-#!
-InstallGlobalFunction( GeneratorsFromEdgesOfSimplicialSurface, 
-      function( alledges )
-
-        local gens, g, i,  cycs, cycs_c, gens_c, faces, fixedpoints_c, c,
-              AllGenSets, NextFace, fixedpoints, IsEligible;
-
-        if Length(alledges) = 0 then return [ (), (), () ]; fi;
-
-        faces := Set( Flat(alledges) );
-        cycs := ShallowCopy(alledges);
-
-        c := First( cycs, i-> Length(i) = 2 );
-        if c = fail then return [ (), (), () ]; fi;
-        Remove(cycs,Position(cycs,c));
-        Sort(cycs);
-        
-
-        cycs_c := ShallowCopy(cycs);
-        # the first cycle has to be somewhere so it might as well
-        # be on the first generator
-        gens_c := [ (c[1], c[2]), (), () ];
-
-
-        # here we record which fixed points we have used in which
-        # generator so far
-        fixedpoints := [];
-        fixedpoints[1] := List( [1..Length(faces)], i-> false );
-        fixedpoints[2] := List( [1..Length(faces)], i-> false );
-        fixedpoints[3] := List( [1..Length(faces)], i-> false );
-
-        # a global variable to store the results
-        AllGenSets := [];
-
-
-        # test whether g can be extended with the cycle c
-        IsEligible := function (g,i, c, fix )
-              
-            if Length(c) = 2 then
-                # first we have to ensure that neither c[1] nor c[2] are
-                # fixed points of g
-                if fix[i][c[1]] = false and fix[i][c[2]] = false and
-                   c[1]^g = c[1] and c[2]^g = c[2] then
-                    return true; # the 2-cycle is not in gens[i] yet
-                else return false;
-                fi;
-            else # c is a 1-cycle
-                # if it has not yet been used in g and g fixes it, return true
-                if fix[i][c[1]] = false and c[1]^g=c[1] then return true; fi;
-            fi;
-
-            return false;
-
-        end;
-
-        # find all possibilities of moving face f
-        NextFace := function( gens, cycs, fixedpoints )
-            local g, i, c, nf;
-
-        
-            # choose the first cycle that contains f
-            c := cycs[1];
-
-            # now we try to add c to each of the generators
-            for i in [ 1 .. 3 ] do
-                g := gens[i];
-                if IsEligible(g,i,c, fixedpoints) then
-                    # this generator does not already move the 
-                    # points in c, hence we can extend it by c.
-                    gens_c := ShallowCopy(gens);
-                    cycs_c := ShallowCopy(cycs);
-                    fixedpoints_c := 
-                        List(fixedpoints, x -> ShallowCopy(x));
-                    if Length(c) = 2 then 
-                        # if c is a 2-cycle, extend g
-                        gens_c[i] := g * (c[1],c[2]);
-                    else
-                        # if c is a 1-cycle record its use in g
-                        fixedpoints_c[i][c[1]] := true;
-                    fi;
-                    Remove( cycs_c, Position(cycs_c,c) );
-
-                    if Length(cycs_c) = 0 then
-                        # there are no more points to move 
-                        # hence we found a valid assignment
-                        Sort( gens_c );
-                        Add(AllGenSets, gens_c);
-                    else
-                        NextFace( gens_c,cycs_c,fixedpoints_c);
-                    fi;
-                fi;
-            od;
-
-        end;
-
-
-        NextFace( gens_c, cycs_c, fixedpoints );
-
-        return Set(AllGenSets);
-
-end);
-
-
-
-#############################################################################
-##
-#!  @Description
-#!  This function takes as input a ``face"- description of a surface. 
-#!  A ``face"-description of a surface is as  follows.
-#!
-#!  A list <surf> with three entries:
-#!  * a list of integers, the faces, 
-#!  * a list of  pairs of faces making up the edges, 
-#!  * a list of  face-paths, one face-path for  each vertex. 
-#!  A face-path is a list of on a vertex in the order in which they occur
-#!  in the vertex. Note that in this representation it is critical that a 
-#!  closed face-path is represented by a list of faces that repeats the 
-#!  starting face at the end! That means  the first and last face in the
-#!  list of faces for the given face-path **must** be equal, otherwise 
-#!  the face-path is assumed to be a path from a face with boundary to 
-#!  another face with boundary around a fixed vertex.
-#!   Thus the ``face"-description has the form
-#!  surf := [ [f1, f2, ..., fn, f1],  [ [f1,f2],...],  [[f1,f2,f3,...],... ];
-#!  This is a very simple way of inputting a simplicial surface by just 
-#!  reading off the face numbers of each  vertex.
-#!
-#!
-#!  @BeginExample the tetrahedron is represented as
-#!    tetra := [ [1..4], [[1,2],[1,3],[1,4],[2,3],[3,4],[2,4]],
-#!             [[1,2,3,1], [1,3,4,1],[1,2,4,1],[2,3,4,2]];
-#!    WildSimplicialSurfacesFromFacePath(tetra);
-#!             where the triple [1,2,3,1] encodes the face path
-#!              around one vertex.
-#!  @EndExample
-#!
-#!  @Returns  the list of all wild coloured simplicial surfaces with these 
-#!  specifications.
-#!  @Arguments a list of lists, representing a ``face"-description of a surface
-#! 
-InstallGlobalFunction( 
-WildSimplicialSurfacesFromFacePath, function(surf)
-
-        local simpsurf, edges, faces, vertices, 
-           gens, allsurf, newvertices, vtx;
-
-Print("Warning: Closed paths must repeat starting vertex!!\n");
-
-        faces := ShallowCopy(surf[1]);
-        edges := ShallowCopy(surf[2]);
-        simpsurf := rec( generators := [],
-                          faces := faces,
-                          edges := edges );
-        vertices := surf[3];
-
-        allsurf := [];
-
-        # Now we test whether the simplicial surface we 
-        # have supports a wild colouring.
-        for gens in GeneratorsFromEdgesOfSimplicialSurface(edges) do
-            newvertices := TestGens( gens, vertices );
-            if newvertices <> false then
-                for vtx in newvertices do
-                    simpsurf := rec( generators := gens,
-                                 faces := faces,
-                                 edges := edges,
-                                 vertices := vtx );
-                    Add( allsurf, SimplicialSurface(simpsurf) );
-                od;
-            fi;
-        od;        
-
-        return allsurf;
-            
-end);
 
 #############################################################################
 ##
@@ -2080,128 +1129,6 @@ InstallGlobalFunction( SixFoldCover, function( arg )
 end);
 
 
-#############################################################################
-##
-##
-##  A structure of a simplicial surface is a wild colouring where all
-##  cycles of a single generator have the same mr-assignment, i.e. all
-##  cycles of any one generator are either all mirrors or all reflections.
-##  This function returns structures in the input list of simplicial surfaces,
-##  i.e. it returns all mmm, mmr, mrr, rrr surfaces, 
-##
-InstallGlobalFunction( AllStructuresSimplicialSurface, function (allsimpsurf)
-
-        local res, i, ss, mr;
-
-        res :=[];
-        for ss in allsimpsurf do
-             mr := MrTypeOfSimplicialSurface(ss);
-             if 1 in mr[1] and 2 in mr[1] then continue; fi;
-             if 1 in mr[2] and 2 in mr[2] then continue; fi;
-             if 1 in mr[3] and 2 in mr[3] then continue; fi;
-
-             Add(res,mr);
-        od;
-
-        return res;
-end);
-
-#############################################################################
-##
-##
-##  This function returns all simplicial surfaces that support a structure.
-##  A structure on a simplicial surface is a wild colouring for which all
-##  cycles of a single generator are all of the same type: either m or r.
-##
-##
-InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
-
-    local mrtype,  faces, res, ss, gens;
-
-    mrtype := [];
-
-    if Length(arg) = 1 then
-        if IsGroup(arg[1]) then gens := GeneratorsOfGroup(arg[1]);         
-        else gens := arg[1]; fi;
-    elif Length(arg) = 3 then
-   	   gens := [arg[1],arg[2],arg[3]];
-    fi;
-    if not IsList(gens) or Length(gens) <> 3 then
-         Error("usage: StructureSimplicialSurface( gens )\n");
-    fi;
-    if not IsPerm(gens[1]) or not IsPerm(gens[2])
-        or not IsPerm(gens[3]) then
-         Error("usage: SimplicialSurface( gens )\n");
-    fi;
-    if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
-        or gens[3]^2 <> One(gens[3]) then
-            Error("generators must be involutions\n");
-    fi;
-    faces := MovedPoints(gens);
-    res := [];
-   
-    # mmm
-    mrtype := List( [1..3], i-> List(faces, j-> 1 ));
-    ss := AllSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mmm-type"); fi;
-    # mmr 
-    mrtype :=[];
-    mrtype[1] := List(faces,j->1);
-    mrtype[2] := List(faces,j->1);
-    mrtype[3] := List(faces,j->2);
-    ss := AllSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
-    # mrm
-    mrtype :=[];
-    mrtype[1] := List(faces,j->1);
-    mrtype[2] := List(faces,j->2);
-    mrtype[3] := List(faces,j->1);
-    ss := AllSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
-    # rmm
-    mrtype :=[];
-    mrtype[1] := List(faces,j->2);
-    mrtype[2] := List(faces,j->1);
-    mrtype[3] := List(faces,j->1);
-    ss := AllSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
-    # mrr
-    mrtype :=[];
-    mrtype[1] := List(faces,j->1);
-    mrtype[2] := List(faces,j->2);
-    mrtype[3] := List(faces,j->2);
-    ss := AllSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
-    # rmr
-    mrtype :=[];
-    mrtype[1] := List(faces,j->2);
-    mrtype[2] := List(faces,j->1);
-    mrtype[3] := List(faces,j->2);
-    ss := AllSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
-    # rrm
-    mrtype :=[];
-    mrtype[1] := List(faces,j->2);
-    mrtype[2] := List(faces,j->2);
-    mrtype[3] := List(faces,j->1);
-    ss := AllSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
-    # rrr
-    mrtype := List( [1..3], i-> List(faces, j-> 2 ));
-    ss := AllSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one rrr-type"); fi;
-
-    return res;
-end);
-
 
 
 #############################################################################
@@ -2306,6 +1233,7 @@ VerticesInEdge := function( simpsurf, edgeColor, edgeNumber )
 	return List( VerticesInEdgeAsNumbers(simpsurf,edgeColor,edgeNumber), 
                   i-> VerticesOfSimplicialSurface(simpsurf)[i]);
 end;
+
 
 
 # Convert the simplicial surface data structure to the structure used in 
