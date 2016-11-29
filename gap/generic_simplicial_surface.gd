@@ -1,6 +1,6 @@
 ##############################################################################
 ##
-#W  generic_surface.gd      Generic Simplicial Surface       Markus Baumeister
+#W  generic_simplicial_surface.gd      Generic Simplicial Surface       Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,

@@ -1,6 +1,6 @@
 ##############################################################################
 ##
-#W  generic_surface.gi      Generic Simplicial Surface       Markus Baumeister
+#W  generic_simplicial_surface.gi      Generic Simplicial Surface       Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,
@@ -19,219 +19,24 @@ SetInfoLevel(InfoSimplicial,1);
 
 
 DeclareRepresentation("IsGenericSimplicialSurfaceRep", IsComponentObjectRep,
-#     IsPositionalObjectRep and IsDenseList, 
-     ["faces","edges","vertices", "generators"]);
+     ["nrOfVertices","nrOfEdges","nrOfFaces", "edges", "faces"]);
 
 # From now on, we can do "Objectify( SimplicialSurfaceType, re )" 
 # for any list re
-SimplicialSurfaceType := 
-    NewType( SimplicialSurfaceFamily, IsSimplicialSurfaceRep );
+GenericSimplicialSurfaceType := 
+    NewType( SimplicialSurfaceFamily, IsGenericSimplicialSurfaceRep );
 
 ##
-##  The constructor SimplicialSurface ensures that the simplicial surface
+##  The constructor GenericSimplicialSurface ensures that the simplicial surface
 ##  is  stored inside a GAP object. 
 ##
-InstallGlobalFunction( SimplicialSurface,  function( simpsurf ) 
+GenericSimplicialSurface :=  function( simpsurf ) 
     
-    return Objectify( SimplicialSurfaceType, simpsurf );
+    return Objectify( GenericSimplicialSurfaceType, simpsurf );
 
 end );
 
-##
-## Print the vertex labels around a given edge
-##
-_SIMPLICIAL_PrintVertexLabels := function( gens, vtxnames )
-
-        local i,j,f, h, PrintGen;
-
-        PrintGen := function(gens,g)
-
-            if   g = 1 then Print("a"); 
-            elif g = 2 then Print("b"); 
-            else Print("c"); fi;
-            
-        end;
-
-
-        j := vtxnames[1][1];
-
-        if Length(vtxnames)=2 and 
-           j^gens[vtxnames[1][2]] = vtxnames[2][1] and
-           j^gens[vtxnames[1][3]] = vtxnames[2][1] and
-           vtxnames[1][2] = vtxnames[2][2] and
-           vtxnames[1][3] = vtxnames[2][3]   then
-           Print(j); 
-           PrintGen(gens,vtxnames[1][2]);
-           Print(j^gens[vtxnames[1][2]]); 
-           PrintGen(gens,vtxnames[1][3]);
-           Print(j);  Print(" # ear\n");
-           return;
-        fi;
-
-        if j^gens[vtxnames[1][2]] = j or 
-           j^gens[vtxnames[1][3]] = j then 
-           Print("|");
-           if Length(vtxnames) = 1 then
-               # we have a flap
-               PrintGen(gens,vtxnames[1][2]);
-               Print(j);
-               PrintGen(gens,vtxnames[1][3]);
-               Print("|  # flap\n");
-               return;          
-            fi;
-        fi;
-        for i in [ 1 .. Length(vtxnames)-1 ] do
-            j := vtxnames[i][1];
-            f := Filtered(vtxnames[i]{[2,3]},g-> (j^gens[g]=vtxnames[i+1][1]));
-            if i = 1  then
-                h := Difference(vtxnames[i]{[2,3]},f);
-                if Length(h) > 0 then 
-                    PrintGen(gens,h[1]);
-                fi;
-            fi;
-            Print(j);
-    #        if Length(f) > 1 then Error("ear"); return; fi;
-            if Length(f) <> 0 then
-                PrintGen(gens, f[1] );
-            fi;
-        od;
-        i := Length(vtxnames);
-        j := vtxnames[i][1];
-        Print(j);
-        if i = 1 then Print("\n"); return; fi;
-        h := Difference(vtxnames[i]{[2,3]},f);
-        if Length(h) > 0 and j^gens[h[1]] = j then
-             PrintGen(gens,h[1]);
-             Print("|  # transversing reduced path \n");
-             return;
-        fi;
-        f := Filtered(vtxnames[i]{[2,3]},g-> (j^gens[g]=vtxnames[1][1]));
-#        if Length(f) > 1 then Error("incorrect names"); return; fi;
-        if Length(f) <> 0 then
-            PrintGen(gens, f[1] );
-            Print(j^gens[f[1]]);
-        fi;
-        Print(" # closed reduced path \n");
- 
-end;
-
-##
-## obtain the vertex relation around a given edge
-##
-InstallGlobalFunction( VertexRelationOfEdge, function( gens, vtxnames, fgrp )
-
-        local i,j,f, h, r, fgens;
-
-
-        fgens := GeneratorsOfGroup(fgrp);
-        r := One(fgrp);
-
-        j := vtxnames[1][1];
-        if j^gens[vtxnames[1][2]] = j or 
-           j^gens[vtxnames[1][3]] = j then 
-           # This is not a closed path
-           Print("not a closed path - ignoring vertex\n");
-           return false;
-        fi;
-        if Length(vtxnames)=2 and 
-           j^gens[vtxnames[1][2]] = vtxnames[2][1] and
-           j^gens[vtxnames[1][3]] = vtxnames[2][1] and
-           vtxnames[1][2] = vtxnames[2][2]  and
-           vtxnames[1][3] = vtxnames[2][3]  then
-#           Print("Found an ear!!");
-           r := r * fgens[vtxnames[1][2]] * fgens[vtxnames[1][3]];
-           return r;
-        fi;
-
-        for i in [ 1 .. Length(vtxnames)-1 ] do
-            j := vtxnames[i][1];
-            f := Filtered(vtxnames[i]{[2,3]},g-> (j^gens[g]=vtxnames[i+1][1]));
-            if i = 1  then
-                h := Difference(vtxnames[i]{[2,3]},f);
-                if Length(h) > 0 then 
-                    r := r * fgens[h[1]];       
-                fi;
-            fi;
-            if Length(f) <> 0 then
-                r := r * fgens[f[1]];       
-            fi;
-        od;
-        i := Length(vtxnames);
-        j := vtxnames[i][1];
-        h := Difference(vtxnames[i]{[2,3]},f);
-        if Length(h) > 0 and j^gens[h[1]] = j then
-             Print("|\n");
-             return false;
-        fi;
-        f := Filtered(vtxnames[i]{[2,3]},g-> (j^gens[g]=vtxnames[1][1]));
-#        if Length(f) > 1 then Error("incorrect names"); return; fi;
-#        if Length(f) <> 0 then
-#            PrintGen(gens, f[1] );
-#            Print(j^gens[f[1]]);
-#        fi;
-#        Print("\n");
-#        Error("check me");
-        return r; 
-end);
-
-##
-## obtain the vertex relation around a given edge
-##
-GetVertexRelation := function( gens, vtxnames, fgrp )
-
-        local i,j,f, h, r, fgens;
-
-
-        fgens := GeneratorsOfGroup(fgrp);
-        r := One(fgrp);
-
-        j := vtxnames[1][1];
-        if j^gens[vtxnames[1][2]] = j or 
-           j^gens[vtxnames[1][3]] = j then 
-           # This is not a closed path
-           Print("not a closed path - ignoring vertex\n");
-           return false;
-        fi;
-        if Length(vtxnames)=2 and 
-           j^gens[vtxnames[1][2]] = vtxnames[2][1] and
-           j^gens[vtxnames[1][3]] = vtxnames[2][1] and
-           vtxnames[1][2] = vtxnames[2][2]  and
-           vtxnames[1][3] = vtxnames[2][3]  then
-#           Print("Found an ear!!");
-           r := r * fgens[vtxnames[1][2]] * fgens[vtxnames[1][3]];
-           return r;
-        fi;
-
-        for i in [ 1 .. Length(vtxnames)-1 ] do
-            j := vtxnames[i][1];
-            f := Filtered(vtxnames[i]{[2,3]},g-> (j^gens[g]=vtxnames[i+1][1]));
-            if i = 1  then
-                h := Difference(vtxnames[i]{[2,3]},f);
-                if Length(h) > 0 then 
-                    r := r * fgens[h[1]];       
-                fi;
-            fi;
-            if Length(f) <> 0 then
-                r := r * fgens[f[1]];       
-            fi;
-        od;
-        i := Length(vtxnames);
-        j := vtxnames[i][1];
-        h := Difference(vtxnames[i]{[2,3]},f);
-        if Length(h) > 0 and j^gens[h[1]] = j then
-             Print("|\n");
-             return false;
-        fi;
-        f := Filtered(vtxnames[i]{[2,3]},g-> (j^gens[g]=vtxnames[1][1]));
-#        if Length(f) > 1 then Error("incorrect names"); return; fi;
-#        if Length(f) <> 0 then
-#            PrintGen(gens, f[1] );
-#            Print(j^gens[f[1]]);
-#        fi;
-#        Print("\n");
-#        Error("check me");
-        return r; 
-end;
+#TODO current position
 
 
 #############################################################################
