@@ -11,6 +11,13 @@
 ##
 ##  The functions in this file compute with generic simplicial surfaces.
 ##
+##	A generic simplicial surface consists of the following data:
+##	1) The number of vertices
+##	2) The number of edges
+##	3) The number of faces
+##	4) For each edge: A list of the two incident vertices
+##	5) For each face: A list of the three indicent edges
+##		The order or these three edges defines the orientation of this face.
 ##
 
 DeclareInfoClass( "InfoSimplicial" );
@@ -36,27 +43,25 @@ GenericSimplicialSurface :=  function( simpsurf )
 
 end );
 
-#TODO current position
-
 
 #############################################################################
 ##
-##  The following functions only access the simplicial surface and return
-##  known information about the simplicial surface <simpsurf>.
+##  The following functions only access the generic simplicial surface and
+##  return known information about the generic simplicial surface <simpsurf>.
 ## 
 
 #############################################################################
 ##
 ##
 #!  @Description
-#!  This function returns the list of faces of a  simplicial surface.
+#!  This function returns the list of faces of a generic simplicial surface.
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( FacesOfSimplicialSurface, function( simpsurf)
+FacesOfGenericSimplicialSurface := function( simpsurf)
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: FacesOfSimplicialSurface(simpsurf");
+        if not IsGenericSimplicialSurfaceRep(simpsurf) then
+            Error("usage: FacesOfGenericSimplicialSurface(simpsurf)");
             return fail;
         fi;
         return simpsurf!.faces;
@@ -67,13 +72,17 @@ end);
 ##
 ##
 #!  @Description
-#!  This function returns the number of faces of a  simplicial surface.
+#!  This function returns the number of faces of a generic simplicial surface.
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( NrOfFacesOfSimplicialSurface, function (simpsurf)
+NrOfFacesOfGenericSimplicialSurface := function (simpsurf)
 
-        return Length(FacesOfSimplicialSurface(simpsurf));
+		if not IsGenericSimplicialSurfaceRep(simpsurf) then
+            Error("usage: NrOfFacesOfGenericSimplicialSurface(simpsurf)");
+            return fail;
+        fi;
+        return simpsurf!.nrOfFaces;
 
 end);
 
@@ -81,14 +90,14 @@ end);
 ##
 ##
 #!  @Description
-#!  This function returns the list of edges of a  simplicial surface.
+#!  This function returns the list of edges of a generic simplicial surface.
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( EdgesOfSimplicialSurface, function( simpsurf)
+EdgesOfGenericSimplicialSurface := function( simpsurf)
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: EdgesOfSimplicialSurface(simpsurf");
+        if not IsGenericSimplicialSurfaceRep(simpsurf) then
+            Error("usage: EdgesOfGenericSimplicialSurface(simpsurf)");
             return fail;
         fi;
         return simpsurf!.edges;
@@ -99,13 +108,17 @@ end);
 ##
 ##
 #!  @Description
-#!  This function returns the number of edges of a  simplicial surface.
+#!  This function returns the number of edges of a generic simplicial surface.
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( NrOfEdgesOfSimplicialSurface, function( simpsurf)
+NrOfEdgesOfGenericSimplicialSurface := function( simpsurf)
 
-       return Sum(List(EdgesOfSimplicialSurface(simpsurf), i->Length(i)));
+       if not IsGenericSimplicialSurfaceRep(simpsurf) then
+            Error("usage: NrOfEdgesOfGenericSimplicialSurface(simpsurf)");
+            return fail;
+        fi;
+        return simpsurf!.edges;
 
 end);
 
@@ -117,13 +130,13 @@ end);
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( VerticesOfSimplicialSurface, function( simpsurf)
+VerticesOfGenericSimplicialSurface := function( simpsurf)
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: VerticesOfSimplicialSurface(simpsurf");
+        if not IsGenericSimplicialSurfaceRep(simpsurf) then
+            Error("usage: VerticesOfGenericSimplicialSurface(simpsurf)");
             return fail;
         fi;
-        return simpsurf!.vertices;
+        return [1..simpsurf!.nrOfVertices];
 
 end);
 
@@ -131,35 +144,17 @@ end);
 ##
 ##
 #!  @Description
-#!  This function returns the number of vertices of a  simplicial surface.
+#!  This function returns the number of vertices of a generic simplicial surface.
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( NrOfVerticesOfSimplicialSurface, function( simpsurf)
+NrOfVerticesOfGenericSimplicialSurface := function( simpsurf)
 
-        return Length(VerticesOfSimplicialSurface(simpsurf));
-
-end);
-
-
-#############################################################################
-##
-##
-#!  @Description
-#!  This function computes the Euler characteristic of a simplicial surface.
-#!  The Euler characteristic is |V| - |E| + |F|, where |V| is the number of
-#!  vertices, |E| is the number of edges and |F| is the number of faces.
-#!  @Returns an integer, which is the Euler characteristic.
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
-#!
-InstallGlobalFunction( GeneratorsOfSimplicialSurface, function( simpsurf)
-
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: GeneratorsOfSimplicialSurface(simpsurf");
+        if not IsGenericSimplicialSurfaceRep(simpsurf) then
+            Error("usage: NrOfVerticesOfGenericSimplicialSurface(simpsurf)");
             return fail;
         fi;
-        return simpsurf!.generators;
+        return simpsurf!.nrOfVertices;
 
 end);
 
@@ -174,34 +169,12 @@ end);
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
 #!  by SimplicialSurface
 #!
-InstallGlobalFunction( GroupOfSimplicialSurface, function(simpsurf)
-
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: GroupOfSimplicialSurface(simpsurf");
-            return fail;
-        fi;
-        return Group(simpsurf!.generators);
-
-end);
-
-
-#############################################################################
-##
-##
-#!  @Description
-#!  This function computes the Euler characteristic of a simplicial surface.
-#!  The Euler characteristic is |V| - |E| + |F|, where |V| is the number of
-#!  vertices, |E| is the number of edges and |F| is the number of faces.
-#!  @Returns an integer, which is the Euler characteristic.
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
-#!
-InstallGlobalFunction( EulerCharacteristic, function (simpsurf)
+EulerCharacteristic := function (simpsurf)
 
     local chi;
 
-    if not IsSimplicialSurfaceRep(simpsurf) then
-        Error("usage: EulerCharacteristic(simpsurf");
+    if not IsGenericSimplicialSurfaceRep(simpsurf) then
+        Error("usage: EulerCharacteristic(simpsurf)");
         return fail;
     fi;
 
@@ -219,6 +192,11 @@ InstallGlobalFunction( EulerCharacteristic, function (simpsurf)
      return chi;
 
 end);
+
+
+#TODO current position
+
+
 
 #############################################################################
 ##
