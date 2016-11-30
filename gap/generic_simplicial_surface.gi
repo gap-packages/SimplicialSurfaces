@@ -274,7 +274,7 @@ end;
 #!  @Returns true or false
 #!  @Arguments <s1>, <s2>, two generic simplicial surface objects as created 
 #!  by SimplicialSurface
-#! equality if the generators are possibly reordered
+#!
 ##
 InstallMethod( \=, "for two generic simplicial surfaces", true, 
   [ IsGenericSimplicialSurfaceRep, IsGenericSimplicialSurfaceRep ], 0,  function( s1, s2 )
@@ -337,28 +337,49 @@ DisplayGenericSimplicialSurface := function(simpsurf)
 
 end;
 
+#############################################################################
+##
+#!  @Description
+#!  Check if a generic simplicial surfaces is connected.
+#!  @Returns true or false
+#!  @Arguments <simpsurf>, a generic simplicial surface object as created 
+#!  by SimplicialSurface
+#!
+##
+IsConnectedSimplicialSurface := function(simpsurf)
+	local faces, faceList, points, change, faceNr;
+
+	if IsBound( simpsurf!.isConnected ) then 
+		return simpsurf!.isConnected;
+	fi;
+
+	faceList := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
+	faces := [2..NrOfFacesOfGenericSimplicialSurface(simpsurf)];
+	points := Set( faceList[1] );
+
+	change := true;
+	while change do
+		change := false;
+
+		for faceNr in faces do
+			if Intersection( points, faceList[faceNr] ) <> [] then
+				change := true;
+				points := Union( points, faceList[faceNr] );
+				faces := Difference( faces, [faceNr] );
+			fi;
+		od;
+	od;
+
+	simpsurf!.isConnected := IsEmpty( faces );
+
+	return simpsurf!.isConnected;
+end;
+
 
 
 
 
 #TODO current position
-
-IsConnectedSimplicialSurface := function(simpsurf)
-
-
-      if IsBound( simpsurf!.isConnected ) then 
-          return simpsurf!.isConnected;
-      fi;
-
-      simpsurf!.isConnected := 
-      Length(Orbits(GroupOfSimplicialSurface(simpsurf), 
-                    FacesOfSimplicialSurface(simpsurf)))=1;
-
-          return simpsurf!.isConnected;
-
-end;
-
-
 
 
 ###############################################################################
