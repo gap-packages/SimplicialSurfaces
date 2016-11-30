@@ -425,7 +425,7 @@ IsActualSurfaceGenericSimplicialSurface := function( simpsurf )
 	fi;
 
 	check := true;
-	for edge in [1..NrOfEdgesOfGenericSimplicialSurface(simpsurf)] while check do
+	for edge in [1..NrOfEdgesOfGenericSimplicialSurface(simpsurf)] do
 		number := 0;
 		for face in [1..NrOfFacesOfGenericSimplicialSurface(simpsurf)] do
 			if edge in FacesOfGenericSimplicialSurface(simpsurf)[face] then
@@ -434,6 +434,7 @@ IsActualSurfaceGenericSimplicialSurface := function( simpsurf )
 		od;
 		if number > 2 then
 			check := false;
+			break;
 		fi;
 	od; 
 	
@@ -451,7 +452,9 @@ end;
 #!  @Arguments <simpsurf> a simplicial surface
 #!
 IsOrientableGenericSimplicialSurface := function( simpsurf )
-	local edgesByFaces, facesByVertices, orientList, i, hole, found, facesToCheck, checkedFaces;
+	local edgesByFaces, facesByVertices, orientList, i, hole, edge,
+		 facesToCheck, checkedFaces, CompatibleOrientation, orient1,
+		 orient2, orientable, face, neighbours, next;
 
 	if not IsActualSurfaceGenericSimplicialSurface(simpsurf) then
 		Error( "IsOrientableGenericSimplicialSurface: not an actual surface given." );
@@ -483,12 +486,11 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 	orientList[ 1 + Length( NrOfFacesOfGenericSimplicialSurface(simpsurf) )] := 1;
 	while not IsDenseList( orientList ) and orientable do
 		# Find the first hole
-		found := false;
 		hole := 0;
-		for i in [1..Length(orientList)] while not found do
+		for i in [1..Length(orientList)] do
 			if not IsBound( orientList[i] ) then
 				hole := i;
-				found := true;
+				break;
 			fi;
 		od;
 
@@ -499,7 +501,7 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 
 		while facesToCheck <> [] and orientable do
 			face := facesToCheck[1];
-			for edge in FacesOfGenericSimplicialSurface(simpsurf)[face] while orientable do
+			for edge in FacesOfGenericSimplicialSurface(simpsurf)[face] do
 				neighbours := Difference( edgesByFaces[edge], [face] );	# This should be unique
 				if Size( neighbours ) <> 1 then
 					Error( "IsOrientableGenericSimplicialSurface: Not a proper surface.");
@@ -522,12 +524,14 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 				if orient1*orient2 = -1 then # the sides are neighbours
 					if IsBound( orientList[next] ) and orientList[next] <> orientList[face] then
 						orientable := false;
+						break;
 					else
 						orientList[next] := orientList[face];
 					fi;
 				elif orient1*orient2 = 1 then # the sides are not neighbours
 					if IsBound( orientList[next] ) and orientList[next] = orientList[face] then
 						orientable := false;
+						break;
 					else
 						orientList[next] := -1*orientList[face];
 					fi;
@@ -601,7 +605,7 @@ end;
 ## [v1,v2],  [e1,e2,e3]
 
 
-FaceVertexPathFromGenericSurface := function( surf )
+FaceVertexPathFromGenericSimplicialSurface := function( surf )
 
         local fvp, f, fv, e;
 
@@ -661,11 +665,9 @@ end;
 
 
 
-# Convert the simplicial surface data structure to the structure used in 
-# maple
-# WARNING! It is instrumental at this point (Maple can't handle holes 
-# in lists) that the faces are numbered 1,2,...,f
-InstallGlobalFunction( GenericSurfaceFromWildSimplicialSurface, 
+# Convert the simplicial surface data structure to a generic simplicial surface
+# WARNING! It is instrumental at this point that the faces are numbered 1,2,...,f
+GenericSimplicialSurfaceFromWildSimplicialSurface := 
     function( simpsurf )
 	local erg, edges, edgeColor, edgeNumber, pos, faces, faceNumber, 
           edgesInFace, sedges;
@@ -715,6 +717,6 @@ InstallGlobalFunction( GenericSurfaceFromWildSimplicialSurface,
     #  edgeColor and edgeNumber.
 
 	return erg;
-end);
+end;
 
 
