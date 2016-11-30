@@ -337,81 +337,46 @@ end);
 
 
 
-#TODO current position
-
-
 #############################################################################
 ##
-##  A Print method for simplicial surfaces
+##  A Print method for generic simplicial surfaces
 ##
 
-PrintSimplicialSurface := function(simpsurf)
+PrintGenericSimplicialSurface := function(simpsurf)
 
-        Print("SimplicialSurface( rec(\n");
-        Print("generators := ");
-        Print(simpsurf!.generators, ",\n");
-        if IsBound( simpsurf!.mrtype) then
-            Print("mrtype := ");
-            Print(simpsurf!.mrtype, ",\n");
-        fi;
-        Print("faces := ");
-        Print(simpsurf!.faces, ",\n");
+        Print("GenericSimplicialSurface( rec(\n");
+        Print("nrOfVertices := ");
+        Print(simpsurf!.nrOfVertices, ",\n");
+        Print("nrOfEdges := ");
+        Print(simpsurf!.nrOfEdges, ",\n");
+        Print("nrOfFaces := ");
+        Print(simpsurf!.nrOfFaces, ",\n");
         Print("edges := ");
         Print(simpsurf!.edges, ",\n");
-        Print("vertices := ");
-        Print(simpsurf!.vertices, "));\n");
+        Print("faces := ");
+        Print(simpsurf!.faces, "));\n");
 end;
-
-InstallMethod( PrintObj, "for SimplicialSurface", true, 
-               [ IsSimplicialSurfaceRep ], 0, PrintSimplicialSurface );
 
 
 #############################################################################
 ##
 ##  A Display method for simplicial surfaces
 ##
-DisplaySimplicialSurface := function(simpsurf)
+DisplayGenericSimplicialSurface := function(simpsurf)
 
-        local g, vtx, c, e, i, gens, f, mr, faceinverse;
- 
-
-        gens :=  GeneratorsOfSimplicialSurface(simpsurf);
-        Print("Generators = \n");
-        f := FacesOfSimplicialSurface(simpsurf);
-        faceinverse := List([1..Length(f)],i->0);
-
-        # store the position of face in in faces to avoid searching
-        for i in f do
-            faceinverse[i] := Position(f,i);
-        od;
-
-        MrTypeOfSimplicialSurface(simpsurf);
-        for i in [ 1.. Length(gens) ] do
-           e :=   Cycles(gens[i],f);
-           Print( gens[i], "\n");
-           mr := Filtered( e, c -> simpsurf!.mrtype[i][faceinverse[c[1]]] = 1 );
-           Print("    mirrors  ", mr, "\n" );
-           mr := Filtered( e, c -> simpsurf!.mrtype[i][faceinverse[c[1]]] = 2 );
-           Print("    rotations ", mr, "\n" );
-        od;
-        
-        Print("Faces = ", FacesOfSimplicialSurface(simpsurf), "\n");
-        e := Filtered( e , c -> Length(c) = 2);
-        Print("Edges = ", EdgesOfSimplicialSurface(simpsurf), "\n");
-
-        Print("Vertices = \n");
-        for vtx in VerticesOfSimplicialSurface(simpsurf) do
-            Print("    " ); _SIMPLICIAL_PrintVertexLabels( gens, vtx );
-        od;
- 
-        Print("Degrees = ", DegreesOfSimplicialSurface(simpsurf) );
+        Print("Number of vertices: ", simpsurf!.nrOfVertices, ",\n");
+        Print("Number of edges: ", simpsurf!.nrOfEdges, ",\n");
+        Print("Number of faces: ", simpsurf!.nrOfFaces, ",\n");
+        Print("Edges: ", simpsurf!.edges, ",\n");
+        Print("Faces: ", simpsurf!.faces);
 
 end;
 
-InstallMethod( Display, "for SimplicialSurfaces", true, 
-                   [IsSimplicialSurfaceRep], 0, DisplaySimplicialSurface );
 
 
+
+
+#TODO current position
 
 IsConnectedSimplicialSurface := function(simpsurf)
 
