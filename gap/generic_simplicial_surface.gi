@@ -442,9 +442,6 @@ IsActualSurfaceGenericSimplicialSurface := function( simpsurf )
 end;
 
 
-#TODO current position
-
-
 ###############################################################################
 ##
 #!  @Description
@@ -553,95 +550,6 @@ end;
 
 
 
-#############################################################################
-##
-#!  @Description
-#!  This function takes as input a  wild-coloured simplicial surface
-#!  <simpsurf> and returns the simplicial simplicial surface obtained
-#!  from <simpsurf> by recursively removing all ears. An ear is a surface
-#!  consisting of two faces that have two common incident edges.
-#!  @Returns a simplicial surface without ears.
-#!
-InstallGlobalFunction( SnippOffEars, function( simpsurf )
-
-        local i, gens, edges, FindCommon, j, e, ne, vtx, ear, x, vtxnames,
-              newvertices, newedges, newgens, newvtxnames, verynewvertices;
-
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
-        newgens := ShallowCopy(gens);
-
-        edges := EdgesOfSimplicialSurface(simpsurf);
-
-        newedges := [List(edges[1],i->ShallowCopy(i)),
-                    List(edges[2],i->ShallowCopy(i)),
-                    List(edges[3],i->ShallowCopy(i))];
-        newvertices := ShallowCopy(VerticesOfSimplicialSurface(simpsurf)); 
-
-    FindCommon := function (edges)
-
-        local ab, bc, ac;
-
-        ab := Intersection( edges[1], edges[2] );
-        bc := Intersection( edges[2], edges[3] );
-        ac := Intersection( edges[1], edges[3] );
-
-        if Length(ab) > 0 then return [ab[1], [1,2]]; fi;
-        if Length(bc) > 0 then return [bc[1], [2,3]]; fi;
-        if Length(ac) > 0 then return [ac[1], [1,3]]; fi;
-          
-        return false;
-    end;
-
-        ear :=  FindCommon(newedges);
-
-        while ear <> false do
-            # Found an ear that we now have to cut off
-            RemoveSet(newedges[ear[2][1]], ear[1]);
-            RemoveSet(newedges[ear[2][2]], ear[1]);
-            j := Difference( [1,2,3], ear[2] ); j := j[1];
-            # the edges of the other generator containing faces in ear
-            e := Filtered(newedges[j],i->Length(Intersection(ear[1],i))<>0);
-            ne := Flat(e); ne := Set(ShallowCopy(ne));
-            RemoveSet(ne,ear[1][1]); RemoveSet(ne,ear[1][2]);
-            for x in e do 
-                RemoveSet(newedges[j], x);
-            od;
-            AddSet(newedges[j], ne);
-            newgens := List( newedges, j-> Product(j,  i-> (i[1],i[2])));
-
-            verynewvertices := [];
-            # now we have to change the vertices to remove the ear
-            for i in [ 1 .. Length(newvertices)] do
-                # here are all the names a vertex is known by
-                vtxnames := newvertices[i];
-                # the new names for the given vertex
-                newvtxnames := [];
-                for j in [1..Length(vtxnames)] do
-                    vtx := vtxnames[j];
-                    if not vtx[1] in ear[1] then
-                        # the vtx does not contain a face of the ear
-                        # so we keep it
-                        Add(newvtxnames,vtx);
-                    fi;
-                od;
-                if Length(newvtxnames)>1 then
-                    Add(verynewvertices,newvtxnames);
-                fi;
-            od;   
-            newvertices := verynewvertices;
-
-            ear :=  FindCommon(newedges);
-        od;
-
-
-        return SimplicialSurface( rec( generators := newgens,     
-                    faces := MovedPoints(gens),
-                    edges := newedges, 
-                    # here we are careful to create a structural copy
-                    # of the vertices
-                    vertices := StructuralCopy(newvertices)));
-end);
-
 
 #############################################################################
 ##
@@ -658,7 +566,7 @@ end);
 ##     f1         f2       f3
 ## [v2,v3,v4] [v2,v3,v4] [v5,v4,v3]
 ## [v1,v2],  [e1,e2,e3]
-GenericSurfaceFromFaceVertexPath := function( fvp )
+GenericSimplicialSurfaceFromFaceVertexPath := function( fvp )
 
         local surf, i, j, edges, faces, newfaces, e;
 
@@ -685,6 +593,7 @@ GenericSurfaceFromFaceVertexPath := function( fvp )
         return surf;
 end;
 
+
 #############################################################################
 ##
 ##  Compute the face vertex path description of a generic surface
@@ -710,70 +619,6 @@ FaceVertexPathFromGenericSurface := function( surf )
 
 end;
 
-
-#############################################################################
-##
-##
-##  map the simplicial surface under the permutation pi which has
-##  to  lie in the centraliser of the generators of ss inside the
-##  full symmetric group.
-##  This now allows us to act with a group on a simplicial surface and
-##  call the orbit function
-ImageSimplicialSurface := function (ss, pi )
- 
-        local nss, i, j, vtx, v, nv, vert, cmpvertices;
-
-cmpvertices := function (v1, v2 )
-
-    if Length(v1) < Length(v2 ) then return true;
-    elif Length(v1) > Length(v2) then return false;
-    fi;
-    # now they have the same length
-    return v1 < v2;
-
-end;
-
-
-        nss := rec();
-
-        nss.generators := List(GeneratorsOfSimplicialSurface(ss), g->g^pi);
-        nss.faces := List(FacesOfSimplicialSurface(ss),g->g^pi);
-        Sort(nss.faces);
-        nss.edges := [Cycles(nss.generators[1],nss.faces),
-                      Cycles(nss.generators[2],nss.faces),
-                      Cycles(nss.generators[3],nss.faces)];
-
-        nss.vertices := [];
-        vert := VerticesOfSimplicialSurface(ss);
-        for i in [1..Length(vert)] do
-            v := vert[i];
-            nss.vertices[i] := [];
-            for j in [ 1 .. Length(v)] do
-                vtx := v[j];
-                nss.vertices[i][j] := [vtx[1]^pi, vtx[2], vtx[3]];
-            od;
-            j := Position(nss.vertices[i], Minimum(nss.vertices[i]));
-            nv := nss.vertices[i]{[j..Length(nss.vertices[i])]};
-            Append(nv, nss.vertices[i]{[1..j-1]});
-            nss.vertices[i] := nv;
-        od;
-
-        Sort( nss!.vertices, cmpvertices);
-        nss := SimplicialSurface(nss);
-
-        DegreesOfSimplicialSurface(nss);
-        MrTypeOfSimplicialSurface(nss);
-           
-
-        return nss;
-
-end;
-
-#############################################################################
-##
-##
-##  This code is from Markus Baumeister
-##
 
 # Check whether a given vertex ist incident to a given edge
 IsIncidentVertexEdge := function(simpsurf,vertexNumber,edgeColor,edgeNumber)

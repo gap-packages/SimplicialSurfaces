@@ -2533,7 +2533,7 @@ end;
 ##  This code is from Markus Baumeister
 ##
 
-# Check whether a given vertex ist incident to a given edge
+# Check whether a given vertex ist incident to a given edge (wild colored surface)
 IsIncidentVertexEdge := function(simpsurf,vertexNumber,edgeColor,edgeNumber)
 	local vert, edgeType, edges;
 
@@ -2551,7 +2551,7 @@ IsIncidentVertexEdge := function(simpsurf,vertexNumber,edgeColor,edgeNumber)
 	return false;
 end;
 
-# Return the vertices (as numbers) that are incident to the given edge
+# Return the vertices (as numbers) that are incident to the given edge (wild colored surface)
 VerticesInEdgeAsNumbers := function( simpsurf, edgeColor, edgeNumber )
 	local erg,i;
 
@@ -2566,7 +2566,7 @@ VerticesInEdgeAsNumbers := function( simpsurf, edgeColor, edgeNumber )
 end;
 
 # Return the vertices (as data in the record) that are incident to 
-#  the given edge
+#  the given edge (wild colored surface)
 VerticesInEdge := function( simpsurf, edgeColor, edgeNumber )
 	return List( VerticesInEdgeAsNumbers(simpsurf,edgeColor,edgeNumber), 
                   i-> VerticesOfSimplicialSurface(simpsurf)[i]);
