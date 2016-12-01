@@ -1842,50 +1842,25 @@ end);
 ##     f1         f2       f3
 ## [v2,v3,v4] [v2,v3,v4] [v5,v4,v3]
 ## [v1,v2],  [e1,e2,e3]
-GenericSurfaceFromFaceVertexPath := function( fvp )
 
-        local surf, i, j, edges, faces, newfaces, e;
-
-        # The length of fvp is equal to the number of faces
-	surf := [,,Length(fvp)];
-
-	faces := [1..Length(fvp)];
-        faces := List( faces, i-> Set(Combinations(fvp[i],2)) );
-        edges := Union(faces);
-
-        newfaces := List(faces,i->[]);
-        for i in [1..Length(fvp)] do
-            for j  in [1..3] do
-                e := faces[i][j];
-                newfaces[i][j] := Position(edges,e);
-            od;
-        od;
-
-        surf[4] := edges;
-        surf[2] := Length(edges);
-        surf[1] := Length(Set(Flat(edges)));
-        surf[5] := newfaces;
-
-        return surf;
-end;
 
 #############################################################################
 ##
-##  Compute the face vertex path description of a generic surface
+##  Compute the face vertex path description of a generic simplicial surface
 ##
 ## [v1,v2],  [e1,e2,e3]
 
 
-FaceVertexPathFromGenericSurface := function( surf )
+FaceVertexPathFromGenericSimplicialSurface := function( surf )
 
         local fvp, f, fv, e;
 
         fvp := [];
         
-        for f in surf[5] do
+        for f in FacesOfGenericSimplicialSurface(surf) do
             fv := Set([]);
             for e in f do
-                fv := Union(fv, Set( surf[4][e] ) );
+                fv := Union(fv, Set( FacesOfGenericSimplicialSurface(surf)[e] ) );
             od;
             Add( fvp, fv );
         od;
@@ -1924,13 +1899,20 @@ end;
 #!  a  wild colouring, then the wild coloured simplicial surfaces description
 #!  is returned. Otherwise the function returns fail.
 #!  @Arguments a list of lists, representing a ``generic"-description of a surface
-InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
+InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surface)
 ## TODO: Clean up local variables here!
 ##
 
         local simpsurf, pair, x, y, edges, faces, vertices, e, f1, f2, e1, e2,
-              FaceWithEdges, Faces, Edges, NextFaceEdge, boundary1, j, g,
+              FaceWithEdges, Faces, Edges, NextFaceEdge, boundary1, j, g,surf,
               fa, i, v, f, vtx, facepairs, incident, gens, allsurf, newvertices;
+
+		surf := [ 
+				NrOfVerticesOfGenericSimplicialSurface(surface),
+				NrOfEdgesOfGenericSimplicialSurface(surface),
+				NrOfFacesOfGenericSimplicialSurface(surface),
+				EdgesOfGenericSimplicialSurface(surface),
+				FacesOfGenericSimplicialSurface(surface) ];
 
         # find one face with edges e1 and e2
         # note that there may be several faces with edges e1 and e2,
@@ -2527,107 +2509,6 @@ end;
 
 end;
 
-#############################################################################
-##
-##
-##  This code is from Markus Baumeister
-##
-
-# Check whether a given vertex ist incident to a given edge (wild colored surface)
-IsIncidentVertexEdge := function(simpsurf,vertexNumber,edgeColor,edgeNumber)
-	local vert, edgeType, edges;
-
-    edges := EdgesOfSimplicialSurface(simpsurf);
-
-	for vert in VerticesOfSimplicialSurface(simpsurf)[vertexNumber] do
-		for edgeType in [vert[2],vert[3]] do
-			if edgeType = edgeColor and 
-               vert[1] in edges[edgeColor][edgeNumber] then
-				return true;
-			fi;
-		od;
-	od;
-
-	return false;
-end;
-
-# Return the vertices (as numbers) that are incident to the given edge (wild colored surface)
-VerticesInEdgeAsNumbers := function( simpsurf, edgeColor, edgeNumber )
-	local erg,i;
-
-	erg := [];
-	for i in [1..NrOfVerticesOfSimplicialSurface(simpsurf)] do
-		if IsIncidentVertexEdge( simpsurf, i, edgeColor, edgeNumber ) then
-			erg := Union( erg, [i]);
-		fi;
-	od;
-
-	return erg;
-end;
-
-# Return the vertices (as data in the record) that are incident to 
-#  the given edge (wild colored surface)
-VerticesInEdge := function( simpsurf, edgeColor, edgeNumber )
-	return List( VerticesInEdgeAsNumbers(simpsurf,edgeColor,edgeNumber), 
-                  i-> VerticesOfSimplicialSurface(simpsurf)[i]);
-end;
-
-
-# Convert the simplicial surface data structure to the structure used in 
-# maple
-# WARNING! It is instrumental at this point (Maple can't handle holes 
-# in lists) that the faces are numbered 1,2,...,f
-InstallGlobalFunction( GenericSurfaceFromWildSimplicialSurface, 
-    function( simpsurf )
-	local erg, edges, edgeColor, edgeNumber, pos, faces, faceNumber, 
-          edgesInFace, sedges;
-
-	erg := [];
-
-	# First entry is number of vertices
-	erg[1] := NrOfVerticesOfSimplicialSurface(simpsurf);
-	
-	# Second entry is number of edges
-	erg[2] := NrOfEdgesOfSimplicialSurface(simpsurf);
-
-	# Third entry is number of faces
-	erg[3] := NrOfFacesOfSimplicialSurface(simpsurf);
-
-	# The fourth entry is a list. Each entry of this list corresponds to 
-    # an edge and equals a list of the vertices contained in that edge
-	edges := [];
-    sedges := EdgesOfSimplicialSurface(simpsurf);
-	for edgeColor in [1..Length(sedges)] do
-		for edgeNumber in [1..Length(sedges[edgeColor])] do
-			pos := (edgeColor - 1) * Length( sedges[edgeColor] ) + edgeNumber;
-			edges[pos] := VerticesInEdgeAsNumbers(simpsurf,edgeColor,edgeNumber);
-		od;
-	od;
-	erg[4] := edges;
-
-	# The fifth entry is also a list, corresponding to the faces. 
-    # Each entry is a list containing the edges of this face
-	faces := [];
-	for faceNumber in FacesOfSimplicialSurface(simpsurf) do
-		edgesInFace := [];
-		for edgeColor in [1..Length(sedges)] do
-			for edgeNumber in [1..Length(sedges[edgeColor])] do
-				if faceNumber in sedges[edgeColor][edgeNumber] then
-					pos := (edgeColor - 1) * Length( sedges[edgeColor] ) 
-                            + edgeNumber;
-					Add( edgesInFace, pos );
-				fi;
-			od;
-		od;
-		faces[ faceNumber ] := edgesInFace;
-	od;
-	erg[5] := faces;
-
-	# WARNING! Both loops use the same convention for converting 
-    #  edgeColor and edgeNumber.
-
-	return erg;
-end);
 
 
 

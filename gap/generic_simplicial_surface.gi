@@ -601,9 +601,9 @@ RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
 	newFaceNr := Length( newFaces );
 
 	return GenericSimplicialSurface( rec(
-		vertexNr := newVertexNr,
-		edgeNr := newEdgeNr,
-		faceNr := newFaceNr,
+		nrOfVertices := newVertexNr,
+		nrOfEdges := newEdgeNr,
+		nrOfFaces := newFaceNr,
 		edges := newEdges,
 		faces := newFaces ) );
 end;
@@ -677,7 +677,12 @@ GenericSimplicialSurfaceFromFaceVertexPath := function( fvp )
         surf[1] := Length(Set(Flat(edges)));
         surf[5] := newfaces;
 
-        return surf;
+        return GenericSimplicialSurface( rec(
+			nrOfVertices := surf[1],
+			nrOfEdges := surf[2],
+			nrOfFaces := surf[3],
+			edges := surf[4],
+			faces := surf[5] ) );
 end;
 
 
@@ -804,7 +809,12 @@ GenericSimplicialSurfaceFromWildSimplicialSurface :=
 	# WARNING! Both loops use the same convention for converting 
     #  edgeColor and edgeNumber.
 
-	return erg;
+	return GenericSimplicialSurface( rec(
+		nrOfVertices := erg[1],
+		nrOfEdges := erg[2],
+		nrOfFaces := erg[3],
+		edges := erg[4],
+		faces := erg[5] ) );
 end;
 
 
