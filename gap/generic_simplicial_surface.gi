@@ -261,7 +261,7 @@ UnsortedDegreesOfGenericSimplicialSurface := function(simpsurf)
 
 #		degrees := [];
 		faces := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
-		degreed := List( [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)], i -> Number( faces, j -> i in j ) );
+		degrees := List( [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)], i -> Number( faces, j -> i in j ) );
 
 #		for i in [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)] do
 #			deg := 0;
@@ -378,10 +378,10 @@ end;
 #!  Check if a generic simplicial surfaces is connected.
 #!  @Returns true or false
 #!  @Arguments <simpsurf>, a generic simplicial surface object as created 
-#!  by SimplicialSurface
+#!  by GenericSimplicialSurface
 #!
 ##
-IsConnectedSimplicialSurface := function(simpsurf)
+IsConnectedGenericSimplicialSurface := function(simpsurf)
 	local faces, faceList, points, change, faceNr;
 
 	if IsBound( simpsurf!.isConnected ) then 
@@ -564,7 +564,7 @@ end;
 #!
 ##
 RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
-	local newVertexNr, newEdgeNr, newFaceNr, newEdges, newFaces, replaceEdges, currentNr, edge, el;
+	local newVertexNr, newEdgeNr, newFaceNr, newEdges, newFaces, replaceEdges, currentNr, edge, el, newEdge;
 
 	if not vertex in [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)] then
 		Error("RemoveVertexOfGenericSimplicialSurface: The given vertex doesn't lie in the surface.");
@@ -587,7 +587,7 @@ RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
 				else
 					Append( newEdge, [el-1] );
 				fi;
-			fi;
+			od;
 			Append( newEdges, [newEdge] );
 			currentNr := currentNr + 1;
 			replaceEdges[edge] := currentNr;
@@ -618,7 +618,7 @@ end;
 #!  @Arguments <simpsurf> a generic simplicial surface
 #!
 SnippOffEarsOfGenericSimplicialSurface := function( simpsurf )
-	local edgesByFaces, face, ear, edgeDegree;
+	local vertexDegree, ears, newSurface, ear;
 
 	# Find ears
 	vertexDegree := UnsortedDegreesOfGenericSimplicialSurface( simpsurf );

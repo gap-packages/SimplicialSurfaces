@@ -94,7 +94,7 @@ TestTetrahedron := function()
 		Print( "Tetrahedron has wrong Euler-Characteristic.\n" );
 	fi;
 
-	VertexGroup := VertexGroupSimplicialSurface(surf);
+	VertexGroup := VertexGroupOfSimplicialSurface(surf);
 	VertexGroup := VertexGroup[1] / VertexGroup[2];
 	if not IsDihedralGroup( VertexGroup ) or Size( VertexGroup ) <> 4 then
 		Print( "Failed: Tetrahedron vertex group is not V_4.\n");
@@ -214,7 +214,7 @@ TestOpenTetrahedron := function()
 		Print( "Open Tetrahedron has wrong Euler-Characteristic.\n" );
 	fi;
 
-	VertexGroup := VertexGroupSimplicialSurface(surf);
+	VertexGroup := VertexGroupOfSimplicialSurface(surf);
 	VertexGroup := VertexGroup[1] / VertexGroup[2];
 	if not IsDihedralGroup( VertexGroup ) or Size( VertexGroup ) <> 4 then
 		Print( "Failed: Open Tetrahedron vertex group is not V_4.\n");
