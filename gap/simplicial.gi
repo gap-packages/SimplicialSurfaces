@@ -439,7 +439,7 @@ end);
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
 #!  by SimplicialSurface
 #!
-InstallGlobalFunction( EulerCharacteristic, function (simpsurf)
+InstallGlobalFunction( EulerCharacteristic, function (simpsurf) #TODO As soon as this also works for generic simplicial surfaces: Activate the corresponding tests in simplicialTest.g
 
     local chi;
 

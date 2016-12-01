@@ -1,5 +1,6 @@
 #################################################################################
-## This document contains some tests for the functionality in simplicial.g
+## This document contains some tests for the functionality in simplicial.gi
+## and generic_simplicial_surface.gi
 #################################################################################
 
 # This method supports the definition of a consistent colouring.
@@ -7,46 +8,47 @@ AllEdgesOfSameType := function( n, type )
 	return List( [1,2,3], i -> List( [1..n], j -> type ) );
 end;
 
-# Check if a generic surface is self consistent
+###################################################################################
+# Check if a generic simplicial surface is self consistent
 # Return a list of three elements: 
 # 	First comes the result as a bool
 #	Second comes a comment that explains the failure (if applicable)
 #	Third comes the reason that prompted the comment (if applicable)
-IsGenericSurfaceSelfConsistent := function( generic )
+IsGenericSimplicialSurfaceSelfConsistent := function( generic )
 	local edge, vert, face, verticesInFace;
 
 	# Check if number of edges and faces match
-	if Length( generic[4] ) <> generic[2] then
+	if Length( EdgesOfGenericSimplicialSurface(generic) ) <> NrOfEdgesOfGenericSimplicialSurface(generic) then
 		return [false, "Wrong number of edges.",];
 	fi;
-	if Length( generic[4] ) <> generic[2] then
+	if Length( FacesOfGenericSimplicialSurface(generic) ) <> NrOfFacesOfGenericSimplicialSurface(generic) then
 		return [false, "Wrong number of faces.",];
 	fi;
 
 	# Check individual edges
-	for edge in generic[4] do
+	for edge in EdgesOfGenericSimplicialSurface(generic) do
 		if Length(edge) <> 2 or Length( Set( edge ) ) <> 2 then
 			return [false, "There exists an edge that does not consist of two vertices.", edge];
 		fi;
 		for vert in edge do
-			if vert < 1 or vert > generic[1] then
+			if vert < 1 or vert > NrOfVerticesOfGenericSimplicialSurface(generic) then
 				return [false, "There exists an edge with a non-existent vertex.", edge];
 			fi;
 		od;
 	od;
 
 	# Check individual faces
-	for face in generic[5] do
+	for face in FacesOfGenericSimplicialSurface(generic) do
 		if Length( face ) <> Length( Set( face ) ) then
 			return [false, "There exists a face with repeated edges.", face];
 		fi;
 
 		verticesInFace := [];
 		for edge in face do
-			if edge < 1 or edge > generic[2] then
+			if edge < 1 or edge > NrOfEdgesOfGenericSimplicialSurface(generic) then
 				return [false, "There exists a face with a non-existent edge.", face];
 			fi;
-			Append( verticesInFace, generic[4][edge] );
+			Append( verticesInFace, EdgesOfGenericSimplicialSurface(generic)[edge] );
 		od;
 		if Length( Set( verticesInFace ) ) <> Length( face ) then
 			return [false, "There exists a face with an incorrect number of vertices.", face];
@@ -56,8 +58,16 @@ IsGenericSurfaceSelfConsistent := function( generic )
 	return [true, "", ];
 end;
 
-# This method tests the functionality for the example of a tetrahedron
-TestTetrahedron := function()
+#########################################################################################
+#########################################################################################
+#####							Test a tetrahedron
+#########################################################################################
+#########################################################################################
+
+##########################################################################
+## This method tests the functionality for the example of a tetrahedron
+## and the representation of a wild colored simplicial surface
+TestTetrahedronWildColored := function()
 	local sig1,sig2,sig3, mrType, surfaces, surf, VertexGroup, generic, consistency;
 
 	sig1 := (1,3)(2,4);
@@ -67,7 +77,7 @@ TestTetrahedron := function()
 
 	surfaces := AllSimplicialSurfaces( sig1, sig2, sig3,mrType  );
 	if Length(surfaces) <> 1 then
-		Print( "Tetrahedron can't be defined.\n" );
+		Print( "Tetrahedron can't be defined by wild coloring.\n" );
 	fi;
 
 	surf := surfaces[1];
@@ -126,55 +136,123 @@ TestTetrahedron := function()
 		Print( "  Passed: Tetrahedron has no ears.\n");
 	fi;
 
-	# Test equality with other constructions
+end;
 
-	## Testing face path surface to wild simplicial surface converter
-	surfaces := WildSimplicialSurfacesFromFacePath( [[1..4], [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]],[[1,3,2,1],[2,4,1,2],[1,3,4,1],[3,4,2,3]] ]);
-	if Length(surfaces) <> 1 then
-		Print( "Failed: Tetrahedron can't be defined by face-paths.\n" );
-    else 
-		Print( "  Passed: Tetrahedron can be  defined by face-paths.\n" );
-	fi;
-	if  Length(surfaces) = 0 or surf <> surfaces[1] then
-		Print( "Failed: Tetrahedron by face-paths is not equal to standard construction.\n");
-     else
-		Print( "  Passed: Tetrahedron by face-paths is not equal to standard construction.\n");
+##########################################################################
+## This method tests the functionality for the example of a tetrahedron
+## and the representation of a generic simplicial surface
+TestTetrahedronGeneric := function()
+	local sig1,sig2,sig3, mrType, surfaces, surf, VertexGroup, generic, consistency;
+
+	surf := GenericSimplicialSurface( rec( 
+		nrOfVertices := 4,
+		nrOfEdges := 6,
+		nrOfFaces := 4,
+		edges := [[1,2],[2,3],[3,1],[1,4],[4,2],[4,3]], 
+		faces := [[1,2,3],[5,1,4],[3,6,4],[5,6,2]] ) );
+
+	# Test the elementary properties
+	if NrOfVerticesOfGenericSimplicialSurface(surf) <> 4 then
+		Print( "Tetrahedron has wrong number of vertices.\n" );
 	fi;
 
-    ## Testing generic surface to wild simplicial surface converter
-	surfaces := WildSimplicialSurfacesFromGenericSurface( [ 4,6,4, [[1,2],[2,3],[3,1],[1,4],[4,2],[4,3]], [[1,2,3],[5,1,4],[3,6,4],[5,6,2]] ] );
-	if Length(surfaces) <> 1 then
-		Print( "Failed: Tetrahedron can't be defined by generic construction.\n" );
+	if NrOfEdgesOfGenericSimplicialSurface(surf) <> 6 then
+		Print( "Tetrahedron has wrong number of edges.\n" );
+	fi;
+
+	if NrOfFacesOfGenericSimplicialSurface(surf) <> 4 then
+		Print( "Tetrahedron has wrong number of faces.\n" );
+	fi;
+
+	# Test some advanced properties
+#	if EulerCharacteristic(surf) <> 2 then
+#		Print( "Tetrahedron has wrong Euler-Characteristic.\n" );
+#	fi;
+
+	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [3,3,3,3] or SortedDegreesOfGenericSimplicialSurface(surf) <> [3,3,3,3] then
+		Print( "Failed: Tetrahedron vertex degrees are incorrect.\n");
     else
-		Print( "  Passed: Tetrahedron can be defined by generic construction.\n" );
+		Print( "  Passed: Tetrahedron has correct vertex degrees.\n");
 	fi;
-	if  Length(surfaces) = 0 or surf <> surfaces[1]  then
-		Print( "Failed: Tetrahedron by generic construction is not equal to standard construction.\n");
+
+	if not IsConnectedGenericSimplicialSurface(surf) then
+		Print( "Failed: Tetrahedron should be connected.\n" );
     else
-		Print( "  Passed: Tetrahedron by generic construction is equal to standard construction.\n");
+		Print( "  Passed: Tetrahedron is connected.\n" );
 	fi;
 
-	## Testing wild simplicial surface to generic surface converter
-	generic := GenericSurfaceFromWildSimplicialSurface( surf );
-	if generic[1] <> 4 then
-		Print( "Tetrahedron has wrong number of vertices in conversion to generic surface.\n" );
-	fi;
-	if generic[2] <> 6 then
-		Print( "Tetrahedron has wrong number of edges in conversion to generic surface.\n" );
-	fi;
-	if generic[3] <> 4 then
-		Print( "Tetrahedron has wrong number of faces in conversion to generic surface.\n" );
+	if not IsOrientableGenericSimplicialSurface(surf) then
+		Print( "Failed: Tetrahedron should be orientable.\n" );
+    else
+		Print( "  Passed: Tetrahedron is orientable.\n" );
 	fi;
 
-	consistency := IsGenericSurfaceSelfConsistent( generic );
-	if not consistency[1] then
-		Print( Concatenation( "Tetrahedron conversion to generic is not self consistent: ", consistency[2]) );
-		Print( consistency[3] );
-		Print( "\n" );
+	if  surf <> SnippOffEarsOfGenericSimplicialSurface(surf)  then
+		Print( "Failed: Tetrahedron should not have ears.\n");
+    else
+		Print( "  Passed: Tetrahedron has no ears.\n");
 	fi;
-	#TODO more tests
 
 end;
+
+
+##########################################################################
+## This method tests the functionality for the example of a tetrahedron
+## and the conversion between different representations
+TestTetrahedronConversion := function()
+	## Testing face path surface to wild simplicial surface converter
+#	surfaces := WildSimplicialSurfacesFromFacePath( [[1..4], [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]],[[1,3,2,1],[2,4,1,2],[1,3,4,1],[3,4,2,3]] ]);
+#	if Length(surfaces) <> 1 then
+#		Print( "Failed: Tetrahedron can't be defined by face-paths.\n" );
+ #   else 
+	#	Print( "  Passed: Tetrahedron can be defined by face-paths.\n" );
+#	fi;
+#	if  Length(surfaces) = 0 or surf <> surfaces[1] then
+#		Print( "Failed: Tetrahedron by face-paths is not equal to standard construction.\n");
+ #    else
+#		Print( "  Passed: Tetrahedron by face-paths is not equal to standard construction.\n");
+#	fi;
+
+    ## Testing generic surface to wild simplicial surface converter
+#	surfaces := WildSimplicialSurfacesFromGenericSurface( [ 4,6,4, [[1,2],[2,3],[3,1],[1,4],[4,2],[4,3]], [[1,2,3],[5,1,4],[3,6,4],[5,6,2]] ] );
+#	if Length(surfaces) <> 1 then
+#		Print( "Failed: Tetrahedron can't be defined by generic construction.\n" );
+#    else
+#		Print( "  Passed: Tetrahedron can be defined by generic construction.\n" );
+#	fi;
+#	if  Length(surfaces) = 0 or surf <> surfaces[1]  then
+#		Print( "Failed: Tetrahedron by generic construction is not equal to standard construction.\n");
+#	else
+#		Print( "  Passed: Tetrahedron by generic construction is equal to standard construction.\n");
+#	fi;
+#
+	## Testing wild simplicial surface to generic surface converter
+#	generic := GenericSurfaceFromWildSimplicialSurface( surf );
+#	if generic[1] <> 4 then
+#		Print( "Tetrahedron has wrong number of vertices in conversion to generic surface.\n" );
+#	fi;
+#	if generic[2] <> 6 then
+#		Print( "Tetrahedron has wrong number of edges in conversion to generic surface.\n" );
+#	fi;
+#	if generic[3] <> 4 then
+#		Print( "Tetrahedron has wrong number of faces in conversion to generic surface.\n" );
+#	fi;
+
+#	consistency := IsGenericSurfaceSelfConsistent( generic );
+#	if not consistency[1] then
+#		Print( Concatenation( "Tetrahedron conversion to generic is not self consistent: ", consistency[2]) );
+#		Print( consistency[3] );
+#		Print( "\n" );
+#	fi;
+	#TODO more tests
+end;
+
+
+#########################################################################################
+#########################################################################################
+#####				Test an open tetrahedron
+#########################################################################################
+#########################################################################################
 
 # This method tests the functionality for the example of a tetrahedron that is missing one face
 TestOpenTetrahedron := function()

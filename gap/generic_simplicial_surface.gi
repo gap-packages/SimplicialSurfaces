@@ -119,7 +119,7 @@ NrOfEdgesOfGenericSimplicialSurface := function( simpsurf)
             Error("usage: NrOfEdgesOfGenericSimplicialSurface(simpsurf)");
             return fail;
         fi;
-        return simpsurf!.edges;
+        return simpsurf!.nrOfEdges;
 
 end;
 
@@ -193,7 +193,7 @@ FacesByVerticesOfGenericSimplicialSurface := function( simpsurf )
 		# Continue in the same way for the other edges
 		for j in [2 .. Length(face)] do
 			intersectingEdges := Intersection( Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[j-1]] ),
-				Set( EdgesOfGenericSimplicialSurface(simpsurf)[j] ) );
+				Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[j]] ) );
 			if Length(intersectingEdges) <> 1 then
        			Error("FacesByVerticesOfGenericSimplicialSurface: Edge intersection is not unique.");
 			fi;
@@ -297,7 +297,8 @@ SortedDegreesOfGenericSimplicialSurface := function(simpsurf)
 		fi;
 
 		degrees := UnsortedDegreesOfGenericSimplicialSurface( simpsurf );
-		simpsurf!.SortedDegrees := Sort( degrees );
+		Sort( degrees );
+		simpsurf!.SortedDegrees := degrees;
         return degrees;
 end;
 
@@ -485,7 +486,7 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 
 	orientable := true;
 	orientList := [];
-	orientList[ 1 + Length( NrOfFacesOfGenericSimplicialSurface(simpsurf) )] := 1;
+	orientList[ 1 + NrOfFacesOfGenericSimplicialSurface(simpsurf)] := 1;
 	while not IsDenseList( orientList ) and orientable do
 		# Find the first hole
 		hole := 0;
@@ -511,13 +512,13 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 				next := neighbours[1];
 
 				# Check how these two faces act on the edge
-				if CompatibleOrientation( EdgesOfGenericSimplicialSurface[edge], facesByVertices[face] ) then
+				if CompatibleOrientation( EdgesOfGenericSimplicialSurface(simpsurf)[edge], facesByVertices[face] ) then
 					orient1 := 1;
 				else
 					orient1 := -1;
 				fi;
 
-				if CompatibleOrientation( EdgesOfGenericSimplicialSurface[edge], facesByVertices[next] ) then
+				if CompatibleOrientation( EdgesOfGenericSimplicialSurface(simpsurf)[edge], facesByVertices[next] ) then
 					orient2 := 1;
 				else
 					orient2 := -1;
