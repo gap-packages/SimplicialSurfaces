@@ -17,6 +17,11 @@ end;
 IsGenericSimplicialSurfaceSelfConsistent := function( generic )
 	local edge, vert, face, verticesInFace;
 
+	if not IsGenericSimplicialSurfaceRep(generic) then
+		Error("usage: IsGenericSimplicialSurfaceSelfConsistent(generic)");
+		return fail;
+	fi;
+
 	# Check if number of edges and faces match
 	if Length( EdgesOfGenericSimplicialSurface(generic) ) <> NrOfEdgesOfGenericSimplicialSurface(generic) then
 		return [false, "Wrong number of edges.",];
@@ -142,7 +147,7 @@ end;
 ## This method tests the functionality for the example of a tetrahedron
 ## and the representation of a generic simplicial surface
 TestTetrahedronGeneric := function()
-	local sig1,sig2,sig3, mrType, surfaces, surf, VertexGroup, generic, consistency;
+	local surf, consistency, newSurf;
 
 	surf := GenericSimplicialSurface( rec( 
 		nrOfVertices := 4,
@@ -150,6 +155,13 @@ TestTetrahedronGeneric := function()
 		nrOfFaces := 4,
 		edges := [[1,2],[2,3],[3,1],[1,4],[4,2],[4,3]], 
 		faces := [[1,2,3],[5,1,4],[3,6,4],[5,6,2]] ) );
+
+	consistency := IsGenericSimplicialSurfaceSelfConsistent( surf );
+	if not consistency[1] then
+		Print( Concatenation( "Tetrahedron definition (generic) is not self consistent: ", consistency[2]) );
+		Print( consistency[3] );
+		Print( "\n" );
+	fi;
 
 	# Test the elementary properties
 	if NrOfVerticesOfGenericSimplicialSurface(surf) <> 4 then
@@ -191,6 +203,23 @@ TestTetrahedronGeneric := function()
 		Print( "Failed: Tetrahedron should not have ears.\n");
     else
 		Print( "  Passed: Tetrahedron has no ears.\n");
+	fi;
+
+	newSurf := RemoveVertexOfGenericSimplicialSurface( surf, 1);
+	consistency := IsGenericSimplicialSurfaceSelfConsistent( newSurf );
+	if not consistency[1] then
+		Print( Concatenation( "Tetrahedron after removel of one vertex is not self consistent: ", consistency[2]) );
+		Print( consistency[3] );
+		Print( "\n" );
+	fi;
+	if NrOfVerticesOfGenericSimplicialSurface(newSurf) <> 3 then
+		Print( "Tetrahedron has wrong number of vertices after removing one vertex.\n" );
+	fi;
+	if NrOfEdgesOfGenericSimplicialSurface(newSurf) <> 3 then
+		Print( "Tetrahedron has wrong number of edges after removing one vertex.\n" );
+	fi;
+	if NrOfFacesOfGenericSimplicialSurface(newSurf) <> 1 then
+		Print( "Tetrahedron has wrong number of faces after removing one vertex.\n" );
 	fi;
 
 end;
@@ -238,7 +267,7 @@ TestTetrahedronConversion := function()
 #		Print( "Tetrahedron has wrong number of faces in conversion to generic surface.\n" );
 #	fi;
 
-#	consistency := IsGenericSurfaceSelfConsistent( generic );
+#	consistency := IsGenericSimplicialSurfaceSelfConsistent( generic );
 #	if not consistency[1] then
 #		Print( Concatenation( "Tetrahedron conversion to generic is not self consistent: ", consistency[2]) );
 #		Print( consistency[3] );
@@ -301,7 +330,7 @@ TestOpenTetrahedron := function()
 	fi;
 
 	Degrees := DegreesOfSimplicialSurface(surf);
-	if Set(Degrees) <> [2,3] or Length(Degrees) <> 4 or Length( Filtered( L, i->i=2) ) <> 3 then
+	if Set(Degrees) <> [2,3] or Length(Degrees) <> 4 or Length( Filtered( Degree, i->i=2) ) <> 3 then
 		Print( "Failed: Open Tetrahedron vertex degrees are incorrect.\n");
     else
 		Print( "  Passed: Open Tetrahedron has correct vertex degrees.\n");
@@ -365,7 +394,7 @@ TestOpenTetrahedron := function()
 		Print( "Tetrahedron has wrong number of faces in conversion to generic surface.\n" );
 	fi;
 	
-	consistency := IsGenericSurfaceSelfConsistent( generic );
+	consistency := IsGenericSimplicialSurfaceSelfConsistent( generic );
 	if not consistency[1] then
 		Print( Concatenation( "Open Tetrahedron conversion to generic is not self consistent: ", consistency[2]) );
 		Print( consistency[3] );
@@ -377,6 +406,12 @@ end;
 
 
 # Test everything
+TestTetrahedron := function()
+	TestTetrahedronWildColored();
+	TestTetrahedronGeneric();
+	TestTetrahedronConversion();
+end;
+
 TestAll := function()
 	TestTetrahedron();
 	TestOpenTetrahedron();

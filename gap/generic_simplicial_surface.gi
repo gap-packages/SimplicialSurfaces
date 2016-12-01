@@ -583,7 +583,7 @@ RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
 		else
 			newEdge := [];
 			for el in EdgesOfGenericSimplicialSurface(simpsurf)[edge] do	# Shift higher vertices down
-				if vertex < el then
+				if el < vertex then
 					Append( newEdge, [el] );
 				else
 					Append( newEdge, [el-1] );

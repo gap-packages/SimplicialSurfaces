@@ -1855,6 +1855,11 @@ FaceVertexPathFromGenericSimplicialSurface := function( surf )
 
         local fvp, f, fv, e;
 
+		if not IsGenericSimplicialSurfaceRep(surf) then
+            Error("usage: FaceVertexPathFromGenericSimplicialSurface(surf)");
+            return fail;
+        fi;
+
         fvp := [];
         
         for f in FacesOfGenericSimplicialSurface(surf) do
