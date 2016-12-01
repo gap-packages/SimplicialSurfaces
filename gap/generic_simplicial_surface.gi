@@ -259,17 +259,19 @@ UnsortedDegreesOfGenericSimplicialSurface := function(simpsurf)
 			return simpsurf!.UnsortedDegrees;
 		fi;
 
-		degrees := [];
+#		degrees := [];
 		faces := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
-		for i in [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)] do
-			deg := 0;
-			for j in [1 .. Length(faces)] do
-				if i in faces[j] then
-					deg := deg+1;
-				fi;
-			od;
-			degrees[i] := deg;
-		od;
+		degreed := List( [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)], i -> Number( faces, j -> i in j ) );
+
+#		for i in [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)] do
+#			deg := 0;
+#			for j in [1 .. Length(faces)] do
+#				if i in faces[j] then
+#					deg := deg+1;
+#				fi;
+#			od;
+#			degrees[i] := deg;
+#		od;
 
         simpsurf!.UnsortedDegrees := degrees;
 
@@ -552,8 +554,89 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 	return simpsurf!.isOrientable;
 end;
 
+###############################################################################
+##
+#!  @Description
+#!  This function removes one vertex of a generic simplicial surface
+#!  <simpsurf>, along with all edges and faces that are adjacent to the vertex
+#!  @Returns a generic simplicial surface without the given vertex.
+#!  @Arguments <simpsurf> a generic simplicial surface, <vertex> the vertex to be removed
+#!
+##
+RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
+	local newVertexNr, newEdgeNr, newFaceNr, newEdges, newFaces, replaceEdges, currentNr, edge, el;
+
+	if not vertex in [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)] then
+		Error("RemoveVertexOfGenericSimplicialSurface: The given vertex doesn't lie in the surface.");
+	fi;
+
+	newVertexNr := NrOfVerticesOfGenericSimplicialSurface(simpsurf) - 1;
+	
+	# Check all edges
+	replaceEdges := [];	# Map from old numbers to new numbers (contains fail if edge vanishes)
+	newEdges := [];
+	currentNr := 0;		# Numbering of the new edges
+	for edge in [1..NrOfEdgesOfGenericSimplicialSurface(simpsurf)] do
+		if vertex in EdgesOfGenericSimplicialSurface(simpsurf)[edge] then
+			replaceEdges[edge] := fail;
+		else
+			newEdge := [];
+			for el in EdgesOfGenericSimplicialSurface(simpsurf)[edge] do	# Shift higher vertices down
+				if vertex < el then
+					Append( newEdge, [el] );
+				else
+					Append( newEdge, [el-1] );
+				fi;
+			fi;
+			Append( newEdges, [newEdge] );
+			currentNr := currentNr + 1;
+			replaceEdges[edge] := currentNr;
+		fi;
+	od;
+	newEdgeNr := Length( newEdges );
+
+	# Check all faces
+	newFaces := List( FacesOfGenericSimplicialSurface(simpsurf), face -> List( face, i -> replaceEdges[i] ) );
+	newFaces := Filtered( newFaces, face -> not fail in face);
+	newFaceNr := Length( newFaces );
+
+	return GenericSimplicialSurface( rec(
+		vertexNr := newVertexNr,
+		edgeNr := newEdgeNr,
+		faceNr := newFaceNr,
+		edges := newEdges,
+		faces := newFaces ) );
+end;
 
 
+###############################################################################
+##
+#!  @Description
+#!  This function recursively removes ears of a generic simplicial surface
+#!  <simpsurf>. An ear is a face with one vertex that only lies in that face.
+#!  @Returns a generic simplicial surface without ears.
+#!  @Arguments <simpsurf> a generic simplicial surface
+#!
+SnippOffEarsOfGenericSimplicialSurface := function( simpsurf )
+	local edgesByFaces, face, ear, edgeDegree;
+
+	# Find ears
+	vertexDegree := UnsortedDegreesOfGenericSimplicialSurface( simpsurf );
+	ears := Filtered( [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)], i -> vertexDegree[i] = 1);
+
+	if IsEmpty( ears ) then
+		return simpsurf;
+	fi;
+	
+	# Remove the ears
+	newSurface := simpsurf;
+	for ear in Reversed( ears ) do	# Start with the highest ear so that others are not affected
+		newSurface := RemoveVertexOfGenericSimplicialSurface( newSurface, ear);
+	od;
+
+	# Repeat as needed
+	return SnippOffEarsOfGenericSimplicialSurface( newSurface );
+end;
 
 #############################################################################
 ##
@@ -623,6 +706,11 @@ FaceVertexPathFromGenericSimplicialSurface := function( surf )
 
 end;
 
+
+##############################################################
+## The next methods are used for the conversion from
+## wild simplicial surface to generic simplicial surface
+#############################################################
 
 # Check whether a given vertex ist incident to a given edge
 IsIncidentVertexEdge := function(simpsurf,vertexNumber,edgeColor,edgeNumber)
