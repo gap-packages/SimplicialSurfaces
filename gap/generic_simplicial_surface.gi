@@ -376,6 +376,58 @@ end;
 #############################################################################
 ##
 #!  @Description
+#!  Return the coloured incidence graph of a generic simplicial surface.
+#!	The vertex set of this graph consists of all vertices, edges and faces
+#!	of the generic simplicial surface. All vertices, all edges and all faces
+#!	are in individual colour classes.
+#!  @Returns the coloured incidence graph
+#!  @Arguments <simpsurf>, a generic simplicial surface object as created 
+#!  by GenericSimplicialSurface
+#!
+##
+IncidenceGraphOfGenericSimplicialSurface := function( simpsurf )
+	local graph, vertices, edges, faces, names, colours, incidence, trivialAction;
+
+	if IsBound( simpsurf!.incidenceGraph ) then
+		return simpsurf!.incidenceGraph;
+	fi;
+
+	vertices := List( [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)], i -> [0,i] );
+	edges := List( [1..NrOfEdgesOfGenericSimplicialSurface(simpsurf)], i -> [1,i] );
+	faces := List( [1..NrOfFacesOfGenericSimplicialSurface(simpsurf)], i -> [2,i] );
+
+	names := Union( vertices, edges, faces);
+	colours := [vertices,edges, faces];
+	incidence := function(x,y)
+		if x[1] = 0 and y[1] = 1 then
+			return x[2] in EdgesOfGenericSimplicialSurface(simpsurf)[y[2]];
+		elif x[1] = 1 and y[1] = 0 then
+			return y[2] in EdgesOfGenericSimplicialSurface(simpsurf)[x[2]];
+
+		elif x[1] = 1 and y[1] = 2 then
+			return x[2] in FacesOfGenericSimplicialSurface(simpsurf)[y[2]];
+		elif x[1] = 2 and y[1] = 1 then
+			return y[2] in FacesOfGenericSimplicialSurface(simpsurf)[x[2]];
+
+		else
+			return false;
+		fi;
+	end;
+
+	trivialAction := function( pnt, g )
+		return pnt;
+	end;
+
+	graph := Graph( Group( () ), names, trivialAction, incidence );
+	graph!.colourClasses := colours;
+
+	simpsurf!.incidenceGraph := graph;
+	return graph;
+end;
+
+#############################################################################
+##
+#!  @Description
 #!  Check if a generic simplicial surfaces is connected.
 #!  @Returns true or false
 #!  @Arguments <simpsurf>, a generic simplicial surface object as created 

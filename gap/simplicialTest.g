@@ -147,7 +147,7 @@ end;
 ## This method tests the functionality for the example of a tetrahedron
 ## and the representation of a generic simplicial surface
 TestTetrahedronGeneric := function()
-	local surf, consistency, newSurf;
+	local surf, consistency, newSurf, graph;
 
 	surf := GenericSimplicialSurface( rec( 
 		nrOfVertices := 4,
@@ -204,6 +204,29 @@ TestTetrahedronGeneric := function()
     else
 		Print( "  Passed: Tetrahedron has no ears.\n");
 	fi;
+
+	# Check incidence graph
+	graph := IncidenceGraphOfGenericSimplicialSurface(surf);
+	if not IsGraph(graph) then
+		Print( "Failed: Incidence graph is not a graph.\n");
+	fi;
+	if OrderGraph(graph) <> 14 then
+		Print( "Failed: Number of vertices in incidence graph is wrong.\n");
+	fi;
+	if IsLoopy(graph) then
+		Print( "Failed: Incidence graph should not be loopy.\n");
+	fi;
+	if not IsSimpleGraph(graph) then
+		Print( "Failed: Incidence graph is not simple.\n");
+	fi;
+	if not IsConnectedGraph(graph) then
+		Print( "Failed: Incidence graph is not connected.\n");
+	fi;
+	if not IsBipartite(graph) then
+		Print( "Failed: Incidence graph is not bipartite.\n");
+	fi;
+
+
 
 	newSurf := RemoveVertexOfGenericSimplicialSurface( surf, 1);
 	consistency := IsGenericSimplicialSurfaceSelfConsistent( newSurf );
