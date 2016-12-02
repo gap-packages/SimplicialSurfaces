@@ -1827,52 +1827,8 @@ Print("Warning: Closed paths must repeat starting vertex!!\n");
             
 end);
 
-#############################################################################
-##
-##
-##  A face vertex path is a list of lists. Each sublist describes a face.
-##  Let $f$ be such a sublist. Then the entries in $f$ are the numbers of
-##  the vertices surrounding the face (whose name is the position number 
-##  in the face vertex path) in order. If the 
-
-##  We have to assume that if two faces share a pair of vertices, they
-##  share an edge.
-##
-##
-##     f1         f2       f3
-## [v2,v3,v4] [v2,v3,v4] [v5,v4,v3]
-## [v1,v2],  [e1,e2,e3]
 
 
-#############################################################################
-##
-##  Compute the face vertex path description of a generic simplicial surface
-##
-## [v1,v2],  [e1,e2,e3]
-
-
-FaceVertexPathFromGenericSimplicialSurface := function( surf )
-
-        local fvp, f, fv, e;
-
-		if not IsGenericSimplicialSurfaceRep(surf) then
-            Error("usage: FaceVertexPathFromGenericSimplicialSurface(surf)");
-            return fail;
-        fi;
-
-        fvp := [];
-        
-        for f in FacesOfGenericSimplicialSurface(surf) do
-            fv := Set([]);
-            for e in f do
-                fv := Union(fv, Set( FacesOfGenericSimplicialSurface(surf)[e] ) );
-            od;
-            Add( fvp, fv );
-        od;
-
-        return fvp;
-
-end;
 
 #############################################################################
 ##

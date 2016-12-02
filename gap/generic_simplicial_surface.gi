@@ -718,34 +718,29 @@ end;
 ## [v1,v2],  [e1,e2,e3]
 GenericSimplicialSurfaceFromFaceVertexPath := function( fvp )
 
-        local surf, i, j, edges, faces, newfaces, e;
+	local nrOfFaces, faces,edges,i,newfaces,j,e;
 
-        # The length of fvp is equal to the number of faces
-	surf := [,,Length(fvp)];
+	# The length of fvp is equal to the number of faces
+	nrOfFaces := Length(fvp);
 
 	faces := [1..Length(fvp)];
-        faces := List( faces, i-> Set(Combinations(fvp[i],2)) );
-        edges := Union(faces);
+	faces := List( faces, i -> Set(Combinations( Set(fvp[i]) ,2)) );
+	edges := Union(faces);
 
-        newfaces := List(faces,i->[]);
-        for i in [1..Length(fvp)] do
-            for j  in [1..3] do
-                e := faces[i][j];
-                newfaces[i][j] := Position(edges,e);
-            od;
-        od;
+	newfaces := List(faces,i->[]);
+	for i in [1..Length(fvp)] do
+		for j  in [1..3] do
+				e := faces[i][j];
+			newfaces[i][j] := Position(edges,e);
+		od;
+	od;
 
-        surf[4] := edges;
-        surf[2] := Length(edges);
-        surf[1] := Length(Set(Flat(edges)));
-        surf[5] := newfaces;
-
-        return GenericSimplicialSurface( rec(
-			nrOfVertices := surf[1],
-			nrOfEdges := surf[2],
-			nrOfFaces := surf[3],
-			edges := surf[4],
-			faces := surf[5] ) );
+	return GenericSimplicialSurface( rec(
+		nrOfVertices := Length(Set(Flat(edges))),
+		nrOfEdges := Length(edges),
+		nrOfFaces := nrOfFaces,
+		edges := edges,
+		faces := newfaces ) );
 end;
 
 
@@ -758,15 +753,15 @@ end;
 
 FaceVertexPathFromGenericSimplicialSurface := function( surf )
 
-        local fvp, f, fv, e;
+        local fvp, f, fv, e,facesByVertices;
+
+		facesByVertices := FacesByVerticesOfGenericSimplicialSurface( surf );
 
         fvp := [];
         
-        for f in surf[5] do
-            fv := Set([]);
-            for e in f do
-                fv := Union(fv, Set( surf[4][e] ) );
-            od;
+        for f in facesByVertices do
+			fv := f;
+			Add( fv, fv[1] );
             Add( fvp, fv );
         od;
 
