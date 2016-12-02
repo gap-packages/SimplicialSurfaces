@@ -1,6 +1,6 @@
 ##############################################################################
 ##
-#W  generic_simplicial_surface.gd      Generic Simplicial Surface       Markus Baumeister
+#W  generic_simplicial_surface.gd |Generic Simplicial Surface| Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,
@@ -86,7 +86,8 @@ DeclareGlobalFunction( "VerticesOfGenericSimplicialSurface" );
 ##
 ##
 #!  @Description
-#!  This function returns the number of vertices of a generic simplicial surface.
+#!  This function returns the number of vertices of a generic simplicial 
+#!	surface.
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!

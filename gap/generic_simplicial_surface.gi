@@ -1,7 +1,7 @@
 #########################################################################################
 ##
-#W  generic_simplicial_surface.gi      Generic Simplicial Surface       Alice Niemeyer
-#W																		Markus Baumeister
+#W  generic_simplicial_surface.gi   Generic Simplicial Surface   Alice Niemeyer
+#W															  Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,
@@ -145,7 +145,8 @@ end;
 ##
 ##
 #!  @Description
-#!  This function returns the number of vertices of a generic simplicial surface.
+#!  This function returns the number of vertices of a generic simplicial
+#!	surface.
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
@@ -171,11 +172,13 @@ end;
 #! @Arguments <simpsurf>, a generic simplicial surface
 #!
 FacesByVerticesOfGenericSimplicialSurface := function( simpsurf )
-	local faceList, i, face,intersectingEdges,vertices,j;
+	local faceList, i, face,intersectingEdges,vertices,j,edges;
 
 	if IsBound(simpsurf!.facesByVertices) then
         return simpsurf!.facesByVertices;
     fi;
+
+	edges := EdgesOfGenericSimplicialSurface(simpsurf);
 
 	faceList := [];
 	for i in [1 .. NrOfFacesOfGenericSimplicialSurface(simpsurf)] do
@@ -183,8 +186,8 @@ FacesByVerticesOfGenericSimplicialSurface := function( simpsurf )
 		vertices := [];
 
 		# Intersect first and last edge to obtain first vertex
-		intersectingEdges := Intersection( Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[1]] ),
-				Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[Length(face)]] ) );
+		intersectingEdges := Intersection( Set( edges[face[1]] ), 
+										Set( edges[face[Length(face)]] ) );
 		if Length(intersectingEdges) <> 1 then
        		Error("FacesByVerticesOfGenericSimplicialSurface: Edge intersection is not unique.");
 		fi;
@@ -192,8 +195,8 @@ FacesByVerticesOfGenericSimplicialSurface := function( simpsurf )
 
 		# Continue in the same way for the other edges
 		for j in [2 .. Length(face)] do
-			intersectingEdges := Intersection( Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[j-1]] ),
-				Set( EdgesOfGenericSimplicialSurface(simpsurf)[face[j]] ) );
+			intersectingEdges := Intersection( Set( edges[face[j-1]] ),
+												Set( edges[face[j]] ) );
 			if Length(intersectingEdges) <> 1 then
        			Error("FacesByVerticesOfGenericSimplicialSurface: Edge intersection is not unique.");
 			fi;
@@ -253,25 +256,15 @@ end;
 #!
 UnsortedDegreesOfGenericSimplicialSurface := function(simpsurf)
 
-        local degrees, i, faces,j, deg;
+        local degrees, i, faces,j, deg,vertexNr;
 
 		if IsBound( simpsurf!.UnsortedDegrees ) then
 			return simpsurf!.UnsortedDegrees;
 		fi;
 
-#		degrees := [];
 		faces := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
-		degrees := List( [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)], i -> Number( faces, j -> i in j ) );
-
-#		for i in [1 .. NrOfVerticesOfGenericSimplicialSurface(simpsurf)] do
-#			deg := 0;
-#			for j in [1 .. Length(faces)] do
-#				if i in faces[j] then
-#					deg := deg+1;
-#				fi;
-#			od;
-#			degrees[i] := deg;
-#		od;
+		vertexNr := NrOfVerticesOfGenericSimplicialSurface(simpsurf);
+		degrees := List( [1 .. vertexNr], i -> Number( faces, j -> i in j ) );
 
         simpsurf!.UnsortedDegrees := degrees;
 
@@ -313,22 +306,28 @@ end;
 #!
 ##
 InstallMethod( \=, "for two generic simplicial surfaces", true, 
-  [ IsGenericSimplicialSurfaceRep, IsGenericSimplicialSurfaceRep ], 0,  function( s1, s2 )
+  [ IsGenericSimplicialSurfaceRep, IsGenericSimplicialSurfaceRep ], 0, 
+		function( s1, s2 )
 
-		if NrOfVerticesOfGenericSimplicialSurface(s1) <> NrOfVerticesOfGenericSimplicialSurface(s2) then
+		if NrOfVerticesOfGenericSimplicialSurface(s1) <> 
+			NrOfVerticesOfGenericSimplicialSurface(s2) then
 			return false;
 		fi;
-		if NrOfEdgesOfGenericSimplicialSurface(s1) <> NrOfEdgesOfGenericSimplicialSurface(s2) then
+		if NrOfEdgesOfGenericSimplicialSurface(s1) <> 
+			NrOfEdgesOfGenericSimplicialSurface(s2) then
 			return false;
 		fi;
-		if NrOfFacesOfGenericSimplicialSurface(s1) <> NrOfFacesOfGenericSimplicialSurface(s2) then
+		if NrOfFacesOfGenericSimplicialSurface(s1) <> 
+			NrOfFacesOfGenericSimplicialSurface(s2) then
 			return false;
 		fi;
 
-		if EdgesOfGenericSimplicialSurface(s1) <> EdgesOfGenericSimplicialSurface(s2) then
+		if EdgesOfGenericSimplicialSurface(s1) <> 
+			EdgesOfGenericSimplicialSurface(s2) then
 			return false;
 		fi;
-		if FacesOfGenericSimplicialSurface(s1) <> FacesOfGenericSimplicialSurface(s2) then
+		if FacesOfGenericSimplicialSurface(s1) <> 
+			FacesOfGenericSimplicialSurface(s2) then
 			return false;
 		fi;
 
@@ -386,15 +385,19 @@ end;
 #!
 ##
 IncidenceGraphOfGenericSimplicialSurface := function( simpsurf )
-	local graph, vertices, edges, faces, names, colours, incidence, trivialAction;
+	local graph, vertices, edges, faces, names, colours, incidence, 
+		trivialAction;
 
 	if IsBound( simpsurf!.incidenceGraph ) then
 		return simpsurf!.incidenceGraph;
 	fi;
 
-	vertices := List( [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)], i -> [0,i] );
-	edges := List( [1..NrOfEdgesOfGenericSimplicialSurface(simpsurf)], i -> [1,i] );
-	faces := List( [1..NrOfFacesOfGenericSimplicialSurface(simpsurf)], i -> [2,i] );
+	vertices := List( [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)],
+							i -> [0,i] );
+	edges := List( [1..NrOfEdgesOfGenericSimplicialSurface(simpsurf)], 
+							i -> [1,i] );
+	faces := List( [1..NrOfFacesOfGenericSimplicialSurface(simpsurf)], 
+							i -> [2,i] );
 
 	names := Union( vertices, edges, faces);
 	colours := [vertices,edges, faces];
@@ -529,7 +532,8 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 	edgesByFaces := EdgesByFacesOfGenericSimplicialSurface(simpsurf);
 	facesByVertices := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
 
-	# Method to check if the orientation of a face is induced by that of one of its edges
+	# Method to check if the orientation of a face is induced by that of one of
+	# its edges
 	CompatibleOrientation := function( edgeByVertices, faceByVertices )
 		local pos;
 
@@ -565,7 +569,8 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 		while facesToCheck <> [] and orientable do
 			face := facesToCheck[1];
 			for edge in FacesOfGenericSimplicialSurface(simpsurf)[face] do
-				neighbours := Difference( edgesByFaces[edge], [face] );	# This should be unique (inner edge) or empty (border edge)
+				# This should be unique (inner edge) or empty (border edge)
+				neighbours := Difference( edgesByFaces[edge], [face] );
 				if Size( neighbours ) > 1 then
 					Error( "IsOrientableGenericSimplicialSurface: Not a proper surface.");
 				elif Size( neighbours ) = 0 then
@@ -623,11 +628,13 @@ end;
 #!  This function removes one vertex of a generic simplicial surface
 #!  <simpsurf>, along with all edges and faces that are adjacent to the vertex
 #!  @Returns a generic simplicial surface without the given vertex.
-#!  @Arguments <simpsurf> a generic simplicial surface, <vertex> the vertex to be removed
+#!  @Arguments <simpsurf> a generic simplicial surface, <vertex> the vertex to
+#!		 be removed
 #!
 ##
 RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
-	local newVertexNr, newEdgeNr, newFaceNr, newEdges, newFaces, replaceEdges, currentNr, edge, el, newEdge;
+	local newVertexNr, newEdgeNr, newFaceNr, newEdges, newFaces, replaceEdges, 
+		currentNr, edge, el, newEdge;
 
 	if not vertex in [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)] then
 		Error("RemoveVertexOfGenericSimplicialSurface: The given vertex doesn't lie in the surface.");
@@ -644,7 +651,8 @@ RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
 			replaceEdges[edge] := fail;
 		else
 			newEdge := [];
-			for el in EdgesOfGenericSimplicialSurface(simpsurf)[edge] do	# Shift higher vertices down
+			# Shift higher vertices down
+			for el in EdgesOfGenericSimplicialSurface(simpsurf)[edge] do	
 				if el < vertex then
 					Append( newEdge, [el] );
 				else
@@ -659,7 +667,8 @@ RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
 	newEdgeNr := Length( newEdges );
 
 	# Check all faces
-	newFaces := List( FacesOfGenericSimplicialSurface(simpsurf), face -> List( face, i -> replaceEdges[i] ) );
+	newFaces := List( FacesOfGenericSimplicialSurface(simpsurf), 
+						face -> List( face, i -> replaceEdges[i] ) );
 	newFaces := Filtered( newFaces, face -> not fail in face);
 	newFaceNr := Length( newFaces );
 
@@ -685,7 +694,8 @@ SnippOffEarsOfGenericSimplicialSurface := function( simpsurf )
 
 	# Find ears
 	vertexDegree := UnsortedDegreesOfGenericSimplicialSurface( simpsurf );
-	ears := Filtered( [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)], i -> vertexDegree[i] = 1);
+	ears := Filtered( [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)], 
+							i -> vertexDegree[i] = 1);
 
 	if IsEmpty( ears ) then
 		return simpsurf;
@@ -693,7 +703,8 @@ SnippOffEarsOfGenericSimplicialSurface := function( simpsurf )
 	
 	# Remove the ears
 	newSurface := simpsurf;
-	for ear in Reversed( ears ) do	# Start with the highest ear so that others are not affected
+		# Start with the highest ear so that others are not affected
+	for ear in Reversed( ears ) do	
 		newSurface := RemoveVertexOfGenericSimplicialSurface( newSurface, ear);
 	od;
 
