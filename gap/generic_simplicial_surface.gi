@@ -36,12 +36,21 @@ GenericSimplicialSurfaceType :=
 
 ##
 ##  The constructor GenericSimplicialSurface ensures that the simplicial surface
-##  is  stored inside a GAP object. 
+##  is stored inside a GAP object. 
 ##
 GenericSimplicialSurface :=  function( simpsurf ) 
     
     return Objectify( GenericSimplicialSurfaceType, simpsurf );
 
+end;
+
+GenericSimplicialSurfaceByList := function( list )
+	return GenericSimplicialSurface( rec(
+		nrOfVertices := list[1],
+		nrOfEdges := list[2],
+		nrOfFaces := list[3],
+		edges := list[4],
+		faces := list[5] ) );
 end;
 
 
