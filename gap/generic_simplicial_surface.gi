@@ -428,6 +428,24 @@ end;
 #############################################################################
 ##
 #!  @Description
+#!  Check if two generic simplicial surfaces are isomorphic.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two generic simplicial surface objects as created 
+#!  by GenericSimplicialSurface
+#!
+##
+IsIsomorphicGenericSimplicialSurface := function( s1,s2)
+	local graph1, graph2;
+
+	graph1 := IncidenceGraphOfGenericSimplicialSurface(s1);
+	graph2 := IncidenceGraphOfGenericSimplicialSurface(s2);
+	return IsIsomorphicGraph(graph1,graph2);
+end;
+
+
+#############################################################################
+##
+#!  @Description
 #!  Check if a generic simplicial surfaces is connected.
 #!  @Returns true or false
 #!  @Arguments <simpsurf>, a generic simplicial surface object as created 
