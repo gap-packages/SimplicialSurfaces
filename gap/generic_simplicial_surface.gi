@@ -473,28 +473,18 @@ end;
 #!  @Arguments <simpsurf> a generic simplicial surface
 #!
 IsActualSurfaceGenericSimplicialSurface := function( simpsurf )
-	local edge, face, number, check;
+	local face, edgeByFaces, check;
 
 	if IsBound( simpsurf!.isActualSurface ) then
 		return simpsurf!.isActualSurface;
 	fi;
 
 	check := true;
-	for edge in [1..NrOfEdgesOfGenericSimplicialSurface(simpsurf)] do
-		number := 0;
-		for face in [1..NrOfFacesOfGenericSimplicialSurface(simpsurf)] do
-			if edge in FacesOfGenericSimplicialSurface(simpsurf)[face] then
-				number := number + 1;
-			fi;
-		od;
-		if number > 2 then
-			check := false;
-			break;
-		fi;
-	od; 
+	edgeByFaces := EdgesByFacesOfGenericSimplicialSurface( simpsurf );
+	check := Filtered( edgeByFaces, i -> Length(i) > 2 );
 	
-	simpsurf!.isActualSurface := check;
-	return check;
+	simpsurf!.isActualSurface := IsEmpty(check) ;
+	return simpsurf!.isActualSurface;
 end;
 
 
@@ -557,9 +547,11 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 		while facesToCheck <> [] and orientable do
 			face := facesToCheck[1];
 			for edge in FacesOfGenericSimplicialSurface(simpsurf)[face] do
-				neighbours := Difference( edgesByFaces[edge], [face] );	# This should be unique
-				if Size( neighbours ) <> 1 then
+				neighbours := Difference( edgesByFaces[edge], [face] );	# This should be unique (inner edge) or empty (border edge)
+				if Size( neighbours ) > 1 then
 					Error( "IsOrientableGenericSimplicialSurface: Not a proper surface.");
+				elif Size( neighbours ) = 0 then
+					continue;
 				fi;
 				next := neighbours[1];
 
