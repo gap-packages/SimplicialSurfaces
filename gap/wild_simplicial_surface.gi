@@ -233,6 +233,9 @@ InstallGlobalFunction( FacesOfWildSimplicialSurface, function( simpsurf)
 
 end);
 
+#InstallMethod( Faces, "for a simplicial surfaces", true, 
+#  [ IsWildSimplicialSurfaceRep ], 0,  FacesOfWildSimplicialSurface);
+
 #############################################################################
 ##
 ##

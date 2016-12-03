@@ -23,12 +23,14 @@ DeclareCategory( "IsSimplicialSurface", IsComponentObjectRep );
 
 
 
-DeclareOperation( "Vertices", IsSimplicialSurface );
-DeclareOperation( "NrOfVertices", IsSimplicialSurface );
-DeclareOperation( "Edges", IsSimplicialSurface );
-DeclareOperation( "NrOfEdges", IsSimplicialSurface );
-DeclareOperation( "Faces", IsSimplicialSurface );
-DeclareOperation( "NrOfFaces", IsSimplicialSurface );
+DeclareOperation( "Vertices", [IsSimplicialSurface] );
+DeclareOperation( "NrOfVertices", [IsSimplicialSurface] );
+DeclareOperation( "Edges", [IsSimplicialSurface] );
+DeclareOperation( "NrOfEdges", [IsSimplicialSurface] );
+DeclareOperation( "Faces", [IsSimplicialSurface] );
+DeclareOperation( "NrOfFaces", [IsSimplicialSurface] );
+
+DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
 #############################################################################
 ##
