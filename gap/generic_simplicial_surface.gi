@@ -21,18 +21,7 @@
 ##		The order or these three edges defines the orientation of this face.
 ##
 
-DeclareInfoClass( "InfoSimplicial" );
-SetInfoLevel(InfoSimplicial,1);
 
-
-
-DeclareRepresentation("IsGenericSimplicialSurfaceRep", IsComponentObjectRep,
-     ["nrOfVertices","nrOfEdges","nrOfFaces", "edges", "faces"]);
-
-# From now on, we can do "Objectify( SimplicialSurfaceType, re )" 
-# for any list re
-GenericSimplicialSurfaceType := 
-    NewType( SimplicialSurfaceFamily, IsGenericSimplicialSurfaceRep );
 
 ##
 ##  The constructor GenericSimplicialSurface ensures that the simplicial surface
@@ -44,14 +33,20 @@ GenericSimplicialSurface :=  function( simpsurf )
 
 end;
 
-GenericSimplicialSurfaceByList := function( list )
+##
+## Constructor that uses a list to initialize.
+##
+InstallGlobalFunction( GenericSimplicialSurfaceByList,
+function( list )
 	return GenericSimplicialSurface( rec(
 		nrOfVertices := list[1],
 		nrOfEdges := list[2],
 		nrOfFaces := list[3],
 		edges := list[4],
 		faces := list[5] ) );
-end;
+end
+);
+
 
 
 #############################################################################
@@ -192,7 +187,8 @@ end
 #! contained vertices.
 #! @Arguments <simpsurf>, a generic simplicial surface
 #!
-FacesByVerticesOfGenericSimplicialSurface := function( simpsurf )
+InstallGlobalFunction( FacesByVerticesOfGenericSimplicialSurface,
+function( simpsurf )
 	local faceList, i, face,intersectingEdges,vertices,j,edges;
 
 	if IsBound(simpsurf!.facesByVertices) then
@@ -229,7 +225,8 @@ FacesByVerticesOfGenericSimplicialSurface := function( simpsurf )
 
 	simpsurf!.facesByVertices := faceList;
 	return faceList;
-end;
+end
+);
 
 
 ############################################################################
@@ -241,7 +238,8 @@ end;
 #! adjacent faces.
 #! @Arguments <simpsurf>, a generic simplicial surface
 #!
-EdgesByFacesOfGenericSimplicialSurface := function( simpsurf )
+InstallGlobalFunction( EdgesByFacesOfGenericSimplicialSurface,
+function( simpsurf )
 	local edgeList, edge, faceSet, face;
 
 	if IsBound( simpsurf!.edgesByFaces ) then
@@ -261,7 +259,8 @@ EdgesByFacesOfGenericSimplicialSurface := function( simpsurf )
 
 	simpsurf!.edgesByFaces := edgeList;
 	return simpsurf!.edgesByFaces;
-end;
+end
+);
 
 
 #############################################################################
@@ -275,7 +274,8 @@ end;
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
 #!  by SimplicialSurface
 #!
-UnsortedDegreesOfGenericSimplicialSurface := function(simpsurf)
+InstallGlobalFunction( UnsortedDegreesOfGenericSimplicialSurface,
+function(simpsurf)
 
         local degrees, i, faces,j, deg,vertexNr;
 
@@ -290,7 +290,8 @@ UnsortedDegreesOfGenericSimplicialSurface := function(simpsurf)
         simpsurf!.UnsortedDegrees := degrees;
 
         return degrees;
-end;
+end
+);
 
 #############################################################################
 ##
@@ -303,7 +304,8 @@ end;
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
 #!  by SimplicialSurface
 #!
-SortedDegreesOfGenericSimplicialSurface := function(simpsurf)
+InstallGlobalFunction( SortedDegreesOfGenericSimplicialSurface,
+function(simpsurf)
 		local degrees;
 
 		if IsBound( simpsurf!.SortedDegrees) then
@@ -314,13 +316,14 @@ SortedDegreesOfGenericSimplicialSurface := function(simpsurf)
 		Sort( degrees );
 		simpsurf!.SortedDegrees := degrees;
         return degrees;
-end;
+end
+);
 
 
 #############################################################################
 ##
 #!  @Description
-#!  Check if to generic simplicial surfaces are equal.
+#!  Check if two generic simplicial surfaces are equal.
 #!  @Returns true or false
 #!  @Arguments <s1>, <s2>, two generic simplicial surface objects as created 
 #!  by SimplicialSurface
@@ -378,6 +381,10 @@ PrintGenericSimplicialSurface := function(simpsurf)
         Print(simpsurf!.faces, "));\n");
 end;
 
+InstallMethod( PrintObj, "for GenericSimplicialSurface", true, 
+               	[ IsGenericSimplicialSurfaceRep ], 0, 
+				PrintGenericSimplicialSurface );
+
 
 #############################################################################
 ##
@@ -393,6 +400,10 @@ DisplayGenericSimplicialSurface := function(simpsurf)
 
 end;
 
+InstallMethod( Display, "for GenericSimplicialSurfaces", true, 
+                   [IsGenericSimplicialSurfaceRep], 0, 
+					DisplayGenericSimplicialSurface );
+
 #############################################################################
 ##
 #!  @Description
@@ -405,7 +416,8 @@ end;
 #!  by GenericSimplicialSurface
 #!
 ##
-IncidenceGraphOfGenericSimplicialSurface := function( simpsurf )
+InstallGlobalFunction( IncidenceGraphOfGenericSimplicialSurface,
+function( simpsurf )
 	local graph, vertices, edges, faces, names, colours, incidence, 
 		trivialAction;
 
@@ -447,7 +459,8 @@ IncidenceGraphOfGenericSimplicialSurface := function( simpsurf )
 
 	simpsurf!.incidenceGraph := graph;
 	return graph;
-end;
+end
+);
 
 #############################################################################
 ##
@@ -458,13 +471,15 @@ end;
 #!  by GenericSimplicialSurface
 #!
 ##
-IsIsomorphicGenericSimplicialSurface := function( s1,s2)
+InstallGlobalFunction( IsIsomorphicGenericSimplicialSurface,
+function( s1,s2)
 	local graph1, graph2;
 
 	graph1 := IncidenceGraphOfGenericSimplicialSurface(s1);
 	graph2 := IncidenceGraphOfGenericSimplicialSurface(s2);
 	return IsIsomorphicGraph(graph1,graph2);
-end;
+end
+);
 
 
 #############################################################################
@@ -476,7 +491,8 @@ end;
 #!  by GenericSimplicialSurface
 #!
 ##
-IsConnectedGenericSimplicialSurface := function(simpsurf)
+InstallGlobalFunction( IsConnectedGenericSimplicialSurface,
+function(simpsurf)
 	local faces, faceList, points, change, faceNr;
 
 	if IsBound( simpsurf!.isConnected ) then 
@@ -503,7 +519,8 @@ IsConnectedGenericSimplicialSurface := function(simpsurf)
 	simpsurf!.isConnected := IsEmpty( faces );
 
 	return simpsurf!.isConnected;
-end;
+end
+);
 
 
 ###############################################################################
@@ -514,7 +531,8 @@ end;
 #!  @Returns true if it is a surface and false else.
 #!  @Arguments <simpsurf> a generic simplicial surface
 #!
-IsActualSurfaceGenericSimplicialSurface := function( simpsurf )
+InstallGlobalFunction( IsActualSurfaceGenericSimplicialSurface,
+function( simpsurf )
 	local face, edgeByFaces, check;
 
 	if IsBound( simpsurf!.isActualSurface ) then
@@ -527,7 +545,8 @@ IsActualSurfaceGenericSimplicialSurface := function( simpsurf )
 	
 	simpsurf!.isActualSurface := IsEmpty(check) ;
 	return simpsurf!.isActualSurface;
-end;
+end
+);
 
 
 ###############################################################################
@@ -655,7 +674,8 @@ end
 #!		 be removed
 #!
 ##
-RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
+InstallGlobalFunction( RemoveVertexOfGenericSimplicialSurface,
+function( simpsurf, vertex )
 	local newVertexNr, newEdgeNr, newFaceNr, newEdges, newFaces, replaceEdges, 
 		currentNr, edge, el, newEdge;
 
@@ -701,7 +721,8 @@ RemoveVertexOfGenericSimplicialSurface := function( simpsurf, vertex )
 		nrOfFaces := newFaceNr,
 		edges := newEdges,
 		faces := newFaces ) );
-end;
+end
+);
 
 
 ###############################################################################
@@ -712,7 +733,8 @@ end;
 #!  @Returns a generic simplicial surface without ears.
 #!  @Arguments <simpsurf> a generic simplicial surface
 #!
-SnippOffEarsOfGenericSimplicialSurface := function( simpsurf )
+InstallGlobalFunction( SnippOffEarsOfGenericSimplicialSurface,
+function( simpsurf )
 	local vertexDegree, ears, newSurface, ear;
 
 	# Find ears
@@ -733,7 +755,8 @@ SnippOffEarsOfGenericSimplicialSurface := function( simpsurf )
 
 	# Repeat as needed
 	return SnippOffEarsOfGenericSimplicialSurface( newSurface );
-end;
+end
+);
 
 #############################################################################
 ##
@@ -750,7 +773,8 @@ end;
 ##     f1         f2       f3
 ## [v2,v3,v4] [v2,v3,v4] [v5,v4,v3]
 ## [v1,v2],  [e1,e2,e3]
-GenericSimplicialSurfaceFromFaceVertexPath := function( fvp )
+InstallGlobalFunction( GenericSimplicialSurfaceFromFaceVertexPath,
+function( fvp )
 
 	local nrOfFaces, faces,edges,i,newfaces,j,e;
 
@@ -775,7 +799,8 @@ GenericSimplicialSurfaceFromFaceVertexPath := function( fvp )
 		nrOfFaces := nrOfFaces,
 		edges := edges,
 		faces := newfaces ) );
-end;
+end
+);
 
 
 #############################################################################
@@ -785,7 +810,8 @@ end;
 ## [v1,v2],  [e1,e2,e3]
 
 
-FaceVertexPathFromGenericSimplicialSurface := function( surf )
+InstallGlobalFunction( FaceVertexPathFromGenericSimplicialSurface,
+function( surf )
 
         local fvp, f, fv, e,facesByVertices;
 
@@ -801,7 +827,8 @@ FaceVertexPathFromGenericSimplicialSurface := function( surf )
 
         return fvp;
 
-end;
+end
+);
 
 
 ##############################################################
@@ -852,7 +879,7 @@ end;
 
 # Convert the simplicial surface data structure to a generic simplicial surface
 # WARNING! It is instrumental at this point that the faces are numbered 1,2,...,f
-GenericSimplicialSurfaceFromWildSimplicialSurface := 
+InstallGlobalFunction( GenericSimplicialSurfaceFromWildSimplicialSurface,
     function( simpsurf )
 	local erg, edges, edgeColor, edgeNumber, pos, faces, faceNumber, 
           edgesInFace, sedges;
@@ -907,6 +934,7 @@ GenericSimplicialSurfaceFromWildSimplicialSurface :=
 		nrOfFaces := erg[3],
 		edges := erg[4],
 		faces := erg[5] ) );
-end;
+end
+);
 
 

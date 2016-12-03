@@ -8,20 +8,48 @@
 ##
 ##  This file is free software, see license information at the end.
 ##
-##  This file contains the declaration part of the Simplicial package.
+##  This file contains the declaration part for generic simplicial surfaces
+##	of the simplicial_surfaces package.
 ##
+##
+
+DeclareInfoClass( "InfoSimplicial" );
+SetInfoLevel(InfoSimplicial,1);
+
 
 #############################################################################
 ##
 #!  @Chapter Generic Simplicial Surfaces
 ##
-#!  A simplicial surface is called **generic** if it is given in the
-#!  following form ... 
+#!  A simplicial surface is called **generic** if it is given by the
+#!  following data:
+#!	1) The number of vertices
+#!	2) The number of edges
+#!	3) The number of faces
+#!	4) For each edge: A list of the two incident vertices
+#!	5) For each face: A list of the three indicent edges
+#!		The order or these three edges defines the orientation of this face.
 #!
 #!
 
-DeclareInfoClass( "InfoSimplicial" );
-SetInfoLevel(InfoSimplicial,1);
+##
+##	Declare the representation of generic simplicial surfaces.
+##
+##	Note: We depart from the usual convention to put this declaration into
+##		the .gi-file (compare section 79.19 of the GAP-manual) as it is
+##		instrumental to know this representation to work with this package.
+##
+DeclareRepresentation("IsGenericSimplicialSurfaceRep", IsComponentObjectRep,
+     ["nrOfVertices","nrOfEdges","nrOfFaces", "edges", "faces"]);
+
+## From now on, we can do "Objectify( SimplicialSurfaceType, re )" 
+## for any list re
+GenericSimplicialSurfaceType := 
+    NewType( SimplicialSurfaceFamily, IsGenericSimplicialSurfaceRep );
+
+## Constructor
+DeclareGlobalFunction( "GenericSimplicialSurfaceByList" );
+
 
 
 #############################################################################
@@ -37,7 +65,8 @@ SetInfoLevel(InfoSimplicial,1);
 ##
 #!  @Description
 #!  This function returns the list of faces of a generic simplicial surface.
-#!  Each face of the surface is represented by a number $f$.
+#!  Each face of the surface is represented by a list of the edges that lie
+#!	in this face.
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
@@ -56,8 +85,8 @@ DeclareGlobalFunction( "NrOfFacesOfGenericSimplicialSurface" );
 ##
 #!  @Description
 #!  This function returns the list of edges of a generic simplicial surface.
-#!  Each edge of the surface is represented by a pair of numbers $[f_1,f_2]$,
-#!  where $f_1$ and $f_2$ are faces that are incident to the edge $[f_1,f_2]$.
+#!  Each edge of the surface is represented by a pair of numbers $[v_1,v_2]$,
+#!  where $v_1$ and $v_2$ are vertices that are incident to the edge.
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
@@ -76,7 +105,7 @@ DeclareGlobalFunction( "NrOfEdgesOfGenericSimplicialSurface" );
 ##
 #!  @Description
 #!  This function returns the list of vertices of a generic simplicial surface.
-#!  Each vertex of the simplicial surface is represented by a vertex 
+#!  Each vertex of the simplicial surface is represented by a number $v$. 
 #!  defining path.
 #!  @Returns a list
 #!  @Arguments simpsurf
@@ -96,13 +125,48 @@ DeclareGlobalFunction( "NrOfVerticesOfGenericSimplicialSurface" );
 ##
 ##
 #!  @Description
+#!  This function returns the faces of a generic simplicial surface in the
+#!	following form: Each face is represented as a list of the vertices that
+#!	lie in this face.
+#!  @Returns an integer
+#!  @Arguments simpsurf
+#!
+DeclareGlobalFunction( "FacesByVerticesOfGenericSimplicialSurface" );
+#############################################################################
+##
+##
+#!  @Description
+#!  This function returns the edges of a generic simplicial surface in the
+#!	following form: Each edge is represented by the list of all faces that
+#!	are incident to this edge (this does not determine these edges uniquely).
+#!  @Returns an integer
+#!  @Arguments simpsurf
+#!
+DeclareGlobalFunction( "EdgesByFacesOfGenericSimplicialSurface" );
+
+
+#############################################################################
+##
+##
+#!  @Description
 #!  This function takes as input a simplicial surface and returns a list of 
 #!  integers, one for each vertex. The integer for a vertex is the degree of 
-#!  this vertex.
+#!  this vertex. This list is ordered exactly like the vertex set.
 #!  @Returns list
 #!  @Arguments simpsurf
 #!
-#DeclareGlobalFunction( "DegreesOfGenericSimplicialSurface" );
+DeclareGlobalFunction( "UnsortedDegreesOfGenericSimplicialSurface" );
+#############################################################################
+##
+##
+#!  @Description
+#!  This function takes as input a simplicial surface and returns a list of 
+#!  integers, one for each vertex. The integer for a vertex is the degree of 
+#!  this vertex. This list is sorted.
+#!  @Returns list
+#!  @Arguments simpsurf
+#!
+DeclareGlobalFunction( "SortedDegreesOfGenericSimplicialSurface" );
 
 
 #############################################################################
@@ -113,7 +177,100 @@ DeclareGlobalFunction( "NrOfVerticesOfGenericSimplicialSurface" );
 #!
 #!
 
+#############################################################################
+##
+##
+#!  @Description
+#!  This function takes as input a generic simplicial surface and returns if
+#!  this surface is orientable (it has to be an actual surface).
+#!  @Returns true if surface is orientable, false otherwise
+#!  @Arguments simpsurf
+#!
 DeclareGlobalFunction( "IsOrientableGenericSimplicialSurface" );
+
+#############################################################################
+##
+##
+#!  @Description
+#!  Return the coloured incidence graph of a generic simplicial surface.
+#!	The vertex set of this graph consists of all vertices, edges and faces
+#!	of the generic simplicial surface. All vertices, all edges and all faces
+#!	are in individual colour classes.
+#!  @Returns the coloured incidence graph
+#!  @Arguments simpsurf
+#!
+DeclareGlobalFunction( "IncidenceGraphOfGenericSimplicialSurface" );
+
+#############################################################################
+##
+#!  @Description
+#!  Check if two generic simplicial surfaces are isomorphic.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two generic simplicial surface objects as created 
+#!  by GenericSimplicialSurface
+#!
+##
+DeclareGlobalFunction( "IsIsomorphicGenericSimplicialSurface" );
+
+#############################################################################
+##
+#!  @Description
+#!  Check if a generic simplicial surfaces is connected.
+#!  @Returns true or false
+#!  @Arguments <simpsurf>, a generic simplicial surface object as created 
+#!  by GenericSimplicialSurface
+#!
+##
+DeclareGlobalFunction( "IsConnectedGenericSimplicialSurface" );
+
+###############################################################################
+##
+#!  @Description
+#!  This function checks whether the generic simplicial surface is an actual
+#!	surface. It is, if every edge lies in at most two faces.
+#!  @Returns true if it is a surface and false else.
+#!  @Arguments <simpsurf> a generic simplicial surface
+#!
+DeclareGlobalFunction( "IsActualSurfaceGenericSimplicialSurface" );
+
+
+
+###############################################################################
+##
+#!  @Description
+#!  This function removes one vertex of a generic simplicial surface
+#!  <simpsurf>, along with all edges and faces that are adjacent to the vertex
+#!  @Returns a generic simplicial surface without the given vertex.
+#!  @Arguments <simpsurf> a generic simplicial surface, <vertex> the vertex to
+#!		 be removed
+#!
+##
+DeclareGlobalFunction( "RemoveVertexOfGenericSimplicialSurface" );
+
+###############################################################################
+##
+#!  @Description
+#!  This function recursively removes ears of a generic simplicial surface
+#!  <simpsurf>. An ear is a face with one vertex that only lies in that face.
+#!  @Returns a generic simplicial surface without ears.
+#!  @Arguments <simpsurf> a generic simplicial surface
+#!
+DeclareGlobalFunction( "SnippOffEarsOfGenericSimplicialSurface" );
+
+
+
+#############################################################################
+##
+##
+#!  @Section Conversion functions for Generic Simplicial Surfaces
+#!
+#!
+#!
+
+DeclareGlobalFunction( "GenericSimplicialSurfaceFromFaceVertexPath" );
+DeclareGlobalFunction( "FaceVertexPathFromGenericSimplicialSurface" );
+DeclareGlobalFunction( "GenericSimplicialSurfaceFromWildSimplicialSurface" );
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
