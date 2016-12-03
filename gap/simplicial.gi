@@ -439,7 +439,7 @@ end);
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
 #!  by SimplicialSurface
 #!
-InstallGlobalFunction( EulerCharacteristic, function (simpsurf) #TODO As soon as this also works for generic simplicial surfaces: Activate the corresponding tests in simplicialTest.g
+InstallGlobalFunction( EulerCharacteristic, function (simpsurf)
 
     local chi;
 
@@ -1828,6 +1828,128 @@ Print("Warning: Closed paths must repeat starting vertex!!\n");
 end);
 
 
+#############################################################################
+##
+##
+##  A face vertex path is a list of lists. Each sublist describes a face.
+##  Let $f$ be such a sublist. Then the entries in $f$ are the numbers of
+##  the vertices surrounding the face (whose name is the position number 
+##  in the face vertex path) in order. If the 
+
+##  We have to assume that if two faces share a pair of vertices, they
+##  share an edge.
+##
+##
+##     f1         f2       f3
+## [v2,v3,v4] [v2,v3,v4] [v5,v4,v3]
+## [v1,v2],  [e1,e2,e3]
+
+
+#############################################################################
+##
+##
+## [v1,v2],  [e1,e2,e3]
+
+
+FaceVertexPathFromGenericSurface := function( surf )
+
+        local fvp, f, fv, e;
+
+        fvp := [];
+        
+            fv := Set([]);
+            for e in f do
+            od;
+            Add( fvp, fv );
+        od;
+
+        return fvp;
+
+end;
+
+
+
+# find one face with edges e1 and e2
+# note that there may be several faces with edges e1 and e2,
+# e.g. the Janus Head.
+FaceWithEdges := function(surf, e1, e2 )
+            local i;
+
+            for i in [ 1 .. Length(surf[5]) ] do
+                if Length(Intersection( surf[5][i], [e1,e2]))=2 then
+                    # we found a face with the edges e1 and e2
+                    return i;
+                fi;
+            od;
+            return false;
+end;
+
+AllFacesWithEdges := function(surf, e1, e2 )
+        local i;
+
+        return Filtered( surf[5], f-> Length(Intersection(f,[e1,e2]))=2);
+
+end;
+
+
+# Find the numbers of all faces incident to e
+# here e is an edge number
+Faces := function(surf, e)
+            local i, f;
+
+            f := [];
+            for i in [ 1 .. Length(surf[5]) ] do
+                    if e in  surf[5][i] then
+                        # we found a face incident to e
+                        Add(f, i);
+                    fi;
+            od;
+            return f;
+end;
+
+
+# find the face incident to v on the other side of 
+# edge e from face f1 and return this face and the next
+# edge incident to v
+NextFaceEdge := function(surf, e1,f1,incident)
+
+                local f2, fa, e;
+
+                f2 := Faces(surf, e1); # numbers of faces incident to e1
+                if Length(f2) = 0 then return false; fi;
+
+                # if there is only one face f1 incident to e then
+                # e is a boundary edge, so return 0
+                if Length(f2) = 1 then return 0; fi;
+
+                # find face on the other side of edge e1
+                RemoveSet(f2, f1);
+                fa := surf[5][f2[1]]; # e.g. [e1, e2, e4]
+
+                # now find the edges incident to face fa
+                e := Set(ShallowCopy( fa )); # e.g. [e1, e3, e6]
+                RemoveSet(e,e1);  # e.g. [e5,e6]
+                # check which are incident to vertex v
+                e := Intersection( e, incident);
+                if Length(e) <> 1 then Error("found no edge"); fi;
+                
+                return [f2[1],e[1]];
+end;
+
+
+# find the neighbouring face along the edge e
+NeighbouringFace := function( surf, f, e )
+
+         local neigh;
+
+         neigh := Faces(surf, e); # face numbers of neighbouring faces
+         neigh := Difference(neigh, [f] );
+         if Length(neigh)=0 then
+             return f; # e is a boundary edge
+         else
+             return neigh[1]; # the face on the other side of e
+         fi;
+end;
 
 
 #############################################################################
@@ -1860,20 +1982,14 @@ end);
 #!  a  wild colouring, then the wild coloured simplicial surfaces description
 #!  is returned. Otherwise the function returns fail.
 #!  @Arguments a list of lists, representing a ``generic"-description of a surface
-InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surface)
 ## TODO: Clean up local variables here!
 ##
+## TODO: FaceWithEdges wrong call?
+InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
 
         local simpsurf, pair, x, y, edges, faces, vertices, e, f1, f2, e1, e2,
-              FaceWithEdges, Faces, Edges, NextFaceEdge, boundary1, j, g,surf,
               fa, i, v, f, vtx, facepairs, incident, gens, allsurf, newvertices;
 
-		surf := [ 
-				NrOfVerticesOfGenericSimplicialSurface(surface),
-				NrOfEdgesOfGenericSimplicialSurface(surface),
-				NrOfFacesOfGenericSimplicialSurface(surface),
-				EdgesOfGenericSimplicialSurface(surface),
-				FacesOfGenericSimplicialSurface(surface) ];
 
         # find one face with edges e1 and e2
         # note that there may be several faces with edges e1 and e2,
@@ -2003,6 +2119,7 @@ InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surfac
                 Add(vtx,f);
                 # find all faces that have edge e1
                 f2 := NextFaceEdge(e1,f,incident);
+                f2 := NextFaceEdge(surf,e1,f,incident);
                 boundary1 := false;
                 while f2 <> false do
                     if f2 = 0 then
@@ -2024,6 +2141,7 @@ InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surfac
                          fi;
                       fi;
                       f2 := NextFaceEdge(f2[2],f2[1],incident);
+                      f2 := NextFaceEdge(surf,f2[2],f2[1],incident);
                   od;
                   Add( vertices, vtx);                                  
             fi;
@@ -2288,14 +2406,321 @@ InstallGlobalFunction( SixFoldCover, function( arg )
 end);
 
 
+
 #############################################################################
+##
+#!   @Description
+#!   The function CommonCover takes as input a generic description of
+#!   a simplicial surface.  The common cover of a simplicial surface is
+#!   the following surface.
+#!   If f is a face of the original face with edge numbers e_a, e_b and
+#!   e_c, then the face is covered by the six faces of the form
+#!   (f, e1, e2, e3), for which {e1, e2, e3}  = {e_a, e_b, e_c}.
+#!   See Proposition 3.XX in the paper.
+#!   @Arguments
+#!
+#!   If the optional argument mrtype is given, it has to be a list of length 
+#!   3 and each entry has to be  $1$, or $2$. In this case the six fold cover 
+#!   will treat the position $i$ for $i\in\{1,2,3\}$ of the three
+#!   edges around a faces either as a   reflection (mirror), if the entry 
+#!   in position $i$ of mrtype is 1, or as a rotation, if the entry in 
+#!   position $i$ is 2. That is, the cover surface is generated by three
+#!   transpositions $\sigma_i$ for $i=1,2,3$. For $i=1$, suppose $f$ and 
+#!   $f'$ are facese of the surface surf such that the edges of $f$ are 
+#!   $e_1, e_2$  and $e_3$ and the edges of $f'$ are  $e_1, e_a, e_b$ are 
+#!   the edges $e_1, e_2$ and $e_a$ interesct in a common vertex and 
+#!   the edges $e_1, e_3$ and $e_b$ interesct in a common vertex.
+#!   For $i=1$ and  mrtype of position $1$ being  mirror (i.e. $1$), then 
+#!   $$\sigma_1(f,e_1,e_2,e_3) = (f', e_1, e_a, e_b),$$ whereas if the 
+#!   mrtype of position $1$ is a reflection (i.e. $2$), then 
+#!   $$\sigma_1(f,e_1,e_2,e_3) = (f', e_1, e_b, e_a).$$ The definition
+#!   of $\sigma_2$ and $\sigma_3$ are analogous, with $e_2$, respectively
+#!   $e_3$ taking the role of the common edge $e_1.$
+#!
+#!   
+#!   If the optional argument mredges is given, and mredges is a list of 
+#!   length equal to the number of edges of the surface **surf** and an
+#!   entry for an edge e is either 1 or 2. If the entry is 1 then 
+#!   the six fold cover will treat the edge as a reflection (mirror) and 
+#!   if the entry is 2  then the edge is treated as a rotation. 
+#!
+#!   The common cover is always a wild colourable simplicial surface.
+#!   @Returns a wild coloured simplicial surface
+#!   @Arguments surface, mrtype, bool
+#!   if bool is true or not given, the mrtype specifies the behaviour of 
+#!   the $\sigma_i$, if bool is false, the mrtype specifies the behaviour
+#!   of the edges.
+#!
+#InstallGlobalFunction( CommonCover, function( arg )
+CommonCover :=  function( arg )
+
+      local Vertex, IsIncident, Faces, IsMirror, surfX, surfY, mrX, mrY,
+            facesX, facesY, facesCC, edgesX, edgesY, verticesX, verticesY,
+            gens, g, fX, fY, ImageEdge, EdgesOfFaceCC, considered,
+            cover, edgesCC, phi, edgesUsed, mrCC, verticesCC, nvtx, i, j,
+            seenphi, allphi, vtx,  psi, e, f, LiftedEdgeOfFaceCC, vtxpaths;
+
+
+      Vertex := function(surf, e)
+          return Set(surf[4][e]);
+      end;
+
+      IsIncident := function(surf, e1, e2, e3)
+
+          local inter;
+
+          inter := Intersection(Vertex(surf, e1), Vertex(surf, e2));
+          if Size(Intersection( inter, Vertex(surf,e3) ) ) > 0 then
+              return true;
+          fi;
+          return false;
+      end;
+
+      # Find the numbers of all faces incident to e
+      # here e is an edge number
+      Faces := function(surf, e)
+                local i, f;
+
+                f := [];
+                for i in [ 1 .. Length(surf[5]) ] do
+                    if e in  surf[5][i] then
+                        # we found a face incident to e
+                        Add(f, i);
+                    fi;
+                od;
+                return f;
+        end;
+
+
+
+        if Length(arg) < 1 or Length(arg) > 4 then 
+            Error("CommonCover( <surf>[, <mrtype>, <bool>] )");
+            return;
+        fi;
+
+        surfX := arg[1];
+        mrX   := arg[2];
+        surfY := arg[3];
+        mrY   := arg[4];
+
+        facesX := surfX[5];
+        edgesX := surfX[4];
+        facesY := surfY[5];
+        edgesY := surfY[4];
+        verticesX := [1..surfX[1]];
+
+        # need to compute the image of edge e under the 
+        # face phi of the cover
+        ImageEdge := function( phi, e )
+            local g, f, i;
+            f := facesX[phi[1]]; # the three edge numbers
+            i := Position(f,e);
+            if i = fail then Error("edge not in face"); return fail; fi;
+            return phi[3][i];
+         end;
+ 
+         # lift the edge e of phi[1] to an edge of phi
+         LiftedEdgeOfFaceCC := function(phi,mrX,mrY,e)
+             local f1, f1N, f2, f2N,  eim, e23, eim23, 
+                   i, j, d, a, b, psi, edges, aim, bim;
+
+                 f1 := phi[1]; # the face F
+                 f2 := phi[2]; # the face F'
+                 i := Position(facesX[f1],e);
+                 e23 := facesX[f1]{Difference([1,2,3],[i])}; # the other 2
+                 eim23 := phi[3]{Difference([1,2,3],[i])}; # the other 2 images
+                 # note that we ensured that e23[t] |->	    eim23[t] for t=1,2
+                 eim := phi[3][i]; # the image
+
+                 f1N := NeighbouringFace( surfX, f1, e );
+                 f2N := NeighbouringFace( surfY,  f2, eim );
+                 if f1N=fail or f2N=fail then
+                     Error("something wrong"); return fail;
+                 fi;
+                 psi := [f1N, f2N, []];
+                 j := Position(facesX[f1N],e);
+                 psi[3][j] := eim;
+                 if mrX[e] = mrX[eim] then
+                     # then we mirror
+                     j := Position(facesX[f1N],e);
+                     # other 2 edges of f1N
+                     d := facesX[f1N]{Difference([1,2,3],[j])}; 
+                     if IsIncident(surfX, d[1],e, e23[1]) then
+                        a := d[1]; b := d[2];
+                     else
+                        a := d[2]; b := d[1];
+                     fi;
+                     j := Position(facesY[f2N],eim);
+                     # other 2 edges of f2N
+                     d := facesY[f2N]{Difference([1,2,3],[j])};
+                     if IsIncident(surfY, d[1], eim, eim23[1]) then
+                        aim := d[1]; bim := d[2];
+                     else
+                        aim := d[2]; bim := d[1];
+                     fi;
+                     psi[3][Position(facesX[f1N],a)] := aim;
+                     psi[3][Position(facesX[f1N],b)] := bim;
+                  else
+		      Error("not yet implemented");
+                  fi;
+                  # the edge is the two-cycle (phi, psi)
+                  return Position( edgesCC, (Position(facesCC,phi),Position(facesCC,psi)));
+         end;
+
+
+         # suppose mrX and mrY are the mr-assignments for X and Y
+         EdgesOfFaceCC := function(phi, mrX, mrY, considered)
+             local f1, f1N, f2, f2N, e, eim, e23, eim23, 
+                   i, j, d, a, b, psi, edges, aim, bim;
+
+
+             f1 := phi[1]; # the face F
+             f2 := phi[2]; # the face F'
+             for i in [1..Length(facesX[f1])] do
+                 e := facesX[f1][i]; # the edge we use
+                 e23 := facesX[f1]{Difference([1,2,3],[i])}; # the other 2
+                 eim23 := phi[3]{Difference([1,2,3],[i])}; # other 2 images
+                 # note that we ensured that 
+                 # e23[t] |-> eim23[t] for t=1,2
+                 eim := phi[3][i]; # the image
+
+                 f1N := NeighbouringFace( surfX, f1, e );
+                 f2N := NeighbouringFace( surfY,  f2, eim );
+                 if f1N=fail or f2N=fail then
+                     Error("something wrong"); return fail;
+                 fi;
+                 psi := [f1N, f2N, []];
+                 j := Position(facesX[f1N],e);
+                 psi[3][j] := eim;
+                 if mrX[e] = mrX[eim] then
+                     # then we mirror
+                     j := Position(facesX[f1N],e);
+                     # other 2 edges of f1N
+                     d := facesX[f1N]{Difference([1,2,3],[j])}; 
+#Error("1");
+                     if IsIncident(surfX, d[1],e, e23[1]) then
+                        a := d[1]; b := d[2];
+                     else
+                        a := d[2]; b := d[1];
+                     fi;
+#Error("2");
+                     j := Position(facesY[f2N],eim);
+                     # other 2 edges of f2N
+                     d := facesY[f2N]{Difference([1,2,3],[j])};
+                     if IsIncident(surfY, d[1], eim, eim23[1]) then
+                        aim := d[1]; bim := d[2];
+                     else
+                        aim := d[2]; bim := d[1];
+                     fi;
+                     psi[3][Position(facesX[f1N],a)] := aim;
+                     psi[3][Position(facesX[f1N],b)] := bim;
+                  else
+		      Error("not yet implemented");
+                  fi;
+                  # the edge is the two-cycle (phi, psi)
+                  if considered[Position(facesCC,psi)]=false then
+                      Add( edgesCC, (Position(facesCC,phi),Position(facesCC,psi)));
+                  fi;
+#Error("check me");
+                  Add(mrCC,1);
+             od;
+
+      end;
+
+
+      gens := Elements( SymmetricGroup(3) );
+ 
+      # the faces of the common cover are the isomorphisms of
+      # a face of X to the faces of Y
+      # we record these as triples of 
+      # [face number in X, face number in Y, arrangement],
+      # where in position i in arrangment we store the image of the
+      # i-th edge of X under the isomorphism
+      # thus the number of faces is 6 * |facesX| * |facesY|
+      facesCC := [];
+      for fX in [1..Length(facesX)] do
+          for fY in [1..Length(facesY)] do
+              for g in gens do
+                  Add( facesCC, [fX,fY, 
+                   [facesY[fY][1^g],facesY[fY][2^g],facesY[fY][3^g]]] );
+              od;
+          od;
+      od;
+      # from now on we denote the faces of CC by phi or psi, to 
+      # indicate, they are isomorphisms
+        
+      edgesCC := [];
+      mrCC := [];
+      considered := List( facesCC, i-> false);
+      for phi in facesCC do
+          EdgesOfFaceCC(phi, mrX, mrY,considered);
+          considered[Position(facesCC,phi)] := true;
+      od;
+
+      verticesCC := [];
+      vtxpaths := VertexDefiningPathsGenericSurface(surfX);
+      for vtx in vtxpaths do
+          # consider the path vtx
+          # consider all covering faces of 
+          allphi := Filtered( facesCC, i-> i[1] = vtx[1][1][1] );
+          seenphi := List(allphi,i->false);
+Error("a");     
+          for j  in [1..Length(allphi)] do
+              if seenphi[j] = true then continue; fi;
+              phi := allphi[j];
+              seenphi[j] := true;
+              # compute the cover of vtx[1][1] containing phi
+              nvtx := [];
+              for i in [ 1 .. Length(vtx) ] do
+                  f := vtx[i][1]; # the face
+                  if f <> phi[1] then Error("deviating from path"); fi;
+                  e := vtx[i][2]; # the edge
+                  nvtx[i] := [phi, LiftedEdgeOfFaceCC (phi,mrX,mrY,e) ];
+                  phi := facesCC[Position(facesCC,phi)^edgesCC[nvtx[i][2]]];
+              od;
+              Add(verticesCC, nvtx);
+          od;
+      od;
+
+      cover := rec( faces := facesCC, edges := edgesCC, 
+                    vertices := verticesCC );
+
+      return cover;
+end;
+#end);
+
+GenericSurfaceCommonCover := function(cov)
+
+        local surf, i, j, edges, faces, vertices;
+
+        surf := [];
+
+        surf[1] := Length(cov.vertices);
+        surf[2] := Length(cov.edges);
+        surf[3] := Length(cov.faces);
+        
+        surf[4] := [];
+        surf[5] := List( cov.faces, i-> [] );
+        for i in [ 1.. Length(cov.faces) ] do
+            for j in [ 1.. Length(cov.edges) ] do
+                if i^cov.edges[j] <> i then
+                    Add( surf[5][i], j );
+                fi;
+            od;
+        od;
+
+	return surf;
+
+end;
+
+############################################################################
 ##
 ##
 ##  A structure of a simplicial surface is a wild colouring where all
 ##  cycles of a single generator have the same mr-assignment, i.e. all
 ##  cycles of any one generator are either all mirrors or all reflections.
-##  This function returns structures in the input list of simplicial surfaces,
-##  i.e. it returns all mmm, mmr, mrr, rrr surfaces, 
+##  This function returns structures in the input list of simplicial 
+##  surfaces, i.e. it returns all mmm, mmr, mrr, rrr surfaces, 
 ##
 InstallGlobalFunction( AllStructuresSimplicialSurface, function (allsimpsurf)
 
@@ -2470,6 +2895,259 @@ end;
 
 end;
 
+#############################################################################
+##
+##   Code for generic surfaces
+##
+##
+
+##
+##  return all edges that are incident to the given vertex v
+##  in the generic simplicial surface surf
+##
+
+EdgeNrIncidentVertex := function(surf, v)
+
+        local edges;
+        edges := Filtered( surf[4], i-> v in i );
+        return List(edges,i->Position(surf[4],i));
+
+end;
+
+
+##
+##  return all edges that are incident to the given vertex v
+##  in the generic simplicial surface surf
+##
+
+FaceNrIncidentVertex := function(surf, v)
+        local edges, faces, e, f;
+        
+        faces := Set([]);
+        edges := EdgeNrIncidentVertex(surf, v);
+        for e in edges do
+            for f in surf[5] do
+                if e in f then
+                    AddSet(faces, f);
+                fi;
+            od;
+        od;
+
+        return List(faces, i-> Position(surf[5],i));
+
+end;
+
+IsBoundaryEdge := function(surf,e)
+
+       return Length(Filtered(surf[5],i->e in i)) = 1;
+
+end;
+
+
+
+#
+# The following function finds all vertex defining paths
+# around the vertex vtx when moving next with g around the vertex.
+# For example, one such class could be [ (1,a,b), (4,a,c), (6,b,c) ]
+# in particular this means that the vertices in one class yield a word
+# either fixing all faces on the path or from a face with a boundary
+# to another face with a boundary.
+# In the given example acb is a word such that
+# 1acb = 1 or, more specifically, 1a = 4, 4c=6, 6b = 1.
+#
+
+VertexDefiningPathsGenericSurface := function(surf)
+
+        local  vertices, v, vtx, incident, e1, f, f2, boundary1, edges, i;
+                   
+        edges := surf[4];
+        # for each vertex we now create a vertex defining face path
+        vertices := [];
+        for v in [ 1 .. surf[1] ] do
+            # find all edges incident to v
+            incident := []; 
+            for i in [ 1 .. Length(surf[4]) ] do
+                if v in surf[4][i] then
+                    Add(incident,i);
+                fi;
+            od;
+#            incident := List( incident, i-> Position(surf[4],i)); WRONG
+            # e.g. incident to v=1 are edges [[1,2],[1,3],[1,4]]
+            # incident now contains their position numbers in edges
+            # now we have to arrange all the faces in the right
+            # order around the vertex v, so vtx will become
+            # the vertex defining path for v
+            vtx := [];
+            if Length(incident) = 0 then
+                Error("vertex not incident to any edge");
+                return;
+            elif Length(incident) = 1  then
+                Error("vertex only incident to a single edge");
+                return;
+            elif Length(incident) = 2  then
+#                Info(InfoSimplicial, "vertex  incident to a flap");
+
+                f := AllFacesWithEdges(surf,incident[1], incident[2]);
+                f := List(f, i-> Position(surf[5],i));
+                if Length(f) = 1 then
+                    Add(vtx,[ [f[1],incident[1]], [f[1], incident[2]]] );
+                elif Length(f) = 2 then
+                    Add(vtx,[ [f[1],incident[1]], [f[2], incident[2]],
+                              [f[1],incident[1]] ] );
+                fi;
+            else
+                # now incident contains at least 3 edges. 
+                # Take the first edge adjacent to two faces, which must
+                # exist, as the length of incident is at least 2:
+                e1 := incident[1];
+                f := Faces(surf,e1);
+                
+                # e1 := First( incident, i-> Length(Faces(edges[i]))>1 );
+                # f1 := Faces(edges[e1]); # these are now 2 faces
+                # here is a face incident to these edges and
+                # we start with this face (there may be more...)
+                # f := FaceWithEdges(surf, e1, e2 );
+                # e.g. [ [1,2,3], 
+                if Length(f)=0  then 
+                    Error("something is wrong - edges not incidet to face"); 
+                    return;
+                fi;
+                f := f[1];
+                # we add the first face to the vertex vtx
+                Add(vtx,[f,e1]);
+                # find all faces that have edge e1
+                f2 := NextFaceEdge(surf, e1,f,incident);
+                boundary1 := false;
+                while f2 <> false do
+                    if f2 = 0 then
+                        # we found a boundary edge
+                        if boundary1 then
+                            f2 := true; # this is a second boundary - done
+                            break;
+                        else
+                           boundary1 := true;
+                           vtx := Reversed(vtx);
+                           f2 := vtx[Length(vtx)];
+                            #ADD todo e1;
+                         fi;
+                     else
+                         # add the next incident face
+                         Add(vtx, [f2[1],f2[2]]); # add first face twice if closed
+                         if f2[1] = vtx[1][1] then #ACN
+                             break; # we are done
+                         fi;
+                      fi;
+                      f2 := NextFaceEdge(surf,f2[2],f2[1],incident);
+                  od;
+            fi;
+            Add( vertices, vtx);                                  
+        od;
+        return vertices;
+end;
+
+
+
+#############################################################################
+##
+##
+##  This code is from Markus Baumeister
+##
+
+# Check whether a given vertex ist incident to a given edge
+IsIncidentVertexEdge := function(simpsurf,vertexNumber,edgeColor,edgeNumber)
+	local vert, edgeType, edges;
+
+    edges := EdgesOfSimplicialSurface(simpsurf);
+
+	for vert in VerticesOfSimplicialSurface(simpsurf)[vertexNumber] do
+		for edgeType in [vert[2],vert[3]] do
+			if edgeType = edgeColor and 
+               vert[1] in edges[edgeColor][edgeNumber] then
+				return true;
+			fi;
+		od;
+	od;
+
+	return false;
+end;
+
+# Return the vertices (as numbers) that are incident to the given edge
+VerticesInEdgeAsNumbers := function( simpsurf, edgeColor, edgeNumber )
+	local erg,i;
+
+	erg := [];
+	for i in [1..NrOfVerticesOfSimplicialSurface(simpsurf)] do
+		if IsIncidentVertexEdge( simpsurf, i, edgeColor, edgeNumber ) then
+			erg := Union( erg, [i]);
+		fi;
+	od;
+
+	return erg;
+end;
+
+# Return the vertices (as data in the record) that are incident to 
+#  the given edge
+VerticesInEdge := function( simpsurf, edgeColor, edgeNumber )
+	return List( VerticesInEdgeAsNumbers(simpsurf,edgeColor,edgeNumber), 
+                  i-> VerticesOfSimplicialSurface(simpsurf)[i]);
+end;
+
+
+# Convert the simplicial surface data structure to the structure used in 
+# maple
+# WARNING! It is instrumental at this point (Maple can't handle holes 
+# in lists) that the faces are numbered 1,2,...,f
+InstallGlobalFunction( GenericSurfaceFromWildSimplicialSurface, 
+    function( simpsurf )
+	local erg, edges, edgeColor, edgeNumber, pos, faces, faceNumber, 
+          edgesInFace, sedges;
+
+	erg := [];
+
+	# First entry is number of vertices
+	erg[1] := NrOfVerticesOfSimplicialSurface(simpsurf);
+	
+	# Second entry is number of edges
+	erg[2] := NrOfEdgesOfSimplicialSurface(simpsurf);
+
+	# Third entry is number of faces
+	erg[3] := NrOfFacesOfSimplicialSurface(simpsurf);
+
+	# The fourth entry is a list. Each entry of this list corresponds to 
+    # an edge and equals a list of the vertices contained in that edge
+	edges := [];
+    sedges := EdgesOfSimplicialSurface(simpsurf);
+	for edgeColor in [1..Length(sedges)] do
+		for edgeNumber in [1..Length(sedges[edgeColor])] do
+			pos := (edgeColor - 1) * Length( sedges[edgeColor] ) + edgeNumber;
+			edges[pos] := VerticesInEdgeAsNumbers(simpsurf,edgeColor,edgeNumber);
+		od;
+	od;
+	erg[4] := edges;
+
+	# The fifth entry is also a list, corresponding to the faces. 
+    # Each entry is a list containing the edges of this face
+	faces := [];
+	for faceNumber in FacesOfSimplicialSurface(simpsurf) do
+		edgesInFace := [];
+		for edgeColor in [1..Length(sedges)] do
+			for edgeNumber in [1..Length(sedges[edgeColor])] do
+				if faceNumber in sedges[edgeColor][edgeNumber] then
+					pos := (edgeColor - 1) * Length( sedges[edgeColor] ) 
+                            + edgeNumber;
+					Add( edgesInFace, pos );
+				fi;
+			od;
+		od;
+		faces[ faceNumber ] := edgesInFace;
+	od;
+	erg[5] := faces;
+
+	# WARNING! Both loops use the same convention for converting 
+    #  edgeColor and edgeNumber.
+
+	return erg;
+end);
 
 
 
