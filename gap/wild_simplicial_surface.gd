@@ -197,22 +197,22 @@ DeclareGlobalFunction( "MrTypeOfWildSimplicialSurface" );
 #!  @Arguments gens,  a list of three involutions
 #!
 DeclareGlobalFunction( "AllWildSimplicialSurfaces" );
-DeclareGlobalFunction( "WildSimplicialSurface" );
 DeclareGlobalFunction( "VertexRelationOfEdge" );
 DeclareGlobalFunction( "VertexGroupOfWildSimplicialSurface" );
+DeclareGlobalFunction( "IsConnectedWildSimplicialSurface" );
 DeclareGlobalFunction( "IsOrientableWildSimplicialSurface" );
-DeclareGlobalFunction( "GeneratorsFromEdgesOfPlainWildSimplicialSurface");
+#DeclareGlobalFunction( "GeneratorsFromEdgesOfPlainWildSimplicialSurface"); #TODO does not exist
 DeclareGlobalFunction( "GeneratorsFromEdgesOfWildSimplicialSurface");
-DeclareGlobalFunction( "WildWildSimplicialSurfacesFromFacePath");
-DeclareGlobalFunction( "WildWildSimplicialSurfacesFromPlainSurface");
-DeclareGlobalFunction( "SnippOffEars");
+DeclareGlobalFunction( "WildSimplicialSurfacesFromFacePath");
+#DeclareGlobalFunction( "WildSimplicialSurfacesFromPlainSurface"); #TODO does not exist
+DeclareGlobalFunction( "SnippOffEarsOfWildSimplicialSurface");
 DeclareGlobalFunction( "SixFoldCover");
 DeclareGlobalFunction( "AllStructuresWildSimplicialSurface");
 DeclareGlobalFunction( "StructuresWildSimplicialSurface");
 #DeclareGlobalFunction( "ImageWildSimplicialSurface");
-DeclareGlobalFunction( "GenericSurfaceFromWildWildSimplicialSurface" );
-DeclareGlobalFunction( "WildWildSimplicialSurfacesFromGenericSurface" );
-DeclareGlobalFunction( "CommonCover");
+DeclareGlobalFunction( "WildSimplicialSurfacesFromGenericSurface" );
+#DeclareGlobalFunction( "CommonCover"); # TODO does not exist
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
