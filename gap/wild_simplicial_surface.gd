@@ -15,6 +15,9 @@
 DeclareInfoClass( "InfoSimplicial" );
 SetInfoLevel(InfoSimplicial,1);
 
+SimplicialSurfaceFamily := 
+    NewFamily("SimplicialSurfaceFamily",  IsObject, IsComponentObjectRep);
+
 #############################################################################
 ##
 #!  @Chapter Wild Coloured Simplicial Surfaces

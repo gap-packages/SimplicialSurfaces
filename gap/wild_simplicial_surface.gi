@@ -660,7 +660,8 @@ InstallMethod( Display, "for WildSimplicialSurfaces", true,
 
 
 
-IsConnectedWildSimplicialSurface := function(simpsurf)
+InstallGlobalFunction( IsConnectedWildSimplicialSurface,
+	function(simpsurf)
 
 
       if IsBound( simpsurf!.isConnected ) then 
@@ -673,7 +674,8 @@ IsConnectedWildSimplicialSurface := function(simpsurf)
 
           return simpsurf!.isConnected;
 
-end;
+end
+);
 
 
 #############################################################################
