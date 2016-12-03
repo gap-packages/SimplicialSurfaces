@@ -102,7 +102,7 @@ DeclareGlobalFunction( "NrOfVerticesOfGenericSimplicialSurface" );
 #!  @Returns list
 #!  @Arguments simpsurf
 #!
-DeclareGlobalFunction( "DegreesOfGenericSimplicialSurface" );
+#DeclareGlobalFunction( "DegreesOfGenericSimplicialSurface" );
 
 
 #############################################################################

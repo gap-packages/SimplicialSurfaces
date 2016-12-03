@@ -1,4 +1,4 @@
-#########################################################################################
+################################################################################
 ##
 #W  generic_simplicial_surface.gi   Generic Simplicial Surface   Alice Niemeyer
 #W															  Markus Baumeister
@@ -68,7 +68,8 @@ end;
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-FacesOfGenericSimplicialSurface := function( simpsurf)
+InstallGlobalFunction(FacesOfGenericSimplicialSurface,
+function( simpsurf)
 
         if not IsGenericSimplicialSurfaceRep(simpsurf) then
             Error("usage: FacesOfGenericSimplicialSurface(simpsurf)");
@@ -76,7 +77,8 @@ FacesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return simpsurf!.faces;
 
-end;
+end
+);
 
 #############################################################################
 ##
@@ -86,7 +88,8 @@ end;
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-NrOfFacesOfGenericSimplicialSurface := function (simpsurf)
+InstallGlobalFunction(NrOfFacesOfGenericSimplicialSurface,
+function (simpsurf)
 
 		if not IsGenericSimplicialSurfaceRep(simpsurf) then
             Error("usage: NrOfFacesOfGenericSimplicialSurface(simpsurf)");
@@ -94,7 +97,8 @@ NrOfFacesOfGenericSimplicialSurface := function (simpsurf)
         fi;
         return simpsurf!.nrOfFaces;
 
-end;
+end
+);
 
 #############################################################################
 ##
@@ -104,7 +108,8 @@ end;
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-EdgesOfGenericSimplicialSurface := function( simpsurf)
+InstallGlobalFunction(EdgesOfGenericSimplicialSurface,
+function( simpsurf)
 
         if not IsGenericSimplicialSurfaceRep(simpsurf) then
             Error("usage: EdgesOfGenericSimplicialSurface(simpsurf)");
@@ -112,7 +117,8 @@ EdgesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return simpsurf!.edges;
 
-end;
+end
+);
 
 #############################################################################
 ##
@@ -122,7 +128,8 @@ end;
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-NrOfEdgesOfGenericSimplicialSurface := function( simpsurf)
+InstallGlobalFunction(NrOfEdgesOfGenericSimplicialSurface,
+function( simpsurf)
 
        if not IsGenericSimplicialSurfaceRep(simpsurf) then
             Error("usage: NrOfEdgesOfGenericSimplicialSurface(simpsurf)");
@@ -130,7 +137,8 @@ NrOfEdgesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return simpsurf!.nrOfEdges;
 
-end;
+end
+);
 
 #############################################################################
 ##
@@ -140,7 +148,8 @@ end;
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-VerticesOfGenericSimplicialSurface := function( simpsurf)
+InstallGlobalFunction(VerticesOfGenericSimplicialSurface,
+function( simpsurf)
 
         if not IsGenericSimplicialSurfaceRep(simpsurf) then
             Error("usage: VerticesOfGenericSimplicialSurface(simpsurf)");
@@ -148,7 +157,8 @@ VerticesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return [1..simpsurf!.nrOfVertices];
 
-end;
+end
+);
 
 #############################################################################
 ##
@@ -159,7 +169,8 @@ end;
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-NrOfVerticesOfGenericSimplicialSurface := function( simpsurf)
+InstallGlobalFunction(NrOfVerticesOfGenericSimplicialSurface,
+function( simpsurf)
 
         if not IsGenericSimplicialSurfaceRep(simpsurf) then
             Error("usage: NrOfVerticesOfGenericSimplicialSurface(simpsurf)");
@@ -167,7 +178,8 @@ NrOfVerticesOfGenericSimplicialSurface := function( simpsurf)
         fi;
         return simpsurf!.nrOfVertices;
 
-end;
+end
+);
 
 
 ############################################################################
@@ -526,7 +538,8 @@ end;
 #!  @Returns true if the surface is orientable and false else.
 #!  @Arguments <simpsurf> a simplicial surface
 #!
-IsOrientableGenericSimplicialSurface := function( simpsurf )
+InstallGlobalFunction(IsOrientableGenericSimplicialSurface,
+function( simpsurf )
 	local edgesByFaces, facesByVertices, orientList, i, hole, edge,
 		 facesToCheck, checkedFaces, CompatibleOrientation, orient1,
 		 orient2, orientable, face, neighbours, next;
@@ -629,7 +642,8 @@ IsOrientableGenericSimplicialSurface := function( simpsurf )
 	
 	simpsurf!.isOrientable := orientable;
 	return simpsurf!.isOrientable;
-end;
+end
+);
 
 ###############################################################################
 ##
