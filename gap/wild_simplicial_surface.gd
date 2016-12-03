@@ -143,17 +143,7 @@ DeclareGlobalFunction( "DegreesOfWildSimplicialSurface" );
 #!  @Arguments simpsurf
 #!
 DeclareGlobalFunction( "GroupOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function computes the Euler characteristic of a simplicial surface.
-#!  The Euler characteristic is |V| - |E| + |F|, where |V| is the number of
-#!  vertices, |E| is the number of edges and |F| is the number of faces.
-#!  @Returns an integer, the Euler characteristic.
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "EulerCharacteristic");
+
 
 
 #############################################################################

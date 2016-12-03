@@ -351,40 +351,6 @@ InstallGlobalFunction( GroupOfWildSimplicialSurface, function(simpsurf)
 end);
 
 
-#############################################################################
-##
-##
-#!  @Description
-#!  This function computes the Euler characteristic of a simplicial surface.
-#!  The Euler characteristic is |V| - |E| + |F|, where |V| is the number of
-#!  vertices, |E| is the number of edges and |F| is the number of faces.
-#!  @Returns an integer, which is the Euler characteristic.
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by WildSimplicialSurface
-#!
-InstallGlobalFunction( EulerCharacteristic, function (simpsurf)
-
-    local chi;
-
-    if not IsWildSimplicialSurfaceRep(simpsurf) then
-        Error("usage: EulerCharacteristic(simpsurf");
-        return fail;
-    fi;
-
-    if IsBound(simpsurf!.EulerCharacteristic) then
-        return simpsurf!.EulerCharacteristic;
-    fi;
-
-    chi :=    NrOfVerticesOfWildSimplicialSurface(simpsurf)  # V
-            - NrOfEdgesOfWildSimplicialSurface(simpsurf)     # -E
-            + NrOfFacesOfWildSimplicialSurface(simpsurf);    # +F
-
-
-     simpsurf!.EulerCharacteristic := chi;
-
-     return chi;
-
-end);
 
 #############################################################################
 ##

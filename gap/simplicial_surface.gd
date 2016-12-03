@@ -19,4 +19,27 @@ SetInfoLevel(InfoSimplicial,1);
 SimplicialSurfaceFamily := 
     NewFamily("SimplicialSurfaceFamily",  IsObject, IsComponentObjectRep);
 
+DeclareCategory( "IsSimplicialSurface", IsComponentObjectRep );
+
+
+
+DeclareOperation( "Vertices", IsSimplicialSurface );
+DeclareOperation( "NrOfVertices", IsSimplicialSurface );
+DeclareOperation( "Edges", IsSimplicialSurface );
+DeclareOperation( "NrOfEdges", IsSimplicialSurface );
+DeclareOperation( "Faces", IsSimplicialSurface );
+DeclareOperation( "NrOfFaces", IsSimplicialSurface );
+
+#############################################################################
+##
+##
+#!  @Description
+#!  This function computes the Euler characteristic of a simplicial surface.
+#!  The Euler characteristic is |V| - |E| + |F|, where |V| is the number of
+#!  vertices, |E| is the number of edges and |F| is the number of faces.
+#!  @Returns an integer, the Euler characteristic.
+#!  @Arguments simpsurf
+#!
+DeclareGlobalFunction( "EulerCharacteristic");
+
 
