@@ -75,7 +75,7 @@ end;
 ## Test the consistency of a generic simplicial surface
 ## the objectDescription will be printed if this test fails
 TestGenericConsistency := function( generic, objectDescription )
-	local consisteny;
+	local consistency;
 
 	consistency := IsGenericSimplicialSurfaceSelfConsistent( generic );
 	if not consistency[1] then

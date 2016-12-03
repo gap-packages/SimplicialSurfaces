@@ -222,65 +222,6 @@ InstallGlobalFunction( VertexRelationOfEdge, function( gens, vtxnames, fgrp )
         return r; 
 end);
 
-##
-## obtain the vertex relation around a given edge
-##
-GetVertexRelation := function( gens, vtxnames, fgrp )
-
-        local i,j,f, h, r, fgens;
-
-
-        fgens := GeneratorsOfGroup(fgrp);
-        r := One(fgrp);
-
-        j := vtxnames[1][1];
-        if j^gens[vtxnames[1][2]] = j or 
-           j^gens[vtxnames[1][3]] = j then 
-           # This is not a closed path
-           Print("not a closed path - ignoring vertex\n");
-           return false;
-        fi;
-        if Length(vtxnames)=2 and 
-           j^gens[vtxnames[1][2]] = vtxnames[2][1] and
-           j^gens[vtxnames[1][3]] = vtxnames[2][1] and
-           vtxnames[1][2] = vtxnames[2][2]  and
-           vtxnames[1][3] = vtxnames[2][3]  then
-#           Print("Found an ear!!");
-           r := r * fgens[vtxnames[1][2]] * fgens[vtxnames[1][3]];
-           return r;
-        fi;
-
-        for i in [ 1 .. Length(vtxnames)-1 ] do
-            j := vtxnames[i][1];
-            f := Filtered(vtxnames[i]{[2,3]},g-> (j^gens[g]=vtxnames[i+1][1]));
-            if i = 1  then
-                h := Difference(vtxnames[i]{[2,3]},f);
-                if Length(h) > 0 then 
-                    r := r * fgens[h[1]];       
-                fi;
-            fi;
-            if Length(f) <> 0 then
-                r := r * fgens[f[1]];       
-            fi;
-        od;
-        i := Length(vtxnames);
-        j := vtxnames[i][1];
-        h := Difference(vtxnames[i]{[2,3]},f);
-        if Length(h) > 0 and j^gens[h[1]] = j then
-             Print("|\n");
-             return false;
-        fi;
-        f := Filtered(vtxnames[i]{[2,3]},g-> (j^gens[g]=vtxnames[1][1]));
-#        if Length(f) > 1 then Error("incorrect names"); return; fi;
-#        if Length(f) <> 0 then
-#            PrintGen(gens, f[1] );
-#            Print(j^gens[f[1]]);
-#        fi;
-#        Print("\n");
-#        Error("check me");
-        return r; 
-end;
-
 
 #############################################################################
 ##
@@ -656,7 +597,7 @@ InstallGlobalFunction( VertexGroupOfSimplicialSurface, function(simpsurf)
         rels := [fgrp.1^2, fgrp.2^2, fgrp.3^2];
 
         for vtxnames in VerticesOfSimplicialSurface(simpsurf) do
-            r := GetVertexRelation(gens, vtxnames, fgrp);
+            r := VertexRelationOfEdge(gens, vtxnames, fgrp);
             if r <> false then Add(rels, r); fi;
         od;
 
@@ -1845,27 +1786,27 @@ end);
 ## [v1,v2],  [e1,e2,e3]
 
 
-#############################################################################
-##
-##
-## [v1,v2],  [e1,e2,e3]
-
-
-FaceVertexPathFromGenericSurface := function( surf )
-
-        local fvp, f, fv, e;
-
-        fvp := [];
-        
-            fv := Set([]);
-            for e in f do
-            od;
-            Add( fvp, fv );
-        od;
-
-        return fvp;
-
-end;
+## #############################################################################
+## ##
+## ##
+## ## [v1,v2],  [e1,e2,e3]
+## 
+## 
+## FaceVertexPathFromGenericSurface := function( surf )
+## 
+##         local fvp, f, fv, e;
+## 
+##         fvp := [];
+##         
+##             fv := Set([]);
+##             for e in f do
+##             od;
+##             Add( fvp, fv );
+##         od;
+## 
+##         return fvp;
+## 
+## end;
 
 
 
@@ -1987,8 +1928,8 @@ end;
 ## TODO: FaceWithEdges wrong call?
 InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
 
-        local simpsurf, pair, x, y, edges, faces, vertices, e, f1, f2, e1, e2,
-              fa, i, v, f, vtx, facepairs, incident, gens, allsurf, newvertices;
+        local simpsurf, pair, x, y, edges, faces, vertices, e, f1, f2, e1, e2, boundary1,
+              fa, i, j, v, f, vtx, facepairs, incident, gens, allsurf, newvertices;
 
 
         # find one face with edges e1 and e2
@@ -2119,7 +2060,7 @@ InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
                 Add(vtx,f);
                 # find all faces that have edge e1
                 f2 := NextFaceEdge(e1,f,incident);
-                f2 := NextFaceEdge(surf,e1,f,incident);
+#                f2 := NextFaceEdge(surf,e1,f,incident);
                 boundary1 := false;
                 while f2 <> false do
                     if f2 = 0 then

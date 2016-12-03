@@ -184,8 +184,8 @@ FacesByVerticesOfGenericSimplicialSurface := function( simpsurf )
 	local faceList, i, face,intersectingEdges,vertices,j,edges;
 
 	if IsBound(simpsurf!.facesByVertices) then
-        return simpsurf!.facesByVertices;
-    fi;
+            return simpsurf!.facesByVertices;
+        fi;
 
 	edges := EdgesOfGenericSimplicialSurface(simpsurf);
 
@@ -775,13 +775,13 @@ FaceVertexPathFromGenericSimplicialSurface := function( surf )
 
         local fvp, f, fv, e,facesByVertices;
 
-		facesByVertices := FacesByVerticesOfGenericSimplicialSurface( surf );
+	facesByVertices := FacesByVerticesOfGenericSimplicialSurface( surf );
 
         fvp := [];
         
         for f in facesByVertices do
-			fv := f;
-			Add( fv, fv[1] );
+            fv := f;
+	    Add( fv, fv[1] );
             Add( fvp, fv );
         od;
 
@@ -855,7 +855,7 @@ GenericSimplicialSurfaceFromWildSimplicialSurface :=
 	erg[3] := NrOfFacesOfSimplicialSurface(simpsurf);
 
 	# The fourth entry is a list. Each entry of this list corresponds to 
-    # an edge and equals a list of the vertices contained in that edge
+        # an edge and equals a list of the vertices contained in that edge
 	edges := [];
     sedges := EdgesOfSimplicialSurface(simpsurf);
 	for edgeColor in [1..Length(sedges)] do
@@ -867,7 +867,7 @@ GenericSimplicialSurfaceFromWildSimplicialSurface :=
 	erg[4] := edges;
 
 	# The fifth entry is also a list, corresponding to the faces. 
-    # Each entry is a list containing the edges of this face
+        # Each entry is a list containing the edges of this face
 	faces := [];
 	for faceNumber in FacesOfSimplicialSurface(simpsurf) do
 		edgesInFace := [];
@@ -885,7 +885,7 @@ GenericSimplicialSurfaceFromWildSimplicialSurface :=
 	erg[5] := faces;
 
 	# WARNING! Both loops use the same convention for converting 
-    #  edgeColor and edgeNumber.
+        #  edgeColor and edgeNumber.
 
 	return GenericSimplicialSurface( rec(
 		nrOfVertices := erg[1],
