@@ -12,11 +12,6 @@
 ##	of the Simplicial package.
 ##
 
-DeclareInfoClass( "InfoSimplicial" );
-SetInfoLevel(InfoSimplicial,1);
-
-SimplicialSurfaceFamily := 
-    NewFamily("SimplicialSurfaceFamily",  IsObject, IsComponentObjectRep);
 
 #############################################################################
 ##

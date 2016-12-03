@@ -9,6 +9,8 @@
 ##
 #############################################################################
 
+
+ReadPackage( "simplicial_surfaces", "gap/simplicial_surface.gd" );
 ReadPackage( "simplicial_surfaces", "gap/wild_simplicial_surface.gd" );
 ReadPackage( "simplicial_surfaces", "gap/generic_simplicial_surface.gd" );
 
