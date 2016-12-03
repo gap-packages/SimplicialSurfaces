@@ -15,18 +15,18 @@
 ##  There are several ways of inputting a wild coloured simplicial surface.
 ##
 ##  A wild coloured simplicial surface is created by the function 
-##  SimplicialSurface and is a GAP object. Simplicial surfaces can be 
+##  WildSimplicialSurface and is a GAP object. Simplicial surfaces can be 
 ##  obtained as follows:
 ##
 ##  1) Given a triple <gens> of involutions, the function
-##     AllSimplicialSurfaces(gens)  computes  all wild coloured simplicial 
+##     AllWildSimplicialSurfaces(gens)  computes  all wild coloured simplicial 
 ##     surfaces whose faces are the moved points of the generators and whose
 ##     edges are determined by the 2-cycles of the generators.
 ##  2) Input a surface by first listing the faces, 
 ##     then pairs of faces making up the edges, 
 ##     then the face-paths for  each vertex.  A face-path is simply
 ##     a list of the faces in the order in which they occur around a vertex.
-##     The function SimplicialSurfacesFromFacePath takes this input
+##     The function WildSimplicialSurfacesFromFacePath takes this input
 ##     and returns all wild coloured simplicial surfaces matching the
 ##     description
 ##  3) Input a wild coloured surface by the following data structure, 
@@ -48,7 +48,7 @@
 ##    simplicial surface objects, such as Print and Display and "=".
 ##
 ##    The mr-type of a wild coloured simplicial surface <simpsurf>
-##    can be determined with the function MrTypeOfSimplicialSurface.
+##    can be determined with the function MrTypeOfWildSimplicialSurface.
 ##
 ##    As Simplicial surfaces are GAP objects, they cannot be 
 ##    accessed like records.
@@ -59,27 +59,15 @@
 ##    
 ##
 
-# TODO this family belongs in the general part
-SimplicialSurfaceFamily := 
-    NewFamily("SimplicialSurfaceFamily",  IsObject, IsComponentObjectRep);
 
-
-DeclareRepresentation("IsSimplicialSurfaceRep", IsComponentObjectRep,
-#     IsPositionalObjectRep and IsDenseList, 
-     ["faces","edges","vertices", "generators"]);
-
-# From now on, we can do "Objectify( SimplicialSurfaceType, re )" 
-# for any list re
-SimplicialSurfaceType := 
-    NewType( SimplicialSurfaceFamily, IsSimplicialSurfaceRep );
 
 ##
-##  The constructor SimplicialSurface ensures that the simplicial surface
+##  The constructor WildSimplicialSurface ensures that the simplicial surface
 ##  is  stored inside a GAP object. 
 ##
-InstallGlobalFunction( SimplicialSurface,  function( simpsurf ) 
+InstallGlobalFunction( WildSimplicialSurface,  function( simpsurf ) 
     
-    return Objectify( SimplicialSurfaceType, simpsurf );
+    return Objectify( WildSimplicialSurfaceType, simpsurf );
 
 end );
 
@@ -235,10 +223,10 @@ end);
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( FacesOfSimplicialSurface, function( simpsurf)
+InstallGlobalFunction( FacesOfWildSimplicialSurface, function( simpsurf)
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: FacesOfSimplicialSurface(simpsurf");
+        if not IsWildSimplicialSurfaceRep(simpsurf) then
+            Error("usage: FacesOfWildSimplicialSurface(simpsurf");
             return fail;
         fi;
         return simpsurf!.faces;
@@ -253,9 +241,9 @@ end);
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( NrOfFacesOfSimplicialSurface, function (simpsurf)
+InstallGlobalFunction( NrOfFacesOfWildSimplicialSurface, function (simpsurf)
 
-        return Length(FacesOfSimplicialSurface(simpsurf));
+        return Length(FacesOfWildSimplicialSurface(simpsurf));
 
 end);
 
@@ -267,10 +255,10 @@ end);
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( EdgesOfSimplicialSurface, function( simpsurf)
+InstallGlobalFunction( EdgesOfWildSimplicialSurface, function( simpsurf)
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: EdgesOfSimplicialSurface(simpsurf");
+        if not IsWildSimplicialSurfaceRep(simpsurf) then
+            Error("usage: EdgesOfWildSimplicialSurface(simpsurf");
             return fail;
         fi;
         return simpsurf!.edges;
@@ -285,9 +273,9 @@ end);
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( NrOfEdgesOfSimplicialSurface, function( simpsurf)
+InstallGlobalFunction( NrOfEdgesOfWildSimplicialSurface, function( simpsurf)
 
-       return Sum(List(EdgesOfSimplicialSurface(simpsurf), i->Length(i)));
+       return Sum(List(EdgesOfWildSimplicialSurface(simpsurf), i->Length(i)));
 
 end);
 
@@ -299,10 +287,10 @@ end);
 #!  @Returns a list
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( VerticesOfSimplicialSurface, function( simpsurf)
+InstallGlobalFunction( VerticesOfWildSimplicialSurface, function( simpsurf)
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: VerticesOfSimplicialSurface(simpsurf");
+        if not IsWildSimplicialSurfaceRep(simpsurf) then
+            Error("usage: VerticesOfWildSimplicialSurface(simpsurf");
             return fail;
         fi;
         return simpsurf!.vertices;
@@ -317,9 +305,9 @@ end);
 #!  @Returns an integer
 #!  @Arguments simpsurf
 #!
-InstallGlobalFunction( NrOfVerticesOfSimplicialSurface, function( simpsurf)
+InstallGlobalFunction( NrOfVerticesOfWildSimplicialSurface, function( simpsurf)
 
-        return Length(VerticesOfSimplicialSurface(simpsurf));
+        return Length(VerticesOfWildSimplicialSurface(simpsurf));
 
 end);
 
@@ -333,12 +321,12 @@ end);
 #!  vertices, |E| is the number of edges and |F| is the number of faces.
 #!  @Returns an integer, which is the Euler characteristic.
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
+#!  by WildSimplicialSurface
 #!
-InstallGlobalFunction( GeneratorsOfSimplicialSurface, function( simpsurf)
+InstallGlobalFunction( GeneratorsOfWildSimplicialSurface, function( simpsurf)
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: GeneratorsOfSimplicialSurface(simpsurf");
+        if not IsWildSimplicialSurfaceRep(simpsurf) then
+            Error("usage: GeneratorsOfWildSimplicialSurface(simpsurf");
             return fail;
         fi;
         return simpsurf!.generators;
@@ -354,12 +342,12 @@ end);
 #!  vertices, |E| is the number of edges and |F| is the number of faces.
 #!  @Returns an integer, which is the Euler characteristic.
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
+#!  by WildSimplicialSurface
 #!
-InstallGlobalFunction( GroupOfSimplicialSurface, function(simpsurf)
+InstallGlobalFunction( GroupOfWildSimplicialSurface, function(simpsurf)
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: GroupOfSimplicialSurface(simpsurf");
+        if not IsWildSimplicialSurfaceRep(simpsurf) then
+            Error("usage: GroupOfWildSimplicialSurface(simpsurf");
             return fail;
         fi;
         return Group(simpsurf!.generators);
@@ -376,13 +364,13 @@ end);
 #!  vertices, |E| is the number of edges and |F| is the number of faces.
 #!  @Returns an integer, which is the Euler characteristic.
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
+#!  by WildSimplicialSurface
 #!
 InstallGlobalFunction( EulerCharacteristic, function (simpsurf)
 
     local chi;
 
-    if not IsSimplicialSurfaceRep(simpsurf) then
+    if not IsWildSimplicialSurfaceRep(simpsurf) then
         Error("usage: EulerCharacteristic(simpsurf");
         return fail;
     fi;
@@ -391,9 +379,9 @@ InstallGlobalFunction( EulerCharacteristic, function (simpsurf)
         return simpsurf!.EulerCharacteristic;
     fi;
 
-    chi :=    NrOfVerticesOfSimplicialSurface(simpsurf)  # V
-            - NrOfEdgesOfSimplicialSurface(simpsurf)     # -E
-            + NrOfFacesOfSimplicialSurface(simpsurf);    # +F
+    chi :=    NrOfVerticesOfWildSimplicialSurface(simpsurf)  # V
+            - NrOfEdgesOfWildSimplicialSurface(simpsurf)     # -E
+            + NrOfFacesOfWildSimplicialSurface(simpsurf);    # +F
 
 
      simpsurf!.EulerCharacteristic := chi;
@@ -411,20 +399,20 @@ end);
 #!  @Returns a list of integers in increasing order, containing for each
 #!  vertex of the simplicial suface its degree
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
+#!  by WildSimplicialSurface
 #!
-InstallGlobalFunction( DegreesOfSimplicialSurface, function(simpsurf)
+InstallGlobalFunction( DegreesOfWildSimplicialSurface, function(simpsurf)
 
         local degrees, i;
 
 # TODO noch nicht richtig fuer flaps
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: DegreesOfSimplicialSurface(simpsurf");
+        if not IsWildSimplicialSurfaceRep(simpsurf) then
+            Error("usage: DegreesOfWildSimplicialSurface(simpsurf");
             return fail;
         fi;
         if IsBound(simpsurf!.Degrees) then return simpsurf!.Degrees; fi;
 
-        degrees := List(VerticesOfSimplicialSurface(simpsurf), i-> Length(i));
+        degrees := List(VerticesOfWildSimplicialSurface(simpsurf), i-> Length(i));
         Sort(degrees);
 
         simpsurf!.Degrees := degrees;
@@ -440,7 +428,7 @@ end);
 ##  TODO: check for equality if the generators are possibly reordered
 ##
 InstallMethod( \=, "for two wild simplicial surfaces", true, 
-  [ IsSimplicialSurfaceRep, IsSimplicialSurfaceRep ], 0,  function( s1, s2 )
+  [ IsWildSimplicialSurfaceRep, IsWildSimplicialSurfaceRep ], 0,  function( s1, s2 )
 
         local vtx, rvtx, vert1, vert2;
 
@@ -448,23 +436,23 @@ InstallMethod( \=, "for two wild simplicial surfaces", true,
                 return false;
         fi;
 
-        if GeneratorsOfSimplicialSurface(s1) <>
-           GeneratorsOfSimplicialSurface(s2) then
+        if GeneratorsOfWildSimplicialSurface(s1) <>
+           GeneratorsOfWildSimplicialSurface(s2) then
                 return false;
         fi;
 
-        if DegreesOfSimplicialSurface(s1) <>
-           DegreesOfSimplicialSurface(s2) then
+        if DegreesOfWildSimplicialSurface(s1) <>
+           DegreesOfWildSimplicialSurface(s2) then
                 return false;
         fi;
 
-        if EdgesOfSimplicialSurface(s1) <>
-           EdgesOfSimplicialSurface(s2) then
+        if EdgesOfWildSimplicialSurface(s1) <>
+           EdgesOfWildSimplicialSurface(s2) then
                 return false;
         fi;
 
-        vert1 := VerticesOfSimplicialSurface(s1);
-        vert2 := VerticesOfSimplicialSurface(s2);
+        vert1 := VerticesOfWildSimplicialSurface(s1);
+        vert2 := VerticesOfWildSimplicialSurface(s2);
 
         if Length(vert1)<>Length(vert2) then return false; fi;
 
@@ -486,8 +474,8 @@ end);
 
 
 #InstallMethod( \<, "for two simplicial surfaces", true, 
-#  [ IsSimplicialSurfaceRep, IsSimplicialSurfaceRep ], 0,
-#   LtSimplicialSurface );
+#  [ IsWildSimplicialSurfaceRep, IsWildSimplicialSurfaceRep ], 0,
+#   LtWildSimplicialSurface );
 
 #############################################################################
 ##
@@ -514,17 +502,17 @@ end);
 #!  @Returns a list of three lists, each of which contains the 
 #!  entries 0, 1 or 2.
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
+#!  by WildSimplicialSurface
 #!  @BeginExample
-#! MrTypeOfSimplicialSurface(tetra);
+#! MrTypeOfWildSimplicialSurface(tetra);
 #! @EndExample
 #!
-InstallGlobalFunction( MrTypeOfSimplicialSurface, function (simpsurf)
+InstallGlobalFunction( MrTypeOfWildSimplicialSurface, function (simpsurf)
  
         local mrtype, i, j, f, path, n, pos, g, gens;
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: MrTypeOfSimplicialSurface(simpsurf");
+        if not IsWildSimplicialSurfaceRep(simpsurf) then
+            Error("usage: MrTypeOfWildSimplicialSurface(simpsurf");
             return fail;
         fi;
 
@@ -535,8 +523,8 @@ InstallGlobalFunction( MrTypeOfSimplicialSurface, function (simpsurf)
             return simpsurf!.mrtype; 
         fi;
 
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
-        n := Maximum(FacesOfSimplicialSurface(simpsurf));
+        gens := GeneratorsOfWildSimplicialSurface(simpsurf);
+        n := Maximum(FacesOfWildSimplicialSurface(simpsurf));
 
         mrtype := [];
      
@@ -544,7 +532,7 @@ InstallGlobalFunction( MrTypeOfSimplicialSurface, function (simpsurf)
         mrtype [2] := List( [1 .. n], i-> 0 );
         mrtype [3] := List( [1 .. n], i-> 0 );
 
-       for path in VerticesOfSimplicialSurface(simpsurf) do
+       for path in VerticesOfWildSimplicialSurface(simpsurf) do
            for i in [ 1 .. Length(path)] do
                if i < Length(path) then j  := i + 1; else j := 1; fi;
                f := path[i][1]; # the face we are considering
@@ -586,15 +574,15 @@ end);
 #!  the set of relations given by the vertex defining paths.
 #!  @Returns finitely presented group.
 #!
-InstallGlobalFunction( VertexGroupOfSimplicialSurface, function(simpsurf)
+InstallGlobalFunction( VertexGroupOfWildSimplicialSurface, function(simpsurf)
 
         local vtxnames, rels, r,  gens, fgrp;
  
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
+        gens := GeneratorsOfWildSimplicialSurface(simpsurf);
         fgrp := FreeGroup(Length(gens));
         rels := [fgrp.1^2, fgrp.2^2, fgrp.3^2];
 
-        for vtxnames in VerticesOfSimplicialSurface(simpsurf) do
+        for vtxnames in VerticesOfWildSimplicialSurface(simpsurf) do
             r := VertexRelationOfEdge(gens, vtxnames, fgrp);
             if r <> false then Add(rels, r); fi;
         od;
@@ -608,9 +596,9 @@ end);
 ##  A Print method for simplicial surfaces
 ##
 
-PrintSimplicialSurface := function(simpsurf)
+PrintWildSimplicialSurface := function(simpsurf)
 
-        Print("SimplicialSurface( rec(\n");
+        Print("WildSimplicialSurface( rec(\n");
         Print("generators := ");
         Print(simpsurf!.generators, ",\n");
         if IsBound( simpsurf!.mrtype) then
@@ -625,22 +613,22 @@ PrintSimplicialSurface := function(simpsurf)
         Print(simpsurf!.vertices, "));\n");
 end;
 
-InstallMethod( PrintObj, "for SimplicialSurface", true, 
-               [ IsSimplicialSurfaceRep ], 0, PrintSimplicialSurface );
+InstallMethod( PrintObj, "for WildSimplicialSurface", true, 
+               [ IsWildSimplicialSurfaceRep ], 0, PrintWildSimplicialSurface );
 
 
 #############################################################################
 ##
 ##  A Display method for simplicial surfaces
 ##
-DisplaySimplicialSurface := function(simpsurf)
+DisplayWildSimplicialSurface := function(simpsurf)
 
         local g, vtx, c, e, i, gens, f, mr, faceinverse;
  
 
-        gens :=  GeneratorsOfSimplicialSurface(simpsurf);
+        gens :=  GeneratorsOfWildSimplicialSurface(simpsurf);
         Print("Generators = \n");
-        f := FacesOfSimplicialSurface(simpsurf);
+        f := FacesOfWildSimplicialSurface(simpsurf);
         faceinverse := List([1..Length(f)],i->0);
 
         # store the position of face in in faces to avoid searching
@@ -648,7 +636,7 @@ DisplaySimplicialSurface := function(simpsurf)
             faceinverse[i] := Position(f,i);
         od;
 
-        MrTypeOfSimplicialSurface(simpsurf);
+        MrTypeOfWildSimplicialSurface(simpsurf);
         for i in [ 1.. Length(gens) ] do
            e :=   Cycles(gens[i],f);
            Print( gens[i], "\n");
@@ -658,25 +646,25 @@ DisplaySimplicialSurface := function(simpsurf)
            Print("    rotations ", mr, "\n" );
         od;
         
-        Print("Faces = ", FacesOfSimplicialSurface(simpsurf), "\n");
+        Print("Faces = ", FacesOfWildSimplicialSurface(simpsurf), "\n");
         e := Filtered( e , c -> Length(c) = 2);
-        Print("Edges = ", EdgesOfSimplicialSurface(simpsurf), "\n");
+        Print("Edges = ", EdgesOfWildSimplicialSurface(simpsurf), "\n");
 
         Print("Vertices = \n");
-        for vtx in VerticesOfSimplicialSurface(simpsurf) do
+        for vtx in VerticesOfWildSimplicialSurface(simpsurf) do
             Print("    " ); _SIMPLICIAL_PrintVertexLabels( gens, vtx );
         od;
  
-        Print("Degrees = ", DegreesOfSimplicialSurface(simpsurf) );
+        Print("Degrees = ", DegreesOfWildSimplicialSurface(simpsurf) );
 
 end;
 
-InstallMethod( Display, "for SimplicialSurfaces", true, 
-                   [IsSimplicialSurfaceRep], 0, DisplaySimplicialSurface );
+InstallMethod( Display, "for WildSimplicialSurfaces", true, 
+                   [IsWildSimplicialSurfaceRep], 0, DisplayWildSimplicialSurface );
 
 
 
-IsConnectedSimplicialSurface := function(simpsurf)
+IsConnectedWildSimplicialSurface := function(simpsurf)
 
 
       if IsBound( simpsurf!.isConnected ) then 
@@ -684,8 +672,8 @@ IsConnectedSimplicialSurface := function(simpsurf)
       fi;
 
       simpsurf!.isConnected := 
-      Length(Orbits(GroupOfSimplicialSurface(simpsurf), 
-                    FacesOfSimplicialSurface(simpsurf)))=1;
+      Length(Orbits(GroupOfWildSimplicialSurface(simpsurf), 
+                    FacesOfWildSimplicialSurface(simpsurf)))=1;
 
           return simpsurf!.isConnected;
 
@@ -694,9 +682,9 @@ end;
 
 #############################################################################
 ##
-##  AllSimplicialSurfaces( gens[, mrtype] ) . . . . all simplicial surfaces
-##  AllSimplicialSurfaces( grp[, mrtype] )
-##  AllSimplicialSurfaces( sig1, sig2, sig3[, mrtype] )
+##  AllWildSimplicialSurfaces( gens[, mrtype] ) . . . . all simplicial surfaces
+##  AllWildSimplicialSurfaces( grp[, mrtype] )
+##  AllWildSimplicialSurfaces( sig1, sig2, sig3[, mrtype] )
 ##
 ##
 #!  @Description
@@ -717,17 +705,17 @@ end;
 #!  $k=2$ and if it can be either let $k=0.$ Then set $mrtype[i][j] = k$.
 #!  @Returns a list of all wild-coloured simplicial surfaces with generating
 #!  set given by three involutions.
-#!  The function AllSimplicialSurfaces when called with the optional argument
+#!  The function AllWildSimplicialSurfaces when called with the optional argument
 #!  <mrtype> now returns all wild-coloured simplicial surfaces whose edges
 #!  are coloured according to the restrictions imposed by <mrtype>.
 #!  @Arguments gens, a list of three involutions
 #!
-InstallGlobalFunction( AllSimplicialSurfaces, function(arg)
+InstallGlobalFunction( AllWildSimplicialSurfaces, function(arg)
 
 
 	local faces, edges, vertices, grp, gens, i, j, k, 
           allvtxnames, completedvertices, nrvtsface, 
-          FirstFreeVertex,  FindSimplicialSurface, 
+          FirstFreeVertex,  FindWildSimplicialSurface, 
           AllSurfaces, level, n, allvertices, IsMirror, IsRotation,  
           LoopOneVertexSignedWithBoundary,  faceinverse,
           BreakPoint,  mrtype,         knownmrtype, cmpvertices;
@@ -759,11 +747,11 @@ end;
        mrtype := arg[4];
     fi;
     if not IsList(gens) or Length(gens) <> 3 then
-         Error("usage: AllSimplicialSurfaces( gens[, mrtype] )\n");
+         Error("usage: AllWildSimplicialSurfaces( gens[, mrtype] )\n");
     fi;
     if not IsPerm(gens[1]) or not IsPerm(gens[2])
         or not IsPerm(gens[3]) then
-         Error("usage: AllSimplicialSurfaces( gens[, mrtype] )\n");
+         Error("usage: AllWildSimplicialSurfaces( gens[, mrtype] )\n");
     fi;
     if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
         or gens[3]^2 <> One(gens[3]) then
@@ -771,7 +759,7 @@ end;
     fi;
 
     if not IsList(mrtype) or not Length(mrtype) in [0,3] then
-            Error("usage: AllSimplicialSurfaces( gens[, mrtype] )\n");
+            Error("usage: AllWildSimplicialSurfaces( gens[, mrtype] )\n");
     fi;
 
         
@@ -1096,7 +1084,7 @@ end;
     # are done, and nrvtsface the number of vertices per face for
     # the surfaces under construction
 
-    FindSimplicialSurface := function(level,vertices,completedvertices,nrvtsface)
+    FindWildSimplicialSurface := function(level,vertices,completedvertices,nrvtsface)
     
         local vtx, v, i, pi, g, h, vtxEquivalentnames, vertices_c, ss,
               allvtxnames_c, completedvertices_c, nrvtsface_c, Li, x, edges;
@@ -1114,7 +1102,7 @@ end;
             edges  := List( edges, e->Filtered( e , c -> Length(c) = 2));
 
             Sort( vertices, cmpvertices );
-            ss :=  SimplicialSurface(rec( faces := MovedPoints(gens),
+            ss :=  WildSimplicialSurface(rec( faces := MovedPoints(gens),
                 edges := edges, vertices := vertices, generators := gens ));
             ss!.mrtype := mrtype;
             Add(AllSurfaces, ss );
@@ -1149,7 +1137,7 @@ end;
              Add(vertices_c, Li[1]);
              completedvertices_c := ShallowCopy(Li[2]);
              nrvtsface_c := ShallowCopy(Li[3]);
-             FindSimplicialSurface(level+1, vertices_c, completedvertices_c, 
+             FindWildSimplicialSurface(level+1, vertices_c, completedvertices_c, 
                                                nrvtsface_c);
 
         od;
@@ -1168,7 +1156,7 @@ end;
     nrvtsface := List([1..n],i->0);
     level := 0;
 
-    FindSimplicialSurface( level, [], completedvertices, nrvtsface); 
+    FindWildSimplicialSurface( level, [], completedvertices, nrvtsface); 
 
     return AllSurfaces;
 
@@ -1177,12 +1165,12 @@ end);
 
 
 # compute the double cover - extend old mr settings
-DoubleCoverOfSimplicialSurface := function (simpsurf)
+DoubleCoverOfWildSimplicialSurface := function (simpsurf)
 
         local gens, newgens, i, j, mrtype, MapCycle, grp, N, mrtypenew;
 
 
-        N := NrOfFacesOfSimplicialSurface(simpsurf);
+        N := NrOfFacesOfWildSimplicialSurface(simpsurf);
 
 # replace a mirror (i,j) by (i, -j)(-i, j) 
 # and a rotation (i,j) by (i,j)(-i,-j).
@@ -1203,11 +1191,11 @@ MapCycle := function (c, t)
 
 end;
 
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
+        gens := GeneratorsOfWildSimplicialSurface(simpsurf);
         newgens := List( gens, i-> Cycles(i,
-            [ 1 .. Length(FacesOfSimplicialSurface(simpsurf)) ] ));
+            [ 1 .. Length(FacesOfWildSimplicialSurface(simpsurf)) ] ));
 
-        mrtype := MrTypeOfSimplicialSurface(simpsurf);
+        mrtype := MrTypeOfWildSimplicialSurface(simpsurf);
         mrtypenew := [];
 
         for i in [ 1 .. 3 ] do
@@ -1220,7 +1208,7 @@ end;
             od;
         od;
 
-        return SimplicialSurface( newgens[1], newgens[2], newgens[3], mrtypenew );
+        return WildSimplicialSurface( newgens[1], newgens[2], newgens[3], mrtypenew );
        
 end;
 
@@ -1233,15 +1221,15 @@ end;
 #!  @Returns true if the surface is orientable and false else.
 #!  @Arguments <simpsurf> a simplicial surface
 #!
-InstallGlobalFunction( IsOrientableSimplicialSurface, function ( simpsurf )
+InstallGlobalFunction( IsOrientableWildSimplicialSurface, function ( simpsurf )
 
         local gens, newgens, i, mrtype, MapCycle, orb, N;
 
-        if not IsSimplicialSurfaceRep(simpsurf) then
-            Error("usage: IsOrientableSimplicialSurface(simpsurf");
+        if not IsWildSimplicialSurfaceRep(simpsurf) then
+            Error("usage: IsOrientableWildSimplicialSurface(simpsurf");
             return fail;
         fi;
-        N:= NrOfFacesOfSimplicialSurface(simpsurf);
+        N:= NrOfFacesOfWildSimplicialSurface(simpsurf);
 
 
 # Map each cycle to a covering cycle. Mirrors are mapped to
@@ -1265,11 +1253,11 @@ MapCycle := function (c, t)
 
 end;
 
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
+        gens := GeneratorsOfWildSimplicialSurface(simpsurf);
         newgens := List( gens, i-> Cycles(i,
-            [ 1 .. Length(FacesOfSimplicialSurface(simpsurf)) ] ));
+            [ 1 .. Length(FacesOfWildSimplicialSurface(simpsurf)) ] ));
 
-        mrtype := MrTypeOfSimplicialSurface(simpsurf);
+        mrtype := MrTypeOfWildSimplicialSurface(simpsurf);
 
         for i in [ 1 .. 3 ] do
             newgens[i] := List( newgens[i], c -> MapCycle(c,mrtype[i][c[1]]));
@@ -1306,15 +1294,15 @@ InstallGlobalFunction( SnippOffEars, function( simpsurf )
         local i, gens, edges, FindCommon, j, e, ne, vtx, ear, x, vtxnames,
               newvertices, newedges, newgens, newvtxnames, verynewvertices;
 
-        gens := GeneratorsOfSimplicialSurface(simpsurf);
+        gens := GeneratorsOfWildSimplicialSurface(simpsurf);
         newgens := ShallowCopy(gens);
 
-        edges := EdgesOfSimplicialSurface(simpsurf);
+        edges := EdgesOfWildSimplicialSurface(simpsurf);
 
         newedges := [List(edges[1],i->ShallowCopy(i)),
                     List(edges[2],i->ShallowCopy(i)),
                     List(edges[3],i->ShallowCopy(i))];
-        newvertices := ShallowCopy(VerticesOfSimplicialSurface(simpsurf)); 
+        newvertices := ShallowCopy(VerticesOfWildSimplicialSurface(simpsurf)); 
 
     FindCommon := function (edges)
 
@@ -1373,7 +1361,7 @@ InstallGlobalFunction( SnippOffEars, function( simpsurf )
         od;
 
 
-        return SimplicialSurface( rec( generators := newgens,     
+        return WildSimplicialSurface( rec( generators := newgens,     
                     faces := MovedPoints(gens),
                     edges := newedges, 
                     # here we are careful to create a structural copy
@@ -1592,7 +1580,7 @@ TestGens := function(gens, vertices)
 #!  @Returns a list of lists, which are involution triples.
 #!  @Arguments a list of lists, which is a list of pairs of integers
 #!
-InstallGlobalFunction( GeneratorsFromEdgesOfSimplicialSurface, 
+InstallGlobalFunction( GeneratorsFromEdgesOfWildSimplicialSurface, 
       function( alledges )
 
         local gens, g, i,  cycs, cycs_c, gens_c, faces, fixedpoints_c, c,
@@ -1721,7 +1709,7 @@ end);
 #!  @BeginExample the tetrahedron is represented as
 #!    tetra := [ [1..4], [[1,2],[1,3],[1,4],[2,3],[3,4],[2,4]],
 #!             [[1,2,3,1], [1,3,4,1],[1,2,4,1],[2,3,4,2]];
-#!    WildSimplicialSurfacesFromFacePath(tetra);
+#!    WildWildSimplicialSurfacesFromFacePath(tetra);
 #!             where the triple [1,2,3,1] encodes the face path
 #!              around one vertex.
 #!  @EndExample
@@ -1731,7 +1719,7 @@ end);
 #!  @Arguments a list of lists, representing a ``face"-description of a surface
 #! 
 InstallGlobalFunction( 
-WildSimplicialSurfacesFromFacePath, function(surf)
+WildWildSimplicialSurfacesFromFacePath, function(surf)
 
         local simpsurf, edges, faces, vertices, 
            gens, allsurf, newvertices, vtx;
@@ -1749,7 +1737,7 @@ Print("Warning: Closed paths must repeat starting vertex!!\n");
 
         # Now we test whether the simplicial surface we 
         # have supports a wild colouring.
-        for gens in GeneratorsFromEdgesOfSimplicialSurface(edges) do
+        for gens in GeneratorsFromEdgesOfWildSimplicialSurface(edges) do
             newvertices := TestGens( gens, vertices );
             if newvertices <> false then
                 for vtx in newvertices do
@@ -1757,7 +1745,7 @@ Print("Warning: Closed paths must repeat starting vertex!!\n");
                                  faces := faces,
                                  edges := edges,
                                  vertices := vtx );
-                    Add( allsurf, SimplicialSurface(simpsurf) );
+                    Add( allsurf, WildSimplicialSurface(simpsurf) );
                 od;
             fi;
         od;        
@@ -1924,7 +1912,7 @@ end;
 ## TODO: Clean up local variables here!
 ##
 ## TODO: FaceWithEdges wrong call?
-InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
+InstallGlobalFunction( WildWildSimplicialSurfacesFromGenericSurface, function(surf)
 
         local simpsurf, pair, x, y, edges, faces, vertices, e, f1, f2, e1, e2, boundary1,
               fa, i, j, v, f, vtx, facepairs, incident, gens, allsurf, newvertices;
@@ -2092,7 +2080,7 @@ InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
         # the surface and see whether any of these can be a wild colouring
         # for the given edges. If the generic surface does not support a 
         # wild colouring, then TestGens will return an empty list.
-        for gens in GeneratorsFromEdgesOfSimplicialSurface(simpsurf.edges) do
+        for gens in GeneratorsFromEdgesOfWildSimplicialSurface(simpsurf.edges) do
             edges :=  List( gens, g-> Cycles(g,MovedPoints(gens)));
             edges  := List( edges, e->Filtered( e , c -> Length(c) = 2));
             newvertices := TestGens( gens, vertices );
@@ -2101,7 +2089,7 @@ InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
                              faces := faces,
                              edges := edges,
                              vertices := vtx );
-                Add( allsurf, SimplicialSurface(simpsurf) );
+                Add( allsurf, WildSimplicialSurface(simpsurf) );
             od;   
         od;        
 
@@ -2340,7 +2328,7 @@ InstallGlobalFunction( SixFoldCover, function( arg )
       od;
   
 
-      return AllSimplicialSurfaces( cgens, cmrtype );
+      return AllWildSimplicialSurfaces( cgens, cmrtype );
 
 end);
 
@@ -2377,13 +2365,13 @@ end;
 ##  This function returns structures in the input list of simplicial 
 ##  surfaces, i.e. it returns all mmm, mmr, mrr, rrr surfaces, 
 ##
-InstallGlobalFunction( AllStructuresSimplicialSurface, function (allsimpsurf)
+InstallGlobalFunction( AllStructuresWildSimplicialSurface, function (allsimpsurf)
 
         local res, i, ss, mr;
 
         res :=[];
         for ss in allsimpsurf do
-             mr := MrTypeOfSimplicialSurface(ss);
+             mr := MrTypeOfWildSimplicialSurface(ss);
              if 1 in mr[1] and 2 in mr[1] then continue; fi;
              if 1 in mr[2] and 2 in mr[2] then continue; fi;
              if 1 in mr[3] and 2 in mr[3] then continue; fi;
@@ -2402,7 +2390,7 @@ end);
 ##  cycles of a single generator are all of the same type: either m or r.
 ##
 ##
-InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
+InstallGlobalFunction( StructuresWildSimplicialSurface, function (arg)
 
     local mrtype,  faces, res, ss, gens;
 
@@ -2415,11 +2403,11 @@ InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
    	   gens := [arg[1],arg[2],arg[3]];
     fi;
     if not IsList(gens) or Length(gens) <> 3 then
-         Error("usage: StructureSimplicialSurface( gens )\n");
+         Error("usage: StructureWildSimplicialSurface( gens )\n");
     fi;
     if not IsPerm(gens[1]) or not IsPerm(gens[2])
         or not IsPerm(gens[3]) then
-         Error("usage: SimplicialSurface( gens )\n");
+         Error("usage: WildSimplicialSurface( gens )\n");
     fi;
     if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
         or gens[3]^2 <> One(gens[3]) then
@@ -2430,7 +2418,7 @@ InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
    
     # mmm
     mrtype := List( [1..3], i-> List(faces, j-> 1 ));
-    ss := AllSimplicialSurfaces( gens, mrtype);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
     if Length(ss) > 0 then Add(res, ss[1]); fi;
     if Length(ss) >  1 then Error("more than one mmm-type"); fi;
     # mmr 
@@ -2438,7 +2426,7 @@ InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
     mrtype[1] := List(faces,j->1);
     mrtype[2] := List(faces,j->1);
     mrtype[3] := List(faces,j->2);
-    ss := AllSimplicialSurfaces( gens, mrtype);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
     if Length(ss) > 0 then Add(res, ss[1]); fi;
     if Length(ss) >  1 then Error("more than one mmr-type"); fi;
     # mrm
@@ -2446,7 +2434,7 @@ InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
     mrtype[1] := List(faces,j->1);
     mrtype[2] := List(faces,j->2);
     mrtype[3] := List(faces,j->1);
-    ss := AllSimplicialSurfaces( gens, mrtype);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
     if Length(ss) > 0 then Add(res, ss[1]); fi;
     if Length(ss) >  1 then Error("more than one mmr-type"); fi;
     # rmm
@@ -2454,7 +2442,7 @@ InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
     mrtype[1] := List(faces,j->2);
     mrtype[2] := List(faces,j->1);
     mrtype[3] := List(faces,j->1);
-    ss := AllSimplicialSurfaces( gens, mrtype);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
     if Length(ss) > 0 then Add(res, ss[1]); fi;
     if Length(ss) >  1 then Error("more than one mmr-type"); fi;
     # mrr
@@ -2462,7 +2450,7 @@ InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
     mrtype[1] := List(faces,j->1);
     mrtype[2] := List(faces,j->2);
     mrtype[3] := List(faces,j->2);
-    ss := AllSimplicialSurfaces( gens, mrtype);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
     if Length(ss) > 0 then Add(res, ss[1]); fi;
     if Length(ss) >  1 then Error("more than one mrr-type"); fi;
     # rmr
@@ -2470,7 +2458,7 @@ InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
     mrtype[1] := List(faces,j->2);
     mrtype[2] := List(faces,j->1);
     mrtype[3] := List(faces,j->2);
-    ss := AllSimplicialSurfaces( gens, mrtype);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
     if Length(ss) > 0 then Add(res, ss[1]); fi;
     if Length(ss) >  1 then Error("more than one mrr-type"); fi;
     # rrm
@@ -2478,12 +2466,12 @@ InstallGlobalFunction( StructuresSimplicialSurface, function (arg)
     mrtype[1] := List(faces,j->2);
     mrtype[2] := List(faces,j->2);
     mrtype[3] := List(faces,j->1);
-    ss := AllSimplicialSurfaces( gens, mrtype);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
     if Length(ss) > 0 then Add(res, ss[1]); fi;
     if Length(ss) >  1 then Error("more than one mrr-type"); fi;
     # rrr
     mrtype := List( [1..3], i-> List(faces, j-> 2 ));
-    ss := AllSimplicialSurfaces( gens, mrtype);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
     if Length(ss) > 0 then Add(res, ss[1]); fi;
     if Length(ss) >  1 then Error("more than one rrr-type"); fi;
 
@@ -2500,7 +2488,7 @@ end);
 ##  full symmetric group.
 ##  This now allows us to act with a group on a simplicial surface and
 ##  call the orbit function
-ImageSimplicialSurface := function (ss, pi )
+ImageWildSimplicialSurface := function (ss, pi )
  
         local nss, i, j, vtx, v, nv, vert, cmpvertices;
 
@@ -2517,15 +2505,15 @@ end;
 
         nss := rec();
 
-        nss.generators := List(GeneratorsOfSimplicialSurface(ss), g->g^pi);
-        nss.faces := List(FacesOfSimplicialSurface(ss),g->g^pi);
+        nss.generators := List(GeneratorsOfWildSimplicialSurface(ss), g->g^pi);
+        nss.faces := List(FacesOfWildSimplicialSurface(ss),g->g^pi);
         Sort(nss.faces);
         nss.edges := [Cycles(nss.generators[1],nss.faces),
                       Cycles(nss.generators[2],nss.faces),
                       Cycles(nss.generators[3],nss.faces)];
 
         nss.vertices := [];
-        vert := VerticesOfSimplicialSurface(ss);
+        vert := VerticesOfWildSimplicialSurface(ss);
         for i in [1..Length(vert)] do
             v := vert[i];
             nss.vertices[i] := [];
@@ -2540,10 +2528,10 @@ end;
         od;
 
         Sort( nss!.vertices, cmpvertices);
-        nss := SimplicialSurface(nss);
+        nss := WildSimplicialSurface(nss);
 
-        DegreesOfSimplicialSurface(nss);
-        MrTypeOfSimplicialSurface(nss);
+        DegreesOfWildSimplicialSurface(nss);
+        MrTypeOfWildSimplicialSurface(nss);
            
 
         return nss;
@@ -2712,9 +2700,9 @@ end;
 IsIncidentVertexEdge := function(simpsurf,vertexNumber,edgeColor,edgeNumber)
 	local vert, edgeType, edges;
 
-    edges := EdgesOfSimplicialSurface(simpsurf);
+    edges := EdgesOfWildSimplicialSurface(simpsurf);
 
-	for vert in VerticesOfSimplicialSurface(simpsurf)[vertexNumber] do
+	for vert in VerticesOfWildSimplicialSurface(simpsurf)[vertexNumber] do
 		for edgeType in [vert[2],vert[3]] do
 			if edgeType = edgeColor and 
                vert[1] in edges[edgeColor][edgeNumber] then
@@ -2731,7 +2719,7 @@ VerticesInEdgeAsNumbers := function( simpsurf, edgeColor, edgeNumber )
 	local erg,i;
 
 	erg := [];
-	for i in [1..NrOfVerticesOfSimplicialSurface(simpsurf)] do
+	for i in [1..NrOfVerticesOfWildSimplicialSurface(simpsurf)] do
 		if IsIncidentVertexEdge( simpsurf, i, edgeColor, edgeNumber ) then
 			erg := Union( erg, [i]);
 		fi;
@@ -2744,7 +2732,7 @@ end;
 #  the given edge
 VerticesInEdge := function( simpsurf, edgeColor, edgeNumber )
 	return List( VerticesInEdgeAsNumbers(simpsurf,edgeColor,edgeNumber), 
-                  i-> VerticesOfSimplicialSurface(simpsurf)[i]);
+                  i-> VerticesOfWildSimplicialSurface(simpsurf)[i]);
 end;
 
 
@@ -2752,7 +2740,7 @@ end;
 # maple
 # WARNING! It is instrumental at this point (Maple can't handle holes 
 # in lists) that the faces are numbered 1,2,...,f
-InstallGlobalFunction( GenericSurfaceFromWildSimplicialSurface, 
+InstallGlobalFunction( GenericSurfaceFromWildWildSimplicialSurface, 
     function( simpsurf )
 	local erg, edges, edgeColor, edgeNumber, pos, faces, faceNumber, 
           edgesInFace, sedges;
@@ -2760,18 +2748,18 @@ InstallGlobalFunction( GenericSurfaceFromWildSimplicialSurface,
 	erg := [];
 
 	# First entry is number of vertices
-	erg[1] := NrOfVerticesOfSimplicialSurface(simpsurf);
+	erg[1] := NrOfVerticesOfWildSimplicialSurface(simpsurf);
 	
 	# Second entry is number of edges
-	erg[2] := NrOfEdgesOfSimplicialSurface(simpsurf);
+	erg[2] := NrOfEdgesOfWildSimplicialSurface(simpsurf);
 
 	# Third entry is number of faces
-	erg[3] := NrOfFacesOfSimplicialSurface(simpsurf);
+	erg[3] := NrOfFacesOfWildSimplicialSurface(simpsurf);
 
 	# The fourth entry is a list. Each entry of this list corresponds to 
     # an edge and equals a list of the vertices contained in that edge
 	edges := [];
-    sedges := EdgesOfSimplicialSurface(simpsurf);
+    sedges := EdgesOfWildSimplicialSurface(simpsurf);
 	for edgeColor in [1..Length(sedges)] do
 		for edgeNumber in [1..Length(sedges[edgeColor])] do
 			pos := (edgeColor - 1) * Length( sedges[edgeColor] ) + edgeNumber;
@@ -2783,7 +2771,7 @@ InstallGlobalFunction( GenericSurfaceFromWildSimplicialSurface,
 	# The fifth entry is also a list, corresponding to the faces. 
     # Each entry is a list containing the edges of this face
 	faces := [];
-	for faceNumber in FacesOfSimplicialSurface(simpsurf) do
+	for faceNumber in FacesOfWildSimplicialSurface(simpsurf) do
 		edgesInFace := [];
 		for edgeColor in [1..Length(sedges)] do
 			for edgeNumber in [1..Length(sedges[edgeColor])] do
@@ -2807,4 +2795,4 @@ end);
 
 
 # InstallMethod( \^, "for a simplicial surface and a permutation", true, 
-#  [ IsSimplicialSurfaceRep, IsPerm ], 0, ImageSimplicialSurface);
+#  [ IsWildSimplicialSurfaceRep, IsPerm ], 0, ImageWildSimplicialSurface);
