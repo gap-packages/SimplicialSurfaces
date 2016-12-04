@@ -249,7 +249,8 @@ InstallGlobalFunction( NrOfFacesOfWildSimplicialSurface, function (simpsurf)
 end);
 
 InstallMethod( NrOfFaces, "for a simplicial surfaces", true, 
-  [ IsSimplicialSurface and IsWildSimplicialSurfaceRep ], 0,  NrOfFacesOfWildSimplicialSurface);
+	[ IsSimplicialSurface and IsWildSimplicialSurfaceRep ], 0,
+	NrOfFacesOfWildSimplicialSurface);
 
 #############################################################################
 ##
@@ -282,6 +283,9 @@ InstallGlobalFunction( NrOfEdgesOfWildSimplicialSurface, function( simpsurf)
        return Sum(List(EdgesOfWildSimplicialSurface(simpsurf), i->Length(i)));
 
 end);
+InstallMethod( NrOfEdges, "for a simplicial surfaces", true, 
+	[ IsSimplicialSurface and IsWildSimplicialSurfaceRep ], 0,
+	NrOfEdgesOfWildSimplicialSurface);
 
 #############################################################################
 ##
@@ -314,7 +318,21 @@ InstallGlobalFunction( NrOfVerticesOfWildSimplicialSurface, function( simpsurf)
         return Length(VerticesOfWildSimplicialSurface(simpsurf));
 
 end);
+InstallMethod( NrOfVertices, "for a simplicial surfaces", true, 
+	[ IsSimplicialSurface and IsWildSimplicialSurfaceRep ], 0,
+	NrOfVerticesOfWildSimplicialSurface);
 
+###############################################################################
+##
+#!  @Description
+#!  This function checks whether the wild simplicial surface is an actual
+#!	surface. For wild simplicial surfaces this function always returns true.
+#!  @Returns true
+#!  @Arguments <simpsurf> a wild simplicial surface
+#!
+InstallMethod( IsActualSurface, "for a simplicial surfaces", true, 
+	[ IsSimplicialSurface and IsWildSimplicialSurfaceRep ], 0,
+	function(simpsurf) return true; end);
 
 #############################################################################
 ##
@@ -646,6 +664,9 @@ InstallGlobalFunction( IsConnectedWildSimplicialSurface,
 
 end
 );
+InstallMethod( IsConnected, "for a simplicial surfaces", true, 
+	[ IsSimplicialSurface and IsWildSimplicialSurfaceRep ], 0,
+	IsConnectedWildSimplicialSurface);
 
 
 #############################################################################
@@ -1246,6 +1267,9 @@ end;
         return fail;
        
 end);
+InstallMethod( IsOrientable, "for a simplicial surfaces", true, 
+	[ IsSimplicialSurface and IsWildSimplicialSurfaceRep ], 0,
+	IsOrientableWildSimplicialSurface);
 
 
 #############################################################################
@@ -1336,6 +1360,9 @@ InstallGlobalFunction( SnippOffEarsOfWildSimplicialSurface, function( simpsurf )
                     # of the vertices
                     vertices := StructuralCopy(newvertices)));
 end);
+InstallMethod( SnippOffEars, "for a simplicial surfaces", true, 
+	[ IsSimplicialSurface and IsWildSimplicialSurfaceRep ], 0,
+	SnippOffEarsOfWildSimplicialSurface);
 
 
 ##

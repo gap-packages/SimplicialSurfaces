@@ -23,14 +23,17 @@ DeclareCategory( "IsSimplicialSurface", IsComponentObjectRep );
 
 
 
-DeclareOperation( "Vertices", [IsSimplicialSurface] );
+DeclareOperation( "Vertices", [IsSimplicialSurface] );		# TODO
 DeclareOperation( "NrOfVertices", [IsSimplicialSurface] );
-DeclareOperation( "Edges", [IsSimplicialSurface] );
+DeclareOperation( "Edges", [IsSimplicialSurface] );			# TODO
 DeclareOperation( "NrOfEdges", [IsSimplicialSurface] );
-DeclareOperation( "Faces", [IsSimplicialSurface] );
+DeclareOperation( "Faces", [IsSimplicialSurface] );			# TODO
 DeclareOperation( "NrOfFaces", [IsSimplicialSurface] );
 
 DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
+DeclareOperation( "IsOrientable", [IsSimplicialSurface] );
+DeclareOperation( "IsConnected", [IsSimplicialSurface] );
+DeclareOperation( "IsActualSurface", [IsSimplicialSurface] );
 
 #############################################################################
 ##
