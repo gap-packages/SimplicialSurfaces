@@ -11,12 +11,8 @@
 
 LoadPackage( "grape" );
 
-Read( "gap/simplicial_surface.gi" );
-Read( "gap/wild_simplicial_surface.gi" );
-Read( "gap/generic_simplicial_surface.gi" );
+Read( "simplicial_surface.gi" );
+Read( "wild_simplicial_surface.gi" );
+Read( "generic_simplicial_surface.gi" );
 
-
-#ReadPackage( "simplicial_surfaces", "gap/simplicial_surface.gi" );
-#ReadPackage( "simplicial_surfaces", "gap/wild_simplicial_surface.gi" );
-#ReadPackage( "simplicial_surfaces", "gap/generic_simplicial_surface.gi" );
 
