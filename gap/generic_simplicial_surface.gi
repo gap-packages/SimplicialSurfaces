@@ -95,7 +95,7 @@ function (simpsurf)
 end
 );
 InstallMethod( NrOfFaces, "for a simplicial surfaces", true, 
-	[ IsSimplicialSurface and IsGenericSimplicialSurfaceRep ], 0,
+	[ IsGenericSimplicialSurfaceRep ], 0,
 	NrOfFacesOfGenericSimplicialSurface);
 
 #############################################################################
@@ -138,7 +138,7 @@ function( simpsurf)
 end
 );
 InstallMethod( NrOfEdges, "for a simplicial surfaces", true, 
-	[ IsSimplicialSurface and IsGenericSimplicialSurfaceRep ], 0,
+	[ IsGenericSimplicialSurfaceRep ], 0,
 	NrOfEdgesOfGenericSimplicialSurface);
 
 #############################################################################
@@ -182,7 +182,7 @@ function( simpsurf)
 end
 );
 InstallMethod( NrOfVertices, "for a simplicial surfaces", true, 
-	[ IsSimplicialSurface and IsGenericSimplicialSurfaceRep ], 0,
+	[ IsGenericSimplicialSurfaceRep ], 0,
 	NrOfVerticesOfGenericSimplicialSurface);
 
 
@@ -531,7 +531,7 @@ function(simpsurf)
 end
 );
 InstallMethod( IsConnected, "for a simplicial surfaces", true, 
-	[ IsSimplicialSurface and IsGenericSimplicialSurfaceRep ], 0,
+	[ IsGenericSimplicialSurfaceRep ], 0,
 	IsConnectedGenericSimplicialSurface);
 
 
@@ -560,7 +560,7 @@ function( simpsurf )
 end
 );
 InstallMethod( IsActualSurface, "for a simplicial surfaces", true, 
-	[ IsSimplicialSurface and IsGenericSimplicialSurfaceRep ], 0,
+	[ IsGenericSimplicialSurfaceRep ], 0,
 	IsActualSurfaceGenericSimplicialSurface);
 
 
@@ -679,7 +679,7 @@ function( simpsurf )
 end
 );
 InstallMethod( IsOrientable, "for a simplicial surfaces", true, 
-	[ IsSimplicialSurface and IsGenericSimplicialSurfaceRep ], 0,
+	[ IsGenericSimplicialSurfaceRep ], 0,
 	IsOrientableGenericSimplicialSurface);
 
 
@@ -778,7 +778,7 @@ end
 );
 
 InstallMethod( SnippOffEars, "for a simplicial surfaces", true, 
-	[ IsSimplicialSurface and IsGenericSimplicialSurfaceRep ], 0,
+	[ IsGenericSimplicialSurfaceRep ], 0,
 	SnippOffEarsOfGenericSimplicialSurface);
 
 #############################################################################
