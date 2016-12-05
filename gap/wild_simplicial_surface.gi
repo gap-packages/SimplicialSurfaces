@@ -1907,10 +1907,14 @@ end;
 ## TODO: Clean up local variables here!
 ##
 ## TODO: FaceWithEdges wrong call?
-InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
+InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surface)
 
         local simpsurf, pair, x, y, edges, faces, vertices, e, f1, f2, e1, e2, boundary1,
-              fa, i, j, v, f, vtx, facepairs, incident, gens, allsurf, newvertices;
+              fa, i, j, v, f, vtx, facepairs, incident, gens, allsurf, newvertices, surf;
+
+		surf := [ NrOfVertices(surface), NrOfEdges(surface), NrOfFaces(surface),
+				EdgesOfGenericSimplicialSurface(surface),
+				FacesOfGenericSimplicialSurface(surface)];
 
 
         # find one face with edges e1 and e2
@@ -2063,7 +2067,7 @@ InstallGlobalFunction( WildSimplicialSurfacesFromGenericSurface, function(surf)
                          fi;
                       fi;
                       f2 := NextFaceEdge(f2[2],f2[1],incident);
-                      f2 := NextFaceEdge(surf,f2[2],f2[1],incident);
+                      f2 := NextFaceEdge(surf,f2[2],f2[1],incident);	#ERROR: Call with four arguments, but function only wants three
                   od;
                   Add( vertices, vtx);                                  
             fi;

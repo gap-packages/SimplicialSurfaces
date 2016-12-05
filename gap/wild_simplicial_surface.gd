@@ -30,7 +30,7 @@
 ##		the .gi-file (compare section 79.19 of the GAP-manual) as it is
 ##		instrumental to know this representation to work with this package.
 ##
-DeclareRepresentation("IsWildSimplicialSurfaceRep", IsComponentObjectRep,
+DeclareRepresentation("IsWildSimplicialSurfaceRep", IsSimplicialSurface,
      ["faces","edges","vertices", "generators"]);
 
 # From now on, we can do "Objectify( WildSimplicialSurfaceType, re )" 

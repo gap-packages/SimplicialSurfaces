@@ -106,7 +106,7 @@ TestTetrahedronWild := function()
 	sig3 := (1,4)(2,3);
 	mrType := AllEdgesOfSameType( 4, 2);
 
-	surfaces := AllSimplicialSurfaces( sig1, sig2, sig3,mrType  );
+	surfaces := AllWildSimplicialSurfaces( sig1, sig2, sig3,mrType  );
 	if Length(surfaces) <> 1 then
 		Print( "Failed: Tetrahedron can't be defined by wild coloring.\n" );
 	fi;
@@ -114,19 +114,19 @@ TestTetrahedronWild := function()
 	surf := surfaces[1];
 
 	# Test the elementary properties
-	if NrOfVerticesOfSimplicialSurface(surf) <> 4 then
+	if NrOfVerticesOfWildSimplicialSurface(surf) <> 4 then
 		Print( "Failed: Tetrahedron has wrong number of vertices.\n" );
 	fi;
 
-	if NrOfEdgesOfSimplicialSurface(surf) <> 6 then
+	if NrOfEdgesOfWildSimplicialSurface(surf) <> 6 then
 		Print( "Failed: Tetrahedron has wrong number of edges.\n" );
 	fi;
 
-	if NrOfFacesOfSimplicialSurface(surf) <> 4 then
+	if NrOfFacesOfWildSimplicialSurface(surf) <> 4 then
 		Print( "Failed: Tetrahedron has wrong number of faces.\n" );
 	fi;
 
-	if MrTypeOfSimplicialSurface(surf) <> mrType then
+	if MrTypeOfWildSimplicialSurface(surf) <> mrType then
 		Print( "Failed: Tetrahedron has wrong mr-type.\n" );
 	fi;
 
@@ -135,7 +135,7 @@ TestTetrahedronWild := function()
 		Print( "Failed: Tetrahedron has wrong Euler-Characteristic.\n" );
 	fi;
 
-	VertexGroup := VertexGroupOfSimplicialSurface(surf);
+	VertexGroup := VertexGroupOfWildSimplicialSurface(surf);
 	VertexGroup := VertexGroup[1] / VertexGroup[2];
 	if not IsDihedralGroup( VertexGroup ) or Size( VertexGroup ) <> 4 then
 		Print( "Failed: Tetrahedron vertex group is not V_4.\n");
@@ -143,19 +143,19 @@ TestTetrahedronWild := function()
 		Print( "  Passed: Tetrahedron has correct vertex group V_4.\n");
 	fi;
 
-	if DegreesOfSimplicialSurface(surf) <> [3,3,3,3] then
+	if DegreesOfWildSimplicialSurface(surf) <> [3,3,3,3] then
 		Print( "Failed: Tetrahedron vertex degrees are incorrect.\n");
     else
 		Print( "  Passed: Tetrahedron has correct vertex degrees.\n");
 	fi;
 
-	if not IsConnectedSimplicialSurface(surf) then
+	if not IsConnectedWildSimplicialSurface(surf) then
 		Print( "Failed: Tetrahedron should be connected.\n" );
     else
 		Print( "  Passed: Tetrahedron is connected.\n" );
 	fi;
 
-	if not IsOrientableSimplicialSurface(surf) then
+	if not IsOrientableWildSimplicialSurface(surf) then
 		Print( "Failed: Tetrahedron should be orientable.\n" );
     else
 		Print( "  Passed: Tetrahedron is orientable.\n" );
@@ -198,9 +198,9 @@ TestTetrahedronGeneric := function()
 	fi;
 
 	# Test some advanced properties
-#	if EulerCharacteristic(surf) <> 2 then
-#		Print( "Tetrahedron has wrong Euler-Characteristic.\n" );
-#	fi;
+	if EulerCharacteristic(surf) <> 2 then
+		Print( "Tetrahedron has wrong Euler-Characteristic.\n" );
+	fi;
 
 	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [3,3,3,3] or 
 		SortedDegreesOfGenericSimplicialSurface(surf) <> [3,3,3,3] then
@@ -281,7 +281,7 @@ TestTetrahedronConversion := function()
 		edges := [[1,2],[2,3],[3,1],[1,4],[4,2],[4,3]], 
 		faces := [[1,2,3],[5,1,4],[3,6,4],[5,6,2]] ) );
 
-	wild := AllSimplicialSurfaces( 
+	wild := AllWildSimplicialSurfaces( 
 		(1,3)(2,4), 
 		(1,2)(3,4), 
 		(1,4)(2,3),
@@ -355,7 +355,7 @@ TestOpenTetrahedronWild := function()
 	sig3 := (1,3);
 	mrType := AllEdgesOfSameType( 3, 2);
 
-	surfaces := AllSimplicialSurfaces( sig1, sig2, sig3,mrType  );
+	surfaces := AllWildSimplicialSurfaces( sig1, sig2, sig3,mrType  );
 	if Length(surfaces) <> 1 then
 		Print( "Failed: Open Tetrahedron can't be defined.\n" );
 	fi;
@@ -363,19 +363,19 @@ TestOpenTetrahedronWild := function()
 	surf := surfaces[1];
 
 	# Test the elementary properties
-	if NrOfVerticesOfSimplicialSurface(surf) <> 4 then
+	if NrOfVerticesOfWildSimplicialSurface(surf) <> 4 then
 		Print( "Failed: Open Tetrahedron has wrong number of vertices.\n" );
 	fi;
 
-	if NrOfEdgesOfSimplicialSurface(surf) <> 6 then
+	if NrOfEdgesOfWildSimplicialSurface(surf) <> 6 then
 		Print( "Failed: Open Tetrahedron has wrong number of edges.\n" );
 	fi;
 
-	if NrOfFacesOfSimplicialSurface(surf) <> 3 then
+	if NrOfFacesOfWildSimplicialSurface(surf) <> 3 then
 		Print( "Failed: Open Tetrahedron has wrong number of faces.\n" );
 	fi;
 
-	if MrTypeOfSimplicialSurface(surf) <> mrType then
+	if MrTypeOfWildSimplicialSurface(surf) <> mrType then
 		Print( "Failed: Open Tetrahedron has wrong mr-type.\n" );
 	fi;
 
@@ -384,7 +384,7 @@ TestOpenTetrahedronWild := function()
 		Print( "Failed: Open Tetrahedron has wrong Euler-Characteristic.\n" );
 	fi;
 
-	VertexGroup := VertexGroupOfSimplicialSurface(surf);
+	VertexGroup := VertexGroupOfWildSimplicialSurface(surf);
 	VertexGroup := VertexGroup[1] / VertexGroup[2];
 	if not IsDihedralGroup( VertexGroup ) or Size( VertexGroup ) <> 4 then
 		Print( "Failed: Open Tetrahedron vertex group is not V_4.\n");
@@ -392,7 +392,7 @@ TestOpenTetrahedronWild := function()
 		Print( "  Passed: Open Tetrahedron has correct vertex group V_4.\n");
 	fi;
 
-	Degrees := DegreesOfSimplicialSurface(surf);
+	Degrees := DegreesOfWildSimplicialSurface(surf);
 	if Set(Degrees) <> [2,3] or Length(Degrees) <> 4 or 
 		Length( Filtered( Degrees, i->i=2) ) <> 3 then
 		Print( "Failed: Open Tetrahedron vertex degrees are incorrect.\n");
@@ -400,13 +400,13 @@ TestOpenTetrahedronWild := function()
 		Print( "  Passed: Open Tetrahedron has correct vertex degrees.\n");
 	fi;
 
-	if not IsConnectedSimplicialSurface(surf) then
+	if not IsConnectedWildSimplicialSurface(surf) then
 		Print( "Failed: Open Tetrahedron should be connected.\n" );
     else
 		Print( "  Passed: Open Tetrahedron is connected.\n" );
 	fi;
 
-	if not IsOrientableSimplicialSurface(surf) then
+	if not IsOrientableWildSimplicialSurface(surf) then
 		Print( "Failed: Open Tetrahedron should be orientable.\n" );
     else
 		Print( "  Passed: Open Tetrahedron is orientable.\n" );
@@ -537,7 +537,7 @@ TestOpenTetrahedronConversion := function()
 		edges := [[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], 
 		faces := [[1,2,3],[1,6,5],[4,5,3]] ) );
 
-	wild := AllSimplicialSurfaces( 
+	wild := AllWildSimplicialSurfaces( 
 		(1,2), 
 		(2,3), 
 		(1,3),
