@@ -563,6 +563,45 @@ InstallMethod( IsActualSurface, "for a simplicial surfaces", true,
 	[ IsGenericSimplicialSurfaceRep ], 0,
 	IsActualSurfaceGenericSimplicialSurface);
 
+###############################################################################
+##
+#!  @Description
+#!  This function returns the face-anomaly-classes of a generic simplicial
+#!	surface <simpsurf>. Two faces are in the same face-anomaly-class if they
+#!	contain the same vertices.
+#!  @Returns The face-anomaly-classes (as a list of sets)
+#!  @Arguments <simpsurf> a generic simplicial surface
+#!
+InstallGlobalFunction( "FaceAnomalyClassesOfGenericSimplicialSurface",
+	function( simpsurf )
+		local facesByVertices, classes, i, found;
+
+		if IsBound( simpsurf!.faceAnomalyClasses ) then
+			return simpsurf!.faceAnomalyClasses;
+		fi;
+
+		facesByVertices := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
+		classes := [];
+
+		for i in [1..NrOfFaces(simpsurf)] do
+			found := false;
+			for cl in classes do
+				if facesByVertices[i] = facesByVertices[ cl[1] ] then
+					cl := Union( cl, [i] );
+					found := true;
+					break;
+				fi;
+			od;
+			if not found then
+				Append( classes, [ [i] ] );
+			fi;
+		od;
+
+		simpsurf!.faceAnomalyClasses := classes;
+		return simpsurf!.faceAnomalyClasses;
+	end
+ );
+
 
 ###############################################################################
 ##

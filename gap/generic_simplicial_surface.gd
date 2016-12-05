@@ -169,6 +169,18 @@ DeclareGlobalFunction( "UnsortedDegreesOfGenericSimplicialSurface" );
 DeclareGlobalFunction( "SortedDegreesOfGenericSimplicialSurface" );
 
 
+###############################################################################
+##
+#!  @Description
+#!  This function returns the face-anomaly-classes of a generic simplicial
+#!	surface <simpsurf>. Two faces are in the same face-anomaly-class if they
+#!	contain the same vertices.
+#!  @Returns The face-anomaly-classes (as a list of sets)
+#!  @Arguments <simpsurf> a generic simplicial surface
+#!
+DeclareGlobalFunction( "FaceAnomalyClassesOfGenericSimplicialSurface" );
+
+
 #############################################################################
 ##
 ##
@@ -256,6 +268,7 @@ DeclareGlobalFunction( "RemoveVertexOfGenericSimplicialSurface" );
 #!  @Arguments <simpsurf> a generic simplicial surface
 #!
 DeclareGlobalFunction( "SnippOffEarsOfGenericSimplicialSurface" );
+
 
 
 
