@@ -6,8 +6,10 @@
 Read("../test/generalTest.g");
 Read("../test/tetrahedron.g");
 Read("../test/openTetrahedron.g");
+Read("../test/icosahedron.g");
 
 TestAll := function()
 	TestTetrahedron();
 	TestOpenTetrahedron();
+	TestIcosahedron();
 end;
