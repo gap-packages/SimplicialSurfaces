@@ -9,7 +9,7 @@
 ##
 #############################################################################
 
-LoadPackage( "grape" );
+
 
 Read( "simplicial_surface.gi" );
 Read( "wild_simplicial_surface.gi" );

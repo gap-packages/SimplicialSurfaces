@@ -21,6 +21,7 @@
 ##		The order or these three edges defines the orientation of this face.
 ##
 
+LoadPackage( "grape" );
 
 
 ##
@@ -534,6 +535,58 @@ InstallMethod( IsConnected, "for a simplicial surfaces", true,
 	[ IsGenericSimplicialSurfaceRep ], 0,
 	IsConnectedGenericSimplicialSurface);
 
+##
+##	Return the faces of the connected component in which f lies.
+##
+ConnectedComponentByFaceOfGenericSimplicialSurface := function( simpsurf, f )
+	local faceList, faces, points, comp, change, faceNr;
+
+	faceList := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
+	# Take care to not modify the real list of faces
+	faces := Difference( [1..NrOfFaces(simpsurf)], [f] );
+	points := Set( faceList[f] );
+	comp := [ f ];
+
+	change := true;
+	while change do
+		change := false;
+
+		for faceNr in faces do
+			if Intersection( points, faceList[faceNr] ) <> [] then
+				change := true;
+				points := Union( points, faceList[faceNr] );
+				faces := Difference( faces, [faceNr] );
+				comp := Union( comp, [faceNr] );
+			fi;
+		od;
+	od;
+
+	return comp;
+end;
+
+##
+##	Return a list of all connected components (by faces)
+##
+ConnectedComponentsByFacesOfGenericSimplicialSurface := function( simpsurf )
+	local faces, comp, f, component;
+
+	if IsBound( simpsurf!.connectedComponents ) then
+		return simpsurf!.connectedComponents;
+	fi;
+
+	faces := [1..NrOfFaces(simpsurf)];
+	comp := [ ];
+	while not IsEmpty(faces) do
+		f := faces[1];
+		component := ConnectedComponentByFaceOfGenericSimplicialSurface( simpsurf, f );
+		Append( comp, [component] );
+		faces := Difference( faces, component );
+	od;
+
+	simpsurf!.connectedComponents := comp;
+	return simpsurf!.connectedComponents;
+end;
+
 
 ###############################################################################
 ##
@@ -574,7 +627,7 @@ InstallMethod( IsActualSurface, "for a simplicial surfaces", true,
 #!
 InstallGlobalFunction( "FaceAnomalyClassesOfGenericSimplicialSurface",
 	function( simpsurf )
-		local facesByVertices, classes, i, found;
+		local facesByVertices, classes, i, found, cl;
 
 		if IsBound( simpsurf!.faceAnomalyClasses ) then
 			return simpsurf!.faceAnomalyClasses;
