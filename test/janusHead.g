@@ -1,22 +1,22 @@
 ################################################################################
 ################################################################################
-#####							Test a tetrahedron
+#####							Test a janus head
 ################################################################################
 ################################################################################
 
 ################################################################################
-## This method tests the functionality for the example of a tetrahedron
+## This method tests the functionality for the example of a janus head
 ## and the representation of a wild coloured simplicial surface
-TestTetrahedronWild := function()
+TestJanusHeadWild := function()
 	local sig1,sig2,sig3, mrType, surfaces, surf, VertexGroup, generic,
 		consistency, name;
 
-	name := "Tetrahedron";
+	name := "Janus head";
 
-	sig1 := (1,3)(2,4);
-	sig2 := (1,2)(3,4);
-	sig3 := (1,4)(2,3);
-	mrType := AllEdgesOfSameType( 4, 2);
+	sig1 := (1,2);
+	sig2 := (1,2);
+	sig3 := (1,2);
+	mrType := AllEdgesOfSameType( 2, 1);
 
 	surfaces := AllWildSimplicialSurfaces( sig1, sig2, sig3,mrType  );
 	if Length(surfaces) <> 1 then
@@ -28,19 +28,19 @@ TestTetrahedronWild := function()
 	surf := surfaces[1];
 
 	# Test the elementary properties
-	if NrOfVerticesOfWildSimplicialSurface(surf) <> 4 then
+	if NrOfVerticesOfWildSimplicialSurface(surf) <> 3 then
 		Print( "Failed: ");
 		Print(name);
 		Print( " has wrong number of vertices.\n" );
 	fi;
 
-	if NrOfEdgesOfWildSimplicialSurface(surf) <> 6 then
+	if NrOfEdgesOfWildSimplicialSurface(surf) <> 3 then
 		Print( "Failed: ");
 		Print(name);
 		Print( " has wrong number of edges.\n" );
 	fi;
 
-	if NrOfFacesOfWildSimplicialSurface(surf) <> 4 then
+	if NrOfFacesOfWildSimplicialSurface(surf) <> 2 then
 		Print( "Failed: ");
 		Print(name);
 		Print( " has wrong number of faces.\n" );
@@ -61,17 +61,17 @@ TestTetrahedronWild := function()
 
 	VertexGroup := VertexGroupOfWildSimplicialSurface(surf);
 	VertexGroup := VertexGroup[1] / VertexGroup[2];
-	if not IsDihedralGroup( VertexGroup ) or Size( VertexGroup ) <> 4 then
+	if Size( VertexGroup ) <> 2 then
 		Print( "Failed: ");
 		Print(name);
-		Print( " vertex group is not V_4.\n");
+		Print( " vertex group is not C_2.\n");
     else
 		Print( "  Passed: ");
 		Print(name);
-		Print( " has correct vertex group V_4.\n");
+		Print( " has correct vertex group C_2.\n");
 	fi;
 
-	if DegreesOfWildSimplicialSurface(surf) <> [3,3,3,3] then
+	if DegreesOfWildSimplicialSurface(surf) <> [2,2,2] then
 		Print( "Failed: ");
 		Print(name);
 		Print( " vertex degrees are incorrect.\n");
@@ -93,11 +93,11 @@ TestTetrahedronWild := function()
 
 	if not IsOrientableWildSimplicialSurface(surf) then
 		Print( "Failed: ");
-		Print( name );
+		Print(name);
 		Print( " should be orientable.\n" );
     else
-		Print( "	Passed: ");
-		Print( name );
+		Print( "  Passed: ");
+		Print(name);
 		Print( " is orientable.\n" );
 	fi;
 
@@ -116,34 +116,34 @@ end;
 ##########################################################################
 ## This method tests the functionality for the example of a tetrahedron
 ## and the representation of a generic simplicial surface
-TestTetrahedronGeneric := function()
+TestJanusHeadGeneric := function()
 	local surf, newSurf, graph, name;
 
-	name := "Tetrahedron";
+	name := "Janus head";
 
 	surf := GenericSimplicialSurface( rec( 
-		nrOfVertices := 4,
-		nrOfEdges := 6,
-		nrOfFaces := 4,
-		edges := [[1,2],[2,3],[3,1],[1,4],[4,2],[4,3]], 
-		faces := [[1,2,3],[5,1,4],[3,6,4],[5,6,2]] ) );
+		nrOfVertices := 3,
+		nrOfEdges := 3,
+		nrOfFaces := 2,
+		edges := [[1,2],[2,3],[3,1]], 
+		faces := [[1,2,3],[1,2,3]] ) );
 
-	TestGenericConsistency( surf, "Tetrahedron definition (generic)" );
+	TestGenericConsistency( surf, Concatenation(name," definition (generic)") );
 
 	# Test the elementary properties
-	if NrOfVerticesOfGenericSimplicialSurface(surf) <> 4 then
+	if NrOfVerticesOfGenericSimplicialSurface(surf) <> 3 then
 		Print( "Failed: ");
 		Print( name );
 		Print( " has wrong number of vertices.\n" );
 	fi;
 
-	if NrOfEdgesOfGenericSimplicialSurface(surf) <> 6 then
+	if NrOfEdgesOfGenericSimplicialSurface(surf) <> 3 then
 		Print( "Failed: ");
 		Print( name );
 		Print( " has wrong number of edges.\n" );
 	fi;
 
-	if NrOfFacesOfGenericSimplicialSurface(surf) <> 4 then
+	if NrOfFacesOfGenericSimplicialSurface(surf) <> 2 then
 		Print( "Failed: ");
 		Print( name );
 		Print( " has wrong number of faces.\n" );
@@ -156,14 +156,14 @@ TestTetrahedronGeneric := function()
 		Print( " has wrong Euler-Characteristic.\n" );
 	fi;
 
-	if Length( FaceAnomalyClassesOfGenericSimplicialSurface( surf ) ) <> 4 then
+	if Length( FaceAnomalyClassesOfGenericSimplicialSurface( surf ) ) <> 1 then
 		Print( "Failed: ");
 		Print( name );
 		Print( " should have a face-anomaly.");
 	fi;
 
-	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [3,3,3,3] or 
-		SortedDegreesOfGenericSimplicialSurface(surf) <> [3,3,3,3] then
+	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [2,2,2] or 
+		SortedDegreesOfGenericSimplicialSurface(surf) <> [2,2,2] then
 		Print( "Failed: ");
 		Print(name);
 		Print( " vertex degrees are incorrect.\n");
@@ -208,7 +208,7 @@ TestTetrahedronGeneric := function()
 	if not IsGraph(graph) then
 		Print( "Failed: Incidence graph is not a graph.\n");
 	fi;
-	if OrderGraph(graph) <> 14 then
+	if OrderGraph(graph) <> 8 then
 		Print( "Failed: Number of vertices in incidence graph is wrong.\n");
 	fi;
 	if IsLoopy(graph) then
@@ -224,100 +224,51 @@ TestTetrahedronGeneric := function()
 		Print( "Failed: Incidence graph is not bipartite.\n");
 	fi;
 
-
-
-	newSurf := RemoveVertexOfGenericSimplicialSurface( surf, 1);
-	TestGenericConsistency( newSurf, "Tetrahedron after removel of one vertex");
-	if NrOfVerticesOfGenericSimplicialSurface(newSurf) <> 3 then
-		Print( "Failed: Tetrahedron has wrong number of vertices after removing one vertex.\n" );
-	fi;
-	if NrOfEdgesOfGenericSimplicialSurface(newSurf) <> 3 then
-		Print( "Failed: Tetrahedron has wrong number of edges after removing one vertex.\n" );
-	fi;
-	if NrOfFacesOfGenericSimplicialSurface(newSurf) <> 1 then
-		Print( "Failed: Tetrahedron has wrong number of faces after removing one vertex.\n" );
-	fi;
-
 end;
 
 
 ##########################################################################
-## This method tests the functionality for the example of a tetrahedron
+## This method tests the functionality for the example of a janus head
 ## and the conversion between different representations
-TestTetrahedronConversion := function()
+TestJanusHeadConversion := function()
 	local generic, faceToGeneric, wildToGeneric, wild, genToFaceToGen,
 		genToWildToGen, genericToFace, genericToWild, face, faceToWildToGen,
-		faceToWild;
+		faceToWild, name;
+
+	name := "janus head";
 
 	## Test all converters to generic
 	generic := GenericSimplicialSurface( rec( 
-		nrOfVertices := 4,
-		nrOfEdges := 6,
-		nrOfFaces := 4,
-		edges := [[1,2],[2,3],[3,1],[1,4],[4,2],[4,3]], 
-		faces := [[1,2,3],[5,1,4],[3,6,4],[5,6,2]] ) );
+		nrOfVertices := 3,
+		nrOfEdges := 3,
+		nrOfFaces := 2,
+		edges := [[1,2],[2,3],[3,1]], 
+		faces := [[1,2,3],[1,2,3]] ) );
 
 	wild := AllWildSimplicialSurfaces( 
-		(1,3)(2,4), 
-		(1,2)(3,4), 
-		(1,4)(2,3),
-		AllEdgesOfSameType(4, 2) )[1];
+		(1,2), 
+		(1,2), 
+		(1,2),
+		AllEdgesOfSameType(2, 1) )[1];
 
-	face := [ [1,2,3,1], [2,3,4,2], [3,1,4,3], [1,4,2,1] ];
-
-	faceToGeneric := GenericSimplicialSurfaceFromFaceVertexPath( face );
-	if not IsIsomorphicGenericSimplicialSurface( generic, faceToGeneric ) then
-		Print( "Failed: Conversion facePath to generic of tetrahedron failed.\n" );
-	else
-		Print( "	Passed: Conversion facePath to generic of tetrahedron.\n" );
-	fi;
 
 	wildToGeneric := GenericSimplicialSurfaceFromWildSimplicialSurface( wild );
 	if not IsIsomorphicGenericSimplicialSurface( generic, wildToGeneric ) then
-		Print( "Failed: Conversion wild to generic of tetrahedron failed.\n" );
+		Print( "Failed: Conversion wild to generic of ");
+		Print( name );
+		Print( " failed.\n" );
 	else
-		Print( "	Passed: Conversion wild to generic of tetrahedron.\n" );
+		Print( "	Passed: Conversion wild to generic of ");
+		Print( name );
+		Print( ".\n" );
 	fi;
 
-
-	## Test the generic to face converter
-	genericToFace := FaceVertexPathFromGenericSimplicialSurface( generic );
-	genToFaceToGen := GenericSimplicialSurfaceFromFaceVertexPath( genericToFace );
-	if not IsIsomorphicGenericSimplicialSurface( generic, genToFaceToGen ) then
-		Print( "Failed: Conversion generic to facePath of tetrahedron failed.\n" );
-	else
-		Print( "	Passed: Conversion generic to facePath of tetrahedron.\n" );
-	fi;
-
-	## Test the generic to face converter
-	genericToWild := WildSimplicialSurfacesFromGenericSurface( generic );
-	if Length( genericToWild ) <> 1 then
-		Print( "Failed: Conversion generic to wild of tetrahedron has wrong number of possibilities.\n" );
-	fi;
-	genToWildToGen := GenericSimplicialSurfaceFromWildSimplicialSurface( genericToWild[1] );
-	if not IsIsomorphicGenericSimplicialSurface( generic, genToWildToGen ) then
-		Print( "Failed: Conversion generic to wild of tetrahedron failed.\n" );
-	else
-		Print( "	Passed: Conversion generic to wild of tetrahedron.\n" );
-	fi;
-
-	## Test the face to wild converter
-	faceToWild := WildSimplicialSurfacesFromFacePath( face );
-	if Length( faceToWild ) <> 1 then
-		Print( "Failed: Conversion face to wild of tetrahedron has wrong number of possibilities." );
-	fi;
-	faceToWildToGen := GenericSimplicialSurfaceFromWildSimplicialSurface( faceToWild[1] );
-	if not IsIsomorphicGenericSimplicialSurface( faceToGeneric, faceToWildToGen ) then
-		Print( "Failed: Conversion facePath to wild of tetrahedron failed." );
-	else
-		Print( "	Passed: Conversion facePath to wild of tetrahedron." );
-	fi;
 end;
 
 
 # Test everything
-TestTetrahedron := function()
-	TestTetrahedronWild();
-	TestTetrahedronGeneric();
-	TestTetrahedronConversion();
+TestJanusHead := function()
+	TestJanusHeadWild();
+	TestJanusHeadGeneric();
+	TestJanusHeadConversion();
 end;

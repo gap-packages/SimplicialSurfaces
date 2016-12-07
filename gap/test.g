@@ -4,12 +4,15 @@
 ################################################################################
 
 Read("../test/generalTest.g");
+
 Read("../test/tetrahedron.g");
 Read("../test/openTetrahedron.g");
 Read("../test/icosahedron.g");
+Read("../test/janusHead.g");
 
 TestAll := function()
 	TestTetrahedron();
 	TestOpenTetrahedron();
 	TestIcosahedron();
+	TestJanusHead();
 end;
