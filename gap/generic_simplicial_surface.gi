@@ -627,7 +627,7 @@ InstallMethod( IsActualSurface, "for a simplicial surfaces", true,
 #!
 InstallGlobalFunction( "FaceAnomalyClassesOfGenericSimplicialSurface",
 	function( simpsurf )
-		local facesByVertices, classes, i, found, cl;
+		local facesByVertices, classes, i, found, cl, j;
 
 		if IsBound( simpsurf!.faceAnomalyClasses ) then
 			return simpsurf!.faceAnomalyClasses;
@@ -638,9 +638,10 @@ InstallGlobalFunction( "FaceAnomalyClassesOfGenericSimplicialSurface",
 
 		for i in [1..NrOfFaces(simpsurf)] do
 			found := false;
-			for cl in classes do
-				if facesByVertices[i] = facesByVertices[ cl[1] ] then
-					cl := Union( cl, [i] );
+			for j in [1..Length(classes)] do
+				cl := classes[j];
+				if Set( facesByVertices[i] ) = Set( facesByVertices[ cl[1] ] ) then
+					classes[j] := Union( cl, [i] );
 					found := true;
 					break;
 				fi;
@@ -851,7 +852,7 @@ function( simpsurf )
 	# Find ears
 	vertexDegree := UnsortedDegreesOfGenericSimplicialSurface( simpsurf );
 	ears := Filtered( [1..NrOfVerticesOfGenericSimplicialSurface(simpsurf)], 
-							i -> vertexDegree[i] = 1);
+							i -> vertexDegree[i] <= 1);
 
 	if IsEmpty( ears ) then
 		return simpsurf;

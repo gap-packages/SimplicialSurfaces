@@ -1,22 +1,22 @@
 ################################################################################
 ################################################################################
-#####							Test a janus head
+#####		Test a projective plane build from four triangles
 ################################################################################
 ################################################################################
 
 ################################################################################
-## This method tests the functionality for the example of a janus head
+## This method tests the functionality for the example of a projective plane
 ## and the representation of a wild coloured simplicial surface
-TestJanusHeadWild := function()
+TestProjectivePlaneFourWild := function()
 	local sig1,sig2,sig3, mrType, surfaces, surf, VertexGroup, generic,
 		consistency, name;
 
-	name := "Janus head";
+	name := "Projective plane (4)";
 
-	sig1 := (1,2);
-	sig2 := (1,2);
-	sig3 := (1,2);
-	mrType := AllEdgesOfSameType( 2, 1);
+	sig1 := (1,4)(2,3);
+	sig2 := (1,3)(2,4);
+	sig3 := (1,2)(4,3);
+	mrType := AllEdgesOfSameType( 4, 1);
 
 	surfaces := AllWildSimplicialSurfaces( sig1, sig2, sig3,mrType  );
 	if Length(surfaces) <> 1 then
@@ -34,13 +34,13 @@ TestJanusHeadWild := function()
 		Print( " has wrong number of vertices.\n" );
 	fi;
 
-	if NrOfEdgesOfWildSimplicialSurface(surf) <> 3 then
+	if NrOfEdgesOfWildSimplicialSurface(surf) <> 6 then
 		Print( "Failed: ");
 		Print(name);
 		Print( " has wrong number of edges.\n" );
 	fi;
 
-	if NrOfFacesOfWildSimplicialSurface(surf) <> 2 then
+	if NrOfFacesOfWildSimplicialSurface(surf) <> 4 then
 		Print( "Failed: ");
 		Print(name);
 		Print( " has wrong number of faces.\n" );
@@ -53,7 +53,7 @@ TestJanusHeadWild := function()
 	fi;
 
 	# Test some advanced properties
-	if EulerCharacteristic(surf) <> 2 then
+	if EulerCharacteristic(surf) <> 1 then
 		Print( "Failed: ");
 		Print(name);
 		Print( " has wrong number Euler-Characteristic.\n" );
@@ -61,17 +61,17 @@ TestJanusHeadWild := function()
 
 	VertexGroup := VertexGroupOfWildSimplicialSurface(surf);
 	VertexGroup := VertexGroup[1] / VertexGroup[2];
-	if Size( VertexGroup ) <> 2 then
+	if Size( VertexGroup ) <> 8 or Exponent( VertexGroup ) <> 2 then
 		Print( "Failed: ");
 		Print(name);
-		Print( " vertex group is not C_2.\n");
+		Print( " vertex group is not C_2^3.\n");
     else
 		Print( "  Passed: ");
 		Print(name);
-		Print( " has correct vertex group C_2.\n");
+		Print( " has correct vertex group C_2^3.\n");
 	fi;
 
-	if DegreesOfWildSimplicialSurface(surf) <> [2,2,2] then
+	if DegreesOfWildSimplicialSurface(surf) <> [4,4,4] then
 		Print( "Failed: ");
 		Print(name);
 		Print( " vertex degrees are incorrect.\n");
@@ -91,14 +91,14 @@ TestJanusHeadWild := function()
 		Print( " is connected.\n" );
 	fi;
 
-	if not IsOrientableWildSimplicialSurface(surf) then
+	if IsOrientableWildSimplicialSurface(surf) then
 		Print( "Failed: ");
-		Print(name);
-		Print( " should be orientable.\n" );
+		Print( name );
+		Print( " should not be orientable.\n" );
     else
 		Print( "  Passed: ");
-		Print(name);
-		Print( " is orientable.\n" );
+		Print( name );
+		Print( " is not orientable.\n" );
 	fi;
 
 	if  surf <> SnippOffEars(surf)  then
@@ -114,21 +114,21 @@ TestJanusHeadWild := function()
 end;
 
 ##########################################################################
-## This method tests the functionality for the example of a tetrahedron
+## This method tests the functionality for the example of a projective plane
 ## and the representation of a generic simplicial surface
-TestJanusHeadGeneric := function()
+TestProjectivePlaneFourGeneric := function()
 	local surf, newSurf, graph, name, anomalies;
 
-	name := "Janus head";
+	name := "Projective plane (4)";
 
 	surf := GenericSimplicialSurface( rec( 
 		nrOfVertices := 3,
-		nrOfEdges := 3,
-		nrOfFaces := 2,
-		edges := [[1,2],[2,3],[3,1]], 
-		faces := [[1,2,3],[1,2,3]] ) );
+		nrOfEdges := 6,
+		nrOfFaces := 4,
+		edges := [[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]], 
+		faces := [[1,6,3],[3,2,4],[5,6,4],[5,1,2]] ) );
 
-	TestGenericConsistency( surf, Concatenation(name," definition (generic)") );
+	TestGenericConsistency( surf, Concatenation( name, " definition (generic)") );
 
 	# Test the elementary properties
 	if NrOfVerticesOfGenericSimplicialSurface(surf) <> 3 then
@@ -137,34 +137,34 @@ TestJanusHeadGeneric := function()
 		Print( " has wrong number of vertices.\n" );
 	fi;
 
-	if NrOfEdgesOfGenericSimplicialSurface(surf) <> 3 then
+	if NrOfEdgesOfGenericSimplicialSurface(surf) <> 6 then
 		Print( "Failed: ");
 		Print( name );
 		Print( " has wrong number of edges.\n" );
 	fi;
 
-	if NrOfFacesOfGenericSimplicialSurface(surf) <> 2 then
+	if NrOfFacesOfGenericSimplicialSurface(surf) <> 4 then
 		Print( "Failed: ");
 		Print( name );
 		Print( " has wrong number of faces.\n" );
 	fi;
 
 	# Test some advanced properties
-	if EulerCharacteristic(surf) <> 2 then
+	if EulerCharacteristic(surf) <> 1 then
 		Print( "Failed: ");
 		Print( name);
 		Print( " has wrong Euler-Characteristic.\n" );
 	fi;
 
 	anomalies := FaceAnomalyClassesOfGenericSimplicialSurface( surf );
-	if Length( anomalies ) <> 1	or Length( anomalies[1] ) <> 2 then
+	if Length( anomalies ) <> 1	or Length( anomalies[1] ) <> 4 then
 		Print( "Failed: ");
 		Print( name );
 		Print( " should have a face-anomaly.\n");
 	fi;
 
-	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [2,2,2] or 
-		SortedDegreesOfGenericSimplicialSurface(surf) <> [2,2,2] then
+	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [4,4,4] or 
+		SortedDegreesOfGenericSimplicialSurface(surf) <> [4,4,4] then
 		Print( "Failed: ");
 		Print(name);
 		Print( " vertex degrees are incorrect.\n");
@@ -184,14 +184,14 @@ TestJanusHeadGeneric := function()
 		Print( " is connected.\n" );
 	fi;
 
-	if not IsOrientableGenericSimplicialSurface(surf) then
+	if IsOrientableGenericSimplicialSurface(surf) then
 		Print( "Failed: ");
 		Print( name );
-		Print( " should be orientable.\n" );
+		Print( " should not be orientable.\n" );
     else
-		Print( "	Passed: ");
+		Print( "  Passed: ");
 		Print( name );
-		Print( " is orientable.\n" );
+		Print( " is not orientable.\n" );
 	fi;
 
 	if  surf <> SnippOffEarsOfGenericSimplicialSurface(surf)  then
@@ -209,7 +209,7 @@ TestJanusHeadGeneric := function()
 	if not IsGraph(graph) then
 		Print( "Failed: Incidence graph is not a graph.\n");
 	fi;
-	if OrderGraph(graph) <> 8 then
+	if OrderGraph(graph) <> 13 then
 		Print( "Failed: Number of vertices in incidence graph is wrong.\n");
 	fi;
 	if IsLoopy(graph) then
@@ -229,42 +229,42 @@ end;
 
 
 ##########################################################################
-## This method tests the functionality for the example of a janus head
+## This method tests the functionality for the example of a projective plane
 ## and the conversion between different representations
-TestJanusHeadConversion := function()
+TestProjectivePlaneFourConversion := function()
 	local generic, faceToGeneric, wildToGeneric, wild, genToFaceToGen,
 		genToWildToGen, genericToFace, genericToWild, face, faceToWildToGen,
 		faceToWild, name;
 
-	name := "janus head";
+	name := "projective plane (4)";
 
 	## Test all converters to generic
 	generic := GenericSimplicialSurface( rec( 
 		nrOfVertices := 3,
-		nrOfEdges := 3,
-		nrOfFaces := 2,
-		edges := [[1,2],[2,3],[3,1]], 
-		faces := [[1,2,3],[1,2,3]] ) );
+		nrOfEdges := 6,
+		nrOfFaces := 4,
+		edges := [[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]], 
+		faces := [[1,6,3],[3,2,4],[5,6,4],[5,1,2]] ) );
 
 	wild := AllWildSimplicialSurfaces( 
-		(1,2), 
-		(1,2), 
-		(1,2),
-		AllEdgesOfSameType(2, 1) )[1];
+		(1,4)(2,3),
+		(1,3)(2,4),
+		(1,2)(4,3),
+		AllEdgesOfSameType( 4, 1) )[1];
 
-
+	## Test the wild to generic converter
 	wildToGeneric := GenericSimplicialSurfaceFromWildSimplicialSurface( wild );
 	if not IsIsomorphicGenericSimplicialSurface( generic, wildToGeneric ) then
 		Print( "Failed: Conversion wild to generic of ");
 		Print( name );
 		Print( " failed.\n" );
 	else
-		Print( "	Passed: Conversion wild to generic of ");
+		Print( "  Passed: Conversion wild to generic of ");
 		Print( name );
 		Print( ".\n" );
 	fi;
 
-## Test the generic to wild converter
+	## Test the generic to wild converter
 	genericToWild := WildSimplicialSurfacesFromGenericSurface( generic );
 	if Length( genericToWild ) <> 1 then
 		Print( "Failed: Conversion generic to wild of ");
@@ -277,17 +277,16 @@ TestJanusHeadConversion := function()
 		Print( name );
 		Print( " failed.\n" );
 	else
-		Print( "	Passed: Conversion generic to wild of ");
+		Print( "  Passed: Conversion generic to wild of ");
 		Print( name );
 		Print( ".\n" );
 	fi;
-
 end;
 
 
 # Test everything
-TestJanusHead := function()
-	TestJanusHeadWild();
-	TestJanusHeadGeneric();
-	TestJanusHeadConversion();
+TestProjectivePlaneFour := function()
+	TestProjectivePlaneFourWild();
+	TestProjectivePlaneFourGeneric();
+	TestProjectivePlaneFourConversion();
 end;

@@ -105,9 +105,15 @@ TestOpenTetrahedronGeneric := function()
 	fi;
 
 	# Test some advanced properties
-#	if EulerCharacteristic(surf) <> 1 then
-#		Print( "Open Tetrahedron has wrong Euler-Characteristic.\n" );
-#	fi;
+	if EulerCharacteristic(surf) <> 1 then
+		Print( "Open Tetrahedron has wrong Euler-Characteristic.\n" );
+	fi;
+
+	if Length( FaceAnomalyClassesOfGenericSimplicialSurface( surf ) ) <> 3 then
+		Print( "Failed: ");
+		Print( name );
+		Print( " should not have a face-anomaly.\n");
+	fi;
 
 	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [2,2,2,3] or 
 		SortedDegreesOfGenericSimplicialSurface(surf) <> [2,2,2,3] then

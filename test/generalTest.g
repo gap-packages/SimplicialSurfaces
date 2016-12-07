@@ -82,3 +82,31 @@ TestGenericConsistency := function( generic, objectDescription )
 		Print( "\n" );
 	fi;
 end;
+
+###############################################################################
+## Test the consistency of a wild simplicial surface. We check if the mrtype
+## is consistently defined.
+## the objectDescription will be printed if this test fails
+TestWildConsistency := function( wild, objectDescription )
+	local mrType, gens, i, mrList, moved, p;
+
+	mrType := MrTypeOfWildSimplicialSurface( wild );
+	gens := GeneratorsOfWildSimplicialSurface( wild );
+	
+	for i in [1..Length(gens)] do
+		mrList := mrType[i];
+		moved := MovedPoints( gens[i] );
+		for p in moved do
+			if mrList[p] <> mrList[p^gens[i]] then
+				Print( "Failed: ");
+				Print( objectDescription );
+				Print( " has no consistent mr-type, compare generator " );
+				Print( gens[i] );
+				Print( " at edge number " );
+				Print( p );
+				Print (".\n");
+				return;
+			fi; 
+		od;		
+	od;
+end;

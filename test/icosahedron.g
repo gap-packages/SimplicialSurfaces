@@ -44,6 +44,12 @@ TestIcosahedronGeneric := function()
 		Print( "Icosahedron has wrong Euler-Characteristic.\n" );
 	fi;
 
+	if Length( FaceAnomalyClassesOfGenericSimplicialSurface( surf ) ) <> 20 then
+		Print( "Failed: ");
+		Print( name );
+		Print( " should not have a face-anomaly.\n");
+	fi;
+
 	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> List([1..12],i->5) or 
 		SortedDegreesOfGenericSimplicialSurface(surf) <> List([1..12],i->5) then
 		Print( "Failed: Icosahedron vertex degrees are incorrect.\n");

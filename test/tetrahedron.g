@@ -128,7 +128,7 @@ TestTetrahedronGeneric := function()
 		edges := [[1,2],[2,3],[3,1],[1,4],[4,2],[4,3]], 
 		faces := [[1,2,3],[5,1,4],[3,6,4],[5,6,2]] ) );
 
-	TestGenericConsistency( surf, "Tetrahedron definition (generic)" );
+	TestGenericConsistency( surf, Concatenation( name, " definition (generic)") );
 
 	# Test the elementary properties
 	if NrOfVerticesOfGenericSimplicialSurface(surf) <> 4 then
@@ -159,7 +159,7 @@ TestTetrahedronGeneric := function()
 	if Length( FaceAnomalyClassesOfGenericSimplicialSurface( surf ) ) <> 4 then
 		Print( "Failed: ");
 		Print( name );
-		Print( " should have a face-anomaly.");
+		Print( " should not have a face-anomaly.\n");
 	fi;
 
 	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [3,3,3,3] or 
@@ -227,15 +227,22 @@ TestTetrahedronGeneric := function()
 
 
 	newSurf := RemoveVertexOfGenericSimplicialSurface( surf, 1);
-	TestGenericConsistency( newSurf, "Tetrahedron after removel of one vertex");
+	TestGenericConsistency( newSurf, 
+		Concatenation( name, " after removel of one vertex"));
 	if NrOfVerticesOfGenericSimplicialSurface(newSurf) <> 3 then
-		Print( "Failed: Tetrahedron has wrong number of vertices after removing one vertex.\n" );
+		Print( "Failed: " );
+		Print( name );
+		Print(" has wrong number of vertices after removing one vertex.\n" );
 	fi;
 	if NrOfEdgesOfGenericSimplicialSurface(newSurf) <> 3 then
-		Print( "Failed: Tetrahedron has wrong number of edges after removing one vertex.\n" );
+		Print( "Failed: " );
+		Print( name );
+		Print(" has wrong number of edges after removing one vertex.\n" );
 	fi;
 	if NrOfFacesOfGenericSimplicialSurface(newSurf) <> 1 then
-		Print( "Failed: Tetrahedron has wrong number of faces after removing one vertex.\n" );
+		Print( "Failed: " );
+		Print( name );
+		Print(" has wrong number of faces after removing one vertex.\n" );
 	fi;
 
 end;
@@ -247,7 +254,9 @@ end;
 TestTetrahedronConversion := function()
 	local generic, faceToGeneric, wildToGeneric, wild, genToFaceToGen,
 		genToWildToGen, genericToFace, genericToWild, face, faceToWildToGen,
-		faceToWild;
+		faceToWild, name;
+
+	name := "tetrahedron";
 
 	## Test all converters to generic
 	generic := GenericSimplicialSurface( rec( 
@@ -267,16 +276,25 @@ TestTetrahedronConversion := function()
 
 	faceToGeneric := GenericSimplicialSurfaceFromFaceVertexPath( face );
 	if not IsIsomorphicGenericSimplicialSurface( generic, faceToGeneric ) then
-		Print( "Failed: Conversion facePath to generic of tetrahedron failed.\n" );
+		Print( "Failed: Conversion facePath to generic of ");
+		Print( name );
+		Print( " failed.\n" );
 	else
-		Print( "	Passed: Conversion facePath to generic of tetrahedron.\n" );
+		Print( "	Passed: Conversion facePath to generic of ");
+		Print( name );
+		Print( ".\n" );
 	fi;
 
+	## Test the wild to generic converter
 	wildToGeneric := GenericSimplicialSurfaceFromWildSimplicialSurface( wild );
 	if not IsIsomorphicGenericSimplicialSurface( generic, wildToGeneric ) then
-		Print( "Failed: Conversion wild to generic of tetrahedron failed.\n" );
+		Print( "Failed: Conversion wild to generic of ");
+		Print( name );
+		Print( " failed.\n" );
 	else
-		Print( "	Passed: Conversion wild to generic of tetrahedron.\n" );
+		Print( "	Passed: Conversion wild to generic of ");
+		Print( name );
+		Print( ".\n" );
 	fi;
 
 
@@ -284,33 +302,49 @@ TestTetrahedronConversion := function()
 	genericToFace := FaceVertexPathFromGenericSimplicialSurface( generic );
 	genToFaceToGen := GenericSimplicialSurfaceFromFaceVertexPath( genericToFace );
 	if not IsIsomorphicGenericSimplicialSurface( generic, genToFaceToGen ) then
-		Print( "Failed: Conversion generic to facePath of tetrahedron failed.\n" );
+		Print( "Failed: Conversion generic to facePath of ");
+		Print( name );
+		Print( " failed.\n" );
 	else
-		Print( "	Passed: Conversion generic to facePath of tetrahedron.\n" );
+		Print( "	Passed: Conversion generic to facePath of ");
+		Print( name );
+		Print( ".\n" );
 	fi;
 
-	## Test the generic to face converter
+	## Test the generic to wild converter
 	genericToWild := WildSimplicialSurfacesFromGenericSurface( generic );
 	if Length( genericToWild ) <> 1 then
-		Print( "Failed: Conversion generic to wild of tetrahedron has wrong number of possibilities.\n" );
+		Print( "Failed: Conversion generic to wild of ");
+		Print( name );
+		Print( " has wrong number of possibilities.\n" );
 	fi;
 	genToWildToGen := GenericSimplicialSurfaceFromWildSimplicialSurface( genericToWild[1] );
 	if not IsIsomorphicGenericSimplicialSurface( generic, genToWildToGen ) then
-		Print( "Failed: Conversion generic to wild of tetrahedron failed.\n" );
+		Print( "Failed: Conversion generic to wild of ");
+		Print( name );
+		Print( " failed.\n" );
 	else
-		Print( "	Passed: Conversion generic to wild of tetrahedron.\n" );
+		Print( "	Passed: Conversion generic to wild of ");
+		Print( name );
+		Print( ".\n" );
 	fi;
 
 	## Test the face to wild converter
 	faceToWild := WildSimplicialSurfacesFromFacePath( face );
 	if Length( faceToWild ) <> 1 then
-		Print( "Failed: Conversion face to wild of tetrahedron has wrong number of possibilities." );
+		Print( "Failed: Conversion face to wild of ");
+		Print( name );
+		Print( " has wrong number of possibilities." );
 	fi;
 	faceToWildToGen := GenericSimplicialSurfaceFromWildSimplicialSurface( faceToWild[1] );
 	if not IsIsomorphicGenericSimplicialSurface( faceToGeneric, faceToWildToGen ) then
-		Print( "Failed: Conversion facePath to wild of tetrahedron failed." );
+		Print( "Failed: Conversion facePath to wild of ");
+		Print( name );
+		Print( " failed.\n" );
 	else
-		Print( "	Passed: Conversion facePath to wild of tetrahedron." );
+		Print( "	Passed: Conversion facePath to wild of ");
+		Print( name );
+		Print( ".\n" );
 	fi;
 end;
 
