@@ -1,6 +1,6 @@
 ##############################################################################
 ##
-#W  simplicial.gi          Simplicial                       Alice Niemeyer
+#W  wild_simplicial_surface.gi          Simplicial         Alice Niemeyer
 #W                                                        Markus Baumeister
 ##
 ##
