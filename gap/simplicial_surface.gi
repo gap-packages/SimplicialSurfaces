@@ -57,8 +57,9 @@ InstallMethod( NrOfFaces, "for a simplicial surfaces",
 );
 
 #############################################################################
+#############################################################################
 ##
-##				Start of *By*-methods
+##						Start of *By*-methods
 ##
 ##	It is pretty annoying to implement all of the *By*-methods for each
 ##	individual representation. As they are interdependent, this is also
@@ -233,8 +234,9 @@ InstallMethod( FacesByVertices, [IsSimplicialSurface and EdgesByFaces and
 	end
 );
 ##
-##						End of *By*-Methods
+##							End of *By*-Methods
 ##
+#############################################################################
 #############################################################################
 
 #############################################################################
@@ -251,7 +253,6 @@ InstallMethod( FacesByVertices, [IsSimplicialSurface and EdgesByFaces and
 InstallMethod( EulerCharacteristic, "for a simplicial surface",
 	[IsSimplicialSurface ],
 	function (simpsurf)
-
 		local chi;
 
 		chi := NrOfVertices(simpsurf)  # V
@@ -294,13 +295,8 @@ InstallMethod( SortedDegrees, "for a simplicial surface",
 	function(simpsurf)
 		local compact;
 
-		if IsBound( simpsurf!.sortedDegrees ) then
-			return simpsurf!.sortedDegrees;
-		fi;
-
 		compact := Compacted( UnsortedDegrees( simpsurf ) );
 		Sort( compact );
-		simpsurf!.sortedDegrees := compact;
 		return compact;
 	end;
  );
