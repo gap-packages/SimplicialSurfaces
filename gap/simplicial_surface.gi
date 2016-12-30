@@ -178,7 +178,8 @@ InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasVerticesByEdges and
 ##	checks if an attribute is set, not if it could be set). Maybe there is an
 ##	elegant solution to this that I don't know but I will just brute force the
 ##	solution here by implementing the missing methods and calling the necessary
-##	computation manually.
+##	computation manually. We have to be careful - TryNextMethod() must not be
+##	called or the knowledge of the additional attribute will not be used!
 ##
 ##	If both incidences go in the same direction (e.g. FacesByEdges and
 ##	EdgesByVertices) we get two inverses and one transitive in one step. The
@@ -189,14 +190,14 @@ InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByVertices and
 											HasFacesByEdges ],
 	function( simpsurf )
 		FacesByVertices(simpsurf);
-		TryNextMethod();
+		return VerticesByFaces( simpsurf );
 	end
 );
 InstallMethod( FacesByVertices, [IsSimplicialSurface and HadVerticesByEdges and
 											HasEdgesByFaces ],
 	function( simpsurf )
 		VerticesByFaces( simpsurf );
-		TryNextMethod();
+		return FacesByVertices(simpsurf);
 	end
 );
 ##
@@ -208,14 +209,14 @@ InstallMethod( VerticesByFaces, [IsSimplicialSurface and FacesByEdges and
 											VerticesByEdges ],
 	function( simpsurf )
 		EdgesByFaces( simpsurf );
-		TryNextMethod();
+		return VerticesByFaces( simpsurf );
 	end
 );
 InstallMethod( FacesByVertices, [IsSimplicialSurface and FacesByEdges and
 											VerticesByEdges ],
 	function( simpsurf )
 		EdgesByVertices( simpsurf );
-		TryNextMethod();
+		return FacesByVertices(simpsurf);
 	end
 );
 ##	case EdgesByFaces and EdgesByVertices is similar
@@ -223,14 +224,14 @@ InstallMethod( VerticesByFaces, [IsSimplicialSurface and EdgesByFaces and
 											EdgesByVertices ],
 	function( simpsurf )
 		VerticesByEdges( simpsurf );
-		TryNextMethod();
+		return VerticesByFaces( simpsurf );
 	end
 );
 InstallMethod( FacesByVertices, [IsSimplicialSurface and EdgesByFaces and
 											EdgesByVertices ],
 	function( simpsurf )
 		FacesByEdges( simpsurf );
-		TryNextMethod();
+		return FacesByVertices(simpsurf);
 	end
 );
 ##
