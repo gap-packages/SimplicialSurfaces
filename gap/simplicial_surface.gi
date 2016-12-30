@@ -209,6 +209,26 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 	end;
  );
 
+###############################################################################
+##
+#!  @Description
+#!  This function checks whether the simplicial surface is an actual surface.
+#!  @Returns true if it is a surface and false else.
+#!  @Arguments <simpsurf> a simplicial surface
+#!
+InstallMethod( IsActualSurface, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function( simpsurf )
+		local face, edgeByFaces, check;
+
+		check := true;
+		edgeByFaces := EdgesByFaces( simpsurf );
+		check := Filtered( edgeByFaces, i -> Length(i) > 2 );
+	
+		return IsEmpty(check);
+	end
+);
+
 #############################################################################
 ##
 #!	@Description

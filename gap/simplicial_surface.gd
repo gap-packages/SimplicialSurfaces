@@ -25,24 +25,113 @@
 DeclareInfoClass( "InfoSimplicial" );
 SetInfoLevel(InfoSimplicial,1);
 
-##
-##	Define a new family for simplicial surfaces. The family defines a necessary
-##	condition that has to be fulfilled for objects to be equal to each other.
-##
-SimplicialSurfaceFamily := 
-    NewFamily("SimplicialSurfaceFamily",  IsObject, IsComponentObjectRep);
 
 ##
 ##	Categories are used to determine which methods are applicable for a
-##	certain object.
+##	certain object. The category for simplicial surfaces should be able to
+##	save attributes once they are computed (this includes properties) and
+##	consists of components.
 ##
-DeclareCategory( "IsSimplicialSurface", IsComponentObjectRep );
+DeclareCategory( "IsSimplicialSurface",
+			IsComponentObjectRep and IsAttributeStoringRep );
 
 ##
-##	The property IsActualSurface is true if the SimplicialSurface object
-##	actually represents a surface (it might otherwise happen that one edge
-##	belongs to three different faces).
+##	Define a new family for simplicial surfaces. The family defines a necessary
+##	condition that has to be fulfilled for objects to be equal to each other.
+##	The argument IsSimplicialSurface guarantees that only objects that lie in
+##	this category can be part of the family.
 ##
+SimplicialSurfaceFamily := 
+    NewFamily("SimplicialSurfaceFamily",  IsObject, IsSimplicialSurface);
+
+#############################################################################
+##
+##
+#!  @Section Attributes and properties of Simplicial Surfaces
+#!
+#!
+
+#! @Description
+#! Returns the numbers of the vertices as a dense list.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+DeclareAttribute( "Vertices", IsSimplicialSurface );
+
+#! @Description
+#! Returns the numbers of the edges as a dense list.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+DeclareAttribute( "Edges", IsSimplicialSurface );
+
+#! @Description
+#! Returns the numbers of the faces as a dense list.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+DeclareAttribute( "Faces", IsSimplicialSurface );
+
+
+
+#!	@Description
+#!	Return the vertices in terms of the edges. Return a list
+#!	with holes and at the position of each vertex-number is a list of
+#!	all edges that are incident to that vertex. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+DeclareAttribute( "VerticesByEdges", IsSimplicialSurface);
+
+#!	@Description
+#!	Return the vertices in terms of the faces. Return a list
+#!	with holes and at the position of each vertex-number is a list of
+#!	all faces that are incident to that vertex. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+DeclareAttribute( "VerticesByFaces", IsSimplicialSurface);
+
+#!	@Description
+#!	Return the edges in terms of the vertices. Return a list
+#!	with holes and at the position of each edge-number is a list of
+#!	all vertices that are incident to that edge. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+DeclareAttribute( "EdgesByVertices", IsSimplicialSurface);
+
+#!	@Description
+#!	Return the edges in terms of the faces. Return a list
+#!	with holes and at the position of each edge-number is a list of
+#!	all faces that are incident to that edge. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+DeclareAttribute( "EdgesByFaces", IsSimplicialSurface);
+
+#!	@Description
+#!	Return the faces in terms of the vertices. Return a list
+#!	with holes and at the position of each face-number is a list of
+#!	all vertices that are incident to that face. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+DeclareAttribute( "FacesByVertices", IsSimplicialSurface);
+
+#!	@Description
+#!	Return the faces in terms of the edges. Return a list
+#!	with holes and at the position of each face-number is a list of
+#!	all edges that are incident to that face. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+DeclareAttribute( "FacesByEdges", IsSimplicialSurface);
+
+
+#!	@Description
+#!	The property IsActualSurface is true if the SimplicialSurface object
+#!	actually represents a surface (it might otherwise happen that one edge
+#!	belongs to three different faces).
+#!	@Arguments a simplicial surface
+#!	@Returns true if it is a surface and false else.
 DeclareProperty( "IsActualSurface", IsSimplicialSurface );
 
 ##
@@ -53,23 +142,15 @@ DeclareProperty( "IsActualSurface", IsSimplicialSurface );
 DeclareProperty( "IsWildColored", IsActualSurface );
 
 
-#############################################################################
-##
-##
-#!  @Section Basic functions for Simplicial Surfaces
-#!
-#!
-#!
 
 
 #############################################################################
 ##
-#!	@Description
-#!	This function returns the numbers of the vertices as a dense list.
-#!	@Returns a dense list of integers
-#!	@Arguments a simplicial surface object simpsurf
+##
+#!  @Section Properties of Simplicial Surfaces
 #!
-DeclareOperation( "Vertices", [IsSimplicialSurface] );
+#!
+#!
 
 #############################################################################
 ##
@@ -83,37 +164,6 @@ DeclareOperation( "NrOfVertices", [IsSimplicialSurface] );
 #############################################################################
 ##
 #!	@Description
-#!	This function returns the vertices in terms of the edges. It return a list
-#!	with holes and at the position of each vertex-number there is a list of
-#!	all edges that are incident to that vertex. All other positions are
-#!	unbounded.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareOperation( "VerticesByEdges", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the vertices in terms of the faces. It return a list
-#!	with holes and at the position of each vertex-number there is a list of
-#!	all faces that are incident to that vertex. All other positions are
-#!	unbounded.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareOperation( "VerticesByFaces", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the numbers of the edges as a dense list.
-#!	@Returns a dense list of integers
-#!	@Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "Edges", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
 #!	This function returns the number of edges.
 #!	@Returns an integer
 #!	@Arguments a simplicial surface object simpsurf
@@ -123,74 +173,11 @@ DeclareOperation( "NrOfEdges", [IsSimplicialSurface] );
 #############################################################################
 ##
 #!	@Description
-#!	This function returns the edges in terms of the vertices. It return a list
-#!	with holes and at the position of each edge-number there is a list of
-#!	all vertices that are incident to that edge. All other positions are
-#!	unbounded.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareOperation( "EdgesByVertices", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the edges in terms of the faces. It return a list
-#!	with holes and at the position of each edge-number there is a list of
-#!	all faces that are incident to that edge. All other positions are
-#!	unbounded.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareOperation( "EdgesByFaces", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the numbers of the faces as a dense list.
-#!	@Returns a dense list of integers
-#!	@Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "Faces", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
 #!	This function returns the number of faces.
 #!	@Returns an integer
 #!	@Arguments a simplicial surface object simpsurf
 #!
 DeclareOperation( "NrOfFaces", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the faces in terms of the vertices. It return a list
-#!	with holes and at the position of each face-number there is a list of
-#!	all vertices that are incident to that face. All other positions are
-#!	unbounded.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareOperation( "FacesByVertices", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the faces in terms of the edges. It return a list
-#!	with holes and at the position of each face-number there is a list of
-#!	all edges that are incident to that face. All other positions are
-#!	unbounded.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareOperation( "FacesByEdges", [IsSimplicialSurface] );
-
-
-#############################################################################
-##
-##
-#!  @Section Properties of Simplicial Surfaces
-#!
-#!
-#!
-
 
 #############################################################################
 ##

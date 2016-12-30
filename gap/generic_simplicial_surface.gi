@@ -227,7 +227,6 @@ InstallMethod( VerticesByFaces, "for a generic simplicial surface",
 	end
 );
 
-# TODO IsActualSurface
 # TODO IsWildColored
 # TODO SnippOffEars
 # TODO IsOrientable
@@ -287,33 +286,7 @@ ConnectedComponentsByFacesOfGenericSimplicialSurface := function( simpsurf )
 end;
 
 
-###############################################################################
-##
-#!  @Description
-#!  This function checks whether the generic simplicial surface is an actual
-#!	surface.
-#!  @Returns true if it is a surface and false else.
-#!  @Arguments <simpsurf> a generic simplicial surface
-#!
-InstallGlobalFunction( IsActualSurfaceGenericSimplicialSurface,
-function( simpsurf )
-	local face, edgeByFaces, check;
 
-	if IsBound( simpsurf!.isActualSurface ) then
-		return simpsurf!.isActualSurface;
-	fi;
-
-	check := true;
-	edgeByFaces := EdgesByFacesOfGenericSimplicialSurface( simpsurf );
-	check := Filtered( edgeByFaces, i -> Length(i) > 2 );
-	
-	simpsurf!.isActualSurface := IsEmpty(check) ;
-	return simpsurf!.isActualSurface;
-end
-);
-InstallMethod( IsActualSurface, "for a simplicial surfaces", true, 
-	[ IsGenericSimplicialSurfaceRep ], 0,
-	IsActualSurfaceGenericSimplicialSurface);
 
 
 
