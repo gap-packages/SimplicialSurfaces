@@ -13,40 +13,41 @@
 ##  The functions in this file compute with generic simplicial surfaces.
 ##
 ##	A generic simplicial surface consists of the following data:
-##	1) The number of vertices
-##	2) The number of edges
-##	3) The number of faces
+##	1) The list of vertices
+##	2) The list of edges
+##	3) The list of faces
 ##	4) For each edge: A list of the two incident vertices
 ##	5) For each face: A list of the three indicent edges
 ##		The order or these three edges defines the orientation of this face.
 ##
 
-LoadPackage( "grape" );
-
 
 ##
-##  The constructor GenericSimplicialSurface ensures that the simplicial surface
-##  is stored inside a GAP object. 
+##	Declare the representation of generic simplicial surfaces.
 ##
-GenericSimplicialSurface :=  function( simpsurf ) 
-    
-    return Objectify( GenericSimplicialSurfaceType, simpsurf );
+##
+DeclareRepresentation("IsGenericSimplicialSurfaceRep", IsSimplicialSurface,
+	[ "vertices", "edges", "faces", "edgesByVertices", "facesByEdges" ] );
 
-end;
 
-##
-## Constructor that uses a list to initialize.
-##
-InstallGlobalFunction( GenericSimplicialSurfaceByList,
-function( list )
-	return GenericSimplicialSurface( rec(
-		nrOfVertices := list[1],
-		nrOfEdges := list[2],
-		nrOfFaces := list[3],
-		edges := list[4],
-		faces := list[5] ) );
-end
-);
+# TODO IsActualSurface
+# TODO IsWildColored
+# TODO Vertices
+# TODO VerticesByEdges
+# TODO VerticesByFaces
+# TODO Edges
+# TODO EdgesByVertices
+# TODO EdgesByFaces
+# TODO Faces
+# TODO FacesByVertices
+# TODO FacesByEdges
+# TODO SnippOffEars
+# TODO IsOrientable
+# TODO IsConnected
+# TODO IncidenceGraph
+# TODO IsIsomorphic
+
+
 
 
 
@@ -616,45 +617,6 @@ InstallMethod( IsActualSurface, "for a simplicial surfaces", true,
 	[ IsGenericSimplicialSurfaceRep ], 0,
 	IsActualSurfaceGenericSimplicialSurface);
 
-###############################################################################
-##
-#!  @Description
-#!  This function returns the face-anomaly-classes of a generic simplicial
-#!	surface <simpsurf>. Two faces are in the same face-anomaly-class if they
-#!	contain the same vertices.
-#!  @Returns The face-anomaly-classes (as a list of sets)
-#!  @Arguments <simpsurf> a generic simplicial surface
-#!
-InstallGlobalFunction( "FaceAnomalyClassesOfGenericSimplicialSurface",
-	function( simpsurf )
-		local facesByVertices, classes, i, found, cl, j;
-
-		if IsBound( simpsurf!.faceAnomalyClasses ) then
-			return simpsurf!.faceAnomalyClasses;
-		fi;
-
-		facesByVertices := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
-		classes := [];
-
-		for i in [1..NrOfFaces(simpsurf)] do
-			found := false;
-			for j in [1..Length(classes)] do
-				cl := classes[j];
-				if Set( facesByVertices[i] ) = Set( facesByVertices[ cl[1] ] ) then
-					classes[j] := Union( cl, [i] );
-					found := true;
-					break;
-				fi;
-			od;
-			if not found then
-				Append( classes, [ [i] ] );
-			fi;
-		od;
-
-		simpsurf!.faceAnomalyClasses := classes;
-		return simpsurf!.faceAnomalyClasses;
-	end
- );
 
 
 ###############################################################################
