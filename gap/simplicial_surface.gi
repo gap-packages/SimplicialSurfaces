@@ -14,6 +14,26 @@
 ##
 ##
 
+InstallMethod( NrOfVertices, "for a simplicial surfaces",
+	[ IsSimplicialSurface ],
+	function(simpsurf)
+		return Length( Vertices(simpsurf) );
+	end
+);
+
+InstallMethod( NrOfEdges, "for a simplicial surfaces",
+	[ IsSimplicialSurface ],
+	function(simpsurf)
+		return Length( Edges(simpsurf) );
+	end
+);
+
+InstallMethod( NrOfFaces, "for a simplicial surfaces",
+	[ IsSimplicialSurface ],
+	function(simpsurf)
+		return Length( Faces(simpsurf) );
+	end
+);
 
 #############################################################################
 ##
@@ -26,7 +46,9 @@
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
 #!  by WildSimplicialSurface
 #!
-InstallGlobalFunction( EulerCharacteristic, function (simpsurf)
+InstallMethod( EulerCharacteristic, "for a simplicial surface",
+	[IsSimplicialSurface ],
+function (simpsurf)
 
     local chi;
 

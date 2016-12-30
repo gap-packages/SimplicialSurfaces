@@ -15,8 +15,6 @@
 #Read( "gap/generic_simplicial_surface.gd" );
 
 
-ReadPackage( "SimplicialSurfaces", "gap/SimplicialSurfaces.gd");
-
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/wild_simplicial_surface.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/generic_simplicial_surface.gd" );
