@@ -67,6 +67,16 @@ InstallMethod( NrOfFaces, "for a simplicial surfaces",
 ##	consider the *By*-objects as attributes which have a corresponding filter
 ##	which makes it known which of those are already known.
 ##
+##	There are exactly four cases in which we know every information from
+##	two of those values:
+##		facesByEdges and EdgesByVertices
+##		facesByEdges and VerticesByEdges
+##		EdgesByFaces and EdgesByVertices
+##		EdgesByFaces and VerticesByEdges
+##	We will start with an inversion and a transitivity method. These two are
+##	sufficient to generate every other combination in at most two steps. Since
+##	GAP can't do more than one step, we have to help it a bit at the end...
+##
 ##
 ##	At first we implement the inversion of an incidence relation. For example
 ##	we know facesByEdges but want to know edgesByFaces. As this inversion is
@@ -159,6 +169,67 @@ InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasVerticesByEdges and
 		return _SIMPLICIAL_TransitiveIncidence( Vertices(simpsurf),
 			VerticesByEdges(simpsurf), Edges(simpsurf),
 			EdgesByFaces(simpsurf), Faces(simpsurf) );
+	end
+);
+##
+##	Normally we would be finished at this point. But the method selection of
+##	GAP is not so intelligent to check for attributes transitively (it only
+##	checks if an attribute is set, not if it could be set). Maybe there is an
+##	elegant solution to this that I don't know but I will just brute force the
+##	solution here by implementing the missing methods and calling the necessary
+##	computation manually.
+##
+##	If both incidences go in the same direction (e.g. FacesByEdges and
+##	EdgesByVertices) we get two inverses and one transitive in one step. The
+##	opposing transitive is missing. In comparing both ways to compute it, first
+##	transitive and then inverting is shorter than twise inverting and then using
+##	the transitive.
+InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByVertices and
+											HasFacesByEdges ],
+	function( simpsurf )
+		FacesByVertices(simpsurf);
+		TryNextMethod();
+	end
+);
+InstallMethod( FacesByVertices, [IsSimplicialSurface and HadVerticesByEdges and
+											HasEdgesByFaces ],
+	function( simpsurf )
+		VerticesByFaces( simpsurf );
+		TryNextMethod();
+	end
+);
+##
+##	If the two incidences don't go in the same direction, things become more
+##	complicated. Assume FacesByEdges and VerticesByEdges. We get the inverses
+##	directly but we are missing FacesByVertices and VerticesByFaces. To get
+##	those we first have to invert one of them and then use transitive.
+InstallMethod( VerticesByFaces, [IsSimplicialSurface and FacesByEdges and
+											VerticesByEdges ],
+	function( simpsurf )
+		EdgesByFaces( simpsurf );
+		TryNextMethod();
+	end
+);
+InstallMethod( FacesByVertices, [IsSimplicialSurface and FacesByEdges and
+											VerticesByEdges ],
+	function( simpsurf )
+		EdgesByVertices( simpsurf );
+		TryNextMethod();
+	end
+);
+##	case EdgesByFaces and EdgesByVertices is similar
+InstallMethod( VerticesByFaces, [IsSimplicialSurface and EdgesByFaces and
+											EdgesByVertices ],
+	function( simpsurf )
+		VerticesByEdges( simpsurf );
+		TryNextMethod();
+	end
+);
+InstallMethod( FacesByVertices, [IsSimplicialSurface and EdgesByFaces and
+											EdgesByVertices ],
+	function( simpsurf )
+		FacesByEdges( simpsurf );
+		TryNextMethod();
 	end
 );
 ##
