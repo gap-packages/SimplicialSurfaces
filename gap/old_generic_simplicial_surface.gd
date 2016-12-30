@@ -116,6 +116,57 @@ InstallMethod( Display, "for GenericSimplicialSurfaces", true,
                    [IsGenericSimplicialSurfaceRep], 0, 
 					DisplayGenericSimplicialSurface );
 
+#############################################################################
+## TODO made obsolete by attribute-saving. BUT order might still be needed
+#!	@Description
+#!	This function returns the faces in terms of the vertices. It return a list
+#!	with holes and at the position of each face-number there is a list of
+#!	all vertices that are incident to that face. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a generic simplicial surface object simpsurf
+InstallMethod( FacesByVertices, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( simpsurf )
+		local faceList, i, face,intersectingEdges,vertices,j,edges;
+
+		if IsBound(simpsurf!.facesByVertices) then
+            return simpsurf!.facesByVertices;
+        fi;
+
+		edges := EdgesByVertices(simpsurf);
+
+		faceList := [];
+		for i in Faces(simpsurf) do
+			face := FacesByEdges(simpsurf)[i];
+			vertices := [];
+
+			# Intersect first and last edge to obtain first vertex
+			intersectingEdges := Intersection( Set( edges[face[1]] ), 
+										Set( edges[face[Length(face)]] ) );
+			if Length(intersectingEdges) <> 1 then
+   	    		Error("FacesByVertices[Generic]: Edge intersection is not unique.");
+			fi;
+			vertices[1] := intersectingEdges[1];
+
+			# Continue in the same way for the other edges
+			for j in [2 .. Length(face)] do
+				intersectingEdges := Intersection( Set( edges[face[j-1]] ),
+												Set( edges[face[j]] ) );
+				if Length(intersectingEdges) <> 1 then
+  	     			Error("FacesByVertices[Generic]: Edge intersection is not unique.");
+				fi;
+				vertices[j] := intersectingEdges[1];
+			od;
+
+			faceList[i] := vertices;
+		od;
+
+		simpsurf!.facesByVertices := faceList;
+		return faceList;
+	end
+);
+
 ###############################################################################
 ##
 #!  @Description

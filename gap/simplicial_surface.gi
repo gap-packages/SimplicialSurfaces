@@ -56,17 +56,25 @@ InstallMethod( NrOfFaces, "for a simplicial surfaces",
 	end
 );
 
+#############################################################################
 ##
-##	It is pretty annoying to implement all of the *By*-methods. Furthermore
-##	it is not necessary to implement to many of them manually - the rest just
-##	falls into place. For this reason this function exists - it inverts an
-##	incidence relation.
+##				Start of *By*-methods
 ##
+##	It is pretty annoying to implement all of the *By*-methods for each
+##	individual representation. As they are interdependent, this is also
+##	redundant. Therefore we collect some methods here that allow us to only
+##	implement a minimal set of these methods. We rely on the fact that we
+##	consider the *By*-objects as attributes which have a corresponding filter
+##	which makes it known which of those are already known.
+##
+##
+##	At first we implement the inversion of an incidence relation. For example
+##	we know facesByEdges but want to know edgesByFaces. As this inversion is
+##	always the same we implement it in general.
 ##	Given are the numbers of edges and faces, together with the relation
 ##	facesByEdges. It returns the relation edgesByFaces. (The names are used
 ##	only for illustration.)
-##
-InvertIncidence := function( edgeNr, faceNr, facesByEdges )
+_SIMPLICIAL_InvertIncidence := function( faceNr, facesByEdges, edgeNr )
 	local edgeList, edge, faceSet, face;
 
 	edgeList := [];
@@ -82,6 +90,81 @@ InvertIncidence := function( edgeNr, faceNr, facesByEdges )
 
 	return edgeList;
 end;
+##
+##	With this method we can write inversion methods for all six cases.
+InstallMethod( VerticesByEdges, [IsSimplicialSurface and HasEdgesByVertices ],
+	function( simpsurf )
+		return _SIMPLICIAL_InvertIncidence( Edges(simpsurf),
+				EdgesByVertices(simpsurf), Vertices(simpsurf) );
+	end
+);
+InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasFacesByVertices ],
+	function( simpsurf )
+		return _SIMPLICIAL_InvertIncidence( Faces(simpsurf),
+				FacesByVertices(simpsurf), Vertices(simpsurf) );
+	end
+);
+InstallMethod( EdgesByVertices, [IsSimplicialSurface and HasVerticesByEdges ],
+	function( simpsurf )
+		return _SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
+				VerticesByEdges(simpsurf), Edges(simpsurf) );
+	end
+);
+InstallMethod( EdgesByFaces, [IsSimplicialSurface and HasFacesByEdges ],
+	function( simpsurf )
+		return _SIMPLICIAL_InvertIncidence( Faces(simpsurf),
+				FacesByEdges(simpsurf), Edges(simpsurf) );
+	end
+);
+InstallMethod( FacesByVertices, [IsSimplicialSurface and HasVerticesByFaces ],
+	function( simpsurf )
+		return _SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
+				VerticesByFaces(simpsurf), Faces(simpsurf) );
+	end
+);
+InstallMethod( FacesByEdges, [IsSimplicialSurface and HasEdgesByFaces ],
+	function( simpsurf )
+		return _SIMPLICIAL_InvertIncidence( Edges(simpsurf),
+				EdgesByFaces(simpsurf), Faces(simpsurf) );
+	end
+);
+##
+##	Next we consider the case of transitivity: From FacesByEdges and 
+##	EdgesByVertices we can deduce FacesByVertices
+_SIMPLICIAL_TransitiveIncidence := function( faceNr, facesByEdges, edgeNr,
+												edgesByVertices, vertexNr )
+	local face, facesByVertices, edgesInFace, verticesInEdges;
+
+	facesByVertices := [];
+	for face in faceNr do
+		edgesInFace := facesByEdges[face];
+		verticesInEdges := List( edgesInFace, e -> edgesByVertices[e] );
+		faceByVertices[face] := Union( verticesInEdges );
+	od;
+
+	return facesByVertices;
+end;
+##
+InstallMethod( FacesByVertices, [IsSimplicialSurface and HasFacesByEdges and
+										HasEdgesByVertices ],
+	function( simpsurf )
+		return _SIMPLICIAL_TransitiveIncidence( Faces(simpsurf),
+			FacesByEdges(simpsurf), Edges(simpsurf),
+			EdgesByVertices(simpsurf), Vertices(simpsurf) );
+	end
+);
+InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasVerticesByEdges and
+										HasEdgesByFaces ],
+	function( simpsurf )
+		return _SIMPLICIAL_TransitiveIncidence( Vertices(simpsurf),
+			VerticesByEdges(simpsurf), Edges(simpsurf),
+			EdgesByFaces(simpsurf), Faces(simpsurf) );
+	end
+);
+##
+##						End of *By*-Methods
+##
+#############################################################################
 
 #############################################################################
 ##
@@ -96,29 +179,17 @@ end;
 #!
 InstallMethod( EulerCharacteristic, "for a simplicial surface",
 	[IsSimplicialSurface ],
-function (simpsurf)
+	function (simpsurf)
 
-    local chi;
+		local chi;
 
-    if not IsSimplicialSurface(simpsurf) then
-        Error("usage: EulerCharacteristic(simpsurf");
-        return fail;
-    fi;
+		chi := NrOfVertices(simpsurf)  # V
+				- NrOfEdges(simpsurf)     # -E
+				+ NrOfFaces(simpsurf);    # +F
 
-    if IsBound(simpsurf!.EulerCharacteristic) then
-        return simpsurf!.EulerCharacteristic;
-    fi;
-
-    chi :=    NrOfVertices(simpsurf)  # V
-            - NrOfEdges(simpsurf)     # -E
-            + NrOfFaces(simpsurf);    # +F
-
-
-     simpsurf!.EulerCharacteristic := chi;
-
-     return chi;
-
-end);
+		return chi;
+	end
+);
 
 #############################################################################
 ##
@@ -134,13 +205,8 @@ InstallMethod( UnsortedDegrees, "for a simplicial surface",
 	function(simpsurf)
 		local verticesByFaces;
 
-		if IsBound( simpsurf!.unsortedDegrees ) then
-			return simpsurf!.unsortedDegrees;
-		fi;
-
 		verticesByFaces := VerticesByFaces( simpsurf );
-		simpsurf!.unsortedDegrees := List( verticesByFaces, i->Length(i) );
-		return simpsurf!.unsortedDegrees;
+		return List( verticesByFaces, i->Length(i) );
 	end
 );
 
@@ -182,10 +248,6 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 	function(simpsurf)
 		local facesByVertices, classes, i, found, cl, j;
 
-		if IsBound( simpsurf!.faceAnomalyClasses ) then
-			return simpsurf!.faceAnomalyClasses;
-		fi;
-
 		facesByVertices := FacesByVertices(simpsurf);
 		classes := [];
 
@@ -204,8 +266,7 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 			fi;
 		od;
 
-		simpsurf!.faceAnomalyClasses := classes;
-		return simpsurf!.faceAnomalyClasses;
+		return classes;
 	end;
  );
 
@@ -241,10 +302,6 @@ InstallMethod( IsConnected, "for a simplicial surface",
 	function(simpsurf)
 		local faces, faceList, points, change, faceNr;
 
-		if IsBound( simpsurf!.isConnected ) then 
-			return simpsurf!.isConnected;
-		fi;
-
 		faceList := FacesByVertices(simpsurf);
 		faces := Faces(simpsurf){ [2..NrOfFaces(simpsurf)] };	# all except one
 		points := Set( faceList[ Faces(simpsurf)[1] ] );	# vertices of the first face
@@ -262,9 +319,7 @@ InstallMethod( IsConnected, "for a simplicial surface",
 			od;
 		od;
 
-		simpsurf!.isConnected := IsEmpty( faces );
-
-		return simpsurf!.isConnected;
+		return IsEmpty( faces );
 end
 );
 
@@ -284,10 +339,6 @@ InstallMethod( IncidenceGraph, "for a simplicial surface",
 	function(simpsurf)
 		local graph, vertices, edges, faces, names, colours, incidence, 
 			trivialAction;
-
-		if IsBound( simpsurf!.incidenceGraph ) then
-			return simpsurf!.incidenceGraph;
-		fi;
 
 		vertices := List( Vertices(simpsurf), i -> [0,i] );
 		edges := List( Edges(simpsurf), i -> [1,i] );
@@ -318,7 +369,6 @@ InstallMethod( IncidenceGraph, "for a simplicial surface",
 		graph := Graph( Group( () ), names, trivialAction, incidence );
 		graph!.colourClasses := colours;
 
-		simpsurf!.incidenceGraph := graph;
 		return graph;
 end
 );

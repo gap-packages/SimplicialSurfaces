@@ -70,6 +70,24 @@ DeclareAttribute( "Edges", IsSimplicialSurface );
 DeclareAttribute( "Faces", IsSimplicialSurface );
 
 
+#! @Description
+#! Returns the number of vertices.
+#! @Arguments a simplicial surface
+#! @Returns an integers
+DeclareAttribute( "NrOfVertices", IsSimplicialSurface );
+
+#! @Description
+#! Returns the number of edges.
+#! @Arguments a simplicial surface
+#! @Returns an integers
+DeclareAttribute( "NrOfEdges", IsSimplicialSurface );
+
+#! @Description
+#! Returns the number of faces.
+#! @Arguments a simplicial surface
+#! @Returns an integers
+DeclareAttribute( "NrOfFaces", IsSimplicialSurface );
+
 
 #!	@Description
 #!	Return the vertices in terms of the edges. Return a list
@@ -142,104 +160,66 @@ DeclareProperty( "IsActualSurface", IsSimplicialSurface );
 DeclareProperty( "IsWildColored", IsActualSurface );
 
 
-
-
-#############################################################################
-##
-##
-#!  @Section Properties of Simplicial Surfaces
-#!
-#!
-#!
-
-#############################################################################
-##
 #!	@Description
-#!	This function returns the number of vertices.
-#!	@Returns an integer
-#!	@Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "NrOfVertices", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the number of edges.
-#!	@Returns an integer
-#!	@Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "NrOfEdges", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the number of faces.
-#!	@Returns an integer
-#!	@Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "NrOfFaces", [IsSimplicialSurface] );
-
-#############################################################################
-##
-#!	@Description
-#!	This function checks if a simplicial surface is orientable. This is only
-#!	possible if it is an actual surface.
+#!	The property IsOrientable is true if the SimplicialSurface object is
+#!	orientable. This is only possible if it is an actual surface.
+#!	@Arguments a simplicial surface
 #!	@Returns true if orientable, false otherwise
-#!	@Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "IsOrientable", [IsSimplicialSurface and IsActualSurface] );
+DeclareProperty( "IsOrientable", IsSimplicialSurface and IsActualSurface );
 
-#############################################################################
-##
+
 #!	@Description
-#!	This function checks if a simplicial surface is connected.
+#!	The property IsConnected is true if the SimplicialSurface object is
+#!	connected.
+#!	@Arguments a simplicial surface
 #!	@Returns true if connected, false otherwise
-#!	@Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "IsConnected", [IsSimplicialSurface] );
+DeclareProperty( "IsConnected", IsSimplicialSurface );
 
-#############################################################################
-##
+
 #!  @Description
-#!  This function computes the Euler characteristic of a simplicial surface.
+#!  Return the Euler characteristic of a simplicial surface.
 #!  The Euler characteristic is |V| - |E| + |F|, where |V| is the number of
 #!  vertices, |E| is the number of edges and |F| is the number of faces.
 #!  @Returns an integer, the Euler characteristic.
 #!  @Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "EulerCharacteristic", [IsSimplicialSurface] );
+DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 
-#############################################################################
-##
+
 #!  @Description
-#!	This function returns a list of integers (with holes). For each vertex-
+#!	Return a list of integers (with holes). For each vertex-
 #!	number it contains the number of faces which are incident to that vertex
 #!	(the degree of the vertex). All other positions are unbounded.
 #!  @Returns a list of integers
 #!  @Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "UnsortedDegrees", [IsSimplicialSurface] );
+DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
 
-#############################################################################
-##
+
 #!  @Description
-#!	This function returns a dense sorted list of integers that contains the 
+#!	Return a dense sorted list of integers that contains the 
 #!	degrees of the vertices (with repetitions)
 #!  @Returns a dense sorted list of integers
 #!  @Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "SortedDegrees", [IsSimplicialSurface] );
+DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 
-###############################################################################
-##
+
 #!  @Description
-#!  This function returns the face-anomaly-classes of a simplicial surface.
+#!  Return the face-anomaly-classes of a simplicial surface.
 #!	Two faces are in the same face-anomaly-class if they contain the same
 #!	vertices.
 #!  @Returns The face-anomaly-classes (as a list of sets)
 #!  @Arguments <simpsurf> a simplicial surface
-#!
-DeclareOperation( "FaceAnomalyClasses", [IsSimplicialSurface] );
+DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
+
+
+#!  @Description
+#!  Return the coloured incidence graph of a simplicial surface.
+#!	The vertex set of this graph consists of all vertices, edges and faces
+#!	of the simplicial surface. All vertices, all edges and all faces
+#!	are in individual colour classes.
+#!	The edges are given by vertex-edge and edge-face pairs.
+#!  @Returns the coloured incidence graph
+#!  @Arguments a simplicial surface object simpsurf
+DeclareAttribute( "IncidenceGraph", IsSimplicialSurface );
 
 
 
@@ -261,18 +241,6 @@ DeclareOperation( "FaceAnomalyClasses", [IsSimplicialSurface] );
 #!
 DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
-#############################################################################
-##
-#!  @Description
-#!  Return the coloured incidence graph of a simplicial surface.
-#!	The vertex set of this graph consists of all vertices, edges and faces
-#!	of the simplicial surface. All vertices, all edges and all faces
-#!	are in individual colour classes.
-#!	The edges are given by vertex-edge and edge-face pairs.
-#!  @Returns the coloured incidence graph
-#!  @Arguments a simplicial surface object simpsurf
-#!
-DeclareOperation( "IncidenceGraph", [IsSimplicialSurface] );
 
 #############################################################################
 ##
