@@ -175,65 +175,75 @@ InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasVerticesByEdges and
 ##
 ##	Normally we would be finished at this point. But the method selection of
 ##	GAP is not so intelligent to check for attributes transitively (it only
-##	checks if an attribute is set, not if it could be set). Maybe there is an
-##	elegant solution to this that I don't know but I will just brute force the
-##	solution here by implementing the missing methods and calling the necessary
-##	computation manually. We have to be careful - TryNextMethod() must not be
-##	called or the knowledge of the additional attribute will not be used!
+##	checks if an attribute is set, not if it could be set). This can be done
+##	by using RedispatchOnCondition (see chapter 78.5-1). As the documentation
+##	is unreadable I take a guess based on the usage in other GAP packages.
 ##
 ##	If both incidences go in the same direction (e.g. FacesByEdges and
 ##	EdgesByVertices) we get two inverses and one transitive in one step. The
 ##	opposing transitive is missing. In comparing both ways to compute it, first
 ##	transitive and then inverting is shorter than twise inverting and then using
 ##	the transitive.
-InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByVertices and
-											HasFacesByEdges ],
-	function( simpsurf )
-		FacesByVertices(simpsurf);
-		return VerticesByFaces( simpsurf );
-	end
-);
-InstallMethod( FacesByVertices, [IsSimplicialSurface and HadVerticesByEdges and
-											HasEdgesByFaces ],
-	function( simpsurf )
-		VerticesByFaces( simpsurf );
-		return FacesByVertices(simpsurf);
-	end
-);
+RedispatchOnCondition( VerticesByFaces, true, [IsSimplicialSurface and 
+		HasEdgesByVertices and HasFacesByEdges], [HasFacesByVertices], 0);
+#InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByVertices and
+#											HasFacesByEdges ],
+#	function( simpsurf )
+#		FacesByVertices(simpsurf);
+#		return VerticesByFaces( simpsurf );
+#	end
+#);
+RedispatchOnCondition( FacesByVertices, true, [IsSimplicialSurface and 
+		HasVerticesByEdges and HasEdgesByFaces], [HasVerticesByFaces], 0);
+#InstallMethod( FacesByVertices, [IsSimplicialSurface and HasVerticesByEdges and
+#											HasEdgesByFaces ],
+#	function( simpsurf )
+#		VerticesByFaces( simpsurf );
+#		return FacesByVertices(simpsurf);
+#	end
+#);
 ##
 ##	If the two incidences don't go in the same direction, things become more
 ##	complicated. Assume FacesByEdges and VerticesByEdges. We get the inverses
 ##	directly but we are missing FacesByVertices and VerticesByFaces. To get
 ##	those we first have to invert one of them and then use transitive.
-InstallMethod( VerticesByFaces, [IsSimplicialSurface and FacesByEdges and
-											VerticesByEdges ],
-	function( simpsurf )
-		EdgesByFaces( simpsurf );
-		return VerticesByFaces( simpsurf );
-	end
-);
-InstallMethod( FacesByVertices, [IsSimplicialSurface and FacesByEdges and
-											VerticesByEdges ],
-	function( simpsurf )
-		EdgesByVertices( simpsurf );
-		return FacesByVertices(simpsurf);
-	end
-);
+RedispatchOnCondition( VerticesByFaces, true, [IsSimplicialSurface and 
+		HasFacesByEdges and HasVerticesByEdges], [HasEdgesByFaces], 0);
+#InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasFacesByEdges and
+#											HasVerticesByEdges ],
+#	function( simpsurf )
+#		EdgesByFaces( simpsurf );
+#		return VerticesByFaces( simpsurf );
+#	end
+#);
+RedispatchOnCondition( FacesByVertices, true, [IsSimplicialSurface and 
+		HasFacesByEdges and HasVerticesByEdges], [HasEdgesByVertices], 0);
+#InstallMethod( FacesByVertices, [IsSimplicialSurface and HasFacesByEdges and
+#											HasVerticesByEdges ],
+#	function( simpsurf )
+#		EdgesByVertices( simpsurf );
+#		return FacesByVertices(simpsurf);
+#	end
+#);
 ##	case EdgesByFaces and EdgesByVertices is similar
-InstallMethod( VerticesByFaces, [IsSimplicialSurface and EdgesByFaces and
-											EdgesByVertices ],
-	function( simpsurf )
-		VerticesByEdges( simpsurf );
-		return VerticesByFaces( simpsurf );
-	end
-);
-InstallMethod( FacesByVertices, [IsSimplicialSurface and EdgesByFaces and
-											EdgesByVertices ],
-	function( simpsurf )
-		FacesByEdges( simpsurf );
-		return FacesByVertices(simpsurf);
-	end
-);
+RedispatchOnCondition( VerticesByFaces, true, [IsSimplicialSurface and 
+		HasEdgesByFaces and HasEdgesByVertices], [HasVerticesByEdges], 0);
+#InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByFaces and
+#											HasEdgesByVertices ],
+#	function( simpsurf )
+#		VerticesByEdges( simpsurf );
+#		return VerticesByFaces( simpsurf );
+#	end
+#);
+RedispatchOnCondition( FacesByVertices, true, [IsSimplicialSurface and 
+		HasEdgesByFaces and HasEdgesByVertices], [HasFacesByEdges], 0);
+#InstallMethod( FacesByVertices, [IsSimplicialSurface and HasEdgesByFaces and
+#											HasEdgesByVertices ],
+#	function( simpsurf )
+#		FacesByEdges( simpsurf );
+#		return FacesByVertices(simpsurf);
+#	end
+#);
 ##
 ##							End of *By*-Methods
 ##
@@ -388,6 +398,116 @@ InstallMethod( IsConnected, "for a simplicial surface",
 		od;
 
 		return IsEmpty( faces );
+end
+);
+
+###############################################################################
+##
+#!  @Description
+#!  This function decides whether the simplicial surface
+#!  <simpsurf> is orientable. To that end it has to be an actual surface.
+#!  @Returns true if the surface is orientable and false else.
+#!  @Arguments <simpsurf> a simplicial surface
+#!
+InstallMethod( IsOrientable, "for a simplicial surface",
+	[IsSimplicialSurface and IsActualSurface],
+	function(simpsurf)
+		local edgesByFaces, facesByVertices, orientList, i, hole, edge,
+			 facesToCheck, checkedFaces, CompatibleOrientation, orient1,
+			 orient2, orientable, face, neighbours, next;
+
+		edgesByFaces := EdgesByFaces(simpsurf);
+		facesByVertices := FacesByVertices(simpsurf);
+
+		# Method to check if the orientation of a face is induced by that of
+		# one of its edges
+		CompatibleOrientation := function( edgeByVertices, faceByVertices )
+			local pos;
+
+			pos := Position( faceByVertices, edgeByVertices[1] );
+			if pos = fail then
+				Error( "IsOrientable: Incompatible orientation" );
+			fi;
+			if pos < Length( faceByVertices ) then
+				return edgeByVertices[2] = faceByVertices[pos+1];
+			else
+				return edgeByVertices[2] = faceByVertices[1];
+			fi;
+		end;
+#TODO needs local orientation!
+
+	orientable := true;
+	orientList := [];
+	orientList[ 1 + NrOfFacesOfGenericSimplicialSurface(simpsurf)] := 1;
+	while not IsDenseList( orientList ) and orientable do
+		# Find the first hole
+		hole := 0;
+		for i in [1..Length(orientList)] do
+			if not IsBound( orientList[i] ) then
+				hole := i;
+				break;
+			fi;
+		od;
+
+		# Define the standard orientation of this face as "up"
+		orientList[hole] := 1;
+		facesToCheck := [hole];
+		checkedFaces := [];
+
+		while facesToCheck <> [] and orientable do
+			face := facesToCheck[1];
+			for edge in FacesOfGenericSimplicialSurface(simpsurf)[face] do
+				# This should be unique (inner edge) or empty (border edge)
+				neighbours := Difference( edgesByFaces[edge], [face] );
+				if Size( neighbours ) > 1 then
+					Error( "IsOrientableGenericSimplicialSurface: Not a proper surface.");
+				elif Size( neighbours ) = 0 then
+					continue;
+				fi;
+				next := neighbours[1];
+
+				# Check how these two faces act on the edge
+				if CompatibleOrientation( EdgesOfGenericSimplicialSurface(simpsurf)[edge], facesByVertices[face] ) then
+					orient1 := 1;
+				else
+					orient1 := -1;
+				fi;
+
+				if CompatibleOrientation( EdgesOfGenericSimplicialSurface(simpsurf)[edge], facesByVertices[next] ) then
+					orient2 := 1;
+				else
+					orient2 := -1;
+				fi;
+
+				if orient1*orient2 = -1 then # the sides are neighbours
+					if IsBound( orientList[next] ) and orientList[next] <> orientList[face] then
+						orientable := false;
+						break;
+					else
+						orientList[next] := orientList[face];
+					fi;
+				elif orient1*orient2 = 1 then # the sides are not neighbours
+					if IsBound( orientList[next] ) and orientList[next] = orientList[face] then
+						orientable := false;
+						break;
+					else
+						orientList[next] := -1*orientList[face];
+					fi;
+				else
+					Error( "IsOrientableGenericSimplicialSurface: Wrong definition of orientation.");
+				fi;
+
+				if not next in checkedFaces then
+					facesToCheck := Union( facesToCheck, [next] );
+				fi;
+			od;
+			facesToCheck := Difference( facesToCheck, [face] );
+			checkedFaces := Union( checkedFaces, [face] );
+		od;
+	od;
+	
+	simpsurf!.isOrientable := orientable;
+	return simpsurf!.isOrientable;
 end
 );
 
