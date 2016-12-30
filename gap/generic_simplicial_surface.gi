@@ -30,27 +30,6 @@ DeclareRepresentation("IsGenericSimplicialSurfaceRep", IsSimplicialSurface,
 	[ "vertices", "edges", "faces", "edgesByVertices", "facesByEdges" ] );
 
 
-# TODO IsActualSurface
-# TODO IsWildColored
-# TODO Vertices
-# TODO VerticesByEdges
-# TODO VerticesByFaces
-# TODO Edges
-# TODO EdgesByVertices
-# TODO EdgesByFaces
-# TODO Faces
-# TODO FacesByVertices
-# TODO FacesByEdges
-# TODO SnippOffEars
-# TODO IsOrientable
-# TODO IsConnected
-# TODO IncidenceGraph
-# TODO IsIsomorphic
-
-
-
-
-
 #############################################################################
 ##
 ##  The following functions only access the generic simplicial surface and
@@ -59,276 +38,204 @@ DeclareRepresentation("IsGenericSimplicialSurfaceRep", IsSimplicialSurface,
 
 #############################################################################
 ##
-##
-#!  @Description
-#!  This function returns the list of faces of a generic simplicial surface.
-#!  @Returns a list
-#!  @Arguments simpsurf
+#!	@Description
+#!	This function returns the numbers of the vertices as a dense list.
+#!	@Returns a dense list of integers
+#!	@Arguments a generic simplicial surface object generic
 #!
-InstallGlobalFunction(FacesOfGenericSimplicialSurface,
-function( simpsurf)
-
-        if not IsGenericSimplicialSurfaceRep(simpsurf) then
-            Error("usage: FacesOfGenericSimplicialSurface(simpsurf)");
-            return fail;
-        fi;
-        return simpsurf!.faces;
-
-end
+InstallMethod( Vertices, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( generic )
+		return generic!.vertices;
+	end
 );
 
 #############################################################################
 ##
-##
-#!  @Description
-#!  This function returns the number of faces of a generic simplicial surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
+#!	@Description
+#!	This function returns the numbers of the edges as a dense list.
+#!	@Returns a dense list of integers
+#!	@Arguments a generic simplicial surface object generic
 #!
-InstallGlobalFunction(NrOfFacesOfGenericSimplicialSurface,
-function (simpsurf)
-
-		if not IsGenericSimplicialSurfaceRep(simpsurf) then
-            Error("usage: NrOfFacesOfGenericSimplicialSurface(simpsurf)");
-            return fail;
-        fi;
-        return simpsurf!.nrOfFaces;
-
-end
-);
-InstallMethod( NrOfFaces, "for a simplicial surfaces", true, 
-	[ IsGenericSimplicialSurfaceRep ], 0,
-	NrOfFacesOfGenericSimplicialSurface);
-
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the list of edges of a generic simplicial surface.
-#!  @Returns a list
-#!  @Arguments simpsurf
-#!
-InstallGlobalFunction(EdgesOfGenericSimplicialSurface,
-function( simpsurf)
-
-        if not IsGenericSimplicialSurfaceRep(simpsurf) then
-            Error("usage: EdgesOfGenericSimplicialSurface(simpsurf)");
-            return fail;
-        fi;
-        return simpsurf!.edges;
-
-end
+InstallMethod( Edges, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( generic )
+		return generic!.edges;
+	end
 );
 
 #############################################################################
 ##
-##
-#!  @Description
-#!  This function returns the number of edges of a generic simplicial surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
+#!	@Description
+#!	This function returns the numbers of the faces as a dense list.
+#!	@Returns a dense list of integers
+#!	@Arguments a generic simplicial surface object generic
 #!
-InstallGlobalFunction(NrOfEdgesOfGenericSimplicialSurface,
-function( simpsurf)
-
-       if not IsGenericSimplicialSurfaceRep(simpsurf) then
-            Error("usage: NrOfEdgesOfGenericSimplicialSurface(simpsurf)");
-            return fail;
-        fi;
-        return simpsurf!.nrOfEdges;
-
-end
-);
-InstallMethod( NrOfEdges, "for a simplicial surfaces", true, 
-	[ IsGenericSimplicialSurfaceRep ], 0,
-	NrOfEdgesOfGenericSimplicialSurface);
-
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the list of vertices of a  simplicial surface.
-#!  @Returns a list
-#!  @Arguments simpsurf
-#!
-InstallGlobalFunction(VerticesOfGenericSimplicialSurface,
-function( simpsurf)
-
-        if not IsGenericSimplicialSurfaceRep(simpsurf) then
-            Error("usage: VerticesOfGenericSimplicialSurface(simpsurf)");
-            return fail;
-        fi;
-        return [1..simpsurf!.nrOfVertices];
-
-end
+InstallMethod( Faces, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( generic )
+		return generic!.faces;
+	end
 );
 
 #############################################################################
 ##
-##
-#!  @Description
-#!  This function returns the number of vertices of a generic simplicial
-#!	surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
-#!
-InstallGlobalFunction(NrOfVerticesOfGenericSimplicialSurface,
-function( simpsurf)
-
-        if not IsGenericSimplicialSurfaceRep(simpsurf) then
-            Error("usage: NrOfVerticesOfGenericSimplicialSurface(simpsurf)");
-            return fail;
-        fi;
-        return simpsurf!.nrOfVertices;
-
-end
+#!	@Description
+#!	This function returns the edges in terms of the vertices. It return a list
+#!	with holes and at the position of each edge-number there is a list of
+#!	all vertices that are incident to that edge. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+InstallMethod( EdgesByVertices, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( simpsurf )
+		return simpsurf!.edgesByVertices;
+	end
 );
-InstallMethod( NrOfVertices, "for a simplicial surfaces", true, 
-	[ IsGenericSimplicialSurfaceRep ], 0,
-	NrOfVerticesOfGenericSimplicialSurface);
 
-
-############################################################################
+#############################################################################
 ##
-#! @Description
-#! This function returns the faces of the generic simplicial surface with
-#! respect to their vertices. The implicit orientation that is given
-#! through the edges will be represented here as well.
-#! @Returns a list of lists of integers, for each face a list of the
-#! contained vertices.
-#! @Arguments <simpsurf>, a generic simplicial surface
-#!
-InstallGlobalFunction( FacesByVerticesOfGenericSimplicialSurface,
-function( simpsurf )
-	local faceList, i, face,intersectingEdges,vertices,j,edges;
+#!	@Description
+#!	This function returns the faces in terms of the edges. It return a list
+#!	with holes and at the position of each face-number there is a list of
+#!	all edges that are incident to that face. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a generic simplicial surface object simpsurf
+InstallMethod( FacesByEdges, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( simpsurf )
+		return simpsurf!.facesByEdges;
+	end
+);
 
-	if IsBound(simpsurf!.facesByVertices) then
+#############################################################################
+##
+#!	@Description
+#!	This function returns the faces in terms of the vertices. It return a list
+#!	with holes and at the position of each face-number there is a list of
+#!	all vertices that are incident to that face. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a generic simplicial surface object simpsurf
+InstallMethod( FacesByVertices, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( simpsurf )
+		local faceList, i, face,intersectingEdges,vertices,j,edges;
+
+		if IsBound(simpsurf!.facesByVertices) then
             return simpsurf!.facesByVertices;
         fi;
 
-	edges := EdgesOfGenericSimplicialSurface(simpsurf);
+		edges := EdgesByVertices(simpsurf);
 
-	faceList := [];
-	for i in [1 .. NrOfFacesOfGenericSimplicialSurface(simpsurf)] do
-		face := FacesOfGenericSimplicialSurface(simpsurf)[i];
-		vertices := [];
+		faceList := [];
+		for i in Faces(simpsurf) do
+			face := FacesByEdges(simpsurf)[i];
+			vertices := [];
 
-		# Intersect first and last edge to obtain first vertex
-		intersectingEdges := Intersection( Set( edges[face[1]] ), 
+			# Intersect first and last edge to obtain first vertex
+			intersectingEdges := Intersection( Set( edges[face[1]] ), 
 										Set( edges[face[Length(face)]] ) );
-		if Length(intersectingEdges) <> 1 then
-       		Error("FacesByVerticesOfGenericSimplicialSurface: Edge intersection is not unique.");
-		fi;
-		vertices[1] := intersectingEdges[1];
-
-		# Continue in the same way for the other edges
-		for j in [2 .. Length(face)] do
-			intersectingEdges := Intersection( Set( edges[face[j-1]] ),
-												Set( edges[face[j]] ) );
 			if Length(intersectingEdges) <> 1 then
-       			Error("FacesByVerticesOfGenericSimplicialSurface: Edge intersection is not unique.");
+   	    		Error("FacesByVertices[Generic]: Edge intersection is not unique.");
 			fi;
-			vertices[j] := intersectingEdges[1];
+			vertices[1] := intersectingEdges[1];
+
+			# Continue in the same way for the other edges
+			for j in [2 .. Length(face)] do
+				intersectingEdges := Intersection( Set( edges[face[j-1]] ),
+												Set( edges[face[j]] ) );
+				if Length(intersectingEdges) <> 1 then
+  	     			Error("FacesByVertices[Generic]: Edge intersection is not unique.");
+				fi;
+				vertices[j] := intersectingEdges[1];
+			od;
+
+			faceList[i] := vertices;
 		od;
 
-		faceList[i] := vertices;
-	od;
-
-	simpsurf!.facesByVertices := faceList;
-	return faceList;
-end
+		simpsurf!.facesByVertices := faceList;
+		return faceList;
+	end
 );
 
-
-############################################################################
+#############################################################################
 ##
-#! @Description
-#! This function returns for each edge of the generic simplicial surface
-#! a set of all adjacent faces.
-#! @Returns a list of sets of integers, for each edge a list of the
-#! adjacent faces.
-#! @Arguments <simpsurf>, a generic simplicial surface
-#!
-InstallGlobalFunction( EdgesByFacesOfGenericSimplicialSurface,
-function( simpsurf )
-	local edgeList, edge, faceSet, face;
+#!	@Description
+#!	This function returns the edges in terms of the faces. It return a list
+#!	with holes and at the position of each edge-number there is a list of
+#!	all faces that are incident to that edge. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+InstallMethod( EdgesByFaces, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( simpsurf )
+		if IsBound( simpsurf!.edgesByFaces ) then
+			return simpsurf!.edgesByFaces;
+		fi;
 
-	if IsBound( simpsurf!.edgesByFaces ) then
+		simpsurf!.edgesByFaces := InvertIncidence( 
+			Edges(simpsurf), Faces(simpsurf), FacesByEdges(simpsurf) );
 		return simpsurf!.edgesByFaces;
-	fi;
-
-	edgeList := [];
-	for edge in [1..NrOfEdgesOfGenericSimplicialSurface(simpsurf)] do
-		faceSet := [];
-		for face in [1..NrOfFacesOfGenericSimplicialSurface(simpsurf)] do
-			if edge in FacesOfGenericSimplicialSurface(simpsurf)[face] then
-				faceSet := Union( faceSet, [face] );
-			fi;
-		od;
-		edgeList[edge] := faceSet;
-	od;
-
-	simpsurf!.edgesByFaces := edgeList;
-	return simpsurf!.edgesByFaces;
-end
-);
-
-
-#############################################################################
-##
-#!  @Description
-#!  This function computes the face-degrees of the vertices of the simplicial 
-#!  surface <simpsurf>.
-#!  The face-degree of a vertex is the number of faces incident to the vertex.
-#!  @Returns a list of integers, containing for each
-#!  vertex of the simplicial suface its degree
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
-#!
-InstallGlobalFunction( UnsortedDegreesOfGenericSimplicialSurface,
-function(simpsurf)
-
-        local degrees, i, faces,j, deg,vertexNr;
-
-		if IsBound( simpsurf!.UnsortedDegrees ) then
-			return simpsurf!.UnsortedDegrees;
-		fi;
-
-		faces := FacesByVerticesOfGenericSimplicialSurface(simpsurf);
-		vertexNr := NrOfVerticesOfGenericSimplicialSurface(simpsurf);
-		degrees := List( [1 .. vertexNr], i -> Number( faces, j -> i in j ) );
-
-        simpsurf!.UnsortedDegrees := degrees;
-
-        return degrees;
-end
+	end
 );
 
 #############################################################################
 ##
-#!  @Description
-#!  This function computes the face-degrees of the vertices of the simplicial 
-#!  surface <simpsurf> and returns them sorted.
-#!  The face-degree of a vertex is the number of faces incident to the vertex.
-#!  @Returns a list of integers in increasing order, containing for each
-#!  vertex of the simplicial suface its degree
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by SimplicialSurface
-#!
-InstallGlobalFunction( SortedDegreesOfGenericSimplicialSurface,
-function(simpsurf)
-		local degrees;
-
-		if IsBound( simpsurf!.SortedDegrees) then
-			return simpsurf!.SortedDegrees;
+#!	@Description
+#!	This function returns the vertices in terms of the edges. It return a list
+#!	with holes and at the position of each vertex-number there is a list of
+#!	all edges that are incident to that vertex. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+InstallMethod( VerticesByEdges, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( simpsurf )
+		if IsBound( simpsurf!.verticesByEdges ) then
+			return simpsurf!.verticesByEdges;
 		fi;
 
-		degrees := UnsortedDegreesOfGenericSimplicialSurface( simpsurf );
-		Sort( degrees );
-		simpsurf!.SortedDegrees := degrees;
-        return degrees;
-end
+		simpsurf!.verticesByEdges :=  InvertIncidence( 
+			Vertices(simpsurf), Edges(simpsurf), EdgesByVertices(simpsurf) );
+		return simpsurf!.verticesByEdges;
+	end
 );
+
+#############################################################################
+##
+#!	@Description
+#!	This function returns the vertices in terms of the faces. It return a list
+#!	with holes and at the position of each vertex-number there is a list of
+#!	all faces that are incident to that vertex. All other positions are
+#!	unbounded.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+InstallMethod( VerticesByFaces, "for a generic simplicial surface",
+	[IsGenericSimplicialSurfaceRep],
+	function( simpsurf )
+		if IsBound( simpsurf!.verticesByFaces ) then
+			return simpsurf!.verticesByFaces;
+		fi;
+
+		simpsurf!.verticesByFaces :=  InvertIncidence( 
+			Vertices(simpsurf), Faces(simpsurf), FacesByVertices(simpsurf) );
+		return simpsurf!.verticesByFaces;
+	end
+);
+
+# TODO IsActualSurface
+# TODO IsWildColored
+# TODO SnippOffEars
+# TODO IsOrientable
+# TODO IsConnected
+# TODO IncidenceGraph
+# TODO IsIsomorphic
+# TODO guarantee well-defined-ness
+
 
 
 #############################################################################

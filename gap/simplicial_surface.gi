@@ -56,6 +56,33 @@ InstallMethod( NrOfFaces, "for a simplicial surfaces",
 	end
 );
 
+##
+##	It is pretty annoying to implement all of the *By*-methods. Furthermore
+##	it is not necessary to implement to many of them manually - the rest just
+##	falls into place. For this reason this function exists - it inverts an
+##	incidence relation.
+##
+##	Given are the numbers of edges and faces, together with the relation
+##	facesByEdges. It returns the relation edgesByFaces. (The names are used
+##	only for illustration.)
+##
+InvertIncidence := function( edgeNr, faceNr, facesByEdges )
+	local edgeList, edge, faceSet, face;
+
+	edgeList := [];
+	for edge in edgeNr do
+		faceSet := [];
+		for face in faceNr do
+			if edge in facesByEdges[face] then
+				faceSet := Union( faceSet, [face] );
+			fi;
+		od;
+		edgeList[edge] := faceSet;
+	od;
+
+	return edgeList;
+end;
+
 #############################################################################
 ##
 ##
