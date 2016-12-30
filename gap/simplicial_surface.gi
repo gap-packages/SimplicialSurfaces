@@ -209,7 +209,120 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 	end;
  );
 
+#############################################################################
+##
+#!	@Description
+#!	This function checks if a simplicial surface is connected.
+#!	@Returns true if connected, false otherwise
+#!	@Arguments a simplicial surface object simpsurf
+#!
+InstallMethod( IsConnected, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function(simpsurf)
+		local faces, faceList, points, change, faceNr;
+
+		if IsBound( simpsurf!.isConnected ) then 
+			return simpsurf!.isConnected;
+		fi;
+
+		faceList := FacesByVertices(simpsurf);
+		faces := Faces(simpsurf){ [2..NrOfFaces(simpsurf)] };	# all except one
+		points := Set( faceList[ Faces(simpsurf)[1] ] );	# vertices of the first face
+
+		change := true;
+		while change do
+			change := false;
+
+			for faceNr in faces do
+				if Intersection( points, faceList[faceNr] ) <> [] then
+					change := true;
+					points := Union( points, faceList[faceNr] );
+					faces := Difference( faces, [faceNr] );
+				fi;
+			od;
+		od;
+
+		simpsurf!.isConnected := IsEmpty( faces );
+
+		return simpsurf!.isConnected;
+end
+);
+
+#############################################################################
+##
+#!  @Description
+#!  Return the coloured incidence graph of a simplicial surface.
+#!	The vertex set of this graph consists of all vertices, edges and faces
+#!	of the simplicial surface. All vertices, all edges and all faces
+#!	are in individual colour classes.
+#!	The edges are given by vertex-edge and edge-face pairs.
+#!  @Returns the coloured incidence graph
+#!  @Arguments a simplicial surface object simpsurf
+#!
+InstallMethod( IncidenceGraph, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function(simpsurf)
+		local graph, vertices, edges, faces, names, colours, incidence, 
+			trivialAction;
+
+		if IsBound( simpsurf!.incidenceGraph ) then
+			return simpsurf!.incidenceGraph;
+		fi;
+
+		vertices := List( Vertices(simpsurf), i -> [0,i] );
+		edges := List( Edges(simpsurf), i -> [1,i] );
+		faces := List( Faces(simpsurf), i -> [2,i] );
+
+		names := Union( vertices, edges, faces);
+		colours := [vertices,edges, faces];
+		incidence := function(x,y)
+			if x[1] = 0 and y[1] = 1 then
+				return x[2] in EdgesByVertices(simpsurf)[y[2]];
+			elif x[1] = 1 and y[1] = 0 then
+				return y[2] in EdgesByVertices(simpsurf)[x[2]];
+
+			elif x[1] = 1 and y[1] = 2 then
+				return x[2] in FacesByEdges(simpsurf)[y[2]];
+			elif x[1] = 2 and y[1] = 1 then
+				return y[2] in FacesByEdges(simpsurf)[x[2]];
+
+			else
+				return false;
+			fi;
+		end;
+
+		trivialAction := function( pnt, g )
+			return pnt;
+		end;
+
+		graph := Graph( Group( () ), names, trivialAction, incidence );
+		graph!.colourClasses := colours;
+
+		simpsurf!.incidenceGraph := graph;
+		return graph;
+end
+);
 
 
+#############################################################################
+##
+#!  @Description
+#!  Check if two simplicial surfaces are isomorphic. This method only checks
+#!	if they are isomorphic with respect to the incidence relation. It does
+#!	not check if additional structure like a wild coloring is isomorphic (or
+#!	even present).
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two simplicial surface objects
+#!
+##
+InstallMethod( IsIsomorphic, "for two simplicial surfaces",
+	[IsSimplicialSurface, IsSimplicialSurface],
+	function( s1,s2)
+		local graph1, graph2;
 
+		graph1 := IncidenceGraph(s1);
+		graph2 := IncidenceGraph(s2);
+		return IsIsomorphicGraph(graph1,graph2);
+	end
+);
 
