@@ -501,6 +501,68 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 #############################################################################
 ##
 #!	@Description
+#!	This function returns the connected component of the given face.
+#!	@Arguments a simplicial surface object simpsurf, a positive integer
+#!	@Returns a simplicial surface object
+InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
+	[IsSimplicialSurface, IsPosInt],
+	function(simpsurf, f)
+		local faceList, faces, points, comp, change, faceNr;
+
+		faceList := FacesByVertices(simpsurf);
+		# Take care to not modify the real list of faces
+		faces := Difference( Faces(simpsurf), [f] );
+		points := faceList[f];
+		comp := [ f ];
+
+		change := true;
+		while change do
+			change := false;
+
+			for faceNr in faces do
+				if Intersection( points, faceList[faceNr] ) <> [] then
+					change := true;
+					points := Union( points, faceList[faceNr] );
+					faces := Difference( faces, [faceNr] );
+					comp := Union( comp, [faceNr] );
+				fi;
+			od;
+		od;
+
+		#TODO replace by call to subsurface
+		return comp;
+	end
+);
+
+
+#############################################################################
+##
+#!	@Description
+#!	Return a list of all connected components of the simplicial surface.
+#!	@Arguments a simplicial surface
+#!	@Returns a list of simplicial surfaced
+InstallMethod( ConnectedComponents, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function(simpsurf, f)
+		local faces, comp, f, component;
+
+		faces := Faces(simpsurf);
+		comp := [ ];
+		while not IsEmpty(faces) do
+			f := faces[1];
+			component := ConnectedComponentOfFace( simpsurf, f );
+			Append( comp, [component] );
+			faces := Difference( faces, Faces(component) );
+		od;
+
+		return comp;
+	end
+);
+
+
+#############################################################################
+##
+#!	@Description
 #!	Return a list of tuples where at each face-number there is a list with two
 #!	entries. The first one is the name of the upper face-side, the second one
 #!	the name of the lower face-side (with respect to the local orientation).

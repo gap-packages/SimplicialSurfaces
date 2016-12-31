@@ -182,6 +182,12 @@ DeclareProperty( "IsOrientable", IsSimplicialSurface and IsActualSurface );
 #!	@Returns true if connected, false otherwise
 DeclareProperty( "IsConnected", IsSimplicialSurface );
 
+#!	@Description
+#!	Return a list of all connected components of the simplicial surface.
+#!	@Arguments a simplicial surface
+#!	@Returns a list of simplicial surfaced
+DeclareAttribute( "ConnectedComponents", IsSimplicialSurface );
+
 
 #!  @Description
 #!  Return the Euler characteristic of a simplicial surface.
@@ -298,6 +304,13 @@ DeclareOperation( "FaceByName", [IsSimplicialSurface, IsInt] );
 DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
 
+##
+#!	@Description
+#!	This function returns the connected component of the given face.
+#!	@Arguments a simplicial surface object simpsurf, a positive integer
+#!	@Returns a simplicial surface object
+#!
+DeclareOperation( "ConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
 
 ##
 #!  @Description
