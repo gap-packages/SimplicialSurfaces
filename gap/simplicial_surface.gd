@@ -4,8 +4,8 @@
 #W														Markus Baumeister
 ##
 ##
-#Y  Copyright (C) 2016-2017, Alice Niemeyer, Lehrstuhl B für Mathematik,
-#Y  RWTH Aachen
+#Y  Copyright (C) 2016-2017, Alice Niemeyer, Markus Baumeister, 
+#Y  Lehrstuhl B für Mathematik, RWTH Aachen
 ##
 ##  This file is free software, see license information at the end.
 ##
@@ -52,19 +52,19 @@ SimplicialSurfaceFamily :=
 #!
 
 #! @Description
-#! Returns the numbers of the vertices as a dense list.
+#! Returns the numbers of the vertices as a set.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
 DeclareAttribute( "Vertices", IsSimplicialSurface );
 
 #! @Description
-#! Returns the numbers of the edges as a dense list.
+#! Returns the numbers of the edges as a set.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
 DeclareAttribute( "Edges", IsSimplicialSurface );
 
 #! @Description
-#! Returns the numbers of the faces as a dense list.
+#! Returns the numbers of the faces as a set.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
 DeclareAttribute( "Faces", IsSimplicialSurface );
@@ -91,7 +91,7 @@ DeclareAttribute( "NrOfFaces", IsSimplicialSurface );
 
 #!	@Description
 #!	Return the vertices in terms of the edges. Return a list
-#!	with holes and at the position of each vertex-number is a list of
+#!	with holes and at the position of each vertex-number is a set of
 #!	all edges that are incident to that vertex. All other positions are
 #!	unbounded.
 #!	@Returns a list of lists of integers
@@ -100,7 +100,7 @@ DeclareAttribute( "VerticesByEdges", IsSimplicialSurface);
 
 #!	@Description
 #!	Return the vertices in terms of the faces. Return a list
-#!	with holes and at the position of each vertex-number is a list of
+#!	with holes and at the position of each vertex-number is a set of
 #!	all faces that are incident to that vertex. All other positions are
 #!	unbounded.
 #!	@Returns a list of lists of integers
@@ -109,7 +109,7 @@ DeclareAttribute( "VerticesByFaces", IsSimplicialSurface);
 
 #!	@Description
 #!	Return the edges in terms of the vertices. Return a list
-#!	with holes and at the position of each edge-number is a list of
+#!	with holes and at the position of each edge-number is a set of
 #!	all vertices that are incident to that edge. All other positions are
 #!	unbounded.
 #!	@Returns a list of lists of integers
@@ -118,7 +118,7 @@ DeclareAttribute( "EdgesByVertices", IsSimplicialSurface);
 
 #!	@Description
 #!	Return the edges in terms of the faces. Return a list
-#!	with holes and at the position of each edge-number is a list of
+#!	with holes and at the position of each edge-number is a set of
 #!	all faces that are incident to that edge. All other positions are
 #!	unbounded.
 #!	@Returns a list of lists of integers
@@ -127,7 +127,7 @@ DeclareAttribute( "EdgesByFaces", IsSimplicialSurface);
 
 #!	@Description
 #!	Return the faces in terms of the vertices. Return a list
-#!	with holes and at the position of each face-number is a list of
+#!	with holes and at the position of each face-number is a set of
 #!	all vertices that are incident to that face. All other positions are
 #!	unbounded.
 #!	@Returns a list of lists of integers
@@ -136,7 +136,7 @@ DeclareAttribute( "FacesByVertices", IsSimplicialSurface);
 
 #!	@Description
 #!	Return the faces in terms of the edges. Return a list
-#!	with holes and at the position of each face-number is a list of
+#!	with holes and at the position of each face-number is a set of
 #!	all edges that are incident to that face. All other positions are
 #!	unbounded.
 #!	@Returns a list of lists of integers

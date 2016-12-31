@@ -42,7 +42,7 @@ end
 #!  by SimplicialSurface
 #!
 ##
-InstallMethod( \=, "for two generic simplicial surfaces", true, 
+InstallMethod( \=, "for two generic simplicial surfaces", IsIdenticalObj, 
   [ IsGenericSimplicialSurfaceRep, IsGenericSimplicialSurfaceRep ], 0, 
 		function( s1, s2 )
 

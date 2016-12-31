@@ -1,217 +1,90 @@
 ##############################################################################
 ##
-#W  wild_simplicial_surface.gd          Simplicial             Alice Niemeyer
+#W  wild_simplicial_surface.gd     SimplicialSurfaces     Alice Niemeyer
+#W														Markus Baumeister
 ##
 ##
-#Y  Copyright (C) 2016-2017, Alice Niemeyer, Lehrstuhl B für Mathematik,
-#Y  RWTH Aachen
+#Y  Copyright (C) 2016-2017, Alice Niemeyer, Markus Baumeister, 
+#Y  Lehrstuhl B für Mathematik, RWTH Aachen
 ##
 ##  This file is free software, see license information at the end.
 ##
 ##  This file contains the declaration part for the wild simplicial surfaces
-##	of the Simplicial package.
+##	of the SimplicialSurfaces package.
+##
+##	TODO description of wild coloured simplicial surfaces
+##
+##  There are several ways of inputting a wild coloured simplicial surface.
+##
+##  A wild coloured simplicial surface is created by the function 
+##  WildSimplicialSurface and is a GAP object. Simplicial surfaces can be 
+##  obtained as follows:
+##
+##  1) Given a triple <gens> of involutions, the function
+##     AllWildSimplicialSurfaces(gens)  computes  all wild coloured simplicial 
+##     surfaces whose faces are the moved points of the generators and whose
+##     edges are determined by the 2-cycles of the generators.
+##  2) Input a surface by first listing the faces, 
+##     then pairs of faces making up the edges, 
+##     then the face-paths for  each vertex.  A face-path is simply
+##     a list of the faces in the order in which they occur around a vertex.
+##     The function WildSimplicialSurfacesFromFacePath takes this input
+##     and returns all wild coloured simplicial surfaces matching the
+##     description
+##  3) Input a wild coloured surface by the following data structure, 
+##     called the *generic-surface* data structure. The generic-surface
+##     data structure is the most general data structure to describe
+##     surfaces and is not restricted to wild coloured surfaces only.
+##     The generic-surface data structure is a list of
+##      the number of vertices, edges and faces
+##      then pairs of vertices making up the edges, 
+##      then triples of edges making up the faces, e.g.
+##      ( |V|, |E|, |F|, [ [v1,v2],...],  [[e1,e2,e3],... ] )
+##       here ei is a number, which is a position in the list of edges,
+##       so that the list of vertex pairs can be indexed by ei to find
+##       the two vertex numbers of edges ei.
+##     
+##
+##
+##    As GAP objects, certain general methods are installed for 
+##    simplicial surface objects, such as Print and Display and "=".
+##
+##    The mr-type of a wild coloured simplicial surface <simpsurf>
+##    can be determined with the function MrTypeOfWildSimplicialSurface.
+##
+##    As Simplicial surfaces are GAP objects, they cannot be 
+##    accessed like records.
+##
+##    An action of a permutation on a simplicial surface is installed, 
+##    allowing us to compute the orbits of a group acting on a set of
+##    simplicial surfaces.
+##    
 ##
 
-
-#############################################################################
 ##
-#!  @Chapter Wild Coloured Simplicial Surfaces
+##	Wild simplicial surfaces are simplicial surfaces that have additional
+##	structure. Since not every simplicial surface admits a unique wild 
+##	colouring, we don't define it as an attribute but rather as a separate
+##	object (which is encoded as a category).
 ##
-#!  A simplicial surface is called **wild-coloured** if there exists a 
-#!  map 
-#!
-#!
-
-
-##
-##	Declare the representation of generic simplicial surfaces.
-##
-##	Note: We depart from the usual convention to put this declaration into
-##		the .gi-file (compare section 79.19 of the GAP-manual) as it is
-##		instrumental to know this representation to work with this package.
-##
-DeclareRepresentation("IsWildSimplicialSurfaceRep", IsSimplicialSurface,
-     ["faces","edges","vertices", "generators"]);
-
-# From now on, we can do "Objectify( WildSimplicialSurfaceType, re )" 
-# for any list re
-WildSimplicialSurfaceType := 
-    NewType( SimplicialSurfaceFamily, IsWildSimplicialSurfaceRep );
-
-## Constructor
-DeclareGlobalFunction( "WildSimplicialSurface" );
-
-
-
-
-
-#############################################################################
-##
-##
-#!  @Section Basic functions for Wild Coloured Simplicial Surfaces
-#!
-#!
-#!
-
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the list of faces of a  simplicial surface.
-#!  Each face of the surface is represented by a number $f$.
-#!  @Returns a list
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "FacesOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the number of faces of a  simplicial surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "NrOfFacesOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the list of edges of a  simplicial surface.
-#!  Each edge of the surface is represented by a pair of numbers $[f_1,f_2]$,
-#!  where $f_1$ and $f_2$ are faces that are incident to the edge $[f_1,f_2]$.
-#!  @Returns a list
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "EdgesOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the number of edges of a  simplicial surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "NrOfEdgesOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the list of vertices of a  simplicial surface.
-#!  Each vertex of the simplicial surface is represented by a vertex 
-#!  defining path.
-#!  @Returns a list
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "VerticesOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the number of vertices of a  simplicial surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "NrOfVerticesOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns a triple of involutions which are the generators
-#!  of a wild coloured  simplicial surface.
-#!  @Returns list
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "GeneratorsOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function takes as input a simplicial surface and returns a list of 
-#!  integers, one for each vertex. The integer for a vertex is the degree of 
-#!  this vertex.
-#!  @Returns list
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "DegreesOfWildSimplicialSurface" );
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the group generated by the triple of involutions
-#!  which are the generators of the wild coloured simplicial surface.
-#!  @Returns a group
-#!  @Arguments simpsurf
-#!
-DeclareGlobalFunction( "GroupOfWildSimplicialSurface" );
-
+DeclareCategory( "IsWildSimplicialSurface", IsSimplicialSurface and
+												 IsActualSurface );
+InstallTrueMethod( IsSimplicialSurface, IsWildSimplicialSurface );
+# TODO is this necessary? 80.8-1 and 78.7-1 seem to be in conflict here.
 
 
 #############################################################################
 ##
 ##
-#!  @Section Functions for Wild Coloured Simplicial Surfaces
+#!  @Section Attributes and properties of wild coloured simplicial surfaces
 #!
 #!
-#!
-DeclareGlobalFunction( "MrTypeOfWildSimplicialSurface" );
+
+
 #############################################################################
 ##
-##  AllWildSimplicialSurfaces( gens[, mrtype] ) . . . . all simplicial surfaces
-##  AllWildSimplicialSurfaces( grp[, mrtype] )
-##  AllWildSimplicialSurfaces( sig1, sig2, sig3[, mrtype] )
 ##
-##
-#!  @Description
-#!  This function computes all wild-coloured simplicial surfaces generated
-#!  by a triple of involutions as specified in the input. If the optional
-#!  argument <mrtype> is present, only those wit a predefined mrtype are
-#!  constructed.
-#!  The involution triple can be given to the function in various ways.
-#!  Either they are input as a list <gens> of three involutions, or as
-#!  a group <grp> whose generators are the tree involutions, or they can
-#!  be input into the function as three arguments, one for each involution.
-#! 
-#!  In case the optional argument <mrtype>  is present, it can be used to
-#!  restrict to wild-colourings for which some or all edges have a predefined
-#!  colour. This is equivalent to marking the cycles of the three involutions
-#!  as follows. If the edge $(j, j^\sigma_i)$ of the involution $\sigma_i$ is
-#!  to be a reflection (mirror) let $k=1$, if it is to be a rotation, let 
-#!  $k=2$ and if it can be either let $k=0.$ Then set $mrtype[i][j] = k$.
-#!  @Returns a list of all wild-coloured simplicial surfaces with generating
-#!  set given by three involutions.
-#!  The function AllWildSimplicialSurfaces when called with the optional argument
-#!  <mrtype> now returns all wild-coloured simplicial surfaces whose edges
-#!  are coloured according to the restrictions imposed by <mrtype>.
-#!  @Arguments gens,  a list of three involutions
+#!  @Section Functions for wild coloured simplicial surfaces
 #!
-DeclareGlobalFunction( "AllWildSimplicialSurfaces" );
-DeclareGlobalFunction( "VertexRelationOfEdge" );
-DeclareGlobalFunction( "VertexGroupOfWildSimplicialSurface" );
-DeclareGlobalFunction( "IsConnectedWildSimplicialSurface" );
-DeclareGlobalFunction( "IsOrientableWildSimplicialSurface" );
-#DeclareGlobalFunction( "GeneratorsFromEdgesOfPlainWildSimplicialSurface"); #TODO does not exist
-DeclareGlobalFunction( "GeneratorsFromEdgesOfWildSimplicialSurface");
-DeclareGlobalFunction( "WildSimplicialSurfacesFromFacePath");
-#DeclareGlobalFunction( "WildSimplicialSurfacesFromPlainSurface"); #TODO does not exist
-DeclareGlobalFunction( "SnippOffEarsOfWildSimplicialSurface");
-DeclareGlobalFunction( "SixFoldCover");
-DeclareGlobalFunction( "AllStructuresWildSimplicialSurface");
-DeclareGlobalFunction( "StructuresWildSimplicialSurface");
-#DeclareGlobalFunction( "ImageWildSimplicialSurface");
-DeclareGlobalFunction( "WildSimplicialSurfacesFromGenericSurface" );
-#DeclareGlobalFunction( "CommonCover"); # TODO does not exist
-
-#
-###  This program is free software: you can redistribute it and/or modify
-###  it under the terms of the GNU General Public License as published by
-###  the Free Software Foundation, either version 3 of the License, or
-###  (at your option) any later version.
-###
-###  This program is distributed in the hope that it will be useful,
-###  but WITHOUT ANY WARRANTY; without even the implied warranty of
-###  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-###  GNU General Public License for more details.
-###
-###  You should have received a copy of the GNU General Public License
-###  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-###
+#!
+#!
