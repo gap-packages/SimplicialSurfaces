@@ -14,6 +14,280 @@
 ##
 ##
 
+
+##
+##	Declare the generic representation of simplicial surfaces that does nothing.
+##
+DeclareRepresentation("IsSimplicialSurfaceRep", IsSimplicialSurface, [ ] );
+##
+##	Define a type so we can use Objectify.
+##
+SimplicialSurfaceType := 
+	NewType( SimplicialSurfaceFamily, IsSimplicialSurfaceRep );
+
+
+#############################################################################
+#############################################################################
+##
+##						Start of constructors
+##
+##	While GAP has a type system that is nice in general, what it REALLY doesn't
+##	like is overloading of methods. Therefore you can't just declare them
+##	but you have to sneak them in by using InstallOtherMethod().
+##
+##	We start with the general constructor. Since we give so many options we
+##	have to define a lot of methods and we need many helper-methods.
+##
+##	Our first method gives us a sorted FacesByVertices (to reflect the
+##	implicitly given orientation).
+##
+_SIMPLICIAL_OrderPreservingFacesByVertices := function( vertices, edges,
+		faces, edgesByVertices, facesByEdges )
+	local faceList, i, faceEdges, intersectingEdges, vertexList, j, firstEdge,
+		lastEdge, currentEdge, nextEdge;
+
+	faceList := [];
+	for i in faces do
+		faceEdges := facesByEdges[i];
+		vertexList := [];
+
+		# Intersect first and last edge to obtain first vertex
+		firstEdge := Set( edgesByVertices[faceEdges[1]] );
+		lastEdge := Set( edgesByVertices[faceEdges[Length(faceEdges)]] );
+		intersectingEdges := Intersection( firstEdge, lastEdge );
+		if Length(intersectingEdges) <> 1 then
+   	    	Error("_SIMPLICIAL_OrderPreservingFacesByVertices: Edge intersection is not unique.");
+		fi;
+		vertexList[1] := intersectingEdges[1];
+
+		# Continue in the same way for the other edges
+		for j in [2 .. Length(face)] do
+			currentEdge := Set( edgesByVertices[faceEdges[j-1]] );
+			nextEdge := Set( edgesByVertices[faceEdges[j]] );
+			intersectingEdges := Intersection( currentEdge, nextEdge );
+			if Length(intersectingEdges) <> 1 then
+  	     		Error("_SIMPLICIAL_OrderPreservingFacesByVertices: Edge intersection is not unique.");
+			fi;
+			vertexList[j] := intersectingEdges[1];
+		od;
+
+		faceList[i] := vertexList;
+	od;
+
+	return faceList;
+end;
+
+##
+##	Next we create a local orientation from such a list
+##
+_SIMPLICIAL_LocalOrientationFromFacesByVertices := function( facesByVertices )
+	local orientation;
+
+	# local function that shifts each entry of the list to the previous one
+	Shift := function( list )
+		local newList, i;
+
+		newList[ Length(list) ] := list[1];
+		for i in [2..Length(list)] do
+			newList[i-1] := list[i];
+		od;
+		return newList;
+	end;
+
+	return List( facesByVertices, face -> MappingPermListList( face, Shift(face) ) );
+end;
+
+##
+##	Now we install the most basic constructors
+_SIMPLICIAL_BasicSimplicialSurfaceByDownwardIncidenceNC := function( 
+	vertices, edges, faces, edgesByVertices, facesByEdges )
+		local facesByVerticesOP, localOrient, surf;
+
+		# Transform if necessary
+		if not IsSet( vertices ) then
+			vertices := [1..vertices];
+		fi;
+		if not IsSet( edges ) then
+			edges := [1..edges];
+		fi;
+		if not IsSet( faces ) then
+			faces := [1..faces];
+		fi;
+
+		facesByVerticesOP := _SIMPLICIAL_OrderPreservingFacesByVertices( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+		localOrient := _SIMPLICIAL_LocalOrientationFromFacesByVertices( 
+														facesByVerticesOP );
+
+		surf := Objectify( SimplicialSurfaceType, rec() );
+		# Set the given attributes
+		SetVertices( surf, vertices );
+		SetEdges( surf, edges );
+		SetFaces( surf, faces );
+		SetEdgesByVertices( surf, edgesByVertices );
+		SetFacesByEdges( surf, facesByEdges );
+		SetFacesByVertices( surf, List( facesByVerticesOP, i -> Set(i) ) );
+		SetLocalOrientation( surf, localOrient );
+
+		return surf;
+end;
+InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero,
+	  IsSet or IsPosInt or IsZero,
+	  IsList,
+	  IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		local surf;
+
+		surf := _SIMPLICIAL_BasicSimplicialSurfaceByDownwardIncidenceNC( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+
+		SetIsFaceNamesDefault( surf, true );
+
+		return surf;
+	end
+);
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero,
+	  IsSet or IsPosInt or IsZero,
+	  IsList,
+	  IsList,
+	  IsList ],	# <- this one is additional
+	function( vertices, edges, faces, edgesByVertices, facesByEdges, namesOfFaces )
+		local surf;
+
+		surf := _SIMPLICIAL_BasicSimplicialSurfaceByDownwardIncidenceNC( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+
+		SetNamesOfFaces( surf, namesOfFaces );
+
+		return surf;
+	end
+);
+##
+##	Next we have to install the same constructors with checks.
+_SIMPLICIAL_BasicDownwardIncidenceCheck := function( vertices, edges, faces,
+							 edgesByVertices, facesByEdges )
+	local e, f;
+
+	# local method to check if a set consists of positive integers
+	IsSetPosInt := function( set )
+		local el;
+		for el in set do
+			if not IsPosInt(el) then
+				return false;
+			fi;
+		od;
+		return true;
+	end;
+
+	# Transform if necessary
+	if not IsSet( vertices ) then
+		vertices := [1..vertices];
+	elif not IsSetPosInt( vertices ) then
+		Error("DownwardIncidenceCheck: Vertices have to be positive integers.");
+	fi;
+
+	if not IsSet( edges ) then
+		edges := [1..edges];
+	elif not IsSetPosInt( edges ) then
+		Error("DownwardIncidenceCheck: Edges have to be positive integers.");
+	fi;
+
+	if not IsSet( faces ) then
+		faces := [1..faces];
+	elif not IsSetPosInt( faces ) then
+		Error("DownwardIncidenceCheck: Faces have to be positive integers.");
+	fi;
+
+	# Is edgesByVertices well defined?
+	for e in edges do
+		if not IsBound( edgesByVertices[e] ) then
+			Error("DownwardIncidenceCheck: One edge has no vertices.");
+		elif Size( Set( edgesByVertices[e] ) ) <> 2 then
+			Error("DownwardIncidenceCheck: One edge has not two vertices.");
+		elif not IsEmpty( Difference( Set(edgesByVertices[e]), vertices ) ) then
+			Error("DownwardIncidenceCheck: One edge has illegal vertex.");
+		fi;
+	od;
+	if Number( edgesByVertices ) <> Length( edges ) then # Number counts bound entries
+		Error("DownwardIncidenceCheck: More edges than expected.");
+	fi;
+
+	# Is facesByEdges well defined?
+	for f in faces do
+		if not IsBound( facesByEdges[f] ) then
+			Error("DownwardIncidenceCheck: One face has no edges.");
+		elif Size( Set( facesByEdges[f] ) ) <> 3 then
+			Error("DownwardIncidenceCheck: One face has not three edges.");
+		elif not IsEmpty( Difference( Set(facesByEdges[f]), vertices ) ) then
+			Error("DownwardIncidenceCheck: One face has illegal edge.");
+		fi;
+	od;
+	if Number( facesByEdges ) <> Length( faces ) then
+		Error("DownwardIncidenceCheck: More faces than expected.");
+	fi;
+end;
+InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero,
+	  IsSet or IsPosInt or IsZero,
+	  IsList,
+	  IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		local surf;
+
+		_SIMPLICIAL_BasicDownwardIncidenceCheck( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+
+		return SimplicialSurfaceByDownwardIncidence( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+	end
+);
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero,
+	  IsSet or IsPosInt or IsZero,
+	  IsList,
+	  IsList,
+	  IsList ],	# <- this one is additional
+	function( vertices, edges, faces, edgesByVertices, facesByEdges, namesOfFaces )
+		local f;
+
+		_SIMPLICIAL_BasicDownwardIncidenceCheck( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+
+		# Check the face names
+		if not IsSet( faces ) then
+			faces := [1..faces];
+		fi;
+		for f in faces do
+			if not IsBound( namesOfFaces[f] ) then
+				Error("DownwardIncidenceCheck: One face has no names.");
+			elif Size( Set( namesOfFaces[f] ) ) <> 2 then
+				Error("DownwardIncidenceCheck: One face has not two different names.");
+			elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
+				Error("DownwardIncidenceCheck: One face has non-integer names.");
+			fi;
+		od;
+		if Number( namesOfFaces ) <> Length( faces ) then
+			Error("DownwardIncidenceCheck: More face-names than expected.");
+		fi;
+
+		return SimplicialSurfaceByDownwardIncidence( vertices, edges, faces, 
+								edgesByVertices, facesByEdges, namesOfFaces );
+	end
+);
+##
+##							End of constructors
+##
+#############################################################################
+#############################################################################
+
+
+
 #############################################################################
 ##
 #!	@Description
@@ -243,6 +517,8 @@ InstallMethod( FacesByVertices, [IsSimplicialSurface and HasEdgesByFaces and
 ##
 #############################################################################
 #############################################################################
+
+
 
 #############################################################################
 ##

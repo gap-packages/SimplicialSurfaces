@@ -54,6 +54,66 @@ DeclareCategory( "IsSimplicialSurface",
 SimplicialSurfaceFamily := 
     NewFamily("SimplicialSurfaceFamily",  IsObject, IsSimplicialSurface);
 
+
+
+
+#############################################################################
+##
+##
+#!  @Section Constructors for Simplicial Surfaces
+#!
+#!
+#!
+
+##
+##	This constructor takes the following information:
+##
+##	The set of vertices (alternatively a number n that becomes [1..n] )
+##	The set of edges (alternatively a number n that becomes [1..n] )
+##	The set of faces (alternatively a number n that becomes [1..n] )
+##	The list EdgesByVertices
+##	The list FacesByEdges. The components don't have to be sets and their
+##		order defines the LocalOrientation-attribute
+##	Optional: the list NamesOfFaces. If this is not given, the default
+##				naming scheme is used
+##
+##	The NoCheck-function does the same thing but does not test if the
+##	arguments are well-defined.
+DeclareOperation( "SimplicialSurfaceByDownwardIncidence",
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero,
+	  IsSet or IsPosInt or IsZero,
+	  IsList,
+	  IsList ] );
+DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero,
+	  IsSet or IsPosInt or IsZero,
+	  IsList,
+	  IsList ] );
+
+##
+##	This constructor takes the following information:
+##
+##	The set of vertices (alternatively a number n that becomes [1..n] )
+##	The set of faces (alternatively a number n that becomes [1..n] )
+##	The list FacesByVertices. The components don't have to be sets and their
+##		order defines the LocalOrientation-attribute
+##	Optional: the list NamesOfFaces. If this is not given, the default
+##				naming scheme is used
+##
+##	Edges are generated as becomes necessary. It is assumed that two faces
+##	that share two vertices also share an edge.
+##
+##	The NoCheck-function does the same thing but does not test if the
+##	arguments are well-defined.
+DeclareOperation( "SimplicialSurfaceByVerticesInFaces", 
+	[ IsSet, IsSet, IsList ] );
+DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
+	[ IsSet, IsSet, IsList ] );
+
+
+
 #############################################################################
 ##
 ##
