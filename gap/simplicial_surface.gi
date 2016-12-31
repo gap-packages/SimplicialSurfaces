@@ -340,7 +340,7 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 
 		return classes;
 	end;
- );
+ );           
 
 ###############################################################################
 ##
@@ -503,6 +503,133 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 	simpsurf!.isOrientable := orientable;
 	return simpsurf!.isOrientable;
 end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	Return a list of tuples where at each face-number there is a list with two
+#!	entries. The first one is the name of the upper face-side, the second one
+#!	the name of the lower face-side (with respect to the local orientation).
+#!	All other positions are unbounded.
+#!  @Returns a list of lists of integers
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( NamesOfFaces,
+	"for a simplicial surface with default face naming convention",
+	[IsSimplicialSurface and IsFaceNamesDefault],
+	function(simpsurf)
+		local faceNames, face;
+
+		faceNames := [];
+		for face in Faces( simpsurf ) do
+			faceNames[face] := [face, -1*face];
+		od;
+	
+		return faceNames;
+	end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	Return if the naming scheme for the faces is the default one, meaning
+#!	that the upper side of a face f is called f (a positive integer) and the
+#!	lower side -f (a negative integer).
+#!	@Returns true if the simplicial surface follows the default naming scheme,
+#!	false otherwise
+#!	@Arguments a simplicial surface object simpsurf
+InstallMethod( IsFaceNamesDefault, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function(simpsurf)
+		local faceNames, face;
+
+		faceNames := NamesOfFaces(simpsurf);
+		for face in Faces( simpsurf ) do
+			if not faceNames[face] = [face, -1*face] then
+				return false;
+			fi;
+		od;
+	
+		return true;
+	end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	This function returns both names of the given face. The first entry is
+#!	the name of the upper side, the second one of the lower side.
+#!	@Arguments a simplicial surface object simpsurf, a face number
+#!	@Returns a list with two elements
+InstallMethod( NamesOfFace, "for a simplicial surface",
+	[IsSimplicialSurface, IsPosInt],
+	function(simpsurf, face)
+		if not face in Faces( simpsurf ) then
+			Error("NamesOfFace[generic]: Face doesn't lie in surface.");
+		fi;
+		return NamesOfFaces(simpsurf)[face];
+	end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	This function returns both names of the given face. The first entry is
+#!	the name of the upper side, the second one of the lower side.
+#!	@Arguments a simplicial surface object simpsurf, a face number
+#!	@Returns a list with two elements
+InstallMethod( NamesOfFace,
+	"for a simplicial surface with default face naming convention",
+	[IsSimplicialSurface and IsFaceNamesDefault, IsPosInt],
+	function(simpsurf, face)
+		if not face in Faces( simpsurf ) then
+			Error("NamesOfFace[default]: Face doesn't lie in surface.");
+		fi;
+		return [face, -1*face];
+	end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	Return the face-number of the simplicial surface that has the given name
+#!	as the name of one of its sided.
+#!	@Arguments a simplicial surface object simpsurf, an integer
+#!	@Returns a positive integer
+InstallMethod( FaceByName, "for a simplicial surface",
+	[IsSimplicialSurface, IsInt],
+	function(simpsurf, face)
+		local faceNames, faceNr;
+
+		faceNames := NamesOfFaces(simpsurf);
+		for faceNr in Faces(simpsurf) do
+			if face in faceNames[faceNr] then
+				return faceNr;
+			fi;
+		od;
+		Error("FaceByName[generic]: Given face side name doesn't exist.");
+	end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	Return the face-number of the simplicial surface that has the given name
+#!	as the name of one of its sided.
+#!	@Arguments a simplicial surface object simpsurf, an integer
+#!	@Returns a positive integer
+InstallMethod( FaceByName,
+	"for a simplicial surface with default face naming convention",
+	[IsSimplicialSurface and IsFaceNamesDefault, IsInt],
+	function(simpsurf, face)
+		local result;
+
+		result := AbsInt(face);
+		if not result in Faces(simpsurf) then
+			Error("FaceByName[default]: Given face side name doesn't exist.");
+		fi;
+		return result;
+	end
 );
 
 #############################################################################
