@@ -415,94 +415,87 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 
 		# Method to check if the orientation of a face is induced by that of
 		# one of its edges
-		CompatibleOrientation := function( edgeByVertices, faceByVertices )
-			local pos;
-
-			pos := Position( faceByVertices, edgeByVertices[1] );
-			if pos = fail then
-				Error( "IsOrientable: Incompatible orientation" );
-			fi;
-			if pos < Length( faceByVertices ) then
-				return edgeByVertices[2] = faceByVertices[pos+1];
-			else
-				return edgeByVertices[2] = faceByVertices[1];
-			fi;
+		CompatibleOrientation := function( edgeByVertices, facePerm )
+			return edgeByVertices[1]^facePerm = edgeByVertices[2];
 		end;
-#TODO needs local orientation!
 
-	orientable := true;
-	orientList := [];
-	orientList[ 1 + NrOfFacesOfGenericSimplicialSurface(simpsurf)] := 1;
-	while not IsDenseList( orientList ) and orientable do
-		# Find the first hole
-		hole := 0;
-		for i in [1..Length(orientList)] do
-			if not IsBound( orientList[i] ) then
-				hole := i;
-				break;
-			fi;
-		od;
-
-		# Define the standard orientation of this face as "up"
-		orientList[hole] := 1;
-		facesToCheck := [hole];
-		checkedFaces := [];
-
-		while facesToCheck <> [] and orientable do
-			face := facesToCheck[1];
-			for edge in FacesOfGenericSimplicialSurface(simpsurf)[face] do
-				# This should be unique (inner edge) or empty (border edge)
-				neighbours := Difference( edgesByFaces[edge], [face] );
-				if Size( neighbours ) > 1 then
-					Error( "IsOrientableGenericSimplicialSurface: Not a proper surface.");
-				elif Size( neighbours ) = 0 then
-					continue;
-				fi;
-				next := neighbours[1];
-
-				# Check how these two faces act on the edge
-				if CompatibleOrientation( EdgesOfGenericSimplicialSurface(simpsurf)[edge], facesByVertices[face] ) then
-					orient1 := 1;
-				else
-					orient1 := -1;
-				fi;
-
-				if CompatibleOrientation( EdgesOfGenericSimplicialSurface(simpsurf)[edge], facesByVertices[next] ) then
-					orient2 := 1;
-				else
-					orient2 := -1;
-				fi;
-
-				if orient1*orient2 = -1 then # the sides are neighbours
-					if IsBound( orientList[next] ) and orientList[next] <> orientList[face] then
-						orientable := false;
-						break;
-					else
-						orientList[next] := orientList[face];
-					fi;
-				elif orient1*orient2 = 1 then # the sides are not neighbours
-					if IsBound( orientList[next] ) and orientList[next] = orientList[face] then
-						orientable := false;
-						break;
-					else
-						orientList[next] := -1*orientList[face];
-					fi;
-				else
-					Error( "IsOrientableGenericSimplicialSurface: Wrong definition of orientation.");
-				fi;
-
-				if not next in checkedFaces then
-					facesToCheck := Union( facesToCheck, [next] );
+		# We use the characterisation from my master thesis in the proof of
+		# theorem 4.31 (TODO explain).
+		orientable := true;
+		orientList := [];
+		while Length(orientList) < NrOfFaces(simpsurf) and orientable do
+			# Find the first hole
+			hole := 0;
+			for face in Faces(simpsurf) do
+				if not isBound( orientList[face] ) then
+					hole := face;
+					break;
 				fi;
 			od;
-			facesToCheck := Difference( facesToCheck, [face] );
-			checkedFaces := Union( checkedFaces, [face] );
-		od;
-	od;
 	
-	simpsurf!.isOrientable := orientable;
-	return simpsurf!.isOrientable;
-end
+			# Define the standard orientation of this face as "up"
+			orientList[hole] := 1;
+			facesToCheck := [hole];
+			checkedFaces := [];
+
+			while facesToCheck <> [] and orientable do
+				face := facesToCheck[1];
+				for edge in FacesByEdges(simpsurf)[face] do
+					# This should be unique (inner edge) or empty (border edge)
+					neighbours := Difference( edgesByFaces[edge], [face] );
+					if Size( neighbours ) > 1 then
+						Error( "IsOrientable[generic]: Not a proper surface.");
+					elif Size( neighbours ) = 0 then
+						continue;
+					fi;
+					next := neighbours[1];
+
+					orient1 := 0;
+					orient2 := 0;
+					# Check how these two faces act on the edge
+					if CompatibleOrientation( EdgesByVertices(simpsurf)[edge], LocalOrientation(simpsurf)[face] ) then
+						orient1 := 1;
+					else
+						orient1 := -1;
+					fi;
+	
+					if CompatibleOrientation( EdgesByVertices(simpsurf)[edge], LocalOrientation(simpsurf)[next] ) then
+						orient2 := 1;
+					else
+						orient2 := -1;
+					fi;
+	
+					# The next two cases can be collapsed (the elements in orientList take
+					# values in {+1,-1}). TODO do so without destroying readability
+					if orient1*orient2 = -1 then # the sides are neighbours
+						if IsBound( orientList[next] ) and orientList[next] <> orientList[face] then
+							orientable := false;
+							break;
+						else
+							orientList[next] := orientList[face];
+						fi;
+					elif orient1*orient2 = 1 then # the sides are not neighbours
+						if IsBound( orientList[next] ) and orientList[next] = orientList[face] then
+							orientable := false;
+							break;
+						else
+							orientList[next] := -1*orientList[face];
+						fi;
+					else
+						Error( "IsOrientable[generic]: Wrong definition of orientation.");
+					fi;
+	
+					if not next in checkedFaces then
+						facesToCheck := Union( facesToCheck, [next] );
+					fi;
+				od;
+				facesToCheck := Difference( facesToCheck, [face] );
+				checkedFaces := Union( checkedFaces, [face] );
+			od;
+		od;
+		
+		return orientable;
+	end
 );
 
 #############################################################################
