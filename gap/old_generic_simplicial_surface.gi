@@ -1,28 +1,3 @@
-################################################################################
-##
-#W  generic_simplicial_surface.gi   Generic Simplicial Surface   Alice Niemeyer
-#W															  Markus Baumeister
-##
-##
-#Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,
-#Y  RWTH Aachen
-##
-##  This file is free software, see license information at the end.
-##
-##
-##  The functions in this file compute with generic simplicial surfaces.
-##
-##	A generic simplicial surface consists of the following data:
-##	1) The list of vertices
-##	2) The list of edges
-##	3) The list of faces
-##	4) For each edge: A list of the two incident vertices
-##	5) For each face: A list of the three incident edges
-##		The order or these three edges defines the orientation of this face.
-##
-
-
-
 #############################################################################
 ##
 ##

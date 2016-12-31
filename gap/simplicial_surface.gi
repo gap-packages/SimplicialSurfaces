@@ -281,6 +281,46 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 	end
 );
 ##
+##
+##
+##
+##	Now we face the constructor byVerticesInFaces. We start with the NC-versions. TODO
+InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero,
+	  IsSet or IsPosInt or IsZero,
+	  IsList,
+	  IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		local surf;
+
+		surf := _SIMPLICIAL_BasicSimplicialSurfaceByDownwardIncidenceNC( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+
+		SetIsFaceNamesDefault( surf, true );
+
+		return surf;
+	end
+);
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero,
+	  IsSet or IsPosInt or IsZero,
+	  IsList,
+	  IsList,
+	  IsList ],	# <- this one is additional
+	function( vertices, edges, faces, edgesByVertices, facesByEdges, namesOfFaces )
+		local surf;
+
+		surf := _SIMPLICIAL_BasicSimplicialSurfaceByDownwardIncidenceNC( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+
+		SetNamesOfFaces( surf, namesOfFaces );
+
+		return surf;
+	end
+);
+##TODO
 ##							End of constructors
 ##
 #############################################################################
