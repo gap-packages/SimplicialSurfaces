@@ -70,8 +70,8 @@ InstallMethod( NrOfFaces, "for a simplicial surfaces",
 ##
 ##	There are exactly four cases in which we know every information from
 ##	two of those values:
-##		facesByEdges and EdgesByVertices
-##		facesByEdges and VerticesByEdges
+##		FacesByEdges and EdgesByVertices
+##		FacesByEdges and VerticesByEdges
 ##		EdgesByFaces and EdgesByVertices
 ##		EdgesByFaces and VerticesByEdges
 ##	We will start with an inversion and a transitivity method. These two are
@@ -175,75 +175,69 @@ InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasVerticesByEdges and
 ##
 ##	Normally we would be finished at this point. But the method selection of
 ##	GAP is not so intelligent to check for attributes transitively (it only
-##	checks if an attribute is set, not if it could be set). This can be done
-##	by using RedispatchOnCondition (see chapter 78.5-1). As the documentation
-##	is unreadable I take a guess based on the usage in other GAP packages.
+##	checks if an attribute is set, not if it could be set). It would have been
+##	nice if this could be done by RedispatchOnCondition (see 78.5-1) but this
+##	option only works for properties. Since Has* is false if the attribute *
+##	is not computed, we can't use it (theoretically we could introduce an
+##	additional property for "possible existence of this attribute" but that
+##	gets even more involved). Therefore we will just brute force all remaining
+##	possibilites.
+##	Important Note: Since we change the filters we must not use TryNextMethod()
+##	since doing so would not take this change into account.
 ##
 ##	If both incidences go in the same direction (e.g. FacesByEdges and
 ##	EdgesByVertices) we get two inverses and one transitive in one step. The
 ##	opposing transitive is missing. In comparing both ways to compute it, first
 ##	transitive and then inverting is shorter than twise inverting and then using
 ##	the transitive.
-RedispatchOnCondition( VerticesByFaces, true, [IsSimplicialSurface and 
-		HasEdgesByVertices and HasFacesByEdges], [HasFacesByVertices], 0);
-#InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByVertices and
-#											HasFacesByEdges ],
-#	function( simpsurf )
-#		FacesByVertices(simpsurf);
-#		return VerticesByFaces( simpsurf );
-#	end
-#);
-RedispatchOnCondition( FacesByVertices, true, [IsSimplicialSurface and 
-		HasVerticesByEdges and HasEdgesByFaces], [HasVerticesByFaces], 0);
-#InstallMethod( FacesByVertices, [IsSimplicialSurface and HasVerticesByEdges and
-#											HasEdgesByFaces ],
-#	function( simpsurf )
-#		VerticesByFaces( simpsurf );
-#		return FacesByVertices(simpsurf);
-#	end
-#);
+InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByVertices and
+											HasFacesByEdges ],
+	function( simpsurf )
+		FacesByVertices(simpsurf);
+		return VerticesByFaces( simpsurf );
+	end
+);
+InstallMethod( FacesByVertices, [IsSimplicialSurface and HasVerticesByEdges and
+											HasEdgesByFaces ],
+	function( simpsurf )
+		VerticesByFaces( simpsurf );
+		return FacesByVertices(simpsurf);
+	end
+);
 ##
 ##	If the two incidences don't go in the same direction, things become more
 ##	complicated. Assume FacesByEdges and VerticesByEdges. We get the inverses
 ##	directly but we are missing FacesByVertices and VerticesByFaces. To get
 ##	those we first have to invert one of them and then use transitive.
-RedispatchOnCondition( VerticesByFaces, true, [IsSimplicialSurface and 
-		HasFacesByEdges and HasVerticesByEdges], [HasEdgesByFaces], 0);
-#InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasFacesByEdges and
-#											HasVerticesByEdges ],
-#	function( simpsurf )
-#		EdgesByFaces( simpsurf );
-#		return VerticesByFaces( simpsurf );
-#	end
-#);
-RedispatchOnCondition( FacesByVertices, true, [IsSimplicialSurface and 
-		HasFacesByEdges and HasVerticesByEdges], [HasEdgesByVertices], 0);
-#InstallMethod( FacesByVertices, [IsSimplicialSurface and HasFacesByEdges and
-#											HasVerticesByEdges ],
-#	function( simpsurf )
-#		EdgesByVertices( simpsurf );
-#		return FacesByVertices(simpsurf);
-#	end
-#);
+InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasFacesByEdges and
+											HasVerticesByEdges ],
+	function( simpsurf )
+		EdgesByFaces( simpsurf );
+		return VerticesByFaces( simpsurf );
+	end
+);
+InstallMethod( FacesByVertices, [IsSimplicialSurface and HasFacesByEdges and
+											HasVerticesByEdges ],
+	function( simpsurf )
+		EdgesByVertices( simpsurf );
+		return FacesByVertices(simpsurf);
+	end
+);
 ##	case EdgesByFaces and EdgesByVertices is similar
-RedispatchOnCondition( VerticesByFaces, true, [IsSimplicialSurface and 
-		HasEdgesByFaces and HasEdgesByVertices], [HasVerticesByEdges], 0);
-#InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByFaces and
-#											HasEdgesByVertices ],
-#	function( simpsurf )
-#		VerticesByEdges( simpsurf );
-#		return VerticesByFaces( simpsurf );
-#	end
-#);
-RedispatchOnCondition( FacesByVertices, true, [IsSimplicialSurface and 
-		HasEdgesByFaces and HasEdgesByVertices], [HasFacesByEdges], 0);
-#InstallMethod( FacesByVertices, [IsSimplicialSurface and HasEdgesByFaces and
-#											HasEdgesByVertices ],
-#	function( simpsurf )
-#		FacesByEdges( simpsurf );
-#		return FacesByVertices(simpsurf);
-#	end
-#);
+InstallMethod( VerticesByFaces, [IsSimplicialSurface and HasEdgesByFaces and
+											HasEdgesByVertices ],
+	function( simpsurf )
+		VerticesByEdges( simpsurf );
+		return VerticesByFaces( simpsurf );
+	end
+);
+InstallMethod( FacesByVertices, [IsSimplicialSurface and HasEdgesByFaces and
+											HasEdgesByVertices ],
+	function( simpsurf )
+		FacesByEdges( simpsurf );
+		return FacesByVertices(simpsurf);
+	end
+);
 ##
 ##							End of *By*-Methods
 ##

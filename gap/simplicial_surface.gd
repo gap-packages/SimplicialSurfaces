@@ -9,12 +9,22 @@
 ##
 ##  This file is free software, see license information at the end.
 ##
-##  This file contains the declaration part for the wild simplicial surfaces
-##	of the Simplicial package.
+##  This file contains the declaration part for the simplicial surfaces
+##	of the SimplicialSurfaces package.
 ##
 ##	A SimplicialSurface consists of vertices, edges and faces. Each of those
-##	is enumerated by numbers (not necessarily consecutively). Furthermore we
-##	have an incidence relation between them.
+##	is enumerated by positive integers (not necessarily consecutively).
+##	Furthermore we have an incidence relation between them.
+##
+##	We additionally require a local orientation for each face - that is we
+##	want to distinguish its two sides. Therefore we also need names for both
+##	sides. The default naming scheme (which will be applied if the user does
+##	not explicitly objects) is that the two sides of the face f will be called
+##	+f and -f. With this scheme all positive integers represent the "upper
+##	sides" and negative integers the "lower sides". A side effect is that the
+##	name of a face and of its upper side coincide. It is usually clear from
+##	context which one is meant.
+##
 ##	Sometimes we may impose an additional structure on this surface, by
 ##	partitioning the set of edges into three subsets such that each face (which
 ##	we assume to be triangular) is bordered by all three subsets. This allows
@@ -52,19 +62,19 @@ SimplicialSurfaceFamily :=
 #!
 
 #! @Description
-#! Returns the numbers of the vertices as a set.
+#! Returns the numbers of the vertices as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
 DeclareAttribute( "Vertices", IsSimplicialSurface );
 
 #! @Description
-#! Returns the numbers of the edges as a set.
+#! Returns the numbers of the edges as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
 DeclareAttribute( "Edges", IsSimplicialSurface );
 
 #! @Description
-#! Returns the numbers of the faces as a set.
+#! Returns the numbers of the faces as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
 DeclareAttribute( "Faces", IsSimplicialSurface );
@@ -94,6 +104,7 @@ DeclareAttribute( "NrOfFaces", IsSimplicialSurface );
 #!	with holes and at the position of each vertex-number is a set of
 #!	all edges that are incident to that vertex. All other positions are
 #!	unbounded.
+#!	Either this method or EdgesByVertices is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
 DeclareAttribute( "VerticesByEdges", IsSimplicialSurface);
@@ -112,6 +123,7 @@ DeclareAttribute( "VerticesByFaces", IsSimplicialSurface);
 #!	with holes and at the position of each edge-number is a set of
 #!	all vertices that are incident to that edge. All other positions are
 #!	unbounded.
+#!	Either this method or VerticesByEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
 DeclareAttribute( "EdgesByVertices", IsSimplicialSurface);
@@ -121,6 +133,7 @@ DeclareAttribute( "EdgesByVertices", IsSimplicialSurface);
 #!	with holes and at the position of each edge-number is a set of
 #!	all faces that are incident to that edge. All other positions are
 #!	unbounded.
+#!	Either this method or FacesByEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
 DeclareAttribute( "EdgesByFaces", IsSimplicialSurface);
@@ -139,6 +152,7 @@ DeclareAttribute( "FacesByVertices", IsSimplicialSurface);
 #!	with holes and at the position of each face-number is a set of
 #!	all edges that are incident to that face. All other positions are
 #!	unbounded.
+#!	Either this method or EdgesByFaces is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
 DeclareAttribute( "FacesByEdges", IsSimplicialSurface);
@@ -151,13 +165,6 @@ DeclareAttribute( "FacesByEdges", IsSimplicialSurface);
 #!	@Arguments a simplicial surface
 #!	@Returns true if it is a surface and false else.
 DeclareProperty( "IsActualSurface", IsSimplicialSurface );
-
-##
-##	The property IsWildColored is true if the SimplicialSurface admits a
-##	wild coloring. As a precondition for this the SimplicialSurface has to be
-##	an actual surface.
-##
-DeclareProperty( "IsWildColored", IsActualSurface );
 
 
 #!	@Description
@@ -203,6 +210,36 @@ DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 
 
 #!  @Description
+#!	Return a list of permutations where at the position of each face-number
+#!	there is a cycle of all vertices that are incident to this face. This
+#!	cycle represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!	This method is basic.
+#!  @Returns a list of permutations
+#!  @Arguments a simplicial surface object simpsurf
+DeclareAttribute( "LocalOrientation", IsSimplicialSurface );
+
+#!  @Description
+#!	Return a list of tuples where at each face-number there is a list with two
+#!	entries. The first one is the name of the upper face-side, the second one
+#!	the name of the lower face-side (with respect to the local orientation).
+#!	All other positions are unbounded.
+#!	If IsFaceNamesDefault is false, this method is basic.
+#!  @Returns a list of lists of integers
+#!  @Arguments a simplicial surface object simpsurf
+DeclareAttribute( "NamesOfFaces", IsSimplicialSurface );
+
+#!	@Description
+#!	Return if the naming scheme for the faces is the default one, meaning
+#!	that the upper side of a face f is called f (a positive integer) and the
+#!	lower side -f (a negative integer).
+#!	@Returns true if the simplicial surface follows the default naming scheme,
+#!	false otherwise
+#!	@Arguments a simplicial surface object simpsurf
+DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
+
+
+#!  @Description
 #!  Return the face-anomaly-classes of a simplicial surface.
 #!	Two faces are in the same face-anomaly-class if they contain the same
 #!	vertices.
@@ -231,27 +268,45 @@ DeclareAttribute( "IncidenceGraph", IsSimplicialSurface );
 #!
 #!
 
-#############################################################################
+
+##
+#!	@Description
+#!	This function returns both names of the given face. The first entry is
+#!	the name of the upper side, the second one of the lower side.
+#!	@Arguments a simplicial surface object simpsurf, a face number
+#!	@Returns a list with two elements
+#!
+DeclareOperation( "NamesOfFace", [IsSimplicialSurface, IsPosInt] );
+
+
+##
+#!	@Description
+#!	Return the face-number of the simplicial surface that has the given name
+#!	as the name of one of its sided.
+#!	@Arguments a simplicial surface object simpsurf, an integer
+#!	@Returns a positive integer
+#!
+DeclareOperation( "FaceByName", [IsSimplicialSurface, IsInt] );
+
 ##
 #!	@Description
 #!	This function removes all ears of the simplicial surface and returns
 #!	the resulting surface.
-#!	@Returns a simplicial surface object
 #!	@Arguments a simplicial surface object simpsurf
+#!	@Returns a simplicial surface object
 #!
 DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
 
-#############################################################################
+
 ##
 #!  @Description
 #!  Check if two simplicial surfaces are isomorphic. This method only checks
 #!	if they are isomorphic with respect to the incidence relation. It does
 #!	not check if additional structure like a wild coloring is isomorphic (or
 #!	even present).
-#!  @Returns true or false
 #!  @Arguments <s1>, <s2>, two simplicial surface objects
+#!  @Returns true or false
 #!
-##
 DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );
 
