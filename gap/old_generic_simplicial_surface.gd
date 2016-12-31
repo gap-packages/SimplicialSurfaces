@@ -166,31 +166,3 @@ InstallMethod( FacesByVertices, "for a generic simplicial surface",
 		return faceList;
 	end
 );
-
-###############################################################################
-##
-#!  @Description
-#!  This function removes one vertex of a generic simplicial surface
-#!  <simpsurf>, along with all edges and faces that are adjacent to the vertex
-#!  @Returns a generic simplicial surface without the given vertex.
-#!  @Arguments <simpsurf> a generic simplicial surface, <vertex> the vertex to
-#!		 be removed
-#!
-##
-DeclareGlobalFunction( "RemoveVertexOfGenericSimplicialSurface" );
-
-
-
-
-
-#############################################################################
-##
-##
-#!  @Section Conversion functions for Generic Simplicial Surfaces
-#!
-#!
-#!
-
-DeclareGlobalFunction( "GenericSimplicialSurfaceFromFaceVertexPath" );
-DeclareGlobalFunction( "FaceVertexPathFromGenericSimplicialSurface" );
-DeclareGlobalFunction( "GenericSimplicialSurfaceFromWildSimplicialSurface" );

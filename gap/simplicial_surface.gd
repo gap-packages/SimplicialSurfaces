@@ -294,6 +294,17 @@ DeclareOperation( "NamesOfFace", [IsSimplicialSurface, IsPosInt] );
 #!
 DeclareOperation( "FaceByName", [IsSimplicialSurface, IsInt] );
 
+
+##
+#!	@Description
+#!	This function returns the simplicial subsurface that is defined by the
+#!	given set of faces.
+#!	@Arguments a simplicial surface object simpsurf, a set of positive integers
+#!	@Returns a simplicial surface object
+#!
+DeclareOperation( "SubsurfaceByFaces", [IsSimplicialSurface, IsSet] );
+
+
 ##
 #!	@Description
 #!	This function removes all ears of the simplicial surface and returns

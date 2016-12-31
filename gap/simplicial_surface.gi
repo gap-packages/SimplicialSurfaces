@@ -501,13 +501,29 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 #############################################################################
 ##
 #!	@Description
+#!	This function returns the simplicial subsurface that is defined by the
+#!	given set of faces.
+#!	@Arguments a simplicial surface object simpsurf, a set of positive integers
+#!	@Returns a simplicial surface object
+InstallMethod( SubsurfaceByFaces, "for a simplicial surface",
+	[IsSimplicialSurface, IsSet],
+	function(simpsurf, subfaces)
+		local subVertices, subEdges;
+
+		#TODO need constructor
+	end
+);
+
+#############################################################################
+##
+#!	@Description
 #!	This function returns the connected component of the given face.
 #!	@Arguments a simplicial surface object simpsurf, a positive integer
 #!	@Returns a simplicial surface object
 InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 	[IsSimplicialSurface, IsPosInt],
 	function(simpsurf, f)
-		local faceList, faces, points, comp, change, faceNr;
+		local faceList, faces, points, comp, change, faceNr, subsurf;
 
 		faceList := FacesByVertices(simpsurf);
 		# Take care to not modify the real list of faces
@@ -529,8 +545,10 @@ InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 			od;
 		od;
 
-		#TODO replace by call to subsurface
-		return comp;
+		subsurf := SubsurfaceByFaces( simpsurf, comp);
+		# this component is connected by construction, so we set the property
+		SetIsConnected( subsurf, true );
+		return subsurf;
 	end
 );
 
@@ -556,6 +574,34 @@ InstallMethod( ConnectedComponents, "for a simplicial surface",
 		od;
 
 		return comp;
+	end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	This function removes all ears of the simplicial surface and returns
+#!	the resulting surface.
+#!	@Arguments a simplicial surface object simpsurf
+#!	@Returns a simplicial surface object
+InstallMethod( SnippOffEars, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function(simpsurf, f)
+		local vertexDegree, ears, newSurface, ear;
+
+		# Find ears
+		vertexDegree := UnsortedDegrees( simpsurf );
+		ears := Filtered( Vertices(simpsurf), i -> vertexDegree[i] <= 1);
+
+		if IsEmpty( ears ) then
+			return simpsurf;
+		fi;
+
+		facesToRemove := Union( List( ears, i->VerticesByFaces(simpsurf)[i]) );
+		remainingFaces := Difference( Faces(simpsurf), facesToRemove );
+		newSurface := SubsurfaceByFaces( simpsurf, remainingFaces );
+	
+		return SnippOffEars( newSurface );
 	end
 );
 
