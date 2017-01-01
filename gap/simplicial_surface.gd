@@ -343,10 +343,12 @@ DeclareAttribute( "IncidenceGraph", IsSimplicialSurface );
 #!	@Description
 #!	This function returns both names of the given face. The first entry is
 #!	the name of the upper side, the second one of the lower side.
+#!	The NC-version doesn't check if the given number actually is a face.
 #!	@Arguments a simplicial surface object simpsurf, a face number
 #!	@Returns a list with two elements
 #!
 DeclareOperation( "NamesOfFace", [IsSimplicialSurface, IsPosInt] );
+DeclareOperation( "NamesOfFaceNC", [IsSimplicialSurface, IsPosInt] );
 
 
 ##
@@ -385,10 +387,12 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 ##
 #!	@Description
 #!	This function returns the connected component of the given face.
+#!	The NC-version doesn't check if the given face actually is one.
 #!	@Arguments a simplicial surface object simpsurf, a positive integer
 #!	@Returns a simplicial surface object
 #!
 DeclareOperation( "ConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
+DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
 
 ##
 #!  @Description
