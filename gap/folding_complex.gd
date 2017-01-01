@@ -29,6 +29,80 @@ FoldingComplexFamily :=
     NewFamily("FoldingComplexFamily",  IsObject, IsFoldingComplex);
 
 
+#############################################################################
+##
+##
+#!  @Section Constructors for folding complexes
+#!
+#!
+#!
+
+#!	@Description
+#!	Return a folding complex that is based on the given simplicial surface. All
+#!	other properties are uniquely defined if we start with an actual surface.
+#!	@Arguments a simplicial surface that is an actual surface
+#!	@Returns a folding complex
+DeclareOperation( "FoldingComplex", [IsSimplicialSurface and IsActualSurface]);
+
+
+#############################################################################
+##
+##
+#!  @Section Attributes and properties of folding complexes
+#!
+#!
+
+#! @Description
+#! Return the underlying simplicial surface.
+#! @Arguments a folding complex
+#! @Returns a simplicial surface
+DeclareAttribute( "UnderlyingSimplicialSurface", IsFoldingComplex );
+
+#! @Description
+#! Return the vertex equivalence classes.
+#! @Arguments a folding complex
+#! @Returns a list of sets of positive integers
+DeclareAttribute( "VertexEquivalenceClasses", IsFoldingComplex );
+
+#! @Description
+#! Return the vertex equivalence classes.
+#! @Arguments a folding complex
+#! @Returns a list of sets of positive integers
+DeclareAttribute( "EdgeEquivalenceClasses", IsFoldingComplex );
+
+#! @Description
+#! Return the vertex equivalence classes.
+#! @Arguments a folding complex
+#! @Returns a list of sets of positive integers
+DeclareAttribute( "FaceEquivalenceClasses", IsFoldingComplex );
+
+
+
+#############################################################################
+##
+##
+#!  @Section Functions for folding complexes
+#!
+#!
+#!
+
+#! @Description
+#! Check if two vertices are equivalent.
+#! @Arguments two positive integers
+#! @Returns true if they are equivalent, false otherwise
+DeclareOperation( "IsEquivalentVertex", [IsFoldingComplex, IsPosInt, IsPosInt]);
+
+#! @Description
+#! Check if two edges are equivalent.
+#! @Arguments two positive integers
+#! @Returns true if they are equivalent, false otherwise
+DeclareOperation( "IsEquivalentEdge", [IsFoldingComplex, IsPosInt, IsPosInt]);
+
+#! @Description
+#! Check if two faces are equivalent.
+#! @Arguments two positive integers
+#! @Returns true if they are equivalent, false otherwise
+DeclareOperation( "IsEquivalentFace", [IsFoldingComplex, IsPosInt, IsPosInt]);
 
 
 
