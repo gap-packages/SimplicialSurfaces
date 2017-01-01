@@ -13,6 +13,6 @@
 
 Read( "simplicial_surface.gi" );
 Read( "wild_simplicial_surface.gi" );
-Read( "generic_simplicial_surface.gi" );
+Read( "folding_complex.gi" );
 
 

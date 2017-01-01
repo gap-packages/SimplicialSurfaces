@@ -12,7 +12,7 @@
 
 Read( "simplicial_surface.gd" );
 Read( "wild_simplicial_surface.gd" );
-Read( "generic_simplicial_surface.gd" );
+Read( "folding_complex.gd" );
 
 
 

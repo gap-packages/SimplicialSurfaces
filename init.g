@@ -10,13 +10,8 @@
 #############################################################################
 
 
-#Read( "gap/simplicial_surface.gd" );
-#Read( "gap/wild_simplicial_surface.gd" );
-#Read( "gap/generic_simplicial_surface.gd" );
-
-
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/wild_simplicial_surface.gd" );
-ReadPackage( "SimplicialSurfaces", "gap/generic_simplicial_surface.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/folding_complex.gd" );
 
 
