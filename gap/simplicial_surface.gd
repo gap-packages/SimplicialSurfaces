@@ -363,10 +363,13 @@ DeclareOperation( "FaceByName", [IsSimplicialSurface, IsInt] );
 #!	@Description
 #!	This function returns the simplicial subsurface that is defined by the
 #!	given set of faces.
+#!	The NC-version does not check if the given faces actually are faces of
+#!	the simplicial surface.
 #!	@Arguments a simplicial surface object simpsurf, a set of positive integers
 #!	@Returns a simplicial surface object
 #!
 DeclareOperation( "SubsurfaceByFaces", [IsSimplicialSurface, IsSet] );
+DeclareOperation( "SubsurfaceByFacesNC", [IsSimplicialSurface, IsSet] );
 
 
 ##

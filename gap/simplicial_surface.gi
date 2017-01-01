@@ -934,14 +934,42 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 #!	@Description
 #!	This function returns the simplicial subsurface that is defined by the
 #!	given set of faces.
+#!	The NC-version does not check if the given faces actually are faces of
+#!	the simplicial surface.
 #!	@Arguments a simplicial surface object simpsurf, a set of positive integers
 #!	@Returns a simplicial surface object
 InstallMethod( SubsurfaceByFaces, "for a simplicial surface",
 	[IsSimplicialSurface, IsSet],
 	function(simpsurf, subfaces)
-		local subVertices, subEdges;
+		local subVertices, subEdges, newEdgesByVertices, newFacesByEdges, e, f;
 
-		#TODO need constructor
+		if not IsSubset( Faces(simpsurf), subfaces ) then
+			Error("SubsurfaceByFaces: there are not only faces given.");
+		fi;
+
+		return SubsurfaceByFaces( simpsurf, subfaces );
+	end
+);
+InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
+	[IsSimplicialSurface, IsSet],
+	function(simpsurf, subfaces)
+		local subVertices, subEdges, newEdgesByVertices, newFacesByEdges, e, f;
+
+		subEdges := Union( List( subfaces, f -> FacesByEdges(simpsurf)[f] ));
+		subVertices := Union( List( subEdges, e -> EdgesByVertices(simpsurf)[e] ) );
+
+		newEdgesByVertices := [];
+		for e in subEdges do
+			newEdgesByVertices[e] := EdgesByVertices(simpsurf)[e];
+		od;
+
+		newFacesByEdges := [];
+		for f in subfaces do
+			newFacesByEdges[f] := FacesByEdges(simpsurf)[f];
+		od;
+
+		return SimplicialSurfaceByDownwardIncidenceNC( subVertices, subEdges,
+			subfaces, newEdgesByVertices, newFacesByEdges );
 	end
 );
 
@@ -955,6 +983,10 @@ InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 	[IsSimplicialSurface, IsPosInt],
 	function(simpsurf, f)
 		local faceList, faces, points, comp, change, faceNr, subsurf;
+
+		if not f in Faces(simpsurf) then
+			Error("ConnectedComponentOfFace: Given face doesn't lie in surface.");
+		fi;
 
 		faceList := FacesByVertices(simpsurf);
 		# Take care to not modify the real list of faces
@@ -983,6 +1015,30 @@ InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 	end
 );
 
+#############################################################################
+##
+#!	@Description
+#!	This function returns the connected component of the given face.
+#!	@Arguments a simplicial surface object simpsurf, a positive integer
+#!	@Returns a simplicial surface object
+InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
+	[IsSimplicialSurface and HasConnectedComponents, IsPosInt],
+	function(simpsurf, f)
+		local conCom, comp;
+
+		if not f in Faces(simpsurf) then
+			Error("ConnectedComponentOfFace: Given face doesn't lie in surface.");
+		fi;
+
+		conCom := ConnectedComponents(simpsurf);
+		for comp in conCom do
+			if f in Faces(comp) then
+				return comp;
+			fi;
+		od;
+		Error("ConnectedComponentOfFace: Internal error in ConnectedComponents.");
+	end
+);
 
 #############################################################################
 ##
@@ -992,7 +1048,7 @@ InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 #!	@Returns a list of simplicial surfaced
 InstallMethod( ConnectedComponents, "for a simplicial surface",
 	[IsSimplicialSurface],
-	function(simpsurf, f)
+	function(simpsurf)
 		local faces, comp, f, component;
 
 		faces := Faces(simpsurf);
@@ -1017,7 +1073,7 @@ InstallMethod( ConnectedComponents, "for a simplicial surface",
 #!	@Returns a simplicial surface object
 InstallMethod( SnippOffEars, "for a simplicial surface",
 	[IsSimplicialSurface],
-	function(simpsurf, f)
+	function(simpsurf)
 		local vertexDegree, ears, newSurface, ear;
 
 		# Find ears
