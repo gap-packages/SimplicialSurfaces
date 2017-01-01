@@ -528,6 +528,7 @@ InstallMethod( Display, "for simplicial surfaces", [ IsSimplicialSurface ],
 InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj, 
   [ IsSimplicialSurface, IsSimplicialSurface ],
 	function( s1, s2 )
+		# check all basic attributes
 
 		if Vertices(s1) <> Vertices(s2) then
 			return false;
@@ -543,6 +544,13 @@ InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj,
 			return false;
 		fi;
 		if FacesByEdges(s1) <> FacesByEdges(s2) then
+			return false;
+		fi;
+
+		if LocalOrientation(s1) <> LocalOrientation(s2) then
+			return false;
+		fi;
+		if NamesOfFaces(s1) <> NamesOfFaces(s2) then
 			return false;
 		fi;
 
