@@ -1,0 +1,325 @@
+
+
+##
+##	Declare the wild representation of simplicial surfaces that does nothing.
+##
+DeclareRepresentation("IsWildSimplicialSurfaceRep", IsSimplicialSurface, [ ] );
+##
+##	Define a type so we can use Objectify.
+##
+WildSimplicialSurfaceType := 
+	NewType( SimplicialSurfaceFamily, IsWildSimplicialSurfaceRep );
+
+
+
+#############################################################################
+#############################################################################
+##
+##						Start of constructors
+##
+##
+##	This constructor takes the following information:
+##
+##	The list of involutions
+##	The list MR-type
+##	Optional: the list NamesOfFaces. If this is not given, the default
+##				naming scheme is used
+##
+##	This function constructs a wild simplicial surface from the generators
+##	and the MR-type. It also initalises everything necessary.
+_SIMPLICIAL_BasicWildConstruction := function( generators, mrType )
+	# TODO
+end;
+##	This function uses the above construction and then sets the face naming
+##	convention to default.
+InstallMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList ],
+	function( generators, mrType )
+		local simpsurf;
+
+		simpsurf := _SIMPLICIAL_BasicWildConstruction( generators, mrType);
+		SetIsFaceNamesDefault( simpsurf, true );
+		return simpsurf;
+	end
+);
+##	This function uses the above construction and then uses the optional
+##	argument to define the face names.
+InstallOtherMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList, IsList ],
+	function( generators, mrType, namesOfFaces )
+		local simpsurf;
+
+		simpsurf := _SIMPLICIAL_BasicWildConstruction( generators, mrType);
+		SetNamesOfFaces( simpsurf, namesOfFaces );
+		return simpsurf;
+	end
+);
+##	This method checks if the generators and the mrType are consistent. It
+##	throws error messages if necessary.
+_SIMPLICIAL_WildConsistencyCheck := function( generators, mrType )
+	#TODO
+end;
+##	This method checks for mistakes and then calls the corresponding NC-version.
+InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
+	function( generators, mrType )
+		_SIMPLICIAL_WildConsistencyCheck( generators, mrType );
+		return WildSimplicialSurfaceNC( generators, mrType );
+	end
+);
+##	This method also has to check if the face names are correct.
+InstallOtherMethod( WildSimplicialSurface, "", [ IsList, IsList, IsList ],
+	function( generators, mrType, namesOfFaces )
+		local simpsurf, f;
+
+		_SIMPLICIAL_WildConsistencyCheck( generators, mrType );
+		simpsurf := _SIMPLICIAL_BasicWildConstruction( generators, mrType);
+
+		# Check face names
+		for f in Faces(simpsurf) do
+			if not IsBound( namesOfFaces[f] ) then
+				Error("WildSimplicialSurface: One face has no names.");
+			elif Size( Set( namesOfFaces[f] ) ) <> 2 then
+				Error("WildSimplicialSurface: One face has not two different names.");
+			elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
+				Error("WildSimplicialSurface: One face has non-integer names.");
+			fi;
+		od;
+		if Number( namesOfFaces ) <> Length( Faces(simpsurf) ) then
+			Error("WildSimplicialSurface: More face-names than expected.");
+		fi;
+		# If everything is correct, set this attribute
+		SetNamesOfFaces( simpsurf, namesOfFaces );
+
+		return WildSimplicialSurfaceNC( generators, mrType, namesOfFaces );
+	end
+);
+##
+##	This constructor takes the following information:
+##
+##	A simplicial surface which is an actual surface
+##	The list of involutions
+##
+##	Function to enrich a SimplicialSurface with generators
+InstallMethod( WildSimplicialSurfaceNC, "",
+	[ IsSimplicialSurface and IsActualSurface, IsList ],
+	function( simpsurf, generators )
+		return ObjectifyWithAttributes( simpsurf, WildSimplicialSurfaceType,
+				Generators, generators);
+	end
+);
+##	If it is not known that we have an actual surface, we have to check
+RedispatchOnCondition( WildSimplicialSurfaceNC, true,
+	[IsSimplicialSurface, IsList], [IsActualSurface,], 0 );
+##	This method checks if the generators match the simplicial surface
+_SIMPLICIAL_WildConsistentWithSurface := function( simpsurf, generators )
+	# TODO
+end;
+##	Check first, then enrich with generators
+InstallMethod( WildSimplicialSurface, "",
+	[ IsSimplicialSurface and IsActualSurface, IsList ],
+	function( simpsurf, generators )
+		_SIMPLICIAL_WildConsistentWithSurface( simpsurf, generators );
+		return WildSimplicialSurfaceNC( simpsurf, generators);
+	end
+);
+##	If it is not known that we have an actual surface, we have to check
+RedispatchOnCondition( WildSimplicialSurface, true,
+	[IsSimplicialSurface, IsList], [IsActualSurface,], 0 );
+##
+##							End of constructors
+##
+#############################################################################
+#############################################################################
+
+
+
+#############################################################################
+#############################################################################
+##
+##		Start of implementation for basic methods of SimplicialSurface
+##
+##	These methods are dependent on the specific representation (unless they
+##	are not - this has to be discussed with Alice: TODO).
+##
+
+#! @Description
+#! Returns the numbers of the vertices as a set. This is a basic method.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+InstallMethod( Vertices, "for wild simplicial surfaces", 
+		[IsWildSimplicialSurfaceRep],
+	function( simpsurf )
+		#TODO
+	end
+);
+
+#! @Description
+#! Returns the numbers of the edges as a set. This is a basic method.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+InstallMethod( Edges, "for wild simplicial surfaces", 
+		[IsWildSimplicialSurfaceRep],
+	function( simpsurf )
+		#TODO
+	end
+);
+
+#! @Description
+#! Returns the numbers of the faces as a set. This is a basic method.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+InstallMethod( Faces, "for wild simplicial surfaces", 
+		[IsWildSimplicialSurfaceRep],
+	function( simpsurf )
+		#TODO
+	end
+);
+
+#!	@Description
+#!	Return the vertices in terms of the edges. Return a list
+#!	with holes and at the position of each vertex-number is a set of
+#!	all edges that are incident to that vertex. All other positions are
+#!	unbounded.
+#!	Either this method or EdgesByVertices is basic.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+InstallMethod( VerticesByEdges, "for wild simplicial surfaces", 
+		[IsWildSimplicialSurfaceRep],
+	function( simpsurf )
+		#TODO
+	end
+);
+
+#!	@Description
+#!	Return the faces in terms of the edges. Return a list
+#!	with holes and at the position of each face-number is a set of
+#!	all edges that are incident to that face. All other positions are
+#!	unbounded.
+#!	Either this method or EdgesByFaces is basic.
+#!	@Returns a list of lists of integers
+#!	@Arguments a simplicial surface object simpsurf
+InstallMethod( FacesByEdges, "for wild simplicial surfaces", 
+		[IsWildSimplicialSurfaceRep],
+	function( simpsurf )
+		#TODO
+	end
+);
+
+#!  @Description
+#!	Return a list of permutations where at the position of each face-number
+#!	there is a cycle of all vertices that are incident to this face. This
+#!	cycle represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!	This method is basic.
+#!  @Returns a list of permutations
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( LocalOrientation, "for wild simplicial surfaces", 
+		[IsWildSimplicialSurfaceRep],
+	function( simpsurf )
+		#TODO
+	end
+);
+
+##
+##		End of implementation for basic methods of SimplicialSurface
+##
+##
+#############################################################################
+#############################################################################
+
+
+#############################################################################
+##
+#! @Description
+#! Return the group that is generated by the generators of the wild simplicial
+#! surface.
+#! @Arguments a wild simplicial surface
+#! @Returns a group
+#!
+InstallMethod( GeneratedGroup, "for a wild simplicial surface",
+	[ IsWildSimplicialSurface ],
+	function(simpsurf)
+		return Group( Generators(simpsurf) );
+	end
+);
+
+#############################################################################
+##
+#! @Description Given a wild coloured simplicial surface <simpsurf>, this
+#!  function determines the vertex group of the simplicial surface.
+#!  The vertex group of the simplicial surface <simpsurf> is defined to be
+#!  $F_3/R$, where $F_3$ is the free group on three generators and $R$ is 
+#!  the set of relations given by the vertex defining paths.
+#!  @Returns finitely presented group.
+#!
+InstallMethod( VertexGroup, "for a wild simplicial surface",
+	[ IsWildSimplicialSurface ],
+	function(simpsurf)
+		#TODO
+	end
+);
+
+#############################################################################
+##
+#! @Description Given a wild coloured simplicial surface <simpsurf>, this
+#!  function determines the mr-type of each of the edges of <simpsurf>.
+#!  The mr-type of an edge of <simpsurf> is either "m" (for mirror) or 
+#!  "r" (for rotation). It is defined as followed. 
+#!  Suppose the edge  $e$ is incident to the vertices $v_1$ and 
+#!  $v_2$ and to the two faces $F$ and $F'$. Let $x$ and $y$ be the edges of
+#!  incident  incident to $F$ and $F'$ and to the same vertex $v_1$, say.
+#!  Then $e$ is of type $m$ if both $x$ and $y$ have the same colour, and $e$
+#!  is of type $r$ if $x$ and $y$ are different. As we assume the surface to
+#!  be wild coloured, this means that the colours of the other edges incident 
+#!  to $e$ and both faces $F$ and $F'$ are then also determined. As the # $'$
+#!  edges of the simplicial surface are pairs of points, the mr-type of 
+#!  the simplicial surface <simpsurf> can be encoded as a list of length 3. 
+#!   Each of the
+#!  entries is in turn  a list encoding the mr-type of all edges of a 
+#!  certain colour. Suppose that mrtype[1] is the list encoding the mr-type
+#!  of the red edges. Then mrtype[1][i] = 0 if the mr-type of the red edge
+#!  incident to the vertex i is unknown, mrtype[1][i] = 1 if the mr-type of 
+#!  the red edge incident to the vertex i is "m", and mrtype[1][i] = 2 if 
+#!  the mr-type of the red edge incident to the vertex i is "r". 
+#!  @Returns a list of three lists, each of which contains the 
+#!  entries 0, 1 or 2.
+#!  @Arguments <simpsurf>, a simplicial surface object as created 
+#!  by WildSimplicialSurface
+#!  @BeginExample
+#! MrType(tetra);
+#! @EndExample
+#!
+InstallMethod( MrType, "for a wild simplicial surface",
+	[ IsWildSimplicialSurface ],
+	function(simpsurf)
+		#TODO
+	end
+);
+
+
+#############################################################################
+##
+#!	@Description
+#!	This function checks if a wild simplicial surface is connected.
+#!	@Returns true if connected, false otherwise
+#!	@Arguments a wild simplicial surface object simpsurf
+#!
+InstallMethod( IsConnected, "for a wild simplicial surface",
+	[IsWildSimplicialSurface],
+	function(simpsurf)
+		return Length(Orbits(GeneratedGroup(simpsurf), Faces(simpsurf)))=1;
+	end
+);
+
+###############################################################################
+##
+#!  @Description
+#!  This function decides whether the wild simplicial surface
+#!  <simpsurf> is orientable.
+#!  @Returns true if the surface is orientable and false else.
+#!  @Arguments <simpsurf> a wild simplicial surface
+#!
+InstallMethod( IsOrientable, "for a wild simplicial surface",
+	[IsWildSimplicialSurface],
+	function(simpsurf)
+		#TODO
+	end
+);

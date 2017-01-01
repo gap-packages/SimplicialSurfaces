@@ -897,7 +897,7 @@ InstallMethod( IsConnected, "for a simplicial surface",
 		od;
 
 		return IsEmpty( faces );
-end
+	end
 );
 
 ###############################################################################
@@ -1002,6 +1002,8 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 		return orientable;
 	end
 );
+RedispatchOnCondition( IsOrientable, true, [IsSimplicialSurface],
+	[IsActualSurface], 0 );
 
 #############################################################################
 ##
