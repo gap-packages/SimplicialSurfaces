@@ -61,7 +61,7 @@ _SIMPLICIAL_OrderPreservingFacesByVertices := function( vertices, edges,
 		vertexList[1] := intersectingEdges[1];
 
 		# Continue in the same way for the other edges
-		for j in [2 .. Length(face)] do
+		for j in [2 .. Length(faceEdges)] do
 			currentEdge := Set( edgesByVertices[faceEdges[j-1]] );
 			nextEdge := Set( edgesByVertices[faceEdges[j]] );
 			intersectingEdges := Intersection( currentEdge, nextEdge );
@@ -81,7 +81,7 @@ end;
 ##	Next we create a local orientation from such a list
 ##
 _SIMPLICIAL_LocalOrientationFromFacesByVertices := function( facesByVertices )
-	local orientation;
+	local orientation, Shift;
 
 	# local function that shifts each entry of the list to the previous one
 	Shift := function( list )
