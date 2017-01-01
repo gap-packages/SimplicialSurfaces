@@ -12,13 +12,18 @@
 ##  The functions in this file compute with folding complexes.
 ##
 
-DeclareRepresentation("FoldingComplexRep", IsSimplicialSurface,
-     []); #TODO
+##
+##	We save the equivalences not by classes but by lists. For example
+##	vertexEquivalenceImage is a list that is indiced by Vertices. At each
+##	position is a number and the vertices that have the same number are in
+##	the same equivalence class.
+##
+DeclareRepresentation("FoldingComplexByEquivalenceImageRep", IsFoldingComplex,
+     [vertexEquivalenceImage, edgeEquivalenceImage, faceEquivalenceImage]);
 
-# From now on, we can do "Objectify( WildSimplicialSurfaceType, re )" 
-# for any list re
-FoldingComplexType := 
-    NewType( FoldingComplexFamily, IsFoldingComplex );
+##	accompanying type
+FoldingComplexByEquivalenceImageType := 
+    NewType( FoldingComplexFamily, FoldingComplexByEquivalenceImageRep );
 
 
 

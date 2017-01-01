@@ -11,11 +11,23 @@
 ##  This file contains the declaration part for the folding complexes
 ##	of the SimplicialSurfaces package.
 ##
+##	A folding complex consists of the following information:
+##		- a SimplicialSurface that describes the underlying structure
+##		- an equivalence relation on vertices, edges and faces that describes
+##			which of those are folded together
+##		- a fan for each edge equivalence class, i.e. a cycle of the incident
+##			faces that depends on the orientation of the edge
+##		- two face sides for each face equivalence class that describe the
+##			borders of this equivalence class
+##
+
+DeclareCategory( "IsFoldingComplex",
+					IsComponentObjectRep and IsAttributeStoringRep );
+
 
 FoldingComplexFamily := 
-    NewFamily("FoldingComplexFamily",  IsObject, IsComponentObjectRep);
+    NewFamily("FoldingComplexFamily",  IsObject, IsFoldingComplex);
 
-DeclareCategory( "IsFoldingComplex", IsComponentObjectRep );
 
 
 

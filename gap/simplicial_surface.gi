@@ -776,9 +776,9 @@ InstallMethod( EulerCharacteristic, "for a simplicial surface",
 #############################################################################
 ##
 #!  @Description
-#!	This function returns a list of integers (with holes). For each vertex-
+#!	Return a list of integers (with holes). For each vertex-
 #!	number it contains the number of faces which are incident to that vertex
-#!	(the degree of the vertex).
+#!	(the degree of the vertex). All other positions are unbounded.
 #!  @Returns a list of integers
 #!  @Arguments a simplicial surface object simpsurf
 #!
@@ -795,7 +795,7 @@ InstallMethod( UnsortedDegrees, "for a simplicial surface",
 #############################################################################
 ##
 #!  @Description
-#!	This function returns a dense sorted list of integers that contains the 
+#!	Return a dense sorted list of integers that contains the 
 #!	degrees of the vertices (with repetitions)
 #!  @Returns a dense sorted list of integers
 #!  @Arguments a simplicial surface object simpsurf
@@ -810,6 +810,36 @@ InstallMethod( SortedDegrees, "for a simplicial surface",
 		return compact;
 	end;
  );
+
+#############################################################################
+##
+#!  @Description
+#!  Return the vertex symbol of a simplicial surface.
+#!	The vertex symbol is a list, where the i-th entry counts the number of 
+#!	vertices that are incident to exactly i edges. If there are no such
+#!	vertices the entry is unbounded.
+#!  @Arguments a simplicial surface object simpsurf
+#!  @Returns a list of integers
+#!
+InstallMethod( VertexSymbol, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function(simpsurf)
+		local verticesByEdges, vertex, symbol, degree;
+
+		verticesByEdges := VerticesByEdges( simpsurf );
+		symbol := [];
+		for vertex in Vertices( simpsurf ) do
+			degree := Length( verticesByEdges[vertex] );
+			if IsBound( symbol[degree] ) then
+				symbol[degree] := symbol[degree] + 1;
+			else
+				symbol[degree] := 1;
+			fi;
+		od;
+
+		return symbol;
+	end
+);
 
 ###############################################################################
 ##

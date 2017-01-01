@@ -278,6 +278,15 @@ DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
 #!  @Arguments a simplicial surface object simpsurf
 DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 
+#!  @Description
+#!  Return the vertex symbol of a simplicial surface.
+#!	The vertex symbol is a list, where the i-th entry counts the number of 
+#!	vertices that are incident to exactly i edges. If there are no such
+#!	vertices the entry is unbounded.
+#!  @Arguments a simplicial surface object simpsurf
+#!  @Returns a list of integers
+DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
+
 
 #!  @Description
 #!	Return a list of permutations where at the position of each face-number
