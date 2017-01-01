@@ -450,7 +450,7 @@ InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
 #!	@Returns an integer
 #!	@Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( NrOfVertices, "for a simplicial surfaces",
+InstallMethod( NrOfVertices, "for a simplicial surface",
 	[ IsSimplicialSurface ],
 	function(simpsurf)
 		return Length( Vertices(simpsurf) );
@@ -464,7 +464,7 @@ InstallMethod( NrOfVertices, "for a simplicial surfaces",
 #!	@Returns an integer
 #!	@Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( NrOfEdges, "for a simplicial surfaces",
+InstallMethod( NrOfEdges, "for a simplicial surface",
 	[ IsSimplicialSurface ],
 	function(simpsurf)
 		return Length( Edges(simpsurf) );
@@ -478,12 +478,78 @@ InstallMethod( NrOfEdges, "for a simplicial surfaces",
 #!	@Returns an integer
 #!	@Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( NrOfFaces, "for a simplicial surfaces",
+InstallMethod( NrOfFaces, "for a simplicial surface",
 	[ IsSimplicialSurface ],
 	function(simpsurf)
 		return Length( Faces(simpsurf) );
 	end
 );
+
+#############################################################################
+##
+##  A Print method for simplicial surfaces
+##
+InstallMethod( PrintObj, "for simplicial surfaces", [ IsSimplicialSurface ],
+	function(simpsurf)
+
+        Print("SimplicialSurfaceByDownwardIncidenceNC(\n");
+        Print( Vertices(simpsurf), ",\n");
+        Print( Edges(simpsurf), ",\n");
+        Print( Faces(simpsurf), ",\n");
+        Print( EdgesByVertices(simpsurf), ",\n");
+        Print( FacesByEdges(simpsurf), ");\n");
+	end
+);
+
+
+#############################################################################
+##
+##  A Display method for simplicial surfaces
+##
+InstallMethod( Display, "for simplicial surfaces", [ IsSimplicialSurface ],
+	function(simpsurf)
+
+        Print("Vertices: ", Vertices(simpsurf), ",\n");
+        Print("Edges: ", Edges(simpsurf), ",\n");
+        Print("Faces: ", Faces(simpsurf), ",\n");
+        Print("EdgesByVertices: ", EdgesByVertices(simpsurf), ",\n");
+        Print("FacesByEdges: ", FacesByEdges(simpsurf), ",\n" );
+	end
+);
+
+#############################################################################
+##
+#!  @Description
+#!  Check if two simplicial surfaces are equal.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two simplicial surface objects
+#!
+##
+InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj, 
+  [ IsSimplicialSurface, IsSimplicialSurface ],
+	function( s1, s2 )
+
+		if Vertices(s1) <> Vertices(s2) then
+			return false;
+		fi;
+		if Edges(s1) <> Edges(s2) then
+			return false;
+		fi;
+		if Faces(s1) <> Faces(s2) then
+			return false;
+		fi;
+
+		if EdgesByVertices(s1) <> EdgesByVertices(s2) then
+			return false;
+		fi;
+		if FacesByEdges(s1) <> FacesByEdges(s2) then
+			return false;
+		fi;
+
+        return true;
+	end
+);
+
 
 #############################################################################
 #############################################################################
