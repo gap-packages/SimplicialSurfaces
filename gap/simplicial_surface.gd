@@ -108,9 +108,13 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 ##	The NoCheck-function does the same thing but does not test if the
 ##	arguments are well-defined.
 DeclareOperation( "SimplicialSurfaceByVerticesInFaces", 
-	[ IsSet, IsSet, IsList ] );
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero, 
+	  IsList ] );
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
-	[ IsSet, IsSet, IsList ] );
+	[ IsSet or IsPosInt or IsZero, 
+	  IsSet or IsPosInt or IsZero, 
+	  IsList ] );
 
 
 
