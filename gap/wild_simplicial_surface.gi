@@ -24,71 +24,55 @@ WildSimplicialSurfaceType :=
 ##	The list MR-type
 ##	Optional: the list NamesOfFaces. If this is not given, the default
 ##				naming scheme is used
+##		To use the optional argument, write
+##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
 ##
 ##	This function constructs a wild simplicial surface from the generators
 ##	and the MR-type. It also initalises everything necessary.
-_SIMPLICIAL_BasicWildConstruction := function( generators, mrType )
-	# TODO
-end;
-##	This function uses the above construction and then sets the face naming
-##	convention to default.
 InstallMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList ],
 	function( generators, mrType )
 		local simpsurf;
 
-		simpsurf := _SIMPLICIAL_BasicWildConstruction( generators, mrType);
-		SetIsFaceNamesDefault( simpsurf, true );
-		return simpsurf;
-	end
-);
-##	This function uses the above construction and then uses the optional
-##	argument to define the face names.
-InstallOtherMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList, IsList ],
-	function( generators, mrType, namesOfFaces )
-		local simpsurf;
+		#simpsurf := TODO
 
-		simpsurf := _SIMPLICIAL_BasicWildConstruction( generators, mrType);
-		SetNamesOfFaces( simpsurf, namesOfFaces );
+		# Set the face names
+		namesOfFaces := ValueOption( "NamesOfFaces" );
+		if namesOfFaces = fail then
+			SetIsFaceNamesDefault( surf, true );
+		else
+			SetNamesOfFaces( surf, namesOfFaces );
+		fi;
+
 		return simpsurf;
 	end
 );
 ##	This method checks if the generators and the mrType are consistent. It
-##	throws error messages if necessary.
-_SIMPLICIAL_WildConsistencyCheck := function( generators, mrType )
-	#TODO
-end;
-##	This method checks for mistakes and then calls the corresponding NC-version.
+##	throws error messages if necessary. Then it calls the corresponding 
+##	NC-version to initialize the surface.
 InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
 	function( generators, mrType )
-		_SIMPLICIAL_WildConsistencyCheck( generators, mrType );
-		return WildSimplicialSurfaceNC( generators, mrType );
-	end
-);
-##	This method also has to check if the face names are correct.
-InstallOtherMethod( WildSimplicialSurface, "", [ IsList, IsList, IsList ],
-	function( generators, mrType, namesOfFaces )
-		local simpsurf, f;
+		local namesOfFaces, f;
 
-		_SIMPLICIAL_WildConsistencyCheck( generators, mrType );
-		simpsurf := _SIMPLICIAL_BasicWildConstruction( generators, mrType);
+		#TODO check if generators and mrType are consistent
 
-		# Check face names
-		for f in Faces(simpsurf) do
-			if not IsBound( namesOfFaces[f] ) then
-				Error("WildSimplicialSurface: One face has no names.");
-			elif Size( Set( namesOfFaces[f] ) ) <> 2 then
-				Error("WildSimplicialSurface: One face has not two different names.");
-			elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
-				Error("WildSimplicialSurface: One face has non-integer names.");
+		# Check the face names
+		namesOfFaces := ValueOption( "NamesOfFaces" );
+		if not namesOfFaces = fail then
+			for f in Faces(simpsurf) do
+				if not IsBound( namesOfFaces[f] ) then
+					Error("WildSimplicialSurface: One face has no names.");
+				elif Size( Set( namesOfFaces[f] ) ) <> 2 then
+					Error("WildSimplicialSurface: One face has not two different names.");
+				elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
+					Error("WildSimplicialSurface: One face has non-integer names.");
+				fi;
+			od;
+			if Number( namesOfFaces ) <> Length( Faces(simpsurf) ) then
+				Error("WildSimplicialSurface: More face-names than expected.");
 			fi;
-		od;
-		if Number( namesOfFaces ) <> Length( Faces(simpsurf) ) then
-			Error("WildSimplicialSurface: More face-names than expected.");
 		fi;
-		# If everything is correct, set this attribute
-		SetNamesOfFaces( simpsurf, namesOfFaces );
 
-		return WildSimplicialSurfaceNC( generators, mrType, namesOfFaces );
+		return WildSimplicialSurfaceNC( generators, mrType );
 	end
 );
 ##
@@ -108,15 +92,12 @@ InstallMethod( WildSimplicialSurfaceNC, "",
 ##	If it is not known that we have an actual surface, we have to check
 RedispatchOnCondition( WildSimplicialSurfaceNC, true,
 	[IsSimplicialSurface, IsList], [IsActualSurface,], 0 );
-##	This method checks if the generators match the simplicial surface
-_SIMPLICIAL_WildConsistentWithSurface := function( simpsurf, generators )
-	# TODO
-end;
-##	Check first, then enrich with generators
+##	This method checks if the generators match the simplicial surface, then
+##	enriches it with generators
 InstallMethod( WildSimplicialSurface, "",
 	[ IsSimplicialSurface and IsActualSurface, IsList ],
 	function( simpsurf, generators )
-		_SIMPLICIAL_WildConsistentWithSurface( simpsurf, generators );
+		#TODO check if the generators match the simplicial surface
 		return WildSimplicialSurfaceNC( simpsurf, generators);
 	end
 );

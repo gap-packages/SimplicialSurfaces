@@ -69,8 +69,6 @@
 ##
 DeclareCategory( "IsWildSimplicialSurface", IsSimplicialSurface and
 												 IsActualSurface );
-InstallTrueMethod( IsSimplicialSurface, IsWildSimplicialSurface );
-# TODO is this necessary? 80.8-1 and 78.7-1 seem to be in conflict here.
 
 
 #############################################################################
@@ -88,6 +86,8 @@ InstallTrueMethod( IsSimplicialSurface, IsWildSimplicialSurface );
 ##	The list MR-type
 ##	Optional: the list NamesOfFaces. If this is not given, the default
 ##				naming scheme is used
+##		To use the optional argument, write
+##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
 ##
 ##	The NC-version doesn't check if the given information is consistent
 ##

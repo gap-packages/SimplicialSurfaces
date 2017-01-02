@@ -34,6 +34,7 @@
 
 DeclareInfoClass( "InfoSimplicial" );
 SetInfoLevel(InfoSimplicial,1);
+# TODO explain structure of everything in a separate tex-file
 
 
 ##
@@ -76,21 +77,15 @@ SimplicialSurfaceFamily :=
 ##		order defines the LocalOrientation-attribute
 ##	Optional: the list NamesOfFaces. If this is not given, the default
 ##				naming scheme is used
+##		To use the optional argument, write
+##		SimplicialSurfaceByDownwardIncidence( arg : NamesOfFaces := ? )
 ##
 ##	The NoCheck-function does the same thing but does not test if the
 ##	arguments are well-defined.
 DeclareOperation( "SimplicialSurfaceByDownwardIncidence",
-	[ IsSet or IsPosInt or IsZero, 
-	  IsSet or IsPosInt or IsZero,
-	  IsSet or IsPosInt or IsZero,
-	  IsList,
-	  IsList ] );
+	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
-	[ IsSet or IsPosInt or IsZero, 
-	  IsSet or IsPosInt or IsZero,
-	  IsSet or IsPosInt or IsZero,
-	  IsList,
-	  IsList ] );
+	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 
 ##
 ##	This constructor takes the following information:
@@ -101,6 +96,8 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 ##		order defines the LocalOrientation-attribute
 ##	Optional: the list NamesOfFaces. If this is not given, the default
 ##				naming scheme is used
+##		To use the optional argument, write
+##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
 ##
 ##	Edges are generated as becomes necessary. It is assumed that two faces
 ##	that share two vertices also share an edge.
@@ -108,13 +105,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 ##	The NoCheck-function does the same thing but does not test if the
 ##	arguments are well-defined.
 DeclareOperation( "SimplicialSurfaceByVerticesInFaces", 
-	[ IsSet or IsPosInt or IsZero, 
-	  IsSet or IsPosInt or IsZero, 
-	  IsList ] );
+	[ IsSet, IsSet, IsList ] );
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
-	[ IsSet or IsPosInt or IsZero, 
-	  IsSet or IsPosInt or IsZero, 
-	  IsList ] );
+	[ IsSet, IsSet, IsList ] );
 
 
 
