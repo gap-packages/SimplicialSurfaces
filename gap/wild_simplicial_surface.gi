@@ -22,26 +22,17 @@ WildSimplicialSurfaceType :=
 ##
 ##	The list of involutions
 ##	The list MR-type
-##	Optional: the list NamesOfFaces. If this is not given, the default
-##				naming scheme is used
-##		To use the optional argument, write
-##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
 ##
 ##	This function constructs a wild simplicial surface from the generators
 ##	and the MR-type. It also initalises everything necessary.
 InstallMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList ],
 	function( generators, mrType )
-		local simpsurf;
+		local simpsurf, namesOfFaces;
 
 		#simpsurf := TODO
 
 		# Set the face names
-		namesOfFaces := ValueOption( "NamesOfFaces" );
-		if namesOfFaces = fail then
-			SetIsFaceNamesDefault( surf, true );
-		else
-			SetNamesOfFaces( surf, namesOfFaces );
-		fi;
+		SetIsFaceNamesDefault( simpsurf, true );
 
 		return simpsurf;
 	end
@@ -54,23 +45,6 @@ InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
 		local namesOfFaces, f;
 
 		#TODO check if generators and mrType are consistent
-
-		# Check the face names
-		namesOfFaces := ValueOption( "NamesOfFaces" );
-		if not namesOfFaces = fail then
-			for f in Faces(simpsurf) do
-				if not IsBound( namesOfFaces[f] ) then
-					Error("WildSimplicialSurface: One face has no names.");
-				elif Size( Set( namesOfFaces[f] ) ) <> 2 then
-					Error("WildSimplicialSurface: One face has not two different names.");
-				elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
-					Error("WildSimplicialSurface: One face has non-integer names.");
-				fi;
-			od;
-			if Number( namesOfFaces ) <> Length( Faces(simpsurf) ) then
-				Error("WildSimplicialSurface: More face-names than expected.");
-			fi;
-		fi;
 
 		return WildSimplicialSurfaceNC( generators, mrType );
 	end
@@ -318,7 +292,7 @@ InstallMethod( MrType, "for a wild simplicial surface",
 #!   of the edges.
 InstallMethod( SixFoldCover, "for a simplicial surface",
 	[IsSimplicialSurface, IsList],
-	function(simpsurf)
+	function(simpsurf, mrtype)
 		#TODO
 	end
 );

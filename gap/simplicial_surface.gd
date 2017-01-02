@@ -118,23 +118,29 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC",
 #!
 #!
 
+##	The double declaration has the following reason: In grape there is a method
+##	Vertices that collides with our usage.
+
 #! @Description
 #! Returns the numbers of the vertices as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-DeclareAttribute( "Vertices", IsSimplicialSurface );
+DeclareAttribute( "VerticesOfSimplicialSurface", IsSimplicialSurface );
+DeclareOperation( "Vertices", [IsSimplicialSurface] );
 
 #! @Description
 #! Returns the numbers of the edges as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-DeclareAttribute( "Edges", IsSimplicialSurface );
+DeclareAttribute( "EdgesOfSimplicialSurface", IsSimplicialSurface );
+DeclareOperation( "Edges", [IsSimplicialSurface] );
 
 #! @Description
 #! Returns the numbers of the faces as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-DeclareAttribute( "Faces", IsSimplicialSurface );
+DeclareAttribute( "FacesOfSimplicialSurface", IsSimplicialSurface );
+DeclareOperation( "Faces", [IsSimplicialSurface] );
 
 
 #! @Description
@@ -243,7 +249,8 @@ DeclareProperty( "IsConnected", IsSimplicialSurface );
 #!	Return a list of all connected components of the simplicial surface.
 #!	@Arguments a simplicial surface
 #!	@Returns a list of simplicial surfaced
-DeclareAttribute( "ConnectedComponents", IsSimplicialSurface );
+DeclareAttribute( "ConnectedComponentsOfSimplicialSurface", IsSimplicialSurface );
+DeclareOperation( "ConnectedComponents", [IsSimplicialSurface] );
 
 
 #!  @Description

@@ -111,9 +111,9 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 
 		surf := Objectify( SimplicialSurfaceType, rec() );
 		# Set the given attributes
-		SetVertices( surf, vertices );
-		SetEdges( surf, edges );
-		SetFaces( surf, faces );
+		SetVerticesOfSimplicialSurface( surf, vertices );
+		SetEdgesOfSimplicialSurface( surf, edges );
+		SetFacesOfSimplicialSurface( surf, faces );
 		SetEdgesByVertices( surf, edgesByVertices );
 		SetFacesByEdges( surf, facesByEdges );
 		SetFacesByVertices( surf, List( facesByVerticesOP, i -> Set(i) ) );
@@ -168,7 +168,7 @@ _SIMPLICIAL_IsSetPosInt := function( set ) # check if a set consists of positive
 InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		local surf, namesOfFaces;
+		local surf, namesOfFaces, e, f;
 
 		# Check the sets
 		if not _SIMPLICIAL_IsSetPosInt( vertices ) then
@@ -265,7 +265,7 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
 		local surf, namesOfFaces, localOrient, edges, edgesByVertices, 
-				facesByEdges, f, j, e;
+				facesByEdges, f, j, e, facesBySetEdges;
 
 		localOrient := _SIMPLICIAL_LocalOrientationFromFacesByVertices( 
 														facesByVertices );
@@ -285,9 +285,9 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 
 		surf := Objectify( SimplicialSurfaceType, rec() );
 		# Set the given attributes
-		SetVertices( surf, vertices );
-		SetEdges( surf, [1..Length(edgesByVertices)] );
-		SetFaces( surf, faces );
+		SetVerticesOfSimplicialSurface( surf, vertices );
+		SetEdgesOfSimplicialSurface( surf, [1..Length(edgesByVertices)] );
+		SetFacesOfSimplicialSurface( surf, faces );
 		SetEdgesByVertices( surf, edgesByVertices );
 		SetFacesByEdges( surf, facesByEdges );
 		SetFacesByVertices( surf, List( facesByVertices, i -> Set(i) ) );
@@ -326,7 +326,7 @@ InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
-		local surf, f;
+		local surf, f, namesOfFaces;
 
 		# Check sets
 		if not _SIMPLICIAL_IsSetPosInt( vertices ) then
@@ -393,6 +393,37 @@ InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
 #############################################################################
 #############################################################################
 
+
+#############################################################################
+#! @Description
+#! Returns the numbers of the vertices as a set.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+InstallMethod( Vertices, "for a simplicial surface", [IsSimplicialSurface],
+	function( simpsurf )
+		return VerticesOfSimplicialSurface(simpsurf);
+	end
+);
+#############################################################################
+#! @Description
+#! Returns the numbers of the edges as a set.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+InstallMethod( Edges, "for a simplicial surface", [IsSimplicialSurface],
+	function( simpsurf )
+		return EdgesOfSimplicialSurface(simpsurf);
+	end
+);
+#############################################################################
+#! @Description
+#! Returns the numbers of the faces as a set.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+InstallMethod( Faces, "for a simplicial surface", [IsSimplicialSurface],
+	function( simpsurf )
+		return FacesOfSimplicialSurface(simpsurf);
+	end
+);
 
 
 #############################################################################
@@ -605,7 +636,7 @@ _SIMPLICIAL_TransitiveIncidence := function( faceNr, facesByEdges, edgeNr,
 	for face in faceNr do
 		edgesInFace := facesByEdges[face];
 		verticesInEdges := List( edgesInFace, e -> edgesByVertices[e] );
-		faceByVertices[face] := Union( verticesInEdges );
+		facesByVertices[face] := Union( verticesInEdges );
 	od;
 
 	return facesByVertices;
@@ -760,7 +791,7 @@ InstallMethod( SortedDegrees, "for a simplicial surface",
 		compact := Compacted( UnsortedDegrees( simpsurf ) );
 		Sort( compact );
 		return compact;
-	end;
+	end
  );
 
 #############################################################################
@@ -826,7 +857,7 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 		od;
 
 		return classes;
-	end;
+	end
  );           
 
 ###############################################################################
@@ -914,7 +945,7 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 			# Find the first hole
 			hole := 0;
 			for face in Faces(simpsurf) do
-				if not isBound( orientList[face] ) then
+				if not IsBound( orientList[face] ) then
 					hole := face;
 					break;
 				fi;
@@ -1089,11 +1120,11 @@ InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 #!	@Arguments a simplicial surface object simpsurf, a positive integer
 #!	@Returns a simplicial surface object
 InstallMethod( ConnectedComponentOfFaceNC, "for a simplicial surface",
-	[IsSimplicialSurface and HasConnectedComponents, IsPosInt],
+	[IsSimplicialSurface and HasConnectedComponentsOfSimplicialSurface, IsPosInt],
 	function(simpsurf, f)
 		local conCom, comp;
 
-		conCom := ConnectedComponents(simpsurf);
+		conCom := ConnectedComponentsOfSimplicialSurface(simpsurf);
 		for comp in conCom do
 			if f in Faces(comp) then
 				return comp;
@@ -1103,7 +1134,7 @@ InstallMethod( ConnectedComponentOfFaceNC, "for a simplicial surface",
 	end
 );
 InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
-	[IsSimplicialSurface and HasConnectedComponents, IsPosInt],
+	[IsSimplicialSurface and HasConnectedComponentsOfSimplicialSurface, IsPosInt],
 	function(simpsurf, f)
 		local conCom, comp;
 
@@ -1121,7 +1152,8 @@ InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 #!	Return a list of all connected components of the simplicial surface.
 #!	@Arguments a simplicial surface
 #!	@Returns a list of simplicial surfaced
-InstallMethod( ConnectedComponents, "for a simplicial surface",
+InstallMethod( ConnectedComponentsOfSimplicialSurface,
+	"for a simplicial surface",
 	[IsSimplicialSurface],
 	function(simpsurf)
 		local faces, comp, f, component;
@@ -1138,6 +1170,12 @@ InstallMethod( ConnectedComponents, "for a simplicial surface",
 		return comp;
 	end
 );
+InstallMethod( ConnectedComponents, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function(simpsurf)
+		return ConnectedComponentsOfSimplicialSurface( simpsurf );
+	end
+);
 
 #############################################################################
 ##
@@ -1149,7 +1187,8 @@ InstallMethod( ConnectedComponents, "for a simplicial surface",
 InstallMethod( SnippOffEars, "for a simplicial surface",
 	[IsSimplicialSurface],
 	function(simpsurf)
-		local vertexDegree, ears, newSurface, ear;
+		local vertexDegree, ears, newSurface, ear, facesToRemove, 
+				remainingFaces;
 
 		# Find ears
 		vertexDegree := UnsortedDegrees( simpsurf );

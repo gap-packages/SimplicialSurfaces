@@ -84,10 +84,6 @@ DeclareCategory( "IsWildSimplicialSurface", IsSimplicialSurface and
 ##
 ##	The list of involutions
 ##	The list MR-type
-##	Optional: the list NamesOfFaces. If this is not given, the default
-##				naming scheme is used
-##		To use the optional argument, write
-##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
 ##
 ##	The NC-version doesn't check if the given information is consistent
 ##
