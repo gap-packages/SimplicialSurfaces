@@ -1,3 +1,7 @@
+##
+## This code replaces the implementation of ConnectedComponents in GRAPE
+##	line 1637
+
 DeclareOperation("ConnectedComponents",[IsRecord]);
 InstallMethod(ConnectedComponents,"for GRAPE graph",[IsRecord],0, 
 function(gamma)
@@ -6,7 +10,7 @@ function(gamma)
 # of  gamma,  which must be a simple graph.
 #
 local comp,used,i,j,x,cmp,laynum;
-if not IsGraph(gamma) or not IsSimpleGraph(gamme) then 
+if not IsGraph(gamma) or not IsSimpleGraph(gamma) then 
    TryNextMethod();
 fi;
 comp:=[]; 

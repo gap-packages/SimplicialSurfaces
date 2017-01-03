@@ -59,6 +59,7 @@ InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
 InstallMethod( WildSimplicialSurfaceNC, "",
 	[ IsSimplicialSurface and IsActualSurface, IsList ],
 	function( simpsurf, generators )
+		#TODO this does not work since simpsurf is not a record! Fix it.
 		return ObjectifyWithAttributes( simpsurf, WildSimplicialSurfaceType,
 				GeneratorsAttributeOfWildSimplicialSurface, generators);
 	end
