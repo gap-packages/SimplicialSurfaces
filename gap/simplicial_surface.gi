@@ -87,6 +87,7 @@ __SIMPLICIAL_LocalOrientationFromFacesByVertices := function( facesByVertices )
 	Shift := function( list )
 		local newList, i;
 
+		newList := [];
 		newList[ Length(list) ] := list[1];
 		for i in [2..Length(list)] do
 			newList[i-1] := list[i];
@@ -203,7 +204,7 @@ InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
 				Error("DownwardIncidenceCheck: One face has no edges.");
 			elif Size( Set( facesByEdges[f] ) ) <> 3 then
 				Error("DownwardIncidenceCheck: One face has not three edges.");
-			elif not IsEmpty( Difference( Set(facesByEdges[f]), vertices ) ) then
+			elif not IsEmpty( Difference( Set(facesByEdges[f]), edges ) ) then
 				Error("DownwardIncidenceCheck: One face has illegal edge.");
 			fi;
 		od;
@@ -643,9 +644,9 @@ InstallMethod( FacesByEdges, [IsSimplicialSurface],
 ##		EdgesByFaces and VerticesByEdges
 ##	We will start with an inversion and a transitivity method. These two are
 ##	sufficient to generate every other combination in at most two steps. Since
-##	GAP can't do more than one step, we have to help it a bit at the end...
-##
-##
+##	GAP can't do more than one step we have to define additional methods for
+##	these cases.
+##	
 ##	At first we implement the inversion of an incidence relation. For example
 ##	we know facesByEdges but want to know edgesByFaces. As this inversion is
 ##	always the same we implement it in general.
@@ -747,7 +748,6 @@ InstallMethod( VerticesByFacesAttributeOfSimplicialSurface,
 			EdgesByFaces(simpsurf), Faces(simpsurf) );
 	end
 );
-##
 ##	Normally we would be finished at this point. But the method selection of
 ##	GAP is not so intelligent to check for attributes transitively (it only
 ##	checks if an attribute is set, not if it could be set). It would have been
@@ -757,28 +757,42 @@ InstallMethod( VerticesByFacesAttributeOfSimplicialSurface,
 ##	additional property for "possible existence of this attribute" but that
 ##	gets even more involved). Therefore we will just brute force all remaining
 ##	possibilites.
-##	Important Note: Since we change the filters we must not use TryNextMethod()
+##
+##	IMPORTANT Note: Since we change the filters we must not use TryNextMethod()
 ##	since doing so would not take this change into account.
+##
+##	VERY IMPORTANT subtle note: We have to take care to work with the automatic
+##	method selection. Otherwise it might happen that we repeatedly choose
+##	the same method and go into an infinite loop. Therefore we have to check
+##	first if the necessary filter is set and - if it is - use TryNextMethod().
 ##
 ##	If both incidences go in the same direction (e.g. FacesByEdges and
 ##	EdgesByVertices) we get two inverses and one transitive in one step. The
 ##	opposing transitive is missing. In comparing both ways to compute it, first
-##	transitive and then inverting is shorter than twise inverting and then using
+##	transitive and then inverting is shorter than twice inverting and then using
 ##	the transitive.
 InstallMethod( VerticesByFacesAttributeOfSimplicialSurface, 
 	[IsSimplicialSurface and HasEdgesByVerticesAttributeOfSimplicialSurface and
 								HasFacesByEdgesAttributeOfSimplicialSurface ],
 	function( simpsurf )
-		FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
-		return VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+		if HasFacesByVerticesAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+			return VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+		fi;
 	end
 );
 InstallMethod( FacesByVerticesAttributeOfSimplicialSurface, 
 	[IsSimplicialSurface and HasVerticesByEdgesAttributeOfSimplicialSurface and
 								HasEdgesByFacesAttributeOfSimplicialSurface ],
 	function( simpsurf )
-		VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
-		return FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+		if HasVerticesByFacesAttributeOfSimplicialSurface( simpsurf ) then
+			TryNextMethod();
+		else
+			VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+			return FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+		fi;
 	end
 );
 ##
@@ -790,16 +804,24 @@ InstallMethod( VerticesByFacesAttributeOfSimplicialSurface,
 	[IsSimplicialSurface and HasFacesByEdgesAttributeOfSimplicialSurface and
 							HasVerticesByEdgesAttributeOfSimplicialSurface ],
 	function( simpsurf )
-		EdgesByFacesAttributeOfSimplicialSurface( simpsurf );
-		return VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+		if HasEdgesByFacesAttributeOfSimplicialSurface( simpsurf ) then
+			TryNextMethod();
+		else
+			EdgesByFacesAttributeOfSimplicialSurface( simpsurf );
+			return VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+		fi;
 	end
 );
 InstallMethod( FacesByVerticesAttributeOfSimplicialSurface, 
 	[IsSimplicialSurface and HasFacesByEdgesAttributeOfSimplicialSurface and
 							HasVerticesByEdgesAttributeOfSimplicialSurface ],
 	function( simpsurf )
-		EdgesByVerticesAttributeOfSimplicialSurface( simpsurf );
-		return FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+		if HasEdgesByVerticesAttributeOfSimplicialSurface( simpsurf ) then
+			TryNextMethod();
+		else
+			EdgesByVerticesAttributeOfSimplicialSurface( simpsurf );
+			return FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+		fi;
 	end
 );
 ##	case EdgesByFaces and EdgesByVertices is similar
@@ -807,16 +829,24 @@ InstallMethod( VerticesByFacesAttributeOfSimplicialSurface,
 	[IsSimplicialSurface and HasEdgesByFacesAttributeOfSimplicialSurface and
 							HasEdgesByVerticesAttributeOfSimplicialSurface ],
 	function( simpsurf )
-		VerticesByEdgesAttributeOfSimplicialSurface( simpsurf );
-		return VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+		if HasVerticesByEdgesAttributeOfSimplicialSurface( simpsurf ) then
+			TryNextMethod();
+		else
+			VerticesByEdgesAttributeOfSimplicialSurface( simpsurf );
+			return VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+		fi;
 	end
 );
 InstallMethod( FacesByVerticesAttributeOfSimplicialSurface, 
 	[IsSimplicialSurface and HasEdgesByFacesAttributeOfSimplicialSurface and
 							HasEdgesByVerticesAttributeOfSimplicialSurface ],
 	function( simpsurf )
-		FacesByEdgesAttributeOfSimplicialSurface( simpsurf );
-		return FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+		if HasFacesByEdgesAttributeOfSimplicialSurface( simpsurf ) then
+			TryNextMethod();
+		else
+			FacesByEdgesAttributeOfSimplicialSurface( simpsurf );
+			return FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+		fi;
 	end
 );
 ##
