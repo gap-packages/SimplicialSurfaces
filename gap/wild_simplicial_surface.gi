@@ -60,7 +60,7 @@ InstallMethod( WildSimplicialSurfaceNC, "",
 	[ IsSimplicialSurface and IsActualSurface, IsList ],
 	function( simpsurf, generators )
 		return ObjectifyWithAttributes( simpsurf, WildSimplicialSurfaceType,
-				Generators, generators);
+				GeneratorsAttributeOfWildSimplicialSurface, generators);
 	end
 );
 ##	If it is not known that we have an actual surface, we have to check
@@ -85,6 +85,15 @@ RedispatchOnCondition( WildSimplicialSurface, true,
 #############################################################################
 
 
+############################################################################
+##			Write wrapper methods for attributes
+##
+InstallMethod( Generators, "for wild simplicial surfaces",
+	[IsWildSimplicialSurface],
+	function( surface )
+		return GeneratorsAttributeOfWildSimplicialSurface( surface );
+	end
+);
 
 #############################################################################
 #############################################################################
@@ -99,8 +108,8 @@ RedispatchOnCondition( WildSimplicialSurface, true,
 #! Returns the numbers of the vertices as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-InstallMethod( Vertices, "for wild simplicial surfaces", 
-		[IsWildSimplicialSurfaceRep],
+InstallMethod( VerticesAttributeOfSimplicialSurface, 
+	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO
 	end
@@ -110,8 +119,8 @@ InstallMethod( Vertices, "for wild simplicial surfaces",
 #! Returns the numbers of the edges as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-InstallMethod( Edges, "for wild simplicial surfaces", 
-		[IsWildSimplicialSurfaceRep],
+InstallMethod( EdgesAttributeOfSimplicialSurface, 
+	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO
 	end
@@ -121,8 +130,8 @@ InstallMethod( Edges, "for wild simplicial surfaces",
 #! Returns the numbers of the faces as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-InstallMethod( Faces, "for wild simplicial surfaces", 
-		[IsWildSimplicialSurfaceRep],
+InstallMethod( FacesAttributeOfSimplicialSurface, 
+	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO
 	end
@@ -136,8 +145,8 @@ InstallMethod( Faces, "for wild simplicial surfaces",
 #!	Either this method or EdgesByVertices is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-InstallMethod( VerticesByEdges, "for wild simplicial surfaces", 
-		[IsWildSimplicialSurfaceRep],
+InstallMethod( VerticesByEdgesAttributeOfSimplicialSurface, 
+	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO
 	end
@@ -151,8 +160,8 @@ InstallMethod( VerticesByEdges, "for wild simplicial surfaces",
 #!	Either this method or EdgesByFaces is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-InstallMethod( FacesByEdges, "for wild simplicial surfaces", 
-		[IsWildSimplicialSurfaceRep],
+InstallMethod( FacesByEdgesAttributeOfSimplicialSurface, 
+	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO
 	end
@@ -166,8 +175,8 @@ InstallMethod( FacesByEdges, "for wild simplicial surfaces",
 #!	This method is basic.
 #!  @Returns a list of permutations
 #!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientation, "for wild simplicial surfaces", 
-		[IsWildSimplicialSurfaceRep],
+InstallMethod( LocalOrientationAttributeOfSimplicialSurface, 
+	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO
 	end
@@ -189,10 +198,16 @@ InstallMethod( LocalOrientation, "for wild simplicial surfaces",
 #! @Arguments a wild simplicial surface
 #! @Returns a group
 #!
+InstallMethod( GeneratedGroupAttributeOfWildSimplicialSurface, 
+	"for a wild simplicial surface", [ IsWildSimplicialSurface ],
+	function(simpsurf)
+		return Group( Generators(simpsurf) );
+	end
+);
 InstallMethod( GeneratedGroup, "for a wild simplicial surface",
 	[ IsWildSimplicialSurface ],
 	function(simpsurf)
-		return Group( Generators(simpsurf) );
+		return GeneratedGroupAttributeOfWildSimplicialSurface( simpsurf );
 	end
 );
 
@@ -205,10 +220,16 @@ InstallMethod( GeneratedGroup, "for a wild simplicial surface",
 #!  the set of relations given by the vertex defining paths.
 #!  @Returns finitely presented group.
 #!
-InstallMethod( VertexGroup, "for a wild simplicial surface",
-	[ IsWildSimplicialSurface ],
+InstallMethod( VertexGroupAttributeOfWildSimplicialSurface, 
+	"for a wild simplicial surface", [ IsWildSimplicialSurface ],
 	function(simpsurf)
 		#TODO
+	end
+);
+InstallMethod( VertexGroup, "for a wild simplicial surface",
+	[IsWildSimplicialSurface],
+	function( simpsurf )
+		return VertexGroupAttributeOfWildSimplicialSurface( simpsurf );
 	end
 );
 
@@ -242,10 +263,22 @@ InstallMethod( VertexGroup, "for a wild simplicial surface",
 #! MrType(tetra);
 #! @EndExample
 #!
-InstallMethod( MrType, "for a wild simplicial surface",
-	[ IsWildSimplicialSurface ],
+InstallMethod( MrTypeAttributeOfWildSimplicialSurface, 
+	"for a wild simplicial surface", [ IsWildSimplicialSurface ],
 	function(simpsurf)
 		#TODO
+	end
+);
+InstallMethod( MrType, "for a wild simplicial surface",
+	[IsWildSimplicialSurface],
+	function( simpsurf )
+		return MrTypeAttributeOfWildSimplicialSurface( simpsurf );
+	end
+);
+InstallMethod( MRType, "for a wild simplicial surface",
+	[IsWildSimplicialSurface],
+	function( simpsurf )
+		return MrTypeAttributeOfWildSimplicialSurface( simpsurf );
 	end
 );
 
