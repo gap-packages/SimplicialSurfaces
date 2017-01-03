@@ -117,7 +117,8 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		SetFacesAttributeOfSimplicialSurface( surf, faces );
 		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, edgesByVertices );
 		SetFacesByEdgesAttributeOfSimplicialSurface( surf, facesByEdges );
-		SetFacesByVerticesAttributeOfSimplicialSurface( surf, List( facesByVerticesOP, i -> Set(i) ) );
+		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
+								List( facesByVerticesOP, i -> Set(i) ) );
 		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );
 
 		# Set the face names
@@ -287,11 +288,13 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		surf := Objectify( SimplicialSurfaceType, rec() );
 		# Set the given attributes
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
-		SetEdgesAttributeOfSimplicialSurface( surf, [1..Length(edgesByVertices)] );
+		SetEdgesAttributeOfSimplicialSurface( surf, 
+									[1..Length(edgesByVertices)] );
 		SetFacesAttributeOfSimplicialSurface( surf, faces );
 		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, edgesByVertices );
 		SetFacesByEdgesAttributeOfSimplicialSurface( surf, facesByEdges );
-		SetFacesByVerticesAttributeOfSimplicialSurface( surf, List( facesByVertices, i -> Set(i) ) );
+		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
+									List( facesByVertices, i -> Set(i) ) );
 		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );
 
 		# Set the face names
@@ -920,8 +923,8 @@ InstallMethod( UnsortedDegrees, "for a simplicial surface",
 #!  @Returns a dense sorted list of integers
 #!  @Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( SortedDegreesAttributeOfSimplicialSurface, "for a simplicial surface",
-	[IsSimplicialSurface],
+InstallMethod( SortedDegreesAttributeOfSimplicialSurface, 
+	"for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
 		local compact;
 
@@ -1127,29 +1130,34 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 					orient1 := 0;
 					orient2 := 0;
 					# Check how these two faces act on the edge
-					if CompatibleOrientation( EdgesByVertices(simpsurf)[edge], LocalOrientation(simpsurf)[face] ) then
+					if CompatibleOrientation( EdgesByVertices(simpsurf)[edge],
+									LocalOrientation(simpsurf)[face] ) then
 						orient1 := 1;
 					else
 						orient1 := -1;
 					fi;
 	
-					if CompatibleOrientation( EdgesByVertices(simpsurf)[edge], LocalOrientation(simpsurf)[next] ) then
+					if CompatibleOrientation( EdgesByVertices(simpsurf)[edge], 
+									LocalOrientation(simpsurf)[next] ) then
 						orient2 := 1;
 					else
 						orient2 := -1;
 					fi;
 	
-					# The next two cases can be collapsed (the elements in orientList take
-					# values in {+1,-1}). TODO do so without destroying readability
+					# The next two cases can be collapsed (the elements in 
+					# orientList take values in {+1,-1}).
+					#TODO do so without destroying readability
 					if orient1*orient2 = -1 then # the sides are neighbours
-						if IsBound( orientList[next] ) and orientList[next] <> orientList[face] then
+						if IsBound( orientList[next] ) and 
+									orientList[next] <> orientList[face] then
 							orientable := false;
 							break;
 						else
 							orientList[next] := orientList[face];
 						fi;
 					elif orient1*orient2 = 1 then # the sides are not neighbours
-						if IsBound( orientList[next] ) and orientList[next] = orientList[face] then
+						if IsBound( orientList[next] ) and 
+									orientList[next] = orientList[face] then
 							orientable := false;
 							break;
 						else
@@ -1311,8 +1319,7 @@ InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 #!	@Arguments a simplicial surface
 #!	@Returns a list of simplicial surfaced
 InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
-	"for a simplicial surface",
-	[IsSimplicialSurface],
+	"for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
 		local faces, comp, f, component;
 
@@ -1581,8 +1588,10 @@ InstallMethod( IsIsomorphic, "for two simplicial surfaces",
 	function( s1,s2)
 		local graph1, graph2;
 
-		graph1 := IncidenceGraph(s1);
-		graph2 := IncidenceGraph(s2);
+		# We use ShallowCopy to make the graphs mutable
+		# This is required to use IsIsomorphicGraph from GRAPE
+		graph1 := ShallowCopy( IncidenceGraph(s1) );
+		graph2 := ShallowCopy( IncidenceGraph(s2) );
 		return IsIsomorphicGraph(graph1,graph2);
 	end
 );
