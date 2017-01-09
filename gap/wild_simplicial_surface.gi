@@ -203,16 +203,16 @@ InstallMethod( LocalOrientationAttributeOfSimplicialSurface,
 #! @Arguments a wild simplicial surface
 #! @Returns a group
 #!
-InstallMethod( GeneratedGroupAttributeOfWildSimplicialSurface, 
+InstallMethod( GroupAttributeOfWildSimplicialSurface, 
 	"for a wild simplicial surface", [ IsWildSimplicialSurface ],
 	function(simpsurf)
 		return Group( Generators(simpsurf) );
 	end
 );
-InstallMethod( GeneratedGroup, "for a wild simplicial surface",
+InstallMethod( GroupOfWildSimplicialSurface, "for a wild simplicial surface",
 	[ IsWildSimplicialSurface ],
 	function(simpsurf)
-		return GeneratedGroupAttributeOfWildSimplicialSurface( simpsurf );
+		return GroupAttributeOfWildSimplicialSurface( simpsurf );
 	end
 );
 
@@ -356,7 +356,7 @@ InstallOtherMethod( SixFoldCover, "for a simplicial surface",
 InstallMethod( IsConnected, "for a wild simplicial surface",
 	[IsWildSimplicialSurface],
 	function(simpsurf)
-		return Length(Orbits(GeneratedGroup(simpsurf), Faces(simpsurf)))=1;
+		return Length(Orbits(GroupOfWildSimplicialSurface(simpsurf), Faces(simpsurf)))=1;
 	end
 );
 

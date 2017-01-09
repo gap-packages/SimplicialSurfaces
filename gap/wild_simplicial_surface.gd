@@ -124,9 +124,9 @@ DeclareOperation( "Generators", [IsWildSimplicialSurface] );
 #! surface.
 #! @Arguments a wild simplicial surface
 #! @Returns a group
-DeclareAttribute( "GeneratedGroupAttributeOfWildSimplicialSurface", 
+DeclareAttribute( "GroupAttributeOfWildSimplicialSurface", 
 		IsWildSimplicialSurface );
-DeclareOperation( "GeneratedGroup", [IsWildSimplicialSurface] );
+DeclareOperation( "GroupOfWildSimplicialSurface", [IsWildSimplicialSurface] );
 
 #! @Description Given a wild coloured simplicial surface <simpsurf>, this
 #!  function determines the vertex group of the simplicial surface.
