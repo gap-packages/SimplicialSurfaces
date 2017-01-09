@@ -1,9 +1,9 @@
 
 
 ##
-##	Declare the wild representation of simplicial surfaces that does nothing.
+##	Declare the representation of wild simplicial surfaces that does nothing.
 ##
-DeclareRepresentation("IsWildSimplicialSurfaceRep", IsSimplicialSurface, [ ] );
+DeclareRepresentation("IsWildSimplicialSurfaceRep", IsWildSimplicialSurface, [ ] );
 ##
 ##	Define a type so we can use Objectify.
 ##
@@ -61,7 +61,8 @@ InstallMethod( WildSimplicialSurfaceNC, "",
 	function( simpsurf, generators )
 		local wild;
 
-		wild := ObjectifySimplicialSurface( WildSimplicialSurfaceType, rec());
+		wild := ObjectifySimplicialSurface( 
+			WildSimplicialSurfaceType, rec(), simpsurf);
 		SetGeneratorsAttributeOfWildSimplicialSurface( wild, generators );
 
 		return wild;

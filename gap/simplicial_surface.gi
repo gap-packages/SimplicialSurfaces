@@ -80,6 +80,8 @@ InstallMethod( ObjectifySimplicialSurface, "",
 											currentAttribute( modelSurf ) );
 			fi;
 		od;
+
+		return newOb;
 	end
 );
 
