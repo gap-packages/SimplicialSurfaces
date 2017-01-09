@@ -25,6 +25,64 @@ DeclareRepresentation("IsSimplicialSurfaceRep", IsSimplicialSurface, [ ] );
 SimplicialSurfaceType := 
 	NewType( SimplicialSurfaceFamily, IsSimplicialSurfaceRep );
 
+##
+#!	@Description
+#!	This function calls
+#!		Objectify( type, rec )
+#!	and afterwards copies all attributes and properties of the simplicial
+#!	surface modelSurf that are declared in this section to the the new object.
+#!	This method has to be overwritten for a specialization of this class.
+#!
+#!	WARNING: The type can't be checked! Only types that are derived from
+#!	IsSimplicialSurface can be used with impunity!
+#!
+#!	@Arguments a type, a record, a simplicial surface
+#!	@Returns an object of type type
+InstallMethod( ObjectifySimplicialSurface, "",
+		[IsType,IsRecord,IsSimplicialSurface],
+	function( type, record, modelSurf )
+		local newOb, attributeList, currentAttribute, currentAttributeString;
+
+		newOb := Objectify( type, record );
+
+		# copy all relevant attributes (implementation by suggestion of
+		# Sebastian Gutsche)
+		attributeList := [ "VerticesAttributeOfSimplicialSurface",
+			"EdgesAttributeOfSimplicialSurface", 
+			"FacesAttributeOfSimplicialSurface",
+			"NrOfVerticesAttributeOfSimplicialSurface",
+			"NrOfEdgesAttributeOfSimplicialSurface",
+			"NrOfFacesAttributeOfSimplicialSurface",
+			"VerticesByEdgesAttributeOfSimplicialSurface",
+			"VerticesByFacesAttributeOfSimplicialSurface",
+			"EdgesByVerticesAttributeOfSimplicialSurface",
+			"EdgesByFacesAttributeOfSimplicialSurface",
+			"FacesByVerticesAttributeOfSimplicialSurface",
+			"FacesByEdgesAttributeOfSimplicialSurface",
+			"IsActualSurface",
+			"IsOrientable",
+			"IsConnected",
+			"ConnectedComponentsAttributeOfSimplicialSurface",
+			"EulerCharacteristicAttributeOfSimplicialSurface",
+			"UnsortedDegreesAttributeOfSimplicialSurface",
+			"SortedDegreesAttributeOfSimplicialSurface",
+			"VertexSymbolAttributeOfSimplicialSurface",
+			"LocalOrientationAttributeOfSimplicialSurface",
+			"NamesOfFacesAttributeOfSimplicialSurface",
+			"IsFaceNamesDefault",
+			"FaceAnomalyClassesAttributeOfSimplicialSurface",
+			"IncidenceGraphAttributeOfSimplicialSurface"];
+		for currentAttributeString in attributeList do
+			# Find the attribute that corresponds to the given name
+			currentAttribute := ValueGlobal( currentAttributeString );
+			if Tester( currentAttribute )( modelSurf) then
+				Setter( currentAttribute )( newOb, 
+											currentAttribute( modelSurf ) );
+			fi;
+		od;
+	end
+);
+
 
 #############################################################################
 #############################################################################

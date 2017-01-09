@@ -61,9 +61,9 @@ InstallMethod( WildSimplicialSurfaceNC, "",
 	function( simpsurf, generators )
 		local wild;
 
-		#TODO doesn't work yet
-		#wild := ReObjectify( WildSimplicialSurfaceType, ShallowCopy( simpsurf ));
-		#SetGeneratorsAttributeOfWildSimplicialSurface( wild, generators );
+		wild := ObjectifySimplicialSurface( WildSimplicialSurfaceType, rec());
+		SetGeneratorsAttributeOfWildSimplicialSurface( wild, generators );
+
 		return wild;
 	end
 );

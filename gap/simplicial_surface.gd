@@ -386,6 +386,22 @@ DeclareOperation( "IncidenceGraph", [IsSimplicialSurface] );
 
 ##
 #!	@Description
+#!	This function calls
+#!		Objectify( type, rec )
+#!	and afterwards copies all attributes and properties of the simplicial
+#!	surface modelSurf that are declared in this section to the the new object.
+#!	This method has to be overwritten for a specialization of this class.
+#!
+#!	WARNING: The type can't be checked! Only types that are derived from
+#!	IsSimplicialSurface can be used with impunity!
+#!
+#!	@Arguments a type, a record, a simplicial surface
+#!	@Returns an object of type type
+DeclareOperation( "ObjectifySimplicialSurface",
+		[IsType,IsRecord,IsSimplicialSurface]);
+
+##
+#!	@Description
 #!	This function returns both names of the given face. The first entry is
 #!	the name of the upper side, the second one of the lower side.
 #!	The NC-version doesn't check if the given number actually is a face.
