@@ -59,9 +59,12 @@ InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
 InstallMethod( WildSimplicialSurfaceNC, "",
 	[ IsSimplicialSurface and IsActualSurface, IsList ],
 	function( simpsurf, generators )
-		#TODO this does not work since simpsurf is not a record! Fix it.
-		return ObjectifyWithAttributes( simpsurf, WildSimplicialSurfaceType,
-				GeneratorsAttributeOfWildSimplicialSurface, generators);
+		local wild;
+
+		#TODO doesn't work yet
+		#wild := ReObjectify( WildSimplicialSurfaceType, ShallowCopy( simpsurf ));
+		#SetGeneratorsAttributeOfWildSimplicialSurface( wild, generators );
+		return wild;
 	end
 );
 ##	If it is not known that we have an actual surface, we have to check
