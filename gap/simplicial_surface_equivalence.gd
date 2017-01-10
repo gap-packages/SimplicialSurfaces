@@ -53,7 +53,7 @@ DeclareOperation( "SimplicialSurfaceWithEquivalence", [IsSimplicialSurface]);
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a simplicial surface
 DeclareAttribute( 
-	"UnderlyingSimplicialSurfaceAttributeOfSimplicialSurfaceWithEquivalence",
+	"UnderlyingSimplicialSurfaceAttributeOfSSWE",
 	[IsSimplicialSurfaceWithEquivalence] );
 DeclareOperation( "UnderlyingSimplicialSurface", 
 									IsSimplicialSurfaceWithEquivalence );
@@ -64,7 +64,7 @@ DeclareOperation( "UnderlyingSimplicialSurface",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a simplicial surface
 DeclareAttribute(
-	"QuotientSimplicialSurfaceAttributeOfSimplicialSurfaceWithEquivalence",
+	"QuotientSimplicialSurfaceAttributeOfSSWE",
 	[IsSimplicialSurfaceWithEquivalence]);
 DeclareOperation( "QuotientSimplicialSurface", 
 									IsSimplicialSurfaceWithEquivalence );
@@ -76,7 +76,7 @@ DeclareOperation( "QuotientSimplicialSurface",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"VertexEquivalenceNumbersAttributeOfSimplicialSurfaceWithEquivalence",
+	"VertexEquivalenceNumbersAttributeOfSSWE",
 	[IsSimplicialSurfaceWithEquivalence]);
 DeclareOperation( "VertexEquivalenceNumbers", 
 									IsSimplicialSurfaceWithEquivalence );
@@ -87,7 +87,7 @@ DeclareOperation( "VertexEquivalenceNumbers",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"VertexEquivalenceClassesAttributeOfSimplicialSurfaceWithEquivalence",
+	"VertexEquivalenceClassesAttributeOfSSWE",
 	[IsSimplicialSurfaceWithEquivalence] );
 DeclareOperation( "VertexEquivalenceClasses", 
 									IsSimplicialSurfaceWithEquivalence );
@@ -98,7 +98,7 @@ DeclareOperation( "VertexEquivalenceClasses",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"EdgeEquivalenceNumbersAttributeOfSimplicialSurfaceWithEquivalence",
+	"EdgeEquivalenceNumbersAttributeOfSSWE",
 	[IsSimplicialSurfaceWithEquivalence]);
 DeclareOperation( "EdgeEquivalenceNumbers", 
 									IsSimplicialSurfaceWithEquivalence );
@@ -109,7 +109,7 @@ DeclareOperation( "EdgeEquivalenceNumbers",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
 DeclareAttribute(
-	"EdgeEquivalenceClassesAttributeOfSimplicialSurfaceWithEquivalence",
+	"EdgeEquivalenceClassesAttributeOfSSWE",
 	[IsSimplicialSurfaceWithEquivalence]);
 DeclareOperation( "EdgeEquivalenceClasses", 
 									IsSimplicialSurfaceWithEquivalence );
@@ -120,7 +120,7 @@ DeclareOperation( "EdgeEquivalenceClasses",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"FaceEquivalenceNumbersAttributeOfSimplicialSurfaceWithEquivalence",
+	"FaceEquivalenceNumbersAttributeOfSSWE",
 	[IsSimplicialSurfaceWithEquivalence]);
 DeclareOperation( "FaceEquivalenceNumbers", 
 									IsSimplicialSurfaceWithEquivalence );
@@ -131,7 +131,7 @@ DeclareOperation( "FaceEquivalenceNumbers",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"FaceEquivalenceClassesAttributeOfSimplicialSurfaceWithEquivalence",
+	"FaceEquivalenceClassesAttributeOfSSWE",
 	[IsSimplicialSurfaceWithEquivalence]);
 DeclareOperation( "FaceEquivalenceClasses", 
 									IsSimplicialSurfaceWithEquivalence );

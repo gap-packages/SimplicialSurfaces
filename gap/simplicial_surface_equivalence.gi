@@ -75,7 +75,7 @@ InstallMethod( SimplicialSurfaceWithEquivalence,
 					edgeEquivalenceImage := edgeEq, 
 					faceEquivalenceImage := faceEq ) );
 
-		SetUnderlyingSimplicialSurfaceAttributeOfSimplicialSurfaceWithEquivalence( complex, surface );
+		SetUnderlyingSimplicialSurfaceAttributeOfSSWE( complex, surface );
 
 		return complex;
 	end
@@ -114,12 +114,21 @@ end;
 #! Return the vertex equivalence classes.
 #! @Arguments a folding complex
 #! @Returns a list of sets of positive integers
-InstallMethod( VertexEquivalenceClasses, "for a folding complex",
-	[IsFoldingComplexByEquivalenceImageRep],
+InstallMethod( 
+	VertexEquivalenceClassesAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return _SIMPLICIAL_ImageListIntoEquivalenceClasses( 
 			Vertices( UnderlyingSimplicialSurface( complex ) ),
 			vertexEquivalenceImage );
+	end
+);
+InstallMethod( VertexEquivalenceClasses, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return VertexEquivalenceClassesAttributeOfSSWE( complex );
 	end
 );
 
@@ -127,12 +136,21 @@ InstallMethod( VertexEquivalenceClasses, "for a folding complex",
 #! Return the edge equivalence classes.
 #! @Arguments a folding complex
 #! @Returns a list of sets of positive integers
-InstallMethod( EdgeEquivalenceClasses, "for a folding complex",
-	[IsFoldingComplexByEquivalenceImageRep],
+InstallMethod( 
+	EdgeEquivalenceClassesAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return _SIMPLICIAL_ImageListIntoEquivalenceClasses( 
 			Edges( UnderlyingSimplicialSurface( complex ) ),
 			edgeEquivalenceImage );
+	end
+);
+InstallMethod( EdgeEquivalenceClasses, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return EdgeEquivalenceClassesAttributeOfSSWE( complex );
 	end
 );
 
@@ -140,14 +158,90 @@ InstallMethod( EdgeEquivalenceClasses, "for a folding complex",
 #! Return the face equivalence classes.
 #! @Arguments a folding complex
 #! @Returns a list of sets of positive integers
-InstallMethod( FaceEquivalenceClasses, "for a folding complex",
-	[IsFoldingComplexByEquivalenceImageRep],
+InstallMethod( 
+	FaceEquivalenceClassesAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return _SIMPLICIAL_ImageListIntoEquivalenceClasses( 
 			Faces( UnderlyingSimplicialSurface( complex ) ),
 			faceEquivalenceImage );
 	end
 );
+InstallMethod( FaceEquivalenceClasses, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return FaceEquivalenceClassesAttributeOfSSWE( complex );
+	end
+);
+
+#! @Description
+#! Return the vertex equivalence numbers. Each vertex equivalence class has
+#! a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+InstallMethod( 
+	VertexEquivalenceNumbersAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	function( complex )
+		return Set( vertexEquivalenceImage );
+	end
+);
+InstallMethod( VertexEquivalenceNumbers, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	function( complex )
+		return VertexEquivalenceNumbersAttributeOfSSWE( complex );
+	end
+);
+
+
+#! @Description
+#! Return the edge equivalence numbers. Each edge equivalence class has
+#! a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+InstallMethod( 
+	EdgeEquivalenceNumbersAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	function( complex )
+		return Set( edgeEquivalenceImage );
+	end
+);
+InstallMethod( EdgeEquivalenceNumbers, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	function( complex )
+		return EdgeEquivalenceNumbersAttributeOfSSWE( complex );
+	end
+);
+
+
+#! @Description
+#! Return the face equivalence numbers. Each face equivalence class has
+#! a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+InstallMethod( 
+	FaceEquivalenceNumbersAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	function( complex )
+		return Set( faceEquivalenceImage );
+	end
+);
+InstallMethod( FaceEquivalenceNumbers, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	function( complex )
+		return FaceEquivalenceNumbersAttributeOfSSWE( complex );
+	end
+);
+
+
 
 ##
 ##	To check if two vertices are equivalent we just have to compare their
@@ -158,8 +252,8 @@ InstallMethod( FaceEquivalenceClasses, "for a folding complex",
 #! Check if two vertices are equivalent.
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
-InstallMethod( IsEquivalentVertex, "for a folding complex",
-	[IsFoldingComplexByEquivalenceImageRep, IsPosInt, IsPosInt],
+InstallMethod( IsEquivalentVertex, "for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep, IsPosInt, IsPosInt],
 	function( complex, v1, v2 )
 		return vertexEquivalenceImage[v1] = vertexEquivalenceImage[v2];
 	end
@@ -169,8 +263,8 @@ InstallMethod( IsEquivalentVertex, "for a folding complex",
 #! Check if two edges are equivalent.
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
-InstallMethod( IsEquivalentEdge, "for a folding complex",
-	[IsFoldingComplexByEquivalenceImageRep, IsPosInt, IsPosInt],
+InstallMethod( IsEquivalentEdge, "for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep, IsPosInt, IsPosInt],
 	function( complex, e1, e2 )
 		return edgeEquivalenceImage[e1] = edgeEquivalenceImage[e2];
 	end
@@ -180,8 +274,8 @@ InstallMethod( IsEquivalentEdge, "for a folding complex",
 #! Check if two faces are equivalent.
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
-InstallMethod( IsEquivalentFace, "for a folding complex",
-	[IsFoldingComplexByEquivalenceImageRep, IsPosInt, IsPosInt],
+InstallMethod( IsEquivalentFace, "for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep, IsPosInt, IsPosInt],
 	function( complex, f1, f2 )
 		return faceEquivalenceImage[f1] = faceEquivalenceImage[f2];
 	end
