@@ -109,6 +109,40 @@ DeclareOperation( "FaceMap", [IsSimplicialSurfaceIdentification] );
 #!
 #!
 
+#!	@Description
+#!	Return if the given simplicial surface identification is well-defined
+#!	with respect to the given simplicial surface.
+#!	This method checks if the maps of the identification can be applied to
+#!	the vertices, edges and faces of the simplicial surface. It also
+#!	checks whether the maps are compatible with each other, i.e. if they
+#!	commute with the incidence relation of the simplicial surface.
+#!	@Arguments a simplicial surface, a simplicial surface identification
+#!	@Returns true or false
+DeclareOperation( "IsWellDefinedIdentification", 
+	[IsSimplicialSurface, IsSimplicialSurfaceIdentification] );
+
+
+#!	@Description
+#!	Return if the given simplicial surface identification is constant on the
+#!	intersection for the given simplicial surface with equivalence.
+#!	TODO explain what this means
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface 
+#!	identification
+#!	@Returns true or false
+DeclareOperation( "IsConstantOnIntersection", 
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
+
+
+#!	@Description
+#!	Return if the given simplicial surface identification can be applied to
+#!	the given simplicial surface with equivalence and result in another
+#!	simplicial surface with equivalence. To be more precise we check the
+#!	property of corollary 2.37 in my master thesis.
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface 
+#!	identification
+#!	@Returns true or false
+DeclareOperation( "IsApplicableExtension", 
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
 
 
 #

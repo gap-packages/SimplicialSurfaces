@@ -162,6 +162,57 @@ InstallMethod( FaceMap,
 );
 
 
+#!	@Description
+#!	Return if the given simplicial surface identification is well-defined
+#!	with respect to the given simplicial surface.
+#!	This method checks if the maps of the identification can be applied to
+#!	the vertices, edges and faces of the simplicial surface. It also
+#!	checks whether the maps are compatible with each other, i.e. if they
+#!	commute with the incidence relation of the simplicial surface.
+#!	@Arguments a simplicial surface, a simplicial surface identification
+#!	@Returns true or false
+InstallMethod( IsWellDefinedIdentification, 
+	"for a simplicial surface and a simplicial surface identification",
+	[IsSimplicialSurface, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+
+	end
+);
+
+
+#!	@Description
+#!	Return if the given simplicial surface identification is constant on the
+#!	intersection for the given simplicial surface with equivalence.
+#!	TODO explain what this means
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface 
+#!	identification
+#!	@Returns true or false
+InstallMethod( IsConstantOnIntersection, 
+	"for a simplicial surface with equivalence and a simplicial surface identification",
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+
+	end
+);
+
+
+#!	@Description
+#!	Return if the given simplicial surface identification can be applied to
+#!	the given simplicial surface with equivalence and result in another
+#!	simplicial surface with equivalence. To be more precise we check the
+#!	property of corollary 2.37 in my master thesis in addition to
+#!	IsWellDefinedIdentification and IsConstantOnIntersection
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface 
+#!	identification
+#!	@Returns true or false
+InstallMethod( IsApplicableExtension, 
+	"for a simplicial surface with equivalence and a simplicial surface identification",
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+
+	end
+);
+
 
 
 #
