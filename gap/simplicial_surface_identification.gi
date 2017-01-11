@@ -111,6 +111,16 @@ InstallMethod( SimplicialSurfaceIdentificationByLists, "for three lists",
 		edgeMap := __SIMPLICIAL_CreateMapFromListNC( edgeList, true );
 		faceMap := __SIMPLICIAL_CreateMapFromListNC( faceList, true );
 
+		if Length( Source( vertexMap ) ) <> 3 then
+			Error("SimplicialSurfaceIdentificationByLists: Only three vertices");
+		fi;
+		if Length( Source( edgeMap ) ) <> 3 then
+			Error("SimplicialSurfaceIdentificationByLists: Only three edges");
+		fi;
+		if Length( Source( faceMap ) ) <> 1 then
+			Error("SimplicialSurfaceIdentificationByLists: Only one face");
+		fi;
+
 		return SimplicialSurfaceIdentification( vertexList, edgeList, faceList);
 	end
 );
@@ -175,7 +185,48 @@ InstallMethod( IsWellDefinedIdentification,
 	"for a simplicial surface and a simplicial surface identification",
 	[IsSimplicialSurface, IsSimplicialSurfaceIdentification],
 	function( surface, id )
+		local faceSource, faceRange;
 
+		# Check first if all maps are well-defined
+		if not IsSubset( Vertices( surface ), Source( VertexMap(id) ) ) then
+			return false;
+		fi;
+		if not IsSubset( Vertices( surface ), Range( VertexMap(id) ) ) then
+			return false;
+		fi;
+
+		if not IsSubset( Edges( surface ), Source( EdgeMap(id) ) ) then
+			return false;
+		fi;
+		if not IsSubset( Edges( surface ), Range( EdgeMap(id) ) ) then
+			return false;
+		fi;
+
+		if not IsSubset( Faces( surface ), Source( FaceMap(id) ) ) then
+			return false;
+		fi;
+		if not IsSubset( Faces( surface ), Range( FaceMap(id) ) ) then
+			return false;
+		fi;
+
+		# Now we check the compatibility with the incidence relation
+		faceSource := AsList( Source( FaceMap(id) ) )[1];
+		if Source( VertexMap(id) ) <> FacesByVertices(surface)[faceSource] then
+			return false;
+		fi;
+		if Source( EdgeMap(id) ) <> FacesByEdges(surface)[faceSource] then
+			return false;
+		fi;
+
+		faceRange := AsList( Range( FaceMap(id) ) )[1];
+		if Range( VertexMap(id) ) <> FacesByVertices(surface)[faceRange] then
+			return false;
+		fi;
+		if Range( EdgeMap(id) ) <> FacesByEdges(surface)[faceRange] then
+			return false;
+		fi;
+
+		return true;
 	end
 );
 
@@ -184,6 +235,7 @@ InstallMethod( IsWellDefinedIdentification,
 #!	Return if the given simplicial surface identification is constant on the
 #!	intersection for the given simplicial surface with equivalence.
 #!	TODO explain what this means
+#!	It also checks if the identification is well-defined.
 #!	@Arguments a simplicial surface with equivalence, a simplicial surface 
 #!	identification
 #!	@Returns true or false
@@ -191,7 +243,39 @@ InstallMethod( IsConstantOnIntersection,
 	"for a simplicial surface with equivalence and a simplicial surface identification",
 	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
 	function( surface, id )
+		local uSurf, edge1, edge2, edgesSource, edgesRange,
+			vertex1, vertex2, verticesSource, verticesRange;
 
+		uSurf := UnderlyingSimplicialSurface( surface );
+		if not IsWellDefinedIdentification( uSurf, id ) then
+			return false;
+		fi;		
+
+		edgesSource := AsList( Source( EdgeMap( id ) ) );
+		edgesRange := AsList( Range( EdgeMap( id ) ) );
+		for edge1 in edgesSource do
+			for edge2 in edgesRange do
+				if IsEquivalentEdge( surface, edge1, edge2 ) then
+					if ImageElm( EdgeMap(id), edge1 ) <> edge2 then
+						return false;
+					fi;
+				fi;
+			od;
+		od;
+
+		verticesSource := AsList( Source( VertexMap( id ) ) );
+		verticesRange := AsList( Range( VertexMap( id ) ) );
+		for vertex1 in verticesSource do
+			for vertex2 in verticesRange do
+				if IsEquivalentVertex( surface, vertex1, vertex2 ) then
+					if ImageElm( VertexMap(id), vertex1 ) <> vertex2 then
+						return false;
+					fi;
+				fi;
+			od;
+		od;
+
+		return true;
 	end
 );
 
@@ -209,7 +293,33 @@ InstallMethod( IsApplicableExtension,
 	"for a simplicial surface with equivalence and a simplicial surface identification",
 	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
 	function( surface, id )
+		local vMap, vertex, vertexSource, quot, vertexClasses, edge;
 
+		if not IsConstantOnIntersection( surface, id ) then
+			return false;
+		fi;
+
+		vMap := VertexMap( id );
+		vertexSource := Source( vMap );
+		for vertex in vertexSource do
+			if not IsEquivalentVertex(surface,vertex,ImageElm(vMap,vertex)) then
+				# Verify that there is no edge in which vertex and 
+				# Image(vMap,vertex) lie simultaneously (or vertices that are
+				# equivalent to those two - there is a mistake in the lemma)
+
+				# We therefore switch to the quotient surface
+				quot := QuotientSimplicialSurface( surface );
+				vertexClasses := Set( List( [ vertex, ImageElm(vMap,vertex)], 
+						v -> VertexEquivalenceNumbers(surface)[v] ) );
+				for edge in Edges( quot ) do
+					if vertexClasses = EdgesByVertices(quot)[edge] then
+						return false;
+					fi;
+				od;
+			fi;
+		od;
+
+		return true;
 	end
 );
 
