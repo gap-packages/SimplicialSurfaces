@@ -25,7 +25,7 @@ DeclareRepresentation("IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep",
 
 ##	accompanying type
 SimplicialSurfaceWithEquivalenceByEquivalenceImageType := 
-    NewType( SimplicialSurfaceFamily,
+    NewType( SimplicialSurfaceWithEquivalenceFamily,
 			IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep );
 
 
@@ -253,7 +253,9 @@ InstallMethod( QuotientSimplicialSurfaceAttributeOfSSWE,
 	function( surface )
 		local vertices, edges, faces, edgesByVertices, facesByEdges,
 			edge, edgeClass, vertInEdge, vertNumInEdge, face, faceClass,
-			edgeInFace, edgeNumInFace;
+			edgeInFace, edgeNumInFace, unSurf;
+
+		unSurf := UnderlyingSimplicialSurface( surface );
 
 		vertices := VertexEquivalenceNumbers( surface );
 		edges := EdgeEquivalenceNumbers( surface );
@@ -262,7 +264,7 @@ InstallMethod( QuotientSimplicialSurfaceAttributeOfSSWE,
 		edgesByVertices := [];
 		for edge in edges do
 			edgeClass := EdgeEquivalenceClasses( surface )[edge];
-			vertInEdge := EdgesByVertices( surface )[ edgeClass[1] ];
+			vertInEdge := EdgesByVertices( unSurf )[ edgeClass[1] ];
 			vertNumInEdge := List( vertInEdge, 
 									v -> surface!.vertexEquivalenceImage[v] );
 			edgesByVertices[ edge ] := Set( vertNumInEdge );
@@ -271,7 +273,7 @@ InstallMethod( QuotientSimplicialSurfaceAttributeOfSSWE,
 		facesByEdges := [];
 		for face in faces do
 			faceClass := FaceEquivalenceClasses( surface )[face];
-			edgeInFace := FacesByEdges( surface )[faceClass[1]];
+			edgeInFace := FacesByEdges( unSurf )[faceClass[1]];
 			edgeNumInFace := List( edgeInFace, 
 									e -> surface!.edgeEquivalenceImage[e] );
 			facesByEdges[ face ] := Set( edgeNumInFace );
@@ -286,6 +288,18 @@ InstallMethod( QuotientSimplicialSurface,
 	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
 	function( surface )
 		return QuotientSimplicialSurfaceAttributeOfSSWE(surface);
+	end
+);
+
+#! @Description
+#! Return the underlying simplicial surface.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a simplicial surface
+InstallMethod( UnderlyingSimplicialSurface,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	function( surface )
+		return UnderlyingSimplicialSurfaceAttributeOfSSWE(surface);
 	end
 );
 

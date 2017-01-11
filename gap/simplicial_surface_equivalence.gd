@@ -20,9 +20,18 @@
 DeclareCategory( "IsSimplicialSurfaceWithEquivalence",
 					IsComponentObjectRep and IsAttributeStoringRep );
 
-##	We will use the SimplicialSurface-family. We might decide that a simplicial
-##	surface with a trivial equivalence is equal to the underlying simplicial
-##	surface.
+
+##
+##	Define a new family for simplicial surfaces with equivalence. The family
+##	defines a necessary condition that has to be fulfilled for objects to be 
+##	equal to each other. The argument IsSimplicialSurfaceWithEquivalence 
+##	guarantees that only objects that lie in this category can be part of the 
+##	family.
+##
+SimplicialSurfaceWithEquivalenceFamily := 
+    NewFamily("SimplicialSurfaceWithEquivalenceFamily",  IsObject, 
+				IsSimplicialSurfaceWithEquivalence);
+
 
 
 #############################################################################
@@ -59,11 +68,13 @@ DeclareAttribute(
 DeclareOperation( "UnderlyingSimplicialSurface", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
-#! @Description
-#! Return the simplicial surface that we get if we consider each equivalence
-#! class as one point.
-#! @Arguments a simplicial surface with equivalence
-#! @Returns a simplicial surface
+#!	@Description
+#!	Return the simplicial surface that we get if we consider each equivalence
+#!	class as one point. This method only constructs vertices, edges and faces.
+#!	Local orientation and naming scheme are set by default and have no
+#!	necessary relation to those of the underlying simplicial surface.
+#!	@Arguments a simplicial surface with equivalence
+#!	@Returns a simplicial surface
 DeclareAttribute(
 	"QuotientSimplicialSurfaceAttributeOfSSWE",
 	IsSimplicialSurfaceWithEquivalence);
