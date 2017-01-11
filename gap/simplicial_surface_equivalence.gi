@@ -351,6 +351,40 @@ InstallMethod( IsEquivalentFace, "for a simplicial surface with equivalence",
 ##
 
 
+#!	@Description
+#!	Extend the equivalence relation of the simplicial surface with
+#!	equivalence with a simplicial surface identification.
+#!
+#!	The NC-version does not run the test IsApplicableExtension.
+#!
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface
+#!		identification
+#!	@Returns a simplicial surface with equivalence
+InstallMethod( ExtendByIdentification, 
+	"for a simplicial surface with equivalence and a simplicial surface identification",
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+		if not IsApplicable( surface, id ) then
+			Error("ExtendByIdentification: The identification has to be applicable.");
+		fi;
+
+		return ExtendByIdentificationNC( surface, id );
+	end
+);
+InstallMethod( ExtendByIdentificationNC, 
+	"for a simplicial surface with equivalence and a simplicial surface identification",
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+		local;
+
+		#TODO
+
+		return;
+	end
+);
+
+
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
