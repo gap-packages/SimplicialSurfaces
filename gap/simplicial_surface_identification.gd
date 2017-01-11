@@ -50,6 +50,20 @@ SimplicialSurfaceIdentificationFamily :=
 DeclareOperation( "SimplicialSurfaceIdentification", [IsMapping and 
 		IsBijective, IsMapping and IsBijective, IsMapping and IsBijective]);
 
+#!	@Description
+#!	Return a simplicial surface identification which is constructed from three
+#!	lists. The vertex-list has the form [[p_1,q_1],[p_2,q_2],[p_3,q_3]] and
+#!	corresponds to the map p_i -> q_i. Analogously for the other two lists.
+#!
+#!	The NC-version does not check if the lists fulfill this format or if the
+#!	number of elements match or if the resulting maps are bijective.
+#!
+#!	@Arguments three lists of tuples of positive integers
+#!	@Returns a simplicial surface identification
+DeclareOperation( "SimplicialSurfaceIdentificationByLists", [IsList,IsList,IsList]);
+DeclareOperation( "SimplicialSurfaceIdentificationByListsNC", [IsList,IsList,IsList]);
+
+
 
 #############################################################################
 ##
