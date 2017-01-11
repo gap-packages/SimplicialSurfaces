@@ -1,6 +1,6 @@
 ##############################################################################
 ##
-#W  simplicial_surface_equivalence.gd          SimplicialSurfaces         Markus Baumeister
+#W  simplicial_surface_equivalence.gi          SimplicialSurfaces         Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,
@@ -126,7 +126,7 @@ InstallMethod(
 );
 InstallMethod( VertexEquivalenceClasses, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return VertexEquivalenceClassesAttributeOfSSWE( complex );
 	end
@@ -148,7 +148,7 @@ InstallMethod(
 );
 InstallMethod( EdgeEquivalenceClasses, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return EdgeEquivalenceClassesAttributeOfSSWE( complex );
 	end
@@ -170,7 +170,7 @@ InstallMethod(
 );
 InstallMethod( FaceEquivalenceClasses, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return FaceEquivalenceClassesAttributeOfSSWE( complex );
 	end
@@ -191,7 +191,7 @@ InstallMethod(
 );
 InstallMethod( VertexEquivalenceNumbers, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return VertexEquivalenceNumbersAttributeOfSSWE( complex );
 	end
@@ -213,7 +213,7 @@ InstallMethod(
 );
 InstallMethod( EdgeEquivalenceNumbers, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return EdgeEquivalenceNumbersAttributeOfSSWE( complex );
 	end
@@ -235,7 +235,7 @@ InstallMethod(
 );
 InstallMethod( FaceEquivalenceNumbers, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
 		return FaceEquivalenceNumbersAttributeOfSSWE( complex );
 	end
@@ -285,7 +285,7 @@ InstallMethod( QuotientSimplicialSurfaceAttributeOfSSWE,
 );
 InstallMethod( QuotientSimplicialSurface,
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( surface )
 		return QuotientSimplicialSurfaceAttributeOfSSWE(surface);
 	end
@@ -297,7 +297,7 @@ InstallMethod( QuotientSimplicialSurface,
 #! @Returns a simplicial surface
 InstallMethod( UnderlyingSimplicialSurface,
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( surface )
 		return UnderlyingSimplicialSurfaceAttributeOfSSWE(surface);
 	end
