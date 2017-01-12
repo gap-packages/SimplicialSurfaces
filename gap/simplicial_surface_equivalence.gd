@@ -16,6 +16,22 @@
 ##		- an equivalence relation on vertices, edges and faces that describes
 ##			which of those are "folded together"
 ##
+##	There are in essence two ways to describe a simplicial surface with
+##	equivalence (we assume the equivalence classes are numbered):
+##	1) Save a set of all equivalence class numbers (e.g. 
+##		VertexEquivalenceNumbersAsSet) and save the classes in a list which is
+##		indexed by the set of equivalence class numbers (e.g.
+##		VertexEquivalenceClassesByNumbers).
+##	2) Save the equivalence class numbers and the equivalence classes both
+##		in lists which are indexed by the numbers of the elements in those
+##		classes (e.g. VertexEquivalenceNumbersByElements and
+##		VertexEquivalenceClassesByElements). This corresponds to the natural
+##		projection x -> [x].
+##
+##	To be able to use all methods of this class, one of those two ways has
+##	to be defined for vertices, edges and faces (the choice may be done freely
+##	for each of those).
+##
 
 DeclareCategory( "IsSimplicialSurfaceWithEquivalence",
 					IsComponentObjectRep and IsAttributeStoringRep );
@@ -81,16 +97,31 @@ DeclareAttribute(
 DeclareOperation( "QuotientSimplicialSurface", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
+##
+##		Vertices
+##
 
 #! @Description
-#! Return the vertex equivalence numbers. Each vertex equivalence class has
-#! a unique number associated with it.
+#! Return the vertex equivalence numbers as set. Each vertex equivalence class 
+#! has a unique number associated with it.
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"VertexEquivalenceNumbersAttributeOfSSWE",
+	"VertexEquivalenceNumbersAsSetAttributeOfSSWE",
 	IsSimplicialSurfaceWithEquivalence);
-DeclareOperation( "VertexEquivalenceNumbers", 
+DeclareOperation( "VertexEquivalenceNumbersAsSet", 
+									[IsSimplicialSurfaceWithEquivalence] );
+
+#! @Description
+#! Return the vertex equivalence numbers as list indexed by the vertices of the
+#! underlying simplicial surface. Each vertex equivalence class 
+#! has a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+DeclareAttribute(
+	"VertexEquivalenceNumbersByElementsAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence);
+DeclareOperation( "VertexEquivalenceNumbersByElements", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
 #! @Description
@@ -99,20 +130,48 @@ DeclareOperation( "VertexEquivalenceNumbers",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"VertexEquivalenceClassesAttributeOfSSWE",
+	"VertexEquivalenceClassesByNumbersAttributeOfSSWE",
 	IsSimplicialSurfaceWithEquivalence );
-DeclareOperation( "VertexEquivalenceClasses", 
+DeclareOperation( "VertexEquivalenceClassesByNumbers", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
+
 #! @Description
-#! Return the edge equivalence numbers. Each edge equivalence class has
-#! a unique number associated with it.
+#! Return the vertex equivalence classes. They are indexed by the vertices of
+#! the underlying simplicial surface.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a list of sets of positive integers
+DeclareAttribute( 
+	"VertexEquivalenceClassesByElementsAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence );
+DeclareOperation( "VertexEquivalenceClassesByElements", 
+									[IsSimplicialSurfaceWithEquivalence] );
+
+##
+##		Edges
+##
+
+#! @Description
+#! Return the edge equivalence numbers as set. Each edge equivalence class 
+#! has a unique number associated with it.
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"EdgeEquivalenceNumbersAttributeOfSSWE",
+	"EdgeEquivalenceNumbersAsSetAttributeOfSSWE",
 	IsSimplicialSurfaceWithEquivalence);
-DeclareOperation( "EdgeEquivalenceNumbers", 
+DeclareOperation( "EdgeEquivalenceNumbersAsSet", 
+									[IsSimplicialSurfaceWithEquivalence] );
+
+#! @Description
+#! Return the edge equivalence numbers as list indexed by the edges of the
+#! underlying simplicial surface. Each edge equivalence class 
+#! has a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+DeclareAttribute(
+	"EdgeEquivalenceNumbersByElementsAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence);
+DeclareOperation( "EdgeEquivalenceNumbersByElements", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
 #! @Description
@@ -120,21 +179,50 @@ DeclareOperation( "EdgeEquivalenceNumbers",
 #! equivalence numbers.
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
-DeclareAttribute(
-	"EdgeEquivalenceClassesAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
-DeclareOperation( "EdgeEquivalenceClasses", 
+DeclareAttribute( 
+	"EdgeEquivalenceClassesByNumbersAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence );
+DeclareOperation( "EdgeEquivalenceClassesByNumbers", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
+
 #! @Description
-#! Return the face equivalence numbers. Each face equivalence class has
-#! a unique number associated with it.
+#! Return the edge equivalence classes. They are indexed by the edges of
+#! the underlying simplicial surface.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a list of sets of positive integers
+DeclareAttribute( 
+	"EdgeEquivalenceClassesByElementsAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence );
+DeclareOperation( "EdgeEquivalenceClassesByElements", 
+									[IsSimplicialSurfaceWithEquivalence] );
+
+
+##
+##		Faces
+##
+
+#! @Description
+#! Return the face equivalence numbers as set. Each face equivalence class 
+#! has a unique number associated with it.
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"FaceEquivalenceNumbersAttributeOfSSWE",
+	"FaceEquivalenceNumbersAsSetAttributeOfSSWE",
 	IsSimplicialSurfaceWithEquivalence);
-DeclareOperation( "FaceEquivalenceNumbers", 
+DeclareOperation( "FaceEquivalenceNumbersAsSet", 
+									[IsSimplicialSurfaceWithEquivalence] );
+
+#! @Description
+#! Return the face equivalence numbers as list indexed by the faces of the
+#! underlying simplicial surface. Each face equivalence class 
+#! has a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+DeclareAttribute(
+	"FaceEquivalenceNumbersByElementsAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence);
+DeclareOperation( "FaceEquivalenceNumbersByElements", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
 #! @Description
@@ -143,11 +231,22 @@ DeclareOperation( "FaceEquivalenceNumbers",
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"FaceEquivalenceClassesAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
-DeclareOperation( "FaceEquivalenceClasses", 
+	"FaceEquivalenceClassesByNumbersAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence );
+DeclareOperation( "FaceEquivalenceClassesByNumbers", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
+
+#! @Description
+#! Return the face equivalence classes. They are indexed by the faces of
+#! the underlying simplicial surface.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a list of sets of positive integers
+DeclareAttribute( 
+	"FaceEquivalenceClassesByElementsAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence );
+DeclareOperation( "FaceEquivalenceClassesByElements", 
+									[IsSimplicialSurfaceWithEquivalence] );
 
 
 #############################################################################
