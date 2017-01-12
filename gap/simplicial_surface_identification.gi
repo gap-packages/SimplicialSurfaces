@@ -325,6 +325,77 @@ InstallMethod( IsApplicableExtension,
 
 
 
+
+#!	@Description
+#!	Extend the equivalence relation of the simplicial surface with
+#!	equivalence with a simplicial surface identification.
+#!
+#!	The NC-version does not run the test IsApplicableExtension.
+#!
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface
+#!		identification
+#!	@Returns a simplicial surface with equivalence
+InstallMethod( ExtendByIdentification, 
+	"for a simplicial surface with equivalence and a simplicial surface identification",
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+		if not IsApplicableExtension( surface, id ) then
+			Error("ExtendByIdentification: The identification has to be applicable.");
+		fi;
+
+		return ExtendByIdentificationNC( surface, id );
+	end
+);
+InstallMethod( ExtendByIdentificationNC, 
+	"for a simplicial surface with equivalence and a simplicial surface identification",
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+		local ExtendedClassesByNumbers, vertexClassByNr, edgeClassByNr,
+				faceClassByNr, ext;
+
+		ExtendedClassesByNumbers := function(map, classByNumbers, nrByElements)
+			local source, image, newClassByNumbers, nrSource, nrImage;
+
+			newClassByNumbers := StructuralCopy( classByNumbers );
+			for source in AsList( Source( map ) ) do
+				image := ImageElm( map, source );
+				nrSource := nrByElements[source];
+				nrImage := nrByElements[image];
+				if nrSource <> nrImage then
+					newClassByNumbers[ nrSource ] :=
+								Union( classByNumbers[nrSource], 
+										classByNumbers[nrImage] );
+					Unbind( newClassByNumbers[ nrImage ] );
+				fi;
+			od;
+			return newClassByNumbers;
+		end;
+
+		vertexClassByNr := ExtendedClassesByNumbers( VertexMap(id),
+			VertexEquivalenceClassesByNumbers(surface),
+			VertexEquivalenceNumbersByElements(surface) );
+		edgeClassByNr := ExtendedClassesByNumbers( EdgeMap(id),
+			EdgeEquivalenceClassesByNumbers(surface),
+			EdgeEquivalenceNumbersByElements(surface) );
+		faceClassByNr := ExtendedClassesByNumbers( FaceMap(id),
+			FaceEquivalenceClassesByNumbers(surface),
+			FaceEquivalenceNumbersByElements(surface) );
+
+		ext := Objectify( SimplicialSurfaceWithEquivalenceType, rec() );
+		SetUnderlyingSimplicialSurfaceAttributeOfSSWE( ext, 
+			UnderlyingSimplicialSurface(surface) );
+		SetVertexEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+			vertexClassByNr);
+		SetEdgeEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+			edgeClassByNr);
+		SetFaceEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+			faceClassByNr);
+
+		return ext;
+	end
+);
+
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

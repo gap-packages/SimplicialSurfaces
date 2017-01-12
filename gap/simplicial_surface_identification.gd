@@ -144,6 +144,20 @@ DeclareOperation( "IsConstantOnIntersection",
 DeclareOperation( "IsApplicableExtension", 
 	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
 
+#!	@Description
+#!	Extend the equivalence relation of the simplicial surface with
+#!	equivalence with a simplicial surface identification.
+#!
+#!	The NC-version does not run the test IsApplicableExtension.
+#!
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface
+#!		identification
+#!	@Returns a simplicial surface with equivalence
+DeclareOperation( "ExtendByIdentification",
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
+DeclareOperation( "ExtendByIdentificationNC",
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
