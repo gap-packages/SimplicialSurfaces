@@ -6,9 +6,8 @@ Read("wild_simplicial_surface.gd");
 Read("wild_simplicial_surface.gi");
 
 Read("simplicial_surface_equivalence.gd");
-Read("simplicial_surface_equivalence.gi");
-
 Read("simplicial_surface_identification.gd");
+Read("simplicial_surface_equivalence.gi");
 Read("simplicial_surface_identification.gi");
 
 edgesByVertices := [ [1,2],[1,3],[2,3],[3,4],[2,4],[2,5],[4,5] ];

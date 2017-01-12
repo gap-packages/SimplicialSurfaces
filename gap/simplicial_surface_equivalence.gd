@@ -30,7 +30,10 @@
 ##
 ##	To be able to use all methods of this class, one of those two ways has
 ##	to be defined for vertices, edges and faces (the choice may be done freely
-##	for each of those).
+##	for each of those). For example we have these choices to define the
+##	vertices uniquely:
+##		1) VertexEquivalenceClassesByNumbers
+##		2) VertexEquivalenceNumbersByElements
 ##
 
 DeclareCategory( "IsSimplicialSurfaceWithEquivalence",

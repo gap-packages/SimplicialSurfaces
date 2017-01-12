@@ -310,7 +310,7 @@ InstallMethod( IsApplicableExtension,
 				# We therefore switch to the quotient surface
 				quot := QuotientSimplicialSurface( surface );
 				vertexClasses := Set( List( [ vertex, ImageElm(vMap,vertex)], 
-						v -> VertexEquivalenceNumbers(surface)[v] ) );
+						v -> VertexEquivalenceNumbersByElements(surface)[v] ) );
 				for edge in Edges( quot ) do
 					if vertexClasses = EdgesByVertices(quot)[edge] then
 						return false;

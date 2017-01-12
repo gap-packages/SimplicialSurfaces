@@ -14,19 +14,15 @@
 ##
 
 ##
-##	We save the equivalences not by classes but by lists. For example
-##	vertexEquivalenceImage is a list that is indiced by Vertices. At each
-##	position is a number and the vertices that have the same number are in
-##	the same equivalence class.
+##	Generic representation
 ##
-DeclareRepresentation("IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep",
-	 IsSimplicialSurfaceWithEquivalence,
-     ["vertexEquivalenceImage","edgeEquivalenceImage","faceEquivalenceImage"]);
+DeclareRepresentation("IsSimplicialSurfaceWithEquivalenceRep",
+	 IsSimplicialSurfaceWithEquivalence, []);
 
 ##	accompanying type
-SimplicialSurfaceWithEquivalenceByEquivalenceImageType := 
+SimplicialSurfaceWithEquivalenceType := 
     NewType( SimplicialSurfaceWithEquivalenceFamily,
-			IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep );
+			IsSimplicialSurfaceWithEquivalenceRep );
 
 
 
@@ -70,7 +66,7 @@ InstallMethod( SimplicialSurfaceWithEquivalence,
 		faceEq := __SIMPLICIAL_GenerateTrivialEquivalence( Faces(surface) );
 
 		complex := Objectify( 
-				SimplicialSurfaceWithEquivalenceByEquivalenceImageType,
+				SimplicialSurfaceWithEquivalenceType,
 				rec( vertexEquivalenceImage := vertexEq,
 					edgeEquivalenceImage := edgeEq, 
 					faceEquivalenceImage := faceEq ) );
@@ -88,13 +84,19 @@ InstallMethod( SimplicialSurfaceWithEquivalence,
 #############################################################################
 
 
+##
+##	Next we concern ourselves with the different possibilities to represent
+##	equivalence classes.
+##
+##	We start with the switch from EquivalenceNumbersByElements to 
+##	EquivalenceClassesByNumbers.
 
 ##
 ##	Since we have several methods to convert a list of images into actual
 ##	equivalence classes we write it in general.
 ##	indices gives the bound entries of imageList
 ##
-_SIMPLICIAL_ImageListIntoEquivalenceClasses := function( indices, imageList )
+__SIMPLICIAL_NumbersByElementsToClassesByNumbers := function( indices, imageList )
 	local classes, classNr, i;
 
 	classes := [];
@@ -111,135 +113,391 @@ _SIMPLICIAL_ImageListIntoEquivalenceClasses := function( indices, imageList )
 end;
 
 #! @Description
-#! Return the vertex equivalence classes.
-#! @Arguments a folding complex
+#! Return the vertex equivalence classes. They are indexed by the vertex
+#! equivalence numbers.
+#! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
 InstallMethod( 
-	VertexEquivalenceClassesAttributeOfSSWE, 
+	VertexEquivalenceClassesByNumbersAttributeOfSSWE, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence and 
+		HasVertexEquivalenceNumbersByElementsAttributeOfSSWE],
 	function( complex )
-		return _SIMPLICIAL_ImageListIntoEquivalenceClasses( 
+		return __SIMPLICIAL_NumbersByElementsToClassesByNumbers( 
 			Vertices( UnderlyingSimplicialSurface( complex ) ),
-			complex!.vertexEquivalenceImage );
+			VertexEquivalenceNumbersByElements(complex) );
 	end
 );
-InstallMethod( VertexEquivalenceClasses, 
+InstallMethod( VertexEquivalenceClassesByNumbers, 
 	"for a simplicial surface with equivalence",
 	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
-		return VertexEquivalenceClassesAttributeOfSSWE( complex );
+		return VertexEquivalenceClassesByNumbersAttributeOfSSWE( complex );
 	end
 );
 
 #! @Description
-#! Return the edge equivalence classes.
-#! @Arguments a folding complex
+#! Return the edge equivalence classes. They are indexed by the edge
+#! equivalence numbers.
+#! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
 InstallMethod( 
-	EdgeEquivalenceClassesAttributeOfSSWE, 
+	EdgeEquivalenceClassesByNumbersAttributeOfSSWE, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence and 
+		HasEdgeEquivalenceNumbersByElementsAttributeOfSSWE],
 	function( complex )
-		return _SIMPLICIAL_ImageListIntoEquivalenceClasses( 
+		return __SIMPLICIAL_NumbersByElementsToClassesByNumbers( 
 			Edges( UnderlyingSimplicialSurface( complex ) ),
-			complex!.edgeEquivalenceImage );
+			EdgeEquivalenceNumbersByElements(complex) );
 	end
 );
-InstallMethod( EdgeEquivalenceClasses, 
+InstallMethod( EdgeEquivalenceClassesByNumbers, 
 	"for a simplicial surface with equivalence",
 	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
-		return EdgeEquivalenceClassesAttributeOfSSWE( complex );
+		return EdgeEquivalenceClassesByNumbersAttributeOfSSWE( complex );
 	end
 );
 
 #! @Description
-#! Return the face equivalence classes.
-#! @Arguments a folding complex
+#! Return the face equivalence classes. They are indexed by the face
+#! equivalence numbers.
+#! @Arguments a simplicial surface with equivalence
 #! @Returns a list of sets of positive integers
 InstallMethod( 
-	FaceEquivalenceClassesAttributeOfSSWE, 
+	FaceEquivalenceClassesByNumbersAttributeOfSSWE, 
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence and 
+		HasFaceEquivalenceNumbersByElementsAttributeOfSSWE],
 	function( complex )
-		return _SIMPLICIAL_ImageListIntoEquivalenceClasses( 
+		return __SIMPLICIAL_NumbersByElementsToClassesByNumbers( 
 			Faces( UnderlyingSimplicialSurface( complex ) ),
-			complex!.faceEquivalenceImage );
+			FaceEquivalenceNumbersByElements(complex) );
 	end
 );
-InstallMethod( FaceEquivalenceClasses, 
+InstallMethod( FaceEquivalenceClassesByNumbers, 
 	"for a simplicial surface with equivalence",
 	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
-		return FaceEquivalenceClassesAttributeOfSSWE( complex );
+		return FaceEquivalenceClassesByNumbersAttributeOfSSWE( complex );
+	end
+);
+
+##
+##	Next we calculate EquivalenceNumbersByElements from
+##	EquivalenceClassesByNumbers. We use a helper method.
+##
+__SIMPLICIAL_ClassesByNumbersToNumbersByElements := function( classes, indices )
+	local numbers, i, el;
+
+	numbers := [];
+	for i in indices do
+		for el in classes[i] do
+			numbers[el] := i;
+		od;
+	od;
+
+	return numbers;
+end;
+
+#! @Description
+#! Return the vertex equivalence numbers as list indexed by the vertices of the
+#! underlying simplicial surface. Each vertex equivalence class 
+#! has a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+InstallMethod( 
+	VertexEquivalenceNumbersByElementsAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and 
+		HasVertexEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToNumbersByElements( 
+			VertexEquivalenceClassesByNumbers( complex ),
+			VertexEquivalenceNumbersAsSet( complex ) );
+	end
+);
+InstallMethod( VertexEquivalenceNumbersByElements, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return VertexEquivalenceNumbersByElementsAttributeOfSSWE( complex );
+	end
+);
+
+
+#! @Description
+#! Return the edge equivalence numbers as list indexed by the edges of the
+#! underlying simplicial surface. Each edge equivalence class 
+#! has a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+InstallMethod( 
+	EdgeEquivalenceNumbersByElementsAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and 
+		HasEdgeEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToNumbersByElements( 
+			EdgeEquivalenceClassesByNumbers( complex ),
+			EdgeEquivalenceNumbersAsSet( complex ) );
+	end
+);
+InstallMethod( EdgeEquivalenceNumbersByElements, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return EdgeEquivalenceNumbersByElementsAttributeOfSSWE( complex );
+	end
+);
+
+
+#! @Description
+#! Return the face equivalence numbers as list indexed by the faces of the
+#! underlying simplicial surface. Each face equivalence class 
+#! has a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+InstallMethod( 
+	FaceEquivalenceNumbersByElementsAttributeOfSSWE, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and 
+		HasFaceEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToNumbersByElements( 
+			FaceEquivalenceClassesByNumbers( complex ),
+			FaceEquivalenceNumbersAsSet( complex ) );
+	end
+);
+InstallMethod( FaceEquivalenceNumbersByElements, 
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return FaceEquivalenceNumbersByElementsAttributeOfSSWE( complex );
+	end
+);
+
+##
+##	Next we consider EquivalenceNumbersAsSet, which we will calculate both
+##	from NumbersByElements and ClassesByNumbers.
+##
+
+__SIMPLICIAL_ClassesByNumbersToNumbersAsSet := function( classes )
+	return Set( Filtered( [1..Length(classes)], i->IsBound( classes[i] ) ) );
+end;
+
+#! @Description
+#! Return the vertex equivalence numbers as set. Each vertex equivalence class 
+#! has a unique number associated with it.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a dense list of positive integers
+InstallMethod( VertexEquivalenceNumbersAsSetAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasVertexEquivalenceNumbersByElementsAttributeOfSSWE],
+	function( complex )
+		return Set( VertexEquivalenceNumbersByElements(complex) );
+	end
+);
+InstallMethod( VertexEquivalenceNumbersAsSetAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasVertexEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
+						VertexEquivalenceClassesByElements(complex) );
+	end
+);
+InstallMethod( VertexEquivalenceNumbersAsSet,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return VertexEquivalenceNumbersAsSetAttributeOfSSWE(complex);
 	end
 );
 
 #! @Description
-#! Return the vertex equivalence numbers. Each vertex equivalence class has
-#! a unique number associated with it.
+#! Return the edge equivalence numbers as set. Each edge equivalence class 
+#! has a unique number associated with it.
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a dense list of positive integers
-InstallMethod( 
-	VertexEquivalenceNumbersAttributeOfSSWE, 
+InstallMethod( EdgeEquivalenceNumbersAsSetAttributeOfSSWE,
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence and
+		HasEdgeEquivalenceNumbersByElementsAttributeOfSSWE],
 	function( complex )
-		return Set( complex!.vertexEquivalenceImage );
+		return Set( EdgeEquivalenceNumbersByElements(complex) );
 	end
 );
-InstallMethod( VertexEquivalenceNumbers, 
+InstallMethod( EdgeEquivalenceNumbersAsSetAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasEdgeEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
+						EdgeEquivalenceClassesByElements(complex) );
+	end
+);
+InstallMethod( EdgeEquivalenceNumbersAsSet,
 	"for a simplicial surface with equivalence",
 	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
-		return VertexEquivalenceNumbersAttributeOfSSWE( complex );
+		return EdgeEquivalenceNumbersAsSetAttributeOfSSWE(complex);
 	end
 );
-
 
 #! @Description
-#! Return the edge equivalence numbers. Each edge equivalence class has
-#! a unique number associated with it.
+#! Return the face equivalence numbers as set. Each face equivalence class 
+#! has a unique number associated with it.
 #! @Arguments a simplicial surface with equivalence
 #! @Returns a dense list of positive integers
-InstallMethod( 
-	EdgeEquivalenceNumbersAttributeOfSSWE, 
+InstallMethod( FaceEquivalenceNumbersAsSetAttributeOfSSWE,
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence and
+		HasFaceEquivalenceNumbersByElementsAttributeOfSSWE],
 	function( complex )
-		return Set( complex!.edgeEquivalenceImage );
+		return Set( FaceEquivalenceNumbersByElements(complex) );
 	end
 );
-InstallMethod( EdgeEquivalenceNumbers, 
+InstallMethod( FaceEquivalenceNumbersAsSetAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasFaceEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
+						FaceEquivalenceClassesByElements(complex) );
+	end
+);
+InstallMethod( FaceEquivalenceNumbersAsSet,
 	"for a simplicial surface with equivalence",
 	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
-		return EdgeEquivalenceNumbersAttributeOfSSWE( complex );
+		return FaceEquivalenceNumbersAsSetAttributeOfSSWE(complex);
 	end
 );
 
+
+##
+##	Finally we consider ClassesByElements which also has to defined by
+##	NumbersByElements and ClassesByNumbers. Optimally we have both.
+##
+__SIMPLICIAL_ClassesByNumbersToClassesByElements := function( classes )
+	local result, cl, el;
+
+	result := [];
+	for cl in classes do
+		for el in cl do
+			result[el] := cl;
+		od;
+	od;
+
+	return result;
+end;
 
 #! @Description
-#! Return the face equivalence numbers. Each face equivalence class has
-#! a unique number associated with it.
+#! Return the vertex equivalence classes. They are indexed by the vertices of
+#! the underlying simplicial surface.
 #! @Arguments a simplicial surface with equivalence
-#! @Returns a dense list of positive integers
-InstallMethod( 
-	FaceEquivalenceNumbersAttributeOfSSWE, 
+#! @Returns a list of sets of positive integers
+InstallMethod( VertexEquivalenceClassesByElementsAttributeOfSSWE,
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence and
+		HasVertexEquivalenceNumbersByElementsAttributeOfSSWE],
 	function( complex )
-		return Set( complex!.faceEquivalenceImage );
+		# calculate ClassesByNumbers
+		return List( Vertices(UnderlyingSimplicialSurface(complex)),
+			el -> VertexEquivalenceClassesByNumbers(complex)[
+						VertexEquivalenceNumbersByElements(complex)[el] ] );
 	end
 );
-InstallMethod( FaceEquivalenceNumbers, 
+InstallMethod( VertexEquivalenceClassesByElementsAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasVertexEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToClassesByElements(
+				 VertexEquivalenceClassesByNumbers(complex) );
+	end
+);
+InstallMethod( VertexEquivalenceClassesByElements,
 	"for a simplicial surface with equivalence",
 	[IsSimplicialSurfaceWithEquivalence],
 	function( complex )
-		return FaceEquivalenceNumbersAttributeOfSSWE( complex );
+		return VertexEquivalenceClassesByElementsAttributeOfSSWE( complex );
 	end
 );
+
+#! @Description
+#! Return the edge equivalence classes. They are indexed by the edges of
+#! the underlying simplicial surface.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a list of sets of positive integers
+InstallMethod( EdgeEquivalenceClassesByElementsAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasEdgeEquivalenceNumbersByElementsAttributeOfSSWE],
+	function( complex )
+		# calculate ClassesByNumbers
+		return List( Edges(UnderlyingSimplicialSurface(complex)),
+			el -> EdgeEquivalenceClassesByNumbers(complex)[
+						EdgeEquivalenceNumbersByElements(complex)[el] ] );
+	end
+);
+InstallMethod( EdgeEquivalenceClassesByElementsAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasEdgeEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToClassesByElements(
+				 EdgeEquivalenceClassesByNumbers(complex) );
+	end
+);
+InstallMethod( EdgeEquivalenceClassesByElements,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return EdgeEquivalenceClassesByElementsAttributeOfSSWE( complex );
+	end
+);
+
+#! @Description
+#! Return the face equivalence classes. They are indexed by the faces of
+#! the underlying simplicial surface.
+#! @Arguments a simplicial surface with equivalence
+#! @Returns a list of sets of positive integers
+InstallMethod( FaceEquivalenceClassesByElementsAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasFaceEquivalenceNumbersByElementsAttributeOfSSWE],
+	function( complex )
+		# calculate ClassesByNumbers
+		return List( Faces(UnderlyingSimplicialSurface(complex)),
+			el -> FaceEquivalenceClassesByNumbers(complex)[
+						FaceEquivalenceNumbersByElements(complex)[el] ] );
+	end
+);
+InstallMethod( FaceEquivalenceClassesByElementsAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence and
+		HasFaceEquivalenceClassesByNumbersAttributeOfSSWE],
+	function( complex )
+		return __SIMPLICIAL_ClassesByNumbersToClassesByElements(
+				 FaceEquivalenceClassesByNumbers(complex) );
+	end
+);
+InstallMethod( FaceEquivalenceClassesByElements,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( complex )
+		return FaceEquivalenceClassesByElementsAttributeOfSSWE( complex );
+	end
+);
+	
+
+
+
+##############################################
 
 
 #! @Description
@@ -249,7 +507,7 @@ InstallMethod( FaceEquivalenceNumbers,
 #! @Returns a simplicial surface
 InstallMethod( QuotientSimplicialSurfaceAttributeOfSSWE,
 	"for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep],
+	[IsSimplicialSurfaceWithEquivalence],
 	function( surface )
 		local vertices, edges, faces, edgesByVertices, facesByEdges,
 			edge, edgeClass, vertInEdge, vertNumInEdge, face, faceClass,
@@ -257,25 +515,25 @@ InstallMethod( QuotientSimplicialSurfaceAttributeOfSSWE,
 
 		unSurf := UnderlyingSimplicialSurface( surface );
 
-		vertices := VertexEquivalenceNumbers( surface );
-		edges := EdgeEquivalenceNumbers( surface );
-		faces := FaceEquivalenceNumbers( surface );
+		vertices := VertexEquivalenceNumbersAsSet( surface );
+		edges := EdgeEquivalenceNumbersAsSet( surface );
+		faces := FaceEquivalenceNumbersAsSet( surface );
 
 		edgesByVertices := [];
 		for edge in edges do
-			edgeClass := EdgeEquivalenceClasses( surface )[edge];
+			edgeClass := EdgeEquivalenceClassesByNumbers( surface )[edge];
 			vertInEdge := EdgesByVertices( unSurf )[ edgeClass[1] ];
 			vertNumInEdge := List( vertInEdge, 
-									v -> surface!.vertexEquivalenceImage[v] );
+						v -> VertexEquivalenceNumbersByElements(surface)[v] );
 			edgesByVertices[ edge ] := Set( vertNumInEdge );
 		od;
 
 		facesByEdges := [];
 		for face in faces do
-			faceClass := FaceEquivalenceClasses( surface )[face];
+			faceClass := FaceEquivalenceClassesByNumbers( surface )[face];
 			edgeInFace := FacesByEdges( unSurf )[faceClass[1]];
 			edgeNumInFace := List( edgeInFace, 
-									e -> surface!.edgeEquivalenceImage[e] );
+						e -> EdgeEquivalenceNumbersByElements(surface)[e] );
 			facesByEdges[ face ] := Set( edgeNumInFace );
 		od;
 
@@ -314,10 +572,10 @@ InstallMethod( UnderlyingSimplicialSurface,
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
 InstallMethod( IsEquivalentVertex, "for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep, IsPosInt, IsPosInt],
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt, IsPosInt],
 	function( complex, v1, v2 )
-		return complex!.vertexEquivalenceImage[v1] = 
-				complex!.vertexEquivalenceImage[v2];
+		return VertexEquivalenceNumbersByElements(complex)[v1] = 
+				VertexEquivalenceNumbersByElements(complex)[v2];
 	end
 );
 
@@ -326,10 +584,10 @@ InstallMethod( IsEquivalentVertex, "for a simplicial surface with equivalence",
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
 InstallMethod( IsEquivalentEdge, "for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep, IsPosInt, IsPosInt],
-	function( complex, e1, e2 )
-		return complex!.edgeEquivalenceImage[e1] = 
-				complex!.edgeEquivalenceImage[e2];
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt, IsPosInt],
+	function( complex, v1, v2 )
+		return EdgeEquivalenceNumbersByElements(complex)[v1] = 
+				EdgeEquivalenceNumbersByElements(complex)[v2];
 	end
 );
 
@@ -338,17 +596,13 @@ InstallMethod( IsEquivalentEdge, "for a simplicial surface with equivalence",
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
 InstallMethod( IsEquivalentFace, "for a simplicial surface with equivalence",
-	[IsSimplicialSurfaceWithEquivalenceByEquivalenceImageRep, IsPosInt, IsPosInt],
-	function( complex, f1, f2 )
-		return complex!.faceEquivalenceImage[f1] = 
-				complex!.faceEquivalenceImage[f2];
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt, IsPosInt],
+	function( complex, v1, v2 )
+		return FaceEquivalenceNumbersByElements(complex)[v1] = 
+				FaceEquivalenceNumbersByElements(complex)[v2];
 	end
 );
 
-##
-##	An alternative way of comparison would be to check if they lie in the
-##	same equivalence class. For our current representation this is not needed.
-##
 
 
 #!	@Description
