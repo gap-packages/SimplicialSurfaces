@@ -67,9 +67,7 @@ InstallMethod( SimplicialSurfaceWithEquivalence,
 
 		complex := Objectify( 
 				SimplicialSurfaceWithEquivalenceType,
-				rec( vertexEquivalenceImage := vertexEq,
-					edgeEquivalenceImage := edgeEq, 
-					faceEquivalenceImage := faceEq ) );
+				rec( ) );
 
 		SetUnderlyingSimplicialSurfaceAttributeOfSSWE( complex, surface );
 
@@ -629,11 +627,48 @@ InstallMethod( ExtendByIdentificationNC,
 	"for a simplicial surface with equivalence and a simplicial surface identification",
 	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
 	function( surface, id )
-		local;
+		local ExtendedClassesByNumbers, vertexClassByNr, edgeClassByNr,
+				faceClassByNr, ext;
 
-		#TODO
+		ExtendedClassesByNumbers := function(map, classByNumbers, nrByElements)
+			local source, image, newClassByNumbers;
 
-		return;
+			newClassByNumbers := StructuralCopy( classByNumbers );
+			for source in AsList( Source( map ) ) do
+				image := ImageElm( map, source );
+				nrSource := nrByElements[source];
+				nrImage := nrByElements[image];
+				if nrSource <> nrImage then
+					newClassByNumbers[ nrSource ] :=
+								Union( classByNumbers[nrSource], 
+										classByNumbers[nrImage] );
+					Unbind( newClassByNumbers[ nrImage ] );
+				fi;
+			od;
+			return newClassByNumbers;
+		end;
+
+		vertexClassByNr := ExtendedClassesByNumbers( VertexMap(id),
+			VertexEquivalenceClassesByNumbers(surface),
+			VertexEquivalenceNumbersByElements(surface) );
+		edgeClassByNr := ExtendedClassesByNumbers( EdgeMap(id),
+			EdgeEquivalenceClassesByNumbers(surface),
+			EdgeEquivalenceNumbersByElements(surface) );
+		faceClassByNr := ExtendedClassesByNumbers( FaceMap(id),
+			FaceEquivalenceClassesByNumbers(surface),
+			FaceEquivalenceNumbersByElements(surface) );
+
+		ext := Objectify( SimplicialSurfaceWithEquivalenceType, rec() );
+		SetUnderlyingSimplicialSurfaceAttributeOfSSWE( ext, 
+			UnderlyingSimplicialSurface(surface) );
+		SetVertexEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+			vertexClassByNr);
+		SetEdgeEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+			edgeClassByNr);
+		SetFaceEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+			faceClassByNr);
+
+		return ext;
 	end
 );
 
