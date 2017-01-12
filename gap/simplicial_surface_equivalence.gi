@@ -70,6 +70,9 @@ InstallMethod( SimplicialSurfaceWithEquivalence,
 				rec( ) );
 
 		SetUnderlyingSimplicialSurfaceAttributeOfSSWE( complex, surface );
+		SetVertexEquivalenceNumbersByElementsAttributeOfSSWE(complex, vertexEq);
+		SetEdgeEquivalenceNumbersByElementsAttributeOfSSWE(complex, edgeEq);
+		SetFaceEquivalenceNumbersByElementsAttributeOfSSWE(complex, faceEq);
 
 		return complex;
 	end
