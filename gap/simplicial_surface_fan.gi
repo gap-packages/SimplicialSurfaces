@@ -90,7 +90,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 
 		vertices := EdgesByVertices(surface)[edge];
 
-		return SimplicialSurface( vertices[1], vertices[2], perm);
+		return SimplicialSurfaceFan( vertices[1], vertices[2], perm);
 	end
 );
 
@@ -103,6 +103,38 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 #############################################################################
 
 
+#! @Description
+#! Return the begin of the fan (which is one part of the orientation)
+#! @Arguments a simplicial surface fan
+#! @Returns a positive integers
+InstallMethod( BeginOfFan, "for a simplicial surface fan", [IsSimplicialSurfaceFan],
+	function( fan )
+		return BeginOfFanAttributeOfSimplicialSurfaceFan( fan );
+	end
+);
+
+
+#! @Description
+#! Return the end of the fan (which is one part of the orientation)
+#! @Arguments a simplicial surface fan
+#! @Returns a positive integers
+InstallMethod( EndOfFan, "for a simplicial surface fan", [IsSimplicialSurfaceFan],
+	function( fan )
+		return EndOfFanAttributeOfSimplicialSurfaceFan( fan );
+	end
+);
+
+
+#! @Description
+#! Return the permutation of the fan.
+#! @Arguments a simplicial surface fan
+#! @Returns a positive integers
+InstallMethod( PermutationOfFan, "for a simplicial surface fan", 
+	[IsSimplicialSurfaceFan],
+	function( fan )
+		return PermutationOfFanAttributeOfSimplicialSurfaceFan( fan );
+	end
+);
 
 
 #

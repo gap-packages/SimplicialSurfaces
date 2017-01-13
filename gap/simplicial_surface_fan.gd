@@ -70,27 +70,27 @@ DeclareOperation( "SimplicialSurfaceFanByEdgeInSimplicialSurface",
 #! Return the begin of the fan (which is one part of the orientation)
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-DeclareAttribute( "BeginAttributeOfSimplicialSurfaceFan", 
+DeclareAttribute( "BeginOfFanAttributeOfSimplicialSurfaceFan", 
 	IsSimplicialSurfaceFan );
-DeclareOperation( "Begin", [IsSimplicialSurfaceFan] );
+DeclareOperation( "BeginOfFan", [IsSimplicialSurfaceFan] );
 
 
 #! @Description
 #! Return the end of the fan (which is one part of the orientation)
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-DeclareAttribute( "EndAttributeOfSimplicialSurfaceFan", 
+DeclareAttribute( "EndOfFanAttributeOfSimplicialSurfaceFan", 
 	IsSimplicialSurfaceFan );
-DeclareOperation( "End", [IsSimplicialSurfaceFan] );
+DeclareOperation( "EndOfFan", [IsSimplicialSurfaceFan] );
 
 
 #! @Description
-#! Return the permutation of the fan (which is one part of the orientation)
+#! Return the permutation of the fan.
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-DeclareAttribute( "PermutationAttributeOfSimplicialSurfaceFan", 
+DeclareAttribute( "PermutationOfFanAttributeOfSimplicialSurfaceFan", 
 	IsSimplicialSurfaceFan );
-DeclareOperation( "Permutation", [IsSimplicialSurfaceFan] );
+DeclareOperation( "PermutationOfFan", [IsSimplicialSurfaceFan] );
 
 
 
