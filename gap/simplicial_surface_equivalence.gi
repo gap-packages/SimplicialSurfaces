@@ -494,6 +494,100 @@ InstallMethod( FaceEquivalenceClassesByElements,
 		return FaceEquivalenceClassesByElementsAttributeOfSSWE( complex );
 	end
 );
+
+
+
+#!	@Description
+#!	Return the binding relation of the given vertex class (represented by its
+#!	number). The binding partition represents the finest partition into which 
+#!	the vertex equivalence class may split without contradicting the
+#!	consistency with the incidence relation.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of sets of positive integers
+InstallMethod( VertexBindingRelationAttributeOfSSWEOp,
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( complex, name )
+		local partition, vertexClass, edgeClassForVertex, relation, v1, v2;
+		if not name in VertexEquivalenceNumbersAsSet( complex ) then
+			Error("VertexBindingPartition: number has to refer to one of the vertex equivalence classes.");
+		fi;
+		
+		# We only have to check the edges to determine the binding relation
+		# (If two faces are equivalent, it forces equivalence onto their
+		# edges as well)
+		vertexClass := VertexEquivalenceClassesByNumbers( complex )[ name ];
+		edgeClassForVertex := List( vertexClass, v -> 
+			List( VerticesByEdges( UnderlyingSimplicialSurface( complex )[v] ),
+				e -> EdgeEquivalenceNumbersByElements(complex)[e] ) );
+
+		relation := [];
+		for v1 in vertexClass do
+			for v2 in Filtered( vertexClass, v -> v > v1 ) do
+				if Size( Intersection( edgeClassForVertex[v1], 
+									edgeClassForVertex[v2] ) ) > 0 then
+					Append( relation, [v1,v2] );
+				fi;
+			od;
+		od;
+
+		return EquivalenceRelationByPairs( Domain( vertexClass ), relation );
+	end
+);
+InstallMethod( VertexBindingRelation,
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( complex, name )
+		return VertexBindingRelationAttributeOfSSWE( complex, name );
+	end
+);
+
+
+#!	@Description
+#!	Return the binding relation of the given edge class (represented by its
+#!	number). The binding partition represents the finest partition into which 
+#!	the edge equivalence class may split without contradicting the
+#!	consistency with the incidence relation.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of sets of positive integers
+InstallMethod( EdgeBindingRelationAttributeOfSSWEOp,
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( complex, name )
+		local partition, edgeClass, faceClassForEdge, relation, e1, e2;
+		if not name in EdgeEquivalenceNumbersAsSet( complex ) then
+			Error("VertexBindingPartition: number has to refer to one of the edge equivalence classes.");
+		fi;
+		
+		# We only have to check the faces to determine the binding relation
+		# (If two faces are equivalent, it forces equivalence onto their
+		# edges as well)
+		edgeClass := EdgeEquivalenceClassesByNumbers( complex )[ name ];
+		faceClassForEdge := List( edgeClass, e -> 
+			List( EdgesByFaces( UnderlyingSimplicialSurface( complex )[e] ),
+				f -> FaceEquivalenceNumbersByElements(complex)[f] ) );
+
+		relation := [];
+		for e1 in edgeClass do
+			for e2 in Filtered( edgeClass, e -> e > e1 ) do
+				if Size( Intersection( faceClassForEdge[e1], 
+									faceClassForEdge[e2] ) ) > 0 then
+					Append( relation, [e1,e2] );
+				fi;
+			od;
+		od;
+
+		return EquivalenceRelationByPairs( Domain( edgeClass ), relation );
+	end
+);
+InstallMethod( EdgeBindingRelation,
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( complex, name )
+		return EdgeBindingRelationAttributeOfSSWE( complex, name );
+	end
+);
+
 	
 
 

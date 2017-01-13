@@ -251,6 +251,31 @@ DeclareAttribute(
 DeclareOperation( "FaceEquivalenceClassesByElements", 
 									[IsSimplicialSurfaceWithEquivalence] );
 
+#!	@Description
+#!	Return the binding relation of the given vertex class (represented by its
+#!	number). The binding partition represents the finest partition into which 
+#!	the vertex equivalence class may split without contradicting the
+#!	consistency with the incidence relation.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns an equivalence relation
+KeyDependentOperation( "VertexBindingRelationAttributeOfSSWE", 
+	IsSimplicialSurfaceWithEquivalence, IsPosInt, "");
+DeclareOperation( "VertexBindingRelation", 
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the binding relation of the given edge class (represented by its
+#!	number). The binding partition represents the finest partition into which 
+#!	the edge equivalence class may split without contradicting the
+#!	consistency with the incidence relation.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns an equivalence relation
+KeyDependentOperation( "EdgeBindingRelationAttributeOfSSWE", 
+	IsSimplicialSurfaceWithEquivalence, IsPosInt, "");
+DeclareOperation( "EdgeBindingRelation", 
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+
 
 #############################################################################
 ##
