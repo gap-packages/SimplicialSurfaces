@@ -43,7 +43,7 @@ SimplicialSurfaceFanFamily :=
 #!	@Returns a fan
 DeclareOperation( "SimplicialSurfaceFan", [IsPosInt, IsPosInt, 
 	IsPerm and IsCyclic]);
-DeclareOperationNC( "SimplicialSurfaceFan", [IsPosInt, IsPosInt, 
+DeclareOperation( "SimplicialSurfaceFanNC", [IsPosInt, IsPosInt, 
 	IsPerm and IsCyclic]);
 
 
@@ -52,12 +52,11 @@ DeclareOperationNC( "SimplicialSurfaceFan", [IsPosInt, IsPosInt,
 #!	at most two faces can be incident to the edge (otherwise the permutation
 #!	of those is not unique). This is guaranteed to be the case if the simplicial
 #!	surface is an actual surface.
-#!	
-#!	The NC-version doesn't check if there are at most two 
 #!
 #!	@Arguments a simplicial surface, a positive integer
 #!	@Returns a fan
-DeclareOperation( "SimplicialSurfaceFan", [IsSimplicialSurface, IsPosInt]);
+DeclareOperation( "SimplicialSurfaceFanByEdgeInSimplicialSurface", 
+		[IsSimplicialSurface, IsPosInt]);
 
 
 #############################################################################
@@ -66,6 +65,32 @@ DeclareOperation( "SimplicialSurfaceFan", [IsSimplicialSurface, IsPosInt]);
 #!  @Section Attributes and properties of fans
 #!
 #!
+
+#! @Description
+#! Return the begin of the fan (which is one part of the orientation)
+#! @Arguments a simplicial surface fan
+#! @Returns a positive integers
+DeclareAttribute( "BeginAttributeOfSimplicialSurfaceFan", 
+	IsSimplicialSurfaceFan );
+DeclareOperation( "Begin", [IsSimplicialSurfaceFan] );
+
+
+#! @Description
+#! Return the end of the fan (which is one part of the orientation)
+#! @Arguments a simplicial surface fan
+#! @Returns a positive integers
+DeclareAttribute( "EndAttributeOfSimplicialSurfaceFan", 
+	IsSimplicialSurfaceFan );
+DeclareOperation( "End", [IsSimplicialSurfaceFan] );
+
+
+#! @Description
+#! Return the permutation of the fan (which is one part of the orientation)
+#! @Arguments a simplicial surface fan
+#! @Returns a positive integers
+DeclareAttribute( "PermutationAttributeOfSimplicialSurfaceFan", 
+	IsSimplicialSurfaceFan );
+DeclareOperation( "Permutation", [IsSimplicialSurfaceFan] );
 
 
 
