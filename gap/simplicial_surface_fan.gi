@@ -137,6 +137,33 @@ InstallMethod( PermutationOfFan, "for a simplicial surface fan",
 );
 
 
+#! @Description
+#! Return the inverse of the fan. You get the inverse of a fan by switching
+#! Begin and End in addition to inverting the permutation.
+#! @Arguments a simplicial surface fan
+#! @Returns a positive integers
+InstallMethod( InverseOfFanAttributeOfSimplicialSurfaceFan, 
+	"for a simplicial surface fan", [IsSimplicialSurfaceFan],
+	function( fan )
+		local inv;
+
+		inv := SimplicialSurfaceFan( EndOfFan(fan), BeginOfFan(fan),
+			PermutationOfFan(fan)^(-1) );
+
+		# The inverse of the inverse is the original
+		SetInverseOfFanAttributeOfSimplicialSurfaceFan( inv, fan);
+
+		return inv;
+	end
+);
+InstallMethod( InverseOfFan, "for a simplicial surface fan", 
+	[IsSimplicialSurfaceFan],
+	function( fan )
+		return InverseOfFanAttributeOfSimplicialSurfaceFan( fan );
+	end
+);
+
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

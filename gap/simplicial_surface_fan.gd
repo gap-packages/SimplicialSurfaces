@@ -16,7 +16,6 @@
 ##			equivalence class numbers)
 ##		- a cyclical permutation (this permutes the faces that lie around the
 ##			edge equivalence class).
-##		- a 
 ##
 
 DeclareCategory( "IsSimplicialSurfaceFan",
@@ -92,6 +91,15 @@ DeclareAttribute( "PermutationOfFanAttributeOfSimplicialSurfaceFan",
 	IsSimplicialSurfaceFan );
 DeclareOperation( "PermutationOfFan", [IsSimplicialSurfaceFan] );
 
+
+#! @Description
+#! Return the inverse of the fan. You get the inverse of a fan by switching
+#! Begin and End in addition to inverting the permutation.
+#! @Arguments a simplicial surface fan
+#! @Returns a positive integers
+DeclareAttribute( "InverseOfFanAttributeOfSimplicialSurfaceFan", 
+	IsSimplicialSurfaceFan );
+DeclareOperation( "InverseOfFan", [IsSimplicialSurfaceFan] );
 
 
 #############################################################################
