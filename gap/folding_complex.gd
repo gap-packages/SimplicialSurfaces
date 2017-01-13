@@ -52,30 +52,6 @@ DeclareOperation( "FoldingComplex", [IsSimplicialSurface and IsActualSurface]);
 #!
 #!
 
-#! @Description
-#! Return the underlying simplicial surface.
-#! @Arguments a folding complex
-#! @Returns a simplicial surface
-DeclareAttribute( "UnderlyingSimplicialSurface", IsFoldingComplex );
-
-#! @Description
-#! Return the vertex equivalence classes.
-#! @Arguments a folding complex
-#! @Returns a list of sets of positive integers
-DeclareAttribute( "VertexEquivalenceClasses", IsFoldingComplex );
-
-#! @Description
-#! Return the vertex equivalence classes.
-#! @Arguments a folding complex
-#! @Returns a list of sets of positive integers
-DeclareAttribute( "EdgeEquivalenceClasses", IsFoldingComplex );
-
-#! @Description
-#! Return the vertex equivalence classes.
-#! @Arguments a folding complex
-#! @Returns a list of sets of positive integers
-DeclareAttribute( "FaceEquivalenceClasses", IsFoldingComplex );
-
 
 
 #############################################################################
@@ -85,24 +61,6 @@ DeclareAttribute( "FaceEquivalenceClasses", IsFoldingComplex );
 #!
 #!
 #!
-
-#! @Description
-#! Check if two vertices are equivalent.
-#! @Arguments two positive integers
-#! @Returns true if they are equivalent, false otherwise
-DeclareOperation( "IsEquivalentVertex", [IsFoldingComplex, IsPosInt, IsPosInt]);
-
-#! @Description
-#! Check if two edges are equivalent.
-#! @Arguments two positive integers
-#! @Returns true if they are equivalent, false otherwise
-DeclareOperation( "IsEquivalentEdge", [IsFoldingComplex, IsPosInt, IsPosInt]);
-
-#! @Description
-#! Check if two faces are equivalent.
-#! @Arguments two positive integers
-#! @Returns true if they are equivalent, false otherwise
-DeclareOperation( "IsEquivalentFace", [IsFoldingComplex, IsPosInt, IsPosInt]);
 
 
 
