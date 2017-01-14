@@ -737,8 +737,230 @@ InstallMethod( IsEquivalentFace, "for a simplicial surface with equivalence",
 	end
 );
 
+############################################################################
+##				START convenience methods
 
+#!	@Description
+#!	Return the vertex equivalence number of a given vertex. Each vertex 
+#!	equivalence class has a unique number associated with it.
+#!	The NC-version doesn't check whether the given vertex lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a positive integers
+InstallMethod( VertexEquivalenceNumberOfElementNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return VertexEquivalenceNumbersByElements(surface)[el];
+	end
+);
+InstallMethod( VertexEquivalenceNumberOfElement, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in Vertices( UnderlyingSimplicialSurface( surface ) ) then
+			Error("VertexEquivalenceNumberOfElement: Vertex has to lie in underlying simplicial surface.");
+		fi;
+		return VertexEquivalenceNumbersByElements(surface)[el];
+	end
+);
 
+#!	@Description
+#!	Return the edge equivalence number of a given edge. Each edge 
+#!	equivalence class has a unique number associated with it.
+#!	The NC-version doesn't check whether the given edge lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a positive integers
+InstallMethod( EdgeEquivalenceNumberOfElementNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return EdgeEquivalenceNumbersByElements(surface)[el];
+	end
+);
+InstallMethod( EdgeEquivalenceNumberOfElement, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in Edges( UnderlyingSimplicialSurface( surface ) ) then
+			Error("EdgeEquivalenceNumberOfElement: Edge has to lie in underlying simplicial surface.");
+		fi;
+		return EdgeEquivalenceNumbersByElements(surface)[el];
+	end
+);
+
+#!	@Description
+#!	Return the face equivalence number of a given face. Each face 
+#!	equivalence class has a unique number associated with it.
+#!	The NC-version doesn't check whether the given face lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a positive integers
+InstallMethod( FaceEquivalenceNumberOfElementNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return FaceEquivalenceNumbersByElements(surface)[el];
+	end
+);
+InstallMethod( FaceEquivalenceNumberOfElement, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in Faces( UnderlyingSimplicialSurface( surface ) ) then
+			Error("FaceEquivalenceNumberOfElement: Face has to lie in underlying simplicial surface.");
+		fi;
+		return FaceEquivalenceNumbersByElements(surface)[el];
+	end
+);
+
+#!	@Description
+#!	Return the vertex equivalence class of a given vertex.
+#!	The NC-version doesn't check whether the given vertex lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+InstallMethod( VertexEquivalenceClassOfElementNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return VertexEquivalenceClassesByElements(surface)[el];
+	end
+);
+InstallMethod( VertexEquivalenceClassOfElement, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in Vertices( UnderlyingSimplicialSurface( surface ) ) then
+			Error("VertexEquivalenceClassOfElement: Vertex has to lie in underlying simplicial surface.");
+		fi;
+		return VertexEquivalenceClassesByElements(surface)[el];
+	end
+);
+
+#!	@Description
+#!	Return the edge equivalence class of a given edge.
+#!	The NC-version doesn't check whether the given edge lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+InstallMethod( EdgeEquivalenceClassOfElementNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return EdgeEquivalenceClassesByElements(surface)[el];
+	end
+);
+InstallMethod( EdgeEquivalenceClassOfElement, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in Edges( UnderlyingSimplicialSurface( surface ) ) then
+			Error("EdgeEquivalenceClassOfElement: Edge has to lie in underlying simplicial surface.");
+		fi;
+		return EdgeEquivalenceClassesByElements(surface)[el];
+	end
+);
+
+#!	@Description
+#!	Return the face equivalence class of a given face.
+#!	The NC-version doesn't check whether the given face lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+InstallMethod( FaceEquivalenceClassOfElementNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return FaceEquivalenceClassesByElements(surface)[el];
+	end
+);
+InstallMethod( FaceEquivalenceClassOfElement, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in Faces( UnderlyingSimplicialSurface( surface ) ) then
+			Error("FaceEquivalenceClassOfElement: Face has to lie in underlying simplicial surface.");
+		fi;
+		return FaceEquivalenceClassesByElements(surface)[el];
+	end
+);
+
+#!	@Description
+#!	Return the vertex equivalence class with a given number.
+#!	The NC-version doesn't check whether the given number refers to a vertex
+#!	equivalence class.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+InstallMethod( VertexEquivalenceClassByNumberNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return VertexEquivalenceClassesByNumbers(surface)[el];
+	end
+);
+InstallMethod( VertexEquivalenceClassByNumber, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in VertexEquivalenceNumbersAsSet( surface ) then
+			Error("VertexEquivalenceClassByNumber: The number has to refer to a vertex equivalence class.");
+		fi;
+		return VertexEquivalenceClassesByNumbers(surface)[el];
+	end
+);
+
+#!	@Description
+#!	Return the edge equivalence class with a given number.
+#!	The NC-version doesn't check whether the given number refers to a vertex
+#!	equivalence class.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+InstallMethod( EdgeEquivalenceClassByNumberNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return EdgeEquivalenceClassesByNumbers(surface)[el];
+	end
+);
+InstallMethod( EdgeEquivalenceClassByNumber, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in EdgeEquivalenceNumbersAsSet( surface ) then
+			Error("EdgeEquivalenceClassByNumber: The number has to refer to a edge equivalence class.");
+		fi;
+		return EdgeEquivalenceClassesByNumbers(surface)[el];
+	end
+);
+
+#!	@Description
+#!	Return the face equivalence class with a given number.
+#!	The NC-version doesn't check whether the given number refers to a vertex
+#!	equivalence class.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+InstallMethod( FaceEquivalenceClassByNumberNC, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		return FaceEquivalenceClassesByNumbers(surface)[el];
+	end
+);
+InstallMethod( FaceEquivalenceClassByNumber, 
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, el )
+		if not el in FaceEquivalenceNumbersAsSet( surface ) then
+			Error("FaceEquivalenceClassByNumber: The number has to refer to a face equivalence class.");
+		fi;
+		return FaceEquivalenceClassesByNumbers(surface)[el];
+	end
+);
+
+##					END convenience methods
+############################################################################
 
 
 #

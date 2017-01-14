@@ -129,7 +129,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence,
 	function( surface, edge )
 		local fan, vertices, faces, perm;
 
-		if not edge in EdgeEquivalenceClassesAsSet(surface) then
+		if not edge in EdgeEquivalenceNumbersAsSet(surface) then
 			Error("SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence: Given edge has to be a class in given surface.");
 		fi;
 

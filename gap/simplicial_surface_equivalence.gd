@@ -322,6 +322,114 @@ DeclareOperation( "IsEquivalentFace",
 				[IsSimplicialSurfaceWithEquivalence, IsPosInt, IsPosInt]);
 
 
+############################################################################
+##				START convenience methods
+
+#!	@Description
+#!	Return the vertex equivalence number of a given vertex. Each vertex 
+#!	equivalence class has a unique number associated with it.
+#!	The NC-version doesn't check whether the given vertex lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a positive integers
+DeclareOperation( "VertexEquivalenceNumberOfElement",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "VertexEquivalenceNumberOfElementNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the edge equivalence number of a given edge. Each edge 
+#!	equivalence class has a unique number associated with it.
+#!	The NC-version doesn't check whether the given edge lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a positive integers
+DeclareOperation( "EdgeEquivalenceNumberOfElement",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "EdgeEquivalenceNumberOfElementNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the face equivalence number of a given face. Each face 
+#!	equivalence class has a unique number associated with it.
+#!	The NC-version doesn't check whether the given face lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a positive integers
+DeclareOperation( "FaceEquivalenceNumberOfElement",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "FaceEquivalenceNumberOfElementNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the vertex equivalence class of a given vertex.
+#!	The NC-version doesn't check whether the given vertex lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+DeclareOperation( "VertexEquivalenceClassOfElement",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "VertexEquivalenceClassOfElementNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the edge equivalence class of a given edge.
+#!	The NC-version doesn't check whether the given edge lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+DeclareOperation( "EdgeEquivalenceClassOfElement",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "EdgeEquivalenceClassOfElementNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the face equivalence class of a given face.
+#!	The NC-version doesn't check whether the given face lies in the underlying
+#!	simplicial surface.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+DeclareOperation( "FaceEquivalenceClassOfElement",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "FaceEquivalenceClassOfElementNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the vertex equivalence class with a given number.
+#!	The NC-version doesn't check whether the given number refers to a vertex
+#!	equivalence class.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+DeclareOperation( "VertexEquivalenceClassByNumber",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "VertexEquivalenceClassByNumberNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the edge equivalence class with a given number.
+#!	The NC-version doesn't check whether the given number refers to a vertex
+#!	equivalence class.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+DeclareOperation( "EdgeEquivalenceClassByNumber",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "EdgeEquivalenceClassByNumberNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+#!	@Description
+#!	Return the face equivalence class with a given number.
+#!	The NC-version doesn't check whether the given number refers to a vertex
+#!	equivalence class.
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a set of positive integers
+DeclareOperation( "FaceEquivalenceClassByNumber",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+DeclareOperation( "FaceEquivalenceClassByNumberNC",
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+
+##					END convenience methods
+############################################################################
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
