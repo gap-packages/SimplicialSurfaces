@@ -16,6 +16,8 @@
 ##			equivalence class numbers)
 ##		- a cyclical permutation (this permutes the faces that lie around the
 ##			edge equivalence class).
+##		- a set of positive integers, called the corona, on which the
+##			permutation operates transitively
 ##
 
 DeclareCategory( "IsSimplicialSurfaceFan",
@@ -36,8 +38,15 @@ SimplicialSurfaceFanFamily :=
 
 #!	@Description
 #!	Return a fan by defining all necessary attributes. Begin and End have to be
-#!	different.
-#!	The NC-version doesn't check if Begin and End are different.
+#!	different. If the given permutation is trivial, the corona will be empty.
+#!
+#!	By using the optional argument Corona := ... the corona can be set manually.
+#!	If the permutation is not trivial then this argument has to agree with
+#!	MovedPoints of the permutation. 
+#!
+#!	The NC-version doesn't check if Begin and End are different or if the given
+#!	Corona is consistent with the given permutation. 
+#!	
 #!	@Arguments two positive integers, one cyclic permutation
 #!	@Returns a fan
 DeclareOperation( "SimplicialSurfaceFan", [IsPosInt, IsPosInt, 
@@ -93,6 +102,15 @@ DeclareOperation( "PermutationOfFan", [IsSimplicialSurfaceFan] );
 
 
 #! @Description
+#! Return the corona of the fan.
+#! @Arguments a simplicial surface fan
+#! @Returns a set of positive integers
+DeclareAttribute( "CoronaOfFanAttributeOfSimplicialSurfaceFan", 
+	IsSimplicialSurfaceFan );
+DeclareOperation( "CoronaOfFan", [IsSimplicialSurfaceFan] );
+
+
+#! @Description
 #! Return the inverse of the fan. You get the inverse of a fan by switching
 #! Begin and End in addition to inverting the permutation.
 #! @Arguments a simplicial surface fan
@@ -102,6 +120,24 @@ DeclareAttribute( "InverseOfFanAttributeOfSimplicialSurfaceFan",
 DeclareOperation( "InverseOfFan", [IsSimplicialSurfaceFan] );
 
 
+#!	@Description
+#!	Return the reduct of a given fan with respect to the given set. The reduct
+#!	of a fan is another fan with the same Begin and End but a modified
+#!	permutation. The permutation is derived from the cycle-presentation of the
+#!	permutation by ignoring all values that doesn't lie in the given set. the
+#!	set has to be a subset of the corona.
+#!
+#!	@Arguments a simplicial surface fan, a set of positive integers
+#!	@Returns a simplicial surface fan
+KeyDependentOperation( "ReducedFanAttributeOfSimplicialSurfaceFan", 
+	IsSimplicialSurfaceFan, IsSet, 
+	function( set )
+		return Size( Filtered( set, el -> not IsPosInt(el) ) ) = 0;
+	end
+);
+DeclareOperation( "ReducedFan", [IsSimplicialSurfaceFan, IsSet] );
+
+
 #############################################################################
 ##
 ##
@@ -109,6 +145,39 @@ DeclareOperation( "InverseOfFan", [IsSimplicialSurfaceFan] );
 #!
 #!
 #!
+
+#!	@Description
+#!	Check if the given fan is the fan of a simplicial surface. This is the case
+#!	if there is an edge with Begin and End as vertices and the incident faces
+#!	around it are exactly the corona.
+#!	@Arguments a simplicial surface, a simplicial surface fan
+#!	@Returns true or false
+DeclareOperation( "IsFanOfSimplicialSurface", 
+		[IsSimplicialSurface, IsSimplicialSurfaceFan] );
+
+
+#!	@Description
+#!	Check if the given fan is the fan of a simplicial surface with equivalence. 
+#!	This is the case if there is an edge with Begin and End as vertices and the 
+#!	incident faces around it are exactly the corona.
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface fan
+#!	@Returns true or false
+DeclareOperation( "IsFanOfSimplicialSurfaceWithEquivalence", 
+		[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan] );
+
+
+
+#!	@Description
+#!	A fan of a simplicial surface (with equivalence) defines an orientation
+#!	for an edge (equivalence class). By the right-hand-rule this defines an
+#!	orientation for the set of incident faces as well. Since those faces are
+#!	oriented as well we can determine which side of the face lies in the 
+#!	correct direction.
+#!	@Arguments a simplicial surface (with equivalence), a simplicial surface
+#!		fan, a positive integer
+#!	@Returns an integer
+DeclareOperation( "FaceNameInducedByFan", 
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan, IsPosInt] );
 
 
 

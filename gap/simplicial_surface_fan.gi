@@ -39,12 +39,18 @@ InstallMethod( SimplicialSurfaceFanNC,
 	"for two positive integers and a permutation",
 	[IsPosInt, IsPosInt, IsPerm and IsCyclic],
 	function( start, fin, perm )
-		local fan;
+		local fan, corona;
 
 		fan := Objectify( SimplicialSurfaceFanType, rec() );
 		SetBeginAttributeOfSimplicialSurfaceFan( fan, start );
 		SetEndAttributeOfSimplicialSurfaceFan( fan, fin );
 		SetPermutationAttributeOfSimplicialSurfaceFan( fan, perm );
+
+		# Check the corona
+		corona := ValueOption( "Corona" );
+		if not corona = fail then
+			SetCoronaOfFanAttributeOfSimplicialSurfaceFan( fan, corona );
+		fi;
 
 		return fan;
 	end
@@ -53,8 +59,18 @@ InstallMethod( SimplicialSurfaceFan,
 	"for two positive integers and a permutation",
 	[IsPosInt, IsPosInt, IsPerm and IsCyclic],
 	function( start, fin, perm )
+		local corona;
+
 		if start = fin then
 			Error("SimplicialSurfaceFan: Begin and End have to be different.");
+		fi;
+
+		# Check the corona
+		corona := ValueOption( "Corona" );
+		if not corona = fail then
+			if perm <> () and MovedPoints(perm) <> corona then
+				Error("SimplicialSurfaceFan: The corona has to be equal to the moved points of the permutation.");
+			fi;
 		fi;
 
 		return SimplicialSurfaceFanNC( start, fin, perm);
@@ -90,7 +106,8 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 
 		vertices := EdgesByVertices(surface)[edge];
 
-		return SimplicialSurfaceFan( vertices[1], vertices[2], perm);
+		return SimplicialSurfaceFanNC( vertices[1], vertices[2], perm, 
+															Corona := faces);
 	end
 );
 
@@ -107,7 +124,8 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 #! Return the begin of the fan (which is one part of the orientation)
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-InstallMethod( BeginOfFan, "for a simplicial surface fan", [IsSimplicialSurfaceFan],
+InstallMethod( BeginOfFan, "for a simplicial surface fan", 
+	[IsSimplicialSurfaceFan],
 	function( fan )
 		return BeginOfFanAttributeOfSimplicialSurfaceFan( fan );
 	end
@@ -118,7 +136,8 @@ InstallMethod( BeginOfFan, "for a simplicial surface fan", [IsSimplicialSurfaceF
 #! Return the end of the fan (which is one part of the orientation)
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-InstallMethod( EndOfFan, "for a simplicial surface fan", [IsSimplicialSurfaceFan],
+InstallMethod( EndOfFan, "for a simplicial surface fan", 
+	[IsSimplicialSurfaceFan],
 	function( fan )
 		return EndOfFanAttributeOfSimplicialSurfaceFan( fan );
 	end
@@ -133,6 +152,27 @@ InstallMethod( PermutationOfFan, "for a simplicial surface fan",
 	[IsSimplicialSurfaceFan],
 	function( fan )
 		return PermutationOfFanAttributeOfSimplicialSurfaceFan( fan );
+	end
+);
+
+
+#! @Description
+#! Return the corona of the fan.
+#! @Arguments a simplicial surface fan
+#! @Returns a set of positive integers
+InstallMethod( CoronaOfFanAttributeOfSimplicialSurfaceFan,
+	"for a simplicial surface fan", [IsSimplicialSurfaceFan],
+	function( fan )
+		if PermutationOfFan( fan ) <> () then
+			return MovedPoints( fan );
+		fi;
+		TryNextMethod();
+	end
+);
+InstallMethod( CoronaOfFan, "for a simplicial surface fan", 
+	[IsSimplicialSurfaceFan],
+	function( fan )
+		return CoronaOfFanAttributeOfSimplicialSurfaceFan( fan );
 	end
 );
 
@@ -160,6 +200,55 @@ InstallMethod( InverseOfFan, "for a simplicial surface fan",
 	[IsSimplicialSurfaceFan],
 	function( fan )
 		return InverseOfFanAttributeOfSimplicialSurfaceFan( fan );
+	end
+);
+
+
+#!	@Description
+#!	Return the reduct of a given fan with respect to the given set. The reduct
+#!	of a fan is another fan with the same Begin and End but a modified
+#!	permutation. The permutation is derived from the cycle-presentation of the
+#!	permutation by ignoring all values that doesn't lie in the given set. the
+#!	set has to be a subset of the corona.
+#!
+#!	@Arguments a simplicial surface fan, a set of positive integers
+#!	@Returns a simplicial surface fan
+InstallMethod( ReducedFanAttributeOfSimplicialSurfaceFanOp, 
+	"for a simplicial surface fan and a subset of its corona", 
+	[IsSimplicialSurfaceFan, IsSet],
+	function( fan, set )
+		local source, image, i, p, el, reduct;
+
+		if not IsSubset( CoronaOfFan(fan), set ) then
+			Error("ReducedFan: Given set has to be a subset of the fan-corona.");
+		fi;
+
+		# Check the trivial case
+		if CoronaOfFan(fan) = set then
+			return fan;
+		fi;
+
+		# Modify the permutation by constructing two lists, source and image
+		source := Filtered( CoronaOfFan(fan), x -> x in set );
+		image := [];
+		for i in [1..Length(source)] do
+			p := source[i];
+			el := p^PermutationOfFan(fan);
+			while not el in set do
+				el := el^PermutationOfFan(fan);
+			od;
+			image[i] := el;
+		od;
+
+		return SimplicialSurfaceFanNC( BeginOfFan(fan), EndOfFan(fan), 
+			PermListList( source, image), Corona := set );
+	end
+);
+InstallMethod( ReducedFan, 
+	"for a simplicial surface fan and a subset of its corona", 
+	[IsSimplicialSurfaceFan, IsSet],
+	function( fan, set )
+		return ReducedFanAttributeOfSimplicialSurfaceFan( fan, set );
 	end
 );
 
