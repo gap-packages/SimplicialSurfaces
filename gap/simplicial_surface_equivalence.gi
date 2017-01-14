@@ -74,6 +74,9 @@ InstallMethod( SimplicialSurfaceWithEquivalence,
 		SetEdgeEquivalenceNumbersByElementsAttributeOfSSWE(complex, edgeEq);
 		SetFaceEquivalenceNumbersByElementsAttributeOfSSWE(complex, faceEq);
 
+		# Since the relations are trivial, we already know the quotient surface
+		SetQuotientSimplicialSurfaceAttributeOfSSWE(complex, surface);
+
 		return complex;
 	end
 );
