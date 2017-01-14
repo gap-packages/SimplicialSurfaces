@@ -118,7 +118,7 @@ DeclareOperation( "UnderlyingSimplicialSurface", [IsFoldingComplex] );
 #!	@Arguments a folding complex
 #!	@Returns a simplicial surface with equivalence
 DeclareAttribute( 
-	"UnderlyingSimplicialSurfaceWithEquivalenceAttributeOfFoldingComplex",
+	"UnderlyingSSWEAttributeOfFoldingComplex",
 		IsFoldingComplex);
 DeclareOperation( "UnderlyingSimplicialSurfaceWithEquivalence", 
 		[IsFoldingComplex] );

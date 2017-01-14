@@ -133,7 +133,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence,
 			Error("SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence: Given edge has to be a class in given surface.");
 		fi;
 
-		faces := List( EdgeEquivalenceClassesByNumbers(surface)[edge], e ->
+		faces := List( EdgeEquivalenceClassByNumberNC(surface,edge), e ->
 						EdgesByFaces(UnderlyingSimplicialSurface(surface))[e] );
 		faces := Union( faces );
 		if Size(faces) = 1 then

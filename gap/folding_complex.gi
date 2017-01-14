@@ -50,6 +50,65 @@ RedispatchOnCondition( FoldingComplex, true, [IsSimplicialSurface],
 #############################################################################
 
 
+#!	@Description
+#!	Return the underlying simplicial surface of this folding complex.
+#!	@Arguments a folding complex
+#!	@Returns a simplicial surface
+InstallMethod( UnderlyingSimplicialSurface, "for a folding complex",
+	[IsFoldingComplex],
+	function( complex )
+		return UnderlyingSimplicialSurfaceAttributeOfFoldingComplex(complex);
+	end
+);
+InstallMethod( UnderlyingSimplicialSurfaceAttributeOfFoldingComplex, 
+	"for a folding complex",
+	[IsFoldingComplex and 
+		HasUnderlyingSimplicialSurfaceWithEquivalenceAttributeOfFoldingComplex],
+	function( complex )
+		return UnderlyingSimplicialSurface(
+					UnderlyingSimplicialSurfaceWithEquivalence(complex));
+	end
+);
+
+
+#!	@Description
+#!	Return the underlying simplicial surface with equivalence of this folding 
+#!	complex.
+#!	@Arguments a folding complex
+#!	@Returns a simplicial surface with equivalence
+InstallMethod( UnderlyingSimplicialSurfaceWithEquivalence, 
+	"for a folding complex",
+	[IsFoldingComplex],
+	function( complex )
+		return UnderlyingSSWEAttributeOfFoldingComplex(complex);
+	end
+);
+
+
+#!	@Description
+#!	Return the fans of this folding complex in the form of a list that is
+#!	indexed by the edge equivalence class numbers of the underlying simplicial
+#!	surface with equivalence.
+#!	@Arguments a folding complex
+#!	@Returns a list of fans
+InstallMethod( Fans, "for a folding complex", [IsFoldingComplex],
+	function( complex )
+		return FansAttributeOfFoldingComplex(complex);
+	end
+);
+
+
+#!	@Description
+#!	Return the border pieces of this folding complex in the form of a list that 
+#!	is indexed by the face equivalence class numbers of the underlying 
+#!	simplicial surface with equivalence.
+#!	@Arguments a folding complex
+#!	@Returns a list of sets
+InstallMethod( BorderPieces, "for a folding complex", [IsFoldingComplex],
+	function( complex )
+		return BorderPiecesAttributeOfFoldingComplex(complex);
+	end
+);
 
 
 #
