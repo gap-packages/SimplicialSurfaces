@@ -109,6 +109,79 @@ InstallMethod( BorderPieces, "for a folding complex", [IsFoldingComplex],
 		return BorderPiecesAttributeOfFoldingComplex(complex);
 	end
 );
+# Try to compute border pieces with the specialized method (this might work
+# since the specialized method works most of the times if the fans are set).
+InstallMethod( BorderPiecesAttributeOfFoldingComplex, "for a folding complex", 
+	[IsFoldingComplex],	
+	function( complex )
+		local borderPieces, faces, face, border;
+
+		faces := FaceEquivalenceNumbersAsSet( 
+					UnderlyingSimplicialSurfaceWithEquivalence(complex) );
+		borderPieces := [];
+		for face in faces do
+			# Try to compute the border
+			border := #TODO ( complex, face );
+			
+		od;
+
+		return borderPieces;
+	end
+);
+
+
+
+#!	@Description
+#!	Return the fan of an edge equivalence class of this folding complex.
+#!	The NC-version doesn't check if the given number actually represents
+#!	a face equivalence class.
+#!	@Arguments a folding complex and a positive integer
+#!	@Returns a fan
+InstallMethod( FanOfEdgeEquivalenceClassNC, 
+	"for a folding complex and a positive integer", 
+	[IsFoldingComplex, IsPosInt],
+	function( complex, edgeClass )
+		return Fans(complex)[edgeClass];
+	end
+);
+InstallMethod( FanOfEdgeEquivalenceClass, 
+	"for a folding complex and a positive integer", 
+	[IsFoldingComplex, IsPosInt],
+	function( complex, edgeClass )
+		if not edgeClass in EdgeEquivalenceNumbersAsSet( 
+				UnderlyingSimplicialSurfaceWithEquivalence( complex ) ) then
+			return Error("FanOfEdgeEquivalenceClass: Given number has to represent an edge equivalence class.");
+		fi;
+		return Fans(complex)[edgeClass];
+	end
+);
+
+
+#!	@Description
+#!	Return the border pieces of a face equivalence class of this folding 
+#!	complex as a set.
+#!	The NC-version doesn't check if the given number actually represents
+#!	a face equivalence class.
+#!	@Arguments a folding complex and a positive integer
+#!	@Returns a sets of integers 
+InstallMethod( BorderPiecesOfFaceEquivalenceClassNC, 
+	"for a folding complex and a positive integer", 
+	[IsFoldingComplex, IsPosInt],
+	function( complex, faceClass )
+		return BorderPieces(complex)[faceClass];
+	end
+);
+InstallMethod( BorderPiecesOfFaceEquivalenceClass, 
+	"for a folding complex and a positive integer", 
+	[IsFoldingComplex, IsPosInt],
+	function( complex, faceClass )
+		if not faceClass in FaceEquivalenceNumbersAsSet( 
+				UnderlyingSimplicialSurfaceWithEquivalence( complex ) ) then
+			return Error("BorderPiecesOfFaceEquivalenceClass: Given number has to represent a face equivalence class.");
+		fi;
+		return BorderPieces(complex)[faceClass];
+	end
+);
 
 
 #

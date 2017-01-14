@@ -138,7 +138,7 @@ DeclareOperation( "Fans", [IsFoldingComplex] );
 #!	is indexed by the face equivalence class numbers of the underlying 
 #!	simplicial surface with equivalence.
 #!	@Arguments a folding complex
-#!	@Returns a list of sets
+#!	@Returns a list of sets of integers
 DeclareAttribute( "BorderPiecesAttributeOfFoldingComplex", IsFoldingComplex);
 DeclareOperation( "BorderPieces", [IsFoldingComplex] );
 
@@ -152,6 +152,28 @@ DeclareOperation( "BorderPieces", [IsFoldingComplex] );
 #!
 #!
 
+
+#!	@Description
+#!	Return the fan of an edge equivalence class of this folding complex.
+#!	The NC-version doesn't check if the given number actually represents
+#!	a face equivalence class.
+#!	@Arguments a folding complex and a positive integer
+#!	@Returns a fan
+DeclareOperation( "FanOfEdgeEquivalenceClass", [IsFoldingComplex, IsPosInt] );
+DeclareOperation( "FanOfEdgeEquivalenceClassNC", [IsFoldingComplex, IsPosInt] );
+
+
+#!	@Description
+#!	Return the border pieces of a face equivalence class of this folding 
+#!	complex as a set.
+#!	The NC-version doesn't check if the given number actually represents
+#!	a face equivalence class.
+#!	@Arguments a folding complex and a positive integer
+#!	@Returns a sets of integers 
+DeclareOperation( "BorderPiecesOfFaceEquivalenceClass", 
+		[IsFoldingComplex, IsPosInt] );
+DeclareOperation( "BorderPiecesOfFaceEquivalenceClassNC", 
+		[IsFoldingComplex, IsPosInt] );
 
 
 #
