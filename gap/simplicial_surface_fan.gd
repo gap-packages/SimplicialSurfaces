@@ -40,7 +40,8 @@ SimplicialSurfaceFanFamily :=
 #!	Return a fan by defining all necessary attributes. Begin and End have to be
 #!	different. If the given permutation is trivial, the corona will be empty.
 #!
-#!	By using the optional argument Corona := ... the corona can be set manually.
+#!	By using the optional argument Corona := ... (separated by a colon from the 
+#!	other arguments) the corona can be set manually.
 #!	If the permutation is not trivial then this argument has to agree with
 #!	MovedPoints of the permutation. 
 #!

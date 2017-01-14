@@ -42,9 +42,9 @@ InstallMethod( SimplicialSurfaceFanNC,
 		local fan, corona;
 
 		fan := Objectify( SimplicialSurfaceFanType, rec() );
-		SetBeginAttributeOfSimplicialSurfaceFan( fan, start );
-		SetEndAttributeOfSimplicialSurfaceFan( fan, fin );
-		SetPermutationAttributeOfSimplicialSurfaceFan( fan, perm );
+		SetBeginOfFanAttributeOfSimplicialSurfaceFan( fan, start );
+		SetEndOfFanAttributeOfSimplicialSurfaceFan( fan, fin );
+		SetPermutationOfFanAttributeOfSimplicialSurfaceFan( fan, perm );
 
 		# Check the corona
 		corona := ValueOption( "Corona" );
@@ -106,7 +106,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 
 		vertices := EdgesByVertices(surface)[edge];
 
-		return SimplicialSurfaceFanNC( vertices[1], vertices[2], perm, 
+		return SimplicialSurfaceFanNC( vertices[1], vertices[2], perm:
 															Corona := faces);
 	end
 );
@@ -241,7 +241,7 @@ InstallMethod( ReducedFanAttributeOfSimplicialSurfaceFanOp,
 		od;
 
 		return SimplicialSurfaceFanNC( BeginOfFan(fan), EndOfFan(fan), 
-			PermListList( source, image), Corona := set );
+			PermListList( source, image): Corona := set );
 	end
 );
 InstallMethod( ReducedFan, 
@@ -276,7 +276,7 @@ InstallMethod( IsFanOfSimplicialSurface,
 		edges := Edges(surface);
 		edgesByVertices := EdgesByVertices(surface);
 		for e in edges do
-			if edgesByVertices[e] = Set( BeginOfFan(fan), EndOfFan(fan) ) then
+			if edgesByVertices[e] = Set( [BeginOfFan(fan), EndOfFan(fan)] ) then
 				# now check the corona
 				if EdgesByFaces(surface)[e] = CoronaOfFan(fan) then
 					return true;
@@ -300,7 +300,27 @@ InstallMethod( IsFanOfSimplicialSurfaceWithEquivalence,
 	"for a simplicial surface with equivalence and a simplicial surface fan", 
 	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan],
 	function( surface, fan )
-		# TODO
+		local edgeClassNr, edgeByVertexClass, quot, edgeNr, allEdges, faces;
+
+		# Check all edge classes
+		quot := QuotientSimplicialSurface( surface );
+		edgeClassNr := Edges( quot );
+		edgeByVertexClass := EdgesByVertices( quot );
+
+		for edgeNr in edgeClassNr do
+			if edgeByVertexClass[edgeNr] = 
+					Set( [BeginOfFan(fan), EndOfFan(fan)] ) then
+				# Check corona
+				allEdges := EdgeEquivalenceClassesByNumbers(surface)[edgeNr];
+				faces := List( allEdges, e -> 
+					EdgesByFaces( UnderlyingSimplicialSurface( surface ) )[e] );
+				if Union( faces ) = CoronaOfFan(fan) then
+					return true;
+				fi;
+			fi;
+		od;
+		
+		return false;
 	end
 );
 
