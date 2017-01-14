@@ -76,6 +76,25 @@ DeclareOperation( "FoldingComplexNC",
 			[IsSimplicialSurfaceWithEquivalence, IsList] );
 
 
+#!	@Description
+#!	Return a folding complex that is based on the given simplicial surface with
+#!	equivalence. Furthermore we give some fans in form of a list that is 
+#!	indexed by the edge equivalence class numbers of the simplicial surface
+#!	with equivalence. If a fan is not given in this list, we try to define it
+#!	uniquely by checking the surface. If this is not possible we throw an error.
+#!	We also give a list of border pieces, i.e. a list that is indexed by the 
+#!	face equivalence classes and consists of sets.
+#!
+#!	The NC-version doesn't check if the given lists consists of fans that match
+#!	the surface or of border pieces that match the fans.
+#!	@Arguments a simplicial surface with equivalence and two lists
+#!	@Returns a folding complex
+DeclareOperation( "FoldingComplex", 
+			[IsSimplicialSurfaceWithEquivalence, IsList, IsList] );
+DeclareOperation( "FoldingComplexNC", 
+			[IsSimplicialSurfaceWithEquivalence, IsList, IsList] );
+
+
 
 #############################################################################
 ##
@@ -83,6 +102,45 @@ DeclareOperation( "FoldingComplexNC",
 #!  @Section Attributes and properties of folding complexes
 #!
 #!
+
+#!	@Description
+#!	Return the underlying simplicial surface of this folding complex.
+#!	@Arguments a folding complex
+#!	@Returns a simplicial surface
+DeclareAttribute( "UnderlyingSimplicialSurfaceAttributeOfFoldingComplex",
+		IsFoldingComplex);
+DeclareOperation( "UnderlyingSimplicialSurface", [IsFoldingComplex] );
+
+
+#!	@Description
+#!	Return the underlying simplicial surface with equivalence of this folding 
+#!	complex.
+#!	@Arguments a folding complex
+#!	@Returns a simplicial surface with equivalence
+DeclareAttribute( 
+	"UnderlyingSimplicialSurfaceWithEquivalenceAttributeOfFoldingComplex",
+		IsFoldingComplex);
+DeclareOperation( "UnderlyingSimplicialSurfaceWithEquivalence", 
+		[IsFoldingComplex] );
+
+#!	@Description
+#!	Return the fans of this folding complex in the form of a list that is
+#!	indexed by the edge equivalence class numbers of the underlying simplicial
+#!	surface with equivalence.
+#!	@Arguments a folding complex
+#!	@Returns a list of fans
+DeclareAttribute( "FansAttributeOfFoldingComplex", IsFoldingComplex);
+DeclareOperation( "Fans", [IsFoldingComplex] );
+
+
+#!	@Description
+#!	Return the border pieces of this folding complex in the form of a list that 
+#!	is indexed by the face equivalence class numbers of the underlying 
+#!	simplicial surface with equivalence.
+#!	@Arguments a folding complex
+#!	@Returns a list of sets
+DeclareAttribute( "BorderPiecesAttributeOfFoldingComplex", IsFoldingComplex);
+DeclareOperation( "BorderPieces", [IsFoldingComplex] );
 
 
 
