@@ -147,13 +147,15 @@ DeclareOperation( "ReducedFan", [IsSimplicialSurfaceFan, IsSet] );
 #!
 #!
 
+
 #!	@Description
 #!	Check if the given fan is the fan of a simplicial surface. This is the case
 #!	if there is an edge with Begin and End as vertices and the incident faces
-#!	around it are exactly the corona.
+#!	around it are exactly the corona. Then this method returns the correct
+#!	edge, otherwise fail.
 #!	@Arguments a simplicial surface, a simplicial surface fan
-#!	@Returns true or false
-DeclareOperation( "IsFanOfSimplicialSurface", 
+#!	@Returns a positive integer or fail
+DeclareOperation( "EdgeForFanOfSimplicialSurface", 
 		[IsSimplicialSurface, IsSimplicialSurfaceFan] );
 
 
@@ -162,9 +164,10 @@ DeclareOperation( "IsFanOfSimplicialSurface",
 #!	This is the case if there is an edge equivalence class with Begin and End
 #!	as incident vertex equivalence classes and the incident faces (not 
 #!	equivalence classes!) around it are exactly the corona.
+#!	Then it returns the edge equivalence class, otherwise fail.
 #!	@Arguments a simplicial surface with equivalence, a simplicial surface fan
-#!	@Returns true or false
-DeclareOperation( "IsFanOfSimplicialSurfaceWithEquivalence", 
+#!	@Returns a positive integer or fail
+DeclareOperation( "EdgeEquivalenceNumberForFanOfSimplicialSurfaceWithEquivalence", 
 		[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan] );
 
 

@@ -261,13 +261,15 @@ InstallMethod( ReducedFan,
 #!
 #!
 
+
 #!	@Description
 #!	Check if the given fan is the fan of a simplicial surface. This is the case
 #!	if there is an edge with Begin and End as vertices and the incident faces
-#!	around it are exactly the corona.
+#!	around it are exactly the corona. Then this method returns the correct
+#!	edge, otherwise fail.
 #!	@Arguments a simplicial surface, a simplicial surface fan
-#!	@Returns true or false
-InstallMethod( IsFanOfSimplicialSurface, 
+#!	@Returns a positive integer or fail
+InstallMethod( EdgeForFanOfSimplicialSurface, 
 	"for a simplicial surface and a simplicial surface fan", 
 	[IsSimplicialSurface, IsSimplicialSurfaceFan],
 	function( surface, fan )
@@ -279,12 +281,12 @@ InstallMethod( IsFanOfSimplicialSurface,
 			if edgesByVertices[e] = Set( [BeginOfFan(fan), EndOfFan(fan)] ) then
 				# now check the corona
 				if EdgesByFaces(surface)[e] = CoronaOfFan(fan) then
-					return true;
+					return e;
 				fi;
 			fi;
 		od;
 
-		return false;
+		return fail;
 	end
 );
 
@@ -294,9 +296,10 @@ InstallMethod( IsFanOfSimplicialSurface,
 #!	This is the case if there is an edge equivalence class with Begin and End
 #!	as incident vertex equivalence classes and the incident faces (not 
 #!	equivalence classes!) around it are exactly the corona.
+#!	Then it returns the edge equivalence class, otherwise fail.
 #!	@Arguments a simplicial surface with equivalence, a simplicial surface fan
-#!	@Returns true or false
-InstallMethod( IsFanOfSimplicialSurfaceWithEquivalence, 
+#!	@Returns a positive integer or fail
+InstallMethod( EdgeEquivalenceNumberForFanOfSimplicialSurfaceWithEquivalence, 
 	"for a simplicial surface with equivalence and a simplicial surface fan", 
 	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan],
 	function( surface, fan )
@@ -315,12 +318,12 @@ InstallMethod( IsFanOfSimplicialSurfaceWithEquivalence,
 				faces := List( allEdges, e -> 
 					EdgesByFaces( UnderlyingSimplicialSurface( surface ) )[e] );
 				if Union( faces ) = CoronaOfFan(fan) then
-					return true;
+					return edgeNr;
 				fi;
 			fi;
 		od;
 		
-		return false;
+		return fail;
 	end
 );
 
