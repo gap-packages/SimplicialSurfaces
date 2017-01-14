@@ -45,6 +45,38 @@ FoldingComplexFamily :=
 DeclareOperation( "FoldingComplex", [IsSimplicialSurface and IsActualSurface]);
 
 
+#!	@Description
+#!	Return a folding complex that is based on the given simplicial surface.
+#!	Furthermore we give some fans in form of a list that is indexed by the
+#!	edges of the simplicial surface. If a fan is not given in this list, we
+#!	try to define it uniquely by checking the surface. If this is not possible
+#!	we throw an error.
+#!	The NC-version doesn't check if the given list consists of fans that match
+#!	the surface.
+#!	@Arguments a simplicial surface and a list
+#!	@Returns a folding complex
+DeclareOperation( "FoldingComplex", [IsSimplicialSurface, IsList] );
+DeclareOperation( "FoldingComplexNC", [IsSimplicialSurface, IsList] );
+
+
+#!	@Description
+#!	Return a folding complex that is based on the given simplicial surface with
+#!	equivalence. Furthermore we give some fans in form of a list that is 
+#!	indexed by the edge equivalence class numbers of the simplicial surface
+#!	with equivalence. If a fan is not given in this list, we try to define it
+#!	uniquely by checking the surface. If this is not possible we throw an error.
+#!
+#!	The NC-version doesn't check if the given list consists of fans that match
+#!	the surface.
+#!	@Arguments a simplicial surface with equivalence and a list
+#!	@Returns a folding complex
+DeclareOperation( "FoldingComplex", 
+			[IsSimplicialSurfaceWithEquivalence, IsList] );
+DeclareOperation( "FoldingComplexNC", 
+			[IsSimplicialSurfaceWithEquivalence, IsList] );
+
+
+
 #############################################################################
 ##
 ##

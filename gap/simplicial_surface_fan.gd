@@ -68,6 +68,19 @@ DeclareOperation( "SimplicialSurfaceFanByEdgeInSimplicialSurface",
 		[IsSimplicialSurface, IsPosInt]);
 
 
+#!	@Description
+#!	Return the fan of the edge of a simplicial surface with equivalence. For 
+#!	this to be unique at most two faces can be incident to the edge equivalence
+#!	class (otherwise the permutation of those is not unique).
+#!
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a fan
+DeclareOperation( 
+	"SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence", 
+		[IsSimplicialSurfaceWithEquivalence, IsPosInt]);
+
+
+
 #############################################################################
 ##
 ##

@@ -55,6 +55,8 @@ InstallMethod( SimplicialSurfaceFanNC,
 		return fan;
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceFanNC, true, 
+	[IsPosInt, IsPosInt, IsPerm], [,,IsCyclic], 0 );
 InstallMethod( SimplicialSurfaceFan, 
 	"for two positive integers and a permutation",
 	[IsPosInt, IsPosInt, IsPerm and IsCyclic],
@@ -76,6 +78,8 @@ InstallMethod( SimplicialSurfaceFan,
 		return SimplicialSurfaceFanNC( start, fin, perm);
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceFan, true, 
+	[IsPosInt, IsPosInt, IsPerm], [,,IsCyclic], 0 );
 
 #!	@Description
 #!	Return the fan of the edge of a simplicial surface. For this to be unique
@@ -105,6 +109,42 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 		fi;
 
 		vertices := EdgesByVertices(surface)[edge];
+
+		return SimplicialSurfaceFanNC( vertices[1], vertices[2], perm:
+															Corona := faces);
+	end
+);
+
+
+#!	@Description
+#!	Return the fan of the edge of a simplicial surface with equivalence. For 
+#!	this to be unique at most two faces can be incident to the edge equivalence
+#!	class (otherwise the permutation of those is not unique).
+#!
+#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Returns a fan
+InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence,
+	"for a simplicial surface with equivalence and a positive integer",
+	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+	function( surface, edge )
+		local fan, vertices, faces, perm;
+
+		if not edge in EdgeEquivalenceClassesAsSet(surface) then
+			Error("SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence: Given edge has to be a class in given surface.");
+		fi;
+
+		faces := List( EdgeEquivalenceClassesByNumbers(surface)[edge], e ->
+						EdgesByFaces(UnderlyingSimplicialSurface(surface))[e] );
+		faces := Union( faces );
+		if Size(faces) = 1 then
+			perm := ();
+		elif Size(faces) = 2 then
+			perm := PermListList( faces, Reversed(faces) );
+		else
+			Error("SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence: There have to be at most two faces incident to the given edge equivalence class.");
+		fi;
+
+		vertices := EdgesByVertices(QuotientSimplicialSurface(surface))[edge];
 
 		return SimplicialSurfaceFanNC( vertices[1], vertices[2], perm:
 															Corona := faces);
