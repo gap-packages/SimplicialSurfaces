@@ -592,6 +592,42 @@ InstallMethod( EdgeBindingRelation,
 );
 
 	
+#!	@Description
+#!	Return a list that is indexed by the face-names of the underlying
+#!	simplicial surface. At the position of a given face lies the local
+#!	orientation in terms of the vertex equivalence classes, i.e. it is a
+#!	cyclic permutation of the vertex equivalence class numbers that lie in the
+#!	given face.
+#!	@Arguments a simplicial surface with equivalence
+#!	@Returns a list of cyclic permutations
+InstallMethod( LocalOrientationWRTVertexEquivalenceClassesAttributeOfSSWE,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( surface )
+		local list, face, faceByVertex, perm, vertex;
+
+		list := [];
+		faceByVertex := FacesByVertices(UnderlyingSimplicialSurface(surface));
+		for face in Faces( UnderlyingSimplicialSurface( surface ) ) do
+			perm := ();
+			for vertex in faceByVertex[face] do
+				perm := perm * ( vertex, 
+						VertexEquivalenceClassesByElements(surface)[vertex] );
+			od;
+			list[face] := LocalOrientation(surface)[face]^perm;
+		od;
+
+		return list;
+	end
+);
+InstallMethod( LocalOrientationWRTVertexEquivalenceClasses,
+	"for a simplicial surface with equivalence",
+	[IsSimplicialSurfaceWithEquivalence],
+	function( surface )
+		return LocalOrientationWRTVertexEquivalenceClassesAttributeOfSSWE( 
+																	surface );
+	end
+);
 
 
 

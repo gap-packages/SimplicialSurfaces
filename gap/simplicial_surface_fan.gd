@@ -168,6 +168,20 @@ DeclareOperation( "IsFanOfSimplicialSurfaceWithEquivalence",
 		[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan] );
 
 
+#!	@Description
+#!	A fan of a simplicial surface (with equivalence) defines an orientation
+#!	for an edge (equivalence class). By the right-hand-rule this defines an
+#!	orientation for the set of incident faces as well. Since those faces are
+#!	oriented as well we can determine which side of the face lies in the 
+#!	correct direction.
+#!	This method returns +1 if this side is the pre-defined "correctly
+#!	oriented" side; and -1 otherwise.
+#!	@Arguments a simplicial surface (with equivalence), a simplicial surface
+#!		fan, a positive integer
+#!	@Returns an integer
+DeclareOperation( "FaceOrientationInducedByFan", 
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan, IsPosInt] );
+
 
 #!	@Description
 #!	A fan of a simplicial surface (with equivalence) defines an orientation
@@ -175,6 +189,7 @@ DeclareOperation( "IsFanOfSimplicialSurfaceWithEquivalence",
 #!	orientation for the set of incident faces as well. Since those faces are
 #!	oriented as well we can determine which side of the face lies in the 
 #!	correct direction.
+#!	This method returns the name of this side of the face.
 #!	@Arguments a simplicial surface (with equivalence), a simplicial surface
 #!		fan, a positive integer
 #!	@Returns an integer

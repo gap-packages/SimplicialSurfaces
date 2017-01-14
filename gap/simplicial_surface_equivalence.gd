@@ -276,6 +276,21 @@ DeclareOperation( "EdgeBindingRelation",
 	[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
 
 
+#TODO should this attribute also be a KeyDependentOperation? Should all 
+#attributes that are currently saved as lists be saved as such?
+#!	@Description
+#!	Return a list that is indexed by the face-names of the underlying
+#!	simplicial surface. At the position of a given face lies the local
+#!	orientation in terms of the vertex equivalence classes, i.e. it is a
+#!	cyclic permutation of the vertex equivalence class numbers that lie in the
+#!	given face.
+#!	@Arguments a simplicial surface with equivalence
+#!	@Returns a list of cyclic permutations
+DeclareAttribute( "LocalOrientationWRTVertexEquivalenceClassesAttributeOfSSWE",
+	IsSimplicialSurfaceWithEquivalence );
+DeclareOperation( "LocalOrientationWRTVertexEquivalenceClasses",
+	[IsSimplicialSurfaceWithEquivalence] );
+
 
 #############################################################################
 ##
