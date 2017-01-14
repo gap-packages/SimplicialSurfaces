@@ -345,14 +345,47 @@ InstallMethod( FaceOrientationInducedByFan,
 	function( surface, fan, face )
 		local edgeClassNr, localOrient;
 
-		#TODO
+		edgeClassNr := 
+			EdgeEquivalenceNumberForFanOfSimplicialSurfaceWithEquivalence( 
+																surface, fan);
+		if edgeClassNr = fail then
+			return fail;
+		fi;
+
+		if not face in CoronaOfFan(fan) then
+			Error("FaceOrientationInducedByFan: Given face has to lie in the surface.");
+		fi;
+
+		localOrient := 
+			LocalOrientationWRTVertexEquivalenceClassesAttributeOfSSWE(surface);
+		if BeginOfFan( fan )^localOrient[face] = EndOfFan( fan ) then
+			return 1;
+		else
+			return -1;
+		fi;
 	end
 );
 InstallOtherMethod( FaceOrientationInducedByFan, 
 	"for a simplicial surface, a simplicial surface fan and a positive integer", 
 	[IsSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
 	function( surface, fan, face )
-		#TODO
+		local edgeClassNr, localOrient;
+
+		edgeClassNr := EdgeForFanOfSimplicialSurface( surface, fan);
+		if edgeClassNr = fail then
+			return fail;
+		fi;
+
+		if not face in CoronaOfFan(fan) then
+			Error("FaceOrientationInducedByFan: Given face has to lie in the surface.");
+		fi;
+
+		localOrient := LocalOrientation(surface);
+		if BeginOfFan( fan )^localOrient[face] = EndOfFan( fan ) then
+			return 1;
+		else
+			return -1;
+		fi;
 	end
 );
 
