@@ -324,6 +324,34 @@ InstallMethod( IsFanOfSimplicialSurfaceWithEquivalence,
 	end
 );
 
+#TODO is a NC-version useful?
+#!	@Description
+#!	A fan of a simplicial surface (with equivalence) defines an orientation
+#!	for an edge (equivalence class). By the right-hand-rule this defines an
+#!	orientation for the set of incident faces as well. Since those faces are
+#!	oriented as well we can determine which side of the face lies in the 
+#!	correct direction.
+#!	This method returns +1 if this side is the pre-defined "correctly
+#!	oriented" side; and -1 otherwise.
+#!	@Arguments a simplicial surface (with equivalence), a simplicial surface
+#!		fan, a positive integer
+#!	@Returns an integer
+InstallMethod( FaceOrientationInducedByFan, 
+	"for a simplicial surface with equivalence, a simplicial surface fan and a positive integer", 
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan, IsPosInt],
+	function( surface, fan, face )
+		local edgeClassNr, localOrient;
+
+		#TODO
+	end
+);
+InstallOtherMethod( FaceOrientationInducedByFan, 
+	"for a simplicial surface, a simplicial surface fan and a positive integer", 
+	[IsSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
+	function( surface, fan, face )
+		#TODO
+	end
+);
 
 #!	@Description
 #!	A fan of a simplicial surface (with equivalence) defines an orientation
@@ -331,6 +359,7 @@ InstallMethod( IsFanOfSimplicialSurfaceWithEquivalence,
 #!	orientation for the set of incident faces as well. Since those faces are
 #!	oriented as well we can determine which side of the face lies in the 
 #!	correct direction.
+#!	This method returns the name of this side of the face.
 #!	@Arguments a simplicial surface (with equivalence), a simplicial surface
 #!		fan, a positive integer
 #!	@Returns an integer
@@ -338,14 +367,22 @@ InstallMethod( FaceNameInducedByFan,
 	"for a simplicial surface with equivalence, a simplicial surface fan and a positive integer", 
 	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan, IsPosInt],
 	function( surface, fan, face )
-		#TODO
+		local side, faceNames;
+
+		side := FaceOrientationInducedByFan( surface, fan, face);
+		faceNames := NamesOfFaces( UnderlyingSimplicialSurface( surface ) );
+		return faceNames[ 0.5 * ( 3 - side ) ]; # 1 -> 1, -1 -> 2
 	end
 );
 InstallOtherMethod( FaceNameInducedByFan, 
 	"for a simplicial surface, a simplicial surface fan and a positive integer", 
 	[IsSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
 	function( surface, fan, face )
-		#TODO
+		local side, faceNames;
+
+		side := FaceOrientationInducedByFan( surface, fan, face);
+		faceNames := NamesOfFaces( surface );
+		return faceNames[ 0.5 * ( 3 - side ) ]; # 1 -> 1, -1 -> 2
 	end
 );
 
