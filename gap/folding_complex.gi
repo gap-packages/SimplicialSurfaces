@@ -63,7 +63,7 @@ InstallMethod( UnderlyingSimplicialSurface, "for a folding complex",
 InstallMethod( UnderlyingSimplicialSurfaceAttributeOfFoldingComplex, 
 	"for a folding complex",
 	[IsFoldingComplex and 
-		HasUnderlyingSimplicialSurfaceWithEquivalenceAttributeOfFoldingComplex],
+		HasUnderlyingSSWEAttributeOfFoldingComplex],
 	function( complex )
 		return UnderlyingSimplicialSurface(
 					UnderlyingSimplicialSurfaceWithEquivalence(complex));
@@ -121,7 +121,7 @@ InstallMethod( BorderPiecesAttributeOfFoldingComplex, "for a folding complex",
 		borderPieces := [];
 		for face in faces do
 			# Try to compute the border
-			border := #TODO ( complex, face );
+			#border := #TODO ( complex, face );
 			
 		od;
 
