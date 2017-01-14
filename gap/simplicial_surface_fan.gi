@@ -253,6 +253,60 @@ InstallMethod( ReducedFan,
 );
 
 
+#############################################################################
+##
+##
+#!  @Section Functions for fans
+#!
+#!
+#!
+
+#!	@Description
+#!	Check if the given fan is the fan of a simplicial surface. This is the case
+#!	if there is an edge with Begin and End as vertices and the incident faces
+#!	around it are exactly the corona.
+#!	@Arguments a simplicial surface, a simplicial surface fan
+#!	@Returns true or false
+InstallMethod( IsFanOfSimplicialSurface, 
+	"for a simplicial surface and a simplicial surface fan", 
+	[IsSimplicialSurface, IsSimplicialSurfaceFan],
+	function( surface, fan )
+		local edges, edgesByVertices, e;
+
+		edges := Edges(surface);
+		edgesByVertices := EdgesByVertices(surface);
+		for e in edges do
+			if edgesByVertices[e] = Set( BeginOfFan(fan), EndOfFan(fan) ) then
+				# now check the corona
+				if EdgesByFaces(surface)[e] = CoronaOfFan(fan) then
+					return true;
+				fi;
+			fi;
+		od;
+
+		return false;
+	end
+);
+
+
+#!	@Description
+#!	Check if the given fan is the fan of a simplicial surface with equivalence. 
+#!	This is the case if there is an edge equivalence class with Begin and End
+#!	as incident vertex equivalence classes and the incident faces (not 
+#!	equivalence classes!) around it are exactly the corona.
+#!	@Arguments a simplicial surface with equivalence, a simplicial surface fan
+#!	@Returns true or false
+InstallMethod( IsFanOfSimplicialSurfaceWithEquivalence, 
+	"for a simplicial surface with equivalence and a simplicial surface fan", 
+	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan],
+	function( surface, fan )
+		# TODO
+	end
+);
+
+
+
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

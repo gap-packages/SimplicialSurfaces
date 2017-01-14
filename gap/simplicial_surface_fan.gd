@@ -158,8 +158,9 @@ DeclareOperation( "IsFanOfSimplicialSurface",
 
 #!	@Description
 #!	Check if the given fan is the fan of a simplicial surface with equivalence. 
-#!	This is the case if there is an edge with Begin and End as vertices and the 
-#!	incident faces around it are exactly the corona.
+#!	This is the case if there is an edge equivalence class with Begin and End
+#!	as incident vertex equivalence classes and the incident faces (not 
+#!	equivalence classes!) around it are exactly the corona.
 #!	@Arguments a simplicial surface with equivalence, a simplicial surface fan
 #!	@Returns true or false
 DeclareOperation( "IsFanOfSimplicialSurfaceWithEquivalence", 
