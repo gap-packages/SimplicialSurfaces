@@ -5,9 +5,9 @@ Read("simplicial_surface.gi");
 Read("wild_simplicial_surface.gd");
 Read("wild_simplicial_surface.gi");
 
-Read("simplicial_surface_equivalence.gd");
+Read("coloured_simplicial_surface.gd");
 Read("simplicial_surface_identification.gd");
-Read("simplicial_surface_equivalence.gi");
+Read("coloured_simplicial_surface.gi");
 Read("simplicial_surface_identification.gi");
 
 

@@ -66,17 +66,17 @@ InstallMethod( UnderlyingSimplicialSurfaceAttributeOfFoldingComplex,
 		HasUnderlyingSSWEAttributeOfFoldingComplex],
 	function( complex )
 		return UnderlyingSimplicialSurface(
-					UnderlyingSimplicialSurfaceWithEquivalence(complex));
+					UnderlyingColouredSimplicialSurface(complex));
 	end
 );
 
 
 #!	@Description
-#!	Return the underlying simplicial surface with equivalence of this folding 
+#!	Return the underlying coloured simplicial surface of this folding 
 #!	complex.
 #!	@Arguments a folding complex
-#!	@Returns a simplicial surface with equivalence
-InstallMethod( UnderlyingSimplicialSurfaceWithEquivalence, 
+#!	@Returns a coloured simplicial surface
+InstallMethod( UnderlyingColouredSimplicialSurface, 
 	"for a folding complex",
 	[IsFoldingComplex],
 	function( complex )
@@ -87,8 +87,8 @@ InstallMethod( UnderlyingSimplicialSurfaceWithEquivalence,
 
 #!	@Description
 #!	Return the fans of this folding complex in the form of a list that is
-#!	indexed by the edge equivalence class numbers of the underlying simplicial
-#!	surface with equivalence.
+#!	indexed by the edge equivalence class numbers of the underlying coloured
+#!	simplicial surface.
 #!	@Arguments a folding complex
 #!	@Returns a list of fans
 InstallMethod( Fans, "for a folding complex", [IsFoldingComplex],
@@ -101,7 +101,7 @@ InstallMethod( Fans, "for a folding complex", [IsFoldingComplex],
 #!	@Description
 #!	Return the border pieces of this folding complex in the form of a list that 
 #!	is indexed by the face equivalence class numbers of the underlying 
-#!	simplicial surface with equivalence.
+#!	coloured simplicial surface.
 #!	@Arguments a folding complex
 #!	@Returns a list of sets
 InstallMethod( BorderPieces, "for a folding complex", [IsFoldingComplex],
@@ -117,7 +117,7 @@ InstallMethod( BorderPiecesAttributeOfFoldingComplex, "for a folding complex",
 		local borderPieces, faces, face, border;
 
 		faces := FaceEquivalenceNumbersAsSet( 
-					UnderlyingSimplicialSurfaceWithEquivalence(complex) );
+					UnderlyingColouredSimplicialSurface(complex) );
 		borderPieces := [];
 		for face in faces do
 			# Try to compute the border
@@ -149,7 +149,7 @@ InstallMethod( FanOfEdgeEquivalenceClass,
 	[IsFoldingComplex, IsPosInt],
 	function( complex, edgeClass )
 		if not edgeClass in EdgeEquivalenceNumbersAsSet( 
-				UnderlyingSimplicialSurfaceWithEquivalence( complex ) ) then
+				UnderlyingColouredSimplicialSurface( complex ) ) then
 			return Error("FanOfEdgeEquivalenceClass: Given number has to represent an edge equivalence class.");
 		fi;
 		return Fans(complex)[edgeClass];
@@ -176,7 +176,7 @@ InstallMethod( BorderPiecesOfFaceEquivalenceClass,
 	[IsFoldingComplex, IsPosInt],
 	function( complex, faceClass )
 		if not faceClass in FaceEquivalenceNumbersAsSet( 
-				UnderlyingSimplicialSurfaceWithEquivalence( complex ) ) then
+				UnderlyingColouredSimplicialSurface( complex ) ) then
 			return Error("BorderPiecesOfFaceEquivalenceClass: Given number has to represent a face equivalence class.");
 		fi;
 		return BorderPieces(complex)[faceClass];

@@ -117,20 +117,20 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 
 
 #!	@Description
-#!	Return the fan of the edge of a simplicial surface with equivalence. For 
+#!	Return the fan of the edge of a coloured simplicial surface. For 
 #!	this to be unique at most two faces can be incident to the edge equivalence
 #!	class (otherwise the permutation of those is not unique).
 #!
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a fan
-InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence,
-	"for a simplicial surface with equivalence and a positive integer",
-	[IsSimplicialSurfaceWithEquivalence, IsPosInt],
+InstallMethod( SimplicialSurfaceFanByEdgeInColouredSimplicialSurface,
+	"for a coloured simplicial surface and a positive integer",
+	[IsColouredSimplicialSurface, IsPosInt],
 	function( surface, edge )
 		local fan, vertices, faces, perm;
 
 		if not edge in EdgeEquivalenceNumbersAsSet(surface) then
-			Error("SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence: Given edge has to be a class in given surface.");
+			Error("SimplicialSurfaceFanByEdgeInColouredSimplicialSurface: Given edge has to be a class in given surface.");
 		fi;
 
 		faces := List( EdgeEquivalenceClassByNumberNC(surface,edge), e ->
@@ -141,7 +141,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence,
 		elif Size(faces) = 2 then
 			perm := PermListList( faces, Reversed(faces) );
 		else
-			Error("SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence: There have to be at most two faces incident to the given edge equivalence class.");
+			Error("SimplicialSurfaceFanByEdgeInColouredSimplicialSurface: There have to be at most two faces incident to the given edge equivalence class.");
 		fi;
 
 		vertices := EdgesByVertices(QuotientSimplicialSurface(surface))[edge];
@@ -332,16 +332,16 @@ InstallMethod( EdgeForFanOfSimplicialSurface,
 
 
 #!	@Description
-#!	Check if the given fan is the fan of a simplicial surface with equivalence. 
+#!	Check if the given fan is the fan of a coloured simplicial surface. 
 #!	This is the case if there is an edge equivalence class with Begin and End
 #!	as incident vertex equivalence classes and the incident faces (not 
 #!	equivalence classes!) around it are exactly the corona.
 #!	Then it returns the edge equivalence class, otherwise fail.
-#!	@Arguments a simplicial surface with equivalence, a simplicial surface fan
+#!	@Arguments a coloured simplicial surface, a simplicial surface fan
 #!	@Returns a positive integer or fail
-InstallMethod( EdgeEquivalenceNumberForFanOfSimplicialSurfaceWithEquivalence, 
-	"for a simplicial surface with equivalence and a simplicial surface fan", 
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan],
+InstallMethod( EdgeEquivalenceNumberForFanOfColouredSimplicialSurface, 
+	"for a coloured simplicial surface and a simplicial surface fan", 
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceFan],
 	function( surface, fan )
 		local edgeClassNr, edgeByVertexClass, quot, edgeNr, allEdges, faces;
 
@@ -369,24 +369,24 @@ InstallMethod( EdgeEquivalenceNumberForFanOfSimplicialSurfaceWithEquivalence,
 
 #TODO is a NC-version useful?
 #!	@Description
-#!	A fan of a simplicial surface (with equivalence) defines an orientation
+#!	A fan of a simplicial surface (with colouring) defines an orientation
 #!	for an edge (equivalence class). By the right-hand-rule this defines an
 #!	orientation for the set of incident faces as well. Since those faces are
 #!	oriented as well we can determine which side of the face lies in the 
 #!	correct direction.
 #!	This method returns +1 if this side is the pre-defined "correctly
 #!	oriented" side; and -1 otherwise.
-#!	@Arguments a simplicial surface (with equivalence), a simplicial surface
+#!	@Arguments a simplicial surface (with colouring), a simplicial surface
 #!		fan, a positive integer
 #!	@Returns an integer
 InstallMethod( FaceOrientationInducedByFan, 
-	"for a simplicial surface with equivalence, a simplicial surface fan and a positive integer", 
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan, IsPosInt],
+	"for a coloured simplicial surface, a simplicial surface fan and a positive integer", 
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
 	function( surface, fan, face )
 		local edgeClassNr, localOrient;
 
 		edgeClassNr := 
-			EdgeEquivalenceNumberForFanOfSimplicialSurfaceWithEquivalence( 
+			EdgeEquivalenceNumberForFanOfColouredSimplicialSurface( 
 																surface, fan);
 		if edgeClassNr = fail then
 			return fail;
@@ -397,7 +397,7 @@ InstallMethod( FaceOrientationInducedByFan,
 		fi;
 
 		localOrient := 
-			LocalOrientationWRTVertexEquivalenceClassesAttributeOfSSWE(surface);
+			LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS(surface);
 		if BeginOfFan( fan )^localOrient[face] = EndOfFan( fan ) then
 			return 1;
 		else
@@ -430,18 +430,18 @@ InstallOtherMethod( FaceOrientationInducedByFan,
 );
 
 #!	@Description
-#!	A fan of a simplicial surface (with equivalence) defines an orientation
+#!	A fan of a simplicial surface (with colouring) defines an orientation
 #!	for an edge (equivalence class). By the right-hand-rule this defines an
 #!	orientation for the set of incident faces as well. Since those faces are
 #!	oriented as well we can determine which side of the face lies in the 
 #!	correct direction.
 #!	This method returns the name of this side of the face.
-#!	@Arguments a simplicial surface (with equivalence), a simplicial surface
+#!	@Arguments a simplicial surface (with colouring), a simplicial surface
 #!		fan, a positive integer
 #!	@Returns an integer
 InstallMethod( FaceNameInducedByFan, 
-	"for a simplicial surface with equivalence, a simplicial surface fan and a positive integer", 
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan, IsPosInt],
+	"for a coloured simplicial surface, a simplicial surface fan and a positive integer", 
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
 	function( surface, fan, face )
 		local side, faceNames;
 

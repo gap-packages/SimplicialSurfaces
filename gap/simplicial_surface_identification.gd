@@ -11,10 +11,10 @@
 ##  This file contains the declaration part for the identifications of the 
 ##	SimplicialSurfaces package. An identification is an isomorphism between
 ##	two faces (and the incident vertices and edges) and is used to fold a
-##	simplicial surface with equivalence.
+##	coloured simplicial surface.
 ##
 ##	An identification consists of three maps - one for vertices, edges and
-##	faces. It can be applied to any simplicial surface (with equivalence) where
+##	faces. It can be applied to any simplicial surface (with colouring) where
 ##	it the application is well-defined.
 ##
 
@@ -124,39 +124,39 @@ DeclareOperation( "IsWellDefinedIdentification",
 
 #!	@Description
 #!	Return if the given simplicial surface identification is constant on the
-#!	intersection for the given simplicial surface with equivalence.
+#!	intersection for the given coloured simplicial surface.
 #!	TODO explain what this means
-#!	@Arguments a simplicial surface with equivalence, a simplicial surface 
+#!	@Arguments a coloured simplicial surface, a simplicial surface 
 #!	identification
 #!	@Returns true or false
 DeclareOperation( "IsConstantOnIntersection", 
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 
 
 #!	@Description
 #!	Return if the given simplicial surface identification can be applied to
-#!	the given simplicial surface with equivalence and result in another
-#!	simplicial surface with equivalence. To be more precise we check the
+#!	the given coloured simplicial surface and result in another
+#!	coloured simplicial surface. To be more precise we check the
 #!	property of corollary 2.37 in my master thesis.
-#!	@Arguments a simplicial surface with equivalence, a simplicial surface 
+#!	@Arguments a coloured simplicial surface, a simplicial surface 
 #!	identification
 #!	@Returns true or false
 DeclareOperation( "IsApplicableExtension", 
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 
 #!	@Description
-#!	Extend the equivalence relation of the simplicial surface with
-#!	equivalence with a simplicial surface identification.
+#!	Extend the equivalence relation of the coloured simplicial surface
+#!	with a simplicial surface identification.
 #!
 #!	The NC-version does not run the test IsApplicableExtension.
 #!
-#!	@Arguments a simplicial surface with equivalence, a simplicial surface
+#!	@Arguments a coloured simplicial surface, a simplicial surface
 #!		identification
-#!	@Returns a simplicial surface with equivalence
+#!	@Returns a coloured simplicial surface
 DeclareOperation( "ExtendByIdentification",
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 DeclareOperation( "ExtendByIdentificationNC",
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification] );
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 
 
 #

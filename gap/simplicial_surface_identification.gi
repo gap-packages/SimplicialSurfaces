@@ -233,15 +233,15 @@ InstallMethod( IsWellDefinedIdentification,
 
 #!	@Description
 #!	Return if the given simplicial surface identification is constant on the
-#!	intersection for the given simplicial surface with equivalence.
+#!	intersection for the given coloured simplicial surface.
 #!	TODO explain what this means
 #!	It also checks if the identification is well-defined.
-#!	@Arguments a simplicial surface with equivalence, a simplicial surface 
+#!	@Arguments a coloured simplicial surface, a simplicial surface 
 #!	identification
 #!	@Returns true or false
 InstallMethod( IsConstantOnIntersection, 
-	"for a simplicial surface with equivalence and a simplicial surface identification",
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	"for a coloured simplicial surface and a simplicial surface identification",
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
 	function( surface, id )
 		local uSurf, edge1, edge2, edgesSource, edgesRange,
 			vertex1, vertex2, verticesSource, verticesRange;
@@ -282,16 +282,16 @@ InstallMethod( IsConstantOnIntersection,
 
 #!	@Description
 #!	Return if the given simplicial surface identification can be applied to
-#!	the given simplicial surface with equivalence and result in another
-#!	simplicial surface with equivalence. To be more precise we check the
+#!	the given coloured simplicial surface and result in another
+#!	coloured simplicial surface. To be more precise we check the
 #!	property of corollary 2.37 in my master thesis in addition to
 #!	IsWellDefinedIdentification and IsConstantOnIntersection
-#!	@Arguments a simplicial surface with equivalence, a simplicial surface 
+#!	@Arguments a coloured simplicial surface, a simplicial surface 
 #!	identification
 #!	@Returns true or false
 InstallMethod( IsApplicableExtension, 
-	"for a simplicial surface with equivalence and a simplicial surface identification",
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	"for a coloured simplicial surface and a simplicial surface identification",
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
 	function( surface, id )
 		local vMap, vertex, vertexSource, quot, vertexClasses, edge;
 
@@ -327,17 +327,17 @@ InstallMethod( IsApplicableExtension,
 
 
 #!	@Description
-#!	Extend the equivalence relation of the simplicial surface with
-#!	equivalence with a simplicial surface identification.
+#!	Extend the equivalence relation of the coloured simplicial surface 
+#!	with a simplicial surface identification.
 #!
 #!	The NC-version does not run the test IsApplicableExtension.
 #!
-#!	@Arguments a simplicial surface with equivalence, a simplicial surface
+#!	@Arguments a coloured simplicial surface, a simplicial surface
 #!		identification
-#!	@Returns a simplicial surface with equivalence
+#!	@Returns a coloured simplicial surface
 InstallMethod( ExtendByIdentification, 
-	"for a simplicial surface with equivalence and a simplicial surface identification",
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	"for a coloured simplicial surface and a simplicial surface identification",
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
 	function( surface, id )
 		if not IsApplicableExtension( surface, id ) then
 			Error("ExtendByIdentification: The identification has to be applicable.");
@@ -347,8 +347,8 @@ InstallMethod( ExtendByIdentification,
 	end
 );
 InstallMethod( ExtendByIdentificationNC, 
-	"for a simplicial surface with equivalence and a simplicial surface identification",
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceIdentification],
+	"for a coloured simplicial surface and a simplicial surface identification",
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
 	function( surface, id )
 		local ExtendedClassesByNumbers, vertexClassByNr, edgeClassByNr,
 				faceClassByNr, ext;
@@ -381,14 +381,14 @@ InstallMethod( ExtendByIdentificationNC,
 			FaceEquivalenceClassesByNumbers(surface),
 			FaceEquivalenceNumbersByElements(surface) );
 
-		ext := Objectify( SimplicialSurfaceWithEquivalenceType, rec() );
-		SetUnderlyingSimplicialSurfaceAttributeOfSSWE( ext, 
+		ext := Objectify( ColouredSimplicialSurfaceType, rec() );
+		SetUnderlyingSimplicialSurfaceAttributeOfCSS( ext, 
 			UnderlyingSimplicialSurface(surface) );
-		SetVertexEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+		SetVertexEquivalenceClassesByNumbersAttributeOfCSS( ext, 
 			vertexClassByNr);
-		SetEdgeEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+		SetEdgeEquivalenceClassesByNumbersAttributeOfCSS( ext, 
 			edgeClassByNr);
-		SetFaceEquivalenceClassesByNumbersAttributeOfSSWE( ext, 
+		SetFaceEquivalenceClassesByNumbersAttributeOfCSS( ext, 
 			faceClassByNr);
 
 		return ext;

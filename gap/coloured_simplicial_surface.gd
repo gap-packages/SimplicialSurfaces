@@ -1,6 +1,6 @@
 ##############################################################################
 ##
-#W  simplicial_surface_equivalence.gd          SimplicialSurfaces           Markus Baumeister
+#W  coloured simplicial_surface.gd          SimplicialSurfaces           Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,
@@ -8,16 +8,16 @@
 ##
 ##  This file is free software, see license information at the end.
 ##
-##  This file contains the declaration part for the simplicial surfaces with
-##	equivalence of the SimplicialSurfaces package.
+##  This file contains the declaration part for the coloured simplicial surfaces
+##	of the SimplicialSurfaces package.
 ##
-##	A simplicial surface with equivalence consists of the following information:
+##	A coloured simplicial surface consists of the following information:
 ##		- a SimplicialSurface that describes the underlying structure
 ##		- an equivalence relation on vertices, edges and faces that describes
 ##			which of those are "folded together"
 ##
-##	There are in essence two ways to describe a simplicial surface with
-##	equivalence (we assume the equivalence classes are numbered):
+##	There are in essence two ways to describe a coloured simplicial surface with
+##	(we assume the equivalence classes are numbered):
 ##	1) Save a set of all equivalence class numbers (e.g. 
 ##		VertexEquivalenceNumbersAsSet) and save the classes in a list which is
 ##		indexed by the set of equivalence class numbers (e.g.
@@ -36,69 +36,69 @@
 ##		2) VertexEquivalenceNumbersByElements
 ##
 
-DeclareCategory( "IsSimplicialSurfaceWithEquivalence",
+DeclareCategory( "IsColouredSimplicialSurface",
 					IsComponentObjectRep and IsAttributeStoringRep );
 
 
 ##
-##	Define a new family for simplicial surfaces with equivalence. The family
+##	Define a new family for coloured simplicial surfaces. The family
 ##	defines a necessary condition that has to be fulfilled for objects to be 
-##	equal to each other. The argument IsSimplicialSurfaceWithEquivalence 
+##	equal to each other. The argument IsColouredSimplicialSurface 
 ##	guarantees that only objects that lie in this category can be part of the 
 ##	family.
 ##
-SimplicialSurfaceWithEquivalenceFamily := 
-    NewFamily("SimplicialSurfaceWithEquivalenceFamily",  IsObject, 
-				IsSimplicialSurfaceWithEquivalence);
+ColouredSimplicialSurfaceFamily := 
+    NewFamily("ColouredSimplicialSurfaceFamily",  IsObject, 
+				IsColouredSimplicialSurface);
 
 
 
 #############################################################################
 ##
 ##
-#!  @Section Constructors for simplicial surfaces with equivalence
+#!  @Section Constructors for coloured simplicial surfaces
 #!
 #!
 #!
 
 #!	@Description
-#!	Return a simplicial surface with equivalence that is based on the given
+#!	Return a coloured simplicial surface that is based on the given
 #!	simplicial surface. All equivalences are assumed to be trivial.
 #!	@Arguments a simplicial surface
-#!	@Returns a simplicial surface with equivalence
-DeclareOperation( "SimplicialSurfaceWithEquivalence", [IsSimplicialSurface]);
+#!	@Returns a coloured simplicial surface
+DeclareOperation( "ColouredSimplicialSurface", [IsSimplicialSurface]);
 
 
 #############################################################################
 ##
 ##
-#!  @Section Attributes and properties of simplicial surfaces with equivalence
+#!  @Section Attributes and properties of coloured simplicial surfaces
 #!
 #!
 
 
 #! @Description
 #! Return the underlying simplicial surface.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a simplicial surface
 DeclareAttribute( 
-	"UnderlyingSimplicialSurfaceAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence );
+	"UnderlyingSimplicialSurfaceAttributeOfCSS",
+	IsColouredSimplicialSurface );
 DeclareOperation( "UnderlyingSimplicialSurface", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 #!	@Description
 #!	Return the simplicial surface that we get if we consider each equivalence
 #!	class as one point. This method only constructs vertices, edges and faces.
 #!	Local orientation and naming scheme are set by default and have no
 #!	necessary relation to those of the underlying simplicial surface.
-#!	@Arguments a simplicial surface with equivalence
+#!	@Arguments a coloured simplicial surface
 #!	@Returns a simplicial surface
 DeclareAttribute(
-	"QuotientSimplicialSurfaceAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
+	"QuotientSimplicialSurfaceAttributeOfCSS",
+	IsColouredSimplicialSurface);
 DeclareOperation( "QuotientSimplicialSurface", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 ##
 ##		Vertices
@@ -107,48 +107,48 @@ DeclareOperation( "QuotientSimplicialSurface",
 #! @Description
 #! Return the vertex equivalence numbers as set. Each vertex equivalence class 
 #! has a unique number associated with it.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"VertexEquivalenceNumbersAsSetAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
+	"VertexEquivalenceNumbersAsSetAttributeOfCSS",
+	IsColouredSimplicialSurface);
 DeclareOperation( "VertexEquivalenceNumbersAsSet", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the vertex equivalence numbers as list indexed by the vertices of the
 #! underlying simplicial surface. Each vertex equivalence class 
 #! has a unique number associated with it.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"VertexEquivalenceNumbersByElementsAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
+	"VertexEquivalenceNumbersByElementsAttributeOfCSS",
+	IsColouredSimplicialSurface);
 DeclareOperation( "VertexEquivalenceNumbersByElements", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the vertex equivalence classes. They are indexed by the vertex
 #! equivalence numbers.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"VertexEquivalenceClassesByNumbersAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence );
+	"VertexEquivalenceClassesByNumbersAttributeOfCSS",
+	IsColouredSimplicialSurface );
 DeclareOperation( "VertexEquivalenceClassesByNumbers", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 
 #! @Description
 #! Return the vertex equivalence classes. They are indexed by the vertices of
 #! the underlying simplicial surface.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"VertexEquivalenceClassesByElementsAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence );
+	"VertexEquivalenceClassesByElementsAttributeOfCSS",
+	IsColouredSimplicialSurface );
 DeclareOperation( "VertexEquivalenceClassesByElements", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 ##
 ##		Edges
@@ -157,48 +157,48 @@ DeclareOperation( "VertexEquivalenceClassesByElements",
 #! @Description
 #! Return the edge equivalence numbers as set. Each edge equivalence class 
 #! has a unique number associated with it.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"EdgeEquivalenceNumbersAsSetAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
+	"EdgeEquivalenceNumbersAsSetAttributeOfCSS",
+	IsColouredSimplicialSurface);
 DeclareOperation( "EdgeEquivalenceNumbersAsSet", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the edge equivalence numbers as list indexed by the edges of the
 #! underlying simplicial surface. Each edge equivalence class 
 #! has a unique number associated with it.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"EdgeEquivalenceNumbersByElementsAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
+	"EdgeEquivalenceNumbersByElementsAttributeOfCSS",
+	IsColouredSimplicialSurface);
 DeclareOperation( "EdgeEquivalenceNumbersByElements", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the edge equivalence classes. They are indexed by the edge
 #! equivalence numbers.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"EdgeEquivalenceClassesByNumbersAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence );
+	"EdgeEquivalenceClassesByNumbersAttributeOfCSS",
+	IsColouredSimplicialSurface );
 DeclareOperation( "EdgeEquivalenceClassesByNumbers", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 
 #! @Description
 #! Return the edge equivalence classes. They are indexed by the edges of
 #! the underlying simplicial surface.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"EdgeEquivalenceClassesByElementsAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence );
+	"EdgeEquivalenceClassesByElementsAttributeOfCSS",
+	IsColouredSimplicialSurface );
 DeclareOperation( "EdgeEquivalenceClassesByElements", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 
 ##
@@ -208,72 +208,72 @@ DeclareOperation( "EdgeEquivalenceClassesByElements",
 #! @Description
 #! Return the face equivalence numbers as set. Each face equivalence class 
 #! has a unique number associated with it.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"FaceEquivalenceNumbersAsSetAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
+	"FaceEquivalenceNumbersAsSetAttributeOfCSS",
+	IsColouredSimplicialSurface);
 DeclareOperation( "FaceEquivalenceNumbersAsSet", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the face equivalence numbers as list indexed by the faces of the
 #! underlying simplicial surface. Each face equivalence class 
 #! has a unique number associated with it.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"FaceEquivalenceNumbersByElementsAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence);
+	"FaceEquivalenceNumbersByElementsAttributeOfCSS",
+	IsColouredSimplicialSurface);
 DeclareOperation( "FaceEquivalenceNumbersByElements", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the face equivalence classes. They are indexed by the face
 #! equivalence numbers.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"FaceEquivalenceClassesByNumbersAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence );
+	"FaceEquivalenceClassesByNumbersAttributeOfCSS",
+	IsColouredSimplicialSurface );
 DeclareOperation( "FaceEquivalenceClassesByNumbers", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 
 #! @Description
 #! Return the face equivalence classes. They are indexed by the faces of
 #! the underlying simplicial surface.
-#! @Arguments a simplicial surface with equivalence
+#! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"FaceEquivalenceClassesByElementsAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence );
+	"FaceEquivalenceClassesByElementsAttributeOfCSS",
+	IsColouredSimplicialSurface );
 DeclareOperation( "FaceEquivalenceClassesByElements", 
-									[IsSimplicialSurfaceWithEquivalence] );
+									[IsColouredSimplicialSurface] );
 
 #!	@Description
 #!	Return the binding relation of the given vertex class (represented by its
 #!	number). The binding partition represents the finest partition into which 
 #!	the vertex equivalence class may split without contradicting the
 #!	consistency with the incidence relation.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns an equivalence relation
-KeyDependentOperation( "VertexBindingRelationAttributeOfSSWE", 
-	IsSimplicialSurfaceWithEquivalence, IsPosInt, "");
+KeyDependentOperation( "VertexBindingRelationAttributeOfCSS", 
+	IsColouredSimplicialSurface, IsPosInt, "");
 DeclareOperation( "VertexBindingRelation", 
-	[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+	[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the binding relation of the given edge class (represented by its
 #!	number). The binding partition represents the finest partition into which 
 #!	the edge equivalence class may split without contradicting the
 #!	consistency with the incidence relation.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns an equivalence relation
-KeyDependentOperation( "EdgeBindingRelationAttributeOfSSWE", 
-	IsSimplicialSurfaceWithEquivalence, IsPosInt, "");
+KeyDependentOperation( "EdgeBindingRelationAttributeOfCSS", 
+	IsColouredSimplicialSurface, IsPosInt, "");
 DeclareOperation( "EdgeBindingRelation", 
-	[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+	[IsColouredSimplicialSurface, IsPosInt] );
 
 
 #TODO should this attribute also be a KeyDependentOperation? Should all 
@@ -284,18 +284,18 @@ DeclareOperation( "EdgeBindingRelation",
 #!	orientation in terms of the vertex equivalence classes, i.e. it is a
 #!	cyclic permutation of the vertex equivalence class numbers that lie in the
 #!	given face.
-#!	@Arguments a simplicial surface with equivalence
+#!	@Arguments a coloured simplicial surface
 #!	@Returns a list of cyclic permutations
-DeclareAttribute( "LocalOrientationWRTVertexEquivalenceClassesAttributeOfSSWE",
-	IsSimplicialSurfaceWithEquivalence );
+DeclareAttribute( "LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS",
+	IsColouredSimplicialSurface );
 DeclareOperation( "LocalOrientationWRTVertexEquivalenceClasses",
-	[IsSimplicialSurfaceWithEquivalence] );
+	[IsColouredSimplicialSurface] );
 
 
 #############################################################################
 ##
 ##
-#!  @Section Functions for simplicial surfaces with equivalence
+#!  @Section Functions for coloured simplicial surfaces
 #!
 #!
 #!
@@ -305,21 +305,21 @@ DeclareOperation( "LocalOrientationWRTVertexEquivalenceClasses",
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
 DeclareOperation( "IsEquivalentVertex", 
-				[IsSimplicialSurfaceWithEquivalence, IsPosInt, IsPosInt]);
+				[IsColouredSimplicialSurface, IsPosInt, IsPosInt]);
 
 #! @Description
 #! Check if two edges are equivalent.
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
 DeclareOperation( "IsEquivalentEdge", 
-				[IsSimplicialSurfaceWithEquivalence, IsPosInt, IsPosInt]);
+				[IsColouredSimplicialSurface, IsPosInt, IsPosInt]);
 
 #! @Description
 #! Check if two faces are equivalent.
 #! @Arguments two positive integers
 #! @Returns true if they are equivalent, false otherwise
 DeclareOperation( "IsEquivalentFace", 
-				[IsSimplicialSurfaceWithEquivalence, IsPosInt, IsPosInt]);
+				[IsColouredSimplicialSurface, IsPosInt, IsPosInt]);
 
 
 ############################################################################
@@ -330,102 +330,102 @@ DeclareOperation( "IsEquivalentFace",
 #!	equivalence class has a unique number associated with it.
 #!	The NC-version doesn't check whether the given vertex lies in the underlying
 #!	simplicial surface.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a positive integers
 DeclareOperation( "VertexEquivalenceNumberOfElement",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "VertexEquivalenceNumberOfElementNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the edge equivalence number of a given edge. Each edge 
 #!	equivalence class has a unique number associated with it.
 #!	The NC-version doesn't check whether the given edge lies in the underlying
 #!	simplicial surface.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a positive integers
 DeclareOperation( "EdgeEquivalenceNumberOfElement",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "EdgeEquivalenceNumberOfElementNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the face equivalence number of a given face. Each face 
 #!	equivalence class has a unique number associated with it.
 #!	The NC-version doesn't check whether the given face lies in the underlying
 #!	simplicial surface.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a positive integers
 DeclareOperation( "FaceEquivalenceNumberOfElement",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "FaceEquivalenceNumberOfElementNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the vertex equivalence class of a given vertex.
 #!	The NC-version doesn't check whether the given vertex lies in the underlying
 #!	simplicial surface.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a set of positive integers
 DeclareOperation( "VertexEquivalenceClassOfElement",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "VertexEquivalenceClassOfElementNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the edge equivalence class of a given edge.
 #!	The NC-version doesn't check whether the given edge lies in the underlying
 #!	simplicial surface.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a set of positive integers
 DeclareOperation( "EdgeEquivalenceClassOfElement",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "EdgeEquivalenceClassOfElementNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the face equivalence class of a given face.
 #!	The NC-version doesn't check whether the given face lies in the underlying
 #!	simplicial surface.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a set of positive integers
 DeclareOperation( "FaceEquivalenceClassOfElement",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "FaceEquivalenceClassOfElementNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the vertex equivalence class with a given number.
 #!	The NC-version doesn't check whether the given number refers to a vertex
 #!	equivalence class.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a set of positive integers
 DeclareOperation( "VertexEquivalenceClassByNumber",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "VertexEquivalenceClassByNumberNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the edge equivalence class with a given number.
 #!	The NC-version doesn't check whether the given number refers to a vertex
 #!	equivalence class.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a set of positive integers
 DeclareOperation( "EdgeEquivalenceClassByNumber",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "EdgeEquivalenceClassByNumberNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the face equivalence class with a given number.
 #!	The NC-version doesn't check whether the given number refers to a vertex
 #!	equivalence class.
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a set of positive integers
 DeclareOperation( "FaceEquivalenceClassByNumber",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 DeclareOperation( "FaceEquivalenceClassByNumberNC",
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt] );
+		[IsColouredSimplicialSurface, IsPosInt] );
 
 ##					END convenience methods
 ############################################################################

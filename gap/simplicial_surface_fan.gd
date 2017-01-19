@@ -69,15 +69,15 @@ DeclareOperation( "SimplicialSurfaceFanByEdgeInSimplicialSurface",
 
 
 #!	@Description
-#!	Return the fan of the edge of a simplicial surface with equivalence. For 
+#!	Return the fan of the edge of a coloured simplicial surface. For 
 #!	this to be unique at most two faces can be incident to the edge equivalence
 #!	class (otherwise the permutation of those is not unique).
 #!
-#!	@Arguments a simplicial surface with equivalence, a positive integer
+#!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a fan
 DeclareOperation( 
-	"SimplicialSurfaceFanByEdgeInSimplicialSurfaceWithEquivalence", 
-		[IsSimplicialSurfaceWithEquivalence, IsPosInt]);
+	"SimplicialSurfaceFanByEdgeInColouredSimplicialSurface", 
+		[IsColouredSimplicialSurface, IsPosInt]);
 
 
 
@@ -173,44 +173,44 @@ DeclareOperation( "EdgeForFanOfSimplicialSurface",
 
 
 #!	@Description
-#!	Check if the given fan is the fan of a simplicial surface with equivalence. 
+#!	Check if the given fan is the fan of a coloured simplicial surface. 
 #!	This is the case if there is an edge equivalence class with Begin and End
 #!	as incident vertex equivalence classes and the incident faces (not 
 #!	equivalence classes!) around it are exactly the corona.
 #!	Then it returns the edge equivalence class, otherwise fail.
-#!	@Arguments a simplicial surface with equivalence, a simplicial surface fan
+#!	@Arguments a coloured simplicial surface, a simplicial surface fan
 #!	@Returns a positive integer or fail
-DeclareOperation( "EdgeEquivalenceNumberForFanOfSimplicialSurfaceWithEquivalence", 
-		[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan] );
+DeclareOperation( "EdgeEquivalenceNumberForFanOfColouredSimplicialSurface", 
+		[IsColouredSimplicialSurface, IsSimplicialSurfaceFan] );
 
 
 #!	@Description
-#!	A fan of a simplicial surface (with equivalence) defines an orientation
+#!	A fan of a simplicial surface (with colouring) defines an orientation
 #!	for an edge (equivalence class). By the right-hand-rule this defines an
 #!	orientation for the set of incident faces as well. Since those faces are
 #!	oriented as well we can determine which side of the face lies in the 
 #!	correct direction.
 #!	This method returns +1 if this side is the pre-defined "correctly
 #!	oriented" side; and -1 otherwise.
-#!	@Arguments a simplicial surface (with equivalence), a simplicial surface
+#!	@Arguments a simplicial surface (with colouring), a simplicial surface
 #!		fan, a positive integer
 #!	@Returns an integer
 DeclareOperation( "FaceOrientationInducedByFan", 
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan, IsPosInt] );
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt] );
 
 
 #!	@Description
-#!	A fan of a simplicial surface (with equivalence) defines an orientation
+#!	A fan of a simplicial surface (with colouring) defines an orientation
 #!	for an edge (equivalence class). By the right-hand-rule this defines an
 #!	orientation for the set of incident faces as well. Since those faces are
 #!	oriented as well we can determine which side of the face lies in the 
 #!	correct direction.
 #!	This method returns the name of this side of the face.
-#!	@Arguments a simplicial surface (with equivalence), a simplicial surface
+#!	@Arguments a simplicial surface (with colouring), a simplicial surface
 #!		fan, a positive integer
 #!	@Returns an integer
 DeclareOperation( "FaceNameInducedByFan", 
-	[IsSimplicialSurfaceWithEquivalence, IsSimplicialSurfaceFan, IsPosInt] );
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt] );
 
 
 
