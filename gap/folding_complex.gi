@@ -18,12 +18,10 @@
 ##	position is a number and the vertices that have the same number are in
 ##	the same equivalence class.
 ##
-DeclareRepresentation("IsFoldingComplexRep", IsFoldingComplex,
-     []);
+DeclareRepresentation("IsFoldingComplexRep", IsFoldingComplex, []);
 
 ##	accompanying type
-FoldingComplexType := 
-    NewType( FoldingComplexFamily, IsFoldingComplexRep );
+FoldingComplexType := NewType( FoldingComplexFamily, IsFoldingComplexRep );
 
 
 
@@ -63,7 +61,7 @@ InstallMethod( UnderlyingSimplicialSurface, "for a folding complex",
 InstallMethod( UnderlyingSimplicialSurfaceAttributeOfFoldingComplex, 
 	"for a folding complex",
 	[IsFoldingComplex and 
-		HasUnderlyingSSWEAttributeOfFoldingComplex],
+		HasUnderlyingCSSAttributeOfFoldingComplex],
 	function( complex )
 		return UnderlyingSimplicialSurface(
 					UnderlyingColouredSimplicialSurface(complex));
@@ -80,7 +78,7 @@ InstallMethod( UnderlyingColouredSimplicialSurface,
 	"for a folding complex",
 	[IsFoldingComplex],
 	function( complex )
-		return UnderlyingSSWEAttributeOfFoldingComplex(complex);
+		return UnderlyingCSSAttributeOfFoldingComplex(complex);
 	end
 );
 

@@ -118,7 +118,7 @@ DeclareOperation( "UnderlyingSimplicialSurface", [IsFoldingComplex] );
 #!	@Arguments a folding complex
 #!	@Returns a coloured simplicial surface
 DeclareAttribute( 
-	"UnderlyingSSWEAttributeOfFoldingComplex",
+	"UnderlyingCSSAttributeOfFoldingComplex",
 		IsFoldingComplex);
 DeclareOperation( "UnderlyingColouredSimplicialSurface", 
 		[IsFoldingComplex] );
