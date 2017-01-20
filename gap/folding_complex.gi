@@ -65,6 +65,41 @@ __SIMPLICIAL_RecognizeBorderPieces := function( complex, faceEqNr )
 	return Set(recBorders);
 end;
 
+#!	@Description
+#!	Return a folding complex that is based on the given simplicial surface. All
+#!	other properties are uniquely defined if we start with an actual surface.
+#!	@Arguments a simplicial surface that is an actual surface
+#!	@Returns a folding complex
+InstallMethod( FoldingComplex, "for a simplicial surface", 
+	[IsSimplicialSurface and IsActualSurface],
+	function( simpSurf )
+		local complex, edge, fans;
+
+		# Initialize the object
+		complex := Objectify( FoldingComplexType, rec() );
+
+		SetUnderlyingSimplicialSurfaceAttributeOfFoldingComplex( complex, 
+				simpSurf );
+
+		SetUnderlyingCSSAttributeOfFoldingComplex( complex, 
+							ColouredSimplicialSurface( simpSurf ) );
+		
+		# construct fans
+		fans := [];
+		for edge in Edges( simpSurf ) do
+			fans[edge] := SimplicialSurfaceFanByEdgeInSimplicialSurface( 
+															simpSurf, edge );
+		od;
+		SetFansAttributeOfFoldingComplex( complex, fans );
+
+		# all possible border pieces are border pieces in an actual surface
+		SetBorderPiecesAttributeOfFoldingComplex( complex, 
+							List( NamesOfFaces(simpSurf), i -> Set(i) ) );
+
+		return complex;
+	end
+);
+
 ##	If the simplicial surface is not already known as an actual surface, we have
 ##	to check manually.
 RedispatchOnCondition( FoldingComplex, true, [IsSimplicialSurface],
