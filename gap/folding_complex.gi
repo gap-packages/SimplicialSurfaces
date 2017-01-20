@@ -35,7 +35,35 @@ FoldingComplexType := NewType( FoldingComplexFamily, IsFoldingComplexRep );
 ##	to implement some methods that construct the additional structures from
 ##	the given one. 
 ##
-##	
+##	A central method is the finding of border pieces by using fans.
+##	Given are a folding complex and a face equivalence class number. The method
+##	checks for each adjacent fan which oriented faces are "recognizes border
+##	pieces". It then returns the union of those. In the general case, exactly
+##	two border pieces will be found. If the face equivalence class is its own
+##	connected component, no border pieces will be found. If more than two
+##	border pieces are found, something has gone wrong.
+__SIMPLICIAL_RecognizeBorderPieces := function( complex, faceEqNr )
+	local colSurf, faceClass, edgeClassNrs, recBorders, edgeNr, orFace, face;
+
+	colSurf := UnderlyingColouredSimplicialSurface( complex );
+	faceClass := FaceEquivalenceClassByNumber( colSurf, faceEqNr );
+	edgeClassNrs := FacesByEdges(QuotientSimplicialSurface(colSurf))[faceEqNr];
+
+	recBorders := [];
+	for edgeNr in edgeClassNrs do
+		for face in faceClass do
+			for orFace in NamesOfFaceNC( 
+					UnderlyingSimplicialSurface( complex ), face ) do
+				if not IsEquivalentFace( colSurf, face, 
+					ApplyFanToOrientedFaceNC( complex, edgeNr, orFace ) ) then
+						Append(recBorders, [orFace]);
+				fi;
+			od;
+		od;
+	od;
+
+	return Set(recBorders);
+end;
 
 ##	If the simplicial surface is not already known as an actual surface, we have
 ##	to check manually.
