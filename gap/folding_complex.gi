@@ -147,6 +147,67 @@ InstallOtherMethod( FoldingComplexByFans,
 		return FoldingComplexByFansNC( simpSurf, fanList );
 	end
 );
+InstallMethod( FoldingComplexByFansNC, 
+	"for a coloured simplicial surface and a list of fans",
+	[IsColouredSimplicialSurface, IsList],
+	function( surface, fanList )
+		local complex, edge, fans, borders, face, tryBorder;
+
+		# Initialize the object
+		complex := Objectify( FoldingComplexType, rec() );
+
+		SetUnderlyingCSSAttributeOfFoldingComplex( complex, surface );
+		
+		# construct fans
+		fans := [];
+		for edge in EdgeEquivalenceClassesAsSet( surface ) do
+			if IsBound( fanList[edge] ) then
+				fans[edge] := fanList[edge];
+			else
+				fans[edge] := 
+					SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( 
+															surface, edge );
+			fi;
+		od;
+		SetFansAttributeOfFoldingComplex( complex, fans );
+
+		# try to find the border pieces by using the fans
+		borders := [];
+		for face in FaceEquivalenceClassesAsSet( surface ) do
+			tryBorder := __SIMPLICIAL_RecognizeBorderPieces( complex, face );
+			if Length( tryBorder ) = 0 then
+				Error("FoldingComplexByFans: No border pieces detected: Please use FoldingComplexByFansAndBorders instead.");
+			elif Length( tryBorder ) <> 2 then
+				Error("FoldingComplexByFans: Illegal configuration since recognized border pieces are not correct.");
+			else
+				borders[face] := tryBorder;
+			fi;
+		od;
+		SetBorderPiecesAttributeOfFoldingComplex( complex, borders );
+
+		return complex;
+	end
+);
+InstallMethod( FoldingComplexByFans, 
+	"for a coloured simplicial surface and a list of fans",
+	[IsColouredSimplicialSurface, IsList],
+	function( surface, fanList )
+		local edge, fan;
+
+		for edge in EdgeEquivalenceClassesAsSet(surface) do
+			if IsBound( fanList[edge] ) then
+				fan := fanList[edge];
+	
+				if not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface(
+								 simpSurf, fan, edge ) then
+					Error("One of the given fans is not valid for this coloured simplicial surface.");
+				fi;
+			fi;
+		od;
+
+		return FoldingComplexByFansNC( simpSurf, fanList );
+	end
+);
 
 
 ##
