@@ -318,15 +318,32 @@ InstallMethod( EdgeForFanOfSimplicialSurface,
 		edges := Edges(surface);
 		edgesByVertices := EdgesByVertices(surface);
 		for e in edges do
-			if edgesByVertices[e] = Set( [BeginOfFan(fan), EndOfFan(fan)] ) then
-				# now check the corona
-				if EdgesByFaces(surface)[e] = CoronaOfFan(fan) then
-					return e;
-				fi;
+			if IsEdgeForFanOfSimplicialSurface( surface, fan, e ) then
+				return e;
 			fi;
 		od;
 
 		return fail;
+	end
+);
+
+#!	@Description
+#!	Check if the given fan is the fan of a given edge of a simplicial surface.
+#!	This is the case if the edge has Begin and End as vertices and the incident 
+#!	faces around it are exactly the corona. Then this method returns true,
+#!	otherwise false.
+#!	@Arguments a simplicial surface, a simplicial surface fan, a positive 
+#!		integer
+#!	@Returns true or false
+InstallMethod( IsEdgeForFanOfSimplicialSurface, 
+	"for a simplicial surface, a simplicial surface fan and an edge number", 
+	[IsSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
+	function( surface, fan, edge )
+		local edgesByVertices, e;
+
+		edgesByVertices := EdgesByVertices(surface);
+		return edgesByVertices[edge] = Set( [BeginOfFan(fan), EndOfFan(fan)] )
+			and EdgesByFaces(surface)[edge] = CoronaOfFan(fan);
 	end
 );
 
@@ -351,21 +368,50 @@ InstallMethod( EdgeEquivalenceNumberForFanOfColouredSimplicialSurface,
 		edgeByVertexClass := EdgesByVertices( quot );
 
 		for edgeNr in edgeClassNr do
-			if edgeByVertexClass[edgeNr] = 
-					Set( [BeginOfFan(fan), EndOfFan(fan)] ) then
-				# Check corona
-				allEdges := EdgeEquivalenceClassesByNumbers(surface)[edgeNr];
-				faces := List( allEdges, e -> 
-					EdgesByFaces( UnderlyingSimplicialSurface( surface ) )[e] );
-				if Union( faces ) = CoronaOfFan(fan) then
-					return edgeNr;
-				fi;
+			if IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface(
+					surface, fan, edgeNr ) then
+				return edgeNr;
 			fi;
 		od;
 		
 		return fail;
 	end
 );
+
+#!	@Description
+#!	Check if the given fan is the fan of a given edge equivalence class of a 
+#!	coloured simplicial surface. This is the case if the edge equivalence class
+#!	has Begin and End as vertices and the incident faces (not face equivalence
+#!	classes!) around it are exactly the corona. Then this method returns true,
+#!	otherwise false.
+#!	@Arguments a coloured simplicial surface, a simplicial surface fan, a 
+#!		positive integer
+#!	@Returns true or false
+InstallMethod( IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface, 
+	"for a coloured simplicial surface, a simplicial surface fan and an edge equivalence class number", 
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
+	function( surface, fan, edgeClassNr )
+		local edgeClassNr, edgeByVertexClass, quot, allEdges, faces;
+
+		# Check all edge classes
+		quot := QuotientSimplicialSurface( surface );
+		edgeByVertexClass := EdgesByVertices( quot );
+
+		if edgeByVertexClass[edgeClassNr] = 
+					Set( [BeginOfFan(fan), EndOfFan(fan)] ) then
+			# Check corona
+			allEdges := EdgeEquivalenceClassesByNumbers(surface)[edgeClassNr];
+			faces := List( allEdges, e -> 
+				EdgesByFaces( UnderlyingSimplicialSurface( surface ) )[e] );
+			if Union( faces ) = CoronaOfFan(fan) then
+				return true;
+			fi;
+		fi;
+		
+		return false;
+	end
+);
+
 
 #TODO is a NC-version useful?
 #!	@Description

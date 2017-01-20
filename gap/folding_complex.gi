@@ -73,6 +73,31 @@ end;
 InstallMethod( FoldingComplex, "for a simplicial surface", 
 	[IsSimplicialSurface and IsActualSurface],
 	function( simpSurf )
+		return FoldingComplexByFansNC( simpSurf, [] );
+	end
+);
+
+##	If the simplicial surface is not already known as an actual surface, we have
+##	to check manually.
+RedispatchOnCondition( FoldingComplex, true, [IsSimplicialSurface],
+	[IsActualSurface], 0);
+
+
+#!	@Description
+#!	Return a folding complex that is based on the given (coloured) simplicial 
+#!	surface. Furthermore we give some fans in form of a list that is 
+#!	indexed by the edge equivalence class numbers of the coloured simplicial 
+#!	surface. If a fan is not given in this list, we try to define it
+#!	uniquely by checking the surface. If this is not possible we throw an error.
+#!
+#!	The NC-version doesn't check if the given list consists of fans that match
+#!	the surface.
+#!	@Arguments a coloured simplicial surface and a list
+#!	@Returns a folding complex
+InstallOtherMethod( FoldingComplexByFansNC, 
+	"for a simplicial surface and a list of fans",
+	[IsSimplicialSurface, IsList],
+	function( simpSurf, fanList )
 		local complex, edge, fans;
 
 		# Initialize the object
@@ -87,8 +112,12 @@ InstallMethod( FoldingComplex, "for a simplicial surface",
 		# construct fans
 		fans := [];
 		for edge in Edges( simpSurf ) do
-			fans[edge] := SimplicialSurfaceFanByEdgeInSimplicialSurface( 
+			if IsBound( fanList[edge] ) then
+				fans[edge] := fanList[edge];
+			else
+				fans[edge] := SimplicialSurfaceFanByEdgeInSimplicialSurface( 
 															simpSurf, edge );
+			fi;
 		od;
 		SetFansAttributeOfFoldingComplex( complex, fans );
 
@@ -99,11 +128,27 @@ InstallMethod( FoldingComplex, "for a simplicial surface",
 		return complex;
 	end
 );
+InstallOtherMethod( FoldingComplexByFans, 
+	"for a simplicial surface and a list of fans",
+	[IsSimplicialSurface, IsList],
+	function( simpSurf, fanList )
+		local edge, fan;
 
-##	If the simplicial surface is not already known as an actual surface, we have
-##	to check manually.
-RedispatchOnCondition( FoldingComplex, true, [IsSimplicialSurface],
-	[IsActualSurface], 0);
+		for edge in Edges(simpSurf) do
+			if IsBound( fanList[edge] ) then
+				fan := fanList[edge];
+	
+				if not IsEdgeForFanOfSimplicialSurface( simpSurf, fan, edge ) then
+					Error("One of the given fans is not valid for this simplicial surface.");
+				fi;
+			fi;
+		od;
+
+		return FoldingComplexByFansNC( simpSurf, fanList );
+	end
+);
+
+
 ##
 ##
 ##							End of constructors

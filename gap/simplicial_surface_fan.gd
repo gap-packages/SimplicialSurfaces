@@ -173,6 +173,18 @@ DeclareOperation( "EdgeForFanOfSimplicialSurface",
 
 
 #!	@Description
+#!	Check if the given fan is the fan of a given edge of a simplicial surface.
+#!	This is the case if the edge has Begin and End as vertices and the incident 
+#!	faces around it are exactly the corona. Then this method returns true,
+#!	otherwise false.
+#!	@Arguments a simplicial surface, a simplicial surface fan, a positive 
+#!		integer
+#!	@Returns true or false
+DeclareOperation( "IsEdgeForFanOfSimplicialSurface", 
+		[IsSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt] );
+
+
+#!	@Description
 #!	Check if the given fan is the fan of a coloured simplicial surface. 
 #!	This is the case if there is an edge equivalence class with Begin and End
 #!	as incident vertex equivalence classes and the incident faces (not 
@@ -182,6 +194,18 @@ DeclareOperation( "EdgeForFanOfSimplicialSurface",
 #!	@Returns a positive integer or fail
 DeclareOperation( "EdgeEquivalenceNumberForFanOfColouredSimplicialSurface", 
 		[IsColouredSimplicialSurface, IsSimplicialSurfaceFan] );
+
+#!	@Description
+#!	Check if the given fan is the fan of a given edge equivalence class of a 
+#!	coloured simplicial surface. This is the case if the edge equivalence class
+#!	has Begin and End as vertices and the incident faces (not face equivalence
+#!	classes!) around it are exactly the corona. Then this method returns true,
+#!	otherwise false.
+#!	@Arguments a coloured simplicial surface, a simplicial surface fan, a 
+#!		positive integer
+#!	@Returns true or false
+DeclareOperation( "IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface", 
+		[IsSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt] );
 
 
 #!	@Description

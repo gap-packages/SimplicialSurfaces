@@ -46,21 +46,7 @@ DeclareOperation( "FoldingComplex", [IsSimplicialSurface and IsActualSurface]);
 
 
 #!	@Description
-#!	Return a folding complex that is based on the given simplicial surface.
-#!	Furthermore we give some fans in form of a list that is indexed by the
-#!	edges of the simplicial surface. If a fan is not given in this list, we
-#!	try to define it uniquely by checking the surface. If this is not possible
-#!	we throw an error.
-#!	The NC-version doesn't check if the given list consists of fans that match
-#!	the surface.
-#!	@Arguments a simplicial surface and a list
-#!	@Returns a folding complex
-DeclareOperation( "FoldingComplex", [IsSimplicialSurface, IsList] );
-DeclareOperation( "FoldingComplexNC", [IsSimplicialSurface, IsList] );
-
-
-#!	@Description
-#!	Return a folding complex that is based on the given coloured simplicial 
+#!	Return a folding complex that is based on the given (coloured) simplicial 
 #!	surface. Furthermore we give some fans in form of a list that is 
 #!	indexed by the edge equivalence class numbers of the coloured simplicial 
 #!	surface. If a fan is not given in this list, we try to define it
@@ -70,9 +56,9 @@ DeclareOperation( "FoldingComplexNC", [IsSimplicialSurface, IsList] );
 #!	the surface.
 #!	@Arguments a coloured simplicial surface and a list
 #!	@Returns a folding complex
-DeclareOperation( "FoldingComplex", 
+DeclareOperation( "FoldingComplexByFans", 
 			[IsColouredSimplicialSurface, IsList] );
-DeclareOperation( "FoldingComplexNC", 
+DeclareOperation( "FoldingComplexByFansNC", 
 			[IsColouredSimplicialSurface, IsList] );
 
 
@@ -89,9 +75,9 @@ DeclareOperation( "FoldingComplexNC",
 #!	the surface or of border pieces that match the fans.
 #!	@Arguments a coloured simplicial surface and two lists
 #!	@Returns a folding complex
-DeclareOperation( "FoldingComplex", 
+DeclareOperation( "FoldingComplexByFansAndBorders", 
 			[IsColouredSimplicialSurface, IsList, IsList] );
-DeclareOperation( "FoldingComplexNC", 
+DeclareOperation( "FoldingComplexByFansAndBordersNC", 
 			[IsColouredSimplicialSurface, IsList, IsList] );
 
 
