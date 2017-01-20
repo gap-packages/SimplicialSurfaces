@@ -197,6 +197,24 @@ InstallMethod( ApplyFanToOrientedFaceNC,
 	"for a folding complex, an edge equivalence class number and an oriented face",
 	[IsFoldingComplex, IsPosInt, IsInt],
 	function( complex, edgeClassNr, orFace )
+		local simpSurf, face, fan, faceOrient;
+
+		simpSurf := UnderlyingSimplicialSurface( complex );
+		face := FaceByName( simpSurf, orFace );
+		fan := FanOfEdgeEquivalenceClassNC( complex, edgeClassNr );
+
+		# find the correct orientation of the face
+		if NamesOfFaceNC(simpSurf,face)[1] = orFace then
+			faceOrient := LocalOrientation(simpsurf)[face];
+		else
+			faceOrient := LocalOrientation(simpsurf)[face]^(-1);
+		fi;
+
+		if BeginOfFan(fan)^faceOrient = EndOfFan(fan) then
+			return face^PermutationOfFan(fan);
+		else
+			return face^PermutationOfFan( InverseOfFan( fan ) );
+		fi;
 		
 	end
 );
