@@ -139,7 +139,7 @@ InstallOtherMethod( FoldingComplexByFans,
 				fan := fanList[edge];
 	
 				if not IsEdgeForFanOfSimplicialSurface( simpSurf, fan, edge ) then
-					Error("One of the given fans is not valid for this simplicial surface.");
+					Error("FoldingComplexByFans: One of the given fans is not valid for this simplicial surface.");
 				fi;
 			fi;
 		od;
@@ -200,7 +200,7 @@ InstallMethod( FoldingComplexByFans,
 	
 				if not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface(
 								 simpSurf, fan, edge ) then
-					Error("One of the given fans is not valid for this coloured simplicial surface.");
+					Error("FoldingComplexByFans: One of the given fans is not valid for this coloured simplicial surface.");
 				fi;
 			fi;
 		od;
@@ -209,6 +209,105 @@ InstallMethod( FoldingComplexByFans,
 	end
 );
 
+#!	@Description
+#!	Return a folding complex that is based on the given coloured simplicial 
+#!	surface. Furthermore we give some fans in form of a list that is 
+#!	indexed by the edge equivalence class numbers of the coloured simplicial 
+#!	surface. If a fan is not given in this list, we try to define it
+#!	uniquely by checking the surface. If this is not possible we throw an error.
+#!	We also give a list of border pieces, i.e. a list that is indexed by the 
+#!	face equivalence classes and consists of sets.
+#!
+#!	The NC-version doesn't check if the given lists consists of fans that match
+#!	the surface or of border pieces that match the fans.
+#!	@Arguments a coloured simplicial surface and two lists
+#!	@Returns a folding complex
+InstallMethod( FoldingComplexByFansAndBordersNC, 
+	"for a coloured simplicial surface and a list of fans",
+	[IsColouredSimplicialSurface, IsList, IsList],
+	function( surface, fanList, borderList )
+		local complex, edge, fans, borders, face, tryBorder;
+
+		# Initialize the object
+		complex := Objectify( FoldingComplexType, rec() );
+
+		SetUnderlyingCSSAttributeOfFoldingComplex( complex, surface );
+		
+		# construct fans
+		fans := [];
+		for edge in EdgeEquivalenceClassesAsSet( surface ) do
+			if IsBound( fanList[edge] ) then
+				fans[edge] := fanList[edge];
+			else
+				fans[edge] := 
+					SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( 
+															surface, edge );
+			fi;
+		od;
+		SetFansAttributeOfFoldingComplex( complex, fans );
+
+		# try to find the border pieces by using the fans
+		borders := [];
+		for face in FaceEquivalenceClassesAsSet( surface ) do
+			if IsBound( borderList[face] ) then
+				borders[face] := borderList[face];
+			else
+				tryBorder := __SIMPLICIAL_RecognizeBorderPieces( complex, face );
+				if Length( tryBorder ) = 0 then
+					Error("FoldingComplexByFans: No border pieces detected: Please use FoldingComplexByFansAndBorders instead.");
+				elif Length( tryBorder ) <> 2 then
+					Error("FoldingComplexByFans: Illegal configuration since recognized border pieces are not correct.");
+				else
+					borders[face] := tryBorder;
+				fi;
+			fi;
+		od;
+		SetBorderPiecesAttributeOfFoldingComplex( complex, borders );
+
+		return complex;
+	end
+);
+InstallMethod( FoldingComplexByFansAndBorders, 
+	"for a coloured simplicial surface, a list of fans and a list of sets border pieces",
+	[IsColouredSimplicialSurface, IsList, IsList],
+	function( surface, fanList, borderList )
+		local edge, fan, faceClassNr, borders;
+
+		# Check the fans
+		for edge in EdgeEquivalenceClassesAsSet(surface) do
+			if IsBound( fanList[edge] ) then
+				fan := fanList[edge];
+	
+				if not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface(
+								 simpSurf, fan, edge ) then
+					Error("FoldingComplexByFansAndBorders: One of the given fans is not valid for this coloured simplicial surface.");
+				fi;
+			fi;
+		od;
+
+		# Check the border pieces
+		for faceClassNr in FaceEquivalenceClassesAsSet(surface) do
+			if IsBound( borderList[faceClassNr] ) then
+				borders := borderList[faceClassNr];
+				if not IsSet(borders) then
+					Error("FoldingComplexByFansAndBorders: One element in the border list is not a set.");
+				fi;
+				if Length(borders) <> 2 then
+					Error("FoldingComplexByFansAndBorders: The sets of borders have to contain exactly two elements.");
+				fi;
+				# Check if the borders are possible
+				faceClass := FaceEquivalenceClassByNumber(surface, faceClassNr);
+				possBorders := Union( faceClass, f -> NamesOfFace( 
+					UnderlyingSimplicialSurface( surface ), f ) );
+				if not IsSubset( possBorders, borders ) then
+					Error("FoldingComplexByFansAndBorders: Some borders are incompatible with this coloured simplicial suface.");
+				fi;
+			fi;
+		od;
+
+		return FoldingComplexByFansAndBordersNC(simpSurf, fanList, borderList);
+	end
+);
 
 ##
 ##
