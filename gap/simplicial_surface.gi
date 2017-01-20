@@ -1535,7 +1535,7 @@ InstallMethod( NamesOfFace,
 ##
 #!	@Description
 #!	Return the face-number of the simplicial surface that has the given name
-#!	as the name of one of its sided.
+#!	as the name of one of its sides.
 #!	@Arguments a simplicial surface object simpsurf, an integer
 #!	@Returns a positive integer
 InstallMethod( FaceByName, "for a simplicial surface",
@@ -1557,7 +1557,7 @@ InstallMethod( FaceByName, "for a simplicial surface",
 ##
 #!	@Description
 #!	Return the face-number of the simplicial surface that has the given name
-#!	as the name of one of its sided.
+#!	as the name of one of its sides.
 #!	@Arguments a simplicial surface object simpsurf, an integer
 #!	@Returns a positive integer
 InstallMethod( FaceByName,

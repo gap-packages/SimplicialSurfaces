@@ -175,6 +175,21 @@ DeclareOperation( "BorderPiecesOfFaceEquivalenceClass",
 DeclareOperation( "BorderPiecesOfFaceEquivalenceClassNC", 
 		[IsFoldingComplex, IsPosInt] );
 
+#!	@Description
+#!	Apply a fan of a folding complex to an oriented face. This is defined
+#!	in the following way: Each oriented face defines an orientation around
+#!	the adjacent edges. The fan of this edge has a cycle for each such
+#!	orientation. We return the image of the given face (not an equivalence
+#!	class!) under this cycle.
+#!	The NC-version doesn't check if the given numbers refer to an oriented
+#!	face and an edge equivalence class.
+#!	@Arguments a folding complex, an integer and a positive integer
+#!	@Returns a positive integer
+DeclareOperation( "ApplyFanToOrientedFace", 
+		[IsFoldingComplex, IsPosInt, IsInt] );
+DeclareOperation( "ApplyFanToOrientedFaceNC", 
+		[IsFoldingComplex, IsPosInt, IsInt] );
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify

@@ -35,6 +35,7 @@ FoldingComplexType := NewType( FoldingComplexFamily, IsFoldingComplexRep );
 ##	to implement some methods that construct the additional structures from
 ##	the given one. 
 ##
+##	
 
 ##	If the simplicial surface is not already known as an actual surface, we have
 ##	to check manually.
@@ -178,6 +179,39 @@ InstallMethod( BorderPiecesOfFaceEquivalenceClass,
 			return Error("BorderPiecesOfFaceEquivalenceClass: Given number has to represent a face equivalence class.");
 		fi;
 		return BorderPieces(complex)[faceClass];
+	end
+);
+
+
+#!	@Description
+#!	Apply a fan of a folding complex to an oriented face. This is defined
+#!	in the following way: Each oriented face defines an orientation around
+#!	the adjacent edges. The fan of this edge has a cycle for each such
+#!	orientation. We return the image of the given face (not an equivalence
+#!	class!) under this cycle.
+#!	The NC-version doesn't check if the given numbers refer to an oriented
+#!	face and an edge equivalence class.
+#!	@Arguments a folding complex, an integer and a positive integer
+#!	@Returns a positive integer
+InstallMethod( ApplyFanToOrientedFaceNC, 
+	"for a folding complex, an edge equivalence class number and an oriented face",
+	[IsFoldingComplex, IsPosInt, IsInt],
+	function( complex, edgeClassNr, orFace )
+		
+	end
+);
+InstallMethod( ApplyFanToOrientedFace, 
+	"for a folding complex, an edge equivalence class number and an oriented face",
+	[IsFoldingComplex, IsPosInt, IsInt],
+	function( complex, edgeClassNr, orFace )
+		# Check the edge class
+		if not edgeClassNr in EdgeEquivalenceNumbersAsSet( 
+						UnderlyingColouredSimplicialSurface( complex ) ) then
+			Error("Second number has to be an edge equivalence class number.");
+		fi;
+
+		# The oriented face is checked automatically if FaceByName is called
+		return ApplyFanToOrientedFace( complex, edgeClassNr, orFace );
 	end
 );
 

@@ -415,7 +415,7 @@ DeclareOperation( "NamesOfFaceNC", [IsSimplicialSurface, IsPosInt] );
 ##
 #!	@Description
 #!	Return the face-number of the simplicial surface that has the given name
-#!	as the name of one of its sided.
+#!	as the name of one of its sides.
 #!	@Arguments a simplicial surface object simpsurf, an integer
 #!	@Returns a positive integer
 #!
