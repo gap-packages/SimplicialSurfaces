@@ -153,39 +153,7 @@ InstallMethod( FoldingComplexByFansNC,
 	function( surface, fanList )
 		local complex, edge, fans, borders, face, tryBorder;
 
-		# Initialize the object
-		complex := Objectify( FoldingComplexType, rec() );
-
-		SetUnderlyingCSSAttributeOfFoldingComplex( complex, surface );
-		
-		# construct fans
-		fans := [];
-		for edge in EdgeEquivalenceClassesAsSet( surface ) do
-			if IsBound( fanList[edge] ) then
-				fans[edge] := fanList[edge];
-			else
-				fans[edge] := 
-					SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( 
-															surface, edge );
-			fi;
-		od;
-		SetFansAttributeOfFoldingComplex( complex, fans );
-
-		# try to find the border pieces by using the fans
-		borders := [];
-		for face in FaceEquivalenceClassesAsSet( surface ) do
-			tryBorder := __SIMPLICIAL_RecognizeBorderPieces( complex, face );
-			if Length( tryBorder ) = 0 then
-				Error("FoldingComplexByFans: No border pieces detected: Please use FoldingComplexByFansAndBorders instead.");
-			elif Length( tryBorder ) <> 2 then
-				Error("FoldingComplexByFans: Illegal configuration since recognized border pieces are not correct.");
-			else
-				borders[face] := tryBorder;
-			fi;
-		od;
-		SetBorderPiecesAttributeOfFoldingComplex( complex, borders );
-
-		return complex;
+		return FoldingComplexByFansAndBordersNC( surface, fanList, [] );
 	end
 );
 InstallMethod( FoldingComplexByFans, 
@@ -254,9 +222,9 @@ InstallMethod( FoldingComplexByFansAndBordersNC,
 			else
 				tryBorder := __SIMPLICIAL_RecognizeBorderPieces( complex, face );
 				if Length( tryBorder ) = 0 then
-					Error("FoldingComplexByFans: No border pieces detected: Please use FoldingComplexByFansAndBorders instead.");
+					Error("FoldingComplexByFansAndBorders: No border pieces detected: Please use FoldingComplexByFansAndBorders instead.");
 				elif Length( tryBorder ) <> 2 then
-					Error("FoldingComplexByFans: Illegal configuration since recognized border pieces are not correct.");
+					Error("FoldingComplexByFansAndBorders: Illegal configuration since recognized border pieces are not correct.");
 				else
 					borders[face] := tryBorder;
 				fi;
