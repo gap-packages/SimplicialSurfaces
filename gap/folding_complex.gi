@@ -510,6 +510,18 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 	"for a folding complex",
 	[IsFoldingComplex],
 	function( complex )
+		local colSurf, quotSurf, newVertices, newEdges, newFaces;
+
+		colSurf := UnderlyingColouredSimplicialSurface(complex);
+		quotSurf := QuotientSimplicialSurface(colSurf);
+
+		# define the new faces 
+		# (first entry face class number, second entry oriented name)
+		#newFaces := Union( BorderPieces( complex ) );
+
+		# define the new edges
+		
+
 		# TODO
 	end
 );
