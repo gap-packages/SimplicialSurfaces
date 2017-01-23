@@ -321,6 +321,16 @@ DeclareOperation( "IsEquivalentEdge",
 DeclareOperation( "IsEquivalentFace", 
 				[IsColouredSimplicialSurface, IsPosInt, IsPosInt]);
 
+#!	@Description
+#!	Check whether the equivalence classes of the second coloured simplicial
+#!	surface are contained in the equivalence classes of the first coloured
+#!	simplicial surface. This is only possible if both coloured simplicial
+#!	surfaces are based on the same simplicial surface.
+#!	@Arguments two coloured simplicial surfaces
+#!	@Returns true or false
+DeclareOperation( "IsSubcolouring", 
+			[IsColouredSimplicialSurface, IsColouredSimplicialSurface] );
+
 
 ############################################################################
 ##				START convenience methods

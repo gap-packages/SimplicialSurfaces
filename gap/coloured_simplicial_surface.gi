@@ -735,6 +735,62 @@ InstallMethod( IsEquivalentFace, "for a coloured simplicial surface",
 	end
 );
 
+
+#!	@Description
+#!	Check whether the equivalence classes of the second coloured simplicial
+#!	surface are contained in the equivalence classes of the first coloured
+#!	simplicial surface. This is only possible if both coloured simplicial
+#!	surfaces are based on the same simplicial surface.
+#!	@Arguments two coloured simplicial surfaces
+#!	@Returns true or false
+InstallMethod( IsSubcolouring, "for two coloured simplicial surfaces", 
+	IsIdenticalObj, [IsColouredSimplicialSurface, IsColouredSimplicialSurface],
+	function( surf1, surf2 )
+		local vertexNr, vertex, vertexClass, edgeNr, edge, edgeClass,
+			faceNr, face, faceClass;
+
+		if UnderlyingSimplicialSurface(surf1) <> 
+						UnderlyingSimplicialSurface(surf2) then
+			return false;
+		fi;
+
+		# Check the vertex classes
+		vertexNr := VertexEquivalenceNumbersAsSet( surf2 );
+		for vertex in vertexNr do
+			vertexClass := VertexEquivalenceClassOfNumber( surf2, vertex );
+			if not IsSubset( 
+					VertexEquivalenceClassOfElement( surf1, vertexClass[1] ), 
+					vertexClass ) then
+				return false;
+			fi;
+		od;
+
+		# Check the edge classes
+		edgeNr := EdgeEquivalenceNumbersAsSet( surf2 );
+		for edge in edgeNr do
+			edgeClass := EdgeEquivalenceClassOfNumber( surf2, edge );
+			if not IsSubset( 
+					EdgeEquivalenceClassOfElement( surf1, edgeClass[1] ), 
+					edgeClass ) then
+				return false;
+			fi;
+		od;
+
+		# Check the face classes
+		faceNr := FaceEquivalenceNumbersAsSet( surf2 );
+		for face in faceNr do
+			faceClass := FaceEquivalenceClassOfNumber( surf2, face );
+			if not IsSubset( 
+					FaceEquivalenceClassOfElement( surf1, faceClass[1] ), 
+					faceClass ) then
+				return false;
+			fi;
+		od;
+
+		return true;
+	end
+);
+
 ############################################################################
 ##				START convenience methods
 
