@@ -126,16 +126,21 @@ __SIMPLICIAL_AreBorderPiecesComplementary := function( complex, edge )
 	surface := UnderlyingSimplicialSurface( complex );
 	while not IsEmpty(borders) do
 		b := borders[1];
+		dir1 := FaceNameInducedByFan(colSurf, fan, FaceByName(surface, b)) = b;
 		# Find complement of b
 		image := ApplyFanToOrientedFaceNC( complex, edge, b);
 		orImages := NamesOfFaceNC( surface, image );
 		for im in orImages do
 			# One of the sides has to be the complement
-			if ApplyFanToOrientedFaceNC( complex, edge, im) = b then
-				if not im in borders then
-					return false;
-				else
+			# We find the complement by considering which of these is
+			# oriented opposite to b (compare definition 3.23)
+			dir2 := FaceNameInducedByFan(colSurf, fan, image) = im;
+			if dir1 <> dir2 then
+				if ApplyFanToOrientedFaceNC( complex, edge, im) = b 
+						and im in borders then
 					borders := Difference( borders, Set([b,im]) );
+				else
+					return false;
 				fi;
 			fi;
 		od;
