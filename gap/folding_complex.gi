@@ -153,6 +153,8 @@ InstallMethod( FoldingComplex, "for a simplicial surface",
 	[IsSimplicialSurface and IsActualSurface],
 	function( surface )
 		return FoldingComplexByFansNC( surface, [] );
+		# If we construct fans and border pieces on the basis of a simplicial
+		# surface, they are automatically consistent
 	end
 );
 
@@ -211,10 +213,13 @@ InstallOtherMethod( FoldingComplexByFans,
 	"for a simplicial surface and a list of fans",
 	[IsSimplicialSurface, IsList],
 	function( surface, fanList )
-		local edge, fan;
+		local edge, fan, complex, edgeCheck, check;
 
+		# Check if the given fans are valid
+		edgeCheck := [];
 		for edge in Edges(surface) do
 			if IsBound( fanList[edge] ) then
+				Append(edgeCheck, [edge] );
 				fan := fanList[edge];
 	
 				if not IsEdgeForFanOfSimplicialSurface( surface, fan, edge ) then
@@ -223,7 +228,28 @@ InstallOtherMethod( FoldingComplexByFans,
 			fi;
 		od;
 
-		return FoldingComplexByFansNC( surface, fanList );
+		complex := FoldingComplexByFansNC( surface, fanList );
+		
+		# By construction the fans are compatible with the border pieces
+		# If border pieces are constructed by fans, they fall into 
+		# complementary pairs by default
+		# We have to check whether the fans are compatible with each other
+		# This is only necessary for the manually added fans
+		for edge in Edges(surface) do
+			for check in edgeCheck do
+				# Reduce redundant testing by enforcing check > edge
+				if check <= edge then
+					continue;
+				od;
+				
+				if not __SIMPLICIAL_AreFansCompatible( complex, 
+							Fans(complex)[edge], Fans(complex)[check] ) then
+					Error("FoldingComplexByFans: The given fans are incompatible.");
+				fi;
+			od;
+		od;
+
+		return complex;
 	end
 );
 InstallMethod( FoldingComplexByFansNC, 
@@ -239,10 +265,12 @@ InstallMethod( FoldingComplexByFans,
 	"for a coloured simplicial surface and a list of fans",
 	[IsColouredSimplicialSurface, IsList],
 	function( surface, fanList )
-		local edge, fan;
+		local edge, fan, edgeCheck, check, complex;
 
+		edgeCheck := [];
 		for edge in EdgeEquivalenceNumbersAsSet(surface) do
 			if IsBound( fanList[edge] ) then
+				Append(edgeCheck, [edge] );
 				fan := fanList[edge];
 	
 				if not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface(
@@ -252,7 +280,28 @@ InstallMethod( FoldingComplexByFans,
 			fi;
 		od;
 
-		return FoldingComplexByFansNC( surface, fanList );
+		complex := FoldingComplexByFansNC( surface, fanList );
+		
+		# By construction the fans are compatible with the border pieces
+		# If border pieces are constructed by fans, they fall into 
+		# complementary pairs by default
+		# We have to check whether the fans are compatible with each other
+		# This is only necessary for the manually added fans
+		for edge in EdgeEquivalenceNumbersAsSet(surface) do
+			for check in edgeCheck do
+				# Reduce redundant testing by enforcing check > edge
+				if check <= edge then
+					continue;
+				od;
+				
+				if not __SIMPLICIAL_AreFansCompatible( complex, 
+							Fans(complex)[edge], Fans(complex)[check] ) then
+					Error("FoldingComplexByFans: The given fans are incompatible.");
+				fi;
+			od;
+		od;
+
+		return complex;
 	end
 );
 
