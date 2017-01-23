@@ -102,6 +102,48 @@ __SIMPLICIAL_AreFansCompatible := function( complex, edge1, edge2 )
 	fi;
 end;
 
+##
+##	The final consistency method checks whether the border pieces that are
+##	adjacent to a given fan decompose into pairs of complementary border
+##	pieces. Two oriented surfaces are called complementary with respect to
+##	a given fan if the application of the fan to one of them gives the other
+##	one as a result.
+__SIMPLICIAL_AreBorderPiecesComplementary := function( complex, edge )
+	local fan, colSurf, faceNumbers, b;
+
+	# Determine the fan
+	fan := Fans(complex)[edge];
+
+	# Find the face equivalence numbers that are adjacent to the fan
+	colSurf := UnderlyingColouredSimplicialSurface(complex);
+	faceNumbers := Set( List( CoronaOfFan(fan), f -> 
+								FaceEquivalenceNumberByElement(colSurf, f) ) );
+	
+	# Find all border pieces that are adjacent to the fan
+	borders := Set( List( faceNumbers, n -> BorderPieces(complex)[n] ) );
+
+	# Check whether the border pieces fall into complementary pairs
+	surface := UnderlyingSimplicialSurface( complex );
+	while not IsEmpty(borders) do
+		b := borders[1];
+		# Find complement of b
+		image := ApplyFanToOrientedFaceNC( complex, edge, b);
+		orImages := NamesOfFaceNC( surface, image );
+		for im in orImages do
+			# One of the sides has to be the complement
+			if ApplyFanToOrientedFaceNC( complex, edge, im) = b then
+				if not im in borders then
+					return false;
+				else
+					borders := Difference( borders, Set([b,im]) );
+				fi;
+			fi;
+		od;
+	od;
+
+	return true;
+end;
+
 #!	@Description
 #!	Return a folding complex that is based on the given simplicial surface. All
 #!	other properties are uniquely defined if we start with an actual surface.
