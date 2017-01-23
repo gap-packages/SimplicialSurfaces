@@ -65,6 +65,43 @@ __SIMPLICIAL_RecognizeBorderPieces := function( complex, faceEqNr )
 	return Set(recBorders);
 end;
 
+##
+##	Furthermore, we need methods to check if fans and border pieces fit
+##	together. First we check whether the fans of two edge classes are
+##	compatible (see definition 3.18)
+__SIMPLICIAL_AreFansCompatible := function( complex, edge1, edge2 )
+	local fan1, fan2, corInt;
+
+	fan1 := Fans(complex)[edge1];
+	fan2 := Fans(complex)[edge2];
+
+	# First we calculate the intersection between the coronae
+	corInt := Intersection( CoronaOfFan(fan1), CoronaOfFan(fan2) );
+	if IsEmpty(corInt) then
+		return true;	# fans with disjoint coronae are compatible
+	fi;
+
+	# Next we have to consider the reducts of the fans to this intersection
+	red1 := ReducedFan( fan1, corInt );
+	red2 := ReducedFan( fan2, corInt );
+
+	# We have to make sure that both are oriented equally. This interaction
+	# can be described if corInt is not empty. We choose one element from this
+	# intersection and determine whether both fans define the same surface of
+	# this face. If they do, they are compatible if and only if their
+	# permutations are equal. If they define different surfaces we have to
+	# invert one of them before we make this comparison.
+	sur1 := FaceOrientationInducedByFan( 
+			UnderlyingColouredSimplicialSurface(complex), fan1, corInt[1] );
+	sur2 := FaceOrientationInducedByFan( 
+			UnderlyingColouredSimplicialSurface(complex), fan2, corInt[1] );
+	if sur1 = sur2 then
+		return PermutationOfFan(fan1) = PermutationOfFan(fan2);
+	else
+		return PermutationOfFan(fan1) = PermutationOfFan( InverseOfFan(fan2) );
+	fi;
+end;
+
 #!	@Description
 #!	Return a folding complex that is based on the given simplicial surface. All
 #!	other properties are uniquely defined if we start with an actual surface.
