@@ -72,8 +72,8 @@ end;
 #!	@Returns a folding complex
 InstallMethod( FoldingComplex, "for a simplicial surface", 
 	[IsSimplicialSurface and IsActualSurface],
-	function( simpSurf )
-		return FoldingComplexByFansNC( simpSurf, [] );
+	function( surface )
+		return FoldingComplexByFansNC( surface, [] );
 	end
 );
 
@@ -97,33 +97,33 @@ RedispatchOnCondition( FoldingComplex, true, [IsSimplicialSurface],
 InstallOtherMethod( FoldingComplexByFansNC, 
 	"for a simplicial surface and a list of fans",
 	[IsSimplicialSurface, IsList],
-	function( simpSurf, fanList )
+	function( surface, fanList )
 		local complex, edge, fans;
 
 		# Initialize the object
 		complex := Objectify( FoldingComplexType, rec() );
 
 		SetUnderlyingSimplicialSurfaceAttributeOfFoldingComplex( complex, 
-				simpSurf );
+				surface );
 
 		SetUnderlyingCSSAttributeOfFoldingComplex( complex, 
-							ColouredSimplicialSurface( simpSurf ) );
+							ColouredSimplicialSurface( surface ) );
 		
 		# construct fans
 		fans := [];
-		for edge in Edges( simpSurf ) do
+		for edge in Edges( surface ) do
 			if IsBound( fanList[edge] ) then
 				fans[edge] := fanList[edge];
 			else
 				fans[edge] := SimplicialSurfaceFanByEdgeInSimplicialSurface( 
-															simpSurf, edge );
+															surface, edge );
 			fi;
 		od;
 		SetFansAttributeOfFoldingComplex( complex, fans );
 
 		# all possible border pieces are border pieces in an actual surface
 		SetBorderPiecesAttributeOfFoldingComplex( complex, 
-							List( NamesOfFaces(simpSurf), i -> Set(i) ) );
+							List( NamesOfFaces(surface), i -> Set(i) ) );
 
 		return complex;
 	end
@@ -131,20 +131,20 @@ InstallOtherMethod( FoldingComplexByFansNC,
 InstallOtherMethod( FoldingComplexByFans, 
 	"for a simplicial surface and a list of fans",
 	[IsSimplicialSurface, IsList],
-	function( simpSurf, fanList )
+	function( surface, fanList )
 		local edge, fan;
 
-		for edge in Edges(simpSurf) do
+		for edge in Edges(surface) do
 			if IsBound( fanList[edge] ) then
 				fan := fanList[edge];
 	
-				if not IsEdgeForFanOfSimplicialSurface( simpSurf, fan, edge ) then
+				if not IsEdgeForFanOfSimplicialSurface( surface, fan, edge ) then
 					Error("FoldingComplexByFans: One of the given fans is not valid for this simplicial surface.");
 				fi;
 			fi;
 		od;
 
-		return FoldingComplexByFansNC( simpSurf, fanList );
+		return FoldingComplexByFansNC( surface, fanList );
 	end
 );
 InstallMethod( FoldingComplexByFansNC, 
@@ -162,18 +162,18 @@ InstallMethod( FoldingComplexByFans,
 	function( surface, fanList )
 		local edge, fan;
 
-		for edge in EdgeEquivalenceClassesAsSet(surface) do
+		for edge in EdgeEquivalenceNumbersAsSet(surface) do
 			if IsBound( fanList[edge] ) then
 				fan := fanList[edge];
 	
 				if not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface(
-								 simpSurf, fan, edge ) then
+								 surface, fan, edge ) then
 					Error("FoldingComplexByFans: One of the given fans is not valid for this coloured simplicial surface.");
 				fi;
 			fi;
 		od;
 
-		return FoldingComplexByFansNC( simpSurf, fanList );
+		return FoldingComplexByFansNC( surface, fanList );
 	end
 );
 
@@ -203,7 +203,7 @@ InstallMethod( FoldingComplexByFansAndBordersNC,
 		
 		# construct fans
 		fans := [];
-		for edge in EdgeEquivalenceClassesAsSet( surface ) do
+		for edge in EdgeEquivalenceNumbersAsSet( surface ) do
 			if IsBound( fanList[edge] ) then
 				fans[edge] := fanList[edge];
 			else
@@ -216,7 +216,7 @@ InstallMethod( FoldingComplexByFansAndBordersNC,
 
 		# try to find the border pieces by using the fans
 		borders := [];
-		for face in FaceEquivalenceClassesAsSet( surface ) do
+		for face in FaceEquivalenceNumbersAsSet( surface ) do
 			if IsBound( borderList[face] ) then
 				borders[face] := borderList[face];
 			else
@@ -239,22 +239,22 @@ InstallMethod( FoldingComplexByFansAndBorders,
 	"for a coloured simplicial surface, a list of fans and a list of sets border pieces",
 	[IsColouredSimplicialSurface, IsList, IsList],
 	function( surface, fanList, borderList )
-		local edge, fan, faceClassNr, borders;
+		local edge, fan, faceClassNr, borders, faceClass, possBorders;
 
 		# Check the fans
-		for edge in EdgeEquivalenceClassesAsSet(surface) do
+		for edge in EdgeEquivalenceNumbersAsSet(surface) do
 			if IsBound( fanList[edge] ) then
 				fan := fanList[edge];
 	
 				if not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface(
-								 simpSurf, fan, edge ) then
+								 surface, fan, edge ) then
 					Error("FoldingComplexByFansAndBorders: One of the given fans is not valid for this coloured simplicial surface.");
 				fi;
 			fi;
 		od;
 
 		# Check the border pieces
-		for faceClassNr in FaceEquivalenceClassesAsSet(surface) do
+		for faceClassNr in FaceEquivalenceNumbersAsSet(surface) do
 			if IsBound( borderList[faceClassNr] ) then
 				borders := borderList[faceClassNr];
 				if not IsSet(borders) then
@@ -273,7 +273,7 @@ InstallMethod( FoldingComplexByFansAndBorders,
 			fi;
 		od;
 
-		return FoldingComplexByFansAndBordersNC(simpSurf, fanList, borderList);
+		return FoldingComplexByFansAndBordersNC(surface, fanList, borderList);
 	end
 );
 
@@ -433,17 +433,17 @@ InstallMethod( ApplyFanToOrientedFaceNC,
 	"for a folding complex, an edge equivalence class number and an oriented face",
 	[IsFoldingComplex, IsPosInt, IsInt],
 	function( complex, edgeClassNr, orFace )
-		local simpSurf, face, fan, faceOrient;
+		local surface, face, fan, faceOrient;
 
-		simpSurf := UnderlyingSimplicialSurface( complex );
-		face := FaceByName( simpSurf, orFace );
+		surface := UnderlyingSimplicialSurface( complex );
+		face := FaceByName( surface, orFace );
 		fan := FanOfEdgeEquivalenceClassNC( complex, edgeClassNr );
 
 		# find the correct orientation of the face
-		if NamesOfFaceNC(simpSurf,face)[1] = orFace then
-			faceOrient := LocalOrientation(simpsurf)[face];
+		if NamesOfFaceNC(surface,face)[1] = orFace then
+			faceOrient := LocalOrientation(surface)[face];
 		else
-			faceOrient := LocalOrientation(simpsurf)[face]^(-1);
+			faceOrient := LocalOrientation(surface)[face]^(-1);
 		fi;
 
 		if BeginOfFan(fan)^faceOrient = EndOfFan(fan) then

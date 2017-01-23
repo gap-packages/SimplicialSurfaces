@@ -391,7 +391,7 @@ InstallMethod( IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface,
 	"for a coloured simplicial surface, a simplicial surface fan and an edge equivalence class number", 
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
 	function( surface, fan, edgeClassNr )
-		local edgeClassNr, edgeByVertexClass, quot, allEdges, faces;
+		local edgeByVertexClass, quot, allEdges, faces;
 
 		# Check all edge classes
 		quot := QuotientSimplicialSurface( surface );

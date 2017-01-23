@@ -205,7 +205,7 @@ DeclareOperation( "EdgeEquivalenceNumberForFanOfColouredSimplicialSurface",
 #!		positive integer
 #!	@Returns true or false
 DeclareOperation( "IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface", 
-		[IsSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt] );
+		[IsColouredSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt] );
 
 
 #!	@Description
