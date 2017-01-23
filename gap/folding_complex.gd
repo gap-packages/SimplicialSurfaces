@@ -131,6 +131,35 @@ DeclareAttribute( "BorderPiecesAttributeOfFoldingComplex", IsFoldingComplex);
 DeclareOperation( "BorderPieces", [IsFoldingComplex] );
 
 
+#!	@Description
+#!	Return the orientation covering of this folding complex in the form of 
+#!	a simplicial surface.
+#!	@Arguments a folding complex
+#!	@Returns a simplicial surface
+DeclareAttribute( "OrientationCoveringAttributeOfFoldingComplex", 
+													IsFoldingComplex);
+DeclareOperation( "OrientationCovering", [IsFoldingComplex] );
+
+
+#!	@Description
+#!	Return the complementary oriented surface with respect to a given fan.
+#!	Given are (besides the folding complex) the edge equivalence number of the
+#!	fan and the name of an oriented face.
+#!
+#!	@Arguments a folding complex, a positive integer, an integer
+#!	@Returns an integer
+KeyDependentOperation( "ComplementaryOrientedFaceAttributeOfFoldingComplex", 
+	IsFoldingComplex, IsList, 
+	function( list )
+		if Size(list) <> 2 then
+			return false;
+		fi;
+		return IsPosInt(list[1]) and IsInt( list[2] );
+	end
+);
+DeclareOperation( "ComplementaryOrientedFace", 
+									[IsFoldingComplex, IsPosInt, IsInt] );
+
 
 #############################################################################
 ##

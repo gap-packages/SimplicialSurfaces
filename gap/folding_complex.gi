@@ -526,6 +526,60 @@ InstallMethod( BorderPiecesAttributeOfFoldingComplex, "for a folding complex",
 );
 
 
+#!	@Description
+#!	Return the orientation covering of this folding complex in the form of 
+#!	a simplicial surface.
+#!	@Arguments a folding complex
+#!	@Returns a simplicial surface
+InstallMethod( OrientationCovering, "for a folding complex",
+	[IsFoldingComplex],
+	function( complex )
+		return OrientationCoveringAttributeOfFoldingComplex(complex);
+	end
+);
+InstallMethod( OrientationCoveringAttributeOfFoldingComplex, 
+	"for a folding complex",
+	[IsFoldingComplex],
+	function( complex )
+		# TODO
+	end
+);
+
+
+#!	@Description
+#!	Return the complementary oriented surface with respect to a given fan.
+#!	Given are (besides the folding complex) the edge equivalence number of the
+#!	fan and the name of an oriented face.
+#!
+#!	@Arguments a folding complex, a positive integer, an integer
+#!	@Returns an integer
+InstallMethod( ComplementaryOrientedFace, 
+	"for a folding complex, a positive integer and an integer",
+	[IsFoldingComplex, IsPosInt, IsInt],
+	function( complex, edgeNr, orFaceNr )
+		return ComplementaryOrientedFaceAttributeOfFoldingComplex(complex, 
+															edgeNr, orFaceNr);
+	end
+);
+InstallMethod( ComplementaryOrientedFaceAttributeOfFoldingComplexOp, 
+	"for a folding complex and a list of a positive integer and an integer",
+	[IsFoldingComplex, IsList],
+	function( complex, list )
+		local colSurf, edgeNr, orFaceNr;
+
+		edgeNr := list[1];
+		orFaceNr := list[2];
+		colSurf := UnderlyingColouredSimplicialSurface( complex );
+
+		if not edgeNr in EdgeEquivalenceNumbersAsSet( colSurf ) then
+			Error("ComplementaryOrientedFace: The second parameter has to be an edge equivalence number.");
+		fi;
+
+		#TODO
+	end
+);
+
+
 
 #!	@Description
 #!	Return the fan of an edge equivalence class of this folding complex.
