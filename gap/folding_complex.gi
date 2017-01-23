@@ -109,7 +109,7 @@ end;
 ##	a given fan if the application of the fan to one of them gives the other
 ##	one as a result.
 __SIMPLICIAL_AreBorderPiecesComplementary := function( complex, edge )
-	local fan, colSurf, faceNumbers, b, borders, surface, image, orImages, im;
+	local fan, colSurf, faceNumbers, b, borders, surface, com;
 
 	# Determine the fan
 	fan := Fans(complex)[edge];
@@ -126,24 +126,12 @@ __SIMPLICIAL_AreBorderPiecesComplementary := function( complex, edge )
 	surface := UnderlyingSimplicialSurface( complex );
 	while not IsEmpty(borders) do
 		b := borders[1];
-		dir1 := FaceNameInducedByFan(colSurf, fan, FaceByName(surface, b)) = b;
-		# Find complement of b
-		image := ApplyFanToOrientedFaceNC( complex, edge, b);
-		orImages := NamesOfFaceNC( surface, image );
-		for im in orImages do
-			# One of the sides has to be the complement
-			# We find the complement by considering which of these is
-			# oriented opposite to b (compare definition 3.23)
-			dir2 := FaceNameInducedByFan(colSurf, fan, image) = im;
-			if dir1 <> dir2 then
-				if ApplyFanToOrientedFaceNC( complex, edge, im) = b 
-						and im in borders then
-					borders := Difference( borders, Set([b,im]) );
-				else
-					return false;
-				fi;
-			fi;
-		od;
+		com := ComplementaryOrientedFace( complex, edge, b );
+		if com in borders then
+			borders := Difference( borders, Set([b,com]) );
+		else
+			return false;
+		fi;
 	od;
 
 	return true;
@@ -505,25 +493,6 @@ InstallMethod( BorderPieces, "for a folding complex", [IsFoldingComplex],
 		return BorderPiecesAttributeOfFoldingComplex(complex);
 	end
 );
-# Try to compute border pieces with the specialized method (this might work
-# since the specialized method works most of the times if the fans are set).
-InstallMethod( BorderPiecesAttributeOfFoldingComplex, "for a folding complex", 
-	[IsFoldingComplex],	
-	function( complex )
-		local borderPieces, faces, face, border;
-
-		faces := FaceEquivalenceNumbersAsSet( 
-					UnderlyingColouredSimplicialSurface(complex) );
-		borderPieces := [];
-		for face in faces do
-			# Try to compute the border
-			#border := #TODO ( complex, face );
-			
-		od;
-
-		return borderPieces;
-	end
-);
 
 
 #!	@Description
@@ -565,7 +534,8 @@ InstallMethod( ComplementaryOrientedFaceAttributeOfFoldingComplexOp,
 	"for a folding complex and a list of a positive integer and an integer",
 	[IsFoldingComplex, IsList],
 	function( complex, list )
-		local colSurf, edgeNr, orFaceNr;
+		local colSurf, edgeNr, orFaceNr, surface, dir1, fan, dir2, imageFace,
+				orImages, im, faceNr;
 
 		edgeNr := list[1];
 		orFaceNr := list[2];
@@ -575,7 +545,27 @@ InstallMethod( ComplementaryOrientedFaceAttributeOfFoldingComplexOp,
 			Error("ComplementaryOrientedFace: The second parameter has to be an edge equivalence number.");
 		fi;
 
-		#TODO
+		surface := UnderlyingSimplicialSurface( complex );
+		fan := Fans(complex)[edgeNr];
+		faceNr := FaceByName(surface, orFaceNr);
+
+		# a central element of the complementary oriented face is that it has
+		# a different direction with respect to the fan
+		dir1 := FaceNameInducedByFan(colSurf, fan, faceNr) = orFaceNr;
+
+		imageFace := ApplyFanToOrientedFaceNC( complex, edgeNr, orFaceNr);
+		orImages := NamesOfFaceNC( surface, imageFace );
+		for im in orImages do
+			# One of the sides has to be the complement
+			# We find the complement by considering which of these is
+			# oriented opposite to b (compare definition 3.23)
+			dir2 := FaceNameInducedByFan(colSurf, fan, imageFace) = im;
+			if dir1 <> dir2 then
+				return im; #TODO is it possible to set the complement of im to orFaceNr?
+			fi;
+		od;
+
+		Error("ComplementaryOrientedFace: It should not be possible to see this error message.");
 	end
 );
 

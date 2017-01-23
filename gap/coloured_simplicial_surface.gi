@@ -757,7 +757,7 @@ InstallMethod( IsSubcolouring, "for two coloured simplicial surfaces",
 		# Check the vertex classes
 		vertexNr := VertexEquivalenceNumbersAsSet( surf2 );
 		for vertex in vertexNr do
-			vertexClass := VertexEquivalenceClassOfNumber( surf2, vertex );
+			vertexClass := VertexEquivalenceClassByNumber( surf2, vertex );
 			if not IsSubset( 
 					VertexEquivalenceClassOfElement( surf1, vertexClass[1] ), 
 					vertexClass ) then
@@ -768,7 +768,7 @@ InstallMethod( IsSubcolouring, "for two coloured simplicial surfaces",
 		# Check the edge classes
 		edgeNr := EdgeEquivalenceNumbersAsSet( surf2 );
 		for edge in edgeNr do
-			edgeClass := EdgeEquivalenceClassOfNumber( surf2, edge );
+			edgeClass := EdgeEquivalenceClassByNumber( surf2, edge );
 			if not IsSubset( 
 					EdgeEquivalenceClassOfElement( surf1, edgeClass[1] ), 
 					edgeClass ) then
@@ -779,7 +779,7 @@ InstallMethod( IsSubcolouring, "for two coloured simplicial surfaces",
 		# Check the face classes
 		faceNr := FaceEquivalenceNumbersAsSet( surf2 );
 		for face in faceNr do
-			faceClass := FaceEquivalenceClassOfNumber( surf2, face );
+			faceClass := FaceEquivalenceClassByNumber( surf2, face );
 			if not IsSubset( 
 					FaceEquivalenceClassOfElement( surf1, faceClass[1] ), 
 					faceClass ) then
