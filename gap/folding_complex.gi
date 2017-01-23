@@ -417,6 +417,7 @@ InstallMethod( FoldingComplexByFansAndBorders,
 
 		# Check whether the given border pieces are complementary
 		# We have to check this for each adjacent edge class
+		# TODO This test is usually redundant, compare remark 3.28
 		quotSurf := QuotientSimplicialSurface( surface );
 		edgeClasses := Union( List( faceCheck, f -> FacesByEdges(quotSurf)[f] ) );
 		for edgeClass in edgeClasses do

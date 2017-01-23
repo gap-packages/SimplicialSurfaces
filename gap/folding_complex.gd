@@ -53,7 +53,8 @@ DeclareOperation( "FoldingComplex", [IsSimplicialSurface and IsActualSurface]);
 #!	uniquely by checking the surface. If this is not possible we throw an error.
 #!
 #!	The NC-version doesn't check if the given list consists of fans that match
-#!	the surface.
+#!	the surface. It also does not guarantee the internal consistency of the 
+#!	resulting folding complex.
 #!	@Arguments a coloured simplicial surface and a list
 #!	@Returns a folding complex
 DeclareOperation( "FoldingComplexByFans", 
@@ -72,7 +73,8 @@ DeclareOperation( "FoldingComplexByFansNC",
 #!	face equivalence classes and consists of sets.
 #!
 #!	The NC-version doesn't check if the given lists consists of fans that match
-#!	the surface or of border pieces that match the fans.
+#!	the surface or of border pieces that match the fans. It also does not
+#!	guarantee the internal consistency of the resulting folding complex.
 #!	@Arguments a coloured simplicial surface and two lists
 #!	@Returns a folding complex
 DeclareOperation( "FoldingComplexByFansAndBorders", 
