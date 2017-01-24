@@ -511,7 +511,8 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 	[IsFoldingComplex],
 	function( complex )
 		local colSurf, quotSurf, newVertices, newEdges, newFaces, ComplFaces,
-				VertexOrbits;
+				VertexOrbits, facesByEdges, face, faceNr, edge, edgeNr,
+				edgesByVertices, vertex, vertexNr, surface;
 
 		colSurf := UnderlyingColouredSimplicialSurface(complex);
 		quotSurf := QuotientSimplicialSurface(colSurf);
@@ -528,7 +529,7 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 		# (first entry edge class number, second entry set of two oriented faces
 		# that are complementary with respect to the edge class)
 		ComplFaces := function( edgeNr )
-			local adFaces;
+			local adFaces, complBorders;
 
 			# Find the adjacent face classes
 			adFaces := EdgesByFaces(quotSurf)[edgeNr];
@@ -548,7 +549,7 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 		# construction). The new vertices are the orbits of that operation.
 		# (first entry vertex class number, second entry the orbit)
 		VertexOrbits := function( vertexNr )
-			local Action, edges;
+			local Action, edges, freeGrp, orFaces, gens;
 
 			edges := VerticesByEdges(quotSurf)[vertexNr];
 			orFaces := Filtered( newFaces, f -> 
@@ -564,10 +565,52 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 				return [newFace,newBorder];
 			end;
 
-			return Orbits( ..., newFaces, Action);
+			# Construct a group (we fix the name of the generators)
+			freeGrp := FreeGroup( Length(edges), "edge" );
+			gens := GeneratorsOfGroup( freeGrp );
+
+			# We use the extended orbit call to emulate the free group which
+			# is defined from the edge actions
+			return Orbits( freeGrp, newFaces, gens, edges, Action);
 		end;
 
-		# TODO
+		newVertices := Union( List( VertexEquivalenceNumbersAsSet(colSurf), 
+										v -> List( VertexOrbits(v), 
+													orb -> [v,orb] ) ) );
+
+
+		# To construct a simplicial surface we have to define the incidence
+		# relation. We will do so by downwards incidence.
+		facesByEdges := List( [1..Length(newFaces)], i -> [] );
+		for faceNr in [1..Length(newFaces)] do
+			face := newFaces[faceNr];
+			for edgeNr in [1..Length(newEdges)] do
+				edge := newEdges[edgeNr];
+
+				if edge[1] in FacesByEdges(quotSurf)[face[1]] 
+						and face[2] in edge[2] then
+					Append( facesByEdges[faceNr], [edgeNr] );
+				fi;
+			od;
+		od;
+		
+		edgesByVertices := List( [1..Length(newEdges)], i -> [] );
+		for edgeNr in [1..Length(newEdges)] do
+			edge := newEdges[edgeNr];
+			for vertexNr in [1..Length(newVertices)] do
+				vertex := newVertices[vertexNr];
+
+				if vertex[1] in EdgesByVertices(quotSurf)[edge[1]] 
+						and IsSubset( vertex[2], edge[2] ) then
+					Append( edgesByVertices[edgeNr], [vertexNr] );
+				fi;
+			od;
+		od;
+
+		# TODO make this a NC-call (after debugging)
+		return SimplicialSurfaceByDownwardIncidence( [1..Length(newVertices)], 
+								[1..Length(newEdges)], [1..Length(newFaces)], 
+											edgesByVertices, facesByEdges );
 	end
 );
 
