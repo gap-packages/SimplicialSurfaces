@@ -510,17 +510,62 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 	"for a folding complex",
 	[IsFoldingComplex],
 	function( complex )
-		local colSurf, quotSurf, newVertices, newEdges, newFaces;
+		local colSurf, quotSurf, newVertices, newEdges, newFaces, ComplFaces,
+				VertexOrbits;
 
 		colSurf := UnderlyingColouredSimplicialSurface(complex);
 		quotSurf := QuotientSimplicialSurface(colSurf);
+		surface := UnderlyingSimplicialSurface(complex);
 
 		# define the new faces 
 		# (first entry face class number, second entry oriented name)
-		#newFaces := Union( BorderPieces( complex ) );
+		newFaces := Union( List( FaceEquivalenceNumbersAsSet(colSurf), 
+									f -> List( BorderPieces(complex)[f], 
+													b -> [f,b] ) ) );
+		#TODO adapt local orientation? -> change constructor simplicial surface
 
 		# define the new edges
-		
+		# (first entry edge class number, second entry set of two oriented faces
+		# that are complementary with respect to the edge class)
+		ComplFaces := function( edgeNr )
+			local adFaces;
+
+			# Find the adjacent face classes
+			adFaces := EdgesByFaces(quotSurf)[edgeNr];
+			complBorders := List( adFaces, f -> 
+								List( BorderPieces(complex)[f], b -> 
+									[edgeNr, Set([ b, 
+						ComplementaryOrientedFace(complex,edgeNr,b)]) ] ) );
+			return Union(complBorders);
+		end;
+		newEdges := Union( List( EdgeEquivalenceNumbersAsSet(colSurf), 
+										e -> ComplFaces(e) ) );
+
+
+		# define the new vertices
+		# For each vertex class of the folding complex the adjacent edges
+		# define an operation on the adjacent border pieces (via complement
+		# construction). The new vertices are the orbits of that operation.
+		# (first entry vertex class number, second entry the orbit)
+		VertexOrbits := function( vertexNr )
+			local Action, edges;
+
+			edges := VerticesByEdges(quotSurf)[vertexNr];
+			orFaces := Filtered( newFaces, f -> 
+								vertexNr in FacesByVertices(quotSurf)[f[1]] );
+
+			Action := function( face, edge )
+				local newFace, newBorder;
+
+				newBorder := ComplementaryOrientedFace(complex, edge, face[2] );
+				newFace := FaceEquivalenceNumberOfElement( colSurf, 
+											FaceByName( surface, newBorder) );
+
+				return [newFace,newBorder];
+			end;
+
+			return Orbits( ..., newFaces, Action);
+		end;
 
 		# TODO
 	end
