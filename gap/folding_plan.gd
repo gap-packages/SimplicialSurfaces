@@ -51,70 +51,90 @@ DeclareOperation( "FoldingPlanByIdentificationNC",
 					[IsSimplicialSurfaceIdentification, IsList] );
 
 #!	@Description
-#!	Return a simplicial surface identification based on three maps.
-#!	@Arguments three bijective maps: for vertices, edges and faces
-#!	@Returns a simplicial surface identification
-DeclareOperation( "SimplicialSurfaceIdentification", [IsMapping and 
-		IsBijective, IsMapping and IsBijective, IsMapping and IsBijective]);
+#!	Return a folding plan based on four maps. The first three define the
+#!	identification, the last one is the oriented face map.
+#!
+#!	The NC-version doesn't check whether the number of elements in these 
+#!	maps match (3 vertices, 3 edges, 1 face, 1 oriented face).
+#!
+#!	@Arguments four bijective maps: for vertices, edges, faces and oriented
+#!		faces
+#!	@Returns a folding plan
+DeclareOperation( "FoldingPlanByMaps", [IsMapping and IsBijective, IsMapping 
+	and IsBijective, IsMapping and IsBijective, IsMapping and IsBijective]);
+DeclareOperation( "FoldingPlanByMapsNC", [IsMapping and IsBijective, IsMapping 
+	and IsBijective, IsMapping and IsBijective, IsMapping and IsBijective]);
 
 #!	@Description
-#!	Return a simplicial surface identification which is constructed from three
-#!	lists. The vertex-list has the form [[p_1,q_1],[p_2,q_2],[p_3,q_3]] and
-#!	corresponds to the map p_i -> q_i. Analogously for the other two lists.
+#!	Return a folding plan that is constructed from four lists. The vertex-list 
+#!	has the form [[p_1,q_1],[p_2,q_2],[p_3,q_3]] and corresponds to the map 
+#!	p_i -> q_i. Analogously for the other three lists.
 #!
 #!	The NC-version does not check if the lists fulfill this format or if the
 #!	number of elements match or if the resulting maps are bijective.
 #!
-#!	@Arguments three lists of tuples of positive integers
-#!	@Returns a simplicial surface identification
-DeclareOperation( "SimplicialSurfaceIdentificationByLists", [IsList,IsList,IsList]);
-DeclareOperation( "SimplicialSurfaceIdentificationByListsNC", [IsList,IsList,IsList]);
+#!	@Arguments three lists of tuples of positive integers, one list of tuples
+#!		of integers
+#!	@Returns a folding plan
+DeclareOperation( "FoldingPlanByLists", [IsList,IsList,IsList,IsList]);
+DeclareOperation( "FoldingPlanByListsNC", [IsList,IsList,IsList,IsList]);
 
 
 
 #############################################################################
 ##
 ##
-#!  @Section Attributes and properties of simplicial surface identifications
+#!  @Section Attributes and properties of folding plans
+#!
+#!
+
+#!	@Description
+#!	Return the oriented face map.
+#!	@Arguments a folding plan
+#!	@Returns a bijective map
+DeclareAttribute( "OrientedFaceMapAttributeOfFoldingPlan", IsFoldingPlan );
+DeclareOperation( "OrientedFaceMap", [IsFoldingPlan] );
+
+#!	@Description
+#!	Return the identification a folding plan is based on.
+#!	@Arguments a folding plan
+#!	@Returns a simplicial surface identification
+DeclareAttribute( "IdentificationAttributeOfFoldingPlan", IsFoldingPlan );
+DeclareOperation( "Identification", [IsFoldingPlan] );
+
+
+
+
+
+#############################################################################
+##
+##
+#!  @Section Functions for folding plans
+#!
 #!
 #!
 
 #!	@Description
 #!	Return the vertex map.
-#!	@Arguments a simplicial surface identification
+#!	@Arguments a folding plan
 #!	@Returns a bijective map
-DeclareAttribute( "VertexMapAttributeOfSimplicialSurfaceIdentification",
-		IsSimplicialSurfaceIdentification);
-DeclareOperation( "VertexMap", [IsSimplicialSurfaceIdentification] );
+DeclareOperation( "VertexMap", [IsFoldingPlan] );
 
 
 #!	@Description
 #!	Return the edge map.
-#!	@Arguments a simplicial surface identification
+#!	@Arguments a folding plan
 #!	@Returns a bijective map
-DeclareAttribute( "EdgeMapAttributeOfSimplicialSurfaceIdentification",
-		IsSimplicialSurfaceIdentification);
-DeclareOperation( "EdgeMap", [IsSimplicialSurfaceIdentification] );
+DeclareOperation( "EdgeMap", [IsFoldingPlan] );
 
 
 #!	@Description
 #!	Return the face map.
-#!	@Arguments a simplicial surface identification
+#!	@Arguments a folding plan
 #!	@Returns a bijective map
-DeclareAttribute( "FaceMapAttributeOfSimplicialSurfaceIdentification",
-		IsSimplicialSurfaceIdentification);
-DeclareOperation( "FaceMap", [IsSimplicialSurfaceIdentification] );
+DeclareOperation( "FaceMap", [IsFoldingPlan] );
 
-
-
-
-#############################################################################
-##
-##
-#!  @Section Functions for simplicial surface identifications
-#!
-#!
-#!
+#TODO
 
 #!	@Description
 #!	Return if the given simplicial surface identification is well-defined
