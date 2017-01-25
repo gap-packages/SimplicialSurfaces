@@ -348,6 +348,17 @@ InstallMethod( IsApplicableExtension,
 		return IsApplicableExtensionNCIntersection( surface, id );
 	end
 );
+InstallMethod( IsApplicableExtensionNCWellDefined, 
+	"for a coloured simplicial surface and a simplicial surface identification",
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+		if not IsConstantOnIntersectionNCWellDefined( surface, id ) then
+			return false;
+		fi;
+
+		return IsApplicableExtensionNCIntersection( surface, id );
+	end
+);
 
 
 

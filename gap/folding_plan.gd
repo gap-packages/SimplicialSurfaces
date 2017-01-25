@@ -138,55 +138,53 @@ DeclareOperation( "FaceMap", [IsFoldingPlan] );
 
 #!	@Description
 #!	Return if the given folding plan is well-defined with respect to the given 
-#!	folding complex.
+#!	simplicial surface.
 #!	This method checks if the maps of the identification can be applied to
 #!	the vertices, edges and faces of the underlying simplicial surface. It also
 #!	checks whether the maps are compatible with each other, i.e. if they
 #!	commute with the incidence relation of the simplicial surface.
-#!	Finally it checks whether the oriented faces are border pieces of the
-#!	folding complex.
+#!	Finally it checks whether the oriented faces are face names of the given
+#!	faces.
 #!	@Arguments a folding complex, a folding pla
 #!	@Returns true or false
 DeclareOperation( "IsWellDefinedFoldingPlan", 
+	[IsFoldingComplex, IsSimplicialSurface] );
+
+
+
+
+#!	@Description
+#!	Return whether the given folding plan can be applied to the given folding
+#!	complex. This method only checks the formal qualifiers from definition
+#!	3.71 in my master thesis. It does not check whether the application of
+#!	this folding plan actually yields a proper folding complex. TODO fix this
+#!
+#!	The NC-version does not check whether the given folding plan is well
+#!	defined with respect to the given folding complex.
+#!
+#!	@Arguments a folding complex, a folding plan
+#!	@Returns true or false
+DeclareOperation( "IsApplicableFoldingPlan", 
+	[IsFoldingComplex, IsFoldingPlan] );
+DeclareOperation( "IsApplicableFoldingPlanNCWellDefined", 
 	[IsFoldingComplex, IsFoldingPlan] );
 
 
 #!	@Description
-#!	Return if the given simplicial surface identification is constant on the
-#!	intersection for the given coloured simplicial surface.
-#!	TODO explain what this means
-#!	@Arguments a coloured simplicial surface, a simplicial surface 
-#!	identification
-#!	@Returns true or false
-DeclareOperation( "IsConstantOnIntersection", 
-	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
-
-
-#!	@Description
-#!	Return if the given simplicial surface identification can be applied to
-#!	the given coloured simplicial surface and result in another
-#!	coloured simplicial surface. To be more precise we check the
-#!	property of corollary 2.37 in my master thesis.
-#!	@Arguments a coloured simplicial surface, a simplicial surface 
-#!	identification
-#!	@Returns true or false
-DeclareOperation( "IsApplicableExtension", 
-	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
-
-
-#!	@Description
-#!	Extend the equivalence relation of the coloured simplicial surface
-#!	with a simplicial surface identification.
+#!	Apply the folding plan to the folding complex. This method returns fail
+#!	if this is not possible or if the application does not yield a proper
+#!	folding complex. Otherwise return the new folding complex.
 #!
-#!	The NC-version does not run the test IsApplicableExtension.
+#!	The NC-version does not check IsApplicableFoldingPlan before constructing
+#!	the result.
 #!
-#!	@Arguments a coloured simplicial surface, a simplicial surface
-#!		identification
-#!	@Returns a coloured simplicial surface
-DeclareOperation( "ExtendByIdentification",
-	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
-DeclareOperation( "ExtendByIdentificationNC",
-	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
+#!	@Arguments a folding complex, a folding plan
+#!	@Returns a folding complex or fail
+DeclareOperation( "ApplyFoldingPlan", [IsFoldingComplex, IsFoldingPlan] );
+DeclareOperation( "ApplyFoldingPlanNCApplicable", 
+	[IsFoldingComplex, IsFoldingPlan] );
+DeclareOperation( "ApplyFoldingPlanNCWellDefined", 
+	[IsFoldingComplex, IsFoldingPlan] );
 
 
 #

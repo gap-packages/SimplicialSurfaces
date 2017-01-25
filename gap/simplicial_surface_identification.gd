@@ -163,6 +163,8 @@ DeclareOperation( "IsApplicableExtension",
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 DeclareOperation( "IsApplicableExtensionNCIntersection", 
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
+DeclareOperation( "IsApplicableExtensionNCWellDefined", 
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 
 
 #!	@Description
