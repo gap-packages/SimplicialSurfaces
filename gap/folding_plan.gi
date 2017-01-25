@@ -137,6 +137,46 @@ RedispatchOnCondition( FoldingPlanByMaps, true,
 #!	@Arguments three lists of tuples of positive integers, one list of tuples
 #!		of integers
 #!	@Returns a folding plan
+InstallMethod( FoldingPlanByListsNC, "for four lists", 
+	[IsList,IsList,IsList,IsList],
+	function( vertexList, edgeList, faceList, orFaceList )
+		local id, plan;
+
+		id := SimplicialSurfaceIdentificationByListsNC( 
+										vertexList, edgeList, faceList );
+		
+		plan := Objectify( FoldingPlanType, rec() );
+		SetIdentificationAttributeOfFoldingPlan( plan, id );
+		SetOrientedFaceMapAttributeOfFoldingPlan( plan, 
+					__SIMPLICIAL_CreateMapFromListNC(orFaceList, false) );
+
+		return plan;
+	end
+);
+InstallMethod( FoldingPlanByLists, "for four lists", 
+	[IsList,IsList,IsList,IsList],
+	function( vertexList, edgeList, faceList, orFaceList )
+		local id, plan, map;
+
+		id := SimplicialSurfaceIdentificationByLists( 
+										vertexList, edgeList, faceList );
+		
+		plan := Objectify( FoldingPlanType, rec() );
+		SetIdentificationAttributeOfFoldingPlan( plan, id );
+
+		# Check whether the list is well defined
+		if Length(orFaceList) <> 1 or not IsList( orFaceList[1] ) or
+			 Length( orFaceList[1] ) <> 2 or not IsInt( orFaceList[1][1] ) or
+			not IsInt(orFaceList[1][2]) then
+			Error("FoldingPlanByLists: The list for oriented faces has to consist of a single tuple of integers.");
+		fi;
+
+		SetOrientedFaceMapAttributeOfFoldingPlan( plan, 
+					__SIMPLICIAL_CreateMapFromListNC(orFaceList, false) );
+
+		return plan;
+	end
+);
 
 
 
