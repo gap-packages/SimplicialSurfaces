@@ -134,7 +134,7 @@ DeclareOperation( "EdgeMap", [IsFoldingPlan] );
 #!	@Returns a bijective map
 DeclareOperation( "FaceMap", [IsFoldingPlan] );
 
-#TODO
+
 
 #!	@Description
 #!	Return if the given folding plan is well-defined with respect to the given 

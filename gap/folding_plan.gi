@@ -188,6 +188,59 @@ InstallMethod( FoldingPlanByLists, "for four lists",
 #############################################################################
 
 
+#!	@Description
+#!	Return the oriented face map.
+#!	@Arguments a folding plan
+#!	@Returns a bijective map
+InstallMethod( OrientedFaceMap, "for a folding plan", [IsFoldingPlan],
+	function( plan )
+		return OrientedFaceMapAttributeOfFoldingPlan(plan);
+	end
+);
+
+
+#!	@Description
+#!	Return the identification a folding plan is based on.
+#!	@Arguments a folding plan
+#!	@Returns a simplicial surface identification
+InstallMethod( Identification, "for a folding plan", [IsFoldingPlan],
+	function( plan )
+		return IdentificationAttributeOfFoldingPlan(plan);
+	end
+);
+
+
+#!	@Description
+#!	Return the vertex map.
+#!	@Arguments a folding plan
+#!	@Returns a bijective map
+InstallMethod( VertexMap, "for a folding plan", [IsFoldingPlan],
+	function( plan )
+		return VertexMap( Identification( plan ) );
+	end
+);
+
+
+#!	@Description
+#!	Return the edge map.
+#!	@Arguments a folding plan
+#!	@Returns a bijective map
+InstallMethod( EdgeMap, "for a folding plan", [IsFoldingPlan],
+	function( plan )
+		return EdgeMap( Identification( plan ) );
+	end
+);
+
+
+#!	@Description
+#!	Return the face map.
+#!	@Arguments a folding plan
+#!	@Returns a bijective map
+InstallMethod( FaceMap, "for a folding plan", [IsFoldingPlan],
+	function( plan )
+		return FaceMap( Identification( plan ) );
+	end
+);
 
 
 
