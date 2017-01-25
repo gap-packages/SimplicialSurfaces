@@ -148,7 +148,7 @@ DeclareOperation( "FaceMap", [IsFoldingPlan] );
 #!	@Arguments a folding complex, a folding pla
 #!	@Returns true or false
 DeclareOperation( "IsWellDefinedFoldingPlan", 
-	[IsFoldingComplex, IsSimplicialSurface] );
+	[IsSimplicialSurface, IsFoldingPlan] );
 
 
 

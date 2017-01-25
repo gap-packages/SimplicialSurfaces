@@ -243,6 +243,43 @@ InstallMethod( FaceMap, "for a folding plan", [IsFoldingPlan],
 );
 
 
+#!	@Description
+#!	Return if the given folding plan is well-defined with respect to the given 
+#!	simplicial surface.
+#!	This method checks if the maps of the identification can be applied to
+#!	the vertices, edges and faces of the underlying simplicial surface. It also
+#!	checks whether the maps are compatible with each other, i.e. if they
+#!	commute with the incidence relation of the simplicial surface.
+#!	Finally it checks whether the oriented faces are face names of the given
+#!	faces.
+#!	@Arguments a folding complex, a folding pla
+#!	@Returns true or false
+InstallMethod( IsWellDefinedFoldingPlan, 
+	"for a folding plan and a simplicial surface", 
+	[IsSimplicialSurface, IsFoldingPlan],
+	function( surface, plan )
+		local faceMap, orFaceMap;
+
+		if not IsWellDefinedIdentification( surface, Identification(plan) ) then
+			return false;
+		fi;
+
+		faceMap := FaceMap(plan);
+		orFaceMap := OrientedFaceMap(plan);
+		if not Elements(Domain(faceMap))[1] = 
+				FaceByName( surface, Elements(Domain(orFaceMap))[1] ) then
+			return false;
+ 		fi;
+		if not Elements(Range(faceMap))[1] = 
+				FaceByName( surface, Elements(Range(orFaceMap))[1] ) then
+			return false;
+ 		fi;
+
+		return true;
+	end
+);
+
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
