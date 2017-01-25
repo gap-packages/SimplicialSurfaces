@@ -66,6 +66,7 @@ InstallMethod( SimplicialSurfaceIdentification,
 		if Length( Source( faceMap ) ) <> 1 then
 			Error("SimplicialSurfaceIdentification: Only one face");
 		fi;
+	#TODO check whether these maps really only consist of integers
 
 		return SimplicialSurfaceIdentificationNC(vertexMap,edgeMap,faceMap);
 	end
