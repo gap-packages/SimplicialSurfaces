@@ -255,7 +255,7 @@ InstallMethod( FaceMap, "for a folding plan", [IsFoldingPlan],
 #!	@Arguments a folding complex, a folding pla
 #!	@Returns true or false
 InstallMethod( IsWellDefinedFoldingPlan, 
-	"for a folding plan and a simplicial surface", 
+	"for a simplicial surface and a folding plan", 
 	[IsSimplicialSurface, IsFoldingPlan],
 	function( surface, plan )
 		local faceMap, orFaceMap;
@@ -278,6 +278,83 @@ InstallMethod( IsWellDefinedFoldingPlan,
 		return true;
 	end
 );
+
+
+#!	@Description
+#!	Return whether the given folding plan can be applied to the given folding
+#!	complex. This method only checks the formal qualifiers from definition
+#!	3.71 in my master thesis. It does not check whether the application of
+#!	this folding plan actually yields a proper folding complex. TODO fix this
+#!
+#!	The NC-version does not check whether the given folding plan is well
+#!	defined with respect to the given folding complex.
+#!
+#!	@Arguments a folding complex, a folding plan
+#!	@Returns true or false
+InstallMethod( IsApplicableFoldingPlan, 
+	"for a folding complex and a folding plan", 
+	[IsFoldingComplex, IsFoldingPlan],
+	function( complex, plan )
+		local surface;
+
+		surface := UnderlyingSimplicialSurface(complex);
+		if not IsWellDefinedFoldingPlan( surface, plan ) then
+			return false;
+		fi;
+
+		return IsApplicableFoldingPlanNCWellDefined(complex, plan);
+	end
+);
+InstallMethod( IsApplicableFoldingPlanNCWellDefined, 
+	"for a folding complex and a folding plan", 
+	[IsFoldingComplex, IsFoldingPlan],
+	function( complex, plan )
+		local colSurf, id, orFace1, orFace2, face1, face2, faceNr1, faceNr2,
+			quotSurf, edgeNrs1, edgeNrs2, edgeNr;
+	
+		# First we have to check whether the identification of the folding
+		# plan leads to a coloured simplicial surface
+		colSurf := UnderlyingColouredSimplicialSurface( complex );
+		id := Identification(plan);
+		if not IsApplicableExtensionNCWellDefined( colSurf, id ) then
+			return false;
+		fi;
+
+		# We have to check that the elements in the oriented face map are
+		# border pieces of the folding complex
+		orFace1 := Elements(Domain(OrientedFaceMap(plan)))[1];
+		orFace2 := Elements(Domain(OrientedFaceMap(plan)))[2];
+
+		face1 := Elements(Domain(FaceMap(plan)))[1];
+		face2 := Elements(Domain(FaceMap(plan)))[2];
+
+		faceNr1 := FaceEquivalenceNumberOfElement( colSurf, face1 );
+		faceNr2 := FaceEquivalenceNumberOfElement( colSurf, face2 );
+
+		if not orFace1 in BorderPieces(complex)[faceNr1] or 
+				not orFace2 in BorderPieces(complex)[faceNr2] then
+			return false;
+		fi;
+
+		
+		# Finally we have to check whether the elements in the oriented face
+		# map are complementary with respect to each fan in which they both
+		# are present
+		quotSurf := QuotientSimplicialSurface(colSurf);
+		edgeNrs1 := FacesByEdges(quotSurf)[faceNr1];
+		edgeNrs2 := FacesByEdges(quotSurf)[faceNr2];
+
+		for edgeNr in Intersection(edgeNrs1, edgeNrs2 ) do
+			if orFace2 <> ComplementaryOrientedFace(complex,edgeNr,orFace1) then
+				return false;
+			fi;
+		od;
+
+
+		return true;
+	end
+);
+
 
 
 
