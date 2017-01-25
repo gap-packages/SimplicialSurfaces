@@ -133,10 +133,17 @@ DeclareOperation( "IsWellDefinedIdentification",
 #!	Return if the given simplicial surface identification is constant on the
 #!	intersection for the given coloured simplicial surface.
 #!	TODO explain what this means
+#!
+#!	The NC-version does not check whether the identification is well-defined
+#!	with respect to the given simplicial surface. Do not call this method
+#!	unless you know that the identification is well-defined!
+#!
 #!	@Arguments a coloured simplicial surface, a simplicial surface 
 #!	identification
 #!	@Returns true or false
 DeclareOperation( "IsConstantOnIntersection", 
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
+DeclareOperation( "IsConstantOnIntersectionNCWellDefined", 
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 
 
@@ -145,11 +152,18 @@ DeclareOperation( "IsConstantOnIntersection",
 #!	the given coloured simplicial surface and result in another
 #!	coloured simplicial surface. To be more precise we check the
 #!	property of corollary 2.37 in my master thesis.
+#!
+#!	The NC-version doesn't check whether the identification is constant on
+#!	the intersection.
+#!
 #!	@Arguments a coloured simplicial surface, a simplicial surface 
 #!	identification
 #!	@Returns true or false
 DeclareOperation( "IsApplicableExtension", 
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
+DeclareOperation( "IsApplicableExtensionNCIntersection", 
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
+
 
 #!	@Description
 #!	Extend the equivalence relation of the coloured simplicial surface

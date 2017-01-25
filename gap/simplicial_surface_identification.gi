@@ -249,17 +249,12 @@ InstallMethod( IsWellDefinedIdentification,
 #!	@Arguments a coloured simplicial surface, a simplicial surface 
 #!	identification
 #!	@Returns true or false
-InstallMethod( IsConstantOnIntersection, 
+InstallMethod( IsConstantOnIntersectionNCWellDefined, 
 	"for a coloured simplicial surface and a simplicial surface identification",
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
 	function( surface, id )
-		local uSurf, edge1, edge2, edgesSource, edgesRange,
+		local edge1, edge2, edgesSource, edgesRange,
 			vertex1, vertex2, verticesSource, verticesRange;
-
-		uSurf := UnderlyingSimplicialSurface( surface );
-		if not IsWellDefinedIdentification( uSurf, id ) then
-			return false;
-		fi;		
 
 		edgesSource := AsList( Source( EdgeMap( id ) ) );
 		edgesRange := AsList( Range( EdgeMap( id ) ) );
@@ -288,6 +283,20 @@ InstallMethod( IsConstantOnIntersection,
 		return true;
 	end
 );
+InstallMethod( IsConstantOnIntersection, 
+	"for a coloured simplicial surface and a simplicial surface identification",
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+		local uSurf;
+
+		uSurf := UnderlyingSimplicialSurface( surface );
+		if not IsWellDefinedIdentification( uSurf, id ) then
+			return false;
+		fi;		
+
+		return IsConstantOnIntersectionNCWellDefined( surface, id );
+	end
+);
 
 
 #!	@Description
@@ -299,15 +308,11 @@ InstallMethod( IsConstantOnIntersection,
 #!	@Arguments a coloured simplicial surface, a simplicial surface 
 #!	identification
 #!	@Returns true or false
-InstallMethod( IsApplicableExtension, 
+InstallMethod( IsApplicableExtensionNCIntersection, 
 	"for a coloured simplicial surface and a simplicial surface identification",
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
 	function( surface, id )
 		local vMap, vertex, vertexSource, quot, vertexClasses, edge;
-
-		if not IsConstantOnIntersection( surface, id ) then
-			return false;
-		fi;
 
 		vMap := VertexMap( id );
 		vertexSource := Source( vMap );
@@ -332,7 +337,17 @@ InstallMethod( IsApplicableExtension,
 		return true;
 	end
 );
+InstallMethod( IsApplicableExtension, 
+	"for a coloured simplicial surface and a simplicial surface identification",
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+		if not IsConstantOnIntersection( surface, id ) then
+			return false;
+		fi;
 
+		return IsApplicableExtensionNCIntersection( surface, id );
+	end
+);
 
 
 

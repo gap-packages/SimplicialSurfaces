@@ -137,16 +137,18 @@ DeclareOperation( "FaceMap", [IsFoldingPlan] );
 #TODO
 
 #!	@Description
-#!	Return if the given simplicial surface identification is well-defined
-#!	with respect to the given simplicial surface.
+#!	Return if the given folding plan is well-defined with respect to the given 
+#!	folding complex.
 #!	This method checks if the maps of the identification can be applied to
-#!	the vertices, edges and faces of the simplicial surface. It also
+#!	the vertices, edges and faces of the underlying simplicial surface. It also
 #!	checks whether the maps are compatible with each other, i.e. if they
 #!	commute with the incidence relation of the simplicial surface.
-#!	@Arguments a simplicial surface, a simplicial surface identification
+#!	Finally it checks whether the oriented faces are border pieces of the
+#!	folding complex.
+#!	@Arguments a folding complex, a folding pla
 #!	@Returns true or false
-DeclareOperation( "IsWellDefinedIdentification", 
-	[IsSimplicialSurface, IsSimplicialSurfaceIdentification] );
+DeclareOperation( "IsWellDefinedFoldingPlan", 
+	[IsFoldingComplex, IsFoldingPlan] );
 
 
 #!	@Description
@@ -170,6 +172,7 @@ DeclareOperation( "IsConstantOnIntersection",
 #!	@Returns true or false
 DeclareOperation( "IsApplicableExtension", 
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
+
 
 #!	@Description
 #!	Extend the equivalence relation of the coloured simplicial surface
