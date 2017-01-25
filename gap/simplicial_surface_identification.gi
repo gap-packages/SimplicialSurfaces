@@ -36,7 +36,7 @@ SimplicialSurfaceIdentificationType :=
 #!	Return a simplicial surface identification based on three maps.
 #!	@Arguments three bijective maps: for vertices, edges and faces
 #!	@Returns a simplicial surface identification
-InstallMethod( SimplicialSurfaceIdentification,
+InstallMethod( SimplicialSurfaceIdentificationNC,
 	"for three bijective maps", [IsMapping and 
 		IsBijective, IsMapping and IsBijective, IsMapping and IsBijective],
 	function( vertexMap, edgeMap, faceMap )
@@ -48,6 +48,26 @@ InstallMethod( SimplicialSurfaceIdentification,
 		SetFaceMapAttributeOfSimplicialSurfaceIdentification( id, faceMap);
 
 		return id;
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceIdentificationNC, true, [IsMapping,
+	IsMapping, IsMapping], [IsBijective, IsBijective, IsBijective], 0 );
+InstallMethod( SimplicialSurfaceIdentification,
+	"for three bijective maps", [IsMapping and 
+		IsBijective, IsMapping and IsBijective, IsMapping and IsBijective],
+	function( vertexMap, edgeMap, faceMap )
+		
+		if Length( Source( vertexMap ) ) <> 3 then
+			Error("SimplicialSurfaceIdentification: Only three vertices");
+		fi;
+		if Length( Source( edgeMap ) ) <> 3 then
+			Error("SimplicialSurfaceIdentification: Only three edges");
+		fi;
+		if Length( Source( faceMap ) ) <> 1 then
+			Error("SimplicialSurfaceIdentification: Only one face");
+		fi;
+
+		return SimplicialSurfaceIdentificationNC(vertexMap,edgeMap,faceMap);
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceIdentification, true, [IsMapping,
@@ -99,7 +119,7 @@ InstallMethod( SimplicialSurfaceIdentificationByListsNC, "for three lists",
 		edgeMap := __SIMPLICIAL_CreateMapFromListNC( edgeList, false );
 		faceMap := __SIMPLICIAL_CreateMapFromListNC( faceList, false );
 
-		return SimplicialSurfaceIdentification( vertexList, edgeList, faceList);
+		return SimplicialSurfaceIdentificationNC( vertexList, edgeList, faceList);
 	end
 );
 InstallMethod( SimplicialSurfaceIdentificationByLists, "for three lists",
@@ -110,16 +130,6 @@ InstallMethod( SimplicialSurfaceIdentificationByLists, "for three lists",
 		vertexMap := __SIMPLICIAL_CreateMapFromListNC( vertexList, true );
 		edgeMap := __SIMPLICIAL_CreateMapFromListNC( edgeList, true );
 		faceMap := __SIMPLICIAL_CreateMapFromListNC( faceList, true );
-
-		if Length( Source( vertexMap ) ) <> 3 then
-			Error("SimplicialSurfaceIdentificationByLists: Only three vertices");
-		fi;
-		if Length( Source( edgeMap ) ) <> 3 then
-			Error("SimplicialSurfaceIdentificationByLists: Only three edges");
-		fi;
-		if Length( Source( faceMap ) ) <> 1 then
-			Error("SimplicialSurfaceIdentificationByLists: Only one face");
-		fi;
 
 		return SimplicialSurfaceIdentification( vertexList, edgeList, faceList);
 	end

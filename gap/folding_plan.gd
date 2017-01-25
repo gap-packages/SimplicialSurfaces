@@ -1,6 +1,6 @@
 ##############################################################################
 ##
-#W  simplicial_surface_identification.gd          SimplicialSurfaces           Markus Baumeister
+#W  folding_plan.gd          SimplicialSurfaces           Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Markus Baumeister, Lehrstuhl B für Mathematik,
@@ -8,53 +8,53 @@
 ##
 ##  This file is free software, see license information at the end.
 ##
-##  This file contains the declaration part for the identifications of the 
-##	SimplicialSurfaces package. An identification is an isomorphism between
-##	two faces (and the incident vertices and edges) and is used to fold a
-##	coloured simplicial surface.
+##  This file contains the declaration part for the folding plans of the 
+##	SimplicialSurfaces package. A folding plan consists of an identification
+##	and two oriented faces belongig to the identified faces.
 ##
-##	An identification consists of three maps - one for vertices, edges and
-##	faces. It can be applied to any simplicial surface (with colouring) where
-##	it the application is well-defined.
 ##
 
-DeclareCategory( "IsSimplicialSurfaceIdentification",
+
+DeclareCategory( "IsFoldingPlan",
 					IsComponentObjectRep and IsAttributeStoringRep );
 
 
 ##
-##	Define a new family for identifications. The family
+##	Define a new family for folding plans. The family
 ##	defines a necessary condition that has to be fulfilled for objects to be 
-##	equal to each other. The argument IsSimplicialSurfaceIdentification 
+##	equal to each other. The argument IsFoldingPlan 
 ##	guarantees that only objects that lie in this category can be part of the 
 ##	family.
 ##
-SimplicialSurfaceIdentificationFamily := 
-    NewFamily("SimplicialSurfaceIdentificationFamily",  IsObject, 
-				IsSimplicialSurfaceIdentification);
+FoldingPlanFamily := NewFamily("FoldingPlanFamily",  IsObject, IsFoldingPlan);
 
 
 
 #############################################################################
 ##
 ##
-#!  @Section Constructors for simplicial surface identifications
+#!  @Section Constructors for folding plans
 #!
 #!
 #!
 
 #!	@Description
+#!	Return a folding plan based on an identification and a list of two 
+#!	oriented faces (integers).
+#!	The NC-version doesn't check whether the list actually consists of exactly
+#!	two integers.
+#!	@Arguments a simplicial surface identification, a tuple of integers
+#!	@Returns a folding plan
+DeclareOperation( "FoldingPlanByIdentification", 
+					[IsSimplicialSurfaceIdentification, IsList] );
+DeclareOperation( "FoldingPlanByIdentificationNC", 
+					[IsSimplicialSurfaceIdentification, IsList] );
+
+#!	@Description
 #!	Return a simplicial surface identification based on three maps.
-#!
-#!	The NC-version does not check whether the number of elements is correct,
-#!	i.e. whether the vertex map consists of three vertices, the edge map of
-#!	three edges and the face map of one face.
-#!	
 #!	@Arguments three bijective maps: for vertices, edges and faces
 #!	@Returns a simplicial surface identification
 DeclareOperation( "SimplicialSurfaceIdentification", [IsMapping and 
-		IsBijective, IsMapping and IsBijective, IsMapping and IsBijective]);
-DeclareOperation( "SimplicialSurfaceIdentificationNC", [IsMapping and 
 		IsBijective, IsMapping and IsBijective, IsMapping and IsBijective]);
 
 #!	@Description
