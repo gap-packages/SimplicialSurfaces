@@ -355,6 +355,51 @@ InstallMethod( IsApplicableFoldingPlanNCWellDefined,
 	end
 );
 
+#!	@Description
+#!	Apply the folding plan to the folding complex. This method returns fail
+#!	if this is not possible or if the application does not yield a proper
+#!	folding complex. Otherwise return the new folding complex.
+#!
+#!	The NC-version does not check IsApplicableFoldingPlan before constructing
+#!	the result.
+#!
+#!	@Arguments a folding complex, a folding plan
+#!	@Returns a folding complex or fail
+InstallMethod( ApplyFoldingPlan, 
+	"for a folding complex and a folding plan", 
+	[IsFoldingComplex, IsFoldingPlan],
+	function( complex, plan )
+		if not IsApplicableFoldingPlan( complex, plan ) then
+			return false;
+		fi;
+
+		return ApplyFoldingPlanNCApplicable(complex, plan);
+	end
+);
+InstallMethod( ApplyFoldingPlanNCWellDefined, 
+	"for a folding complex and a folding plan", 
+	[IsFoldingComplex, IsFoldingPlan],
+	function( complex, plan )
+		if not IsApplicableFoldingPlanNCWellDefined( complex, plan ) then
+			return false;
+		fi;
+
+		return ApplyFoldingPlanNCApplicable(complex, plan);
+	end
+);
+InstallMethod( ApplyFoldingPlanNCApplicable, 
+	"for a folding complex and a folding plan", 
+	[IsFoldingComplex, IsFoldingPlan],
+	function( complex, plan )
+		local ;
+
+		# TODO
+
+		return;
+	end
+);
+
+
 
 
 

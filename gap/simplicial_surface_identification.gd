@@ -169,7 +169,9 @@ DeclareOperation( "IsApplicableExtensionNCWellDefined",
 
 #!	@Description
 #!	Extend the equivalence relation of the coloured simplicial surface
-#!	with a simplicial surface identification.
+#!	with a simplicial surface identification. If the equivalence class numbers
+#!	x and y are identified, the union of these classes is labelled by the
+#!	smaller of these numbers.
 #!
 #!	The NC-version does not run the test IsApplicableExtension.
 #!
