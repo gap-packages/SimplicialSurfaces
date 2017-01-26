@@ -391,7 +391,28 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 	"for a folding complex and a folding plan", 
 	[IsFoldingComplex, IsFoldingPlan],
 	function( complex, plan )
-		local ;
+		local newColSurf, newFoldingComplex, colSurf, id, newBorder;
+
+		colSurf := UnderlyingColouredSimplicialSurface( complex );
+		id := Identification(plan);
+		newColSurf := ExtendByIdentificationNC( colSurf, id );
+
+		# Next we modify the border pieces
+		newBorder := ShallowCopy( BorderPieces( complex ) );
+		faceNr1 := FaceEquivalenceNumberOfElement( colSurf, 
+										Elements(Domain(FaceMap(id)))[1] );
+		faceNr2 := FaceEquivalenceNumberOfElement( colSurf, 
+										Elements(Domain(FaceMap(id)))[2] );
+		oldBorder1 := BorderPieces(complex)[faceNr1];
+		oldBorder2 := BorderPieces(complex)[faceNr2];
+		goneBorders := Union( Elements(Domain( OrientedFaceMap(plan) ) ), 
+									Elements(Range(OrientedFaceMap(plan))) );
+		newBorder[ faceNr1 ] := Difference( Union( oldBorder1, oldBorder2 ), 
+																goneBorders );
+		Unbind(newBorder[ faceNr2 ]);
+
+
+		# Finally we modify the fans
 
 		# TODO
 
