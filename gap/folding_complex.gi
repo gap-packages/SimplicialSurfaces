@@ -203,6 +203,8 @@ InstallOtherMethod( FoldingComplexByFansNC,
 	end
 );
 ##	Check if a given list of fans is compatible with all other fans
+##	If the length of the given message is zero, no error is thrown (instead
+##	false will be returned in case of failure)
 __SIMPLICIAL_IsSetOfFansConsistentColoured :=
 								 function( complex, edgeCheck, message)
 	local surface, edge, check;
@@ -217,10 +219,16 @@ __SIMPLICIAL_IsSetOfFansConsistentColoured :=
 				
 			if not __SIMPLICIAL_AreFansCompatible( complex, 
 						Fans(complex)[edge], Fans(complex)[check] ) then
-				Error(message);
+				if Length(message) > 0 then
+					Error(message);
+				else
+					return false;
+				fi;
 			fi;
 		od;
 	od;
+
+	return true;
 end;
 InstallOtherMethod( FoldingComplexByFans, 
 	"for a simplicial surface and a list of fans",
@@ -248,7 +256,7 @@ InstallOtherMethod( FoldingComplexByFans,
 		# complementary pairs by default
 		# We have to check whether the fans are compatible with each other
 		# This is only necessary for the manually added fans
-		__SIMPLICIAL_IsSetOfFansConsistentColoured( complex, edgeCheck, 
+		__SIMPLICIAL_IsSetOfFansConsistentColoured( complex, edgeCheck,
 				"FoldingComplexByFans: The given fans are incompatible." );
 
 		return complex;
@@ -298,7 +306,7 @@ InstallMethod( FoldingComplexByFans,
 		# complementary pairs by default
 		# We have to check whether the fans are compatible with each other
 		# This is only necessary for the manually added fans
-		__SIMPLICIAL_IsSetOfFansConsistentColoured( complex, edgeCheck, 
+		__SIMPLICIAL_IsSetOfFansConsistentColoured( complex, edgeCheck,
 					"FoldingComplexByFans: The given fans are incompatible.");
 
 		return complex;
@@ -400,7 +408,7 @@ InstallMethod( FoldingComplexByFansAndBorders,
 
 		# We have to check whether this complex is internally consistent
 		# Check whether the fans are compatible
-		__SIMPLICIAL_IsSetOfFansConsistentColoured( complex, edgeCheck, 
+		__SIMPLICIAL_IsSetOfFansConsistentColoured( complex, edgeCheck,
 			"FoldingComplexByFansAndBorders: The given fans are incompatible.");
 
 		# Check whether the given border pieces are complementary

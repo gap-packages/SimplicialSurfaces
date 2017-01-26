@@ -391,7 +391,10 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 	"for a folding complex and a folding plan", 
 	[IsFoldingComplex, IsFoldingPlan],
 	function( complex, plan )
-		local newColSurf, newFoldingComplex, colSurf, id, newBorder;
+		local newColSurf, newFoldingComplex, colSurf, id, newBorder, faceNr1,	
+			faceNr2, oldBorder1, oldBorder2, newFans, testEdges, edgeNr, edgeIm,
+			edgeClassNr1, edgeClassNr2, fan1, fan2, face1, orFace1, baseEx1,
+			baseEx2, permA, permB, permMix, newFan, goneBorders;
 
 		colSurf := UnderlyingColouredSimplicialSurface( complex );
 		id := Identification(plan);
@@ -403,20 +406,91 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 										Elements(Domain(FaceMap(id)))[1] );
 		faceNr2 := FaceEquivalenceNumberOfElement( colSurf, 
 										Elements(Domain(FaceMap(id)))[2] );
-		oldBorder1 := BorderPieces(complex)[faceNr1];
-		oldBorder2 := BorderPieces(complex)[faceNr2];
-		goneBorders := Union( Elements(Domain( OrientedFaceMap(plan) ) ), 
+
+		if faceNr1 <> faceNr2 then
+			oldBorder1 := BorderPieces(complex)[faceNr1];
+			oldBorder2 := BorderPieces(complex)[faceNr2];
+
+			goneBorders := Union( Elements(Domain( OrientedFaceMap(plan) ) ), 
 									Elements(Range(OrientedFaceMap(plan))) );
-		newBorder[ faceNr1 ] := Difference( Union( oldBorder1, oldBorder2 ), 
+			newBorder[ faceNr1 ] := Difference( Union( oldBorder1, oldBorder2 ), 
 																goneBorders );
-		Unbind(newBorder[ faceNr2 ]);
+		
+			Unbind(newBorder[ faceNr2 ]);
+		fi;
 
 
 		# Finally we modify the fans
+		newFans := ShallowCopy( Fans( complex ) );
+		testEdges := [];
+		for edgeNr in Domain( EdgeMap( id ) ) do
+			edgeIm := Image( EdgeMap(id), edgeNr );
 
-		# TODO
+			edgeClassNr1 := EdgeEquivalenceNumberOfElement(colSurf, edgeNr);
+			edgeClassNr2 := EdgeEquivalenceNumberOfElement(colSurf, edgeIm);
+			if edgeClassNr1 = edgeClassNr2 then
+				continue;
+			fi;
 
-		return;
+			fan1 := Fans(complex)[edgeClassNr1];
+			fan2 := Fans(complex)[edgeClassNr2];
+
+			# Check whether these fans have the same orientation
+			baseEx1 := VertexEquivalenceClassByNumber( colSurf, 
+														BeginOfFan(fan1) )[1];
+			baseEx1 := VertexEquivalenceClassByNumber( colSurf, 
+														BeginOfFan(fan2) )[1];
+			if not IsEquivalentVertex( newColSurf, baseEx1, baseEx2 ) then
+				fan2 := InverseOfFan(fan2);
+			fi;
+
+			# Check whether the oriented face of the first fan looks in the
+			# induced rotation direction of this fan
+			face1 := Elements(Domain(FaceMap(id)))[1];
+			orFace1 := Elements(Domain(OrientedFaceMap(plan)))[1];
+			if FaceNameInducedByFan(colSurf, fan1, face1 ) <> orFace1 then
+				fan1 := InverseOfFan(fan1);
+				fan2 := InverseOfFan(fan2);
+			fi;
+
+			# Finally we perform the fan summation. Let the permutation of the
+			# first fan be (a_1,a_2,...,a_m) and the permutation of the second
+			# fan (b_1,b_2,...,b_n). If we sum at the points a_1 and b_1, the 
+			# fan sum will have the permutation (a_1,b_1,...,b_n,a_2,...,a_m).
+			# To get there we have to calculate the permutation
+			# (a_1,...,a_m)*(b_1,...,b_n)*(a_2,b_1) [try example in GAP to see
+			# why this ordering is correct].
+			permA := PermutationOfFan(fan1);
+			permB := PermutationOfFan(fan2);
+			permMix := ( face1^permA, Elements(Range(FaceMap(id)))[1] );
+	
+			# Start and end of the new fan are those from fan1 since their 
+			# labels will still be valid after the extension by the 
+			# identification
+			newFan := SimplicialSurfaceFanNC( BeginOfFan(fan1), EndOfFan(fan1), 
+													permA*permB*permMix );
+
+			newFans[ edgeClassNr1 ] := newFan;
+			Append( testEdges, [edgeClassNr1] );
+			Unbind(newFans[edgeClassNr2] );
+		od;
+
+
+		# Finally we construct the new folding complex
+		newFoldingComplex := 
+			FoldingComplexByFansAndBordersNC( newColSurf, newFans, newBorder );
+
+		# Unfortunately we have to check whether the fans of this folding
+		# complex are compatible with each other. We did not perform this check
+		# in the constructor as it is only necessary to do so for the modified
+		# fans.
+		if not __SIMPLICIAL_IsSetOfFansConsistentColoured( newFoldingComplex,
+			testEdges, "") then
+			return fail;
+		fi;
+
+
+		return newFoldingComplex;
 	end
 );
 
