@@ -9,7 +9,7 @@
 ##	Test whether a simplicial surface is a janus head.
 ##
 TestIsJanusHead := function( surface, messageSurfaceOrigin )
-	local conCom;
+	local conCom, janus;
 
 	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
 
@@ -74,212 +74,41 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 		Print( messageSurfaceOrigin );
 		Print( " should have exactly one face anomaly class.\n");
 	fi;
+
+	if surface <> SnippOffEars(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " should not be changed by removal of ears.\n");
+	fi;
+
+	janus := SimplicialSurfaceByDownwardIncidence( [2,3,5], [3,6,9], [3,7],
+		[ , , [2,3], , , [3,5], , , [2,5] ],
+		[ , , [3,6,9], , , , [6,3,9] ] );
+	if not IsIsomorphic( surface, janus ) then
+		Print( messageSurfaceOrigin );
+		Print( " is not isomorphic to a janus head.\n");
+	fi;
 	
 end;
 
 
-################################################################################
-## This method tests the functionality for the example of a janus head
-## and the representation of a wild coloured simplicial surface
-TestJanusHeadWild := function()
-	local sig1,sig2,sig3, mrType, surfaces, surf, VertexGroup, generic,
-		consistency, name;
 
-	name := "Janus head";
-
-	sig1 := (1,2);
-	sig2 := (1,2);
-	sig3 := (1,2);
-	mrType := AllEdgesOfSameType( 2, 1);
-
-	surfaces := AllWildSimplicialSurfaces( sig1, sig2, sig3,mrType  );
-	if Length(surfaces) <> 1 then
-		Print( "Failed: ");
-		Print( name );
-		Print( " can't be defined by wild coloring.\n" );
-	fi;
-
-	surf := surfaces[1];
-
-	# Test the elementary properties
-	if NrOfVerticesOfWildSimplicialSurface(surf) <> 3 then
-		Print( "Failed: ");
-		Print(name);
-		Print( " has wrong number of vertices.\n" );
-	fi;
-
-	if NrOfEdgesOfWildSimplicialSurface(surf) <> 3 then
-		Print( "Failed: ");
-		Print(name);
-		Print( " has wrong number of edges.\n" );
-	fi;
-
-	if NrOfFacesOfWildSimplicialSurface(surf) <> 2 then
-		Print( "Failed: ");
-		Print(name);
-		Print( " has wrong number of faces.\n" );
-	fi;
-
-	if MrTypeOfWildSimplicialSurface(surf) <> mrType then
-		Print( "Failed: ");
-		Print(name);
-		Print( " has wrong number mr-type.\n" );
-	fi;
-
-	# Test some advanced properties
-	if EulerCharacteristic(surf) <> 2 then
-		Print( "Failed: ");
-		Print(name);
-		Print( " has wrong number Euler-Characteristic.\n" );
-	fi;
-
-	VertexGroup := VertexGroupOfWildSimplicialSurface(surf);
-	VertexGroup := VertexGroup[1] / VertexGroup[2];
-	if Size( VertexGroup ) <> 2 then
-		Print( "Failed: ");
-		Print(name);
-		Print( " vertex group is not C_2.\n");
-    else
-		Print( "  Passed: ");
-		Print(name);
-		Print( " has correct vertex group C_2.\n");
-	fi;
-
-	if DegreesOfWildSimplicialSurface(surf) <> [2,2,2] then
-		Print( "Failed: ");
-		Print(name);
-		Print( " vertex degrees are incorrect.\n");
-    else
-		Print( "  Passed: ");
-		Print(name);
-		Print( " has correct vertex degrees.\n");
-	fi;
-
-	if not IsConnectedWildSimplicialSurface(surf) then
-		Print( "Failed: ");
-		Print(name);
-		Print( " should be connected.\n" );
-    else
-		Print( "  Passed: ");
-		Print(name);
-		Print( " is connected.\n" );
-	fi;
-
-	if not IsOrientableWildSimplicialSurface(surf) then
-		Print( "Failed: ");
-		Print(name);
-		Print( " should be orientable.\n" );
-    else
-		Print( "  Passed: ");
-		Print(name);
-		Print( " is orientable.\n" );
-	fi;
-
-	if  surf <> SnippOffEars(surf)  then
-		Print( "Failed: ");
-		Print(name);
-		Print( " should not have ears.\n");
-    else
-		Print( "  Passed: ");
-		Print( name );
-		Print( " has no ears.\n");
-	fi;
-
-end;
 
 ##########################################################################
-## This method tests the functionality for the example of a tetrahedron
+## This method tests the functionality for the example of a janus head
 ## and the representation of a generic simplicial surface
-TestJanusHeadGeneric := function()
+TestJanusHead := function()
 	local surf, newSurf, graph, name, anomalies;
 
 	name := "Janus head";
 
-	surf := GenericSimplicialSurface( rec( 
-		nrOfVertices := 3,
-		nrOfEdges := 3,
-		nrOfFaces := 2,
-		edges := [[1,2],[2,3],[3,1]], 
-		faces := [[1,2,3],[1,2,3]] ) );
+	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
+		[[1,2,3],[1,2,3]] );
 
-	TestGenericConsistency( surf, Concatenation(name," definition (generic)") );
+	TestIsJanusHead( surf, Concatenation(name," definition") );
 
-	# Test the elementary properties
-	if NrOfVerticesOfGenericSimplicialSurface(surf) <> 3 then
-		Print( "Failed: ");
-		Print( name );
-		Print( " has wrong number of vertices.\n" );
-	fi;
-
-	if NrOfEdgesOfGenericSimplicialSurface(surf) <> 3 then
-		Print( "Failed: ");
-		Print( name );
-		Print( " has wrong number of edges.\n" );
-	fi;
-
-	if NrOfFacesOfGenericSimplicialSurface(surf) <> 2 then
-		Print( "Failed: ");
-		Print( name );
-		Print( " has wrong number of faces.\n" );
-	fi;
-
-	# Test some advanced properties
-	if EulerCharacteristic(surf) <> 2 then
-		Print( "Failed: ");
-		Print( name);
-		Print( " has wrong Euler-Characteristic.\n" );
-	fi;
-
-	anomalies := FaceAnomalyClassesOfGenericSimplicialSurface( surf );
-	if Length( anomalies ) <> 1	or Length( anomalies[1] ) <> 2 then
-		Print( "Failed: ");
-		Print( name );
-		Print( " should have a face-anomaly.\n");
-	fi;
-
-	if UnsortedDegreesOfGenericSimplicialSurface(surf) <> [2,2,2] or 
-		SortedDegreesOfGenericSimplicialSurface(surf) <> [2,2,2] then
-		Print( "Failed: ");
-		Print(name);
-		Print( " vertex degrees are incorrect.\n");
-    else
-		Print( "  Passed: ");
-		Print(name);
-		Print( " has correct vertex degrees.\n");
-	fi;
-
-	if not IsConnectedGenericSimplicialSurface(surf) then
-		Print( "Failed: ");
-		Print(name);
-		Print( " should be connected.\n" );
-    else
-		Print( "  Passed: ");
-		Print(name);
-		Print( " is connected.\n" );
-	fi;
-
-	if not IsOrientableGenericSimplicialSurface(surf) then
-		Print( "Failed: ");
-		Print( name );
-		Print( " should be orientable.\n" );
-    else
-		Print( "	Passed: ");
-		Print( name );
-		Print( " is orientable.\n" );
-	fi;
-
-	if  surf <> SnippOffEarsOfGenericSimplicialSurface(surf)  then
-		Print( "Failed: ");
-		Print(name);
-		Print( " should not have ears.\n");
-    else
-		Print( "  Passed: ");
-		Print( name );
-		Print( " has no ears.\n");
-	fi;
 
 	# Check incidence graph
-	graph := IncidenceGraphOfGenericSimplicialSurface(surf);
+	graph := IncidenceGraph(surf);
 	if not IsGraph(graph) then
 		Print( "Failed: Incidence graph is not a graph.\n");
 	fi;
@@ -302,66 +131,3 @@ TestJanusHeadGeneric := function()
 end;
 
 
-##########################################################################
-## This method tests the functionality for the example of a janus head
-## and the conversion between different representations
-TestJanusHeadConversion := function()
-	local generic, faceToGeneric, wildToGeneric, wild, genToFaceToGen,
-		genToWildToGen, genericToFace, genericToWild, face, faceToWildToGen,
-		faceToWild, name;
-
-	name := "janus head";
-
-	## Test all converters to generic
-	generic := GenericSimplicialSurface( rec( 
-		nrOfVertices := 3,
-		nrOfEdges := 3,
-		nrOfFaces := 2,
-		edges := [[1,2],[2,3],[3,1]], 
-		faces := [[1,2,3],[1,2,3]] ) );
-
-	wild := AllWildSimplicialSurfaces( 
-		(1,2), 
-		(1,2), 
-		(1,2),
-		AllEdgesOfSameType(2, 1) )[1];
-
-
-	wildToGeneric := GenericSimplicialSurfaceFromWildSimplicialSurface( wild );
-	if not IsIsomorphicGenericSimplicialSurface( generic, wildToGeneric ) then
-		Print( "Failed: Conversion wild to generic of ");
-		Print( name );
-		Print( " failed.\n" );
-	else
-		Print( "	Passed: Conversion wild to generic of ");
-		Print( name );
-		Print( ".\n" );
-	fi;
-
-## Test the generic to wild converter
-	genericToWild := WildSimplicialSurfacesFromGenericSurface( generic );
-	if Length( genericToWild ) <> 1 then
-		Print( "Failed: Conversion generic to wild of ");
-		Print( name );
-		Print( " has wrong number of possibilities.\n" );
-	fi;
-	genToWildToGen := GenericSimplicialSurfaceFromWildSimplicialSurface( genericToWild[1] );
-	if not IsIsomorphicGenericSimplicialSurface( generic, genToWildToGen ) then
-		Print( "Failed: Conversion generic to wild of ");
-		Print( name );
-		Print( " failed.\n" );
-	else
-		Print( "	Passed: Conversion generic to wild of ");
-		Print( name );
-		Print( ".\n" );
-	fi;
-
-end;
-
-
-# Test everything
-TestJanusHead := function()
-	TestJanusHeadWild();
-	TestJanusHeadGeneric();
-	TestJanusHeadConversion();
-end;

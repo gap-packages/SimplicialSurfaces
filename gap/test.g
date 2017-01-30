@@ -8,10 +8,5 @@ Read("../test/generalTest.g");
 Read("../test/test_simplicialSurface_janusHead.g");
 
 TestAll := function()
-	TestTetrahedron();
-	TestOpenTetrahedron();
-	TestIcosahedron();
 	TestJanusHead();
-	TestTwoConnectedTriangles();
-	TestProjectivePlaneFour();
 end;
