@@ -9,9 +9,58 @@
 ##	Test whether a simplicial surface is a janus head.
 ##
 TestIsJanusHead := function( surface, messageSurfaceOrigin )
-	local;
+	local conCom;
 
 	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
+
+	if NrOfVertices(surface) <> 3 then
+		Print( messageSurfaceOrigin );
+		Print( " does not have 3 vertices.\n");
+	fi;
+	if NrOfEdges(surface) <> 3 then
+		Print( messageSurfaceOrigin );
+		Print( " does not have 3 edges.\n");
+	fi;
+	if NrOfFaces(surface) <> 2 then
+		Print( messageSurfaceOrigin );
+		Print( " does not have 2 faces.\n");
+	fi;
+	if EulerCharacteristic(surface) <> 2 then
+		Print( messageSurfaceOrigin );
+		Print( " does not have Euler-Characteristic 2.\n");
+	fi;
+
+
+	# The janus head is an actual surface
+	if not IsActualSurface( surface ) then
+		Print( messageSurfaceOrigin );
+		Print( " must be an actual surface.\n" );
+	fi;
+
+	# The janus head is orientable
+	if not IsOrientable( surface ) then
+		Print( messageSurfaceOrigin );
+		Print( " must be orientable.\n");
+	fi;
+
+	# The janus head is connected
+	if not IsConnected( surface ) then
+		Print( messageSurfaceOrigin );
+		Print( " must be connected.\n");
+	fi;
+
+	# TODO also test for different orders of function calls
+	conCom := ConnectedComponentsAttributeOfSimplicialSurface( surface );
+	if Length(conCom) <> 1 then
+		Print( messageSurfaceOrigin );
+		Print( " must have exactly one connected component.\n" );
+	fi;
+	if conCom[1] <> surface then
+		Print( messageSurfaceOrigin );
+		Print( " should equal its one connected component.\n");
+	fi;
+
+	
 end;
 
 

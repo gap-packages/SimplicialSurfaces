@@ -232,8 +232,15 @@ TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin )
 	od;
 
 
-	
-
+	# Test Euler-Characteristic
+	if EulerCharacteristic(surface) <> EulerCharacteristicAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent Euler-characteristic.\n");
+	fi;
+	if NrOfVertices(surface) - NrOfEdges(surface) + NrOfFaces(surface) <> EulerCharacteristic(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has incorrect Euler-characteristic.\n");
+	fi;
 
 
 end;

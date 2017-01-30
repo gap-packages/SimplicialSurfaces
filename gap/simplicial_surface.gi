@@ -1131,6 +1131,15 @@ InstallMethod( IsConnected, "for a simplicial surface",
 		return IsEmpty( faces );
 	end
 );
+InstallMethod( IsConnected, "for a simplicial surface",
+	[IsSimplicialSurface and HasConnectedComponentsAttributeOfSimplicialSurface],
+	function(simpsurf)
+		local components;
+
+		components := ConnectedComponentsAttributeOfSimplicialSurface(simpsurf);
+		return Length(components) = 1;
+	end
+);
 
 ###############################################################################
 ##
@@ -1324,6 +1333,12 @@ InstallMethod( ConnectedComponentOfFaceNC, "for a simplicial surface",
 		return subsurf;
 	end
 );
+InstallMethod( ConnectedComponentOfFaceNC, "for a simplicial surface",
+	[IsSimplicialSurface and IsConnected, IsPosInt],
+	function(simpsurf, f)
+		return simpsurf;	# A connected surface has only one connected component
+	end
+);
 InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 	[IsSimplicialSurface, IsPosInt],
 	function(simpsurf, f)
@@ -1393,6 +1408,12 @@ InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
 		od;
 
 		return comp;
+	end
+);
+InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
+	"for a simplicial surface", [IsSimplicialSurface and IsConnected],
+	function(simpsurf)
+		return [simpsurf];
 	end
 );
 #InstallMethod( ConnectedComponents, "for a simplicial surface",
