@@ -7,8 +7,8 @@ end;
 ##
 ##	Test the general consistency of a simplicial surface.
 ##	
-TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin )
-	local i;
+TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
+	local i, degrees;
 
 	if not IsSimplicialSurface( surface ) then
 		Print( messageSurfaceOrigin );
@@ -254,7 +254,9 @@ TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin )
 		Print( messageSurfaceOrigin );
 		Print( " has inconsistent sorted degrees.\n");
 	fi;
-	if Sort( UnsortedDegrees(surface) ) <> SortedDegrees(surface) then
+	degrees := Compacted( UnsortedDegrees(surface) );
+	Sort(degrees);
+	if degrees <> SortedDegrees(surface) then
 		Print( messageSurfaceOrigin );
 		Print( ": Sorted and unsorted degrees do not match.\n");
 	fi;

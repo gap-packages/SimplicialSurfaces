@@ -22,3 +22,6 @@ TestJanusHeadWild := function()
 	surf := surfaces[1];
 
 end;
+
+SimplicialSurfaceByDownwardIncidence( [ 2, 3, 5 ], [ 3, 6, 9 ], [ 3, 7 ], [ ,, [ 2, 3 ],,, [ 3, 5 ],,, [ 2, 5 ] ], 
+ [ ,, [ 3, 6, 9 ],,,, [ 6, 3, 9 ] ] );
