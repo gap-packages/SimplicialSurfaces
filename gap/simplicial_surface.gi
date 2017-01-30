@@ -192,6 +192,9 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		return surf;
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, true,
+	[ IsList, IsList, IsList, IsList, IsList],
+	[ IsSet, IsSet, IsSet, , ], 0 );
 ##
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
@@ -201,6 +204,7 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 			faces, edgesByVertices, facesByEdges );
 	end
 );
+
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
@@ -208,6 +212,10 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 			faces, edgesByVertices, facesByEdges );
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, true,
+	[ IsList, IsPosInt, IsObject, IsList, IsList],
+	[ IsSet, , , , ], 0 );
+
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
@@ -215,6 +223,9 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 			[1..faces], edgesByVertices, facesByEdges );
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, true,
+	[ IsList, IsList, IsPosInt, IsList, IsList],
+	[ IsSet, IsSet, , , ], 0 );
 ##
 ##	Next we have to install the same constructors with checks.
 
@@ -294,6 +305,9 @@ InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
 					vertices, edges, faces, edgesByVertices, facesByEdges );
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, true,
+	[ IsList, IsList, IsList, IsList, IsList],
+	[ IsSet, IsSet, IsSet, , ], 0 );
 ##
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
@@ -303,6 +317,7 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 			faces, edgesByVertices, facesByEdges );
 	end
 );
+
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
@@ -310,6 +325,10 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 			faces, edgesByVertices, facesByEdges );
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, true,
+	[ IsList, IsPosInt, IsObject, IsList, IsList],
+	[ IsSet, , , , ], 0 );
+
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
@@ -317,6 +336,9 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 			[1..faces], edgesByVertices, facesByEdges );
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, true,
+	[ IsList, IsList, IsPosInt, IsList, IsList],
+	[ IsSet, IsSet, , , ], 0 );
 ##
 ##
 ##
@@ -369,6 +391,10 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		return surf;
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, true,
+	[ IsList, IsList, IsList],
+	[ IsSet, IsSet, ], 0 );
+
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsPosInt, IsObject, IsList ],
@@ -384,6 +410,9 @@ InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 			facesByVertices );
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, true,
+	[ IsList, IsPosInt, IsList],
+	[ IsSet, , ], 0 );
 ##
 ##	Of course the same constructors with sanity checks can't be missing.
 ##
@@ -436,6 +465,9 @@ InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 					vertices, faces, facesByVertices );
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
+	[ IsList, IsList, IsList],
+	[ IsSet, IsSet, ], 0 );
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsPosInt, IsObject, IsList ],
@@ -451,6 +483,9 @@ InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
 			facesByVertices );
 	end
 );
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
+	[ IsList, IsPosInt, IsList],
+	[ IsSet, , ], 0 );
 ##
 ##							End of constructors
 ##
@@ -1272,6 +1307,8 @@ InstallMethod( SubsurfaceByFaces, "for a simplicial surface",
 		return SubsurfaceByFacesNC( simpsurf, subfaces );
 	end
 );
+RedispatchOnCondition( SubsurfaceByFaces, true, [IsSimplicialSurface, IsList],
+	[,IsSet], 0);
 InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
 	[IsSimplicialSurface, IsSet],
 	function(simpsurf, subfaces)
@@ -1294,6 +1331,8 @@ InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
 			subfaces, newEdgesByVertices, newFacesByEdges );
 	end
 );
+RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsSimplicialSurface, IsList],
+	[,IsSet], 0);
 
 #############################################################################
 ##
