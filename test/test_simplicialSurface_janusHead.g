@@ -108,7 +108,7 @@ TestJanusHead := function()
 
 
 	# Check incidence graph
-	graph := IncidenceGraph(surf);
+	graph := ShallowCopy( IncidenceGraph(surf) );
 	if not IsGraph(graph) then
 		Print( "Failed: Incidence graph is not a graph.\n");
 	fi;
