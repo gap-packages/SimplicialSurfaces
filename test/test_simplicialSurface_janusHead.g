@@ -4,6 +4,17 @@
 ################################################################################
 ################################################################################
 
+
+##
+##	Test whether a simplicial surface is a janus head.
+##
+TestIsJanusHead := function( surface, messageSurfaceOrigin )
+	local;
+
+	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
+end;
+
+
 ################################################################################
 ## This method tests the functionality for the example of a janus head
 ## and the representation of a wild coloured simplicial surface

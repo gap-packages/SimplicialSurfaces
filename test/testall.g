@@ -6,7 +6,7 @@
 #
 LoadPackage( "SimplicialSurfaces" );
 
-TestDirectory(DirectoriesPackageLibrary( "SimplicialSurfaces", "tst" ),
+TestDirectory(DirectoriesPackageLibrary( "SimplicialSurfaces", "test" ),
   rec(exitGAP := true));
 
 FORCE_QUIT_GAP(1); # if we ever get here, there was an error
