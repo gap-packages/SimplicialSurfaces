@@ -243,4 +243,50 @@ TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin )
 	fi;
 
 
+	# Test unsorted degrees
+	if UnsortedDegrees(surface) <> UnsortedDegreesAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent unsorted degrees.\n");
+	fi;
+
+	# Test sorted degrees
+	if SortedDegrees(surface) <> SortedDegreesAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent sorted degrees.\n");
+	fi;
+	if Sort( UnsortedDegrees(surface) ) <> SortedDegrees(surface) then
+		Print( messageSurfaceOrigin );
+		Print( ": Sorted and unsorted degrees do not match.\n");
+	fi;
+
+	# Test vertex symbol
+	if VertexSymbol(surface) <> VertexSymbolAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has an inconsistent vertex symbol.\n");
+	fi;
+
+	# Test local orientation
+	if LocalOrientation(surface) <> LocalOrientationAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has an inconsistent local orientation.\n");
+	fi;
+
+	# Test names of faces
+	if NamesOfFaces(surface) <> NamesOfFacesAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent names of faces.\n");
+	fi;
+
+	# Test face anomaly classes
+	if FaceAnomalyClasses(surface) <> FaceAnomalyClassesAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent face anomaly classes.\n");
+	fi;
+
+	# Test names of faces
+	if IncidenceGraph(surface) <> IncidenceGraphAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent incidence graphs.\n");
+	fi;
+
 end;

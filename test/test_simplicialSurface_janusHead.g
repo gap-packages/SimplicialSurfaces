@@ -60,6 +60,20 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 		Print( " should equal its one connected component.\n");
 	fi;
 
+	if SortedDegrees(surface) <> [2,2,2] then
+		Print( messageSurfaceOrigin );
+		Print( " does not have degrees [2,2,2].\n");
+	fi;
+
+	if VertexSymbol(surface) <> [ ,3] then
+		Print( messageSurfaceOrigin );
+		Print( " does not have the vertex symbol [,3].\n");
+	fi;
+
+	if Length( FaceAnomalyClasses(surface) ) <> 1 then
+		Print( messageSurfaceOrigin );
+		Print( " should have exactly one face anomaly class.\n");
+	fi;
 	
 end;
 
