@@ -114,7 +114,7 @@ end;
 
 ##########################################################################
 ## This method tests the functionality for the example of a tetrahedron
-## and the representation of a generic simplicial surface
+## and the representation of a simplicial surface
 TestOpenTetrahedron := function()
 	local surf, name;
 

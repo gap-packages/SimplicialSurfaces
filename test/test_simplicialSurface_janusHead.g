@@ -118,7 +118,7 @@ end;
 
 ##########################################################################
 ## This method tests the functionality for the example of a janus head
-## and the representation of a generic simplicial surface
+## and the representation of a simplicial surface
 TestJanusHead := function()
 	local surf, name;
 

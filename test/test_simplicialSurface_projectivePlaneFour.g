@@ -103,25 +103,27 @@ TestIsProjectivePlaneFour := function( surface, messageSurfaceOrigin )
 		Print( " should not be changed by removal of ears.\n");
 	fi;
 
-	proj := SimplicialSurfaceByDownwardIncidence( [2,3,5,7], [1..6], [1..4],
-		[ [2,3],[5,2],[2,7],[5,3],[5,7],[7,3] ],
-		[ [1,2,4], [1,3,6], [5,2,3], [6,5,4] ] );
+	proj := SimplicialSurfaceByDownwardIncidence( [1..3],6,[1..4], 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]]  );
 	if not IsIsomorphic( surface, proj ) then
 		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to a tetrahedron.\n");
+		Print( " is not isomorphic to a projective plane.\n");
 	fi;
 	
 end;
 
 ##########################################################################
-## This method tests the functionality for the example of a tetrahedron
-## and the representation of a generic simplicial surface
+## This method tests the functionality for the example of a projective plane
+## with four triangles and the representation of a simplicial surface
 TestProjectivePlaneFour := function()
 	local surf, name;
 
-	name := "Tetrahedron";
+	name := "Projective plane with four triangles";
 
-	surf := SimplicialSurfaceByVerticesInFaces( 4,4, [[1,2,3],[1,3,4],[3,2,4],[1,4,2]] );
+	surf := SimplicialSurfaceByDownwardIncidence( 3,6,4, 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]]  );
 
 	TestIsProjectivePlaneFour( surf, Concatenation(name," definition") );
 
