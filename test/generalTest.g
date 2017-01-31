@@ -291,4 +291,32 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		Print( " has inconsistent incidence graphs.\n");
 	fi;
 
+
+	# Check incidence graph
+	graph := ShallowCopy( IncidenceGraph(surface) );
+	if not IsGraph(graph) then
+		Print( messageSurfaceOrigin );
+		Print( ": Incidence graph is not a graph.\n");
+	fi;
+	if OrderGraph(graph) <> NrOfVertices(surface)+NrOfEdges(surface)+NrOfFaces(surface) then
+		Print( messageSurfaceOrigin );
+		Print( ": Number of vertices in incidence graph is wrong.\n");
+	fi;
+	if IsLoopy(graph) then
+		Print( messageSurfaceOrigin );
+		Print( ": Incidence graph should not be loopy.\n");
+	fi;
+	if not IsSimpleGraph(graph) then
+		Print( messageSurfaceOrigin );
+		Print( ": Incidence graph is not simple.\n");
+	fi;
+	if IsConnectedGraph(graph) <> IsConnected(surface) then
+		Print( messageSurfaceOrigin );
+		Print( ": Incidence graph is not connected.\n");
+	fi;
+	if not IsBipartite(graph) then
+		Print( messageSurfaceOrigin );
+		Print( ": Incidence graph is not bipartite.\n");
+	fi;
+
 end;

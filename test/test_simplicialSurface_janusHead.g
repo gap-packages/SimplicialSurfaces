@@ -106,28 +106,6 @@ TestJanusHead := function()
 
 	TestIsJanusHead( surf, Concatenation(name," definition") );
 
-
-	# Check incidence graph
-	graph := ShallowCopy( IncidenceGraph(surf) );
-	if not IsGraph(graph) then
-		Print( "Failed: Incidence graph is not a graph.\n");
-	fi;
-	if OrderGraph(graph) <> 8 then
-		Print( "Failed: Number of vertices in incidence graph is wrong.\n");
-	fi;
-	if IsLoopy(graph) then
-		Print( "Failed: Incidence graph should not be loopy.\n");
-	fi;
-	if not IsSimpleGraph(graph) then
-		Print( "Failed: Incidence graph is not simple.\n");
-	fi;
-	if not IsConnectedGraph(graph) then
-		Print( "Failed: Incidence graph is not connected.\n");
-	fi;
-	if not IsBipartite(graph) then
-		Print( "Failed: Incidence graph is not bipartite.\n");
-	fi;
-
 end;
 
 
