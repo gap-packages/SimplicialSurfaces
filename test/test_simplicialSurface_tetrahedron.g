@@ -1,22 +1,21 @@
 ################################################################################
 ################################################################################
-#####							Test a janus head
+#####							Test a tetrahedron
 ################################################################################
 ################################################################################
 
-
 ##
-##	Test whether a simplicial surface is a janus head.
+##	Test whether a simplicial surface is a tetrahedron.
 ##
-TestIsJanusHead := function( surface, messageSurfaceOrigin )
-	local conCom, janus, vertexNr, edgeNr, faceNr, euler, sortDeg, vertexSym,
+TestIsTetrahedron := function( surface, messageSurfaceOrigin )
+	local conCom, tetra, vertexNr, edgeNr, faceNr, euler, sortDeg, vertexSym,
 		anomalyClassCount;
 
 	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
 
-	vertexNr := 3;
-	edgeNr := 3;
-	faceNr := 2;
+	vertexNr := 4;
+	edgeNr := 6;
+	faceNr := 4;
 
 	if NrOfVertices(surface) <> vertexNr then
 		Print( messageSurfaceOrigin );
@@ -45,19 +44,19 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 	fi;
 
 
-	# The janus head is an actual surface
+	# The tetrahedron is an actual surface
 	if not IsActualSurface( surface ) then
 		Print( messageSurfaceOrigin );
 		Print( " must be an actual surface.\n" );
 	fi;
 
-	# The janus head is orientable
+	# The tetrahedron is orientable
 	if not IsOrientable( surface ) then
 		Print( messageSurfaceOrigin );
 		Print( " must be orientable.\n");
 	fi;
 
-	# The janus head is connected
+	# The tetrahedron is connected
 	if not IsConnected( surface ) then
 		Print( messageSurfaceOrigin );
 		Print( " must be connected.\n");
@@ -74,7 +73,7 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 		Print( " should equal its one connected component.\n");
 	fi;
 
-	sortDeg := [2,2,2];
+	sortDeg := [3,3,3,3];
 	if SortedDegrees(surface) <> sortDeg then
 		Print( messageSurfaceOrigin );
 		Print( " does not have degrees " );
@@ -82,7 +81,7 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 		Print( ".\n");
 	fi;
 
-	vertexSym := [,3];
+	vertexSym := [,,4];
 	if VertexSymbol(surface) <> vertexSym then
 		Print( messageSurfaceOrigin );
 		Print( " does not have the vertex symbol " );
@@ -90,7 +89,7 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 		Print( ".\n");
 	fi;
 
-	anomalyClassCount := 1;
+	anomalyClassCount := 4;
 	if Length( FaceAnomalyClasses(surface) ) <> anomalyClassCount then
 		Print( messageSurfaceOrigin );
 		Print( " should have exactly " );
@@ -103,31 +102,27 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 		Print( " should not be changed by removal of ears.\n");
 	fi;
 
-	janus := SimplicialSurfaceByDownwardIncidence( [2,3,5], [3,6,9], [3,7],
-		[ , , [2,3], , , [3,5], , , [2,5] ],
-		[ , , [3,6,9], , , , [6,3,9] ] );
-	if not IsIsomorphic( surface, janus ) then
+	tetra := SimplicialSurfaceByDownwardIncidence( [2,3,5,7], [1..6], [1..4],
+		[ [2,3],[5,2],[2,7],[5,3],[5,7],[7,3] ],
+		[ [1,2,4], [1,3,6], [5,2,3], [6,5,4] ] );
+	if not IsIsomorphic( surface, tetra ) then
 		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to a janus head.\n");
+		Print( " is not isomorphic to a tetrahedron.\n");
 	fi;
 	
 end;
 
-
-
-
 ##########################################################################
-## This method tests the functionality for the example of a janus head
+## This method tests the functionality for the example of a tetrahedron
 ## and the representation of a generic simplicial surface
-TestJanusHead := function()
+TestTetrahedron := function()
 	local surf, name;
 
-	name := "Janus head";
+	name := "Tetrahedron";
 
-	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
-		[[1,2,3],[1,2,3]] );
+	surf := SimplicialSurfaceByVerticesInFaces( 4,4, [[1,2,3],[1,3,4],[3,2,4],[1,4,2]] );
 
-	TestIsJanusHead( surf, Concatenation(name," definition") );
+	TestIsTetrahedron( surf, Concatenation(name," definition") );
 
 end;
 

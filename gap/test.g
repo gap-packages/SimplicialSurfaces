@@ -6,7 +6,9 @@
 Read("../test/generalTest.g");
 
 Read("../test/test_simplicialSurface_janusHead.g");
+Read("../test/test_simplicialSurface_tetrahedron.g");
 
 TestAll := function()
 	TestJanusHead();
+	TestTetrahedron();
 end;

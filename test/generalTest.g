@@ -8,7 +8,7 @@ end;
 ##	Test the general consistency of a simplicial surface.
 ##	
 TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
-	local i, degrees;
+	local i, degrees, graph;
 
 	if not IsSimplicialSurface( surface ) then
 		Print( messageSurfaceOrigin );
