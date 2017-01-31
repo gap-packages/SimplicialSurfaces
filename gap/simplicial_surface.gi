@@ -348,16 +348,18 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, true,
 InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
-		local surf, namesOfFaces, localOrient, edges, edgesByVertices, 
+		local surf, namesOfFaces, localOrient, edgesByVertices, 
 				facesByEdges, f, j, e, facesBySetEdges;
 
 		localOrient := __SIMPLICIAL_LocalOrientationFromFacesByVertices( 
 														facesByVertices );
 
-		# Determine the edges
+		# Determine the edges. For each face we determine all subset of its
+		# vertices that contain two elements. These sets will form the edges
+		# of the simplicial surface
 		facesBySetEdges := List( faces, i -> 
 					Set(Combinations( Set(facesByVertices[i]) ,2)) );
-		edgesByVertices := Union(edges);
+		edgesByVertices := Union(facesBySetEdges);
 
 		facesByEdges := List(faces,i->[]);
 		for f in faces do
