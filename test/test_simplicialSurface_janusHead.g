@@ -168,15 +168,31 @@ end;
 ## This method tests the functionality for the example of a janus head
 ## and the representation as a wild simplicial surface
 TestWildJanusHead := function()
-	local surf, name;
+	local surf, name, sig1, sig2, sig3, mrType, gens;
 
-	name := "Janus head";
+	name := "Janus head (wild)";
 
+	sig1 := (1,2);
+	sig2 := (1,2);
+	sig3 := (1,2);
+	mrType := AllEdgesOfSameType( 2, 1);
+
+	gens := [sig1,sig2,sig3];
+
+
+	# First try to extend a simplicial surface
 	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
 		[[1,2,3],[1,2,3]] );
+	surf := WildSimplicialSurfaceExtension( surf, gens );
 
-	TestIsJanusHead( surf, Concatenation(name," definition") );
+	TestIsWildJanusHead( surf, Concatenation(name," by extension") );
 
+
+	# Next we try to define it from scratch
+	surf := WildSimplicialSurface( gens, mrType );
+
+	TestIsWildJanusHead( surf, Concatenation(name," by mrType") );
+	
 end;
 
 

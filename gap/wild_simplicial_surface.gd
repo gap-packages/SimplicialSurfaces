@@ -98,9 +98,9 @@ DeclareOperation( "WildSimplicialSurfaceNC", [ IsList, IsList ] );
 ##
 ##	The NC-version doesn't check if the given information is consistent
 ##
-DeclareOperation( "WildSimplicialSurface",
+DeclareOperation( "WildSimplicialSurfaceExtension",
 	[ IsSimplicialSurface and IsActualSurface, IsList ] );
-DeclareOperation( "WildSimplicialSurfaceNC",
+DeclareOperation( "WildSimplicialSurfaceExtensionNC",
 	[ IsSimplicialSurface and IsActualSurface, IsList ] );
 
 
