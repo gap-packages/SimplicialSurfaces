@@ -3,7 +3,7 @@
 #####		Test a projective plane build from four triangles
 ################################################################################
 ################################################################################
-TestIsomorphicProjectivePlane := function( surface, messageSurfaceOrigin )
+TestIsomorphicProjectivePlaneFour := function( surface, messageSurfaceOrigin )
 	local check;
 
 	check := SimplicialSurfaceByDownwardIncidence( [1..3],6,[1..4], 
@@ -116,7 +116,7 @@ TestIsProjectivePlaneFour := function( surface, messageSurfaceOrigin )
 	fi;
 
 	
-	TestIsomorphicProjectivePlane( surface, messageSurfaceOrigin );
+	TestIsomorphicProjectivePlaneFour( surface, messageSurfaceOrigin );
 	
 end;
 

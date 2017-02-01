@@ -86,11 +86,11 @@ TestIsTetrahedronAndProjectivePlane := function( surface, messageSurfaceOrigin )
 	fi;
 	if IsOrientable( conCom[1] ) then
 		# has to be the tetrahedron
-		IsIsomorphicTetrahedron( conCom[1], "Orientable component of tetrahedronAndProjectivePlane" );
-		IsIsomorphicProjectivePlaneFour( conCom[2], "Non-orientable component of tetrahedronAndProjectivePlane" );
+		TestIsomorphicTetrahedron( conCom[1], "Orientable component of tetrahedronAndProjectivePlane" );
+		TestIsomorphicProjectivePlaneFour( conCom[2], "Non-orientable component of tetrahedronAndProjectivePlane" );
 	else
-		IsIsomorphicTetrahedron( conCom[2], "Orientable component of tetrahedronAndProjectivePlane" );
-		IsIsomorphicProjectivePlaneFour( conCom[1], "Non-orientable component of tetrahedronAndProjectivePlane" );
+		TestIsomorphicTetrahedron( conCom[2], "Orientable component of tetrahedronAndProjectivePlane" );
+		TestIsomorphicProjectivePlaneFour( conCom[1], "Non-orientable component of tetrahedronAndProjectivePlane" );
 	fi;
 
 	sortDeg := [3,3,3,3,4,4,4];
