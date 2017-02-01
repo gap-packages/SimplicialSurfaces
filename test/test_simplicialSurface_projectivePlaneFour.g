@@ -139,3 +139,64 @@ TestProjectivePlaneFour := function()
 end;
 
 
+##
+##	Test whether a wild simplicial surface is a projective plane.
+##
+TestIsWildProjectivePlaneFour := function( surface, messageSurfaceOrigin )
+	local vertexGroup, invGroup;
+
+	# Check if it fulfills the criteria of a projective plane (necessary to check
+	# since some methods might have been overwritten).
+	TestIsProjectivePlaneFour( surface, messageSurfaceOrigin );
+	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
+
+	#TODO how to check?
+
+
+	# Check vertex group
+	vertexGroup := VertexGroup(surf);
+	vertexGroup := vertexGroup[1] / vertexGroup[2];
+	if Size( VertexGroup ) <> 8 or Exponent( VertexGroup ) <> 2  then
+		Print( messageSurfaceOrigin );
+		Print( " should have vertex group C_2^3.\n");
+	fi;
+
+
+	# Check group generated from the involutions
+	invGroup := GroupOfWildSimplicialSurface( surface );
+	if not IsDihedralGroup( invGroup ) or Size( invGroup ) <> 4 then
+		Print( messageSurfaceOrigin );
+		Print( " should have generated group V_4.\n");
+	fi;
+end;
+
+
+##########################################################################
+## This method tests the functionality for the example of a tetrahedron
+## and the representation as a wild simplicial surface
+TestWildProjectivePlaneFour := function()
+	local surf, name, sig1, sig2, sig3, mrType, gens;
+
+	name := "Projective plane four (wild)";
+
+	sig1 := (1,4)(2,3);
+	sig2 := (1,3)(2,4);
+	sig3 := (1,2)(4,3);
+	mrType := AllEdgesOfSameType( 4, 1);
+
+	gens := [sig1,sig2,sig3];
+
+
+	# First try to extend a simplicial surface
+	surf := SimplicialSurfaceByVerticesInFaces( 4,4, [[1,2,3],[1,3,4],[3,2,4],[1,4,2]] );
+	surf := WildSimplicialSurfaceExtension( surf, gens );
+
+	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by extension") );
+
+
+	# Next we try to define it from scratch
+	surf := WildSimplicialSurface( gens, mrType );
+
+	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by mrType") );
+	
+end;

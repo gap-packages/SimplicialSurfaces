@@ -138,7 +138,7 @@ end;
 
 
 ##
-##	Test whether a wild simplicial surface is a janus head.
+##	Test whether a wild simplicial surface is a tetrahedron.
 ##
 TestIsWildTetrahedron := function( surface, messageSurfaceOrigin )
 	local vertexGroup, invGroup;
