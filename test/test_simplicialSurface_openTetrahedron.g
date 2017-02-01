@@ -138,3 +138,62 @@ TestOpenTetrahedron := function()
 end;
 
 
+##
+##	Test whether a wild simplicial surface is an open tetrahedron.
+##
+TestIsWildJanusHead := function( surface, messageSurfaceOrigin )
+	local vertexGroup, invGroup;
+
+	# Check if it fulfills the criteria of a janus head (necessary to check
+	# since some methods might have been overwritten).
+	TestIsOpenTetrahedron( surface, messageSurfaceOrigin );
+	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
+
+	#TODO how to check?
+
+	vertexGroup := VertexGroup(surf);
+	vertexGroup := vertexGroup[1] / vertexGroup[2];
+	if not IsDihedralGroup( vertexGroup ) or Size( vertexGroup ) <> 4 then
+		Print( messageSurfaceOrigin );
+		Print( " should have vertex group V_4.\n");
+	fi;
+
+	# Check group generated from the involutions
+	invGroup := GroupOfWildSimplicialSurface( surface );
+	if not IsDihedralGroup( invGroup ) or Size( invGroup ) <> 6 then
+		Print( messageSurfaceOrigin );
+		Print( " should have generated group D_6.\n");
+	fi;
+end;
+
+
+##########################################################################
+## This method tests the functionality for the example of a janus head
+## and the representation as a wild simplicial surface
+TestWildOpenTetrahedron := function()
+	local surf, name, sig1, sig2, sig3, mrType, gens;
+
+	name := "Open tetrahedron (wild)";
+
+	sig1 := (1,2);
+	sig2 := (2,3);
+	sig3 := (1,3);
+	mrType := AllEdgesOfSameType( 3, 2);
+
+	gens := [sig1,sig2,sig3];
+
+
+	# First try to extend a simplicial surface
+	surf := SimplicialSurfaceByVerticesInFaces( 4,3, [[1,2,3],[1,3,4],[3,2,4]] );
+	surf := WildSimplicialSurfaceExtension( surf, gens );
+
+	TestIsWildOpenTetrahedron( surf, Concatenation(name," by extension") );
+
+
+	# Next we try to define it from scratch
+	surf := WildSimplicialSurface( gens, mrType );
+
+	TestIsWildOpenTetrahedron( surf, Concatenation(name," by mrType") );
+	
+end;
+

@@ -146,11 +146,12 @@ end;
 ##	Test whether a wild simplicial surface is a janus head.
 ##
 TestIsWildJanusHead := function( surface, messageSurfaceOrigin )
-	local vertexGroup;
+	local vertexGroup, invGroup;
 
 	# Check if it fulfills the criteria of a janus head (necessary to check
 	# since some methods might have been overwritten).
 	TestIsJanusHead( surface, messageSurfaceOrigin );
+	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
 
 	#TODO how to check?
 
@@ -159,6 +160,13 @@ TestIsWildJanusHead := function( surface, messageSurfaceOrigin )
 	if Size( vertexGroup ) <> 2 then
 		Print( messageSurfaceOrigin );
 		Print( " should have vertex group C_2.\n");
+	fi;
+
+	# Check group generated from the involutions
+	invGroup := GroupOfWildSimplicialSurface( surface );
+	if Size( invGroup ) <> 2 then
+		Print( messageSurfaceOrigin );
+		Print( " should have generated group C_2.\n");
 	fi;
 
 end;
