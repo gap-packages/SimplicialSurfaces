@@ -33,10 +33,9 @@ TestWildSimplicialSurface := function()
 	TestWildJanusHead();
 	TestWildTetrahedron();
 	TestWildOpenTetrahedron();
-	#TestTwoConnectedTriangles();
-	#TestProjectivePlaneFour();
+	TestWildTwoConnectedTriangles();
+	TestWildProjectivePlaneFour();
 	#TestIcosahedron();
-	#TestThreeTrianglesOnEdge();
 	#TestTetrahedronAndProjectivePlane();
 end;
 

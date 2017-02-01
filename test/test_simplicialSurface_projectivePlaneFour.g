@@ -188,7 +188,9 @@ TestWildProjectivePlaneFour := function()
 
 
 	# First try to extend a simplicial surface
-	surf := SimplicialSurfaceByVerticesInFaces( 4,4, [[1,2,3],[1,3,4],[3,2,4],[1,4,2]] );
+	surf := SimplicialSurfaceByDownwardIncidence( 3,6,4, 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]]  );
 	surf := WildSimplicialSurfaceExtension( surf, gens );
 
 	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by extension") );

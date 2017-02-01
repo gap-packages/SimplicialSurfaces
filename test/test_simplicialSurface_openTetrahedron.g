@@ -141,10 +141,10 @@ end;
 ##
 ##	Test whether a wild simplicial surface is an open tetrahedron.
 ##
-TestIsWildJanusHead := function( surface, messageSurfaceOrigin )
+TestIsWildOpenTetrahedron := function( surface, messageSurfaceOrigin )
 	local vertexGroup, invGroup;
 
-	# Check if it fulfills the criteria of a janus head (necessary to check
+	# Check if it fulfills the criteria of an open tetrahedron (necessary to check
 	# since some methods might have been overwritten).
 	TestIsOpenTetrahedron( surface, messageSurfaceOrigin );
 	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
@@ -168,7 +168,7 @@ end;
 
 
 ##########################################################################
-## This method tests the functionality for the example of a janus head
+## This method tests the functionality for the example of an open tetrahedron
 ## and the representation as a wild simplicial surface
 TestWildOpenTetrahedron := function()
 	local surf, name, sig1, sig2, sig3, mrType, gens;

@@ -138,3 +138,65 @@ TestTwoConnectedTriangles := function()
 end;
 
 
+##
+##	Test whether a wild simplicial surface is a tetrahedron.
+##
+TestIsWildTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
+	local vertexGroup, invGroup;
+
+	# Check if it fulfills the criteria of a janus head (necessary to check
+	# since some methods might have been overwritten).
+	TestIsTwoConnectedTriangles( surface, messageSurfaceOrigin );
+	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
+
+	#TODO how to check?
+
+
+	# Check vertex group
+	vertexGroup := VertexGroup(surf);
+	vertexGroup := vertexGroup[1] / vertexGroup[2];
+	if Size( vertexGroup ) <> 2 then
+		Print( messageSurfaceOrigin );
+		Print( " should have vertex group C_2.\n");
+	fi;
+
+
+	# Check group generated from the involutions
+	invGroup := GroupOfWildSimplicialSurface( surface );
+	if Size( invGroup ) <> 2 then
+		Print( messageSurfaceOrigin );
+		Print( " should have generated group C_2.\n");
+	fi;
+end;
+
+
+##########################################################################
+## This method tests the functionality for the example of a tetrahedron
+## and the representation as a wild simplicial surface
+TestWildTwoConnectedTriangles := function()
+	local surf, name, sig1, sig2, sig3, mrType, gens;
+
+	name := "Tetrahedron (wild)";
+
+	sig1 := (1,2);
+	sig2 := ();
+	sig3 := ();
+	mrType :=  [ [0,0], [1,1], [1,1] ];
+
+	gens := [sig1,sig2,sig3];
+
+
+	# First try to extend a simplicial surface
+	surf := SimplicialSurfaceByVerticesInFaces( 4,2, [[1,2,3],[3,2,4]] );
+	surf := WildSimplicialSurfaceExtension( surf, gens );
+
+	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by extension") );
+
+
+	# Next we try to define it from scratch
+	surf := WildSimplicialSurface( gens, mrType );
+
+	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by mrType") );
+	
+end;
+
