@@ -1,22 +1,21 @@
 ################################################################################
 ################################################################################
-#####					Test an open tetrahedron
+#####						Test an icosahedron
 ################################################################################
 ################################################################################
 
 ##
-##	Test whether a simplicial surface is an open tetrahedron, that is a
-##	tetrahedron that is missing one face
+##	Test whether a simplicial surface is an icosahedron.
 ##
-TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
+TestIsIcosahedron := function( surface, messageSurfaceOrigin )
 	local conCom, vertexNr, edgeNr, faceNr, euler, sortDeg, vertexSym,
 		anomalyClassCount;
 
 	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
 
-	vertexNr := 4;
-	edgeNr := 6;
-	faceNr := 3;
+	vertexNr := 12;
+	edgeNr := 30;
+	faceNr := 20;
 
 	if NrOfVertices(surface) <> vertexNr then
 		Print( messageSurfaceOrigin );
@@ -45,19 +44,19 @@ TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 	fi;
 
 
-	# The tetrahedron is an actual surface
+	# The icosahedron is an actual surface
 	if not IsActualSurface( surface ) then
 		Print( messageSurfaceOrigin );
 		Print( " must be an actual surface.\n" );
 	fi;
 
-	# The tetrahedron is orientable
+	# The icosahedron is orientable
 	if not IsOrientable( surface ) then
 		Print( messageSurfaceOrigin );
 		Print( " must be orientable.\n");
 	fi;
 
-	# The tetrahedron is connected
+	# The icosahedron is connected
 	if not IsConnected( surface ) then
 		Print( messageSurfaceOrigin );
 		Print( " must be connected.\n");
@@ -74,7 +73,7 @@ TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 		Print( " should equal its one connected component.\n");
 	fi;
 
-	sortDeg := [2,2,2,3];
+	sortDeg := List([1..12],i->5);
 	if SortedDegrees(surface) <> sortDeg then
 		Print( messageSurfaceOrigin );
 		Print( " does not have degrees " );
@@ -82,7 +81,7 @@ TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 		Print( ".\n");
 	fi;
 
-	vertexSym := [,,4];
+	vertexSym := [,,,,12];
 	if VertexSymbol(surface) <> vertexSym then
 		Print( messageSurfaceOrigin );
 		Print( " does not have the vertex symbol " );
@@ -90,7 +89,7 @@ TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 		Print( ".\n");
 	fi;
 
-	anomalyClassCount := 3;
+	anomalyClassCount := 20;
 	if Length( FaceAnomalyClasses(surface) ) <> anomalyClassCount then
 		Print( messageSurfaceOrigin );
 		Print( " should have exactly " );
@@ -103,34 +102,50 @@ TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 		Print( " should not be changed by removal of ears.\n");
 	fi;
 
-	
-	TestIsomorphicOpenTetrahedron( surface, messageSurfaceOrigin );
+	TestIsomorphicIcosahedron( surface, messageSurfaceOrigin );
 	
 end;
 
-
-TestIsomorphicOpenTetrahedron := function( surface, messageSurfaceOrigin )
+TestIsomorphicIcosahedron := function( surface, messageSurfaceOrigin )
 	local check;
 
-	check := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
-		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]] );
+	check := SimplicialSurfaceByVerticesInFaces(12,20,
+		[ 	[1,2,3], [1,2,4], [1,4,5], [1,5,6],
+			[1,3,6], [2,3,7], [2,4,8], [4,9,5],
+			[5,6,10], [3,6,11], [2,7,8], [4,8,9],
+			[5,9,10], [6,10,11], [3,11,12], [7,8,12],
+			[8,9,12], [9,10,12], [10,11,7], [7,11,3]
+		];
 	if not IsIsomorphic( surface, check ) then
 		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to an open tetrahedron.\n");
+		Print( " is not isomorphic to an icosahedron.\n");
 	fi;
 end;
+		
 
 ##########################################################################
-## This method tests the functionality for the example of a tetrahedron
+## This method tests the functionality for the example of an icosahedron
 ## and the representation of a simplicial surface
-TestOpenTetrahedron := function()
+TestIcosahedron := function()
 	local surf, name;
 
-	name := "Open Tetrahedron";
+	name := "Icosahedron";
 
-	surf := SimplicialSurfaceByVerticesInFaces( 4,3, [[1,2,3],[1,3,4],[3,2,4]] );
+	surf := SimplicialSurfaceByDownwardIncidence( 12,30, 20, 
+		[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], 
+			[ 1, 5 ], [ 4, 5 ], [ 5, 6 ], [ 1, 6 ], [ 3, 6 ], 
+			[ 2, 7 ], [ 3, 7 ], [ 2, 8 ], [ 4, 8 ], [ 4, 9 ], 
+			[ 5, 9 ], [ 5, 10 ], [ 6, 10 ], [ 6, 11 ], [ 3, 11 ], 
+			[ 7, 8 ], [ 8, 9 ], [ 9, 10 ], [ 10, 11 ], [ 7, 11 ], 
+			[ 8, 12 ], [ 7, 12 ], [ 9, 12 ], [ 10, 12 ], [ 11, 12 ] ],
+		[ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 4, 6, 7 ], [ 6, 8, 9 ], 
+			[ 2, 9, 10 ], [ 3, 11, 12 ], [ 5, 13, 14 ], [ 7, 15, 16 ], 
+			[ 8, 17, 18 ], [ 10, 19, 20 ], [ 11, 13, 21 ], [ 14, 15, 22 ], 
+			[ 16, 17, 23 ], [ 18, 19, 24 ], [ 12, 20, 25 ], [ 21, 26, 27 ],
+	        [ 22, 26, 28 ], [ 23, 28, 29 ], [ 24, 29, 30 ], [ 25, 27, 30 ] ] );
 
-	TestIsOpenTetrahedron( surf, Concatenation(name," definition") );
+
+	TestIsIcosahedron( surf, Concatenation(name," definition") );
 
 end;
 

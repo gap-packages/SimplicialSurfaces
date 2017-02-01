@@ -8,7 +8,7 @@
 ##	Test whether a simplicial surface is isomorphic to two connected triangles.
 ##
 TestIsTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
-	local conCom, twoConTri, vertexNr, edgeNr, faceNr, euler, sortDeg, 
+	local conCom, vertexNr, edgeNr, faceNr, euler, sortDeg, 
 		vertexSym, anomalyClassCount, snipp;
 
 	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
@@ -103,14 +103,21 @@ TestIsTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
 		Print( " should be destroyed by removal of ears.\n");
 	fi;
 
-	twoConTri := SimplicialSurfaceByDownwardIncidence( [1,2,3,4], 5, [1,4],
+	TestIsomorphicTwoConTri( surface, messageSurfaceOrigin);
+
+end;
+
+
+TestIsomorphicTwoConTri := function( surface, messageSurfaceOrigin )
+	local check;
+
+	check := SimplicialSurfaceByDownwardIncidence( [1,2,3,4], 5, [1,4],
 		[ [1,2],[1,3],[3,2],[4,3],[2,4] ],
 		[ [1,2,3], , , [3,5,4] ] );
-	if not IsIsomorphic( surface, twoConTri ) then
+	if not IsIsomorphic( surface, check ) then
 		Print( messageSurfaceOrigin );
 		Print( " is not isomorphic to two connected triangles.\n");
 	fi;
-	
 end;
 
 ##########################################################################
