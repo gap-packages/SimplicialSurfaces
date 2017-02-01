@@ -141,3 +141,43 @@ TestJanusHead := function()
 end;
 
 
+
+##
+##	Test whether a wild simplicial surface is a janus head.
+##
+TestIsWildJanusHead := function( surface, messageSurfaceOrigin )
+	local vertexGroup;
+
+	# Check if it fulfills the criteria of a janus head (necessary to check
+	# since some methods might have been overwritten).
+	TestIsJanusHead( surface, messageSurfaceOrigin );
+
+	#TODO how to check?
+
+	vertexGroup := VertexGroup(surf);
+	vertexGroup := vertexGroup[1] / vertexGroup[2];
+	if Size( vertexGroup ) <> 2 then
+		Print( messageSurfaceOrigin );
+		Print( " should have vertex group C_2.\n");
+	fi;
+
+end;
+
+
+##########################################################################
+## This method tests the functionality for the example of a janus head
+## and the representation as a wild simplicial surface
+TestWildJanusHead := function()
+	local surf, name;
+
+	name := "Janus head";
+
+	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
+		[[1,2,3],[1,2,3]] );
+
+	TestIsJanusHead( surf, Concatenation(name," definition") );
+
+end;
+
+
+

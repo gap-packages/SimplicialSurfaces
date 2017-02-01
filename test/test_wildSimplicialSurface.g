@@ -7,8 +7,6 @@ end;
 ##	Test the general consistency of a wild simplicial surface.
 ##	
 TestWildSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
-	local i, degrees, graph;
-
 	# Since a wild simplicial surface also has to be a simplicial surface:
 	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
 
