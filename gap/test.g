@@ -11,6 +11,7 @@ Read("../test/test_simplicialSurface_openTetrahedron.g");
 Read("../test/test_simplicialSurface_twoConTriangles.g");
 Read("../test/test_simplicialSurface_projectivePlaneFour.g");
 Read("../test/test_simplicialSurface_icosahedron.g");
+Read("../test/test_simplicialSurface_threeTrianglesOnEdge.g");
 
 ##	Apply the tests for simplicial surfaces
 TestSimplicialSurface := function()
@@ -20,6 +21,7 @@ TestSimplicialSurface := function()
 	TestTwoConnectedTriangles();
 	TestProjectivePlaneFour();
 	TestIcosahedron();
+	TestThreeTrianglesOnEdge();
 end;
 
 ##	Apply all tests
