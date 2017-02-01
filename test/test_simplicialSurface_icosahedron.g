@@ -4,6 +4,24 @@
 ################################################################################
 ################################################################################
 
+
+TestIsomorphicIcosahedron := function( surface, messageSurfaceOrigin )
+	local check;
+
+	check := SimplicialSurfaceByVerticesInFaces(12,20,
+		[ 	[1,2,3], [1,2,4], [1,4,5], [1,5,6],
+			[1,3,6], [2,3,7], [2,4,8], [4,9,5],
+			[5,6,10], [3,6,11], [2,7,8], [4,8,9],
+			[5,9,10], [6,10,11], [3,11,7], [7,8,12],
+			[8,9,12], [9,10,12], [10,11,12], [7,11,12]
+		] );
+	if not IsIsomorphic( surface, check ) then
+		Print( messageSurfaceOrigin );
+		Print( " is not isomorphic to an icosahedron.\n");
+	fi;
+end;
+
+
 ##
 ##	Test whether a simplicial surface is an icosahedron.
 ##
@@ -106,21 +124,7 @@ TestIsIcosahedron := function( surface, messageSurfaceOrigin )
 	
 end;
 
-TestIsomorphicIcosahedron := function( surface, messageSurfaceOrigin )
-	local check;
 
-	check := SimplicialSurfaceByVerticesInFaces(12,20,
-		[ 	[1,2,3], [1,2,4], [1,4,5], [1,5,6],
-			[1,3,6], [2,3,7], [2,4,8], [4,9,5],
-			[5,6,10], [3,6,11], [2,7,8], [4,8,9],
-			[5,9,10], [6,10,11], [3,11,12], [7,8,12],
-			[8,9,12], [9,10,12], [10,11,7], [7,11,3]
-		];
-	if not IsIsomorphic( surface, check ) then
-		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to an icosahedron.\n");
-	fi;
-end;
 		
 
 ##########################################################################

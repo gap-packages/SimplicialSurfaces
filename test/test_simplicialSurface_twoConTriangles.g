@@ -4,6 +4,20 @@
 ################################################################################
 ################################################################################
 
+
+TestIsomorphicTwoConTri := function( surface, messageSurfaceOrigin )
+	local check;
+
+	check := SimplicialSurfaceByDownwardIncidence( [1,2,3,4], 5, [1,4],
+		[ [1,2],[1,3],[3,2],[4,3],[2,4] ],
+		[ [1,2,3], , , [3,5,4] ] );
+	if not IsIsomorphic( surface, check ) then
+		Print( messageSurfaceOrigin );
+		Print( " is not isomorphic to two connected triangles.\n");
+	fi;
+end;
+
+
 ##
 ##	Test whether a simplicial surface is isomorphic to two connected triangles.
 ##
@@ -108,17 +122,6 @@ TestIsTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
 end;
 
 
-TestIsomorphicTwoConTri := function( surface, messageSurfaceOrigin )
-	local check;
-
-	check := SimplicialSurfaceByDownwardIncidence( [1,2,3,4], 5, [1,4],
-		[ [1,2],[1,3],[3,2],[4,3],[2,4] ],
-		[ [1,2,3], , , [3,5,4] ] );
-	if not IsIsomorphic( surface, check ) then
-		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to two connected triangles.\n");
-	fi;
-end;
 
 ##########################################################################
 ## This method tests the functionality for the example of two connected 

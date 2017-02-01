@@ -5,6 +5,19 @@
 ################################################################################
 
 
+
+TestIsomorphicJanus := function( surface, messageSurfaceOrigin )
+	local check;
+
+	check := SimplicialSurfaceByDownwardIncidence( [2,3,5], [3,6,9], [3,7],
+		[ , , [2,3], , , [3,5], , , [2,5] ],
+		[ , , [3,6,9], , , , [6,3,9] ] );
+	if not IsIsomorphic( surface, check ) then
+		Print( messageSurfaceOrigin );
+		Print( " is not isomorphic to a janus head.\n");
+	fi;
+end;
+
 ##
 ##	Test whether a simplicial surface is a janus head.
 ##
@@ -109,17 +122,6 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 end;
 
 
-TestIsomorphicJanus := function( surface, messageSurfaceOrigin )
-	local check;
-
-	check := SimplicialSurfaceByDownwardIncidence( [2,3,5], [3,6,9], [3,7],
-		[ , , [2,3], , , [3,5], , , [2,5] ],
-		[ , , [3,6,9], , , , [6,3,9] ] );
-	if not IsIsomorphic( surface, check ) then
-		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to a janus head.\n");
-	fi;
-end;
 	
 
 

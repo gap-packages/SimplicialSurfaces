@@ -3,6 +3,18 @@
 #####		Test a projective plane build from four triangles
 ################################################################################
 ################################################################################
+TestIsomorphicProjectivePlane := function( surface, messageSurfaceOrigin )
+	local check;
+
+	check := SimplicialSurfaceByDownwardIncidence( [1..3],6,[1..4], 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]]  );
+	if not IsIsomorphic( surface, check ) then
+		Print( messageSurfaceOrigin );
+		Print( " is not isomorphic to a projective plane.\n");
+	fi;
+end;
+
 
 ##
 ##	Test whether a simplicial surface is a projective plane build from four 
@@ -108,17 +120,7 @@ TestIsProjectivePlaneFour := function( surface, messageSurfaceOrigin )
 	
 end;
 
-TestIsomorphicProjectivePlane := function( surface, messageSurfaceOrigin )
-	local check;
 
-	check := SimplicialSurfaceByDownwardIncidence( [1..3],6,[1..4], 
-		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
-		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]]  );
-	if not IsIsomorphic( surface, check ) then
-		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to a projective plane.\n");
-	fi;
-end;
 
 ##########################################################################
 ## This method tests the functionality for the example of a projective plane

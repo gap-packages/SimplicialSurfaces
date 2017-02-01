@@ -4,6 +4,19 @@
 ################################################################################
 ################################################################################
 
+
+TestIsomorphicTetrahedron := function( surface, messageSurfaceOrigin )
+	local check;
+
+	check := SimplicialSurfaceByDownwardIncidence( [2,3,5,7], [1..6], [1..4],
+		[ [2,3],[5,2],[2,7],[5,3],[5,7],[7,3] ],
+		[ [1,2,4], [1,3,6], [5,2,3], [6,5,4] ] );
+	if not IsIsomorphic( surface, check ) then
+		Print( messageSurfaceOrigin );
+		Print( " is not isomorphic to a tetrahedron.\n");
+	fi;
+end;
+
 ##
 ##	Test whether a simplicial surface is a tetrahedron.
 ##
@@ -108,17 +121,6 @@ TestIsTetrahedron := function( surface, messageSurfaceOrigin )
 end;
 
 
-TestIsomorphicTetrahedron := function( surface, messageSurfaceOrigin )
-	local check;
-
-	check := SimplicialSurfaceByDownwardIncidence( [2,3,5,7], [1..6], [1..4],
-		[ [2,3],[5,2],[2,7],[5,3],[5,7],[7,3] ],
-		[ [1,2,4], [1,3,6], [5,2,3], [6,5,4] ] );
-	if not IsIsomorphic( surface, check ) then
-		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to a tetrahedron.\n");
-	fi;
-end;
 
 ##########################################################################
 ## This method tests the functionality for the example of a tetrahedron

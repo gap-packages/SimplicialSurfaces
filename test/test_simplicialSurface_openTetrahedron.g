@@ -4,6 +4,19 @@
 ################################################################################
 ################################################################################
 
+
+
+TestIsomorphicOpenTetrahedron := function( surface, messageSurfaceOrigin )
+	local check;
+
+	check := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]] );
+	if not IsIsomorphic( surface, check ) then
+		Print( messageSurfaceOrigin );
+		Print( " is not isomorphic to an open tetrahedron.\n");
+	fi;
+end;
+
 ##
 ##	Test whether a simplicial surface is an open tetrahedron, that is a
 ##	tetrahedron that is missing one face
@@ -109,16 +122,6 @@ TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 end;
 
 
-TestIsomorphicOpenTetrahedron := function( surface, messageSurfaceOrigin )
-	local check;
-
-	check := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
-		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]] );
-	if not IsIsomorphic( surface, check ) then
-		Print( messageSurfaceOrigin );
-		Print( " is not isomorphic to an open tetrahedron.\n");
-	fi;
-end;
 
 ##########################################################################
 ## This method tests the functionality for the example of a tetrahedron
