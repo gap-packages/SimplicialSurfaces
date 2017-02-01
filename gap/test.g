@@ -3,7 +3,7 @@
 ## simplicial_surface
 ################################################################################
 
-Read("../test/generalTest.g");
+Read("../test/test_simplicialSurface.g");
 
 Read("../test/test_simplicialSurface_janusHead.g");
 Read("../test/test_simplicialSurface_tetrahedron.g");
@@ -13,6 +13,9 @@ Read("../test/test_simplicialSurface_projectivePlaneFour.g");
 Read("../test/test_simplicialSurface_icosahedron.g");
 Read("../test/test_simplicialSurface_threeTrianglesOnEdge.g");
 Read("../test/test_simplicialSurface_tetrahedronAndProjectivePlane.g");
+
+
+Read("../test/test_wildSimplicialSurface.g");
 
 ##	Apply the tests for simplicial surfaces
 TestSimplicialSurface := function()
