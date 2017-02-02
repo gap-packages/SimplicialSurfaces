@@ -282,4 +282,13 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 		fi;
 	od;
 
+	# Check local orientation
+	if LocalOrientationWRTVertexEquivalenceClasses(surface) <> LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent local orientation.\n");
+	fi;
+	#TODO check whether the elements in the cycles match
+
+	
+
 end;
