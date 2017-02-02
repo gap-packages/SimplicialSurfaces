@@ -3,7 +3,7 @@
 ##	Test the consistency of a coloured simplicial surface.
 ##	
 TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
-	local i, numbersAsSet, classesByNumbers;
+	local i, numbersAsSet, classesByNumbers, el;
 
 	if not IsColouredSimplicialSurface( surface ) then
 		Print( messageSurfaceOrigin );
@@ -290,5 +290,123 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 	#TODO check whether the elements in the cycles match
 
 	
+	#TODO test equivalence methods
+
+
+	##
+	##	Convenience methods
+	##
+	
+	# Check VertexEquivalenceNumberOfElement
+	for el in Vertices( UnderlyingSimplicialSurface( surface ) ) do
+		if VertexEquivalenceNumberOfElement(surface,el) <> VertexEquivalenceNumberOfElementNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different vertex equivalence number results for NC.\n");
+		fi;
+		if VertexEquivalenceNumberOfElement(surface,el) <> VertexEquivalenceNumbersByElements(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine vertex equivalence numbers.\n");
+		fi;
+	od;
+
+	# Check EdgeEquivalenceNumberOfElement
+	for el in Edges( UnderlyingSimplicialSurface( surface ) ) do
+		if EdgeEquivalenceNumberOfElement(surface,el) <> EdgeEquivalenceNumberOfElementNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different edge equivalence number results for NC.\n");
+		fi;
+		if EdgeEquivalenceNumberOfElement(surface,el) <> EdgeEquivalenceNumbersByElements(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine edge equivalence numbers.\n");
+		fi;
+	od;
+
+	# Check FaceEquivalenceNumberOfElement
+	for el in Faces( UnderlyingSimplicialSurface( surface ) ) do
+		if FaceEquivalenceNumberOfElement(surface,el) <> FaceEquivalenceNumberOfElementNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different face equivalence number results for NC.\n");
+		fi;
+		if FaceEquivalenceNumberOfElement(surface,el) <> FaceEquivalenceNumbersByElements(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine face equivalence numbers.\n");
+		fi;
+	od;
+
+
+
+	# Check VertexEquivalenceClassOfElement
+	for el in Vertices( UnderlyingSimplicialSurface( surface ) ) do
+		if VertexEquivalenceClassOfElement(surface,el) <> VertexEquivalenceClassOfElementNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different vertex equivalence class (by element) results for NC.\n");
+		fi;
+		if VertexEquivalenceClassOfElement(surface,el) <> VertexEquivalenceClassesByElements(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine vertex equivalence classes (by element).\n");
+		fi;
+	od;
+
+	# Check EdgeEquivalenceClassOfElement
+	for el in Edges( UnderlyingSimplicialSurface( surface ) ) do
+		if EdgeEquivalenceClassOfElement(surface,el) <> EdgeEquivalenceClassOfElementNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different edge equivalence class (by element) results for NC.\n");
+		fi;
+		if EdgeEquivalenceClassOfElement(surface,el) <> EdgeEquivalenceClassesByElements(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine edge equivalence classes (by element).\n");
+		fi;
+	od;
+
+	# Check FaceEquivalenceClassOfElement
+	for el in Faces( UnderlyingSimplicialSurface( surface ) ) do
+		if FaceEquivalenceClassOfElement(surface,el) <> FaceEquivalenceClassOfElementNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different face equivalence class (by element) results for NC.\n");
+		fi;
+		if FaceEquivalenceClassOfElement(surface,el) <> FaceEquivalenceClassesByElements(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine face equivalence classes (by element).\n");
+		fi;
+	od;
+
+
+
+	# Check VertexEquivalenceClassByNumber
+	for el in Vertices( UnderlyingSimplicialSurface( surface ) ) do
+		if VertexEquivalenceClassByNumber(surface,el) <> VertexEquivalenceClassByNumberNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different vertex equivalence class (by number) results for NC.\n");
+		fi;
+		if VertexEquivalenceClassByNumber(surface,el) <> VertexEquivalenceClassesByNumbers(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine vertex equivalence classes (by number).\n");
+		fi;
+	od;
+
+	# Check EdgeEquivalenceClassByNumber
+	for el in Edges( UnderlyingSimplicialSurface( surface ) ) do
+		if EdgeEquivalenceClassByNumber(surface,el) <> EdgeEquivalenceClassByNumberNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different edge equivalence class (by number) results for NC.\n");
+		fi;
+		if EdgeEquivalenceClassByNumber(surface,el) <> EdgeEquivalenceClassesByNumbers(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine edge equivalence classes (by number).\n");
+		fi;
+	od;
+
+	# Check FaceEquivalenceClassByNumber
+	for el in Faces( UnderlyingSimplicialSurface( surface ) ) do
+		if FaceEquivalenceClassByNumber(surface,el) <> FaceEquivalenceClassByNumberNC(surface,el) then
+			Print( messageSurfaceOrigin );
+			Print( " has different face equivalence class (by number) results for NC.\n");
+		fi;
+		if FaceEquivalenceClassByNumber(surface,el) <> FaceEquivalenceClassesByNumbers(surface)[el] then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent convenience method to determine face equivalence classes (by number).\n");
+		fi;
+	od;
 
 end;
