@@ -159,7 +159,7 @@ TestIsWildJanusHead := function( surface, messageSurfaceOrigin )
 
 	#TODO how to check?
 
-	vertexGroup := VertexGroup(surf);
+	vertexGroup := VertexGroup(surface);
 	vertexGroup := vertexGroup[1] / vertexGroup[2];
 	if Size( vertexGroup ) <> 2 then
 		Print( messageSurfaceOrigin );

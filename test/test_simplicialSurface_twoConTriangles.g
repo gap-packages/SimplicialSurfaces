@@ -157,7 +157,7 @@ TestIsWildTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
 
 
 	# Check vertex group
-	vertexGroup := VertexGroup(surf);
+	vertexGroup := VertexGroup(surface);
 	vertexGroup := vertexGroup[1] / vertexGroup[2];
 	if Size( vertexGroup ) <> 2 then
 		Print( messageSurfaceOrigin );

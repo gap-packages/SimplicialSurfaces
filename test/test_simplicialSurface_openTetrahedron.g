@@ -156,7 +156,7 @@ TestIsWildOpenTetrahedron := function( surface, messageSurfaceOrigin )
 
 	#TODO how to check?
 
-	vertexGroup := VertexGroup(surf);
+	vertexGroup := VertexGroup(surface);
 	vertexGroup := vertexGroup[1] / vertexGroup[2];
 	if not IsDihedralGroup( vertexGroup ) or Size( vertexGroup ) <> 4 then
 		Print( messageSurfaceOrigin );

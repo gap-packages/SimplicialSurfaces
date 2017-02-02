@@ -565,7 +565,7 @@ InstallMethod( EdgeBindingRelationAttributeOfCSSOp,
 		# edges as well)
 		edgeClass := EdgeEquivalenceClassesByNumbers( complex )[ name ];
 		faceClassForEdge := List( edgeClass, e -> 
-			List( EdgesByFaces( UnderlyingSimplicialSurface( complex )[e] ),
+			List( EdgesByFaces( UnderlyingSimplicialSurface( complex ) )[e],
 				f -> FaceEquivalenceNumbersByElements(complex)[f] ) );
 
 		relation := [];
@@ -610,7 +610,7 @@ InstallMethod( LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS,
 			perm := ();
 			for vertex in faceByVertex[face] do
 				perm := perm * ( vertex, 
-						VertexEquivalenceClassesByElements(surface)[vertex] );
+						VertexEquivalenceNumbersByElements(surface)[vertex] ); #TODO not necessarily disjoint!
 			od;
 			list[face] := LocalOrientation(surface)[face]^perm;
 		od;
