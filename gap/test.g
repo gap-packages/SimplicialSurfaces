@@ -4,6 +4,7 @@
 ################################################################################
 
 Read("../test/test_simplicialSurface.g");
+Read("../test/test_colSimpSurf.g");
 
 Read("../test/test_simplicialSurface_janusHead.g");
 Read("../test/test_simplicialSurface_tetrahedron.g");
@@ -15,7 +16,6 @@ Read("../test/test_simplicialSurface_threeTrianglesOnEdge.g");
 Read("../test/test_simplicialSurface_tetrahedronAndProjectivePlane.g");
 
 
-Read("../test/test_colSimpSurf.g");
 
 
 ##	Apply the tests for simplicial surfaces

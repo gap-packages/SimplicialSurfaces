@@ -134,6 +134,11 @@ TestOpenTetrahedron := function()
 	surf := SimplicialSurfaceByVerticesInFaces( 4,3, [[1,2,3],[1,3,4],[3,2,4]] );
 
 	TestIsOpenTetrahedron( surf, Concatenation(name," definition") );
+	
+	# We also test the simplest version of the coloured simplicial surfaces
+	TestColouredSimplicialSurfaceConsistency( 
+		ColouredSimplicialSurface( surf ), 
+		Concatenation(name," as coloured simplicial surface") );
 
 end;
 

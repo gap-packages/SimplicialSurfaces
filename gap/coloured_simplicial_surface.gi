@@ -519,7 +519,7 @@ InstallMethod( VertexBindingRelationAttributeOfCSSOp,
 		# edges as well)
 		vertexClass := VertexEquivalenceClassesByNumbers( complex )[ name ];
 		edgeClassForVertex := List( vertexClass, v -> 
-			List( VerticesByEdges( UnderlyingSimplicialSurface( complex )[v] ),
+			List( VerticesByEdges( UnderlyingSimplicialSurface( complex ) )[v],
 				e -> EdgeEquivalenceNumbersByElements(complex)[e] ) );
 
 		relation := [];

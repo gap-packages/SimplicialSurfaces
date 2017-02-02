@@ -138,6 +138,10 @@ TestJanusHead := function()
 
 	TestIsJanusHead( surf, Concatenation(name," definition") );
 
+	# We also test the simplest version of the coloured simplicial surfaces
+	TestColouredSimplicialSurfaceConsistency( 
+		ColouredSimplicialSurface( surf ), 
+		Concatenation(name," as coloured simplicial surface") );
 end;
 
 
