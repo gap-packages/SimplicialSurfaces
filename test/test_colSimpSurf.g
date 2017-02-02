@@ -258,7 +258,7 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 			Print( i );
 			Print(".\n");
 		fi;
-		if VertexEquivalenceClassesByNumbers(surface)[i] <> Union( Set( List( VertexBindingRelation(surface,i ), l -> Set(l) ) ) ) then
+		if VertexEquivalenceClassesByNumbers(surface)[i] <> Set( Union( EquivalenceClasses( VertexBindingRelation(surface,i ) ) ) ) then
 			Print( messageSurfaceOrigin );
 			Print( ": vertex equivalence relation of number ");
 			Print( i );
@@ -274,7 +274,7 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 			Print( i );
 			Print(".\n");
 		fi;
-		if EdgeEquivalenceClassesByNumbers(surface)[i] <> Union( Set( List( EdgeBindingRelation(surface,i ), l -> Set(l) ) ) ) then
+		if EdgeEquivalenceClassesByNumbers(surface)[i] <> Set( Union( EquivalenceClasses( EdgeBindingRelation(surface,i ) ) ) ) then
 			Print( messageSurfaceOrigin );
 			Print( ": edge equivalence relation of number ");
 			Print( i );

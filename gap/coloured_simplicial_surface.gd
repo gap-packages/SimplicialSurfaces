@@ -259,7 +259,7 @@ DeclareOperation( "FaceEquivalenceClassesByElements",
 #!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns an equivalence relation
 KeyDependentOperation( "VertexBindingRelationAttributeOfCSS", 
-	IsColouredSimplicialSurface, IsPosInt, "");
+	IsColouredSimplicialSurface, IsPosInt, function(x) return true; end);
 DeclareOperation( "VertexBindingRelation", 
 	[IsColouredSimplicialSurface, IsPosInt] );
 
@@ -271,7 +271,7 @@ DeclareOperation( "VertexBindingRelation",
 #!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns an equivalence relation
 KeyDependentOperation( "EdgeBindingRelationAttributeOfCSS", 
-	IsColouredSimplicialSurface, IsPosInt, "");
+	IsColouredSimplicialSurface, IsPosInt, function(x) return true; end);
 DeclareOperation( "EdgeBindingRelation", 
 	[IsColouredSimplicialSurface, IsPosInt] );
 
