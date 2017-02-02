@@ -15,6 +15,9 @@ Read("../test/test_simplicialSurface_threeTrianglesOnEdge.g");
 Read("../test/test_simplicialSurface_tetrahedronAndProjectivePlane.g");
 
 
+Read("../test/test_colSimpSurf.g");
+
+
 ##	Apply the tests for simplicial surfaces
 TestSimplicialSurface := function()
 	TestJanusHead();
@@ -40,8 +43,15 @@ TestWildSimplicialSurface := function()
 end;
 
 
+##	Apply the tests for coloured simplicial surfaces
+TestColouredSimplicialSurface := function()
+
+end;
+
+
 ##	Apply all tests
 TestAll := function()
 	TestSimplicialSurface();
 	#TestWildSimplicialSurface();
+	TestColouredSimplicialSurface();
 end;
