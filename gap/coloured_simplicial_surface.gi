@@ -602,17 +602,17 @@ InstallMethod( LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface],
 	function( surface )
-		local list, face, faceByVertex, perm, vertex;
+		local list, face, faceByVertex, perm, images, unSurf;
+
+		unSurf := UnderlyingSimplicialSurface(surface);
 
 		list := [];
-		faceByVertex := FacesByVertices(UnderlyingSimplicialSurface(surface));
-		for face in Faces( UnderlyingSimplicialSurface( surface ) ) do
-			perm := ();
-			for vertex in faceByVertex[face] do
-				perm := perm * ( vertex, 
-						VertexEquivalenceNumbersByElements(surface)[vertex] ); #TODO not necessarily disjoint!
-			od;
-			list[face] := LocalOrientation(surface)[face]^perm;
+		faceByVertex := FacesByVertices(unSurf);
+		for face in Faces( unSurf ) do
+			images := List( faceByVertex[face], 
+						v -> VertexEquivalenceNumbersByElements(surface)[v] );
+			perm := MappingPermListList( faceByVertex[face], images );
+			list[face] := LocalOrientation(unSurf)[face]^perm;
 		od;
 
 		return list;
