@@ -247,4 +247,39 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 		Print( ": face equivalence classes (by elements) don't partition the face set.\n");
 	fi;
 
+
+
+
+	# Check vertex binding relation
+	for i in VertexEquivalenceNumbersAsSet(surface) do
+		if VertexBindingRelation(surface,i) <> VertexBindingRelationAttributeOfCSS(surface,i) then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent vertex binding relation at vertex equivalence number ");
+			Print( i );
+			Print(".\n");
+		fi;
+		if VertexEquivalenceClassesByNumbers(surface)[i] <> Union( Set( List( VertexBindingRelation(surface,i ), l -> Set(l) ) ) ) then
+			Print( messageSurfaceOrigin );
+			Print( ": vertex equivalence relation of number ");
+			Print( i );
+			Print( " does not partition the vertex equivalence class.\n");
+		fi;
+	od;
+
+	# Check edge binding relation
+	for i in EdgeEquivalenceNumbersAsSet(surface) do
+		if EdgeBindingRelation(surface,i) <> EdgeBindingRelationAttributeOfCSS(surface,i) then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent edge binding relation at edge equivalence number ");
+			Print( i );
+			Print(".\n");
+		fi;
+		if EdgeEquivalenceClassesByNumbers(surface)[i] <> Union( Set( List( EdgeBindingRelation(surface,i ), l -> Set(l) ) ) ) then
+			Print( messageSurfaceOrigin );
+			Print( ": edge equivalence relation of number ");
+			Print( i );
+			Print( " does not partition the edge equivalence class.\n");
+		fi;
+	od;
+
 end;
