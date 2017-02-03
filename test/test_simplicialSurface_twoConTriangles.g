@@ -214,6 +214,7 @@ TestTwoConnectedTrianglesIdentification := function()
 	surf := SimplicialSurfaceByDownwardIncidence( [1,2,3,4], 5, [1,4],
 		[ [1,2],[1,3],[3,2],[4,3],[2,4] ],
 		[ [1,2,3], , , [3,5,4] ] );
+	surf := ColouredSimplicialSurface( surf );
 
 
 	# Try a correct identification by maps
@@ -223,9 +224,6 @@ TestTwoConnectedTrianglesIdentification := function()
 		[ DirectProductElement([1,4]), DirectProductElement([2,5]), DirectProductElement([3,3]) ]);
 	faceMap := GeneralMappingByElements( Domain( [1] ), Domain( [4] ), 
 		[ DirectProductElement([1,4]) ]);
-	IsBijective(vertexMap);
-	IsBijective(edgeMap);
-	IsBijective(faceMap);
 	id := SimplicialSurfaceIdentification( vertexMap, edgeMap, faceMap );
 	TestSimplicialSurfaceIdentificationConsistency( id, "Unique identification of TwoConTri (by maps)" );
 	TestColouredIdentificationConsistency( surf, id, "Unique identification of TwoConTri (by maps) and TwoConTri" );

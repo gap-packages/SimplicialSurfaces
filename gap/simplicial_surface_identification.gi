@@ -52,8 +52,7 @@ InstallMethod( SimplicialSurfaceIdentificationNC,
 );
 RedispatchOnCondition( SimplicialSurfaceIdentificationNC, true, 
 	[IsMapping,	IsMapping, IsMapping], 
-	[IsMapping and IsBijective, IsMapping and IsBijective, 
-			IsMapping and IsBijective], 0 );
+	[IsBijective, IsBijective, IsBijective], 0 );
 
 InstallMethod( SimplicialSurfaceIdentification,
 	"for three bijective maps", [IsMapping and 
@@ -76,8 +75,7 @@ InstallMethod( SimplicialSurfaceIdentification,
 );
 RedispatchOnCondition( SimplicialSurfaceIdentification, true, 
 	[IsMapping,	IsMapping, IsMapping], 
-	[IsMapping and IsBijective, IsMapping and IsBijective, 
-			IsMapping and IsBijective], 0 );
+	[IsBijective, IsBijective, IsBijective], 0 );
 
 ##
 ##	To define these maps by lists we need a general method to convert a list
