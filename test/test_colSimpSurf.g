@@ -466,3 +466,88 @@ TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin 
 		Print( ": Face map is not bijective.\n" );
 	fi;
 end;
+
+##
+##	Test the consistency of a simplicial surface identification together with
+##	a coloured simplicial surface. This method only checks the interaction
+##	of these two objects, not the consistency of the objects themselves.
+##	
+TestColouredIdentificationConsistency := function( surface, id, messageConnection )
+	local wellDef, constOnInter, applicable, extension;
+
+	wellDef := IsWellDefinedIdentification( surface, id );
+	constOnInter := IsConstantOnIntersection( surface, id );
+	applicable := IsApplicableExtension( surface, id );
+
+	# Constant on intersection should be false if it is not well defined
+	if not wellDef and constOnInter then
+		Print( messageConnection );
+		Print( " is not well-defined but constant on the intersection.\n" );
+	fi;
+
+	# If it is well-defined, constOnInter may be called as NC-version
+	if wellDef then
+		if constOnInter <> IsConstantOnIntersectionNCWellDefined( surface, id ) then
+			Print( messageConnection );
+			Print( " has inconsistent ConstantOnIntersection.\n" );
+		fi;
+	fi;
+
+
+	#
+	# To check applicable we proceed in several steps
+	#
+
+	# if wellDef is false, then applicable is false
+	if not wellDef and applicable then
+		Print( messageConnection );
+		Print( " is not well-defined but applicable.\n" );
+	fi;
+
+	# if constOnInter is false, then applicable is false
+	if not constOnInter and applicable then
+		Print( messageConnection );
+		Print( " is not constant on the intersection but applicable.\n" );
+	fi;
+
+	# if wellDef is true, then the NC-version may be called
+	if wellDef then
+		if applicable <> IsApplicableExtensionNCWellDefined(surface, id) then
+			Print( messageConnection );
+			Print( " has inconsistent applicability (controlling for well-definedness).\n" );
+		fi;
+		if not constOnInter and IsApplicableExtensionNCWellDefined(surface, id) then
+			Print( messageConnection );
+			Print( " is not constant on the intersection but applicable (NC well-defined).\n" );
+		fi;
+	fi;
+
+	# if constOnInter is true, then the NC-version may be called
+	if constOnInter then
+		if applicable <> IsApplicableExtensionNCIntersection(surface, id) then
+			Print( messageConnection );
+			Print( " has inconsistent applicability (controlling for intersection).\n" );
+		fi;
+	fi;
+
+	
+	# if applicable is true, we can extend the surface
+	if applicable then
+		extension := ExtendByIdentification(surface, id);
+		if not IsColouredSimplicialSurface( extension ) then
+			Print( messageConnection );
+			Print( " has an extension that is not a coloured simplicial surface.\n" );
+		fi;
+		if not IsSubcolouring( extension, surface ) then
+			Print( messageConnection );
+			Print( " has an extension that is not a subcolouring of the original coloured simplicial surface.\n" );
+		fi;
+			
+		if extension <> ExtendByIdentificationNC(surface, id) then
+			Print( messageConnection );
+			Print( " has different extensions for the NC-version.\n" );
+		fi;
+	fi;
+
+
+end;

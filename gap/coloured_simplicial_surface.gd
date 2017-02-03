@@ -326,6 +326,8 @@ DeclareOperation( "IsEquivalentFace",
 #!	surface are contained in the equivalence classes of the first coloured
 #!	simplicial surface. This is only possible if both coloured simplicial
 #!	surfaces are based on the same simplicial surface.
+#!	This happens for example if the first argument is a folding of the
+#!	second argument.
 #!	@Arguments two coloured simplicial surfaces
 #!	@Returns true or false
 DeclareOperation( "IsSubcolouring", 

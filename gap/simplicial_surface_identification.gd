@@ -161,9 +161,9 @@ DeclareOperation( "IsConstantOnIntersectionNCWellDefined",
 #!	@Returns true or false
 DeclareOperation( "IsApplicableExtension", 
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
-DeclareOperation( "IsApplicableExtensionNCIntersection", 
-	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 DeclareOperation( "IsApplicableExtensionNCWellDefined", 
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
+DeclareOperation( "IsApplicableExtensionNCIntersection", 
 	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification] );
 
 
