@@ -416,7 +416,7 @@ end;
 ##	Test the consistency of a simplicial surface identification.
 ##	
 TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin )
-	local ;
+	local idByMaps;
 
 
 	if not IsSimplicialSurfaceIdentification( id ) then
@@ -464,6 +464,18 @@ TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin 
 	if not IsBijective( FaceMap(id) ) then
 		Print( messageIdOrigin );
 		Print( ": Face map is not bijective.\n" );
+	fi;
+
+	
+	# Check whether the map-constructor leads to the given identification
+	idByMap := SimplicialSurfaceIdentification( VertexMap(id), EdgeMap(id), FaceMap(id) );
+	if idByMap <> id then
+		Print( messageIdOrigin );
+		Print( " is different from an identification with the same maps.\n" );
+	fi;
+	if id <> SimplicialSurfaceIdentificationNC( VertexMap(id), EdgeMap(id), FaceMap(id) ) then
+		Print( messageIdOrigin );
+		Print( " is different from an identification with the same maps (NC).\n" );
 	fi;
 end;
 
