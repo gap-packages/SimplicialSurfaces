@@ -416,8 +416,6 @@ end;
 ##	Test the consistency of a simplicial surface identification.
 ##	
 TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin )
-	local idByMaps;
-
 
 	if not IsSimplicialSurfaceIdentification( id ) then
 		Print( messageIdOrigin );
@@ -468,8 +466,7 @@ TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin 
 
 	
 	# Check whether the map-constructor leads to the given identification
-	idByMap := SimplicialSurfaceIdentification( VertexMap(id), EdgeMap(id), FaceMap(id) );
-	if idByMap <> id then
+	if id <> SimplicialSurfaceIdentification( VertexMap(id), EdgeMap(id), FaceMap(id) ) then
 		Print( messageIdOrigin );
 		Print( " is different from an identification with the same maps.\n" );
 	fi;

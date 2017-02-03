@@ -52,6 +52,7 @@ InstallMethod( SimplicialSurfaceIdentificationNC,
 );
 RedispatchOnCondition( SimplicialSurfaceIdentificationNC, true, [IsMapping,
 	IsMapping, IsMapping], [IsBijective, IsBijective, IsBijective], 0 );
+
 InstallMethod( SimplicialSurfaceIdentification,
 	"for three bijective maps", [IsMapping and 
 		IsBijective, IsMapping and IsBijective, IsMapping and IsBijective],
@@ -120,7 +121,7 @@ InstallMethod( SimplicialSurfaceIdentificationByListsNC, "for three lists",
 		edgeMap := __SIMPLICIAL_CreateMapFromListNC( edgeList, false );
 		faceMap := __SIMPLICIAL_CreateMapFromListNC( faceList, false );
 
-		return SimplicialSurfaceIdentificationNC( vertexList, edgeList, faceList);
+		return SimplicialSurfaceIdentificationNC( vertexMap, edgeMap, faceMap);
 	end
 );
 InstallMethod( SimplicialSurfaceIdentificationByLists, "for three lists",
@@ -128,11 +129,21 @@ InstallMethod( SimplicialSurfaceIdentificationByLists, "for three lists",
 	function( vertexList, edgeList, faceList )
 		local vertexMap, edgeMap, faceMap;
 
+		if Length( vertexList ) <> 3 then
+			Error("SimplicialSurfaceIdentificationByLists: Only three vertices");
+		fi;
+		if Length( edgeList ) <> 3 then
+			Error("SimplicialSurfaceIdentificationByLists: Only three edges");
+		fi;
+		if Length( faceList ) <> 1 then
+			Error("SimplicialSurfaceIdentificationByLists: Only one face");
+		fi;
+
 		vertexMap := __SIMPLICIAL_CreateMapFromListNC( vertexList, true );
 		edgeMap := __SIMPLICIAL_CreateMapFromListNC( edgeList, true );
 		faceMap := __SIMPLICIAL_CreateMapFromListNC( faceList, true );
 
-		return SimplicialSurfaceIdentification( vertexList, edgeList, faceList);
+		return SimplicialSurfaceIdentificationNC( vertexMap, edgeMap, faceMap);
 	end
 );
 
@@ -432,6 +443,30 @@ InstallMethod( ExtendByIdentificationNC,
 	end
 );
 
+
+##
+##  A method to test whether two simplicial surfaces identifications are equal
+##
+InstallMethod( \=, "for two simplicial surfaces identifications", 
+	IsIdenticalObj, 
+	[IsSimplicialSurfaceIdentification, IsSimplicialSurfaceIdentification], 0,
+	function( id1, id2 )
+
+		if VertexMap(id1) <> VertexMap(id2) then
+			return false;
+		fi;
+
+		if EdgeMap(id1) <> EdgeMap(id2) then
+			return false;
+		fi;
+
+		if FaceMap(id1) <> FaceMap(id2) then
+			return false;
+		fi;
+
+        return true;
+	end
+);
 
 #
 ###  This program is free software: you can redistribute it and/or modify

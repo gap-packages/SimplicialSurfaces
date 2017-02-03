@@ -43,15 +43,17 @@ TestWildSimplicialSurface := function()
 end;
 
 
-##	Apply the tests for coloured simplicial surfaces
-TestColouredSimplicialSurface := function()
-
+##	Apply the tests for simplicial surface identifications
+TestSimplicialSurfaceIdentification := function()
+	TestTwoConnectedTrianglesIdentification();
 end;
+
+
 
 
 ##	Apply all tests
 TestAll := function()
 	TestSimplicialSurface();
 	#TestWildSimplicialSurface();
-	TestColouredSimplicialSurface();
+	TestSimplicialSurfaceIdentification();
 end;

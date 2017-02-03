@@ -180,7 +180,7 @@ end;
 TestWildTwoConnectedTriangles := function()
 	local surf, name, sig1, sig2, sig3, mrType, gens;
 
-	name := "Tetrahedron (wild)";
+	name := "TwoConTri (wild)";
 
 	sig1 := (1,2);
 	sig2 := ();
@@ -205,4 +205,47 @@ TestWildTwoConnectedTriangles := function()
 end;
 
 
+##
+##	Test simplicial surface identifications
+##
+TestTwoConnectedTrianglesIdentification := function()
+	local surf, name, id, vertexMap, edgeMap, faceMap;
+
+	surf := SimplicialSurfaceByDownwardIncidence( [1,2,3,4], 5, [1,4],
+		[ [1,2],[1,3],[3,2],[4,3],[2,4] ],
+		[ [1,2,3], , , [3,5,4] ] );
+
+
+	# Try a correct identification by maps
+	vertexMap := GeneralMappingByElements( Domain( [1,2,3] ), Domain( [2,3,4] ), 
+		[ DirectProductElement([1,4]), DirectProductElement([2,2]), DirectProductElement([3,3]) ]);
+	edgeMap := GeneralMappingByElements( Domain( [1,2,3] ), Domain( [3,4,5] ), 
+		[ DirectProductElement([1,4]), DirectProductElement([2,5]), DirectProductElement([3,3]) ]);
+	faceMap := GeneralMappingByElements( Domain( [1] ), Domain( [4] ), 
+		[ DirectProductElement([1,4]) ]);
+	id := SimplicialSurfaceIdentification( vertexMap, edgeMap, faceMap );
+	TestSimplicialSurfaceIdentificationConsistency( id, "Unique identification of TwoConTri (by maps)" );
+	TestColouredIdentificationConsistency( surf, id, "Unique identification of TwoConTri (by maps) and TwoConTri" );
+
+	# Try an incorrect identification by maps
+	vertexMap := GeneralMappingByElements( Domain( [1,2,4] ), Domain( [2,3,4] ), 
+		[ DirectProductElement([1,4]), DirectProductElement([2,2]), DirectProductElement([4,3]) ]);
+	edgeMap := GeneralMappingByElements( Domain( [1,2,3] ), Domain( [3,4,5] ), 
+		[ DirectProductElement([1,4]), DirectProductElement([2,5]), DirectProductElement([3,3]) ]);
+	faceMap := GeneralMappingByElements( Domain( [1] ), Domain( [4] ), 
+		[ DirectProductElement([1,4]) ]);
+	id := SimplicialSurfaceIdentification( vertexMap, edgeMap, faceMap );
+	TestSimplicialSurfaceIdentificationConsistency( id, "Incorrect identification of TwoConTri (by maps)" );
+	TestColouredIdentificationConsistency( surf, id, "Incorrect identification of TwoConTri (by maps) and TwoConTri" );
+
+	# Try a correct identification by lists
+	id := SimplicialSurfaceIdentificationByLists( [ [1,4],[2,2],[3,3] ], [ [1,4],[2,5],[3,3] ], [ [1,4] ] );
+	TestSimplicialSurfaceIdentificationConsistency( id, "Unique identification of TwoConTri (by lists)" );
+	TestColouredIdentificationConsistency( surf, id, "Unique identification of TwoConTri (by lists) and TwoConTri" );
+
+	# Try an incorrect identification by lists
+	id := SimplicialSurfaceIdentificationByLists( [ [1,4],[2,2],[3,3] ], [ [1,4],[2,5],[3,3] ], [ [1,2] ] );
+	TestSimplicialSurfaceIdentificationConsistency( id, "Incorrect identification of TwoConTri (by lists)" );
+	TestColouredIdentificationConsistency( surf, id, "Incorrect identification of TwoConTri (by lists) and TwoConTri" );
+end;
 
