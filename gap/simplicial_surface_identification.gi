@@ -50,21 +50,23 @@ InstallMethod( SimplicialSurfaceIdentificationNC,
 		return id;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceIdentificationNC, true, [IsMapping,
-	IsMapping, IsMapping], [IsBijective, IsBijective, IsBijective], 0 );
+RedispatchOnCondition( SimplicialSurfaceIdentificationNC, true, 
+	[IsMapping,	IsMapping, IsMapping], 
+	[IsMapping and IsBijective, IsMapping and IsBijective, 
+			IsMapping and IsBijective], 0 );
 
 InstallMethod( SimplicialSurfaceIdentification,
 	"for three bijective maps", [IsMapping and 
 		IsBijective, IsMapping and IsBijective, IsMapping and IsBijective],
 	function( vertexMap, edgeMap, faceMap )
 		
-		if Length( Source( vertexMap ) ) <> 3 then
+		if Length( Set( Source( vertexMap ) ) ) <> 3 then
 			Error("SimplicialSurfaceIdentification: Only three vertices");
 		fi;
-		if Length( Source( edgeMap ) ) <> 3 then
+		if Length( Set( Source( edgeMap ) ) ) <> 3 then
 			Error("SimplicialSurfaceIdentification: Only three edges");
 		fi;
-		if Length( Source( faceMap ) ) <> 1 then
+		if Length( Set( Source( faceMap ) ) ) <> 1 then
 			Error("SimplicialSurfaceIdentification: Only one face");
 		fi;
 	#TODO check whether these maps really only consist of integers
@@ -72,8 +74,10 @@ InstallMethod( SimplicialSurfaceIdentification,
 		return SimplicialSurfaceIdentificationNC(vertexMap,edgeMap,faceMap);
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceIdentification, true, [IsMapping,
-	IsMapping, IsMapping], [IsBijective, IsBijective, IsBijective], 0 );
+RedispatchOnCondition( SimplicialSurfaceIdentification, true, 
+	[IsMapping,	IsMapping, IsMapping], 
+	[IsMapping and IsBijective, IsMapping and IsBijective, 
+			IsMapping and IsBijective], 0 );
 
 ##
 ##	To define these maps by lists we need a general method to convert a list

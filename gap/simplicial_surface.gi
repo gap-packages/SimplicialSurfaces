@@ -1286,7 +1286,7 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 	end
 );
 RedispatchOnCondition( IsOrientable, true, [IsSimplicialSurface],
-	[IsActualSurface], 0 );
+	[IsSimplicialSurface and IsActualSurface], 0 );
 
 #############################################################################
 ##
