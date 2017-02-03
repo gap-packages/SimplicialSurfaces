@@ -259,6 +259,14 @@ InstallMethod( IsWellDefinedIdentification,
 		return true;
 	end
 );
+InstallOtherMethod( IsWellDefinedIdentification, 
+	"for a coloured simplicial surface and a simplicial surface identification",
+	[IsColouredSimplicialSurface, IsSimplicialSurfaceIdentification],
+	function( surface, id )
+		return IsWellDefinedIdentification( 
+				UnderlyingSimplicialSurface(surface), id);
+	end
+);
 
 
 #!	@Description

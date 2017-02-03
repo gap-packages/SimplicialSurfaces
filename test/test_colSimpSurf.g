@@ -488,6 +488,12 @@ TestColouredIdentificationConsistency := function( surface, id, messageConnectio
 	constOnInter := IsConstantOnIntersection( surface, id );
 	applicable := IsApplicableExtension( surface, id );
 
+	# Check if wellDef is consistent for both inputs
+	if wellDef <> IsWellDefinedIdentification( UnderlyingSimplicialSurface(surface), id ) then
+		Print( messageConnection );
+		Print( ": well-defined is inconsistent.\n" );
+	fi;
+
 	# Constant on intersection should be false if it is not well defined
 	if not wellDef and constOnInter then
 		Print( messageConnection );

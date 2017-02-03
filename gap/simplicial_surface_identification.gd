@@ -123,6 +123,11 @@ DeclareOperation( "FaceMap", [IsSimplicialSurfaceIdentification] );
 #!	the vertices, edges and faces of the simplicial surface. It also
 #!	checks whether the maps are compatible with each other, i.e. if they
 #!	commute with the incidence relation of the simplicial surface.
+#!
+#!	This method can also be called with a coloured simplicial surface. In that
+#!	case it checks whether the simplicial surface identification is well defined
+#!	with respect to the underlying simplicial surface.
+#!
 #!	@Arguments a simplicial surface, a simplicial surface identification
 #!	@Returns true or false
 DeclareOperation( "IsWellDefinedIdentification", 
