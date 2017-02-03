@@ -410,3 +410,59 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 	od;
 
 end;
+
+
+##
+##	Test the consistency of a simplicial surface identification.
+##	
+TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin )
+	local ;
+
+
+	if not IsSimplicialSurfaceIdentification( id ) then
+		Print( messageIdOrigin );
+		Print( " is not a simplicial surface identification.\n");
+	fi;
+
+	# Check vertex map
+	if VertexMap(id) <> VertexMapAttributeOfSimplicialSurfaceIdentification(id) then
+		Print( messageIdOrigin );
+		Print( " has an inconsistent vertex map.\n");
+	fi;
+	if not IsMapping( VertexMap(id) ) then
+		Print( messageIdOrigin );
+		Print( ": Vertex map is not a mapping.\n" );
+	fi;
+	if not IsBijective( VertexMap(id) ) then
+		Print( messageIdOrigin );
+		Print( ": Vertex map is not bijective.\n" );
+	fi;
+
+	# Check edge map
+	if EdgeMap(id) <> EdgeMapAttributeOfSimplicialSurfaceIdentification(id) then
+		Print( messageIdOrigin );
+		Print( " has an inconsistent edge map.\n");
+	fi;
+	if not IsMapping( EdgeMap(id) ) then
+		Print( messageIdOrigin );
+		Print( ": Edge map is not a mapping.\n" );
+	fi;
+	if not IsBijective( EdgeMap(id) ) then
+		Print( messageIdOrigin );
+		Print( ": Edge map is not bijective.\n" );
+	fi;
+
+	# Check face map
+	if FaceMap(id) <> FaceMapAttributeOfSimplicialSurfaceIdentification(id) then
+		Print( messageIdOrigin );
+		Print( " has an inconsistent face map.\n");
+	fi;
+	if not IsMapping( FaceMap(id) ) then
+		Print( messageIdOrigin );
+		Print( ": Face map is not a mapping.\n" );
+	fi;
+	if not IsBijective( FaceMap(id) ) then
+		Print( messageIdOrigin );
+		Print( ": Face map is not bijective.\n" );
+	fi;
+end;
