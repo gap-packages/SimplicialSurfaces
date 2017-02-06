@@ -563,14 +563,19 @@ TestColouredIdentificationConsistency := function( surface, id, messageConnectio
 			Print( " has different extensions for the NC-version.\n" );
 		fi;
 
-		# After extending the identification should be no longer applicable
+		# After extending the identification should still be applicable but
+		# should not change the surface further
 		if not IsConstantOnIntersection(extension, id) then
 			Print( messageConnection );
-			Print(": after extension the identification should be still constant on the intersection.");
+			Print(": after extension the identification should be still constant on the intersection.\n");
 		fi;
-		if IsApplicableExtension(extension, id) then
+		if not IsApplicableExtension(extension, id) then
 			Print( messageConnection );
-			Print(": after extension the identification should not be applicable.");
+			Print(": after extension the identification should still be applicable.\n");
+		fi;
+		if extension <> ExtendByIdentificationNC( extension, id ) then
+			Print( messageConnection );
+			Print(": after extension the same identification should not modify the surface further.\n");
 		fi;
 	fi;
 

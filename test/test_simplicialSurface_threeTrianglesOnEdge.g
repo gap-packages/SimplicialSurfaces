@@ -199,14 +199,23 @@ TestThreeTrianglesOnEdgeIdentification := function()
 	exAC := ExtendByIdentification( exA, id13 );
 	exBC := ExtendByIdentification( exB, id13 );
 
-	if IsApplicableExtension( exAB, id13 ) then
-		Error("Neighbour identification (1,3) should not be applicable after extending by (1,2) and (2,3) for three triangles on edge");
+	if not IsApplicableExtension( exAB, id13 ) then
+		Error("Neighbour identification (1,3) should be applicable after extending by (1,2) and (2,3) for three triangles on edge");
 	fi;
-	if IsApplicableExtension( exAC, id23 ) then
-		Error("Neighbour identification (2,3) should not be applicable after extending by (1,3) and (1,2) for three triangles on edge");
+	if exAB <> ExtendByIdentificationNC( exAB, id13 ) then
+		Error("Neighbour identification (1,3) should not change three triangles on edge after extending by (1,2) and (2,3).");
 	fi;
-	if IsApplicableExtension( exBC, id12 ) then
-		Error("Neighbour identification (1,2) should not be applicable after extending by (1,3) and (2,3) for three triangles on edge");
+	if not IsApplicableExtension( exAC, id23 ) then
+		Error("Neighbour identification (2,3) should be applicable after extending by (1,3) and (1,2) for three triangles on edge");
+	fi;
+	if exAC <> ExtendByIdentificationNC( exAC, id23 ) then
+		Error("Neighbour identification (2,3) should not change three triangles on edge after extending by (1,3) and (1,2).");
+	fi;
+	if not IsApplicableExtension( exBC, id12 ) then
+		Error("Neighbour identification (1,2) should be applicable after extending by (1,3) and (2,3) for three triangles on edge");
+	fi;
+	if exBC <> ExtendByIdentificationNC( exBC, id12 ) then
+		Error("Neighbour identification (1,2) should not change three triangles on edge after extending by (1,3) and (2,3).");
 	fi;
 	
 end;
