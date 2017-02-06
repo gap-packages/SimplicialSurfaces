@@ -94,7 +94,7 @@ TestIsPentagon := function( surface, messageSurfaceOrigin )
 		Print( ".\n");
 	fi;
 
-	vertexSym := [,5,,,1];
+	vertexSym := [,,5,,1];
 	if VertexSymbol(surface) <> vertexSym then
 		Print( messageSurfaceOrigin );
 		Print( " does not have the vertex symbol " );
@@ -147,7 +147,7 @@ end;
 ##	Test simplicial surface identifications
 ##
 TestPentagonIdentification := function()
-	local surf, id, colSurf;
+	local surf, colSurf, id12, id23, id43, exA, exB, exC, exAB, exBC;
 
 	surf := SimplicialSurfaceByVerticesInFaces( 6,5, 
 							[[1,2,6],[2,3,6],[3,6,4],[6,4,5],[1,6,5]] );
@@ -220,16 +220,17 @@ TestPentagonIdentification := function()
 
 
 
-	if not IsApplicableExtension( exAB, id13 ) then
-		Error("Neighbour identification (1,3) should be applicable after extending by (1,2) and (2,3) for pentagon");
+	if not IsConstantOnIntersection( exAB, id43 ) then
+		Error("Neighbour identification (4,3) should be constant on intersection after extending pentagon by (1,2) and (2,3).");
 	fi;
-	if exAB <> ExtendByIdentificationNC( exAB, id13 ) then
-		Error("Neighbour identification (1,3) should not change pentagon after extending by (1,2) and (2,3).");
+	if IsApplicableExtension( exAB, id43 ) then
+		Error("Neighbour identification (4,3) should not be applicable after extending pentagon by (1,2) and (2,3).");
 	fi;
-	if not IsApplicableExtension( exBC, id12 ) then
-		Error("Neighbour identification (1,2) should be applicable after extending by (1,3) and (2,3) for pentagon");
+
+	if not IsConstantOnIntersection( exBC, id12 ) then
+		Error("Neighbour identification (1,2) should be constant on intersection after extending pentagon by (2,3) and (4,3).");
 	fi;
-	if exBC <> ExtendByIdentificationNC( exBC, id12 ) then
-		Error("Neighbour identification (1,2) should not change pentagon after extending by (1,3) and (2,3).");
+	if IsApplicableExtension( exBC, id12 ) then
+		Error("Neighbour identification (1,2) should not be applicable after extending pentagon by (2,3) and (4,3).");
 	fi;
 end;
