@@ -488,7 +488,7 @@ InstallMethod( NeighbourIdentificationNC,
 	[IsSimplicialSurface, IsPosInt, IsPosInt],
 	function( surface, face1, face2 )
 		local commonVertices, vertexList, lastVertex, imageVertex, vertexMap,
-			edgeList, edge, vertexImages, possEdge, edgeMap, faceMap;
+			edgeList, edge, vertexImages, possEdge, edgeMap, faceMap, v;
 
 		commonVertices := Intersection( FacesByVertices(surface)[face1], 
 										FacesByVertices(surface)[face2] );

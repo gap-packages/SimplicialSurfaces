@@ -208,7 +208,7 @@ end;
 ##	Test simplicial surface identifications
 ##
 TestTetrahedronIdentification := function()
-	local surf, name, id, vertexMap, edgeMap, faceMap;
+	local surf, id, colSurf;
 
 	surf := SimplicialSurfaceByVerticesInFaces( 4,4, [[1,2,3],[1,3,4],[3,2,4],[1,4,2]] );
 	colSurf := ColouredSimplicialSurface( surf );
