@@ -81,7 +81,9 @@ RedispatchOnCondition( SimplicialSurfaceIdentification, true,
 	[IsBijective, IsBijective, IsBijective], 0 );
 RedispatchOnCondition( SimplicialSurfaceIdentification, true, 
 	[IsGeneralMapping, IsGeneralMapping, IsGeneralMapping], 
-	[IsMapping,	IsMapping, IsMapping], 0 );
+	[IsMapping and IsBijective,
+		IsMapping and IsBijective,
+		IsMapping and IsBijective], 0 );
 
 ##
 ##	To define these maps by lists we need a general method to convert a list
@@ -458,6 +460,88 @@ InstallMethod( ExtendByIdentificationNC,
 		return ext;
 	end
 );
+
+
+
+#!	@Description
+#!	Return the neighbour identification of two neighbouring faces of a
+#!	(coloured) simplicial surface. By construction this identification is
+#!	well-defined and constant on the intersection.
+#!
+#!	@Arguments a (coloured) simplicial surface, two face numbers (for a coloured
+#!		simplicial surface these refer to the underlying simplicial surface).
+#!	@Returns a simplicial surface identifaction
+#TODO write the method for coloured simplicial surfaces
+InstallMethod( NeighbourIdentification, 
+	"for a simplicial surface and two faces",
+	[IsSimplicialSurface, IsPosInt, IsPosInt],
+	function( surface, face1, face2 )
+		if face1 in Faces(surface) and face2 in Faces(surface) then
+			return NeighbourIdentificationNC(surface, face1, face2);
+		fi;
+
+		Error("NeighbourIdentification: The given faces have to be faces of the given simplicial surface.");
+	end
+);
+InstallMethod( NeighbourIdentificationNC, 
+	"for a simplicial surface and two faces",
+	[IsSimplicialSurface, IsPosInt, IsPosInt],
+	function( surface, face1, face2 )
+		local commonVertices, vertexList, lastVertex, imageVertex, vertexMap,
+			edgeList, edge, vertexImages, possEdge, edgeMap, faceMap;
+
+		commonVertices := Intersection( FacesByVertices(surface)[face1], 
+										FacesByVertices(surface)[face2] );
+		if Length(commonVertices) < 2 then
+			Error("NeighbourIdentification: The given faces have to have at least two vertices in common.");
+		fi;
+
+		# Construct the vertex map
+		vertexList := [];
+		for v in commonVertices do
+			Append( vertexList, DirectProductElement([v,v]) );
+		od;
+		# Since we are dealing with triangles, there is at most one additional vertex
+		if Length(commonVertices) = 2 then
+			lastVertex := Difference( FacesByVertices(surface)[face1], 
+														commonVertices )[1];
+			imageVertex := Difference( FacesByVertices(surface)[face2], 
+														commonVertices )[1];
+			Append( vertexList, DirectProductElement([lastVertex,imageVertex]) );
+		fi;
+		vertexMap := GeneralMappingByElements( 
+				Domain( FacesByVertices(surface)[face1] ),
+				Domain( FacesByVertices(surface)[face2] ),
+				vertexList );
+
+
+		# Construct the edge map
+		edgeList := [];
+		for edge in FacesByEdges(surface)[face1] do
+			vertexImages := Set( List( EdgesByVertices(surface)[edge], 
+											v -> ImageElm( vertexMap, v ) ) );
+			for possEdge in FacesByEdges(surface)[face2] do
+				if vertexImages = EdgesByVertices(surface)[possEdge] then
+					Append( edgeList, DirectProductElement( [edge, possEdge] );
+				fi;
+			od;
+		od;
+		edgeMap := GeneralMappingByElements( 
+				Domain( FacesByEdges(surface)[face1] ),
+				Domain( FacesByEdges(surface)[face2] ),
+				edgeList );
+
+		
+		# Construct the face map
+		faceMap := GeneralMappingByElements( 
+				Domain( [face1] ), 
+				Domain( [face2] ),
+				[ DirectProductElement( [face1,face2] ) ] );
+
+		return SimplicialSurfaceIdentificationNC( vertexMap, edgeMap, faceMap );
+	end
+);
+
 
 
 ##

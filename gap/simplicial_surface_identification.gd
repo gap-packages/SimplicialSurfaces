@@ -153,6 +153,21 @@ DeclareOperation( "IsConstantOnIntersectionNCWellDefined",
 
 
 #!	@Description
+#!	Return the neighbour identification of two neighbouring faces of a
+#!	(coloured) simplicial surface. By construction this identification is
+#!	well-defined and constant on the intersection.
+#!
+#!	The NC-version does not check whether the faces really lie on the surface.
+#!
+#!	@Arguments a (coloured) simplicial surface, two face numbers (for a coloured
+#!		simplicial surface these refer to the underlying simplicial surface).
+#!	@Returns a simplicial surface identifaction
+DeclareOperation( "NeighbourIdentification", 
+	[IsSimplicialSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "NeighbourIdentificationNC", 
+	[IsSimplicialSurface, IsPosInt, IsPosInt] );
+
+#!	@Description
 #!	Return if the given simplicial surface identification can be applied to
 #!	the given coloured simplicial surface and result in another
 #!	coloured simplicial surface. To be more precise we check the
