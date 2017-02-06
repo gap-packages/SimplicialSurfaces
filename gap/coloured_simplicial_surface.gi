@@ -308,7 +308,7 @@ InstallMethod( VertexEquivalenceNumbersAsSetAttributeOfCSS,
 		HasVertexEquivalenceClassesByNumbersAttributeOfCSS],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
-						VertexEquivalenceClassesByElements(complex) );
+						VertexEquivalenceClassesByNumbers(complex) );
 	end
 );
 InstallMethod( VertexEquivalenceNumbersAsSet,
@@ -338,7 +338,7 @@ InstallMethod( EdgeEquivalenceNumbersAsSetAttributeOfCSS,
 		HasEdgeEquivalenceClassesByNumbersAttributeOfCSS],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
-						EdgeEquivalenceClassesByElements(complex) );
+						EdgeEquivalenceClassesByNumbers(complex) );
 	end
 );
 InstallMethod( EdgeEquivalenceNumbersAsSet,
@@ -368,7 +368,7 @@ InstallMethod( FaceEquivalenceNumbersAsSetAttributeOfCSS,
 		HasFaceEquivalenceClassesByNumbersAttributeOfCSS],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
-						FaceEquivalenceClassesByElements(complex) );
+						FaceEquivalenceClassesByNumbers(complex) );
 	end
 );
 InstallMethod( FaceEquivalenceNumbersAsSet,
