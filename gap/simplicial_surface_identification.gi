@@ -55,7 +55,9 @@ RedispatchOnCondition( SimplicialSurfaceIdentificationNC, true,
 	[IsBijective, IsBijective, IsBijective], 0 );
 RedispatchOnCondition( SimplicialSurfaceIdentificationNC, true, 
 	[IsGeneralMapping, IsGeneralMapping, IsGeneralMapping], 
-	[IsMapping,	IsMapping, IsMapping], 0 );
+	[IsMapping and IsBijective,
+		IsMapping and IsBijective,
+		IsMapping and IsBijective], 0 );
 
 InstallMethod( SimplicialSurfaceIdentification,
 	"for three bijective maps", [IsMapping and 
@@ -499,7 +501,7 @@ InstallMethod( NeighbourIdentificationNC,
 		# Construct the vertex map
 		vertexList := [];
 		for v in commonVertices do
-			Append( vertexList, DirectProductElement([v,v]) );
+			Append( vertexList, [ DirectProductElement([v,v]) ] );
 		od;
 		# Since we are dealing with triangles, there is at most one additional vertex
 		if Length(commonVertices) = 2 then
@@ -507,7 +509,8 @@ InstallMethod( NeighbourIdentificationNC,
 														commonVertices )[1];
 			imageVertex := Difference( FacesByVertices(surface)[face2], 
 														commonVertices )[1];
-			Append( vertexList, DirectProductElement([lastVertex,imageVertex]) );
+			Append( vertexList, 
+				[ DirectProductElement([lastVertex,imageVertex]) ] );
 		fi;
 		vertexMap := GeneralMappingByElements( 
 				Domain( FacesByVertices(surface)[face1] ),
@@ -522,7 +525,8 @@ InstallMethod( NeighbourIdentificationNC,
 											v -> ImageElm( vertexMap, v ) ) );
 			for possEdge in FacesByEdges(surface)[face2] do
 				if vertexImages = EdgesByVertices(surface)[possEdge] then
-					Append( edgeList, DirectProductElement( [edge, possEdge] );
+					Append(edgeList, 
+						[ DirectProductElement( [edge, possEdge] ) ] );
 				fi;
 			od;
 		od;
@@ -587,7 +591,7 @@ InstallOtherMethod( NeighbourIdentificationNC,
 				function( x )
 					return VertexEquivalenceNumberOfElement(surface, x);
 				end );
-		vertexMap := CompositionMapping( vertexMap1, VertexMap(quotId), Inverse(vertexMap2) );
+		vertexMap := CompositionMapping( Inverse(vertexMap2), VertexMap(quotId), vertexMap1 );
 
 
 		# Construct the edges in the same way
@@ -603,7 +607,7 @@ InstallOtherMethod( NeighbourIdentificationNC,
 				function( x )
 					return EdgeEquivalenceNumberOfElement(surface, x);
 				end );
-		edgeMap := CompositionMapping( edgeMap1, EdgeMap(quotId), Inverse(edgeMap2) );
+		edgeMap := CompositionMapping( Inverse(edgeMap2), EdgeMap(quotId), edgeMap1 );
 
 
 		# Construct the face map (no complications)

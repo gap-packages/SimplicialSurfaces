@@ -220,12 +220,12 @@ TestTetrahedronIdentification := function()
 		Error("Can't define tetrahedron neighbour identification (1,2) independent of colour.");
 	fi;
 	TestSimplicialSurfaceIdentificationConsistency( id, "Neighbour identification (1,2) of tetrahedron" );
-	TestColouredIdentificationConsistency( surf, id, "Neighbour identification (1,2) of tetrahedron and tetrahedron" );
+	TestColouredIdentificationConsistency( colSurf, id, "Neighbour identification (1,2) of tetrahedron and tetrahedron" );
 
 	id := NeighbourIdentification( surf, 4, 2 );
 	if id <> NeighbourIdentification( colSurf, 4, 2) then
 		Error("Can't define tetrahedron neighbour identification (4,2) independent of colour.");
 	fi;
 	TestSimplicialSurfaceIdentificationConsistency( id, "Neighbour identification (4,2) of tetrahedron" );
-	TestColouredIdentificationConsistency( surf, id, "Neighbour identification (4,2) of tetrahedron and tetrahedron" );
+	TestColouredIdentificationConsistency( colSurf, id, "Neighbour identification (4,2) of tetrahedron and tetrahedron" );
 end;
