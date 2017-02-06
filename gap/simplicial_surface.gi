@@ -175,8 +175,10 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 		SetEdgesAttributeOfSimplicialSurface( surf, edges );
 		SetFacesAttributeOfSimplicialSurface( surf, faces );
-		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, edgesByVertices );
-		SetFacesByEdgesAttributeOfSimplicialSurface( surf, facesByEdges );
+		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, 
+								List( edgesByVertices, i -> Set(i) ) );
+		SetFacesByEdgesAttributeOfSimplicialSurface( surf, 
+								List( facesByEdges, i -> Set(i) ) );
 		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
 								List( facesByVerticesOP, i -> Set(i) ) );
 		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );

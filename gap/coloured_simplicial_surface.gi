@@ -791,6 +791,44 @@ InstallMethod( IsSubcolouring, "for two coloured simplicial surfaces",
 	end
 );
 
+
+#############################################################################
+##
+#!  @Description
+#!  Check if two coloured simplicial surfaces are equal. This method is
+#!	sensitive to the labeling.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two coloured simplicial surface objects
+#!
+##
+InstallMethod( \=, "for two coloured simplicial surfaces", IsIdenticalObj, 
+  [ IsColouredSimplicialSurface, IsColouredSimplicialSurface ],
+	function( s1, s2 )
+		# check all basic attributes
+
+		if UnderlyingSimplicialSurface(s1) <> 
+						UnderlyingSimplicialSurface(s2) then
+			return false;
+		fi;
+		if VertexEquivalenceNumbersByElements(s1) <> 
+						VertexEquivalenceNumbersByElements(s2) then
+			return false;
+		fi;
+		if EdgeEquivalenceNumbersByElements(s1) <> 
+						EdgeEquivalenceNumbersByElements(s2) then
+			return false;
+		fi;
+
+		if FaceEquivalenceNumbersByElements(s1) <> 
+						FaceEquivalenceNumbersByElements(s2) then
+			return false;
+		fi;
+
+        return true;
+	end
+);
+
+
 ############################################################################
 ##				START convenience methods
 

@@ -424,7 +424,10 @@ InstallMethod( ExtendByIdentificationNC,
 		ExtendedClassesByNumbers := function(map, classByNumbers, nrByElements)
 			local source, image, newClassByNumbers, nrSource, nrImage;
 
-			newClassByNumbers := StructuralCopy( classByNumbers );
+			# We use a shallow copy to make the list mutable.
+			# We have to take care to never change the elements of this list
+			# directly.
+			newClassByNumbers := ShallowCopy( classByNumbers );
 			for source in AsList( Source( map ) ) do
 				image := ImageElm( map, source );
 				nrSource := nrByElements[source];
@@ -524,7 +527,7 @@ InstallMethod( NeighbourIdentificationNC,
 			vertexImages := Set( List( EdgesByVertices(surface)[edge], 
 											v -> ImageElm( vertexMap, v ) ) );
 			for possEdge in FacesByEdges(surface)[face2] do
-				if vertexImages = EdgesByVertices(surface)[possEdge] then
+				if vertexImages = Set( EdgesByVertices(surface)[possEdge] ) then
 					Append(edgeList, 
 						[ DirectProductElement( [edge, possEdge] ) ] );
 				fi;

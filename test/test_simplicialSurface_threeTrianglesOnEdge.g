@@ -142,7 +142,7 @@ end;
 ##	Test simplicial surface identifications
 ##
 TestThreeTrianglesOnEdgeIdentification := function()
-	local surf, id12, id23, id13, colSurf;
+	local surf, id12, id23, id13, colSurf, exA, exB, exC, exAB, exAC, exBC;
 
 	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[1,2,4],[1,2,5]] );
 	colSurf := ColouredSimplicialSurface( surf );
