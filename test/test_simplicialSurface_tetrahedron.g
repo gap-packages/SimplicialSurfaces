@@ -221,6 +221,12 @@ TestTetrahedronIdentification := function()
 	fi;
 	TestSimplicialSurfaceIdentificationConsistency( id, "Neighbour identification (1,2) of tetrahedron" );
 	TestColouredIdentificationConsistency( colSurf, id, "Neighbour identification (1,2) of tetrahedron and tetrahedron" );
+	if not IsConstantOnIntersection(colSurf, id) then
+		Error("Neighbour identification (1,2) of tetrahedron should be constant on intersection.");
+	fi;
+	if IsApplicableExtension( colSurf, id ) then
+		Error("Neighbour identification (1,2) of tetrahedron should not be applicable.");
+	fi;
 
 	id := NeighbourIdentification( surf, 4, 2 );
 	if id <> NeighbourIdentification( colSurf, 4, 2) then
@@ -228,4 +234,10 @@ TestTetrahedronIdentification := function()
 	fi;
 	TestSimplicialSurfaceIdentificationConsistency( id, "Neighbour identification (4,2) of tetrahedron" );
 	TestColouredIdentificationConsistency( colSurf, id, "Neighbour identification (4,2) of tetrahedron and tetrahedron" );
+	if not IsConstantOnIntersection(colSurf, id) then
+		Error("Neighbour identification (1,2) of tetrahedron should be constant on intersection.");
+	fi;
+	if IsApplicableExtension( colSurf, id ) then
+		Error("Neighbour identification (1,2) of tetrahedron should not be applicable.");
+	fi;
 end;

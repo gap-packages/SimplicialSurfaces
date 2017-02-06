@@ -208,4 +208,28 @@ TestWildJanusHead := function()
 end;
 
 
+##
+##	Test simplicial surface identifications
+##
+TestJanusHeadIdentification := function()
+	local surf, id, colSurf;
 
+	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
+		[[1,2,3],[1,2,3]] );
+	colSurf := ColouredSimplicialSurface( surf );
+
+
+	# Try a definition of neighbour identification
+	id := NeighbourIdentification( surf, 1, 2 );
+	if id <> NeighbourIdentification( colSurf, 1, 2) then
+		Error("Can't define janus head neighbour identification independent of colour.");
+	fi;
+	TestSimplicialSurfaceIdentificationConsistency( id, "Neighbour identification of janus head" );
+	TestColouredIdentificationConsistency( colSurf, id, "Neighbour identification of janus head and janus head" );
+	if not IsConstantOnIntersection(colSurf, id) then
+		Error("Neighbour identification of janus head should be constant on intersection.");
+	fi;
+	if not IsApplicableExtension( colSurf, id ) then
+		Error("Neighbour identification of janus head should be applicable.");
+	fi;
+end;

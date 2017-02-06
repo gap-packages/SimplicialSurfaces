@@ -137,3 +137,76 @@ TestThreeTrianglesOnEdge := function()
 end;
 
 
+
+##
+##	Test simplicial surface identifications
+##
+TestThreeTrianglesOnEdgeIdentification := function()
+	local surf, id12, id23, id13, colSurf;
+
+	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[1,2,4],[1,2,5]] );
+	colSurf := ColouredSimplicialSurface( surf );
+
+
+	# Try a definition of neighbour identification
+	id12 := NeighbourIdentification( surf, 1, 2 );
+	if id12 <> NeighbourIdentification( colSurf, 1, 2) then
+		Error("Can't define three triangles on edge neighbour identification (1,2) independent of colour.");
+	fi;
+	TestSimplicialSurfaceIdentificationConsistency( id12, "Neighbour identification (1,2) of three triangles on edge" );
+	TestColouredIdentificationConsistency( colSurf, id12, "Neighbour identification (1,2) of three triangles on edge and three triangles on edge" );
+	if not IsConstantOnIntersection(colSurf, id12) then
+		Error("Neighbour identification (1,2) of three triangles on edge should be constant on intersection.");
+	fi;
+	if not IsApplicableExtension( colSurf, id12 ) then
+		Error("Neighbour identification (1,2) of three triangles on edge should be applicable.");
+	fi;
+
+
+	id23 := NeighbourIdentification( surf, 2, 3 );
+	if id23 <> NeighbourIdentification( colSurf, 2, 3) then
+		Error("Can't define three triangles on edge neighbour identification (2,3) independent of colour.");
+	fi;
+	TestSimplicialSurfaceIdentificationConsistency( id23, "Neighbour identification (2,3) of three triangles on edge" );
+	TestColouredIdentificationConsistency( colSurf, id23, "Neighbour identification (2,3) of three triangles on edge and three triangles on edge" );
+	if not IsConstantOnIntersection(colSurf, id23) then
+		Error("Neighbour identification (2,3) of three triangles on edge should be constant on intersection.");
+	fi;
+	if not IsApplicableExtension( colSurf, id23 ) then
+		Error("Neighbour identification (2,3) of three triangles on edge should be applicable.");
+	fi;
+
+
+	id13 := NeighbourIdentification( surf, 1, 3 );
+	if id13 <> NeighbourIdentification( colSurf, 1, 3) then
+		Error("Can't define three triangles on edge neighbour identification (1,3) independent of colour.");
+	fi;
+	TestSimplicialSurfaceIdentificationConsistency( id13, "Neighbour identification (1,3) of three triangles on edge" );
+	TestColouredIdentificationConsistency( colSurf, id13, "Neighbour identification (1,3) of three triangles on edge and three triangles on edge" );
+	if not IsConstantOnIntersection(colSurf, id13) then
+		Error("Neighbour identification (1,3) of three triangles on edge should be constant on intersection.");
+	fi;
+	if not IsApplicableExtension( colSurf, id13 ) then
+		Error("Neighbour identification (1,3) of three triangles on edge should be applicable.");
+	fi;
+
+
+	exA := ExtendByIdentification( colSurf, id12 );
+	exB := ExtendByIdentification( colSurf, id23 );
+	exC := ExtendByIdentification( colSurf, id13 );
+
+	exAB := ExtendByIdentification( exA, id23 );
+	exAC := ExtendByIdentification( exA, id13 );
+	exBC := ExtendByIdentification( exB, id13 );
+
+	if IsApplicableExtension( exAB, id13 ) then
+		Error("Neighbour identification (1,3) should not be applicable after extending by (1,2) and (2,3) for three triangles on edge");
+	fi;
+	if IsApplicableExtension( exAC, id23 ) then
+		Error("Neighbour identification (2,3) should not be applicable after extending by (1,3) and (1,2) for three triangles on edge");
+	fi;
+	if IsApplicableExtension( exBC, id12 ) then
+		Error("Neighbour identification (1,2) should not be applicable after extending by (1,3) and (2,3) for three triangles on edge");
+	fi;
+	
+end;

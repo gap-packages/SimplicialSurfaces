@@ -47,6 +47,8 @@ end;
 TestSimplicialSurfaceIdentification := function()
 	TestTwoConnectedTrianglesIdentification();
 	TestTetrahedronIdentification();
+	TestJanusHeadIdentification();
+	TestThreeTrianglesOnEdgeIdentification();
 end;
 
 
