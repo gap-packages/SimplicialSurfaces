@@ -543,6 +543,80 @@ InstallMethod( NeighbourIdentificationNC,
 );
 
 
+InstallOtherMethod( NeighbourIdentification, 
+	"for a coloured simplicial surface and two faces",
+	[IsColouredSimplicialSurface, IsPosInt, IsPosInt],
+	function( surface, face1, face2 )
+		local quotSurf, faceClass1, faceClass2;
+
+		quotSurf := QuotientSimplicialSurface( surface );
+		faceClass1 := FaceEquivalenceNumberOfElement( surface, face1);
+		faceClass2 := FaceEquivalenceNumberOfElement( surface, face2);
+		if faceClass1 in Faces(quotSurf) and faceClass2 in Faces(quotSurf) then
+			return NeighbourIdentificationNC(surface, face1, face2);
+		fi;
+
+		Error("NeighbourIdentification: The given faces have to be faces of the underlying simplicial surface of the given coloured simplicial surface.");
+	end
+);
+InstallOtherMethod( NeighbourIdentificationNC, 
+	"for a coloured simplicial surface and two faces",
+	[IsColouredSimplicialSurface, IsPosInt, IsPosInt],
+	function( surface, face1, face2 )
+		local quotId, uSurf, faceClass1, faceClass2, vertexMap1, vertexMap2, 
+			vertexMap, quotSurf, edgeMap1, edgeMap2, edgeMap, faceMap;
+
+		quotSurf := QuotientSimplicialSurface( surface );
+		faceClass1 := FaceEquivalenceNumberOfElement( surface, face1);
+		faceClass2 := FaceEquivalenceNumberOfElement( surface, face2);
+
+		quotId := NeighbourIdentificationNC( quotSurf, faceClass1, faceClass2 );
+		uSurf := UnderlyingSimplicialSurface( surface );
+		
+		# Construct the vertices by composing with the bijections that we
+		# get if we map a vertex onto its equivalence class
+		vertexMap1 := MappingByFunction( 
+				Domain( FacesByVertices(uSurf)[face1] ),
+				Domain( FacesByVertices(quotSurf)[faceClass1] ),
+				function( x )
+					return VertexEquivalenceNumberOfElement(surface, x);
+				end );
+		vertexMap2 := MappingByFunction( 
+				Domain( FacesByVertices(uSurf)[face2] ),
+				Domain( FacesByVertices(quotSurf)[faceClass2] ),
+				function( x )
+					return VertexEquivalenceNumberOfElement(surface, x);
+				end );
+		vertexMap := CompositionMapping( vertexMap1, VertexMap(quotId), Inverse(vertexMap2) );
+
+
+		# Construct the edges in the same way
+		edgeMap1 := MappingByFunction( 
+				Domain( FacesByEdges(uSurf)[face1] ),
+				Domain( FacesByEdges(quotSurf)[faceClass1] ),
+				function( x )
+					return EdgeEquivalenceNumberOfElement(surface, x);
+				end );
+		edgeMap2 := MappingByFunction( 
+				Domain( FacesByEdges(uSurf)[face2] ),
+				Domain( FacesByEdges(quotSurf)[faceClass2] ),
+				function( x )
+					return EdgeEquivalenceNumberOfElement(surface, x);
+				end );
+		edgeMap := CompositionMapping( edgeMap1, EdgeMap(quotId), Inverse(edgeMap2) );
+
+
+		# Construct the face map (no complications)
+		faceMap := GeneralMappingByElements( 
+				Domain( [face1] ), 
+				Domain( [face2] ),
+				[ DirectProductElement( [face1,face2] ) ] );
+
+		return SimplicialSurfaceIdentificationNC( vertexMap, edgeMap, faceMap );
+	end
+);
+
+
 
 ##
 ##  A method to test whether two simplicial surfaces identifications are equal

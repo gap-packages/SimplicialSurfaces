@@ -203,3 +203,29 @@ TestWildTetrahedron := function()
 	
 end;
 
+
+##
+##	Test simplicial surface identifications
+##
+TestTetrahedronIdentification := function()
+	local surf, name, id, vertexMap, edgeMap, faceMap;
+
+	surf := SimplicialSurfaceByVerticesInFaces( 4,4, [[1,2,3],[1,3,4],[3,2,4],[1,4,2]] );
+	colSurf := ColouredSimplicialSurface( surf );
+
+
+	# Try a definition of neighbour identification
+	id := NeighbourIdentification( surf, 1, 2 );
+	if id <> NeighbourIdentification( colSurf, 1, 2) then
+		Error("Can't define tetrahedron neighbour identification (1,2) independent of colour.");
+	fi;
+	TestSimplicialSurfaceIdentificationConsistency( id, "Neighbour identification (1,2) of tetrahedron" );
+	TestColouredIdentificationConsistency( surf, id, "Neighbour identification (1,2) of tetrahedron and tetrahedron" );
+
+	id := NeighbourIdentification( surf, 4, 2 );
+	if id <> NeighbourIdentification( colSurf, 4, 2) then
+		Error("Can't define tetrahedron neighbour identification (4,2) independent of colour.");
+	fi;
+	TestSimplicialSurfaceIdentificationConsistency( id, "Neighbour identification (4,2) of tetrahedron" );
+	TestColouredIdentificationConsistency( surf, id, "Neighbour identification (4,2) of tetrahedron and tetrahedron" );
+end;

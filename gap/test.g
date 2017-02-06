@@ -46,6 +46,7 @@ end;
 ##	Apply the tests for simplicial surface identifications
 TestSimplicialSurfaceIdentification := function()
 	TestTwoConnectedTrianglesIdentification();
+	TestTetrahedronIdentification();
 end;
 
 
