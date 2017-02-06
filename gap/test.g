@@ -14,6 +14,7 @@ Read("../test/test_simplicialSurface_projectivePlaneFour.g");
 Read("../test/test_simplicialSurface_icosahedron.g");
 Read("../test/test_simplicialSurface_threeTrianglesOnEdge.g");
 Read("../test/test_simplicialSurface_tetrahedronAndProjectivePlane.g");
+Read("../test/test_simplicialSurface_pentagon.g");
 
 
 
@@ -28,6 +29,7 @@ TestSimplicialSurface := function()
 	TestIcosahedron();
 	TestThreeTrianglesOnEdge();
 	TestTetrahedronAndProjectivePlane();
+	TestPentagon();
 end;
 
 
@@ -49,6 +51,7 @@ TestSimplicialSurfaceIdentification := function()
 	TestTetrahedronIdentification();
 	TestJanusHeadIdentification();
 	TestThreeTrianglesOnEdgeIdentification();
+	TestPentagonIdentification();
 end;
 
 
