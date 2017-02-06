@@ -317,6 +317,137 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 end;
 
 
+
+##
+##	Test attributes of simplicial surfaces
+##	vertexNr	number of vertices
+##	edgeNr		number of edges
+##	faceNr		number of faces
+##	isActualSurface		is the simplicial surface an actual surface?
+##	isOrientable		is the simplicial surface orientable?
+##	isConnected			is the simplicial surface connected?
+##	sortDeg		the sorted degrees (vertexByFaces)
+##	vertexSym	the vertex symbol (vertexByEdges)
+##	anomalyClassCount		the number of anomaly classes
+##	isSnippable			does the surface get smaller if we snipp of ears?
+##
+TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin, 
+	vertexNr, edgeNr, faceNr, isActualSurface, isOrientable, isConnected, 
+	sortDeg, vertexSym, anomalyClassCount, isSnippable)
+
+	local conCom, euler;
+
+	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
+
+	if NrOfVertices(surface) <> vertexNr then
+		Print( messageSurfaceOrigin );
+		Print( " does not have " );
+		Print( vertexNr );
+		Print( " vertices.\n");
+	fi;
+	if NrOfEdges(surface) <> edgeNr then
+		Print( messageSurfaceOrigin );
+		Print( " does not have " );
+		Print( edgeNr );
+		Print( " edges.\n");
+	fi;
+	if NrOfFaces(surface) <> faceNr then
+		Print( messageSurfaceOrigin );
+		Print( " does not have " );
+		Print( faceNr );
+		Print( " faces.\n");
+	fi;
+	euler := vertexNr - edgeNr + faceNr;
+	if EulerCharacteristic(surface) <> euler then
+		Print( messageSurfaceOrigin );
+		Print( " does not have Euler-Characteristic " );
+		Print( euler );
+		Print( ".\n");
+	fi;
+
+
+	# actual surface check
+	if IsActualSurface( surface ) <> isActualSurface then
+		Print( messageSurfaceOrigin );
+		if isActualSurface then
+			Print( " must be an actual surface.\n" );
+		else
+			Print( " must not be an actual surface.\n" );
+		fi;
+	fi;
+
+	# orientable check
+	if IsOrientable( surface ) <> isOrientable then
+		Print( messageSurfaceOrigin );
+		if isOrientable then
+			Print( " must be orientable.\n");
+		else
+			Print( " must not be orientable.\n");
+		fi;
+	fi;
+
+	# connected check
+	if IsConnected( surface ) <> isConnected then
+		Print( messageSurfaceOrigin );
+		if isConnected then
+			Print( " must be connected.\n");
+		else
+			Print( " must not be connected.\n");
+		fi;
+	fi;
+	# Check connected components in the most simple case
+	if isConnected then
+		# TODO also test for different orders of function calls
+		conCom := ConnectedComponentsAttributeOfSimplicialSurface( surface );
+		if Length(conCom) <> 1 then
+			Print( messageSurfaceOrigin );
+			Print( " must have exactly one connected component.\n" );
+		fi;
+		if conCom[1] <> surface then
+			Print( messageSurfaceOrigin );
+			Print( " should equal its one connected component.\n");
+		fi;
+	fi;
+
+	# check sorted degrees
+	if SortedDegrees(surface) <> sortDeg then
+		Print( messageSurfaceOrigin );
+		Print( " does not have degrees " );
+		Print( sortDeg );
+		Print( ".\n");
+	fi;
+
+	# check vertex symbol
+	if VertexSymbol(surface) <> vertexSym then
+		Print( messageSurfaceOrigin );
+		Print( " does not have the vertex symbol " );
+		Print( vertexSym );
+		Print( ".\n");
+	fi;
+
+	# check anomaly classes
+	if Length( FaceAnomalyClasses(surface) ) <> anomalyClassCount then
+		Print( messageSurfaceOrigin );
+		Print( " should have exactly " );
+		Print( anomalyClassCount );
+		Print( " face anomaly class(es).\n");
+	fi;
+
+	if isSnippable then
+		if surface = SnippOffEars(surface) then
+			Print( messageSurfaceOrigin );
+			Print( " should be changed by removal of ears.\n");
+		fi;
+	else
+		if surface <> SnippOffEars(surface) then
+			Print( messageSurfaceOrigin );
+			Print( " should not be changed by removal of ears.\n");
+		fi;
+	fi;
+end;
+
+
+
 ##
 ## This method supports the definition of a consistent colouring.
 ##
