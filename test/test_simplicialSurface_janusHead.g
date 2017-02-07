@@ -186,5 +186,11 @@ TestJanusHeadFan := function()
 
 	
 	# Construct some fans with direct reference to the janus head
-	
+	fan := SimplicialSurfaceFanByEdgeInSimplicialSurface( surf, 3 );
+	TestFanAttributes( fan, name, 1, 3, (1,2), [1,2] );
+	TestFanEdge( fan, name, surf, 3, colSurf, 3 );
+
+	fan := SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( colSurf, 2 );
+	TestFanAttributes( fan, name, 2, 3, (1,2), [1,2] );
+	TestFanEdge( fan, name, surf, 2, colSurf, 2 );
 end;
