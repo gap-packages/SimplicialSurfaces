@@ -7,15 +7,15 @@ Read("../test/test_simplicialSurface.g");
 Read("../test/test_colSimpSurf.g");
 Read("../test/test_foldingComplex.g");
 
-Read("../test/test_simplicialSurface_janusHead.g");
-Read("../test/test_simplicialSurface_tetrahedron.g");
-Read("../test/test_simplicialSurface_openTetrahedron.g");
-Read("../test/test_simplicialSurface_twoConTriangles.g");
-Read("../test/test_simplicialSurface_projectivePlaneFour.g");
-Read("../test/test_simplicialSurface_icosahedron.g");
-Read("../test/test_simplicialSurface_threeTrianglesOnEdge.g");
-Read("../test/test_simplicialSurface_tetrahedronAndProjectivePlane.g");
-Read("../test/test_simplicialSurface_pentagon.g");
+Read("../test/test_example_janusHead.g");
+Read("../test/test_example_tetrahedron.g");
+Read("../test/test_example_openTetrahedron.g");
+Read("../test/test_example_twoConTriangles.g");
+Read("../test/test_example_projectivePlaneFour.g");
+Read("../test/test_example_icosahedron.g");
+Read("../test/test_example_threeTrianglesOnEdge.g");
+Read("../test/test_example_tetrahedronAndProjectivePlane.g");
+Read("../test/test_example_pentagon.g");
 
 
 
