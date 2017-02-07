@@ -140,7 +140,7 @@ end;
 TestProjectivePlaneFourFan := function()
 	local surf, colSurf, fan, name, edge;
 
-	surf := ExampleProjectivePlaneFour
+	surf := ExampleProjectivePlaneFour();
 	colSurf := ColouredSimplicialSurface( surf );
 
 	name := "Fan for projective plane with four triangles";
