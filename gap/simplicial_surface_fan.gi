@@ -289,6 +289,10 @@ InstallMethod( ReducedFan,
 		return ReducedFanAttributeOfSimplicialSurfaceFan( fan, set );
 	end
 );
+RedispatchOnCondition( ReducedFanAttributeOfSimplicialSurfaceFanOp, true, 
+	[IsSimplicialSurfaceFan, IsList], [,IsSet], 0 );
+RedispatchOnCondition( ReducedFan, true, [IsSimplicialSurfaceFan, IsList], 
+	[,IsSet], 0 );
 
 
 #############################################################################
