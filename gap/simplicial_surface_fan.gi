@@ -101,7 +101,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 		if Size(faces) = 1 then
 			perm := ();
 		elif Size(faces) = 2 then
-			perm := PermListList( faces, Reversed(faces) );
+			perm := (faces[1], faces[2] );
 		else
 			Error("SimplicialSurfaceFanByEdgeInSimplicialSurface: There have to be at most two faces incident to the given edge.");
 		fi;
@@ -137,7 +137,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInColouredSimplicialSurface,
 		if Size(faces) = 1 then
 			perm := ();
 		elif Size(faces) = 2 then
-			perm := PermListList( faces, Reversed(faces) );
+			perm := (faces[1], faces[2] );
 		else
 			Error("SimplicialSurfaceFanByEdgeInColouredSimplicialSurface: There have to be at most two faces incident to the given edge equivalence class.");
 		fi;
@@ -222,8 +222,8 @@ InstallMethod( InverseOfFanAttributeOfSimplicialSurfaceFan,
 	function( fan )
 		local inv;
 
-		inv := SimplicialSurfaceFan( EndOfFan(fan), BeginOfFan(fan),
-			PermutationOfFan(fan)^(-1) );
+		inv := SimplicialSurfaceFanNC( EndOfFan(fan), BeginOfFan(fan),
+			PermutationOfFan(fan)^(-1) : Corona := CoronaOfFan(fan) );
 
 		# The inverse of the inverse is the original
 		SetInverseOfFanAttributeOfSimplicialSurfaceFan( inv, fan);
@@ -252,7 +252,7 @@ InstallMethod( ReducedFanAttributeOfSimplicialSurfaceFanOp,
 	"for a simplicial surface fan and a subset of its corona", 
 	[IsSimplicialSurfaceFan, IsSet],
 	function( fan, set )
-		local source, image, i, p, el, reduct;
+		local i, oldPerm, newPerm, el, reduct;
 
 		if not IsSubset( CoronaOfFan(fan), set ) then
 			Error("ReducedFan: Given set has to be a subset of the fan-corona.");
@@ -263,20 +263,26 @@ InstallMethod( ReducedFanAttributeOfSimplicialSurfaceFanOp,
 			return fan;
 		fi;
 
-		# Modify the permutation by constructing two lists, source and image
-		source := Filtered( CoronaOfFan(fan), x -> x in set );
-		image := [];
-		for i in [1..Length(source)] do
-			p := source[i];
-			el := p^PermutationOfFan(fan);
-			while not el in set do
-				el := el^PermutationOfFan(fan);
-			od;
-			image[i] := el;
+		# Modify the permutation
+		# The list oldPerm is defined by oldPerm[i] = i^perm
+		oldPerm := ListPerm( PermutationOfFan( fan ) );
+		newPerm := ShallowCopy( oldPerm );
+		for i in [1..Length(oldPerm)] do
+			if i in set then
+				# If i is in set, we apply the permutation until it lies in set again
+				el := i^PermutationOfFan(fan);
+				while not el in set do
+					el := el^PermutationOfFan(fan);
+				od;
+				newPerm[i] := el;
+			else
+				# If i is not in set, it stays fixed
+				newPerm[i] := i;
+			fi;
 		od;
 
 		return SimplicialSurfaceFanNC( BeginOfFan(fan), EndOfFan(fan), 
-			PermListList( source, image): Corona := set );
+			PermList( newPerm ) : Corona := set );
 	end
 );
 InstallMethod( ReducedFan, 
