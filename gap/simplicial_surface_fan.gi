@@ -252,7 +252,7 @@ InstallMethod( ReducedFanAttributeOfSimplicialSurfaceFanOp,
 	"for a simplicial surface fan and a subset of its corona", 
 	[IsSimplicialSurfaceFan, IsSet],
 	function( fan, set )
-		local i, oldPerm, newPerm, el, reduct;
+		local i, newPerm, el, reduct;
 
 		if not IsSubset( CoronaOfFan(fan), set ) then
 			Error("ReducedFan: Given set has to be a subset of the fan-corona.");
@@ -264,10 +264,9 @@ InstallMethod( ReducedFanAttributeOfSimplicialSurfaceFanOp,
 		fi;
 
 		# Modify the permutation
-		# The list oldPerm is defined by oldPerm[i] = i^perm
-		oldPerm := ListPerm( PermutationOfFan( fan ) );
-		newPerm := ShallowCopy( oldPerm );
-		for i in [1..Length(oldPerm)] do
+		# The list newPerm is defined by oldPerm[i] = i^perm
+		newPerm := ListPerm( PermutationOfFan( fan ) );
+		for i in [1..Length(newPerm)] do
 			if i in set then
 				# If i is in set, we apply the permutation until it lies in set again
 				el := i^PermutationOfFan(fan);

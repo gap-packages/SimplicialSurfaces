@@ -159,3 +159,6 @@ TestTetrahedronIdentification := function()
 		Error("Neighbour identification (1,2) of tetrahedron should not be applicable.");
 	fi;
 end;
+
+
+

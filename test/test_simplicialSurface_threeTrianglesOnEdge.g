@@ -151,3 +151,44 @@ TestThreeTrianglesOnEdgeIdentification := function()
 	fi;
 	
 end;
+
+
+
+##
+##	Test simplicial surface fans
+##
+TestThreeTrianglesOnEdgeFan := function()
+	local surf, colSurf, fan, name, edge;
+
+	surf := SimplicialSurfaceByDownwardIncidence( 5, 7, [2,3,4],
+		[ [1,2],[1,3],[2,3],[1,4],[2,4],[1,5],[2,5] ],
+		[ , [1,3,2], [1,4,5], [1,6,7] ] );
+	colSurf := ColouredSimplicialSurface( surf );
+
+	name := "Fan for three triangles on edge";
+
+	# Construct some fans that works
+	fan := SimplicialSurfaceFan( 1, 3, () : Corona := [1] );
+	TestFanAttributes( fan, name, 1, 3, (), [1] );
+	TestFanEdge( fan, name, surf, 2, colSurf, 2 );
+	
+	fan := SimplicialSurfaceFan( 1, 2, (2,3,4) );
+	TestFanAttributes( fan, name, 1, 2, (2,3,4), [2,3,4] );
+	TestFanEdge( fan, name, surf, 1, colSurf, 1 );
+
+	# Construct some fans explicitly that do not work
+	fan := SimplicialSurfaceFan( 1, 2, (4,2) );
+	TestFanAttributes( fan, name, 1, 2, (4,2), [2,4] );
+	TestFanEdge( fan, name, surf, fail, colSurf, fail );
+
+	
+	# Construct some fans with direct reference to the (coloured) simplicial surface
+	fan := SimplicialSurfaceFanByEdgeInSimplicialSurface( surf, 1 );
+	TestFanAttributes( fan, name, 1, 2, (2,3,4), [2,3,4] );
+	TestFanEdge( fan, name, surf, 1, colSurf, 1 );
+
+	fan := SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( colSurf, 5 );
+	TestFanAttributes( fan, name, 2, 4, (), [3] );
+	TestFanEdge( fan, name, surf, 5, colSurf, 5 );
+end;
+

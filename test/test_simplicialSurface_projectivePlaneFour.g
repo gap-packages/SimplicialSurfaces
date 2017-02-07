@@ -3,6 +3,16 @@
 #####		Test a projective plane build from four triangles
 ################################################################################
 ################################################################################
+
+
+ExampleProjectivePlaneFour := function()
+	return SimplicialSurfaceByDownwardIncidence( 3,6,4, 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]]  );
+end;
+
+
+
 TestIsomorphicProjectivePlaneFour := function( surface, messageSurfaceOrigin )
 	local check;
 
@@ -49,9 +59,7 @@ TestProjectivePlaneFour := function()
 
 	name := "Projective plane with four triangles";
 
-	surf := SimplicialSurfaceByDownwardIncidence( 3,6,4, 
-		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
-		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]]  );
+	surf := ExampleProjectivePlaneFour();
 
 	TestIsProjectivePlaneFour( surf, Concatenation(name," definition") );
 
@@ -111,9 +119,7 @@ TestWildProjectivePlaneFour := function()
 
 
 	# First try to extend a simplicial surface
-	surf := SimplicialSurfaceByDownwardIncidence( 3,6,4, 
-		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
-		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]]  );
+	surf := ExampleProjectivePlaneFour();
 	surf := WildSimplicialSurfaceExtension( surf, gens );
 
 	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by extension") );
@@ -125,3 +131,30 @@ TestWildProjectivePlaneFour := function()
 	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by mrType") );
 	
 end;
+
+
+
+##
+##	Test simplicial surface fans
+##
+TestProjectivePlaneFourFan := function()
+	local surf, colSurf, fan, name, edge;
+
+	surf := ExampleProjectivePlaneFour
+	colSurf := ColouredSimplicialSurface( surf );
+
+	name := "Fan for projective plane with four triangles";
+
+	
+	# Construct some fans with direct reference to the (coloured) simplicial surface
+	for edge in Edges(surf) do
+		fan := SimplicialSurfaceFanByEdgeInSimplicialSurface( surf, edge );
+		TestFanEdge( fan, name, surf, edge, colSurf, edge );
+	od;
+
+	for edge in EdgeEquivalenceNumbersAsSet(colSurf) do
+		fan := SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( colSurf, edge );
+		TestFanEdge( fan, name, surf, edge, colSurf, edge );
+	od;
+end;
+

@@ -129,7 +129,7 @@ TestOpenTetrahedronFan := function()
 	local surf, colSurf, fan, name, edge;
 
 	surf := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
-		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]] );;
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]] );
 	colSurf := ColouredSimplicialSurface( surf );
 
 	name := "Fan for open tetrahedron";

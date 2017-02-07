@@ -152,3 +152,27 @@ TestPentagonIdentification := function()
 		Error("Neighbour identification (1,2) should not be applicable after extending pentagon by (2,3) and (4,3).");
 	fi;
 end;
+
+
+##
+##	Test simplicial surface fans
+##
+TestPentagonFan := function()
+	local surf, colSurf, fan, name, edge;
+
+	surf := SimplicialSurfaceByDownwardIncidence( [1,2,3,4,5,10], 10, 5,
+		[ [1,10],[2,10],[3,10],[4,10],[5,10],[1,2],[2,3],[3,4],[4,5],[5,1] ],
+		[ [1,2,6], [2,3,7], [3,4,8], [9,5,4], [10,1,5] ] );
+	colSurf := ColouredSimplicialSurface( surf );
+
+	name := "Fan for pentagon";
+	
+	# Construct some fans with direct reference to the (coloured) simplicial surface
+	fan := SimplicialSurfaceFanByEdgeInSimplicialSurface( surf, 1 );
+	TestFanAttributes( fan, name, 1, 10, (1,5), [1,5] );
+	TestFanEdge( fan, name, surf, 1, colSurf, 1 );
+
+	fan := SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( colSurf, 10 );
+	TestFanAttributes( fan, name, 1, 5, (), [5] );
+	TestFanEdge( fan, name, surf, 10, colSurf, 10 );
+end;
