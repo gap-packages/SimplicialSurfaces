@@ -157,24 +157,52 @@ end;
 ##	Check whether the given fan is the fan of a given simplicial surface (at a
 ##	certain edge), as well as for the coloured variant.
 TestFanEdge := function(fan, messageFanOrigin, surface, edge, colSurf, edgeClass )
+	local wrongEdge;
+
+	# Check whether the correct edge is recognized
 	if EdgeForFanOfSimplicialSurface( surface, fan ) <> edge then
 		Print( messageFanOrigin );
 		Print( " does not belong to edge " );
 		Print( edge );
 		Print( " of the given simplicial surface.\n" );
 	fi;
-	if edge <> fail and not IsEdgeForFanOfSimplicialSurface( surface, fan ) then
+	if edge <> fail and not IsEdgeForFanOfSimplicialSurface( surface, fan, edge ) then
 		Print( messageFanOrigin );
-		Print( " does not belong to any edge of the given simplicial surface.\n" );
+		Print( " does not recognize that it belongs to edge " );
+		Print( edge );
+		Print( " of the given simplicial surface.\n" );
 	fi;
+	# Check whether all other edges are rejected
+	for wrongEdge in Difference( Edges(surface), [edge] ) do
+		if IsEdgeForFanOfSimplicialSurface( surface, fan, wrongEdge ) then
+			Print( messageFanOrigin );
+			Print( " does not reject the edge " );
+			Print( wrongEdge );
+			Print( " of the given simplicial surface.\n" );
+		fi;
+	od;
+
+
+	# Check whether the correct edge class is recognized
 	if EdgeEquivalenceNumberForFanOfColouredSimplicialSurface( colSurf, fan ) <> edgeClass then
 		Print( messageFanOrigin );
 		Print( " does not belong to the edge class " );
 		Print( edgeClass );
 		Print( " of the given coloured simplicial surface.\n" );
 	fi;
-	if edgeClass <> fail and not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface( colSurf, fan ) then
+	if edgeClass <> fail and not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface( colSurf, fan, edgeClass ) then
 		Print( messageFanOrigin );
-		Print( " does not belong to any edge class of the given coloured simplicial surface.\n" );
+		Print( " does not recognize that it belongs to edge class " );
+		Print( edgeClass );
+		Print( " of the given coloured simplicial surface.\n" );
 	fi;
+	# Check whether all other edge classes are rejected
+	for wrongEdge in Difference( EdgeEquivalenceNumbersAsSet(colSurf), [edgeClass] ) do
+		if IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface( colSurf, fan, wrongEdge ) then
+			Print( messageFanOrigin );
+			Print( " does not reject the edge class " );
+			Print( wrongEdge );
+			Print( " of the given coloured simplicial surface.\n" );
+		fi;
+	od;
 end;
