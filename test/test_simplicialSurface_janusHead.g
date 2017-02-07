@@ -152,3 +152,39 @@ TestJanusHeadIdentification := function()
 		Error("Neighbour identification of janus head should be applicable.");
 	fi;
 end;
+
+
+##
+##	Test simplicial surface fans
+##
+TestJanusHeadFan := function()
+	local surf, colSurf, fan, name;
+
+	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
+		[[1,2,3],[1,2,3]] );
+	colSurf := ColouredSimplicialSurface( surf );
+
+	name := "Fan for janus head";
+
+	# Construct one fan explicitly that works
+	fan := SimplicialSurfaceFan( 1, 2, (1,2) : Corona := [1,2] );
+	TestFanAttributes( fan, name, 1, 2, (1,2), [1,2] );
+	TestFanEdge( fan, name, surf, 1, colSurf, 1 );
+	
+	fan := SimplicialSurfaceFan( 3, 2, (1,2) : Corona := [1,2] );
+	TestFanAttributes( fan, name, 3, 2, (1,2), [1,2] );
+	TestFanEdge( fan, name, surf, 2, colSurf, 2 );
+
+	# Construct some fans explicitly that does not work
+	fan := SimplicialSurfaceFan( 1, 2, (1,2) );
+	TestFanAttributes( fan, name, 1, 2, (1,2), [] );
+	TestFanEdge( fan, name, surf, fail, colSurf, fail );
+	
+	fan := SimplicialSurfaceFan( 4, 2, (1,2) : Corona := [1,2] );
+	TestFanAttributes( fan, name, 4, 2, (1,2), [1,2] );
+	TestFanEdge( fan, name, surf, fail, colSurf, fail );
+
+	
+	# Construct some fans with direct reference to the janus head
+	
+end;

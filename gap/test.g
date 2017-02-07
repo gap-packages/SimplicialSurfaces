@@ -56,6 +56,10 @@ TestSimplicialSurfaceIdentification := function()
 end;
 
 
+##	Apply the tests for simplicial surface fans
+TestSimplicialSurfaceFan := function()
+	TestJanusHeadFan();
+end;
 
 
 ##	Apply all tests
@@ -63,4 +67,5 @@ TestAll := function()
 	TestSimplicialSurface();
 	#TestWildSimplicialSurface();
 	TestSimplicialSurfaceIdentification();
+	TestSimplicialSurfaceFan();
 end;

@@ -122,7 +122,7 @@ end;
 TestFanAttributes := function(fan, messageFanOrigin, beginOfFan, endOfFan,
 	permutation, corona)
 
-	TestFanConsistency( surface, messageFanOrigin );
+	TestFanConsistency( fan, messageFanOrigin );
 
 	if BeginOfFan(fan) <> beginOfFan then
 		Print( messageFanOrigin );
@@ -150,5 +150,31 @@ TestFanAttributes := function(fan, messageFanOrigin, beginOfFan, endOfFan,
 		Print( " does not have corona " );
 		Print( corona );
 		Print( ".\n" );
+	fi;
+end;
+
+##
+##	Check whether the given fan is the fan of a given simplicial surface (at a
+##	certain edge), as well as for the coloured variant.
+TestFanEdge := function(fan, messageFanOrigin, surface, edge, colSurf, edgeClass )
+	if EdgeForFanOfSimplicialSurface( surf, fan ) <> edge then
+		Print( messageFanOrigin );
+		Print( " does not belong to edge " );
+		Print( edge );
+		Print( " of the given simplicial surface.\n" );
+	fi;
+	if edge <> fail and not IsEdgeForFanOfSimplicialSurface( surf, fan ) then
+		Print( messageFanOrigin );
+		Print( " does not belong to any edge of the given simplicial surface.\n" );
+	fi;
+	if EdgeEquivalenceNumberForFanOfColouredSimplicialSurface( colSurf, fan ) <> edgeClass then
+		Print( messageFanOrigin );
+		Print( " does not belong to the edge class " );
+		Print( edgeClass );
+		Print( " of the given coloured simplicial surface.\n" );
+	fi;
+	if edgeClass <> fail and not IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface( colSurf, fan ) then
+		Print( messageFanOrigin );
+		Print( " does not belong to any edge class of the given coloured simplicial surface.\n" );
 	fi;
 end;
