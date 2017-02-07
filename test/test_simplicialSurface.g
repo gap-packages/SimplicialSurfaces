@@ -1,4 +1,6 @@
 
+#TODO test names of simplicial surfaces
+
 ##
 ##	Test the general consistency of a simplicial surface.
 ##	

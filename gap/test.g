@@ -5,6 +5,7 @@
 
 Read("../test/test_simplicialSurface.g");
 Read("../test/test_colSimpSurf.g");
+Read("../test/test_foldingComplex.g");
 
 Read("../test/test_simplicialSurface_janusHead.g");
 Read("../test/test_simplicialSurface_tetrahedron.g");
