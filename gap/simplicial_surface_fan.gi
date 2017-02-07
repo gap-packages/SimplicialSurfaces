@@ -36,8 +36,7 @@ SimplicialSurfaceFanType :=
 #!	@Arguments two positive integers, one cyclic permutation
 #!	@Returns a fan
 InstallMethod( SimplicialSurfaceFanNC, 
-	"for two positive integers and a permutation",
-	[IsPosInt, IsPosInt, IsPerm and IsCyclic],
+	"for two positive integers and a permutation", [IsPosInt, IsPosInt, IsPerm],
 	function( start, fin, perm )
 		local fan, corona;
 
@@ -55,16 +54,17 @@ InstallMethod( SimplicialSurfaceFanNC,
 		return fan;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceFanNC, true, 
-	[IsPosInt, IsPosInt, IsPerm], [,,IsCyclic], 0 );
 InstallMethod( SimplicialSurfaceFan, 
-	"for two positive integers and a permutation",
-	[IsPosInt, IsPosInt, IsPerm and IsCyclic],
+	"for two positive integers and a permutation", [IsPosInt, IsPosInt, IsPerm],
 	function( start, fin, perm )
 		local corona;
 
 		if start = fin then
 			Error("SimplicialSurfaceFan: Begin and End have to be different.");
+		fi;
+
+		if Order(perm) <> NrMovedPoints(perm) then
+			Error("SimplicialSurfaceFan: The permutation has to be a cycle." );
 		fi;
 
 		# Check the corona
@@ -78,8 +78,6 @@ InstallMethod( SimplicialSurfaceFan,
 		return SimplicialSurfaceFanNC( start, fin, perm);
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceFan, true, 
-	[IsPosInt, IsPosInt, IsPerm], [,,IsCyclic], 0 );
 
 #!	@Description
 #!	Return the fan of the edge of a simplicial surface. For this to be unique
@@ -204,7 +202,7 @@ InstallMethod( CoronaOfFanAttributeOfSimplicialSurfaceFan,
 	"for a simplicial surface fan", [IsSimplicialSurfaceFan],
 	function( fan )
 		if PermutationOfFan( fan ) <> () then
-			return MovedPoints( fan );
+			return MovedPoints( PermutationOfFan( fan ) );
 		fi;
 		TryNextMethod();
 	end

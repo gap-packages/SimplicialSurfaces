@@ -157,13 +157,13 @@ end;
 ##	Check whether the given fan is the fan of a given simplicial surface (at a
 ##	certain edge), as well as for the coloured variant.
 TestFanEdge := function(fan, messageFanOrigin, surface, edge, colSurf, edgeClass )
-	if EdgeForFanOfSimplicialSurface( surf, fan ) <> edge then
+	if EdgeForFanOfSimplicialSurface( surface, fan ) <> edge then
 		Print( messageFanOrigin );
 		Print( " does not belong to edge " );
 		Print( edge );
 		Print( " of the given simplicial surface.\n" );
 	fi;
-	if edge <> fail and not IsEdgeForFanOfSimplicialSurface( surf, fan ) then
+	if edge <> fail and not IsEdgeForFanOfSimplicialSurface( surface, fan ) then
 		Print( messageFanOrigin );
 		Print( " does not belong to any edge of the given simplicial surface.\n" );
 	fi;

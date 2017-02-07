@@ -50,10 +50,8 @@ SimplicialSurfaceFanFamily :=
 #!	
 #!	@Arguments two positive integers, one cyclic permutation
 #!	@Returns a fan
-DeclareOperation( "SimplicialSurfaceFan", [IsPosInt, IsPosInt, 
-	IsPerm and IsCyclic]);
-DeclareOperation( "SimplicialSurfaceFanNC", [IsPosInt, IsPosInt, 
-	IsPerm and IsCyclic]);
+DeclareOperation( "SimplicialSurfaceFan", [IsPosInt, IsPosInt, IsPerm]);
+DeclareOperation( "SimplicialSurfaceFanNC", [IsPosInt, IsPosInt, IsPerm]);
 
 
 #!	@Description
