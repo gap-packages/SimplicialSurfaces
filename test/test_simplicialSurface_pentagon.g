@@ -21,6 +21,7 @@ end;
 ##	Test whether a simplicial surface is a pentagon.
 ##
 TestIsPentagon := function( surface, messageSurfaceOrigin )
+
 	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
 		6, 		# number of vertices
 		10, 	# number of edges
@@ -35,7 +36,6 @@ TestIsPentagon := function( surface, messageSurfaceOrigin )
 	);
 	
 	TestIsomorphicPentagon( surface, messageSurfaceOrigin );
-	
 end;
 
 

@@ -376,8 +376,8 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 		fi;
 	fi;
 
-	# orientable check
-	if IsOrientable( surface ) <> isOrientable then
+	# orientable check (only makes sense if it is an actual surface)
+	if IsActualSurface(surface) and IsOrientable( surface ) <> isOrientable then
 		Print( messageSurfaceOrigin );
 		if isOrientable then
 			Print( " must be orientable.\n");

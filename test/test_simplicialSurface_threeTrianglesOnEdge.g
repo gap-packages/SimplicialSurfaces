@@ -22,88 +22,20 @@ end;
 ##	exactly one edge in common.
 ##
 TestIsThreeTrianglesOnEdge := function( surface, messageSurfaceOrigin )
-	local conCom, vertexNr, edgeNr, faceNr, euler, sortDeg, vertexSym,
-		anomalyClassCount, snipp;
+	local snipp;
 
-	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
-
-	vertexNr := 5;
-	edgeNr := 7;
-	faceNr := 3;
-
-	if NrOfVertices(surface) <> vertexNr then
-		Print( messageSurfaceOrigin );
-		Print( " does not have " );
-		Print( vertexNr );
-		Print( " vertices.\n");
-	fi;
-	if NrOfEdges(surface) <> edgeNr then
-		Print( messageSurfaceOrigin );
-		Print( " does not have " );
-		Print( edgeNr );
-		Print( " edges.\n");
-	fi;
-	if NrOfFaces(surface) <> faceNr then
-		Print( messageSurfaceOrigin );
-		Print( " does not have " );
-		Print( faceNr );
-		Print( " faces.\n");
-	fi;
-	euler := vertexNr - edgeNr + faceNr;
-	if EulerCharacteristic(surface) <> euler then
-		Print( messageSurfaceOrigin );
-		Print( " does not have Euler-Characteristic " );
-		Print( euler );
-		Print( ".\n");
-	fi;
-
-
-	# Three triangles that have exactly one edge in common are not an actual surface
-	if IsActualSurface( surface ) then
-		Print( messageSurfaceOrigin );
-		Print( " must not be an actual surface.\n" );
-	fi;
-
-	# Three triangles that have exactly one edge in common are connected
-	if not IsConnected( surface ) then
-		Print( messageSurfaceOrigin );
-		Print( " must be connected.\n");
-	fi;
-
-	# TODO also test for different orders of function calls
-	conCom := ConnectedComponentsAttributeOfSimplicialSurface( surface );
-	if Length(conCom) <> 1 then
-		Print( messageSurfaceOrigin );
-		Print( " must have exactly one connected component.\n" );
-	fi;
-	if conCom[1] <> surface then
-		Print( messageSurfaceOrigin );
-		Print( " should equal its one connected component.\n");
-	fi;
-
-	sortDeg := [1,1,1,3,3];
-	if SortedDegrees(surface) <> sortDeg then
-		Print( messageSurfaceOrigin );
-		Print( " does not have degrees " );
-		Print( sortDeg );
-		Print( ".\n");
-	fi;
-
-	vertexSym := [,3,,2];
-	if VertexSymbol(surface) <> vertexSym then
-		Print( messageSurfaceOrigin );
-		Print( " does not have the vertex symbol " );
-		Print( vertexSym );
-		Print( ".\n");
-	fi;
-
-	anomalyClassCount := 3;
-	if Length( FaceAnomalyClasses(surface) ) <> anomalyClassCount then
-		Print( messageSurfaceOrigin );
-		Print( " should have exactly " );
-		Print( anomalyClassCount );
-		Print( " face anomaly class(es).\n");
-	fi;
+	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
+		5, 		# number of vertices
+		7, 	# number of edges
+		3,		# number of faces
+		false,	# is it an actual surface?
+		false,	# is it orientable?
+		true, 	# is it connected?
+		[1,1,1,3,3],		# the sorted degrees
+		[,3,,2],			# the vertex symbol
+		3,		# the number of anomaly classes
+		true	# does ear-removal reduce the surface?
+	);
 
 	snipp := SnippOffEars(surface);
 	if NrOfVertices(snipp) > 0 or NrOfEdges(snipp) > 0 or NrOfFaces(snipp) > 0 then

@@ -26,99 +26,19 @@ end;
 ##	Test whether a simplicial surface is an icosahedron.
 ##
 TestIsIcosahedron := function( surface, messageSurfaceOrigin )
-	local conCom, vertexNr, edgeNr, faceNr, euler, sortDeg, vertexSym,
-		anomalyClassCount;
 
-	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
-
-	vertexNr := 12;
-	edgeNr := 30;
-	faceNr := 20;
-
-	if NrOfVertices(surface) <> vertexNr then
-		Print( messageSurfaceOrigin );
-		Print( " does not have " );
-		Print( vertexNr );
-		Print( " vertices.\n");
-	fi;
-	if NrOfEdges(surface) <> edgeNr then
-		Print( messageSurfaceOrigin );
-		Print( " does not have " );
-		Print( edgeNr );
-		Print( " edges.\n");
-	fi;
-	if NrOfFaces(surface) <> faceNr then
-		Print( messageSurfaceOrigin );
-		Print( " does not have " );
-		Print( faceNr );
-		Print( " faces.\n");
-	fi;
-	euler := vertexNr - edgeNr + faceNr;
-	if EulerCharacteristic(surface) <> euler then
-		Print( messageSurfaceOrigin );
-		Print( " does not have Euler-Characteristic " );
-		Print( euler );
-		Print( ".\n");
-	fi;
-
-
-	# The icosahedron is an actual surface
-	if not IsActualSurface( surface ) then
-		Print( messageSurfaceOrigin );
-		Print( " must be an actual surface.\n" );
-	fi;
-
-	# The icosahedron is orientable
-	if not IsOrientable( surface ) then
-		Print( messageSurfaceOrigin );
-		Print( " must be orientable.\n");
-	fi;
-
-	# The icosahedron is connected
-	if not IsConnected( surface ) then
-		Print( messageSurfaceOrigin );
-		Print( " must be connected.\n");
-	fi;
-
-	# TODO also test for different orders of function calls
-	conCom := ConnectedComponentsAttributeOfSimplicialSurface( surface );
-	if Length(conCom) <> 1 then
-		Print( messageSurfaceOrigin );
-		Print( " must have exactly one connected component.\n" );
-	fi;
-	if conCom[1] <> surface then
-		Print( messageSurfaceOrigin );
-		Print( " should equal its one connected component.\n");
-	fi;
-
-	sortDeg := List([1..12],i->5);
-	if SortedDegrees(surface) <> sortDeg then
-		Print( messageSurfaceOrigin );
-		Print( " does not have degrees " );
-		Print( sortDeg );
-		Print( ".\n");
-	fi;
-
-	vertexSym := [,,,,12];
-	if VertexSymbol(surface) <> vertexSym then
-		Print( messageSurfaceOrigin );
-		Print( " does not have the vertex symbol " );
-		Print( vertexSym );
-		Print( ".\n");
-	fi;
-
-	anomalyClassCount := 20;
-	if Length( FaceAnomalyClasses(surface) ) <> anomalyClassCount then
-		Print( messageSurfaceOrigin );
-		Print( " should have exactly " );
-		Print( anomalyClassCount );
-		Print( " face anomaly class(es).\n");
-	fi;
-
-	if surface <> SnippOffEars(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " should not be changed by removal of ears.\n");
-	fi;
+	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
+		12, 		# number of vertices
+		30, 	# number of edges
+		20,		# number of faces
+		true,	# is it an actual surface?
+		true,	# is it orientable?
+		true, 	# is it connected?
+		List([1..12],i->5),		# the sorted degrees
+		[,,,,12],			# the vertex symbol
+		20,		# the number of anomaly classes
+		false	# does ear-removal reduce the surface?
+	);
 
 	TestIsomorphicIcosahedron( surface, messageSurfaceOrigin );
 	
