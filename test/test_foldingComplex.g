@@ -206,3 +206,92 @@ TestFanEdge := function(fan, messageFanOrigin, surface, edge, colSurf, edgeClass
 		fi;
 	od;
 end;
+
+
+
+
+
+##
+##	Test the consistency of a folding complex
+##	
+TestFoldingComplexConsistency := function( complex, messageOrigin )
+	local altCom, edgeNr, colSurf, faceNr;
+
+	if not IsFoldingComplex(complex) then
+		Print( messageOrigin );
+		Print( " is not a folding complex.\n" );
+	fi;
+
+
+	# Check simplicial surface
+	if UnderlyingSimplicialSurface(complex) <> UnderlyingSimplicialSurfaceAttributeOfFoldingComplex(complex) then
+		Print( messageOrigin );
+		Print( " has inconsistent underlying simplicial surface.\n" );
+	fi;
+
+	# Check coloured simplicial surface
+	if UnderlyingColouredSimplicialSurface(complex) <> UnderlyingCSSAttributeOfFoldingComplex(complex) then
+		Print( messageOrigin );
+		Print( " has inconsistent underlying coloured simplicial surface.\n" );
+	fi;
+	colSurf := UnderlyingColouredSimplicialSurface(complex);
+
+	# Check fans
+	if Fans(complex) <> FansAttributeOfFoldingComplex(complex) then
+		Print( messageOrigin );
+		Print( " has inconsistent fans.\n" );
+	fi;
+	for edgeNr in EdgeEquivalenceNumbersAsSet(colSurf) do
+		if FanOfEdgeEquivalenceClass(complex, edgeNr) <> FanOfEdgeEquivalenceClassNC(complex, edgeNr) then
+			Print( messageOrigin );
+			Print( " has an inconsistent NC-fan at the edge position " );
+			Print( edgeNr );
+			Print( ".\n" );
+		fi;
+		if FanOfEdgeEquivalenceClass(complex, edgeNr) <> Fans(complex)[edgeNr] then
+			Print( messageOrigin );
+			Print( " has an inconsistent fan at the edge position " );
+			Print( edgeNr );
+			Print( ".\n" );
+		fi;
+	od;
+
+	# Check border pieces
+	if BorderPieces(complex) <> BorderPiecesAttributeOfFoldingComplex(complex) then
+		Print( messageOrigin );
+		Print( " has inconsistent border pieces.\n" );
+	fi;
+	for faceNr in FaceEquivalenceNumbersAsSet(colSurf) do
+		if BorderPiecesOfFaceEquivalenceClass(complex, faceNr) <> BorderPiecesOfFaceEquivalenceClassNC(complex, faceNr) then
+			Print( messageOrigin );
+			Print( " has an inconsistent NC-border piece at the face position " );
+			Print( faceNr );
+			Print( ".\n" );
+		fi;
+		if BorderPiecesOfFaceEquivalenceClass(complex, faceNr) <> BorderPieces(complex)[faceNr] then
+			Print( messageOrigin );
+			Print( " has an inconsistent border piece at the face position " );
+			Print( faceNr );
+			Print( ".\n" );
+		fi;
+	od;
+
+	# Check constructor by fans and border pieces
+	altCom := FoldingComplexByFansAndBorders( 
+				UnderlyingColouredSimplicialSurface(complex), 
+				Fans(complex), BorderPieces(complex) );
+	if complex <> altCom then
+		Print( messageOrigin );
+		Print( " is not defined by fans and borders.\n");
+	fi;
+
+	# Check orientation covering
+	if OrientationCovering(complex) <> OrientationCoveringAttributeOfFoldingComplex(complex) then
+		Print( messageOrigin );
+		Print( " has inconsistent orientation covering.\n" );
+	fi;
+	if not IsSimplicialSurface( OrientationCovering(complex) ) then
+		Print( messageOrigin );
+		Print( " has an orientation covering that is not a simplicial surface.\n" );
+	fi;
+end;
