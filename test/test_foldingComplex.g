@@ -1,4 +1,3 @@
-
 ##
 ##	Test the consistency of a simplicial surface fan
 ##	
@@ -110,4 +109,46 @@ TestFanConsistency := function( fan, messageFanOrigin )
 			Print( ".\n" );
 		fi;	
 	od;
+end;
+
+
+##
+##	Test attributes of simplicial surface fans
+##	beginOfFan		BeginOfFan
+##	endOfFan			EndOfFan
+##	permutation		PermutationOfFan
+##	corona		CoronaOfFan
+##
+TestFanAttributes := function(fan, messageFanOrigin, beginOfFan, endOfFan,
+	permutation, corona)
+
+	TestFanConsistency( surface, messageFanOrigin );
+
+	if BeginOfFan(fan) <> beginOfFan then
+		Print( messageFanOrigin );
+		Print( " does not have Begin " );
+		Print( beginOfFan );
+		Print( ".\n" );
+	fi;
+
+	if EndOfFan(fan) <> endOfFan then
+		Print( messageFanOrigin );
+		Print( " does not have End " );
+		Print( endOfFan );
+		Print( ".\n" );
+	fi;
+
+	if PermutationOfFan(fan) <> permutation then
+		Print( messageFanOrigin );
+		Print( " does not have permutation " );
+		Print( permutation );
+		Print( ".\n" );
+	fi;
+
+	if CoronaOfFan(fan) <> corona then
+		Print( messageFanOrigin );
+		Print( " does not have corona " );
+		Print( corona );
+		Print( ".\n" );
+	fi;
 end;

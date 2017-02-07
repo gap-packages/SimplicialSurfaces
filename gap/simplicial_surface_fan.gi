@@ -508,6 +508,53 @@ InstallOtherMethod( FaceNameInducedByFan,
 	end
 );
 
+#############################################################################
+##
+#!  @Description
+#!  Check if two simplicial surface fans are equal.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two simplicial surface fan objects
+#!
+##
+InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj, 
+  [ IsSimplicialSurfaceFan, IsSimplicialSurfaceFan ],
+	function( s1, s2 )
+		# check all basic attributes
+
+		if BeginOfFan(s1) <> BeginOfFan(s2) then
+			return false;
+		fi;
+		if EndOfFan(s1) <> EndOfFan(s2) then
+			return false;
+		fi;
+		if PermutationOfFan(s1) <> PermutationOfFan(s2) then
+			return false;
+		fi;
+
+		if CoronaOfFan(s1) <> CoronaOfFan(s2) then
+			return false;
+		fi;
+
+        return true;
+	end
+);
+
+
+#############################################################################
+##
+##  A Print method for simplicial surface fans
+##
+InstallMethod( PrintObj, "for simplicial surface fans", 
+	[ IsSimplicialSurfaceFan ],
+	function(fan)
+
+        Print("SimplicialSurfaceFanNC( ");
+        Print( BeginOfFan(fan), ", ");
+        Print( EndOfFan(fan), ", ");
+        Print( PermutationOfFan(fan), " : Corona := ");
+        Print( CoronaOfFan(fan), " );\n");
+	end
+);
 
 #
 ###  This program is free software: you can redistribute it and/or modify
