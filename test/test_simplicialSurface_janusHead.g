@@ -5,6 +5,14 @@
 ################################################################################
 
 
+##
+##	Generate an example janus head as a simplicial surface
+##
+ExampleJanusHead := function()
+	return SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
+		[[1,2,3],[1,2,3]] );
+end;
+
 
 TestIsomorphicJanus := function( surface, messageSurfaceOrigin )
 	local check;
@@ -52,8 +60,7 @@ TestJanusHead := function()
 
 	name := "Janus head";
 
-	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
-		[[1,2,3],[1,2,3]] );
+	surf := ExampleJanusHead();
 
 	TestIsJanusHead( surf, Concatenation(name," definition") );
 
@@ -112,8 +119,7 @@ TestWildJanusHead := function()
 
 
 	# First try to extend a simplicial surface
-	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
-		[[1,2,3],[1,2,3]] );
+	surf := ExampleJanusHead();
 	surf := WildSimplicialSurfaceExtension( surf, gens );
 
 	TestIsWildJanusHead( surf, Concatenation(name," by extension") );
@@ -133,8 +139,7 @@ end;
 TestJanusHeadIdentification := function()
 	local surf, id, colSurf;
 
-	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
-		[[1,2,3],[1,2,3]] );
+	surf := ExampleJanusHead();
 	colSurf := ColouredSimplicialSurface( surf );
 
 
@@ -160,8 +165,7 @@ end;
 TestJanusHeadFan := function()
 	local surf, colSurf, fan, name;
 
-	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
-		[[1,2,3],[1,2,3]] );
+	surf := ExampleJanusHead();
 	colSurf := ColouredSimplicialSurface( surf );
 
 	name := "Fan for janus head";
@@ -185,7 +189,7 @@ TestJanusHeadFan := function()
 	TestFanEdge( fan, name, surf, fail, colSurf, fail );
 
 	
-	# Construct some fans with direct reference to the janus head
+	# Construct some fans with direct reference to the (coloured) simplicial surface
 	fan := SimplicialSurfaceFanByEdgeInSimplicialSurface( surf, 3 );
 	TestFanAttributes( fan, name, 1, 3, (1,2), [1,2] );
 	TestFanEdge( fan, name, surf, 3, colSurf, 3 );

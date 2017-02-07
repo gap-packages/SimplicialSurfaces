@@ -59,6 +59,7 @@ end;
 ##	Apply the tests for simplicial surface fans
 TestSimplicialSurfaceFan := function()
 	TestJanusHeadFan();
+	TestIcosahedronFan();
 end;
 
 

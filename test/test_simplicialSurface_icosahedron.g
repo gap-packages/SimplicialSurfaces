@@ -5,6 +5,25 @@
 ################################################################################
 
 
+##
+##	Generate an example icosahedron as a simplicial surface
+##
+ExampleIcosahedron := function()
+	return SimplicialSurfaceByDownwardIncidence( 12,30, 20, 
+		[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], 
+			[ 1, 5 ], [ 4, 5 ], [ 5, 6 ], [ 1, 6 ], [ 3, 6 ], 
+			[ 2, 7 ], [ 3, 7 ], [ 2, 8 ], [ 4, 8 ], [ 4, 9 ], 
+			[ 5, 9 ], [ 5, 10 ], [ 6, 10 ], [ 6, 11 ], [ 3, 11 ], 
+			[ 7, 8 ], [ 8, 9 ], [ 9, 10 ], [ 10, 11 ], [ 7, 11 ], 
+			[ 8, 12 ], [ 7, 12 ], [ 9, 12 ], [ 10, 12 ], [ 11, 12 ] ],
+		[ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 4, 6, 7 ], [ 6, 8, 9 ], 
+			[ 2, 9, 10 ], [ 3, 11, 12 ], [ 5, 13, 14 ], [ 7, 15, 16 ], 
+			[ 8, 17, 18 ], [ 10, 19, 20 ], [ 11, 13, 21 ], [ 14, 15, 22 ], 
+			[ 16, 17, 23 ], [ 18, 19, 24 ], [ 12, 20, 25 ], [ 21, 26, 27 ],
+	        [ 22, 26, 28 ], [ 23, 28, 29 ], [ 24, 29, 30 ], [ 25, 27, 30 ] ] );
+end;
+
+
 TestIsomorphicIcosahedron := function( surface, messageSurfaceOrigin )
 	local check;
 
@@ -55,18 +74,7 @@ TestIcosahedron := function()
 
 	name := "Icosahedron";
 
-	surf := SimplicialSurfaceByDownwardIncidence( 12,30, 20, 
-		[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 4 ], [ 2, 4 ], 
-			[ 1, 5 ], [ 4, 5 ], [ 5, 6 ], [ 1, 6 ], [ 3, 6 ], 
-			[ 2, 7 ], [ 3, 7 ], [ 2, 8 ], [ 4, 8 ], [ 4, 9 ], 
-			[ 5, 9 ], [ 5, 10 ], [ 6, 10 ], [ 6, 11 ], [ 3, 11 ], 
-			[ 7, 8 ], [ 8, 9 ], [ 9, 10 ], [ 10, 11 ], [ 7, 11 ], 
-			[ 8, 12 ], [ 7, 12 ], [ 9, 12 ], [ 10, 12 ], [ 11, 12 ] ],
-		[ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 4, 6, 7 ], [ 6, 8, 9 ], 
-			[ 2, 9, 10 ], [ 3, 11, 12 ], [ 5, 13, 14 ], [ 7, 15, 16 ], 
-			[ 8, 17, 18 ], [ 10, 19, 20 ], [ 11, 13, 21 ], [ 14, 15, 22 ], 
-			[ 16, 17, 23 ], [ 18, 19, 24 ], [ 12, 20, 25 ], [ 21, 26, 27 ],
-	        [ 22, 26, 28 ], [ 23, 28, 29 ], [ 24, 29, 30 ], [ 25, 27, 30 ] ] );
+	surf := ExampleIcosahedron();
 
 
 	TestIsIcosahedron( surf, Concatenation(name," definition") );
@@ -76,6 +84,29 @@ TestIcosahedron := function()
 		ColouredSimplicialSurface( surf ), 
 		Concatenation(name," as coloured simplicial surface") );
 
+end;
+
+
+##
+##	Test simplicial surface fans
+##
+TestIcosahedronFan := function()
+	local surf, colSurf, fan, name, edge;
+
+	surf := ExampleIcosahedron();
+	colSurf := ColouredSimplicialSurface( surf );
+
+	name := "Fan for icosahedron";
+
+	
+	# Construct some fans with direct reference to the (coloured) simplicial surface
+	edge := 15;
+	fan := SimplicialSurfaceFanByEdgeInSimplicialSurface( surf, edge );
+	TestFanEdge( fan, name, surf, edge, colSurf, edge );
+
+	edge := 22;
+	fan := SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( colSurf, edge );
+	TestFanEdge( fan, name, surf, edge, colSurf, edge );
 end;
 
 
