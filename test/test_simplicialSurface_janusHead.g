@@ -171,16 +171,16 @@ TestJanusHeadFan := function()
 	TestFanAttributes( fan, name, 1, 2, (1,2), [1,2] );
 	TestFanEdge( fan, name, surf, 1, colSurf, 1 );
 	
-	fan := SimplicialSurfaceFan( 3, 2, (1,2) : Corona := [1,2] );
+	fan := SimplicialSurfaceFan( 3, 2, (1,2) );
 	TestFanAttributes( fan, name, 3, 2, (1,2), [1,2] );
 	TestFanEdge( fan, name, surf, 2, colSurf, 2 );
 
-	# Construct some fans explicitly that does not work
-	fan := SimplicialSurfaceFan( 1, 2, (1,2) );
-	TestFanAttributes( fan, name, 1, 2, (1,2), [] );
+	# Construct some fans explicitly that do not work
+	fan := SimplicialSurfaceFan( 1, 2, (1,3) );
+	TestFanAttributes( fan, name, 1, 2, (1,3), [1,3] );
 	TestFanEdge( fan, name, surf, fail, colSurf, fail );
 	
-	fan := SimplicialSurfaceFan( 4, 2, (1,2) : Corona := [1,2] );
+	fan := SimplicialSurfaceFan( 4, 2, (1,2) );
 	TestFanAttributes( fan, name, 4, 2, (1,2), [1,2] );
 	TestFanEdge( fan, name, surf, fail, colSurf, fail );
 
