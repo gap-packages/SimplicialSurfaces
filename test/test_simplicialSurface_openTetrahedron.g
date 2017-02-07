@@ -121,3 +121,41 @@ TestWildOpenTetrahedron := function()
 	
 end;
 
+
+##
+##	Test simplicial surface fans
+##
+TestOpenTetrahedronFan := function()
+	local surf, colSurf, fan, name, edge;
+
+	surf := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]] );;
+	colSurf := ColouredSimplicialSurface( surf );
+
+	name := "Fan for open tetrahedron";
+
+	# Construct one fan explicitly that works
+	fan := SimplicialSurfaceFan( 1, 2, () : Corona := [1] );
+	TestFanAttributes( fan, name, 1, 2, (), [1] );
+	TestFanEdge( fan, name, surf, 2, colSurf, 2 );
+	
+	fan := SimplicialSurfaceFan( 4, 2, (1,3) );
+	TestFanAttributes( fan, name, 4, 2, (1,3), [1,3] );
+	TestFanEdge( fan, name, surf, 3, colSurf, 3 );
+
+	# Construct some fans explicitly that do not work
+	fan := SimplicialSurfaceFan( 1, 2, () );
+	TestFanAttributes( fan, name, 1, 2, (), [] );
+	TestFanEdge( fan, name, surf, fail, colSurf, fail );
+
+	
+	# Construct some fans with direct reference to the (coloured) simplicial surface
+	fan := SimplicialSurfaceFanByEdgeInSimplicialSurface( surf, 6 );
+	TestFanAttributes( fan, name, 1, 3, (), [2] );
+	TestFanEdge( fan, name, surf, 6, colSurf, 6 );
+
+	fan := SimplicialSurfaceFanByEdgeInColouredSimplicialSurface( colSurf, 5 );
+	TestFanAttributes( fan, name, 3, 4, (3,2), [2,3] );
+	TestFanEdge( fan, name, surf, 5, colSurf, 5 );
+end;
+

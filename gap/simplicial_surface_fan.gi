@@ -63,7 +63,7 @@ InstallMethod( SimplicialSurfaceFan,
 			Error("SimplicialSurfaceFan: Begin and End have to be different.");
 		fi;
 
-		if Order(perm) <> NrMovedPoints(perm) then
+		if perm <> () and Order(perm) <> NrMovedPoints(perm) then
 			Error("SimplicialSurfaceFan: The permutation has to be a cycle." );
 		fi;
 
@@ -201,10 +201,7 @@ InstallMethod( PermutationOfFan, "for a simplicial surface fan",
 InstallMethod( CoronaOfFanAttributeOfSimplicialSurfaceFan,
 	"for a simplicial surface fan", [IsSimplicialSurfaceFan],
 	function( fan )
-		if PermutationOfFan( fan ) <> () then
-			return MovedPoints( PermutationOfFan( fan ) );
-		fi;
-		TryNextMethod();
+		return MovedPoints( PermutationOfFan( fan ) );
 	end
 );
 InstallMethod( CoronaOfFan, "for a simplicial surface fan", 

@@ -60,6 +60,7 @@ end;
 TestSimplicialSurfaceFan := function()
 	TestJanusHeadFan();
 	TestIcosahedronFan();
+	TestOpenTetrahedronFan();
 end;
 
 
