@@ -197,12 +197,37 @@ end;
 ##	Test this example as a folding complex
 ##
 TestFoldingComplexThreeTrianglesOnEdge := function()
-	local surf;
+	local surf, i, fan, complex, name;
 
 	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[1,2,4],[1,2,5]] );
 	# The oriented faces +1 and -2 are opposite, as well as +2 and -3. Finally
 	# +3 and -1 are opposites of each other. The natural direction that is
 	# defined by the edge [1,2] leads to the cycle of faces (1,2,3).
+
+	# Define the central fan
+	fan := SimplicialSurfaceFan( 1, 2, (1,2,3) );
+	
+	# Construct the folding complex
+	complex := FoldingComplexByFans( surf, [fan] ); # relies on the fact that this is the first edge
+	name := "Folding complex of three triangles on edge";
+	TestFoldingComplexConsistency( complex, name );
+	
+	# Check the orientation of the fan
+	for i in Faces(surf) do
+		if FaceOrientationInducedByFan( UnderlyingColouredSimplicialSurface( complex ), fan, i ) <> +1 then
+			Error("Fan does not recognize correct face orientation.");
+		fi;
+		if FaceOrientationInducedByFan( UnderlyingColouredSimplicialSurface( complex ), InverseOfFan(fan), i ) <> -1 then
+			Error("Fan does not recognize inverted correct face orientation.");
+		fi;
+
+		if FaceNameInducedByFan( UnderlyingColouredSimplicialSurface( complex ), fan, i ) <> +i then
+			Error("Fan does not recognize correct face name.");
+		fi;
+		if FaceNameInducedByFan( UnderlyingColouredSimplicialSurface( complex ), InverseOfFan(fan), i ) <> -i then
+			Error("Fan does not recognize inverted correct face name.");
+		fi;
+	od;
 	
 end;
 
