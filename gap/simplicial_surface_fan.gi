@@ -496,8 +496,8 @@ InstallMethod( FaceNameInducedByFan,
 		local side, faceNames;
 
 		side := FaceOrientationInducedByFan( surface, fan, face);
-		faceNames := NamesOfFaces( UnderlyingSimplicialSurface( surface ) );
-		return faceNames[ 0.5 * ( 3 - side ) ]; # 1 -> 1, -1 -> 2
+		faceNames := NamesOfFace( UnderlyingSimplicialSurface( surface ), face );
+		return faceNames[ 1/2 * ( 3 - side ) ]; # 1 -> 1, -1 -> 2 (has to stay integer, not float!)
 	end
 );
 InstallOtherMethod( FaceNameInducedByFan, 
@@ -507,8 +507,8 @@ InstallOtherMethod( FaceNameInducedByFan,
 		local side, faceNames;
 
 		side := FaceOrientationInducedByFan( surface, fan, face);
-		faceNames := NamesOfFaces( surface );
-		return faceNames[ 0.5 * ( 3 - side ) ]; # 1 -> 1, -1 -> 2
+		faceNames := NamesOfFace( surface, face );
+		return faceNames[ 1/2 * ( 3 - side ) ]; # 1 -> 1, -1 -> 2 (has to stay integer, not float!)
 	end
 );
 

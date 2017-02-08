@@ -69,11 +69,8 @@ end;
 ##	Furthermore, we need methods to check if fans and border pieces fit
 ##	together. First we check whether the fans of two edge classes are
 ##	compatible (see definition 3.18)
-__SIMPLICIAL_AreFansCompatible := function( complex, edge1, edge2 )
-	local fan1, fan2, corInt, red1, red2, sur1, sur2;
-
-	fan1 := Fans(complex)[edge1];
-	fan2 := Fans(complex)[edge2];
+__SIMPLICIAL_AreFansCompatible := function( complex, fan1, fan2 )
+	local corInt, red1, red2, sur1, sur2;
 
 	# First we calculate the intersection between the coronae
 	corInt := Intersection( CoronaOfFan(fan1), CoronaOfFan(fan2) );
@@ -96,9 +93,9 @@ __SIMPLICIAL_AreFansCompatible := function( complex, edge1, edge2 )
 	sur2 := FaceOrientationInducedByFan( 
 			UnderlyingColouredSimplicialSurface(complex), fan2, corInt[1] );
 	if sur1 = sur2 then
-		return PermutationOfFan(fan1) = PermutationOfFan(fan2);
+		return PermutationOfFan(red1) = PermutationOfFan(red2);
 	else
-		return PermutationOfFan(fan1) = PermutationOfFan( InverseOfFan(fan2) );
+		return PermutationOfFan(red1) = PermutationOfFan( InverseOfFan(red2) );
 	fi;
 end;
 
@@ -120,7 +117,7 @@ __SIMPLICIAL_AreBorderPiecesComplementary := function( complex, edge )
 								FaceEquivalenceNumberOfElement(colSurf, f) ) );
 	
 	# Find all border pieces that are adjacent to the fan
-	borders := Set( List( faceNumbers, n -> BorderPieces(complex)[n] ) );
+	borders := Union( Set( List( faceNumbers, n -> BorderPieces(complex)[n] ) ) );
 
 	# Check whether the border pieces fall into complementary pairs
 	surface := UnderlyingSimplicialSurface( complex );
@@ -396,8 +393,8 @@ InstallMethod( FoldingComplexByFansAndBorders,
 				fi;
 				# Check if the borders are possible
 				faceClass := FaceEquivalenceClassByNumber(surface, faceClassNr);
-				possBorders := Union( faceClass, f -> NamesOfFace( 
-					UnderlyingSimplicialSurface( surface ), f ) );
+				possBorders := Union( List( faceClass, f -> NamesOfFace( 
+					UnderlyingSimplicialSurface( surface ), f ) ) );
 				if not IsSubset( possBorders, borders ) then
 					Error("FoldingComplexByFansAndBorders: Some borders are incompatible with this coloured simplicial suface.");
 				fi;
@@ -635,7 +632,7 @@ InstallMethod( ComplementaryOrientedFace,
 	[IsFoldingComplex, IsPosInt, IsInt],
 	function( complex, edgeNr, orFaceNr )
 		return ComplementaryOrientedFaceAttributeOfFoldingComplex(complex, 
-															edgeNr, orFaceNr);
+															[edgeNr, orFaceNr]);
 	end
 );
 InstallMethod( ComplementaryOrientedFaceAttributeOfFoldingComplexOp, 
