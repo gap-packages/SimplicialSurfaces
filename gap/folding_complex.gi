@@ -563,6 +563,11 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 			Action := function( face, edge )
 				local newFace, newBorder;
 
+				# if the edge does not lie in the face, it acts trivial
+				if not edge in FacesByEdges(quotSurf)[face[1]] then
+					return face;
+				fi;
+
 				newBorder := ComplementaryOrientedFace(complex, edge, face[2] );
 				newFace := FaceEquivalenceNumberOfElement( colSurf, 
 											FaceByName( surface, newBorder) );
