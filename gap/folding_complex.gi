@@ -780,6 +780,36 @@ InstallMethod( ApplyFanToOrientedFace,
 );
 
 
+
+#############################################################################
+##
+#!  @Description
+#!  Check if two folding complexes are equal.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two folding complex objects
+#!
+##
+InstallMethod( \=, "for two folding complexes", IsIdenticalObj, 
+  [ IsFoldingComplex, IsFoldingComplex ],
+	function( s1, s2 )
+		# check all basic attributes
+
+		if UnderlyingColouredSimplicialSurface(s1) <> 
+					UnderlyingColouredSimplicialSurface(s2) then
+			return false;
+		fi;
+		if Fans(s1) <> Fans(s2) then
+			return false;
+		fi;
+		if BorderPieces(s1) <> BorderPieces(s2) then
+			return false;
+		fi;
+
+        return true;
+	end
+);
+
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
