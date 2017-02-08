@@ -192,3 +192,17 @@ TestThreeTrianglesOnEdgeFan := function()
 	TestFanEdge( fan, name, surf, 5, colSurf, 5 );
 end;
 
+
+##
+##	Test this example as a folding complex
+##
+TestFoldingComplexThreeTrianglesOnEdge := function()
+	local surf;
+
+	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[1,2,4],[1,2,5]] );
+	# The oriented faces +1 and -2 are opposite, as well as +2 and -3. Finally
+	# +3 and -1 are opposites of each other. The natural direction that is
+	# defined by the edge [1,2] leads to the cycle of faces (1,2,3).
+	
+end;
+

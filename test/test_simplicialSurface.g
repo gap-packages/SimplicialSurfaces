@@ -5,7 +5,7 @@
 ##	Test the general consistency of a simplicial surface.
 ##	
 TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
-	local i, degrees, graph;
+	local i, degrees, graph, name;
 
 	if not IsSimplicialSurface( surface ) then
 		Print( messageSurfaceOrigin );
@@ -274,6 +274,42 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	if NamesOfFaces(surface) <> NamesOfFacesAttributeOfSimplicialSurface(surface) then
 		Print( messageSurfaceOrigin );
 		Print( " has inconsistent names of faces.\n");
+	fi;
+	for i in Faces(surface) do
+		if NamesOfFaces(surface)[i] <> NamesOfFace(surface, i) then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent face name for face " );
+			Print( i );
+			Print( ".\n" );
+		fi;
+		if NamesOfFace(surface,i) <> NamesOfFaceNC(surface,i) then
+			Print( messageSurfaceOrigin );
+			Print( " has inconsistent NC-face name for face " );
+			Print( i );
+			Print( ".\n" );
+		fi;
+		for name in NamesOfFace(surface,i) do
+			if FaceByName(surface,name) <> i then
+				Print( messageSurfaceOrigin );
+				Print( " can't find face " );
+				Print( i );
+				Print( " with its name " );
+				Print( name );
+				Print( ".\n" );
+			fi;
+		od;
+	od;
+	if IsFaceNamesDefault(surface) then
+		for i in Faces(surface) do
+			if [i,-i] <> NamesOfFaces(surface)[i] then
+				Print( messageSurfaceOrigin );
+				Print( " does not respect the default face naming convention for face ");
+				Print( i );
+				Print( " and gives their names as " );
+				Print( NamesOfFaces(surface)[i] );
+				Print( ".\n" );
+			fi;
+		od;
 	fi;
 
 	# Test face anomaly classes

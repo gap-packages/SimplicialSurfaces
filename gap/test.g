@@ -67,10 +67,17 @@ TestSimplicialSurfaceFan := function()
 end;
 
 
+##	Apply the tests for folding complexes
+TestFoldingComplex := function()
+	TestFoldingComplexThreeTrianglesOnEdge();
+end;
+
+
 ##	Apply all tests
 TestAll := function()
 	TestSimplicialSurface();
 	#TestWildSimplicialSurface();
 	TestSimplicialSurfaceIdentification();
 	TestSimplicialSurfaceFan();
+	TestFoldingComplex();
 end;
