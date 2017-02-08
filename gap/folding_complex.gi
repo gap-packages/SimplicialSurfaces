@@ -782,7 +782,7 @@ InstallMethod( ApplyFanToOrientedFace,
 		fi;
 
 		# The oriented face is checked automatically if FaceByName is called
-		return ApplyFanToOrientedFace( complex, edgeClassNr, orFace );
+		return ApplyFanToOrientedFaceNC( complex, edgeClassNr, orFace );
 	end
 );
 

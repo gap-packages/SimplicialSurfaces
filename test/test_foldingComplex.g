@@ -215,7 +215,7 @@ end;
 ##	Test the consistency of a folding complex
 ##	
 TestFoldingComplexConsistency := function( complex, messageOrigin )
-	local altCom, edgeNr, colSurf, faceNr;
+	local altCom, edgeNr, colSurf, faceNr, face, name, faces, edge, faceClasses;
 
 	if not IsFoldingComplex(complex) then
 		Print( messageOrigin );
@@ -254,6 +254,22 @@ TestFoldingComplexConsistency := function( complex, messageOrigin )
 			Print( edgeNr );
 			Print( ".\n" );
 		fi;
+	od;
+	for edge in EdgeEquivalenceNumbersAsSet(colSurf) do
+		faceClasses := EdgesByFaces( QuotientSimplicialSurface(colSurf) )[edge];
+		faces := Union( List(faceClasses, nr -> FaceEquivalenceClassByNumber( colSurf, nr ) ));
+		for face in faces do
+			for name in NamesOfFace( UnderlyingSimplicialSurface(complex), face ) do
+				if ApplyFanToOrientedFace(complex,edge,name) <> ApplyFanToOrientedFaceNC(complex,edge,name) then
+					Print( messageOrigin );
+					Print( " has an inconsistent application of fan at edge " );
+					Print( edge );
+					Print( " to the oriented face " );
+					Print( name );
+					Print( ".\n" );
+				fi;
+			od;
+		od;
 	od;
 
 	# Check border pieces

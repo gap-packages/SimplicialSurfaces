@@ -200,7 +200,8 @@ DeclareOperation( "BorderPiecesOfFaceEquivalenceClassNC",
 #!	class!) under this cycle.
 #!	The NC-version doesn't check if the given numbers refer to an oriented
 #!	face and an edge equivalence class.
-#!	@Arguments a folding complex, an integer and a positive integer
+#!	@Arguments a folding complex, a positive integer (edge class) and an 
+#!		integer (the oriented face name)
 #!	@Returns a positive integer
 DeclareOperation( "ApplyFanToOrientedFace", 
 		[IsFoldingComplex, IsPosInt, IsInt] );
