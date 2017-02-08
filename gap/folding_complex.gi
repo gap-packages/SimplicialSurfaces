@@ -554,7 +554,7 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 		# construction). The new vertices are the orbits of that operation.
 		# (first entry vertex class number, second entry the orbit)
 		VertexOrbits := function( vertexNr )
-			local Action, edges, freeGrp, orFaces, gens;
+			local Action, edges, freeGrp, orFaces, gens, orbs;
 
 			edges := VerticesByEdges(quotSurf)[vertexNr];
 			orFaces := Filtered( newFaces, f -> 
@@ -581,12 +581,14 @@ InstallMethod( OrientationCoveringAttributeOfFoldingComplex,
 
 			# We use the extended orbit call to emulate the free group which
 			# is defined from the edge actions
-			return Orbits( freeGrp, newFaces, gens, edges, Action);
+			orbs := Orbits( freeGrp, orFaces, gens, edges, Action);
+
+			return List( orbs, orbit -> 
+						[vertexNr, Set(List(orbit, el -> el[2] )) ] );
 		end;
 
 		newVertices := Union( List( VertexEquivalenceNumbersAsSet(colSurf), 
-										v -> List( VertexOrbits(v), 
-													orb -> [v,orb] ) ) );
+										v -> VertexOrbits(v) ) );
 
 
 		# To construct a simplicial surface we have to define the incidence
