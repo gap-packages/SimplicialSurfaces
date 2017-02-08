@@ -229,5 +229,26 @@ TestFoldingComplexThreeTrianglesOnEdge := function()
 		fi;
 	od;
 	
+	
+	# Check application of fans to oriented faces
+	if ApplyFanToOrientedFace(complex,1,1) <> 2 then
+		Error("Application of fan to adjacent oriented face failed.");
+	fi;
+	if ApplyFanToOrientedFace(complex,1,2) <> 3 then
+		Error("Application of fan to adjacent oriented face failed.");
+	fi;
+	if ApplyFanToOrientedFace(complex,1,3) <> 1 then
+		Error("Application of fan to adjacent oriented face failed.");
+	fi;
+
+	if ApplyFanToOrientedFace(complex,1,-1) <> 3 then
+		Error("Application of fan to adjacent oriented face failed.");
+	fi;
+	if ApplyFanToOrientedFace(complex,1,-2) <> 1 then
+		Error("Application of fan to adjacent oriented face failed.");
+	fi;
+	if ApplyFanToOrientedFace(complex,1,-3) <> 2 then
+		Error("Application of fan to adjacent oriented face failed.");
+	fi;
 end;
 
