@@ -266,8 +266,8 @@ InstallMethod( IsWellDefinedFoldingPlan,
 
 		faceMap := FaceMap(plan);
 		orFaceMap := OrientedFaceMap(plan);
-		if not Elements(Domain(faceMap))[1] = 
-				FaceByName( surface, Elements(Domain(orFaceMap))[1] ) then
+		if not Elements(Source(faceMap))[1] = 
+				FaceByName( surface, Elements(Source(orFaceMap))[1] ) then
 			return false;
  		fi;
 		if not Elements(Range(faceMap))[1] = 
@@ -330,11 +330,11 @@ InstallMethod( IsApplicableFoldingPlanNCWellDefined,
 
 		# We have to check that the elements in the oriented face map are
 		# border pieces of the folding complex
-		orFace1 := Elements(Domain(OrientedFaceMap(plan)))[1];
-		orFace2 := Elements(Domain(OrientedFaceMap(plan)))[2];
+		orFace1 := Elements(Source(OrientedFaceMap(plan)))[1];
+		orFace2 := Elements(Source(OrientedFaceMap(plan)))[2];
 
-		face1 := Elements(Domain(FaceMap(plan)))[1];
-		face2 := Elements(Domain(FaceMap(plan)))[2];
+		face1 := Elements(Source(FaceMap(plan)))[1];
+		face2 := Elements(Source(FaceMap(plan)))[2];
 
 		faceNr1 := FaceEquivalenceNumberOfElement( colSurf, face1 );
 		faceNr2 := FaceEquivalenceNumberOfElement( colSurf, face2 );
@@ -411,15 +411,15 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 		# Next we modify the border pieces
 		newBorder := ShallowCopy( BorderPieces( complex ) );
 		faceNr1 := FaceEquivalenceNumberOfElement( colSurf, 
-										Elements(Domain(FaceMap(id)))[1] );
+										Elements(Source(FaceMap(id)))[1] );
 		faceNr2 := FaceEquivalenceNumberOfElement( colSurf, 
-										Elements(Domain(FaceMap(id)))[2] );
+										Elements(Source(FaceMap(id)))[2] );
 
 		if faceNr1 <> faceNr2 then
 			oldBorder1 := BorderPieces(complex)[faceNr1];
 			oldBorder2 := BorderPieces(complex)[faceNr2];
 
-			goneBorders := Union( Elements(Domain( OrientedFaceMap(plan) ) ), 
+			goneBorders := Union( Elements(Source( OrientedFaceMap(plan) ) ), 
 									Elements(Range(OrientedFaceMap(plan))) );
 			newBorder[ faceNr1 ] := Difference( Union( oldBorder1, oldBorder2 ), 
 																goneBorders );
@@ -431,7 +431,7 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 		# Finally we modify the fans
 		newFans := ShallowCopy( Fans( complex ) );
 		testEdges := [];
-		for edgeNr in Domain( EdgeMap( id ) ) do
+		for edgeNr in Source( EdgeMap( id ) ) do
 			edgeIm := Image( EdgeMap(id), edgeNr );
 
 			edgeClassNr1 := EdgeEquivalenceNumberOfElement(colSurf, edgeNr);
@@ -454,8 +454,8 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 
 			# Check whether the oriented face of the first fan looks in the
 			# induced rotation direction of this fan
-			face1 := Elements(Domain(FaceMap(id)))[1];
-			orFace1 := Elements(Domain(OrientedFaceMap(plan)))[1];
+			face1 := Elements(Source(FaceMap(id)))[1];
+			orFace1 := Elements(Source(OrientedFaceMap(plan)))[1];
 			if FaceNameInducedByFan(colSurf, fan1, face1 ) <> orFace1 then
 				fan1 := InverseOfFan(fan1);
 				fan2 := InverseOfFan(fan2);
