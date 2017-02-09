@@ -16,6 +16,7 @@ Read("../test/test_example_icosahedron.g");
 Read("../test/test_example_threeTrianglesOnEdge.g");
 Read("../test/test_example_tetrahedronAndProjectivePlane.g");
 Read("../test/test_example_pentagon.g");
+Read("../test/test_example_threeTrianglesInLine.g");
 
 
 
@@ -31,6 +32,7 @@ TestSimplicialSurface := function()
 	TestThreeTrianglesOnEdge();
 	TestTetrahedronAndProjectivePlane();
 	TestPentagon();
+	TestThreeTrianglesInLine();
 end;
 
 
@@ -70,6 +72,7 @@ end;
 ##	Apply the tests for folding complexes
 TestFoldingComplex := function()
 	TestFoldingComplexThreeTrianglesOnEdge();
+	TestFoldingComplexThreeTrianglesInLine();
 end;
 
 
