@@ -112,6 +112,20 @@ __SIMPLICIAL_CreateMapFromListNC := function( list, message )
 
 	return map;
 end;
+##
+##	We also need a method to create a list from a map. This is useful in testing
+##	and might be used in printing the folding plan.
+__SIMPLICIAL_CreateListFromMap := function( map )
+	local list, source, image;
+
+	list := [];
+	for source in Set( Source(map) ) do
+		image := ImageElm( map, source );
+		Append( list, [ [source,image] ] );
+	od;
+
+	return list;
+end;
 
 #!	@Description
 #!	Return a simplicial surface identification which is constructed from three

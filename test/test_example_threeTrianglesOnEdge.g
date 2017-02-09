@@ -197,7 +197,7 @@ end;
 ##	Test this example as a folding complex
 ##
 TestFoldingComplexThreeTrianglesOnEdge := function()
-	local surf, i, fan, complex, name;
+	local surf, i, fan, complex, name, id12, plan, extension;
 
 	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[1,2,4],[1,2,5]] );
 	# The oriented faces +1 and -2 are opposite, as well as +2 and -3. Finally
@@ -249,6 +249,38 @@ TestFoldingComplexThreeTrianglesOnEdge := function()
 	fi;
 	if ApplyFanToOrientedFace(complex,1,-3) <> 2 then
 		Error("Application of fan to adjacent oriented face failed.");
+	fi;
+
+
+	# Construct the folding plan between +1 and -2
+	id12 := NeighbourIdentification( surf, 1, 2 );
+
+	plan := FoldingPlanByIdentification( id12, [1,2] ); # Wrong plan
+	TestFoldingComplexPlanConsistency( complex, plan, "Folding plan (1,2) for three triangles on edge" );
+	if IsApplicableFoldingPlan(complex,plan) then
+		Error("Folding plan (1,2) should not be applicable to three triangles on edge.");
+	fi;
+
+	plan := FoldingPlanByIdentification( id12, [-1,2] ); # Wrong plan
+	TestFoldingComplexPlanConsistency( complex, plan, "Folding plan (-1,2) for three triangles on edge" );
+	if IsApplicableFoldingPlan(complex,plan) then
+		Error("Folding plan (-1,2) should not be applicable to three triangles on edge.");
+	fi;
+
+	plan := FoldingPlanByIdentification( id12, [-1,-2] ); # Wrong plan
+	TestFoldingComplexPlanConsistency( complex, plan, "Folding plan (-1,-2) for three triangles on edge" );
+	if IsApplicableFoldingPlan(complex,plan) then
+		Error("Folding plan (-1,-2) should not be applicable to three triangles on edge.");
+	fi;
+
+	plan := FoldingPlanByIdentification( id12, [1,-2] ); # correct plan
+	TestFoldingComplexPlanConsistency( complex, plan, "Folding plan (1,-2) for three triangles on edge" );
+	if not IsApplicableFoldingPlan(complex,plan) then
+		Error("Folding plan (1,-2) should be applicable to three triangles on edge.");
+	fi;
+	extension := ApplyFoldingPlanNCApplicable(complex,plan);
+	if extension = fail then
+		Error( "Application of folding plan (1,-2) to three triangles on edge should not fail.");
 	fi;
 end;
 

@@ -145,7 +145,7 @@ DeclareOperation( "FaceMap", [IsFoldingPlan] );
 #!	commute with the incidence relation of the simplicial surface.
 #!	Finally it checks whether the oriented faces are face names of the given
 #!	faces.
-#!	@Arguments a folding complex, a folding pla
+#!	@Arguments a folding complex or a simplicial surface, a folding plan
 #!	@Returns true or false
 DeclareOperation( "IsWellDefinedFoldingPlan", 
 	[IsSimplicialSurface, IsFoldingPlan] );

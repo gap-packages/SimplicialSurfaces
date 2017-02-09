@@ -312,11 +312,16 @@ TestFoldingComplexConsistency := function( complex, messageOrigin )
 	fi;
 end;
 
+
+
+
+
 ##
 ##	Test the consistency of a folding plan
 ##
 TestFoldingPlanConsistency := function(plan, messageOrigin)
-	local orFaceMap, planByMaps;
+	local orFaceMap, planByMaps, orFaceList, planById, planByLists, vertexList,
+		edgeList, faceList;
 
 	if not IsFoldingPlan(plan) then
 		Print( messageOrigin );
@@ -376,4 +381,102 @@ TestFoldingPlanConsistency := function(plan, messageOrigin)
 		Print( messageOrigin );
 		Print( " can't be reconstructed by its maps.\n" );
 	fi;
+
+	# Check folding plan constructor by identification and oriented face list
+	orFaceList := __SIMPLICIAL_CreateListFromMap( OrientedFaceMap( plan ) );
+	planById := FoldingPlanByIdentification( Identification(plan), orFaceList );
+	if planById <> FoldingPlanByIdentificationNC( Identification(plan), orFaceList ) then
+		Print( messageOrigin );
+		Print( " has an inconsistent (NC) constructor by identification.\n" );
+	fi;
+	if planById <> plan then
+		Print( messageOrigin );
+		Print( " can't be reconstructed by its identification.\n" );
+	fi;
+
+	# Check folding plan constructor by lists
+	vertexList := __SIMPLICIAL_CreateListFromMap( VertexMap( plan ) );
+	edgeList := __SIMPLICIAL_CreateListFromMap( EdgeMap( plan ) );
+	faceList := __SIMPLICIAL_CreateListFromMap( FaceMap( plan ) );
+	planByLists := FoldingPlanByLists( vertexList, edgeList, faceList, orFaceList );
+	if planByLists <> FoldingPlanByListsNC( vertexList, edgeList, faceList, orFaceList ) then
+		Print( messageOrigin );
+		Print( " has an inconsistent (NC) constructor by lists.\n" );
+	fi;
+	if planByLists <> plan then
+		Print( messageOrigin );
+		Print( " can't be reconstructed by its lists.\n" );
+	fi;
+end;
+
+
+##
+##	Test the consistency of a folding plan together with a folding complex.
+##	This method only checks the interaction
+##	of these two objects, not the consistency of the objects themselves.
+##	
+TestFoldingComplexPlanConsistency := function( complex, plan, messageConnection )
+	local wellDef, applicable, extension;
+
+	wellDef := IsWellDefinedFoldingPlan( complex, plan );
+	applicable := IsApplicableFoldingPlan( complex, plan );
+
+	# Check if wellDef is consistent for both inputs
+	if wellDef <> IsWellDefinedFoldingPlan( UnderlyingSimplicialSurface(complex), plan ) then
+		Print( messageConnection );
+		Print( ": well-defined is inconsistent.\n" );
+	fi;
+
+
+	#
+	# To check applicable we proceed in several steps
+	#
+
+	# if wellDef is false, then applicable is false
+	if not wellDef and applicable then
+		Print( messageConnection );
+		Print( " is not well-defined but applicable.\n" );
+	fi;
+
+	# if wellDef is true, then the NC-version may be called
+	if wellDef then
+		if applicable <> IsApplicableFoldingPlanNCWellDefined(complex, plan) then
+			Print( messageConnection );
+			Print( " has inconsistent applicability (controlling for well-definedness).\n" );
+		fi;
+	fi;
+
+	
+	# if applicable is true, we can extend the surface
+	extension := ApplyFoldingPlan(complex, plan);
+
+	# if the folding plan is not well defined, the extension fails
+	if not wellDef and extension <> fail then
+		Print( messageConnection );
+		Print( " is not well-defined but can be extended.\n" );
+	fi;
+	# if the folding plan is well defined, the NC-version may be called
+	if wellDef and extension <> ApplyFoldingPlanNCWellDefined(complex,plan) then
+		Print( messageConnection );
+		Print( " has inconsistent extension (controlling for well-definedness).\n" );
+	fi;
+
+	# if the folding plan is not applicable, the extension fails
+	if not applicable and extension <> fail then
+		Print( messageConnection );
+		Print( " is not applicable but can be extended.\n" );
+	fi;
+	# if the folding plan is applicable, the NC-version may be called
+	if applicable and extension <> ApplyFoldingPlanNCApplicable(complex,plan) then
+		Print( messageConnection );
+		Print( " has inconsistent extension (controlling for applicability).\n" );
+	fi;
+
+
+	# check extension itself
+	if extension <> fail and not IsFoldingComplex(extension) then
+		Print( messageConnection );
+		Print( " has an extension that is not a folding complex.\n" );
+	fi;
+
 end;

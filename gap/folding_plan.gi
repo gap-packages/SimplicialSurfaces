@@ -278,6 +278,14 @@ InstallMethod( IsWellDefinedFoldingPlan,
 		return true;
 	end
 );
+InstallOtherMethod( IsWellDefinedFoldingPlan, 
+	"for a folding complex and a folding plan", 
+	[IsFoldingComplex, IsFoldingPlan],
+	function( surface, plan )
+		return IsWellDefinedFoldingPlan( 
+						UnderlyingSimplicialSurface(surface), plan );
+	end
+);
 
 
 #!	@Description
