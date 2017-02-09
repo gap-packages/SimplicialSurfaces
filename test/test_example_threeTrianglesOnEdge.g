@@ -197,7 +197,7 @@ end;
 ##	Test this example as a folding complex
 ##
 TestFoldingComplexThreeTrianglesOnEdge := function()
-	local surf, i, fan, complex, name, id12, plan, extension;
+	local surf, i, fan, complex, name, id12, plan, extension, id23, ext23;
 
 	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[1,2,4],[1,2,5]] );
 	# The oriented faces +1 and -2 are opposite, as well as +2 and -3. Finally
@@ -281,6 +281,65 @@ TestFoldingComplexThreeTrianglesOnEdge := function()
 	extension := ApplyFoldingPlanNCApplicable(complex,plan);
 	if extension = fail then
 		Error( "Application of folding plan (1,-2) to three triangles on edge should not fail.");
+	else
+		TestFoldingComplexConsistency(extension, "Extension of three triangles on edge by one plan");
+	fi;
+
+
+	# Check the folding plan between +2 and -3
+	id23 := NeighbourIdentification( surf, 3, 2 );
+
+	plan := FoldingPlanByIdentification( id23, [3,2] ); # Wrong plan
+	TestFoldingComplexPlanConsistency( complex, plan, "Folding plan (3,2) for three triangles on edge" );
+	if IsApplicableFoldingPlan(complex,plan) then
+		Error("Folding plan (3,2) should not be applicable to three triangles on edge.");
+	fi;
+	TestFoldingComplexPlanConsistency( extension, plan, "Folding plan (3,2) for extension (1,2) of three triangles on edge" );
+	if IsApplicableFoldingPlan(extension,plan) then
+		Error("Folding plan (3,2) should not be applicable to extension (1,2) of three triangles on edge.");
+	fi;
+
+	plan := FoldingPlanByIdentification( id23, [3,-2] ); # Wrong plan
+	TestFoldingComplexPlanConsistency( complex, plan, "Folding plan (3,-2) for three triangles on edge" );
+	if IsApplicableFoldingPlan(complex,plan) then
+		Error("Folding plan (3,-2) should not be applicable to three triangles on edge.");
+	fi;
+	TestFoldingComplexPlanConsistency( extension, plan, "Folding plan (3,-2) for extension (1,2) of three triangles on edge" );
+	if IsApplicableFoldingPlan(extension,plan) then
+		Error("Folding plan (3,-2) should not be applicable to extension (1,2) of three triangles on edge.");
+	fi;
+
+	plan := FoldingPlanByIdentification( id23, [-3,-2] ); # Wrong plan
+	TestFoldingComplexPlanConsistency( complex, plan, "Folding plan (-3,-2) for three triangles on edge" );
+	if IsApplicableFoldingPlan(complex,plan) then
+		Error("Folding plan (-3,-2) should not be applicable to three triangles on edge.");
+	fi;
+	TestFoldingComplexPlanConsistency( extension, plan, "Folding plan (-3,-2) for extension (1,2) of three triangles on edge" );
+	if IsApplicableFoldingPlan(extension,plan) then
+		Error("Folding plan (-3,-2) should not be applicable to extension (1,2) of three triangles on edge.");
+	fi;
+
+	plan := FoldingPlanByIdentification( id23, [-3,2] ); # correct plan
+	TestFoldingComplexPlanConsistency( complex, plan, "Folding plan (-3,2) for three triangles on edge" );
+	if not IsApplicableFoldingPlan(complex,plan) then
+		Error("Folding plan (-3,2) should be applicable to three triangles on edge.");
+	fi;
+	ext23 := ApplyFoldingPlanNCApplicable(complex,plan);
+	if ext23 = fail then
+		Error( "Application of folding plan (-3,2) to three triangles on edge should not fail.");
+	else
+		TestFoldingComplexConsistency(ext23, "Extension of three triangles on edge by one plan (-3,2)");
+	fi;
+
+	TestFoldingComplexPlanConsistency( extension, plan, "Folding plan (-3,2) for extension (1,2) of three triangles on edge.");
+	if not IsApplicableFoldingPlan(extension,plan) then
+		Error("Folding plan (-3,2) should be applicable to extension (1,2) or three triangles on edge.");
+	fi;
+	ext23 := ApplyFoldingPlanNCApplicable(extension,plan);
+	if ext23 = fail then
+		Error( "Application of folding plan (-3,2) to extension (1,2) of three triangles on edge should not fail.");
+	else
+		TestFoldingComplexConsistency(ext23, "Extension of extension (1,2) of three triangles on edge by one plan (-3,2)");
 	fi;
 end;
 
