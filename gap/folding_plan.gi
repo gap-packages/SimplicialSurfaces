@@ -494,7 +494,29 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 	end
 );
 
+#############################################################################
+##
+#!  @Description
+#!  Check if two folding plans are equal.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two folding plan objects
+#!
+##
+InstallMethod( \=, "for two folding plans", IsIdenticalObj, 
+  [ IsFoldingPlan, IsFoldingPlan ],
+	function( s1, s2 )
+		# check all basic attributes
 
+		if Identification(s1) <> Identification(s2) then
+			return false;
+		fi;
+		if OrientedFaceMap(s1) <> OrientedFaceMap(s2) then
+			return false;
+		fi;
+
+        return true;
+	end
+);
 
 
 

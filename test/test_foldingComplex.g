@@ -311,3 +311,69 @@ TestFoldingComplexConsistency := function( complex, messageOrigin )
 		Print( " has an orientation covering that is not a simplicial surface.\n" );
 	fi;
 end;
+
+##
+##	Test the consistency of a folding plan
+##
+TestFoldingPlanConsistency := function(plan, messageOrigin)
+	local orFaceMap, planByMaps;
+
+	if not IsFoldingPlan(plan) then
+		Print( messageOrigin );
+		Print( " is not a folding plan.\n" );
+	fi;
+
+
+	# Check oriented face map
+	if OrientedFaceMap(plan) <> OrientedFaceMapAttributeOfFoldingPlan(plan) then
+		Print( messageOrigin );
+		Print( " has an inconsistent oriented face map.\n" );
+	fi;
+	orFaceMap := OrientedFaceMap(plan); 
+	if not IsMapping(orFaceMap) or not IsBijective(orFaceMap) then
+		Print( messageOrigin );
+		Print( " has an oriented face map that is not bijective.\n" );
+	fi;
+
+	# Check identification
+	if Identification(plan) <> IdentificationAttributeOfFoldingPlan(plan) then
+		Print( messageOrigin );
+		Print( " has an inconsistent identification.\n" );
+	fi;
+	if not IsSimplicialSurfaceIdentification( Identification(plan) ) then
+		Print( messageOrigin );
+		Print( " has an identification that is not a simplicial surface identification.\n" );
+	fi;
+
+
+	# Check vertex map
+	if VertexMap(plan) <> VertexMap( Identification(plan) ) then
+		Print( messageOrigin );
+		Print( " has a different vertex map than its identification.\n" );
+	fi;
+
+	# Check edge map
+	if EdgeMap(plan) <> EdgeMap( Identification(plan) ) then
+		Print( messageOrigin );
+		Print( " has a different edge map than its identification.\n" );
+	fi;
+
+	# Check face map
+	if FaceMap(plan) <> FaceMap( Identification(plan) ) then
+		Print( messageOrigin );
+		Print( " has a different face map than its identification.\n" );
+	fi;
+
+
+	
+	# Check folding plan constructor by maps
+	planByMaps := FoldingPlanByMaps( VertexMap(plan), EdgeMap(plan), FaceMap(plan), OrientedFaceMap(plan) );
+	if planByMaps <> FoldingPlanByMapsNC( VertexMap(plan), EdgeMap(plan), FaceMap(plan), OrientedFaceMap(plan) ) then
+		Print( messageOrigin );
+		Print( " has an inconsistent (NC) constructor by maps.\n" );
+	fi;
+	if planByMaps <> plan then
+		Print( messageOrigin );
+		Print( " can't be reconstructed by its maps.\n" );
+	fi;
+end;
