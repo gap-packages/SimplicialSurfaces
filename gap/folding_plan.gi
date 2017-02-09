@@ -378,7 +378,7 @@ InstallMethod( ApplyFoldingPlan,
 	[IsFoldingComplex, IsFoldingPlan],
 	function( complex, plan )
 		if not IsApplicableFoldingPlan( complex, plan ) then
-			return false;
+			return fail;
 		fi;
 
 		return ApplyFoldingPlanNCApplicable(complex, plan);
@@ -389,7 +389,7 @@ InstallMethod( ApplyFoldingPlanNCWellDefined,
 	[IsFoldingComplex, IsFoldingPlan],
 	function( complex, plan )
 		if not IsApplicableFoldingPlanNCWellDefined( complex, plan ) then
-			return false;
+			return fail;
 		fi;
 
 		return ApplyFoldingPlanNCApplicable(complex, plan);
@@ -446,7 +446,7 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 			# Check whether these fans have the same orientation
 			baseEx1 := VertexEquivalenceClassByNumber( colSurf, 
 														BeginOfFan(fan1) )[1];
-			baseEx1 := VertexEquivalenceClassByNumber( colSurf, 
+			baseEx2 := VertexEquivalenceClassByNumber( colSurf, 
 														BeginOfFan(fan2) )[1];
 			if not IsEquivalentVertex( newColSurf, baseEx1, baseEx2 ) then
 				fan2 := InverseOfFan(fan2);
