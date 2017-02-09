@@ -331,10 +331,10 @@ InstallMethod( IsApplicableFoldingPlanNCWellDefined,
 		# We have to check that the elements in the oriented face map are
 		# border pieces of the folding complex
 		orFace1 := Elements(Source(OrientedFaceMap(plan)))[1];
-		orFace2 := Elements(Source(OrientedFaceMap(plan)))[2];
+		orFace2 := Elements(Range(OrientedFaceMap(plan)))[1];
 
 		face1 := Elements(Source(FaceMap(plan)))[1];
-		face2 := Elements(Source(FaceMap(plan)))[2];
+		face2 := Elements(Range(FaceMap(plan)))[1];
 
 		faceNr1 := FaceEquivalenceNumberOfElement( colSurf, face1 );
 		faceNr2 := FaceEquivalenceNumberOfElement( colSurf, face2 );
@@ -413,7 +413,7 @@ InstallMethod( ApplyFoldingPlanNCApplicable,
 		faceNr1 := FaceEquivalenceNumberOfElement( colSurf, 
 										Elements(Source(FaceMap(id)))[1] );
 		faceNr2 := FaceEquivalenceNumberOfElement( colSurf, 
-										Elements(Source(FaceMap(id)))[2] );
+										Elements(Range(FaceMap(id)))[1] );
 
 		if faceNr1 <> faceNr2 then
 			oldBorder1 := BorderPieces(complex)[faceNr1];
