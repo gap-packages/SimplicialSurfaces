@@ -750,17 +750,20 @@ InstallMethod( ApplyFanToOrientedFaceNC,
 	"for a folding complex, an edge equivalence class number and an oriented face",
 	[IsFoldingComplex, IsPosInt, IsInt],
 	function( complex, edgeClassNr, orFace )
-		local surface, face, fan, faceOrient;
+		local surface, colSurf, face, fan, faceOrient;
 
 		surface := UnderlyingSimplicialSurface( complex );
+		colSurf := UnderlyingColouredSimplicialSurface( complex );
 		face := FaceByName( surface, orFace );
 		fan := FanOfEdgeEquivalenceClassNC( complex, edgeClassNr );
 
 		# find the correct orientation of the face
 		if NamesOfFaceNC(surface,face)[1] = orFace then
-			faceOrient := LocalOrientation(surface)[face];
+			faceOrient := 
+				LocalOrientationWRTVertexEquivalenceClasses(colSurf)[face];
 		else
-			faceOrient := LocalOrientation(surface)[face]^(-1);
+			faceOrient := 
+				LocalOrientationWRTVertexEquivalenceClasses(colSurf)[face]^(-1);
 		fi;
 
 		if BeginOfFan(fan)^faceOrient = EndOfFan(fan) then
