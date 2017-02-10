@@ -271,6 +271,9 @@ InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
 		if Number( edgesByVertices ) <> Length( edges ) then # Number counts bound entries
 			Error("DownwardIncidenceCheck: More edges than expected.");
 		fi;
+		if Union( edgesByVertices ) <> vertices then
+			Error("DownwardIncidenceCheck: One vertex does not lie in any edge.");
+		fi;
 
 		# Is facesByEdges well defined?
 		for f in faces do
@@ -284,6 +287,9 @@ InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
 		od;
 		if Number( facesByEdges ) <> Length( faces ) then
 			Error("DownwardIncidenceCheck: More faces than expected.");
+		fi;
+		if Union( facesByEdges ) <> edges then
+			Error("DownwardIncidenceCheck: One edge does not lie in any face.");
 		fi;
 
 		# Check the face names
