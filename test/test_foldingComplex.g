@@ -480,3 +480,54 @@ TestFoldingComplexPlanConsistency := function( complex, plan, messageConnection 
 	fi;
 
 end;
+
+
+##
+##	For a given folding complex and a given identification, we check whether
+##	the identification can really be extended into a proper folding plan.
+##	@Arguments a folding complex, an identification, a list of possible pairs
+##		of oriented faces
+##
+TestExtensionOfIdentificationToFoldingPlan := function( complex, id, facePairs, messageOrigin )
+	local plan, pair, name, ext, face1, face2, orFace1, orFace2, wrongPairs;
+
+	## First check the "correct" folding plans
+	for pair in facePairs do
+		plan := FoldingPlanByIdentification( id, pair );
+		name := Concatenation( "Folding plan ", PrintString( pair ) );
+		name := Concatenation( name, " for " );
+		name := Concatenation( name, messageOrigin );
+		TestFoldingComplexPlanConsistency( complex, plan, name );
+		if not IsApplicableFoldingPlan(complex,plan) then
+			Print( name );
+			Print( " should be applicable.\n" );
+		fi;
+		ext := ApplyFoldingPlanNCApplicable(complex,plan);
+		if ext = fail then
+			Print( "Application of " );
+			Print( name );
+			Print( " should not fail.\n" );
+		else
+			TestFoldingComplexConsistency(ext, Concatenation( "Extension by ", name ) );
+		fi;
+	od;
+
+	## Now check the "incorrect" folding plans
+	face1 := Elements( Source( FaceMap( id ) ) )[1];
+	face2 := Elements( Range( FaceMap( id ) ) )[1];
+	orFace1 := NamesOfFace( UnderlyingSimplicialSurface( complex ), face1 );
+	orFace2 := NamesOfFace( UnderlyingSimplicialSurface( complex ), face2 );
+
+	wrongPairs := Difference( Cartesian( orFace1, orFace2 ), Set(facePairs) );
+	for pair in wrongPairs do
+		plan := FoldingPlanByIdentification( id, pair );
+		name := Concatenation( "Folding plan ", PrintString( pair ) );
+		name := Concatenation( name, " for " );
+		name := Concatenation( name, messageOrigin );
+		TestFoldingComplexPlanConsistency( complex, plan, name );
+		if IsApplicableFoldingPlan(complex,plan) then
+			Print( name );
+			Print( " should not be applicable.\n" );
+		fi;
+	od;
+end;
