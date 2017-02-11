@@ -238,24 +238,6 @@ end);
 ##
 ##
 #!  @Description
-#!  This function returns the number of faces of a  simplicial surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
-#!
-InstallGlobalFunction( NrOfFacesOfWildSimplicialSurface, function (simpsurf)
-
-        return Length(FacesOfWildSimplicialSurface(simpsurf));
-
-end);
-
-InstallMethod( NrOfFaces, "for a simplicial surfaces", true, 
-	[ IsWildSimplicialSurfaceRep ], 0,
-	NrOfFacesOfWildSimplicialSurface);
-
-#############################################################################
-##
-##
-#!  @Description
 #!  This function returns the list of edges of a  simplicial surface.
 #!  @Returns a list
 #!  @Arguments simpsurf
@@ -270,22 +252,6 @@ InstallGlobalFunction( EdgesOfWildSimplicialSurface, function( simpsurf)
 
 end);
 
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the number of edges of a  simplicial surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
-#!
-InstallGlobalFunction( NrOfEdgesOfWildSimplicialSurface, function( simpsurf)
-
-       return Sum(List(EdgesOfWildSimplicialSurface(simpsurf), i->Length(i)));
-
-end);
-InstallMethod( NrOfEdges, "for a simplicial surfaces", true, 
-	[ IsWildSimplicialSurfaceRep ], 0,
-	NrOfEdgesOfWildSimplicialSurface);
 
 #############################################################################
 ##
@@ -305,104 +271,7 @@ InstallGlobalFunction( VerticesOfWildSimplicialSurface, function( simpsurf)
 
 end);
 
-#############################################################################
-##
-##
-#!  @Description
-#!  This function returns the number of vertices of a  simplicial surface.
-#!  @Returns an integer
-#!  @Arguments simpsurf
-#!
-InstallGlobalFunction( NrOfVerticesOfWildSimplicialSurface, function( simpsurf)
 
-        return Length(VerticesOfWildSimplicialSurface(simpsurf));
-
-end);
-InstallMethod( NrOfVertices, "for a simplicial surfaces", true, 
-	[ IsWildSimplicialSurfaceRep ], 0,
-	NrOfVerticesOfWildSimplicialSurface);
-
-###############################################################################
-##
-#!  @Description
-#!  This function checks whether the wild simplicial surface is an actual
-#!	surface. For wild simplicial surfaces this function always returns true.
-#!  @Returns true
-#!  @Arguments <simpsurf> a wild simplicial surface
-#!
-InstallMethod( IsActualSurface, "for a simplicial surfaces", true, 
-	[ IsWildSimplicialSurfaceRep ], 0,
-	function(simpsurf) return true; end);
-
-#############################################################################
-##
-##
-#!  @Description
-#!  TODO
-#!  @Returns 
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by WildSimplicialSurface
-#!
-InstallGlobalFunction( GeneratorsOfWildSimplicialSurface, function( simpsurf)
-
-        if not IsWildSimplicialSurfaceRep(simpsurf) then
-            Error("usage: GeneratorsOfWildSimplicialSurface(simpsurf");
-            return fail;
-        fi;
-        return simpsurf!.generators;
-
-end);
-
-#############################################################################
-##
-##
-#!  @Description
-#!  TODO
-#!  @Returns 
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by WildSimplicialSurface
-#!
-InstallGlobalFunction( GroupOfWildSimplicialSurface, function(simpsurf)
-
-        if not IsWildSimplicialSurfaceRep(simpsurf) then
-            Error("usage: GroupOfWildSimplicialSurface(simpsurf");
-            return fail;
-        fi;
-        return Group(simpsurf!.generators);
-
-end);
-
-
-
-#############################################################################
-##
-#!  @Description
-#!  This function computes the degrees of the vertices of the simplicial 
-#!  surface <simpsurf>.
-#!  The degree of a vertex is the number of faces incident to the vertex.
-#!  @Returns a list of integers in increasing order, containing for each
-#!  vertex of the simplicial suface its degree
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
-#!  by WildSimplicialSurface
-#!
-InstallGlobalFunction( DegreesOfWildSimplicialSurface, function(simpsurf)
-
-        local degrees, i;
-
-# TODO noch nicht richtig fuer flaps
-        if not IsWildSimplicialSurfaceRep(simpsurf) then
-            Error("usage: DegreesOfWildSimplicialSurface(simpsurf");
-            return fail;
-        fi;
-        if IsBound(simpsurf!.Degrees) then return simpsurf!.Degrees; fi;
-
-        degrees := List(VerticesOfWildSimplicialSurface(simpsurf), i-> Length(i));
-        Sort(degrees);
-
-        simpsurf!.Degrees := degrees;
-
-        return degrees;
-end);
 
 
 
