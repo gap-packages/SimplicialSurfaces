@@ -122,7 +122,9 @@ DeclareOperation( "FaceMap", [IsSimplicialSurfaceIdentification] );
 #!	This method checks if the maps of the identification can be applied to
 #!	the vertices, edges and faces of the simplicial surface. It also
 #!	checks whether the maps are compatible with each other, i.e. if they
-#!	commute with the incidence relation of the simplicial surface.
+#!	commute with the incidence relation of the simplicial surface. This would
+#!	also catch the case of an identification between two faces with different
+#!	numbers of vertices.
 #!
 #!	This method can also be called with a coloured simplicial surface. In that
 #!	case it checks whether the simplicial surface identification is well defined
@@ -155,7 +157,8 @@ DeclareOperation( "IsConstantOnIntersectionNCWellDefined",
 #!	@Description
 #!	Return the neighbour identification of two neighbouring faces of a
 #!	(coloured) simplicial surface. By construction this identification is
-#!	well-defined and constant on the intersection.
+#!	well-defined and constant on the intersection. If the neighbouring faces
+#!	have a different number of vertices this method throws an error.
 #!
 #!	The NC-version does not check whether the faces really lie on the surface.
 #!

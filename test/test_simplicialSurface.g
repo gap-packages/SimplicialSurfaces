@@ -362,6 +362,7 @@ end;
 ##	edgeNr		number of edges
 ##	faceNr		number of faces
 ##	isActualSurface		is the simplicial surface an actual surface?
+##	isTriangleSurface	is every face of the simplicial surface a triangle?
 ##	isOrientable		is the simplicial surface orientable?
 ##	isConnected			is the simplicial surface connected?
 ##	sortDeg		the sorted degrees (vertexByFaces)
@@ -370,8 +371,8 @@ end;
 ##	isSnippable			does the surface get smaller if we snipp of ears?
 ##
 TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin, 
-	vertexNr, edgeNr, faceNr, isActualSurface, isOrientable, isConnected, 
-	sortDeg, vertexSym, anomalyClassCount, isSnippable)
+	vertexNr, edgeNr, faceNr, isActualSurface, isTriangleSurface, isOrientable, 
+	isConnected, sortDeg, vertexSym, anomalyClassCount, isSnippable)
 
 	local conCom, euler;
 
@@ -411,6 +412,16 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 			Print( " must be an actual surface.\n" );
 		else
 			Print( " must not be an actual surface.\n" );
+		fi;
+	fi;
+
+	# triangle surface check
+	if IsTriangleSurface( surface ) <> isTriangleSurface then
+		Print( messageSurfaceOrigin );
+		if isTriangleSurface then
+			Print( " must only consist of triangles.\n" );
+		else
+			Print( " must not only consist of triangles.\n" );
 		fi;
 	fi;
 
