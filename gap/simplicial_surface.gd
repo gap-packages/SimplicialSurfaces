@@ -24,12 +24,10 @@
 ##	sides" and negative integers the "lower sides". A side effect is that the
 ##	name of a face and of its upper side coincide. It is usually clear from
 ##	context which one is meant.
+##	Mathematically the local orientation is an cycle of the vertices inside
+##	a face such that two adjacent vertices in the cycle are also adjacent in
+##	the face.
 ##
-##	Sometimes we may impose an additional structure on this surface, by
-##	partitioning the set of edges into three subsets such that each face (which
-##	we assume to be triangular) is bordered by all three subsets. This allows
-##	us to define an involution for each subset. These three involutions are
-##	in many cases sufficient to reproduce to original surface.
 ##
 
 DeclareInfoClass( "InfoSimplicial" );
@@ -73,12 +71,13 @@ SimplicialSurfaceFamily :=
 ##	The set of edges (alternatively a number n that becomes [1..n] )
 ##	The set of faces (alternatively a number n that becomes [1..n] )
 ##	The list EdgesByVertices
-##	The list FacesByEdges. The components don't have to be sets and their
-##		order defines the LocalOrientation-attribute
+##	The list FacesByEdges.
 ##	Optional: the list NamesOfFaces. If this is not given, the default
 ##				naming scheme is used
 ##		To use the optional argument, write
 ##		SimplicialSurfaceByDownwardIncidence( arg : NamesOfFaces := ? )
+##	Optional: the list LocalOrientation. If this is not given, the default
+##		local orientation of a face will be defined at random.
 ##
 ##	The NoCheck-function does the same thing but does not test if the
 ##	arguments are well-defined.
@@ -91,13 +90,39 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 ##	This constructor takes the following information:
 ##
 ##	The set of vertices (alternatively a number n that becomes [1..n] )
+##	The set of edges (alternatively a number n that becomes [1..n] )
 ##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list FacesByVertices. The components don't have to be sets and their
-##		order defines the LocalOrientation-attribute
+##	The list EdgesByVertices
+##	The list FacesByEdges. Each element of this list (that is bound) has to be
+##		a list of edges such that two adjacent edges have one vertex in common.
+##		This defines an ordering of the edges and therefore an orientation of
+##		the face. If we apply this orientation to the vertices we get the 
+##		local orientation of this face. If the edge lists are not given in this
+##		way, an error is thrown. 
+##	Optional: the list NamesOfFaces. If this is not given, the default
+##				naming scheme is used
+##		To use the optional argument, write
+##		SimplicialSurfaceByDownwardIncidence( arg : NamesOfFaces := ? )
+##
+##	The NoCheck-function does the same thing but does not test if the
+##	arguments are well-defined.
+DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientation",
+	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
+	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+
+##
+##	This constructor takes the following information:
+##
+##	The set of vertices (alternatively a number n that becomes [1..n] )
+##	The set of faces (alternatively a number n that becomes [1..n] )
+##	The list FacesByVertices.
 ##	Optional: the list NamesOfFaces. If this is not given, the default
 ##				naming scheme is used
 ##		To use the optional argument, write
 ##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
+##	Optional: the list LocalOrientation. If this is not given, the default
+##		local orientation of a face will be defined at random.
 ##
 ##	Edges are generated as becomes necessary. It is assumed that two faces
 ##	that share two vertices also share an edge.
@@ -109,6 +134,31 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFaces",
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
 	[ IsSet, IsSet, IsList ] );
 
+
+##
+##	This constructor takes the following information:
+##
+##	The set of vertices (alternatively a number n that becomes [1..n] )
+##	The set of faces (alternatively a number n that becomes [1..n] )
+##	The list FacesByVertices. Each element of this list (that is bound) has to 
+##		be a list of vertices such that two adjacent vertices have one edge in 
+##		common.	This defines an ordering of the vertices and therefore an 
+##		orientation of the face. If the vertex lists are not given in this
+##		way, an error is thrown. 
+##	Optional: the list NamesOfFaces. If this is not given, the default
+##				naming scheme is used
+##		To use the optional argument, write
+##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
+##
+##	Edges are generated as becomes necessary. It is assumed that two faces
+##	that share two vertices also share an edge.
+##
+##	The NoCheck-function does the same thing but does not test if the
+##	arguments are well-defined.
+DeclareOperation( "SimplicialSurfaceByVerticesInFacesWithOrientation", 
+	[ IsSet, IsSet, IsList ] );
+DeclareOperation( "SimplicialSurfaceByVerticesInFacesWithOrientationNC", 
+	[ IsSet, IsSet, IsList ] );
 
 
 #############################################################################
@@ -246,6 +296,14 @@ DeclareOperation( "FacesByEdges", [IsSimplicialSurface] );
 #!	@Arguments a simplicial surface
 #!	@Returns true if it is a surface and false else.
 DeclareProperty( "IsActualSurface", IsSimplicialSurface );
+
+
+#!	@Description
+#!	The property IsTriangleSurface is true if all faces of the SimplicialSurface
+#!	object are triangles (i.e. they consist of three edges).
+#!	@Arguments a simplicial surface
+#!	@Returns true if all faces are triangles and false else.
+DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 
 
 #!	@Description
