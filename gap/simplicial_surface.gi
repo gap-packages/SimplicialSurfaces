@@ -533,7 +533,7 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, true
 ##
 ##	Now we implement the constructor byVerticesInFaces. We start with the
 ##	NC-versions.
-InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
+InstallMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
 		local surf, namesOfFaces, localOrient, edgesByVertices, 
@@ -576,6 +576,155 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		else
 			SetNamesOfFacesAttributeOfSimplicialSurface( surf, namesOfFaces );
 		fi;
+
+		return surf;
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientationNC, true,
+	[ IsList, IsList, IsList],
+	[ IsSet, IsSet, ], 0 );
+
+##	Adjust for the alternative possibilities.
+InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
+	[ IsPosInt, IsObject, IsList ],
+	function( vertices, faces, facesByVertices )
+		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( [1..vertices], faces,
+			facesByVertices );
+	end
+);
+InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
+	[ IsSet, IsPosInt, IsList ],
+	function( vertices, faces, facesByVertices )
+		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( vertices, [1..faces],
+			facesByVertices );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientationNC, true,
+	[ IsList, IsPosInt, IsList],
+	[ IsSet, , ], 0 );
+##
+##	Of course the same constructors with sanity checks can't be missing.
+##
+__SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces, facesByVertices, namesOfFaces )
+	
+	local f;
+
+	# Check sets
+	if not __SIMPLICIAL_IsSetPosInt( vertices ) then
+		Error("VerticesInFacesCheck: Vertices have to be positive integers.");
+	fi;
+
+	if not __SIMPLICIAL_IsSetPosInt( faces ) then
+		Error("VerticesInFacesCheck: Faces have to be positive integers.");
+	fi;
+
+	# Is facesByVertices well defined?
+	for f in faces do
+		if not IsBound( facesByVertices[f] ) then
+			Error("VerticesInFacesCheck: One face has no vertices.");
+		elif Size( Set( facesByVertices[f] ) ) <> 3 then
+			Error("VerticesInFacesCheck: One face has not three vertices.");
+		elif not IsEmpty( Difference( Set(facesByVertices[f]), vertices ) ) then
+			Error("VerticesInFacesCheck: One face has illegal vertex.");
+		fi;
+	od;
+	if Number( facesByVertices ) <> Length( faces ) then
+		Error("VerticesInFacesCheck: More faces than expected.");
+	fi;
+
+	# Check the face names
+	if not namesOfFaces = fail then
+		for f in faces do
+			if not IsBound( namesOfFaces[f] ) then
+				Error("VerticesInFacesCheck: One face has no names.");
+			elif Size( Set( namesOfFaces[f] ) ) <> 2 then
+				Error("VerticesInFacesCheck: One face has not two different names.");
+			elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
+				Error("VerticesInFacesCheck: One face has non-integer names.");
+			fi;
+		od;
+		if Number( namesOfFaces ) <> Length( faces ) then
+			Error("VerticesInFacesCheck: More face-names than expected.");
+		fi;
+	fi;
+end;
+InstallMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
+	[ IsSet, IsSet, IsList ],
+	function( vertices, faces, facesByVertices )
+		
+		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, ValueOption( "NamesOfFaces" ) );
+
+		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( 
+					vertices, faces, facesByVertices );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientation, true,
+	[ IsList, IsList, IsList],
+	[ IsSet, IsSet, ], 0 );
+##	Adjust for the alternative possibilities.
+InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
+	[ IsPosInt, IsObject, IsList ],
+	function( vertices, faces, facesByVertices )
+		return SimplicialSurfaceByVerticesInFacesWithOrientation( [1..vertices], faces,
+			facesByVertices );
+	end
+);
+InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
+	[ IsSet, IsPosInt, IsList ],
+	function( vertices, faces, facesByVertices )
+		return SimplicialSurfaceByVerticesInFacesWithOrientation( vertices, [1..faces],
+			facesByVertices );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientation, true,
+	[ IsList, IsPosInt, IsList],
+	[ IsSet, , ], 0 );
+
+##
+##
+##	Finally the constructor VerticesInFaces
+##	Now we implement the constructor byVerticesInFaces. We start with the
+##	NC-versions.
+InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
+	[ IsSet, IsSet, IsList ],
+	function( vertices, faces, facesByVertices )
+		local surf, namesOfFaces, localOrient, edgesByVertices, 
+				facesByEdges, f, j, e, facesBySetEdges;
+
+		# Determine the edges. For each face we determine all subset of its
+		# vertices that contain two elements. These sets will form the edges
+		# of the simplicial surface
+		facesBySetEdges := List( faces, i -> 
+					Set(Combinations( Set(facesByVertices[i]) ,2)) );
+		edgesByVertices := Union(facesBySetEdges);
+
+		facesByEdges := List(faces,i->[]);
+		for f in faces do
+			for j  in [1..3] do
+				e := facesBySetEdges[f][j];
+				facesByEdges[f][j] := Position(edgesByVertices,e);
+			od;
+		od;
+
+		surf := Objectify( SimplicialSurfaceType, rec() );
+		# Set the given attributes
+		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
+		SetEdgesAttributeOfSimplicialSurface( surf, 
+									[1..Length(edgesByVertices)] );
+		SetFacesAttributeOfSimplicialSurface( surf, faces );
+		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, edgesByVertices );
+		SetFacesByEdgesAttributeOfSimplicialSurface( surf, facesByEdges );
+		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
+									List( facesByVertices, i -> Set(i) ) );
+
+		# Set the local orientation
+		facesByVertices := __SIMPLICIAL_RandomFacesByVertices( vertices, faces,
+			FacesByVertices(surf), VerticesByEdges(surf) );
+		localOrient := __SIMPLICIAL_LocalOrientationFromFacesByVertices( 
+			facesByVerticesOrdered );
+		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );
+
+		# Set the face names
 		SetIsFaceNamesDefault( surf, true );
 
 		return surf;
@@ -609,49 +758,10 @@ RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, true,
 InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
-		local surf, f, namesOfFaces;
+		
+		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, ValueOption( "NamesOfFaces" ) );
 
-		# Check sets
-		if not __SIMPLICIAL_IsSetPosInt( vertices ) then
-			Error("VerticesInFacesCheck: Vertices have to be positive integers.");
-		fi;
-
-		if not __SIMPLICIAL_IsSetPosInt( faces ) then
-			Error("VerticesInFacesCheck: Faces have to be positive integers.");
-		fi;
-
-		# Is facesByVertices well defined?
-		for f in faces do
-			if not IsBound( facesByVertices[f] ) then
-				Error("VerticesInFacesCheck: One face has no vertices.");
-			elif Size( Set( facesByVertices[f] ) ) <> 3 then
-				Error("VerticesInFacesCheck: One face has not three vertices.");
-			elif not IsEmpty( Difference( Set(facesByVertices[f]), vertices ) ) then
-				Error("VerticesInFacesCheck: One face has illegal vertex.");
-			fi;
-		od;
-		if Number( facesByVertices ) <> Length( faces ) then
-			Error("VerticesInFacesCheck: More faces than expected.");
-		fi;
-
-		# Check the face names
-		namesOfFaces := ValueOption( "NamesOfFaces" );
-		if not namesOfFaces = fail then
-			for f in faces do
-				if not IsBound( namesOfFaces[f] ) then
-					Error("VerticesInFacesCheck: One face has no names.");
-				elif Size( Set( namesOfFaces[f] ) ) <> 2 then
-					Error("VerticesInFacesCheck: One face has not two different names.");
-				elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
-					Error("VerticesInFacesCheck: One face has non-integer names.");
-				fi;
-			od;
-			if Number( namesOfFaces ) <> Length( faces ) then
-				Error("VerticesInFacesCheck: More face-names than expected.");
-			fi;
-		fi;
-
-		return SimplicialSurfaceByVerticesInFacesNC( 
+		return SimplicialSurfaceByVerticesInFaces( 
 					vertices, faces, facesByVertices );
 	end
 );
