@@ -72,12 +72,9 @@ SimplicialSurfaceFamily :=
 ##	The set of faces (alternatively a number n that becomes [1..n] )
 ##	The list EdgesByVertices
 ##	The list FacesByEdges.
-##	Optional: the list NamesOfFaces. If this is not given, the default
-##				naming scheme is used
-##		To use the optional argument, write
-##		SimplicialSurfaceByDownwardIncidence( arg : NamesOfFaces := ? )
-##	Optional: the list LocalOrientation. If this is not given, the default
-##		local orientation of a face will be defined at random.
+##
+##	The local orientation will be set at random and the face naming scheme will
+##	be set to default.
 ##
 ##	The NoCheck-function does the same thing but does not test if the
 ##	arguments are well-defined.
@@ -117,15 +114,12 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
 ##	The set of vertices (alternatively a number n that becomes [1..n] )
 ##	The set of faces (alternatively a number n that becomes [1..n] )
 ##	The list FacesByVertices.
-##	Optional: the list NamesOfFaces. If this is not given, the default
-##				naming scheme is used
-##		To use the optional argument, write
-##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
-##	Optional: the list LocalOrientation. If this is not given, the default
-##		local orientation of a face will be defined at random.
 ##
 ##	Edges are generated as becomes necessary. It is assumed that two faces
 ##	that share two vertices also share an edge.
+##
+##	The local orientation will be set at random and the face naming scheme will
+##	be set to default.
 ##
 ##	The NoCheck-function does the same thing but does not test if the
 ##	arguments are well-defined.

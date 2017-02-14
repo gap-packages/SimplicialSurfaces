@@ -60,6 +60,7 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"FacesByVerticesAttributeOfSimplicialSurface",
 			"FacesByEdgesAttributeOfSimplicialSurface",
 			"IsActualSurface",
+			"IsTriangleSurface",
 			"IsOrientable",
 			"IsConnected",
 			"ConnectedComponentsAttributeOfSimplicialSurface",
@@ -99,7 +100,8 @@ InstallMethod( ObjectifySimplicialSurface, "",
 ##	have to define a lot of methods and we need many helper-methods.
 ##
 ##	Our first method gives us a sorted FacesByVertices (to reflect the
-##	implicitly given orientation).
+##	implicitly given orientation). If the given list does not allow a unique
+##	result, an error is thrown.
 ##
 __SIMPLICIAL_OrderPreservingFacesByVertices := function( vertices, edges,
 		faces, edgesByVertices, facesByEdges )
@@ -137,6 +139,62 @@ __SIMPLICIAL_OrderPreservingFacesByVertices := function( vertices, edges,
 	return faceList;
 end;
 
+__SIMPLICIAL_RandomFacesByVertices := function( vertices, faces, 
+		facesByVertices, verticesByEdges )
+	local faceList, i, faceEdges, intersectingEdges, vertexList, j, firstEdge,
+		lastEdge, currentEdge, nextEdge;
+
+	faceList := [];
+	for i in faces do
+		faceVertices := facesByVertices[i];
+		vertexList := [];
+
+		# Pick one to be the first vertex
+		vertexList[1] := faceVertices[1];
+		faceVertices := Difference( faceVertices, vertexList );
+
+		# Pick the other vertices such that each one shares an edge with the last picked
+		while not IsEmpty(faceVertices) do
+			# Find one vertex that is adjacent to the last one in vertexOrder
+			lastVertex := vertexList[ Length(vertexList) ];
+			newVertex := -1;
+			for v in faceVertices do
+				if not IsEmpty( Intersection( verticesByEdges[lastVertex], verticesByEdges[newVertex] ) ) then
+					newVertex := v;
+				fi;
+			od;
+
+			if newVertex = -1 then
+				Error("__SIMPLICIAL_RandomFacesByVertices: No next vertex found." );
+			fi;
+
+			Append( vertexList, [newVertex] );
+			faceVertices := Difference( faceVertices, [newVertex] );
+		od;
+
+		faceList[i] := vertexList;
+	od;
+
+	return faceList;
+end;
+
+	facesByVerticesOrdered := [];
+		for f in Faces(surf) do
+			vertexList := facesByVertices[f];
+			vertexOrder := [ vertexList[1] ];
+			vertexList := Difference( vertexList, vertexOrder[1] );
+
+			while not IsEmpty(vertexList) do
+				# Find one vertex that is adjacent to the last one in vertexOrder
+				newVertex := -1;
+				for v in vertexList do
+
+				od;
+				
+			od;
+			facesByVerticesOrdered[f] := vertexOrder;
+		od;
+
 ##
 ##	Next we create a local orientation from such a list
 ##
@@ -160,7 +218,7 @@ end;
 
 ##
 ##	Now we install the most basic constructors
-InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
 		local surf, namesOfFaces, facesByVerticesOP, localOrient;
@@ -194,8 +252,203 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		return surf;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, true,
-	[ IsList, IsList, IsList, IsList, IsList],
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC,
+	true, [ IsList, IsList, IsList, IsList, IsList],
+	[ IsSet, IsSet, IsSet, , ], 0 );
+##
+##	Adjust for the alternative possibilities.
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
+	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
+			[1..vertices], edges, faces, edgesByVertices, facesByEdges );
+	end
+);
+
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
+	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( vertices, 
+			[1..edges],	faces, edgesByVertices, facesByEdges );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
+	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+	[ IsSet, , , , ], 0 );
+
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
+	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( vertices, 
+			edges, [1..faces], edgesByVertices, facesByEdges );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
+	true, [ IsList, IsList, IsPosInt, IsList, IsList],
+	[ IsSet, IsSet, , , ], 0 );
+##
+##	Next we have to install the same constructors with checks.
+
+__SIMPLICIAL_IsSetPosInt := function( set ) # check if a set consists of positive integers
+		local el;
+		for el in set do
+			if not IsPosInt(el) then
+				return false;
+			fi;
+		od;
+		return true;
+	end;
+__SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
+	edgesByVertices, facesByEdges, namesOfFaces )
+	
+	local e, f;
+
+	# Check the sets
+	if not __SIMPLICIAL_IsSetPosInt( vertices ) then
+		Error("DownwardIncidenceCheck: Vertices have to be positive integers.");
+	fi;
+
+	if not __SIMPLICIAL_IsSetPosInt( edges ) then
+		Error("DownwardIncidenceCheck: Edges have to be positive integers.");
+	fi;
+
+	if not __SIMPLICIAL_IsSetPosInt( faces ) then
+		Error("DownwardIncidenceCheck: Faces have to be positive integers.");
+	fi;
+
+	# Is edgesByVertices well defined?
+	for e in edges do
+		if not IsBound( edgesByVertices[e] ) then
+			Error("DownwardIncidenceCheck: One edge has no vertices.");
+		elif Size( Set( edgesByVertices[e] ) ) <> 2 then
+			Error("DownwardIncidenceCheck: One edge has not two vertices.");
+		elif not IsEmpty( Difference( Set(edgesByVertices[e]), vertices ) ) then
+			Error("DownwardIncidenceCheck: One edge has illegal vertex.");
+		fi;
+	od;
+	if Number( edgesByVertices ) <> Length( edges ) then # Number counts bound entries
+		Error("DownwardIncidenceCheck: More edges than expected.");
+	fi;
+	if Union( edgesByVertices ) <> vertices then
+		Error("DownwardIncidenceCheck: One vertex does not lie in any edge.");
+	fi;
+
+	# Is facesByEdges well defined?
+	for f in faces do
+		if not IsBound( facesByEdges[f] ) then
+			Error("DownwardIncidenceCheck: One face has no edges.");
+		elif Size( Set( facesByEdges[f] ) ) < 3 then
+			Error("DownwardIncidenceCheck: One face has less than three edges.");
+		elif not IsEmpty( Difference( Set(facesByEdges[f]), edges ) ) then
+			Error("DownwardIncidenceCheck: One face has illegal edge.");
+		fi;
+	od;
+	if Number( facesByEdges ) <> Length( faces ) then
+		Error("DownwardIncidenceCheck: More faces than expected.");
+	fi;
+	if Union( facesByEdges ) <> edges then
+		Error("DownwardIncidenceCheck: One edge does not lie in any face.");
+	fi;
+
+	# Check the face names
+	if not namesOfFaces = fail then
+		for f in faces do
+			if not IsBound( namesOfFaces[f] ) then
+				Error("DownwardIncidenceCheck: One face has no names.");
+			elif Size( Set( namesOfFaces[f] ) ) <> 2 then
+				Error("DownwardIncidenceCheck: One face has not two different names.");
+			elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
+				Error("DownwardIncidenceCheck: One face has non-integer names.");
+			fi;
+		od;
+		if Number( namesOfFaces ) <> Length( faces ) then
+			Error("DownwardIncidenceCheck: More face-names than expected.");
+		fi;
+	fi;
+end;
+InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
+	[ IsSet, IsSet, IsSet, IsList, IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+
+		__SIMPLICIAL_CheckDownwardIncidence( vertices, edges, faces,
+			edgesByVertices, facesByEdges, ValueOption( "NamesOfFaces" ) );
+
+		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
+					vertices, edges, faces, edgesByVertices, facesByEdges );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+	true, [ IsList, IsList, IsList, IsList, IsList],
+	[ IsSet, IsSet, IsSet, , ], 0 );
+##
+##	Adjust for the alternative possibilities.
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
+	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( 
+			[1..vertices], edges, faces, edgesByVertices, facesByEdges );
+	end
+);
+
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
+	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, 
+			[1..edges],	faces, edgesByVertices, facesByEdges );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+	[ IsSet, , , , ], 0 );
+
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
+	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, 
+			edges, [1..faces], edgesByVertices, facesByEdges );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+	true, [ IsList, IsList, IsPosInt, IsList, IsList],
+	[ IsSet, IsSet, , , ], 0 );
+##
+##
+##
+##
+
+##
+##	Next we install the "easy mode" of the above constructor.
+InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+	[ IsSet, IsSet, IsSet, IsList, IsList ],
+	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+		local surf, namesOfFaces, facesByVertices, facesByVerticesOrdered,
+			 localOrient, f, newVertex, v;
+
+		surf := Objectify( SimplicialSurfaceType, rec() );
+		# Set the given attributes
+		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
+		SetEdgesAttributeOfSimplicialSurface( surf, edges );
+		SetFacesAttributeOfSimplicialSurface( surf, faces );
+		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, 
+								List( edgesByVertices, i -> Set(i) ) );
+		SetFacesByEdgesAttributeOfSimplicialSurface( surf, 
+								List( facesByEdges, i -> Set(i) ) );
+
+		# Set the local orientation at random
+		facesByVertices := __SIMPLICIAL_RandomFacesByVertices( vertices, faces,
+			FacesByVertices(surf), VerticesByEdges(surf) );
+		localOrient := __SIMPLICIAL_LocalOrientationFromFacesByVertices( 
+			facesByVerticesOrdered );
+		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );
+
+		# Set the face names
+		SetNamesOfFacesAttributeOfSimplicialSurface( surf, namesOfFaces );
+		
+		return surf;
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC,
+	true, [ IsList, IsList, IsList, IsList, IsList],
 	[ IsSet, IsSet, IsSet, , ], 0 );
 ##
 ##	Adjust for the alternative possibilities.
@@ -214,8 +467,8 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 			faces, edgesByVertices, facesByEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, true,
-	[ IsList, IsPosInt, IsObject, IsList, IsList],
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
+	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
 	[ IsSet, , , , ], 0 );
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
@@ -225,129 +478,56 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 			[1..faces], edgesByVertices, facesByEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, true,
-	[ IsList, IsList, IsPosInt, IsList, IsList],
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
+	true, [ IsList, IsList, IsPosInt, IsList, IsList],
 	[ IsSet, IsSet, , , ], 0 );
 ##
 ##	Next we have to install the same constructors with checks.
-
-__SIMPLICIAL_IsSetPosInt := function( set ) # check if a set consists of positive integers
-		local el;
-		for el in set do
-			if not IsPosInt(el) then
-				return false;
-			fi;
-		od;
-		return true;
-	end;
-InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
+InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		local surf, namesOfFaces, e, f;
+		
+		__SIMPLICIAL_CheckDownwardIncidence( vertices, edges, faces,
+			edgesByVertices, facesByEdges, fail );
 
-		# Check the sets
-		if not __SIMPLICIAL_IsSetPosInt( vertices ) then
-			Error("DownwardIncidenceCheck: Vertices have to be positive integers.");
-		fi;
-
-		if not __SIMPLICIAL_IsSetPosInt( edges ) then
-			Error("DownwardIncidenceCheck: Edges have to be positive integers.");
-		fi;
-
-		if not __SIMPLICIAL_IsSetPosInt( faces ) then
-			Error("DownwardIncidenceCheck: Faces have to be positive integers.");
-		fi;
-
-		# Is edgesByVertices well defined?
-		for e in edges do
-			if not IsBound( edgesByVertices[e] ) then
-				Error("DownwardIncidenceCheck: One edge has no vertices.");
-			elif Size( Set( edgesByVertices[e] ) ) <> 2 then
-				Error("DownwardIncidenceCheck: One edge has not two vertices.");
-			elif not IsEmpty( Difference( Set(edgesByVertices[e]), vertices ) ) then
-				Error("DownwardIncidenceCheck: One edge has illegal vertex.");
-			fi;
-		od;
-		if Number( edgesByVertices ) <> Length( edges ) then # Number counts bound entries
-			Error("DownwardIncidenceCheck: More edges than expected.");
-		fi;
-		if Union( edgesByVertices ) <> vertices then
-			Error("DownwardIncidenceCheck: One vertex does not lie in any edge.");
-		fi;
-
-		# Is facesByEdges well defined?
-		for f in faces do
-			if not IsBound( facesByEdges[f] ) then
-				Error("DownwardIncidenceCheck: One face has no edges.");
-			elif Size( Set( facesByEdges[f] ) ) <> 3 then
-				Error("DownwardIncidenceCheck: One face has not three edges.");
-			elif not IsEmpty( Difference( Set(facesByEdges[f]), edges ) ) then
-				Error("DownwardIncidenceCheck: One face has illegal edge.");
-			fi;
-		od;
-		if Number( facesByEdges ) <> Length( faces ) then
-			Error("DownwardIncidenceCheck: More faces than expected.");
-		fi;
-		if Union( facesByEdges ) <> edges then
-			Error("DownwardIncidenceCheck: One edge does not lie in any face.");
-		fi;
-
-		# Check the face names
-		namesOfFaces := ValueOption( "NamesOfFaces" );
-		if not namesOfFaces = fail then
-			for f in faces do
-				if not IsBound( namesOfFaces[f] ) then
-					Error("DownwardIncidenceCheck: One face has no names.");
-				elif Size( Set( namesOfFaces[f] ) ) <> 2 then
-					Error("DownwardIncidenceCheck: One face has not two different names.");
-				elif not IsInt(namesOfFaces[f][1]) or not IsInt(namesOfFaces[f][2]) then
-					Error("DownwardIncidenceCheck: One face has non-integer names.");
-				fi;
-			od;
-			if Number( namesOfFaces ) <> Length( faces ) then
-				Error("DownwardIncidenceCheck: More face-names than expected.");
-			fi;
-		fi;
-
-		return SimplicialSurfaceByDownwardIncidenceNC( 
+		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
 					vertices, edges, faces, edgesByVertices, facesByEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, true,
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, true,
 	[ IsList, IsList, IsList, IsList, IsList],
 	[ IsSet, IsSet, IsSet, , ], 0 );
 ##
 ##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		return SimplicialSurfaceByDownwardIncidence( [1..vertices], edges,
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( [1..vertices], edges,
 			faces, edgesByVertices, facesByEdges );
 	end
 );
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		return SimplicialSurfaceByDownwardIncidence( vertices, [1..edges],
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, [1..edges],
 			faces, edgesByVertices, facesByEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, true,
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, true,
 	[ IsList, IsPosInt, IsObject, IsList, IsList],
 	[ IsSet, , , , ], 0 );
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
+InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		return SimplicialSurfaceByDownwardIncidence( vertices, edges,
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, edges,
 			[1..faces], edgesByVertices, facesByEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, true,
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, true,
 	[ IsList, IsList, IsPosInt, IsList, IsList],
 	[ IsSet, IsSet, , , ], 0 );
-##
 ##
 ##
 ##
