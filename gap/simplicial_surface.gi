@@ -1441,6 +1441,28 @@ InstallMethod( IsActualSurface, "for a simplicial surface",
 	end
 );
 
+
+#############################################################################
+##
+#!	@Description
+#!	The property IsTriangleSurface is true if all faces of the SimplicialSurface
+#!	object are triangles (i.e. they consist of three edges).
+#!	@Arguments a simplicial surface
+#!	@Returns true if all faces are triangles and false else.
+InstallMethod( IsTriangleSurface, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function( simpsurf )
+		local face, facesByEdges, check;
+
+		check := true;
+		facesByEdges := FacesByEdges( simpsurf );
+		check := Filtered( facesByEdges, i -> Length(i) <> 3 );
+	
+		return IsEmpty(check);
+	end
+);
+
+
 #############################################################################
 ##
 #!	@Description
@@ -1492,7 +1514,7 @@ InstallMethod( IsConnected, "for a simplicial surface",
 #!  @Arguments <simpsurf> a simplicial surface
 #!
 InstallMethod( IsOrientable, "for a simplicial surface",
-	[IsSimplicialSurface and IsActualSurface],
+	[IsSimplicialSurface and IsActualSurface and IsTriangleSurface], #TODO is the restriction to triangles necessary?
 	function(simpsurf)
 		local edgesByFaces, facesByVertices, orientList, i, hole, edge,
 			 facesToCheck, checkedFaces, CompatibleOrientation, orient1,
@@ -1591,7 +1613,7 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 	end
 );
 RedispatchOnCondition( IsOrientable, true, [IsSimplicialSurface],
-	[IsActualSurface], 0 );
+	[IsActualSurface and IsTriangleSurface], 0 );
 
 #############################################################################
 ##
