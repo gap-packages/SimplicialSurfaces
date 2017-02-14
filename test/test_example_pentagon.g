@@ -27,6 +27,7 @@ TestIsPentagon := function( surface, messageSurfaceOrigin )
 		10, 	# number of edges
 		5,		# number of faces
 		true,	# is it an actual surface?
+		true,	# is every face a triangle?
 		true,	# is it orientable?
 		true, 	# is it connected?
 		[2,2,2,2,2,5],		# the sorted degrees

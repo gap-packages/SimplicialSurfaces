@@ -28,6 +28,7 @@ TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 		6, 	# number of edges
 		3,		# number of faces
 		true,	# is it an actual surface?
+		true,	# is every face a triangle?
 		true,	# is it orientable?
 		true, 	# is it connected?
 		[2,2,2,3],		# the sorted degrees

@@ -26,9 +26,10 @@ TestIsThreeTrianglesOnEdge := function( surface, messageSurfaceOrigin )
 
 	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
 		5, 		# number of vertices
-		7, 	# number of edges
+		7, 		# number of edges
 		3,		# number of faces
 		false,	# is it an actual surface?
+		true,	# is every face a triangle?
 		false,	# is it orientable?
 		true, 	# is it connected?
 		[1,1,1,3,3],		# the sorted degrees
@@ -199,7 +200,7 @@ end;
 TestFoldingComplexThreeTrianglesOnEdge := function()
 	local surf, i, fan, complex, name, id12, plan, extension, id23, ext23;
 
-	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[1,2,4],[1,2,5]] );
+	surf := SimplicialSurfaceByVerticesInFacesWithOrientation( 5,3, [[1,2,3],[1,2,4],[1,2,5]] );
 	# The oriented faces +1 and -2 are opposite, as well as +2 and -3. Finally
 	# +3 and -1 are opposites of each other. The natural direction that is
 	# defined by the edge [1,2] leads to the cycle of faces (1,2,3).

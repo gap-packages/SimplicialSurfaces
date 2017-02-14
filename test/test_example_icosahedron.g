@@ -51,6 +51,7 @@ TestIsIcosahedron := function( surface, messageSurfaceOrigin )
 		30, 	# number of edges
 		20,		# number of faces
 		true,	# is it an actual surface?
+		true,	# is every face a triangle?
 		true,	# is it orientable?
 		true, 	# is it connected?
 		List([1..12],i->5),		# the sorted degrees

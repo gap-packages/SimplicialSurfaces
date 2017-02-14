@@ -31,6 +31,7 @@ TestIsThreeTrianglesInLine := function( surface, messageSurfaceOrigin )
 		7, 	# number of edges
 		3,		# number of faces
 		true,	# is it an actual surface?
+		true,	# is every face a triangle?
 		true,	# is it orientable?
 		true, 	# is it connected?
 		[1,1,2,2,3],		# the sorted degrees
@@ -77,7 +78,7 @@ end;
 TestFoldingComplexThreeTrianglesInLine := function()
 	local surf, complex, name;
 
-	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[2,5,3],[2,4,5]] );
+	surf := SimplicialSurfaceByVerticesInFacesWithOrientation( 5,3, [[1,2,3],[2,5,3],[2,4,5]] );
 	
 	# Construct the folding complex
 	complex := FoldingComplex( surf ); # relies on the fact that this is the first edge

@@ -26,9 +26,10 @@ TestIsTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
 
 	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
 		4, 		# number of vertices
-		5, 	# number of edges
+		5, 		# number of edges
 		2,		# number of faces
 		true,	# is it an actual surface?
+		true,	# is every face a triangle?
 		true,	# is it orientable?
 		true, 	# is it connected?
 		[1,1,2,2],		# the sorted degrees
@@ -138,7 +139,7 @@ end;
 TestTwoConnectedTrianglesIdentification := function()
 	local surf, name, id, vertexMap, edgeMap, faceMap;
 
-	surf := SimplicialSurfaceByDownwardIncidence( [1,2,3,4], 5, [1,4],
+	surf := SimplicialSurfaceByDownwardIncidenceWithOrientation( [1,2,3,4], 5, [1,4],
 		[ [1,2],[1,3],[3,2],[4,3],[2,4] ],
 		[ [1,2,3], , , [3,5,4] ] );
 	surf := ColouredSimplicialSurface( surf );

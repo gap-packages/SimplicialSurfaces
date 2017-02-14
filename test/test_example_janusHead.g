@@ -36,6 +36,7 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 		3, 		# number of edges
 		2,		# number of faces
 		true,	# is it an actual surface?
+		true,	# is every face a triangle?
 		true,	# is it orientable?
 		true, 	# is it connected?
 		[2,2,2],		# the sorted degrees
