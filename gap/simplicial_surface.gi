@@ -99,9 +99,13 @@ InstallMethod( ObjectifySimplicialSurface, "",
 ##	We start with the general constructor. Since we give so many options we
 ##	have to define a lot of methods and we need many helper-methods.
 ##
-##	Our first method gives us a sorted FacesByVertices (to reflect the
-##	implicitly given orientation). If the given list does not allow a unique
-##	result, an error is thrown.
+##
+
+##	This method computes FacesByVertices in the form of lists (not sets) such
+##	that adjacent vertices lie in a common edge. The ordering is determined
+##	by facesByEdges where the edges have to be given in such a way that 
+##	adjacent edges have a vertex in common. If the list is not given in such
+##	a way, an error is thrown.
 ##
 __SIMPLICIAL_OrderPreservingFacesByVertices := function( vertices, edges,
 		faces, edgesByVertices, facesByEdges )
@@ -139,10 +143,14 @@ __SIMPLICIAL_OrderPreservingFacesByVertices := function( vertices, edges,
 	return faceList;
 end;
 
+##
+##	This method returns a FacesByVertices as lists (not sets) such that
+##	adjacent vertices lie in a common edge. There is no guarantee about which
+##	ordering of the vertices will be chosen.
+##
 __SIMPLICIAL_RandomFacesByVertices := function( vertices, faces, 
 		facesByVertices, verticesByEdges )
-	local faceList, i, faceEdges, intersectingEdges, vertexList, j, firstEdge,
-		lastEdge, currentEdge, nextEdge;
+	local faceList, i, faceVertices, vertexList, lastVertex, newVertex, v;
 
 	faceList := [];
 	for i in faces do
@@ -178,25 +186,9 @@ __SIMPLICIAL_RandomFacesByVertices := function( vertices, faces,
 	return faceList;
 end;
 
-	facesByVerticesOrdered := [];
-		for f in Faces(surf) do
-			vertexList := facesByVertices[f];
-			vertexOrder := [ vertexList[1] ];
-			vertexList := Difference( vertexList, vertexOrder[1] );
-
-			while not IsEmpty(vertexList) do
-				# Find one vertex that is adjacent to the last one in vertexOrder
-				newVertex := -1;
-				for v in vertexList do
-
-				od;
-				
-			od;
-			facesByVerticesOrdered[f] := vertexOrder;
-		od;
-
 ##
-##	Next we create a local orientation from such a list
+##	Create a local orientation on the basis of facesByVertices (in the form of
+##	lists, not sets).
 ##
 __SIMPLICIAL_LocalOrientationFromFacesByVertices := function( facesByVertices )
 	local orientation, Shift;
@@ -216,8 +208,11 @@ __SIMPLICIAL_LocalOrientationFromFacesByVertices := function( facesByVertices )
 	return List( facesByVertices, face -> MappingPermListList( face, Shift(face) ) );
 end;
 
+#############################
 ##
-##	Now we install the most basic constructors
+##	This is the constructor from downward incidence where the orientation
+##	of the faces is implicit in the call
+##
 InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
@@ -366,6 +361,8 @@ __SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
 		fi;
 	fi;
 end;
+##############################
+##
 InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
@@ -416,6 +413,7 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation,
 ##
 ##
 
+############################
 ##
 ##	Next we install the "easy mode" of the above constructor.
 InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
@@ -481,6 +479,8 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
 	true, [ IsList, IsList, IsPosInt, IsList, IsList],
 	[ IsSet, IsSet, , , ], 0 );
+
+#################################
 ##
 ##	Next we have to install the same constructors with checks.
 InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
@@ -494,42 +494,42 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 					vertices, edges, faces, edgesByVertices, facesByEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, true,
-	[ IsList, IsList, IsList, IsList, IsList],
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+	true, [ IsList, IsList, IsList, IsList, IsList],
 	[ IsSet, IsSet, IsSet, , ], 0 );
 ##
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientation( [1..vertices], edges,
-			faces, edgesByVertices, facesByEdges );
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( 
+			[1..vertices], edges, faces, edgesByVertices, facesByEdges );
 	end
 );
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, [1..edges],
-			faces, edgesByVertices, facesByEdges );
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, 
+			[1..edges],	faces, edgesByVertices, facesByEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, true,
-	[ IsList, IsPosInt, IsObject, IsList, IsList],
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
 	[ IsSet, , , , ], 0 );
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, edges,
-			[1..faces], edgesByVertices, facesByEdges );
+		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, 
+			edges, [1..faces], edgesByVertices, facesByEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, true,
-	[ IsList, IsList, IsPosInt, IsList, IsList],
+RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+	true, [ IsList, IsList, IsPosInt, IsList, IsList],
 	[ IsSet, IsSet, , , ], 0 );
 ##
-##
+############################
 ##
 ##	Now we implement the constructor byVerticesInFaces. We start with the
 ##	NC-versions.
@@ -580,32 +580,33 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
 		return surf;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientationNC, true,
-	[ IsList, IsList, IsList],
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientationNC, 
+	true, [ IsList, IsList, IsList],
 	[ IsSet, IsSet, ], 0 );
 
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
 	[ IsPosInt, IsObject, IsList ],
 	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( [1..vertices], faces,
-			facesByVertices );
+		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( 
+			[1..vertices], faces, facesByVertices );
 	end
 );
 InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
 	[ IsSet, IsPosInt, IsList ],
 	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( vertices, [1..faces],
-			facesByVertices );
+		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( vertices, 
+			[1..faces],	facesByVertices );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientationNC, true,
-	[ IsList, IsPosInt, IsList],
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientationNC, 
+	true, [ IsList, IsPosInt, IsList],
 	[ IsSet, , ], 0 );
 ##
 ##	Of course the same constructors with sanity checks can't be missing.
 ##
-__SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces, facesByVertices, namesOfFaces )
+__SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces, 
+		facesByVertices, namesOfFaces )
 	
 	local f;
 
@@ -648,11 +649,14 @@ __SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces, facesByVertices,
 		fi;
 	fi;
 end;
+###########################
+##
 InstallMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
 		
-		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, ValueOption( "NamesOfFaces" ) );
+		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, 
+			ValueOption( "NamesOfFaces" ) );
 
 		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( 
 					vertices, faces, facesByVertices );
@@ -665,22 +669,22 @@ RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientation, true,
 InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
 	[ IsPosInt, IsObject, IsList ],
 	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesWithOrientation( [1..vertices], faces,
-			facesByVertices );
+		return SimplicialSurfaceByVerticesInFacesWithOrientation( 
+			[1..vertices], faces, facesByVertices );
 	end
 );
 InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
 	[ IsSet, IsPosInt, IsList ],
 	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesWithOrientation( vertices, [1..faces],
-			facesByVertices );
+		return SimplicialSurfaceByVerticesInFacesWithOrientation( vertices, 
+			[1..faces],	facesByVertices );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientation, true,
 	[ IsList, IsPosInt, IsList],
 	[ IsSet, , ], 0 );
 
-##
+##########################
 ##
 ##	Finally the constructor VerticesInFaces
 ##	Now we implement the constructor byVerticesInFaces. We start with the
@@ -752,6 +756,8 @@ InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, true,
 	[ IsList, IsPosInt, IsList],
 	[ IsSet, , ], 0 );
+
+################################
 ##
 ##	Of course the same constructors with sanity checks can't be missing.
 ##
@@ -759,7 +765,8 @@ InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
 		
-		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, ValueOption( "NamesOfFaces" ) );
+		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, 
+			ValueOption( "NamesOfFaces" ) );
 
 		return SimplicialSurfaceByVerticesInFaces( 
 					vertices, faces, facesByVertices );
