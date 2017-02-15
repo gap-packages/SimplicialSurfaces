@@ -195,3 +195,42 @@ SplitFaceByTriangleInsertion := function(surf, face1, edge1, edge2, edge3)
 
 	return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
 end;
+
+RepairSquare := function(surf, face1, vertex1)
+
+	local adjacentEdges, edge1, edge2, edge3, edge4, edge5, vertex2, vertex3, vertex4, newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
+
+	if not vertex1 in FacesByVertices(surf)[face1] then
+		Print("ERROR: Chosen vertex is not in chosen face!\n");
+		return;
+	fi;
+	if not Size(FacesByEdges(surf)[face1]) = 4 then
+		Print("ERROR: Chosen face is not a square!");
+		return;
+	fi;
+
+	adjacentEdges := Filtered(FacesByEdges(surf)[face1], t -> vertex1 in EdgesByVertices(surf)[t]);
+	edge1:= adjacentEdges[1];
+	vertex2 := Difference(EdgesByVertices(surf)[edge1], [vertex1])[1];
+	edge4 := adjacentEdges[2];
+	vertex4 := Difference(EdgesByVertices(surf)[edge4], [vertex1])[1];
+	vertex3 := Difference(FacesByVertices(surf)[face1], Union(EdgesByVertices(surf){adjacentEdges}))[1];
+	edge2 := Filtered(FacesByEdges(surf)[face1], t -> EdgesByVertices(surf)[t] = [vertex2, vertex3])[1];
+	edge3 := Filtered(FacesByEdges(surf)[face1], t -> EdgesByVertices(surf)[t] = [vertex3, vertex4])[1];
+	edge5 := Maximum(Edges(surf)) + 1;
+
+	newEdgesByVertices := List(EdgesByVertices(surf));
+	#Edge5
+	Add(newEdgesByVertices, [vertex1, vertex3]);
+
+	newFacesByEdges := List(FacesByEdges(surf));
+	newFacesByEdges[face1] := [edge1, edge2, edge5];
+	Add(newFacesByEdges, [edge3, edge4, edge5]);
+
+	newEdges := List(Edges(surf));
+	Append(newEdges, [edge5]);
+	newFaces := List(Faces(surf));
+	Append(newFaces, [Maximum(Faces(surf))+1]);
+	newVertices := List(Vertices(surf));
+	return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
+end;
