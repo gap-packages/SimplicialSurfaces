@@ -1,0 +1,197 @@
+## Method 1 (SplitFaceByDivision): Add a new face by dividing an existing face. A new vertex is added
+## to one side of the face, and an edge is added which contains this vertex and the vertex of the face opposite it.
+## Note that this deforms one of the neighbouring faces (if the edge is an inner edge).
+## 
+##    /|\
+##   / | \
+##  /  |  \
+## /___|___\
+##
+## Method 2 (SplitFaceByTriangleInsertion): Three new vertices are added, one to each edge.
+## Each vertex is then joined to each of the other vertices by three new edges. Four new faces are formed.
+## Note that this deforms up to three of the neighbouring faces (for any inner edge of the given face).
+##
+##    /\
+##   /__\
+##  /\  /\
+## /__\/__\
+##
+## Method 3 (SplitFaceBySpokes): A single new vertex is added in the centre of the face.
+## Then three new edges are added, joiningthe new vertex to each of the vertices of the face. 
+## Three new faces are formed. Note that this does not deform the neighbouring faces.
+## 
+##       /|\
+##      / | \
+##     /  |  \
+##    /  / \  \
+##   / /     \ \
+##  //_________\\
+
+
+
+
+SplitFaceByDivision := function(surf, face1, edge1)
+	# Takes as input a surface, the face to divide, and the edge which will be split.
+	
+	local edge2, edge3, edge4, edge5, vertex1, vertex2, vertex3, vertex4, newFacesByEdges, newEdgesByVertices, newVertices, newEdges, newFaces, i;
+
+	if not edge1 in FacesByEdges(surf)[face1] then
+		Print("ERROR: Chosen edge is not in chosen face!\n");
+		return;
+	fi;
+	if not Size(FacesByEdges(surf)[face1]) = 3 then
+		Print("ERROR: Chosen face is not a triangle!");
+		return;
+	fi;
+
+	edge2 := Difference(FacesByEdges(surf)[face1], [edge1])[1];
+	edge3 := Difference(FacesByEdges(surf)[face1], [edge1])[2];
+	edge4 := Maximum(Edges(surf)) + 1;
+	edge5 := Maximum(Edges(surf)) + 2;
+
+	vertex1 := Difference(FacesByVertices(surf)[face1], EdgesByVertices(surf)[edge1])[1];
+	vertex2 := Difference(EdgesByVertices(surf)[edge3], [vertex1])[1];
+	vertex3 := Difference(EdgesByVertices(surf)[edge2], [vertex1])[1];
+	vertex4 := Maximum(Vertices(surf)) + 1;
+
+	newFacesByEdges := List(FacesByEdges(surf));
+	newFacesByEdges[face1] := [edge1, edge2, edge5];
+	Add(newFacesByEdges, [edge3, edge4, edge5]);
+	newEdgesByVertices := List(EdgesByVertices(surf));
+	newEdgesByVertices[edge1] := [vertex3, vertex4];
+	Add(newEdgesByVertices, [vertex2, vertex4]);
+	Add(newEdgesByVertices, [vertex1, vertex4]);
+
+	for i in Difference(EdgesByFaces(surf)[edge1], [face1]) do
+		adjacentFace := List(newFacesByEdges[i]);
+		newFacesByEdges[i] :=  Union(adjacentFace, [edge4]);
+	od;
+
+	newVertices := List(Vertices(surf));
+	Add(newVertices, vertex4);
+	newEdges := List(Edges(surf));
+	Append(newEdges, [edge4, edge5]);
+	newFaces := List(Faces(surf));
+	Add(newFaces, Maximum(Faces(surf))+1);
+
+	return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
+end;
+
+
+SplitFaceBySpokes := function(surf, face1)
+	# Takes as input a surface and the face to be divided.
+
+	local edge1, edge2, edge3, edge4, edge5, edge6, vertex1, vertex2, vertex3, vertex4, newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
+
+	if not Size(FacesByEdges(surf)[face1]) = 3 then
+		Print("ERROR: Chosen face is not a triangle!");
+		return;
+	fi;
+
+	edge1 := FacesByEdges(surf)[face1][1];
+	edge2 := FacesByEdges(surf)[face1][2];
+	edge3 := FacesByEdges(surf)[face1][3];
+	edge4 := Maximum(Edges(surf)) + 1;
+	edge5 := Maximum(Edges(surf)) + 2;
+	edge6 := Maximum(Edges(surf)) + 3;
+
+	vertex1 := Difference(FacesByVertices(surf)[face1], EdgesByVertices(surf)[edge1])[1];
+	vertex2 := Difference(EdgesByVertices(surf)[edge3], [vertex1])[1];
+	vertex3 := Difference(EdgesByVertices(surf)[edge2], [vertex1])[1];
+	vertex4 := Maximum(Vertices(surf)) + 1;
+
+	newEdgesByVertices := List(EdgesByVertices(surf));
+	Add(newEdgesByVertices, [vertex1, vertex4]);
+	Add(newEdgesByVertices, [vertex2, vertex4]);
+	Add(newEdgesByVertices, [vertex3, vertex4]);
+
+	newFacesByEdges := List(FacesByEdges(surf));
+	newFacesByEdges[face1] := [edge3, edge4, edge5];
+	Add(newFacesByEdges, [edge1, edge5, edge6]);
+	Add(newFacesByEdges, [edge2, edge4, edge6]);
+
+	newVertices := List(Vertices(surf));
+	Add(newVertices, vertex4);
+	newEdges := List(Edges(surf));
+	Append(newEdges, [edge4, edge5, edge6]);
+	newFaces := List(Faces(surf));
+	Append(newFaces, [Maximum(Faces(surf))+1, Maximum(Faces(surf))+2]);
+
+	return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
+end;
+
+SplitFaceByTriangleInsertion := function(surf, face1, edge1, edge2, edge3)
+	#Takes as input a surface, the face to be divided and each of the edges of the face.
+
+	local edge4, edge5, edge6, edge7, edge8, edge9, vertex1, vertex2, vertex3, vertex4, vertex5, vertex6,
+	 newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
+
+	if not Set([edge1, edge2, edge3]) = Set(FacesByEdges(surf)[face1]) then
+		Print("ERROR: Chosen edges are not all in chosen face!\n");
+		return;
+	fi;
+	if not Size(FacesByEdges(surf)[face1]) = 3 then
+		Print("ERROR: Chosen face is not a triangle!");
+		return;
+	fi;
+
+	edge4 := Maximum(Edges(surf)) + 1;
+	edge5 := Maximum(Edges(surf)) + 2;
+	edge6 := Maximum(Edges(surf)) + 3;
+	edge7 := Maximum(Edges(surf)) + 4;
+	edge8 := Maximum(Edges(surf)) + 5;
+	edge9 := Maximum(Edges(surf)) + 6;
+
+
+	vertex1 := Difference(FacesByVertices(surf)[face1], EdgesByVertices(surf)[edge1])[1];
+	vertex2 := Difference(FacesByVertices(surf)[face1], EdgesByVertices(surf)[edge2])[1];
+	vertex3 := Difference(FacesByVertices(surf)[face1], EdgesByVertices(surf)[edge3])[1];
+	vertex4 := Maximum(Vertices(surf)) + 1;
+	vertex5 := Maximum(Vertices(surf)) + 2;
+	vertex6 := Maximum(Vertices(surf)) + 3;
+	
+	newEdgesByVertices := List(EdgesByVertices(surf));
+	newEdgesByVertices[edge1] := [vertex2, vertex4];
+	newEdgesByVertices[edge2] := [vertex3, vertex5];
+	newEdgesByVertices[edge3] := [vertex1, vertex6];
+	#Edge4
+	Add(newEdgesByVertices, [vertex3, vertex4]);
+	#Edge5
+	Add(newEdgesByVertices, [vertex1, vertex5]);
+	#Edge6
+	Add(newEdgesByVertices, [vertex2, vertex6]);
+	#Edge7
+	Add(newEdgesByVertices, [vertex5, vertex6]);
+	#Edge8
+	Add(newEdgesByVertices, [vertex4, vertex6]);
+	#Edge9
+	Add(newEdgesByVertices, [vertex4, vertex5]);
+
+	newFacesByEdges := List(FacesByEdges(surf));
+	newFacesByEdges[face1] := [edge3, edge5, edge7];
+	Add(newFacesByEdges, [edge2, edge4, edge9]);
+	Add(newFacesByEdges, [edge7, edge8, edge9]);
+	Add(newFacesByEdges, [edge1, edge6, edge8]);
+
+	newVertices := List(Vertices(surf));
+	Append(newVertices, [vertex4, vertex5, vertex6]);
+	newEdges := List(Edges(surf));
+	Append(newEdges, [edge4, edge5, edge6, edge7, edge8, edge9]);
+	newFaces := List(Faces(surf));
+	Append(newFaces, [Maximum(Faces(surf))+1, Maximum(Faces(surf))+2, Maximum(Faces(surf))+3]);
+
+	for i in Difference(EdgesByFaces(surf)[edge1], [face1]) do
+		adjacentFace := List(newFacesByEdges[i]);
+		newFacesByEdges[i] :=  Union(adjacentFace, [edge4]);
+	od;
+	for i in Difference(EdgesByFaces(surf)[edge2], [face1]) do
+		adjacentFace := List(newFacesByEdges[i]);
+		newFacesByEdges[i] :=  Union(adjacentFace, [edge5]);
+	od;
+	for i in Difference(EdgesByFaces(surf)[edge3], [face1]) do
+		adjacentFace := List(newFacesByEdges[i]);
+		newFacesByEdges[i] :=  Union(adjacentFace, [edge6]);
+	od;
+
+	return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
+end;
