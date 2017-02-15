@@ -495,40 +495,62 @@ InstallMethod( NeighbourIdentification,
 	"for a simplicial surface and two faces",
 	[IsSimplicialSurface, IsPosInt, IsPosInt],
 	function( surface, face1, face2 )
-		if face1 in Faces(surface) and face2 in Faces(surface) then
-			return NeighbourIdentificationNC(surface, face1, face2);
+		if not face1 in Faces(surface) or not face2 in Faces(surface) then
+			Error("NeighbourIdentification: The given faces have to be faces of the given simplicial surface.");			
+		fi;
+		if Length( FacesByVertices(surface)[face1] ) <> 
+							Length( FacesByVertices(surface)[face2] ) then
+			Error("NeighbourIdentification: The given faces have to contain the same number of vertices.");
 		fi;
 
-		Error("NeighbourIdentification: The given faces have to be faces of the given simplicial surface.");
+		return NeighbourIdentificationNC(surface, face1, face2);
 	end
 );
 InstallMethod( NeighbourIdentificationNC, 
 	"for a simplicial surface and two faces",
 	[IsSimplicialSurface, IsPosInt, IsPosInt],
 	function( surface, face1, face2 )
-		local commonVertices, vertexList, lastVertex, imageVertex, vertexMap,
-			edgeList, edge, vertexImages, possEdge, edgeMap, faceMap, v;
+		local commonVertices, vertexList, vertexMap,
+			edgeList, edge, vertexImages, possEdge, edgeMap, faceMap, v,
+			vertexStart, vertexStop, perm1, perm2, newVert1, newVert2, i;
 
 		commonVertices := Intersection( FacesByVertices(surface)[face1], 
 										FacesByVertices(surface)[face2] );
-		if Length(commonVertices) < 2 then
-			Error("NeighbourIdentification: The given faces have to have at least two vertices in common.");
+
+		# We have to find two vertices that are adjacent
+		vertexStart := -1;
+		for v in commonVertices do
+			if v^LocalOrientation(surface)[face1] in commonVertices then
+				vertexStart := v;
+				vertexStop := v^LocalOrientation(surface)[face1];
+				break;
+			fi;
+		od;
+		if vertexStart = -1 then
+			Error("NeighbourIdentification: The given faces have to have at least two adjacent vertices in common.");
 		fi;
 
-		# Construct the vertex map
-		vertexList := [];
-		for v in commonVertices do
-			Append( vertexList, [ DirectProductElement([v,v]) ] );
-		od;
-		# Since we are dealing with triangles, there is at most one additional vertex
-		if Length(commonVertices) = 2 then
-			lastVertex := Difference( FacesByVertices(surface)[face1], 
-														commonVertices )[1];
-			imageVertex := Difference( FacesByVertices(surface)[face2], 
-														commonVertices )[1];
-			Append( vertexList, 
-				[ DirectProductElement([lastVertex,imageVertex]) ] );
+
+		# Construct the vertex map by using the local orientations
+		perm1 := LocalOrientation(surface)[face1];
+		if vertexStart^LocalOrientation(surface)[face2] = vertexStop then
+			perm2 := LocalOrientation(surface)[face2];
+		elif vertexStop^LocalOrientation(surface)[face2] = vertexStart then
+			perm2 := LocalOrientation(surface)[face2]^(-1);
+		else
+			Error("NeighbourIdentification: Adjacent vertices in first face are not adjacent in second face.");
 		fi;
+			
+		vertexList := [ DirectProductElement([vertexStart,vertexStart]), 
+							DirectProductElement([vertexStop,vertexStop]) ];
+		for i in [2..Length( FacesByVertices(surface)[face1] )] do
+			newVert1 := vertexStart^(perm1^i);
+			newVert2 := vertexStart^(perm2^i);
+			if newVert1 in commonVertices and newVert1 <> newVert2 then
+				Error("NeighbourIdentification: Vertices can't be mapped to each other while respecting constance on intersection.");
+			fi;
+			Append( vertexList, [ DirectProductElement([newVert1,newVert2]) ] );
+		od;
 		vertexMap := GeneralMappingByElements( 
 				Domain( FacesByVertices(surface)[face1] ),
 				Domain( FacesByVertices(surface)[face2] ),
