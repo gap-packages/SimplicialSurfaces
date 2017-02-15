@@ -1,3 +1,8 @@
+####################################################################################################################
+##
+## modifying_simplicial_surfaces.g 				Jesse Lansdown
+##
+##
 ## Method 1 (SplitFaceByDivision): Add a new face by dividing an existing face. A new vertex is added
 ## to one side of the face, and an edge is added which contains this vertex and the vertex of the face opposite it.
 ## Note that this deforms one of the neighbouring faces (if the edge is an inner edge).
@@ -26,8 +31,8 @@
 ##    /  / \  \
 ##   / /     \ \
 ##  //_________\\
-
-
+##
+##
 
 
 SplitFaceByDivision := function(surf, face1, edge1)
