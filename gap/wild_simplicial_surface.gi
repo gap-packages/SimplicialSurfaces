@@ -27,7 +27,7 @@ WildSimplicialSurfaceType :=
 ##	and the MR-type. It also initalises everything necessary.
 InstallMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList ],
 	function( generators, mrType )
-		local simpsurf, namesOfFaces;
+		local simpsurf;
 
 		#simpsurf := TODO
 
@@ -99,6 +99,7 @@ InstallMethod( Generators, "for wild simplicial surfaces",
 		return GeneratorsAttributeOfWildSimplicialSurface( surface );
 	end
 );
+
 
 #############################################################################
 #############################################################################
@@ -237,6 +238,9 @@ InstallMethod( VertexGroup, "for a wild simplicial surface",
 		return VertexGroupAttributeOfWildSimplicialSurface( simpsurf );
 	end
 );
+
+
+
 
 #############################################################################
 ##
