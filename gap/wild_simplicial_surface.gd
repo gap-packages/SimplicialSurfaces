@@ -68,7 +68,7 @@
 ##	object (which is encoded as a category).
 ##
 DeclareCategory( "IsWildSimplicialSurface", IsSimplicialSurface and
-												 IsActualSurface );
+									 IsActualSurface and IsTriangleSurface );
 
 
 #############################################################################
@@ -137,6 +137,30 @@ DeclareOperation( "GroupOfWildSimplicialSurface", [IsWildSimplicialSurface] );
 DeclareAttribute( "VertexGroupAttributeOfWildSimplicialSurface", 
 		IsWildSimplicialSurface );
 DeclareOperation( "VertexGroup", [IsWildSimplicialSurface] );
+
+
+#!	@Description
+#!	Return the edge colors. We return a list which has unbounded entries for
+#!	all edges (and only those). At the position 'edge' the colour of this
+#!	edge is saved - that is, to which generator this edge belongs.
+#!	@Arguments a wild simplicial surface
+#!	@Returns a list
+DeclareAttribute( "EdgeColoursAttributeOfWildSimplicialSurface",
+		IsWildSimplicialSurface );
+DeclareOperation( "EdgeColours", [IsWildSimplicialSurface] );
+
+
+#!	@Description
+#!	Return the edge mr-types. We return a list which has unbounded entries for
+#!	all edges (and only those). At the position 'edge' the mr-type of this edge
+#!	is stored - 'm' for a mirror edge, 'r' for a rotation edge and 'b' for a
+#!	border edge.
+#!	@Arguments a wild simplicial surface
+#!	@Returns a list
+DeclareAttribute( "EdgeMRTypesAttributeOfWildSimplicialSurface",
+		IsWildSimplicialSurface );
+DeclareOperation( "EdgeMRTypes", [IsWildSimplicialSurface] );
+
 
 #!  @Description Given a wild coloured simplicial surface <simpsurf>, this
 #!  function determines the mr-type of each of the edges of <simpsurf>.

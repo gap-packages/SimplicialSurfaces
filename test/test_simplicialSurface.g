@@ -542,6 +542,20 @@ TestWildSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin 
 	fi;
 
 	
+	# Test the edge colours
+	if EdgeColours(surface) <> EdgeColoursAttributeOfWildSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent edge colours.\n");
+	fi;
+
+
+	# Test the edge mr-types
+	if EdgeMRTypes(surface) <> EdgeMRTypesAttributeOfWildSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has inconsistent edge mr-types.\n");
+	fi;
+
+	
 	# Test the mr-type
 	if MrType(surface) <> MrTypeAttributeOfWildSimplicialSurface(surface) or 
 		MRType(surface) <> MrTypeAttributeOfWildSimplicialSurface(surface) then
