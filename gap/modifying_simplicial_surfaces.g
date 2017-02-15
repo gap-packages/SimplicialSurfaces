@@ -220,8 +220,8 @@ RepairSquare := function(surf, face1, vertex1)
 	edge4 := adjacentEdges[2];
 	vertex4 := Difference(EdgesByVertices(surf)[edge4], [vertex1])[1];
 	vertex3 := Difference(FacesByVertices(surf)[face1], Union(EdgesByVertices(surf){adjacentEdges}))[1];
-	edge2 := Filtered(FacesByEdges(surf)[face1], t -> EdgesByVertices(surf)[t] = [vertex2, vertex3])[1];
-	edge3 := Filtered(FacesByEdges(surf)[face1], t -> EdgesByVertices(surf)[t] = [vertex3, vertex4])[1];
+	edge2 := Filtered(FacesByEdges(surf)[face1], t -> AsSet(EdgesByVertices(surf)[t]) = AsSet([vertex2, vertex3]))[1];
+	edge3 := Filtered(FacesByEdges(surf)[face1], t -> AsSet(EdgesByVertices(surf)[t]) = AsSet([vertex3, vertex4]))[1];
 	edge5 := Maximum(Edges(surf)) + 1;
 
 	newEdgesByVertices := List(EdgesByVertices(surf));
