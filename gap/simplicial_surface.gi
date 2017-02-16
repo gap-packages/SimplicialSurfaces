@@ -942,11 +942,141 @@ InstallMethod( LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface, "fo
 			TryNextMethod();
 		else
 			LocalOrientationByEdgesAsList( simpsurf );
+			LocalOrientationByVerticesAsList( simpsurf );
 			return LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface( simpsurf );
 		fi;
 	end
 );
 
+
+#############################################################################
+#!	@Description
+#!	Return a list of lists where at the position of each face-number
+#!	there is a list of all vertices that are incident to this face. This
+#!	list represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!  @Returns a list of lists
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( simpsurf )
+		return LocalOrientationByVerticesAsListAttributeOfSimplicialSurface(simpsurf);
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsListAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPermAttributeOfSimplicialSurface],
+	function( simpsurf )
+		return __SIMPLICIAL_TranslateCyclesIntoLists( 
+			LocalOrientationByVerticesAsPerm( simpsurf ), Faces( simpsurf ) );
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsListAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface],
+	function( simpsurf )
+		# TODO
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsListAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPermAttributeOfSimplicialSurface],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsPermAttributeOfSimplicialSurface(simpsurf) or
+			 HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByEdgesAsList( simpsurf );
+			return LocalOrientationByVerticesAsListAttributeOfSimplicialSurface( simpsurf );
+		fi;
+	end
+);
+
+
+#############################################################################
+#!	@Description
+#!	Return a list of permutations where at the position of each face-number
+#!	there is a cycle of all edges that are incident to this face. This
+#!	cycle represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!  @Returns a list of permutations
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( simpsurf )
+		return LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface(simpsurf);
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface],
+	function( simpsurf )
+		return __SIMPLICIAL_TranslateListsIntoCycles( 
+			LocalOrientationByEdgesAsList( simpsurf ) );
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface],
+	function( simpsurf )
+		if HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByEdgesAsList( simpsurf );
+			return LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface( simpsurf );
+		fi;
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPermAttributeOfSimplicialSurface],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface(simpsurf) or
+			 HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByVerticesAsList( simpsurf );
+			LocalOrientationByEdgesAsList( simpsurf );
+			return LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface( simpsurf );
+		fi;
+	end
+);
+
+
+
+#############################################################################
+#!	@Description
+#!	Return a list of lists where at the position of each face-number
+#!	there is a list of all edges that are incident to this face. This
+#!	list represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!  @Returns a list of lists
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( simpsurf )
+		return LocalOrientationByEdgesAsListAttributeOfSimplicialSurface(simpsurf);
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsListAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPermAttributeOfSimplicialSurface],
+	function( simpsurf )
+		return __SIMPLICIAL_TranslateCyclesIntoLists( 
+			LocalOrientationByEdgesAsPerm( simpsurf ), Faces( simpsurf ) );
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsListAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface],
+	function( simpsurf )
+		# TODO
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsListAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPermAttributeOfSimplicialSurface],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface(simpsurf) or
+			 HasLocalOrientationByEdgesAsPermAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByVerticesAsList( simpsurf );
+			return LocalOrientationByEdgesAsListAttributeOfSimplicialSurface( simpsurf );
+		fi;
+	end
+);
 
 
 ##
@@ -954,6 +1084,9 @@ InstallMethod( LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface, "fo
 ##
 ##############################################################################
 ##############################################################################
+
+
+
 
 #############################################################################
 #!  @Description
