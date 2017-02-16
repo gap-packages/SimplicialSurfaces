@@ -1117,7 +1117,7 @@ InstallMethod( NrOfFaces, "for a simplicial surface",
 ##
 ##  A Print method for simplicial surfaces
 ##
-InstallMethod( PrintStringAttributeOfSimplicialSurface, #TODO does not reconstruct properly
+InstallMethod( PrintStringAttributeOfSimplicialSurface,
 	"for a simplicial surface", [IsSimplicialSurface],
 	function( simpsurf )
 		local str, out;
@@ -1129,7 +1129,7 @@ InstallMethod( PrintStringAttributeOfSimplicialSurface, #TODO does not reconstru
 		PrintTo( out, Edges(simpsurf), ",\n" );
 		PrintTo( out, Faces(simpsurf), ",\n" );
 		PrintTo( out, EdgesByVertices(simpsurf), ",\n" );
-		PrintTo( out, FacesByEdges(simpsurf), ",\n" );
+		PrintTo( out, LocalOrientationByEdgesAsList(simpsurf), ",\n" );
 
 		if IsFaceNamesDefault(simpsurf) then
 			PrintTo( out, ");\n" );
