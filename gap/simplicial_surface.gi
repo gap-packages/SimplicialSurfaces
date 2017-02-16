@@ -926,8 +926,35 @@ InstallMethod( NrOfFaces, "for a simplicial surface",
 ##
 ##  A Print method for simplicial surfaces
 ##
-InstallMethod( PrintObj, "for simplicial surfaces", [ IsSimplicialSurface ], #TODO does not reconstruct properly
+InstallMethod( PrintStringAttributeOfSimplicialSurface, #TODO does not reconstruct properly
+	"for a simplicial surface", [IsSimplicialSurface],
+	function( simpsurf )
+		local str, out;
+
+		str := "";
+		out := OutputTextString( str, true );
+		PrintTo( out, "SimplicialSurfaceByDownwardIncidenceWithOrientationNC(\n" );
+		PrintTo( out, Vertices(simpsurf), ",\n" );
+		PrintTo( out, Edges(simpsurf), ",\n" );
+		PrintTo( out, Faces(simpsurf), ",\n" );
+		PrintTo( out, EdgesByVertices(simpsurf), ",\n" );
+		PrintTo( out, FacesByEdges(simpsurf), ",\n" );
+
+		if IsFaceNamesDefault(simpsurf) then
+			PrintTo( out, ");\n" );
+		else
+			PrintTo( out, " : NamesOfFaces := ", NamesOfFaces(simpsurf), ");\n" );
+		fi;
+
+		CloseStream(out);
+
+		return str;
+	end
+);
+InstallMethod( PrintObj, "for simplicial surfaces", [ IsSimplicialSurface ], 
 	function(simpsurf)
+
+		Print( PrintStringAttributeOfSimplicialSurface( simpsurf ) );
 
         Print("SimplicialSurfaceByDownwardIncidenceNC(\n");
         Print( Vertices(simpsurf), ",\n");
@@ -951,6 +978,8 @@ InstallMethod( Display, "for simplicial surfaces", [ IsSimplicialSurface ],
         Print("Faces: ", Faces(simpsurf), ",\n");
         Print("EdgesByVertices: ", EdgesByVertices(simpsurf), ",\n");
         Print("FacesByEdges: ", FacesByEdges(simpsurf), ",\n" );
+		Print("LocalOrientation: ", LocalOrientation(simpsurf), ",\n" );
+		Print("NamesOfFaces: ", NamesOfFaces(simpsurf), ",\n" );
 	end
 );
 

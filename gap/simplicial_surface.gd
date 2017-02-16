@@ -426,6 +426,14 @@ DeclareAttribute( "IncidenceGraphAttributeOfSimplicialSurface",
 DeclareOperation( "IncidenceGraph", [IsSimplicialSurface] );
 
 
+#!	@Description
+#!	Return a string that contains a command to reconstruct this simplicial
+#!	surface. It is primarily used in the PrintObj-method.
+#!	@Arguments a simplicial surface
+#!	@Returns a string
+DeclareAttribute( "PrintStringAttributeOfSimplicialSurface", 
+		IsSimplicialSurface );
+
 
 #############################################################################
 ##
