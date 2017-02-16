@@ -102,48 +102,6 @@ InstallMethod( ObjectifySimplicialSurface, "",
 ##
 ##
 
-##	This method computes FacesByVertices in the form of lists (not sets) such
-##	that adjacent vertices lie in a common edge. The ordering is determined
-##	by facesByEdges where the edges have to be given in such a way that 
-##	adjacent edges have a vertex in common. If the list is not given in such
-##	a way, an error is thrown.
-##
-__SIMPLICIAL_OrderPreservingFacesByVertices := function( vertices, edges,
-		faces, edgesByVertices, facesByEdges )
-	local faceList, i, faceEdges, intersectingEdges, vertexList, j, firstEdge,
-		lastEdge, currentEdge, nextEdge;
-
-	faceList := [];
-	for i in faces do
-		faceEdges := facesByEdges[i];
-		vertexList := [];
-
-		# Intersect first and last edge to obtain first vertex
-		firstEdge := Set( edgesByVertices[faceEdges[1]] );
-		lastEdge := Set( edgesByVertices[faceEdges[Length(faceEdges)]] );
-		intersectingEdges := Intersection( firstEdge, lastEdge );
-		if Length(intersectingEdges) <> 1 then
-   	    	Error("__SIMPLICIAL_OrderPreservingFacesByVertices: Edge intersection is not unique.");
-		fi;
-		vertexList[1] := intersectingEdges[1];
-
-		# Continue in the same way for the other edges
-		for j in [2 .. Length(faceEdges)] do
-			currentEdge := Set( edgesByVertices[faceEdges[j-1]] );
-			nextEdge := Set( edgesByVertices[faceEdges[j]] );
-			intersectingEdges := Intersection( currentEdge, nextEdge );
-			if Length(intersectingEdges) <> 1 then
-  	     		Error("__SIMPLICIAL_OrderPreservingFacesByVertices: Edge intersection is not unique.");
-			fi;
-			vertexList[j] := intersectingEdges[1];
-		od;
-
-		faceList[i] := vertexList;
-	od;
-
-	return faceList;
-end;
-
 ##
 ##	This method returns a FacesByVertices as lists (not sets) such that
 ##	adjacent vertices lie in a common edge. There is no guarantee about which
@@ -187,27 +145,6 @@ __SIMPLICIAL_RandomFacesByVertices := function( vertices, faces,
 	return faceList;
 end;
 
-##
-##	Create a local orientation on the basis of facesByVertices (in the form of
-##	lists, not sets).
-##
-__SIMPLICIAL_LocalOrientationFromFacesByVertices := function( facesByVertices )
-	local orientation, Shift;
-
-	# local function that shifts each entry of the list to the previous one
-	Shift := function( list )
-		local newList, i;
-
-		newList := [];
-		newList[ Length(list) ] := list[1];
-		for i in [2..Length(list)] do
-			newList[i-1] := list[i];
-		od;
-		return newList;
-	end;
-
-	return List( facesByVertices, face -> MappingPermListList( face, Shift(face) ) );
-end;
 
 #############################
 ##
@@ -217,12 +154,7 @@ end;
 InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		local surf, namesOfFaces, facesByVerticesOP, localOrient;
-
-		facesByVerticesOP := __SIMPLICIAL_OrderPreservingFacesByVertices( 
-					vertices, edges, faces, edgesByVertices, facesByEdges );
-		localOrient := __SIMPLICIAL_LocalOrientationFromFacesByVertices( 
-														facesByVerticesOP );
+		local surf, namesOfFaces;
 
 		surf := Objectify( SimplicialSurfaceType, rec() );
 		# Set the given attributes
@@ -235,7 +167,8 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 								List( facesByEdges, i -> Set(i) ) );
 		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
 								List( facesByVerticesOP, i -> Set(i) ) );
-		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );
+		SetLocalOrientationByEdgesAsListAttributeOfSimplicialSurface( surf, 
+								facesByEdges );
 
 		# Set the face names
 		namesOfFaces := ValueOption( "NamesOfFaces" );
@@ -294,10 +227,15 @@ __SIMPLICIAL_IsSetPosInt := function( set ) # check if a set consists of positiv
 		od;
 		return true;
 	end;
+##
+##	The argument edgesAdjacent is true if the edges in facesByEdges should 
+##	conform to the standards of LocalOrientationOfEdgesAsList (that is, two
+##	edges that are adjacent in the list should also be adjacent in the surface)
+##
 __SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
-	edgesByVertices, facesByEdges, namesOfFaces )
+	edgesByVertices, facesByEdges, namesOfFaces, edgesAdjacent )
 	
-	local e, f;
+	local e, f, IncidentEdges, edgeList, i;
 
 	# Check the sets
 	if not __SIMPLICIAL_IsSetPosInt( vertices ) then
@@ -346,6 +284,33 @@ __SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
 		Error("DownwardIncidenceCheck: One edge does not lie in any face.");
 	fi;
 
+	# Special check for the orientation preserving constructor
+	if edgesAdjacent then
+		IncidentEdges := function( edgesByVertices, edge1, edge2 )
+			local vert1, vert2, inter;
+
+			vert1 := edgesByVertices[edge1];
+			vert2 := edgesByVertices[edge2];
+			inter := Intersection( vert1, vert2 );
+		
+			if Length(inter) <> 1 then
+				Error("DownwardIncidenceCheck: Adjacent edges in the list have to be adjacent in the surface." );
+			fi;
+			
+			return;
+		end;
+
+		for f in faces do
+			edgeList := facesByEdges[f];
+			
+			IncidentEdges( edgesByVertices, edgeList[1], 
+										edgeList[ Length(edgeList) ] );
+			for i in [2..Length(edgeList)] do
+				IncidentEdges( edgesByVertices, edgeList[i-1], edgeList[i] );
+			od;
+		od;
+	fi;
+
 	# Check the face names
 	if not namesOfFaces = fail then
 		for f in faces do
@@ -369,7 +334,7 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
 
 		__SIMPLICIAL_CheckDownwardIncidence( vertices, edges, faces,
-			edgesByVertices, facesByEdges, ValueOption( "NamesOfFaces" ) );
+			edgesByVertices, facesByEdges, ValueOption( "NamesOfFaces" ), true);
 
 		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
 					vertices, edges, faces, edgesByVertices, facesByEdges );
@@ -435,9 +400,8 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		# Set the local orientation at random
 		facesByVertices := __SIMPLICIAL_RandomFacesByVertices( vertices, faces,
 			FacesByVertices(surf), VerticesByEdges(surf) );
-		localOrient := __SIMPLICIAL_LocalOrientationFromFacesByVertices( 
-			facesByVertices );
-		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );
+		SetLocalOrientationOfVerticesAsListAttributeOfSimplicialSurface( surf, 
+											facesByVertices );
 
 		# Set the face names
 		SetIsFaceNamesDefault( surf, true );
@@ -488,7 +452,7 @@ InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
 	function( vertices, edges, faces, edgesByVertices, facesByEdges )
 		
 		__SIMPLICIAL_CheckDownwardIncidence( vertices, edges, faces,
-			edgesByVertices, facesByEdges, fail );
+			edgesByVertices, facesByEdges, fail, false );
 
 		return SimplicialSurfaceByDownwardIncidenceNC( 
 					vertices, edges, faces, edgesByVertices, facesByEdges );
@@ -532,21 +496,30 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence,
 ############################
 ##
 ##	Now we implement the constructor byVerticesInFaces. We start with the
-##	NC-versions.
-InstallMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
+##	NC-versions. The local orientation is always given by the facesByVertices
+##	since the edges are constructed in this way.
+InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
-		local surf, namesOfFaces, localOrient, edgesByVertices, 
+		local surf, namesOfFaces, edgesByVertices, AdjacentVertices, 
 				facesByEdges, f, j, e, facesBySetEdges;
 
-		localOrient := __SIMPLICIAL_LocalOrientationFromFacesByVertices( 
-														facesByVertices );
-
 		# Determine the edges. For each face we determine all subset of its
-		# vertices that contain two elements. These sets will form the edges
+		# vertices that contain two elements which are adjacent in the list
+		# of this face. These sets will form the edges
 		# of the simplicial surface
+		AdjacentVertices := function( list )
+			local vertexSet, i;
+
+			vertexSet := [ Set([list[1], list[ Length(list) ] ) ];
+			for i in [2..Length(list)] do
+				Append( vertexSet, [ list[i-1], list[i] ] );
+			od;
+			return Set(vertexSet);
+		end;
+			
 		facesBySetEdges := List( faces, i -> 
-					Set(Combinations( Set(facesByVertices[i]) ,2)) );
+							AdjacentVertices( facesByVertices[i] ) );
 		edgesByVertices := Union(facesBySetEdges);
 
 		facesByEdges := List(faces,i->[]);
@@ -567,7 +540,8 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
 		SetFacesByEdgesAttributeOfSimplicialSurface( surf, facesByEdges );
 		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
 									List( facesByVertices, i -> Set(i) ) );
-		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );
+		SetLocalOrientationOfVerticesAsListAttributeOfSimplicialSurface( surf, 
+												facesByVertices );
 
 		# Set the face names
 		namesOfFaces := ValueOption( "NamesOfFaces" );
@@ -681,116 +655,6 @@ InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientation, true,
-	[ IsList, IsPosInt, IsList],
-	[ IsSet, , ], 0 );
-
-##########################
-##
-##	Finally the constructor VerticesInFaces
-##	Now we implement the constructor byVerticesInFaces. We start with the
-##	NC-versions.
-InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
-	[ IsSet, IsSet, IsList ],
-	function( vertices, faces, facesByVertices )
-		local surf, namesOfFaces, localOrient, edgesByVertices, 
-				facesByEdges, f, j, e, facesBySetEdges, facesByVerticesOrdered;
-
-		# Determine the edges. For each face we determine all subset of its
-		# vertices that contain two elements. These sets will form the edges
-		# of the simplicial surface
-		facesBySetEdges := List( faces, i -> 
-					Set(Combinations( Set(facesByVertices[i]) ,2)) );
-		edgesByVertices := Union(facesBySetEdges);
-
-		facesByEdges := List(faces,i->[]);
-		for f in faces do
-			for j  in [1..3] do
-				e := facesBySetEdges[f][j];
-				facesByEdges[f][j] := Position(edgesByVertices,e);
-			od;
-		od;
-
-		surf := Objectify( SimplicialSurfaceType, rec() );
-		# Set the given attributes
-		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
-		SetEdgesAttributeOfSimplicialSurface( surf, 
-									[1..Length(edgesByVertices)] );
-		SetFacesAttributeOfSimplicialSurface( surf, faces );
-		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, edgesByVertices );
-		SetFacesByEdgesAttributeOfSimplicialSurface( surf, facesByEdges );
-		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
-									List( facesByVertices, i -> Set(i) ) );
-
-		# Set the local orientation
-		facesByVerticesOrdered := __SIMPLICIAL_RandomFacesByVertices( vertices, 
-			faces, FacesByVertices(surf), VerticesByEdges(surf) );
-		localOrient := __SIMPLICIAL_LocalOrientationFromFacesByVertices( 
-			facesByVerticesOrdered );
-		SetLocalOrientationAttributeOfSimplicialSurface( surf, localOrient );
-
-		# Set the face names
-		SetIsFaceNamesDefault( surf, true );
-
-		return surf;
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, true,
-	[ IsList, IsList, IsList],
-	[ IsSet, IsSet, ], 0 );
-
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
-	[ IsPosInt, IsObject, IsList ],
-	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesNC( [1..vertices], faces,
-			facesByVertices );
-	end
-);
-InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
-	[ IsSet, IsPosInt, IsList ],
-	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesNC( vertices, [1..faces],
-			facesByVertices );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, true,
-	[ IsList, IsPosInt, IsList],
-	[ IsSet, , ], 0 );
-
-################################
-##
-##	Of course the same constructors with sanity checks can't be missing.
-##
-InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
-	[ IsSet, IsSet, IsList ],
-	function( vertices, faces, facesByVertices )
-		
-		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, 
-			ValueOption( "NamesOfFaces" ) );
-
-		return SimplicialSurfaceByVerticesInFacesNC( 
-					vertices, faces, facesByVertices );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
-	[ IsList, IsList, IsList],
-	[ IsSet, IsSet, ], 0 );
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
-	[ IsPosInt, IsObject, IsList ],
-	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFaces( [1..vertices], faces,
-			facesByVertices );
-	end
-);
-InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
-	[ IsSet, IsPosInt, IsList ],
-	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFaces( vertices, [1..faces],
-			facesByVertices );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
 	[ IsList, IsPosInt, IsList],
 	[ IsSet, , ], 0 );
 ##
