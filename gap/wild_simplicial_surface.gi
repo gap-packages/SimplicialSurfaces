@@ -181,7 +181,7 @@ InstallMethod( FacesByEdgesAttributeOfSimplicialSurface,
 #!	This method is basic.
 #!  @Returns a list of permutations
 #!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientationAttributeOfSimplicialSurface, 
+InstallMethod( LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface, 
 	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO

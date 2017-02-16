@@ -5,7 +5,7 @@
 ##	Test the general consistency of a simplicial surface.
 ##	
 TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
-	local i, degrees, graph, name;
+	local i, degrees, graph, name, refElements, testElements;
 
 	if not IsSimplicialSurface( surface ) then
 		Print( messageSurfaceOrigin );
@@ -264,11 +264,89 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		Print( " has an inconsistent vertex symbol.\n");
 	fi;
 
+
 	# Test local orientation
-	if LocalOrientation(surface) <> LocalOrientationAttributeOfSimplicialSurface(surface) then
+	if LocalOrientation(surface) <> LocalOrientationByVerticesAsPerm(surface) then
 		Print( messageSurfaceOrigin );
-		Print( " has an inconsistent local orientation.\n");
+		Print( " has an inconsistent default local orientation.\n");
 	fi;
+
+	if LocalOrientationByVerticesAsPerm(surface) <> LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has an inconsistent local orientation for vertices as permutation.\n");
+	fi;
+	for i in Faces(surface) do
+		refElements := FacesByVertices(surface)[i];
+		testElements := LocalOrientationByVerticesAsPerm(surface)[i];
+		if refElements <> MovedPoints( testElements ) then
+			Print( messageSurfaceOrigin );
+			Print( " has an inconsistent local orientation at face " );
+			Print( i );
+			Print( " since the vertices are " );
+			Print( refElements );
+			Print( " but the permutation is " );
+			Print( testElements );
+			Print( ".\n" );
+		fi;
+	od;
+
+	if LocalOrientationByVerticesAsList(surface) <> LocalOrientationByVerticesAsListAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has an inconsistent local orientation for vertices as lists.\n");
+	fi;
+	for i in Faces(surface) do
+		refElements := FacesByVertices(surface)[i];
+		testElements := LocalOrientationByVerticesAsList(surface)[i];
+		if refElements <> Set( testElements ) then
+			Print( messageSurfaceOrigin );
+			Print( " has an inconsistent local orientation at face " );
+			Print( i );
+			Print( " since the vertices are " );
+			Print( refElements );
+			Print( " but the given list is " );
+			Print( testElements );
+			Print( ".\n" );
+		fi;
+	od;
+
+	if LocalOrientationByEdgesAsPerm(surface) <> LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has an inconsistent local orientation for edges as permutation.\n");
+	fi;
+	for i in Faces(surface) do
+		refElements := FacesByEdges(surface)[i];
+		testElements := LocalOrientationByEdgesAsPerm(surface)[i];
+		if refElements <> MovedPoints( testElements ) then
+			Print( messageSurfaceOrigin );
+			Print( " has an inconsistent local orientation at face " );
+			Print( i );
+			Print( " since the edges are " );
+			Print( refElements );
+			Print( " but the permutation is " );
+			Print( testElements );
+			Print( ".\n" );
+		fi;
+	od;
+
+	if LocalOrientationByEdgesAsList(surface) <> LocalOrientationByEdgesAsListAttributeOfSimplicialSurface(surface) then
+		Print( messageSurfaceOrigin );
+		Print( " has an inconsistent local orientation for edges as lists.\n");
+	fi;
+	for i in Faces(surface) do
+		refElements := FacesByEdges(surface)[i];
+		testElements := LocalOrientationByEdgesAsList(surface)[i];
+		if refElements <> Set( testElements ) then
+			Print( messageSurfaceOrigin );
+			Print( " has an inconsistent local orientation at face " );
+			Print( i );
+			Print( " since the edges are " );
+			Print( refElements );
+			Print( " but the given list is " );
+			Print( testElements );
+			Print( ".\n" );
+		fi;
+	od;
+
 
 	# Test names of faces
 	if NamesOfFaces(surface) <> NamesOfFacesAttributeOfSimplicialSurface(surface) then

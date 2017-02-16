@@ -78,7 +78,7 @@ end;
 TestFoldingComplexThreeTrianglesInLine := function()
 	local surf, complex, name;
 
-	surf := SimplicialSurfaceByVerticesInFacesWithOrientation( 5,3, [[1,2,3],[2,5,3],[2,4,5]] );
+	surf := SimplicialSurfaceByVerticesInFaces( 5,3, [[1,2,3],[2,5,3],[2,4,5]] );
 	
 	# Construct the folding complex
 	complex := FoldingComplex( surf ); # relies on the fact that this is the first edge

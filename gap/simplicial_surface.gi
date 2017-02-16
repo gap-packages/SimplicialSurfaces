@@ -68,8 +68,10 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"UnsortedDegreesAttributeOfSimplicialSurface",
 			"SortedDegreesAttributeOfSimplicialSurface",
 			"VertexSymbolAttributeOfSimplicialSurface",
-			"LocalOrientationByVerticesAttributeOfSimplicialSurface",
-			"LocalOrientationByEdgesAttributeOfSimplicialSurface",
+			"LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface",
+			"LocalOrientationByVerticesAsListAttributeOfSimplicialSurface",
+			"LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface",
+			"LocalOrientationByEdgesAsListAttributeOfSimplicialSurface",
 			"NamesOfFacesAttributeOfSimplicialSurface",
 			"IsFaceNamesDefault",
 			"FaceAnomalyClassesAttributeOfSimplicialSurface",
@@ -396,7 +398,7 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		# Set the local orientation at random
 		facesByVertices := __SIMPLICIAL_RandomFacesByVertices( vertices, faces,
 			FacesByVertices(surf), VerticesByEdges(surf) );
-		SetLocalOrientationOfVerticesAsListAttributeOfSimplicialSurface( surf, 
+		SetLocalOrientationByVerticesAsListAttributeOfSimplicialSurface( surf, 
 											facesByVertices );
 
 		# Set the face names
@@ -507,9 +509,9 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		AdjacentVertices := function( list )
 			local vertexSet, i;
 
-			vertexSet := [ Set([list[1], list[ Length(list) ] ) ];
+			vertexSet := [ Set( [list[1], list[ Length(list) ] ] ) ];
 			for i in [2..Length(list)] do
-				Append( vertexSet, [ list[i-1], list[i] ] );
+				Append( vertexSet, [ Set( [ list[i-1], list[i] ] ) ] );
 			od;
 			return Set(vertexSet);
 		end;
@@ -534,7 +536,7 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		SetFacesAttributeOfSimplicialSurface( surf, faces );
 		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, edgesByVertices );
 		SetFacesByEdgesAttributeOfSimplicialSurface( surf, facesByEdges );
-		SetLocalOrientationOfVerticesAsListAttributeOfSimplicialSurface( surf, 
+		SetLocalOrientationByVerticesAsListAttributeOfSimplicialSurface( surf, 
 												facesByVertices );
 
 		# Set the face names
@@ -548,26 +550,26 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		return surf;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientationNC, 
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, 
 	true, [ IsList, IsList, IsList],
 	[ IsSet, IsSet, ], 0 );
 
 ##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
+InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsPosInt, IsObject, IsList ],
 	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( 
+		return SimplicialSurfaceByVerticesInFacesNC( 
 			[1..vertices], faces, facesByVertices );
 	end
 );
-InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientationNC, "",
+InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsSet, IsPosInt, IsList ],
 	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( vertices, 
+		return SimplicialSurfaceByVerticesInFacesNC( vertices, 
 			[1..faces],	facesByVertices );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientationNC, 
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, 
 	true, [ IsList, IsPosInt, IsList],
 	[ IsSet, , ], 0 );
 ##
@@ -619,36 +621,36 @@ __SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces,
 end;
 ###########################
 ##
-InstallMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
+InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, facesByVertices )
 		
 		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, 
 			ValueOption( "NamesOfFaces" ) );
 
-		return SimplicialSurfaceByVerticesInFacesWithOrientationNC( 
+		return SimplicialSurfaceByVerticesInFacesNC( 
 					vertices, faces, facesByVertices );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientation, true,
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
 	[ IsList, IsList, IsList],
 	[ IsSet, IsSet, ], 0 );
 ##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
+InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsPosInt, IsObject, IsList ],
 	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesWithOrientation( 
+		return SimplicialSurfaceByVerticesInFaces( 
 			[1..vertices], faces, facesByVertices );
 	end
 );
-InstallOtherMethod( SimplicialSurfaceByVerticesInFacesWithOrientation, "",
+InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsSet, IsPosInt, IsList ],
 	function( vertices, faces, facesByVertices )
-		return SimplicialSurfaceByVerticesInFacesWithOrientation( vertices, 
+		return SimplicialSurfaceByVerticesInFaces( vertices, 
 			[1..faces],	facesByVertices );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesWithOrientation, true,
+RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
 	[ IsList, IsPosInt, IsList],
 	[ IsSet, , ], 0 );
 ##
@@ -872,9 +874,10 @@ InstallMethod( LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface,
 ##		a list of lists (in terms of elements A)
 ##		an index for the list (in our case that will be the faces)
 ##		a conversion of A in terms of B
+##		a list of sets of all elements of B that are possible (for a given face)
 ##
 __SIMPLICIAL_ConversionLocalOrientationVerticesEdges := 
-	function( listOfLists, listIndex, conversion )
+	function( listOfLists, listIndex, conversion, possibleNewElements )
 
 	local newListOfLists, i, oldList, newList, firstEl, secondEl, intersection,
 		j, currentEl, nextEl;
@@ -891,7 +894,7 @@ __SIMPLICIAL_ConversionLocalOrientationVerticesEdges :=
 		# element of the newList
 		firstEl := Set( conversion[ oldList[1] ] );
 		secondEl := Set( conversion[ oldList[ Length(oldList) ] ] );
-		intersection := Intersection( firstEl, secondEl );
+		intersection := Intersection( firstEl, secondEl, possibleNewElements[i] );
 		if Length( intersection ) <> 1 then
 			# This error should not be thrown if the method is used for its 
 			# intended purpose
@@ -904,7 +907,7 @@ __SIMPLICIAL_ConversionLocalOrientationVerticesEdges :=
 		for j in [2..Length(oldList)] do
 			currentEl := Set( conversion[ oldList[j-1] ] );
 			nextEl := Set( conversion[ oldList[j] ] );
-			intersection := Intersection( currentEl, nextEl );
+			intersection := Intersection( currentEl, nextEl, possibleNewElements[i] );
 			if Length( intersection ) <> 1 then
 				# This error should not be thrown if the method is used for its 
 				# intended purpose
@@ -951,7 +954,8 @@ InstallMethod( LocalOrientationByVerticesAsListAttributeOfSimplicialSurface,
 		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
 			LocalOrientationByEdgesAsList(simpsurf), 
 			Faces(simpsurf), 
-			EdgesByVertices(simpsurf) );
+			EdgesByVertices(simpsurf),
+			FacesByVertices(simpsurf) );
 	end
 );
 InstallMethod( LocalOrientationByVerticesAsListAttributeOfSimplicialSurface, 
@@ -1001,7 +1005,8 @@ InstallMethod( LocalOrientationByEdgesAsListAttributeOfSimplicialSurface,
 		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
 			LocalOrientationByVerticesAsList(simpsurf), 
 			Faces(simpsurf), 
-			VerticesByEdges(simpsurf) );
+			VerticesByEdges(simpsurf),
+			FacesByEdges(simpsurf) );
 	end
 );
 InstallMethod( LocalOrientationByEdgesAsListAttributeOfSimplicialSurface, 
