@@ -373,12 +373,53 @@ DeclareOperation( "VertexSymbol", [IsSimplicialSurface] );
 #!	there is a cycle of all vertices that are incident to this face. This
 #!	cycle represents the local orientation of this face. All other positions
 #!	are unbounded.
-#!	This method is basic.
+#!	Either this method or LocalOrientationByEdges is basic
 #!  @Returns a list of permutations
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "LocalOrientationAttributeOfSimplicialSurface", 
+DeclareAttribute( "LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface", 
 		IsSimplicialSurface );
+DeclareOperation( "LocalOrientationByVerticesAsPerm", [IsSimplicialSurface] );
 DeclareOperation( "LocalOrientation", [IsSimplicialSurface] );
+
+
+#!  @Description
+#!	Return a list of lists where at the position of each face-number
+#!	there is a list of all vertices that are incident to this face. This
+#!	list represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!	Either this method or LocalOrientationByEdges is basic
+#!  @Returns a list of lists
+#!  @Arguments a simplicial surface object simpsurf
+DeclareAttribute( "LocalOrientationByVerticesAsListAttributeOfSimplicialSurface", 
+		IsSimplicialSurface );
+DeclareOperation( "LocalOrientationByVerticesAsList", [IsSimplicialSurface] );
+
+
+#!  @Description
+#!	Return a list of permutations where at the position of each face-number
+#!	there is a cycle of all edges that are incident to this face. This
+#!	cycle represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!	Either this method or LocalOrientationByVertices is basic
+#!  @Returns a list of permutations
+#!  @Arguments a simplicial surface object simpsurf
+DeclareAttribute( "LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface", 
+		IsSimplicialSurface );
+DeclareOperation( "LocalOrientationByEdgesAsPerm", [IsSimplicialSurface] );
+
+
+#!  @Description
+#!	Return a list of lists where at the position of each face-number
+#!	there is a list of all edges that are incident to this face. This
+#!	list represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!	Either this method or LocalOrientationByEdges is basic
+#!  @Returns a list of lists
+#!  @Arguments a simplicial surface object simpsurf
+DeclareAttribute( "LocalOrientationByEdgesAsListAttributeOfSimplicialSurface", 
+		IsSimplicialSurface );
+DeclareOperation( "LocalOrientationByEdgesAsList", [IsSimplicialSurface] );
+
 
 #!  @Description
 #!	Return a list of tuples where at each face-number there is a list with two

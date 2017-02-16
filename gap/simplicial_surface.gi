@@ -68,7 +68,8 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"UnsortedDegreesAttributeOfSimplicialSurface",
 			"SortedDegreesAttributeOfSimplicialSurface",
 			"VertexSymbolAttributeOfSimplicialSurface",
-			"LocalOrientationAttributeOfSimplicialSurface",
+			"LocalOrientationByVerticesAttributeOfSimplicialSurface",
+			"LocalOrientationByEdgesAttributeOfSimplicialSurface",
 			"NamesOfFacesAttributeOfSimplicialSurface",
 			"IsFaceNamesDefault",
 			"FaceAnomalyClassesAttributeOfSimplicialSurface",
@@ -829,8 +830,74 @@ InstallMethod( Faces, "for a simplicial surface", [IsSimplicialSurface],
 		return FacesAttributeOfSimplicialSurface(simpsurf);
 	end
 );
+
+
 #############################################################################
-#! @Description
+#############################################################################
+##
+##					Start of the local orientation methods
+##
+##
+##	To work with the different ways of encoding the local orientation (via
+##	edges or via vertices, as well as the difference between saving them as 
+##	permutations or as lists) we define some global functions that help us
+##	perform these translations in general.
+
+##
+##	Given a list of permutations (that have to be cycles) and an index set,
+##	this function returns a list of lists such that these lists represent the
+##	cycle representation of the permutation. For example the permutation (1,2,3)
+##	may be represented by the lists [1,2,3], [2,3,1] or [3,1,2]. To define this
+##	representation uniquely we stipulate that the first entry in the list
+##	representation is the smallest entry of the list. In the above example,
+##	the list [1,2,3] would be the so defined representation. Fixed points will
+##	be ignored.
+##
+__SIMPLICIAL_TranslateCyclesIntoLists := function( listOfPerms, indexSet )
+	local listOfLists, i, points, listRep, j;
+
+	listOfLists := [];
+	for i in indexSet do
+		points := MovedPoints( listOfPerms[i] );
+
+		# Since points is a set, the first element is the smallest
+		listRep := [ points[1] ];
+
+		for j in [1..Length(points)-1] do
+			Append( listRep, [ listRep[j]^listOfPerms[i] ] );
+		od;
+	od;
+
+	return listOfLists;
+end;
+
+##
+##	Given a list of lists, this function returns a list of
+##	permutations such that each permutation is defined by the list (like it
+##	was described for the function above).
+##
+__SIMPLICIAL_TranslateListsIntoCycles := function( listOfLists )
+	local Shift;
+
+	# local function that shifts each entry of the list to the previous one
+	Shift := function( list )
+		local newList, i;
+
+		newList := [];
+		newList[ Length(list) ] := list[1];
+		for i in [2..Length(list)] do
+			newList[i-1] := list[i];
+		od;
+		return newList;
+	end;
+
+	return List( listOfLists, list -> MappingPermListList( list, Shift(list) ) );
+end;
+
+
+
+#############################################################################
+#!	@Description
 #!	Return a list of permutations where at the position of each face-number
 #!	there is a cycle of all vertices that are incident to this face. This
 #!	cycle represents the local orientation of this face. All other positions
@@ -840,9 +907,54 @@ InstallMethod( Faces, "for a simplicial surface", [IsSimplicialSurface],
 InstallMethod( LocalOrientation, "for a simplicial surface", 
 	[IsSimplicialSurface],
 	function( simpsurf )
-		return LocalOrientationAttributeOfSimplicialSurface(simpsurf);
+		return LocalOrientationByVerticesAsPerm(simpsurf);
 	end
 );
+InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( simpsurf )
+		return LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface(simpsurf);
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface],
+	function( simpsurf )
+		return __SIMPLICIAL_TranslateListsIntoCycles( 
+			LocalOrientationByVerticesAsList( simpsurf ) );
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByVerticesAsList( simpsurf );
+			return LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface( simpsurf );
+		fi;
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPermAttributeOfSimplicialSurface],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface(simpsurf) or
+			 HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByEdgesAsList( simpsurf );
+			return LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface( simpsurf );
+		fi;
+	end
+);
+
+
+
+##
+##					End of the local orientation methods
+##
+##############################################################################
+##############################################################################
+
 #############################################################################
 #!  @Description
 #!	Return a list of tuples where at each face-number there is a list with two
@@ -953,15 +1065,7 @@ InstallMethod( PrintStringAttributeOfSimplicialSurface, #TODO does not reconstru
 );
 InstallMethod( PrintObj, "for simplicial surfaces", [ IsSimplicialSurface ], 
 	function(simpsurf)
-
 		Print( PrintStringAttributeOfSimplicialSurface( simpsurf ) );
-
-        Print("SimplicialSurfaceByDownwardIncidenceNC(\n");
-        Print( Vertices(simpsurf), ",\n");
-        Print( Edges(simpsurf), ",\n");
-        Print( Faces(simpsurf), ",\n");
-        Print( EdgesByVertices(simpsurf), ",\n");
-        Print( FacesByEdges(simpsurf), ");\n");
 	end
 );
 
