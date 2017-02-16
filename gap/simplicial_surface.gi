@@ -163,10 +163,6 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 		SetFacesAttributeOfSimplicialSurface( surf, faces );
 		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, 
 								List( edgesByVertices, i -> Set(i) ) );
-		SetFacesByEdgesAttributeOfSimplicialSurface( surf, 
-								List( facesByEdges, i -> Set(i) ) );
-		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
-								List( facesByVerticesOP, i -> Set(i) ) );
 		SetLocalOrientationByEdgesAsListAttributeOfSimplicialSurface( surf, 
 								facesByEdges );
 
@@ -538,8 +534,6 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		SetFacesAttributeOfSimplicialSurface( surf, faces );
 		SetEdgesByVerticesAttributeOfSimplicialSurface( surf, edgesByVertices );
 		SetFacesByEdgesAttributeOfSimplicialSurface( surf, facesByEdges );
-		SetFacesByVerticesAttributeOfSimplicialSurface( surf, 
-									List( facesByVertices, i -> Set(i) ) );
 		SetLocalOrientationOfVerticesAsListAttributeOfSimplicialSurface( surf, 
 												facesByVertices );
 
@@ -1466,6 +1460,109 @@ InstallMethod( FacesByVerticesAttributeOfSimplicialSurface,
 		fi;
 	end
 );
+
+##
+##	Sometimes we can derive information from the local orientation. Since these
+##	are very fast methods we give them a boost in the method selection.
+##
+InstallMethod( FacesByEdgesAttributeOfSimplicialSurface, 
+	[IsSimplicialSurface and 
+			HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface], 10,
+	function( surf )
+		return List( LocalOrientationByEdgesAsList(surf), i -> Set(i) );
+	end
+);
+InstallMethod( FacesByVerticesAttributeOfSimplicialSurface, 
+	[IsSimplicialSurface and 
+			HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface],10,
+	function( surf )
+		return List( LocalOrientationByVerticesAsList(surf), i -> Set(i) );
+	end
+);
+##
+##	We can now also write alternative code for the methods where facesByEdges
+##	and facesByVertices were preconditions. We start with the case facesByEdges.
+##
+InstallMethod( EdgesByFacesAttributeOfSimplicialSurface, 
+	[IsSimplicialSurface and 
+			HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface ],
+	function( simpsurf )
+		if HasFacesByEdgesAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			FacesByEdgesAttributeOfSimplicialSurface(simpsurf);
+			return EdgesByFacesAttributeOfSimplicialSurface(simpsurf);
+		fi;
+	end
+);
+InstallMethod( FacesByVerticesAttributeOfSimplicialSurface, 
+	[IsSimplicialSurface and 
+			HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface and
+							HasEdgesByVerticesAttributeOfSimplicialSurface ],
+	function( simpsurf )
+		if HasFacesByEdgesAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			FacesByEdgesAttributeOfSimplicialSurface(simpsurf);
+			return FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+		fi;
+	end
+);
+InstallMethod( VerticesByFacesAttributeOfSimplicialSurface, 
+	[IsSimplicialSurface and HasEdgesByVerticesAttributeOfSimplicialSurface and
+			HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface ],
+	function( simpsurf )
+		if HasFacesByEdgesAttributeOfSimplicialSurface(simpsurf) then
+			TryNextMethod();
+		else
+			FacesByEdgesAttributeOfSimplicialSurface(simpsurf);
+			return VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+		fi;
+	end
+);
+InstallMethod( VerticesByFacesAttributeOfSimplicialSurface, 
+	[IsSimplicialSurface and 
+			HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface and
+							HasVerticesByEdgesAttributeOfSimplicialSurface ],
+	function( simpsurf )
+		if HasFacesByEdgesAttributeOfSimplicialSurface( simpsurf ) then
+			TryNextMethod();
+		else
+			FacesByEdgesAttributeOfSimplicialSurface( simpsurf );
+			return VerticesByFacesAttributeOfSimplicialSurface( simpsurf );
+		fi;
+	end
+);
+InstallMethod( FacesByVerticesAttributeOfSimplicialSurface, 
+	[IsSimplicialSurface and 
+			HasLocalOrientationByEdgesAsListAttributeOfSimplicialSurface and
+							HasVerticesByEdgesAttributeOfSimplicialSurface ],
+	function( simpsurf )
+		if HasFacesByEdgesAttributeOfSimplicialSurface( simpsurf ) then
+			TryNextMethod();
+		else
+			FacesByEdgesAttributeOfSimplicialSurface( simpsurf );
+			return FacesByVerticesAttributeOfSimplicialSurface(simpsurf);
+		fi;
+	end
+);
+##
+##	Next we write the same methods with facesByVertices as condition (which
+##	is only one).
+##
+InstallMethod( VerticesByFacesAttributeOfSimplicialSurface, 
+	[IsSimplicialSurface and 
+			HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface ],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsListAttributeOfSimplicialSurface( simpsurf ) then
+			TryNextMethod();
+		else
+			FacesByVerticesAttributeOfSimplicialSurface( simpsurf );
+			return VerticesByFacesAttributeOfSimplicialSurface(simpsurf);
+		fi;
+	end
+);
+
 ##
 ##							End of *By*-Methods
 ##
