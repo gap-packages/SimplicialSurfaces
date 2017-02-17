@@ -50,7 +50,6 @@ DeclareCategory( "IsSimplicialSurface",
 ##	The argument IsSimplicialSurface guarantees that only objects that lie in
 ##	this category can be part of the family.
 ##
-## TODO: OTHER FAMILIES AS WELL
 BindGlobal( "SimplicialSurfaceFamily", 
     NewFamily("SimplicialSurfaceFamily",  IsObject, IsSimplicialSurface) );
 
@@ -152,40 +151,35 @@ DeclareOperation( "Vertices", [IsSimplicialSurface] );
 #! Returns the numbers of the edges as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-DeclareAttribute( "EdgesAttributeOfSimplicialSurface", IsSimplicialSurface );
-DeclareOperation( "Edges", [IsSimplicialSurface] );
+DeclareAttribute( "Edges", IsSimplicialSurface );
 
 #! @Description
 #! Returns the numbers of the faces as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-DeclareAttribute( "FacesAttributeOfSimplicialSurface", IsSimplicialSurface );
-DeclareOperation( "Faces", [IsSimplicialSurface] );
+DeclareAttribute( "Faces", IsSimplicialSurface );
 
 
 #! @Description
 #! Returns the number of vertices.
 #! @Arguments a simplicial surface
 #! @Returns an integers
-DeclareAttribute( "NrOfVerticesAttributeOfSimplicialSurface",
+DeclareAttribute( "NrOfVertices",
 		IsSimplicialSurface );
-DeclareOperation( "NrOfVertices", [IsSimplicialSurface] );
 
 #! @Description
 #! Returns the number of edges.
 #! @Arguments a simplicial surface
 #! @Returns an integers
-DeclareAttribute( "NrOfEdgesAttributeOfSimplicialSurface", 
+DeclareAttribute( "NrOfEdges", 
 		IsSimplicialSurface );
-DeclareOperation( "NrOfEdges", [IsSimplicialSurface] );
 
 #! @Description
 #! Returns the number of faces.
 #! @Arguments a simplicial surface
 #! @Returns an integers
-DeclareAttribute( "NrOfFacesAttributeOfSimplicialSurface", 
+DeclareAttribute( "NrOfFaces", 
 		IsSimplicialSurface );
-DeclareOperation( "NrOfFaces", [IsSimplicialSurface] );
 
 
 #!	@Description
@@ -196,9 +190,8 @@ DeclareOperation( "NrOfFaces", [IsSimplicialSurface] );
 #!	Either this method or EdgesByVertices is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "VerticesByEdgesAttributeOfSimplicialSurface",
+DeclareAttribute( "VerticesByEdges",
 		IsSimplicialSurface );
-DeclareOperation( "VerticesByEdges", [IsSimplicialSurface] );
 
 #!	@Description
 #!	Return the vertices in terms of the faces. Return a list
@@ -207,9 +200,8 @@ DeclareOperation( "VerticesByEdges", [IsSimplicialSurface] );
 #!	unbounded.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "VerticesByFacesAttributeOfSimplicialSurface", 
+DeclareAttribute( "VerticesByFaces", 
 		IsSimplicialSurface);
-DeclareOperation( "VerticesByFaces", [IsSimplicialSurface] );
 
 #!	@Description
 #!	Return the edges in terms of the vertices. Return a list
@@ -219,9 +211,8 @@ DeclareOperation( "VerticesByFaces", [IsSimplicialSurface] );
 #!	Either this method or VerticesByEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "EdgesByVerticesAttributeOfSimplicialSurface", 
+DeclareAttribute( "EdgesByVertices", 
 		IsSimplicialSurface);
-DeclareOperation( "EdgesByVertices", [IsSimplicialSurface] );
 
 #!	@Description
 #!	Return the edges in terms of the faces. Return a list
@@ -231,9 +222,8 @@ DeclareOperation( "EdgesByVertices", [IsSimplicialSurface] );
 #!	Either this method or FacesByEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "EdgesByFacesAttributeOfSimplicialSurface", 
+DeclareAttribute( "EdgesByFaces", 
 		IsSimplicialSurface);
-DeclareOperation( "EdgesByFaces", [IsSimplicialSurface] );
 
 #!	@Description
 #!	Return the faces in terms of the vertices. Return a list
@@ -242,9 +232,8 @@ DeclareOperation( "EdgesByFaces", [IsSimplicialSurface] );
 #!	unbounded.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "FacesByVerticesAttributeOfSimplicialSurface", 
+DeclareAttribute( "FacesByVertices", 
 		IsSimplicialSurface);
-DeclareOperation( "FacesByVertices", [IsSimplicialSurface] );
 
 #!	@Description
 #!	Return the faces in terms of the edges. Return a list
@@ -254,9 +243,8 @@ DeclareOperation( "FacesByVertices", [IsSimplicialSurface] );
 #!	Either this method or EdgesByFaces is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "FacesByEdgesAttributeOfSimplicialSurface", 
+DeclareAttribute( "FacesByEdges", 
 		IsSimplicialSurface);
-DeclareOperation( "FacesByEdges", [IsSimplicialSurface] );
 
 
 #!	@Description
@@ -307,9 +295,8 @@ DeclareAttribute( "ConnectedComponentsAttributeOfSimplicialSurface",
 #!  vertices, |E| is the number of edges and |F| is the number of faces.
 #!  @Returns an integer, the Euler characteristic.
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "EulerCharacteristicAttributeOfSimplicialSurface", 
+DeclareAttribute( "EulerCharacteristic", 
 		IsSimplicialSurface );
-DeclareOperation( "EulerCharacteristic", [IsSimplicialSurface] );
 
 
 #!  @Description
@@ -318,9 +305,8 @@ DeclareOperation( "EulerCharacteristic", [IsSimplicialSurface] );
 #!	(the degree of the vertex). All other positions are unbounded.
 #!  @Returns a list of integers
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "UnsortedDegreesAttributeOfSimplicialSurface", 
+DeclareAttribute( "UnsortedDegrees", 
 		IsSimplicialSurface );
-DeclareOperation( "UnsortedDegrees", [IsSimplicialSurface] );
 
 
 #!  @Description
@@ -328,9 +314,8 @@ DeclareOperation( "UnsortedDegrees", [IsSimplicialSurface] );
 #!	degrees of the vertices (with repetitions)
 #!  @Returns a dense sorted list of integers
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "SortedDegreesAttributeOfSimplicialSurface", 
+DeclareAttribute( "SortedDegrees", 
 		IsSimplicialSurface );
-DeclareOperation( "SortedDegrees", [IsSimplicialSurface] );
 
 #!  @Description
 #!  Return the vertex symbol of a simplicial surface.
@@ -339,9 +324,8 @@ DeclareOperation( "SortedDegrees", [IsSimplicialSurface] );
 #!	vertices the entry is unbounded.
 #!  @Arguments a simplicial surface object simpsurf
 #!  @Returns a list of integers
-DeclareAttribute( "VertexSymbolAttributeOfSimplicialSurface", 
+DeclareAttribute( "VertexSymbol", 
 		IsSimplicialSurface );
-DeclareOperation( "VertexSymbol", [IsSimplicialSurface] );
 
 
 #!  @Description
@@ -352,9 +336,8 @@ DeclareOperation( "VertexSymbol", [IsSimplicialSurface] );
 #!	Either this method or LocalOrientationByEdges is basic
 #!  @Returns a list of permutations
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface", 
+DeclareAttribute( "LocalOrientationByVerticesAsPerm", 
 		IsSimplicialSurface );
-DeclareOperation( "LocalOrientationByVerticesAsPerm", [IsSimplicialSurface] );
 DeclareOperation( "LocalOrientation", [IsSimplicialSurface] );
 
 
@@ -366,9 +349,8 @@ DeclareOperation( "LocalOrientation", [IsSimplicialSurface] );
 #!	Either this method or LocalOrientationByEdges is basic
 #!  @Returns a list of lists
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "LocalOrientationByVerticesAsListAttributeOfSimplicialSurface", 
+DeclareAttribute( "LocalOrientationByVerticesAsList", 
 		IsSimplicialSurface );
-DeclareOperation( "LocalOrientationByVerticesAsList", [IsSimplicialSurface] );
 
 
 #!  @Description
@@ -379,9 +361,8 @@ DeclareOperation( "LocalOrientationByVerticesAsList", [IsSimplicialSurface] );
 #!	Either this method or LocalOrientationByVertices is basic
 #!  @Returns a list of permutations
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface", 
+DeclareAttribute( "LocalOrientationByEdgesAsPerm", 
 		IsSimplicialSurface );
-DeclareOperation( "LocalOrientationByEdgesAsPerm", [IsSimplicialSurface] );
 
 
 #!  @Description
@@ -392,9 +373,8 @@ DeclareOperation( "LocalOrientationByEdgesAsPerm", [IsSimplicialSurface] );
 #!	Either this method or LocalOrientationByEdges is basic
 #!  @Returns a list of lists
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "LocalOrientationByEdgesAsListAttributeOfSimplicialSurface", 
+DeclareAttribute( "LocalOrientationByEdgesAsList", 
 		IsSimplicialSurface );
-DeclareOperation( "LocalOrientationByEdgesAsList", [IsSimplicialSurface] );
 
 
 #!  @Description

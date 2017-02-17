@@ -12,59 +12,26 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		Print( " is not a simplicial surface.\n");
 	fi;
 
-	# Test the vertices
-	if Vertices(surface) <> VerticesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent vertices.\n");
-	fi;
-
-	# Test the edges
-	if Edges(surface) <> EdgesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent edges.\n");
-	fi;
-
-	# Test the faces
-	if Faces(surface) <> FacesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent faces.\n");
-	fi;
 
 	# Test the number of vertices
-	if NrOfVertices(surface) <> NrOfVerticesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent number of vertices.\n");
-	fi;
 	if NrOfVertices(surface) <> Length(Vertices(surface)) then
 		Print( messageSurfaceOrigin );
 		Print( ": Vertices and number of vertices don't match.\n");
 	fi;
 
 	# Test the number of edges
-	if NrOfEdges(surface) <> NrOfEdgesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent number of edges.\n");
-	fi;
 	if NrOfEdges(surface) <> Length(Edges(surface)) then
 		Print( messageSurfaceOrigin );
 		Print( ": Edges and number of edges don't match.\n");
 	fi;
 
 	# Test the number of faces
-	if NrOfFaces(surface) <> NrOfFacesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent number of faces.\n");
-	fi;
 	if NrOfFaces(surface) <> Length(Faces(surface)) then
 		Print( messageSurfaceOrigin );
 		Print( ": Faces and number of faces don't match.\n");
 	fi;
 
 	# Test VerticesByEdges
-	if VerticesByEdges(surface) <> VerticesByEdgesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent VerticesByEdges.\n");
-	fi;
 	for i in [1..Length(VerticesByEdges(surface))] do
 		if i in Vertices(surface) then
 			if not IsBound( VerticesByEdges(surface)[i] ) then
@@ -89,10 +56,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	od;
 
 	# Test VerticesByFaces
-	if VerticesByFaces(surface) <> VerticesByFacesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent VerticesByFaces.\n");
-	fi;
 	for i in [1..Length(VerticesByFaces(surface))] do
 		if i in Vertices(surface) then
 			if not IsBound( VerticesByFaces(surface)[i] ) then
@@ -117,10 +80,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	od;
 
 	# Test EdgesByVertices
-	if EdgesByVertices(surface) <> EdgesByVerticesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent EdgesByVertices.\n");
-	fi;
 	for i in [1..Length(EdgesByVertices(surface))] do
 		if i in Edges(surface) then
 			if not IsBound( EdgesByVertices(surface)[i] ) then
@@ -145,10 +104,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	od;
 
 	# Test EdgesByFaces
-	if EdgesByFaces(surface) <> EdgesByFacesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent EdgesByFaces.\n");
-	fi;
 	for i in [1..Length(EdgesByFaces(surface))] do
 		if i in Edges(surface) then
 			if not IsBound( EdgesByFaces(surface)[i] ) then
@@ -173,10 +128,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	od;
 
 	# Test FacesByVertices
-	if FacesByVertices(surface) <> FacesByVerticesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent FacesByVertices.\n");
-	fi;
 	for i in [1..Length(FacesByVertices(surface))] do
 		if i in Faces(surface) then
 			if not IsBound( FacesByVertices(surface)[i] ) then
@@ -201,10 +152,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	od;
 
 	# Test FacesByEdges
-	if FacesByEdges(surface) <> FacesByEdgesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent FacesByEdges.\n");
-	fi;
 	for i in [1..Length(FacesByEdges(surface))] do
 		if i in Faces(surface) then
 			if not IsBound( FacesByEdges(surface)[i] ) then
@@ -230,27 +177,13 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 
 
 	# Test Euler-Characteristic
-	if EulerCharacteristic(surface) <> EulerCharacteristicAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent Euler-characteristic.\n");
-	fi;
 	if NrOfVertices(surface) - NrOfEdges(surface) + NrOfFaces(surface) <> EulerCharacteristic(surface) then
 		Print( messageSurfaceOrigin );
 		Print( " has incorrect Euler-characteristic.\n");
 	fi;
 
 
-	# Test unsorted degrees
-	if UnsortedDegrees(surface) <> UnsortedDegreesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent unsorted degrees.\n");
-	fi;
-
 	# Test sorted degrees
-	if SortedDegrees(surface) <> SortedDegreesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent sorted degrees.\n");
-	fi;
 	degrees := Compacted( UnsortedDegrees(surface) );
 	Sort(degrees);
 	if degrees <> SortedDegrees(surface) then
@@ -258,11 +191,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		Print( ": Sorted and unsorted degrees do not match.\n");
 	fi;
 
-	# Test vertex symbol
-	if VertexSymbol(surface) <> VertexSymbolAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has an inconsistent vertex symbol.\n");
-	fi;
 
 
 	# Test local orientation
@@ -271,10 +199,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		Print( " has an inconsistent default local orientation.\n");
 	fi;
 
-	if LocalOrientationByVerticesAsPerm(surface) <> LocalOrientationByVerticesAsPermAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has an inconsistent local orientation for vertices as permutation.\n");
-	fi;
 	for i in Faces(surface) do
 		refElements := FacesByVertices(surface)[i];
 		testElements := LocalOrientationByVerticesAsPerm(surface)[i];
@@ -290,10 +214,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		fi;
 	od;
 
-	if LocalOrientationByVerticesAsList(surface) <> LocalOrientationByVerticesAsListAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has an inconsistent local orientation for vertices as lists.\n");
-	fi;
 	for i in Faces(surface) do
 		refElements := FacesByVertices(surface)[i];
 		testElements := LocalOrientationByVerticesAsList(surface)[i];
@@ -309,10 +229,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		fi;
 	od;
 
-	if LocalOrientationByEdgesAsPerm(surface) <> LocalOrientationByEdgesAsPermAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has an inconsistent local orientation for edges as permutation.\n");
-	fi;
 	for i in Faces(surface) do
 		refElements := FacesByEdges(surface)[i];
 		testElements := LocalOrientationByEdgesAsPerm(surface)[i];
@@ -328,10 +244,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		fi;
 	od;
 
-	if LocalOrientationByEdgesAsList(surface) <> LocalOrientationByEdgesAsListAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has an inconsistent local orientation for edges as lists.\n");
-	fi;
 	for i in Faces(surface) do
 		refElements := FacesByEdges(surface)[i];
 		testElements := LocalOrientationByEdgesAsList(surface)[i];
@@ -349,10 +261,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 
 
 	# Test names of faces
-	if NamesOfFaces(surface) <> NamesOfFacesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent names of faces.\n");
-	fi;
 	for i in Faces(surface) do
 		if NamesOfFaces(surface)[i] <> NamesOfFace(surface, i) then
 			Print( messageSurfaceOrigin );
@@ -388,18 +296,6 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 				Print( ".\n" );
 			fi;
 		od;
-	fi;
-
-	# Test face anomaly classes
-	if FaceAnomalyClasses(surface) <> FaceAnomalyClassesAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent face anomaly classes.\n");
-	fi;
-
-	# Test names of faces
-	if IncidenceGraph(surface) <> IncidenceGraphAttributeOfSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent incidence graphs.\n");
 	fi;
 
 
@@ -595,51 +491,16 @@ TestWildSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin 
 		Print( " is not a wild simplicial surface.\n");
 	fi;
 
-	# Test the generators
-	if Generators(surface) <> GeneratorsAttributeOfWildSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent generators.\n");
-	fi;
 
 
 	# Test the group that is generated by the generators
-	if GroupOfWildSimplicialSurface(surface) <> GroupAttributeOfWildSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent generated group.\n");
-	fi;
 	if GroupOfWildSimplicialSurface(surface) <> Group( Generators( surface ) ) then
 		Print( messageSurfaceOrigin );
 		Print( ": Generated group and generators don't match.\n");
 	fi;
 
 
-	# Test the vertex group
-	if VertexGroup(surface) <> VertexGroupAttributeOfWildSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent vertex group.\n");
-	fi;
 
-	
-	# Test the edge colours
-	if EdgeColours(surface) <> EdgeColoursAttributeOfWildSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent edge colours.\n");
-	fi;
-
-
-	# Test the edge mr-types
-	if EdgeMRTypes(surface) <> EdgeMRTypesAttributeOfWildSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent edge mr-types.\n");
-	fi;
-
-	
-	# Test the mr-type
-	if MrType(surface) <> MrTypeAttributeOfWildSimplicialSurface(surface) or 
-		MRType(surface) <> MrTypeAttributeOfWildSimplicialSurface(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent mr-type.\n");
-	fi;
 
 
 	#TODO other tests.
