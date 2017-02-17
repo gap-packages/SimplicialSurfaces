@@ -12,6 +12,12 @@
 
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/wild_simplicial_surface.gd" );
+
+ReadPackage( "SimplicialSurfaces", "gap/coloured_simplicial_surface.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_identification.gd" );
+
+ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_fan.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/folding_complex.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/folding_plan.gd" );
 
 
