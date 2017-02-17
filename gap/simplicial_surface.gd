@@ -50,8 +50,9 @@ DeclareCategory( "IsSimplicialSurface",
 ##	The argument IsSimplicialSurface guarantees that only objects that lie in
 ##	this category can be part of the family.
 ##
-SimplicialSurfaceFamily := 
-    NewFamily("SimplicialSurfaceFamily",  IsObject, IsSimplicialSurface);
+## TODO: OTHER FAMILIES AS WELL
+BindGlobal( "SimplicialSurfaceFamily", 
+    NewFamily("SimplicialSurfaceFamily",  IsObject, IsSimplicialSurface) );
 
 
 
@@ -429,9 +430,8 @@ DeclareOperation( "LocalOrientationByEdgesAsList", [IsSimplicialSurface] );
 #!	If IsFaceNamesDefault is false, this method is basic.
 #!  @Returns a list of lists of integers
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "NamesOfFacesAttributeOfSimplicialSurface", 
+DeclareAttribute( "NamesOfFaces", 
 		IsSimplicialSurface );
-DeclareOperation( "NamesOfFaces", [IsSimplicialSurface] );
 
 #!	@Description
 #!	Return if the naming scheme for the faces is the default one, meaning
@@ -449,9 +449,8 @@ DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 #!	vertices.
 #!  @Returns The face-anomaly-classes (as a list of sets)
 #!  @Arguments <simpsurf> a simplicial surface
-DeclareAttribute( "FaceAnomalyClassesAttributeOfSimplicialSurface", 
+DeclareAttribute( "FaceAnomalyClasses", 
 		IsSimplicialSurface );
-DeclareOperation( "FaceAnomalyClasses", [IsSimplicialSurface] );
 
 
 #!  @Description
@@ -462,9 +461,8 @@ DeclareOperation( "FaceAnomalyClasses", [IsSimplicialSurface] );
 #!	The edges are given by vertex-edge and edge-face pairs.
 #!  @Returns the coloured incidence graph
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "IncidenceGraphAttributeOfSimplicialSurface", 
+DeclareAttribute( "IncidenceGraph", 
 		IsSimplicialSurface );
-DeclareOperation( "IncidenceGraph", [IsSimplicialSurface] );
 
 
 #!	@Description
