@@ -174,10 +174,10 @@ InstallOtherMethod( FoldingComplexByFansNC,
 		# Initialize the object
 		complex := Objectify( FoldingComplexType, rec() );
 
-		SetUnderlyingSimplicialSurfaceAttributeOfFoldingComplex( complex, 
+		SetUnderlyingSimplicialSurface( complex, 
 				surface );
 
-		SetUnderlyingCSSAttributeOfFoldingComplex( complex, 
+		SetUnderlyingColouredSimplicialSurface( complex, 
 							ColouredSimplicialSurface( surface ) );
 		
 		# construct fans
@@ -190,10 +190,10 @@ InstallOtherMethod( FoldingComplexByFansNC,
 															surface, edge );
 			fi;
 		od;
-		SetFansAttributeOfFoldingComplex( complex, fans );
+		SetFans( complex, fans );
 
 		# all possible border pieces are border pieces in an actual surface
-		SetBorderPiecesAttributeOfFoldingComplex( complex, 
+		SetBorderPieces( complex, 
 							List( NamesOfFaces(surface), i -> Set(i) ) );
 
 		return complex;
@@ -332,7 +332,7 @@ InstallMethod( FoldingComplexByFansAndBordersNC,
 		# Initialize the object
 		complex := Objectify( FoldingComplexType, rec() );
 
-		SetUnderlyingCSSAttributeOfFoldingComplex( complex, surface );
+		SetUnderlyingUnderlyingColouredSimplicialSurface( complex, surface );
 		
 		# construct fans
 		fans := [];
@@ -345,7 +345,7 @@ InstallMethod( FoldingComplexByFansAndBordersNC,
 															surface, edge );
 			fi;
 		od;
-		SetFansAttributeOfFoldingComplex( complex, fans );
+		SetFans( complex, fans );
 
 		# try to find the border pieces by using the fans
 		borders := [];
@@ -363,7 +363,7 @@ InstallMethod( FoldingComplexByFansAndBordersNC,
 				fi;
 			fi;
 		od;
-		SetBorderPiecesAttributeOfFoldingComplex( complex, borders );
+		SetBorderPieces( complex, borders );
 
 		return complex;
 	end
@@ -443,16 +443,10 @@ InstallMethod( FoldingComplexByFansAndBorders,
 #!	Return the underlying simplicial surface of this folding complex.
 #!	@Arguments a folding complex
 #!	@Returns a simplicial surface
-InstallMethod( UnderlyingSimplicialSurface, "for a folding complex",
-	[IsFoldingComplex],
-	function( complex )
-		return UnderlyingSimplicialSurfaceAttributeOfFoldingComplex(complex);
-	end
-);
-InstallMethod( UnderlyingSimplicialSurfaceAttributeOfFoldingComplex, 
+InstallMethod( UnderlyingSimplicialSurface, 
 	"for a folding complex",
 	[IsFoldingComplex and 
-		HasUnderlyingCSSAttributeOfFoldingComplex],
+		HasUnderlyingColouredSimplicialSurface],
 	function( complex )
 		return UnderlyingSimplicialSurface(
 					UnderlyingColouredSimplicialSurface(complex));
@@ -460,44 +454,6 @@ InstallMethod( UnderlyingSimplicialSurfaceAttributeOfFoldingComplex,
 );
 
 
-#!	@Description
-#!	Return the underlying coloured simplicial surface of this folding 
-#!	complex.
-#!	@Arguments a folding complex
-#!	@Returns a coloured simplicial surface
-InstallMethod( UnderlyingColouredSimplicialSurface, 
-	"for a folding complex",
-	[IsFoldingComplex],
-	function( complex )
-		return UnderlyingCSSAttributeOfFoldingComplex(complex);
-	end
-);
-
-
-#!	@Description
-#!	Return the fans of this folding complex in the form of a list that is
-#!	indexed by the edge equivalence class numbers of the underlying coloured
-#!	simplicial surface.
-#!	@Arguments a folding complex
-#!	@Returns a list of fans
-InstallMethod( Fans, "for a folding complex", [IsFoldingComplex],
-	function( complex )
-		return FansAttributeOfFoldingComplex(complex);
-	end
-);
-
-
-#!	@Description
-#!	Return the border pieces of this folding complex in the form of a list that 
-#!	is indexed by the face equivalence class numbers of the underlying 
-#!	coloured simplicial surface.
-#!	@Arguments a folding complex
-#!	@Returns a list of sets
-InstallMethod( BorderPieces, "for a folding complex", [IsFoldingComplex],
-	function( complex )
-		return BorderPiecesAttributeOfFoldingComplex(complex);
-	end
-);
 
 
 #!	@Description
@@ -505,13 +461,7 @@ InstallMethod( BorderPieces, "for a folding complex", [IsFoldingComplex],
 #!	a simplicial surface.
 #!	@Arguments a folding complex
 #!	@Returns a simplicial surface
-InstallMethod( OrientationCovering, "for a folding complex",
-	[IsFoldingComplex],
-	function( complex )
-		return OrientationCoveringAttributeOfFoldingComplex(complex);
-	end
-);
-InstallMethod( OrientationCoveringAttributeOfFoldingComplex, 
+InstallMethod( OrientationCovering, 
 	"for a folding complex",
 	[IsFoldingComplex],
 	function( complex )

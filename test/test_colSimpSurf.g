@@ -11,20 +11,12 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 	fi;
 
 	# Test the underlying simplicial surface
-	if UnderlyingSimplicialSurface(surface) <> UnderlyingSimplicialSurfaceAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent underlying simplicial surface.\n");
-	fi;
 	if not IsSimplicialSurface( UnderlyingSimplicialSurface(surface) ) then
 		Print( messageSurfaceOrigin );
 		Print( ": Underlying simplicial surface is not a simplicial surface.\n");
 	fi;
 
 	# Test the quotient simplicial surface
-	if QuotientSimplicialSurface(surface) <> QuotientSimplicialSurfaceAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent quotient simplicial surface.\n");
-	fi;
 	if not IsSimplicialSurface( QuotientSimplicialSurface(surface) ) then
 		Print( messageSurfaceOrigin );
 		Print( ": Quotient simplicial surface is not a simplicial surface.\n");
@@ -33,25 +25,6 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 	##
 	## Test the consistency of the vertices
 	##
-	if VertexEquivalenceNumbersAsSet(surface) <> VertexEquivalenceNumbersAsSetAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent vertex equivalence numbers (as set).\n");
-	fi;
-
-	if VertexEquivalenceNumbersByElements(surface) <> VertexEquivalenceNumbersByElementsAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent vertex equivalence numbers (by elements).\n");
-	fi;
-	
-	if VertexEquivalenceClassesByNumbers(surface) <> VertexEquivalenceClassesByNumbersAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent vertex equivalence classes (by numbers).\n");
-	fi;
-
-	if VertexEquivalenceClassesByElements(surface) <> VertexEquivalenceClassesByElementsAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent vertex equivalence classes (by elements).\n");
-	fi;
 
 	# Compare NumbersAsSet and NumbersByElements
 	if VertexEquivalenceNumbersAsSet(surface) <> Set( VertexEquivalenceNumbersByElements(surface) ) then
@@ -105,25 +78,6 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 	##
 	## Test the consistency of the edges
 	##
-	if EdgeEquivalenceNumbersAsSet(surface) <> EdgeEquivalenceNumbersAsSetAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent edge equivalence numbers (as set).\n");
-	fi;
-
-	if EdgeEquivalenceNumbersByElements(surface) <> EdgeEquivalenceNumbersByElementsAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent edge equivalence numbers (by elements).\n");
-	fi;
-	
-	if EdgeEquivalenceClassesByNumbers(surface) <> EdgeEquivalenceClassesByNumbersAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent edge equivalence classes (by numbers).\n");
-	fi;
-
-	if EdgeEquivalenceClassesByElements(surface) <> EdgeEquivalenceClassesByElementsAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent edge equivalence classes (by elements).\n");
-	fi;
 
 	# Compare NumbersAsSet and NumbersByElements
 	if EdgeEquivalenceNumbersAsSet(surface) <> Set( EdgeEquivalenceNumbersByElements(surface) ) then
@@ -178,25 +132,6 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 	##
 	## Test the consistency of the faces
 	##
-	if FaceEquivalenceNumbersAsSet(surface) <> FaceEquivalenceNumbersAsSetAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent face equivalence numbers (as set).\n");
-	fi;
-
-	if FaceEquivalenceNumbersByElements(surface) <> FaceEquivalenceNumbersByElementsAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent face equivalence numbers (by elements).\n");
-	fi;
-	
-	if FaceEquivalenceClassesByNumbers(surface) <> FaceEquivalenceClassesByNumbersAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent face equivalence classes (by numbers).\n");
-	fi;
-
-	if FaceEquivalenceClassesByElements(surface) <> FaceEquivalenceClassesByElementsAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent face equivalence classes (by elements).\n");
-	fi;
 
 	# Compare NumbersAsSet and NumbersByElements
 	if FaceEquivalenceNumbersAsSet(surface) <> Set( FaceEquivalenceNumbersByElements(surface) ) then
@@ -252,12 +187,6 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 
 	# Check vertex binding relation
 	for i in VertexEquivalenceNumbersAsSet(surface) do
-		if VertexBindingRelation(surface,i) <> VertexBindingRelationAttributeOfCSS(surface,i) then
-			Print( messageSurfaceOrigin );
-			Print( " has inconsistent vertex binding relation at vertex equivalence number ");
-			Print( i );
-			Print(".\n");
-		fi;
 		if VertexEquivalenceClassesByNumbers(surface)[i] <> Set( Union( EquivalenceClasses( VertexBindingRelation(surface,i ) ) ) ) then
 			Print( messageSurfaceOrigin );
 			Print( ": vertex equivalence relation of number ");
@@ -268,12 +197,6 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 
 	# Check edge binding relation
 	for i in EdgeEquivalenceNumbersAsSet(surface) do
-		if EdgeBindingRelation(surface,i) <> EdgeBindingRelationAttributeOfCSS(surface,i) then
-			Print( messageSurfaceOrigin );
-			Print( " has inconsistent edge binding relation at edge equivalence number ");
-			Print( i );
-			Print(".\n");
-		fi;
 		if EdgeEquivalenceClassesByNumbers(surface)[i] <> Set( Union( EquivalenceClasses( EdgeBindingRelation(surface,i ) ) ) ) then
 			Print( messageSurfaceOrigin );
 			Print( ": edge equivalence relation of number ");
@@ -283,10 +206,7 @@ TestColouredSimplicialSurfaceConsistency := function( surface, messageSurfaceOri
 	od;
 
 	# Check local orientation
-	if LocalOrientationWRTVertexEquivalenceClasses(surface) <> LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS(surface) then
-		Print( messageSurfaceOrigin );
-		Print( " has inconsistent local orientation.\n");
-	fi;
+	
 	#TODO check whether the elements in the cycles match
 
 	
@@ -423,10 +343,6 @@ TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin 
 	fi;
 
 	# Check vertex map
-	if VertexMap(id) <> VertexMapAttributeOfSimplicialSurfaceIdentification(id) then
-		Print( messageIdOrigin );
-		Print( " has an inconsistent vertex map.\n");
-	fi;
 	if not IsMapping( VertexMap(id) ) then
 		Print( messageIdOrigin );
 		Print( ": Vertex map is not a mapping.\n" );
@@ -437,10 +353,6 @@ TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin 
 	fi;
 
 	# Check edge map
-	if EdgeMap(id) <> EdgeMapAttributeOfSimplicialSurfaceIdentification(id) then
-		Print( messageIdOrigin );
-		Print( " has an inconsistent edge map.\n");
-	fi;
 	if not IsMapping( EdgeMap(id) ) then
 		Print( messageIdOrigin );
 		Print( ": Edge map is not a mapping.\n" );
@@ -451,10 +363,6 @@ TestSimplicialSurfaceIdentificationConsistency := function( id, messageIdOrigin 
 	fi;
 
 	# Check face map
-	if FaceMap(id) <> FaceMapAttributeOfSimplicialSurfaceIdentification(id) then
-		Print( messageIdOrigin );
-		Print( " has an inconsistent face map.\n");
-	fi;
 	if not IsMapping( FaceMap(id) ) then
 		Print( messageIdOrigin );
 		Print( ": Face map is not a mapping.\n" );

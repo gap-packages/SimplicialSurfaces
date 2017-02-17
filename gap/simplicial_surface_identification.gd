@@ -83,27 +83,24 @@ DeclareOperation( "SimplicialSurfaceIdentificationByListsNC", [IsList,IsList,IsL
 #!	Return the vertex map.
 #!	@Arguments a simplicial surface identification
 #!	@Returns a bijective map
-DeclareAttribute( "VertexMapAttributeOfSimplicialSurfaceIdentification",
+DeclareAttribute( "VertexMap",
 		IsSimplicialSurfaceIdentification);
-DeclareOperation( "VertexMap", [IsSimplicialSurfaceIdentification] );
 
 
 #!	@Description
 #!	Return the edge map.
 #!	@Arguments a simplicial surface identification
 #!	@Returns a bijective map
-DeclareAttribute( "EdgeMapAttributeOfSimplicialSurfaceIdentification",
+DeclareAttribute( "EdgeMap",
 		IsSimplicialSurfaceIdentification);
-DeclareOperation( "EdgeMap", [IsSimplicialSurfaceIdentification] );
 
 
 #!	@Description
 #!	Return the face map.
 #!	@Arguments a simplicial surface identification
 #!	@Returns a bijective map
-DeclareAttribute( "FaceMapAttributeOfSimplicialSurfaceIdentification",
+DeclareAttribute( "FaceMap",
 		IsSimplicialSurfaceIdentification);
-DeclareOperation( "FaceMap", [IsSimplicialSurfaceIdentification] );
 
 
 

@@ -67,13 +67,13 @@ InstallMethod( ColouredSimplicialSurface,
 				ColouredSimplicialSurfaceType,
 				rec( ) );
 
-		SetUnderlyingSimplicialSurfaceAttributeOfCSS( complex, surface );
-		SetVertexEquivalenceNumbersByElementsAttributeOfCSS(complex, vertexEq);
-		SetEdgeEquivalenceNumbersByElementsAttributeOfCSS(complex, edgeEq);
-		SetFaceEquivalenceNumbersByElementsAttributeOfCSS(complex, faceEq);
+		SetUnderlyingSimplicialSurface( complex, surface );
+		SetVertexEquivalenceNumbersByElements(complex, vertexEq);
+		SetEdgeEquivalenceNumbersByElements(complex, edgeEq);
+		SetFaceEquivalenceNumbersByElements(complex, faceEq);
 
 		# Since the relations are trivial, we already know the quotient surface
-		SetQuotientSimplicialSurfaceAttributeOfCSS(complex, surface);
+		SetQuotientSimplicialSurface(complex, surface);
 
 		return complex;
 	end
@@ -120,21 +120,14 @@ end;
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 InstallMethod( 
-	VertexEquivalenceClassesByNumbersAttributeOfCSS, 
+	VertexEquivalenceClassesByNumbers, 
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and 
-		HasVertexEquivalenceNumbersByElementsAttributeOfCSS],
+		HasVertexEquivalenceNumbersByElements],
 	function( complex )
 		return __SIMPLICIAL_NumbersByElementsToClassesByNumbers( 
 			Vertices( UnderlyingSimplicialSurface( complex ) ),
 			VertexEquivalenceNumbersByElements(complex) );
-	end
-);
-InstallMethod( VertexEquivalenceClassesByNumbers, 
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return VertexEquivalenceClassesByNumbersAttributeOfCSS( complex );
 	end
 );
 
@@ -144,21 +137,14 @@ InstallMethod( VertexEquivalenceClassesByNumbers,
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 InstallMethod( 
-	EdgeEquivalenceClassesByNumbersAttributeOfCSS, 
+	EdgeEquivalenceClassesByNumbers, 
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and 
-		HasEdgeEquivalenceNumbersByElementsAttributeOfCSS],
+		HasEdgeEquivalenceNumbersByElements],
 	function( complex )
 		return __SIMPLICIAL_NumbersByElementsToClassesByNumbers( 
 			Edges( UnderlyingSimplicialSurface( complex ) ),
 			EdgeEquivalenceNumbersByElements(complex) );
-	end
-);
-InstallMethod( EdgeEquivalenceClassesByNumbers, 
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return EdgeEquivalenceClassesByNumbersAttributeOfCSS( complex );
 	end
 );
 
@@ -168,21 +154,14 @@ InstallMethod( EdgeEquivalenceClassesByNumbers,
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 InstallMethod( 
-	FaceEquivalenceClassesByNumbersAttributeOfCSS, 
+	FaceEquivalenceClassesByNumbers, 
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and 
-		HasFaceEquivalenceNumbersByElementsAttributeOfCSS],
+		HasFaceEquivalenceNumbersByElements],
 	function( complex )
 		return __SIMPLICIAL_NumbersByElementsToClassesByNumbers( 
 			Faces( UnderlyingSimplicialSurface( complex ) ),
 			FaceEquivalenceNumbersByElements(complex) );
-	end
-);
-InstallMethod( FaceEquivalenceClassesByNumbers, 
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return FaceEquivalenceClassesByNumbersAttributeOfCSS( complex );
 	end
 );
 
@@ -210,21 +189,14 @@ end;
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 InstallMethod( 
-	VertexEquivalenceNumbersByElementsAttributeOfCSS, 
+	VertexEquivalenceNumbersByElements, 
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and 
-		HasVertexEquivalenceClassesByNumbersAttributeOfCSS],
+		HasVertexEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersByElements( 
 			VertexEquivalenceClassesByNumbers( complex ),
 			VertexEquivalenceNumbersAsSet( complex ) );
-	end
-);
-InstallMethod( VertexEquivalenceNumbersByElements, 
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return VertexEquivalenceNumbersByElementsAttributeOfCSS( complex );
 	end
 );
 
@@ -236,21 +208,14 @@ InstallMethod( VertexEquivalenceNumbersByElements,
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 InstallMethod( 
-	EdgeEquivalenceNumbersByElementsAttributeOfCSS, 
+	EdgeEquivalenceNumbersByElements, 
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and 
-		HasEdgeEquivalenceClassesByNumbersAttributeOfCSS],
+		HasEdgeEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersByElements( 
 			EdgeEquivalenceClassesByNumbers( complex ),
 			EdgeEquivalenceNumbersAsSet( complex ) );
-	end
-);
-InstallMethod( EdgeEquivalenceNumbersByElements, 
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return EdgeEquivalenceNumbersByElementsAttributeOfCSS( complex );
 	end
 );
 
@@ -262,21 +227,14 @@ InstallMethod( EdgeEquivalenceNumbersByElements,
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 InstallMethod( 
-	FaceEquivalenceNumbersByElementsAttributeOfCSS, 
+	FaceEquivalenceNumbersByElements, 
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and 
-		HasFaceEquivalenceClassesByNumbersAttributeOfCSS],
+		HasFaceEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersByElements( 
 			FaceEquivalenceClassesByNumbers( complex ),
 			FaceEquivalenceNumbersAsSet( complex ) );
-	end
-);
-InstallMethod( FaceEquivalenceNumbersByElements, 
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return FaceEquivalenceNumbersByElementsAttributeOfCSS( complex );
 	end
 );
 
@@ -294,28 +252,21 @@ end;
 #! has a unique number associated with it.
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
-InstallMethod( VertexEquivalenceNumbersAsSetAttributeOfCSS,
+InstallMethod( VertexEquivalenceNumbersAsSet,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasVertexEquivalenceNumbersByElementsAttributeOfCSS],
+		HasVertexEquivalenceNumbersByElements],
 	function( complex )
 		return Set( VertexEquivalenceNumbersByElements(complex) );
 	end
 );
-InstallMethod( VertexEquivalenceNumbersAsSetAttributeOfCSS,
+InstallMethod( VertexEquivalenceNumbersAsSet,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasVertexEquivalenceClassesByNumbersAttributeOfCSS],
+		HasVertexEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
 						VertexEquivalenceClassesByNumbers(complex) );
-	end
-);
-InstallMethod( VertexEquivalenceNumbersAsSet,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return VertexEquivalenceNumbersAsSetAttributeOfCSS(complex);
 	end
 );
 
@@ -324,28 +275,21 @@ InstallMethod( VertexEquivalenceNumbersAsSet,
 #! has a unique number associated with it.
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
-InstallMethod( EdgeEquivalenceNumbersAsSetAttributeOfCSS,
+InstallMethod( EdgeEquivalenceNumbersAsSet,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasEdgeEquivalenceNumbersByElementsAttributeOfCSS],
+		HasEdgeEquivalenceNumbersByElements],
 	function( complex )
 		return Set( EdgeEquivalenceNumbersByElements(complex) );
 	end
 );
-InstallMethod( EdgeEquivalenceNumbersAsSetAttributeOfCSS,
+InstallMethod( EdgeEquivalenceNumbersAsSet,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasEdgeEquivalenceClassesByNumbersAttributeOfCSS],
+		HasEdgeEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
 						EdgeEquivalenceClassesByNumbers(complex) );
-	end
-);
-InstallMethod( EdgeEquivalenceNumbersAsSet,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return EdgeEquivalenceNumbersAsSetAttributeOfCSS(complex);
 	end
 );
 
@@ -354,28 +298,21 @@ InstallMethod( EdgeEquivalenceNumbersAsSet,
 #! has a unique number associated with it.
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
-InstallMethod( FaceEquivalenceNumbersAsSetAttributeOfCSS,
+InstallMethod( FaceEquivalenceNumbersAsSet,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasFaceEquivalenceNumbersByElementsAttributeOfCSS],
+		HasFaceEquivalenceNumbersByElements],
 	function( complex )
 		return Set( FaceEquivalenceNumbersByElements(complex) );
 	end
 );
-InstallMethod( FaceEquivalenceNumbersAsSetAttributeOfCSS,
+InstallMethod( FaceEquivalenceNumbersAsSet,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasFaceEquivalenceClassesByNumbersAttributeOfCSS],
+		HasFaceEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToNumbersAsSet( 
 						FaceEquivalenceClassesByNumbers(complex) );
-	end
-);
-InstallMethod( FaceEquivalenceNumbersAsSet,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return FaceEquivalenceNumbersAsSetAttributeOfCSS(complex);
 	end
 );
 
@@ -402,10 +339,10 @@ end;
 #! the underlying simplicial surface.
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
-InstallMethod( VertexEquivalenceClassesByElementsAttributeOfCSS,
+InstallMethod( VertexEquivalenceClassesByElements,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasVertexEquivalenceNumbersByElementsAttributeOfCSS],
+		HasVertexEquivalenceNumbersByElements],
 	function( complex )
 		# calculate ClassesByNumbers
 		return List( Vertices(UnderlyingSimplicialSurface(complex)),
@@ -413,20 +350,13 @@ InstallMethod( VertexEquivalenceClassesByElementsAttributeOfCSS,
 						VertexEquivalenceNumbersByElements(complex)[el] ] );
 	end
 );
-InstallMethod( VertexEquivalenceClassesByElementsAttributeOfCSS,
+InstallMethod( VertexEquivalenceClassesByElements,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasVertexEquivalenceClassesByNumbersAttributeOfCSS],
+		HasVertexEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToClassesByElements(
 				 VertexEquivalenceClassesByNumbers(complex) );
-	end
-);
-InstallMethod( VertexEquivalenceClassesByElements,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return VertexEquivalenceClassesByElementsAttributeOfCSS( complex );
 	end
 );
 
@@ -435,10 +365,10 @@ InstallMethod( VertexEquivalenceClassesByElements,
 #! the underlying simplicial surface.
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
-InstallMethod( EdgeEquivalenceClassesByElementsAttributeOfCSS,
+InstallMethod( EdgeEquivalenceClassesByElements,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasEdgeEquivalenceNumbersByElementsAttributeOfCSS],
+		HasEdgeEquivalenceNumbersByElements],
 	function( complex )
 		# calculate ClassesByNumbers
 		return List( Edges(UnderlyingSimplicialSurface(complex)),
@@ -446,20 +376,13 @@ InstallMethod( EdgeEquivalenceClassesByElementsAttributeOfCSS,
 						EdgeEquivalenceNumbersByElements(complex)[el] ] );
 	end
 );
-InstallMethod( EdgeEquivalenceClassesByElementsAttributeOfCSS,
+InstallMethod( EdgeEquivalenceClassesByElements,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasEdgeEquivalenceClassesByNumbersAttributeOfCSS],
+		HasEdgeEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToClassesByElements(
 				 EdgeEquivalenceClassesByNumbers(complex) );
-	end
-);
-InstallMethod( EdgeEquivalenceClassesByElements,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return EdgeEquivalenceClassesByElementsAttributeOfCSS( complex );
 	end
 );
 
@@ -468,10 +391,10 @@ InstallMethod( EdgeEquivalenceClassesByElements,
 #! the underlying simplicial surface.
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
-InstallMethod( FaceEquivalenceClassesByElementsAttributeOfCSS,
+InstallMethod( FaceEquivalenceClassesByElements,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasFaceEquivalenceNumbersByElementsAttributeOfCSS],
+		HasFaceEquivalenceNumbersByElements],
 	function( complex )
 		# calculate ClassesByNumbers
 		return List( Faces(UnderlyingSimplicialSurface(complex)),
@@ -479,20 +402,13 @@ InstallMethod( FaceEquivalenceClassesByElementsAttributeOfCSS,
 						FaceEquivalenceNumbersByElements(complex)[el] ] );
 	end
 );
-InstallMethod( FaceEquivalenceClassesByElementsAttributeOfCSS,
+InstallMethod( FaceEquivalenceClassesByElements,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface and
-		HasFaceEquivalenceClassesByNumbersAttributeOfCSS],
+		HasFaceEquivalenceClassesByNumbers],
 	function( complex )
 		return __SIMPLICIAL_ClassesByNumbersToClassesByElements(
 				 FaceEquivalenceClassesByNumbers(complex) );
-	end
-);
-InstallMethod( FaceEquivalenceClassesByElements,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( complex )
-		return FaceEquivalenceClassesByElementsAttributeOfCSS( complex );
 	end
 );
 
@@ -505,7 +421,7 @@ InstallMethod( FaceEquivalenceClassesByElements,
 #!	consistency with the incidence relation.
 #!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a set of sets of positive integers
-InstallMethod( VertexBindingRelationAttributeOfCSSOp,
+InstallMethod( VertexBindingRelationOp,
 	"for a coloured simplicial surface and a positive integer",
 	[IsColouredSimplicialSurface, IsPosInt],
 	function( complex, name )
@@ -535,13 +451,6 @@ InstallMethod( VertexBindingRelationAttributeOfCSSOp,
 		return EquivalenceRelationByPairs( Domain( vertexClass ), relation );
 	end
 );
-InstallMethod( VertexBindingRelation,
-	"for a coloured simplicial surface and a positive integer",
-	[IsColouredSimplicialSurface, IsPosInt],
-	function( complex, name )
-		return VertexBindingRelationAttributeOfCSS( complex, name );
-	end
-);
 
 
 #!	@Description
@@ -551,7 +460,7 @@ InstallMethod( VertexBindingRelation,
 #!	consistency with the incidence relation.
 #!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns a set of sets of positive integers
-InstallMethod( EdgeBindingRelationAttributeOfCSSOp,
+InstallMethod( EdgeBindingRelationOp,
 	"for a coloured simplicial surface and a positive integer",
 	[IsColouredSimplicialSurface, IsPosInt],
 	function( complex, name )
@@ -581,13 +490,6 @@ InstallMethod( EdgeBindingRelationAttributeOfCSSOp,
 		return EquivalenceRelationByPairs( Domain( edgeClass ), relation );
 	end
 );
-InstallMethod( EdgeBindingRelation,
-	"for a coloured simplicial surface and a positive integer",
-	[IsColouredSimplicialSurface, IsPosInt],
-	function( complex, name )
-		return EdgeBindingRelationAttributeOfCSS( complex, name );
-	end
-);
 
 	
 #!	@Description
@@ -598,7 +500,7 @@ InstallMethod( EdgeBindingRelation,
 #!	given face.
 #!	@Arguments a coloured simplicial surface
 #!	@Returns a list of cyclic permutations
-InstallMethod( LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS,
+InstallMethod( LocalOrientationWRTVertexEquivalenceClasses,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface],
 	function( surface )
@@ -618,14 +520,6 @@ InstallMethod( LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS,
 		return list;
 	end
 );
-InstallMethod( LocalOrientationWRTVertexEquivalenceClasses,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( surface )
-		return LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS( 
-																	surface );
-	end
-);
 
 
 
@@ -637,7 +531,7 @@ InstallMethod( LocalOrientationWRTVertexEquivalenceClasses,
 #! class as one point.
 #! @Arguments a coloured simplicial surface
 #! @Returns a simplicial surface
-InstallMethod( QuotientSimplicialSurfaceAttributeOfCSS,
+InstallMethod( QuotientSimplicialSurface,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface],
 	function( surface )
@@ -673,25 +567,7 @@ InstallMethod( QuotientSimplicialSurfaceAttributeOfCSS,
 												edgesByVertices, facesByEdges );
 	end
 );
-InstallMethod( QuotientSimplicialSurface,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( surface )
-		return QuotientSimplicialSurfaceAttributeOfCSS(surface);
-	end
-);
 
-#! @Description
-#! Return the underlying simplicial surface.
-#! @Arguments a coloured simplicial surface
-#! @Returns a simplicial surface
-InstallMethod( UnderlyingSimplicialSurface,
-	"for a coloured simplicial surface",
-	[IsColouredSimplicialSurface],
-	function( surface )
-		return UnderlyingSimplicialSurfaceAttributeOfCSS(surface);
-	end
-);
 
 
 ##

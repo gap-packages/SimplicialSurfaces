@@ -41,14 +41,14 @@ InstallMethod( SimplicialSurfaceFanNC,
 		local fan, corona;
 
 		fan := Objectify( SimplicialSurfaceFanType, rec() );
-		SetBeginOfFanAttributeOfSimplicialSurfaceFan( fan, start );
-		SetEndOfFanAttributeOfSimplicialSurfaceFan( fan, fin );
-		SetPermutationOfFanAttributeOfSimplicialSurfaceFan( fan, perm );
+		SetBeginOfFan( fan, start );
+		SetEndOfFan( fan, fin );
+		SetPermutationOfFan( fan, perm );
 
 		# Check the corona
 		corona := ValueOption( "Corona" );
 		if not corona = fail then
-			SetCoronaOfFanAttributeOfSimplicialSurfaceFan( fan, corona );
+			SetCoronaOfFan( fan, corona );
 		fi;
 
 		return fan;
@@ -158,56 +158,16 @@ InstallMethod( SimplicialSurfaceFanByEdgeInColouredSimplicialSurface,
 #############################################################################
 
 
-#! @Description
-#! Return the begin of the fan (which is one part of the orientation)
-#! @Arguments a simplicial surface fan
-#! @Returns a positive integers
-InstallMethod( BeginOfFan, "for a simplicial surface fan", 
-	[IsSimplicialSurfaceFan],
-	function( fan )
-		return BeginOfFanAttributeOfSimplicialSurfaceFan( fan );
-	end
-);
-
-
-#! @Description
-#! Return the end of the fan (which is one part of the orientation)
-#! @Arguments a simplicial surface fan
-#! @Returns a positive integers
-InstallMethod( EndOfFan, "for a simplicial surface fan", 
-	[IsSimplicialSurfaceFan],
-	function( fan )
-		return EndOfFanAttributeOfSimplicialSurfaceFan( fan );
-	end
-);
-
-
-#! @Description
-#! Return the permutation of the fan.
-#! @Arguments a simplicial surface fan
-#! @Returns a positive integers
-InstallMethod( PermutationOfFan, "for a simplicial surface fan", 
-	[IsSimplicialSurfaceFan],
-	function( fan )
-		return PermutationOfFanAttributeOfSimplicialSurfaceFan( fan );
-	end
-);
 
 
 #! @Description
 #! Return the corona of the fan.
 #! @Arguments a simplicial surface fan
 #! @Returns a set of positive integers
-InstallMethod( CoronaOfFanAttributeOfSimplicialSurfaceFan,
+InstallMethod( CoronaOfFan,
 	"for a simplicial surface fan", [IsSimplicialSurfaceFan],
 	function( fan )
 		return MovedPoints( PermutationOfFan( fan ) );
-	end
-);
-InstallMethod( CoronaOfFan, "for a simplicial surface fan", 
-	[IsSimplicialSurfaceFan],
-	function( fan )
-		return CoronaOfFanAttributeOfSimplicialSurfaceFan( fan );
 	end
 );
 
@@ -217,7 +177,7 @@ InstallMethod( CoronaOfFan, "for a simplicial surface fan",
 #! Begin and End in addition to inverting the permutation.
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-InstallMethod( InverseOfFanAttributeOfSimplicialSurfaceFan, 
+InstallMethod( InverseOfFan, 
 	"for a simplicial surface fan", [IsSimplicialSurfaceFan],
 	function( fan )
 		local inv;
@@ -226,15 +186,9 @@ InstallMethod( InverseOfFanAttributeOfSimplicialSurfaceFan,
 			PermutationOfFan(fan)^(-1) : Corona := CoronaOfFan(fan) );
 
 		# The inverse of the inverse is the original
-		SetInverseOfFanAttributeOfSimplicialSurfaceFan( inv, fan);
+		SetInverseOfFan( inv, fan);
 
 		return inv;
-	end
-);
-InstallMethod( InverseOfFan, "for a simplicial surface fan", 
-	[IsSimplicialSurfaceFan],
-	function( fan )
-		return InverseOfFanAttributeOfSimplicialSurfaceFan( fan );
 	end
 );
 
@@ -248,7 +202,7 @@ InstallMethod( InverseOfFan, "for a simplicial surface fan",
 #!
 #!	@Arguments a simplicial surface fan, a set of positive integers
 #!	@Returns a simplicial surface fan
-InstallMethod( ReducedFanAttributeOfSimplicialSurfaceFanOp, 
+InstallMethod( ReducedFanOp, 
 	"for a simplicial surface fan and a subset of its corona", 
 	[IsSimplicialSurfaceFan, IsSet],
 	function( fan, set )
@@ -284,17 +238,10 @@ InstallMethod( ReducedFanAttributeOfSimplicialSurfaceFanOp,
 			PermList( newPerm ) : Corona := set );
 	end
 );
-InstallMethod( ReducedFan, 
-	"for a simplicial surface fan and a subset of its corona", 
-	[IsSimplicialSurfaceFan, IsSet],
-	function( fan, set )
-		return ReducedFanAttributeOfSimplicialSurfaceFan( fan, set );
-	end
-);
-RedispatchOnCondition( ReducedFanAttributeOfSimplicialSurfaceFanOp, true, 
+RedispatchOnCondition( ReducedFanOp, true, 
 	[IsSimplicialSurfaceFan, IsList], [,IsSet], 0 );
-RedispatchOnCondition( ReducedFan, true, [IsSimplicialSurfaceFan, IsList], 
-	[,IsSet], 0 );
+#RedispatchOnCondition( ReducedFan, true, [IsSimplicialSurfaceFan, IsList], 
+#	[,IsSet], 0 );
 
 
 #############################################################################

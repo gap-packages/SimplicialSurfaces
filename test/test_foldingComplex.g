@@ -10,29 +10,7 @@ TestFanConsistency := function( fan, messageFanOrigin )
 		Print( " is not a simplicial surface fan.\n" );
 	fi;
 
-	# Test the begin
-	if BeginOfFan(fan) <> BeginOfFanAttributeOfSimplicialSurfaceFan(fan) then
-		Print( messageFanOrigin );
-		Print( " has inconsistent begin.\n");
-	fi;
-	
-	# Test the begin
-	if EndOfFan(fan) <> EndOfFanAttributeOfSimplicialSurfaceFan(fan) then
-		Print( messageFanOrigin );
-		Print( " has inconsistent end.\n");
-	fi;
-
-	# Test the permutation
-	if PermutationOfFan(fan) <> PermutationOfFanAttributeOfSimplicialSurfaceFan(fan) then
-		Print( messageFanOrigin );
-		Print( " has inconsistent permutation.\n");
-	fi;
-
 	# Test the corona
-	if CoronaOfFan(fan) <> CoronaOfFanAttributeOfSimplicialSurfaceFan(fan) then
-		Print( messageFanOrigin );
-		Print( " has inconsistent corona.\n");
-	fi;
 	if PermutationOfFan(fan) <> () then
 		if MovedPoints( PermutationOfFan(fan) ) <> CoronaOfFan(fan) then
 			Print( messageFanOrigin );
@@ -51,10 +29,6 @@ TestFanConsistency := function( fan, messageFanOrigin )
 
 
 	# Test the inverse
-	if InverseOfFan(fan) <> InverseOfFanAttributeOfSimplicialSurfaceFan(fan) then
-		Print( messageFanOrigin );
-		Print( " has inconsistent inverse.\n");
-	fi;
 	inv := InverseOfFan(fan);
 	if not IsSimplicialSurfaceFan(inv) then
 		Print( messageFanOrigin );
@@ -224,23 +198,15 @@ TestFoldingComplexConsistency := function( complex, messageOrigin )
 
 
 	# Check simplicial surface
-	if UnderlyingSimplicialSurface(complex) <> UnderlyingSimplicialSurfaceAttributeOfFoldingComplex(complex) then
-		Print( messageOrigin );
-		Print( " has inconsistent underlying simplicial surface.\n" );
-	fi;
 
 	# Check coloured simplicial surface
-	if UnderlyingColouredSimplicialSurface(complex) <> UnderlyingCSSAttributeOfFoldingComplex(complex) then
-		Print( messageOrigin );
-		Print( " has inconsistent underlying coloured simplicial surface.\n" );
-	fi;
 	colSurf := UnderlyingColouredSimplicialSurface(complex);
+	if not IsColouredSimplicialSurface(colSurf) then
+		Print( messageOrigin );
+		Print( " has an underlying simplicial surface that does not conform to type.\n" );
+	fi;
 
 	# Check fans
-	if Fans(complex) <> FansAttributeOfFoldingComplex(complex) then
-		Print( messageOrigin );
-		Print( " has inconsistent fans.\n" );
-	fi;
 	for edgeNr in EdgeEquivalenceNumbersAsSet(colSurf) do
 		if FanOfEdgeEquivalenceClass(complex, edgeNr) <> FanOfEdgeEquivalenceClassNC(complex, edgeNr) then
 			Print( messageOrigin );
@@ -273,10 +239,6 @@ TestFoldingComplexConsistency := function( complex, messageOrigin )
 	od;
 
 	# Check border pieces
-	if BorderPieces(complex) <> BorderPiecesAttributeOfFoldingComplex(complex) then
-		Print( messageOrigin );
-		Print( " has inconsistent border pieces.\n" );
-	fi;
 	for faceNr in FaceEquivalenceNumbersAsSet(colSurf) do
 		if BorderPiecesOfFaceEquivalenceClass(complex, faceNr) <> BorderPiecesOfFaceEquivalenceClassNC(complex, faceNr) then
 			Print( messageOrigin );
@@ -302,10 +264,6 @@ TestFoldingComplexConsistency := function( complex, messageOrigin )
 	fi;
 
 	# Check orientation covering
-	if OrientationCovering(complex) <> OrientationCoveringAttributeOfFoldingComplex(complex) then
-		Print( messageOrigin );
-		Print( " has inconsistent orientation covering.\n" );
-	fi;
 	if not IsSimplicialSurface( OrientationCovering(complex) ) then
 		Print( messageOrigin );
 		Print( " has an orientation covering that is not a simplicial surface.\n" );
@@ -330,10 +288,6 @@ TestFoldingPlanConsistency := function(plan, messageOrigin)
 
 
 	# Check oriented face map
-	if OrientedFaceMap(plan) <> OrientedFaceMapAttributeOfFoldingPlan(plan) then
-		Print( messageOrigin );
-		Print( " has an inconsistent oriented face map.\n" );
-	fi;
 	orFaceMap := OrientedFaceMap(plan); 
 	if not IsMapping(orFaceMap) or not IsBijective(orFaceMap) then
 		Print( messageOrigin );
@@ -341,10 +295,6 @@ TestFoldingPlanConsistency := function(plan, messageOrigin)
 	fi;
 
 	# Check identification
-	if Identification(plan) <> IdentificationAttributeOfFoldingPlan(plan) then
-		Print( messageOrigin );
-		Print( " has an inconsistent identification.\n" );
-	fi;
 	if not IsSimplicialSurfaceIdentification( Identification(plan) ) then
 		Print( messageOrigin );
 		Print( " has an identification that is not a simplicial surface identification.\n" );

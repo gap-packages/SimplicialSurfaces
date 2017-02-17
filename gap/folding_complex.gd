@@ -95,9 +95,8 @@ DeclareOperation( "FoldingComplexByFansAndBordersNC",
 #!	Return the underlying simplicial surface of this folding complex.
 #!	@Arguments a folding complex
 #!	@Returns a simplicial surface
-DeclareAttribute( "UnderlyingSimplicialSurfaceAttributeOfFoldingComplex",
+DeclareAttribute( "UnderlyingSimplicialSurface",
 		IsFoldingComplex);
-DeclareOperation( "UnderlyingSimplicialSurface", [IsFoldingComplex] );
 
 
 #!	@Description
@@ -106,10 +105,8 @@ DeclareOperation( "UnderlyingSimplicialSurface", [IsFoldingComplex] );
 #!	@Arguments a folding complex
 #!	@Returns a coloured simplicial surface
 DeclareAttribute( 
-	"UnderlyingCSSAttributeOfFoldingComplex",
+	"UnderlyingColouredSimplicialSurface",
 		IsFoldingComplex);
-DeclareOperation( "UnderlyingColouredSimplicialSurface", 
-		[IsFoldingComplex] );
 
 #!	@Description
 #!	Return the fans of this folding complex in the form of a list that is
@@ -117,8 +114,7 @@ DeclareOperation( "UnderlyingColouredSimplicialSurface",
 #!	simplicial surface.
 #!	@Arguments a folding complex
 #!	@Returns a list of fans
-DeclareAttribute( "FansAttributeOfFoldingComplex", IsFoldingComplex);
-DeclareOperation( "Fans", [IsFoldingComplex] );
+DeclareAttribute( "Fans", IsFoldingComplex);
 
 
 #!	@Description
@@ -127,8 +123,7 @@ DeclareOperation( "Fans", [IsFoldingComplex] );
 #!	coloured simplicial surface.
 #!	@Arguments a folding complex
 #!	@Returns a list of sets of integers
-DeclareAttribute( "BorderPiecesAttributeOfFoldingComplex", IsFoldingComplex);
-DeclareOperation( "BorderPieces", [IsFoldingComplex] );
+DeclareAttribute( "BorderPieces", IsFoldingComplex);
 
 
 #!	@Description
@@ -136,9 +131,8 @@ DeclareOperation( "BorderPieces", [IsFoldingComplex] );
 #!	a simplicial surface.
 #!	@Arguments a folding complex
 #!	@Returns a simplicial surface
-DeclareAttribute( "OrientationCoveringAttributeOfFoldingComplex", 
+DeclareAttribute( "OrientationCovering", 
 													IsFoldingComplex);
-DeclareOperation( "OrientationCovering", [IsFoldingComplex] );
 
 
 #!	@Description

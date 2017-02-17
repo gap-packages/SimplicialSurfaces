@@ -93,15 +93,13 @@ DeclareOperation( "FoldingPlanByListsNC", [IsList,IsList,IsList,IsList]);
 #!	Return the oriented face map.
 #!	@Arguments a folding plan
 #!	@Returns a bijective map
-DeclareAttribute( "OrientedFaceMapAttributeOfFoldingPlan", IsFoldingPlan );
-DeclareOperation( "OrientedFaceMap", [IsFoldingPlan] );
+DeclareAttribute( "OrientedFaceMap", IsFoldingPlan );
 
 #!	@Description
 #!	Return the identification a folding plan is based on.
 #!	@Arguments a folding plan
 #!	@Returns a simplicial surface identification
-DeclareAttribute( "IdentificationAttributeOfFoldingPlan", IsFoldingPlan );
-DeclareOperation( "Identification", [IsFoldingPlan] );
+DeclareAttribute( "Identification", IsFoldingPlan );
 
 
 

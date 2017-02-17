@@ -45,14 +45,14 @@ InstallMethod( FoldingPlanByIdentificationNC,
 		local plan, source, image, relation, map;
 
 		plan := Objectify( FoldingPlanType, rec() );
-		SetIdentificationAttributeOfFoldingPlan( plan, id );
+		SetIdentification( plan, id );
 
 		source := Domain( [ orFaceList[1] ] );
 		image := Domain( [ orFaceList[2] ] );
 		relation := [ DirectProductElement(orFaceList) ];
 		map := GeneralMappingByElements( source, image, relation);
 
-		SetOrientedFaceMapAttributeOfFoldingPlan( plan, map );
+		SetOrientedFaceMap( plan, map );
 
 		return plan;
 	end
@@ -91,8 +91,8 @@ InstallMethod( FoldingPlanByMapsNC, "for four bijective maps",
 		id := SimplicialSurfaceIdentificationNC( vertexMap, edgeMap, faceMap );
 		
 		plan := Objectify( FoldingPlanType, rec() );
-		SetIdentificationAttributeOfFoldingPlan( plan, id );
-		SetOrientedFaceMapAttributeOfFoldingPlan( plan, orFaceMap );
+		SetIdentification( plan, id );
+		SetOrientedFaceMap( plan, orFaceMap );
 
 		return plan;
 	end
@@ -115,8 +115,8 @@ InstallMethod( FoldingPlanByMaps, "for four bijective maps",
 	#TODO check whether orFaceMap really only consists of integers
 		
 		plan := Objectify( FoldingPlanType, rec() );
-		SetIdentificationAttributeOfFoldingPlan( plan, id );
-		SetOrientedFaceMapAttributeOfFoldingPlan( plan, orFaceMap );
+		SetIdentification( plan, id );
+		SetOrientedFaceMap( plan, orFaceMap );
 
 		return plan;
 	end
@@ -146,8 +146,8 @@ InstallMethod( FoldingPlanByListsNC, "for four lists",
 										vertexList, edgeList, faceList );
 		
 		plan := Objectify( FoldingPlanType, rec() );
-		SetIdentificationAttributeOfFoldingPlan( plan, id );
-		SetOrientedFaceMapAttributeOfFoldingPlan( plan, 
+		SetIdentification( plan, id );
+		SetOrientedFaceMap( plan, 
 					__SIMPLICIAL_CreateMapFromListNC(orFaceList, false) );
 
 		return plan;
@@ -162,7 +162,7 @@ InstallMethod( FoldingPlanByLists, "for four lists",
 										vertexList, edgeList, faceList );
 		
 		plan := Objectify( FoldingPlanType, rec() );
-		SetIdentificationAttributeOfFoldingPlan( plan, id );
+		SetIdentification( plan, id );
 
 		# Check whether the list is well defined
 		if Length(orFaceList) <> 1 or not IsList( orFaceList[1] ) or
@@ -171,7 +171,7 @@ InstallMethod( FoldingPlanByLists, "for four lists",
 			Error("FoldingPlanByLists: The list for oriented faces has to consist of a single tuple of integers.");
 		fi;
 
-		SetOrientedFaceMapAttributeOfFoldingPlan( plan, 
+		SetOrientedFaceMap( plan, 
 					__SIMPLICIAL_CreateMapFromListNC(orFaceList, false) );
 
 		return plan;
@@ -187,27 +187,6 @@ InstallMethod( FoldingPlanByLists, "for four lists",
 #############################################################################
 #############################################################################
 
-
-#!	@Description
-#!	Return the oriented face map.
-#!	@Arguments a folding plan
-#!	@Returns a bijective map
-InstallMethod( OrientedFaceMap, "for a folding plan", [IsFoldingPlan],
-	function( plan )
-		return OrientedFaceMapAttributeOfFoldingPlan(plan);
-	end
-);
-
-
-#!	@Description
-#!	Return the identification a folding plan is based on.
-#!	@Arguments a folding plan
-#!	@Returns a simplicial surface identification
-InstallMethod( Identification, "for a folding plan", [IsFoldingPlan],
-	function( plan )
-		return IdentificationAttributeOfFoldingPlan(plan);
-	end
-);
 
 
 #!	@Description

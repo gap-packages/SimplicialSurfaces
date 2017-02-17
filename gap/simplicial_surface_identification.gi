@@ -43,9 +43,9 @@ InstallMethod( SimplicialSurfaceIdentificationNC,
 		local id;
 
 		id := Objectify( SimplicialSurfaceIdentificationType, rec() );
-		SetVertexMapAttributeOfSimplicialSurfaceIdentification( id, vertexMap);
-		SetEdgeMapAttributeOfSimplicialSurfaceIdentification( id, edgeMap);
-		SetFaceMapAttributeOfSimplicialSurfaceIdentification( id, faceMap);
+		SetVertexMap( id, vertexMap);
+		SetEdgeMap( id, edgeMap);
+		SetFaceMap( id, faceMap);
 
 		return id;
 	end
@@ -182,42 +182,6 @@ InstallMethod( SimplicialSurfaceIdentificationByLists, "for three lists",
 #############################################################################
 
 
-
-#!	@Description
-#!	Return the vertex map.
-#!	@Arguments a simplicial surface identification
-#!	@Returns a bijective map
-InstallMethod( VertexMap,
-	"for a simplicial surface identification",
-	[IsSimplicialSurfaceIdentification],
-	function( id )
-		return VertexMapAttributeOfSimplicialSurfaceIdentification(id);
-	end
-);
-
-#!	@Description
-#!	Return the edge map.
-#!	@Arguments a simplicial surface identification
-#!	@Returns a bijective map
-InstallMethod( EdgeMap,
-	"for a simplicial surface identification",
-	[IsSimplicialSurfaceIdentification],
-	function( id )
-		return EdgeMapAttributeOfSimplicialSurfaceIdentification(id);
-	end
-);
-
-#!	@Description
-#!	Return the face map.
-#!	@Arguments a simplicial surface identification
-#!	@Returns a bijective map
-InstallMethod( FaceMap,
-	"for a simplicial surface identification",
-	[IsSimplicialSurfaceIdentification],
-	function( id )
-		return FaceMapAttributeOfSimplicialSurfaceIdentification(id);
-	end
-);
 
 
 #!	@Description

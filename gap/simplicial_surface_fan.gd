@@ -90,36 +90,32 @@ DeclareOperation(
 #! Return the begin of the fan (which is one part of the orientation)
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-DeclareAttribute( "BeginOfFanAttributeOfSimplicialSurfaceFan", 
+DeclareAttribute( "BeginOfFan", 
 	IsSimplicialSurfaceFan );
-DeclareOperation( "BeginOfFan", [IsSimplicialSurfaceFan] );
 
 
 #! @Description
 #! Return the end of the fan (which is one part of the orientation)
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-DeclareAttribute( "EndOfFanAttributeOfSimplicialSurfaceFan", 
+DeclareAttribute( "EndOfFan", 
 	IsSimplicialSurfaceFan );
-DeclareOperation( "EndOfFan", [IsSimplicialSurfaceFan] );
 
 
 #! @Description
 #! Return the permutation of the fan.
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-DeclareAttribute( "PermutationOfFanAttributeOfSimplicialSurfaceFan", 
+DeclareAttribute( "PermutationOfFan", 
 	IsSimplicialSurfaceFan );
-DeclareOperation( "PermutationOfFan", [IsSimplicialSurfaceFan] );
 
 
 #! @Description
 #! Return the corona of the fan.
 #! @Arguments a simplicial surface fan
 #! @Returns a set of positive integers
-DeclareAttribute( "CoronaOfFanAttributeOfSimplicialSurfaceFan", 
+DeclareAttribute( "CoronaOfFan", 
 	IsSimplicialSurfaceFan );
-DeclareOperation( "CoronaOfFan", [IsSimplicialSurfaceFan] );
 
 
 #! @Description
@@ -127,9 +123,8 @@ DeclareOperation( "CoronaOfFan", [IsSimplicialSurfaceFan] );
 #! Begin and End in addition to inverting the permutation.
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-DeclareAttribute( "InverseOfFanAttributeOfSimplicialSurfaceFan", 
+DeclareAttribute( "InverseOfFan", 
 	IsSimplicialSurfaceFan );
-DeclareOperation( "InverseOfFan", [IsSimplicialSurfaceFan] );
 
 
 #!	@Description
@@ -141,13 +136,12 @@ DeclareOperation( "InverseOfFan", [IsSimplicialSurfaceFan] );
 #!
 #!	@Arguments a simplicial surface fan, a set of positive integers
 #!	@Returns a simplicial surface fan
-KeyDependentOperation( "ReducedFanAttributeOfSimplicialSurfaceFan", 
+KeyDependentOperation( "ReducedFan", 
 	IsSimplicialSurfaceFan, IsSet, 
 	function( set )
 		return Size( Filtered( set, el -> not IsPosInt(el) ) ) = 0;
 	end
 );
-DeclareOperation( "ReducedFan", [IsSimplicialSurfaceFan, IsSet] );
 
 
 #############################################################################

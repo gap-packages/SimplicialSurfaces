@@ -82,10 +82,8 @@ DeclareOperation( "ColouredSimplicialSurface", [IsSimplicialSurface]);
 #! @Arguments a coloured simplicial surface
 #! @Returns a simplicial surface
 DeclareAttribute( 
-	"UnderlyingSimplicialSurfaceAttributeOfCSS",
+	"UnderlyingSimplicialSurface",
 	IsColouredSimplicialSurface );
-DeclareOperation( "UnderlyingSimplicialSurface", 
-									[IsColouredSimplicialSurface] );
 
 #!	@Description
 #!	Return the simplicial surface that we get if we consider each equivalence
@@ -95,10 +93,8 @@ DeclareOperation( "UnderlyingSimplicialSurface",
 #!	@Arguments a coloured simplicial surface
 #!	@Returns a simplicial surface
 DeclareAttribute(
-	"QuotientSimplicialSurfaceAttributeOfCSS",
+	"QuotientSimplicialSurface",
 	IsColouredSimplicialSurface);
-DeclareOperation( "QuotientSimplicialSurface", 
-									[IsColouredSimplicialSurface] );
 
 ##
 ##		Vertices
@@ -110,10 +106,8 @@ DeclareOperation( "QuotientSimplicialSurface",
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"VertexEquivalenceNumbersAsSetAttributeOfCSS",
+	"VertexEquivalenceNumbersAsSet",
 	IsColouredSimplicialSurface);
-DeclareOperation( "VertexEquivalenceNumbersAsSet", 
-									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the vertex equivalence numbers as list indexed by the vertices of the
@@ -122,10 +116,8 @@ DeclareOperation( "VertexEquivalenceNumbersAsSet",
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"VertexEquivalenceNumbersByElementsAttributeOfCSS",
+	"VertexEquivalenceNumbersByElements",
 	IsColouredSimplicialSurface);
-DeclareOperation( "VertexEquivalenceNumbersByElements", 
-									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the vertex equivalence classes. They are indexed by the vertex
@@ -133,10 +125,8 @@ DeclareOperation( "VertexEquivalenceNumbersByElements",
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"VertexEquivalenceClassesByNumbersAttributeOfCSS",
+	"VertexEquivalenceClassesByNumbers",
 	IsColouredSimplicialSurface );
-DeclareOperation( "VertexEquivalenceClassesByNumbers", 
-									[IsColouredSimplicialSurface] );
 
 
 #! @Description
@@ -145,10 +135,8 @@ DeclareOperation( "VertexEquivalenceClassesByNumbers",
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"VertexEquivalenceClassesByElementsAttributeOfCSS",
+	"VertexEquivalenceClassesByElements",
 	IsColouredSimplicialSurface );
-DeclareOperation( "VertexEquivalenceClassesByElements", 
-									[IsColouredSimplicialSurface] );
 
 ##
 ##		Edges
@@ -160,10 +148,8 @@ DeclareOperation( "VertexEquivalenceClassesByElements",
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"EdgeEquivalenceNumbersAsSetAttributeOfCSS",
+	"EdgeEquivalenceNumbersAsSet",
 	IsColouredSimplicialSurface);
-DeclareOperation( "EdgeEquivalenceNumbersAsSet", 
-									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the edge equivalence numbers as list indexed by the edges of the
@@ -172,10 +158,8 @@ DeclareOperation( "EdgeEquivalenceNumbersAsSet",
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"EdgeEquivalenceNumbersByElementsAttributeOfCSS",
+	"EdgeEquivalenceNumbersByElements",
 	IsColouredSimplicialSurface);
-DeclareOperation( "EdgeEquivalenceNumbersByElements", 
-									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the edge equivalence classes. They are indexed by the edge
@@ -183,10 +167,8 @@ DeclareOperation( "EdgeEquivalenceNumbersByElements",
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"EdgeEquivalenceClassesByNumbersAttributeOfCSS",
+	"EdgeEquivalenceClassesByNumbers",
 	IsColouredSimplicialSurface );
-DeclareOperation( "EdgeEquivalenceClassesByNumbers", 
-									[IsColouredSimplicialSurface] );
 
 
 #! @Description
@@ -195,10 +177,8 @@ DeclareOperation( "EdgeEquivalenceClassesByNumbers",
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"EdgeEquivalenceClassesByElementsAttributeOfCSS",
+	"EdgeEquivalenceClassesByElements",
 	IsColouredSimplicialSurface );
-DeclareOperation( "EdgeEquivalenceClassesByElements", 
-									[IsColouredSimplicialSurface] );
 
 
 ##
@@ -211,10 +191,8 @@ DeclareOperation( "EdgeEquivalenceClassesByElements",
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"FaceEquivalenceNumbersAsSetAttributeOfCSS",
+	"FaceEquivalenceNumbersAsSet",
 	IsColouredSimplicialSurface);
-DeclareOperation( "FaceEquivalenceNumbersAsSet", 
-									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the face equivalence numbers as list indexed by the faces of the
@@ -223,10 +201,8 @@ DeclareOperation( "FaceEquivalenceNumbersAsSet",
 #! @Arguments a coloured simplicial surface
 #! @Returns a dense list of positive integers
 DeclareAttribute(
-	"FaceEquivalenceNumbersByElementsAttributeOfCSS",
+	"FaceEquivalenceNumbersByElements",
 	IsColouredSimplicialSurface);
-DeclareOperation( "FaceEquivalenceNumbersByElements", 
-									[IsColouredSimplicialSurface] );
 
 #! @Description
 #! Return the face equivalence classes. They are indexed by the face
@@ -234,10 +210,8 @@ DeclareOperation( "FaceEquivalenceNumbersByElements",
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"FaceEquivalenceClassesByNumbersAttributeOfCSS",
+	"FaceEquivalenceClassesByNumbers",
 	IsColouredSimplicialSurface );
-DeclareOperation( "FaceEquivalenceClassesByNumbers", 
-									[IsColouredSimplicialSurface] );
 
 
 #! @Description
@@ -246,10 +220,8 @@ DeclareOperation( "FaceEquivalenceClassesByNumbers",
 #! @Arguments a coloured simplicial surface
 #! @Returns a list of sets of positive integers
 DeclareAttribute( 
-	"FaceEquivalenceClassesByElementsAttributeOfCSS",
+	"FaceEquivalenceClassesByElements",
 	IsColouredSimplicialSurface );
-DeclareOperation( "FaceEquivalenceClassesByElements", 
-									[IsColouredSimplicialSurface] );
 
 #!	@Description
 #!	Return the binding relation of the given vertex class (represented by its
@@ -258,10 +230,8 @@ DeclareOperation( "FaceEquivalenceClassesByElements",
 #!	consistency with the incidence relation.
 #!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns an equivalence relation
-KeyDependentOperation( "VertexBindingRelationAttributeOfCSS", 
+KeyDependentOperation( "VertexBindingRelation", 
 	IsColouredSimplicialSurface, IsPosInt, function(x) return true; end);
-DeclareOperation( "VertexBindingRelation", 
-	[IsColouredSimplicialSurface, IsPosInt] );
 
 #!	@Description
 #!	Return the binding relation of the given edge class (represented by its
@@ -270,10 +240,8 @@ DeclareOperation( "VertexBindingRelation",
 #!	consistency with the incidence relation.
 #!	@Arguments a coloured simplicial surface, a positive integer
 #!	@Returns an equivalence relation
-KeyDependentOperation( "EdgeBindingRelationAttributeOfCSS", 
+KeyDependentOperation( "EdgeBindingRelation", 
 	IsColouredSimplicialSurface, IsPosInt, function(x) return true; end);
-DeclareOperation( "EdgeBindingRelation", 
-	[IsColouredSimplicialSurface, IsPosInt] );
 
 
 #TODO should this attribute also be a KeyDependentOperation? Should all 
@@ -286,10 +254,8 @@ DeclareOperation( "EdgeBindingRelation",
 #!	given face.
 #!	@Arguments a coloured simplicial surface
 #!	@Returns a list of cyclic permutations
-DeclareAttribute( "LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS",
+DeclareAttribute( "LocalOrientationWRTVertexEquivalenceClasses",
 	IsColouredSimplicialSurface );
-DeclareOperation( "LocalOrientationWRTVertexEquivalenceClasses",
-	[IsColouredSimplicialSurface] );
 
 
 #############################################################################
