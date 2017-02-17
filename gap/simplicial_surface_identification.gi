@@ -431,13 +431,13 @@ InstallMethod( ExtendByIdentificationNC,
 			FaceEquivalenceNumbersByElements(surface) );
 
 		ext := Objectify( ColouredSimplicialSurfaceType, rec() );
-		SetUnderlyingSimplicialSurfaceAttributeOfCSS( ext, 
+		SetUnderlyingSimplicialSurface( ext, 
 			UnderlyingSimplicialSurface(surface) );
-		SetVertexEquivalenceClassesByNumbersAttributeOfCSS( ext, 
+		SetVertexEquivalenceClassesByNumbers( ext, 
 			vertexClassByNr);
-		SetEdgeEquivalenceClassesByNumbersAttributeOfCSS( ext, 
+		SetEdgeEquivalenceClassesByNumbers( ext, 
 			edgeClassByNr);
-		SetFaceEquivalenceClassesByNumbersAttributeOfCSS( ext, 
+		SetFaceEquivalenceClassesByNumbers( ext, 
 			faceClassByNr);
 
 		return ext;

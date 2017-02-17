@@ -113,27 +113,6 @@ DeclareAttribute( "Identification", IsFoldingPlan );
 #!
 #!
 
-#!	@Description
-#!	Return the vertex map.
-#!	@Arguments a folding plan
-#!	@Returns a bijective map
-DeclareOperation( "VertexMap", [IsFoldingPlan] );
-
-
-#!	@Description
-#!	Return the edge map.
-#!	@Arguments a folding plan
-#!	@Returns a bijective map
-DeclareOperation( "EdgeMap", [IsFoldingPlan] );
-
-
-#!	@Description
-#!	Return the face map.
-#!	@Arguments a folding plan
-#!	@Returns a bijective map
-DeclareOperation( "FaceMap", [IsFoldingPlan] );
-
-
 
 #!	@Description
 #!	Return if the given folding plan is well-defined with respect to the given 

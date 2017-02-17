@@ -190,39 +190,6 @@ InstallMethod( FoldingPlanByLists, "for four lists",
 
 
 #!	@Description
-#!	Return the vertex map.
-#!	@Arguments a folding plan
-#!	@Returns a bijective map
-InstallMethod( VertexMap, "for a folding plan", [IsFoldingPlan],
-	function( plan )
-		return VertexMap( Identification( plan ) );
-	end
-);
-
-
-#!	@Description
-#!	Return the edge map.
-#!	@Arguments a folding plan
-#!	@Returns a bijective map
-InstallMethod( EdgeMap, "for a folding plan", [IsFoldingPlan],
-	function( plan )
-		return EdgeMap( Identification( plan ) );
-	end
-);
-
-
-#!	@Description
-#!	Return the face map.
-#!	@Arguments a folding plan
-#!	@Returns a bijective map
-InstallMethod( FaceMap, "for a folding plan", [IsFoldingPlan],
-	function( plan )
-		return FaceMap( Identification( plan ) );
-	end
-);
-
-
-#!	@Description
 #!	Return if the given folding plan is well-defined with respect to the given 
 #!	simplicial surface.
 #!	This method checks if the maps of the identification can be applied to

@@ -332,7 +332,7 @@ InstallMethod( FoldingComplexByFansAndBordersNC,
 		# Initialize the object
 		complex := Objectify( FoldingComplexType, rec() );
 
-		SetUnderlyingUnderlyingColouredSimplicialSurface( complex, surface );
+		SetUnderlyingColouredSimplicialSurface( complex, surface );
 		
 		# construct fans
 		fans := [];

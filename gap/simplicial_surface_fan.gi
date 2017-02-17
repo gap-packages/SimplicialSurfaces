@@ -394,7 +394,7 @@ InstallMethod( FaceOrientationInducedByFan,
 		fi;
 
 		localOrient := 
-			LocalOrientationWRTVertexEquivalenceClassesAttributeOfCSS(surface);
+			LocalOrientationWRTVertexEquivalenceClasses(surface);
 		if BeginOfFan( fan )^localOrient[face] = EndOfFan( fan ) then
 			return 1;
 		else
