@@ -346,6 +346,28 @@ InstallOtherMethod( SixFoldCover, "for a simplicial surface",
 );
 
 
+#############################################################################
+##
+#!  @Description
+#!  Check if two wild simplicial surfaces are equal.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two wild simplicial surface objects
+#!
+##
+InstallMethod( \=, "for two wild simplicial surfaces", IsIdenticalObj, 
+  [ IsWildSimplicialSurface, IsWildSimplicialSurface ],
+	function( s1, s2 )
+		# check all basic attributes
+
+		if Generators(s1) <> Generators(s2) then
+			return false;
+		fi;
+
+        TryNextMethod();	# This will call \= for simplicial surfaces
+	end
+);
+
+
 ############################################################################
 ############################################################################
 ##
