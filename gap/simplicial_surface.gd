@@ -130,31 +130,6 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC",
 	[ IsSet, IsSet, IsList ] );
 
 
-##
-##	This constructor takes the following information:
-##
-##	The set of vertices (alternatively a number n that becomes [1..n] )
-##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list FacesByVertices. Each element of this list (that is bound) has to 
-##		be a list of vertices such that two adjacent vertices have one edge in 
-##		common.	This defines an ordering of the vertices and therefore an 
-##		orientation of the face. If the vertex lists are not given in this
-##		way, an error is thrown. 
-##	Optional: the list NamesOfFaces. If this is not given, the default
-##				naming scheme is used
-##		To use the optional argument, write
-##		SimplicialSurfaceByVerticesInFaces( arg : NamesOfFaces := ? )
-##
-##	Edges are generated as becomes necessary. It is assumed that two faces
-##	that share two vertices also share an edge.
-##
-##	The NoCheck-function does the same thing but does not test if the
-##	arguments are well-defined.
-DeclareOperation( "SimplicialSurfaceByVerticesInFacesWithOrientation", 
-	[ IsSet, IsSet, IsList ] );
-DeclareOperation( "SimplicialSurfaceByVerticesInFacesWithOrientationNC", 
-	[ IsSet, IsSet, IsList ] );
-
 
 #############################################################################
 ##
