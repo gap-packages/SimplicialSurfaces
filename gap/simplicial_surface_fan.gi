@@ -238,10 +238,8 @@ InstallMethod( ReducedFanOp,
 			PermList( newPerm ) : Corona := set );
 	end
 );
-RedispatchOnCondition( ReducedFanOp, true, 
-	[IsSimplicialSurfaceFan, IsList], [,IsSet], 0 );
-#RedispatchOnCondition( ReducedFan, true, [IsSimplicialSurfaceFan, IsList], 
-#	[,IsSet], 0 );
+RedispatchOnCondition( ReducedFan, true, [IsSimplicialSurfaceFan, IsList], 
+	[,IsSet], 0 );
 
 
 #############################################################################

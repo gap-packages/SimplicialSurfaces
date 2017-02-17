@@ -136,8 +136,7 @@ DeclareAttribute( "InverseOfFan",
 #!
 #!	@Arguments a simplicial surface fan, a set of positive integers
 #!	@Returns a simplicial surface fan
-KeyDependentOperation( "ReducedFan", 
-	IsSimplicialSurfaceFan, IsSet, 
+KeyDependentOperation( "ReducedFan", IsSimplicialSurfaceFan, IsSet, 
 	function( set )
 		return Size( Filtered( set, el -> not IsPosInt(el) ) ) = 0;
 	end

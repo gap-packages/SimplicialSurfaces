@@ -301,29 +301,14 @@ TestFoldingPlanConsistency := function(plan, messageOrigin)
 	fi;
 
 
-	# Check vertex map
-	if VertexMap(plan) <> VertexMap( Identification(plan) ) then
-		Print( messageOrigin );
-		Print( " has a different vertex map than its identification.\n" );
-	fi;
-
-	# Check edge map
-	if EdgeMap(plan) <> EdgeMap( Identification(plan) ) then
-		Print( messageOrigin );
-		Print( " has a different edge map than its identification.\n" );
-	fi;
-
-	# Check face map
-	if FaceMap(plan) <> FaceMap( Identification(plan) ) then
-		Print( messageOrigin );
-		Print( " has a different face map than its identification.\n" );
-	fi;
-
-
 	
 	# Check folding plan constructor by maps
-	planByMaps := FoldingPlanByMaps( VertexMap(plan), EdgeMap(plan), FaceMap(plan), OrientedFaceMap(plan) );
-	if planByMaps <> FoldingPlanByMapsNC( VertexMap(plan), EdgeMap(plan), FaceMap(plan), OrientedFaceMap(plan) ) then
+	planByMaps := FoldingPlanByMaps( VertexMap( Identification(plan) ), 
+			EdgeMap( Identification(plan) ), FaceMap( Identification(plan) ), 
+			OrientedFaceMap(plan) );
+	if planByMaps <> FoldingPlanByMapsNC( VertexMap( Identification(plan) ), 
+				EdgeMap( Identification(plan) ), 
+				FaceMap( Identification(plan) ), OrientedFaceMap(plan) ) then
 		Print( messageOrigin );
 		Print( " has an inconsistent (NC) constructor by maps.\n" );
 	fi;
@@ -345,9 +330,9 @@ TestFoldingPlanConsistency := function(plan, messageOrigin)
 	fi;
 
 	# Check folding plan constructor by lists
-	vertexList := __SIMPLICIAL_CreateListFromMap( VertexMap( plan ) );
-	edgeList := __SIMPLICIAL_CreateListFromMap( EdgeMap( plan ) );
-	faceList := __SIMPLICIAL_CreateListFromMap( FaceMap( plan ) );
+	vertexList := __SIMPLICIAL_CreateListFromMap( VertexMap( Identification( plan ) ) );
+	edgeList := __SIMPLICIAL_CreateListFromMap( EdgeMap( Identification( plan ) ) );
+	faceList := __SIMPLICIAL_CreateListFromMap( FaceMap( Identification( plan ) ) );
 	planByLists := FoldingPlanByLists( vertexList, edgeList, faceList, orFaceList );
 	if planByLists <> FoldingPlanByListsNC( vertexList, edgeList, faceList, orFaceList ) then
 		Print( messageOrigin );
