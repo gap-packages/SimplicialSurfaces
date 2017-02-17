@@ -210,7 +210,7 @@ InstallMethod( IsWellDefinedFoldingPlan,
 			return false;
 		fi;
 
-		faceMap := FaceMap(plan);
+		faceMap := FaceMap( Identification( plan ));
 		orFaceMap := OrientedFaceMap(plan);
 		if not Elements(Source(faceMap))[1] = 
 				FaceByName( surface, Elements(Source(orFaceMap))[1] ) then
@@ -279,8 +279,8 @@ InstallMethod( IsApplicableFoldingPlanNCWellDefined,
 		orFace1 := Elements(Source(OrientedFaceMap(plan)))[1];
 		orFace2 := Elements(Range(OrientedFaceMap(plan)))[1];
 
-		face1 := Elements(Source(FaceMap(plan)))[1];
-		face2 := Elements(Range(FaceMap(plan)))[1];
+		face1 := Elements(Source(FaceMap(Identification(plan))))[1];
+		face2 := Elements(Range(FaceMap(Identification(plan))))[1];
 
 		faceNr1 := FaceEquivalenceNumberOfElement( colSurf, face1 );
 		faceNr2 := FaceEquivalenceNumberOfElement( colSurf, face2 );
