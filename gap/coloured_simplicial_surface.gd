@@ -47,9 +47,9 @@ DeclareCategory( "IsColouredSimplicialSurface",
 ##	guarantees that only objects that lie in this category can be part of the 
 ##	family.
 ##
-ColouredSimplicialSurfaceFamily := 
+BindGlobal( "ColouredSimplicialSurfaceFamily", 
     NewFamily("ColouredSimplicialSurfaceFamily",  IsObject, 
-				IsColouredSimplicialSurface);
+				IsColouredSimplicialSurface) );
 
 
 

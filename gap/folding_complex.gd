@@ -25,8 +25,8 @@ DeclareCategory( "IsFoldingComplex",
 					IsComponentObjectRep and IsAttributeStoringRep );
 
 
-FoldingComplexFamily := 
-    NewFamily("FoldingComplexFamily",  IsObject, IsFoldingComplex);
+BindGlobal( "FoldingComplexFamily", 
+    NewFamily("FoldingComplexFamily",  IsObject, IsFoldingComplex) );
 
 
 #############################################################################

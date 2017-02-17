@@ -26,7 +26,8 @@ DeclareCategory( "IsFoldingPlan",
 ##	guarantees that only objects that lie in this category can be part of the 
 ##	family.
 ##
-FoldingPlanFamily := NewFamily("FoldingPlanFamily",  IsObject, IsFoldingPlan);
+BindGlobal( "FoldingPlanFamily", 
+		NewFamily("FoldingPlanFamily",  IsObject, IsFoldingPlan) );
 
 
 

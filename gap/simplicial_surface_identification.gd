@@ -29,9 +29,9 @@ DeclareCategory( "IsSimplicialSurfaceIdentification",
 ##	guarantees that only objects that lie in this category can be part of the 
 ##	family.
 ##
-SimplicialSurfaceIdentificationFamily := 
+BindGlobal( "SimplicialSurfaceIdentificationFamily", 
     NewFamily("SimplicialSurfaceIdentificationFamily",  IsObject, 
-				IsSimplicialSurfaceIdentification);
+				IsSimplicialSurfaceIdentification) );
 
 
 

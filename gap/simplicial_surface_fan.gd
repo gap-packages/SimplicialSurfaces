@@ -24,8 +24,8 @@ DeclareCategory( "IsSimplicialSurfaceFan",
 					IsComponentObjectRep and IsAttributeStoringRep );
 
 
-SimplicialSurfaceFanFamily := 
-    NewFamily("SimplicialSurfaceFanFamily",  IsObject, IsSimplicialSurfaceFan);
+BindGlobal( "SimplicialSurfaceFanFamily", 
+    NewFamily("SimplicialSurfaceFanFamily",  IsObject, IsSimplicialSurfaceFan) );
 
 
 #############################################################################
