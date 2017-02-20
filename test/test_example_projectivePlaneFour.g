@@ -38,6 +38,7 @@ TestIsProjectivePlaneFour := function( surface, messageSurfaceOrigin )
 		4,		# number of faces
 		true,	# is it an actual surface?
 		true,	# is every face a triangle?
+		true,	# is it closed?
 		false,	# is it orientable?
 		true, 	# is it connected?
 		[4,4,4],		# the sorted degrees

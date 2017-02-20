@@ -265,6 +265,15 @@ DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 
 
 #!	@Description
+#!	Given a simplicial surface which is an actual surface, the property
+#!	IsClosedSurface is true if the surface is closed or equivalently that
+#!	every edge is incident to exactly two faces.
+#!	@Arguments a simplicial surface
+#!	@Returns true if it is closed, false otherwise
+DeclareProperty( "IsClosedSurface", IsSimplicialSurface and IsActualSurface );
+
+
+#!	@Description
 #!	The property IsOrientable is true if the SimplicialSurface object is
 #!	orientable. This is only possible if it is an actual surface.
 #!	@Arguments a simplicial surface

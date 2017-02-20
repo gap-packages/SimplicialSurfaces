@@ -1665,6 +1665,29 @@ InstallMethod( IsTriangleSurface, "for a simplicial surface",
 	end
 );
 
+#############################################################################
+##
+#!	@Description
+#!	Given a simplicial surface which is an actual surface, the property
+#!	IsClosedSurface is true if the surface is closed or equivalently that
+#!	every edge is incident to exactly two faces.
+#!	@Arguments a simplicial surface
+#!	@Returns true if it is closed, false otherwise
+InstallMethod( IsClosedSurface, "for a simplicial surface",
+	[IsSimplicialSurface and IsActualSurface],
+	function( simpsurf )
+		local edgesByFaces, check;
+
+		check := true;
+		edgesByFaces := EdgesByFaces( simpsurf );
+		check := Filtered( edgesByFaces, i -> Length(i) <> 2 );
+	
+		return IsEmpty(check);
+	end
+);
+RedispatchOnCondition( IsClosedSurface, true, [IsSimplicialSurface],
+	[IsActualSurface], 0 );
+
 
 #############################################################################
 ##

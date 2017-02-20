@@ -30,6 +30,7 @@ TestIsThreeTrianglesOnEdge := function( surface, messageSurfaceOrigin )
 		3,		# number of faces
 		false,	# is it an actual surface?
 		true,	# is every face a triangle?
+		false,	# is it closed?
 		false,	# is it orientable?
 		true, 	# is it connected?
 		[1,1,1,3,3],		# the sorted degrees

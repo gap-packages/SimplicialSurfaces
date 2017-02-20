@@ -337,6 +337,7 @@ end;
 ##	faceNr		number of faces
 ##	isActualSurface		is the simplicial surface an actual surface?
 ##	isTriangleSurface	is every face of the simplicial surface a triangle?
+##	isClosedSurface		is the simplicial surface closed?
 ##	isOrientable		is the simplicial surface orientable?
 ##	isConnected			is the simplicial surface connected?
 ##	sortDeg		the sorted degrees (vertexByFaces)
@@ -345,7 +346,8 @@ end;
 ##	isSnippable			does the surface get smaller if we snipp of ears?
 ##
 TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin, 
-	vertexNr, edgeNr, faceNr, isActualSurface, isTriangleSurface, isOrientable, 
+	vertexNr, edgeNr, faceNr, isActualSurface, isTriangleSurface, 
+	isClosedSurface, isOrientable, 
 	isConnected, sortDeg, vertexSym, anomalyClassCount, isSnippable)
 
 	local conCom, euler;
@@ -396,6 +398,16 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 			Print( " must only consist of triangles.\n" );
 		else
 			Print( " must not only consist of triangles.\n" );
+		fi;
+	fi;
+
+	# closed check (only makes sense if it is an actual surface)
+	if IsActualSurface(surface) and IsClosedSurface( surface ) <> isClosedSurface then
+		Print( messageSurfaceOrigin );
+		if isClosedSurface then
+			Print( " must be a closed surface.\n");
+		else
+			Print( " must not be closed.\n");
 		fi;
 	fi;
 

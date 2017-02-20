@@ -30,6 +30,7 @@ TestIsTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
 		2,		# number of faces
 		true,	# is it an actual surface?
 		true,	# is every face a triangle?
+		false,	# is it closed?
 		true,	# is it orientable?
 		true, 	# is it connected?
 		[1,1,2,2],		# the sorted degrees
