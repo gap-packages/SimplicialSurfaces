@@ -1,6 +1,17 @@
+# This script replaces all occurrences of "old" with "new"
+# WARNING: No simultaneous replacement
+# first argument: rename file with s/old/new/ in each line
+# second argument: target directory
+#
+
 import os
-files = [file for file in os.listdir(".") if file.endswith(".g") or file.endswith(".gd") or file.endswith(".gi")]
-with open("rename") as f:
+import sys
+
+renameFile = sys.argv[1]
+targetDir = sys.argv[2]
+
+files = [file for file in os.listdir(targetDir) if file.endswith(".g") or file.endswith(".gd") or file.endswith(".gi")]
+with open(renameFile) as f:
     lines = f.readlines()
 def fileToStr(path):
     with open(path) as file:
