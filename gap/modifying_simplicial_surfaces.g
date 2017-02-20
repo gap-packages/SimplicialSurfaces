@@ -33,70 +33,7 @@
 ##  //_________\\
 ##
 ##
-
-
-DeclareOperation( "RepairSquare",
-	[ IsSimplicialSurface, IsPosInt, IsPosInt] );
-
-InstallMethod(RepairSquare, "",
-	[ IsSimplicialSurface, IsPosInt, IsPosInt] ,
-	function(surf, face1, vertex1)
-
-		#Add the option of not giving the vertex, and just choosing the max value point (as this is likely to be the most recently added point.)
-
-		local adjacentEdges, edge1, edge2, edge3, edge4, edge5, vertex2, vertex3, vertex4, newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
-
-		if not vertex1 in FacesByVertices(surf)[face1] then
-			Print("ERROR: Chosen vertex is not in chosen face!\n");
-			return;
-		fi;
-		if not Size(FacesByEdges(surf)[face1]) = 4 then
-			Print("ERROR: Chosen face is not a square!");
-			return;
-		fi;
-
-		adjacentEdges := Filtered(FacesByEdges(surf)[face1], t -> vertex1 in EdgesByVertices(surf)[t]);
-		edge1:= adjacentEdges[1];
-		vertex2 := Difference(EdgesByVertices(surf)[edge1], [vertex1])[1];
-		edge4 := adjacentEdges[2];
-		vertex4 := Difference(EdgesByVertices(surf)[edge4], [vertex1])[1];
-		vertex3 := Difference(FacesByVertices(surf)[face1], Union(EdgesByVertices(surf){adjacentEdges}))[1];
-		edge2 := Filtered(FacesByEdges(surf)[face1], t -> AsSet(EdgesByVertices(surf)[t]) = AsSet([vertex2, vertex3]))[1];
-		edge3 := Filtered(FacesByEdges(surf)[face1], t -> AsSet(EdgesByVertices(surf)[t]) = AsSet([vertex3, vertex4]))[1];
-		edge5 := Maximum(Edges(surf)) + 1;
-
-		newEdgesByVertices := List(EdgesByVertices(surf));
-		#Edge5
-		Add(newEdgesByVertices, [vertex1, vertex3]);
-
-		newFacesByEdges := List(FacesByEdges(surf));
-		newFacesByEdges[face1] := [edge1, edge2, edge5];
-		Add(newFacesByEdges, [edge3, edge4, edge5]);
-
-		newEdges := List(Edges(surf));
-		Append(newEdges, [edge5]);
-		newFaces := List(Faces(surf));
-		Append(newFaces, [Maximum(Faces(surf))+1]);
-		newVertices := List(Vertices(surf));
-		return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
-	end
-);
-
-
-InstallOtherMethod(RepairSquare, "",
-	[ IsSimplicialSurface, IsPosInt] ,
-	function(surf, face1)
-		local vertex;
-		vertex := Random(FacesByVertices(surf)[face1]);
-		return RepairSquare(surf, face1, vertex);
-	end
-);
-
-
 ##################################################################################
-
-
-
 
 DeclareOperation( "SplitFaceBySpokes",
 	[ IsSimplicialSurface, IsPosInt] );
@@ -332,6 +269,157 @@ InstallMethod(SubdivideFace,
 		fi;
 	end
 );
+
+
+
+#################################################################################################
+
+
+
+DeclareOperation( "RepairSquare",
+	[ IsSimplicialSurface, IsPosInt, IsPosInt] );
+
+InstallMethod(RepairSquare, "",
+	[ IsSimplicialSurface, IsPosInt, IsPosInt] ,
+	function(surf, face1, vertex1)
+
+		#Add the option of not giving the vertex, and just choosing the max value point (as this is likely to be the most recently added point.)
+
+		local adjacentEdges, edge1, edge2, edge3, edge4, edge5, vertex2, vertex3, vertex4, newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
+
+		if not vertex1 in FacesByVertices(surf)[face1] then
+			Print("ERROR: Chosen vertex is not in chosen face!\n");
+			return;
+		fi;
+		if not Size(FacesByEdges(surf)[face1]) = 4 then
+			Print("ERROR: Chosen face is not a square!");
+			return;
+		fi;
+
+		adjacentEdges := Filtered(FacesByEdges(surf)[face1], t -> vertex1 in EdgesByVertices(surf)[t]);
+		edge1:= adjacentEdges[1];
+		vertex2 := Difference(EdgesByVertices(surf)[edge1], [vertex1])[1];
+		edge4 := adjacentEdges[2];
+		vertex4 := Difference(EdgesByVertices(surf)[edge4], [vertex1])[1];
+		vertex3 := Difference(FacesByVertices(surf)[face1], Union(EdgesByVertices(surf){adjacentEdges}))[1];
+		edge2 := Filtered(FacesByEdges(surf)[face1], t -> AsSet(EdgesByVertices(surf)[t]) = AsSet([vertex2, vertex3]))[1];
+		edge3 := Filtered(FacesByEdges(surf)[face1], t -> AsSet(EdgesByVertices(surf)[t]) = AsSet([vertex3, vertex4]))[1];
+		edge5 := Maximum(Edges(surf)) + 1;
+
+		newEdgesByVertices := List(EdgesByVertices(surf));
+		#Edge5
+		Add(newEdgesByVertices, [vertex1, vertex3]);
+
+		newFacesByEdges := List(FacesByEdges(surf));
+		newFacesByEdges[face1] := [edge1, edge2, edge5];
+		Add(newFacesByEdges, [edge3, edge4, edge5]);
+
+		newEdges := List(Edges(surf));
+		Append(newEdges, [edge5]);
+		newFaces := List(Faces(surf));
+		Append(newFaces, [Maximum(Faces(surf))+1]);
+		newVertices := List(Vertices(surf));
+		return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
+	end
+);
+
+
+InstallOtherMethod(RepairSquare, "",
+	[ IsSimplicialSurface, IsPosInt] ,
+	function(surf, face1)
+		local vertex;
+		vertex := Random(FacesByVertices(surf)[face1]);
+		return RepairSquare(surf, face1, vertex);
+	end
+);
+
+
+DeclareOperation("OrientedEdgePathOnFaceBetweenVertices",
+	[IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt]);
+
+InstallMethod(OrientedEdgePathOnFaceBetweenVertices, "",
+	[IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
+	function(surf, face1, vertex1, vertex2)
+		local perm, edges_in_path, current_vertex, next_vertex, edges;
+		#TODO put checks and error messages for if vetices not on face, check the two vertices are not the same one (not necessary? seems to return  [] if same point)
+		perm := LocalOrientationByVerticesAsPerm(surf)[face1];
+		edges_in_path :=[];
+		current_vertex := vertex1;
+		edges := EdgesByVertices(surf);
+		while not current_vertex = vertex2 do
+			next_vertex := current_vertex^perm;
+			Add(edges_in_path, Position(edges, Set([current_vertex, next_vertex])));
+			current_vertex := next_vertex;
+		od;
+		return edges_in_path;
+	end
+);
+
+
+DeclareOperation( "SplitPolygonalFace",
+	[ IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt] );
+
+InstallMethod(SplitPolygonalFace, "",
+	[IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
+	function(surf, face1, vertex1, vertex2)
+		local path1, path2, newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
+		if Set([vertex1, vertex2]) in EdgesByVertices(surf) then
+			Print("ERROR: The vertices define an already existing edge!");
+			return;
+		fi;
+		if Size(FacesByEdges(surf)[face1]) <4 then
+			Print("ERROR: The selected face has less than 4 edges!");
+			return;
+		fi;
+		path1 := OrientedEdgePathOnFaceBetweenVertices(surf, face1, vertex1, vertex2);
+		Add(path1, Maximum(Edges(surf))+1);
+		path2 := OrientedEdgePathOnFaceBetweenVertices(surf, face1, vertex2, vertex1);
+		Add(path2, Maximum(Edges(surf))+1);
+
+		newEdgesByVertices := List(EdgesByVertices(surf));
+		Add(newEdgesByVertices, [vertex1, vertex2]);
+
+		newFacesByEdges := List(FacesByEdges(surf));
+		newFacesByEdges[face1] := path1;
+		Add(newFacesByEdges, path2);
+
+		newVertices := List(Vertices(surf));
+		newEdges := List(Edges(surf));
+		Add(newEdges, Maximum(Edges(surf))+1);
+		newFaces := List(Faces(surf));
+		Add(newFaces, Maximum(Faces(surf))+1);
+
+		return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
+	end
+);
+
+InstallOtherMethod(SplitPolygonalFace, "",
+	[IsSimplicialSurface, IsPosInt, IsPosInt],
+	function(surf, face1, vertex1)
+		local adjacentEdges, adjacentPoints, vertex2;
+
+		adjacentEdges := Filtered(FacesByEdges(surf)[face1], t -> vertex1 in EdgesByVertices(surf)[t]);
+		adjacentPoints := Union(EdgesByVertices(surf){adjacentEdges});
+		vertex2 := Random(Difference(FacesByVertices(surf)[face], adjacentPoints));;
+
+		return SplitPolygonalFace(surf, face1, vertex1, vertex2);
+	end
+);
+
+InstallOtherMethod(SplitPolygonalFace, "",
+	[IsSimplicialSurface, IsPosInt],
+	function(surf, face1)
+		local vertex1;
+
+		vertex1 := Random(FacesByVertices(surf)[1]);;
+
+		return SplitPolygonalFace(surf, face1, vertex1);
+	end
+);
+
+
+
+#############################################################################################################################
 
 
 ##########################
