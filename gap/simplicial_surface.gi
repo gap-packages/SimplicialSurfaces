@@ -110,8 +110,9 @@ InstallMethod( ObjectifySimplicialSurface, "",
 ##	ordering of the vertices will be chosen.
 ##
 __SIMPLICIAL_RandomFacesByVertices := function( vertices, faces, 
-		facesByVertices, verticesByEdges )
-	local faceList, i, faceVertices, vertexList, lastVertex, newVertex, v;
+		facesByVertices, facesByEdges, verticesByEdges )
+	local faceList, i, faceVertices, vertexList, lastVertex, newVertex, v,
+		inter;
 
 	faceList := [];
 	for i in faces do
@@ -129,8 +130,9 @@ __SIMPLICIAL_RandomFacesByVertices := function( vertices, faces,
 			lastVertex := vertexList[ Length(vertexList) ];
 			newVertex := -1;
 			for v in faceVertices do
-				if not IsEmpty( Intersection( verticesByEdges[lastVertex], 
-													verticesByEdges[v] ) ) then
+				inter := Intersection( facesByEdges[i], 
+							verticesByEdges[lastVertex], verticesByEdges[v] ); 
+				if not IsEmpty( inter ) then
 					newVertex := v;
 				fi;
 			od;
@@ -395,16 +397,13 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 		SetEdges( surf, edges );
 		SetFaces( surf, faces );
-		SetEdgesByVertices( surf, 
-								List( edgesByVertices, i -> Set(i) ) );
-		SetFacesByEdges( surf, 
-								List( facesByEdges, i -> Set(i) ) );
+		SetEdgesByVertices( surf, List( edgesByVertices, i -> Set(i) ) );
+		SetFacesByEdges( surf, List( facesByEdges, i -> Set(i) ) );
 
 		# Set the local orientation at random
 		facesByVertices := __SIMPLICIAL_RandomFacesByVertices( vertices, faces,
-			FacesByVertices(surf), VerticesByEdges(surf) );
-		SetLocalOrientationByVerticesAsList( surf, 
-											facesByVertices );
+			FacesByVertices(surf), FacesByEdges(surf), VerticesByEdges(surf) );
+		SetLocalOrientationByVerticesAsList( surf, facesByVertices );
 
 		# Set the face names
 		SetIsFaceNamesDefault( surf, true );
