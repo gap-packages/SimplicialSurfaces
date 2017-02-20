@@ -141,7 +141,6 @@ InstallMethod( SplitFaceByDivision, "",
 		newFaces := List(Faces(surf));
 		Add(newFaces, Maximum(Faces(surf))+1);
 
-		Print(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
 		return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
 	end
 );
@@ -451,13 +450,10 @@ InstallMethod(AddFaceAndRepair,"",
 		method := Random([1 .. 3]);
 		if method = 1 then
 			surf2 := SplitFaceBySpokes(surf, face1);
-			Print("1\n");
 		elif method = 2 then
 			surf2 := SplitFaceByDivision(surf, face1);
-			Print("2\n");
 		else
 			surf2 := SplitFaceByTriangleInsertion(surf, face1);
-			Print("3\n");
 		fi;
 		while not IsTriangleSurface(surf2) do
 			face2 := Random(Filtered(Faces(surf2), t -> Size(FacesByEdges(surf2)[t])>3));
