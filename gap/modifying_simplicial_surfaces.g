@@ -94,7 +94,7 @@ InstallMethod( SplitFaceByDivision, "",
 		# Takes as input a surface, the face to divide, and the edge which will be split.
 		
 		local edge2, edge3, edge4, edge5, vertex1, vertex2, vertex3, vertex4, newFacesByEdges, newEdgesByVertices,
-		newVertices, newEdges, newFaces, i;
+		newVertices, newEdges, newFaces, i, adjacentFace;
 
 		if not edge1 in FacesByEdges(surf)[face1] then
 			Print("ERROR: Chosen edge is not in chosen face!\n");
@@ -187,7 +187,7 @@ InstallMethod( SplitFaceByTriangleInsertion , "",
 		#Takes as input a surface, the face to be divided and each of the edges of the face.
 
 		local  i, old_edges, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, vertex1, vertex2, vertex3, vertex4, vertex5, vertex6,
-		 newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
+		 newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces, adjacentFace;
 
 		if not Size(FacesByEdges(surf)[face1]) = 3 then
 			Print("ERROR: Chosen face is not a triangle!");
