@@ -16,3 +16,5 @@ Read( "test.g" );
 			od;
 			return Set(vertexSet);
 		end;
+
+#FacesByEdges
