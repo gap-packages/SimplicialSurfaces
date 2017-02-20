@@ -87,7 +87,7 @@ InstallMethod(SplitFaceBySpokes, "",
 DeclareOperation( "SplitFaceByDivision",
 	[ IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt] );
 
-InstallMethod( SplitFaceByDivision, "This is a test of the method type",
+InstallMethod( SplitFaceByDivision, "",
 	[ IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt] ,
 	#This is the divide situation
 	function(surf, face1, edge1, vertex_used)
@@ -141,11 +141,12 @@ InstallMethod( SplitFaceByDivision, "This is a test of the method type",
 		newFaces := List(Faces(surf));
 		Add(newFaces, Maximum(Faces(surf))+1);
 
+		Print(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
 		return SimplicialSurfaceByDownwardIncidence(newVertices, newEdges, newFaces, newEdgesByVertices, newFacesByEdges);
 	end
 );
 
-InstallOtherMethod( SplitFaceByDivision, "This is a test of the method type",
+InstallOtherMethod( SplitFaceByDivision, "",
 	[ IsSimplicialSurface, IsPosInt, IsPosInt] ,
 	function(surf, face1, edge1)
 		# Takes as input a surface, the face to divide, and the edge which will be split.
@@ -168,6 +169,15 @@ InstallOtherMethod( SplitFaceByDivision, "This is a test of the method type",
 	end
 );
 
+
+InstallOtherMethod( SplitFaceByDivision, "",
+	[ IsSimplicialSurface, IsPosInt] ,
+	function(surf, face1)
+		# Takes as input a surface, the face to divide, and the edge which will be split.
+		return SplitFaceByDivision(surf, face1, Random(FacesByEdges(surf)[face1]));
+	end
+);
+
 DeclareOperation( "SplitFaceByTriangleInsertion",
 	[ IsSimplicialSurface, IsPosInt ] );
 
@@ -176,7 +186,7 @@ InstallMethod( SplitFaceByTriangleInsertion , "",
 	function(surf, face1)
 		#Takes as input a surface, the face to be divided and each of the edges of the face.
 
-		local  old_edges, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, vertex1, vertex2, vertex3, vertex4, vertex5, vertex6,
+		local  i, old_edges, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, vertex1, vertex2, vertex3, vertex4, vertex5, vertex6,
 		 newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
 
 		if not Size(FacesByEdges(surf)[face1]) = 3 then
@@ -265,10 +275,11 @@ InstallMethod(SubdivideFace,
 		elif n = 3 then
 			return SplitFaceBySpokes(surf, face);
 		else
-			return SplitFaceByDivision(surf, face, Random(FacesByEdges(surf)[face]));
+			return SplitFaceByDivision(surf, face);
 		fi;
 	end
 );
+
 
 
 
@@ -341,7 +352,13 @@ InstallMethod(OrientedEdgePathOnFaceBetweenVertices, "",
 	[IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
 	function(surf, face1, vertex1, vertex2)
 		local perm, edges_in_path, current_vertex, next_vertex, edges;
-		#TODO put checks and error messages for if vetices not on face, check the two vertices are not the same one (not necessary? seems to return  [] if same point)
+		if not vertex1 in FacesByVertices(surf)[face1] or not vertex2 in FacesByVertices(surf)[face1] then
+			Print("ERROR: selected vertices do not lie on the given face!");
+			return;
+		fi;
+		if vertex1 = vertex2 then
+			Print("ERROR: vertices must be different!");
+		fi;
 		perm := LocalOrientationByVerticesAsPerm(surf)[face1];
 		edges_in_path :=[];
 		current_vertex := vertex1;
@@ -363,12 +380,16 @@ InstallMethod(SplitPolygonalFace, "",
 	[IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
 	function(surf, face1, vertex1, vertex2)
 		local path1, path2, newEdgesByVertices, newFacesByEdges, newVertices, newEdges, newFaces;
-		if Set([vertex1, vertex2]) in EdgesByVertices(surf) then
-			Print("ERROR: The vertices define an already existing edge!");
+		if Set([vertex1, vertex2]) in EdgesByVertices(surf){FacesByEdges(surf)[face1]} then
+			Print("ERROR: The vertices define an already existing edge of the face!");
 			return;
 		fi;
 		if Size(FacesByEdges(surf)[face1]) <4 then
 			Print("ERROR: The selected face has less than 4 edges!");
+			return;
+		fi;
+		if not vertex1 in FacesByVertices(surf)[face1] or not vertex2 in FacesByVertices(surf)[face1] then
+			Print("ERROR: selected vertices do not lie on the given face!");
 			return;
 		fi;
 		path1 := OrientedEdgePathOnFaceBetweenVertices(surf, face1, vertex1, vertex2);
@@ -400,7 +421,7 @@ InstallOtherMethod(SplitPolygonalFace, "",
 
 		adjacentEdges := Filtered(FacesByEdges(surf)[face1], t -> vertex1 in EdgesByVertices(surf)[t]);
 		adjacentPoints := Union(EdgesByVertices(surf){adjacentEdges});
-		vertex2 := Random(Difference(FacesByVertices(surf)[face], adjacentPoints));;
+		vertex2 := Random(Difference(FacesByVertices(surf)[face1], adjacentPoints));;
 
 		return SplitPolygonalFace(surf, face1, vertex1, vertex2);
 	end
@@ -411,13 +432,48 @@ InstallOtherMethod(SplitPolygonalFace, "",
 	function(surf, face1)
 		local vertex1;
 
-		vertex1 := Random(FacesByVertices(surf)[1]);;
+		vertex1 := Random(FacesByVertices(surf)[face1]);;
 
 		return SplitPolygonalFace(surf, face1, vertex1);
 	end
 );
 
+#############################################################################################################################
 
+
+DeclareOperation("AddFaceAndRepair",
+	[IsSimplicialSurface, IsPosInt]);
+
+InstallMethod(AddFaceAndRepair,"",
+	[IsSimplicialSurface, IsPosInt],
+	function(surf, face1)
+		local method, face2, surf2, surf3;
+		method := Random([1 .. 3]);
+		if method = 1 then
+			surf2 := SplitFaceBySpokes(surf, face1);
+			Print("1\n");
+		elif method = 2 then
+			surf2 := SplitFaceByDivision(surf, face1);
+			Print("2\n");
+		else
+			surf2 := SplitFaceByTriangleInsertion(surf, face1);
+			Print("3\n");
+		fi;
+		while not IsTriangleSurface(surf2) do
+			face2 := Random(Filtered(Faces(surf2), t -> Size(FacesByEdges(surf2)[t])>3));
+			surf3 := SplitPolygonalFace(surf2, face2);
+			surf2 := surf3;
+		od;
+		return surf2;
+	end
+);
+
+InstallOtherMethod(AddFaceAndRepair,"",
+	[IsSimplicialSurface],
+	function(surf)
+		return AddFaceAndRepair(surf, Random(Faces(surf)));
+	end
+);
 
 #############################################################################################################################
 
