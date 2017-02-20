@@ -64,6 +64,26 @@ BindGlobal( "SimplicialSurfaceFamily",
 #!
 #!
 
+
+##
+##	This constructor takes the following information:
+##
+##	The set of vertices (alternatively a number n that becomes [1..n] )
+##	The set of edges (alternatively a number n that becomes [1..n] )
+##	The set of faces (alternatively a number n that becomes [1..n] )
+##	The list VerticesByEdges
+##	The list EdgesByFaces.
+##
+##	The local orientation will be set at random and the face naming scheme will
+##	be set to default.
+##
+##	The NoCheck-function does the same thing but does not test if the
+##	arguments are well-defined.
+DeclareOperation( "SimplicialSurfaceByUpwardIncidence",
+	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
+	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+
 ##
 ##	This constructor takes the following information:
 ##

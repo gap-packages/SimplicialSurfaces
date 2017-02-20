@@ -494,6 +494,173 @@ InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
 	true, [ IsList, IsList, IsPosInt, IsList, IsList],
 	[ IsSet, IsSet, , , ], 0 );
+
+##
+##
+############################
+##
+##	Next is the constructor ByUpwardIncidence
+InstallMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
+	[ IsSet, IsSet, IsSet, IsList, IsList ],
+	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+		local surf, facesByVertices, localOrient, f, newVertex, v;
+
+		surf := Objectify( SimplicialSurfaceType, rec() );
+		# Set the given attributes
+		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
+		SetEdges( surf, edges );
+		SetFaces( surf, faces );
+		SetVerticesByEdges( surf, List( verticesByEdges, i -> Set(i) ) );
+		SetEdgesByFaces( surf, List( edgesByFaces, i -> Set(i) ) );
+
+		# Set the local orientation at random
+		facesByVertices := __SIMPLICIAL_RandomFacesByVertices( vertices, faces,
+			FacesByVertices(surf), FacesByEdges(surf), VerticesByEdges(surf) );
+		SetLocalOrientationByVerticesAsList( surf, facesByVertices );
+
+		# Set the face names
+		SetIsFaceNamesDefault( surf, true );
+		
+		return surf;
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC,
+	true, [ IsList, IsList, IsList, IsList, IsList],
+	[ IsSet, IsSet, IsSet, , ], 0 );
+##
+##	Adjust for the alternative possibilities.
+InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
+	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+		return SimplicialSurfaceByUpwardIncidenceNC( [1..vertices], edges,
+			faces, verticesByEdges, edgesByFaces );
+	end
+);
+
+InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
+	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+		return SimplicialSurfaceByUpwardIncidenceNC( vertices, [1..edges],
+			faces, verticesByEdges, edgesByFaces );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC, 
+	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+	[ IsSet, , , , ], 0 );
+
+InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
+	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+		return SimplicialSurfaceByUpwardIncidenceNC( vertices, edges,
+			[1..faces], verticesByEdges, edgesByFaces );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC, 
+	true, [ IsList, IsList, IsPosInt, IsList, IsList],
+	[ IsSet, IsSet, , , ], 0 );
+
+#################################
+##
+##	Next we have to install the same constructors with checks.
+__SIMPLICIAL_CheckUpwardIncidence := function( vertices, edges, faces,
+	verticesByEdges, edgesByFaces, namesOfFaces )
+	
+	local e, v, IncidentEdges, edgeList, i;
+
+	# Check the sets
+	if not __SIMPLICIAL_IsSetPosInt( vertices ) then
+		Error("UpwardIncidenceCheck: Vertices have to be positive integers.");
+	fi;
+
+	if not __SIMPLICIAL_IsSetPosInt( edges ) then
+		Error("UpwardIncidenceCheck: Edges have to be positive integers.");
+	fi;
+
+	if not __SIMPLICIAL_IsSetPosInt( faces ) then
+		Error("UpwardIncidenceCheck: Faces have to be positive integers.");
+	fi;
+
+	# Is verticesByEdges well defined?
+	for v in vertices do
+		if not IsBound( verticesByEdges[v] ) then
+			Error("UpwardIncidenceCheck: One vertex has no edges.");
+		elif not IsEmpty( Difference( Set(verticesByEdges[v]), edges ) ) then
+			Error("UpwardIncidenceCheck: One vertex has illegal edge.");
+		fi;
+	od;
+			# Number only counts bound entries
+	if Number( verticesByEdges ) <> Length( vertices ) then 
+		Error("UpwardIncidenceCheck: More vertices than expected.");
+	fi;
+	if Union( verticesByEdges ) <> edges then
+		Error("UpwardIncidenceCheck: One edge does not lie in any vertex.");
+	fi;
+
+	# Is edgesByFaces well defined?
+	for e in edges do
+		if not IsBound( edgesByFaces[e] ) then
+			Error("UpwardIncidenceCheck: One edge has no faces.");
+		elif not IsEmpty( Difference( Set(edgesByFaces[e]), faces ) ) then
+			Error("UpwardIncidenceCheck: One edge has illegal face.");
+		fi;
+	od;
+	if Number( edgesByFaces ) <> Length( edges ) then
+		Error("UpwardIncidenceCheck: More edges than expected.");
+	fi;
+	if Union( edgesByFaces ) <> faces then
+		Error("UpwardIncidenceCheck: One face does not lie in any edge.");
+	fi;
+
+end;
+InstallMethod( SimplicialSurfaceByUpwardIncidence, "",
+	[ IsSet, IsSet, IsSet, IsList, IsList ],
+	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+		
+		__SIMPLICIAL_CheckUpwardIncidence( vertices, edges, faces,
+			verticesByEdges, edgesByFaces );
+
+		return SimplicialSurfaceByUpwardIncidenceNC( 
+					vertices, edges, faces, verticesByEdges, edgesByFaces );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
+	true, [ IsList, IsList, IsList, IsList, IsList],
+	[ IsSet, IsSet, IsSet, , ], 0 );
+##
+##	Adjust for the alternative possibilities.
+InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
+	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+		return SimplicialSurfaceByUpwardIncidence( 
+			[1..vertices], edges, faces, verticesByEdges, edgesByFaces );
+	end
+);
+
+InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
+	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+		return SimplicialSurfaceByUpwardIncidence( vertices, 
+			[1..edges],	faces, verticesByEdges, edgesByFaces );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
+	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+	[ IsSet, , , , ], 0 );
+
+InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
+	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+		return SimplicialSurfaceByUpwardIncidence( vertices, 
+			edges, [1..faces], verticesByEdges, edgesByFaces );
+	end
+);
+RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
+	true, [ IsList, IsList, IsPosInt, IsList, IsList],
+	[ IsSet, IsSet, , , ], 0 );
+
+
+
+
 ##
 ############################
 ##
