@@ -222,7 +222,7 @@ TestFoldingComplexConsistency := function( complex, messageOrigin )
 		fi;
 	od;
 	for edge in EdgeEquivalenceNumbersAsSet(colSurf) do
-		faceClasses := EdgesByFaces( QuotientSimplicialSurface(colSurf) )[edge];
+		faceClasses := FacesOfEdges( QuotientSimplicialSurface(colSurf) )[edge];
 		faces := Union( List(faceClasses, nr -> FaceEquivalenceClassByNumber( colSurf, nr ) ));
 		for face in faces do
 			for name in NamesOfFace( UnderlyingSimplicialSurface(complex), face ) do

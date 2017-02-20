@@ -31,144 +31,144 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		Print( ": Faces and number of faces don't match.\n");
 	fi;
 
-	# Test VerticesByEdges
-	for i in [1..Length(VerticesByEdges(surface))] do
+	# Test EdgesOfVertices
+	for i in [1..Length(EdgesOfVertices(surface))] do
 		if i in Vertices(surface) then
-			if not IsBound( VerticesByEdges(surface)[i] ) then
+			if not IsBound( EdgesOfVertices(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": VerticesByEdges should have an entry at " );
+				Print( ": EdgesOfVertices should have an entry at " );
 				Print( i );
 				Print( ".\n");
-			elif not IsSubset( Edges(surface), VerticesByEdges(surface)[i] ) then
+			elif not IsSubset( Edges(surface), EdgesOfVertices(surface)[i] ) then
 				Print( messageSurfaceOrigin );
 				Print( ": Entry " );
 				Print( i );
-				Print( " of VerticesByEdges should be a set of edges.\n");
+				Print( " of EdgesOfVertices should be a set of edges.\n");
 			fi;
 		else
-			if IsBound( VerticesByEdges(surface)[i] ) then
+			if IsBound( EdgesOfVertices(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": VerticesByEdges should not have an entry at " );
+				Print( ": EdgesOfVertices should not have an entry at " );
 				Print( i );
 				Print( ".\n");
 			fi;
 		fi;
 	od;
 
-	# Test VerticesByFaces
-	for i in [1..Length(VerticesByFaces(surface))] do
+	# Test FacesOfVertices
+	for i in [1..Length(FacesOfVertices(surface))] do
 		if i in Vertices(surface) then
-			if not IsBound( VerticesByFaces(surface)[i] ) then
+			if not IsBound( FacesOfVertices(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": VerticesByFaces should have an entry at " );
+				Print( ": FacesOfVertices should have an entry at " );
 				Print( i );
 				Print( ".\n");
-			elif not IsSubset( Faces(surface), VerticesByFaces(surface)[i] ) then
+			elif not IsSubset( Faces(surface), FacesOfVertices(surface)[i] ) then
 				Print( messageSurfaceOrigin );
 				Print( ": Entry " );
 				Print( i );
-				Print( " of VerticesByFaces should be a set of faces.\n");
+				Print( " of FacesOfVertices should be a set of faces.\n");
 			fi;
 		else
-			if IsBound( VerticesByFaces(surface)[i] ) then
+			if IsBound( FacesOfVertices(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": VerticesByFaces should not have an entry at " );
+				Print( ": FacesOfVertices should not have an entry at " );
 				Print( i );
 				Print( ".\n");
 			fi;
 		fi;
 	od;
 
-	# Test EdgesByVertices
-	for i in [1..Length(EdgesByVertices(surface))] do
+	# Test VerticesOfEdges
+	for i in [1..Length(VerticesOfEdges(surface))] do
 		if i in Edges(surface) then
-			if not IsBound( EdgesByVertices(surface)[i] ) then
+			if not IsBound( VerticesOfEdges(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": EdgesByVertices should have an entry at " );
+				Print( ": VerticesOfEdges should have an entry at " );
 				Print( i );
 				Print( ".\n");
-			elif not IsSubset( Vertices(surface), EdgesByVertices(surface)[i] ) then
+			elif not IsSubset( Vertices(surface), VerticesOfEdges(surface)[i] ) then
 				Print( messageSurfaceOrigin );
 				Print( ": Entry " );
 				Print( i );
-				Print( " of EdgesByVertices should be a set of vertices.\n");
+				Print( " of VerticesOfEdges should be a set of vertices.\n");
 			fi;
 		else
-			if IsBound( EdgesByVertices(surface)[i] ) then
+			if IsBound( VerticesOfEdges(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": EdgesByVertices should not have an entry at " );
+				Print( ": VerticesOfEdges should not have an entry at " );
 				Print( i );
 				Print( ".\n");
 			fi;
 		fi;
 	od;
 
-	# Test EdgesByFaces
-	for i in [1..Length(EdgesByFaces(surface))] do
+	# Test FacesOfEdges
+	for i in [1..Length(FacesOfEdges(surface))] do
 		if i in Edges(surface) then
-			if not IsBound( EdgesByFaces(surface)[i] ) then
+			if not IsBound( FacesOfEdges(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": EdgesByFaces should have an entry at " );
+				Print( ": FacesOfEdges should have an entry at " );
 				Print( i );
 				Print( ".\n");
-			elif not IsSubset( Faces(surface), EdgesByFaces(surface)[i] ) then
+			elif not IsSubset( Faces(surface), FacesOfEdges(surface)[i] ) then
 				Print( messageSurfaceOrigin );
 				Print( ": Entry " );
 				Print( i );
-				Print( " of EdgesByFaces should be a set of faces.\n");
+				Print( " of FacesOfEdges should be a set of faces.\n");
 			fi;
 		else
-			if IsBound( EdgesByFaces(surface)[i] ) then
+			if IsBound( FacesOfEdges(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": EdgesByFaces should not have an entry at " );
+				Print( ": FacesOfEdges should not have an entry at " );
 				Print( i );
 				Print( ".\n");
 			fi;
 		fi;
 	od;
 
-	# Test FacesByVertices
-	for i in [1..Length(FacesByVertices(surface))] do
+	# Test VerticesOfFaces
+	for i in [1..Length(VerticesOfFaces(surface))] do
 		if i in Faces(surface) then
-			if not IsBound( FacesByVertices(surface)[i] ) then
+			if not IsBound( VerticesOfFaces(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": FacesByVertices should have an entry at " );
+				Print( ": VerticesOfFaces should have an entry at " );
 				Print( i );
 				Print( ".\n");
-			elif not IsSubset( Vertices(surface), FacesByVertices(surface)[i] ) then
+			elif not IsSubset( Vertices(surface), VerticesOfFaces(surface)[i] ) then
 				Print( messageSurfaceOrigin );
 				Print( ": Entry " );
 				Print( i );
-				Print( " of FacesByVertices should be a set of vertices.\n");
+				Print( " of VerticesOfFaces should be a set of vertices.\n");
 			fi;
 		else
-			if IsBound( FacesByVertices(surface)[i] ) then
+			if IsBound( VerticesOfFaces(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": FacesByVertices should not have an entry at " );
+				Print( ": VerticesOfFaces should not have an entry at " );
 				Print( i );
 				Print( ".\n");
 			fi;
 		fi;
 	od;
 
-	# Test FacesByEdges
-	for i in [1..Length(FacesByEdges(surface))] do
+	# Test EdgesOfFaces
+	for i in [1..Length(EdgesOfFaces(surface))] do
 		if i in Faces(surface) then
-			if not IsBound( FacesByEdges(surface)[i] ) then
+			if not IsBound( EdgesOfFaces(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": FacesByEdges should have an entry at " );
+				Print( ": EdgesOfFaces should have an entry at " );
 				Print( i );
 				Print( ".\n");
-			elif not IsSubset( Edges(surface), FacesByEdges(surface)[i] ) then
+			elif not IsSubset( Edges(surface), EdgesOfFaces(surface)[i] ) then
 				Print( messageSurfaceOrigin );
 				Print( ": Entry " );
 				Print( i );
-				Print( " of FacesByEdges should be a set of edges.\n");
+				Print( " of EdgesOfFaces should be a set of edges.\n");
 			fi;
 		else
-			if IsBound( FacesByEdges(surface)[i] ) then
+			if IsBound( EdgesOfFaces(surface)[i] ) then
 				Print( messageSurfaceOrigin );
-				Print( ": FacesByEdges should not have an entry at " );
+				Print( ": EdgesOfFaces should not have an entry at " );
 				Print( i );
 				Print( ".\n");
 			fi;
@@ -200,7 +200,7 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	fi;
 
 	for i in Faces(surface) do
-		refElements := FacesByVertices(surface)[i];
+		refElements := VerticesOfFaces(surface)[i];
 		testElements := LocalOrientationByVerticesAsPerm(surface)[i];
 		if refElements <> MovedPoints( testElements ) then
 			Print( messageSurfaceOrigin );
@@ -215,7 +215,7 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	od;
 
 	for i in Faces(surface) do
-		refElements := FacesByVertices(surface)[i];
+		refElements := VerticesOfFaces(surface)[i];
 		testElements := LocalOrientationByVerticesAsList(surface)[i];
 		if refElements <> Set( testElements ) then
 			Print( messageSurfaceOrigin );
@@ -230,7 +230,7 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	od;
 
 	for i in Faces(surface) do
-		refElements := FacesByEdges(surface)[i];
+		refElements := EdgesOfFaces(surface)[i];
 		testElements := LocalOrientationByEdgesAsPerm(surface)[i];
 		if refElements <> MovedPoints( testElements ) then
 			Print( messageSurfaceOrigin );
@@ -245,7 +245,7 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 	od;
 
 	for i in Faces(surface) do
-		refElements := FacesByEdges(surface)[i];
+		refElements := EdgesOfFaces(surface)[i];
 		testElements := LocalOrientationByEdgesAsList(surface)[i];
 		if refElements <> Set( testElements ) then
 			Print( messageSurfaceOrigin );
