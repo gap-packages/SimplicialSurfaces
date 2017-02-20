@@ -53,12 +53,12 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"NrOfVertices",
 			"NrOfEdges",
 			"NrOfFaces",
-			"VerticesByEdges",
-			"VerticesByFaces",
-			"EdgesByVertices",
-			"EdgesByFaces",
-			"FacesByVertices",
-			"FacesByEdges",
+			"EdgesOfVertices",
+			"FacesOfVertices",
+			"VerticesOfEdges",
+			"FacesOfEdges",
+			"VerticesOfFaces",
+			"EdgesOfFaces",
 			"IsActualSurface",
 			"IsTriangleSurface",
 			"IsOrientable",
@@ -105,18 +105,18 @@ InstallMethod( ObjectifySimplicialSurface, "",
 ##
 
 ##
-##	This method returns a FacesByVertices as lists (not sets) such that
+##	This method returns a VerticesOfFaces as lists (not sets) such that
 ##	adjacent vertices lie in a common edge. There is no guarantee about which
 ##	ordering of the vertices will be chosen.
 ##
-__SIMPLICIAL_RandomFacesByVertices := function( vertices, faces, 
-		facesByVertices, facesByEdges, verticesByEdges )
+__SIMPLICIAL_RandomVerticesOfFaces := function( vertices, faces, 
+		verticesOfFaces, edgesOfFaces, edgesOfVertices )
 	local faceList, i, faceVertices, vertexList, lastVertex, newVertex, v,
 		inter;
 
 	faceList := [];
 	for i in faces do
-		faceVertices := facesByVertices[i];
+		faceVertices := verticesOfFaces[i];
 		vertexList := [];
 
 		# Pick one to be the first vertex
@@ -130,15 +130,15 @@ __SIMPLICIAL_RandomFacesByVertices := function( vertices, faces,
 			lastVertex := vertexList[ Length(vertexList) ];
 			newVertex := -1;
 			for v in faceVertices do
-				inter := Intersection( facesByEdges[i], 
-							verticesByEdges[lastVertex], verticesByEdges[v] ); 
+				inter := Intersection( edgesOfFaces[i], 
+							edgesOfVertices[lastVertex], edgesOfVertices[v] ); 
 				if not IsEmpty( inter ) then
 					newVertex := v;
 				fi;
 			od;
 
 			if newVertex = -1 then
-				Error("__SIMPLICIAL_RandomFacesByVertices: No next vertex found." );
+				Error("__SIMPLICIAL_RandomVerticesOfFaces: No next vertex found." );
 			fi;
 
 			Append( vertexList, [newVertex] );
@@ -159,7 +159,7 @@ end;
 ##
 InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		local surf, namesOfFaces;
 
 		surf := Objectify( SimplicialSurfaceType, rec() );
@@ -167,10 +167,10 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 		SetEdges( surf, edges );
 		SetFaces( surf, faces );
-		SetEdgesByVertices( surf, 
-								List( edgesByVertices, i -> Set(i) ) );
+		SetVerticesOfEdges( surf, 
+								List( verticesOfEdges, i -> Set(i) ) );
 		SetLocalOrientationByEdgesAsList( surf, 
-								facesByEdges );
+								edgesOfFaces );
 
 		# Set the face names
 		namesOfFaces := ValueOption( "NamesOfFaces" );
@@ -190,17 +190,17 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC,
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
-			[1..vertices], edges, faces, edgesByVertices, facesByEdges );
+			[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( vertices, 
-			[1..edges],	faces, edgesByVertices, facesByEdges );
+			[1..edges],	faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
@@ -209,9 +209,9 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC,
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( vertices, 
-			edges, [1..faces], edgesByVertices, facesByEdges );
+			edges, [1..faces], verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
@@ -231,12 +231,12 @@ __SIMPLICIAL_IsSetPosInt := function( set )
 		return true;
 	end;
 ##
-##	The argument edgesAdjacent is true if the edges in facesByEdges should 
+##	The argument edgesAdjacent is true if the edges in edgesOfFaces should 
 ##	conform to the standards of LocalOrientationOfEdgesAsList (that is, two
 ##	edges that are adjacent in the list should also be adjacent in the surface)
 ##
 __SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
-	edgesByVertices, facesByEdges, namesOfFaces, edgesAdjacent )
+	verticesOfEdges, edgesOfFaces, namesOfFaces, edgesAdjacent )
 	
 	local e, f, IncidentEdges, edgeList, i;
 
@@ -253,48 +253,48 @@ __SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
 		Error("DownwardIncidenceCheck: Faces have to be positive integers.");
 	fi;
 
-	# Is edgesByVertices well defined?
+	# Is verticesOfEdges well defined?
 	for e in edges do
-		if not IsBound( edgesByVertices[e] ) then
+		if not IsBound( verticesOfEdges[e] ) then
 			Error("DownwardIncidenceCheck: One edge has no vertices.");
-		elif Size( Set( edgesByVertices[e] ) ) <> 2 then
+		elif Size( Set( verticesOfEdges[e] ) ) <> 2 then
 			Error("DownwardIncidenceCheck: One edge has not two vertices.");
-		elif not IsEmpty( Difference( Set(edgesByVertices[e]), vertices ) ) then
+		elif not IsEmpty( Difference( Set(verticesOfEdges[e]), vertices ) ) then
 			Error("DownwardIncidenceCheck: One edge has illegal vertex.");
 		fi;
 	od;
 			# Number only counts bound entries
-	if Number( edgesByVertices ) <> Length( edges ) then 
+	if Number( verticesOfEdges ) <> Length( edges ) then 
 		Error("DownwardIncidenceCheck: More edges than expected.");
 	fi;
-	if Union( edgesByVertices ) <> vertices then
+	if Union( verticesOfEdges ) <> vertices then
 		Error("DownwardIncidenceCheck: One vertex does not lie in any edge.");
 	fi;
 
-	# Is facesByEdges well defined?
+	# Is edgesOfFaces well defined?
 	for f in faces do
-		if not IsBound( facesByEdges[f] ) then
+		if not IsBound( edgesOfFaces[f] ) then
 			Error("DownwardIncidenceCheck: One face has no edges.");
-		elif Size( Set( facesByEdges[f] ) ) < 3 then
+		elif Size( Set( edgesOfFaces[f] ) ) < 3 then
 			Error("DownwardIncidenceCheck: One face has less than three edges.");
-		elif not IsEmpty( Difference( Set(facesByEdges[f]), edges ) ) then
+		elif not IsEmpty( Difference( Set(edgesOfFaces[f]), edges ) ) then
 			Error("DownwardIncidenceCheck: One face has illegal edge.");
 		fi;
 	od;
-	if Number( facesByEdges ) <> Length( faces ) then
+	if Number( edgesOfFaces ) <> Length( faces ) then
 		Error("DownwardIncidenceCheck: More faces than expected.");
 	fi;
-	if Union( facesByEdges ) <> edges then
+	if Union( edgesOfFaces ) <> edges then
 		Error("DownwardIncidenceCheck: One edge does not lie in any face.");
 	fi;
 
 	# Special check for the orientation preserving constructor
 	if edgesAdjacent then
-		IncidentEdges := function( edgesByVertices, edge1, edge2 )
+		IncidentEdges := function( verticesOfEdges, edge1, edge2 )
 			local vert1, vert2, inter;
 
-			vert1 := edgesByVertices[edge1];
-			vert2 := edgesByVertices[edge2];
+			vert1 := verticesOfEdges[edge1];
+			vert2 := verticesOfEdges[edge2];
 			inter := Intersection( vert1, vert2 );
 		
 			if Length(inter) <> 1 then
@@ -305,12 +305,12 @@ __SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
 		end;
 
 		for f in faces do
-			edgeList := facesByEdges[f];
+			edgeList := edgesOfFaces[f];
 			
-			IncidentEdges( edgesByVertices, edgeList[1], 
+			IncidentEdges( verticesOfEdges, edgeList[1], 
 										edgeList[ Length(edgeList) ] );
 			for i in [2..Length(edgeList)] do
-				IncidentEdges( edgesByVertices, edgeList[i-1], edgeList[i] );
+				IncidentEdges( verticesOfEdges, edgeList[i-1], edgeList[i] );
 			od;
 		od;
 	fi;
@@ -336,13 +336,13 @@ end;
 ##
 InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 
 		__SIMPLICIAL_CheckDownwardIncidence( vertices, edges, faces,
-			edgesByVertices, facesByEdges, ValueOption( "NamesOfFaces" ), true);
+			verticesOfEdges, edgesOfFaces, ValueOption( "NamesOfFaces" ), true);
 
 		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
-					vertices, edges, faces, edgesByVertices, facesByEdges );
+					vertices, edges, faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
@@ -352,17 +352,17 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation,
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceWithOrientation( 
-			[1..vertices], edges, faces, edgesByVertices, facesByEdges );
+			[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, 
-			[1..edges],	faces, edgesByVertices, facesByEdges );
+			[1..edges],	faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
@@ -371,9 +371,9 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation,
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, 
-			edges, [1..faces], edgesByVertices, facesByEdges );
+			edges, [1..faces], verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
@@ -389,21 +389,21 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation,
 ##	Next we install the "easy mode" of the above constructor.
 InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
-		local surf, facesByVertices, localOrient, f, newVertex, v;
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+		local surf, verticesOfFaces, localOrient, f, newVertex, v;
 
 		surf := Objectify( SimplicialSurfaceType, rec() );
 		# Set the given attributes
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 		SetEdges( surf, edges );
 		SetFaces( surf, faces );
-		SetEdgesByVertices( surf, List( edgesByVertices, i -> Set(i) ) );
-		SetFacesByEdges( surf, List( facesByEdges, i -> Set(i) ) );
+		SetVerticesOfEdges( surf, List( verticesOfEdges, i -> Set(i) ) );
+		SetEdgesOfFaces( surf, List( edgesOfFaces, i -> Set(i) ) );
 
 		# Set the local orientation at random
-		facesByVertices := __SIMPLICIAL_RandomFacesByVertices( vertices, faces,
-			FacesByVertices(surf), FacesByEdges(surf), VerticesByEdges(surf) );
-		SetLocalOrientationByVerticesAsList( surf, facesByVertices );
+		verticesOfFaces := __SIMPLICIAL_RandomVerticesOfFaces( vertices, faces,
+			VerticesOfFaces(surf), EdgesOfFaces(surf), EdgesOfVertices(surf) );
+		SetLocalOrientationByVerticesAsList( surf, verticesOfFaces );
 
 		# Set the face names
 		SetIsFaceNamesDefault( surf, true );
@@ -418,17 +418,17 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC,
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceNC( [1..vertices], edges,
-			faces, edgesByVertices, facesByEdges );
+			faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceNC( vertices, [1..edges],
-			faces, edgesByVertices, facesByEdges );
+			faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
@@ -437,9 +437,9 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC,
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidenceNC( vertices, edges,
-			[1..faces], edgesByVertices, facesByEdges );
+			[1..faces], verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
@@ -451,13 +451,13 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC,
 ##	Next we have to install the same constructors with checks.
 InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		
 		__SIMPLICIAL_CheckDownwardIncidence( vertices, edges, faces,
-			edgesByVertices, facesByEdges, fail, false );
+			verticesOfEdges, edgesOfFaces, fail, false );
 
 		return SimplicialSurfaceByDownwardIncidenceNC( 
-					vertices, edges, faces, edgesByVertices, facesByEdges );
+					vertices, edges, faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
@@ -467,17 +467,17 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence,
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidence( 
-			[1..vertices], edges, faces, edgesByVertices, facesByEdges );
+			[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidence( vertices, 
-			[1..edges],	faces, edgesByVertices, facesByEdges );
+			[1..edges],	faces, verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
@@ -486,9 +486,9 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence,
 
 InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, edgesByVertices, facesByEdges )
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
 		return SimplicialSurfaceByDownwardIncidence( vertices, 
-			edges, [1..faces], edgesByVertices, facesByEdges );
+			edges, [1..faces], verticesOfEdges, edgesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
@@ -502,21 +502,21 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence,
 ##	Next is the constructor ByUpwardIncidence
 InstallMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
-	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
-		local surf, facesByVertices, localOrient, f, newVertex, v;
+	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
+		local surf, verticesOfFaces, localOrient, f, newVertex, v;
 
 		surf := Objectify( SimplicialSurfaceType, rec() );
 		# Set the given attributes
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 		SetEdges( surf, edges );
 		SetFaces( surf, faces );
-		SetVerticesByEdges( surf, List( verticesByEdges, i -> Set(i) ) );
-		SetEdgesByFaces( surf, List( edgesByFaces, i -> Set(i) ) );
+		SetEdgesOfVertices( surf, List( edgesOfVertices, i -> Set(i) ) );
+		SetFacesOfEdges( surf, List( facesOfEdges, i -> Set(i) ) );
 
 		# Set the local orientation at random
-		facesByVertices := __SIMPLICIAL_RandomFacesByVertices( vertices, faces,
-			FacesByVertices(surf), FacesByEdges(surf), VerticesByEdges(surf) );
-		SetLocalOrientationByVerticesAsList( surf, facesByVertices );
+		verticesOfFaces := __SIMPLICIAL_RandomVerticesOfFaces( vertices, faces,
+			VerticesOfFaces(surf), EdgesOfFaces(surf), EdgesOfVertices(surf) );
+		SetLocalOrientationByVerticesAsList( surf, verticesOfFaces );
 
 		# Set the face names
 		SetIsFaceNamesDefault( surf, true );
@@ -531,17 +531,17 @@ RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC,
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
 		return SimplicialSurfaceByUpwardIncidenceNC( [1..vertices], edges,
-			faces, verticesByEdges, edgesByFaces );
+			faces, edgesOfVertices, facesOfEdges );
 	end
 );
 
 InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
 		return SimplicialSurfaceByUpwardIncidenceNC( vertices, [1..edges],
-			faces, verticesByEdges, edgesByFaces );
+			faces, edgesOfVertices, facesOfEdges );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC, 
@@ -550,9 +550,9 @@ RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC,
 
 InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
 		return SimplicialSurfaceByUpwardIncidenceNC( vertices, edges,
-			[1..faces], verticesByEdges, edgesByFaces );
+			[1..faces], edgesOfVertices, facesOfEdges );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC, 
@@ -563,7 +563,7 @@ RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC,
 ##
 ##	Next we have to install the same constructors with checks.
 __SIMPLICIAL_CheckUpwardIncidence := function( vertices, edges, faces,
-	verticesByEdges, edgesByFaces, namesOfFaces )
+	edgesOfVertices, facesOfEdges, namesOfFaces )
 	
 	local e, v, IncidentEdges, edgeList, i;
 
@@ -580,47 +580,47 @@ __SIMPLICIAL_CheckUpwardIncidence := function( vertices, edges, faces,
 		Error("UpwardIncidenceCheck: Faces have to be positive integers.");
 	fi;
 
-	# Is verticesByEdges well defined?
+	# Is edgesOfVertices well defined?
 	for v in vertices do
-		if not IsBound( verticesByEdges[v] ) then
+		if not IsBound( edgesOfVertices[v] ) then
 			Error("UpwardIncidenceCheck: One vertex has no edges.");
-		elif not IsEmpty( Difference( Set(verticesByEdges[v]), edges ) ) then
+		elif not IsEmpty( Difference( Set(edgesOfVertices[v]), edges ) ) then
 			Error("UpwardIncidenceCheck: One vertex has illegal edge.");
 		fi;
 	od;
 			# Number only counts bound entries
-	if Number( verticesByEdges ) <> Length( vertices ) then 
+	if Number( edgesOfVertices ) <> Length( vertices ) then 
 		Error("UpwardIncidenceCheck: More vertices than expected.");
 	fi;
-	if Union( verticesByEdges ) <> edges then
+	if Union( edgesOfVertices ) <> edges then
 		Error("UpwardIncidenceCheck: One edge does not lie in any vertex.");
 	fi;
 
-	# Is edgesByFaces well defined?
+	# Is facesOfEdges well defined?
 	for e in edges do
-		if not IsBound( edgesByFaces[e] ) then
+		if not IsBound( facesOfEdges[e] ) then
 			Error("UpwardIncidenceCheck: One edge has no faces.");
-		elif not IsEmpty( Difference( Set(edgesByFaces[e]), faces ) ) then
+		elif not IsEmpty( Difference( Set(facesOfEdges[e]), faces ) ) then
 			Error("UpwardIncidenceCheck: One edge has illegal face.");
 		fi;
 	od;
-	if Number( edgesByFaces ) <> Length( edges ) then
+	if Number( facesOfEdges ) <> Length( edges ) then
 		Error("UpwardIncidenceCheck: More edges than expected.");
 	fi;
-	if Union( edgesByFaces ) <> faces then
+	if Union( facesOfEdges ) <> faces then
 		Error("UpwardIncidenceCheck: One face does not lie in any edge.");
 	fi;
 
 end;
 InstallMethod( SimplicialSurfaceByUpwardIncidence, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
-	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
 		
 		__SIMPLICIAL_CheckUpwardIncidence( vertices, edges, faces,
-			verticesByEdges, edgesByFaces );
+			edgesOfVertices, facesOfEdges );
 
 		return SimplicialSurfaceByUpwardIncidenceNC( 
-					vertices, edges, faces, verticesByEdges, edgesByFaces );
+					vertices, edges, faces, edgesOfVertices, facesOfEdges );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
@@ -630,17 +630,17 @@ RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence,
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
 	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
 		return SimplicialSurfaceByUpwardIncidence( 
-			[1..vertices], edges, faces, verticesByEdges, edgesByFaces );
+			[1..vertices], edges, faces, edgesOfVertices, facesOfEdges );
 	end
 );
 
 InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
 	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
 		return SimplicialSurfaceByUpwardIncidence( vertices, 
-			[1..edges],	faces, verticesByEdges, edgesByFaces );
+			[1..edges],	faces, edgesOfVertices, facesOfEdges );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
@@ -649,9 +649,9 @@ RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence,
 
 InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
 	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, verticesByEdges, edgesByFaces )
+	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
 		return SimplicialSurfaceByUpwardIncidence( vertices, 
-			edges, [1..faces], verticesByEdges, edgesByFaces );
+			edges, [1..faces], edgesOfVertices, facesOfEdges );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
@@ -665,13 +665,13 @@ RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence,
 ############################
 ##
 ##	Now we implement the constructor byVerticesInFaces. We start with the
-##	NC-versions. The local orientation is always given by the facesByVertices
+##	NC-versions. The local orientation is always given by the verticesOfFaces
 ##	since the edges are constructed in this way.
 InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsSet, IsSet, IsList ],
-	function( vertices, faces, facesByVertices )
-		local surf, namesOfFaces, edgesByVertices, AdjacentVertices, 
-				facesByEdges, f, j, e, facesBySetEdges;
+	function( vertices, faces, verticesOfFaces )
+		local surf, namesOfFaces, verticesOfEdges, AdjacentVertices, 
+				edgesOfFaces, f, j, e, facesBySetEdges;
 
 		# Determine the edges. For each face we determine all subset of its
 		# vertices that contain two elements which are adjacent in the list
@@ -688,14 +688,14 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		end;
 			
 		facesBySetEdges := List( faces, i -> 
-							AdjacentVertices( facesByVertices[i] ) );
-		edgesByVertices := Union(facesBySetEdges);
+							AdjacentVertices( verticesOfFaces[i] ) );
+		verticesOfEdges := Union(facesBySetEdges);
 
-		facesByEdges := List(faces,i->[]);
+		edgesOfFaces := List(faces,i->[]);
 		for f in faces do
 			for j  in [1..3] do
 				e := facesBySetEdges[f][j];
-				facesByEdges[f][j] := Position(edgesByVertices,e);
+				edgesOfFaces[f][j] := Position(verticesOfEdges,e);
 			od;
 		od;
 
@@ -703,12 +703,12 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		# Set the given attributes
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 		SetEdges( surf, 
-									[1..Length(edgesByVertices)] );
+									[1..Length(verticesOfEdges)] );
 		SetFaces( surf, faces );
-		SetEdgesByVertices( surf, edgesByVertices );
-		SetFacesByEdges( surf, facesByEdges );
+		SetVerticesOfEdges( surf, verticesOfEdges );
+		SetEdgesOfFaces( surf, edgesOfFaces );
 		SetLocalOrientationByVerticesAsList( surf, 
-												facesByVertices );
+												verticesOfFaces );
 
 		# Set the face names
 		namesOfFaces := ValueOption( "NamesOfFaces" );
@@ -728,16 +728,16 @@ RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC,
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsPosInt, IsObject, IsList ],
-	function( vertices, faces, facesByVertices )
+	function( vertices, faces, verticesOfFaces )
 		return SimplicialSurfaceByVerticesInFacesNC( 
-			[1..vertices], faces, facesByVertices );
+			[1..vertices], faces, verticesOfFaces );
 	end
 );
 InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 	[ IsSet, IsPosInt, IsList ],
-	function( vertices, faces, facesByVertices )
+	function( vertices, faces, verticesOfFaces )
 		return SimplicialSurfaceByVerticesInFacesNC( vertices, 
-			[1..faces],	facesByVertices );
+			[1..faces],	verticesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, 
@@ -747,7 +747,7 @@ RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC,
 ##	Of course the same constructors with sanity checks can't be missing.
 ##
 __SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces, 
-		facesByVertices, namesOfFaces )
+		verticesOfFaces, namesOfFaces )
 	
 	local f;
 
@@ -760,17 +760,17 @@ __SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces,
 		Error("VerticesInFacesCheck: Faces have to be positive integers.");
 	fi;
 
-	# Is facesByVertices well defined?
+	# Is verticesOfFaces well defined?
 	for f in faces do
-		if not IsBound( facesByVertices[f] ) then
+		if not IsBound( verticesOfFaces[f] ) then
 			Error("VerticesInFacesCheck: One face has no vertices.");
-		elif Size( Set( facesByVertices[f] ) ) <> 3 then
+		elif Size( Set( verticesOfFaces[f] ) ) <> 3 then
 			Error("VerticesInFacesCheck: One face has not three vertices.");
-		elif not IsEmpty( Difference( Set(facesByVertices[f]), vertices ) ) then
+		elif not IsEmpty( Difference( Set(verticesOfFaces[f]), vertices ) ) then
 			Error("VerticesInFacesCheck: One face has illegal vertex.");
 		fi;
 	od;
-	if Number( facesByVertices ) <> Length( faces ) then
+	if Number( verticesOfFaces ) <> Length( faces ) then
 		Error("VerticesInFacesCheck: More faces than expected.");
 	fi;
 
@@ -795,13 +795,13 @@ end;
 ##
 InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsSet, IsSet, IsList ],
-	function( vertices, faces, facesByVertices )
+	function( vertices, faces, verticesOfFaces )
 		
-		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, facesByVertices, 
+		__SIMPLICIAL_CheckVerticesInFaces( vertices, faces, verticesOfFaces, 
 			ValueOption( "NamesOfFaces" ) );
 
 		return SimplicialSurfaceByVerticesInFacesNC( 
-					vertices, faces, facesByVertices );
+					vertices, faces, verticesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
@@ -810,16 +810,16 @@ RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
 ##	Adjust for the alternative possibilities.
 InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsPosInt, IsObject, IsList ],
-	function( vertices, faces, facesByVertices )
+	function( vertices, faces, verticesOfFaces )
 		return SimplicialSurfaceByVerticesInFaces( 
-			[1..vertices], faces, facesByVertices );
+			[1..vertices], faces, verticesOfFaces );
 	end
 );
 InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
 	[ IsSet, IsPosInt, IsList ],
-	function( vertices, faces, facesByVertices )
+	function( vertices, faces, verticesOfFaces )
 		return SimplicialSurfaceByVerticesInFaces( vertices, 
-			[1..faces],	facesByVertices );
+			[1..faces],	verticesOfFaces );
 	end
 );
 RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
@@ -1101,8 +1101,8 @@ InstallMethod( LocalOrientationByVerticesAsList,
 		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
 			LocalOrientationByEdgesAsList(simpsurf), 
 			Faces(simpsurf), 
-			EdgesByVertices(simpsurf),
-			FacesByVertices(simpsurf) );
+			VerticesOfEdges(simpsurf),
+			VerticesOfFaces(simpsurf) );
 	end
 );
 InstallMethod( LocalOrientationByVerticesAsList, 
@@ -1149,8 +1149,8 @@ InstallMethod( LocalOrientationByEdgesAsList,
 		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
 			LocalOrientationByVerticesAsList(simpsurf), 
 			Faces(simpsurf), 
-			VerticesByEdges(simpsurf),
-			FacesByEdges(simpsurf) );
+			EdgesOfVertices(simpsurf),
+			EdgesOfFaces(simpsurf) );
 	end
 );
 InstallMethod( LocalOrientationByEdgesAsList, 
@@ -1242,7 +1242,7 @@ InstallMethod( PrintStringAttributeOfSimplicialSurface,
 		PrintTo( out, Vertices(simpsurf), ",\n" );
 		PrintTo( out, Edges(simpsurf), ",\n" );
 		PrintTo( out, Faces(simpsurf), ",\n" );
-		PrintTo( out, EdgesByVertices(simpsurf), ",\n" );
+		PrintTo( out, VerticesOfEdges(simpsurf), ",\n" );
 		PrintTo( out, LocalOrientationByEdgesAsList(simpsurf), ",\n" );
 
 		if IsFaceNamesDefault(simpsurf) then
@@ -1274,8 +1274,8 @@ InstallMethod( Display, "for simplicial surfaces", [ IsSimplicialSurface ],
         Print("Vertices: ", Vertices(simpsurf), ",\n");
         Print("Edges: ", Edges(simpsurf), ",\n");
         Print("Faces: ", Faces(simpsurf), ",\n");
-        Print("EdgesByVertices: ", EdgesByVertices(simpsurf), ",\n");
-        Print("FacesByEdges: ", FacesByEdges(simpsurf), ",\n" );
+        Print("VerticesOfEdges: ", VerticesOfEdges(simpsurf), ",\n");
+        Print("EdgesOfFaces: ", EdgesOfFaces(simpsurf), ",\n" );
 		Print("LocalOrientation: ", LocalOrientation(simpsurf), ",\n" );
 		Print("NamesOfFaces: ", NamesOfFaces(simpsurf), ",\n" );
 	end
@@ -1304,10 +1304,10 @@ InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj,
 			return false;
 		fi;
 
-		if EdgesByVertices(s1) <> EdgesByVertices(s2) then
+		if VerticesOfEdges(s1) <> VerticesOfEdges(s2) then
 			return false;
 		fi;
-		if FacesByEdges(s1) <> FacesByEdges(s2) then
+		if EdgesOfFaces(s1) <> EdgesOfFaces(s2) then
 			return false;
 		fi;
 
@@ -1338,29 +1338,29 @@ InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj,
 ##
 ##	There are exactly four cases in which we know every information from
 ##	two of those values:
-##		FacesByEdges and EdgesByVertices
-##		FacesByEdges and VerticesByEdges
-##		EdgesByFaces and EdgesByVertices
-##		EdgesByFaces and VerticesByEdges
+##		EdgesOfFaces and VerticesOfEdges
+##		EdgesOfFaces and EdgesOfVertices
+##		FacesOfEdges and VerticesOfEdges
+##		FacesOfEdges and EdgesOfVertices
 ##	We will start with an inversion and a transitivity method. These two are
 ##	sufficient to generate every other combination in at most two steps. Since
 ##	GAP can't do more than one step we have to define additional methods for
 ##	these cases.
 ##	
 ##	At first we implement the inversion of an incidence relation. For example
-##	we know facesByEdges but want to know edgesByFaces. As this inversion is
+##	we know edgesOfFaces but want to know facesOfEdges. As this inversion is
 ##	always the same we implement it in general.
 ##	Given are the numbers of edges and faces, together with the relation
-##	facesByEdges. It returns the relation edgesByFaces. (The names are used
+##	edgesOfFaces. It returns the relation facesOfEdges. (The names are used
 ##	only for illustration.)
-__SIMPLICIAL_InvertIncidence := function( faceNr, facesByEdges, edgeNr )
+__SIMPLICIAL_InvertIncidence := function( faceNr, edgesOfFaces, edgeNr )
 	local edgeList, edge, faceSet, face;
 
 	edgeList := [];
 	for edge in edgeNr do
 		faceSet := [];
 		for face in faceNr do
-			if edge in facesByEdges[face] then
+			if edge in edgesOfFaces[face] then
 				faceSet := Union( faceSet, [face] );
 			fi;
 		od;
@@ -1371,81 +1371,81 @@ __SIMPLICIAL_InvertIncidence := function( faceNr, facesByEdges, edgeNr )
 end;
 ##
 ##	With this method we can write inversion methods for all six cases.
-InstallMethod( VerticesByEdges, 
-	[IsSimplicialSurface and HasEdgesByVertices ],
+InstallMethod( EdgesOfVertices, 
+	[IsSimplicialSurface and HasVerticesOfEdges ],
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Edges(simpsurf),
-				EdgesByVertices(simpsurf), Vertices(simpsurf) );
+				VerticesOfEdges(simpsurf), Vertices(simpsurf) );
 	end
 );
-InstallMethod( VerticesByFaces, 
-	[IsSimplicialSurface and HasFacesByVertices ],
+InstallMethod( FacesOfVertices, 
+	[IsSimplicialSurface and HasVerticesOfFaces ],
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Faces(simpsurf),
-				FacesByVertices(simpsurf), Vertices(simpsurf) );
+				VerticesOfFaces(simpsurf), Vertices(simpsurf) );
 	end
 );
-InstallMethod( EdgesByVertices, 
-	[IsSimplicialSurface and HasVerticesByEdges ],
+InstallMethod( VerticesOfEdges, 
+	[IsSimplicialSurface and HasEdgesOfVertices ],
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
-				VerticesByEdges(simpsurf), Edges(simpsurf) );
+				EdgesOfVertices(simpsurf), Edges(simpsurf) );
 	end
 );
-InstallMethod( EdgesByFaces, 
-	[IsSimplicialSurface and HasFacesByEdges ],
+InstallMethod( FacesOfEdges, 
+	[IsSimplicialSurface and HasEdgesOfFaces ],
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Faces(simpsurf),
-				FacesByEdges(simpsurf), Edges(simpsurf) );
+				EdgesOfFaces(simpsurf), Edges(simpsurf) );
 	end
 );
-InstallMethod( FacesByVertices, 
-	[IsSimplicialSurface and HasVerticesByFaces ],
+InstallMethod( VerticesOfFaces, 
+	[IsSimplicialSurface and HasFacesOfVertices ],
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
-				VerticesByFaces(simpsurf), Faces(simpsurf) );
+				FacesOfVertices(simpsurf), Faces(simpsurf) );
 	end
 );
-InstallMethod( FacesByEdges, 
-	[IsSimplicialSurface and HasEdgesByFaces ],
+InstallMethod( EdgesOfFaces, 
+	[IsSimplicialSurface and HasFacesOfEdges ],
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Edges(simpsurf),
-				EdgesByFaces(simpsurf), Faces(simpsurf) );
+				FacesOfEdges(simpsurf), Faces(simpsurf) );
 	end
 );
 ##
-##	Next we consider the case of transitivity: From FacesByEdges and 
-##	EdgesByVertices we can deduce FacesByVertices
-__SIMPLICIAL_TransitiveIncidence := function( faceNr, facesByEdges, edgeNr,
-												edgesByVertices, vertexNr )
-	local face, facesByVertices, edgesInFace, verticesInEdges;
+##	Next we consider the case of transitivity: From EdgesOfFaces and 
+##	VerticesOfEdges we can deduce VerticesOfFaces
+__SIMPLICIAL_TransitiveIncidence := function( faceNr, edgesOfFaces, edgeNr,
+												verticesOfEdges, vertexNr )
+	local face, verticesOfFaces, edgesInFace, verticesInEdges;
 
-	facesByVertices := [];
+	verticesOfFaces := [];
 	for face in faceNr do
-		edgesInFace := facesByEdges[face];
-		verticesInEdges := List( edgesInFace, e -> edgesByVertices[e] );
-		facesByVertices[face] := Union( verticesInEdges );
+		edgesInFace := edgesOfFaces[face];
+		verticesInEdges := List( edgesInFace, e -> verticesOfEdges[e] );
+		verticesOfFaces[face] := Union( verticesInEdges );
 	od;
 
-	return facesByVertices;
+	return verticesOfFaces;
 end;
 ##
-InstallMethod( FacesByVertices, 
-	[IsSimplicialSurface and HasFacesByEdges and
-							HasEdgesByVertices ],
+InstallMethod( VerticesOfFaces, 
+	[IsSimplicialSurface and HasEdgesOfFaces and
+							HasVerticesOfEdges ],
 	function( simpsurf )
 		return __SIMPLICIAL_TransitiveIncidence( Faces(simpsurf),
-			FacesByEdges(simpsurf), Edges(simpsurf),
-			EdgesByVertices(simpsurf), Vertices(simpsurf) );
+			EdgesOfFaces(simpsurf), Edges(simpsurf),
+			VerticesOfEdges(simpsurf), Vertices(simpsurf) );
 	end
 );
-InstallMethod( VerticesByFaces, 
-	[IsSimplicialSurface and HasVerticesByEdges and
-								HasEdgesByFaces ],
+InstallMethod( FacesOfVertices, 
+	[IsSimplicialSurface and HasEdgesOfVertices and
+								HasFacesOfEdges ],
 	function( simpsurf )
 		return __SIMPLICIAL_TransitiveIncidence( Vertices(simpsurf),
-			VerticesByEdges(simpsurf), Edges(simpsurf),
-			EdgesByFaces(simpsurf), Faces(simpsurf) );
+			EdgesOfVertices(simpsurf), Edges(simpsurf),
+			FacesOfEdges(simpsurf), Faces(simpsurf) );
 	end
 );
 ##	Normally we would be finished at this point. But the method selection of
@@ -1466,86 +1466,86 @@ InstallMethod( VerticesByFaces,
 ##	the same method and go into an infinite loop. Therefore we have to check
 ##	first if the necessary filter is set and - if it is - use TryNextMethod().
 ##
-##	If both incidences go in the same direction (e.g. FacesByEdges and
-##	EdgesByVertices) we get two inverses and one transitive in one step. The
+##	If both incidences go in the same direction (e.g. EdgesOfFaces and
+##	VerticesOfEdges) we get two inverses and one transitive in one step. The
 ##	opposing transitive is missing. In comparing both ways to compute it, first
 ##	transitive and then inverting is shorter than twice inverting and then using
 ##	the transitive.
-InstallMethod( VerticesByFaces, 
-	[IsSimplicialSurface and HasEdgesByVertices and
-								HasFacesByEdges ],
+InstallMethod( FacesOfVertices, 
+	[IsSimplicialSurface and HasVerticesOfEdges and
+								HasEdgesOfFaces ],
 	function( simpsurf )
-		if HasFacesByVertices(simpsurf) then
+		if HasVerticesOfFaces(simpsurf) then
 			TryNextMethod();
 		else
-			FacesByVertices(simpsurf);
-			return VerticesByFaces( simpsurf );
+			VerticesOfFaces(simpsurf);
+			return FacesOfVertices( simpsurf );
 		fi;
 	end
 );
-InstallMethod( FacesByVertices, 
-	[IsSimplicialSurface and HasVerticesByEdges and
-								HasEdgesByFaces ],
+InstallMethod( VerticesOfFaces, 
+	[IsSimplicialSurface and HasEdgesOfVertices and
+								HasFacesOfEdges ],
 	function( simpsurf )
-		if HasVerticesByFaces( simpsurf ) then
+		if HasFacesOfVertices( simpsurf ) then
 			TryNextMethod();
 		else
-			VerticesByFaces( simpsurf );
-			return FacesByVertices(simpsurf);
+			FacesOfVertices( simpsurf );
+			return VerticesOfFaces(simpsurf);
 		fi;
 	end
 );
 ##
 ##	If the two incidences don't go in the same direction, things become more
-##	complicated. Assume FacesByEdges and VerticesByEdges. We get the inverses
-##	directly but we are missing FacesByVertices and VerticesByFaces. To get
+##	complicated. Assume EdgesOfFaces and EdgesOfVertices. We get the inverses
+##	directly but we are missing VerticesOfFaces and FacesOfVertices. To get
 ##	those we first have to invert one of them and then use transitive.
-InstallMethod( VerticesByFaces, 
-	[IsSimplicialSurface and HasFacesByEdges and
-							HasVerticesByEdges ],
+InstallMethod( FacesOfVertices, 
+	[IsSimplicialSurface and HasEdgesOfFaces and
+							HasEdgesOfVertices ],
 	function( simpsurf )
-		if HasEdgesByFaces( simpsurf ) then
+		if HasFacesOfEdges( simpsurf ) then
 			TryNextMethod();
 		else
-			EdgesByFaces( simpsurf );
-			return VerticesByFaces( simpsurf );
+			FacesOfEdges( simpsurf );
+			return FacesOfVertices( simpsurf );
 		fi;
 	end
 );
-InstallMethod( FacesByVertices, 
-	[IsSimplicialSurface and HasFacesByEdges and
-							HasVerticesByEdges ],
+InstallMethod( VerticesOfFaces, 
+	[IsSimplicialSurface and HasEdgesOfFaces and
+							HasEdgesOfVertices ],
 	function( simpsurf )
-		if HasEdgesByVertices( simpsurf ) then
+		if HasVerticesOfEdges( simpsurf ) then
 			TryNextMethod();
 		else
-			EdgesByVertices( simpsurf );
-			return FacesByVertices(simpsurf);
+			VerticesOfEdges( simpsurf );
+			return VerticesOfFaces(simpsurf);
 		fi;
 	end
 );
-##	case EdgesByFaces and EdgesByVertices is similar
-InstallMethod( VerticesByFaces, 
-	[IsSimplicialSurface and HasEdgesByFaces and
-							HasEdgesByVertices ],
+##	case FacesOfEdges and VerticesOfEdges is similar
+InstallMethod( FacesOfVertices, 
+	[IsSimplicialSurface and HasFacesOfEdges and
+							HasVerticesOfEdges ],
 	function( simpsurf )
-		if HasVerticesByEdges( simpsurf ) then
+		if HasEdgesOfVertices( simpsurf ) then
 			TryNextMethod();
 		else
-			VerticesByEdges( simpsurf );
-			return VerticesByFaces( simpsurf );
+			EdgesOfVertices( simpsurf );
+			return FacesOfVertices( simpsurf );
 		fi;
 	end
 );
-InstallMethod( FacesByVertices, 
-	[IsSimplicialSurface and HasEdgesByFaces and
-							HasEdgesByVertices ],
+InstallMethod( VerticesOfFaces, 
+	[IsSimplicialSurface and HasFacesOfEdges and
+							HasVerticesOfEdges ],
 	function( simpsurf )
-		if HasFacesByEdges( simpsurf ) then
+		if HasEdgesOfFaces( simpsurf ) then
 			TryNextMethod();
 		else
-			FacesByEdges( simpsurf );
-			return FacesByVertices(simpsurf);
+			EdgesOfFaces( simpsurf );
+			return VerticesOfFaces(simpsurf);
 		fi;
 	end
 );
@@ -1554,14 +1554,14 @@ InstallMethod( FacesByVertices,
 ##	Sometimes we can derive information from the local orientation. Since these
 ##	are very fast methods we give them a boost in the method selection.
 ##
-InstallMethod( FacesByEdges, 
+InstallMethod( EdgesOfFaces, 
 	[IsSimplicialSurface and 
 			HasLocalOrientationByEdgesAsList], 10,
 	function( surf )
 		return List( LocalOrientationByEdgesAsList(surf), i -> Set(i) );
 	end
 );
-InstallMethod( FacesByVertices, 
+InstallMethod( VerticesOfFaces, 
 	[IsSimplicialSurface and 
 			HasLocalOrientationByVerticesAsList],10,
 	function( surf )
@@ -1569,77 +1569,77 @@ InstallMethod( FacesByVertices,
 	end
 );
 ##
-##	We can now also write alternative code for the methods where facesByEdges
-##	and facesByVertices were preconditions. We start with the case facesByEdges.
+##	We can now also write alternative code for the methods where edgesOfFaces
+##	and verticesOfFaces were preconditions. We start with the case edgesOfFaces.
 ##
-InstallMethod( EdgesByFaces, 
+InstallMethod( FacesOfEdges, 
 	[IsSimplicialSurface and 
 			HasLocalOrientationByEdgesAsList ],
 	function( simpsurf )
-		if HasFacesByEdges(simpsurf) then
+		if HasEdgesOfFaces(simpsurf) then
 			TryNextMethod();
 		else
-			FacesByEdges(simpsurf);
-			return EdgesByFaces(simpsurf);
+			EdgesOfFaces(simpsurf);
+			return FacesOfEdges(simpsurf);
 		fi;
 	end
 );
-InstallMethod( FacesByVertices, 
+InstallMethod( VerticesOfFaces, 
 	[IsSimplicialSurface and 
 			HasLocalOrientationByEdgesAsList and
-							HasEdgesByVertices ],
+							HasVerticesOfEdges ],
 	function( simpsurf )
-		if HasFacesByEdges(simpsurf) then
+		if HasEdgesOfFaces(simpsurf) then
 			TryNextMethod();
 		else
-			FacesByEdges(simpsurf);
-			return FacesByVertices(simpsurf);
+			EdgesOfFaces(simpsurf);
+			return VerticesOfFaces(simpsurf);
 		fi;
 	end
 );
-InstallMethod( VerticesByFaces, 
-	[IsSimplicialSurface and HasEdgesByVertices and
+InstallMethod( FacesOfVertices, 
+	[IsSimplicialSurface and HasVerticesOfEdges and
 			HasLocalOrientationByEdgesAsList ],
 	function( simpsurf )
-		if HasFacesByEdges(simpsurf) then
+		if HasEdgesOfFaces(simpsurf) then
 			TryNextMethod();
 		else
-			FacesByEdges(simpsurf);
-			return VerticesByFaces( simpsurf );
+			EdgesOfFaces(simpsurf);
+			return FacesOfVertices( simpsurf );
 		fi;
 	end
 );
-InstallMethod( VerticesByFaces, 
+InstallMethod( FacesOfVertices, 
 	[IsSimplicialSurface and 
 			HasLocalOrientationByEdgesAsList and
-							HasVerticesByEdges ],
+							HasEdgesOfVertices ],
 	function( simpsurf )
-		if HasFacesByEdges( simpsurf ) then
+		if HasEdgesOfFaces( simpsurf ) then
 			TryNextMethod();
 		else
-			FacesByEdges( simpsurf );
-			return VerticesByFaces( simpsurf );
+			EdgesOfFaces( simpsurf );
+			return FacesOfVertices( simpsurf );
 		fi;
 	end
 );
-InstallMethod( FacesByVertices, 
+InstallMethod( VerticesOfFaces, 
 	[IsSimplicialSurface and 
 			HasLocalOrientationByEdgesAsList and
-							HasVerticesByEdges ],
+							HasEdgesOfVertices ],
 	function( simpsurf )
-		if HasFacesByEdges( simpsurf ) then
+		if HasEdgesOfFaces( simpsurf ) then
 			TryNextMethod();
 		else
-			FacesByEdges( simpsurf );
-			return FacesByVertices(simpsurf);
+			EdgesOfFaces( simpsurf );
+			return VerticesOfFaces(simpsurf);
 		fi;
 	end
 );
 ##
-##	Next we write the same methods with facesByVertices as condition (which
+##	Next we write the same methods with verticesOfFaces as condition (which
 ##	is only one).
 ##
-InstallMethod( VerticesByFaces, 
+InstallMethod( FacesOfVertices, 
 	[IsSimplicialSurface and 
 			HasLocalOrientationByVerticesAsList ],
 	function( simpsurf )
@@ -1647,8 +1647,8 @@ InstallMethod( VerticesByFaces,
 															simpsurf ) then
 			TryNextMethod();
 		else
-			FacesByVertices( simpsurf );
-			return VerticesByFaces(simpsurf);
+			VerticesOfFaces( simpsurf );
+			return FacesOfVertices(simpsurf);
 		fi;
 	end
 );
@@ -1697,10 +1697,10 @@ InstallMethod( EulerCharacteristic,
 InstallMethod( UnsortedDegrees, 
 	"for a simplicial surface",	[IsSimplicialSurface],
 	function(simpsurf)
-		local verticesByFaces;
+		local facesOfVertices;
 
-		verticesByFaces := VerticesByFaces( simpsurf );
-		return List( verticesByFaces, i->Length(i) );
+		facesOfVertices := FacesOfVertices( simpsurf );
+		return List( facesOfVertices, i->Length(i) );
 	end
 );
 
@@ -1736,12 +1736,12 @@ InstallMethod( SortedDegrees,
 InstallMethod( VertexSymbol, 
 	"for a simplicial surface",	[IsSimplicialSurface],
 	function(simpsurf)
-		local verticesByEdges, vertex, symbol, degree;
+		local edgesOfVertices, vertex, symbol, degree;
 
-		verticesByEdges := VerticesByEdges( simpsurf );
+		edgesOfVertices := EdgesOfVertices( simpsurf );
 		symbol := [];
 		for vertex in Vertices( simpsurf ) do
-			degree := Length( verticesByEdges[vertex] );
+			degree := Length( edgesOfVertices[vertex] );
 			if IsBound( symbol[degree] ) then
 				symbol[degree] := symbol[degree] + 1;
 			else
@@ -1766,17 +1766,17 @@ InstallMethod( FaceAnomalyClasses,
 	"for a simplicial surface",
 	[IsSimplicialSurface],
 	function(simpsurf)
-		local facesByVertices, classes, i, found, cl, j;
+		local verticesOfFaces, classes, i, found, cl, j;
 
-		facesByVertices := FacesByVertices(simpsurf);
+		verticesOfFaces := VerticesOfFaces(simpsurf);
 		classes := [];
 
 		for i in [1..NrOfFaces(simpsurf)] do
 			found := false;
 			for j in [1..Length(classes)] do
 				cl := classes[j];
-				if Set( facesByVertices[i] ) 
-							= Set( facesByVertices[ cl[1] ] ) then
+				if Set( verticesOfFaces[i] ) 
+							= Set( verticesOfFaces[ cl[1] ] ) then
 					classes[j] := Union( cl, [i] );
 					found := true;
 					break;
@@ -1804,7 +1804,7 @@ InstallMethod( IsActualSurface, "for a simplicial surface",
 		local face, edgeByFaces, check;
 
 		check := true;
-		edgeByFaces := EdgesByFaces( simpsurf );
+		edgeByFaces := FacesOfEdges( simpsurf );
 		check := Filtered( edgeByFaces, i -> Length(i) > 2 );
 	
 		return IsEmpty(check);
@@ -1822,11 +1822,11 @@ InstallMethod( IsActualSurface, "for a simplicial surface",
 InstallMethod( IsTriangleSurface, "for a simplicial surface",
 	[IsSimplicialSurface],
 	function( simpsurf )
-		local face, facesByEdges, check;
+		local face, edgesOfFaces, check;
 
 		check := true;
-		facesByEdges := FacesByEdges( simpsurf );
-		check := Filtered( facesByEdges, i -> Length(i) <> 3 );
+		edgesOfFaces := EdgesOfFaces( simpsurf );
+		check := Filtered( edgesOfFaces, i -> Length(i) <> 3 );
 	
 		return IsEmpty(check);
 	end
@@ -1843,11 +1843,11 @@ InstallMethod( IsTriangleSurface, "for a simplicial surface",
 InstallMethod( IsClosedSurface, "for a simplicial surface",
 	[IsSimplicialSurface and IsActualSurface],
 	function( simpsurf )
-		local edgesByFaces, check;
+		local facesOfEdges, check;
 
 		check := true;
-		edgesByFaces := EdgesByFaces( simpsurf );
-		check := Filtered( edgesByFaces, i -> Length(i) <> 2 );
+		facesOfEdges := FacesOfEdges( simpsurf );
+		check := Filtered( facesOfEdges, i -> Length(i) <> 2 );
 	
 		return IsEmpty(check);
 	end
@@ -1875,7 +1875,7 @@ InstallMethod( IsConnected, "for a simplicial surface",
 		# For the implementation we start with the list of all faces and
 		# remove those that lie in the connected component.
 
-		faceList := FacesByVertices(simpsurf);
+		faceList := VerticesOfFaces(simpsurf);
 		# we start with all faces except the first one
 		faces := Faces(simpsurf){ [2..NrOfFaces(simpsurf)] };
 		# the algorithm starts with the vertices of the first face
@@ -1927,12 +1927,12 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 		# if they induce opposite orientations on the edge between them (you
 		# can see this quite easily if you draw a picture). In this method we
 		# use this fact to construct an orientation for the complete surface.
-		local edgesByFaces, facesByVertices, orientList, i, hole, edge,
+		local facesOfEdges, verticesOfFaces, orientList, i, hole, edge,
 			 facesToCheck, checkedFaces, CompatibleOrientation, orient1,
 			 orient2, orientable, face, neighbours, next;
 
-		edgesByFaces := EdgesByFaces(simpsurf);
-		facesByVertices := FacesByVertices(simpsurf);
+		facesOfEdges := FacesOfEdges(simpsurf);
+		verticesOfFaces := VerticesOfFaces(simpsurf);
 
 		# Method to check if the orientation of a face is induced by that of
 		# one of its edges
@@ -1974,9 +1974,9 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 				face := facesToCheck[1];
 
 				# For each face we check the transitions over all edges
-				for edge in FacesByEdges(simpsurf)[face] do
+				for edge in EdgesOfFaces(simpsurf)[face] do
 					# This should be unique (inner edge) or empty (border edge)
-					neighbours := Difference( edgesByFaces[edge], [face] );
+					neighbours := Difference( facesOfEdges[edge], [face] );
 					if Size( neighbours ) > 1 then
 						Error( "IsOrientable[generic]: Not a proper surface.");
 					elif Size( neighbours ) = 0 then
@@ -1992,14 +1992,14 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 					orient1 := 0;
 					orient2 := 0;
 					# Check how these two faces act on the edge
-					if CompatibleOrientation( EdgesByVertices(simpsurf)[edge],
+					if CompatibleOrientation( VerticesOfEdges(simpsurf)[edge],
 									LocalOrientation(simpsurf)[face] ) then
 						orient1 := 1;
 					else
 						orient1 := -1;
 					fi;
 	
-					if CompatibleOrientation( EdgesByVertices(simpsurf)[edge], 
+					if CompatibleOrientation( VerticesOfEdges(simpsurf)[edge], 
 									LocalOrientation(simpsurf)[next] ) then
 						orient2 := 1;
 					else
@@ -2056,7 +2056,7 @@ RedispatchOnCondition( IsOrientable, true, [IsSimplicialSurface],
 InstallMethod( SubsurfaceByFaces, "for a simplicial surface",
 	[IsSimplicialSurface, IsSet],
 	function(simpsurf, subfaces)
-		local subVertices, subEdges, newEdgesByVertices, newFacesByEdges, e, f;
+		local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f;
 
 		if not IsSubset( Faces(simpsurf), subfaces ) then
 			Error("SubsurfaceByFaces: there are not only faces given.");
@@ -2070,24 +2070,24 @@ RedispatchOnCondition( SubsurfaceByFaces, true, [IsSimplicialSurface, IsList],
 InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
 	[IsSimplicialSurface, IsSet],
 	function(simpsurf, subfaces)
-		local subVertices, subEdges, newEdgesByVertices, newFacesByEdges, e, f;
+		local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f;
 
-		subEdges := Union( List( subfaces, f -> FacesByEdges(simpsurf)[f] ));
+		subEdges := Union( List( subfaces, f -> EdgesOfFaces(simpsurf)[f] ));
 		subVertices := Union( List( subEdges, e -> 
-											EdgesByVertices(simpsurf)[e] ) );
+											VerticesOfEdges(simpsurf)[e] ) );
 
-		newEdgesByVertices := [];
+		newVerticesOfEdges := [];
 		for e in subEdges do
-			newEdgesByVertices[e] := EdgesByVertices(simpsurf)[e];
+			newVerticesOfEdges[e] := VerticesOfEdges(simpsurf)[e];
 		od;
 
-		newFacesByEdges := [];
+		newEdgesOfFaces := [];
 		for f in subfaces do
-			newFacesByEdges[f] := FacesByEdges(simpsurf)[f];
+			newEdgesOfFaces[f] := EdgesOfFaces(simpsurf)[f];
 		od;
 
 		return SimplicialSurfaceByDownwardIncidenceNC( subVertices, subEdges,
-			subfaces, newEdgesByVertices, newFacesByEdges );
+			subfaces, newVerticesOfEdges, newEdgesOfFaces );
 	end
 );
 RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsSimplicialSurface, IsList],
@@ -2105,7 +2105,7 @@ InstallMethod( ConnectedComponentOfFaceNC, "for a simplicial surface",
 	function(simpsurf, f)
 		local faceList, faces, points, comp, change, faceNr, subsurf;
 
-		faceList := FacesByVertices(simpsurf);
+		faceList := VerticesOfFaces(simpsurf);
 		# Take care to not modify the real list of faces
 		faces := Difference( Faces(simpsurf), [f] );
 		points := faceList[f];
@@ -2242,7 +2242,7 @@ InstallMethod( SnippOffEars, "for a simplicial surface",
 			return simpsurf;
 		fi;
 
-		facesToRemove := Union( List( ears, i->VerticesByFaces(simpsurf)[i]) );
+		facesToRemove := Union( List( ears, i->FacesOfVertices(simpsurf)[i]) );
 		remainingFaces := Difference( Faces(simpsurf), facesToRemove );
 		newSurface := SubsurfaceByFacesNC( simpsurf, remainingFaces );
 	
@@ -2419,14 +2419,14 @@ InstallMethod( IncidenceGraph,
 		colours := [vertices,edges, faces];
 		incidence := function(x,y)
 			if x[1] = 0 and y[1] = 1 then
-				return x[2] in EdgesByVertices(simpsurf)[y[2]];
+				return x[2] in VerticesOfEdges(simpsurf)[y[2]];
 			elif x[1] = 1 and y[1] = 0 then
-				return y[2] in EdgesByVertices(simpsurf)[x[2]];
+				return y[2] in VerticesOfEdges(simpsurf)[x[2]];
 
 			elif x[1] = 1 and y[1] = 2 then
-				return x[2] in FacesByEdges(simpsurf)[y[2]];
+				return x[2] in EdgesOfFaces(simpsurf)[y[2]];
 			elif x[1] = 2 and y[1] = 1 then
-				return y[2] in FacesByEdges(simpsurf)[x[2]];
+				return y[2] in EdgesOfFaces(simpsurf)[x[2]];
 
 			else
 				return false;

@@ -17,4 +17,4 @@ Read( "test.g" );
 			return Set(vertexSet);
 		end;
 
-#FacesByEdges
+#EdgesOfFaces

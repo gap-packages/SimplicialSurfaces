@@ -295,8 +295,8 @@ InstallMethod( IsApplicableFoldingPlanNCWellDefined,
 		# map are complementary with respect to each fan in which they both
 		# are present
 		quotSurf := QuotientSimplicialSurface(colSurf);
-		edgeNrs1 := FacesByEdges(quotSurf)[faceNr1];
-		edgeNrs2 := FacesByEdges(quotSurf)[faceNr2];
+		edgeNrs1 := EdgesOfFaces(quotSurf)[faceNr1];
+		edgeNrs2 := EdgesOfFaces(quotSurf)[faceNr2];
 
 		for edgeNr in Intersection(edgeNrs1, edgeNrs2 ) do
 			if orFace2 <> ComplementaryOrientedFace(complex,edgeNr,orFace1) then

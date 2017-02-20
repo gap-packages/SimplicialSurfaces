@@ -223,18 +223,18 @@ InstallMethod( IsWellDefinedIdentification,
 
 		# Now we check the compatibility with the incidence relation
 		faceSource := AsList( Source( FaceMap(id) ) )[1];
-		if Source( VertexMap(id) ) <> FacesByVertices(surface)[faceSource] then
+		if Source( VertexMap(id) ) <> VerticesOfFaces(surface)[faceSource] then
 			return false;
 		fi;
-		if Source( EdgeMap(id) ) <> FacesByEdges(surface)[faceSource] then
+		if Source( EdgeMap(id) ) <> EdgesOfFaces(surface)[faceSource] then
 			return false;
 		fi;
 
 		faceRange := AsList( Range( FaceMap(id) ) )[1];
-		if Range( VertexMap(id) ) <> FacesByVertices(surface)[faceRange] then
+		if Range( VertexMap(id) ) <> VerticesOfFaces(surface)[faceRange] then
 			return false;
 		fi;
-		if Range( EdgeMap(id) ) <> FacesByEdges(surface)[faceRange] then
+		if Range( EdgeMap(id) ) <> EdgesOfFaces(surface)[faceRange] then
 			return false;
 		fi;
 
@@ -337,7 +337,7 @@ InstallMethod( IsApplicableExtensionNCIntersection,
 				vertexClasses := Set( List( [ vertex, ImageElm(vMap,vertex)], 
 						v -> VertexEquivalenceNumbersByElements(surface)[v] ) );
 				for edge in Edges( quot ) do
-					if vertexClasses = EdgesByVertices(quot)[edge] then
+					if vertexClasses = VerticesOfEdges(quot)[edge] then
 						return false;
 					fi;
 				od;
@@ -462,8 +462,8 @@ InstallMethod( NeighbourIdentification,
 		if not face1 in Faces(surface) or not face2 in Faces(surface) then
 			Error("NeighbourIdentification: The given faces have to be faces of the given simplicial surface.");			
 		fi;
-		if Length( FacesByVertices(surface)[face1] ) <> 
-							Length( FacesByVertices(surface)[face2] ) then
+		if Length( VerticesOfFaces(surface)[face1] ) <> 
+							Length( VerticesOfFaces(surface)[face2] ) then
 			Error("NeighbourIdentification: The given faces have to contain the same number of vertices.");
 		fi;
 
@@ -478,8 +478,8 @@ InstallMethod( NeighbourIdentificationNC,
 			edgeList, edge, vertexImages, possEdge, edgeMap, faceMap, v,
 			vertexStart, vertexStop, perm1, perm2, newVert1, newVert2, i;
 
-		commonVertices := Intersection( FacesByVertices(surface)[face1], 
-										FacesByVertices(surface)[face2] );
+		commonVertices := Intersection( VerticesOfFaces(surface)[face1], 
+										VerticesOfFaces(surface)[face2] );
 
 		# We have to find two vertices that are adjacent
 		vertexStart := -1;
@@ -507,7 +507,7 @@ InstallMethod( NeighbourIdentificationNC,
 			
 		vertexList := [ DirectProductElement([vertexStart,vertexStart]), 
 							DirectProductElement([vertexStop,vertexStop]) ];
-		for i in [2..Length( FacesByVertices(surface)[face1] )] do
+		for i in [2..Length( VerticesOfFaces(surface)[face1] )] do
 			newVert1 := vertexStart^(perm1^i);
 			newVert2 := vertexStart^(perm2^i);
 			if newVert1 in commonVertices and newVert1 <> newVert2 then
@@ -516,26 +516,26 @@ InstallMethod( NeighbourIdentificationNC,
 			Append( vertexList, [ DirectProductElement([newVert1,newVert2]) ] );
 		od;
 		vertexMap := GeneralMappingByElements( 
-				Domain( FacesByVertices(surface)[face1] ),
-				Domain( FacesByVertices(surface)[face2] ),
+				Domain( VerticesOfFaces(surface)[face1] ),
+				Domain( VerticesOfFaces(surface)[face2] ),
 				vertexList );
 
 
 		# Construct the edge map
 		edgeList := [];
-		for edge in FacesByEdges(surface)[face1] do
-			vertexImages := Set( List( EdgesByVertices(surface)[edge], 
+		for edge in EdgesOfFaces(surface)[face1] do
+			vertexImages := Set( List( VerticesOfEdges(surface)[edge], 
 											v -> ImageElm( vertexMap, v ) ) );
-			for possEdge in FacesByEdges(surface)[face2] do
-				if vertexImages = Set( EdgesByVertices(surface)[possEdge] ) then
+			for possEdge in EdgesOfFaces(surface)[face2] do
+				if vertexImages = Set( VerticesOfEdges(surface)[possEdge] ) then
 					Append(edgeList, 
 						[ DirectProductElement( [edge, possEdge] ) ] );
 				fi;
 			od;
 		od;
 		edgeMap := GeneralMappingByElements( 
-				Domain( FacesByEdges(surface)[face1] ),
-				Domain( FacesByEdges(surface)[face2] ),
+				Domain( EdgesOfFaces(surface)[face1] ),
+				Domain( EdgesOfFaces(surface)[face2] ),
 				edgeList );
 
 		
@@ -583,14 +583,14 @@ InstallOtherMethod( NeighbourIdentificationNC,
 		# Construct the vertices by composing with the bijections that we
 		# get if we map a vertex onto its equivalence class
 		vertexMap1 := MappingByFunction( 
-				Domain( FacesByVertices(uSurf)[face1] ),
-				Domain( FacesByVertices(quotSurf)[faceClass1] ),
+				Domain( VerticesOfFaces(uSurf)[face1] ),
+				Domain( VerticesOfFaces(quotSurf)[faceClass1] ),
 				function( x )
 					return VertexEquivalenceNumberOfElement(surface, x);
 				end );
 		vertexMap2 := MappingByFunction( 
-				Domain( FacesByVertices(uSurf)[face2] ),
-				Domain( FacesByVertices(quotSurf)[faceClass2] ),
+				Domain( VerticesOfFaces(uSurf)[face2] ),
+				Domain( VerticesOfFaces(quotSurf)[faceClass2] ),
 				function( x )
 					return VertexEquivalenceNumberOfElement(surface, x);
 				end );
@@ -599,14 +599,14 @@ InstallOtherMethod( NeighbourIdentificationNC,
 
 		# Construct the edges in the same way
 		edgeMap1 := MappingByFunction( 
-				Domain( FacesByEdges(uSurf)[face1] ),
-				Domain( FacesByEdges(quotSurf)[faceClass1] ),
+				Domain( EdgesOfFaces(uSurf)[face1] ),
+				Domain( EdgesOfFaces(quotSurf)[faceClass1] ),
 				function( x )
 					return EdgeEquivalenceNumberOfElement(surface, x);
 				end );
 		edgeMap2 := MappingByFunction( 
-				Domain( FacesByEdges(uSurf)[face2] ),
-				Domain( FacesByEdges(quotSurf)[faceClass2] ),
+				Domain( EdgesOfFaces(uSurf)[face2] ),
+				Domain( EdgesOfFaces(quotSurf)[faceClass2] ),
 				function( x )
 					return EdgeEquivalenceNumberOfElement(surface, x);
 				end );

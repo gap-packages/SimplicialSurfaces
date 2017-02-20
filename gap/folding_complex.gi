@@ -47,7 +47,7 @@ __SIMPLICIAL_RecognizeBorderPieces := function( complex, faceEqNr )
 
 	colSurf := UnderlyingColouredSimplicialSurface( complex );
 	faceClass := FaceEquivalenceClassByNumber( colSurf, faceEqNr );
-	edgeClassNrs := FacesByEdges(QuotientSimplicialSurface(colSurf))[faceEqNr];
+	edgeClassNrs := EdgesOfFaces(QuotientSimplicialSurface(colSurf))[faceEqNr];
 
 	recBorders := [];
 	for edgeNr in edgeClassNrs do
@@ -412,7 +412,7 @@ InstallMethod( FoldingComplexByFansAndBorders,
 		# We have to check this for each adjacent edge class
 		# TODO This test is usually redundant, compare remark 3.28
 		quotSurf := QuotientSimplicialSurface( surface );
-		edgeClasses := Union( List( faceCheck, f -> FacesByEdges(quotSurf)[f] ) );
+		edgeClasses := Union( List( faceCheck, f -> EdgesOfFaces(quotSurf)[f] ) );
 		for edgeClass in edgeClasses do
 			if not __SIMPLICIAL_AreBorderPiecesComplementary( complex, edgeClass ) then
 				Error("FoldingComplexByFansAndBorders: Given border pieces are not complementary with respect to the given fans.");
@@ -466,8 +466,8 @@ InstallMethod( OrientationCovering,
 	[IsFoldingComplex],
 	function( complex )
 		local colSurf, quotSurf, newVertices, newEdges, newFaces, ComplFaces,
-				VertexOrbits, facesByEdges, face, faceNr, edge, edgeNr,
-				edgesByVertices, vertex, vertexNr, surface;
+				VertexOrbits, edgesOfFaces, face, faceNr, edge, edgeNr,
+				verticesOfEdges, vertex, vertexNr, surface;
 
 		colSurf := UnderlyingColouredSimplicialSurface(complex);
 		quotSurf := QuotientSimplicialSurface(colSurf);
@@ -487,7 +487,7 @@ InstallMethod( OrientationCovering,
 			local adFaces, complBorders;
 
 			# Find the adjacent face classes
-			adFaces := EdgesByFaces(quotSurf)[edgeNr];
+			adFaces := FacesOfEdges(quotSurf)[edgeNr];
 			complBorders := List( adFaces, f -> 
 								List( BorderPieces(complex)[f], b -> 
 									[edgeNr, Set([ b, 
@@ -506,15 +506,15 @@ InstallMethod( OrientationCovering,
 		VertexOrbits := function( vertexNr )
 			local Action, edges, freeGrp, orFaces, gens, orbs;
 
-			edges := VerticesByEdges(quotSurf)[vertexNr];
+			edges := EdgesOfVertices(quotSurf)[vertexNr];
 			orFaces := Filtered( newFaces, f -> 
-								vertexNr in FacesByVertices(quotSurf)[f[1]] );
+								vertexNr in VerticesOfFaces(quotSurf)[f[1]] );
 
 			Action := function( face, edge )
 				local newFace, newBorder;
 
 				# if the edge does not lie in the face, it acts trivial
-				if not edge in FacesByEdges(quotSurf)[face[1]] then
+				if not edge in EdgesOfFaces(quotSurf)[face[1]] then
 					return face;
 				fi;
 
@@ -543,28 +543,28 @@ InstallMethod( OrientationCovering,
 
 		# To construct a simplicial surface we have to define the incidence
 		# relation. We will do so by downwards incidence.
-		facesByEdges := List( [1..Length(newFaces)], i -> [] );
+		edgesOfFaces := List( [1..Length(newFaces)], i -> [] );
 		for faceNr in [1..Length(newFaces)] do
 			face := newFaces[faceNr];
 			for edgeNr in [1..Length(newEdges)] do
 				edge := newEdges[edgeNr];
 
-				if edge[1] in FacesByEdges(quotSurf)[face[1]] 
+				if edge[1] in EdgesOfFaces(quotSurf)[face[1]] 
 						and face[2] in edge[2] then
-					Append( facesByEdges[faceNr], [edgeNr] );
+					Append( edgesOfFaces[faceNr], [edgeNr] );
 				fi;
 			od;
 		od;
 		
-		edgesByVertices := List( [1..Length(newEdges)], i -> [] );
+		verticesOfEdges := List( [1..Length(newEdges)], i -> [] );
 		for edgeNr in [1..Length(newEdges)] do
 			edge := newEdges[edgeNr];
 			for vertexNr in [1..Length(newVertices)] do
 				vertex := newVertices[vertexNr];
 
-				if vertex[1] in EdgesByVertices(quotSurf)[edge[1]] 
+				if vertex[1] in VerticesOfEdges(quotSurf)[edge[1]] 
 						and IsSubset( vertex[2], edge[2] ) then
-					Append( edgesByVertices[edgeNr], [vertexNr] );
+					Append( verticesOfEdges[edgeNr], [vertexNr] );
 				fi;
 			od;
 		od;
@@ -572,7 +572,7 @@ InstallMethod( OrientationCovering,
 		# TODO make this a NC-call (after debugging)
 		return SimplicialSurfaceByDownwardIncidence( [1..Length(newVertices)], 
 								[1..Length(newEdges)], [1..Length(newFaces)], 
-											edgesByVertices, facesByEdges );
+											verticesOfEdges, edgesOfFaces );
 	end
 );
 

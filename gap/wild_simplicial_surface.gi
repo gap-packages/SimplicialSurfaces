@@ -138,10 +138,10 @@ InstallMethod( Faces,
 #!	with holes and at the position of each vertex-number is a set of
 #!	all edges that are incident to that vertex. All other positions are
 #!	unbounded.
-#!	Either this method or EdgesByVertices is basic.
+#!	Either this method or VerticesOfEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-InstallMethod( VerticesByEdges, 
+InstallMethod( EdgesOfVertices, 
 	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO
@@ -153,10 +153,10 @@ InstallMethod( VerticesByEdges,
 #!	with holes and at the position of each face-number is a set of
 #!	all edges that are incident to that face. All other positions are
 #!	unbounded.
-#!	Either this method or EdgesByFaces is basic.
+#!	Either this method or FacesOfEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-InstallMethod( FacesByEdges, 
+InstallMethod( EdgesOfFaces, 
 	"for wild simplicial surfaces", [IsWildSimplicialSurfaceRep],
 	function( simpsurf )
 		#TODO

@@ -97,7 +97,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 			Error("SimplicialSurfaceFanByEdgeInSimplicialSurface: Given edge has to lie in given surface.");
 		fi;
 
-		faces := EdgesByFaces(surface)[edge];
+		faces := FacesOfEdges(surface)[edge];
 		if Size(faces) = 1 then
 			perm := ();
 		elif Size(faces) = 2 then
@@ -106,7 +106,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInSimplicialSurface,
 			Error("SimplicialSurfaceFanByEdgeInSimplicialSurface: There have to be at most two faces incident to the given edge.");
 		fi;
 
-		vertices := EdgesByVertices(surface)[edge];
+		vertices := VerticesOfEdges(surface)[edge];
 
 		return SimplicialSurfaceFanNC( vertices[1], vertices[2], perm:
 															Corona := faces);
@@ -132,7 +132,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInColouredSimplicialSurface,
 		fi;
 
 		faces := List( EdgeEquivalenceClassByNumberNC(surface,edge), e ->
-						EdgesByFaces(UnderlyingSimplicialSurface(surface))[e] );
+						FacesOfEdges(UnderlyingSimplicialSurface(surface))[e] );
 		faces := Union( faces );
 		if Size(faces) = 1 then
 			perm := ();
@@ -142,7 +142,7 @@ InstallMethod( SimplicialSurfaceFanByEdgeInColouredSimplicialSurface,
 			Error("SimplicialSurfaceFanByEdgeInColouredSimplicialSurface: There have to be at most two faces incident to the given edge equivalence class.");
 		fi;
 
-		vertices := EdgesByVertices(QuotientSimplicialSurface(surface))[edge];
+		vertices := VerticesOfEdges(QuotientSimplicialSurface(surface))[edge];
 
 		return SimplicialSurfaceFanNC( vertices[1], vertices[2], perm:
 															Corona := faces);
@@ -262,10 +262,10 @@ InstallMethod( EdgeForFanOfSimplicialSurface,
 	"for a simplicial surface and a simplicial surface fan", 
 	[IsSimplicialSurface, IsSimplicialSurfaceFan],
 	function( surface, fan )
-		local edges, edgesByVertices, e;
+		local edges, verticesOfEdges, e;
 
 		edges := Edges(surface);
-		edgesByVertices := EdgesByVertices(surface);
+		verticesOfEdges := VerticesOfEdges(surface);
 		for e in edges do
 			if IsEdgeForFanOfSimplicialSurface( surface, fan, e ) then
 				return e;
@@ -288,11 +288,11 @@ InstallMethod( IsEdgeForFanOfSimplicialSurface,
 	"for a simplicial surface, a simplicial surface fan and an edge number", 
 	[IsSimplicialSurface, IsSimplicialSurfaceFan, IsPosInt],
 	function( surface, fan, edge )
-		local edgesByVertices, e;
+		local verticesOfEdges, e;
 
-		edgesByVertices := EdgesByVertices(surface);
-		return edgesByVertices[edge] = Set( [BeginOfFan(fan), EndOfFan(fan)] )
-			and EdgesByFaces(surface)[edge] = CoronaOfFan(fan);
+		verticesOfEdges := VerticesOfEdges(surface);
+		return verticesOfEdges[edge] = Set( [BeginOfFan(fan), EndOfFan(fan)] )
+			and FacesOfEdges(surface)[edge] = CoronaOfFan(fan);
 	end
 );
 
@@ -314,7 +314,7 @@ InstallMethod( EdgeEquivalenceNumberForFanOfColouredSimplicialSurface,
 		# Check all edge classes
 		quot := QuotientSimplicialSurface( surface );
 		edgeClassNr := Edges( quot );
-		edgeByVertexClass := EdgesByVertices( quot );
+		edgeByVertexClass := VerticesOfEdges( quot );
 
 		for edgeNr in edgeClassNr do
 			if IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface(
@@ -344,14 +344,14 @@ InstallMethod( IsEdgeEquivalenceNumberForFanOfColouredSimplicialSurface,
 
 		# Check all edge classes
 		quot := QuotientSimplicialSurface( surface );
-		edgeByVertexClass := EdgesByVertices( quot );
+		edgeByVertexClass := VerticesOfEdges( quot );
 
 		if edgeByVertexClass[edgeClassNr] = 
 					Set( [BeginOfFan(fan), EndOfFan(fan)] ) then
 			# Check corona
 			allEdges := EdgeEquivalenceClassesByNumbers(surface)[edgeClassNr];
 			faces := List( allEdges, e -> 
-				EdgesByFaces( UnderlyingSimplicialSurface( surface ) )[e] );
+				FacesOfEdges( UnderlyingSimplicialSurface( surface ) )[e] );
 			if Union( faces ) = CoronaOfFan(fan) then
 				return true;
 			fi;

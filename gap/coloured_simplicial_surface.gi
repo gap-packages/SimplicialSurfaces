@@ -435,7 +435,7 @@ InstallMethod( VertexBindingRelationOp,
 		# edges as well)
 		vertexClass := VertexEquivalenceClassesByNumbers( complex )[ name ];
 		edgeClassForVertex := List( vertexClass, v -> 
-			List( VerticesByEdges( UnderlyingSimplicialSurface( complex ) )[v],
+			List( EdgesOfVertices( UnderlyingSimplicialSurface( complex ) )[v],
 				e -> EdgeEquivalenceNumbersByElements(complex)[e] ) );
 
 		relation := [];
@@ -474,7 +474,7 @@ InstallMethod( EdgeBindingRelationOp,
 		# edges as well)
 		edgeClass := EdgeEquivalenceClassesByNumbers( complex )[ name ];
 		faceClassForEdge := List( edgeClass, e -> 
-			List( EdgesByFaces( UnderlyingSimplicialSurface( complex ) )[e],
+			List( FacesOfEdges( UnderlyingSimplicialSurface( complex ) )[e],
 				f -> FaceEquivalenceNumbersByElements(complex)[f] ) );
 
 		relation := [];
@@ -509,7 +509,7 @@ InstallMethod( LocalOrientationWRTVertexEquivalenceClasses,
 		unSurf := UnderlyingSimplicialSurface(surface);
 
 		list := [];
-		faceByVertex := FacesByVertices(unSurf);
+		faceByVertex := VerticesOfFaces(unSurf);
 		for face in Faces( unSurf ) do
 			images := List( faceByVertex[face], 
 						v -> VertexEquivalenceNumbersByElements(surface)[v] );
@@ -535,7 +535,7 @@ InstallMethod( QuotientSimplicialSurface,
 	"for a coloured simplicial surface",
 	[IsColouredSimplicialSurface],
 	function( surface )
-		local vertices, edges, faces, edgesByVertices, facesByEdges,
+		local vertices, edges, faces, verticesOfEdges, edgesOfFaces,
 			edge, edgeClass, vertInEdge, vertNumInEdge, face, faceClass,
 			edgeInFace, edgeNumInFace, unSurf;
 
@@ -545,26 +545,26 @@ InstallMethod( QuotientSimplicialSurface,
 		edges := EdgeEquivalenceNumbersAsSet( surface );
 		faces := FaceEquivalenceNumbersAsSet( surface );
 
-		edgesByVertices := [];
+		verticesOfEdges := [];
 		for edge in edges do
 			edgeClass := EdgeEquivalenceClassesByNumbers( surface )[edge];
-			vertInEdge := EdgesByVertices( unSurf )[ edgeClass[1] ];
+			vertInEdge := VerticesOfEdges( unSurf )[ edgeClass[1] ];
 			vertNumInEdge := List( vertInEdge, 
 						v -> VertexEquivalenceNumbersByElements(surface)[v] );
-			edgesByVertices[ edge ] := Set( vertNumInEdge );
+			verticesOfEdges[ edge ] := Set( vertNumInEdge );
 		od;
 
-		facesByEdges := [];
+		edgesOfFaces := [];
 		for face in faces do
 			faceClass := FaceEquivalenceClassesByNumbers( surface )[face];
-			edgeInFace := FacesByEdges( unSurf )[faceClass[1]];
+			edgeInFace := EdgesOfFaces( unSurf )[faceClass[1]];
 			edgeNumInFace := List( edgeInFace, 
 						e -> EdgeEquivalenceNumbersByElements(surface)[e] );
-			facesByEdges[ face ] := Set( edgeNumInFace );
+			edgesOfFaces[ face ] := Set( edgeNumInFace );
 		od;
 
 		return SimplicialSurfaceByDownwardIncidenceNC( vertices, edges, faces, 
-												edgesByVertices, facesByEdges );
+												verticesOfEdges, edgesOfFaces );
 	end
 );
 

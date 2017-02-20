@@ -71,8 +71,8 @@ BindGlobal( "SimplicialSurfaceFamily",
 ##	The set of vertices (alternatively a number n that becomes [1..n] )
 ##	The set of edges (alternatively a number n that becomes [1..n] )
 ##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list VerticesByEdges
-##	The list EdgesByFaces.
+##	The list EdgesOfVertices
+##	The list FacesOfEdges.
 ##
 ##	The local orientation will be set at random and the face naming scheme will
 ##	be set to default.
@@ -90,8 +90,8 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
 ##	The set of vertices (alternatively a number n that becomes [1..n] )
 ##	The set of edges (alternatively a number n that becomes [1..n] )
 ##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list EdgesByVertices
-##	The list FacesByEdges.
+##	The list VerticesOfEdges
+##	The list EdgesOfFaces.
 ##
 ##	The local orientation will be set at random and the face naming scheme will
 ##	be set to default.
@@ -109,8 +109,8 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 ##	The set of vertices (alternatively a number n that becomes [1..n] )
 ##	The set of edges (alternatively a number n that becomes [1..n] )
 ##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list EdgesByVertices
-##	The list FacesByEdges. Each element of this list (that is bound) has to be
+##	The list VerticesOfEdges
+##	The list EdgesOfFaces. Each element of this list (that is bound) has to be
 ##		a list of edges such that two adjacent edges have one vertex in common.
 ##		This defines an ordering of the edges and therefore an orientation of
 ##		the face. If we apply this orientation to the vertices we get the 
@@ -133,7 +133,7 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
 ##
 ##	The set of vertices (alternatively a number n that becomes [1..n] )
 ##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list FacesByVertices.
+##	The list VerticesOfFaces.
 ##
 ##	Edges are generated as becomes necessary. It is assumed that two faces
 ##	that share two vertices also share an edge.
@@ -207,10 +207,10 @@ DeclareAttribute( "NrOfFaces",
 #!	with holes and at the position of each vertex-number is a set of
 #!	all edges that are incident to that vertex. All other positions are
 #!	unbounded.
-#!	Either this method or EdgesByVertices is basic.
+#!	Either this method or VerticesOfEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "VerticesByEdges",
+DeclareAttribute( "EdgesOfVertices",
 		IsSimplicialSurface );
 
 #!	@Description
@@ -220,7 +220,7 @@ DeclareAttribute( "VerticesByEdges",
 #!	unbounded.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "VerticesByFaces", 
+DeclareAttribute( "FacesOfVertices", 
 		IsSimplicialSurface);
 
 #!	@Description
@@ -228,10 +228,10 @@ DeclareAttribute( "VerticesByFaces",
 #!	with holes and at the position of each edge-number is a set of
 #!	all vertices that are incident to that edge. All other positions are
 #!	unbounded.
-#!	Either this method or VerticesByEdges is basic.
+#!	Either this method or EdgesOfVertices is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "EdgesByVertices", 
+DeclareAttribute( "VerticesOfEdges", 
 		IsSimplicialSurface);
 
 #!	@Description
@@ -239,10 +239,10 @@ DeclareAttribute( "EdgesByVertices",
 #!	with holes and at the position of each edge-number is a set of
 #!	all faces that are incident to that edge. All other positions are
 #!	unbounded.
-#!	Either this method or FacesByEdges is basic.
+#!	Either this method or EdgesOfFaces is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "EdgesByFaces", 
+DeclareAttribute( "FacesOfEdges", 
 		IsSimplicialSurface);
 
 #!	@Description
@@ -252,7 +252,7 @@ DeclareAttribute( "EdgesByFaces",
 #!	unbounded.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "FacesByVertices", 
+DeclareAttribute( "VerticesOfFaces", 
 		IsSimplicialSurface);
 
 #!	@Description
@@ -260,10 +260,10 @@ DeclareAttribute( "FacesByVertices",
 #!	with holes and at the position of each face-number is a set of
 #!	all edges that are incident to that face. All other positions are
 #!	unbounded.
-#!	Either this method or EdgesByFaces is basic.
+#!	Either this method or FacesOfEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "FacesByEdges", 
+DeclareAttribute( "EdgesOfFaces", 
 		IsSimplicialSurface);
 
 
