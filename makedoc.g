@@ -2,7 +2,6 @@ if fail = LoadPackage("AutoDoc", "2016.02.16") then
     Error("AutoDoc version 2016.02.16 or newer is required.");
 fi;
 
-AutoDoc( "SimplicialSurfaces" : scaffold := true, autodoc :=
-         rec( files := [ "Intros.autodoc" ],
-         scan_dirs := [ "gap", "doc" ] )
+AutoDoc( rec( scaffold := true, 
+				autodoc := rec( files := [ "Intros.autodoc" ] ) )
 );

@@ -20,7 +20,7 @@
 ##			permutation operates transitively
 ##
 
-#!	@Chapter Simplicial Surface fans
+#!	@Chapter Simplicial Surface Fans
 
 DeclareCategory( "IsSimplicialSurfaceFan",
 					IsComponentObjectRep and IsAttributeStoringRep );
