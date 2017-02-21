@@ -272,8 +272,8 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #!  are coloured according to the restrictions imposed by mrtype.
 #!  @Arguments gens,  a list of three involutions
 #!
-#DeclareOperation( "AllWildSimplicialSurfaces" ); 
-#TODO should this be done by InstallOtherMethod instead of a case distinction
+DeclareOperation( "AllWildSimplicialSurfaces", [IsList,IsList] ); 
+
 
 #############################################################################
 ##

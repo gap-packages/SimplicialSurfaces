@@ -331,15 +331,71 @@ InstallMethod( ColourOfEdge,
 end);
 
 
-InstallMethod( AllWildSimplicialSurfacesThreeInvolutions, "for 3 involutions", 
-                                             [IsPerm,IsPerm,IsPerm], function(perm1,perm2,perm3)
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for three involutions",
+	[ IsPerm, IsPerm, IsPerm ], function( perm1, perm2, perm3 )
+		return AllWildSimplicialSurfaces( perm1, perm2, perm3 , [] );
+	end
+);
 
-	local faces, edges, vertices, grp, gens, i, j, k, 
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for three involutions and a list that encodes the edge-types",
+	[ IsPerm, IsPerm, IsPerm, IsList ], function( perm1, perm2, perm3, mrtype )
+		return AllWildSimplicialSurfaces( [perm1, perm2, perm3], mrtype );
+	end
+);
+
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for a group",
+	[ IsGroup ], function( grp )
+		return AllWildSimplicialSurfaces( grp, [] );
+	end
+);
+
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for a group and a list that encodes the edge-types",
+	[ IsGroup, IsList ], function( grp, mrtype )
+		return AllWildSimplicialSurfaces( GeneratorsOfGroup(grp), mrtype );
+	end
+);
+
+
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for a list of three involutions",
+	[ IsList ], function( gens )
+		return AllWildSimplicialSurfaces( gens, [] );
+	end
+);
+
+InstallMethod( AllWildSimplicialSurfaces, 
+	"for a list of three involutions and a list that encodes the edge-types", 
+    [IsList, IsList], function(gens, mrtype)
+
+	local faces, edges, vertices, grp, i, j, k, 
           allvtxnames, completedvertices, nrvtsface, 
           FirstFreeVertex,  FindWildSimplicialSurface, 
           AllSurfaces, level, n, allvertices, IsMirror, IsRotation,  
           LoopOneVertexSignedWithBoundary,  faceinverse,
-          BreakPoint,  mrtype,         knownmrtype, cmpvertices;
+          BreakPoint,         knownmrtype, cmpvertices;
+
+	# Check whether the given arguments are correct
+	if Length(gens) <> 3 then
+         Error("AllWildSimplicialSurfaces( gens[, mrtype] ) : There have to be three generators given.\n");
+    fi;
+    if not IsPerm(gens[1]) or not IsPerm(gens[2]) or not IsPerm(gens[3]) then
+         Error("AllWildSimplicialSurfaces( gens[, mrtype] ) : The generators have to be permutations.\n");
+    fi;
+    if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
+        or gens[3]^2 <> One(gens[3]) then
+         Error("AllWildSimplicialSurfaces( gens[, mrtype] ) : The generators have to be involutions.\n");
+    fi;
+
+    if not Length(mrtype) in [0,3] then
+         Error("AllWildSimplicialSurfaces( gens[, mrtype] ) : The edge types have to be given as a list with up to three elements.\n");
+    fi;
+
+
+	# Start the actual computations
 
 cmpvertices := function (v1, v2 )
 
@@ -350,10 +406,6 @@ cmpvertices := function (v1, v2 )
     return v1 < v2;
 
 end;
-
-
-    mrtype := [];
-    gens := [perm1, perm2, perm3];
 
 
     BreakPoint := false;
@@ -690,12 +742,12 @@ end;
         if v = false then
             ##  now we know that there is no more free vertex
             edges :=  List( gens, g-> Cycles(g,MovedPoints(gens)));
-            edges  := List( edges, e->Filtered( e , c -> Length(c) = 2));
+   #MB         edges  := List( edges, e->Filtered( e , c -> Length(c) = 2));
 
             Sort( vertices, cmpvertices );
             ss :=  WildSimplicialSurface(rec( faces := MovedPoints(gens),
                 edges := edges, vertices := vertices, generators := gens ));
-            ss!.mrtype := mrtype;
+   #MB         ss!.mrtype := mrtype;
             Add(AllSurfaces, ss );
 #               Error("COMPLETED?\n");
             return;
