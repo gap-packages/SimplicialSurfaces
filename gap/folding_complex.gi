@@ -1,3 +1,5 @@
+#! @DoNotReadRestOfFile
+
 ##############################################################################
 ##
 #W  folding_complex.gi          SimplicialSurfaces         Markus Baumeister

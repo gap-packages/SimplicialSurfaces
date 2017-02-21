@@ -1,3 +1,5 @@
+#! @DoNotReadRestOfFile
+
 ##############################################################################
 ##
 #W  simplicial_surface_fan.gi      SimplicialSurfaces         Markus Baumeister

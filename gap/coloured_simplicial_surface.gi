@@ -1,3 +1,5 @@
+#! @DoNotReadRestOfFile
+
 ##############################################################################
 ##
 #W  coloured_simplicial_surface.gi          SimplicialSurfaces         Markus Baumeister
