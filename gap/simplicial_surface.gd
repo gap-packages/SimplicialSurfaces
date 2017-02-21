@@ -434,7 +434,7 @@ DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 #!	Two faces are in the same face-anomaly-class if they contain the same
 #!	vertices.
 #!  @Returns The face-anomaly-classes (as a list of sets)
-#!  @Arguments <simpsurf> a simplicial surface
+#!  @Arguments a simplicial surface object simpsurf
 DeclareAttribute( "FaceAnomalyClasses", 
 		IsSimplicialSurface );
 
@@ -546,7 +546,7 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] 
 #!	if they are isomorphic with respect to the incidence relation. It does
 #!	not check if additional structure like a wild coloring is isomorphic (or
 #!	even present).
-#!  @Arguments <s1>, <s2>, two simplicial surface objects
+#!  @Arguments two simplicial surface objects s1 and s2
 #!  @Returns true or false
 #!
 DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );

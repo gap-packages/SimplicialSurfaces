@@ -20,7 +20,7 @@
 ##  WildSimplicialSurface and is a GAP object. Simplicial surfaces can be 
 ##  obtained as follows:
 ##
-##  1) Given a triple <gens> of involutions, the function
+##  1) Given a triple gens of involutions, the function
 ##     AllWildSimplicialSurfaces(gens)  computes  all wild coloured simplicial 
 ##     surfaces whose faces are the moved points of the generators and whose
 ##     edges are determined by the 2-cycles of the generators.
@@ -49,7 +49,7 @@
 ##    As GAP objects, certain general methods are installed for 
 ##    simplicial surface objects, such as Print and Display and "=".
 ##
-##    The mr-type of a wild coloured simplicial surface <simpsurf>
+##    The mr-type of a wild coloured simplicial surface simpsurf
 ##    can be determined with the function MrTypeOfWildSimplicialSurface.
 ##
 ##    As Simplicial surfaces are GAP objects, they cannot be 
@@ -128,9 +128,9 @@ DeclareAttribute( "Generators",
 DeclareAttribute( "GroupOfWildSimplicialSurface", 
 		IsWildSimplicialSurface );
 
-#! @Description Given a wild coloured simplicial surface <simpsurf>, this
+#! @Description Given a wild coloured simplicial surface simpsurf, this
 #!  function determines the vertex group of the simplicial surface.
-#!  The vertex group of the simplicial surface <simpsurf> is defined to be
+#!  The vertex group of the simplicial surface simpsurf is defined to be
 #!  $F_3/R$, where $F_3$ is the free group on three generators and $R$ is 
 #!  the set of relations given by the vertex defining paths.
 #!  @Returns finitely presented group.
@@ -159,9 +159,9 @@ DeclareAttribute( "EdgeMRTypes",
 		IsWildSimplicialSurface );
 
 
-#!  @Description Given a wild coloured simplicial surface <simpsurf>, this
-#!  function determines the mr-type of each of the edges of <simpsurf>.
-#!  The mr-type of an edge of <simpsurf> is either "m" (for mirror) or 
+#!  @Description Given a wild coloured simplicial surface simpsurf, this
+#!  function determines the mr-type of each of the edges of simpsurf.
+#!  The mr-type of an edge of simpsurf is either "m" (for mirror) or 
 #!  "r" (for rotation). It is defined as followed. 
 #!  Suppose the edge  $e$ is incident to the vertices $v_1$ and 
 #!  $v_2$ and to the two faces $F$ and $F'$. Let $x$ and $y$ be the edges of
@@ -171,7 +171,7 @@ DeclareAttribute( "EdgeMRTypes",
 #!  be wild coloured, this means that the colours of the other edges incident 
 #!  to $e$ and both faces $F$ and $F'$ are then also determined. As the # $'$
 #!  edges of the simplicial surface are pairs of points, the mr-type of 
-#!  the simplicial surface <simpsurf> can be encoded as a list of length 3. 
+#!  the simplicial surface simpsurf can be encoded as a list of length 3. 
 #!   Each of the
 #!  entries is in turn  a list encoding the mr-type of all edges of a 
 #!  certain colour. Suppose that mrtype[1] is the list encoding the mr-type
@@ -181,7 +181,7 @@ DeclareAttribute( "EdgeMRTypes",
 #!  the mr-type of the red edge incident to the vertex i is "r". 
 #!  @Returns a list of three lists, each of which contains the 
 #!  entries 0, 1 or 2.
-#!  @Arguments <simpsurf>, a simplicial surface object as created 
+#!  @Arguments simpsurf, a simplicial surface object as created 
 #!  by WildSimplicialSurface
 #!  @BeginExample
 #! MrType(tetra);
@@ -212,14 +212,14 @@ DeclareAttribute( "MrType",
 #!  @Description
 #!  This function computes all wild-coloured simplicial surfaces generated
 #!  by a triple of involutions as specified in the input. If the optional
-#!  argument <mrtype> is present, only those wit a predefined mrtype are
+#!  argument mrtype is present, only those wit a predefined mrtype are
 #!  constructed.
 #!  The involution triple can be given to the function in various ways.
-#!  Either they are input as a list <gens> of three involutions, or as
-#!  a group <grp> whose generators are the tree involutions, or they can
+#!  Either they are input as a list gens of three involutions, or as
+#!  a group grp whose generators are the tree involutions, or they can
 #!  be input into the function as three arguments, one for each involution.
 #! 
-#!  In case the optional argument <mrtype>  is present, it can be used to
+#!  In case the optional argument mrtype  is present, it can be used to
 #!  restrict to wild-colourings for which some or all edges have a predefined
 #!  colour. This is equivalent to marking the cycles of the three involutions
 #!  as follows. If the edge $(j, j^\sigma_i)$ of the involution $\sigma_i$ is
@@ -228,8 +228,8 @@ DeclareAttribute( "MrType",
 #!  @Returns a list of all wild-coloured simplicial surfaces with generating
 #!  set given by three involutions.
 #!  The function AllWildSimplicialSurfaces when called with the optional argument
-#!  <mrtype> now returns all wild-coloured simplicial surfaces whose edges
-#!  are coloured according to the restrictions imposed by <mrtype>.
+#!  mrtype now returns all wild-coloured simplicial surfaces whose edges
+#!  are coloured according to the restrictions imposed by mrtype.
 #!  @Arguments gens,  a list of three involutions
 #!
 #DeclareOperation( "AllWildSimplicialSurfaces" ); 
@@ -241,7 +241,7 @@ DeclareAttribute( "MrType",
 #!  This function takes as input a ``face"- description of a surface. 
 #!  A ``face"-description of a surface is as  follows.
 #!
-#!  A list <surf> with three entries:
+#!  A list surf with three entries:
 #!  * a list of integers, the faces, 
 #!  * a list of  pairs of faces making up the edges, 
 #!  * a list of  face-paths, one face-path for  each vertex. 
