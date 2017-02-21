@@ -367,6 +367,71 @@ InstallOtherMethod( AllWildSimplicialSurfaces,
 	end
 );
 
+__SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
+	vertexPaths, gens )
+	
+	local nrCycles, edges, edgeColours, facesOfEdges, vertices, edgesOfVertices,
+		FindEdges, surf;
+
+	nrCycles := Length(edgeCycles[1]);
+
+	# The faces stay the same
+
+	# The edges will be modified
+	edges := [1..3*nrCycles];
+	edgeColours := List( [1..nrCycles], i -> 1 );
+	Append( edgeColours, List( [1..nrCycles], i -> 2 ) );
+	Append( edgeColours, List( [1..nrCycles], i -> 3 ) );
+	facesOfEdges := edgeCycles[1];
+	Append( facesOfEdges, edgeCycles[2] );
+	Append( facesOfEdges, edgeCycles[3] );
+
+
+	# We define the wild simplicial surface before we manage the vertices
+	# since we can profit from some code. We only have to be careful to not
+	# call any methods that require unknown attributes.
+	surf := Objectify( WildSimplicialSurfaceType, rec() );
+	SetEdges( surf, edges );
+	SetFaces( surf, faces );
+	SetFacesOfEdges( surf, facesOfEdges );
+	SetGenerators( surf, gens );
+	SetColoursOfEdges( surf, edgeColours );
+
+
+	# The vertices have to be modified
+	vertices := [1..Length(vertexPaths)];
+
+	# The function FindEdges returns a set of all edges that are incident to
+	# the given vertex
+	FindEdges := function( vertexNr )
+		local path, edges, possibleEdges, pathElement;
+
+		path := vertexPaths[vertexNr];
+		edges := [];
+
+		for pathElement in path do
+			possibleEdges := EdgesOfFaces(surf)[pathElement[1]];
+
+			# Now we have to find the edges that conform to the colours in
+			# pathElement[2] and pathElement[3]
+			Append( edges, Filtered( possibleEdges, 
+							e -> ColourOfEdge(surf,e) = pathElement[2] or 
+								ColourOfEdge(surf,e) = pathElement[3] ) );
+		od;
+
+		return Set(edges);
+	end;
+
+	edgesOfVertices := List( vertices, i -> FindEdges(i) );
+
+
+	# We have to set the final attributes
+	SetVertices( surf, vertices );
+	SetEdgesOfVertices( surf, edgesOfVertices );
+
+	return surf;
+end;
+
 InstallMethod( AllWildSimplicialSurfaces, 
 	"for a list of three involutions and a list that encodes the edge-types", 
     [IsList, IsList], function(gens, mrtype)
@@ -746,7 +811,7 @@ end;
 
             Sort( vertices, cmpvertices );
             ss :=  WildSimplicialSurface(rec( faces := MovedPoints(gens),
-                edges := edges, vertices := vertices, generators := gens ));
+                edges := edges, vertices := vertices, generators := gens )); #TODO
    #MB         ss!.mrtype := mrtype;
             Add(AllSurfaces, ss );
 #               Error("COMPLETED?\n");

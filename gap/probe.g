@@ -1,7 +1,5 @@
 
-
-
-InstallGlobalFunction( AllWildSimplicialSurfaces, function(arg)
+AllWildSimplicialSurfaces := function(arg)
 
 
 	local faces, edges, vertices, grp, gens, i, j, k, 
@@ -449,4 +447,4 @@ end;
 
     return AllSurfaces;
 
-end);
+end;
