@@ -176,7 +176,7 @@ DeclareOperation( "ColourOfEdgeNC", [IsWildSimplicialSurface, IsPosInt] );
 #!  @Returns a list of three lists, each of which contains the 
 #!  entries 0, 1 or 2.
 DeclareAttribute( "MRTypeOfEdges", IsWildSimplicialSurface);
-DeclareAttribute( "MRTypeOfEdgeAsNumber", IsWildSimplicialSurface);
+DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsWildSimplicialSurface);
 
 
 

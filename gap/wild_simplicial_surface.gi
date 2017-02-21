@@ -382,7 +382,7 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 	edgeColours := List( [1..nrCycles], i -> 1 );
 	Append( edgeColours, List( [1..nrCycles], i -> 2 ) );
 	Append( edgeColours, List( [1..nrCycles], i -> 3 ) );
-	facesOfEdges := edgeCycles[1];
+	facesOfEdges := ShallowCopy( edgeCycles[1] );
 	Append( facesOfEdges, edgeCycles[2] );
 	Append( facesOfEdges, edgeCycles[3] );
 
@@ -426,7 +426,7 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 
 
 	# We have to set the final attributes
-	SetVertices( surf, vertices );
+	SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 	SetEdgesOfVertices( surf, edgesOfVertices );
 
 	return surf;
@@ -810,8 +810,10 @@ end;
    #MB         edges  := List( edges, e->Filtered( e , c -> Length(c) = 2));
 
             Sort( vertices, cmpvertices );
-            ss :=  WildSimplicialSurface(rec( faces := MovedPoints(gens),
-                edges := edges, vertices := vertices, generators := gens )); #TODO
+			ss := __SIMPLICIAL_ConvertWildLegacyIntoModern( faces, edges, 
+															vertices, gens );
+   #MB         ss :=  WildSimplicialSurface(rec( faces := MovedPoints(gens),
+   #MB             edges := edges, vertices := vertices, generators := gens ));
    #MB         ss!.mrtype := mrtype;
             Add(AllSurfaces, ss );
 #               Error("COMPLETED?\n");
