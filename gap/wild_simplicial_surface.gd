@@ -144,19 +144,10 @@ DeclareAttribute( "VertexGroup",
 #!	edge is saved - that is, to which generator this edge belongs.
 #!	@Arguments a wild simplicial surface
 #!	@Returns a list
-DeclareAttribute( "EdgeColours",
-		IsWildSimplicialSurface );
+DeclareAttribute( "ColoursOfEdges", IsWildSimplicialSurface );
+DeclareOperation( "ColourOfEdge", [IsWildSimplicialSurface, IsPosInt] );
+DeclareOperation( "ColourOfEdgeNC", [IsWildSimplicialSurface, IsPosInt] );
 
-
-#!	@Description
-#!	Return the edge mr-types. We return a list which has unbounded entries for
-#!	all edges (and only those). At the position 'edge' the mr-type of this edge
-#!	is stored - 'm' for a mirror edge, 'r' for a rotation edge and 'b' for a
-#!	border edge.
-#!	@Arguments a wild simplicial surface
-#!	@Returns a list
-DeclareAttribute( "EdgeMRTypes",
-		IsWildSimplicialSurface );
 
 
 #!  @Description 
@@ -184,9 +175,8 @@ DeclareAttribute( "EdgeMRTypes",
 #!  by WildSimplicialSurface 
 #!  @Returns a list of three lists, each of which contains the 
 #!  entries 0, 1 or 2.
-DeclareAttribute( "MrType", 
-		IsWildSimplicialSurface);
-#TODO How is partial information handled?
+DeclareAttribute( "MRTypeOfEdges", IsWildSimplicialSurface);
+DeclareAttribute( "MRTypeOfEdgeAsNumber", IsWildSimplicialSurface);
 
 
 
