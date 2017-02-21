@@ -3,5 +3,5 @@ if fail = LoadPackage("AutoDoc", "2016.02.16") then
 fi;
 
 AutoDoc( rec( scaffold := true, 
-				autodoc := rec( files := [ "Intros.autodoc" ] ) )
+				autodoc := rec( files := [ "TableOfContents.autodoc" ] ) )
 );
