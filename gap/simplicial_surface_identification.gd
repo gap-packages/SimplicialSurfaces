@@ -18,6 +18,8 @@
 ##	it the application is well-defined.
 ##
 
+#!	@Chapter Simplicial Surface identifications
+
 DeclareCategory( "IsSimplicialSurfaceIdentification",
 					IsComponentObjectRep and IsAttributeStoringRep );
 

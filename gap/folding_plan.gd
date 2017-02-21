@@ -14,6 +14,7 @@
 ##
 ##
 
+#!	@Chapter Folding plans
 
 DeclareCategory( "IsFoldingPlan",
 					IsComponentObjectRep and IsAttributeStoringRep );

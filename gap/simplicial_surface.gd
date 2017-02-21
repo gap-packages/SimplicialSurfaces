@@ -30,6 +30,8 @@
 ##
 ##
 
+#!	@Chapter Simplicial Surfaces
+
 DeclareInfoClass( "InfoSimplicial" );
 SetInfoLevel(InfoSimplicial,1);
 # TODO explain structure of everything in a separate tex-file

@@ -21,6 +21,8 @@
 ##			borders of this equivalence class
 ##
 
+#!	@Chapter Folding complexes
+
 DeclareCategory( "IsFoldingComplex",
 					IsComponentObjectRep and IsAttributeStoringRep );
 

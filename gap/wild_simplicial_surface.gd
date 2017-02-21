@@ -61,6 +61,8 @@
 ##    
 ##
 
+#!	@Chapter Wild Simplicial Surfaces
+
 ##
 ##	Wild simplicial surfaces are simplicial surfaces that have additional
 ##	structure. Since not every simplicial surface admits a unique wild 

@@ -36,6 +36,9 @@
 ##		2) VertexEquivalenceNumbersByElements
 ##
 
+#!	@Chapter Coloured Simplicial Surfaces
+#!	@Section Categories and families
+#!
 DeclareCategory( "IsColouredSimplicialSurface",
 					IsComponentObjectRep and IsAttributeStoringRep );
 
