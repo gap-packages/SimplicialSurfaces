@@ -81,6 +81,8 @@ DeclareCategory( "IsWildSimplicialSurface", IsSimplicialSurface and
 #!
 #!
 
+#TODO find sensible constructors
+
 ##
 ##	This constructor takes the following information:
 ##

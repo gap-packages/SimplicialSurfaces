@@ -1354,42 +1354,42 @@ end;
 ##
 ##	With this method we can write inversion methods for all six cases.
 InstallMethod( EdgesOfVertices, 
-	[IsSimplicialSurface and HasVerticesOfEdges ],
+	[IsSimplicialSurface and HasVerticesOfEdges ], 10, 
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Edges(simpsurf),
 				VerticesOfEdges(simpsurf), Vertices(simpsurf) );
 	end
 );
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasVerticesOfFaces ],
+	[IsSimplicialSurface and HasVerticesOfFaces ], 10, 
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Faces(simpsurf),
 				VerticesOfFaces(simpsurf), Vertices(simpsurf) );
 	end
 );
 InstallMethod( VerticesOfEdges, 
-	[IsSimplicialSurface and HasEdgesOfVertices ],
+	[IsSimplicialSurface and HasEdgesOfVertices ], 10, 
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
 				EdgesOfVertices(simpsurf), Edges(simpsurf) );
 	end
 );
 InstallMethod( FacesOfEdges, 
-	[IsSimplicialSurface and HasEdgesOfFaces ],
+	[IsSimplicialSurface and HasEdgesOfFaces ], 10, 
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Faces(simpsurf),
 				EdgesOfFaces(simpsurf), Edges(simpsurf) );
 	end
 );
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and HasFacesOfVertices ],
+	[IsSimplicialSurface and HasFacesOfVertices ], 10, 
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
 				FacesOfVertices(simpsurf), Faces(simpsurf) );
 	end
 );
 InstallMethod( EdgesOfFaces, 
-	[IsSimplicialSurface and HasFacesOfEdges ],
+	[IsSimplicialSurface and HasFacesOfEdges ], 10, 
 	function( simpsurf )
 		return __SIMPLICIAL_InvertIncidence( Edges(simpsurf),
 				FacesOfEdges(simpsurf), Faces(simpsurf) );
@@ -1413,7 +1413,7 @@ __SIMPLICIAL_TransitiveIncidence := function( faceNr, edgesOfFaces, edgeNr,
 end;
 ##
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and HasEdgesOfFaces and HasVerticesOfEdges ],
+	[IsSimplicialSurface and HasEdgesOfFaces and HasVerticesOfEdges ], 10,
 	function( simpsurf )
 		return __SIMPLICIAL_TransitiveIncidence( Faces(simpsurf),
 			EdgesOfFaces(simpsurf), Edges(simpsurf),
@@ -1421,13 +1421,17 @@ InstallMethod( VerticesOfFaces,
 	end
 );
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasEdgesOfVertices and HasFacesOfEdges ],
+	[IsSimplicialSurface and HasEdgesOfVertices and HasFacesOfEdges ], 10,
 	function( simpsurf )
 		return __SIMPLICIAL_TransitiveIncidence( Vertices(simpsurf),
 			EdgesOfVertices(simpsurf), Edges(simpsurf),
 			FacesOfEdges(simpsurf), Faces(simpsurf) );
 	end
 );
+#TODO Instead of raising the method value artificially by 10, find a better
+#	way to deal with the method selection problem in general
+
+
 ##	Normally we would be finished at this point. But the method selection of
 ##	GAP is not so intelligent to check for attributes transitively (it only
 ##	checks if an attribute is set, not if it could be set). It would have been
