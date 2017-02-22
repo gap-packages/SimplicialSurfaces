@@ -129,6 +129,16 @@ DeclareAttribute( "Generators",
 #! @Returns a group
 DeclareAttribute( "GroupOfWildSimplicialSurface", IsWildSimplicialSurface );
 
+
+#! @Description
+#! Return the  face edge path of a vertex, i.e.....
+#! @Arguments a wild simplicial surface
+#! @Returns a list
+DeclareAttribute( "FaceEdgePathsOfVertices", IsWildSimplicialSurface );
+
+DeclareOperation( "FaceEdgePathOfVertex", [IsWildSimplicialSurface,IsPosInt] );
+
+
 #! @Description Given a wild coloured simplicial surface simpsurf, this
 #!  function determines the vertex group of the simplicial surface.
 #!  The vertex group of the simplicial surface simpsurf is defined to be
