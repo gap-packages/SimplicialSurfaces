@@ -864,9 +864,7 @@ RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
 #! Returns the numbers of the vertices as a set. This is a basic method.
 #! @Arguments a simplicial surface
 #! @Returns a dense list of integers
-InstallMethod( Vertices, 
-	"for a simplicial surface",
-	[ IsSimplicialSurface ],
+InstallMethod( Vertices, "for a simplicial surface", [ IsSimplicialSurface ],
 	function(simpsurf)
 		return VerticesAttributeOfSimplicialSurface( simpsurf );
 	end
@@ -951,17 +949,14 @@ InstallMethod( LocalOrientation, "for a simplicial surface",
 		return LocalOrientationByVerticesAsPerm(simpsurf);
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsPerm, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByVerticesAsList],
+InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
 	function( simpsurf )
 		return __SIMPLICIAL_TranslateListsIntoCycles( 
 			LocalOrientationByVerticesAsList( simpsurf ) );
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsPerm, 
-	"for a simplicial surface", 
+InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
 	function( simpsurf )
 		if HasLocalOrientationByVerticesAsList( simpsurf ) then
@@ -973,8 +968,7 @@ InstallMethod( LocalOrientationByVerticesAsPerm,
 		fi;
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsPerm, 
-	"for a simplicial surface", 
+InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
 	function( simpsurf )
 		if HasLocalOrientationByVerticesAsList(simpsurf) or 
@@ -997,10 +991,8 @@ InstallMethod( LocalOrientationByVerticesAsPerm,
 #!	are unbounded.
 #!  @Returns a list of permutations
 #!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientationByEdgesAsPerm, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsList],
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
 	function( simpsurf )
 		return __SIMPLICIAL_TranslateListsIntoCycles( 
 			LocalOrientationByEdgesAsList( simpsurf ) );
@@ -1097,19 +1089,15 @@ end;
 #!	are unbounded.
 #!  @Returns a list of lists
 #!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientationByVerticesAsList, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByVerticesAsPerm],
+InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
 	function( simpsurf )
 		return __SIMPLICIAL_TranslateCyclesIntoLists( 
 			LocalOrientationByVerticesAsPerm( simpsurf ), Faces( simpsurf ) );
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsList, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsList],
+InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
 	function( simpsurf )
 		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
 			LocalOrientationByEdgesAsList(simpsurf), 
@@ -1118,8 +1106,7 @@ InstallMethod( LocalOrientationByVerticesAsList,
 			VerticesOfFaces(simpsurf) );
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsList, 
-	"for a simplicial surface", 
+InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
 	function( simpsurf )
 		if HasLocalOrientationByVerticesAsPerm(simpsurf) or
@@ -1141,19 +1128,15 @@ InstallMethod( LocalOrientationByVerticesAsList,
 #!	are unbounded.
 #!  @Returns a list of lists
 #!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientationByEdgesAsList, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsPerm],
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
 	function( simpsurf )
 		return __SIMPLICIAL_TranslateCyclesIntoLists( 
 			LocalOrientationByEdgesAsPerm( simpsurf ), Faces( simpsurf ) );
 	end
 );
-InstallMethod( LocalOrientationByEdgesAsList, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByVerticesAsList],
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
 	function( simpsurf )
 		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
 			LocalOrientationByVerticesAsList(simpsurf), 
@@ -1162,10 +1145,8 @@ InstallMethod( LocalOrientationByEdgesAsList,
 			EdgesOfFaces(simpsurf) );
 	end
 );
-InstallMethod( LocalOrientationByEdgesAsList, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByVerticesAsPerm],
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
 	function( simpsurf )
 		if HasLocalOrientationByVerticesAsList(simpsurf) or
 			 	HasLocalOrientationByEdgesAsPerm(simpsurf) then
@@ -1194,8 +1175,7 @@ InstallMethod( LocalOrientationByEdgesAsList,
 #!	@Returns an integer
 #!	@Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( NrOfVertices, 
-	"for a simplicial surface",
+InstallMethod( NrOfVertices, "for a simplicial surface", 
 	[ IsSimplicialSurface ],
 	function(simpsurf)
 		return Length( Vertices(simpsurf) );
@@ -1209,9 +1189,7 @@ InstallMethod( NrOfVertices,
 #!	@Returns an integer
 #!	@Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( NrOfEdges, 
-	"for a simplicial surface",
-	[ IsSimplicialSurface ],
+InstallMethod( NrOfEdges, "for a simplicial surface", [ IsSimplicialSurface ],
 	function(simpsurf)
 		return Length( Edges(simpsurf) );
 	end
@@ -1224,9 +1202,7 @@ InstallMethod( NrOfEdges,
 #!	@Returns an integer
 #!	@Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( NrOfFaces, 
-	"for a simplicial surface",
-	[ IsSimplicialSurface ],
+InstallMethod( NrOfFaces, "for a simplicial surface", [ IsSimplicialSurface ],
 	function(simpsurf)
 		return Length( Faces(simpsurf) );
 	end
@@ -1332,13 +1308,13 @@ InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj,
 #############################################################################
 #############################################################################
 ##
-##						Start of *By*-methods
+##						Start of *Of*-methods
 ##
-##	It is pretty annoying to implement all of the *By*-methods for each
+##	It is pretty annoying to implement all of the *Of*-methods for each
 ##	individual representation. As they are interdependent, this is also
 ##	redundant. Therefore we collect some methods here that allow us to only
 ##	implement a minimal set of these methods. We rely on the fact that we
-##	consider the *By*-objects as attributes which have a corresponding filter
+##	consider the *Of*-objects as attributes which have a corresponding filter
 ##	which makes it known which of those are already known.
 ##
 ##
@@ -1437,8 +1413,7 @@ __SIMPLICIAL_TransitiveIncidence := function( faceNr, edgesOfFaces, edgeNr,
 end;
 ##
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and HasEdgesOfFaces and
-							HasVerticesOfEdges ],
+	[IsSimplicialSurface and HasEdgesOfFaces and HasVerticesOfEdges ],
 	function( simpsurf )
 		return __SIMPLICIAL_TransitiveIncidence( Faces(simpsurf),
 			EdgesOfFaces(simpsurf), Edges(simpsurf),
@@ -1446,8 +1421,7 @@ InstallMethod( VerticesOfFaces,
 	end
 );
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasEdgesOfVertices and
-								HasFacesOfEdges ],
+	[IsSimplicialSurface and HasEdgesOfVertices and HasFacesOfEdges ],
 	function( simpsurf )
 		return __SIMPLICIAL_TransitiveIncidence( Vertices(simpsurf),
 			EdgesOfVertices(simpsurf), Edges(simpsurf),
@@ -1555,15 +1529,13 @@ InstallMethod( VerticesOfFaces,
 ##	are very fast methods we give them a boost in the method selection.
 ##
 InstallMethod( EdgesOfFaces, 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsList], 10,
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList], 10,
 	function( surf )
 		return List( LocalOrientationByEdgesAsList(surf), i -> Set(i) );
 	end
 );
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByVerticesAsList],10,
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],10,
 	function( surf )
 		return List( LocalOrientationByVerticesAsList(surf), i -> Set(i) );
 	end
@@ -1596,7 +1568,7 @@ InstallMethod( VerticesOfFaces,
 	end
 );
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasVerticesOfEdges and
+	[IsSimplicialSurface and HasVerticesOfEdges and 
 			HasLocalOrientationByEdgesAsList ],
 	function( simpsurf )
 		if HasEdgesOfFaces(simpsurf) then
@@ -1648,7 +1620,7 @@ InstallMethod( FacesOfVertices,
 );
 
 ##
-##							End of *By*-Methods
+##							End of *Of*-Methods
 ##
 #############################################################################
 #############################################################################
@@ -1666,8 +1638,8 @@ InstallMethod( FacesOfVertices,
 #!  @Arguments <simpsurf>, a simplicial surface object as created 
 #!  by WildSimplicialSurface
 #!
-InstallMethod( EulerCharacteristic, 
-	"for a simplicial surface", [IsSimplicialSurface ],
+InstallMethod( EulerCharacteristic, "for a simplicial surface", 
+	[IsSimplicialSurface ],
 	function (simpsurf)
 		local chi;
 
@@ -1688,8 +1660,8 @@ InstallMethod( EulerCharacteristic,
 #!  @Returns a list of integers
 #!  @Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( UnsortedDegrees, 
-	"for a simplicial surface",	[IsSimplicialSurface],
+InstallMethod( UnsortedDegrees, "for a simplicial surface",	
+	[IsSimplicialSurface],
 	function(simpsurf)
 		local facesOfVertices;
 
@@ -1706,8 +1678,7 @@ InstallMethod( UnsortedDegrees,
 #!  @Returns a dense sorted list of integers
 #!  @Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( SortedDegrees, 
-	"for a simplicial surface", [IsSimplicialSurface],
+InstallMethod( SortedDegrees, "for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
 		local compact;
 
@@ -1727,8 +1698,7 @@ InstallMethod( SortedDegrees,
 #!  @Arguments a simplicial surface object simpsurf
 #!  @Returns a list of integers
 #!
-InstallMethod( VertexSymbol, 
-	"for a simplicial surface",	[IsSimplicialSurface],
+InstallMethod( VertexSymbol, "for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
 		local edgesOfVertices, vertex, symbol, degree;
 
@@ -1756,8 +1726,7 @@ InstallMethod( VertexSymbol,
 #!  @Returns The face-anomaly-classes (as a list of sets)
 #!  @Arguments <simpsurf> a simplicial surface
 #!
-InstallMethod( FaceAnomalyClasses, 
-	"for a simplicial surface",
+InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 	[IsSimplicialSurface],
 	function(simpsurf)
 		local verticesOfFaces, classes, i, found, cl, j;
@@ -1857,8 +1826,7 @@ RedispatchOnCondition( IsClosedSurface, true, [IsSimplicialSurface],
 #!	@Returns true if connected, false otherwise
 #!	@Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( IsConnected, "for a simplicial surface",
-	[IsSimplicialSurface],
+InstallMethod( IsConnected, "for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
 		local faces, faceList, points, change, faceNr;
 
@@ -2222,8 +2190,7 @@ InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
 #!	the resulting surface.
 #!	@Arguments a simplicial surface object simpsurf
 #!	@Returns a simplicial surface object
-InstallMethod( SnippOffEars, "for a simplicial surface",
-	[IsSimplicialSurface],
+InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
 		local vertexDegree, ears, newSurface, ear, facesToRemove, 
 				remainingFaces;
@@ -2398,8 +2365,7 @@ InstallMethod( FaceByName,
 #!  @Returns the coloured incidence graph
 #!  @Arguments a simplicial surface object simpsurf
 #!
-InstallMethod( IncidenceGraph, 
-	"for a simplicial surface",
+InstallMethod( IncidenceGraph, "for a simplicial surface", 
 	[IsSimplicialSurface],
 	function(simpsurf)
 		local graph, vertices, edges, faces, names, colours, incidence, 
