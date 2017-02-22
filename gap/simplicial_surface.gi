@@ -962,11 +962,9 @@ InstallMethod( LocalOrientationByVerticesAsPerm,
 );
 InstallMethod( LocalOrientationByVerticesAsPerm, 
 	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsList],
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
 	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList(
-									simpsurf ) then
+		if HasLocalOrientationByVerticesAsList( simpsurf ) then
 			TryNextMethod();
 		else
 			LocalOrientationByVerticesAsList( simpsurf );
@@ -977,19 +975,15 @@ InstallMethod( LocalOrientationByVerticesAsPerm,
 );
 InstallMethod( LocalOrientationByVerticesAsPerm, 
 	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsPerm],
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
 	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList(
-				simpsurf) or 
-				HasLocalOrientationByEdgesAsList(
-				simpsurf) then
+		if HasLocalOrientationByVerticesAsList(simpsurf) or 
+				HasLocalOrientationByEdgesAsList(simpsurf) then
 			TryNextMethod();
 		else
 			LocalOrientationByEdgesAsList( simpsurf );
 			LocalOrientationByVerticesAsList( simpsurf );
-			return LocalOrientationByVerticesAsPerm(
-																	 simpsurf );
+			return LocalOrientationByVerticesAsPerm( simpsurf );
 		fi;
 	end
 );
@@ -1012,36 +1006,27 @@ InstallMethod( LocalOrientationByEdgesAsPerm,
 			LocalOrientationByEdgesAsList( simpsurf ) );
 	end
 );
-InstallMethod( LocalOrientationByEdgesAsPerm, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByVerticesAsList],
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
 	function( simpsurf )
-		if HasLocalOrientationByEdgesAsList(
-																simpsurf ) then
+		if HasLocalOrientationByEdgesAsList( simpsurf ) then
 			TryNextMethod();
 		else
 			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByEdgesAsPerm( 
-																	simpsurf );
+			return LocalOrientationByEdgesAsPerm( simpsurf );
 		fi;
 	end
 );
-InstallMethod( LocalOrientationByEdgesAsPerm, 
-	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByVerticesAsPerm],
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
 	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList(
-				simpsurf ) or
-			 	HasLocalOrientationByEdgesAsList(
-				simpsurf ) then
+		if HasLocalOrientationByVerticesAsList( simpsurf ) or
+			 	HasLocalOrientationByEdgesAsList( simpsurf ) then
 			TryNextMethod();
 		else
 			LocalOrientationByVerticesAsList( simpsurf );
 			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByEdgesAsPerm( 
-																	simpsurf );
+			return LocalOrientationByEdgesAsPerm( simpsurf );
 		fi;
 	end
 );
@@ -1135,18 +1120,14 @@ InstallMethod( LocalOrientationByVerticesAsList,
 );
 InstallMethod( LocalOrientationByVerticesAsList, 
 	"for a simplicial surface", 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsPerm],
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
 	function( simpsurf )
-		if HasLocalOrientationByVerticesAsPerm(
-				simpsurf) or
-			 	HasLocalOrientationByEdgesAsList(
-				simpsurf) then
+		if HasLocalOrientationByVerticesAsPerm(simpsurf) or
+			 	HasLocalOrientationByEdgesAsList(simpsurf) then
 			TryNextMethod();
 		else
 			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByVerticesAsList( 
-																	simpsurf );
+			return LocalOrientationByVerticesAsList( simpsurf );
 		fi;
 	end
 );
@@ -1186,15 +1167,12 @@ InstallMethod( LocalOrientationByEdgesAsList,
 	[IsSimplicialSurface and 
 			HasLocalOrientationByVerticesAsPerm],
 	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList(
-				simpsurf) or
-			 	HasLocalOrientationByEdgesAsPerm(
-				simpsurf) then
+		if HasLocalOrientationByVerticesAsList(simpsurf) or
+			 	HasLocalOrientationByEdgesAsPerm(simpsurf) then
 			TryNextMethod();
 		else
 			LocalOrientationByVerticesAsList( simpsurf );
-			return LocalOrientationByEdgesAsList( 
-																	simpsurf );
+			return LocalOrientationByEdgesAsList( simpsurf );
 		fi;
 	end
 );
@@ -1500,8 +1478,7 @@ InstallMethod( FacesOfVertices,
 ##	transitive and then inverting is shorter than twice inverting and then using
 ##	the transitive.
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasVerticesOfEdges and
-								HasEdgesOfFaces ],
+	[IsSimplicialSurface and HasVerticesOfEdges and HasEdgesOfFaces ],
 	function( simpsurf )
 		if HasVerticesOfFaces(simpsurf) then
 			TryNextMethod();
@@ -1512,8 +1489,7 @@ InstallMethod( FacesOfVertices,
 	end
 );
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and HasEdgesOfVertices and
-								HasFacesOfEdges ],
+	[IsSimplicialSurface and HasEdgesOfVertices and	HasFacesOfEdges ],
 	function( simpsurf )
 		if HasFacesOfVertices( simpsurf ) then
 			TryNextMethod();
@@ -1529,8 +1505,7 @@ InstallMethod( VerticesOfFaces,
 ##	directly but we are missing VerticesOfFaces and FacesOfVertices. To get
 ##	those we first have to invert one of them and then use transitive.
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasEdgesOfFaces and
-							HasEdgesOfVertices ],
+	[IsSimplicialSurface and HasEdgesOfFaces and HasEdgesOfVertices ],
 	function( simpsurf )
 		if HasFacesOfEdges( simpsurf ) then
 			TryNextMethod();
@@ -1541,8 +1516,7 @@ InstallMethod( FacesOfVertices,
 	end
 );
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and HasEdgesOfFaces and
-							HasEdgesOfVertices ],
+	[IsSimplicialSurface and HasEdgesOfFaces and HasEdgesOfVertices ],
 	function( simpsurf )
 		if HasVerticesOfEdges( simpsurf ) then
 			TryNextMethod();
@@ -1554,8 +1528,7 @@ InstallMethod( VerticesOfFaces,
 );
 ##	case FacesOfEdges and VerticesOfEdges is similar
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasFacesOfEdges and
-							HasVerticesOfEdges ],
+	[IsSimplicialSurface and HasFacesOfEdges and HasVerticesOfEdges ],
 	function( simpsurf )
 		if HasEdgesOfVertices( simpsurf ) then
 			TryNextMethod();
@@ -1566,8 +1539,7 @@ InstallMethod( FacesOfVertices,
 	end
 );
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and HasFacesOfEdges and
-							HasVerticesOfEdges ],
+	[IsSimplicialSurface and HasFacesOfEdges and HasVerticesOfEdges ],
 	function( simpsurf )
 		if HasEdgesOfFaces( simpsurf ) then
 			TryNextMethod();
@@ -1601,8 +1573,7 @@ InstallMethod( VerticesOfFaces,
 ##	and verticesOfFaces were preconditions. We start with the case edgesOfFaces.
 ##
 InstallMethod( FacesOfEdges, 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsList ],
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList ],
 	function( simpsurf )
 		if HasEdgesOfFaces(simpsurf) then
 			TryNextMethod();
@@ -1613,8 +1584,7 @@ InstallMethod( FacesOfEdges,
 	end
 );
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsList and
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList and
 							HasVerticesOfEdges ],
 	function( simpsurf )
 		if HasEdgesOfFaces(simpsurf) then
@@ -1638,8 +1608,7 @@ InstallMethod( FacesOfVertices,
 	end
 );
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsList and
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList and
 							HasEdgesOfVertices ],
 	function( simpsurf )
 		if HasEdgesOfFaces( simpsurf ) then
@@ -1651,8 +1620,7 @@ InstallMethod( FacesOfVertices,
 	end
 );
 InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByEdgesAsList and
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList and
 							HasEdgesOfVertices ],
 	function( simpsurf )
 		if HasEdgesOfFaces( simpsurf ) then
@@ -1668,11 +1636,9 @@ InstallMethod( VerticesOfFaces,
 ##	is only one).
 ##
 InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and 
-			HasLocalOrientationByVerticesAsList ],
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList ],
 	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList( 
-															simpsurf ) then
+		if HasLocalOrientationByVerticesAsList( simpsurf ) then
 			TryNextMethod();
 		else
 			VerticesOfFaces( simpsurf );

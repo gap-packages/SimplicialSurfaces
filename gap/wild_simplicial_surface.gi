@@ -248,7 +248,7 @@ InstallMethod( ColouredEdgeOfFace,
 		if not colour in [1,2,3] then
 			Error("ColouredEdgeOfFace: Given colour has to lie in [1,2,3].");
 		fi;
-		return ColouredEdgeOfFace( simpsurf, face, colour);
+		return ColouredEdgeOfFaceNC( simpsurf, face, colour);
 	end
 );
 
@@ -265,7 +265,7 @@ InstallMethod( ColouredEdgesOfFaces,
 		colEdgesOfFaces := [];
 		for face in Faces(surf) do
 			edges := EdgesOfFaces(surf)[face];
-			colEdges := List( edges, e -> ColoursOfEdge(surf,e) );
+			colEdges := List( edges, e -> ColourOfEdge(surf,e) );
 
 			colEdgesOfFaces[face] := List( [1,2,3], i -> 
 											edges[ Position( colEdges, i ) ] );
@@ -341,7 +341,7 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 	vertexPaths, gens )
 	
 	local nrCycles, edges, edgeColours, facesOfEdges, vertices, edgesOfVertices,
-		FindEdges, surf, EmptySetIfRealFace, colEdgesOfFace, col, i, f;
+		FindEdges, surf, EmptySetIfRealFace, colEdgesOfFaces, col, i, f;
 
 	nrCycles := Length(edgeCycles[1]);
 
@@ -363,11 +363,11 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 			return [];
 		fi;
 		return;
-	fi;
+	end;
 	colEdgesOfFaces := List( [1..Maximum(faces)], i -> EmptySetIfRealFace(i) );
 	for col in [1,2,3] do
 		for i in [1..nrCycles] do
-			for f in edgecCycles[col][i] do
+			for f in edgeCycles[col][i] do
 				colEdgesOfFaces[f][col] := (col - 1)*nrCycles + i;
 			od;
 		od;
