@@ -485,6 +485,47 @@ DeclareAttribute( "PrintStringAttributeOfSimplicialSurface",
 DeclareOperation( "ObjectifySimplicialSurface",
 		[IsType,IsRecord,IsSimplicialSurface]);
 
+
+##
+#!	@Description
+#!	This is a method which should only be used in code development. It should
+#!	not be called by a normal user as it presupposes knowledge of the internal
+#!	attribute storing system.
+#!
+#!	A simplicial surface consists of two separate sets of attributes: One set
+#!	of attributes to save the incidence geometry (Vertices, Edges, Faces,
+#!	EdgesOfFaces, etc.), the other to save the local orientation of the faces
+#!	(LocalOrientationOfVerticesAsPerm, NamesOfFaces, etc.). While the second
+#!	set of attributes may be crucial for some applications (like folding), it
+#!	is easy to ignore it in other applications.
+#!	This is usually managed by a judicious constructor call that will handle
+#!	the necessary overhead without burdening the user. If - for whatever 
+#!	reason - no constructor should be called (for example for a subcategory
+#!	of IsSimplicialSurface) this method can be used to initialize all necessary
+#!	attributes of the second set.
+#! 
+#!	This method will throw an error if some of these attributes are already set.
+#!	It will only check the attributes
+#!		- LocalOrientationByVerticesAsPerm
+#!		- LocalOrientationByVerticesAsList
+#!		- LocalOrientationByEdgesAsPerm
+#!		- LocalOrientationByEdgesAsList
+#!		- IsFaceNamesDefault
+#!		- NamesOfFaces
+#!	If other attributes interfere with these, they will not be checked! For
+#!	this reason this method should only be called if one knows exactly which
+#!	attributes are already set.
+#!
+#!	The NC-version doesn't check whether attributes are set (it is therefore
+#!	even more dangerous to use).
+#!
+#!	@Arguments a simplicial surface
+#!	@Returns nothing
+DeclareOperation( "DeriveLocalOrientationAndFacesNamesFromIncidenceGeometry",
+	[IsSimplicialSurface] );
+DeclareOperation( "DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC",
+	[IsSimplicialSurface] );
+
 ##
 #!	@Description
 #!	This function returns both names of the given face. The first entry is

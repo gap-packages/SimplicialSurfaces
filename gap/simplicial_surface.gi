@@ -91,20 +91,27 @@ InstallMethod( ObjectifySimplicialSurface, "",
 	end
 );
 
+InstallMethod( DeriveLocalOrientationAndFacesNamesFromIncidenceGeometry, "",
+		[IsSimplicialSurface],
+	function( surf )
+		local attrList, attrName, attr;
 
-#############################################################################
-#############################################################################
-##
-##						Start of constructors
-##
-##	While GAP has a type system that is nice in general, what it REALLY doesn't
-##	like is overloading of methods. Therefore you can't just declare them
-##	but you have to sneak them in by using InstallOtherMethod().
-##
-##	We start with the general constructor. Since we give so many options we
-##	have to define a lot of methods and we need many helper-methods.
-##
-##
+		attrList := [ "LocalOrientationByVerticesAsPerm",
+			"LocalOrientationByVerticesAsList",
+			"LocalOrientationByEdgesAsPerm",
+			"LocalOrientationByEdgesAsList",
+			"IsFaceNamesDefault",
+			"NamesOfFaces" ];
+		for attrName in attrList do
+			attr := ValueGlobal( attrName );
+			if Tester(attr)(surf) then
+				Error("DeriveLocalOrientationAndFacesNamesFromIncidenceGeometry: Some attributes are already set.");
+			fi;
+		od;
+
+		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
+	end
+);
 
 ##
 ##	This method returns a VerticesOfFaces as lists (not sets) such that
@@ -152,6 +159,35 @@ __SIMPLICIAL_RandomVerticesOfFaces := function( vertices, faces,
 
 	return faceList;
 end;
+
+InstallMethod( DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC, "",
+		[IsSimplicialSurface],
+	function( surf )
+		local verticesOfFaces;
+	
+		# Set the local orientation at random
+		verticesOfFaces := __SIMPLICIAL_RandomVerticesOfFaces( Vertices(surf), 
+			Faces(surf),
+			VerticesOfFaces(surf), EdgesOfFaces(surf), EdgesOfVertices(surf) );
+		SetLocalOrientationByVerticesAsList( surf, verticesOfFaces );
+
+		# Set the face names
+		SetIsFaceNamesDefault( surf, true );
+	end
+);
+
+#############################################################################
+#############################################################################
+##
+##						Start of constructors
+##
+##	While GAP has a type system that is nice in general, what it REALLY doesn't
+##	like is overloading of methods. Therefore you can't just declare them
+##	but you have to sneak them in by using InstallOtherMethod().
+##
+##	We start with the general constructor. Since we give so many options we
+##	have to define a lot of methods and we need many helper-methods.
+##
 
 
 #############################
@@ -392,7 +428,7 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation,
 InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		local surf, verticesOfFaces, localOrient, f, newVertex, v;
+		local surf;
 
 		surf := Objectify( SimplicialSurfaceType, rec() );
 		# Set the given attributes
@@ -402,13 +438,8 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		SetVerticesOfEdges( surf, List( verticesOfEdges, i -> Set(i) ) );
 		SetEdgesOfFaces( surf, List( edgesOfFaces, i -> Set(i) ) );
 
-		# Set the local orientation at random
-		verticesOfFaces := __SIMPLICIAL_RandomVerticesOfFaces( vertices, faces,
-			VerticesOfFaces(surf), EdgesOfFaces(surf), EdgesOfVertices(surf) );
-		SetLocalOrientationByVerticesAsList( surf, verticesOfFaces );
-
-		# Set the face names
-		SetIsFaceNamesDefault( surf, true );
+		# Set local orientation and face names
+		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
 		
 		return surf;
 	end
@@ -505,7 +536,7 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence,
 InstallMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
-		local surf, verticesOfFaces, localOrient, f, newVertex, v;
+		local surf;
 
 		surf := Objectify( SimplicialSurfaceType, rec() );
 		# Set the given attributes
@@ -515,13 +546,8 @@ InstallMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 		SetEdgesOfVertices( surf, List( edgesOfVertices, i -> Set(i) ) );
 		SetFacesOfEdges( surf, List( facesOfEdges, i -> Set(i) ) );
 
-		# Set the local orientation at random
-		verticesOfFaces := __SIMPLICIAL_RandomVerticesOfFaces( vertices, faces,
-			VerticesOfFaces(surf), EdgesOfFaces(surf), EdgesOfVertices(surf) );
-		SetLocalOrientationByVerticesAsList( surf, verticesOfFaces );
-
-		# Set the face names
-		SetIsFaceNamesDefault( surf, true );
+		# Set local orientation and face names
+		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
 		
 		return surf;
 	end
