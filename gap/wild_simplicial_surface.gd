@@ -125,8 +125,7 @@ DeclareAttribute( "Generators",
 #! surface.
 #! @Arguments a wild simplicial surface
 #! @Returns a group
-DeclareAttribute( "GroupOfWildSimplicialSurface", 
-		IsWildSimplicialSurface );
+DeclareAttribute( "GroupOfWildSimplicialSurface", IsWildSimplicialSurface );
 
 #! @Description Given a wild coloured simplicial surface simpsurf, this
 #!  function determines the vertex group of the simplicial surface.
@@ -134,8 +133,7 @@ DeclareAttribute( "GroupOfWildSimplicialSurface",
 #!  $F_3/R$, where $F_3$ is the free group on three generators and $R$ is 
 #!  the set of relations given by the vertex defining paths.
 #!  @Returns finitely presented group.
-DeclareAttribute( "VertexGroup", 
-		IsWildSimplicialSurface );
+DeclareAttribute( "VertexGroup", IsWildSimplicialSurface );
 
 
 #!	@Description
@@ -147,6 +145,20 @@ DeclareAttribute( "VertexGroup",
 DeclareAttribute( "ColoursOfEdges", IsWildSimplicialSurface );
 DeclareOperation( "ColourOfEdge", [IsWildSimplicialSurface, IsPosInt] );
 DeclareOperation( "ColourOfEdgeNC", [IsWildSimplicialSurface, IsPosInt] );
+
+
+#!	@Description
+#!	Return a list which is indexed by the faces. For each face we get a list of
+#!	the incident edges such that the first entry corresponds to the edge of
+#!	the first colour, the second entry to the edge of the second colour and the
+#!	third entry to the edge of the third colour.
+#!	@Arguments a wild simplicial surface
+#!	@Returns a list
+DeclareAttribute( "ColouredEdgesOfFaces", IsWildSimplicialSurface );
+DeclareOperation( "ColouredEdgeOfFace", 
+		[IsWildSimplicialSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "ColouredEdgeOfFaceNC", 
+		[IsWildSimplicialSurface, IsPosInt, IsPosInt] );
 
 
 

@@ -192,8 +192,6 @@ InstallMethod( MRTypeOfEdgesAsNumbers,
      
 	end
 );
-
-
 InstallMethod( MRTypeOfEdges, 
 	"for a wild simplicial surface", [ IsWildSimplicialSurface ],
 	function(simpsurf)
@@ -209,8 +207,8 @@ InstallMethod( MRTypeOfEdges,
         end;
 
         return List(MRTypeOfEdgesAsNumbers(simpsurf), i-> f(i) );
-
-end);
+	end
+);
 
 
 InstallMethod( ColourOfEdgeNC,
@@ -218,11 +216,8 @@ InstallMethod( ColourOfEdgeNC,
 	function(simpsurf,edge)
 
         return ColoursOfEdges(simpsurf)[edge];
-       
-end);
-
-
-
+    end
+);
 InstallMethod( ColourOfEdge,
 	"for a wild simplicial surface", [ IsWildSimplicialSurface, IsPosInt ],
 	function(simpsurf,edge)
@@ -232,9 +227,79 @@ InstallMethod( ColourOfEdge,
         fi;
 
         return ColourOfEdgeNC(simpsurf,edge);
-       
-end);
+	end
+);
 
+
+InstallMethod( ColouredEdgeOfFaceNC,
+	"for a wild simplicial surface, a face and a colour (positive integers)", 
+	[ IsWildSimplicialSurface, IsPosInt, IsPosInt ],
+	function(simpsurf, face, colour)
+		return ColouredEdgesOfFaces( simpsurf )[face][colour];
+	end
+);
+InstallMethod( ColouredEdgeOfFace,
+	"for a wild simplicial surface, a face and a colour (positive integers)", 
+	[ IsWildSimplicialSurface, IsPosInt, IsPosInt ],
+	function(simpsurf, face, colour)
+		if not face in Faces(simpsurf) then
+			Error("ColouredEdgeOfFace: Given face has to be a face of the given surface.");
+		fi;
+		if not colour in [1,2,3] then
+			Error("ColouredEdgeOfFace: Given colour has to lie in [1,2,3].");
+		fi;
+		return ColouredEdgeOfFace( simpsurf, face, colour);
+	end
+);
+
+
+##
+##	Compute ColouredEdgesOfFaces and ColoursOfEdges in terms of each other
+##	(assuming knowledge of EdgesOfFaces and FacesOfEdges).
+InstallMethod( ColouredEdgesOfFaces, 
+	"for a wild simplicial surface that knows its edge colours",
+	[ IsWildSimplicialSurface and HasColoursOfEdges ],
+	function( surf )
+		local edges, colEdgesOfFaces, face, colEdges;
+
+		colEdgesOfFaces := [];
+		for face in Faces(surf) do
+			edges := EdgesOfFaces(surf)[face];
+			colEdges := List( edges, e -> ColoursOfEdge(surf,e) );
+
+			colEdgesOfFaces[face] := List( [1,2,3], i -> 
+											edges[ Position( colEdges, i ) ] );
+		od;
+
+		return colEdgesOfFaces;
+	end
+);
+InstallMethod( ColoursOfEdges,
+	"for a wild simplicial surface that knows the coloured edges in each face",
+	[ IsWildSimplicialSurface and HasColouredEdgesOfFaces ],
+	function( surf )
+		local colEdges, edge, facesOnEdge, edgesInFace;
+
+		colEdges := [];
+
+		for edge in Edges(surf) do
+			facesOnEdge := FacesOfEdges(surf)[edge];
+			edgesInFace := ColouredEdgesOfFaces(surf)[ facesOnEdge[1] ];
+			colEdges[edge] := Position( edgesInFace, edge );
+		od;
+
+		return colEdges;
+	end
+);
+
+
+
+##############################################################################
+#############################################################################
+##
+##			Start of big (quasi-constructor) methods
+##
+##
 
 InstallOtherMethod( AllWildSimplicialSurfaces, 
 	"for three involutions",
@@ -276,7 +341,7 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 	vertexPaths, gens )
 	
 	local nrCycles, edges, edgeColours, facesOfEdges, vertices, edgesOfVertices,
-		FindEdges, surf;
+		FindEdges, surf, EmptySetIfRealFace, colEdgesOfFace, col, i, f;
 
 	nrCycles := Length(edgeCycles[1]);
 
@@ -284,12 +349,29 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 
 	# The edges will be modified
 	edges := [1..3*nrCycles];
+
 	edgeColours := List( [1..nrCycles], i -> 1 );
 	Append( edgeColours, List( [1..nrCycles], i -> 2 ) );
 	Append( edgeColours, List( [1..nrCycles], i -> 3 ) );
+
 	facesOfEdges := ShallowCopy( edgeCycles[1] );
 	Append( facesOfEdges, edgeCycles[2] );
 	Append( facesOfEdges, edgeCycles[3] );
+
+	EmptySetIfRealFace := function( f )
+		if f in faces then
+			return [];
+		fi;
+		return;
+	fi;
+	colEdgesOfFaces := List( [1..Maximum(faces)], i -> EmptySetIfRealFace(i) );
+	for col in [1,2,3] do
+		for i in [1..nrCycles] do
+			for f in edgecCycles[col][i] do
+				colEdgesOfFaces[f][col] := (col - 1)*nrCycles + i;
+			od;
+		od;
+	od;
 
 
 	# We define the wild simplicial surface before we manage the vertices
@@ -301,6 +383,7 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 	SetFacesOfEdges( surf, facesOfEdges );
 	SetGenerators( surf, gens );
 	SetColoursOfEdges( surf, edgeColours );
+	SetColouredEdgesOfFaces( surf, colEdgesOfFaces );
 
 
 	# The vertices have to be modified
@@ -319,9 +402,9 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 
 			# Now we have to find the edges that conform to the colours in
 			# pathElement[2] and pathElement[3]
-			Append( edges, Filtered( possibleEdges, 
-							e -> ColourOfEdge(surf,e) = pathElement[2] or 
-								ColourOfEdge(surf,e) = pathElement[3] ) );
+			Append( edges, 
+				[ ColouredEdgeOfFace(surf, pathElement[1], pathElement[2] ), 
+				ColouredEdgeOfFace(surf, pathElement[1], pathElement[3] ) ] );
 		od;
 
 		return Set(edges);
@@ -333,6 +416,8 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 	# We have to set the final attributes
 	SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 	SetEdgesOfVertices( surf, edgesOfVertices );
+
+	DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
 
 	return surf;
 end;
@@ -776,6 +861,13 @@ end;
     return AllSurfaces;
 
 end);
+
+##
+##
+##		End of big (quasi-constructor) methods
+##
+##############################################################################
+##############################################################################
 
 
 
