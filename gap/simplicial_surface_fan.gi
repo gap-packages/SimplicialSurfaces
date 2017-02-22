@@ -166,8 +166,8 @@ InstallMethod( SimplicialSurfaceFanByEdgeInColouredSimplicialSurface,
 #! Return the corona of the fan.
 #! @Arguments a simplicial surface fan
 #! @Returns a set of positive integers
-InstallMethod( CoronaOfFan,
-	"for a simplicial surface fan", [IsSimplicialSurfaceFan],
+InstallMethod( CoronaOfFan,	"for a simplicial surface fan", 
+	[IsSimplicialSurfaceFan],
 	function( fan )
 		return MovedPoints( PermutationOfFan( fan ) );
 	end
@@ -179,8 +179,8 @@ InstallMethod( CoronaOfFan,
 #! Begin and End in addition to inverting the permutation.
 #! @Arguments a simplicial surface fan
 #! @Returns a positive integers
-InstallMethod( InverseOfFan, 
-	"for a simplicial surface fan", [IsSimplicialSurfaceFan],
+InstallMethod( InverseOfFan, "for a simplicial surface fan", 
+	[IsSimplicialSurfaceFan],
 	function( fan )
 		local inv;
 

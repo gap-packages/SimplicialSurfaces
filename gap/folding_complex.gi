@@ -445,10 +445,8 @@ InstallMethod( FoldingComplexByFansAndBorders,
 #!	Return the underlying simplicial surface of this folding complex.
 #!	@Arguments a folding complex
 #!	@Returns a simplicial surface
-InstallMethod( UnderlyingSimplicialSurface, 
-	"for a folding complex",
-	[IsFoldingComplex and 
-		HasUnderlyingColouredSimplicialSurface],
+InstallMethod( UnderlyingSimplicialSurface, "for a folding complex",
+	[IsFoldingComplex and HasUnderlyingColouredSimplicialSurface],
 	function( complex )
 		return UnderlyingSimplicialSurface(
 					UnderlyingColouredSimplicialSurface(complex));
@@ -463,9 +461,7 @@ InstallMethod( UnderlyingSimplicialSurface,
 #!	a simplicial surface.
 #!	@Arguments a folding complex
 #!	@Returns a simplicial surface
-InstallMethod( OrientationCovering, 
-	"for a folding complex",
-	[IsFoldingComplex],
+InstallMethod( OrientationCovering, "for a folding complex", [IsFoldingComplex],
 	function( complex )
 		local colSurf, quotSurf, newVertices, newEdges, newFaces, ComplFaces,
 				VertexOrbits, edgesOfFaces, face, faceNr, edge, edgeNr,
