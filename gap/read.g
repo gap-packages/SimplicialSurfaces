@@ -9,7 +9,10 @@
 ##
 #############################################################################
 
-
+##	This has to be read in first since it initializes the global variable
+##	METHOD_SELECTION_GRAPH which is responsible for choosing the correct
+##	computation path.
+Read( "MethodSelectionGraph.gi" );
 
 Read( "simplicial_surface.gi" );
 Read( "wild_simplicial_surface.gi" );

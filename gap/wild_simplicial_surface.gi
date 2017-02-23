@@ -403,8 +403,8 @@ InstallOtherMethod( AllWildSimplicialSurfaces,
 	end
 );
 
-__SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
-	vertexPaths, gens )
+BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern", 
+	function( faces, edgeCycles, vertexPaths, gens )
 	
 	local nrCycles, edges, edgeColours, facesOfEdges, vertices, 
               edgesOfVertices, FindEdges, surf, EmptySetIfRealFace, 
@@ -488,7 +488,7 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 	DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
 
 	return surf;
-end;
+end);
 
 
 InstallMethod( AllWildSimplicialSurfaces, 

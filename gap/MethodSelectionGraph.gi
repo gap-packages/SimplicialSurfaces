@@ -131,3 +131,9 @@ InstallMethod( ComputeProperty,
     return evaluate_recursive( graph, property_name, object, how_to_compute );
     
 end );
+
+
+##
+##	Define the method selection graph for the package.
+##
+BindGlobal( "METHOD_SELECTION_GRAPH", MethodSelectionGraph([]) );

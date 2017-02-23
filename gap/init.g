@@ -10,6 +10,8 @@
 #############################################################################
 
 
+Read( "MethodSelectionGraph.gd" );
+
 Read( "simplicial_surface.gd" );
 Read( "wild_simplicial_surface.gd" );
 

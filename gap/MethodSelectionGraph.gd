@@ -7,7 +7,7 @@
 ##
 #############################################################################
 
-DeclareGlobalFunction( "evaluate_recusive" );
+DeclareGlobalFunction( "evaluate_recursive" );
 
 DeclareCategory( "IsMethodSelectionGraph", IsObject );
 

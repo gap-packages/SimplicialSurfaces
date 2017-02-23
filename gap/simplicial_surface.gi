@@ -27,6 +27,8 @@ DeclareRepresentation("IsSimplicialSurfaceRep", IsSimplicialSurface, [ ] );
 SimplicialSurfaceType := 
 	NewType( SimplicialSurfaceFamily, IsSimplicialSurfaceRep );
 
+
+
 ##
 #!	@Description
 #!	This function calls
@@ -120,7 +122,7 @@ InstallMethod( DeriveLocalOrientationAndFacesNamesFromIncidenceGeometry, "",
 ##	adjacent vertices lie in a common edge. There is no guarantee about which
 ##	ordering of the vertices will be chosen.
 ##
-__SIMPLICIAL_RandomVerticesOfFaces := function( vertices, faces, 
+BindGlobal( "__SIMPLICIAL_RandomVerticesOfFaces", function( vertices, faces, 
 		verticesOfFaces, edgesOfFaces, edgesOfVertices )
 	local faceList, i, faceVertices, vertexList, lastVertex, newVertex, v,
 		inter;
@@ -160,7 +162,7 @@ __SIMPLICIAL_RandomVerticesOfFaces := function( vertices, faces,
 	od;
 
 	return faceList;
-end;
+end);
 
 InstallMethod( DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC, "",
 		[IsSimplicialSurface],
@@ -261,7 +263,7 @@ RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC,
 ##	Next we have to install the same constructors with checks.
 ##
 ## This global function checks if a set consists of positive integers
-__SIMPLICIAL_IsSetPosInt := function( set ) 
+BindGlobal( "__SIMPLICIAL_IsSetPosInt", function( set ) 
 		local el;
 		for el in set do
 			if not IsPosInt(el) then
@@ -269,14 +271,15 @@ __SIMPLICIAL_IsSetPosInt := function( set )
 			fi;
 		od;
 		return true;
-	end;
+	end
+);
 ##
 ##	The argument edgesAdjacent is true if the edges in edgesOfFaces should 
 ##	conform to the standards of LocalOrientationOfEdgesAsList (that is, two
 ##	edges that are adjacent in the list should also be adjacent in the surface)
 ##
-__SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
-	verticesOfEdges, edgesOfFaces, namesOfFaces, edgesAdjacent )
+BindGlobal( "__SIMPLICIAL_CheckDownwardIncidence", function( vertices, edges, 
+	faces, verticesOfEdges, edgesOfFaces, namesOfFaces, edgesAdjacent )
 	
 	local e, f, IncidentEdges, edgeList, i;
 
@@ -371,7 +374,7 @@ __SIMPLICIAL_CheckDownwardIncidence := function( vertices, edges, faces,
 			Error("DownwardIncidenceCheck: More face-names than expected.");
 		fi;
 	fi;
-end;
+end);
 ##############################
 ##
 InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
@@ -592,8 +595,8 @@ RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC,
 #################################
 ##
 ##	Next we have to install the same constructors with checks.
-__SIMPLICIAL_CheckUpwardIncidence := function( vertices, edges, faces,
-	edgesOfVertices, facesOfEdges, namesOfFaces )
+BindGlobal( "__SIMPLICIAL_CheckUpwardIncidence", function( vertices, edges, 
+	faces, edgesOfVertices, facesOfEdges, namesOfFaces )
 	
 	local e, v, IncidentEdges, edgeList, i;
 
@@ -641,7 +644,7 @@ __SIMPLICIAL_CheckUpwardIncidence := function( vertices, edges, faces,
 		Error("UpwardIncidenceCheck: One face does not lie in any edge.");
 	fi;
 
-end;
+end);
 InstallMethod( SimplicialSurfaceByUpwardIncidence, "",
 	[ IsSet, IsSet, IsSet, IsList, IsList ],
 	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
@@ -776,7 +779,7 @@ RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC,
 ##
 ##	Of course the same constructors with sanity checks can't be missing.
 ##
-__SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces, 
+BindGlobal( "__SIMPLICIAL_CheckVerticesInFaces", function( vertices, faces, 
 		verticesOfFaces, namesOfFaces )
 	
 	local f;
@@ -820,7 +823,7 @@ __SIMPLICIAL_CheckVerticesInFaces := function( vertices, faces,
 			Error("VerticesInFacesCheck: More face-names than expected.");
 		fi;
 	fi;
-end;
+end);
 ###########################
 ##
 InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
@@ -894,7 +897,9 @@ InstallMethod( Vertices, "for a simplicial surface", [ IsSimplicialSurface ],
 ##	the list [1,2,3] would be the so defined representation. Fixed points will
 ##	be ignored.
 ##
-__SIMPLICIAL_TranslateCyclesIntoLists := function( listOfPerms, indexSet )
+BindGlobal( "__SIMPLICIAL_TranslateCyclesIntoLists", 
+	function( listOfPerms, indexSet )
+
 	local listOfLists, i, points, listRep, j;
 
 	listOfLists := [];
@@ -910,14 +915,14 @@ __SIMPLICIAL_TranslateCyclesIntoLists := function( listOfPerms, indexSet )
 	od;
 
 	return listOfLists;
-end;
+end);
 
 ##
 ##	Given a list of lists, this function returns a list of
 ##	permutations such that each permutation is defined by the list (like it
 ##	was described for the function above).
 ##
-__SIMPLICIAL_TranslateListsIntoCycles := function( listOfLists )
+BindGlobal( "__SIMPLICIAL_TranslateListsIntoCycles", function( listOfLists )
 	local Shift;
 
 	# local function that shifts each entry of the list to the previous one
@@ -933,7 +938,7 @@ __SIMPLICIAL_TranslateListsIntoCycles := function( listOfLists )
 	end;
 
 	return List( listOfLists, list -> MappingPermListList(list, Shift(list)) );
-end;
+end);
 
 
 
@@ -1034,7 +1039,7 @@ InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface",
 ##		a conversion of A in terms of B
 ##		a list of sets of all elements of B that are possible (for a given face)
 ##
-__SIMPLICIAL_ConversionLocalOrientationVerticesEdges := 
+BindGlobal( "__SIMPLICIAL_ConversionLocalOrientationVerticesEdges", 
 	function( listOfLists, listIndex, conversion, possibleNewElements )
 
 	local newListOfLists, i, oldList, newList, firstEl, secondEl, intersection,
@@ -1080,7 +1085,7 @@ __SIMPLICIAL_ConversionLocalOrientationVerticesEdges :=
 	od;
 
 	return newListOfLists;
-end;
+end);
 
 
 #############################################################################
@@ -1337,7 +1342,9 @@ InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj,
 ##	Given are the numbers of edges and faces, together with the relation
 ##	edgesOfFaces. It returns the relation facesOfEdges. (The names are used
 ##	only for illustration.)
-__SIMPLICIAL_InvertIncidence := function( faceNr, edgesOfFaces, edgeNr )
+BindGlobal( "__SIMPLICIAL_InvertIncidence", 
+	function( faceNr, edgesOfFaces, edgeNr )
+
 	local edgeList, edge, faceSet, face;
 
 	edgeList := [];
@@ -1352,7 +1359,7 @@ __SIMPLICIAL_InvertIncidence := function( faceNr, edgesOfFaces, edgeNr )
 	od;
 
 	return edgeList;
-end;
+end);
 ##
 ##	With this method we can write inversion methods for all six cases.
 InstallMethod( EdgesOfVertices, 
@@ -1400,8 +1407,9 @@ InstallMethod( EdgesOfFaces,
 ##
 ##	Next we consider the case of transitivity: From EdgesOfFaces and 
 ##	VerticesOfEdges we can deduce VerticesOfFaces
-__SIMPLICIAL_TransitiveIncidence := function( faceNr, edgesOfFaces, edgeNr,
-												verticesOfEdges, vertexNr )
+BindGlobal( "__SIMPLICIAL_TransitiveIncidence", 
+	function( faceNr, edgesOfFaces, edgeNr,	verticesOfEdges, vertexNr )
+
 	local face, verticesOfFaces, edgesInFace, verticesInEdges;
 
 	verticesOfFaces := [];
@@ -1412,7 +1420,7 @@ __SIMPLICIAL_TransitiveIncidence := function( faceNr, edgesOfFaces, edgeNr,
 	od;
 
 	return verticesOfFaces;
-end;
+end);
 ##
 InstallMethod( VerticesOfFaces, 
 	[IsSimplicialSurface and HasEdgesOfFaces and HasVerticesOfEdges ], 10,
