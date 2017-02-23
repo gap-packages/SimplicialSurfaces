@@ -70,6 +70,7 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"UnsortedDegrees",
 			"SortedDegrees",
 			"VertexSymbol",
+			"FaceEdgePathsOfVertices",
 			"LocalOrientationByVerticesAsPerm",
 			"LocalOrientationByVerticesAsList",
 			"LocalOrientationByEdgesAsPerm",
@@ -1720,6 +1721,130 @@ InstallMethod( VertexSymbol, "for a simplicial surface", [IsSimplicialSurface],
 		return symbol;
 	end
 );
+
+
+##############################################################################
+##
+##	Install the methods concerning the face-edge-paths
+##
+InstallMethod( FaceEdgePathsOfVertices, 
+	"for a simplicial surface that is an actual surface", 
+	[ IsSimplicialSurface and IsActualSurface ],
+	function( surf )
+		local faceEdgePathList, vertex, incidentEdges, incidentFaces, 
+			faceEdgePaths, faceStart, possEdges, path, lastEdge, nextFaceList,
+			frontFinished, backFinished, newLastEdge, Representation;
+
+		faceEdgePathList := [];		# This will be the final result
+
+		for vertex in Vertices( surf ) do
+			incidentEdges := EdgesOfVertices(surf)[vertex];
+			incidentFaces := ShallowCopy( FacesOfVertices(surf)[vertex] );
+			faceEdgePaths := [];	# Save the paths for each vertex
+
+			while not IsEmpty( incidentFaces ) do
+				faceStart := incidentFaces[1];	# This is the smallest face
+				possEdges := Intersection( incidentEdges, 
+										EdgesOfFaces(surf)[faceStart] );
+				if Length(possEdges) <> 2 then
+					Error("FaceEdgePathsOfVertices: Each face should have to edges incident to each of its incident vertices." );
+				fi;
+
+				# We define the path in such a way that the second edge is 
+				# smaller than the first one
+				path := [ possEdges[2], faceStart, possEdges[1] ];
+				
+				# Since we can possibly extend this path in two directions
+				# we use two bools to check this possibility
+				frontFinished := false;
+				backFinished := false;
+
+				while not frontFinished or not backFinished do
+					# Try to extend the path beyond the last edge
+					lastEdge := path[ Length(path) ];
+					nextFaceList := Difference( FacesOfEdges(surf)[lastEdge], 
+											[ path[ Length(path) - 1 ] ] );
+
+					if IsEmpty( nextFaceList ) then
+						# We have an open path. Now we have to extend the
+						# front of the path until we find the next border
+						if backFinished then
+							frontFinished := true;
+						else
+							backFinished := true;
+							path := Reversed( path );
+						fi;
+					elif Length( nextFaceList ) = 1 then
+						# Check if we have come full circle
+						if nextFaceList[1] = path[2] then
+							backFinished := true;
+							frontFinished := true;
+						else
+							# Append the new face
+							Append( path, nextFaceList );
+							incidentFaces := Difference( incidentFaces, 
+															nextFaceList );
+							newLastEdge := Difference( 
+								Intersection( incidentEdges, 
+										EdgesOfFaces(surf)[nextFaceList[1]] ), 
+								[ lastEdge ] );
+
+							if Length(newLastEdge) <> 1 then
+								Error("FaceEdgePathsOfVertices: Can't walk the face-edge-path.");
+							fi;
+
+							Append( path, newLastEdge );
+						fi;
+					else
+						Error("FaceEdgePathsOfVertices: More than two faces incident to an edge." );
+					fi;
+				od;
+				# path is finished
+				# Because of our construction most of the paths are already in
+				# the correct form.
+				Representation := function( path )
+					if IsOddInt( Length( path ) ) and 
+								path[2] > path[ Length(path) - 1 ] then
+						return Reversed(path);
+					else
+						return path;
+					fi;
+				end;
+				Append( faceEdgePaths, Representation(path) );
+			od;
+
+			# Computation of paths for a vertex is finished
+			faceEdgePathList[vertex] := Set( faceEdgePaths );
+		od;
+
+		return faceEdgePathList;
+	end
+);
+RedispatchOnCondition( FaceEdgePathsOfVertices, true, [IsSimplicialSurface],
+	[IsActualSurface], 0 );
+
+InstallMethod( FaceEdgePathsOfVertexNC, 
+	"for a simplicial surface that is an actual surface and a positive integer", 
+	[ IsSimplicialSurface and IsActualSurface, IsPosInt ],
+	function( surf, vertex )
+		return FaceEdgePathsOfVertices(surf)[vertex];
+	end
+);
+RedispatchOnCondition( FaceEdgePathsOfVertexNC, true, 
+	[IsSimplicialSurface, IsPosInt], [IsActualSurface, ], 0 );
+
+InstallMethod( FaceEdgePathsOfVertex, 
+	"for a simplicial surface that is an actual surface and a positive integer", 
+	[ IsSimplicialSurface and IsActualSurface, IsPosInt ],
+	function( surf, vertex )
+		if not vertex in Vertices(surf) then
+			Error("FaceEdgePathsOfVertex: Given vertex has to be a vertex of the given simplicial surface.");
+		fi;
+		return FaceEdgePathsOfVertexNC(surf,vertex);
+	end
+);
+RedispatchOnCondition( FaceEdgePathsOfVertex, true, 
+	[IsSimplicialSurface, IsPosInt], [IsActualSurface, ], 0 );
 
 ###############################################################################
 ##

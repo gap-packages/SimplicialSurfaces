@@ -336,8 +336,7 @@ DeclareAttribute( "EulerCharacteristic",
 #!	(the degree of the vertex). All other positions are unbounded.
 #!  @Returns a list of integers
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "UnsortedDegrees", 
-		IsSimplicialSurface );
+DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
 
 
 #!  @Description
@@ -345,8 +344,7 @@ DeclareAttribute( "UnsortedDegrees",
 #!	degrees of the vertices (with repetitions)
 #!  @Returns a dense sorted list of integers
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "SortedDegrees", 
-		IsSimplicialSurface );
+DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 
 #!  @Description
 #!  Return the vertex symbol of a simplicial surface.
@@ -355,8 +353,30 @@ DeclareAttribute( "SortedDegrees",
 #!	vertices the entry is unbounded.
 #!  @Arguments a simplicial surface object simpsurf
 #!  @Returns a list of integers
-DeclareAttribute( "VertexSymbol", 
-		IsSimplicialSurface );
+DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
+
+
+#!	@Description
+#!	Return a list that contains all face-edge-paths for each vertex. For a 
+#!	given vertex a face-edge-path is a list $(e_1,f_1,e_2,f_2,...,f_n,e_{n+1})$
+#!	or $(e_1,f_1,e_2,f_2,...,f_n)$ such that all $e_i$ are pairwise distinct
+#!	edges incident to the vertex and all $f_j$ are pairwise distinct faces
+#!	incident to the vertex. Furthermore, adjacent elements in the list are
+#!	incident to each other. In the first case (path has odd length) the edges
+#!	$e_1$ and $e_{n+1}$ are border edges. In the second case (path has even 
+#!	length) $e_1$ and $f_n$ are incident.
+#!	If there are several possible ways to describe a face-edge-path, we choose
+#!	the representative where $f_1$ is minimal among all faces in a path. If 
+#!	this is still not unique, we choose one of the remaining paths in a way
+#!	that $e_2$ is minimal among the edges.
+#!	@Arguments simplicialSurface
+#!	@Returns a list of lists of face-edge-paths
+DeclareAttribute( "FaceEdgePathsOfVertices", 
+		IsSimplicialSurface and IsActualSurface );
+DeclareOperation( "FaceEdgePathsOfVertex", 
+		[IsSimplicialSurface and IsActualSurface, IsPosInt] );
+DeclareOperation( "FaceEdgePathsOfVertexNC", 
+		[IsSimplicialSurface and IsActualSurface, IsPosInt] );
 
 
 #!  @Description
@@ -367,8 +387,7 @@ DeclareAttribute( "VertexSymbol",
 #!	Either this method or LocalOrientationByEdges is basic
 #!  @Returns a list of permutations
 #!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "LocalOrientationByVerticesAsPerm", 
-		IsSimplicialSurface );
+DeclareAttribute( "LocalOrientationByVerticesAsPerm", IsSimplicialSurface );
 DeclareOperation( "LocalOrientation", [IsSimplicialSurface] );
 
 

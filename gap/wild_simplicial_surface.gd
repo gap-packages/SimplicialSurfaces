@@ -134,9 +134,8 @@ DeclareAttribute( "GroupOfWildSimplicialSurface", IsWildSimplicialSurface );
 #! Return the  face edge path of a vertex, i.e.....
 #! @Arguments a wild simplicial surface
 #! @Returns a list
-DeclareAttribute( "FaceEdgePathsOfVertices", IsWildSimplicialSurface );
-
-DeclareOperation( "FaceEdgePathOfVertex", [IsWildSimplicialSurface,IsPosInt] );
+#DeclareAttribute( "FaceEdgePathsOfVertices", IsWildSimplicialSurface );
+#DeclareOperation( "FaceEdgePathOfVertex", [IsWildSimplicialSurface,IsPosInt] );
 
 
 #! @Description Given a wild coloured simplicial surface simpsurf, this
