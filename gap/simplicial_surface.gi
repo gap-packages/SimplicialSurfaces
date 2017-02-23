@@ -1744,6 +1744,7 @@ InstallMethod( FaceEdgePathsOfVertices,
 
 			while not IsEmpty( incidentFaces ) do
 				faceStart := incidentFaces[1];	# This is the smallest face
+				incidentFaces := incidentFaces{[2..Length(incidentFaces)]};
 				possEdges := Intersection( incidentEdges, 
 										EdgesOfFaces(surf)[faceStart] );
 				if Length(possEdges) <> 2 then
@@ -1775,24 +1776,24 @@ InstallMethod( FaceEdgePathsOfVertices,
 							path := Reversed( path );
 						fi;
 					elif Length( nextFaceList ) = 1 then
-						# Check if we have come full circle
-						if nextFaceList[1] = path[2] then
-							backFinished := true;
-							frontFinished := true;
-						else
-							# Append the new face
-							Append( path, nextFaceList );
-							incidentFaces := Difference( incidentFaces, 
+						# Append the new face
+						Append( path, nextFaceList );
+						incidentFaces := Difference( incidentFaces, 
 															nextFaceList );
-							newLastEdge := Difference( 
-								Intersection( incidentEdges, 
+						newLastEdge := Difference( 
+							Intersection( incidentEdges, 
 										EdgesOfFaces(surf)[nextFaceList[1]] ), 
-								[ lastEdge ] );
+							[ lastEdge ] );
 
-							if Length(newLastEdge) <> 1 then
-								Error("FaceEdgePathsOfVertices: Can't walk the face-edge-path.");
-							fi;
+						if Length(newLastEdge) <> 1 then
+							Error("FaceEdgePathsOfVertices: Can't walk the face-edge-path.");
+						fi;
 
+						# Check whether the path closes itself
+						if path[1] = newLastEdge[1] then
+							frontFinished := true;
+							backFinished := true;
+						else
 							Append( path, newLastEdge );
 						fi;
 					else
@@ -1810,7 +1811,7 @@ InstallMethod( FaceEdgePathsOfVertices,
 						return path;
 					fi;
 				end;
-				Append( faceEdgePaths, Representation(path) );
+				Append( faceEdgePaths, [Representation(path)] );
 			od;
 
 			# Computation of paths for a vertex is finished
