@@ -58,7 +58,7 @@ InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
 ##
 ##	Function to enrich a SimplicialSurface with generators
 InstallMethod( WildSimplicialSurfaceExtensionNC, "",
-	[ IsSimplicialSurface and IsActualSurface, IsList ],
+	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
 	function( simpsurf, generators )
 		local wild;
 
@@ -71,11 +71,12 @@ InstallMethod( WildSimplicialSurfaceExtensionNC, "",
 );
 ##	If it is not known that we have an actual surface, we have to check
 RedispatchOnCondition( WildSimplicialSurfaceExtensionNC, true,
-	[IsSimplicialSurface, IsList], [IsActualSurface,], 0 );
+	[IsSimplicialSurface, IsList], [IsActualSurface and IsTriangleSurface,], 
+	0 );
 ##	This method checks if the generators match the simplicial surface, then
 ##	enriches it with generators
 InstallMethod( WildSimplicialSurfaceExtension, "",
-	[ IsSimplicialSurface and IsActualSurface, IsList ],
+	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
 	function( simpsurf, generators )
 		#TODO check if the generators match the simplicial surface
 		return WildSimplicialSurfaceExtensionNC( simpsurf, generators);
@@ -83,7 +84,8 @@ InstallMethod( WildSimplicialSurfaceExtension, "",
 );
 ##	If it is not known that we have an actual surface, we have to check
 RedispatchOnCondition( WildSimplicialSurfaceExtension, true,
-	[IsSimplicialSurface, IsList], [IsActualSurface,], 0 );
+	[IsSimplicialSurface, IsList], [IsActualSurface and IsTriangleSurface,], 
+	0 );
 ##
 ##							End of constructors
 ##

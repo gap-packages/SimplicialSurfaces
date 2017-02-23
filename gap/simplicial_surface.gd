@@ -269,13 +269,36 @@ DeclareAttribute( "EdgesOfFaces",
 		IsSimplicialSurface);
 
 
+
+
 #!	@Description
-#!	The property IsActualSurface is true if the SimplicialSurface object
-#!	actually represents a surface (it might otherwise happen that one edge
-#!	belongs to three different faces).
+#!	The property IsEdgesLikeSurface is true if the edges of the simplicial
+#!	surface look like edges in a real surface. They do if for each edge a
+#!	maximum of two faces is incident to that edge.
 #!	@Arguments a simplicial surface
-#!	@Returns true if it is a surface and false else.
-DeclareProperty( "IsActualSurface", IsSimplicialSurface );
+#!	@Returns true if the edges look like those on a surface and false else.
+DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
+
+
+#!	@Description
+#!	The property IsVerticesLikeSurface is true if the vertices of the simplicial
+#!	surface look like edges in a real surface. They do if there is a unique
+#!	face-edge-path for each vertex. This is only possible if IsEdgesLikeSurface
+#!	is already true.
+#!	@Arguments a simplicial surface
+#!	@Returns true if the vertices look like those on a surface and false else.
+DeclareProperty( "IsVerticesLikeSurface", IsSimplicialSurface );
+
+
+#!	@Description
+#!	The property IsActualSurface is true if both IsEdgesLikeSurface and
+#!	IsVerticesLikeSurface are true.
+#!	@Arguments a simplicial surface
+#!	@Returns true if the simplicial surface is an actual surface, otherwise
+#!		return false
+DeclareSynonym( "IsActualSurface", 
+		IsVerticesLikeSurface and IsEdgesLikeSurface );
+
 
 
 #!	@Description
@@ -292,7 +315,8 @@ DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 #!	every edge is incident to exactly two faces.
 #!	@Arguments a simplicial surface
 #!	@Returns true if it is closed, false otherwise
-DeclareProperty( "IsClosedSurface", IsSimplicialSurface and IsActualSurface );
+DeclareProperty( "IsClosedSurface", 
+			IsSimplicialSurface and IsEdgesLikeSurface );
 
 
 #!	@Description
@@ -300,7 +324,7 @@ DeclareProperty( "IsClosedSurface", IsSimplicialSurface and IsActualSurface );
 #!	orientable. This is only possible if it is an actual surface.
 #!	@Arguments a simplicial surface
 #!	@Returns true if orientable, false otherwise
-DeclareProperty( "IsOrientable", IsSimplicialSurface and IsActualSurface );
+DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
 
 
 #!	@Description
@@ -372,11 +396,11 @@ DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
 #!	@Arguments simplicialSurface
 #!	@Returns a list of lists of face-edge-paths
 DeclareAttribute( "FaceEdgePathsOfVertices", 
-		IsSimplicialSurface and IsActualSurface );
+		IsSimplicialSurface and IsEdgesLikeSurface );
 DeclareOperation( "FaceEdgePathsOfVertex", 
-		[IsSimplicialSurface and IsActualSurface, IsPosInt] );
+		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 DeclareOperation( "FaceEdgePathsOfVertexNC", 
-		[IsSimplicialSurface and IsActualSurface, IsPosInt] );
+		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 
 
 #!  @Description

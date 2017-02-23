@@ -61,7 +61,8 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"FacesOfEdges",
 			"VerticesOfFaces",
 			"EdgesOfFaces",
-			"IsActualSurface",
+			"IsEdgesLikeSurface",
+			"IsVerticesLikeSurface",
 			"IsTriangleSurface",
 			"IsOrientable",
 			"IsConnected",
@@ -1729,7 +1730,7 @@ InstallMethod( VertexSymbol, "for a simplicial surface", [IsSimplicialSurface],
 ##
 InstallMethod( FaceEdgePathsOfVertices, 
 	"for a simplicial surface that is an actual surface", 
-	[ IsSimplicialSurface and IsActualSurface ],
+	[ IsSimplicialSurface and IsEdgesLikeSurface ],
 	function( surf )
 		local faceEdgePathList, vertex, incidentEdges, incidentFaces, 
 			faceEdgePaths, faceStart, possEdges, path, lastEdge, nextFaceList,
@@ -1822,21 +1823,21 @@ InstallMethod( FaceEdgePathsOfVertices,
 	end
 );
 RedispatchOnCondition( FaceEdgePathsOfVertices, true, [IsSimplicialSurface],
-	[IsActualSurface], 0 );
+	[IsEdgesLikeSurface], 0 );
 
 InstallMethod( FaceEdgePathsOfVertexNC, 
 	"for a simplicial surface that is an actual surface and a positive integer", 
-	[ IsSimplicialSurface and IsActualSurface, IsPosInt ],
+	[ IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt ],
 	function( surf, vertex )
 		return FaceEdgePathsOfVertices(surf)[vertex];
 	end
 );
 RedispatchOnCondition( FaceEdgePathsOfVertexNC, true, 
-	[IsSimplicialSurface, IsPosInt], [IsActualSurface, ], 0 );
+	[IsSimplicialSurface, IsPosInt], [IsEdgesLikeSurface, ], 0 );
 
 InstallMethod( FaceEdgePathsOfVertex, 
 	"for a simplicial surface that is an actual surface and a positive integer", 
-	[ IsSimplicialSurface and IsActualSurface, IsPosInt ],
+	[ IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt ],
 	function( surf, vertex )
 		if not vertex in Vertices(surf) then
 			Error("FaceEdgePathsOfVertex: Given vertex has to be a vertex of the given simplicial surface.");
@@ -1845,7 +1846,7 @@ InstallMethod( FaceEdgePathsOfVertex,
 	end
 );
 RedispatchOnCondition( FaceEdgePathsOfVertex, true, 
-	[IsSimplicialSurface, IsPosInt], [IsActualSurface, ], 0 );
+	[IsSimplicialSurface, IsPosInt], [IsEdgesLikeSurface, ], 0 );
 
 ###############################################################################
 ##
@@ -1886,12 +1887,8 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 
 ###############################################################################
 ##
-#!  @Description
-#!  This function checks whether the simplicial surface is an actual surface.
-#!  @Returns true if it is a surface and false else.
-#!  @Arguments <simpsurf> a simplicial surface
-#!
-InstallMethod( IsActualSurface, "for a simplicial surface",
+##	Install the methods to determine whether a surface is an actual surface.
+InstallMethod( IsEdgesLikeSurface, "for a simplicial surface",
 	[IsSimplicialSurface],
 	function( simpsurf )
 		local face, edgeByFaces, check;
@@ -1899,6 +1896,22 @@ InstallMethod( IsActualSurface, "for a simplicial surface",
 		check := true;
 		edgeByFaces := FacesOfEdges( simpsurf );
 		check := Filtered( edgeByFaces, i -> Length(i) > 2 );
+	
+		return IsEmpty(check);
+	end
+);
+
+InstallMethod( IsVerticesLikeSurface, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function( simpsurf )
+		local vertexPaths, check;
+
+		if not IsEdgesLikeSurface( simpsurf ) then
+			return false;
+		fi;
+
+		vertexPaths := FaceEdgePathsOfVertices( simpsurf );
+		check := Filtered( vertexPaths, i -> Length(i) <> 1 );
 	
 		return IsEmpty(check);
 	end
@@ -1928,13 +1941,14 @@ InstallMethod( IsTriangleSurface, "for a simplicial surface",
 #############################################################################
 ##
 #!	@Description
-#!	Given a simplicial surface which is an actual surface, the property
+#!	Given a simplicial surface whose edges look like edges on a surface, the 
+#!	property
 #!	IsClosedSurface is true if the surface is closed or equivalently that
 #!	every edge is incident to exactly two faces.
 #!	@Arguments a simplicial surface
 #!	@Returns true if it is closed, false otherwise
 InstallMethod( IsClosedSurface, "for a simplicial surface",
-	[IsSimplicialSurface and IsActualSurface],
+	[IsSimplicialSurface and IsEdgesLikeSurface],
 	function( simpsurf )
 		local facesOfEdges, check;
 
@@ -1946,7 +1960,7 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 	end
 );
 RedispatchOnCondition( IsClosedSurface, true, [IsSimplicialSurface],
-	[IsActualSurface], 0 );
+	[IsEdgesLikeSurface], 0 );
 
 
 #############################################################################
@@ -2004,12 +2018,13 @@ InstallMethod( IsConnected, "for a simplicial surface",
 ##
 #!  @Description
 #!  This function decides whether the simplicial surface
-#!  <simpsurf> is orientable. To that end it has to be an actual surface.
+#!  <simpsurf> is orientable. To that end its edges have to look like edges
+#!	in a surface.
 #!  @Returns true if the surface is orientable and false else.
 #!  @Arguments <simpsurf> a simplicial surface
 #!
 InstallMethod( IsOrientable, "for a simplicial surface",
-	[IsSimplicialSurface and IsActualSurface],
+	[IsSimplicialSurface and IsEdgesLikeSurface],
 	function(simpsurf)
 		# This method tries to find an orientation for the surface. By the 
 		# local orientation we can distinguish "up" and "down" for each
@@ -2134,7 +2149,7 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 	end
 );
 RedispatchOnCondition( IsOrientable, true, [IsSimplicialSurface],
-	[IsActualSurface], 0 );
+	[IsEdgesLikeSurface], 0 );
 
 #############################################################################
 ##
