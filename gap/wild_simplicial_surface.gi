@@ -295,8 +295,6 @@ InstallMethod( ColoursOfEdges,
 
 
 
-
-#TODO write coloured-face-edge-path-methods
 InstallMethod( ColouredFaceEdgePathsOfVertices, "for a wild simplicial surface",
 	[ IsWildSimplicialSurface ],
 	function( surf )
