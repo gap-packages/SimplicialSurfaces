@@ -44,7 +44,8 @@ BindGlobal( "FoldingComplexFamily",
 #!	other properties are uniquely defined if we start with an actual surface.
 #!	@Arguments a simplicial surface that is an actual surface
 #!	@Returns a folding complex
-DeclareOperation( "FoldingComplex", [IsSimplicialSurface and IsActualSurface]);
+DeclareOperation( "FoldingComplex", 
+		[IsSimplicialSurface and IsEdgesLikeSurface]);
 
 
 #!	@Description

@@ -142,7 +142,7 @@ end;
 #!	@Arguments a simplicial surface that is an actual surface
 #!	@Returns a folding complex
 InstallMethod( FoldingComplex, "for a simplicial surface", 
-	[IsSimplicialSurface and IsActualSurface],
+	[IsSimplicialSurface and IsEdgesLikeSurface],
 	function( surface )
 		return FoldingComplexByFansNC( surface, [] );
 		# If we construct fans and border pieces on the basis of a simplicial
@@ -153,7 +153,7 @@ InstallMethod( FoldingComplex, "for a simplicial surface",
 ##	If the simplicial surface is not already known as an actual surface, we have
 ##	to check manually.
 RedispatchOnCondition( FoldingComplex, true, [IsSimplicialSurface],
-	[IsActualSurface], 0);
+	[IsEdgesLikeSurface], 0);
 
 
 #!	@Description
