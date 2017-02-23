@@ -335,7 +335,8 @@ end;
 ##	vertexNr	number of vertices
 ##	edgeNr		number of edges
 ##	faceNr		number of faces
-##	isActualSurface		is the simplicial surface an actual surface?
+##	isEdgesLikeSurface			do the edges look like on a surface
+##	isVerticesLikeSurface		do the vertices look like on a surface
 ##	isTriangleSurface	is every face of the simplicial surface a triangle?
 ##	isClosedSurface		is the simplicial surface closed?
 ##	isOrientable		is the simplicial surface orientable?
@@ -346,7 +347,8 @@ end;
 ##	isSnippable			does the surface get smaller if we snipp of ears?
 ##
 TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin, 
-	vertexNr, edgeNr, faceNr, isActualSurface, isTriangleSurface, 
+	vertexNr, edgeNr, faceNr, isEdgesLikeSurface, isVerticesLikeSurface,
+	isTriangleSurface, 
 	isClosedSurface, isOrientable, 
 	isConnected, sortDeg, vertexSym, anomalyClassCount, isSnippable)
 
@@ -381,13 +383,23 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 	fi;
 
 
-	# actual surface check
-	if IsActualSurface( surface ) <> isActualSurface then
+	# edges like surface check
+	if IsEdgesLikeSurface( surface ) <> isEdgesLikeSurface then
 		Print( messageSurfaceOrigin );
-		if isActualSurface then
-			Print( " must be an actual surface.\n" );
+		if isEdgesLikeSurface then
+			Print( " must have edges like that on a surface.\n" );
 		else
-			Print( " must not be an actual surface.\n" );
+			Print( " must have an edge unlike that on a surface.\n" );
+		fi;
+	fi;
+
+	# vertices like surface check
+	if IsVerticesLikeSurface( surface ) <> isVerticesLikeSurface then
+		Print( messageSurfaceOrigin );
+		if isVerticesLikeSurface then
+			Print( " must have vertices like that on a surface.\n" );
+		else
+			Print( " must have a vertex unlike that on a surface.\n" );
 		fi;
 	fi;
 
@@ -402,7 +414,7 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 	fi;
 
 	# closed check (only makes sense if it is an actual surface)
-	if IsActualSurface(surface) and IsClosedSurface( surface ) <> isClosedSurface then
+	if IsEdgesLikeSurface(surface) and IsClosedSurface( surface ) <> isClosedSurface then
 		Print( messageSurfaceOrigin );
 		if isClosedSurface then
 			Print( " must be a closed surface.\n");
@@ -412,7 +424,7 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 	fi;
 
 	# orientable check (only makes sense if it is an actual surface)
-	if IsActualSurface(surface) and IsOrientable( surface ) <> isOrientable then
+	if IsEdgesLikeSurface(surface) and IsOrientable( surface ) <> isOrientable then
 		Print( messageSurfaceOrigin );
 		if isOrientable then
 			Print( " must be orientable.\n");

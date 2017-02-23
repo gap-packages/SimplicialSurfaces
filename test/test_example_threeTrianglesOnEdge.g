@@ -28,7 +28,8 @@ TestIsThreeTrianglesOnEdge := function( surface, messageSurfaceOrigin )
 		5, 		# number of vertices
 		7, 		# number of edges
 		3,		# number of faces
-		false,	# is it an actual surface?
+		false,	# do the edges look like on a surface?
+		false,	# do the vertices look like on a surface?
 		true,	# is every face a triangle?
 		false,	# is it closed?
 		false,	# is it orientable?

@@ -26,7 +26,8 @@ TestIsPentagon := function( surface, messageSurfaceOrigin )
 		6, 		# number of vertices
 		10, 	# number of edges
 		5,		# number of faces
-		true,	# is it an actual surface?
+		true,	# do the edges look like on a surface?
+		true,	# do the vertices look like on a surface?
 		true,	# is every face a triangle?
 		false,	# is it closed?
 		true,	# is it orientable?

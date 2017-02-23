@@ -50,7 +50,8 @@ TestIsIcosahedron := function( surface, messageSurfaceOrigin )
 		12, 		# number of vertices
 		30, 	# number of edges
 		20,		# number of faces
-		true,	# is it an actual surface?
+		true,	# do the edges look like on a surface?
+		true,	# do the vertices look like on a surface?
 		true,	# is every face a triangle?
 		true,	# is it closed?
 		true,	# is it orientable?

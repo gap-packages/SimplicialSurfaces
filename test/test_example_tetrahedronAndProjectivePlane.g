@@ -30,7 +30,8 @@ TestIsTetrahedronAndProjectivePlane := function( surface, messageSurfaceOrigin )
 		7, 		# number of vertices
 		12, 	# number of edges
 		8,		# number of faces
-		true,	# is it an actual surface?
+		true,	# do the edges look like on a surface?
+		true,	# do the vertices look like on a surface?
 		true,	# is every face a triangle?
 		true,	# is it closed?
 		false,	# is it orientable?

@@ -28,7 +28,8 @@ TestIsTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
 		4, 		# number of vertices
 		5, 		# number of edges
 		2,		# number of faces
-		true,	# is it an actual surface?
+		true,	# do the edges look like on a surface?
+		true,	# do the vertices look like on a surface?
 		true,	# is every face a triangle?
 		false,	# is it closed?
 		true,	# is it orientable?
