@@ -44,7 +44,7 @@ FoldingComplexType := NewType( FoldingComplexFamily, IsFoldingComplexRep );
 ##	two border pieces will be found. If the face equivalence class is its own
 ##	connected component, no border pieces will be found. If more than two
 ##	border pieces are found, something has gone wrong.
-__SIMPLICIAL_RecognizeBorderPieces := function( complex, faceEqNr )
+BindGlobal( "__SIMPLICIAL_RecognizeBorderPieces", function( complex, faceEqNr )
 	local colSurf, faceClass, edgeClassNrs, recBorders, edgeNr, orFace, face;
 
 	colSurf := UnderlyingColouredSimplicialSurface( complex );
@@ -65,13 +65,13 @@ __SIMPLICIAL_RecognizeBorderPieces := function( complex, faceEqNr )
 	od;
 
 	return Set(recBorders);
-end;
+end);
 
 ##
 ##	Furthermore, we need methods to check if fans and border pieces fit
 ##	together. First we check whether the fans of two edge classes are
 ##	compatible (see definition 3.18)
-__SIMPLICIAL_AreFansCompatible := function( complex, fan1, fan2 )
+BindGlobal( "__SIMPLICIAL_AreFansCompatible", function( complex, fan1, fan2 )
 	local corInt, red1, red2, sur1, sur2;
 
 	# First we calculate the intersection between the coronae
@@ -99,7 +99,7 @@ __SIMPLICIAL_AreFansCompatible := function( complex, fan1, fan2 )
 	else
 		return PermutationOfFan(red1) = PermutationOfFan( InverseOfFan(red2) );
 	fi;
-end;
+end);
 
 ##
 ##	The final consistency method checks whether the border pieces that are
@@ -107,7 +107,9 @@ end;
 ##	pieces. Two oriented surfaces are called complementary with respect to
 ##	a given fan if the application of the fan to one of them gives the other
 ##	one as a result.
-__SIMPLICIAL_AreBorderPiecesComplementary := function( complex, edge )
+BindGlobal( "__SIMPLICIAL_AreBorderPiecesComplementary",
+	function( complex, edge )
+	
 	local fan, colSurf, faceNumbers, b, borders, surface, com;
 
 	# Determine the fan
@@ -134,7 +136,7 @@ __SIMPLICIAL_AreBorderPiecesComplementary := function( complex, edge )
 	od;
 
 	return true;
-end;
+end);
 
 #!	@Description
 #!	Return a folding complex that is based on the given simplicial surface. All
@@ -204,7 +206,7 @@ InstallOtherMethod( FoldingComplexByFansNC,
 ##	Check if a given list of fans is compatible with all other fans
 ##	If the length of the given message is zero, no error is thrown (instead
 ##	false will be returned in case of failure)
-__SIMPLICIAL_IsSetOfFansConsistentColoured :=
+BindGlobal( "__SIMPLICIAL_IsSetOfFansConsistentColoured",
 								 function( complex, edgeCheck, message)
 	local surface, edge, check;
 
@@ -228,7 +230,7 @@ __SIMPLICIAL_IsSetOfFansConsistentColoured :=
 	od;
 
 	return true;
-end;
+end);
 InstallOtherMethod( FoldingComplexByFans, 
 	"for a simplicial surface and a list of fans",
 	[IsSimplicialSurface, IsList],
@@ -271,7 +273,9 @@ InstallMethod( FoldingComplexByFansNC,
 	end
 );
 ##	Check if a given list of fans matches the surface
-__SIMPLICIAL_CheckFansColoured := function( surface, fanList, message )
+BindGlobal( "__SIMPLICIAL_CheckFansColoured", 
+	function( surface, fanList, message )
+
 	local edge, fan, edgeCheck;
 
 	edgeCheck := [];
@@ -288,7 +292,7 @@ __SIMPLICIAL_CheckFansColoured := function( surface, fanList, message )
 	od;
 
 	return edgeCheck;
-end;
+end);
 InstallMethod( FoldingComplexByFans, 
 	"for a coloured simplicial surface and a list of fans",
 	[IsColouredSimplicialSurface, IsList],

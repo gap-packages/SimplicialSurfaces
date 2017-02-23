@@ -37,7 +37,7 @@ ColouredSimplicialSurfaceType := NewType( ColouredSimplicialSurfaceFamily,
 ##	the given one. 
 ##
 ##	We start with the generation of obvious equivalence relations
-__SIMPLICIAL_GenerateTrivialEquivalence := function( vertices )
+BindGlobal( "__SIMPLICIAL_GenerateTrivialEquivalence", function( vertices )
 	local vertexEq, vertex;
 
 	vertexEq := [];
@@ -46,7 +46,7 @@ __SIMPLICIAL_GenerateTrivialEquivalence := function( vertices )
 	od;
 
 	return vertexEq;
-end;
+end);
 
 ##
 ##	Finally we can write the actual constructor.
@@ -100,7 +100,9 @@ InstallMethod( ColouredSimplicialSurface,
 ##	equivalence classes we write it in general.
 ##	indices gives the bound entries of imageList
 ##
-__SIMPLICIAL_NumbersByElementsToClassesByNumbers := function( indices, imageList )
+BindGlobal( "__SIMPLICIAL_NumbersByElementsToClassesByNumbers",
+	function( indices, imageList )
+
 	local classes, classNr, i;
 
 	classes := [];
@@ -114,7 +116,7 @@ __SIMPLICIAL_NumbersByElementsToClassesByNumbers := function( indices, imageList
 	od;
 
 	return classes;
-end;
+end);
 
 #! @Description
 #! Return the vertex equivalence classes. They are indexed by the vertex
@@ -165,7 +167,9 @@ InstallMethod( FaceEquivalenceClassesByNumbers,
 ##	Next we calculate EquivalenceNumbersByElements from
 ##	EquivalenceClassesByNumbers. We use a helper method.
 ##
-__SIMPLICIAL_ClassesByNumbersToNumbersByElements := function( classes, indices )
+BindGlobal( "__SIMPLICIAL_ClassesByNumbersToNumbersByElements",
+	function( classes, indices )
+	
 	local numbers, i, el;
 
 	numbers := [];
@@ -176,7 +180,7 @@ __SIMPLICIAL_ClassesByNumbersToNumbersByElements := function( classes, indices )
 	od;
 
 	return numbers;
-end;
+end);
 
 #! @Description
 #! Return the vertex equivalence numbers as list indexed by the vertices of the
@@ -233,9 +237,9 @@ InstallMethod( FaceEquivalenceNumbersByElements,
 ##	from NumbersByElements and ClassesByNumbers.
 ##
 
-__SIMPLICIAL_ClassesByNumbersToNumbersAsSet := function( classes )
+BindGlobal( "__SIMPLICIAL_ClassesByNumbersToNumbersAsSet", function( classes )
 	return Set( Filtered( [1..Length(classes)], i->IsBound( classes[i] ) ) );
-end;
+end);
 
 #! @Description
 #! Return the vertex equivalence numbers as set. Each vertex equivalence class 
@@ -303,7 +307,9 @@ InstallMethod( FaceEquivalenceNumbersAsSet, "for a coloured simplicial surface",
 ##	Finally we consider ClassesByElements which also has to defined by
 ##	NumbersByElements and ClassesByNumbers. Optimally we have both.
 ##
-__SIMPLICIAL_ClassesByNumbersToClassesByElements := function( classes )
+BindGlobal( "__SIMPLICIAL_ClassesByNumbersToClassesByElements",
+	function( classes )
+	
 	local result, cl, el;
 
 	result := [];
@@ -314,7 +320,7 @@ __SIMPLICIAL_ClassesByNumbersToClassesByElements := function( classes )
 	od;
 
 	return result;
-end;
+end);
 
 #! @Description
 #! Return the vertex equivalence classes. They are indexed by the vertices of
