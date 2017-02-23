@@ -50,7 +50,7 @@ InstallMethod( AddPropertyIncidence,
     
 end );
 
-InstallGlobalFunction( "evaluate_recusive",
+InstallGlobalFunction( "evaluate_recursive",
                        function( graph, name_property, object, spanning_tree )
     local i, props;
     
@@ -61,7 +61,7 @@ InstallGlobalFunction( "evaluate_recusive",
     props := graph!.( name_property )[ spanning_tree.( name_property ) ];
     
     for i in props do
-        evaluate_recusive( graph, i, object, spanning_tree );
+        evaluate_recursive( graph, i, object, spanning_tree );
     od;
     
     return ValueGlobal( name_property )( object );
@@ -128,6 +128,6 @@ InstallMethod( ComputeProperty,
         
     fi;
     
-    return evaluate_recusive( graph, property_name, object, how_to_compute );
+    return evaluate_recursive( graph, property_name, object, how_to_compute );
     
 end );
