@@ -297,7 +297,67 @@ InstallMethod( ColoursOfEdges,
 
 
 #TODO write coloured-face-edge-path-methods
+InstallMethod( ColouredFaceEdgePathsOfVertices, "for a wild simplicial surface",
+	[ IsWildSimplicialSurface ],
+	function( surf )
+		local GiveEdgesColour;
 
+		GiveEdgesColour := function( index, entry )
+			if IsEvenInt(index) then
+				return entry;
+			else
+				return ColourOfEdge(surf,entry);
+			fi;
+		end;
+
+		return List( FaceEdgePathsOfVertices(surf), path ->
+						List( [1..Length(path[1])], i -> 
+								GiveEdgesColour(i, path[1][i] ) ) );
+	end
+);
+InstallMethod( FaceEdgePathsOfVertices, 
+	"for a simplicial surface that already has coloured face-edge-paths",
+	[ IsSimplicialSurface and HasColouredFaceEdgePathsOfVertices ],
+	function( surf )
+		local faceEdgePaths, vertex, colPath, newPath, i;
+
+		faceEdgePaths := [];
+		for vertex in Vertices(surf) do
+			colPath := ColouredFaceEdgePathsOfVertices(surf)[vertex];
+			newPath := ShallowCopy( colPath );
+
+			newPath[1] := ColouredEdgeOfFaceNC( surf, colPath[2], colPath[1] );
+			for i in [3..Length(colPath)] do
+				if IsOddInt(i) then
+					newPath[i] := ColouredEdgeOfFaceNC( surf, 
+											colPath[i-1], colPath[i] );
+				fi;
+			od;
+			faceEdgePaths[vertex] := [ newPath ];
+		od;
+
+		return faceEdgePaths;
+	end
+);
+
+InstallMethod( ColouredFaceEdgePathOfVertexNC, 
+	"for a wild simplicial surface and a positive integer", 
+	[ IsWildSimplicialSurface, IsPosInt ],
+	function( surf, vertex )
+		return ColouredFaceEdgePathsOfVertices(surf)[vertex];
+	end
+);
+
+InstallMethod( ColouredFaceEdgePathOfVertex, 
+	"for a wild simplicial surface and a positive integer", 
+	[ IsWildSimplicialSurface, IsPosInt ],
+	function( surf, vertex )
+		if not vertex in Vertices(surf) then
+			Error("ColouredFaceEdgePathsOfVertex: Given vertex has to be a vertex of the given wild simplicial surface.");
+		fi;
+		return ColouredFaceEdgePathOfVertexNC(surf,vertex);
+	end
+);
 
 
 ##############################################################################
@@ -423,7 +483,7 @@ __SIMPLICIAL_ConvertWildLegacyIntoModern := function( faces, edgeCycles,
 	# We have to set the final attributes
 	SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 	SetEdgesOfVertices( surf, edgesOfVertices );
-        SetFaceEdgePathsOfVertices( surf, vertexPaths );
+   #MB     SetFaceEdgePathsOfVertices( surf, vertexPaths );
 
 	DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
 
