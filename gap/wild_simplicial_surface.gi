@@ -18,6 +18,9 @@ WildSimplicialSurfaceType :=
 ##
 ##						Start of constructors
 ##
+
+#InstallMethod( 
+
 ##
 ##	This constructor takes the following information:
 ##

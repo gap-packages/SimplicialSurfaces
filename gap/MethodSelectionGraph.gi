@@ -133,7 +133,3 @@ InstallMethod( ComputeProperty,
 end );
 
 
-##
-##	Define the method selection graph for the package.
-##
-BindGlobal( "METHOD_SELECTION_GRAPH", MethodSelectionGraph([]) );

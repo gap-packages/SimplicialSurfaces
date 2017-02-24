@@ -1,5 +1,12 @@
 #! @DoNotReadRestOfFile
 
+
+##
+##	Define the method selection graph for the package.
+##
+BindGlobal( "METHOD_SELECTION_GRAPH", MethodSelectionGraph([]) );
+
+
 ##############################################################################
 ##
 #W  simplicial_surface.gi          Simplicial               Alice Niemeyer
