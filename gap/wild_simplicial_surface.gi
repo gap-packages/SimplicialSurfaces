@@ -53,6 +53,7 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
 		[ IsList, IsList, IsList, IsList, IsList, IsList],
 		[ IsSet, IsSet, IsSet, , , ], 0 );
 
+	#	Implement alternative callings
 	InstallOtherMethod( 
 		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
 		"", [ IsPosInt, IsObject, IsObject, IsList, IsList, IsList ],
