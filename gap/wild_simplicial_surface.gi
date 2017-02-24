@@ -19,40 +19,84 @@ WildSimplicialSurfaceType :=
 ##						Start of constructors
 ##
 
-#InstallMethod( 
-
+#########################
 ##
-##	This constructor takes the following information:
-##
-##	The list of involutions
-##	The list MR-type
-##
-##	This function constructs a wild simplicial surface from the generators
-##	and the MR-type. It also initalises everything necessary.
-#InstallMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList ],
-#	function( generators, mrType )
-#		local simpsurf;
+##	Constructor by downward incidence and edge colouring
+InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
+	"for three sets and three lists",
+	[ IsSet, IsSet, IsSet, IsList, IsList, IsList],
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+		coloursOfEdges )
 
-		#simpsurf := TODO
+		local surf;
 
-		# Set the face names
-#		SetIsFaceNamesDefault( simpsurf, true );
-#
-#		return simpsurf;
-#	end
-#);
-##	This method checks if the generators and the mrType are consistent. It
-##	throws error messages if necessary. Then it calls the corresponding 
-##	NC-version to initialize the surface.
-#InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
-#	function( generators, mrType )
-#		local namesOfFaces, f;
-#
-#		#TODO check if generators and mrType are consistent
-#
-#		return WildSimplicialSurfaceNC( generators, mrType );
-#	end
-#);
+		surf := Objectify( WildSimplicialSurfaceType, rec() );
+
+		# define the incidence structure
+		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
+		SetEdges( surf, edges );
+		SetFaces( surf, faces );
+		SetVerticesOfEdges( surf, verticesOfEdges );
+		SetEdgesOfFaces( surf, edgesOfFaces );
+
+		# define other attributes of simplicial surface
+		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
+
+		# set edge colouring attribute
+		SetColoursOfEdges( surf, coloursOfEdges );
+
+		return surf;
+	end
+);
+	RedispatchOnCondition(
+		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC, true,
+		[ IsList, IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , , ], 0 );
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
+		"", [ IsPosInt, IsObject, IsObject, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			coloursOfEdges )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC(
+						[1..vertices], edges, faces, verticesOfEdges, 
+						edgesOfFaces, coloursOfEdges );
+		end
+	);
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
+		"", [ IsSet, IsPosInt, IsObject, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			coloursOfEdges )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC(
+						vertices, [1..edges], faces, verticesOfEdges, 
+						edgesOfFaces, coloursOfEdges );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC, true,
+			[ IsList, IsPosInt, IsObject, IsList, IsList, IsList ],
+			[ IsSet, , , , , ], 0 );
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
+		"", [ IsSet, IsSet, IsPosInt, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			coloursOfEdges )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC(
+						vertices, edges, [1..faces], verticesOfEdges, 
+						edgesOfFaces, coloursOfEdges );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC, true,
+			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
+			[ IsSet, IsSet, , , , ], 0 );
+
 ##
 ##	This constructor takes the following information:
 ##

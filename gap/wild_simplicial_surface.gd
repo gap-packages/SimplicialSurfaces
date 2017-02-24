@@ -100,6 +100,10 @@ DeclareCategory( "IsWildSimplicialSurface", IsSimplicialSurface and
 #!
 #!	The NC-version doesn't check whether the given information is consistent.
 #!
+#!	@Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces,
+#!		coloursOfEdges
+#!	@Returns a wild simplicial surface
+#!
 DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring",
 	[ IsSet, IsSet, IsSet, IsList, IsList, IsList] );
 DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC",
