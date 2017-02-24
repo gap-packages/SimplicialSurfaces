@@ -129,27 +129,78 @@ DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndGenerators",
 DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList, IsList] );
 
-
+##
+#!	@Description
+#!	This is a constructor for a wild simplicial surface based on the following
+#!	information:
+#!
+#!	- surface	A simplicial surface which consists only of triangles and is an
+#!				actual surface.
+#!	- coloursOfEdges	A list that contains the numbers 1,2,3. For each edge
+#!						the colour of this edge is given. There have to be an
+#!						equal amount of edges for each colour and the edges of
+#!						each face have to have different colours.
+#!
+#!	The NC-version doesn't check whether the given information is consistent.
+#!
 DeclareOperation( "WildSimplicialSurfaceExtensionByEdgeColouring",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
 DeclareOperation( "WildSimplicialSurfaceExtensionByEdgeColouringNC",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
 
-
+##
+#!	@Description
+#!	This is a constructor for a wild simplicial surface based on the following
+#!	information:
+#!
+#!	- surface	A simplicial surface which consists only of triangles and is an
+#!				actual surface.
+#!	- generators		A list of three involutions whose cycles define the
+#!						edge colouring. If this is not unique (that is, if there
+#!						is are two edges that are incident to the same two 
+#!						faces, then an error is thrown).
+#!
+#!	The NC-version doesn't check whether the given information is consistent.
+#!
 DeclareOperation( "WildSimplicialSurfaceExtensionBcGenerators",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
 DeclareOperation( "WildSimplicialSurfaceExtensionByGeneratorsNC",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
 
 
-# vertices, edges, faces, faceEdgePath, edgeColouring
+##
+#!	@Description
+#!	This is a constructor for a wild simplicial surface based on the following
+#!	information:
+#!
+#!	- vertices	A set of vertices (a positive integer n may represent [1..n])
+#!	- edges		A set of edges (a positive integer n may represent [1..n])
+#!	- faces		A set of faces (a positive integer n may represent [1..n])
+#!	- faceEdgePaths		A list of the face-edge-paths for each vertex.
+#!	- coloursOfEdges	A list that contains the numbers 1,2,3. For each edge
+#!						the colour of this edge is given. There have to be an
+#!						equal amount of edges for each colour and the edges of
+#!						each face have to have different colours.
+#!
+#!	The NC-version doesn't check whether the given information is consistent.
+#!
 DeclareOperation( "WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 DeclareOperation( "WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 
-
-# vertices, faces, colouredFaceEdgePath
+##
+#!	@Description
+#!	This is a constructor for a wild simplicial surface based on the following
+#!	information (the edges will be constructed internally):
+#!
+#!	- vertices	A set of vertices (a positive integer n may represent [1..n])
+#!	- faces		A set of faces (a positive integer n may represent [1..n])
+#!	- colfaceEdgePaths		A list of the coloured face-edge-paths for each 
+#!							vertex.
+#!
+#!	The NC-version doesn't check whether the given information is consistent.
+#!
 DeclareOperation( "WildSimplicialSurfaceByColouredFaceEdgePaths",
 	[ IsSet, IsSet, IsList] );
 DeclareOperation( "WildSimplicialSurfaceByColouredFaceEdgePathsNC",

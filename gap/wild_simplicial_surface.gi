@@ -26,30 +26,30 @@ WildSimplicialSurfaceType :=
 ##
 ##	This function constructs a wild simplicial surface from the generators
 ##	and the MR-type. It also initalises everything necessary.
-InstallMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList ],
-	function( generators, mrType )
-		local simpsurf;
+#InstallMethod( WildSimplicialSurfaceNC, "", [ IsList, IsList ],
+#	function( generators, mrType )
+#		local simpsurf;
 
 		#simpsurf := TODO
 
 		# Set the face names
-		SetIsFaceNamesDefault( simpsurf, true );
-
-		return simpsurf;
-	end
-);
+#		SetIsFaceNamesDefault( simpsurf, true );
+#
+#		return simpsurf;
+#	end
+#);
 ##	This method checks if the generators and the mrType are consistent. It
 ##	throws error messages if necessary. Then it calls the corresponding 
 ##	NC-version to initialize the surface.
-InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
-	function( generators, mrType )
-		local namesOfFaces, f;
-
-		#TODO check if generators and mrType are consistent
-
-		return WildSimplicialSurfaceNC( generators, mrType );
-	end
-);
+#InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
+#	function( generators, mrType )
+#		local namesOfFaces, f;
+#
+#		#TODO check if generators and mrType are consistent
+#
+#		return WildSimplicialSurfaceNC( generators, mrType );
+#	end
+#);
 ##
 ##	This constructor takes the following information:
 ##
@@ -57,35 +57,35 @@ InstallMethod( WildSimplicialSurface, "", [ IsList, IsList ],
 ##	The list of involutions
 ##
 ##	Function to enrich a SimplicialSurface with generators
-InstallMethod( WildSimplicialSurfaceExtensionNC, "",
-	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
-	function( simpsurf, generators )
-		local wild;
-
-		wild := ObjectifySimplicialSurface( 
-			WildSimplicialSurfaceType, rec(), simpsurf);
-		SetGenerators( wild, generators );
-
-		return wild;
-	end
-);
+#InstallMethod( WildSimplicialSurfaceExtensionNC, "",
+#	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
+#	function( simpsurf, generators )
+#		local wild;
+#
+#		wild := ObjectifySimplicialSurface( 
+#			WildSimplicialSurfaceType, rec(), simpsurf);
+#		SetGenerators( wild, generators );
+#
+#		return wild;
+#	end
+#);
 ##	If it is not known that we have an actual surface, we have to check
-RedispatchOnCondition( WildSimplicialSurfaceExtensionNC, true,
-	[IsSimplicialSurface, IsList], [IsActualSurface and IsTriangleSurface,], 
-	0 );
+#RedispatchOnCondition( WildSimplicialSurfaceExtensionNC, true,
+#	[IsSimplicialSurface, IsList], [IsActualSurface and IsTriangleSurface,], 
+#	0 );
 ##	This method checks if the generators match the simplicial surface, then
 ##	enriches it with generators
-InstallMethod( WildSimplicialSurfaceExtension, "",
-	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
-	function( simpsurf, generators )
-		#TODO check if the generators match the simplicial surface
-		return WildSimplicialSurfaceExtensionNC( simpsurf, generators);
-	end
-);
+#InstallMethod( WildSimplicialSurfaceExtension, "",
+#	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
+#	function( simpsurf, generators )
+#		#TODO check if the generators match the simplicial surface
+#		return WildSimplicialSurfaceExtensionNC( simpsurf, generators);
+#	end
+#);
 ##	If it is not known that we have an actual surface, we have to check
-RedispatchOnCondition( WildSimplicialSurfaceExtension, true,
-	[IsSimplicialSurface, IsList], [IsActualSurface and IsTriangleSurface,], 
-	0 );
+#RedispatchOnCondition( WildSimplicialSurfaceExtension, true,
+#	[IsSimplicialSurface, IsList], [IsActualSurface and IsTriangleSurface,], 
+#	0 );
 ##
 ##							End of constructors
 ##
