@@ -31,3 +31,5 @@ AddPropertyIncidence( graph, "D", "A" );
 
 S := SymmetricGroup( 3 );
 SetC( S, 1 );
+
+InstallMethod( A, [IsAttributeStoringRep], i -> ComputeProperty(graph,A,i) );

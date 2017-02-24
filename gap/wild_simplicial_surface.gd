@@ -81,31 +81,79 @@ DeclareCategory( "IsWildSimplicialSurface", IsSimplicialSurface and
 #!
 #!
 
-#TODO find sensible constructors
+##
+#!	@Description
+#!	This is a constructor for a wild simplicial surface based on the following
+#!	information:
+#!
+#!	- vertices	A set of vertices (a positive integer n may represent [1..n])
+#!	- edges		A set of edges (a positive integer n may represent [1..n])
+#!	- faces		A set of faces (a positive integer n may represent [1..n])
+#!	- verticesOfEdges	A list of sets, where a set of two vertices is given
+#!						for each edge
+#!	- edgesOfFaces		A list of sets, where a set of three edges is given
+#!						for each face
+#!	- coloursOfEdges	A list that contains the numbers 1,2,3. For each edge
+#!						the colour of this edge is given. There have to be an
+#!						equal amount of edges for each colour and the edges of
+#!						each face have to have different colours.
+#!
+#!	The NC-version doesn't check whether the given information is consistent.
+#!
+DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring",
+	[ IsSet, IsSet, IsSet, IsList, IsList, IsList] );
+DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC",
+	[ IsSet, IsSet, IsSet, IsList, IsList, IsList] );
 
 ##
-##	This constructor takes the following information:
-##
-##	The list of involutions
-##	The list MR-type
-##
-##	The NC-version doesn't check if the given information is consistent
-##
-DeclareOperation( "WildSimplicialSurface", [ IsList, IsList ] );
-DeclareOperation( "WildSimplicialSurfaceNC", [ IsList, IsList ] );
+#!	@Description
+#!	This is a constructor for a wild simplicial surface based on the following
+#!	information:
+#!
+#!	- vertices	A set of vertices (a positive integer n may represent [1..n])
+#!	- edges		A set of edges (a positive integer n may represent [1..n])
+#!	- faces		A set of faces (a positive integer n may represent [1..n])
+#!	- verticesOfEdges	A list of sets, where a set of two vertices is given
+#!						for each edge
+#!	- edgesOfFaces		A list of sets, where a set of three edges is given
+#!						for each face
+#!	- generators		A list of three involutions whose cycles define the
+#!						edge colouring. If this is not unique (that is, if there
+#!						is are two edges that are incident to the same two 
+#!						faces, then an error is thrown).
+#!
+#!	The NC-version doesn't check whether the given information is consistent.
+#!
+DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndGenerators",
+	[ IsSet, IsSet, IsSet, IsList, IsList, IsList] );
+DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC",
+	[ IsSet, IsSet, IsSet, IsList, IsList, IsList] );
 
-##
-##	This constructor takes the following information:
-##
-##	A simplicial surface which is an actual surface
-##	The list of involutions
-##
-##	The NC-version doesn't check if the given information is consistent
-##
-DeclareOperation( "WildSimplicialSurfaceExtension",
+
+DeclareOperation( "WildSimplicialSurfaceExtensionByEdgeColouring",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
-DeclareOperation( "WildSimplicialSurfaceExtensionNC",
+DeclareOperation( "WildSimplicialSurfaceExtensionByEdgeColouringNC",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
+
+
+DeclareOperation( "WildSimplicialSurfaceExtensionBcGenerators",
+	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
+DeclareOperation( "WildSimplicialSurfaceExtensionByGeneratorsNC",
+	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
+
+
+# vertices, edges, faces, faceEdgePath, edgeColouring
+DeclareOperation( "WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring",
+	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+DeclareOperation( "WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC",
+	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+
+
+# vertices, faces, colouredFaceEdgePath
+DeclareOperation( "WildSimplicialSurfaceByColouredFaceEdgePaths",
+	[ IsSet, IsSet, IsList] );
+DeclareOperation( "WildSimplicialSurfaceByColouredFaceEdgePathsNC",
+	[ IsSet, IsSet, IsList] );
 
 
 #############################################################################
