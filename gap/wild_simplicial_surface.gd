@@ -329,6 +329,20 @@ DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsWildSimplicialSurface);
 #!
 
 
+#!	@Description
+#!	Given a set of faces and a colour, return the edge such that the set of
+#!	faces is the set of faces incident to the edge and that the edge has the
+#!	given colour.
+#!
+#!	The NC-version doesn't check if the given colour is valid.
+#!
+#!	@Arguments wildSimplicialSurface, setOfFaces, colour
+#!	@Returns an edge
+DeclareOperation( "EdgeByFacesAndColours", 
+	[ IsWildSimplicialSurface, IsSet, IsPosInt ] );
+DeclareOperation( "EdgeByFacesAndColoursNC", 
+	[ IsWildSimplicialSurface, IsSet, IsPosInt ] );
+
 
 
 #############################################################################

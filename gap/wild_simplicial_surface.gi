@@ -636,6 +636,34 @@ InstallMethod( EdgesOfColour,
 	end
 );
 
+
+InstallMethod( EdgeByFacesAndColoursNC, "for a wild simplicial surface", 
+	[ IsWildSimplicialSurface, IsSet, IsPosInt ],
+	function( surface, faces, colour )
+		local possEdges, found;
+
+		possEdges := EdgesOfColour( surface, colour );
+		found := Filtered( possEdges, e -> FacesOfEdges(surface)[e] = faces );
+
+		if Length(found) <> 1 then
+			Error("EdgeByFacesAndColours: No unique edge found.");
+		fi;
+
+		return found[1];
+	end
+);
+InstallMethod( EdgeByFacesAndColours, "for a wild simplicial surface", 
+	[ IsWildSimplicialSurface, IsSet, IsPosInt ],
+	function( surface, faces, colour )
+		if not colour in [1,2,3] then
+			Error("EdgeByFacesAndColours: Given colour has to be 1, 2, or 3.");
+		fi;
+
+		return EdgeByFacesAndColoursNC( surface, faces, colour );
+	end
+);
+
+
 ##############################################################################
 ##############################################################################
 ##
