@@ -888,6 +888,13 @@ InstallMethod( Vertices, "for a simplicial surface", [ IsSimplicialSurface ],
 );
 
 
+##
+##	Since vertices, edges and faces can be computed (more or less implicitly)
+##	from many different other attributes, we include them in the method
+##	selection graph.
+## 
+
+
 #############################################################################
 #############################################################################
 ##

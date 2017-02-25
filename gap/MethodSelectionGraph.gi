@@ -37,18 +37,40 @@ InstallMethod( MethodSelectionGraph,
     
 end );
 
+
+
 InstallMethod( AddPropertyIncidence,
                [ IsMethodSelectionGraph, IsString, IsList ],
                
   function( graph, property_to_compute, property_depends_on )
-    
-    if IsString( property_depends_on ) then
-        property_depends_on := [ property_depends_on ];
-    fi;
+    local name;
+
+	# Check whether the elements of property_depends_on are already part
+	# of the graph
+	for name in property_depends_on do
+		if not IsBound( graph!.(name) ) then
+			graph!.(name) := [];
+		fi;
+	od;
+
+	# Check whether property_to_compute is already part of the graph
+	if not IsBound( graph!.(property_to_compute) ) then
+		graph!.(property_to_compute) := [];
+	fi;
     
     Add( graph!.(property_to_compute), property_depends_on );
     
 end );
+
+InstallOtherMethod( AddPropertyIncidence,
+		[ IsMethodSelectionGraph, IsString, IsString ],
+	function( graph, property_to_compute, property_depends_on )
+		AddPropertyIncidence( graph, property_to_compute, 
+										[ property_depends_on ] );
+	end
+);
+		
+
 
 InstallGlobalFunction( "evaluate_recursive",
                        function( graph, name_property, object, spanning_tree )

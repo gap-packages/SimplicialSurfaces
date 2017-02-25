@@ -16,6 +16,9 @@
 ##	is enumerated by positive integers (not necessarily consecutively).
 ##	Furthermore we have an incidence relation between them.
 ##
+##	It is necessary that each vertex is incident to at least one edge and one
+##	face. The same restriction also holds for edges and faces.
+##
 ##	We additionally require a local orientation for each face - that is we
 ##	want to distinguish its two sides. Therefore we also need names for both
 ##	sides. The default naming scheme (which will be applied if the user does

@@ -15,7 +15,8 @@ InstallMethod( D, [ HasC ], i -> C( i )*13 );
 InstallMethod( A, [ HasD ], i -> D( i )*17 );
 InstallMethod( D, [ HasA ], i -> A( i )*19 );
 
-graph := MethodSelectionGraph( [ "A", "B", "C", "D" ] );
+#graph := MethodSelectionGraph( [ "A", "B", "C", "D" ] );
+graph := MethodSelectionGraph( [] );
 
 AddPropertyIncidence( graph, "A", "B" );
 AddPropertyIncidence( graph, "A", "D" );
