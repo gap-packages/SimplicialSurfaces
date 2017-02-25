@@ -1947,27 +1947,27 @@ InstallMethod( VerticesAttributeOfSimplicialSurface,
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
 		"VerticesAttributeOfSimplicialSurface", "FaceEdgePathsOfVertices" );
 
+BindGlobal("__SIMPLICIAL_EvenEntriesOfList",
+	function( list )
+		local entries, i;
+
+		entries := [];
+		for i in [1..Length(list)] do
+			if IsEvenInt(i) then
+				entries[i] := list[i];
+			fi;
+		od;
+
+		return Set(entries);
+	end
+);
 InstallMethod( FacesOfVertices, 
 	"for a simplicial surface that has face-edge-paths",
 	[ IsSimplicialSurface and HasFaceEdgePathsOfVertices ],
 	function( surf )
-		local EvenEntries;
-
-		EvenEntries := function( list )
-			local entries, i;
-
-			entries := [];
-			for i in [1..Length(list)] do
-				if IsEvenInt(i) then
-					entries[i] := list[i];
-				fi;
-			od;
-
-			return Set(entries);
-		end;
-
 		return List( FaceEdgePathsOfVertices(surf), paths -> 
-						Union( List( paths, path -> EvenEntries(path) ) ) );
+						Union( List( paths, path -> 
+								__SIMPLICIAL_EvenEntriesOfList(path) ) ) );
 	end
 );
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
