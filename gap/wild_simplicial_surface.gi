@@ -297,11 +297,11 @@ InstallMethod( ColouredFaceEdgePathsOfVertices, "for a wild simplicial surface",
 										ColouredFaceEdgePathsOfVertices, surf);
 	end
 );
-InstallMethod( EdgesOfColour, "for a wild simplicial surface", 
+InstallMethod( EdgesOfColours, "for a wild simplicial surface", 
 	[ IsWildSimplicialSurface ],
 	function( surf )
 		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-										EdgesOfColour, surf);
+										EdgesOfColours, surf);
 	end
 );
 
@@ -344,8 +344,8 @@ InstallMethod( ColoursOfEdges,
 		coloursOfEdges := [];
 		for edge in Edges do
 			for col in [1,2,3] do
-				if edge in EdgesOfColourNC( surf, i ) then
-					coloursOfEdges[edge] := i;
+				if edge in EdgesOfColourNC( surf, col ) then
+					coloursOfEdges[edge] := col;
 				fi;
 			od;
 		od;
@@ -419,7 +419,7 @@ InstallMethod( EdgesOfColours,
 	[ IsWildSimplicialSurface and HasColoursOfEdges and HasEdges ],
 	function( surf )
 		return List( [1,2,3], col -> 
-				Filtered( Edges(surf), e -> ColoursOfEdge(surf,e) = i ) );
+				Filtered( Edges(surf), e -> ColourOfEdgeNC(surf,e) = col ) );
 	end
 );
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
@@ -525,7 +525,7 @@ InstallMethod( FacesOfVertices,
 	"for a simplicial surface with ColouredFaceEdgePathsOfVertices",
 	[ IsSimplicialSurface and HasColouredFaceEdgePathsOfVertices ],
 	function( surf )
-		return List( ColouredFaceEdgePathsOfVertices(surf), paths -> 
+		return List( ColouredFaceEdgePathsOfVertices(surf), path -> 
 								__SIMPLICIAL_EvenEntriesOfList(path) );
 	end
 );
