@@ -2135,8 +2135,8 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 		return IsEmpty(check);
 	end
 );
-RedispatchOnCondition( IsClosedSurface, true, [IsSimplicialSurface],
-	[IsEdgesLikeSurface], 0 );
+	RedispatchOnCondition( IsClosedSurface, true, [IsSimplicialSurface],
+		[IsEdgesLikeSurface], 0 );
 
 
 #############################################################################
@@ -2324,8 +2324,8 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 		return orientable;
 	end
 );
-RedispatchOnCondition( IsOrientable, true, [IsSimplicialSurface],
-	[IsEdgesLikeSurface], 0 );
+	RedispatchOnCondition( IsOrientable, true, [IsSimplicialSurface],
+		[IsEdgesLikeSurface], 0 );
 
 #############################################################################
 ##
@@ -2348,8 +2348,8 @@ InstallMethod( SubsurfaceByFaces, "for a simplicial surface",
 		return SubsurfaceByFacesNC( simpsurf, subfaces );
 	end
 );
-RedispatchOnCondition( SubsurfaceByFaces, true, [IsSimplicialSurface, IsList],
-	[,IsSet], 0);
+	RedispatchOnCondition( SubsurfaceByFaces, true, 
+		[IsSimplicialSurface, IsList], [,IsSet], 0);
 InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
 	[IsSimplicialSurface, IsSet],
 	function(simpsurf, subfaces)
@@ -2373,8 +2373,8 @@ InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
 			subfaces, newVerticesOfEdges, newEdgesOfFaces );
 	end
 );
-RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsSimplicialSurface, IsList],
-	[,IsSet], 0);
+	RedispatchOnCondition( SubsurfaceByFacesNC, true, 
+		[IsSimplicialSurface, IsList], [,IsSet], 0);
 
 #############################################################################
 ##
