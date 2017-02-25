@@ -1469,37 +1469,22 @@ InstallMethod( LocalOrientation, "for a simplicial surface",
 	end
 );
 InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+									LocalOrientationByVerticesAsPerm, surf);
+	end
+);
+
+InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
 	function( simpsurf )
 		return __SIMPLICIAL_TranslateListsIntoCycles( 
 			LocalOrientationByVerticesAsList( simpsurf ) );
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList( simpsurf ) then
-			TryNextMethod();
-		else
-			LocalOrientationByVerticesAsList( simpsurf );
-			return LocalOrientationByVerticesAsPerm(
-																	 simpsurf );
-		fi;
-	end
-);
-InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList(simpsurf) or 
-				HasLocalOrientationByEdgesAsList(simpsurf) then
-			TryNextMethod();
-		else
-			LocalOrientationByEdgesAsList( simpsurf );
-			LocalOrientationByVerticesAsList( simpsurf );
-			return LocalOrientationByVerticesAsPerm( simpsurf );
-		fi;
-	end
-);
+AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+	"LocalOrientationByVerticesAsPerm", "LocalOrientationByVerticesAsList" );
 
 
 #############################################################################
@@ -1511,36 +1496,22 @@ InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface",
 #!  @Returns a list of permutations
 #!  @Arguments a simplicial surface object simpsurf
 InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+									LocalOrientationByEdgesAsPerm, surf);
+	end
+);
+
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
 	function( simpsurf )
 		return __SIMPLICIAL_TranslateListsIntoCycles( 
 			LocalOrientationByEdgesAsList( simpsurf ) );
 	end
 );
-InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
-	function( simpsurf )
-		if HasLocalOrientationByEdgesAsList( simpsurf ) then
-			TryNextMethod();
-		else
-			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByEdgesAsPerm( simpsurf );
-		fi;
-	end
-);
-InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList( simpsurf ) or
-			 	HasLocalOrientationByEdgesAsList( simpsurf ) then
-			TryNextMethod();
-		else
-			LocalOrientationByVerticesAsList( simpsurf );
-			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByEdgesAsPerm( simpsurf );
-		fi;
-	end
-);
+AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+	"LocalOrientationByEdgesAsPerm", "LocalOrientationByEdgesAsList" );
 
 ##
 ##	To perform the conversion between ByVerticesAsList and ByEdgesAsList we
@@ -1609,12 +1580,23 @@ end);
 #!  @Returns a list of lists
 #!  @Arguments a simplicial surface object simpsurf
 InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+									LocalOrientationByVerticesAsList, surf);
+	end
+);
+
+InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
 	function( simpsurf )
 		return __SIMPLICIAL_TranslateCyclesIntoLists( 
 			LocalOrientationByVerticesAsPerm( simpsurf ), Faces( simpsurf ) );
 	end
 );
+AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+	"LocalOrientationByVerticesAsList", "LocalOrientationByVerticesAsPerm" );
+
 InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
 	function( simpsurf )
@@ -1625,18 +1607,8 @@ InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface",
 			VerticesOfFaces(simpsurf) );
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsPerm(simpsurf) or
-			 	HasLocalOrientationByEdgesAsList(simpsurf) then
-			TryNextMethod();
-		else
-			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByVerticesAsList( simpsurf );
-		fi;
-	end
-);
+AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+	"LocalOrientationByVerticesAsList", "LocalOrientationByEdgesAsList" );
 
 
 #############################################################################
@@ -1648,13 +1620,24 @@ InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface",
 #!  @Returns a list of lists
 #!  @Arguments a simplicial surface object simpsurf
 InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+									LocalOrientationByEdgesAsList, surf);
+	end
+);
+
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
 	function( simpsurf )
 		return __SIMPLICIAL_TranslateCyclesIntoLists( 
 			LocalOrientationByEdgesAsPerm( simpsurf ), Faces( simpsurf ) );
 	end
 );
-InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+	"LocalOrientationByEdgesAsList", "LocalOrientationByEdgesAsPerm" );
+
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
 	function( simpsurf )
 		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
@@ -1664,19 +1647,80 @@ InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface",
 			EdgesOfFaces(simpsurf) );
 	end
 );
-InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList(simpsurf) or
-			 	HasLocalOrientationByEdgesAsPerm(simpsurf) then
-			TryNextMethod();
-		else
-			LocalOrientationByVerticesAsList( simpsurf );
-			return LocalOrientationByEdgesAsList( simpsurf );
-		fi;
+AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+	"LocalOrientationByEdgesAsPerm", "LocalOrientationByVerticesAsList" );
+
+
+##
+##	Furthermore we can use the local orientation to derive information about
+##	EdgesOfFaces and VerticesOfFaces
+InstallMethod( EdgesOfFaces, 
+	"for a simplicial surface that has LocalOrientationByEdgesAsList",
+	[ IsSimplicialSurface and HasLocalOrientationByEdgesAsList ],
+	function( surf )
+		return List( LocalOrientationByEdgesAsList, i -> Set(i) );
 	end
 );
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+					"EdgesOfFaces", "LocalOrientationByEdgesAsList" );
 
+InstallMethod( VerticesOfFaces, 
+	"for a simplicial surface that has LocalOrientationByVerticesAsList",
+	[ IsSimplicialSurface and HasLocalOrientationByVerticesAsList ],
+	function( surf )
+		return List( LocalOrientationByVerticesAsList, i -> Set(i) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+					"VerticesOfFaces", "LocalOrientationByVerticesAsList" );
+
+##
+##	Finally we can use all of the local orientation variants to derive the 
+##	faces directly
+InstallMethod( Faces, 
+	"for a simplicial surface that has LocalOrientationByVerticesAsPerm",
+	[ IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm ],
+	function( surf )
+		return __SIMPLICIAL_BoundEntriesOfList( 
+						LocalOrientationByVerticesAsPerm(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+					"Faces", "LocalOrientationByVerticesAsPerm" );
+
+InstallMethod( Faces, 
+	"for a simplicial surface that has LocalOrientationByVerticesAsList",
+	[ IsSimplicialSurface and HasLocalOrientationByVerticesAsList ],
+	function( surf )
+		return __SIMPLICIAL_BoundEntriesOfList( 
+						LocalOrientationByVerticesAsList(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+					"Faces", "LocalOrientationByVerticesAsList" );
+
+InstallMethod( Faces, 
+	"for a simplicial surface that has LocalOrientationByEdgesAsList",
+	[ IsSimplicialSurface and HasLocalOrientationByEdgesAsList ],
+	function( surf )
+		return __SIMPLICIAL_BoundEntriesOfList( 
+						LocalOrientationByEdgesAsList(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+					"Faces", "LocalOrientationByEdgesAsList" );
+
+InstallMethod( Faces, 
+	"for a simplicial surface that has LocalOrientationByEdgesAsPerm",
+	[ IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm ],
+	function( surf )
+		return __SIMPLICIAL_BoundEntriesOfList( 
+						LocalOrientationByEdgesAsPerm(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+					"Faces", "LocalOrientationByEdgesAsPerm" );
+	
 
 ##
 ##					End of the local orientation methods
