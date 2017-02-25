@@ -4,7 +4,7 @@
 ##
 ##	Define the method selection graph for the package.
 ##
-BindGlobal( "METHOD_SELECTION_GRAPH", MethodSelectionGraph([]) );
+BindGlobal( "SIMPLICIAL_METHOD_SELECTION_GRAPH", MethodSelectionGraph([]) );
 
 
 ##############################################################################
@@ -232,40 +232,43 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 		return surf;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC,
-	true, [ IsList, IsList, IsList, IsList, IsList],
-	[ IsSet, IsSet, IsSet, , ], 0 );
-##
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
-	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
-			[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
-	end
-);
+	RedispatchOnCondition( 
+		SimplicialSurfaceByDownwardIncidenceWithOrientationNC,
+		true, [ IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , ], 0 );
+	##
+	##	Adjust for the alternative possibilities.
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
+		"",	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
+				[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
+		end
+	);
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
-	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( vertices, 
-			[1..edges],	faces, verticesOfEdges, edgesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
-	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
-	[ IsSet, , , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
+		"",	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
+				vertices, [1..edges],	faces, verticesOfEdges, edgesOfFaces );
+		end
+	);
+		RedispatchOnCondition( 
+			SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
+			true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+			[ IsSet, , , , ], 0 );
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
-	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( vertices, 
-			edges, [1..faces], verticesOfEdges, edgesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
-	true, [ IsList, IsList, IsPosInt, IsList, IsList],
-	[ IsSet, IsSet, , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
+		"",[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceWithOrientationNC( 
+				vertices, edges, [1..faces], verticesOfEdges, edgesOfFaces );
+		end
+	);
+		RedispatchOnCondition( 
+			SimplicialSurfaceByDownwardIncidenceWithOrientationNC, 
+			true, [ IsList, IsList, IsPosInt, IsList, IsList],
+			[ IsSet, IsSet, , , ], 0 );
 ##
 ##	Next we have to install the same constructors with checks.
 ##
@@ -395,40 +398,42 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
 					vertices, edges, faces, verticesOfEdges, edgesOfFaces );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
-	true, [ IsList, IsList, IsList, IsList, IsList],
-	[ IsSet, IsSet, IsSet, , ], 0 );
-##
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
-	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientation( 
-			[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
-	end
-);
+	RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+		true, [ IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , ], 0 );
+	##
+	##	Adjust for the alternative possibilities.
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
+		[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceWithOrientation( 
+				[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
+		end
+	);
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
-	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, 
-			[1..edges],	faces, verticesOfEdges, edgesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
-	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
-	[ IsSet, , , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
+		[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceWithOrientation( 
+				vertices, [1..edges],	faces, verticesOfEdges, edgesOfFaces );
+		end
+	);
+		RedispatchOnCondition( 
+			SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+			true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+			[ IsSet, , , , ], 0 );
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
-	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceWithOrientation( vertices, 
-			edges, [1..faces], verticesOfEdges, edgesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceWithOrientation, 
-	true, [ IsList, IsList, IsPosInt, IsList, IsList],
-	[ IsSet, IsSet, , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceWithOrientation, "",
+		[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceWithOrientation( 
+				vertices, edges, [1..faces], verticesOfEdges, edgesOfFaces );
+		end
+	);
+		RedispatchOnCondition( 
+			SimplicialSurfaceByDownwardIncidenceWithOrientation, 
+			true, [ IsList, IsList, IsPosInt, IsList, IsList],
+			[ IsSet, IsSet, , , ], 0 );
 ##
 ##
 ##
@@ -456,40 +461,40 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		return surf;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC,
-	true, [ IsList, IsList, IsList, IsList, IsList],
-	[ IsSet, IsSet, IsSet, , ], 0 );
-##
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
-	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceNC( [1..vertices], edges,
-			faces, verticesOfEdges, edgesOfFaces );
-	end
-);
+	RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC,
+		true, [ IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , ], 0 );
+	##
+	##	Adjust for the alternative possibilities.
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+		[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceNC( [1..vertices], edges,
+				faces, verticesOfEdges, edgesOfFaces );
+		end
+	);
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
-	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceNC( vertices, [1..edges],
-			faces, verticesOfEdges, edgesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
-	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
-	[ IsSet, , , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+		[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceNC( vertices, [1..edges],
+				faces, verticesOfEdges, edgesOfFaces );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
+			true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+			[ IsSet, , , , ], 0 );
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
-	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidenceNC( vertices, edges,
-			[1..faces], verticesOfEdges, edgesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
-	true, [ IsList, IsList, IsPosInt, IsList, IsList],
-	[ IsSet, IsSet, , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
+		[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidenceNC( vertices, edges,
+				[1..faces], verticesOfEdges, edgesOfFaces );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByDownwardIncidenceNC, 
+			true, [ IsList, IsList, IsPosInt, IsList, IsList],
+			[ IsSet, IsSet, , , ], 0 );
 
 #################################
 ##
@@ -505,40 +510,40 @@ InstallMethod( SimplicialSurfaceByDownwardIncidence, "",
 					vertices, edges, faces, verticesOfEdges, edgesOfFaces );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
-	true, [ IsList, IsList, IsList, IsList, IsList],
-	[ IsSet, IsSet, IsSet, , ], 0 );
-##
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
-	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidence( 
-			[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
-	end
-);
+	RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
+		true, [ IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , ], 0 );
+	##
+	##	Adjust for the alternative possibilities.
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
+		[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidence( 
+				[1..vertices], edges, faces, verticesOfEdges, edgesOfFaces );
+		end
+	);
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
-	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidence( vertices, 
-			[1..edges],	faces, verticesOfEdges, edgesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
-	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
-	[ IsSet, , , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
+		[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidence( vertices, 
+				[1..edges],	faces, verticesOfEdges, edgesOfFaces );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
+			true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+			[ IsSet, , , , ], 0 );
 
-InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
-	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
-		return SimplicialSurfaceByDownwardIncidence( vertices, 
-			edges, [1..faces], verticesOfEdges, edgesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
-	true, [ IsList, IsList, IsPosInt, IsList, IsList],
-	[ IsSet, IsSet, , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByDownwardIncidence, "",
+		[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces )
+			return SimplicialSurfaceByDownwardIncidence( vertices, 
+				edges, [1..faces], verticesOfEdges, edgesOfFaces );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByDownwardIncidence, 
+			true, [ IsList, IsList, IsPosInt, IsList, IsList],
+			[ IsSet, IsSet, , , ], 0 );
 
 ##
 ##
@@ -564,40 +569,40 @@ InstallMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 		return surf;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC,
-	true, [ IsList, IsList, IsList, IsList, IsList],
-	[ IsSet, IsSet, IsSet, , ], 0 );
-##
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
-	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
-		return SimplicialSurfaceByUpwardIncidenceNC( [1..vertices], edges,
-			faces, edgesOfVertices, facesOfEdges );
-	end
-);
+	RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC,
+		true, [ IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , ], 0 );
+	##
+	##	Adjust for the alternative possibilities.
+	InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
+		[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
+			return SimplicialSurfaceByUpwardIncidenceNC( [1..vertices], edges,
+				faces, edgesOfVertices, facesOfEdges );
+		end
+	);
 
-InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
-	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
-		return SimplicialSurfaceByUpwardIncidenceNC( vertices, [1..edges],
-			faces, edgesOfVertices, facesOfEdges );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC, 
-	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
-	[ IsSet, , , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
+		[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
+			return SimplicialSurfaceByUpwardIncidenceNC( vertices, [1..edges],
+				faces, edgesOfVertices, facesOfEdges );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC, 
+			true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+			[ IsSet, , , , ], 0 );
 
-InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
-	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
-		return SimplicialSurfaceByUpwardIncidenceNC( vertices, edges,
-			[1..faces], edgesOfVertices, facesOfEdges );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC, 
-	true, [ IsList, IsList, IsPosInt, IsList, IsList],
-	[ IsSet, IsSet, , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
+		[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+		function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
+			return SimplicialSurfaceByUpwardIncidenceNC( vertices, edges,
+				[1..faces], edgesOfVertices, facesOfEdges );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByUpwardIncidenceNC, 
+			true, [ IsList, IsList, IsPosInt, IsList, IsList],
+			[ IsSet, IsSet, , , ], 0 );
 
 #################################
 ##
@@ -663,40 +668,40 @@ InstallMethod( SimplicialSurfaceByUpwardIncidence, "",
 					vertices, edges, faces, edgesOfVertices, facesOfEdges );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
-	true, [ IsList, IsList, IsList, IsList, IsList],
-	[ IsSet, IsSet, IsSet, , ], 0 );
-##
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
-	[ IsPosInt, IsObject, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
-		return SimplicialSurfaceByUpwardIncidence( 
-			[1..vertices], edges, faces, edgesOfVertices, facesOfEdges );
-	end
-);
+	RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
+		true, [ IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , ], 0 );
+	##
+	##	Adjust for the alternative possibilities.
+	InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
+		[ IsPosInt, IsObject, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
+			return SimplicialSurfaceByUpwardIncidence( 
+				[1..vertices], edges, faces, edgesOfVertices, facesOfEdges );
+		end
+	);
 
-InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
-	[ IsSet, IsPosInt, IsObject, IsList, IsList ],
-	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
-		return SimplicialSurfaceByUpwardIncidence( vertices, 
-			[1..edges],	faces, edgesOfVertices, facesOfEdges );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
-	true, [ IsList, IsPosInt, IsObject, IsList, IsList],
-	[ IsSet, , , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
+		[ IsSet, IsPosInt, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
+			return SimplicialSurfaceByUpwardIncidence( vertices, 
+				[1..edges],	faces, edgesOfVertices, facesOfEdges );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
+			true, [ IsList, IsPosInt, IsObject, IsList, IsList],
+			[ IsSet, , , , ], 0 );
 
-InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
-	[ IsSet, IsSet, IsPosInt, IsList, IsList ],
-	function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
-		return SimplicialSurfaceByUpwardIncidence( vertices, 
-			edges, [1..faces], edgesOfVertices, facesOfEdges );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
-	true, [ IsList, IsList, IsPosInt, IsList, IsList],
-	[ IsSet, IsSet, , , ], 0 );
+	InstallOtherMethod( SimplicialSurfaceByUpwardIncidence, "",
+		[ IsSet, IsSet, IsPosInt, IsList, IsList ],
+		function( vertices, edges, faces, edgesOfVertices, facesOfEdges )
+			return SimplicialSurfaceByUpwardIncidence( vertices, 
+				edges, [1..faces], edgesOfVertices, facesOfEdges );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByUpwardIncidence, 
+			true, [ IsList, IsList, IsPosInt, IsList, IsList],
+			[ IsSet, IsSet, , , ], 0 );
 
 
 
@@ -761,28 +766,28 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 		return surf;
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, 
-	true, [ IsList, IsList, IsList],
-	[ IsSet, IsSet, ], 0 );
+	RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, 
+		true, [ IsList, IsList, IsList],
+		[ IsSet, IsSet, ], 0 );
 
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
-	[ IsPosInt, IsObject, IsList ],
-	function( vertices, faces, verticesOfFaces )
-		return SimplicialSurfaceByVerticesInFacesNC( 
-			[1..vertices], faces, verticesOfFaces );
-	end
-);
-InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
-	[ IsSet, IsPosInt, IsList ],
-	function( vertices, faces, verticesOfFaces )
-		return SimplicialSurfaceByVerticesInFacesNC( vertices, 
-			[1..faces],	verticesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, 
-	true, [ IsList, IsPosInt, IsList],
-	[ IsSet, , ], 0 );
+	##	Adjust for the alternative possibilities.
+	InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
+		[ IsPosInt, IsObject, IsList ],
+		function( vertices, faces, verticesOfFaces )
+			return SimplicialSurfaceByVerticesInFacesNC( 
+				[1..vertices], faces, verticesOfFaces );
+		end
+	);
+	InstallOtherMethod( SimplicialSurfaceByVerticesInFacesNC, "",
+		[ IsSet, IsPosInt, IsList ],
+		function( vertices, faces, verticesOfFaces )
+			return SimplicialSurfaceByVerticesInFacesNC( vertices, 
+				[1..faces],	verticesOfFaces );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByVerticesInFacesNC, 
+			true, [ IsList, IsPosInt, IsList],
+			[ IsSet, , ], 0 );
 ##
 ##	Of course the same constructors with sanity checks can't be missing.
 ##
@@ -844,27 +849,27 @@ InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 					vertices, faces, verticesOfFaces );
 	end
 );
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
-	[ IsList, IsList, IsList],
-	[ IsSet, IsSet, ], 0 );
-##	Adjust for the alternative possibilities.
-InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
-	[ IsPosInt, IsObject, IsList ],
-	function( vertices, faces, verticesOfFaces )
-		return SimplicialSurfaceByVerticesInFaces( 
-			[1..vertices], faces, verticesOfFaces );
-	end
-);
-InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
-	[ IsSet, IsPosInt, IsList ],
-	function( vertices, faces, verticesOfFaces )
-		return SimplicialSurfaceByVerticesInFaces( vertices, 
-			[1..faces],	verticesOfFaces );
-	end
-);
-RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
-	[ IsList, IsPosInt, IsList],
-	[ IsSet, , ], 0 );
+	RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
+		[ IsList, IsList, IsList],
+		[ IsSet, IsSet, ], 0 );
+	##	Adjust for the alternative possibilities.
+	InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
+		[ IsPosInt, IsObject, IsList ],
+		function( vertices, faces, verticesOfFaces )
+			return SimplicialSurfaceByVerticesInFaces( 
+				[1..vertices], faces, verticesOfFaces );
+		end
+	);
+	InstallOtherMethod( SimplicialSurfaceByVerticesInFaces, "",
+		[ IsSet, IsPosInt, IsList ],
+		function( vertices, faces, verticesOfFaces )
+			return SimplicialSurfaceByVerticesInFaces( vertices, 
+				[1..faces],	verticesOfFaces );
+		end
+	);
+		RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
+			[ IsList, IsPosInt, IsList],
+			[ IsSet, , ], 0 );
 ##
 ##							End of constructors
 ##
