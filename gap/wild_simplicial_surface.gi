@@ -4,7 +4,8 @@
 ##
 ##	Declare the representation of wild simplicial surfaces that does nothing.
 ##
-DeclareRepresentation("IsWildSimplicialSurfaceRep", IsWildSimplicialSurface, [ ] );
+DeclareRepresentation("IsWildSimplicialSurfaceRep", 
+	IsWildSimplicialSurface, [ ] );
 ##
 ##	Define a type so we can use Objectify.
 ##
@@ -230,7 +231,8 @@ InstallMethod( MRTypeOfEdgesAsNumbers,
                if not Length(edgevertex1) = 1 or not Length(edgevertex2) = 1 then
                    Error("MRTypeOfEdgesAsNumbers: incorrect intersection at edge");
                fi;
-               if ColourOfEdge(simpsurf,edgevertex1[1])=ColourOfEdge(simpsurf,edgevertex2[1]) then
+               if ColourOfEdge(simpsurf,edgevertex1[1]) = 
+						ColourOfEdge(simpsurf,edgevertex2[1]) then
                    mrtype[edge] := 1; # mirror
                else
                    mrtype[edge] := 2; # rotation
@@ -259,6 +261,19 @@ InstallMethod( MRTypeOfEdges,
         return List(MRTypeOfEdgesAsNumbers(simpsurf), i-> f(i) );
 	end
 );
+
+
+##############################################################################
+##############################################################################
+##
+##					Start of the coloured edge part
+##
+##
+##	There are four attributes that are concerned with edge colourings:
+##		- ColoursOfEdges
+##		- ColouredEdgesOfFaces
+##		- ColouredFaceEdgePathsOfVertices
+##		- EdgesOfColour
 
 
 InstallMethod( ColourOfEdgeNC,
@@ -407,9 +422,15 @@ InstallMethod( ColouredFaceEdgePathOfVertex,
 	end
 );
 
+##
+##			End of the coloured edge part
+##
+##############################################################################
+##############################################################################
+
 
 ##############################################################################
-#############################################################################
+##############################################################################
 ##
 ##			Start of big (quasi-constructor) methods
 ##

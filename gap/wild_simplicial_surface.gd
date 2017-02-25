@@ -233,17 +233,6 @@ DeclareAttribute( "Generators",
 DeclareAttribute( "GroupOfWildSimplicialSurface", IsWildSimplicialSurface );
 
 
-#! @Description
-#! Return the  face edge path of a vertex, i.e.....
-#! @Arguments a wild simplicial surface
-#! @Returns a list
-DeclareAttribute( "ColouredFaceEdgePathsOfVertices", IsWildSimplicialSurface );
-DeclareOperation( "ColouredFaceEdgePathOfVertex", 
-		[IsWildSimplicialSurface,IsPosInt] );
-DeclareOperation( "ColouredFaceEdgePathOfVertexNC", 
-		[IsWildSimplicialSurface,IsPosInt] );
-
-
 #! @Description Given a wild coloured simplicial surface simpsurf, this
 #!  function determines the vertex group of the simplicial surface.
 #!  The vertex group of the simplicial surface simpsurf is defined to be
@@ -276,6 +265,27 @@ DeclareOperation( "ColouredEdgeOfFace",
 		[IsWildSimplicialSurface, IsPosInt, IsPosInt] );
 DeclareOperation( "ColouredEdgeOfFaceNC", 
 		[IsWildSimplicialSurface, IsPosInt, IsPosInt] );
+
+
+#! @Description
+#! Return the  face edge path of a vertex, i.e.....
+#! @Arguments a wild simplicial surface
+#! @Returns a list
+DeclareAttribute( "ColouredFaceEdgePathsOfVertices", IsWildSimplicialSurface );
+DeclareOperation( "ColouredFaceEdgePathOfVertex", 
+		[IsWildSimplicialSurface,IsPosInt] );
+DeclareOperation( "ColouredFaceEdgePathOfVertexNC", 
+		[IsWildSimplicialSurface,IsPosInt] );
+
+
+#!	@Description
+#!	Return a list of three sets, where the first set consists of all edges of
+#!	the first colour, and so on.
+#!	@Arguments a wild simplicial surface
+#!	@Returns a list of sets of edges
+DeclareAttribute( "EdgesOfColours", IsWildSimplicialSurface );
+DeclareOperation( "EdgesOfColour", [IsWildSimplicialSurface, IsPosInt] ); 
+DeclareOperation( "EdgesOfColourNC", [IsWildSimplicialSurface, IsPosInt] );
 
 
 
