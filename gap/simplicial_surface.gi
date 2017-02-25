@@ -892,304 +892,24 @@ InstallMethod( Vertices, "for a simplicial surface", [ IsSimplicialSurface ],
 ##	Since vertices, edges and faces can be computed (more or less implicitly)
 ##	from many different other attributes, we include them in the method
 ##	selection graph.
-## 
-
-
-#############################################################################
-#############################################################################
 ##
-##					Start of the local orientation methods
-##
-##
-##	To work with the different ways of encoding the local orientation (via
-##	edges or via vertices, as well as the difference between saving them as 
-##	permutations or as lists) we define some global functions that help us
-##	perform these translations in general.
-
-##
-##	Given a list of permutations (that have to be cycles) and an index set,
-##	this function returns a list of lists such that these lists represent the
-##	cycle representation of the permutation. For example the permutation (1,2,3)
-##	may be represented by the lists [1,2,3], [2,3,1] or [3,1,2]. To define this
-##	representation uniquely we stipulate that the first entry in the list
-##	representation is the smallest entry of the list. In the above example,
-##	the list [1,2,3] would be the so defined representation. Fixed points will
-##	be ignored.
-##
-BindGlobal( "__SIMPLICIAL_TranslateCyclesIntoLists", 
-	function( listOfPerms, indexSet )
-
-	local listOfLists, i, points, listRep, j;
-
-	listOfLists := [];
-	for i in indexSet do
-		points := MovedPoints( listOfPerms[i] );
-
-		# Since points is a set, the first element is the smallest
-		listRep := [ points[1] ];
-
-		for j in [1..Length(points)-1] do
-			Append( listRep, [ listRep[j]^listOfPerms[i] ] );
-		od;
-	od;
-
-	return listOfLists;
-end);
-
-##
-##	Given a list of lists, this function returns a list of
-##	permutations such that each permutation is defined by the list (like it
-##	was described for the function above).
-##
-BindGlobal( "__SIMPLICIAL_TranslateListsIntoCycles", function( listOfLists )
-	local Shift;
-
-	# local function that shifts each entry of the list to the previous one
-	Shift := function( list )
-		local newList, i;
-
-		newList := [];
-		newList[ Length(list) ] := list[1];
-		for i in [2..Length(list)] do
-			newList[i-1] := list[i];
-		od;
-		return newList;
-	end;
-
-	return List( listOfLists, list -> MappingPermListList(list, Shift(list)) );
-end);
-
-
-
-#############################################################################
-#!	@Description
-#!	Return a list of permutations where at the position of each face-number
-#!	there is a cycle of all vertices that are incident to this face. This
-#!	cycle represents the local orientation of this face. All other positions
-#!	are unbounded.
-#!  @Returns a list of permutations
-#!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientation, "for a simplicial surface", 
-	[IsSimplicialSurface],
-	function( simpsurf )
-		return LocalOrientationByVerticesAsPerm(simpsurf);
+InstallMethod( VerticesAttributeOfSimplicialSurface, "for a simplicial surface",
+	[ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+					VerticesAttributeOfSimplicialSurface, surf );
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
-	function( simpsurf )
-		return __SIMPLICIAL_TranslateListsIntoCycles( 
-			LocalOrientationByVerticesAsList( simpsurf ) );
+InstallMethod( Edges, "for a simplicial surface", [ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, Edges, surf);
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList( simpsurf ) then
-			TryNextMethod();
-		else
-			LocalOrientationByVerticesAsList( simpsurf );
-			return LocalOrientationByVerticesAsPerm(
-																	 simpsurf );
-		fi;
+InstallMethod( Faces, "for a simplicial surface", [ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, Faces, surf);
 	end
 );
-InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList(simpsurf) or 
-				HasLocalOrientationByEdgesAsList(simpsurf) then
-			TryNextMethod();
-		else
-			LocalOrientationByEdgesAsList( simpsurf );
-			LocalOrientationByVerticesAsList( simpsurf );
-			return LocalOrientationByVerticesAsPerm( simpsurf );
-		fi;
-	end
-);
-
-
-#############################################################################
-#!	@Description
-#!	Return a list of permutations where at the position of each face-number
-#!	there is a cycle of all edges that are incident to this face. This
-#!	cycle represents the local orientation of this face. All other positions
-#!	are unbounded.
-#!  @Returns a list of permutations
-#!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
-	function( simpsurf )
-		return __SIMPLICIAL_TranslateListsIntoCycles( 
-			LocalOrientationByEdgesAsList( simpsurf ) );
-	end
-);
-InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
-	function( simpsurf )
-		if HasLocalOrientationByEdgesAsList( simpsurf ) then
-			TryNextMethod();
-		else
-			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByEdgesAsPerm( simpsurf );
-		fi;
-	end
-);
-InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList( simpsurf ) or
-			 	HasLocalOrientationByEdgesAsList( simpsurf ) then
-			TryNextMethod();
-		else
-			LocalOrientationByVerticesAsList( simpsurf );
-			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByEdgesAsPerm( simpsurf );
-		fi;
-	end
-);
-
-##
-##	To perform the conversion between ByVerticesAsList and ByEdgesAsList we
-##	implement another global function (as both conversions are identical from
-##	the perspective of incidence geometry). We start with
-##		a list of lists (in terms of elements A)
-##		an index for the list (in our case that will be the faces)
-##		a conversion of A in terms of B
-##		a list of sets of all elements of B that are possible (for a given face)
-##
-BindGlobal( "__SIMPLICIAL_ConversionLocalOrientationVerticesEdges", 
-	function( listOfLists, listIndex, conversion, possibleNewElements )
-
-	local newListOfLists, i, oldList, newList, firstEl, secondEl, intersection,
-		j, currentEl, nextEl;
-
-	newListOfLists := [];
-	# Iterate over the list index
-	for i in listIndex do
-		# We want to convert the elements of listOfLists (the 'old lists')
-		# into the elements of newListOfLists (the 'new lists')
-		oldList := listOfLists[i];
-		newList := [];
-
-		# Intersect first and last element of the oldList to obtain the first
-		# element of the newList
-		firstEl := Set( conversion[ oldList[1] ] );
-		secondEl := Set( conversion[ oldList[ Length(oldList) ] ] );
-		intersection := Intersection( firstEl, secondEl, 
-											possibleNewElements[i] );
-		if Length( intersection ) <> 1 then
-			# This error should not be thrown if the method is used for its 
-			# intended purpose
-			Error("__SIMPLICIAL_ConversionLocalOrientationVerticesEdges: Intersection is not unique." );
-		fi;
-		newList[1] := intersection[1];
-
-
-		# Now we continue for all other elements
-		for j in [2..Length(oldList)] do
-			currentEl := Set( conversion[ oldList[j-1] ] );
-			nextEl := Set( conversion[ oldList[j] ] );
-			intersection := Intersection( currentEl, nextEl, 
-												possibleNewElements[i] );
-			if Length( intersection ) <> 1 then
-				# This error should not be thrown if the method is used for its 
-				# intended purpose
-				Error("__SIMPLICIAL_ConversionLocalOrientationVerticesEdges: Intersection is not unique." );
-			fi;
-			newList[j] := intersection[1];
-		od;
-
-		newListOfLists[i] := newList;
-	od;
-
-	return newListOfLists;
-end);
-
-
-#############################################################################
-#!	@Description
-#!	Return a list of lists where at the position of each face-number
-#!	there is a list of all vertices that are incident to this face. This
-#!	list represents the local orientation of this face. All other positions
-#!	are unbounded.
-#!  @Returns a list of lists
-#!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
-	function( simpsurf )
-		return __SIMPLICIAL_TranslateCyclesIntoLists( 
-			LocalOrientationByVerticesAsPerm( simpsurf ), Faces( simpsurf ) );
-	end
-);
-InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
-	function( simpsurf )
-		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
-			LocalOrientationByEdgesAsList(simpsurf), 
-			Faces(simpsurf), 
-			VerticesOfEdges(simpsurf),
-			VerticesOfFaces(simpsurf) );
-	end
-);
-InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsPerm(simpsurf) or
-			 	HasLocalOrientationByEdgesAsList(simpsurf) then
-			TryNextMethod();
-		else
-			LocalOrientationByEdgesAsList( simpsurf );
-			return LocalOrientationByVerticesAsList( simpsurf );
-		fi;
-	end
-);
-
-
-#############################################################################
-#!	@Description
-#!	Return a list of lists where at the position of each face-number
-#!	there is a list of all edges that are incident to this face. This
-#!	list represents the local orientation of this face. All other positions
-#!	are unbounded.
-#!  @Returns a list of lists
-#!  @Arguments a simplicial surface object simpsurf
-InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
-	function( simpsurf )
-		return __SIMPLICIAL_TranslateCyclesIntoLists( 
-			LocalOrientationByEdgesAsPerm( simpsurf ), Faces( simpsurf ) );
-	end
-);
-InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
-	function( simpsurf )
-		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
-			LocalOrientationByVerticesAsList(simpsurf), 
-			Faces(simpsurf), 
-			EdgesOfVertices(simpsurf),
-			EdgesOfFaces(simpsurf) );
-	end
-);
-InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
-	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
-	function( simpsurf )
-		if HasLocalOrientationByVerticesAsList(simpsurf) or
-			 	HasLocalOrientationByEdgesAsPerm(simpsurf) then
-			TryNextMethod();
-		else
-			LocalOrientationByVerticesAsList( simpsurf );
-			return LocalOrientationByEdgesAsList( simpsurf );
-		fi;
-	end
-);
-
-
-##
-##					End of the local orientation methods
-##
-##############################################################################
-##############################################################################
 
 
 
@@ -1352,8 +1072,22 @@ InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj,
 ##		FacesOfEdges and EdgesOfVertices
 ##	We will start with an inversion and a transitivity method. These two are
 ##	sufficient to generate every other combination in at most two steps. Since
-##	GAP can't do more than one step we have to define additional methods for
-##	these cases.
+##	GAP can't do more than one step we use the method selection graph to cover
+##	all other cases.
+##
+##	Before we implement the relations between the *Of*-relations we implement
+##	the implicit references to the constituents (for example we can derive
+##	both Vertices and Edges from VerticesOfEdges).
+InstallMethod( VerticesAttributeOfSimplicialSurface, "for a simplicial surface",
+	[ IsSimplicialSurface and HasVerticesOfEdges ],
+	function( surf );
+		return Union( VerticesOfEdges( surf ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"VerticesAttributeOfSimplicialSurface", "VerticesOfEdges" );
+
+
 ##	
 ##	At first we implement the inversion of an incidence relation. For example
 ##	we know edgesOfFaces but want to know facesOfEdges. As this inversion is
@@ -1657,6 +1391,305 @@ InstallMethod( FacesOfVertices,
 ##
 #############################################################################
 #############################################################################
+
+
+
+
+#############################################################################
+#############################################################################
+##
+##					Start of the local orientation methods
+##
+##
+##	To work with the different ways of encoding the local orientation (via
+##	edges or via vertices, as well as the difference between saving them as 
+##	permutations or as lists) we define some global functions that help us
+##	perform these translations in general.
+
+##
+##	Given a list of permutations (that have to be cycles) and an index set,
+##	this function returns a list of lists such that these lists represent the
+##	cycle representation of the permutation. For example the permutation (1,2,3)
+##	may be represented by the lists [1,2,3], [2,3,1] or [3,1,2]. To define this
+##	representation uniquely we stipulate that the first entry in the list
+##	representation is the smallest entry of the list. In the above example,
+##	the list [1,2,3] would be the so defined representation. Fixed points will
+##	be ignored.
+##
+BindGlobal( "__SIMPLICIAL_TranslateCyclesIntoLists", 
+	function( listOfPerms, indexSet )
+
+	local listOfLists, i, points, listRep, j;
+
+	listOfLists := [];
+	for i in indexSet do
+		points := MovedPoints( listOfPerms[i] );
+
+		# Since points is a set, the first element is the smallest
+		listRep := [ points[1] ];
+
+		for j in [1..Length(points)-1] do
+			Append( listRep, [ listRep[j]^listOfPerms[i] ] );
+		od;
+	od;
+
+	return listOfLists;
+end);
+
+##
+##	Given a list of lists, this function returns a list of
+##	permutations such that each permutation is defined by the list (like it
+##	was described for the function above).
+##
+BindGlobal( "__SIMPLICIAL_TranslateListsIntoCycles", function( listOfLists )
+	local Shift;
+
+	# local function that shifts each entry of the list to the previous one
+	Shift := function( list )
+		local newList, i;
+
+		newList := [];
+		newList[ Length(list) ] := list[1];
+		for i in [2..Length(list)] do
+			newList[i-1] := list[i];
+		od;
+		return newList;
+	end;
+
+	return List( listOfLists, list -> MappingPermListList(list, Shift(list)) );
+end);
+
+
+
+#############################################################################
+#!	@Description
+#!	Return a list of permutations where at the position of each face-number
+#!	there is a cycle of all vertices that are incident to this face. This
+#!	cycle represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!  @Returns a list of permutations
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( LocalOrientation, "for a simplicial surface", 
+	[IsSimplicialSurface],
+	function( simpsurf )
+		return LocalOrientationByVerticesAsPerm(simpsurf);
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
+	function( simpsurf )
+		return __SIMPLICIAL_TranslateListsIntoCycles( 
+			LocalOrientationByVerticesAsList( simpsurf ) );
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsList( simpsurf ) then
+			TryNextMethod();
+		else
+			LocalOrientationByVerticesAsList( simpsurf );
+			return LocalOrientationByVerticesAsPerm(
+																	 simpsurf );
+		fi;
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsList(simpsurf) or 
+				HasLocalOrientationByEdgesAsList(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByEdgesAsList( simpsurf );
+			LocalOrientationByVerticesAsList( simpsurf );
+			return LocalOrientationByVerticesAsPerm( simpsurf );
+		fi;
+	end
+);
+
+
+#############################################################################
+#!	@Description
+#!	Return a list of permutations where at the position of each face-number
+#!	there is a cycle of all edges that are incident to this face. This
+#!	cycle represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!  @Returns a list of permutations
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
+	function( simpsurf )
+		return __SIMPLICIAL_TranslateListsIntoCycles( 
+			LocalOrientationByEdgesAsList( simpsurf ) );
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
+	function( simpsurf )
+		if HasLocalOrientationByEdgesAsList( simpsurf ) then
+			TryNextMethod();
+		else
+			LocalOrientationByEdgesAsList( simpsurf );
+			return LocalOrientationByEdgesAsPerm( simpsurf );
+		fi;
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsList( simpsurf ) or
+			 	HasLocalOrientationByEdgesAsList( simpsurf ) then
+			TryNextMethod();
+		else
+			LocalOrientationByVerticesAsList( simpsurf );
+			LocalOrientationByEdgesAsList( simpsurf );
+			return LocalOrientationByEdgesAsPerm( simpsurf );
+		fi;
+	end
+);
+
+##
+##	To perform the conversion between ByVerticesAsList and ByEdgesAsList we
+##	implement another global function (as both conversions are identical from
+##	the perspective of incidence geometry). We start with
+##		a list of lists (in terms of elements A)
+##		an index for the list (in our case that will be the faces)
+##		a conversion of A in terms of B
+##		a list of sets of all elements of B that are possible (for a given face)
+##
+BindGlobal( "__SIMPLICIAL_ConversionLocalOrientationVerticesEdges", 
+	function( listOfLists, listIndex, conversion, possibleNewElements )
+
+	local newListOfLists, i, oldList, newList, firstEl, secondEl, intersection,
+		j, currentEl, nextEl;
+
+	newListOfLists := [];
+	# Iterate over the list index
+	for i in listIndex do
+		# We want to convert the elements of listOfLists (the 'old lists')
+		# into the elements of newListOfLists (the 'new lists')
+		oldList := listOfLists[i];
+		newList := [];
+
+		# Intersect first and last element of the oldList to obtain the first
+		# element of the newList
+		firstEl := Set( conversion[ oldList[1] ] );
+		secondEl := Set( conversion[ oldList[ Length(oldList) ] ] );
+		intersection := Intersection( firstEl, secondEl, 
+											possibleNewElements[i] );
+		if Length( intersection ) <> 1 then
+			# This error should not be thrown if the method is used for its 
+			# intended purpose
+			Error("__SIMPLICIAL_ConversionLocalOrientationVerticesEdges: Intersection is not unique." );
+		fi;
+		newList[1] := intersection[1];
+
+
+		# Now we continue for all other elements
+		for j in [2..Length(oldList)] do
+			currentEl := Set( conversion[ oldList[j-1] ] );
+			nextEl := Set( conversion[ oldList[j] ] );
+			intersection := Intersection( currentEl, nextEl, 
+												possibleNewElements[i] );
+			if Length( intersection ) <> 1 then
+				# This error should not be thrown if the method is used for its 
+				# intended purpose
+				Error("__SIMPLICIAL_ConversionLocalOrientationVerticesEdges: Intersection is not unique." );
+			fi;
+			newList[j] := intersection[1];
+		od;
+
+		newListOfLists[i] := newList;
+	od;
+
+	return newListOfLists;
+end);
+
+
+#############################################################################
+#!	@Description
+#!	Return a list of lists where at the position of each face-number
+#!	there is a list of all vertices that are incident to this face. This
+#!	list represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!  @Returns a list of lists
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
+	function( simpsurf )
+		return __SIMPLICIAL_TranslateCyclesIntoLists( 
+			LocalOrientationByVerticesAsPerm( simpsurf ), Faces( simpsurf ) );
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsList],
+	function( simpsurf )
+		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
+			LocalOrientationByEdgesAsList(simpsurf), 
+			Faces(simpsurf), 
+			VerticesOfEdges(simpsurf),
+			VerticesOfFaces(simpsurf) );
+	end
+);
+InstallMethod( LocalOrientationByVerticesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsPerm(simpsurf) or
+			 	HasLocalOrientationByEdgesAsList(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByEdgesAsList( simpsurf );
+			return LocalOrientationByVerticesAsList( simpsurf );
+		fi;
+	end
+);
+
+
+#############################################################################
+#!	@Description
+#!	Return a list of lists where at the position of each face-number
+#!	there is a list of all edges that are incident to this face. This
+#!	list represents the local orientation of this face. All other positions
+#!	are unbounded.
+#!  @Returns a list of lists
+#!  @Arguments a simplicial surface object simpsurf
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByEdgesAsPerm],
+	function( simpsurf )
+		return __SIMPLICIAL_TranslateCyclesIntoLists( 
+			LocalOrientationByEdgesAsPerm( simpsurf ), Faces( simpsurf ) );
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
+	function( simpsurf )
+		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 
+			LocalOrientationByVerticesAsList(simpsurf), 
+			Faces(simpsurf), 
+			EdgesOfVertices(simpsurf),
+			EdgesOfFaces(simpsurf) );
+	end
+);
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
+	[IsSimplicialSurface and HasLocalOrientationByVerticesAsPerm],
+	function( simpsurf )
+		if HasLocalOrientationByVerticesAsList(simpsurf) or
+			 	HasLocalOrientationByEdgesAsPerm(simpsurf) then
+			TryNextMethod();
+		else
+			LocalOrientationByVerticesAsList( simpsurf );
+			return LocalOrientationByEdgesAsList( simpsurf );
+		fi;
+	end
+);
+
+
+##
+##					End of the local orientation methods
+##
+##############################################################################
+##############################################################################
 
 
 
