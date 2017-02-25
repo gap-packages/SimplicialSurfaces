@@ -1825,9 +1825,21 @@ InstallMethod( VertexSymbol, "for a simplicial surface", [IsSimplicialSurface],
 ##
 ##	Install the methods concerning the face-edge-paths
 ##
+InstallMethod( FaceEdgePathsOfVertices, "for a simplicial surface", 
+	[IsSimplicialSurface and IsEdgesLikeSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+									FaceEdgePathsOfVertices, surf);
+	end
+);
+	RedispatchOnCondition( FaceEdgePathsOfVertices, true, [IsSimplicialSurface],
+		[IsEdgesLikeSurface], 0 );
+
 InstallMethod( FaceEdgePathsOfVertices, 
 	"for a simplicial surface that is an actual surface", 
-	[ IsSimplicialSurface and IsEdgesLikeSurface ],
+	[ IsSimplicialSurface and IsEdgesLikeSurface and 
+		HasVerticesAttributeOfSimplicialSurface and HasEdgesOfVertices and
+		HasFacesOfVertices and HasEdgesOfFaces and HasFacesOfEdges ],
 	function( surf )
 		local faceEdgePathList, vertex, incidentEdges, incidentFaces, 
 			faceEdgePaths, faceStart, possEdges, path, lastEdge, nextFaceList,
@@ -1919,8 +1931,75 @@ InstallMethod( FaceEdgePathsOfVertices,
 		return faceEdgePathList;
 	end
 );
-RedispatchOnCondition( FaceEdgePathsOfVertices, true, [IsSimplicialSurface],
-	[IsEdgesLikeSurface], 0 );
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"FaceEdgePathsOfVertices", 
+		["HasVerticesAttributeOfSimplicialSurface", "HasEdgesOfVertices", 
+			"HasFacesOfVertices", "HasEdgesOfFaces", "HasFacesOfEdges"] );
+
+# We can use the face-edge-paths to derive other information
+InstallMethod( VerticesAttributeOfSimplicialSurface, 
+	"for a simplicial surface that has face-edge-paths",
+	[ IsSimplicialSurface and HasFaceEdgePathsOfVertices ],
+	function( surf )
+		return __SIMPLICIAL_BoundEntriesOfList( FaceEdgePathsOfVertices(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
+		"VerticesAttributeOfSimplicialSurface", "FaceEdgePathsOfVertices" );
+
+InstallMethod( FacesOfVertices, 
+	"for a simplicial surface that has face-edge-paths",
+	[ IsSimplicialSurface and HasFaceEdgePathsOfVertices ],
+	function( surf )
+		local EvenEntries;
+
+		EvenEntries := function( list )
+			local entries, i;
+
+			entries := [];
+			for i in [1..Length(list)] do
+				if IsEvenInt(i) then
+					entries[i] := list[i];
+				fi;
+			od;
+
+			return Set(entries);
+		end;
+
+		return List( FaceEdgePathsOfVertices(surf), paths -> 
+						Union( List( paths, path -> EvenEntries(path) ) ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
+		"FacesOfVertices", "FaceEdgePathsOfVertices" );
+
+InstallMethod( EdgesOfVertices, 
+	"for a simplicial surface that has face-edge-paths",
+	[ IsSimplicialSurface and HasFaceEdgePathsOfVertices ],
+	function( surf )
+		local OddEntries;
+
+		OddEntries := function( list )
+			local entries, i;
+
+			entries := [];
+			for i in [1..Length(list)] do
+				if IsOddInt(i) then
+					entries[i] := list[i];
+				fi;
+			od;
+
+			return Set(entries);
+		end;
+
+		return List( FaceEdgePathsOfVertices(surf), paths -> 
+						Union( List( paths, path -> OddEntries(path) ) ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
+		"EdgesOfVertices", "FaceEdgePathsOfVertices" );
+
+
 
 InstallMethod( FaceEdgePathsOfVertexNC, 
 	"for a simplicial surface that is an actual surface and a positive integer", 
@@ -1929,8 +2008,8 @@ InstallMethod( FaceEdgePathsOfVertexNC,
 		return FaceEdgePathsOfVertices(surf)[vertex];
 	end
 );
-RedispatchOnCondition( FaceEdgePathsOfVertexNC, true, 
-	[IsSimplicialSurface, IsPosInt], [IsEdgesLikeSurface, ], 0 );
+	RedispatchOnCondition( FaceEdgePathsOfVertexNC, true, 
+		[IsSimplicialSurface, IsPosInt], [IsEdgesLikeSurface, ], 0 );
 
 InstallMethod( FaceEdgePathsOfVertex, 
 	"for a simplicial surface that is an actual surface and a positive integer", 
@@ -1942,8 +2021,8 @@ InstallMethod( FaceEdgePathsOfVertex,
 		return FaceEdgePathsOfVertexNC(surf,vertex);
 	end
 );
-RedispatchOnCondition( FaceEdgePathsOfVertex, true, 
-	[IsSimplicialSurface, IsPosInt], [IsEdgesLikeSurface, ], 0 );
+	RedispatchOnCondition( FaceEdgePathsOfVertex, true, 
+		[IsSimplicialSurface, IsPosInt], [IsEdgesLikeSurface, ], 0 );
 
 ###############################################################################
 ##
