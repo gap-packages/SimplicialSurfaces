@@ -20,9 +20,10 @@ WildSimplicialSurfaceType :=
 ##						Start of constructors
 ##
 
-#########################
+###################################
 ##
 ##	Constructor by downward incidence and edge colouring
+##
 InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
 	"for three sets and three lists",
 	[ IsSet, IsSet, IsSet, IsList, IsList, IsList],
@@ -99,6 +100,18 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
 			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
 			[ IsSet, IsSet, , , , ], 0 );
 
+BindGlobal( "__SIMPLICIAL_CheckEdgeColouring",
+	function( faces, edgesOfFaces, coloursOfEdges )
+		local f;
+
+		for f in faces do
+			if Set( List( edgesOfFaces(f), e -> coloursOfEdges[e] ) ) <> 
+					[1,2,3] then
+				Error("__SIMPLICIAL_CheckEdgeColouring: Each face has to have three different coloured edges." );
+			fi;
+		od;
+	end
+);
 InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring,
 	"for three sets and three lists",
 	[ IsSet, IsSet, IsSet, IsList, IsList, IsList],
@@ -115,12 +128,8 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring,
 						edgesOfFaces, coloursOfEdges );
 
 		# Check the edge colouring
-		for f in Faces(surf) do
-			if Set( List( EdgesOfFaces(f), e -> coloursOfEdges[e] ) ) <> 
-					[1,2,3] then
-				Error("WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring: Each face has to have three different coloured edges." );
-			fi; 
-		od;
+		__SIMPLICIAL_CheckEdgeColouring( Faces(surf), EdgesOfFaces(surf), 
+											coloursOfEdges );
 
 		return surf;
 	end
@@ -172,6 +181,190 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring,
 	);
 		RedispatchOnCondition(
 			WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring, true,
+			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
+			[ IsSet, IsSet, , , , ], 0 );
+
+
+###################################
+##
+##	Constructor by downward incidence and edge colouring
+##
+BindGlobal( "__SIMPLICIAL_ColoursOfEdgesFromGenerators",
+	function( edges, faces, facesOfEdges, gens )
+		local edgeColours, edge, cycles, col;
+
+		cycles := List( gens, g -> Cycles( g, faces ) );
+		edgeColours := [];
+		for edge in edges do
+			for col in [1..Length(cycles)] do
+				if facesOfEdges[edge] in cycles[col] then
+					if IsBound( edgeColours[edge] ) then
+						Error("__SIMPLICIAL_ColoursOfEdgesFromGenerators: Cycles don't define edges uniquely.");
+					else
+						edgeColours[edge] := col;
+					fi;
+				fi; 
+			od;
+		od;
+
+		return edgeColours;
+	end
+);
+InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC,
+	"for three sets and three lists",
+	[ IsSet, IsSet, IsSet, IsList, IsList, IsList],
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+		generators )
+
+		local surf, coloursOfEdges;
+
+		surf := Objectify( WildSimplicialSurfaceType, rec() );
+
+		# define the incidence structure
+		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
+		SetEdges( surf, edges );
+		SetFaces( surf, faces );
+		SetVerticesOfEdges( surf, verticesOfEdges );
+		SetEdgesOfFaces( surf, edgesOfFaces );
+
+		# define other attributes of simplicial surface
+		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
+
+		# set edge colouring attribute
+		SetGenerators( surf, generators );
+		coloursOfEdges := __SIMPLICIAL_ColoursOfEdgesFromGenerators( 
+				Edges(surf), Faces(surf), FacesOfEdges(surf), generators );
+		SetColoursOfEdges( surf, coloursOfEdges );
+
+		return surf;
+	end
+);
+	RedispatchOnCondition(
+		WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC, true,
+		[ IsList, IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , , ], 0 );
+
+	#	Implement alternative callings
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC,
+		"", [ IsPosInt, IsObject, IsObject, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			generators )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC(
+						[1..vertices], edges, faces, verticesOfEdges, 
+						edgesOfFaces, generators );
+		end
+	);
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC,
+		"", [ IsSet, IsPosInt, IsObject, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			generators )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC(
+						vertices, [1..edges], faces, verticesOfEdges, 
+						edgesOfFaces, generators );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC, true,
+			[ IsList, IsPosInt, IsObject, IsList, IsList, IsList ],
+			[ IsSet, , , , , ], 0 );
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC,
+		"", [ IsSet, IsSet, IsPosInt, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			generators )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC(
+						vertices, edges, [1..faces], verticesOfEdges, 
+						edgesOfFaces, generators );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC, true,
+			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
+			[ IsSet, IsSet, , , , ], 0 );
+
+
+BindGlobal( "__SIMPLICIAL_CheckGenerators",
+	function( gens )
+		local g;
+
+		if Length(gens) <> 3 then
+			Error("__SIMPLICIAL_CheckGenerators: There should be exactly three generators.");
+		fi;
+		for g in gens do
+			if not IsPerm(g) then
+				Error("__SIMPLICIAL_CheckGenerators: Generators should be permutations.");
+			fi;
+			if g^2 <> One(g) then
+				Error("__SIMPLICIAL_CheckGenerators: Generators have to be involutions.");
+			fi;
+		od;
+	end
+);
+InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
+	"for three sets and three lists",
+	[ IsSet, IsSet, IsSet, IsList, IsList, IsList],
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+		generators )
+
+		__SIMPLICIAL_CheckGenerators( generators );
+		return WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC( 
+			vertices, edges, faces, verticesOfEdges, edgesOfFaces, generators );
+	end
+);
+	RedispatchOnCondition(
+		WildSimplicialSurfaceByDownwardIncidenceAndGenerators, true,
+		[ IsList, IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , , ], 0 );
+
+	#	Implement alternative callings
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
+		"", [ IsPosInt, IsObject, IsObject, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			generators )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndGenerators(
+						[1..vertices], edges, faces, verticesOfEdges, 
+						edgesOfFaces, generators );
+		end
+	);
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
+		"", [ IsSet, IsPosInt, IsObject, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			generators )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndGenerators(
+						vertices, [1..edges], faces, verticesOfEdges, 
+						edgesOfFaces, generators );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByDownwardIncidenceAndGenerators, true,
+			[ IsList, IsPosInt, IsObject, IsList, IsList, IsList ],
+			[ IsSet, , , , , ], 0 );
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
+		"", [ IsSet, IsSet, IsPosInt, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			generators )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndGenerators(
+						vertices, edges, [1..faces], verticesOfEdges, 
+						edgesOfFaces, generators );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByDownwardIncidenceAndGenerators, true,
 			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
 			[ IsSet, IsSet, , , , ], 0 );
 
