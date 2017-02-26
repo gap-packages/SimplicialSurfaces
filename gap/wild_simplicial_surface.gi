@@ -664,7 +664,7 @@ InstallMethod( EdgesOfColours, "for a wild simplicial surface",
 );
 
 
-#####################
+###############################
 ##
 ##	Next we give computations for all attributes
 ##
@@ -1532,14 +1532,10 @@ end;
         if v = false then
             ##  now we know that there is no more free vertex
             edges :=  List( gens, g-> Cycles(g,MovedPoints(gens)));
-   #MB         edges  := List( edges, e->Filtered( e , c -> Length(c) = 2));
 
             Sort( vertices, cmpvertices );
 			ss := __SIMPLICIAL_ConvertWildLegacyIntoModern( faces, edges, 
 															vertices, gens );
-   #MB         ss :=  WildSimplicialSurface(rec( faces := MovedPoints(gens),
-   #MB             edges := edges, vertices := vertices, generators := gens ));
-   #MB         ss!.mrtype := mrtype;
             Add(AllSurfaces, ss );
 #               Error("COMPLETED?\n");
             return;
@@ -1713,7 +1709,7 @@ InstallMethod( \=, "for two wild simplicial surfaces", IsIdenticalObj,
 	function( s1, s2 )
 		# check all basic attributes
 
-		if Generators(s1) <> Generators(s2) then
+		if ColoursOfEdges(s1) <> ColoursOfEdges(s2) then
 			return false;
 		fi;
 
@@ -1736,7 +1732,8 @@ InstallMethod( \=, "for two wild simplicial surfaces", IsIdenticalObj,
 InstallMethod( IsConnected, "for a wild simplicial surface",
 	[IsWildSimplicialSurface],
 	function(simpsurf)
-		return Length(Orbits(GroupOfWildSimplicialSurface(simpsurf), Faces(simpsurf)))=1;
+		return Length( Orbits( GroupOfWildSimplicialSurface(simpsurf), 
+									Faces(simpsurf) ) ) = 1;
 	end
 );
 
