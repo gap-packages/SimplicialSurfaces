@@ -99,6 +99,82 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
 			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
 			[ IsSet, IsSet, , , , ], 0 );
 
+InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring,
+	"for three sets and three lists",
+	[ IsSet, IsSet, IsSet, IsList, IsList, IsList],
+	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+		coloursOfEdges )
+
+		local surf, f;
+
+		__SIMPLICIAL_CheckDownwardIncidence( vertices, edges, faces,
+			verticesOfEdges, edgesOfFaces, fail, false );
+
+		surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC( 
+						vertices, edges, faces, verticesOfEdges, 
+						edgesOfFaces, coloursOfEdges );
+
+		# Check the edge colouring
+		for f in Faces(surf) do
+			if Set( List( EdgesOfFaces(f), e -> coloursOfEdges[e] ) ) <> 
+					[1,2,3] then
+				Error("WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring: Each face has to have three different coloured edges." );
+			fi; 
+		od;
+
+		return surf;
+	end
+);
+	RedispatchOnCondition(
+		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring, true,
+		[ IsList, IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , , ], 0 );
+
+	#	Implement alternative callings
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring,
+		"", [ IsPosInt, IsObject, IsObject, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			coloursOfEdges )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring(
+						[1..vertices], edges, faces, verticesOfEdges, 
+						edgesOfFaces, coloursOfEdges );
+		end
+	);
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring,
+		"", [ IsSet, IsPosInt, IsObject, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			coloursOfEdges )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring(
+						vertices, [1..edges], faces, verticesOfEdges, 
+						edgesOfFaces, coloursOfEdges );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring, true,
+			[ IsList, IsPosInt, IsObject, IsList, IsList, IsList ],
+			[ IsSet, , , , , ], 0 );
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring,
+		"", [ IsSet, IsSet, IsPosInt, IsList, IsList, IsList ],
+		function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+			coloursOfEdges )
+		
+			return WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring(
+						vertices, edges, [1..faces], verticesOfEdges, 
+						edgesOfFaces, coloursOfEdges );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring, true,
+			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
+			[ IsSet, IsSet, , , , ], 0 );
+
 ##
 ##	This constructor takes the following information:
 ##
@@ -1301,6 +1377,7 @@ InstallMethod( Display, "for WildSimplicialSurfaces", [IsWildSimplicialSurface],
         for vtx in Vertices(simpsurf) do
             Print("    ", ColouredFaceEdgePathOfVertex( simpsurf, vtx ) );
         od;
+		Print("\n");
  
         Print("Degrees = ", UnsortedDegrees(simpsurf) );
 	end
