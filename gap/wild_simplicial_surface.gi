@@ -638,7 +638,7 @@ InstallMethod( WildSimplicialSurfaceByColouredFaceEdgePathsNC, "",
 	function( vertices, faces, colouredFaceEdgePaths )
 
 		local surf;
-#TODO
+#TODO MB
 		surf := Objectify( WildSimplicialSurfaceType, rec() );
 
 		# define the incidence structure

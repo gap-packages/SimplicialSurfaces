@@ -1999,6 +1999,61 @@ InstallMethod( EdgesOfVertices,
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
 		"EdgesOfVertices", "FaceEdgePathsOfVertices" );
 
+InstallMethod( FacesOfEdges, 
+	"for a simplicial surface that has face-edge-paths",
+	[ IsSimplicialSurface and HasFaceEdgePathsOfVertices and 
+		HasVerticesAttributeOfSimplicialSurface ],
+	function( surf )
+		local facesOfEdges, v, path, i;
+
+		for v in Vertices(surf) do
+			for path in FaceEdgePathsOfVertexNC( surf, v ) do
+				# We will use that IsEdgesLikeSurface holds true
+
+				if IsEvenInt( Length( path ) ) then 	# closed path
+					# First edge
+					if not IsBound( facesOfEdges[ path[1] ] ) then
+						facesOfEdges[ path[1] ] := Set( 
+								[ path[2], path[ Length(path) ] ] );
+					fi;
+
+					# Other edges
+					for i in [3,5..Length(path)-1] do
+						if not IsBound( facesOfEdges[ path[i] ] ) then
+							facesOfEdges[ path[i] ] := Set( 
+									[ path[i-1], path[ i+1 ] ] );
+						fi;
+					od;
+
+				else	# open path
+					# First edge
+					if not IsBound( facesOfEdges[ path[1] ] ) then
+						facesOfEdges[ path[1] ] := [ path[2] ] );
+					fi;
+
+					# Last edge
+					if not IsBound( facesOfEdges[ path[Length(path)] ] ) then
+						facesOfEdges[ path[Length(path)] ] := 
+									[ path[Length(path)-1] ] );
+					fi;
+
+					# Other edges
+					for i in [3,5..Length(path)-2] do
+						if not IsBound( facesOfEdges[ path[i] ] ) then
+							facesOfEdges[ path[i] ] := Set( 
+									[ path[i-1], path[ i+1 ] ] );
+						fi;
+					od;
+				fi;
+			od;
+		od;
+
+		return facesOfEdges; 
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, "FacesOfEdges", 
+		["FaceEdgePathsOfVertices", "VerticesAttributeOfSimplicialSurface"] );
+
 
 
 InstallMethod( FaceEdgePathsOfVertexNC, 

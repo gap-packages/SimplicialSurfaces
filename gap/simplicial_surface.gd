@@ -373,6 +373,7 @@ DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
 #!  @Arguments a simplicial surface object simpsurf
 DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 
+
 #!  @Description
 #!  Return the vertex symbol of a simplicial surface.
 #!	The vertex symbol is a list, where the i-th entry counts the number of 
