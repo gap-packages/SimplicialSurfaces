@@ -429,7 +429,7 @@ InstallMethod( GroupOfWildSimplicialSurface,
 
 #############################################################################
 ##
-#!	f@Description Given a wild coloured simplicial surface <simpsurf>, this
+#!	@Description Given a wild coloured simplicial surface <simpsurf>, this
 #!  function determines the vertex group of the simplicial surface.
 #!  The vertex group of the simplicial surface <simpsurf> is defined to be
 #!  $F_3/R$, where $F_3$ is the free group on three generators and $R$ is 
@@ -468,7 +468,7 @@ InstallMethod( VertexGroup,
 
 #############################################################################
 ##
-#! @Description Given a wild coloured simplicial surface <simpsurf>, this
+#!	@Description Given a wild coloured simplicial surface <simpsurf>, this
 #!  function determines the mr-type of each of the edges of <simpsurf>.
 #!  The mr-type of an edge of <simpsurf> is either "m" (for mirror) or 
 #!  "r" (for rotation). It is defined as followed. 
@@ -548,6 +548,35 @@ InstallMethod( MRTypeOfEdges,
         end;
 
         return List(MRTypeOfEdgesAsNumbers(simpsurf), i-> f(i) );
+	end
+);
+
+
+InstallMethod( Generators, "for a wild simplicial surface", 
+	[ IsWildSimplicialSurface ],
+	function( surf )
+		local col, edges, gens, toList, facesOfEdge, edge;
+
+		gens := [];
+		for col in [1,2,3] do
+			# Find all edges of this colour
+			edges := EdgesOfColourNC( surf, col );
+
+			# Construct the involution from a list 
+			toList := [1..Maximum(Faces(surf))];
+
+			for edge in edges do
+				facesOfEdge := FacesOfEdges(surf)[edge];
+				if Length(facesOfEdge) = 2 then
+					toList[ facesOfEdge[1] ] := facesOfEdge[2];
+					toList[ facesOfEdge[2] ] := facesOfEdge[1];
+				fi;
+			od;
+
+			gens[col] := PermList( toList );
+		od;
+
+		return gens;
 	end
 );
 
