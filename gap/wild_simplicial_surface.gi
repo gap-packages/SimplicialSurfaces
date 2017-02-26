@@ -187,7 +187,7 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring,
 
 ###################################
 ##
-##	Constructor by downward incidence and edge colouring
+##	Constructor by downward incidence and generators
 ##
 BindGlobal( "__SIMPLICIAL_ColoursOfEdgesFromGenerators",
 	function( edges, faces, facesOfEdges, gens )
@@ -368,42 +368,82 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
 			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
 			[ IsSet, IsSet, , , , ], 0 );
 
+###################################
 ##
-##	This constructor takes the following information:
+##	Constructor by simplicial surface and edge colouring
 ##
-##	A simplicial surface which is an actual surface
-##	The list of involutions
+InstallMethod( WildSimplicialSurfaceExtensionByEdgeColouringNC, "",
+	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
+	function( surf, coloursOfEdges )
+		local wild;
+
+		wild := ObjectifySimplicialSurface( 
+			WildSimplicialSurfaceType, rec(), surf);
+		SetColoursOfEdges( wild, coloursOfEdges );
+
+		return wild;
+	end
+);
+	RedispatchOnCondition( WildSimplicialSurfaceExtensionByEdgeColouringNC, 
+		true, [ IsSimplicialSurface, IsList ],
+		[ IsActualSurface and IsTriangleSurface, ], 0 );
+
+
+InstallMethod( WildSimplicialSurfaceExtensionByEdgeColouring, "",
+	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
+	function( surf, coloursOfEdges )
+
+		__SIMPLICIAL_CheckEdgeColouring( Faces(surf), EdgesOfFaces(surf), 
+											coloursOfEdges );
+
+		return WildSimplicialSurfaceExtensionByEdgeColouringNC( surf, 
+															coloursOfEdges );
+	end
+);
+	RedispatchOnCondition( WildSimplicialSurfaceExtensionByEdgeColouring, 
+		true, [ IsSimplicialSurface, IsList ],
+		[ IsActualSurface and IsTriangleSurface, ], 0 );
+
+
+###################################
 ##
-##	Function to enrich a SimplicialSurface with generators
-#InstallMethod( WildSimplicialSurfaceExtensionNC, "",
-#	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
-#	function( simpsurf, generators )
-#		local wild;
-#
-#		wild := ObjectifySimplicialSurface( 
-#			WildSimplicialSurfaceType, rec(), simpsurf);
-#		SetGenerators( wild, generators );
-#
-#		return wild;
-#	end
-#);
-##	If it is not known that we have an actual surface, we have to check
-#RedispatchOnCondition( WildSimplicialSurfaceExtensionNC, true,
-#	[IsSimplicialSurface, IsList], [IsActualSurface and IsTriangleSurface,], 
-#	0 );
-##	This method checks if the generators match the simplicial surface, then
-##	enriches it with generators
-#InstallMethod( WildSimplicialSurfaceExtension, "",
-#	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
-#	function( simpsurf, generators )
-#		#TODO check if the generators match the simplicial surface
-#		return WildSimplicialSurfaceExtensionNC( simpsurf, generators);
-#	end
-#);
-##	If it is not known that we have an actual surface, we have to check
-#RedispatchOnCondition( WildSimplicialSurfaceExtension, true,
-#	[IsSimplicialSurface, IsList], [IsActualSurface and IsTriangleSurface,], 
-#	0 );
+##	Constructor by simplicial surface and generators
+##
+InstallMethod( WildSimplicialSurfaceExtensionByGeneratorsNC, "",
+	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
+	function( surf, generators )
+		local wild, coloursOfEdges;
+
+		coloursOfEdges := __SIMPLICIAL_ColoursOfEdgesFromGenerators( 
+				Edges(surf), Faces(surf), FacesOfEdges(surf), generators );
+
+		wild := ObjectifySimplicialSurface( 
+			WildSimplicialSurfaceType, rec(), surf);
+
+		SetGenerators( wild, generators );
+		SetColoursOfEdges( surf, coloursOfEdges );
+
+		return wild;
+	end
+);
+	RedispatchOnCondition( WildSimplicialSurfaceExtensionByGeneratorsNC, 
+		true, [ IsSimplicialSurface, IsList ],
+		[ IsActualSurface and IsTriangleSurface, ], 0 );
+
+
+InstallMethod( WildSimplicialSurfaceExtensionByGenerators, "",
+	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
+	function( surf, generators )
+		__SIMPLICIAL_CheckGenerators( generators );
+		return WildSimplicialSurfaceExtensionByGeneratorsNC( surf, generators );
+	end
+);
+	RedispatchOnCondition( WildSimplicialSurfaceExtensionByGenerators, 
+		true, [ IsSimplicialSurface, IsList ],
+		[ IsActualSurface and IsTriangleSurface, ], 0 );
+
+
+
 ##
 ##							End of constructors
 ##
