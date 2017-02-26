@@ -442,6 +442,153 @@ InstallMethod( WildSimplicialSurfaceExtensionByGenerators, "",
 		true, [ IsSimplicialSurface, IsList ],
 		[ IsActualSurface and IsTriangleSurface, ], 0 );
 
+###################################
+##
+##	Constructor by face-edge-paths and edge colouring
+##
+InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC,
+	"for three sets and three lists",
+	[ IsSet, IsSet, IsSet, IsList, IsList ],
+	function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+
+		local surf;
+
+		surf := Objectify( WildSimplicialSurfaceType, rec() );
+
+		# define the incidence structure
+		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
+		SetEdges( surf, edges );
+		SetFaces( surf, faces );
+		SetFaceEdgePathsOfVertices( surf, faceEdgePaths );
+
+		# define other attributes of simplicial surface
+		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
+
+		# set edge colouring attribute
+		SetColoursOfEdges( surf, coloursOfEdges );
+
+		return surf;
+	end
+);
+	RedispatchOnCondition(
+		WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC, true,
+		[ IsList, IsList, IsList, IsList, IsList ],
+		[ IsSet, IsSet, IsSet, , ], 0 );
+
+	#	Implement alternative callings
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC,
+		"", [ IsPosInt, IsObject, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+		
+			return WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC(
+				[1..vertices], edges, faces, faceEdgePaths, coloursOfEdges );
+		end
+	);
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC,
+		"", [ IsSet, IsPosInt, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+		
+			return WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC(
+				vertices, [1..edges], faces, faceEdgePaths, coloursOfEdges );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC, true,
+			[ IsList, IsPosInt, IsObject, IsList, IsList ],
+			[ IsSet, , , , ], 0 );
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC,
+		"", [ IsSet, IsSet, IsPosInt, IsList, IsList ],
+		function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+		
+			return WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC(
+				vertices, edges, [1..faces], faceEdgePaths, coloursOfEdges );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC, true,
+			[ IsList, IsList, IsPosInt, IsList, IsList ],
+			[ IsSet, IsSet, , , ], 0 );
+
+InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring, "",
+	[ IsSet, IsSet, IsSet, IsList, IsList ],
+	function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+		local surf, v;
+
+		if Number( faceEdgePaths ) <> Length( vertices ) then
+			Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Not as many FaceEdgePaths as vertices.");
+		fi;
+		for v in vertices do
+			if not IsBound( faceEdgePaths[v] ) then
+				Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: FaceEdgePaths have to be given for each vertex.");
+			fi;
+		od;
+
+		#TODO check faceEdgePaths
+
+		surf := WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC( 
+						vertices, edges, faces, faceEdgePaths, coloursOfEdges );
+
+		# Check the edge colouring
+		__SIMPLICIAL_CheckEdgeColouring( Faces(surf), EdgesOfFaces(surf), 
+											coloursOfEdges );
+		return surf;
+	end
+);
+	RedispatchOnCondition(
+		WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring, true,
+		[ IsList, IsList, IsList, IsList, IsList],
+		[ IsSet, IsSet, IsSet, , ], 0 );
+
+	#	Implement alternative callings
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring,
+		"", [ IsPosInt, IsObject, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+		
+			return WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring(
+				[1..vertices], edges, faces, faceEdgePaths, coloursOfEdges );
+		end
+	);
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring,
+		"", [ IsSet, IsPosInt, IsObject, IsList, IsList ],
+		function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+		
+			return WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring(
+				vertices, [1..edges], faces, faceEdgePaths, coloursOfEdges );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring, true,
+			[ IsList, IsPosInt, IsObject, IsList, IsList ],
+			[ IsSet, , , , ], 0 );
+
+	InstallOtherMethod( 
+		WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring,
+		"", [ IsSet, IsSet, IsPosInt, IsList, IsList ],
+		function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+		
+			return WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring(
+				vertices, edges, [1..faces], faceEdgePaths, coloursOfEdges );
+		end
+	);
+		RedispatchOnCondition(
+			WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring, true,
+			[ IsList, IsList, IsPosInt, IsList, IsList ],
+			[ IsSet, IsSet, , , ], 0 );
+
+
+
+###################################
+##
+##	Constructor by coloured face-edge-paths
+##
 
 
 ##
