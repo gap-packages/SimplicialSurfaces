@@ -2028,13 +2028,13 @@ InstallMethod( FacesOfEdges,
 				else	# open path
 					# First edge
 					if not IsBound( facesOfEdges[ path[1] ] ) then
-						facesOfEdges[ path[1] ] := [ path[2] ] );
+						facesOfEdges[ path[1] ] := [ path[2] ];
 					fi;
 
 					# Last edge
 					if not IsBound( facesOfEdges[ path[Length(path)] ] ) then
 						facesOfEdges[ path[Length(path)] ] := 
-									[ path[Length(path)-1] ] );
+											[ path[Length(path)-1] ];
 					fi;
 
 					# Other edges

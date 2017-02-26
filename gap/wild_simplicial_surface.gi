@@ -643,15 +643,12 @@ InstallMethod( WildSimplicialSurfaceByColouredFaceEdgePathsNC, "",
 
 		# define the incidence structure
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
-		SetEdges( surf, edges );
 		SetFaces( surf, faces );
-		SetFaceEdgePathsOfVertices( surf, faceEdgePaths );
+		SetColouredFaceEdgePathsOfVertices( surf, colouredFaceEdgePaths );
 
 		# define other attributes of simplicial surface
 		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
 
-		# set edge colouring attribute
-		SetColoursOfEdges( surf, coloursOfEdges );
 
 		return surf;
 	end
@@ -713,7 +710,7 @@ InstallMethod( WildSimplicialSurfaceByColouredFaceEdgePaths, "",
 		end
 	);
 		RedispatchOnCondition( WildSimplicialSurfaceByColouredFaceEdgePaths, 
-			true, [ IsList, IsPosInt IsList ], [ IsSet, , ], 0 );
+			true, [ IsList, IsPosInt, IsList ], [ IsSet, , ], 0 );
 
 
 ##
