@@ -1637,7 +1637,7 @@ InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface",
 AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
 	"LocalOrientationByEdgesAsList", "LocalOrientationByEdgesAsPerm" );
 
-InstallMethod( LocalOrientationByEdgesAsPerm, "for a simplicial surface", 
+InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface", 
 	[IsSimplicialSurface and HasLocalOrientationByVerticesAsList],
 	function( simpsurf )
 		return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges( 

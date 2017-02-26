@@ -491,7 +491,7 @@ InstallMethod( EdgesOfFaces,
 	"for a wild simplicial surface with ColouredEdgesOfFaces",
 	[ IsWildSimplicialSurface and HasColouredEdgesOfFaces ],
 	function( surf )
-		return List( ColouredEdgesOfFaces, edges -> Set(edges) );
+		return List( ColouredEdgesOfFaces(surf), edges -> Set(edges) );
 	end
 );
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
@@ -648,7 +648,7 @@ InstallMethod( EdgesOfColour,
 	"for a wild simplicial surface", [ IsWildSimplicialSurface, IsPosInt ],
 	function(simpsurf,colour)
 
-        if not EdgesOfColour in [1,2,3] then 
+        if not colour in [1,2,3] then 
             Error("EdgesOfColour: given colour has to be 1, 2 or 3.");
         fi;
 
@@ -657,7 +657,7 @@ InstallMethod( EdgesOfColour,
 );
 
 
-InstallMethod( EdgeByFacesAndColoursNC, "for a wild simplicial surface", 
+InstallMethod( EdgeByFacesAndColourNC, "for a wild simplicial surface", 
 	[ IsWildSimplicialSurface, IsSet, IsPosInt ],
 	function( surface, faces, colour )
 		local possEdges, found;
@@ -666,22 +666,26 @@ InstallMethod( EdgeByFacesAndColoursNC, "for a wild simplicial surface",
 		found := Filtered( possEdges, e -> FacesOfEdges(surface)[e] = faces );
 
 		if Length(found) <> 1 then
-			Error("EdgeByFacesAndColours: No unique edge found.");
+			Error("EdgeByFacesAndColour: No unique edge found.");
 		fi;
 
 		return found[1];
 	end
 );
-InstallMethod( EdgeByFacesAndColours, "for a wild simplicial surface", 
+	RedispatchOnCondition( EdgeByFacesAndColourNC, true,
+		[ IsWildSimplicialSurface, IsList, IsPosInt ], [ , IsSet, ], 0 );
+InstallMethod( EdgeByFacesAndColour, "for a wild simplicial surface", 
 	[ IsWildSimplicialSurface, IsSet, IsPosInt ],
 	function( surface, faces, colour )
 		if not colour in [1,2,3] then
-			Error("EdgeByFacesAndColours: Given colour has to be 1, 2, or 3.");
+			Error("EdgeByFacesAndColour: Given colour has to be 1, 2, or 3.");
 		fi;
 
-		return EdgeByFacesAndColoursNC( surface, faces, colour );
+		return EdgeByFacesAndColourNC( surface, faces, colour );
 	end
 );
+	RedispatchOnCondition( EdgeByFacesAndColour, true,
+		[ IsWildSimplicialSurface, IsList, IsPosInt ], [ , IsSet, ], 0 );
 
 
 ##############################################################################
@@ -1268,34 +1272,24 @@ end);
 ##
 ##  A Display method for simplicial surfaces
 ##
-InstallMethod( Display, "for WildSimplicialSurfaces", true, 
-                   [IsWildSimplicialSurface], 0, 
+InstallMethod( Display, "for WildSimplicialSurfaces", [IsWildSimplicialSurface],
 	function(simpsurf)
-
-        local g, vtx, c, e, i, gens, f, mr, faceinverse;
- 
+        local vtx, e, i, gens, f, mr;
 
         gens :=  Generators(simpsurf);
         Print("Generators = \n");
         f := Faces(simpsurf);
-        faceinverse := List([1..Length(f)],i->0);
 
-        # store the position of face in in faces to avoid searching
-        for i in f do
-            faceinverse[i] := Position(f,i);
-        od;
-
-        MRType(simpsurf);
         for i in [ 1.. Length(gens) ] do
            e :=   Cycles(gens[i],f);
            Print( gens[i], "\n");
            mr := Filtered( e, c -> 
 					MRTypeOfEdgesAsNumbers( simpsurf )[ 
-						EdgeByFacesAndColours( simpsurf, c, i ) ] = 1 );
+						EdgeByFacesAndColour( simpsurf, c, i ) ] = 1 );
            Print("    mirrors  ", mr, "\n" );
            mr := Filtered( e, c -> 
 					MRTypeOfEdgesAsNumbers( simpsurf )[ 
-						EdgeByFacesAndColours( simpsurf, c, i ) ] = 2 );
+						EdgeByFacesAndColour( simpsurf, c, i ) ] = 2 );
            Print("    rotations ", mr, "\n" );
         od;
         

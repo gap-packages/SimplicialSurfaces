@@ -338,9 +338,9 @@ DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsWildSimplicialSurface);
 #!
 #!	@Arguments wildSimplicialSurface, setOfFaces, colour
 #!	@Returns an edge
-DeclareOperation( "EdgeByFacesAndColours", 
+DeclareOperation( "EdgeByFacesAndColour", 
 	[ IsWildSimplicialSurface, IsSet, IsPosInt ] );
-DeclareOperation( "EdgeByFacesAndColoursNC", 
+DeclareOperation( "EdgeByFacesAndColourNC", 
 	[ IsWildSimplicialSurface, IsSet, IsPosInt ] );
 
 
