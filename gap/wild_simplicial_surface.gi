@@ -514,21 +514,65 @@ InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC,
 			[ IsList, IsList, IsPosInt, IsList, IsList ],
 			[ IsSet, IsSet, , , ], 0 );
 
-InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring, "",
-	[ IsSet, IsSet, IsSet, IsList, IsList ],
-	function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
-		local surf, v;
+
+BindGlobal( "__SIMPLICIAL_CheckFaceEdgePaths",
+	function( vertices, edges, faces, faceEdgePaths, edgeName )
+		local v, paths, path, i, foundEdges, foundFaces;
 
 		if Number( faceEdgePaths ) <> Length( vertices ) then
 			Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Not as many FaceEdgePaths as vertices.");
 		fi;
+		foundEdges := [];
+		foundFaces := [];
 		for v in vertices do
 			if not IsBound( faceEdgePaths[v] ) then
 				Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: FaceEdgePaths have to be given for each vertex.");
 			fi;
+
+			paths := faceEdgePaths[v];
+			if not IsList(paths) then
+				Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Each entry of FaceEdgePaths has to be a list of paths.");
+			fi;
+
+			for path in paths do
+				if not IsList(path) then
+					Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Each path of FaceEdgePaths has to be a list.");
+				fi;
+
+				for i in [1..Length(path)] do
+					if IsEvenInt(i) then
+						if not path[i] in faces then
+							Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Even path-entries have to be faces.");
+						fi;
+						Append( foundFaces, [ path[i] ] );
+					else
+						if not path[i] in edges then
+							Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Odd path-entries have to be ", 
+															edgeName, "." );
+						fi;
+						Append( foundEdges, [ path[i] ] );
+					fi;
+				od;
+			od;
 		od;
 
-		#TODO check faceEdgePaths
+		if Set(foundEdges) <> edges then
+			Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: ", 
+					edgeName, " from face-edge-paths don't match given ",
+					 edgeName, ".");
+		fi;
+		if Set(foundEdges) <> edges then
+			Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Faces from face-edge-paths don't match given faces.");
+		fi;
+	end
+);
+InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring, "",
+	[ IsSet, IsSet, IsSet, IsList, IsList ],
+	function( vertices, edges, faces, faceEdgePaths, coloursOfEdges )
+		local surf;
+
+		__SIMPLICIAL_CheckFaceEdgePaths( vertices, edges, faces, 
+											faceEdgePaths, "edges" );
 
 		surf := WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC( 
 						vertices, edges, faces, faceEdgePaths, coloursOfEdges );
