@@ -160,17 +160,37 @@ InstallMethod( GroupOfWildSimplicialSurface,
 
 #############################################################################
 ##
-#! @Description Given a wild coloured simplicial surface <simpsurf>, this
+#!	f@Description Given a wild coloured simplicial surface <simpsurf>, this
 #!  function determines the vertex group of the simplicial surface.
 #!  The vertex group of the simplicial surface <simpsurf> is defined to be
 #!  $F_3/R$, where $F_3$ is the free group on three generators and $R$ is 
 #!  the set of relations given by the vertex defining paths.
 #!  @Returns finitely presented group.
 #!
+# TODO only defined for all inner vertices
+##
 InstallMethod( VertexGroup, 
 	"for a wild simplicial surface", [ IsWildSimplicialSurface ],
 	function(simpsurf)
-		#TODO
+
+        local fepath, rels, r,  i, fgrp;
+
+        fgrp := FreeGroup(Length(Generators(simpsurf)));
+        rels := [fgrp.1^2, fgrp.2^2, fgrp.3^2];
+
+        for fepath in ColouredFaceEdgePathsOfVertices(simpsurf) do
+            # check if fepath is closed
+            if IsOddInt(fepath) then continue; fi;
+ 
+            r := One(fgrp); 
+            for i in [ 1,3 .. Length(fepath)-1] do 
+                r := r * fgrp.(fepath[i]);
+            od;
+            Add(rels, r); 
+        od;
+
+        return [fgrp,Set(rels)];
+
 	end
 );
 
@@ -1243,6 +1263,54 @@ end);
 ##############################################################################
 
 
+
+#############################################################################
+##
+##  A Display method for simplicial surfaces
+##
+InstallMethod( Display, "for WildSimplicialSurfaces", true, 
+                   [IsWildSimplicialSurface], 0, 
+	function(simpsurf)
+
+        local g, vtx, c, e, i, gens, f, mr, faceinverse;
+ 
+
+        gens :=  Generators(simpsurf);
+        Print("Generators = \n");
+        f := Faces(simpsurf);
+        faceinverse := List([1..Length(f)],i->0);
+
+        # store the position of face in in faces to avoid searching
+        for i in f do
+            faceinverse[i] := Position(f,i);
+        od;
+
+        MRType(simpsurf);
+        for i in [ 1.. Length(gens) ] do
+           e :=   Cycles(gens[i],f);
+           Print( gens[i], "\n");
+           mr := Filtered( e, c -> 
+					MRTypeOfEdgesAsNumbers( simpsurf )[ 
+						EdgeByFacesAndColours( simpsurf, c, i ) ] = 1 );
+           Print("    mirrors  ", mr, "\n" );
+           mr := Filtered( e, c -> 
+					MRTypeOfEdgesAsNumbers( simpsurf )[ 
+						EdgeByFacesAndColours( simpsurf, c, i ) ] = 2 );
+           Print("    rotations ", mr, "\n" );
+        od;
+        
+        Print("Faces = ", Faces(simpsurf), "\n");
+        #e := Filtered( e , c -> Length(c) = 2);
+        #Print("Edges = ", EdgesOfWildSimplicialSurface(simpsurf), "\n");
+
+        Print("Vertices = \n");
+        for vtx in Vertices(simpsurf) do
+            Print("    ", ColouredFaceEdgePathOfVertex( simpsurf, vtx ) );
+        od;
+ 
+        Print("Degrees = ", UnsortedDegrees(simpsurf) );
+	end
+);
 
 #!	@Description
 #!   The function SixFoldCover takes as input a generic description of

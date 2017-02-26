@@ -166,7 +166,7 @@ DeclareOperation( "WildSimplicialSurfaceExtensionByEdgeColouringNC",
 #!
 #!	The NC-version doesn't check whether the given information is consistent.
 #!
-DeclareOperation( "WildSimplicialSurfaceExtensionBcGenerators",
+DeclareOperation( "WildSimplicialSurfaceExtensionByGenerators",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
 DeclareOperation( "WildSimplicialSurfaceExtensionByGeneratorsNC",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ] );
