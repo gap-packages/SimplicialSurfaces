@@ -132,7 +132,7 @@ TestWildTetrahedron := function()
 		[ [2,3],[5,2],[2,7],[5,3],[5,7],[7,3] ],
 		[ [1,2,4], [1,3,6], [5,2,3], [6,5,4] ] );
 	surf := WildSimplicialSurfaceExtensionByEdgeColouring( surf, [ 1, 2, 3, 3, 1, 2 ] );
-	TestIsWildTetrahedron( surf, Concatenation(name," by extension with generators") );
+	TestIsWildTetrahedron( surf, Concatenation(name," by extension with edge colouring") );
 
 
 	# Constructor by extending simplicial surface with generators

@@ -108,19 +108,36 @@ end;
 ## This method tests the functionality for the example of a tetrahedron
 ## and the representation as a wild simplicial surface
 TestWildTwoConnectedTriangles := function()
-	local surf, name, sig1, sig2, sig3, mrType, gens;
+	local surf, name;
 
 	name := "TwoConTri (wild)";
 
-	sig1 := (1,2);
-	sig2 := ();
-	sig3 := ();
-	mrType :=  [ [0,0], [1,1], [1,1] ];
+	
+	# Constructor by downward incidence and edge colouring
+	surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring( [1,2,3,4],
+		 5, [1,4], [ [1,2],[1,3],[3,2],[4,3],[2,4] ],
+		[ [1,2,3], , , [3,5,4],[ 1, 2, 3, 2, 1 ] ] );
+	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by downward incidence with edge colouring") );
 
-	gens := [sig1,sig2,sig3];
+
+	# Constructor by extending simplicial surface with edge colouring
+	surf := SimplicialSurfaceByDownwardIncidence( [1,2,3,4], 5, [1,4],
+		[ [1,2],[1,3],[3,2],[4,3],[2,4] ],
+		[ [1,2,3], , , [3,5,4] ] );
+	surf := WildSimplicialSurfaceExtensionByEdgeColouring( surf, [ 1, 2, 3, 2, 1 ] );
+	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by extension with edge colouring") );
 
 
-	# TODO
+	# Constructor by face-edge-paths and edge colouring
+	surf := WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring( 4,5,2,
+		[ [[1,1,2]] , [[5,2,3,1,1]], [[4,2,3,1,2]], [[4,2,5]] ], [1,2,3,1,2] );
+	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by faceEdgePaths and edge colouring") );
+	
+
+	# Constructor by coloured face-edge-paths
+	surf := WildSimplicialSurfaceByColouredFaceEdgePaths( 4,5,2,
+		[ [1,1,2] , [2,2,3,1,1], [1,2,3,1,2], [1,2,2] ]);
+	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by colouredFaceEdgePaths") );
 	
 end;
 
