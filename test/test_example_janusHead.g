@@ -109,18 +109,12 @@ end;
 ## This method tests the functionality for the example of a janus head
 ## and the representation as a wild simplicial surface
 TestWildJanusHead := function()
-	local surf, name, sig1, sig2, sig3, gens;
+	local surf, name;
 
 	name := "Janus head (wild)";
+	# No constructor by generators since they would not determine the edges
+	# uniquely
 
-	sig1 := (1,2);
-	sig2 := (1,2);
-	sig3 := (1,2);
-
-	gens := [sig1,sig2,sig3];
-
-
-	# TODO
 	
 	# Constructor by downward incidence and edge colouring
 	surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring( [2,3,5], 
@@ -128,25 +122,11 @@ TestWildJanusHead := function()
 		[ , , [3,6,9], , , , [6,3,9] ], [ , , 1, , , 2, , , 3 ] );
 	TestIsWildJanusHead( surf, Concatenation(name," by downward incidence with edge colouring") );
 
-	
-	# Constructor by downward incidence and generators
-	surf := WildSimplicialSurfaceByDownwardIncidenceAndGenerators( 
-		[2,3,5], [3,6,9], 2, [ , , [2,3], , , [3,5], , , [2,5] ], 
-		[[3,6,9], [6,3,9] ], gens );
-	TestIsWildJanusHead( surf, Concatenation(name," by downward incidence with generators") );
-
 
 	# Constructor by extending simplicial surface with edge colouring
 	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
 		[[1,2,3],[1,2,3]] );
 	surf := WildSimplicialSurfaceExtensionByEdgeColouring( surf, [ 1, 2, 3 ] );
-	TestIsWildJanusHead( surf, Concatenation(name," by extension with generators") );
-
-
-	# Constructor by extending simplicial surface with generators
-	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
-		[[1,2,3],[1,2,3]] );
-	surf := WildSimplicialSurfaceExtensionByGenerators( surf, gens );
 	TestIsWildJanusHead( surf, Concatenation(name," by extension with generators") );
 
 
