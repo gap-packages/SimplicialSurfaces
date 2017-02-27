@@ -440,7 +440,7 @@ InstallMethod( WildSimplicialSurfaceExtensionByGeneratorsNC, "",
 			WildSimplicialSurfaceType, rec(), surf);
 
 		SetGenerators( wild, generators );
-		SetColoursOfEdges( surf, coloursOfEdges );
+		SetColoursOfEdges( wild, coloursOfEdges );
 
 		return wild;
 	end
