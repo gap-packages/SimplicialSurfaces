@@ -89,10 +89,7 @@ TestIsWildTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
 	# Check vertex group
 	vertexGroup := VertexGroup(surface);
 	vertexGroup := vertexGroup[1] / vertexGroup[2];
-	if Size( vertexGroup ) <> 2 then
-		Print( messageSurfaceOrigin );
-		Print( " should have vertex group C_2.\n");
-	fi;
+	# TODO this is an infinite group - how to test this?
 
 
 	# Check group generated from the involutions
@@ -116,7 +113,7 @@ TestWildTwoConnectedTriangles := function()
 	# Constructor by downward incidence and edge colouring
 	surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring( [1,2,3,4],
 		 5, [1,4], [ [1,2],[1,3],[3,2],[4,3],[2,4] ],
-		[ [1,2,3], , , [3,5,4],[ 1, 2, 3, 2, 1 ] ] );
+		[ [1,2,3], , , [3,5,4] ],[ 1, 2, 3, 2, 1 ] );
 	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by downward incidence with edge colouring") );
 
 
@@ -135,7 +132,7 @@ TestWildTwoConnectedTriangles := function()
 	
 
 	# Constructor by coloured face-edge-paths
-	surf := WildSimplicialSurfaceByColouredFaceEdgePaths( 4,5,2,
+	surf := WildSimplicialSurfaceByColouredFaceEdgePaths( 4,2,
 		[ [1,1,2] , [2,2,3,1,1], [1,2,3,1,2], [1,2,2] ]);
 	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by colouredFaceEdgePaths") );
 	
