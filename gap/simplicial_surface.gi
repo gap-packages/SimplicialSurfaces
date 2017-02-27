@@ -2008,7 +2008,7 @@ BindGlobal( "__SIMPLICIAL_FacesAroundEdgesInFaceEdgePath",
 		elif pos = Length( path ) then
 			return [ path[ pos - 1 ] ];
 		else
-			return Set( [ path[ i - 1 ], path[ i + 1 ] ] );
+			return Set( [ path[ pos - 1 ], path[ pos + 1 ] ] );
 		fi;
 	end
 );

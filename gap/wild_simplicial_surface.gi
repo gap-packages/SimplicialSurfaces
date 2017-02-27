@@ -696,7 +696,7 @@ InstallMethod( WildSimplicialSurfaceByColouredFaceEdgePathsNC, "",
 		SetFaces( surf, faces );
 		SetFacesOfEdges( surf, facesOfEdges );
 		SetEdgesOfVertices( surf, edgesOfVertices );
-		SetColourOfEdges( surf, colOfEdges );
+		SetColoursOfEdges( surf, colOfEdges );
 		SetColouredFaceEdgePathsOfVertices( surf, colouredFaceEdgePaths );
 
 		# define other attributes of simplicial surface
