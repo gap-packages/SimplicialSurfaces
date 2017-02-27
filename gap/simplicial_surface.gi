@@ -1933,8 +1933,8 @@ InstallMethod( FaceEdgePathsOfVertices,
 );
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
 		"FaceEdgePathsOfVertices", 
-		["HasVerticesAttributeOfSimplicialSurface", "HasEdgesOfVertices", 
-			"HasFacesOfVertices", "HasEdgesOfFaces", "HasFacesOfEdges"] );
+		["VerticesAttributeOfSimplicialSurface", "EdgesOfVertices", 
+			"FacesOfVertices", "EdgesOfFaces", "FacesOfEdges"] );
 
 # We can use the face-edge-paths to derive other information
 InstallMethod( VerticesAttributeOfSimplicialSurface, 
