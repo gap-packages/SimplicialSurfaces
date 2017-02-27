@@ -2019,6 +2019,7 @@ InstallMethod( FacesOfEdges,
 	function( surf )
 		local facesOfEdges, v, path, i;
 
+		facesOfEdges := [];
 		for v in Vertices(surf) do
 			for path in FaceEdgePathsOfVertexNC( surf, v ) do
 				# We will use that IsEdgesLikeSurface holds true
