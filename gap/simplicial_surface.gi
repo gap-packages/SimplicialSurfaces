@@ -1658,7 +1658,7 @@ InstallMethod( EdgesOfFaces,
 	"for a simplicial surface that has LocalOrientationByEdgesAsList",
 	[ IsSimplicialSurface and HasLocalOrientationByEdgesAsList ],
 	function( surf )
-		return List( LocalOrientationByEdgesAsList, i -> Set(i) );
+		return List( LocalOrientationByEdgesAsList(surf), i -> Set(i) );
 	end
 );
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
@@ -1668,7 +1668,7 @@ InstallMethod( VerticesOfFaces,
 	"for a simplicial surface that has LocalOrientationByVerticesAsList",
 	[ IsSimplicialSurface and HasLocalOrientationByVerticesAsList ],
 	function( surf )
-		return List( LocalOrientationByVerticesAsList, i -> Set(i) );
+		return List( LocalOrientationByVerticesAsList(surf), i -> Set(i) );
 	end
 );
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
