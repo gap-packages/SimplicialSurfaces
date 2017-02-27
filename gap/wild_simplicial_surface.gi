@@ -105,7 +105,7 @@ BindGlobal( "__SIMPLICIAL_CheckEdgeColouring",
 		local f;
 
 		for f in faces do
-			if Set( List( edgesOfFaces(f), e -> coloursOfEdges[e] ) ) <> 
+			if Set( List( edgesOfFaces[f], e -> coloursOfEdges[e] ) ) <> 
 					[1,2,3] then
 				Error("__SIMPLICIAL_CheckEdgeColouring: Each face has to have three different coloured edges." );
 			fi;
