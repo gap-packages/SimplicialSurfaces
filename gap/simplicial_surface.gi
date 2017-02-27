@@ -1999,6 +1999,19 @@ InstallMethod( EdgesOfVertices,
 	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
 		"EdgesOfVertices", "FaceEdgePathsOfVertices" );
 
+BindGlobal( "__SIMPLICIAL_FacesAroundEdgesInFaceEdgePath",
+	function( path, pos )	# pos has to be an odd integer
+		if pos = 1 and IsEvenInt( Length( path ) ) then
+			return Set( [ path[2], path[ Length(path) ] ] );
+		elif pos = 1 and IsOddInt( Length( path ) ) then
+			return [ path[2] ];
+		elif pos = Length( path ) then
+			return [ path[ pos - 1 ] ];
+		else
+			return Set( [ path[ i - 1 ], path[ i + 1 ] ] );
+		fi;
+	end
+);
 InstallMethod( FacesOfEdges, 
 	"for a simplicial surface that has face-edge-paths",
 	[ IsSimplicialSurface and HasFaceEdgePathsOfVertices and 
@@ -2010,41 +2023,16 @@ InstallMethod( FacesOfEdges,
 			for path in FaceEdgePathsOfVertexNC( surf, v ) do
 				# We will use that IsEdgesLikeSurface holds true
 
-				if IsEvenInt( Length( path ) ) then 	# closed path
-					# First edge
-					if not IsBound( facesOfEdges[ path[1] ] ) then
-						facesOfEdges[ path[1] ] := Set( 
-								[ path[2], path[ Length(path) ] ] );
+				for i in [1..Length(path)] do
+					if IsEvenInt(i) then
+						continue;
 					fi;
 
-					# Other edges
-					for i in [3,5..Length(path)-1] do
-						if not IsBound( facesOfEdges[ path[i] ] ) then
-							facesOfEdges[ path[i] ] := Set( 
-									[ path[i-1], path[ i+1 ] ] );
-						fi;
-					od;
-
-				else	# open path
-					# First edge
-					if not IsBound( facesOfEdges[ path[1] ] ) then
-						facesOfEdges[ path[1] ] := [ path[2] ];
+					if not IsBound( facesOfEdges[ path[i] ] ) then
+						facesOfEdges[ path[i] ] := 
+						__SIMPLICIAL_FacesAroundEdgesInFaceEdgePath( path, i );
 					fi;
-
-					# Last edge
-					if not IsBound( facesOfEdges[ path[Length(path)] ] ) then
-						facesOfEdges[ path[Length(path)] ] := 
-											[ path[Length(path)-1] ];
-					fi;
-
-					# Other edges
-					for i in [3,5..Length(path)-2] do
-						if not IsBound( facesOfEdges[ path[i] ] ) then
-							facesOfEdges[ path[i] ] := Set( 
-									[ path[i-1], path[ i+1 ] ] );
-						fi;
-					od;
-				fi;
+				od;
 			od;
 		od;
 
