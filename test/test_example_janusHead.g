@@ -109,20 +109,60 @@ end;
 ## This method tests the functionality for the example of a janus head
 ## and the representation as a wild simplicial surface
 TestWildJanusHead := function()
-	local surf, name, sig1, sig2, sig3, mrType, gens;
+	local surf, name, sig1, sig2, sig3, gens;
 
 	name := "Janus head (wild)";
 
 	sig1 := (1,2);
 	sig2 := (1,2);
 	sig3 := (1,2);
-	mrType := AllEdgesOfSameType( 2, 1);
 
 	gens := [sig1,sig2,sig3];
 
 
 	# TODO
 	
+	# Constructor by downward incidence and edge colouring
+	surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring( [2,3,5], 
+		[3,6,9], [3,7],	[ , , [2,3], , , [3,5], , , [2,5] ],
+		[ , , [3,6,9], , , , [6,3,9] ], [ , , 1, , , 2, , , 3 ] );
+	TestIsWildJanusHead( surf, Concatenation(name," by downward incidence with edge colouring") );
+
+	
+	# Constructor by downward incidence and generators
+	surf := WildSimplicialSurfaceByDownwardIncidenceAndGenerators( 
+		[2,3,5], [3,6,9], 2, [ , , [2,3], , , [3,5], , , [2,5] ], 
+		[[3,6,9], [6,3,9] ], gens );
+	TestIsWildJanusHead( surf, Concatenation(name," by downward incidence with generators") );
+
+
+	# Constructor by extending simplicial surface with edge colouring
+	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
+		[[1,2,3],[1,2,3]] );
+	surf := WildSimplicialSurfaceExtensionByEdgeColouring( surf, [ 1, 2, 3 ] );
+	TestIsWildJanusHead( surf, Concatenation(name," by extension with generators") );
+
+
+	# Constructor by extending simplicial surface with generators
+	surf := SimplicialSurfaceByDownwardIncidence( 3, 3, 2, [[1,2],[2,3],[3,1]], 
+		[[1,2,3],[1,2,3]] );
+	surf := WildSimplicialSurfaceExtensionByGenerators( surf, gens );
+	TestIsWildJanusHead( surf, Concatenation(name," by extension with generators") );
+
+
+	# Constructor by face-edge-paths and edge colouring
+	surf := WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring( [2,3,5], 
+		[3,6,9], [3,7],
+		[ ,[[3,3,6,7]] , [[3,7,9,3]] ,, [[6,3,9,7]] ],
+		[ , , 1, , , 2, , , 3 ] );
+	TestIsWildJanusHead( surf, Concatenation(name," by faceEdgePaths and edge colouring") );
+	
+
+	# Constructor by coloured face-edge-paths
+	surf := WildSimplicialSurfaceByColouredFaceEdgePaths( [2,3,5], [3,7],
+		[ ,[1,3,2,7] , [1,7,3,3] ,, [2,3,3,7] ]);
+	TestIsWildJanusHead( surf, Concatenation(name," by colouredFaceEdgePaths") );
+
 end;
 
 

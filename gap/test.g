@@ -38,7 +38,7 @@ end;
 
 ##	Apply the tests for simplicial surfaces
 TestWildSimplicialSurface := function()
-	#TestWildJanusHead();
+	TestWildJanusHead();
 	TestWildTetrahedron();
 	TestWildOpenTetrahedron();
 	#TestWildTwoConnectedTriangles();
