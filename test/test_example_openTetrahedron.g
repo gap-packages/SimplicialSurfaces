@@ -74,7 +74,7 @@ TestIsWildOpenTetrahedron := function( surface, messageSurfaceOrigin )
 	# Check if it fulfills the criteria of an open tetrahedron (necessary to check
 	# since some methods might have been overwritten).
 	TestIsOpenTetrahedron( surface, messageSurfaceOrigin );
-	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
+	TestWildSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
 
 	#TODO how to check?
 
@@ -98,7 +98,7 @@ end;
 ## This method tests the functionality for the example of an open tetrahedron
 ## and the representation as a wild simplicial surface
 TestWildOpenTetrahedron := function()
-	local surf, name, sig1, sig2, sig3, mrType, gens;
+	local surf, name, sig1, sig2, sig3, gens;
 
 	name := "Open tetrahedron (wild)";
 
@@ -110,7 +110,46 @@ TestWildOpenTetrahedron := function()
 	gens := [sig1,sig2,sig3];
 
 
-	# TODO
+	# Constructor by downward incidence and edge colouring
+	surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring( 4,6,3, 
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]],
+		[ 1, 2, 3, 1, 2, 3 ] );
+	TestIsWildOpenTetrahedron( surf, Concatenation(name," by downward incidence with edge colouring") );
+
+	
+	# Constructor by downward incidence and generators
+	surf := WildSimplicialSurfaceByDownwardIncidenceAndGenerators( 4,6,3, 
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]],
+		gens );
+	TestIsWildOpenTetrahedron( surf, Concatenation(name," by downward incidence with generators") );
+
+
+	# Constructor by extending simplicial surface with edge colouring
+	surf := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]], );
+	surf := WildSimplicialSurfaceExtensionByEdgeColouring( surf, [ 1, 2, 3, 1, 2, 3 ] );
+	TestIsWildOpenTetrahedron( surf, Concatenation(name," by extension with generators") );
+
+
+	# Constructor by extending simplicial surface with generators
+	surf := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]], );
+	surf := WildSimplicialSurfaceExtensionByGenerators( surf, gens );
+	TestIsWildOpenTetrahedron( surf, Concatenation(name," by extension with generators") );
+
+
+	# Constructor by face-edge-paths and edge colouring
+	surf := WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring( [1,2,3,5],
+		[2,3,5,6,10,15], [17,23,31],
+		[ [[3,23,5,17,2]] , [[6,31,10,17,2]] , [[3,23,15,31,6]], , [[10,31,15,23,5,17]] ],
+		[,1,2,,3,3,,,,2,,,,,1] );
+	TestIsWildOpenTetrahedron( surf, Concatenation(name," by faceEdgePaths and edge colouring") );
+	
+
+	# Constructor by coloured face-edge-paths
+	surf := WildSimplicialSurfaceByColouredFaceEdgePaths( [1,2,3,5],[10,20,30],
+		[ [2,20,3,10,1] , [3,30,2,10,1] , [2,20,1,30,3], , [2,30,1,20,3,10] ]);
+	TestIsWildOpenTetrahedron( surf, Concatenation(name," by colouredFaceEdgePaths") );
 	
 end;
 

@@ -98,7 +98,7 @@ end;
 ## This method tests the functionality for the example of a tetrahedron
 ## and the representation as a wild simplicial surface
 TestWildTetrahedron := function()
-	local surf, name, sig1, sig2, sig3, mrType, gens;
+	local surf, name, sig1, sig2, sig3, gens;
 
 	name := "Tetrahedron (wild)";
 
