@@ -538,7 +538,7 @@ InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC,
 
 BindGlobal( "__SIMPLICIAL_CheckFaceEdgePaths",
 	function( vertices, edges, faces, faceEdgePaths, coloured )
-		local v, paths, path, i, foundEdges, foundFaces, CheckPath;
+		local v, paths, path, foundEdges, foundFaces, CheckPath;
 
 		# Check if vertices, edges and faces are sets of positive integers
 		if not __SIMPLICIAL_IsSetPosInt( vertices ) then
@@ -564,6 +564,7 @@ BindGlobal( "__SIMPLICIAL_CheckFaceEdgePaths",
 		foundEdges := [];
 		foundFaces := [];
 
+		# Local method to check one path
 		CheckPath := function( path )
 			local i;
 
@@ -590,6 +591,7 @@ BindGlobal( "__SIMPLICIAL_CheckFaceEdgePaths",
 			od;
 		end;
 
+		# Use local method to check all paths
 		for v in vertices do
 			if not IsBound( faceEdgePaths[v] ) then
 				Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: FaceEdgePaths have to be given for each vertex.");
@@ -612,7 +614,7 @@ BindGlobal( "__SIMPLICIAL_CheckFaceEdgePaths",
 				Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Edges from face-edge-paths don't match given edges.");
 			fi;
 		fi;
-		if Set(foundEdges) <> edges then
+		if Set(foundFaces) <> faces then
 			Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Faces from face-edge-paths don't match given faces.");
 		fi;
 	end
@@ -772,7 +774,7 @@ InstallMethod( WildSimplicialSurfaceByColouredFaceEdgePaths, "",
 		__SIMPLICIAL_CheckFaceEdgePaths( vertices, [1,2,3], faces, 
 											colouredFaceEdgePaths, true );
 
-		surf := WildSimplicialSurfaceByColouredFaceEdgePaths( 
+		surf := WildSimplicialSurfaceByColouredFaceEdgePathsNC( 
 						vertices, faces, colouredFaceEdgePaths );
 
 		return surf;
