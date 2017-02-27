@@ -2084,7 +2084,7 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 		verticesOfFaces := VerticesOfFaces(simpsurf);
 		classes := [];
 
-		for i in [1..NrOfFaces(simpsurf)] do
+		for i in Faces(simpsurf) do
 			found := false;
 			for j in [1..Length(classes)] do
 				cl := classes[j];
