@@ -291,8 +291,8 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC,
 
 
 BindGlobal( "__SIMPLICIAL_CheckGenerators",
-	function( gens )
-		local g;
+	function( gens, faces, edgesOfFaces )
+		local g, f1, f2, stillFaces;
 
 		if Length(gens) <> 3 then
 			Error("__SIMPLICIAL_CheckGenerators: There should be exactly three generators.");
@@ -305,6 +305,22 @@ BindGlobal( "__SIMPLICIAL_CheckGenerators",
 				Error("__SIMPLICIAL_CheckGenerators: Generators have to be involutions.");
 			fi;
 		od;
+
+		# Check if generators act on the faces
+		g := Group( gens );
+		stillFaces := Difference( faces, MovedPoints(g,faces) );
+
+		# The still faces can't have an edge in common with any other face
+		for f1 in stillFaces do
+			for f2 in faces do
+				if f1 >= f2 then
+					continue;
+				fi;
+				if not IsEmpty( Intersection( edgesOfFaces[f1], edgesOfFaces[f2] ) ) then
+					Error("__SIMPLICIAL_CheckGenerators: A face is not moved by group but shares an edge with another face.");
+				fi;
+			od;
+		od;
 	end
 );
 InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
@@ -313,7 +329,7 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
 	function( vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
 		generators )
 
-		__SIMPLICIAL_CheckGenerators( generators );
+		__SIMPLICIAL_CheckGenerators( generators, faces, edgesOfFaces );
 		return WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC( 
 			vertices, edges, faces, verticesOfEdges, edgesOfFaces, generators );
 	end
@@ -434,7 +450,8 @@ InstallMethod( WildSimplicialSurfaceExtensionByGeneratorsNC, "",
 InstallMethod( WildSimplicialSurfaceExtensionByGenerators, "",
 	[ IsSimplicialSurface and IsActualSurface and IsTriangleSurface, IsList ],
 	function( surf, generators )
-		__SIMPLICIAL_CheckGenerators( generators );
+		__SIMPLICIAL_CheckGenerators( generators, 
+						Faces(surf), EdgesOfFaces(surf) );
 		return WildSimplicialSurfaceExtensionByGeneratorsNC( surf, generators );
 	end
 );
@@ -2058,30 +2075,6 @@ InstallMethod( IsConnected, "for a wild simplicial surface",
 	end
 );
 
-#!  @Description
-#!  This function decides whether the wild simplicial surface
-#!  <simpsurf> is orientable.
-#!  @Returns true if the surface is orientable and false else.
-#!  @Arguments <simpsurf> a wild simplicial surface
-#!
-InstallMethod( IsOrientable, "for a wild simplicial surface",
-	[IsWildSimplicialSurface],
-	function(simpsurf)
-		#TODO
-	end
-);
-
-#!	@Description
-#!	This function removes all ears of the wild simplicial surface and returns
-#!	the resulting surface.
-#!	@Arguments a wild simplicial surface object simpsurf
-#!	@Returns a simplicial surface object
-InstallMethod( SnippOffEars, "for a wild simplicial surface",
-	[IsWildSimplicialSurface],
-	function(simpsurf)
-		#TODO
-	end
-);
 
 ##
 ##			End of more specialized methods from SimplicialSurface

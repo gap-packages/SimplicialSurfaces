@@ -111,18 +111,18 @@ TestWildTetrahedron := function()
 
 	# Constructor by downward incidence and edge colouring
 	surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring( 
-		[2,3,5,7], [1..6], [1..4],
+		[2,3,5,7], [1..6], [1,3,5,7],
 		[ [2,3],[5,2],[2,7],[5,3],[5,7],[7,3] ],
-		[ [1,2,4], [1,3,6], [5,2,3], [6,5,4] ],
+		[ [1,2,4],, [1,3,6],, [5,2,3],, [6,5,4] ],
 		[ 1, 2, 3, 3, 1, 2 ] );
 	TestIsWildTetrahedron( surf, Concatenation(name," by downward incidence with edge colouring") );
 
 	
 	# Constructor by downward incidence and generators
 	surf := WildSimplicialSurfaceByDownwardIncidenceAndGenerators( 
-		[2,3,5,7], [1..6], [1,3,5,7],
+		[2,3,5,7], [1..6], [1,2,3,4],
 		[ [2,3],[5,2],[2,7],[5,3],[5,7],[7,3] ],
-		[ [1,2,4],, [1,3,6],, [5,2,3],, [6,5,4] ],
+		[ [1,2,4], [1,3,6], [5,2,3], [6,5,4] ],
 		gens );
 	TestIsWildTetrahedron( surf, Concatenation(name," by downward incidence with generators") );
 

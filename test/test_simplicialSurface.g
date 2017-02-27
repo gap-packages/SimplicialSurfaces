@@ -546,9 +546,13 @@ TestWildSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin 
 
 
 	# Test the vertex group
-	if not IsGroup( VertexGroup( surface ) ) then
+	if not IsFreeGroup( VertexGroup( surface )[1] ) then
 		Print( messageSurfaceOrigin );
-		Print( ": Vertex group is not a group.\n");
+		Print( ": First component of vertex group is not a free group.\n");
+	fi;
+	if not IsList( VertexGroup(surface)[2] ) then
+		Print( messageSurfaceOrigin );
+		Print( ": Second component of vertex group has to be a list of relations.\n");
 	fi;
 
 
