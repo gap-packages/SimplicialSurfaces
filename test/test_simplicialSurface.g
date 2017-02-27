@@ -564,7 +564,7 @@ TestWildSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin 
 				Print( messageSurfaceOrigin );
 				Print( ": Entry " );
 				Print( i );
-				Print( " of ColoursOfEdges should lie in [1,2,3] but is actually "
+				Print( " of ColoursOfEdges should lie in [1,2,3] but is actually ");
 				Print( ColoursOfEdges(surface)[i] );
 				Print( ".\n");
 			else

@@ -110,17 +110,7 @@ TestWildOpenTetrahedron := function()
 	gens := [sig1,sig2,sig3];
 
 
-	# First try to extend a simplicial surface
-	surf := SimplicialSurfaceByVerticesInFaces( 4,3, [[1,2,3],[1,3,4],[3,2,4]] );
-	surf := WildSimplicialSurfaceExtension( surf, gens );
-
-	TestIsWildOpenTetrahedron( surf, Concatenation(name," by extension") );
-
-
-	# Next we try to define it from scratch
-	surf := WildSimplicialSurface( gens, mrType );
-
-	TestIsWildOpenTetrahedron( surf, Concatenation(name," by mrType") );
+	# TODO
 	
 end;
 

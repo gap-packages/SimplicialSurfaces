@@ -121,17 +121,7 @@ TestWildProjectivePlaneFour := function()
 	gens := [sig1,sig2,sig3];
 
 
-	# First try to extend a simplicial surface
-	surf := ExampleProjectivePlaneFour();
-	surf := WildSimplicialSurfaceExtension( surf, gens );
-
-	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by extension") );
-
-
-	# Next we try to define it from scratch
-	surf := WildSimplicialSurface( gens, mrType );
-
-	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by mrType") );
+	# TODO
 	
 end;
 

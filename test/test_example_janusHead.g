@@ -121,17 +121,7 @@ TestWildJanusHead := function()
 	gens := [sig1,sig2,sig3];
 
 
-	# First try to extend a simplicial surface
-	surf := ExampleJanusHead();
-	surf := WildSimplicialSurfaceExtension( surf, gens );
-
-	TestIsWildJanusHead( surf, Concatenation(name," by extension") );
-
-
-	# Next we try to define it from scratch
-	surf := WildSimplicialSurface( gens, mrType );
-
-	TestIsWildJanusHead( surf, Concatenation(name," by mrType") );
+	# TODO
 	
 end;
 

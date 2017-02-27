@@ -120,17 +120,7 @@ TestWildTwoConnectedTriangles := function()
 	gens := [sig1,sig2,sig3];
 
 
-	# First try to extend a simplicial surface
-	surf := SimplicialSurfaceByVerticesInFaces( 4,2, [[1,2,3],[3,2,4]] );
-	surf := WildSimplicialSurfaceExtension( surf, gens );
-
-	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by extension") );
-
-
-	# Next we try to define it from scratch
-	surf := WildSimplicialSurface( gens, mrType );
-
-	TestIsWildTwoConnectedTriangles( surf, Concatenation(name," by mrType") );
+	# TODO
 	
 end;
 
