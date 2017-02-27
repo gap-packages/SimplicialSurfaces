@@ -38,8 +38,8 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 		SetEdges( surf, edges );
 		SetFaces( surf, faces );
-		SetVerticesOfEdges( surf, verticesOfEdges );
-		SetEdgesOfFaces( surf, edgesOfFaces );
+		SetVerticesOfEdges( surf, List(verticesOfEdges,i->Set(i)) );
+		SetEdgesOfFaces( surf, List(edgesOfFaces,i->Set(i)) );
 
 		# define other attributes of simplicial surface
 		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
@@ -224,8 +224,8 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC,
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 		SetEdges( surf, edges );
 		SetFaces( surf, faces );
-		SetVerticesOfEdges( surf, verticesOfEdges );
-		SetEdgesOfFaces( surf, edgesOfFaces );
+		SetVerticesOfEdges( surf, List(verticesOfEdges, i -> Set(i)) );
+		SetEdgesOfFaces( surf, List(edgesOfFaces, i -> Set(i) ) );
 
 		# define other attributes of simplicial surface
 		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
