@@ -507,7 +507,7 @@ end;
 ##	Test the general consistency of a wild simplicial surface.
 ##	
 TestWildSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
-	local gens, g, i;
+	local gens, g, i, col;
 
 	# Since a wild simplicial surface also has to be a simplicial surface:
 	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
@@ -568,7 +568,7 @@ TestWildSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin 
 				Print( ColoursOfEdges(surface)[i] );
 				Print( ".\n");
 			else
-				# Check convenience methods
+				# Test associated convenience methods
 				if ColoursOfEdges(surface)[i] <> ColourOfEdge(surface,i) then
 					Print( messageSurfaceOrigin );
 					Print( ": ColoursOfEdges is not consistent with ColourOfEdge at edge " );
@@ -585,6 +585,60 @@ TestWildSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin 
 			if IsBound( ColoursOfEdges(surface)[i] ) then
 				Print( messageSurfaceOrigin );
 				Print( ": ColoursOfEdges should not have an entry at " );
+				Print( i );
+				Print( ".\n");
+			fi;
+		fi;
+	od;
+
+
+	# Test ColouredEdgesOfFaces
+	for i in [1..Length(ColouredEdgesOfFaces(surface))] do
+		if i in Faces(surface) then
+			if not IsBound( ColouredEdgesOfFaces(surface)[i] ) then
+				Print( messageSurfaceOrigin );
+				Print( ": ColouredEdgesOfFaces should have an entry at " );
+				Print( i );
+				Print( ".\n");
+			elif not IsDenseList( ColouredEdgesOfFaces(surface)[i] ) then
+				Print( messageSurfaceOrigin );
+				Print( ": ColouredEdgesOfFaces should have a dense list at position " );
+				Print( i );
+				Print( ".\n");
+			elif Length( ColouredEdgesOfFaces(surface)[i] ) <> 3 then
+				Print( messageSurfaceOrigin );
+				Print( ": ColouredEdgesOfFaces should have a list of length 3 at position " );
+				Print( i );
+				Print( ".\n");
+			elif EdgesOfFaces(surface)[i] <> Set( ColouredEdgesOfFaces(surface)[i] ) then
+				Print( messageSurfaceOrigin );
+				Print( ": ColouredEdgesOfFaces of face " );
+				Print( i );
+				Print( " should be the edges of this face.\n");
+			else
+				# Test associated convenience methods
+				for col in [1..3] do
+					if ColouredEdgesOfFaces(surface)[i][col] <> ColouredEdgeOfFace( surface, i, col ) then
+						Print( messageSurfaceOrigin );
+						Print( ": ColouredEdgesOfFaces is incompatible with ColouredEdgeOfFace at face " );
+						Print( i );
+						Print( " and colour " );
+						Print( col );
+						Print( ".\n" );
+					elif ColouredEdgesOfFaces(surface)[i][col] <> ColouredEdgeOfFaceNC( surface, i, col ) then
+						Print( messageSurfaceOrigin );
+						Print( ": ColouredEdgesOfFaces is incompatible with ColouredEdgeOfFaceNC at face " );
+						Print( i );
+						Print( " and colour " );
+						Print( col );
+						Print( ".\n" );
+					fi;
+				od;
+			fi;
+		else
+			if IsBound( ColouredEdgesOfFaces(surface)[i] ) then
+				Print( messageSurfaceOrigin );
+				Print( ": ColouredEdgesOfFaces should not have an entry at " );
 				Print( i );
 				Print( ".\n");
 			fi;
