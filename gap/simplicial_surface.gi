@@ -1648,7 +1648,7 @@ InstallMethod( LocalOrientationByEdgesAsList, "for a simplicial surface",
 	end
 );
 AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-	"LocalOrientationByEdgesAsPerm", "LocalOrientationByVerticesAsList" );
+	"LocalOrientationByEdgesAsList", "LocalOrientationByVerticesAsList" );
 
 
 ##

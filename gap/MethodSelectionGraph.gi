@@ -75,6 +75,10 @@ InstallOtherMethod( AddPropertyIncidence,
 InstallGlobalFunction( "evaluate_recursive",
                        function( graph, name_property, object, spanning_tree )
     local i, props;
+
+	#Print("evaluate recursive called with name_property ");
+	#Print( name_property );
+	#Print("\n");
     
     if spanning_tree.( name_property ) = 0 then
         return ValueGlobal( name_property )( object );
