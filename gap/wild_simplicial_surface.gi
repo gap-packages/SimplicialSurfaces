@@ -308,7 +308,10 @@ BindGlobal( "__SIMPLICIAL_CheckGenerators",
 
 		# Check if generators act on the faces
 		g := Group( gens );
-		stillFaces := Difference( faces, MovedPoints(g,faces) );
+		if not IsSubset( MovedPoints(g), faces ) then
+			Error("__SIMPLICIAL_CheckGenerators: There are more moved points in the generators than given faces.");
+		fi;
+		stillFaces := Difference( faces, MovedPoints(g) );
 
 		# The still faces can't have an edge in common with any other face
 		for f1 in stillFaces do
