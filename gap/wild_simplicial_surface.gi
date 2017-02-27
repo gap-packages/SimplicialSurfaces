@@ -519,6 +519,21 @@ BindGlobal( "__SIMPLICIAL_CheckFaceEdgePaths",
 	function( vertices, edges, faces, faceEdgePaths, edgeName )
 		local v, paths, path, i, foundEdges, foundFaces;
 
+		# Check if vertices, edges and faces are sets of positive integers
+		if not __SIMPLICIAL_IsSetPosInt( vertices ) then
+			Error("__SIMPLICIAL_CheckFaceEdgePaths: Vertices have to be positive integers.");
+		fi;
+
+		if not __SIMPLICIAL_IsSetPosInt( edges ) then
+			Error("__SIMPLICIAL_CheckFaceEdgePaths: ", edgeName, 
+							"s have to be positive integers.");
+		fi;
+
+		if not __SIMPLICIAL_IsSetPosInt( faces ) then
+			Error("__SIMPLICIAL_CheckFaceEdgePaths: Faces have to be positive integers.");
+		fi;
+
+		# Check the faceEdgePaths specifically
 		if Number( faceEdgePaths ) <> Length( vertices ) then
 			Error("WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring: Not as many FaceEdgePaths as vertices.");
 		fi;
@@ -636,19 +651,56 @@ InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring, "",
 InstallMethod( WildSimplicialSurfaceByColouredFaceEdgePathsNC, "",
 	[ IsSet, IsSet, IsList ],
 	function( vertices, faces, colouredFaceEdgePaths )
+		local surf, edges, facesOfEdges, colOfEdges, edgesOfVertices, v, i, 
+			path, facesAround, possEdges, newEdge;
 
-		local surf;
-#TODO MB
+		edges := [];
+		facesOfEdges := [];
+		colOfEdges := [];
+		edgesOfVertices := [];
+
+		for v in vertices do
+			edgesOfVertices[v] := [];
+			path := colouredFaceEdgePaths[v];
+
+			for i in [1..Length(path)] do
+				if IsEvenInt(i) then
+					continue;
+				fi;
+
+				facesAround := 
+						__SIMPLICIAL_FacesAroundEdgesInFaceEdgePath( path, i );
+				possEdges := Filtered( edges, e -> 
+										facesOfEdges[e] = facesAround and 
+										colOfEdges[e] = path[i] );
+				if Length(possEdges) > 1 then
+					Error("WildSimplicialSurfaceByColouredFaceEdgePaths: More than one edge for incident faces and colour.");
+				elif Length(possEdges) = 1 then
+					edgesOfVertices[v] := Union(edgesOfVertices[v], possEdges);
+				else
+					# Add new edge
+					newEdge := Length(edges) + 1;
+					facesOfEdges[newEdge] := facesAround;
+					colOfEdges[newEdge] := path[i];
+					Append( edges, [newEdge] );
+					edgesOfVertices[v] := Union(edgesOfVertices[v], [newEdge]);
+				fi;
+			od;
+		od;
+	
 		surf := Objectify( WildSimplicialSurfaceType, rec() );
 
 		# define the incidence structure
 		SetVerticesAttributeOfSimplicialSurface( surf, vertices );
+		SetEdges( surf, edges );
 		SetFaces( surf, faces );
+		SetFacesOfEdges( surf, facesOfEdges );
+		SetEdgesOfVertices( surf, edgesOfVertices );
+		SetColourOfEdges( surf, colOfEdges );
 		SetColouredFaceEdgePathsOfVertices( surf, colouredFaceEdgePaths );
 
 		# define other attributes of simplicial surface
 		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
-
 
 		return surf;
 	end
