@@ -848,7 +848,9 @@ InstallMethod( VertexGroup,
 
         for fepath in ColouredFaceEdgePathsOfVertices(simpsurf) do
             # check if fepath is closed
-            if IsOddInt(fepath) then continue; fi;
+            if IsOddInt(Length(fepath)) then 
+				continue; 
+			fi;
  
             r := One(fgrp); 
             for i in [ 1,3 .. Length(fepath)-1] do 

@@ -105,7 +105,6 @@ TestWildOpenTetrahedron := function()
 	sig1 := (1,2);
 	sig2 := (2,3);
 	sig3 := (1,3);
-	mrType := AllEdgesOfSameType( 3, 2);
 
 	gens := [sig1,sig2,sig3];
 
@@ -126,14 +125,14 @@ TestWildOpenTetrahedron := function()
 
 	# Constructor by extending simplicial surface with edge colouring
 	surf := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
-		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]], );
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]] );
 	surf := WildSimplicialSurfaceExtensionByEdgeColouring( surf, [ 1, 2, 3, 1, 2, 3 ] );
 	TestIsWildOpenTetrahedron( surf, Concatenation(name," by extension with generators") );
 
 
 	# Constructor by extending simplicial surface with generators
 	surf := SimplicialSurfaceByDownwardIncidence( 4,6,3, 
-		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]], );
+		[[1,4],[2,1],[2,4],[2,3],[4,3],[1,3]], [[1,2,3],[1,6,5],[4,5,3]] );
 	surf := WildSimplicialSurfaceExtensionByGenerators( surf, gens );
 	TestIsWildOpenTetrahedron( surf, Concatenation(name," by extension with generators") );
 
