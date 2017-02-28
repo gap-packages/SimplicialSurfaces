@@ -90,7 +90,7 @@ TestIsWildProjectivePlaneFour := function( surface, messageSurfaceOrigin )
 	# Check vertex group
 	vertexGroup := VertexGroup(surface);
 	vertexGroup := vertexGroup[1] / vertexGroup[2];
-	if Size( VertexGroup ) <> 8 or Exponent( VertexGroup ) <> 2  then
+	if Size( vertexGroup ) <> 8 or Exponent( vertexGroup ) <> 2  then
 		Print( messageSurfaceOrigin );
 		Print( " should have vertex group C_2^3.\n");
 	fi;
@@ -153,14 +153,14 @@ TestWildProjectivePlaneFour := function()
 
 	# Constructor by face-edge-paths and edge colouring
 	surf := WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring( 3,6,4,
-		[ [[1,1,3,2,4,3,3,4]] , [[1,4,2,2,4,3,6,1]] , [[3,1,6,3,5,4,2,2]] ],
-		[ 1, 2, 3, 3, 2, 1 ] );
+		[ [[1,1,3,2,4,3,5,4]] , [[1,4,2,2,4,3,6,1]] , [[3,1,6,3,5,4,2,2]] ],
+		[ 1, 2, 3, 1, 3, 2 ] );
 	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by faceEdgePaths and edge colouring") );
 	
 
 	# Constructor by coloured face-edge-paths
-	surf := WildSimplicialSurfaceByColouredFaceEdgePaths( 4,[11,12,13,14],
-		[ [1,11,3,12,3,13,3,14] , [1,14,2,12,3,13,1,11] , [3,11,1,13,2,14,2,12] ]);
+	surf := WildSimplicialSurfaceByColouredFaceEdgePaths( 3,[11,12,13,14],
+		[ [1,11,3,12,1,13,3,14] , [1,14,2,12,1,13,2,11] , [3,11,2,13,3,14,2,12] ]);
 	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by colouredFaceEdgePaths") );
 	
 end;
