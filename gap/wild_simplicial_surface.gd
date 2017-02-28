@@ -267,7 +267,18 @@ DeclareOperation( "ColouredEdgeOfFaceNC",
 
 
 #! @Description
-#! Return the  face edge path of a vertex, i.e.....
+#!  A coloured face edge path of an inner vertex v of a wild
+#!  simplicial surface is   
+#!  a list  $[c_1,f_1,c_2,f_2,...,c_n,f_n]$, where f1,...,fn are the faces incident
+#!  to v and c1,..,cn are colours such that the edges of  face fi with 
+#!  ci and c(i+1) are those incident to v and c(n+1)=c1. 
+#!  A coloured face edge path of a boundary vertex v of a wild
+#!  simplicial surface is   
+#!  a list  [c1,f1,c2,f2,...,cn,fn, c(n+1)], where f1,...,fn are the
+#!  faces incident 
+#!  to v and c1,..,c(n+1) are colours such that the edges of  face fi with 
+#!  ci and c(i+1) are those incident to v and the edges of f1 and fn
+#!  with colours   c1 and  c(n+1), respectively, are boundary edges.
 #! @Arguments a wild simplicial surface
 #! @Returns a list
 DeclareAttribute( "ColouredFaceEdgePathsOfVertices", IsWildSimplicialSurface );
