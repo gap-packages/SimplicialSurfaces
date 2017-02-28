@@ -43,7 +43,6 @@ TestWildSimplicialSurface := function()
 	TestWildOpenTetrahedron();
 	TestWildTwoConnectedTriangles();
 	TestWildProjectivePlaneFour();
-	#TestTetrahedronAndProjectivePlane();
 end;
 
 

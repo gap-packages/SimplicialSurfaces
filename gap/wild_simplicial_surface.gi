@@ -1994,7 +1994,7 @@ InstallMethod( Display, "for WildSimplicialSurfaces", [IsWildSimplicialSurface],
 
         Print("Vertices = \n");
         for vtx in Vertices(simpsurf) do
-            Print("    ", ColouredFaceEdgePathOfVertex( simpsurf, vtx ) );
+            Print("    ", ColouredFaceEdgePathOfVertex( simpsurf, vtx ) ); # TODO rewrite this with abc
         od;
 		Print("\n");
  
