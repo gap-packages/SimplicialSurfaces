@@ -344,7 +344,7 @@ end;
 ##	sortDeg		the sorted degrees (vertexByFaces)
 ##	vertexSym	the vertex symbol (vertexByEdges)
 ##	anomalyClassCount		the number of anomaly classes
-##	isSnippable			does the surface get smaller if we snipp of ears?
+##	isSnippable			does recursively snipping off ears reduce the surface?
 ##
 TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin, 
 	vertexNr, edgeNr, faceNr, isEdgesLikeSurface, isVerticesLikeSurface,
@@ -481,12 +481,12 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 	fi;
 
 	if isSnippable then
-		if surface = SnippOffEars(surface) then
+		if surface = SnippOffEarsRecursively(surface) then
 			Print( messageSurfaceOrigin );
 			Print( " should be changed by removal of ears.\n");
 		fi;
 	else
-		if surface <> SnippOffEars(surface) then
+		if surface <> SnippOffEarsRecursively(surface) then
 			Print( messageSurfaceOrigin );
 			Print( " should not be changed by removal of ears.\n");
 		fi;

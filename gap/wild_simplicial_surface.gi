@@ -982,406 +982,6 @@ InstallMethod( Generators, "for a wild simplicial surface",
 );
 
 
-############################################################################
-##
-##
-##  A structure of a simplicial surface is a wild colouring where all
-##  cycles of a single generator have the same mr-assignment, i.e. all
-##  cycles of any one generator are either all mirrors or all reflections.
-##  This function returns structures in the input list of simplicial 
-##  surfaces, i.e. it returns all mmm, mmr, mrr, rrr surfaces, 
-##
-InstallGlobalFunction( FilteredStructuresWildSimplicialSurface, function (allsimpsurf)
-
-        local res, ss, mr, edgeset;
-
-        res :=[];
-        for ss in allsimpsurf do
-             mr := MRTypeOfEdgesAsNumbers(ss);
-             edgeset := EdgesOfColours(ss);
-             mr := List(edgeset, s -> List(s, e -> mr[e] ));
-             if 1 in mr[1] and 2 in mr[1] then continue; fi;
-             if 1 in mr[2] and 2 in mr[2] then continue; fi;
-             if 1 in mr[3] and 2 in mr[3] then continue; fi;
-
-             Add(res,ss);
-        od;
-
-        return res;
-end);
-
-
-#TODO define an action of
-##  the centraliser of the generators of ss inside the
-##  full symmetric group.
-## ImageWildSimplicialSurface
-
-
-
-#############################################################################
-##
-##
-##  This function returns all simplicial surfaces that support a structure.
-##  A structure on a simplicial surface is a wild colouring for which all
-##  cycles of a single generator are all of the same type: either m or r.
-##
-##  TODO schoen schreiben
-##
-InstallGlobalFunction( AllStructuresWildSimplicialSurface, function (arg)
-
-    local mrtype,  faces, res, ss, gens;
-
-    mrtype := [];
-
-    if Length(arg) = 1 then
-        if IsGroup(arg[1]) then gens := GeneratorsOfGroup(arg[1]);         
-        else gens := arg[1]; fi;
-    elif Length(arg) = 3 then
-   	   gens := [arg[1],arg[2],arg[3]];
-    fi;
-    if not IsList(gens) or Length(gens) <> 3 then
-         Error("usage: StructureWildSimplicialSurface( gens )\n");
-    fi;
-    if not IsPerm(gens[1]) or not IsPerm(gens[2])
-        or not IsPerm(gens[3]) then
-         Error("usage: WildSimplicialSurface( gens )\n");
-    fi;
-    if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
-        or gens[3]^2 <> One(gens[3]) then
-            Error("generators must be involutions\n");
-    fi;
-    faces := MovedPoints(gens);
-    res := [];
-   
-    # mmm
-    mrtype := List( [1..3], i-> List(faces, j-> 1 ));
-    ss := AllWildSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mmm-type"); fi;
-    # mmr 
-    mrtype :=[];
-    mrtype[1] := List(faces,j->1);
-    mrtype[2] := List(faces,j->1);
-    mrtype[3] := List(faces,j->2);
-    ss := AllWildSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
-    # mrm
-    mrtype :=[];
-    mrtype[1] := List(faces,j->1);
-    mrtype[2] := List(faces,j->2);
-    mrtype[3] := List(faces,j->1);
-    ss := AllWildSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
-    # rmm
-    mrtype :=[];
-    mrtype[1] := List(faces,j->2);
-    mrtype[2] := List(faces,j->1);
-    mrtype[3] := List(faces,j->1);
-    ss := AllWildSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
-    # mrr
-    mrtype :=[];
-    mrtype[1] := List(faces,j->1);
-    mrtype[2] := List(faces,j->2);
-    mrtype[3] := List(faces,j->2);
-    ss := AllWildSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
-    # rmr
-    mrtype :=[];
-    mrtype[1] := List(faces,j->2);
-    mrtype[2] := List(faces,j->1);
-    mrtype[3] := List(faces,j->2);
-    ss := AllWildSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
-    # rrm
-    mrtype :=[];
-    mrtype[1] := List(faces,j->2);
-    mrtype[2] := List(faces,j->2);
-    mrtype[3] := List(faces,j->1);
-    ss := AllWildSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
-    # rrr
-    mrtype := List( [1..3], i-> List(faces, j-> 2 ));
-    ss := AllWildSimplicialSurfaces( gens, mrtype);
-    if Length(ss) > 0 then Add(res, ss[1]); fi;
-    if Length(ss) >  1 then Error("more than one rrr-type"); fi;
-
-    return res;
-end);
-
-
-
-#############################################################################
-##
-#!  @Description
-#!  This function takes as input a list of pairs of integers. Suppose the
-#!  integers occurring in this list of pairs is the set faces. Then this
-#!  function computes all triples of involutions acting on the set faces.
-#!  @Returns a list of lists, which are involution triples.
-#!  @Arguments a list of lists, which is a list of pairs of integers
-#!
-InstallMethod( GeneratorsFromFacePairs, "List of integer pairs", [IsList],
-      function( facepairs )
-
-        local gens, g, i,  cycs, cycs_c, gens_c, faces, fixedpoints_c, c,
-              AllGenSets, NextFace, fixedpoints, IsEligible, check;
-
-        if Length(facepairs) = 0 then return [ (), (), () ]; fi;
-        check := Filtered( facepairs, i-> not IsList(i) or 
-                           Length(i) <> 2 or not IsPosInt(i[1]) or 
-                           not IsPosInt(i[2]) );
-        if Length(check)<> 0 then 
-            Error("GeneratorsFromFacePairs: ", 
-                  "input not a list of pairs of positive integers");
-        fi;
-
-        faces := Set( Flat(facepairs) );
-        
-        cycs := ShallowCopy(facepairs);
-
-        c := First( cycs, i-> Length(i) = 2 );
-        if c = fail then return [ (), (), () ]; fi;
-        Remove(cycs,Position(cycs,c));
-        Sort(cycs);
-        
-
-        cycs_c := ShallowCopy(cycs);
-        # the first cycle has to be somewhere so it might as well
-        # be on the first generator
-        gens_c := [ (c[1], c[2]), (), () ];
-
-
-        # here we record which fixed points we have used in which
-        # generator so far
-        fixedpoints := [];
-        fixedpoints[1] := List( [1..Length(faces)], i-> false );
-        fixedpoints[2] := List( [1..Length(faces)], i-> false );
-        fixedpoints[3] := List( [1..Length(faces)], i-> false );
-
-        # a global variable to store the results
-        AllGenSets := [];
-
-
-        # test whether g can be extended with the cycle c
-        IsEligible := function (g,i, c, fix )
-              
-            if Length(c) = 2 then
-                # first we have to ensure that neither c[1] nor c[2] are
-                # fixed points of g
-                if fix[i][c[1]] = false and fix[i][c[2]] = false and
-                   c[1]^g = c[1] and c[2]^g = c[2] then
-                    return true; # the 2-cycle is not in gens[i] yet
-                else return false;
-                fi;
-            else # c is a 1-cycle
-                # if it has not yet been used in g and g fixes it, return true
-                if fix[i][c[1]] = false and c[1]^g=c[1] then return true; fi;
-            fi;
-
-            return false;
-
-        end;
-
-        # find all possibilities of moving face f
-        NextFace := function( gens, cycs, fixedpoints )
-            local g, i, c, nf;
-
-        
-            # choose the first cycle that contains f
-            c := cycs[1];
-
-            # now we try to add c to each of the generators
-            for i in [ 1 .. 3 ] do
-                g := gens[i];
-                if IsEligible(g,i,c, fixedpoints) then
-                    # this generator does not already move the 
-                    # points in c, hence we can extend it by c.
-                    gens_c := ShallowCopy(gens);
-                    cycs_c := ShallowCopy(cycs);
-                    fixedpoints_c := 
-                        List(fixedpoints, x -> ShallowCopy(x));
-                    if Length(c) = 2 then 
-                        # if c is a 2-cycle, extend g
-                        gens_c[i] := g * (c[1],c[2]);
-                    else
-                        # if c is a 1-cycle record its use in g
-                        fixedpoints_c[i][c[1]] := true;
-                    fi;
-                    Remove( cycs_c, Position(cycs_c,c) );
-
-                    if Length(cycs_c) = 0 then
-                        # there are no more points to move 
-                        # hence we found a valid assignment
-                        Sort( gens_c );
-                        Add(AllGenSets, gens_c);
-                    else
-                        NextFace( gens_c,cycs_c,fixedpoints_c);
-                    fi;
-                fi;
-            od;
-
-        end;
-
-
-        NextFace( gens_c, cycs_c, fixedpoints );
-
-        return Set(AllGenSets);
-
-end);
-
-
-# auxilliary function
-# v is a vertex, i.e. a face path.
-# find all possible lists of generators that
-# support this walk. We assume that if v is a closed walk, then
-# it starts and ends with the same face.
-BindGlobal("__SIMPLICIAL_WalksForVertex",function( gens, v )
-
-    local  walks, g, w, i, j, nw, newwalks;
-
-
-    walks := [[]];
-    if v[Length(v)] <> v[1] then
-        # transversing face edge path (see paper)
-        g := Filtered( gens, j-> v[1]^j=v[1] );
-        if g=[] then return []; fi;
-        walks := List(g, i-> [Position(gens,i),v[1]]);
-        for i in [1..Length(v)-1] do
-            # g will contain all perms with cycle (v[i], v[i+1])
-            g := Filtered( gens, j-> v[i]^j=v[i+1] );
-            if g = [] then return []; fi;
-            newwalks := [];
-            # loop through all partial walks w and
-            # define |g| new walks by adding the elements
-            # of g to w
-            for w in walks do
-                for j in g do
-                    nw := ShallowCopy(w);
-                    Append(nw,[Position(gens,j),v[i+1]]);
-                    Add(newwalks, nw );
-                od;
-            od;
-            walks := newwalks;
-        od;
-        i := Length(v);
-        g := Filtered( gens, j-> v[i]^j=v[i] );
-        if g = [] then return []; fi;
-        newwalks := [];
-        # loop through all partial walks w and
-        # define |g| new walks by adding the elements
-        # of g to w
-        for w in walks do
-            for j in g do
-                nw := ShallowCopy(w);
-                Add(nw,Position(gens,j));
-                Add(newwalks, nw );
-             od;
-        od;
-        walks := newwalks;
-
-    else
-        # closed face path (repeating starting face at the end)
-        for i in [1..Length(v)-1] do
-                g := Filtered( gens, j-> v[i]^j=v[i+1] );
-                if g = [] then return []; fi;
-                newwalks := [];
-                # loop through all partial walks w and
-                # define |g| new walks by adding the elements
-                # of g to w
-                for w in walks do
-                    for j in g do
-                        nw := ShallowCopy(w);
-                        Append(nw,[Position(gens,j),v[i+1]]);
-                        Add(newwalks, nw );
-                    od;
-                od;
-                walks := newwalks;
-        od;
-        if Length(v) = 3 then
-            # we have to check in this case that we use different
-            # permutations, e.g. that 1a2a1 does not occur
-            walks := Filtered( walks, w -> w[1] <> w[3] );
-        fi;
-    fi;
-
-    return walks;
-end);
-
-##  auxilliary function
-## Test whether the generators match up with the vertices 
-BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
-
-            local v, i, vtx, allvertices, g, cart;
- 
-
-            cart := [];
-            allvertices := [];
-            for v in vertices do
-                  vtx := __SIMPLICIAL_WalksForVertex(gens, v);
-                  if vtx = [] then 
-                      Print("vertex ", v, " without walk");
-                      return []; 
-                  else
-                      Add(allvertices,vtx);
-                      Add( cart, [1..Length(vtx)]);
-                  fi;
-            od;
-            cart := Cartesian(cart);
-            return List(cart,l->List([1..Length(l)],i->allvertices[i][l[i]]));
-
-
- end);
-
-
-
-InstallMethod( AllWildSimplicialSurfacesFromFacePath, 
-"List of integers, List of pairs of integers, List of face paths",
-[IsList,IsList,IsList], function(faces, edges, facepaths)
-
-        local simpsurf, gens, allsurf, newvertices, vtx;
-
-Print("Warning: Closed paths must repeat starting vertex!!\n");
-        for vtx in facepaths do
-            if vtx[1] <> vtx[Length(vtx)] then
-	        if Length(vtx) <> Length(Set(vtx)) then
-	       	    Error("WildSimplicialSurfacesFromFacePath: ",
-                        "Facepaths can't repeat faces except at the end.");
-                fi;		  
-            else
-                if Length(vtx)-1 <> Length(Set(vtx)) then
-	       	    Error("WildSimplicialSurfacesFromFacePath: ",
-                        "Facepaths can't repeat faces except at the end.");
-                fi;
-            fi;		  
-        od;
-
-        faces := ShallowCopy(faces);
-        allsurf := [];
-
-         
-        # Now we test whether the simplicial surface we 
-        # have supports a wild colouring.
-        for gens in GeneratorsFromFacePairs(edges) do
-            newvertices := __SIMPLICIAL_TestGens( gens, facepaths );
-            for vtx in newvertices do
-                if vtx <> [] then
-                   # This method does not use generators or edges
-                    simpsurf := WildSimplicialSurfaceByColouredFaceEdgePaths(
-                                [1..Length(vtx)],faces,vtx);
-                    Add( allsurf, simpsurf);
-                fi;
-            od;
-        od;        
-
-        return allsurf;
-            
-end);
 
 
 
@@ -1796,43 +1396,6 @@ InstallMethod( EdgeByFacesAndColour, "for a wild simplicial surface",
 ##			Start of big (quasi-constructor) methods
 ##
 ##
-
-InstallOtherMethod( AllWildSimplicialSurfaces, 
-	"for three involutions",
-	[ IsPerm, IsPerm, IsPerm ], function( perm1, perm2, perm3 )
-		return AllWildSimplicialSurfaces( perm1, perm2, perm3 , [] );
-	end
-);
-
-InstallOtherMethod( AllWildSimplicialSurfaces, 
-	"for three involutions and a list that encodes the edge-types",
-	[ IsPerm, IsPerm, IsPerm, IsList ], function( perm1, perm2, perm3, mrtype )
-		return AllWildSimplicialSurfaces( [perm1, perm2, perm3], mrtype );
-	end
-);
-
-InstallOtherMethod( AllWildSimplicialSurfaces, 
-	"for a group",
-	[ IsGroup ], function( grp )
-		return AllWildSimplicialSurfaces( grp, [] );
-	end
-);
-
-InstallOtherMethod( AllWildSimplicialSurfaces, 
-	"for a group and a list that encodes the edge-types",
-	[ IsGroup, IsList ], function( grp, mrtype )
-		return AllWildSimplicialSurfaces( GeneratorsOfGroup(grp), mrtype );
-	end
-);
-
-
-InstallOtherMethod( AllWildSimplicialSurfaces, 
-	"for a list of three involutions",
-	[ IsList ], function( gens )
-		return AllWildSimplicialSurfaces( gens, [] );
-	end
-);
-
 BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern", 
 	function( faces, edgeCycles, vertexPaths, gens )
 	
@@ -1913,12 +1476,67 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	# We have to set the final attributes
 	SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 	SetEdgesOfVertices( surf, edgesOfVertices );
-   #MB     SetFaceEdgePathsOfVertices( surf, vertexPaths );
 
 	DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
 
 	return surf;
 end);
+
+
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for three involutions",
+	[ IsPerm, IsPerm, IsPerm ], function( perm1, perm2, perm3 )
+		return AllWildSimplicialSurfaces( perm1, perm2, perm3 , [] );
+	end
+);
+
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for three involutions and a list that encodes the edge-types",
+	[ IsPerm, IsPerm, IsPerm, IsList ], function( perm1, perm2, perm3, mrtype )
+		return AllWildSimplicialSurfaces( [perm1, perm2, perm3], mrtype );
+	end
+);
+
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for a group",
+	[ IsGroup ], function( grp )
+		return AllWildSimplicialSurfaces( grp, [] );
+	end
+);
+
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for a group and a list that encodes the edge-types",
+	[ IsGroup, IsList ], function( grp, mrtype )
+		return AllWildSimplicialSurfaces( GeneratorsOfGroup(grp), mrtype );
+	end
+);
+
+
+InstallOtherMethod( AllWildSimplicialSurfaces, 
+	"for a list of three involutions",
+	[ IsList ], function( gens )
+		return AllWildSimplicialSurfaces( gens, [] );
+	end
+);
+
+BindGlobal( "__SIMPLICIAL_CheckGeneratorsAndMRType",
+	function( gens, mrtype )
+		if Length(gens) <> 3 then
+         Error("__SIMPLICIAL_CheckGeneratorsAndMRType: There have to be three generators given.\n");
+		fi;
+		if not IsPerm(gens[1]) or not IsPerm(gens[2]) or not IsPerm(gens[3]) then
+		     Error("__SIMPLICIAL_CheckGeneratorsAndMRType: The generators have to be permutations.\n");
+		fi;
+		if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
+		    or gens[3]^2 <> One(gens[3]) then
+		     Error("__SIMPLICIAL_CheckGeneratorsAndMRType: The generators have to be involutions.\n");
+		fi;
+
+		if not Length(mrtype) in [0,3] then
+		     Error("__SIMPLICIAL_CheckGeneratorsAndMRType: The edge types have to be given as a list with up to three elements.\n");
+		fi;
+	end
+);
 
 
 InstallMethod( AllWildSimplicialSurfaces, 
@@ -1933,33 +1551,20 @@ InstallMethod( AllWildSimplicialSurfaces,
           BreakPoint,         knownmrtype, cmpvertices;
 
 	# Check whether the given arguments are correct
-	if Length(gens) <> 3 then
-         Error("AllWildSimplicialSurfaces( gens[, mrtype] ) : There have to be three generators given.\n");
-    fi;
-    if not IsPerm(gens[1]) or not IsPerm(gens[2]) or not IsPerm(gens[3]) then
-         Error("AllWildSimplicialSurfaces( gens[, mrtype] ) : The generators have to be permutations.\n");
-    fi;
-    if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
-        or gens[3]^2 <> One(gens[3]) then
-         Error("AllWildSimplicialSurfaces( gens[, mrtype] ) : The generators have to be involutions.\n");
-    fi;
-
-    if not Length(mrtype) in [0,3] then
-         Error("AllWildSimplicialSurfaces( gens[, mrtype] ) : The edge types have to be given as a list with up to three elements.\n");
-    fi;
+	__SIMPLICIAL_CheckGeneratorsAndMRType(gens,mrtype);
 
 
 	# Start the actual computations
 
-cmpvertices := function (v1, v2 )
+	cmpvertices := function (v1, v2 )
 
-    if Length(v1) < Length(v2 ) then return true;
-    elif Length(v1) > Length(v2) then return false;
-    fi;
-    # now they have the same length
-    return v1 < v2;
+		if Length(v1) < Length(v2 ) then return true;
+		elif Length(v1) > Length(v2) then return false;
+		fi;
+		# now they have the same length
+		return v1 < v2;
 
-end;
+	end;
 
 
     BreakPoint := false;
@@ -2355,6 +1960,409 @@ end;
 
     return AllSurfaces;
 
+end);
+
+
+############################################################################
+##
+##
+##  A structure of a simplicial surface is a wild colouring where all
+##  cycles of a single generator have the same mr-assignment, i.e. all
+##  cycles of any one generator are either all mirrors or all reflections.
+##  This function returns structures in the input list of simplicial 
+##  surfaces, i.e. it returns all mmm, mmr, mrr, rrr surfaces, 
+##
+InstallMethod( FilteredStructuresWildSimplicialSurface, 
+	"for a list of wild simplicial surfaces",
+	function (allsimpsurf)
+
+        local res, ss, mr, edgeset;
+
+        res :=[];
+        for ss in allsimpsurf do
+             mr := MRTypeOfEdgesAsNumbers(ss);
+             edgeset := EdgesOfColours(ss);
+             mr := List(edgeset, s -> List(s, e -> mr[e] ));
+             if 1 in mr[1] and 2 in mr[1] then continue; fi;
+             if 1 in mr[2] and 2 in mr[2] then continue; fi;
+             if 1 in mr[3] and 2 in mr[3] then continue; fi;
+
+             Add(res,ss);
+        od;
+
+        return res;
+	end
+);
+
+
+#TODO define an action of
+##  the centraliser of the generators of ss inside the
+##  full symmetric group.
+## ImageWildSimplicialSurface
+
+
+
+#############################################################################
+##
+##
+##  This function returns all simplicial surfaces that support a structure.
+##  A structure on a simplicial surface is a wild colouring for which all
+##  cycles of a single generator are all of the same type: either m or r.
+##
+##
+InstallOtherMethod( AllStructuresWildSimplicialSurface, "for a group", 
+	[IsGroup], function( grp )
+		return AllStructuresWildSimplicialSurface( GeneratorsOfGroup(grp) );
+	end
+);
+
+InstallOtherMethod( AllStructuresWildSimplicialSurface, "for three involutions", 
+	[IsPerm, IsPerm, IsPerm], function( p1,p2,p3 )
+		return AllStructuresWildSimplicialSurface( [p1,p2,p3] );
+	end
+);
+
+InstallMethod( AllStructuresWildSimplicialSurface, 
+	"for a list of three involutions", function (gens)
+
+    local mrtype,  faces, res, ss;
+
+    mrtype := [];
+
+	# Check the generators
+	__SIMPLICIAL_CheckGeneratorsAndMRType( gens, [] );
+
+    faces := MovedPoints(gens);
+    res := [];
+   
+    # mmm
+    mrtype := List( [1..3], i-> List(faces, j-> 1 ));
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mmm-type"); fi;
+    # mmr 
+    mrtype :=[];
+    mrtype[1] := List(faces,j->1);
+    mrtype[2] := List(faces,j->1);
+    mrtype[3] := List(faces,j->2);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
+    # mrm
+    mrtype :=[];
+    mrtype[1] := List(faces,j->1);
+    mrtype[2] := List(faces,j->2);
+    mrtype[3] := List(faces,j->1);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
+    # rmm
+    mrtype :=[];
+    mrtype[1] := List(faces,j->2);
+    mrtype[2] := List(faces,j->1);
+    mrtype[3] := List(faces,j->1);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
+    # mrr
+    mrtype :=[];
+    mrtype[1] := List(faces,j->1);
+    mrtype[2] := List(faces,j->2);
+    mrtype[3] := List(faces,j->2);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
+    # rmr
+    mrtype :=[];
+    mrtype[1] := List(faces,j->2);
+    mrtype[2] := List(faces,j->1);
+    mrtype[3] := List(faces,j->2);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
+    # rrm
+    mrtype :=[];
+    mrtype[1] := List(faces,j->2);
+    mrtype[2] := List(faces,j->2);
+    mrtype[3] := List(faces,j->1);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
+    # rrr
+    mrtype := List( [1..3], i-> List(faces, j-> 2 ));
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one rrr-type"); fi;
+
+    return res;
+end);
+
+
+
+#############################################################################
+##
+#!  @Description
+#!  This function takes as input a list of pairs of integers. Suppose the
+#!  integers occurring in this list of pairs is the set faces. Then this
+#!  function computes all triples of involutions acting on the set faces.
+#!  @Returns a list of lists, which are involution triples.
+#!  @Arguments a list of lists, which is a list of pairs of integers
+#!
+InstallMethod( GeneratorsFromFacePairs, "List of integer pairs", [IsList],
+      function( facepairs )
+
+        local gens, g, i,  cycs, cycs_c, gens_c, faces, fixedpoints_c, c,
+              AllGenSets, NextFace, fixedpoints, IsEligible, check;
+
+        if Length(facepairs) = 0 then return [ (), (), () ]; fi;
+        check := Filtered( facepairs, i-> not IsList(i) or 
+                           Length(i) <> 2 or not IsPosInt(i[1]) or 
+                           not IsPosInt(i[2]) );
+        if Length(check)<> 0 then 
+            Error("GeneratorsFromFacePairs: ", 
+                  "input not a list of pairs of positive integers");
+        fi;
+
+        faces := Set( Flat(facepairs) );
+        
+        cycs := ShallowCopy(facepairs);
+
+        c := First( cycs, i-> Length(i) = 2 );
+        if c = fail then return [ (), (), () ]; fi;
+        Remove(cycs,Position(cycs,c));
+        Sort(cycs);
+        
+
+        cycs_c := ShallowCopy(cycs);
+        # the first cycle has to be somewhere so it might as well
+        # be on the first generator
+        gens_c := [ (c[1], c[2]), (), () ];
+
+
+        # here we record which fixed points we have used in which
+        # generator so far
+        fixedpoints := [];
+        fixedpoints[1] := List( [1..Length(faces)], i-> false );
+        fixedpoints[2] := List( [1..Length(faces)], i-> false );
+        fixedpoints[3] := List( [1..Length(faces)], i-> false );
+
+        # a global variable to store the results
+        AllGenSets := [];
+
+
+        # test whether g can be extended with the cycle c
+        IsEligible := function (g,i, c, fix )
+              
+            if Length(c) = 2 then
+                # first we have to ensure that neither c[1] nor c[2] are
+                # fixed points of g
+                if fix[i][c[1]] = false and fix[i][c[2]] = false and
+                   c[1]^g = c[1] and c[2]^g = c[2] then
+                    return true; # the 2-cycle is not in gens[i] yet
+                else return false;
+                fi;
+            else # c is a 1-cycle
+                # if it has not yet been used in g and g fixes it, return true
+                if fix[i][c[1]] = false and c[1]^g=c[1] then return true; fi;
+            fi;
+
+            return false;
+
+        end;
+
+        # find all possibilities of moving face f
+        NextFace := function( gens, cycs, fixedpoints )
+            local g, i, c, nf;
+
+        
+            # choose the first cycle that contains f
+            c := cycs[1];
+
+            # now we try to add c to each of the generators
+            for i in [ 1 .. 3 ] do
+                g := gens[i];
+                if IsEligible(g,i,c, fixedpoints) then
+                    # this generator does not already move the 
+                    # points in c, hence we can extend it by c.
+                    gens_c := ShallowCopy(gens);
+                    cycs_c := ShallowCopy(cycs);
+                    fixedpoints_c := 
+                        List(fixedpoints, x -> ShallowCopy(x));
+                    if Length(c) = 2 then 
+                        # if c is a 2-cycle, extend g
+                        gens_c[i] := g * (c[1],c[2]);
+                    else
+                        # if c is a 1-cycle record its use in g
+                        fixedpoints_c[i][c[1]] := true;
+                    fi;
+                    Remove( cycs_c, Position(cycs_c,c) );
+
+                    if Length(cycs_c) = 0 then
+                        # there are no more points to move 
+                        # hence we found a valid assignment
+                        Sort( gens_c );
+                        Add(AllGenSets, gens_c);
+                    else
+                        NextFace( gens_c,cycs_c,fixedpoints_c);
+                    fi;
+                fi;
+            od;
+
+        end;
+
+
+        NextFace( gens_c, cycs_c, fixedpoints );
+
+        return Set(AllGenSets);
+
+end);
+
+
+# auxilliary function
+# v is a vertex, i.e. a face path.
+# find all possible lists of generators that
+# support this walk. We assume that if v is a closed walk, then
+# it starts and ends with the same face.
+BindGlobal("__SIMPLICIAL_WalksForVertex",function( gens, v )
+
+    local  walks, g, w, i, j, nw, newwalks;
+
+
+    walks := [[]];
+    if v[Length(v)] <> v[1] then
+        # transversing face edge path (see paper)
+        g := Filtered( gens, j-> v[1]^j=v[1] );
+        if g=[] then return []; fi;
+        walks := List(g, i-> [Position(gens,i),v[1]]);
+        for i in [1..Length(v)-1] do
+            # g will contain all perms with cycle (v[i], v[i+1])
+            g := Filtered( gens, j-> v[i]^j=v[i+1] );
+            if g = [] then return []; fi;
+            newwalks := [];
+            # loop through all partial walks w and
+            # define |g| new walks by adding the elements
+            # of g to w
+            for w in walks do
+                for j in g do
+                    nw := ShallowCopy(w);
+                    Append(nw,[Position(gens,j),v[i+1]]);
+                    Add(newwalks, nw );
+                od;
+            od;
+            walks := newwalks;
+        od;
+        i := Length(v);
+        g := Filtered( gens, j-> v[i]^j=v[i] );
+        if g = [] then return []; fi;
+        newwalks := [];
+        # loop through all partial walks w and
+        # define |g| new walks by adding the elements
+        # of g to w
+        for w in walks do
+            for j in g do
+                nw := ShallowCopy(w);
+                Add(nw,Position(gens,j));
+                Add(newwalks, nw );
+             od;
+        od;
+        walks := newwalks;
+
+    else
+        # closed face path (repeating starting face at the end)
+        for i in [1..Length(v)-1] do
+                g := Filtered( gens, j-> v[i]^j=v[i+1] );
+                if g = [] then return []; fi;
+                newwalks := [];
+                # loop through all partial walks w and
+                # define |g| new walks by adding the elements
+                # of g to w
+                for w in walks do
+                    for j in g do
+                        nw := ShallowCopy(w);
+                        Append(nw,[Position(gens,j),v[i+1]]);
+                        Add(newwalks, nw );
+                    od;
+                od;
+                walks := newwalks;
+        od;
+        if Length(v) = 3 then
+            # we have to check in this case that we use different
+            # permutations, e.g. that 1a2a1 does not occur
+            walks := Filtered( walks, w -> w[1] <> w[3] );
+        fi;
+    fi;
+
+    return walks;
+end);
+
+##  auxilliary function
+## Test whether the generators match up with the vertices 
+BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
+
+            local v, i, vtx, allvertices, g, cart;
+ 
+
+            cart := [];
+            allvertices := [];
+            for v in vertices do
+                  vtx := __SIMPLICIAL_WalksForVertex(gens, v);
+                  if vtx = [] then 
+                      Print("vertex ", v, " without walk");
+                      return []; 
+                  else
+                      Add(allvertices,vtx);
+                      Add( cart, [1..Length(vtx)]);
+                  fi;
+            od;
+            cart := Cartesian(cart);
+            return List(cart,l->List([1..Length(l)],i->allvertices[i][l[i]]));
+
+
+ end);
+
+
+
+InstallMethod( AllWildSimplicialSurfacesFromFacePath, 
+"List of integers, List of pairs of integers, List of face paths",
+[IsList,IsList,IsList], function(faces, edges, facepaths)
+
+        local simpsurf, gens, allsurf, newvertices, vtx;
+
+Print("Warning: Closed paths must repeat starting vertex!!\n");
+        for vtx in facepaths do
+            if vtx[1] <> vtx[Length(vtx)] then
+	        if Length(vtx) <> Length(Set(vtx)) then
+	       	    Error("WildSimplicialSurfacesFromFacePath: ",
+                        "Facepaths can't repeat faces except at the end.");
+                fi;		  
+            else
+                if Length(vtx)-1 <> Length(Set(vtx)) then
+	       	    Error("WildSimplicialSurfacesFromFacePath: ",
+                        "Facepaths can't repeat faces except at the end.");
+                fi;
+            fi;		  
+        od;
+
+        faces := ShallowCopy(faces);
+        allsurf := [];
+
+         
+        # Now we test whether the simplicial surface we 
+        # have supports a wild colouring.
+        for gens in GeneratorsFromFacePairs(edges) do
+            newvertices := __SIMPLICIAL_TestGens( gens, facepaths );
+            for vtx in newvertices do
+                if vtx <> [] then
+                   # This method does not use generators or edges
+                    simpsurf := WildSimplicialSurfaceByColouredFaceEdgePaths(
+                                [1..Length(vtx)],faces,vtx);
+                    Add( allsurf, simpsurf);
+                fi;
+            od;
+        od;        
+
+        return allsurf;
+            
 end);
 
 ##

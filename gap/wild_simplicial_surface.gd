@@ -327,8 +327,6 @@ DeclareOperation( "EdgesOfColourNC", [IsWildSimplicialSurface, IsPosInt] );
 DeclareAttribute( "MRTypeOfEdges", IsWildSimplicialSurface);
 DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsWildSimplicialSurface);
 
-DeclareGlobalFunction( "FilteredStructuresWildSimplicialSurface" );
-DeclareGlobalFunction( "AllStructuresWildSimplicialSurface" );
 
 
 #############################################################################
@@ -437,6 +435,32 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #!  @Arguments gens,  a list of three involutions
 #!
 DeclareOperation( "AllWildSimplicialSurfaces", [IsList,IsList] ); 
+
+##############################################################################
+##
+#!	@Description
+#!	For a given list of wild simplicial surfaces this method returns all of
+#!	them where edges with the same colour have the same MR-type.
+#!
+#!	@Arguments wildSimplicialSurfaceList
+#!	@Returns a list of wild simplicial surfaces
+DeclareOperation( "FilteredStructuresWildSimplicialSurface", [IsList] );
+
+
+#############################################################################
+##
+#!	@Description
+#!	Possible inputs are:
+#!	- a group
+#!	- a list with three involutions
+#!	- three involutions
+#!	This method returns all wild simplicial surfaces that can be defined
+#!	on the basis of these three involutions.
+#!
+#!	@Arguments listOfInvolutions
+#!	@Returns a list of wild simplicial surfaces
+DeclareOperation( "AllStructuresWildSimplicialSurface", [IsList] );
+
 
 #############################################################################
 ##
