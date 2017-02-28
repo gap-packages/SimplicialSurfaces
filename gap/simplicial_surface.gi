@@ -2399,6 +2399,7 @@ InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
 	function(simpsurf, subfaces)
 		local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f;
 
+
 		subEdges := Union( List( subfaces, f -> EdgesOfFaces(simpsurf)[f] ));
 		subVertices := Union( List( subEdges, e -> 
 											VerticesOfEdges(simpsurf)[e] ) );
@@ -2548,14 +2549,14 @@ InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
 #	end
 #);
 
+
+
 #############################################################################
 ##
-#!	@Description
-#!	This function removes all ears of the simplicial surface and returns
-#!	the resulting surface.
-#!	@Arguments a simplicial surface object simpsurf
-#!	@Returns a simplicial surface object
-InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
+##		SnippOffEars - methods
+##
+
+BindGlobal( "__SIMPLICIAL_SnippOffEarsOfSimplicialSurface",
 	function(simpsurf)
 		local vertexDegree, ears, newSurface, ear, facesToRemove, 
 				remainingFaces;
@@ -2572,10 +2573,29 @@ InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
 		remainingFaces := Difference( Faces(simpsurf), facesToRemove );
 		newSurface := SubsurfaceByFacesNC( simpsurf, remainingFaces );
 	
-		return SnippOffEars( newSurface );
+		return newSurface;
 	end
 );
 
+InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
+	__SIMPLICIAL_SnippOffEarsOfSimplicialSurface );
+
+
+InstallMethod( SnippOfEarsRecursive, "for a simplicial surface", 
+	[IsSimplicialSurface], function( simpsurf )
+		local newSurface;
+
+		newSurface := SnippOffEars( simpsurf );
+		if newSurface = simpsurf then
+			return simpsurf;
+		fi;
+
+		return SnippOffEarsRecursive(simpsurf);
+	end
+);
+
+##
+###############################################################################
 
 #############################################################################
 ##

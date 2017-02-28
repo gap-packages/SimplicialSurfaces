@@ -1016,8 +1016,6 @@ end);
 ##  full symmetric group.
 ## ImageWildSimplicialSurface
 
-# TODO SnippOffEars non recursive version
-# TODO SnippOffEars for wild by using general snipp off ears & colour
 
 
 #############################################################################
@@ -2502,11 +2500,9 @@ InstallMethod( \=, "for two wild simplicial surfaces", IsIdenticalObj,
 ##			Start of more specialized methods from SimplicialSurface
 ##
 
-#!	@Description
-#!	This function checks if a wild simplicial surface is connected.
-#!	@Returns true if connected, false otherwise
-#!	@Arguments a wild simplicial surface object simpsurf
-#!
+##
+##	Check connectivity
+##
 InstallMethod( IsConnected, "for a wild simplicial surface",
 	[IsWildSimplicialSurface],
 	function(simpsurf)
@@ -2515,15 +2511,9 @@ InstallMethod( IsConnected, "for a wild simplicial surface",
 	end
 );
 
-###############################################################################
 ##
-#!  @Description
-#!  This function decides whether the wild-coloured simplicial surface
-#!  <simpsurf> is orientable.
-#!  @Returns true if the surface is orientable and false else.
-#!  @Arguments <simpsurf> a simplicial surface
-#!
-
+##	Check orientability
+##
 InstallMethod( IsOrientable, "for a wild simplicial surface", true, 
 	[ IsWildSimplicialSurface ], 0,	function(simpsurf)
 
@@ -2533,26 +2523,26 @@ InstallMethod( IsOrientable, "for a wild simplicial surface", true,
         N:= Maximum(Faces(simpsurf));
 
 
-# Map each cycle to a covering cycle. Mirrors are mapped to
-# (i, -j) (-i,j) and rotations to (i,j)(-i,-j). If the
-# type is unknown, we leave the cycle unchanged.
-MapCycle := function (c, t)
+		# Map each cycle to a covering cycle. Mirrors are mapped to
+		# (i, -j) (-i,j) and rotations to (i,j)(-i,-j). If the
+		# type is unknown, we leave the cycle unchanged.
+		MapCycle := function (c, t)
 
-    local i, j;
+			local i, j;
 
 
-    if Length(c) < 2 then return One(()); fi;   
-    i := c[1]; j := c[2];
+			if Length(c) < 2 then return One(()); fi;   
+			i := c[1]; j := c[2];
 
-    if t = 0 then return (i,j); fi;
+			if t = 0 then return (i,j); fi;
 
-    if t = 1 then
-        return (i, j+N) * (i+N, j );
-    elif t = 2 then
-        return (i,j)*(i+N, j+N);
-    fi;
+			if t = 1 then
+				return (i, j+N) * (i+N, j );
+			elif t = 2 then
+				return (i,j)*(i+N, j+N);
+			fi;
 
-end;
+		end;
 
         gens := Generators(simpsurf);
         newgens := List( gens, i-> Cycles(i, Faces(simpsurf)));
@@ -2575,8 +2565,33 @@ end;
         fi;
         Error("IsOrientable: unknown orientability of wild simplicial surface");
 
+	end
+);
 
-end);
+
+##
+##	Snipp off ears
+##
+InstallMethod( SnippOffEars, "for a wild simplicial surface",
+	[IsWildSimplicialSurface],
+	function(simpsurf)
+		local snippSimp, newColours;
+
+		# Use the method for general simplicial surfaces
+		snippSimp := __SIMPLICIAL_SnippOffEarsOfSimplicialSurface(simpsurf);
+
+		# Add the appropriate colours
+		newColours := ShallowCopy( ColoursOfEdges( simpsurf ) );
+		for edge in Edges(simpsurf) do
+			if not edge in Edges(snippSimp) then
+				Unbind( newColours[edge] );
+			fi;
+		od;
+
+		return WildSimplicialSurfaceExtensionByEdgeColours( simpsurf, 
+															newColours );
+	end
+);
 
 
 ##

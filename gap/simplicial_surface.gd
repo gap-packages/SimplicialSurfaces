@@ -617,6 +617,15 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsSimplicialSurface, IsSet] );
 #!
 DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
+##
+#!	@Description
+#!	This function removes all ears of the simplicial surface. If the resulting
+#!	surface still has ears, it removes them as well (and so on). The final
+#!	surface is returned..
+#!	@Arguments a simplicial surface object simpsurf
+#!	@Returns a simplicial surface object
+#!
+DeclareOperation( "SnippOffEarsRecursive", [IsSimplicialSurface] );
 
 ##
 #!	@Description
