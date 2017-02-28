@@ -109,19 +109,59 @@ end;
 ## This method tests the functionality for the example of a tetrahedron
 ## and the representation as a wild simplicial surface
 TestWildProjectivePlaneFour := function()
-	local surf, name, sig1, sig2, sig3, mrType, gens;
+	local surf, name, sig1, sig2, sig3, gens;
 
 	name := "Projective plane four (wild)";
 
 	sig1 := (1,4)(2,3);
 	sig2 := (1,3)(2,4);
 	sig3 := (1,2)(4,3);
-	mrType := AllEdgesOfSameType( 4, 1);
 
 	gens := [sig1,sig2,sig3];
 
 
-	# TODO
+	# Constructor by downward incidence and edge colouring
+	surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring( 3,6,4, 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]],
+		[ 1, 2, 3, 1, 3, 2 ] );
+	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by downward incidence with edge colouring") );
+
+	
+	# Constructor by downward incidence and generators
+	surf := WildSimplicialSurfaceByDownwardIncidenceAndGenerators( 3,6,4, 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]], gens );
+	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by downward incidence with generators") );
+
+
+	# Constructor by extending simplicial surface with edge colouring
+	surf := SimplicialSurfaceByDownwardIncidence( 3,6,4, 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]] );
+	surf := WildSimplicialSurfaceExtensionByEdgeColouring( surf, [ 1, 2, 3, 1, 3, 2 ] );
+	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by extension with edge colouring") );
+
+
+	# Constructor by extending simplicial surface with generators
+	surf := SimplicialSurfaceByDownwardIncidence( 3,6,4, 
+		[[1,2],[2,3],[3,1],[1,2],[1,3],[2,3]],
+		[[1,6,3],[3,2,4],[5,6,4],[5,1,2]] );
+	surf := WildSimplicialSurfaceExtensionByGenerators( surf, gens );
+	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by extension with generators") );
+
+
+	# Constructor by face-edge-paths and edge colouring
+	surf := WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouring( 3,6,4,
+		[ [[1,1,3,2,4,3,3,4]] , [[1,4,2,2,4,3,6,1]] , [[3,1,6,3,5,4,2,2]] ],
+		[ 1, 2, 3, 3, 2, 1 ] );
+	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by faceEdgePaths and edge colouring") );
+	
+
+	# Constructor by coloured face-edge-paths
+	surf := WildSimplicialSurfaceByColouredFaceEdgePaths( 4,[11,12,13,14],
+		[ [1,11,3,12,3,13,3,14] , [1,14,2,12,3,13,1,11] , [3,11,1,13,2,14,2,12] ]);
+	TestIsWildProjectivePlaneFour( surf, Concatenation(name," by colouredFaceEdgePaths") );
 	
 end;
 
