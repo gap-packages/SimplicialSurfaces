@@ -1973,7 +1973,7 @@ end);
 ##  surfaces, i.e. it returns all mmm, mmr, mrr, rrr surfaces, 
 ##
 InstallMethod( FilteredStructuresWildSimplicialSurface, 
-	"for a list of wild simplicial surfaces",
+	"for a list of wild simplicial surfaces", [IsList],
 	function (allsimpsurf)
 
         local res, ss, mr, edgeset;
@@ -2023,7 +2023,7 @@ InstallOtherMethod( AllStructuresWildSimplicialSurface, "for three involutions",
 );
 
 InstallMethod( AllStructuresWildSimplicialSurface, 
-	"for a list of three involutions", function (gens)
+	"for a list of three involutions", [IsList],  function (gens)
 
     local mrtype,  faces, res, ss;
 
@@ -2583,7 +2583,7 @@ InstallMethod( IsOrientable, "for a wild simplicial surface", true,
 InstallMethod( SnippOffEars, "for a wild simplicial surface",
 	[IsWildSimplicialSurface],
 	function(simpsurf)
-		local snippSimp, newColours;
+		local snippSimp, newColours, edge;
 
 		# Use the method for general simplicial surfaces
 		snippSimp := __SIMPLICIAL_SnippOffEarsOfSimplicialSurface(simpsurf);
@@ -2596,7 +2596,7 @@ InstallMethod( SnippOffEars, "for a wild simplicial surface",
 			fi;
 		od;
 
-		return WildSimplicialSurfaceExtensionByEdgeColours( simpsurf, 
+		return WildSimplicialSurfaceExtensionByEdgeColouringNC( snippSimp, 
 															newColours );
 	end
 );

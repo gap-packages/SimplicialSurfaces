@@ -42,7 +42,7 @@ TestIsThreeTrianglesInLine := function( surface, messageSurfaceOrigin )
 		true	# does ear-removal reduce the surface?
 	);
 
-	snipp := SnippOffEars(surface);
+	snipp := SnippOffEarsRecursive(surface);
 	if NrOfVertices(snipp) > 0 or NrOfEdges(snipp) > 0 or NrOfFaces(snipp) > 0 then
 		Print( messageSurfaceOrigin );
 		Print( " should be destroyed by removal of ears.\n");

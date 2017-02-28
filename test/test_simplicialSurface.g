@@ -481,12 +481,12 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 	fi;
 
 	if isSnippable then
-		if surface = SnippOffEarsRecursively(surface) then
+		if surface = SnippOffEarsRecursive(surface) then
 			Print( messageSurfaceOrigin );
 			Print( " should be changed by removal of ears.\n");
 		fi;
 	else
-		if surface <> SnippOffEarsRecursively(surface) then
+		if surface <> SnippOffEarsRecursive(surface) then
 			Print( messageSurfaceOrigin );
 			Print( " should not be changed by removal of ears.\n");
 		fi;

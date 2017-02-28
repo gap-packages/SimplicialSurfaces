@@ -2581,16 +2581,17 @@ InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
 	__SIMPLICIAL_SnippOffEarsOfSimplicialSurface );
 
 
-InstallMethod( SnippOfEarsRecursive, "for a simplicial surface", 
+InstallMethod( SnippOffEarsRecursive, "for a simplicial surface", 
 	[IsSimplicialSurface], function( simpsurf )
 		local newSurface;
 
 		newSurface := SnippOffEars( simpsurf );
-		if newSurface = simpsurf then
+		# Use a simplified equality test
+		if NrOfFaces(newSurface) = NrOfFaces(simpsurf) then
 			return simpsurf;
 		fi;
 
-		return SnippOffEarsRecursive(simpsurf);
+		return SnippOffEarsRecursive(newSurface);
 	end
 );
 
