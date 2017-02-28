@@ -982,6 +982,276 @@ InstallMethod( Generators, "for a wild simplicial surface",
 );
 
 
+
+
+#############################################################################
+##
+#!  @Description
+#!  This function takes as input a list of pairs of integers. Suppose the
+#!  integers occurring in this list of pairs is the set faces. Then this
+#!  function computes all triples of involutions acting on the set faces.
+#!  @Returns a list of lists, which are involution triples.
+#!  @Arguments a list of lists, which is a list of pairs of integers
+#!
+InstallMethod( GeneratorsFromFacePairs, "List of integer pairs", [IsList],
+      function( facepairs )
+
+        local gens, g, i,  cycs, cycs_c, gens_c, faces, fixedpoints_c, c,
+              AllGenSets, NextFace, fixedpoints, IsEligible, check;
+
+        if Length(facepairs) = 0 then return [ (), (), () ]; fi;
+        check := Filtered( facepairs, i-> not IsList(i) or 
+                           Length(i) <> 2 or not IsPosInt(i[1]) or 
+                           not IsPosInt(i[2]) );
+        if Length(check)<> 0 then 
+            Error("GeneratorsFromFacePairs: ", 
+                  "input not a list of pairs of positive integers");
+        fi;
+
+        faces := Set( Flat(facepairs) );
+        
+        cycs := ShallowCopy(facepairs);
+
+        c := First( cycs, i-> Length(i) = 2 );
+        if c = fail then return [ (), (), () ]; fi;
+        Remove(cycs,Position(cycs,c));
+        Sort(cycs);
+        
+
+        cycs_c := ShallowCopy(cycs);
+        # the first cycle has to be somewhere so it might as well
+        # be on the first generator
+        gens_c := [ (c[1], c[2]), (), () ];
+
+
+        # here we record which fixed points we have used in which
+        # generator so far
+        fixedpoints := [];
+        fixedpoints[1] := List( [1..Length(faces)], i-> false );
+        fixedpoints[2] := List( [1..Length(faces)], i-> false );
+        fixedpoints[3] := List( [1..Length(faces)], i-> false );
+
+        # a global variable to store the results
+        AllGenSets := [];
+
+
+        # test whether g can be extended with the cycle c
+        IsEligible := function (g,i, c, fix )
+              
+            if Length(c) = 2 then
+                # first we have to ensure that neither c[1] nor c[2] are
+                # fixed points of g
+                if fix[i][c[1]] = false and fix[i][c[2]] = false and
+                   c[1]^g = c[1] and c[2]^g = c[2] then
+                    return true; # the 2-cycle is not in gens[i] yet
+                else return false;
+                fi;
+            else # c is a 1-cycle
+                # if it has not yet been used in g and g fixes it, return true
+                if fix[i][c[1]] = false and c[1]^g=c[1] then return true; fi;
+            fi;
+
+            return false;
+
+        end;
+
+        # find all possibilities of moving face f
+        NextFace := function( gens, cycs, fixedpoints )
+            local g, i, c, nf;
+
+        
+            # choose the first cycle that contains f
+            c := cycs[1];
+
+            # now we try to add c to each of the generators
+            for i in [ 1 .. 3 ] do
+                g := gens[i];
+                if IsEligible(g,i,c, fixedpoints) then
+                    # this generator does not already move the 
+                    # points in c, hence we can extend it by c.
+                    gens_c := ShallowCopy(gens);
+                    cycs_c := ShallowCopy(cycs);
+                    fixedpoints_c := 
+                        List(fixedpoints, x -> ShallowCopy(x));
+                    if Length(c) = 2 then 
+                        # if c is a 2-cycle, extend g
+                        gens_c[i] := g * (c[1],c[2]);
+                    else
+                        # if c is a 1-cycle record its use in g
+                        fixedpoints_c[i][c[1]] := true;
+                    fi;
+                    Remove( cycs_c, Position(cycs_c,c) );
+
+                    if Length(cycs_c) = 0 then
+                        # there are no more points to move 
+                        # hence we found a valid assignment
+                        Sort( gens_c );
+                        Add(AllGenSets, gens_c);
+                    else
+                        NextFace( gens_c,cycs_c,fixedpoints_c);
+                    fi;
+                fi;
+            od;
+
+        end;
+
+
+        NextFace( gens_c, cycs_c, fixedpoints );
+
+        return Set(AllGenSets);
+
+end);
+
+
+# auxilliary function
+# v is a vertex, i.e. a face path.
+# find all possible lists of generators that
+# support this walk. We assume that if v is a closed walk, then
+# it starts and ends with the same face.
+BindGlobal("__SIMPLICIAL_WalksForVertex",function( gens, v )
+
+    local  walks, g, w, i, j, nw, newwalks;
+
+
+    walks := [[]];
+    if v[Length(v)] <> v[1] then
+        # transversing face edge path (see paper)
+        g := Filtered( gens, j-> v[1]^j=v[1] );
+        if g=[] then return []; fi;
+        walks := List(g, i-> [Position(gens,i),v[1]]);
+        for i in [1..Length(v)-1] do
+            # g will contain all perms with cycle (v[i], v[i+1])
+            g := Filtered( gens, j-> v[i]^j=v[i+1] );
+            if g = [] then return []; fi;
+            newwalks := [];
+            # loop through all partial walks w and
+            # define |g| new walks by adding the elements
+            # of g to w
+            for w in walks do
+                for j in g do
+                    nw := ShallowCopy(w);
+                    Append(nw,[Position(gens,j),v[i+1]]);
+                    Add(newwalks, nw );
+                od;
+            od;
+            walks := newwalks;
+        od;
+        i := Length(v);
+        g := Filtered( gens, j-> v[i]^j=v[i] );
+        if g = [] then return []; fi;
+        newwalks := [];
+        # loop through all partial walks w and
+        # define |g| new walks by adding the elements
+        # of g to w
+        for w in walks do
+            for j in g do
+                nw := ShallowCopy(w);
+                Add(nw,Position(gens,j));
+                Add(newwalks, nw );
+             od;
+        od;
+        walks := newwalks;
+
+    else
+        # closed face path (repeating starting face at the end)
+        for i in [1..Length(v)-1] do
+                g := Filtered( gens, j-> v[i]^j=v[i+1] );
+                if g = [] then return []; fi;
+                newwalks := [];
+                # loop through all partial walks w and
+                # define |g| new walks by adding the elements
+                # of g to w
+                for w in walks do
+                    for j in g do
+                        nw := ShallowCopy(w);
+                        Append(nw,[Position(gens,j),v[i+1]]);
+                        Add(newwalks, nw );
+                    od;
+                od;
+                walks := newwalks;
+        od;
+        if Length(v) = 3 then
+            # we have to check in this case that we use different
+            # permutations, e.g. that 1a2a1 does not occur
+            walks := Filtered( walks, w -> w[1] <> w[3] );
+        fi;
+    fi;
+
+    return walks;
+end);
+
+##  auxilliary function
+## Test whether the generators match up with the vertices 
+BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
+
+            local v, i, vtx, allvertices, g, cart;
+ 
+
+            cart := [];
+            allvertices := [];
+            for v in vertices do
+                  vtx := __SIMPLICIAL_WalksForVertex(gens, v);
+                  if vtx = [] then 
+                      Print("vertex ", v, " without walk");
+                      return []; 
+                  else
+                      Add(allvertices,vtx);
+                      Add( cart, [1..Length(vtx)]);
+                  fi;
+            od;
+            cart := Cartesian(cart);
+            return List(cart,l->List([1..Length(l)],i->allvertices[i][l[i]]));
+
+
+ end);
+
+
+
+InstallMethod( WildSimplicialSurfacesFromFacePath, 
+"List of integers, List of pairs of integers, List of face paths",
+[IsList,IsList,IsList], function(faces, edges, facepaths)
+
+        local simpsurf, gens, allsurf, newvertices, vtx;
+
+Print("Warning: Closed paths must repeat starting vertex!!\n");
+        for vtx in facepaths do
+            if vtx[1] <> vtx[Length(vtx)] then
+	        if Length(vtx) <> Length(Set(vtx)) then
+	       	    Error("WildSimplicialSurfacesFromFacePath: ",
+                        "Facepaths can't repeat faces except at the end.");
+                fi;		  
+            else
+                if Length(vtx)-1 <> Length(Set(vtx)) then
+	       	    Error("WildSimplicialSurfacesFromFacePath: ",
+                        "Facepaths can't repeat faces except at the end.");
+                fi;
+            fi;		  
+        od;
+
+        faces := ShallowCopy(faces);
+        allsurf := [];
+
+         
+        # Now we test whether the simplicial surface we 
+        # have supports a wild colouring.
+        for gens in GeneratorsFromFacePairs(edges) do
+            newvertices := __SIMPLICIAL_TestGens( gens, facepaths );
+            for vtx in newvertices do
+                if vtx <> [] then
+                   # This method does not use generators or edges
+                    simpsurf := WildSimplicialSurfaceByColouredFaceEdgePaths(
+                                [1..Length(vtx)],faces,vtx);
+                    Add( allsurf, simpsurf);
+                fi;
+            od;
+        od;        
+
+        return allsurf;
+            
+end);
+
+
+
 ##############################################################################
 ##############################################################################
 ##
@@ -2007,8 +2277,8 @@ InstallMethod( Display, "for WildSimplicialSurfaces", [IsWildSimplicialSurface],
                 fi;
             od;
             if IsOddInt(l) then Print("|"); fi;
+	    Print("\n");
         od;
-	Print("\n");
  
         Print("Degrees = ", UnsortedDegrees(simpsurf) );
 	end

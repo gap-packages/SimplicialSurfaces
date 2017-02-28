@@ -437,6 +437,18 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #!
 DeclareOperation( "AllWildSimplicialSurfaces", [IsList,IsList] ); 
 
+#############################################################################
+##
+#!  @Description
+#!  This function takes as input a list of pairs of integers. Suppose the
+#!  integers occurring in this list of pairs is the set faces. Then this
+#!  function computes all triples of involutions acting on the set faces.
+#!  @Returns a list of lists, which are involution triples.
+#!  @Arguments a list of lists, which is a list of pairs of integers
+#!
+DeclareOperation( "GeneratorsFromFacePairs",  [IsList] );
+
+
 
 #############################################################################
 ##
@@ -463,9 +475,10 @@ DeclareOperation( "AllWildSimplicialSurfaces", [IsList,IsList] );
 #!
 #!  @BeginExample the tetrahedron is represented as
 #!    tetra := [ [1..4], [[1,2],[1,3],[1,4],[2,3],[3,4],[2,4]],
-#!             [[1,2,3,1], [1,3,4,1],[1,2,4,1],[2,3,4,2]];
-#!    WildWildSimplicialSurfacesFromFacePath(tetra);
-#!             where the triple [1,2,3,1] encodes the face path
+#!             [[1,2,3,1], [1,3,4,1],[1,2,4,1],[2,3,4,2]]];
+#!  WildSimplicialSurfacesFromFacePath(tetra[1],tetra[2],tetra[3]);
+#!  
+#!             where the triple [1,2,3,1] encodes a closed face path
 #!              around one vertex.
 #!  @EndExample
 #!
@@ -473,8 +486,7 @@ DeclareOperation( "AllWildSimplicialSurfaces", [IsList,IsList] );
 #!  specifications.
 #!  @Arguments a list of lists, representing a ``face"-description of a surface
 #! 
-#DeclareOperation( "WildSimplicialSurfacesFromFacePath" ); 
-#TODO normalize name with All.. and maybe split into more arguments?
+DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList]);
 
 #
 ###  This program is free software: you can redistribute it and/or modify
