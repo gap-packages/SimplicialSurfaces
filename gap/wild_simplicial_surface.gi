@@ -2425,6 +2425,35 @@ InstallMethod( Display, "for WildSimplicialSurfaces", [IsWildSimplicialSurface],
 	end
 );
 
+#############################################################################
+##
+##  A Print method for simplicial surfaces
+##
+#TODO ignored orientation and non-standard names for faces
+InstallMethod( PrintStringAttributeOfSimplicialSurface,
+	"for a wild simplicial surface", [IsWildSimplicialSurface],
+	function( simpsurf )
+		local str, out;
+
+		str := "";
+		out := OutputTextString( str, true );
+		PrintTo( out, 
+				"WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC(\n" );
+		PrintTo( out, Vertices(simpsurf), ",\n" );
+		PrintTo( out, Edges(simpsurf), ",\n" );
+		PrintTo( out, Faces(simpsurf), ",\n" );
+		PrintTo( out, VerticesOfEdges(simpsurf), ",\n" );
+		PrintTo( out, EdgesOfFaces(simpsurf), ",\n" );
+		PrintTo( out, ColoursOfEdges(simpsurf), " )\n");
+
+		CloseStream(out);
+
+		return str;
+	end
+);
+
+
+
 #!	@Description
 #!   The function SixFoldCover takes as input a generic description of
 #!   a simplicial surface.  The six fold cover of a simplicial surface is
