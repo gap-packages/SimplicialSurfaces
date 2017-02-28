@@ -1969,7 +1969,7 @@ end);
 ##
 InstallMethod( Display, "for WildSimplicialSurfaces", [IsWildSimplicialSurface],
 	function(simpsurf)
-        local vtx, e, i, gens, f, mr;
+        local vtx, e, i, gens, f, mr, path, l;
 
         gens :=  Generators(simpsurf);
         Print("Generators = \n");
@@ -1979,12 +1979,12 @@ InstallMethod( Display, "for WildSimplicialSurfaces", [IsWildSimplicialSurface],
            e :=   Cycles(gens[i],f);
            Print( gens[i], "\n");
            mr := Filtered( e, c -> 
-					MRTypeOfEdgesAsNumbers( simpsurf )[ 
-						EdgeByFacesAndColour( simpsurf, c, i ) ] = 1 );
+		MRTypeOfEdgesAsNumbers( simpsurf )[ 
+			EdgeByFacesAndColour( simpsurf, c, i ) ] = 1 );
            Print("    mirrors  ", mr, "\n" );
            mr := Filtered( e, c -> 
-					MRTypeOfEdgesAsNumbers( simpsurf )[ 
-						EdgeByFacesAndColour( simpsurf, c, i ) ] = 2 );
+		MRTypeOfEdgesAsNumbers( simpsurf )[ 
+			EdgeByFacesAndColour( simpsurf, c, i ) ] = 2 );
            Print("    rotations ", mr, "\n" );
         od;
         
@@ -1994,9 +1994,21 @@ InstallMethod( Display, "for WildSimplicialSurfaces", [IsWildSimplicialSurface],
 
         Print("Vertices = \n");
         for vtx in Vertices(simpsurf) do
-            Print("    ", ColouredFaceEdgePathOfVertex( simpsurf, vtx ) ); # TODO rewrite this with abc
+            Print("    " );
+            path := ColouredFaceEdgePathOfVertex( simpsurf, vtx ); 
+            l := Length(path);
+            if IsOddInt(l) then Print("|"); fi;
+            for i in [1..l] do
+                if IsEvenInt(i) then Print(path[i]); 
+                elif path[i]=1 then Print("a"); 
+                elif path[i]=2 then Print("b"); 
+                elif path[i]=3 then Print("c"); 
+                else Error("Display: unknown entry in path");
+                fi;
+            od;
+            if IsOddInt(l) then Print("|"); fi;
         od;
-		Print("\n");
+	Print("\n");
  
         Print("Degrees = ", UnsortedDegrees(simpsurf) );
 	end
