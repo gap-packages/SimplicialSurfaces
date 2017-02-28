@@ -327,7 +327,8 @@ DeclareOperation( "EdgesOfColourNC", [IsWildSimplicialSurface, IsPosInt] );
 DeclareAttribute( "MRTypeOfEdges", IsWildSimplicialSurface);
 DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsWildSimplicialSurface);
 
-
+DeclareGlobalFunction( "FilteredStructuresWildSimplicialSurface" );
+DeclareGlobalFunction( "AllStructuresWildSimplicialSurface" );
 
 
 #############################################################################
@@ -476,7 +477,7 @@ DeclareOperation( "GeneratorsFromFacePairs",  [IsList] );
 #!  @BeginExample the tetrahedron is represented as
 #!    tetra := [ [1..4], [[1,2],[1,3],[1,4],[2,3],[3,4],[2,4]],
 #!             [[1,2,3,1], [1,3,4,1],[1,2,4,1],[2,3,4,2]]];
-#!  WildSimplicialSurfacesFromFacePath(tetra[1],tetra[2],tetra[3]);
+#!  AllWildSimplicialSurfacesFromFacePath(tetra[1],tetra[2],tetra[3]);
 #!  
 #!             where the triple [1,2,3,1] encodes a closed face path
 #!              around one vertex.

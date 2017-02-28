@@ -982,6 +982,141 @@ InstallMethod( Generators, "for a wild simplicial surface",
 );
 
 
+############################################################################
+##
+##
+##  A structure of a simplicial surface is a wild colouring where all
+##  cycles of a single generator have the same mr-assignment, i.e. all
+##  cycles of any one generator are either all mirrors or all reflections.
+##  This function returns structures in the input list of simplicial 
+##  surfaces, i.e. it returns all mmm, mmr, mrr, rrr surfaces, 
+##
+InstallGlobalFunction( FilteredStructuresWildSimplicialSurface, function (allsimpsurf)
+
+        local res, ss, mr, edgeset;
+
+        res :=[];
+        for ss in allsimpsurf do
+             mr := MRTypeOfEdgesAsNumbers(ss);
+             edgeset := EdgesOfColours(ss);
+             mr := List(edgeset, s -> List(s, e -> mr[e] ));
+             if 1 in mr[1] and 2 in mr[1] then continue; fi;
+             if 1 in mr[2] and 2 in mr[2] then continue; fi;
+             if 1 in mr[3] and 2 in mr[3] then continue; fi;
+
+             Add(res,ss);
+        od;
+
+        return res;
+end);
+
+
+#TODO define an action of
+##  the centraliser of the generators of ss inside the
+##  full symmetric group.
+## ImageWildSimplicialSurface
+
+# TODO SnippOffEars non recursive version
+# TODO SnippOffEars for wild by using general snipp off ears & colour
+
+
+#############################################################################
+##
+##
+##  This function returns all simplicial surfaces that support a structure.
+##  A structure on a simplicial surface is a wild colouring for which all
+##  cycles of a single generator are all of the same type: either m or r.
+##
+##  TODO schoen schreiben
+##
+InstallGlobalFunction( AllStructuresWildSimplicialSurface, function (arg)
+
+    local mrtype,  faces, res, ss, gens;
+
+    mrtype := [];
+
+    if Length(arg) = 1 then
+        if IsGroup(arg[1]) then gens := GeneratorsOfGroup(arg[1]);         
+        else gens := arg[1]; fi;
+    elif Length(arg) = 3 then
+   	   gens := [arg[1],arg[2],arg[3]];
+    fi;
+    if not IsList(gens) or Length(gens) <> 3 then
+         Error("usage: StructureWildSimplicialSurface( gens )\n");
+    fi;
+    if not IsPerm(gens[1]) or not IsPerm(gens[2])
+        or not IsPerm(gens[3]) then
+         Error("usage: WildSimplicialSurface( gens )\n");
+    fi;
+    if gens[1]^2 <> One(gens[1]) or gens[2]^2 <> One(gens[2]) 
+        or gens[3]^2 <> One(gens[3]) then
+            Error("generators must be involutions\n");
+    fi;
+    faces := MovedPoints(gens);
+    res := [];
+   
+    # mmm
+    mrtype := List( [1..3], i-> List(faces, j-> 1 ));
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mmm-type"); fi;
+    # mmr 
+    mrtype :=[];
+    mrtype[1] := List(faces,j->1);
+    mrtype[2] := List(faces,j->1);
+    mrtype[3] := List(faces,j->2);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
+    # mrm
+    mrtype :=[];
+    mrtype[1] := List(faces,j->1);
+    mrtype[2] := List(faces,j->2);
+    mrtype[3] := List(faces,j->1);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
+    # rmm
+    mrtype :=[];
+    mrtype[1] := List(faces,j->2);
+    mrtype[2] := List(faces,j->1);
+    mrtype[3] := List(faces,j->1);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mmr-type"); fi;
+    # mrr
+    mrtype :=[];
+    mrtype[1] := List(faces,j->1);
+    mrtype[2] := List(faces,j->2);
+    mrtype[3] := List(faces,j->2);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
+    # rmr
+    mrtype :=[];
+    mrtype[1] := List(faces,j->2);
+    mrtype[2] := List(faces,j->1);
+    mrtype[3] := List(faces,j->2);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
+    # rrm
+    mrtype :=[];
+    mrtype[1] := List(faces,j->2);
+    mrtype[2] := List(faces,j->2);
+    mrtype[3] := List(faces,j->1);
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one mrr-type"); fi;
+    # rrr
+    mrtype := List( [1..3], i-> List(faces, j-> 2 ));
+    ss := AllWildSimplicialSurfaces( gens, mrtype);
+    if Length(ss) > 0 then Add(res, ss[1]); fi;
+    if Length(ss) >  1 then Error("more than one rrr-type"); fi;
+
+    return res;
+end);
+
 
 
 #############################################################################
@@ -1207,7 +1342,7 @@ BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
 
 
 
-InstallMethod( WildSimplicialSurfacesFromFacePath, 
+InstallMethod( AllWildSimplicialSurfacesFromFacePath, 
 "List of integers, List of pairs of integers, List of face paths",
 [IsList,IsList,IsList], function(faces, edges, facepaths)
 
@@ -2380,9 +2515,73 @@ InstallMethod( IsConnected, "for a wild simplicial surface",
 	end
 );
 
+###############################################################################
+##
+#!  @Description
+#!  This function decides whether the wild-coloured simplicial surface
+#!  <simpsurf> is orientable.
+#!  @Returns true if the surface is orientable and false else.
+#!  @Arguments <simpsurf> a simplicial surface
+#!
+
+InstallMethod( IsOrientable, "for a wild simplicial surface", true, 
+	[ IsWildSimplicialSurface ], 0,	function(simpsurf)
+
+        local gens, newgens, i, mrtype, MapCycle, orb, N;
+
+
+        N:= Maximum(Faces(simpsurf));
+
+
+# Map each cycle to a covering cycle. Mirrors are mapped to
+# (i, -j) (-i,j) and rotations to (i,j)(-i,-j). If the
+# type is unknown, we leave the cycle unchanged.
+MapCycle := function (c, t)
+
+    local i, j;
+
+
+    if Length(c) < 2 then return One(()); fi;   
+    i := c[1]; j := c[2];
+
+    if t = 0 then return (i,j); fi;
+
+    if t = 1 then
+        return (i, j+N) * (i+N, j );
+    elif t = 2 then
+        return (i,j)*(i+N, j+N);
+    fi;
+
+end;
+
+        gens := Generators(simpsurf);
+        newgens := List( gens, i-> Cycles(i, Faces(simpsurf)));
+
+
+        mrtype := MRTypeOfEdgesAsNumbers(simpsurf);
+
+        for i in [ 1 .. 3 ] do
+            newgens[i] := List( newgens[i], 
+                    c -> MapCycle(c,mrtype[EdgeByFacesAndColourNC(simpsurf,c,i)]));
+            newgens[i] := Product( newgens[i] );
+        od;
+
+        orb := Orbits(Group(newgens));
+
+        if Length(orb) = 1 then
+            return false;
+        elif Length(orb) = 2 then
+            return true;
+        fi;
+        Error("IsOrientable: unknown orientability of wild simplicial surface");
+
+
+end);
+
 
 ##
 ##			End of more specialized methods from SimplicialSurface
 ##
 ############################################################################
 ############################################################################
+
