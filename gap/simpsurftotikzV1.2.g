@@ -32,23 +32,21 @@ od;
 end;
 
 
-typesOfConnection:=function(corner,edge)
-	local i,j;
-	if corner[2]=edge then
-		i:=corner[3];
-	fi;
-	if corner[3]=edge then
-		i:=corner[2];
-	fi;
-	j:=6-i-edge;
+typesOfConnection:=function(surf, face, vertex, edge )
+	local i,j,edges;
+        
+        edges := EdgesOfFaceVertexPair( surf, face, vertex );
+        i := Difference( edges, [edge] )[1];
+        #TODO check if this difference only has one element
+        j := Difference( EdgesOfFaces(surf)[face], edges )[1]; 
 	return [i,j];
 end;
 
-computeNewPoint:=function(point,connections,a,b,c)
+computeNewPoint:=function(surf, point,connections,a,b,c)
 	local cosalpha,sinalpha,leftedge,rightedge,angle,length,newangle,newpoint;
-	leftedge:=connections[1];
-	rightedge:=connections[2];
-	if point[4]=1 then
+	leftedge:=ColourOfEdge(surf,connections[1]);
+	rightedge:=ColourOfEdge(surf,connections[2]);
+	if ColourOfEdge(surf,point[4])=1 then
 		if leftedge=2 then
 			rightedge:=3;
 			cosalpha:=Float((b^2+a^2-c^2)/(2*b*a));
@@ -64,7 +62,7 @@ computeNewPoint:=function(point,connections,a,b,c)
 			length:=c;
 		fi;
 	fi;
-	if point[4]=2 then	
+	if ColourOfEdge(surf,point[4])=2 then	
 		if leftedge=1 then
 			rightedge:=3;
 			cosalpha:=Float((b^2+a^2-c^2)/(2*b*a));
@@ -80,7 +78,7 @@ computeNewPoint:=function(point,connections,a,b,c)
 			length:=c;
 		fi;
 	fi;
-	if point[4]=3 then
+	if ColourOfEdge(surf,point[4])=3 then
 		if leftedge=1 then
 			rightedge:=2;
 			cosalpha:=Float((c^2+a^2-b^2)/(2*c*a));
@@ -150,7 +148,7 @@ fits:=function(newpoint,oldpoints,data)  #newpoint as coordinates, oldpoints:=[i
 end;
 
 computenextface:=function(simpsurf,data,index,a,b,c)
-	local newdata,newangle,labelnewcorner,newface,newtodo,
+	local newdata,newangle,nextVertex,newface,newtodo,
           labelneighbourcorner,tmp,PointandAngle,n,typesofconnection,
           direction,currpoint; 
 
@@ -161,21 +159,27 @@ computenextface:=function(simpsurf,data,index,a,b,c)
 		tmp:=ComputeNeighbour(simpsurf,currpoint,data);
 		if tmp[1] then
                     newface:=tmp[2];
-                    typesofconnection:=typesOfConnection(VerticesOfSimplicialSurface(simpsurf)[tmp[2][1]][tmp[2]	[2]],currpoint[4]);
-                    PointandAngle:=computeNewPoint(currpoint,typesofconnection,a,b,c);
-                    labelnewcorner:=findotherPoint(simpsurf, newface, typesofconnection[1],currpoint[2][1]);
+                    # Compute a list of two edges: 
+                    # 1) edge is incident to currpoint[2] and newface, but not currpoint[4]
+                    # 2) final edge of newface (not incident to currpoint[2])
+                    typesofconnection:=typesOfConnection(simpsurf, newface, currpoint[2], currpoint[4] );
+                    # Compute coordinates of the next vertex and the coordinate vector to the next vertex
+                    PointandAngle:=computeNewPoint(simpsurf, currpoint,typesofconnection,a,b,c);
+                    # Find last vertex of new face
+                    nextVertex := OtherVertexOfEdge( simpsurf, typesOfConnection[1], currpoint[2] );
                     if fits(PointandAngle[1],[index,currpoint[5]],data) then
                             direction:=data.points[currpoint[5]][1]-PointandAngle[1];
                             newangle:=direction/(Sqrt(Float(direction[1]^2+direction[2]^2)));
                             n:=Length(newdata.points);
-                            newdata.points[index]:=[newdata.points[index][1],currpoint[4],PointandAngle[2],typesofconnection[1],n+1,newdata.points[index][6]];
-                            newdata.points[n+1]:=[PointandAngle[1],labelnewcorner,newangle,typesofconnection[2],currpoint[5],index];
+                            # Modify the existing point 'index' such that its edge will be a border edge, if possible
+                            newdata.points[index]:=[currpoint[1],currpoint[2],PointandAngle[2],typesofconnection[1],n+1,currpoint[6]];
+                            newdata.points[n+1]:=[PointandAngle[1],nextVertex,newangle,typesofconnection[2],currpoint[5],index];
                             newdata.points[currpoint[5]][6]:=n+1;
                             Add(newdata.rescale,index);
                             Add(newdata.facesComputed, newface);
                             Add(newdata.coordinatesoffaces,[newface,currpoint[1]/3+PointandAngle[1]/3+data.points[currpoint[5]][1]/3]);
-                            Add(newdata.pointsConnected,[index,n+1,typesofconnection[1]]);
-                            Add(newdata.pointsConnected,[currpoint[5],n+1,typesofconnection[2]]);
+                            Add(newdata.pointsConnected,[index,n+1,ColourOfEdge(simpsurf,typesofconnection[1])]);
+                            Add(newdata.pointsConnected,[currpoint[5],n+1,ColourOfEdge(simpsurf,typesofconnection[2])]);
                             return newdata;
                     fi;
 		fi;
@@ -183,6 +187,7 @@ computenextface:=function(simpsurf,data,index,a,b,c)
 	return data;
 end;
 
+#TODO why all these rescale-methods?
 computenextfacerescale:=function(simpsurf,data,point,a,b,c)
 	local newdata,newangle,labelnewcorner,newface,newtodo,labelneighbourcorner,tmp,PointandAngle,n,typesofconnection,direction,currpoint;
 	newdata:=ShallowCopy(data);
@@ -193,7 +198,7 @@ computenextfacerescale:=function(simpsurf,data,point,a,b,c)
 			labelneighbourcorner:=tmp[2];
 		newface:=VerticesOfSimplicialSurface(simpsurf)[tmp[2][1]][tmp[2][2]][1];
 		typesofconnection:=typesOfConnection(VerticesOfSimplicialSurface(simpsurf)[tmp[2][1]][tmp[2][2]],currpoint[4]);
-		PointandAngle:=computeNewPoint(currpoint,typesofconnection,a,b,c);
+		PointandAngle:=computeNewPoint(simpsurf, currpoint,typesofconnection,a,b,c);
 		labelnewcorner:=findotherPoint(simpsurf, newface, typesofconnection[1],currpoint[2][1]);
 		#if fits(PointandAngle[1],[point,currpoint[5]],data) then
 			direction:=data.points[currpoint[5]][1]-PointandAngle[1];
@@ -204,8 +209,8 @@ computenextfacerescale:=function(simpsurf,data,point,a,b,c)
 			newdata.points[currpoint[5]][6]:=n+1;
 			Add(newdata.facesComputed, newface);
 			Add(newdata.coordinatesoffaces,[newface,currpoint[1]/3+PointandAngle[1]/3+data.points[currpoint[5]][1]/3]);
-			Add(newdata.pointsConnected,[point,n+1,typesofconnection[1]]);
-			Add(newdata.pointsConnected,[currpoint[5],n+1,typesofconnection[2]]);
+			Add(newdata.pointsConnected,[point,n+1,ColourOfEdge(simpsurf,typesofconnection[1])]);
+			Add(newdata.pointsConnected,[currpoint[5],n+1,ColourOfEdge(simpsurf,typesofconnection[2])]);
 			return newdata;
 		#fi;
 		fi;
@@ -213,6 +218,7 @@ computenextfacerescale:=function(simpsurf,data,point,a,b,c)
 	return data;
 end;
 
+#TODO Assumes that the face-edge-paths around the vertices are all equally oriented
 istoleft:=function(simpsurf,vertex,j,i,edge)
 	local face1,face2;
 	face1:=VerticesOfSimplicialSurface(simpsurf)[vertex][j][1];
@@ -228,7 +234,7 @@ findPointcc:=function(data,i,counter)
 	local tmpcounter,j;
 	tmpcounter:=0;
 	for j in [1..Length(data.points)] do
-		if data.points[j][2][1]=i then
+		if data.points[j][2]=i then
 			if tmpcounter=counter[i] then
 				return j;
 			fi;
@@ -254,8 +260,9 @@ computeCorner:=function(simpsurf,data,todo,i,splitter,counter,a,b,c)
 			vertex:=todo[i];
 		else
 			point:=todo[i];
-			vertex:=data.points[point][2][1];
+			vertex:=data.points[point][2];
 		fi;
+                #TODO how to reformulate rest of this method?
 		j:=data.points[point][2][2];
 		if j>1 then 		
 			if istoleft(simpsurf,vertex,j,j-1,data.points[point][4]) then	
@@ -558,13 +565,12 @@ while Length(facesComputed)<NrOfFaces(simpsurf) do
 
 	res:=computeCorner(simpsurf,data,newtodo,1,splitter,counter,a,b,c);
 
-	#res:=rec(points:=Points, pointsConnected:=ConnectedPoints, 
-    # facesComputed:=facesComputed);
 	Add(listofdrawings, res);
 	facesComputed:=res.facesComputed;
-	if Length(facesComputed)<NrOfFacesOfSimplicialSurface(simpsurf) then
-		for f in FacesOfSimplicialSurface(simpsurf) do
+	if Length(facesComputed)<NrOfFaces(simpsurf) then
+		for f in Faces(simpsurf) do
 			if not f in facesComputed then
+                                # Restart the loop with a different face
 				start:=f;
 			fi;
 		od;
