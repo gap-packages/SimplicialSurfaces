@@ -32,6 +32,8 @@ od;
 end;
 
 
+# Return a list [a,b], where a and b are edges incident to the face but not
+# equal to edge. Furthermore a is incident to vertex 
 typesOfConnection:=function(surf, face, vertex, edge )
 	local i,j,edges;
         
