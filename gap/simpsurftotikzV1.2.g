@@ -102,7 +102,7 @@ computeNewPoint:=function(surf, point,connections,a,b,c)
 end;
 
 ComputeNeighbour:=function(simpsurf,point,data)
-	local incFaces, face;
+    local incFaces, face;
 
     incFaces := FacesOfEdges(simpsurf)[ point[4] ];
     for face in incFaces do
@@ -116,6 +116,8 @@ ComputeNeighbour:=function(simpsurf,point,data)
 end;
 
 
+# Check whether the edges between newpoint and the oldpoints
+# intersect the previously computed edges in data.
 fits:=function(newpoint,oldpoints,data)  #newpoint as coordinates, oldpoints:=[i,j] with data.point[i] is the point
 	local edge,a,b,c,d,x,y,i;
 	for edge in data.pointsConnected do
