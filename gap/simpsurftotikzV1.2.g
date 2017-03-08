@@ -234,6 +234,7 @@ istoleft:=function(simpsurf,vertex,j,i,edge)
 	fi;
 end;
 
+# egal, da splitter=0
 findPointcc:=function(data,i,counter)
 	local tmpcounter,j;
 	tmpcounter:=0;
@@ -267,6 +268,7 @@ computeCorner:=function(simpsurf,data,todo,i,splitter,counter,a,b,c)
 			vertex:=data.points[point][2];
 		fi;
                 #TODO how to reformulate rest of this method?
+                # Was passiert: Führe computenextface solange aus, bis es nicht mehr geht (erste Schleife reicht)
 		j:=data.points[point][2][2];
 		if j>1 then 		
 			if istoleft(simpsurf,vertex,j,j-1,data.points[point][4]) then	
@@ -341,6 +343,7 @@ drawSimpSurf:=function(listofdrawings,nameoffile,printrecord)
 			j:=j+1;
 		od;
 		for c in listofdrawings[i].pointsConnected do
+                        # TODO Calculate colours from edges
 			if c[3]=1 then
 				AppendTo(output, "\\draw[",printrecord.colours[1],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
 			elif c[3]=2 then
@@ -545,7 +548,7 @@ while Length(facesComputed)<NrOfFaces(simpsurf) do
 	splitter:=Length(newtodo);
 	Append(newtodo,[1,2,3]);
  
-    # TODO: what is counter?
+    # TODO: what is counter? Not necessary since only used for splitter.
 	counter:=[];
 	for i in [1..NrOfVerticesOfSimplicialSurface(simpsurf)] do
 		counter[i]:=0;
@@ -595,6 +598,7 @@ od;
 return newdata;
 end;
 
+# Assumes that everything is already computed
 SimpSurftoTikzRescale:= function(simpsurf, nameoffile,printrecord)
 local ConnectedPoints, Points,a,b,c,f,todo,angle13, angle32,listofdrawings,direction32,res,res1,res2,res3,rescale,start, RescaleList,Scale, facesComputed,bottomedge,leftedge,rightedge,label,label2,label3,point2,point3,cosalpha,sinalpha,data,newtodo,counter,splitter,i;
 #a,b,c length of edges, set differently if wanted
