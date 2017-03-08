@@ -1,4 +1,18 @@
 # Return a list [a,b], where a and b are edges incident to the face but not
+EdgesOfFaceVertexPair := function( simpsurf, face, vertex )
+
+    return Intersection(EdgesOfFaces(simpsurf)[face],
+                        EdgesOfVertices(simpsurf)[vertex]);
+end;
+
+
+OtherVertexOfEdge := function(simpsurf, edge, vertex)
+
+    # TODO catch Errors
+    return Difference( VerticesOfEdges(simpsurf)[edge], [vertex])[1];
+end;
+
+
 # equal to edge. Furthermore a is incident to vertex 
 typesOfConnection:=function(surf, face, vertex, edge )
 	local i,j,edges;
@@ -161,8 +175,8 @@ computenextface:=function(simpsurf,data,index,a,b,c)
 end;
 
 
-computeCorner:=function(simpsurf,data,todo,i,splitter,counter,a,b,c)
-	local newtodo,newcounter,point,newdata,j,n,k,vertex;
+computeCorner:=function(simpsurf,data,todo,i,a,b,c)
+	local newtodo,newcounter,point,newdata,j,n,k,vertex, len;
 
 	if i>Length(todo) then
 		return data;
@@ -170,7 +184,6 @@ computeCorner:=function(simpsurf,data,todo,i,splitter,counter,a,b,c)
 		return data;
 	else
 		newdata:=ShallowCopy(data);
-		newcounter:=ShallowCopy(counter);
 		newtodo:=ShallowCopy(todo);
 		point:=todo[i];
 		vertex:=data.points[point][2];
@@ -187,7 +200,7 @@ computeCorner:=function(simpsurf,data,todo,i,splitter,counter,a,b,c)
 				Add(newtodo,k);
 			fi;
                 od;
-		return computeCorner(simpsurf,newdata,newtodo,i+1,splitter,newcounter,a,b,c);
+		return computeCorner(simpsurf,newdata,newtodo,i+1,a,b,c);
 	fi;
 end;
 
@@ -284,24 +297,12 @@ findPathPoint:=function(simpsurf,data,face, col)
     return 0; 
 end;
 
-EdgesOfFaceVertexPair := function( simpsurf, face, vertex )
-
-    return Intersection(EdgesOfFaces(simpsurf)[face],
-                        EdgesOfVertices(simpsurf)[vertex]);
-end;
-
-OtherVertexOfEdge := function(simpsurf, edge, vertex)
-
-    # TODO catch Errors
-    return Difference( VerticesOfEdges(simpsurf)[edge], [vertex])[1];
-end;
-
 
 # Return the data for the initialization of the first face
 InitializeDataOfFirstFace := function(simpsurf, start, scale)
     local Points, ConnectedPoints, vtx1, incidentedges, bottomedge, leftedge, 
-        rightedge, bvtx, lvtx, bcol, lcol, rcol, point2, point3, colalpha,
-        sinalpha, angle13, direction32, angle32;
+        rightedge, bvtx, lvtx, bcol, lcol, rcol, point2, point3, cosalpha,
+        sinalpha, angle13, direction32, angle32, data;
 	
 	# Point:=[[horizontal-Koordinate,vertikal-Koordinate],vtx1 
     # (so, dass vertices[vtx1] dem 	Punkt entspricht), 
@@ -316,7 +317,7 @@ InitializeDataOfFirstFace := function(simpsurf, start, scale)
 	incidentedges := EdgesOfFaceVertexPair(simpsurf,start,vtx1);
     bottomedge := incidentedges[1];
     leftedge := incidentedges[2];
-    rightedge := Difference( EdgesOfFaces(simpsurf)[start], incidentEdges )[1];
+    rightedge := Difference( EdgesOfFaces(simpsurf)[start], incidentedges )[1];
     # find the bottom vertex bvtx of the edge bottomedge and 
     # find the left vertex lvtx of the edge leftedge 
 	bvtx:=OtherVertexOfEdge(simpsurf,bottomedge,vtx1 );
@@ -364,10 +365,10 @@ end;
 SimpSurfToTikz:= function(simpsurf,nameoffile, printrecord)
 #start, listofvertices,Scale, nameoffile)
 
-local ConnectedPoints, start, listofvertices,Scale,Points, f,a,b,c, todo,  
-angle13, n,k,index, angle32,listofdrawings,direction32,res,res1,res2,res3, 
-RescaleList,pathindex,face,side, facesComputed,bottomedge,leftedge,rightedge,vtx1,bvtx,lvtx,point2,point3,cosalpha,sinalpha,data,newtodo,counter,splitter,i,
-incidentedges, bcol, lcol, rcol,rightedge;
+local ConnectedPoints, start, listofvertices,Scale,Points, f,a,b,c,   
+ n,k,index, listofdrawings,res,res1,res2,res3, 
+RescaleList,pathindex,face,side, facesComputed,data,newtodo,i,
+incidentedges, bcol, lcol, rcol;
 
 
 #a,b,c length of edges, set differently if wanted
@@ -404,7 +405,7 @@ while Length(facesComputed)<NrOfFaces(simpsurf) do
 	od;
 
 
-	res:=computeCorner(simpsurf,data,newtodo,1,splitter,counter,a,b,c);
+	res:=computeCorner(simpsurf,data,newtodo,1,a,b,c);
 
 	Add(listofdrawings, res);
 	facesComputed:=res.facesComputed;
