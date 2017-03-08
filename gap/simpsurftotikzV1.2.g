@@ -153,7 +153,7 @@ computenextface:=function(simpsurf,data,index,a,b,c)
                     # Compute coordinates of the next vertex and the coordinate vector to the next vertex
                     PointandAngle:=computeNewPoint(simpsurf, currpoint,typesofconnection,a,b,c);
                     # Find last vertex of new face
-                    nextVertex := OtherVertexOfEdge( simpsurf, typesOfConnection[1], currpoint[2] );
+                    nextVertex := OtherVertexOfEdge( simpsurf, typesofconnection[1], currpoint[2] );
                     if fits(PointandAngle[1],[index,currpoint[5]],data) or ValueOption("Rescale") = true then
                             direction:=data.points[currpoint[5]][1]-PointandAngle[1];
                             newangle:=direction/(Sqrt(Float(direction[1]^2+direction[2]^2)));
@@ -204,7 +204,7 @@ computeCorner:=function(simpsurf,data,todo,i,a,b,c)
 	fi;
 end;
 
-drawSimpSurf:=function(listofdrawings,nameoffile,printrecord)
+drawSimpSurf:=function(surf, listofdrawings,nameoffile,printrecord)
 	local name,output,i,j,c,p,slash,face;
 	## Test if Directory is correct
 	#
@@ -218,7 +218,7 @@ drawSimpSurf:=function(listofdrawings,nameoffile,printrecord)
 		j:=1;
 		AppendTo(output,"\n"," \\begin{tikzpicture} \n", "{ \n" );
 		for p in listofdrawings[i].points do
-			AppendTo(output,"\\coordinate [label=left:$",p[2][1],"$] \n (P",j,") at (",p[1][1],",",p[1][2],"); \n");
+			AppendTo(output,"\\coordinate [label=left:$",p[2],"$] \n (P",j,") at (",p[1][1],",",p[1][2],"); \n");
 			j:=j+1;
 		od;	
 		for face in listofdrawings[i].coordinatesoffaces do
@@ -226,12 +226,11 @@ drawSimpSurf:=function(listofdrawings,nameoffile,printrecord)
 			j:=j+1;
 		od;
 		for c in listofdrawings[i].pointsConnected do
-                        # TODO Calculate colours from edges
-			if c[3]=1 then
+			if ColourOfEdge(surf,c[3])=1 then
 				AppendTo(output, "\\draw[",printrecord.colours[1],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
-			elif c[3]=2 then
+			elif ColourOfEdge(c[3])=2 then
 				AppendTo(output, "\\draw[",printrecord.colours[2],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
-			elif c[3]=3 then
+			elif ColourOfEdge(c[3])=3 then
 				AppendTo(output, "\\draw[",printrecord.colours[3],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
 			fi;
 		od;
@@ -419,7 +418,7 @@ while Length(facesComputed)<NrOfFaces(simpsurf) do
 	fi;	
 	Add(RescaleList,res.rescale);
 	od;
-	drawSimpSurf(listofdrawings,nameoffile,printrecord);
+	drawSimpSurf(simpsurf, listofdrawings,nameoffile,printrecord);
 	printrecord.rescalelist:=RescaleList;
 end;
 
@@ -462,5 +461,5 @@ listofdrawings:=[];
 		od;
 	fi;	
     od;
-	drawSimpSurf(listofdrawings,nameoffile,printrecord);
+	drawSimpSurf(simpsurf, listofdrawings,nameoffile,printrecord);
 end;
