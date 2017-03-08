@@ -433,7 +433,7 @@ computeRescale:=function(simpsurf,data,rescale,a,b,c)
 end;
 
 # Assumes that everything is already computed
-SimpSurftoTikzRescale:= function(simpsurf, nameoffile,printrecord)
+SimpSurfToTikzRescale:= function(simpsurf, nameoffile,printrecord)
 local ConnectedPoints, Points,a,b,c,f,todo,angle13, angle32,listofdrawings,direction32,res,res1,res2,res3,rescale,start, RescaleList,Scale, facesComputed,bottomedge,leftedge,rightedge,label,label2,label3,point2,point3,cosalpha,sinalpha,data,newtodo,counter,splitter,i;
 #a,b,c length of edges, set differently if wanted
 start:=printrecord.start;
