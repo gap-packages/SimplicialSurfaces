@@ -24,58 +24,19 @@ typesOfConnection:=function(surf, face, vertex, edge )
 	return [i,j];
 end;
 
-computeNewPoint:=function(surf, point,connections,a,b,c)
-	local cosalpha,sinalpha,leftedge,rightedge,angle,length,newangle,newpoint;
+computeNewPoint:=function(surf, point,connections,scale)
+	local cosalpha,sinalpha,leftedge,rightedge,initedge,length,newangle,newpoint;
+
 	leftedge:=ColourOfEdge(surf,connections[1]);
 	rightedge:=ColourOfEdge(surf,connections[2]);
-	if ColourOfEdge(surf,point[4])=1 then
-		if leftedge=2 then
-			rightedge:=3;
-			cosalpha:=Float((b^2+a^2-c^2)/(2*b*a));
-			sinalpha:=Sqrt(Float(1-cosalpha^2));
-			angle:=[cosalpha,sinalpha];
-			length:=b;
-		fi;
-		if leftedge=3 then
-			rightedge:=2;
-			cosalpha:=Float((c^2+a^2-b^2)/(2*c*a));
-			sinalpha:=Sqrt(Float(1-cosalpha^2));
-			angle:=[cosalpha,sinalpha];
-			length:=c;
-		fi;
-	fi;
-	if ColourOfEdge(surf,point[4])=2 then	
-		if leftedge=1 then
-			rightedge:=3;
-			cosalpha:=Float((b^2+a^2-c^2)/(2*b*a));
-			sinalpha:=Sqrt(Float(1-cosalpha^2));
-			angle:=[cosalpha,sinalpha];
-			length:=a;
-		fi;
-		if leftedge=3 then
-			rightedge:=1;
-			cosalpha:=Float((c^2+b^2-a^2)/(2*c*b));
-			sinalpha:=Sqrt(Float(1-cosalpha^2));
-			angle:=[cosalpha,sinalpha];
-			length:=c;
-		fi;
-	fi;
-	if ColourOfEdge(surf,point[4])=3 then
-		if leftedge=1 then
-			rightedge:=2;
-			cosalpha:=Float((c^2+a^2-b^2)/(2*c*a));
-			sinalpha:=Sqrt(Float(1-cosalpha^2));
-			angle:=[cosalpha,sinalpha];
-			length:=a;
-		fi;
-		if leftedge=2 then
-			rightedge:=1;
-			cosalpha:=Float((c^2+b^2-a^2)/(2*c*b));
-			sinalpha:=Sqrt(Float(1-cosalpha^2));
-			angle:=[cosalpha,sinalpha];
-			length:=b;
-		fi;
-	fi;
+        initedge := ColourOfEdge( surf, point[4] );
+
+        cosalpha := Float( 
+            ( scale[leftedge]^2 + scale[initedge]^2 - scale[rightedge]^2 ) 
+            / ( 2 * scale[leftedge] * scale[initedge] ) );
+        sinalpha := Sqrt( Float( 1 - cosalpha^2 ) );
+        length := scale[ leftedge ];
+
 	newangle:=[cosalpha*point[3][1]-(sinalpha*point[3][2]),cosalpha*point[3][2]+sinalpha*point[3][1]];
 	newpoint:=point[1]+length*newangle;
 	return [newpoint,newangle];
@@ -151,7 +112,7 @@ computenextface:=function(simpsurf,data,index,a,b,c)
                     # 2) final edge of newface (not incident to currpoint[2])
                     typesofconnection:=typesOfConnection(simpsurf, newface, currpoint[2], currpoint[4] );
                     # Compute coordinates of the next vertex and the coordinate vector to the next vertex
-                    PointandAngle:=computeNewPoint(simpsurf, currpoint,typesofconnection,a,b,c);
+                    PointandAngle:=computeNewPoint(simpsurf, currpoint,typesofconnection,[a,b,c]);
                     # Find last vertex of new face
                     nextVertex := OtherVertexOfEdge( simpsurf, typesofconnection[1], currpoint[2] );
                     if fits(PointandAngle[1],[index,currpoint[5]],data) or ValueOption("Rescale") = true then
