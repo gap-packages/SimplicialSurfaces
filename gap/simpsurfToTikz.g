@@ -302,8 +302,8 @@ InitializeDataOfFirstFace := function(simpsurf, start, scale)
     # 2)  vtx number,
     # 3)  coordinate vector to next vertex, 
     # 4)  edge number (corresponding to the vector), 
-    # 5)  next vertex position in triangle
-    # 6)  second next vertex position in triangle (position in list Points)
+    # 5)  next vertex position with "border" edge
+    # 6)  other next vertex position with "border edge" (position in list Points)
 	Points[1]:=[[0,0],vtx1,angle13,leftedge,3,2];
 	Points[2]:=[point2,bvtx,[-1,0],bottomedge,1,3];
 	Points[3]:=[point3,lvtx,angle32,rightedge,2,1];
