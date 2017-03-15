@@ -16,45 +16,46 @@
 #!
 #!	@Chapter Simplicial Surfaces
 #!
-#!  A SimplicialSurface-object in GAP represents mathematical objects that are
-#!  a generalization of simplicial surfaces. On the most basic level it
-#!  consists of vertices, edges and faces, together with an incidence relation
-#!  between them. This information is saved in the following form:
-#!  * the vertices are represented by a set of positive integers
-#!  * the edges are represented by a set of positive integers
-#!  * the faces are represented by a set of positive integers
-#!  * the incidence relation between vertices and edges (that is, which
-#!      vertices lie in which edges) is represented by a list VerticesOfEdges.
-#!      For each edge e the entry VerticesOfEdges[e] is a set of all vertices
-#!      that are incident to the edge e.
-#!  * the incidence relation between edges and faces (that is, which
-#!      edges lie in which faces) is represented by a list EdgesOfFaces. For
-#!      each face f the entry EdgesOfFaces[f] is a set of all edges that are
-#!      incident to the face f.
-#!  Every other incidence (like VerticesOfFaces or EdgesOfVertices) is 
-#!  represented in an analogous fashion.
+#! A SimplicialSurface-object in GAP represents mathematical objects that are
+#! a generalization of simplicial surfaces. On the most basic level it
+#! consists of vertices, edges and faces, together with an incidence relation
+#! between them. This information is saved in the following form:
+#! * the vertices are represented by a set of positive integers
+#! * the edges are represented by a set of positive integers
+#! * the faces are represented by a set of positive integers
+#! * the incidence relation between vertices and edges (that is, which
+#!   vertices lie in which edges) is represented by a list VerticesOfEdges.
+#!   For each edge e the entry VerticesOfEdges[e] is a set of all vertices
+#!   that are incident to the edge e.
+#! * the incidence relation between edges and faces (that is, which
+#!   edges lie in which faces) is represented by a list EdgesOfFaces. For
+#!   each face f the entry EdgesOfFaces[f] is a set of all edges that are
+#!   incident to the face f.
 #!
-#!  Furthermore we impose some restrictions onto these incidence relations:
-#!  * Every edge is incident to exactly two vertices
-#!  * Every face is incident to the same number of vertices and edges (at least
-#!      three). Additionally these are cyclically oriented (to represent an 
-#!      n-gon)
-#!  * The incidence relations are transitive
-#!  * Every vertex and every edge is incident to at least one face
+#! Every other incidence (like VerticesOfFaces or EdgesOfVertices) is 
+#! represented in an analogous fashion.
 #!
-#!  Note that it is allowed for an edge to be incident to more than two faces.
+#! Furthermore we impose some restrictions onto these incidence relations:
+#! * Every edge is incident to exactly two vertices
+#! * Every face is incident to the same number of vertices and edges (at least
+#!   three). Additionally these are cyclically oriented (to represent an 
+#!   n-gon)
+#! * The incidence relations are transitive
+#! * Every vertex and every edge is incident to at least one face
+#!
+#! Note that it is allowed for an edge to be incident to more than two faces.
 #!
 #!  
-#!  Furthermore it is sometimes necessary to distinguish between the two
-#!  sides of a single face. If this is irrelevant to your application, you
-#!  can completely ignore this (it will be handled in the background).
-#!  To use this distinction each side of a face f gets a name - the defaults
-#!  are +f and -f (but you can give them custom names if you want to). To 
-#!  distinguish which side is which (not only by a name, but geometrically)
-#!  we save a cyclic ordering of the vertices (or edges) of each face which
-#!  we associate with the side +f. (In an embedding to $\mathbb{R}^3$ we could
-#!  associate the cyclic ordering with the normal vector of the face that is
-#!  defined by the right-hand-rule from physics.)
+#! In addition it is sometimes necessary to distinguish between the two
+#! sides of a single face. If this is irrelevant to your application, you
+#! can completely ignore this (it will be handled in the background).
+#! To use this distinction each side of a face f gets a name - the defaults
+#! are +f and -f (but you can give them custom names if you want to). To 
+#! distinguish which side is which (not only by a name, but geometrically)
+#! we save a cyclic ordering of the vertices (or edges) of each face which
+#! we associate with the side +f. (In an embedding to $\mathbb{R}^3$ we could
+#! associate the cyclic ordering with the normal vector of the face that is
+#! defined by the right-hand-rule from physics.)
 
 
 DeclareInfoClass( "InfoSimplicial" );
