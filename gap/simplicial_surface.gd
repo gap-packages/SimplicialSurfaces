@@ -268,19 +268,7 @@ DeclareAttribute( "VerticesOfFaces",
 #!	Either this method or FacesOfEdges is basic.
 #!	@Returns a list of lists of integers
 #!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "EdgesOfFaces", 
-		IsSimplicialSurface);
-
-
-
-
-#!	@Description
-#!	The property IsEdgesLikeSurface is true if the edges of the simplicial
-#!	surface look like edges in a real surface. They do if for each edge a
-#!	maximum of two faces is incident to that edge.
-#!	@Arguments a simplicial surface
-#!	@Returns true if the edges look like those on a surface and false else.
-DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
+DeclareAttribute( "EdgesOfFaces", IsSimplicialSurface);
 
 
 #!	@Description
@@ -291,6 +279,16 @@ DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 #!	@Arguments a simplicial surface
 #!	@Returns true if the vertices look like those on a surface and false else.
 DeclareProperty( "IsVerticesLikeSurface", IsSimplicialSurface );
+
+
+
+#!	@Description
+#!	The property IsEdgesLikeSurface is true if the edges of the simplicial
+#!	surface look like edges in a real surface. They do if for each edge a
+#!	maximum of two faces is incident to that edge.
+#!	@Arguments a simplicial surface
+#!	@Returns true if the edges look like those on a surface and false else.
+DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 
 
 #!	@Description
