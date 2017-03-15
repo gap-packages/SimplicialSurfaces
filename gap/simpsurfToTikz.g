@@ -187,11 +187,11 @@ drawSimpSurf:=function(surf, listofdrawings,nameoffile,printrecord)
 			j:=j+1;
 		od;
 		for c in listofdrawings[i].pointsConnected do
-			if ColourOfEdge(surf,c[3])=1 then
+			if c[3]=1 then
 				AppendTo(output, "\\draw[",printrecord.colours[1],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
-			elif ColourOfEdge(c[3])=2 then
+			elif c[3]=2 then
 				AppendTo(output, "\\draw[",printrecord.colours[2],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
-			elif ColourOfEdge(c[3])=3 then
+			elif c[3]=3 then
 				AppendTo(output, "\\draw[",printrecord.colours[3],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
 			fi;
 		od;
