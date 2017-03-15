@@ -1,7 +1,7 @@
 ##############################################################################
 ##
 #W  simplicial_surface.gd     SimplicialSurfaces             Alice Niemeyer
-#W														Markus Baumeister
+#W							Markus Baumeister
 ##
 ##
 #Y  Copyright (C) 2016-2017, Alice Niemeyer, Markus Baumeister, 
