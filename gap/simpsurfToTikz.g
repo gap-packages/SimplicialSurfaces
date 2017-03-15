@@ -187,13 +187,7 @@ drawSimpSurf:=function(surf, listofdrawings,nameoffile,printrecord)
 			j:=j+1;
 		od;
 		for c in listofdrawings[i].pointsConnected do
-			if c[3]=1 then
-				AppendTo(output, "\\draw[",printrecord.colours[1],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
-			elif c[3]=2 then
-				AppendTo(output, "\\draw[",printrecord.colours[2],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
-			elif c[3]=3 then
-				AppendTo(output, "\\draw[",printrecord.colours[3],",","line width=",printrecord.thickness," pt] (P",c[1],") -- (P",c[2],"); \n");
-			fi;
+                    AppendTo( output, "\\draw[", printrecord.colours[c[3]], ",", "line width=", printrecord.thickness, " pt] (P", c[1], ") -- (P", c[2], "); \n");
 		od;
 		AppendTo(output,"} \n","\\end{tikzpicture} \n");
 	od;
