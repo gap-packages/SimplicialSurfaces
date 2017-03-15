@@ -153,8 +153,8 @@ computeCorner:=function(simpsurf,data,todo,i,a,b,c)
                 #TODO how to reformulate rest of this method?
                 len := Length(newdata.facesComputed) - 1;
                 while len < Length(newdata.facesComputed) do
-                    len := Length(newdata.facesComputed);
-                 	newdata:=computenextface(simpsurf,newdata,point,a,b,c);
+                        len := Length(newdata.facesComputed);
+                   	newdata:=computenextface(simpsurf,newdata,point,a,b,c);
 			n:=Length(newtodo);
         		k:=Length(newdata.points);
 			if not newtodo[n]=k then
@@ -261,21 +261,21 @@ InitializeDataOfFirstFace := function(simpsurf, start, scale)
 	# Point:=[[horizontal-Koordinate,vertikal-Koordinate],vtx1 
     # (so, dass vertices[vtx1] dem 	Punkt entspricht), 
     # angle (needed to compute next point)]
-	Points:=[];
-	ConnectedPoints:=[]; #[point1,point2,type of connection]
+    Points:=[];
+    ConnectedPoints:=[]; #[point1,point2,type of connection]
 
-	#draw first triangle, 3 is the top corner
+    #draw first triangle, 3 is the top corner
     # set vtx1 to one of the vertices of the face start
-	vtx1:= VerticesOfFaces(simpsurf)[start][1];
-
-	incidentedges := EdgesOfFaceVertexPair(simpsurf,start,vtx1);
+    vtx1:= VerticesOfFaces(simpsurf)[start][1];
+    
+    incidentedges := EdgesOfFaceVertexPair(simpsurf,start,vtx1);
     bottomedge := incidentedges[1];
     leftedge := incidentedges[2];
     rightedge := Difference( EdgesOfFaces(simpsurf)[start], incidentedges )[1];
     # find the bottom vertex bvtx of the edge bottomedge and 
     # find the left vertex lvtx of the edge leftedge 
-	bvtx:=OtherVertexOfEdge(simpsurf,bottomedge,vtx1 );
-	lvtx:=OtherVertexOfEdge(simpsurf,leftedge,vtx1 );
+    bvtx:=OtherVertexOfEdge(simpsurf,bottomedge,vtx1 );
+    lvtx:=OtherVertexOfEdge(simpsurf,leftedge,vtx1 );
 
     bcol := ColourOfEdge(simpsurf,bottomedge);
     lcol := ColourOfEdge(simpsurf,leftedge);
@@ -298,13 +298,13 @@ InitializeDataOfFirstFace := function(simpsurf, start, scale)
     # 4)  edge number (corresponding to the vector), 
     # 5)  next vertex position with "border" edge
     # 6)  other next vertex position with "border edge" (position in list Points)
-	Points[1]:=[[0,0],vtx1,angle13,leftedge,3,2];
-	Points[2]:=[point2,bvtx,[-1,0],bottomedge,1,3];
-	Points[3]:=[point3,lvtx,angle32,rightedge,2,1];
+    Points[1]:=[[0,0],vtx1,angle13,leftedge,3,2];
+    Points[2]:=[point2,bvtx,[-1,0],bottomedge,1,3];
+    Points[3]:=[point3,lvtx,angle32,rightedge,2,1];
 	
 	
-	ConnectedPoints:=[[1,2,bcol],[2,3,rcol],[1,3,lcol]]; 
-	data:=rec( points:=Points, 
+    ConnectedPoints:=[[1,2,bcol],[2,3,rcol],[1,3,lcol]]; 
+    data:=rec( points:=Points, 
                pointsConnected:=ConnectedPoints, 
                facesComputed:=[start], 
                # store the centre of gravity for each face
@@ -319,24 +319,24 @@ end;
 SimpSurfToTikz:= function(simpsurf,nameoffile, printrecord)
 #start, listofvertices,Scale, nameoffile)
 
-local ConnectedPoints, start, listofvertices,Scale,Points, f,a,b,c,   
+    local ConnectedPoints, start, listofvertices,Scale,Points, f,a,b,c,   
  n,k,index, listofdrawings,res,res1,res2,res3, 
 RescaleList,pathindex,face,side, facesComputed,data,newtodo,i,
 incidentedges, bcol, lcol, rcol;
 
 
-#a,b,c length of edges, set differently if wanted
-start:=printrecord.start;
-listofvertices:=[];
-Scale:=printrecord.scale;
-facesComputed:=[];
-listofdrawings:=[];
-RescaleList:=[];
-a:=Scale[1]; # length of first edge
-b:=Scale[2]; # length of second edge
-c:=Scale[3]; # length of third edge
+    #a,b,c length of edges, set differently if wanted
+    start:=printrecord.start;
+    listofvertices:=[];
+    Scale:=printrecord.scale;
+    facesComputed:=[];
+    listofdrawings:=[];
+    RescaleList:=[];
+    a:=Scale[1]; # length of first edge
+    b:=Scale[2]; # length of second edge
+    c:=Scale[3]; # length of third edge
 
-while Length(facesComputed)<NrOfFaces(simpsurf) do
+    while Length(facesComputed)<NrOfFaces(simpsurf) do
         data := InitializeDataOfFirstFace(simpsurf, start, [a,b,c]);
 
         newtodo:=ShallowCopy(listofvertices);
@@ -359,23 +359,24 @@ while Length(facesComputed)<NrOfFaces(simpsurf) do
 	od;
 
 
-	res:=computeCorner(simpsurf,data,newtodo,1,a,b,c);
+         res:=computeCorner(simpsurf,data,newtodo,1,a,b,c);
 
-	Add(listofdrawings, res);
-	facesComputed:=res.facesComputed;
-	if Length(facesComputed)<NrOfFaces(simpsurf) then
+        Add(listofdrawings, res);
+        facesComputed:=res.facesComputed;
+        if Length(facesComputed)<NrOfFaces(simpsurf) then
 		for f in Faces(simpsurf) do
 			if not f in facesComputed then
                                 # Restart the loop with a different face
 				start:=f;
 			fi;
 		od;
-	fi;	
-	Add(RescaleList,res.rescale);
-	od;
-	drawSimpSurf(simpsurf, listofdrawings,nameoffile,printrecord);
-	printrecord.rescalelist:=RescaleList;
+        fi;	
+        Add(RescaleList,res.rescale);
+    od;
+    drawSimpSurf(simpsurf, listofdrawings,nameoffile,printrecord);
+    printrecord.rescalelist:=RescaleList;
 end;
+
 
 computeRescale:=function(simpsurf,data,rescale,a,b,c)
     local newdata,i;
@@ -389,18 +390,18 @@ end;
 
 # Assumes that everything is already computed
 SimpSurfToTikzRescale:= function(simpsurf, nameoffile,printrecord)
-local ConnectedPoints, Points,a,b,c,f,todo,angle13, angle32,listofdrawings,direction32,res,res1,res2,res3,rescale,start, RescaleList,Scale, facesComputed,bottomedge,leftedge,rightedge,label,label2,label3,point2,point3,cosalpha,sinalpha,data,newtodo,counter,splitter,i;
-#a,b,c length of edges, set differently if wanted
-start:=printrecord.start;
-RescaleList:=printrecord.rescalelist;
-Scale:=printrecord.scale;
-a:=Scale[1];
-b:=Scale[2];
-c:=Scale[3];
-facesComputed:=[];
-listofdrawings:=[];
+    local ConnectedPoints, Points,a,b,c,f,todo,angle13, angle32,listofdrawings,direction32,res,res1,res2,res3,rescale,start, RescaleList,Scale, facesComputed,bottomedge,leftedge,rightedge,label,label2,label3,point2,point3,cosalpha,sinalpha,data,newtodo,counter,splitter,i;
+    #a,b,c length of edges, set differently if wanted
+    start:=printrecord.start;
+    RescaleList:=printrecord.rescalelist;
+    Scale:=printrecord.scale;
+    a:=Scale[1];
+    b:=Scale[2];
+    c:=Scale[3];
+    facesComputed:=[];
+    listofdrawings:=[];
 
-        data := InitializeDataOfFirstFace(simpsurf, start, [a,b,c]);
+    data := InitializeDataOfFirstFace(simpsurf, start, [a,b,c]);
     for rescale in RescaleList do
 
 	res:=computeRescale(simpsurf,data,rescale,a,b,c);
@@ -416,5 +417,5 @@ listofdrawings:=[];
 		od;
 	fi;	
     od;
-	drawSimpSurf(simpsurf, listofdrawings,nameoffile,printrecord);
+    drawSimpSurf(simpsurf, listofdrawings,nameoffile,printrecord);
 end;
