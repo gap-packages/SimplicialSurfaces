@@ -312,6 +312,7 @@ DeclareProperty( "IsVerticesLikeSurface", IsSimplicialSurface );
 #!	@Returns true if the edges look like those on a surface and false else.
 DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 
+#! @DoNotReadRestOfFile
 
 #!	@Description
 #!	The property IsActualSurface is true if both IsEdgesLikeSurface and
