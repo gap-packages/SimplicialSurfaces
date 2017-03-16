@@ -93,6 +93,8 @@ BindGlobal( "SimplicialSurfaceFamily",
 #!
 
 
+
+#! @BeginGroup
 #! @Description
 #! This constructor of a simplicial surface uses the following information:
 #! * The set of vertices (alternatively a positive integer n, which will be
@@ -126,7 +128,10 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidence",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#! @EndGroup
 
+
+#! @BeginGroup
 #! @Description
 #! This constructor of a simplicial surface uses the following information:
 #! * The set of vertices (alternatively a positive integer n, which will be
@@ -160,7 +165,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidence",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#! @EndGroup
 
+#! @BeginGroup
 #! @Description
 #! This constructor of a simplicial surface uses the following information:
 #! * The set of vertices (alternatively a positive integer n, which will be
@@ -205,7 +212,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientation",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#! @EndGroup
 
+#! @BeginGroup
 ##
 ##	This constructor takes the following information:
 ##
@@ -225,7 +234,7 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFaces",
 	[ IsSet, IsSet, IsList ] );
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
 	[ IsSet, IsSet, IsList ] );
-
+#! @EndGroup
 
 
 #############################################################################
