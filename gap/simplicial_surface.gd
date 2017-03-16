@@ -93,64 +93,114 @@ BindGlobal( "SimplicialSurfaceFamily",
 #!
 
 
-##
-##	This constructor takes the following information:
-##
-##	The set of vertices (alternatively a number n that becomes [1..n] )
-##	The set of edges (alternatively a number n that becomes [1..n] )
-##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list EdgesOfVertices
-##	The list FacesOfEdges.
-##
-##	The local orientation will be set at random and the face naming scheme will
-##	be set to default.
-##
-##	The NoCheck-function does the same thing but does not test if the
-##	arguments are well-defined.
+#! @Description
+#! This constructor of a simplicial surface uses the following information:
+#! * The set of vertices (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The set of edges (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The set of faces (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The list edgesOfVertices. For each vertex v the entry edgesOfVertices[v]
+#!   is a set of all edges that are incident to the vertex v.
+#! * The list facesOfEdges. For each edge e the entry facesOfEdges[e]
+#!   is a set of all faces that are incident to the edge e.
+#!
+#! In this constructor there is no way of distinguishing the sides of each
+#! face, so this selection will be made randomly.
+#!
+#! The NC-version does not check whether the given input follows the following
+#! criteria:
+#! * vertices, edges and faces have to be either positive integers or sets of
+#!   positive integers.
+#! * For each vertex v the entry edgesOfVertices[v] has to be a subset of the
+#!   set of edges.
+#! * Every edge has to be in one of the sets in the list edgesOfVertices.
+#! * For each edge e the entry facesOfEdges[e] has to be a subset of the set
+#!   of faces.
+#! * Each face has to be in one of the sets in the list facesOfEdges.
+#!
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+#! @Returns a simplicial surface
 DeclareOperation( "SimplicialSurfaceByUpwardIncidence",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 
-##
-##	This constructor takes the following information:
-##
-##	The set of vertices (alternatively a number n that becomes [1..n] )
-##	The set of edges (alternatively a number n that becomes [1..n] )
-##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list VerticesOfEdges
-##	The list EdgesOfFaces.
-##
-##	The local orientation will be set at random and the face naming scheme will
-##	be set to default.
-##
-##	The NoCheck-function does the same thing but does not test if the
-##	arguments are well-defined.
+#! @Description
+#! This constructor of a simplicial surface uses the following information:
+#! * The set of vertices (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The set of edges (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The set of faces (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The list verticesOfEdges. For each edge e the entry verticesOfEdges[e]
+#!   is a set of all vertices that are incident to the edge e.
+#! * The list edgesOfFaces. For each face f the entry edgesOfFaces[f]
+#!   is a set of all edges that are incident to the face f.
+#!
+#! This constructor does not distinguish different sides of each face, so this
+#! selection will be made randomly.
+#!
+#! The NC-version does not check whether the given input follows the following
+#! criteria:
+#! * vertices, edges and faces have to be either positive integers or sets of
+#!   positive integers.
+#! * For each edge e the entry verticesOfEdges[e] has to be a subset of the
+#!   set of vertices.
+#! * Every vertex has to be in one of the sets in the list verticesOfEdges.
+#! * For each face f the entry edgesOfFaces[f] has to be a subset of the set
+#!   of edges.
+#! * Each edge has to be in one of the sets in the list edgesOfFaces.
+#!
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+#! @Returns a simplicial surface
 DeclareOperation( "SimplicialSurfaceByDownwardIncidence",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 
-##
-##	This constructor takes the following information:
-##
-##	The set of vertices (alternatively a number n that becomes [1..n] )
-##	The set of edges (alternatively a number n that becomes [1..n] )
-##	The set of faces (alternatively a number n that becomes [1..n] )
-##	The list VerticesOfEdges
-##	The list EdgesOfFaces. Each element of this list (that is bound) has to be
-##		a list of edges such that two adjacent edges have one vertex in common.
-##		This defines an ordering of the edges and therefore an orientation of
-##		the face. If we apply this orientation to the vertices we get the 
-##		local orientation of this face. If the edge lists are not given in this
-##		way, an error is thrown. 
-##	Optional: the list NamesOfFaces. If this is not given, the default
-##				naming scheme is used
-##		To use the optional argument, write
-##		SimplicialSurfaceByDownwardIncidence( arg : NamesOfFaces := ? )
-##
-##	The NoCheck-function does the same thing but does not test if the
-##	arguments are well-defined.
+#! @Description
+#! This constructor of a simplicial surface uses the following information:
+#! * The set of vertices (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The set of edges (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The set of faces (alternatively a positive integer n, which will be
+#!   interpreted as the set [1..n])
+#! * The list verticesOfEdges. For each edge e the entry verticesOfEdges[e]
+#!   is a set of all vertices that are incident to the edge e.
+#! * The list edgesOfFaces. For each face f the entry edgesOfFaces[f]
+#!   is a list of all edges that are incident to the face f. This list has to
+#!   have the property that two adjacent edges in this list (where we count the
+#!   first and the last entry to be adjacent) have one vertex in common (this
+#!   is always the case if the face is a triangle).
+#! * The optional argument namesOfFaces. This is a list and for each face f
+#!   it has an entry namesOfFaces[f] that is a list with exactly two elements.
+#!   The first element will be the name of the primary side of the face, the
+#!   second element will be the name of the secondary side of the face. If this
+#!   argument is not given, the default naming scheme (+f for primary and -f
+#!   for secondary) is used.
+#!
+#! The ordering of the edges in the list edgesOfFaces defines which side of the
+#! the simplicial surface will consider as primary.
+#!
+#! The NC-version does not check whether the given input follows the following
+#! criteria:
+#! * vertices, edges and faces have to be either positive integers or sets of
+#!   positive integers.
+#! * For each edge e the entry verticesOfEdges[e] has to be a subset of the
+#!   set of vertices.
+#! * Every vertex has to be in one of the sets in the list verticesOfEdges.
+#! * For each face f the entry edgesOfFaces[f] has to be a subset of the set
+#!   of edges.
+#! * Each edge has to be in one of the sets in the list edgesOfFaces.
+#! * The edge lists in the components of edgesOfFaces conform to the adjacency
+#!   condition from before.
+#!
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces[, namesOfFaces]
+#! @Returns a simplicial surface
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientation",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
