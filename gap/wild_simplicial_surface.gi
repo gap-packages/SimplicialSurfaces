@@ -2222,7 +2222,7 @@ end);
 # all EdgesOfColours that are compatible with this path.
 BindGlobal("__SIMPLICIAL_EdgeColoursFromFaceEdgePath", function(gens, path)
 
-        local edgesOfColours, i, CheckTransitions, check;
+        local edgesOfColours, i, CheckTransitions;
         
         edgesOfColours := [];
 
@@ -2248,37 +2248,36 @@ BindGlobal("__SIMPLICIAL_EdgeColoursFromFaceEdgePath", function(gens, path)
                 return fail;
             fi;
 
-            edgesOfColours := newEdgesOfColours;
-            return true;
+            return newEdgesOfColours;
         end;
 
         if IsEvenInt( Length(path) ) then
             # Closed path
-            check := CheckTransitions( path[2], path[Length(path)], path[1] );
-            if check = fail then
+            edgesOfColours := CheckTransitions( path[2], path[Length(path)], path[1] );
+            if edgesOfColours = fail then
                 return [];
             fi;
             for i in [2,4..Length(path)-2] do
-                check := CheckTransitions( path[i], path[i+2], path[i+1] );
-                if check = fail then
+                edgesOfColours := CheckTransitions( path[i], path[i+2], path[i+1] );
+                if edgesOfColours = fail then
                     return [];
                 fi;
             od;
         else
             # Open path
-            check := CheckTransitions( path[2], path[2], path[1] );
-            if check = fail then
+            edgesOfColours := CheckTransitions( path[2], path[2], path[1] );
+            if edgesOfColours = fail then
                 return [];
             fi;
 
-            check := CheckTransitions( path[ Length(path)-1 ], path[ Length(path) - 1], path[ Length(path) ] );
-            if check = fail then
+            edgesOfColours := CheckTransitions( path[ Length(path)-1 ], path[ Length(path) - 1], path[ Length(path) ] );
+            if edgesOfColours = fail then
                 return [];
             fi;
 
             for i in [2,4..Length(path)-3] do
-                check := CheckTransitions( path[i], path[i+2], path[i+1] );
-                if check = fail then
+                edgesOfColours := CheckTransitions( path[i], path[i+2], path[i+1] );
+                if edgesOfColours = fail then
                     return [];
                 fi;
             od;
@@ -2806,7 +2805,6 @@ InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface and IsActu
         # for the given edges. If the generic surface does not support a 
         # wild colouring, then TestGens will return an empty list.
         for gens in GeneratorsFromFacePairs( FacesOfEdges(surface) ) do
-            #TODO FaceEdgePaths don't have to be unique...
             newcolours := __SIMPLICIAL_TestGeneratorsForFaceEdgePaths( gens, List( FaceEdgePathsOfVertices(surface), i -> i[1] ) );
             # All coloured face-edge-paths with these generators
             for edgeColours in newcolours do
