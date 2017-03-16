@@ -2103,7 +2103,7 @@ end);
 ##
 #!  @Description
 #!  This function takes as input a list of pairs of integers. Suppose the
-#!  integers occurring in this list of pairs is the set faces. Then this
+#!  integers occurring in this list of pairs is the set of faces. Then this
 #!  function computes all triples of involutions acting on the set faces.
 #!  @Returns a list of lists, which are involution triples.
 #!  @Arguments a list of lists, which is a list of pairs of integers
@@ -2123,6 +2123,7 @@ InstallMethod( GeneratorsFromFacePairs, "List of integer pairs", [IsList],
                   "input not a list of pairs of positive integers");
         fi;
 
+        facepairs := Compacted(facepairs);
         faces := Set( Flat(facepairs) );
         
         cycs := ShallowCopy(facepairs);
@@ -2223,7 +2224,7 @@ end);
 # find all possible lists of generators that
 # support this walk. We assume that if v is a closed walk, then
 # it starts and ends with the same face.
-BindGlobal("__SIMPLICIAL_WalksForVertex",function( gens, v )
+BindGlobal("__SIMPLICIAL_ColouredFaceEdgePathsFromFacePath",function( gens, v )
 
     local  walks, g, w, i, j, nw, newwalks;
 
@@ -2299,13 +2300,14 @@ end);
 ## Test whether the generators match up with the vertices 
 BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
 
-            local v, i, vtx, allvertices, g, cart;
+            local v, i, vtx, allvertices, g, cart, colouredPaths,
+            boundedPositions, MakeHoles;
  
 
             cart := [];
             allvertices := [];
             for v in vertices do
-                  vtx := __SIMPLICIAL_WalksForVertex(gens, v);
+                  vtx := __SIMPLICIAL_ColouredFaceEdgePathsFromFacePath(gens, v);
                   if vtx = [] then 
                       Print("vertex ", v, " without walk");
                       return []; 
@@ -2315,8 +2317,27 @@ BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
                   fi;
             od;
             cart := Cartesian(cart);
-            return List(cart,l->List([1..Length(l)],i->allvertices[i][l[i]]));
+            # Combine all lists of walks in the following fashion:
+            # One walk around the first vertex, one walk around the second
+            # vertex, etc,
+            colouredPaths := List(cart,l->List([1..Length(l)],i->allvertices[i][l[i]]));
 
+            boundedPositions := BoundPositions(vertices);
+
+
+            MakeHoles := function( path )
+              local pathWithHoles,i;
+
+              pathWithHoles := [];
+              for i in [1..Length(boundedPositions)] do
+                  pathWithHoles[boundedPositions[i]] := path[i];
+              od;
+
+              return pathWithHoles;
+           end;
+           
+           return List( colouredPaths, MakeHoles );
+                
 
  end);
 
@@ -2631,9 +2652,72 @@ InstallMethod( SnippOffEars, "for a wild simplicial surface",
 );
 
 
+
 ##
 ##			End of more specialized methods from SimplicialSurface
 ##
 ############################################################################
 ############################################################################
 
+
+#############################################################################
+##
+#!  @Description
+#!  This function takes as input a ``generic"- description of a surface. 
+#!  A ``generic"-description of a surface is the most general description 
+#!  of a simplicial surface. Also surfaces which do not support a 
+#!  wild-colouring can be described by a ``generic"-description. 
+#!  The ``generic"-description of a surface is as follows:
+#!  [ |V|, |E|, |F|, [ [v1,v2],...],  [[e1,e2,e3],... ] ], where
+#!  * |V| denotes the  number of vertices, 
+#!  * |E| denotes the number of edges and 
+#!  * |F| denotes the number of faces,
+#!  * [ [v1,v2], .. ] is a list of  pairs of vertices making up the edges, 
+#!        here v1, v2, etc are numbers of the vertices in [1 .. |V|]
+#!  * [[e1,e2,e3], .. ] is a list of triples of edges making up the faces
+#!        e1, e2, e3 are all numbers in [1..|V|] and the number e represents
+#!        the edge [va, vb] stored in the list of vertices in position e.
+#!
+#!  @BeginExample the tetrahedron has a  ``generic"-description:
+#!   tetra := [ 4, 6, 4, [[1,3], [2,3], [1,2], [2,4], [1,4], [3,4] ],
+#!        [  [ 1, 2, 3], [2, 4, 6], [ 3, 4, 5], [1, 5, 6] ] ];
+#!        where the triple [1,2,3] encodes the following three edges
+#!        [1,3], [2,3], and [1,2] according to their positions
+#!              in the list of edges
+#!  @EndExample
+#!
+#!  @Returns If the surface described by the ``generic" description supports
+#!  a  wild colouring, then the wild coloured simplicial surfaces description
+#!  is returned. Otherwise the function returns fail.
+#!  @Arguments a list of lists, representing a ``generic"-description of a surface
+## TODO: Clean up local variables here!
+##
+## TODO: FaceWithEdges wrong call?
+InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface], function(surface)
+
+  local gens, newvertices, wild, colouredPaths, allsurf;
+
+          allsurf := [];
+
+        # now we see which generating triples we can create from the edges of
+        # the surface and see whether any of these can be a wild colouring
+        # for the given edges. If the generic surface does not support a 
+        # wild colouring, then TestGens will return an empty list.
+        for gens in GeneratorsFromFacePairs( FacesOfEdges(surface) ) do
+            newvertices := __SIMPLICIAL_TestGens( gens, FaceEdgePathsOfVertices(surface) );
+            # All coloured face-edge-paths with these generators
+            for colouredPaths in newvertices do
+                if colouredPaths <> [] then
+		   wild := ObjectifySimplicialSurface( 
+			WildSimplicialSurfaceType, rec(), surface);
+                   SetColouredFaceEdgePathsOfVertices(wild,colouredPaths);
+
+                    Add( allsurf, wild);
+                fi;
+            od;
+ 
+        od;
+
+        return allsurf;
+            
+end);
