@@ -2218,12 +2218,80 @@ InstallMethod( GeneratorsFromFacePairs, "List of integer pairs", [IsList],
 
 end);
 
+# Given a list of generators and a face-edge-path this function calculates 
+# all EdgesOfColours that are compatible with this path.
+BindGlobal("__SIMPLICIAL_EdgeColoursFromFaceEdgePath", function(gens, path)
+
+        local edgesOfColours, i, CheckTransitions, check;
+        
+        edgesOfColours := [];
+
+        # face1 and face2 are connected via edge.
+        # If a generator moves face1 to face2, the edge will be counted
+        # as an edge of this colour. Otherwise return fail.
+        CheckTransitions( face1, face2, edge )
+            local newEdgeCol, found, i, edgeCols, newEdgesOfColours;
+
+            newEdgesOfColours := [];
+            found := false;
+            for i in [1..Length(gens)] do
+                if face1^gens[i] = face2 then
+                    found := true;
+                    for edgeCol in edgesOfColours do
+                        newEdgeCol := ShallowCopy(edgeCol);
+                        newEdgeCol[i] := Union( newEdgeCol[i], [edge] );
+                        Add( newEdgesOfColours, newEdgeCol );
+                    od;
+                fi;
+            od;
+            if not found then
+                return fail;
+            fi;
+
+            edgesOfColours := newEdgesOfColours;
+            return true;
+        end;
+
+        if IsEvenInt( Length(path) ) then
+            # Closed path
+            check := CheckTransitions( path[2], path[Length(path)], path[1] );
+            if check = fail then
+                return [];
+            fi;
+            for i in [2,4..Length(path)-2] do
+                check := CheckTransition( path[i], path[i+2], path[i+1] );
+                if check = fail then
+                    return [];
+                fi;
+            od;
+        else
+            # Open path
+            check := CheckTransitions( path[2], path[2], path[1] );
+            if check = fail then
+                return [];
+            fi;
+
+            check := CheckTransitions( path[ Length(path)-1 ], path[ Length(path) - 1], path[ Length(path) ] );
+            if check = fail then
+                return [];
+            fi;
+
+            for i in [2,4..Length(path)-3] do
+                check := CheckTransition( path[i], path[i+2], path[i+1] );
+                if check = fail then
+                    return [];
+                fi;
+            od;
+        fi;
+
+        return edgesOfColours;
+    end
+);
+
 
 # auxilliary function
-# v is a vertex, i.e. a face path.
-# find all possible lists of generators that
-# support this walk. We assume that if v is a closed walk, then
-# it starts and ends with the same face.
+# v is a face-path and gens a list of generators
+# return a list with all coloured face-edge-paths that are compatible with these generators
 BindGlobal("__SIMPLICIAL_ColouredFaceEdgePathsFromFacePath",function( gens, v )
 
     local  walks, g, w, i, j, nw, newwalks;
@@ -2296,9 +2364,45 @@ BindGlobal("__SIMPLICIAL_ColouredFaceEdgePathsFromFacePath",function( gens, v )
     return walks;
 end);
 
+BindGlobal("__SIMPLICIAL_TestGeneratorsForFaceEdgePaths", function(gens, paths)
+    local p, i, edgeCols, allColours, g, cart, colourSnippets, 
+        boundedPositions, MakeHoles, possColours;
+ 
+    cart := [];
+    allColours := [];
+    for p in paths do
+        edgeCols := __SIMPLICIAL_EdgeColoursFromFaceEdgePath(gens, p);
+        if edgeCols = [] then 
+            Print("path ", p, " is inconsistent with generators", gens, "\n");
+            return []; 
+        else
+            Add(allColours,edgeCols);
+            Add( cart, [1..Length(edgeCols)]);
+        fi;
+    od;
+    cart := Cartesian(cart);
+    # Combine all lists of colours in the following fashion:
+    # One colour setting around the first vertex, one colour setting around
+    # the second vertex, etc,
+    colourSnippets := List(cart,l->List([1..Length(l)],i->allColours[i][l[i]]));
+
+    # Combine the snippets into complete edgeColourings
+    possColours := List( colourSnippets, snipp -> # for each local colour combination
+            List( [1..Length(gens)], i -> # construct a list of three lists
+                    Union( List( [1..Length(snipp)], nr -> snipp[nr][i] ) ) ) );
+
+    # Check whether the edge colouring is consistent
+    return Filtered( possColours, poss -> 
+        Length( Intersection( poss[1], poss[2] ) ) = 0 and
+        Length( Intersection( poss[1], poss[3] ) ) = 0 and
+        Length( Intersection( poss[2], poss[3] )) = 0 );
+
+end);
+
 ##  auxilliary function
-## Test whether the generators match up with the vertices 
-BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
+## Test whether the generators match up with a list of face-paths (for
+## each vertex one path is given). DON'T confuse them with face-edge-paths
+BindGlobal("__SIMPLICIAL_TestGens", function(gens, paths)
 
             local v, i, vtx, allvertices, g, cart, colouredPaths,
             boundedPositions, MakeHoles;
@@ -2306,10 +2410,10 @@ BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
 
             cart := [];
             allvertices := [];
-            for v in vertices do
+            for v in paths do
                   vtx := __SIMPLICIAL_ColouredFaceEdgePathsFromFacePath(gens, v);
                   if vtx = [] then 
-                      Print("vertex ", v, " without walk");
+                      Print("vertex ", v, " without face-edge-path");
                       return []; 
                   else
                       Add(allvertices,vtx);
@@ -2322,7 +2426,7 @@ BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
             # vertex, etc,
             colouredPaths := List(cart,l->List([1..Length(l)],i->allvertices[i][l[i]]));
 
-            boundedPositions := BoundPositions(vertices);
+            boundedPositions := BoundPositions(paths);
 
 
             MakeHoles := function( path )
@@ -2337,8 +2441,6 @@ BindGlobal("__SIMPLICIAL_TestGens", function(gens, vertices)
            end;
            
            return List( colouredPaths, MakeHoles );
-                
-
  end);
 
 
@@ -2695,7 +2797,7 @@ InstallMethod( SnippOffEars, "for a wild simplicial surface",
 ## TODO: FaceWithEdges wrong call?
 InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface], function(surface)
 
-  local gens, newvertices, wild, colouredPaths, allsurf;
+  local gens, newcolours, wild, edgeColours, allsurf;
 
           allsurf := [];
 
@@ -2704,13 +2806,13 @@ InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface], function
         # for the given edges. If the generic surface does not support a 
         # wild colouring, then TestGens will return an empty list.
         for gens in GeneratorsFromFacePairs( FacesOfEdges(surface) ) do
-            newvertices := __SIMPLICIAL_TestGens( gens, FaceEdgePathsOfVertices(surface) );
+            newcolours := __SIMPLICIAL_TestGeneratorsForFaceEdgePathss( gens, FaceEdgePathsOfVertices(surface) );
             # All coloured face-edge-paths with these generators
-            for colouredPaths in newvertices do
-                if colouredPaths <> [] then
+            for edgeColours in newcolours do
+                if edgeColours <> [] then
 		   wild := ObjectifySimplicialSurface( 
 			WildSimplicialSurfaceType, rec(), surface);
-                   SetColouredFaceEdgePathsOfVertices(wild,colouredPaths);
+                   SetEdgesOfColours(wild,edgeColours);
 
                     Add( allsurf, wild);
                 fi;
