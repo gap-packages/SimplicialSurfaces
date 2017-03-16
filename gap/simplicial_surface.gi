@@ -2138,6 +2138,7 @@ InstallMethod( IsVerticesLikeSurface, "for a simplicial surface",
 );
 
 
+
 #############################################################################
 ##
 #!	@Description

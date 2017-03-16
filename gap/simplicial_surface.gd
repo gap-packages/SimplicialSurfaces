@@ -314,12 +314,13 @@ DeclareProperty( "IsVerticesLikeSurface", IsSimplicialSurface );
 DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 
 
-# AutoDoc can't handle synonyms at the moment. Check synonym_documentation
-# for the documentation of this declaration.
+#TODO AutoDoc can't handle synonyms at the moment.
 DeclareSynonym( "IsActualSurface", 
 		IsVerticesLikeSurface and IsEdgesLikeSurface );
-#!  @InsertChunk SynActualSurface
-
+#! @Description
+#!  The property IsActualSurface is true if both IsEdgesLikeSurface and
+#!  IsVerticesLikeSurface are true.
+#! @Arguments simpSurf
 
 #!	@Description
 #!	The property IsTriangleSurface is true if all faces of the SimplicialSurface
