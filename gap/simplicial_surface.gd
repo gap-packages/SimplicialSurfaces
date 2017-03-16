@@ -313,17 +313,12 @@ DeclareProperty( "IsVerticesLikeSurface", IsSimplicialSurface );
 #!	@Returns true if the edges look like those on a surface and false else.
 DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 
-#! @DoNotReadRestOfFile
 
-#!	@Description
-#!	The property IsActualSurface is true if both IsEdgesLikeSurface and
-#!	IsVerticesLikeSurface are true.
-#!	@Arguments a simplicial surface
-#!	@Returns true if the simplicial surface is an actual surface, otherwise
-#!		return false
+# AutoDoc can't handle synonyms at the moment. Check synonym_documentation
+# for the documentation of this declaration.
 DeclareSynonym( "IsActualSurface", 
 		IsVerticesLikeSurface and IsEdgesLikeSurface );
-
+#!  @InsertChunk SynActualSurface
 
 
 #!	@Description

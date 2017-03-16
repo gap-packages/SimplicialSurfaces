@@ -1,0 +1,10 @@
+#! @BeginChunk SynActualSurface
+#!
+#! @Description The property IsActualSurface is true if both IsEdgesLikeSurface
+#!  and IsVerticesLikeSurface are true.
+#! @Arguments simpSurf
+#! @Returns true if the simplicial surface is an actual surface, false
+#!  otherwise.
+DeclareProperty( "IsActualSurface", IsSimplicialSurface );
+#!
+#! @EndChunk
