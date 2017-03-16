@@ -2229,8 +2229,8 @@ BindGlobal("__SIMPLICIAL_EdgeColoursFromFaceEdgePath", function(gens, path)
         # face1 and face2 are connected via edge.
         # If a generator moves face1 to face2, the edge will be counted
         # as an edge of this colour. Otherwise return fail.
-        CheckTransitions( face1, face2, edge )
-            local newEdgeCol, found, i, edgeCols, newEdgesOfColours;
+        CheckTransitions := function( face1, face2, edge )
+            local newEdgeCol, found, i, edgeCol, newEdgesOfColours;
 
             newEdgesOfColours := [];
             found := false;
@@ -2259,7 +2259,7 @@ BindGlobal("__SIMPLICIAL_EdgeColoursFromFaceEdgePath", function(gens, path)
                 return [];
             fi;
             for i in [2,4..Length(path)-2] do
-                check := CheckTransition( path[i], path[i+2], path[i+1] );
+                check := CheckTransitions( path[i], path[i+2], path[i+1] );
                 if check = fail then
                     return [];
                 fi;
@@ -2277,7 +2277,7 @@ BindGlobal("__SIMPLICIAL_EdgeColoursFromFaceEdgePath", function(gens, path)
             fi;
 
             for i in [2,4..Length(path)-3] do
-                check := CheckTransition( path[i], path[i+2], path[i+1] );
+                check := CheckTransitions( path[i], path[i+2], path[i+1] );
                 if check = fail then
                     return [];
                 fi;
@@ -2795,7 +2795,7 @@ InstallMethod( SnippOffEars, "for a wild simplicial surface",
 ## TODO: Clean up local variables here!
 ##
 ## TODO: FaceWithEdges wrong call?
-InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface], function(surface)
+InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface and IsActualSurface], function(surface)
 
   local gens, newcolours, wild, edgeColours, allsurf;
 
@@ -2806,7 +2806,8 @@ InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface], function
         # for the given edges. If the generic surface does not support a 
         # wild colouring, then TestGens will return an empty list.
         for gens in GeneratorsFromFacePairs( FacesOfEdges(surface) ) do
-            newcolours := __SIMPLICIAL_TestGeneratorsForFaceEdgePathss( gens, FaceEdgePathsOfVertices(surface) );
+            #TODO FaceEdgePaths don't have to be unique...
+            newcolours := __SIMPLICIAL_TestGeneratorsForFaceEdgePaths( gens, List( FaceEdgePathsOfVertices(surface), i -> i[1] ) );
             # All coloured face-edge-paths with these generators
             for edgeColours in newcolours do
                 if edgeColours <> [] then
