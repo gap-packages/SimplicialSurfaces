@@ -1064,7 +1064,7 @@ InstallMethod( ColoursOfEdges,
 		local coloursOfEdges, edge, col;
 
 		coloursOfEdges := [];
-		for edge in Edges do
+		for edge in Edges(surf) do
 			for col in [1,2,3] do
 				if edge in EdgesOfColourNC( surf, col ) then
 					coloursOfEdges[edge] := col;
@@ -2224,7 +2224,7 @@ BindGlobal("__SIMPLICIAL_EdgeColoursFromFaceEdgePath", function(gens, path)
 
         local edgesOfColours, i, CheckTransitions;
         
-        edgesOfColours := [];
+        edgesOfColours := [ List( gens, g -> [] ) ];
 
         # face1 and face2 are connected via edge.
         # If a generator moves face1 to face2, the edge will be counted
