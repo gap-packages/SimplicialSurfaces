@@ -809,8 +809,8 @@ BindGlobal( "__SIMPLICIAL_CheckVerticesInFaces", function( vertices, faces,
 	for f in faces do
 		if not IsBound( verticesOfFaces[f] ) then
 			Error("VerticesInFacesCheck: One face has no vertices.");
-		elif Size( Set( verticesOfFaces[f] ) ) <> 3 then
-			Error("VerticesInFacesCheck: One face has not three vertices.");
+		elif Size( Set( verticesOfFaces[f] ) ) < 3 then
+			Error("VerticesInFacesCheck: One face has less than three vertices.");
 		elif not IsEmpty( Difference( Set(verticesOfFaces[f]), vertices ) ) then
 			Error("VerticesInFacesCheck: One face has illegal vertex.");
 		fi;
