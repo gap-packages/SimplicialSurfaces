@@ -126,6 +126,7 @@ BindGlobal( "SimplicialSurfaceFamily",
 #! @Returns a simplicial surface
 DeclareOperation( "SimplicialSurfaceByUpwardIncidence",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
 DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @EndGroup
@@ -159,10 +160,11 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
 #!   of edges.
 #! * Each edge has to be in one of the sets in the list edgesOfFaces.
 #!
-#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 #! @Returns a simplicial surface
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialSurfaceByDownwardIncidence",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @EndGroup
@@ -206,10 +208,11 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 #! * The edge lists in the components of edgesOfFaces conform to the adjacency
 #!   condition from before.
 #!
-#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces[, namesOfFaces]
 #! @Returns a simplicial surface
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces[, namesOfFaces]
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientation",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces[, namesOfFaces]
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
 	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @EndGroup
