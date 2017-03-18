@@ -400,7 +400,33 @@ DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 #!  @Section Advanced properties of simplicial surfaces
 #!
 #!
-#TODO explain connection to "real" surfaces
+#! Since the SimplicialSurface-objects in GAP can represent more general
+#! structures than just surfaces there is a property that checks whether a
+#! generic SimplicialSurface-objects represents an actual surface (the property
+#! IsActualSurface).
+#!
+#! To check whether a generic SimplicialSurface-object represents an actual
+#! surface we have to check the edges and the vertices.
+#! * In an actual surface every edge is incident to at most two faces. This
+#!   property is checked by IsEdgesLikeSurface.
+#! * If each edge is incident to at most two faces, we can define
+#!   face-edge-paths around each vertex. A face-edge-path around a vertex $v$
+#!   is a list $(e_1,f_1,e_2,f_2,\dots,e_n,f_n)$ or 
+#!   $(e_1,f_1,e_2,f_2,\dots,e_n,f_n,e_{n+1})$ such that
+#!   * all $e_i$ are edges incident to $v$
+#!   * all $f_i$ are faces incident to $v$
+#!   * if two elements are adjacent in a face-edge-path, they are incident in
+#!     the simplicial surface
+#!   * if the face-edge-path has even length (the first case), we require that
+#!     $e_1$ and $f_n$ are incident (this represents a closed path)
+#!   * if the face-edge-path has odd length (the second case), we require that
+#!     both $e_1$ and $e_{n+1}$ are only incident to one face (this represents
+#!     an open path)
+#!   In general there may be many of those paths around a vertex (they 
+#!   partition the edges and faces incident to each vertex) but in an actual
+#!   surface there is only one such path. The property IsVerticesLikeSurface
+#!   checks this property.
+#!
 
 #!	@Description
 #!	The property IsVerticesLikeSurface is true if the vertices of the simplicial
