@@ -392,7 +392,15 @@ DeclareAttribute( "EdgesOfFaces", IsSimplicialSurface);
 #!  @Arguments simpSurf
 DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 
-#TODO from here on out
+#! @Description
+#! The property IsTriangleSurface is true if all faces of the simplicial
+#! surface are triangles (i.e. they consist of three edges).
+#! @Arguments simpSurf
+DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
+
+
+
+
 
 #############################################################################
 ##
@@ -413,8 +421,8 @@ DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 #!   face-edge-paths around each vertex. A face-edge-path around a vertex $v$
 #!   is a list $(e_1,f_1,e_2,f_2,\dots,e_n,f_n)$ or 
 #!   $(e_1,f_1,e_2,f_2,\dots,e_n,f_n,e_{n+1})$ such that
-#!   * all $e_i$ are edges incident to $v$
-#!   * all $f_i$ are faces incident to $v$
+#!   * all $e_i$ are pairwise distinct edges incident to the vertex $v$
+#!   * all $f_i$ are pairwise distinct faces incident to the vertex $v$
 #!   * if two elements are adjacent in a face-edge-path, they are incident in
 #!     the simplicial surface
 #!   * if the face-edge-path has even length (the first case), we require that
@@ -422,29 +430,26 @@ DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 #!   * if the face-edge-path has odd length (the second case), we require that
 #!     both $e_1$ and $e_{n+1}$ are only incident to one face (this represents
 #!     an open path)
+#!
+#TODO why does this list structure not work?
 #!   In general there may be many of those paths around a vertex (they 
 #!   partition the edges and faces incident to each vertex) but in an actual
 #!   surface there is only one such path. The property IsVerticesLikeSurface
 #!   checks this property.
 #!
 
-#!	@Description
-#!	The property IsVerticesLikeSurface is true if the vertices of the simplicial
-#!	surface look like edges in a real surface. They do if there is a unique
-#!	face-edge-path for each vertex. This is only possible if IsEdgesLikeSurface
-#!	is already true.
-#!	@Arguments a simplicial surface
-#!	@Returns true if the vertices look like those on a surface and false else.
+#! @Description
+#! Under the assumption that every edge is incident to at most two faces (which
+#! allows the definition of face-edge-paths) the property IsVerticesLikeSurface
+#! holds if there is only one face-edge-path (up to description) around each
+#! vertex.
+#! @Arguments simpSurf
 DeclareProperty( "IsVerticesLikeSurface", IsSimplicialSurface );
 
-
-
-#!	@Description
-#!	The property IsEdgesLikeSurface is true if the edges of the simplicial
-#!	surface look like edges in a real surface. They do if for each edge a
-#!	maximum of two faces is incident to that edge.
-#!	@Arguments a simplicial surface
-#!	@Returns true if the edges look like those on a surface and false else.
+#! @Description
+#! The property IsEdgesLikeSurface holds if every edge of the simplicial
+#! surface is incident to at most two faces.
+#! @Arguments simpSurf
 DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 
 
@@ -456,12 +461,8 @@ DeclareSynonym( "IsActualSurface",
 #!  IsVerticesLikeSurface are true.
 #! @Arguments simpSurf
 
-#!	@Description
-#!	The property IsTriangleSurface is true if all faces of the SimplicialSurface
-#!	object are triangles (i.e. they consist of three edges).
-#!	@Arguments a simplicial surface
-#!	@Returns true if all faces are triangles and false else.
-DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
+
+
 
 
 #!	@Description
