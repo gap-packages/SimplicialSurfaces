@@ -266,7 +266,7 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC",
 #############################################################################
 ##
 ##
-#!  @Section Attributes and properties of Simplicial Surfaces
+#!  @Section Access to the incidence structure
 #!
 #!
 
@@ -376,6 +376,32 @@ DeclareAttribute( "VerticesOfFaces", IsSimplicialSurface);
 DeclareAttribute( "EdgesOfFaces", IsSimplicialSurface);
 
 
+
+#############################################################################
+##
+##
+#!  @Section Basic properties of simplicial surfaces
+#!
+#!
+
+#!  @Description
+#!  Return the Euler characteristic of the given simplicial surface.
+#!  The Euler characteristic is $|V| - |E| + |F|$, where $|V|$ is the number of
+#!  vertices, $|E|$ is the number of edges and $|F|$ is the number of faces.
+#!  @Returns an integer, the Euler characteristic.
+#!  @Arguments simpSurf
+DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
+
+#TODO from here on out
+
+#############################################################################
+##
+##
+#!  @Section Advanced properties of simplicial surfaces
+#!
+#!
+#TODO explain connection to "real" surfaces
+
 #!	@Description
 #!	The property IsVerticesLikeSurface is true if the vertices of the simplicial
 #!	surface look like edges in a real surface. They do if there is a unique
@@ -447,14 +473,6 @@ DeclareAttribute( "ConnectedComponentsAttributeOfSimplicialSurface",
 #TODO uncomment as soon as situation with GRAPE is resolved
 
 
-#!  @Description
-#!  Return the Euler characteristic of a simplicial surface.
-#!  The Euler characteristic is |V| - |E| + |F|, where |V| is the number of
-#!  vertices, |E| is the number of edges and |F| is the number of faces.
-#!  @Returns an integer, the Euler characteristic.
-#!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "EulerCharacteristic", 
-		IsSimplicialSurface );
 
 
 #!  @Description
