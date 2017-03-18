@@ -270,112 +270,109 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC",
 #!
 #!
 
+#! @BeginGroup
 ##	The double declaration has the following reason: In grape there is a method
 ##	Vertices that collides with our usage.
 
 #! @Description
-#! Returns the numbers of the vertices as a set. This is a basic method.
-#! @Arguments a simplicial surface
-#! @Returns a dense list of integers
-DeclareAttribute( "VerticesAttributeOfSimplicialSurface", IsSimplicialSurface );
+#! Returns the vertices as a set. The vertices are positive integers.
+#! @Arguments simpSurf
+#! @Returns the set of vertices, a set of positive integers
 DeclareOperation( "Vertices", [IsSimplicialSurface] );
+#! @Arguments simpSurf
+DeclareAttribute( "VerticesAttributeOfSimplicialSurface", IsSimplicialSurface );
+#! @EndGroup
 
 #! @Description
-#! Returns the numbers of the edges as a set. This is a basic method.
-#! @Arguments a simplicial surface
-#! @Returns a dense list of integers
+#! Returns the edges as a set. The edges are positive integers.
+#! @Arguments simpSurf
+#! @Returns the set of edges, a set of positive integers
 DeclareAttribute( "Edges", IsSimplicialSurface );
 
 #! @Description
-#! Returns the numbers of the faces as a set. This is a basic method.
-#! @Arguments a simplicial surface
-#! @Returns a dense list of integers
+#! Returns the faces as a set. The faces are positive integers.
+#! @Arguments simpSurf
+#! @Returns the set of faces, a set of positive integers
 DeclareAttribute( "Faces", IsSimplicialSurface );
 
 
 #! @Description
 #! Returns the number of vertices.
-#! @Arguments a simplicial surface
-#! @Returns an integers
-DeclareAttribute( "NrOfVertices",
-		IsSimplicialSurface );
+#! @Arguments simpSurf
+#! @Returns a non-negative integer
+DeclareAttribute( "NrOfVertices", IsSimplicialSurface );
 
 #! @Description
 #! Returns the number of edges.
-#! @Arguments a simplicial surface
-#! @Returns an integers
-DeclareAttribute( "NrOfEdges", 
-		IsSimplicialSurface );
+#! @Arguments simpSurf
+#! @Returns a non-negative integer
+DeclareAttribute( "NrOfEdges", IsSimplicialSurface );
 
 #! @Description
 #! Returns the number of faces.
-#! @Arguments a simplicial surface
-#! @Returns an integers
-DeclareAttribute( "NrOfFaces", 
-		IsSimplicialSurface );
+#! @Arguments simpSurf
+#! @Returns a non-negative integer
+DeclareAttribute( "NrOfFaces", IsSimplicialSurface );
 
 
-#!	@Description
-#!	Return the vertices in terms of the edges. Return a list
-#!	with holes and at the position of each vertex-number is a set of
-#!	all edges that are incident to that vertex. All other positions are
-#!	unbounded.
-#!	Either this method or VerticesOfEdges is basic.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "EdgesOfVertices",
-		IsSimplicialSurface );
+#! @Description
+#! Return a list edgesOfVertices such that
+#! * if v is a vertex then edgesOfVertices[v] is the set of all edges that are
+#!   incident to v.
+#! * if v is not a vertex then edgesOfVertices[v] is not bound.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of sets of positive integers
+DeclareAttribute( "EdgesOfVertices", IsSimplicialSurface );
 
-#!	@Description
-#!	Return the vertices in terms of the faces. Return a list
-#!	with holes and at the position of each vertex-number is a set of
-#!	all faces that are incident to that vertex. All other positions are
-#!	unbounded.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "FacesOfVertices", 
-		IsSimplicialSurface);
+#! @Description
+#! Return a list facesOfVertices such that
+#! * if v is a vertex then facesOfVertices[v] is the set of all faces that are
+#!   incident to v.
+#! * if v is not a vertex then facesOfVertices[v] is not bound.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of sets of positive integers
+DeclareAttribute( "FacesOfVertices", IsSimplicialSurface);
 
-#!	@Description
-#!	Return the edges in terms of the vertices. Return a list
-#!	with holes and at the position of each edge-number is a set of
-#!	all vertices that are incident to that edge. All other positions are
-#!	unbounded.
-#!	Either this method or EdgesOfVertices is basic.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "VerticesOfEdges", 
-		IsSimplicialSurface);
+#! @Description
+#! Return a list verticesOfEdges such that
+#! * if e is an edge then verticesOfEdges[e] is the set of all vertices that are
+#!   incident to e.
+#! * if e is not an edge then verticesOfEdges[e] is not bound.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of sets of positive integers
+DeclareAttribute( "VerticesOfEdges", IsSimplicialSurface);
 
-#!	@Description
-#!	Return the edges in terms of the faces. Return a list
-#!	with holes and at the position of each edge-number is a set of
-#!	all faces that are incident to that edge. All other positions are
-#!	unbounded.
-#!	Either this method or EdgesOfFaces is basic.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "FacesOfEdges", 
-		IsSimplicialSurface);
+#! @Description
+#! Return a list facesOfEdges such that
+#! * if e is an edge then facesOfEdges[e] is the set of all faces that are
+#!   incident to e.
+#! * if e is not an edge then facesOfEdges[e] is not bound.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of sets of positive integers
+DeclareAttribute( "FacesOfEdges", IsSimplicialSurface);
 
-#!	@Description
-#!	Return the faces in terms of the vertices. Return a list
-#!	with holes and at the position of each face-number is a set of
-#!	all vertices that are incident to that face. All other positions are
-#!	unbounded.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
-DeclareAttribute( "VerticesOfFaces", 
-		IsSimplicialSurface);
+#! @Description
+#! Return a list verticesOfFaces such that
+#! * if f is a face then verticesOfFaces[f] is the set of all vertices that are
+#!   incident to v.
+#! * if f is not a face then verticesOfFaces[f] is not bound.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of sets of positive integers
+DeclareAttribute( "VerticesOfFaces", IsSimplicialSurface);
 
-#!	@Description
-#!	Return the faces in terms of the edges. Return a list
-#!	with holes and at the position of each face-number is a set of
-#!	all edges that are incident to that face. All other positions are
-#!	unbounded.
-#!	Either this method or FacesOfEdges is basic.
-#!	@Returns a list of lists of integers
-#!	@Arguments a simplicial surface object simpsurf
+#! @Description
+#! Return a list edgesOfFaces such that
+#! * if f is a face then edgesOfFaces[f] is the set of all edges that are
+#!   incident to v.
+#! * if f is not a face then edgesOfFaces[f] is not bound.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of sets of positive integers
 DeclareAttribute( "EdgesOfFaces", IsSimplicialSurface);
 
 
