@@ -399,6 +399,49 @@ DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 
 
+#! @Description
+#! Return if a simplicial surface is connected. If two faces share at least one
+#! vertex they are considered to be connected.
+#! @Arguments simpSurf
+DeclareProperty( "IsConnected", IsSimplicialSurface );
+
+#! @BeginGroup
+#! @Description
+#! Return a list of all connected components of the simplicial surface.
+#! @Arguments simpSurf
+#! @Returns a list of simplicial surfaces
+DeclareAttribute( "ConnectedComponentsAttributeOfSimplicialSurface", 
+		IsSimplicialSurface );
+#DeclareOperation( "ConnectedComponents", [IsSimplicialSurface] );
+#TODO uncomment as soon as situation with GRAPE is resolved
+
+#! @EndGroup
+
+
+#! @Description
+#! Return a list unsortedDegrees with the following property:
+#! For each vertex v the entry unsortedDegrees[v] contains the number
+#! of faces that are incident to that vertex (this is called the degree
+#! of the vertex).
+#! @Arguments simpSurf
+#! @Returns a list of positive integers
+DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
+
+#! @Description
+#! Return a sorted list sortedDegrees such that the degree of each vertex
+#! (which is defined as the number of incident faces) is contained in the
+#! list (counting repetitions).
+DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
+
+#! @Description
+#! Return the vertex symbol of a simplicial surface.
+#! The vertex symbol is defined as a list vertexSym, where vertexSym[i]
+#! counts the number of vertices that are incident to exactly i edges. If there
+#! are no vertices with i incident edges, this entry is unbounded.
+#! @Arguments simpSurf
+#! @Returns a list of positive integers
+DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
+
 
 
 
@@ -462,71 +505,21 @@ DeclareSynonym( "IsActualSurface",
 #! @Arguments simpSurf
 
 
-
-
-
-#!	@Description
-#!	Given a simplicial surface which is an actual surface, the property
-#!	IsClosedSurface is true if the surface is closed or equivalently that
-#!	every edge is incident to exactly two faces.
-#!	@Arguments a simplicial surface
-#!	@Returns true if it is closed, false otherwise
+#! @Description
+#! If we have a simplicial surface where every edge is incident to at most two
+#! faces, this method checks if the surface is closed. (A simplicial surface
+#! is closed if every edge is incident to exactly two faces.)
+#! @Arguments simpSurf
 DeclareProperty( "IsClosedSurface", 
 			IsSimplicialSurface and IsEdgesLikeSurface );
 
-
-#!	@Description
-#!	The property IsOrientable is true if the SimplicialSurface object is
-#!	orientable. This is only possible if it is an actual surface.
-#!	@Arguments a simplicial surface
-#!	@Returns true if orientable, false otherwise
+#! @Description
+#! If we have a simplicial surface where every edge is incident to at most two
+#! faces, this method checks if the surface is orientable. (A simplicial surface
+#! is orientable if we can assign a side for each face such that for every two
+#! adjacent sides either both or none are assigned.
+#! @Arguments simpSurf
 DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
-
-
-#!	@Description
-#!	The property IsConnected is true if the SimplicialSurface object is
-#!	connected.
-#!	@Arguments a simplicial surface
-#!	@Returns true if connected, false otherwise
-DeclareProperty( "IsConnected", IsSimplicialSurface );
-
-#!	@Description
-#!	Return a list of all connected components of the simplicial surface.
-#!	@Arguments a simplicial surface
-#!	@Returns a list of simplicial surfaced
-DeclareAttribute( "ConnectedComponentsAttributeOfSimplicialSurface", 
-		IsSimplicialSurface );
-#DeclareOperation( "ConnectedComponents", [IsSimplicialSurface] );
-#TODO uncomment as soon as situation with GRAPE is resolved
-
-
-
-
-#!  @Description
-#!	Return a list of integers (with holes). For each vertex-
-#!	number it contains the number of faces which are incident to that vertex
-#!	(the degree of the vertex). All other positions are unbounded.
-#!  @Returns a list of integers
-#!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
-
-
-#!  @Description
-#!	Return a dense sorted list of integers that contains the 
-#!	degrees of the vertices (with repetitions)
-#!  @Returns a dense sorted list of integers
-#!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
-
-
-#!  @Description
-#!  Return the vertex symbol of a simplicial surface.
-#!	The vertex symbol is a list, where the i-th entry counts the number of 
-#!	vertices that are incident to exactly i edges. If there are no such
-#!	vertices the entry is unbounded.
-#!  @Arguments a simplicial surface object simpsurf
-#!  @Returns a list of integers
-DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
 
 
 #!	@Description
