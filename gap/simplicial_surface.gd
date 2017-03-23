@@ -474,7 +474,8 @@ DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
 #!     both $e_1$ and $e_{n+1}$ are only incident to one face (this represents
 #!     an open path)
 #!
-#TODO why does this list structure not work?
+#TODO why does this list structure not work? Can be fixed by using HTML-lists
+# Start with <List>, end with </List> and use <Item> and </Item> to delineate the items
 #!   In general there may be many of those paths around a vertex (they 
 #!   partition the edges and faces incident to each vertex) but in an actual
 #!   surface there is only one such path. The property IsVerticesLikeSurface
