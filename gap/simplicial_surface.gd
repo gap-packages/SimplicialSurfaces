@@ -464,13 +464,13 @@ DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
 #!   face-edge-paths around each vertex. A face-edge-path around a vertex $v$
 #!   is a list $(e_1,f_1,e_2,f_2,\dots,e_n,f_n)$ or 
 #!   $(e_1,f_1,e_2,f_2,\dots,e_n,f_n,e_{n+1})$ such that
-#!   * all $e_i$ are pairwise distinct edges incident to the vertex $v$
-#!   * all $f_i$ are pairwise distinct faces incident to the vertex $v$
-#!   * if two elements are adjacent in a face-edge-path, they are incident in
+#!   - all $e_i$ are pairwise distinct edges incident to the vertex $v$
+#!   - all $f_i$ are pairwise distinct faces incident to the vertex $v$
+#!   - if two elements are adjacent in a face-edge-path, they are incident in
 #!     the simplicial surface
-#!   * if the face-edge-path has even length (the first case), we require that
+#!   - if the face-edge-path has even length (the first case), we require that
 #!     $e_1$ and $f_n$ are incident (this represents a closed path)
-#!   * if the face-edge-path has odd length (the second case), we require that
+#!   - if the face-edge-path has odd length (the second case), we require that
 #!     both $e_1$ and $e_{n+1}$ are only incident to one face (this represents
 #!     an open path)
 #!
@@ -521,6 +521,22 @@ DeclareProperty( "IsClosedSurface",
 #! adjacent sides either both or none are assigned.
 #! @Arguments simpSurf
 DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
+
+
+#! @Description
+#! Return *an* orientation if the simplicial surface is orientable. This 
+#! method is special in the sense that it does *not* guarantee equal outcomes
+#! for different calls of this method.
+#!
+#! The orientation is returned as a list globalOr. For each face f the entry
+#! globalOr[f] contains a list of the vertices that are incident in the face f.
+#!
+#! This method returns fail if the given surface is not orientable.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of lists or fail
+DeclareAttribute( "GlobalOrientationByVertices", 
+    IsSimplicialSurface and IsEdgesLikeSurface );
 
 
 #!	@Description

@@ -2235,16 +2235,12 @@ InstallMethod( IsConnected, "for a simplicial surface",
 	end
 );
 
+
 ###############################################################################
 ##
-#!  @Description
-#!  This function decides whether the simplicial surface
-#!  <simpsurf> is orientable. To that end its edges have to look like edges
-#!	in a surface.
-#!  @Returns true if the surface is orientable and false else.
-#!  @Arguments <simpsurf> a simplicial surface
-#!
-InstallMethod( IsOrientable, "for a simplicial surface",
+##  Compute the orientation of a surface (if it has one).
+##
+InstallMethod( GlobalOrientationByVertices, "for a simplicial surface",
 	[IsSimplicialSurface and IsEdgesLikeSurface],
 	function(simpsurf)
 		# This method tries to find an orientation for the surface. By the 
@@ -2257,7 +2253,8 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 		# use this fact to construct an orientation for the complete surface.
 		local facesOfEdges, verticesOfFaces, orientList, i, hole, edge,
 			 facesToCheck, checkedFaces, CompatibleOrientation, orient1,
-			 orient2, orientable, face, neighbours, next;
+			 orient2, orientable, face, neighbours, next, 
+                         FindGlobalOrientation;
 
 		facesOfEdges := FacesOfEdges(simpsurf);
 		verticesOfFaces := VerticesOfFaces(simpsurf);
@@ -2365,12 +2362,63 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 				checkedFaces := Union( checkedFaces, [face] );
 			od;
 		od;
+
+                if orientable then
+                    FindGlobalOrientation := function( face )
+                        if not face in Faces(simpsurf) then
+                            return;
+                        fi;
+
+                        # Positive orientation means no switch
+                        if orientList[face] = 1 then
+                            return LocalOrientationByVerticesAsList( simpsurf )[face];
+                        elif orientList[face] = -1 then
+                            return Reversed( LocalOrientationByVerticesAsList( simpsurf )[face] );
+                        else
+                            Error("GlobalOrientationByVertices: FindGlobalOrientation: This should not have happened.");
+                        fi;
+                    end;
+                    return List( [1..Maximum(Faces(simpsurf))], 
+                            f -> FindGlobalOrientation(f) );
+                fi;
 		
-		return orientable;
+		return fail;
 	end
 );
-	RedispatchOnCondition( IsOrientable, true, [IsSimplicialSurface],
+	RedispatchOnCondition( GlobalOrientationByVertices, true, [IsSimplicialSurface],
 		[IsEdgesLikeSurface], 0 );
+
+InstallMethod( GlobalOrientationByVertices, "for a simplicial surface", 
+        [IsSimplicialSurface and HasIsOrientable],
+        function( surf )
+            if not IsOrientable(surf) then
+                return fail;
+            fi;
+            TryNextMethod();
+        end
+);
+
+##
+##  Now we write the method to only check if an orientation exists
+##
+InstallMethod( IsOrientable, "for a simplicial surface",
+        [IsSimplicialSurface and HasGlobalOrientationByVertices],
+        function(surf)
+            return GlobalOrientationByVertices(surf) <> fail;
+        end
+);
+
+## If we can't compute IsOrientable any other way, we try computing a global
+## orientation first
+InstallMethod( IsOrientable, "for a simplicial surface",
+        [IsSimplicialSurface and IsEdgesLikeSurface ],
+        function(surf)
+            GlobalOrientationByVertices(surf);
+            TryNextMethod();
+        end
+);
+RedispatchOnCondition( IsOrientable, true, 
+    [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );
 
 #############################################################################
 ##
