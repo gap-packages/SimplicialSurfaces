@@ -524,8 +524,8 @@ DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
 
 
 #! @Description
-#! Return *an* orientation if the simplicial surface is orientable. This 
-#! method is special in the sense that it does *not* guarantee equal outcomes
+#! Return **an** orientation if the simplicial surface is orientable. This 
+#! method is special in the sense that it does **not** guarantee equal outcomes
 #! for different calls of this method.
 #!
 #! The orientation is returned as a list globalOr. For each face f the entry
