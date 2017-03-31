@@ -408,6 +408,10 @@ DeclareProperty( "IsConnected", IsSimplicialSurface );
 #! @BeginGroup
 #! @Description
 #! Return a list of all connected components of the simplicial surface.
+#! <P/>
+#! If a face is given additionally the connected component of this face is
+#! returned. The NC-version does not check if the given face actually lies
+#! in the simplicial surface.
 #! @Arguments simpSurf
 #! @Returns a list of simplicial surfaces
 DeclareAttribute( "ConnectedComponentsAttributeOfSimplicialSurface", 
@@ -415,6 +419,10 @@ DeclareAttribute( "ConnectedComponentsAttributeOfSimplicialSurface",
 #DeclareOperation( "ConnectedComponents", [IsSimplicialSurface] );
 #TODO uncomment as soon as situation with GRAPE is resolved
 
+#! @Arguments simpSurf, face
+DeclareOperation( "ConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments simpSurf, face
+DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 
 
@@ -488,37 +496,28 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsSimplicialSurface, IsSet] );
 
 
 #! @BeginGroup
+#! @Description
 #! Remove all ears of the simplicial surface and return the resulting surface.
 #! An ear is a face that has at most two vertices in common with all other
 #! faces.
 #! <P/>
 #! The recursive-version applies this method recursively until the resulting
 #! simplicial surface has no more ears.
-#! @Arguments simpSurf
 #! @Returns a simplicial surface
+#! @Arguments simpSurf
 DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 #! @Arguments simpSurf
 DeclareOperation( "SnippOffEarsRecursive", [IsSimplicialSurface] );
+#! @EndGroup
 
-##
-#!	@Description
-#!	This function returns the connected component of the given face.
-#!	The NC-version doesn't check if the given face actually is one.
-#!	@Arguments a simplicial surface object simpsurf, a positive integer
-#!	@Returns a simplicial surface object
-#!
-DeclareOperation( "ConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
-DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
 
-##
-#!  @Description
-#!  Check if two simplicial surfaces are isomorphic. This method only checks
-#!	if they are isomorphic with respect to the incidence relation. It does
-#!	not check if additional structure like a wild coloring is isomorphic (or
-#!	even present).
-#!  @Arguments two simplicial surface objects s1 and s2
-#!  @Returns true or false
-#!
+#! @Description
+#! Check if two simplicial surfaces are isomorphic. This method only checks
+#! if they are isomorphic with respect to the incidence relation. It does
+#! not check if additional structure like a wild coloring is isomorphic (or
+#! even present).
+#! @Arguments s1, s2
+#! @Returns true or false
 DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );
 
 
@@ -596,7 +595,7 @@ DeclareSynonym( "IsActualSurface",
 DeclareProperty( "IsClosedSurface", 
 			IsSimplicialSurface and IsEdgesLikeSurface );
 
-
+#! @BeginGroup
 #! @Description
 #! Return a list fep with the following conditions:
 #! * for each vertex v the entry fep[v] contains a list of all face-edge-paths
@@ -606,18 +605,15 @@ DeclareProperty( "IsClosedSurface",
 #!   the edge between the first and second face to be minimal among all 
 #!   remaining choices.
 #! * every other entry of fep is not bounded.
+#!
+#! If a vertex is given additionally, return only a list of face-edge-paths
+#! around this vertex. The NC-version does not check whether the given vertex
+#! actually is a vertex of the simplicial surface.
 #! @Arguments simpSurf
 #! @Returns a list of lists of face-edge-paths
 DeclareAttribute( "FaceEdgePathsOfVertices", 
 		IsSimplicialSurface and IsEdgesLikeSurface );
-#! @BeginGroup
-#! @Description
-#! Return a list of all face-edge-paths around a given vertex.
-#! <P/>
-#! The NC-version does not check whether the vertex lies in the simplicial
-#! surface.
 #! @Arguments simpSurf, vertex
-#! @Returns a list of face-edge-paths
 DeclareOperation( "FaceEdgePathsOfVertex", 
 		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 #! @Arguments simpSurf, vertex
@@ -759,6 +755,15 @@ DeclareOperation( "NamesOfFace", [IsSimplicialSurface, IsPosInt] );
 DeclareOperation( "NamesOfFaceNC", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 
+
+#! @Description
+#! Return the face of the simplicial surface that has the given name
+#! as the name of one of its sides.
+#! @Arguments simpSurf, name
+#! @Returns a positive integer
+DeclareOperation( "FaceByName", [IsSimplicialSurface, IsInt] );
+
+
 #! @Description
 #! Return whether the naming scheme for the faces is the default one,
 #! meaning that the upper side of a face f is called f (a positive integer) and
@@ -875,7 +880,7 @@ DeclareAttribute( "PrintStringAttributeOfSimplicialSurface",
 		IsSimplicialSurface );
 
 
-
+#TODO
 ##
 #!	@Description
 #!	This function calls
@@ -893,7 +898,7 @@ DeclareOperation( "ObjectifySimplicialSurface",
 		[IsType,IsRecord,IsSimplicialSurface]);
 
 
-##
+#! @BeginGroup
 #!	@Description
 #!	This is a method which should only be used in code development. It should
 #!	not be called by a normal user as it presupposes knowledge of the internal
@@ -932,15 +937,7 @@ DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometry",
 	[IsSimplicialSurface] );
 DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC",
 	[IsSimplicialSurface] );
-
-##
-#!	@Description
-#!	Return the face-number of the simplicial surface that has the given name
-#!	as the name of one of its sides.
-#!	@Arguments a simplicial surface object simpsurf, an integer
-#!	@Returns a positive integer
-#!
-DeclareOperation( "FaceByName", [IsSimplicialSurface, IsInt] );
+#! @EndGroup
 
 
 #
