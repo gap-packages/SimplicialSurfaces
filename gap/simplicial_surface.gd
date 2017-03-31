@@ -551,7 +551,66 @@ DeclareOperation( "FaceEdgePathsOfVertexNC",
 ##
 #!  @Section Local and global orientations
 #!
-#TODO
+#! If we consider an embedding of a simplicial surface, each face gets mapped
+#! onto a polygon (usually a triangle). For each such polygon there are exactly
+#! two normal vectors that define the two "sides" of the polygon. Via the
+#! right-hand-rule from physics we can identify each normal vector with a
+#! cyclic permutation of the vertices in the polygon. For example, if a given
+#! face is incident to the vertices $\{1,2,3\}$, then the possible cyclic
+#! permutations are (1,2,3) and (1,3,2). If the polygon has more than three
+#! vertices then adjacent vertices in these permutations have to be connected
+#! by an edge.
+#! <P/>
+#! The same construction can be used to derive a cyclic permutation of the
+#! incident edges. In addition it is sometimes useful to encode these
+#! permutations as lists, for example the permutation (1,2,3) corresponds to
+#! the list [1,2,3] (the first entry has to be the smallest one to make this
+#! choice of list unique).
+#! <P/>
+#! A **local orientation** of a given face can now be described in four
+#! equivalent ways:
+#! * ByVerticesAsPerm
+#!   <P/>
+#!   This is a cyclic permutation p of all vertices incident to the face such
+#!   that v and p(v) are incident to an edge of the face (for each vertex v
+#!   in the face).
+#! * ByVerticesAsList
+#!   <P/>
+#!   This is a list of all vertices indicent to the face that encodes the
+#!   permutation of **ByVerticesAsPerm**. The first entry is the smallest
+#!   vertex among those incident to the face.
+#! * ByEdgesAsPerm
+#!   <P/>
+#!   This is a cyclic permutation p of all edges incident to the face such
+#!   that e and p(e) are incident to an edge of the face (for each edge e
+#!   in the face).
+#! * ByEdgesAsList
+#!   <P/>
+#!   This is a list of all edges indicent to the face that encodes the
+#!   permutation of **ByEdgesAsPerm**. The first entry is the smallest
+#!   edge among those incident to the face.
+#! 
+#! A standard local orientation is used to distinguish the different sides for
+#! each face. There is no necessary connection between local orientations of
+#! different faces. It is possible to give the sides different names. If
+#! no special measures are taken, the side that is distinguished by the standard
+#! local orientation is known as f, whereas the other side is known as -f.
+#! <P/>
+#! <P/>
+#! If the simplicial surface is orientable (which is only well-defined if the 
+#! property IsEdgesLikeSurface is true), we can assign a global orientation.
+#! More specifically there are $2^c$ different global orientations, where $c$
+#! denotes the number of path-connected components of the simplicial surface
+#! (two faces are path-connected if there exists a face-edge-path between them
+#! that is not necessarily incident to only one vertex).
+#TODO write methods for path-connected components
+#! <P/>
+#! To return a unique global orientation we pick the smallest face in each
+#! path-connected component and assign the standard local orientation to
+#! this face.
+#! <P/>
+#! To describe the distinguished global orientation we have the same options
+#! as in the local case.
 #!
 
 #! @Description
@@ -564,9 +623,10 @@ DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
 
 
 #! @Description
-#! Return **an** orientation if the simplicial surface is orientable. This 
-#! method is special in the sense that it does **not** guarantee equal outcomes
-#! for different calls of this method.
+#! Return the distinguished global orientation if the simplicial surface is 
+#! orientable. Warning: The returned orientation depends on the chosen local
+#! orientation of the simplicial surface. This might not be equal even if the
+#! incidence structure is.
 #! <P/>
 #! The orientation is returned as a list globalOr. For each face f the entry
 #! globalOr[f] contains a list of the vertices that are incident in the face f.

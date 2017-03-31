@@ -2238,6 +2238,11 @@ InstallMethod( IsConnected, "for a simplicial surface",
 
 ###############################################################################
 ##
+##      Start of the orientation-block
+##
+
+###############################################################################
+##
 ##  Compute the orientation of a surface (if it has one).
 ##
 InstallMethod( GlobalOrientationByVertices, "for a simplicial surface",
@@ -2419,6 +2424,12 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 );
 RedispatchOnCondition( IsOrientable, true, 
     [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );
+
+##
+##      End of the orientation block
+##
+###############################################################################
+
 
 #############################################################################
 ##
