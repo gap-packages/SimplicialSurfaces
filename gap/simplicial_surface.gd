@@ -687,6 +687,29 @@ DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
 
 
+#! @BeginGroup
+#! @Description
+#! Return the distinguished global orientation if the simplicial surface is 
+#! orientable. Warning: The returned orientation depends on the chosen local
+#! orientation of the simplicial surface. This might not be equal even if the
+#! incidence structure is.
+#! <P/>
+#! The orientation is returned as a list globalOr. For each face f the entry
+#! globalOr[f] contains a cycle of the vertices that are incident in the face f.
+#! The order of this cycle corresponds to the orientation of the face f with
+#! respect to the global orientability.
+#! <P/>
+#! This method returns fail if the given surface is not orientable.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of permutations or fail
+DeclareAttribute( "GlobalOrientationByVerticesAsPerm", 
+    IsSimplicialSurface and IsEdgesLikeSurface );
+#! @Arguments simpSurf
+DeclareOperation( "GlobalOrientation",
+    [ IsSimplicialSurface and IsEdgesLikeSurface ] );
+#! @EndGroup
+
 #! @Description
 #! Return the distinguished global orientation if the simplicial surface is 
 #! orientable. Warning: The returned orientation depends on the chosen local
@@ -702,8 +725,48 @@ DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
 #!
 #! @Arguments simpSurf
 #! @Returns a list of lists or fail
-DeclareAttribute( "GlobalOrientationByVertices", 
+DeclareAttribute( "GlobalOrientationByVerticesAsList", 
     IsSimplicialSurface and IsEdgesLikeSurface );
+
+#! @Description
+#! Return the distinguished global orientation if the simplicial surface is 
+#! orientable. Warning: The returned orientation depends on the chosen local
+#! orientation of the simplicial surface. This might not be equal even if the
+#! incidence structure is.
+#! <P/>
+#! The orientation is returned as a list globalOr. For each face f the entry
+#! globalOr[f] contains a cycle of the edges that are incident in the face f.
+#! The order of this cycle corresponds to the orientation of the face f with
+#! respect to the global orientability.
+#! <P/>
+#! This method returns fail if the given surface is not orientable.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of permutations or fail
+DeclareAttribute( "GlobalOrientationByEdgesAsPerm", 
+    IsSimplicialSurface and IsEdgesLikeSurface );
+
+#! @Description
+#! Return the distinguished global orientation if the simplicial surface is 
+#! orientable. Warning: The returned orientation depends on the chosen local
+#! orientation of the simplicial surface. This might not be equal even if the
+#! incidence structure is.
+#! <P/>
+#! The orientation is returned as a list globalOr. For each face f the entry
+#! globalOr[f] contains a list of the edges that are incident in the face f.
+#! The order of this list corresponds to the orientation of the face f with
+#! respect to the global orientability.
+#! <P/>
+#! This method returns fail if the given surface is not orientable.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of lists or fail
+DeclareAttribute( "GlobalOrientationByEdgesAsList", 
+    IsSimplicialSurface and IsEdgesLikeSurface );
+
+
+
+#TODO
 
 #!  @Description
 #!  Return the face-anomaly-classes of a simplicial surface.
