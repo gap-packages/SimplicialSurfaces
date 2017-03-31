@@ -660,24 +660,21 @@ DeclareAttribute( "LocalOrientationByEdgesAsPerm", IsSimplicialSurface );
 DeclareAttribute( "LocalOrientationByEdgesAsList", IsSimplicialSurface );
 
 
-#!  @Description
-#!	Return a list of tuples where at each face-number there is a list with two
-#!	entries. The first one is the name of the upper face-side, the second one
-#!	the name of the lower face-side (with respect to the local orientation).
-#!	All other positions are unbounded.
-#!	If IsFaceNamesDefault is false, this method is basic.
-#!  @Returns a list of lists of integers
-#!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "NamesOfFaces", 
-		IsSimplicialSurface );
+#! @Description
+#! Return alist names with the following properties:
+#! * For each face f the entry names[f] is a list of two integers. The first
+#!   integer is the name of the upper face-side, the second one is the name
+#!   of the lower face-side (with respect to the local orientation).
+#! * all other entries are unbounded.
+#! @Returns a list of lists of integers
+#! @Arguments simpSurf
+DeclareAttribute( "NamesOfFaces", IsSimplicialSurface );
 
-#!	@Description
-#!	Return if the naming scheme for the faces is the default one, meaning
-#!	that the upper side of a face f is called f (a positive integer) and the
-#!	lower side -f (a negative integer).
-#!	@Returns true if the simplicial surface follows the default naming scheme,
-#!	false otherwise
-#!	@Arguments a simplicial surface object simpsurf
+#! @Description
+#! Return whether the naming scheme for the faces is the default one,
+#! meaning that the upper side of a face f is called f (a positive integer) and
+#! the lower side -f (a negative integer).
+#! @Arguments simpSurf
 DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 
 
