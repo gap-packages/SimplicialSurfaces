@@ -444,6 +444,86 @@ DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 #! @Returns a list of positive integers
 DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
 
+#! @Description
+#! Return the face-anomaly-classes of a simplicial surface.
+#! <P/>
+#! Two faces are in the same face-anomaly-class if they contain the same
+#! vertices.
+#! @Returns The face-anomaly-classes (as a list of sets)
+#! @Arguments  simpSurf
+DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
+
+#! @Description
+#! Return the coloured incidence graph of a simplicial surface.
+#! * The vertex set of this graph consists of all vertices, edges and faces
+#!   of the simplicial surface. All vertices, all edges and all faces
+#!   are in individual colour classes.
+#! * The edges are given by vertex-edge and edge-face pairs.
+#! @Returns the coloured incidence graph
+#! @Arguments  simpSurf
+DeclareAttribute( "IncidenceGraph", IsSimplicialSurface );
+
+
+#############################################################################
+##
+##
+#!  @Section Functions for simplicial surfaces
+#!
+#!
+
+
+#! @BeginGroup
+#! @Description
+#! Return the subsurface of a simplicial surface that is defined by the given
+#! set of faces.
+#! <P/>
+#! The NC-version does not check if the given faces actually are faces of the
+#! simplicial surface.
+#! @Arguments simpSurf, faces
+#! @Returns a simplicial surface
+DeclareOperation( "SubsurfaceByFaces", [IsSimplicialSurface, IsSet] );
+#! @Arguments simpSurf, faces
+DeclareOperation( "SubsurfaceByFacesNC", [IsSimplicialSurface, IsSet] );
+#! @EndGroup
+
+
+#! @BeginGroup
+#! Remove all ears of the simplicial surface and return the resulting surface.
+#! An ear is a face that has at most two vertices in common with all other
+#! faces.
+#! <P/>
+#! The recursive-version applies this method recursively until the resulting
+#! simplicial surface has no more ears.
+#! @Arguments simpSurf
+#! @Returns a simplicial surface
+DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
+#! @Arguments simpSurf
+DeclareOperation( "SnippOffEarsRecursive", [IsSimplicialSurface] );
+
+##
+#!	@Description
+#!	This function returns the connected component of the given face.
+#!	The NC-version doesn't check if the given face actually is one.
+#!	@Arguments a simplicial surface object simpsurf, a positive integer
+#!	@Returns a simplicial surface object
+#!
+DeclareOperation( "ConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
+DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
+
+##
+#!  @Description
+#!  Check if two simplicial surfaces are isomorphic. This method only checks
+#!	if they are isomorphic with respect to the incidence relation. It does
+#!	not check if additional structure like a wild coloring is isomorphic (or
+#!	even present).
+#!  @Arguments two simplicial surface objects s1 and s2
+#!  @Returns true or false
+#!
+DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );
+
+
+
+
 
 
 
@@ -660,15 +740,24 @@ DeclareAttribute( "LocalOrientationByEdgesAsPerm", IsSimplicialSurface );
 DeclareAttribute( "LocalOrientationByEdgesAsList", IsSimplicialSurface );
 
 
+#! @BeginGroup
 #! @Description
 #! Return alist names with the following properties:
 #! * For each face f the entry names[f] is a list of two integers. The first
 #!   integer is the name of the upper face-side, the second one is the name
 #!   of the lower face-side (with respect to the local orientation).
 #! * all other entries are unbounded.
+#! 
+#! If a face is given in addition, the corresponding entry of this list is
+#! returned. The NC-version does not throw an error if a non-face is given.
 #! @Returns a list of lists of integers
 #! @Arguments simpSurf
 DeclareAttribute( "NamesOfFaces", IsSimplicialSurface );
+#! @Arguments simpSurf, face
+DeclareOperation( "NamesOfFace", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments simpSurf, face
+DeclareOperation( "NamesOfFaceNC", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
 
 #! @Description
 #! Return whether the naming scheme for the faces is the default one,
@@ -765,47 +854,26 @@ DeclareAttribute( "GlobalOrientationByEdgesAsList",
     IsSimplicialSurface and IsEdgesLikeSurface );
 
 
+###############################################################################
+##
+##
+#!  @Section Technical functions (for development)
+#!
+#! This section contains methods that concern the internal structure of
+#! simplicial surfaces. You only have to read this section if you want to
+#! understand the underlying implementation better or if you want to develop
+#! code that is derived from this.
+#!
+#!
 
-#TODO
-
-#!  @Description
-#!  Return the face-anomaly-classes of a simplicial surface.
-#!	Two faces are in the same face-anomaly-class if they contain the same
-#!	vertices.
-#!  @Returns The face-anomaly-classes (as a list of sets)
-#!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "FaceAnomalyClasses", 
-		IsSimplicialSurface );
-
-
-#!  @Description
-#!  Return the coloured incidence graph of a simplicial surface.
-#!	The vertex set of this graph consists of all vertices, edges and faces
-#!	of the simplicial surface. All vertices, all edges and all faces
-#!	are in individual colour classes.
-#!	The edges are given by vertex-edge and edge-face pairs.
-#!  @Returns the coloured incidence graph
-#!  @Arguments a simplicial surface object simpsurf
-DeclareAttribute( "IncidenceGraph", 
-		IsSimplicialSurface );
-
-
-#!	@Description
-#!	Return a string that contains a command to reconstruct this simplicial
-#!	surface. It is primarily used in the PrintObj-method.
-#!	@Arguments a simplicial surface
-#!	@Returns a string
+#! @Description
+#! Return the string that is printed by the PrintObj-method. This method is
+#! used since it may be expensive to compute the string.
+#! @Arguments simpSurf
+#! @Returns a string
 DeclareAttribute( "PrintStringAttributeOfSimplicialSurface", 
 		IsSimplicialSurface );
 
-
-#############################################################################
-##
-##
-#!  @Section Functions for Simplicial Surfaces
-#!
-#!
-#!
 
 
 ##
@@ -867,79 +935,12 @@ DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC",
 
 ##
 #!	@Description
-#!	This function returns both names of the given face. The first entry is
-#!	the name of the upper side, the second one of the lower side.
-#!	The NC-version doesn't check if the given number actually is a face.
-#!	@Arguments a simplicial surface object simpsurf, a face number
-#!	@Returns a list with two elements
-#!
-DeclareOperation( "NamesOfFace", [IsSimplicialSurface, IsPosInt] );
-DeclareOperation( "NamesOfFaceNC", [IsSimplicialSurface, IsPosInt] );
-
-
-##
-#!	@Description
 #!	Return the face-number of the simplicial surface that has the given name
 #!	as the name of one of its sides.
 #!	@Arguments a simplicial surface object simpsurf, an integer
 #!	@Returns a positive integer
 #!
 DeclareOperation( "FaceByName", [IsSimplicialSurface, IsInt] );
-
-
-##
-#!	@Description
-#!	This function returns the simplicial subsurface that is defined by the
-#!	given set of faces.
-#!	The NC-version does not check if the given faces actually are faces of
-#!	the simplicial surface.
-#!	@Arguments a simplicial surface object simpsurf, a set of positive integers
-#!	@Returns a simplicial surface object
-#!
-DeclareOperation( "SubsurfaceByFaces", [IsSimplicialSurface, IsSet] );
-DeclareOperation( "SubsurfaceByFacesNC", [IsSimplicialSurface, IsSet] );
-
-
-##
-#!	@Description
-#!	This function removes all ears of the simplicial surface and returns
-#!	the resulting surface.
-#!	@Arguments a simplicial surface object simpsurf
-#!	@Returns a simplicial surface object
-#!
-DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
-
-##
-#!	@Description
-#!	This function removes all ears of the simplicial surface. If the resulting
-#!	surface still has ears, it removes them as well (and so on). The final
-#!	surface is returned..
-#!	@Arguments a simplicial surface object simpsurf
-#!	@Returns a simplicial surface object
-#!
-DeclareOperation( "SnippOffEarsRecursive", [IsSimplicialSurface] );
-
-##
-#!	@Description
-#!	This function returns the connected component of the given face.
-#!	The NC-version doesn't check if the given face actually is one.
-#!	@Arguments a simplicial surface object simpsurf, a positive integer
-#!	@Returns a simplicial surface object
-#!
-DeclareOperation( "ConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
-DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
-
-##
-#!  @Description
-#!  Check if two simplicial surfaces are isomorphic. This method only checks
-#!	if they are isomorphic with respect to the incidence relation. It does
-#!	not check if additional structure like a wild coloring is isomorphic (or
-#!	even present).
-#!  @Arguments two simplicial surface objects s1 and s2
-#!  @Returns true or false
-#!
-DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );
-
 
 
 #
