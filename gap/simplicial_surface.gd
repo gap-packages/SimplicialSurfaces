@@ -518,29 +518,32 @@ DeclareProperty( "IsClosedSurface",
 
 
 #! @Description
-#! 
-#!	@Description
-#!	Return a list that contains all face-edge-paths for each vertex. For a 
-#!	given vertex a face-edge-path is a list $(e_1,f_1,e_2,f_2,...,f_n,e_{n+1})$
-#!	or $(e_1,f_1,e_2,f_2,...,f_n)$ such that all $e_i$ are pairwise distinct
-#!	edges incident to the vertex and all $f_j$ are pairwise distinct faces
-#!	incident to the vertex. Furthermore, adjacent elements in the list are
-#!	incident to each other. In the first case (path has odd length) the edges
-#!	$e_1$ and $e_{n+1}$ are border edges. In the second case (path has even 
-#!	length) $e_1$ and $f_n$ are incident.
-#!	If there are several possible ways to describe a face-edge-path, we choose
-#!	the representative where $f_1$ is minimal among all faces in a path. If 
-#!	this is still not unique, we choose one of the remaining paths in a way
-#!	that $e_2$ is minimal among the edges.
-#!	@Arguments simplicialSurface
-#!	@Returns a list of lists of face-edge-paths
+#! Return a list fep with the following conditions:
+#! * for each vertex v the entry fep[v] contains a list of all face-edge-paths
+#!   of this vertex. If there are several possible ways to describe a
+#!   face-edge-path we choose the representative where the first face is
+#!   minimal among all faces in the path. If this is not unique we choose
+#!   the edge between the first and second face to be minimal among all 
+#!   remaining choices.
+#! * every other entry of fep is not bounded.
+#! @Arguments simpSurf
+#! @Returns a list of lists of face-edge-paths
 DeclareAttribute( "FaceEdgePathsOfVertices", 
 		IsSimplicialSurface and IsEdgesLikeSurface );
+#! @BeginGroup
+#! @Description
+#! Return a list of all face-edge-paths around a given vertex.
+#! <P/>
+#! The NC-version does not check whether the vertex lies in the simplicial
+#! surface.
+#! @Arguments simpSurf, vertex
+#! @Returns a list of face-edge-paths
 DeclareOperation( "FaceEdgePathsOfVertex", 
 		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+#! @Arguments simpSurf, vertex
 DeclareOperation( "FaceEdgePathsOfVertexNC", 
 		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
-
+#! @EndGroup
 
 
 #############################################################################
