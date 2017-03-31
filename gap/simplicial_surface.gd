@@ -613,33 +613,6 @@ DeclareOperation( "FaceEdgePathsOfVertexNC",
 #! as in the local case.
 #!
 
-#! @Description
-#! If we have a simplicial surface where every edge is incident to at most two
-#! faces, this method checks if the surface is orientable. (A simplicial surface
-#! is orientable if we can assign a side for each face such that for every two
-#! adjacent sides either both or none are assigned.
-#! @Arguments simpSurf
-DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
-
-
-#! @Description
-#! Return the distinguished global orientation if the simplicial surface is 
-#! orientable. Warning: The returned orientation depends on the chosen local
-#! orientation of the simplicial surface. This might not be equal even if the
-#! incidence structure is.
-#! <P/>
-#! The orientation is returned as a list globalOr. For each face f the entry
-#! globalOr[f] contains a list of the vertices that are incident in the face f.
-#! The order of this list corresponds to the orientation of the face f with
-#! respect to the global orientability.
-#! <P/>
-#! This method returns fail if the given surface is not orientable.
-#!
-#! @Arguments simpSurf
-#! @Returns a list of lists or fail
-DeclareAttribute( "GlobalOrientationByVertices", 
-    IsSimplicialSurface and IsEdgesLikeSurface );
-
 #!  @Description
 #!	Return a list of permutations where at the position of each face-number
 #!	there is a cycle of all vertices that are incident to this face. This
@@ -708,6 +681,33 @@ DeclareAttribute( "NamesOfFaces",
 #!	@Arguments a simplicial surface object simpsurf
 DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 
+
+#! @Description
+#! If we have a simplicial surface where every edge is incident to at most two
+#! faces, this method checks if the surface is orientable. (A simplicial surface
+#! is orientable if we can assign a side for each face such that for every two
+#! adjacent sides either both or none are assigned.
+#! @Arguments simpSurf
+DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
+
+
+#! @Description
+#! Return the distinguished global orientation if the simplicial surface is 
+#! orientable. Warning: The returned orientation depends on the chosen local
+#! orientation of the simplicial surface. This might not be equal even if the
+#! incidence structure is.
+#! <P/>
+#! The orientation is returned as a list globalOr. For each face f the entry
+#! globalOr[f] contains a list of the vertices that are incident in the face f.
+#! The order of this list corresponds to the orientation of the face f with
+#! respect to the global orientability.
+#! <P/>
+#! This method returns fail if the given surface is not orientable.
+#!
+#! @Arguments simpSurf
+#! @Returns a list of lists or fail
+DeclareAttribute( "GlobalOrientationByVertices", 
+    IsSimplicialSurface and IsEdgesLikeSurface );
 
 #!  @Description
 #!  Return the face-anomaly-classes of a simplicial surface.
@@ -801,9 +801,9 @@ DeclareOperation( "ObjectifySimplicialSurface",
 #!
 #!	@Arguments a simplicial surface
 #!	@Returns nothing
-DeclareOperation( "DeriveLocalOrientationAndFacesNamesFromIncidenceGeometry",
+DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometry",
 	[IsSimplicialSurface] );
-DeclareOperation( "DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC",
+DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC",
 	[IsSimplicialSurface] );
 
 ##

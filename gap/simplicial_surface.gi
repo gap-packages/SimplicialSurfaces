@@ -102,7 +102,7 @@ InstallMethod( ObjectifySimplicialSurface, "",
 	end
 );
 
-InstallMethod( DeriveLocalOrientationAndFacesNamesFromIncidenceGeometry, "",
+InstallMethod( DeriveLocalOrientationAndFaceNamesFromIncidenceGeometry, "",
 		[IsSimplicialSurface],
 	function( surf )
 		local attrList, attrName, attr;
@@ -116,11 +116,11 @@ InstallMethod( DeriveLocalOrientationAndFacesNamesFromIncidenceGeometry, "",
 		for attrName in attrList do
 			attr := ValueGlobal( attrName );
 			if Tester(attr)(surf) then
-				Error("DeriveLocalOrientationAndFacesNamesFromIncidenceGeometry: Some attributes are already set.");
+				Error("DeriveLocalOrientationAndFaceNamesFromIncidenceGeometry: Some attributes are already set.");
 			fi;
 		od;
 
-		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(surf);
 	end
 );
 
@@ -171,7 +171,7 @@ BindGlobal( "__SIMPLICIAL_RandomVerticesOfFaces", function( vertices, faces,
 	return faceList;
 end);
 
-InstallMethod( DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC, "",
+InstallMethod( DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC, "",
 		[IsSimplicialSurface],
 	function( surf )
 		local verticesOfFaces;
@@ -456,7 +456,7 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceNC, "",
 		SetEdgesOfFaces( surf, List( edgesOfFaces, i -> Set(i) ) );
 
 		# Set local orientation and face names
-		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(surf);
 		
 		return surf;
 	end
@@ -564,7 +564,7 @@ InstallMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 		SetFacesOfEdges( surf, List( facesOfEdges, i -> Set(i) ) );
 
 		# Set local orientation and face names
-		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(surf);
 		
 		return surf;
 	end

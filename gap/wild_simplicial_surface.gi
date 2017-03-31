@@ -20,6 +20,25 @@ WildSimplicialSurfaceType :=
 ##						Start of constructors
 ##
 
+##
+## In contrast to general simplicial surfaces, the edge colouring of wild
+## simplicial surfaces allows a general procedure to define the local
+## orientation of each face: Just take the orientation defined by the colour
+## cycle (1,2,3). For this end we overload the method 
+## DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC.
+InstallOtherMethod( DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC,
+    "for a wild simplicial surface", [IsWildSimplicialSurface],
+    function( wildSurf )
+        local edgeOrientation;
+
+        edgeOrientation := ColouredEdgesOfFaces(wildSurf);
+        SetLocalOrientationByEdgesAsList( wildSurf, edgeOrientation );
+
+        # Set the face names
+        SetIsFaceNamesDefault( wildSurf, true);
+    end
+);
+
 ###################################
 ##
 ##	Constructor by downward incidence and edge colouring
@@ -42,7 +61,7 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
 		SetEdgesOfFaces( surf, List(edgesOfFaces,i->Set(i)) );
 
 		# define other attributes of simplicial surface
-		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
 
 		# set edge colouring attribute
 		SetColoursOfEdges( surf, coloursOfEdges );
@@ -228,7 +247,7 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC,
 		SetEdgesOfFaces( surf, List(edgesOfFaces, i -> Set(i) ) );
 
 		# define other attributes of simplicial surface
-		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
 
 		# set edge colouring attribute
 		SetGenerators( surf, generators );
@@ -482,7 +501,7 @@ InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC,
 		SetFaceEdgePathsOfVertices( surf, faceEdgePaths );
 
 		# define other attributes of simplicial surface
-		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
 
 		# set edge colouring attribute
 		SetColoursOfEdges( surf, coloursOfEdges );
@@ -738,7 +757,7 @@ InstallMethod( WildSimplicialSurfaceByColouredFaceEdgePathsNC, "",
 		SetColouredFaceEdgePathsOfVertices( surf, colouredFaceEdgePaths );
 
 		# define other attributes of simplicial surface
-		DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC( surf );
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
 
 		return surf;
 	end
@@ -1477,7 +1496,7 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	SetVerticesAttributeOfSimplicialSurface( surf, vertices );
 	SetEdgesOfVertices( surf, edgesOfVertices );
 
-	DeriveLocalOrientationAndFacesNamesFromIncidenceGeometryNC(surf);
+	DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(surf);
 
 	return surf;
 end);
