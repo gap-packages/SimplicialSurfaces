@@ -60,11 +60,11 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC,
 		SetVerticesOfEdges( surf, List(verticesOfEdges,i->Set(i)) );
 		SetEdgesOfFaces( surf, List(edgesOfFaces,i->Set(i)) );
 
-		# define other attributes of simplicial surface
-		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
-
 		# set edge colouring attribute
 		SetColoursOfEdges( surf, coloursOfEdges );
+
+		# define other attributes of simplicial surface
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
 
 		return surf;
 	end
@@ -246,14 +246,14 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC,
 		SetVerticesOfEdges( surf, List(verticesOfEdges, i -> Set(i)) );
 		SetEdgesOfFaces( surf, List(edgesOfFaces, i -> Set(i) ) );
 
-		# define other attributes of simplicial surface
-		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
-
 		# set edge colouring attribute
 		SetGenerators( surf, generators );
 		coloursOfEdges := __SIMPLICIAL_ColoursOfEdgesFromGenerators( 
 				Edges(surf), Faces(surf), FacesOfEdges(surf), generators );
 		SetColoursOfEdges( surf, coloursOfEdges );
+
+		# define other attributes of simplicial surface
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
 
 		return surf;
 	end
@@ -500,11 +500,11 @@ InstallMethod( WildSimplicialSurfaceByFaceEdgesPathsAndEdgeColouringNC,
 		SetFaces( surf, faces );
 		SetFaceEdgePathsOfVertices( surf, faceEdgePaths );
 
-		# define other attributes of simplicial surface
-		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
-
 		# set edge colouring attribute
 		SetColoursOfEdges( surf, coloursOfEdges );
+
+		# define other attributes of simplicial surface
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC( surf );
 
 		return surf;
 	end

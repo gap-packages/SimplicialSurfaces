@@ -2591,8 +2591,11 @@ InstallMethod( IsOrientable, "for a simplicial surface",
 InstallMethod( IsOrientable, "for a simplicial surface",
         [IsSimplicialSurface and IsEdgesLikeSurface ],
         function(surf)
+            if HasGlobalOrientationByVerticesAsList(surf) then
+                TryNextMethod();
+            fi;
             GlobalOrientationByVerticesAsList(surf);
-            TryNextMethod();
+            return IsOrientable(surf);
         end
 );
 RedispatchOnCondition( IsOrientable, true, 
