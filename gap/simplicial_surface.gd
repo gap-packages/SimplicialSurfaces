@@ -530,6 +530,8 @@ DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
 #!
 #! The orientation is returned as a list globalOr. For each face f the entry
 #! globalOr[f] contains a list of the vertices that are incident in the face f.
+#! The order of this list corresponds to the orientation of the face f with
+#! respect to the global orientability.
 #!
 #! This method returns fail if the given surface is not orientable.
 #!
