@@ -341,6 +341,15 @@ BindGlobal( "__SIMPLICIAL_CheckDownwardIncidence", function( vertices, edges,
 		Error("DownwardIncidenceCheck: One edge does not lie in any face.");
 	fi;
 
+        # Check whether verticesOfEdges and edgesOfFaces are compatible
+        verticesOfFaces := __SIMPLICIAL_TransitiveIncidence( faces, 
+                        edgesOfFaces, edges, verticesOfEdges, vertices );
+        for f in faces do
+            if Length(edgesOfFaces[f]) <> Length(verticesOfFaces[f]) then
+                Error("DownwardIncidenceCheck: One face has a different amount of edges and vertices.");
+            fi;
+        od;
+
 	# Special check for the orientation preserving constructor
 	if edgesAdjacent then
 		IncidentEdges := function( verticesOfEdges, edge1, edge2 )
