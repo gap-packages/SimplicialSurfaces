@@ -291,7 +291,7 @@ BindGlobal( "__SIMPLICIAL_IsSetPosInt", function( set )
 BindGlobal( "__SIMPLICIAL_CheckDownwardIncidence", function( vertices, edges, 
 	faces, verticesOfEdges, edgesOfFaces, namesOfFaces, edgesAdjacent )
 	
-	local e, f, IncidentEdges, edgeList, i;
+	local e, f, IncidentEdges, edgeList, i, verticesOfFaces;
 
 	# Check the sets
 	if not __SIMPLICIAL_IsSetPosInt( vertices ) then
