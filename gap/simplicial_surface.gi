@@ -800,7 +800,11 @@ BindGlobal( "__SIMPLICIAL_IsSetPosInt", function( set )
 BindGlobal( "__SIMPLICIAL_CheckDownwardIncidence", function( vertices, edges, 
 	faces, verticesOfEdges, edgesOfFaces, namesOfFaces, edgesAdjacent )
 	
-	local e, f, IncidentEdges, edgeList, i, verticesOfFaces;
+	local e, f, IncidentEdges, edgeList, i, verticesOfFaces, errorString,
+            errorStream;
+
+        # Initialise the error states
+        errorString := "DownwardIncidenceCheck: ";
 
 	# Check the sets
 	if not __SIMPLICIAL_IsSetPosInt( vertices ) then
@@ -818,36 +822,81 @@ BindGlobal( "__SIMPLICIAL_CheckDownwardIncidence", function( vertices, edges,
 	# Is verticesOfEdges well defined?
 	for e in edges do
 		if not IsBound( verticesOfEdges[e] ) then
-			Error("DownwardIncidenceCheck: One edge has no vertices.");
+                    errorStream := OutputTextString( errorString, true );
+                    PrintTo( errorStream, "Edge ", e, " has no vertices.");
+                    CloseStream(errorStream);
+                    Error(errorString);
 		elif Size( Set( verticesOfEdges[e] ) ) <> 2 then
-			Error("DownwardIncidenceCheck: One edge has not two vertices.");
+                    errorStream := OutputTextString( errorString, true );
+                    PrintTo( errorStream, "Edge ", e, " has ", 
+                            Size(Set(verticesOfEdges[e])), 
+                            " vertices instead of two.");
+                    CloseStream(errorStream);
+                    Error(errorString);
 		elif not IsEmpty( Difference( Set(verticesOfEdges[e]), vertices ) ) then
-			Error("DownwardIncidenceCheck: One edge has illegal vertex.");
+                    errorStream := OutputTextString( errorString, true );
+                    PrintTo( errorStream, "Edge ", e, " has illegal vertices ",
+                            Difference( Set(verticesOfEdges[e], vertices)) );
+                    CloseStream(errorStream);
+                    Error(errorString);
 		fi;
 	od;
 			# Number only counts bound entries
 	if Number( verticesOfEdges ) <> Length( edges ) then 
-		Error("DownwardIncidenceCheck: More edges than expected.");
+	    errorStream := OutputTextString( errorString, true );
+            PrintTo( errorStream, "VerticesOfEdges has ", 
+                    Number(verticesOfEdges), 
+                    " bound entries, but there are only ", Length(edges),
+                    " edges." );
+            CloseStream(errorStream);
+            Error(errorString);
 	fi;
 	if Union( verticesOfEdges ) <> vertices then
-		Error("DownwardIncidenceCheck: One vertex does not lie in any edge.");
+		errorStream := OutputTextString( errorString, true );
+                PrintTo( errorStream, "The vertices ", 
+                        Difference(vertices, Union(verticesOfEdges)),
+                        " don't lie in any edge." );
+                CloseStream(errorStream);
+                Error(errorString);
 	fi;
 
 	# Is edgesOfFaces well defined?
 	for f in faces do
 		if not IsBound( edgesOfFaces[f] ) then
-			Error("DownwardIncidenceCheck: One face has no edges.");
+		    errorStream := OutputTextString( errorString, true );
+                    PrintTo( errorStream, "Face ", f, " has no edges" );
+                    CloseStream(errorStream);
+                    Error(errorString);
 		elif Size( Set( edgesOfFaces[f] ) ) < 3 then
-			Error("DownwardIncidenceCheck: One face has less than three edges.");
+		    errorStream := OutputTextString( errorString, true );
+                    PrintTo( errorStream, "Face ", f, " has only ",
+                            Size(Set(edgesOfFaces[f])), 
+                            " edges (Minimum three)" );
+                    CloseStream(errorStream);
+                    Error(errorString);
 		elif not IsEmpty( Difference( Set(edgesOfFaces[f]), edges ) ) then
-			Error("DownwardIncidenceCheck: One face has illegal edge.");
+		    errorStream := OutputTextString( errorString, true );
+                    PrintTo( errorStream, "Face ", f, " has illegal edges ",
+                            Difference( edges, Set(edgesOfFaces[f])) );
+                    CloseStream(errorStream);
+                    Error(errorString);
 		fi;
 	od;
 	if Number( edgesOfFaces ) <> Length( faces ) then
-		Error("DownwardIncidenceCheck: More faces than expected.");
+	    errorStream := OutputTextString( errorString, true );
+            PrintTo( errorStream, "EdgesOfFaces has ", Number(edgesOfFaces),
+                    " bound entries, but there are only ", Length(faces),
+                    " faces.");
+            CloseStream(errorStream);
+            Error(errorString);
 	fi;
 	if Union( edgesOfFaces ) <> edges then
-		Error("DownwardIncidenceCheck: One edge does not lie in any face.");
+	    errorStream := OutputTextString( errorString, true );
+            PrintTo( errorStream, "The edges ", 
+                    Difference(edges, Union(edgesOfFaces) ), 
+                    " don't lie in any face." );
+            CloseStream(errorStream);
+            Error(errorString);
 	fi;
 
         # Check whether verticesOfEdges and edgesOfFaces are compatible
@@ -855,7 +904,14 @@ BindGlobal( "__SIMPLICIAL_CheckDownwardIncidence", function( vertices, edges,
                         edgesOfFaces, edges, verticesOfEdges, vertices );
         for f in faces do
             if Length(edgesOfFaces[f]) <> Length(verticesOfFaces[f]) then
-                Error("DownwardIncidenceCheck: One face has a different amount of edges and vertices.");
+                errorStream := OutputTextString( errorString, true );
+                PrintTo( errorStream, "Face ", f, " has the ", 
+                        Length(edgesOfFaces[f]), " edges ", edgesOfFaces[f],
+                        " and the ", Length(verticesOfFaces[f]), " vertices ",
+                        verticesOfFaces[f], 
+                        ", but there should be as many edges as vertices.");
+                CloseStream(errorStream);
+                Error(errorString);
             fi;
         od;
 
@@ -869,7 +925,12 @@ BindGlobal( "__SIMPLICIAL_CheckDownwardIncidence", function( vertices, edges,
 			inter := Intersection( vert1, vert2 );
 		
 			if Length(inter) <> 1 then
-				Error("DownwardIncidenceCheck: Adjacent edges in the list have to be adjacent in the surface." );
+	        	    errorStream := OutputTextString( errorString, true );
+                            PrintTo( errorStream, "The edges ", edge1, " and ",
+                            edge2, 
+                            " are adjacent in an entry of EdgesOfFaces but do not share a vertex." );
+                            CloseStream(errorStream);
+                            Error(errorString);
 			fi;
 			
 			return;
@@ -890,16 +951,33 @@ BindGlobal( "__SIMPLICIAL_CheckDownwardIncidence", function( vertices, edges,
 	if not namesOfFaces = fail then
 		for f in faces do
 			if not IsBound( namesOfFaces[f] ) then
-				Error("DownwardIncidenceCheck: One face has no names.");
+			    errorStream := OutputTextString( errorString, true );
+                            PrintTo( errorStream, "Face ", f, " has no names.");
+                            CloseStream(errorStream);
+                            Error(errorString);
 			elif Size( Set( namesOfFaces[f] ) ) <> 2 then
-				Error("DownwardIncidenceCheck: One face has not two different names.");
+			    errorStream := OutputTextString( errorString, true );
+                            PrintTo( errorStream, "Face ", f,
+                                    " should have two different names.");
+                            CloseStream(errorStream);
+                            Error(errorString);
 			elif not IsInt(namesOfFaces[f][1]) 
 					or not IsInt(namesOfFaces[f][2]) then
-				Error("DownwardIncidenceCheck: One face has non-integer names.");
+			    errorStream := OutputTextString( errorString, true );
+                            PrintTo( errorStream, "Face ", f, 
+                                    " has non-integer names ", 
+                                    namesOfFaces[f] );
+                            CloseStream(errorStream);
+                            Error(errorString);
 			fi;
 		od;
 		if Number( namesOfFaces ) <> Length( faces ) then
-			Error("DownwardIncidenceCheck: More face-names than expected.");
+		    errorStream := OutputTextString( errorString, true );
+                    PrintTo( errorStream, "There are ", Number(namesOfFaces),
+                            " names for faces but there are ", Length(faces),
+                            " faces given.");
+                    CloseStream(errorStream);
+                    Error(errorString);
 		fi;
 	fi;
 end);
