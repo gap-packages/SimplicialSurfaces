@@ -187,6 +187,515 @@ InstallMethod( DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC, "",
 	end
 );
 
+#! @Description
+#! Returns the numbers of the vertices as a set. This is a basic method.
+#! @Arguments a simplicial surface
+#! @Returns a dense list of integers
+InstallMethod( Vertices, "for a simplicial surface", [ IsSimplicialSurface ],
+	function(simpsurf)
+		return VerticesAttributeOfSimplicialSurface( simpsurf );
+	end
+);
+
+
+##
+##	Since vertices, edges and faces can be computed (more or less implicitly)
+##	from many different other attributes, we include them in the method
+##	selection graph.
+##
+InstallMethod( VerticesAttributeOfSimplicialSurface, "for a simplicial surface",
+	[ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+					VerticesAttributeOfSimplicialSurface, surf );
+	end
+);
+InstallMethod( Edges, "for a simplicial surface", [ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, Edges, surf);
+	end
+);
+InstallMethod( Faces, "for a simplicial surface", [ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, Faces, surf);
+	end
+);
+
+
+
+
+#############################################################################
+##
+#!	@Description
+#!	This function returns the number of vertices.
+#!	@Returns an integer
+#!	@Arguments a simplicial surface object simpsurf
+#!
+InstallMethod( NrOfVertices, "for a simplicial surface", 
+	[ IsSimplicialSurface ],
+	function(simpsurf)
+		return Length( Vertices(simpsurf) );
+	end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	This function returns the number of edges.
+#!	@Returns an integer
+#!	@Arguments a simplicial surface object simpsurf
+#!
+InstallMethod( NrOfEdges, "for a simplicial surface", [ IsSimplicialSurface ],
+	function(simpsurf)
+		return Length( Edges(simpsurf) );
+	end
+);
+
+#############################################################################
+##
+#!	@Description
+#!	This function returns the number of faces.
+#!	@Returns an integer
+#!	@Arguments a simplicial surface object simpsurf
+#!
+InstallMethod( NrOfFaces, "for a simplicial surface", [ IsSimplicialSurface ],
+	function(simpsurf)
+		return Length( Faces(simpsurf) );
+	end
+);
+
+#############################################################################
+##
+##  A Print method for simplicial surfaces
+##
+InstallMethod( PrintStringAttributeOfSimplicialSurface,
+	"for a simplicial surface", [IsSimplicialSurface],
+	function( simpsurf )
+		local str, out;
+
+		str := "";
+		out := OutputTextString( str, true );
+		PrintTo( out, 
+				"SimplicialSurfaceByDownwardIncidenceWithOrientationNC(\n" );
+		PrintTo( out, Vertices(simpsurf), ",\n" );
+		PrintTo( out, Edges(simpsurf), ",\n" );
+		PrintTo( out, Faces(simpsurf), ",\n" );
+		PrintTo( out, VerticesOfEdges(simpsurf), ",\n" );
+		PrintTo( out, LocalOrientationByEdgesAsList(simpsurf), ",\n" );
+
+		if IsFaceNamesDefault(simpsurf) then
+			PrintTo( out, ");\n" );
+		else
+			PrintTo( out, " : NamesOfFaces := ", 
+									NamesOfFaces(simpsurf), ");\n" );
+		fi;
+
+		CloseStream(out);
+
+		return str;
+	end
+);
+InstallMethod( PrintObj, "for simplicial surfaces", [ IsSimplicialSurface ], 
+	function(simpsurf)
+		Print( PrintStringAttributeOfSimplicialSurface( simpsurf ) );
+	end
+);
+
+
+#############################################################################
+##
+##  A Display method for simplicial surfaces
+##
+InstallMethod( Display, "for simplicial surfaces", [ IsSimplicialSurface ],
+	function(simpsurf)
+
+        Print("Vertices: ", Vertices(simpsurf), ",\n");
+        Print("Edges: ", Edges(simpsurf), ",\n");
+        Print("Faces: ", Faces(simpsurf), ",\n");
+        Print("VerticesOfEdges: ", VerticesOfEdges(simpsurf), ",\n");
+        Print("EdgesOfFaces: ", EdgesOfFaces(simpsurf), ",\n" );
+		Print("LocalOrientation: ", LocalOrientation(simpsurf), ",\n" );
+		Print("NamesOfFaces: ", NamesOfFaces(simpsurf), ",\n" );
+	end
+);
+
+#############################################################################
+##
+#!  @Description
+#!  Check if two simplicial surfaces are equal.
+#!  @Returns true or false
+#!  @Arguments <s1>, <s2>, two simplicial surface objects
+#!
+##
+InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj, 
+  [ IsSimplicialSurface, IsSimplicialSurface ],
+	function( s1, s2 )
+		# check all basic attributes
+
+		if Vertices(s1) <> Vertices(s2) then
+			return false;
+		fi;
+		if Edges(s1) <> Edges(s2) then
+			return false;
+		fi;
+		if Faces(s1) <> Faces(s2) then
+			return false;
+		fi;
+
+		if VerticesOfEdges(s1) <> VerticesOfEdges(s2) then
+			return false;
+		fi;
+		if EdgesOfFaces(s1) <> EdgesOfFaces(s2) then
+			return false;
+		fi;
+
+		if LocalOrientation(s1) <> LocalOrientation(s2) then
+			return false;
+		fi;
+		if NamesOfFaces(s1) <> NamesOfFaces(s2) then
+			return false;
+		fi;
+
+        return true;
+	end
+);
+
+
+#############################################################################
+#############################################################################
+##
+##						Start of *Of*-methods
+##
+##	It is pretty annoying to implement all of the *Of*-methods for each
+##	individual representation. As they are interdependent, this is also
+##	redundant. Therefore we collect some methods here that allow us to only
+##	implement a minimal set of these methods. We rely on the fact that we
+##	consider the *Of*-objects as attributes which have a corresponding filter
+##	which makes it known which of those are already known.
+##
+##
+##	There are exactly four cases in which we know every information from
+##	two of those values:
+##		EdgesOfFaces and VerticesOfEdges
+##		EdgesOfFaces and EdgesOfVertices
+##		FacesOfEdges and VerticesOfEdges
+##		FacesOfEdges and EdgesOfVertices
+##	We will start with an inversion and a transitivity method. These two are
+##	sufficient to generate every other combination in at most two steps. Since
+##	GAP can't do more than one step we use the method selection graph to cover
+##	all other cases.
+##
+##	Before we implement the relations between the *Of*-relations we implement
+##	the implicit references to the constituents (for example we can derive
+##	both Vertices and Edges from VerticesOfEdges).
+BindGlobal( "__SIMPLICIAL_BoundEntriesOfList",
+	function( list )
+		return Filtered( [1..Length(list)], i -> IsBound( list[i] ) );
+	end
+);
+
+##	VerticesOfEdges
+InstallMethod( VerticesAttributeOfSimplicialSurface, 
+	"for a simplicial surface that has VerticesOfEdges",
+	[ IsSimplicialSurface and HasVerticesOfEdges ],
+	function( surf );
+		return Union( VerticesOfEdges( surf ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"VerticesAttributeOfSimplicialSurface", "VerticesOfEdges" );
+InstallMethod( Edges, "for a simplicial surface that has VerticesOfEdges",
+	[ IsSimplicialSurface and HasVerticesOfEdges ],
+	function( surf );
+		return __SIMPLICIAL_BoundEntriesOfList( VerticesOfEdges(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"Edges", "VerticesOfEdges" );
+
+##	VerticesOfFaces
+InstallMethod( VerticesAttributeOfSimplicialSurface, 
+	"for a simplicial surface that has VerticesOfFaces",
+	[ IsSimplicialSurface and HasVerticesOfFaces ],
+	function( surf );
+		return Union( VerticesOfFaces( surf ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"VerticesAttributeOfSimplicialSurface", "VerticesOfFaces" );
+InstallMethod( Faces, "for a simplicial surface that has VerticesOfFaces",
+	[ IsSimplicialSurface and HasVerticesOfFaces ],
+	function( surf );
+		return __SIMPLICIAL_BoundEntriesOfList( VerticesOfFaces(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"Faces", "VerticesOfFaces" );
+
+##	EdgesOfVertices
+InstallMethod( Edges, "for a simplicial surface that has EdgesOfVertices",
+	[ IsSimplicialSurface and HasEdgesOfVertices ],
+	function( surf );
+		return Union( EdgesOfVertices( surf ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"Edges", "EdgesOfVertices" );
+InstallMethod( VerticesAttributeOfSimplicialSurface, 
+	"for a simplicial surface that has EdgesOfVertices",
+	[ IsSimplicialSurface and HasEdgesOfVertices ],
+	function( surf );
+		return __SIMPLICIAL_BoundEntriesOfList( EdgesOfVertices(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"VerticesAttributeOfSimplicialSurface", "EdgesOfVertices" );
+
+##	EdgesOfFaces
+InstallMethod( Edges, "for a simplicial surface that has EdgesOfFaces",
+	[ IsSimplicialSurface and HasEdgesOfFaces ],
+	function( surf );
+		return Union( EdgesOfFaces( surf ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"Edges", "EdgesOfFaces" );
+InstallMethod( Faces, "for a simplicial surface that has EdgesOfFaces",
+	[ IsSimplicialSurface and HasEdgesOfFaces ],
+	function( surf );
+		return __SIMPLICIAL_BoundEntriesOfList( EdgesOfFaces(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"Faces", "EdgesOfFaces" );
+
+##	FacesOfVertices
+InstallMethod( Faces, "for a simplicial surface that has FacesOfVertices",
+	[ IsSimplicialSurface and HasFacesOfVertices ],
+	function( surf );
+		return Union( FacesOfVertices( surf ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"Faces", "FacesOfVertices" );
+InstallMethod( VerticesAttributeOfSimplicialSurface, 
+	"for a simplicial surface that has FacesOfVertices",
+	[ IsSimplicialSurface and FacesOfVertices ],
+	function( surf );
+		return __SIMPLICIAL_BoundEntriesOfList( FacesOfVertices(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"VerticesAttributeOfSimplicialSurface", "FacesOfVertices" );
+
+##	FacesOfEdges
+InstallMethod( Faces, 
+	"for a simplicial surface that has FacesOfEdges",
+	[ IsSimplicialSurface and HasFacesOfEdges ],
+	function( surf );
+		return Union( FacesOfEdges( surf ) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"Faces", "FacesOfEdges" );
+InstallMethod( Edges, "for a simplicial surface that has FacesOfEdges",
+	[ IsSimplicialSurface and HasFacesOfEdges ],
+	function( surf );
+		return __SIMPLICIAL_BoundEntriesOfList( FacesOfEdges(surf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"Edges", "FacesOfEdges" );
+
+
+##	
+##	Now we implement the inversion of an incidence relation. For example
+##	we know edgesOfFaces but want to know facesOfEdges. As this inversion is
+##	always the same we implement it in general.
+##	Given are the numbers of edges and faces, together with the relation
+##	edgesOfFaces. It returns the relation facesOfEdges. (The names are used
+##	only for illustration.)
+BindGlobal( "__SIMPLICIAL_InvertIncidence", 
+	function( faceNr, edgesOfFaces, edgeNr )
+
+	local edgeList, edge, faceSet, face;
+
+	edgeList := [];
+	for edge in edgeNr do
+		faceSet := [];
+		for face in faceNr do
+			if edge in edgesOfFaces[face] then
+				faceSet := Union( faceSet, [face] );
+			fi;
+		od;
+		edgeList[edge] := faceSet;
+	od;
+
+	return edgeList;
+end);
+##
+##	With this method we can write inversion methods for all six cases.
+InstallMethod( EdgesOfVertices, 
+	[IsSimplicialSurface and HasVerticesOfEdges ], 
+	function( simpsurf )
+		return __SIMPLICIAL_InvertIncidence( Edges(simpsurf),
+				VerticesOfEdges(simpsurf), Vertices(simpsurf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"EdgesOfVertices", "VerticesOfEdges" );
+
+InstallMethod( FacesOfVertices, 
+	[IsSimplicialSurface and HasVerticesOfFaces ],
+	function( simpsurf )
+		return __SIMPLICIAL_InvertIncidence( Faces(simpsurf),
+				VerticesOfFaces(simpsurf), Vertices(simpsurf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"FacesOfVertices", "VerticesOfFaces" );
+
+InstallMethod( VerticesOfEdges, 
+	[IsSimplicialSurface and HasEdgesOfVertices ],
+	function( simpsurf )
+		return __SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
+				EdgesOfVertices(simpsurf), Edges(simpsurf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"VerticesOfEdges", "EdgesOfVertices" );
+
+InstallMethod( FacesOfEdges, 
+	[IsSimplicialSurface and HasEdgesOfFaces ],
+	function( simpsurf )
+		return __SIMPLICIAL_InvertIncidence( Faces(simpsurf),
+				EdgesOfFaces(simpsurf), Edges(simpsurf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"FacesOfEdges", "EdgesOfFaces" );
+
+InstallMethod( VerticesOfFaces, 
+	[IsSimplicialSurface and HasFacesOfVertices ],
+	function( simpsurf )
+		return __SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
+				FacesOfVertices(simpsurf), Faces(simpsurf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"VerticesOfFaces", "FacesOfVertices" );
+
+InstallMethod( EdgesOfFaces, 
+	[IsSimplicialSurface and HasFacesOfEdges ], 
+	function( simpsurf )
+		return __SIMPLICIAL_InvertIncidence( Edges(simpsurf),
+				FacesOfEdges(simpsurf), Faces(simpsurf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"EdgesOfFaces", "FacesOfEdges" );
+
+##
+##	Next we consider the case of transitivity: From EdgesOfFaces and 
+##	VerticesOfEdges we can deduce VerticesOfFaces
+BindGlobal( "__SIMPLICIAL_TransitiveIncidence", 
+	function( faceNr, edgesOfFaces, edgeNr,	verticesOfEdges, vertexNr )
+
+	local face, verticesOfFaces, edgesInFace, verticesInEdges;
+
+	verticesOfFaces := [];
+	for face in faceNr do
+		edgesInFace := edgesOfFaces[face];
+		verticesInEdges := List( edgesInFace, e -> verticesOfEdges[e] );
+		verticesOfFaces[face] := Union( verticesInEdges );
+	od;
+
+	return verticesOfFaces;
+end);
+##
+InstallMethod( VerticesOfFaces, 
+	[IsSimplicialSurface and HasEdgesOfFaces and HasVerticesOfEdges ],
+	function( simpsurf )
+		return __SIMPLICIAL_TransitiveIncidence( Faces(simpsurf),
+			EdgesOfFaces(simpsurf), Edges(simpsurf),
+			VerticesOfEdges(simpsurf), Vertices(simpsurf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"VerticesOfFaces", ["EdgesOfFaces", "VerticesOfEdges"] );
+
+InstallMethod( FacesOfVertices, 
+	[IsSimplicialSurface and HasEdgesOfVertices and HasFacesOfEdges ],
+	function( simpsurf )
+		return __SIMPLICIAL_TransitiveIncidence( Vertices(simpsurf),
+			EdgesOfVertices(simpsurf), Edges(simpsurf),
+			FacesOfEdges(simpsurf), Faces(simpsurf) );
+	end
+);
+	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+		"FacesOfVertices", ["EdgesOfVertices", "FacesOfEdges"] );
+
+
+##	Normally we would be finished at this point. But the method selection of
+##	GAP is not so intelligent to check for attributes transitively (it only
+##	checks if an attribute is set, not if it could be set). It would have been
+##	nice if this could be done by RedispatchOnCondition (see 78.5-1) but this
+##	option only works for properties. Since Has* is false if the attribute *
+##	is not computed, we can't use it (theoretically we could introduce an
+##	additional property for "possible existence of this attribute" but that
+##	gets even more involved). Therefore we will use the method selection graph.
+##	For this to work we have to implement a method for each of the 
+##	*Of*-attributes.
+InstallMethod( VerticesOfEdges, "for a simplicial surface", 
+	[ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+										VerticesOfEdges, surf);
+	end
+);
+InstallMethod( VerticesOfFaces, "for a simplicial surface", 
+	[ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+										VerticesOfFaces, surf);
+	end
+);
+InstallMethod( EdgesOfVertices, "for a simplicial surface", 
+	[ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+										EdgesOfVertices, surf);
+	end
+);
+InstallMethod( EdgesOfFaces, "for a simplicial surface", 
+	[ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+										EdgesOfFaces, surf);
+	end
+);
+InstallMethod( FacesOfVertices, "for a simplicial surface", 
+	[ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+										FacesOfVertices, surf);
+	end
+);
+InstallMethod( FacesOfEdges, "for a simplicial surface", 
+	[ IsSimplicialSurface ],
+	function( surf )
+		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+										FacesOfEdges, surf);
+	end
+);
+
+##
+##							End of *Of*-Methods
+##
+#############################################################################
+#############################################################################
+
+
 #############################################################################
 #############################################################################
 ##
@@ -881,515 +1390,6 @@ InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 			[ IsSet, , ], 0 );
 ##
 ##							End of constructors
-##
-#############################################################################
-#############################################################################
-
-
-#! @Description
-#! Returns the numbers of the vertices as a set. This is a basic method.
-#! @Arguments a simplicial surface
-#! @Returns a dense list of integers
-InstallMethod( Vertices, "for a simplicial surface", [ IsSimplicialSurface ],
-	function(simpsurf)
-		return VerticesAttributeOfSimplicialSurface( simpsurf );
-	end
-);
-
-
-##
-##	Since vertices, edges and faces can be computed (more or less implicitly)
-##	from many different other attributes, we include them in the method
-##	selection graph.
-##
-InstallMethod( VerticesAttributeOfSimplicialSurface, "for a simplicial surface",
-	[ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-					VerticesAttributeOfSimplicialSurface, surf );
-	end
-);
-InstallMethod( Edges, "for a simplicial surface", [ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, Edges, surf);
-	end
-);
-InstallMethod( Faces, "for a simplicial surface", [ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, Faces, surf);
-	end
-);
-
-
-
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the number of vertices.
-#!	@Returns an integer
-#!	@Arguments a simplicial surface object simpsurf
-#!
-InstallMethod( NrOfVertices, "for a simplicial surface", 
-	[ IsSimplicialSurface ],
-	function(simpsurf)
-		return Length( Vertices(simpsurf) );
-	end
-);
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the number of edges.
-#!	@Returns an integer
-#!	@Arguments a simplicial surface object simpsurf
-#!
-InstallMethod( NrOfEdges, "for a simplicial surface", [ IsSimplicialSurface ],
-	function(simpsurf)
-		return Length( Edges(simpsurf) );
-	end
-);
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the number of faces.
-#!	@Returns an integer
-#!	@Arguments a simplicial surface object simpsurf
-#!
-InstallMethod( NrOfFaces, "for a simplicial surface", [ IsSimplicialSurface ],
-	function(simpsurf)
-		return Length( Faces(simpsurf) );
-	end
-);
-
-#############################################################################
-##
-##  A Print method for simplicial surfaces
-##
-InstallMethod( PrintStringAttributeOfSimplicialSurface,
-	"for a simplicial surface", [IsSimplicialSurface],
-	function( simpsurf )
-		local str, out;
-
-		str := "";
-		out := OutputTextString( str, true );
-		PrintTo( out, 
-				"SimplicialSurfaceByDownwardIncidenceWithOrientationNC(\n" );
-		PrintTo( out, Vertices(simpsurf), ",\n" );
-		PrintTo( out, Edges(simpsurf), ",\n" );
-		PrintTo( out, Faces(simpsurf), ",\n" );
-		PrintTo( out, VerticesOfEdges(simpsurf), ",\n" );
-		PrintTo( out, LocalOrientationByEdgesAsList(simpsurf), ",\n" );
-
-		if IsFaceNamesDefault(simpsurf) then
-			PrintTo( out, ");\n" );
-		else
-			PrintTo( out, " : NamesOfFaces := ", 
-									NamesOfFaces(simpsurf), ");\n" );
-		fi;
-
-		CloseStream(out);
-
-		return str;
-	end
-);
-InstallMethod( PrintObj, "for simplicial surfaces", [ IsSimplicialSurface ], 
-	function(simpsurf)
-		Print( PrintStringAttributeOfSimplicialSurface( simpsurf ) );
-	end
-);
-
-
-#############################################################################
-##
-##  A Display method for simplicial surfaces
-##
-InstallMethod( Display, "for simplicial surfaces", [ IsSimplicialSurface ],
-	function(simpsurf)
-
-        Print("Vertices: ", Vertices(simpsurf), ",\n");
-        Print("Edges: ", Edges(simpsurf), ",\n");
-        Print("Faces: ", Faces(simpsurf), ",\n");
-        Print("VerticesOfEdges: ", VerticesOfEdges(simpsurf), ",\n");
-        Print("EdgesOfFaces: ", EdgesOfFaces(simpsurf), ",\n" );
-		Print("LocalOrientation: ", LocalOrientation(simpsurf), ",\n" );
-		Print("NamesOfFaces: ", NamesOfFaces(simpsurf), ",\n" );
-	end
-);
-
-#############################################################################
-##
-#!  @Description
-#!  Check if two simplicial surfaces are equal.
-#!  @Returns true or false
-#!  @Arguments <s1>, <s2>, two simplicial surface objects
-#!
-##
-InstallMethod( \=, "for two simplicial surfaces", IsIdenticalObj, 
-  [ IsSimplicialSurface, IsSimplicialSurface ],
-	function( s1, s2 )
-		# check all basic attributes
-
-		if Vertices(s1) <> Vertices(s2) then
-			return false;
-		fi;
-		if Edges(s1) <> Edges(s2) then
-			return false;
-		fi;
-		if Faces(s1) <> Faces(s2) then
-			return false;
-		fi;
-
-		if VerticesOfEdges(s1) <> VerticesOfEdges(s2) then
-			return false;
-		fi;
-		if EdgesOfFaces(s1) <> EdgesOfFaces(s2) then
-			return false;
-		fi;
-
-		if LocalOrientation(s1) <> LocalOrientation(s2) then
-			return false;
-		fi;
-		if NamesOfFaces(s1) <> NamesOfFaces(s2) then
-			return false;
-		fi;
-
-        return true;
-	end
-);
-
-
-#############################################################################
-#############################################################################
-##
-##						Start of *Of*-methods
-##
-##	It is pretty annoying to implement all of the *Of*-methods for each
-##	individual representation. As they are interdependent, this is also
-##	redundant. Therefore we collect some methods here that allow us to only
-##	implement a minimal set of these methods. We rely on the fact that we
-##	consider the *Of*-objects as attributes which have a corresponding filter
-##	which makes it known which of those are already known.
-##
-##
-##	There are exactly four cases in which we know every information from
-##	two of those values:
-##		EdgesOfFaces and VerticesOfEdges
-##		EdgesOfFaces and EdgesOfVertices
-##		FacesOfEdges and VerticesOfEdges
-##		FacesOfEdges and EdgesOfVertices
-##	We will start with an inversion and a transitivity method. These two are
-##	sufficient to generate every other combination in at most two steps. Since
-##	GAP can't do more than one step we use the method selection graph to cover
-##	all other cases.
-##
-##	Before we implement the relations between the *Of*-relations we implement
-##	the implicit references to the constituents (for example we can derive
-##	both Vertices and Edges from VerticesOfEdges).
-BindGlobal( "__SIMPLICIAL_BoundEntriesOfList",
-	function( list )
-		return Filtered( [1..Length(list)], i -> IsBound( list[i] ) );
-	end
-);
-
-##	VerticesOfEdges
-InstallMethod( VerticesAttributeOfSimplicialSurface, 
-	"for a simplicial surface that has VerticesOfEdges",
-	[ IsSimplicialSurface and HasVerticesOfEdges ],
-	function( surf );
-		return Union( VerticesOfEdges( surf ) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"VerticesAttributeOfSimplicialSurface", "VerticesOfEdges" );
-InstallMethod( Edges, "for a simplicial surface that has VerticesOfEdges",
-	[ IsSimplicialSurface and HasVerticesOfEdges ],
-	function( surf );
-		return __SIMPLICIAL_BoundEntriesOfList( VerticesOfEdges(surf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"Edges", "VerticesOfEdges" );
-
-##	VerticesOfFaces
-InstallMethod( VerticesAttributeOfSimplicialSurface, 
-	"for a simplicial surface that has VerticesOfFaces",
-	[ IsSimplicialSurface and HasVerticesOfFaces ],
-	function( surf );
-		return Union( VerticesOfFaces( surf ) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"VerticesAttributeOfSimplicialSurface", "VerticesOfFaces" );
-InstallMethod( Faces, "for a simplicial surface that has VerticesOfFaces",
-	[ IsSimplicialSurface and HasVerticesOfFaces ],
-	function( surf );
-		return __SIMPLICIAL_BoundEntriesOfList( VerticesOfFaces(surf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"Faces", "VerticesOfFaces" );
-
-##	EdgesOfVertices
-InstallMethod( Edges, "for a simplicial surface that has EdgesOfVertices",
-	[ IsSimplicialSurface and HasEdgesOfVertices ],
-	function( surf );
-		return Union( EdgesOfVertices( surf ) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"Edges", "EdgesOfVertices" );
-InstallMethod( VerticesAttributeOfSimplicialSurface, 
-	"for a simplicial surface that has EdgesOfVertices",
-	[ IsSimplicialSurface and HasEdgesOfVertices ],
-	function( surf );
-		return __SIMPLICIAL_BoundEntriesOfList( EdgesOfVertices(surf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"VerticesAttributeOfSimplicialSurface", "EdgesOfVertices" );
-
-##	EdgesOfFaces
-InstallMethod( Edges, "for a simplicial surface that has EdgesOfFaces",
-	[ IsSimplicialSurface and HasEdgesOfFaces ],
-	function( surf );
-		return Union( EdgesOfFaces( surf ) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"Edges", "EdgesOfFaces" );
-InstallMethod( Faces, "for a simplicial surface that has EdgesOfFaces",
-	[ IsSimplicialSurface and HasEdgesOfFaces ],
-	function( surf );
-		return __SIMPLICIAL_BoundEntriesOfList( EdgesOfFaces(surf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"Faces", "EdgesOfFaces" );
-
-##	FacesOfVertices
-InstallMethod( Faces, "for a simplicial surface that has FacesOfVertices",
-	[ IsSimplicialSurface and HasFacesOfVertices ],
-	function( surf );
-		return Union( FacesOfVertices( surf ) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"Faces", "FacesOfVertices" );
-InstallMethod( VerticesAttributeOfSimplicialSurface, 
-	"for a simplicial surface that has FacesOfVertices",
-	[ IsSimplicialSurface and FacesOfVertices ],
-	function( surf );
-		return __SIMPLICIAL_BoundEntriesOfList( FacesOfVertices(surf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"VerticesAttributeOfSimplicialSurface", "FacesOfVertices" );
-
-##	FacesOfEdges
-InstallMethod( Faces, 
-	"for a simplicial surface that has FacesOfEdges",
-	[ IsSimplicialSurface and HasFacesOfEdges ],
-	function( surf );
-		return Union( FacesOfEdges( surf ) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"Faces", "FacesOfEdges" );
-InstallMethod( Edges, "for a simplicial surface that has FacesOfEdges",
-	[ IsSimplicialSurface and HasFacesOfEdges ],
-	function( surf );
-		return __SIMPLICIAL_BoundEntriesOfList( FacesOfEdges(surf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"Edges", "FacesOfEdges" );
-
-
-##	
-##	Now we implement the inversion of an incidence relation. For example
-##	we know edgesOfFaces but want to know facesOfEdges. As this inversion is
-##	always the same we implement it in general.
-##	Given are the numbers of edges and faces, together with the relation
-##	edgesOfFaces. It returns the relation facesOfEdges. (The names are used
-##	only for illustration.)
-BindGlobal( "__SIMPLICIAL_InvertIncidence", 
-	function( faceNr, edgesOfFaces, edgeNr )
-
-	local edgeList, edge, faceSet, face;
-
-	edgeList := [];
-	for edge in edgeNr do
-		faceSet := [];
-		for face in faceNr do
-			if edge in edgesOfFaces[face] then
-				faceSet := Union( faceSet, [face] );
-			fi;
-		od;
-		edgeList[edge] := faceSet;
-	od;
-
-	return edgeList;
-end);
-##
-##	With this method we can write inversion methods for all six cases.
-InstallMethod( EdgesOfVertices, 
-	[IsSimplicialSurface and HasVerticesOfEdges ], 
-	function( simpsurf )
-		return __SIMPLICIAL_InvertIncidence( Edges(simpsurf),
-				VerticesOfEdges(simpsurf), Vertices(simpsurf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"EdgesOfVertices", "VerticesOfEdges" );
-
-InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasVerticesOfFaces ],
-	function( simpsurf )
-		return __SIMPLICIAL_InvertIncidence( Faces(simpsurf),
-				VerticesOfFaces(simpsurf), Vertices(simpsurf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"FacesOfVertices", "VerticesOfFaces" );
-
-InstallMethod( VerticesOfEdges, 
-	[IsSimplicialSurface and HasEdgesOfVertices ],
-	function( simpsurf )
-		return __SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
-				EdgesOfVertices(simpsurf), Edges(simpsurf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"VerticesOfEdges", "EdgesOfVertices" );
-
-InstallMethod( FacesOfEdges, 
-	[IsSimplicialSurface and HasEdgesOfFaces ],
-	function( simpsurf )
-		return __SIMPLICIAL_InvertIncidence( Faces(simpsurf),
-				EdgesOfFaces(simpsurf), Edges(simpsurf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"FacesOfEdges", "EdgesOfFaces" );
-
-InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and HasFacesOfVertices ],
-	function( simpsurf )
-		return __SIMPLICIAL_InvertIncidence( Vertices(simpsurf),
-				FacesOfVertices(simpsurf), Faces(simpsurf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"VerticesOfFaces", "FacesOfVertices" );
-
-InstallMethod( EdgesOfFaces, 
-	[IsSimplicialSurface and HasFacesOfEdges ], 
-	function( simpsurf )
-		return __SIMPLICIAL_InvertIncidence( Edges(simpsurf),
-				FacesOfEdges(simpsurf), Faces(simpsurf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"EdgesOfFaces", "FacesOfEdges" );
-
-##
-##	Next we consider the case of transitivity: From EdgesOfFaces and 
-##	VerticesOfEdges we can deduce VerticesOfFaces
-BindGlobal( "__SIMPLICIAL_TransitiveIncidence", 
-	function( faceNr, edgesOfFaces, edgeNr,	verticesOfEdges, vertexNr )
-
-	local face, verticesOfFaces, edgesInFace, verticesInEdges;
-
-	verticesOfFaces := [];
-	for face in faceNr do
-		edgesInFace := edgesOfFaces[face];
-		verticesInEdges := List( edgesInFace, e -> verticesOfEdges[e] );
-		verticesOfFaces[face] := Union( verticesInEdges );
-	od;
-
-	return verticesOfFaces;
-end);
-##
-InstallMethod( VerticesOfFaces, 
-	[IsSimplicialSurface and HasEdgesOfFaces and HasVerticesOfEdges ],
-	function( simpsurf )
-		return __SIMPLICIAL_TransitiveIncidence( Faces(simpsurf),
-			EdgesOfFaces(simpsurf), Edges(simpsurf),
-			VerticesOfEdges(simpsurf), Vertices(simpsurf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"VerticesOfFaces", ["EdgesOfFaces", "VerticesOfEdges"] );
-
-InstallMethod( FacesOfVertices, 
-	[IsSimplicialSurface and HasEdgesOfVertices and HasFacesOfEdges ],
-	function( simpsurf )
-		return __SIMPLICIAL_TransitiveIncidence( Vertices(simpsurf),
-			EdgesOfVertices(simpsurf), Edges(simpsurf),
-			FacesOfEdges(simpsurf), Faces(simpsurf) );
-	end
-);
-	AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-		"FacesOfVertices", ["EdgesOfVertices", "FacesOfEdges"] );
-
-
-##	Normally we would be finished at this point. But the method selection of
-##	GAP is not so intelligent to check for attributes transitively (it only
-##	checks if an attribute is set, not if it could be set). It would have been
-##	nice if this could be done by RedispatchOnCondition (see 78.5-1) but this
-##	option only works for properties. Since Has* is false if the attribute *
-##	is not computed, we can't use it (theoretically we could introduce an
-##	additional property for "possible existence of this attribute" but that
-##	gets even more involved). Therefore we will use the method selection graph.
-##	For this to work we have to implement a method for each of the 
-##	*Of*-attributes.
-InstallMethod( VerticesOfEdges, "for a simplicial surface", 
-	[ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-										VerticesOfEdges, surf);
-	end
-);
-InstallMethod( VerticesOfFaces, "for a simplicial surface", 
-	[ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-										VerticesOfFaces, surf);
-	end
-);
-InstallMethod( EdgesOfVertices, "for a simplicial surface", 
-	[ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-										EdgesOfVertices, surf);
-	end
-);
-InstallMethod( EdgesOfFaces, "for a simplicial surface", 
-	[ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-										EdgesOfFaces, surf);
-	end
-);
-InstallMethod( FacesOfVertices, "for a simplicial surface", 
-	[ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-										FacesOfVertices, surf);
-	end
-);
-InstallMethod( FacesOfEdges, "for a simplicial surface", 
-	[ IsSimplicialSurface ],
-	function( surf )
-		return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-										FacesOfEdges, surf);
-	end
-);
-
-##
-##							End of *Of*-Methods
 ##
 #############################################################################
 #############################################################################
