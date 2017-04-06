@@ -1205,7 +1205,7 @@ InstallMethod( SimplicialSurfaceByUpwardIncidenceNC, "",
 ##	Next we have to install the same constructors with checks.
 BindGlobal( "__SIMPLICIAL_CheckUpwardIncidence", function( vertices, edges, 
 	faces, edgesOfVertices, facesOfEdges, namesOfFaces )
-	
+#TODO make error messages readable	
 	local e, v, IncidentEdges, edgeList, i;
 
 	# Check the sets

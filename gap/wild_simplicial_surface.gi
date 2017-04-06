@@ -2815,9 +2815,9 @@ InstallMethod( SnippOffEars, "for a wild simplicial surface",
 ## TODO: FaceWithEdges wrong call?
 InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface and IsActualSurface], function(surface)
 
-  local gens, newcolours, wild, edgeColours, allsurf;
+    local gens, newcolours, wild, edgeColours, allsurf;
 
-          allsurf := [];
+        allsurf := [];
 
         # now we see which generating triples we can create from the edges of
         # the surface and see whether any of these can be a wild colouring
@@ -2828,9 +2828,9 @@ InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface and IsActu
             # All coloured face-edge-paths with these generators
             for edgeColours in newcolours do
                 if edgeColours <> [] then
-		   wild := ObjectifySimplicialSurface( 
-			WildSimplicialSurfaceType, rec(), surface);
-                   SetEdgesOfColours(wild,edgeColours);
+		    wild := ObjectifySimplicialSurface( 
+		        WildSimplicialSurfaceType, rec(), surface);
+                    SetEdgesOfColours(wild,edgeColours);
 
                     Add( allsurf, wild);
                 fi;
