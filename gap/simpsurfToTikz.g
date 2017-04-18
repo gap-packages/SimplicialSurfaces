@@ -1,14 +1,17 @@
-# Return a list [a,b], where a and b are edges incident to the face but not
+# Return a list [a,b], where a and b are edges incident to the face and the
+# given vertex.
 EdgesOfFaceVertexPair := function( simpsurf, face, vertex )
 
     return Intersection(EdgesOfFaces(simpsurf)[face],
                         EdgesOfVertices(simpsurf)[vertex]);
 end;
 
-
+# Return the other vertex of the given edge.
 OtherVertexOfEdge := function(simpsurf, edge, vertex)
 
-    # TODO catch Errors
+    if not vertex in VerticesOfEdges(simpsurf)[edge] then
+        Error("OtherVertexOfEdge: Given vertex does not lie in given edge.");
+    fi;
     return Difference( VerticesOfEdges(simpsurf)[edge], [vertex])[1];
 end;
 
@@ -332,6 +335,7 @@ incidentedges, bcol, lcol, rcol;
     facesComputed:=[];
     listofdrawings:=[];
     RescaleList:=[];
+
     a:=Scale[1]; # length of first edge
     b:=Scale[2]; # length of second edge
     c:=Scale[3]; # length of third edge
@@ -359,7 +363,7 @@ incidentedges, bcol, lcol, rcol;
 	od;
 
 
-         res:=computeCorner(simpsurf,data,newtodo,1,a,b,c);
+        res:=computeCorner(simpsurf,data,newtodo,1,a,b,c);
 
         Add(listofdrawings, res);
         facesComputed:=res.facesComputed;
