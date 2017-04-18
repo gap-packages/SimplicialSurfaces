@@ -136,7 +136,7 @@ InstallMethod( ListToZeroSeperated, "",
 
 		out := "";
 		for i in [1 .. Size( input ) - 1] do
-			if ! IsPosInt(input[i]) then
+			if not IsPosInt(input[i]) then
 				Print("error: each of the entries in the list must be a positivie integer");
 				return fail;
 			fi;
