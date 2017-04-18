@@ -869,7 +869,127 @@ DeclareAttribute( "GlobalOrientationByEdgesAsList",
 #! understand the underlying implementation better or if you want to develop
 #! code that is derived from this.
 #!
+#! There are three unique features in the implementation of simplicial surfaces
+#! that especially concern the definition of specializes simplicial surfaces:
+#! - The use of a method selection graph
+#! - A general methods to help defining specialized classes
+#! - A guide for easier initialization
 #!
+#! Since the method selection graph is the most salient feature we will cover
+#! it first. It derives from a simple observation: If you know either
+#! VerticesOfEdges or EdgesOfVertices, you can calculate the other. If you 
+#! additionally know either of EdgesOfFaces or FacesOfEdges, you can calculate
+#! all six of these attributes. This could have been implemented by a lot of
+#! specialized methods but the number of these methods rised exponentially
+#! with the number of attributes that are connected.
+#!
+#! Instead we only implement methods for the ``difficult'' parts (where work
+#! has to be done) and delegate the ``easy'' parts (if we can calculate B from
+#! A and C from B, we can also calculate C from A) into a method selection
+#! graph. If an attribute should be part of the method selection graph (which
+#! it only should if you can calculate information inside the method selection
+#! graph from this attribute) you have to make two modifications:
+#! - There has to be a method to calculate this attribute by the method
+#!   selection graph, like
+#! @BeginCode
+InstallMethod( VerticesOfFaces, "for a simplicial surface", 
+    [ IsSimplicialSurface ],
+    function( surf )
+        return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+                VerticesOfFaces, surf);
+    end
+);
+#! @EndCode
+#! - For each ``difficult'' method there has to be a call that adds this 
+#!   possibility into the method selection graph, like
+#! @BeginCode
+AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+	"VerticesOfFaces", ["EdgesOfFaces", "VerticesOfEdges"] );
+#! @EndCode
+#!
+#! 
+#! Secondly we guarantee unique methods for specialization. To consider a 
+#! specific example, imagine we want to give certain simplicial surfaces an
+#! edge colouring. If one simplicial surface may have different edge colourings
+#! we can't implement this as an attribute of the simplicial surface. Instead
+#! we define a new type for this situation (as a subtype of 
+#! SimplicialSurfaceType).
+#!
+#! The disadvantage of this procedure is that is becomes harder to take a
+#! simplicial surface as input and add an edge colouring (type changes are
+#! frowned upon in GAP). For this reason we offer a special method that does
+#! just that - it copies many attributes of the simplicial surface into an
+#! object of the new type.
+
+#! @Description
+#! This function calls
+#! @BeginCode
+Objectify( type, rec )
+#! @EndCode
+#! and afterwards copies all attributes and properties of the simplicial
+#! surface modelSurf that are declared in this section to the the new object.
+#!	
+#! This method has to be overwritten for a specialization of this class.
+#!
+#! WARNING: The type can't be checked! Only types that are derived from
+#! IsSimplicialSurface can be used with impunity!
+#!
+#! @Arguments type, record, simpSurf
+#! @Returns an object of type type
+DeclareOperation( "ObjectifySimplicialSurface",
+		[IsType,IsRecord,IsSimplicialSurface]);
+
+
+
+#! Finally we consider the constructors. Simplicial surfaces are defined by
+#! an incidence structure **and** a local orientation (with face names).
+#! However, only the incidence structure has to be given - the local
+#! orientation can be derived (in the sense that there are several possibilites
+#! and one of them will be picked). To facilitate this procedure we offer a
+#! method which can be called **after** the incidence structure is defined.
+
+#! @BeginGroup
+#! @Description
+#! This is a method which should only be used in code development. It should
+#! not be called by a normal user as it presupposes knowledge of the internal
+#! attribute storing system.
+#!
+#! A simplicial surface consists of two separate sets of attributes: One set
+#! of attributes to save the incidence geometry (Vertices, Edges, Faces,
+#! EdgesOfFaces, etc.), the other to save the local orientation of the faces
+#! (LocalOrientationOfVerticesAsPerm, NamesOfFaces, etc.). While the second
+#! set of attributes may be crucial for some applications (like folding), it
+#! is easy to ignore it in other applications.
+#! 
+#! This is usually managed by a judicious constructor call that will handle
+#! the necessary overhead without burdening the user. If - for whatever 
+#! reason - no constructor should be called (for example for a subcategory
+#! of IsSimplicialSurface) this method can be used to initialize all necessary
+#! attributes of the second set.
+#! 
+#! This method will throw an error if some of these attributes are already set.
+#! It will only check the attributes
+#! - LocalOrientationByVerticesAsPerm
+#! - LocalOrientationByVerticesAsList
+#! - LocalOrientationByEdgesAsPerm
+#! - LocalOrientationByEdgesAsList
+#! - IsFaceNamesDefault
+#! - NamesOfFaces
+#! If other attributes interfere with these, they will not be checked! For
+#! this reason this method should only be called if one knows exactly which
+#! attributes are already set.
+#!
+#! The NC-version doesn't check whether attributes are set (it is therefore
+#! even more dangerous to use).
+#!
+#! @Arguments simpSurf
+#! @Returns nothing
+DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometry",
+	[IsSimplicialSurface] );
+DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC",
+	[IsSimplicialSurface] );
+#! @EndGroup
+
 
 #! @Description
 #! Return the string that is printed by the PrintObj-method. This method is
@@ -878,67 +998,6 @@ DeclareAttribute( "GlobalOrientationByEdgesAsList",
 #! @Returns a string
 DeclareAttribute( "PrintStringAttributeOfSimplicialSurface", 
 		IsSimplicialSurface );
-
-
-#TODO
-##
-#!	@Description
-#!	This function calls
-#!		Objectify( type, rec )
-#!	and afterwards copies all attributes and properties of the simplicial
-#!	surface modelSurf that are declared in this section to the the new object.
-#!	This method has to be overwritten for a specialization of this class.
-#!
-#!	WARNING: The type can't be checked! Only types that are derived from
-#!	IsSimplicialSurface can be used with impunity!
-#!
-#!	@Arguments a type, a record, a simplicial surface
-#!	@Returns an object of type type
-DeclareOperation( "ObjectifySimplicialSurface",
-		[IsType,IsRecord,IsSimplicialSurface]);
-
-
-#! @BeginGroup
-#!	@Description
-#!	This is a method which should only be used in code development. It should
-#!	not be called by a normal user as it presupposes knowledge of the internal
-#!	attribute storing system.
-#!
-#!	A simplicial surface consists of two separate sets of attributes: One set
-#!	of attributes to save the incidence geometry (Vertices, Edges, Faces,
-#!	EdgesOfFaces, etc.), the other to save the local orientation of the faces
-#!	(LocalOrientationOfVerticesAsPerm, NamesOfFaces, etc.). While the second
-#!	set of attributes may be crucial for some applications (like folding), it
-#!	is easy to ignore it in other applications.
-#!	This is usually managed by a judicious constructor call that will handle
-#!	the necessary overhead without burdening the user. If - for whatever 
-#!	reason - no constructor should be called (for example for a subcategory
-#!	of IsSimplicialSurface) this method can be used to initialize all necessary
-#!	attributes of the second set.
-#! 
-#!	This method will throw an error if some of these attributes are already set.
-#!	It will only check the attributes
-#!		- LocalOrientationByVerticesAsPerm
-#!		- LocalOrientationByVerticesAsList
-#!		- LocalOrientationByEdgesAsPerm
-#!		- LocalOrientationByEdgesAsList
-#!		- IsFaceNamesDefault
-#!		- NamesOfFaces
-#!	If other attributes interfere with these, they will not be checked! For
-#!	this reason this method should only be called if one knows exactly which
-#!	attributes are already set.
-#!
-#!	The NC-version doesn't check whether attributes are set (it is therefore
-#!	even more dangerous to use).
-#!
-#!	@Arguments a simplicial surface
-#!	@Returns nothing
-DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometry",
-	[IsSimplicialSurface] );
-DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC",
-	[IsSimplicialSurface] );
-#! @EndGroup
-
 
 #
 ###  This program is free software: you can redistribute it and/or modify
