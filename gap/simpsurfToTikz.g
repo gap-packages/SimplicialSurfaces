@@ -15,8 +15,8 @@ OtherVertexOfEdge := function(simpsurf, edge, vertex)
     return Difference( VerticesOfEdges(simpsurf)[edge], [vertex])[1];
 end;
 
-
-# equal to edge. Furthermore a is incident to vertex 
+# Return a list [a,b] where a and b are edges of the given face that are not
+# equal to the given edge. The edge a is incident to the given vertex.
 typesOfConnection:=function(surf, face, vertex, edge )
 	local i,j,edges;
         
@@ -103,7 +103,6 @@ computenextface:=function(simpsurf,data,index,a,b,c)
           labelneighbourcorner,tmp,PointandAngle,n,typesofconnection,
           direction,currpoint; 
 
-
 	newdata:=ShallowCopy(data);
 	if Length(data.facesComputed) < NrOfFaces(simpsurf) then
 		currpoint:=newdata.points[index];
@@ -132,6 +131,8 @@ computenextface:=function(simpsurf,data,index,a,b,c)
                             Add(newdata.pointsConnected,[index,n+1,ColourOfEdge(simpsurf,typesofconnection[1])]);
                             Add(newdata.pointsConnected,[currpoint[5],n+1,ColourOfEdge(simpsurf,typesofconnection[2])]);
                             return newdata;
+                    else
+                        Error("Vertex does not fit.");
                     fi;
 		fi;
 	fi;
@@ -167,6 +168,11 @@ computeCorner:=function(simpsurf,data,todo,i,a,b,c)
 		return computeCorner(simpsurf,newdata,newtodo,i+1,a,b,c);
 	fi;
 end;
+
+
+#############################################################################
+##      Print methods
+##
 
 drawSimpSurf:=function(surf, listofdrawings,nameoffile,printrecord)
 	local name,output,i,j,c,p,slash,face;
@@ -235,6 +241,10 @@ SetStartingFace:=function(printrecord,start)
 	printrecord.start:=start;
 end;
 
+##      End of print methods
+###############################################################################
+
+
 
 ## Given a face, a colour col 
 ## find an incident vertex-edge pair such that the vertex is incident to the
@@ -282,7 +292,7 @@ InitializeDataOfFirstFace := function(simpsurf, start, scale)
 
     bcol := ColourOfEdge(simpsurf,bottomedge);
     lcol := ColourOfEdge(simpsurf,leftedge);
-    rcol := Difference( [1,2,3],[bcol,lcol])[1];
+    rcol := ColourOfEdge(simpsurf,rightedge);
 
     point2 := [ scale[bcol], 0 ];
     cosalpha := Float( (scale[bcol]^2+scale[lcol]^2-scale[rcol]^2)/
@@ -341,6 +351,7 @@ incidentedges, bcol, lcol, rcol;
     c:=Scale[3]; # length of third edge
 
     while Length(facesComputed)<NrOfFaces(simpsurf) do
+        Print("facesComputed: ", facesComputed, " , start: ", start, "\n");
         data := InitializeDataOfFirstFace(simpsurf, start, [a,b,c]);
 
         newtodo:=ShallowCopy(listofvertices);
@@ -366,7 +377,7 @@ incidentedges, bcol, lcol, rcol;
         res:=computeCorner(simpsurf,data,newtodo,1,a,b,c);
 
         Add(listofdrawings, res);
-        facesComputed:=res.facesComputed;
+        Append( facesComputed, res.facesComputed);
         if Length(facesComputed)<NrOfFaces(simpsurf) then
 		for f in Faces(simpsurf) do
 			if not f in facesComputed then
