@@ -35,6 +35,131 @@
 ##
 ##################################################################################
 
+
+# Take a positive integer and check if the digit "0" occurs. Returns true if at least one digit is 0,
+# otherwise returns false.
+DeclareOperation( "NumberContainsZero",
+	[ IsPosInt] );
+
+InstallMethod(NumberContainsZero, "",
+	[ IsPosInt] ,
+	function(x)
+		local x_as_string, i;
+
+		x_as_string := String(x);;
+		for i in [1 .. Size(x_as_string)] do
+			if EvalString([x_as_string[i]]) = 0 then
+				return true;
+			fi;
+		od;
+		return false;
+	end
+);
+
+
+# Takes a positive integer n and returns a list with n entries, starting at 1 and continuing consecutively,
+# but skipping any integer which contains a zero digit.
+DeclareOperation( "ZeroSeperatedList",
+	[ IsPosInt ] );
+
+InstallMethod( ZeroSeperatedList, "",
+	[ IsPosInt ],
+	function(x)
+		local out, i, j;
+
+		out := [];
+		i := 0;
+		for j in [ 1 .. x ] do
+			i := i+1;
+			while NumberContainsZero(i) do
+				i := i+1;
+			od;
+				Add(out, i);
+		od;
+		return out;
+	end
+);
+
+
+# Takes a positive integer and creates a list from it, where the 0 digits of the integer are essentially
+# turned into commas, and each of the digits between zeros form the entries of the list. 
+DeclareOperation( "ZeroSeperatedToList",
+	[ IsPosInt ] );
+
+InstallMethod( ZeroSeperatedToList, "",
+	[ IsPosInt ],
+	function(input)
+		local val, temp, j, num, x, i, out;
+
+		val := String(input);
+		temp :=[];
+		out := [];
+		for j in val do
+			num := EvalString([j]);
+			if num <> 0 then
+				Add(temp, num);
+			else
+				if temp <> [] then
+					x:=0;
+					temp:= Reversed(temp);
+					for i in [1 .. Size(temp)]  do
+						x:= x + temp[i] * 10^(i-1);
+					od;
+					Add(out, x);
+					temp:= [];
+				fi;
+			fi;
+		od;
+		if temp <> [] then
+			x:=0;
+			temp:= Reversed(temp);
+			for i in [1 .. Size(temp)] do
+				x:= x + temp[i] * 10^(i-1);
+			od;
+			Add(out, x);
+			temp:= [];
+		fi;
+		return out;
+	end
+);
+
+
+# Takes a list of positive integers, none of which contain the digit zero, and returns a single positive integer
+# where each of the entries of the list has been concatenated and seperated by a zero.
+DeclareOperation( "ListToZeroSeperated",
+	[ IsList ] );
+
+InstallMethod( ListToZeroSeperated, "",
+	[IsList],
+	function( input )
+		local out, i, x;
+
+		out := "";
+		for i in [1 .. Size( input ) - 1] do
+			if ! IsPosInt(input[i]) then
+				Print("error: each of the entries in the list must be a positivie integer");
+				return fail;
+			fi;
+			if NumberContainsZero(input[i]) then
+				Print("error: values must not contain the digit 0!\n");
+				return fail;
+			fi;
+			x := String(input[i]);
+			out := Concatenation(out, x);
+			out := Concatenation(out, "0");
+		od;
+		if NumberContainsZero(input[Size(input)]) then
+			Print("error: values must not contain the digit 0!\n");
+			return fail;
+		fi;
+		x := String(input[Size(input)]);
+		out := Concatenation(out, x);
+
+		return EvalString(out);
+	end
+);
+
+
 DeclareOperation( "SplitFaceBySpokes",
 	[ IsSimplicialSurface, IsPosInt] );
 
