@@ -68,33 +68,6 @@
 #  [ IsWildSimplicialSurfaceRep, IsWildSimplicialSurfaceRep ], 0,
 #   LtWildSimplicialSurface );
 
-#############################################################################
-##
-##  A Print method for simplicial surfaces
-##
-
-PrintWildSimplicialSurface := function(simpsurf)
-
-        Print("WildSimplicialSurface( rec(\n");
-        Print("generators := ");
-        Print(simpsurf!.generators, ",\n");
-        if IsBound( simpsurf!.mrtype) then
-            Print("mrtype := ");
-            Print(simpsurf!.mrtype, ",\n");
-        fi;
-        Print("faces := ");
-        Print(simpsurf!.faces, ",\n");
-        Print("edges := ");
-        Print(simpsurf!.edges, ",\n");
-        Print("vertices := ");
-        Print(simpsurf!.vertices, "));\n");
-end;
-
-InstallMethod( PrintObj, "for WildSimplicialSurface", true, 
-               [ IsWildSimplicialSurfaceRep ], 0, PrintWildSimplicialSurface );
-
-
-
 
 
 # compute the double cover - extend old mr settings
@@ -147,21 +120,6 @@ end;
 
 
 
-#############################################################################
-##
-##
-##  A face vertex path is a list of lists. Each sublist describes a face.
-##  Let $f$ be such a sublist. Then the entries in $f$ are the numbers of
-##  the vertices surrounding the face (whose name is the position number 
-##  in the face vertex path) in order. If the 
-
-##  We have to assume that if two faces share a pair of vertices, they
-##  share an edge.
-##
-##
-##     f1         f2       f3
-## [v2,v3,v4] [v2,v3,v4] [v5,v4,v3]
-## [v1,v2],  [e1,e2,e3]
 #############################################################################
 ##
 #!   @Description
