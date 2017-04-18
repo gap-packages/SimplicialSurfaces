@@ -892,19 +892,19 @@ DeclareAttribute( "GlobalOrientationByEdgesAsList",
 #! - There has to be a method to calculate this attribute by the method
 #!   selection graph, like
 #! @BeginCode
-InstallMethod( VerticesOfFaces, "for a simplicial surface", 
-    [ IsSimplicialSurface ],
-    function( surf )
-        return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-                VerticesOfFaces, surf);
-    end
-);
+#! InstallMethod( VerticesOfFaces, "for a simplicial surface", 
+#!    [ IsSimplicialSurface ],
+#!    function( surf )
+#!        return ComputeProperty(SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+#!                VerticesOfFaces, surf);
+#!    end
+#! );
 #! @EndCode
 #! - For each ``difficult'' method there has to be a call that adds this 
 #!   possibility into the method selection graph, like
 #! @BeginCode
-AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-	"VerticesOfFaces", ["EdgesOfFaces", "VerticesOfEdges"] );
+#! AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
+#!	"VerticesOfFaces", ["EdgesOfFaces", "VerticesOfEdges"] );
 #! @EndCode
 #!
 #! 
@@ -924,7 +924,7 @@ AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
 #! @Description
 #! This function calls
 #! @BeginCode
-Objectify( type, rec )
+#! Objectify( type, rec )
 #! @EndCode
 #! and afterwards copies all attributes and properties of the simplicial
 #! surface modelSurf that are declared in this section to the the new object.
