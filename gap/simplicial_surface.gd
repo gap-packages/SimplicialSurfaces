@@ -891,7 +891,7 @@ DeclareAttribute( "GlobalOrientationByEdgesAsList",
 #! graph from this attribute) you have to make two modifications:
 #! - There has to be a method to calculate this attribute by the method
 #!   selection graph, like
-#! @BeginCode
+#! @BeginCode TODO Including code does not work if it is read normally
 #! InstallMethod( VerticesOfFaces, "for a simplicial surface", 
 #!    [ IsSimplicialSurface ],
 #!    function( surf )
