@@ -399,6 +399,8 @@ DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 
 
+#TODO write methods for path-connectivity
+
 #! @Description
 #! Return if a simplicial surface is connected. If two faces share at least one
 #! vertex they are considered to be connected.
@@ -460,6 +462,7 @@ DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
 #! @Returns The face-anomaly-classes (as a list of sets)
 #! @Arguments  simpSurf
 DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
+#TODO Add property for IsVertexFaithful. Is this only checked for the faces?
 
 #! @Description
 #! Return the coloured incidence graph of a simplicial surface.
@@ -579,8 +582,10 @@ DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 
 
 #TODO AutoDoc can't handle synonyms at the moment.
+#TODO Should this be renamed? Maybe to "IsSurface"?
 DeclareSynonym( "IsActualSurface", 
 		IsVerticesLikeSurface and IsEdgesLikeSurface );
+                
 #! @Description
 #!  The property IsActualSurface is true if both IsEdgesLikeSurface and
 #!  IsVerticesLikeSurface are true.
