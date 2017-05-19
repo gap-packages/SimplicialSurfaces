@@ -2209,6 +2209,43 @@ InstallMethod( FaceAnomalyClasses, "for a simplicial surface",
 
 ###############################################################################
 ##
+#!  @Description
+#!  This function returns the edge-anomaly-classes of a simplicial surface.
+#!	Two edges are in the same edge-anomaly-class if they contain the same
+#!	vertices.
+#!  @Returns The edge-anomaly-classes (as a list of sets)
+#!  @Arguments <simpsurf> a simplicial surface
+#!
+InstallMethod( EdgeAnomalyClasses, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function(simpsurf)
+		local verticesOfEdges, classes, i, found, cl, j;
+
+		verticesOfEdges := VerticesOfEdges(simpsurf);
+		classes := [];
+
+		for i in Edges(simpsurf) do
+			found := false;
+			for j in [1..Length(classes)] do
+				cl := classes[j];
+				if Set( verticesOfEdges[i] ) 
+							= Set( verticesOfEdges[ cl[1] ] ) then
+					classes[j] := Union( cl, [i] );
+					found := true;
+					break;
+				fi;
+			od;
+			if not found then
+				Append( classes, [ [i] ] );
+			fi;
+		od;
+
+		return classes;
+	end
+ ); 
+
+###############################################################################
+##
 ##	Install the methods to determine whether a surface is an actual surface.
 InstallMethod( IsEdgesLikeSurface, "for a simplicial surface",
 	[IsSimplicialSurface],

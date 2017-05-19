@@ -407,7 +407,6 @@ DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 #! connected by a face-edge-path) this method returns true, otherwise false.
 #! @Arguments simpSurf
 DeclareProperty( "IsPathConnected", IsSimplicialSurface );
-InstallTrueMethod( IsConnected, IsPathConnected );
 
 
 #! @BeginGroup
@@ -433,6 +432,7 @@ DeclareOperation( "PathConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosI
 #! vertex they are considered to be connected.
 #! @Arguments simpSurf
 DeclareProperty( "IsConnected", IsSimplicialSurface );
+InstallTrueMethod( IsConnected, IsPathConnected );
 
 #! @BeginGroup
 #! @Description
