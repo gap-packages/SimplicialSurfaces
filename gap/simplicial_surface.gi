@@ -2899,8 +2899,8 @@ InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
 		return comp;
 	end
 );
-InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
-	"for a simplicial surface", [IsSimplicialSurface and IsConnected],
+InstallImmediateMethod( ConnectedComponentsAttributeOfSimplicialSurface,
+        IsSimplicialSurface and IsConnected, 0, 
 	function(simpsurf)
 		return [simpsurf];
 	end
