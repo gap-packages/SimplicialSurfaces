@@ -2363,9 +2363,8 @@ InstallMethod( IsConnected, "for a simplicial surface", [IsSimplicialSurface],
 		return IsEmpty( faces );
 	end
 );
-InstallMethod( IsConnected, "for a simplicial surface",
-	[IsSimplicialSurface and 
-			HasConnectedComponentsAttributeOfSimplicialSurface],
+InstallImmediateMethod( IsConnected, IsSimplicialSurface and 
+        HasConnectedComponentsAttributeOfSimplicialSurface, 0, 
 	function(simpsurf)
 		local components;
 

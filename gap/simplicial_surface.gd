@@ -495,7 +495,7 @@ DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
 #! the same edge-anomaly-class if they contain the same vertices).
 #! @Returns The edge-anomaly-classes (as a list of sets)
 #! @Arguments simpSurf
-DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface ); #TODO implement!
+DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface ); 
 
 #TODO Add property for IsVertexFaithful. Is this only checked for the faces?
 #TODO talk with Alice over definition of VertexFaithful, EdgeFaithful etc.
@@ -721,7 +721,6 @@ DeclareOperation( "FaceEdgePathsOfVertexNC",
 #! denotes the number of path-connected components of the simplicial surface
 #! (two faces are path-connected if there exists a face-edge-path between them
 #! that is not necessarily incident to only one vertex).
-#TODO write methods for path-connected components
 #! <P/>
 #! To return a unique global orientation we pick the smallest face in each
 #! path-connected component and assign the standard local orientation to
