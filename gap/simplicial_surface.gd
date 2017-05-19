@@ -400,6 +400,33 @@ DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 
 
 #TODO write methods for path-connectivity
+#TODO write chapter (or section) to explain connectivity
+
+#! @Description
+#! If the simplicial surface is path connected (i.e. if every two faces are
+#! connected by a face-edge-path) this method returns true, otherwise false.
+#! @Arguments simpSurf
+DeclareProperty( "IsPathConnected", IsSimplicialSurface );
+InstallTrueMethod( IsConnected, IsPathConnected );
+
+
+#! @BeginGroup
+#! @Description
+#! Return a list of all path-connected components of the simplicial surface.
+#! <P/>
+#! If a face is given additionally the path-connected component of this face is
+#! returned. The NC-version does not check if the given face actually lies
+#! in the simplicial surface.
+#! @Arguments simpSurf
+#! @Returns a list of simplicial surfaces
+DeclareAttribute( "PathConnectedComponents", IsSimplicialSurface );
+#! @Arguments simpSurf, face
+DeclareOperation( "PathConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments simpSurf, face
+DeclareOperation( "PathConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
+
+
 
 #! @Description
 #! Return if a simplicial surface is connected. If two faces share at least one
@@ -462,7 +489,17 @@ DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
 #! @Returns The face-anomaly-classes (as a list of sets)
 #! @Arguments  simpSurf
 DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
+
+#! @Description
+#! Return the edge-anomaly-classes of a simplicial surface (two edges are in
+#! the same edge-anomaly-class if they contain the same vertices).
+#! @Returns The edge-anomaly-classes (as a list of sets)
+#! @Arguments simpSurf
+DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface ); #TODO implement!
+
 #TODO Add property for IsVertexFaithful. Is this only checked for the faces?
+#TODO talk with Alice over definition of VertexFaithful, EdgeFaithful etc.
+# Needs that different edges have different vertices
 
 #! @Description
 #! Return the coloured incidence graph of a simplicial surface.

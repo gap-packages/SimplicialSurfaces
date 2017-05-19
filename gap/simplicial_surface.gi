@@ -76,6 +76,8 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"IsOrientable",
 			"IsConnected",
 			"ConnectedComponentsAttributeOfSimplicialSurface",
+                        "IsPathConnected",
+                        "PathConnectedComponents",
 			"EulerCharacteristic",
 			"UnsortedDegrees",
 			"SortedDegrees",
@@ -88,6 +90,7 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"NamesOfFaces",
 			"IsFaceNamesDefault",
 			"FaceAnomalyClasses",
+                        "EdgeAnomalyClasses",
 			"IncidenceGraph"];
 		for currentAttributeString in attributeList do
 			# Find the attribute that corresponds to the given name
