@@ -2323,6 +2323,13 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 		[IsEdgesLikeSurface], 0 );
 
 
+#TODO helping method __SIMPLICIAL_ConnectedComponent
+# 1) set of elements (numbers)
+# 2) list of components indexed by the elements
+# 3) fixed element
+# Returns the set of elements that are connected to the given one
+# Reduce all connectivity methods to this method
+# 
 #############################################################################
 ##
 #!	@Description

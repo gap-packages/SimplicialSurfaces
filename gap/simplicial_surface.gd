@@ -480,6 +480,8 @@ DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 #! @Arguments simpSurf
 #! @Returns a list of positive integers
 DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
+#TODO Rename to VertexCounter?
+#TODO add EdgeCounter (how?)
 
 #! @Description
 #! Return the face-anomaly-classes of a simplicial surface.
