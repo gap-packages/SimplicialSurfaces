@@ -333,7 +333,7 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
         for class in faceAn do
             for i in [1..Size(class)] do
                 for j in [i+1..Size(class)] do
-                    if VerticesOfFaces(surface)[i] <> VerticesOfFaces(surface)[j] then
+                    if VerticesOfFaces(surface)[class[i]] <> VerticesOfFaces(surface)[class[j]] then
                         Print( messageSurfaceOrigin );
                         Print( ": The faces " );
                         Print( i );
@@ -373,7 +373,7 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
         for class in edgeAn do
             for i in [1..Size(class)] do
                 for j in [i+1..Size(class)] do
-                    if VerticesOfEdges(surface)[i] <> VerticesOfEdges(surface)[j] then
+                    if VerticesOfEdges(surface)[class[i]] <> VerticesOfEdges(surface)[class[j]] then
                         Print( messageSurfaceOrigin );
                         Print( ": The edges " );
                         Print( i );
