@@ -475,10 +475,12 @@ end;
 ##	isTriangleSurface	is every face of the simplicial surface a triangle?
 ##	isClosedSurface		is the simplicial surface closed?
 ##	isOrientable		is the simplicial surface orientable?
-##	isConnected			is the simplicial surface connected?
+##	connectedComponentNr    the number of connected components
+##      pathConnectedComponentNr    the number of path connected components
 ##	sortDeg		the sorted degrees (vertexByFaces)
 ##	vertexSym	the vertex symbol (vertexByEdges)
-##	faceAnomalyClassNr		the number of anomaly classes
+##	faceAnomalyClassNr		the number of face anomaly classes
+##      edgeAnomalyClassNr          the number of edge anomaly classes
 ##	isSnippable			does recursively snipping off ears reduce the surface?
 ##
 TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
@@ -491,8 +493,9 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
     moreTests := Difference( Set( RecNames( testRecord ) ),
         Set( [ "vertexNr", "edgeNr", "faceNr", "isEdgesLikeSurface",
             "isVerticesLikeSurface", "isTriangleSurface", "isClosedSurface",
-            "isOrientable", "isConnected", "sortDeg", "vertexSym", 
-            "faceAnomalyClassNr", "isSnippable" ] ) );
+            "isOrientable", "connectedComponentNr", "sortDeg", "vertexSym", 
+            "faceAnomalyClassNr", "isSnippable", "pathConnectedComponentNr",
+            "edgeAnomalyClassNr"] ) );
     if not IsEmpty( moreTests ) then
         Print( messageSurfaceOrigin );
         Print( " has more information that is not tested: " );
@@ -590,27 +593,25 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
     fi;
 
     # connected check
-    if IsBound( testRecord.isConnected ) then
-	if IsConnected( surface ) <> testRecord.isConnected then
+    if IsBound( testRecord.connectedComponentNr ) then
+	if Size( ConnectedComponentsAttributeOfSimplicialSurface( surface ) )
+                    <> testRecord.connectedComponentNr then
 		Print( messageSurfaceOrigin );
-		if testRecord.isConnected then
-			Print( " must be connected.\n");
-		else
-			Print( " must not be connected.\n");
-		fi;
+                Print( " has the wrong number of connected components: found " );
+                Print( Size( ConnectedComponentsAttributeOfSimplicialSurface(surface) ) );
+                Print( " but expected " );
+                Print( testRecord.connectedComponentNr );
 	fi;
-	# Check connected components in the most simple case
-	if testRecord.isConnected then
-		# TODO also test for different orders of function calls
-		conCom := ConnectedComponentsAttributeOfSimplicialSurface( surface );
-		if Length(conCom) <> 1 then
-			Print( messageSurfaceOrigin );
-			Print( " must have exactly one connected component.\n" );
-		fi;
-		if conCom[1] <> surface then
-			Print( messageSurfaceOrigin );
-			Print( " should equal its one connected component.\n");
-		fi;
+    fi;
+
+    if IsBound( testRecord.pathConnectedComponentNr ) then
+	if Size( PathConnectedComponents( surface ) )
+                    <> testRecord.pathConnectedComponentNr then
+		Print( messageSurfaceOrigin );
+                Print( " has the wrong number of path connected components: found " );
+                Print( Size( PathConnectedComponents(surface) ) );
+                Print( " but expected " );
+                Print( testRecord.pathConnectedComponentNr );
 	fi;
     fi;
 
@@ -643,6 +644,16 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 		Print( " face anomaly class(es).\n");
 	fi;
     fi;
+
+    if IsBound( testRecord.edgeAnomalyClassNr ) then
+	if Length( EdgeAnomalyClasses(surface) ) <> testRecord.edgeAnomalyClassNr then
+		Print( messageSurfaceOrigin );
+		Print( " should have exactly " );
+		Print( testRecord.edgeAnomalyClassNr );
+		Print( " edge anomaly class(es).\n");
+	fi;
+    fi;
+
 
     # check snippability
     if IsBound( testRecord.isSnippable ) then
