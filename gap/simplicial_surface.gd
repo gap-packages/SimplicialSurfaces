@@ -499,11 +499,13 @@ DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
 DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface ); 
 
 #! @Description
-#! Return whether the simplicial surface is vertex faithful. A simplicial
+#! Return whether the simplicial surface contains no anomalies (of faces or
+#! edges). This property is also known as vertex faithful. A simplicial
 #! surface is vertex faithful if all face and edge anomaly classes are trivial.
 #! @Returns true or false
 #! @Arguments simpSurf
-DeclareProperty( "IsVertexFaithful", IsSimplicialSurface );
+DeclareProperty( "IsAnomalyFree", IsSimplicialSurface );
+DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 
 #! @Description
 #! Return the coloured incidence graph of a simplicial surface.

@@ -2244,7 +2244,7 @@ InstallMethod( EdgeAnomalyClasses, "for a simplicial surface",
 	end
  ); 
 
-InstallMethod( IsVertexFaithful, "for a simplicial surface",
+InstallMethod( IsAnomalyFree, "for a simplicial surface",
         [IsSimplicialSurface],
         function( simpsurf )
             return Size( FaceAnomalyClasses(simpsurf) ) = NrOfFaces(simpsurf) 

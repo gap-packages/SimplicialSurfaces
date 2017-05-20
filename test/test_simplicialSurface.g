@@ -409,24 +409,28 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
             od;
         od;
 
-        if IsVertexFaithful(surface) then
+        if IsAnomalyFree(surface) then
             if Size(faceAn) <> NrOfFaces(surface) then
                 Print( messageSurfaceOrigin );
-                Print( " can't be vertex faithful with face anomalies ");
+                Print( " can't be anomaly free with face anomalies ");
                 Print( faceAn );
                 Print( "\n");
             fi;
             if Size(edgeAn) <> NrOfEdges(surface) then
                 Print( messageSurfaceOrigin );
-                Print( " can't be vertex faithful with edge anomalies " );
+                Print( " can't be anomaly free with edge anomalies " );
                 Print( edgeAn );
                 Print( "\n" );
             fi;
         else
             if Size(faceAn) = NrOfFaces(surface) and Size(edgeAn) = NrOfEdges(surface) then
                 Print( messageSurfaceOrigin );
-                Print( " should be vertex faithful if it has neither face nor edge anomalies.\n" );
+                Print( " should be anomaly free if it has neither face nor edge anomalies.\n" );
             fi;
+        fi;
+        if IsAnomalyFree(surface) <> IsVertexFaithful(surface) then
+            Print(messageSurfaceOrigin);
+            Print( ": Difference between IsAnomalyFree and IsVertexFaithful.\n");
         fi;
         
 
