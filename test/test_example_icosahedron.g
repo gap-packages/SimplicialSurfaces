@@ -46,20 +46,21 @@ end;
 ##
 TestIsIcosahedron := function( surface, messageSurfaceOrigin )
 
-	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
-		12, 		# number of vertices
-		30, 	# number of edges
-		20,		# number of faces
-		true,	# do the edges look like on a surface?
-		true,	# do the vertices look like on a surface?
-		true,	# is every face a triangle?
-		true,	# is it closed?
-		true,	# is it orientable?
-		true, 	# is it connected?
-		List([1..12],i->5),		# the sorted degrees
-		[,,,,12],			# the vertex symbol
-		20,		# the number of anomaly classes
-		false	# does ear-removal reduce the surface?
+	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin, rec(
+		vertexNr := 12, 		# number of vertices
+		edgeNr := 30, 	# number of edges
+		faceNr := 20,		# number of faces
+		isEdgesLikeSurface := true,	# do the edges look like on a surface?
+		isVerticesLikeSurface := true,	# do the vertices look like on a surface?
+		isTriangleSurface := true,	# is every face a triangle?
+		isClosedSurface := true,	# is it closed?
+		isOrientable := true,	# is it orientable?
+		isConnected := true, 	# is it connected?
+		sortDeg := List([1..12],i->5),		# the sorted degrees
+		vertexSym := [,,,,12],			# the vertex symbol
+		faceAnomalyClassNr := 20,		# the number of anomaly classes
+		isSnippable := false	# does ear-removal reduce the surface?
+            )
 	);
 
 	TestIsomorphicIcosahedron( surface, messageSurfaceOrigin );

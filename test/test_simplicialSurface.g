@@ -465,7 +465,8 @@ end;
 
 
 ##
-##	Test attributes of simplicial surfaces
+##	Test attributes of simplicial surfaces using a record with the
+##      following entrie:
 ##	vertexNr	number of vertices
 ##	edgeNr		number of edges
 ##	faceNr		number of faces
@@ -477,107 +478,115 @@ end;
 ##	isConnected			is the simplicial surface connected?
 ##	sortDeg		the sorted degrees (vertexByFaces)
 ##	vertexSym	the vertex symbol (vertexByEdges)
-##	anomalyClassCount		the number of anomaly classes
+##	faceAnomalyClassNr		the number of anomaly classes
 ##	isSnippable			does recursively snipping off ears reduce the surface?
 ##
-TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin, 
-	vertexNr, edgeNr, faceNr, isEdgesLikeSurface, isVerticesLikeSurface,
-	isTriangleSurface, 
-	isClosedSurface, isOrientable, 
-	isConnected, sortDeg, vertexSym, anomalyClassCount, isSnippable)
+TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
+        testRecord )
 
-	local conCom, euler;
+    local conCom;
 
-	TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
+    TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
 
-	if NrOfVertices(surface) <> vertexNr then
+    if IsBound( testRecord.vertexNr ) then
+	if NrOfVertices(surface) <> testRecord.vertexNr then
 		Print( messageSurfaceOrigin );
 		Print( " does not have " );
-		Print( vertexNr );
+		Print( testRecord.vertexNr );
 		Print( " vertices.\n");
 	fi;
-	if NrOfEdges(surface) <> edgeNr then
+    fi;
+
+    if IsBound( testRecord.edgeNr ) then
+	if NrOfEdges(surface) <> testRecord.edgeNr then
 		Print( messageSurfaceOrigin );
 		Print( " does not have " );
-		Print( edgeNr );
+		Print( testRecord.edgeNr );
 		Print( " edges.\n");
 	fi;
-	if NrOfFaces(surface) <> faceNr then
+    fi;
+
+    if IsBound( testRecord.faceNr ) then
+	if NrOfFaces(surface) <> testRecord.faceNr then
 		Print( messageSurfaceOrigin );
 		Print( " does not have " );
-		Print( faceNr );
+		Print( testRecord.faceNr );
 		Print( " faces.\n");
 	fi;
-	euler := vertexNr - edgeNr + faceNr;
-	if EulerCharacteristic(surface) <> euler then
-		Print( messageSurfaceOrigin );
-		Print( " does not have Euler-Characteristic " );
-		Print( euler );
-		Print( ".\n");
-	fi;
+    fi;
 
-
-	# edges like surface check
-	if IsEdgesLikeSurface( surface ) <> isEdgesLikeSurface then
+    # edges like surface check
+    if IsBound( testRecord.isEdgesLikeSurface ) then
+        if IsEdgesLikeSurface( surface ) <> testRecord.isEdgesLikeSurface then
 		Print( messageSurfaceOrigin );
-		if isEdgesLikeSurface then
+		if testRecord.isEdgesLikeSurface then
 			Print( " must have edges like that on a surface.\n" );
 		else
 			Print( " must have an edge unlike that on a surface.\n" );
 		fi;
 	fi;
+    fi;
 
-	# vertices like surface check
-	if IsVerticesLikeSurface( surface ) <> isVerticesLikeSurface then
-		Print( messageSurfaceOrigin );
-		if isVerticesLikeSurface then
+    # vertices like surface check
+    if IsBound( testRecord.isVerticesLikeSurface ) then
+	if IsVerticesLikeSurface( surface ) <> testRecord.isVerticesLikeSurface then
+                Print( messageSurfaceOrigin );
+		if testRecord.isVerticesLikeSurface then
 			Print( " must have vertices like that on a surface.\n" );
 		else
 			Print( " must have a vertex unlike that on a surface.\n" );
 		fi;
 	fi;
+    fi;
 
-	# triangle surface check
-	if IsTriangleSurface( surface ) <> isTriangleSurface then
+    # triangle surface check
+    if IsBound( testRecord.isTriangleSurface ) then
+	if IsTriangleSurface( surface ) <> testRecord.isTriangleSurface then
 		Print( messageSurfaceOrigin );
-		if isTriangleSurface then
+		if testRecord.isTriangleSurface then
 			Print( " must only consist of triangles.\n" );
 		else
 			Print( " must not only consist of triangles.\n" );
 		fi;
 	fi;
+    fi;
 
-	# closed check (only makes sense if it is an actual surface)
-	if IsEdgesLikeSurface(surface) and IsClosedSurface( surface ) <> isClosedSurface then
+    # closed check (only makes sense if it is an actual surface)
+    if IsBound( testRecord.isClosedSurface ) then
+	if IsEdgesLikeSurface(surface) and IsClosedSurface( surface ) <> testRecord.isClosedSurface then
 		Print( messageSurfaceOrigin );
-		if isClosedSurface then
+		if testRecord.isClosedSurface then
 			Print( " must be a closed surface.\n");
 		else
 			Print( " must not be closed.\n");
 		fi;
 	fi;
+    fi;
 
-	# orientable check (only makes sense if it is an actual surface)
-	if IsEdgesLikeSurface(surface) and IsOrientable( surface ) <> isOrientable then
+    # orientable check (only makes sense if it is an actual surface)
+    if IsBound( testRecord.isOrientable) then
+	if IsEdgesLikeSurface(surface) and IsOrientable( surface ) <> testRecord.isOrientable then
 		Print( messageSurfaceOrigin );
-		if isOrientable then
+		if testRecord.isOrientable then
 			Print( " must be orientable.\n");
 		else
 			Print( " must not be orientable.\n");
 		fi;
 	fi;
+    fi;
 
-	# connected check
-	if IsConnected( surface ) <> isConnected then
+    # connected check
+    if IsBound( testRecord.isConnected ) then
+	if IsConnected( surface ) <> testRecord.isConnected then
 		Print( messageSurfaceOrigin );
-		if isConnected then
+		if testRecord.isConnected then
 			Print( " must be connected.\n");
 		else
 			Print( " must not be connected.\n");
 		fi;
 	fi;
 	# Check connected components in the most simple case
-	if isConnected then
+	if testRecord.isConnected then
 		# TODO also test for different orders of function calls
 		conCom := ConnectedComponentsAttributeOfSimplicialSurface( surface );
 		if Length(conCom) <> 1 then
@@ -589,32 +598,41 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 			Print( " should equal its one connected component.\n");
 		fi;
 	fi;
+    fi;
 
-	# check sorted degrees
-	if SortedDegrees(surface) <> sortDeg then
+    # check sorted degrees
+    if IsBound( testRecord.sortDeg ) then
+	if SortedDegrees(surface) <> testRecord.sortDeg then
 		Print( messageSurfaceOrigin );
 		Print( " does not have degrees " );
-		Print( sortDeg );
+		Print( testRecord.sortDeg );
 		Print( ".\n");
 	fi;
+    fi;
 
-	# check vertex symbol
-	if VertexSymbol(surface) <> vertexSym then
+    # check vertex symbol
+    if IsBound( testRecord.vertexSym ) then
+	if VertexSymbol(surface) <> testRecord.vertexSym then
 		Print( messageSurfaceOrigin );
 		Print( " does not have the vertex symbol " );
-		Print( vertexSym );
+		Print( testRecord.vertexSym );
 		Print( ".\n");
 	fi;
+    fi;
 
-	# check anomaly classes
-	if Length( FaceAnomalyClasses(surface) ) <> anomalyClassCount then
+    # check anomaly classes
+    if IsBound( testRecord.faceAnomalyClassNr ) then
+	if Length( FaceAnomalyClasses(surface) ) <> testRecord.faceAnomalyClassNr then
 		Print( messageSurfaceOrigin );
 		Print( " should have exactly " );
-		Print( anomalyClassCount );
+		Print( testRecord.faceAnomalyClassNr );
 		Print( " face anomaly class(es).\n");
 	fi;
+    fi;
 
-	if isSnippable then
+    # check snippability
+    if IsBound( testRecord.isSnippable ) then
+	if testRecord.isSnippable then
 		if surface = SnippOffEarsRecursive(surface) then
 			Print( messageSurfaceOrigin );
 			Print( " should be changed by removal of ears.\n");
@@ -625,6 +643,7 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 			Print( " should not be changed by removal of ears.\n");
 		fi;
 	fi;
+    fi;
 end;
 
 

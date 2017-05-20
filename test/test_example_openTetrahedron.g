@@ -23,20 +23,21 @@ end;
 ##
 TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 
-	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
-		4, 		# number of vertices
-		6, 	# number of edges
-		3,		# number of faces
-		true,	# do the edges look like on a surface?
-		true,	# do the vertices look like on a surface?
-		true,	# is every face a triangle?
-		false,	# is it closed?
-		true,	# is it orientable?
-		true, 	# is it connected?
-		[2,2,2,3],		# the sorted degrees
-		[,,4],			# the vertex symbol
-		3,		# the number of anomaly classes
-		false	# does ear-removal reduce the surface?
+	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin, rec(
+		vertexNr := 4, 		# number of vertices
+		edgeNr := 6, 	# number of edges
+		faceNr := 3,		# number of faces
+		isEdgesLikeSurface := true,	# do the edges look like on a surface?
+		isVerticesLikeSurface := true,	# do the vertices look like on a surface?
+		isTriangleSurface := true,	# is every face a triangle?
+		isClosedSurface := false,	# is it closed?
+		isOrientable := true,	# is it orientable?
+		isConnected := true, 	# is it connected?
+		sortDeg := [2,2,2,3],		# the sorted degrees
+		vertexSym := [,,4],			# the vertex symbol
+		faceAnomalyClassNr := 3,		# the number of anomaly classes
+		isSnippable := false	# does ear-removal reduce the surface?
+            )
 	);
 	
 	TestIsomorphicOpenTetrahedron( surface, messageSurfaceOrigin );

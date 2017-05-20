@@ -26,20 +26,21 @@ end;
 TestIsTetrahedronAndProjectivePlane := function( surface, messageSurfaceOrigin )
 	local conCom;
 
-	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
-		7, 		# number of vertices
-		12, 	# number of edges
-		8,		# number of faces
-		true,	# do the edges look like on a surface?
-		true,	# do the vertices look like on a surface?
-		true,	# is every face a triangle?
-		true,	# is it closed?
-		false,	# is it orientable?
-		false, 	# is it connected?
-		[3,3,3,3,4,4,4],		# the sorted degrees
-		[,,4,3],			# the vertex symbol
-		5,		# the number of anomaly classes
-		false	# does ear-removal reduce the surface?
+	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin, rec( 
+		vertexNr := 7, 		# number of vertices
+		edgeNr := 12, 	# number of edges
+		faceNr := 8,		# number of faces
+		isEdgesLikeSurface := true,	# do the edges look like on a surface?
+		isVerticesLikeSurface := true,	# do the vertices look like on a surface?
+		isTriangleSurface := true,	# is every face a triangle?
+		isClosedSurface := true,	# is it closed?
+		isOrientable := false,	# is it orientable?
+		isConnected := false, 	# is it connected?
+		sortDeg := [3,3,3,3,4,4,4],		# the sorted degrees
+		vertexSym := [,,4,3],			# the vertex symbol
+		faceAnomalyClassNr := 5,		# the number of anomaly classes
+		isSnippable := false	# does ear-removal reduce the surface?
+            )
 	);
 	
 	# Test connected components

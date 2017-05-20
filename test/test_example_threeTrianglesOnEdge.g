@@ -24,20 +24,21 @@ end;
 TestIsThreeTrianglesOnEdge := function( surface, messageSurfaceOrigin )
 	local snipp;
 
-	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
-		5, 		# number of vertices
-		7, 		# number of edges
-		3,		# number of faces
-		false,	# do the edges look like on a surface?
-		false,	# do the vertices look like on a surface?
-		true,	# is every face a triangle?
-		false,	# is it closed?
-		false,	# is it orientable?
-		true, 	# is it connected?
-		[1,1,1,3,3],		# the sorted degrees
-		[,3,,2],			# the vertex symbol
-		3,		# the number of anomaly classes
-		true	# does ear-removal reduce the surface?
+	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin, rec(
+		vertexNr := 5, 		# number of vertices
+		edgeNr := 7, 		# number of edges
+		faceNr := 3,		# number of faces
+		isEdgesLikeSurface := false,	# do the edges look like on a surface?
+		isVerticesLikeSurface := false,	# do the vertices look like on a surface?
+		isTriangleSurface := true,	# is every face a triangle?
+		isClosedSurface := false,	# is it closed?
+		isOrientable := false,	# is it orientable?
+		isConnected := true, 	# is it connected?
+		sortDeg := [1,1,1,3,3],		# the sorted degrees
+		vertexSym := [,3,,2],			# the vertex symbol
+		faceAnomalyClassNr := 3,		# the number of anomaly classes
+		isSnippable := true	# does ear-removal reduce the surface?
+            )
 	);
 
 	snipp := SnippOffEars(surface);

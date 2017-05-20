@@ -32,20 +32,21 @@ end;
 ##
 TestIsProjectivePlaneFour := function( surface, messageSurfaceOrigin )
 	
-	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
-		3, 		# number of vertices
-		6, 	# number of edges
-		4,		# number of faces
-		true,	# do the edges look like on a surface?
-		true,	# do the vertices look like on a surface?
-		true,	# is every face a triangle?
-		true,	# is it closed?
-		false,	# is it orientable?
-		true, 	# is it connected?
-		[4,4,4],		# the sorted degrees
-		[,,,3],			# the vertex symbol
-		1,		# the number of anomaly classes
-		false	# does ear-removal reduce the surface?
+	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin, rec(
+		vertexNr := 3, 		# number of vertices
+		edgeNr := 6, 	# number of edges
+		faceNr := 4,		# number of faces
+		isEdgesLikeSurface := true,	# do the edges look like on a surface?
+		isVerticesLikeSurface := true,	# do the vertices look like on a surface?
+		isTriangleSurface := true,	# is every face a triangle?
+		isClosedSurface := true,	# is it closed?
+		isOrientable := false,	# is it orientable?
+		isConnected := true, 	# is it connected?
+		sortDeg := [4,4,4],		# the sorted degrees
+		vertexSym := [,,,3],			# the vertex symbol
+		faceAnomalyClassNr := 1,		# the number of anomaly classes
+		isSnippable := false	# does ear-removal reduce the surface?
+            )
 	);
 	
 	TestIsomorphicProjectivePlaneFour( surface, messageSurfaceOrigin );

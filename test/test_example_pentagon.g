@@ -22,20 +22,21 @@ end;
 ##
 TestIsPentagon := function( surface, messageSurfaceOrigin )
 
-	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin,
-		6, 		# number of vertices
-		10, 	# number of edges
-		5,		# number of faces
-		true,	# do the edges look like on a surface?
-		true,	# do the vertices look like on a surface?
-		true,	# is every face a triangle?
-		false,	# is it closed?
-		true,	# is it orientable?
-		true, 	# is it connected?
-		[2,2,2,2,2,5],		# the sorted degrees
-		[,,5,,1],			# the vertex symbol
-		5,		# the number of anomaly classes
-		false	# does ear-removal reduce the surface?
+	TestSimplicialSurfaceAttributes( surface, messageSurfaceOrigin, rec(
+		vertexNr := 6, 		# number of vertices
+		edgeNr := 10, 	# number of edges
+		faceNr := 5,		# number of faces
+		isEdgesLikeSurface := true,	# do the edges look like on a surface?
+		isVerticesLikeSurface := true,	# do the vertices look like on a surface?
+		isTriangleSurface := true,	# is every face a triangle?
+		isClosed := false,	# is it closed?
+		isOrientable := true,	# is it orientable?
+		isConnected := true, 	# is it connected?
+		sortDeg := [2,2,2,2,2,5],		# the sorted degrees
+		vertexSym := [,,5,,1],			# the vertex symbol
+		faceAnomalyClassNr := 5,		# the number of anomaly classes
+		isSnippable := false	# does ear-removal reduce the surface?
+            )
 	);
 	
 	TestIsomorphicPentagon( surface, messageSurfaceOrigin );
