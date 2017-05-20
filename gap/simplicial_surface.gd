@@ -399,7 +399,6 @@ DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 
 
-#TODO write methods for path-connectivity
 #TODO write chapter (or section) to explain connectivity
 
 #! @Description

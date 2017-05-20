@@ -2323,8 +2323,6 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 		[IsEdgesLikeSurface], 0 );
 
 
-#TODO helping method __SIMPLICIAL_ConnectedComponent
-
 ##
 ## Given a set of elements (natural numbers) and a list of components
 ## (indexed by the elements) return the connected component of the
@@ -2869,6 +2867,40 @@ InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
 	end
 );
 
+InstallMethod( PathConnectedComponentOfFaceNC, "for a simplicial surface",
+	[IsSimplicialSurface, IsPosInt],
+	function(simpsurf, f)
+                local comp, subsurf;
+
+                comp := __SIMPLICIAL_AbstractConnectedComponent(
+                    Faces(simpsurf), EdgesOfFaces(simpsurf), f );
+
+		subsurf := SubsurfaceByFacesNC( simpsurf, comp);
+		# this component is connected by construction, so we set the property
+		SetIsConnected( subsurf, true );
+		return subsurf;
+	end
+);
+InstallMethod( PathConnectedComponentOfFaceNC, "for a simplicial surface",
+	[IsSimplicialSurface and IsPathConnected, IsPosInt],
+	function(simpsurf, f)
+		return simpsurf; # A connected surface has only one connected component
+	end
+);
+InstallMethod( PathConnectedComponentOfFace, "for a simplicial surface",
+	[IsSimplicialSurface, IsPosInt],
+	function(simpsurf, f)
+		local faceList, faces, points, comp, change, faceNr, subsurf;
+
+		if not f in Faces(simpsurf) then
+			Error("PathConnectedComponentOfFace: Given face doesn't lie in surface.");
+		fi;
+
+		return PathConnectedComponentOfFaceNC( simpsurf, f);
+	end
+);
+
+
 #############################################################################
 ##
 #!	@Description
@@ -2890,17 +2922,20 @@ InstallMethod( ConnectedComponentOfFaceNC, "for a simplicial surface",
 		Error("ConnectedComponentOfFace: Internal error in ConnectedComponents.");
 	end
 );
-InstallMethod( ConnectedComponentOfFace, "for a simplicial surface",
-	[IsSimplicialSurface and HasConnectedComponentsAttributeOfSimplicialSurface,
-		 IsPosInt],
+
+
+InstallMethod( PathConnectedComponentOfFaceNC, "for a simplicial surface",
+	[IsSimplicialSurface and HasPathConnectedComponents, IsPosInt],
 	function(simpsurf, f)
 		local conCom, comp;
 
-		if not f in Faces(simpsurf) then
-			Error("ConnectedComponentOfFace: Given face doesn't lie in surface.");
-		fi;
-
-		return ConnectedComponentOfFaceNC( simpsurf, f);
+		conCom := PathConnectedComponents(simpsurf);
+		for comp in conCom do
+			if f in Faces(comp) then
+				return comp;
+			fi;
+		od;
+		Error("PathConnectedComponentOfFace: Internal error in PathConnectedComponents.");
 	end
 );
 
@@ -2919,7 +2954,7 @@ InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
 		comp := [ ];
 		while not IsEmpty(faces) do
 			f := faces[1];
-			component := ConnectedComponentOfFaceNC( simpsurf, f );
+                        component := ConnectedComponentOfFace(simpsurf, f);
 			Append( comp, [component] );
 			faces := Difference( faces, Faces(component) );
 		od;
@@ -2940,6 +2975,29 @@ InstallImmediateMethod( ConnectedComponentsAttributeOfSimplicialSurface,
 #	end
 #);
 
+InstallMethod( PathConnectedComponents,
+	"for a simplicial surface", [IsSimplicialSurface],
+	function(simpsurf)
+		local faces, comp, f, component;
+
+		faces := Faces(simpsurf);
+		comp := [ ];
+		while not IsEmpty(faces) do
+			f := faces[1];
+                        component := PathConnectedComponentOfFace(simpsurf,f);
+			Append( comp, [component] );
+			faces := Difference( faces, Faces(component) );
+		od;
+
+		return comp;
+	end
+);
+InstallImmediateMethod( PathConnectedComponents,
+        IsSimplicialSurface and IsPathConnected, 0, 
+	function(simpsurf)
+		return [simpsurf];
+	end
+);
 
 
 #############################################################################
