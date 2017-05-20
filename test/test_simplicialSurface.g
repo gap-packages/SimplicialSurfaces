@@ -5,7 +5,8 @@
 ##	Test the general consistency of a simplicial surface.
 ##	
 TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
-	local i, degrees, graph, name, refElements, testElements;
+	local i, degrees, graph, name, refElements, testElements, faceAn,
+            edgeAn, j, classI, classJ, class;
 
 	if not IsSimplicialSurface( surface ) then
 		Print( messageSurfaceOrigin );
@@ -325,6 +326,139 @@ TestSimplicialSurfaceConsistency := function( surface, messageSurfaceOrigin )
 		Print( messageSurfaceOrigin );
 		Print( ": Incidence graph is not bipartite.\n");
 	fi;
+
+
+        # Check anomalies
+        faceAn := FaceAnomalyClasses( surface );
+        for class in faceAn do
+            for i in [1..Size(class)] do
+                for j in [i+1..Size(class)] do
+                    if VerticesOfFaces(surface)[i] <> VerticesOfFaces(surface)[j] then
+                        Print( messageSurfaceOrigin );
+                        Print( ": The faces " );
+                        Print( i );
+                        Print( " (with vertices " );
+                        Print( VerticesOfFaces(surface)[i] );
+                        Print( ") and " );
+                        Print( j );
+                        Print( " (with vertices " );
+                        Print( VerticesOfFaces(surface)[j] );
+                        Print( ") should not be in the same face anomaly class.\n");
+                    fi;
+                od;
+            od;
+        od;
+        for i in [1..Size(faceAn)] do
+            for j in [i+1..Size(faceAn)] do
+                for classI in faceAn[i] do
+                    for classJ in faceAn[j] do
+                        if VerticesOfFaces(surface)[classI] = VerticesOfFaces(surface)[classJ] then
+                            Print( messageSurfaceOrigin );
+                            Print( ": The faces " );
+                            Print( classI );
+                            Print( " (with vertices " );
+                            Print( VerticesOfFaces(surface)[classI] );
+                            Print( ") and " );
+                            Print( classJ );
+                            Print( " (with vertices " );
+                            Print( VerticesOfFaces(surface)[classJ] );
+                            Print( ") should be in the same face anomaly class.\n" );
+                        fi;
+                    od;
+                od;
+            od;
+        od;
+        
+        edgeAn := EdgeAnomalyClasses( surface );
+        for class in edgeAn do
+            for i in [1..Size(class)] do
+                for j in [i+1..Size(class)] do
+                    if VerticesOfEdges(surface)[i] <> VerticesOfEdges(surface)[j] then
+                        Print( messageSurfaceOrigin );
+                        Print( ": The edges " );
+                        Print( i );
+                        Print( " (with vertices " );
+                        Print( VerticesOfEdges(surface)[i] );
+                        Print( ") and " );
+                        Print( j );
+                        Print( " (with vertices " );
+                        Print( VerticesOfEdges(surface)[j] );
+                        Print( ") should not be in the same edge anomaly class.\n");
+                    fi;
+                od;
+            od;
+        od;
+        for i in [1..Size(edgeAn)] do
+            for j in [i+1..Size(edgeAn)] do
+                for classI in edgeAn[i] do
+                    for classJ in edgeAn[j] do
+                        if VerticesOfEdges(surface)[classI] = VerticesOfEdges(surface)[classJ] then
+                            Print( messageSurfaceOrigin );
+                            Print( ": The edges " );
+                            Print( classI );
+                            Print( " (with vertices " );
+                            Print( VerticesOfEdges(surface)[classI] );
+                            Print( ") and " );
+                            Print( classJ );
+                            Print( " (with vertices " );
+                            Print( VerticesOfEdges(surface)[classJ] );
+                            Print( ") should be in the same edge anomaly class.\n" );
+                        fi;
+                    od;
+                od;
+            od;
+        od;
+
+        if IsVertexFaithful(surface) then
+            if Size(faceAn) <> NrOfFaces(surface) then
+                Print( messageSurfaceOrigin );
+                Print( " can't be vertex faithful with face anomalies ");
+                Print( faceAn );
+                Print( "\n");
+            fi;
+            if Size(edgeAn) <> NrOfEdges(surface) then
+                Print( messageSurfaceOrigin );
+                Print( " can't be vertex faithful with edge anomalies " );
+                Print( edgeAn );
+                Print( "\n" );
+            fi;
+        else
+            if Size(faceAn) = NrOfFaces(surface) and Size(edgeAn) = NrOfEdges(surface) then
+                Print( messageSurfaceOrigin );
+                Print( " should be vertex faithful if it has neither face nor edge anomalies.\n" );
+            fi;
+        fi;
+        
+
+        # Check connectivity
+        if IsConnected(surface) then
+            if Size(ConnectedComponentsAttributeOfSimplicialSurface(surface)) <> 1 then
+                Print( messageSurfaceOrigin );
+                Print( " can't be connected if it has several connected components.\n" );
+            fi;
+        else
+            if IsPathConnected(surface) then
+                Print( messageSurfaceOrigin );
+                Print( " can't be path connected if it is not connected.\n" );
+            fi;
+            if Size( ConnectedComponentsAttributeOfSimplicialSurface(surface)) = 1 then
+                Print( messageSurfaceOrigin );
+                Print( " should be connected if it has only one connected component.\n" );
+            fi;
+        fi;
+        if IsPathConnected(surface) then
+            if Size(PathConnectedComponents(surface)) <> 1 then
+                Print( messageSurfaceOrigin );
+                Print( " can't be path connected if it has several path connected components.\n" );
+            fi;
+        else
+            if Size( PathConnectedComponents(surface)) = 1 then
+                Print( messageSurfaceOrigin );
+                Print( " should be path connected if it has only one path connected component.\n" );
+            fi;
+        fi;
+
+
 
 end;
 
