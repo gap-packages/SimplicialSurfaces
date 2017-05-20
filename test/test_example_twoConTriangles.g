@@ -33,10 +33,12 @@ TestIsTwoConnectedTriangles := function( surface, messageSurfaceOrigin )
 		isTriangleSurface := true,	# is every face a triangle?
 		isClosedSurface := false,	# is it closed?
 		isOrientable := true,	# is it orientable?
-		isConnected := true, 	# is it connected?
+		connectedComponentNr := 1, 	# is it connected?
+                pathConnectedComponentNr := 1,
 		sortDeg := [1,1,2,2],		# the sorted degrees
 		vertexSym := [,2,2],			# the vertex symbol
 		faceAnomalyClassNr := 2,		# the number of anomaly classes
+                edgeAnomalyClassNr := 5,
 		isSnippable := true	# does ear-removal reduce the surface?
             )
 	);

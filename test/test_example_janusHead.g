@@ -40,10 +40,12 @@ TestIsJanusHead := function( surface, messageSurfaceOrigin )
 		isTriangleSurface := true,	# is every face a triangle?
 		isClosedSurface := true,	# is it closed?
 		isOrientable := true,	# is it orientable?
-		isConnected := true, 	# is it connected?
+		connectedComponentNr := 1, 	# is it connected?
+                pathConnectedComponentNr := 1,
 		sortDeg := [2,2,2],		# the sorted degrees
 		vertexSym := [,3],			# the vertex symbol
 		faceAnomalyClassNr := 1,		# the number of anomaly classes
+                edgeAnomalyClassNr := 3,
 		isSnippable := false	# does ear-removal reduce the surface?
             )
 	);

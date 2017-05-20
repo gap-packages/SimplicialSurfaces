@@ -35,10 +35,12 @@ TestIsTetrahedronAndProjectivePlane := function( surface, messageSurfaceOrigin )
 		isTriangleSurface := true,	# is every face a triangle?
 		isClosedSurface := true,	# is it closed?
 		isOrientable := false,	# is it orientable?
-		isConnected := false, 	# is it connected?
+		connectedComponentNr := 2, 	# is it connected?
+                pathConnectedComponentNr := 2,
 		sortDeg := [3,3,3,3,4,4,4],		# the sorted degrees
 		vertexSym := [,,4,3],			# the vertex symbol
 		faceAnomalyClassNr := 5,		# the number of anomaly classes
+                edgeAnomalyClassNr := 9,
 		isSnippable := false	# does ear-removal reduce the surface?
             )
 	);

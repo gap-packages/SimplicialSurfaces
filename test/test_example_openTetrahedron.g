@@ -32,10 +32,12 @@ TestIsOpenTetrahedron := function( surface, messageSurfaceOrigin )
 		isTriangleSurface := true,	# is every face a triangle?
 		isClosedSurface := false,	# is it closed?
 		isOrientable := true,	# is it orientable?
-		isConnected := true, 	# is it connected?
+		connectedComponentNr := 1, 	# is it connected?
+                pathConnectedComponentNr := 1,
 		sortDeg := [2,2,2,3],		# the sorted degrees
 		vertexSym := [,,4],			# the vertex symbol
 		faceAnomalyClassNr := 3,		# the number of anomaly classes
+                edgeAnomalyClassNr := 6,
 		isSnippable := false	# does ear-removal reduce the surface?
             )
 	);

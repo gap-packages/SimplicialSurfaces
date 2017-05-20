@@ -486,7 +486,7 @@ end;
 TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
         testRecord )
 
-    local conCom, moreTests;
+    local moreTests;
 
     # Test whether the given record contains information that will not be
     # tested in this method
