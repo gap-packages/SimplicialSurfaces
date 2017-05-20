@@ -505,6 +505,7 @@ DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface );
 #! @Returns true or false
 #! @Arguments simpSurf
 DeclareProperty( "IsAnomalyFree", IsSimplicialSurface );
+#
 DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 
 #! @Description
