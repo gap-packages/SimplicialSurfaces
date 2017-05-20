@@ -498,9 +498,12 @@ DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
 #! @Arguments simpSurf
 DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface ); 
 
-#TODO Add property for IsVertexFaithful. Is this only checked for the faces?
-#TODO talk with Alice over definition of VertexFaithful, EdgeFaithful etc.
-# Needs that different edges have different vertices
+#! @Description
+#! Return whether the simplicial surface is vertex faithful. A simplicial
+#! surface is vertex faithful if all face and edge anomaly classes are trivial.
+#! @Returns true or false
+#! @Arguments simpSurf
+DeclareProperty( "IsVertexFaithful", IsSimplicialSurface );
 
 #! @Description
 #! Return the coloured incidence graph of a simplicial surface.

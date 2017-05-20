@@ -2244,6 +2244,14 @@ InstallMethod( EdgeAnomalyClasses, "for a simplicial surface",
 	end
  ); 
 
+InstallMethod( IsVertexFaithful, "for a simplicial surface",
+        [IsSimplicialSurface],
+        function( simpsurf )
+            return Size( FaceAnomalyClasses(simpsurf) ) = NrOfFaces(simpsurf) 
+                and Size( EdgeAnomalyClasses(simpsurf) ) = NrOfEdges(simpsurf);
+        end
+);
+
 ###############################################################################
 ##
 ##	Install the methods to determine whether a surface is an actual surface.
@@ -2323,6 +2331,7 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 		[IsEdgesLikeSurface], 0 );
 
 
+#TODO implement interaction between connected and path-connected components
 ##
 ## Given a set of elements (natural numbers) and a list of components
 ## (indexed by the elements) return the connected component of the
