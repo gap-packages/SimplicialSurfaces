@@ -484,7 +484,21 @@ end;
 TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
         testRecord )
 
-    local conCom;
+    local conCom, moreTests;
+
+    # Test whether the given record contains information that will not be
+    # tested in this method
+    moreTests := Difference( Set( RecNames( testRecord ) ),
+        Set( [ "vertexNr", "edgeNr", "faceNr", "isEdgesLikeSurface",
+            "isVerticesLikeSurface", "isTriangleSurface", "isClosedSurface",
+            "isOrientable", "isConnected", "sortDeg", "vertexSym", 
+            "faceAnomalyClassNr", "isSnippable" ] ) );
+    if not IsEmpty( moreTests ) then
+        Print( messageSurfaceOrigin );
+        Print( " has more information that is not tested: " );
+        Print( moreTests );
+        Print( " \n" );
+    fi;
 
     TestSimplicialSurfaceConsistency( surface, messageSurfaceOrigin );
 
