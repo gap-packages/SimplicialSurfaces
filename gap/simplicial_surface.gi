@@ -2324,12 +2324,40 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 
 
 #TODO helping method __SIMPLICIAL_ConnectedComponent
-# 1) set of elements (numbers)
-# 2) list of components indexed by the elements
-# 3) fixed element
-# Returns the set of elements that are connected to the given one
-# Reduce all connectivity methods to this method
-# 
+
+##
+## Given a set of elements (natural numbers) and a list of components
+## (indexed by the elements) return the connected component of the
+## element start.
+BindGlobal( "__SIMPLICIAL_AbstractConnectedComponent", 
+    function( elements, compOfElements, start )
+        local change, component, internals, el;
+
+        # The component contains start
+        component := [ start ];
+        # Modify the elements to remove everything that is added already
+        elements := Difference( elements, component );
+        # Save a set of internal components (by which the elements are connected)
+        internals := compOfElements[start];
+
+        change := true;
+        while change do
+            change := false;
+
+            for el in elements do
+                if Intersection( internals, compOfElements[el] ) <> [] then
+                    change := true;
+                    internals := Union( internals, compOfElements[el] );
+                    elements := Difference( elements, [el] );
+                    component := Union( component, [el] );
+                fi;
+            od;
+        od;
+
+        return component;
+    end
+);
+
 #############################################################################
 ##
 #!	@Description
@@ -2339,7 +2367,7 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 #!
 InstallMethod( IsConnected, "for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
-		local faces, faceList, points, change, faceNr;
+		local component;
 
 		# In this function we check the connectivity by working with the
 		# vertices. We start with the vertices of the first face and add all
@@ -2348,26 +2376,10 @@ InstallMethod( IsConnected, "for a simplicial surface", [IsSimplicialSurface],
 		# For the implementation we start with the list of all faces and
 		# remove those that lie in the connected component.
 
-		faceList := VerticesOfFaces(simpsurf);
-		# we start with all faces except the first one
-		faces := Faces(simpsurf){ [2..NrOfFaces(simpsurf)] };
-		# the algorithm starts with the vertices of the first face
-		points := Set( faceList[ Faces(simpsurf)[1] ] );
-
-		change := true;
-		while change do
-			change := false;
-
-			for faceNr in faces do
-				if Intersection( points, faceList[faceNr] ) <> [] then
-					change := true;
-					points := Union( points, faceList[faceNr] );
-					faces := Difference( faces, [faceNr] );
-				fi;
-			od;
-		od;
-
-		return IsEmpty( faces );
+                component := __SIMPLICIAL_AbstractConnectedComponent( 
+                        Faces(simpsurf), VerticesOfFaces(simpsurf), 
+                        Faces(simpsurf)[1] );
+                return Size( component ) = NrOfFaces(simpsurf);
 	end
 );
 InstallImmediateMethod( IsConnected, IsSimplicialSurface and 
@@ -2380,6 +2392,32 @@ InstallImmediateMethod( IsConnected, IsSimplicialSurface and
 	end
 );
 
+InstallMethod( IsPathConnected, "for a simplicial surface", [IsSimplicialSurface],
+	function(simpsurf)
+		local component;
+
+		# In this function we check the connectivity by working with the
+		# edges. We start with the edges of the first face and add all
+		# faces that share an edge with one of these. By iterating this
+		# we construct all faces in the connected component of the first face.
+		# For the implementation we start with the list of all faces and
+		# remove those that lie in the connected component.
+
+                component := __SIMPLICIAL_AbstractConnectedComponent( 
+                        Faces(simpsurf), EdgesOfFaces(simpsurf), 
+                        Faces(simpsurf)[1] );
+                return Size( component ) = NrOfFaces(simpsurf);
+	end
+);
+InstallImmediateMethod( IsPathConnected, IsSimplicialSurface and 
+        HasPathConnectedComponents, 0, 
+	function(simpsurf)
+		local components;
+
+		components := PathConnectedComponents(simpsurf);
+		return Length(components) = 1;
+	end
+);
 
 ###############################################################################
 ###############################################################################
@@ -2801,27 +2839,10 @@ InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
 InstallMethod( ConnectedComponentOfFaceNC, "for a simplicial surface",
 	[IsSimplicialSurface, IsPosInt],
 	function(simpsurf, f)
-		local faceList, faces, points, comp, change, faceNr, subsurf;
+                local comp, subsurf;
 
-		faceList := VerticesOfFaces(simpsurf);
-		# Take care to not modify the real list of faces
-		faces := Difference( Faces(simpsurf), [f] );
-		points := faceList[f];
-		comp := [ f ];
-
-		change := true;
-		while change do
-			change := false;
-
-			for faceNr in faces do
-				if Intersection( points, faceList[faceNr] ) <> [] then
-					change := true;
-					points := Union( points, faceList[faceNr] );
-					faces := Difference( faces, [faceNr] );
-					comp := Union( comp, [faceNr] );
-				fi;
-			od;
-		od;
+                comp := __SIMPLICIAL_AbstractConnectedComponent(
+                    Faces(simpsurf), VerticesOfFaces(simpsurf), f );
 
 		subsurf := SubsurfaceByFacesNC( simpsurf, comp);
 		# this component is connected by construction, so we set the property
