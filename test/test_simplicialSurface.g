@@ -482,7 +482,7 @@ end;
 ##	connectedComponentNr    the number of connected components
 ##      pathConnectedComponentNr    the number of path connected components
 ##	sortDeg		the sorted degrees (vertexByFaces)
-##	vertexSym	the vertex symbol (vertexByEdges)
+##	vertexSym	the vertex counter (vertexByEdges)
 ##	faceAnomalyClassNr		the number of face anomaly classes
 ##      edgeAnomalyClassNr          the number of edge anomaly classes
 ##	isSnippable			does recursively snipping off ears reduce the surface?
@@ -629,11 +629,11 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 	fi;
     fi;
 
-    # check vertex symbol
+    # check vertex counter
     if IsBound( testRecord.vertexSym ) then
-	if VertexSymbol(surface) <> testRecord.vertexSym then
+	if VertexCounter(surface) <> testRecord.vertexSym then
 		Print( messageSurfaceOrigin );
-		Print( " does not have the vertex symbol " );
+		Print( " does not have the vertex counter " );
 		Print( testRecord.vertexSym );
 		Print( ".\n");
 	fi;
