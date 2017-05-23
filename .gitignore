@@ -1,6 +1,30 @@
 # Autodoc-documentation
 doc/
 
+# intermediate latex stuff
+*.4ct
+*.4tc
+*.aux
+*.bbl
+*.blg
+*.css
+*.dvi
+*.html
+*.idv
+*.idx
+*.ilg
+*.ind
+*.lg
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.tmp
+*.toc
+*.xref
+
+
 # changed files
 *~
 *.swp
