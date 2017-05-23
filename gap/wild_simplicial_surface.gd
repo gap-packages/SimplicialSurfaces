@@ -403,6 +403,16 @@ DeclareOperation( "EdgeByFacesAndColourNC",
 DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 
 
+#!
+#!  @Description
+#!  Compute the action of a permutation on the faces of a wild simplicial
+#!  surface. The permutation acts on the faces, while the names of vertices
+#!  and edges may change.
+#!  @Arguments surface, perm
+#!  @Returns The new wild simplicial surface
+DeclareOperation( "ImageWildSimplicialSurface", 
+        [IsWildSimplicialSurface, IsPerm] );
+
 #! @DoNotReadRestOfFile
 #TODO modify the following declarations so that they work in AutoDoc
 

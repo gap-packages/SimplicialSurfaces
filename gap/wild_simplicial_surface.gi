@@ -2018,6 +2018,38 @@ InstallMethod( FilteredStructuresWildSimplicialSurface,
 ##  the centraliser of the generators of ss inside the
 ##  full symmetric group.
 ## ImageWildSimplicialSurface
+InstallMethod( ImageWildSimplicialSurface, 
+    "for a simplicial surface and a permutation", 
+    [IsWildSimplicialSurface, IsPerm ], function( surface, perm )
+        local newVertices, newFaces, newColPaths, OnPath;
+
+        # The action on the wild simplicial surface can be completely
+        # characterized by the action on the coloured face-edge-paths
+        # TODO transfer knowledge of this surface to the permuted one
+        newVertices := Vertices( surface );
+        newFaces := OnSets( Faces( surface ), perm );
+        
+        OnPath := function( path, perm )
+            local Act;
+
+            Act := function( i, el, perm )
+                if IsEvenInt(i) then
+                    return el^perm;
+                else
+                    return el;
+                fi;
+            end;
+
+            return List( [1..Size(path)], i -> Act( i, path[i], perm ) );
+        end;
+
+        newColPaths := List( ColouredFaceEdgePathsOfVertices( surface ),
+            path -> OnPath( path, perm ) );
+
+        return WildSimplicialSurfaceByColouredFaceEdgePathsNC(
+            newVertices, newFaces, newColPaths );
+    end
+);
 
 
 
