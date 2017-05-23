@@ -1922,6 +1922,35 @@ InstallMethod( VertexCounter, "for a simplicial surface", [IsSimplicialSurface],
 	end
 );
 
+#!
+#!  @Description
+#!  Return the edge counter of a simplicial surface. The edge counter is a
+#!  symmetric matrix M such that M[i,j] counts the number of edges such that
+#!  the two vertices of the edge have edge-degrees i and j.
+#!  @Arguments simpSurf
+#!  @Returns a matrix of integers
+InstallMethod( EdgeCounter, "for a simplicial surface", [IsSimplicialSurface],
+   function(simpSurf)
+        local edgeDegrees, max, edge, symbol, degs;
+
+        edgeDegrees := List( EdgesOfVertices(simpSurf), Size );
+        max := Maximum( edgeDegrees );
+        if max = 0 then
+            return [];
+        fi;
+
+        # Set up the matrix
+        symbol := List( [1..max], i -> List( [1..max], j -> 0 ) );
+        for edge in Edges(simpSurf) do
+            degs := List( VerticesOfEdges(simpSurf)[edge], v -> edgeDegrees[v] );
+            symbol[ degs[1] ][ degs[2] ] := symbol[degs[1]][degs[2]] + 1;
+            symbol[ degs[2] ][ degs[1] ] := symbol[degs[2]][degs[1]] + 1;
+        od;
+
+        return symbol;
+   end
+);
+
 
 ##############################################################################
 ##

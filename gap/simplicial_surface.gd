@@ -479,7 +479,15 @@ DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 #! @Arguments simpSurf
 #! @Returns a list of positive integers
 DeclareAttribute( "VertexCounter", IsSimplicialSurface );
-#TODO add EdgeCounter (how?)
+
+#!
+#!  @Description
+#!  Return the edge counter of a simplicial surface. The edge counter is a
+#!  symmetric matrix M such that M[i,j] counts the number of edges such that
+#!  the two vertices of the edge have edge-degrees i and j.
+#!  @Arguments simpSurf
+#!  @Returns a matrix of integers
+DeclareAttribute( "EdgeCounter", IsSimplicialSurface );
 
 #! @Description
 #! Return the face-anomaly-classes of a simplicial surface.
