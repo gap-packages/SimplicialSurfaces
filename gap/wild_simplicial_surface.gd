@@ -238,7 +238,8 @@ DeclareAttribute( "GroupOfWildSimplicialSurface", IsWildSimplicialSurface );
 #!  function determines the vertex group of the simplicial surface.
 #!  The vertex group of the simplicial surface simpsurf is defined to be
 #!  $F_3/R$, where $F_3$ is the free group on three generators and $R$ is 
-#!  the set of relations given by the vertex defining paths.
+#!  the set of relations given by the vertex defining paths of the inner
+#!  vertices.
 #!  @Returns finitely presented group.
 DeclareAttribute( "VertexGroup", IsWildSimplicialSurface );
 

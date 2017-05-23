@@ -1572,6 +1572,14 @@ InstallMethod( AllWildSimplicialSurfaces,
 	# Check whether the given arguments are correct
 	__SIMPLICIAL_CheckGeneratorsAndMRType(gens,mrtype);
 
+        # Catch the case of gens = [ (), (), () ]
+        if gens = [ (), (), () ] then
+            return [ WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring(
+                [],[],[],[],[],[]),
+                WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouring(
+                3,3,1,[[1,2],[2,3],[1,3]],[[1,2,3]],[1,2,3] ) ];
+        fi;
+
 
 	# Start the actual computations
 
