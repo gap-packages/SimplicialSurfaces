@@ -483,6 +483,7 @@ end;
 ##      pathConnectedComponentNr    the number of path connected components
 ##	sortDeg		the sorted degrees (vertexByFaces)
 ##	vertexSym	the vertex counter (vertexByEdges)
+##      edgeSym         the edge counter
 ##	faceAnomalyClassNr		the number of face anomaly classes
 ##      edgeAnomalyClassNr          the number of edge anomaly classes
 ##	isSnippable			does recursively snipping off ears reduce the surface?
@@ -499,7 +500,7 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
             "isVerticesLikeSurface", "isTriangleSurface", "isClosedSurface",
             "isOrientable", "connectedComponentNr", "sortDeg", "vertexSym", 
             "faceAnomalyClassNr", "isSnippable", "pathConnectedComponentNr",
-            "edgeAnomalyClassNr"] ) );
+            "edgeAnomalyClassNr", "edgeSym"] ) );
     if not IsEmpty( moreTests ) then
         Print( messageSurfaceOrigin );
         Print( " has more information that is not tested: " );
@@ -635,6 +636,16 @@ TestSimplicialSurfaceAttributes := function(surface, messageSurfaceOrigin,
 		Print( messageSurfaceOrigin );
 		Print( " does not have the vertex counter " );
 		Print( testRecord.vertexSym );
+		Print( ".\n");
+	fi;
+    fi;
+
+    # check edge counter
+    if IsBound( testRecord.edgeSym ) then
+	if EdgeCounter(surface) <> testRecord.edgeSym then
+		Print( messageSurfaceOrigin );
+		Print( " does not have the edge counter " );
+		Print( testRecord.edgeSym );
 		Print( ".\n");
 	fi;
     fi;

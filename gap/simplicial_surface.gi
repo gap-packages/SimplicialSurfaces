@@ -1944,7 +1944,9 @@ InstallMethod( EdgeCounter, "for a simplicial surface", [IsSimplicialSurface],
         for edge in Edges(simpSurf) do
             degs := List( VerticesOfEdges(simpSurf)[edge], v -> edgeDegrees[v] );
             symbol[ degs[1] ][ degs[2] ] := symbol[degs[1]][degs[2]] + 1;
-            symbol[ degs[2] ][ degs[1] ] := symbol[degs[2]][degs[1]] + 1;
+            if degs[1] <> degs[2] then
+                symbol[ degs[2] ][ degs[1] ] := symbol[degs[2]][degs[1]] + 1;
+            fi;
         od;
 
         return symbol;
