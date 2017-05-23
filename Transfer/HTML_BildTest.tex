@@ -1,0 +1,12 @@
+\documentclass{article}
+
+\ifx\HCode\UnDef\else\def\pgfsysdriver{pgfsys-tex4ht.def}\fi
+\usepackage{tikz}
+
+\begin{document}
+	\begin{tikzpicture}
+   		\path (0,0) node[draw] (A) {A};
+   		\path (2,0) node[draw] (B) {B};
+   		\draw (A) -- (B) node[midway,above = 0 em] {via};
+	\end{tikzpicture}
+\end{document}

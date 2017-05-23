@@ -1,0 +1,10 @@
+This is a short explanation of the process to compile tikz-code into 
+svg-images (that can then be included into an html-page)
+
+1. Install tex4ht
+2. Write your LaTeX-Code. Of special importance is the line 
+    \def\pgfsysdriver{pgfsys-tex4ht.def}. An example is given in 
+    HTML_BildTest.tex 
+3. Compile the code with htlatex <name>. This will return an svg (a
+    scalable vector graphic) with the name <name>-1.svg (The number increases
+    if there are multiple pictures in one file).
