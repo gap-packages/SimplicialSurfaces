@@ -2870,3 +2870,6 @@ InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface and IsActu
         return allsurf;
             
 end);
+
+RedispatchOnCondition( AllWildSimplicialSurfaces, true, [IsSimplicialSurface],
+    [IsActualSurface], 0 );
