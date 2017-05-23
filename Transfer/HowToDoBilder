@@ -8,3 +8,5 @@ svg-images (that can then be included into an html-page)
 3. Compile the code with htlatex <name>. This will return an svg (a
     scalable vector graphic) with the name <name>-1.svg (The number increases
     if there are multiple pictures in one file).
+4. To include the svg into html, the easiest way seems to be an image tag:
+    <img alt="name" src="name.svg">
