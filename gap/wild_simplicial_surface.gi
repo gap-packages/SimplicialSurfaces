@@ -2014,10 +2014,7 @@ InstallMethod( FilteredStructuresWildSimplicialSurface,
 );
 
 
-#TODO define an action of
-##  the centraliser of the generators of ss inside the
-##  full symmetric group.
-## ImageWildSimplicialSurface
+#TODO this does not define a group action (identity does not fix every element)
 InstallMethod( ImageWildSimplicialSurface, 
     "for a simplicial surface and a permutation", 
     [IsWildSimplicialSurface, IsPerm ], function( surface, perm )

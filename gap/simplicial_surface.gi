@@ -81,7 +81,7 @@ InstallMethod( ObjectifySimplicialSurface, "",
 			"EulerCharacteristic",
 			"UnsortedDegrees",
 			"SortedDegrees",
-			"VertexSymbol",
+			"VertexCounter",
 			"FaceEdgePathsOfVertices",
 			"LocalOrientationByVerticesAsPerm",
 			"LocalOrientationByVerticesAsList",
@@ -1896,14 +1896,14 @@ InstallMethod( SortedDegrees, "for a simplicial surface", [IsSimplicialSurface],
 #############################################################################
 ##
 #!  @Description
-#!  Return the vertex symbol of a simplicial surface.
-#!	The vertex symbol is a list, where the i-th entry counts the number of 
+#!  Return the vertex counter of a simplicial surface.
+#!	The vertex counter is a list, where the i-th entry counts the number of 
 #!	vertices that are incident to exactly i edges. If there are no such
 #!	vertices the entry is unbounded.
 #!  @Arguments a simplicial surface object simpsurf
 #!  @Returns a list of integers
 #!
-InstallMethod( VertexSymbol, "for a simplicial surface", [IsSimplicialSurface],
+InstallMethod( VertexCounter, "for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
 		local edgesOfVertices, vertex, symbol, degree;
 

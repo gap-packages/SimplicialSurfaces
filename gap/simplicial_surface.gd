@@ -472,14 +472,13 @@ DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
 DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 
 #! @Description
-#! Return the vertex symbol of a simplicial surface.
-#! The vertex symbol is defined as a list vertexSym, where vertexSym[i]
+#! Return the vertex counter of a simplicial surface.
+#! The vertex counter is defined as a list vertexSym, where vertexSym[i]
 #! counts the number of vertices that are incident to exactly i edges. If there
 #! are no vertices with i incident edges, this entry is unbounded.
 #! @Arguments simpSurf
 #! @Returns a list of positive integers
-DeclareAttribute( "VertexSymbol", IsSimplicialSurface );
-#TODO Rename to VertexCounter?
+DeclareAttribute( "VertexCounter", IsSimplicialSurface );
 #TODO add EdgeCounter (how?)
 
 #! @Description
