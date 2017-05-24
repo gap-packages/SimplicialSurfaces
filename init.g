@@ -10,6 +10,7 @@
 #############################################################################
 
 
+ReadPackage( "SimplicialSurfaces", "gap/MethodSelectionGraph.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/wild_simplicial_surface.gd" );
 

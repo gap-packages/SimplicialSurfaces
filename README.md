@@ -2,13 +2,15 @@ The GAP 4 package `SimplicialSurfaces'
 ==============================
 
 
-Since this package is not a complete GAP-package at this point in time, the
-usage differs from usual packages.
+There are two ways to use this package. Both start with downloading or cloning
+the repository (cloning via git is preferable as you get updates more easily).
 
-1) Download or copy the repository (linking it to the online repository
-    via git is preferable as you can get updates more easily)
-2) Go into the folder gap/
-3) Use "gap play.g" or read "play.g" from inside gap
+A) Go into your installation directory for GAP, then the subfolder pkg/ and
+    put the SimplicialSurface-folder there. Then you can use
+        LoadPackage("SimplicialSurfaces")
+    to access the package inside GAP.
+B) Go into the folder gap/ of the repository and use "gap play.g".
+    Alternatively you can start gap from there and read "play.g".
 
 The manual is in the folder doc/
 At the current point in time it is more of a rough draft but it should be able
