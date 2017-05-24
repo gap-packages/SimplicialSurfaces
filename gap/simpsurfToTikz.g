@@ -175,7 +175,16 @@ end;
 ##
 
 drawSimpSurf:=function(surf, listofdrawings,nameoffile,printrecord)
-	local name,output,i,j,c,p,slash,face;
+	local name,output,i,j,c,p,slash,face, controlFace, edgesAsList,
+            colsAsList, colOrientation;
+
+        if IsOrientable(surf) then
+            edgesAsList := GlobalOrientationByEdgesAsList(surf);
+            colsAsList := List( edgesAsList, ls -> 
+                    List( ls, e -> ColoursOfEdges(surf)[e] ) );
+            colOrientation := __SIMPLICIAL_TranslateListsIntoCycles( colsAsList );
+        fi;
+
 	## Test if Directory is correct
 	#
 	name:=Filename(DirectoryCurrent(),nameoffile);
@@ -186,14 +195,18 @@ drawSimpSurf:=function(surf, listofdrawings,nameoffile,printrecord)
 	
 	for i in [1..Length(listofdrawings)] do
 		j:=1;
+                if IsOrientable(surf) then
+                    controlFace := colOrientation[ listofdrawings[i].coordinatesoffaces[1][1] ];
+                fi;
 		AppendTo(output,"\n"," \\begin{tikzpicture} \n", "{ \n" );
 		for p in listofdrawings[i].points do
 			AppendTo(output,"\\coordinate [label=left:$",p[2],"$] \n (P",j,") at (",p[1][1],",",p[1][2],"); \n");
 			j:=j+1;
 		od;	
 		for face in listofdrawings[i].coordinatesoffaces do
+                        #TODO It is currently not possible to know where the vertices of a given face are
 			AppendTo(output,"\\node (P",j,") at (",face[2][1],",",face[2][2],") {f",face[1],"}; \n");
-			j:=j+1;
+		    j:=j+1;
 		od;
 		for c in listofdrawings[i].pointsConnected do
                     AppendTo( output, "\\draw[", printrecord.colours[c[3]], ",", "line width=", printrecord.thickness, " pt] (P", c[1], ") -- (P", c[2], "); \n");
