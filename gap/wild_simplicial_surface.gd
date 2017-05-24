@@ -526,6 +526,23 @@ DeclareOperation( "GeneratorsFromFacePairs",  [IsList] );
 #! 
 DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList]);
 
+
+#!
+#!  @Description
+#!  Try to draw the wild simplicial surface. The output will be a
+#!  two-dimensional net, written into a TikZ-file.
+#!  To facilitate the drawing, we make use of a print-record that saves
+#!  information about the drawing. This method returns a print record that
+#!  allows it to reconstruct the drawing. If a print record is given, its
+#!  information supersede the default style.
+#!
+#!  The print record contains the following information:
+#!  #TODO
+#!
+#!  @Arguments wildSurf, fileName [, printRecord ]
+#!  @Returns a print record. As a side effect it writes a tikz-file
+
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
