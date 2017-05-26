@@ -562,7 +562,8 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!
 #!  @Arguments wildSurf, fileName [, printRecord ]
 #!  @Returns a print record. As a side effect it writes a tikz-file
-DeclareOperation( "DrawSurfaceToTikz", [IsWildSimplicialSurface]);
+DeclareOperation( "DrawSurfaceToTikz", 
+        [IsWildSimplicialSurface, IsString, IsRecord]);
 
 
 

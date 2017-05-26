@@ -2887,9 +2887,46 @@ RedispatchOnCondition( AllWildSimplicialSurfaces, true, [IsSimplicialSurface],
 ###############################################################################
 ##          Start of drawing methods
 ##
+InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
+    [IsWildSimplicialSurface, IsString],
+    function(surface, string)
+        return DrawSurfaceToTikz( surface, string, rec() );
+    end
+);
 InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
-    [IsWildSimplicialSurface],
-    function( surface )
+    [IsWildSimplicialSurface, IsString, IsRecord],
+    function( surface, string, record )
+        local finalRecord, toMuchInfo;
+
+        # Test the given record first. Check if any information in the record
+        # can't be used
+        toMuchInfo := Difference( Set( RecNames( record ) ),
+            [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
+                "edgeLengths", "edgeThickness" ] );
+        if not IsEmpty( toMuchInfo ) then
+            Print( "Warning: The following components of the printing record " );
+            Print( "could not be interpreted: " );
+            Print( toMuchInfo );
+            Print( "\n" );
+        fi;
+
+
+
+        # Add some missing information to the printing record
+        # (the info about starting faces and edge draw order is done later)
+        if not IsBound( record.edgeColours ) then
+            record.edgeColours := [ "red", "blue", "green" ];
+        fi;
+        if not IsBound( record.faceColours ) then
+            record.edgeColours := [ "white", "lightgray" ];
+        fi;
+        if not IsBound( record.edgeLengths ) then
+            record.edgeLengths := [2,3,4];
+        fi;
+        if not IsBound( record.edgeThickness ) then
+            record.edgeThickness := 0.6;
+        fi;
+        
 
 
         # Plan to save information:
