@@ -2896,7 +2896,7 @@ InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     [IsWildSimplicialSurface, IsString, IsRecord],
     function( surface, string, record )
-        local finalRecord, toMuchInfo;
+        local fileName, toMuchInfo;
 
         # Test the given record first. Check if any information in the record
         # can't be used
@@ -2927,7 +2927,27 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             record.edgeThickness := 0.6;
         fi;
         
-
+        
+        # 
+        unplacedFaces := Faces( surface );
+        # realStarts := [];     
+        # realEdgeDraw := [];
+        # startIndex := 1;    # The indices are used to traverse the corresponding lists (as long as possible)
+        # edgeDrawIndex := 1; # They are modified after each call 
+        # openEdges := []
+        # unfinishedVertices := [] # dependent on the current state
+        # while not IsEmpty(unplacedFaces)
+        #  if IsEmpty(openEdges)
+        #    # add new start
+        #    # if startingFaces has a first component, try it
+        #    # if it fails, take min(unplacesFaces)
+        #    # set openEdges := EdgesOfFaces[start]
+        #    # define position of first vertices, define edgeColourOrientation
+        #    # unplacesFaces gets smaller
+        #    # unfinishedVertices := the three vertices of the starting face
+        #
+        #  Try first edge of edgeDraw
+        #  if that fails, take min(unfinishedVertices) and pick an open edge
 
         # Plan to save information:
         # For each vertex a list of coordinates (it may be drawn twice)
