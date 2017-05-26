@@ -2972,6 +2972,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # The unplacedFaces is a set of all faces that don't have a position in
         # the drawing yet.
         unplacedFaces := Faces( surface );
+        # The list connCompByFaceLists is a list of sets, such that each set
+        # represents the faces of a single path-connected component.
+        connCompByFaceLists := [];
 
         # <Record keeping variables>
         # The list realStarts will be saved in the printing record later. It
@@ -3005,8 +3008,12 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # currently completing. Since choosing a random edge to draw a triangle
         # leads to a pretty random result, we try to complete the vertices one
         # at a time - which is why we have to keep track of the one we are
-        # currently finishing.
-
+        # currently finishing. If there is no current vertex, this variable
+        # is set to fail.
+        currentVertex := fail;
+        # The list currComponentList saves the faces in the path-connected
+        # component at each time in the algorithm.
+        currComponentList := [];
 
         # After all this preparation we are ready for the main algorithm
         # Since there might be several path-connected components our first
@@ -3019,7 +3026,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             # First we check if we are in a new component
             #TODO variable componentsByFaceList, save components if they are not already known. Use components in drawing
             if IsEmpty(openEdges) then
-
+                
             fi;
         od;
         # while not IsEmpty(unplacedFaces)

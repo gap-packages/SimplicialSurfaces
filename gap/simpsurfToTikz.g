@@ -447,3 +447,25 @@ SimpSurfToTikzRescale:= function(simpsurf, nameoffile,printrecord)
     od;
     drawSimpSurf(simpsurf, listofdrawings,nameoffile,printrecord);
 end;
+
+
+# vertexCoordinates
+# edgeData
+# faceDate
+# faceOrientation
+
+# unplacedFaces
+# connCompByFaceLists
+
+# realStarts
+# realEdgeDraw
+
+# startIndex
+# edgeDrawIndex
+
+# openEdges
+# openVertices
+# currentVertex
+# currComponentList
+
+
