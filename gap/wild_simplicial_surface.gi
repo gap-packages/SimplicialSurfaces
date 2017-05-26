@@ -2896,7 +2896,7 @@ InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     [IsWildSimplicialSurface, IsString, IsRecord],
     function( surface, string, record )
-        local fileName, toMuchInfo;
+        local toMuchInfo, vertexCoordinates, edgeData, faceData, faceOrientation, unplacedFaces;
 
         # Test the given record first. Check if any information in the record
         # can't be used
@@ -2928,14 +2928,100 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         fi;
         
         
-        # 
+        # Next we define the data structure in which we will save the 
+        # coordinate data
+        # The vertex coordinates are a list (indexed by the vertices of the
+        # surface) such that each entry is a list of position vectors (three
+        # floats each). There might be several options since a vertex may
+        # appear multiple times in one drawing.
+        vertexCoordinates := [];
+        # The edge data is a list (indexed by the edges of the surface) of
+        # ordered pairs. Each entry of a pair represents a drawn vertex, 
+        # therefore each entry is a pair of [vtx_number, index], where the
+        # second component describes the position of the coordinates in the
+        # vertex coordinate list.
+        # Furthermore, the first entry is the base point of the edge. To
+        # understand this, we interpret the ordered pair as a coordinate
+        # vector that starts at the first entry and ends at the second one.
+        # During the process of drawing the edge may be a border edge (because
+        # the second face is not already drawn). In this case we want to know
+        # in which direction we have to draw. If we can rotate this coordinate
+        # vector around the first entry (mathematically positive e.g. counter-
+        # clockwise) such that it moves into uncharted territory, we call the
+        # first entry (around which we rotate) the base point of this edge.
+        edgeData := [];
+        # The face data is a list (indexed by the faces of the surface) of
+        # triples. Each element of a triple corresponds to a coordinate point
+        # (written as explained for edgeData).
+        faceData := [];
+        # The face orientation is a list (indexed by the faces of the surface)
+        # of 3-cycles in the symmetric group S_3. For each face we define 
+        # a local orientation of the three colours by going counterclockwise
+        # around the edges.
+        # This information is only relevant in colouring the faces later on.
+        faceOrientation := [];
+
+
+        
+        # Now we begin with the computation of the coordinates. Since this
+        # program can be completely and partially controlled by the printing
+        # record (or maybe not at all) we need some variables to keep things
+        # under control.
+
+        # <General variables>
+        # The unplacedFaces is a set of all faces that don't have a position in
+        # the drawing yet.
         unplacedFaces := Faces( surface );
-        # realStarts := [];     
-        # realEdgeDraw := [];
-        # startIndex := 1;    # The indices are used to traverse the corresponding lists (as long as possible)
-        # edgeDrawIndex := 1; # They are modified after each call 
-        # openEdges := []
-        # unfinishedVertices := [] # dependent on the current state
+
+        # <Record keeping variables>
+        # The list realStarts will be saved in the printing record later. It
+        # records what the starting faces for each path-connected component
+        # are (since they might be incomplete or incorrect before)
+        realStarts := [];
+        # The list realEdgeDraw will be saved in the printing record later and
+        # records the order in which the edges are completed by faces.
+        realEdgeDraw := [];
+
+        # <Indexing variables>
+        # Since we might have partial or wrong information about the startig
+        # faces and the edge draw order in the given printing record, we use
+        # two independent indices to iterate over these lists (independent of
+        # the main method)
+        startIndex := 1;
+        edgeDrawIndex := 1;
+
+        # <Variables for internal computation>
+        # The list openEdges contains all border edges of the current drawing
+        # that should be inner edges (except if they already have been drawn
+        # twice). In other words, these are all edges where a triangle might
+        # be added to the partial drawing.
+        openEdges := [];
+        # The list openVertices contains all vertices that are incident
+        # to two faces, one of which is drawn and one of which isn't. Instead
+        # of thinking about closing the edges, we might also think about
+        # closing the vertices.
+        openVertices := [];
+        # The variable currentVertex keeps track about the vertex that we are
+        # currently completing. Since choosing a random edge to draw a triangle
+        # leads to a pretty random result, we try to complete the vertices one
+        # at a time - which is why we have to keep track of the one we are
+        # currently finishing.
+
+
+        # After all this preparation we are ready for the main algorithm
+        # Since there might be several path-connected components our first
+        # loop essentially computes them. It is not easily possible to
+        # circumvent this because
+        # 1) We have to iterate over all faces anyway
+        # 2) We do not know in which order startingFaces gives us the 
+        #   path-connected components (if it denotes them correctly at all)
+        while not IsEmpty(unplacedFaces) do
+            # First we check if we are in a new component
+            #TODO variable componentsByFaceList, save components if they are not already known. Use components in drawing
+            if IsEmpty(openEdges) then
+
+            fi;
+        od;
         # while not IsEmpty(unplacedFaces)
         #  if IsEmpty(openEdges)
         #    # add new start
@@ -2949,12 +3035,12 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         #  Try first edge of edgeDraw
         #  if that fails, take min(unfinishedVertices) and pick an open edge
 
-        # Plan to save information:
-        # For each vertex a list of coordinates (it may be drawn twice)
-        # For each edge a list of pairs of [vtx-number, index] (to know which point)
-        # For each face a list of triples of [vtx-number, index]
-        #TODO Try to integrate drawing package (dirty) or refactor the code?
 
+
+        # Return the finished printing record that encodes the drawing process
+        record.startingFaces := realStarts;
+        record.edgeDrawOrder := realEdgeDraw;
+        return record;
     end
 );
 
