@@ -2926,6 +2926,19 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         if not IsBound( record.edgeThickness ) then
             record.edgeThickness := 0.6;
         fi;
+
+        if IsBound( record.startingFaces ) and IsList( record.startingFaces ) then
+            record.startingFaces := Compacted( record.startingFaces );
+        else
+            record.startingFaces := [];
+        fi;
+
+        if IsBound( record.edgeDrawOrder ) and IsList( record.edgeDrawOrder ) then
+            record.edgeDrawOrder := Compacted( record.edgeDrawOrder );
+        else
+            record.edgeDrawOrder := [];
+        fi;
+        
         
         
         # Next we define the data structure in which we will save the 
@@ -3024,23 +3037,50 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         #   path-connected components (if it denotes them correctly at all)
         while not IsEmpty(unplacedFaces) do
             # First we check if we are in a new component
-            #TODO variable componentsByFaceList, save components if they are not already known. Use components in drawing
             if IsEmpty(openEdges) then
-                
+                # Initialize the first face
+                start := fail;
+                if IsBound( record.startingFaces ) then
+                    while startIndex < Size(record.startingFaces) and start = fail do
+                        if record.startingFaces[startIndex] in Faces(surface) then
+                            start := record.startingFaces[startIndex];
+                        else
+                            Print( "The given starting face " );
+                            Print( startingFaces[startIndex] );
+                            Print( " is not valid and will be ignored.\n" );
+                        fi;
+                        startIndex := startIndex + 1;
+                    od;
+                fi;
+                if start = fail then
+                    start := Minimum( unplacedFaces );
+                fi;
+
+                # After choosing the starting face we have to give it the
+                # correct coordinates
+                #TODO initialize coordinates
+
+                #TODO restrict open* only to those that actually are open
+                openEdges := EdgesOfFaces(surface)[start];
+                openVertices := VerticesOfFaces(surface)[start];
+                currComponentList := [start];
             fi;
+
+            # Now we assume that we have a starting face. We set up the vertex
+            # variable for the case in which the drawing order is not given
+            currentVertex := fail;
+            # We proceed until there are no more open edges
+            while not IsEmpty( openEdges ) do
+                #TODO
+            od;
+
+            # At this point the component is finished
+            unplacedFaces := Difference( unplacedFaces, currComponentList );
+            Add( connCompByFaceLists, Set(currComponentList) );
         od;
-        # while not IsEmpty(unplacedFaces)
-        #  if IsEmpty(openEdges)
-        #    # add new start
-        #    # if startingFaces has a first component, try it
-        #    # if it fails, take min(unplacesFaces)
-        #    # set openEdges := EdgesOfFaces[start]
-        #    # define position of first vertices, define edgeColourOrientation
-        #    # unplacesFaces gets smaller
-        #    # unfinishedVertices := the three vertices of the starting face
-        #
-        #  Try first edge of edgeDraw
-        #  if that fails, take min(unfinishedVertices) and pick an open edge
+        
+        #TODO save path-components
+
 
 
 
