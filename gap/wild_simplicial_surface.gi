@@ -2887,7 +2887,14 @@ RedispatchOnCondition( AllWildSimplicialSurfaces, true, [IsSimplicialSurface],
 ###############################################################################
 ##          Start of drawing methods
 ##
+InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
+    [IsWildSimplicialSurface],
+    function( surface )
 
+
+
+    end
+);
 
 
 
