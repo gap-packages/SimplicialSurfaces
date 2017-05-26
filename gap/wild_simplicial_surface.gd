@@ -541,8 +541,24 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!      that are printed first in the drawing. If this information is not
 #!      given, the faces with the smallest indices in each component will
 #!      be choosen. For example, 1 is always drawn first.
+#!  edgeDrawOrder: A list of lists of edges. For each connected component
+#!      this list tells the order in which the edges are drawn. If an edge is
+#!      drawn, precisely one of its adjacent faces has to exist in the drawing.
+#!      The other one will be drawn. This list will miss exactly those edges
+#!      that are not (necessarily) inner edges of the drawing, since those
+#!      may be drawn twice if the angle sum at certain vertices is not flat.
+#!  edgeColours: A list of three colours (given as strings) that determine in
+#!      which colour each edge class is to be drawn.
+#!  faceColours: A list of two colours (given as strings) that determine in 
+#!      which colours the faces are drawn. This only works for orientable
+#!      surfaces. If a face is drawn with the same orientation as the starting
+#!      face, it gets the first colour. Otherwise it will be drawn in the
+#!      second colour.
+#!  edgeLengths: A list of three positive numbers that determine the length of
+#!      the three edge classes in the drawing.
+#!  edgeThickness: A number that determines the thickness of the drawn edges.
+#!      The default is 0.6
 #!  
-#!  #TODO
 #!
 #!  @Arguments wildSurf, fileName [, printRecord ]
 #!  @Returns a print record. As a side effect it writes a tikz-file
