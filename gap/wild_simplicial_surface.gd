@@ -537,6 +537,11 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!  information supersede the default style.
 #!
 #!  The print record contains the following information:
+#!  startingFaces: A list of faces (one for each path-connected component)
+#!      that are printed first in the drawing. If this information is not
+#!      given, the faces with the smallest indices in each component will
+#!      be choosen. For example, 1 is always drawn first.
+#!  
 #!  #TODO
 #!
 #!  @Arguments wildSurf, fileName [, printRecord ]
