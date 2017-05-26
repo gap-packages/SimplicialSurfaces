@@ -1922,6 +1922,32 @@ InstallMethod( VertexCounter, "for a simplicial surface", [IsSimplicialSurface],
 	end
 );
 
+##
+##  Alternative computation of the vertex counter if we already know the edge
+##  counter. Usually this will result in fewer checks.
+InstallMethod( VertexCounter, 
+    "for a simplicial surface with known edge counter",
+    [ IsSimplicialSurface and HasEdgeCounter ],
+    function( surf )
+        local symbol, i, j, edgeCounter, sum;
+
+        symbol := [];
+        edgeCounter := EdgeCounter(surf);
+        for i in [1..Size(edgeCounter)] do
+            sum := edgeCounter[i][i];   # This is counted twice
+            for j in [1..Size(edgeCounter)] do
+                sum := sum + edgeCounter[i][j];
+            od;
+            sum := sum/i;
+            if sum <> 0 then
+                symbol[i] := sum;
+            fi;
+        od;
+
+        return symbol;
+    end
+);
+
 #!
 #!  @Description
 #!  Return the edge counter of a simplicial surface. The edge counter is a
