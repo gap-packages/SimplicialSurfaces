@@ -2892,6 +2892,11 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     function( surface )
 
 
+        # Plan to save information:
+        # For each vertex a list of coordinates (it may be drawn twice)
+        # For each edge a list of pairs of [vtx-number, index] (to know which point)
+        # For each face a list of triples of [vtx-number, index]
+        #TODO Try to integrate drawing package (dirty) or refactor the code?
 
     end
 );

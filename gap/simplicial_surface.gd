@@ -573,6 +573,8 @@ DeclareOperation( "SnippOffEarsRecursive", [IsSimplicialSurface] );
 #! @Arguments s1, s2
 #! @Returns true or false
 DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );
+#TODO change name to IsIsomorphicSimplicialSurfaces? To distinguish it from
+# IsIsomorphicWildSimplicialSurfaces. Or is there a better way?
 
 
 
