@@ -2988,7 +2988,15 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # around the edges.
         # This information is only relevant in colouring the faces later on.
         faceOrientation := [];
-
+        # To better work with these data structures (especially
+        # vertexCoordinates and edgeData) we write a custom add-method.
+        AddToData := function( data, position, entry )
+            if IsBound( data[position] ) then
+                Add( data[position], entry );
+            else
+                data[position] := [entry];
+            fi;
+        end;
 
         
         # Now we begin with the computation of the coordinates. Since this
@@ -3076,7 +3084,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 # correct coordinates
                 vertOfStart := VerticesOfFaces(surface)[start];
                 # The first vertex goes into (0,0)
-                vertexCoordinates[vertOfStart[1]] := [ [0,0] ];
+                AddToData( vertexCoordinates, vertOfStart[1], [0,0] );
                 # The second vertex goes to (?,0), therefore we have to find
                 # the colour between those vertices
                 col := fail;
@@ -3092,14 +3100,14 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 if col = fail then
                     Error("DrawSurfaceToTikz: Internal error, colour not found.");
                 fi;
-                vertexCoordinates[vertOfStart[2]] := 
-                        [ [record.edgeLengths[col],0] ];
+                AddToData( vertexCoordinates, vertOfStart[2], 
+                        [record.edgeLength[col],0] );
                 # The last vertex has to be defined by the angle
                 if col=otherCol or otherCol = fail then
                     Error("DrawSurfaceToTik: Internal error, other colour not found." );
                 fi;
-                vertexCoordinates[vertOfStart[3]] := 
-                        [ record.edgeLengths[otherCol]*angles[6-col-otherCol] ];
+                AddToData( vertexCoordinates, vertOfStart[3], 
+                        [record.edgeLengths[otherCol]*angles[6-col-otherCol] );
 
                 # After setting the vertices, we have to set edges and faces
                 edgeData[ ColouredEdgeOfFaceNC(surface,start,col) ] :=
@@ -3168,8 +3176,60 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 # Now that we have the next edge to draw upon, we draw the next
                 # triangle.
                 Add( drawOrder, nextEdge );
-                #TODO drawNextFace
-                #TODO test if it fits
+                nextFace := Difference( FacesOfEdges(surface)[nextEdge], currComponentList )[1];
+                # We need to know number and coordinates of the base point
+                baseVertex := edgeData[nextEdge][1][1][1];
+                basePoint := vertexCoordinates[baseVertex][edgeData[nextEdge][1][1][2]];
+                # We also need the number of the other vertex of this edge
+                otherVertex := edgeData[nextEdge][1][2][1];
+                # Since we want to compute the third vertex of the next face
+                # via rotation, we need the connecting vector between base
+                # point and other point.
+                baseVector := vertexCoordinates[otherVertex][edgeData[nextEdge][1][2][2]] - basePoint;
+                # We want to determine the colour of the given edge and the
+                # colour of the other edge that is adjacent to the base vertex
+                col := ColourOfEdgeNC( surface, nextEdge );
+                otherCol := fail;
+                for e in EdgesOfFaces(surface)[nextFace] do
+                    if e <> nextEdge and baseVertex in VerticesOfEdges(surface)[e] then
+                        otherCol := ColourOfEdgeNC(surface, e );
+                    fi;
+                od;
+                if col = otherCol or otherCol = fail then
+                    Error("DrawSimplicialSurface: Internal error, colour of next face.");
+                fi;
+                # Now we can compute the vector from the base point to the
+                # third point.
+                rescaleFactor := Float( record.edgeLengths[otherCol] / record.edgeLength[col] );
+                rotateAngle := angles[6-col-otherCol];
+                newVector := rescaleFactor * 
+                    [ rotateAngle[1]*baseVector[1] - rotateAngle[2]*baseVector[2],
+                    rotateAngle[2]*baseVector[1] + rotateAngle[1]*baseVector[2] ];
+
+                finalVertex := Difference( VerticesOfFaces(surface)[nextFace],
+                        [ baseVertex, otherVertex ] )[1];
+                AddToData( vertexCoordinates, finalVertex, basePoint + newVector );
+                finalVertexTuple := 
+                    [finalVertex, Size(vertexCoordinates[finalVertex]) ];
+
+
+                # We have to test if this new vertex fits.
+                # TODO compare new edges with all other edges
+
+
+                # Modify edge and face data
+                newEdge1 := ColouredEdgeOfFace( surface, nextFace, otherCol );
+                newEdge2 := ColouredEdgeOfFace( surface, nextFace, 6-col-otherCol );
+                AddToData( edgeData, newEdge1,
+                    [ edgeData[nextEdge][1][1], finalVertexTuple ] );
+                AddToData( edgeData, newEdge2, 
+                    [ finalVertexTuple, edgeData[nextEdge][1][1] );
+                openEdges := Union( 
+                    Difference( openEdges, [newEdge1, newEdge2, nextEdge] ),
+                    Difference( [newEdge1, newEdge2], openEdges ) );
+
+                faceData[nextFace] := Union( edgeData[nextEdge][1], [finalVertexTuple] );
+                Add( currComponentList, nextFace );
 
 
                 # Afterwards, some vertices might have become closed
@@ -3194,10 +3254,10 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # Since we have effectively computed the path-connected components of
         # the given surface, we save this information (if we don't already
         # have it)
+        subsurfaces := List( connCompByFaceLists, l -> 
+                    SubsurfaceByFacesNC(surface,l) );
         if not HasPathConnectedComponents(surface) then
-            SetPathConnectedComponents(surface, 
-                    List( connCompByFaceLists, l -> 
-                                SubsurfaceByFacesNC(surface, l) ) );
+            SetPathConnectedComponents(surface, subsurfaces )
         fi;
 
 
