@@ -2896,7 +2896,15 @@ InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     [IsWildSimplicialSurface, IsString, IsRecord],
     function( surface, string, record )
-        local toMuchInfo, vertexCoordinates, edgeData, faceData, faceOrientation, unplacedFaces;
+      local toMuchInfo, angles, cos, sin, vertexCoordinates, edgeData, 
+            faceData, faceOrientation, AddToData, unplacedFaces, 
+            connCompByFaceLists, realStarts, realEdgeDraw, startIndex, 
+            edgeDrawIndex, proposedDrawOrder, openEdges, openVertices, 
+            currentVertex, currComponentList, start, vertOfStart, col, 
+            otherCol, drawOrder, nextEdge, nextFace, baseVertex, basePoint, 
+            otherVertex, baseVector, rescaleFactor, rotateAngle, newVector, 
+            finalVertex, finalVertexTuple, newEdge1, newEdge2, subsurfaces, 
+            name, output, subsurf, faceCol, faceX, faceY, i, j, e, v, f, tuple;
 
         # Test the given record first. Check if any information in the record
         # can't be used
@@ -3274,7 +3282,54 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             start := realStarts[i];
             # draw each one individually
             AppendTo( output, "\n\\begin{tikzpicture}\n");
-            #TODO
+
+            # Write all coordinates
+            for v in Vertices( subsurf ) do
+                for i in [1..Size(vertexCoordinates[v])] do
+                    AppendTo( output,
+                        "\\coordinate [label=left:$V_", v, 
+                        "$] (V", v, "_", i, ") at (", 
+                        vertexCoordinates[v][i][1], ", ", 
+                        vertexCoordinates[v][i][2], ");\n" ); 
+                od;
+            od;
+
+            AppendTo( output, "\n\n" );
+
+            # Draw all faces
+            for f in Faces(subsurf) do
+                faceCol := record.faceColours[1];
+                if IsOrientable(subsurf) then
+                    if faceOrientation[f] <> faceOrientation[start] then
+                        faceCol := record.faceColours[2];
+                    fi;
+                fi;
+                AppendTo( output, "\\fill[", faceCol, "] " );
+                faceX := 0;
+                faceY := 0;
+                for tuple in faceData[f] do
+                    AppendTo( output, "(V", tuple[1], "_", tuple[2], ") -- " );
+                    faceX := faceX + vertexCoordinates[tuple[1]][tuple[2]][1];
+                    faceY := faceY + vertexCoordinates[tuple[1]][tuple[2]][2];
+                od;
+                AppendTo( output, "cycle;\n" );
+                AppendTo( output, "\\node (F", f, ") at (", 
+                        faceX / 3, ", ", faceY / 3, ") {f_{", f, "}};\n" ); 
+            od;
+
+            AppendTo( output, "\n\n" );
+
+            # Draw all edges
+            for e in Edges(subsurf) do
+                for i in [1..Size(edgeData[e])] do
+                    AppendTo(output, "\\draw[", 
+                        record.edgeColours[ ColourOfEdgeNC(surface,e) ],
+                        ", line width=", record.edgeThickness, "pt] ",
+                        "(V", edgeData[e][i][1][1], "_", edgeData[e][i][1][2],
+                        ") -- (V", edgeData[e][i][2][1], "_", edgeData[e][i][2][2], ");\n");
+                od;
+            od;
+            
             AppendTo( output, "\n\\end{tikzpicture}\n" );
         od;
         AppendTo( output, "\n\\end{document} \n" );
