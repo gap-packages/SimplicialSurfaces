@@ -3238,7 +3238,8 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     [ finalVertexTuple, edgeData[nextEdge][1][2] ] );
                 openEdges := Union( 
                     Difference( openEdges, [newEdge1, newEdge2, nextEdge] ),
-                    Difference( [newEdge1, newEdge2], openEdges ) );
+                    Difference( Filtered([newEdge1, newEdge2], e -> 
+                            Size(FacesOfEdges(surface)[e]) > 1 ), openEdges ) );
 
                 faceData[nextFace] := Union( edgeData[nextEdge][1], [finalVertexTuple] );
                 faceOrientation[nextFace] := (col, 6-col-otherCol, otherCol );
