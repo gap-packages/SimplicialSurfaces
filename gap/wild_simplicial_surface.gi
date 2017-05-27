@@ -3020,6 +3020,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # the main method)
         startIndex := 1;
         edgeDrawIndex := 1;
+        proposedDrawOrder := [];
 
         # <Variables for internal computation>
         # The list openEdges contains all border edges of the current drawing
@@ -3051,9 +3052,8 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # 2) We do not know in which order startingFaces gives us the 
         #   path-connected components (if it denotes them correctly at all)
         while not IsEmpty(unplacedFaces) do
-            # First we check if we are in a new component
-            if IsEmpty(openEdges) then
-                # Initialize the first face
+            # We have started with a new path-connected component, so we
+            # have to initialize the first face
                 start := fail;
                 if IsBound( record.startingFaces ) then
                     while startIndex < Size(record.startingFaces) and start = fail do
@@ -3070,6 +3070,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 if start = fail then
                     start := Minimum( unplacedFaces );
                 fi;
+                Add(realStarts,start);
 
                 # After choosing the starting face we have to give it the
                 # correct coordinates
@@ -3109,31 +3110,99 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     [ [ [vertOfStart[3],1], [vertOfStart[2],1] ] ];
 
                 faceData[start] := [ List(vertOfStart, i->[i,1] ) ];
-                #TODO faceOrientatin
+                faceOrientation[start] := ( col, 6-col-otherCol, otherCol );
 
-                #TODO restrict open* only to those that actually are open
-                openEdges := EdgesOfFaces(surface)[start];
-                openVertices := VerticesOfFaces(surface)[start];
+                # Initialize the variables for the next loop
+                openEdges := List( EdgesOfFaces(surface)[start], e ->
+                    Size( FacesOfEdges(surface)[e] ) > 1 );
+                openVertices := List( VerticesOfFaces(surface)[start], v ->
+                    Size( FacesOfVertices(surface)[v] ) > 1 );
                 currComponentList := [start];
-            fi;
+
+                # Initialize the proposed draw order
+                proposedDrawOrder := record.edgeDrawOrder[1];
+                Remove( record.edgeDrawOrder, 1 );
+                edgeDrawIndex := 1;
+            # This ends the initialization of the starting face.
+
 
             # Now we assume that we have a starting face. We set up the vertex
             # variable for the case in which the drawing order is not given
             currentVertex := fail;
+            # We also initialize the list that saves the order in which the
+            # edges are drawn
+            drawOrder := [];
             # We proceed until there are no more open edges
             while not IsEmpty( openEdges ) do
-                #TODO
+                # We check if the next user input is a good one
+                nextEdge := fail;
+                while edgeDrawIndex <= Size(proposedDrawOrder) and nextEdge = fail do
+                    if proposedDrawOrder[edgeDrawIndex] in openEdges then
+                        nextEdge := proposedDrawOrder[edgeDrawIndex];
+                    else
+                        Print("Warning: the proposed edge ");
+                        Print( proposedDrawOrder[edgeDrawIndex] );
+                        Print( " can't be used to draw a triangle.\n");
+                    fi;
+                    edgeDrawIndex := edgeDrawIndex + 1;
+                od;
+                # If we have not found a next input, we switch to closing open
+                # vertices. If there is no current vertex, we have to find one.
+                if currentVertex = fail then
+                    currentVertex := Minimum( openVertices );
+                fi;
+                for e in openEdges do
+                    if currentVertex in VerticesOfEdges(surface)[e] then
+                        nextEdge := e;
+                    fi;
+                    if nextEdge <> fail then
+                        break;
+                    fi;
+                od;
+                # If we haven't found any edge something is wrong
+                if nextEdge = fail then
+                    Error("DrawSimplicialSurface: Internal error, open vertices and edges don't match.");
+                fi;
+
+
+                # Now that we have the next edge to draw upon, we draw the next
+                # triangle.
+                Add( drawOrder, nextEdge );
+                #TODO drawNextFace
+                #TODO test if it fits
+
+
+                # Afterwards, some vertices might have become closed
+                for v in VerticesOfEdges(surface)[nextEdge] do
+                    if IsEmpty( Difference( FacesOfVertices(surface)[v], currComponentList ) ) then
+                        # This vertex should not be an inner vertex
+                        openVertices := Difference( openVertices, [v] );
+                        if v = currentVertex then
+                            currentVertex := fail;
+                        fi;
+                    fi;
+                od;
             od;
 
             # At this point the component is finished
+            Add( realEdgeDraw, drawOrder );
             unplacedFaces := Difference( unplacedFaces, currComponentList );
             Add( connCompByFaceLists, Set(currComponentList) );
         od;
         
-        #TODO save path-components
+
+        # Since we have effectively computed the path-connected components of
+        # the given surface, we save this information (if we don't already
+        # have it)
+        if not HasPathConnectedComponents(surface) then
+            SetPathConnectedComponents(surface, 
+                    List( connCompByFaceLists, l -> 
+                                SubsurfaceByFacesNC(surface, l) ) );
+        fi;
 
 
-
+        # Now we write this information into several tikz-pictures
+        #TODO draw the information into a tikz-picture
 
         # Return the finished printing record that encodes the drawing process
         record.startingFaces := realStarts;
