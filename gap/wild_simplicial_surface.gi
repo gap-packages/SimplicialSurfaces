@@ -3077,7 +3077,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                             start := record.startingFaces[startIndex];
                         else
                             Print( "The given starting face " );
-                            Print( startingFaces[startIndex] );
+                            Print( record.startingFaces[startIndex] );
                             Print( " is not valid and will be ignored.\n" );
                         fi;
                         startIndex := startIndex + 1;
@@ -3109,13 +3109,13 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     Error("DrawSurfaceToTikz: Internal error, colour not found.");
                 fi;
                 AddToData( vertexCoordinates, vertOfStart[2], 
-                        [record.edgeLength[col],0] );
+                        [record.edgeLengths[col],0] );
                 # The last vertex has to be defined by the angle
                 if col=otherCol or otherCol = fail then
                     Error("DrawSurfaceToTik: Internal error, other colour not found." );
                 fi;
                 AddToData( vertexCoordinates, vertOfStart[3], 
-                        [record.edgeLengths[otherCol]*angles[6-col-otherCol] );
+                        record.edgeLengths[otherCol]*angles[6-col-otherCol] );
 
                 # After setting the vertices, we have to set edges and faces
                 edgeData[ ColouredEdgeOfFaceNC(surface,start,col) ] :=
@@ -3231,7 +3231,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 AddToData( edgeData, newEdge1,
                     [ edgeData[nextEdge][1][1], finalVertexTuple ] );
                 AddToData( edgeData, newEdge2, 
-                    [ finalVertexTuple, edgeData[nextEdge][1][1] );
+                    [ finalVertexTuple, edgeData[nextEdge][1][1] ] );
                 openEdges := Union( 
                     Difference( openEdges, [newEdge1, newEdge2, nextEdge] ),
                     Difference( [newEdge1, newEdge2], openEdges ) );
@@ -3266,13 +3266,13 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         subsurfaces := List( connCompByFaceLists, l -> 
                     SubsurfaceByFacesNC(surface,l) );
         if not HasPathConnectedComponents(surface) then
-            SetPathConnectedComponents(surface, subsurfaces )
+            SetPathConnectedComponents(surface, subsurfaces );
         fi;
 
 
         # Now we write this information into several tikz-pictures
         name := Filename( DirectoryCurrent(), string );
-        output := OutputTextFile( name, false ) # override other files
+        output := OutputTextFile( name, false ); # override other files
         AppendTo( output,
             "\\documentclass{article}\n",
             "\\usepackage{tikz}\n\n",
