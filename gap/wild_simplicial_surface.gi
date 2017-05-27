@@ -3073,7 +3073,43 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 
                 # After choosing the starting face we have to give it the
                 # correct coordinates
-                #TODO initialize coordinates
+                vertOfStart := VerticesOfFaces(surface)[start];
+                # The first vertex goes into (0,0)
+                vertexCoordinates[vertOfStart[1]] := [ [0,0] ];
+                # The second vertex goes to (?,0), therefore we have to find
+                # the colour between those vertices
+                col := fail;
+                otherCol := fail; # The colour of the other adjacent edge
+                for e in EdgesOfFaces(surface)[start] do
+                    if Set(vertOfStart{[1,2]}) = VerticesOfEdges(surface)[e] then
+                        # We have found the correct edge
+                        col := ColourOfEdgeNC(surface,e);
+                    elif vertOfStart[1] in VerticesOfEdges(surface)[e] then
+                        otherCol := ColourOfEdgeNC(surface,e);
+                    fi;
+                od;
+                if col = fail then
+                    Error("DrawSurfaceToTikz: Internal error, colour not found.");
+                fi;
+                vertexCoordinates[vertOfStart[2]] := 
+                        [ [record.edgeLengths[col],0] ];
+                # The last vertex has to be defined by the angle
+                if col=otherCol or otherCol = fail then
+                    Error("DrawSurfaceToTik: Internal error, other colour not found." );
+                fi;
+                vertexCoordinates[vertOfStart[3]] := 
+                        [ record.edgeLengths[otherCol]*angles[6-col-otherCol] ];
+
+                # After setting the vertices, we have to set edges and faces
+                edgeData[ ColouredEdgeOfFaceNC(surface,start,col) ] :=
+                    [ [ [vertOfStart[2],1], [vertOfStart[1],1] ] ];
+                edgeData[ ColouredEdgeOfFaceNC(surface,start,otherCol) ] :=
+                    [ [ [vertOfStart[1],1], [vertOfStart[3],1] ] ];
+                edgeData[ ColouredEdgeOfFaceNC(surface,start,6-col-otherCol)] :=
+                    [ [ [vertOfStart[3],1], [vertOfStart[2],1] ] ];
+
+                faceData[start] := [ List(vertOfStart, i->[i,1] ) ];
+                #TODO faceOrientatin
 
                 #TODO restrict open* only to those that actually are open
                 openEdges := EdgesOfFaces(surface)[start];
