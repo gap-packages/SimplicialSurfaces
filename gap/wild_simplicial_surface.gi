@@ -2939,6 +2939,21 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             record.edgeDrawOrder := [];
         fi;
         
+        # In addition to the lengths we need the angles of the drawn triangles.
+        # We save those in a list angles, where angles[1] is the angle between
+        # the two edges of lengths 2 and 3. Each angle is saved as a tuple
+        # [cos(angle),sin(angle)] since only those are necessary for the
+        # computation.
+        angles := [];
+        for i in [1..2] do
+            for j in [i+1..3] do
+                cos := Float( ( record.edgeLengths[6-i-j]^2 - 
+                    record.edgeLengths[i]^2 - record.edgeLengths[j]^2 ) /
+                    (-2* record.edgeLengths[i] * record.edgeLengths[j] ) );
+                sin := Sqrt( Float( 1 - cos^2 ) );
+                angles[6-i-j] := [cos,sin];
+            od;
+        od;
         
         
         # Next we define the data structure in which we will save the 
