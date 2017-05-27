@@ -22,3 +22,12 @@ surf := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC(
   [ 5, 7, 17 ], [ 4, 10, 18 ], [ 3, 11, 18 ], [ 2, 12, 17 ], [ 1, 12, 16 ], 
   [ 6, 11, 15 ], [ 6, 10, 14 ] ],
 [ 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3 ] );
+
+tetra := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC(
+[ 1, 2, 3, 4 ],
+[ 1 .. 6 ],
+[ 1 .. 4 ],
+[ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ],
+[ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ],
+[ 1, 3, 2, 2, 3, 1 ] );
+

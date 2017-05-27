@@ -2926,7 +2926,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             record.edgeColours := [ "red", "blue", "green" ];
         fi;
         if not IsBound( record.faceColours ) then
-            record.edgeColours := [ "white", "lightgray" ];
+            record.faceColours := [ "white", "lightgray" ];
         fi;
         if not IsBound( record.edgeLengths ) then
             record.edgeLengths := [2,3,4];
@@ -3125,19 +3125,23 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 edgeData[ ColouredEdgeOfFaceNC(surface,start,6-col-otherCol)] :=
                     [ [ [vertOfStart[3],1], [vertOfStart[2],1] ] ];
 
-                faceData[start] := [ List(vertOfStart, i->[i,1] ) ];
+                faceData[start] := List(vertOfStart, i->[i,1] ); 
                 faceOrientation[start] := ( col, 6-col-otherCol, otherCol );
 
                 # Initialize the variables for the next loop
-                openEdges := List( EdgesOfFaces(surface)[start], e ->
+                openEdges := Filtered( EdgesOfFaces(surface)[start], e ->
                     Size( FacesOfEdges(surface)[e] ) > 1 );
-                openVertices := List( VerticesOfFaces(surface)[start], v ->
+                openVertices := Filtered( VerticesOfFaces(surface)[start], v ->
                     Size( FacesOfVertices(surface)[v] ) > 1 );
                 currComponentList := [start];
 
                 # Initialize the proposed draw order
-                proposedDrawOrder := record.edgeDrawOrder[1];
-                Remove( record.edgeDrawOrder, 1 );
+                if IsEmpty( record.edgeDrawOrder ) then
+                    proposedDrawOrder := [];
+                else
+                    proposedDrawOrder := record.edgeDrawOrder[1];
+                    Remove( record.edgeDrawOrder, 1 );
+                fi;
                 edgeDrawIndex := 1;
             # This ends the initialization of the starting face.
 
@@ -3208,7 +3212,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 fi;
                 # Now we can compute the vector from the base point to the
                 # third point.
-                rescaleFactor := Float( record.edgeLengths[otherCol] / record.edgeLength[col] );
+                rescaleFactor := Float( record.edgeLengths[otherCol] / record.edgeLengths[col] );
                 rotateAngle := angles[6-col-otherCol];
                 newVector := rescaleFactor * 
                     [ rotateAngle[1]*baseVector[1] - rotateAngle[2]*baseVector[2],
@@ -3231,7 +3235,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 AddToData( edgeData, newEdge1,
                     [ edgeData[nextEdge][1][1], finalVertexTuple ] );
                 AddToData( edgeData, newEdge2, 
-                    [ finalVertexTuple, edgeData[nextEdge][1][1] ] );
+                    [ finalVertexTuple, edgeData[nextEdge][1][2] ] );
                 openEdges := Union( 
                     Difference( openEdges, [newEdge1, newEdge2, nextEdge] ),
                     Difference( [newEdge1, newEdge2], openEdges ) );
@@ -3287,8 +3291,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             for v in Vertices( subsurf ) do
                 for i in [1..Size(vertexCoordinates[v])] do
                     AppendTo( output,
-                        "\\coordinate [label=left:$V_", v, 
-                        "$] (V", v, "_", i, ") at (", 
+                        "\\coordinate (V", v, "_", i, ") at (", 
                         vertexCoordinates[v][i][1], ", ", 
                         vertexCoordinates[v][i][2], ");\n" ); 
                 od;
@@ -3314,7 +3317,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 od;
                 AppendTo( output, "cycle;\n" );
                 AppendTo( output, "\\node (F", f, ") at (", 
-                        faceX / 3, ", ", faceY / 3, ") {f_{", f, "}};\n" ); 
+                        faceX / 3, ", ", faceY / 3, ") {$f_{", f, "}$};\n" ); 
             od;
 
             AppendTo( output, "\n\n" );
@@ -3329,6 +3332,15 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                         ") -- (V", edgeData[e][i][2][1], "_", edgeData[e][i][2][2], ");\n");
                 od;
             od;
+
+            # Label the vertices
+            for v in Vertices( subsurf ) do
+                for i in [1..Size(vertexCoordinates[v])] do
+                    AppendTo( output,
+                        "\\node[left] at (V", v, "_", i, ") {$V_{", v, "}$};\n" ); 
+                od;
+            od;
+
             
             AppendTo( output, "\n\\end{tikzpicture}\n" );
         od;
