@@ -2931,9 +2931,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         if not IsBound( record.edgeLengths ) then
             record.edgeLengths := [2,3,4];
         fi;
-        if not IsBound( record.edgeThickness ) then
-            record.edgeThickness := 0.6;
-        fi;
+#        if not IsBound( record.edgeThickness ) then
+#            record.edgeThickness := 0.6;
+#        fi;
 
         if IsBound( record.startingFaces ) and IsList( record.startingFaces ) then
             record.startingFaces := Compacted( record.startingFaces );
@@ -3325,19 +3325,30 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             # Draw all edges
             for e in Edges(subsurf) do
                 for i in [1..Size(edgeData[e])] do
-                    AppendTo(output, "\\draw[", 
+                    AppendTo(output, "\\draw[ thin, double=", 
                         record.edgeColours[ ColourOfEdgeNC(surface,e) ],
-                        ", line width=", record.edgeThickness, "pt] ",
+                        ", double distance=1pt] ",
+                      #  ", line width=", record.edgeThickness, "pt] ",
                         "(V", edgeData[e][i][1][1], "_", edgeData[e][i][1][2],
                         ") -- (V", edgeData[e][i][2][1], "_", edgeData[e][i][2][2], ");\n");
                 od;
             od;
 
+            AppendTo( output, "\n\n\n" );
+
             # Label the vertices
+            AppendTo( output, 
+                "\\tikzset{VertexStyle/.style = {",
+                "shape = circle, ",
+                "ball color = orange, ",
+                "text = black, ",
+                "inner sep = 2pt, ",
+                "outer sep = 0pt, ",
+                "minimum size = 10pt} }\n\n");
             for v in Vertices( subsurf ) do
                 for i in [1..Size(vertexCoordinates[v])] do
                     AppendTo( output,
-                        "\\node[left] at (V", v, "_", i, ") {$V_{", v, "}$};\n" ); 
+                        "\\node[VertexStyle] at (V", v, "_", i, ") {", v, "};\n" ); 
                 od;
             od;
 
