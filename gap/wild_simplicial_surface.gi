@@ -3269,7 +3269,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             "\\documentclass{article}\n",
             "\\usepackage{tikz}\n\n",
             "\\begin{document}\n" );
-        for subsurf in subsurfaces do
+        for i in [1..Size(subsurfaces)] do
+            subsurf := subsurfaces[i];
+            start := realStarts[i];
             # draw each one individually
             AppendTo( output, "\n\\begin{tikzpicture}\n");
             #TODO
@@ -3277,6 +3279,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         od;
         AppendTo( output, "\n\\end{document} \n" );
         CloseStream(output);
+
 
         # Return the finished printing record that encodes the drawing process
         record.startingFaces := realStarts;
