@@ -3229,6 +3229,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     Difference( [newEdge1, newEdge2], openEdges ) );
 
                 faceData[nextFace] := Union( edgeData[nextEdge][1], [finalVertexTuple] );
+                faceOrientation[nextFace] := (col, 6-col-otherCol, otherCol );
                 Add( currComponentList, nextFace );
 
 
@@ -3262,7 +3263,20 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 
 
         # Now we write this information into several tikz-pictures
-        #TODO draw the information into a tikz-picture
+        name := Filename( DirectoryCurrent(), string );
+        output := OutputTextFile( name, false ) # override other files
+        AppendTo( output,
+            "\\documentclass{article}\n",
+            "\\usepackage{tikz}\n\n",
+            "\\begin{document}\n" );
+        for subsurf in subsurfaces do
+            # draw each one individually
+            AppendTo( output, "\n\\begin{tikzpicture}\n");
+            #TODO
+            AppendTo( output, "\n\\end{tikzpicture}\n" );
+        od;
+        AppendTo( output, "\n\\end{document} \n" );
+        CloseStream(output);
 
         # Return the finished printing record that encodes the drawing process
         record.startingFaces := realStarts;
