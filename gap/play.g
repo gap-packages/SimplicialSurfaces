@@ -1,4 +1,5 @@
 LoadPackage("grape");
+LoadPackage("NautyInterface");
 Read( "init.g" );
 Read( "read.g" );
 
@@ -31,3 +32,12 @@ tetra := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC(
 [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ],
 [ 1, 3, 2, 2, 3, 1 ] );
 
+zehn := WildSimplicialSurfaceByDownwardIncidenceAndEdgeColouringNC(
+[ 1, 2, 3, 4, 5, 6, 7 ],
+[ 1 .. 15 ],
+[ 1 .. 10 ],
+[ [ 1, 4 ], [ 1, 5 ], [ 1, 6 ], [ 1, 7 ], [ 2, 3 ], [ 2, 4 ], [ 2, 5 ], [ 2, 6 ], [ 3, 5 ], [ 3, 6 ], [ 3, 7 ], [ 4, 5 ], 
+  [ 4, 6 ], [ 5, 7 ], [ 6, 7 ] ],
+[ [ 1, 2, 12 ], [ 1, 3, 13 ], [ 2, 4, 14 ], [ 3, 4, 15 ], [ 5, 7, 9 ], [ 5, 8, 10 ], [ 6, 7, 12 ], [ 6, 8, 13 ], [ 9, 11, 14 ], 
+  [ 10, 11, 15 ] ],
+[ 1, 2, 2, 1, 3, 2, 1, 1, 2, 2, 1, 3, 3, 3, 3 ] );

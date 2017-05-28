@@ -2889,6 +2889,76 @@ RedispatchOnCondition( AllWildSimplicialSurfaces, true, [IsSimplicialSurface],
 ###############################################################################
 ##          Start of drawing methods
 ##
+
+# We use the answer of
+# https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+# to compute the intersection of two line segments
+BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
+    function( edgeCoords1, edgeCoords2 )
+        local Cross, vtx1, vtx2, det, diff, factor1, factor2, min, max;
+
+        Cross := function( v, w )
+            return v[1]*w[2] - v[2]*w[1];
+        end;
+
+        # Rewrite the lines into p + t * v
+        vtx1 := edgeCoords1[2] - edgeCoords1[1];
+        vtx2 := edgeCoords2[2] - edgeCoords2[1];
+
+        # Check first if the lines are parallel
+        det := Cross( vtx1, vtx2 );
+        diff := edgeCoords2[1] - edgeCoords1[1];
+        if det = Float(0) then
+            # parallel case:
+            # We have to check if the lines coincide
+            # For that we check if the vector between the two base
+            # points is parallel to the line directions
+            if Cross( vtx1, diff ) <> Float(0) then
+                return false;
+            fi;
+            
+            # Now we know that the associated lines coincide
+            # Determine factor1 such that
+            # p_2 = p_1 + factor1 * vtx_1
+            # and factor2 such that
+            # p_2 + vtx_2 = p_1 + factor * vtx_1
+            if vtx1[1] <> Float(0) then
+                factor1 := diff[1]/vtx1[1];
+                factor2 := factor1 + vtx2[1]/vtx1[1];
+            else
+                factor1 := diff[2]/vtx1[2];
+                factor2 := factor1 + vtx2[2]/vtx1[2];
+            fi;
+            
+            # The segments intersect if the segment between the factors
+            # intersects (0,1)
+            min := Minimum( factor1, factor2 );
+            max := Maximum( factor1, factor2 );
+            if min <= Float(0) and max > Float(0) then
+                return true;
+            elif min < Float(1) and max < Float(1) then
+                return true;
+            else
+                return false;
+            fi;
+        else
+            # the associated lines intersect
+            factor1 := Cross( diff, vtx2 ) / det;
+            factor2 := Cross( diff, vtx1 ) / det;
+            if factor1 < Float(0) or factor1 > Float(1) then
+                return false;
+            elif factor2 < Float(0) or factor2 > Float(1) then
+                return false;
+            elif factor1 in [0.,1.] and factor2 in [0.,1.] then
+                return false;
+            else
+                return true;
+            fi;
+        fi;
+    end
+);
+
+
 InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     [IsWildSimplicialSurface, IsString],
     function(surface, string)
@@ -2906,7 +2976,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             otherCol, drawOrder, nextEdge, nextFace, baseVertex, basePoint, 
             otherVertex, baseVector, rescaleFactor, rotateAngle, newVector, 
             finalVertex, finalVertexTuple, newEdge1, newEdge2, subsurfaces, 
-            name, output, subsurf, faceCol, faceX, faceY, i, j, e, v, f, tuple;
+            name, output, subsurf, faceCol, faceX, faceY, i, j, e, v, f, tuple,
+            VertexCoordinatesOfEdge, vtxCoord1, vtxCoord2, vtxIndex, 
+            vtxCoord;
 
         # Test the given record first. Check if any information in the record
         # can't be used
@@ -3100,7 +3172,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 # correct coordinates
                 vertOfStart := VerticesOfFaces(surface)[start];
                 # The first vertex goes into (0,0)
-                AddToData( vertexCoordinates, vertOfStart[1], [0,0] );
+                AddToData( vertexCoordinates, vertOfStart[1], [Float(0),Float(0)] );
                 # The second vertex goes to (?,0), therefore we have to find
                 # the colour between those vertices
                 col := fail;
@@ -3117,7 +3189,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     Error("DrawSurfaceToTikz: Internal error, colour not found.");
                 fi;
                 AddToData( vertexCoordinates, vertOfStart[2], 
-                        [record.edgeLengths[col],0] );
+                        [Float(record.edgeLengths[col]),Float(0)] );
                 # The last vertex has to be defined by the angle
                 if col=otherCol or otherCol = fail then
                     Error("DrawSurfaceToTik: Internal error, other colour not found." );
@@ -3233,23 +3305,67 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     [finalVertex, Size(vertexCoordinates[finalVertex]) ];
 
 
-                # We have to test if this new vertex fits.
-
-                # TODO compare new edges with all other edges
-
-
                 # Modify edge and face data
                 newEdge1 := ColouredEdgeOfFace( surface, nextFace, otherCol );
                 newEdge2 := ColouredEdgeOfFace( surface, nextFace, 6-col-otherCol );
-                AddToData( edgeData, newEdge1,
+                AddToData( edgeData, newEdge1, 
                     [ edgeData[nextEdge][1][1], finalVertexTuple ] );
                 AddToData( edgeData, newEdge2, 
-                    [ finalVertexTuple, edgeData[nextEdge][1][2] ] );
+                    [ finalVertexTuple, edgeData[nextEdge][1][2] ]);
                 openEdges := Union( 
                     Difference( openEdges, [newEdge1, newEdge2, nextEdge] ),
                     Difference( Filtered([newEdge1, newEdge2], e -> 
                             Size(FacesOfEdges(surface)[e]) > 1 ), openEdges ) );
 
+                # We have to confirm that the new edges do not intersect some 
+                # of the old edges.
+                VertexCoordinatesOfEdge := function( edge, index )
+                    return List( edgeData[edge][index], vtxIndex ->
+                        vertexCoordinates[vtxIndex[1]][vtxIndex[2]] );
+                end;
+                vtxCoord1 := VertexCoordinatesOfEdge( newEdge1,
+                    Size( edgeData[newEdge1] ) );
+                vtxCoord2 := VertexCoordinatesOfEdge( newEdge2,
+                    Size( edgeData[newEdge2] ) );
+                for e in Edges(surface) do
+                    if IsBound( edgeData[e] ) then
+                        for i in [1..Size(edgeData[e])] do
+                            # The new edges don't need to be checked
+                            if ( e = newEdge1 and i = Size(edgeData[e]) ) then
+                                continue;
+                            elif e = newEdge2 and i = Size(edgeData[e]) then
+                                continue;
+                            fi;
+
+                            vtxCoord := VertexCoordinatesOfEdge( e,i );
+                            if __SIMPLICIAL_IntersectingLineSegments(
+                                vtxCoord, vtxCoord1 ) then
+                                    Print("WARNING: The edge ");
+                                    Print( newEdge1 );
+                                    Print(" in the drawing step ");
+                                    Print( drawOrder );
+                                    Print(" intersects the edge ");
+                                    Print( e );
+                                    Print(" (instance " );
+                                    Print( i );
+                                    Print(")\n");
+                            fi;
+ 
+                            if __SIMPLICIAL_IntersectingLineSegments(
+                                vtxCoord, vtxCoord2 ) then
+                                    Print("WARNING: The edge ");
+                                    Print( newEdge2 );
+                                    Print(" in the drawing step ");
+                                    Print( drawOrder );
+                                    Print(" intersects the edge ");
+                                    Print( e );
+                                    Print(" (instance " );
+                                    Print( i );
+                                    Print(")\n");
+                            fi;
+                        od;
+                    fi;
+                od;
 
                 faceData[nextFace] := Union( edgeData[nextEdge][1], [finalVertexTuple] );
                 faceOrientation[nextFace] := (col, 6-col-otherCol, otherCol );
