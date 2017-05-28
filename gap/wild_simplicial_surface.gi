@@ -3385,7 +3385,6 @@ InstallMethod( WildIncidenceGraph, "for a wild simplicial surface",
 
         maxVertex := Maximum( Vertices(wildSurf) );
         maxEdge := Maximum( Edges(wildSurf) );
-        maxFace := Maximum( Faces(wildSurf) );
 
         edgeList := [];
         colourList := [];
@@ -3395,17 +3394,17 @@ InstallMethod( WildIncidenceGraph, "for a wild simplicial surface",
         od;
 
         for e in Edges(wildSurf) do
-            colourList[e] := 2;
-            Append(edgeList, List( VerticesOfEdges(wildSurf)[e], v -> [e,v] ) );
+            colourList[maxVertex + e] := 2;
+            Append(edgeList, List( VerticesOfEdges(wildSurf)[e], v -> [maxVertex + e,v] ) );
         od;
 
         for f in Faces(wildSurf) do
-            colourList[f] := 3;
-            Append(edgeList, List( EdgesOfFaces(wildSurf)[f], e -> [f,e] ) );
+            colourList[maxVertex + maxEdge + f] := 3;
+            Append(edgeList, List( EdgesOfFaces(wildSurf)[f], e -> [maxVertex + maxEdge + f, maxVertex + e] ) );
         od;
 
-        for colSet in EdgesOfColour(wildSurf) do
-            Append( edgeList, Combinations(colSet,2) );
+        for colSet in EdgesOfColours(wildSurf) do
+            Append( edgeList, Combinations(List(colSet,e->maxVertex+e),2) );
         od;
 
         return NautyColoredGraph( edgeList, colourList );
