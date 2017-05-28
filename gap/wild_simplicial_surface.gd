@@ -556,6 +556,9 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!      second colour.
 #!  edgeLengths: A list of three positive numbers that determine the length of
 #!      the three edge classes in the drawing.
+#!  vertexColour: The colour of the vertices (default is orange).
+#!  globalScale: The scaling factor in the tikz-picture. The default is the
+#!      smallest edge length divided by 2.
 #!  edgeThickness: A number that determines the thickness of the drawn edges.
 #!      The default is 0.6
 #!  

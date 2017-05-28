@@ -2730,7 +2730,8 @@ InstallMethod( IsConnected, "for a wild simplicial surface",
 ##	Check orientability
 ##
 InstallMethod( IsOrientable, "for a wild simplicial surface", true, 
-	[ IsWildSimplicialSurface ], 0,	function(simpsurf)
+	[ IsWildSimplicialSurface and IsPathConnected], 0,
+        function(simpsurf)
 
         local gens, newgens, i, mrtype, MapCycle, orb, N;
 
@@ -2910,7 +2911,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # can't be used
         toMuchInfo := Difference( Set( RecNames( record ) ),
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
-                "edgeLengths", "edgeThickness" ] );
+                "edgeLengths", "edgeThickness", "vertexColour", "globalScale" ] );
         if not IsEmpty( toMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
             Print( "could not be interpreted: " );
@@ -2930,6 +2931,12 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         fi;
         if not IsBound( record.edgeLengths ) then
             record.edgeLengths := [2,3,4];
+        fi;
+        if not IsBound( record.globalScale ) then
+            record.globalScale := Minimum(record.edgeLengths)/2;
+        fi;
+        if not IsBound( record.vertexColour ) then
+            record.vertexColour := "orange";
         fi;
 #        if not IsBound( record.edgeThickness ) then
 #            record.edgeThickness := 0.6;
@@ -3275,6 +3282,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         fi;
 
 
+
         # Now we write this information into several tikz-pictures
         name := Filename( DirectoryCurrent(), string );
         output := OutputTextFile( name, false ); # override other files
@@ -3286,7 +3294,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             subsurf := subsurfaces[i];
             start := realStarts[i];
             # draw each one individually
-            AppendTo( output, "\n\\begin{tikzpicture}\n");
+            AppendTo( output, "\n\\begin{tikzpicture}[scale=", record.globalScale, "]\n");
 
             # Write all coordinates
             for v in Vertices( subsurf ) do
@@ -3341,7 +3349,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             AppendTo( output, 
                 "\\tikzset{VertexStyle/.style = {",
                 "shape = circle, ",
-                "ball color = orange, ",
+                "ball color = ", record.vertexColour, ", ", 
                 "text = black, ",
                 "inner sep = 2pt, ",
                 "outer sep = 0pt, ",
