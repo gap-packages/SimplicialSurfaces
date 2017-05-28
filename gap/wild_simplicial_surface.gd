@@ -570,6 +570,12 @@ DeclareOperation( "DrawSurfaceToTikz",
 
 
 
+#!  @Description
+#!  Return the wild incidence graph for usage in the nauty-interface.
+#!  @Arguments wildSurf
+#!  @Returns the wild incidence graph
+DeclareAttribute( "WildIncidenceGraph", IsWildSimplicialSurface );
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

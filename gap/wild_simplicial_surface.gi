@@ -2729,6 +2729,7 @@ InstallMethod( IsConnected, "for a wild simplicial surface",
 ##
 ##	Check orientability
 ##
+#TODO how should be handle the assumption of connectivity?
 InstallMethod( IsOrientable, "for a wild simplicial surface", true, 
 	[ IsWildSimplicialSurface and IsPathConnected], 0,
         function(simpsurf)
@@ -3376,6 +3377,40 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 );
 
 
+InstallMethod( WildIncidenceGraph, "for a wild simplicial surface",
+    [ IsWildSimplicialSurface ],
+    function( wildSurf )
+        local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
+            colSet;
+
+        maxVertex := Maximum( Vertices(wildSurf) );
+        maxEdge := Maximum( Edges(wildSurf) );
+        maxFace := Maximum( Faces(wildSurf) );
+
+        edgeList := [];
+        colourList := [];
+
+        for v in Vertices(wildSurf) do
+            colourList[v] := 1;
+        od;
+
+        for e in Edges(wildSurf) do
+            colourList[e] := 2;
+            Append(edgeList, List( VerticesOfEdges(wildSurf)[e], v -> [e,v] ) );
+        od;
+
+        for f in Faces(wildSurf) do
+            colourList[f] := 3;
+            Append(edgeList, List( EdgesOfFaces(wildSurf)[f], e -> [f,e] ) );
+        od;
+
+        for colSet in EdgesOfColour(wildSurf) do
+            Append( edgeList, Combinations(colSet,2) );
+        od;
+
+        return NautyColoredGraph( edgeList, colourList );
+    end
+);
 
 ##
 ##          End of drawing methods
