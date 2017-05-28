@@ -3213,6 +3213,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     Size( FacesOfEdges(surface)[e] ) > 1 );
                 openVertices := Filtered( VerticesOfFaces(surface)[start], v ->
                     Size( FacesOfVertices(surface)[v] ) > 1 );
+        Print("Start of openVertices: ");Print(openVertices); Print("\n");
                 currComponentList := [start];
 
                 # Initialize the proposed draw order
@@ -3303,6 +3304,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                 AddToData( vertexCoordinates, finalVertex, basePoint + newVector );
                 finalVertexTuple := 
                     [finalVertex, Size(vertexCoordinates[finalVertex]) ];
+                # We add this vertex to the openVertices-list. This is ok since
+                # we will test all vertices of the new face afterwards
+                openVertices := Union( openVertices, [finalVertex] );
 
 
                 # Modify edge and face data
@@ -3373,7 +3377,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 
 
                 # Afterwards, some vertices might have become closed
-                for v in VerticesOfEdges(surface)[nextEdge] do
+                for v in VerticesOfFaces(surface)[nextFace] do
                     if IsEmpty( Difference( FacesOfVertices(surface)[v], currComponentList ) ) then
                         # This vertex should not be an inner vertex
                         openVertices := Difference( openVertices, [v] );
