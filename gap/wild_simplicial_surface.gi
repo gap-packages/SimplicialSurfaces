@@ -3411,6 +3411,18 @@ InstallMethod( WildIncidenceGraph, "for a wild simplicial surface",
     end
 );
 
+InstallMethod( IsIsomorphicWildSimplicialSurface, 
+    "for two wild simplicial surfaces",
+    [ IsWildSimplicialSurface, IsWildSimplicialSurface ],
+    function( ws1, ws2 )
+        # The two surfaces are isomorphic if and only if their wild incidence
+        # graphs w1 and w2 are isomorphic. Those are isomorphic if and only
+        # if w1*c1 and w2*c2 are equal (where c1, c2 are the canonical
+        # labelings of the graphs). 
+        return fail;
+    end
+);
+
 ##
 ##          End of drawing methods
 ###############################################################################

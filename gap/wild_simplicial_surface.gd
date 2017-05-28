@@ -576,6 +576,15 @@ DeclareOperation( "DrawSurfaceToTikz",
 #!  @Returns the wild incidence graph
 DeclareAttribute( "WildIncidenceGraph", IsWildSimplicialSurface );
 
+#!
+#! @Description
+#! Check whether two wild coloured simplicial surfaces are isomorphic. It is
+#! allowed to switch the colours.
+#! @Arguments ws1, ws2
+#! @Returns true or false
+DeclareOperation( "IsIsomorphicWildSimplicialSurface",
+    [ IsWildSimplicialSurface, IsWildSimplicialSurface ] );
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
