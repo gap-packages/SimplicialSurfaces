@@ -3330,6 +3330,103 @@ InstallMethod( IsIsomorphic, "for two simplicial surfaces",
 	end
 );
 
+#TODO this is a method for the incidence geometry - no connection to local orientation
+InstallMethod( AddVertexIntoEdge,
+    "for a simplicial surface and an edge that is incident to exactly two faces.",
+    [IsSimplicialSurface, IsPosInt],
+    function( surf, edge )
+        local oldVertices, v1,v2,v3,v4, oldFaces, f1,f2, newEdgesOfFaces, V, 
+            newVerticesOfEdges, maxEdge, maxFaces;
+
+        # Picture
+        #             v3
+        #            /  \
+        #           / f1 \
+        #          v1----v2
+        #           \ f2 /
+        #            \  /
+        #             v4
+        oldVertices := VerticesOfEdges(surf)[edge]; # [v1,v2]
+        v1 := oldVertices[1];
+        v2 := oldVertices[2];
+
+        oldFaces := FacesOfEdges(surf)[edge]; # [f1,f2]
+        if Size(oldFaces) <> 2 then
+            Error("The edge has to be an inner edge.");
+        fi;
+        f1 := oldFaces[1];
+        f2 := oldFaces[2];
+
+        # find the other two vertices that are incident to the two faces but
+        # not to the edge
+        v3 := Difference( VerticesOfFaces(surf)[f1], oldVertices )[1];
+        v4 := Difference( VerticesOfFaces(surf)[f2], oldVertices )[1];
+
+
+        # We modify the picture to become
+        #
+        #                v3
+        #              /  |  \
+        #             /   |   \
+        #            /   e+3   \
+        #           / f+1 | f+2 \
+        #          /      |      \
+        #         v1-e+1--V-e+2---v2
+        #          \      |      /
+        #           \ f+3 | f+4 /
+        #            \   e+4   /
+        #             \   |   /
+        #              \  |  /
+        #                v4
+        V := Maximum(Vertices(surf)) + 1;
+        newVerticesOfEdges := ShallowCopy( VerticesOfEdges(surf) );
+        Unbind( newVerticesOfEdges[edge] );
+        maxEdge := Maximum( Edges(surf) );
+        newVerticesOfEdges[maxEdge+1] := [v1,V];
+        newVerticesOfEdges[maxEdge+2] := [V,v2];
+        newVerticesOfEdges[maxEdge+3] := [v3,V];
+        newVerticesOfEdges[maxEdge+4] := [V,v4];
+
+        newEdgesOfFaces := ShallowCopy( EdgesOfFaces(surf) );
+        Unbind( newEdgesOfFaces[f1] );
+        Unbind( newEdgesOfFaces[f2] );
+        maxFaces := Maximum(Faces(surf));
+        newEdgesOfFaces[maxFaces+1] := 
+            [ maxEdge+1, maxEdge+3, EdgeInFaceByVertices(surf, f1, [v1,v3]) ]; 
+        newEdgesOfFaces[maxFaces+2] :=
+            [ maxEdge+2, maxEdge+3, EdgeInFaceByVertices(surf, f1, [v2,v3]) ];
+        newEdgesOfFaces[maxFaces+3] := 
+            [ maxEdge+1, maxEdge+4, EdgeInFaceByVertices(surf, f2, [v1,v4]) ];
+        newEdgesOfFaces[maxFaces+4] :=
+            [ maxEdge+2, maxEdge+4, EdgeInFaceByVertices(surf, f2, [v2,v4]) ];
+
+        return SimplicialSurfaceByDownwardIncidence( 
+            Union( [V], Vertices(surf) ),
+            Union( List([1,2,3,4],i->maxEdge+i), Difference(Edges(surf),[edge]) ),
+            Union( List([1,2,3,4],i->maxFaces+i), Difference(Faces(surf),[f1,f2]) ),
+            newVerticesOfEdges,
+            newEdgesOfFaces );
+    end
+);
+
+
+InstallMethod( EdgeInFaceByVertices, 
+    "for a simplicial surface, a face and a list of two vertices",
+    [IsSimplicialSurface, IsPosInt, IsList],
+    function( surf, face, vertList )
+        local possEdges;
+
+        possEdges := Filtered( EdgesOfFaces(surf)[face], e -> 
+                VerticesOfEdges(surf)[e] = Set(vertList) );
+        if Size(possEdges) = 0 then
+            Error("EdgeInFaceByVertices: No such edge exists.");
+        elif Size(possEdges) > 1 then
+            Error("EdgeInFaceByVertices: Internal error.");
+        fi;
+        return possEdges[1];
+    end
+);
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify

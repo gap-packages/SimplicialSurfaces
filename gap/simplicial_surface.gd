@@ -376,6 +376,14 @@ DeclareAttribute( "VerticesOfFaces", IsSimplicialSurface);
 DeclareAttribute( "EdgesOfFaces", IsSimplicialSurface);
 
 
+#! @Description
+#! Return the edge of the given face that is incident to the given vertices.
+#! @Arguments simpSurf, face, vertexList
+#! @Returns the edge
+DeclareOperation( "EdgeInFaceByVertices", 
+        [IsSimplicialSurface, IsPosInt, IsList] );
+
+
 
 #############################################################################
 ##
@@ -577,6 +585,12 @@ DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );
 # IsIsomorphicWildSimplicialSurfaces. Or is there a better way?
 
 
+#! @Description
+#! Add a vertex into an edge. This only works if there are exactly two
+#! faces adjacent to the edge.
+#! @Arguments simpSurf, edge
+#! @Returns the modified simplicial surface
+DeclareOperation( "AddVertexIntoEdge", [IsSimplicialSurface, IsPosInt] );
 
 
 
