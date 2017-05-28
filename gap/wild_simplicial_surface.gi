@@ -3234,6 +3234,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 
 
                 # We have to test if this new vertex fits.
+
                 # TODO compare new edges with all other edges
 
 
@@ -3248,6 +3249,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     Difference( openEdges, [newEdge1, newEdge2, nextEdge] ),
                     Difference( Filtered([newEdge1, newEdge2], e -> 
                             Size(FacesOfEdges(surface)[e]) > 1 ), openEdges ) );
+
 
                 faceData[nextFace] := Union( edgeData[nextEdge][1], [finalVertexTuple] );
                 faceOrientation[nextFace] := (col, 6-col-otherCol, otherCol );
