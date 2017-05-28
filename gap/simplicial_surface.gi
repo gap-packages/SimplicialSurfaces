@@ -1960,10 +1960,10 @@ InstallMethod( EdgeCounter, "for a simplicial surface", [IsSimplicialSurface],
         local edgeDegrees, max, edge, symbol, degs;
 
         edgeDegrees := List( EdgesOfVertices(simpSurf), Size );
-        max := Maximum( edgeDegrees );
-        if max = 0 then
+        if NrOfEdges(simpSurf) = 0 then
             return [];
         fi;
+        max := Maximum( edgeDegrees ); # bigger than zero since edges exist
 
         # Set up the matrix
         symbol := List( [1..max], i -> List( [1..max], j -> 0 ) );
@@ -2433,6 +2433,9 @@ InstallMethod( IsConnected, "for a simplicial surface", [IsSimplicialSurface],
 	function(simpsurf)
 		local component;
 
+                if NrOfFaces(simpsurf) = 0 then
+                    return true;
+                fi;
 		# In this function we check the connectivity by working with the
 		# vertices. We start with the vertices of the first face and add all
 		# faces that share a vertex with one of these. By iterating this
@@ -2452,7 +2455,7 @@ InstallImmediateMethod( IsConnected, IsSimplicialSurface and
 		local components;
 
 		components := ConnectedComponentsAttributeOfSimplicialSurface(simpsurf);
-		return Length(components) = 1;
+		return Length(components) <= 1;
 	end
 );
 
@@ -2460,6 +2463,9 @@ InstallMethod( IsPathConnected, "for a simplicial surface", [IsSimplicialSurface
 	function(simpsurf)
 		local component;
 
+                if NrOfFaces(simpsurf) = 0 then
+                    return true;
+                fi;
 		# In this function we check the connectivity by working with the
 		# edges. We start with the edges of the first face and add all
 		# faces that share an edge with one of these. By iterating this
@@ -2479,7 +2485,7 @@ InstallImmediateMethod( IsPathConnected, IsSimplicialSurface and
 		local components;
 
 		components := PathConnectedComponents(simpsurf);
-		return Length(components) = 1;
+		return Length(components) <= 1;
 	end
 );
 
@@ -2706,6 +2712,10 @@ InstallMethod( GlobalOrientationByVerticesAsList, "for a simplicial surface",
         HasLocalOrientationByVerticesAsPerm and HasLocalOrientationByVerticesAsList ],
     function( surf )
         local globalOr, FindGlobalOrientation;
+
+        if NrOfFaces(surf) = 0 then
+            return [];
+        fi;
 
         globalOr := __SIMPLICIAL_ConstructStandardGlobalOrientation( surf );
         if globalOr <> fail then

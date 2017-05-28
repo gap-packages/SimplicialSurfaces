@@ -17,6 +17,7 @@ Read("../test/test_example_threeTrianglesOnEdge.g");
 Read("../test/test_example_tetrahedronAndProjectivePlane.g");
 Read("../test/test_example_pentagon.g");
 Read("../test/test_example_threeTrianglesInLine.g");
+Read("../test/test_example_empty.g");
 
 
 
@@ -33,6 +34,7 @@ TestSimplicialSurface := function()
 	TestTetrahedronAndProjectivePlane();
 	TestPentagon();
 	TestThreeTrianglesInLine();
+        TestEmpty();
 end;
 
 
@@ -43,6 +45,7 @@ TestWildSimplicialSurface := function()
 	TestWildOpenTetrahedron();
 	TestWildTwoConnectedTriangles();
 	TestWildProjectivePlaneFour();
+        #TestWildEmpty(); #TODO fix problems at some point
 end;
 
 
