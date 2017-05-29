@@ -3508,6 +3508,12 @@ InstallMethod( WildIncidenceGraph, "for a wild simplicial surface",
         maxVertex := Maximum( Vertices(wildSurf) );
         maxEdge := Maximum( Edges(wildSurf) );
 
+        if maxVertex <> NrOfVertices(wildSurf) or
+            maxEdge <> NrOfEdges(wildSurf) or 
+            Maximum( Faces(wildSurf) ) <> NrOfFaces(wildSurf) then
+            Error("Only works for dense lists at the moment because of the Nauty-Interface\n");
+        fi;
+
         edgeList := [];
         colourList := [];
 
@@ -3552,8 +3558,11 @@ InstallMethod( IsIsomorphicWildSimplicialSurface,
         canLabel2 := CanonicalLabeling(wg2);
 
         # Compute the canonical forms
-        newEdges1 := OnTuplesTuples( wg1!.edges, canLabel1 );
-        newEdges2 := OnTuplesTuples( wg2!.edges, canLabel2 );
+        newEdges1 := OnTuplesTuples( wg1!.edges, canLabel1^(-1) );
+        newEdges2 := OnTuplesTuples( wg2!.edges, canLabel2^(-1) );
+
+        newEdges1 := Set( List( newEdges1, e -> Set(e) ) );
+        newEdges2 := Set( List( newEdges2, e -> Set(e) ) );
         
         ActionOnListIndices := function( list, g )
             local newList, i;
@@ -3566,8 +3575,8 @@ InstallMethod( IsIsomorphicWildSimplicialSurface,
             return newList;
         end;
 
-        newColours1 := ActionOnListIndices( wg1!.colors, canLabel1 );
-        newColours2 := ActionOnListIndices( wg2!.colors, canLabel2 );
+        newColours1 := ActionOnListIndices( wg1!.colors, canLabel1^(-1) );
+        newColours2 := ActionOnListIndices( wg2!.colors, canLabel2^(-1) );
 
         
         return newEdges1 = newEdges2 and newColours1 = newColours2;
