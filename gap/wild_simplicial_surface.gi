@@ -2022,7 +2022,6 @@ InstallMethod( FilteredStructuresWildSimplicialSurface,
 );
 
 
-#TODO this does not define a group action (identity does not fix every element)
 InstallMethod( ImageWildSimplicialSurface, 
     "for a simplicial surface and a permutation", 
     [IsWildSimplicialSurface, IsPerm ], function( surface, perm )
@@ -2036,9 +2035,9 @@ InstallMethod( ImageWildSimplicialSurface,
         # - Move NamesOfFaces (permute the indices)
         # - Move LocalOrientation
         newFacesOfEdges := OnTuplesSets( FacesOfEdges(surface), perm );
-        newNamesOfFaces := Permuted( NamesOfFaces(surface), perm^(-1) );
+        newNamesOfFaces := Permuted( NamesOfFaces(surface), perm );
         newLocalOrientationByEdgesAsPerm := Permuted(
-            LocalOrientationByEdgesAsPerm(surface), perm^(-1) );
+            LocalOrientationByEdgesAsPerm(surface), perm );
 
         surf := Objectify( WildSimplicialSurfaceType, rec() );
         SetVerticesAttributeOfSimplicialSurface( surf, Vertices(surface) );
