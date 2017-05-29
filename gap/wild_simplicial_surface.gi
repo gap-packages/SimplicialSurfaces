@@ -3489,7 +3489,11 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         od;
         AppendTo( output, "\n\\end{document} \n" );
         CloseStream(output);
+        Print( "Picture written (in tikz).\n");
 
+        # Run pdfLaTeX on the file (without visible output)
+        Exec( "pdflatex ", name, " > /dev/null" );
+        Print( "Picture rendered (with pdflatex).\n");
 
         # Return the finished printing record that encodes the drawing process
         record.startingFaces := realStarts;
