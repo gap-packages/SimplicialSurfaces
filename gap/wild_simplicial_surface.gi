@@ -3583,6 +3583,30 @@ InstallMethod( IsIsomorphicWildSimplicialSurface,
     end
 );
 
+
+InstallMethod( WildIsomorphismRepresentatives, "for a list of wild simplicial surfaces",
+    [IsList],
+    function( wildList )
+        local rep, isNew, test, old;
+        
+        rep := [];
+        for test in wildList do
+            isNew := true;
+            for old in rep do
+                if isNew and IsIsomorphicWildSimplicialSurface(old,test) then
+                    isNew := false;
+                fi;
+            od;
+
+            if isNew then
+                Add(rep, test);
+            fi;
+        od;
+
+        return rep;
+    end
+);
+
 ##
 ##          End of drawing methods
 ###############################################################################

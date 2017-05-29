@@ -588,6 +588,14 @@ DeclareAttribute( "WildIncidenceGraph", IsWildSimplicialSurface );
 DeclareOperation( "IsIsomorphicWildSimplicialSurface",
     [ IsWildSimplicialSurface, IsWildSimplicialSurface ] );
 
+#! @Description
+#! Given a list of wild simplicial surfaces, return a sublist of those
+#! such that no two of those are isomorphic (as wild simplicial surfaces) and
+#! that every isomorphism class is represented.
+#! @Arguments wildList
+#! @Returns a list of wild simplicial surfaces
+DeclareOperation( "WildIsomorphismRepresentatives", [IsList] );
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
