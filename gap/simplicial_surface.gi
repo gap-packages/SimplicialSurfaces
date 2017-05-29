@@ -1337,7 +1337,7 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 
 		edgesOfFaces := List(faces,i->[]);
 		for f in faces do
-			for j  in [1..3] do
+			for j  in [1..Size(facesBySetEdges[f])] do
 				e := facesBySetEdges[f][j];
 				edgesOfFaces[f][j] := Position(verticesOfEdges,e);
 			od;
@@ -1469,6 +1469,46 @@ InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 		RedispatchOnCondition( SimplicialSurfaceByVerticesInFaces, true,
 			[ IsList, IsPosInt, IsList],
 			[ IsSet, , ], 0 );
+#############################
+##  Add this point we define the example constructors
+InstallMethod( Tetrahedron, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces(4,4,
+            [[1,2,3],[1,2,4],[2,3,4],[1,3,4]] );
+    end
+);
+
+InstallMethod( Cube, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces( 8, 6,
+        [ [1,2,3,4],[2,3,7,6],[1,2,6,5],[1,4,8,5],[3,4,8,7],[5,6,7,8] ] );
+    end
+);
+
+InstallMethod( Octahedron, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces(6,8,
+        [ [1,2,3],[1,3,4],[1,4,5],[1,2,5],[2,3,6],[3,4,6],[4,5,6],[2,5,6] ] );
+    end
+);
+
+InstallMethod( Dodecahedron, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces( 20,12,
+        [ [1,2,3,4,5],[1,6,7,8,2],[2,3,10,9,8],[3,4,12,11,10],
+        [4,5,14,13,12],[1,6,15,14,5],[6,7,16,20,15],[17,9,8,7,16],
+        [17,9,10,11,18],[11,12,13,19,18],[19,13,14,15,20],[16,17,18,19,20] ] );
+    end
+);
+
+InstallMethod( Icosahedron, "", [], function()
+    return  SimplicialSurfaceByVerticesInFaces(12,20,
+		[ 	[1,2,3], [1,2,4], [1,4,5], [1,5,6],
+			[1,3,6], [2,3,7], [2,4,8], [4,9,5],
+			[5,6,10], [3,6,11], [2,7,8], [4,8,9],
+			[5,9,10], [6,10,11], [3,11,7], [7,8,12],
+			[8,9,12], [9,10,12], [10,11,12], [7,11,12]
+		] );
+    end
+);
+
+
 ##
 ##							End of constructors
 ##
@@ -1643,7 +1683,7 @@ BindGlobal( "__SIMPLICIAL_ConversionLocalOrientationVerticesEdges",
 		firstEl := Set( conversion[ oldList[1] ] );
 		secondEl := Set( conversion[ oldList[ Length(oldList) ] ] );
 		intersection := Intersection( firstEl, secondEl, 
-											possibleNewElements[i] );
+                        possibleNewElements[i] );
 		if Length( intersection ) <> 1 then
 			# This error should not be thrown if the method is used for its 
 			# intended purpose
@@ -1657,7 +1697,7 @@ BindGlobal( "__SIMPLICIAL_ConversionLocalOrientationVerticesEdges",
 			currentEl := Set( conversion[ oldList[j-1] ] );
 			nextEl := Set( conversion[ oldList[j] ] );
 			intersection := Intersection( currentEl, nextEl, 
-												possibleNewElements[i] );
+					        possibleNewElements[i] );
 			if Length( intersection ) <> 1 then
 				# This error should not be thrown if the method is used for its 
 				# intended purpose

@@ -93,6 +93,31 @@ BindGlobal( "SimplicialSurfaceFamily",
 #!
 
 
+#! @Description
+#! Return a simplicial surface that represents a tetrahedron.
+#! @Returns a simplicial surface
+DeclareOperation( "Tetrahedron", [] );
+
+#! @Description
+#! Return a simplicial surface that represents a cube
+#! @Returns a simplicial surface
+DeclareOperation( "Cube", [] );
+
+#! @Description
+#! Return a simplicial surface that represents a octahedron.
+#! @Returns a simplicial surface
+DeclareOperation( "Octahedron", [] );
+
+#! @Description
+#! Return a simplicial surface that represents a dodecahedron.
+#! @Returns a simplicial surface
+DeclareOperation( "Dodecahedron", [] );
+
+#! @Description
+#! Return a simplicial surface that represents a icosahedron.
+#! @Returns a simplicial surface
+DeclareOperation( "Icosahedron", [] );
+
 
 #! @BeginGroup
 #! @Description
