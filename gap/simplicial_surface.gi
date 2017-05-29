@@ -1558,6 +1558,8 @@ BindGlobal( "__SIMPLICIAL_TranslateCyclesIntoLists",
 		for j in [1..Length(points)-1] do
 			Append( listRep, [ listRep[j]^listOfPerms[i] ] );
 		od;
+
+            listOfLists[i] := listRep;
 	od;
 
 	return listOfLists;

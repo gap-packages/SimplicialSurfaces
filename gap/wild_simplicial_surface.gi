@@ -2026,33 +2026,31 @@ InstallMethod( FilteredStructuresWildSimplicialSurface,
 InstallMethod( ImageWildSimplicialSurface, 
     "for a simplicial surface and a permutation", 
     [IsWildSimplicialSurface, IsPerm ], function( surface, perm )
-        local newVertices, newFaces, newColPaths, OnPath;
+        local newFacesOfEdges, newNamesOfFaces, 
+            newLocalOrientationByEdgesAsPerm, surf;
 
-        # The action on the wild simplicial surface can be completely
-        # characterized by the action on the coloured face-edge-paths
-        # TODO transfer knowledge of this surface to the permuted one
-        newVertices := Vertices( surface );
-        newFaces := OnSets( Faces( surface ), perm );
-        
-        OnPath := function( path, perm )
-            local Act;
+        # We define the action on the faces as follows (with the intent of
+        # fixing vertices and edges):
+        # - Change FacesOfEdges (simple application of permutation)
+        # - EdgesOfVertices stays fixed
+        # - Move NamesOfFaces (permute the indices)
+        # - Move LocalOrientation
+        newFacesOfEdges := OnTuplesSets( FacesOfEdges(surface), perm );
+        newNamesOfFaces := Permuted( NamesOfFaces(surface), perm^(-1) );
+        newLocalOrientationByEdgesAsPerm := Permuted(
+            LocalOrientationByEdgesAsPerm(surface), perm^(-1) );
 
-            Act := function( i, el, perm )
-                if IsEvenInt(i) then
-                    return el^perm;
-                else
-                    return el;
-                fi;
-            end;
+        surf := Objectify( WildSimplicialSurfaceType, rec() );
+        SetVerticesAttributeOfSimplicialSurface( surf, Vertices(surface) );
+        SetEdges( surf, Edges(surface) );
+        SetFaces( surf, Faces(surface) );
+        SetEdgesOfVertices( surf, EdgesOfVertices(surface) );
+        SetFacesOfEdges( surf, newFacesOfEdges );
+        SetNamesOfFaces( surf, newNamesOfFaces );
+        SetLocalOrientationByEdgesAsPerm( surf, newLocalOrientationByEdgesAsPerm );
+        SetColoursOfEdges( surf, ColoursOfEdges(surface) );
 
-            return List( [1..Size(path)], i -> Act( i, path[i], perm ) );
-        end;
-
-        newColPaths := List( ColouredFaceEdgePathsOfVertices( surface ),
-            path -> OnPath( path, perm ) );
-
-        return WildSimplicialSurfaceByColouredFaceEdgePathsNC(
-            newVertices, newFaces, newColPaths );
+        return surf;
     end
 );
 
