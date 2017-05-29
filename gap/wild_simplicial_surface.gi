@@ -3537,11 +3537,40 @@ InstallMethod( IsIsomorphicWildSimplicialSurface,
     "for two wild simplicial surfaces",
     [ IsWildSimplicialSurface, IsWildSimplicialSurface ],
     function( ws1, ws2 )
+        local wg1, wg2, canLabel1, canLabel2, newEdges1, newEdges2, 
+            ActionOnListIndices, newColours1, newColours2;
+
         # The two surfaces are isomorphic if and only if their wild incidence
         # graphs w1 and w2 are isomorphic. Those are isomorphic if and only
         # if w1*c1 and w2*c2 are equal (where c1, c2 are the canonical
         # labelings of the graphs). 
-        return fail;
+        wg1 := WildIncidenceGraph(ws1);
+        wg2 := WildIncidenceGraph(ws2);
+
+        # Compute the canonical labelings
+        canLabel1 := CanonicalLabeling(wg1);
+        canLabel2 := CanonicalLabeling(wg2);
+
+        # Compute the canonical forms
+        newEdges1 := OnTuplesTuples( wg1!.edges, canLabel1 );
+        newEdges2 := OnTuplesTuples( wg2!.edges, canLabel2 );
+        
+        ActionOnListIndices := function( list, g )
+            local newList, i;
+            newList := [];
+
+            for i in [1..Size(list)] do
+                newList[ i^g ] := list[i];
+            od;
+
+            return newList;
+        end;
+
+        newColours1 := ActionOnListIndices( wg1!.colors, canLabel1 );
+        newColours2 := ActionOnListIndices( wg2!.colors, canLabel2 );
+
+        
+        return newEdges1 = newEdges2 and newColours1 = newColours2;
     end
 );
 
