@@ -3487,6 +3487,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         AppendTo( output, "\n\\end{document} \n" );
         CloseStream(output);
         Print( "Picture written (in tikz).\n");
+        Print( "Start LaTeX-compilation.\n" );
 
         # Run pdfLaTeX on the file (without visible output)
         Exec( "pdflatex ", name, " > /dev/null" );
