@@ -2993,7 +2993,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # can't be used
         toMuchInfo := Difference( Set( RecNames( record ) ),
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
-                "edgeLengths", "edgeThickness", "vertexColour", "globalScale",
+                "edgeLengths", "vertexColour", "globalScale",
                 "compileLaTeX", "noFaceColours", "edgeLabelling"] );
         if not IsEmpty( toMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
