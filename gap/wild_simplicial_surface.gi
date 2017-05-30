@@ -3446,8 +3446,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # try to limit the amount of long lines.
         SetPrintFormattingStatus( output, false );
         AppendTo( output,
-            "\\documentclass{article}\n",
-            "\\usepackage{tikz}\n\n",
+            "\\documentclass{article}\n\n",
+            "\\usepackage{tikz}\n",
+            "\\usepackage[inner=0.5cm,outer=0.5cm]{geometry}\n\n",
             "\\begin{document}\n" );
         for i in [1..Size(subsurfaces)] do
             subsurf := subsurfaces[i];
