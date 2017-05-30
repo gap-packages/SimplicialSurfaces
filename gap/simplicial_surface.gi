@@ -2803,6 +2803,30 @@ InstallMethod( PathConnectedComponents,
     end
 );
 
+## For actual surfaces the connected and path-connected components are
+## identical. 
+InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
+    "for an actual surface with path-connected components",
+    [IsSimplicialSurface and IsActualSurface and HasPathConnectedComponents ],
+    function(surf)
+        return PathConnectedComponents(surf);
+    end
+);
+InstallMethod( PathConnectedComponents, 
+    "for an actual surface with connected components",
+    [IsSimplicialSurface and IsActualSurface and 
+        HasConnectedComponentsAttributeOfSimplicialSurface ],
+    function(surf)
+        return ConnectedComponents(surf);
+    end
+);
+InstallImmediateMethod( PathConnectedComponents,
+    IsSimplicialSurface and IsActualSurface and IsConnected, 0, 
+    function(surf)
+        return [surf];
+    end
+);
+
 
 ###############################################################################
 ###############################################################################

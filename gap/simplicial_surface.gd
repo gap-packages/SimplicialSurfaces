@@ -680,6 +680,7 @@ DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 #TODO Should this be renamed? Maybe to "IsSurface"?
 DeclareSynonym( "IsActualSurface", 
 		IsVerticesLikeSurface and IsEdgesLikeSurface );
+InstallTrueMethod( IsPathConnected, IsConnected and IsActualSurface );
                 
 #! @Description
 #!  The property IsActualSurface is true if both IsEdgesLikeSurface and
