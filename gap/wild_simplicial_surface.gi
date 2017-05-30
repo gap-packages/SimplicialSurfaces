@@ -2002,23 +2002,29 @@ end);
 InstallMethod( FilteredStructuresWildSimplicialSurface, 
 	"for a list of wild simplicial surfaces", [IsList],
 	function (allsimpsurf)
-
-        local res, ss, mr, edgeset;
-
-        res :=[];
-        for ss in allsimpsurf do
-             mr := MRTypeOfEdgesAsNumbers(ss);
-             edgeset := EdgesOfColours(ss);
-             mr := List(edgeset, s -> List(s, e -> mr[e] ));
-             if 1 in mr[1] and 2 in mr[1] then continue; fi;
-             if 1 in mr[2] and 2 in mr[2] then continue; fi;
-             if 1 in mr[3] and 2 in mr[3] then continue; fi;
-
-             Add(res,ss);
-        od;
-
-        return res;
+            return Filtered(allsimpsurf, IsSurfaceWithStructure);
 	end
+);
+
+InstallMethod( IsSurfaceWithStructure, "for a wild simplicial surface",
+    [ IsWildSimplicialSurface ],
+    function( wildSurf )
+        local mr, edgeSet;
+
+        mr := MRTypeOfEdgesAsNumbers(wildSurf);
+        edgeSet := EdgesOfColours(wildSurf);
+        mr := List( edgeSet, s -> List( s, e->mr[e] ) );
+        if 1 in mr[1] and 2 in mr[1] then
+            return false;
+        fi;
+        if 1 in mr[2] and 2 in mr[2] then
+            return false;
+        fi;
+        if 1 in mr[3] and 2 in mr[3] then
+            return false;
+        fi;
+        return true;
+    end
 );
 
 

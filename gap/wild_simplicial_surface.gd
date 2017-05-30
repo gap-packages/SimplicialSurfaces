@@ -333,6 +333,13 @@ DeclareOperation( "EdgesOfColourNC", [IsWildSimplicialSurface, IsPosInt] );
 DeclareAttribute( "MRTypeOfEdges", IsWildSimplicialSurface);
 DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsWildSimplicialSurface);
 
+#! @Description
+#! If the mr-types of all edges with the same colour are identical, we call
+#! this a structure of the surface. This property checks whether this is
+#! the case.
+#! @Arguments wildSurf
+#! @Returns true or false
+DeclareProperty( "IsSurfaceWithStructure", IsWildSimplicialSurface );
 
 
 #############################################################################
