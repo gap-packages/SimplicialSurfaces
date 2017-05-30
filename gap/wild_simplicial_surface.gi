@@ -3588,6 +3588,13 @@ InstallMethod( WildIncidenceGraph, "for a wild simplicial surface",
     end
 );
 
+InstallMethod( AutomorphismGroup, "for a wild simplicial surface",
+    [ IsWildSimplicialSurface ],
+    function( wildSurf )
+        return AutomorphismGroup( WildIncidenceGraph( wildSurf ) );
+    end
+);
+
 InstallMethod( IsIsomorphicWildSimplicialSurface, 
     "for two wild simplicial surfaces",
     [ IsWildSimplicialSurface, IsWildSimplicialSurface ],

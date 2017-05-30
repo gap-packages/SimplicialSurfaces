@@ -591,6 +591,14 @@ DeclareAttribute( "WildIncidenceGraph", IsWildSimplicialSurface );
 
 #!
 #! @Description
+#! Return the automorphism group of this wild simplicial surface. The
+#! automorphism group allows the switching of colour classes.
+#! @Arguments wildSurf
+#! @Returns a group
+DeclareAttribute( "AutomorphismGroup", IsWildSimplicialSurface );
+
+#!
+#! @Description
 #! Check whether two wild coloured simplicial surfaces are isomorphic. It is
 #! allowed to switch the colours.
 #! @Arguments ws1, ws2
