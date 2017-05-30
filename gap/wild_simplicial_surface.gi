@@ -2892,7 +2892,18 @@ RedispatchOnCondition( AllWildSimplicialSurfaces, true, [IsSimplicialSurface],
 # to compute the intersection of two line segments
 BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
     function( edgeCoords1, edgeCoords2 )
-        local Cross, vtx1, vtx2, det, diff, factor1, factor2, min, max;
+        local Cross, vtx1, vtx2, det, diff, factor1, factor2, min, max,
+            IsEqualFloat;
+
+        # Since we want to compare floats and this gives a lot of problems we
+        # write a custom method to compare floats (up to a specified accuracy)
+        IsEqualFloat := function( a, b )
+            local diff;
+
+            diff := (a-b)^2;
+            # Currently: precision to 15 places
+            return diff < Float( 10^(-30) );
+        end;
 
         Cross := function( v, w )
             return v[1]*w[2] - v[2]*w[1];
@@ -2905,12 +2916,12 @@ BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
         # Check first if the lines are parallel
         det := Cross( vtx1, vtx2 );
         diff := edgeCoords2[1] - edgeCoords1[1];
-        if det = Float(0) then
+        if IsEqualFloat( det, Float(0) ) then
             # parallel case:
             # We have to check if the lines coincide
             # For that we check if the vector between the two base
             # points is parallel to the line directions
-            if Cross( vtx1, diff ) <> Float(0) then
+            if not IsEqualFloat( Cross( vtx1, diff ), Float(0)) then
                 return false;
             fi;
             
@@ -2919,7 +2930,7 @@ BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
             # p_2 = p_1 + factor1 * vtx_1
             # and factor2 such that
             # p_2 + vtx_2 = p_1 + factor * vtx_1
-            if vtx1[1] <> Float(0) then
+            if not IsEqualFloat( vtx1[1], Float(0) ) then
                 factor1 := diff[1]/vtx1[1];
                 factor2 := factor1 + vtx2[1]/vtx1[1];
             else
@@ -2933,7 +2944,7 @@ BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
             max := Maximum( factor1, factor2 );
             if min <= Float(0) and max > Float(0) then
                 return true;
-            elif min < Float(1) and max < Float(1) then
+            elif min > Float(1) and max < Float(1) then
                 return true;
             else
                 return false;
@@ -2946,7 +2957,8 @@ BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
                 return false;
             elif factor2 < Float(0) or factor2 > Float(1) then
                 return false;
-            elif factor1 in [0.,1.] and factor2 in [0.,1.] then
+            elif ( IsEqualFloat(factor1,0.) or IsEqualFloat(factor1,1.) )
+                and ( IsEqualFloat(factor2,0.) or IsEqualFloat(factor2,1.) ) then
                 return false;
             else
                 return true;
@@ -2982,7 +2994,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         toMuchInfo := Difference( Set( RecNames( record ) ),
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
                 "edgeLengths", "edgeThickness", "vertexColour", "globalScale",
-                "compileLaTeX", "noFaceColours"] );
+                "compileLaTeX", "noFaceColours", "edgeLabelling"] );
         if not IsEmpty( toMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
             Print( "could not be interpreted: " );
@@ -3004,7 +3016,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             record.edgeLengths := [2,3,4];
         fi;
         if not IsBound( record.globalScale ) then
-            record.globalScale := Minimum(record.edgeLengths)/2;
+            record.globalScale := Minimum(record.edgeLengths)*3/4;
         fi;
         if not IsBound( record.vertexColour ) then
             record.vertexColour := "orange";
@@ -3015,9 +3027,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         if not IsBound( record.noFaceColours ) then
             record.noFaceColours := false;
         fi;
-#        if not IsBound( record.edgeThickness ) then
-#            record.edgeThickness := 0.6;
-#        fi;
+        if not IsBound( record.edgeLabelling ) then
+            record.edgeLabelling := false;
+        fi;
 
 
         if IsBound( record.startingFaces ) and IsList( record.startingFaces ) then
@@ -3218,7 +3230,6 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     Size( FacesOfEdges(surface)[e] ) > 1 );
                 openVertices := Filtered( VerticesOfFaces(surface)[start], v ->
                     Size( FacesOfVertices(surface)[v] ) > 1 );
-        Print("Start of openVertices: ");Print(openVertices); Print("\n");
                 currComponentList := [start];
 
                 # Initialize the proposed draw order
@@ -3258,11 +3269,11 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     currentVertex := Minimum( openVertices );
                 fi;
                 for e in openEdges do
-                    if currentVertex in VerticesOfEdges(surface)[e] then
-                        nextEdge := e;
-                    fi;
                     if nextEdge <> fail then
                         break;
+                    fi;
+                    if currentVertex in VerticesOfEdges(surface)[e] then
+                        nextEdge := e;
                     fi;
                 od;
                 # If we haven't found any edge something is wrong
@@ -3358,6 +3369,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                                     Print(" (instance " );
                                     Print( i );
                                     Print(")\n");
+                                Print( vtxCoord ); Print( " vs. " ); Print(vtxCoord1); Print("\n");
                             fi;
  
                             if __SIMPLICIAL_IntersectingLineSegments(
@@ -3371,6 +3383,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                                     Print(" (instance " );
                                     Print( i );
                                     Print(")\n");
+                                Print( vtxCoord ); Print( " vs. " ); Print(vtxCoord2); Print("\n");
                             fi;
                         od;
                     fi;
@@ -3475,9 +3488,13 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     AppendTo(output, "\\draw[ EdgeStyle, double=", 
                         record.edgeColours[ ColourOfEdgeNC(surface,e) ],
                         "] ",
-                      #  ", line width=", record.edgeThickness, "pt] ",
                         "(V", edgeData[e][i][1][1], "_", edgeData[e][i][1][2],
-                        ") -- (V", edgeData[e][i][2][1], "_", edgeData[e][i][2][2], ");\n");
+                        ") -- " );
+                    if record.edgeLabelling then
+                        AppendTo( output, "node [fill=white]{ $e_{", e, "}$ } " );
+                    fi;
+                    AppendTo(output,                     
+                        "(V", edgeData[e][i][2][1], "_", edgeData[e][i][2][2], ");\n");
                 od;
             od;
 

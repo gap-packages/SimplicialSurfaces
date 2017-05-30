@@ -560,11 +560,12 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!      second colour.
 #!  edgeLengths: A list of three positive numbers that determine the length of
 #!      the three edge classes in the drawing.
+#!  edgeLabelling: Control whether the edges are labelled in the drawing. The
+#!      default is false to not clutter the drawing. To find an edgeDrawOrder
+#!      that avoids intersections this might be useful.
 #!  vertexColour: The colour of the vertices (default is orange).
 #!  globalScale: The scaling factor in the tikz-picture. The default is the
 #!      smallest edge length divided by 2.
-#!  edgeThickness: A number that determines the thickness of the drawn edges.
-#!      The default is 0.6
 #!  compileLaTeX: If true, LaTeX will compile the written file automatically.
 #!      Since this may take some time or there might be strange compiling
 #!      error, this flag is turned false per default.
