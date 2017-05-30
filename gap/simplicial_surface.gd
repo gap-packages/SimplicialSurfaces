@@ -62,6 +62,9 @@ DeclareInfoClass( "InfoSimplicial" );
 SetInfoLevel(InfoSimplicial,1);
 # TODO explain structure of everything in a separate tex-file
 
+#TODO remove LocalOrientation from simplicial surfaces (separate incidence 
+# geometry and orientation). Then add CyclicVertexOrderAsPerm or something
+# like that. Does this work in the bigger context??
 
 ##
 ##	Categories are used to determine which methods are applicable for a

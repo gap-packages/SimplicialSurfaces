@@ -558,11 +558,15 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!      surfaces. If a face is drawn with the same orientation as the starting
 #!      face, it gets the first colour. Otherwise it will be drawn in the
 #!      second colour.
+#!  faceLabelling: Control whether the faces are labelled by name. This is
+#!      turned on by default.
 #!  edgeLengths: A list of three positive numbers that determine the length of
 #!      the three edge classes in the drawing.
 #!  edgeLabelling: Control whether the edges are labelled in the drawing. The
 #!      default is false to not clutter the drawing. To find an edgeDrawOrder
 #!      that avoids intersections this might be useful.
+#!  vertexLabelling: Control whether the vertices are labelled in the drawing.
+#!      The default is true, but you might decide to not draw the vertices.
 #!  vertexColour: The colour of the vertices (default is orange).
 #!  globalScale: The scaling factor in the tikz-picture. The default is the
 #!      smallest edge length divided by 2.

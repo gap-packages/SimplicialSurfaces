@@ -2993,8 +2993,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # can't be used
         toMuchInfo := Difference( Set( RecNames( record ) ),
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
-                "edgeLengths", "vertexColour", "globalScale",
-                "compileLaTeX", "noFaceColours", "edgeLabelling"] );
+                "edgeLengths", "vertexColour", "globalScale", 
+                "vertexLabelling", "compileLaTeX", "noFaceColours", 
+                "edgeLabelling", "faceLabelling"] );
         if not IsEmpty( toMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
             Print( "could not be interpreted: " );
@@ -3029,6 +3030,12 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         fi;
         if not IsBound( record.edgeLabelling ) then
             record.edgeLabelling := false;
+        fi;
+        if not IsBound( record.vertexLabelling ) then
+            record.vertexLabelling := true;
+        fi;
+        if not IsBound( record.faceLabelling ) then
+            record.faceLabelling := true;
         fi;
 
 
@@ -3471,8 +3478,10 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     faceY := faceY + vertexCoordinates[tuple[1]][tuple[2]][2];
                 od;
                 AppendTo( output, "cycle;\n" );
-                AppendTo( output, "\\node (F", f, ") at (", 
+                if record.faceLabelling then
+                    AppendTo( output, "\\node (F", f, ") at (", 
                         faceX / 3, ", ", faceY / 3, ") {$f_{", f, "}$};\n" ); 
+                fi;
             od;
 
             AppendTo( output, "\n\n" );
@@ -3499,20 +3508,22 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             AppendTo( output, "\n\n\n" );
 
             # Label the vertices
-            AppendTo( output, 
-                "\\tikzset{VertexStyle/.style = {\n ",
-                "shape = circle,\n ",
-                "ball color = ", record.vertexColour, ",\n ", 
-                "text = black,\n ",
-                "inner sep = 2pt,\n ",
-                "outer sep = 0pt,\n ",
-                "minimum size = 10pt} }\n\n");
-            for v in Vertices( subsurf ) do
-                for i in [1..Size(vertexCoordinates[v])] do
-                    AppendTo( output,
-                        "\\node[VertexStyle] at (V", v, "_", i, ") {", v, "};\n" ); 
+            if record.vertexLabelling then
+                AppendTo( output, 
+                    "\\tikzset{VertexStyle/.style = {\n ",
+                    "shape = circle,\n ",
+                    "ball color = ", record.vertexColour, ",\n ", 
+                    "text = black,\n ",
+                    "inner sep = 2pt,\n ",
+                    "outer sep = 0pt,\n ",
+                    "minimum size = 10pt} }\n\n");
+                for v in Vertices( subsurf ) do
+                    for i in [1..Size(vertexCoordinates[v])] do
+                        AppendTo( output,
+                            "\\node[VertexStyle] at (V", v, "_", i, ") {", v, "};\n" ); 
+                    od;
                 od;
-            od;
+            fi;
 
             
             AppendTo( output, "\n\\end{tikzpicture}\n" );
