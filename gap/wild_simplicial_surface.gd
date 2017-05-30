@@ -552,6 +552,7 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!      may be drawn twice if the angle sum at certain vertices is not flat.
 #!  edgeColours: A list of three colours (given as strings) that determine in
 #!      which colour each edge class is to be drawn.
+#!  noFaceColours: If true, turns off the face colouring.
 #!  faceColours: A list of two colours (given as strings) that determine in 
 #!      which colours the faces are drawn. This only works for orientable
 #!      surfaces. If a face is drawn with the same orientation as the starting
@@ -566,6 +567,7 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!      The default is 0.6
 #!  compileLaTeX: If true, LaTeX will compile the written file automatically.
 #!      Since this may take some time, you might consider turning it off.
+#!  
 #!  
 #!
 #!  @Arguments wildSurf, fileName [, printRecord ]

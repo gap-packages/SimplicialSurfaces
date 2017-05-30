@@ -2982,7 +2982,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         toMuchInfo := Difference( Set( RecNames( record ) ),
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
                 "edgeLengths", "edgeThickness", "vertexColour", "globalScale",
-                "compileLaTeX"] );
+                "compileLaTeX", "noFaceColours"] );
         if not IsEmpty( toMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
             Print( "could not be interpreted: " );
@@ -3011,6 +3011,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         fi;
         if not IsBound( record.compileLaTeX ) then
             record.compileLaTeX := true;
+        fi;
+        if not IsBound( record.noFaceColours ) then
+            record.noFaceColours := false;
         fi;
 #        if not IsBound( record.edgeThickness ) then
 #            record.edgeThickness := 0.6;
@@ -3439,6 +3442,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     if faceOrientation[f] <> faceOrientation[start] then
                         faceCol := record.faceColours[2];
                     fi;
+                fi;
+                if record.noFaceColours then
+                    faceCol := "white";
                 fi;
                 AppendTo( output, "\\fill[", faceCol, "] " );
                 faceX := 0;
