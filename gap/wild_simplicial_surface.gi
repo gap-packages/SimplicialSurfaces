@@ -3010,7 +3010,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             record.vertexColour := "orange";
         fi;
         if not IsBound( record.compileLaTeX ) then
-            record.compileLaTeX := true;
+            record.compileLaTeX := false;
         fi;
         if not IsBound( record.noFaceColours ) then
             record.noFaceColours := false;
@@ -3018,6 +3018,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 #        if not IsBound( record.edgeThickness ) then
 #            record.edgeThickness := 0.6;
 #        fi;
+
 
         if IsBound( record.startingFaces ) and IsList( record.startingFaces ) then
             record.startingFaces := Compacted( record.startingFaces );
@@ -3462,11 +3463,14 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             AppendTo( output, "\n\n" );
 
             # Draw all edges
+            AppendTo( output,
+                "\\tikzset{EdgeStyle/.style = {",
+                "thin, double distance=1pt} }\n\n" );
             for e in Edges(subsurf) do
                 for i in [1..Size(edgeData[e])] do
-                    AppendTo(output, "\\draw[ thin, double=", 
+                    AppendTo(output, "\\draw[ EdgeStyle, double=", 
                         record.edgeColours[ ColourOfEdgeNC(surface,e) ],
-                        ", double distance=1pt] ",
+                        "] ",
                       #  ", line width=", record.edgeThickness, "pt] ",
                         "(V", edgeData[e][i][1][1], "_", edgeData[e][i][1][2],
                         ") -- (V", edgeData[e][i][2][1], "_", edgeData[e][i][2][2], ");\n");
@@ -3477,12 +3481,12 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 
             # Label the vertices
             AppendTo( output, 
-                "\\tikzset{VertexStyle/.style = {",
-                "shape = circle, ",
-                "ball color = ", record.vertexColour, ", ", 
-                "text = black, ",
-                "inner sep = 2pt, ",
-                "outer sep = 0pt, ",
+                "\\tikzset{VertexStyle/.style = {\n ",
+                "shape = circle,\n ",
+                "ball color = ", record.vertexColour, ",\n ", 
+                "text = black,\n ",
+                "inner sep = 2pt,\n ",
+                "outer sep = 0pt,\n ",
                 "minimum size = 10pt} }\n\n");
             for v in Vertices( subsurf ) do
                 for i in [1..Size(vertexCoordinates[v])] do
@@ -3498,7 +3502,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         CloseStream(output);
         Print( "Picture written (in tikz).\n");
 
-        if record.compileLaTex then
+        if record.compileLaTeX then
             Print( "Start LaTeX-compilation.\n" );
 
             # Run pdfLaTeX on the file (without visible output)

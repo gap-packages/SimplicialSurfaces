@@ -566,7 +566,8 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!  edgeThickness: A number that determines the thickness of the drawn edges.
 #!      The default is 0.6
 #!  compileLaTeX: If true, LaTeX will compile the written file automatically.
-#!      Since this may take some time, you might consider turning it off.
+#!      Since this may take some time or there might be strange compiling
+#!      error, this flag is turned false per default.
 #!  
 #!  
 #!
