@@ -2531,6 +2531,29 @@ InstallImmediateMethod( IsPathConnected, IsSimplicialSurface and
 	end
 );
 
+InstallImmediateMethod( IsPathConnected, IsSimplicialSurface and 
+    HasConnectedComponentsAttributeOfSimplicialSurface, 0,
+    function(surf)
+        local components;
+
+        components := ConnectedComponents(surf);
+        if Length(components) > 1 then
+            return false;
+        fi;
+        TryNextMethod();
+    end
+);
+
+InstallImmediateMethod( IsPathConnected, 
+    IsSimplicialSurface and HasIsConnected, 0,
+    function(surf)
+        if not IsConnected(surf) then
+            return false;
+        fi;
+        TryNextMethod();
+    end
+);
+
 #############################################################################
 ##
 #!	@Description
@@ -2729,33 +2752,57 @@ InstallMethod( ConnectedComponentsAttributeOfSimplicialSurface,
     "for a simplicial surface with path-connected components",
     [IsSimplicialSurface and HasPathConnectedComponents ],
     function( surf )
-        return fail;
-#        local pathComponents, components;
-#
-#        pathComponents := PathConnectedComponents(surf);
-#        components := [];
-#        if pathComponents = [] then
-#            return [];
-#        fi;
-#
-#        vertList := List( pathComponents, Vertices );
-#
-#        check := [1..Size(pathComponents)];
-#        while not IsEmpty(check) do
-#            newComponent := [ check[1] ];
-#            currentVert := vertList[ check[1] ];
-#            done := false;
-#            while not done do
-#                done := true;
-#                for i in Difference( check, newComponent ) do
-#                    #if not IsEmpty( Intersection( currentVert, 
-#                od;
-#            od;
-#        od;
-#
-#        return components;
+        local pathComponents, components, vertList, check, newComponent,
+            currentVert, done, i;
+
+        pathComponents := PathConnectedComponents(surf);
+        components := [];
+        if pathComponents = [] then
+            return [];
+        fi;
+
+        vertList := List( pathComponents, Vertices );
+
+        check := [1..Size(pathComponents)];
+        while not IsEmpty(check) do
+            newComponent := [ check[1] ];
+            currentVert := vertList[ check[1] ];
+            done := false;
+            while not done do
+                done := true;
+                for i in Difference( check, newComponent ) do
+                    if not IsEmpty( Intersection( currentVert, vertList[i] ) ) then
+                        Add(newComponent, i );
+                        check := Difference( check, [i] );
+                        currentVert := Union( currentVert, vertList[i] );
+                        done := false;
+                    fi;
+                od;
+            od;
+            Add( components, SubsurfaceByFacesNC( surf, 
+                Union( List( newComponent, i-> Faces( pathComponents[i] ) ) ) ) );
+        od;
+
+        return components;
     end
 );
+
+InstallMethod( PathConnectedComponents, 
+    "for a simplicial surface with connected components",
+    [ IsSimplicialSurface and HasConnectedComponentsAttributeOfSimplicialSurface ],
+    function( surf )
+        local comp, pathComp, s;
+
+        comp := ConnectedComponents(surf);
+        pathComp := [];
+        for s in comp do
+            Append( pathComp, PathConnectedComponents( s ) );
+        od;
+
+        return pathComp;
+    end
+);
+
 
 ###############################################################################
 ###############################################################################
