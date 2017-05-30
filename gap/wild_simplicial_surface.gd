@@ -564,6 +564,8 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!      smallest edge length divided by 2.
 #!  edgeThickness: A number that determines the thickness of the drawn edges.
 #!      The default is 0.6
+#!  compileLaTeX: If true, LaTeX will compile the written file automatically.
+#!      Since this may take some time, you might consider turning it off.
 #!  
 #!
 #!  @Arguments wildSurf, fileName [, printRecord ]

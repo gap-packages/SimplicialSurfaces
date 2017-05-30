@@ -2981,7 +2981,8 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # can't be used
         toMuchInfo := Difference( Set( RecNames( record ) ),
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
-                "edgeLengths", "edgeThickness", "vertexColour", "globalScale" ] );
+                "edgeLengths", "edgeThickness", "vertexColour", "globalScale",
+                "compileLaTeX"] );
         if not IsEmpty( toMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
             Print( "could not be interpreted: " );
@@ -3007,6 +3008,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         fi;
         if not IsBound( record.vertexColour ) then
             record.vertexColour := "orange";
+        fi;
+        if not IsBound( record.compileLaTeX ) then
+            record.compileLaTeX := true;
         fi;
 #        if not IsBound( record.edgeThickness ) then
 #            record.edgeThickness := 0.6;
@@ -3487,11 +3491,14 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         AppendTo( output, "\n\\end{document} \n" );
         CloseStream(output);
         Print( "Picture written (in tikz).\n");
-        Print( "Start LaTeX-compilation.\n" );
 
-        # Run pdfLaTeX on the file (without visible output)
-        Exec( "pdflatex ", name, " > /dev/null" );
-        Print( "Picture rendered (with pdflatex).\n");
+        if record.compileLaTex then
+            Print( "Start LaTeX-compilation.\n" );
+
+            # Run pdfLaTeX on the file (without visible output)
+            Exec( "pdflatex ", name, " > /dev/null" );
+            Print( "Picture rendered (with pdflatex).\n");
+        fi;
 
         # Return the finished printing record that encodes the drawing process
         record.startingFaces := realStarts;
