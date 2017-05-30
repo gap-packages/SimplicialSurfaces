@@ -3369,7 +3369,6 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                                     Print(" (instance " );
                                     Print( i );
                                     Print(")\n");
-                                Print( vtxCoord ); Print( " vs. " ); Print(vtxCoord1); Print("\n");
                             fi;
  
                             if __SIMPLICIAL_IntersectingLineSegments(
@@ -3383,7 +3382,6 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                                     Print(" (instance " );
                                     Print( i );
                                     Print(")\n");
-                                Print( vtxCoord ); Print( " vs. " ); Print(vtxCoord2); Print("\n");
                             fi;
                         od;
                     fi;
