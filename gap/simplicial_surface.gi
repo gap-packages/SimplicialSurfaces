@@ -2430,7 +2430,6 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 		[IsEdgesLikeSurface], 0 );
 
 
-#TODO implement interaction between connected and path-connected components
 ##
 ## Given a set of elements (natural numbers) and a list of components
 ## (indexed by the elements) return the connected component of the
@@ -2536,7 +2535,7 @@ InstallImmediateMethod( IsPathConnected, IsSimplicialSurface and
     function(surf)
         local components;
 
-        components := ConnectedComponents(surf);
+        components := ConnectedComponentsAttributeOfSimplicialSurface(surf);
         if Length(components) > 1 then
             return false;
         fi;
@@ -2793,7 +2792,13 @@ InstallMethod( PathConnectedComponents,
     function( surf )
         local comp, pathComp, s;
 
-        comp := ConnectedComponents(surf);
+        comp := ConnectedComponentsAttributeOfSimplicialSurface(surf);
+
+        # If we only have one component, this method offers no benefit
+        if Length(comp) = 1 then
+            TryNextMethod();
+        fi;
+
         pathComp := [];
         for s in comp do
             Append( pathComp, PathConnectedComponents( s ) );
@@ -2817,7 +2822,7 @@ InstallMethod( PathConnectedComponents,
     [IsSimplicialSurface and IsActualSurface and 
         HasConnectedComponentsAttributeOfSimplicialSurface ],
     function(surf)
-        return ConnectedComponents(surf);
+        return ConnectedComponentsAttributeOfSimplicialSurface(surf);
     end
 );
 InstallImmediateMethod( PathConnectedComponents,
@@ -2826,6 +2831,8 @@ InstallImmediateMethod( PathConnectedComponents,
         return [surf];
     end
 );
+#TODO for actual surfaces two attributes are identical. Can we somehow encode
+# this to save space (also in general)?
 
 
 ###############################################################################
