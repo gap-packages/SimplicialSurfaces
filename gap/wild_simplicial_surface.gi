@@ -2995,7 +2995,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
                 "edgeLengths", "vertexColour", "globalScale", 
                 "vertexLabelling", "compileLaTeX", "noFaceColours", 
-                "edgeLabelling", "faceLabelling"] );
+                "edgeLabelling", "faceLabelling", "edgeThickness"] );
         if not IsEmpty( toMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
             Print( "could not be interpreted: " );
@@ -3036,6 +3036,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         fi;
         if not IsBound( record.faceLabelling ) then
             record.faceLabelling := true;
+        fi;
+        if not IsBound( record.edgeThickness ) then
+            record.edgeThickness := 1;
         fi;
 
 
@@ -3489,7 +3492,8 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             # Draw all edges
             AppendTo( output,
                 "\\tikzset{EdgeStyle/.style = {",
-                "thin, double distance=1pt} }\n\n" );
+                "thin, double distance=",
+                record.edgeThickness, "pt} }\n\n" );
             for e in Edges(subsurf) do
                 for i in [1..Size(edgeData[e])] do
                     AppendTo(output, "\\draw[ EdgeStyle, double=", 
@@ -3498,7 +3502,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                         "(V", edgeData[e][i][1][1], "_", edgeData[e][i][1][2],
                         ") -- " );
                     if record.edgeLabelling then
-                        AppendTo( output, "node [fill=white]{ $e_{", e, "}$ } " );
+                        AppendTo( output, "node { $e_{", e, "}$ } " );
                     fi;
                     AppendTo(output,                     
                         "(V", edgeData[e][i][2][1], "_", edgeData[e][i][2][2], ");\n");

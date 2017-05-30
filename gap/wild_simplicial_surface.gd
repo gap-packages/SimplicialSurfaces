@@ -568,6 +568,9 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!  vertexLabelling: Control whether the vertices are labelled in the drawing.
 #!      The default is true, but you might decide to not draw the vertices.
 #!  vertexColour: The colour of the vertices (default is orange).
+#!  edgeThickness: Determines the thickness of the edges. The edges are drawn
+#!      with two parallel lines (and colour in between). This parameter gives
+#!      the distance between the parallel lines (in pt). The default is 1.
 #!  globalScale: The scaling factor in the tikz-picture. The default is the
 #!      smallest edge length divided by 2.
 #!  compileLaTeX: If true, LaTeX will compile the written file automatically.
