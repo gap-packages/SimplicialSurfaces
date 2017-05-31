@@ -41,10 +41,11 @@ Goal: Teaser. Show actual examples with code. Keep people interested, don't ramp
 Name: Playing with simplicial surfaces
 Content:
 Since the platonic solids are pre-defined [gives user some test-cases for experimenting] we use them to show the capabilities of this package.
-    <Use tetrahedron, cube or octahedron; with picture and GAP-code>[This neatly avoids the complicated constructors]
-Of course, we know elementary properties like IsClosedSurface, NrOfVertices, NrOfEdges, NrOfFaces, EulerCharacteristic [TODO: should all of them be listed? Pro: Now the commands are known, Con: The commands could have been guessed]
+    <Use cube (as it is known to more people than the other platonic solids and is quite small)>
+    <Draw a picture and show the GAP-command Cube(), to avoid complicated constructors at the start>
 
-We can also compute some simple properties like IsConnected or IsOrientable.
+Of course, we know elementary properties like IsClosedSurface, NrOfVertices, NrOfEdges, NrOfFaces, EulerCharacteristic [TODO: should all of them be listed? Pro: Now the commands are known, Con: The commands could have been guessed]
+We can also compute some simple properties like IsConnected or IsOrientable. [Combine with first set]
 
 We can also answer some more difficult questions like AutomorphismGroup or test for isomorphism (with one of the other platonic solids)
 [TODO it is probably useful to show some capabilities. At the same time some users might be turned off if we linger too long on these
