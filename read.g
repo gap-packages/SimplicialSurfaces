@@ -20,4 +20,5 @@ ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_identification.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_fan.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/folding_complex.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/folding_plan.gi" );
+#ReadPackage( "SimplicialSurfaces", "surfs/simplib.gi" );
 
