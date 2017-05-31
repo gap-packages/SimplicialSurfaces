@@ -289,6 +289,7 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFaces",
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
 	[ IsSet, IsSet, IsList ] );
 #TODO also allow IsList as only argument
+#TODO after the split with constructor SimplicialSurfaceBy.. write an error message that recommends the more general constructor.
 #! @EndGroup
 
 
