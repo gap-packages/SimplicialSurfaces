@@ -607,6 +607,8 @@ DeclareOperation( "DrawSurfaceToTikz",
 #!  @Returns the wild incidence graph
 DeclareAttribute( "WildIncidenceGraph", IsWildSimplicialSurface );
 
+DeclareAttribute( "WildGrapeIncidenceGraph", IsWildSimplicialSurface);
+
 #!
 #! @Description
 #! Return the automorphism group of this wild simplicial surface. The

@@ -3618,6 +3618,47 @@ InstallMethod( WildIncidenceGraph, "for a wild simplicial surface",
     end
 );
 
+InstallMethod( WildGrapeIncidenceGraph, "for a wild simplicial surface",
+    [IsWildSimplicialSurface],
+    function( wildSurf )
+		local graph, vertices, edges, faces, names, colours, incidence, 
+			trivialAction;
+
+		vertices := List( Vertices(wildSurf), i -> [0,i] );
+		edges := List( Edges(wildSurf), i -> [1,i] );
+		faces := List( Faces(wildSurf), i -> [2,i] );
+
+		names := Union( vertices, edges, faces);
+		colours := [vertices,edges, faces];
+		incidence := function(x,y)
+			if x[1] = 0 and y[1] = 1 then
+				return x[2] in VerticesOfEdges(wildSurf)[y[2]];
+			elif x[1] = 1 and y[1] = 0 then
+				return y[2] in VerticesOfEdges(wildSurf)[x[2]];
+
+			elif x[1] = 1 and y[1] = 2 then
+				return x[2] in EdgesOfFaces(wildSurf)[y[2]];
+			elif x[1] = 2 and y[1] = 1 then
+				return y[2] in EdgesOfFaces(wildSurf)[x[2]];
+                        elif x[1] = 1 and y[1] = 1 then
+                            return ColourOfEdge(wildSurf,x[2]) = ColourOfEdge(wildSurf,y[2]);
+			else
+				return false;
+			fi;
+		end;
+
+		trivialAction := function( pnt, g )
+			return pnt;
+		end;
+
+		graph := Graph( Group( () ), names, trivialAction, incidence );
+		graph!.colourClasses := colours;
+
+		return graph;
+
+    end
+);
+
 InstallMethod( AutomorphismGroup, "for a wild simplicial surface",
     [ IsWildSimplicialSurface ],
     function( wildSurf )
@@ -3629,6 +3670,17 @@ InstallMethod( IsIsomorphicWildSimplicialSurface,
     "for two wild simplicial surfaces",
     [ IsWildSimplicialSurface, IsWildSimplicialSurface ],
     function( ws1, ws2 )
+        local g1, g2;
+
+        g1 := ShallowCopy(WildGrapeIncidenceGraph(ws1));
+        g2 := ShallowCopy(WildGrapeIncidenceGraph(ws2));
+        return IsIsomorphicGraph(g1,g2);
+    end
+);
+
+#TODO clear this mess up
+BindGlobal("__SIMPLICIAL_OLD_ISO", function( ws1,ws2 )
+    
         local wg1, wg2, canLabel1, canLabel2, newEdges1, newEdges2, 
             ActionOnListIndices, newColours1, newColours2;
 
