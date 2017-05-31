@@ -341,6 +341,10 @@ DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsWildSimplicialSurface);
 #! @Returns true or false
 DeclareProperty( "IsSurfaceWithStructure", IsWildSimplicialSurface );
 
+#! @Description
+#! Return the 
+DeclareAttribute( "MRTypeOfSurfaceWithStructure", IsWildSimplicialSurface and IsSurfaceWithStructure );
+
 
 #############################################################################
 ##

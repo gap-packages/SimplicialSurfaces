@@ -2028,6 +2028,24 @@ InstallMethod( IsSurfaceWithStructure, "for a wild simplicial surface",
 );
 
 
+InstallMethod( MRTypeOfSurfaceWithStructure, "for a wild simplicial surface with structure",
+    [ IsWildSimplicialSurface and IsSurfaceWithStructure],
+    function( surf )
+        local edgesOfColours, res, i;
+
+        res := [];
+        edgesOfColours := EdgesOfColours(surf);
+        for i in [1,2,3] do
+            res[i] := MRTypeOfEdges(surf)[ edgesOfColours[i][1] ];
+        od;
+        
+        return res;
+    end
+);
+RedispatchOnCondition( MRTypeOfSurfaceWithStructure, true,
+    [IsWildSimplicialSurface], [IsSurfaceWithStructure], 0 );
+
+
 InstallMethod( ImageWildSimplicialSurface, 
     "for a simplicial surface and a permutation", 
     [IsWildSimplicialSurface, IsPerm ], function( surface, perm )
