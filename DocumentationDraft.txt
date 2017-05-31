@@ -53,8 +53,16 @@ and we can also show that the surface is homeomorphic to a sphere:
     IsConnected
     IsOrientable
     
-
 We can also answer some more difficult questions like AutomorphismGroup or test for isomorphism (with one of the other platonic solids)
 [TODO it is probably useful to show some capabilities. At the same time some users might be turned off if we linger too long on these
 cases. We can do a list-style enumeration but this can run into the problem of being too long]
-[Possible: Introduce (co)homology]
+
+
+Third chapter
+Goal: Motivate people to think about surfaces and constructors. Start easy (VerticesInFaces) and stay slow.
+Name: Constructing some surfaces
+Content:
+Usually one is not interested in the properties of some platonic solids (usually you already know a lot about them).
+Therefore we need a way to input our surfaces into the package. As a test case we consider the pyramid with square base surface.
+    <picture>
+
