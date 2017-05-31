@@ -1,0 +1,51 @@
+Plan for the documentation of the package.
+
+General goals:
+1) Readability (it should not be very hard to read)
+2) It should not be necessary to understand the structure of the manual to understand the concepts.
+3) Navigation to related topics should be very easy and intuitive.
+4) The manual should be strongly modular.
+5) The manual should give good terminal support (if called with ??)
+
+For concreteness we employ several test-users as benchmarks:
+Technician: Wants to know how to apply an obscure function in full generality.
+Worker: Wants to use an elementary method but forgot the exact procedure. Wants an answer shortly.
+Searcher: Doesn't know the package, searches for a functionality and wants to know if the package can provide it.
+Perfectionist: Wants to understand the package and its functionality completely.
+Casual: Wants to get a general perspective but doesn't want to invest too much time.
+
+
+First chapter:
+Goal: Teaser for the package, show capabilities (S), pique interest (C), give framework (P)
+Name: What can it do?
+Content:
+The SimplicialSurface-package contains this basic functionality:
+1) Working with simplicial surfaces [Link to generic introduction] (and generalizations of that [Link to that]), for example:
+    <Pictures of polygonal surfaces. Take care to have a diverse sample. Currently:
+        - Tetrahedron (Triangle, closed, surface, oriented)
+        - four triangles (Triangle, not closed, surface, oriented)
+        - three triangles at one edge (Triangle, not closed, ramified)
+        - Tetrahedron with triangle at one edge (Triangle, ramified)
+        - Two pairs of triangles (connected by edge) that are connected by vertex (butterfly)
+        - open cone (from two triangles) (Triangle, open, Anomalies)
+        - a surface from non-triangle shapes (even mixed)
+    >
+2) Treatment of folding and unfolding for these objects.
+    <Picture of a folding step in a simple example>
+    TODO: make abstract nature clear
+
+
+Second chapter
+Goal: Teaser. Show actual examples with code. Keep people interested, don't ramp up the complexity too much.
+[We will first do an example without knowing internal properties of the surface and only afterwards add this complexity]
+Name: Playing with simplicial surfaces
+Content:
+Since the platonic solids are pre-defined [gives user some test-cases for experimenting] we use them to show the capabilities of this package.
+    <Use tetrahedron, cube or octahedron; with picture and GAP-code>[This neatly avoids the complicated constructors]
+Of course, we know elementary properties like NrOfVertices, NrOfEdges, NrOfFaces, EulerCharacteristic [TODO: should all of them be listed? Pro: Now the commands are known, Con: The commands could have been guessed]
+
+We can also compute some simple properties like IsConnected or IsOrientable.
+
+We can also answer some more difficult questions like AutomorphismGroup or test for isomorphism (with one of the other platonic solids)
+[TODO it is probably useful to show some capabilities. At the same time some users might be turned off if we linger too long on these
+cases. We can do a list-style enumeration but this can run into the problem of being too long]
