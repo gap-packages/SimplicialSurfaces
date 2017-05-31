@@ -3007,7 +3007,7 @@ InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         if cmd = "show" then
             r := rec( edgeLabelling:=false, compileLaTeX:=true );
         elif cmd = "print" then
-            r := rec( vertexLabelling:=false, edgeThickness:=2 );
+            r := rec( vertexLabelling:=false, edgeThickness:=2, compileLaTeX:=true );
         elif cmd = "dev" then
             r := rec( edgeLabelling:=true, compileLaTeX:=true );
         else
