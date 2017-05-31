@@ -2028,7 +2028,8 @@ InstallMethod( IsSurfaceWithStructure, "for a wild simplicial surface",
 );
 
 
-InstallMethod( MRTypeOfSurfaceWithStructure, "for a wild simplicial surface with structure",
+InstallMethod( MRTypeOfSurfaceWithStructure, 
+    "for a wild simplicial surface with structure",
     [ IsWildSimplicialSurface and IsSurfaceWithStructure],
     function( surf )
         local edgesOfColours, res, i;
