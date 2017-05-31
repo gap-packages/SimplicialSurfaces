@@ -42,10 +42,11 @@ Name: Playing with simplicial surfaces
 Content:
 Since the platonic solids are pre-defined [gives user some test-cases for experimenting] we use them to show the capabilities of this package.
     <Use tetrahedron, cube or octahedron; with picture and GAP-code>[This neatly avoids the complicated constructors]
-Of course, we know elementary properties like NrOfVertices, NrOfEdges, NrOfFaces, EulerCharacteristic [TODO: should all of them be listed? Pro: Now the commands are known, Con: The commands could have been guessed]
+Of course, we know elementary properties like IsClosedSurface, NrOfVertices, NrOfEdges, NrOfFaces, EulerCharacteristic [TODO: should all of them be listed? Pro: Now the commands are known, Con: The commands could have been guessed]
 
 We can also compute some simple properties like IsConnected or IsOrientable.
 
 We can also answer some more difficult questions like AutomorphismGroup or test for isomorphism (with one of the other platonic solids)
 [TODO it is probably useful to show some capabilities. At the same time some users might be turned off if we linger too long on these
 cases. We can do a list-style enumeration but this can run into the problem of being too long]
+[Possible: Introduce (co)homology]
