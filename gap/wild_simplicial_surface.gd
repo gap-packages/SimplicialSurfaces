@@ -342,7 +342,7 @@ DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsWildSimplicialSurface);
 DeclareProperty( "IsSurfaceWithStructure", IsWildSimplicialSurface );
 
 #! @Description
-#! Return the 
+#! Return the MR-type of a surface with structure in the form of 
 DeclareAttribute( "MRTypeOfSurfaceWithStructure", IsWildSimplicialSurface and IsSurfaceWithStructure );
 
 

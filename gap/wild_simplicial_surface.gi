@@ -3649,19 +3649,9 @@ InstallMethod( IsIsomorphicWildSimplicialSurface,
         newEdges1 := Set( List( newEdges1, e -> Set(e) ) );
         newEdges2 := Set( List( newEdges2, e -> Set(e) ) );
         
-        ActionOnListIndices := function( list, g )
-            local newList, i;
-            newList := [];
 
-            for i in [1..Size(list)] do
-                newList[ i^g ] := list[i];
-            od;
-
-            return newList;
-        end;
-
-        newColours1 := ActionOnListIndices( wg1!.colors, canLabel1^(-1) );
-        newColours2 := ActionOnListIndices( wg2!.colors, canLabel2^(-1) );
+        newColours1 := Permuted( wg1!.colors, canLabel1^(-1) );
+        newColours2 := Permuted( wg2!.colors, canLabel2^(-1) );
 
         
         return newEdges1 = newEdges2 and newColours1 = newColours2;
