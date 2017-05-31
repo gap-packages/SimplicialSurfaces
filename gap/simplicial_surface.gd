@@ -288,6 +288,7 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFaces",
 #! @Arguments vertices, faces, verticesOfFaces[, namesOfFaces]
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
 	[ IsSet, IsSet, IsList ] );
+#TODO also allow IsList as only argument
 #! @EndGroup
 
 

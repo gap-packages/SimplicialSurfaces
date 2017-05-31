@@ -63,6 +63,11 @@ Goal: Motivate people to think about surfaces and constructors. Start easy (Vert
 Name: Constructing some surfaces
 Content:
 Usually one is not interested in the properties of some platonic solids (usually you already know a lot about them).
-Therefore we need a way to input our surfaces into the package. As a test case we consider the pyramid with square base surface.
+Therefore we need a way to input our objects of interest into the package. 
+As a test case we consider three triangles that all share one edge.
     <picture>
+An easy way to describe this information is to label faces and vertices. In our case each triangle is determined by its three vertices.
+For example, the face I consists of the vertices [1,2,3] and the face III has the vertices [1,2,5]. From this information we can construct the simplicial complex:
+    SimplicialSurfaceByVerticesInFaces( [[1,2,3],[1,2,4],[1,2,5]] );
+
 
