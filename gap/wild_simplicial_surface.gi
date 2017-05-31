@@ -3020,7 +3020,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
                 "edgeLengths", "vertexColour", "globalScale", 
                 "vertexLabelling", "compileLaTeX", "noFaceColours", 
-                "edgeLabelling", "faceLabelling", "edgeThickness"] );
+                "edgeLabelling", "faceLabelling", "edgeThickness", "caption"] );
         if not IsEmpty( toMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
             Print( "could not be interpreted: " );
@@ -3469,6 +3469,10 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             "\\usepackage{tikz}\n",
             "\\usepackage[inner=0.5cm,outer=0.5cm]{geometry}\n\n",
             "\\begin{document}\n" );
+        if IsBound(record.caption) then
+          AppendTo( output,
+          "\\subsection*{", record.caption, "}\n \\bigskip\n");
+        fi;
         for i in [1..Size(subsurfaces)] do
             subsurf := subsurfaces[i];
             start := realStarts[i];
