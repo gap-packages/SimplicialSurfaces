@@ -2999,6 +2999,24 @@ InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         return DrawSurfaceToTikz( surface, string, rec() );
     end
 );
+InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
+    [IsWildSimplicialSurface, IsString, IsString],
+    function( surface, string, cmd )
+        local r;
+        
+        if cmd = "show" then
+            r := rec( edgeLabelling:=false, compileLaTeX:=true );
+        elif cmd = "print" then
+            r := rec( vertexLabelling:=false, edgeThickness:=2 );
+        elif cmd = "dev" then
+            r := rec( edgeLabelling:=true, compileLaTeX:=true );
+        else
+            Error("Unknown command.");
+        fi;
+
+            return DrawSurfaceToTikz(surface,string, r);
+    end
+);
 InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     [IsWildSimplicialSurface, IsString, IsRecord],
     function( surface, string, record )
