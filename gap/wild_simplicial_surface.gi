@@ -3042,7 +3042,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             record.edgeLengths := [2,3,4];
         fi;
         if not IsBound( record.globalScale ) then
-            record.globalScale := Minimum(record.edgeLengths)*3/4;
+            record.globalScale := 3/(2*Minimum(record.edgeLengths) );
         fi;
         if not IsBound( record.vertexColour ) then
             record.vertexColour := "orange";
