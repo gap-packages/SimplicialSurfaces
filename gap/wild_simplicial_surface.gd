@@ -608,7 +608,6 @@ DeclareOperation( "DrawSurfaceToTikz",
 #!  @Returns the wild incidence graph
 DeclareAttribute( "WildIncidenceGraph", IsWildSimplicialSurface );
 
-DeclareAttribute( "WildGrapeIncidenceGraph", IsWildSimplicialSurface);
 
 #!
 #! @Description
