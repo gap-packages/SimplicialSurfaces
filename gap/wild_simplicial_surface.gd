@@ -591,6 +591,7 @@ DeclareOperation( "AllWildSimplicialSurfacesFromFacePath", [IsList,IsList,IsList
 #!  compileLaTeX: If true, LaTeX will compile the written file automatically.
 #!      Since this may take some time or there might be strange compiling
 #!      error, this flag is turned false per default.
+#!  caption: If set, this will be printed as section-name above the drawing.
 #!  
 #!  
 #!
