@@ -76,6 +76,17 @@ We can use this constructor to define a moebius strip <TODO with picture>
     IsOrientable( moebius );
 
 
-TODO: Construction of a pyramid with square base. First input it incorrectly, show that it is not closed (induces surprise), explain edge problematic, show how it is done correctly.
+    Subsection (relatively smaller font): Non-triangular faces
+    Goal: Teach about non-triangular faces. This section should be easy to skip.
+    If we want to have surfaces with non-triangular faces, the constructor SimplicialSurfacesByVerticesInFaces needs a bit more information. We consider the example of a pyramid with square base.
+        <picture>
+    As before, we label the vertices and faces first <top is 1, then label the other ones in a non-cyclic order>. If we now try to input the surface
+    <do so>
+    we notice something strange. Namely, the constructed surface is not closed
+    <show this>
+    The problem lies in the definition of the square face since it is not clear what the edges should be. For triangles every pair of vertices defines an edge, but for squares this is not the case. 
+    The constructor of ... will believe, that two adjecent elements in the given list are connected by an edge. So <explain what went wrong concretely>. Instead we have to give the vertices in a cyclical order, like
+    <do it correctly>
 
-
+Fourth chapter
+Goal: Learn about capabilities if we ignore the edge information (only constructor is ByVerticesInFaces)
