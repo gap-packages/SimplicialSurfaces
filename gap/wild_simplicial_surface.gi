@@ -3467,8 +3467,11 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         AppendTo( output,
             "\\documentclass{article}\n\n",
             "\\usepackage{tikz}\n",
-            "\\usepackage[inner=0.5cm,outer=0.5cm]{geometry}\n\n",
-            "\\begin{document}\n" );
+            "\\usepackage[inner=0.5cm,outer=0.5cm,top=1cm,bottom=0.5cm]{geometry}\n\n",
+            "\\pagestyle{empty}\n",
+            "\\begin{document}\n",
+            "\\thispagestyle{empty}\n"
+            );
         if IsBound(record.caption) then
           AppendTo( output,
           "\\subsection*{", record.caption, "}\n \\bigskip\n");
