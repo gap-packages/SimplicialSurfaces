@@ -78,6 +78,7 @@ We can use this constructor to define a moebius strip <TODO with picture>
 
     Subsection (relatively smaller font): Non-triangular faces
     Goal: Teach about non-triangular faces. This section should be easy to skip.
+    [TODO: How can we make this easy to skip? How do people skip? When do people skip?]
     If we want to have surfaces with non-triangular faces, the constructor SimplicialSurfacesByVerticesInFaces needs a bit more information. We consider the example of a pyramid with square base.
         <picture>
     As before, we label the vertices and faces first <top is 1, then label the other ones in a non-cyclic order>. If we now try to input the surface
@@ -90,3 +91,12 @@ We can use this constructor to define a moebius strip <TODO with picture>
 
 Fourth chapter
 Goal: Learn about capabilities if we ignore the edge information (only constructor is ByVerticesInFaces)
+Name: Playing with vertices and faces
+Content:
+After having learned how to construct a simplicial surface by SSByVerticesInFaces, we can use the indices on vertices and faces to get more detailed information about the surface. We will use the example surface from section <Link>
+    <labelled picture of the three triangles (side by side)>
+    <GAP-code to define this surface>
+Most apparently we can reclaim the index information.
+    Vertices(surf)
+    Faces(surf)
+
