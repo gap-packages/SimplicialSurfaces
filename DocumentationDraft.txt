@@ -106,7 +106,7 @@ If we want to have more detailed information about which faces are incident to a
     FacesOfVertices(surf)
 An additional advantage of the indexial information is that we can determine a concrete global orientation if the surface is orientable.
     GlobalOrientation(surf)
-If we want this orientation as list (instead of the permutation (1,3,2) the list [1,3,2]), we can use
+If we want this orientation as list (instead of the permutation (1,3,2) the list [1,3,2]), we can use [Link to detailed discussion]
     GlobalOrientationByVerticesAsList(surf).
 
 
