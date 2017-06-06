@@ -30,7 +30,8 @@ The SimplicialSurface-package contains this basic functionality:
         - open cone (from two triangles) (Triangle, open, Anomalies)
         - a surface from non-triangle shapes (even mixed)
     >
-2) Treatment of folding and unfolding for these objects.
+2) Working with edge colourings for simplicial surfaces (for the purpose of an embedding)
+3) Treatment of folding and unfolding for these objects.
     <Picture of a folding step in a simple example>
     TODO: make abstract nature clear
 
@@ -109,5 +110,22 @@ An additional advantage of the indexial information is that we can determine a c
 If we want this orientation as list (instead of the permutation (1,3,2) the list [1,3,2]), we can use [Link to detailed discussion]
     GlobalOrientationByVerticesAsList(surf).
 
+Fifth chapter
+Goal: Learn about edge numbering and show additional capabilities.
+Name: Adding edge numbering
+Content:
+Up until now we never cared about specific edges because they were not important for the construction of our examples so far. But let's assume we want to know which edges are incident to exactly two faces in our example from before [three faces in line].
+    <picture>
+    <GAP constructor>
+We can see the edges by calling
+    Edges(surf)
+but this does not tell us where they are. For that we may use
+    VerticesOfEdges(surf)
+As before, the first entry of this list contains the vertices of the first edge. In our example the edge with number 1 is incident to the vertices ... . We can update our picture:
+    <picture, with vertex and edge names>
+If we now want to know which edges are incident to exactly two faces, we only have to check
+    FacesOfEdges(surf)
+The positions with lists of two elements are the interesting edges. We can compute them easily by
+    Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
 
 
