@@ -128,4 +128,24 @@ If we now want to know which edges are incident to exactly two faces, we only ha
 The positions with lists of two elements are the interesting edges. We can compute them easily by
     Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
 
+Sixth chapter
+Goal: Learn general constructors (downward incidence)
+Name: Constructors with vertex, edge and face data
+Content:
+There are some cases in which we don't want to use ..VerticesInFaces but a more powerful method, for example
+    1) The labelling is not arbitrary and we want to keep the given incidences
+    2) The faces in our surface are not determined by their vertices
+An example of the second situation is given by two triangles that share exactly two edges. They can be visualized as an 'open bag'
+    <picture>
+Since both faces share the same vertices, we can't use ..VerticesInFaces here. Instead we need to label vertices, edges and faces
+    <do so in the picture, maybe using different colours and fonts for emphasis?>
+Now we have to tell which vertices are incident to which edge
+    verticesOfEdges := ...
+and which edges are incident to which face
+    edgesOfFaces := ...
+which allows us to use the constructor ..ByDownwardIncidence (for an explanation of this name, see chapter ...[Link]):
+    SimplicialSurfaceByDownwardIncidence( verticesOfEdges, edgesOfFaces )
+It would be nice if we could reconstruct which edges and faces were problematic. This can easily be done by [footnote: for more about anomalies see chapter ...]
+    EdgeAnomalies(surf)
+    FaceAnomalies(surf)
 
