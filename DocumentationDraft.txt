@@ -149,3 +149,21 @@ It would be nice if we could reconstruct which edges and faces were problematic.
     EdgeAnomalies(surf)
     FaceAnomalies(surf)
 
+
+Chapters (simplicial):
+    Incidence Geometry
+        variations of surfaces
+        constructors
+        basic properties (Euler characteristic, vertex counter, etc.)
+        anomalies
+    Orientation
+    Connectivity
+    Modification of surfaces
+    Development functions (maybe unnecessary after reordering of code)
+
+Chapters (wild):
+    Introduction
+    Constructors (?)
+    Edge Colouring functions
+    Group structure (?)
+    Coverings
