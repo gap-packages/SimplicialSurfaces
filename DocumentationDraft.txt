@@ -153,6 +153,11 @@ It would be nice if we could reconstruct which edges and faces were problematic.
 Chapters (simplicial):
     Incidence Geometry
         variations of surfaces
+            Primary class: IsPolygonalComplex (every polygon has edges, all edges have vertices)
+            Primary filter: IsHomogeneous (every vertex and edge lies in a face)
+            Primary filter: IsSimplicial (every polygon is a triangle)
+            Secondary filters: IsRamifiedSurface, IsSurface
+            Combined filters: IsRamifiedSimplicialSurface, IsSimplicialSurface
         constructors
         basic properties (Euler characteristic, vertex counter, etc.)
         anomalies
