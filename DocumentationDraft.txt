@@ -153,7 +153,6 @@ It would be nice if we could reconstruct which edges and faces were problematic.
 Chapter "Incidence geometry"
 
 Chapter "Different filters" [TODO better name]
-    ?
     -> Subsections for different filters [TODO: Where do we put IsHomogeneous?]
         - Start with explanation of chapter structure (splitted to make process easier),
             Put the diagram of the filter structure here, use different colours for different levels, same colours as the section headers
