@@ -154,9 +154,10 @@ Chapter "Incidence geometry"
 
 Chapter "Different filters" [TODO better name]
     -> Subsections for different filters [TODO: Where do we put IsHomogeneous?]
-        - Start with explanation of chapter structure (splitted to make process easier),
+        - Start with explanation of chapter structure (splitted to make process easier), [Name: "Structure of ??"]
             Put the diagram of the filter structure here, use different colours for different levels, same colours as the section headers
             [Maybe highlight part of the diagram in each section? To give a better feel for the position in the chapter?]
+            [Problem: The diagram might confuse new readers (a lot of concepts very quickly) - how can that be circumvented? The diagram should give a feeling of structure without confusing people that are not initiated.]
         - Polygonal and simplicial complexes
         - Ramified polygonal and simplicial surfaces [TODO: better name?]
         - Polygonal and simplicial surfaces
