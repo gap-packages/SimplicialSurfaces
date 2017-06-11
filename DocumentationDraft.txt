@@ -14,6 +14,8 @@ Searcher: Doesn't know the package, searches for a functionality and wants to kn
 Perfectionist: Wants to understand the package and its functionality completely.
 Casual: Wants to get a general perspective but doesn't want to invest too much time.
 
+TODO: General problem: If someone goes into a chapter that is confusing/technical/complicated, they MIGHT skip it or go back.
+    But they also might be frustrated and leave. How can we make it clear that they don't have to get frustrated?
 
 First chapter:
 Goal: Teaser for the package, show capabilities (S), pique interest (C), give framework (P)
@@ -39,7 +41,7 @@ The SimplicialSurface-package contains this basic functionality:
 Second chapter
 Goal: Teaser. Show actual examples with code. Keep people interested, don't ramp up the complexity too much.
 [We will first do an example without knowing internal properties of the surface and only afterwards add this complexity]
-Name: Playing with simplicial surfaces
+Name: Playing with simplicial surfaces, "Getting started" (if so, add LoadPackage and refer to the installation part if applicable)
 Content:
 Since the platonic solids are pre-defined [gives user some test-cases for experimenting] we use them to show the capabilities of this package.
     <Use cube (as it is known to more people than the other platonic solids and is quite small)>
@@ -79,7 +81,7 @@ We can use this constructor to define a moebius strip <TODO with picture>
 
     Subsection (relatively smaller font): Non-triangular faces
     Goal: Teach about non-triangular faces. This section should be easy to skip.
-    [TODO: How can we make this easy to skip? How do people skip? When do people skip?]
+    [TODO: How can we make this easy to skip? How do people skip? When do people skip? Some people might read this as contrast to the triangular faces or to better understand the simpler material. Give those people something, but not very much (to encourage skipping).]
     If we want to have surfaces with non-triangular faces, the constructor SimplicialSurfacesByVerticesInFaces needs a bit more information. We consider the example of a pyramid with square base.
         <picture>
     As before, we label the vertices and faces first <top is 1, then label the other ones in a non-cyclic order>. If we now try to input the surface
@@ -157,7 +159,7 @@ Chapter "Different filters" [TODO better name]
         - Start with explanation of chapter structure (splitted to make process easier), [Name: "Structure of ??"]
             Put the diagram of the filter structure here, use different colours for different levels, same colours as the section headers
             [Maybe highlight part of the diagram in each section? To give a better feel for the position in the chapter?]
-            [Problem: The diagram might confuse new readers (a lot of concepts very quickly) - how can that be circumvented? The diagram should give a feeling of structure without confusing people that are not initiated.]
+            [Problem: The diagram might confuse new readers (a lot of concepts very quickly) - how can that be circumvented? Maybe make SimplicialComplex and SimplicialSurface bold, the corresponding polygonal ones italic - that makes it easier to distinguish them from the more technical other names. The diagram should give a feeling of structure without confusing people that are not initiated.]
         - Polygonal and simplicial complexes
         - Ramified polygonal and simplicial surfaces [TODO: better name?]
         - Polygonal and simplicial surfaces
