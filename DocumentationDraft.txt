@@ -166,6 +166,7 @@ Chapter "Different filters" [TODO better name]
         -> Each subsection explains necessary definitions (some will be there twice - ensure that the surrounding chapter names make it clear to the user in which section they belong!)
         -> The definitions in the explanation of each filter should be very short (referring back to others, new definition should be directly above)
 
+
 Chapters (simplicial):
     Incidence Geometry
         variations of surfaces
