@@ -444,6 +444,7 @@ DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 #! connected by a face-edge-path) this method returns true, otherwise false.
 #! @Arguments simpSurf
 DeclareProperty( "IsPathConnected", IsSimplicialSurface );
+#TODO This property is also known as StronglyConnected -> change or allow both?
 
 
 #! @BeginGroup
