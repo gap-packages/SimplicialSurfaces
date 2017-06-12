@@ -166,7 +166,36 @@ Chapter "Different filters" [TODO better name]
         -> Each subsection explains necessary definitions (some will be there twice - ensure that the surrounding chapter names make it clear to the user in which section they belong!)
         -> The definitions in the explanation of each filter should be very short (referring back to others, new definition should be directly above)
 
-TODO: *Of*
+
+Chapter "Basic access to the incidence structure" <all methods are exemplified with the standard example (a square that shares an edge with a triangle)>
+In polygonal complexes (the most general supported incidence structure, compare ...) all vertices, edges and faces are labelled and we can access the set of all these labels by Vertices, Edges, Faces.
+    <put those methods here>
+With this labels we can describe the incidence structure as lists of sets. All methods have the form *Of*, like VerticesOfEdges or EdgesOfFaces.
+    <put those methods here, with repeated description of their functionality>
+    [It is not optimal to repeat the description every time, but if someone jumps to a specific one it is easier this way (especially since the description is not very long in this case)]
+    [mention in some methods that there are alternative methods for ordered access]
+
+
+Chapter "Ordered access to the incidence structure"
+In most cases, the basic access functions <link> like VerticesOfFaces are sufficient. But sometimes one might need more detailed information, for example
+    -> For a given face f, you need the vertices (or edges) of the face in the order in which they appear on the face [TODO better description]
+    -> For a given vertex, you might want to know the order of edges and faces around this vertex
+Both of these options are supported [footnote: if you want to know the order of faces around an edge, then this impossible to know purely from the incidence geometry. This is an additional structure "fan" that is added in <link>].
+
+Subsection "Cyclic ordering within a face"
+For the cyclic ordering of vertices (or edges) in a face there are two possible representations: As permutations or as lists [explain lists]
+    <put those methods here>
+
+Subsection "Cyclic ordering around a vertex"
+The ordering of edges and faces around a vertex is much more complicated since it might not even exist.
+    <Example>
+Nevertheless it is well-defined on the <TODO: Was heisst "Schirm"? Beende Erklaerung.>
+Therefore we can only return a list of those paths for each vertex.
+    <put those methods here>
+
+
+
+
 TODO: Constructors (all downwardIncidence at once etc.)
 
 Chapters (simplicial):
