@@ -198,6 +198,31 @@ Therefore we can only return a list of those paths for each vertex.
 TODO: Is it possible to use "FilterA OR FilterB" in the documentation of a function?
 TODO: Constructors (all downwardIncidence at once etc.)
 
+
+Section "Constructors"
+    [Explain different kinds of constructors]
+    - pre-defined constructors (like Platonic solids)
+    - using incidence geometry
+        - downward incidence
+        - upward incidence
+        - vertices in faces
+    - giving properties [TODO]
+    [Explain for incidence geometry constructors that:
+        - there are different types of constructors
+        - there are NC-versions
+        - there are automatically type-checked versions
+        - there are alternative inputs]
+    [Structure of the incidence geometry constructors with example downwardIncidence:
+        - list all versions for one filter (including NC), argument variations either via two lines or square brackets
+        - use a different font (italic?) to show which tests will NOT be made by a NC-version
+        - use bold font to make argument names easier to find in the explanation
+        - add OPTIONAL in front of the arguments "vertices, edges, faces" that are collapsed into one bullet point
+        - make an example
+        - other filters (not polygonal complex) refer back to the primary one, like "Does the same as ..., but also guarantees that the result is a simplicial surface")]
+    TODO: can the font-encoding be done in console? Is it enough?
+    TODO: This structure is very method-heavy (and repeats quite a lot), therefore very boring to read. Can this be changed?
+
+
 Chapters (simplicial):
     Incidence Geometry
         variations of surfaces
