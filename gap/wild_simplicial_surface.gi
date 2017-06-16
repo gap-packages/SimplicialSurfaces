@@ -406,6 +406,24 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
 			[ IsList, IsList, IsPosInt, IsList, IsList, IsList ],
 			[ IsSet, IsSet, , , , ], 0 );
 
+#TODO constructor by generators in mirror-setting
+BindGlobal( "__SIMPLICIAL_MirrorByGenerators", function( gens )
+        local faces, edgeLists, vertexLists;
+
+        # faces are given by the domain of the generators (how do we know this?)
+
+        edgeLists := List( gens, i-> Orbits(Group(i),faces) );
+        edgeIndex := [];
+        for i in [1,2,3] do
+            Append(edgeIndex, List([1..Size(edgeLists[i])], j -> [i,j]) );
+        od;
+
+        #TODO construct vertices
+
+    end
+);
+
+
 ###################################
 ##
 ##	Constructor by simplicial surface and edge colouring

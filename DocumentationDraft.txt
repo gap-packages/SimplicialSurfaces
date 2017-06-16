@@ -195,7 +195,7 @@ Therefore we can only return a list of those paths for each vertex.
 
 
 
-
+TODO: Is it possible to use "FilterA OR FilterB" in the documentation of a function?
 TODO: Constructors (all downwardIncidence at once etc.)
 
 Chapters (simplicial):
