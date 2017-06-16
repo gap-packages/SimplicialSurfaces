@@ -408,7 +408,8 @@ InstallMethod( WildSimplicialSurfaceByDownwardIncidenceAndGenerators,
 
 #TODO constructor by generators in mirror-setting
 BindGlobal( "__SIMPLICIAL_MirrorByGenerators", function( gens )
-        local faces, edgeLists, vertexLists;
+        local faces, edgeLists, vertexLists, edgeIndex, i, vertexIndex,
+            edgesOfVertices, facesOfEdges, f, edge, vertex, eIndex, vIndex;
 
         # faces are given by the domain of the generators (how do we know this?)
 
@@ -420,13 +421,32 @@ BindGlobal( "__SIMPLICIAL_MirrorByGenerators", function( gens )
 
         vertexLists := List( [[1,2],[1,3],[2,3]], pair -> 
             List( Orbits( Group(gens[pair[1]],gens[pair[2]]), faces ), o -> [pair,o])  );
-        vertexInces := [];
+        vertexIndex := [];
         for i in [1,2,3] do
             Append(vertexIndex, List([1..Size(vertexLists[i])], j -> [i,j]));
         od;
 
+        edgesOfVertices := List( vertexIndex, i -> [] );
+        for vIndex in [1..Size(vertexIndex)] do
+            for eIndex in [1..Size(edgeIndex)] do
+                edge := edgeLists[eIndex[1]][eIndex[2]];
+                vertex := vertexLists[vIndex[1]][vIndex[2]];
+                if eIndex[1] in vertex[1] and edge in vertex[2] then
+                    Add( edgesOfVertices[vIndex], eIndex );
+                fi;
+            od;
+        od;
+
+        facesOfEdges := List( edgeIndex, i -> []);
+        for eIndex in [1..Size(edgeIndex)] do
+            for f in faces do
+                if f in edgeLists[ eIndex[1] ][ eIndex[2] ] then
+                    Add(facesOfEdges[eIndex], f);
+                fi;
+            od;
+        od;
         
-        #TODO incidence
+        #TODO return SurfaceByUpwardIncidence
     end
 );
 
