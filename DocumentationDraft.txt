@@ -193,10 +193,10 @@ Nevertheless it is well-defined on the <TODO: Was heisst "Schirm"? Beende Erklae
 Therefore we can only return a list of those paths for each vertex.
     <put those methods here>
 
+Subsection "Elementary properties"
+    TODO: EulerCharacteristic, VertexCounter etc.
 
 
-TODO: Is it possible to use "FilterA OR FilterB" in the documentation of a function?
-TODO: Constructors (all downwardIncidence at once etc.)
 
 
 Section "Constructors"
@@ -206,7 +206,7 @@ Section "Constructors"
         - downward incidence
         - upward incidence
         - vertices in faces
-    - giving properties [TODO]
+    - giving properties [TODO, using the saved surfaces]
     [Explain for incidence geometry constructors that:
         - there are different types of constructors
         - there are NC-versions
@@ -223,21 +223,21 @@ Section "Constructors"
     TODO: This structure is very method-heavy (and repeats quite a lot), therefore very boring to read. Can this be changed?
 
 
-Chapters (simplicial):
-    Incidence Geometry
-        variations of surfaces
-            Primary class: IsPolygonalComplex (every polygon has edges, all edges have vertices, relation is transitive)
-            Primary filter: IsHomogeneous (every vertex and edge lies in a face)
-            Primary filter: IsSimplicial (every polygon is a triangle)
-            Secondary filters: IsRamifiedSurface, IsSurface
-            Combined filters: IsRamifiedSimplicialSurface, IsSimplicialSurface
-        constructors
-        basic properties (Euler characteristic, vertex counter, etc.)
-        anomalies
-    Orientation
-    Connectivity
-    Modification of surfaces
-    Development functions (maybe unnecessary after reordering of code)
+Chapter "Anomalies"
+    TODO: this seems to be a very short chapter. Should it be added to another chapter?
+
+Chapter "Orientation"
+    TODO
+
+Chapter "Connectivity"
+    TODO
+
+Chapter "Modification of surfaces"
+    TODO
+
+Chapter "Development methods"
+    TODO with example of wild simplicial surfaces (before they are introduced?)
+
 
 Chapters (wild):
     Introduction
