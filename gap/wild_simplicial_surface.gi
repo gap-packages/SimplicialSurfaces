@@ -3078,6 +3078,11 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         else
             record.edgeDrawOrder := [];
         fi;
+        if IsBound( record.edgeDrawOrder[1] ) and not IsList( record.edgeDrawOrder[1] ) then
+            # Probably someone inputted [1,2] instead of [[1,2]]
+            Print("Warning: Given edge draw order was a list, not a list of lists. We interpreted the input as a double list.\n");
+            record.edgeDrawOrder := [ record.edgeDrawOrder ];
+        fi;
         
         # In addition to the lengths we need the angles of the drawn triangles.
         # We save those in a list angles, where angles[1] is the angle between
