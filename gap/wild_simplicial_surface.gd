@@ -144,6 +144,9 @@ DeclareOperation( "WildSimplicialSurfaceByDownwardIncidenceAndGeneratorsNC",
 
 #TODO Constructor by group (where the group elements correspond to the faces);
 
+#TODO would it be useful to have an indirect representation of the surface
+# (for example for infinite groups)
+
 ##
 #!	@Description
 #!	This is a constructor for a wild simplicial surface based on the following

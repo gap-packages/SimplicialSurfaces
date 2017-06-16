@@ -418,8 +418,15 @@ BindGlobal( "__SIMPLICIAL_MirrorByGenerators", function( gens )
             Append(edgeIndex, List([1..Size(edgeLists[i])], j -> [i,j]) );
         od;
 
-        #TODO construct vertices
+        vertexLists := List( [[1,2],[1,3],[2,3]], pair -> 
+            List( Orbits( Group(gens[pair[1]],gens[pair[2]]), faces ), o -> [pair,o])  );
+        vertexInces := [];
+        for i in [1,2,3] do
+            Append(vertexIndex, List([1..Size(vertexLists[i])], j -> [i,j]));
+        od;
 
+        
+        #TODO incidence
     end
 );
 
