@@ -2,8 +2,8 @@ GAPDoc2HTMLProcs.TikZ := function( r, str )
     local name, file, output;
 
     # First we have to generate and compile the file
-    name := "_IMAGE_1.tex"; #TODO We need a way to modify this number
-    file := Filename( DirectoryCurrent(), name );
+    name := "_IMAGE_1"; #TODO We need a way to modify this number
+    file := Filename( DirectoryCurrent(), Concatenation(name,".tex") );
     output := OutputTextFile( file, false );
 
     SetPrintFormattingStatus( output, false );
@@ -22,7 +22,11 @@ GAPDoc2HTMLProcs.TikZ := function( r, str )
     # Now we have to compile this file (output will be visible);
     Exec( "htlatex", name );
     # Now we have generated an svg-file with name "name-1.svg"
-    Append( str, "<img alt=\"", name, "\" src=\"", name, "-1.svg\">" );
+    Append( str, "<img alt=\"" );
+    Append( str, name );
+    Append( str, "\" src=\"" );
+    Append( str, name );
+    Append( str, "-1.svg\">\n" );
 end;
 
 # Variation for the alt-tag to also compile tikz, if necessary
