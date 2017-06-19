@@ -55,4 +55,5 @@ GAPDoc2LaTeXProcs.Alt := function(r, str)
   GAPDoc2LaTeXProcs.recode := true;
 end;
 
-
+GAPDoc2LaTeXProcs.Head := StringFile( "customlatexhead.tex" );
+ 

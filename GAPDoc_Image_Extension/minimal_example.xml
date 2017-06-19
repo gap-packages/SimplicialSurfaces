@@ -18,6 +18,7 @@
 <TableOfContents/>
 
 <Body>
+    We want to show an image of a triangle:
     <Alt Only="TikZ">
         \begin{tikzpicture}
             \coordinate (A) at (0,0);
@@ -26,6 +27,7 @@
             \draw (A) -- (B) -- (C) -- cycle;
         \end{tikzpicture}
     </Alt>
+    After the image.
 </Body>
 
 </Book>
