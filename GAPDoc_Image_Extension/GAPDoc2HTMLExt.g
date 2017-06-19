@@ -1,5 +1,5 @@
 GAPDoc2HTMLProcs.TikZ := function( r, str )
-    
+    local name, file, output;
 
     # First we have to generate and compile the file
     name := "IMG/_IMAGE_1"; #TODO We need a way to modify this number
@@ -22,5 +22,4 @@ GAPDoc2HTMLProcs.TikZ := function( r, str )
     Exec( "htlatex", name );
     # Now we have generated an svg-file with name "name-1.svg"
     Append( str, "<img alt=\"", name, "\" src=\"", name, "-1.svg\">" );
-);
 end;

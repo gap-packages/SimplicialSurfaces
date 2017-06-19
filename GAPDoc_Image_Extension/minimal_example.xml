@@ -18,7 +18,7 @@
 <TableOfContents/>
 
 <Body>
-    <Alt only="TikZ">
+    <Alt Only="TikZ">
         \begin{tikzpicture}
             \coordinate (A) at (0,0);
             \coordinate (B) at (1,0);
@@ -27,3 +27,5 @@
         \end{tikzpicture}
     </Alt>
 </Body>
+
+</Book>
