@@ -2,8 +2,7 @@ GAPDoc2HTMLProcs.TikZ := function( r, str )
     local name, file, output;
 
     # First we have to generate and compile the file
-    #TODO take care that the IMG-directory already exists
-    name := "IMG/_IMAGE_1.tex"; #TODO We need a way to modify this number
+    name := "_IMAGE_1.tex"; #TODO We need a way to modify this number
     file := Filename( DirectoryCurrent(), name );
     output := OutputTextFile( file, false );
 
@@ -14,7 +13,7 @@ GAPDoc2HTMLProcs.TikZ := function( r, str )
         "\\usepackage{tikz}\n",
         "\\def\\pgfsysdriver{pgfsys-tex4ht.def}\n\n",
         "\\begin{document}\n" );
-    AppendTo( output, r.content );
+    AppendTo( output, r.content[1].content ); # the material is saved strangely (?)
     AppendTo( output,
         "\\end{document}\n");
 
