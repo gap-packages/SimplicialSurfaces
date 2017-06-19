@@ -1,8 +1,14 @@
 GAPDoc2HTMLProcs.TikZ := function( r, str )
-    local name, file, output;
+    local name, file, output, newNumber;
 
     # First we have to generate and compile the file
-    name := "_IMAGE_1"; #TODO We need a way to modify this number
+    name := Concatenation("_IMAGE_", __GAPDoc_Images );
+
+    #TODO this is annoying - can it be replaced by a nicer construction?
+    newNumber := __GAPDoc_Images + 1;
+    UnbindGlobal(__GAPDoc_Images);
+    BindGlobal(__GAPDoc_Images, newNumber);
+
     file := Filename( DirectoryCurrent(), Concatenation(name,".tex") );
     output := OutputTextFile( file, false );
 

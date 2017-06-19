@@ -19,6 +19,7 @@
 
 <Body>
     We want to show an image of a triangle:
+    
     <Alt Only="TikZ">
         \begin{tikzpicture}
             \coordinate (A) at (0,0);
@@ -27,7 +28,16 @@
             \draw (A) -- (B) -- (C) -- cycle;
         \end{tikzpicture}
     </Alt>
-    After the image.
+    
+    After the image we put another one.
+
+    <Alt Only="TikZ">
+        \begin{tikzpicture}
+            \draw[blue, thick] (0,0) -> (2,3);
+        \end{tikzpicture}
+    </Alt>
+
+    This ends our minimal example.
 </Body>
 
 </Book>
