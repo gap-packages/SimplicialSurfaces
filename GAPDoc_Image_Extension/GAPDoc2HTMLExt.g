@@ -1,13 +1,10 @@
 GAPDoc2HTMLProcs.TikZ := function( r, str )
-    local name, file, output, newNumber;
+    local name, file, output;
 
     # First we have to generate and compile the file
-    name := Concatenation("_IMAGE_", __GAPDoc_Images );
+    name := Concatenation("_IMAGE_", String(__GAPDOC_Images ));
 
-    #TODO this is annoying - can it be replaced by a nicer construction?
-    newNumber := __GAPDoc_Images + 1;
-    UnbindGlobal(__GAPDoc_Images);
-    BindGlobal(__GAPDoc_Images, newNumber);
+    __GAPDOC_Images := __GAPDOC_Images + 1;
 
     file := Filename( DirectoryCurrent(), Concatenation(name,".tex") );
     output := OutputTextFile( file, false );
