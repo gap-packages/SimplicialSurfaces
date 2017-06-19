@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE Book SYSTEM "gapdoc.dtd"
+ [ <!ENTITY see '<Alt Only="LaTeX">$\to$</Alt><Alt Not="LaTeX">&#8594;</Alt>'>
+ ]>
+
+<Book Name="GAPDoc Example">
+
+<TitlePage>
+  <Title>A Minimal Example for image inclusion</Title>
+  <Author>Markus Baumeister 
+          <Email>Markus.Baumeister1@RWTH-Aachen.De</Email> 
+  </Author>
+  <Date>June 2017</Date>
+</TitlePage>
+
+<TableOfContents/>
+
+<Body>
+    <Alt only="TikZ">
+        \begin{tikzpicture}
+            \coordinate (A) at (0,0);
+            \coordinate (B) at (1,0);
+            \coordinate (C) at (0,2);
+            \draw (A) -- (B) -- (C) -- cycle;
+        \end{tikzpicture}
+    </Alt>
+</Body>

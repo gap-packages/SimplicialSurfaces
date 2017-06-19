@@ -1,4 +1,4 @@
-GAPDoc2HTMLProcs.Tikz := function( r, str )
+GAPDoc2HTMLProcs.TikZ := function( r, str )
     
 
     # First we have to generate and compile the file
