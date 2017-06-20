@@ -233,10 +233,10 @@ Section "Constructors"
 
 
 Chapter "Connectivity"
-    TODO
+    TODO this is a small chapter -> Put somewhere else?
 
 Chapter "Orientation"
-    TODO
+    TODO this is a small chapter -> Put somewhere else?
 
 Chapter "Modification of surfaces"
     TODO
