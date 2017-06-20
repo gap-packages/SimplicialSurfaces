@@ -153,6 +153,29 @@ It would be nice if we could reconstruct which edges and faces were problematic.
 
 
 --------------
+About the chapter ordering:
+    
+    After the intro we start with "filters" to explain the general structure of this package (mainly to demonstrate PolygonalComplex and its relation to more specific filters).
+        Pro: People know what this is all about
+        Con: People might not skip and be bored by many different concepts
+    
+    Then we have "Incidence", the access to the incidence geometry. This is a central chapter. It is after the "filters"-chapter since it is defined for the most general case (polygonal complexes) which the reader might feel confused about if they are not properly introduced.
+        Con: One can argue that the incidence geometry by itself motivates the definition of polygonal complex.. Then it should be first.
+
+    Then we have "Constructors", a technical chapter about different constructors. Since these differ for different filters, this HAS to be after the "filter"-chapter.
+        Pro: Having this early means that people can define their surfaces.
+        Con: It is quite technical and therefore hinders reading flow.
+
+    Finally we have "Properties" which is a catch-all for all things that are too small to get their own chapter
+        -> Elementary properties (Euler Char. etc.)
+        -> Connectivity
+        -> Orientability
+    This has to be after the "incidence"-chapter as most of its calculations and explanations rely on the incidence structure. Furthermore it does not demand a huge amount of attention (it is a conglomeration of random functions) and might not be hindered much by a reduced reading flow after the "constructors"-chapter.
+
+    After this more specialised chapters (like modifcations and embeddings) follow (hopefully).
+    They should be behind the others as they are not really needed to work with the core processes.
+
+-------------
 
 Chapter "Different filters" [TODO better name]
     -> Subsections for different filters [TODO: Where do we put IsHomogeneous?]
