@@ -212,22 +212,30 @@ Section "Constructors"
         - there are NC-versions
         - there are automatically type-checked versions
         - there are alternative inputs]
+    [Explain at start of each subsection what the constructor type of this section is used for.]
     [Structure of the incidence geometry constructors with example downwardIncidence:
         - list all versions for one filter (including NC), argument variations either via two lines or square brackets
         - use a different font (italic?) to show which tests will NOT be made by a NC-version
         - use bold font to make argument names easier to find in the explanation
         - add OPTIONAL in front of the arguments "vertices, edges, faces" that are collapsed into one bullet point
         - make an example
-        - other filters (not polygonal complex) refer back to the primary one, like "Does the same as ..., but also guarantees that the result is a simplicial surface")]
+        - other filters (not polygonal complex) refer back to the primary one, like "Does the same as ..., but also guarantees that the result is a simplicial surface")
+            - IMPORTANT: They should be visually similar and contain no hidden surprises like "you need to take special care for ..." to make their similarity apparent. This makes it easier to scroll over them to "take the gist".
+            - Complementary the main sections should be visually distinguished to catch the floating interest again.
     TODO: can the font-encoding be done in console? Is it enough?
     TODO: This structure is very method-heavy (and repeats quite a lot), therefore very boring to read. Can this be changed?
+        This might be reduced by using different examples in the different constructors (for the different situations).
+        Focus should be on diversity of examples (with pictures so that scrolling through gives some information)
+
+    DANGER: After this chapter the reader will be in a "glossing over"-mood. The next chapter should not start with many details to make the transition to close reading easier. At the same time it should not be too easy since it should not encourage the reader to skip everything else.
 
 
 
-Chapter "Orientation"
-    TODO
 
 Chapter "Connectivity"
+    TODO
+
+Chapter "Orientation"
     TODO
 
 Chapter "Modification of surfaces"
@@ -240,6 +248,7 @@ Chapter "Anomalies"
     TODO: this seems to be a very short chapter. Should it be added to another chapter?
     YES. This should be part of a chapter about embeddings since this is one of the primary motivations behind anomalies (they are local obstacles for an embedding). Furthermore: If they are not folded together, we can't achieve an embedding.
     ALTERNATIVELY we could explain them as "features" that our definition does not prevent but this does not explain why we dwell on them.
+    PROBLEM: There is currently no chapter about embeddings (and also no methods to support them)
 
 
 Chapters (wild):
