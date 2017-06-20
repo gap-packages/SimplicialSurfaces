@@ -189,7 +189,7 @@ For the cyclic ordering of vertices (or edges) in a face there are two possible 
 Subsection "Cyclic ordering around a vertex"
 The ordering of edges and faces around a vertex is much more complicated since it might not even exist.
     <Example>
-Nevertheless it is well-defined on the <TODO: Was heisst "Schirm"? Beende Erklaerung.>
+Nevertheless it is well-defined on the umbrellas around a vertex.   <TODO: How to easily recall the definition? Finish explanation.>
 Therefore we can only return a list of those paths for each vertex.
     <put those methods here>
 
@@ -223,8 +223,6 @@ Section "Constructors"
     TODO: This structure is very method-heavy (and repeats quite a lot), therefore very boring to read. Can this be changed?
 
 
-Chapter "Anomalies"
-    TODO: this seems to be a very short chapter. Should it be added to another chapter?
 
 Chapter "Orientation"
     TODO
@@ -237,6 +235,11 @@ Chapter "Modification of surfaces"
 
 Chapter "Development methods"
     TODO with example of wild simplicial surfaces (before they are introduced?)
+
+Chapter "Anomalies"
+    TODO: this seems to be a very short chapter. Should it be added to another chapter?
+    YES. This should be part of a chapter about embeddings since this is one of the primary motivations behind anomalies (they are local obstacles for an embedding). Furthermore: If they are not folded together, we can't achieve an embedding.
+    ALTERNATIVELY we could explain them as "features" that our definition does not prevent but this does not explain why we dwell on them.
 
 
 Chapters (wild):
