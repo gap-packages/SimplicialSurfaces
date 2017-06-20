@@ -160,7 +160,9 @@ About the chapter ordering:
         Con: People might not skip and be bored by many different concepts
     
     Then we have "Incidence", the access to the incidence geometry. This is a central chapter. It is after the "filters"-chapter since it is defined for the most general case (polygonal complexes) which the reader might feel confused about if they are not properly introduced.
-        Con: One can argue that the incidence geometry by itself motivates the definition of polygonal complex.. Then it should be first.
+        Con: One can argue that the incidence geometry by itself motivates the definition of polygonal complex.. Then it should be first. (Although our definition of polygonal complex is more specific than the most general incidence geometry)
+        Rebuttal (Pro): The above argument is not completely correct. While it is true that "incidence" feels less technical than "filters" this does not hold if one considers the chapter length - while "incidence" spends a lot of time developing and explaining different ways to present the same information (which is mostly uninteresting), "filters" does focus on a lot of terms but it also develops them with specific examples in play. If it were the case that "incidence" was just a few pages long it could be in front of "filters" to make the focus more clear. As it is it would detract from the main point of the package - the surfaces and complexes.
+        Rebuttal (Pro): If we also consider when a linear reader will start skipping it should be clear that the first such point should be after an explanation of the basic package architecture. To show "incidence" first risks that the skipping point is before "filters" which would be a bad development. It would be more plausible to have "filters" first in this case as the information from "incidence" can also be gleamed by a casual reading.
 
     Then we have "Constructors", a technical chapter about different constructors. Since these differ for different filters, this HAS to be after the "filter"-chapter.
         Pro: Having this early means that people can define their surfaces.
@@ -177,6 +179,7 @@ About the chapter ordering:
 
 -------------
 
+TODO This chapter has a technical role but it should not feel technical. This may be achieved by a lot of pictures and non-boring explanation.
 Chapter "Different filters" [TODO better name]
     -> Subsections for different filters [TODO: Where do we put IsHomogeneous?]
         - Start with explanation of chapter structure (splitted to make process easier), [Name: "Structure of ??"]
