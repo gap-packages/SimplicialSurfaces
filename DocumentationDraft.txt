@@ -152,7 +152,7 @@ It would be nice if we could reconstruct which edges and faces were problematic.
     FaceAnomalies(surf)
 
 
-Chapter "Incidence geometry"
+--------------
 
 Chapter "Different filters" [TODO better name]
     -> Subsections for different filters [TODO: Where do we put IsHomogeneous?]
@@ -166,6 +166,10 @@ Chapter "Different filters" [TODO better name]
         -> Each subsection explains necessary definitions (some will be there twice - ensure that the surrounding chapter names make it clear to the user in which section they belong!)
         -> The definitions in the explanation of each filter should be very short (referring back to others, new definition should be directly above)
 
+
+-----------------
+
+Chapter "Access to the incidence geometry"
 
 Chapter "Basic access to the incidence structure" <all methods are exemplified with the standard example (a square that shares an edge with a triangle)>
 In polygonal complexes (the most general supported incidence structure, compare ...) all vertices, edges and faces are labelled and we can access the set of all these labels by Vertices, Edges, Faces.
@@ -193,11 +197,20 @@ Nevertheless it is well-defined on the umbrellas around a vertex.   <TODO: How t
 Therefore we can only return a list of those paths for each vertex.
     <put those methods here>
 
-Subsection "Elementary properties"
+----------------
+
+Chapter "Elementary properties" [Bad name]
     TODO: EulerCharacteristic, VertexCounter etc.
 
 
+Chapter "Connectivity"
+    TODO this is a small chapter -> Put somewhere else?
 
+Chapter "Orientation"
+    TODO this is a small chapter -> Put somewhere else?
+
+
+------------------
 
 Section "Constructors"
     [Explain different kinds of constructors]
@@ -230,13 +243,8 @@ Section "Constructors"
     DANGER: After this chapter the reader will be in a "glossing over"-mood. The next chapter should not start with many details to make the transition to close reading easier. At the same time it should not be too easy since it should not encourage the reader to skip everything else.
 
 
+-------------
 
-
-Chapter "Connectivity"
-    TODO this is a small chapter -> Put somewhere else?
-
-Chapter "Orientation"
-    TODO this is a small chapter -> Put somewhere else?
 
 Chapter "Modification of surfaces"
     TODO
