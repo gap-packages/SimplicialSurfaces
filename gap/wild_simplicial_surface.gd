@@ -358,6 +358,8 @@ DeclareProperty( "IsSurfaceWithStructure", IsWildSimplicialSurface );
 #! @Returns a list
 DeclareAttribute( "MRTypeOfSurfaceWithStructure", 
     IsWildSimplicialSurface and IsSurfaceWithStructure );
+DeclareAttribute( "MRTypeOfSurfaceWithStructureAsNumbers",
+    IsWildSimplicialSurface and IsSurfaceWithStructure );
 
 
 #############################################################################

@@ -998,21 +998,19 @@ InstallMethod( MRTypeOfEdgesAsNumbers,
      
 	end
 );
-InstallMethod( MRTypeOfEdges, 
-	"for a wild simplicial surface", [ IsWildSimplicialSurface ],
-	function(simpsurf)
-
-        local f;
-       
-        f := function(e) 
+BindGlobal( "__SIMPLICIAL_MRTypeNamesOfNumber",
+    function( e )
             if e = 0 then return "border";
             elif e = 1 then return "mirror";
             elif e = 2 then return "rotation";
-            else Error("MRTypeOfEdges: unknown mr type number");
+            else Error("__SIMPLICIAL_MRTypeNamesOfNumber: unknown mr type number");
             fi;
-        end;
-
-        return List(MRTypeOfEdgesAsNumbers(simpsurf), i-> f(i) );
+    end
+);
+InstallMethod( MRTypeOfEdges, 
+	"for a wild simplicial surface", [ IsWildSimplicialSurface ],
+	function(simpsurf)
+            return List(MRTypeOfEdgesAsNumbers(simpsurf), __SIMPLICIAL_MRTypeNamesOfNumber );
 	end
 );
 
@@ -1465,18 +1463,27 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	
 	local nrCycles, edges, edgeColours, facesOfEdges, vertices, 
               edgesOfVertices, FindEdges, surf, EmptySetIfRealFace, 
-              colEdgesOfFaces, col, i, f;
+              colEdgesOfFaces, col, i, f, totalNrCycles;
 
-	nrCycles := Length(edgeCycles[1]);
+
+        # The edgeCycles are lists of one or two elements
+        #   - Two elements represent an inner edge
+        #   - One element represents an outer edge
+        # In any case - the number of cycles is the number of edges.
+        # It is important to note that different colours might have
+        # different numbers of corresponding edges.
+
+        nrCycles := List( edgeCycles, Length );
+        totalNrCycles := Sum(nrCycles);
 
 	# The faces stay the same
 
 	# The edges will be modified
-	edges := [1..3*nrCycles];
+	edges := [1..totalNrCycles];
 
-	edgeColours := List( [1..nrCycles], i -> 1 );
-	Append( edgeColours, List( [1..nrCycles], i -> 2 ) );
-	Append( edgeColours, List( [1..nrCycles], i -> 3 ) );
+	edgeColours := List( [1..nrCycles[1]], i -> 1 );
+	Append( edgeColours, List( [1..nrCycles[2]], i -> 2 ) );
+	Append( edgeColours, List( [1..nrCycles[3]], i -> 3 ) );
 
 	facesOfEdges := ShallowCopy( edgeCycles[1] );
 	Append( facesOfEdges, edgeCycles[2] );
@@ -1490,9 +1497,9 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	end;
 	colEdgesOfFaces := List( [1..Maximum(faces)], i -> EmptySetIfRealFace(i) );
 	for col in [1,2,3] do
-		for i in [1..nrCycles] do
+		for i in [1..nrCycles[col]] do
 			for f in edgeCycles[col][i] do
-				colEdgesOfFaces[f][col] := (col - 1)*nrCycles + i;
+				colEdgesOfFaces[f][col] := Sum( nrCycles{[1..(col-1)]}) + i;
 			od;
 		od;
 	od;
@@ -2073,23 +2080,47 @@ InstallMethod( IsSurfaceWithStructure, "for a wild simplicial surface",
 );
 
 
-InstallMethod( MRTypeOfSurfaceWithStructure, 
+InstallMethod( MRTypeOfSurfaceWithStructureAsNumbers, 
     "for a wild simplicial surface with structure",
     [ IsWildSimplicialSurface and IsSurfaceWithStructure],
     function( surf )
-        local edgesOfColours, res, i;
+        local edgesOfColours, res, i, types;
 
         res := [];
         edgesOfColours := EdgesOfColours(surf);
         for i in [1,2,3] do
-            res[i] := MRTypeOfEdges(surf)[ edgesOfColours[i][1] ];
+            # We have to be careful here - if there is a border edge 
+            # it may be either a mirror or a rotation. If there is an edge
+            # of the appropriate colour with mirror or rotation type, this 
+            # will be returned.
+            types := List( edgesOfColours[i], e -> MRTypeOfEdgesAsNumbers(surf)[e] );
+            types := Set( types );
+            if Size(types) = 1 then
+                res[i] := types[1];
+            else
+                types := Difference( types, [0] );
+                if Size(types) > 1 then
+                    Error("MRTypeOfSurfaceWithStructureAsNumbers: Internal Error.");
+                fi;
+                res[i] := types[1];
+            fi;
         od;
         
         return res;
     end
 );
-RedispatchOnCondition( MRTypeOfSurfaceWithStructure, true,
+RedispatchOnCondition( MRTypeOfSurfaceWithStructureAsNumbers, true,
     [IsWildSimplicialSurface], [IsSurfaceWithStructure], 0 );
+
+InstallMethod( MRTypeOfSurfaceWithStructure,
+    "for a wild simplicial surface with structure",
+    [IsWildSimplicialSurface and IsSurfaceWithStructure],
+    function(surf)
+        return List( MRTypeOfSurfaceWithStructureAsNumbers(surf), __SIMPLICIAL_MRTypeNamesOfNumber );
+    end
+);
+RedispatchOnCondition( MRTypeOfSurfaceWithStructure, true,
+    [IsWildSimplicialSurface], [IsSurfaceWithStructure], 0);
 
 
 InstallMethod( ImageWildSimplicialSurface, 
