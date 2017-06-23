@@ -2542,7 +2542,9 @@ BindGlobal("__SIMPLICIAL_TestGeneratorsForFaceEdgePaths", function(gens, paths)
     # Combine the snippets into complete edgeColourings
     possColours := List( colourSnippets, snipp -> # for each local colour combination
             List( [1..Length(gens)], i -> # construct a list of three lists
-                    Union( List( [1..Length(snipp)], nr -> snipp[nr][i] ) ) ) );
+                    Set(Concatenation( # TODO We do this since Union does not work
+                    ( List( [1..Length(snipp)], nr -> snipp[nr][i] ) ) ) ) ));
+
 
     # Check whether the edge colouring is consistent
     return Filtered( possColours, poss -> 
@@ -2965,6 +2967,10 @@ InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface and IsActu
             # All coloured face-edge-paths with these generators
             for edgeColours in newcolours do
                 if edgeColours <> [] then
+                    if Union(edgeColours) <> Edges(surface)  then
+                        Error("AllWildSimplicialSurfaces from SimplicialSurface: Internal error");
+                    fi; #TODO make the internal checks only work with info-level 2
+
 		    wild := ObjectifySimplicialSurface( 
 		        WildSimplicialSurfaceType, rec(), surface);
                     SetEdgesOfColours(wild,edgeColours);
@@ -3145,9 +3151,15 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 
         if IsBound( record.startingFaces ) and IsList( record.startingFaces ) then
             record.startingFaces := Compacted( record.startingFaces );
+        elif IsBound(record.startingFaces) and not IsList(record.startingFaces) then
+            # Probably someone inputted 1 instead of [1]
+            Print("Warning: Given starting faces were not a list. We put the input into a list.\n");
+            record.startingFaces := [ record.startingFaces ];
         else
             record.startingFaces := [];
         fi;
+        
+
 
         if IsBound( record.edgeDrawOrder ) and IsList( record.edgeDrawOrder ) then
             record.edgeDrawOrder := Compacted( record.edgeDrawOrder );
@@ -3285,7 +3297,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             # have to initialize the first face
                 start := fail;
                 if IsBound( record.startingFaces ) then
-                    while startIndex < Size(record.startingFaces) and start = fail do
+                    while startIndex <= Size(record.startingFaces) and start = fail do
                         if record.startingFaces[startIndex] in Faces(surface) then
                             start := record.startingFaces[startIndex];
                         else
