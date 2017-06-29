@@ -1906,10 +1906,28 @@ InstallMethod( AllWildSimplicialSurfaces,
                 else
                    # we are back at the start, hence g must be
                    # an edge of the starting face!
+		   # we now have to check if we arrived with the
+		   # correct mrtype, if that is set.
                    if g <> vtxnames[1][2] and g <> vtxnames[1][3] then
                        # we did not end up where we started with g
                        return;
-                   else
+                   else 
+                       k  := Length(vtxnames);
+			
+                       if k > 0 then
+                            if   mrtype[g][faceinverse[j]]=2 and
+                            vtxnames[k]{[2,3]}= vtxnames[1]{[2,3]} then
+                               # g should be a rotation but is a mirror
+#			       Error("surface closed with incorrect mirror");
+                               return;
+                            elif    mrtype[g][faceinverse[j]]=1 and
+		            vtxnames[k]{[2,3]} <> vtxnames[1]{[2,3]} then
+                               # g should be a mirror but is a rotation
+#			       Error("surface closed with incorrect rotation");
+                               return;
+                            fi;
+                       fi;
+
                        # we are at the start so add 
                        # but let the vertex start with smallest face
                        if vtxnames[1]<>Minimum(vtxnames) then
@@ -1919,6 +1937,7 @@ InstallMethod( AllWildSimplicialSurfaces,
                             vtxnames := nvtxnames;
                        fi;
                        Add(allvtxnames,[vtxnames,completedvertices,nrvtsface]);
+#		Print ("vertex closed correctly");
                        return;
                    fi;
                 fi;
