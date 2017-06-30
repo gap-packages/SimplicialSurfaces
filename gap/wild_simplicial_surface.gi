@@ -2183,19 +2183,19 @@ InstallMethod( ImageWildSimplicialSurface,
 ##  cycles of a single generator are all of the same type: either m or r.
 ##
 ##
-InstallOtherMethod( AllStructuresWildSimplicialSurface, "for a group", 
+InstallOtherMethod( AllStructuresWildSimplicialSurfaces, "for a group", 
 	[IsGroup], function( grp )
-		return AllStructuresWildSimplicialSurface( GeneratorsOfGroup(grp) );
+		return AllStructuresWildSimplicialSurfaces( GeneratorsOfGroup(grp) );
 	end
 );
 
-InstallOtherMethod( AllStructuresWildSimplicialSurface, "for three involutions", 
+InstallOtherMethod( AllStructuresWildSimplicialSurfaces, "for three involutions", 
 	[IsPerm, IsPerm, IsPerm], function( p1,p2,p3 )
-		return AllStructuresWildSimplicialSurface( [p1,p2,p3] );
+		return AllStructuresWildSimplicialSurfaces( [p1,p2,p3] );
 	end
 );
 
-InstallMethod( AllStructuresWildSimplicialSurface, 
+InstallMethod( AllStructuresWildSimplicialSurfaces, 
 	"for a list of three involutions", [IsList],  function (gens)
 
     local mrtype,  faces, res, ss;

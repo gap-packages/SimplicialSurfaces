@@ -511,7 +511,7 @@ DeclareOperation( "FilteredStructuresWildSimplicialSurface", [IsList] );
 #!
 #!	@Arguments listOfInvolutions
 #!	@Returns a list of wild simplicial surfaces
-DeclareOperation( "AllStructuresWildSimplicialSurface", [IsList] );
+DeclareOperation( "AllStructuresWildSimplicialSurfaces", [IsList] );
 
 
 #############################################################################
