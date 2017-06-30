@@ -1659,7 +1659,7 @@ InstallMethod( AllWildSimplicialSurfaces,
     for i in [ 1 .. 3] do
         for j in [i+1 .. 3] do
             if NrMovedPointsPerm( gens[i] * gens[j] ) <> n then
-                Print("Warning: Simplicial surface not vertex transitive\n");
+                Print("Warning: Simplicial surface not vertex faithful\n");
             fi;
         od;
     od;
@@ -1689,7 +1689,7 @@ InstallMethod( AllWildSimplicialSurfaces,
 
     # unknown has mr-type 0
 
-    # now  we know that the simplicial surface is vertex transitive
+    # now  we know that the simplicial surface is vertex faithful
     # this implies in particular that any 2-cycle only occurs in one
     # generator
     grp := Group(gens);
