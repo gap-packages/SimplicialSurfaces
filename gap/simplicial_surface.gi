@@ -1471,6 +1471,13 @@ InstallMethod( SimplicialSurfaceByVerticesInFaces, "",
 			[ IsSet, , ], 0 );
 #############################
 ##  Add this point we define the example constructors
+
+InstallMethod( Janushead, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces( 3, 2, 
+            [ [1,2,3], [1,2,3] ] );
+    end
+);
+
 InstallMethod( Tetrahedron, "", [], function()
     return SimplicialSurfaceByVerticesInFaces(4,4,
             [[1,2,3],[1,2,4],[2,3,4],[1,3,4]] );
