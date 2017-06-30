@@ -24,4 +24,7 @@ Read( "simplicial_surface_fan.gi" );
 Read( "folding_complex.gi" );
 Read( "folding_plan.gi" );
 
+Read( "../surfaces/simplib.gi");
+
+
 

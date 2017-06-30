@@ -20,6 +20,6 @@ ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_identification.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_fan.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/folding_complex.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/folding_plan.gd" );
-#ReadPackage( "SimplicialSurfaces", "surfs/simplib.gd" );
+ReadPackage( "SimplicialSurfaces", "surfaces/simplib.gd" );
 
 

@@ -64,7 +64,7 @@ local s,fname,ind,new;
     ind:=SIMPLICIALINDX[NrFaces];
     new:=Filtered([1..Length(SIMPLICIALINDX)],i->SIMPLICIALINDX[i]=ind);
     fname:=Concatenation("surf",String(ind));
-    ReadGapRoot( Concatenation( "simplicial-surfaces/surfaces/", fname, ".g" ) );
+    ReadGapRoot( Concatenation( "pkg/simplicial-surfaces/surfaces/", fname, ".g" ) );
 
     # store the NrFacesree
     SIMPLICIALLOAD:=Filtered(SIMPLICIALLOAD,i->not i in new);
@@ -91,12 +91,27 @@ InstallGlobalFunction(NrSimplicialSurfaces, function(nrfaces)
       return SIMPLICIALLENGTHS[nrfaces];
 end);
 
+##   1: NrVertices
+##   2: NrEdges
+##   3: NrFaces
+##   4: IsVertexFaithful
+##   5: Storage way: 1 VerticesInFaces, 2 EdgesInFaces and VerticesInEdges
+##   6: Data for 5, e.g. VerticesInFaces
+##   7: connected components list of faces
+##   8: path connected components
+##   9: generators of Automorphism group:
+##      embedded into the direct product S(Vertices) x S(Edges) x S(Faces)
 InstallGlobalFunction( SimplicialSurfaceLib, function(nrfaces,num)
 local l,g,fac,mats,perms,v,t;
   l:=SIMPLICIALsurf(nrfaces,num);
 
-  # special case: Symmetric and Alternating Group
-  g := SimplicialSurfaceByVerticesInFaces(l[1],l[3],l[4]);
+  Error("check l");
+  # special case: 
+  if l[4] = true and l[5] = 1 then
+      g := SimplicialSurfaceByVerticesInFaces(l[1],l[3],l[6]);
+  else
+      return fail;
+  fi;
   
   # SetAutomorphismGroup(g,Group(l[7]));
   
