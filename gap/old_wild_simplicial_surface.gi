@@ -68,58 +68,6 @@
 #  [ IsWildSimplicialSurfaceRep, IsWildSimplicialSurfaceRep ], 0,
 #   LtWildSimplicialSurface );
 
-
-
-# compute the double cover - extend old mr settings
-DoubleCoverOfWildSimplicialSurface := function (simpsurf)
-
-        local gens, newgens, i, j, mrtype, MapCycle, grp, N, mrtypenew;
-
-
-        N := NrOfFacesOfWildSimplicialSurface(simpsurf);
-
-# replace a mirror (i,j) by (i, -j)(-i, j) 
-# and a rotation (i,j) by (i,j)(-i,-j).
-# As GAP cannot permute negative numbers we represent
-# -i by i+N
-MapCycle := function (c, t)
-
-    local i, j;
-
-    if t = 0 then return One(c); fi;
-
-    i := c[1]; j := c[2];
-    if t = 1 then
-        return (i, j+N) * (i+N, j );
-    elif t = 2 then
-        return (i,j)*(i+N, j+N);
-    fi;
-
-end;
-
-        gens := GeneratorsOfWildSimplicialSurface(simpsurf);
-        newgens := List( gens, i-> Cycles(i,
-            [ 1 .. Length(FacesOfWildSimplicialSurface(simpsurf)) ] ));
-
-        mrtype := MrTypeOfWildSimplicialSurface(simpsurf);
-        mrtypenew := [];
-
-        for i in [ 1 .. 3 ] do
-            newgens[i] := List( newgens[i], c -> MapCycle( c, mrtype[i][c[1]] ));
-            newgens[i] := Product( newgens[i] );
-            mrtypenew[i] := [];
-            for j in [ 1 .. N ] do
-                mrtypenew[i][j] := mrtype[i][j];
-                mrtypenew[i][j+N] := mrtype[i][j];
-            od;
-        od;
-
-        return WildSimplicialSurface( newgens[1], newgens[2], newgens[3], mrtypenew );
-       
-end;
-
-
-
 #############################################################################
 ##
 #!   @Description
