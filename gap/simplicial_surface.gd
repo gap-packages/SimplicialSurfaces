@@ -704,6 +704,26 @@ InstallTrueMethod( IsPathConnected, IsConnected and IsActualSurface );
 DeclareProperty( "IsClosedSurface", 
 			IsSimplicialSurface and IsEdgesLikeSurface );
 
+#! @Description
+#! Return the set of all inner edges, that is edges with exactly two ajacent
+#! faces.
+#! @Arguments simpSurf
+#! @Returns a set of edges
+DeclareAttribute( "InnerEdges", IsSimplicialSurface );
+
+#! @Description
+#! Return the set of all border edges, that is edges with only one adjacent face.
+#! @Arguments simpSurf
+#! @Returns a set of edges
+DeclareAttribute( "BorderEdges", IsSimplicialSurface );
+
+#! @Description
+#! Return the set of all ramified edges, that is edges that have at least three
+#! adjacent faces.
+#! @Arguments simpSurf
+#! @Returns a set of edges
+DeclareAttribute( "RamifiedEdges", IsSimplicialSurface );
+
 #! @BeginGroup
 #! @Description
 #! Return a list fep with the following conditions:

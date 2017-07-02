@@ -2436,6 +2436,32 @@ InstallMethod( IsClosedSurface, "for a simplicial surface",
 	RedispatchOnCondition( IsClosedSurface, true, [IsSimplicialSurface],
 		[IsEdgesLikeSurface], 0 );
 
+InstallMethod( InnerEdges, "for a simplicial surface",
+        [IsSimplicialSurface], 
+    function( simpsurf )
+        return Filtered( Edges(simpsurf), e -> 
+                    Size( FacesOfEdges(simpsurf)[e]  ) = 2 );
+    end
+);
+
+InstallMethod( BorderEdges, "for a simplicial surface",
+        [IsSimplicialSurface], 
+    function( simpsurf )
+        return Filtered( Edges(simpsurf), e -> 
+                    Size( FacesOfEdges(simpsurf)[e]  ) < 2 );
+    end
+);
+
+InstallMethod( RamifiedEdges, "for a simplicial surface",
+        [IsSimplicialSurface], 
+    function( simpsurf )
+        return Filtered( Edges(simpsurf), e -> 
+                    Size( FacesOfEdges(simpsurf)[e]  ) > 2 );
+    end
+);
+
+
+
 
 ##
 ## Given a set of elements (natural numbers) and a list of components
