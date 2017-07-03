@@ -2444,7 +2444,7 @@ InstallMethod( InnerEdges, "for a simplicial surface",
     end
 );
 
-InstallMethod( BorderEdges, "for a simplicial surface",
+InstallMethod( BoundaryEdges, "for a simplicial surface",
         [IsSimplicialSurface], 
     function( simpsurf )
         return Filtered( Edges(simpsurf), e -> 

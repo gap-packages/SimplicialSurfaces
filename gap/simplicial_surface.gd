@@ -715,7 +715,7 @@ DeclareAttribute( "InnerEdges", IsSimplicialSurface );
 #! Return the set of all border edges, that is edges with only one adjacent face.
 #! @Arguments simpSurf
 #! @Returns a set of edges
-DeclareAttribute( "BorderEdges", IsSimplicialSurface );
+DeclareAttribute( "BoundaryEdges", IsSimplicialSurface );
 
 #! @Description
 #! Return the set of all ramified edges, that is edges that have at least three
