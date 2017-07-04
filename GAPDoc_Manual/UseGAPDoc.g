@@ -3,6 +3,9 @@
 #d := ComposedXMLString( ".", "Introduction.xml", [] );
 #tr := ParseTreeXMLString(d);
 
+BindGlobal("__SIMPLICIAL_ImageCount",1);
+MakeReadWriteGlobal("__SIMPLICIAL_ImageCount");
+
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
 # For that we define a function that changes one node 
@@ -66,7 +69,7 @@ MakeReadWriteGlobal("MakeGAPDocDoc");
 UnbindGlobal("MakeGAPDocDoc"); # MB unbind this to modify it
 BindGlobal("MakeGAPDocDoc", function(arg)
   local htmlspecial, path, main, files, bookname, gaproot, str, 
-        r, t, l, latex, null, log, pos, h, i, j, __SIMPLICIAL_ImageCount;
+        r, t, l, latex, null, log, pos, h, i, j;
   htmlspecial := Filtered(arg, a-> a in ["MathML", "Tth", "MathJax"]);
   if Length(htmlspecial) > 0 then
     arg := Filtered(arg, a-> not a in ["MathML", "Tth", "MathJax"]);
@@ -96,17 +99,22 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   Info(InfoGAPDoc, 1, "#I Parsing XML document . . .\n");
   r := ParseTreeXMLString(str[1], str[2]);
 
-    #MB precompile the images
+  
+  
+  #MB precompile the images
         # Remove all previous image information
         Exec( "rm _IMAGE_*" );
         __SIMPLICIAL_ImageCount := 1;   #TODO right now we just number the images. It would be nice if identical images would be recognized (by md5sum maybe?);
 
         # Fortunately there already is a method to apply this function to all nodes of the tree
-        ApplyToNodesParseTree( tr, preProcessTikz );
+        ApplyToNodesParseTree( r, preProcessTikz );
+
 
   # clean the result
   Info(InfoGAPDoc, 1, "#I Checking XML structure . . .\n");
   CheckAndCleanGapDocTree(r);
+
+
   # produce text version
   Info(InfoGAPDoc, 1, 
                    "#I Text version (also produces labels for hyperlinks):\n");
