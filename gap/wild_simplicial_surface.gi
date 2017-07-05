@@ -2858,26 +2858,26 @@ InstallMethod( PrintStringAttributeOfSimplicialSurface,
 #!   if bool is true or not given, the mrtype specifies the behaviour of 
 #!   the $\sigma_i$, if bool is false, the mrtype specifies the behaviour
 #!   of the edges.
-InstallMethod( SixFoldCover, "for a simplicial surface",
-	[IsSimplicialSurface, IsList],
-	function(simpsurf, mrtype)
+#InstallMethod( SixFoldCover, "for a simplicial surface",
+#	[IsSimplicialSurface and IsEdgesLikeSurface, IsList],
+#	function(simpsurf, mrtype)
 		#TODO
-#SixFoldCoverA := function( simpsurf, mrtype )
+SixFoldCoverA := function( simpsurf, mrtype )
 
-      local cover, faces, edges, vertices, gens, g, i, e, h, s, orbs, j, surf,
-                   cfaces, cvertices, cedges, cgens, cg, cf, img, vtx, FacesL,
-                   neigh, e1, e2, p1, p2, poss, Vertex, IsIncident,
-                   f1, f2, sigi, cmrtype, mr, sigtype, GetMr, IsMirror,
-                   VofE, EofF;
-
-
+      local  i, e, j, ind1, ind2,f, wild,
+                   cfaces, cgens, cf, img, FacesL,
+                   neigh, e1, e2, Vertex, IsIncident,
+                   f1, f2, sigi, cmrtype, sigtype, IsMirror,
+                   arrange, otherIndices, remed;
 
                
 
       Vertex := function(e)
-          return VofE[Position(Edges(simpsurf),e)];
+          return VerticesOfEdges(simpsurf)[e];
       end;
 
+      # returns true if the edges e1, e2, e3 incident to a common vertex
+      # and false else
       IsIncident := function(e1, e2, e3)
 
           local inter;
@@ -2889,20 +2889,10 @@ InstallMethod( SixFoldCover, "for a simplicial surface",
           return false;
       end;
 
-      # Find the numbers of all faces incident to e
-      # here e is an edge number
+      # Find the faces incident to e
       FacesL := function(e)
-                local i, f, edgesofFaces;
-
-                f := [];
-                for i in [ 1 .. Length(EofF) ] do
-                    if e in  EofF[i] then
-                        # we found a face incident to e
-                        Add(f, i);
-                    fi;
-                od;
-                return f;
-        end;
+                return FacesOfEdges(simpsurf)[e];
+      end;
 
 
 
@@ -2912,12 +2902,9 @@ InstallMethod( SixFoldCover, "for a simplicial surface",
 #            return;
 #        fi;
 
-        VofE := VerticesOfEdges(simpsurf);
-        EofF := EdgesOfFaces(simpsurf);
-        faces := EdgesOfFaces(simpsurf);
-        edges := Edges(simpsurf);
-        vertices := Vertices(simpsurf);
 
+        # sigtype true means we are looking for  a structure
+	# such that the permutation sigma_i has mr-type mrtype[i]
         sigtype := true;              
 #        if Length(arg) = 2 then
 #            mrtype := arg[2]; sigtype := true; 
@@ -2935,6 +2922,7 @@ InstallMethod( SixFoldCover, "for a simplicial surface",
 #        fi;
 
 
+        # returns true if the edge $(k, \sigma_i(k))$ should be a mirror
         IsMirror := function(k, i)
                   if sigtype = false then
                       if  mrtype[k] <= 1 then
@@ -2951,32 +2939,48 @@ InstallMethod( SixFoldCover, "for a simplicial surface",
         
       # first we compute the faces of the cover
       # faces are given by the three edges incident to the face
-      cfaces := Cartesian( Faces(simpsurf), Arrangements( [1,2,3], 3 ) );
-      cfaces := List( cfaces, f -> [f[1], faces[f[1]][f[2][1]], 
-                                          faces[f[1]][f[2][2]], 
-                                          faces[f[1]][f[2][3]] ]);
+      # Arrangements( [1,2,3], 3) are the images of the map beta in
+      # definition of six-fold cover 
+      #cfaces := Cartesian( Faces(simpsurf), Arrangements( [1,2,3], 3 ) );
+      cfaces := [];
+      for f in Faces(simpsurf) do
+          Append( cfaces, List( Arrangements( EdgesOfFaces(simpsurf)[f], 3),
+          a-> [f,a] ));
+      od;
+
+      # collapse the list of face-arrangement-tuples 
+#      cfaces := List( cfaces, f -> [f[1], faces[f[1]][f[2][1]], 
+#                                          faces[f[1]][f[2][2]], 
+#                                          faces[f[1]][f[2][3]] ]);
 
       # record the mrtype of the cover
+      # store for every colour in [1,2,3] whether face F under
+      # the permutation of that colour is a mirror or a rotation
       cmrtype := List( [1..3], j->List( cfaces, i-> 0 ));
 
-      # new we have to compute the edges
-      # we enforce that generator g maps  (f,(e_a, e_b, e_c)) to
-      # itself, if f is a fixed point of g and to 
-      # (f^g, e_x, e_y, e_z), where the edge of the same colour as g
-      # is fixed and the remaining two are interchanged - so that
+      # now we have to compute the edges
+      # Starting from (f,(e_x, e_y, e_z)) the generator sigma_1
+      # maps (f,(e_x, e_y, e_z)) to (f,(e_x, e_y, e_z)) if $e_x$ is a
+      # boundary edge and to (g,(e_x, e_u, e_v)) if $e_x$ is an inner
+      # edge such that (f,g) are the two faces incident to e_x and
+      # e_y, e_u, e_x are incident to a common vertex and
+      # e_z, e_v, e_x are incident to a common vertex, if
+      # (f,g) is a mirror-cycle of sigma_1 and
+      # to (g,(e_x, e_v, e_u)) otherwise.
 
       cgens := [];
       for i in [1..3]  do
-          sigi := []; # define generator g
+          sigi := []; # define generator sigma_i
           for j  in [1..Length(cfaces)] do
               cf := cfaces[j]; # work out the image of cf under sigi
-              # e.g. cf = [1, 2, 3, 4] means face 1, edge numbers 2,3,4
-              # if i=2 then we have to map along edge number 3
-              # need to find the neighbour of cf along edge i
-              # cf[1+i] is the edge number along which to map
-              # add +1, since the first entry in cf is a face
-              neigh := FacesL(cf[i+1]); # the face numbers of 
-                                       #the neighbouring faces
+              # e.g. cf = [1, [2, 3, 1]] means face 1, edges 2,3,1
+              # if i=2 we have to map along the edge in position 2 (i.e. 3)
+              # and need to find the neighbour of cf along this edge
+              # cf[2][k] is the edge  along which to map
+#	      k := cf[2],i);
+	      # the face numbers of  the neighbouring faces
+              neigh := FacesL(cf[2][i]); 
+                                    
               if not cf[1] in neigh then
                   Error("cannot find neighbour of face ", cf, "\n");
               fi;
@@ -2986,77 +2990,322 @@ InstallMethod( SixFoldCover, "for a simplicial surface",
               else
                   neigh := neigh[1]; # the face number of the neighbour
                   img := [neigh];
-                  # TODO might be a bug
-                  e := EofF[neigh]; # the edges of neigh
-                  img[i+1] := cf[i+1]; # this edge remains fixed
-                  # match up the other two edges
-                  poss := Difference([1,2,3], [Position(e,cf[i+1])]); 
-                  if Length(poss) <> 2 then Error("no matching edges"); fi;
-                  # the other two possibilities for positions in e
-                  # thus e[poss] are the two edges other than the edge
-                  # along which we map
-                  p1 := poss[1]; p2 := poss[2];
-                  # cf[i+1] is an edge of face cf
-                  # check whether it shares a vertex with the
-                  # edge e[p1]. The vertices of both are intersected
-                  e1 := e[p1]; e2 := e[p2]; # the other edges of neigh
-                  poss := Difference([1,2,3], [i]); 
-                  p1 := poss[1]; p2 := poss[2];
-                  f1 := cfaces[j][p1+1]; 
-                  f2 := cfaces[j][p2+1]; # other edges of cf
+                  e := EdgesOfFaces(simpsurf)[neigh]; # the edges of neigh
+		  arrange := [];
+		  arrange[i] := cf[2][i]; # this edge remains fixed
 
-                  if sigtype = false then
-			  if IsIncident(e1, f1, cf[i+1]) and mrtype[cf[i+1]] <= 1  or
-			     IsIncident(e1, f2, cf[i+1]) and  mrtype[cf[i+1]] =2 then
-				  img[p1+1] := e1;
-				  img[p2+1] := e2;
-			  else
-				  img[p1+1] := e2;
-				  img[p2+1] := e1;
-			   fi;
-			  sigi[j] := Position( cfaces, img );
-			  cmrtype[i][j] := mrtype[cf[i+1]];
-			  if cmrtype[i][j] = 0 then cmrtype[i][j] := 1; fi;
-			  #Print( cfaces[j], "-", i, "->", img, "\n");
-                  else  # we map according to positions
-			  if IsIncident(e1, f1, cf[i+1]) and mrtype[i] <= 1  or
-			     IsIncident(e1, f2, cf[i+1]) and  mrtype[i]=2 then
-				  img[p1+1] := e1;
-				  img[p2+1] := e2;
-			  else
-				  img[p1+1] := e2;
-				  img[p2+1] := e1;
-			   fi;
-                      sigi[j] := Position( cfaces, img );
-                      cmrtype[i][j] := mrtype[i];
-                      if cmrtype[i][j] = 0 then cmrtype[i][j] := 1; fi;
-                      #Print( cfaces[j], "-", i, "->", img, "\n");
-                  fi;
+                  remed := Difference( e, [cf[2][i]] );
+                  if Length(remed) <> 2 then Error("no matching edges"); fi;
+
+                #
+		#                 /|\
+		#                / | \
+		#               /  |  \
+		#              e1  |   f1
+		#             /    |    \
+		#             \    |    /
+		#              e2  |   f2
+		#               \  |  /
+		#                \ | /
+		#                 \|/
+		otherIndices := Difference([1,2,3], [i]); 
+		ind1 := otherIndices[1];
+		ind2 := otherIndices[2];
+
+                e1 := cf[2][ind1];
+                e2 := cf[2][ind2];
+
+                if IsIncident( e1, cf[2][i], remed[1]) then
+                  f1 := remed[1];
+                  f2 := remed[2];
+                else
+                  f1 := remed[2];
+                  f2 := remed[1];
                 fi;
-        
-#                    if IsIncident(e1, f1) and  mrtype[cf[i+1]] <= 1 or
-#                       IsIncident(e1, f2) and  mrtype[cf[i+1]] = 2 then
-#                        img[p1+1] := e1;
-#                        img[p2+1] := e2;
-#                    else
-#                        img[p1+1] := e2;
-#                        img[p2+1] := e1;
-#                    fi;
-              
+
+                if IsMirror(cf[2][i],i) then
+                       # \sigma_i is mirror
+                       arrange[ind1] := f1;
+                       arrange[ind2] := f2;
+
+                       cmrtype[i][j] := 1;
+                else
+                      # rotation
+                      arrange[ind1] := f2;
+                      arrange[ind2] := f1;
+
+                      cmrtype[i][j] := 2;
+                fi;
+		
+                img[2] := arrange;
+                sigi[j] := Position( cfaces, img );
+             fi;
           od;
+
           if PermList(sigi) = fail then 
               Info( InfoSimplicial, 1, "Surface does not exist");
-              Error("a");
+              Error("Internal Error (SixfoldCover): No permutation defined.");
               return false;
           fi;
           Add( cgens, PermList(sigi) );
       od;
   
-      return AllWildSimplicialSurfaces( cgens, cmrtype );
+      wild := AllWildSimplicialSurfaces( cgens, cmrtype );
+      if Size(wild) <> 1 then
+        Error("Internal: SixfoldCover is not unique.");
+      fi;
+      return wild[1];
+  end
+;
 
-      end
+InstallOtherMethod( SixFoldCover, "for a simplicial surface",
+	[IsSimplicialSurface],
+	function( simpsurf )
+		#TODO, probably call the method above
+	end
 );
 
+
+#!	@Description
+#!   The function SixFoldCover takes as input a generic description of
+#!   a simplicial surface.  The six fold cover of a simplicial surface is
+#!   the following surface.
+#!   If f is a face of the original face with edge numbers e_a, e_b and
+#!   e_c, then the face is covered by the six faces of the form
+#!   (f, e1, e2, e3), for which {e1, e2, e3}  = {e_a, e_b, e_c}.
+#!   See Proposition 3.XX in the paper.
+#!   @Arguments
+#!
+#!   If the optional argument mrtype is given, it has to be a list of length 
+#!   3 and each entry has to be  $1$, or $2$. In this case the six fold cover 
+#!   will treat the position $i$ for $i\in\{1,2,3\}$ of the three
+#!   edges around a faces either as a   reflection (mirror), if the entry 
+#!   in position $i$ of mrtype is 1, or as a rotation, if the entry in 
+#!   position $i$ is 2. That is, the cover surface is generated by three
+#!   transpositions $\sigma_i$ for $i=1,2,3$. For $i=1$, suppose $f$ and 
+#!   $f'$ are faces of the surface surf such that the edges of $f$ are 
+#!   $e_1, e_2$  and $e_3$ and the edges of $f'$ are  $e_1, e_a, e_b$ are 
+#!   the edges $e_1, e_2$ and $e_a$ intersect in a common vertex and 
+#!   the edges $e_1, e_3$ and $e_b$ intersect in a common vertex.
+#!   For $i=1$ and  mrtype of position $1$ being  mirror (i.e. $1$), then 
+#!   $$\sigma_1(f,e_1,e_2,e_3) = (f', e_1, e_a, e_b),$$ whereas if the 
+#!   mrtype of position $1$ is a reflection (i.e. $2$), then 
+#!   $$\sigma_1(f,e_1,e_2,e_3) = (f', e_1, e_b, e_a).$$ The definition
+#!   of $\sigma_2$ and $\sigma_3$ are analogous, with $e_2$, respectively
+#!   $e_3$ taking the role of the common edge $e_1.$
+#!
+#!   
+#!   If the optional argument mredges is given, and mredges is a list of 
+#!   length equal to the number of edges of the surface **surf** and an
+#!   entry for an edge e is either 1 or 2. If the entry is 1 then 
+#!   the six fold cover will treat the edge as a reflection (mirror) and 
+#!   if the entry is 2  then the edge is treated as a rotation. 
+#!
+#!   The six fold cover is always a wild colourable simplicial surface.
+#!   @Returns a wild coloured simplicial surface
+#!   @Arguments surface, mrtype, bool
+#!   if bool is true or not given, the mrtype specifies the behaviour of 
+#!   the $\sigma_i$, if bool is false, the mrtype specifies the behaviour
+#!   of the edges.
+##OLDInstallMethod( SixFoldCover, "for a simplicial surface",
+##OLD	[IsSimplicialSurface, IsList],
+##OLD	function(simpsurf, mrtype)
+##OLD		#TODO
+##OLD#SixFoldCoverA := function( simpsurf, mrtype )
+##OLD
+##OLD      local cover, faces, edges, vertices, gens, g, i, e, h, s, orbs, j, surf,
+##OLD                   cfaces, cvertices, cedges, cgens, cg, cf, img, vtx, FacesL,
+##OLD                   neigh, e1, e2, p1, p2, poss, Vertex, IsIncident,
+##OLD                   f1, f2, sigi, cmrtype, mr, sigtype, GetMr, IsMirror,
+##OLD                   VofE, EofF;
+##OLD
+##OLD
+##OLD
+##OLD               
+##OLD
+##OLD      Vertex := function(e)
+##OLD          return VofE[Position(Edges(simpsurf),e)];
+##OLD      end;
+##OLD
+##OLD      IsIncident := function(e1, e2, e3)
+##OLD
+##OLD          local inter;
+##OLD
+##OLD          inter := Intersection(Vertex(e1), Vertex(e2));
+##OLD          if Size(Intersection( inter, Vertex(e3) ) ) > 0 then
+##OLD              return true;
+##OLD          fi;
+##OLD          return false;
+##OLD      end;
+##OLD
+##OLD      # Find the numbers of all faces incident to e
+##OLD      # here e is an edge number
+##OLD      FacesL := function(e)
+##OLD                local i, f, edgesofFaces;
+##OLD
+##OLD                f := [];
+##OLD                for i in [ 1 .. Length(EofF) ] do
+##OLD                    if e in  EofF[i] then
+##OLD                        # we found a face incident to e
+##OLD                        Add(f, i);
+##OLD                    fi;
+##OLD                od;
+##OLD                return f;
+##OLD        end;
+##OLD
+##OLD
+##OLD
+##OLD
+##OLD#        if Length(arg) < 1 or Length(arg) > 3 then 
+##OLD#            Error("SixFoldCover( <simpsurf>[, <mrtype>, <bool>] )");
+##OLD#            return;
+##OLD#        fi;
+##OLD
+##OLD        VofE := VerticesOfEdges(simpsurf);
+##OLD        EofF := EdgesOfFaces(simpsurf);
+##OLD        faces := EdgesOfFaces(simpsurf);
+##OLD        edges := Edges(simpsurf);
+##OLD        vertices := Vertices(simpsurf);
+##OLD
+##OLD        sigtype := true;              
+##OLD#        if Length(arg) = 2 then
+##OLD#            mrtype := arg[2]; sigtype := true; 
+##OLD            # the mrtype specifies the sigma_i
+##OLD            if Length(mrtype) > 3 then 
+##OLD                Error("SixFoldCover( <surf>[, <mrtype>, <bool>] )");
+##OLD                return;
+##OLD            fi;
+##OLD#        elif  Length(arg) = 1 then
+##OLD#            sigtype := true; # the mrtype specifies 
+##OLD#            mrtype := List( [1,2,3], i-> 1 ); 
+##OLD            # the default is to reflect at every position
+##OLD#        else #length of arg is 3
+##OLD#            mrtype := arg[2]; sigtype := arg[3];
+##OLD#        fi;
+##OLD
+##OLD
+##OLD        IsMirror := function(k, i)
+##OLD                  if sigtype = false then
+##OLD                      if  mrtype[k] <= 1 then
+##OLD                          return true;
+##OLD                      else return false;
+##OLD                      fi;
+##OLD                   fi;
+##OLD                   if mrtype[i] = 1 then return true; 
+##OLD                   else return false; 
+##OLD                   fi;
+##OLD
+##OLD        end;
+##OLD
+##OLD        
+##OLD      # first we compute the faces of the cover
+##OLD      # faces are given by the three edges incident to the face
+##OLD      cfaces := Cartesian( Faces(simpsurf), Arrangements( [1,2,3], 3 ) );
+##OLD      cfaces := List( cfaces, f -> [f[1], faces[f[1]][f[2][1]], 
+##OLD                                          faces[f[1]][f[2][2]], 
+##OLD                                          faces[f[1]][f[2][3]] ]);
+##OLD
+##OLD      # record the mrtype of the cover
+##OLD      cmrtype := List( [1..3], j->List( cfaces, i-> 0 ));
+##OLD
+##OLD      # new we have to compute the edges
+##OLD      # we enforce that generator g maps  (f,(e_a, e_b, e_c)) to
+##OLD      # itself, if f is a fixed point of g and to 
+##OLD      # (f^g, e_x, e_y, e_z), where the edge of the same colour as g
+##OLD      # is fixed and the remaining two are interchanged - so that
+##OLD
+##OLD      cgens := [];
+##OLD      for i in [1..3]  do
+##OLD          sigi := []; # define generator g
+##OLD          for j  in [1..Length(cfaces)] do
+##OLD              cf := cfaces[j]; # work out the image of cf under sigi
+##OLD              # e.g. cf = [1, 2, 3, 4] means face 1, edge numbers 2,3,4
+##OLD              # if i=2 then we have to map along edge number 3
+##OLD              # need to find the neighbour of cf along edge i
+##OLD              # cf[1+i] is the edge number along which to map
+##OLD              # add +1, since the first entry in cf is a face
+##OLD              neigh := FacesL(cf[i+1]); # the face numbers of 
+##OLD                                       #the neighbouring faces
+##OLD              if not cf[1] in neigh then
+##OLD                  Error("cannot find neighbour of face ", cf, "\n");
+##OLD              fi;
+##OLD              neigh := Difference(neigh, [cf[1]] );
+##OLD              if Length(neigh)=0 then
+##OLD                  img := ShallowCopy(cf); # boundary edge
+##OLD              else
+##OLD                  neigh := neigh[1]; # the face number of the neighbour
+##OLD                  img := [neigh];
+##OLD                  # TODO might be a bug
+##OLD                  e := EofF[neigh]; # the edges of neigh
+##OLD                  img[i+1] := cf[i+1]; # this edge remains fixed
+##OLD                  # match up the other two edges
+##OLD                  poss := Difference([1,2,3], [Position(e,cf[i+1])]); 
+##OLD                  if Length(poss) <> 2 then Error("no matching edges"); fi;
+##OLD                  # the other two possibilities for positions in e
+##OLD                  # thus e[poss] are the two edges other than the edge
+##OLD                  # along which we map
+##OLD                  p1 := poss[1]; p2 := poss[2];
+##OLD                  # cf[i+1] is an edge of face cf
+##OLD                  # check whether it shares a vertex with the
+##OLD                  # edge e[p1]. The vertices of both are intersected
+##OLD                  e1 := e[p1]; e2 := e[p2]; # the other edges of neigh
+##OLD                  poss := Difference([1,2,3], [i]); 
+##OLD                  p1 := poss[1]; p2 := poss[2];
+##OLD                  f1 := cfaces[j][p1+1]; 
+##OLD                  f2 := cfaces[j][p2+1]; # other edges of cf
+##OLD
+##OLD                  if sigtype = false then
+##OLD			  if IsIncident(e1, f1, cf[i+1]) and mrtype[cf[i+1]] <= 1  or
+##OLD			     IsIncident(e1, f2, cf[i+1]) and  mrtype[cf[i+1]] =2 then
+##OLD				  img[p1+1] := e1;
+##OLD				  img[p2+1] := e2;
+##OLD			  else
+##OLD				  img[p1+1] := e2;
+##OLD				  img[p2+1] := e1;
+##OLD			   fi;
+##OLD			  sigi[j] := Position( cfaces, img );
+##OLD			  cmrtype[i][j] := mrtype[cf[i+1]];
+##OLD			  if cmrtype[i][j] = 0 then cmrtype[i][j] := 1; fi;
+##OLD			  #Print( cfaces[j], "-", i, "->", img, "\n");
+##OLD                  else  # we map according to positions
+##OLD			  if IsIncident(e1, f1, cf[i+1]) and mrtype[i] <= 1  or
+##OLD			     IsIncident(e1, f2, cf[i+1]) and  mrtype[i]=2 then
+##OLD				  img[p1+1] := e1;
+##OLD				  img[p2+1] := e2;
+##OLD			  else
+##OLD				  img[p1+1] := e2;
+##OLD				  img[p2+1] := e1;
+##OLD			   fi;
+##OLD                      sigi[j] := Position( cfaces, img );
+##OLD                      cmrtype[i][j] := mrtype[i];
+##OLD                      if cmrtype[i][j] = 0 then cmrtype[i][j] := 1; fi;
+##OLD                      #Print( cfaces[j], "-", i, "->", img, "\n");
+##OLD                  fi;
+##OLD                fi;
+##OLD        
+##OLD#                    if IsIncident(e1, f1) and  mrtype[cf[i+1]] <= 1 or
+##OLD#                       IsIncident(e1, f2) and  mrtype[cf[i+1]] = 2 then
+##OLD#                        img[p1+1] := e1;
+##OLD#                        img[p2+1] := e2;
+##OLD#                    else
+##OLD#                        img[p1+1] := e2;
+##OLD#                        img[p2+1] := e1;
+##OLD#                    fi;
+##OLD              
+##OLD          od;
+##OLD          if PermList(sigi) = fail then 
+##OLD              Info( InfoSimplicial, 1, "Surface does not exist");
+##OLD              Error("a");
+##OLD              return false;
+##OLD          fi;
+##OLD          Add( cgens, PermList(sigi) );
+##OLD      od;
+##OLD  
+##OLD      return AllWildSimplicialSurfaces( cgens, cmrtype );
+##OLD
+##OLD      end
+##OLD);
+##OLD
 InstallOtherMethod( SixFoldCover, "for a simplicial surface",
 	[IsSimplicialSurface],
 	function( simpsurf )
