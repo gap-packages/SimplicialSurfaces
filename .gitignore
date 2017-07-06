@@ -1,7 +1,10 @@
 # Autodoc-documentation
-doc/
+doc/chap*
+doc/_Chapter*
+doc/title.xml
+doc/SimplicialSurfaces*
 
-# intermediate latex stuff
+# intermediate compilation stuff
 *.4ct
 *.4tc
 *.aux
@@ -14,10 +17,13 @@ doc/
 *.idx
 *.ilg
 *.ind
+*.js
+*.lab
 *.lg
 *.log
 *.nav
 *.out
+*.pnr
 *.snm
 *.svg
 *.synctex.gz
