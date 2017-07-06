@@ -5,7 +5,7 @@ fi;
 AutoDoc( rec( scaffold := rec(
                     MainPage := false,
                     gapdoc_latex_options := rec(
-                        LateExtraPreamble := "\usepackage{tikz}\n")
+                        LateExtraPreamble := "\\usepackage{tikz}\n")
                     ), 
 	      autodoc := rec( 
                     files := [ "doc/TableOfContents.autodoc" ],

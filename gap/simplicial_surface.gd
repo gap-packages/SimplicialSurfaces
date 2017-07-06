@@ -98,6 +98,7 @@ BindGlobal( "SimplicialSurfaceFamily",
 
 #! @Description
 #! Return a simplicial surface that represents a janus head.
+#! @Arguments
 #! @Returns a simplicial surface
 DeclareOperation( "Janushead", [] );
 
