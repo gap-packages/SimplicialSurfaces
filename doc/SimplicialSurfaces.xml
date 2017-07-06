@@ -11,6 +11,7 @@
 <#Include SYSTEM "title.xml">
 <TableOfContents/>
 <Body>
+    <#Include SYSTEM "Introduction.xml">
     <#Include SYSTEM "_Chapter_Simplicial_Surfaces.xml">
 </Body>
 <TheIndex/>
