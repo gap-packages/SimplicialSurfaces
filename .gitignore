@@ -19,11 +19,11 @@ doc/
 *.nav
 *.out
 *.snm
+*.svg
 *.synctex.gz
 *.tmp
 *.toc
 *.xref
-
 
 # changed files
 *~

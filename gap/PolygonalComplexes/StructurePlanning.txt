@@ -1,0 +1,15 @@
+As xml:
+    Introduction
+    Filters
+
+
+As gd with autodoc:
+    Incidence geometry
+    Constructors
+    Elementary properties
+    Connectivity
+    Orientation
+
+
+As gd without autodoc:
+    Filter definition
