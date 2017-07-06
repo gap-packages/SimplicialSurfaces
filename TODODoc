@@ -10,3 +10,4 @@
 @Frank:
     If you include LaTeX-Code via the alt-tag, the given lines are completely permuted.
     This has a big influence if there are some comments in there.
+    This persists if the text within the alt-tag is enclosed in a CDATA-tag.
