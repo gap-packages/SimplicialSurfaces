@@ -125,6 +125,32 @@ true
         <!-- This sentence informs the user about a way to define some surfaces which helps them to test more cases themselves.
              It also connects the surfaces to something familiar. The formulation of this sentence is still dangerous as it should
              neither promise too much, nor trivialize the contents of this section. (TODO) -->
+<Example>
+gap&gt; surface := Cube();;
+</Example>
+        <!-- TODO Draw a picture of a cube -->
+        We can compute elementary properties of the surface
+<Example>
+gap&gt; NrOfVertices(surface);
+8
+gap&gt; NrOfEdges(surface);
+12
+gap&gt; NrOfFaces(surface);
+6
+gap&gt; EulerCharacteristic(surface);
+2
+</Example>
+        and we can also show that the surface is homeomorphic to a sphere.
+<Example>
+gap&gt; IsClosedSurface(surface);
+true
+gap&gt; IsConnected(surface);
+true
+gap&gt; IsOrientable(surface);
+true
+</Example>
+        We can also compute more complicated properties like the automorphism group and check for isomorphisms between surfaces. 
+    <!-- TODO do so--> 
         
     </Section>
 
