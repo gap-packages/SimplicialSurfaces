@@ -49,11 +49,15 @@ preProcessTikz := function( node )
             "<img src=\"", name, "-1.svg\"",
             "alt=\"", name, "\"/>]]></Alt>");
         n2 := ParseTreeXMLString(htmlString);
+        n2.name := "Alt";
+        n2.attributes.Only := "HTML";
 
 
         # Generate the text version
         consoleString := "[an image that is not shown in text version]";
         n3 := ParseTreeXMLString(consoleString);
+        n3.name := "Alt";
+        n3.attributes.Only := "Text";
 
         # Replace this node by the new nodes
         node.content := [n1,n2,n3];

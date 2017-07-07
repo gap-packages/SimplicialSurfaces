@@ -74,7 +74,7 @@
 %% depth of toc
 \setcounter{tocdepth}{1}
 
-
+\usepackage{tikz}
 
 
 
@@ -130,7 +130,7 @@ TODO
 embedding)
 \item Treatment of folding and unfolding for these objects. TODO
 \end{enumerate}
- We want to show an image of a triangle: After the image we put another one.  This ends our minimal example. }
+ We want to show an image of a triangle: After the image we put another one.  \begin{tikzpicture} \draw[blue,thick] (0,0) -> (2,3); \end{tikzpicture}  This ends our minimal example. }
 
  \newpage
 \immediate\write\pagenrlog{["End"], \arabic{page}];}
