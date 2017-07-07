@@ -113,10 +113,11 @@
             <Item>Treatment of folding and unfolding for these objects. <!--TODO--> </Item>
         </Enum>
         To use this package, you have to load it into GAP via
-            <Log>
-                gap&gt; LoadPackage("SimplicialSurfaces");
-                true
-            </Log>
+<Log>
+gap&gt; LoadPackage("SimplicialSurfaces");
+true
+</Log>
+
     </Section>
 
     <Section Label="Introduction_Playing"><Heading>Playing with simplicial surfaces</Heading>
