@@ -3090,7 +3090,7 @@ InstallMethod( GlobalOrientationByVerticesAsList, "for a simplicial surface",
         HasVerticesOfFaces and HasEdgesOfFaces and HasVerticesOfEdges and
         HasLocalOrientationByVerticesAsPerm and HasLocalOrientationByVerticesAsList ],
     function( surf )
-        local globalOr, FindGlobalOrientation;
+        local globalOr, FindGlobalOrientation, orAsList, f;
 
         if NrOfFaces(surf) = 0 then
             return [];
@@ -3112,8 +3112,13 @@ InstallMethod( GlobalOrientationByVerticesAsList, "for a simplicial surface",
                     Error("GlobalOrientationByVertices: FindGlobalOrientation: This should not have happened.");
                 fi;
             end;
-            return List( [1..Maximum(Faces(surf))], 
-                        f -> FindGlobalOrientation(f) );
+            orAsList := [];
+            for f in [1..Maximum(Faces(surf))] do
+                if f in Faces(surf) then
+                    orAsList[f] := FindGlobalOrientation(f);
+                fi;
+            od;
+            return orAsList;
         fi;
         return fail;
     end
