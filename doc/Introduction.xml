@@ -106,6 +106,9 @@
 			    \filldraw[faces] (C) -- (F) -- (G) -- (H) -- (B) -- cycle;
 		        \end{scope}
                     \end{tikzpicture}
+                </Alt>
+                TODO
+            </Item>
             <Item>Treatment of folding and unfolding for these objects. TODO</Item>
         </Enum>
 
