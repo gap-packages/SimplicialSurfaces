@@ -1,0 +1,15 @@
+  
+  [1X1 [33X[0;0YWhat can it do?[133X[101X
+  
+  [33X[0;0YThe SimplicialSurface-package contains this basic functionality:[133X
+  
+  [31X1[131X   [33X[0;6YWorking  with  simplicial  surfaces (and generalisations of that), for
+        example: TODO[133X
+  
+  [31X2[131X   [33X[0;6YWorking  with edge colourings of simplicial surfaces (for the purposes
+        of an embedding)[133X
+  
+  [31X3[131X   [33X[0;6YTreatment of folding and unfolding for these objects. TODO[133X
+  
+  [33X[0;0YThis ends our minimal example.[133X
+  
