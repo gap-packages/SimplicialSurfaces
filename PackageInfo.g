@@ -11,7 +11,7 @@ SetPackageInfo( rec(
 PackageName := "SimplicialSurfaces",
 Subtitle := "Computation with simplicial surfaces and folding processes.",
 Version := "0.1",
-Date := "01/06/2017", # dd/mm/yyyy format
+Date := "07/07/2017", # dd/mm/yyyy format
 ArchiveURL := "TODO",
 ArchiveFormats := "TODO",
 
@@ -76,7 +76,7 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">= 4.8",
-  NeededOtherPackages := [ [ "GAPDoc", ">= 1.5" ], [ "Grape", ">=4.7" ] ],
+  NeededOtherPackages := [ [ "GAPDoc", ">= 1.6" ], [ "Grape", ">=4.7" ] ],
   SuggestedOtherPackages := [ ["AutoDoc", ">=2016.03.08"], [ "IO", ">=2.2" ], [ "NautyTracesInterface", ">0.1" ] ],
   ExternalConditions := [ ],
 ),
