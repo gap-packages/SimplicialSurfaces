@@ -1,10 +1,8 @@
-if fail = LoadPackage("AutoDoc", "2016.02.16") then
-    Error("AutoDoc version 2016.02.16 or newer is required.");
-fi;
+# This file explains how to use GAPDoc in a way that allows easy inclusion of images
 
+#d := ComposedXMLString( ".", "Introduction.xml", [] );
+#tr := ParseTreeXMLString(d);
 
-# Because we want to allow images (especially their automated generation
-# and inclusion in HTML), we need to define a preprocessing for GAPDoc
 BindGlobal("__SIMPLICIAL_ImageCount",1);
 MakeReadWriteGlobal("__SIMPLICIAL_ImageCount");
 
@@ -67,11 +65,10 @@ preProcessTikz := function( node )
     fi;
 end;
 
-# We now want to put this preprocessing within the MakeGAPDocDoc-function.
-# To do so we have to redefine the original global variable and add our
-# method into the code. All code that is not commented with MB is original
-# GAPDoc-code.
+# Now we let GAPDoc compile this tree
 
+##  args: 
+##     path, main, files, bookname[, gaproot][, "MathML"][, "Tth"][, "MathJax"]
 MakeReadWriteGlobal("MakeGAPDocDoc");
 UnbindGlobal("MakeGAPDocDoc"); # MB unbind this to modify it
 BindGlobal("MakeGAPDocDoc", function(arg)
@@ -110,12 +107,11 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   
   #MB precompile the images
         # Remove all previous image information
-#        remPath := Concatenation("rm ", path, "_IMAGE_*");
-#        Exec( remPath);
-#        __SIMPLICIAL_ImageCount := 1;   #TODO right now we just number the images. It would be nice if identical images would be recognized (by md5sum maybe?);
+        Exec( "rm _IMAGE_*" );
+        __SIMPLICIAL_ImageCount := 1;   #TODO right now we just number the images. It would be nice if identical images would be recognized (by md5sum maybe?);
 
         # Fortunately there already is a method to apply this function to all nodes of the tree
-#        ApplyToNodesParseTree( r, preProcessTikz );
+        ApplyToNodesParseTree( r, preProcessTikz );
 
 
   # clean the result
@@ -247,18 +243,3 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   return r;
 end);
 
-
-# After all this preparatory work we can finally call the function to create
-# the documentation
-
-AutoDoc( rec( scaffold := rec(
-                    MainPage := false,
-                    gapdoc_latex_options := rec(
-                        LateExtraPreamble := "\\usepackage{tikz}\n")
-                    ), 
-	      autodoc := rec( 
-                    files := [ "doc/TableOfContents.autodoc" ],
-                    scan_dirs := ["doc", "gap"]) )
-);
-
-QUIT;
