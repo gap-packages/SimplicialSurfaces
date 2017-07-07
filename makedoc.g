@@ -2,6 +2,10 @@ if fail = LoadPackage("AutoDoc", "2016.02.16") then
     Error("AutoDoc version 2016.02.16 or newer is required.");
 fi;
 
+if fail = LoadPackage("GAPDoc", "1.6") then
+    Error("GAPDoc version 1.6 or newer is required.");
+fi;
+
 
 # Because we want to allow images (especially their automated generation
 # and inclusion in HTML), we need to define a preprocessing for GAPDoc
