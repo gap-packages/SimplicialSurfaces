@@ -3,7 +3,7 @@
     <Chapter Label="Introduction"><Heading>What can it do?</Heading>
         The SimplicialSurface-package contains this basic functionality:
         <Enum>
-            <Item>Working with simplicial surfaces (and generalisations of that), for example:
+            <Item>Working with simplicial surfaces (and generalisations of that), for example: <Par/>
                 <Alt Only="TikZ">
                     \begin{tikzpicture}
                         % We need to define the drawing style
@@ -107,11 +107,10 @@
 		        \end{scope}
                     \end{tikzpicture}
                 </Alt>
-                TODO
             </Item>
-            <Item>Treatment of folding and unfolding for these objects. TODO</Item>
+            <Item>Working with edge colourings of simplicial surfaces. <!--TODO--> </Item>
+            <Item>Treatment of folding and unfolding for these objects. <!--TODO--> </Item>
         </Enum>
 
-    This ends our minimal example.
 </Chapter>
 
