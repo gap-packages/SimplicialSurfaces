@@ -17,6 +17,14 @@ At the current point in time it is more of a rough draft but it should be able
 to explain the functionality of most methods you want to use in the immediate
 future.
 
+You can recreate the manual by typing
+    make
+in the main folder. This requires GAPDoc version >= 1.6. If you don't have this
+one, go to your local GAP installation and type
+    cd pkg/
+    git clone https://github.com/frankluebeck/GAPDoc.git
+
+
 If there are any questions, don't hesitate to ask.
 
 If you notice any bugs, strange behaviour or want to request a feature,

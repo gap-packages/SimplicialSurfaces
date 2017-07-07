@@ -3,7 +3,6 @@ doc/chap*
 doc/_Chapter*
 doc/title.xml
 doc/SimplicialSurfaces.tex
-doc/manual*
 doc/_IMAGES/
 
 # intermediate compilation stuff
