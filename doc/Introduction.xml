@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-    <Chapter Label="Introduction"><Heading>What can it do?</Heading>
+<Chapter Label="Introduction"><Heading> Getting started</Heading>
+    <Section Label="Introduction_Teaser"><Heading>What can it do?</Heading>
         The SimplicialSurface-package contains this basic functionality:
         <Enum>
             <Item>Working with simplicial surfaces (and generalisations of that), for example: <Par/>
@@ -108,9 +109,23 @@
                     \end{tikzpicture}
                 </Alt>
             </Item>
-            <Item>Working with edge colourings of simplicial surfaces. <!--TODO--> </Item>
+            <Item>Working with edge colourings of simplicial surfaces (in general and for the purpose of an embedding). <!--TODO--> </Item>
             <Item>Treatment of folding and unfolding for these objects. <!--TODO--> </Item>
         </Enum>
+        To use this package, you have to load it into GAP via
+            <Log>
+                gap&gt; LoadPackage("SimplicialSurfaces");
+                true
+            </Log>
+    </Section>
+
+    <Section Label="Introduction_Playing"><Heading>Playing with simplicial surfaces</Heading>
+        Since the platonic solids are pre-defined we use them to show a few capabilities of this package.
+        <!-- This sentence informs the user about a way to define some surfaces which helps them to test more cases themselves.
+             It also connects the surfaces to something familiar. The formulation of this sentence is still dangerous as it should
+             neither promise too much, nor trivialize the contents of this section. (TODO) -->
+        
+    </Section>
 
 </Chapter>
 
