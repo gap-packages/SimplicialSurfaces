@@ -8,6 +8,19 @@ fi;
 BindGlobal("__SIMPLICIAL_ImageCount",1);
 MakeReadWriteGlobal("__SIMPLICIAL_ImageCount");
 
+# We specify the documentation directory directly since we want to use it
+# in our preprocessing method.
+BindGlobal("__SIMPLICIAL_DocDirectory", "doc/");
+# The subdirectory of the images
+BindGlobal("__SIMPLICIAL_ImageSubdirectory", "_IMAGES/");
+
+# We create both of them. Technically the doc directory would be generated
+# automatically but I don't want to find out when (I can only create the 
+# subdirectory after the initial directory was created)
+currentDir := Filename( DirectoryCurrent(), "");
+CreateDirIfMissing( Concatenation(currentDir, __SIMPLICIAL_DocDirectory) );
+CreateDirIfMissing( Concatenation(currentDir, __SIMPLICIAL_DocDirectory, __SIMPLICIAL_ImageSubdirectory) );
+
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
 # For that we define a function that changes one node 
@@ -256,6 +269,7 @@ AutoDoc( rec( scaffold := rec(
                     gapdoc_latex_options := rec(
                         LateExtraPreamble := "\\usepackage{tikz}\n")
                     ), 
+              dir := __SIMPLICIAL_DocDirectory,
 	      autodoc := rec( 
                     files := [ "doc/TableOfContents.autodoc" ],
                     scan_dirs := ["doc", "gap"]) )
