@@ -29,7 +29,7 @@ CreateDirIfMissing( Concatenation(currentDir, __SIMPLICIAL_DocDirectory, __SIMPL
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
 # For that we define a function that changes one node 
 preProcessTikz := function( node )
-    local cont, n1, n2, n3, file, output, name, htmlString, consoleString;
+    local cont, n1, n2, n3, file, output, name, htmlString, consoleString, path;
 
     if node.name = "Alt" and IsBound(node.attributes.Only) and 
         node.attributes.Only in ["TikZ","Tikz"] then
@@ -37,9 +37,12 @@ preProcessTikz := function( node )
         # get the content of the tag
         cont := GetTextXMLTree(node);
         # choose a name for the image and generate it
+        # default: doc/_IMAGES/_IMAGE_*
+        path := Concatenation( __SIMPLICIAL_DocDirectory, __SIMPLICIAL_ImageSubdirectory );
         name := Concatenation("_IMAGE_", String(__SIMPLICIAL_ImageCount ));
+
         __SIMPLICIAL_ImageCount := __SIMPLICIAL_ImageCount + 1;
-        file := Filename( DirectoryCurrent(), Concatenation(name,".tex") );
+        file := Filename( DirectoryCurrent(), Concatenation(path, name,".tex") );
         output := OutputTextFile( file, false );
 
         SetPrintFormattingStatus( output, false );
@@ -54,18 +57,20 @@ preProcessTikz := function( node )
         CloseStream(output);
 
         # Now we have to compile this file (output will be visible);
-        Exec( "htlatex", name );
+        # Since we want the compilation to be performed in the image subdirectory
+        # we have to be careful with our execution.
+        Exec( "sh -c \" cd ", path, "; htlatex ", name, "; \"" );
         # Now we have generated an svg-file with name "name-1.svg"
 
         
         # We want to include this in the LaTeX version (we only have to rewrite the alt-name);
-        n1 := ShallowCopy(node);
+        n1 := StructuralCopy(node);
         n1.attributes.Only := "LaTeX";
 
         # To include it in the HTML-version we have to use a different node
         htmlString := Concatenation(
             "<Alt Only=\"HTML\"><![CDATA[",
-            "<img src=\"", name, "-1.svg\"",
+            "<img src=\"", __SIMPLICIAL_ImageSubdirectory, name, "-1.svg\"",
             "alt=\"", name, "\"/>]]></Alt>");
         n2 := ParseTreeXMLString(htmlString);
         n2.name := "Alt";
@@ -77,6 +82,7 @@ preProcessTikz := function( node )
         n3 := ParseTreeXMLString(consoleString);
         n3.name := "Alt";
         n3.attributes.Only := "Text";
+
 
         # Replace this node by the new nodes
         node.content := [n1,n2,n3];
@@ -126,13 +132,10 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   
   
   #MB precompile the images
-        # Remove all previous image information
-#        remPath := Concatenation("rm ", path, "_IMAGE_*");
-#        Exec( remPath);
-#        __SIMPLICIAL_ImageCount := 1;   #TODO right now we just number the images. It would be nice if identical images would be recognized (by md5sum maybe?);
+        __SIMPLICIAL_ImageCount := 1;   #TODO right now we just number the images. It would be nice if identical images would be recognized (by md5sum maybe?);
 
         # Fortunately there already is a method to apply this function to all nodes of the tree
-#        ApplyToNodesParseTree( r, preProcessTikz );
+        ApplyToNodesParseTree( r, preProcessTikz );
 
 
   # clean the result

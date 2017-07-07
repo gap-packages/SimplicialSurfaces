@@ -4,7 +4,7 @@
         The SimplicialSurface-package contains this basic functionality:
         <Enum>
             <Item>Working with simplicial surfaces (and generalisations of that), for example:
-                <Alt Only="LaTeX">
+                <Alt Only="TikZ">
                     \begin{tikzpicture}
                         % We need to define the drawing style
         		[edges/.style={black, dashed},
