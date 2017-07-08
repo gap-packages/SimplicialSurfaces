@@ -19,8 +19,17 @@ BindGlobal("__SIMPLICIAL_DocDirectory", "doc/");
 BindGlobal("__SIMPLICIAL_ImageSubdirectory", "_IMAGES/");
 
 # The additional LaTeX-header to make tikz-pictures
+# We also define global styles here. This may be a bit dirty but the
+# alternative is to refer to a separate document - which would have to
+# be included from here as well. As long as we don't have too many styles,
+# this should not be a problem.
 BindGlobal("__SIMPLICIAL_TikZHeader", 
-    "\\usepackage{tikz}\n\\usetikzlibrary{calc}\n");
+    Concatenation(
+        "\\usepackage{tikz}\n",
+        "\\usetikzlibrary{calc}\n\n",
+        "\\tikzset{vertex/.style={blue}}",
+        "\\tikzset{edge/.style={black, thick}}",
+        "\\tikzset{face/.style={fill=green!40!white, draw=black}}") );
 
 # We create both of them. Technically the doc directory would be generated
 # automatically but I don't want to find out when (I can only create the 

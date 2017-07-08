@@ -120,6 +120,8 @@ true
 
     </Section>
 
+    <!-- In this introduction the difficulty of the concepts slowly increases. This has been done on purpose to make each individual step easier (almost trivial) to follow. Ideally no one will be turned off by initial confusion over too many parameters. -->
+         
     <Section Label="Introduction_Playing"><Heading>Playing with simplicial surfaces</Heading>
         Since the platonic solids are pre-defined we use them to show a few capabilities of this package.
         <!-- This sentence informs the user about a way to define some surfaces which helps them to test more cases themselves.
@@ -129,8 +131,6 @@ true
         <Alt Only="TikZ">
             \begin{tikzpicture}
                 % We need to define the drawing style
-                [vertex/.style={blue},
-                edges/.style={black, thick}]
 	
                 \coordinate (FDL) at (0,0); % front down left
                 \coordinate (FDR) at (2,0); % front down right
@@ -143,11 +143,11 @@ true
 
                 % Draw the edges
                 \foreach \x in {FDL, BDR, BUL}{
-                    \draw[dashed, edges] (BDL) -- (\x);
+                    \draw[dashed, edge] (BDL) -- (\x);
                 }
-                \draw[edges] (FDL) -- (FDR) -- (FUR) -- (FUL) -- cycle;
-                \draw[edges] (FDR) -- (BDR) -- (BUR) -- (FUR) -- cycle;
-                \draw[edges] (FUL) -- (FUR) -- (BUR) -- (BUL) -- cycle;
+                \draw[edge] (FDL) -- (FDR) -- (FUR) -- (FUL) -- cycle;
+                \draw[edge] (FDR) -- (BDR) -- (BUR) -- (FUR) -- cycle;
+                \draw[edge] (FUL) -- (FUR) -- (BUR) -- (BUL) -- cycle;
 
                 % Draw the vertices
                 \foreach \x in {FDL, FDR, FUL, BDL, BDR, FUR, BUL, BUR} {
