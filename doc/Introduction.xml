@@ -265,12 +265,100 @@ false
 <!-- TODO can you avoid the colour loss? Can't we just use the gap-prompt as a left fixture -->
         
         <Subsection><Heading>Non-triangular faces</Heading>
+            <!-- This is an optional section. It is necessary to give the 
+                 people who are concerned about non-triangular faces something
+                 to work with. At the same time it might be too much for those
+                 who only care about triangles.
+                 Therefore we aim to make this section easy to skip. It must not
+                 be too long and it must not have essential information for 
+                 triangular faces.
+                 At the same time, many people that do not actually care about
+                 it will read this section (it does not matter if we told them
+                 to stop), for various reasons:
+                 1) Some never skip. To accomodate them, the section should not
+                    be too taxing and it should have something of interest for
+                    them.
+                 2) Some hope to further their understanding of the material by
+                    reading this "advanced" section, for example by putting the
+                    easier case into a more general context. For those readers
+                    we should explain a bit about this context.
+                 Overall this suggests that we put some contextual information
+                 in this section that might be interesting to everyone. Since
+                 we want to encourage skipping it at the same time, this has to
+                 be rather mild information. -->
+            If we want to construct surfaces with non-triangular faces, the
+            method SimplicialSurfaceByVerticesInFaces needs a bit more
+            information.
+            <!-- This formulation should help people with skipping this section.
+                 If someone only cares about triangles and is a bit impatient
+                 they will hopefully say "I don't want that" and skip ahead.-->
+            We consider the example of a pyramid that has a square as its base.
+            <!--TODO find a better picture of this pyramid -->
+            <Alt Only="TikZ">
+                \begin{tikzpicture}
+                    \coordinate [label=above:1] (A) at (1,5);
+                    \coordinate [label=below:2] (B) at (0,0);
+                    \coordinate [label=below:3] (C) at (3,0.5);
+                    \coordinate [label=left:4] (D) at (-1,2);
+                    \coordinate [label=right:5] (E) at ($(C)+(D)$);
 
+                    \filldraw[face] (A) -- (B) -- (D) -- cycle;
+                    \filldraw[face] (A) -- (B) -- (C) -- cycle;
+
+                    \draw[edge, dashed] (D) -- (E);
+                    \draw[edge, dashed] (C) -- (E);
+                    \draw[edge, dashed] (A) -- (E);
+                \end{tikzpicture}
+            </Alt>
+            To input this surface we have to enumerate the faces.
+            <!-- TODO Is there a way to properly do this in the picture?-->
+            But if we try to input the surface
+<Example>
+gap&gt; pyr := SimplicialSurfaceByVerticesInFaces( 5, 5, 
+                    [[2,3,4,5], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
+</Example>
+            we notice something strange: The resulting surface is not closed!
+<Example>
+gap&gt; IsClosedSurface(pyr);
+false
+</Example>
+            The problem lies in the definition of the square face since the
+            vertices of a square do not determine its edges. For triangular
+            faces this was not an isse since there is an edge between any
+            two vertices of a triangle.<P/>
+            
+            <!--TODO find out how to properly typeset methods (and maybe even link to their more extensive documentation)-->
+            The method SimplicialSurfaceByVerticesInFaces will believe that two
+            adjacent vertices in the given list are also connected by an edge 
+            of the face. Above, we gave the list [2,3,4,5] for the square. If 
+            we compare it with our picture we can see that the vertices 2 and 4 
+            are connected in the picture but not adjacent in our list. Likewise 
+            the vertices 2 and 5 are adjacent in the list (we imagine that the 
+            list wraps around) but don't have an edge between them in the 
+            picture. <P/>
+            
+            Instead we have to give the vertices in a proper cyclic ordering:
+<Example>
+gap&gt; pyr := SimplicialSurfaceByVerticesInFaces( 5, 5, 
+                    [[2,3,5,4], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
+gap&gt; IsClosedSurface(pyr);
+true
+</Example>
 
         </Subsection>
+        <!-- It is important that the section ends here - otherwise the reader might
+             presume that this subsection was important for subsequent subsections and
+             would be more reluctant to skip it. Additionally the bigger font of the
+             sections makes them easier to find - which makes them an easier target
+             for the end of a skip. -->
+    </Section>
 
+    <!--TODO since this section is a skipping target, it should have a more evocative
+         name that stops people from infinite skipping.-->
+    <Section><Heading>Playing with vertices and faces.</Heading>
 
     </Section>
+
 
 </Chapter>
 
