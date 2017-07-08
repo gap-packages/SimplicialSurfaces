@@ -1330,6 +1330,8 @@ InstallMethod( SimplicialSurfaceByVerticesInFacesNC, "",
 			od;
 			return Set(vertexSet);
 		end;
+
+                #TODO (4,4, [[1,2,3], [2,3,4], [2,3,4], [1,2,4]]) does not throw an error;
 			
 		facesBySetEdges := List( faces, i -> 
 							AdjacentVertices( verticesOfFaces[i] ) );
