@@ -8,8 +8,6 @@
                 <Alt Only="TikZ">
                     \begin{tikzpicture}
                         % We need to define the drawing style
-        		[edges/.style={black, dashed},
-	        	faces/.style={fill=green!40!white, draw=black}]
 	
 		        % First a tetrahedron
 		        \begin{scope}[xshift=0cm]
@@ -18,9 +16,9 @@
 		    	    \coordinate (C) at (0.8,1.5);
 			    \coordinate (D) at (1.9,0.7);
 			
-			    \filldraw[faces] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[faces] (B) -- (C) -- (D) -- cycle;
-			    \draw[edges] (A) -- (D);
+			    \filldraw[face] (A) -- (B) -- (C) -- cycle;
+			    \filldraw[face] (B) -- (C) -- (D) -- cycle;
+			    \draw[dashed] (A) -- (D);
 		        \end{scope}
 		
 		        % Second: four triangles in the form of a cone
@@ -32,13 +30,13 @@
 			    \coordinate (E) at (1,0.7);
 			
 			    % Take care to draw the faces in the back first
-			    \filldraw[faces] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[faces] (A) -- (C) -- (D) -- cycle;
+			    \filldraw[face] (A) -- (B) -- (C) -- cycle;
+			    \filldraw[face] (A) -- (C) -- (D) -- cycle;
 			    % Now the faces in the front
-			    \filldraw[faces] (A) -- (B) -- (E) -- cycle;
-			    \filldraw[faces] (A) -- (E) -- (D) -- cycle;
+			    \filldraw[face] (A) -- (B) -- (E) -- cycle;
+			    \filldraw[face] (A) -- (E) -- (D) -- cycle;
 			    % Finally the dashed line for the "hidden" edge
-			    \draw[edges] (A) -- (C);
+			    \draw[dashed] (A) -- (C);
 		        \end{scope}
 		
 		        % Three triangles that share an edge
@@ -50,12 +48,12 @@
 			    \coordinate (E) at (0.9,0.8);
 			
 		    	    % draw back face first
-			    \filldraw[faces] (A) -- (B) -- (E) -- cycle;
+			    \filldraw[face] (A) -- (B) -- (E) -- cycle;
 			    % Now draw front faces
-			    \filldraw[faces] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[faces] (A) -- (B) -- (D) -- cycle;
+			    \filldraw[face] (A) -- (B) -- (C) -- cycle;
+			    \filldraw[face] (A) -- (B) -- (D) -- cycle;
 			    % Draw dashed line
-			    \draw[edges] (A) -- (E);
+			    \draw[dashed] (A) -- (E);
 		        \end{scope}
 		
 		        % A butterfly of triangles
@@ -74,10 +72,10 @@
 			    \coordinate (F) at (-\LMX,\LMY);
 			    \coordinate (G) at (-\LUX,\LUY);
 			
-	        	    \filldraw[faces] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[faces] (A) -- (C) -- (D) -- cycle;
-			    \filldraw[faces] (A) -- (E) -- (F) -- cycle;
-			    \filldraw[faces] (A) -- (F) -- (G) -- cycle;
+	        	    \filldraw[face] (A) -- (B) -- (C) -- cycle;
+			    \filldraw[face] (A) -- (C) -- (D) -- cycle;
+			    \filldraw[face] (A) -- (E) -- (F) -- cycle;
+			    \filldraw[face] (A) -- (F) -- (G) -- cycle;
 		        \end{scope}
 		
 		        % An open cone of two triangles
@@ -86,8 +84,8 @@
 			    \coordinate (B) at (1.3,0.4);
 			    \coordinate (C) at (0.4,1.3);
 			
-			    \filldraw[faces] (A) -- (B) to[bend right=45] (C) -- cycle;
-			    \filldraw[faces] (A) -- (B) to[bend left=45] (C) -- cycle;
+			    \filldraw[face] (A) -- (B) to[bend right=45] (C) -- cycle;
+			    \filldraw[face] (A) -- (B) to[bend left=45] (C) -- cycle;
 		        \end{scope}
 		
 		        % A surface from non-triangular shapes
@@ -101,10 +99,10 @@
 			    \coordinate (G) at (1.7,0.8);
 			    \coordinate (H) at (1.8,0.2);
 			
-			    \filldraw[faces] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[faces] (A) -- (C) -- (D) -- cycle;
-			    \filldraw[faces] (D) -- (C) -- (F) -- (E) -- cycle;
-			    \filldraw[faces] (C) -- (F) -- (G) -- (H) -- (B) -- cycle;
+			    \filldraw[face] (A) -- (B) -- (C) -- cycle;
+			    \filldraw[face] (A) -- (C) -- (D) -- cycle;
+			    \filldraw[face] (D) -- (C) -- (F) -- (E) -- cycle;
+			    \filldraw[face] (C) -- (F) -- (G) -- (H) -- (B) -- cycle;
 		        \end{scope}
                     \end{tikzpicture}
                 </Alt>
