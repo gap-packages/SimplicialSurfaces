@@ -4,7 +4,8 @@
     <Section Label="Introduction_Teaser"><Heading>What can it do?</Heading>
         The SimplicialSurface-package contains this basic functionality:
         <Enum>
-            <Item>Working with simplicial surfaces (and generalisations of that), for example: <Par/>
+            <Item>Working with simplicial surfaces (and generalisations of them), for example: <Par/>
+                <!-- TODO Alternative for text-version -->
                 <Alt Only="TikZ">
                     \begin{tikzpicture}
                         % We need to define the drawing style
@@ -184,13 +185,54 @@ true
 
 
     <Section Label="Introduction_EasyConstruction"><Heading>Constructing some surfaces</Heading>
-        In the most cases one is not interested in the properties of platonic solids (usually one already knows a lot about them). Therefore we need a way to tell the package about the surfaces we are interested in. As a test case we consider three triangles that are connected by edges, like this:
+        In the most cases one is not interested in the properties of platonic solids (usually one already knows a lot about them). Therefore we need a way to tell the package about the surfaces we are interested in. 
+        <Alt Only="Text">
+            As a test case we consider a surface that consists of only three triangles T1, T2 and T3. We want that T2 shares an edge with both T1 and T3, but T1 and T3 should not be connected otherwise.
+        </Alt>
+        <Alt Not="Text">
+            As a test case we consider a surface of three triangles that are connected by edges, like this:
+        </Alt>
+        <Alt Only="TikZ">
+            \begin{tikzpicture}
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (3,0);
+                \coordinate (C) at (1.5,2);
+                \coordinate (D) at ($(B)+(C)$);
+                \coordinate (E) at ($2*(B)$);
+
+                \fill[face] (A) -- (B) -- (C) -- cycle;
+                \fill[face] (B) -- (D) -- (C) -- cycle;
+                \fill[face] (B) -- (D) -- (E) -- cycle;
+            \end{tikzpicture}
+        </Alt>
+
+        An easy way to describe this information is by labelling faces and vertices. In our case each triangle is determined by its three vertices.
+        <Alt Only="Text">
+            The vertex of T1 that is not a vertex of T2 will be called V1, the vertex that is shared by all triangles is called V2, the final vertex of T1 is V3, the final vertex of T2 is V4 and the last vertex will be called V5.
+            Then the face T1 consists of the vertices V1,V2,V3. The face T2 contains V2,V3,V4 and the face T3 has V2,V4,V5.
+        </Alt>
         <Alt Only="TikZ">
             \begin{tikzpicture}
 
             \end{tikzpicture}
         </Alt>
-        <!-- TODO define global styles for this document -->
+        <Alt Not="Text">
+            For example the face I consists of the vertices [1,2,3] and the face III has the vertices [2,4,5].
+        </Alt>
+
+        From this information we can construct the simplicial surface
+<Example>
+gap&gt; surf := SimplicialSurfaceByVerticesInFaces( 5, 3, [[1,2,3],[2,3,4],[2,4,5]] );;
+</Example>
+<!-- TODO implement this constructor without the extraneous numbers. -->
+        that retains this information:
+<Example>
+gap&gt; VerticesOfFaces(surf);
+[[1,2,3],[2,3,4],[2,4,5]]
+</Example>
+
+
+
     </Section>
 
 </Chapter>
