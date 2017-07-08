@@ -256,6 +256,9 @@ gap&gt; VerticesOfFaces(surf);
                 \drawFace{E}{F}{G}{V}
             \end{tikzpicture}
         </Alt>
+        <Alt Not="Text">
+            In this case the left-most and right-most edges are identified.
+        </Alt>
 <Example>
 gap&gt; moebius := SimplicialSurfaceByVerticesInFaces(5,5,
                             [[1,2,3],[2,3,4],[3,4,5],[4,5,1],[5,2,1]]);;
