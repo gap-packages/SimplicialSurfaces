@@ -18,6 +18,10 @@ BindGlobal("__SIMPLICIAL_DocDirectory", "doc/");
 # The subdirectory of the images
 BindGlobal("__SIMPLICIAL_ImageSubdirectory", "_IMAGES/");
 
+# The additional LaTeX-header to make tikz-pictures
+BindGlobal("__SIMPLICIAL_TikZHeader", 
+    "\\usepackage{tikz}\n\\usetikzlibrary{calc}\n");
+
 # We create both of them. Technically the doc directory would be generated
 # automatically but I don't want to find out when (I can only create the 
 # subdirectory after the initial directory was created)
@@ -48,7 +52,7 @@ preProcessTikz := function( node )
         SetPrintFormattingStatus( output, false );
         AppendTo( output, 
             "\\documentclass{article}\n\n",
-            "\\usepackage{tikz}\n",
+            __SIMPLICIAL_TikZHeader,
             "\\def\\pgfsysdriver{pgfsys-tex4ht.def}\n\n",
             "\\begin{document}\n" );
         AppendTo( output, cont );
@@ -66,6 +70,9 @@ preProcessTikz := function( node )
         # We want to include this in the LaTeX version (we only have to rewrite the alt-name);
         n1 := StructuralCopy(node);
         n1.attributes.Only := "LaTeX";
+        # center the picture
+        n1.content[1].content := Concatenation( "\n\\begin{center}",
+            n1.content[1].content, "\\end{center}\n");
 
         # To include it in the HTML-version we have to use a different node
         htmlString := Concatenation(
@@ -274,7 +281,7 @@ end);
 AutoDoc( rec( scaffold := rec(
                     MainPage := false,
                     gapdoc_latex_options := rec(
-                        LateExtraPreamble := "\\usepackage{tikz}\n")
+                        LateExtraPreamble := __SIMPLICIAL_TikZHeader)
                     ), 
               dir := __SIMPLICIAL_DocDirectory,
 	      autodoc := rec( 

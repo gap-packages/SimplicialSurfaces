@@ -125,6 +125,36 @@ true
         <!-- This sentence informs the user about a way to define some surfaces which helps them to test more cases themselves.
              It also connects the surfaces to something familiar. The formulation of this sentence is still dangerous as it should
              neither promise too much, nor trivialize the contents of this section. (TODO) -->
+        We will use the cube as an example.<Par/>
+        <Alt Only="TikZ">
+            \begin{tikzpicture}
+                % We need to define the drawing style
+                [vertex/.style={blue},
+                edges/.style={black, thick}]
+	
+                \coordinate (FDL) at (0,0); % front down left
+                \coordinate (FDR) at (2,0); % front down right
+                \coordinate (FUL) at (0,2); % front up left
+                \coordinate (BDL) at (1,1); % back up left
+                \coordinate (BDR) at ($(FDR)+(BDL)$); % back down right
+                \coordinate (FUR) at ($(FUL)+(FDR)$); % front up right
+                \coordinate (BUL) at ($(FUL)+(BDL)$); % back up left
+                \coordinate (BUR) at ($(FDR)+(FUL)+(BDL)$); % back up right
+
+                % Draw the edges
+                \foreach \x in {FDL, BDR, BUL}{
+                    \draw[dashed, edges] (BDL) -- (\x);
+                }
+                \draw[edges] (FDL) -- (FDR) -- (FUR) -- (FUL) -- cycle;
+                \draw[edges] (FDR) -- (BDR) -- (BUR) -- (FUR) -- cycle;
+                \draw[edges] (FUL) -- (FUR) -- (BUR) -- (BUL) -- cycle;
+
+                % Draw the vertices
+                \foreach \x in {FDL, FDR, FUL, BDL, BDR, FUR, BUL, BUR} {
+                    \fill[vertex] (\x) circle (2.5pt);
+                }
+            \end{tikzpicture}
+        </Alt>
 <Example>
 gap&gt; surface := Cube();;
 </Example>
@@ -140,7 +170,7 @@ gap&gt; NrOfFaces(surface);
 gap&gt; EulerCharacteristic(surface);
 2
 </Example>
-        and we can also show that the surface is homeomorphic to a sphere.
+        and we can show that the surface is homeomorphic to a sphere by verifying that it is closed, connected and orientable.
 <Example>
 gap&gt; IsClosedSurface(surface);
 true
@@ -152,6 +182,17 @@ true
         We can also compute more complicated properties like the automorphism group and check for isomorphisms between surfaces. 
     <!-- TODO do so--> 
         
+    </Section>
+
+
+    <Section Label="Introduction_EasyConstruction"><Heading>Constructing some surfaces</Heading>
+        In the most cases one is not interested in the properties of platonic solids (usually one already knows a lot about them). Therefore we need a way to tell the package about the surfaces we are interested in. As a test case we consider three triangles that are connected by edges, like this:
+        <Alt Only="TikZ">
+            \begin{tikzpicture}
+
+            \end{tikzpicture}
+        </Alt>
+        <!-- TODO define global styles for this document -->
     </Section>
 
 </Chapter>
