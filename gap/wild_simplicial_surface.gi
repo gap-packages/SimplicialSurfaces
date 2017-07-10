@@ -1462,7 +1462,7 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	function( faces, edgeCycles, vertexPaths, gens )
 	
 	local nrCycles, edges, edgeColours, facesOfEdges, vertices, 
-              edgesOfVertices, FindEdges, surf, EmptySetIfRealFace, 
+              edgesOfVertices, FindEdges, surf,
               colEdgesOfFaces, col, i, f, totalNrCycles;
 
 
@@ -1489,13 +1489,11 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	Append( facesOfEdges, edgeCycles[2] );
 	Append( facesOfEdges, edgeCycles[3] );
 
-	EmptySetIfRealFace := function( f )
-		if f in faces then
-			return [];
-		fi;
-		return;
-	end;
-	colEdgesOfFaces := List( [1..Maximum(faces)], i -> EmptySetIfRealFace(i) );
+        colEdgesOfFaces := [];
+        for f in faces do
+            colEdgesOfFaces[f] := [];
+        od;
+
 	for col in [1,2,3] do
 		for i in [1..nrCycles[col]] do
 			for f in edgeCycles[col][i] do
