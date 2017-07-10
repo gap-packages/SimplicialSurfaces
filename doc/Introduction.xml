@@ -205,6 +205,7 @@ true
         <Alt Only="TikZ">
             {
                 \def\vertexLabels{1} % It does not matter to which value we set it
+                \def\faceLabels{1}
                 \input{Image_ThreeTrianglesInLine.tex}
             }
         </Alt>
@@ -220,7 +221,7 @@ gap&gt; surf := SimplicialSurfaceByVerticesInFaces( 5, 3, [[1,2,3],[2,3,4],[2,4,
         that retains this information:
 <Example>
 gap&gt; VerticesOfFaces(surf);
-[[1,2,3],[2,3,4],[2,4,5]]
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 2, 4, 5 ] ]
 </Example>
 
         A slightly more complicated example would be a Moebius-strip.
@@ -349,10 +350,114 @@ true
 
     <!--TODO since this section is a skipping target, it should have a more evocative
          name that stops people from infinite skipping.-->
-    <Section><Heading>Playing with vertices and faces.</Heading>
-
+    <Section Label="Introduction_AccessVerticesFaces"><Heading>Playing with vertices and faces.</Heading>
+        After having learned how to construct a simplicial surface by
+        SimplicialSurfaceByVerticesInFaces, we can use the indexing of vertices
+        and faces to get more detailed information about the surface. We will
+        use the example from section
+        <Ref Sect="Introduction_EasyConstruction"/>:
+        <Alt Only="TikZ">
+            {
+                \def\vertexLabels{1}
+                \def\faceLabels{1}
+                \input{Image_ThreeTrianglesInLine.tex}
+            }
+        </Alt>
+<Example>
+gap&gt; surf := SimplicialSurfaceByVerticesInFaces( 5, 3, [[1,2,3],[2,3,4],[2,4,5]] );;
+</Example>
+        It is easy to reclaim the indexial information.
+<Example>
+gap&gt; Vertices(surf);
+[ 1, 2, 3, 4, 5 ]
+gap&gt; Faces(surf);
+[ 1, 2, 3 ]
+gap&gt; VerticesOfFaces(surf);
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 2, 4, 5 ] ]
+</Example>
+        By using the index-structure we can distinguish vertices that have a 
+        different number of incident faces.
+<Example>
+gap&gt; UnsortedDegrees(surf);
+[ 1, 3, 2, 2, 1]
+</Example>
+        The first entry of this list counts the number of faces that are
+        incident to the vertex 1 (in general the i-th entry counts those
+        for the vertex i).<P/>
+        In this case it is apparent that the second vertex is incident to three
+        different faces and unique with that property. To distinguish vertices
+        1 and 5 (that are incident to one face each), we need to know which
+        faces they are incident to.
+<Example>
+gap&gt; FacesOfVertices(surf);
+[ [ 1 ], [ 1, 2, 3 ], [ 1, 2 ], [ 2, 3 ], [ 3 ] ]
+</Example>
+        So the first vertex is incident to the face 1 and the fifth vertex is
+        incident to face 3. We can also see that the third vertex is incident
+        to the faces 1 and 2.<P/>
+        An additional advantage of the indexial information is that we can
+        determine a concrete global orientation if the surface is orientable.
+<Example>
+gap&gt; GlobalOrientation(surf);
+[ (1,2,3), (2,4,3), (2,5,4) ]
+</Example>
+        If we would rather work with lists instead of permutations (instead
+        of the permutation (2,4,3) we would have the list [2,4,3]) we can use
+<Example>
+gap&gt; GlobalOrientationByVerticesAsList(surf);
+[ [ 1, 2, 3 ], [ 2, 4, 3 ], [ 2, 5, 4 ] ]
+</Example>
     </Section>
 
+    <Section Label="Introduction_EdgeNumbering"><Heading>Adding edge numbering</Heading>
+        Up until now we did not care about specific edges because they were
+        not important for the construction of our examples so far. But let us
+        assume that we want to know which edges are incident to exactly two
+        faces in our example from before.
+        <Alt Only="TikZ">
+            {
+                \def\vertexLabels{1}
+                \def\faceLabels{1}
+                \input{Image_ThreeTrianglesInLine.tex}
+            }
+        </Alt>
+<Example>
+gap&gt; surf := SimplicialSurfaceByVerticesInFaces( 5, 3, [[1,2,3],[2,3,4],[2,4,5]] );;
+</Example>
+        We can see the edges by calling
+<Example>
+gap&gt; Edges(surf);
+[ 1, 2, 3, 4, 5, 6, 7 ]
+</Example>
+        but this does not tell us where they are. For that we may use
+<Example>
+gap&gt; VerticesOfEdges(surf);
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 2, 5 ], [ 3, 4 ], [ 4, 5 ] ]
+</Example>
+        As before, the first entry of this list contains the vertices of the
+        first edge. In our example the edge with number 1 is incident to the
+        vertices 1 and 2. We can update our picture:<!--TODO do so-->
+        <Alt Only="TikZ">
+            {
+                \def\vertexLabels{1}
+                \def\edgeLabels{1}
+                \def\faceLabels{1}
+                \input{Image_ThreeTrianglesInLine.tex}
+            }
+        </Alt>
+        If we now want to know which edges are incident to exactly two
+        faces, we only have to check
+<Example>
+gap&gt; FacesOfEdges(surf);
+[ [ 1 ], [ 1 ], [ 1, 2 ], [ 2, 3 ], [ 3 ], [ 2 ], [ 3 ] ]
+</Example>
+        The positions with lists of two elements are the interesting
+        edges. We can compute the easily by
+<Example>
+gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
+[ 3, 4 ]
+</Example>
+    </Section>
 
 </Chapter>
 
