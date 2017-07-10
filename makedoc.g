@@ -18,17 +18,9 @@ BindGlobal("__SIMPLICIAL_DocDirectory", "doc/");
 
 
 # The additional LaTeX-header to make tikz-pictures
-# We also define global styles here. This may be a bit dirty but the
-# alternative is to refer to a separate document - which would have to
-# be included from here as well. As long as we don't have too many styles,
-# this should not be a problem.
-BindGlobal("__SIMPLICIAL_TikZHeader", 
-    Concatenation(
-        "\\usepackage{tikz}\n",
-        "\\usetikzlibrary{calc}\n\n",
-        "\\tikzset{vertex/.style={blue}}",
-        "\\tikzset{edge/.style={black, thick}}",
-        "\\tikzset{face/.style={fill=green!40!white, draw=black}}") );
+# Careful: The file TikZHeader.tex has to lie in the same directory as
+# the primary documentation file and the generated image files.
+BindGlobal("__SIMPLICIAL_TikZHeader", "\\input{TikZHeader.tex}\n\n" );
 
 
 # Now we have the XML-tree of the documentation

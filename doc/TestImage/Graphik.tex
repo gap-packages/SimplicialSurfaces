@@ -6,34 +6,36 @@
 
 \begin{document}
 {
-\def\vertexLabels{1}
+		\def\labels{1}
 
-            \begin{tikzpicture}[edge/.style={fill=yellow}]
-                \coordinate [label=below:\ifdefined \vertexLabels 1 \fi] (A) at (0,0);
-                \coordinate [label=above:\ifdefined \vertexLabels 2 \fi] (B) at (1.5,2);
-                \coordinate [label=below:\ifdefined \vertexLabels 3 \fi] (C) at (2,0);
-                \coordinate [label=above:\ifdefined \vertexLabels 4 \fi] (D) at ($(B)+(C)$);
-                \coordinate [label=below:\ifdefined \vertexLabels 5 \fi] (E) at ($2*(C)$);
-                \coordinate [label=above:\ifdefined \vertexLabels 1 \fi] (F) at ($2*(C)+(B)$);
-                \coordinate [label=below:\ifdefined \vertexLabels 2 \fi] (G) at ($3*(C)$);
-
-                % Draw a face with vertices 1,2,3 and label 4 in the middle
-                \def\drawFace#1#2#3#4{
-                    \filldraw[fill=blue!50!white, draw=black] (#1) -- (#2) -- (#3) -- cycle;
-                    \node at ($1/3*(#1)+1/3*(#2)+1/3*(#3)$) {#4};
-                }
-                
-                \drawFace{A}{B}{C}{\ifdefined \vertexLabels I \fi}
-                \drawFace{B}{C}{D}{\ifdefined \vertexLabels II \fi}
-                \drawFace{C}{D}{E}{\ifdefined \vertexLabels III \fi}
-                \drawFace{D}{E}{F}{\ifdefined \vertexLabels IV \fi}
-                \drawFace{E}{F}{G}{\ifdefined \vertexLabels V \fi}
-                
-          
-                \node[edge] at ($1/2*(A)+1/2*(B)$) {1};
-                \node[edge] at ($1/2*(B)+1/2*(C)$) {3};
-            \end{tikzpicture}
+        \begin{tikzpicture}[edge/.style={fill=yellow}, faceColor/.style={green!40!white}, face/.style={fill=faceColor/.style, draw=black}]
+			\def\scale{2}        
+        
+            \coordinate [label=below:\ifdefined \labels \textcolor{blue}{1} \fi] (A) at (0,0);
+	        \coordinate [label=right:\ifdefined \labels \textcolor{blue}{2} \fi] (B) at (1*\scale,2*\scale);
+	        \coordinate [label=left:\ifdefined \labels \textcolor{blue}{3} \fi] (C) at (-1*\scale,2*\scale);
+			
+			\def\col{green!40!white}
+		\begin{scope}[face]
+			\extractcolorspecs{.}{\modelcmd}{\colorcmd}
+			\node at (-1,-1) {\modelcmd};
+			\node at (1,-1) {\colorcmd};
+		\end{scope}
+			
+	        \filldraw[bottom color=\col!53!black, top color=green!40!white] (B) to[bend right=45] node[above, near start]{3} (C) to[bend right=45] (B);
+			%\draw[dashed] (B) to[bend left=45] (C);	        
+	        \filldraw[fill=green!40!white] (A) -- node[right]{1} (B) to[bend left=45]node[above, near end]{4} (C) -- node[left]{2} cycle;
+	        
+	        \ifdefined \labels
+	        	% Draw face labels
+	        	\node at ($1/2*(A)+1/4*(B)+1/4*(C)$) {I};
+	        	\node at ($1/2*(B)+1/2*(C)$) {II};	        	
+	        \fi
+	        
+	        \foreach \x in {A,B,C}
+	        	\fill[blue] (\x) circle (2pt);
+	    \end{tikzpicture}
+ 
    }         
             
-          \ifdefined \vertexLabels bla \fi
 \end{document}
