@@ -157,7 +157,6 @@ true
 <Example>
 gap&gt; surface := Cube();;
 </Example>
-        <!-- TODO Draw a picture of a cube -->
         We can compute elementary properties of the surface
 <Example>
 gap&gt; NrOfVertices(surface);
@@ -193,17 +192,9 @@ true
             As a test case we consider a surface of three triangles that are connected by edges, like this:
         </Alt>
         <Alt Only="TikZ">
-            \begin{tikzpicture}
-                \coordinate (A) at (0,0);
-                \coordinate (B) at (3,0);
-                \coordinate (C) at (1.5,2);
-                \coordinate (D) at ($(B)+(C)$);
-                \coordinate (E) at ($2*(B)$);
-
-                \fill[face] (A) -- (B) -- (C) -- cycle;
-                \fill[face] (B) -- (D) -- (C) -- cycle;
-                \fill[face] (B) -- (D) -- (E) -- cycle;
-            \end{tikzpicture}
+            {
+                \input{Image_ThreeTrianglesInLine.tex}
+            }
         </Alt>
 
         An easy way to describe this information is by labelling faces and vertices. In our case each triangle is determined by its three vertices.
@@ -211,11 +202,11 @@ true
             The vertex of T1 that is not a vertex of T2 will be called V1, the vertex that is shared by all triangles is called V2, the final vertex of T1 is V3, the final vertex of T2 is V4 and the last vertex will be called V5.
             Then the face T1 consists of the vertices V1,V2,V3. The face T2 contains V2,V3,V4 and the face T3 has V2,V4,V5.
         </Alt>
-        <!-- TODO find a way to number the elements without writing the whole tikz-code twice every time -->
         <Alt Only="TikZ">
-            \begin{tikzpicture}
-
-            \end{tikzpicture}
+            {
+                \def\vertexLabels{1} % It does not matter to which value we set it
+                \input{Image_ThreeTrianglesInLine.tex}
+            }
         </Alt>
         <Alt Not="Text">
             For example the face I consists of the vertices [1,2,3] and the face III has the vertices [2,4,5].
