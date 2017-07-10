@@ -25,7 +25,7 @@
                 
                 \node at (-1,-1) {\vertexLabels};
                 
-			\ifx \vertexLabels = true
+			\ifdefined \vertexLabels 
                 \drawFace{A}{B}{C}{I}
             \fi
                 \drawFace{B}{C}{D}{II}
