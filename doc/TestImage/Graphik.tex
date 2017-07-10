@@ -8,7 +8,7 @@
 {
 \def\vertexLabels{1}
 
-            \begin{tikzpicture}
+            \begin{tikzpicture}[edge/.style={fill=yellow}]
                 \coordinate [label=below:\ifdefined \vertexLabels 1 \fi] (A) at (0,0);
                 \coordinate [label=above:\ifdefined \vertexLabels 2 \fi] (B) at (1.5,2);
                 \coordinate [label=below:\ifdefined \vertexLabels 3 \fi] (C) at (2,0);
@@ -28,6 +28,10 @@
                 \drawFace{C}{D}{E}{\ifdefined \vertexLabels III \fi}
                 \drawFace{D}{E}{F}{\ifdefined \vertexLabels IV \fi}
                 \drawFace{E}{F}{G}{\ifdefined \vertexLabels V \fi}
+                
+          
+                \node[edge] at ($1/2*(A)+1/2*(B)$) {1};
+                \node[edge] at ($1/2*(B)+1/2*(C)$) {3};
             \end{tikzpicture}
    }         
             

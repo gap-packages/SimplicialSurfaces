@@ -436,7 +436,7 @@ gap&gt; VerticesOfEdges(surf);
 </Example>
         As before, the first entry of this list contains the vertices of the
         first edge. In our example the edge with number 1 is incident to the
-        vertices 1 and 2. We can update our picture:<!--TODO do so-->
+        vertices 1 and 2. We can update our picture:<!--TODO choose a better colour scheme-->
         <Alt Only="TikZ">
             {
                 \def\vertexLabels{1}

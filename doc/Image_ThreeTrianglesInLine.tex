@@ -10,7 +10,7 @@
 % }
 % Otherwise the labels will be switched on universally!
 
-\begin{tikzpicture}
+\begin{tikzpicture}[edgeLabel/.style={fill=red!10!white}]
     \coordinate [label=below:\ifdefined \vertexLabels 1 \fi] (A) at (0,0);
     \coordinate [label=below:\ifdefined \vertexLabels 2 \fi] (B) at (3,0);
     \coordinate [label=above:\ifdefined \vertexLabels 3 \fi] (C) at (1.5,2);
@@ -26,4 +26,14 @@
     \drawFace{A}{B}{C}{\ifdefined \faceLabels I \fi}
     \drawFace{B}{C}{D}{\ifdefined \faceLabels II \fi}
     \drawFace{B}{D}{E}{\ifdefined \faceLabels III \fi}
+
+    \ifdefined \edgeLabels
+        \node[edgeLabel] at ($1/2*(A)+1/2*(B)$) {1};
+        \node[edgeLabel] at ($1/2*(A)+1/2*(C)$) {2};
+        \node[edgeLabel] at ($1/2*(C)+1/2*(B)$) {3};
+        \node[edgeLabel] at ($1/2*(D)+1/2*(B)$) {4};
+        \node[edgeLabel] at ($1/2*(E)+1/2*(B)$) {5};
+        \node[edgeLabel] at ($1/2*(C)+1/2*(D)$) {6};
+        \node[edgeLabel] at ($1/2*(D)+1/2*(E)$) {7};
+    \fi
 \end{tikzpicture}
