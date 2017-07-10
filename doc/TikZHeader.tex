@@ -1,0 +1,21 @@
+% This document contains the TikZ-header for all our LaTeX-computations.
+% It especially contains all global graphic parameters.
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+
+% Now we define the global styles
+
+% We start by defining the default colours of vertices, edges and faces
+\newcommand{\vertexColor}{blue}
+\newcommand{\edgeColor}{black}
+\newcommand{\faceColor}{green!40!white}
+
+\newcommand{\vSize}{2pt}    % How big are the vertex circles (if drawn)?
+
+\tikzset{vertex/.style = {\vertexColor}}
+\tikzset{edge/.style = {\edgeColor, thick}}
+\tikzset{edgeBackground/.style = {fill=red!20!white}}
+\tikzset{face/.style = {fill=\faceColor, draw=\edgeColor}}
+

@@ -150,7 +150,7 @@ true
 
                 % Draw the vertices
                 \foreach \x in {FDL, FDR, FUL, BDL, BDR, FUR, BUL, BUR} {
-                    \fill[vertex] (\x) circle (2.5pt);
+                    \fill[vertex] (\x) circle (\vSize);
                 }
             \end{tikzpicture}
         </Alt>
@@ -474,19 +474,19 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         An example of the second situation is given by two triangles 
         that share exactly two edges. They can be visualized as an "open bag".
         <Alt Only="TikZ">
-            \begin{tikzpicture}[scale=2]
-                \coordinate (A) at (0,0);
-	        \coordinate (B) at (1.3,0.4);
-	        \coordinate (C) at (0.4,1.3);
-			
-	        \filldraw[face] (A) -- (B) to[bend right=45] (C) -- cycle;
-	        \filldraw[face] (A) -- (B) to[bend left=45] (C) -- cycle;
-	    \end{tikzpicture}
+            {
+                \input{Image_OpenBag.tex}
+            }
         </Alt>
         Since both faces share the same vertices we can't use 
         SimplicialSurfaceByVerticesInFaces here. Instead we need to label
-        vertices, edges and faces 
-        <!--TODO How to do so properly? Different colours/fonts?-->
+        vertices, edges and faces: 
+        <Alt Only="TikZ">
+            {
+                \def\labels{1}
+                \input{Image_OpenBag.tex}
+            }
+        </Alt>
         Now we have to tell which vertices are incident to which edge
 <Example>
 gap&gt; verticesOfEdges := ...;;
