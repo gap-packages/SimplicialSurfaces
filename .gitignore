@@ -4,7 +4,7 @@ doc/_Chapter*
 doc/title.xml
 doc/SimplicialSurfaces.tex
 doc/manual*
-doc/_IMAGES/
+doc/_IMAGE*
 
 # intermediate compilation stuff
 *.4ct

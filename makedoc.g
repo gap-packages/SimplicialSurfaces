@@ -15,8 +15,7 @@ MakeReadWriteGlobal("__SIMPLICIAL_ImageCount");
 # We specify the documentation directory directly since we want to use it
 # in our preprocessing method.
 BindGlobal("__SIMPLICIAL_DocDirectory", "doc/");
-# The subdirectory of the images
-BindGlobal("__SIMPLICIAL_ImageSubdirectory", "_IMAGES/");
+
 
 # The additional LaTeX-header to make tikz-pictures
 # We also define global styles here. This may be a bit dirty but the
@@ -31,12 +30,6 @@ BindGlobal("__SIMPLICIAL_TikZHeader",
         "\\tikzset{edge/.style={black, thick}}",
         "\\tikzset{face/.style={fill=green!40!white, draw=black}}") );
 
-# We create both of them. Technically the doc directory would be generated
-# automatically but I don't want to find out when (I can only create the 
-# subdirectory after the initial directory was created)
-currentDir := Filename( DirectoryCurrent(), "");
-CreateDirIfMissing( Concatenation(currentDir, __SIMPLICIAL_DocDirectory) );
-CreateDirIfMissing( Concatenation(currentDir, __SIMPLICIAL_DocDirectory, __SIMPLICIAL_ImageSubdirectory) );
 
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
@@ -50,8 +43,8 @@ preProcessTikz := function( node )
         # get the content of the tag
         cont := GetTextXMLTree(node);
         # choose a name for the image and generate it
-        # default: doc/_IMAGES/_IMAGE_*
-        path := Concatenation( __SIMPLICIAL_DocDirectory, __SIMPLICIAL_ImageSubdirectory );
+        # default: doc/_IMAGE_*
+        path := __SIMPLICIAL_DocDirectory;
         name := Concatenation("_IMAGE_", String(__SIMPLICIAL_ImageCount ));
 
         __SIMPLICIAL_ImageCount := __SIMPLICIAL_ImageCount + 1;
@@ -86,7 +79,7 @@ preProcessTikz := function( node )
         # To include it in the HTML-version we have to use a different node
         htmlString := Concatenation(
             "<Alt Only=\"HTML\"><![CDATA[",
-            "<img src=\"", __SIMPLICIAL_ImageSubdirectory, name, "-1.svg\"",
+            "<img src=\"", name, "-1.svg\"",
             "alt=\"", name, "\"/>]]></Alt>");
         n2 := ParseTreeXMLString(htmlString);
         n2.name := "Alt";
