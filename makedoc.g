@@ -71,8 +71,8 @@ preProcessTikz := function( node )
         # To include it in the HTML-version we have to use a different node
         htmlString := Concatenation(
             "<Alt Only=\"HTML\"><![CDATA[",
-            "<img src=\"", name, "-1.svg\"",
-            "alt=\"", name, "\"/>]]></Alt>");
+            "<p style=\"text-align:center;\"><img src=\"", name, "-1.svg\"",
+            "alt=\"", name, "\"/></p>]]></Alt>");
         n2 := ParseTreeXMLString(htmlString);
         n2.name := "Alt";
         n2.attributes.Only := "HTML";
