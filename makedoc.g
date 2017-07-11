@@ -12,6 +12,12 @@ fi;
 BindGlobal("__SIMPLICIAL_ImageCount",1);
 MakeReadWriteGlobal("__SIMPLICIAL_ImageCount");
 
+# We generate the names automatically by a hash-function. Therefore we
+# have to clean up old files periodically. To know which files have
+# become obsolete, we save the current files in this global list.
+BindGlobal("__SIMPLICIAL_ImageNames",[]);
+MakeReadWriteGlobal("__SIMPLICIAL_ImageNames");
+
 # We specify the documentation directory directly since we want to use it
 # in our preprocessing method.
 BindGlobal("__SIMPLICIAL_DocDirectory", "doc/");
@@ -27,40 +33,103 @@ BindGlobal("__SIMPLICIAL_TikZHeader", "\\input{TikZHeader.tex}\n\n" );
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
 # For that we define a function that changes one node 
 preProcessTikz := function( node )
-    local cont, n1, n2, n3, file, output, name, htmlString, consoleString, path;
+    local cont, n1, n2, n3, file, output, name, htmlString, consoleString, 
+        path, tmpName, tmpFile, sysDirPath, md5, out, inStream, outStream,
+        hash, tmpImageName;
 
     if node.name = "Alt" and IsBound(node.attributes.Only) and 
         node.attributes.Only in ["TikZ","Tikz"] then
 
         # get the content of the tag
         cont := GetTextXMLTree(node);
-        # choose a name for the image and generate it
-        # default: doc/_IMAGE_*
+
+
+        # We want to save our image in the file
+        # _IMAGE_<Hash>.tex
+        # (that gives _IMAGE_<Hash>-1.svg)
+        #
+        # This gives us the benefit of recognizing duplicates and
+        # minimizing compiling time (especially if we don't change the pictures
+        # between different versions of the code).
+        #
+        # At the same time this is problematic if we have \input-clauses inside
+        # our document since a change in the referred document should be
+        # reflected in a different overall image.
+        #
+        # To circumvent this issue, we proceed as follows:
+        # 1) Write the picture into a temporary file _IMAGE_TMP.tex
+        # 2) Call de-macro _IMAGE_TMP.tex
+        #       This creates the file _IMAGE_TMP-clean.tex
+        #       (and other *-clean.tex files)
+        # 3) Calculate the hash of this tex-file
+        # 4) Check if _IMAGE_<Hash>-1.svg (and the tex-file) already exist
+        #       If they do, do nothing.
+        # 5) Otherwise call mv _IMAGE_TMP.tex _IMAGE_<Hash>.tex
+        # 6) Compile this image via htlatex _IMAGE_<Hash>.tex
+        # 7) Store the name _IMAGE_<Hash> in our list
+        # 8) Include _IMAGE_<Hash>-1.svg in the HTML document
+
+        # Step 1
         path := __SIMPLICIAL_DocDirectory;
-        name := Concatenation("_IMAGE_", String(__SIMPLICIAL_ImageCount ));
-
-        __SIMPLICIAL_ImageCount := __SIMPLICIAL_ImageCount + 1;
-        file := Filename( DirectoryCurrent(), Concatenation(path, name,".tex") );
-        output := OutputTextFile( file, false );
-
+        tmpImageName := "_IMAGE_TMP";
+        tmpName := Concatenation( path, tmpImageName,  ".tex");
+        tmpFile := Filename( DirectoryCurrent(), tmpName );
+        output := OutputTextFile( tmpFile, false );
         SetPrintFormattingStatus( output, false );
-        AppendTo( output, 
+        AppendTo( output,
             "\\documentclass{article}\n\n",
             __SIMPLICIAL_TikZHeader,
             "\\def\\pgfsysdriver{pgfsys-tex4ht.def}\n\n",
-            "\\begin{document}\n" );
+            "\\begin{document}\n");
         AppendTo( output, cont );
-        AppendTo( output, "\\end{document}\n");
-
+        AppendTo( output, "\\end{document}" );
         CloseStream(output);
 
-        # Now we have to compile this file (output will be visible);
-        # Since we want the compilation to be performed in the image subdirectory
-        # we have to be careful with our execution.
-        Exec( "sh -c \" cd ", path, "; htlatex ", name, "; \"" );
-        # Now we have generated an svg-file with name "name-1.svg"
+        # Step 2
+        Exec( "sh -c \" cd ", path, "; de-macro ", Concatenation(tmpImageName, ".tex"), "; \"" );
 
-        
+        # Step 3
+        sysDirPath := DirectoriesSystemPrograms();
+        md5 := Filename( sysDirPath, "md5sum" );
+        if md5 = fail then
+            Error("There is no md5sum installed.");
+        fi;
+
+        inStream := InputTextNone();
+        out := "";
+        outStream := OutputTextString(out, true);
+        Process( Directory(path), md5, inStream, outStream, [ Concatenation(tmpImageName, "-clean.tex") ] );
+        CloseStream(inStream);
+        CloseStream(outStream);
+        hash := SplitString( out, " " )[1];
+
+        # We have to remove the -clean file immediately (otherwise
+        # all further calls will assume they don't have work to do)
+        RemoveFile( Filename( DirectoryCurrent(), Concatenation(path, tmpImageName, "-clean.tex") ) );
+
+        # Step 4
+        name := Concatenation( "_IMAGE_", hash );
+        if not IsExistingFile( 
+            Filename( DirectoryCurrent(), 
+                Concatenation( path, name, ".tex" ) ) ) or
+           not IsExistingFile(
+            Filename( DirectoryCurrent(),
+                Concatenation( path, name, "-1.svg" )) ) then
+            # Either tex or svg are not there. We will write them now.
+
+            # Step 5
+            Exec( "sh -c \" cd ", path, "; mv _IMAGE_TMP.tex ", Concatenation(name, ".tex"), "; \" " );
+
+            # Step 6
+            Exec( "sh -c \" cd ", path, "; htlatex ", Concatenation(name, ".tex"), "; \" " );
+        fi;
+            
+        # Step 7
+        Add( __SIMPLICIAL_ImageNames, name);
+
+        # Step 8 will be done in the htmlString below
+       
+
         # We want to include this in the LaTeX version (we only have to rewrite the alt-name);
         n1 := StructuralCopy(node);
         n1.attributes.Only := "LaTeX";
@@ -90,6 +159,35 @@ preProcessTikz := function( node )
         node.attributes.Only := "HTML,LaTeX,Text";
     fi;
 end;
+
+BindGlobal( "CleanImageDirectory", function(  )
+    local allFiles, file;
+
+    # First we remove the temporary files
+    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm _IMAGE_TMP*;\"" );
+
+    # Secondly we remove all old image files
+    allFiles := DirectoryContents( __SIMPLICIAL_DocDirectory );
+    for file in allFiles do
+        # We only do something with temporary image files
+        if StartsWith( file, "_IMAGE_" ) then
+            if ForAny( __SIMPLICIAL_ImageNames, n -> StartsWith(file,n) ) then
+                # This is a file to an existing picture
+                if not ForAny( [".tex", ".svg", ".log"], e -> EndsWith(file,e) ) then
+                    # Does not end in one of those file extensions
+                    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm ", file, ";\"" );
+                fi;
+            else
+                # This is an old file that can be removed
+                Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm ", file, ";\"" );
+            fi;
+        fi;
+    od;
+
+    # Finally we remove the -clean files
+    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm *-clean.tex;\"" );
+end 
+);
 
 # We now want to put this preprocessing within the MakeGAPDocDoc-function.
 # To do so we have to redefine the original global variable and add our
@@ -138,21 +236,7 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
 
-        # Afterwards we clear the directory of automatically
-        # generated files (except .svg, .tex and .log)
-        # we use "find" for that with options
-        # path In the directory path
-        # -maxdepth 1 Only in this directory
-        # -type f Only files (no directories)
-        # ! -name .tex Without .tex files (others like this)
-        Exec("sh -c \"find ", Filename(path,""),
-                " -maxdepth 1",
-                "-type f",
-                "! -name '*.tex'",
-                "! -name '*.svg'",
-                "! -name '*.log'",
-                "-name '_IMAGE_*'",
-                "-delete \" " );
+        CleanImageDirectory();
 
 
   # clean the result
