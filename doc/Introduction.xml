@@ -501,6 +501,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
                 \input{Image_OpenBag.tex}
             }
         </Alt>
+        <!--TODO Why is there no shading in HTML?-->
         Now we have to tell which vertices are incident to which edge
 <Example>
 gap&gt; verticesOfEdges := [[1,2],[1,3],[2,3],[2,3]];;

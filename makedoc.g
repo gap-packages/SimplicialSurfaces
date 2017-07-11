@@ -7,11 +7,6 @@ if fail = LoadPackage("GAPDoc", "1.6") then
 fi;
 
 
-# Because we want to allow images (especially their automated generation
-# and inclusion in HTML), we need to define a preprocessing for GAPDoc
-BindGlobal("__SIMPLICIAL_ImageCount",1);
-MakeReadWriteGlobal("__SIMPLICIAL_ImageCount");
-
 # We generate the names automatically by a hash-function. Therefore we
 # have to clean up old files periodically. To know which files have
 # become obsolete, we save the current files in this global list.
@@ -231,8 +226,6 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   
   
   #MB precompile the images
-        __SIMPLICIAL_ImageCount := 1;   #TODO right now we just number the images. It would be nice if identical images would be recognized (by md5sum maybe?);
-
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
 
