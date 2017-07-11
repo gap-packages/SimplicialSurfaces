@@ -81,6 +81,9 @@ preProcessTikz := function( node )
         CloseStream(output);
 
         # Step 2
+        # TODO separate the calls to these shell-files into a function and call
+        # that. Furthermore, add into the README a short test if a user has all
+        # necessary capabilities (and maybe an installation for them)
         Exec( "sh -c \" cd ", path, "; de-macro ", Concatenation(tmpImageName, ".tex"), "; \"" );
 
         # Step 3
