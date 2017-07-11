@@ -213,20 +213,29 @@ true
             For example the face I consists of the vertices [1,2,3] and the face III has the vertices [2,4,5].
         </Alt>
 
-        From this information we can construct the simplicial surface
+        We can encode this information as a list with three entries (one for 
+        each face). The list entry at position i is a list of all vertices that
+        are incident to the face with number i. In our example it looks like 
+        this:
 <Example>
-gap&gt; surf := SimplicialSurfaceByVerticesInFaces( 5, 3, [[1,2,3],[2,3,4],[2,4,5]] );;
+gap&gt; verticesOfFaces := [ [1,2,3], [2,3,4], [2,5,4] ];
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 2, 5, 4 ] ]
+</Example>
+        From this information we can construct a simplicial surface
+<Example>
+gap&gt; surf := SimplicialSurfaceByVerticesInFaces( 5, 3, verticesOfFaces );;
 </Example>
 <!-- TODO implement this constructor without the extraneous numbers. -->
-        that retains this information:
+        that retains this information (note that the list [2,5,4] was
+        internally changed into a set):
 <Example>
 gap&gt; VerticesOfFaces(surf);
 [ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 2, 4, 5 ] ]
 </Example>
 
-        A slightly more complicated example would be a Moebius-strip.
+        A slightly more complicated example is a Moebius-strip.
         <Alt Only="TikZ">
-            \begin{tikzpicture}
+            \begin{tikzpicture}[ident/.style={very thick,blue}]
                 \coordinate [label=below:1] (A) at (0,0);
                 \coordinate [label=above:2] (B) at (1.5,2);
                 \coordinate [label=below:3] (C) at (3,0);
@@ -246,6 +255,9 @@ gap&gt; VerticesOfFaces(surf);
                 \drawFace{C}{D}{E}{III}
                 \drawFace{D}{E}{F}{IV}
                 \drawFace{E}{F}{G}{V}
+
+                \draw[ident] (A) -- (B);
+                \draw[ident] (F) -- (G);
             \end{tikzpicture}
         </Alt>
         <Alt Not="Text">
@@ -291,10 +303,10 @@ false
             <!--TODO find a better picture of this pyramid -->
             <Alt Only="TikZ">
                 \begin{tikzpicture}
-                    \coordinate [label=above:1] (A) at (1,5);
+                    \coordinate [label=above:1] (A) at (0,5);
                     \coordinate [label=below:2] (B) at (0,0);
-                    \coordinate [label=below:3] (C) at (3,0.5);
-                    \coordinate [label=left:4] (D) at (-1,2);
+                    \coordinate [label=below:3] (C) at (4,0.5);
+                    \coordinate [label=left:4] (D) at (-3,2);
                     \coordinate [label=right:5] (E) at ($(C)+(D)$);
 
                     \filldraw[face] (A) -- (B) -- (D) -- cycle;
@@ -303,6 +315,8 @@ false
                     \draw[edge, dashed] (D) -- (E);
                     \draw[edge, dashed] (C) -- (E);
                     \draw[edge, dashed] (A) -- (E);
+                    % We have to rewrite this label as it is behind the pyramid
+                    \node[above right] at (E) {5};
                 \end{tikzpicture}
             </Alt>
             To input this surface we have to enumerate the faces.
