@@ -138,6 +138,22 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
 
+        # Afterwards we clear the directory of automatically
+        # generated files (except .svg, .tex and .log)
+        # we use "find" for that with options
+        # path In the directory path
+        # -maxdepth 1 Only in this directory
+        # -type f Only files (no directories)
+        # ! -name .tex Without .tex files (others like this)
+        Exec("sh -c \"find ", Filename(path,""),
+                " -maxdepth 1",
+                "-type f",
+                "! -name '*.tex'",
+                "! -name '*.svg'",
+                "! -name '*.log'",
+                "-name '_IMAGE_*'",
+                "-delete \" " );
+
 
   # clean the result
   Info(InfoGAPDoc, 1, "#I Checking XML structure . . .\n");
