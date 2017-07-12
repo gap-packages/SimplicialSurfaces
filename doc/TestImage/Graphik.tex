@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 
-\def\pgfsysdriver{pgfsys-tex4ht.def}
+%\def\pgfsysdriver{pgfsys-tex4ht.def}
 
 
 
@@ -33,6 +33,8 @@
     % to be avoided at all costs.
     \pgfdeclareverticalshading{customShading}
 {2*\scale cm}{color(0cm)=(\faceColor!53!black); color(2cm)=(\faceColor)}
+
+\pgfuseshading{customShading}
 
     \shadedraw[shading=customShading]
         (B) to[bend right=45] node[above, near start]{\check{3}} (C) to[bend right=45] (B);
