@@ -1,24 +1,57 @@
 \documentclass[12pt]{article}
 
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+
 
 \input{../TikZHeader.tex}
 
 \begin{document}
 {
-    \def\vertexLabels{1}
-    \def\edgeLabels{1}
-    \def\faceLabels{1}
-    \input{../Image_ThreeTrianglesInLine.tex}
-    
-    
     \def\labels{1}
-    \input{../Image_OpenBag.tex}
     
     \begin{tikzpicture}
+    \def\scale{1.7}        
+
+    % Custom method to check whether something is visible
+    \def\check#1{
+        \ifdefined \labels
+            #1
+        \fi
+    } 
+
+    % Define the coordinates (with coloured labels)
+    \coordinate [label={[\vertexColor]below:\check{1}}] (A) at (0,0);
+    \coordinate [label={[\vertexColor]right:\check{2}}] (B) at (\scale,2*\scale);
+    \coordinate [label={[\vertexColor]left:\check{3}}] (C) at (-1*\scale,2*\scale);
+
+
+    % Fill faces	
+    % We use a vertical shading to make it obvious which face is in the background
+    % This is important since the reader otherwise might fall prey to an optical illusion
+    % and confuse front and back. Since this would change the incidence geometry, this has
+    % to be avoided at all costs.
+    \pgfdeclareverticalshading{customShading}
+{2*\scale cm}{color(0cm)=(\faceColor!53!black); color(2cm)=(\faceColor)}
+
+    \shadedraw[shading=customShading]
+        (B) to[bend right=45] node[above, near start]{\check{3}} (C) to[bend right=45] (B);
+    \filldraw[face] (A) -- node[right, near end]{\check{1}} (B) 
+            to[bend left=45] node[above, near end]{\check{4}} (C) 
+            -- node[left, near start]{\check{2}} cycle;
+			
     
-    	\coordinate (A) at (0,0);
-    	\fill[blue] (A) circle (2.5pt);
-    	\node[above right] at (A) {3};
-    \end{tikzpicture}
+    % Draw face labels
+    \node at ($1/2*(A)+1/4*(B)+1/4*(C)$) {\check{I}};
+    \node at ($1/2*(B)+1/2*(C)$) {\check{II}};
+
+
+    % Draw vertices
+    \foreach \x in {A,B,C}
+	\fill[vertex] (\x) circle (\vSize); 
+	
+	
+
+\end{tikzpicture}
 }                     
 \end{document}
