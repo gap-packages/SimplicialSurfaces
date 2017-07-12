@@ -294,12 +294,11 @@ false
                  we want to encourage skipping it at the same time, this has to
                  be rather mild information. -->
             If we want to construct surfaces with non-triangular faces, the
-            method SimplicialSurfaceByVerticesInFaces needs a bit more
-            information.
+            method SimplicialSurfaceByVerticesInFaces is a bit more subtle.
             <!-- This formulation should help people with skipping this section.
                  If someone only cares about triangles and is a bit impatient
                  they will hopefully say "I don't want that" and skip ahead.-->
-            We consider the example of a pyramid that has a square as its base.
+            We consider the example of a pyramid with a square base.
             <!--TODO find a better picture of this pyramid -->
             <Alt Only="TikZ">
                 \begin{tikzpicture}
@@ -319,7 +318,7 @@ false
                     \node[above right] at (E) {5};
                 \end{tikzpicture}
             </Alt>
-            To input this surface we have to enumerate the faces.
+            To encode this surface we have to enumerate the faces.
             <!-- TODO Is there a way to properly do this in the picture?-->
             But if we try to input the surface
 <Example>
@@ -331,10 +330,11 @@ gap&gt; pyr := SimplicialSurfaceByVerticesInFaces( 5, 5,
 gap&gt; IsClosedSurface(pyr);
 false
 </Example>
-            The problem lies in the definition of the square face since the
-            vertices of a square do not determine its edges. For triangular
-            faces this was not an isse since there is an edge between any
-            two vertices of a triangle.<P/>
+            The problem is: We did not tell our method what the edges
+            should be. For triangular faces this is not an issue because
+            there is an edge between any pair of vertices. But for the square
+            face in our example the vertices do <Emph>not</Emph> determine its
+            edges.<P/>
             
             <!--TODO find out how to properly typeset methods (and maybe even link to their more extensive documentation)-->
             The method SimplicialSurfaceByVerticesInFaces will believe that two
@@ -411,6 +411,8 @@ gap&gt; FacesOfVertices(surf);
         to the faces 1 and 2.<P/>
         An additional advantage of the indexial information is that we can
         determine a concrete global orientation if the surface is orientable.
+        By using GlobalOrientation we will get a list of permutations that
+        the i-th entry is a permutation of the vertices in face i.
 <Example>
 gap&gt; GlobalOrientation(surf);
 [ (1,2,3), (2,4,3), (2,5,4) ]
@@ -466,7 +468,7 @@ gap&gt; FacesOfEdges(surf);
 [ [ 1 ], [ 1 ], [ 1, 2 ], [ 2, 3 ], [ 3 ], [ 2 ], [ 3 ] ]
 </Example>
         The positions with lists of two elements are the interesting
-        edges. We can compute the easily by
+        edges. We can compute them easily by
 <Example>
 gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
 [ 3, 4 ]
@@ -481,7 +483,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         SimplicialSurfaceByVerticesInFaces but a more versatile method,
         for example
         <Enum>
-            <Item>We already have an edge labelling and want to keep it</Item>
+            <Item>We already have an edge labelling and want to keep it.</Item>
             <Item>The faces of our surface are not determined by their
                 vertices.</Item>
         </Enum>
@@ -494,7 +496,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         </Alt>
         Since both faces share the same vertices we can't use 
         SimplicialSurfaceByVerticesInFaces here. Instead we need to label
-        vertices, edges and faces: 
+        vertices, edges and faces individually: 
         <Alt Only="TikZ">
             {
                 \def\labels{1}
@@ -502,7 +504,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
             }
         </Alt>
         <!--TODO Why is there no shading in HTML?-->
-        Now we have to tell which vertices are incident to which edge
+        Now we have to tell &GAP; which vertices are incident to which edges
 <Example>
 gap&gt; verticesOfEdges := [[1,2],[1,3],[2,3],[2,3]];;
 </Example>
