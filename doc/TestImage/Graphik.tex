@@ -6,6 +6,13 @@
 
 \input{../TikZHeader.tex}
 
+\makeatletter
+\edef\texforht{TT\noexpand\fi
+  \@ifpackageloaded{tex4ht}
+    {\noexpand\iftrue}
+    {\noexpand\iffalse}}
+\makeatother
+
 \begin{document}
 {
     \def\labels{1}
@@ -31,13 +38,14 @@
     % This is important since the reader otherwise might fall prey to an optical illusion
     % and confuse front and back. Since this would change the incidence geometry, this has
     % to be avoided at all costs.
-    \pgfdeclareverticalshading{customShading}
-{2*\scale cm}{color(0cm)=(\faceColor!53!black); color(2cm)=(\faceColor)}
-
-\pgfuseshading{customShading}
-
-    \shadedraw[shading=customShading]
+   
+	\if\texforht
+		\filldraw[fill=blue]
+	\else
+		\filldraw[fill=red]
+	\fi
         (B) to[bend right=45] node[above, near start]{\check{3}} (C) to[bend right=45] (B);
+
     \filldraw[face] (A) -- node[right, near end]{\check{1}} (B) 
             to[bend left=45] node[above, near end]{\check{4}} (C) 
             -- node[left, near start]{\check{2}} cycle;

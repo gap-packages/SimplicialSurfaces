@@ -19,3 +19,15 @@
 \tikzset{edgeBackground/.style = {fill=blue!20!white}}
 \tikzset{face/.style = {fill=\faceColor, draw=\edgeColor}}
 
+
+% Sometimes we want to implement different behaviour for the generated 
+% HTML-pictures (for example, shading is not supported in HTML).
+% For that we define a macro to check whether we run the code with
+% htlatex. The code comes from 
+% https://tex.stackexchange.com/questions/93852/what-is-the-correct-way-to-check-for-latex-pdflatex-and-html-in-the-same-latex
+\makeatletter
+\edef\texforht{TT\noexpand\fi
+  \@ifpackageloaded{tex4ht}
+    {\noexpand\iftrue}
+    {\noexpand\iffalse}}
+\makeatother
