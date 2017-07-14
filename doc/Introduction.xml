@@ -233,7 +233,7 @@ gap&gt; VerticesOfFaces(surf);
 [ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 2, 4, 5 ] ]
 </Example>
 
-        A slightly more complicated example is a Moebius-strip.
+        A slightly more complicated example is a Möbius-strip.
         <Alt Only="TikZ">
             \begin{tikzpicture}[ident/.style={very thick,blue}]
                 \coordinate [label=below:1] (A) at (0,0);
