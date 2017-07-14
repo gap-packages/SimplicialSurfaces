@@ -1532,8 +1532,8 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 			# Now we have to find the edges that conform to the 
                         # colours in pathElement[2] and pathElement[3]
 			Append( edges, 
-				[ ColouredEdgeOfFace(surf, pathElement[1], pathElement[2] ), 
-				ColouredEdgeOfFace(surf, pathElement[1], pathElement[3] ) ] );
+				[ ColouredEdgeOfFaceNC(surf, pathElement[1], pathElement[2] ), 
+				ColouredEdgeOfFaceNC(surf, pathElement[1], pathElement[3] ) ] );
 		od;
 
 		return Set(edges);
@@ -3721,8 +3721,8 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 
 
                 # Modify edge and face data
-                newEdge1 := ColouredEdgeOfFace( surface, nextFace, otherCol );
-                newEdge2 := ColouredEdgeOfFace( surface, nextFace, 6-col-otherCol );
+                newEdge1 := ColouredEdgeOfFaceNC( surface, nextFace, otherCol );
+                newEdge2 := ColouredEdgeOfFaceNC( surface, nextFace, 6-col-otherCol );
                 AddToData( edgeData, newEdge1, 
                     [ edgeData[nextEdge][1][1], finalVertexTuple ] );
                 AddToData( edgeData, newEdge2, 
