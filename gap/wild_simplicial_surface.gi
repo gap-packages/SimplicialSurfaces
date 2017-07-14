@@ -2287,8 +2287,8 @@ InstallMethod( GeneratorsFromFacePairs, "List of integer pairs", [IsList],
 
         if Length(facepairs) = 0 then return [ (), (), () ]; fi;
         check := Filtered( facepairs, i-> not IsList(i) or 
-                           Length(i) <> 2 or not IsPosInt(i[1]) or 
-                           not IsPosInt(i[2]) );
+                           not Length(i) in [1,2] or not IsPosInt(i[1]) or 
+                           Size( Filtered(i, j-> not IsPosInt(j)) ) > 0 );
         if Length(check)<> 0 then 
             Error("GeneratorsFromFacePairs: ", 
                   "input not a list of pairs of positive integers");
@@ -2678,9 +2678,9 @@ InstallMethod(DoubleCover, "of a wild simplicial surface",
         MapCycle := function( cycle, type )
             local i,j;
 
-            # If we have a border, it stays a border
+            # If we have a border, it will be connected to its inverse
             if type = 0 then
-                return ();
+                return (cycle[1], cycle[1]+N);
             fi;
 
             i := cycle[1];
