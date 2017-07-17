@@ -3,6 +3,19 @@ The most general structure that we consider in this package is a polygonal compl
 (a generalisation of simplicial surfaces and complexes).
 
 
+    Picture:
+        Polygonal Complex
+                 |
+                 |                       Triangular Complex
+                 |                           |
+        Ramified Polygonal Surface           |
+                 |                           |
+                 |                      Ramified simplicial surface
+                 |                           |
+        Polygonal Surface                    |
+                                        Simplicial surface
+
+
 Section "Polygonal and Simplicial complexes"
 
 
