@@ -72,7 +72,17 @@ the condition
     3) Every vertex is incident to at least one face.
 
 A polygonal complex is now just a two-dimensional incidence geometry that satisfies
-these three conditions.
+these three conditions. It is now easy to check that the examples in
+    [picture of many examples]
+are all polygonal complexes.
+
+IsPolygonalComplex (Filter)
+    Returns true if ... is a polygonal complex, i.e. a two-dimensional incidence
+    geometry with vertices V, edges E and faces F, such that these three conditions
+    are satisfied:
+    ...
+
+
 
 
 
