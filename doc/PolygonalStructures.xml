@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Chapter Label="PolygonalStructures"><Heading>Polygonal Structures</Heading>
+    Although we are mostly interested in surfaces, the process of folding 
+    naturally leads us to more general structures. Therefore, the most general 
+    structure that we consider in this package is a polygonal complex (a 
+    generalisation of simplicial surfaces and complexes).
+    <Par/>
+    Polygonal Complexes are structures that are build from polygons (for the exact
+    definition, see section ...), like
+    <Alt Only="TikZ">
+        \input{Image_ManyExamples.tex}
+    </Alt>
+    [Picture from the start of the introduction]
+    Since we are especially interested in surfaces we need a way to recognize
+    them. For technical reasons we split this process into two separate steps,
+    with the ramified polygonal surfaces as the intermediate structure betwee
+    polygonal complexes and polygons surfaces.
+    In many cases the definitions and algorithms simplify if we only consider
+    triangles instead of general polygons. For this reason we also have equivalents
+    of these structures that are only build from triangles. We can summarize
+    the relationships graphically (higher means more general):
+
+    Picture:
+        Polygonal Complex
+                 |
+                 |                       Triangular Complex
+                 |                           |
+        Ramified Polygonal Surface           |
+                 |                           |
+                 |                      Ramified simplicial surface
+                 |                           |
+        Polygonal Surface                    |
+                                        Simplicial surface
+                
+                                    
+</Chapter> 

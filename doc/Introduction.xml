@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Chapter Label="Introduction"><Heading> Getting started</Heading>
+<Chapter Label="Introduction"><Heading>Getting started</Heading>
     <Section Label="Introduction_Teaser"><Heading>What can it do?</Heading>
         The SimplicialSurface-package contains this basic functionality:
         <Enum>
