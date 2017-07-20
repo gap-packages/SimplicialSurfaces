@@ -11,11 +11,11 @@
     <Alt Only="TikZ">
         \input{Image_ManyExamples.tex}
     </Alt>
-    [Picture from the start of the introduction]
     Since we are especially interested in surfaces we need a way to recognize
     them. For technical reasons we split this process into two separate steps,
     with the ramified polygonal surfaces as the intermediate structure betwee
     polygonal complexes and polygons surfaces.
+    <Par/>
     In many cases the definitions and algorithms simplify if we only consider
     triangles instead of general polygons. For this reason we also have equivalents
     of these structures that are only build from triangles. We can summarize
