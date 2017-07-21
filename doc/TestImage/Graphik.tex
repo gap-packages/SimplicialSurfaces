@@ -1,10 +1,9 @@
 \documentclass{article}
 
 %https://tex.stackexchange.com/questions/36109/making-tikz-nodes-hyperlinkable
-\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
 \usepackage{tikz}
-\usetikzlibrary{decorations.pathreplacing,shapes,arrows,positioning}
-\usetikzlibrary{calc, chains}
+\usetikzlibrary{calc,positioning}
 \begin{document}
 \tikzset{
     hyperlink node/.style={
@@ -33,12 +32,12 @@ draw=black,
 % Minimal size
 minimum width=5cm
 }]
+	\hypersetup{hidelinks}
 
-
-	\node (PC) [box, hyperlink node=Sect] {Polygonal Complex};
+	\node (PC) [box, hyperlink node=Sect] {\textbf{Polygonal Complex}};
 	\node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm] {Triangular Complex};
 	
-	\node (RPS) [box, below=of PC] {Ramified Polygonal Surface};
+	\node (RPS) [box, below=of PC] {\textit{Ramified Polygonal Surface}};
 	\node (RSS) [box, below=of TC] {Ramified Simplicial Surface};
 	
 	\node (PS) [box, below=of RPS] {Polygonal Surface};
@@ -52,6 +51,7 @@ minimum width=5cm
 	\draw (TC) -- (RSS) -- (SS);
 \end{tikzpicture}
 
+\ref{Sect}
 
 \clearpage
 \section{Abschnitt}\label{Sect}

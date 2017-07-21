@@ -20,18 +20,53 @@
     triangles instead of general polygons. For this reason we also have equivalents
     of these structures that are only build from triangles. We can summarize
     the relationships graphically (higher means more general):
+    <Alt Only="TikZ">
+        \begin{tikzpicture}[
+            % Define the hyperlink structure. This code was adapted from
+            % https://tex.stackexchange.com/questions/36109/making-tikz-nodes-hyperlinkable
+            hyperlink node/.style={
+                alias=sourcenode,
+                append after command={
+                    let \p1 = (sourcenode.north west),
+                        \p2=(sourcenode.south east),
+                        \n1={\x2-\x1},
+                        \n2={\y1-\y2} in
+                    node [inner sep=0pt, outer sep=0pt,anchor=north west,at=(\p1)] 
+                        {\hyperref[#1]{\XeTeXLinkBox{\phantom{\rule{\n1}{\n2}}}}}
+                    %xelatex needs \XeTeXLinkBox, won't create a link unless it
+                    %finds text --- rules don't work without \XeTeXLinkBox.
+                    %Still builds correctly with pdflatex and lualatex
+                }
+            },
+            % The style for the boxes
+            box/.style={
+                rectangle,          % The shape
+                inner sep=2ex,      % The size
+                draw=black,         % The boundary
+                minimum width=5cm   % The minimal width (to make all nodes equal)
+            }
+        ]
+            % Make hyperlink locally invisible
+            \hypersetup{hidelinks}
 
-    Picture:
-        Polygonal Complex
-                 |
-                 |                       Triangular Complex
-                 |                           |
-        Ramified Polygonal Surface           |
-                 |                           |
-                 |                      Ramified simplicial surface
-                 |                           |
-        Polygonal Surface                    |
-                                        Simplicial surface
-                
+            % Define the nodes
+            \node (PC) [box, hyperlink node=Sect] {\textbf{Polygonal Complex}};
+	    \node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm] {Triangular Complex};
+	
+            \node (RPS) [box, below=of PC] {\textit{Ramified Polygonal Surface}};
+            \node (RSS) [box, below=of TC] {\textit{Ramified Simplicial Surface}};
+	
+	    \node (PS) [box, below=of RPS] {Polygonal Surface};
+            \node (SS) [box, below=of RSS] {\textbf{Simplicial Surface}};
+	
+	    \draw (PC.east) -- (TC.west);
+	    \draw (RPS.east) -- (RSS.west);
+	    \draw (PS.east) -- (SS.west);
+	
+	    \draw (PC) -- (RPS) -- (PS);
+	    \draw (TC) -- (RSS) -- (SS);
+        \end{tikzpicture}
+    </Alt>
+
                                     
 </Chapter> 
