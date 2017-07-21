@@ -76,6 +76,9 @@
         A polygonal complex is defined by a two-dimensional incidence geometry
         that fulfills some regularity conditions. We will exemplify this by 
         the following surface.
+        <Alt Only="TikZ">
+            \input{Image_StarOfStarExample.tex}
+        </Alt>
     </Section>
 
                                     
