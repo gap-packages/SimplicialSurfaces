@@ -50,8 +50,9 @@
             \hypersetup{hidelinks}
 
             % Define the nodes
-            \node (PC) [box, hyperlink node=Sect] {\textbf{Polygonal Complex}};
-	    \node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm] {Triangular Complex};
+            \node (PC) [box, hyperlink node=PolygonalStructures_complex] {\textbf{Polygonal Complex}};
+            \node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm,
+                hyperlink node=PolygonalStructures_complex] {Triangular Complex};
 	
             \node (RPS) [box, below=of PC] {\textit{Ramified Polygonal Surface}};
             \node (RSS) [box, below=of TC] {\textit{Ramified Simplicial Surface}};
@@ -67,6 +68,15 @@
 	    \draw (TC) -- (RSS) -- (SS);
         \end{tikzpicture}
     </Alt>
+    <!-- TODO this can be done in Text as well-->
+
+    <Section Label="PolygonalStructures_complex">
+        <Heading>Polygonal and Triangular Complexes</Heading>
+        
+        A polygonal complex is defined by a two-dimensional incidence geometry
+        that fulfills some regularity conditions. We will exemplify this by 
+        the following surface.
+    </Section>
 
                                     
 </Chapter> 
