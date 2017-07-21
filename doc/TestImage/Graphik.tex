@@ -1,7 +1,10 @@
 \documentclass{article}
+
+%https://tex.stackexchange.com/questions/36109/making-tikz-nodes-hyperlinkable
 \usepackage[hidelinks]{hyperref}
 \usepackage{tikz}
-\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing,shapes,arrows,positioning}
+\usetikzlibrary{calc, chains}
 \begin{document}
 \tikzset{
     hyperlink node/.style={
@@ -19,8 +22,30 @@
     }
 }
 
-\tikz \node [draw, inner sep=2ex,hyperlink node=Sect] {Go to Page Two};
+%\tikz \node [draw, inner sep=2ex,hyperlink node=Sect] {Go to Page Two};
 
+\begin{tikzpicture}[start chain, every node/.style={on chain,join}, node distance=2cm and 5cm, box/.style={
+% The shape:
+rectangle,
+% The size:
+inner sep=2ex,
+% The border:
+draw=black
+}]
+
+
+
+	\node (PC) [box] {Polygonal Complex};
+	\begin{scope}[start branch=triangle]
+		\node (TC) [box, below right=of PC] {Triangular Complex};
+		\node (RSS) [box, below=of TC] {Ramified simplicial surface};
+	\end{scope}
+
+	\node (RPS) [box, below=of PC, join=with chain/triangle-end] {Ramified polygonal surface};
+	
+	\node (PS) [box, below=of RPS] {Polygonal surface};
+	\node (SS) [box, below=of RSS, join=with chain/triangle-end] {Simplicial surface};
+\end{tikzpicture}
 
 
 \clearpage
