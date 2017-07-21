@@ -22,29 +22,34 @@
     }
 }
 
-%\tikz \node [draw, inner sep=2ex,hyperlink node=Sect] {Go to Page Two};
 
-\begin{tikzpicture}[start chain, every node/.style={on chain,join}, node distance=2cm and 5cm, box/.style={
+\begin{tikzpicture}[box/.style={
 % The shape:
 rectangle,
 % The size:
 inner sep=2ex,
 % The border:
-draw=black
+draw=black,
+% Minimal size
+minimum width=5cm
 }]
 
 
-
-	\node (PC) [box] {Polygonal Complex};
-	\begin{scope}[start branch=triangle]
-		\node (TC) [box, below right=of PC] {Triangular Complex};
-		\node (RSS) [box, below=of TC] {Ramified simplicial surface};
-	\end{scope}
-
-	\node (RPS) [box, below=of PC, join=with chain/triangle-end] {Ramified polygonal surface};
+	\node (PC) [box, hyperlink node=Sect] {Polygonal Complex};
+	\node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm] {Triangular Complex};
 	
-	\node (PS) [box, below=of RPS] {Polygonal surface};
-	\node (SS) [box, below=of RSS, join=with chain/triangle-end] {Simplicial surface};
+	\node (RPS) [box, below=of PC] {Ramified Polygonal Surface};
+	\node (RSS) [box, below=of TC] {Ramified Simplicial Surface};
+	
+	\node (PS) [box, below=of RPS] {Polygonal Surface};
+	\node (SS) [box, below=of RSS] {Simplicial Surface};
+	
+	\draw (PC.east) -- (TC.west);
+	\draw (RPS.east) -- (RSS.west);
+	\draw (PS.east) -- (SS.west);
+	
+	\draw (PC) -- (RPS) -- (PS);
+	\draw (TC) -- (RSS) -- (SS);
 \end{tikzpicture}
 
 
