@@ -1,0 +1,21 @@
+% WARNING: If you use this file, take care that it is always hidden away in a
+% scope - otherwise the effects might be global and difficult to find!
+
+% We use the following labelling convention:
+%   If there are vertex labels they are turned on by vertexLabels
+%   Edge labels are turned on by edgeLabels
+%   Face labels are turned on by faceLabels
+% If you want to turn on all labels, you define allLabels
+    \ifdefined\allLabels
+        \def\vertexLabels{1}
+        \def\edgeLabels{1}
+        \def\faceLabels{1}
+    \fi
+
+ 
+
+% Command to set the vertex labels (in the correct colour)
+\def\vLabel#1#2{
+    label={[\vertexColor]#1:\ifdefined\vertexLabels #2 \fi}
+}
+
