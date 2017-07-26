@@ -214,6 +214,30 @@
         In the case that all faces are triangles the polygonal complex
         is called a <E>triangular complex</E>.
 
+        <ManSection>
+            <Func Name="IsPolygonalComplex" Arg="object" 
+                Comm="Checks whether the given object is a polygonal complex"/>
+            <Returns>true or false</Returns>
+            <Description>
+                Check whether <A>object</A> is a polygonal complex. A polygonal
+                complex can be informally described as a structure that is
+                constructed from polygons.
+                <Par/>
+                More formally (for a more extensive explanatio see section 
+                <Ref Sect="PolygonalStructures_complex"/>) it is a 
+                two-dimensional incidence geometry of vertices, edges and faces
+                such that the following conditions hold:
+                <Enum>
+                    <Item>For every edge there are exactly two incident 
+                        vertices.</Item>
+                    <Item>For every face the incident edges and vertices form
+                        a polygon.</Item> <!--TODO is this too vague?-->
+                    <Item>Every vertex is incident to an edge.</Item>
+                    <Item>Every edge is incident to a face.</Item>
+                </Enum>
+            </Description>
+        </ManSection>
+
 
 
 
