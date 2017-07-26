@@ -6,11 +6,11 @@
         \def\faceLabels{1}
     \fi
 
-    \coordinate [label=left:\ifdefined\vertexLabels 1 \fi](P1) at (0,0.5);
-    \coordinate [label=below:\ifdefined\vertexLabels 2 \fi](P2) at (2,-1);
-    \coordinate [label=above:\ifdefined\vertexLabels 3 \fi](P3) at (2,2);
-    \coordinate [label=above:\ifdefined\vertexLabels 4 \fi](P4) at (5,2);
-    \coordinate [label=below:\ifdefined\vertexLabels 5 \fi](P5) at (5,-1);
+    \coordinate [label={[vertex]left:\ifdefined\vertexLabels 1 \fi}](P1) at (0,0.5);
+    \coordinate [label={[vertex]below:\ifdefined\vertexLabels 2 \fi}](P2) at (2,-1);
+    \coordinate [label={[vertex]above:\ifdefined\vertexLabels 3 \fi}](P3) at (2,2);
+    \coordinate [label={[vertex]above:\ifdefined\vertexLabels 4 \fi}](P4) at (5,2);
+    \coordinate [label={[vertex]below:\ifdefined\vertexLabels 5 \fi}](P5) at (5,-1);
 
     \filldraw[face] (P1) -- (P2) -- (P3) -- cycle;
     \filldraw[face] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
