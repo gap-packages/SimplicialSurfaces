@@ -114,7 +114,55 @@
         <Par/>
         <M>\{ (1,I), (2,I), (3,I), (3,II), (4,II), (5,II), (6,II) \}</M>.
         <Par/>
-        <!-- TODO -->
+        <!-- TODO add "subset VxE" to those? Is that possible? -->
+
+
+        Instead of a general incidence relation we only want to consider
+        those relations that have similar properties to our example. For
+        example, every edge should consist of exactly two vertices (more
+        formally, for every edge there should be exactly two vertices that
+        are incident to it).
+        <Par/>
+        If we try to generalize this condition to the faces we encounter
+        some difficulties. For example, if we only enforce that each face
+        has exactly three edges and three vertices, it would be possible
+        that two of those edges share all of their vertices. Therefore
+        even the case of triangles is quite complicated.
+        <Par/>
+        We will solve this problem by imposing a cyclic ordering on the
+        vertices and edges that are incident to each face, such that those
+        are compatible with the incidence structure. Since this definition
+        is equally valid for all possible faces (not just triangles), we
+        formally define:
+        <Par/>
+
+        For every face the number of incident vertices is equal to the number
+        of incident edges. Additionally there is an enumeration of the vertices
+        (<M>v\colon 1, v\colon 2, ..., v\colon k</M>) and the edges 
+        (<M>e\colon 1, e\colon 2, ..., e\colon k</M>) such that exactly the
+        vertices <M>v\colon i</M> and <M>v\colon(i+1)</M> are incident to the
+        edge <M>e\colon i</M> (where we read indices <M>\bmod k</M>).
+
+        <Par/>
+        With these conditions we have guaranteed that our edges and faces
+        behave as in our previous example. But they still allow the possibility
+        of an incidence relation where we have vertices but no faces. Since
+        we want to exclude singular cases like this from our considerations, we
+        require that every vertex is incident to at least one edge and that
+        every edge is incident to at least one face.
+        <!-- TODO should these conditions be displayed more prominently here?-->
+        <Par/>
+
+
+
+
+A polygonal complex is now just a two-dimensional incidence geometry that satisfies
+these three conditions. It is now easy to check that the examples in
+    [picture of many examples]
+are all polygonal complexes.
+
+
+
 
     </Section>
 
