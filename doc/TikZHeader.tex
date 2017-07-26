@@ -22,6 +22,14 @@
 \tikzset{face/.style = {fill=\faceColor, draw=\edgeColor}}
 
 
+% Custom command to draw an edge between two points
+% First two parameters are the names of the points (no brackets)
+% Third parameter is the name of the edge
+\newcommand{\drawEdge}[3]{
+    \node[edgeBackground] at ($1/2*(#1)+1/2*(#2)$) {#3};
+}
+
+
 % Sometimes we want to implement different behaviour for the generated 
 % HTML-pictures (for example, shading is not supported in HTML).
 % For that we define a macro to check whether we run the code with

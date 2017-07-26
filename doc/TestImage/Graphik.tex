@@ -14,7 +14,10 @@
 
 \newcommand{\vSize}{2.5pt}    % How big are the vertex circles (if drawn)?
 % Command to set the vertex labels (in the correct colour)
-\def\vLabel#1#2{label={[\vertexColor]#1:\ifdefined\vertexLabels #2\fi}}
+
+\newcommand{\drawEdge}[3]{            
+	\node[edgeBackground] at ($1/2*(#1)+1/2*(#2)$) {#3};
+}
 
 
 \tikzset{vertex/.style = {\vertexColor}}
@@ -25,7 +28,7 @@
 
 \begin{document}
 
-\def\vertexLabels{1}
+\def\allLabels{1}
 \begin{tikzpicture}
     % Mechanism to activate all labels
     \ifdefined\allLabels
@@ -50,9 +53,6 @@
     \fi
 
     \ifdefined\edgeLabels
-        \def\drawEdge#1#2#3{
-            \node[edgeBackground] at ($1/2*(#1)+1/2*(#2)$) {#3};
-        }
         \drawEdge{P1}{P2}{1}
         \drawEdge{P1}{P3}{2}
         \drawEdge{P2}{P3}{3}

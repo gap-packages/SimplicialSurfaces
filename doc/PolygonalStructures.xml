@@ -122,13 +122,38 @@
         example, every edge should consist of exactly two vertices (more
         formally, for every edge there should be exactly two vertices that
         are incident to it).
-        <Par/>
+        <Alt Only="TikZ">
+            \begin{tikzpicture}
+                \coordinate[label={[vertex]left:1}] (A) at (0,0);
+                \coordinate[label={[vertex]right:3}] (B) at (3,1);
+
+                \draw (A) -- (B);
+                \drawEdge{A}{B}{2}
+
+                \foreach \p in {A,B}
+                    \fill[vertex] (\p) circle (\vSize);
+            \end{tikzpicture}
+        </Alt>
         If we try to generalize this condition to the faces we encounter
         some difficulties. For example, if we only enforce that each face
         has exactly three edges and three vertices, it would be possible
         that two of those edges share all of their vertices. Therefore
         even the case of triangles is quite complicated.
-        <Par/>
+        <Alt Only="TikZ">
+            \begin{tikzpicture}
+                \def\xs{2}
+                \coordinate[label={[vertex]left:1}] (A) at (0,0);
+                \coordinate[label={[vertex]above:2}] (B) at (\xs,1);
+                \coordinate[label={[vertex]right:3}] (C) at (2*\xs,0);
+
+                \draw (A) to [bend left=30] (B);
+                \draw (A) to [bend right=30] (B);
+                \draw (B) -- (C);
+
+                \foreach \p in {A,B,C}
+                    \fill[vertex] (\p) circle (\vSize);
+            \end{tikzpicture}
+        </Alt>
         We will solve this problem by imposing a cyclic ordering on the
         vertices and edges that are incident to each face, such that those
         are compatible with the incidence structure. Since this definition
@@ -143,7 +168,29 @@
         vertices <M>v\colon i</M> and <M>v\colon(i+1)</M> are incident to the
         edge <M>e\colon i</M> (where we read indices <M>\bmod k</M>).
 
-        <Par/>
+        <Alt Only="TikZ">
+            \begin{tikzpicture}
+                % We will do a pentagon
+                \def\r{2}
+                \coordinate [label={[vertex]below:$v:1$}] (P1) at (306:\r);
+                \coordinate [label={[vertex]right:$v:2$}] (P2) at (18:\r);
+                \coordinate [label={[vertex]above:$v:3$}] (P3) at (90:\r);
+                \coordinate [label={[vertex]left:$v:4$}] (P4) at (162:\r);
+                \coordinate [label={[vertex]below:$v:5$}] (P5) at (234:\r);
+
+                \filldraw[face] (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+
+                \foreach \p in {P1,P2,P3,P4,P5}
+                    \fill[vertex] (\p) circle (\vSize);
+
+                \drawEdge{P1}{P2}{$e:1$}
+                \drawEdge{P2}{P3}{$e:2$}
+                \drawEdge{P3}{P4}{$e:3$}
+                \drawEdge{P4}{P5}{$e:4$}
+                \drawEdge{P5}{P1}{$e:5$}
+            \end{tikzpicture}
+        </Alt>
+
         With these conditions we have guaranteed that our edges and faces
         behave as in our previous example. But they still allow the possibility
         of an incidence relation where we have vertices but no faces. Since
@@ -153,13 +200,16 @@
         <!-- TODO should these conditions be displayed more prominently here?-->
         <Par/>
 
-        A polygonal complex can then be defined as a two-dimensional incidence
+        A <E>polygonal complex</E> can then be defined as a two-dimensional incidence
         geometry that satisfies these three conditions. It is now easy to verify
-        that the examples in
+        that the examples in the picture
         <Alt Only="TikZ">
             \input{Image_ManyExamples.tex}
         </Alt>
         are all polygonal complexes.
+        <Par/>
+        In the case that all faces are triangles the polygonal complex
+        is called a <E>triangular complex</E>.
 
 
 
