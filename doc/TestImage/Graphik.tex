@@ -4,6 +4,8 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{positioning}
 
+\usepackage{amssymb}
+
 
 % Now we define the global styles
 
@@ -49,7 +51,7 @@
     \filldraw[face] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
     \ifdefined\faceLabels
         \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {I};
-        \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {II};
+        \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {$\circlearrowright$};
     \fi
 
     \ifdefined\edgeLabels

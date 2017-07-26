@@ -106,7 +106,7 @@ true
         </Alt>
         <Alt Only="TikZ">
             {
-                \def\vertexLabels{1} % It does not matter to which value we set it
+                \def\vertexLabels{1}
                 \def\faceLabels{1}
                 \input{Image_ThreeTrianglesInLine.tex}
             }

@@ -53,6 +53,8 @@ preProcessTikz := function( node )
         #
         # To circumvent this issue, we proceed as follows:
         # 1) Write the picture into a temporary file _IMAGE_TMP.tex
+        #       We use a sed-command to remove all leading whitespaces
+        #       (othewise the same picture might be compiled twice).
         # 2) Call de-macro _IMAGE_TMP.tex
         #       This creates the file _IMAGE_TMP-clean.tex
         #       (and other *-clean.tex files)
@@ -80,11 +82,17 @@ preProcessTikz := function( node )
         AppendTo( output, "\\end{document}" );
         CloseStream(output);
 
+        # Now we remove the leading whitespace
+        Exec( "sh -c \" cd ", path, 
+            "; sed 's/^[ \\t]*//g' -i ", 
+            Concatenation(tmpImageName, ".tex"), "; \"" );
+
         # Step 2
         # TODO separate the calls to these shell-files into a function and call
         # that. Furthermore, add into the README a short test if a user has all
         # necessary capabilities (and maybe an installation for them)
-        Exec( "sh -c \" cd ", path, "; de-macro ", Concatenation(tmpImageName, ".tex"), "; \"" );
+        Exec( "sh -c \" cd ", path, "; de-macro ", 
+            Concatenation(tmpImageName, ".tex"), "; \"" );
 
         # Step 3
         sysDirPath := DirectoriesSystemPrograms();
