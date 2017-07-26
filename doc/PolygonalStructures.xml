@@ -190,7 +190,7 @@
                 \drawEdge{P4}{P5}{$e:4$}
                 \drawEdge{P5}{P1}{$e:5$}
 
-                \node at (0,0) {$\circlearrowleft$};
+                \node[scale=2] at (0,0) {$\circlearrowleft$};
             \end{tikzpicture}
         </Alt>
 
@@ -209,7 +209,6 @@
         <Alt Only="TikZ">
             \input{Image_ManyExamples.tex}
         </Alt>
-        <!-- TODO can you automatically remove leading whitespace? Otherwise several pictures are compiled multiple times-->
         are all polygonal complexes.
         <Par/>
         In the case that all faces are triangles the polygonal complex
