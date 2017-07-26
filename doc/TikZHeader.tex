@@ -14,10 +14,7 @@
 \newcommand{\faceColor}{yellow}
 
 \newcommand{\vSize}{2.5pt}    % How big are the vertex circles (if drawn)?
-% Command to set the vertex labels (in the correct colour)
-\newcommand[2]{\vLabel}{
-    label={[\vertexColor]#1:\ifdefined\vertexLabels #2 \fi}
-}
+
 
 \tikzset{vertex/.style = {\vertexColor}}
 \tikzset{edge/.style = {\edgeColor, thick}}

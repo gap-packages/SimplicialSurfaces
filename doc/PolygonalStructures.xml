@@ -91,11 +91,11 @@
         we have the sets
         <!-- TODO this looks really crappy in LaTeX..-->
         <Par/>
-        <M>V = {1, 2, 3, 4, 5}</M>
+        <M>V = \{1, 2, 3, 4, 5\}</M>
         <Par/>
-        <M>E = {1, 2, 3, 4, 5, 6}</M>
+        <M>E = \{1, 2, 3, 4, 5, 6\}</M>
         <Par/>
-        <M>F = {I, II}</M>.
+        <M>F = \{I, II\}</M>.
         <Par/>
         These sets can't encode the surface on their own. We also need the 
         relations between vertices, edges and faces. For that we define a 
