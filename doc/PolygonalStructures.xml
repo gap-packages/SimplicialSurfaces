@@ -139,7 +139,7 @@
         For every face the number of incident vertices is equal to the number
         of incident edges. Additionally there is an enumeration of the vertices
         (<M>v\colon 1, v\colon 2, ..., v\colon k</M>) and the edges 
-        (<M>e\colon 1, e\colon 2, ..., e\colon k</M>) such that exactly the
+        (<M>e\colon 1, e\colon 2, ..., e\colon k</M>) such that the
         vertices <M>v\colon i</M> and <M>v\colon(i+1)</M> are incident to the
         edge <M>e\colon i</M> (where we read indices <M>\bmod k</M>).
 
@@ -153,13 +153,14 @@
         <!-- TODO should these conditions be displayed more prominently here?-->
         <Par/>
 
+        A polygonal complex can then be defined as a two-dimensional incidence
+        geometry that satisfies these three conditions. It is now easy to verify
+        that the examples in
+        <Alt Only="TikZ">
+            \input{Image_ManyExamples.tex}
+        </Alt>
+        are all polygonal complexes.
 
-
-
-A polygonal complex is now just a two-dimensional incidence geometry that satisfies
-these three conditions. It is now easy to check that the examples in
-    [picture of many examples]
-are all polygonal complexes.
 
 
 
