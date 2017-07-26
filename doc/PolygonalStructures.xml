@@ -203,7 +203,7 @@
         <!-- TODO should these conditions be displayed more prominently here?-->
         <Par/>
 
-        A <E>polygonal complex</E> can then be defined as a two-dimensional incidence
+        A <K>polygonal complex</K> can then be defined as a two-dimensional incidence
         geometry that satisfies these three conditions. It is now easy to verify
         that the examples in the picture
         <Alt Only="TikZ">
@@ -212,7 +212,7 @@
         are all polygonal complexes.
         <Par/>
         In the case that all faces are triangles the polygonal complex
-        is called a <E>triangular complex</E>.
+        is called a <K>triangular complex</K>.
 
         <!--TODO somewhere we should have a definition that is easy to locate - where?-->
         <!-- Right now a lot of text is doubled. It would be nice if that would
