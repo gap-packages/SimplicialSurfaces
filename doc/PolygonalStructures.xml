@@ -54,8 +54,10 @@
             \node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm,
                 hyperlink node=PolygonalStructures_complex] {Triangular Complex};
 	
-            \node (RPS) [box, below=of PC] {\textit{Ramified Polygonal Surface}};
-            \node (RSS) [box, below=of TC] {\textit{Ramified Simplicial Surface}};
+            \node (RPS) [box, below=of PC, hyperlink node=PolygonalStructures_ramified] 
+                    {\textit{Ramified Polygonal Surface}};
+            \node (RSS) [box, below=of TC, hyperlink node=PolygonalStructures_ramified] 
+                    {\textit{Ramified Simplicial Surface}};
 	
 	    \node (PS) [box, below=of RPS] {Polygonal Surface};
             \node (SS) [box, below=of RSS] {\textbf{Simplicial Surface}};
@@ -255,11 +257,12 @@
             </Description>
         </ManSection>
 
-
-
-
-
     </Section>
 
+    <Section Label="PolygonalStructures_ramified">
+        <Heading>Ramified polygonal and simplicial surfaces</Heading>
+        <!--TODO-->
+
+    </Section>
                                     
 </Chapter> 
