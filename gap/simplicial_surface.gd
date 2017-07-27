@@ -1128,6 +1128,22 @@ DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC",
 DeclareAttribute( "PrintStringAttributeOfSimplicialSurface", 
 		IsSimplicialSurface );
 
+#! @Description
+#! Return the record of alternative names. This attribute is usually set by
+#! some constructing operation and encodes information about the construction.
+#! 
+#! The returned record has one component for each alternative naming scheme.
+#! Each of these components can have these three components:
+#! Vertices, Edges and Faces.
+#! Those are lists, which have an entry for every vertex/edge/face of the
+#! simplicial surface. Every other position is unbounded.
+#!
+#! If this attribute was not set explicitly, it will be an empty record.
+#!
+#! @Arguments simpSurf
+#! @Returns a record
+DeclareAttribute( "AlternativeNames", IsSimplicialSurface );
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

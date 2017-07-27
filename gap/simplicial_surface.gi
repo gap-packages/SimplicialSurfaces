@@ -3650,6 +3650,12 @@ InstallMethod( EdgeInFaceByVertices,
     end
 );
 
+InstallMethod( AlternativeNames, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(simpSurf)
+        return rec();
+    end
+);
 
 #
 ###  This program is free software: you can redistribute it and/or modify
