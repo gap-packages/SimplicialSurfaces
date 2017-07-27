@@ -50,7 +50,8 @@
             \hypersetup{hidelinks}
 
             % Define the nodes
-            \node (PC) [box, hyperlink node=PolygonalStructures_complex] {\textbf{Polygonal Complex}};
+            \node (PC) [box, hyperlink node=PolygonalStructures_complex] 
+                    {\textbf{Polygonal Complex}};
             \node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm,
                 hyperlink node=PolygonalStructures_complex] {Triangular Complex};
 	
@@ -59,8 +60,10 @@
             \node (RSS) [box, below=of TC, hyperlink node=PolygonalStructures_ramified] 
                     {\textit{Ramified Simplicial Surface}};
 	
-	    \node (PS) [box, below=of RPS] {Polygonal Surface};
-            \node (SS) [box, below=of RSS] {\textbf{Simplicial Surface}};
+            \node (PS) [box, below=of RPS, hyperlink node=PolygonalStructures_surface] 
+                    {Polygonal Surface};
+            \node (SS) [box, below=of RSS, hyperlink node=PolygonalStructures_surface] 
+                    {\textbf{Simplicial Surface}};
 	
 	    \draw (PC.east) -- (TC.west);
 	    \draw (RPS.east) -- (RSS.west);
@@ -93,7 +96,6 @@
             }
         </Alt>
         we have the sets
-        <!-- TODO this looks really crappy in LaTeX..-->
         <Par/>
         <M>V = \{1, 2, 3, 4, 5\}</M>
         <Par/>
@@ -261,6 +263,13 @@
 
     <Section Label="PolygonalStructures_ramified">
         <Heading>Ramified polygonal and simplicial surfaces</Heading>
+        <!--TODO-->
+
+    </Section>
+
+
+    <Section Label="PolygonalStructures_surface">
+        <Heading>Polygonal and simplicial surfaces</Heading>
         <!--TODO-->
 
     </Section>
