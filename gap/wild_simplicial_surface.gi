@@ -2866,7 +2866,7 @@ InstallMethod( SixFoldCover, "for a simplicial surface",
                    cfaces, cgens, cf, img, FacesL,
                    neigh, e1, e2, Vertex, IsIncident,
                    f1, f2, sigi, cmrtype, sigtype, IsMirror,
-                   arrange, otherIndices, remed;
+                   arrange, otherIndices, remed, altNames;
 
                
 
@@ -3040,6 +3040,11 @@ InstallMethod( SixFoldCover, "for a simplicial surface",
       if Size(wild) <> 1 then
         Error("Internal: SixfoldCover is not unique.");
       fi;
+
+      # Set the alternative names
+      altNames := rec( Faces := cfaces );
+      SetAlternativeNames( wild, rec( SixFoldCover := altNames ) );
+      
       return wild[1];
   end
 );

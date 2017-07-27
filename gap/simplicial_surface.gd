@@ -1133,7 +1133,7 @@ DeclareAttribute( "PrintStringAttributeOfSimplicialSurface",
 #! some constructing operation and encodes information about the construction.
 #! 
 #! The returned record has one component for each alternative naming scheme.
-#! Each of these components has at least three components:
+#! Each of these components can have these three components:
 #! Vertices, Edges and Faces.
 #! Those are lists, which have an entry for every vertex/edge/face of the
 #! simplicial surface. Every other position is unbounded.
