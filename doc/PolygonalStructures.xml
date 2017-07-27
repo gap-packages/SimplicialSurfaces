@@ -163,32 +163,32 @@
 
         For every face the number of incident vertices is equal to the number
         of incident edges. Additionally there is an enumeration of the vertices
-        (<M>v\colon 1, v\colon 2, ..., v\colon k</M>) and the edges 
-        (<M>e\colon 1, e\colon 2, ..., e\colon k</M>) such that the
-        vertices <M>v\colon i</M> and <M>v\colon(i+1)</M> are incident to the
-        edge <M>e\colon i</M> (where we read indices <M>\bmod k</M>).
+        (<M>v_1, v_2, ..., v_k</M>) and the edges 
+        (<M>e_1, e_2, ..., e_k</M>) such that the
+        vertices <M>v_i</M> and <M>v_{{i+1}}</M> are incident to the
+        edge <M>e_i</M> (where we read indices <M>\bmod k</M>).
 
         <!--TODO different naming convention? Maybe dependent on format?-->
         <Alt Only="TikZ">
             \begin{tikzpicture}
                 % We will do a pentagon
                 \def\r{2}
-                \coordinate [label={[vertex]below:$v:1$}] (P1) at (306:\r);
-                \coordinate [label={[vertex]right:$v:2$}] (P2) at (18:\r);
-                \coordinate [label={[vertex]above:$v:3$}] (P3) at (90:\r);
-                \coordinate [label={[vertex]left:$v:4$}] (P4) at (162:\r);
-                \coordinate [label={[vertex]below:$v:5$}] (P5) at (234:\r);
+                \coordinate [label={[vertex]below:$v_1$}] (P1) at (306:\r);
+                \coordinate [label={[vertex]right:$v_2$}] (P2) at (18:\r);
+                \coordinate [label={[vertex]above:$v_3$}] (P3) at (90:\r);
+                \coordinate [label={[vertex]left:$v_4$}] (P4) at (162:\r);
+                \coordinate [label={[vertex]below:$v_5$}] (P5) at (234:\r);
 
                 \filldraw[face] (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;
 
                 \foreach \p in {P1,P2,P3,P4,P5}
                     \fill[vertex] (\p) circle (\vSize);
 
-                \drawEdge{P1}{P2}{$e:1$}
-                \drawEdge{P2}{P3}{$e:2$}
-                \drawEdge{P3}{P4}{$e:3$}
-                \drawEdge{P4}{P5}{$e:4$}
-                \drawEdge{P5}{P1}{$e:5$}
+                \drawEdge{P1}{P2}{$e_1$}
+                \drawEdge{P2}{P3}{$e_2$}
+                \drawEdge{P3}{P4}{$e_3$}
+                \drawEdge{P4}{P5}{$e_4$}
+                \drawEdge{P5}{P1}{$e_5$}
 
                 \node[scale=2] at (0,0) {$\circlearrowleft$};
             \end{tikzpicture}
