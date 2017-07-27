@@ -3042,8 +3042,9 @@ InstallMethod( SixFoldCover, "for a simplicial surface",
       fi;
 
       # Set the alternative names
-      altNames := rec( Faces := cfaces );
-      SetAlternativeNames( wild, rec( SixFoldCover := altNames ) );
+      altNames := rec( Faces := cfaces,
+        Description := "[oldFace, [vertices of the oldFace]]");
+      SetAlternativeNames( wild[1], rec( SixFoldCover := altNames ) );
       
       return wild[1];
   end
