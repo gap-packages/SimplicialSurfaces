@@ -45,6 +45,6 @@ of vertices, edges and faces such that the following conditions hold:
 </Enum>
 A <K>triangular complex</K> is a polygonal complex where every face has
 exactly three incident vertices.
-</#GapDoc>
+</#GAPDoc>
 
 
