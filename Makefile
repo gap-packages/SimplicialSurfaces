@@ -7,6 +7,7 @@ doc/manual.six: makedoc.g \
 		gap/*.gd gap/*.gi \
 		doc/Introduction.xml \
 		doc/PolygonalStructures.xml \
+		doc/PolygonalStructuresDefinitions.xml \
 		doc/Image_* \
 		doc/TableOfContents.autodoc
 	gap makedoc.g

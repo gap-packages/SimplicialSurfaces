@@ -161,12 +161,7 @@
         formally define:
         <Par/>
 
-        For every face the number of incident vertices is equal to the number
-        of incident edges. Additionally there is an enumeration of the vertices
-        (<M>v_1, v_2, ..., v_k</M>) and the edges 
-        (<M>e_1, e_2, ..., e_k</M>) such that the
-        vertices <M>v_i</M> and <M>v_{{i+1}}</M> are incident to the
-        edge <M>e_i</M> (where we read indices <M>\bmod k</M>).
+        <#Include Label="PolygonalComplex_Face">
 
         <!--TODO different naming convention? Maybe dependent on format?-->
         <Alt Only="TikZ">
@@ -233,12 +228,9 @@
                 is a two-dimensional incidence geometry of vertices, edges and 
                 faces such that the following conditions hold:
                 <Enum>
-                    <Item>For every edge there are exactly two incident 
-                        vertices.</Item>
-                    <Item>For every face the incident edges and vertices form
-                        a polygon.</Item> <!--TODO is this too vague?-->
-                    <Item>Every vertex is incident to an edge.</Item>
-                    <Item>Every edge is incident to a face.</Item>
+                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Face_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
                 </Enum>
             </Description>
         </ManSection>
@@ -258,12 +250,9 @@
                 is a two-dimensional incidence geometry of vertices, edges and
                 faces such that the following conditions hold:
                 <Enum>
-                    <Item>For every edge there are exactly two incident
-                        vertices.</Item>
-                    <Item>For every face the incident edges and vertices form
-                        a triangle.</Item>
-                    <Item>Every vertex is incident to an edge.</Item>
-                    <Item>Every edge is incident to a face.</Item>
+                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
+                    <Item><#Include Label="TriangularComplex_Face_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
                 </Enum>
             </Description>
         </ManSection>

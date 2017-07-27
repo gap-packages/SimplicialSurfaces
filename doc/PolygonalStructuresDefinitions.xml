@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This document contains definitions of polygonal structures that
+     are used in PolygonalStructures.xml. We have separated them to
+     make modifications to the definitions easier. -->
+
+<!-- Polygonal and Triangular complexes -->
+
+<#GAPDoc Label="PolygonalComplex_Edge">
+For every edge there should be exactly two vertices that are incident to it.
+</#GAPDoc>
+
+<#GAPDoc Label="PolygonalComplex_Edge_simple">
+Every edge has exactly two incident vertices.
+</#GAPDoc>
+
+<#GAPDoc Label="PolygonalComplex_Face">
+For every face the number of incident vertices is equal to the number
+of incident edges. Additionally there is an enumeration of the vertices
+(<M>v_1, v_2, ..., v_k</M>) and the edges 
+(<M>e_1, e_2, ..., e_k</M>) such that the
+vertices <M>v_i</M> and <M>v_{{i+1}}</M> are incident to the
+edge <M>e_i</M> (where we read indices <M>\bmod k</M>).
+</#GAPDoc>
+
+<#GAPDoc Label="PolygonalComplex_Face_simple">
+For every face the incident edges and vertices form a polygon.
+</#GAPDoc>
+<!--TODO link to the complete definition-->
+<#GAPDoc Label="TriangularComplex_Face_simple">
+For every face the incident edges and vertices form a triangle.
+</#GAPDoc>
+
+<#GAPDoc Label="PolygonalComplex_Incidence">
+Every vertex is incident to an edge and every edge is incident to a face.
+</#GAPDoc>
+
+<#GAPDoc Label="PolygonalComplex_Definition">
+A <K>polygonal complex</K> is a two-dimensional incidence geometry consisting 
+of vertices, edges and faces such that the following conditions hold:
+<Enum>
+    <Item><#Include Label="PolygonalComplex_Edge"></Item>
+    <Item><#Include Label="PolygonalComplex_Face"></Item>
+    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
+</Enum>
+A <K>triangular complex</K> is a polygonal complex where every face has
+exactly three incident vertices.
+</#GapDoc>
+
+
