@@ -74,7 +74,9 @@
         <Heading>Polygonal and Triangular Complexes</Heading>
         
         A polygonal complex is defined by a two-dimensional incidence geometry
-        that fulfills some regularity conditions. We will exemplify this by 
+        that fulfills some regularity conditions (the complete definition will
+        be given at the end of this section in definition 
+        <Ref Subsect="Def_PolygonalComplex"/>). We will exemplify this by 
         the following surface.
         <Alt Only="TikZ">
             \input{Image_StarOfStarExample.tex}
@@ -163,7 +165,6 @@
 
         <#Include Label="PolygonalComplex_Face">
 
-        <!--TODO different naming convention? Maybe dependent on format?-->
         <Alt Only="TikZ">
             \begin{tikzpicture}
                 % We will do a pentagon
@@ -195,24 +196,21 @@
         we want to exclude singular cases like this from our considerations, we
         require that every vertex is incident to at least one edge and that
         every edge is incident to at least one face.
-        <!-- TODO should these conditions be displayed more prominently here?-->
         <Par/>
 
-        A <K>polygonal complex</K> can then be defined as a two-dimensional incidence
-        geometry that satisfies these three conditions. It is now easy to verify
+        <Subsection Label="Def_PolygonalComplex">
+            <Heading>Definition (polygonal complex and triangular complex)</Heading>
+            <#Include Label="PolygonalComplex_Definition">
+        </Subsection>
+
+        It is now easy to verify
         that the examples in the picture
         <Alt Only="TikZ">
             \input{Image_ManyExamples.tex}
         </Alt>
         are all polygonal complexes.
         <Par/>
-        In the case that all faces are triangles the polygonal complex
-        is called a <K>triangular complex</K>.
 
-        <!--TODO somewhere we should have a definition that is easy to locate - where?-->
-        <!-- Right now a lot of text is doubled. It would be nice if that would
-             be located in one spot. Then we could directly refer from the manSection
-             to the appropriate definition (without linking to the specific definition)-->
 
         <ManSection>
             <Filt Name="IsPolygonalComplex" Arg="object" 

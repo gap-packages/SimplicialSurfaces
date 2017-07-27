@@ -24,11 +24,13 @@ edge <M>e_i</M> (where we read indices <M>\bmod k</M>).
 <#/GAPDoc>
 
 <#GAPDoc Label="PolygonalComplex_Face_simple">
-For every face the incident edges and vertices form a polygon.
+For every face the incident edges and vertices form a polygon. (See
+definition <Ref Subsect="Def_PolygonalComplex"/>.)
 <#/GAPDoc>
 <!--TODO link to the complete definition-->
 <#GAPDoc Label="TriangularComplex_Face_simple">
-For every face the incident edges and vertices form a triangle.
+For every face the incident edges and vertices form a triangle. (See
+definition <Ref Subsect="Def_PolygonalComplex"/>.)
 <#/GAPDoc>
 
 <#GAPDoc Label="PolygonalComplex_Incidence">
@@ -36,14 +38,14 @@ Every vertex is incident to an edge and every edge is incident to a face.
 <#/GAPDoc>
 
 <#GAPDoc Label="PolygonalComplex_Definition">
-A <K>polygonal complex</K> is a two-dimensional incidence geometry consisting 
+A <E>polygonal complex</E> is a two-dimensional incidence geometry consisting 
 of vertices, edges and faces such that the following conditions hold:
 <Enum>
     <Item><#Include Label="PolygonalComplex_Edge"></Item>
     <Item><#Include Label="PolygonalComplex_Face"></Item>
     <Item><#Include Label="PolygonalComplex_Incidence"></Item>
 </Enum>
-A <K>triangular complex</K> is a polygonal complex where every face has
+A <E>triangular complex</E> is a polygonal complex where every face has
 exactly three incident vertices.
 <#/GAPDoc>
 
