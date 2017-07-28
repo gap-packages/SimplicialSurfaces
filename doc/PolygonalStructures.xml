@@ -262,6 +262,16 @@
 
     <Section Label="PolygonalStructures_ramified">
         <Heading>Ramified polygonal and simplicial surfaces</Heading>
+        Ramified polygonal (simplicial) surfaces are an intermediate concept
+        between polygonal (triangular) complexes 
+        (<Ref Sect="PolygonalStructures_complex"/>) and polygonal (simplicial)
+        surfaces (<Ref Sect="PolygonalStructures_surface"/>).
+        <Par/>
+        A <E>ramified polygonal surface</E> is a polygonal complex where every
+        edge is incident to at most two faces. If every face is a triangle, we
+        call it a <E>ramified simplicial surface</E>.
+        <Par/>
+
         <!--TODO-->
 
     </Section>
