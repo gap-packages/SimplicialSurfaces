@@ -3661,9 +3661,18 @@ InstallMethod( CommonCover,
     "for two simplicial surfaces and mr-types of edges",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
-    IsList and IsList],
-    function( surf1, surf2, edgeMR1, edgeMR2 )
-        local facePairs, newFaces, pair, vert1, vert2, allImages;
+    IsList, IsList],
+    function( surf1, surf2, mrType1, mrType2 )
+        local facePairs, newFaces, pair, vert1, vert2, allImages,
+            TauByMR, taus1, taus2, tau1, tau2, e,
+            vertexBaseSet, vertexBasePositionsByFace, facePos,
+            newFace, foundPairs, adjacencyList, AdjacentFace,
+            edgePair, adFace1, adFace2, otherIso, bothFaces, otherFace,  
+            found, j, baseVertPos1, baseVertPos2, baseVertA1, baseVertA2,
+            baseVertB1, baseVertB2, baseVertC1, baseVertC2, vertOfEdge,
+            vertexGraph, connComp, edgeDescription, i, edge, 
+            surface, altNames, simpFaces, simpEdges, simpVertices,
+            simpVerticesOfEdges, simpFacesOfEdges;
 
         # The new faces are given by all isomorphisms between faces
         # of the original two surfaces
@@ -3675,7 +3684,7 @@ InstallMethod( CommonCover,
         for pair in facePairs do
             vert1 := VerticesOfFaces(surf1)[pair[1]];
             vert2 := VerticesOfFaces(surf2)[pair[2]];
-            allImages := Arragements(vert2, Size(vert2));
+            allImages := Arrangements(vert2, Size(vert2));
             Append( newFaces, List(allImages, im -> 
                 GeneralMappingByElements( Domain(vert1), Domain(vert2),
                     List([1,2,3], i-> DirectProductElement([vert1[i],im[i]]))
@@ -3782,11 +3791,11 @@ InstallMethod( CommonCover,
                 tau1 := MappingByFunction( 
                     Domain(VerticesOfFaces(surf1)[adFace1]),
                     Source( newFace[3] ), 
-                    function(x) return x^taus1[edgePair[1]]);
+                    function(x) return x^taus1[edgePair[1]]; end );
                 # Now we can compute the composition mapping
                 otherIso := CompositionMapping( tau2, newFace[3], tau1);
                 otherFace := [adFace1, adFace2, otherIso];
-                bothFaces := Set( [newFace, otherFace );
+                bothFaces := Set( [newFace, otherFace] );
 
                 # Check whether we already found this combination
                 found := false;
@@ -3868,7 +3877,7 @@ InstallMethod( CommonCover,
         simpVerticesOfEdges := [];
         for i in [1..Size(foundPairs)] do
             edge := foundPairs[i];
-            edgeDescription[i] := [e[1],e[2];
+            edgeDescription[i] := [e[1],e[2]];
             simpFacesOfEdges[i] := e[3];
             simpVerticesOfEdges[i] := Set( List(e[4], v -> connComp.id[v]) );
         od;

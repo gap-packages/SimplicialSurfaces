@@ -1,5 +1,7 @@
 LoadPackage("grape");
-LoadPackage("NautyInterface");
+LoadPackage("NautyTracesInterface");
+LoadPackage("Digraph");
+
 Read( "init.g" );
 Read( "read.g" );
 

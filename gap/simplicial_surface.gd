@@ -631,14 +631,6 @@ DeclareOperation( "AddVertexIntoEdge", [IsSimplicialSurface, IsPosInt] );
 
 
 
-#! @Description
-#! Compute the common cover of two simplicial surfaces. TODO
-#! @Arguments surf1, surf2, mrType1, mrType2
-#! @Returns the common cover
-DeclareOperation( "CommonCover", 
-    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface, 
-    IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
-    IsList, IsList] );
 
 
 #############################################################################
@@ -1151,6 +1143,20 @@ DeclareAttribute( "PrintStringAttributeOfSimplicialSurface",
 #! @Arguments simpSurf
 #! @Returns a record
 DeclareAttribute( "AlternativeNames", IsSimplicialSurface );
+
+
+#TODO this does not belong here.
+#! @Description
+#! Compute the common cover of two simplicial surfaces. TODO
+#! @Arguments surf1, surf2, mrType1, mrType2
+#! @Returns the common cover
+DeclareOperation( "CommonCover", 
+    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface, 
+    IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+    IsList, IsList] );
+
+
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
