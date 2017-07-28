@@ -3663,7 +3663,9 @@ InstallMethod( CommonCover,
     IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsList and IsList],
     function( surf1, surf2, edgeMR1, edgeMR2 )
-        local facePairs, newFaces, pair, vert1, vert2, allImages;
+        local facePairs, newFaces, pair, vert1, vert2, allImages,
+            TauByMR, CheckConsistency, taus1, taus2, edgePairs, newEdges,
+            faces1, faces2, possibleNewFaces, correctFacePairs, newFacePairs;
 
         # The new faces are given by all isomorphisms between faces
         # of the original two surfaces
@@ -3678,7 +3680,8 @@ InstallMethod( CommonCover,
             allImages := Arragements(vert2, Size(vert2));
             Append( newFaces, List(allImages, im -> 
                 GeneralMappingByElements( Domain(vert1), Domain(vert2),
-                    List([1..Size(vert1)], i-> DirectProductElement([vert1[i],im[i]]))
+                    List([1,2,3], i-> DirectProductElement([vert1[i],im[i]]))
+                    # we only have triangular faces
                 )
             ));
         od;
@@ -3691,6 +3694,53 @@ InstallMethod( CommonCover,
         # mr-transfer of the first edge and tau2 is the mr-transfer of
         # the second edge, we have
         # tau2 \circ iso1 = iso2 \circ tau1
+
+        # We define those maps tau by permutations of the vertices
+        TauByMR := function( surf, edge, mr )
+            local vertsOfEdge, adjacentFaces, thirdVertices;
+
+            vertsOfEdge := VerticesOfEdges(surf)[edge];
+            adjacentFaces := FacesOfEdges(surf)[edge];
+            thirdVertices := Difference( Union( List(adjacentFaces, 
+                f -> VerticesOfFaces(surf)[f]) ), vertsOfEdge );
+
+            if mr = 1 then # mirror
+                if Size(thirdVertices) = 1 then
+                    return ();
+                else
+                    return (thirdVertices[1],thirdVertices[2]);
+                fi;
+            elif mr = 2 then # rotation
+                if Size(thirdVertices) = 1 then
+                    return (vertsOfEdge[1],vertsOfEdge[2]);
+                else
+                    return (vertsOfEdge[1],vertsOfEdge[2])(thirdVertices[1],thirdVertices[2]);
+                fi;
+            else
+                Error("CommonCover: Given MRType not complete.");
+            fi;
+        end;
+        taus1 := [];
+        for e in Edges(surf1) do
+            taus1[e] := TauByMR(surf1, e, mrType1[e]);            
+        od;
+        taus2 := [];
+        for e in Edges(surf2) do
+            taus2[e] := TauByMR(surf2, e, mrType2[e]);
+        od;
+
+        CheckConsistency := function( edge1, edge2, newFace1, newFace2 )
+            local tau1, tau2;
+
+            tau1 := MappingByFunction( Source(newFace1[3]), Source(newFace2[3]),
+                function( x ) return x^taus1[edge1]; end );
+            tau2 := MappingByFunction( Range(newFace1[3]), Range(newFace2[3]),
+                function( x ) return x^taus2[edge2]; end );
+
+            return CompositionMapping2(tau2,newFace1[3]) = 
+                CompositionMapping2(newFace2[3], tau1);
+        end;
+
         edgePairs := Cartesian( Edges(surf1), Edges(surf2) );
         newEdges := [];
         for pair in edgePairs do
@@ -3699,8 +3749,18 @@ InstallMethod( CommonCover,
             possibleNewFaces := Filtered( newFaces,
                 f -> f[1] in faces1 and f[2] in faces2);
             newFacePairs := Combinations(possibleNewFaces,2);
+            
+            correctFacePairs := Filtered( newFacePairs, fp ->
+                CheckConsistency(pair[1], pair[2], fp[1], fp[2] ));
 
+            Append( newEdges, List(correctFacePairs, fp -> 
+                [pair[1],pair[2],fp[1],fp[2]]) );
         od;
+
+
+        # Now we have to define the vertices. They are more complicated
+        # since they are defined by an equivalence relation. We will
+        # solve this by computing the connected components of a graph.
     end
 );
 
