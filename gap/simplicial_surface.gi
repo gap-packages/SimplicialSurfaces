@@ -3657,6 +3657,31 @@ InstallMethod( AlternativeNames, "for a simplicial surface",
     end
 );
 
+InstallMethod( CommonCover, "for two simplicial surfaces",
+    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+    IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface],
+    function( surf1, surf2 )
+        local facePairs, newFaces, pair, vert1, vert2, allImages;
+
+        # The new faces are given by all isomorphisms between faces
+        # of the original two surfaces
+        # We encode those as 
+        # [first face, second face, [first vertices], [second vertices]]
+        # The first vertices are ordered, the second vertices are arbitrary
+        facePairs := Cartesian(Faces(surf1),Faces(surf2));
+        newFaces := [];
+        for pair in facePairs do
+            vert1 := VerticesOfFaces(surf1)[pair[1]];
+            vert2 := VerticesOfFaces(surf2)[pair[2]];
+            allImages := Arragements(vert2, Size(vert2));
+            Append( newFaces,
+                List(allImages, im -> [pair[1],pair[2],vert1, im] ));
+        od;
+
+        # Now we have to define the new edges
+    end
+);
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

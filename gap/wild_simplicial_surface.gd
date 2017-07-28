@@ -386,8 +386,6 @@ DeclareOperation( "EdgeByFacesAndColourNC",
 
 
 
-#TODO   CommonCover
-
 #! @Description
 #! Return the double cover of the wild simplicial surface, keeping the 
 #! MR-type fixed.
