@@ -272,10 +272,18 @@
         call it a <E>ramified simplicial surface</E>.
         <Par/>
         The stereotypical polygonal complex that is <E>not</E> a ramified
-        polygonal surface are three triangles that share a common edge.
+        polygonal surface consists of three triangles that share a common edge.
         <Alt Only="TikZ">
             \begin{tikzpicture}
                 \input{Image_ThreeBranchingTriangles.tex}
+            \end{tikzpicture}
+        </Alt>
+
+        A stereotypical example of a ramified polygonal surface would be two 
+        tetrahedrons that have one vertex in common.
+        <Alt Only="TikZ">
+            \begin{tikzpicture}
+                \input{Image_TwoJoinedTetrahedrons.tex}
             \end{tikzpicture}
         </Alt>
         <!--TODO-->
