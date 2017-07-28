@@ -633,11 +633,12 @@ DeclareOperation( "AddVertexIntoEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @Description
 #! Compute the common cover of two simplicial surfaces. TODO
-#! @Arguments surf1, surf2
+#! @Arguments surf1, surf2, mrType1, mrType2
 #! @Returns the common cover
 DeclareOperation( "CommonCover", 
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface, 
-    IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface] );
+    IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+    IsList, IsList] );
 
 
 #############################################################################
