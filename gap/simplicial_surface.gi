@@ -3787,7 +3787,8 @@ InstallMethod( CommonCover,
                     function(x) return x^taus1[edgePair[1]]);
                 # Now we can compute the composition mapping
                 otherIso := CompositionMapping( tau2, newFace[3], tau1);
-                bothFaces := Set( [newFace, [adFace1, adFace2, otherIso]] );
+                otherFace := [adFace1, adFace2, otherIso];
+                bothFaces := Set( [newFace, otherFace );
 
                 # Check whether we already found this combination
                 found := false;
@@ -3804,23 +3805,44 @@ InstallMethod( CommonCover,
                 #TODO can this be implemented more efficiently?
 
                 # Compute the pairs of equivalent vertices
+                baseVertPos1 := vertexBasePositionsByFace[facePos];
+                baseVertPos2 := vertexBasePositionsByFace[
+                        Position(newFaces, otherFace)];
 
+                vertOfEdge := VerticesOfEdges(surf1)[edgePair[1]];
+                # Localize the vertices on the common edge
+                baseVertA1 := Filtered( baseVertPos1, p ->
+                    vertexBaseSet[p][2] = vertOfEdge[1])[1];
+                baseVertA2 := Filtered( baseVertPos2, p ->
+                    vertexBaseSet[p][2] = vertOfEdge[1])[1];
+                
+                baseVertB1 := Filtered( baseVertPos1, p ->
+                    vertexBaseSet[p][2] = vertOfEdge[2])[1];
+                baseVertB2 := Filtered( baseVertPos2, p ->
+                    vertexBaseSet[p][2] = vertOfEdge[2])[1];
+
+                # Localize the other vertices
+                baseVertC1 := Difference( baseVertPos1, 
+                    [baseVertA1, baseVertB1] )[1];
+                baseVertC2 := Difference( baseVertPos2,
+                    [baseVertA2, baseVertB2] )[1];
+
+                Add( adjacencyList, [baseVertC1, baseVertC2] );
+                # If both are mm or both are rr, their sum is even (otherwise odd)
+                if IsEvenInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
+                    Append( adjacencyList, 
+                        [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
+                else
+                    Append( adjacencyList, 
+                        [[baseVertA1, baseVertB2], [baseVertA2, baseVertB1]]);
+                fi;
             od;
         od;
 
+        # Now we have to compute the true vertices by finding the connected
+        # components of the graph that we defined with out adjacencyList.
 
 
-        # We create an adjacency list for the digraph package
-        adjacencyList := [];
-        for i in [1..Size(vertexBaseSet)] do
-            for j in [i+1..Size(vertexBaseSet)] do
-                faceI := vertexBaseSet[i][1][1];
-                faceJ := vertexBaseSet[j][1][1];
-                sharedEdges := Intersection( EdgesOfFaces(surf1)[faceI], 
-                        EdgesOfFaces(surf1)[faceJ] );
-
-            od;
-        od;
     end
 );
 
