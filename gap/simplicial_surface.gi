@@ -3663,9 +3663,7 @@ InstallMethod( CommonCover,
     IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsList and IsList],
     function( surf1, surf2, edgeMR1, edgeMR2 )
-        local facePairs, newFaces, pair, vert1, vert2, allImages,
-            TauByMR, CheckConsistency, taus1, taus2, edgePairs, newEdges,
-            faces1, faces2, possibleNewFaces, correctFacePairs, newFacePairs;
+        local facePairs, newFaces, pair, vert1, vert2, allImages;
 
         # The new faces are given by all isomorphisms between faces
         # of the original two surfaces
@@ -3841,7 +3839,8 @@ InstallMethod( CommonCover,
 
         # Now we have to compute the true vertices by finding the connected
         # components of the graph that we defined with out adjacencyList.
-
+        vertexGraph := Digraph(adjacencyList);
+        connComp := DigraphConnectedComponents(vertexGraph);
 
     end
 );
