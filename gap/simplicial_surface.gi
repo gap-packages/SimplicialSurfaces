@@ -3657,10 +3657,12 @@ InstallMethod( AlternativeNames, "for a simplicial surface",
     end
 );
 
-InstallMethod( CommonCover, "for two simplicial surfaces",
+InstallMethod( CommonCover, 
+    "for two simplicial surfaces and mr-types of edges",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
-    IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface],
-    function( surf1, surf2 )
+    IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+    IsList and IsList],
+    function( surf1, surf2, edgeMR1, edgeMR2 )
         local facePairs, newFaces, pair, vert1, vert2, allImages;
 
         # The new faces are given by all isomorphisms between faces
@@ -3679,6 +3681,23 @@ InstallMethod( CommonCover, "for two simplicial surfaces",
         od;
 
         # Now we have to define the new edges
+        # Our representation is
+        # [first edge, second edge, first new face, second new face]
+        # Not all of these configurations give valid edges, we also
+        # have to enforce a consistency condition: If tau1 is the
+        # mr-transfer of the first edge and tau2 is the mr-transfer of
+        # the second edge, we have
+        # tau2 \circ iso1 = iso2 \circ tau1
+        edgePairs := Cartesian( Edges(surf1), Edges(surf2) );
+        newEdges := [];
+        for pair in edgePairs do
+            faces1 := FacesOfEdges(surf1)[pair[1]];
+            faces2 := FacesOfEdges(surf2)[pair[2]];
+            possibleNewFaces := Filtered( newFaces,
+                f -> f[1] in faces1 and f[2] in faces2);
+            newFacePairs := Combinations(possibleNewFaces,2);
+
+        od;
     end
 );
 
