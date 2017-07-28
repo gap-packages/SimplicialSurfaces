@@ -3668,7 +3668,7 @@ InstallMethod( CommonCover,
         # The new faces are given by all isomorphisms between faces
         # of the original two surfaces
         # We encode those as 
-        # [first face, second face, [first vertices], [second vertices]]
+        # [first face, second face, bijection between first and second vertices]
         # The first vertices are ordered, the second vertices are arbitrary
         facePairs := Cartesian(Faces(surf1),Faces(surf2));
         newFaces := [];
@@ -3676,8 +3676,11 @@ InstallMethod( CommonCover,
             vert1 := VerticesOfFaces(surf1)[pair[1]];
             vert2 := VerticesOfFaces(surf2)[pair[2]];
             allImages := Arragements(vert2, Size(vert2));
-            Append( newFaces,
-                List(allImages, im -> [pair[1],pair[2],vert1, im] ));
+            Append( newFaces, List(allImages, im -> 
+                GeneralMappingByElements( Domain(vert1), Domain(vert2),
+                    List([1..Size(vert1)], i-> DirectProductElement([vert1[i],im[i]]))
+                )
+            ));
         od;
 
         # Now we have to define the new edges
