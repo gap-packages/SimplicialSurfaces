@@ -3686,10 +3686,12 @@ InstallMethod( CommonCover,
             vert2 := VerticesOfFaces(surf2)[pair[2]];
             allImages := Arrangements(vert2, Size(vert2));
             Append( newFaces, List(allImages, im -> 
-                GeneralMappingByElements( Domain(vert1), Domain(vert2),
+                [pair[1], pair[2], GeneralMappingByElements( 
+                    Domain(vert1), 
+                    Domain(vert2),
                     List([1,2,3], i-> DirectProductElement([vert1[i],im[i]]))
                     # we only have triangular faces
-                )
+                )]
             ));
         od;
 
@@ -3855,7 +3857,7 @@ InstallMethod( CommonCover,
 
         # Now we have to compute the true vertices by finding the connected
         # components of the graph that we defined with out adjacencyList.
-        vertexGraph := Digraph(adjacencyList);
+        vertexGraph := DigraphByEdges(adjacencyList);
         connComp := DigraphConnectedComponents(vertexGraph);
 
         # Now we translate all this information into a simplicial surface.
@@ -3877,15 +3879,15 @@ InstallMethod( CommonCover,
         simpVerticesOfEdges := [];
         for i in [1..Size(foundPairs)] do
             edge := foundPairs[i];
-            edgeDescription[i] := [e[1],e[2]];
-            simpFacesOfEdges[i] := e[3];
-            simpVerticesOfEdges[i] := Set( List(e[4], v -> connComp.id[v]) );
+            edgeDescription[i] := [edge[1],edge[2]];
+            simpFacesOfEdges[i] := edge[3];
+            simpVerticesOfEdges[i] := Set( List(edge[4], v -> connComp.id[v]) );
         od;
         altNames.Edges := edgeDescription;
 
         # Vertices from connComp
-        simpVertices := [1..Size(connComp.comp)];
-        altNames.Vertices := List(connComp.comp, cc ->
+        simpVertices := [1..Size(connComp.comps)];
+        altNames.Vertices := List(connComp.comps, cc ->
             List( cc, pos -> vertexBaseSet[pos] ) );
         altNames.DescriptionVertices :=
                 "list of equivalence classes of [new face, old vertex]-pairs";
@@ -3903,6 +3905,12 @@ InstallMethod( CommonCover,
         return surface;
     end
 );
+    RedispatchOnCondition( CommonCover, true, 
+	[IsSimplicialSurface, IsSimplicialSurface, IsList, IsList], 
+        [IsTriangleSurface and IsEdgesLikeSurface, 
+            IsTriangleSurface and IsEdgesLikeSurface,,], 0);
+
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
