@@ -3686,16 +3686,15 @@ InstallMethod( CommonCover,
             ));
         od;
 
-        # Now we have to define the new edges
-        # Our representation is
-        # [first edge, second edge, first new face, second new face]
-        # Not all of these configurations give valid edges, we also
-        # have to enforce a consistency condition: If tau1 is the
-        # mr-transfer of the first edge and tau2 is the mr-transfer of
-        # the second edge, we have
-        # tau2 \circ iso1 = iso2 \circ tau1
+        # We will now proceed this way:
+        # 1) Define the set from which the vertices will be derived
+        # 2) Iterate over all edge combinations (and construct adjacent faces)
+        #   2.1) Those define the new edges
+        #   2.2) They define the incidence to the faces
+        #   2.3) They define the equivalence between vertices
 
-        # We define those maps tau by permutations of the vertices
+        # Before we do this we need to define the maps tau that mirror or
+        # rotate the vertices of a face along an edge (as given in the mrtype)
         TauByMR := function( surf, edge, mr )
             local vertsOfEdge, adjacentFaces, thirdVertices;
 
@@ -3729,55 +3728,87 @@ InstallMethod( CommonCover,
             taus2[e] := TauByMR(surf2, e, mrType2[e]);
         od;
 
-        CheckConsistency := function( edge1, edge2, newFace1, newFace2 )
-            local tau1, tau2;
-
-            tau1 := MappingByFunction( Source(newFace1[3]), Source(newFace2[3]),
-                function( x ) return x^taus1[edge1]; end );
-            tau2 := MappingByFunction( Range(newFace1[3]), Range(newFace2[3]),
-                function( x ) return x^taus2[edge2]; end );
-
-            return CompositionMapping2(tau2,newFace1[3]) = 
-                CompositionMapping2(newFace2[3], tau1);
-        end;
-
-        edgePairs := Cartesian( Edges(surf1), Edges(surf2) );
-        newEdges := [];
-        for pair in edgePairs do
-            faces1 := FacesOfEdges(surf1)[pair[1]];
-            faces2 := FacesOfEdges(surf2)[pair[2]];
-            possibleNewFaces := Filtered( newFaces,
-                f -> f[1] in faces1 and f[2] in faces2);
-            newFacePairs := Combinations(possibleNewFaces,2);
-            
-            correctFacePairs := Filtered( newFacePairs, fp ->
-                CheckConsistency(pair[1], pair[2], fp[1], fp[2] ));
-
-            Append( newEdges, List(correctFacePairs, fp -> 
-                [pair[1],pair[2],fp[1],fp[2]]) );
-        od;
-
-
-        # Now we have to define the vertices. They are more complicated
-        # since they are defined by an equivalence relation. We will
-        # solve this by computing the connected components of a graph.
-
+        # 1) 
         # The equivalence relation is defined on the set of pairs
         # [newFace, vertex], where the vertex is a vertex of the first
         # surface and lies in the face of the first surface that is 
         # defined by the newFace.
-
-        # Two such elements (phi,V) and (psi,W) are equivalent if
-        # -> They are adjacent via an edge E and either
-        #   -> V \not\in E and W \not\in E or
-        #   -> V \in E and W \in E such that
-        #       -> V = W if the mr-types are mm or rr
-        #       -> V <> W if the mr-types are mr or rm
         vertexBaseSet := [];
-        for newFace in newFaces do
+        vertexBasePositionsByFace := [];
+        for facePos in [1..Size(newFaces)] do
+            vertexBasePositionsByFace[facePos] := 
+                [Size(vertexBaseSet)+1..Size(vertexBaseSet)+3];
+            newFace := newFaces[facePos];
             Append(vertexBaseSet, List(VerticesOfFaces(surf1)[newFace[1]], 
                 v -> [newFace,v] ));
         od;
+
+
+        # We will need a helper function to compute the adjacent face to
+        # a given face. If the face is on the boundary, it will be returned.
+        # Otherwise its neighbour will be returned.
+        # TODO make this into a separate method for IsEdgesLikeSurface
+        AdjacentFace := function( surf, face, edge )
+            local allFaces;
+
+            allFaces := FacesOfEdges(surf)[edge];
+            if Size(allFaces) = 1 then
+                return allFaces[1];
+            else
+                return Difference(allFaces, [face])[1];
+            fi;
+        end;
+        
+        # 2)
+        # We iterate over the new edges. We represent a new edge as
+        # [first edge, second edge, {adjacent new faces} ]
+        # Since not all of those combinations are valid, we calculate
+        # the adjacent face manually by using the tau-mappings:
+        # If tau1 is the  mr-transfer of the first edge and tau2 is the 
+        # mr-transfer of the second edge, we have
+        # tau2 \circ iso1 = iso2 \circ tau1
+        foundPairs := [];
+        adjacencyList := [];    # List of adjacencies for the digraph package
+        for facePos in [1..Size(newFaces)] do
+            newFace := newFaces[facePos];
+            # Consider all pairs of possible edges
+            for edgePair in Cartesian( EdgesOfFaces(surf1)[newFace[1]], 
+                                    EdgesOfFaces(surf2)[newFace[2]] ) do
+                # We need to find the adjacent faces
+                adFace1 := AdjacentFace(surf1, newFace[1], edgePair[1]);
+                adFace2 := AdjacentFace(surf2, newFace[2], edgePair[2]);
+                # Define tau2 and tau1^(-1)
+                tau2 := MappingByFunction( Range(newFace[3]), 
+                    Domain(VerticesOfFaces(surf2)[adFace2]),
+                    function(x) return x^taus2[edgePair[2]]; end );
+                tau1 := MappingByFunction( 
+                    Domain(VerticesOfFaces(surf1)[adFace1]),
+                    Source( newFace[3] ), 
+                    function(x) return x^taus1[edgePair[1]]);
+                # Now we can compute the composition mapping
+                otherIso := CompositionMapping( tau2, newFace[3], tau1);
+                bothFaces := Set( [newFace, [adFace1, adFace2, otherIso]] );
+
+                # Check whether we already found this combination
+                found := false;
+                for j in [1..Size(foundPairs)] do
+                    if bothFaces = foundPairs[j][1] then
+                        foundPairs[j][2] := Union( foundPairs[j][2], [facePos] );
+                        found := true;
+                        break;
+                    fi;
+                od;
+                if not found then
+                    Add(foundPairs, [bothFaces, [facePos]]);
+                fi;
+                #TODO can this be implemented more efficiently?
+
+                # Compute the pairs of equivalent vertices
+
+            od;
+        od;
+
+
 
         # We create an adjacency list for the digraph package
         adjacencyList := [];
