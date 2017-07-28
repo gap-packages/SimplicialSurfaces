@@ -3761,6 +3761,35 @@ InstallMethod( CommonCover,
         # Now we have to define the vertices. They are more complicated
         # since they are defined by an equivalence relation. We will
         # solve this by computing the connected components of a graph.
+
+        # The equivalence relation is defined on the set of pairs
+        # [newFace, vertex], where the vertex is a vertex of the first
+        # surface and lies in the face of the first surface that is 
+        # defined by the newFace.
+
+        # Two such elements (phi,V) and (psi,W) are equivalent if
+        # -> They are adjacent via an edge E and either
+        #   -> V \not\in E and W \not\in E or
+        #   -> V \in E and W \in E such that
+        #       -> V = W if the mr-types are mm or rr
+        #       -> V <> W if the mr-types are mr or rm
+        vertexBaseSet := [];
+        for newFace in newFaces do
+            Append(vertexBaseSet, List(VerticesOfFaces(surf1)[newFace[1]], 
+                v -> [newFace,v] ));
+        od;
+
+        # We create an adjacency list for the digraph package
+        adjacencyList := [];
+        for i in [1..Size(vertexBaseSet)] do
+            for j in [i+1..Size(vertexBaseSet)] do
+                faceI := vertexBaseSet[i][1][1];
+                faceJ := vertexBaseSet[j][1][1];
+                sharedEdges := Intersection( EdgesOfFaces(surf1)[faceI], 
+                        EdgesOfFaces(surf1)[faceJ] );
+
+            od;
+        od;
     end
 );
 
