@@ -22,5 +22,6 @@ Read( "simplicial_surface_fan.gd" );
 Read( "folding_complex.gd" );
 Read( "folding_plan.gd" );
 
+Read( "../surfaces/simplib.gd");
 
 
