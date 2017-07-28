@@ -286,6 +286,10 @@
                 \input{Image_TwoJoinedTetrahedrons.tex}
             \end{tikzpicture}
         </Alt>
+
+        Although these structures are not true surfaces, in many applications 
+        they behave like those (for example for questions of orientability).
+        <!-- TODO link to orientability chapter or give better example with link-->
         <!--TODO-->
 
     </Section>
