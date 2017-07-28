@@ -290,8 +290,51 @@
         Although these structures are not true surfaces, in many applications 
         they behave like those (for example for questions of orientability).
         <!-- TODO link to orientability chapter or give better example with link-->
-        <!--TODO-->
+ 
+        <ManSection>
+            <Filt Name="IsRamifiedPolygonalSurface" Arg="object" 
+                Comm="Checks whether the given object is a ramified polygonal surface."/>
+            <Returns>true or false</Returns>
+            <Description>
+                Checks whether <A>object</A> is a ramified polygonal surface (a
+                polygonal complex where every edge is incident to at most two faces).
+                <Par/>
+                More formally (for a more extensive explanation see sections
+                <Ref Sect="PolygonalStructures_complex"/> and
+                <Ref Sect="PolygonalStructures_ramified"/>) a ramified polygonal
+                surface is a two-dimensional incidence geometry of vertices, edges and 
+                faces such that the following conditions hold:
+                <Enum>
+                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Face_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
+                    <Item>Every edge is incident to at most two faces.</Item>
+                </Enum>
+            </Description>
+        </ManSection>
 
+        <ManSection>
+            <Filt Name="IsRamifiedSimplicialSurface" Arg="object"
+                Comm="Checks whether the given object is a ramified simplicial surface"/>
+            <Returns>true or false</Returns>
+            <Description>
+                Checks whether <A>object</A> is a ramified simplicial surface (a 
+                polygonal complex with triangular faces where every edge is incident
+                to at most two faces).
+                <Par/>
+                More formally (for a more extensive explanation see sections
+                <Ref Sect="PolygonalStructures_complex"/> and
+                <Ref Sect="PolygonalStructures_ramified"/>) a ramified simplicial surface
+                is a two-dimensional incidence geometry of vertices, edges and
+                faces such that the following conditions hold:
+                <Enum>
+                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
+                    <Item><#Include Label="TriangularComplex_Face_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
+                    <Item>Every edge is incident to at most two faces.</Item>
+                </Enum>
+            </Description>
+        </ManSection>
     </Section>
 
 
