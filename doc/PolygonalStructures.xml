@@ -271,7 +271,13 @@
         edge is incident to at most two faces. If every face is a triangle, we
         call it a <E>ramified simplicial surface</E>.
         <Par/>
-
+        The stereotypical polygonal complex that is <E>not</E> a ramified
+        polygonal surface are three triangles that share a common edge.
+        <Alt Only="TikZ">
+            \begin{tikzpicture}
+                \input{Image_ThreeBranchingTriangles.tex}
+            \end{tikzpicture}
+        </Alt>
         <!--TODO-->
 
     </Section>
