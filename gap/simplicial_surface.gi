@@ -729,9 +729,9 @@ InstallMethod( SimplicialSurfaceByDownwardIncidenceWithOrientationNC, "",
 		SetEdges( surf, edges );
 		SetFaces( surf, faces );
 		SetVerticesOfEdges( surf, 
-								List( verticesOfEdges, i -> Set(i) ) );
+			    List( verticesOfEdges, i -> Set(i) ) );
 		SetLocalOrientationByEdgesAsList( surf, 
-								edgesOfFaces );
+			    edgesOfFaces );
 
 		# Set the face names
 		namesOfFaces := ValueOption( "NamesOfFaces" );
@@ -3791,49 +3791,56 @@ InstallMethod( CommonCover,
                 # Check whether we already found this combination
                 found := false;
                 for j in [1..Size(foundPairs)] do
-                    if bothFaces = foundPairs[j][1] then
-                        foundPairs[j][2] := Union( foundPairs[j][2], [facePos] );
+                    if edgePair = foundPairs[j][1] and 
+                                bothFaces = foundPairs[j][2] then
+                        foundPairs[j][3] := Union( foundPairs[j][3], [facePos] );
                         found := true;
                         break;
                     fi;
                 od;
                 if not found then
-                    Add(foundPairs, [bothFaces, [facePos]]);
+                    # We have to add this pair. At this point we also calculate
+                    # the vertices.
+
+                    # Compute the pairs of equivalent vertices
+                    baseVertPos1 := vertexBasePositionsByFace[facePos];
+                    baseVertPos2 := vertexBasePositionsByFace[
+                            Position(newFaces, otherFace)];
+
+                    vertOfEdge := VerticesOfEdges(surf1)[edgePair[1]];
+                    # Localize the vertices on the common edge
+                    baseVertA1 := Filtered( baseVertPos1, p ->
+                        vertexBaseSet[p][2] = vertOfEdge[1])[1];
+                    baseVertA2 := Filtered( baseVertPos2, p ->
+                        vertexBaseSet[p][2] = vertOfEdge[1])[1];
+                
+                    baseVertB1 := Filtered( baseVertPos1, p ->
+                        vertexBaseSet[p][2] = vertOfEdge[2])[1];
+                    baseVertB2 := Filtered( baseVertPos2, p ->
+                        vertexBaseSet[p][2] = vertOfEdge[2])[1];
+
+                    # Localize the other vertices
+                    baseVertC1 := Difference( baseVertPos1, 
+                        [baseVertA1, baseVertB1] )[1];
+                    baseVertC2 := Difference( baseVertPos2,
+                        [baseVertA2, baseVertB2] )[1];
+
+                    Add( adjacencyList, [baseVertC1, baseVertC2] );
+                    # If both are mm or both are rr, their sum is even (otherwise odd)
+                    if IsEvenInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
+                        Append( adjacencyList, 
+                            [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
+                    else
+                        Append( adjacencyList, 
+                            [[baseVertA1, baseVertB2], [baseVertA2, baseVertB1]]);
+                    fi;
+                    
+                    # Finally we add the pair to our list
+                    Add(foundPairs, [edgePair, bothFaces, [facePos], 
+                        [baseVertA1, baseVertA2, baseVertB1, baseVertB2]]);
                 fi;
                 #TODO can this be implemented more efficiently?
 
-                # Compute the pairs of equivalent vertices
-                baseVertPos1 := vertexBasePositionsByFace[facePos];
-                baseVertPos2 := vertexBasePositionsByFace[
-                        Position(newFaces, otherFace)];
-
-                vertOfEdge := VerticesOfEdges(surf1)[edgePair[1]];
-                # Localize the vertices on the common edge
-                baseVertA1 := Filtered( baseVertPos1, p ->
-                    vertexBaseSet[p][2] = vertOfEdge[1])[1];
-                baseVertA2 := Filtered( baseVertPos2, p ->
-                    vertexBaseSet[p][2] = vertOfEdge[1])[1];
-                
-                baseVertB1 := Filtered( baseVertPos1, p ->
-                    vertexBaseSet[p][2] = vertOfEdge[2])[1];
-                baseVertB2 := Filtered( baseVertPos2, p ->
-                    vertexBaseSet[p][2] = vertOfEdge[2])[1];
-
-                # Localize the other vertices
-                baseVertC1 := Difference( baseVertPos1, 
-                    [baseVertA1, baseVertB1] )[1];
-                baseVertC2 := Difference( baseVertPos2,
-                    [baseVertA2, baseVertB2] )[1];
-
-                Add( adjacencyList, [baseVertC1, baseVertC2] );
-                # If both are mm or both are rr, their sum is even (otherwise odd)
-                if IsEvenInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
-                    Append( adjacencyList, 
-                        [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
-                else
-                    Append( adjacencyList, 
-                        [[baseVertA1, baseVertB2], [baseVertA2, baseVertB1]]);
-                fi;
             od;
         od;
 
@@ -3842,6 +3849,49 @@ InstallMethod( CommonCover,
         vertexGraph := Digraph(adjacencyList);
         connComp := DigraphConnectedComponents(vertexGraph);
 
+        # Now we translate all this information into a simplicial surface.
+        # Simultaneously we define the alternative names.
+        altNames := rec();
+
+        # Faces
+        simpFaces := [1..Size(newFaces)];
+        altNames.Faces := newFaces;
+        altNames.DescriptionFaces := 
+                "[old face 1, old face 2, bijection of vertices]";
+
+        # Edges and FacesOfEdges and VerticesOfEdges from foundPairs
+        simpEdges := [1..Size(foundPairs)];
+        altNames.DescriptionEdges := 
+                "[ [old edge 1, old edge 2], set of adjacent new faces ]";
+        edgeDescription := [];
+        simpFacesOfEdges := [];
+        simpVerticesOfEdges := [];
+        for i in [1..Size(foundPairs)] do
+            edge := foundPairs[i];
+            edgeDescription[i] := [e[1],e[2];
+            simpFacesOfEdges[i] := e[3];
+            simpVerticesOfEdges[i] := Set( List(e[4], v -> connComp.id[v]) );
+        od;
+        altNames.Edges := edgeDescription;
+
+        # Vertices from connComp
+        simpVertices := [1..Size(connComp.comp)];
+        altNames.Vertices := List(connComp.comp, cc ->
+            List( cc, pos -> vertexBaseSet[pos] ) );
+        altNames.DescriptionVertices :=
+                "list of equivalence classes of [new face, old vertex]-pairs";
+
+        # Construct the new simplicial surface
+        surface := Objectify( SimplicialSurfaceType, rec() );
+        SetVerticesAttributeOfSimplicialSurface(surface, simpVertices);
+        SetEdges(surface, simpEdges);
+        SetFaces(surface, simpFaces);
+        SetFacesOfEdges(surface, simpFacesOfEdges);
+        SetVerticesOfEdges(surface, simpVerticesOfEdges);
+        SetAlternativeNames(surface, altNames);
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(surface);
+
+        return surface;
     end
 );
 
