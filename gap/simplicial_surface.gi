@@ -3842,7 +3842,7 @@ InstallMethod( CommonCover,
                     if mrType1[edgePair[1]] = 1 then # mirror-edge
                         Append( adjacencyList, 
                             [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
-                    elif mrType2[edgePair[1]] = 2 then # rotation
+                    elif mrType1[edgePair[1]] = 2 then # rotation
                         Append( adjacencyList,
                             [[baseVertA1,baseVertB2], [baseVertB1, baseVertA2]]);
                     else
@@ -3902,7 +3902,7 @@ InstallMethod( CommonCover,
         SetFaces(surface, simpFaces);
         SetFacesOfEdges(surface, simpFacesOfEdges);
         SetVerticesOfEdges(surface, simpVerticesOfEdges);
-        SetAlternativeNames(surface, altNames);
+        SetAlternativeNames(surface, rec( commonCover := altNames) );
         DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(surface);
 
         return surface;
