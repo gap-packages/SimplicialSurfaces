@@ -3664,7 +3664,7 @@ InstallMethod( CommonCover,
     IsList, IsList],
     function( surf1, surf2, mrType1, mrType2 )
         local facePairs, newFaces, pair, vert1, vert2, allImages,
-            TauByMR, taus1, taus2, tau1, tau2, e,
+            TauByMR, taus1, taus2, tau1, tau2, e, e1, e2, vertOfE2,
             vertexBaseSet, vertexBasePositionsByFace, facePos,
             newFace, foundPairs, adjacencyList, AdjacentFace,
             edgePair, adFace1, adFace2, otherIso, bothFaces, otherFace,  
@@ -3781,8 +3781,13 @@ InstallMethod( CommonCover,
         for facePos in [1..Size(newFaces)] do
             newFace := newFaces[facePos];
             # Consider all pairs of possible edges
-            for edgePair in Cartesian( EdgesOfFaces(surf1)[newFace[1]], 
-                                    EdgesOfFaces(surf2)[newFace[2]] ) do
+            for e1 in EdgesOfFaces(surf1)[newFace[1]] do
+                # Find the partner edge
+                vertOfE2 := List( VerticesOfEdges(surf1)[e1], 
+                        v -> Image(newFace[3],v) );
+                e2 := EdgeInFaceByVertices(surf2, newFace[2], vertOfE2);
+                edgePair := [e1,e2];
+
                 # We need to find the adjacent faces
                 adFace1 := AdjacentFace(surf1, newFace[1], edgePair[1]);
                 adFace2 := AdjacentFace(surf2, newFace[2], edgePair[2]);
