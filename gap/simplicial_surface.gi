@@ -3838,7 +3838,18 @@ InstallMethod( CommonCover,
 
                     # Since the isomorphism already connects the faces with
                     # respect to their mr-type, the vertices just have to care
-                    # about what is happending on one simplicial surface
+                    # about what is happening on one simplicial surface
+
+                    # The situation for the first surface is:
+                    #       baseVertA1 . baseVertA2
+                    #                / | \
+                    #               /  |  \
+                    #              . F1|F2 .
+                    #               \  |  /
+                    #                \ | /
+                    #       baseVertB1 . baseVertB2
+
+                    # If we have an mm-edge-pair,  
                     if mrType1[edgePair[1]] = 1 then # mirror-edge
                         Append( adjacencyList, 
                             [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
