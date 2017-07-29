@@ -3669,7 +3669,7 @@ InstallMethod( CommonCover,
             newFace, foundPairs, adjacencyList, AdjacentFace,
             edgePair, adFace1, adFace2, otherIso, bothFaces, otherFace,  
             found, j, baseVertPos1, baseVertPos2, baseVertA1, baseVertA2,
-            baseVertB1, baseVertB2, baseVertC1, baseVertC2, vertOfEdge,
+            baseVertB1, baseVertB2, vertOfEdge,
             vertexGraph, connComp, edgeDescription, i, edge, 
             surface, altNames, simpFaces, simpEdges, simpVertices,
             simpVerticesOfEdges, simpFacesOfEdges;
@@ -3835,20 +3835,18 @@ InstallMethod( CommonCover,
                     baseVertB2 := Filtered( baseVertPos2, p ->
                         vertexBaseSet[p][2] = vertOfEdge[2])[1];
 
-                    # Localize the other vertices
-                    baseVertC1 := Difference( baseVertPos1, 
-                        [baseVertA1, baseVertB1] )[1];
-                    baseVertC2 := Difference( baseVertPos2,
-                        [baseVertA2, baseVertB2] )[1];
 
-                    Add( adjacencyList, [baseVertC1, baseVertC2] );
-                    # If both are mm or both are rr, their sum is even (otherwise odd)
-                    if IsEvenInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
+                    # Since the isomorphism already connects the faces with
+                    # respect to their mr-type, the vertices just have to care
+                    # about what is happending on one simplicial surface
+                    if mrType1[edgePair[1]] = 1 then # mirror-edge
                         Append( adjacencyList, 
                             [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
+                    elif mrType2[edgePair[1]] = 2 then # rotation
+                        Append( adjacencyList,
+                            [[baseVertA1,baseVertB2], [baseVertB1, baseVertA2]]);
                     else
-                        Append( adjacencyList, 
-                            [[baseVertA1, baseVertB2], [baseVertA2, baseVertB1]]);
+                        Error("CommonCover: unknown mr-type");
                     fi;
                     
                     # Finally we add the pair to our list
