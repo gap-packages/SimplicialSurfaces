@@ -3849,15 +3849,22 @@ InstallMethod( CommonCover,
                     #                \ | /
                     #       baseVertB1 . baseVertB2
 
-                    # If we have an mm-edge-pair,  
-                    if mrType1[edgePair[1]] = 1 then # mirror-edge
-                        Append( adjacencyList, 
-                            [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
-                    elif mrType1[edgePair[1]] = 2 then # rotation
+                    # If we have an mm-edge-pair, A1 and A2 are the same vertex.
+                    # If we have an mr-edge-pair, the situation is more complicated
+                    #   but still A1 and A2 are identical (in the second surface their
+                    #   relation is inverted)
+                    # If we have an rm-edge-pair, A1 and B2 get identified
+                    # If we have an rr-edge-pair we will identify A1 and A2 (in defiance
+                    #   of the previous pattern) since otherwise 
+                    # CommonCover(J,J,[2,2,1],[1,1,2]);
+                    # with J:=Janushead(); does not produce a simplicial surface
+                    if mrType1[edgePair[1]] = 2 and mrType2[edgePair[2]] = 1 then
+                        # This is the only inverted case
                         Append( adjacencyList,
                             [[baseVertA1,baseVertB2], [baseVertB1, baseVertA2]]);
                     else
-                        Error("CommonCover: unknown mr-type");
+                        Append( adjacencyList, 
+                            [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
                     fi;
                     
                     # Finally we add the pair to our list
