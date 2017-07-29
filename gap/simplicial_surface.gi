@@ -3749,7 +3749,7 @@ InstallMethod( CommonCover,
                 [Size(vertexBaseSet)+1..Size(vertexBaseSet)+3];
             newFace := newFaces[facePos];
             Append(vertexBaseSet, List(VerticesOfFaces(surf1)[newFace[1]], 
-                v -> [newFace,v] ));
+                v -> [facePos,v] ));
         od;
 
 
@@ -3869,20 +3869,22 @@ InstallMethod( CommonCover,
 
         # Faces
         simpFaces := [1..Size(newFaces)];
-        altNames.Faces := newFaces;
+        altNames.Faces := List(newFaces, f -> [[f[1],f[2]], 
+            [Elements(Source(f[3])), List(Elements(Source(f[3])),
+                                e->Image(f[3],e))]]);
         altNames.DescriptionFaces := 
-                "[old face 1, old face 2, bijection of vertices]";
+            "[[old face 1, old face 2], bijection of vertices by elements]";
 
         # Edges and FacesOfEdges and VerticesOfEdges from foundPairs
         simpEdges := [1..Size(foundPairs)];
         altNames.DescriptionEdges := 
-                "[ [old edge 1, old edge 2], set of adjacent new faces ]";
+            "[ [old edge 1, old edge 2], set of adjacent new faces (as numbers) ]";
         edgeDescription := [];
         simpFacesOfEdges := [];
         simpVerticesOfEdges := [];
         for i in [1..Size(foundPairs)] do
             edge := foundPairs[i];
-            edgeDescription[i] := [edge[1],edge[2]];
+            edgeDescription[i] := [edge[1],edge[3]];
             simpFacesOfEdges[i] := edge[3];
             simpVerticesOfEdges[i] := Set( List(edge[4], v -> connComp.id[v]) );
         od;
@@ -3893,7 +3895,7 @@ InstallMethod( CommonCover,
         altNames.Vertices := List(connComp.comps, cc ->
             List( cc, pos -> vertexBaseSet[pos] ) );
         altNames.DescriptionVertices :=
-                "list of equivalence classes of [new face, old vertex]-pairs";
+            "list of equivalence classes of [new face (as number), old vertex]-pairs";
 
         # Construct the new simplicial surface
         surface := Objectify( SimplicialSurfaceType, rec() );
