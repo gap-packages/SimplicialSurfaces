@@ -7,5 +7,6 @@ Read( "read.g" );
 
 Read( "test.g" );
 
-J := Janushead();
-CC := CommonCover( J,J, [2,2,1], [1,1,2] );;
+D := SimplicialSurfaceByVerticesInFaces(3,1,[[1,2,3]]);
+T := Tetrahedron();
+CC := CommonCover( D,T, [1,1,2], [2,2,2,1,1,1] );;
