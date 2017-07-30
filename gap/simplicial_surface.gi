@@ -3849,18 +3849,16 @@ InstallMethod( CommonCover,
                     #                \ | /
                     #       baseVertB1 . baseVertB2
 
-                    # If we have an mm-edge-pair, A1 and A2 are the same vertex.
-                    # If we have an mr-edge-pair, the situation is more complicated
-                    #   but still A1 and A2 are identical (in the second surface their
-                    #   relation is inverted)
-                    # If we have an rm-edge-pair, A1 and B2 get identified
-                    # If we have an rr-edge-pair we will identify A1 and A2 (in defiance
-                    #   of the previous pattern) since otherwise 
-                    # CommonCover(J,J,[2,2,1],[1,1,2]);
-                    # with J:=Janushead(); does not produce a simplicial surface
-                    if mrType1[edgePair[1]] = 2 and mrType2[edgePair[2]] = 1 or
-                        mrType1[edgePair[1]] = 1 and mrType2[edgePair[2]] = 2 then
-                        # This is the only inverted case
+                    # Since the vertices of the two surfaces are connected by
+                    # their isomorphism, we only work with the vertices of one
+                    # surface. But it is easier to imagine that we work with the
+                    # pair of vertices in the common cover (instead of a single
+                    # vertex in one surface).
+
+                    # If we have an mm or rr-edge-pair, A1 and A2 are identified
+                    # Otherwise A1 and B2 are identified.
+                    if IsOddInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
+                        # The inverted case
                         Append( adjacencyList,
                             [[baseVertA1,baseVertB2], [baseVertB1, baseVertA2]]);
                     else
