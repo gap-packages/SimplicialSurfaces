@@ -3858,7 +3858,8 @@ InstallMethod( CommonCover,
                     #   of the previous pattern) since otherwise 
                     # CommonCover(J,J,[2,2,1],[1,1,2]);
                     # with J:=Janushead(); does not produce a simplicial surface
-                    if mrType1[edgePair[1]] = 2 and mrType2[edgePair[2]] = 1 then
+                    if mrType1[edgePair[1]] = 2 and mrType2[edgePair[2]] = 1 or
+                        mrType1[edgePair[1]] = 1 and mrType2[edgePair[2]] = 2 then
                         # This is the only inverted case
                         Append( adjacencyList,
                             [[baseVertA1,baseVertB2], [baseVertB1, baseVertA2]]);
