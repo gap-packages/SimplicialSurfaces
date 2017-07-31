@@ -166,7 +166,9 @@
         formally define:
         <Par/>
 
-        <#Include Label="PolygonalComplex_Face">
+        <List>
+            <Item><#Include Label="PolygonalComplex_Face"></Item>
+        </List>
 
         <Alt Only="TikZ">
             \begin{tikzpicture}
@@ -444,6 +446,12 @@
                         \end{scope}
                     \end{tikzpicture}
                 </Alt>
+                With this definition in mind we can explicate the second property:
+                <List>
+                    <Item>For every vertex <M>V</M> all incident edges and faces can
+                        be arranged in an edge-face-path around <M>V</M>.
+                    </Item>
+                </List>
             </Subsection>
         <!--TODO-->
 
