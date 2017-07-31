@@ -218,6 +218,7 @@
 
 
         <ManSection>
+            <!--TODO is the type 'filter' correct? Recheck after implementation-->
             <Filt Name="IsPolygonalComplex" Arg="object" 
                 Comm="Checks whether the given object is a polygonal complex"/>
             <Returns>true or false</Returns>
@@ -452,6 +453,9 @@
                         be arranged in an edge-face-path around <M>V</M>.
                     </Item>
                 </List>
+                For a general ramified polygonal surface we can't expect to get
+                exactly one edge-face-path. In our examples above all incident edges
+                and faces could be represented by two edge-face-paths.
             </Subsection>
         <!--TODO-->
 
