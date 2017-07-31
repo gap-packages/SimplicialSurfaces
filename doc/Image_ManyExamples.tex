@@ -38,24 +38,7 @@
 		
 		        % A butterfly of triangles
 		        \begin{scope}[xshift=9cm]
-			    \def\LUX{-0.8}
-			    \def\LUY{-0.3}
-			    \def\LMX{-1.2}
-			    \def\LMY{0.5}
-			    \def\LOX{-0.5}
-			    \def\LOY{1}
-			    \coordinate (A) at (0,0);
-			    \coordinate (B) at (\LUX,\LUY);
-			    \coordinate (C) at (\LMX,\LMY);
-			    \coordinate (D) at (\LOX,\LOY);
-			    \coordinate (E) at (-\LOX,\LOY);
-			    \coordinate (F) at (-\LMX,\LMY);
-			    \coordinate (G) at (-\LUX,\LUY);
-			
-	        	    \filldraw[face] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[face] (A) -- (C) -- (D) -- cycle;
-			    \filldraw[face] (A) -- (E) -- (F) -- cycle;
-			    \filldraw[face] (A) -- (F) -- (G) -- cycle;
+                            \input{Image_ButterflyOfTriangles.tex}
 		        \end{scope}
 		
 		        % An open cone of two triangles
