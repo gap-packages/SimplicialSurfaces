@@ -362,7 +362,7 @@
                 those:
                 <Alt Only="TikZ">
                     \begin{tikzpicture}
-                        \begin{scope}[xshift=0cm]
+                        \begin{scope}[xshift=0cm, scale=0.5]
                             \input{Image_TwoJoinedTetrahedrons.tex}
                         \end{scope}
                         \begin{scope}[xshift=4cm]
