@@ -3889,6 +3889,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     AppendTo( output, "\\node (F", f, ") at (", 
                         faceX / 3, ", ", faceY / 3, ") {$f_{", f, "}$};\n" ); 
                 fi;
+                # TODO allow for alternative face/vertex names
             od;
 
             AppendTo( output, "\n\n" );
