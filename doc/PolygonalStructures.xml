@@ -458,6 +458,11 @@
             exactly one edge-face-path. In our examples above all incident edges
             and faces could be represented by two edge-face-paths.
 
+            In general we can always find a set of edge-face-paths of a vertex
+            such that all edges and faces incident to that vertex lie in exactly
+            one of those paths. This is called the <E>edge-face-path partition</E>
+            of the vertex.
+
             <ManSection>
                 <Attr Name="EdgeFacePathPartitionsOfVertices" Arg="ramSurf"
                     Comm="Return edge-face-path partitions of all vertices"/>
@@ -466,7 +471,23 @@
                     Comm="Return edge-face-paths of one vertex"/>
                 <Returns>The edge-face-path partition of a vertex (as list)</Returns>
                 <Description>
-                    bla
+                    For each vertex <M>V</M> the edge-face-path partition of 
+                    this vertex is a list of edge-face-paths of this vertex 
+                    (see definition 
+                    <Ref Label="Definition_EdgeFacePath_Vertex"/>) such that
+                    all edges and faces that are incident to <M>V</M> lie in
+                    exactly one of those edge-face-paths.
+                    <Par/>
+                    Each edge-face-path is given as a list
+                    <M>[e_1,f_1,e_2,f_2,\ldots, e_n, f_n]</M> (for a closed
+                    path) or <M>[e_1,f_1,e_2,\ldots, e_n,f_n,e_{{n+1}}]</M>
+                    (for an open path).
+                    <Par/>
+                    The attribute <K>EdgeFacePathPartitionsOfVertices</K>
+                    returns a list such that the entry <M>V</M> holds the
+                    edge-face-path partition of the vertex <M>V</M>. All
+                    other entries of the list are unbounded.
+                    <!--TODO make a good example-->
                 </Description>
             </ManSection>
  
