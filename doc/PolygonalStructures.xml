@@ -503,7 +503,7 @@
                     a polygonal surface is a surface (with boundary) that is build
                     only from polygons.
                     <Par/>
-                    More formally (for more details see sections
+                    More formally (for more details and examples see sections
                     <Ref Sect="PolygonalStructures_complex"/>,
                     <Ref Sect="PolygonalStructures_ramified"/> and
                     <Ref Sect="PolygonalStructures_surface"/>) a polygonal surface
@@ -528,7 +528,7 @@
                     Informally a simplicial surface is a surface (with boundary)
                     that is build only from triangles.
                     <Par/>
-                    More formally (for more details see sections
+                    More formally (for more details and examples see sections
                     <Ref Sect="PolygonalStructures_complex"/>,
                     <Ref Sect="PolygonalStructures_ramified"/> and
                     <Ref Sect="PolygonalStructures_surface"/>) a simplicial surface
@@ -543,10 +543,6 @@
                     </Enum>
                 </Description>
             </ManSection>
-
-
-
-        <!--TODO-->
 
     </Section>
                                     
