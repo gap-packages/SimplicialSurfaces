@@ -1654,13 +1654,14 @@ InstallMethod( AllWildSimplicialSurfaces,
         faceinverse[i] := Position(faces,i);
     od;
 
-    for i in [ 1 .. 3] do
-        for j in [i+1 .. 3] do
-            if NrMovedPointsPerm( gens[i] * gens[j] ) <> n then
-                Print("Warning: Simplicial surface not vertex faithful\n");
-            fi;
-        od;
-    od;
+#
+#    for i in [ 1 .. 3] do
+#        for j in [i+1 .. 3] do
+#            if NrMovedPointsPerm( gens[i] * gens[j] ) <> n then
+#                Print("Warning: Simplicial surface not vertex faithful\n");
+#            fi;
+#        od;
+#    od;
  
 
     # if the argument mrtype was an empty list, then set all
