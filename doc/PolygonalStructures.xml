@@ -461,10 +461,15 @@
             <ManSection
                 <Attr Name="EdgeFacePathPartitionsOfVertices" Arg="ramSurf"
                     Comm="Return edge-face-path partitions of all vertices"/>
-                <Returns>A list of edge-face-path partitions (who are lists themselves)</Returns>
+                <!--
                 <Oper Name="EdgeFacePathPartitionOfVertex" Arg="ramSurf, vertex"
                     Comm="Return edge-face-paths of one vertex"/>
+                    -->
+                <Returns>The edge-face-path partitions of all or one vertex.</Returns>
+                <!--
+                <Returns>A list of edge-face-path partitions (who are lists themselves)</Returns>
                 <Returns>The edge-face-path partition of a vertex (as list)</Returns>
+                -->
                 <Description>
                     bla
                 </Description>
