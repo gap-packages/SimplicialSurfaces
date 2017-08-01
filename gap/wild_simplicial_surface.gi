@@ -1654,13 +1654,14 @@ InstallMethod( AllWildSimplicialSurfaces,
         faceinverse[i] := Position(faces,i);
     od;
 
-    for i in [ 1 .. 3] do
-        for j in [i+1 .. 3] do
-            if NrMovedPointsPerm( gens[i] * gens[j] ) <> n then
-                Print("Warning: Simplicial surface not vertex faithful\n");
-            fi;
-        od;
-    od;
+#
+#    for i in [ 1 .. 3] do
+#        for j in [i+1 .. 3] do
+#            if NrMovedPointsPerm( gens[i] * gens[j] ) <> n then
+#                Print("Warning: Simplicial surface not vertex faithful\n");
+#            fi;
+#        od;
+#    od;
  
 
     # if the argument mrtype was an empty list, then set all
@@ -3357,7 +3358,7 @@ InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
 InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     [IsWildSimplicialSurface, IsString, IsRecord],
     function( surface, string, record )
-      local toMuchInfo, angles, cos, sin, vertexCoordinates, edgeData, 
+      local tooMuchInfo, angles, cos, sin, vertexCoordinates, edgeData, 
             faceData, faceOrientation, AddToData, unplacedFaces, 
             connCompByFaceLists, realStarts, realEdgeDraw, startIndex, 
             edgeDrawIndex, proposedDrawOrder, openEdges, openVertices, 
@@ -3367,19 +3368,19 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
             finalVertex, finalVertexTuple, newEdge1, newEdge2, subsurfaces, 
             name, output, subsurf, faceCol, faceX, faceY, i, j, e, v, f, tuple,
             VertexCoordinatesOfEdge, vtxCoord1, vtxCoord2, vtxIndex, 
-            vtxCoord;
+            vtxCoord, edgesOfThisComponent;
 
         # Test the given record first. Check if any information in the record
         # can't be used
-        toMuchInfo := Difference( Set( RecNames( record ) ),
+        tooMuchInfo := Difference( Set( RecNames( record ) ),
             [ "startingFaces", "edgeDrawOrder", "edgeColours", "faceColours",
                 "edgeLengths", "vertexColour", "globalScale", 
                 "vertexLabelling", "compileLaTeX", "noFaceColours", 
                 "edgeLabelling", "faceLabelling", "edgeThickness", "caption"] );
-        if not IsEmpty( toMuchInfo ) then
+        if not IsEmpty( tooMuchInfo ) then
             Print( "Warning: The following components of the printing record " );
             Print( "could not be interpreted: " );
-            Print( toMuchInfo );
+            Print( tooMuchInfo );
             Print( "\n" );
         fi;
 
@@ -3622,6 +3623,8 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     [ [ [vertOfStart[1],1], [vertOfStart[3],1] ] ];
                 edgeData[ ColouredEdgeOfFaceNC(surface,start,6-col-otherCol)] :=
                     [ [ [vertOfStart[3],1], [vertOfStart[2],1] ] ];
+            # We also keep a list of all edges that we have already drawn
+                edgesOfThisComponent := ColouredEdgesOfFaces(surface)[start];
 
                 faceData[start] := List(vertOfStart, i->[i,1] ); 
                 faceOrientation[start] := ( col, 6-col-otherCol, otherCol );
@@ -3733,6 +3736,8 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     [ edgeData[nextEdge][1][1], finalVertexTuple ] );
                 AddToData( edgeData, newEdge2, 
                     [ finalVertexTuple, edgeData[nextEdge][1][2] ]);
+                edgesOfThisComponent := Union( edgesOfThisComponent, 
+                    [newEdge1, newEdge2] );
                 openEdges := Union( 
                     Difference( openEdges, [newEdge1, newEdge2, nextEdge] ),
                     Difference( Filtered([newEdge1, newEdge2], e -> 
@@ -3748,7 +3753,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     Size( edgeData[newEdge1] ) );
                 vtxCoord2 := VertexCoordinatesOfEdge( newEdge2,
                     Size( edgeData[newEdge2] ) );
-                for e in Edges(surface) do
+                for e in edgesOfThisComponent do
                     if IsBound( edgeData[e] ) then
                         for i in [1..Size(edgeData[e])] do
                             # The new edges don't need to be checked
@@ -3884,6 +3889,7 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
                     AppendTo( output, "\\node (F", f, ") at (", 
                         faceX / 3, ", ", faceY / 3, ") {$f_{", f, "}$};\n" ); 
                 fi;
+                # TODO allow for alternative face/vertex names
             od;
 
             AppendTo( output, "\n\n" );
