@@ -450,9 +450,7 @@
             </Subsection>
             With this definition in mind we can explicate the second property:
             <List>
-                <Item>For every vertex <M>V</M> all incident edges and faces can
-                    be arranged in an edge-face-path around <M>V</M>.
-                </Item>
+                <Item><#Include Label="PolygonalComplex_Paths"></Item>
             </List>
             For a general ramified polygonal surface we can't expect to get
             exactly one edge-face-path. In our examples above all incident edges
@@ -495,7 +493,59 @@
                     <!--TODO make a good example-->
                 </Description>
             </ManSection>
- 
+  
+            <ManSection>
+                <Filt Name="IsPolygonalSurface" Arg="object"
+                    Comm="Checks whether the given object is a polygonal surface."/>
+                <Returns>true or false</Returns>
+                <Description>
+                    Checks whether <A>object</A> is a polygonal surface. Informally
+                    a polygonal surface is a surface (with boundary) that is build
+                    only from polygons.
+                    <Par/>
+                    More formally (for more details see sections
+                    <Ref Sect="PolygonalStructures_complex"/>,
+                    <Ref Sect="PolygonalStructures_ramified"/> and
+                    <Ref Sect="PolygonalStructures_surface"/>) a polygonal surface
+                    is a two-dimensional incidence geometry of vertices, edges and
+                    faces such that the following conditions hold:
+                    <Enum>
+                        <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
+                        <Item><#Include Label="PolygonalComplex_Face_simple"></Item>
+                        <Item><#Include Label="PolygonalComplex_Incidence"></Item>
+                        <Item><#Include Label="PolygonalComplex_Ramified"></Item>
+                        <Item><#Include Label="PolygonalComplex_Paths"></Item>
+                    </Enum>
+                </Description>
+            </ManSection>
+
+            <ManSection>
+                <Filt Name="IsSimplicialSurface" Arg="object"
+                    Comm="Checks whether the given object is a simplicial surface."/>
+                <Returns>true or false</Returns>
+                <Description>
+                    Checks whether <A>object</A> is a simplicial surface. 
+                    Informally a simplicial surface is a surface (with boundary)
+                    that is build only from triangles.
+                    <Par/>
+                    More formally (for more details see sections
+                    <Ref Sect="PolygonalStructures_complex"/>,
+                    <Ref Sect="PolygonalStructures_ramified"/> and
+                    <Ref Sect="PolygonalStructures_surface"/>) a simplicial surface
+                    is a two-dimensional incidence geometry of vertices, edges and
+                    faces such that the following conditions hold:
+                    <Enum>
+                        <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
+                        <Item><#Include Label="TriangularComplex_Face_simple"></Item>
+                        <Item><#Include Label="PolygonalComplex_Incidence"></Item>
+                        <Item><#Include Label="PolygonalComplex_Ramified"></Item>
+                        <Item><#Include Label="PolygonalComplex_Paths"></Item>
+                    </Enum>
+                </Description>
+            </ManSection>
+
+
+
         <!--TODO-->
 
     </Section>

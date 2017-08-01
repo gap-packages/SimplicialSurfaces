@@ -52,3 +52,14 @@ exactly three incident vertices.
 <#/GAPDoc>
 
 
+<#GAPDoc Label="PolygonalComplex_Ramified">
+Every edge is incident to at most two faces.
+<#/GAPDoc>
+
+
+<#GAPDoc Label="PolygonalComplex_Paths">
+For every vertex <M>V</M> all incident edges and faces can
+be arranged in an edge-face-path around <M>V</M> (compare
+definition <Ref Subsect="Definition_EdgeFacePath_Vertex"/>).
+<#/GAPDoc>
+
