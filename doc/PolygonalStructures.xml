@@ -479,7 +479,7 @@
                     For each vertex <M>V</M> the edge-face-path partition of 
                     this vertex is a list of edge-face-paths of this vertex 
                     (see definition 
-                    <Ref Label="Definition_EdgeFacePath_Vertex"/>) such that
+                    <Ref Subsect="Definition_EdgeFacePath_Vertex"/>) such that
                     all edges and faces that are incident to <M>V</M> lie in
                     exactly one of those edge-face-paths.
                     <Par/>
