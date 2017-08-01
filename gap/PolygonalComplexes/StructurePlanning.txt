@@ -1,6 +1,6 @@
 As xml:
-    Introduction
-    Filters
+    Introduction (done)
+    Filters (done)
 
 
 As gd with autodoc:
@@ -12,4 +12,4 @@ As gd with autodoc:
 
 
 As gd without autodoc:
-    Filter definition
+    Filter definition (done)
