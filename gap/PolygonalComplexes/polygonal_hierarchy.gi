@@ -64,3 +64,5 @@ InstallMethod( "IsPolygonalSurface", "for a ramified polygonal surface",
 );
     RedispatchOnCondition( IsPolygonalSurface, true, [IsPolygonalComplex],
         [IsRamifiedPolygonalSurface], 0);
+#TODO maybe redefine this property to be computable on polygonal complexes?
+# Right now the result of a computation is not meaningful.
