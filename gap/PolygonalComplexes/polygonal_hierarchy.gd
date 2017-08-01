@@ -14,10 +14,6 @@
 ##
 ## All documentation is done in doc/PolygonalStructures.xml
 
-# The custom info class
-DeclareInfoClass( "InfoPolygonalComplex" );
-
-
 # Define the main category
 # [Categories are used to determine which operations can be used]
 DeclareCategory( "IsPolygonalComplex", 
@@ -30,15 +26,14 @@ BindGlobal( "PolygonalComplexFamily",
 
 
 # Define all secondary categories
-DeclareCategory( "IsTriangularComplex", 
-    IsPolygonalComplex and IsFacesTriangular );
-    # TODO is it necessary to have a separate flag for IsFacesTriangular?
+DeclareProperty( "IsTriangularComplex", IsPolygonalComplex);
 
 
-DeclareCategory( "IsRamifiedPolygonalSurface", IsPolygonalComplex);
-DeclareCategory( "IsRamifiedSimplicialSurface", 
-    IsRamifiedPolygonalSurface and IsTriangularComplex );
+DeclareProperty( "IsRamifiedPolygonalSurface", IsPolygonalComplex);
+DeclareSynonym( "IsRamifiedSimplicialSurface", 
+    IsRamifiedPolygonalSurface and IsTriangularComplex);
 
-DeclareCategory( "IsPolygonalSurface", IsRamifiedPolygonalSurface );
-DeclareCategory( "IsSimplicialSurface",
-    IsPolygonalSurface and IsTriangularComplex);
+DeclareProperty( "IsPolygonalSurface", 
+    IsPolygonalComplex and IsRamifiedPolygonalSurface );
+DeclareSynonym( "IsSimplicialSurface", 
+    IsPolygonalSurface and IsTriangularComplex );

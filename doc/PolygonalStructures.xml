@@ -218,8 +218,7 @@
 
 
         <ManSection>
-            <!--TODO is the type 'filter' correct? Recheck after implementation-->
-            <Filt Name="IsPolygonalComplex" Arg="object" 
+            <Filt Name="IsPolygonalComplex" Arg="object" Type="category"
                 Comm="Checks whether the given object is a polygonal complex"/>
             <Returns>true or false</Returns>
             <Description>
@@ -240,7 +239,7 @@
         </ManSection>
 
         <ManSection>
-            <Filt Name="IsTriangularComplex" Arg="object"
+            <Prop Name="IsTriangularComplex" Arg="object"
                 Comm="Checks whether the given object is a triangular complex"/>
             <Returns>true or false</Returns>
             <Description>
@@ -295,7 +294,7 @@
         <!-- TODO link to orientability chapter or give better example with link-->
  
         <ManSection>
-            <Filt Name="IsRamifiedPolygonalSurface" Arg="object" 
+            <Prop Name="IsRamifiedPolygonalSurface" Arg="object" 
                 Comm="Checks whether the given object is a ramified polygonal surface."/>
             <Returns>true or false</Returns>
             <Description>
@@ -317,7 +316,7 @@
         </ManSection>
 
         <ManSection>
-            <Filt Name="IsRamifiedSimplicialSurface" Arg="object"
+            <Prop Name="IsRamifiedSimplicialSurface" Arg="object"
                 Comm="Checks whether the given object is a ramified simplicial surface"/>
             <Returns>true or false</Returns>
             <Description>
@@ -495,7 +494,7 @@
             </ManSection>
   
             <ManSection>
-                <Filt Name="IsPolygonalSurface" Arg="object"
+                <Prop Name="IsPolygonalSurface" Arg="object"
                     Comm="Checks whether the given object is a polygonal surface."/>
                 <Returns>true or false</Returns>
                 <Description>
@@ -520,7 +519,7 @@
             </ManSection>
 
             <ManSection>
-                <Filt Name="IsSimplicialSurface" Arg="object"
+                <Prop Name="IsSimplicialSurface" Arg="object"
                     Comm="Checks whether the given object is a simplicial surface."/>
                 <Returns>true or false</Returns>
                 <Description>
