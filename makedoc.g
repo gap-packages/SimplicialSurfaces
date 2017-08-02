@@ -128,6 +128,20 @@ preProcessTikz := function( node )
 
             # Step 6
             Exec( "sh -c \" cd ", path, "; htlatex ", Concatenation(name, ".tex"), "; \" " );
+
+            # After compiling we do some post-processing on the image.
+            # We will modify
+            # - subscripts, since baseline-shift is not supported in Firefox
+            #   (see https://stackoverflow.com/questions/12332448/subscripts-and-superscripts-in-svg)
+            #   As this bug was recognized 12 years ago it is unlikely to 
+            #   change in the near future. We therefore apply the suggested
+            #   fix in the stackoverflow-answer.
+            #   WARNING: I am just messing around on the assumption that all
+            #       subscripts have the same height. If that turns out to be
+            #       wrong, you have to think of a more sophisticated mechanism.
+            Exec( "sh -c \" cd ", path, 
+                "; sed 's/baseline-shift=\"sub\"/dy=\"3\"/g' -i", 
+                Concatenation(name, "-1.svg"), ";\"");
         fi;
             
         # Step 7
