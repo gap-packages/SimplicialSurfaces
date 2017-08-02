@@ -20,7 +20,7 @@
     Since we are especially interested in surfaces we need a way to recognize
     them. For technical reasons we split this process into two separate steps,
     with the ramified polygonal surfaces as the intermediate structure between
-    polygonal complexes and polygons surfaces.
+    polygonal complexes and polygonal surfaces.
     <Par/>
     In many cases the definitions and algorithms simplify if we only consider
     triangles instead of general polygons. For this reason we also have equivalents
