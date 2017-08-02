@@ -355,9 +355,11 @@ true
 
     <!--TODO since this section is a skipping target, it should have a more evocative
          name that stops people from infinite skipping.-->
-    <Section Label="Introduction_AccessVerticesFaces"><Heading>Playing with vertices and faces.</Heading>
+    <!-- This section explains how to use surfaces without knowing about the edges.-->
+    <Section Label="Introduction_AccessVerticesFaces">
+        <Heading>Playing with vertices and faces.</Heading>
         After having learned how to construct a simplicial surface by
-        SimplicialSurfaceByVerticesInFaces, we can use the indexing of vertices
+        <K>SimplicialSurfaceByVerticesInFaces</K>, we can use the indexing of vertices
         and faces to get more detailed information about the surface. We will
         use the example from section
         <Ref Sect="Introduction_EasyConstruction"/>:
@@ -414,9 +416,15 @@ gap&gt; GlobalOrientation(surf);
 gap&gt; GlobalOrientationByVerticesAsList(surf);
 [ [ 1, 2, 3 ], [ 2, 4, 3 ], [ 2, 5, 4 ] ]
 </Example>
+    <!-- At this point people should be able to generalize our naming
+         conventions for operations. As this is quite important, we try to
+         teach the correct spelling subconsciously at first. When we explain
+         it in text, it should not be surprising to readers. -->
     </Section>
 
-    <Section Label="Introduction_EdgeNumbering"><Heading>Adding edge numbering</Heading>
+
+    <Section Label="Introduction_EdgeNumbering">
+        <Heading>Adding edge numbering</Heading>
         Up until now we did not care about specific edges because they were
         not important for the construction of our examples so far. But let us
         assume that we want to know which edges are incident to exactly two
@@ -443,7 +451,7 @@ gap&gt; VerticesOfEdges(surf);
 </Example>
         As before, the first entry of this list contains the vertices of the
         first edge. In our example the edge with number 1 is incident to the
-        vertices 1 and 2. We can update our picture:<!--TODO choose a better colour scheme-->
+        vertices 1 and 2. We can update our picture:
         <Alt Only="TikZ">
             {
                 \def\vertexLabels{1}
@@ -471,7 +479,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         <Heading>Constructors with vertex, edge and face data</Heading>
 
         There are some cases in which we don't want to use
-        SimplicialSurfaceByVerticesInFaces but a more versatile method,
+        <K>SimplicialSurfaceByVerticesInFaces</K> but a more versatile method,
         for example
         <Enum>
             <Item>We already have an edge labelling and want to keep it.</Item>
@@ -494,7 +502,6 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
                 \input{Image_OpenBag.tex}
             }
         </Alt>
-        <!--TODO Why is there no shading in HTML?-->
         Now we have to tell &GAP; which vertices are incident to which edges
 <Example>
 gap&gt; verticesOfEdges := [[1,2],[1,3],[2,3],[2,3]];;
@@ -504,7 +511,7 @@ gap&gt; verticesOfEdges := [[1,2],[1,3],[2,3],[2,3]];;
 gap&gt; edgesOfFaces := [[1,2,4],[1,2,3]];;
 </Example>
         which allows us to use the constructor
-        SimplicialSurfaceByDownwardIncidence (for an explanation of this name,
+        <K>SimplicialSurfaceByDownwardIncidence</K> (for an explanation of this name,
         see chapter ...<!--TODO Link-->)
 <Example>
 gap&gt; bag := SimplicialSurfaceByDownwardIncidence(3, 4, 2, verticesOfEdges, edgesOfFaces);;
