@@ -42,15 +42,17 @@
         The SimplicialSurface-package contains this basic functionality:
         <Enum>
             <Item>Working with simplicial surfaces (and generalisations of 
-                them, see section <Ref Chap="PolygonalStructures"/> ), for 
+                them, compare section <Ref Chap="PolygonalStructures"/>), for 
                 example:
                 <!-- TODO Alternative for text-version -->
                 <Alt Only="TikZ">
                     \input{Image_ManyExamples.tex}
                 </Alt>
             </Item>
-            <Item>Working with edge colourings of simplicial surfaces (in general and for the purpose of an embedding). <!--TODO--> </Item>
-            <Item>Treatment of folding and unfolding for these objects. <!--TODO--> </Item>
+            <Item>Working with edge colourings of simplicial surfaces (in 
+                general and for the purpose of an embedding). <!--TODO--> </Item>
+            <Item>Treatment of folding and unfolding for these objects. 
+                <!--TODO abstract nature has to be made clear--> </Item>
         </Enum>
         To use this package, you have to load it into GAP via
 <Log>

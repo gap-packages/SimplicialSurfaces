@@ -17,25 +17,6 @@ Casual: Wants to get a general perspective but doesn't want to invest too much t
 TODO: General problem: If someone goes into a chapter that is confusing/technical/complicated, they MIGHT skip it or go back.
     But they also might be frustrated and leave. How can we make it clear that they don't have to get frustrated?
 
-First chapter:
-Goal: Teaser for the package, show capabilities (S), pique interest (C), give framework (P)
-Name: What can it do?
-Content:
-The SimplicialSurface-package contains this basic functionality:
-1) Working with simplicial surfaces [Link to generic introduction] (and generalizations of that [Link to that]), for example:
-    <Pictures of polygonal surfaces. Take care to have a diverse sample. Currently:
-        - Tetrahedron (Triangle, closed, surface, oriented)
-        - four triangles (Triangle, not closed, surface, oriented)
-        - three triangles at one edge (Triangle, not closed, ramified)
-        - Tetrahedron with triangle at one edge (Triangle, ramified)
-        - Two pairs of triangles (connected by edge) that are connected by vertex (butterfly)
-        - open cone (from two triangles) (Triangle, open, Anomalies)
-        - a surface from non-triangle shapes (even mixed)
-    >
-2) Working with edge colourings for simplicial surfaces (for the purpose of an embedding)
-3) Treatment of folding and unfolding for these objects.
-    <Picture of a folding step in a simple example>
-    TODO: make abstract nature clear
 
 
 Second chapter
