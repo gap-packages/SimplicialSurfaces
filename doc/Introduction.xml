@@ -62,14 +62,36 @@ true
 
     </Section>
 
-    <!-- In this introduction the difficulty of the concepts slowly increases. This has been done on purpose to make each individual step easier (almost trivial) to follow. Ideally no one will be turned off by initial confusion over too many parameters. -->
+    <!-- In this section the difficulty of the concepts slowly increases. 
+         This has been done on purpose to make each individual step easier 
+         (almost trivial) to follow. Ideally no one will be turned off by 
+         initial confusion over too many parameters.
          
-    <Section Label="Introduction_Playing"><Heading>Playing with simplicial surfaces</Heading>
-        Since the platonic solids are pre-defined we use them to show a few capabilities of this package.
-        <!-- This sentence informs the user about a way to define some surfaces which helps them to test more cases themselves.
-             It also connects the surfaces to something familiar. The formulation of this sentence is still dangerous as it should
-             neither promise too much, nor trivialize the contents of this section. (TODO) -->
-        We will use the cube as an example.<Par/>
+         This follows from our balancing philosophy: The description of
+         surfaces by their incidence structure is cumbersome but necessary.
+         In contrary the interest of people in surfaces may not be that big.
+         Especially if they believe in a simpler representation for a special
+         case they might not want to consider a complicated package.
+         Therefore we start without any internal details of our surfaces and
+         only gradually make more and more internal structure visible.
+         -->
+    <Section Label="Introduction_Playing">
+        <Heading>Playing with simplicial surfaces</Heading>
+        Since the platonic solids are pre-defined we use them to show a few 
+        capabilities of this package.
+        <!-- This sentence informs the user about a way to define some surfaces 
+             which helps them to test more cases themselves.
+             It also connects the surfaces to something familiar. The 
+             formulation of this sentence is still dangerous as it should
+             neither promise too much, nor trivialize the contents of this 
+             section. (TODO) -->
+        We will use the cube as an example.
+        <!-- Why the cube? Because we believe it is the one platonic solid
+             that most people know best. Furthermore it is easy to understand
+             as it has only 8 vertices. The tetrahedron would be even simpler
+             but it is a bit less known. The octahedron is more difficult to
+             grasp at a glance from a picture, the dodecahedron is usually
+             not more than a curiosity while the icosahedron is too big. -->
         <Alt Only="TikZ">
             \begin{tikzpicture}
                 % We need to define the drawing style
@@ -111,7 +133,16 @@ gap&gt; NrOfFaces(surface);
 gap&gt; EulerCharacteristic(surface);
 2
 </Example>
-        and we can show that the surface is homeomorphic to a sphere by verifying that it is closed, connected and orientable.
+        and we can show that the surface is homeomorphic to a sphere by 
+        verifying that it is closed, connected and orientable.
+        <!-- This is a risky sentence - We want to give interested people
+             something that they can use immediately, we want new people
+             to not be overwhelmed and we don't just want to state some
+             random properties.
+             This sentence tries to strike a balance by connecting the
+             random properties to a bigger question (homeomorphism) but
+             its casual mentioning should allow readers to ignore this
+             part of the sentence if they feel it too complicated. -->
 <Example>
 gap&gt; IsClosedSurface(surface);
 true
@@ -120,19 +151,26 @@ true
 gap&gt; IsOrientable(surface);
 true
 </Example>
-        We can also compute more complicated properties like the automorphism group and check for isomorphisms between surfaces. 
-    <!-- TODO do so--> 
+        We can also compute more complicated properties like the 
+        automorphism group and check for isomorphisms between surfaces. 
+    <!-- TODO do so, probably with a tetrahedron: Be careful to not overdo it! --> 
         
     </Section>
 
 
-    <Section Label="Introduction_EasyConstruction"><Heading>Constructing some surfaces</Heading>
-        In the most cases one is not interested in the properties of platonic solids (usually one already knows a lot about them). Therefore we need a way to tell the package about the surfaces we are interested in. 
+    <Section Label="Introduction_EasyConstruction">
+        <Heading>Constructing some surfaces</Heading>
+        In the most cases one is not interested in the properties of platonic 
+        solids (usually one already knows a lot about them). Therefore we need 
+        a way to tell the package about the surfaces we are interested in. 
         <Alt Only="Text">
-            As a test case we consider a surface that consists of only three triangles T1, T2 and T3. We want that T2 shares an edge with both T1 and T3, but T1 and T3 should not be connected otherwise.
+            As a test case we consider a surface that consists of only three 
+            triangles T1, T2 and T3. We want that T2 shares an edge with both 
+            T1 and T3, but T1 and T3 should not be connected otherwise.
         </Alt>
         <Alt Not="Text">
-            As a test case we consider a surface of three triangles that are connected by edges, like this:
+            As a test case we consider a surface of three triangles that are 
+            connected by edges, like this:
         </Alt>
         <Alt Only="TikZ">
             {
