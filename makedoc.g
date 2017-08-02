@@ -140,8 +140,10 @@ preProcessTikz := function( node )
             #       subscripts have the same height. If that turns out to be
             #       wrong, you have to think of a more sophisticated mechanism.
             Exec( "sh -c \" cd ", path, 
-                "; sed 's/baseline-shift=\"sub\"/dy=\"3\"/g' -i", 
-                Concatenation(name, "-1.svg"), ";\"");
+                "; sed 's/baseline-shift=\\\"sub\\\"/dy=\\\"3\\\"/g' -i ",
+                Concatenation(name, "-1.svg"), ";\" ");
+                # I do not really understand why there has to be so much
+                # escaping but it does not work with less.
         fi;
             
         # Step 7
@@ -150,7 +152,8 @@ preProcessTikz := function( node )
         # Step 8 will be done in the htmlString below
        
 
-        # We want to include this in the LaTeX version (we only have to rewrite the alt-name);
+        # We want to include this in the LaTeX version (we only have to 
+        # rewrite the alt-name);
         n1 := StructuralCopy(node);
         n1.attributes.Only := "LaTeX";
         # center the picture
