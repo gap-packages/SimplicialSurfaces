@@ -11,3 +11,4 @@
 #############################################################################
 
 # Set up the attribute scheduler
+BindGlobal( "SIMPLICIAL_ATTRIBUTE_SCHEDULER", AttributeScheduler([]) );

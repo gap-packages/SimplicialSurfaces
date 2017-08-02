@@ -10,4 +10,6 @@
 ##
 #############################################################################
 
-
+#! @Chapter Access to the incidence geometry
+#!
+#! @Section Basic access to the incidence structure
