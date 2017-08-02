@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- Goal of this chapter: Give people an introduction into the package,
+     to get a feel of its functionalities, without bogging them down in
+     details. The main concept we use here is that of an honest trade.
+
+     We trade between complexity and depth. The complexity refers to the
+     complexity of the explanation (is it intuitive/easy to understand or
+     does it take a long time to wrap your head around it?). The depth
+     refers to the depth of the taught concept (is it a simple concept? Is
+     it generally useful or only a curiosity?).
+     
+     If the complexity cost is too high, people will probably get bored
+     (since they don't see the point in continuing) and don't use the package.
+     Therefore this chapter tries to strike a very good balance between
+     complexity and depth. Every rise in complexity is rewarded with a 
+     corresponding rise in depth. There is no long stretch of complexity 
+     without an apparent goal.
+
+     Ideally this teaches the reader (who probably reads this chapter first)
+     that this manual will always try to strike a balance. So even if they
+     later find a stretch of high complexity, they hopefully remember this
+     lesson and give the manual the benefit of the doubt (to keep reading or
+     at least to not discard it). -->
+     
 <Chapter Label="Introduction"><Heading>Getting started</Heading>
+    <!-- This section is a teaser. Without going into details it gives a rough
+         overview about what can be expected from this package. Therefore a
+         reader can quickly determine if this package might be useful for them.
+
+         Furthermore it tries to pique the interest of casual readers. If
+         a casual reader is motivated to stay through the first few sections
+         we can expect them to remember some of it - which might help them
+         in the future, if they have a similar problem and need a package.
+
+         Finally this section has to give something to those people that 
+         already know what they want (otherwise they will start skipping ths
+         introduction). For this reason this section is also used as an
+         "overview"-section that gives an easy starting point for further
+         inquiry. -->
     <Section Label="Introduction_Teaser"><Heading>What can it do?</Heading>
         The SimplicialSurface-package contains this basic functionality:
         <Enum>
-            <Item>Working with simplicial surfaces (and generalisations of them), for example: <Par/>
+            <Item>Working with simplicial surfaces (and generalisations of 
+                them, see section <Ref Chap="PolygonalStructures"/> ), for 
+                example:
                 <!-- TODO Alternative for text-version -->
                 <Alt Only="TikZ">
                     \input{Image_ManyExamples.tex}

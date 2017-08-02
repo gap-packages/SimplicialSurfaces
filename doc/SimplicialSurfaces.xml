@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- General goals of this documentation:
+    1) Readability (it should be easy to read and understand)
+    2) It should not be necessary to explain the structure of the manual to
+        understand it.
+    3) Navigation to related topics should be easy and intuitive.
+    4) The manual should be very modular - it should be possible to read it
+        in almost any way possible.
+    5) It should give good terminal support (this is important since the
+        ubiquous use of pictures makes good terminal representation harder).
+-->
+
+
 <!-- This is an automatically generated file. -->
 <!DOCTYPE Book SYSTEM "gapdoc.dtd"
 [
