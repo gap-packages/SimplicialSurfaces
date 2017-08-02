@@ -10,6 +10,12 @@
 ##
 #############################################################################
 
-#! @Chapter Access to the incidence geometry
+#! <Chapter Name="AccessIncidenceGeometry">
+#!  <Heading>Access to the incidence geometry</Heading>
 #!
-#! @Section Basic access to the incidence structure
+#!  <Section Name="Access_BasicAccess">
+#!    <Heading>Basic access to the incidence structure</Heading>
+#! test bla
+
+#!  </Section>
+#! </Chapter>
