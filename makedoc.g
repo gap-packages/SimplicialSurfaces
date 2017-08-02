@@ -154,7 +154,7 @@ preProcessTikz := function( node )
 
 
         # Generate the text version
-        consoleString := "[an image that is not shown in text version]";
+        consoleString := "\n[an image that is not shown in text version]\n";
         n3 := ParseTreeXMLString(consoleString);
         n3.name := "Alt";
         n3.attributes.Only := "Text";
