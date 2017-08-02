@@ -44,23 +44,6 @@ About the chapter ordering:
     They should be behind the others as they are not really needed to work with the core processes.
 
 -------------
-
-TODO This chapter has a technical role but it should not feel technical. This may be achieved by a lot of pictures and non-boring explanation.
-Chapter "Different filters" [TODO better name]
-    -> Subsections for different filters [TODO: Where do we put IsHomogeneous?]
-        - Start with explanation of chapter structure (splitted to make process easier), [Name: "Structure of ??"]
-            Put the diagram of the filter structure here, use different colours for different levels, same colours as the section headers
-            [Maybe highlight part of the diagram in each section? To give a better feel for the position in the chapter?]
-            [Problem: The diagram might confuse new readers (a lot of concepts very quickly) - how can that be circumvented? Maybe make SimplicialComplex and SimplicialSurface bold, the corresponding polygonal ones italic - that makes it easier to distinguish them from the more technical other names. The diagram should give a feeling of structure without confusing people that are not initiated.]
-        - Polygonal and simplicial complexes
-        - Ramified polygonal and simplicial surfaces [TODO: better name? Apparently PseudoManifold is a fixed term - use it? Alternatively use IsNonBranching, compare wikipedia-entry about pseudo-manifolds]
-        - Polygonal and simplicial surfaces
-        -> Each subsection explains necessary definitions (some will be there twice - ensure that the surrounding chapter names make it clear to the user in which section they belong!)
-        -> The definitions in the explanation of each filter should be very short (referring back to others, new definition should be directly above)
-
-
------------------
-
 Chapter "Access to the incidence geometry"
 
 Chapter "Basic access to the incidence structure" <all methods are exemplified with the standard example (a square that shares an edge with a triangle)>

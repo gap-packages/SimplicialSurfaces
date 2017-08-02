@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- This chapter is technical but very important for the rest of the package.
+     Especially the definition of polygonal complex is essential (since most
+     operations refer to it in one way or another). Therefore it has to explained
+     quite early (for people who read a manual in order).
+     Since we don't want to bore readers, we aim for an engagingly written
+     chapter with many pictures to easily visualize what is going on. -->
 <Chapter Label="PolygonalStructures"><Heading>Polygonal Structures</Heading>
     Although we are mostly interested in surfaces, the process of folding 
     naturally leads us to more general structures. Therefore, the most general 
@@ -13,13 +19,30 @@
     </Alt>
     Since we are especially interested in surfaces we need a way to recognize
     them. For technical reasons we split this process into two separate steps,
-    with the ramified polygonal surfaces as the intermediate structure betwee
+    with the ramified polygonal surfaces as the intermediate structure between
     polygonal complexes and polygons surfaces.
     <Par/>
     In many cases the definitions and algorithms simplify if we only consider
     triangles instead of general polygons. For this reason we also have equivalents
     of these structures that are only build from triangles. We can summarize
     the relationships graphically (higher means more general):
+    <!-- This is one of the few exceptions to our rule of not explaining the
+         manual structure explicitly. At this point our interests are two-fold:
+         1) We want to give more experienced readers a quick answer to 
+            questions of the form "Which of these concepts is more general?" or 
+            "What was the intermediate form called?"
+         2) We don't want to burden new readers with the whole information
+            complex immediately.
+         These interests are standing in obvious conflict. Our method of 
+         resolution is to explain a simplified model of the polygonal 
+         hierarchy. Together with this simplification the diagram can be read
+         in context and becomes easier to process.
+
+         At the same time the hierarchy is a natural structure for this chapter
+         since PolygonalSurfaces rely on both the steps from PolygonalComplexes
+         and from RamifiedPolygonalSurfaces. Since the hierarchy had to be
+         explained anyway, this explanation does not count heavily against our
+         rule. -->
     <Alt Only="TikZ">
         \begin{tikzpicture}[
             % Define the hyperlink structure. This code was adapted from
