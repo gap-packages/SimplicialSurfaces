@@ -19,59 +19,8 @@ TODO: General problem: If someone goes into a chapter that is confusing/technica
 
 
 
-Second chapter
-Goal: Teaser. Show actual examples with code. Keep people interested, don't ramp up the complexity too much.
-[We will first do an example without knowing internal properties of the surface and only afterwards add this complexity]
-Name: Playing with simplicial surfaces, "Getting started" (if so, add LoadPackage and refer to the installation part if applicable)
-Content:
-Since the platonic solids are pre-defined [gives user some test-cases for experimenting] we use them to show the capabilities of this package.
-    <Use cube (as it is known to more people than the other platonic solids and is quite small)>
-    <Draw a picture and show the GAP-command Cube(), to avoid complicated constructors at the start>
-We can compute elementary properties of the surface
-    NrOfVertices
-    NrOfEdges
-    NrOfFaces
-    EulerCharacteristic
-and we can also show that the surface is homeomorphic to a sphere:
-    IsClosedSurface
-    IsConnected
-    IsOrientable
-    
-We can also answer some more difficult questions like AutomorphismGroup or test for isomorphism (with one of the other platonic solids)
-[TODO it is probably useful to show some capabilities. At the same time some users might be turned off if we linger too long on these
-cases. We can do a list-style enumeration but this can run into the problem of being too long]
 
 
-Third chapter
-Goal: Motivate people to think about surfaces and constructors. Start easy (VerticesInFaces) and stay slow.
-Name: Constructing some surfaces
-Content:
-Usually one is not interested in the properties of some platonic solids (usually you already know a lot about them).
-Therefore we need a way to input our objects of interest into the package. 
-As a test case we consider three triangles that are connected by egdes, like this:
-    <picture>
-An easy way to describe this information is to label faces and vertices. In our case each triangle is determined by its three vertices.
-For example, the face I consists of the vertices [1,2,3] and the face III has the vertices [3,4,5]. From this information we can construct the simplicial complex:
-    SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;
-that retains this information
-    VerticesInFaces( surf );
-
-We can use this constructor to define a moebius strip <TODO with picture>
-    IsOrientable( moebius );
-
-
-    Subsection (relatively smaller font): Non-triangular faces
-    Goal: Teach about non-triangular faces. This section should be easy to skip.
-    [TODO: How can we make this easy to skip? How do people skip? When do people skip? Some people might read this as contrast to the triangular faces or to better understand the simpler material. Give those people something, but not very much (to encourage skipping).]
-    If we want to have surfaces with non-triangular faces, the constructor SimplicialSurfacesByVerticesInFaces needs a bit more information. We consider the example of a pyramid with square base.
-        <picture>
-    As before, we label the vertices and faces first <top is 1, then label the other ones in a non-cyclic order>. If we now try to input the surface
-    <do so>
-    we notice something strange. Namely, the constructed surface is not closed
-    <show this>
-    The problem lies in the definition of the square face since it is not clear what the edges should be. For triangles every pair of vertices defines an edge, but for squares this is not the case. 
-    The constructor of ... will believe, that two adjecent elements in the given list are connected by an edge. So <explain what went wrong concretely>. Instead we have to give the vertices in a cyclical order, like
-    <do it correctly>
 
 Fourth chapter
 Goal: Learn about capabilities if we ignore the edge information (only constructor is ByVerticesInFaces)

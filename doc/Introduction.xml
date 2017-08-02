@@ -163,6 +163,10 @@ true
         In the most cases one is not interested in the properties of platonic 
         solids (usually one already knows a lot about them). Therefore we need 
         a way to tell the package about the surfaces we are interested in. 
+        <!-- This is an obvious point. We make it here to ensure the reader
+             that we do not go on irrelevant tangents for too long. Furthemore
+             we are probably in agreement with the reader here, which will
+             make them more positively inclined to our manual. -->
         <Alt Only="Text">
             As a test case we consider a surface that consists of only three 
             triangles T1, T2 and T3. We want that T2 shares an edge with both 
@@ -178,10 +182,15 @@ true
             }
         </Alt>
 
-        An easy way to describe this information is by labelling faces and vertices. In our case each triangle is determined by its three vertices.
+        An easy way to describe this information is by labelling faces and 
+        vertices. In our case each triangle is determined by its three vertices.
         <Alt Only="Text">
-            The vertex of T1 that is not a vertex of T2 will be called V1, the vertex that is shared by all triangles is called V2, the final vertex of T1 is V3, the final vertex of T2 is V4 and the last vertex will be called V5.
-            Then the face T1 consists of the vertices V1,V2,V3. The face T2 contains V2,V3,V4 and the face T3 has V2,V4,V5.
+            The vertex of T1 that is not a vertex of T2 will be called V1, the 
+            vertex that is shared by all triangles is called V2, the final 
+            vertex of T1 is V3, the final vertex of T2 is V4 and the last 
+            vertex will be called V5. Then the face T1 consists of the vertices 
+            V1,V2,V3. The face T2 contains V2,V3,V4 and the face T3 has 
+            V2,V4,V5.
         </Alt>
         <Alt Only="TikZ">
             {
@@ -191,7 +200,8 @@ true
             }
         </Alt>
         <Alt Not="Text">
-            For example the face I consists of the vertices [1,2,3] and the face III has the vertices [2,4,5].
+            For example the face I consists of the vertices [1,2,3] and the 
+            face III has the vertices [2,4,5].
         </Alt>
 
         We can encode this information as a list with three entries (one for 
@@ -260,7 +270,7 @@ false
                  Therefore we aim to make this section easy to skip. It must not
                  be too long and it must not have essential information for 
                  triangular faces.
-                 At the same time, many people that do not actually care about
+                 That being said, many people that do not actually care about
                  it will read this section (it does not matter if we told them
                  to stop), for various reasons:
                  1) Some never skip. To accomodate them, the section should not
@@ -280,7 +290,6 @@ false
                  If someone only cares about triangles and is a bit impatient
                  they will hopefully say "I don't want that" and skip ahead.-->
             We consider the example of a pyramid with a square base.
-            <!--TODO find a better picture of this pyramid -->
             <Alt Only="TikZ">
                 \begin{tikzpicture}
                     \coordinate [label=above:1] (A) at (0,5);
@@ -318,7 +327,8 @@ false
             edges.<P/>
             
             <!--TODO find out how to properly typeset methods (and maybe even link to their more extensive documentation)-->
-            The method SimplicialSurfaceByVerticesInFaces will believe that two
+            The method <K>SimplicialSurfaceByVerticesInFaces</K> will believe 
+            that two
             adjacent vertices in the given list are also connected by an edge 
             of the face. Above, we gave the list [2,3,4,5] for the square. If 
             we compare it with our picture we can see that the vertices 2 and 4 
