@@ -145,6 +145,43 @@ generalisation of simplicial surfaces) like these:
                     \end{tikzpicture}
         \end{center} 
 
+    They are represented by their incidence geometry (without a concrete
+    embedding into some space).
+    We can compute several properties of those
+    complexes, some of them easy (orientability) and some of them harder
+    (isomorphism testing).
 
+    Based on this general structure I will touch upon two of our research
+    interests:
+    \begin{itemize}
+        \item Analysis of special edge colourings with three colours,
+                like this:
+            \begin{center}
+                %       F
+                %    C     E 
+                % A     B    D
+                \begin{tikzpicture}[scale=0.8]
+                    \coordinate (A) at (0,0);
+                    \coordinate (B) at (2,0);
+                    \coordinate (C) at (1,1.4);
+                    \coordinate (D) at ($2*(B)$);
+                    \coordinate (E) at ($(B)+(C)$);
+                    \coordinate (F) at ($2*(C)$);
+
+                    \draw[blue, thick] (A) -- (B) -- (D);
+                    \draw[blue, thick] (C) -- (E);
+                    \draw[red, thick] (B) -- (C);
+                    \draw[red, thick] (D) -- (E) -- (F);
+                    \draw[black, thick] (A) -- (C) -- (F);
+                    \draw[black, thick] (B) -- (E);
+                \end{tikzpicture}
+            \end{center}
+            They lead to a group--theoretical analysis of those surfaces.
+        \item We are interested in the folding of paper. Since working with
+            embedded surfaces is very hard (even for small examples), we have
+            generalized the concept of folding to polygonal complexes. Here we
+            are for example interested in the possible structures that can be
+            achieved by folding a polygonal complex.
+    \end{itemize}
 
 \end{document}
