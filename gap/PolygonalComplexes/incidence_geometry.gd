@@ -33,3 +33,14 @@ DeclareOperation( "Vertices", [IsPolygonalComplex] );
 DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsPolygonalComplex );
 #! @EndGroup
 
+#! @Description
+#! Return the set of edges.
+#! @Arguments complex
+#! @Returns A set of positive integers
+DeclareAttribute( "Edges", IsPolygonalComplex );
+
+#! @Description
+#! Return the set of faces.
+#! @Arguments complex
+#! @Returns A set of positive integers
+DeclareAttribute( "Faces", IsPolygonalComplex );
