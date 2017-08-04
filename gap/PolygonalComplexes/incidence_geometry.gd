@@ -26,6 +26,9 @@
 ## TODO check if grape has changed their definition of Vertices
 #! @Description
 #! Return the set of vertices.
+#! <Par/>
+#! We have separated the operation <K>Vertices</K> from the corresponding
+#! attribute because there was a naming clash with the package grape.
 #! @Arguments complex
 #! @Returns A set of positive integers
 DeclareOperation( "Vertices", [IsPolygonalComplex] );
@@ -44,3 +47,5 @@ DeclareAttribute( "Edges", IsPolygonalComplex );
 #! @Arguments complex
 #! @Returns A set of positive integers
 DeclareAttribute( "Faces", IsPolygonalComplex );
+
+#TODO where to put NrOf* ?
