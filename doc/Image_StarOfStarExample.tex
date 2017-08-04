@@ -6,26 +6,36 @@
         \def\faceLabels{1}
     \fi
 
-    \coordinate [label={[vertex]left:\ifdefined\vertexLabels 1 \fi}](P1) at (0,0.5);
-    \coordinate [label={[vertex]below:\ifdefined\vertexLabels 2 \fi}](P2) at (2,-1);
+    %       P3 ------------ P4
+    %      / |       10     | 
+    %    8/  |              |
+    %    /   |              |
+    %  P1  I |9      IV     |12
+    %    \   |              |
+    %    6\  |              |
+    %      \ |        13    |
+    %       P2 ------------ P5
+
+    \coordinate [label={[vertex]left:\ifdefined\vertexLabels 2 \fi}](P1) at (0,0.5);
+    \coordinate [label={[vertex]below:\ifdefined\vertexLabels 11 \fi}](P2) at (2,-1);
     \coordinate [label={[vertex]above:\ifdefined\vertexLabels 3 \fi}](P3) at (2,2);
-    \coordinate [label={[vertex]above:\ifdefined\vertexLabels 4 \fi}](P4) at (5,2);
-    \coordinate [label={[vertex]below:\ifdefined\vertexLabels 5 \fi}](P5) at (5,-1);
+    \coordinate [label={[vertex]above:\ifdefined\vertexLabels 5 \fi}](P4) at (5,2);
+    \coordinate [label={[vertex]below:\ifdefined\vertexLabels 7 \fi}](P5) at (5,-1);
 
     \filldraw[face] (P1) -- (P2) -- (P3) -- cycle;
     \filldraw[face] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
     \ifdefined\faceLabels
         \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {I};
-        \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {II};
+        \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {IV};
     \fi
 
     \ifdefined\edgeLabels
-        \drawEdge{P1}{P2}{1}
-        \drawEdge{P1}{P3}{2}
-        \drawEdge{P2}{P3}{3}
-        \drawEdge{P3}{P4}{4}
-        \drawEdge{P4}{P5}{5}
-        \drawEdge{P5}{P2}{6}
+        \drawEdge{P1}{P2}{6}
+        \drawEdge{P1}{P3}{8}
+        \drawEdge{P2}{P3}{9}
+        \drawEdge{P3}{P4}{10}
+        \drawEdge{P4}{P5}{12}
+        \drawEdge{P5}{P2}{13}
     \fi
 
     \ifdefined\vertexLabels

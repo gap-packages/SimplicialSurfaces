@@ -49,3 +49,7 @@ DeclareAttribute( "Edges", IsPolygonalComplex );
 DeclareAttribute( "Faces", IsPolygonalComplex );
 
 #TODO where to put NrOf* ?
+
+#! With these labels we can describe the incidence structure by lists of sets.
+#! All those methods have the form *Of*, e.g. <K>VerticesOfEdges</K> and 
+#! <K>FacesOfVertices</K>.
