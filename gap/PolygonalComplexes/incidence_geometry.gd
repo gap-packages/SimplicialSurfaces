@@ -10,12 +10,10 @@
 ##
 #############################################################################
 
-#! <Chapter Label="AccessIncidenceGeometry">
-#!  <Heading>Access to the incidence geometry</Heading>
+#! @Chapter Access to the incidence geometry
+#! @ChapterLabel AccessIncidenceGeometry
 #!
-#!  <Section Label="Access_BasicAccess">
-#!    <Heading>Basic access to the incidence structure</Heading>
-#! test bla Change AutoDoc?
+#! @Section Basic access to the incidence structure
+#! @SectionLabel Access_BasicAccess
+#!
 
-#!  </Section>
-#! </Chapter>

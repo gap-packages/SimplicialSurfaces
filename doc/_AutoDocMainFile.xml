@@ -3,3 +3,4 @@
 <!-- This is an automatically generated file. -->
 <#Include SYSTEM "_Chapter_Simplicial_Surfaces.xml">
 <#Include SYSTEM "_Chapter_Wild_Simplicial_Surfaces.xml">
+<#Include SYSTEM "_Chapter_AccessIncidenceGeometry.xml">
