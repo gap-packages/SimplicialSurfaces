@@ -12,6 +12,8 @@
 
 #! @Chapter Access to the incidence geometry
 #! @ChapterLabel AccessIncidenceGeometry
+#! 
+#TODO explain incidence geometry here (people might skip from teaser);
 #!
 #! @Section Basic access to the incidence structure
 #! @SectionLabel Access_BasicAccess
