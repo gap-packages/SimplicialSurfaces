@@ -12,8 +12,8 @@
 
 \begin{tikzpicture}[edgeLabel/.style={fill=red!10!white}]
     \coordinate [label=below:\ifdefined \vertexLabels 1 \fi] (A) at (0,0);
-    \coordinate [label=below:\ifdefined \vertexLabels 2 \fi] (B) at (3,0);
-    \coordinate [label=above:\ifdefined \vertexLabels 3 \fi] (C) at (1.5,2);
+    \coordinate [label=below:\ifdefined \vertexLabels 3 \fi] (B) at (3,0);
+    \coordinate [label=above:\ifdefined \vertexLabels 2 \fi] (C) at (1.5,2);
     \coordinate [label=above:\ifdefined \vertexLabels 4 \fi] (D) at ($(B)+(C)$);
     \coordinate [label=below:\ifdefined \vertexLabels 5 \fi] (E) at ($2*(B)$);
 

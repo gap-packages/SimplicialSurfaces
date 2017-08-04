@@ -65,4 +65,18 @@ DeclareAttribute( "Faces", IsPolygonalComplex );
 #! }
 #! </Alt>
 #!
+#! @BeginExample
+complex := PolygonalComplexByDownwardIncidence( 5, 6, 2, 
+    [ , , , , , [2,11], , [2,3], [3,11], [3,5], , [5,7], [7,11] ], 
+    [[6,8,9], , , [9,10,12,13]]);;
+Vertices(complex);
+#! [ 2, 3, 5, 7, 11 ]
+Edges(complex);
+#! [ 6, 8, 9, 10, 12, 13 ]
+Faces(complex);
+#! [ 1, 4 ]
+#! @EndExample
+#!
+#! 
+#!
 
