@@ -50,6 +50,19 @@ DeclareAttribute( "Faces", IsPolygonalComplex );
 
 #TODO where to put NrOf* ?
 
+#! <Par/>
 #! With these labels we can describe the incidence structure by lists of sets.
 #! All those methods have the form *Of*, e.g. <K>VerticesOfEdges</K> and 
 #! <K>FacesOfVertices</K>.
+#! <Par/>
+#! We will illustrate the general pattern of these methods by showcasing
+#! these two methods. For that we will use the following polygonal complex:
+#TODO Text-version is crucial here, compare the picture in Image_StarOfStar
+#! <Alt Only="TikZ">
+#! {
+#! \def\allLabels{1}
+#! \input{Image_StarOfStarExample.tex}
+#! }
+#! </Alt>
+#!
+
