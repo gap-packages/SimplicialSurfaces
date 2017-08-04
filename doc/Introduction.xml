@@ -39,7 +39,7 @@
          "overview"-section that gives an easy starting point for further
          inquiry. -->
     <Section Label="Introduction_Teaser"><Heading>What can it do?</Heading>
-        The SimplicialSurface-package contains this basic functionality:
+        The <K>SimplicialSurface</K>-package contains this basic functionality:
         <Enum>
             <Item>Working with simplicial surfaces (and generalisations of 
                 them, compare section <Ref Chap="PolygonalStructures"/>), for 
@@ -55,6 +55,7 @@
                 <!--TODO abstract nature has to be made clear--> </Item>
         </Enum>
         To use this package, you have to load it into GAP via
+    <!--TODO Can you change the title of the box? "Example" sounds wrong-->
 <Log>
 gap&gt; LoadPackage("SimplicialSurfaces");
 true
@@ -439,7 +440,7 @@ gap&gt; GlobalOrientationByVerticesAsList(surf);
             }
         </Alt>
 <Example>
-gap&gt; surf := SimplicialSurfaceByVerticesInFaces( 5, 3, [[1,2,3],[2,3,4],[2,4,5]] );;
+gap&gt; surf := SimplicialSurfaceByVerticesInFaces( 5, 3, [[1,2,3],[2,3,4],[3,4,5]] );;
 </Example>
         We can see the edges by calling
 <Example>
@@ -449,7 +450,7 @@ gap&gt; Edges(surf);
         but this does not tell us where they are. For that we may use
 <Example>
 gap&gt; VerticesOfEdges(surf);
-[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 2, 5 ], [ 3, 4 ], [ 4, 5 ] ]
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ]
 </Example>
         As before, the first entry of this list contains the vertices of the
         first edge. In our example the edge with number 1 is incident to the
@@ -466,13 +467,13 @@ gap&gt; VerticesOfEdges(surf);
         faces, we only have to check
 <Example>
 gap&gt; FacesOfEdges(surf);
-[ [ 1 ], [ 1 ], [ 1, 2 ], [ 2, 3 ], [ 3 ], [ 2 ], [ 3 ] ]
+[ [ 1 ], [ 1 ], [ 1, 2 ], [ 2 ], [ 2, 3 ], [ 3 ], [ 3 ] ]
 </Example>
         The positions with lists of two elements are the interesting
         edges. We can compute them easily by
 <Example>
 gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
-[ 3, 4 ]
+[ 3, 5 ]
 </Example>
     </Section>
 
