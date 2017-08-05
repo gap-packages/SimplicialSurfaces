@@ -10,6 +10,13 @@
 ##
 #############################################################################
 
+InstallMethod( Vertices, "for a polygonal complex", [IsPolygonalComplex],
+	function(complex)
+		return VerticesAttributeOfPolygonalComplex( complex );
+	end
+);
+
+
 
 # methods to compute number of vertices, edges, faces
 InstallMethod( NrOfVertices, "for a polygonal complex", [IsPolygonalComplex],
