@@ -51,8 +51,8 @@
                 </Alt>
                 Instead of working with an embedding of these structures, we
                 see them as abstract surfaces and represent them by their
-                incidence geometry (for more details see chapter
-                <Ref Chap="Chapter_AccessIncidenceGeometry"/>).
+                incidence geometry (for more details see section
+                <Ref Sect="PolygonalStructures_complex"/>).
             </Item>
             <Item>Working with edge colourings of simplicial surfaces (in 
                 general and for the purpose of an embedding). <!--TODO--> </Item>

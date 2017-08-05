@@ -13,8 +13,13 @@
 #! @Chapter Access to the incidence geometry
 #! @ChapterLabel AccessIncidenceGeometry
 #! 
-#TODO explain incidence geometry here (people might skip from teaser);
-#!
+#! We have introduced incidence geometries in section
+#! <Ref Sect="PolygonalStructures_complex"/> as a description of polygonal
+#! complexes. In this
+#! chapter we will collect different ways to access these incidence
+#! structures.
+
+
 #! @Section Basic access to the incidence structure
 #! @SectionLabel Access_BasicAccess
 #!
