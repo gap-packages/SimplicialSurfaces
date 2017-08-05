@@ -19,15 +19,15 @@
 #! chapter we will collect different ways to access these incidence
 #! structures.
 
-
-#! @Section Basic access to the incidence structure
-#! @SectionLabel Access_BasicAccess
+#! @Section Access to labels of vertices, edges and faces
+#! @SectionLabel Access_LabelAccess
 #!
 #! In polygonal complexes (the most general supported incidence structure,
 #! compare chapter <Ref Chap="PolygonalStructures"/>) all vertices, edges
 #! and faces are labelled by positive integers. We can access the set of
 #! all those labels by <K>Vertices</K>, <K>Edges</K> and <K>Faces</K>.
-
+#! If only the number of vertices is relevant, we can use <K>NrOfVertices</K>
+#! instead (likewise for edges and faces).
 
 #! @BeginGroup
 ## TODO check if grape has changed their definition of Vertices
@@ -55,10 +55,31 @@ DeclareAttribute( "Edges", IsPolygonalComplex );
 #! @Returns A set of positive integers
 DeclareAttribute( "Faces", IsPolygonalComplex );
 
-#TODO where to put NrOf* ?
+#! @Description
+#! Return the number of vertices.
+#! @Arguments complex
+#! @Returns a non-negative integer
+DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
 
-#! <Par/>
-#! With these labels we can describe the incidence structure by lists of sets.
+#! @Description
+#! Return the number of edges.
+#! @Arguments complex
+#! @Returns a non-negative integer
+DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
+
+#! @Description
+#! Return the number of faces.
+#! @Arguments complex
+#! @Returns a non-negative integer
+DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
+
+
+#! @Section Basic access to the incidence structure
+#! @SectionLabel Access_BasicAccess
+#!
+#! With the labels of vertices, edges and faces (which we can access by the
+#! methods of section <Ref Sect="Section_Access_LabelAccess"/>) we can 
+#! describe the incidence structure by lists of sets.
 #! All those methods have the form *Of*, e.g. <K>VerticesOfFaces</K> and 
 #! <K>EdgesOfVertices</K>.
 #! <Par/>
