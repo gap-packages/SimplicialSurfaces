@@ -93,6 +93,7 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! }
 #! </Alt>
 #!
+#TODO give a reference to the constructor
 #! @BeginExample
 complex := PolygonalComplexByDownwardIncidence( 5, 6, 2, 
     [ , , , , , [2,11], , [2,3], [3,11], [3,5], , [5,7], [7,11] ], 
@@ -127,4 +128,12 @@ EdgesOfVertices(complex);
 #! @EndExample
 #! For example, if we consider the third entry of this list, we find the
 #! set [8, 9, 10]. Those are all edges that are incident to the vertex 3.
+#! <Par/>
+#! In the same way all other *Of*-methods are defined.
 
+#! @Description
+#! Return a list that contains sets of edges and is indexed by the vertex
+#! labels. This list encodes the incidence relation between edges and
+#! vertices.
+#!
+#! 

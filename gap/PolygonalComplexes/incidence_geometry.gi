@@ -10,13 +10,16 @@
 ##
 #############################################################################
 
+
+##############################################################################
+##
+##          Methods for labelled access
+##
 InstallMethod( Vertices, "for a polygonal complex", [IsPolygonalComplex],
 	function(complex)
 		return VerticesAttributeOfPolygonalComplex( complex );
 	end
 );
-
-
 
 # methods to compute number of vertices, edges, faces
 InstallMethod( NrOfVertices, "for a polygonal complex", [IsPolygonalComplex],
@@ -37,4 +40,19 @@ InstallMethod( NrOfFaces, "for a polygonal complex", [IsPolygonalComplex],
     end
 );
 
+##
+##              End of labelled access
+##
+##############################################################################
 
+
+##############################################################################
+##
+##          Methods for basic access (*Of*)
+##
+
+
+##
+##          End of basic access (*Of*)
+##
+##############################################################################
