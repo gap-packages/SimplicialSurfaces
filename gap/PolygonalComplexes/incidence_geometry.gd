@@ -59,8 +59,8 @@ DeclareAttribute( "Faces", IsPolygonalComplex );
 
 #! <Par/>
 #! With these labels we can describe the incidence structure by lists of sets.
-#! All those methods have the form *Of*, e.g. <K>VerticesOfEdges</K> and 
-#! <K>FacesOfVertices</K>.
+#! All those methods have the form *Of*, e.g. <K>VerticesOfFaces</K> and 
+#! <K>EdgesOfVertices</K>.
 #! <Par/>
 #! We will illustrate the general pattern of these methods by showcasing
 #! these two methods. For that we will use the following polygonal complex:
@@ -84,6 +84,26 @@ Faces(complex);
 #! [ 1, 4 ]
 #! @EndExample
 #!
-#! 
-#!
+#! The method <K>VerticesOfFaces</K> tells us, which vertices are incident
+#! to which faces.
+#! @BeginExample
+VerticesOfFaces(complex);
+#! [ [ 2, 3, 11 ], , , [ 3, 5, 7, 11 ] ];
+#! @EndExample
+#! The first entry of this list contains a set of all vertices that are
+#! incident to face I. The second and third entries are not bounded since
+#! there are no faces II and III. Finally the fourth entry contains all
+#! vertices that are incident to face IV.
+#! <Par/>
+#! So we have a list that contains sets of vertices and is indexed by the 
+#! face labels.
+#! <Par/>
+#! The method <K>EdgesOfVertices</K> works in the same way: It returns a list
+#! that contains sets of edges and is indexed by the vertex labels.
+#! @BeginExample
+EdgesOfVertices(complex);
+#! [ , [ 6, 8 ], [ 8, 9, 10 ], , [ 10, 12 ], , [ 12, 13 ], , , , [ 6, 9, 13 ] ]
+#! @EndExample
+#! For example, if we consider the third entry of this list, we find the
+#! set of all edges that are incident to the vertex 3.
 

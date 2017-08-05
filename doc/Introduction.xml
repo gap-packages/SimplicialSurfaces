@@ -266,7 +266,7 @@ gap&gt; VerticesOfFaces(surf);
         </Alt>
 <Example>
 gap&gt; moebius := SimplicialSurfaceByVerticesInFaces(5,5,
-                            [[1,2,3],[2,3,4],[3,4,5],[4,5,1],[5,2,1]]);;
+&gt;                            [[1,2,3],[2,3,4],[3,4,5],[4,5,1],[5,2,1]]);;
 gap&gt; IsOrientable(moebius);
 false
 </Example>
@@ -326,7 +326,7 @@ false
             But if we try to input the surface
 <Example>
 gap&gt; pyr := SimplicialSurfaceByVerticesInFaces( 5, 5, 
-                    [[2,3,4,5], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
+&gt;                    [[2,3,4,5], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
 </Example>
             we notice something strange: The resulting surface has the wrong
             number of edges (10 instead of 8) and is not closed. 
@@ -370,7 +370,7 @@ false
             Instead we have to give the vertices in a proper cyclic ordering:
 <Example>
 gap&gt; pyr := SimplicialSurfaceByVerticesInFaces( 5, 5, 
-                    [[2,3,5,4], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
+&gt;                    [[2,3,5,4], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
 gap&gt; NrOfEdges(pyr);
 8
 gap&gt; IsClosedSurface(pyr);
