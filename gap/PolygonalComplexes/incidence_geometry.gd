@@ -35,7 +35,7 @@
 #! Return the set of vertices.
 #! <Par/>
 #! We have separated the operation <K>Vertices</K> from the corresponding
-#! attribute because there was a naming clash with the package grape.
+#! attribute because there is a naming clash with the package grape.
 #! @Arguments complex
 #! @Returns A set of positive integers
 DeclareOperation( "Vertices", [IsPolygonalComplex] );
@@ -113,7 +113,7 @@ VerticesOfFaces(complex);
 #! @EndExample
 #! The first entry of this list contains a set of all vertices that are
 #! incident to face I. The second and third entries are not bounded since
-#! there are no faces II and III. Finally the fourth entry contains all
+#! there are no faces II and III. Finally, the fourth entry contains all
 #! vertices that are incident to face IV.
 #! <Par/>
 #! So we have a list that contains sets of vertices and is indexed by the 
@@ -126,5 +126,5 @@ EdgesOfVertices(complex);
 #! [ , [ 6, 8 ], [ 8, 9, 10 ], , [ 10, 12 ], , [ 12, 13 ], , , , [ 6, 9, 13 ] ]
 #! @EndExample
 #! For example, if we consider the third entry of this list, we find the
-#! set of all edges that are incident to the vertex 3.
+#! set [8, 9, 10]. Those are all edges that are incident to the vertex 3.
 
