@@ -376,4 +376,36 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
+#! @Section Ordered access to the incidence structure
+#! @SectionLabel Access_OrderedAccess
+#!
+#! In most cases the basic access functions of section
+#! <Ref Sect="Section_Access_BasicAccess"/> like <K>VerticesOfEdges</K> are
+#! sufficient. But sometimes a more "ordered" access is necessary. This
+#! package supports the following capabilities:
+#! <Enum>
+#!   <Item><E>Ordering around a vertex</E>
+#!         <Par/>
+#!         For polygonal surfaces there is a natural ordering of the edges and 
+#!         faces that are incident to a vertex. It is achieved by "travelling 
+#!         around the vertex" while staying on the surface.
+#!         <Alt Only="TikZ">
+#!           \input{Image_EdgeFacePath.tex}
+#!         </Alt>
+#!         For a ramified polygonal surface there a several possibilities for
+#!         such a path and for a general polygonal complex the concept isn't
+#!         even well-defined.
+#!         <Par/>
+#!         A concrete definition is given in subsection
+#!         <Ref Subsect="Definition_EdgeFacePath_Vertex"/>, along with the 
+#!         corresponding method <K>EdgeFacePathPartitionOfVertices</K>.
+#!    </Item>
+#! </Enum>
 
+But sometimes one might need more detailed information, like
+#! the order of 
+#! for
+#! example:
+#! * 
+    
+end;
