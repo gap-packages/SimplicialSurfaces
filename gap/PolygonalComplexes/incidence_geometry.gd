@@ -131,9 +131,41 @@ EdgesOfVertices(complex);
 #! <Par/>
 #! In the same way all other *Of*-methods are defined.
 
+#! @BeginGroup
 #! @Description
-#! Return a list that contains sets of edges and is indexed by the vertex
-#! labels. This list encodes the incidence relation between edges and
-#! vertices.
-#!
+#! The method <K>EdgesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
+#! set of all edges that are incident to <A>vertex</A>. The NC-version does
+#! not check whether the given <A>vertex</A> is a vertex of <A>complex</A>.
+#! <Par/>
+#! The attribute <K>EdgesOfVertices</K>(<A>complex</A>) collects all of those
+#! sets in a list that is indexed by the vertex labels, i.e.
+#! <K>EdgesOfVertices</K>(<A>complex</A>)[<A>vertex</A>] = 
+#! <K>EdgesOfVertex</K>(<A>complex</A>, <A>vertex</A>).
+#! All other positions of this list are not bounded.
+#! <Par/>
+#! As an example, consider the polygonal complex that was introduced at the
+#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\vertexLabels{1}
+#!     \def\edgeLabels{1}
+#!     \input{Image_StarOfStarExample.tex}
+#!   }
+#! </Alt>
+#! @BeginExample
+EdgesOfVertex(complex, 2);
+#! [ 6, 8 ]
+EdgesOfVertex(complex, 11);
+#! [ 6, 9, 13 ]
+EdgesOfVertices(complex);
+#! [ , [ 6, 8 ], [ 8, 9, 10 ], , [ 10, 12 ], , [ 12, 13 ], , , [ 6, 9, 13 ] ]
+#! @EndExample
 #! 
+#! @Arguments complex
+DeclareAttribute( "EdgesOfVertices", IsPolygonalComplex );
+#! @Arguments complex, vertex
+DeclareOperation( "EdgesOfVertex", [IsPolygonalComplex, IsPosInt]);
+#! @Arguments complex, vertex
+DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
+#! @Returns a list of sets of positive integers / a set of positive integers
+#! @EndGroup
