@@ -161,13 +161,13 @@ EdgesOfVertices(complex);
 #! [ , [ 6, 8 ], [ 8, 9, 10 ], , [ 10, 12 ], , [ 12, 13 ], , , [ 6, 9, 13 ] ]
 #! @EndExample
 #! 
+#! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
 DeclareAttribute( "EdgesOfVertices", IsPolygonalComplex );
 #! @Arguments complex, vertex
 DeclareOperation( "EdgesOfVertex", [IsPolygonalComplex, IsPosInt]);
 #! @Arguments complex, vertex
 DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
-#! @Returns a list of sets of positive integers / a set of positive integers
 #! @EndGroup
 
 
@@ -201,11 +201,171 @@ FacesOfVertices(complex);
 #! [ , [ 1 ], [ 1, 4 ], , [ 4 ], , [ 4 ], , , [ 1, 4 ] ]
 #! @EndExample
 #! 
+#! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
 DeclareAttribute( "FacesOfVertices", IsPolygonalComplex );
 #! @Arguments complex, vertex
 DeclareOperation( "FacesOfVertex", [IsPolygonalComplex, IsPosInt]);
 #! @Arguments complex, vertex
 DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! The method <K>VerticesOfEdge</K>(<A>complex</A>, <A>edge</A>) returns the
+#! set of all vertices that are incident to <A>edge</A>. The NC-version does
+#! not check whether the given <A>edge</A> is an edge of <A>complex</A>.
+#! <Par/>
+#! The attribute <K>VerticesOfEdges</K>(<A>complex</A>) collects all of those
+#! sets in a list that is indexed by the edge labels, i.e.
+#! <K>VerticesOfEdges</K>(<A>complex</A>)[<A>edge</A>] = 
+#! <K>VerticesOfEdge</K>(<A>complex</A>, <A>edge</A>).
+#! All other positions of this list are not bounded.
+#! <Par/>
+#! As an example, consider the polygonal complex that was introduced at the
+#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\vertexLabels{1}
+#!     \def\edgeLabels{1}
+#!     \input{Image_StarOfStarExample.tex}
+#!   }
+#! </Alt>
+#! @BeginExample
+VerticesOfEdge(complex, 8);
+#! [ 2, 3 ]
+VerticesOfEdge(complex, 12);
+#! [ 5, 7 ]
+VerticesOfEdges(complex);
+#! [ , , , , , [ 2, 11 ], , [ 2, 3 ], [ 3, 11 ], [ 3, 5 ], , [ 5, 7 ], [ 7, 11 ] ]
+#! @EndExample
+#! 
 #! @Returns a list of sets of positive integers / a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "VerticesOfEdges", IsPolygonalComplex );
+#! @Arguments complex, edge
+DeclareOperation( "VerticesOfEdge", [IsPolygonalComplex, IsPosInt]);
+#! @Arguments complex, edge
+DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! The method <K>FacesOfEdge</K>(<A>complex</A>, <A>edge</A>) returns the
+#! set of all faces that are incident to <A>edge</A>. The NC-version does
+#! not check whether the given <A>edge</A> is an edge of <A>complex</A>.
+#! <Par/>
+#! The attribute <K>FacesOfEdges</K>(<A>complex</A>) collects all of those
+#! sets in a list that is indexed by the edge labels, i.e.
+#! <K>FacesOfEdges</K>(<A>complex</A>)[<A>edge</A>] = 
+#! <K>FacesOfEdge</K>(<A>complex</A>, <A>edge</A>).
+#! All other positions of this list are not bounded.
+#! <Par/>
+#! As an example, consider the polygonal complex that was introduced at the
+#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\edgeLabels{1}
+#!     \def\faceLabels{1}
+#!     \input{Image_StarOfStarExample.tex}
+#!   }
+#! </Alt>
+#! @BeginExample
+FacesOfEdge(complex, 9);
+#! [ 1, 4 ]
+FacesOfEdge(complex, 10);
+#! [ 4 ]
+FacesOfEdges(complex);
+#! [ , , , , , [ 1 ], , [ 1 ], [ 1, 4 ], [ 4 ], , [ 4 ], [ 4 ] ]
+#! @EndExample
+#! 
+#! @Returns a list of sets of positive integers / a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "FacesOfEdges", IsPolygonalComplex );
+#! @Arguments complex, edge
+DeclareOperation( "FacesOfEdge", [IsPolygonalComplex, IsPosInt]);
+#! @Arguments complex, edge
+DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! The method <K>VerticesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
+#! set of all vertices that are incident to <A>face</A>. The NC-version does
+#! not check whether the given <A>face</A> is a face of <A>complex</A>.
+#! <Par/>
+#! The attribute <K>VerticesOfFaces</K>(<A>complex</A>) collects all of those
+#! sets in a list that is indexed by the face labels, i.e.
+#! <K>VerticesOfFaces</K>(<A>complex</A>)[<A>face</A>] = 
+#! <K>VerticesOfFace</K>(<A>complex</A>, <A>face</A>).
+#! All other positions of this list are not bounded.
+#! <Par/>
+#! As an example, consider the polygonal complex that was introduced at the
+#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\vertexLabels{1}
+#!     \def\faceLabels{1}
+#!     \input{Image_StarOfStarExample.tex}
+#!   }
+#! </Alt>
+#! @BeginExample
+VerticesOfFace(complex, 1);
+#! [ 2, 3, 11 ]
+VerticesOfFace(complex, 4);
+#! [ 3, 5, 7, 11 ]
+VerticesOfFaces(complex);
+#! [ [ 2, 3, 11 ], , , [ 3, 5, 7, 11 ] ]
+#! @EndExample
+#! 
+#! @Returns a list of sets of positive integers / a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "VerticesOfFaces", IsPolygonalComplex );
+#! @Arguments complex, face
+DeclareOperation( "VerticesOfFace", [IsPolygonalComplex, IsPosInt]);
+#! @Arguments complex, face
+DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! The method <K>EdgesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
+#! set of all edges that are incident to <A>faces</A>. The NC-version does
+#! not check whether the given <A>face</A> is a face of <A>complex</A>.
+#! <Par/>
+#! The attribute <K>EdgesOfFaces</K>(<A>complex</A>) collects all of those
+#! sets in a list that is indexed by the face labels, i.e.
+#! <K>EdgesOfFaces</K>(<A>complex</A>)[<A>face</A>] = 
+#! <K>EdgesOfFace</K>(<A>complex</A>, <A>face</A>).
+#! All other positions of this list are not bounded.
+#! <Par/>
+#! As an example, consider the polygonal complex that was introduced at the
+#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\edgeLabels{1}
+#!     \def\faceLabels{1}
+#!     \input{Image_StarOfStarExample.tex}
+#!   }
+#! </Alt>
+#! @BeginExample
+EdgesOfFace(complex, 1);
+#! [ 6, 8, 9 ]
+EdgesOfFace(complex, 4);
+#! [ 9, 10, 12, 13 ]
+EdgesOfFaces(complex);
+#! [ [ 6, 8, 9 ], , , [ 9, 10, 12, 13 ] ]
+#! @EndExample
+#! 
+#! @Returns a list of sets of positive integers / a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "EdgesOfFaces", IsPolygonalComplex );
+#! @Arguments complex, face
+DeclareOperation( "EdgesOfFace", [IsPolygonalComplex, IsPosInt]);
+#! @Arguments complex, face
+DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup

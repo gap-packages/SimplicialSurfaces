@@ -206,7 +206,7 @@ InstallMethod("EdgesOfVertex",
         if not vertex in Vertices(complex) then
             Error("EdgesOfVertex: Given vertex does not lie in complex.");
         fi;
-        return EdgesOfVertex(complex,vertex);
+        return EdgesOfVertexNC(complex,vertex);
     end
 );
 
@@ -225,9 +225,90 @@ InstallMethod("FacesOfVertex",
         if not vertex in Vertices(complex) then
             Error("FacesOfVertex: Given vertex does not lie in complex.");
         fi;
-        return FacesOfVertex(complex,vertex);
+        return FacesOfVertexNC(complex,vertex);
     end
 );
+
+
+## VerticesOfEdges
+InstallMethod("VerticesOfEdgeNC", 
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        return VerticesOfEdges(complex)[edge]    
+    end
+);
+InstallMethod("VerticesOfEdge",
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        if not edge in Edges(complex) then
+            Error("VerticesOfEdge: Given edge does not lie in complex.");
+        fi;
+        return VerticesOfEdgeNC(complex,edge);
+    end
+);
+
+
+## FacesOfEdges
+InstallMethod("FacesOfEdgeNC", 
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        return FacesOfEdges(complex)[edge]    
+    end
+);
+InstallMethod("FacesOfEdge",
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        if not edge in Edges(complex) then
+            Error("FacesOfEdge: Given edge does not lie in complex.");
+        fi;
+        return FacesOfEdgeNC(complex,edge);
+    end
+);
+
+
+## VerticesOfFaces
+InstallMethod("VerticesOfFaceNC", 
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return VerticesOfFaces(complex)[face]    
+    end
+);
+InstallMethod("VerticesOfFace",
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        if not face in Faces(complex) then
+            Error("VerticesOfFace: Given face does not lie in complex.");
+        fi;
+        return VerticesOfFaceNC(complex,face);
+    end
+);
+
+
+## EdgesOfFaces
+InstallMethod("EdgesOfFaceNC", 
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return EdgesOfFaces(complex)[edge]    
+    end
+);
+InstallMethod("EdgesOfFace",
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        if not face in Faces(complex) then
+            Error("EdgesOfFace: Given face does not lie in complex.");
+        fi;
+        return EdgesOfFaceNC(complex,face);
+    end
+);
+
 
 
 
