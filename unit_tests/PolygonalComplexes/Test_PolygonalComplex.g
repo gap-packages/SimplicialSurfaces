@@ -23,43 +23,47 @@
 ## are working properly.
 ##
 BindGlobal("__SIMPLICIAL_Test_ConnectionLabelStarOfStar", function()
-    local complex;
+    local complex, list, union, pos;
+
+    list := [[1,2],,[4,5,8], [2]];
+    union := [1,2,4,5,8];
+    pos := [1,3,4];
 
     # EdgesOfVertices
     complex := Objectify( PolygonalComplexType, rec() );
-    SetEdgesOfVertices( complex, [[1,2], , [4,5,8], [2]] );
-    Assert(0, Edges(complex)=[1,2,4,5,8]);
-    Assert(0, Vertices(complex)=[1,3,4]);
+    SetEdgesOfVertices( complex, list );
+    Assert(0, Edges(complex)=union);
+    Assert(0, Vertices(complex)=pos);
 
     # FacesOfVertices
     complex := Objectify( PolygonalComplexType, rec() );
-    SetFacesOfVertices( complex, [[1,2], , [4,5,8], [2]] );
-    Assert(0, Faces(complex)=[1,2,4,5,8]);
-    Assert(0, Vertices(complex)=[1,3,4]);
+    SetFacesOfVertices( complex, list );
+    Assert(0, Faces(complex)=union);
+    Assert(0, Vertices(complex)=pos);
 
     # VerticesOfEdges
     complex := Objectify( PolygonalComplexType, rec() );
-    SetVerticesOfEdges( complex, [[1,2], , [4,5,8], [2]] );
-    Assert(0, Vertices(complex)=[1,2,4,5,8]);
-    Assert(0, Edges(complex)=[1,3,4]);
+    SetVerticesOfEdges( complex, list );
+    Assert(0, Vertices(complex)=union);
+    Assert(0, Edges(complex)=pos);
 
     # FacesOfEdges
     complex := Objectify( PolygonalComplexType, rec() );
-    SetFacesOfEdges( complex, [[1,2], , [4,5,8], [2]] );
-    Assert(0, Faces(complex)=[1,2,4,5,8]);
-    Assert(0, Edges(complex)=[1,3,4]);
+    SetFacesOfEdges( complex, list );
+    Assert(0, Faces(complex)=union);
+    Assert(0, Edges(complex)=pos);
 
     # VerticesOfFaces
     complex := Objectify( PolygonalComplexType, rec() );
-    SetVerticesOfFaces( complex, [[1,2], , [4,5,8], [2]] );
-    Assert(0, Vertices(complex)=[1,2,4,5,8]);
-    Assert(0, Faces(complex)=[1,3,4]);
+    SetVerticesOfFaces( complex, list );
+    Assert(0, Vertices(complex)=union);
+    Assert(0, Faces(complex)=pos);
 
     # EdgesOfFaces
     complex := Objectify( PolygonalComplexType, rec() );
-    SetEdgesOfFaces( complex, [[1,2], , [4,5,8], [2]] );
-    Assert(0, Edges(complex)=[1,2,4,5,8]);
-    Assert(0, Faces(complex)=[1,3,4]);
+    SetEdgesOfFaces( complex, list );
+    Assert(0, Edges(complex)=union);
+    Assert(0, Faces(complex)=pos);
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_InvertIncidence", function()
