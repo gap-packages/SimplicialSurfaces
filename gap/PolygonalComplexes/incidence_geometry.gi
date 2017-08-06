@@ -470,3 +470,19 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##          End of basic access (*Of*)
 ##
 ##############################################################################
+
+
+
+
+##############################################################################
+##
+##           Ordered access
+##
+
+##TODO maybe split this up into two regions? (Paths and cyclic);
+
+
+##
+##          End of ordered access
+##
+##############################################################################

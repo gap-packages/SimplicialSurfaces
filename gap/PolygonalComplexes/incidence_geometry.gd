@@ -401,4 +401,3 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! </Enum>
 
     
-end;
