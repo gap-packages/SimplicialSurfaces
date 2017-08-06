@@ -131,6 +131,8 @@ EdgesOfVertices(complex);
 #! <Par/>
 #! In the same way all other *Of*-methods are defined.
 
+
+#TODO mention 'ordered' access
 #! @BeginGroup
 #! @Description
 #! The method <K>EdgesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
@@ -171,6 +173,7 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
+#TODO mention 'ordered' access
 #! @BeginGroup
 #! @Description
 #! The method <K>FacesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
@@ -291,6 +294,7 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
+#TODO mention ordered access
 #! @BeginGroup
 #! @Description
 #! The method <K>VerticesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
@@ -331,6 +335,7 @@ DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
+#TODO mention ordered access
 #! @BeginGroup
 #! @Description
 #! The method <K>EdgesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
