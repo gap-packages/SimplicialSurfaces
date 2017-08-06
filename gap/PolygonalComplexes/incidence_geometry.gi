@@ -187,6 +187,30 @@ InstallMethod( "Faces", "for a polygonal complex with EdgesOfFaces",
 AddPropertyIncidence( "SIMPLICIAL_ATTRIBUTE_SCHEDULER",
     "Faces", "EdgesOfFaces");
 
+##
+##  Implement "faster" access to *Of*-attributes by adding an argument
+##
+
+## EdgesOfVertices
+InstallMethod("EdgesOfVertexNC", 
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return EdgesOfVertices(complex)[vertex]    
+    end
+);
+InstallMethod("EdgesOfVertex",
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        if not vertex in Vertices(complex) then
+            Error("EdgesOfVertex: Given vertex does not lie in complex.");
+        fi;
+        return EdgesOfVertex(complex,vertex);
+    end
+);
+
+
 
 ##
 ##          End of basic access (*Of*)
