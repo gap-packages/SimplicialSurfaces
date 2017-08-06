@@ -98,3 +98,23 @@ BindGlobal( "__SIMPLICIAL_Test_InvertIncidence", function()
     SetFacesOfEdges(complex, inc);
     Assert(0, EdgesOfFaces(complex)=invInc);
 end);
+
+BindGlobal( "__SIMPLICIAL_Test_TransitiveIncidence", function()
+    local complex, a_of_b, b_of_c, a_of_c;
+
+    a_of_b := [ , [1,3], [3,5,7], , [5,7] ];
+    b_of_c := [ [2], [2,3,5], , [3,5], [2,5] ];
+    a_of_c := [ [1,3], [1,3,5,7], , [3,5,7], , [1,3,5,7] ];
+
+    # VerticesOfFaces
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetVerticesOfEdges( complex, a_of_b );
+    SetEdgesOfFaces( complex, b_of_c);
+    Assert(0, VerticesOfFaces(complex)=a_of_c);
+
+    # FacesOfVertices
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetFacesOfEdges( complex, a_of_b );
+    SetEdgesOfVertices( complex, b_of_c );
+    Assert(0, FacesOfVertices(complex)=a_of_c);
+end);

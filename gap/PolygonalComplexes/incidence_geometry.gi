@@ -404,6 +404,48 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "EdgesOfFaces", "FacesOfEdges");
 
 
+##
+## Methods to combine a_of_b and b_of_c to a_of_c (transitivity).
+##
+BindGlobal( "__SIMPLICIAL_TransitiveIncidence", 
+    function( a_labels, a_of_b, b_labels, b_of_c, c_labels )
+        local c, a_of_c, a_in_b, b_in_c;
+
+        a_of_c := [];
+        for c in c_labels do
+            b_in_c := b_of_c[c];
+            a_in_b := List( b_in_c, x -> a_of_b[c] );
+            a_of_c[c] := Union(a_in_b);
+        od;
+
+        return a_of_c;
+    end
+);
+
+InstallMethod( VerticesOfFaces,
+    "for a polygonal complex with VerticesOfEdges and EdgesOfFaces",
+    [IsPolygonalComplex and HasVerticesOfEdges and HasEdgesOfFaces],
+    function(complex)
+        return __SIMPLICIAL_TransitiveIncidence( Vertices(complex),
+            VerticesOfEdges(complex), Edges(complex), EdgesOfFaces(complex),
+            Faces(complex));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "VerticesOfFaces", ["VerticesOfEdges", "EdgesOfFaces"]);
+
+InstallMethod( FacesOfVertices,
+    "for a polygonal complex with FacesOfEdges and EdgesOfVertices",
+    [IsPolygonalComplex and HasFacesOfEdges and HasEdgesOfVertices],
+    function(complex)
+        return __SIMPLICIAL_TransitiveIncidence( Faces(complex),
+            FacesOfEdges(complex), Edges(complex), EdgesOfVertices(complex),
+            Vertices(complex));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "FacesOfVertices", ["FacesOfEdges", "EdgesOfVertices"]);
+
 
 
 ##
