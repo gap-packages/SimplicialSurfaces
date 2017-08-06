@@ -386,26 +386,20 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! <Enum>
 #!   <Item><E>Ordering around a vertex</E>
 #!         <Par/>
-#!         For polygonal surfaces there is a natural ordering of the edges and 
+#!         For polygonal surfaces (that were introduced in section
+#!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
+#!         ordering of the edges and 
 #!         faces that are incident to a vertex. It is achieved by "travelling 
 #!         around the vertex" while staying on the surface.
 #!         <Alt Only="TikZ">
 #!           \input{Image_EdgeFacePath.tex}
 #!         </Alt>
-#!         For a ramified polygonal surface there a several possibilities for
-#!         such a path and for a general polygonal complex the concept isn't
-#!         even well-defined.
-#!         <Par/>
-#!         A concrete definition is given in subsection
-#!         <Ref Subsect="Definition_EdgeFacePath_Vertex"/>, along with the 
+#!         This is captured in the concept of an <E>edge-face-path</E>, which
+#!         is defined in subsection
+#!         <Ref Subsect="Definition_EdgeFacePath_Vertex"/>.
 #!         corresponding method <K>EdgeFacePathPartitionOfVertices</K>.
 #!    </Item>
 #! </Enum>
 
-But sometimes one might need more detailed information, like
-#! the order of 
-#! for
-#! example:
-#! * 
     
 end;
