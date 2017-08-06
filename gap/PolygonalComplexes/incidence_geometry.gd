@@ -169,3 +169,43 @@ DeclareOperation( "EdgesOfVertex", [IsPolygonalComplex, IsPosInt]);
 DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! The method <K>FacesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
+#! set of all faces that are incident to <A>vertex</A>. The NC-version does
+#! not check whether the given <A>vertex</A> is a vertex of <A>complex</A>.
+#! <Par/>
+#! The attribute <K>FacesOfVertices</K>(<A>complex</A>) collects all of those
+#! sets in a list that is indexed by the vertex labels, i.e.
+#! <K>FacesOfVertices</K>(<A>complex</A>)[<A>vertex</A>] = 
+#! <K>FacesOfVertex</K>(<A>complex</A>, <A>vertex</A>).
+#! All other positions of this list are not bounded.
+#! <Par/>
+#! As an example, consider the polygonal complex that was introduced at the
+#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\vertexLabels{1}
+#!     \def\faceLabels{1}
+#!     \input{Image_StarOfStarExample.tex}
+#!   }
+#! </Alt>
+#! @BeginExample
+FacesOfVertex(complex, 2);
+#! [ 1 ]
+FacesOfVertex(complex, 11);
+#! [ 1, 4 ]
+FacesOfVertices(complex);
+#! [ , [ 1 ], [ 1, 4 ], , [ 4 ], , [ 4 ], , , [ 1, 4 ] ]
+#! @EndExample
+#! 
+#! @Arguments complex
+DeclareAttribute( "FacesOfVertices", IsPolygonalComplex );
+#! @Arguments complex, vertex
+DeclareOperation( "FacesOfVertex", [IsPolygonalComplex, IsPosInt]);
+#! @Arguments complex, vertex
+DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
+#! @Returns a list of sets of positive integers / a set of positive integers
+#! @EndGroup

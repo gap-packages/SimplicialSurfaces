@@ -210,6 +210,26 @@ InstallMethod("EdgesOfVertex",
     end
 );
 
+## FacesOfVertices
+InstallMethod("FacesOfVertexNC", 
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return FacesOfVertices(complex)[vertex]    
+    end
+);
+InstallMethod("FacesOfVertex",
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        if not vertex in Vertices(complex) then
+            Error("FacesOfVertex: Given vertex does not lie in complex.");
+        fi;
+        return FacesOfVertex(complex,vertex);
+    end
+);
+
+
 
 
 ##
