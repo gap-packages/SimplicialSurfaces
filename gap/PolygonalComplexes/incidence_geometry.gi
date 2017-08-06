@@ -41,6 +41,24 @@ InstallMethod( NrOfFaces, "for a polygonal complex", [IsPolygonalComplex],
 );
 
 ##
+## Inclusion in the attribute scheduler
+##
+InstallMethod( VerticesAttributeOfPolygonalComplex, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+            VerticesAttributeOfPolygonalComplex, complex);
+    end
+);
+InstallMethod( Edges, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            Edges, complex);
+    end
+);
+#TODO can this be automated?
+
+##
 ##              End of labelled access
 ##
 ##############################################################################
@@ -50,6 +68,7 @@ InstallMethod( NrOfFaces, "for a polygonal complex", [IsPolygonalComplex],
 ##
 ##          Methods for basic access (*Of*)
 ##
+#TODO explain internal structure of *Of*
 
 ##
 ## Connection between labelled access and *Of*-attributes (via scheduler)
