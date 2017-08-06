@@ -369,3 +369,6 @@ DeclareOperation( "EdgesOfFace", [IsPolygonalComplex, IsPosInt]);
 #! @Arguments complex, face
 DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
+
+
+

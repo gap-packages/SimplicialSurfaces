@@ -60,4 +60,41 @@ BindGlobal("__SIMPLICIAL_Test_ConnectionLabelStarOfStar", function()
     SetEdgesOfFaces( complex, [[1,2], , [4,5,8], [2]] );
     Assert(0, Edges(complex)=[1,2,4,5,8]);
     Assert(0, Faces(complex)=[1,3,4]);
-end;
+end);
+
+BindGlobal( "__SIMPLICIAL_Test_InvertIncidence", function()
+    local complex, inc, invInc;
+
+    inc := [ [1,2], , [2,3,5], [1], , [2,3] ];
+    invInc := [ [1,4], [1,3,6], [3,6], , [3] ];
+
+    # EdgesOfVertices
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetVerticesOfEdges(complex, inc);
+    Assert(0, EdgesOfVertices(complex)=invInc);
+
+    # FacesOfVertices
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetVerticesOfFaces(complex, inc);
+    Assert(0, FacesOfVertices(complex)=invInc);
+
+    # VerticesOfEdges
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetEdgesOfVertices(complex, inc);
+    Assert(0, VerticesOfEdges(complex)=invInc);
+
+    # FacesOfEdges
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetEdgesOfFaces(complex, inc);
+    Assert(0, FacesOfEdges(complex)=invInc);
+
+    # VerticesOfFaces
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetFacesOfVertices(complex, inc);
+    Assert(0, VerticesOfFaces(complex)=invInc);
+
+    # EdgesOfFaces
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetFacesOfEdges(complex, inc);
+    Assert(0, EdgesOfFaces(complex)=invInc);
+end);

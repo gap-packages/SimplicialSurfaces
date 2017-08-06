@@ -16,4 +16,5 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     # Polygonal complex
     __SIMPLICIAL_Test_ConnectionLabelStarOfStar();
+    __SIMPLICIAL_Test_InvertIncidence();
 end;
