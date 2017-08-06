@@ -397,7 +397,6 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #!         This is captured in the concept of an <E>edge-face-path</E>, which
 #!         is defined in subsection
 #!         <Ref Subsect="Definition_EdgeFacePath_Vertex"/>.
-#!         corresponding method <K>EdgeFacePathPartitionOfVertices</K>.
 #!    </Item>
 #! </Enum>
 

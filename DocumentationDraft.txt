@@ -71,6 +71,7 @@ The ordering of edges and faces around a vertex is much more complicated since i
 Nevertheless it is well-defined on the umbrellas around a vertex.   <TODO: How to easily recall the definition? Finish explanation.>
 Therefore we can only return a list of those paths for each vertex.
     <put those methods here>
+    TODO also add methods EdgeFacePathsOfVertices/EdgeFacePathOfVertex for polygonal surfaces [since we have ..Partition.. to distinguish from ramified case]
 
 ----------------
 
