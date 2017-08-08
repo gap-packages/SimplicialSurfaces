@@ -352,6 +352,40 @@
     $\leadsto$ \textbf{ramified polygonal surfaces}
 \end{frame}
 
+
+\begin{frame}{Why ramified?}
+    \pause
+    Typical example of ramified polygonal surface:
+    \pause
+    \begin{center}
+        \begin{tikzpicture}
+                % First tetrahedron is ABCD, second one is DEFG
+                \coordinate (A) at (-3,-1);
+                \coordinate (B) at (-1,-1.5);
+                \coordinate (C) at (-2,1);
+                \coordinate (D) at (0,0);
+                \coordinate (E) at (3,-0.1);
+                \coordinate (F) at (1.5,2);
+                \coordinate (G) at (1.2,1);
+                
+                \filldraw[face] (A) -- (B) -- (C) -- cycle;
+                \filldraw[face] (B) -- (C) -- (D) -- cycle;
+                \filldraw[faceAlt] (D) -- (F) -- (E) -- cycle;
+                
+                \draw[dashed] (A) -- (D);
+                \draw[dashed] (E) -- (G);
+                \draw[dashed] (D) -- (G);
+                \draw[dashed] (F) -- (G);
+        \end{tikzpicture}
+    \end{center}
+    \pause
+    $\Rightarrow$ It is not a surface -- there is a \textit{ramification} at 
+        the central vertex
+    
+    \pause
+    A \textbf{polygonal surface} does not have these ramifications.
+\end{frame}
+
             
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
