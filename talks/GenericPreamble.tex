@@ -1,0 +1,88 @@
+% Allgemeine Definitionen
+\usepackage[english]{babel}	% Deutsche Sprachanpassung, z.B. Silbentrennung bei Worten mit Sonderzeichen
+\usepackage[utf8]{inputenc}		% Direkte Eingabe von Umlauten
+
+\usepackage{multimedia}		% Animations-Unterstützung (braucht hyperref | hyperref ist Teil von beamer )
+
+% Verschiedene Operatoren
+\newcommand{\union}{\ensuremath{\cup}}		% Die Vereinigung
+\newcommand{\schnitt}{\ensuremath{\cap}}		% Der Schnitt
+\newcommand{\und}{\ensuremath{\wedge}}		% Das und-Symbol
+\newcommand{\oder}{\ensuremath{\vee}}		% Das oder-Symbol
+\newcommand{\folgt}[1]{\ensuremath{\stackrel{#1}{\Rightarrow}}}	% Das Folgerungszeichen mit Symbol darüber 
+\newcommand{\gleich}[1]{\ensuremath{\stackrel{#1}{=}}}	% Das Gleichheitszeichen mit Symbol darüber 
+\newcommand{\isdef}{\ensuremath{\mathrel{\mathop:}=}}		% Das "ist-definiert"-Zeichen
+\newcommand{\defis}{\ensuremath{=\mathrel{\mathop:}}}		% Das "ist-definiert"-Zeichen (andersrum)
+
+% Weiterer nützlicher Kram
+%\usepackage{enumitem}		% NICHT kompatibel mit beamer!
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage{amsthm}			% Eigene Umgebungen
+\usepackage{thumbpdf}	% Seitenvorschau in PDF-Dokumenten
+
+\usepackage{nicefrac}
+
+\usepackage{pgf, tikz}
+\usetikzlibrary{arrows, decorations.pathreplacing, calc}
+
+% Erst die Farbe (optional), dann die Norm, dann der Inhalt
+\newcommand{\norm}[3][black]{\ensuremath{\left\Vert #3\right\Vert_{\textcolor{#1}{#2}}}}
+
+% Die folgenden Befehle dienen dazu, verschiedene Konventionen darzustellen. Man kann damit
+% auf einfache Weise die in dem Dokument verwendeten Konventionen umschalten.
+
+%\newcommand{\bisn}[1]{\ensuremath{\underline{#1}}}	% Bezeichnung für die Menge {1,..,n}
+\newcommand{\bisn}[1]{\ensuremath{\{1,\dots , #1 \}}}	% Alternative (ohne Fallunterscheidung)
+
+% Das Erzeugnis, das erste Argument zeigt an, welches Erzeugnis gemeint ist, das zweite gibt seinen Inhalt an.
+%\newcommand{\spn}[2][]{\ensuremath{\mathrm{span} \{ #1 \}}}
+\newcommand{\spn}[2][]{\ensuremath{\left\langle #2 \right\rangle _{ #1 }}}
+
+\newcommand{\grad}[1]{\ensuremath{\mathrm{grad}( #1 )}}
+%\newcommand{\grad}[1]{\ensuremath{\nabla #1}}
+
+\newcommand{\tr}[1]{\ensuremath{#1^{tr}}} % Bezeichnung für die Transponierte einer Matrix
+
+% Die Mengentheoretische Differenz
+\newcommand{\ohne}{\ensuremath{-}}
+%\newcommand{\ohne}{\ensuremath{\backslash}}
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Rg}{Rang}
+\DeclareMathOperator{\Bild}{Bild}
+\DeclareMathOperator{\Kern}{Kern}
+\DeclareMathOperator{\Spur}{Spur}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Pot}{Pot}
+\DeclareMathOperator{\Grad}{Grad}
+\DeclareMathOperator{\kgV}{kgV}
+
+\newcommand{\menge}[1]{\ensuremath{\mathbb{#1}}}
+\newcommand{\N}{\menge{N}}
+\newcommand{\Z}{\menge{Z}}
+\newcommand{\Q}{\menge{Q}}
+\newcommand{\R}{\menge{R}}
+\newcommand{\C}{\menge{C}}
+
+% Mit den schönen Buchstaben arbeiten
+\renewcommand{\phi}{\varphi}
+
+\renewcommand{\subset}{\subseteq}
+
+% Verschiedene mögliche Umgebungen
+\newtheorem{lem}{Lemma}[section]		% Lemma
+\newtheorem{bsp}[lem]{Beispiel}		% Beispiel
+\newtheorem{folg}[lem]{Folgerung}	% Folgerung
+\newtheorem{bem}[lem]{Bemerkung}
+\newtheorem{satz}[lem]{Satz}			% Satz
+\newtheorem{kor}[lem]{Korollar}		% Korollar
+%\newtheorem{alg}[lem]{Algorithmus}	% Algorithmus
+%\theoremstyle{definition}
+\newtheorem{defi}[lem]{Definition}	% Definition
+\theoremstyle{remark}
+\newtheorem*{idea}{Beweisidee}	% Beweisidee (vor dem eigentlichen Beweis)
+
+
