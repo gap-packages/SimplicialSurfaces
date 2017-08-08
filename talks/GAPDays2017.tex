@@ -314,6 +314,44 @@
     Solved by NautyTracesInterface (by Gutsche, Niemeyer, Schweitzer)
 \end{frame}
 
+
+\begin{frame}{General properties}
+    \pause
+    Some properties can be computed for all polygonal complexes:
+    \pause
+    \begin{itemize}
+        \item Connectivity
+        \pause
+        \item Euler--Characteristic
+    \end{itemize}
+    \pause
+    \textit{Orientability} is \textbf{not} one of them.
+    \pause
+    Counterexample:
+        \begin{center}
+            \begin{tikzpicture}
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (0,1.5);
+                \coordinate (C) at (-0.7,0.4);
+                \coordinate (D) at (0.8,0.4);
+                \coordinate (E) at (0.9,0.8);
+                			
+                % draw back face first
+                \filldraw[face] (A) -- (B) -- (E) -- cycle;
+                % Now draw front faces
+                \filldraw[face] (A) -- (B) -- (C) -- cycle;
+                \filldraw[face] (A) -- (B) -- (D) -- cycle;
+                % Draw dashed line
+                \draw[dashed] (A) -- (E);
+	    \end{tikzpicture}
+        \end{center}
+    \pause
+    $\Rightarrow$ every edge lies in at most two faces (for well--definedness)
+    
+    \pause
+    $\leadsto$ \textbf{ramified polygonal surfaces}
+\end{frame}
+
             
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
