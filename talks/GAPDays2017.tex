@@ -150,7 +150,7 @@
     \end{itemize}
     % Draw the pictures
     \onslide<9->{
-        \begin{tikzpicture}[vertexNode/.style={circle, draw=\vertexColor}]
+        \begin{tikzpicture}[vertexNode/.style={circle, draw=\vertexColor}, node distance=0.5]
             % Edge nodes
             \node[edgeBackground] (E6) {6};
             \node[edgeBackground] (E8) [right=of E6] {8};
@@ -177,6 +177,11 @@
                 edge (E6) edge (E9) edge (E10);
             \node[vertexNode] (V2) [left=of V3] {2}
                 edge (E6) edge (E8);
+
+            \begin{scope}[xshift=7cm, yshift=-0.6cm, scale=0.75]
+                \def\allLabels{1}
+                \input{Image_StarOfStarExample.tex}
+            \end{scope}
         \end{tikzpicture}
     }
 \end{frame}
