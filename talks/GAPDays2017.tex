@@ -212,7 +212,60 @@
                     }
             \end{scope}
         \end{tikzpicture}
+        %TODO unveil the graphic in the correct order
     }
+\end{frame}
+
+
+\begin{frame}{Polygonal complexes}
+    A \textbf{polygonal complex} is
+    \pause
+    a two--dimensional incidence structure of vertices, edges and faces, such that:
+    \begin{enumerate}
+        \pause
+        \item Every edge has exactly two vertices.
+            \begin{tikzpicture}
+                \coordinate[label={[vertex]left:2}] (A) at (0,0);
+                \coordinate[label={[vertex]right:3}] (B) at (3,0);
+
+                \draw (A) -- (B);
+                \drawEdge{A}{B}{6}
+
+                \foreach \p in {A,B}
+                    \fill[vertex] (\p) circle (\vSize);
+            \end{tikzpicture}
+        
+        \pause
+        \item Every face is a polygon.
+            \begin{center}
+                \begin{tikzpicture}
+                % We will do a pentagon
+                \def\r{1.5}
+                \coordinate [label={[vertex]right:$v_1$}] (P1) at (306:\r);
+                \coordinate [label={[vertex]right:$v_2$}] (P2) at (18:\r);
+                \coordinate [label={[vertex]above:$v_3$}] (P3) at (90:\r);
+                \coordinate [label={[vertex]left:$v_4$}] (P4) at (162:\r);
+                \coordinate [label={[vertex]left:$v_5$}] (P5) at (234:\r);
+
+                \filldraw[face] (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+
+                \foreach \p in {P1,P2,P3,P4,P5}
+                    \fill[vertex] (\p) circle (\vSize);
+
+                \drawEdge{P1}{P2}{$e_1$}
+                \drawEdge{P2}{P3}{$e_2$}
+                \drawEdge{P3}{P4}{$e_3$}
+                \drawEdge{P4}{P5}{$e_4$}
+                \drawEdge{P5}{P1}{$e_5$}
+
+                \node[scale=2] at (0,0) {$\circlearrowleft$};
+            \end{tikzpicture}
+            \end{center}
+        \pause
+        \item Every vertex lies in an edge
+        \pause
+        \item Every edge lies in a face
+    \end{enumerate}
 \end{frame}
 
             
