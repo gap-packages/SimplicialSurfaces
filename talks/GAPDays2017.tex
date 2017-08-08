@@ -136,10 +136,11 @@
             }
         \item<6-> set of faces $\mathcal{F}$ \hfill
             \onslide<7->{
-                \begin{tikzpicture}
+                \begin{tikzpicture}[decoration={snake, amplitude=0.3mm, segment length=1.2mm}]
                     \node at (0,0) {$I$};
-                    \draw[decoration=snake] (0,0) circle (0.5);
-
+                    \draw[decorate] (0,0) circle (0.3);
+                    \node at (2,0) {$IV$};
+                    \draw[decorate] (2,0) circle (0.3);
                 \end{tikzpicture}
             }
     \end{itemize}
