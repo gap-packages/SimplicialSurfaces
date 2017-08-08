@@ -98,7 +98,42 @@
     
     % First slide is empty
     \begin{itemize}
-        \item<2-> set of vertices $\mathsc{V}$
+        \item<2-> set of vertices $\mathcal{V}$ \hfill
+            \onslide<3->{
+                \begin{tikzpicture}
+                    \def\xshift{1}
+                    \coordinate[label={[\vertexColor]right:2}] (V2) at (0,0);
+                    \coordinate[label={[\vertexColor]right:3}] (V3) at (\xshift,0);
+                    \coordinate[label={[\vertexColor]right:5}] (V5) at (2*\xshift,0);
+                    \coordinate[label={[\vertexColor]right:7}] (V7) at (3*\xshift,0);
+                    \coordinate[label={[\vertexColor]right:11}] (V11) at (4*\xshift,0);
+
+                    \fill[vertex] (V2) circle (\vSize);
+                    \fill[vertex] (V3) circle (\vSize);
+                    \fill[vertex] (V5) circle (\vSize);
+                    \fill[vertex] (V7) circle (\vSize);
+                    \fill[vertex] (V11) circle (\vSize);
+                \end{tikzpicture}
+            }
+        \item<4-> set of edges $\mathcal{E}$ \hfill
+            \onslide<5->{
+                \begin{tikzpicture}
+                    \newcommand{\storedEdge}[2]{
+                        % set the coordinates
+                        \coordinate (A#2) at (#1-0.2, -0.5);
+                        \coordinate (B#2) at (#1+0.2, 0.5);
+                        \draw (A#2) -- (B#2);
+                        \drawEdge[edge]{A#2}{B#2}{#2}
+                    }
+
+                    \storedEdge{0}{6}
+                    \storedEdge{1}{8}
+                    \storedEdge{2}{9}
+                    \storedEdge{3}{10}
+                    \storedEdge{4}{12}
+                    \storedEdge{5}{13}
+                \end{tikzpicture}
+            }
     \end{itemize}
 \end{frame}
 
