@@ -237,6 +237,7 @@
         
         \pause
         \item Every face is a polygon.
+            \pause
             \begin{center}
                 \begin{tikzpicture}
                 % We will do a pentagon
@@ -266,6 +267,51 @@
         \pause
         \item Every edge lies in a face
     \end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Isomorphism testing}
+    \pause
+    Incidence geometry allows "easy" isomorphism testing.
+    \pause
+    Incidence structure can be interpreted as a coloured graph:
+    \pause
+        \begin{center}
+        \begin{tikzpicture}[vertexNode/.style={circle,
+            fill=magenta!50!white}, node distance=0.5]
+            % Edge nodes
+            \node[edgeBackground] (E6) {6};
+            \node[edgeBackground] (E8) [right=of E6] {8};
+            \node[edgeBackground] (E9) [right=of E8] {9};
+            \node[edgeBackground] (E10) [right=of E9] {10};
+            \node[edgeBackground] (E12) [right=of E10] {12};
+            \node[edgeBackground] (E13) [right=of E12] {13};
+
+            % Face nodes
+            \node[fill=yellow] (F1) [above=of E8] {$I$}
+                edge (E6) edge (E8) edge (E9);
+            \node (Help) at ($(E10)!0.5!(E12)$) {};
+            \node[fill=yellow] (F4) [above=of Help] {$IV$}
+                edge (E9) edge (E10) edge (E12) edge (E13);
+
+            % Vertex nodes
+            \node[vertexNode] (V7) [below=of Help] {7}
+                edge (E10) edge (E13);
+            \node[vertexNode] (V11) [right=of V7] {11}
+                edge (E13) edge (E12);
+            \node[vertexNode] (V5) [left=of V7] {5}
+                edge (E8) edge (E9) edge (E12);
+            \node[vertexNode] (V3) [left=of V5] {3}
+                edge (E6) edge (E9) edge (E10);
+            \node[vertexNode] (V2) [left=of V3] {2}
+                edge (E6) edge (E8);
+        \end{tikzpicture}
+        \end{center}
+    \pause
+    $\leadsto$ reduce to graph isomorphism problem
+
+    \pause
+    Solved by NautyTracesInterface (by Gutsche, Niemeyer, Schweitzer)
 \end{frame}
 
             
