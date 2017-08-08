@@ -136,14 +136,49 @@
             }
         \item<6-> set of faces $\mathcal{F}$ \hfill
             \onslide<7->{
-                \begin{tikzpicture}[decoration={snake, amplitude=0.3mm, segment length=1.2mm}]
+                \begin{tikzpicture}[decoration={snake, amplitude=0.5, segment length=4.5}]
                     \node at (0,0) {$I$};
                     \draw[decorate] (0,0) circle (0.3);
                     \node at (2,0) {$IV$};
                     \draw[decorate] (2,0) circle (0.3);
                 \end{tikzpicture}
             }
+        \item<8-> transitive relation \def\brSize{\big}
+            $\subset \brSize(\mathcal{V} \times \mathcal{E} \brSize)
+            \uplus \brSize(\mathcal{V} \times \mathcal{F} \brSize)
+            \uplus \brSize(\mathcal{E} \times \mathcal{F} \brSize)$
     \end{itemize}
+    % Draw the pictures
+    \onslide<9->{
+        \begin{tikzpicture}[vertexNode/.style={circle, draw=\vertexColor}]
+            % Edge nodes
+            \node[edgeBackground] (E6) {6};
+            \node[edgeBackground] (E8) [right=of E6] {8};
+            \node[edgeBackground] (E9) [right=of E8] {9};
+            \node[edgeBackground] (E10) [right=of E9] {10};
+            \node[edgeBackground] (E12) [right=of E10] {12};
+            \node[edgeBackground] (E13) [right=of E12] {13};
+
+            % Face nodes
+            \node (F1) [above=of E8] {$I$}
+                edge (E6) edge (E8) edge (E9);
+            \node (Help) at ($(E10)!0.5!(E12)$) {};
+            \node (F4) [above=of Help] {$IV$}
+                edge (E9) edge (E10) edge (E12) edge (E13);
+
+            % Vertex nodes
+            \node[vertexNode] (V7) [below=of Help] {7}
+                edge (E10) edge (E13);
+            \node[vertexNode] (V11) [right=of V7] {11}
+                edge (E13) edge (E12);
+            \node[vertexNode] (V5) [left=of V7] {5}
+                edge (E8) edge (E9) edge (E12);
+            \node[vertexNode] (V3) [left=of V5] {3}
+                edge (E6) edge (E9) edge (E10);
+            \node[vertexNode] (V2) [left=of V3] {2}
+                edge (E6) edge (E8);
+        \end{tikzpicture}
+    }
 \end{frame}
 
 
