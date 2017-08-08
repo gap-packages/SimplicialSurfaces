@@ -93,7 +93,8 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+    % The option is needed: https://tex.stackexchange.com/questions/119309/arguments-of-tikzset-inside-a-beamer-document
     \frametitle{Incidence structure}
     
     % First slide is empty
@@ -119,11 +120,10 @@
             \onslide<5->{
                 \begin{tikzpicture}
                     \newcommand{\storedEdge}[2]{
-                        % set the coordinates
-                        \coordinate (A#2) at (#1-0.2, -0.5);
-                        \coordinate (B#2) at (#1+0.2, 0.5);
-                        \draw (A#2) -- (B#2);
-                        \drawEdge[edge]{A#2}{B#2}{#2}
+                        \coordinate (A#2) at (-0.2+#1, -0.5);
+                        \coordinate (B#2) at (0.2+#1, 0.5);
+                        \draw[edge] (A#2) -- (B#2);
+                        \drawEdge{A#2}{B#2}{#2}
                     }
 
                     \storedEdge{0}{6}
@@ -132,6 +132,13 @@
                     \storedEdge{3}{10}
                     \storedEdge{4}{12}
                     \storedEdge{5}{13}
+                \end{tikzpicture}
+            }
+        \item<6-> set of faces $\mathcal{F}$ \hfill
+            \onslide<7->{
+                \begin{tikzpicture}
+                    \node[cloud, draw] at (0,0) {$I$};
+                    \node[cloud, draw] at (2,0) {$II$};
                 \end{tikzpicture}
             }
     \end{itemize}
