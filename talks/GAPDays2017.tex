@@ -179,17 +179,46 @@
                 edge (E6) edge (E8);
 
             \begin{scope}[xshift=7cm, yshift=-0.6cm, scale=0.75]
-                \def\allLabels{1}
-                \input{Image_StarOfStarExample.tex}
+                %       P3 ------------ P4
+                %      / |       10     | 
+                %    6/  |              |
+                %    /   |              |
+                %  P1  I |9      IV     |13
+                %    \   |              |
+                %    8\  |              |
+                %      \ |        12    |
+                %       P2 ------------ P5
+
+                \coordinate [label={[vertex]left:2 }](P1) at (0,0.5);
+                \coordinate [label={[vertex]below:5 }](P2) at (2,-1);
+                \coordinate [label={[vertex]above:3 }](P3) at (2,2);
+                \coordinate [label={[vertex]above:7 }](P4) at (5,2);
+                \coordinate [label={[vertex]below:11 }](P5) at (5,-1);
+
+                \filldraw[face] (P1) -- (P2) -- (P3) -- cycle;
+                \filldraw[face] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+                    \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {I};
+                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {IV};
+
+                    \drawEdge{P1}{P2}{8}
+                    \drawEdge{P1}{P3}{6}
+                    \drawEdge{P2}{P3}{9}
+                    \drawEdge{P3}{P4}{10}
+                    \drawEdge{P4}{P5}{13}
+                    \drawEdge{P5}{P2}{12}
+
+                    \foreach \p in {P1,P2,P3,P4,P5}{
+                        \fill[vertex] (\p) circle (\vSize);
+                    }
             \end{scope}
         \end{tikzpicture}
     }
 \end{frame}
 
-
+            
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-%%     Second section
+%%              Second section
 %%
 \section{Edge colouring and group properties}
 \frame{\tableofcontents[currentsection]}
