@@ -12,8 +12,8 @@
 
 \begin{tikzpicture}[edgeLabel/.style={fill=red!10!white}]
     \coordinate [label=below:\ifdefined \vertexLabels 1 \fi] (A) at (0,0);
-    \coordinate [label=below:\ifdefined \vertexLabels 2 \fi] (B) at (3,0);
-    \coordinate [label=above:\ifdefined \vertexLabels 3 \fi] (C) at (1.5,2);
+    \coordinate [label=below:\ifdefined \vertexLabels 3 \fi] (B) at (3,0);
+    \coordinate [label=above:\ifdefined \vertexLabels 2 \fi] (C) at (1.5,2);
     \coordinate [label=above:\ifdefined \vertexLabels 4 \fi] (D) at ($(B)+(C)$);
     \coordinate [label=below:\ifdefined \vertexLabels 5 \fi] (E) at ($2*(B)$);
 
@@ -28,12 +28,12 @@
     \drawFace{B}{D}{E}{\ifdefined \faceLabels III \fi}
 
     \ifdefined \edgeLabels
-        \node[edgeBackground] at ($1/2*(A)+1/2*(B)$) {1};
-        \node[edgeBackground] at ($1/2*(A)+1/2*(C)$) {2};
+        \node[edgeBackground] at ($1/2*(A)+1/2*(B)$) {2};
+        \node[edgeBackground] at ($1/2*(A)+1/2*(C)$) {1};
         \node[edgeBackground] at ($1/2*(C)+1/2*(B)$) {3};
-        \node[edgeBackground] at ($1/2*(D)+1/2*(B)$) {4};
-        \node[edgeBackground] at ($1/2*(E)+1/2*(B)$) {5};
-        \node[edgeBackground] at ($1/2*(C)+1/2*(D)$) {6};
+        \node[edgeBackground] at ($1/2*(D)+1/2*(B)$) {5};
+        \node[edgeBackground] at ($1/2*(E)+1/2*(B)$) {6};
+        \node[edgeBackground] at ($1/2*(C)+1/2*(D)$) {4};
         \node[edgeBackground] at ($1/2*(D)+1/2*(E)$) {7};
     \fi
 \end{tikzpicture}
