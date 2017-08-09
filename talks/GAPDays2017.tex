@@ -404,7 +404,12 @@
 %%              Second section
 %%
 \section{Edge colouring and group properties}
+\newcommand{\colA}{blue}
+\newcommand{\colB}{red}
+\newcommand{\colC}{green!80!black}
+\newcommand{\width}{very thick}
 \frame{\tableofcontents[currentsection]}
+
 
 \begin{frame}{Embedding question}
     \pause
@@ -427,6 +432,27 @@
     \end{enumerate}
     \pause
     $\leadsto$ Edge--colouring encodes different lengths
+            \begin{center}
+                %       F
+                %    C     E 
+                % A     B    D
+                \begin{tikzpicture}[scale=0.9]
+                    \coordinate (A) at (0,0);
+                    \coordinate (B) at (2,0);
+                    \coordinate (C) at (1,1.4);
+                    \coordinate (D) at ($2*(B)$);
+                    \coordinate (E) at ($(B)+(C)$);
+                    \coordinate (F) at ($2*(C)$);
+
+                    \draw[\colA, \width] (A) -- (B) -- (D);
+                    \draw[\colA, \width] (C) -- (E);
+                    \draw[\colB, \width] (B) -- (C);
+                    \draw[\colB, \width] (D) -- (E) -- (F);
+                    \draw[\colC, \width] (A) -- (C) -- (F);
+                    \draw[\colC, \width] (B) -- (E);
+                \end{tikzpicture}
+            \end{center}
+ 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
