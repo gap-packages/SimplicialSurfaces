@@ -497,6 +497,8 @@
                 }
                 \onslide<9->{
                     % Draw mirror line
+                    \draw[dashed, thick] (\x,1.5*\y) -- (\x,-1.5*\y);
+                    \node at (\x,-2*\y) {mirror};
                 }
 
             \end{scope}
@@ -520,6 +522,9 @@
                 }
                 \onslide<10->{
                     % Draw rotation center and circle
+                    \fill[black] (\x,0) circle (2.5pt);
+                    \node[scale=2] at (\x,0) {$\circlearrowleft$};
+                    \node at (\x,-2*\y) {rotation};
                 }
 
             \end{scope}
