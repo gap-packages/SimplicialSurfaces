@@ -95,7 +95,7 @@
 
 \begin{frame}[fragile]
     % The option is needed: https://tex.stackexchange.com/questions/119309/arguments-of-tikzset-inside-a-beamer-document
-    \frametitle{Incidence structure}
+    \frametitle{Incidence structure of polygonal complex}
     
     % First slide is empty
     \begin{itemize}
@@ -118,10 +118,11 @@
             }
         \item<4-> set of edges $\mathcal{E}$ \hfill
             \onslide<5->{
-                \begin{tikzpicture}
+                {\small
+                \begin{tikzpicture}[scale=0.9]
                     \newcommand{\storedEdge}[2]{
-                        \coordinate (A#2) at (-0.6+#1*1.3, -0.3);
-                        \coordinate (B#2) at (0.6+#1*1.3, 0.3);
+                        \coordinate (A#2) at (-0.6+#1*1.5, -0.3);
+                        \coordinate (B#2) at (0.6+#1*1.5, 0.3);
                         \draw[edge] (A#2) -- (B#2);
                         \drawEdge{A#2}{B#2}{#2}
                     }
@@ -133,15 +134,19 @@
                     \storedEdge{4}{12}
                     \storedEdge{5}{13}
                 \end{tikzpicture}
+                }
             }
         \item<6-> set of faces $\mathcal{F}$ \hfill
             \onslide<7->{
-                \begin{tikzpicture}[decoration={snake, amplitude=0.5, segment length=4.5}]
+                {\small
+                \begin{tikzpicture}[scale=0.9,
+                        decoration={snake, amplitude=0.5, segment length=4.5}]
                     \node at (0,0) {$I$};
                     \draw[decorate] (0,0) circle (0.3);
                     \node at (2,0) {$IV$};
                     \draw[decorate] (2,0) circle (0.3);
                 \end{tikzpicture}
+                }
             }
         \item<8-> transitive relation \def\brSize{\big}
             $\subset \brSize(\mathcal{V} \times \mathcal{E} \brSize)
@@ -213,6 +218,13 @@
             \end{scope}
         \end{tikzpicture}
         %TODO unveil the graphic in the correct order
+    }
+    \onslide<10->{
+        \begin{enumerate}
+            \item Every edge has exactly two vertices
+            \item Every face is a polygon
+            \item Every vertex lies in an edge and every edge lies in a face
+        \end{enumerate}
     }
 \end{frame}
 
