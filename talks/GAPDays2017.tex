@@ -457,8 +457,76 @@
 
 \begin{frame}{How do faces fit together?}
     \onslide<2->{
-
+        Consider a face of the surface \onslide<4->{and a neighbouring face}
     }
+
+    \onslide<6->{
+        The neighbour can be coloured in two ways:
+    }
+    \onslide<1->{
+        \begin{center}
+        \begin{tikzpicture}
+            % Numbers to determine drawing
+            \def\x{1}
+            \def\y{1}
+
+            %      B
+            %    / | \
+            %   A  |  D
+            %    \ | /
+            %      C
+            
+            % First pair
+            \begin{scope}
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (\x,\y);
+                \coordinate (C) at (\x,-\y);
+                \coordinate (D) at (2*\x,0);
+
+                \onslide<3->{
+                    \draw[\colA,\width] (A) -- (B);
+                    \draw[\colB,\width] (A) -- (C);
+                    \draw[\colC,\width] (B) -- (C);
+                }
+                \onslide<5->{
+                    \draw (B) -- (D) -- (C);
+                }
+                \onslide<7->{
+                    \draw[\colA,\width] (B) -- (D);
+                    \draw[\colB,\width] (C) -- (D);
+                }
+                \onslide<9->{
+                    % Draw mirror line
+                }
+
+            \end{scope}
+
+            % Second pair
+            \begin{scope}[xshift=5cm]
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (\x,\y);
+                \coordinate (C) at (\x,-\y);
+                \coordinate (D) at (2*\x,0);
+
+                \onslide<6->{
+                    \draw[\colA,\width] (A) -- (B);
+                    \draw[\colB,\width] (A) -- (C);
+                    \draw[\colC,\width] (B) -- (C);
+                    \draw (B) -- (D) -- (C);
+                }
+                \onslide<8->{
+                    \draw[\colB,\width] (B) -- (D);
+                    \draw[\colA,\width] (C) -- (D);
+                }
+                \onslide<10->{
+                    % Draw rotation center and circle
+                }
+
+            \end{scope}
+        \end{tikzpicture}
+        \end{center}
+    }
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
