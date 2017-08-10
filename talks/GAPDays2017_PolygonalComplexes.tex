@@ -1,0 +1,339 @@
+\section{General polygonal complexes by incidence geometry}
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+    \frametitle{Motivation}
+    \pause
+    Goal: simplicial surfaces (and generalisations) in GAP
+    \pause
+    \begin{center}
+        \input{Image_ManyExamples.tex}
+    \end{center}
+    \pause
+    $\leadsto$ examples of \textbf{polygonal complexes}
+\end{frame}
+
+\begin{frame}
+    \frametitle{No embedding}
+    \pause
+    We do not work with embeddings (mostly)
+    \begin{itemize}
+        \pause
+        \item is very hard to compute %TODO example of pentagon flippy?
+        \pause
+        \item if often unknown for an abstractly constructed surface
+        \pause
+        \item is different from \textit{intrinsic structure}
+        \pause
+        \item[$\Rightarrow$] lengths and angles are not important
+        \pause
+        \item[$\leadsto$] incidence structure is intrinsic
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    % The option is needed: https://tex.stackexchange.com/questions/119309/arguments-of-tikzset-inside-a-beamer-document
+    \frametitle{Incidence structure of polygonal complex}
+    
+    % First slide is empty
+    \begin{itemize}
+        \item<2-> set of vertices $\mathcal{V}$ \hfill
+            \onslide<3->{
+                \begin{tikzpicture}
+                    \def\xshift{1}
+                    \coordinate[label={[\vertexColor]right:2}] (V2) at (0,0);
+                    \coordinate[label={[\vertexColor]right:3}] (V3) at (\xshift,0);
+                    \coordinate[label={[\vertexColor]right:5}] (V5) at (2*\xshift,0);
+                    \coordinate[label={[\vertexColor]right:7}] (V7) at (3*\xshift,0);
+                    \coordinate[label={[\vertexColor]right:11}] (V11) at (4*\xshift,0);
+
+                    \fill[vertex] (V2) circle (\vSize);
+                    \fill[vertex] (V3) circle (\vSize);
+                    \fill[vertex] (V5) circle (\vSize);
+                    \fill[vertex] (V7) circle (\vSize);
+                    \fill[vertex] (V11) circle (\vSize);
+                \end{tikzpicture}
+            }
+        \item<4-> set of edges $\mathcal{E}$ \hfill
+            \onslide<5->{
+                {\small
+                \begin{tikzpicture}[scale=0.9]
+                    \newcommand{\storedEdge}[2]{
+                        \coordinate (A#2) at (-0.6+#1*1.5, -0.3);
+                        \coordinate (B#2) at (0.6+#1*1.5, 0.3);
+                        \draw[edge] (A#2) -- (B#2);
+                        \drawEdge{A#2}{B#2}{#2}
+                    }
+
+                    \storedEdge{0}{6}
+                    \storedEdge{1}{8}
+                    \storedEdge{2}{9}
+                    \storedEdge{3}{10}
+                    \storedEdge{4}{12}
+                    \storedEdge{5}{13}
+                \end{tikzpicture}
+                }
+            }
+        \item<6-> set of faces $\mathcal{F}$ \hfill
+            \onslide<7->{
+                {\small
+                \begin{tikzpicture}[scale=0.9,
+                        decoration={snake, amplitude=0.5, segment length=4.5}]
+                    \node at (0,0) {$I$};
+                    \draw[decorate] (0,0) circle (0.3);
+                    \node at (2,0) {$IV$};
+                    \draw[decorate] (2,0) circle (0.3);
+                \end{tikzpicture}
+                }
+            }
+        \item<8-> transitive relation \def\brSize{\big}
+            $\subset \brSize(\mathcal{V} \times \mathcal{E} \brSize)
+            \uplus \brSize(\mathcal{V} \times \mathcal{F} \brSize)
+            \uplus \brSize(\mathcal{E} \times \mathcal{F} \brSize)$
+    \end{itemize}
+    % Draw the pictures
+    \onslide<9->{
+        \begin{tikzpicture}[vertexNode/.style={circle, draw=\vertexColor}, node distance=0.5]
+            % Edge nodes
+            \node[edgeBackground] (E6) {6};
+            \node[edgeBackground] (E8) [right=of E6] {8};
+            \node[edgeBackground] (E9) [right=of E8] {9};
+            \node[edgeBackground] (E10) [right=of E9] {10};
+            \node[edgeBackground] (E12) [right=of E10] {12};
+            \node[edgeBackground] (E13) [right=of E12] {13};
+
+            % Face nodes
+            \node (F1) [above=of E8] {$I$}
+                edge (E6) edge (E8) edge (E9);
+            \node (Help) at ($(E10)!0.5!(E12)$) {};
+            \node (F4) [above=of Help] {$IV$}
+                edge (E9) edge (E10) edge (E12) edge (E13);
+
+            % Vertex nodes
+            \node[vertexNode] (V7) [below=of Help] {7}
+                edge (E10) edge (E13);
+            \node[vertexNode] (V11) [right=of V7] {11}
+                edge (E13) edge (E12);
+            \node[vertexNode] (V5) [left=of V7] {5}
+                edge (E8) edge (E9) edge (E12);
+            \node[vertexNode] (V3) [left=of V5] {3}
+                edge (E6) edge (E9) edge (E10);
+            \node[vertexNode] (V2) [left=of V3] {2}
+                edge (E6) edge (E8);
+
+            \begin{scope}[xshift=7cm, yshift=-0.6cm, scale=0.75]
+                %       P3 ------------ P4
+                %      / |       10     | 
+                %    6/  |              |
+                %    /   |              |
+                %  P1  I |9      IV     |13
+                %    \   |              |
+                %    8\  |              |
+                %      \ |        12    |
+                %       P2 ------------ P5
+
+                \coordinate [label={[vertex]left:2 }](P1) at (0,0.5);
+                \coordinate [label={[vertex]below:5 }](P2) at (2,-1);
+                \coordinate [label={[vertex]above:3 }](P3) at (2,2);
+                \coordinate [label={[vertex]above:7 }](P4) at (5,2);
+                \coordinate [label={[vertex]below:11 }](P5) at (5,-1);
+
+                \filldraw[face] (P1) -- (P2) -- (P3) -- cycle;
+                \filldraw[face] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+                    \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {I};
+                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {IV};
+
+                    \drawEdge{P1}{P2}{8}
+                    \drawEdge{P1}{P3}{6}
+                    \drawEdge{P2}{P3}{9}
+                    \drawEdge{P3}{P4}{10}
+                    \drawEdge{P4}{P5}{13}
+                    \drawEdge{P5}{P2}{12}
+
+                    \foreach \p in {P1,P2,P3,P4,P5}{
+                        \fill[vertex] (\p) circle (\vSize);
+                    }
+            \end{scope}
+        \end{tikzpicture}
+        %TODO unveil the graphic in the correct order
+    }
+    \onslide<10->{
+        \begin{enumerate}
+            \item Every edge has exactly two vertices
+            \item Every face is a polygon
+            \item Every vertex lies in an edge and every edge lies in a face
+        \end{enumerate}
+    }
+\end{frame}
+
+
+\begin{frame}{Polygonal complexes}
+    A \textbf{polygonal complex} is
+    \pause
+    a two--dimensional incidence structure of vertices, edges and faces, such that:
+    \begin{enumerate}
+        \pause
+        \item Every edge has exactly two vertices.
+            \begin{tikzpicture}
+                \coordinate[label={[vertex]left:2}] (A) at (0,0);
+                \coordinate[label={[vertex]right:3}] (B) at (3,0);
+
+                \draw (A) -- (B);
+                \drawEdge{A}{B}{6}
+
+                \foreach \p in {A,B}
+                    \fill[vertex] (\p) circle (\vSize);
+            \end{tikzpicture}
+        
+        \pause
+        \item Every face is a polygon.
+            \pause
+            \begin{center}
+                \begin{tikzpicture}
+                % We will do a pentagon
+                \def\r{1.5}
+                \coordinate [label={[vertex]right:$v_1$}] (P1) at (306:\r);
+                \coordinate [label={[vertex]right:$v_2$}] (P2) at (18:\r);
+                \coordinate [label={[vertex]above:$v_3$}] (P3) at (90:\r);
+                \coordinate [label={[vertex]left:$v_4$}] (P4) at (162:\r);
+                \coordinate [label={[vertex]left:$v_5$}] (P5) at (234:\r);
+
+                \filldraw[face] (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+
+                \foreach \p in {P1,P2,P3,P4,P5}
+                    \fill[vertex] (\p) circle (\vSize);
+
+                \drawEdge{P1}{P2}{$e_1$}
+                \drawEdge{P2}{P3}{$e_2$}
+                \drawEdge{P3}{P4}{$e_3$}
+                \drawEdge{P4}{P5}{$e_4$}
+                \drawEdge{P5}{P1}{$e_5$}
+
+                \node[scale=2] at (0,0) {$\circlearrowleft$};
+            \end{tikzpicture}
+            \end{center}
+        \pause
+        \item Every vertex lies in an edge
+        \pause
+        \item Every edge lies in a face
+    \end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Isomorphism testing}
+    \pause
+    Incidence geometry allows "easy" isomorphism testing.
+    \pause
+    Incidence structure can be interpreted as a coloured graph:
+    \pause
+        \begin{center}
+        \begin{tikzpicture}[vertexNode/.style={circle,
+            fill=magenta!50!white}, node distance=0.5]
+            % Edge nodes
+            \node[edgeBackground] (E6) {6};
+            \node[edgeBackground] (E8) [right=of E6] {8};
+            \node[edgeBackground] (E9) [right=of E8] {9};
+            \node[edgeBackground] (E10) [right=of E9] {10};
+            \node[edgeBackground] (E12) [right=of E10] {12};
+            \node[edgeBackground] (E13) [right=of E12] {13};
+
+            % Face nodes
+            \node[fill=yellow] (F1) [above=of E8] {$I$}
+                edge (E6) edge (E8) edge (E9);
+            \node (Help) at ($(E10)!0.5!(E12)$) {};
+            \node[fill=yellow] (F4) [above=of Help] {$IV$}
+                edge (E9) edge (E10) edge (E12) edge (E13);
+
+            % Vertex nodes
+            \node[vertexNode] (V7) [below=of Help] {7}
+                edge (E10) edge (E13);
+            \node[vertexNode] (V11) [right=of V7] {11}
+                edge (E13) edge (E12);
+            \node[vertexNode] (V5) [left=of V7] {5}
+                edge (E8) edge (E9) edge (E12);
+            \node[vertexNode] (V3) [left=of V5] {3}
+                edge (E6) edge (E9) edge (E10);
+            \node[vertexNode] (V2) [left=of V3] {2}
+                edge (E6) edge (E8);
+        \end{tikzpicture}
+        \end{center}
+    \pause
+    $\leadsto$ reduce to graph isomorphism problem
+
+    \pause
+    Solved by NautyTracesInterface (by Gutsche, Niemeyer, Schweitzer)
+\end{frame}
+
+
+\begin{frame}{General properties}
+    \pause
+    Some properties can be computed for all polygonal complexes:
+    \pause
+    \begin{itemize}
+        \item Connectivity
+        \pause
+        \item Euler--Characteristic
+    \end{itemize}
+    \pause
+    \textit{Orientability} is \textbf{not} one of them.
+    \pause
+    Counterexample:
+        \begin{center}
+            \begin{tikzpicture}
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (0,1.5);
+                \coordinate (C) at (-0.7,0.4);
+                \coordinate (D) at (0.8,0.4);
+                \coordinate (E) at (0.9,0.8);
+                			
+                % draw back face first
+                \filldraw[face] (A) -- (B) -- (E) -- cycle;
+                % Now draw front faces
+                \filldraw[face] (A) -- (B) -- (C) -- cycle;
+                \filldraw[face] (A) -- (B) -- (D) -- cycle;
+                % Draw dashed line
+                \draw[dashed] (A) -- (E);
+	    \end{tikzpicture}
+        \end{center}
+    \pause
+    $\Rightarrow$ every edge lies in at most two faces (for well--definedness)
+    
+    \pause
+    $\leadsto$ \textbf{ramified polygonal surfaces}
+\end{frame}
+
+
+\begin{frame}{Why ramified?}
+    \pause
+    Typical example of ramified polygonal surface:
+    \pause
+    \begin{center}
+        \begin{tikzpicture}
+                % First tetrahedron is ABCD, second one is DEFG
+                \coordinate (A) at (-3,-1);
+                \coordinate (B) at (-1,-1.5);
+                \coordinate (C) at (-2,1);
+                \coordinate (D) at (0,0);
+                \coordinate (E) at (3,-0.1);
+                \coordinate (F) at (1.5,2);
+                \coordinate (G) at (1.2,1);
+                
+                \filldraw[face] (A) -- (B) -- (C) -- cycle;
+                \filldraw[face] (B) -- (C) -- (D) -- cycle;
+                \filldraw[faceAlt] (D) -- (F) -- (E) -- cycle;
+                
+                \draw[dashed] (A) -- (D);
+                \draw[dashed] (E) -- (G);
+                \draw[dashed] (D) -- (G);
+                \draw[dashed] (F) -- (G);
+        \end{tikzpicture}
+    \end{center}
+    \pause
+    $\Rightarrow$ It is not a surface -- there is a \textit{ramification} at 
+        the central vertex
+    
+    \pause
+    A \textbf{polygonal surface} does not have these ramifications.
+\end{frame}
+
+
