@@ -197,6 +197,74 @@
     }
 \end{frame}
 
+
+\begin{frame}{Colouring as permutation}
+    \onslide<2->{
+        Consider tetrahedron \onslide<4->{with edge colouring}
+    }
+
+    \begin{center}
+        \begin{tikzpicture}
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (2,0);
+                \coordinate (C) at (1,1.4);
+                \coordinate (D) at ($2*(B)$);
+                \coordinate (E) at ($(B)+(C)$);
+                \coordinate (F) at ($2*(C)$);
+            \onslide<3->{
+                \draw (A) -- (B) -- (D) -- (E) -- (F) -- (C) -- (E) -- (B) -- (C) -- (A);
+                \node at (barycentric cs:A=1,B=1,C=1) {1};
+                \node at (barycentric cs:B=1,C=1,E=1) {2};
+                \node at (barycentric cs:B=1,D=1,E=1) {3};
+                \node at (barycentric cs:C=1,E=1,F=1) {4};
+                \draw[dashed] ($(A)!0.5!(C)$) to[bend left] ($(C)!0.5!(F)$);
+                \draw[dashed] ($(A)!0.5!(B)$) to[bend right] ($(B)!0.5!(D)$);
+                \draw[dashed] ($(D)!0.5!(E)$) to[bend right] ($(E)!0.5!(F)$);
+            }
+            \onslide<5->{
+                \draw[\colA, \width] (A) -- (B) -- (D);
+                \draw[\colA, \width] (C) -- (E);
+                \draw[\colB, \width] (B) -- (C);
+                \draw[\colB, \width] (D) -- (E) -- (F);
+                \draw[\colC, \width] (A) -- (C) -- (F);
+                \draw[\colC, \width] (B) -- (E);
+            }
+
+            % Draw switching arrows
+            \onslide<9-11>{
+                \draw[<->,\colB, thick] (barycentric cs:A=1,B=2,C=2) to[bend left] (barycentric cs:B=2,C=2,E=1);
+            }
+            \onslide<10-11>{
+                \draw[<->,\colB,thick] (barycentric cs:B=1,D=2,E=2) to[bend right=60] (barycentric cs:E=2,F=2,C=1);
+            }
+            \onslide<12>{
+                \draw[<->,\colA,thick] (barycentric cs:A=2,B=2,C=1) to[bend right=60] (barycentric cs:B=2,D=2,E=1);
+                \draw[<->,\colA,thick] (barycentric cs:C=2,E=2,B=1) to[bend left] (barycentric cs:C=2,E=2,F=1);
+            }
+            \onslide<13>{
+                \draw[<->,\colC,thick] (barycentric cs:A=2,B=1,C=2) to[bend left=60] (barycentric cs:C=2,E=1,F=2);
+                \draw[<->,\colC,thick] (barycentric cs:B=2,C=1,E=2) to[bend left] (barycentric cs:B=2,D=1,E=2);
+            }
+        \end{tikzpicture}
+    \end{center}
+    \onslide<6->{
+        \textit{simplicial surface} $\Rightarrow$ \onslide<7->{at most two faces at each edge}
+
+        \onslide<8->{
+            $\leadsto$ every edge defines transposition of adjacent faces
+        }
+
+        \onslide<11->{
+            $\leadsto$ every colour class defines permutation of the faces
+        }
+
+        \onslide<9->{\textcolor{\colB}{(1,2)}}\onslide<10->{\textcolor{\colB}{(3,4)}}
+        \onslide<12->{, \textcolor{\colA}{(1,3)(2,4)}}
+        \onslide<13->{, \textcolor{\colC}{(1,4)(2,3)}}
+    }
+\end{frame}
+         
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %%    Third section
