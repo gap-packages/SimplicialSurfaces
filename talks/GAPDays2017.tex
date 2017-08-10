@@ -186,7 +186,28 @@
             $\leadsto$ group theoretic considerations
         }
     }
+\end{frame}
 
+
+\begin{frame}{Group theoretic descriptions}
+    \pause
+    Let $\mathcal{S}$ be a coloured simplicial surface and 
+    $\sigma_a, \sigma_b, \sigma_c$ its permutations.
+
+    \begin{itemize}
+        \pause
+        \item The connected components of $\mathcal{S}$ correspond to \pause 
+            the orbits of $\langle \sigma_a, \sigma_b, \sigma_c\rangle$ on
+            the faces
+        \pause
+        \item Consider the automorphism group of $\mathcal{S}$
+            \begin{itemize}
+                \pause
+                \item subgroup of symmetric group on faces
+                \pause
+                \item 
+            \end{itemize}
+    \end{itemize}
 
 \end{frame}
          
@@ -316,6 +337,49 @@
 
     \pause
     The easiest structure is an mmm--structure.
+\end{frame}
+
+
+\begin{frame}{Covering}
+    \pause
+    We want to characterize surfaces where all edges are mirrors.
+    \pause
+    \begin{lem}
+        A simplicial surface has an mmm--structure iff it covers a 
+        single triangle\pause, i.\,e. there is an incidence--preserving
+        map to the simplicial surface consisting of exactly one face.
+    \end{lem}
+    \pause
+    Consider
+        \begin{center}
+            \begin{tikzpicture}
+                \def\x{1}
+                \def\y{1}
+
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (\x,\y);
+                \coordinate (C) at (\x,-\y);
+                \coordinate (D) at (2*\x,0);
+
+                    \draw[\colA,\width] (A) -- (B);
+                    \draw[\colB,\width] (A) -- (C);
+                    \draw[\colC,\width] (B) -- (C);
+                    \draw (B) -- (D) -- (C);
+                    \draw[\colA,\width] (B) -- (D);
+                    \draw[\colB,\width] (C) -- (D);
+
+                \def\mid{3}
+                \def\near{5}
+                \draw[->,thick] (barycentric cs:A=\mid,B=\near,C=1) to[bend right] (barycentric cs:B=\near,C=1,D=\mid);
+                \draw[->,thick] (barycentric cs:A=\mid,B=1,C=\near) to[bend left] (barycentric cs:B=1,C=\near,D=\mid);
+            \end{tikzpicture}
+        \end{center}
+    \begin{itemize}
+        \pause
+        \item Covering pulls back a colouring of the triangle.
+        \pause
+        \item Colouring defines a map to the triangle.
+    \end{itemize}
 \end{frame}
 
 
