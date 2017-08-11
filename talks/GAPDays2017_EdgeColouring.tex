@@ -309,10 +309,10 @@
     \begin{itemize}
         \item<6-> The faces are the points moved by the involutions
         \item<7-> The edges are the cycles of the involutions
-        \item<8-> The vertices are the orbits of 
+        \item<8-> The vertices are \onslide<11->{the orbits of 
             $\langle \textcolor{\colA}{\sigma_a}, 
             \textcolor{\colB}{\sigma_b} \rangle$
-            on the faces \onslide<11->{(for all pairs)}
+            on the faces} \onslide<12->{(for all pairs)}
     \end{itemize}
 
     \onslide<9->{
@@ -354,7 +354,7 @@
 
         % Draw the continuations
         \foreach \p/\q/\z in {P1/P2/Z, P2/P3/Z, P3/P4/Z, P4/P5/Z, P5/Q1/P0, Q1/Q2/P0, Q2/Q3/P0, Q3/P1/P0}
-            \draw[gray, dotted, thick] ($(\p)!0.5!(\q)$) -- (barycentric cs:\z=-0.5,\p=1,\q=1);
+            \draw[gray!50!black, dotted, thick] ($(\p)!0.5!(\q)$) -- (barycentric cs:\z=-0.5,\p=1,\q=1);
 
         % Draw the vertices
         \foreach \p in {Z,P0}
