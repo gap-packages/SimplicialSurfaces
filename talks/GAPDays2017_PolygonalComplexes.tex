@@ -33,29 +33,38 @@
 
 \begin{frame}[fragile]
     % The option is needed: https://tex.stackexchange.com/questions/119309/arguments-of-tikzset-inside-a-beamer-document
-    \frametitle{Incidence structure of polygonal complex}
+    \frametitle{Incidence structure of a polygonal complex}
+    \onslide<2->{
+        A \textbf{polygonal complex} consists of
+    }
     
-    % First slide is empty
     \begin{itemize}
-        \item<2-> set of vertices $\mathcal{V}$ \hfill
-            \onslide<3->{
+        \item<3-> set of vertices $\mathcal{V}$ \hfill
+            \onslide<4->{
                 \begin{tikzpicture}
-                    \def\xshift{1}
-                    \coordinate[label={[\vertexColor]right:2}] (V2) at (0,0);
-                    \coordinate[label={[\vertexColor]right:3}] (V3) at (\xshift,0);
-                    \coordinate[label={[\vertexColor]right:5}] (V5) at (2*\xshift,0);
-                    \coordinate[label={[\vertexColor]right:7}] (V7) at (3*\xshift,0);
-                    \coordinate[label={[\vertexColor]right:11}] (V11) at (4*\xshift,0);
+                    \newcommand{\vertexDot}[2]{
+                        % xshift, label
+                        \coordinate[label={[\vertexColor]right:#2}] (V#2) at (#1,0);
+                        \fill[vertex] (V#2) circle (\vSize);
+                    }
 
-                    \fill[vertex] (V2) circle (\vSize);
-                    \fill[vertex] (V3) circle (\vSize);
-                    \fill[vertex] (V5) circle (\vSize);
-                    \fill[vertex] (V7) circle (\vSize);
-                    \fill[vertex] (V11) circle (\vSize);
+                    \onslide<4-9>{
+                        \vertexDot{0}{2}
+                    }
+                    \onslide<4-12>{
+                        \vertexDot{1}{3}
+                        \vertexDot{2}{5}
+                    }
+                    \onslide<4-14>{
+                        \vertexDot{3}{7}
+                    }
+                    \onslide<4-19>{
+                        \vertexDot{4}{11}
+                    }
                 \end{tikzpicture}
             }
-        \item<4-> set of edges $\mathcal{E}$ \hfill
-            \onslide<5->{
+        \item<5-> set of edges $\mathcal{E}$ \hfill
+            \onslide<6->{
                 {\small
                 \begin{tikzpicture}[scale=0.9]
                     \newcommand{\storedEdge}[2]{
@@ -65,63 +74,138 @@
                         \drawEdge{A#2}{B#2}{#2}
                     }
 
-                    \storedEdge{0}{6}
-                    \storedEdge{1}{8}
-                    \storedEdge{2}{9}
-                    \storedEdge{3}{10}
-                    \storedEdge{4}{12}
-                    \storedEdge{5}{13}
+                    \onslide<6-9>{
+                        \storedEdge{0}{6}
+                    }
+                    \onslide<6-12>{
+                        \storedEdge{1}{8}
+                        \storedEdge{2}{9}
+                    }
+                    \onslide<6-16>{
+                        \storedEdge{3}{10}
+                    }
+                    \onslide<6-19>{
+                        \storedEdge{4}{12}
+                        \storedEdge{5}{13}
+                    }
                 \end{tikzpicture}
                 }
             }
-        \item<6-> set of faces $\mathcal{F}$ \hfill
-            \onslide<7->{
+        \item<7-> set of faces $\mathcal{F}$ \hfill
+            \onslide<8->{
                 {\small
                 \begin{tikzpicture}[scale=0.9,
                         decoration={snake, amplitude=0.5, segment length=4.5}]
-                    \node at (0,0) {$I$};
-                    \draw[decorate] (0,0) circle (0.3);
-                    \node at (2,0) {$IV$};
-                    \draw[decorate] (2,0) circle (0.3);
+                    \onslide<8-10>{
+                        \node at (0,0) {$I$};
+                        \draw[decorate] (0,0) circle (0.3);
+                    }
+                    \onslide<8-18>{
+                        \node at (2,0) {$IV$};
+                        \draw[decorate] (2,0) circle (0.3);
+                    }
                 \end{tikzpicture}
                 }
             }
-        \item<8-> transitive relation \def\brSize{\big}
+        \item<9-> transitive relation \def\brSize{\big}
             $\subset \brSize(\mathcal{V} \times \mathcal{E} \brSize)
             \uplus \brSize(\mathcal{V} \times \mathcal{F} \brSize)
             \uplus \brSize(\mathcal{E} \times \mathcal{F} \brSize)$
     \end{itemize}
     % Draw the pictures
-    \onslide<9->{
+    \onslide<10->{
         \begin{tikzpicture}[vertexNode/.style={circle, draw=\vertexColor}, node distance=0.5]
+
             % Edge nodes
-            \node[edgeBackground] (E6) {6};
-            \node[edgeBackground] (E8) [right=of E6] {8};
-            \node[edgeBackground] (E9) [right=of E8] {9};
-            \node[edgeBackground] (E10) [right=of E9] {10};
-            \node[edgeBackground] (E12) [right=of E10] {12};
-            \node[edgeBackground] (E13) [right=of E12] {13};
+            % name, position, text, minimal slide
+            \newcommand{\edgeNode}[4]{
+                \onslide<#4->{
+                    \node[edgeBackground] (#1) [#2] {#3};
+                }
+                \onslide<-#4-1>{
+                    \node (#1) [#2] {};
+                }
+            }
+            \node[edgeBackground] (E6) { 6 };
+            \edgeNode{E8}{right=of E6}{8}{13}
+            \edgeNode{E9}{right=of E8}{9}{13}
+            \edgeNode{E10}{right=of E9}{10}{17}
+            \edgeNode{E12}{right=of E10}{12}{20}
+            \edgeNode{E13}{right=of E12}{13}{20}
 
             % Face nodes
-            \node (F1) [above=of E8] {$I$}
-                edge (E6) edge (E8) edge (E9);
+            % name, position, text, minimal slide
+            \newcommand{\faceNode}[4]{
+                \onslide<#4->{
+                    \node (#1) [#2] {#3};
+                }
+                \onslide<-#4-1>{
+                    \node (#1) [#2] {};
+                }
+            }
+            \faceNode{F1}{above=of E8}{$I$}{11}
+
+            \onslide<11->{
+                \draw (F1) -- (E6);
+            }
+            \onslide<13->{
+                \draw (E8) -- (F1) -- (E9);
+            }
+
             \node (Help) at ($(E10)!0.5!(E12)$) {};
-            \node (F4) [above=of Help] {$IV$}
-                edge (E9) edge (E10) edge (E12) edge (E13);
+            \faceNode{F4}{above=of Help}{$IV$}{19}
+            \onslide<19->{
+                \draw (E9) -- (F4) -- (E10);
+            }
+            \onslide<20->{
+                \draw (E12) -- (F4) -- (E13);
+            }
 
             % Vertex nodes
-            \node[vertexNode] (V7) [below=of Help] {7}
-                edge (E10) edge (E13);
-            \node[vertexNode] (V11) [right=of V7] {11}
-                edge (E13) edge (E12);
-            \node[vertexNode] (V5) [left=of V7] {5}
-                edge (E8) edge (E9) edge (E12);
-            \node[vertexNode] (V3) [left=of V5] {3}
-                edge (E6) edge (E9) edge (E10);
-            \node[vertexNode] (V2) [left=of V3] {2}
-                edge (E6) edge (E8);
+            % name, position, text, minimal slide
+            \newcommand{\vertexNode}[4]{
+                \onslide<#4->{
+                    \node[vertexNode] (#1) [#2] {#3};
+                }
+                \onslide<-#4-1>{
+                    \node (#1) [#2] {};
+                }
+            }
+            \vertexNode{V7}{below=of Help}{7}{15}
+            \onslide<17->{
+                \draw (E10) -- (V7);
+            }
+            \onslide<20->{
+                \draw (E13) -- (V7);
+            }
+            \vertexNode{V11}{right=of V7}{11}{20}
+            \onslide<20->{
+                \draw (E13) -- (V11) -- (E12);
+            }
+            \vertexNode{V5}{left=of V7}{5}{14}
+            \onslide<13->{
+                \draw (E8) -- (V5) -- (E9);
+            }
+            \onslide<20->{
+                \draw (E12) -- (V5);
+            }
 
-            \begin{scope}[xshift=7cm, yshift=-0.6cm, scale=0.75]
+            \vertexNode{V4}{left=of V5}{3}{14}
+            \onslide<14->{
+                \draw (E6) -- (V4) -- (E9);
+            }
+            \onslide<17->{
+                \draw (E10) -- (V4);
+            }
+            \vertexNode{V2}{left=of V3}{2}{10}
+            \onslide<10->{
+                \draw (E6) -- (V2);
+            }
+            \onslide<13->{
+                \draw (E8) -- (V2);
+            }
+
+            \begin{scope}[xshift=7cm, yshift=-0.6cm, scale=0.7]
                 %       P3 ------------ P4
                 %      / |       10     | 
                 %    6/  |              |
@@ -132,38 +216,85 @@
                 %      \ |        12    |
                 %       P2 ------------ P5
 
-                \coordinate [label={[vertex]left:2 }](P1) at (0,0.5);
-                \coordinate [label={[vertex]below:5 }](P2) at (2,-1);
-                \coordinate [label={[vertex]above:3 }](P3) at (2,2);
-                \coordinate [label={[vertex]above:7 }](P4) at (5,2);
-                \coordinate [label={[vertex]below:11 }](P5) at (5,-1);
+                % name, position, label, label position, minimal slide
+                \newcommand{\vCoord}[5]{
+                    \onslide<#5->{
+                        \coordinate[label={[vertex]#4:#3}] (#1) at #2;
+                    }
+                    \onslide<-#5-1>{
+                        \coordinate (#1) at #2;
+                    }
+                }
+                \vCoord{P1}{(0,0.5)}{2}{left}{10}
+                \vCoord{P2}{(2,-1)}{5}{below}{14}
+                \vCoord{P3}{(2,2)}{3}{above}{14}
+                \vCoord{P4}{(5,2)}{7}{above}{15}
+                \vCoord{P5}{(5,-1)}{11}{below}{20}
 
-                \filldraw[face] (P1) -- (P2) -- (P3) -- cycle;
-                \filldraw[face] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+                % Draw first face
+                \onslide<13->{
+                    \filldraw[face] (P1) -- (P2) -- (P3) -- cycle;
                     \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {I};
-                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {IV};
+                }
+                \onslide<11-12>{
+                    \fill[\faceColor] (P1) -- (P2) -- (P3) -- cycle;
+                    \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {I};
+                }
+                \onslide<10-12>{
+                    \draw[\edgeColor] (P1) -- (P3);
+                }
 
-                    \drawEdge{P1}{P2}{8}
+                % Draw the second face
+                \onslide<20->{           
+                    \filldraw[face] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {IV};
+                }
+                \onslide<19->{
+                    \fill[\faceColor] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {IV};
+                }
+                \onslide<17-19>{
+                    \draw[\edgeColor] (P3) -- (P4);
+                }
+        
+
+                % Draw the edges
+                \onslide<10->{
                     \drawEdge{P1}{P3}{6}
+                }
+                \onslide<13->{
+                    \drawEdge{P1}{P2}{8}
                     \drawEdge{P2}{P3}{9}
+                }
+                \onslide<17->{
                     \drawEdge{P3}{P4}{10}
+                }
+                \onslide<20->{
                     \drawEdge{P4}{P5}{13}
                     \drawEdge{P5}{P2}{12}
+                }
 
-                    \foreach \p in {P1,P2,P3,P4,P5}{
-                        \fill[vertex] (\p) circle (\vSize);
-                    }
+                % Draw the concrete points
+                \onslide<10->{
+                    \fill[vertex] (P1) circle (\vSize);
+                }
+                \onslide<13->{
+                    \fill[vertex] (P2) circle (\vSize);
+                    \fill[vertex] (P3) circle (\vSize);
+                }
+                \onslide<15->{
+                    \fill[vertex] (P4) circle (\vSize);
+                }
+                \onslide<20->{
+                    \fill[vertex] (P5) circle (\vSize);
+                }
             \end{scope}
         \end{tikzpicture}
-        %TODO unveil the graphic in the correct order
     }
-    \onslide<10->{
-        \begin{enumerate}
-            \item Every edge has exactly two vertices
-            \item Every face is a polygon
-            \item Every vertex lies in an edge and every edge lies in a face
-        \end{enumerate}
-    }
+    \begin{enumerate}
+        \item<12-> Every face is a polygon
+        \item<16-> Every vertex lies in an edge \onslide<18->{and every edge lies in a face}
+    \end{enumerate}
 \end{frame}
 
 
@@ -222,7 +353,7 @@
 
 \begin{frame}{Isomorphism testing}
     \pause
-    Incidence geometry allows "easy" isomorphism testing.
+    Incidence geometry allows ``easy" isomorphism testing.
     \pause
     Incidence structure can be interpreted as a coloured graph:
     \pause
