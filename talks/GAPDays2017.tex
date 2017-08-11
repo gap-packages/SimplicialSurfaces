@@ -505,14 +505,14 @@
             \draw[\colA,\width] (Z) -- (P4);
         }
         \onslide<10->{
-            \draw[\colA,\width,dashed] ($(Z)!0.5!(P4)$) to[bend right] ($(Z)!0.5!(P0)$);
+            \draw[\colA,\width,dotted] ($(Z)!0.5!(P4)$) to[bend right] ($(Z)!0.5!(P0)$);
         }
 
         % 6
         \onslide<11->{
             \node at (barycentric cs:P2=1,P3=1,Q23=1) {6};
             \draw[\colA,\width] (P2) -- (Q23);
-            \draw[\colA,\width,dashed] ($(P2)!0.5!(Q23)$) to[bend left] ($(P2)!0.5!(Q12)$);
+            \draw[\colA,\width,dotted] ($(P2)!0.5!(Q23)$) to[bend left] ($(P2)!0.5!(Q12)$);
             \draw[\colB,\width] (P3) -- (Q23);
         }
 
@@ -520,7 +520,7 @@
         \onslide<12->{
             \node at (barycentric cs:P3=1,P4=1,Q34=1) {7};
             \draw[\colB,\width] (P3) -- (Q34);
-            \draw[\colB,\width,dashed] ($(P3)!0.5!(Q23)$) to[bend right] ($(P3)!0.5!(Q34)$);
+            \draw[\colB,\width,dotted] ($(P3)!0.5!(Q23)$) to[bend right] ($(P3)!0.5!(Q34)$);
             \draw[\colA,\width] (P4) -- (Q34);
         }
 
@@ -528,11 +528,11 @@
         \onslide<13->{
             \node at (barycentric cs:P0=1,P1=1,Q01=1) {8};
             \draw[\colB,\width] (P1) -- (Q01);
-            \draw[\colB,\width,dashed] ($(P1)!0.5!(Q01)$) to[bend right] ($(P1)!0.5!(Q12)$);
+            \draw[\colB,\width,dotted] ($(P1)!0.5!(Q01)$) to[bend right] ($(P1)!0.5!(Q12)$);
             \draw[\colA,\width] (P0) -- (Q01);
         }
         \onslide<14->{
-            \draw[\colA,\width,dashed] ($(P0)!0.5!(Q01)$) to[bend left=60] ($(P4)!0.5!(Q34)$);
+            \draw[\colA,\width,dotted] ($(P0)!0.5!(Q01)$) to[bend left=60] ($(P4)!0.5!(Q34)$);
         }
 
         \begin{scope}[xshift=6cm]
@@ -558,7 +558,11 @@
                     \node at (barycentric cs:Mid=1,Down=1,Right=1) {1};
                     \node at (barycentric cs:Mid=1,Down=1,Left=1) {2};
                     \node at (barycentric cs:Mid=1,Up=1,Right=1) {5};
-                    \node at (barycentric cs:Mid=1,Up=1,Left=1) {6};
+                    %\node at (barycentric cs:Mid=1,Up=1,Left=1) {6};
+                    
+                    % Vertices to hide drawing problems in edge meetings
+                    \foreach \p in {Mid,Right,Left,Back,Up,Down}
+                        \fill[gray] (\p) circle (1pt);
                 }
         \end{scope}
     \end{tikzpicture}
