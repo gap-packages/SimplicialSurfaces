@@ -117,91 +117,75 @@
         \begin{tikzpicture}[vertexNode/.style={circle, draw=\vertexColor}, node distance=0.5]
 
             % Edge nodes
-            % name, position, text, minimal slide
-            \newcommand{\edgeNode}[4]{
-                \onslide<#4->{
-                    \node[edgeBackground] (#1) [#2] {#3};
-                }
-                \onslide<-#4-1>{
-                    \node (#1) [#2] {};
-                }
+            \node[edgeBackground] (E6) {6};
+            \uncover<13->{
+                \node[edgeBackground] (E8) [right=of E6] {8};
+                \node[edgeBackground] (E9) [right=of E8] {9};
             }
-            \node[edgeBackground] (E6) { 6 };
-            \edgeNode{E8}{right=of E6}{8}{13}
-            \edgeNode{E9}{right=of E8}{9}{13}
-            \edgeNode{E10}{right=of E9}{10}{17}
-            \edgeNode{E12}{right=of E10}{12}{20}
-            \edgeNode{E13}{right=of E12}{13}{20}
+            \uncover<17->{
+                \node[edgeBackground] (E10) [right=of E9] {10};
+            }
+            \uncover<20->{
+                \node[edgeBackground] (E12) [right=of E10] {12};
+                \node[edgeBackground] (E13) [right=of E12] {13};
+            }
 
             % Face nodes
-            % name, position, text, minimal slide
-            \newcommand{\faceNode}[4]{
-                \onslide<#4->{
-                    \node (#1) [#2] {#3};
-                }
-                \onslide<-#4-1>{
-                    \node (#1) [#2] {};
-                }
-            }
-            \faceNode{F1}{above=of E8}{$I$}{11}
-
-            \onslide<11->{
+            \uncover<11->{
+                \node (F1) [above=of E8] {$I$};
                 \draw (F1) -- (E6);
             }
-            \onslide<13->{
-                \draw (E8) -- (F1) -- (E9);
+            \uncover<13->{
+                \draw (E8) -- (F1);
+                \draw (E9) -- (F1);
             }
 
             \node (Help) at ($(E10)!0.5!(E12)$) {};
-            \faceNode{F4}{above=of Help}{$IV$}{19}
-            \onslide<19->{
-                \draw (E9) -- (F4) -- (E10);
+            \uncover<19->{
+                \node (F4) [above=of Help] {$IV$};
+                \draw (F4) -- (E9);
+                \draw (F4) -- (E10);
             }
-            \onslide<20->{
-                \draw (E12) -- (F4) -- (E13);
+            \uncover<20->{
+                \draw (E12) -- (F4) -- (E13); %TODO does this look good?
             }
 
             % Vertex nodes
-            % name, position, text, minimal slide
-            \newcommand{\vertexNode}[4]{
-                \onslide<#4->{
-                    \node[vertexNode] (#1) [#2] {#3};
-                }
-                \onslide<-#4-1>{
-                    \node (#1) [#2] {};
-                }
+            \uncover<15->{
+                \node[vertexNode] (V7) [below=of Help] {7};
             }
-            \vertexNode{V7}{below=of Help}{7}{15}
-            \onslide<17->{
+            \uncover<17->{
                 \draw (E10) -- (V7);
             }
-            \onslide<20->{
+            \uncover<20->{
                 \draw (E13) -- (V7);
             }
-            \vertexNode{V11}{right=of V7}{11}{20}
-            \onslide<20->{
-                \draw (E13) -- (V11) -- (E12);
-            }
-            \vertexNode{V5}{left=of V7}{5}{14}
-            \onslide<13->{
-                \draw (E8) -- (V5) -- (E9);
-            }
-            \onslide<20->{
-                \draw (E12) -- (V5);
+
+            \uncover<20->{
+                \node[vertexNode] (V11) [right=of V7] {11}
+                    edge (E13) edge (E12);
             }
 
-            \vertexNode{V3}{left=of V5}{3}{14}
-            \onslide<14->{
-                \draw (E6) -- (V3) -- (E9);
+            \uncover<14->{
+                \node[vertexNode] (V5) [left=of V7] {5};
+                \node[vertexNode] (V3) [left=of V5] {3}
+                    edge (E6) edge (E9);
             }
-            \onslide<17->{
+            \uncover<13->{
+                \draw (E8) -- (V5) -- (E9);
+            }
+            \uncover<20->{
+                \draw (E12) -- (V5);
+            }
+            \uncover<17->{
                 \draw (E10) -- (V3);
             }
-            \vertexNode{V2}{left=of V3}{2}{10}
-            \onslide<10->{
-                \draw (E6) -- (V2);
+
+            \uncover<10->{
+                \node[vertexNode] (V2) [left=of V3] {2}
+                    edge (E6);
             }
-            \onslide<13->{
+            \uncover<13->{
                 \draw (E8) -- (V2);
             }
 
@@ -216,20 +200,19 @@
                 %      \ |        12    |
                 %       P2 ------------ P5
 
-                % name, position, label, label position, minimal slide
-                \newcommand{\vCoord}[5]{
-                    \onslide<#5->{
-                        \coordinate[label={[vertex]#4:#3}] (#1) at #2;
-                    }
-                    \onslide<-#5-1>{
-                        \coordinate (#1) at #2;
-                    }
+                \uncover<10->{
+                    \coordinate[label={[vertex]left:2}] (P1) at (0,0.5);
                 }
-                \vCoord{P1}{(0,0.5)}{2}{left}{10}
-                \vCoord{P2}{(2,-1)}{5}{below}{14}
-                \vCoord{P3}{(2,2)}{3}{above}{14}
-                \vCoord{P4}{(5,2)}{7}{above}{15}
-                \vCoord{P5}{(5,-1)}{11}{below}{20}
+                \uncover<14->{
+                    \coordinate[label={[vertex]below:5}] (P2) at (2,-1);
+                    \coordinate[label={[vertex]above:3}] (P3) at (2,2);
+                }
+                \uncover<15->{
+                    \coordinate[label={[vertex]above:7}] (P4) at (5,2);
+                }
+                \uncover<20->{
+                    \coordinate[label={[vertex]below:11}] (P5) at (5,-1);
+                }
 
                 % Draw first face
                 \onslide<13->{
