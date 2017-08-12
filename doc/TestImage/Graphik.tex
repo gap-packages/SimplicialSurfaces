@@ -1,53 +1,35 @@
-\documentclass{article}
+\documentclass{beamer}
 
-\usepackage{tikz}
-\usetikzlibrary{calc}
-\usetikzlibrary{positioning}
+\input{../TikZHeader.tex}
+\usetikzlibrary{arrows, decorations.pathreplacing, calc, decorations.pathmorphing, shapes}
 
 \usepackage{amssymb}
 
 
-% Now we define the global styles
-
-% We start by defining the default colours of vertices, edges and faces
-\newcommand{\vertexColor}{blue}
-\newcommand{\edgeColor}{black}
-\newcommand{\faceColor}{yellow}
-
-\newcommand{\vSize}{2.5pt}    % How big are the vertex circles (if drawn)?
-% Command to set the vertex labels (in the correct colour)
-
-\newcommand{\drawEdge}[3]{            
-	\node[edgeBackground] at ($1/2*(#1)+1/2*(#2)$) {#3};
-}
-
-
-\tikzset{vertex/.style = {\vertexColor}}
-\tikzset{edge/.style = {\edgeColor, thick}}
-\tikzset{edgeBackground/.style = {fill=blue!20!white}}
-\tikzset{face/.style = {fill=\faceColor, draw=\edgeColor}}
-
 
 \begin{document}
 
-              \begin{tikzpicture}
-                    \def\len{4}
-                    \def\h{1}
-                    \coordinate [label=above:1] (A) at (0.25*\len,0.25*\len+\len*\h);
-                    \coordinate [label=below:2] (B) at (0,0);
-                    \coordinate [label=below:3] (C) at (\len,0);
-                    \coordinate [label=left:4] (D) at (-0.5*\len,0.5*\len);
-                    \coordinate [label=right:5] (E) at ($(C)+(D)$);
+\begin{frame}[fragile]
+	\begin{tikzpicture}[vertexNode/.style={circle, draw=\vertexColor}, node distance=0.5]
+		\node[edgeBackground] (E6) {6};
+		\uncover<2->{		
+			\node[edgeBackground] (E8) [right=of E6] {8};
+		}
+		\node[edgeBackground] (E9) [right=of E8] {9};
+		
+		\node (F1) [above=of E8] {$I$}
+			edge (E6) edge (E9);
+		\uncover<2->{ \draw (F1) -- (E8); }
+			
+		\node (Help) at ($(E8)!0.5!(E9)$) {};
+		\node[vertexNode] (V3) [below=of Help] {3}
+			edge (E6) edge (E9);
+		\node[vertexNode] (V2) [left=of V3] {2}
+			edge (E6) edge (E8);
+	\end{tikzpicture}
+\end{frame}
 
-                    \filldraw[face] (A) -- (B) -- (D) -- cycle;
-                    \filldraw[face] (A) -- (B) -- (C) -- cycle;
 
-                    \draw[edge, dashed] (D) -- (E);
-                    \draw[edge, dashed] (C) -- (E);
-                    \draw[edge, dashed] (A) -- (E);
-                    % We have to rewrite this label as it is behind the pyramid
-                    \node[above right] at (E) {5};
-                \end{tikzpicture}
- 
+
 
 \end{document} 
