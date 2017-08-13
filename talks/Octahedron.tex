@@ -6,7 +6,6 @@
 \newcommand{\colA}{blue}
 \newcommand{\colB}{red}
 \newcommand{\colC}{green!80!black}
-\newcommand{\width}{very thick}
 
 
 \newcommand{\drawOctaNet}{
@@ -28,15 +27,15 @@
 
 
     % Edges
-    \draw[\colA,\width] (Z) -- (P2); % inner
-    \draw[\colA,\width] (Q23) -- (P2) -- (Q12); % boundary
-    \draw[\colA,\width] (Q34) -- (P4) -- (Z) -- (P0) -- (Q01); % boundary
+    \draw[\colA,innerEdge] (Z) -- (P2); % inner
+    \draw[\colA,outerEdge] (Q23) -- (P2) -- (Q12); % boundary
+    \draw[\colA,outerEdge] (Q34) -- (P4) -- (Z) -- (P0) -- (Q01); % boundary
 
-    \draw[\colB,\width] (P3) -- (Z) -- (P1); % inner
-    \draw[\colB,\width] (Q34) -- (P3) -- (Q23); % boundary
-    \draw[\colB,\width] (Q12) -- (P1) -- (Q01); % boundary
+    \draw[\colB,innerEdge] (P3) -- (Z) -- (P1); % inner
+    \draw[\colB,outerEdge] (Q34) -- (P3) -- (Q23); % boundary
+    \draw[\colB,outerEdge] (Q12) -- (P1) -- (Q01); % boundary
 
-    \draw[\colC,\width] (P4) -- (P3) -- (P2) -- (P1) -- (P0); % inner
+    \draw[\colC,innerEdge] (P4) -- (P3) -- (P2) -- (P1) -- (P0); % inner
 
     \draw (P0) -- (P4);
     \draw (Z) -- ($(P0)!0.5!(P4)$);
@@ -65,6 +64,11 @@
     \node[stdNode, rotate=-90] at (barycentric cs:Z=1,P0=1,P1=1) {4};
     \node[stdNode, rotate=-90] at (barycentric cs:P0=1,P1=1,Q01=1) {8};
 
+    
+    % Draw vertices
+    \foreach \p in {Z,P0,P1,P2,P3,P4,Q01,Q12,Q23,Q34}
+        \fill[gray] (\p) circle (1pt);
+
 }
 
 \usepackage[absolute]{textpos} 	% Absolute Textposition ermöglichen
@@ -72,7 +76,11 @@
 \begin{document}
 	\pagenumbering{gobble}
 	\begin{textblock}{3}(-0.1,0.1)
-            \begin{tikzpicture}[stdNode/.style={transform shape, scale=2}, edgeNode/.style={transform shape}]
+            \begin{tikzpicture}[
+                    stdNode/.style={transform shape, scale=2}, 
+                    edgeNode/.style={transform shape}, 
+                    innerEdge/.style={line width=1.5pt},
+                    outerEdge/.style={line width=1.5pt}]
                 \def\xs{10cm}
                 \def\ys{12.7cm}
                 \def\xoff{-4cm}
