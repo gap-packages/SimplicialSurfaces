@@ -1,0 +1,85 @@
+\documentclass[11pt]{scrartcl}
+
+\usepackage{pgf, tikz}
+\usetikzlibrary{arrows, calc}
+
+\newcommand{\colA}{blue}
+\newcommand{\colB}{red}
+\newcommand{\colC}{green!80!black}
+\newcommand{\width}{very thick}
+
+
+\newcommand{\drawOctaNet}{
+    %    Q23 -- P2 -- Q12
+    %      \   /|\   /
+    %       \ / | \ /
+    %        P3 | P1
+    %       /|\ | /|\
+    %      / | \|/ | \
+    %    Q34 |  Z  | Q01
+    %      \ | /|\ | /
+    %       \|/ | \|/
+    %        P4 - P0
+    \coordinate (Z) at (0,0);
+    \foreach \i in {0,1,2,3,4}
+        \coordinate (P\i) at (-30+60*\i:4.8cm);
+    \foreach \i/\j in {0/1,1/2,2/3,3/4}
+        \coordinate (Q\i\j) at ($(P\i)+(P\j)$);
+
+
+    % Edges
+    \draw[\colA,\width] (Z) -- (P2); % inner
+    \draw[\colA,\width] (Q23) -- (P2) -- (Q12); % boundary
+    \draw[\colA,\width] (Q34) -- (P4) -- (Z) -- (P0) -- (Q01); % boundary
+
+    \draw[\colB,\width] (P3) -- (Z) -- (P1); % inner
+    \draw[\colB,\width] (Q34) -- (P3) -- (Q23); % boundary
+    \draw[\colB,\width] (Q12) -- (P1) -- (Q01); % boundary
+
+    \draw[\colC,\width] (P4) -- (P3) -- (P2) -- (P1) -- (P0); % inner
+
+    \draw[\width] (P0) -- (P4);
+    \draw (Z) -- ($(P0)!0.5!(P4)$);
+
+    % Face names
+    \node[transform shape, rotate=-30] at (barycentric cs:Z=1,P1=1,P2=1) {1};
+    \node[transform shape, rotate=-30] at (barycentric cs:P1=1,P2=1,Q12=1) {5};
+    \node[transform shape, rotate=30] at (barycentric cs:Z=1,P2=1,P3=1) {2};
+    \node[transform shape, rotate=30] at (barycentric cs:P2=1,P3=1,Q23=1) {6};
+    \node[transform shape, rotate=90] at (barycentric cs:Z=1,P3=1,P4=1) {3};
+    \node[transform shape, rotate=90] at (barycentric cs:P3=1,P4=1,Q34=1) {7};
+    \node[transform shape, rotate=-90] at (barycentric cs:Z=1,P0=1,P1=1) {4};
+    \node[transform shape, rotate=-90] at (barycentric cs:P0=1,P1=1,Q01=1) {8};
+
+
+%    \draw[very thin] (P0) -- (Q01) -- (P1) -- (Q12) -- (P2) -- (Q23) -- (P3) -- (Q34) -- (P4) -- cycle;
+
+}
+
+\usepackage[absolute]{textpos} 	% Absolute Textposition ermöglichen
+
+\begin{document}
+	\pagenumbering{gobble}
+	\begin{textblock}{3}(-0.1,0.1)
+            \begin{tikzpicture}
+                \def\xs{10cm}
+                \def\ys{12.7cm}
+                \def\xoff{-4cm}
+                \begin{scope}[rotate=90]
+                    \drawOctaNet
+                \end{scope}
+
+                \begin{scope}[xshift=\xs, rotate=90]
+                    \drawOctaNet
+                \end{scope}
+
+                \begin{scope}[xshift=\xoff, yshift=\ys, rotate=-90]
+                    \drawOctaNet
+                \end{scope}
+
+                \begin{scope}[xshift=\xs+\xoff, yshift=\ys, rotate=-90]
+                    \drawOctaNet
+                \end{scope}
+            \end{tikzpicture}
+	\end{textblock}
+\end{document}
