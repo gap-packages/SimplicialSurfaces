@@ -38,21 +38,32 @@
 
     \draw[\colC,\width] (P4) -- (P3) -- (P2) -- (P1) -- (P0); % inner
 
-    \draw[\width] (P0) -- (P4);
+    \draw (P0) -- (P4);
     \draw (Z) -- ($(P0)!0.5!(P4)$);
 
+    % Edge labels
+    \def\bd{0.2} % barycentric distance
+    \node[edgeNode,\colA,rotate=60] at (barycentric cs:Q34=1,P4=1,P3=\bd) {8};
+    \node[edgeNode,\colB,rotate=120] at (barycentric cs:Q34=1,P3=1,P4=\bd) {6};
+    \node[edgeNode,\colA,rotate=120] at (barycentric cs:P4=1,Z=1,P3=\bd) {4};
+    \node[edgeNode,\colB] at (barycentric cs:P3=1,Q23=1,P2=\bd) {7};
+    \node[edgeNode,\colA,rotate=60] at (barycentric cs:P2=1,Q23=1,P3=\bd) {5};
+    \node[edgeNode,\colA,rotate=-60] at (barycentric cs:P2=1,Q12=1,P1=\bd) {6};
+    \node[edgeNode,\colB] at (barycentric cs:P1=1,Q12=1,P2=\bd) {8};
+    \node[edgeNode,\colA,rotate=-120] at (barycentric cs:Z=1,P0=1,P1=\bd) {3};
+    \node[edgeNode,\colA,rotate=-60] at (barycentric cs:P0=1,Q01=1,P1=\bd) {7};
+    \node[edgeNode,\colB,rotate=-120] at (barycentric cs:P1=1,Q01=1,P0=\bd) {5};
+    
+
     % Face names
-    \node[transform shape, rotate=-30] at (barycentric cs:Z=1,P1=1,P2=1) {1};
-    \node[transform shape, rotate=-30] at (barycentric cs:P1=1,P2=1,Q12=1) {5};
-    \node[transform shape, rotate=30] at (barycentric cs:Z=1,P2=1,P3=1) {2};
-    \node[transform shape, rotate=30] at (barycentric cs:P2=1,P3=1,Q23=1) {6};
-    \node[transform shape, rotate=90] at (barycentric cs:Z=1,P3=1,P4=1) {3};
-    \node[transform shape, rotate=90] at (barycentric cs:P3=1,P4=1,Q34=1) {7};
-    \node[transform shape, rotate=-90] at (barycentric cs:Z=1,P0=1,P1=1) {4};
-    \node[transform shape, rotate=-90] at (barycentric cs:P0=1,P1=1,Q01=1) {8};
-
-
-%    \draw[very thin] (P0) -- (Q01) -- (P1) -- (Q12) -- (P2) -- (Q23) -- (P3) -- (Q34) -- (P4) -- cycle;
+    \node[stdNode, rotate=-30] at (barycentric cs:Z=1,P1=1,P2=1) {1};
+    \node[stdNode, rotate=-30] at (barycentric cs:P1=1,P2=1,Q12=1) {5};
+    \node[stdNode, rotate=30] at (barycentric cs:Z=1,P2=1,P3=1) {2};
+    \node[stdNode, rotate=30] at (barycentric cs:P2=1,P3=1,Q23=1) {6};
+    \node[stdNode, rotate=90] at (barycentric cs:Z=1,P3=1,P4=1) {3};
+    \node[stdNode, rotate=90] at (barycentric cs:P3=1,P4=1,Q34=1) {7};
+    \node[stdNode, rotate=-90] at (barycentric cs:Z=1,P0=1,P1=1) {4};
+    \node[stdNode, rotate=-90] at (barycentric cs:P0=1,P1=1,Q01=1) {8};
 
 }
 
@@ -61,7 +72,7 @@
 \begin{document}
 	\pagenumbering{gobble}
 	\begin{textblock}{3}(-0.1,0.1)
-            \begin{tikzpicture}
+            \begin{tikzpicture}[stdNode/.style={transform shape, scale=2}, edgeNode/.style={transform shape}]
                 \def\xs{10cm}
                 \def\ys{12.7cm}
                 \def\xoff{-4cm}
