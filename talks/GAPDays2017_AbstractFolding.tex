@@ -88,5 +88,36 @@
 \end{frame}
 
 
+\begin{frame}{Important properties of folding}
+    \begin{itemize}
+        \item<2-> The class of surfaces is not closed under folding
+        \item<3-> Folding can be undone by \textit{unfolding}
+        \item<4-> Identification of two faces might force identification of two other faces
+            \begin{itemize}
+                \item 
+            \end{itemize}
+    \end{itemize}
+
+    \begin{center}
+        \begin{tikzpicture}
+            % First identification
+            \only<5-6>{
+                \def\Hdist{1.5}
+		\def\Vdist{1}
+			
+		\coordinate (A) at (-\Hdist,0);
+		\coordinate (B) at (0,\Vdist);
+		\coordinate (C) at (\Hdist,0);
+		\coordinate (D) at (0,-\Vdist);
+		\foreach \p in {A,B,C,D}
+		    \fill [black] (\p) circle (1.5pt);
+		\draw [<->,red,thick] ($(B)!0.5!(A)$) -- ($(D)!0.5!(A)$);
+                \uncover<6>{
+                    \draw[<->,red,thick] ($(B)!0.5!(C)$) -- ($(D)!0.5!(C)$);
+                }
+            }
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
 
 
