@@ -179,11 +179,84 @@
             \end{itemize}
         \item<4-> The folding steps
             \begin{itemize}
-                \item<8-> Explain ``unordered folding" (e.\,g. covering)
-                \item<9-> Modify to include face order relations
+                \item<8-> Only two faces at a time
+                \item<9-> Explain ``unordered folding" (e.\,g. covering)
+                \item<10-> Modify to include face order relations
             \end{itemize}
     \end{enumerate}
 \end{frame}
+
+
+\begin{frame}{Unordered Folding (Covering)}
+    \begin{center}
+        \begin{tikzpicture}
+            \def\xOff{1.8}
+            \def\yOff{1.5}
+
+            %     B
+            %   / | \
+            % A   |   C
+            %   \ | /
+            %     D
+            \coordinate (A) at (-\xOff,0);
+            \coordinate (B) at (0,\yOff);
+            \coordinate (C) at (\xOff,0);
+            \coordinate (D) at (0,-\yOff);
+
+            \uncover<3->{
+                \filldraw[face] (A) -- (B) -- (D) -- cycle;
+                \node at (barycentric cs:A=1,B=1,D=1) {$I$};
+                \filldraw[face] (B) -- (C) -- (D) -- cycle;
+                \node at (barycentric cs:B=1,C=1,D=1) {$II$};
+
+                \foreach \p in {A,B,C,D}
+                    \fill[\vertexColor] (\p) circle (1.5pt);
+            }
+
+            \uncover<5-7|handout:1>{
+                \draw[red,thick,->] (barycentric cs:A=1,B=2,D=2) to[bend left] (barycentric cs:B=2,C=1,D=2);
+                \draw[red,thick,->] ($(A)!0.5!(B)$) to[bend right] ($(B)!0.5!(C)$);
+                \draw[red,thick,->] ($(A)!0.5!(D)$) to[bend left] ($(D)!0.5!(C)$);
+            }
+        \end{tikzpicture}
+    \end{center}
+
+    \begin{overprint}
+        \onslide<1-7|handout:1>
+        
+        \uncover<2-7>{
+            Why do we need more than a polygonal complex?
+        }
+
+        \uncover<4-7>{
+            Naive folding definition: surjective map that respects incidence
+        }
+
+        \uncover<6-7>{
+            Problem: Can't be unfolded
+        }
+
+        \uncover<7>{
+            $\Rightarrow$ Folding state should not forget original structure
+        }
+
+
+        \onslide<8-14|handout:2>
+
+        \uncover<8-14>{
+            Represent folding by equivalence relation
+            \begin{itemize}
+                \item<9-14> Separate relation on vertices, edges and faces
+                \item<10-14> Two elements are equivalent if they are folded together
+                \item<11-14> If two edges are equivalent, 
+                    \uncover<12-14>{then their vertices have to be as well}
+                    \uncover<13-14>{(likewise for faces)}
+                \item<13>[$\Rightarrow$] Unordered folding is coarsening of equivalence relation
+            \end{itemize}
+        }
+    \end{overprint}
+\end{frame}
+
 
 
 
