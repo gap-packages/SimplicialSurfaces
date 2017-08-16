@@ -241,22 +241,145 @@
         }
 
 
-        \onslide<8-14|handout:2>
+        \onslide<8-16|handout:2>
 
-        \uncover<8-14>{
+        \uncover<8-16>{
             Represent folding by equivalence relation
             \begin{itemize}
-                \item<9-14> Separate relation on vertices, edges and faces
-                \item<10-14> Two elements are equivalent if they are folded together
-                \item<11-14> If two edges are equivalent, 
-                    \uncover<12-14>{then their vertices have to be as well}
-                    \uncover<13-14>{(likewise for faces)}
-                \item<13>[$\Rightarrow$] Unordered folding is coarsening of equivalence relation
+                \item<9-> Separate relation on vertices, edges and faces
+                \item<10-> Two elements are equivalent if they are folded together
+                \item<11-> If two edges are equivalent, 
+                    \uncover<12->{then their vertices have to be as well}
+                    \uncover<13->{(likewise for faces)}
+                \item<14-> The vertices of an edge are not equivalent
+                    \uncover<15->{(likewise for faces)}
+                \item<16->[$\Rightarrow$] Unordered folding is coarsening of equivalence relation
             \end{itemize}
         }
     \end{overprint}
 \end{frame}
 
+
+\begin{frame}{How does folding work?}
+    \begin{enumerate}
+        \item<2-> Choose two faces that are not folded together
+        \item<4-> Choose how to identify them \uncover<6->{(like $I \sim II$ and $1 \sim 4$)}
+        \item<7-> Add those pairs to the equivalence relation
+    \end{enumerate}
+
+    \begin{center}
+        \begin{tikzpicture}
+            \def\xOff{1.8}
+            \def\yOff{1.5}
+
+            %     B
+            %   / | \
+            % A   |   C
+            %   \ | /
+            %     D
+            \uncover<3->{
+                \coordinate[label={[vertex]left:1}] (A) at (-\xOff,0);
+                \coordinate[label={[vertex]above:2}] (B) at (0,\yOff);
+                \coordinate[label={[vertex]right:4}] (C) at (\xOff,0);
+                \coordinate[label={[vertex]below:3}] (D) at (0,-\yOff);
+
+                \filldraw[face] (A) -- (B) -- (D) -- cycle;
+                \node at (barycentric cs:A=1,B=1,D=1) {$I$};
+                \filldraw[face] (B) -- (C) -- (D) -- cycle;
+                \node at (barycentric cs:B=1,C=1,D=1) {$II$};
+
+                \foreach \p in {A,B,C,D}
+                    \fill[\vertexColor] (\p) circle (1.5pt);
+            }
+
+            \uncover<5->{
+                \draw[red,thick,->] (barycentric cs:A=1,B=2,D=2) to[bend left] (barycentric cs:B=2,C=1,D=2);
+                \draw[red,thick,->] ($(A)!0.5!(B)$) to[bend right] ($(B)!0.5!(C)$);
+                \draw[red,thick,->] ($(A)!0.5!(D)$) to[bend left] ($(D)!0.5!(C)$);
+            }
+        \end{tikzpicture}
+    \end{center}
+
+    \uncover<8->{Restriction:}
+
+    \uncover<9->{Two vertices in an edge can't be identified}
+    \uncover<10->{(slightly generalized)}
+\end{frame}
+
+
+\begin{frame}{Restrictions of unordered folding}
+    \pause
+    We can't work with ordering of faces:
+    \pause
+    \begin{center}
+        \begin{tikzpicture}
+            \def\len{1.5}
+            \def\xOff{0.5}
+            \def\nOff{-0.3}
+            \def\wid{thick}
+
+            \draw[\colA,\wid] (0,0) -- (0,\len);
+            \node[\colA] at (0,\nOff) {A};
+
+            \draw[\colB,\wid] (\xOff,0) -- (\xOff,\len);
+            \node[\colB] at (\xOff,\nOff) {B};
+
+            \draw[\colC,\wid] (2*\xOff,0) -- (2*\xOff,\len);
+            \node[\colC] at (2*\xOff,\nOff) {C};
+
+
+            % Second lines
+            \begin{scope}[xshift=4cm]
+                \draw[\colA,\wid] (0,0) -- (0,\len);
+                \node[\colA] at (0,\nOff) {A};
+
+                \draw[\colC,\wid] (\xOff,0) -- (\xOff,\len);
+                \node[\colC] at (\xOff,\nOff) {C};
+
+                \draw[\colB,\wid] (2*\xOff,0) -- (2*\xOff,\len);
+                \node[\colB] at (2*\xOff,\nOff) {B};
+            \end{scope}
+        \end{tikzpicture}
+    \end{center}
+
+    \pause
+    Adding a linear order on each face equivalence class\pause is not enough:
+    \pause
+    \begin{center}
+        \begin{tikzpicture}
+            \def\len{1}
+            \def\nScale{1.3}
+            \def\wid{thick}
+
+            \draw[\colA,\wid] (0,0) -- (210:\len);
+            \node[\colA] at (210:\nScale*\len) {A};
+
+            \draw[\colB,\wid] (0,0) -- (-30:\len);
+            \node[\colB] at (-30:\nScale*\len) {B};
+
+            \draw[\colC,\wid] (0,0) -- (90:\len);
+            \node[\colC] at (90:\nScale*\len) {C};
+
+            \fill (0,0) circle (1.5pt);
+
+            \begin{scope}[xshift=4cm]
+                \draw[\colA,\wid] (0,0) -- (210:\len);
+                \node[\colA] at (210:\nScale*\len) {A};
+
+                \draw[\colC,\wid] (0,0) -- (-30:\len);
+                \node[\colC] at (-30:\nScale*\len) {C};
+
+                \draw[\colB,\wid] (0,0) -- (90:\len);
+                \node[\colB] at (90:\nScale*\len) {B};
+
+                \fill (0,0) circle (1.5pt);
+            \end{scope}
+        \end{tikzpicture}
+    \end{center}
+
+    \pause
+    $\leadsto$ define order of faces around edges
+\end{frame}
 
 
 
