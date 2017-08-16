@@ -26,7 +26,7 @@
 \end{frame}
 
 
-\begin{frame}{Embeddings}
+\begin{frame}{Why are embeddings hard?}
     \pause
     Ideally, we would like to have embeddings.
     
@@ -57,50 +57,36 @@
 
 %TODO what about forced folding? Or closedness of surfaces under folding? RETHINK this
 
-\begin{frame}{What is folding without embedding?}
+\begin{frame}{Is there an alternative?}
     \pause
     Central idea:
     \begin{itemize}
         \pause
-        \item Don't model folding process
+        \item Don't model folding process (needs embedding)
         \pause
-        \item Describe result of folding process
+        \item Describe starting and final folding state
+            \begin{itemize}
+                \pause
+                \item Only consider changes in the topology
+                    \pause (like identification of faces)
+                \pause
+                \item allows abstraction from embedding
+            \end{itemize}
     \end{itemize}
 
-    \pause
-    $\leadsto$ Only consider changes in the topology 
-    \pause (like identification of faces)
-    \newline
+    % Use pentagon-flippy to illustrate incidence rigidity
 
     \pause
-    Solution: Incidence geometry (polygonal complex/surface)
+    $\leadsto$ Incidence geometry (polygonal complex/surface)
+
     \begin{itemize}
         \pause
-        \item Ignores angles and lengths (mostly)
+        \item Captures some folding restrictions \pause (rigidity of tetrahedron)
         \pause
-        \item Keeps folding restrictions (tetrahedron is rigid)
-        \pause
-        \item Allows an abstract definition of folding \pause (still needs several steps)
+        \item Still needs a lot of refinement
     \end{itemize}
-
 \end{frame}
 
 
-\begin{frame}{How to define folding?}
-    \pause
-    First idea: Incidence--respecting, surjective map
-
-    \pause
-    Problem: Unfolding is not defined
-
-    \pause
-    $\Rightarrow$ Different solution:
-    \begin{itemize}
-        \pause
-        \item Keep the original polygonal complex fixed
-        \pause
-        \item Define an equivalence relation ``is folded together"
-    \end{itemize}
-\end{frame}
 
 
