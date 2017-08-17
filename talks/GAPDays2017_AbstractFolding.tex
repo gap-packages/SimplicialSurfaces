@@ -380,7 +380,49 @@
 
     \pause
     $\leadsto$ define order of faces around edges
+    \pause
+    (we will skip the details)
 \end{frame}
+
+
+\begin{frame}{Folding complex}
+    \pause
+    \begin{defi}
+        A \textbf{folding complex}
+        \pause
+        is a polygonal complex together with
+        \begin{enumerate}
+            \pause
+            \item An equivalence relation on vertices, edges and faces
+                \pause (``is folded together")
+            \pause
+            \item A linear ordering on each face equivalence class
+            \pause
+            \item A cyclical ordering of the faces around each edge equivalence class
+        \end{enumerate}
+        \pause
+        such that the orderings are compatible
+        \pause
+        (in an appropriate sense).
+    \end{defi}
+
+    \pause
+    To identify faces with each other, we have to combine those orderings.
+    \begin{itemize}
+        \pause
+        \item linear orderings get concatenated
+        \pause
+        \item cyclical orderings are opened at one point
+            \pause
+            and combined
+        \pause
+        \item[!!] compatibility is not easily transfered,
+            \pause
+            but can be calculated
+    \end{itemize}
+
+\end{frame}
+
 
 
 
