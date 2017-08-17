@@ -424,5 +424,67 @@
 \end{frame}
 
 
+\begin{frame}{Changed definition of folding}
+    \begin{overprint}
+        \only<2-4|handout:0>{Before (no ordering):}
+        \only<5-> Folding with ordering:
+    \end{overprint}
+
+    \begin{enumerate}
+        \item<3-> Choose two faces that are not folded together
+        \item<4-> Choose how to identify them and extend the equivalence relation
+        \item<9-> Choose the sides of the faces that will meet
+            \uncover<10-> and modify the orderings
+    \end{enumerate}
+
+    \uncover<6->{
+        $\leadsto$ Each face has two sides
+    }
+
+    \begin{center}
+        \begin{tikzpicture}
+            \def\len{1.5}
+            \def\wA{20}
+            \def\wB{160}
+            \def\nOff{10}
+
+            \uncover<7->{
+                \draw[\colA] (0,0) -- (\wA:\len);
+                \node[\colA] at (\wA+\nOff:\len) {$A^+$};
+                \node[\colA] at (\wA-\nOff:\len) {$A^-$};
+
+                \draw[\colB] (0,0) -- (\wB:\len);
+                \node[\colB] at (\wB+\nOff:\len) {$B^+$};
+                \node[\colB] at (\wB-\nOff:\len) {$B^-$};
+
+                \fill (0,0) circle (1.5pt);
+            }
+
+            \uncover<8->{
+                \draw[<->] (\wB-\nOff: 0.5*\len) to[bend left] (\wA+\nOff:0.5*\len);
+            }
+
+            \begin{scope}[xshift=4cm]
+                \uncover<8->{
+                    \def\wA{80}
+                    \def\wB{100}
+                    
+                    \draw[\colA] (0,0) -- (\wA:\len);
+                    \node[\colA] at (\wA-\nOff:\len) {$A^-$};
+
+                    \draw[\colB] (0,0) -- (\wB:\len);
+                    \node[\colB] at (\wB+\nOff:\len) {$B^+$};
+
+                    \fill (0,0) circle (1.5pt);
+                }
+            \end{scope}
+
+        \end{tikzpicture}
+    \end{center}
+
+
+    
+\end{frame}
+
 
 
