@@ -1,0 +1,55 @@
+\documentclass[11pt]{scrartcl}
+
+\usepackage{pgf, tikz}
+\usetikzlibrary{arrows, calc}
+
+
+\newcommand{\drawFourRing}{
+    % Use parameter \len, \win
+    \coordinate (Z) at (0,0);
+    \foreach \i in {0,1,2,3,4}{
+        \coordinate (P\i) at (\i*\win:\len);
+        \draw (Z) -- (P\i);
+    }
+    \foreach \i/\j in {0/1,1/2,2/3,3/4}
+        \draw (P\i) -- (P\j);
+}
+
+\usepackage[absolute]{textpos} 	% Absolute Textposition ermöglichen
+
+\begin{document}
+	\pagenumbering{gobble}
+                
+        % General picture parameters
+        \def\len{5cm}
+        \def\win{80}
+	
+        \begin{textblock}{3}(-0.1,0.1)
+            \begin{tikzpicture}
+                \foreach \x in {0,1}{
+                    \foreach \y in {0,1,2}{
+                        \begin{scope}[xshift=\x*10.5cm, yshift=\y*9cm,rotate=120]
+                            \drawFourRing
+                        \end{scope}
+                    }
+                }
+            \end{tikzpicture}
+	\end{textblock}
+
+        \null\newpage
+        \begin{textblock}{3}(-0.23,0.05)
+            \begin{tikzpicture}
+                \foreach \x in {0,...,4}{
+                    \foreach \y in {0,...,6}{
+                        \begin{scope}[xshift=\x*\len, yshift={\y*\len*sin(\win)}]
+                            \coordinate (A) at (0,0);
+                            \coordinate (B) at (0:\len);
+                            \coordinate (C) at (-\win:\len);
+
+                            \draw (A) -- (B) -- (C) -- cycle;
+                        \end{scope}
+                    }
+                }
+            \end{tikzpicture}
+        \end{textblock}
+\end{document}
