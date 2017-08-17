@@ -19,7 +19,50 @@
 
 \begin{document}
 	\pagenumbering{gobble}
+
+        % Experiment with sizes
+        \begin{textblock}{3}(-0.2,0.1)
+            \begin{tikzpicture}
+                \begin{scope}[xshift=-1cm,rotate=-30]
+                    \def\len{5}
+                    \def\win{80}
+                    \drawFourRing
+                \end{scope}
+
+                \begin{scope}[xshift=9cm,rotate=-30]
+                    \def\len{6}
+                    \def\win{80}
+                    \drawFourRing
+                \end{scope}
                 
+                \begin{scope}[yshift=9cm,rotate=-40]
+                    \def\len{6}
+                    \def\win{85}
+                    \drawFourRing
+                \end{scope}
+
+                \begin{scope}[xshift=10.5cm,yshift=9cm,rotate=-40]
+                    \def\len{5}
+                    \def\win{85}
+                    \drawFourRing
+                \end{scope}
+
+                \begin{scope}[yshift=19cm,rotate=-30]
+                    \def\len{5.5}
+                    \def\win{80}
+                    \drawFourRing
+                \end{scope}
+
+                \begin{scope}[xshift=10cm,yshift=18cm,rotate=-40]
+                    \def\len{5.5}
+                    \def\win{85}
+                    \drawFourRing
+                \end{scope}
+            \end{tikzpicture}
+        \end{textblock}
+
+
+        \null\newpage
         % General picture parameters
         \def\len{5cm}
         \def\win{80}
@@ -28,7 +71,7 @@
             \begin{tikzpicture}
                 \foreach \x in {0,1}{
                     \foreach \y in {0,1,2}{
-                        \begin{scope}[xshift=\x*10.5cm, yshift=\y*9cm,rotate=120]
+                        \begin{scope}[xshift=\x*10.5cm, yshift=\y*9cm,rotate=-30]
                             \drawFourRing
                         \end{scope}
                     }
