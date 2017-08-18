@@ -492,5 +492,69 @@
 \end{frame}
 
 
+\begin{frame}{Structure of multiple foldings}
+    \uncover<2->{
+        With folding plans we can perform the same folding in different folding complexes
+    }
+    \begin{center}
+        \begin{tikzpicture}
+            \def\len{1.5}
+            \def\off{10}
+
+            %  B
+            %   \
+            %    Z -- C -- D
+            %   /
+            %  A
+            \begin{scope}
+                \coordinate (Z) at (0,0);
+                \coordinate (A) at (-120:\len);
+                \coordinate (B) at (120:\len);
+                \coordinate (C) at (\len,0);
+                \coordinate (D) at (2*\len,0);
+
+                \uncover<3->{
+                    \foreach \p/\q in {Z/A,Z/B,Z/C,C/D}
+                        \draw (\p) -- (\q);
+                    \foreach \p in {Z,A,B,C,D}
+                        \fill[\vertexColor] (\p) circle (\vSize);
+                }
+                \uncover<5->{
+                    \draw[red,<->] (120+\off:0.5*\len) to[bend right] (-120-\off:0.5*\len);
+                }
+            \end{scope}
+
+            \begin{scope}[xshift=7cm]
+                \def\pOff{0.05}
+
+                \coordinate (Z) at (0,0);
+                \coordinate (A) at (-120:\len);
+                \coordinate (B) at (120:\len);
+                \coordinate (C) at (\len,0);
+                \coordinate (D) at (0.2*\len,\pOff);
+
+                \uncover<4->{
+                    \draw (A) -- (Z) -- (B);
+                    \draw ($(Z)+(0,-\pOff)$) -- ($(C)+(0,-\pOff)$);
+                    \draw ($(C)+(0,\pOff)$) -- (D);
+                    \foreach \p in {A,B,Z,C,D}
+                        \fill[\vertexColor] (\p) circle (\vSize);
+                }
+                \uncover<6->{
+                    \draw[red,<->] (120+\off:0.5*\len) to[bend right] (-120-\off:0.5*\len);
+                }
+            \end{scope}
+        \end{tikzpicture}
+    \end{center}
+
+    \uncover<7->{
+        $\leadsto$ more structure on the set of possible foldings
+    }
+\end{frame}
+
+
+\begin{frame}{Drawback of folding plans}
+
+\end{frame}
 
 
