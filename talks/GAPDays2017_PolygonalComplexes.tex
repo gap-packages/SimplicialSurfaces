@@ -23,7 +23,7 @@
         \pause
         \item if often unknown for an abstractly constructed surface
         \pause
-        \item is different from \textit{intrinsic structure}
+        \item is mostly independent from \textit{intrinsic structure}
         \pause
         \item[$\Rightarrow$] lengths and angles are not important
         \pause
@@ -287,7 +287,7 @@
     \pause
         \begin{center}
         \begin{tikzpicture}[vertexNode/.style={circle,
-            fill=magenta!50!white}, node distance=0.5]
+            fill=\colorVertexNode}, node distance=0.5]
             % Edge nodes
             \node[edgeBackground] (E6) {6};
             \node[edgeBackground] (E8) [right=of E6] {8};
@@ -297,10 +297,10 @@
             \node[edgeBackground] (E13) [right=of E12] {13};
 
             % Face nodes
-            \node[fill=yellow] (F1) [above=of E8] {$I$}
+            \node[fill=\colorFace] (F1) [above=of E8] {$I$}
                 edge (E6) edge (E8) edge (E9);
             \node (Help) at ($(E10)!0.5!(E12)$) {};
-            \node[fill=yellow] (F4) [above=of Help] {$IV$}
+            \node[fill=\colorFace] (F4) [above=of Help] {$IV$}
                 edge (E9) edge (E10) edge (E12) edge (E13);
 
             % Vertex nodes
@@ -379,7 +379,7 @@
                 
                 \filldraw[face] (A) -- (B) -- (C) -- cycle;
                 \filldraw[face] (B) -- (C) -- (D) -- cycle;
-                \filldraw[faceAlt] (D) -- (F) -- (E) -- cycle;
+                \filldraw[face] (D) -- (F) -- (E) -- cycle;
                 
                 \draw[dashed] (A) -- (D);
                 \draw[dashed] (E) -- (G);

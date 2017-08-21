@@ -1,0 +1,55 @@
+% This document contains the TikZ-header for all our LaTeX-computations.
+% It especially contains all global graphic parameters.
+
+\usepackage{amsmath, amssymb, amsfonts} % Standard Math-stuff
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+
+
+% Now we define the global styles
+
+% We start by defining the default colours of vertices, edges and faces
+\newcommand{\vertexColor}{\colorVertex}
+\newcommand{\edgeColor}{\colorEdge}
+\newcommand{\faceColor}{\colorFace}
+% If we want to shade a surface with two colours, we need an alternative
+\newcommand{\faceColorAlt}{cyan}
+
+\newcommand{\vSize}{2pt}    % How big are the vertex circles (if drawn)?
+
+
+\tikzset{vertex/.style = {\vertexColor}}
+\tikzset{edge/.style = {\edgeColor, thick}}
+\tikzset{edgeBackground/.style = {fill=\colorEdgeBack}}
+\tikzset{face/.style = {fill=\faceColor, draw=\edgeColor}}
+% The face style for the alternative colouring. The colour changes if
+% \differentColors is defined.
+\tikzset{faceAlt/.style = 
+    {fill=\ifdefined\differentColors \faceColorAlt \else \faceColor \fi, 
+    draw=\edgeColor}}
+
+
+% Custom command to draw an edge between two points
+% First two parameters are the names of the points (no brackets)
+% Third parameter is the name of the edge
+\newcommand{\drawEdge}[3]{
+    \node[edgeBackground] at ($1/2*(#1)+1/2*(#2)$) {#3};
+}
+
+
+% Sometimes we want to implement different behaviour for the generated 
+% HTML-pictures (for example, shading is not supported in HTML).
+% For that we define a macro to check whether we run the code with
+% htlatex. The code comes from 
+% https://tex.stackexchange.com/questions/93852/what-is-the-correct-way-to-check-for-latex-pdflatex-and-html-in-the-same-latex
+\makeatletter
+\edef\texforht{TT\noexpand\fi
+  \@ifpackageloaded{tex4ht}
+    {\noexpand\iftrue}
+    {\noexpand\iffalse}}
+\makeatother
+
+
+\usepackage{hyperref}
