@@ -4,6 +4,7 @@
 \begin{frame}{What kind of folding?}
     \pause
     There are many different kinds of folding (e.\,g. Origami)
+
     \pause
     Here:
     \begin{itemize}
@@ -20,7 +21,14 @@
 
     \pause
     \begin{center}
-        \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+        \only<1-7>{
+            \phantom{ 
+                \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+            }
+        }
+        \only<8>{
+            \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+        }
     \end{center}
 
 \end{frame}
