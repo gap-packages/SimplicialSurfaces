@@ -1,0 +1,51 @@
+\documentclass{article}
+
+\input{ColoursGAPDays.tex}
+\input{TikZHeader.tex}
+
+\begin{document}
+
+\begin{center}
+    \begin{tikzpicture}
+        \coordinate[label={[\vertexColor]left:2}] (A) at (0,0);
+        \coordinate (B) at (1,-1);
+        \coordinate (C) at (1,1);
+
+        \filldraw[face] (A) -- (B) -- (C) -- cycle;
+        \drawEdge{A}{B}{e}
+        \foreach \i in {A,B,C}
+            \fill[vertex] (\i) circle (\vSize);
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \node[circle,fill=\colorVertexNode] (A) {2};
+        \node[fill=\colorEdgeBack] (B) [below=of A] {e} edge (A);
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (2,0);
+        \coordinate (C) at (1,2);
+        \draw[\colorEdgeA,thick] (A) -- (B);
+        \draw[\colorEdgeB,thick] (B) -- (C);
+        \draw[\colorEdgeC,thick] (C) -- (A);
+
+        \draw[\colorRed,thick,<->] ($(A)!0.5!(C)$) -- ($(B)!0.5!(C)$);
+        \draw[\colorBlue,thick] (B) -- ($(B)+(2,1)$);
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \node (Top) {};
+        \node (Mid) [below=of Top] {} edge[\colorGraphA,thick] (Top);
+        \node (MidLeft) [left=of Mid] {} edge[\colorGraphB,thick] (Top);
+        \node (MidRight) [right=of Mid] {} edge[\colorGraphC,thick] (Top);
+
+        \node (Down) [below=of Mid] {} edge[\colorGraphDelta,thick] (MidLeft) 
+                edge[thick,\colorGraphBeta] (MidRight);
+        \node (DownLeft) [below left=of MidLeft] {} edge[thick,\colorGraphAlpha] (MidLeft);
+        \node (DownRight) [below right=of MidRight] {} edge[thick,\colorGraphGamma] (MidRight);
+    \end{tikzpicture}
+
+\end{center}
+
+\end{document}
