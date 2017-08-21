@@ -58,7 +58,14 @@
 
     \pause
     \begin{center}
-        \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+        \only<1-8>{
+            \phantom{
+                \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+            }
+        }
+        \only<9>{
+            \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+        }
     \end{center}
 
 \end{frame}
