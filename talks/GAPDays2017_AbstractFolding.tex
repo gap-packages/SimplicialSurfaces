@@ -553,6 +553,134 @@
 \end{frame}
 
 
+\begin{frame}{Folding graph}
+    \begin{itemize}
+        \item<2->Vertices are folding complexes (modelling folding states)
+        \item<3->Edges are folding plans connecting two folding complexes
+    \end{itemize}
+
+    \begin{center}
+        \begin{tikzpicture}
+            \def\len{1.2}
+            \def\off{10}
+
+            \coordinate (Z) at (0,0);
+            \foreach \i in {0,1,2}
+                \coordinate (P\i) at (120*\i:\len);
+
+            \uncover<4->{
+                \foreach \i in {0,1,2}{
+                    \draw (Z) -- (P\i);
+                    \fill[\vertexColor] (P\i) circle (1.5pt);
+                }
+            }
+
+            \def\fgA{black}
+            \def\fgB{blue}
+            \def\fgC{red}
+            \uncover<5->{
+                \draw[\fgA,<->] (\off:0.5*\len) to[bend right] (120-\off:0.5*\len); 
+                \draw[\fgB,<->] (120+\off:0.5*\len) to[bend right] (240-\off:0.5*\len);
+                \draw[\fgC,<->] (-120+\off:0.5*\len) to[bend right] (-\off:0.5*\len);
+            }
+
+            % Second part
+            \begin{scope}[xshift=5cm]
+                \coordinate (Top) at (0,\len);
+                \node (Mid) [below=of Top] {};
+                \node (MidLeft) [left=of Mid] {};
+                \node (MidRight) [right=of Mid] {};
+                \node (DownLeft) [below=of MidLeft] {};
+                \node (Down) [below=of Mid] {};
+                \node (DownRight) [below=of MidRight] {};
+
+                \uncover<6->{
+                    \draw[\fgA] (Top) -- (MidLeft);
+                    \draw[\fgB] (Top) -- (Mid);
+                    \draw[\fgC] (Top) -- (MidRight);
+                }
+                \uncover<7->{
+                    \draw[\fgB] (MidLeft) -- (DownLeft);
+                    \draw[\fgC] (MidLeft) -- (Down);
+                }
+                \uncover<8->{
+                    \draw[\fgA] (Mid) -- (DownLeft);
+                    \draw[\fgC] (Mid) -- (DownRight);
+                    \draw[\fgA] (MidRight) -- (Down);
+                    \draw[\fgB] (MidRight) -- (DownRight);
+                }
+            \end{scope}
+        \end{tikzpicture}
+    \end{center}
+
+    % Second diagram
+    \begin{center}
+        \begin{tikzpicture}
+            \def\fgA{red}
+            \def\fgB{orange}
+            \def\fgC{blue}
+            \def\fgD{cyan}
+
+            % First picture
+            \def\len{1.2}
+            \def\off{10}
+            \def\scal{0.4}
+
+            \foreach \i in {0,1,2,3}
+                \coordinate (P\i) at (\i*\len,0);
+
+            \uncover<9->{
+                \draw (P0) -- (P1) -- (P2) -- (P3);
+                \foreach \i in {0,1,2,3}
+                    \fill[\vertexColor] (P\i) circle (1.5pt);
+            }
+
+            \uncover<10->{
+                \draw[\fgA,<->] ($(P1)+(180-\off:\scal*\len)$) to[bend left] ($(P1)+(\off:\scal*\len)$);
+                \draw[\fgB,<->] ($(P1)+(180+\off:\scal*\len)$) to[bend right] ($(P1)+(-\off:\scal*\len)$);
+                \draw[\fgC,<->] ($(P2)+(180-\off:\scal*\len)$) to[bend left] ($(P2)+(\off:\scal*\len)$);
+                \draw[\fgD,<->] ($(P2)+(180+\off:\scal*\len)$) to[bend right] ($(P2)+(-\off:\scal*\len)$);
+            }
+
+            \begin{scope}[xshift=6cm]
+                \coordinate (B1) at (-\len,-\len);
+                \foreach \i/\j in {1/2,2/3,3/4,4/5,5/6}{
+                    \node (B\j) [right=of B\i] {};
+                    \coordinate (H\i\j) at ($(B\i)!0.5!(B\j)$);
+                    \node (M\i\j) [above=of H\i\j] {};
+                }
+
+                \node (Top) [above=of M34] {};
+
+                \uncover<11->{
+                    \draw[\fgA] (Top) -- (M12);
+                    \draw[\fgB] (Top) -- (M45);
+                    \draw[\fgC] (Top) -- (M56);
+                    \draw[\fgD] (Top) -- (M23);
+                }
+
+                \uncover<12->{
+                    \draw[\fgD] (B2) -- (M12);
+                    \draw[\fgA] (B2) -- (M23);
+                    \draw[\fgB] (B5) -- (M56);
+                    \draw[\fgC] (B5) -- (M45);
+                }
+
+                \uncover<13->{
+                    \draw[\fgC,dashed] (B1) -- (M12);
+                }
+
+                \uncover<14->{
+                    \draw[\fgB,dashed] (B3) -- (M23);
+                    \draw[\fgD,dashed] (B4) -- (M45);
+                    \draw[\fgA,dashed] (B6) -- (M56);
+                }
+            \end{scope}
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
 \begin{frame}{Drawback of folding plans}
     \uncover<2->{
         Some foldings that ``should" be the same, aren't:
