@@ -70,7 +70,6 @@
 
 \end{frame}
 
-%TODO what about forced folding? Or closedness of surfaces under folding? RETHINK this
 
 \begin{frame}{Is there an alternative?}
     \pause
@@ -152,13 +151,41 @@
                 \end{tikzpicture}
             }
 
-            %TODO picture of non-uniqueness:
+            % Picture of non-uniqueness:
+            \only<11-13|handout:1>{
+                \begin{tikzpicture}
+                    \def\len{2}
+                    \def\fak{0.7}
+                    \coordinate (A) at (0,0);
+                    \coordinate (B) at (\len,0);
+                    \coordinate (C) at (\len,\len);
+                    \coordinate (D) at (0,\len);
+
+                    \draw (A) -- (B) -- (C) -- (D) -- cycle;
+                    \uncover<11>{
+                        \draw[red] (A) -- (60:\fak*\len);
+                        \draw[blue] (B) -- ($(B)+(120:\fak*\len)$);
+                    }
+
+                    \draw[<->] ($(A)!0.5!(D)$) to[bend right] ($(D)!0.5!(C)$);
+
+                    \uncover<12|handout:0>{
+                        \draw[red] (A) -- (5:\fak*\len);
+                        \draw[blue] (B) -- ($(B)+(160:\fak*\len)$);
+                    }
+
+                    \uncover<13|handout:0>{
+                        \draw[red] (A) -- (20:\fak*\len);
+                        \draw[blue] (B) -- ($(B)+(175:\fak*\len)$);
+                    }
+                \end{tikzpicture}
+            }
             % 11: general picture
             % 12: First possible fold
             % 13: Second possible fold
 
             % Anomaly-picture
-            \only<15-|handout:1>{
+            \only<15-|handout:2>{
                 \begin{tikzpicture}
 		    \def\r{2}	
 		    \def\eps{0.05}
