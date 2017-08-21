@@ -117,7 +117,7 @@
 
     \begin{overlayarea}{\textwidth}{0.3\textwidth}
         \begin{center}
-            \only<5-7|handout:0>{
+            \only<5-7,14|handout:0>{
                 % First identification
                 \begin{tikzpicture}
                     \def\Hdist{1.5}
@@ -315,14 +315,14 @@
         \end{tikzpicture}
     \end{center}
 
-    \uncover<8->{Restriction:}
+    \uncover<8->{Only restriction:}
 
     \uncover<9->{Two vertices in an edge can't be identified}
     \uncover<10->{(slightly generalized)}
 \end{frame}
 
 
-\begin{frame}{Restrictions of unordered folding}
+\begin{frame}{Limitation of unordered folding}
     \pause
     We can't work with ordering of faces:
     \pause
@@ -333,11 +333,11 @@
             \def\nOff{-0.3}
             \def\wid{thick}
 
-            \draw[\colA,\wid] (0,0) -- (0,\len);
-            \node[\colA] at (0,\nOff) {A};
+            \draw[\colB,\wid] (0,0) -- (0,\len);
+            \node[\colB] at (0,\nOff) {A};
 
-            \draw[\colB,\wid] (\xOff,0) -- (\xOff,\len);
-            \node[\colB] at (\xOff,\nOff) {B};
+            \draw[\colA,\wid] (\xOff,0) -- (\xOff,\len);
+            \node[\colA] at (\xOff,\nOff) {B};
 
             \draw[\colC,\wid] (2*\xOff,0) -- (2*\xOff,\len);
             \node[\colC] at (2*\xOff,\nOff) {C};
@@ -345,14 +345,14 @@
 
             % Second lines
             \begin{scope}[xshift=4cm]
-                \draw[\colA,\wid] (0,0) -- (0,\len);
-                \node[\colA] at (0,\nOff) {A};
+                \draw[\colB,\wid] (0,0) -- (0,\len);
+                \node[\colB] at (0,\nOff) {A};
 
                 \draw[\colC,\wid] (\xOff,0) -- (\xOff,\len);
                 \node[\colC] at (\xOff,\nOff) {C};
 
-                \draw[\colB,\wid] (2*\xOff,0) -- (2*\xOff,\len);
-                \node[\colB] at (2*\xOff,\nOff) {B};
+                \draw[\colA,\wid] (2*\xOff,0) -- (2*\xOff,\len);
+                \node[\colA] at (2*\xOff,\nOff) {B};
             \end{scope}
         \end{tikzpicture}
     \end{center}
@@ -442,14 +442,14 @@
 \begin{frame}{Changed definition of folding}
     \begin{overprint}
         \only<2-4|handout:0>{Before (no ordering):}
-        \only<5-> Folding with ordering:
+        \only<5->{Folding with ordering:}
     \end{overprint}
 
     \begin{enumerate}
         \item<3-> Choose two faces that are not folded together
         \item<4-> Choose how to identify them and extend the equivalence relation
         \item<9-> Choose the sides of the faces that will meet
-            \uncover<10-> and modify the orderings
+            \uncover<10->{ and modify the orderings}
     \end{enumerate}
 
     \uncover<6->{
