@@ -465,7 +465,7 @@
 \end{frame}
 
 
-\begin{frame}{Changed definition of folding}
+\begin{frame}[fragile]{Changed definition of folding}
     \begin{overprint}
         \only<2-4|handout:0>{Before (no ordering):}
         \only<5->{Folding with ordering:}
@@ -475,7 +475,7 @@
         \item<3-> Choose two faces that are not folded together
         \item<4-> Choose how to identify them and extend the equivalence relation
         \item<9-> Choose the sides of the faces that will meet
-            \uncover<10->{ and modify the orderings}
+            \uncover<10->{and modify the orderings}
     \end{enumerate}
 
     \uncover<6->{
@@ -489,14 +489,23 @@
             \def\wB{160}
             \def\nOff{10}
 
+            % angle, colour
+            \newcommand{\plane}[2]{
+                \coordinate (Out) at (#1:\len);
+                \coordinate (Back) at (0.2*\len,0.2*\len);
+
+                \fill[#2] (0,0) -- (Out) -- +(Back) -- (Back) -- cycle;
+                \draw (0,0) -- (Back);
+            }
+
             \uncover<7->{
-                \draw[\colFaceA] (0,0) -- (\wA:\len);
-                \node[\colFaceA] at (\wA+\nOff:\len) {$1^+$};
+                \plane{\wA}{\colFaceA}
+                \node[\colFaceA] at (\wA+2*\nOff:\len) {$1^+$};
                 \node[\colFaceA] at (\wA-\nOff:\len) {$1^-$};
 
-                \draw[\colFaceB] (0,0) -- (\wB:\len);
-                \node[\colFaceB] at (\wB+\nOff:\len) {$2^+$};
-                \node[\colFaceB] at (\wB-\nOff:\len) {$2^-$};
+                \plane{\wB}{\colFaceB}
+                \node[\colFaceB] at (\wB+\nOff:0.9*\len) {$2^+$};
+                \node[\colFaceB] at (\wB-4*\nOff:0.8*\len) {$2^-$};
 
                 \fill (0,0) circle (1.5pt);
             }
@@ -509,12 +518,12 @@
                 \uncover<8->{
                     \def\wA{80}
                     \def\wB{100}
-                    
-                    \draw[\colFaceA] (0,0) -- (\wA:\len);
-                    \node[\colFaceA] at (\wA-\nOff:\len) {$1^-$};
 
-                    \draw[\colFaceB] (0,0) -- (\wB:\len);
-                    \node[\colFaceB] at (\wB+\nOff:\len) {$2^+$};
+                    \plane{\wB}{\colFaceB}
+                    \node[\colFaceB] at (\wB+\nOff:0.9*\len) {$2^+$};
+                    
+                    \plane{\wA}{\colFaceA}
+                    \node[\colFaceA] at (\wA-2*\nOff:\len) {$1^-$};
 
                     \fill (0,0) circle (1.5pt);
                 }
