@@ -11,7 +11,7 @@
         \pause
         \item Folding of surface in $\R^3$
         \pause
-        \item Possible folding edges are fixed
+        \item Fold only at given edges (no introduction of new folding edges)
         \pause
         \item Folding should be rigid (no curvature)
     \end{itemize}
@@ -166,20 +166,20 @@
 
                     \draw (A) -- (B) -- (C) -- (D) -- cycle;
                     \uncover<11>{
-                        \draw[\colFaceA] (A) -- (60:\fak*\len);
-                        \draw[\colFaceB] (B) -- ($(B)+(120:\fak*\len)$);
+                        \draw[\colFaceB] (A) -- (60:\fak*\len);
+                        \draw[\colFaceA] (B) -- ($(B)+(120:\fak*\len)$);
                     }
 
                     \draw[<->] ($(A)!0.5!(D)$) to[bend right] ($(D)!0.5!(C)$);
 
                     \uncover<12|handout:0>{
-                        \draw[\colFaceA] (A) -- (5:\fak*\len);
-                        \draw[\colFaceB] (B) -- ($(B)+(160:\fak*\len)$);
+                        \draw[\colFaceB] (A) -- (5:\fak*\len);
+                        \draw[\colFaceA] (B) -- ($(B)+(160:\fak*\len)$);
                     }
 
                     \uncover<13|handout:0>{
-                        \draw[\colFaceA] (A) -- (20:\fak*\len);
-                        \draw[\colFaceB] (B) -- ($(B)+(175:\fak*\len)$);
+                        \draw[\colFaceB] (A) -- (20:\fak*\len);
+                        \draw[\colFaceA] (B) -- ($(B)+(175:\fak*\len)$);
                     }
                 \end{tikzpicture}
             }
@@ -352,37 +352,36 @@
 \end{frame}
 
 
-\begin{frame}{Limitation of unordered folding}
+\begin{frame}[fragile]{Limitation of unordered folding}
     \pause
     We can't work with ordering of faces:
     \pause
     \begin{center}
         \begin{tikzpicture}
-            \def\len{1.5}
-            \def\xOff{0.5}
-            \def\nOff{-0.3}
-            \def\wid{thick}
 
-            \draw[\colFaceB,\wid] (0,0) -- (0,\len);
-            \node[\colFaceB] at (0,\nOff) {1};
+            \newcommand{\plane}[3]{
+                \def\len{1.5}
+                \def\back{0.75}
+                \def\xOff{0.5}
+                \def\nOff{-0.3}
+                
+                \coordinate (Down) at (#1*\xOff,0);
+                \coordinate (Up) at (#1*\xOff,\len);
+                \coordinate (Back) at (\back*\xOff,\back*\xOff);
 
-            \draw[\colFaceA,\wid] (\xOff,0) -- (\xOff,\len);
-            \node[\colFaceA] at (\xOff,\nOff) {2};
+                \fill[#2] (Down) -- ($(Down)+(Back)$) -- ($(Up)+(Back)$) -- (Up) -- cycle;
+                \node[#2] at (#1*\xOff,\nOff) {#3};
+            }
 
-            \draw[\colFaceC,\wid] (2*\xOff,0) -- (2*\xOff,\len);
-            \node[\colFaceC] at (2*\xOff,\nOff) {3};
-
+            \plane{0}{\colFaceB}{1}
+            \plane{1}{\colFaceA}{2}
+            \plane{2}{\colFaceC}{3}
 
             % Second lines
             \begin{scope}[xshift=4cm]
-                \draw[\colFaceB,\wid] (0,0) -- (0,\len);
-                \node[\colFaceB] at (0,\nOff) {1};
-
-                \draw[\colFaceC,\wid] (\xOff,0) -- (\xOff,\len);
-                \node[\colFaceC] at (\xOff,\nOff) {3};
-
-                \draw[\colFaceA,\wid] (2*\xOff,0) -- (2*\xOff,\len);
-                \node[\colFaceA] at (2*\xOff,\nOff) {2};
+                \plane{0}{\colFaceB}{1}
+                \plane{1}{\colFaceC}{3}
+                \plane{2}{\colFaceA}{2}
             \end{scope}
         \end{tikzpicture}
     \end{center}
@@ -393,30 +392,27 @@
     \pause
     \begin{center}
         \begin{tikzpicture}
-            \def\len{1}
-            \def\nScale{1.3}
-            \def\wid{thick}
 
-            \draw[\colFaceA,\wid] (0,0) -- (210:\len);
-            \node[\colFaceA] at (210:\nScale*\len) {1};
+            \newcommand{\plane}[3]{
+                \def\len{1}
+                \def\nScale{1.3}
 
-            \draw[\colFaceB,\wid] (0,0) -- (-30:\len);
-            \node[\colFaceB] at (-30:\nScale*\len) {2};
+                \coordinate (Back) at (0.25*\len,0.5*\len);
+                \fill[#2] (0,0) -- (#1:\len) -- +(Back) -- (Back) -- cycle; 
+                \node[#2] at (#1:\nScale*\len) {#3};
+                \draw (0,0) -- (Back);
+            }
 
-            \draw[\colFaceC,\wid] (0,0) -- (90:\len);
-            \node[\colFaceC] at (90:\nScale*\len) {3};
+            \plane{210}{\colFaceA}{1}
+            \plane{-30}{\colFaceB}{2}
+            \plane{90}{\colFaceC}{3}
 
             \fill (0,0) circle (1.5pt);
 
             \begin{scope}[xshift=4cm]
-                \draw[\colFaceA,\wid] (0,0) -- (210:\len);
-                \node[\colFaceA] at (210:\nScale*\len) {1};
-
-                \draw[\colFaceC,\wid] (0,0) -- (-30:\len);
-                \node[\colFaceC] at (-30:\nScale*\len) {3};
-
-                \draw[\colFaceB,\wid] (0,0) -- (90:\len);
-                \node[\colFaceB] at (90:\nScale*\len) {2};
+                \plane{210}{\colFaceA}{1}
+                \plane{-30}{\colFaceC}{3}
+                \plane{90}{\colFaceB}{2}
 
                 \fill (0,0) circle (1.5pt);
             \end{scope}
