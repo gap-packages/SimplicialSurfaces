@@ -16,14 +16,14 @@
 \begin{frame}
     \frametitle{No embedding}
     \pause
-    We do \textbf{not} work with embeddings (mostly)
+    We do \textbf{not} work with embeddings (mostly) in $\R^3$
     \begin{itemize}
         \pause
-        \item is very hard to compute \pause (compare the pentagon flippy)
+        \item are very hard to compute \pause (compare the pentagon flippy)
         \pause
-        \item if often unknown for an abstractly constructed surface
+        \item are often unknown for an abstractly constructed surface
         \pause
-        \item is mostly independent from \textit{intrinsic structure}
+        \item are mostly independent from \textit{intrinsic structure}
         \pause
         \item[$\Rightarrow$] lengths and angles are not important
         \pause
@@ -97,11 +97,11 @@
                 \begin{tikzpicture}[scale=0.9,
                         decoration={snake, amplitude=0.5, segment length=4.5}]
                     \onslide<8-10>{
-                        \node at (0,0) {$I$};
+                        \node at (0,0) {1};
                         \draw[decorate] (0,0) circle (0.3);
                     }
                     \onslide<8-18>{
-                        \node at (2,0) {$IV$};
+                        \node at (2,0) {4};
                         \draw[decorate] (2,0) circle (0.3);
                     }
                 \end{tikzpicture}
@@ -132,7 +132,7 @@
 
             % Face nodes
             \uncover<11->{
-                \node (F1) [above=of E8] {$I$};
+                \node (F1) [above=of E8] {1};
                 \draw (F1) -- (E6);
             }
             \uncover<13->{
@@ -142,12 +142,12 @@
 
             \node (Help) at ($(E10)!0.5!(E12)$) {};
             \uncover<19->{
-                \node (F4) [above=of Help] {$IV$};
+                \node (F4) [above=of Help] {4};
                 \draw (F4) -- (E9);
                 \draw (F4) -- (E10);
             }
             \uncover<20->{
-                \draw (E12) -- (F4) -- (E13); %TODO does this look good?
+                \draw (E12) -- (F4) -- (E13); 
             }
 
             % Vertex nodes
@@ -192,7 +192,7 @@
                 %      / |       10     | 
                 %    6/  |              |
                 %    /   |              |
-                %  P1  I |9      IV     |13
+                %  P1  1 |9      4      |13
                 %    \   |              |
                 %    8\  |              |
                 %      \ |        12    |
@@ -215,11 +215,11 @@
                 % Draw first face
                 \onslide<11-12>{
                     \fill[\faceColor] (P1) -- (P2) -- (P3) -- cycle;
-                    \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {I};
+                    \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {1};
                 }
                 \onslide<13->{
                     \filldraw[face] (P1) -- (P2) -- (P3) -- cycle;
-                    \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {I};
+                    \node at ($1/3*(P1)+1/3*(P2)+1/3*(P3)$) {1};
                 }
                 \onslide<10-12>{
                     \draw[\edgeColor] (P1) -- (P3);
@@ -228,14 +228,14 @@
                 % Draw the second face
                 \onslide<19>{
                     \fill[\faceColor] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
-                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {IV};
+                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {4};
                 }
                 \onslide<17-19>{
                     \draw[\edgeColor] (P2) -- (P3) -- (P4);
                 }
                 \onslide<20->{           
                     \filldraw[face] (P2) -- (P3) -- (P4) -- (P5) -- cycle;
-                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {IV};
+                    \node at ($1/4*(P2)+1/4*(P3)+1/4*(P4)+1/4*(P5)$) {4};
                 }
         
 
@@ -297,10 +297,10 @@
             \node[edgeBackground] (E13) [right=of E12] {13};
 
             % Face nodes
-            \node[fill=\colorFace] (F1) [above=of E8] {$I$}
+            \node[fill=\colorFace] (F1) [above=of E8] {1}
                 edge (E6) edge (E8) edge (E9);
             \node (Help) at ($(E10)!0.5!(E12)$) {};
-            \node[fill=\colorFace] (F4) [above=of Help] {$IV$}
+            \node[fill=\colorFace] (F4) [above=of Help] {4}
                 edge (E9) edge (E10) edge (E12) edge (E13);
 
             % Vertex nodes
@@ -320,7 +320,16 @@
     $\leadsto$ reduce to graph isomorphism problem
 
     \pause
-    Solved by NautyTracesInterface (by Gutsche, Niemeyer, Schweitzer)
+    $\leadsto$ can be solved quite easily by \texttt{Nauty} (McKay, Piperno)
+
+    \pause
+    Interfaced by NautyTracesInterface (by Gutsche, Niemeyer, Schweitzer)
+    \begin{itemize}
+        \pause
+        \item direct C--interface without writing files
+        \pause
+        \item also returns automorphism group
+    \end{itemize}
 \end{frame}
 
 

@@ -30,8 +30,9 @@
         \draw[\colorEdgeB,thick] (B) -- (C);
         \draw[\colorEdgeC,thick] (C) -- (A);
 
-        \draw[\colorRed,thick,<->] ($(A)!0.5!(C)$) -- ($(B)!0.5!(C)$);
-        \draw[\colorBlue,thick] (B) -- ($(B)+(2,1)$);
+        \draw[\colorFaceA,thick,<->] ($(A)!0.5!(C)$) -- ($(B)!0.5!(C)$);
+        \draw[\colorFaceB,thick] (B) -- ($(B)+(2,1)$);
+        \draw[\colorFaceC,thick] (C) -- ($(C)+(0,2)$);
     \end{tikzpicture}
 
     \begin{tikzpicture}

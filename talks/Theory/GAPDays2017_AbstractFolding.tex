@@ -101,6 +101,9 @@
     \end{itemize}
 \end{frame}
 
+\newcommand{\colFaceA}{\colorFaceA}
+\newcommand{\colFaceB}{\colorFaceB}
+\newcommand{\colFaceC}{\colorFaceC}
 
 \begin{frame}{Important properties of folding}
     \begin{itemize}
@@ -163,20 +166,20 @@
 
                     \draw (A) -- (B) -- (C) -- (D) -- cycle;
                     \uncover<11>{
-                        \draw[\colorRed] (A) -- (60:\fak*\len);
-                        \draw[\colorBlue] (B) -- ($(B)+(120:\fak*\len)$);
+                        \draw[\colFaceA] (A) -- (60:\fak*\len);
+                        \draw[\colFaceB] (B) -- ($(B)+(120:\fak*\len)$);
                     }
 
                     \draw[<->] ($(A)!0.5!(D)$) to[bend right] ($(D)!0.5!(C)$);
 
                     \uncover<12|handout:0>{
-                        \draw[\colorRed] (A) -- (5:\fak*\len);
-                        \draw[\colorBlue] (B) -- ($(B)+(160:\fak*\len)$);
+                        \draw[\colFaceA] (A) -- (5:\fak*\len);
+                        \draw[\colFaceB] (B) -- ($(B)+(160:\fak*\len)$);
                     }
 
                     \uncover<13|handout:0>{
-                        \draw[\colorRed] (A) -- (20:\fak*\len);
-                        \draw[\colorBlue] (B) -- ($(B)+(175:\fak*\len)$);
+                        \draw[\colFaceA] (A) -- (20:\fak*\len);
+                        \draw[\colFaceB] (B) -- ($(B)+(175:\fak*\len)$);
                     }
                 \end{tikzpicture}
             }
@@ -360,26 +363,26 @@
             \def\nOff{-0.3}
             \def\wid{thick}
 
-            \draw[\colB,\wid] (0,0) -- (0,\len);
-            \node[\colB] at (0,\nOff) {A};
+            \draw[\colFaceB,\wid] (0,0) -- (0,\len);
+            \node[\colFaceB] at (0,\nOff) {1};
 
-            \draw[\colA,\wid] (\xOff,0) -- (\xOff,\len);
-            \node[\colA] at (\xOff,\nOff) {B};
+            \draw[\colFaceA,\wid] (\xOff,0) -- (\xOff,\len);
+            \node[\colFaceA] at (\xOff,\nOff) {2};
 
-            \draw[\colC,\wid] (2*\xOff,0) -- (2*\xOff,\len);
-            \node[\colC] at (2*\xOff,\nOff) {C};
+            \draw[\colFaceC,\wid] (2*\xOff,0) -- (2*\xOff,\len);
+            \node[\colFaceC] at (2*\xOff,\nOff) {3};
 
 
             % Second lines
             \begin{scope}[xshift=4cm]
-                \draw[\colB,\wid] (0,0) -- (0,\len);
-                \node[\colB] at (0,\nOff) {A};
+                \draw[\colFaceB,\wid] (0,0) -- (0,\len);
+                \node[\colFaceB] at (0,\nOff) {1};
 
-                \draw[\colC,\wid] (\xOff,0) -- (\xOff,\len);
-                \node[\colC] at (\xOff,\nOff) {C};
+                \draw[\colFaceC,\wid] (\xOff,0) -- (\xOff,\len);
+                \node[\colFaceC] at (\xOff,\nOff) {3};
 
-                \draw[\colA,\wid] (2*\xOff,0) -- (2*\xOff,\len);
-                \node[\colA] at (2*\xOff,\nOff) {B};
+                \draw[\colFaceA,\wid] (2*\xOff,0) -- (2*\xOff,\len);
+                \node[\colFaceA] at (2*\xOff,\nOff) {2};
             \end{scope}
         \end{tikzpicture}
     \end{center}
@@ -394,26 +397,26 @@
             \def\nScale{1.3}
             \def\wid{thick}
 
-            \draw[\colA,\wid] (0,0) -- (210:\len);
-            \node[\colA] at (210:\nScale*\len) {A};
+            \draw[\colFaceA,\wid] (0,0) -- (210:\len);
+            \node[\colFaceA] at (210:\nScale*\len) {1};
 
-            \draw[\colB,\wid] (0,0) -- (-30:\len);
-            \node[\colB] at (-30:\nScale*\len) {B};
+            \draw[\colFaceB,\wid] (0,0) -- (-30:\len);
+            \node[\colFaceB] at (-30:\nScale*\len) {2};
 
-            \draw[\colC,\wid] (0,0) -- (90:\len);
-            \node[\colC] at (90:\nScale*\len) {C};
+            \draw[\colFaceC,\wid] (0,0) -- (90:\len);
+            \node[\colFaceC] at (90:\nScale*\len) {3};
 
             \fill (0,0) circle (1.5pt);
 
             \begin{scope}[xshift=4cm]
-                \draw[\colA,\wid] (0,0) -- (210:\len);
-                \node[\colA] at (210:\nScale*\len) {A};
+                \draw[\colFaceA,\wid] (0,0) -- (210:\len);
+                \node[\colFaceA] at (210:\nScale*\len) {1};
 
-                \draw[\colC,\wid] (0,0) -- (-30:\len);
-                \node[\colC] at (-30:\nScale*\len) {C};
+                \draw[\colFaceC,\wid] (0,0) -- (-30:\len);
+                \node[\colFaceC] at (-30:\nScale*\len) {3};
 
-                \draw[\colB,\wid] (0,0) -- (90:\len);
-                \node[\colB] at (90:\nScale*\len) {B};
+                \draw[\colFaceB,\wid] (0,0) -- (90:\len);
+                \node[\colFaceB] at (90:\nScale*\len) {2};
 
                 \fill (0,0) circle (1.5pt);
             \end{scope}
@@ -491,13 +494,13 @@
             \def\nOff{10}
 
             \uncover<7->{
-                \draw[\colA] (0,0) -- (\wA:\len);
-                \node[\colA] at (\wA+\nOff:\len) {$A^+$};
-                \node[\colA] at (\wA-\nOff:\len) {$A^-$};
+                \draw[\colFaceA] (0,0) -- (\wA:\len);
+                \node[\colFaceA] at (\wA+\nOff:\len) {$1^+$};
+                \node[\colFaceA] at (\wA-\nOff:\len) {$1^-$};
 
-                \draw[\colB] (0,0) -- (\wB:\len);
-                \node[\colB] at (\wB+\nOff:\len) {$B^+$};
-                \node[\colB] at (\wB-\nOff:\len) {$B^-$};
+                \draw[\colFaceB] (0,0) -- (\wB:\len);
+                \node[\colFaceB] at (\wB+\nOff:\len) {$2^+$};
+                \node[\colFaceB] at (\wB-\nOff:\len) {$2^-$};
 
                 \fill (0,0) circle (1.5pt);
             }
@@ -511,11 +514,11 @@
                     \def\wA{80}
                     \def\wB{100}
                     
-                    \draw[\colA] (0,0) -- (\wA:\len);
-                    \node[\colA] at (\wA-\nOff:\len) {$A^-$};
+                    \draw[\colFaceA] (0,0) -- (\wA:\len);
+                    \node[\colFaceA] at (\wA-\nOff:\len) {$1^-$};
 
-                    \draw[\colB] (0,0) -- (\wB:\len);
-                    \node[\colB] at (\wB+\nOff:\len) {$B^+$};
+                    \draw[\colFaceB] (0,0) -- (\wB:\len);
+                    \node[\colFaceB] at (\wB+\nOff:\len) {$2^+$};
 
                     \fill (0,0) circle (1.5pt);
                 }

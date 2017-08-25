@@ -6,47 +6,53 @@
 \frame{\tableofcontents[currentsection]}
 
 
-\begin{frame}{Embedding question}
-    \pause
-    Given: A polygonal complex
+\begin{frame}{Embedding questions}
+    \uncover<2->{
+        Given: A polygonal complex
+    }
     \begin{itemize}
-        \pause
-        \item Can it be embedded?
-        \pause
-        \item In how many ways?
+        \item<3-> Can it be embedded?
+        \item<4-> In how many ways?
     \end{itemize}
-    \pause
-    Simplifications:
+    \uncover<5->{
+        Simplifications:
+    }
     \begin{enumerate}
-        \pause
-        \item Only polygonal surfaces (surface that is build from polygons)
-        \pause
-        \item All polygons are triangles (\textbf{simplicial surfaces})
-        \pause
-        \item All triangles are isometric
+        \item<6-> Only polygonal surfaces (that are built from polygons)
+        \item<7-> All polygons are triangles (\textbf{simplicial surfaces})
+        \item<8-> All triangles are isometric
     \end{enumerate}
-    \pause
-    $\leadsto$ Edge--colouring encodes different lengths
+    \uncover<10->{
+        $\leadsto$ Edge--colouring encodes different lengths
+    }
+    \uncover<9->{
             \begin{center}
                 %       F
                 %    C     E 
                 % A     B    D
                 \begin{tikzpicture}[scale=0.9]
                     \coordinate (A) at (0,0);
-                    \coordinate (B) at (2,0);
-                    \coordinate (C) at (1,1.4);
+                    \coordinate (B) at (3,0);
+                    \coordinate (C) at (1,1);
                     \coordinate (D) at ($2*(B)$);
                     \coordinate (E) at ($(B)+(C)$);
                     \coordinate (F) at ($2*(C)$);
 
-                    \draw[\colA, \width] (A) -- (B) -- (D);
-                    \draw[\colA, \width] (C) -- (E);
-                    \draw[\colB, \width] (B) -- (C);
-                    \draw[\colB, \width] (D) -- (E) -- (F);
-                    \draw[\colC, \width] (A) -- (C) -- (F);
-                    \draw[\colC, \width] (B) -- (E);
+                    \only<9>{
+                        \draw (A) -- (B) -- (D) -- (E) -- (B) -- (C) -- (E) -- (F) -- (C) -- (A);
+                    }
+
+                    \uncover<10->{
+                        \draw[\colA, \width] (A) -- (B) -- (D);
+                        \draw[\colA, \width] (C) -- (E);
+                        \draw[\colB, \width] (B) -- (C);
+                        \draw[\colB, \width] (D) -- (E) -- (F);
+                        \draw[\colC, \width] (A) -- (C) -- (F);
+                        \draw[\colC, \width] (B) -- (E);
+                    }
                 \end{tikzpicture}
             \end{center}
+    }
 \end{frame}
 
 
@@ -115,6 +121,9 @@
                             \textcolor{\colB}{\sigma_b}, 
                             \textcolor{\colC}{\sigma_c}\rangle$ on
                         the faces}
+                        \onslide<17->{
+                            (fast computation for permutation groups)
+                        }
                 \end{itemize}
         \end{itemize}
     }
@@ -242,21 +251,18 @@
             \end{tikzpicture}
         \end{center}
     \pause
-    has an rrr--structure
-
-    \pause
-    The easiest structure is an mmm--structure.
+    has only r--edges.
 \end{frame}
 
 
 \begin{frame}{Covering}
     \pause
-    We want to characterize surfaces where all edges are mirrors.
+    If all edges are mirrors, the situation is simple.
     \pause
     \begin{lem}
-        A simplicial surface has an mmm--structure iff it covers a 
-        single triangle\pause, i.\,e. there is an incidence--preserving
-        map to the simplicial surface consisting of exactly one face.
+        A simplicial surface has only mirror--edges iff it covers a 
+        single triangle\pause, i.\,e. there is a surjective incidence--preserving
+        map\pause to the simplicial surface consisting of exactly one face.
     \end{lem}
     \pause
     Consider
@@ -296,7 +302,8 @@
 
 \begin{frame}[fragile]{Construction from permutations}
     \onslide<2->{
-    Start with three involutions \textcolor{\colA}{$\sigma_a$}, 
+    Start with three involutions in permutation representation
+        \textcolor{\colA}{$\sigma_a$}, 
         \textcolor{\colB}{$\sigma_b$}, \textcolor{\colC}{$\sigma_c$}
         \onslide<3->{(like generators of a finite group)}
     }
@@ -489,9 +496,9 @@
                     \draw[\colC,\width] (Left) -- (Mid) -- (Right);
                     \draw[\colC,\width,dashed] (Left) -- (Back) -- (Right);
 
-                    \node at (barycentric cs:Mid=1,Down=1,Right=1) {1};
-                    \node at (barycentric cs:Mid=1,Down=1,Left=1) {2};
-                    \node at (barycentric cs:Mid=1,Up=1,Right=1) {5};
+                    %\node at (barycentric cs:Mid=1,Down=1,Right=1) {1};
+                    %\node at (barycentric cs:Mid=1,Down=1,Left=1) {2};
+                    %\node at (barycentric cs:Mid=1,Up=1,Right=1) {5};
                     %\node at (barycentric cs:Mid=1,Up=1,Left=1) {6};
                     
                     % Vertices to hide drawing problems in edge meetings
