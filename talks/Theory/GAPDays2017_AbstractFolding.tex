@@ -609,6 +609,7 @@
         \item<3->Edges are folding plans connecting two folding complexes
     \end{itemize}
 
+    \tikzset{graphVertex/.style={circle,fill=gray}} %TODO make a better circle
     \begin{center}
         \begin{tikzpicture}[graphEdge/.style={thick}]
             \def\len{1.2}
@@ -636,13 +637,13 @@
 
             % Second part
             \begin{scope}[xshift=5cm]
-                \coordinate (Top) at (0,\len);
-                \node (Mid) [below=of Top] {};
-                \node (MidLeft) [left=of Mid] {};
-                \node (MidRight) [right=of Mid] {};
-                \node (DownLeft) [below=of MidLeft] {};
-                \node (Down) [below=of Mid] {};
-                \node (DownRight) [below=of MidRight] {};
+                \coordinate[graphVertex] (Top) at (0,\len);
+                \node[graphVertex] (Mid) [below=of Top] {};
+                \node[graphVertex] (MidLeft) [left=of Mid] {};
+                \node[graphVertex] (MidRight) [right=of Mid] {};
+                \node[graphVertex] (DownLeft) [below=of MidLeft] {};
+                \node[graphVertex] (Down) [below=of Mid] {};
+                \node[graphVertex] (DownRight) [below=of MidRight] {};
 
                 \uncover<6->{
                     \draw[graphEdge, \fgA] (Top) -- (MidLeft);
@@ -693,14 +694,17 @@
             }
 
             \begin{scope}[xshift=6cm]
-                \coordinate (B1) at (-\len,-\len);
+                \coordinate[graphVertex] (B1) at (-\len,-\len);
                 \foreach \i/\j in {1/2,2/3,3/4,4/5,5/6}{
-                    \node (B\j) [right=of B\i] {};
+                    \node[graphVertex] (B\j) [right=of B\i] {};
                     \coordinate (H\i\j) at ($(B\i)!0.5!(B\j)$);
-                    \node (M\i\j) [above=of H\i\j] {};
+                }
+                \foreach \i/\j in {1/2,2/3,4/5,5/6}{
+                    \node[graphVertex] (M\i\j) [above=of H\i\j] {};
                 }
 
-                \node (Top) [above=of M34] {};
+                \coordinate (M34) at ($(M23)!0.5!(M45)$);
+                \node[graphVertex] (Top) [above=of M34] {};
 
                 \uncover<11->{
                     \draw[graphEdge, \fgA] (Top) -- (M12);
