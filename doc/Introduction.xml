@@ -273,6 +273,9 @@ false
 <!-- TODO can you avoid the colour loss? Can't we just use the gap-prompt as a left fixture -->
         
         <Subsection><Heading>Non-triangular faces</Heading>
+            <Alt Only="LaTeX">
+                \addcontentsline{toc}{subsection}{Non--triangular faces}
+            </Alt>
             <!-- This is an optional section. It is necessary to give the 
                  people who are concerned about non-triangular faces something
                  to work with. At the same time it might be too much for those
