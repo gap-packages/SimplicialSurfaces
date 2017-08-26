@@ -22,8 +22,8 @@
 			    \coordinate (E) at (1,0.7);
 			
 			    % Take care to draw the faces in the back first
-			    \filldraw[face] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[face] (A) -- (C) -- (D) -- cycle;
+			    \filldraw[faceDark] (A) -- (B) -- (C) -- cycle;
+			    \filldraw[faceDark] (A) -- (C) -- (D) -- cycle;
 			    % Now the faces in the front
 			    \filldraw[face] (A) -- (B) -- (E) -- cycle;
 			    \filldraw[face] (A) -- (E) -- (D) -- cycle;
@@ -66,8 +66,8 @@
 			
                             \filldraw[face] (A) -- (B) -- (C) -- cycle;
                             \filldraw[face] (A) -- (C) -- (D) -- cycle;
-                            \filldraw[faceAlt] (A) -- (E) -- (F) -- cycle;
-                            \filldraw[faceAlt] (A) -- (F) -- (G) -- cycle;
+                            \filldraw[face] (A) -- (E) -- (F) -- cycle;
+                            \filldraw[face] (A) -- (F) -- (G) -- cycle;
 		        \end{scope}
 		
 		        % An open cone of two triangles
@@ -110,7 +110,7 @@
 
                             \filldraw[face] (A) -- (B) -- (C) -- cycle;
                             \filldraw[face] (B) -- (C) -- (D) -- cycle;
-                            \filldraw[faceAlt] (D) -- (F) -- (E) -- cycle;
+                            \filldraw[face] (D) -- (F) -- (E) -- cycle;
 
                             \draw[dashed] (A) -- (D);
                             \draw[dashed] (E) -- (G);

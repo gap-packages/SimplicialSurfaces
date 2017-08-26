@@ -15,7 +15,7 @@
 \newcommand{\edgeColor}{\colorEdge}
 \newcommand{\faceColor}{\colorFace}
 % If we want to shade a surface with two colours, we need an alternative
-\newcommand{\faceColorAlt}{cyan}
+\newcommand{\faceColorDark}{\colorDarkFace}
 
 \newcommand{\vSize}{2pt}    % How big are the vertex circles (if drawn)?
 
@@ -26,9 +26,7 @@
 \tikzset{face/.style = {fill=\faceColor, draw=\edgeColor}}
 % The face style for the alternative colouring. The colour changes if
 % \differentColors is defined.
-\tikzset{faceAlt/.style = 
-    {fill=\ifdefined\differentColors \faceColorAlt \else \faceColor \fi, 
-    draw=\edgeColor}}
+\tikzset{faceDark/.style = {fill=\faceColorDark, draw=\edgeColor}}
 
 
 % Custom command to draw an edge between two points
