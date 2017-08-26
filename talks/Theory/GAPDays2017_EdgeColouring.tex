@@ -397,7 +397,7 @@
 \end{frame}
 
 
-\begin{frame}{Construction example}
+\begin{frame}[fragile]{Construction example}
     \onslide<2->{ $\textcolor{\colA}{\sigma_a} = \textcolor{\colA}{(1,2)(3,4)(5,6)(7,8)}$\\ }
     \onslide<3->{ $\textcolor{\colB}{\sigma_b} = \textcolor{\colB}{(1,4)(2,3)(5,8)(6,7)}$\\ }
     \onslide<4->{ $\textcolor{\colC}{\sigma_c} = \textcolor{\colC}{(1,5)(2,6)(3,7)(4,8)}$\\ }
@@ -414,6 +414,56 @@
         \newcommand{\vertex}[1]{
             \fill[black] (#1) circle (3pt);
         }
+        \newcommand<>{\vertArc}[3]{
+            \def\dist{0.2}
+            \onslide#4{
+                \filldraw[draw=black, fill=black!50!white] (#1) -- 
+                    ($(#1)!\dist!(#2)$) to[bend right=25] ($(#1)!\dist!(#3)$) -- cycle;
+            }
+        }
+
+        % Draw the arcs first (since faces have to be drawn on top)
+        
+        % 1
+        \vertArc<6-10>{Z}{P1}{P2}
+        \vertArc<11-13>{P2}{Z}{P1}
+        \vertArc<16>{P1}{P2}{Z}
+        
+        % 2
+        \vertArc<7-10>{Z}{P2}{P3}
+        \vertArc<11-13>{P2}{P3}{Z}
+        \vertArc<14-15>{P3}{Z}{P2}
+
+        % 3
+        \vertArc<8-10>{Z}{P3}{P4}
+        \vertArc<14-15>{P3}{P4}{Z}
+        \vertArc<18>{P4}{Z}{P3}
+
+        % 4
+        \vertArc<9-10>{Z}{P0}{P1}
+        \vertArc<16>{P1}{Z}{P0}
+        \vertArc<18>{P0}{P1}{Z}
+
+        % 5
+        \vertArc<12-13>{P2}{P1}{Q12}
+        \vertArc<16>{P1}{Q12}{P2}
+        \vertArc<19>{Q12}{P2}{P1}
+
+        % 6
+        \vertArc<13>{P2}{Q23}{P3}
+        \vertArc<14-15>{P3}{P2}{Q23}
+        \vertArc<19>{Q23}{P3}{P2}
+
+        % 7
+        \vertArc<15>{P3}{Q34}{P4}
+        \vertArc<18>{P4}{P3}{Q34}
+        \vertArc<19>{Q34}{P4}{P3}
+
+        % 8
+        \vertArc<16>{P1}{P0}{Q01}
+        \vertArc<18>{P0}{Q01}{P1}
+        \vertArc<19>{Q01}{P1}{P0}
+
 
         % First vertex
 
