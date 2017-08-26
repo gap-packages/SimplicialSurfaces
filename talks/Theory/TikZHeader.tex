@@ -46,6 +46,12 @@
     \draw[#1,->] #3 -- #4;
 }
 
+% Draw a plane behind the second and third parameters (defined by first one)
+\newcommand{\behindPlane}[3]{
+    \filldraw[fill=black!20!white,draw=black!50!white] 
+        (#2) -- (#3) -- ($(#3)+(#1)$) -- ($(#2)+(#1)$) -- cycle;
+    \draw (#2) -- (#3);
+}
 
 % Sometimes we want to implement different behaviour for the generated 
 % HTML-pictures (for example, shading is not supported in HTML).

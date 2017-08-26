@@ -555,13 +555,6 @@
             \def\len{1.5}
             \def\off{10}
 
-            % Draw a plane behind the two parameters and an edge behind the first one
-            \newcommand{\plane}[2]{
-                \filldraw[fill=black!20!white,draw=black!50!white] 
-                    (#1) -- (#2) -- ($(#2)+(Back)$) -- ($(#1)+(Back)$) -- cycle;
-                \draw (#1) -- (#2);
-            }
-
             %  B
             %   \
             %    Z -- C -- D
@@ -577,16 +570,17 @@
 
 
                 \uncover<3->{
-                    \plane{Z}{C}
-                    \plane{Z}{A}
-                    \plane{Z}{B}
-                    \plane{C}{D}
+                    \behindPlane{Back}{Z}{C}
+                    \behindPlane{Back}{Z}{A}
+                    \behindPlane{Back}{Z}{B}
+                    \behindPlane{Back}{C}{D}
                     \foreach \p in {Z,A,B,C,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<5->{
-                    \planEdge{\colorRed}{($(120+\off:0.5*\len)+0.5*(Back)$)}
-                        {($(180:0.5*\len)+0.5*(Back)$)}{($(-120-\off:0.5*\len)+0.5*(Back)$)}
+                    \begin{scope}[shift={($0.5*(Back)$)}]
+                        \planEdge{\colorRed,thick}{(120+\off:0.5*\len)}{(180:0.5*\len)}{(-120-\off:0.5*\len)}
+                    \end{scope}
                 }
             \end{scope}
 
@@ -601,16 +595,18 @@
                 \coordinate (Back) at (-0.5*\len,0.25*\len);
 
                 \uncover<4->{
-                    \plane{$(Z)+(0,-\pOff)$}{$(C)+(0,-\pOff)$}
-                    \plane{$(C)+(0,\pOff)$}{D}
-                    \plane{Z}{A}
-                    \plane{Z}{B}
+                    \behindPlane{Back}{$(Z)+(0,-\pOff)$}{$(C)+(0,-\pOff)$}
+                    \behindPlane{Back}{$(C)+(0,-\pOff)$}{$(C)+(0,\pOff)$}
+                    \behindPlane{Back}{$(C)+(0,\pOff)$}{D}
+                    \behindPlane{Back}{Z}{A}
+                    \behindPlane{Back}{Z}{B}
                     \foreach \p in {A,B,Z,C,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<6->{
-                    \planEdge{\colorRed}{($(120+\off:0.5*\len)+0.5*(Back)$)}
-                        {($(180:0.5*\len)+0.5*(Back)$)}{($(-120-\off:0.5*\len)+0.5*(Back)$)}
+                    \begin{scope}[shift={($0.5*(Back)$)}]
+                        \planEdge{\colorRed,thick}{(120+\off:0.5*\len)}{(180:0.5*\len)}{(-120-\off:0.5*\len)}
+                    \end{scope}
                 }
             \end{scope}
         \end{tikzpicture}
@@ -774,36 +770,48 @@
                 \coordinate (B) at (120:\len);
                 \coordinate (C) at (\len,0);
                 \coordinate (D) at (2*\len,0);
+                \coordinate (Back) at (0.5*\len,0.25*\len);
 
                 \uncover<3->{
-                    \foreach \p/\q in {Z/A,Z/B,Z/C,C/D}
-                        \draw (\p) -- (\q);
+                    \behindPlane{Back}{Z}{A}
+                    \behindPlane{Back}{Z}{B}
+                    \behindPlane{Back}{Z}{C}
+                    \behindPlane{Back}{C}{D}
+
                     \foreach \p in {Z,A,B,C,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<5->{
-                    \planEdge{\colorRed}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
+                    \begin{scope}[shift={($0.5*(Back)$)}]
+                        \planEdge{\colorRed,thick}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
+                    \end{scope}
                 }
             \end{scope}
 
             \begin{scope}[xshift=7cm]
-                \def\pOff{0.05}
+                \def\pOff{0.1}
 
                 \coordinate (Z) at (0,0);
                 \coordinate (A) at (-120:\len);
                 \coordinate (B) at (120:\len);
                 \coordinate (C) at (\len,0);
+                \coordinate (CAlt) at ($(C)+(0,0.5*\pOff)$);
                 \coordinate (D) at (0.2*\len,\pOff);
+                \coordinate (Back) at (0.5*\len,0.25*\len);
 
                 \uncover<4->{
-                    \draw (A) -- (Z) -- (B);
-                    \draw ($(Z)+(0,-\pOff)$) -- ($(C)+(0,-\pOff)$);
-                    \draw ($(C)+(0,\pOff)$) -- (D);
-                    \foreach \p in {A,B,Z,C,D}
+                    \behindPlane{Back}{Z}{A}
+                    \behindPlane{Back}{Z}{B}
+                    \behindPlane{Back}{Z}{C}
+                    \behindPlane{Back}{C}{$(C)+(0,\pOff)$}
+                    \behindPlane{Back}{$(C)+(0,\pOff)$}{D}
+                    \foreach \p in {A,B,Z,CAlt,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<6->{
-                    \planEdge{\colorRed}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
+                    \begin{scope}[shift={($0.5*(Back)$)}]
+                        \planEdge{\colorRed,thick}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
+                    \end{scope}
                 }
             \end{scope}
         \end{tikzpicture}
