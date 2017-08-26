@@ -546,7 +546,7 @@
 \end{frame}
 
 
-\begin{frame}{Structure of multiple foldings}
+\begin{frame}[fragile]{Structure of multiple foldings}
     \uncover<2->{
         With folding plans we can perform the same folding in different folding complexes
     }
@@ -554,6 +554,13 @@
         \begin{tikzpicture}
             \def\len{1.5}
             \def\off{10}
+
+            % Draw a plane behind the two parameters and an edge behind the first one
+            \newcommand{\plane}[2]{
+                \filldraw[fill=black!20!white,draw=black!50!white] 
+                    (#1) -- (#2) -- ($(#2)+(Back)$) -- ($(#1)+(Back)$) -- cycle;
+                \draw (#1) -- (#2);
+            }
 
             %  B
             %   \
@@ -566,19 +573,24 @@
                 \coordinate (B) at (120:\len);
                 \coordinate (C) at (\len,0);
                 \coordinate (D) at (2*\len,0);
+                \coordinate (Back) at (-0.5*\len,0.25*\len);
+
 
                 \uncover<3->{
-                    \foreach \p/\q in {Z/A,Z/B,Z/C,C/D}
-                        \draw (\p) -- (\q);
+                    \plane{Z}{C}
+                    \plane{Z}{A}
+                    \plane{Z}{B}
+                    \plane{C}{D}
                     \foreach \p in {Z,A,B,C,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<5->{
-                    \planEdge{\colorRed}{(120+\off:0.5*\len)}{(180:0.5*\len)}{(-120-\off:0.5*\len)}
+                    \planEdge{\colorRed}{($(120+\off:0.5*\len)+0.5*(Back)$)}
+                        {($(180:0.5*\len)+0.5*(Back)$)}{($(-120-\off:0.5*\len)+0.5*(Back)$)}
                 }
             \end{scope}
 
-            \begin{scope}[xshift=7cm]
+            \begin{scope}[xshift=6cm]
                 \def\pOff{0.05}
 
                 \coordinate (Z) at (0,0);
@@ -586,16 +598,19 @@
                 \coordinate (B) at (120:\len);
                 \coordinate (C) at (\len,0);
                 \coordinate (D) at (0.2*\len,\pOff);
+                \coordinate (Back) at (-0.5*\len,0.25*\len);
 
                 \uncover<4->{
-                    \draw (A) -- (Z) -- (B);
-                    \draw ($(Z)+(0,-\pOff)$) -- ($(C)+(0,-\pOff)$);
-                    \draw ($(C)+(0,\pOff)$) -- (D);
+                    \plane{$(Z)+(0,-\pOff)$}{$(C)+(0,-\pOff)$}
+                    \plane{$(C)+(0,\pOff)$}{D}
+                    \plane{Z}{A}
+                    \plane{Z}{B}
                     \foreach \p in {A,B,Z,C,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<6->{
-                    \planEdge{\colorRed}{(120+\off:0.5*\len)}{(180:0.5*\len)}{(-120-\off:0.5*\len)}
+                    \planEdge{\colorRed}{($(120+\off:0.5*\len)+0.5*(Back)$)}
+                        {($(180:0.5*\len)+0.5*(Back)$)}{($(-120-\off:0.5*\len)+0.5*(Back)$)}
                 }
             \end{scope}
         \end{tikzpicture}
