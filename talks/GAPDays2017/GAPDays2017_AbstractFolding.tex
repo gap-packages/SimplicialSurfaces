@@ -167,24 +167,25 @@
                     \coordinate (B) at (\len,0);
                     \coordinate (C) at (\len,\len);
                     \coordinate (D) at (0,\len);
+                    \coordinate (Back) at (0.2*\len,0.2*\len);
 
-                    \draw (A) -- (B) -- (C) -- (D) -- cycle;
-                    \uncover<11>{
-                        \draw[\colFaceB] (A) -- (60:\fak*\len);
-                        \draw[\colFaceA] (B) -- ($(B)+(120:\fak*\len)$);
-                    }
+                    \behindPlane{Back}{A}{D}
 
-                    \planEdge{}{($(A)!0.5!(D)$)}{($(B)!0.7!(D)$)}{($(D)!0.5!(C)$)}
+                    \behindPlane<11>[\colFaceB]{Back}{A}{60:\fak*\len}
+                    \behindPlane<12|handout:0>[\colFaceB]{Back}{A}{5:\fak*\len}
+                    \behindPlane<13|handout:0>[\colFaceB]{Back}{A}{20:\fak*\len}
 
-                    \uncover<12|handout:0>{
-                        \draw[\colFaceB] (A) -- (5:\fak*\len);
-                        \draw[\colFaceA] (B) -- ($(B)+(160:\fak*\len)$);
-                    }
+                    \behindPlane{Back}{A}{B}
 
-                    \uncover<13|handout:0>{
-                        \draw[\colFaceB] (A) -- (20:\fak*\len);
-                        \draw[\colFaceA] (B) -- ($(B)+(175:\fak*\len)$);
-                    }
+                    \behindPlane<11>[\colFaceA]{Back}{B}{$(B)+(120:\fak*\len)$}
+                    \behindPlane<12|handout:0>[\colFaceA]{Back}{B}{$(B)+(160:\fak*\len)$}
+                    \behindPlane<13|handout:0>[\colFaceA]{Back}{B}{$(B)+(175:\fak*\len)$}
+
+                    \planEdge[(Back)]{thick}{($(A)!0.5!(D)$)}{($(B)!0.7!(D)$)}{($(D)!0.5!(C)$)}
+
+                    \behindPlane{Back}{C}{D}
+                    \behindPlane{Back}{B}{C}
+
                 \end{tikzpicture}
             }
             % 11: general picture
@@ -578,35 +579,32 @@
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<5->{
-                    \begin{scope}[shift={($0.5*(Back)$)}]
-                        \planEdge{\colorRed,thick}{(120+\off:0.5*\len)}{(180:0.5*\len)}{(-120-\off:0.5*\len)}
-                    \end{scope}
+                    \planEdge[(Back)]{\colorRed,thick}{(120+\off:0.5*\len)}{(180:0.5*\len)}{(-120-\off:0.5*\len)}
                 }
             \end{scope}
 
             \begin{scope}[xshift=6cm]
-                \def\pOff{0.05}
+                \def\pOff{0.1}
 
                 \coordinate (Z) at (0,0);
                 \coordinate (A) at (-120:\len);
                 \coordinate (B) at (120:\len);
                 \coordinate (C) at (\len,0);
+                \coordinate (CAlt) at ($(C)+(0,0.5*\pOff)$);
                 \coordinate (D) at (0.2*\len,\pOff);
                 \coordinate (Back) at (-0.5*\len,0.25*\len);
 
                 \uncover<4->{
-                    \behindPlane{Back}{$(Z)+(0,-\pOff)$}{$(C)+(0,-\pOff)$}
-                    \behindPlane{Back}{$(C)+(0,-\pOff)$}{$(C)+(0,\pOff)$}
+                    \behindPlane{Back}{Z}{C}
+                    \behindPlane{Back}{C}{$(C)+(0,\pOff)$}
                     \behindPlane{Back}{$(C)+(0,\pOff)$}{D}
                     \behindPlane{Back}{Z}{A}
                     \behindPlane{Back}{Z}{B}
-                    \foreach \p in {A,B,Z,C,D}
+                    \foreach \p in {A,B,Z,CAlt,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<6->{
-                    \begin{scope}[shift={($0.5*(Back)$)}]
-                        \planEdge{\colorRed,thick}{(120+\off:0.5*\len)}{(180:0.5*\len)}{(-120-\off:0.5*\len)}
-                    \end{scope}
+                    \planEdge[(Back)]{\colorRed,thick}{(120+\off:0.5*\len)}{(180:0.5*\len)}{(-120-\off:0.5*\len)}
                 }
             \end{scope}
         \end{tikzpicture}
@@ -618,7 +616,7 @@
 \end{frame}
 
 
-\begin{frame}{Folding graph}
+\begin{frame}[fragile]{Folding graph}
     \begin{itemize}
         \item<2->Vertices are folding complexes (modelling folding states)
         \item<3->Edges are folding plans connecting two folding complexes
@@ -629,29 +627,52 @@
         \begin{tikzpicture}[graphEdge/.style={thick}]
             \def\len{1.2}
             \def\off{10}
+            \def\dist{0.5}
 
             \coordinate (Z) at (0,0);
+            \coordinate (Back) at (0.4*\len,0.2*\len);
             \foreach \i in {0,1,2}
                 \coordinate (P\i) at (120*\i:\len);
 
-            \uncover<4->{
-                \foreach \i in {0,1,2}{
-                    \draw (Z) -- (P\i);
-                    \fill[\vertexColor] (P\i) circle (1.5pt);
-                }
-            }
 
             \def\fgA{\colorGraphB}
             \def\fgB{\colorGraphA}
             \def\fgC{\colorGraphC}
-            \uncover<5->{
-                \draw[graphEdge, \fgA,<->] (\off:0.5*\len) to[bend right] (120-\off:0.5*\len); 
-                \draw[graphEdge, \fgB,<->] (120+\off:0.5*\len) to[bend right] (240-\off:0.5*\len);
-                \draw[graphEdge, \fgC,<->] (-120+\off:0.5*\len) to[bend right] (-\off:0.5*\len);
+
+            \planEdge<5->[(Back)]{graphEdge,\fgB}{(120+\off:0.5*\len)}{(180:\dist*\len)}{(240-\off:0.5*\len)}
+            \behindPlane<4->{Back}{Z}{P2}
+            \behindPlane<4->{Back}{Z}{P1}
+            \planEdge<5->[(Back)]{graphEdge,\fgC}{(-120+\off:0.5*\len)}{(-60:\dist*\len)}{(-\off:0.5*\len)}
+            \behindPlane<4->{Back}{Z}{P0}
+            \planEdge<5->[(Back)]{graphEdge,\fgA}{(\off:0.5*\len)}{(60:\dist*\len)}{(120-\off:0.5*\len)}
+
+            \uncover<4->{
+                \foreach \i in {2,1,0}{
+                    \fill[\vertexColor] (P\i) circle (1.5pt);
+                }
             }
 
+            \begin{scope}[xshift=3cm]
+                \coordinate (Z) at (0,0);
+                \coordinate (Back) at (0.4*\len,0.2*\len);
+                \coordinate (P0) at (60-0.5*\off:\len);
+                \coordinate (P1) at (60+0.5*\off:\len);
+                \coordinate (P2) at (240:\len);
+
+                \uncover<6->{
+                    \planEdge[(Back)]{graphEdge,\fgB}{(240-\off:0.5*\len)}{(150:0.4*\len)}{(60+2*\off:0.5*\len)}
+                    \behindPlane{Back}{Z}{P1}
+                    \behindPlane{Back}{Z}{P2}
+                    \behindPlane{Back}{Z}{P0}
+                    \planEdge[(Back)]{graphEdge,\fgC}{(240+\off:0.5*\len)}{(-30:0.4*\len)}{(60-2*\off:0.5*\len)}
+
+                    \foreach \i in {0,1,2}
+                        \fill[\vertexColor] (P\i) circle (1.5pt);
+                }
+            \end{scope}
+
             % Second part
-            \begin{scope}[xshift=5cm]
+            \begin{scope}[xshift=7cm]
                 \coordinate[graphVertex] (Top) at (0,\len);
                 \node[graphVertex] (Mid) [below=of Top] {};
                 \node[graphVertex] (MidLeft) [left=of Mid] {};
@@ -695,20 +716,54 @@
             \foreach \i in {0,1,2,3}
                 \coordinate (P\i) at (\i*\len,0);
 
+            \coordinate (Back) at (0.4*\len,0.2*\len);
+
+            \planEdge<10->[(Back)]{graphEdge,\fgB}{($(P1)+(180+\off:\scal*\len)$)}{($(P1)+(270:\scal*\len)$)}{($(P1)+(-\off:\scal*\len)$)}
+            \planEdge<10->[(Back)]{graphEdge,\fgD}{($(P2)+(180+\off:\scal*\len)$)}{($(P2)+(270:\scal*\len)$)}{($(P2)+(-\off:\scal*\len)$)}
+            \behindPlane<9->{Back}{P0}{P1}
+            \behindPlane<9->{Back}{P1}{P2}
+            \behindPlane<9->{Back}{P2}{P3}
+            \planEdge<10->[(Back)]{graphEdge,\fgA}{($(P1)+(180-\off:\scal*\len)$)}{($(P1)+(90:\scal*\len)$)}{($(P1)+(\off:\scal*\len)$)}
+            \planEdge<10->[(Back)]{graphEdge,\fgC}{($(P2)+(180-\off:\scal*\len)$)}{($(P2)+(90:\scal*\len)$)}{($(P2)+(\off:\scal*\len)$)}
+
+
             \uncover<9->{
-                \draw (P0) -- (P1) -- (P2) -- (P3);
                 \foreach \i in {0,1,2,3}
                     \fill[\vertexColor] (P\i) circle (1.5pt);
             }
 
-            \uncover<10->{
-                \draw[graphEdge, \fgA,<->] ($(P1)+(180-\off:\scal*\len)$) to[bend left] ($(P1)+(\off:\scal*\len)$);
-                \draw[graphEdge, \fgB,<->] ($(P1)+(180+\off:\scal*\len)$) to[bend right] ($(P1)+(-\off:\scal*\len)$);
-                \draw[graphEdge, \fgC,<->] ($(P2)+(180-\off:\scal*\len)$) to[bend left] ($(P2)+(\off:\scal*\len)$);
-                \draw[graphEdge, \fgD,<->] ($(P2)+(180+\off:\scal*\len)$) to[bend right] ($(P2)+(-\off:\scal*\len)$);
-            }
+            \begin{scope}[yshift=-1.3cm]
+                \def\above{0.1}
 
-            \begin{scope}[xshift=6cm]
+                \coordinate (P1) at (\len,0);
+                \coordinate (P1Alt) at ($(P1)+(0,0.5*\above)$);
+                \coordinate (P2) at (2*\len,0);
+                \coordinate (P3) at (3*\len,0);
+                \coordinate (P0) at (1.8*\len,\above);
+
+                \coordinate (Back) at (0.4*\len,0.2*\len);
+                
+                \planEdge<11->[(Back)]{graphEdge,\fgD}
+                    {($(P2)+(180+\off:\scal*\len)$)}
+                    {($(P2)+(270:\scal*\len)$)}
+                    {($(P2)+(-\off:\scal*\len)$)}
+                \behindPlane<11->{Back}{P1}{P2}
+                \behindPlane<11->{Back}{P2}{P3}
+                \behindPlane<11->{Back}{P1}{$(P1)+(0,\above)$}
+                \behindPlane<11->{Back}{$(P1)+(0,\above)$}{P0}
+                \planEdge<11->[(Back)]{graphEdge,\fgC,dashed}
+                    {($(P2)+(180-\off:\scal*\len)$)}
+                    {($(P2)+(90:\scal*\len)$)}
+                    {($(P2)+(\off:\scal*\len)$)}
+                
+                \uncover<11->{
+                    \foreach \p in {P1Alt,P0,P2,P3}
+                        \fill[\vertexColor] (\p) circle (1.5pt);
+                }
+            \end{scope}
+
+
+            \begin{scope}[xshift=6cm, yshift=-0.4cm]
                 \coordinate[graphVertex] (B1) at (-\len,-\len);
                 \foreach \i/\j in {1/2,2/3,3/4,4/5,5/6}{
                     \node[graphVertex] (B\j) [right=of B\i] {};
@@ -782,9 +837,7 @@
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<5->{
-                    \begin{scope}[shift={($0.5*(Back)$)}]
-                        \planEdge{\colorRed,thick}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
-                    \end{scope}
+                    \planEdge[(Back)]{\colorRed,thick}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
                 }
             \end{scope}
 
@@ -809,9 +862,7 @@
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
                 \uncover<6->{
-                    \begin{scope}[shift={($0.5*(Back)$)}]
-                        \planEdge{\colorRed,thick}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
-                    \end{scope}
+                    \planEdge[(Back)]{\colorRed,thick}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
                 }
             \end{scope}
         \end{tikzpicture}
