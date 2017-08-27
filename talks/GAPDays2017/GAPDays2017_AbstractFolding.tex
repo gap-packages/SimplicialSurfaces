@@ -170,16 +170,16 @@
                     \coordinate (Back) at (0.2*\len,0.2*\len);
 
                     \behindPlane{Back}{A}{D}
-
-                    \behindPlane<11>[\colFaceB]{Back}{A}{60:\fak*\len}
-                    \behindPlane<12|handout:0>[\colFaceB]{Back}{A}{5:\fak*\len}
-                    \behindPlane<13|handout:0>[\colFaceB]{Back}{A}{20:\fak*\len}
-
                     \behindPlane{Back}{A}{B}
 
+                    \behindPlane<11>[\colFaceB]{Back}{A}{60:\fak*\len}
                     \behindPlane<11>[\colFaceA]{Back}{B}{$(B)+(120:\fak*\len)$}
+
+                    \behindPlane<12|handout:0>[\colFaceB]{Back}{A}{5:\fak*\len}
                     \behindPlane<12|handout:0>[\colFaceA]{Back}{B}{$(B)+(160:\fak*\len)$}
+
                     \behindPlane<13|handout:0>[\colFaceA]{Back}{B}{$(B)+(175:\fak*\len)$}
+                    \behindPlane<13|handout:0>[\colFaceB]{Back}{A}{20:\fak*\len}
 
                     \planEdge[(Back)]{thick}{($(A)!0.5!(D)$)}{($(B)!0.7!(D)$)}{($(D)!0.5!(C)$)}
 
@@ -673,13 +673,19 @@
 
             % Second part
             \begin{scope}[xshift=7cm]
-                \coordinate[graphVertex] (Top) at (0,\len);
-                \node[graphVertex] (Mid) [below=of Top] {};
-                \node[graphVertex] (MidLeft) [left=of Mid] {};
-                \node[graphVertex] (MidRight) [right=of Mid] {};
-                \node[graphVertex] (DownLeft) [below=of MidLeft] {};
-                \node[graphVertex] (Down) [below=of Mid] {};
-                \node[graphVertex] (DownRight) [below=of MidRight] {};
+                \uncover<6->{
+                    \coordinate[graphVertex] (Top) at (0,\len);
+                    \node[graphVertex] (Mid) [below=of Top] {};
+                    \node[graphVertex] (MidLeft) [left=of Mid] {};
+                    \node[graphVertex] (MidRight) [right=of Mid] {};
+                }
+                \uncover<7->{
+                    \node[graphVertex] (DownLeft) [below=of MidLeft] {};
+                    \node[graphVertex] (Down) [below=of Mid] {};
+                }
+                \uncover<8->{
+                    \node[graphVertex] (DownRight) [below=of MidRight] {};
+                }
 
                 \uncover<6->{
                     \draw[graphEdge, \fgA] (Top) -- (MidLeft);
@@ -764,17 +770,24 @@
 
 
             \begin{scope}[xshift=6cm, yshift=-0.4cm]
-                \coordinate[graphVertex] (B1) at (-\len,-\len);
-                \foreach \i/\j in {1/2,2/3,3/4,4/5,5/6}{
-                    \node[graphVertex] (B\j) [right=of B\i] {};
+                \uncover<13->{
+                    \coordinate[graphVertex] (B1) at (-\len,-\len);
+                }
+                \foreach \i/\j/\pos in {1/2/12,2/3/14,3/4/14,4/5/12,5/6/14}{
+                    \uncover<\pos->{
+                        \node[graphVertex] (B\j) [right=of B\i] {};
+                    }
                     \coordinate (H\i\j) at ($(B\i)!0.5!(B\j)$);
                 }
-                \foreach \i/\j in {1/2,2/3,4/5,5/6}{
-                    \node[graphVertex] (M\i\j) [above=of H\i\j] {};
-                }
 
-                \coordinate (M34) at ($(M23)!0.5!(M45)$);
-                \node[graphVertex] (Top) [above=of M34] {};
+                \uncover<11->{
+                    \foreach \i/\j in {1/2,2/3,4/5,5/6}{
+                        \node[graphVertex] (M\i\j) [above=of H\i\j] {};
+                    }
+
+                    \coordinate (M34) at ($(M23)!0.5!(M45)$);
+                    \node[graphVertex] (Top) [above=of M34] {};
+                }
 
                 \uncover<11->{
                     \draw[graphEdge, \fgA] (Top) -- (M12);
