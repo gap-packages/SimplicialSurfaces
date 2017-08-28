@@ -191,14 +191,14 @@
 
     \pause
     \begin{center}
-        \begin{tikzpicture}[z={(0cm,1cm)},x={(-1cm,-1cm)},y={(1cm,-1cm)}, faceOp/.style={opacity=\planeOp}]
+        \begin{tikzpicture}[z={(0cm,1cm)},x={(-1cm,-1cm)},y={(1cm,-1cm)}, faceOp/.style={opacity=0.7}]
             \def\len{1.5}
             \def\h{0.5}
 
             \coordinate (Top) at (0,0,\h);
             \coordinate (Bottom) at (0,0,-\h);
             \foreach \i in {0,...,4}{
-                \coordinate (P\i) at (72*\i:\len);
+                \coordinate (P\i) at (-10+72*\i:\len);
             }
 
             \foreach \i in {0,...,4}{
