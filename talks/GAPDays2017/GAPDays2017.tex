@@ -76,6 +76,85 @@
 \end{frame}
 
 
+\begin{frame}{Motivation}
+    \only<1|handout:0>{
+        \movie[ height = \textwidth, width = \textwidth, autostart, loop ]{}{TorusNetz.mp4}
+    }
+    \only<2->{
+        Goal: Investigate paper folding
+        \begin{itemize}
+            \item<3-> rigid folding in $\R^3$
+            \item<4-> consider surfaces built from triangles (simplicial surfaces)
+                \begin{itemize}
+                    \item<5-> not closed under folding
+                    \item<6-> allow more general structures:
+                \end{itemize}
+        \end{itemize}
+        \begin{center}
+            \begin{tikzpicture}
+                \begin{scope}[xshift=-3cm]
+                    \uncover<7->{
+                        \input{Image_ThreeBranchingTriangles.tex}
+                    }
+                \end{scope}
+
+                \begin{scope}[xshift=3cm,yshift=0.6cm,scale=0.5]
+                    \uncover<8->{
+                        \input{Image_DoubleTetrahedron.tex}
+                    }
+                \end{scope}
+            \end{tikzpicture}
+        \end{center}
+    }
+\end{frame}
+
+
+\begin{frame}{Implementation in GAP}
+    \begin{itemize}
+        \pause
+        \item embeddings are difficult to compute
+            \begin{itemize}
+                \pause
+                \item TODO
+            \end{itemize}
+        \pause
+        \item[$\leadsto$] focus on intrinsic properties
+        \pause
+        \item[$\leadsto$] incidence geometry
+    \end{itemize}
+
+    \begin{block}{GAP}
+        \begin{itemize}
+            \pause
+            \item can describe incidence geometry
+            \pause
+            \item can manage hierarchy of structures
+            \pause
+                \begin{center}
+                    \begin{tikzpicture}
+                        \begin{scope}[xshift=-4cm]
+                            \input{Image_ThreeBranchingTriangles.tex}
+                        \end{scope}
+                        \begin{scope}[yshift=0.6cm,scale=0.5]
+                            \input{Image_DoubleTetrahedron.tex}
+                        \end{scope}
+                        \begin{scope}[xshift=4cm,yshift=0.6cm,scale=0.5]
+                            \input{Image_Octahedron.tex}
+                        \end{scope}
+                    \end{tikzpicture}
+                \end{center}
+            \pause
+            \item difference to \texttt{FinGeom}--package by TODO
+                \begin{itemize}
+                    \pause
+                    \item only two dimensions \pause but it can work with colourings and foldings
+                \end{itemize}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+
+
 \begin{frame}
     \tableofcontents[pausesections]
 \end{frame}

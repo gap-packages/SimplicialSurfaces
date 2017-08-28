@@ -33,20 +33,8 @@
 		
 		        % Three triangles that share an edge
 		        \begin{scope}[xshift=6cm]
-                            \coordinate (A) at (0,0);
-                            \coordinate (B) at (0,1.5);
-                            \coordinate (C) at (-0.7,0.4);
-                            \coordinate (D) at (0.8,0.4);
-                            \coordinate (E) at (0.9,0.8);
-			
-                            % draw back face first
-                            \filldraw[face] (A) -- (B) -- (E) -- cycle;
-                            % Now draw front faces
-                            \filldraw[face] (A) -- (B) -- (C) -- cycle;
-                            \filldraw[face] (A) -- (B) -- (D) -- cycle;
-                            % Draw dashed line
-                            \draw[dashed] (A) -- (E);
-		        \end{scope}
+                            \input{Image_ThreeBranchingTriangles.tex}
+                    	\end{scope}
 		
 		        % A butterfly of triangles
 		        \begin{scope}[xshift=9cm]
@@ -99,23 +87,7 @@
 
                         % Double tetrahedron
                         \begin{scope}[xshift=8.7cm, yshift=-2.3cm, scale=0.5]
-                            % First tetrahedron is ABCD, second one is DEFG
-                            \coordinate (A) at (-3,-1);
-                            \coordinate (B) at (-1,-1.5);
-                            \coordinate (C) at (-2,1);
-                            \coordinate (D) at (0,0);
-                            \coordinate (E) at (3,-0.1);
-                            \coordinate (F) at (1.5,2);
-                            \coordinate (G) at (1.2,1);
-
-                            \filldraw[face] (A) -- (B) -- (C) -- cycle;
-                            \filldraw[face] (B) -- (C) -- (D) -- cycle;
-                            \filldraw[face] (D) -- (F) -- (E) -- cycle;
-
-                            \draw[dashed] (A) -- (D);
-                            \draw[dashed] (E) -- (G);
-                            \draw[dashed] (D) -- (G);
-                            \draw[dashed] (F) -- (G);
+                            \input{Image_DoubleTetrahedron.tex}
                         \end{scope}
                     \end{tikzpicture}
  
