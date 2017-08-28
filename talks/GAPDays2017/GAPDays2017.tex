@@ -179,8 +179,10 @@
 \input{GAPDays2017_AbstractFolding.tex}
 
 \begin{frame}{Summary}
+    \def\links{0.55}
+    \def\rechts{0.4}
         \begin{minipage}{\textwidth}
-            \begin{minipage}{0.4\textwidth}
+            \begin{minipage}{\links\textwidth}
                 \uncover<2->{
                     Triangulated complexes
                 }
@@ -188,8 +190,8 @@
                     \item<3-> mostly complete
                 \end{itemize}
             \end{minipage}
-            \begin{minipage}{0.5\textwidth}
-                \begin{tikzpicture}[scale=0.7]
+            \begin{minipage}{\rechts\textwidth}
+                \begin{tikzpicture}[scale=0.6]
                     \uncover<2->{
                         \input{Image_DoubleTetrahedron.tex}
                     }
@@ -199,7 +201,7 @@
 
 
         \begin{minipage}{\textwidth}
-            \begin{minipage}{0.4\textwidth}
+            \begin{minipage}{\links\textwidth}
                 \uncover<4->{
                     Edge colouring
                 }
@@ -208,14 +210,14 @@
                     \item<6-> a lot of theory missing
                 \end{itemize}
             \end{minipage}
-            \begin{minipage}{0.5\textwidth}
+            \begin{minipage}{\rechts\textwidth}
                 %TODO
             \end{minipage}
         \end{minipage}
 
 
         \begin{minipage}{\textwidth}
-            \begin{minipage}{0.4\textwidth}
+            \begin{minipage}{\links\textwidth}
                 \uncover<7->{
                     Abstract folding
                 }
@@ -223,6 +225,9 @@
                     \item<8-> framework exists
                     \item<9-> needs proper implementation
                 \end{itemize}
+            \end{minipage}
+            \begin{minipage}{\rechts\textwidth}
+                \input{Image_FoldingPlanExample.tex}
             \end{minipage}
         \end{minipage}
 \end{frame}
