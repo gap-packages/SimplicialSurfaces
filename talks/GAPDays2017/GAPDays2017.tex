@@ -1,5 +1,5 @@
-\documentclass[11pt]{beamer}
-%\documentclass[11pt, handout]{beamer}
+%\documentclass[11pt]{beamer}
+\documentclass[11pt, handout]{beamer}
 
 \input{GenericPreamble.tex}
 
@@ -109,25 +109,19 @@
                 \end{scope}
             \end{tikzpicture}
         \end{center}
+        \begin{itemize}
+            \item<9-> embeddings are difficult to compute
+                \begin{itemize}
+                    \item<10-> some embeddings of an asymmetric icosahedron are not feasible to compute
+                \end{itemize}
+            \item<11->[$\leadsto$] focus on intrinsic properties
+            \item<12->[$\leadsto$] incidence geometry
+        \end{itemize}
     }
 \end{frame}
 
 
 \begin{frame}{Implementation in GAP}
-    \begin{itemize}
-        \pause
-        \item embeddings are difficult to compute
-            \begin{itemize}
-                \pause
-                \item Some embeddings of an asymmetric icosahedron are not feasible to compute
-            \end{itemize}
-        \pause
-        \item[$\leadsto$] focus on intrinsic properties
-        \pause
-        \item[$\leadsto$] incidence geometry
-    \end{itemize}
-
-    \begin{block}{GAP}
         \begin{itemize}
             \pause
             \item can describe incidence geometry
@@ -158,7 +152,6 @@
                     \item only two dimensions \pause but it can work with colourings and foldings
                 \end{itemize}
         \end{itemize}
-    \end{block}
 \end{frame}
 
 

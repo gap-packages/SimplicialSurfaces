@@ -179,7 +179,6 @@
             \def\wB{160}
             \def\nOff{10}
 
-            \uncover<3->{
                 % angle, colour
                 \newcommand{\plane}[2]{
                     \coordinate (Out) at (#1:\len);
@@ -188,9 +187,8 @@
                     \fill[#2] (0,0) -- (Out) -- +(Back) -- (Back) -- cycle;
                     \draw (0,0) -- (Back);
                 }
-            }
 
-            \uncover<4->{
+            \uncover<3->{
                 \plane{\wA}{\colFaceA}
                 \node[\colFaceA] at (\wA+2*\nOff:\len) {$1^+$};
                 \node[\colFaceA] at (\wA-\nOff:\len) {$1^-$};
@@ -202,12 +200,12 @@
                 \fill (0,0) circle (1.5pt);
             }
 
-            \uncover<5->{
+            \uncover<4->{
                 \planEdge{}{(\wB-\nOff: 0.5*\len)}{(90:0.4*\len)}{(\wA+\nOff:0.5*\len)}
             }
 
             \begin{scope}[xshift=4cm]
-                \uncover<5->{
+                \uncover<4->{
                     \def\wA{80}
                     \def\wB{100}
 
@@ -224,11 +222,11 @@
         \end{tikzpicture}
     \end{center}
 
-    \uncover<6->{
+    \uncover<5->{
         $\Rightarrow$ Describe folding by two face sides
     }
 
-    \uncover<7->{
+    \uncover<6->{
         $\leadsto$ \textbf{folding plan}
     }
 \end{frame}
@@ -244,7 +242,7 @@
         \item<12-|handout:2>[$\Rightarrow$] Identify only two faces at a time
             \begin{itemize}
                 \item<14-|handout:2>[$\leadsto$] Relax the rigidity--constraint:
-                \item<17-|handout:2> Allow non--rigid configurations as transitional states
+                \item<15-|handout:2> Allow non--rigid configurations as transitional states
             \end{itemize}
     \end{itemize}
 
@@ -690,7 +688,7 @@
     \begin{itemize}
         \item<7->[$\Rightarrow$]If you know the folding structure of a small complex,
             \uncover<8->{you can't easily find the folding structure of an extended complex}
-        \item<9->[$\leadsto$]Folding plans are not optimal to model folding.
+        \item<9->[$\leadsto$]Folding plans are not optimal to model folding
     \end{itemize}
 \end{frame}
 
