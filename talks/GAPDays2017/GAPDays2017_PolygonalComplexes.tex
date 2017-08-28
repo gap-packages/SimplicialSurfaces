@@ -22,52 +22,113 @@
 
 \begin{frame}{Isomorphism testing}
     Incidence structure can be interpreted as a coloured graph:
-    \pause
     \begin{center}
-        \begin{tikzpicture}[vertexNode/.style={circle,
-            fill=\colorVertexNode}, node distance=0.5]
-            % Edge nodes
-            \node[edgeBackground] (E6) {6};
-            \node[edgeBackground] (E8) [right=of E6] {8};
-            \node[edgeBackground] (E9) [right=of E8] {9};
-            \node[edgeBackground] (E10) [right=of E9] {10};
-            \node[edgeBackground] (E12) [right=of E10] {12};
-            \node[edgeBackground] (E13) [right=of E12] {13};
+        \begin{tikzpicture}[vertexNode/.style={circle,fill=\colorVertexNode},node distance=0.5,
+                faceNode/.style={fill=\faceColor,regular polygon, regular polygon sides=3}]
+            \def\len{1.5}
+            
+            \uncover<4->{
+                \coordinate[label={[vertex]left:5}] (A) at (0,0);
+                \coordinate[label={[vertex]above:6}] (B) at (\len,\len);
+                \coordinate[label={[vertex]below:7}] (C) at (\len,-\len);
+            }
+            \uncover<7->{
+                \coordinate[label={[vertex]right:11}] (D) at (2*\len,0);
+            }
 
-            % Face nodes
-            \node[fill=\colorFace] (F1) [above=of E8] {1}
-                edge (E6) edge (E8) edge (E9);
-            \node (Help) at ($(E10)!0.5!(E12)$) {};
-            \node[fill=\colorFace] (F4) [above=of Help] {4}
-                edge (E9) edge (E10) edge (E12) edge (E13);
+            \uncover<2->{
+                \filldraw[face] (A) -- (B) -- (C) -- cycle;
+                \node at (barycentric cs:A=1,B=1,C=1) {1};
+            }
+            \uncover<5->{
+                \filldraw[face] (B) -- (C) -- (D) -- cycle;
+                \node at (barycentric cs:B=1,C=1,D=1) {8};
+            }
 
-            % Vertex nodes
-            \node[vertexNode] (V7) [below=of Help] {7}
-                edge (E10) edge (E13);
-            \node[vertexNode] (V11) [right=of V7] {11}
-                edge (E13) edge (E12);
-            \node[vertexNode] (V5) [left=of V7] {5}
-                edge (E8) edge (E9) edge (E12);
-            \node[vertexNode] (V3) [left=of V5] {3}
-                edge (E6) edge (E9) edge (E10);
-            \node[vertexNode] (V2) [left=of V3] {2}
-                edge (E6) edge (E8);
+            \uncover<3->{
+                \drawEdge{A}{B}{2}
+                \drawEdge{A}{C}{3}
+                \drawEdge{B}{C}{4}
+            }
+            \uncover<6->{
+                \drawEdge{B}{D}{9}
+                \drawEdge{C}{D}{10}
+            }
+
+            \uncover<4->{
+                \fill[vertex] (A) circle (\vSize);
+                \fill[vertex] (B) circle (\vSize);
+                \fill[vertex] (C) circle (\vSize);
+            }
+            \uncover<7->{
+                \fill[vertex] (D) circle (\vSize);
+            }
+
+
+            \begin{scope}[xshift=5cm]
+                \uncover<3->{
+                    \node[edgeBackground] (E1) {2};
+                    \node[edgeBackground] (E2) [right=of E1] {3};
+                    \node[edgeBackground] (E3) [right=of E2] {4};
+                }
+                \uncover<6->{
+                    \node[edgeBackground] (E4) [right=of E3] {9};
+                    \node[edgeBackground] (E5) [right=of E4] {10};
+                }
+
+                \uncover<2->{
+                    \node[faceNode] (F1) [above=of E2] {1}; 
+                }
+                \uncover<5->{
+                    \node[faceNode] (F2) [above=of E4] {8};
+                }
+
+                \uncover<4->{
+                    \node[vertexNode] (V1) [below=of E1] {5}
+                        edge (E1) edge (E2);
+                    \node[vertexNode] (V2) [right=of V1] {6}
+                        edge (E1) edge (E3);
+                    \node[vertexNode] (V3) [right=of V2] {7}
+                        edge (E2) edge (E3);
+                }
+                \uncover<7->{
+                    \node[vertexNode] (V4) [right=of V3] {11}
+                        edge (E4) edge (E5);
+                }
+
+                \uncover<3->{
+                    \draw (F1) -- (E1);
+                    \draw (F1) -- (E2);
+                    \draw (F1) -- (E3);
+                }
+
+                \uncover<5->{
+                    \draw (F2) -- (E3);
+                }
+
+                \uncover<6->{
+                    \draw (F2) -- (E4) -- (V2);
+                    \draw (F2) -- (E5) -- (V3);
+                }
+            \end{scope}
         \end{tikzpicture}
     \end{center}
-    \pause
-    $\leadsto$ reduce to graph isomorphism problem
 
-    \pause
-    $\leadsto$ can be solved quite easily by \texttt{Nauty} (McKay, Piperno)
+    \uncover<8->{
+        $\leadsto$ reduce to graph isomorphism problem
+    }
 
-    \pause
-    Interfaced by NautyTracesInterface (by Gutsche, Niemeyer, Schweitzer)
-    \begin{itemize}
-        \pause
-        \item direct C--interface without writing files
-        \pause
-        \item also returns automorphism group
-    \end{itemize}
+    \uncover<9->{
+        $\leadsto$ can be solved quite easily by \texttt{Nauty} (McKay, Piperno)
+    }
+
+    \uncover<10->{
+        Interfaced by NautyTracesInterface (by Gutsche, Niemeyer, Schweitzer)
+        \begin{itemize}
+            \item<11-> direct C--interface without writing files
+            \item<12-> also returns automorphism group
+        \end{itemize}
+    }
 \end{frame}
 
 
