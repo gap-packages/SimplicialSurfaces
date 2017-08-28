@@ -34,36 +34,24 @@
 \end{frame}
 
 
-\begin{frame}{Why are embeddings hard?}
-    \pause
-    Ideally, we would like to have embeddings.
-    
-    \pause
-    But we want to define folding independently from an embedding, since:
-
+\begin{frame}{Embeddings are very hard}
     \begin{itemize}
-        \pause
-        \item They are very hard to compute (even for small examples)
-        \pause
-        \item We can only show foldability for specific small examples
+        \item<2-> At every point in time the folding process has to be embedded
+        \item<3-> We can only show foldability for specific small examples
             \begin{itemize}
-                \pause
-                \item Usually using regularity (like crystallographic symmetry)
-                \pause
-                \item No general method
+                \item<4-> Usually using regularity (like crystallographic symmetry)
+                \item<5-> No general method
             \end{itemize}
-        \pause
-        \item It is very hard to define iterated folding in an embedding
+        \item<6-> It is very hard to define iterated folding in an embedding
     \end{itemize}
 
-    \pause
     \begin{center}
-        \only<1-8>{
+        \only<1-6>{
             \phantom{
                 \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
             }
         }
-        \only<9>{
+        \only<7>{
             \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
         }
     \end{center}
@@ -104,6 +92,149 @@
 \newcommand{\colFaceA}{\colorFaceA}
 \newcommand{\colFaceB}{\colorFaceB}
 \newcommand{\colFaceC}{\colorFaceC}
+
+
+\begin{frame}[fragile]{More than a triangular complex}
+    \begin{itemize}
+        \pause
+        \item Concept should allow reversible folding
+        \pause
+        \item We need an ordering of the faces:
+            \begin{center}
+                \begin{tikzpicture}
+
+                    \newcommand{\plane}[3]{
+                        \def\len{1.5}
+                        \def\back{0.75}
+                        \def\xOff{0.5}
+                        \def\nOff{-0.3}
+                
+                        \coordinate (Down) at (#1*\xOff,0);
+                        \coordinate (Up) at (#1*\xOff,\len);
+                        \coordinate (Back) at (\back*\xOff,\back*\xOff);
+
+                        \fill[#2] (Down) -- ($(Down)+(Back)$) -- ($(Up)+(Back)$) -- (Up) -- cycle;
+                        \node[#2] at (#1*\xOff,\nOff) {#3};
+                    }
+
+                    \plane{0}{\colFaceB}{1}
+                    \plane{1}{\colFaceA}{2}
+                    \plane{2}{\colFaceC}{3}
+
+                    % Second lines
+                    \begin{scope}[xshift=4cm]
+                        \plane{0}{\colFaceB}{1}
+                        \plane{1}{\colFaceC}{3}
+                        \plane{2}{\colFaceA}{2}
+                    \end{scope}
+                \end{tikzpicture}
+            \end{center}
+        \pause
+        \item Adding a linear order on each face equivalence class
+            \pause is not enough:
+            \pause
+            \begin{center}
+                \begin{tikzpicture}
+
+                    \newcommand{\plane}[3]{
+                        \def\len{1}
+                        \def\nScale{1.3}
+
+                        \coordinate (Back) at (0.25*\len,0.5*\len);
+                        \fill[#2] (0,0) -- (#1:\len) -- +(Back) -- (Back) -- cycle; 
+                        \node[#2] at (#1:\nScale*\len) {#3};
+                        \draw (0,0) -- (Back);
+                    }
+
+                    \plane{210}{\colFaceA}{1}
+                    \plane{-30}{\colFaceB}{2}
+                    \plane{90}{\colFaceC}{3}
+
+                    \fill (0,0) circle (1.5pt);
+
+                    \begin{scope}[xshift=4cm]
+                        \plane{210}{\colFaceA}{1}
+                        \plane{-30}{\colFaceC}{3}
+                        \plane{90}{\colFaceB}{2}
+
+                        \fill (0,0) circle (1.5pt);
+                    \end{scope}
+                \end{tikzpicture}
+            \end{center}
+        \pause
+        \item[$\leadsto$] \textbf{folding complex}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{How to describe folding?}
+    \uncover<2->{
+        Needs specification of two face sides:
+    }
+
+    \begin{center}
+        \begin{tikzpicture}
+            \def\len{1.5}
+            \def\wA{20}
+            \def\wB{160}
+            \def\nOff{10}
+
+            \uncover<3->{
+                % angle, colour
+                \newcommand{\plane}[2]{
+                    \coordinate (Out) at (#1:\len);
+                    \coordinate (Back) at (0.2*\len,0.2*\len);
+
+                    \fill[#2] (0,0) -- (Out) -- +(Back) -- (Back) -- cycle;
+                    \draw (0,0) -- (Back);
+                }
+            }
+
+            \uncover<4->{
+                \plane{\wA}{\colFaceA}
+                \node[\colFaceA] at (\wA+2*\nOff:\len) {$1^+$};
+                \node[\colFaceA] at (\wA-\nOff:\len) {$1^-$};
+
+                \plane{\wB}{\colFaceB}
+                \node[\colFaceB] at (\wB+\nOff:0.9*\len) {$2^+$};
+                \node[\colFaceB] at (\wB-4*\nOff:0.8*\len) {$2^-$};
+
+                \fill (0,0) circle (1.5pt);
+            }
+
+            \uncover<5->{
+                \planEdge{}{(\wB-\nOff: 0.5*\len)}{(90:0.4*\len)}{(\wA+\nOff:0.5*\len)}
+            }
+
+            \begin{scope}[xshift=4cm]
+                \uncover<5->{
+                    \def\wA{80}
+                    \def\wB{100}
+
+                    \plane{\wB}{\colFaceB}
+                    \node[\colFaceB] at (\wB+\nOff:0.9*\len) {$2^+$};
+                    
+                    \plane{\wA}{\colFaceA}
+                    \node[\colFaceA] at (\wA-2*\nOff:\len) {$1^-$};
+
+                    \fill (0,0) circle (1.5pt);
+                }
+            \end{scope}
+
+        \end{tikzpicture}
+    \end{center}
+
+    \uncover<6->{
+        $\Rightarrow$ Describe folding by two face sides
+    }
+
+    \uncover<7->{
+        $\leadsto$ \textbf{folding plan}
+    }
+\end{frame}
+
+
+
 
 \begin{frame}{Important properties of folding}
     \begin{itemize}
@@ -215,335 +346,6 @@
             }
         \end{center}
     \end{overlayarea}
-\end{frame}
-
-
-\begin{frame}{How to define abstract folding?}
-    \uncover<2->{We need to define two structures:}
-    \begin{enumerate}
-        \item<3-> A folding state
-            \begin{itemize}
-                \item<5-> Based on polygonal complexes
-                \item<6-> Describe ``is folded together" by an equivalence relation
-                \item<7-> Describe order of faces in folding state
-            \end{itemize}
-        \item<4-> The folding steps
-            \begin{itemize}
-                \item<8-> Only two faces at a time
-                \item<9-> Explain ``unordered folding" (e.\,g. covering)
-                \item<10-> Modify to include face order relations
-            \end{itemize}
-    \end{enumerate}
-\end{frame}
-
-
-\begin{frame}{Unordered Folding (Covering)}
-    \begin{center}
-        \begin{tikzpicture}
-            \def\xOff{1.8}
-            \def\yOff{1.5}
-
-            %     B
-            %   / | \
-            % A   |   C
-            %   \ | /
-            %     D
-            \coordinate (A) at (-\xOff,0);
-            \coordinate (B) at (0,\yOff);
-            \coordinate (C) at (\xOff,0);
-            \coordinate (D) at (0,-\yOff);
-
-            \uncover<3->{
-                \filldraw[face] (A) -- (B) -- (D) -- cycle;
-                \node at (barycentric cs:A=1,B=1,D=1) {$I$};
-                \filldraw[face] (B) -- (C) -- (D) -- cycle;
-                \node at (barycentric cs:B=1,C=1,D=1) {$II$};
-
-                \foreach \p in {A,B,C,D}
-                    \fill[\vertexColor] (\p) circle (1.5pt);
-            }
-
-            \uncover<5-7|handout:1>{
-                \draw[\colorRed,thick,->] (barycentric cs:A=1,B=2,D=2) to[bend left] (barycentric cs:B=2,C=1,D=2);
-                \draw[\colorRed,thick,->] ($(A)!0.5!(B)$) to[bend right] ($(B)!0.5!(C)$);
-                \draw[\colorRed,thick,->] ($(A)!0.5!(D)$) to[bend left] ($(D)!0.5!(C)$);
-            }
-        \end{tikzpicture}
-    \end{center}
-
-    \begin{overprint}
-        \onslide<1-7|handout:1>
-        
-        \uncover<2-7>{
-            Why do we need more than a polygonal complex?
-        }
-
-        \uncover<4-7>{
-            Naive folding definition: surjective map that respects incidence
-        }
-
-        \uncover<6-7>{
-            Problem: Can't be unfolded
-        }
-
-        \uncover<7>{
-            $\Rightarrow$ Folding state should not forget original structure
-        }
-
-
-        \onslide<8-16|handout:2>
-
-        \uncover<8-16>{
-            Represent folding by equivalence relation
-            \begin{itemize}
-                \item<9-> Separate relation on vertices, edges and faces
-                \item<10-> Two elements are equivalent if they are folded together
-                \item<11-> If two edges are equivalent, 
-                    \uncover<12->{then their vertices have to be as well}
-                    \uncover<13->{(likewise for faces)}
-                \item<14-> The vertices of an edge are not equivalent
-                    \uncover<15->{(likewise for faces)}
-                \item<16->[$\Rightarrow$] Unordered folding is coarsening of equivalence relation
-            \end{itemize}
-        }
-    \end{overprint}
-\end{frame}
-
-
-\begin{frame}{How does folding work?}
-    \begin{enumerate}
-        \item<2-> Choose two faces that are not folded together
-        \item<4-> Choose how to identify them \uncover<6->{(like $I \sim II$ and $1 \sim 4$)}
-        \item<7-> Add those pairs to the equivalence relation
-    \end{enumerate}
-
-    \begin{center}
-        \begin{tikzpicture}
-            \def\xOff{1.8}
-            \def\yOff{1.5}
-
-            %     B
-            %   / | \
-            % A   |   C
-            %   \ | /
-            %     D
-            \uncover<3->{
-                \coordinate[label={[vertex]left:1}] (A) at (-\xOff,0);
-                \coordinate[label={[vertex]above:2}] (B) at (0,\yOff);
-                \coordinate[label={[vertex]right:4}] (C) at (\xOff,0);
-                \coordinate[label={[vertex]below:3}] (D) at (0,-\yOff);
-
-                \filldraw[face] (A) -- (B) -- (D) -- cycle;
-                \node at (barycentric cs:A=1,B=1,D=1) {$I$};
-                \filldraw[face] (B) -- (C) -- (D) -- cycle;
-                \node at (barycentric cs:B=1,C=1,D=1) {$II$};
-
-                \foreach \p in {A,B,C,D}
-                    \fill[\vertexColor] (\p) circle (1.5pt);
-            }
-
-            \uncover<5->{
-                \draw[\colorRed,thick,->] (barycentric cs:A=1,B=2,D=2) to[bend left] (barycentric cs:B=2,C=1,D=2);
-                \draw[\colorRed,thick,->] ($(A)!0.5!(B)$) to[bend right] ($(B)!0.5!(C)$);
-                \draw[\colorRed,thick,->] ($(A)!0.5!(D)$) to[bend left] ($(D)!0.5!(C)$);
-            }
-        \end{tikzpicture}
-    \end{center}
-
-    \uncover<8->{Only restriction:}
-
-    \uncover<9->{Two vertices in an edge can't be identified}
-    \uncover<10->{(slightly generalized)}
-\end{frame}
-
-
-\begin{frame}[fragile]{Limitation of unordered folding}
-    \pause
-    We can't work with ordering of faces:
-    \pause
-    \begin{center}
-        \begin{tikzpicture}
-
-            \newcommand{\plane}[3]{
-                \def\len{1.5}
-                \def\back{0.75}
-                \def\xOff{0.5}
-                \def\nOff{-0.3}
-                
-                \coordinate (Down) at (#1*\xOff,0);
-                \coordinate (Up) at (#1*\xOff,\len);
-                \coordinate (Back) at (\back*\xOff,\back*\xOff);
-
-                \fill[#2] (Down) -- ($(Down)+(Back)$) -- ($(Up)+(Back)$) -- (Up) -- cycle;
-                \node[#2] at (#1*\xOff,\nOff) {#3};
-            }
-
-            \plane{0}{\colFaceB}{1}
-            \plane{1}{\colFaceA}{2}
-            \plane{2}{\colFaceC}{3}
-
-            % Second lines
-            \begin{scope}[xshift=4cm]
-                \plane{0}{\colFaceB}{1}
-                \plane{1}{\colFaceC}{3}
-                \plane{2}{\colFaceA}{2}
-            \end{scope}
-        \end{tikzpicture}
-    \end{center}
-
-    \pause
-    Adding a linear order on each face equivalence class
-    \pause is not enough:
-    \pause
-    \begin{center}
-        \begin{tikzpicture}
-
-            \newcommand{\plane}[3]{
-                \def\len{1}
-                \def\nScale{1.3}
-
-                \coordinate (Back) at (0.25*\len,0.5*\len);
-                \fill[#2] (0,0) -- (#1:\len) -- +(Back) -- (Back) -- cycle; 
-                \node[#2] at (#1:\nScale*\len) {#3};
-                \draw (0,0) -- (Back);
-            }
-
-            \plane{210}{\colFaceA}{1}
-            \plane{-30}{\colFaceB}{2}
-            \plane{90}{\colFaceC}{3}
-
-            \fill (0,0) circle (1.5pt);
-
-            \begin{scope}[xshift=4cm]
-                \plane{210}{\colFaceA}{1}
-                \plane{-30}{\colFaceC}{3}
-                \plane{90}{\colFaceB}{2}
-
-                \fill (0,0) circle (1.5pt);
-            \end{scope}
-        \end{tikzpicture}
-    \end{center}
-
-    \pause
-    $\leadsto$ define order of faces around edges
-    \pause
-    (we will skip the details)
-\end{frame}
-
-
-\begin{frame}{Folding complex}
-    \pause
-    \begin{defi}
-        A \textbf{folding complex}
-        \pause
-        is a polygonal complex together with
-        \begin{enumerate}
-            \pause
-            \item An equivalence relation on vertices, edges and faces
-                \pause (``is folded together")
-            \pause
-            \item A linear ordering on each face equivalence class
-            \pause
-            \item A cyclical ordering of the faces around each edge equivalence class
-        \end{enumerate}
-        \pause
-        such that the orderings are compatible
-        \pause
-        (in an appropriate sense).
-    \end{defi}
-
-    \pause
-    To identify faces with each other, we have to combine those orderings.
-    \begin{itemize}
-        \pause
-        \item linear orderings get concatenated
-        \pause
-        \item cyclical orderings are opened at one point
-            \pause
-            and combined
-        \pause
-        \item[!!] compatibility is not easily transfered,
-            \pause
-            but can be calculated
-    \end{itemize}
-
-\end{frame}
-
-
-\begin{frame}[fragile]{Changed definition of folding}
-    \begin{overprint}
-        \only<2-4|handout:0>{Before (no ordering):}
-        \only<5->{Folding with ordering:}
-    \end{overprint}
-
-    \begin{enumerate}
-        \item<3-> Choose two faces that are not folded together
-        \item<4-> Choose how to identify them and extend the equivalence relation
-        \item<9-> Choose the sides of the faces that will meet
-            \uncover<10->{and modify the orderings}
-    \end{enumerate}
-
-    \uncover<6->{
-        $\leadsto$ Each face has two sides
-    }
-
-    \begin{center}
-        \begin{tikzpicture}
-            \def\len{1.5}
-            \def\wA{20}
-            \def\wB{160}
-            \def\nOff{10}
-
-            % angle, colour
-            \newcommand{\plane}[2]{
-                \coordinate (Out) at (#1:\len);
-                \coordinate (Back) at (0.2*\len,0.2*\len);
-
-                \fill[#2] (0,0) -- (Out) -- +(Back) -- (Back) -- cycle;
-                \draw (0,0) -- (Back);
-            }
-
-            \uncover<7->{
-                \plane{\wA}{\colFaceA}
-                \node[\colFaceA] at (\wA+2*\nOff:\len) {$1^+$};
-                \node[\colFaceA] at (\wA-\nOff:\len) {$1^-$};
-
-                \plane{\wB}{\colFaceB}
-                \node[\colFaceB] at (\wB+\nOff:0.9*\len) {$2^+$};
-                \node[\colFaceB] at (\wB-4*\nOff:0.8*\len) {$2^-$};
-
-                \fill (0,0) circle (1.5pt);
-            }
-
-            \uncover<8->{
-                \planEdge{}{(\wB-\nOff: 0.5*\len)}{(90:0.4*\len)}{(\wA+\nOff:0.5*\len)}
-            }
-
-            \begin{scope}[xshift=4cm]
-                \uncover<8->{
-                    \def\wA{80}
-                    \def\wB{100}
-
-                    \plane{\wB}{\colFaceB}
-                    \node[\colFaceB] at (\wB+\nOff:0.9*\len) {$2^+$};
-                    
-                    \plane{\wA}{\colFaceA}
-                    \node[\colFaceA] at (\wA-2*\nOff:\len) {$1^-$};
-
-                    \fill (0,0) circle (1.5pt);
-                }
-            \end{scope}
-
-        \end{tikzpicture}
-    \end{center}
-
-    \uncover<11->{
-        $\Rightarrow$ Define folding by two face sides (\textbf{folding plan})
-    }
-
-    \uncover<12->{
-        $\leadsto$ Allows reversible (un)folding
-    }
 \end{frame}
 
 
