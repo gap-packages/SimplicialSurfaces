@@ -134,7 +134,7 @@
 
 \begin{frame}{General properties}
     \pause
-    Some properties can be computed for all polygonal complexes:
+    Some properties can be computed for all triangular complexes:
     \pause
     \begin{itemize}
         \item Connectivity
@@ -147,52 +147,24 @@
     Counterexample:
         \begin{center}
             \begin{tikzpicture}
-                \coordinate (A) at (0,0);
-                \coordinate (B) at (0,1.5);
-                \coordinate (C) at (-0.7,0.4);
-                \coordinate (D) at (0.8,0.4);
-                \coordinate (E) at (0.9,0.8);
-                			
-                % draw back face first
-                \filldraw[face] (A) -- (B) -- (E) -- cycle;
-                % Now draw front faces
-                \filldraw[face] (A) -- (B) -- (C) -- cycle;
-                \filldraw[face] (A) -- (B) -- (D) -- cycle;
-                % Draw dashed line
-                \draw[dashed] (A) -- (E);
+                \input{Image_ThreeBranchingTriangles.tex}
 	    \end{tikzpicture}
         \end{center}
     \pause
     $\Rightarrow$ every edge lies in at most two faces (for well--definedness)
     
     \pause
-    $\leadsto$ \textbf{ramified polygonal surfaces}
+    $\leadsto$ \textbf{ramified simplicial surfaces}
 \end{frame}
 
 
 \begin{frame}{Why ramified?}
     \pause
-    Typical example of ramified polygonal surface:
+    Typical example of ramified simplicial surface:
     \pause
     \begin{center}
         \begin{tikzpicture}
-                % First tetrahedron is ABCD, second one is DEFG
-                \coordinate (A) at (-3,-1);
-                \coordinate (B) at (-1,-1.5);
-                \coordinate (C) at (-2,1);
-                \coordinate (D) at (0,0);
-                \coordinate (E) at (3,-0.1);
-                \coordinate (F) at (1.5,2);
-                \coordinate (G) at (1.2,1);
-                
-                \filldraw[face] (A) -- (B) -- (C) -- cycle;
-                \filldraw[face] (B) -- (C) -- (D) -- cycle;
-                \filldraw[face] (D) -- (F) -- (E) -- cycle;
-                
-                \draw[dashed] (A) -- (D);
-                \draw[dashed] (E) -- (G);
-                \draw[dashed] (D) -- (G);
-                \draw[dashed] (F) -- (G);
+            \input{Image_DoubleTetrahedron.tex}
         \end{tikzpicture}
     \end{center}
     \pause
@@ -200,7 +172,7 @@
         the central vertex
     
     \pause
-    A \textbf{polygonal surface} does not have these ramifications.
+    A \textbf{simplicial surface} does not have these ramifications.
 \end{frame}
 
 
