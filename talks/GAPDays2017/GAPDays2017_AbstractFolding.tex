@@ -425,7 +425,6 @@
         \item<3->Edges are folding plans connecting two folding complexes
     \end{itemize}
 
-    \tikzset{graphVertex/.style={circle,fill=gray!70!white,inner sep=1.5pt}}
     \begin{center}
         \begin{tikzpicture}[graphEdge/.style={thick}]
             \def\len{1.2}
@@ -618,6 +617,59 @@
             \end{scope}
         \end{tikzpicture}
     \end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]{Larger graph}
+    \uncover<2->{
+        \begin{center}
+            \begin{tikzpicture}
+                \def\len{1.3}
+                \def\off{10}
+                \def\scal{0.4}
+                
+                \coordinate (Z) at (0,0);
+                \coordinate (A) at (-120:\len);
+                \coordinate (B) at (120:\len);
+                \coordinate (C) at (\len,0);
+                \coordinate (D) at (2*\len,0);
+                \coordinate (Back) at (0.5*\len,0.25*\len);
+
+                \planEdge[(Back)]{\graphColorA,thick}{(120+\off:0.5*\len)}
+                    {(180:0.5*\len)}{(-120-\off:0.5*\len)}
+                \behindPlane{Back}{Z}{A}
+                \behindPlane{Back}{Z}{B}
+                \planEdge[(Back)]{\graphColorE,thick}{(-\off:0.5*\len)}
+                    {(-60:0.5*\len)}{(-120+\off:0.5*\len)}
+                \planEdge[(Back)]{\graphColorD,thick}{($(C)+(180+\off:\scal*\len)$)}
+                    {($(C)+(-90:\scal*\len)$)}{($(C)+(-\off:\scal*\len)$)}
+                \behindPlane{Back}{Z}{C}
+                \behindPlane{Back}{C}{D}
+                \planEdge[(Back)]{\graphColorB,thick}{(\off:0.5*\len)}
+                    {(60:0.5*\len)}{(120-\off:0.5*\len)}
+                \planEdge[(Back)]{\graphColorC,thick}{($(C)+(180-\off:\scal*\len)$)}
+                    {($(C)+(90:\scal*\len)$)}{($(C)+(\off:\scal*\len)$)}
+
+                \foreach \p in {Z,A,B,C,D}
+                    \fill[\vertexColor] (\p) circle (\vSize);
+            \end{tikzpicture}
+        \end{center}
+    }
+
+    \uncover<3->{
+        \begin{center}
+            \begin{tikzpicture}[every edge/.style={thick}]
+                \node (N1) {};
+                \foreach \i in {1,...,11}{
+                    \node (N\i+1) [right=of (N\i)] {};
+                }
+
+                \coordinate (Help) at ($(N1)!0.5!(N2)$);
+
+            \end{tikzpicture}
+        \end{center}
+    }
+
 \end{frame}
 
 
