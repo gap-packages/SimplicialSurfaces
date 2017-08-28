@@ -624,7 +624,7 @@
     \uncover<2->{
         \begin{center}
             \begin{tikzpicture}
-                \def\len{1.3}
+                \def\len{1.2}
                 \def\off{10}
                 \def\scal{0.4}
                 
@@ -658,13 +658,61 @@
 
     \uncover<3->{
         \begin{center}
-            \begin{tikzpicture}[every edge/.style={thick}]
-                \node (N1) {};
-                \foreach \i in {1,...,11}{
-                    \node (N\i+1) [right=of (N\i)] {};
+            \begin{tikzpicture}[every edge/.style={draw,thick},node distance=1.5 and 0.9]
+                \newcommand{\cA}{\graphColorA}
+                \newcommand{\cB}{\graphColorB}
+                \newcommand{\cC}{\graphColorC}
+                \newcommand{\cD}{\graphColorD}
+                \newcommand{\cE}{\graphColorE}
+                
+                \node[graphVertex] (M1) {};
+                \foreach \i/\j in {1/2,2/3,3/4,4/5,5/6,6/7,7/8,8/9,9/10,10/11}{
+                    \node[graphVertex] (M\j) [right=of M\i] {};
                 }
 
-                \coordinate (Help) at ($(N1)!0.5!(N2)$);
+                \coordinate (Help) at ($(M1)!0.5!(M2)$);
+                \node[graphVertex] (N2) [below=of Help] {}
+                    edge[\cA] (M1) edge[dashed,\cE] (M3);
+                \node[graphVertex] (N1) [left=of N2] {}
+                    edge[\cB] (M1) edge[dashed,\cE] (M2);
+                \node[graphVertex] (N3) [right=of N2] {}
+                    edge[\cB] (M3) edge[\cA] (M2) edge[\cD] (M4);
+                \node[graphVertex] (N4) [right=of N3] {}
+                    edge[dotted,\cC] (M4);
+                \node[graphVertex] (N5) [right=of N4] {}
+                    edge[dotted,\cA] (M5);
+                \node[graphVertex] (N6) [right=of N5] {}
+                    edge[\cE] (M5) edge[dashed,\cC] (M6);
+                \node[graphVertex] (N7) [right=of N6] {}
+                    edge[dashed,\cD] (M6) edge[\cB] (M7);
+                \node[graphVertex] (N8) [right=of N7] {}
+                    edge[dotted,\cA] (M7);
+                \node[graphVertex] (N9) [right=of N8] {}
+                    edge[dotted,\cD] (M8);
+                \node[graphVertex] (N10) [right=of N9] {}
+                    edge[\cC] (M8) edge[\cE] (M9) edge[\cA] (M10);
+                \node[graphVertex] (N11) [right=of N10] {}
+                    edge[dashed,\cB] (M9) edge[\cA] (M11);
+                \node[graphVertex] (N12) [right=of N11] {}
+                    edge[dashed,\cB] (M10) edge[\cE] (M11);
+
+                    
+                \node[graphVertex] (L1) [above=of M2] {}
+                    edge[dashed,\cE] (M1) edge[\cA] (M3) edge[\cB] (M2);
+                \phantom{\node[graphVertex] (M45) at ($(M4)!0.5!(M5)$) {}; };
+                \node[graphVertex] (L2) [above=of M4] {}
+                    edge[\cD] (M2) edge[dashed,\cC] (M5) edge[\cA] (M4) edge[\cE] (M6);
+                \node[graphVertex] (L3) [above=of M6] {}
+                    edge[\cD] (M3) edge[\cB] (M4) edge[\cE] (M8) edge[\cC] (M9);
+                \phantom{\node[graphVertex] (M78) at ($(M7)!0.5!(M8)$) {}; };
+                \node[graphVertex] (L4) [above=of M8] {}
+                    edge[\cB] (M6) edge[\cA] (M8) edge[dashed,\cD] (M7) edge[\cC] (M10);
+                \node[graphVertex] (L5) [above=of M10] {}
+                    edge[\cA] (M9) edge[\cE] (M10) edge[dashed,\cB] (M11);
+
+
+                \node[graphVertex] (K) [above=of L3] {}
+                    edge[\cD] (L1) edge[\cB] (L2) edge[\cA] (L3) edge[\cE] (L4) edge[\cC] (L5);
 
             \end{tikzpicture}
         \end{center}
