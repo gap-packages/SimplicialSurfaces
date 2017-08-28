@@ -247,8 +247,57 @@
     \end{itemize}
 
     \begin{overlayarea}{\textwidth}{0.3\textwidth}
-        \begin{center}
-            \only<3-5,12->{ 
+        \begin{center}            
+            
+            % Arbitrary many faces
+            \only<6-8|handout:0>{
+                \begin{tikzpicture}
+		    \foreach \i/\j in {1/0, 2/1, 3/2, 4/3, 5/4}
+		    {
+		        \filldraw [fill=black!9!white] (\j,0) -- (\i,0) -- (\i,1) -- (\j,1) -- cycle;
+		        \filldraw [fill=black!9!white] (\j,0) -- (\i,0) -- (\i,-1) -- (\j,-1) -- cycle;
+		    }
+                    \uncover<7-8>{
+                        \planEdge{\colorRed,thick}{(0.5,0.5)}{(0.75,0)}{(0.5,-0.5)}
+	            }
+                \end{tikzpicture}
+            }
+
+            % Picture of non-uniqueness:
+            \only<9-11|handout:1>{
+                \begin{tikzpicture}
+                    \def\len{2}
+                    \def\fak{0.7}
+                    \coordinate (A) at (0,0);
+                    \coordinate (B) at (\len,0);
+                    \coordinate (C) at (\len,\len);
+                    \coordinate (D) at (0,\len);
+                    \coordinate (Back) at (0.2*\len,0.2*\len);
+
+                    \behindPlane{Back}{A}{D}
+                    \behindPlane{Back}{A}{B}
+
+                    \behindPlane<9>[\colFaceB]{Back}{A}{60:\fak*\len}
+                    \behindPlane<9>[\colFaceA]{Back}{B}{$(B)+(120:\fak*\len)$}
+
+                    \behindPlane<10|handout:0>[\colFaceB]{Back}{A}{5:\fak*\len}
+                    \behindPlane<10|handout:0>[\colFaceA]{Back}{B}{$(B)+(160:\fak*\len)$}
+
+                    \behindPlane<11|handout:0>[\colFaceA]{Back}{B}{$(B)+(175:\fak*\len)$}
+                    \behindPlane<11|handout:0>[\colFaceB]{Back}{A}{20:\fak*\len}
+
+                    \planEdge[(Back)]{thick}{($(A)!0.5!(D)$)}{($(B)!0.7!(D)$)}{($(D)!0.5!(C)$)}
+
+                    \behindPlane{Back}{C}{D}
+                    \behindPlane{Back}{B}{C}
+
+                \end{tikzpicture}
+            }
+            % 9: general picture
+            % 10: First possible fold
+            % 11: Second possible fold
+
+            \only<3-5,12->{ % This is behind the others to not mess up the handout option
                 % First identification
                 \begin{tikzpicture}
                     \def\len{2}
@@ -297,53 +346,6 @@
                 \end{tikzpicture}
             }
 
-            % Arbitrary many faces
-            \only<6-8|handout:0>{
-                \begin{tikzpicture}
-		    \foreach \i/\j in {1/0, 2/1, 3/2, 4/3, 5/4}
-		    {
-		        \filldraw [fill=black!9!white] (\j,0) -- (\i,0) -- (\i,1) -- (\j,1) -- cycle;
-		        \filldraw [fill=black!9!white] (\j,0) -- (\i,0) -- (\i,-1) -- (\j,-1) -- cycle;
-		    }
-                    \uncover<7-8>{
-                        \planEdge{\colorRed,thick}{(0.5,0.5)}{(0.75,0)}{(0.5,-0.5)}
-	            }
-                \end{tikzpicture}
-            }
-
-            % Picture of non-uniqueness:
-            \only<9-11|handout:1>{
-                \begin{tikzpicture}
-                    \def\len{2}
-                    \def\fak{0.7}
-                    \coordinate (A) at (0,0);
-                    \coordinate (B) at (\len,0);
-                    \coordinate (C) at (\len,\len);
-                    \coordinate (D) at (0,\len);
-                    \coordinate (Back) at (0.2*\len,0.2*\len);
-
-                    \behindPlane{Back}{A}{D}
-                    \behindPlane{Back}{A}{B}
-
-                    \behindPlane<9>[\colFaceB]{Back}{A}{60:\fak*\len}
-                    \behindPlane<9>[\colFaceA]{Back}{B}{$(B)+(120:\fak*\len)$}
-
-                    \behindPlane<10|handout:0>[\colFaceB]{Back}{A}{5:\fak*\len}
-                    \behindPlane<10|handout:0>[\colFaceA]{Back}{B}{$(B)+(160:\fak*\len)$}
-
-                    \behindPlane<11|handout:0>[\colFaceA]{Back}{B}{$(B)+(175:\fak*\len)$}
-                    \behindPlane<11|handout:0>[\colFaceB]{Back}{A}{20:\fak*\len}
-
-                    \planEdge[(Back)]{thick}{($(A)!0.5!(D)$)}{($(B)!0.7!(D)$)}{($(D)!0.5!(C)$)}
-
-                    \behindPlane{Back}{C}{D}
-                    \behindPlane{Back}{B}{C}
-
-                \end{tikzpicture}
-            }
-            % 9: general picture
-            % 10: First possible fold
-            % 11: Second possible fold
 
         \end{center}
     \end{overlayarea}
