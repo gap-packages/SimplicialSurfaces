@@ -191,8 +191,26 @@
 
     \pause
     \begin{center}
-        \begin{tikzpicture}
-            TODO
+        \begin{tikzpicture}[z={(0cm,1cm)},x={(-1cm,-1cm)},y={(1cm,-1cm)}, faceOp/.style={opacity=\planeOp}]
+            \def\len{1.5}
+            \def\h{0.5}
+
+            \coordinate (Top) at (0,0,\h);
+            \coordinate (Bottom) at (0,0,-\h);
+            \foreach \i in {0,...,4}{
+                \coordinate (P\i) at (72*\i:\len);
+            }
+
+            \foreach \i in {0,...,4}{
+                \draw[dashed] (Bottom) -- (P\i);
+            }
+
+            \filldraw[face,faceOp] (Top) -- (P3) -- (P4) -- cycle;
+            \filldraw[face,faceOp] (Top) -- (P2) -- (P3) -- cycle;
+            \filldraw[face,faceOp] (Top) -- (P4) -- (P0) -- cycle;
+            \filldraw[face,faceOp] (Top) -- (P1) -- (P2) -- cycle;
+            \filldraw[face,faceOp] (Top) -- (P0) -- (P1) -- cycle;
+
         \end{tikzpicture}
     \end{center}
 \end{frame}
