@@ -179,30 +179,52 @@
 \input{GAPDays2017_AbstractFolding.tex}
 
 \begin{frame}{Summary}
-    \begin{itemize}
-        \pause
-        \item Simplicial surfaces
-            \begin{itemize}
-                \pause
-                \item mostly complete
-            \end{itemize}
-        \pause
-        \item Edge colouring
-            \begin{itemize}
-                \pause
-                \item current theory implemented
-                \pause
-                \item a lot of theory missing
-            \end{itemize}
-        \pause
-        \item Abstract folding
-            \begin{itemize}
-                \pause
-                \item framework exists
-                \pause
-                \item needs proper implementation
-            \end{itemize}
-    \end{itemize}
+        \begin{minipage}{\textwidth}
+            \begin{minipage}{0.4\textwidth}
+                \uncover<2->{
+                    Triangulated complexes
+                }
+                \begin{itemize}
+                    \item<3-> mostly complete
+                \end{itemize}
+            \end{minipage}
+            \begin{minipage}{0.5\textwidth}
+                \begin{tikzpicture}[scale=0.7]
+                    \uncover<2->{
+                        \input{Image_DoubleTetrahedron.tex}
+                    }
+                \end{tikzpicture}
+            \end{minipage}
+        \end{minipage}
+
+
+        \begin{minipage}{\textwidth}
+            \begin{minipage}{0.4\textwidth}
+                \uncover<4->{
+                    Edge colouring
+                }
+                \begin{itemize}
+                    \item<5-> current theory implemented
+                    \item<6-> a lot of theory missing
+                \end{itemize}
+            \end{minipage}
+            \begin{minipage}{0.5\textwidth}
+                %TODO
+            \end{minipage}
+        \end{minipage}
+
+
+        \begin{minipage}{\textwidth}
+            \begin{minipage}{0.4\textwidth}
+                \uncover<7->{
+                    Abstract folding
+                }
+                \begin{itemize}
+                    \item<8-> framework exists
+                    \item<9-> needs proper implementation
+                \end{itemize}
+            \end{minipage}
+        \end{minipage}
 \end{frame}
 
 \end{document}
