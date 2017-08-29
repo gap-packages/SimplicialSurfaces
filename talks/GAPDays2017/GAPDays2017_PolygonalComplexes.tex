@@ -21,7 +21,7 @@
 
 
 \begin{frame}{Isomorphism testing}
-    Incidence structure can be interpreted as a coloured graph:
+    Incidence structures can be interpreted as coloured graphs:
     \begin{center}
         \begin{tikzpicture}[vertexNode/.style={circle,fill=\colorVertexNode},node distance=0.5,
                 faceNode/.style={fill=\faceColor,regular polygon, regular polygon sides=3}]
@@ -119,13 +119,13 @@
     }
 
     \uncover<9->{
-        $\leadsto$ can be solved quite easily by \texttt{Nauty} (McKay, Piperno)
+        $\leadsto$ solved efficiently in practice by \texttt{nauty/Traces} (McKay, Piperno)
     }
 
     \uncover<10->{
-        Interfaced by \texttt{NautyTracesInterface} (by Gutsche, Niemeyer, Schweitzer)
+        In GAP: \texttt{NautyTracesInterface} (Gutsche, Niemeyer, Schweitzer)
         \begin{itemize}
-            \item<11-> direct C--interface without writing files
+            \item<11-> calls C--functions directly without writing files
             \item<12-> also returns automorphism group
         \end{itemize}
     }
@@ -159,7 +159,7 @@
 
 \begin{frame}{Why ramified?}
     \pause
-    Typical example of ramified simplicial surface:
+    Typical example of a ramified simplicial surface:
     \begin{center}
         \begin{tikzpicture}
             \input{Image_DoubleTetrahedron.tex}
@@ -180,7 +180,7 @@
 
     \begin{itemize}
         \pause
-        \item only interesting for those without a 3--cycle of edges
+        \item building blocks are those without a 3--cycle of edges
         \pause
         \item e.\,g. there are 87 non--isomorphic surfaces with 20 triangles
         \pause

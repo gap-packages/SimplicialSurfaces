@@ -37,7 +37,7 @@
                 \item<4-> Usually using regularity (like crystallographic symmetry)
                 \item<5-> No general method
             \end{itemize}
-        \item<6-> It is very hard to define iterated folding in an embedding
+        \item<6-> It is very hard to define iterated foldings in an embedding
     \end{itemize}
 
     \begin{center}
@@ -59,7 +59,7 @@
     Central idea:
     \begin{itemize}
         \pause
-        \item Don't model folding process (needs embedding)
+        \item Don't model the folding process (needs embedding)
         \pause
         \item Describe starting and final folding state
             \begin{itemize}
@@ -123,8 +123,7 @@
                 \end{tikzpicture}
             \end{center}
         \pause
-        \item Adding a linear order on each face equivalence class
-            \pause is not enough:
+        \item We also need a cyclic order of the faces around an edge:
             \pause
             \begin{center}
                 \begin{tikzpicture}
@@ -216,7 +215,7 @@
     \end{center}
 
     \uncover<5->{
-        $\Rightarrow$ Describe folding by two face sides
+        $\Rightarrow$ Characterize folding by specifying the two face sides that touch
     }
 
     \uncover<6->{
@@ -227,11 +226,11 @@
 
 \begin{frame}{How does folding plan work?}
     \uncover<2->{
-        Folding of two faces can force folding of other faces:
+        Folding of two faces can induce folding of other faces:
     }
     \begin{itemize}
-        \item<5-> Can apply to arbitrary many faces
-        \item<8-> The forced folding is not unique
+        \item<5-> Can apply to arbitrarily many faces
+        \item<8-> The induced folding is not unique
         \item<12-|handout:2>[$\Rightarrow$] Identify only two faces at a time
             \begin{itemize}
                 \item<14-|handout:2>[$\leadsto$] Relax the rigidity--constraint:

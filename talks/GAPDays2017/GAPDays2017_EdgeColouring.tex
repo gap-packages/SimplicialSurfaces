@@ -11,7 +11,7 @@
         Given: A triangular complex
     }
     \begin{itemize}
-        \item<3-> Can it be embedded?
+        \item<3-> Can it be embedded into $\R^3$?
         \item<4-> In how many ways?
     \end{itemize}
     \uncover<5->{
@@ -107,8 +107,8 @@
         \textit{simplicial surface} $\Rightarrow$ \onslide<5->{at most two faces at each edge}
     
         \begin{itemize}
-            \item<6->[$\leadsto$] every edge defines transposition of incident faces
-            \item<9->[$\leadsto$] every colour class defines permutation of the faces
+            \item<6->[$\leadsto$] every edge defines a transposition of incident faces
+            \item<9->[$\leadsto$] every colour class defines a permutation of the faces
             \item<7-> \textcolor{\colB}{(1,2)}\onslide<8->{\textcolor{\colB}{(3,4)}}
                     \onslide<10->{, \textcolor{\colA}{(1,3)(2,4)}}
                     \onslide<11->{, \textcolor{\colC}{(1,4)(2,3)}}
@@ -131,7 +131,7 @@
 
 \begin{frame}{How do faces fit together?}
     \onslide<2->{
-        Consider a face of the surface \onslide<3->{and a neighbouring face}
+        Consider a face of the surface \onslide<3->{and a neighbouring face.}
     }
 
     \onslide<4->{
@@ -204,11 +204,13 @@
         \end{center}
     }
     \onslide<9->{
-        This gives an \textbf{mr--assignment} for the edges.
+        This gives an \textbf{mr--assignment} for the edges of the surface.
     }
 
     \onslide<10->{
-        Permutations and mr--assignment uniquely determine the surface.
+        \begin{lem}
+            Permutations and mr--assignment uniquely determine the surface.
+        \end{lem}
     }
 \end{frame}
 
@@ -218,7 +220,7 @@
     A general mr--assignment leads to complicated surfaces.
     
     \pause
-    Simplification: edges of same colour have the same type
+    Simplification: edges of same colour have the same mr--type
 
     \pause
     Example
@@ -316,8 +318,8 @@
     }
 
     \begin{itemize}
-        \item<6-> The faces are the points moved by the involutions
-        \item<7-> The edges are the cycles of the involutions
+        \item<6-> The faces are the points moved by the involution triple
+        \item<7-> The edges are the 1- and 2--cycles of the involutions
         \item<8-> The vertices are \onslide<11->{the orbits of 
             $\langle \textcolor{\colA}{\sigma_a}, 
             \textcolor{\colB}{\sigma_b} \rangle$
@@ -608,7 +610,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]{Net of icosahedron}
+\begin{frame}[fragile]{Net of an icosahedron}
     \uncover<2->{
         \textcolor{blue}{gap$>$ }\textcolor{red}{\texttt{DrawSurfaceToTikZ$($iko,"NetIko.tex"$)$;}}
     }
@@ -736,30 +738,30 @@
              text = black,
              inner sep = 2pt,
              outer sep = 0pt,
-             minimum size = 10pt} }
+             minimum size = 8pt} }
             
-            \node[VertexStyle] at (V1_1) {1};
-            \node[VertexStyle] at (V2_1) {2};
-            \node[VertexStyle] at (V3_1) {3};
-            \node[VertexStyle] at (V3_2) {3};
-            \node[VertexStyle] at (V4_1) {4};
-            \node[VertexStyle] at (V5_1) {5};
-            \node[VertexStyle] at (V5_2) {5};
-            \node[VertexStyle] at (V6_1) {6};
-            \node[VertexStyle] at (V6_2) {6};
-            \node[VertexStyle] at (V6_3) {6};
-            \node[VertexStyle] at (V7_1) {7};
-            \node[VertexStyle] at (V7_2) {7};
-            \node[VertexStyle] at (V8_1) {8};
-            \node[VertexStyle] at (V8_2) {8};
-            \node[VertexStyle] at (V8_3) {8};
-            \node[VertexStyle] at (V9_1) {9};
-            \node[VertexStyle] at (V10_1) {10};
-            \node[VertexStyle] at (V10_2) {10};
-            \node[VertexStyle] at (V11_1) {11};
-            \node[VertexStyle] at (V11_2) {11};
-            \node[VertexStyle] at (V12_1) {12};
-            \node[VertexStyle] at (V12_2) {12};
+            \node[VertexStyle] at (V1_1) {\scriptsize 1};
+            \node[VertexStyle] at (V2_1) {\scriptsize 2};
+            \node[VertexStyle] at (V3_1) {\scriptsize 3};
+            \node[VertexStyle] at (V3_2) {\scriptsize 3};
+            \node[VertexStyle] at (V4_1) {\scriptsize 4};
+            \node[VertexStyle] at (V5_1) {\scriptsize 5};
+            \node[VertexStyle] at (V5_2) {\scriptsize 5};
+            \node[VertexStyle] at (V6_1) {\scriptsize 6};
+            \node[VertexStyle] at (V6_2) {\scriptsize 6};
+            \node[VertexStyle] at (V6_3) {\scriptsize 6};
+            \node[VertexStyle] at (V7_1) {\scriptsize 7};
+            \node[VertexStyle] at (V7_2) {\scriptsize 7};
+            \node[VertexStyle] at (V8_1) {\scriptsize 8};
+            \node[VertexStyle] at (V8_2) {\scriptsize 8};
+            \node[VertexStyle] at (V8_3) {\scriptsize 8};
+            \node[VertexStyle] at (V9_1) {\scriptsize 9};
+            \node[VertexStyle] at (V10_1) {\tiny 10};
+            \node[VertexStyle] at (V10_2) {\tiny 10};
+            \node[VertexStyle] at (V11_1) {\tiny 11};
+            \node[VertexStyle] at (V11_2) {\tiny 11};
+            \node[VertexStyle] at (V12_1) {\tiny 12};
+            \node[VertexStyle] at (V12_2) {\tiny 12};
 
         \end{tikzpicture}
     }
@@ -790,6 +792,10 @@
     Still missing:
     \begin{itemize}
         \pause
-        \item Research TODO?
+        \item for which lengths are the surfaces embeddable?
+        \pause
+        \item can we predict self--intersections?
+        \pause
+        \item does varying the lengths lead to another embedding?
     \end{itemize}
 \end{frame}
