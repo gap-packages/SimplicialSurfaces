@@ -40,7 +40,7 @@
 \input{TikZHeader.tex}
 
 
-\author[Baumeister]{Markus Baumeister\\ \vspace{1mm} \small{(j/w Alice Niemeyer)}}
+\author[M. Baumeister]{Markus Baumeister\\ \vspace{1mm} \small{(j/w Alice Niemeyer)}}
 \title{Simplicial surfaces in GAP}
 \institute[RWTH Aachen]{Lehrstuhl B für Mathematik\\RWTH Aachen University}
 \date{30.08.2017}
@@ -62,7 +62,7 @@
         \pause
         \item Authors: Alice Niemeyer, Markus Baumeister
         \pause
-        \item based on current research at Lehrstuhl B including Plesken, Strzelczyk and others
+        \item Based on current research at Lehrstuhl B: Plesken, Strzelczyk and others
         \pause
         \item Internally used packages:
             \begin{itemize}
@@ -87,43 +87,42 @@
         \end{center}
     }
     \only<2->{
-        Goal: Investigate paper folding
+        Goal: Investigate rigid paper folding in $\R^3$
         \begin{itemize}
-            \item<3-> rigid folding in $\R^3$
-            \item<4-> consider surfaces built from triangles (simplicial surfaces)
+            \item<3-> consider surfaces built from triangles (simplicial surfaces)
                 \begin{itemize}
-                    \item<5-> not closed under folding
-                    \item<6-> allow more general structures:
+                    \item<4-> not closed under folding
+                    \item<5-> allow more general structures:
                 \end{itemize}
         \end{itemize}
         \begin{center}
             \begin{tikzpicture}
                 \begin{scope}[xshift=-3cm]
-                    \uncover<7->{
+                    \uncover<6->{
                         \input{Image_ThreeBranchingTriangles.tex}
                     }
                 \end{scope}
 
                 \begin{scope}[xshift=3cm,yshift=0.6cm,scale=0.5]
-                    \uncover<8->{
+                    \uncover<7->{
                         \input{Image_DoubleTetrahedron.tex}
                     }
                 \end{scope}
             \end{tikzpicture}
         \end{center}
         \begin{itemize}
-            \item<9-> embeddings are difficult to compute
+            \item<8-> embeddings are difficult to compute
                 \begin{itemize}
-                    \item<10-> some embeddings of asymmetric icosahedrons are infeasible to compute
+                    \item<9-> some embeddings of asymmetric icosahedrons are infeasible to compute
                 \end{itemize}
-            \item<11->[$\leadsto$] focus on intrinsic properties
-            \item<12->[$\leadsto$] incidence geometry
+            \item<10->[$\leadsto$] focus on intrinsic properties
+            \item<11->[$\leadsto$] incidence geometry
         \end{itemize}
     }
 \end{frame}
 
 
-\begin{frame}{Implementation in GAP}
+\begin{frame}{Reasons for implementation in GAP}
         \begin{itemize}
             \item<2-> can describe incidence geometry
                 \begin{itemize}
@@ -144,15 +143,18 @@
                     \end{tikzpicture}
                 \end{center}
             \item<5-> works well with group--theoretic descriptions
+        \end{itemize}
+
+        \begin{itemize}
             \item<6-> difference to \texttt{FinInG}--package by De Beule, Neunhöffer et al.
                 \begin{itemize}
-                    \item<7-> only two dimensions \uncover<8->{but it can work with colourings and foldings}
+                    \item<7-> we only have two dimensions \uncover<8->{but can work with colourings and foldings}
                 \end{itemize}
         \end{itemize}
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{Table of contents}
     \tableofcontents[pausesections]
 \end{frame}
 
@@ -175,13 +177,13 @@
 %%
 \input{GAPDays2017_AbstractFolding.tex}
 
-\begin{frame}{Summary \texttt{SimplicialSurfaces}}
+\begin{frame}{Summary: \texttt{SimplicialSurfaces}}
     \def\links{0.55}
     \def\rechts{0.4}
         \begin{minipage}{\textwidth}
             \begin{minipage}{\links\textwidth}
                 \uncover<2->{
-                    Triangulated complexes
+                    Triangular complexes
                 }
                 \begin{itemize}
                     \item<3-> mostly complete
@@ -204,7 +206,7 @@
                 }
                 \begin{itemize}
                     \item<5-> current theory implemented
-                    \item<6-> a lot of theory missing
+                    \item<6-> a lot of theory stil to discover
                 \end{itemize}
             \end{minipage}
             \begin{minipage}{\rechts\textwidth}

@@ -3,25 +3,34 @@
 \newcommand{\colB}{\colorEdgeB}
 \newcommand{\colC}{\colorEdgeC}
 \newcommand{\width}{very thick}
-\frame{\tableofcontents[currentsection]}
+\begin{frame}{Table of contents}
+    \tableofcontents[currentsection]
+\end{frame}
 
 
 \begin{frame}{Embedding questions}
     \uncover<2->{
-        Given: A triangular complex
+        Given: A simplicial surface
     }
     \begin{itemize}
-        \item<3-> Can it be embedded into $\R^3$?
-        \item<4-> In how many ways?
+        \item<3-> For which edge lengths embeddable into $\R^3$? \uncover<4->{In how many ways?}
     \end{itemize}
     \uncover<5->{
-        Simplifications:
+        Simplification:
     }
-    \begin{enumerate}
-        \item<6-> Only simplicial surfaces (that are built from triangles)
-        \item<7-> All triangles are isometric
-    \end{enumerate}
-    \uncover<9->{
+    \uncover<6->{
+        All triangles are isometric
+    }
+
+    \uncover<7->{
+        Goal: Find an abstract structure that encodes this isometry condition
+    }
+
+    \uncover<8->{
+        $\leadsto$ Consider a general triangle (all side lengths different)
+    }
+
+    \uncover<10->{
         $\leadsto$ Edge--colouring encodes different lengths
     }
     \uncover<8->{
@@ -50,7 +59,7 @@
                         \draw[\colC, \width] (B) -- (E);
 
                         \foreach \p in {A,B,C,D,E,F}
-                            \fill[gray] (\p) circle (1pt);
+                            \fill[gray] (\p) circle (\vSize);
                     }
                 \end{tikzpicture}
             \end{center}
@@ -60,7 +69,7 @@
 
 \begin{frame}{Colouring as permutation}
     \onslide<2->{
-        Consider tetrahedron \onslide<3->{with edge colouring}
+        Consider a tetrahedron \onslide<3->{with an edge colouring}
     }
     \begin{center}
         \begin{tikzpicture}[scale=0.8]
@@ -87,6 +96,9 @@
                 \draw[\colB, \width] (D) -- (E) -- (F);
                 \draw[\colC, \width] (A) -- (C) -- (F);
                 \draw[\colC, \width] (B) -- (E);
+
+                \foreach \p in {A,B,C,D,E,F}
+                    \fill[gray] (\p) circle (\vSize);
             }
 
             % Draw switching arrows
@@ -134,7 +146,7 @@
 
 \begin{frame}{How do faces fit together?}
     \onslide<2->{
-        Consider a face of the surface \onslide<3->{and a neighbouring face.}
+        Consider a face of the surface \onslide<3->{and a neighbouring face}
     }
 
     \onslide<4->{
@@ -207,13 +219,13 @@
         \end{center}
     }
     \onslide<9->{
-        This gives an \textbf{mr--assignment} for the edges of the surface.
+        $\leadsto$ \textbf{mr--assignment} for the edges of the surface
     }
 
     \onslide<10->{
-        \begin{lem}
+        \begin{satz}
             Permutations and mr--assignment uniquely determine the surface.
-        \end{lem}
+        \end{satz}
     }
 \end{frame}
 
@@ -261,13 +273,13 @@
 
 \begin{frame}{The mirror--case}
     \pause
-    If all edges are mirrors, the situation is simple.
+    If all edges are mirrors, the situation is simple
     \pause
-    \begin{lem}
+    \begin{satz}
         A simplicial surface has only mirror--edges iff it covers a 
         single triangle\pause, i.\,e. there is a surjective incidence--preserving
         map \pause to the simplicial surface consisting of exactly one face.
-    \end{lem}
+    \end{satz}
     \pause
     Consider
         \begin{center}
@@ -297,9 +309,9 @@
         \pause
         \item[$\Rightarrow$] Unique map that preserves incidence
         \pause
-        \item Covering pulls back a mirror--colouring of the triangle.
+        \item Covering pulls back a mirror--colouring of the triangle
         \pause
-        \item Mirror--colouring defines a map to the triangle.
+        \item Mirror--colouring defines a map to the triangle
     \end{itemize}
 \end{frame}
 
@@ -314,15 +326,15 @@
     }
 
     \onslide<4->{
-    \begin{lem}
+    \begin{satz}
         There exists a coloured surface with the given involutions
         \onslide<5->{where all edges are mirror edges.}
-    \end{lem}
+    \end{satz}
     }
 
     \begin{itemize}
         \item<6-> The faces are the points moved by the involution triple
-        \item<7-> The edges are the 1- and 2--cycles of the involutions
+        \item<7-> The edges are the cycles of the involutions
         \item<8-> The vertices are \onslide<11->{the orbits of 
             $\langle \textcolor{\colA}{\sigma_a}, 
             \textcolor{\colB}{\sigma_b} \rangle$
@@ -615,6 +627,8 @@
 
 \begin{frame}[fragile]{Net of an icosahedron}
     \uncover<2->{
+        \texttt{iko}: coloured icosahedron
+
         \textcolor{blue}{gap$>$ }\textcolor{red}{\texttt{DrawSurfaceToTikZ$($iko,"NetIko.tex"$)$;}}
     }
     \begin{itemize}
@@ -796,8 +810,6 @@
     \begin{itemize}
         \pause
         \item for which lengths are the surfaces embeddable?
-        \pause
-        \item can we predict self--intersections?
         \pause
         \item does varying the lengths lead to another embedding?
     \end{itemize}
