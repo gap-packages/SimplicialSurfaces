@@ -1,5 +1,5 @@
-%\documentclass[11pt]{beamer}
-\documentclass[11pt, handout]{beamer}
+\documentclass[11pt]{beamer}
+%\documentclass[11pt, handout]{beamer}
 
 \input{GenericPreamble.tex}
 
@@ -54,7 +54,6 @@
 
 \begin{frame}{Basic data}
     \begin{itemize}
-        \pause
         \item Package name: \texttt{SimplicialSurfaces}
             \begin{itemize}
                 \pause
@@ -82,7 +81,10 @@
 
 \begin{frame}{Motivation}
     \only<1|handout:0>{
-        \movie[ height = \textwidth, width = \textwidth, autostart, loop ]{}{TorusNetz.mp4}
+        \def\fak{0.5}
+        \begin{center}
+            \movie[ height = \fak\textwidth, width = \fak\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+        \end{center}
     }
     \only<2->{
         Goal: Investigate paper folding
@@ -123,15 +125,13 @@
 
 \begin{frame}{Implementation in GAP}
         \begin{itemize}
-            \pause
-            \item can describe incidence geometry
-            \pause
-            \item can manage hierarchy of structures
-            \pause
-            \item works well with group--theoretic descriptions
-            \pause
-            \item allows flexible access to the incidence geometry
-            \pause
+            \item<2-> can describe incidence geometry
+                \begin{itemize}
+                    \item<3-> allows flexible access to the incidence geometry
+                \end{itemize}
+            \item<4-> can manage hierarchy of structures
+            \item<5-> works well with group--theoretic descriptions
+            \uncover<4->{
                 \begin{center}
                     \begin{tikzpicture}
                         \begin{scope}[xshift=-4cm]
@@ -145,11 +145,10 @@
                         \end{scope}
                     \end{tikzpicture}
                 \end{center}
-            \pause
-            \item difference to \texttt{FinInG}--package by De Beule, Neunhöffer et al.
+            }
+            \item<6-> difference to \texttt{FinInG}--package by De Beule, Neunhöffer et al.
                 \begin{itemize}
-                    \pause
-                    \item only two dimensions \pause but it can work with colourings and foldings
+                    \item<7-> only two dimensions \uncover<8->{but it can work with colourings and foldings}
                 \end{itemize}
         \end{itemize}
 \end{frame}
@@ -178,7 +177,7 @@
 %%
 \input{GAPDays2017_AbstractFolding.tex}
 
-\begin{frame}{Summary}
+\begin{frame}{Summary \texttt{SimplicialSurfaces}}
     \def\links{0.55}
     \def\rechts{0.4}
         \begin{minipage}{\textwidth}
@@ -211,6 +210,7 @@
                 \end{itemize}
             \end{minipage}
             \begin{minipage}{\rechts\textwidth}
+                \uncover<4->{
                 \begin{center}
                     %       F
                     %    C     E 
@@ -240,6 +240,7 @@
                         \node at (barycentric cs:C=1,E=1,F=1) {4};
                     \end{tikzpicture}
                 \end{center}
+                }
             \end{minipage}
         \end{minipage}
 
@@ -255,7 +256,9 @@
                 \end{itemize}
             \end{minipage}
             \begin{minipage}{\rechts\textwidth}
-                \input{Image_FoldingPlanExample.tex}
+                \uncover<7->{
+                    \input{Image_FoldingPlanExample.tex}
+                }
             \end{minipage}
         \end{minipage}
 \end{frame}

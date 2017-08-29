@@ -18,7 +18,7 @@
         Simplifications:
     }
     \begin{enumerate}
-        \item<6-> Only simplicial surfaces (that are built from polygons)
+        \item<6-> Only simplicial surfaces (that are built from triangles)
         \item<7-> All triangles are isometric
     \end{enumerate}
     \uncover<9->{
@@ -57,7 +57,7 @@
 
 \begin{frame}{Colouring as permutation}
     \onslide<2->{
-        Consider tetrahedron \onslide<4->{with edge colouring}
+        Consider tetrahedron \onslide<3->{with edge colouring}
     }
     \begin{center}
         \begin{tikzpicture}[scale=0.8]
@@ -67,7 +67,7 @@
                 \coordinate (D) at ($2*(B)$);
                 \coordinate (E) at ($(B)+(C)$);
                 \coordinate (F) at ($2*(C)$);
-            \onslide<3->{
+            \onslide<2->{
                 \draw (A) -- (B) -- (D) -- (E) -- (F) -- (C) -- (E) -- (B) -- (C) -- (A);
                 \node at (barycentric cs:A=1,B=1,C=1) {1};
                 \node at (barycentric cs:B=1,C=1,E=1) {2};
@@ -77,7 +77,7 @@
                 \draw[dotted,thick] ($(A)!0.5!(B)$) to[bend right] ($(B)!0.5!(D)$);
                 \draw[dotted,thick] ($(D)!0.5!(E)$) to[bend right] ($(E)!0.5!(F)$);
             }
-            \onslide<5->{
+            \onslide<3->{
                 \draw[\colA, \width] (A) -- (B) -- (D);
                 \draw[\colA, \width] (C) -- (E);
                 \draw[\colB, \width] (B) -- (C);
@@ -87,40 +87,40 @@
             }
 
             % Draw switching arrows
-            \onslide<9-11>{
+            \onslide<7-9>{
                 \draw[<->,\colB, thick] (barycentric cs:A=1,B=2,C=2) to[bend left] (barycentric cs:B=2,C=2,E=1);
             }
-            \onslide<10-11>{
+            \onslide<8-9>{
                 \draw[<->,\colB,thick] (barycentric cs:B=1,D=2,E=2) to[bend right=60] (barycentric cs:E=2,F=2,C=1);
             }
-            \onslide<12>{
+            \onslide<10>{
                 \draw[<->,\colA,thick] (barycentric cs:A=2,B=2,C=1) to[bend right=60] (barycentric cs:B=2,D=2,E=1);
                 \draw[<->,\colA,thick] (barycentric cs:C=2,E=2,B=1) to[bend left] (barycentric cs:C=2,E=2,F=1);
             }
-            \onslide<13>{
+            \onslide<11>{
                 \draw[<->,\colC,thick] (barycentric cs:A=2,B=1,C=2) to[bend left=60] (barycentric cs:C=2,E=1,F=2);
                 \draw[<->,\colC,thick] (barycentric cs:B=2,C=1,E=2) to[bend left] (barycentric cs:B=2,D=1,E=2);
             }
         \end{tikzpicture}
     \end{center}
-    \onslide<6->{
-        \textit{simplicial surface} $\Rightarrow$ \onslide<7->{at most two faces at each edge}
+    \onslide<4->{
+        \textit{simplicial surface} $\Rightarrow$ \onslide<5->{at most two faces at each edge}
     
         \begin{itemize}
-            \item<8->[$\leadsto$] every edge defines transposition of incident faces
-            \item<11->[$\leadsto$] every colour class defines permutation of the faces
-            \item<9-> \textcolor{\colB}{(1,2)}\onslide<10->{\textcolor{\colB}{(3,4)}}
-                    \onslide<12->{, \textcolor{\colA}{(1,3)(2,4)}}
-                    \onslide<13->{, \textcolor{\colC}{(1,4)(2,3)}}
-            \item<14->[$\leadsto$] group theoretic considerations
+            \item<6->[$\leadsto$] every edge defines transposition of incident faces
+            \item<9->[$\leadsto$] every colour class defines permutation of the faces
+            \item<7-> \textcolor{\colB}{(1,2)}\onslide<8->{\textcolor{\colB}{(3,4)}}
+                    \onslide<10->{, \textcolor{\colA}{(1,3)(2,4)}}
+                    \onslide<11->{, \textcolor{\colC}{(1,4)(2,3)}}
+            \item<12->[$\leadsto$] group theoretic considerations
                 \begin{itemize}
-                    \item<15-> The connected components of the surface correspond to 
-                        \onslide<16->{the orbits of $\langle 
+                    \item<13-> The connected components of the surface correspond to 
+                        \onslide<14->{the orbits of $\langle 
                             \textcolor{\colA}{\sigma_a}, 
                             \textcolor{\colB}{\sigma_b}, 
                             \textcolor{\colC}{\sigma_c}\rangle$ on
                         the faces}
-                        \onslide<17->{
+                        \onslide<15->{
                             (fast computation for permutation groups)
                         }
                 \end{itemize}
@@ -131,10 +131,10 @@
 
 \begin{frame}{How do faces fit together?}
     \onslide<2->{
-        Consider a face of the surface \onslide<4->{and a neighbouring face}
+        Consider a face of the surface \onslide<3->{and a neighbouring face}
     }
 
-    \onslide<6->{
+    \onslide<4->{
         The neighbour can be coloured in two ways:
     }
     \onslide<1->{
@@ -157,19 +157,19 @@
                 \coordinate (C) at (\x,-\y);
                 \coordinate (D) at (2*\x,0);
 
-                \onslide<3->{
+                \onslide<2->{
                     \draw[\colA,\width] (A) -- (B);
                     \draw[\colB,\width] (A) -- (C);
                     \draw[\colC,\width] (B) -- (C);
                 }
-                \onslide<5->{
+                \onslide<3->{
                     \draw (B) -- (D) -- (C);
                 }
-                \onslide<7->{
+                \onslide<5->{
                     \draw[\colA,\width] (B) -- (D);
                     \draw[\colB,\width] (C) -- (D);
                 }
-                \onslide<9->{
+                \onslide<7->{
                     % Draw mirror line
                     \draw[dashed, thick] (\x,1.5*\y) -- (\x,-1.5*\y);
                     \node at (\x,-2*\y) {mirror (m)};
@@ -183,17 +183,17 @@
                 \coordinate (C) at (\x,-\y);
                 \coordinate (D) at (2*\x,0);
 
-                \onslide<6->{
+                \onslide<4->{
                     \draw[\colA,\width] (A) -- (B);
                     \draw[\colB,\width] (A) -- (C);
                     \draw[\colC,\width] (B) -- (C);
                     \draw (B) -- (D) -- (C);
                 }
-                \onslide<8->{
+                \onslide<6->{
                     \draw[\colB,\width] (B) -- (D);
                     \draw[\colA,\width] (C) -- (D);
                 }
-                \onslide<10->{
+                \onslide<8->{
                     % Draw rotation center and circle
                     \fill[black] (\x,0) circle (2pt);
                     \node[scale=2] at (\x,0) {$\circlearrowleft$};
@@ -203,11 +203,11 @@
         \end{tikzpicture}
         \end{center}
     }
-    \onslide<11->{
+    \onslide<9->{
         This gives an \textbf{mr--assignment} for the edges.
     }
 
-    \onslide<12->{
+    \onslide<10->{
         Permutations and mr--assignment uniquely determine the surface.
     }
 \end{frame}
@@ -610,13 +610,13 @@
 
 \begin{frame}[fragile]{Net of icosahedron}
     \uncover<2->{
-        \textcolor{blue}{gap$>$}\textcolor{red}{\texttt{DrawSurfaceToTikZ$($iko,"NetIko.tex"$)$;}}
+        \textcolor{blue}{gap$>$ }\textcolor{red}{\texttt{DrawSurfaceToTikZ$($iko,"NetIko.tex"$)$;}}
     }
     \begin{itemize}
-        \item<5-> Has to be manually untangled
+        \item<4-> Has to be manually untangled
     \end{itemize}
     
-    \uncover<4->{
+    \uncover<3->{
         \begin{tikzpicture}[scale=0.7]
             \coordinate (V1_1) at (0, 0);
             \coordinate (V2_1) at (2, 0);
