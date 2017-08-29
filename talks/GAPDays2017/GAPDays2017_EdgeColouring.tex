@@ -48,6 +48,9 @@
                         \draw[\colB, \width] (D) -- (E) -- (F);
                         \draw[\colC, \width] (A) -- (C) -- (F);
                         \draw[\colC, \width] (B) -- (E);
+
+                        \foreach \p in {A,B,C,D,E,F}
+                            \fill[gray] (\p) circle (1pt);
                     }
                 \end{tikzpicture}
             \end{center}

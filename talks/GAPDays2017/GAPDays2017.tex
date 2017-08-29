@@ -232,6 +232,9 @@
                         \draw[\colC, \width] (A) -- (C) -- (F);
                         \draw[\colC, \width] (B) -- (E);
 
+                        \foreach \p in {A,B,C,D,E,F}
+                            \fill[gray] (\p) circle (1pt);
+
                         \node at (barycentric cs:A=1,B=1,C=1) {1};
                         \node at (barycentric cs:B=1,C=1,E=1) {2};
                         \node at (barycentric cs:B=1,D=1,E=1) {3};
