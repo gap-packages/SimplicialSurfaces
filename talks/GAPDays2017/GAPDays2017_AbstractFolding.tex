@@ -2,11 +2,6 @@
 \frame{\tableofcontents[currentsection]}
 
 \begin{frame}{What kind of folding?}
-    \pause
-    There are many different kinds of folding (e.\,g. Origami)
-
-    \pause
-    Here:
     \begin{itemize}
         \pause
         \item Folding of surface in $\R^3$
@@ -21,13 +16,13 @@
 
     \pause
     \begin{center}
-        \only<1-7>{
+        \only<1-5>{
             \phantom{ 
-                \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+                \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetzAnders.mp4}
             }
         }
-        \only<8>{
-            \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetz.mp4}
+        \only<6>{
+            \movie[ height = 0.4\textwidth, width = 0.4\textwidth, autostart, loop ]{}{TorusNetzAnders.mp4}
         }
     \end{center}
 
@@ -76,16 +71,14 @@
             \end{itemize}
     \end{itemize}
 
-    % Use pentagon-flippy to illustrate incidence rigidity
-
     \pause
-    $\leadsto$ Incidence geometry (polygonal complex/surface)
+    $\leadsto$ Incidence geometry (triangular complex/simplicial surface)
 
     \begin{itemize}
         \pause
-        \item Captures some folding restrictions \pause (rigidity of tetrahedron)
+        \item Captures some folding restrictions (rigidity of tetrahedron)
         \pause
-        \item Still needs a lot of refinement
+        \item Has to be refined
     \end{itemize}
 \end{frame}
 
@@ -725,7 +718,7 @@
                     \foreach \p in {Z,A,B,C,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
-                \uncover<5->{
+                \uncover<4->{
                     \planEdge[(Back)]{\colorRed,thick}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
                 }
             \end{scope}
@@ -741,7 +734,7 @@
                 \coordinate (D) at (0.2*\len,\pOff);
                 \coordinate (Back) at (0.5*\len,0.25*\len);
 
-                \uncover<4->{
+                \uncover<3->{
                     \behindPlane{Back}{Z}{A}
                     \behindPlane{Back}{Z}{B}
                     \behindPlane{Back}{Z}{C}
@@ -750,7 +743,7 @@
                     \foreach \p in {A,B,Z,CAlt,D}
                         \fill[\vertexColor] (\p) circle (\vSize);
                 }
-                \uncover<6->{
+                \uncover<5->{
                     \planEdge[(Back)]{\colorRed,thick}{(120-\off:0.5*\len)}{(60:0.5*\len)}{(\off:0.5*\len)}
                 }
             \end{scope}
@@ -759,14 +752,14 @@
 
 
     \begin{itemize}
-        \item<7->[$\Rightarrow$]If you know the folding structure of a small complex,
-            \uncover<8->{you can't easily find the folding structure of an extended complex}
-        \item<9->[$\leadsto$]Folding plans are not optimal to model folding
+        \item<6->[$\Rightarrow$]If you know the folding structure of a small complex,
+            \uncover<7->{you can't easily find the folding structure of an extended complex}
+        \item<8->[$\leadsto$]Folding plans are not optimal to model folding
     \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Progress of abstract folding}
+\begin{frame}{Progress report of abstract folding}
     \pause
     In development:
     \begin{itemize}
