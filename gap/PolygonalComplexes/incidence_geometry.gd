@@ -15,10 +15,11 @@
 #! 
 #! We have introduced incidence geometries in section
 #! <Ref Sect="PolygonalStructures_complex"/> as a description of polygonal
-#! complexes. This chapter contains several different ways to access these
+#! complexes. This chapter describes several different ways to access these
 #! incidence structures.
 #! <P/>
-#! In most cases one of the following two access methods is sufficient:
+#TODO is this to formal and off-putting?
+#! In most cases one of the following two ways is sufficient:
 #! * If you just want to know information about the vertices/edges/faces 
 #!   individually (like 
 #!   their labels
@@ -30,7 +31,7 @@
 #!   <Ref Sect="Section_Access_BasicAccess"/>.
 #!
 #! While the set-wise access is usually sufficient, in some cases there might
-#! be the need for a more ``organized'' access, like the following:
+#! be the need for a more ``organized'' access, like these:
 #! * If you want to know the vertices/edges of a given face in the order in
 #!   which they appear on the boundary of the face, see section 
 #!   <Ref Sect="Section_Access_OrderedFaceAccess"/>.
