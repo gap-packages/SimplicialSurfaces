@@ -15,11 +15,33 @@
 #! 
 #! We have introduced incidence geometries in section
 #! <Ref Sect="PolygonalStructures_complex"/> as a description of polygonal
-#! complexes. In this
-#! chapter we will collect different ways to access these incidence
-#! structures.
+#! complexes. This chapter contains several different ways to access these
+#! incidence structures.
+#! <P/>
+#! In most cases one of the following two access methods is sufficient:
+#! * If you just want to know information about the vertices/edges/faces 
+#!   individually (like 
+#!   their labels
+#!   or how many there are), see section 
+#!   <Ref Sect="Section_Access_LabelAccess"/>.
+#! * If you want to know information connecting different dimensions (like
+#!   the set of vertices incident to a given face or the set of edges
+#!   incident to a given vertex), see section 
+#!   <Ref Sect="Section_Access_BasicAccess"/>.
+#!
+#! While the set-wise access is usually sufficient, in some cases there might
+#! be the need for a more ``organized'' access, like the following:
+#! * If you want to know the vertices/edges of a given face in the order in
+#!   which they appear on the boundary of the face, see section 
+#!   <Ref Sect="Section_Access_OrderedFaceAccess"/>.
+#! * If you want to know the order of faces around a given edge, you need more
+#!   than incidence geometry to answer that question. We will describe this
+#!   type of order (a <E>fan</E>) in chapter TODO
+#! * If you want to know in which order edges and faces are arranged around
+#!   a given vertex, see section 
+#!   <Ref Sect="Section_Access_OrderedVertexAccess"/>.
 
-#! @Section Access to labels of vertices, edges and faces
+#! @Section Labels of vertices, edges and faces
 #! @SectionLabel Access_LabelAccess
 #!
 #! In polygonal complexes (the most general supported incidence structure,
@@ -74,7 +96,7 @@ DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
 DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 
 
-#! @Section Basic access to the incidence structure
+#! @Section Incidence between vertices, edges and faces
 #! @SectionLabel Access_BasicAccess
 #!
 #! With the labels of vertices, edges and faces (which we can access by the
@@ -376,13 +398,15 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
-#! @Section Ordered access to the incidence structure
-#! @SectionLabel Access_OrderedAccess
+#! @Section Face-induced order of incident vertices/edges
+#! @SectionLabel Access_OrderedFaceAccess
 #!
-#! In most cases the basic access functions of section
-#! <Ref Sect="Section_Access_BasicAccess"/> like <K>VerticesOfEdges</K> are
-#! sufficient. But sometimes a more "ordered" access is necessary. This
-#! package supports the following capabilities:
+#! filler
+#TODO
+
+#! @Section Circular path of edges and faces around vertex
+#! @SectionLabel Access_OrderedVertexAccess
+#TODO
 #! <Enum>
 #!   <Item><E>Ordering around a vertex</E>
 #!         <Par/>
