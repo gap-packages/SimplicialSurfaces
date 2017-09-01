@@ -1462,7 +1462,7 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	function( faces, edgeCycles, vertexPaths, gens )
 	
 	local nrCycles, edges, edgeColours, facesOfEdges, vertices, 
-              edgesOfVertices, FindEdges, surf, init,
+              edgesOfVertices, FindEdges, surf, init, edgesOfFaces,
               colEdgesOfFaces, col, i, f, totalNrCycles;
 
 
@@ -1491,8 +1491,10 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	Append( facesOfEdges, edgeCycles[3] );
 
         colEdgesOfFaces := [];
+        edgesOfFaces := [];
         for f in faces do
             colEdgesOfFaces[f] := [];
+            edgesOfFaces[f] := [];
         od;
 
 	for col in [1,2,3] do
@@ -1507,6 +1509,7 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
                                 init := nrCycles[1] + nrCycles[2];
                             fi;
 			    colEdgesOfFaces[f][col] := init + i;
+                            edgesOfFaces[f] := Union( edgesOfFaces[f], [init + i] );
 			od;
 		od;
 	od;
@@ -1519,6 +1522,7 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	SetEdges( surf, edges );
 	SetFaces( surf, faces );
 	SetFacesOfEdges( surf, facesOfEdges );
+        SetEdgesOfFaces( surf, edgesOfFaces );
 	SetGenerators( surf, gens );
 	SetColoursOfEdges( surf, edgeColours );
 	SetColouredEdgesOfFaces( surf, colEdgesOfFaces );
@@ -1738,15 +1742,16 @@ InstallMethod( AllWildSimplicialSurfaces,
     # In the given example acb is a word such that
     # 1acb = 1 or, more specifically, 1a = 4, 4c=6, 6b = 1.
     #
+    #knownfaces = List(vtxnames, i -> i[1]);
     LoopOneVertexSignedWithBoundary :=
-            function(vtx,g,vtxnames,completedvertices,nrvtsface)
-            local  h, fac, i, j, pj, k, x, knownfaces, nvtx, nvtxnames,
-                   vtxnames_c, completedvertices_c, nrvtsface_c, poss;
+            function(vtx,g,vtxnames, knownfaces,completedvertices,nrvtsface)
+            local  h, fac, i, j, pj, k, x,  nvtx, nvtxnames,
+                   vtxnames_c, completedvertices_c, nrvtsface_c, poss, knownfaces_c;
 
             # all already known names for this vertex 
             # - known to be valid up to here
             # all already known faces incident to this vertex
-            knownfaces := List(vtxnames, i-> i[1]);
+            #knownfaces := List(vtxnames, i-> i[1]); # too slow
 
             i := vtx[1]; # the face
             # consider each of the other two generators different to g
@@ -1839,6 +1844,7 @@ InstallMethod( AllWildSimplicialSurfaces,
                 for h in poss  do
                     # modify a new copy of vtxnames
                     vtxnames_c := ShallowCopy(vtxnames);
+                    knownfaces_c := ShallowCopy(knownfaces);
                     completedvertices_c := ShallowCopy(completedvertices);
                     nrvtsface_c := ShallowCopy(nrvtsface);
                     # choose to continue with vertex {j,g,h}
@@ -1873,10 +1879,12 @@ InstallMethod( AllWildSimplicialSurfaces,
                         fi;
                     if g < h then
                         Add( vtxnames_c, [j,g,h] );
+                        Add( knownfaces_c, [j] );
 #                        k := Position(allvertices,[j,g,h]); # slow code
                         k := (faceinverse[j]-1)*3 + (g-1)*2 + h-g;
                     else
                         Add( vtxnames_c, [j,h,g] );
+                        Add( knownfaces_c, [j] );
 #                        k := Position(allvertices,[j,h,g]); # slow code
                         k := (faceinverse[j]-1)*3 + (h-1)*2 + g-h;
                     fi;
@@ -1897,7 +1905,7 @@ InstallMethod( AllWildSimplicialSurfaces,
                     # continue on with h               
                     nvtx := [j,g,h];
                     if h < g then nvtx  := [j,h,g]; fi;
-                    LoopOneVertexSignedWithBoundary(nvtx, h,vtxnames_c,
+                    LoopOneVertexSignedWithBoundary(nvtx, h,vtxnames_c, knownfaces_c,
                                   completedvertices_c,nrvtsface_c);
                     # Then continue with the next h.
                 od;
@@ -1939,12 +1947,13 @@ InstallMethod( AllWildSimplicialSurfaces,
 
                        # we are at the start so add 
                        # but let the vertex start with smallest face
-                       if vtxnames[1]<>Minimum(vtxnames) then
-                            k := Position(vtxnames,Minimum(vtxnames));
-                            nvtxnames := vtxnames{[k..Length(vtxnames)]};
-                            Append(nvtxnames, vtxnames{[1..k-1]});
-                            vtxnames := nvtxnames;
-                       fi;
+# Since we changed the primary data structure, this sorting is unnecessary
+#                       if vtxnames[1]<>Minimum(vtxnames) then
+#                            k := Position(vtxnames,Minimum(vtxnames));
+#                            nvtxnames := vtxnames{[k..Length(vtxnames)]};
+#                            Append(nvtxnames, vtxnames{[1..k-1]});
+#                            vtxnames := nvtxnames;
+#                       fi;
                        Add(allvtxnames,[vtxnames,completedvertices,nrvtsface]);
 #		Print ("vertex closed correctly");
                        return;
@@ -2031,7 +2040,7 @@ InstallMethod( AllWildSimplicialSurfaces,
 
         # We store for vertex vtx all its vertex defining paths in allvtxnames
         allvtxnames := [];
-        LoopOneVertexSignedWithBoundary(vtx,g,vtxEquivalentnames, 
+        LoopOneVertexSignedWithBoundary(vtx,g,vtxEquivalentnames, [i],
                                           completedvertices, nrvtsface);
 
 #        Print("Starting Vertex: \n");
