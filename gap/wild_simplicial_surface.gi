@@ -1462,7 +1462,7 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	function( faces, edgeCycles, vertexPaths, gens )
 	
 	local nrCycles, edges, edgeColours, facesOfEdges, vertices, 
-              edgesOfVertices, FindEdges, surf,
+              edgesOfVertices, FindEdges, surf, init,
               colEdgesOfFaces, col, i, f, totalNrCycles;
 
 
@@ -1473,8 +1473,9 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
         # It is important to note that different colours might have
         # different numbers of corresponding edges.
 
-        nrCycles := List( edgeCycles, Length );
-        totalNrCycles := Sum(nrCycles);
+        # Manual computation to avoid list overhead
+        nrCycles := [ Length(edgeCycles[1]), Length(edgeCycles[2]), Length(edgeCycles[3]) ];
+        totalNrCycles := nrCycles[1] + nrCycles[2] + nrCycles[3];
 
 	# The faces stay the same
 
@@ -1497,7 +1498,15 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 	for col in [1,2,3] do
 		for i in [1..nrCycles[col]] do
 			for f in edgeCycles[col][i] do
-				colEdgesOfFaces[f][col] := Sum( nrCycles{[1..(col-1)]}) + i;
+                            # This is done by if-statements to make it faster
+                            if col = 1 then
+                                init := 0;
+                            elif col = 2 then
+                                init := nrCycles[1];
+                            else 
+                                init := nrCycles[1] + nrCycles[2];
+                            fi;
+			    colEdgesOfFaces[f][col] := init + i;
 			od;
 		od;
 	od;
@@ -1532,8 +1541,9 @@ BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern",
 			# Now we have to find the edges that conform to the 
                         # colours in pathElement[2] and pathElement[3]
 			Append( edges, 
-				[ ColouredEdgeOfFaceNC(surf, pathElement[1], pathElement[2] ), 
-				ColouredEdgeOfFaceNC(surf, pathElement[1], pathElement[3] ) ] );
+                            # Don't use the corresponding method to avoid overhead
+                            [ colEdgesOfFaces[pathElement[1]][pathElement[2]],
+                                colEdgesOfFaces[pathElement[1]][pathElement[3]] ]);
 		od;
 
 		return Set(edges);
