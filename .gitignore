@@ -37,3 +37,6 @@ doc/_IMAGE*
 *~
 *.swp
 *.swo
+
+# compressed files
+*.gz

@@ -1,0 +1,195 @@
+<!DOCTYPE html><script src="sorttable.js"></script><html><body>
+<style>
+table { border-collapse: collapse }
+tr:nth-child(odd)  { background-color: #EEE; }
+tr:nth-child(even)  { background-color: #FFF; }
+tr:nth-child(odd).exec  { background-color: #0F0; }
+tr:nth-child(even).exec  { background-color: #3F3; }
+tr:nth-child(odd).missed  { background-color: #F00; }
+tr:nth-child(even).missed  { background-color: #F33; }
+td, th {
+    border: 1px solid #98bf21;
+    padding: 3px 7px 2px 7px;
+}
+th {
+    font-size: 1.1em;
+    text-align: left;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    background-color: #A7C942;
+    color: #ffffff;
+}
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+    content: " \25B4\25BE"
+}
+
+/* HSV gradient made using http://www.perbang.dk/rgbgradient/ */
+td.coverage00 { background-color: #FF0000; }
+td.coverage10 { background-color: #F83100; }
+td.coverage20 { background-color: #F25F00; }
+td.coverage30 { background-color: #EB8B00; }
+td.coverage40 { background-color: #E5B500; }
+td.coverage50 { background-color: #DFDC00; }
+td.coverage60 { background-color: #B0D800; }
+td.coverage70 { background-color: #81D200; }
+td.coverage80 { background-color: #55CB00; }
+td.coverage90 { background-color: #2CC500; }
+td.coverage100 { background-color: #04BF00; }
+td:nth-child(1) { text-align: right; }
+td:nth-child(2) { text-align: right; }
+td:nth-child(3) { text-align: right; }
+td:nth-child(4) { text-align: right; }
+</style><p>This file was read by GAP before profiling was actived, so lines which were not read but not executed are not marked.</p><table class="sortable">
+<thead><tr><th>Line</th><th>Execs</th><th>Time</th><th>Time+Childs</th><th>Code</th><th>Called Functions</th>
+</tr></thead>
+<tbody>
+<tr class='ignore'><td><a name="line1"></a>1</td><td></td><td></td><td></td><td><span><tt>#############################################################################
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line2"></a>2</td><td></td><td></td><td></td><td><span><tt>##
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line3"></a>3</td><td></td><td></td><td></td><td><span><tt>#W&nbsp;&nbsp;session.g&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GAP&nbsp;library&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Steve&nbsp;Linton
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line4"></a>4</td><td></td><td></td><td></td><td><span><tt>##
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line5"></a>5</td><td></td><td></td><td></td><td><span><tt>##
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line6"></a>6</td><td></td><td></td><td></td><td><span><tt>#Y&nbsp;&nbsp;Copyright&nbsp;(C)&nbsp;2007&nbsp;The&nbsp;GAP&nbsp;Group
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line7"></a>7</td><td></td><td></td><td></td><td><span><tt>##
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line8"></a>8</td><td></td><td></td><td></td><td><span><tt>##&nbsp;&nbsp;This&nbsp;file&nbsp;contains&nbsp;GAP&nbsp;functions&nbsp;which&nbsp;define&nbsp;the&nbsp;structure&nbsp;of&nbsp;a&nbsp;GAP&nbsp;session
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line9"></a>9</td><td></td><td></td><td></td><td><span><tt>##&nbsp;&nbsp;SESSION&nbsp;is&nbsp;called&nbsp;from&nbsp;init.g&nbsp;or&nbsp;from&nbsp;POST_RESTORE&nbsp;depending&nbsp;on&nbsp;whether
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line10"></a>10</td><td></td><td></td><td></td><td><span><tt>##&nbsp;&nbsp;this&nbsp;is&nbsp;a&nbsp;normal&nbsp;startup&nbsp;or&nbsp;startup&nbsp;from&nbsp;saved&nbsp;workspace
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line11"></a>11</td><td></td><td></td><td></td><td><span><tt>##
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line12"></a>12</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line13"></a>13</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line14"></a>14</td><td></td><td></td><td></td><td><span><tt>OnGAPPromptHook&nbsp;:=&nbsp;fail;&nbsp;#&nbsp;set&nbsp;some&nbsp;values&nbsp;to&nbsp;suppress&nbsp;warning
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line15"></a>15</td><td></td><td></td><td></td><td><span><tt>SaveOnExitFile&nbsp;:=&nbsp;fail;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line16"></a>16</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line17"></a>17</td><td></td><td></td><td></td><td><span><tt>InstallAtExit(&nbsp;function()
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line18"></a>18</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;not&nbsp;QUITTING&nbsp;and&nbsp;IsBound(SaveOnExitFile)&nbsp;&nbsp;and
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line19"></a>19</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IsString(SaveOnExitFile)&nbsp;then
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line20"></a>20</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveWorkspace(SaveOnExitFile);
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line21"></a>21</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;fi;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line22"></a>22</td><td></td><td></td><td></td><td><span><tt>end);
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line23"></a>23</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line24"></a>24</td><td></td><td></td><td></td><td><span><tt>BIND_GLOBAL("SESSION",
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line25"></a>25</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;function()
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line26"></a>26</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;local&nbsp;&nbsp;&nbsp;f,&nbsp;prompt;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line27"></a>27</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line28"></a>28</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;GAPInfo.CommandLineOptions.q&nbsp;then
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line29"></a>29</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prompt&nbsp;:=&nbsp;"";
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line30"></a>30</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;else
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line31"></a>31</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prompt&nbsp;:=&nbsp;"gap>&nbsp;";
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line32"></a>32</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;fi;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line33"></a>33</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line34"></a>34</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;SHELL(&nbsp;GetBottomLVars(),&nbsp;#&nbsp;in&nbsp;global&nbsp;context
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line35"></a>35</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;false,&nbsp;#&nbsp;no&nbsp;return
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line36"></a>36</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;false,&nbsp;#&nbsp;no&nbsp;return&nbsp;&nbsp;obj
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line37"></a>37</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;set&nbsp;last,&nbsp;last2&nbsp;and&nbsp;last3&nbsp;each&nbsp;command
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line38"></a>38</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true,&nbsp;&nbsp;#&nbsp;set&nbsp;time&nbsp;after&nbsp;each&nbsp;command
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line39"></a>39</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prompt,
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line40"></a>40</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function()
+</tt></span></td><td><span></span></td></tr>
+<tr class='exec'><td><a name="line41"></a>41</td><td>4</td><td>3</td><td>3</td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;IsBound(OnGAPPromptHook)&nbsp;and&nbsp;IsFunction(OnGAPPromptHook)&nbsp;then
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line42"></a>42</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OnGAPPromptHook();
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line43"></a>43</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+</tt></span></td><td><span></span></td></tr>
+<tr class='exec'><td><a name="line44"></a>44</td><td>2</td><td>40</td><td>40</td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+</tt></span></td><td><span></span></td></tr>
+<tr class='exec'><td><a name="line45"></a>45</td><td>2</td><td>1</td><td>1</td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fi;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line46"></a>46</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end,
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line47"></a>47</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"*stdin*",
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line48"></a>48</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"*stdout*",
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line49"></a>49</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true);
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line50"></a>50</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line51"></a>51</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;BreakOnError&nbsp;:=&nbsp;false;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line52"></a>52</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;IsBound(&nbsp;GAPInfo.AtExitFuncs&nbsp;)&nbsp;and&nbsp;IsList(&nbsp;GAPInfo.AtExitFuncs&nbsp;)&nbsp;then
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line53"></a>53</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;f&nbsp;in&nbsp;GAPInfo.AtExitFuncs&nbsp;do
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line54"></a>54</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;IsFunction(f)&nbsp;then
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line55"></a>55</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL_WITH_CATCH(f,[]);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;really&nbsp;should&nbsp;be&nbsp;CALL_WITH_CATCH&nbsp;here
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line56"></a>56</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fi;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line57"></a>57</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;od;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line58"></a>58</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;fi;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line59"></a>59</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line60"></a>60</td><td></td><td></td><td></td><td><span><tt>end);
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line61"></a>61</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line62"></a>62</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line63"></a>63</td><td></td><td></td><td></td><td><span><tt>BindGlobal("POST_RESTORE",&nbsp;function()
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line64"></a>64</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;local&nbsp;&nbsp;&nbsp;f;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line65"></a>65</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;f&nbsp;in&nbsp;GAPInfo.PostRestoreFuncs&nbsp;do
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line66"></a>66</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;IsFunction(f)&nbsp;then
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line67"></a>67</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f();
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line68"></a>68</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fi;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line69"></a>69</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;od;
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line70"></a>70</td><td></td><td></td><td></td><td><span><tt>&nbsp;&nbsp;&nbsp;&nbsp;SESSION();
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line71"></a>71</td><td></td><td></td><td></td><td><span><tt>end);
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line72"></a>72</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line73"></a>73</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+<tr class='ignore'><td><a name="line74"></a>74</td><td></td><td></td><td></td><td><span><tt>
+</tt></span></td><td><span></span></td></tr>
+</tbody>
+</table></body></html>
