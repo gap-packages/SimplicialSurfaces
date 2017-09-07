@@ -1,0 +1,42 @@
+\begin{tikzpicture}
+    % Mechanism to activate all labels
+    \ifdefined\allLabels
+        \def\vertexLabels{1}
+        \def\edgeLabels{1}
+        \def\faceLabels{1}
+    \fi
+
+    %      P3
+    %    2/  \5
+    %    /    \
+    %  P2  III P7
+    %    \    /
+    %    3\  /6
+    %      P5
+
+    \def\hdist{2}
+    \def\vdist{1}
+
+    \coordinate [label={[vertex]left:\ifdefined\vertexLabels 2 \fi}] (P2) at (-\hdist,0);
+    \coordinate [label={[vertex]above:\ifdefined\vertexLabels 3 \fi}](P3) at (0,\vdist);
+    \coordinate [label={[vertex]below:\ifdefined\vertexLabels 5 \fi}](P5) at (0,-\vdist);
+    \coordinate [label={[vertex]right:\ifdefined\vertexLabels 7 \fi}](P7) at (\hdist,0);
+
+    \filldraw[face] (P2) -- (P3) -- (P7) -- (P5) -- cycle;
+    \ifdefined\faceLabels
+        \node at (barycentric cs:P2=1,P3=1,P5=1,P7=1) {III};
+    \fi
+
+    \ifdefined\edgeLabels
+        \drawEdge{P2}{P3}{2}
+        \drawEdge{P2}{P5}{3}
+        \drawEdge{P3}{P7}{5}
+        \drawEdge{P5}{P7}{6}
+    \fi
+
+    \ifdefined\vertexLabels
+        \foreach \p in {P2,P3,P7,P5}{
+            \fill[vertex] (\p) circle (\vSize);
+        }
+    \fi
+\end{tikzpicture}

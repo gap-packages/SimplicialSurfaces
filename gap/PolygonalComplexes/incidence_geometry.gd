@@ -13,41 +13,95 @@
 #! @Chapter Access to the incidence geometry
 #! @ChapterLabel AccessIncidenceGeometry
 #! 
-#! We have introduced incidence geometries in section
-#! <Ref Sect="PolygonalStructures_complex"/> as a description of polygonal
-#! complexes. This chapter describes several different ways to access these
+
+####
+# No matter what, a chapter should start with a short description of its
+# contents, together with necessary references to previous material (if
+# someone does not read the chapters in order).
+####
+
+#! In section <Ref Sect="PolygonalStructures_complex"/> we introduced 
+#! incidence geometries to describe polygonal complexes.
+#! This chapter describes several different ways to access these
 #! incidence structures.
 #! <P/>
-#TODO is this to formal and off-putting?
-#! In most cases one of the following two ways is sufficient:
-#! * If you just want to know information about the vertices/edges/faces 
-#!   individually (like 
-#!   their labels
-#!   or how many there are), see section 
-#!   <Ref Sect="Section_Access_LabelAccess"/>.
-#! * If you want to know information connecting different dimensions (like
-#!   the set of vertices incident to a given face or the set of edges
-#!   incident to a given vertex), see section 
-#!   <Ref Sect="Section_Access_BasicAccess"/>.
-#!
-#! While the set-wise access is usually sufficient, in some cases there might
-#! be the need for a more ``organized'' access, like these:
-#! * If you want to know the vertices/edges of a given face in the order in
-#!   which they appear on the boundary of the face, see section 
-#!   <Ref Sect="Section_Access_OrderedFaceAccess"/>.
-#! * If you want to know the order of faces around a given edge, you need more
-#!   than incidence geometry to answer that question. We will describe this
-#!   type of order (a <E>fan</E>) in chapter TODO
-#! * If you want to know in which order edges and faces are arranged around
-#!   a given vertex, see section 
-#!   <Ref Sect="Section_Access_OrderedVertexAccess"/>.
+
+####
+# Since the structure of this chapter was subject to a lot of revisions, I
+# will explain my choice here. First of all, what are the design goals? What
+# are the probable expectations of people reading this part of the manual?
+# 1) This is a very important chapter since it explains the core mechanic
+#    of the *Of*-methods. This is the reason why it has to be an early 
+#    chapter.
+# 2) Since it is an early chapter, its tone should not deviate too much
+#    from the earlier chapters. It should not be offputting to someone
+#    who is reading through the manual in order (which was encouraged up
+#    to this point).
+# 3) At the same time, many people will skip to this chapter to find
+#    answers about their problems (most likely something about access, if
+#    we consider the title). They usually want an easy way to find
+#    what they are searching.
+#
+# As usually, (2) and (3) oppose each other. This is especially critical
+# because of the chapter content:
+# A) Explain that vertices, edges and faces are stored as sets of natural
+#    numbers.
+# B) Explain the *Of*-methods
+# C) Explain the possibilities for ordered access:
+#   C1) Order of vertices/edges in a face
+#   C2) Order of faces around an edge
+#   C3) Order of edges and faces around a vertex
+#
+# Unfortunately the structure of this presentation is not usable: GAPDoc
+# represents mansections internally as subsections and is not able to
+# distinguish between those when it outputs its documentation. Therefore only
+# section remains as a separator between chapter and mansection.
+#
+# Simultaneously there is a different conflict: (B) is the core mechanic while
+# the methods in (C) are more specialized. That means that user (2) does not
+# have to read (C) but user (3) should be able to find them quickly.
+#
+# A possible compromise would be to write a short summary of the chapter at
+# the start to point (3) to the correct sections. In practice this does
+# remove a lot of legibility for user (2) and even for (3) if they are not
+# experienced with our formalism.
+#
+# 
+# To make finding (C) easier, the names are choosen in an expressive way. If
+# that is not sufficient, a short mentioning of them (without going into any 
+# details) will have to be sufficient.
+#
+# The individual sections all have the same problems: Many very similar 
+# methods with very similar documentation. Since we should give a picture
+# in each of them (to aid understanding in the situation of a focused
+# look-up) this amounts to quite a lot of pages.
+# -> To make it easier to skip over the similar methods, we use the same
+#    picture (essentially) in all of them
+# -> Each section has its own "signature picture" that allows the user to
+#    visually recognize how far they are skipping ahead (which can't be
+#    avoided in these sections)
+####
+
+#! In most cases the methods of section
+#! <Ref Sect="Section_Access_BasicAccess"/> (that return incident elements
+#! as a set) are sufficient. The subsequent sections contain more specific
+#! access methods.
+#TODO badly written as it is
 
 #! @Section Labels of vertices, edges and faces
 #! @SectionLabel Access_LabelAccess
 #!
 #! In polygonal complexes (the most general supported incidence structure,
 #! compare chapter <Ref Chap="PolygonalStructures"/>) all vertices, edges
-#! and faces are labelled by positive integers. We can access the set of
+#! and faces are labelled by positive integers.
+#! These labels do not have to be disjoint as shown in the following example:
+#! <Alt Only="TikZ">
+#!     {
+#!         \def\allLabels{1}
+#!         \input{Image_LabellingExample.tex}
+#!     }
+#! </Alt>
+#! We can access the set of
 #! all those labels by <K>Vertices</K>, <K>Edges</K> and <K>Faces</K>.
 #! If only the number of vertices is relevant, we can use <K>NrOfVertices</K>
 #! instead (likewise for edges and faces).
