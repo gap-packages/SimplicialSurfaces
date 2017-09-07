@@ -46,14 +46,6 @@ About the chapter ordering:
 -------------
 Chapter "Access to the incidence geometry"
 
-    Explain how vertices, edges and faces are stored (as sets of natural numbers). Give an example to show that there a no holes in these lists and to show that the number of elements does not equal the maximal element. Use the standard example for that [it costs space but the standard form makes it easier to skip]. If we combine Vertices and NrOfVertices into one mansection, we can save some more space and make the example a bit less trivial [we have to modify the labels to reflect this change].
-
-    The first subsection deals with the *Of*-methods (essentially as it is right now).
-    Problem: Since one might be inclined to skip over some functions in the page before, one might skip further than intended - especially as this is a very central section that should not be missed. How can we make it a better focus? Right now it is focused by having the first picture in this chapter but this will drastically change if we add pictures (even worse, very similar picture) just before.
-
-    Solution: Every section uses a different picture type. We will use a quadrangle for the first part to also show that the returned sets do not respect the incidence.
-    TODO change the labelling of edges and vertices in the *Of*-part to showcase this as well!
-
     After the first subsection we will have three sections about ordered access. Two of them will explain methods, one of them will explain an impossibility (with reference to a better structure). Since they are not "required" sections, we will make them self-contained. Each of them will explain their goal and then explain why the methods are choosen as they are (since they are mutually inconsistent).
 
     Second subsection: Order of vertices/edges in a face.

@@ -201,12 +201,12 @@ NrOfFaces(complex);
 #! 1
 #! @EndExample
 #
-#! @Arguments complex
 #! @Returns a non-negative integer
+#! @Arguments complex
 DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
 #! @Arguments complex
 DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
-#! @Returns a non-negative integer
+#! @Arguments complex
 DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! @EndGroup
 
@@ -222,6 +222,27 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! <Par/>
 #! We will illustrate the general pattern of these methods by showcasing
 #! these two methods. For that we will use the following polygonal complex:
+
+####
+# The picture and its labels are choosen very deliberately. They fulfill these
+# conditions:
+# 1) There are faces with different numbers of vertices. Especially one 
+#    triangle and one non-triangle.
+# 2) The structure of the example is easy to grasp, yet not completely trivial
+# 3) The labels are disjoint. While this is not necessary for our structures
+#    it makes it easier to distinguish the labels - as every label is unique
+#    a reader can see immediately if it is a vertex, an edge or a face.
+# 4) The non-triangular face is not labelled cyclically. While we do not draw
+#    special attention to this fact here, this is important for those people
+#    that search for this application (they see that it has to be somewhere
+#    else instead of wondering). It could be said that an attentive reader
+#    might notice this fact nevertheless, but this seems too infrequent to
+#    completely base a design choice on.
+# 5) The labels of vertices, edges and faces are not numbered consecutively.
+#    By doing this we make this possibility very clear. Furthermore it makes
+#    the structure of the incidence methods more apparent.
+####
+
 #TODO Text-version is crucial here, compare the picture in Image_StarOfStar
 #! <Alt Only="TikZ">
 #! {
@@ -233,7 +254,7 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #TODO give a reference to the constructor
 #! @BeginExample
 complex := PolygonalComplexByDownwardIncidence( 5, 6, 2, 
-    [ , , , , , [2,11], , [2,3], [3,11], [3,5], , [5,7], [7,11] ], 
+    [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], 
     [[6,8,9], , , [9,10,12,13]]);;
 Vertices(complex);
 #! [ 2, 3, 5, 7, 11 ]
@@ -247,7 +268,7 @@ Faces(complex);
 #! to which faces.
 #! @BeginExample
 VerticesOfFaces(complex);
-#! [ [ 2, 3, 11 ], , , [ 3, 5, 7, 11 ] ];
+#! [ [ 2, 3, 5 ], , , [ 3, 5, 7, 11 ] ];
 #! @EndExample
 #! The first entry of this list contains a set of all vertices that are
 #! incident to face I. The second and third entries are not bounded since
@@ -261,10 +282,10 @@ VerticesOfFaces(complex);
 #! that contains sets of edges and is indexed by the vertex labels.
 #! @BeginExample
 EdgesOfVertices(complex);
-#! [ , [ 6, 8 ], [ 8, 9, 10 ], , [ 10, 12 ], , [ 12, 13 ], , , , [ 6, 9, 13 ] ]
+#! [ , [ 6, 8 ], [ 8, 9, 12 ], , [ 6, 9, 10 ], , [ 12, 13 ], , , , [ 10, 13 ] ]
 #! @EndExample
 #! For example, if we consider the third entry of this list, we find the
-#! set [8, 9, 10]. Those are all edges that are incident to the vertex 3.
+#! set [ 8, 9, 12 ]. Those are all edges that are incident to the vertex 3.
 #! <Par/>
 #! In the same way all other *Of*-methods are defined.
 
@@ -294,10 +315,10 @@ EdgesOfVertices(complex);
 #! @BeginExample
 EdgesOfVertex(complex, 2);
 #! [ 6, 8 ]
-EdgesOfVertex(complex, 11);
-#! [ 6, 9, 13 ]
+EdgesOfVertex(complex, 5);
+#! [ 6, 9, 10 ]
 EdgesOfVertices(complex);
-#! [ , [ 6, 8 ], [ 8, 9, 10 ], , [ 10, 12 ], , [ 12, 13 ], , , [ 6, 9, 13 ] ]
+#! [ , [ 6, 8 ], [ 8, 9, 12 ], , [ 6, 9, 10 ], , [ 12, 13 ], , , [ 10, 13 ] ]
 #! @EndExample
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -335,10 +356,10 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! @BeginExample
 FacesOfVertex(complex, 2);
 #! [ 1 ]
-FacesOfVertex(complex, 11);
+FacesOfVertex(complex, 5);
 #! [ 1, 4 ]
 FacesOfVertices(complex);
-#! [ , [ 1 ], [ 1, 4 ], , [ 4 ], , [ 4 ], , , [ 1, 4 ] ]
+#! [ , [ 1 ], [ 1, 4 ], , [ 1, 4 ], , [ 4 ], , , [ 4 ] ]
 #! @EndExample
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -376,9 +397,9 @@ DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 VerticesOfEdge(complex, 8);
 #! [ 2, 3 ]
 VerticesOfEdge(complex, 12);
-#! [ 5, 7 ]
+#! [ 3, 7 ]
 VerticesOfEdges(complex);
-#! [ , , , , , [ 2, 11 ], , [ 2, 3 ], [ 3, 11 ], [ 3, 5 ], , [ 5, 7 ], [ 7, 11 ] ]
+#! [ , , , , , [ 2, 5 ], , [ 2, 3 ], [ 3, 5 ], [ 5, 11 ], , [ 3, 7 ], [ 7, 11 ] ]
 #! @EndExample
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -455,11 +476,11 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! </Alt>
 #! @BeginExample
 VerticesOfFace(complex, 1);
-#! [ 2, 3, 11 ]
+#! [ 2, 3, 5 ]
 VerticesOfFace(complex, 4);
 #! [ 3, 5, 7, 11 ]
 VerticesOfFaces(complex);
-#! [ [ 2, 3, 11 ], , , [ 3, 5, 7, 11 ] ]
+#! [ [ 2, 3, 5 ], , , [ 3, 5, 7, 11 ] ]
 #! @EndExample
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
