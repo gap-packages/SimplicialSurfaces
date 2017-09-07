@@ -101,7 +101,13 @@
 #!         \input{Image_LabellingExample.tex}
 #!     }
 #! </Alt>
-#! We can access the set of
+#TODO give a reference to the constructor
+#! @BeginExample
+complex := PolygonalComplexByDownwardIncidence( 4, 4, 1,
+    [ , [2,3], [2,5], , [3,7], [5,7] ], [ , , [2,3,5,6] ] );;
+#! @EndExample
+#
+#! We can access the sets of
 #! all those labels by <K>Vertices</K>, <K>Edges</K> and <K>Faces</K>.
 #! If only the number of vertices is relevant, we can use <K>NrOfVertices</K>
 #! instead (likewise for edges and faces).
@@ -110,6 +116,19 @@
 ## TODO check if grape has changed their definition of Vertices
 #! @Description
 #! Return the set of vertices.
+#! <Par/>
+#! As an example consider the polygonal complex from the beginning of section
+#! <Ref Sect="Section_Access_LabelAccess"/>:
+#! <Alt Only="TikZ">
+#!      {
+#!          \def\allLabels{1}
+#!          \input{Image_LabellingExample.tex}
+#!      }
+#! </Alt>
+#! @BeginExample
+Vertices(complex);
+#! [ 2, 3, 5, 7 ]
+#! @EndExample
 #! <Par/>
 #! We have separated the operation <K>Vertices</K> from the corresponding
 #! attribute because there is a naming clash with the package grape.
@@ -122,33 +141,74 @@ DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsPolygonalComplex );
 
 #! @Description
 #! Return the set of edges.
+#! <Par/>
+#! As an example consider the polygonal complex from the beginning of section
+#! <Ref Sect="Section_Access_LabelAccess"/>:
+#! <Alt Only="TikZ">
+#!      {
+#!          \def\allLabels{1}
+#!          \input{Image_LabellingExample.tex}
+#!      }
+#! </Alt>
+#! @BeginExample
+Edges(complex);
+#! [ 2, 3, 5, 6 ]
+#! @EndExample
+#
 #! @Arguments complex
 #! @Returns A set of positive integers
 DeclareAttribute( "Edges", IsPolygonalComplex );
 
 #! @Description
 #! Return the set of faces.
+#! <Par/>
+#! As an example consider the polygonal complex from the beginning of section
+#! <Ref Sect="Section_Access_LabelAccess"/>:
+#! <Alt Only="TikZ">
+#!      {
+#!          \def\allLabels{1}
+#!          \input{Image_LabellingExample.tex}
+#!      }
+#! </Alt>
+#! @BeginExample
+Faces(complex);
+#! [ 3 ]
+#! @EndExample
+#
 #! @Arguments complex
 #! @Returns A set of positive integers
 DeclareAttribute( "Faces", IsPolygonalComplex );
 
+#! @BeginGroup
+#TODO why can't you give a custom header to the group?
 #! @Description
-#! Return the number of vertices.
+#! Return the number of vertices, edges or faces.
+#! <Par/>
+#! As an example consider the polygonal complex from the beginning of section
+#! <Ref Sect="Section_Access_LabelAccess"/>:
+#! <Alt Only="TikZ">
+#!      {
+#!          \def\allLabels{1}
+#!          \input{Image_LabellingExample.tex}
+#!      }
+#! </Alt>
+#! @BeginExample
+NrOfVertices(complex);
+#! 4
+NrOfEdges(complex);
+#! 4
+NrOfFaces(complex);
+#! 1
+#! @EndExample
+#
 #! @Arguments complex
 #! @Returns a non-negative integer
 DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
-
-#! @Description
-#! Return the number of edges.
 #! @Arguments complex
-#! @Returns a non-negative integer
 DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
-
-#! @Description
-#! Return the number of faces.
-#! @Arguments complex
 #! @Returns a non-negative integer
 DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
+#! @EndGroup
 
 
 #! @Section Incidence between vertices, edges and faces
