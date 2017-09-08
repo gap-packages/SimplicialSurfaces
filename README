@@ -12,12 +12,21 @@ to access the package inside GAP.
 
 To create the manual you have to type
     make
-in the main folder. This requires GAPDoc version >= 1.6. If you don't have this
-one, go to your local GAP installation and type
+in the main folder. This requires GAPDoc version >= 1.6 and AutoDoc version
+>= 2017.08.03. If you don't have those, go to the folder of your local GAP 
+installation and type
     cd pkg/
     git clone https://github.com/frankluebeck/GAPDoc.git
+    git clone https://github.com/gap-packages/AutoDoc.git
 
 At the moment, the manual is still a work in process and definitely unfinished.
+The current version of the manual can be found in the (unstable) branch 
+"rewrite". To see it, use (in the main directory)
+    git checkout rewrite
+    make
+Then the manual is doc/manual.pdf
+To return to the stable branch, type
+    git checkout master
 
 
 If there are any questions, don't hesitate to ask.
