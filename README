@@ -13,7 +13,7 @@ to access the package inside GAP.
 To create the manual you have to type
     make
 in the main folder. This requires GAPDoc version >= 1.6 and AutoDoc version
->= 2017.08.03. If you don't have those, go to the folder of your local GAP 
+>= 2017.09.08. If you don't have those, go to the folder of your local GAP 
 installation and type
     cd pkg/
     git clone https://github.com/frankluebeck/GAPDoc.git
