@@ -74,7 +74,7 @@ preProcessTikz := function( node )
         output := OutputTextFile( tmpFile, false );
         SetPrintFormattingStatus( output, false );
         AppendTo( output,
-            "\\documentclass{article}\n\n",
+            "\\documentclass{standalone}\n\n",
             __SIMPLICIAL_TikZHeader,
             "\\def\\pgfsysdriver{pgfsys-tex4ht.def}\n\n",
             "\\begin{document}\n");
@@ -120,13 +120,17 @@ preProcessTikz := function( node )
                 Concatenation( path, name, ".tex" ) ) ) or
            not IsExistingFile(
             Filename( DirectoryCurrent(),
-                Concatenation( path, name, "-1.svg" )) ) then
-            # Either tex or svg are not there. We will write them now.
+                Concatenation( path, name, "-1.svg" )) ) or
+           not IsExistingFile(
+            Filename( DirectoryCurrent(),
+                Concatenation( path, name, ".pdf" )) ) then
+            # Either tex or svg or pdf are not there. We will write them now.
 
             # Step 5
             Exec( "sh -c \" cd ", path, "; mv _IMAGE_TMP.tex ", Concatenation(name, ".tex"), "; \" " );
 
             # Step 6
+            Exec( "sh -c \" cd ", path, "; pdflatex ", Concatenation(name, ".tex"), "; \" " );
             Exec( "sh -c \" cd ", path, "; htlatex ", Concatenation(name, ".tex"), "; \" " );
 
             # After compiling we do some post-processing on the image.
@@ -157,8 +161,8 @@ preProcessTikz := function( node )
         n1 := StructuralCopy(node);
         n1.attributes.Only := "LaTeX";
         # center the picture
-        n1.content[1].content := Concatenation( "\n\\begin{center}",
-            n1.content[1].content, "\\end{center}\n");
+        n1.content[1].content := Concatenation( "\n\\begin{center}\n",
+        "\\includegraphics{", name, ".pdf}\n\\end{center}\n" );
 
         # To include it in the HTML-version we have to use a different node
         htmlString := Concatenation(
@@ -196,7 +200,7 @@ BindGlobal( "CleanImageDirectory", function(  )
         if StartsWith( file, "_IMAGE_" ) then
             if ForAny( __SIMPLICIAL_ImageNames, n -> StartsWith(file,n) ) then
                 # This is a file to an existing picture
-                if not ForAny( [".tex", ".svg", ".log"], e -> EndsWith(file,e) ) then
+                if not ForAny( [".tex", ".svg", ".log", ".pdf"], e -> EndsWith(file,e) ) then
                     # Does not end in one of those file extensions
                     Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm ", file, ";\"" );
                 fi;
