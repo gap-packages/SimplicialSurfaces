@@ -1185,6 +1185,7 @@ DeclareOperation( "MaximalStripEmbedding",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt] );
 
+#TODO better: return face-edge-path (as index) and the subsurface by those faces
 
 #
 ###  This program is free software: you can redistribute it and/or modify
