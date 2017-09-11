@@ -4079,9 +4079,14 @@ InstallMethod( MaximalStripEmbedding, "",
             im_e := primaryFlag[2][2];
             im_vo := Difference( VerticesOfEdges(surf)[im_e], [im_v] )[1];
             im_fn := neighbour;
-            im_ed := Intersection(EdgesOfVertices(surf)[im_v], EdgesOfFaces(surf)[im_fn])[1];
-            im_er := Intersection(EdgesOfVertices(surf)[im_vo], EdgesOfFaces(surf)[im_fn])[1];
+            im_ed := Difference(
+                Intersection(EdgesOfVertices(surf)[im_v], EdgesOfFaces(surf)[im_fn]),
+                [im_e])[1];
+            im_er := Difference(
+                Intersection(EdgesOfVertices(surf)[im_vo], EdgesOfFaces(surf)[im_fn]),
+                [im_e])[1];
             im_vn := Difference( VerticesOfFaces(surf)[im_fn], [im_v,im_vo] )[1];
+            #TODO write a method to avoid this Difference(Intersection(...))-stuff
 
             Add(mapVertices[im_vn], vn);
             Add(mapEdges[im_ed], ed);
