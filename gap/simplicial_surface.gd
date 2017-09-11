@@ -1194,7 +1194,7 @@ DeclareOperation( "CommonCover",
 #! 2) The subsurface that is induced by the faces in the strip
 #! 
 #! @Arguments surf, vertex, edge, face
-#! @Returns the strip as surface, together with a list of relations
+#! @Returns an edge-face-path and a simplicial surface
 DeclareOperation( "MaximalStripEmbedding", 
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt] );
