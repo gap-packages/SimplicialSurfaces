@@ -3650,6 +3650,111 @@ InstallMethod( EdgeInFaceByVertices,
     end
 );
 
+
+InstallMethod( OtherEdgeOfVertexInFaceNC,
+    "for a simplicial surface, a vertex, an edge and a face",
+    [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
+    function( surf, vertex, edge, face )
+        local possibleEdges, res;
+
+        possibleEdges := EdgesOfFaces(surf)[face];
+        res := Filtered( possEdges, e -> vertex in VerticesOfEdges(surf)[e] and e <> edge );
+        return res[1];
+    end
+);
+InstallMethod( OtherEdgeOfVertexInFace,
+    "for a simplicial surface, a vertex, an edge and a face",
+    [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
+    function( surf, vertex, edge, face )
+        #TODO maybe write a separate method for these checks?
+        if not vertex in Vertices(surf) then
+            Error("Given vertex does not lie in the given surface.");
+        fi;
+        if not edge in Edges(surf) then
+            Error("Given edge does not lie in the given surface.");
+        fi;
+        if not face in Faces(surf) then
+            Error("Given face does not lie in the given surface.");
+        fi;
+
+        if not vertex in VerticesOfEdges(surf)[edge] then
+            Error("Given vertex is not incident to given edge.");
+        fi;
+        if not edge in EdgesOfFaces(surf)[face] then
+            Error("Given edge is not incident to given face.");
+        fi;
+        return OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face);
+    end;
+);
+
+
+InstallMethod( NeighbourFaceByEdgeNC,
+    "for a simplicial surface (edges like surface), a face and an edge",
+    [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt],
+    function(surf, face, edge)
+        local possFaces;
+
+        possFaces := FacesOfEdges(surf)[edge];
+        if face = possFaces[1] then
+            return possFaces[2];
+        elif face = possFaces[2] then
+            return possFaces[1];
+        else
+            Error("Given edge is not incident to given face.");
+        fi;
+    end
+);
+    RedispatchOnCondition( NeighbourFaceByEdgeNC, true,
+        [IsSimplicialSurface, IsPosInt, IsPosInt],
+        [IsEdgesLikeSurface,,],0);
+InstallMethod( NeighbourFaceByEdge,
+    "for a simplicial surface (edges like surface), a face and an edge",
+    [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt],
+    function(surf, face, edge)
+        if not edge in Edges(surf) then
+            Error("Given edge does not lie in surface.");
+        fi;
+        if not face in Faces(surf) then
+            Error("Given face does not lie in surface.");
+        fi;
+        return NeighbourFaceByEdgeNC(surf,face, edge);
+    end
+);
+    RedispatchOnCondition( NeighbourFaceByEdge, true
+        [IsSimplicialSurface, IsPosInt, IsPosInt],
+        [IsEdgesLikeSurface,,],0);
+
+
+InstallMethod( OtherVertexOfEdgeNC,
+    "for a simplicial surface, a vertex and an edge",
+    [IsSimplicialSurface, IsPosInt, IsPosInt],
+    function(surf, vertex, edge)
+        local possVert;
+        
+        if vertex = possVert[1] then
+            return possVert[2];
+        elif vertex = possVert[2] then
+            return possVert[1];
+        else
+            Error("Given vertex is not incident to given edge.");
+        fi;
+    end
+);
+InstallMethod( OtherVertexOfEdge,
+    "for a simplicial surface, a vertex and an edge",
+    [IsSimplicialSurface, IsPosInt, IsPosInt],
+    function(surf,vertex, edge)
+        if not vertex in Vertices(surf) then
+            Error("Given vertex does not lie in surface.");
+        fi;
+        if not edge in Edges(surf) then
+            Error("Given edge does not lie in surface.");
+        fi;
+    end
+);
+
+
+
 InstallMethod( AlternativeNames, "for a simplicial surface",
     [IsSimplicialSurface],
     function(simpSurf)
@@ -3963,14 +4068,7 @@ InstallMethod( MaximalStripEmbedding, "",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface, 
         IsPosInt, IsPosInt, IsPosInt],
     function( surf, vertex, edge, face )
-        local stripVertices, stripEdges, stripFaces,
-            stripVerticesOfEdges, stripEdgesOfFaces,
-            primaryFlag, secondaryFlag,
-            mapVertices, mapEdges, mapFaces,
-            otherEdge, neighbour, neighbouringFaces,
-            strip, v, vo, vn, e, ed, er, f, fn,
-            im_v, im_vo, im_vn, im_e, im_ed, im_er, im_fn,
-            vertex1, vertex2, lastEdge;
+        local path, len, neighbour, pivotVert, newBorderEdge;
 
         if not vertex in Vertices(surf) then
             Error("Given vertex is not a vertex of the surface.");
@@ -3990,116 +4088,39 @@ InstallMethod( MaximalStripEmbedding, "",
         fi;
 
         # Idea:
-        # primaryFlag = [ [stripVertex, surfVertex], 
-        #                 [stripEdge, surfEdge], [stripFace, surfFace] ]
-        # move along this flag (add stripVertices, stripEdges, stripFaces
-        # on the way) until we reach a face that we already know.
-        # Then replace primaryFlag by secondaryFlag (the other direction)
-        # and continue.
-        #
-        # During this process mapVertices, mapEdges and mapFaces define
-        # a map from the surface to the strip, where a vertex is mapped
-        # to all covering vertices of the strip
+        # Construct the edge-face-path in the variable path
+        # Extend the right-hand-side until it goes no further
+        # Then extend the left-hand-side
 
         # Initialize the system
-        stripVertices := [1,2,3];
-        stripEdges := [1,2,3];
-        stripFaces := [1];
-        stripVerticesOfEdges := [[1,2],[1,3],[2,3]];
-        stripEdgesOfFaces := [[1,2,3]];
+        path := [ OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face), face, edge ];
+        traversedFaces := [face];
 
-        primaryFlag := [ [1,vertex], [1,edge], [1,face] ];
-        otherEdge := Difference( 
-            Intersection( 
-                EdgesOfVertices(surf)[vertex], EdgesOfFaces(surf)[face] ),
-                [edge])[1];
-        secondaryFlag := [ [1,vertex], [2,otherEdge], [1,face] ];
-
-        mapVertices := [];
-        for v in Vertices(surf) do
-            mapVertices[v] := [];
-        od;
-        mapEdges := [];
-        for e in Edges(surf) do
-            mapEdges[e] := [];
-        od;
-        mapFaces := [];
-        for f in Faces(surf) do
-            mapFaces[f] := [];
-        od;
-
-        mapVertices[vertex] := [1];
-        mapEdges[edge] := [1];
-        mapEdges[otherEdge] := [2];
-        mapFaces[face] := [1];
-
-        lastEdge := Difference( EdgesOfFaces(surf)[face], [edge,otherEdge] )[1];
-        mapEdges[lastEdge] := [3];
-
-        vertex1 := Difference( VerticesOfEdges(surf)[edge], [vertex] )[1];
-        vertex2 := Difference( VerticesOfEdges(surf)[otherEdge], [vertex] )[1];
-        mapVertices[vertex1] := [2];
-        mapVertices[vertex2] := [3];
-
-        # Main loop
-        while primaryFlag <> [] do
-            # Try to extend the strip
-            neighbouringFaces := FacesOfEdges(surf)[primaryFlag[2][2]];
-            neighbour := Difference( neighbouringFaces, [primaryFlag[3][2]] )[1];
-            if mapFaces[neighbour] <> [] then
-                # this face was already covered
-                primaryFlag := secondaryFlag;
-                secondaryFlag := [];
-                continue;
+        reversed := false; # Used for the direction of the extension
+        while( true ) do
+            # Try to extend the path
+            len := Size(path);
+            neighbour := NeighbourFaceByEdgeNC(surf, path[len-1], path[len]);
+            if neighbour in traversedFaces or neighbour = fail then
+                if reversed then
+                    break;
+                else
+                    reversed := true;
+                    path := Reversed(path);
+                    continue;
+                fi;
             fi;
 
-            # The extension needs new elements
-            #     vo
-            #    /  \
-            #  e/    \er
-            #  / ed   \
-            # v------- vn
-            v := primaryFlag[1][1];
-            e := primaryFlag[2][1];
-            vo := Difference( stripVerticesOfEdges[e], [v] )[1];
-            vn := Maximum(stripVertices) + 1;
-            ed := Maximum(stripEdges) + 1;
-            er := Maximum(stripEdges) + 2;
-            fn := Maximum(stripFaces) + 1;
-
-            Add(stripVertices, vn);
-            Append(stripEdges,[ed,er] );
-            Add(stripFaces, fn);
-            stripVerticesOfEdges[ed] := [v,vn];
-            stripVerticesOfEdges[er] := [vo,vn];
-            stripEdgesOfFaces[fn] := [e,ed,er];
-
-            # modify the map
-            im_v := primaryFlag[1][2];
-            im_e := primaryFlag[2][2];
-            im_vo := Difference( VerticesOfEdges(surf)[im_e], [im_v] )[1];
-            im_fn := neighbour;
-            im_ed := Difference(
-                Intersection(EdgesOfVertices(surf)[im_v], EdgesOfFaces(surf)[im_fn]),
-                [im_e])[1];
-            im_er := Difference(
-                Intersection(EdgesOfVertices(surf)[im_vo], EdgesOfFaces(surf)[im_fn]),
-                [im_e])[1];
-            im_vn := Difference( VerticesOfFaces(surf)[im_fn], [im_v,im_vo] )[1];
-            #TODO write a method to avoid this Difference(Intersection(...))-stuff
-
-            Add(mapVertices[im_vn], vn);
-            Add(mapEdges[im_ed], ed);
-            Add(mapEdges[im_er], er);
-            Add(mapFaces[im_fn], fn);
-
-            primaryFlag := [[vo,im_vo],[er,im_er],[fn,im_fn]];
+            pivotVert := OtherVertexOfEdgeNC(surf, v, e);
+            newBorderEdge := OtherEdgeOfVertexInFaceNC(surf,pivotVert,path[len],neighbour);
+            Append( path, [neighbour, newBorderEdge] );
+            Add( traversedFaces, neighbour );
         od;
 
-        strip := SimplicialSurfaceByDownwardIncidence( stripVertices, stripEdges,
-            stripFaces, stripVerticesOfEdges, stripEdgesOfFaces);
-        return [strip, [mapVertices, mapEdges, mapFaces]];
-        
+        # We have to invert the path at the end (so it is oriented properly)
+        path := Reversed(path);
+
+        return [path, SubsurfaceByFacesNC(surf, traversedFaces)];
     end
 );
     RedispatchOnCondition( MaximalStripEmbedding, true,

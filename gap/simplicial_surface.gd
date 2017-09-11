@@ -420,6 +420,31 @@ DeclareOperation( "EdgeInFaceByVertices",
         [IsSimplicialSurface, IsPosInt, IsList] );
 
 
+#! @Description
+#! Given a flag (a vertex, an edge and a face), return the other edge of the
+#! given vertex in the given face.
+#! @Arguments surf, vertex, edge, face
+#! @Returns the edge
+DeclareOperation( "OtherEdgeOfVertexInFace", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
+DeclareOperation( "OtherEdgeOfVertexInFaceNC", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
+
+
+#! @Description
+#! Return the neighbouring face of the given face via the given edge.
+#! If the given edge is a boundary edge, return fail.
+#! @Arguments surf, face, edge
+#! @Returns a positive integer or fail
+DeclareOperation( "NeighbourFaceByEdge", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
+
+
+#! @Description
+#! Return the other vertex of a given edge.
+#! @Arguments surf, vertex, edge
+#! @Returns a positive integer
+DeclareOperation( "OtherVertexOfEdge", [IsSimplicialSurface,IsPosInt,IsPosInt] );
+DeclareOperation( "OtherVertexOfEdgeNC", [IsSimplicialSurface,IsPosInt,IsPosInt] );
+
 
 #############################################################################
 ##
@@ -1173,11 +1198,8 @@ DeclareOperation( "CommonCover",
 #! will be pursued. If this terminates, the other edge will be pursued.
 #! <P/>
 #! This method will return a list with two elements:
-#! 1) The strip as simplicial surface
-#! 2) A list with three elements
-#!   a) A list of vertex equivalence classes
-#!   b) A list of edge equivalence classes
-#!   c) A list of face equivalence classes 
+#! 1) An edge-face-path that corresponds to the strip.
+#! 2) The subsurface that is induced by the faces in the strip
 #! 
 #! @Arguments surf, vertex, edge, face
 #! @Returns the strip as surface, together with a list of relations
@@ -1185,7 +1207,6 @@ DeclareOperation( "MaximalStripEmbedding",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt] );
 
-#TODO better: return face-edge-path (as index) and the subsurface by those faces
 
 #
 ###  This program is free software: you can redistribute it and/or modify
