@@ -1157,6 +1157,34 @@ DeclareOperation( "CommonCover",
 
 
 
+#! @Description
+#! Compute the maximal strip cover of a simplicial surface, given 
+#! a flag (vertex, edge, face) of the surface.
+#! <P/>
+#! A strip is a simplicial surface where every vertex has vertex 
+#! degree at most 3. Given an identification of a strip face and
+#! a face of the simplicial surface, this determines a map from
+#! the strip to the surface.
+#! <P/>
+#! A strip is maximal if no larger strip can extend this map while
+#! staying injective (on the faces). This method will compute such
+#! a maximal strip assuming that the strip continues along the edges 
+#! of the given vertex. First the extension along the given edge
+#! will be pursued. If this terminates, the other edge will be pursued.
+#! <P/>
+#! This method will return a list with two elements:
+#! 1) The strip as simplicial surface
+#! 2) A list with three elements
+#!   a) A list of vertex equivalence classes
+#!   b) A list of edge equivalence classes
+#!   c) A list of face equivalence classes 
+#! 
+#! @Arguments surf, vertex, edge, face
+#! @Returns the strip as surface, together with a list of relations
+DeclareOperation( "MaximalStripEmbedding", 
+    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+    IsPosInt, IsPosInt, IsPosInt] );
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
