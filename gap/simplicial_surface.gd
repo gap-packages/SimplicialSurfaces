@@ -429,14 +429,6 @@ DeclareOperation( "OtherEdgeOfVertexInFace", [IsSimplicialSurface,IsPosInt,IsPos
 DeclareOperation( "OtherEdgeOfVertexInFaceNC", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
 
 
-#! @Description
-#! Return the neighbouring face of the given face via the given edge.
-#! If the given edge is a boundary edge, return fail.
-#! @Arguments surf, face, edge
-#! @Returns a positive integer or fail
-DeclareOperation( "NeighbourFaceByEdge", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
-DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
-
 
 #! @Description
 #! Return the other vertex of a given edge.
@@ -1207,6 +1199,15 @@ DeclareOperation( "MaximalStripEmbedding",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt] );
 
+
+#TODO this should be further up but IsEdgesLikeSurface has to be read first
+#! @Description
+#! Return the neighbouring face of the given face via the given edge.
+#! If the given edge is a boundary edge, return fail.
+#! @Arguments surf, face, edge
+#! @Returns a positive integer or fail
+DeclareOperation( "NeighbourFaceByEdge", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
 
 #
 ###  This program is free software: you can redistribute it and/or modify

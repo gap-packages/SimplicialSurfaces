@@ -3655,9 +3655,9 @@ InstallMethod( OtherEdgeOfVertexInFaceNC,
     "for a simplicial surface, a vertex, an edge and a face",
     [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
     function( surf, vertex, edge, face )
-        local possibleEdges, res;
+        local possEdges, res;
 
-        possibleEdges := EdgesOfFaces(surf)[face];
+        possEdges := EdgesOfFaces(surf)[face];
         res := Filtered( possEdges, e -> vertex in VerticesOfEdges(surf)[e] and e <> edge );
         return res[1];
     end
@@ -3684,7 +3684,7 @@ InstallMethod( OtherEdgeOfVertexInFace,
             Error("Given edge is not incident to given face.");
         fi;
         return OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face);
-    end;
+    end
 );
 
 
@@ -3720,7 +3720,7 @@ InstallMethod( NeighbourFaceByEdge,
         return NeighbourFaceByEdgeNC(surf,face, edge);
     end
 );
-    RedispatchOnCondition( NeighbourFaceByEdge, true
+    RedispatchOnCondition( NeighbourFaceByEdge, true,
         [IsSimplicialSurface, IsPosInt, IsPosInt],
         [IsEdgesLikeSurface,,],0);
 
@@ -3731,6 +3731,7 @@ InstallMethod( OtherVertexOfEdgeNC,
     function(surf, vertex, edge)
         local possVert;
         
+        possVert := VerticesOfEdges(surf)[edge];
         if vertex = possVert[1] then
             return possVert[2];
         elif vertex = possVert[2] then
@@ -4068,7 +4069,8 @@ InstallMethod( MaximalStripEmbedding, "",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface, 
         IsPosInt, IsPosInt, IsPosInt],
     function( surf, vertex, edge, face )
-        local path, len, neighbour, pivotVert, newBorderEdge;
+        local path, len, neighbour, pivotVert, newBorderEdge, 
+            traversedFaces, reversed;
 
         if not vertex in Vertices(surf) then
             Error("Given vertex is not a vertex of the surface.");
@@ -4095,6 +4097,7 @@ InstallMethod( MaximalStripEmbedding, "",
         # Initialize the system
         path := [ OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face), face, edge ];
         traversedFaces := [face];
+        pivotVert := vertex;
 
         reversed := false; # Used for the direction of the extension
         while( true ) do
@@ -4107,11 +4110,12 @@ InstallMethod( MaximalStripEmbedding, "",
                 else
                     reversed := true;
                     path := Reversed(path);
+                    pivotVert := vertex; # Reset to original vertex
                     continue;
                 fi;
             fi;
 
-            pivotVert := OtherVertexOfEdgeNC(surf, v, e);
+            pivotVert := OtherVertexOfEdgeNC(surf, pivotVert, path[len]);
             newBorderEdge := OtherEdgeOfVertexInFaceNC(surf,pivotVert,path[len],neighbour);
             Append( path, [neighbour, newBorderEdge] );
             Add( traversedFaces, neighbour );
@@ -4120,7 +4124,7 @@ InstallMethod( MaximalStripEmbedding, "",
         # We have to invert the path at the end (so it is oriented properly)
         path := Reversed(path);
 
-        return [path, SubsurfaceByFacesNC(surf, traversedFaces)];
+        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces))];
     end
 );
     RedispatchOnCondition( MaximalStripEmbedding, true,
