@@ -1199,6 +1199,18 @@ DeclareOperation( "MaximalStripEmbedding",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt] );
 
+#! @Description
+#! Determine a strip development of the surface, given a flag.
+#! The strip is defined as in <E>MaximalStripEmbedding</E> with the
+#! difference that it will be continued until it closes completely
+#! i.e. it can't be extended any further in any direction without
+#! repeating itself.
+#! @Arguments surf, vertex, edge, face
+#! @Returns an edge-face-path and a simplicial surface
+DeclareOperation( "StripDevelopment",
+    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+    IsPosInt, IsPosInt, IsPosInt]);
+
 
 #TODO this should be further up but IsEdgesLikeSurface has to be read first
 #! @Description
