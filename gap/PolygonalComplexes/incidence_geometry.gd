@@ -549,7 +549,7 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! </Alt>
 #! @BeginExample
 pentagon := PolygonalSurfaceByDownwardIncidence( 
-    [,[3,6],[2,9],[1,6],,[2.3],,[1,9] ], [[2,3,4,6,8]] );;
+    [,[3,6],[2,9],[1,6],,[2.3],,[1,9]], [[2,3,4,6,8]] );;
 VerticesOfFace(pentagon,1);
 #! [ 1, 2, 3, 6, 9 ]
 EdgesOfFace(pentagon,1);
@@ -561,19 +561,47 @@ EdgesOfFace(pentagon,1);
 #! <K>CyclicVertexOrderOfFace</K> and <K>CyclicEdgeOrderOfFace</K>
 #! were written.
 #! <Par/>
-#! The cyclic order of the vertices is naturally represented by a 
-#! permutation like (1,6,3,2,9) or (1,9,2,3,6).
-#TODO put a link to permutations in the GAP-Manual
+#! The cyclic order of the vertices is naturally represented by one of
+#! the permutations (1,6,3,2,9) or (1,9,2,3,6).
+#TODO put a link to permutations in the GAP-Manual here
 #! Since the operation should return a unique value, we have to pick
 #! one of these as a convention. We choose (1,6,3,2,9), since it has
 #! the smallest image under 1 (the smallest of the vertices).
 #! <Par/>
 #! Likewise we have the permutations (2,6,3,8,4) and (2,4,8,3,6) for
 #! the cyclic order of the edges. With the same convention we choose
-#! (2,4,8,3,6) as the designated return value.
+#! (2,4,8,3,6) as the designated return value. 
 #! <Par/>
-#! We remark that the induced orientations of the face by those two
-#! permutations may be different (like in this example).
+#! @BeginExample
+CyclicVertexOrderOfFace( pentagon, 1 );
+#! ( 1, 6, 3, 2, 9 )
+CyclicEdgeOrderOfFace( pentagon, 1 );
+#! ( 2, 4, 8, 3, 6 )
+#! @EndExample
+#!
+#! While the permutation representation is most natural, in many cases
+#! a list would be more convenient. For this reason the permutations
+#! (1,6,3,2,9) and (2,4,8,3,6) can also be given as the lists
+#! [1,6,3,2,9] and [2,4,8,3,6].
+#! @BeginExample
+CyclicVertexOrderOfFaceAsList( pentagon, 1 );
+#! [ 1, 6, 3, 2, 9 ];
+CyclicEdgeOrderOfFaceAsList( pentagon, 1 );
+#! [ 2, 4, 8, 3, 6 ];
+#! @EndExample
+#!
+#! Since it might be confusing to remember whether the permutation or
+#! the list representation is the default one, we also offer the operations
+#! <K>CyclicVertexOrderOfFaceAsPerm</K> and
+#! <K>CyclicEdgeOrderOfFaceAsPerm</K>.
+#!
+#! @BeginExample
+CyclicVertexOrderOfFaceAsPerm( pentagon, 1 );
+#! ( 1, 6, 3, 2, 9 )
+CyclicEdgeOrderOfFaceAsPerm( pentagon, 1 );
+#! ( 2, 4, 8, 3, 6 )
+#! @EndExample
+#! 
 #! 
 #TODO
 
