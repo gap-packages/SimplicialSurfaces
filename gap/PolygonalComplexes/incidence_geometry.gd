@@ -115,7 +115,7 @@ complex := PolygonalComplexByDownwardIncidence( 4, 4, 1,
 #! @BeginGroup
 ## TODO check if grape has changed their definition of Vertices
 #! @Description
-#! Return the set of vertices.
+#! Return the set/number of vertices.
 #! <Par/>
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
@@ -128,19 +128,24 @@ complex := PolygonalComplexByDownwardIncidence( 4, 4, 1,
 #! @BeginExample
 Vertices(complex);
 #! [ 2, 3, 5, 7 ]
+NrOfVertices(complex);
+#! 4
 #! @EndExample
 #! <Par/>
 #! We have separated the operation <K>Vertices</K> from the corresponding
 #! attribute because there is a naming clash with the package grape.
 #! @Arguments complex
-#! @Returns A set of positive integers
+#! @Returns A set of positive integers/a non-negative integer
 DeclareOperation( "Vertices", [IsPolygonalComplex] );
 #! @Arguments complex
 DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsPolygonalComplex );
+#! @Arguments complex
+DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup
 #! @Description
-#! Return the set of edges.
+#! Return the set/number of edges.
 #! <Par/>
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
@@ -153,14 +158,20 @@ DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsPolygonalComplex );
 #! @BeginExample
 Edges(complex);
 #! [ 2, 3, 5, 6 ]
+NrOfEdges(complex);
+#! 4
 #! @EndExample
 #
 #! @Arguments complex
-#! @Returns A set of positive integers
+#! @Returns A set of positive integers/a non-negative integer
 DeclareAttribute( "Edges", IsPolygonalComplex );
+#! @Arguments complex
+DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
+#! @EndGroup
 
+#! @BeginGroup
 #! @Description
-#! Return the set of faces.
+#! Return the set/number of faces.
 #! <Par/>
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
@@ -173,39 +184,13 @@ DeclareAttribute( "Edges", IsPolygonalComplex );
 #! @BeginExample
 Faces(complex);
 #! [ 3 ]
-#! @EndExample
-#
-#! @Arguments complex
-#! @Returns A set of positive integers
-DeclareAttribute( "Faces", IsPolygonalComplex );
-
-#! @BeginGroup
-#TODO why can't you give a custom header to the group?
-#! @Description
-#! Return the number of vertices, edges or faces.
-#! <Par/>
-#! As an example consider the polygonal complex from the beginning of section
-#! <Ref Sect="Section_Access_LabelAccess"/>:
-#! <Alt Only="TikZ">
-#!      {
-#!          \def\allLabels{1}
-#!          \input{Image_LabellingExample.tex}
-#!      }
-#! </Alt>
-#! @BeginExample
-NrOfVertices(complex);
-#! 4
-NrOfEdges(complex);
-#! 4
 NrOfFaces(complex);
-#! 1
+# 1
 #! @EndExample
 #
-#! @Returns a non-negative integer
 #! @Arguments complex
-DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
-#! @Arguments complex
-DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
+#! @Returns A set of positive integers/a non-negative integer
+DeclareAttribute( "Faces", IsPolygonalComplex );
 #! @Arguments complex
 DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! @EndGroup
@@ -549,10 +534,10 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! </Alt>
 #! @BeginExample
 pentagon := PolygonalSurfaceByDownwardIncidence( 
-    [,[3,6],[2,9],[1,6],,[2.3],,[1,9]], [[2,3,4,6,8]] );;
-VerticesOfFace(pentagon,1);
+    [,[3,6],[2,9],[1,6],,[2.3],,[1,9]], [, [2,3,4,6,8]] );;
+VerticesOfFace(pentagon,2);
 #! [ 1, 2, 3, 6, 9 ]
-EdgesOfFace(pentagon,1);
+EdgesOfFace(pentagon,2);
 #! [ 2, 3, 4, 6, 8 ]
 #! @EndExample
 #! If we want to know in which order the vertices (or edges) are
@@ -573,9 +558,9 @@ EdgesOfFace(pentagon,1);
 #! (2,4,8,3,6) as the designated return value. 
 #! <Par/>
 #! @BeginExample
-CyclicVertexOrderOfFace( pentagon, 1 );
+CyclicVertexOrderOfFace( pentagon, 2 );
 #! ( 1, 6, 3, 2, 9 )
-CyclicEdgeOrderOfFace( pentagon, 1 );
+CyclicEdgeOrderOfFace( pentagon, 2 );
 #! ( 2, 4, 8, 3, 6 )
 #! @EndExample
 #!
@@ -584,9 +569,9 @@ CyclicEdgeOrderOfFace( pentagon, 1 );
 #! (1,6,3,2,9) and (2,4,8,3,6) can also be given as the lists
 #! [1,6,3,2,9] and [2,4,8,3,6].
 #! @BeginExample
-CyclicVertexOrderOfFaceAsList( pentagon, 1 );
+CyclicVertexOrderOfFaceAsList( pentagon, 2 );
 #! [ 1, 6, 3, 2, 9 ];
-CyclicEdgeOrderOfFaceAsList( pentagon, 1 );
+CyclicEdgeOrderOfFaceAsList( pentagon, 2 );
 #! [ 2, 4, 8, 3, 6 ];
 #! @EndExample
 #!
@@ -596,13 +581,70 @@ CyclicEdgeOrderOfFaceAsList( pentagon, 1 );
 #! <K>CyclicEdgeOrderOfFaceAsPerm</K>.
 #!
 #! @BeginExample
-CyclicVertexOrderOfFaceAsPerm( pentagon, 1 );
+CyclicVertexOrderOfFaceAsPerm( pentagon, 2 );
 #! ( 1, 6, 3, 2, 9 )
-CyclicEdgeOrderOfFaceAsPerm( pentagon, 1 );
+CyclicEdgeOrderOfFaceAsPerm( pentagon, 2 );
 #! ( 2, 4, 8, 3, 6 )
 #! @EndExample
+#!
+
+#! @BeginGroup
+#! @Description
+#! The operation 
+#! <K>CyclicVertexOrderOfFaceAsPerm</K>(<A>complex</A>,<A>face</A>) 
+#! returns a cyclic permutation of all vertices in the given <A>face</A> such 
+#! that the images of every pair of vertices that are connected by an edge of 
+#! the given <A>face</A> will also be connected by an edge of <A>face</A>.
+#! <Par/>
+#! This condition does not define the cyclic permutation uniquely, so we 
+#! stipulate that the image of the smallest vertex is minimal for the retuned
+#! permutation.
+#! <Par/>
+#! The attribute <K>CyclicVertexOrderOfFacesAsPerm</K>(<A>complex</A>) 
+#! collects all of those permutations in a list that is indexed by the face 
+#! labels, i.e. 
+#! <K>CyclicVertexOrderOfFacesAsPerm</K>(<A>complex</A>)[<A>face</A>]
+#! = <K>CyclicVertexOrderOfFaceAsPerm</K>(<A>complex</A>, <A>face</A>). All
+#! other positions of this list are not bounded.
+#! <Par/>
+#! The NC-version does not check if the given <A>face</A> is a face of the
+#! given <A>complex</A>.
+#! The operations
+#! <K>CyclicVertexOrderOfFace</K>(<A>complex</A>, <A>face</A>) and
+#! <K>CyclicVertexOrderOfFaces</K>(<A>complex</A>) are wrappers for the
+#! corresponding <K>*AsPerm</K>-methods.
+#! <Par/>
+#! As an example consider the polygonal complex that was introduced at the
+#! start of section
+#! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_PentagonCyclicOrder.tex}
+#! </Alt>
+#! @BeginExample
+CyclicVertexOrderOfFaceAsPerm(pentagon, 2);
+#! ( 1, 6, 3, 2, 9 )
+CyclicVertexOrderOfFace(pentagon, 2);
+#! ( 1, 6, 3, 2, 9 )
+CyclicVertexOrderOfFacesAsPerm(pentagon);
+#! [ , ( 1, 6, 3, 2, 9 ) ]
+CyclicVertexOrderOfFaces(pentagon);
+#! [ , ( 1, 6, 3, 2, 9 ) ]
+#! @EndExample
 #! 
-#! 
+#! @Arguments complex
+#! @Returns a list of permutations/a permutation
+DeclareAttribute( "CyclicVertexOrderOfFacesAsPerm", IsPolygonalComplex );
+#! @Arguments complex
+DeclareOperation( "CyclicVertexOrderOfFace", [IsPolygonalComplex] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicVertexOrderOfFaceAsPerm", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicVertexOrderOfFace", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicVertexOrderOfFaceAsPermNC", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicVertexOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
 #TODO
 
 #! @Section Circular path of edges and faces around vertex

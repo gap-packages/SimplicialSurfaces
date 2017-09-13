@@ -4,7 +4,6 @@
 % with v_i and e_i.
 
 \begin{tikzpicture}
-    % We will do a pentagon
     \def\r{2}
     \coordinate [label={[vertex]right:\ifdefined\abstractLabels $v_1$ \else 3 \fi}] (P1) at (306:\r);
     \coordinate [label={[vertex]right:\ifdefined\abstractLabels $v_2$ \else 6 \fi}] (P2) at (18:\r);
@@ -23,6 +22,10 @@
     \drawEdge{P4}{P5}{\ifdefined\abstractLabels $e_4$ \else 3 \fi}
     \drawEdge{P5}{P1}{\ifdefined\abstractLabels $e_5$ \else 6 \fi}
 
-    \node[scale=2] at (0,0) {$\circlearrowleft$};
+    \ifdefined\abstractLabels
+        \node[scale=2] at (0,0) {$\circlearrowleft$};
+    \else
+        \node at (0,0) {$II$};
+    \fi
 \end{tikzpicture}
  
