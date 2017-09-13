@@ -5,6 +5,7 @@ doc/title.xml
 doc/SimplicialSurfaces.tex
 doc/_IMAGE*
 doc/manual.pdf
+doc/manual.six
 
 # intermediate compilation stuff
 *.4ct

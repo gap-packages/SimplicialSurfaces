@@ -558,9 +558,22 @@ EdgesOfFace(pentagon,1);
 #! If we want to know in which order the vertices (or edges) are
 #! arranged around the boundary of the given face, the previous methods 
 #! are quite clumsy. For that reason the methods 
-#! <K>CyclicOrderOfVerticesInFaces</K> and <K>CyclicOrderOfEdgesInFaces</K>
+#! <K>CyclicVertexOrderOfFace</K> and <K>CyclicEdgeOrderOfFace</K>
 #! were written.
 #! <Par/>
+#! The cyclic order of the vertices is naturally represented by a 
+#! permutation like (1,6,3,2,9) or (1,9,2,3,6).
+#TODO put a link to permutations in the GAP-Manual
+#! Since the operation should return a unique value, we have to pick
+#! one of these as a convention. We choose (1,6,3,2,9), since it has
+#! the smallest image under 1 (the smallest of the vertices).
+#! <Par/>
+#! Likewise we have the permutations (2,6,3,8,4) and (2,4,8,3,6) for
+#! the cyclic order of the edges. With the same convention we choose
+#! (2,4,8,3,6) as the designated return value.
+#! <Par/>
+#! We remark that the induced orientations of the face by those two
+#! permutations may be different (like in this example).
 #! 
 #TODO
 
