@@ -1,0 +1,28 @@
+% Without parameters the picture will be labelled with
+% concrete numbers.
+% With the parameter abstractLabels we will label it
+% with v_i and e_i.
+
+\begin{tikzpicture}
+    % We will do a pentagon
+    \def\r{2}
+    \coordinate [label={[vertex]right:\ifdefined\abstractLabels $v_1$ \else 3 \fi}] (P1) at (306:\r);
+    \coordinate [label={[vertex]right:\ifdefined\abstractLabels $v_2$ \else 6 \fi}] (P2) at (18:\r);
+    \coordinate [label={[vertex]above:\ifdefined\abstractLabels $v_3$ \else 1 \fi}] (P3) at (90:\r);
+    \coordinate [label={[vertex]left:\ifdefined\abstractLabels $v_4$ \else 9 \fi}] (P4) at (162:\r);
+    \coordinate [label={[vertex]left:\ifdefined\abstractLabels $v_5$ \else 2 \fi}] (P5) at (234:\r);
+
+    \filldraw[face] (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+
+    \foreach \p in {P1,P2,P3,P4,P5}
+        \fill[vertex] (\p) circle (\vSize);
+
+    \drawEdge{P1}{P2}{\ifdefined\abstractLabels $e_1$ \else 2 \fi}
+    \drawEdge{P2}{P3}{\ifdefined\abstractLabels $e_2$ \else 4 \fi}
+    \drawEdge{P3}{P4}{\ifdefined\abstractLabels $e_3$ \else 8 \fi}
+    \drawEdge{P4}{P5}{\ifdefined\abstractLabels $e_4$ \else 3 \fi}
+    \drawEdge{P5}{P1}{\ifdefined\abstractLabels $e_5$ \else 6 \fi}
+
+    \node[scale=2] at (0,0) {$\circlearrowleft$};
+\end{tikzpicture}
+ 

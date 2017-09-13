@@ -3,11 +3,8 @@
                         
     \begin{scope}
         \coordinate (A) at (0,0);
-        \coordinate (B1) at (18:\r);
-        \coordinate (B2) at (90:\r);
-        \coordinate (B3) at (162:\r);
-        \coordinate (B4) at (234:\r);
-        \coordinate (B5) at (306:\r);
+        \foreach \i in {1,...,5}
+            \coordinate (B\i) at (-90+72*\i:\r);
 
         \foreach \p/\q/\F in {B1/B2/$f_1$, 
                 B2/B3/$f_2$, B3/B4/$f_3$, 

@@ -537,7 +537,24 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! @Section Face-induced order of incident vertices/edges
 #! @SectionLabel Access_OrderedFaceAccess
 #!
-#! filler
+#! In section <Ref Sect="Section_Access_BasicAccess"/> we
+#! introduced the methods <K>VerticesOfFace</K> and <K>EdgesOfFace</K> to
+#! determine the vertices and edges of a given face. A drawback of those
+#! methods is that they always return sets.
+#! This might not be sufficient in the case of non-triangular faces, as
+#! shown in
+#! the following example.
+#! <Alt Only="TikZ">
+#!   \input{Image_PentagonCyclicOrder.tex}
+#! </Alt>
+#! @BeginExample
+pentagon := PolygonalSurfaceByDownwardIncidence( 
+    [,[3,6],[2,9],[1,6],,[2.3],,[1,9] ], [[2,3,4,6,8]] );;
+VerticesOfFace(pentagon,1);
+#! [ 1, 2, 3, 6, 9 ]
+EdgesOfFace(pentagon,1);
+#! [ 2, 3, 4, 6, 8 ]
+#! @EndExample
 #TODO
 
 #! @Section Circular path of edges and faces around vertex

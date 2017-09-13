@@ -201,28 +201,10 @@
         </List>
 
         <Alt Only="TikZ">
-            \begin{tikzpicture}
-                % We will do a pentagon
-                \def\r{2}
-                \coordinate [label={[vertex]right:$v_1$}] (P1) at (306:\r);
-                \coordinate [label={[vertex]right:$v_2$}] (P2) at (18:\r);
-                \coordinate [label={[vertex]above:$v_3$}] (P3) at (90:\r);
-                \coordinate [label={[vertex]left:$v_4$}] (P4) at (162:\r);
-                \coordinate [label={[vertex]left:$v_5$}] (P5) at (234:\r);
-
-                \filldraw[face] (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;
-
-                \foreach \p in {P1,P2,P3,P4,P5}
-                    \fill[vertex] (\p) circle (\vSize);
-
-                \drawEdge{P1}{P2}{$e_1$}
-                \drawEdge{P2}{P3}{$e_2$}
-                \drawEdge{P3}{P4}{$e_3$}
-                \drawEdge{P4}{P5}{$e_4$}
-                \drawEdge{P5}{P1}{$e_5$}
-
-                \node[scale=2] at (0,0) {$\circlearrowleft$};
-            \end{tikzpicture}
+            {
+                \def\abstractLabels{1}
+                \input{Image_PentagonCyclicOrder.tex}
+            }
         </Alt>
 
         With these conditions we have guaranteed that our edges and faces
