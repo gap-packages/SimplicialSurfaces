@@ -555,6 +555,13 @@ VerticesOfFace(pentagon,1);
 EdgesOfFace(pentagon,1);
 #! [ 2, 3, 4, 6, 8 ]
 #! @EndExample
+#! If we want to know in which order the vertices (or edges) are
+#! arranged around the boundary of the given face, the previous methods 
+#! are quite clumsy. For that reason the methods 
+#! <K>CyclicOrderOfVerticesInFaces</K> and <K>CyclicOrderOfEdgesInFaces</K>
+#! were written.
+#! <Par/>
+#! 
 #TODO
 
 #! @Section Circular path of edges and faces around vertex
