@@ -476,13 +476,27 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 ##############################################################################
 ##
-##           Ordered access
+##          Face-induced order of vertices/edges
 ##
 
-##TODO maybe split this up into two regions? (Paths and cyclic);
 
 
 ##
-##          End of ordered access
+##          End of face-induced order
+##
+##############################################################################
+
+
+
+
+##############################################################################
+##
+##      Edge-Face-Paths around vertices
+##
+
+
+
+##
+##          End of edge-face-paths
 ##
 ##############################################################################

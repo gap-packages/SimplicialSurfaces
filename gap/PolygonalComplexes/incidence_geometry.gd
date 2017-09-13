@@ -645,7 +645,159 @@ DeclareOperation( "CyclicVertexOrderOfFaceAsPermNC", [IsPolygonalComplex, IsPosI
 #! @Arguments complex, face
 DeclareOperation( "CyclicVertexOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
-#TODO
+
+
+#! @BeginGroup
+#! @Description
+#! The operation 
+#! <K>CyclicVertexOrderOfFaceAsList</K>(<A>complex</A>,<A>face</A>) 
+#! returns a list of all vertices in the given <A>face</A> such 
+#! that every two vertices that are connected by an edge of 
+#! the given <A>face</A> will be adjacent in the list (for this purpose,
+#! the first and the last entry of the list are adjacent).
+#! <Par/>
+#! This condition does only define the list up to cyclic permutation, so we 
+#! stipulate that the first element of the list is the smallest vertex and
+#! the second element of the list is as small as possible.
+#! <Par/>
+#! The attribute <K>CyclicVertexOrderOfFacesAsList</K>(<A>complex</A>) 
+#! collects all of those lists in a list that is indexed by the face 
+#! labels, i.e. 
+#! <K>CyclicVertexOrderOfFacesAsList</K>(<A>complex</A>)[<A>face</A>]
+#! = <K>CyclicVertexOrderOfFaceAsList</K>(<A>complex</A>, <A>face</A>). All
+#! other positions of this list are not bounded.
+#! <Par/>
+#! The NC-version does not check if the given <A>face</A> is a face of the
+#! given <A>complex</A>.
+#! <Par/>
+#! As an example consider the polygonal complex that was introduced at the
+#! start of section
+#! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_PentagonCyclicOrder.tex}
+#! </Alt>
+#! @BeginExample
+CyclicVertexOrderOfFaceAsList(pentagon, 2);
+#! [ 1, 6, 3, 2, 9 ]
+CyclicVertexOrderOfFacesAsList(pentagon);
+#! [ , [ 1, 6, 3, 2, 9  ] ]
+#! @EndExample
+#! 
+#! @Arguments complex
+#! @Returns a list of lists/a list
+DeclareAttribute( "CyclicVertexOrderOfFacesAsList", IsPolygonalComplex );
+#! @Arguments complex, face
+DeclareOperation( "CyclicVertexOrderOfFaceAsList", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicVertexOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+
+
+#! @BeginGroup
+#! @Description
+#! The operation 
+#! <K>CyclicEdgeOrderOfFaceAsPerm</K>(<A>complex</A>,<A>face</A>) 
+#! returns a cyclic permutation of all edges in the given <A>face</A> such 
+#! that the images of every pair of edges that share a vertex of 
+#! the given <A>face</A> will also share a vertex of <A>face</A>.
+#! <Par/>
+#! This condition does not define the cyclic permutation uniquely, so we 
+#! stipulate that the image of the smallest edge is minimal for the retuned
+#! permutation.
+#! <Par/>
+#! The attribute <K>CyclicEdgeOrderOfFacesAsPerm</K>(<A>complex</A>) 
+#! collects all of those permutations in a list that is indexed by the face 
+#! labels, i.e. 
+#! <K>CyclicEdgeOrderOfFacesAsPerm</K>(<A>complex</A>)[<A>face</A>]
+#! = <K>CyclicEdgeOrderOfFaceAsPerm</K>(<A>complex</A>, <A>face</A>). All
+#! other positions of this list are not bounded.
+#! <Par/>
+#! The NC-version does not check if the given <A>face</A> is a face of the
+#! given <A>complex</A>.
+#! The operations
+#! <K>CyclicEdgeOrderOfFace</K>(<A>complex</A>, <A>face</A>) and
+#! <K>CyclicEdgeOrderOfFaces</K>(<A>complex</A>) are wrappers for the
+#! corresponding <K>*AsPerm</K>-methods.
+#! <Par/>
+#! As an example consider the polygonal complex that was introduced at the
+#! start of section
+#! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_PentagonCyclicOrder.tex}
+#! </Alt>
+#! @BeginExample
+CyclicEdgeOrderOfFaceAsPerm(pentagon, 2);
+#! ( 2, 4, 8, 3, 6 )
+CyclicEdgeOrderOfFace(pentagon, 2);
+#! ( 2, 4, 8, 3, 6 )
+CyclicEdgeOrderOfFacesAsPerm(pentagon);
+#! [ , ( 2, 4, 8, 3, 6 ) ]
+CyclicEdgeOrderOfFaces(pentagon);
+#! [ , ( 2, 4, 8, 3, 6 ) ]
+#! @EndExample
+#! 
+#! @Arguments complex
+#! @Returns a list of permutations/a permutation
+DeclareAttribute( "CyclicEdgeOrderOfFacesAsPerm", IsPolygonalComplex );
+#! @Arguments complex
+DeclareOperation( "CyclicEdgeOrderOfFace", [IsPolygonalComplex] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicEdgeOrderOfFaceAsPerm", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicEdgeOrderOfFace", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicEdgeOrderOfFaceAsPermNC", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicEdgeOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! The operation 
+#! <K>CyclicEdgeOrderOfFaceAsList</K>(<A>complex</A>,<A>face</A>) 
+#! returns a list of all edges in the given <A>face</A> such 
+#! that every two edges that share a vertex of 
+#! the given <A>face</A> will be adjacent in the list (for this purpose,
+#! the first and the last entry of the list are adjacent).
+#! <Par/>
+#! This condition does only define the list up to cyclic permutation, so we 
+#! stipulate that the first element of the list is the smallest edge and
+#! the second element of the list is as small as possible.
+#! <Par/>
+#! The attribute <K>CyclicEdgeOrderOfFacesAsList</K>(<A>complex</A>) 
+#! collects all of those lists in a list that is indexed by the face 
+#! labels, i.e. 
+#! <K>CyclicEdgeOrderOfFacesAsList</K>(<A>complex</A>)[<A>face</A>]
+#! = <K>CyclicEdgeOrderOfFaceAsList</K>(<A>complex</A>, <A>face</A>). All
+#! other positions of this list are not bounded.
+#! <Par/>
+#! The NC-version does not check if the given <A>face</A> is a face of the
+#! given <A>complex</A>.
+#! <Par/>
+#! As an example consider the polygonal complex that was introduced at the
+#! start of section
+#! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_PentagonCyclicOrder.tex}
+#! </Alt>
+#! @BeginExample
+CyclicEdgeOrderOfFaceAsList(pentagon, 2);
+#! [ 2, 4, 8, 3, 6 ]
+CyclicEdgeOrderOfFacesAsList(pentagon);
+#! [ , [ 2, 4, 8, 3, 6  ] ]
+#! @EndExample
+#! 
+#! @Arguments complex
+#! @Returns a list of lists/a list
+DeclareAttribute( "CyclicEdgeOrderOfFacesAsList", IsPolygonalComplex );
+#! @Arguments complex, face
+DeclareOperation( "CyclicEdgeOrderOfFaceAsList", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
 
 #! @Section Circular path of edges and faces around vertex
 #! @SectionLabel Access_OrderedVertexAccess
