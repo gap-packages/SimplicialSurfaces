@@ -420,6 +420,23 @@ DeclareOperation( "EdgeInFaceByVertices",
         [IsSimplicialSurface, IsPosInt, IsList] );
 
 
+#! @Description
+#! Given a flag (a vertex, an edge and a face), return the other edge of the
+#! given vertex in the given face.
+#! @Arguments surf, vertex, edge, face
+#! @Returns the edge
+DeclareOperation( "OtherEdgeOfVertexInFace", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
+DeclareOperation( "OtherEdgeOfVertexInFaceNC", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
+
+
+
+#! @Description
+#! Return the other vertex of a given edge.
+#! @Arguments surf, vertex, edge
+#! @Returns a positive integer
+DeclareOperation( "OtherVertexOfEdge", [IsSimplicialSurface,IsPosInt,IsPosInt] );
+DeclareOperation( "OtherVertexOfEdgeNC", [IsSimplicialSurface,IsPosInt,IsPosInt] );
+
 
 #############################################################################
 ##
@@ -1157,6 +1174,52 @@ DeclareOperation( "CommonCover",
 
 
 
+#! @Description
+#! Compute the maximal strip cover of a simplicial surface, given 
+#! a flag (vertex, edge, face) of the surface.
+#! <P/>
+#! A strip is a simplicial surface where every vertex has vertex 
+#! degree at most 3. Given an identification of a strip face and
+#! a face of the simplicial surface, this determines a map from
+#! the strip to the surface.
+#! <P/>
+#! A strip is maximal if no larger strip can extend this map while
+#! staying injective (on the faces). This method will compute such
+#! a maximal strip assuming that the strip continues along the edges 
+#! of the given vertex. First the extension along the given edge
+#! will be pursued. If this terminates, the other edge will be pursued.
+#! <P/>
+#! This method will return a list with two elements:
+#! 1) An edge-face-path that corresponds to the strip.
+#! 2) The subsurface that is induced by the faces in the strip
+#! 
+#! @Arguments surf, vertex, edge, face
+#! @Returns an edge-face-path and a simplicial surface
+DeclareOperation( "MaximalStripEmbedding", 
+    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+    IsPosInt, IsPosInt, IsPosInt] );
+
+#! @Description
+#! Determine a strip development of the surface, given a flag.
+#! The strip is defined as in <E>MaximalStripEmbedding</E> with the
+#! difference that it will be continued until it closes completely
+#! i.e. it can't be extended any further in any direction without
+#! repeating itself.
+#! @Arguments surf, vertex, edge, face
+#! @Returns an edge-face-path and a simplicial surface
+DeclareOperation( "StripDevelopment",
+    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+    IsPosInt, IsPosInt, IsPosInt]);
+
+
+#TODO this should be further up but IsEdgesLikeSurface has to be read first
+#! @Description
+#! Return the neighbouring face of the given face via the given edge.
+#! If the given edge is a boundary edge, return fail.
+#! @Arguments surf, face, edge
+#! @Returns a positive integer or fail
+DeclareOperation( "NeighbourFaceByEdge", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
 
 #
 ###  This program is free software: you can redistribute it and/or modify

@@ -3650,6 +3650,112 @@ InstallMethod( EdgeInFaceByVertices,
     end
 );
 
+
+InstallMethod( OtherEdgeOfVertexInFaceNC,
+    "for a simplicial surface, a vertex, an edge and a face",
+    [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
+    function( surf, vertex, edge, face )
+        local possEdges, res;
+
+        possEdges := EdgesOfFaces(surf)[face];
+        res := Filtered( possEdges, e -> vertex in VerticesOfEdges(surf)[e] and e <> edge );
+        return res[1];
+    end
+);
+InstallMethod( OtherEdgeOfVertexInFace,
+    "for a simplicial surface, a vertex, an edge and a face",
+    [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
+    function( surf, vertex, edge, face )
+        #TODO maybe write a separate method for these checks?
+        if not vertex in Vertices(surf) then
+            Error("Given vertex does not lie in the given surface.");
+        fi;
+        if not edge in Edges(surf) then
+            Error("Given edge does not lie in the given surface.");
+        fi;
+        if not face in Faces(surf) then
+            Error("Given face does not lie in the given surface.");
+        fi;
+
+        if not vertex in VerticesOfEdges(surf)[edge] then
+            Error("Given vertex is not incident to given edge.");
+        fi;
+        if not edge in EdgesOfFaces(surf)[face] then
+            Error("Given edge is not incident to given face.");
+        fi;
+        return OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face);
+    end
+);
+
+
+InstallMethod( NeighbourFaceByEdgeNC,
+    "for a simplicial surface (edges like surface), a face and an edge",
+    [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt],
+    function(surf, face, edge)
+        local possFaces;
+
+        possFaces := FacesOfEdges(surf)[edge];
+        if face = possFaces[1] then
+            return possFaces[2];
+        elif face = possFaces[2] then
+            return possFaces[1];
+        else
+            Error("Given edge is not incident to given face.");
+        fi;
+    end
+);
+    RedispatchOnCondition( NeighbourFaceByEdgeNC, true,
+        [IsSimplicialSurface, IsPosInt, IsPosInt],
+        [IsEdgesLikeSurface,,],0);
+InstallMethod( NeighbourFaceByEdge,
+    "for a simplicial surface (edges like surface), a face and an edge",
+    [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt],
+    function(surf, face, edge)
+        if not edge in Edges(surf) then
+            Error("Given edge does not lie in surface.");
+        fi;
+        if not face in Faces(surf) then
+            Error("Given face does not lie in surface.");
+        fi;
+        return NeighbourFaceByEdgeNC(surf,face, edge);
+    end
+);
+    RedispatchOnCondition( NeighbourFaceByEdge, true,
+        [IsSimplicialSurface, IsPosInt, IsPosInt],
+        [IsEdgesLikeSurface,,],0);
+
+
+InstallMethod( OtherVertexOfEdgeNC,
+    "for a simplicial surface, a vertex and an edge",
+    [IsSimplicialSurface, IsPosInt, IsPosInt],
+    function(surf, vertex, edge)
+        local possVert;
+        
+        possVert := VerticesOfEdges(surf)[edge];
+        if vertex = possVert[1] then
+            return possVert[2];
+        elif vertex = possVert[2] then
+            return possVert[1];
+        else
+            Error("Given vertex is not incident to given edge.");
+        fi;
+    end
+);
+InstallMethod( OtherVertexOfEdge,
+    "for a simplicial surface, a vertex and an edge",
+    [IsSimplicialSurface, IsPosInt, IsPosInt],
+    function(surf,vertex, edge)
+        if not vertex in Vertices(surf) then
+            Error("Given vertex does not lie in surface.");
+        fi;
+        if not edge in Edges(surf) then
+            Error("Given edge does not lie in surface.");
+        fi;
+    end
+);
+
+
+
 InstallMethod( AlternativeNames, "for a simplicial surface",
     [IsSimplicialSurface],
     function(simpSurf)
@@ -3933,6 +4039,193 @@ InstallMethod( CommonCover,
             IsTriangleSurface and IsEdgesLikeSurface,,], 0);
 
 
+InstallOtherMethod( MaximalStripEmbedding, "",
+    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
+        IsPosInt, IsPosInt],
+    function( surf, vertex, face )
+        local edges;
+
+        if not vertex in Vertices(surf) then
+            Error("Given vertex is not a vertex of the surface.");
+        fi;
+        if not face in Faces(surf) then
+            Error("Given face is not a face of the surface.");
+        fi;
+
+        edges := Intersection( EdgesOfFaces(surf)[face], EdgesOfVertices(surf)[vertex] );
+
+        if IsEmpty(edges) then
+            Error("Given vertex and face have no edge between them.");
+        fi;
+
+        return MaximalStripEmbedding(surf, vertex, edges[1], face);
+    end
+);
+    RedispatchOnCondition( MaximalStripEmbedding, true,
+        [IsSimplicialSurface, IsPosInt, IsPosInt],
+        [IsTriangleSurface and IsEdgesLikeSurface,,], 0);
+
+InstallMethod( MaximalStripEmbedding, "", 
+    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface, 
+        IsPosInt, IsPosInt, IsPosInt],
+    function( surf, vertex, edge, face )
+        local path, len, neighbour, pivotVert, newBorderEdge, 
+            traversedFaces, reversed;
+
+        if not vertex in Vertices(surf) then
+            Error("Given vertex is not a vertex of the surface.");
+        fi;
+        if not edge in Edges(surf) then
+            Error("Given edge is not an edge of the surface.");
+        fi;
+        if not face in Faces(surf) then
+            Error("Given face is not a face of the surface.");
+        fi;
+
+        if not vertex in VerticesOfEdges(surf)[edge] then
+            Error("Given vertex does not lie in given edge.");
+        fi;
+        if not edge in EdgesOfFaces(surf)[face] then
+            Error("Given edge does not lie in given face.");
+        fi;
+
+        # Idea:
+        # Construct the edge-face-path in the variable path
+        # Extend the right-hand-side until it goes no further
+        # Then extend the left-hand-side
+
+        # Initialize the system
+        path := [ OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face), face, edge ];
+        traversedFaces := [face];
+        pivotVert := vertex;
+
+        reversed := false; # Used for the direction of the extension
+        while( true ) do
+            # Try to extend the path
+            len := Size(path);
+            neighbour := NeighbourFaceByEdgeNC(surf, path[len-1], path[len]);
+            if neighbour in traversedFaces or neighbour = fail then
+                if reversed then
+                    break;
+                else
+                    reversed := true;
+                    path := Reversed(path);
+                    pivotVert := vertex; # Reset to original vertex
+                    continue;
+                fi;
+            fi;
+
+            pivotVert := OtherVertexOfEdgeNC(surf, pivotVert, path[len]);
+            newBorderEdge := OtherEdgeOfVertexInFaceNC(surf,pivotVert,path[len],neighbour);
+            Append( path, [neighbour, newBorderEdge] );
+            Add( traversedFaces, neighbour );
+        od;
+
+        # We have to invert the path at the end (so it is oriented properly)
+        path := Reversed(path);
+
+        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces))];
+    end
+);
+    RedispatchOnCondition( MaximalStripEmbedding, true,
+        [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
+        [IsTriangleSurface and IsEdgesLikeSurface,,,], 0);
+
+InstallMethod( StripDevelopment,
+    "for a simplicial surface, a vertex, an edge and a face",
+    [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
+    IsPosInt, IsPosInt, IsPosInt],
+    function(surf,vertex,edge,face)
+        local path, len, neighbour, pivotVert, newBorderEdge, 
+            traversedFaces, reversed;
+            #TODO copy of code above (with modifications) -> unify?
+
+        if not vertex in Vertices(surf) then
+            Error("Given vertex is not a vertex of the surface.");
+        fi;
+        if not edge in Edges(surf) then
+            Error("Given edge is not an edge of the surface.");
+        fi;
+        if not face in Faces(surf) then
+            Error("Given face is not a face of the surface.");
+        fi;
+
+        if not vertex in VerticesOfEdges(surf)[edge] then
+            Error("Given vertex does not lie in given edge.");
+        fi;
+        if not edge in EdgesOfFaces(surf)[face] then
+            Error("Given edge does not lie in given face.");
+        fi;
+
+        # Idea:
+        # Construct the edge-face-path in the variable path
+        # Extend the right-hand-side until it meets up again
+        # or stops at a boundary. In that case reverse course.
+
+        # Initialize the system
+        path := [ OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face), face, edge ];
+        traversedFaces := [face];
+        pivotVert := vertex;
+
+        reversed := false; # Used for the direction of the extension
+        while( true ) do
+            # Try to extend the path
+            len := Size(path);
+            neighbour := NeighbourFaceByEdgeNC(surf, path[len-1], path[len]);
+            pivotVert := OtherVertexOfEdgeNC(surf, pivotVert, path[len]);
+            newBorderEdge := OtherEdgeOfVertexInFaceNC(surf,pivotVert,path[len],neighbour);
+
+            if neighbour = fail then
+                if reversed then
+                    path := Reversed(path);
+                    break;
+                else
+                    reversed := true;
+                    path := Reversed(path);
+                    pivotVert := vertex; # Reset to original vertex
+                    continue;
+                fi;
+            elif path[len] = path[1] and neighbour = path[2] and newBorderEdge = path[3] then
+                # finished
+                break;
+            fi;
+
+            Append( path, [neighbour, newBorderEdge] );
+            Add( traversedFaces, neighbour );
+        od;
+
+        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces))];
+    end
+);
+    RedispatchOnCondition( StripDevelopment, true,
+        [IsSimplicialSurface,IsPosInt, IsPosInt,IsPosInt],
+        [IsTriangleSurface and IsEdgesLikeSurface,,,], 0);
+
+InstallOtherMethod( StripDevelopment,
+    "for a simplicial surface, a vertex and a face",
+    [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
+    IsPosInt, IsPosInt],
+    function(surf, vertex, face)
+        local edges;
+        
+        if not vertex in Vertices(surf) then
+            Error("Given vertex does not lie in surface.");
+        fi;
+        if not face in Faces(surf) then
+            Error("Given face does not lie in surface.");
+        fi;
+        
+        edges := Intersection( EdgesOfFaces(surf)[face], EdgesOfVertices(surf)[vertex] );
+        if IsEmpty(edges) then
+            Error("Given vertex is not incident to given face.");
+        fi;
+        
+        return StripDevelopment(surf, vertex, edges[1], face);
+    end
+);
+    RedispatchOnCondition( StripDevelopment, true,
+        [IsSimplicialSurface, IsPosInt, IsPosInt],
+        [IsTriangleSurface and IsEdgesLikeSurface, ,], 0);
 
 #
 ###  This program is free software: you can redistribute it and/or modify
