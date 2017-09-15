@@ -589,6 +589,72 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     #TODO is this correct?
 
 
+InstallMethod( "CyclicEdgeOrderOfFacesAsList",
+    "for a polygonal complex with faces, verticesOfFaces, edgesOfFaces, edgesOfVertices and verticesOfEdges",
+    [IsPolygonalComplex and HasFaces and HasVerticesOfFaces and 
+        HasEdgesOfFaces and HasEdgesOfVertices and HasVerticesOfEdges],
+    function(complex)
+        local cylicList, f, localEdges, localCycle, adVertices, startEdge,
+            lastEdge, finVertex, nextVertex, lastVertex;
+
+        cylicList := [];
+        for f in Faces(complex) do
+            localEdges := EdgesOfFaces(complex)[f];
+            startEdge := Minimum(localEdges);
+            adVertices := VerticesOfEdges(complex)[startEdge];
+            adEdges := List( adVertices, v ->
+                    OtherEdgeOfVertexInFaceNC(complex, v, startEdge, f) );
+                    OtherVertexOfEdgeNC(complex,startVert,e) );
+            Assert(1, Size(adEdges)<>2);
+            Assert(1, adEdges[1] <> adEdges[2]);
+
+            if adEdges[1] < adEdges[2] then
+                localCycle := [ startEdge, adEdges[1] ];
+                lastVertex := adVertices[1];
+                finVertex := adVertices[2];
+            else
+                localCycle := [ startEdge, adEdges[2] ];
+                lastVertex := adVertices[2];
+                finVertex := adVertices[1];
+            fi;
+
+            while true do
+                # find next edge
+                lastEdge := localCycle[Size(localCycle)];
+                nextVertex := OtherVertexOfEdgeNC( complex, lastVertex, lastEdge, f );
+                if nextVertex = finVertex then
+                    break;
+                fi;
+
+                lastVertex := nextVertex;
+                Add( localCycle, OtherEdgeOfVertexInFaceNC(complex,nextVertex,lastEdge,f) );
+            od;
+
+            cylicList[f] := localCycle;
+        od;
+
+        return cylicList;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+    "CyclicEdgeOrderOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
+        "VerticesOfEdges", "EdgesOfVertices"] );
+InstallMethod( CyclicEdgeOrderOfFacesAsList, 
+    "for a triangular complex with EdgesOfFaces",
+    [IsTriangularComplex and HasEdgesOfFaces],
+    function(complex)
+        return EdgesOfFaces(complex);
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "CyclicVertexOrderOfFaces", ["IsTriangularComplex", "EdgesOfFaces"]);
+    #TODO is this correct?
+
+
+
+
+
+
 
 
 ##
