@@ -575,7 +575,7 @@ InstallMethod( "CyclicVertexOrderOfFacesAsList",
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "CyclicVertexOrderOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
+    "CyclicVertexOrderOfFacesAsList", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
         "VerticesOfEdges", "EdgesOfVertices"] );
 InstallMethod( CyclicVertexOrderOfFacesAsList, 
     "for a triangular complex with VerticesOfFaces",
@@ -585,7 +585,7 @@ InstallMethod( CyclicVertexOrderOfFacesAsList,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicVertexOrderOfFaces", ["IsTriangularComplex", "VerticesOfFaces"]);
+    "CyclicVertexOrderOfFacesAsList", ["IsTriangularComplex", "VerticesOfFaces"]);
     #TODO is this correct?
 
 
@@ -637,7 +637,7 @@ InstallMethod( "CyclicEdgeOrderOfFacesAsList",
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "CyclicEdgeOrderOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
+    "CyclicEdgeOrderOfFacesAsList", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
         "VerticesOfEdges", "EdgesOfVertices"] );
 InstallMethod( CyclicEdgeOrderOfFacesAsList, 
     "for a triangular complex with EdgesOfFaces",
@@ -647,13 +647,109 @@ InstallMethod( CyclicEdgeOrderOfFacesAsList,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicVertexOrderOfFaces", ["IsTriangularComplex", "EdgesOfFaces"]);
+    "CyclicEdgeOrderOfFacesAsList", ["IsTriangularComplex", "EdgesOfFaces"]);
     #TODO is this correct?
 
 
+##
+##	To perform the conversion between VerticesAsList and EdgesAsList we
+##	implement a global function (as both conversions are identical from
+##	the perspective of incidence geometry). We start with
+##		a list of lists (in terms of elements A)
+##		an index for the list (in our case that will be the faces)
+##		a conversion of A in terms of B
+##		a list of sets of all elements of B that are possible (for a given face)
+##
+BindGlobal( "__SIMPLICIAL_ConversionListsVerticesEdges", 
+    function( listOfLists, listIndex, conversion, possibleNewElements )
+	local newListOfLists, i, oldList, newList, firstEl, secondEl, 
+            intersection, j, currentEl, nextEl;
+
+        if listOfLists = fail then
+            return fail;
+        fi;
+
+	newListOfLists := [];
+	# Iterate over the list index
+	for i in listIndex do
+		# We want to convert the elements of listOfLists (the 'old lists')
+		# into the elements of newListOfLists (the 'new lists')
+		oldList := listOfLists[i];
+		newList := [];
+
+		# Intersect first and last element of the oldList to obtain the first
+		# element of the newList
+		firstEl := Set( conversion[ oldList[1] ] );
+		secondEl := Set( conversion[ oldList[ Length(oldList) ] ] );
+		intersection := Intersection( firstEl, secondEl, 
+                        possibleNewElements[i] );
+                Assert( 1, Length(intersection)=1 );
+		newList[1] := intersection[1];
+
+		# Now we continue for all other elements
+		for j in [2..Length(oldList)] do
+			currentEl := Set( conversion[ oldList[j-1] ] );
+			nextEl := Set( conversion[ oldList[j] ] );
+			intersection := Intersection( currentEl, nextEl, 
+					        possibleNewElements[i] );
+                        Assert(1, Length(intersection)=1);
+			newList[j] := intersection[1];
+		od;
+
+		newListOfLists[i] := newList;
+	od;
+
+	return newListOfLists;
+    end
+);
+InstallMethod( CyclicVertexOrderOfFacesAsList, 
+    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList, Faces, VerticesOfEdges and VerticesOfFaces",
+    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList and HasFaces and
+        HasVerticesOfEdges and HasVerticesOfFaces],
+    function(complex)
+        return __SIMPLICIAL_ConversionListsVerticesEdges(
+            CyclicEdgeOrderOfFacesAsList(complex),
+            Faces(complex),
+            VerticesOfEdges(complex),
+            VerticesOfFaces(complex)
+        )
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "CyclicVertexOrderOfFacesAsList", ["CyclicEdgeOrderOfFacesAsList", 
+        "Faces", "VerticesOfEdges", "VerticesOfFaces"]);
+InstallMethod( CyclicEdgeOrderOfFacesAsList, 
+    "for a polygonal complex that has CyclicVertexOrderOfFacesAsList, Faces, EdgesOfVertices and EdgesOfFaces",
+    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsList and HasFaces and
+        HasEdgesOfVertices and HasEdgesOfFaces],
+    function(complex)
+        return __SIMPLICIAL_ConversionListsVerticesEdges(
+            CyclicVertexOrderOfFacesAsList(complex),
+            Faces(complex),
+            EdgesOfVertices(complex),
+            EdgesOfFaces(complex)
+        )
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "CyclicEdgeOrderOfFacesAsList", ["CyclicVertexOrderOfFacesAsList", 
+        "Faces", "EdgesOfVertices", "EdgesOfFaces"]);
+
+#
+# conversion between permutation and list representation
+# 
 
 
 
+#
+# convenience methods
+#
+
+
+
+#
+# incidences from cyclic order
+# 
 
 
 
