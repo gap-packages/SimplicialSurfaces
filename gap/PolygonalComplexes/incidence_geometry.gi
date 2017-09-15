@@ -478,6 +478,116 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 ##          Face-induced order of vertices/edges
 ##
+__SIMPLICIAL_AddPolygonalAttribute(CyclicVertexOrderOfFacesAsPerm);
+__SIMPLICIAL_AddPolygonalAttribute(CyclicVertexOrderOfFacesAsList);
+__SIMPLICIAL_AddPolygonalAttribute(CyclicEdgeOrderOfFacesAsPerm);
+__SIMPLICIAL_AddPolygonalAttribute(CyclicEdgeOrderOfFacesAsList);
+
+# the wrappers
+InstallMethod( CyclicVertexOrderOfFaces, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        return CyclicVertexOrderOfFacesAsPerm(complex);
+    end
+);
+InstallMethod( CyclicVertexOrderOfFace, 
+    "for a polygonal complex and a face (positive integer)",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return CyclicVertexOrderOfFace(complex,face);
+    end
+);
+InstallMethod( CyclicVertexOrderOfFaceNC,
+    "for a polygonal complex and a face (positive integer)",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return CyclicVertexOrderOfFaceAsPermNC(complex, face);
+    end
+);
+
+InstallMethod( CyclicEdgeOrderOfFaces, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        return CyclicEdgeOrderOfFacesAsPerm(complex);
+    end
+);
+InstallMethod( CyclicEdgeOrderOfFace, 
+    "for a polygonal complex and a face (positive integer)",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return CyclicEdgeOrderOfFace(complex,face);
+    end
+);
+InstallMethod( CyclicEdgeOrderOfFaceNC,
+    "for a polygonal complex and a face (positive integer)",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return CyclicEdgeOrderOfFaceAsPermNC(complex, face);
+    end
+);
+
+# write the general methods to compute the cyclic lists
+InstallMethod( "CyclicVertexOrderOfFacesAsList",
+    "for a polygonal complex with faces, verticesOfFaces, edgesOfFaces, edgesOfVertices and verticesOfEdges",
+    [IsPolygonalComplex and HasFaces and HasVerticesOfFaces and 
+        HasEdgesOfFaces and HasEdgesOfVertices and HasVerticesOfEdges],
+    function(complex)
+        local cylicList, f, localVertices, localCycle, adEdges, startVert,
+            lastVert, finEdge, nextEdge, lastEdge;
+
+        cylicList := [];
+        for f in Faces(complex) do
+            localVertices := VerticesOfFaces(complex)[f];
+            startVert := Minimum(localVertices);
+            adEdges := Intersection( EdgesOfFaces(complex)[f], 
+                        EdgesOfVertices(complex)[startVert );
+            adVertices := List( adEdges, e -> 
+                    OtherVertexOfEdgeNC(complex,startVert,e) );
+            Assert(1, Size(adVertices)<>2);
+            Assert(1, adVertices[1] <> adVertices[2]);
+
+            if adVertices[1] < adVertices[2] then
+                localCycle := [ startVert, adVertices[1] ];
+                lastEdge := adEdges[1];
+                finEdge := adEdges[2];
+            else
+                localCycle := [ startVert, adVertices[2] ];
+                lastEdge := adEdges[2];
+                finEdge := adEdges[1];
+            fi;
+
+            while true do
+                # find next edge
+                lastVert := localCycle[Size(localCycle)];
+                nextEdge := OtherEdgeOfVertexInFaceNC( complex, lastVert, lastEdge, f );
+                if nextEdge = finEdge then
+                    break;
+                fi;
+
+                lastEdge := nextEdge;
+                Add( localCycle, OtherVertexOfEdgeNC(complex,lastVert,nextEdge) );
+            od;
+
+            cylicList[f] := localCycle;
+        od;
+
+        return cylicList;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+    "CyclicVertexOrderOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
+        "VerticesOfEdges", "EdgesOfVertices"] );
+InstallMethod( CyclicVertexOrderOfFacesAsList, 
+    "for a triangular complex with VerticesOfFaces",
+    [IsTriangularComplex and HasVerticesOfFaces],
+    function(complex)
+        return VerticesOfFaces(complex);
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "CyclicVertexOrderOfFaces", ["IsTriangularComplex", "VerticesOfFaces"]);
+    #TODO is this correct?
+
 
 
 
