@@ -18,4 +18,5 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_ConnectionLabelStarOfStar();
     __SIMPLICIAL_Test_InvertIncidence();
     __SIMPLICIAL_Test_TransitiveIncidence();
+    __SIMPLICIAL_Test_CyclicOrderInferences();
 end;
