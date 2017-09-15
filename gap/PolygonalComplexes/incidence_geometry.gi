@@ -10,6 +10,44 @@
 ##
 #############################################################################
 
+##
+## general error messages #TODO should those be made into actual methods?
+##
+BindGlobal( "__SIMPLICIAL_CheckVertex", 
+    function( complex, vertex, name )
+        local mes;
+
+        if not vertex in Vertices(complex) then
+            mes := Concatenation( name, ": Given vertex ", String(vertex), 
+                " does not lie in the given complex." );
+            Error(mes);
+        fi;
+    end
+);
+BindGlobal( "__SIMPLICIAL_CheckEdge",
+    function( complex, edge, name )
+        local mes;
+
+        if not edge in Edges(complex) then
+            mes := Concatenation( name, ": Given edge ", String(edge), 
+                " does not lie in the given complex." );
+            Error(mes);
+        fi;
+    end
+);
+BindGlobal( "__SIMPLICIAL_CheckFace", 
+    function( complex, face, name )
+        local mes;
+
+        if not face in Faces(complex) then
+            mes := Concatenation( name, ": Given face ", String(face), 
+                " does not lie in the given complex." );
+            Error(mes);
+        fi;
+    end
+);
+
+
 
 ##############################################################################
 ##
@@ -220,9 +258,7 @@ InstallMethod("EdgesOfVertex",
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
-        if not vertex in Vertices(complex) then
-            Error("EdgesOfVertex: Given vertex does not lie in complex.");
-        fi;
+        __SIMPLICIAL_CheckVertex( complex, vertex, "EdgesOfVertex" );
         return EdgesOfVertexNC(complex,vertex);
     end
 );
@@ -239,9 +275,7 @@ InstallMethod("FacesOfVertex",
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
-        if not vertex in Vertices(complex) then
-            Error("FacesOfVertex: Given vertex does not lie in complex.");
-        fi;
+        __SIMPLICIAL_CheckVertex( complex, vertex, "FacesOfVertex" );
         return FacesOfVertexNC(complex,vertex);
     end
 );
@@ -259,9 +293,7 @@ InstallMethod("VerticesOfEdge",
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
-        if not edge in Edges(complex) then
-            Error("VerticesOfEdge: Given edge does not lie in complex.");
-        fi;
+        __SIMPLICIAL_CheckEdge( complex, edge, "VerticesOfEdge" );
         return VerticesOfEdgeNC(complex,edge);
     end
 );
@@ -279,9 +311,7 @@ InstallMethod("FacesOfEdge",
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
-        if not edge in Edges(complex) then
-            Error("FacesOfEdge: Given edge does not lie in complex.");
-        fi;
+        __SIMPLICIAL_CheckEdge( complex, edge, "FacesOfEdge" );
         return FacesOfEdgeNC(complex,edge);
     end
 );
@@ -299,9 +329,7 @@ InstallMethod("VerticesOfFace",
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
-        if not face in Faces(complex) then
-            Error("VerticesOfFace: Given face does not lie in complex.");
-        fi;
+        __SIMPLICIAL_CheckFace( complex, face, "VerticesOfFace" );
         return VerticesOfFaceNC(complex,face);
     end
 );
@@ -319,9 +347,7 @@ InstallMethod("EdgesOfFace",
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
-        if not face in Faces(complex) then
-            Error("EdgesOfFace: Given face does not lie in complex.");
-        fi;
+        __SIMPLICIAL_CheckFace( complex, face, "EdgesOfFace" );
         return EdgesOfFaceNC(complex,face);
     end
 );
@@ -739,11 +765,176 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 # conversion between permutation and list representation
 # 
 
+##
+##	Given a list of permutations (that have to be cycles) and an index set,
+##	this function returns a list of lists such that these lists represent the
+##	cycle representation of the permutation. For example the permutation (1,2,3)
+##	may be represented by the lists [1,2,3], [2,3,1] or [3,1,2]. To define this
+##	representation uniquely we stipulate that the first entry in the list
+##	representation is the smallest entry of the list. In the above example,
+##	the list [1,2,3] would be the so defined representation. Fixed points will
+##	be ignored.
+##
+BindGlobal( "__SIMPLICIAL_TranslateCyclesIntoLists", 
+    function( listOfPerms, indexSet )
+
+	local listOfLists, i, points, listRep, j;
+
+        if listOfPerms = fail then
+            return fail;
+        fi;
+
+	listOfLists := [];
+	for i in indexSet do
+		points := MovedPoints( listOfPerms[i] );
+
+		# Since points is a set, the first element is the smallest
+		listRep := [ points[1] ];
+
+		for j in [1..Length(points)-1] do
+			Append( listRep, [ listRep[j]^listOfPerms[i] ] );
+		od;
+
+            listOfLists[i] := listRep;
+	od;
+
+	return listOfLists;
+    end
+);
+
+##
+##	Given a list of lists, this function returns a list of
+##	permutations such that each permutation is defined by the list (like it
+##	was described for the function above).
+##
+BindGlobal( "__SIMPLICIAL_TranslateListsIntoCycles", function( listOfLists )
+    local Shift;
+
+        if listOfLists = fail then
+            return fail;
+        fi;
+
+	# local function that shifts each entry of the list to the previous one
+	Shift := function( list )
+		local newList, i;
+
+		newList := [];
+		newList[ Length(list) ] := list[1];
+		for i in [2..Length(list)] do
+			newList[i-1] := list[i];
+		od;
+		return newList;
+	end;
+
+	return List( listOfLists, list -> MappingPermListList(list, Shift(list)) );
+    end
+);
+
+
+InstallMethod( CyclicVertexOrderOfFacesAsPerm,
+    "for a polygonal complex that has CyclicVertexOrderOfFacesAsList",
+    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsList],
+    function( complex )
+        return __SIMPLICIAL_TranslateListsIntoCycles( 
+                    CyclicVertexOrderOfFacesAsList(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "CyclicVertexOrderOfFacesAsPerm", "CyclicVertexOrderOfFacesAsList");
+InstallMethod( CyclicEdgeOrderOfFacesAsPerm,
+    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList",
+    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList],
+    function( complex )
+        return __SIMPLICIAL_TranslateListsIntoCycles( 
+                    CyclicEdgeOrderOfFacesAsList(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "CyclicEdgeOrderOfFacesAsPerm", "CyclicEdgeOrderOfFacesAsList");
+
+
+InstallMethod( CyclicVertexOrderOfFacesAsList,
+    "for a polygonal complex that has CyclicVertexOrderOfFacesAsPerm",
+    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsPerm],
+    function( complex )
+        return __SIMPLICIAL_TranslateCyclesIntoLists( 
+                    CyclicVertexOrderOfFacesAsPerm(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "CyclicVertexOrderOfFacesAsList", "CyclicVertexOrderOfFacesAsPerm");
+InstallMethod( CyclicEdgeOrderOfFacesAsList,
+    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsPerm",
+    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsPerm],
+    function( complex )
+        return __SIMPLICIAL_TranslateCyclesIntoLists( 
+                    CyclicEdgeOrderOfFacesAsPerm(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "CyclicEdgeOrderOfFacesAsList", "CyclicEdgeOrderOfFacesAsPerm");
 
 
 #
 # convenience methods
 #
+InstallMethod( CyclicVertexOrderOfFaceAsPermNC, "for a polygonal complex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face )
+        return CyclicVertexOrderOfFacesAsPerm(complex)[face];
+    end
+);
+InstallMethod( CyclicVertexOrderOfFaceAsListNC, "for a polygonal complex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return CyclicVertexOrderOfFacesAsList(complex)[face];
+    end
+);
+InstallMethod( CyclicEdgeOrderOfFaceAsPermNC, "for a polygonal complex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face )
+        return CyclicEdgeOrderOfFacesAsPerm(complex)[face];
+    end
+);
+InstallMethod( CyclicEdgeOrderOfFaceAsListNC, "for a polygonal complex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return CyclicEdgeOrderOfFacesAsList(complex)[face];
+    end
+);
+
+InstallMethod( CyclicVertexOrderOfFaceAsPerm, "for a polygonal complex".
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        __SIMPLICIAL_CheckFace(complex, face, "CyclicVertexOrderOfFaceAsPerm");
+        return CyclicVertexOrderOfFaceAsPermNC(complex,face);
+    end
+);
+InstallMethod( CyclicVertexOrderOfFaceAsList, "for a polygonal complex".
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        __SIMPLICIAL_CheckFace(complex, face, "CyclicVertexOrderOfFaceAsList");
+        return CyclicVertexOrderOfFaceAsListNC(complex,face);
+    end
+);
+InstallMethod( CyclicEdgeOrderOfFaceAsPerm, "for a polygonal complex".
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        __SIMPLICIAL_CheckFace(complex, face, "CyclicEdgeOrderOfFacesAsPerm");
+        return CyclicEdgeOrderOfFaceAsPermNC(complex,face);
+    end
+);
+InstallMethod( CyclicEdgeOrderOfFaceAsList, "for a polygonal complex".
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        __SIMPLICIAL_CheckFace(complex, face, "CyclicEdgeOrderOfFacesAsList");
+        return CyclicEdgeOrderOfFaceAsListNC(complex,face);
+    end
+);
+
+
+
+
 
 
 
