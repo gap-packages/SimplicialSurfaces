@@ -933,15 +933,71 @@ InstallMethod( CyclicEdgeOrderOfFaceAsList, "for a polygonal complex".
 );
 
 
-
-
-
-
-
 #
-# incidences from cyclic order
+# inferences from cyclic order
 # 
+InstallMethod( VerticesOfFaces,
+    "for a polygonal complex that has CyclicVertexOrderOfFacesAsList",
+    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsList],
+    function(complex)
+        return List(CyclicVertexOrderOfFacesAsList(complex), Set );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "VerticesOfFaces", "CyclicVertexOrderOfFacesAsList");
 
+InstallMethod( EdgesOfFaces,
+    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList",
+    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList],
+    function(complex)
+        return List(CyclicVertexOrderOfFacesAsList(complex), Set);
+    end
+);
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "EdgesOfFaces", "CyclicEdgeOrderOfFacesAsList");
+
+
+InstallMethod( Faces,
+    "for a polygonal complex that has CyclicVertexOrderOfFacesAsPerm",
+    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsPerm],
+    function( complex )
+        return __SIMPLICIAL_BoundEntriesOfList( CyclicVertexOrderOfFacesAsPerm(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "Faces", "CyclicVertexOrderOfFacesAsPerm");
+
+InstallMethod( Faces,
+    "for a polygonal complex that has CyclicVertexOrderOfFacesAsList",
+    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsList],
+    function( complex )
+        return __SIMPLICIAL_BoundEntriesOfList( CyclicVertexOrderOfFacesAsList(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "Faces", "CyclicVertexOrderOfFacesAsList");
+
+
+InstallMethod( Faces,
+    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsPerm",
+    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsPerm],
+    function( complex )
+        return __SIMPLICIAL_BoundEntriesOfList( CyclicEdgeOrderOfFacesAsPerm(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "Faces", "CyclicEdgeOrderOfFacesAsPerm");
+
+
+InstallMethod( Faces,
+    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList",
+    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList],
+    function( complex )
+        return __SIMPLICIAL_BoundEntriesOfList( CyclicEdgeOrderOfFacesAsList(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "Faces", "CyclicEdgeOrderOfFacesAsList");
 
 
 ##
