@@ -537,6 +537,34 @@ complex := PolygonalComplexByDownwardIncidence(
         [[1,2],[2,5],[2,6],[2,6],[1,6],[5,6],[1,7],[6,8],[5,9],[7,8],[8,9]],
         [[1,3,5],[5,7,8,10],,[6,8,9,11],[2,4,6]]);;
 #! @EndExample
+#!
+#! This section contains the following methods:
+#! * <K>EdgeInFaceByVertices</K> returns the edge of a face that is defined by
+#!   its two vertices.
+#! @BeginExample
+EdgeInFaceByVertices( complex, 5, [2,6] );
+#! 4
+#! @EndExample
+#! * <K>OtherEdgeOfVertexInFace</K> returns the other edge of a given vertex
+#!   with respect to the given face.
+#! @BeginExample
+OtherEdgeOfVertexInFace( complex, 1, 5, 2 );
+#! 7
+#! @EndExample
+#! * <K>OtherVertexOfEdge</K> returns the other vertex of the given edge
+#! @BeginExample
+OtherVertexOfEdge( complex, 7, 10 );
+#! 8
+#! @EndExample
+#! * <K>NeighbourFaceByEdge</K> returns the face that is adjacent to the
+#!   given face (with respect to the given edge)
+#! @BeginExample
+NeighbourFaceByEdge( complex, 2, 8 );
+#! 4
+#! @EndExample
+#! 
+#TODO link these descriptions to the manpages
+#TODO write the manpages
 
 
 #! @Section Face-induced order of incident vertices/edges
