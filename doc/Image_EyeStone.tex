@@ -1,0 +1,46 @@
+\begin{tikzpicture}
+    %         8
+    %       / | \ 
+    %   10/   |8  \11
+    %   /     |     \
+    % 7  II   6  IV  9
+    % |     / |\     |
+    % |7  /5  |  6\  |9
+    % | /    | |    \|
+    % 1  I 3|   |4 V 5
+    %   \    | |    /
+    %    1\   |   /2
+    %       \ | /
+    %         2
+    \def\hor{2}
+    \def\ver{1}
+    \coordinate [label={[vertex]left:1}] (P1) at (0,0);
+    \coordinate [label={[vertex]below:2}] (P2) at (\hor,-\ver);
+    \coordinate [label={[vertex]right:6}] (P6) at (\hor,\ver);
+    \coordinate [label={[vertex]right:5}] (P5) at ($(P2)+(P6)$);
+    \coordinate [label={[vertex]left:7}] (P7) at (0,1.5*\ver);
+    \coordinate [label={[vertex]above:8}] (P8) at ($(P7)+(P6)$);
+    \coordinate [label={[vertex]right:9}] (P9) at ($(P7)+(P5)$);
+
+    \filldraw[face] (P1) -- (P6) -- (P8) -- (P7) -- cycle;
+    \node at (barycentric cs:P1=1,P6=1,P7=1,P8=1) {$II$};
+    \filldraw[face] (P6) -- (P5) -- (P9) -- (P8) -- cycle;
+    \node at (barycentric cs:P6=1,P5=1,P9=1,P8=1) {$IV$};
+    \filldraw[face] (P1) -- (P2) to[bend left] (P6) -- cycle;
+    \node at (barycentric cs:P1=2,P2=1,P6=1) {$I$};
+    \filldraw[face] (P6) to[bend left] (P2) -- (P5) -- cycle;
+    \node at (barycentric cs:P2=1,P5=2,P6=1) {$V$};
+
+    \drawEdge{P1}{P2}{1}
+    \drawEdge{P2}{P5}{2}
+    \def\dist{0.2*\hor}
+    \node[edgeBackground] at ($0.5*(P2)+0.5*(P6)+(-\dist,0)$) {3};
+    \node[edgeBackground] at ($0.5*(P2)+0.5*(P6)+(\dist,0)$) {4};
+    \drawEdge{P1}{P6}{5}
+    \drawEdge{P5}{P6}{6}
+    \drawEdge{P1}{P7}{7}
+    \drawEdge{P6}{P8}{8}
+    \drawEdge{P5}{P9}{9}
+    \drawEdge{P7}{P8}{10}
+    \drawEdge{P8}{P9}{11}
+\end{tikzpicture}

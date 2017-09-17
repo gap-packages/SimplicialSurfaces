@@ -519,6 +519,26 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
+#TODO How to integrate this section properly?
+#! @Section Specialized access to the incidence structure
+#! @SectionLabel Acces_SpecializedAccess
+#!
+#! The methods from section <Ref Sect="Section_Access_BasicAccess"/> are
+#! sufficient to answer all questions about the incidence structure of a given
+#! polygonal complex - in principle. In practice this may be quite cumbersome.
+#! Therefore we provide some specialized methods that are used quite often.
+#! We will exemplify them on the following example.
+#! 
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @BeginExample
+complex := PolygonalComplexByDownwardIncidence( 
+        [[1,2],[2,5],[2,6],[2,6],[1,6],[5,6],[1,7],[6,8],[5,9],[7,8],[8,9]],
+        [[1,3,5],[5,7,8,10],,[6,8,9,11],[2,4,6]]);;
+#! @EndExample
+
+
 #! @Section Face-induced order of incident vertices/edges
 #! @SectionLabel Access_OrderedFaceAccess
 #!
