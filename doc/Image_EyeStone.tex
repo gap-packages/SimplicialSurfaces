@@ -12,11 +12,11 @@
     %    1\   |   /2
     %       \ | /
     %         2
-    \def\hor{2}
-    \def\ver{1}
+    \def\hor{2.4}
+    \def\ver{1.2}
     \coordinate [label={[vertex]left:1}] (P1) at (0,0);
     \coordinate [label={[vertex]below:2}] (P2) at (\hor,-\ver);
-    \coordinate [label={[vertex]right:6}] (P6) at (\hor,\ver);
+    \coordinate [label={[vertex]below:6}] (P6) at (\hor,\ver);
     \coordinate [label={[vertex]right:5}] (P5) at ($(P2)+(P6)$);
     \coordinate [label={[vertex]left:7}] (P7) at (0,1.5*\ver);
     \coordinate [label={[vertex]above:8}] (P8) at ($(P7)+(P6)$);
@@ -43,4 +43,8 @@
     \drawEdge{P5}{P9}{9}
     \drawEdge{P7}{P8}{10}
     \drawEdge{P8}{P9}{11}
+
+    \foreach \i in {1,2,6,5,7,8,9}
+        \fill[vertex] (P\i) circle (\vSize);
 \end{tikzpicture}
+

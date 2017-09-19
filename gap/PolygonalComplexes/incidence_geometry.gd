@@ -521,13 +521,13 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 
 #TODO How to integrate this section properly?
 #! @Section Specialized access to the incidence structure
-#! @SectionLabel Acces_SpecializedAccess
+#! @SectionLabel Access_SpecializedAccess
 #!
 #! The methods from section <Ref Sect="Section_Access_BasicAccess"/> are
 #! sufficient to answer all questions about the incidence structure of a given
 #! polygonal complex - in principle. In practice this may be quite cumbersome.
 #! Therefore we provide some specialized methods that are used quite often.
-#! We will exemplify them on the following example.
+#! We will exemplify them with the following example.
 #! 
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
@@ -564,6 +564,47 @@ NeighbourFaceByEdge( complex, 2, 8 );
 #! @EndExample
 #! 
 #TODO link these descriptions to the manpages
+
+#! @BeginGroup
+#! @Description
+#! Given a face and a list of two vertices of a polygonal complex, return the 
+#! edge that
+#! lies in the given face and is incident to the given vertices.
+#! <Par/>
+#! If there is no such edge (because the given vertices are not incident to
+#! the given face or because they are not connected by an edge of the face),
+#! return <K>fail</K>.
+#! <Par/>
+#! The NC-version does not check if <A>face</A> is a face of the given
+#! polygonal complex.
+#! <Par/>
+#! As an example consider the polygonal complex from the start of section
+#! <Ref Sect="Section_Access_SpecializedAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @BeginExample
+EdgeInFaceByVertices(complex, 5, [2,6]);
+#! 4
+EdgeInFaceByVertices(complex, 1, [2,1]);
+#! 1
+EdgeInFaceByVertices(complex, 1, [2,6]);
+#! 3
+EdgeInFaceByVertices(complex, 2, [1,2]);
+#! fail
+EdgeInFaceByVertices(complex, 4, [5,8]);
+#! fail
+#! @EndExample
+#!
+#! @Returns a positive integer
+#! @Arguments complex, face, verts
+DeclareOperation(EdgeInFaceByVertices, [IsPolygonalComplex, IsPosInt, IsList]);
+#! @Arguments complex, face, verts
+DeclareOperation(EdgeInFaceByVerticesNC, 
+        [IsPolygonalComplex, IsPosInt, IsList]);
+#! @EndGroup
+
+
 #TODO write the manpages
 
 
