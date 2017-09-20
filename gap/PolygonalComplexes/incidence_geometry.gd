@@ -605,6 +605,40 @@ DeclareOperation(EdgeInFaceByVerticesNC,
 #! @EndGroup
 
 
+#! @BeginGroup
+#! @Description
+#! If a vertex is incident to a face in a polygonal complex, there are exactly
+#! two edges that are incident to both vertex and face. If one of those is
+#! given to this method, it will return the other one.
+#! <Par/>
+#! The NC-version does not check whether the given vertex, edge an face
+#! actually lie in the complex and are incident to each other.
+#! <Par/>
+#! As an example consider the polygonal complex that was introduced at the
+#! start of section
+#! <Ref Sect="Section_Access_SpecializedAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @BeginExample
+OtherEdgeOfVertexInFace(complex, 1, 5, 2);
+#! 7
+OtherEdgeOfVertexInFace(complex, 5, 9, 4);
+#! 6
+OtherEdgeOfVertexInFace(complex, 1, 5, 1);
+#! 1
+#! @EndExample
+#!
+#! @Returns a positive integer
+#! @Arguments complex, vertex, edge, face
+DeclareOperation(OtherEdgeOfVertexInFace, 
+        [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertex, edge, face
+DeclareOperation(OtherEdgeOfVertexInFaceNC,
+        [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+
 #TODO write the manpages
 
 

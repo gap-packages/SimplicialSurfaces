@@ -46,6 +46,32 @@ BindGlobal( "__SIMPLICIAL_CheckFace",
         fi;
     end
 );
+BindGlobal( "__SIMPLICIAL_CheckIncidenceVertexEdge",
+    function( complex, vertex, edge, name )
+        local mes;
+        
+        if not vertex in VerticesOfEdges(complex)[edge] then
+            mes := Concatenation( name, ": Given vertex ", String(vertex),
+                " does not lie in given edge ", String(edge),
+                " of the given complex.");
+            Error(mes);
+        fi;
+    end
+);
+BindGlobal( "__SIMPLICIAL_CheckIncidenceEdgeFace",
+    function( complex, edge, face, name )
+        local mes;
+        
+        if not edge in EdgesOfFaces(complex)[face] then
+            mes := Concatenation( name, ": Given edge ", String(edge),
+                " does not lie in given face ", String(face),
+                " of the given complex.");
+            Error(mes);
+        fi;
+    end
+);
+
+
 
 
 
@@ -530,15 +556,46 @@ InstallMethod( EdgeInFaceByVertices,
     "for a polygonal complex, a face and a set of two vertices",
     [IsPolygonalComplex, IsPosInt, IsSet],
     function( complex, face, vertSet )
-        __SIMPLICIAL_CheckFace(complex, face);
+        __SIMPLICIAL_CheckFace(complex, face, "EdgeInFaceByVertices");
         return EdgeInFaceByVerticesNC(complex, face, vertSet);
     end
 );
 InstallMethod( EdgeInFaceByVertices,
-    "for a polygonal complex, a positive integer and a list of two positive integers",
+    "for a polygonal complex, a face and a list of two vertices",
     [IsPolygonalComplex, IsPosInt, IsList],
     function( complex, face, vertList )
         return EdgeInFaceByVertices(complex, face, Set(vertList));
+    end
+);
+
+
+
+InstallMethod( OtherEdgeOfVertexInFaceNC,
+    "for a polygonal complex, a vertex, an edge and a face",
+    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    function( complex, vertex, edge, face )
+        local possEdges, res;
+
+        possEdges := EdgesOfFaces(complex)[face];
+        res := Filtered( possEdges, e -> vertex in VerticesOfEdges(complex)[e] and e <> edge );
+        return res[1];
+    end
+ );
+
+InstallMethod( OtherEdgeOfVertexInFace,
+    "for a polygonal complex, a vertex, an edge and a face",
+    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    function( complex, vertex, edge, face )
+        local name;
+
+        name := "OtherEdgeOfVertexInFace";
+        __SIMPLICIAL_CheckVertex(complex, vertex, name);
+        __SIMPLICIAL_CheckEdge(complex, edge, name);
+        __SIMPLICIAL_CheckFace(complex, face, name);
+        __SIMPLICIAL_CheckIncidenceVertexEdge(complex, vertex, edge, name);
+        __SIMPLICIAL_CheckIncidenceEdgeFace(complex, edge, face, name);
+
+        return OtherEdgeOfVertexInFaceNC(complex, vertex, edge, face);
     end
 );
 
