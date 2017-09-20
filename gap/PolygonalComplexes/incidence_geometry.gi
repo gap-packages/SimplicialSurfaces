@@ -499,6 +499,58 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 
 
+#############################################################################
+##
+##          Start of specialized access
+##
+InstallMethod( EdgeInFaceByVerticesNC, 
+    "for a polygonal complex, a face and a set of two vertices",
+    [IsPolygonalComplex, IsPosInt, IsSet],
+    function( complex, face, vertSet )
+        local possEdges;
+
+        possEdges := Filtered( EdgesOfFaces(surf)[face], e -> 
+                VerticesOfEdges(surf)[e] = vertList );
+        if Size(possEdges) = 0 then
+            return fail;
+        elif Size(possEdges) > 1 then
+            Error("EdgeInFaceByVertices: Internal error.");
+        fi;
+        return possEdges[1];
+    end
+);
+InstallMethod( EdgeInFaceByVerticesNC,
+    "for a polygonal complex, a face and a list of two vertices",
+    [IsPolygonalComplex, IsPosInt, IsList],
+    function( complex, face, vertList )
+        return EdgeInFaceByVerticesNC(complex, face, Set(vertList));
+    end
+);
+InstallMethod( EdgeInFaceByVertices,
+    "for a polygonal complex, a face and a set of two vertices",
+    [IsPolygonalComplex, IsPosInt, IsSet],
+    function( complex, face, vertSet )
+        __SIMPLICIAL_CheckFace(complex, face);
+        return EdgeInFaceByVerticesNC(complex, face, vertSet);
+    end
+);
+InstallMethod( EdgeInFaceByVertices,
+    "for a polygonal complex, a positive integer and a list of two positive integers",
+    [IsPolygonalComplex, IsPosInt, IsList],
+    function( complex, face, vertList )
+        return EdgeInFaceByVertices(complex, face, Set(vertList));
+    end
+);
+
+
+
+
+##
+##          End of specialized access
+##
+##############################################################################
+
+
 
 ##############################################################################
 ##
