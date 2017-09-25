@@ -639,7 +639,78 @@ DeclareOperation(OtherEdgeOfVertexInFaceNC,
 #! @EndGroup
 
 
-#TODO write the manpages
+#! @BeginGroup
+#! @Description
+#! Every edge in a polygonal complex is incident to exactly two vertices.
+#! Given one of them, this method returns the other one.
+#! <Par/>
+#! The NC-version does not check whether the given <A>edge</A> is an edge of 
+#! the
+#! polygonal complex and whether the given <A>vertex</A> is incident to it.
+#! <Par/>
+#! As an example consider the polygonal complex that was introduced at the
+#! start of section
+#! <Ref Sect="Section_Access_SpecializedAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @BeginExample
+OtherVertexOfEdge(complex, 7, 10);
+#! 8
+OtherVertexOfEdge(complex, 1, 5);
+#! 6
+OtherVertexOfEdge(complex, 6, 8);
+#! 8
+#! @EndExample
+#!
+#! @Returns a positive integer
+#! @Arguments complex, vertex, edge
+DeclareOperation(OtherVertexOfEdge, [IsPolygonalComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertex, edge
+DeclareOperation(OtherVertexOfEdgeNC, 
+        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+
+
+#! @BeginGroup
+#! @Description
+#! If an edge is incident to exactly two faces and one of those is given,
+#! this method returns the other one.
+#! <Par/>
+#! If this method is called for a boundary edge or a branching edge, it 
+#! returns <K>fail</K>.
+#! <Par/>
+#! The NC-version does not check whether the given <A>edge</A> is an edge of
+#! the polygonal complex and whether the given <A>face</A> is an incident face
+#! of the complex.
+#! <Par/>
+#! As an example consider the polygonal complex that was introduced at the
+#! start of section
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @BeginExample
+NeighbourFaceByEdge(complex, 2, 8);
+#! 4
+NeighbourFaceByEdge(complex, 1, 5);
+#! 2
+NeighbourFaceByEdge(complex, 4, 6);
+#! 5
+NeighbourFaceByEdge(complex, 1, 3);
+#! fail
+NeighbourFaceByEdge(complex, 4, 11);
+#! fail
+#! @EndExample
+#!
+#! @Returns a positive integer or fail
+#! @Arguments complex, face, edge
+DeclareOperation(NeighbourFaceByEdge, 
+        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, face, edge
+DeclareOperation(NeighbourFaceByEdgeNC,
+        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
 
 
 #! @Section Face-induced order of incident vertices/edges

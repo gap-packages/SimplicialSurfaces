@@ -600,6 +600,66 @@ InstallMethod( OtherEdgeOfVertexInFace,
 );
 
 
+InstallMethod( OtherVertexOfEdgeNC,
+    "for a polygonal complex, a vertex and an edge",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function( complex, vertex, edge )
+        local possVert;
+        
+        possVert := VerticesOfEdges(complex)[edge];
+        if vertex = possVert[1] then
+            return possVert[2];
+        else
+            return possVert[1];
+        fi;
+    end
+);
+InstallMethod( OtherVertexOfEdge,
+    "for a polygonal complex, a vertex and an edge",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function( complex, vertex, edge )
+        local name;
+        
+        name := "OtherVertexOfEdge";
+        __SIMPLICIAL_CheckEdge(complex, edge, name);
+        __SIMPLICIAL_CheckIncidenceVertexEdge(complex, vertex, edge, name);
+        return OtherVertexOfEdgeNC(complex, vertex, edge);
+    end
+);
+
+
+InstallMethod( NeighbourFaceByEdgeNC,
+    "for a polygonal complex, a face and an edge",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function( complex, face, edge )
+        local possFaces;
+        
+        possFaces := FacesOfEdges(complex)[edge];
+        if Size(possFaces) <> 2 then #TODO special case for RamifiedComplexes useful?
+            return fail;
+        fi;
+
+        if possFaces[1] = face then
+            return possFaces[2];
+        else
+            return possFaces[1];
+        fi;
+    end
+);
+InstallMethod( NeighbourFaceByEdge,
+    "for a polygonal complex, a face and an edge",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function( complex, face, edge )
+        local name;
+        
+        name := "NeighbourFaceByEdge";
+        __SIMPLICIAL_CheckEdge(complex,edge, name);
+        __SIMPLICIAL_CheckFace(complex, face, name);
+        __SIMPLICIAL_CheckIncidenceEdgeFace(complex, edge, face, name);
+        
+        return NeighbourFaceByEdgeNC(complex, face, edge);
+    end
+);
 
 
 ##
