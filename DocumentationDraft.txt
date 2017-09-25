@@ -44,16 +44,6 @@ About the chapter ordering:
     They should be behind the others as they are not really needed to work with the core processes.
 
 -------------
-Chapter "Access to the incidence geometry"
-
-    After the first subsection we will have three sections about ordered access. Two of them will explain methods, one of them will explain an impossibility (with reference to a better structure). Since they are not "required" sections, we will make them self-contained. Each of them will explain their goal and then explain why the methods are choosen as they are (since they are mutually inconsistent).
-
-    Second subsection: Order of vertices/edges in a face.
-
-    Third subsection: Ordering around an edge (how to show impossibility in the title?)
-
-    Fourth subsection: Ordering around a vertex
-
 Chapter "Basic access to the incidence structure" <all methods are exemplified with the standard example (a square that shares an edge with a triangle)>
 In polygonal complexes (the most general supported incidence structure, compare ...) all vertices, edges and faces are labelled and we can access the set of all these labels by Vertices, Edges, Faces.
     <put those methods here>

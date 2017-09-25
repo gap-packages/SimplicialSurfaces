@@ -72,9 +72,6 @@ BindGlobal( "__SIMPLICIAL_CheckIncidenceEdgeFace",
 );
 
 
-
-
-
 ##############################################################################
 ##
 ##          Methods for labelled access
