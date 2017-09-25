@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass{article}
 
 \input{../TikZHeader.tex}
 \usetikzlibrary{arrows, decorations.pathreplacing, calc, decorations.pathmorphing, shapes}
@@ -9,26 +9,18 @@
 
 \begin{document}
 
-\begin{frame}[fragile]
-	\begin{tikzpicture}[vertexNode/.style={circle, draw=\vertexColor}, node distance=0.5]
-		\node[edgeBackground] (E6) {6};
-		\uncover<2->{		
-			\node[edgeBackground] (E8) [right=of E6] {8};
-		}
-		\node[edgeBackground] (E9) [right=of E8] {9};
-		
-		\node (F1) [above=of E8] {$I$}
-			edge (E6) edge (E9);
-		\uncover<2->{ \draw (F1) -- (E8); }
-			
-		\node (Help) at ($(E8)!0.5!(E9)$) {};
-		\node[vertexNode] (V3) [below=of Help] {3}
-			edge (E6) edge (E9);
-		\node[vertexNode] (V2) [left=of V3] {2}
-			edge (E6) edge (E8);
-	\end{tikzpicture}
 
-\end{frame}
+\begin{tikzpicture}
+    \def\distTower{1}
+    \def\fact{0.2}
+
+    \foreach \x in {1,...,8}{
+        \pgfmathparse{pow(add(1,\fact),\x)}
+        \pgfmathsetmacro{\win}{\pgfmathresult}
+        \draw (0,0) -- (1,\win);
+        \node at (0,\x) {\win};
+    }
+\end{tikzpicture}
 
 
 
