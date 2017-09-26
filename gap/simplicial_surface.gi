@@ -4227,6 +4227,43 @@ InstallOtherMethod( StripDevelopment,
         [IsSimplicialSurface, IsPosInt, IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface, ,], 0);
 
+##
+##      Automorphisms
+##
+InstallMethod( DisplayAsAutomorphism, 
+    "for a simplicial surface and a permutation",
+    [IsSimplicialSurface, IsPerm],
+    function( surf, perm )
+        local maxVert, maxEdge, maxFace, autVert, autEdge, autFace, sep1, 
+            sep2, listPerm;
+
+        maxVert := Maximum( Vertices(surf) );
+        maxEdge := Maximum( Edges(surf) );
+        maxFace := Maximum( Faces(surf) );
+
+        sep1 := maxVert + maxEdge;
+        sep2 := maxVert + maxEdge + maxFace;
+
+        # Restrict the permutations
+        autVert := RestrictedPerm(perm, [1..maxVert]);
+        autEdge := RestrictedPerm(perm, [maxVert+1..sep1]);
+        autFace := RestrictedPerm(perm, [sep1+1..sep2]);
+
+        # Rescale the permutations
+        listPerm := ListPerm(autEdge, sep1);
+        listPerm := listPerm{[maxVert+1..sep1]};
+        listPerm := List( listPerm, i -> i - maxVert );
+        autEdge := PermList( listPerm );
+
+        listPerm := ListPerm(autFace, sep2);
+        listPerm := listPerm{[sep1+1..sep2]};
+        listPerm := List( listPerm, i -> i - sep1 );
+        autFace := PermList( listPerm );
+
+        return [autVert, autEdge, autFace];
+    end
+);
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

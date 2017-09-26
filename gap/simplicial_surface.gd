@@ -1221,6 +1221,21 @@ DeclareOperation( "StripDevelopment",
 DeclareOperation( "NeighbourFaceByEdge", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
 DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
 
+
+##
+##  Automorphism group representation
+##
+## Problem: Simultaneous permutation of vertices, edges and faces
+## Since they share labels this can't be easily represented
+## If we don't represent it as a permutation, we lose the kernel optimization
+##
+## Solution: Represent automorphisms by permutations (shiftet in the case
+## of edges and faces) and introduce a method for conversion.
+#
+# Returns a list of three permutations
+DeclareOperation( "DisplayAsAutomorphism", [IsSimplicialSurface, IsPerm] );
+DeclareOperation( "DisplayAsAutomorphismNC", [IsSimplicialSurface, IsPerm] );
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
