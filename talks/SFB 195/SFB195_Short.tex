@@ -64,6 +64,9 @@
     $\leadsto$ structures build from triangles
     \pause
     (or arbitrary polygons)
+
+    \pause
+    $\to$ focus on the combinatorial/incidence structure (without embedding)
 \end{frame}
 
 
@@ -73,13 +76,13 @@
     Goal: Classify all closed simplicial surfaces.
 
     \pause
-    Plesken/Strzelczyk classified the building blocks up to 20 triangles.
+    Plesken/Strzelczyk classified the basic surfaces (building blocks) up to 20 triangles.
 
     \begin{itemize}
         \pause
-        \item e.\,g. exactly 87 non--isomorphic surfaces with 20 triangles
+        \item e.\,g. exactly 87 non--isomorphic basic surfaces with 20 triangles
         \pause
-        \item e.\,g. only one surface with 10 triangles:
+        \item e.\,g. only one basic surface with 10 triangles:
     \end{itemize}
 
     \pause
@@ -116,6 +119,9 @@
 \newcommand{\width}{very thick}
 
 \begin{frame}{One type of triangle}
+    \pause
+    For embedding purposes:
+
     \pause
     We are interested in surfaces that are built from one type of triangle.
 
@@ -206,7 +212,7 @@
         \end{tikzpicture}
     \end{center}
     \onslide<4->{
-        \textit{simplicial surface} $\Rightarrow$ \onslide<5->{two faces at each edge}
+        \textit{simplicial surface} $\Rightarrow$ \onslide<5->{$\leq 2$ faces at each edge}
     
         \begin{itemize}
             \item<6->[$\leadsto$] every edge defines a transposition of incident faces
@@ -220,131 +226,46 @@
 \end{frame}
          
 
-\begin{frame}[fragile]{Construction example}
-    \onslide<2->{ $\textcolor{\colA}{\sigma_a} = \textcolor{\colA}{(1,2)(3,4)(5,6)(7,8)}$\\ }
-    \onslide<2->{ $\textcolor{\colB}{\sigma_b} = \textcolor{\colB}{(1,4)(2,3)(5,8)(6,7)}$\\ }
-    \onslide<2->{ $\textcolor{\colC}{\sigma_c} = \textcolor{\colC}{(1,5)(2,6)(3,7)(4,8)}$\\ }
+\begin{frame}{Implementation in GAP}
+    \pause
+    Implemented in GAP (package \texttt{SimplicialSurfaces}, unpublished)
 
-    \onslide<3->{
-    \begin{center}
-    \begin{tikzpicture}
-        % Coordinates
-        \coordinate (Z) at (0,0);
-        \foreach \i in {0,1,2,3,4}
-            \coordinate (P\i) at (60*\i:2);
-        \foreach \i/\j in {0/1, 1/2, 2/3, 3/4}
-            \coordinate (Q\i\j) at ($(P\i)+(P\j)$);
+    \pause
+    Example: define a coloured icosahedron:
 
-        \newcommand{\vertex}[1]{
-            \fill[black] (#1) circle (3pt);
-        }
+    \pause
+    \vfill
+    \textcolor{blue}{gap$>$ }\textcolor{red}{iko := \texttt{ColouredSimplicialSurface}(}
 
+    \pause
+    \textcolor{red}{
+        [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 1, 6 ], [ 2, 3 ], [ 2, 4 ], [ 2, 7 ], 
+        \newline
+        [ 2, 8 ], [ 3, 6 ], [ 3, 7 ], [ 3, 11 ], [ 4, 5 ], [ 4, 8 ], [ 4, 9 ], [ 5, 6 ], 
+        \newline
+        [ 5, 9 ], [ 5, 10 ], [ 6, 10 ], [ 6, 11 ], [ 7, 8 ], [ 7, 11 ], [ 7, 12 ], [ 8, 9 ], 
+        \newline
+        [ 8, 12 ], [ 9, 10 ], [ 9, 12 ], [ 10, 11 ], [ 10, 12 ], [ 11, 12 ] ],}
 
-        % First vertex
+    \vfill
+    \textcolor{red}{
+        [ [ 1, 2, 6 ], [ 1, 3, 7 ], [ 3, 4, 13 ], [ 4, 5, 16 ], [ 2, 5, 10 ], [ 6, 8, 11 ], 
+        \newline
+        [ 7, 9, 14 ], [ 13, 15, 17 ], [ 16, 18, 19 ], [ 10, 12, 20 ], [ 8, 9, 21 ], 
+        \newline
+        [ 14, 15, 24 ], [ 17, 18, 26 ], [ 19, 20, 28 ], [ 11, 12, 22 ], [ 21, 23, 25 ], 
+        \newline
+        [ 24, 25, 27 ], [ 26, 27, 29 ], [ 28, 29, 30 ], [ 22, 23, 30 ] ],}
 
-        % 1
-            \node at (barycentric cs:Z=1,P1=1,P2=1) {1};
-            \draw[\colA,\width] (Z) -- (P2);
-            \draw[\colB,\width] (Z) -- (P1);
-            \draw[\colC,\width] (P1) -- (P2);
-
-        % 2
-            \node at (barycentric cs:Z=1,P2=1,P3=1) {2};
-            \draw[\colB,\width] (Z) -- (P3);
-            \draw[\colC,\width] (P2) -- (P3);
-
-        % 3
-            \node at (barycentric cs:Z=1,P3=1,P4=1) {3};
-            \draw[\colC,\width] (P3) -- (P4);
-            \draw[\colA,\width] (Z) -- (P4);
-
-        % 4
-            \node at (barycentric cs:Z=1,P0=1,P1=1) {4};
-            \draw[\colA,\width] (Z) -- (P0);
-            \draw[\colC,\width] (P0) -- (P1);
-
-            \draw[\colA,\width,dotted] ($(Z)!0.5!(P4)$) to[bend right] ($(Z)!0.5!(P0)$);
-
-
-
-        % Second vertex
-
-        % 5
-            \node at (barycentric cs:P1=1,P2=1,Q12=1) {5};
-            \draw[\colB,\width] (P1) -- (Q12);
-            \draw[\colA,\width] (P2) -- (Q12);
-
-        % 6
-            \node at (barycentric cs:P2=1,P3=1,Q23=1) {6};
-            \draw[\colA,\width] (P2) -- (Q23);
-            \draw[\colA,\width,dotted] ($(P2)!0.5!(Q23)$) to[bend left] ($(P2)!0.5!(Q12)$);
-            \draw[\colB,\width] (P3) -- (Q23);
-
-
-        % Third vertex
-
-        % 7
-            \node at (barycentric cs:P3=1,P4=1,Q34=1) {7};
-            \draw[\colB,\width] (P3) -- (Q34);
-            \draw[\colB,\width,dotted] ($(P3)!0.5!(Q23)$) to[bend right] ($(P3)!0.5!(Q34)$);
-            \draw[\colA,\width] (P4) -- (Q34);
-
-
-        % Fourth vertex
-
-        % 8
-            \node at (barycentric cs:P0=1,P1=1,Q01=1) {8};
-            \draw[\colB,\width] (P1) -- (Q01);
-            \draw[\colB,\width,dotted] ($(P1)!0.5!(Q01)$) to[bend right] ($(P1)!0.5!(Q12)$);
-            \draw[\colA,\width] (P0) -- (Q01);
-
-
-            \draw[\colA,\width,dotted] ($(P0)!0.5!(Q01)$) to[bend left=60] ($(P4)!0.5!(Q34)$);
-
-        \foreach \p in {Z,P0,P1,P2,P3,P4,Q01,Q12,Q23,Q34}
-            \fill[gray] (\p) circle (1pt);
-
-
-        \begin{scope}[xshift=6cm]
-            % Coordinates of octahedron
-                \def\len{2} % The length of the base
-                \def\h{1}   % \h*\len is the hight of the apex above the 
-                            % center of the square
-                \coordinate (Mid) at (0,0);
-                \coordinate (Right) at (0.5*\len,0.3*\len);
-                \coordinate (Left) at (-0.75*\len,0.25*\len);
-                \coordinate (Back) at ($(Right)+(Left)$);
-                \coordinate (Center) at ($(Left)!0.5!(Right)$);
-                \coordinate (Up) at ($(Center)+(0,\h*\len)$);
-                \coordinate (Down) at ($(Center)+(0,-\h*\len)$);
-
-                \onslide<4>{
-                    \draw[\colA,\width] (Up) -- (Mid) -- (Down);
-                    \draw[\colA,\width,dashed] (Up) -- (Back) -- (Down);
-                    \draw[\colB,\width] (Up) -- (Right) -- (Down) -- (Left) -- cycle;
-                    \draw[\colC,\width] (Left) -- (Mid) -- (Right);
-                    \draw[\colC,\width,dashed] (Left) -- (Back) -- (Right);
-
-                    %\node at (barycentric cs:Mid=1,Down=1,Right=1) {1};
-                    %\node at (barycentric cs:Mid=1,Down=1,Left=1) {2};
-                    %\node at (barycentric cs:Mid=1,Up=1,Right=1) {5};
-                    %\node at (barycentric cs:Mid=1,Up=1,Left=1) {6};
-                    
-                    % Vertices to hide drawing problems in edge meetings
-                    \foreach \p in {Mid,Right,Left,Back,Up,Down}
-                        \fill[gray] (\p) circle (1pt);
-                }
-        \end{scope}
-    \end{tikzpicture}
-    \end{center}
-    }
+    \vfill
+    \textcolor{red}{
+        [ 1, 2, 3, 1, 3, 3, 2, 1, 3, 1, 2, 3, 2, 1, 3, 2, 1, 3, 1, 2, 2, 1, 3, 2, 1, 2, 3, 3, 1, 2 ]
+    );;}
 \end{frame}
 
 
 \begin{frame}[fragile]{Net of an icosahedron}
     \uncover<2->{
-        \texttt{iko}: coloured icosahedron
-
         \textcolor{blue}{gap$>$ }\textcolor{red}{\texttt{DrawSurfaceToTikZ$($iko,"NetIko.tex"$)$;}}
     }
     \uncover<3->{
@@ -521,15 +442,14 @@
     \pause
     \vfill
     \begin{center}
-        {\LARGE Thanks for your attention}
+        {\LARGE\textcolor{blue!70!black}{Thanks for your attention}}
     \end{center}
 
     \vfill
     {\small
     Alice Niemeyer \hfill Markus Baumeister
 
-    Wilhelm Plesken \hfill Ansgar Strzelczyk
-    }
+    Wilhelm Plesken \hfill Ansgar Strzelczyk}
 \end{frame}
 
 
