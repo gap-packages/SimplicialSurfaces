@@ -1,5 +1,5 @@
-%\documentclass[11pt]{beamer}
-\documentclass[11pt, handout]{beamer}
+\documentclass[11pt]{beamer}
+%\documentclass[11pt, handout]{beamer}
 
 \input{GenericPreamble.tex}
 
@@ -56,11 +56,14 @@
 
 \begin{frame}{Simplicial surfaces}
     \pause
-    We want to describe different structures built from triangles:
-    \pause
         \begin{center}
             \input{Image_TriangularExamples.tex}
         \end{center}
+    
+    \pause
+    $\leadsto$ structures build from triangles
+    \pause
+    (or arbitrary polygons)
 \end{frame}
 
 
@@ -145,6 +148,9 @@
 
     \pause
     $\leadsto$ edge--colouring encodes lengths
+
+    \pause
+    $\leadsto$ analyse edge--coloured surfaces
 \end{frame}
 
 
@@ -200,7 +206,7 @@
         \end{tikzpicture}
     \end{center}
     \onslide<4->{
-        \textit{simplicial surface} $\Rightarrow$ \onslide<5->{at most two faces at each edge}
+        \textit{simplicial surface} $\Rightarrow$ \onslide<5->{two faces at each edge}
     
         \begin{itemize}
             \item<6->[$\leadsto$] every edge defines a transposition of incident faces
@@ -216,9 +222,10 @@
 
 \begin{frame}[fragile]{Construction example}
     \onslide<2->{ $\textcolor{\colA}{\sigma_a} = \textcolor{\colA}{(1,2)(3,4)(5,6)(7,8)}$\\ }
-    \onslide<3->{ $\textcolor{\colB}{\sigma_b} = \textcolor{\colB}{(1,4)(2,3)(5,8)(6,7)}$\\ }
-    \onslide<4->{ $\textcolor{\colC}{\sigma_c} = \textcolor{\colC}{(1,5)(2,6)(3,7)(4,8)}$\\ }
+    \onslide<2->{ $\textcolor{\colB}{\sigma_b} = \textcolor{\colB}{(1,4)(2,3)(5,8)(6,7)}$\\ }
+    \onslide<2->{ $\textcolor{\colC}{\sigma_c} = \textcolor{\colC}{(1,5)(2,6)(3,7)(4,8)}$\\ }
 
+    \onslide<3->{
     \begin{center}
     \begin{tikzpicture}
         % Coordinates
@@ -231,164 +238,71 @@
         \newcommand{\vertex}[1]{
             \fill[black] (#1) circle (3pt);
         }
-        \newcommand<>{\vertArc}[3]{
-            \def\dist{0.2}
-            \onslide#4{
-                \filldraw[draw=black, fill=black!50!white] (#1) -- 
-                    ($(#1)!\dist!(#2)$) to[bend right=25] ($(#1)!\dist!(#3)$) -- cycle;
-            }
-        }
-
-        % Draw the arcs first (since faces have to be drawn on top)
-        
-        % 1
-        \vertArc<6-10>{Z}{P1}{P2}
-        \vertArc<11-13>{P2}{Z}{P1}
-        \vertArc<16>{P1}{P2}{Z}
-        
-        % 2
-        \vertArc<7-10>{Z}{P2}{P3}
-        \vertArc<11-13>{P2}{P3}{Z}
-        \vertArc<14-15>{P3}{Z}{P2}
-
-        % 3
-        \vertArc<8-10>{Z}{P3}{P4}
-        \vertArc<14-15>{P3}{P4}{Z}
-        \vertArc<18>{P4}{Z}{P3}
-
-        % 4
-        \vertArc<9-10>{Z}{P0}{P1}
-        \vertArc<16>{P1}{Z}{P0}
-        \vertArc<18>{P0}{P1}{Z}
-
-        % 5
-        \vertArc<12-13>{P2}{P1}{Q12}
-        \vertArc<16>{P1}{Q12}{P2}
-        \vertArc<19>{Q12}{P2}{P1}
-
-        % 6
-        \vertArc<13>{P2}{Q23}{P3}
-        \vertArc<14-15>{P3}{P2}{Q23}
-        \vertArc<19>{Q23}{P3}{P2}
-
-        % 7
-        \vertArc<15>{P3}{Q34}{P4}
-        \vertArc<18>{P4}{P3}{Q34}
-        \vertArc<19>{Q34}{P4}{P3}
-
-        % 8
-        \vertArc<16>{P1}{P0}{Q01}
-        \vertArc<18>{P0}{Q01}{P1}
-        \vertArc<19>{Q01}{P1}{P0}
 
 
         % First vertex
 
         % 1
-        \onslide<5->{
             \node at (barycentric cs:Z=1,P1=1,P2=1) {1};
             \draw[\colA,\width] (Z) -- (P2);
             \draw[\colB,\width] (Z) -- (P1);
             \draw[\colC,\width] (P1) -- (P2);
-        }
 
         % 2
-        \onslide<7->{
             \node at (barycentric cs:Z=1,P2=1,P3=1) {2};
             \draw[\colB,\width] (Z) -- (P3);
             \draw[\colC,\width] (P2) -- (P3);
-        }
 
         % 3
-        \onslide<8->{
             \node at (barycentric cs:Z=1,P3=1,P4=1) {3};
             \draw[\colC,\width] (P3) -- (P4);
             \draw[\colA,\width] (Z) -- (P4);
-        }
 
         % 4
-        \onslide<9->{
             \node at (barycentric cs:Z=1,P0=1,P1=1) {4};
             \draw[\colA,\width] (Z) -- (P0);
             \draw[\colC,\width] (P0) -- (P1);
-        }
 
-        \onslide<10->{
             \draw[\colA,\width,dotted] ($(Z)!0.5!(P4)$) to[bend right] ($(Z)!0.5!(P0)$);
-        }
 
-        \onslide<6-10>{
-            \vertex{Z}
-        }
 
 
         % Second vertex
 
         % 5
-        \onslide<12->{
             \node at (barycentric cs:P1=1,P2=1,Q12=1) {5};
             \draw[\colB,\width] (P1) -- (Q12);
             \draw[\colA,\width] (P2) -- (Q12);
-        }
 
         % 6
-        \onslide<13->{
             \node at (barycentric cs:P2=1,P3=1,Q23=1) {6};
             \draw[\colA,\width] (P2) -- (Q23);
             \draw[\colA,\width,dotted] ($(P2)!0.5!(Q23)$) to[bend left] ($(P2)!0.5!(Q12)$);
             \draw[\colB,\width] (P3) -- (Q23);
-        }
-
-        \onslide<11-13>{
-            \vertex{P2}
-        }
 
 
         % Third vertex
 
         % 7
-        \onslide<15->{
             \node at (barycentric cs:P3=1,P4=1,Q34=1) {7};
             \draw[\colB,\width] (P3) -- (Q34);
             \draw[\colB,\width,dotted] ($(P3)!0.5!(Q23)$) to[bend right] ($(P3)!0.5!(Q34)$);
             \draw[\colA,\width] (P4) -- (Q34);
-        }
 
-        \onslide<14-15>{
-            \vertex{P3}
-        }
 
         % Fourth vertex
 
         % 8
-        \onslide<16->{
             \node at (barycentric cs:P0=1,P1=1,Q01=1) {8};
             \draw[\colB,\width] (P1) -- (Q01);
             \draw[\colB,\width,dotted] ($(P1)!0.5!(Q01)$) to[bend right] ($(P1)!0.5!(Q12)$);
             \draw[\colA,\width] (P0) -- (Q01);
-        }
-        \onslide<16>{
-            \vertex{P1}
-        }
 
 
-        \onslide<17->{
             \draw[\colA,\width,dotted] ($(P0)!0.5!(Q01)$) to[bend left=60] ($(P4)!0.5!(Q34)$);
-        }
 
-        % Fifth vertex
-        \onslide<18>{
-            \vertex{P0}
-            \vertex{P4}
-        }
-
-        % Sixth vertex
-        \onslide<19>{
-            \vertex{Q01}
-            \vertex{Q12}
-            \vertex{Q23}
-            \vertex{Q34}
-        }
+        \foreach \p in {Z,P0,P1,P2,P3,P4,Q01,Q12,Q23,Q34}
+            \fill[gray] (\p) circle (1pt);
 
 
         \begin{scope}[xshift=6cm]
@@ -404,7 +318,7 @@
                 \coordinate (Up) at ($(Center)+(0,\h*\len)$);
                 \coordinate (Down) at ($(Center)+(0,-\h*\len)$);
 
-                \onslide<20->{
+                \onslide<4>{
                     \draw[\colA,\width] (Up) -- (Mid) -- (Down);
                     \draw[\colA,\width,dashed] (Up) -- (Back) -- (Down);
                     \draw[\colB,\width] (Up) -- (Right) -- (Down) -- (Left) -- cycle;
@@ -423,6 +337,7 @@
         \end{scope}
     \end{tikzpicture}
     \end{center}
+    }
 \end{frame}
 
 
@@ -578,7 +493,7 @@
             \node[VertexStyle] at (V12_2) {\tiny 12};
 
         \end{tikzpicture}
-    }
+        }
 \end{frame}
 
 \begin{frame}{Embedded icosahedron}
@@ -591,6 +506,31 @@
 \end{frame}
             
 
+\begin{frame}{Further research}
+    \begin{itemize}
+        \pause
+        \item Structural properties of coloured surfaces
+        \pause
+        \item Embedding of surfaces into $\R^3$
+        \pause
+        \item Folding of surfaces (description and classification)
+        \pause
+        \item GAP--implementation of this theory
+    \end{itemize}
+
+    \pause
+    \vfill
+    \begin{center}
+        {\LARGE Thanks for your attention}
+    \end{center}
+
+    \vfill
+    {\small
+    Alice Niemeyer \hfill Markus Baumeister
+
+    Wilhelm Plesken \hfill Ansgar Strzelczyk
+    }
+\end{frame}
 
 
 \end{document}
