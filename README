@@ -19,6 +19,12 @@ installation and type
     git clone https://github.com/frankluebeck/GAPDoc.git
     git clone https://github.com/gap-packages/AutoDoc.git
 
+To get the Nauty-Traces-Interface use
+    git clone https://github.com/sebasguts/NautyTracesInterface.git
+and perform the initialization from the README (you need automake and libtools
+installed).
+
+
 At the moment, the manual is still a work in process and definitely unfinished.
 The current version of the manual can be found in the (unstable) branch 
 "rewrite". To see it, use (in the main directory)
