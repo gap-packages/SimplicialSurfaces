@@ -995,22 +995,23 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 
 #! @Section Circular path of edges and faces around vertex
 #! @SectionLabel Access_OrderedVertexAccess
-#TODO
-#! <Enum>
-#!   <Item><E>Ordering around a vertex</E>
-#!         <Par/>
+#! 
 #!         For polygonal surfaces (that were introduced in section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
 #!         ordering of the edges and 
 #!         faces that are incident to a vertex. It is achieved by "travelling 
-#!         around the vertex" while staying on the surface.
+#!         around the vertex" while staying on the surface. We formalize this
+#! by <E>edge-face-paths</E>.
 #!         <Alt Only="TikZ">
 #!           \input{Image_EdgeFacePath.tex}
 #!         </Alt>
-#!         This is captured in the concept of an <E>edge-face-path</E>, which
-#!         is defined in subsection
-#!         <Ref Subsect="Definition_EdgeFacePath_Vertex"/>.
-#!    </Item>
-#! </Enum>
-
+#! <Par/>
+#! <#Include Label="EdgeFacePath_Definition">
+#! <Par/>
+#! <Par/>
+#! In the image above we have the closed edge-face-path 
+#! <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4)</M> and 
+#! the non-closed face-edge-path 
+#! <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4)</M>.
+#! 
     

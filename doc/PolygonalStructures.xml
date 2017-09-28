@@ -302,7 +302,7 @@
         </Alt>
 
         Although these structures are not true surfaces, in many applications 
-        they behave like those (for example for questions of orientability).
+        they behave very similar (for example for questions of orientability).
         <!-- TODO link to orientability chapter or give better example with link-->
  
         <ManSection>
@@ -395,15 +395,7 @@
         connected by edges that are incident to the given vertex. More formally:
         <Subsection Label="Definition_EdgeFacePath_Vertex">
             <Heading>Definition (Edge-Face-Path around a vertex)</Heading>
-                An <E>edge-face-path around the vertex <M>V</M></E> is a tuple
-                <M>(e_1,f_1,e_2,f_2, \ldots, e_n, f_n, e_{{n+1}})</M>
-                with <M>f_i</M> pairwise distinct faces and <M>e_i</M> pairwise
-                distinct edges (with the possible exception of 
-                <M>e_1 = e_{{n+1}}</M> in the case <M>n > 1</M>), such that the
-                vertex <M>V</M> is incident to all of them.
-                <Par/>
-                If <M>e_1 = e_{{n+1}}</M> the path is called <E>closed</E> and
-                we also denote it by <M>(e_1,f_1,e_2,f_2,\ldots, e_n,f_n)</M>.
+                <#Include Label="EdgeFacePath_Definition">
                 <Alt Only="Tikz">
                     \input{Image_EdgeFacePath.tex}
                 </Alt>
