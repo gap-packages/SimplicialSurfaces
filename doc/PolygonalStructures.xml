@@ -12,7 +12,8 @@
     structure that we consider in this package is a polygonal complex (a 
     generalisation of simplicial surfaces and complexes).
     <Par/>
-    Polygonal Complexes are structures that are build from polygons (for the exact
+    <E>Polygonal Complexes</E> are structures that are build from polygons 
+    (for the exact
     definition, see section <Ref Sect="PolygonalStructures_complex"/>), like
     <Alt Only="TikZ">
         \input{Image_ManyExamples.tex}

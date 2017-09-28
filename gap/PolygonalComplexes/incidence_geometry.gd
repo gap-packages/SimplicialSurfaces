@@ -1045,3 +1045,33 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! with the smallest second entry (<M>f_2</M> or <M>f_1</M>).
 #! 
     
+#! @BeginGroup
+#! @Description
+#! The method <K>EdgeFacePathOfVertex</K>(<A>surface</A>,<A>vertex</A>)
+#! returns an edge-face-path around <A>vertex</A> (as defined in section
+#! <Ref Sect="Section_Access_OrderedVertexAccess"/>) that contains all edges
+#! and faces incident to <A>vertex</A>, with the following 
+#! conventions:
+#! * The first entry of the edge-face-path is minimal.
+#! * In the case of a closed edge-face-path, after restricting with the
+#!   first convention, the second entry of the edge-face-path is minimal.
+#! <Par/>
+#! The attribute <K>EdgeFacePathsOfVertices</K>(<A>surface</A>) collects all
+#! of those edge-face-paths in a list that is indexed by the vertex labels,
+#! i.e. <K>EdgeFacePathsOfVertices</K>(<A>surface</A>)[<A>vertex</A>] = 
+#! <K>EdgeFacePathOfVertex</K>(<A>surface</A>, <A>vertex</A>). All other 
+#! positions of this list are not bounded.
+#! <Par/>
+#! As example consider the following polygonal surface:
+##TODO
+#!
+#! @Returns a list of edge-face-paths
+#! @Arguments surface
+DeclareAttribute( EdgeFacePathsOfVertices, IsPolygonalSurface );
+#! @Returns an edge-face-path
+#! @Arguments surface, vertex
+DeclareOperation( EdgeFacePathOfVertex, [IsPolygonalSurface, IsPosInt] );
+#! @Arguments surface, vertex
+DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
+#! @EndGroup
+
