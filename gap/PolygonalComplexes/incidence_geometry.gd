@@ -995,7 +995,12 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 
 #! @Section Circular path of edges and faces around vertex
 #! @SectionLabel Access_OrderedVertexAccess
-#! 
+#!
+##
+## We have to be careful here since people might see this section very
+## early (if they are led by the headings). Therefore we can't assume that
+## they know the polygonal hierarchy.
+##
 #!         For polygonal surfaces (that were introduced in section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
 #!         ordering of the edges and 
@@ -1008,10 +1013,35 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! <Par/>
 #! <#Include Label="EdgeFacePath_Definition">
 #! <Par/>
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}
+#!      \input{Image_EdgeFacePath_open.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! In the image above we have two edge-face-paths that contain all edges and
+#! faces that are incident to the vertex <M>V</M>, namely
+#! <M>(e_1,f_1,e_2,f_2,e_3,f_3,e_4)</M> and 
+#! <M>(e_4,f_3,e_3_f_2,e_2,f_1,e_1)</M>. Both of them encode the same
+#! information. By convention, we will choose the path with the smaller first 
+#! entry
+#! (<M>e_1</M> or <M>e_4</M>) to be <E>the</E> edge-face-path of <M>V</M>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}
+#!     \input{Image_EdgeFacePath_closed.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! In this image we have ten different closed edge-face-paths that contain all
+#! edges and faces that are incident to the vertex <M>V</M>, like
+#!  <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4)</M> and 
+#! <M>(e_3,f_2,e_2,f_1,e_1,f_5,e_5,f_4,e_4,f_3)</M>. Up to cyclic permutation
+#! and inversion they are equivalent (they form an orbit under the dihedral 
+#! group of order
+#! 10).
 #! <Par/>
-#! In the image above we have the closed edge-face-path 
-#! <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4)</M> and 
-#! the non-closed face-edge-path 
-#! <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4)</M>.
+#! If we have to pick one by convention, we will choose the first entry to be
+#! minimal, say <M>e_2</M>. This leaves us with the two paths
+#! <M>(e_2,f_2,...)</M> and <M>(e_2,f_1,...)</M>. Of those, we pick the one
+#! with the smallest second entry (<M>f_2</M> or <M>f_1</M>).
 #! 
     
