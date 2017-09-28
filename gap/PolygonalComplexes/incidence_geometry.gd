@@ -1021,7 +1021,7 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! In the image above we have two edge-face-paths that contain all edges and
 #! faces that are incident to the vertex <M>V</M>, namely
 #! <M>(e_1,f_1,e_2,f_2,e_3,f_3,e_4)</M> and 
-#! <M>(e_4,f_3,e_3_f_2,e_2,f_1,e_1)</M>. Both of them encode the same
+#! <M>(e_4,f_3,e_3,f_2,e_2,f_1,e_1)</M>. Both of them encode the same
 #! information. By convention, we will choose the path with the smaller first 
 #! entry
 #! (<M>e_1</M> or <M>e_4</M>) to be <E>the</E> edge-face-path of <M>V</M>.
@@ -1033,15 +1033,16 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! </Alt>
 #! In this image we have ten different closed edge-face-paths that contain all
 #! edges and faces that are incident to the vertex <M>V</M>, like
-#!  <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4)</M> and 
-#! <M>(e_3,f_2,e_2,f_1,e_1,f_5,e_5,f_4,e_4,f_3)</M>. Up to cyclic permutation
+#!  <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4, e_5, f_5)</M> and 
+#! <M>(e_3, f_2, e_2, f_1, e_1, f_5, e_5, f_4, e_4, f_3)</M>. Up to cyclic 
+#! permutation
 #! and inversion they are equivalent (they form an orbit under the dihedral 
 #! group of order
 #! 10).
 #! <Par/>
 #! If we have to pick one by convention, we will choose the first entry to be
 #! minimal, say <M>e_2</M>. This leaves us with the two paths
-#! <M>(e_2,f_2,...)</M> and <M>(e_2,f_1,...)</M>. Of those, we pick the one
+#! <M>(e_2,f_2,\ldots)</M> and <M>(e_2,f_1,\ldots)</M>. Of those, we pick the one
 #! with the smallest second entry (<M>f_2</M> or <M>f_1</M>).
 #! 
     
@@ -1063,8 +1064,42 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! positions of this list are not bounded.
 #! <Par/>
 #! As example consider the following polygonal surface:
-##TODO
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}
+#!     \def\dist{1.5}
+#!     \coordinate[label={[vertex]right:2}] (P2) at (0,0);
+#!     \coordinate[label={[vertex]right:3}] (P3) at (0,2*\dist);
+#!     \coordinate[label={[vertex]right:5}] (P5) at (\dist,\dist);
+#!     \coordinate[label={[vertex]right:6}] (P6) at (\dist,-\dist);
+#!     \coordinate[label={[vertex]left:7}] (P7) at (-\dist,-\dist);
+#!     \coordinate[label={[vertex]left:9}] (P9) at (-\dist,\dist);
 #!
+#!     \filldraw[face] (P2) -- (P5) -- (P3) -- (P9) -- cycle;
+#!     \node at (barycentric cs:P2=1,P3=1,P5=1,P9=1) {$IV$};
+#!     \filldraw[face] (P2) -- (P5) -- (P6) -- cycle;
+#!     \node at (barycentric cs:P2=1,P5=1,P6=1) {$V$};
+#!     \filldraw[face] (P2) -- (P6) -- (P7) -- cycle;
+#!     \node at (barycentric cs:P2=1,P6=1,P7=1) {$I$};
+#!     \filldraw[face] (P2) -- (P7) -- (P9) -- cycle;
+#!     \node at (barycentric cs:P2=1,P7=1,P9=1) {$II$};
+#!
+#!     \drawEdge{P3}{P9}{1}
+#!     \drawEdge{P3}{P5}{2}
+#!     \drawEdge{P7}{P9}{3}
+#!     \drawEdge{P2}{P9}{4}
+#!     \drawEdge{P2}{P5}{5}
+#!     \drawEdge{P5}{P6}{6}
+#!     \drawEdge{P2}{P7}{7}
+#!     \drawEdge{P2}{P6}{8}
+#!     \drawEdge{P6}{P7}{9}
+#!
+#!     \foreach \p in {P2,P3,P5,P6,P7,P9}
+#!       \fill[vertex] (\p) circle (\vSize);
+#!
+#!     \node[vertex] at (barycentric cs:P2=4,P5=1,P6=1) {2};
+#!   \end{tikzpicture}
+#! </Alt>
+#! 
 #! @Returns a list of edge-face-paths
 #! @Arguments surface
 DeclareAttribute( EdgeFacePathsOfVertices, IsPolygonalSurface );

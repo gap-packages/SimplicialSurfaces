@@ -30,7 +30,7 @@ BindGlobal("__SIMPLICIAL_TikZHeader", "\\input{TikZHeader.tex}\n\n" );
 preProcessTikz := function( node )
     local cont, n1, n2, n3, file, output, name, htmlString, consoleString, 
         path, tmpName, tmpFile, sysDirPath, md5, out, inStream, outStream,
-        hash, tmpImageName;
+        hash, tmpImageName, latexString;
 
     if node.name = "Alt" and IsBound(node.attributes.Only) and 
         node.attributes.Only in ["TikZ","Tikz"] then
@@ -156,13 +156,12 @@ preProcessTikz := function( node )
         # Step 8 will be done in the htmlString below
        
 
-        # We want to include this in the LaTeX version (we only have to 
-        # rewrite the alt-name);
-        n1 := StructuralCopy(node);
+        # Inclusion in the LaTeX-version is centered
+        latexString := Concatenation( "\n\\begin{center}\n",
+            "\\includegraphics{", name, ".pdf}\n\\end{center}\n" );
+        n1 := ParseTreeXMLString(latexString);
+        n1.name := "Alt";
         n1.attributes.Only := "LaTeX";
-        # center the picture
-        n1.content[1].content := Concatenation( "\n\\begin{center}\n",
-        "\\includegraphics{", name, ".pdf}\n\\end{center}\n" );
 
         # To include it in the HTML-version we have to use a different node
         htmlString := Concatenation(
