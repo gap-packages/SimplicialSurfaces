@@ -1009,6 +1009,10 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 ## immediately. This is a wonderful way of using an example since the question
 ## will be answered by looking at any example.
 ##
+## Right now, this can't happen since the labels are all different (this is
+## useful to find the appropriate numbers more effectively - especially if
+## some of the are roman numerals).
+##
 #!         For polygonal surfaces (that were introduced in section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
 #!         ordering of the edges and 

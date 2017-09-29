@@ -1178,7 +1178,8 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 ##      Edge-Face-Paths around vertices
 ##
-
+__SIMPLICIAL_AddPolygonalAttribute(EdgeFacePathPartitionsOfVertices);
+__SIMPLICIAL_AddPolygonalAttribute(EdgeFacePathsOfVertices);
 
 
 ##

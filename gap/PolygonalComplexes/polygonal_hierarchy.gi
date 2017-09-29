@@ -53,16 +53,16 @@ InstallMethod( "IsRamifiedPolygonalSurface", "for a polygonal complex",
 ## Check whether a ramified polygonal surface is a polygonal surface
 ##
 InstallMethod( "IsPolygonalSurface", "for a ramified polygonal surface",
-    [ IsRamifiedPolygonalSurface ],
+    [ IsPolygonalComplex ],
     function( ramSurf )
         local paths, pathSize;
 
-        paths := EdgeFacePathPartitionOfVertices(ramSurf);
+        if not IsRamifiedPolygonalSurface( ramSurf ) then
+            return false;
+        fi;
+
+        paths := EdgeFacePathPartitionsOfVertices(ramSurf);
         pathSize := List( Vertices(ramSurf), v -> Size(paths[v]) );
         return Filtered(pathSize, s -> s > 1) = 0;
     end
 );
-    RedispatchOnCondition( IsPolygonalSurface, true, [IsPolygonalComplex],
-        [IsRamifiedPolygonalSurface], 0);
-#TODO maybe redefine this property to be computable on polygonal complexes?
-# Right now the result of a computation is not meaningful.
