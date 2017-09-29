@@ -413,40 +413,8 @@
             such that all edges and faces incident to that vertex lie in exactly
             one of those paths. This is called the <E>edge-face-path partition</E>
             of the vertex.
+            TODO
 
-            <ManSection>
-                <Attr Name="EdgeFacePathPartitionsOfVertices" Arg="ramSurf"
-                    Comm="Return edge-face-path partitions of all vertices"/>
-                <Returns>A list of edge-face-path partitions (who are lists 
-                    themselves)</Returns>
-                <Oper Name="EdgeFacePathPartitionOfVertex" 
-                    Arg="ramSurf, vertex"
-                    Comm="Return edge-face-paths of one vertex"/>
-                <Oper Name="EdgeFacePathPartitionOfVertexNC" 
-                    Arg="ramSurf, vertex"/>
-                <Returns>The edge-face-path partition of a vertex (as list)
-                    </Returns>
-                <Description>
-                    For each vertex <M>V</M> the edge-face-path partition of 
-                    this vertex is a list of edge-face-paths of this vertex 
-                    (see definition 
-                    <Ref Subsect="Definition_EdgeFacePath_Vertex"/>) such that
-                    all edges and faces that are incident to <M>V</M> lie in
-                    exactly one of those edge-face-paths.
-                    <Par/>
-                    Each edge-face-path is given as a list
-                    <M>[e_1,f_1,e_2,f_2,\ldots, e_n, f_n]</M> (for a closed
-                    path) or <M>[e_1,f_1,e_2,\ldots, e_n,f_n,e_{{n+1}}]</M>
-                    (for an open path).
-                    <Par/>
-                    The attribute <K>EdgeFacePathPartitionsOfVertices</K>
-                    returns a list such that the entry <M>V</M> holds the
-                    edge-face-path partition of the vertex <M>V</M>. All
-                    other entries of the list are unbounded.
-                    <!--TODO make a good example-->
-                </Description>
-            </ManSection>
-  
             <ManSection>
                 <Prop Name="IsPolygonalSurface" Arg="object"
                     Comm="Checks whether the given object is a polygonal surface."/>

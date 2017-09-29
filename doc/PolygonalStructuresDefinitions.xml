@@ -65,12 +65,16 @@ definition <Ref Subsect="Definition_EdgeFacePath_Vertex"/>).
 
 <#GAPDoc Label="EdgeFacePath_Definition">
 An <E>edge-face-path around the vertex <M>V</M></E> is a tuple
-<M>(e_1,f_1,e_2,f_2, \ldots, e_n, f_n, e_{{n+1}})</M>
-with <M>f_i</M> pairwise distinct faces and <M>e_i</M> pairwise
-distinct edges (with the possible exception of 
-<M>e_1 = e_{{n+1}}</M> in the case <M>n > 1</M>), such that the
-vertex <M>V</M> is incident to all of them.
-<Par/>
+<M>(e_1,f_1,e_2,f_2, \ldots, e_n, f_n, e_{{n+1}})</M> such that:
+<List>
+    <Item>The <M>f_i</M> are pairwise disjoint faces incident to <M>V</M>.
+        </Item>
+    <Item>The <M>e_i</M> are pairwise disjoint edges incident to <M>V</M>
+        (with the possible exception of <M>e_1 = e_{{n+1}}</M> in the case
+        <M>n > 1</M>).</Item>
+    <Item>The edges <M>e_i</M> and <M>e_{{i+1}}</M> are incident to <M>f_i</M>
+        for all <M>i</M>.</Item>
+</List>
 If <M>e_1 = e_{{n+1}}</M> the path is called <E>closed</E> and
 we also denote it by <M>(e_1,f_1,e_2,f_2,\ldots, e_n,f_n)</M>.
 <#/GAPDoc>

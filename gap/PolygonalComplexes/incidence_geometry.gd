@@ -1001,6 +1001,14 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 ## early (if they are led by the headings). Therefore we can't assume that
 ## they know the polygonal hierarchy.
 ##
+## WARNING: We have to be careful with our examples - it should always be
+## obvious whether we start with an edge or with a face. There should never
+## be an example where the first three (better: two) elements of the path might be
+## [face, edge, face], since this might cause confusion in readers.
+## Why "never"? Because if someone has this question, it should be answered
+## immediately. This is a wonderful way of using an example since the question
+## will be answered by looking at any example.
+##
 #!         For polygonal surfaces (that were introduced in section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
 #!         ordering of the edges and 
@@ -1046,7 +1054,7 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! with the smallest second entry (<M>f_2</M> or <M>f_1</M>).
 #! 
     
-#! @BeginGroup
+#! @BeginGroup EdgeFacePathSingle
 #! @Description
 #! The method <K>EdgeFacePathOfVertex</K>(<A>surface</A>,<A>vertex</A>)
 #! returns an edge-face-path around <A>vertex</A> (as defined in section
@@ -1067,12 +1075,12 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! given <A>surface</A>.
 #! <Par/>
 #! If you want to use edge-face-paths of ramified polygonal surfaces, please
-#! use TODO
+#! use the methods in <Ref Subsect="EdgeFacePathPartition"/>.
 #! <Par/>
 #! As example consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}
-#!     \def\dist{1.5}
+#!     \def\dist{1.8}
 #!     \coordinate[label={[vertex]right:2}] (P2) at (0,0);
 #!     \coordinate[label={[vertex]right:3}] (P3) at (2*\dist,0);
 #!     \coordinate[label={[vertex]below:5}] (P5) at (\dist,-\dist);
@@ -1081,23 +1089,23 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #!     \coordinate[label={[vertex]above:9}] (P9) at (\dist,\dist);
 #!
 #!     \filldraw[face] (P2) -- (P5) -- (P3) -- (P9) -- cycle;
-#!     \node at (barycentric cs:P2=1,P3=1,P5=1,P9=1) {$IV$};
+#!     \node at (barycentric cs:P2=1,P3=1,P5=1,P9=1) {$XVI$};
 #!     \filldraw[face] (P2) -- (P5) -- (P6) -- cycle;
-#!     \node at (barycentric cs:P2=1,P5=1,P6=1) {$V$};
+#!     \node at (barycentric cs:P2=1,P5=1,P6=1) {$XV$};
 #!     \filldraw[face] (P2) -- (P6) -- (P7) -- cycle;
 #!     \node at (barycentric cs:P2=1,P6=1,P7=1) {$I$};
 #!     \filldraw[face] (P2) -- (P7) -- (P9) -- cycle;
-#!     \node at (barycentric cs:P2=1,P7=1,P9=1) {$II$};
+#!     \node at (barycentric cs:P2=1,P7=1,P9=1) {$XI$};
 #!
-#!     \drawEdge{P3}{P9}{1}
-#!     \drawEdge{P3}{P5}{2}
-#!     \drawEdge{P7}{P9}{3}
+#!     \drawEdge{P3}{P9}{19}
+#!     \drawEdge{P3}{P5}{18}
+#!     \drawEdge{P7}{P9}{13}
 #!     \drawEdge{P2}{P9}{4}
-#!     \drawEdge{P2}{P5}{5}
-#!     \drawEdge{P5}{P6}{6}
-#!     \drawEdge{P2}{P7}{7}
-#!     \drawEdge{P2}{P6}{8}
-#!     \drawEdge{P6}{P7}{9}
+#!     \drawEdge{P2}{P5}{8}
+#!     \drawEdge{P5}{P6}{17}
+#!     \drawEdge{P2}{P7}{12}
+#!     \drawEdge{P2}{P6}{10}
+#!     \drawEdge{P6}{P7}{14}
 #!
 #!     \foreach \p in {P2,P3,P5,P6,P7,P9}
 #!       \fill[vertex] (\p) circle (\vSize);
@@ -1128,9 +1136,78 @@ DeclareOperation( EdgeFacePathOfVertex, [IsPolygonalSurface, IsPosInt] );
 DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
 #! @EndGroup
 
-#! For ramified polygonal surfaces it might happen that there is no 
+#! For ramified polygonal surfaces it might happen that there is no single
 #! edge-face-path that contains all edges and faces that are incident to one
 #! vertex.
 #! <Alt Only="TikZ">
 #!   \input{Image_EdgeFacePath_ramified.tex}
 #! </Alt>
+#! But there is a set of edge-face-paths that <E>partitions</E> the incident
+#! edges and faces (i.e. every incident edge or face appears in exactly one
+#! of the edge-face-paths). In the above image, the edge-face-partition of
+#! the vertex 1 is
+#! <M>[ [ 2, 3, 4, 1, 6, 5 ], [ 7, 6, 8, 2, 9 ] ]</M>.
+
+#! @BeginGroup EdgeFacePathPartition
+#! @Description
+#! The method 
+#! <K>EdgeFacePathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>) returns
+#! a set of edge-face-paths around <A>vertex</A> (as defined in section
+#! <Ref Sect="Section_Access_OrderedVertexAccess"/>) that partition the edges
+#! and faces incident to <A>vertex</A> (i.e. each of them appears in exactly
+#! one edge-face-path).
+#! <Par/>
+#! The result is determined as follows:
+#! * The partition of edges and faces is unique (reachability by 
+#!   edge-face-paths around <A>vertex</A>).
+#! * For every set in this partition there are edge-face-paths
+#!   that contain every element of the set.
+#! * The first entry of the returned edge-face-path will be as small as
+#!   possible.
+#! * The second entry of the returned edge-face-path will be as small as
+#!   possible (after having minimized the first entry). This condition is
+#!   non-trivial only for closed edge-face-paths.
+#! <Par/>
+#! The attribute <K>EdgeFacePathPartitionsOfVertices</K>(<A>ramSurf</A>)
+#! collects these partitions in a list (indexed by the vertex
+#! labels), i.e. 
+#! <K>EdgeFacePathPartitionsOfVertices</K>(<A>ramSurf</A>)[<A>vertex</A>] =
+#! <K>EdgeFacePathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>).
+#! All other positions of this list are not bounded.
+#! <Par/>
+#! If you have a <E>polygonal surface</E> you might want to use the methods
+#! in <Ref Subsect="EdgeFacePathSingle"/> that return unique edge-face-paths.
+#! <Par/>
+#! The NC-version does not check whether <A>vertex</A> lies in <A>ramSurf</A>.
+#! <Par/>
+#! As example consider the ramified polygonal surface
+#! <Alt Only="TikZ">
+#!   \input{Image_EdgeFacePath_ramified.tex}
+#! </Alt>
+#! @BeginExample
+ramSurf := RamifiedPolygonalSurfaceByDownwardIncidence(
+    [ [3,5],[3,1],[3,4],[1,5],[4,5],[1,4],[1,7],[1,8],[1,9],[7,8],[8,9] ],
+    [ [6,5,4], [8,9,11], [2,4,1], , [2,3,6], [7,10,8] ] );;
+EdgeFacePathPartitionOfVertex(ramSurf, 1);
+#! [ [ 2, 3, 4, 1, 6, 5 ], [ 7, 6, 8, 2, 9 ] ]
+EdgeFacePathPartitionOfVertex(ramSurf, 4);
+#! [ [ 3, 5, 6, 1, 5 ] ]
+EdgeFacePathPartitionsOfVertices(ramSurf);
+#! [ [ [ 2, 3, 4, 1, 6, 5 ], [ 7, 6, 8, 2, 9 ] ], , [ [ 1, 3, 2, 5, 3 ] ], 
+#!      [ [ 3, 5, 6, 1, 5 ] ], [ [ 1, 3, 4, 1, 5 ] ], , [ [ 7, 6, 10 ] ],
+#!      [ [ 10, 6, 8, 2, 11 ] ], [ [ 9, 2, 11 ] ] ]
+#! @EndExample
+#!
+#! @Returns a list of sets of edge-face-paths
+#! @Arguments ramSurf
+DeclareAttribute( "EdgeFacePathPartitionsOfVertices", 
+        IsRamifiedPolygonalSurface );
+#! @Returns a set of edge-face-paths
+#! @Arguments ramSurf, vertex
+DeclareOperation( "EdgeFacePathPartitionOfVertex",
+        [ IsRamifiedPolygonalSurface, IsPosInt ]);
+#! @Arguments ramSurf, vertex
+DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
+        [ IsRamifiedPolygonalSurface, IsPosInt ]);
+#! @EndGroup
+
