@@ -1081,49 +1081,49 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}
 #!     \def\dist{1.8}
-#!     \coordinate[label={[vertex]right:2}] (P2) at (0,0);
-#!     \coordinate[label={[vertex]right:3}] (P3) at (2*\dist,0);
-#!     \coordinate[label={[vertex]below:5}] (P5) at (\dist,-\dist);
-#!     \coordinate[label={[vertex]below:6}] (P6) at (-\dist,-\dist);
-#!     \coordinate[label={[vertex]above:7}] (P7) at (-\dist,\dist);
-#!     \coordinate[label={[vertex]above:9}] (P9) at (\dist,\dist);
+#!     \coordinate (P2) at (0,0);
+#!     \coordinate[label={[vertex]right:8}] (PEE) at (2*\dist,0);
+#!     \coordinate[label={[vertex]below:9}] (PSE) at (\dist,-\dist);
+#!     \coordinate[label={[vertex]below:10}] (PSW) at (-\dist,-\dist);
+#!     \coordinate[label={[vertex]above:6}] (PNW) at (-\dist,\dist);
+#!     \coordinate[label={[vertex]above:7}] (PNE) at (\dist,\dist);
 #!
-#!     \filldraw[face] (P2) -- (P5) -- (P3) -- (P9) -- cycle;
-#!     \node at (barycentric cs:P2=1,P3=1,P5=1,P9=1) {$XVI$};
-#!     \filldraw[face] (P2) -- (P5) -- (P6) -- cycle;
-#!     \node at (barycentric cs:P2=1,P5=1,P6=1) {$XV$};
-#!     \filldraw[face] (P2) -- (P6) -- (P7) -- cycle;
-#!     \node at (barycentric cs:P2=1,P6=1,P7=1) {$I$};
-#!     \filldraw[face] (P2) -- (P7) -- (P9) -- cycle;
-#!     \node at (barycentric cs:P2=1,P7=1,P9=1) {$XI$};
+#!     \filldraw[face] (P2) -- (PNE) -- (PEE) -- (PSE) -- cycle;
+#!     \node at (barycentric cs:P2=1,PNE=1,PEE=1,PSE=1) {$III$};
+#!     \filldraw[face] (P2) -- (PSE) -- (PSW) -- cycle;
+#!     \node at (barycentric cs:P2=1,PSE=1,PSW=1) {$IV$};
+#!     \filldraw[face] (P2) -- (PSW) -- (PNW) -- cycle;
+#!     \node at (barycentric cs:P2=1,PSW=1,PNW=1) {$V$};
+#!     \filldraw[face] (P2) -- (PNW) -- (PNE) -- cycle;
+#!     \node at (barycentric cs:P2=1,PNW=1,PNE=1) {$II$};
 #!
-#!     \drawEdge{P3}{P9}{19}
-#!     \drawEdge{P3}{P5}{18}
-#!     \drawEdge{P7}{P9}{13}
-#!     \drawEdge{P2}{P9}{4}
-#!     \drawEdge{P2}{P5}{8}
-#!     \drawEdge{P5}{P6}{17}
-#!     \drawEdge{P2}{P7}{12}
-#!     \drawEdge{P2}{P6}{10}
-#!     \drawEdge{P6}{P7}{14}
+#!     \drawEdge{P2}{PNW}{11}
+#!     \drawEdge{P2}{PNE}{12}
+#!     \drawEdge{P2}{PSE}{13}
+#!     \drawEdge{P2}{PSW}{14}
+#!     \drawEdge{PNW}{PNE}{15}
+#!     \drawEdge{PNE}{PEE}{16}
+#!     \drawEdge{PEE}{PSE}{17}
+#!     \drawEdge{PSE}{PSW}{18}
+#!     \drawEdge{PSW}{PNW}{19}
 #!
-#!     \foreach \p in {P2,P3,P5,P6,P7,P9}
+#!     \foreach \p in {P2,PNW,PNE,PEE,PSE,PSW}
 #!       \fill[vertex] (\p) circle (\vSize);
 #!
-#!     \node[vertex] at (barycentric cs:P2=5,P5=1,P9=1) {2};
+#!     \node[vertex] at (barycentric cs:P2=5,PNE=1,PSE=1) {1};
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExample
 surface := PolygonalSurfaceByDownwardIncidence( 
-    [[3,9], [3,5], [9,7], [9,2], [2,5], [5,6], [7,2], [2,6], [7,6]],
-    [[7,8,9], [3,7,4], , [1,2,4,5], [6,5,8]]);;
-EdgeFacePathOfVertex(surface, 2);
-#! [ 4, 2, 7, 1, 8, 5, 5, 4 ]
-EdgeFacePathOfVertex(surface, 9);
-#! [ 1, 4, 4, 2, 3 ];
+    [,,,,,,,,,, [1,6],[1,7],[1,8],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
+    [[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
+EdgeFacePathOfVertex(surface, 1);
+#! [ 11, 2, 12, 3, 13, 4, 14, 5 ]
+EdgeFacePathOfVertex(surface, 7);
+#! [ 15, 2, 12, 3, 16 ];
 EdgeFacePathsOfVertices(surface);
-#! [ , [ 4, 2, 7, 1, 8, 5, 5, 4], [ 1, 4, 2 ], , [ 2, 4, 5, 5, 6 ], 
-#!           [ 6, 5, 8, 1, 9 ], [ 3, 2, 7, 1, 9 ], , [ 1, 4, 4, 2, 3 ] ];
+#! [ [ 11, 2, 12, 3, 13, 4, 14, 5 ], , , , , [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ], 
+#!      [ 16, 3, 17 ], [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ];
 #! @EndExample
 #! 
 #! @Returns a list of edge-face-paths
@@ -1146,7 +1146,8 @@ DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
 #! edges and faces (i.e. every incident edge or face appears in exactly one
 #! of the edge-face-paths). In the above image, the edge-face-partition of
 #! the vertex 1 is
-#! <M>[ [ 2, 3, 4, 1, 6, 5 ], [ 7, 6, 8, 2, 9 ] ]</M>.
+#! <M>[ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ]</M>.
+
 
 #! @BeginGroup EdgeFacePathPartition
 #! @Description
@@ -1186,16 +1187,16 @@ DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
 #! </Alt>
 #! @BeginExample
 ramSurf := RamifiedPolygonalSurfaceByDownwardIncidence(
-    [ [3,5],[3,1],[3,4],[1,5],[4,5],[1,4],[1,7],[1,8],[1,9],[7,8],[8,9] ],
-    [ [6,5,4], [8,9,11], [2,4,1], , [2,3,6], [7,10,8] ] );;
+    [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],[1,8],[1,10],[1,12],[8,10],[10,12] ],
+    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
 EdgeFacePathPartitionOfVertex(ramSurf, 1);
-#! [ [ 2, 3, 4, 1, 6, 5 ], [ 7, 6, 8, 2, 9 ] ]
-EdgeFacePathPartitionOfVertex(ramSurf, 4);
-#! [ [ 3, 5, 6, 1, 5 ] ]
+#! [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ]
+EdgeFacePathPartitionOfVertex(ramSurf, 5);
+#! [ [ 13, 3, 14, 2, 15 ] ]
 EdgeFacePathPartitionsOfVertices(ramSurf);
-#! [ [ [ 2, 3, 4, 1, 6, 5 ], [ 7, 6, 8, 2, 9 ] ], , [ [ 1, 3, 2, 5, 3 ] ], 
-#!      [ [ 3, 5, 6, 1, 5 ] ], [ [ 1, 3, 4, 1, 5 ] ], , [ [ 7, 6, 10 ] ],
-#!      [ [ 10, 6, 8, 2, 11 ] ], [ [ 9, 2, 11 ] ] ]
+#! [ [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ], , , , 
+#!      [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ], [ [ 15, 2, 18, 4, 17 ] ],
+#!      [ [ 19, 11, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ]
 #! @EndExample
 #!
 #! @Returns a list of sets of edge-face-paths
