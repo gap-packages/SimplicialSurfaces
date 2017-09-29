@@ -1074,8 +1074,9 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! The NC-version does not check whether the given <A>vertex</A> lies in the
 #! given <A>surface</A>.
 #! <Par/>
-#! If you want to use edge-face-paths of ramified polygonal surfaces, please
-#! use the methods in <Ref Subsect="EdgeFacePathPartition"/>.
+#! For ramified polygonal surfaces the edge-face-paths around a vertex are
+#! not unique. Then you have to use the methods in
+#! <Ref Subsect="EdgeFacePathPartition"/> that return all of those paths.
 #! <Par/>
 #! As example consider the following polygonal surface:
 #! <Alt Only="TikZ">
@@ -1154,20 +1155,22 @@ DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
 #! The method 
 #! <K>EdgeFacePathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>) returns
 #! a set of edge-face-paths around <A>vertex</A> (as defined in section
-#! <Ref Sect="Section_Access_OrderedVertexAccess"/>) that partition the edges
-#! and faces incident to <A>vertex</A> (i.e. each of them appears in exactly
+#! <Ref Sect="Section_Access_OrderedVertexAccess"/>). The edges
+#! and faces incident to <A>vertex</A> are partitioned by these paths
+#! (i.e. each of them appears in exactly
 #! one edge-face-path).
 #! <Par/>
 #! The result is determined as follows:
 #! * The partition of edges and faces is unique (reachability by 
 #!   edge-face-paths around <A>vertex</A>).
-#! * For every set in this partition there are edge-face-paths
-#!   that contain every element of the set.
-#! * The first entry of the returned edge-face-path will be as small as
-#!   possible.
-#! * The second entry of the returned edge-face-path will be as small as
-#!   possible (after having minimized the first entry). This condition is
-#!   non-trivial only for closed edge-face-paths.
+#! * Every set in this partition consists of the elements of exactly
+#!   one edge-face-path. For each set there are several options. We choose
+#!   one of those by this convention:
+#!   * The first entry of the returned edge-face-path will be as small as
+#!     possible.
+#!   * The second entry of the returned edge-face-path will be as small as
+#!     possible (after having minimized the first entry). This condition is
+#!     non-trivial only for closed edge-face-paths.
 #! <Par/>
 #! The attribute <K>EdgeFacePathPartitionsOfVertices</K>(<A>ramSurf</A>)
 #! collects these partitions in a list (indexed by the vertex
@@ -1176,12 +1179,14 @@ DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
 #! <K>EdgeFacePathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>).
 #! All other positions of this list are not bounded.
 #! <Par/>
-#! If you have a <E>polygonal surface</E> you might want to use the methods
-#! in <Ref Subsect="EdgeFacePathSingle"/> that return unique edge-face-paths.
+#! If you have a <E>polygonal surface</E>, all partition will only consist of
+#! one element. In this case, the methods
+#! in <Ref Subsect="EdgeFacePathSingle"/> will only return these unique 
+#! edge-face-paths.
 #! <Par/>
 #! The NC-version does not check whether <A>vertex</A> lies in <A>ramSurf</A>.
 #! <Par/>
-#! As example consider the ramified polygonal surface
+#! As example consider the following ramified polygonal surface.
 #! <Alt Only="TikZ">
 #!   \input{Image_EdgeFacePath_ramified.tex}
 #! </Alt>
@@ -1211,4 +1216,5 @@ DeclareOperation( "EdgeFacePathPartitionOfVertex",
 DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
         [ IsRamifiedPolygonalSurface, IsPosInt ]);
 #! @EndGroup
+#TODO maybe add method EdgeFacePathOfVertex for ramified that throws an error if not unique?
 
