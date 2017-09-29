@@ -1181,6 +1181,20 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 __SIMPLICIAL_AddPolygonalAttribute(EdgeFacePathPartitionsOfVertices);
 __SIMPLICIAL_AddPolygonalAttribute(EdgeFacePathsOfVertices);
 
+##
+## We will implement the connections between singular paths and partitions
+## first. Afterward we will connect the partitions with everything else.
+##
+
+InstallMethod( EdgeFacePathsOfVertices, 
+    "for a polygonal surface that has EdgeFacePathPartitionsOfVertices",
+    [IsPolygonalSurface and HasEdgeFacePathPartitionsOfVertices],
+    function( surface )
+        return List( EdgeFacePathPartitionsOfVertices(surface), p -> p[1] );
+    end
+);
+#    RedispatchOnCondition( EdgeFacePathsOfVertices, true, [IsPolygonalComplex], );
+
 
 ##
 ##          End of edge-face-paths

@@ -234,3 +234,10 @@ BindGlobal( "__SIMPLICIAL_Test_CyclicOrderInferences", function()
     SetCyclicVertexOrderOfFacesAsPerm(complex, cyclicVertAsPerm);
     Assert(0, Faces(complex)=faces);
 end);
+
+##
+## Test whether the inferences with edge-face-paths work
+##
+
+## single case
+## Surface:
