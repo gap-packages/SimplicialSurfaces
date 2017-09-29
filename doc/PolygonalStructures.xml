@@ -412,9 +412,9 @@
             In general we can always find a set of edge-face-paths of a vertex
             such that all edges and faces incident to that vertex lie in exactly
             one of those paths. This is called the <E>edge-face-path partition</E>
-            of the vertex.
-            TODO
-
+            of the vertex (we will talk more about this topic in section
+            <Ref Sect="Section_Access_OrderedVertexAccess"/>).
+            
             <ManSection>
                 <Prop Name="IsPolygonalSurface" Arg="object"
                     Comm="Checks whether the given object is a polygonal surface."/>
