@@ -1096,9 +1096,21 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #!     \foreach \p in {P2,P3,P5,P6,P7,P9}
 #!       \fill[vertex] (\p) circle (\vSize);
 #!
-#!     \node[vertex] at (barycentric cs:P2=4,P5=1,P6=1) {2};
+#!     \node[vertex] at (barycentric cs:P2=5,P5=1,P9=1) {2};
 #!   \end{tikzpicture}
 #! </Alt>
+#! @BeginExample
+surface := PolygonalSurfaceByDownwardIncidence( 
+    [[3,9], [3,5], [9,7], [9,2], [2,5], [5,6], [7,2], [2,6], [7,6]],
+    [[7,8,9], [3,7,4], , [1,2,4,5], [6,5,8]]);;
+EdgeFacePathOfVertex(surface, 2);
+#! [ 4, 2, 7, 1, 8, 5, 5, 4 ]
+EdgeFacePathOfVertex(surface, 9);
+#! [ 1, 4, 4, 2, 3 ];
+EdgeFacePathsOfVertices(surface);
+#! [ , [ 4, 2, 7, 1, 8, 5, 5, 4], [ 1, 4, 2 ], , [ 2, 4, 5, 5, 6 ], 
+#!           [ 6, 5, 8, 1, 9 ], [ 3, 2, 7, 1, 9 ], , [ 1, 4, 4, 2, 3 ] ];
+#! @EndExample
 #! 
 #! @Returns a list of edge-face-paths
 #! @Arguments surface

@@ -18,6 +18,13 @@ installation and type
     cd pkg/
     git clone https://github.com/frankluebeck/GAPDoc.git
     git clone https://github.com/gap-packages/AutoDoc.git
+To compile the pictures, you also need the following bash-commands:
+    de-macro
+    htlatex
+    md5sum
+    pdflatex
+    sed
+    
 
 At the moment, the manual is still a work in process and definitely unfinished.
 The current version of the manual can be found in the (unstable) branch 
