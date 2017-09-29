@@ -1,0 +1,46 @@
+\begin{tikzpicture}
+    \def\dist{3}
+    \def\w{15}
+    \def\differentColors{1}
+
+    \coordinate (P1) at (0,0);
+    \coordinate[label={[vertex]below left:3}] (P3) at (210:\dist);
+    \coordinate[label={[vertex]above:4}] (P4) at (90:\dist);
+    \coordinate[label={[vertex]below right:5}] (P5) at (-30:\dist);
+    \coordinate[label={[vertex]right:7}] (P7) at (\w:2*\dist);
+    \coordinate[label={[vertex]right:8}] (P8) at (0:2*\dist);
+    \coordinate[label={[vertex]right:9}] (P9) at (-\w:2*\dist);
+
+    \filldraw[face] (P1) -- (P3) -- (P4) -- cycle;
+    \node at (barycentric cs:P1=1.2,P3=1,P4=1) {$V$};
+    \filldraw[face] (P1) -- (P3) -- (P5) -- cycle;
+    \node at (barycentric cs:P1=1.2,P3=1,P5=1) {$III$};
+    \filldraw[face] (P1) -- (P4) -- (P5) -- cycle;
+    \node at (barycentric cs:P1=1,P4=1.5,P5=1) {$I$};
+
+    \filldraw[faceAlt] (P1) -- (P7) -- (P8) -- cycle;
+    \node at (barycentric cs:P1=1,P7=1,P8=1) {$VI$};
+    \filldraw[faceAlt] (P1) -- (P8) -- (P9) -- cycle;
+    \node at (barycentric cs:P1=1,P8=1,P9=1) {$II$};
+
+    % Draw label of vertex 1
+    \node[vertex] at (barycentric cs:P1=6,P3=1,P4=1) {1};
+
+    \drawEdge{P1}{P3}{2}
+    \drawEdge{P1}{P4}{1}
+    \drawEdge{P1}{P5}{3}
+
+    \drawEdge{P3}{P4}{4}
+    \drawEdge{P3}{P5}{5}
+    \node[edgeBackground] at ($(P4)!0.3!(P5)$) {6};
+
+    \drawEdge{P1}{P7}{7}
+    \drawEdge{P1}{P8}{8}
+    \drawEdge{P1}{P9}{9}
+
+    \drawEdge{P7}{P8}{10}
+    \drawEdge{P8}{P9}{11}
+
+    \foreach \i in {1,3,4,5,7,8,9}
+        \fill[vertex] (P\i) circle (\vSize);
+\end{tikzpicture}

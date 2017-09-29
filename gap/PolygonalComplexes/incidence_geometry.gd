@@ -1063,16 +1063,22 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! <K>EdgeFacePathOfVertex</K>(<A>surface</A>, <A>vertex</A>). All other 
 #! positions of this list are not bounded.
 #! <Par/>
+#! The NC-version does not check whether the given <A>vertex</A> lies in the
+#! given <A>surface</A>.
+#! <Par/>
+#! If you want to use edge-face-paths of ramified polygonal surfaces, please
+#! use TODO
+#! <Par/>
 #! As example consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}
 #!     \def\dist{1.5}
 #!     \coordinate[label={[vertex]right:2}] (P2) at (0,0);
-#!     \coordinate[label={[vertex]right:3}] (P3) at (0,2*\dist);
-#!     \coordinate[label={[vertex]right:5}] (P5) at (\dist,\dist);
-#!     \coordinate[label={[vertex]right:6}] (P6) at (\dist,-\dist);
-#!     \coordinate[label={[vertex]left:7}] (P7) at (-\dist,-\dist);
-#!     \coordinate[label={[vertex]left:9}] (P9) at (-\dist,\dist);
+#!     \coordinate[label={[vertex]right:3}] (P3) at (2*\dist,0);
+#!     \coordinate[label={[vertex]below:5}] (P5) at (\dist,-\dist);
+#!     \coordinate[label={[vertex]below:6}] (P6) at (-\dist,-\dist);
+#!     \coordinate[label={[vertex]above:7}] (P7) at (-\dist,\dist);
+#!     \coordinate[label={[vertex]above:9}] (P9) at (\dist,\dist);
 #!
 #!     \filldraw[face] (P2) -- (P5) -- (P3) -- (P9) -- cycle;
 #!     \node at (barycentric cs:P2=1,P3=1,P5=1,P9=1) {$IV$};
@@ -1122,3 +1128,9 @@ DeclareOperation( EdgeFacePathOfVertex, [IsPolygonalSurface, IsPosInt] );
 DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
 #! @EndGroup
 
+#! For ramified polygonal surfaces it might happen that there is no 
+#! edge-face-path that contains all edges and faces that are incident to one
+#! vertex.
+#! <Alt Only="TikZ">
+#!   \input{Image_EdgeFacePath_ramified.tex}
+#! </Alt>
