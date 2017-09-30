@@ -1193,6 +1193,8 @@ InstallMethod( EdgeFacePathsOfVertices,
         return List( EdgeFacePathPartitionsOfVertices(surface), p -> p[1] );
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+    "EdgeFacePathsOfVertices", "EdgeFacePathPartitionsOfVertices");
 
 InstallMethod( EdgeFacePathPartitionsOfVertices,
     "for a ramified polygonal surface that has EdgeFacePathsOfVertices",
@@ -1201,6 +1203,8 @@ InstallMethod( EdgeFacePathPartitionsOfVertices,
         return List( EdgeFacePathsOfVertices(ramSurf), p -> [p] );
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+    "EdgeFacePathPartitionsOfVertices", "EdgeFacePathsOfVertices" );
 
 
 ## Methods for one single vertex
@@ -1241,6 +1245,11 @@ InstallMethod( EdgeFacePathPartitionOfVertex,
 );
     RedispatchOnCondition( EdgeFacePathPartitionOfVertex,
         [IsPolygonalComplex, IsPosInt], [IsRamifiedPolygonalSurface,], 0);
+
+##
+## Connections between EdgeFacePathPartitions and everything else
+##
+
 
 ##
 ##          End of edge-face-paths

@@ -240,4 +240,14 @@ end);
 ##
 
 ## single case
-## Surface:
+## Surface is the one from the manual.
+BindGlobal( "__SIMPLICIAL_Test_EdgeFacePathSwitch", function()
+    local paths, partitions;
+    
+    paths := [ [ 11, 2, 12, 3, 13, 4, 14, 5 ], , , , , [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ],
+        [ 16, 3, 17 ], [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ];
+    partitions := [ [[ 11, 2, 12, 3, 13, 4, 14, 5 ]], , , , , [[ 15, 2, 11, 5, 19 ]], [[ 15, 2, 12, 3, 16 ]],
+        [[ 16, 3, 17 ]], [[ 17, 3, 13, 4, 18 ]], [[ 18, 4, 14, 5, 19 ]] ];
+
+    
+end);

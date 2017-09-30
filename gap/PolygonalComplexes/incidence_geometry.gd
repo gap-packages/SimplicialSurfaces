@@ -1125,10 +1125,10 @@ surface := PolygonalSurfaceByDownwardIncidence(
 EdgeFacePathOfVertex(surface, 1);
 #! [ 11, 2, 12, 3, 13, 4, 14, 5 ]
 EdgeFacePathOfVertex(surface, 7);
-#! [ 15, 2, 12, 3, 16 ];
+#! [ 15, 2, 12, 3, 16 ]
 EdgeFacePathsOfVertices(surface);
 #! [ [ 11, 2, 12, 3, 13, 4, 14, 5 ], , , , , [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ], 
-#!      [ 16, 3, 17 ], [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ];
+#!      [ 16, 3, 17 ], [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ]
 #! @EndExample
 #! 
 #! @Returns a list of edge-face-paths
