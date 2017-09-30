@@ -1178,8 +1178,8 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 ##      Edge-Face-Paths around vertices
 ##
-__SIMPLICIAL_AddPolygonalAttribute(EdgeFacePathPartitionsOfVertices);
-__SIMPLICIAL_AddPolygonalAttribute(EdgeFacePathsOfVertices);
+__SIMPLICIAL_AddRamifiedAttribute(EdgeFacePathPartitionsOfVertices);
+__SIMPLICIAL_AddSurfaceAttribute(EdgeFacePathsOfVertices);
 
 ##
 ## We will implement the connections between singular paths and partitions
@@ -1193,8 +1193,54 @@ InstallMethod( EdgeFacePathsOfVertices,
         return List( EdgeFacePathPartitionsOfVertices(surface), p -> p[1] );
     end
 );
-#    RedispatchOnCondition( EdgeFacePathsOfVertices, true, [IsPolygonalComplex], );
 
+InstallMethod( EdgeFacePathPartitionsOfVertices,
+    "for a ramified polygonal surface that has EdgeFacePathsOfVertices",
+    [IsRamifiedPolygonalSurface and HasEdgeFacePathsOfVertices],
+    function( ramSurf )
+        return List( EdgeFacePathsOfVertices(ramSurf), p -> [p] );
+    end
+);
+
+
+## Methods for one single vertex
+InstallMethod( EdgeFacePathOfVertexNC, "for a polygonal surface and a vertex",
+    [IsPolygonalSurface, IsPosInt],
+    function( surface, vertex )
+        return EdgeFacePathsOfVertices(surface)[vertex];
+    end
+);
+    RedispatchOnCondition( EdgeFacePathOfVertexNC, [IsPolygonalComplex, IsPosInt],
+        [IsPolygonalSurface,],0);
+InstallMethod( EdgeFacePathOfVertex, "for a polygonal surface and a vertex",
+    [IsPolygonalSurface, IsPosInt],
+    function( surface, vertex )
+        __SIMPLICIAL_CheckVertex(surface,vertex, "EdgeFacePathOfVertex");
+        return EdgeFacePathOfVertexNC(surface, vertex);
+    end
+);
+    RedispatchOnCondition( EdgeFacePathOfVertex, [IsPolygonalComplex, IsPosInt],
+        [IsPolygonalSurface, ], 0);
+
+InstallMethod( EdgeFacePathPartitionOfVertexNC,
+    "for a ramified polygonal surface and a vertex",
+    [IsRamifiedPolygonalSurface, IsPosInt],
+    function( ramSurf, vertex )
+        return EdgeFacePathPartitionsOfVertices(ramSurf)[vertex];
+    end
+);
+    RedispatchOnCondition( EdgeFacePathPartitionOfVertexNC, 
+        [IsPolygonalComplex, IsPosInt], [IsRamifiedPolygonalSurface,], 0 );
+InstallMethod( EdgeFacePathPartitionOfVertex,
+    "for a ramified polygonal surface and a vertex",
+    [IsRamifiedPolygonalSurface, IsPosInt],
+    function( ramSurf, vertex )
+        __SIMPLICIAL_CheckVertex(ramSurf, vertex, "EdgeFacePathPartitionOfVertex");
+        return EdgeFacePathPartitionOfVertexNC(ramSurf, vertex);
+    end
+);
+    RedispatchOnCondition( EdgeFacePathPartitionOfVertex,
+        [IsPolygonalComplex, IsPosInt], [IsRamifiedPolygonalSurface,], 0);
 
 ##
 ##          End of edge-face-paths

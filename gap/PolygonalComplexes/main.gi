@@ -24,3 +24,30 @@ BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute",
             end);
     end
 );
+
+BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
+    function( attr )
+        InstallMethod(attr, "for a ramified polygonal surface",
+            [IsRamifiedPolygonalSurface],
+            function( ramSurf )
+                return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                    attr, ramSurf);
+            end);
+        RedispatchOnCondition(attr, true, [IsPolygonalComplex], 
+                [IsRamifiedPolygonalSurface], 0);
+        #TODO install a general error if only a polygonal complex is given
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_AddSurfaceAttribute",
+    function( attr )
+        InstallMethod(attr, "for a polygonal surface",
+            [IsPolygonalSurface],
+            function( surface )
+                return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                    attr, surface);
+            end);
+        RedispatchOnCondition(attr, true, [IsPolygonalComplex],
+                [IsRamifiedPolygonalSurface and IsPolygonalSurface], 0);
+    end
+);
