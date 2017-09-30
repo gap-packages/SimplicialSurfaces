@@ -242,12 +242,31 @@ end);
 ## single case
 ## Surface is the one from the manual.
 BindGlobal( "__SIMPLICIAL_Test_EdgeFacePathSwitch", function()
-    local paths, partitions;
+    local paths, partitions, complex;
     
     paths := [ [ 11, 2, 12, 3, 13, 4, 14, 5 ], , , , , [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ],
         [ 16, 3, 17 ], [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ];
     partitions := [ [[ 11, 2, 12, 3, 13, 4, 14, 5 ]], , , , , [[ 15, 2, 11, 5, 19 ]], [[ 15, 2, 12, 3, 16 ]],
         [[ 16, 3, 17 ]], [[ 17, 3, 13, 4, 18 ]], [[ 18, 4, 14, 5, 19 ]] ];
 
-    
+    # from partitions to paths (first direct test, then check whether type can be inferred)
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetEdgeFacePathPartitionsOfVertices( complex, partitions );
+    SetIsPolygonalSurface( complex, true );
+    Assert(0, EdgeFacePathsOfVertices(complex)=paths);
+
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetEdgeFacePathPartitionsOfVertices( complex, partitions );
+    Assert(0, EdgeFacePathsOfVertices(complex)=paths);
+
+    # from paths to partitions (first direct test, then check whether type can be inferred)
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetEdgeFacePathsOfVertices( complex, paths );
+    SetIsRamifiedPolygonalSurface( complex, true );
+    Assert(0, SetEdgeFacePathPartitionsOfVertices(complex)=partitions);
+
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetEdgeFacePathsOfVertices( complex, paths );
+    Assert(0, SetEdgeFacePathPartitionsOfVertices(complex)=partitions);
+
 end);
