@@ -263,10 +263,39 @@ BindGlobal( "__SIMPLICIAL_Test_EdgeFacePathSwitch", function()
     complex := Objectify( PolygonalComplexType, rec() );
     SetEdgeFacePathsOfVertices( complex, paths );
     SetIsRamifiedPolygonalSurface( complex, true );
-    Assert(0, SetEdgeFacePathPartitionsOfVertices(complex)=partitions);
+    Assert(0, EdgeFacePathPartitionsOfVertices(complex)=partitions);
 
     complex := Objectify( PolygonalComplexType, rec() );
     SetEdgeFacePathsOfVertices( complex, paths );
-    Assert(0, SetEdgeFacePathPartitionsOfVertices(complex)=partitions);
+    Assert(0, EdgeFacePathPartitionsOfVertices(complex)=partitions);
 
+end);
+
+## partition case
+## Surface from manual
+BindGlobal( "__SIMPLICIAL_Test_EdgeFacePathImplications", function()
+    local paths, vertices, edges, faces, verticesOfEdges, edgesOfFaces, 
+        complex;
+
+    vertices := [1,5,6,7,8,10,12];
+    edges := [13,14,15,16,17,18,19,20,21,22,23];
+    faces := [2,3,4,9,11];
+    verticesOfEdges := [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],[1,8],[1,10],[1,12],[8,10],[10,12] ];
+    edgesOfFaces := [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ];
+    paths := [ [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ], , , ,
+        [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ], [ [ 15, 2, 18, 4, 17 ] ],
+        [ [ 19, 11, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ];
+
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetEdgeFacePathPartitionsOfVertices( complex, paths );
+    Assert(0, Vertices(complex)=vertices);
+    Assert(0, Edges(complex)=vertices);
+    Assert(0, Faces(complex)=faces);
+    Assert(0, VerticesOfEdges(complex)=verticesOfEdges);
+    Assert(0, EdgesOfFaces(complex)=edgesOfFaces);
+
+    complex := Objectify( PolygonalComplexType, rec() );
+    SetVerticesOfEdges(complex, verticesOfEdges);
+    SetEdgesOfFaces(complex, edgesOfFaces);
+    Assert(0, EdgeFacePathPartitionsOfVertices(complex)=paths);
 end);

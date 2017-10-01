@@ -1247,10 +1247,98 @@ InstallMethod( EdgeFacePathPartitionOfVertex,
         [IsPolygonalComplex, IsPosInt], [IsRamifiedPolygonalSurface,], 0);
 
 ##
-## Connections between EdgeFacePathPartitions and everything else
+## Implications from EdgeFacePathPartitionsOfVertices (only to *Of*, since 
+## implications to vertices, edges and faces follow from that)
 ##
+BindGlobal( "__SIMPLICIAL_EvenEntries", function(list)
+    local len, ind;
 
+    len := Size(list);
+    if IsEvenInt(len) then
+        ind := [1..len/2];
+    else
+        ind := [1..(len-1)/2];
+    fi;
+    return Set( List( ind, i->list[2*i] ) );
+end);
+BindGlobal( "__SIMPLICIAL_OddEntries", function(list)
+    local len, ind;
+    
+    len := Size(list);
+    if IsEvenInt(len) then
+        ind := [1..len/2];
+    else
+        ind := [1..(len+1)/2];
+    fi;
+    return Set( List( ind, i->list[2*i-1] ) );
+end);
 
+InstallMethod( EdgesOfVertices, 
+    "for a polygonal complex that has EdgeFacePathPartitionsOfVertices", 
+    [IsPolygonalComplex and HasEdgeFacePathPartitionsOfVertices],
+    function(complex)
+        return List( EdgeFacePathPartitionsOfVertices(complex), part ->
+            Union( List( part, __SIMPLICIAL_OddEntries ) ));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "EdgesOfVertices", "EdgeFacePathPartitionsOfVertices");
+
+InstallMethod( FacesOfVertices,
+    "for a polygonal complex that has EdgeFacePathPartitionsOfVertices",
+    [IsPolygonalComplex and HasEdgeFacePathPartitionsOfVertices],
+    function(complex)
+        return List( EdgeFacePathPartitionsOfVertices(complex), part ->
+            Union( List( part, __SIMPLICIAL_EvenEntries ) ));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "FacesOfVertices", "EdgeFacePathPartitionsOfVertices");
+
+InstallMethod( FacesOfEdges,
+    "for a polygonal complex that has EdgeFacePathPartitionsOfVertices",
+    [IsPolygonalComplex and HasEdgeFacePathPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
+    function(complex)
+        local facesOfEdges, parts, v, p, even, ind, i, edge, incFaces;
+
+        parts := EdgeFacePathPartitionsOfVertices(complex);
+
+        facesOfEdges := [];
+        for v in Vertices(complex) do
+            for p in parts[v] do
+                even := IsEvenInt(Size(p));
+                if even then
+                    ind := [1..Size(p)/2];
+                else
+                    ind := [1..(Size(p)+1)/2];
+                fi;
+
+                for i in ind do
+                    edge := p[2*i-1];
+                    if IsBound(faceOfEdges[edge]) then
+                        # Since the complex is ramified, the incident faces should be the same
+                        continue;
+                    fi;
+
+                    if i = 1 and even then
+                        incFaces := Set([ p[2], p[Size(p)] ]);
+                    elif i = 1 then
+                        incFaces := [p[2]];
+                    elif not even and i = Size(ind) then
+                        incFaces := [p[Size(p)-1]];
+                    else
+                        incFaces := Set( [p[2*i-1],p[2*i]] );
+                    fi;
+                    facesOfEdges[edge] := incFaces;
+                od;
+            od;
+        od;
+
+        return facesOfEdges;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "FacesOfEdges", "EdgeFacePathPartitionsOfVertices");
 ##
 ##          End of edge-face-paths
 ##
