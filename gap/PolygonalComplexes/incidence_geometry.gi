@@ -1296,7 +1296,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "FacesOfVertices", "EdgeFacePathPartitionsOfVertices");
 
 InstallMethod( FacesOfEdges,
-    "for a polygonal complex that has EdgeFacePathPartitionsOfVertices",
+    "for a polygonal complex that has EdgeFacePathPartitionsOfVertices and VerticesAttributeOfPolygonalComplex",
     [IsPolygonalComplex and HasEdgeFacePathPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
     function(complex)
         local facesOfEdges, parts, v, p, even, ind, i, edge, incFaces;
@@ -1337,8 +1337,96 @@ InstallMethod( FacesOfEdges,
         return facesOfEdges;
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "FacesOfEdges", "EdgeFacePathPartitionsOfVertices");
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "FacesOfEdges", 
+    ["EdgeFacePathPartitionsOfVertices", "VerticesAttributeOfPolygonalComplex"]);
+
+
+InstallMethod( EdgeFacePathPartitionsOfVertices, 
+    "for a ramified polygonal surface that has VerticesAttributeOfPolygonalComplex, EdgesOfVertices, EdgesOfFaces, FacesOfEdges and VerticesOfEdges",
+    [IsRamifiedPolygonalSurface and HasVerticesAttributeOfPolygonalComplex and HasEdgesOfVertices and HasEdgesOfFaces and HasFacesOfEdges and HasVerticesOfEdges],
+    function(ramSurf)
+        local faceEdgePathPart, vertex, incidentEdges, paths,
+            edgeStart, possFaces, rightFinished, leftFinished, backFace, path,
+            nextEdge, nextFace;
+
+        faceEdgePathPart := [];
+
+        for vertex in Vertices(ramSurf) do
+            incidentEdges := EdgesOfVertices(ramSurf)[vertex];
+            paths := [];
+
+            while not IsEmpty( incidentEdges ) do
+                # If the path is not closed, we can't hope to find the correct start immediately
+                # If the path is closed, the correct start is the smallest edge.
+                edgeStart := incidentEdges[1]; # minimal since incidentEdges is a set
+                incidentEdges := incidentEdges{[2..Length(incidentEdges)]};
+                possFaces := FacesOfEdges(ramSurf)[edgeStart];
+
+                # We use two bools to check if we are done
+                rightFinished := false;
+                leftFinished := false;
+                if Length(possFaces) = 1 then
+                    # very rare special case, where our first pick for a non-closed path was lucky
+                    leftFinished := true;
+                else
+                    # In the hope for a closed path, we continue with the smaller face (and store the other one)
+                    backFace := possFaces[2];
+                fi;
+                path := [edgeStart, possFaces[1]];
+
+
+                # As we may have to traverse both directions (non-closed case)
+                # and those traversals are completely equal we use one loop
+                # for both
+                while not rightFinished or not leftFinished do
+                    # Try to extend the path beyond the last face
+                    nextEdge := OtherEdgeOfVertexInFaceNC(ramSurf, vertex, path[Length(path)-1], path[Length(path)]); # calls EdgesOfFaces and VerticesOfEdges
+                    # We only need to care for this set (the other is ignored)
+                    incidentEdges := Difference( incidentEdges, [nextEdge] );
+
+                    nextFace := NeighbourFaceByEdgeNC(ramSurf, path[Length(path)], nextEdge); # calls FacesOfEdges
+                    if nextFace = fail then
+                        # we found an end
+                        Add(path, nextEdge);
+                        if leftFinished then
+                            # We have finished right, but left is already finished - we were lucky!
+                            rightFinished := true;
+                        elif rightFinished then
+                            # Now we have finished both sides
+                            if path[Length(path)] < path[1] then
+                                path := Reversed(path);
+                            fi;
+                            leftFinished := true;
+                        else
+                            # We were unlucky - now we have to extend to the left
+                            rightFinished := true;
+                            path := Reversed(path);
+                            Add(path, backFace);
+                        fi;
+                        continue;
+                    fi;
+
+                    # Otherwise we continue
+                    Append(path, [nextEdge, nextFace]);
+                    if nextFace = backFace then
+                        # we have closed the path
+                        leftFinished := true;
+                        rightFinished := true;
+                    fi;
+                od;
+
+                Add(paths, path);
+            od;
+
+            faceEdgePathPart[vertex] := paths;
+        od;
+
+        return faceEdgePathPart;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+    "EdgeFacePathPartitionsOfVertices", 
+    ["VerticesAttributeOfPolygonalComplex", "EdgesOfVertices", "EdgesOfFaces", "FacesOfEdges", "VerticesOfEdges"]);
 ##
 ##          End of edge-face-paths
 ##
