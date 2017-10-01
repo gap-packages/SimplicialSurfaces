@@ -26,8 +26,6 @@
     <#Include SYSTEM "Introduction.xml">
     <#Include SYSTEM "PolygonalStructures.xml">
     <#Include SYSTEM "_Chapter_AccessIncidenceGeometry.xml">
-    <#Include SYSTEM "_Chapter_Simplicial_Surfaces.xml">
-    <#Include SYSTEM "_Chapter_Wild_Simplicial_Surfaces.xml">
 </Body>
 <TheIndex/>
 </Book>
