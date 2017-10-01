@@ -82,11 +82,19 @@
 #    avoided in these sections)
 ####
 
-#! In most cases the methods of section
-#! <Ref Sect="Section_Access_BasicAccess"/> (that return incident elements
-#! as a set) are sufficient. The subsequent sections contain more specific
-#! access methods.
-#TODO badly written as it is
+#! In section <Ref Sect="Section_Access_LabelAccess"/> the labeling
+#! conventions for vertices, edges and faces are explained. The central
+#! incidence relations between them are described in section
+#! <Ref Sect="Section_Access_BasicAccess"/>. Some more specialized
+#! applications for incidence can be found in section
+#! <Ref Sect="Section_Access_SpecializedAccess"/>.
+#! <Par/>
+#! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/> 
+#! and <Ref Sect="Section_Access_OrderedVertexAccess"/>
+#! deal with variations of incidence that are usually not needed by the 
+#! standard user.
+#TODO how to improve this introduction to give more information but
+# not burden the reader too much?
 
 #! @Section Labels of vertices, edges and faces
 #! @SectionLabel Access_LabelAccess
@@ -539,33 +547,36 @@ complex := PolygonalComplexByDownwardIncidence(
 #! @EndExample
 #!
 #! This section contains the following methods:
-#! * <K>EdgeInFaceByVertices</K> returns the edge of a face that is defined by
+#! * <K>EdgeInFaceByVertices</K> (<Ref Subsect="EdgeInFaceByVertices"/>) 
+#!   returns the edge of a face that is defined by
 #!   its two vertices.
 #! @BeginExample
 EdgeInFaceByVertices( complex, 5, [2,6] );
 #! 4
 #! @EndExample
-#! * <K>OtherEdgeOfVertexInFace</K> returns the other edge of a given vertex
+#! * <K>OtherEdgeOfVertexInFace</K> (<Ref Subsect="OtherEdgeOfVertexInFace"/>) 
+#!   returns the other edge of a given vertex
 #!   with respect to the given face.
 #! @BeginExample
 OtherEdgeOfVertexInFace( complex, 1, 5, 2 );
 #! 7
 #! @EndExample
-#! * <K>OtherVertexOfEdge</K> returns the other vertex of the given edge
+#! * <K>OtherVertexOfEdge</K> (<Ref Subsect="OtherVertexOfEdge"/>) returns the 
+#!   other vertex of the given edge
 #! @BeginExample
 OtherVertexOfEdge( complex, 7, 10 );
 #! 8
 #! @EndExample
-#! * <K>NeighbourFaceByEdge</K> returns the face that is adjacent to the
+#! * <K>NeighbourFaceByEdge</K> (<Ref Subsect="NeighbourFaceByEdge"/>) returns 
+#!   the face that is adjacent to the
 #!   given face (with respect to the given edge)
 #! @BeginExample
 NeighbourFaceByEdge( complex, 2, 8 );
 #! 4
 #! @EndExample
 #! 
-#TODO link these descriptions to the manpages
 
-#! @BeginGroup
+#! @BeginGroup EdgeInFaceByVertices
 #! @Description
 #! Given a face and a list of two vertices of a polygonal complex, return the 
 #! edge that
@@ -605,7 +616,7 @@ DeclareOperation(EdgeInFaceByVerticesNC,
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup OtherEdgeOfVertexInFace
 #! @Description
 #! If a vertex is incident to a face in a polygonal complex, there are exactly
 #! two edges that are incident to both vertex and face. If one of those is
@@ -639,7 +650,7 @@ DeclareOperation(OtherEdgeOfVertexInFaceNC,
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup OtherVertexOfEdge
 #! @Description
 #! Every edge in a polygonal complex is incident to exactly two vertices.
 #! Given one of them, this method returns the other one.
@@ -673,7 +684,7 @@ DeclareOperation(OtherVertexOfEdgeNC,
 
 
 
-#! @BeginGroup
+#! @BeginGroup NeighbourFaceByEdge
 #! @Description
 #! If an edge is incident to exactly two faces and one of those is given,
 #! this method returns the other one.
