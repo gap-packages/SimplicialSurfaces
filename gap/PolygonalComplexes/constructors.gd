@@ -22,11 +22,66 @@
 #! and simplicial surfaces.
 
 #######
-## Every section corresponds to one type of constructor (to make finding them
-## easier). In which order should they be? We have:
-## --> example constructors (platonic solids etc.)
-## --> general constructors
-## --> data-base calls
+## We have a problem in this section:
+## Our constructors have the structure
+## <Type>By<Method><Check?>
+## => 6 * 2 = 12 operations for each method
+## This is too much for one documentation group (especially since the names
+## are too long to fit in a single line).
 ##
+## Therefore we will do one method per section. We will therefore eschew the
+## surface database constructors here - they are too important to be
+## unnoticed here (which they will be as most readers will be inclined to
+## skim this chapter).
 ##
-#TODO which order of the sections?
+## To keep a skimming readers attention we will do a different surface example
+## for each documentation group. Ideally they will epitomize different types
+## of structures that might appear.
+#######
+
+#! This package offers three different ways to construct a polygonal complex
+#! "from scratch":
+#! * Choose from a few standard example (like platonic solids) in section TODO
+#! * Define it directly by its incidence structure (this will be the main
+#!   content of this chapter)
+#! * Use the surface database to find appropriate complexes. This will be 
+#!   handled in chapter TODO
+#!
+
+#! @Section General constructors
+
+#! @BeginGroup
+#! @Description
+#! bla
+#! @Returns a polygonal complex
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "PolygonalComplexByDownwardIncidence", [IsList, IsList] );
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsList, IsList] );
+#! @Returns a ramified polygonal surface
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @Returns a polygonal surface
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "PolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @Returns a triangular complex
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "TriangularComplexByDownwardIncidence", [IsList, IsList] );
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList] );
+#! @Returns a ramified simplicial surface
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @Returns a simplicial surface
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
+#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @EndGroup
+
