@@ -73,7 +73,7 @@
 #!
 
 #! @Section DownwardIncidence
-#! @SectionLabel Constructor_DownwardIncidence
+#! @SectionLabel Constructors_DownwardIncidence
 #!
 #! The constructors that are based on <K>DownwardIncidence</K> are based on
 #! the attributes <K>VerticesOfEdges</K> and <K>EdgesOfFaces</K>. From these
