@@ -110,10 +110,10 @@
 #!     }
 #! </Alt>
 #TODO give a reference to the constructor
-#! @BeginExample
-complex := PolygonalComplexByDownwardIncidence( 4, 4, 1,
-    [ , [2,3], [2,5], , [3,7], [5,7] ], [ , , [2,3,5,6] ] );;
-#! @EndExample
+#! @ExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence( 4, 4, 1,
+#! >        [ , [2,3], [2,5], , [3,7], [5,7] ], [ , , [2,3,5,6] ] );;
+#! @EndExampleSession
 #
 #! We can access the sets of
 #! all those labels by <K>Vertices</K>, <K>Edges</K> and <K>Faces</K>.
@@ -133,12 +133,12 @@ complex := PolygonalComplexByDownwardIncidence( 4, 4, 1,
 #!          \input{Image_LabellingExample.tex}
 #!      }
 #! </Alt>
-#! @BeginExample
-Vertices(complex);
+#! @ExampleSession
+#! gap> Vertices(complex);
 #! [ 2, 3, 5, 7 ]
-NrOfVertices(complex);
+#! gap> NrOfVertices(complex);
 #! 4
-#! @EndExample
+#! @EndExampleSession
 #! <Par/>
 #! We have separated the operation <K>Vertices</K> from the corresponding
 #! attribute because there is a naming clash with the package grape.
@@ -163,12 +163,12 @@ DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
 #!          \input{Image_LabellingExample.tex}
 #!      }
 #! </Alt>
-#! @BeginExample
-Edges(complex);
+#! @ExampleSession
+#! gap> Edges(complex);
 #! [ 2, 3, 5, 6 ]
-NrOfEdges(complex);
+#! gap> NrOfEdges(complex);
 #! 4
-#! @EndExample
+#! @EndExampleSession
 #
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
@@ -189,12 +189,12 @@ DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
 #!          \input{Image_LabellingExample.tex}
 #!      }
 #! </Alt>
-#! @BeginExample
-Faces(complex);
+#! @ExampleSession
+#! gap> Faces(complex);
 #! [ 3 ]
-NrOfFaces(complex);
-# 1
-#! @EndExample
+#! gap> NrOfFaces(complex);
+#! 1
+#! @EndExampleSession
 #
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
@@ -245,24 +245,24 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! </Alt>
 #!
 #TODO give a reference to the constructor
-#! @BeginExample
-complex := PolygonalComplexByDownwardIncidence( 5, 6, 2, 
-    [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], 
-    [[6,8,9], , , [9,10,12,13]]);;
-Vertices(complex);
+#! @ExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence( 5, 6, 2, 
+#! >    [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], 
+#! >    [[6,8,9], , , [9,10,12,13]]);;
+#! gap> Vertices(complex);
 #! [ 2, 3, 5, 7, 11 ]
-Edges(complex);
+#! gap> Edges(complex);
 #! [ 6, 8, 9, 10, 12, 13 ]
-Faces(complex);
+#! gap> Faces(complex);
 #! [ 1, 4 ]
-#! @EndExample
+#! @EndExampleSession
 #!
 #! The method <K>VerticesOfFaces</K> tells us, which vertices are incident
 #! to which faces.
-#! @BeginExample
-VerticesOfFaces(complex);
+#! @ExampleSession
+#! gap> VerticesOfFaces(complex);
 #! [ [ 2, 3, 5 ], , , [ 3, 5, 7, 11 ] ];
-#! @EndExample
+#! @EndExampleSession
 #! The first entry of this list contains a set of all vertices that are
 #! incident to face I. The second and third entries are not bounded since
 #! there are no faces II and III. Finally, the fourth entry contains all
@@ -273,10 +273,10 @@ VerticesOfFaces(complex);
 #! <Par/>
 #! The method <K>EdgesOfVertices</K> works in the same way: It returns a list
 #! that contains sets of edges and is indexed by the vertex labels.
-#! @BeginExample
-EdgesOfVertices(complex);
+#! @ExampleSession
+#! gap> EdgesOfVertices(complex);
 #! [ , [ 6, 8 ], [ 8, 9, 12 ], , [ 6, 9, 10 ], , [ 12, 13 ], , , , [ 10, 13 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! For example, if we consider the third entry of this list, we find the
 #! set [ 8, 9, 12 ]. Those are all edges that are incident to the vertex 3.
 #! <Par/>
@@ -305,14 +305,14 @@ EdgesOfVertices(complex);
 #!     \input{Image_StarOfStarExample.tex}
 #!   }
 #! </Alt>
-#! @BeginExample
-EdgesOfVertex(complex, 2);
+#! @ExampleSession
+#! gap> EdgesOfVertex(complex, 2);
 #! [ 6, 8 ]
-EdgesOfVertex(complex, 5);
+#! gap> EdgesOfVertex(complex, 5);
 #! [ 6, 9, 10 ]
-EdgesOfVertices(complex);
+#! gap> EdgesOfVertices(complex);
 #! [ , [ 6, 8 ], [ 8, 9, 12 ], , [ 6, 9, 10 ], , [ 12, 13 ], , , [ 10, 13 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
@@ -346,14 +346,14 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #!     \input{Image_StarOfStarExample.tex}
 #!   }
 #! </Alt>
-#! @BeginExample
-FacesOfVertex(complex, 2);
+#! @ExampleSession
+#! gap> FacesOfVertex(complex, 2);
 #! [ 1 ]
-FacesOfVertex(complex, 5);
+#! gap> FacesOfVertex(complex, 5);
 #! [ 1, 4 ]
-FacesOfVertices(complex);
+#! gap> FacesOfVertices(complex);
 #! [ , [ 1 ], [ 1, 4 ], , [ 1, 4 ], , [ 4 ], , , [ 4 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
@@ -386,14 +386,14 @@ DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #!     \input{Image_StarOfStarExample.tex}
 #!   }
 #! </Alt>
-#! @BeginExample
-VerticesOfEdge(complex, 8);
+#! @ExampleSession
+#! gap> VerticesOfEdge(complex, 8);
 #! [ 2, 3 ]
-VerticesOfEdge(complex, 12);
+#! gap> VerticesOfEdge(complex, 12);
 #! [ 3, 7 ]
-VerticesOfEdges(complex);
+#! gap> VerticesOfEdges(complex);
 #! [ , , , , , [ 2, 5 ], , [ 2, 3 ], [ 3, 5 ], [ 5, 11 ], , [ 3, 7 ], [ 7, 11 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
@@ -426,14 +426,14 @@ DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #!     \input{Image_StarOfStarExample.tex}
 #!   }
 #! </Alt>
-#! @BeginExample
-FacesOfEdge(complex, 9);
+#! @ExampleSession
+#! gap> FacesOfEdge(complex, 9);
 #! [ 1, 4 ]
-FacesOfEdge(complex, 10);
+#! gap> FacesOfEdge(complex, 10);
 #! [ 4 ]
-FacesOfEdges(complex);
+#! gap> FacesOfEdges(complex);
 #! [ , , , , , [ 1 ], , [ 1 ], [ 1, 4 ], [ 4 ], , [ 4 ], [ 4 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
@@ -467,14 +467,14 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #!     \input{Image_StarOfStarExample.tex}
 #!   }
 #! </Alt>
-#! @BeginExample
-VerticesOfFace(complex, 1);
+#! @ExampleSession
+#! gap> VerticesOfFace(complex, 1);
 #! [ 2, 3, 5 ]
-VerticesOfFace(complex, 4);
+#! gap> VerticesOfFace(complex, 4);
 #! [ 3, 5, 7, 11 ]
-VerticesOfFaces(complex);
+#! gap> VerticesOfFaces(complex);
 #! [ [ 2, 3, 5 ], , , [ 3, 5, 7, 11 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
@@ -508,14 +508,14 @@ DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #!     \input{Image_StarOfStarExample.tex}
 #!   }
 #! </Alt>
-#! @BeginExample
-EdgesOfFace(complex, 1);
+#! @ExampleSession
+#! gap> EdgesOfFace(complex, 1);
 #! [ 6, 8, 9 ]
-EdgesOfFace(complex, 4);
+#! gap> EdgesOfFace(complex, 4);
 #! [ 9, 10, 12, 13 ]
-EdgesOfFaces(complex);
+#! gap> EdgesOfFaces(complex);
 #! [ [ 6, 8, 9 ], , , [ 9, 10, 12, 13 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
@@ -540,40 +540,40 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
 #! </Alt>
-#! @BeginExample
-complex := PolygonalComplexByDownwardIncidence( 
-        [[1,2],[2,5],[2,6],[2,6],[1,6],[5,6],[1,7],[6,8],[5,9],[7,8],[8,9]],
-        [[1,3,5],[5,7,8,10],,[6,8,9,11],[2,4,6]]);;
-#! @EndExample
+#! @ExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence( 
+#! >        [[1,2],[2,5],[2,6],[2,6],[1,6],[5,6],[1,7],[6,8],[5,9],[7,8],[8,9]],
+#! >        [[1,3,5],[5,7,8,10],,[6,8,9,11],[2,4,6]]);;
+#! @EndExampleSession
 #!
 #! This section contains the following methods:
 #! * <K>EdgeInFaceByVertices</K> (<Ref Subsect="EdgeInFaceByVertices"/>) 
 #!   returns the edge of a face that is defined by
 #!   its two vertices.
-#! @BeginExample
-EdgeInFaceByVertices( complex, 5, [2,6] );
+#! @ExampleSession
+#! gap> EdgeInFaceByVertices( complex, 5, [2,6] );
 #! 4
-#! @EndExample
+#! @EndExampleSession
 #! * <K>OtherEdgeOfVertexInFace</K> (<Ref Subsect="OtherEdgeOfVertexInFace"/>) 
 #!   returns the other edge of a given vertex
 #!   with respect to the given face.
-#! @BeginExample
-OtherEdgeOfVertexInFace( complex, 1, 5, 2 );
+#! @ExampleSession
+#! gap> OtherEdgeOfVertexInFace( complex, 1, 5, 2 );
 #! 7
-#! @EndExample
+#! @EndExampleSession
 #! * <K>OtherVertexOfEdge</K> (<Ref Subsect="OtherVertexOfEdge"/>) returns the 
 #!   other vertex of the given edge
-#! @BeginExample
-OtherVertexOfEdge( complex, 7, 10 );
+#! @ExampleSession
+#! gap> OtherVertexOfEdge( complex, 7, 10 );
 #! 8
-#! @EndExample
+#! @EndExampleSession
 #! * <K>NeighbourFaceByEdge</K> (<Ref Subsect="NeighbourFaceByEdge"/>) returns 
 #!   the face that is adjacent to the
 #!   given face (with respect to the given edge)
-#! @BeginExample
-NeighbourFaceByEdge( complex, 2, 8 );
+#! @ExampleSession
+#! gap> NeighbourFaceByEdge( complex, 2, 8 );
 #! 4
-#! @EndExample
+#! @EndExampleSession
 #! 
 
 #! @BeginGroup EdgeInFaceByVertices
@@ -594,18 +594,18 @@ NeighbourFaceByEdge( complex, 2, 8 );
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
 #! </Alt>
-#! @BeginExample
-EdgeInFaceByVertices(complex, 5, [2,6]);
+#! @ExampleSession
+#! gap> EdgeInFaceByVertices(complex, 5, [2,6]);
 #! 4
-EdgeInFaceByVertices(complex, 1, [2,1]);
+#! gap> EdgeInFaceByVertices(complex, 1, [2,1]);
 #! 1
-EdgeInFaceByVertices(complex, 1, [2,6]);
+#! gap> EdgeInFaceByVertices(complex, 1, [2,6]);
 #! 3
-EdgeInFaceByVertices(complex, 2, [1,2]);
+#! gap> EdgeInFaceByVertices(complex, 2, [1,2]);
 #! fail
-EdgeInFaceByVertices(complex, 4, [5,8]);
+#! gap> EdgeInFaceByVertices(complex, 4, [5,8]);
 #! fail
-#! @EndExample
+#! @EndExampleSession
 #!
 #! @Returns a positive integer
 #! @Arguments complex, face, verts
@@ -631,14 +631,14 @@ DeclareOperation(EdgeInFaceByVerticesNC,
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
 #! </Alt>
-#! @BeginExample
-OtherEdgeOfVertexInFace(complex, 1, 5, 2);
+#! @ExampleSession
+#! gap> OtherEdgeOfVertexInFace(complex, 1, 5, 2);
 #! 7
-OtherEdgeOfVertexInFace(complex, 5, 9, 4);
+#! gap> OtherEdgeOfVertexInFace(complex, 5, 9, 4);
 #! 6
-OtherEdgeOfVertexInFace(complex, 1, 5, 1);
+#! gap> OtherEdgeOfVertexInFace(complex, 1, 5, 1);
 #! 1
-#! @EndExample
+#! @EndExampleSession
 #!
 #! @Returns a positive integer
 #! @Arguments complex, vertex, edge, face
@@ -665,14 +665,14 @@ DeclareOperation(OtherEdgeOfVertexInFaceNC,
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
 #! </Alt>
-#! @BeginExample
-OtherVertexOfEdge(complex, 7, 10);
+#! @ExampleSession
+#! gap> OtherVertexOfEdge(complex, 7, 10);
 #! 8
-OtherVertexOfEdge(complex, 1, 5);
+#! gap> OtherVertexOfEdge(complex, 1, 5);
 #! 6
-OtherVertexOfEdge(complex, 6, 8);
+#! gap> OtherVertexOfEdge(complex, 6, 8);
 #! 8
-#! @EndExample
+#! @EndExampleSession
 #!
 #! @Returns a positive integer
 #! @Arguments complex, vertex, edge
@@ -701,18 +701,18 @@ DeclareOperation(OtherVertexOfEdgeNC,
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
 #! </Alt>
-#! @BeginExample
-NeighbourFaceByEdge(complex, 2, 8);
+#! @ExampleSession
+#! gap> NeighbourFaceByEdge(complex, 2, 8);
 #! 4
-NeighbourFaceByEdge(complex, 1, 5);
+#! gap> NeighbourFaceByEdge(complex, 1, 5);
 #! 2
-NeighbourFaceByEdge(complex, 4, 6);
+#! gap> NeighbourFaceByEdge(complex, 4, 6);
 #! 5
-NeighbourFaceByEdge(complex, 1, 3);
+#! gap> NeighbourFaceByEdge(complex, 1, 3);
 #! fail
-NeighbourFaceByEdge(complex, 4, 11);
+#! gap> NeighbourFaceByEdge(complex, 4, 11);
 #! fail
-#! @EndExample
+#! @EndExampleSession
 #!
 #! @Returns a positive integer or fail
 #! @Arguments complex, face, edge
@@ -737,14 +737,14 @@ DeclareOperation(NeighbourFaceByEdgeNC,
 #! <Alt Only="TikZ">
 #!   \input{Image_PentagonCyclicOrder.tex}
 #! </Alt>
-#! @BeginExample
-pentagon := PolygonalSurfaceByDownwardIncidence( 
-    [,[3,6],[2,9],[1,6],,[2.3],,[1,9]], [, [2,3,4,6,8]] );;
-VerticesOfFace(pentagon,2);
+#! @ExampleSession
+#! gap> pentagon := PolygonalSurfaceByDownwardIncidence( 
+#! >    [,[3,6],[2,9],[1,6],,[2.3],,[1,9]], [, [2,3,4,6,8]] );;
+#! gap> VerticesOfFace(pentagon,2);
 #! [ 1, 2, 3, 6, 9 ]
-EdgesOfFace(pentagon,2);
+#! gap> EdgesOfFace(pentagon,2);
 #! [ 2, 3, 4, 6, 8 ]
-#! @EndExample
+#! @EndExampleSession
 #! If we want to know in which order the vertices (or edges) are
 #! arranged around the boundary of the given face, the previous methods 
 #! are quite clumsy. For that reason the methods 
@@ -762,35 +762,35 @@ EdgesOfFace(pentagon,2);
 #! the cyclic order of the edges. With the same convention we choose
 #! (2,4,8,3,6) as the designated return value. 
 #! <Par/>
-#! @BeginExample
-CyclicVertexOrderOfFace( pentagon, 2 );
+#! @ExampleSession
+#! gap> CyclicVertexOrderOfFace( pentagon, 2 );
 #! ( 1, 6, 3, 2, 9 )
-CyclicEdgeOrderOfFace( pentagon, 2 );
+#! gap> CyclicEdgeOrderOfFace( pentagon, 2 );
 #! ( 2, 4, 8, 3, 6 )
-#! @EndExample
+#! @EndExampleSession
 #!
 #! While the permutation representation is most natural, in many cases
 #! a list would be more convenient. For this reason the permutations
 #! (1,6,3,2,9) and (2,4,8,3,6) can also be given as the lists
 #! [1,6,3,2,9] and [2,4,8,3,6].
-#! @BeginExample
-CyclicVertexOrderOfFaceAsList( pentagon, 2 );
+#! @ExampleSession
+#! gap> CyclicVertexOrderOfFaceAsList( pentagon, 2 );
 #! [ 1, 6, 3, 2, 9 ];
-CyclicEdgeOrderOfFaceAsList( pentagon, 2 );
+#! gap> CyclicEdgeOrderOfFaceAsList( pentagon, 2 );
 #! [ 2, 4, 8, 3, 6 ];
-#! @EndExample
+#! @EndExampleSession
 #!
 #! Since it might be confusing to remember whether the permutation or
 #! the list representation is the default one, we also offer the operations
 #! <K>CyclicVertexOrderOfFaceAsPerm</K> and
 #! <K>CyclicEdgeOrderOfFaceAsPerm</K>.
 #!
-#! @BeginExample
-CyclicVertexOrderOfFaceAsPerm( pentagon, 2 );
+#! @ExampleSession
+#! gap> CyclicVertexOrderOfFaceAsPerm( pentagon, 2 );
 #! ( 1, 6, 3, 2, 9 )
-CyclicEdgeOrderOfFaceAsPerm( pentagon, 2 );
+#! gap> CyclicEdgeOrderOfFaceAsPerm( pentagon, 2 );
 #! ( 2, 4, 8, 3, 6 )
-#! @EndExample
+#! @EndExampleSession
 #!
 
 #! @BeginGroup
@@ -825,16 +825,16 @@ CyclicEdgeOrderOfFaceAsPerm( pentagon, 2 );
 #! <Alt Only="TikZ">
 #!   \input{Image_PentagonCyclicOrder.tex}
 #! </Alt>
-#! @BeginExample
-CyclicVertexOrderOfFaceAsPerm(pentagon, 2);
+#! @ExampleSession
+#! gap> CyclicVertexOrderOfFaceAsPerm(pentagon, 2);
 #! ( 1, 6, 3, 2, 9 )
-CyclicVertexOrderOfFace(pentagon, 2);
+#! gap> CyclicVertexOrderOfFace(pentagon, 2);
 #! ( 1, 6, 3, 2, 9 )
-CyclicVertexOrderOfFacesAsPerm(pentagon);
+#! gap> CyclicVertexOrderOfFacesAsPerm(pentagon);
 #! [ , ( 1, 6, 3, 2, 9 ) ]
-CyclicVertexOrderOfFaces(pentagon);
+#! gap> CyclicVertexOrderOfFaces(pentagon);
 #! [ , ( 1, 6, 3, 2, 9 ) ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Arguments complex
 #! @Returns a list of permutations/a permutation
@@ -881,12 +881,12 @@ DeclareOperation( "CyclicVertexOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! <Alt Only="TikZ">
 #!   \input{Image_PentagonCyclicOrder.tex}
 #! </Alt>
-#! @BeginExample
-CyclicVertexOrderOfFaceAsList(pentagon, 2);
+#! @ExampleSession
+#! gap> CyclicVertexOrderOfFaceAsList(pentagon, 2);
 #! [ 1, 6, 3, 2, 9 ]
-CyclicVertexOrderOfFacesAsList(pentagon);
+#! gap> CyclicVertexOrderOfFacesAsList(pentagon);
 #! [ , [ 1, 6, 3, 2, 9  ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Arguments complex
 #! @Returns a list of lists/a list
@@ -931,16 +931,16 @@ DeclareOperation( "CyclicVertexOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosI
 #! <Alt Only="TikZ">
 #!   \input{Image_PentagonCyclicOrder.tex}
 #! </Alt>
-#! @BeginExample
-CyclicEdgeOrderOfFaceAsPerm(pentagon, 2);
+#! @ExampleSession
+#! gap> CyclicEdgeOrderOfFaceAsPerm(pentagon, 2);
 #! ( 2, 4, 8, 3, 6 )
-CyclicEdgeOrderOfFace(pentagon, 2);
+#! gap> CyclicEdgeOrderOfFace(pentagon, 2);
 #! ( 2, 4, 8, 3, 6 )
-CyclicEdgeOrderOfFacesAsPerm(pentagon);
+#! gap> CyclicEdgeOrderOfFacesAsPerm(pentagon);
 #! [ , ( 2, 4, 8, 3, 6 ) ]
-CyclicEdgeOrderOfFaces(pentagon);
+#! gap> CyclicEdgeOrderOfFaces(pentagon);
 #! [ , ( 2, 4, 8, 3, 6 ) ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Arguments complex
 #! @Returns a list of permutations/a permutation
@@ -987,12 +987,12 @@ DeclareOperation( "CyclicEdgeOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! <Alt Only="TikZ">
 #!   \input{Image_PentagonCyclicOrder.tex}
 #! </Alt>
-#! @BeginExample
-CyclicEdgeOrderOfFaceAsList(pentagon, 2);
+#! @ExampleSession
+#! gap> CyclicEdgeOrderOfFaceAsList(pentagon, 2);
 #! [ 2, 4, 8, 3, 6 ]
-CyclicEdgeOrderOfFacesAsList(pentagon);
+#! gap> CyclicEdgeOrderOfFacesAsList(pentagon);
 #! [ , [ 2, 4, 8, 3, 6  ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Arguments complex
 #! @Returns a list of lists/a list
@@ -1129,18 +1129,18 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #!     \node[vertex] at (barycentric cs:P2=5,PNE=1,PSE=1) {1};
 #!   \end{tikzpicture}
 #! </Alt>
-#! @BeginExample
-surface := PolygonalSurfaceByDownwardIncidence( 
-    [,,,,,,,,,, [1,6],[1,7],[1,8],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
-    [[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
-EdgeFacePathOfVertex(surface, 1);
+#! @ExampleSession
+#! gap> surface := PolygonalSurfaceByDownwardIncidence( 
+#! >    [,,,,,,,,,, [1,6],[1,7],[1,8],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
+#! >    [[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
+#! gap> EdgeFacePathOfVertex(surface, 1);
 #! [ 11, 2, 12, 3, 13, 4, 14, 5 ]
-EdgeFacePathOfVertex(surface, 7);
+#! gap> EdgeFacePathOfVertex(surface, 7);
 #! [ 15, 2, 12, 3, 16 ]
-EdgeFacePathsOfVertices(surface);
+#! gap> EdgeFacePathsOfVertices(surface);
 #! [ [ 11, 2, 12, 3, 13, 4, 14, 5 ], , , , , [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ], 
 #!      [ 16, 3, 17 ], [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! 
 #! @Returns a list of edge-face-paths
 #! @Arguments surface
@@ -1205,19 +1205,19 @@ DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
 #! <Alt Only="TikZ">
 #!   \input{Image_EdgeFacePath_ramified.tex}
 #! </Alt>
-#! @BeginExample
-ramSurf := RamifiedPolygonalSurfaceByDownwardIncidence(
-    [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],[1,8],[1,10],[1,12],[8,10],[10,12] ],
-    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
-EdgeFacePathPartitionOfVertex(ramSurf, 1);
+#! @ExampleSession
+#! gap> ramSurf := RamifiedPolygonalSurfaceByDownwardIncidence(
+#! >    [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],[1,8],[1,10],[1,12],[8,10],[10,12] ],
+#! >    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
+#! gap> EdgeFacePathPartitionOfVertex(ramSurf, 1);
 #! [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ]
-EdgeFacePathPartitionOfVertex(ramSurf, 5);
+#! gap> EdgeFacePathPartitionOfVertex(ramSurf, 5);
 #! [ [ 13, 3, 14, 2, 15 ] ]
-EdgeFacePathPartitionsOfVertices(ramSurf);
+#! gap> EdgeFacePathPartitionsOfVertices(ramSurf);
 #! [ [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ], , , , 
 #!      [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ], [ [ 15, 2, 18, 4, 17 ] ],
 #!      [ [ 19, 11, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ]
-#! @EndExample
+#! @EndExampleSession
 #!
 #! @Returns a list of sets of edge-face-paths
 #! @Arguments ramSurf

@@ -47,6 +47,30 @@
 #! * Use the surface database to find appropriate complexes. This will be 
 #!   handled in chapter TODO
 #!
+#! As the list of some small standard examples in section TODO 
+#! does not warrant much 
+#! explanation (except noting that all platonic solids are there), we will
+#! now explain the structure of the more general constructors.
+#! <Par/>
+## All general constructors are structured like <Type>By<Method>(args), e.g.
+#! * <K>PolygonalComplexByDownwardIncidence</K>( <A>verticesOfEdges</A>, <A>edgesOfFaces</A> )
+#! * <K>SimplicialSurfaceByEdgeFacePaths</K>( <A>edgeFacePaths</A> )
+#!
+#! They are mainly distinguished by the different attributes they need to 
+#! construct the incidence structures:
+#! * <K>DownwardIncidence</K> 
+#!   (<Ref Sect="Section_Constructors_DownwardIncidence"/>): 
+#!   <K>VerticesOfEdges</K>, <K>EdgesOfFaces</K>
+#! * <K>UpwardIncidence</K>
+#!   (<Ref Sect="Section_Constructors_UpwardIncidence"/>):
+#!   <K>EdgesOfVertices</K>, <K>FacesOfEdges</K>
+#! * <K>VerticesInFaces</K>
+#!   (<Ref Sect="Section_Constructors_VerticesInFaces"/>):
+#!   <K>VerticesOfFaces</K>
+#! * <K>EdgeFacePaths</K>
+#!   (<Ref Sect="Section_Constructors_EdgeFacePaths"/>):
+#!   <K>EdgeFacePathsOfVertices</K>
+#!
 
 #! @Section General constructors
 
