@@ -7,4 +7,5 @@
 <#Include SYSTEM "_Chapter_Simplicial_Surface_Identifications.xml">
 <#Include SYSTEM "_Chapter_Simplicial_Surface_Fans.xml">
 <#Include SYSTEM "_Chapter_Folding_Complexes.xml">
+<#Include SYSTEM "_Chapter_Constructors.xml">
 <#Include SYSTEM "_Chapter_AccessIncidenceGeometry.xml">
