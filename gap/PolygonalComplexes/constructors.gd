@@ -52,7 +52,7 @@
 #! explanation (except noting that all platonic solids are there), we will
 #! now explain the structure of the more general constructors.
 #! <Par/>
-## All general constructors are structured like <Type>By<Method>(args), e.g.
+#! All general constructors are structured like [Type]By[Method](args), e.g.
 #! * <K>PolygonalComplexByDownwardIncidence</K>( <A>verticesOfEdges</A>, <A>edgesOfFaces</A> )
 #! * <K>SimplicialSurfaceByEdgeFacePaths</K>( <A>edgeFacePaths</A> )
 #!
@@ -72,7 +72,25 @@
 #!   <K>EdgeFacePathsOfVertices</K>
 #!
 
-#! @Section General constructors
+#! @Section DownwardIncidence
+#! @SectionLabel Constructor_DownwardIncidence
+#!
+#! The constructors that are based on <K>DownwardIncidence</K> are based on
+#! the attributes <K>VerticesOfEdges</K> and <K>EdgesOfFaces</K>. From these
+#! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
+#! be build.
+#! <Par/>
+#! These constructors also allow the optional arguments <A>vertices</A>,
+#! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
+#! information is checked for compatibility with them. This is very useful
+#! in practice to notice typos in the incidence relations. It is also possible
+#! to give a positive integer <A>n</A> - it will be converted into the list
+#! <M>[1,...,n]</M>.
+#! <Par/>
+#! The name <K>DownwardIncidence</K> stems from the fact that the incidence
+#! relation is given by referring to structures of lower dimension  - an edge
+#! (dimension 1) is defined by two vertices (dimension 0) and a face 
+#! (dimension 2) is defined by edges.
 
 #! @BeginGroup
 #! @Description
@@ -82,26 +100,51 @@
 DeclareOperation( "PolygonalComplexByDownwardIncidence", [IsList, IsList] );
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! bla
 #! @Returns a ramified polygonal surface
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! bla
 #! @Returns a polygonal surface
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! bla
 #! @Returns a triangular complex
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidence", [IsList, IsList] );
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! bla
 #! @Returns a ramified simplicial surface
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! bla
 #! @Returns a simplicial surface
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
