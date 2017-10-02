@@ -21,4 +21,12 @@
 #! This chapter deals with the construction of custom polygonal complexes
 #! and simplicial surfaces.
 
+#######
+## Every section corresponds to one type of constructor (to make finding them
+## easier). In which order should they be? We have:
+## --> example constructors (platonic solids etc.)
+## --> general constructors
+## --> data-base calls
+##
+##
 #TODO which order of the sections?
