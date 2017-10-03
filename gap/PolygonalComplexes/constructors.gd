@@ -58,25 +58,28 @@
 #!
 #! They are mainly distinguished by the different attributes they need to 
 #! construct the incidence structures:
-#! * <K>DownwardIncidence</K> 
+#! * <E>DownwardIncidence</E>
 #!   (<Ref Sect="Section_Constructors_DownwardIncidence"/>): 
-#!   <K>VerticesOfEdges</K>, <K>EdgesOfFaces</K>
-#! * <K>UpwardIncidence</K>
+#!   <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>),
+#!   <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>)
+#! * <E>UpwardIncidence</E>
 #!   (<Ref Sect="Section_Constructors_UpwardIncidence"/>):
-#!   <K>EdgesOfVertices</K>, <K>FacesOfEdges</K>
-#! * <K>VerticesInFaces</K>
+#!   <K>EdgesOfVertices</K> (<Ref Subsect="EdgesOfVertices"/>), 
+#!   <K>FacesOfEdges</K> (<Ref Subsect="FacesOfEdges"/>)
+#! * <E>VerticesInFaces</E>
 #!   (<Ref Sect="Section_Constructors_VerticesInFaces"/>):
-#!   <K>VerticesOfFaces</K>
-#! * <K>EdgeFacePaths</K>
+#!   <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>)
+#! * <E>EdgeFacePaths</E>
 #!   (<Ref Sect="Section_Constructors_EdgeFacePaths"/>):
-#!   <K>EdgeFacePathsOfVertices</K>
+#!   <K>EdgeFacePathsOfVertices</K> (<Ref Subsect="EdgeFacePathSingle"/>)
 #!
 
 #! @Section DownwardIncidence
 #! @SectionLabel Constructors_DownwardIncidence
 #!
-#! The constructors that are based on <K>DownwardIncidence</K> are based on
-#! the attributes <K>VerticesOfEdges</K> and <K>EdgesOfFaces</K>. From these
+#! The constructors that are based on <E>DownwardIncidence</E> are based on
+#! the attributes <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) 
+#! and <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). From these
 #! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
 #! be build.
 #! <Par/>
@@ -87,14 +90,41 @@
 #! to give a positive integer <A>n</A> - it will be converted into the list
 #! <M>[1,...,n]</M>.
 #! <Par/>
-#! The name <K>DownwardIncidence</K> stems from the fact that the incidence
+#! The name <E>DownwardIncidence</E> stems from the fact that the incidence
 #! relation is given by referring to structures of lower dimension  - an edge
 #! (dimension 1) is defined by two vertices (dimension 0) and a face 
 #! (dimension 2) is defined by edges.
 
+#TODO should the presentation be changed?
+# Problem: optional argument types unclear (because complicated..)
+# Problem: Name too long for one line and breaks at bad point
+
+#TODO should we introduce a "similar methods"-part at the end of
+# some methods? This might become too long..
+
 #! @BeginGroup
 #! @Description
-#! bla
+#! This methods constructs a polygonal complex 
+#! (<Ref Sect="PolygonalStructures_complex"/>) based on the attributes
+#! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) and 
+#! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). It takes these
+#! arguments:
+#! * OPTIONAL: sets of vertices, edges and faces (sets of positive integers).
+#!   If a positive integer <M>n</M> is given, it is interpreted as the set
+#!   <M>[1,...,n]</M>. Although these arguments are redundant, their use is
+#!   recommended to catch mistakes in the other arguments.
+#! * <K>verticesOfEdges</K>: A list that has an entry for each edge of the
+#!   polygonal complex. At this position there has to be a list with the two
+#!   vertices (as positive integers) of this edge.
+#! * <K>edgesOfFaces</K>: A list that has an entry for each face of the 
+#!   polygonal complex. At this position there has to be a list with the edges
+#!   (as positive integers) of this face.
+#!
+#! The following checks will be performed. <E>Emphasized</E> checks are not
+#! performed by the NC-version:
+#! TODO
+#!
+#! TODO example
 #! @Returns a polygonal complex
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidence", [IsList, IsList] );
