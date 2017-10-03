@@ -325,7 +325,7 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 
 
 #TODO mention 'ordered' access
-#! @BeginGroup
+#! @BeginGroup FacesOfVertices
 #! @Description
 #! The method <K>FacesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
 #! set of all faces that are incident to <A>vertex</A>. The NC-version does
@@ -446,7 +446,7 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 
 
 #TODO mention ordered access
-#! @BeginGroup
+#! @BeginGroup VerticesOfFaces
 #! @Description
 #! The method <K>VerticesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
 #! set of all vertices that are incident to <A>face</A>. The NC-version does
