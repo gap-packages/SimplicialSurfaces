@@ -12,7 +12,8 @@
 
 
 # We define a generic representation for polygonal complexes
-DeclareRepresentation("IsGenericPolygonalComplexRep", IsPolygonalComplex, []);
+DeclareRepresentation("IsGenericPolygonalComplexRep", 
+    IsPolygonalComplex and IsAttributeStoringRep, []);
 
 # Define a generic type
 PolygonalComplexType := 

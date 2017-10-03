@@ -16,8 +16,7 @@
 
 # Define the main category
 # [Categories are used to determine which operations can be used]
-DeclareCategory( "IsPolygonalComplex", 
-    IsComponentObjectRep and IsAttributeStoringRep );
+DeclareCategory( "IsPolygonalComplex", IsObject );
 
 # Define the family
 # [For two object to be equal, they have to lie in the same family]
