@@ -16,6 +16,10 @@
 ##  Downward incidence
 ##
 
+#NC: Define type, set attributes (no checks)
+#normal: check arguments for well-definedness and compatibility
+#special: do pre-checks and post-checks
+#special NC: only set property afterwards
 
 
 
