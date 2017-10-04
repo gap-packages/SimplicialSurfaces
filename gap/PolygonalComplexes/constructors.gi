@@ -33,7 +33,8 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
     function( methodString, typeStringList, objectConst, preCheck, postCheck, namesOfSets, namesOfLists )
         local name, nameNC, typeString, shortFilter, nameProperty, setterNC, 
             setterNormal, descriptionShort, descriptionLong, longFilter, 
-            shortPos, pos, filterStd, filterWeak, filterStrong;
+            shortPos, pos, filterStd, filterWeak, filterStrong, longFilterAlt,
+            longFilterRe, normalFunction, description, i;
 
         shortFilter := List( namesOfLists, i -> ValueGlobal("IsList") );
         longFilter := Concatenation( List(namesOfSets, i -> ValueGlobal("IsSet") ), shortFilter );
@@ -53,7 +54,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 setterNC := function( obj ) end;
             elif typeString = "TriangularComplex" then
                 setterNC := function( obj )
-                    SetIsTriangular(obj, true);
+                    SetIsTriangularComplex(obj, true);
                 end;
             elif typeString = "RamifiedPolygonalSurface" then
                 setterNC := function( obj )
@@ -62,7 +63,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             elif typeString = "RamifiedSimplicialSurface" then
                 setterNC := function( obj )
                     SetIsRamifiedPolygonalSurface(obj, true);
-                    SetIsTriangular(obj, true);
+                    SetIsTriangularComplex(obj, true);
                 end;
             elif typeString = "PolygonalSurface" then
                 setterNC := function( obj )
@@ -71,7 +72,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             elif typeString = "SimplicialSurface" then
                 setterNC := function( obj )
                     SetIsPolygonalSurface(obj, true);
-                    SetIsTriangular(obj, true);
+                    SetIsTriangularComplex(obj, true);
                 end;
             else
                 Error("This type is not supported.");

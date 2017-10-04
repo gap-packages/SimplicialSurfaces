@@ -274,7 +274,7 @@ InstallMethod(EdgesOfVertexNC,
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
-        return EdgesOfVertices(complex)[vertex]    
+        return EdgesOfVertices(complex)[vertex];
     end
 );
 InstallMethod(EdgesOfVertex,
@@ -291,7 +291,7 @@ InstallMethod(FacesOfVertexNC,
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
-        return FacesOfVertices(complex)[vertex]    
+        return FacesOfVertices(complex)[vertex];
     end
 );
 InstallMethod(FacesOfVertex,
@@ -309,7 +309,7 @@ InstallMethod(VerticesOfEdgeNC,
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
-        return VerticesOfEdges(complex)[edge]    
+        return VerticesOfEdges(complex)[edge];  
     end
 );
 InstallMethod(VerticesOfEdge,
@@ -327,7 +327,7 @@ InstallMethod(FacesOfEdgeNC,
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
-        return FacesOfEdges(complex)[edge]    
+        return FacesOfEdges(complex)[edge]; 
     end
 );
 InstallMethod(FacesOfEdge,
@@ -345,7 +345,7 @@ InstallMethod(VerticesOfFaceNC,
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
-        return VerticesOfFaces(complex)[face]    
+        return VerticesOfFaces(complex)[face];
     end
 );
 InstallMethod(VerticesOfFace,
@@ -363,7 +363,7 @@ InstallMethod(EdgesOfFaceNC,
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
-        return EdgesOfFaces(complex)[edge]    
+        return EdgesOfFaces(complex)[edge];    
     end
 );
 InstallMethod(EdgesOfFace,
