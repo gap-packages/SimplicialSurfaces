@@ -104,23 +104,24 @@
 
 #! @BeginGroup
 #! @Description
-#! This methods constructs a polygonal complex 
+#! This method constructs a polygonal complex 
 #! (<Ref Sect="PolygonalStructures_complex"/>) based on the attributes
 #! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) and 
 #! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). It takes these
 #! arguments:
-#! * OPTIONAL: sets of vertices, edges and faces (sets of positive integers).
+#! * OPTIONAL: The sets of vertices, edges and faces (i.e. sets of positive 
+#!   integers).
 #!   If a positive integer <M>n</M> is given, it is interpreted as the set
 #!   <M>[1,...,n]</M>. Although these arguments are redundant, their use is
 #!   recommended to catch mistakes in the other arguments.
 #! * <K>verticesOfEdges</K>: A list that has an entry for each edge of the
-#!   polygonal complex. At this position there has to be a list with the two
+#!   polygonal complex. This entry has to be a list with the two
 #!   vertices (as positive integers) of this edge.
 #! * <K>edgesOfFaces</K>: A list that has an entry for each face of the 
-#!   polygonal complex. At this position there has to be a list with the edges
+#!   polygonal complex. This entry has to be a list with the edges
 #!   (as positive integers) of this face.
 #!
-#! The following checks will be performed. <E>Emphasized</E> checks are not
+#! The following checks will be performed. <E>Emphasized</E> checks are also
 #! performed by the NC-version:
 #! TODO
 #!
