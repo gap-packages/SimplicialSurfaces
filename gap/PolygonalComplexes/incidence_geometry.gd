@@ -609,9 +609,9 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #!
 #! @Returns a positive integer
 #! @Arguments complex, face, verts
-DeclareOperation(EdgeInFaceByVertices, [IsPolygonalComplex, IsPosInt, IsList]);
+DeclareOperation("EdgeInFaceByVertices", [IsPolygonalComplex, IsPosInt, IsList]);
 #! @Arguments complex, face, verts
-DeclareOperation(EdgeInFaceByVerticesNC, 
+DeclareOperation("EdgeInFaceByVerticesNC", 
         [IsPolygonalComplex, IsPosInt, IsList]);
 #! @EndGroup
 
@@ -642,10 +642,10 @@ DeclareOperation(EdgeInFaceByVerticesNC,
 #!
 #! @Returns a positive integer
 #! @Arguments complex, vertex, edge, face
-DeclareOperation(OtherEdgeOfVertexInFace, 
+DeclareOperation("OtherEdgeOfVertexInFace", 
         [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge, face
-DeclareOperation(OtherEdgeOfVertexInFaceNC,
+DeclareOperation("OtherEdgeOfVertexInFaceNC",
         [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @EndGroup
 
@@ -676,9 +676,9 @@ DeclareOperation(OtherEdgeOfVertexInFaceNC,
 #!
 #! @Returns a positive integer
 #! @Arguments complex, vertex, edge
-DeclareOperation(OtherVertexOfEdge, [IsPolygonalComplex, IsPosInt, IsPosInt]);
+DeclareOperation("OtherVertexOfEdge", [IsPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge
-DeclareOperation(OtherVertexOfEdgeNC, 
+DeclareOperation("OtherVertexOfEdgeNC", 
         [IsPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
@@ -716,10 +716,10 @@ DeclareOperation(OtherVertexOfEdgeNC,
 #!
 #! @Returns a positive integer or fail
 #! @Arguments complex, face, edge
-DeclareOperation(NeighbourFaceByEdge, 
+DeclareOperation("NeighbourFaceByEdge", 
         [IsPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, face, edge
-DeclareOperation(NeighbourFaceByEdgeNC,
+DeclareOperation("NeighbourFaceByEdgeNC",
         [IsPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
@@ -1144,12 +1144,12 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! 
 #! @Returns a list of edge-face-paths
 #! @Arguments surface
-DeclareAttribute( EdgeFacePathsOfVertices, IsPolygonalSurface );
+DeclareAttribute( "EdgeFacePathsOfVertices", IsPolygonalSurface );
 #! @Returns an edge-face-path
 #! @Arguments surface, vertex
-DeclareOperation( EdgeFacePathOfVertex, [IsPolygonalSurface, IsPosInt] );
+DeclareOperation( "EdgeFacePathOfVertex", [IsPolygonalSurface, IsPosInt] );
 #! @Arguments surface, vertex
-DeclareOperation( EdgeFacePathOfVertexNC, [IsPolygonalSurface, IsPosInt] );
+DeclareOperation( "EdgeFacePathOfVertexNC", [IsPolygonalSurface, IsPosInt] );
 #! @EndGroup
 
 #! For ramified polygonal surfaces it might happen that there is no single
