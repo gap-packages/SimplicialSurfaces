@@ -234,6 +234,32 @@ BindGlobal( "__SIMPLICIAL_AtLeastTwoEdgesPerFace",
         od;
     end
 );
+BindGlobal( "__SIMPLICIAL_CheckPolygons",
+    function( name, obj )
+        local face, vertices, edges, vertexDegrees, perms;
+
+        # We check the polygonal property by two separate properties:
+        # 1) Every edge defines a transposition of its vertices. The group
+        #    generated from those has to be transitive on the vertices.
+        # 2) Every vertex is incident to exactly two edges inside the face.
+        for face in Faces(obj) do
+            vertices := VerticesOfFaces(obj)[face];
+            edges := EdgesOfFaces(obj)[face];
+
+            # 2
+            vertexDegrees := List( vertices, v -> Intersection(edges, EdgesOfVertices(obj)[v]) );
+            if ForAny( vertexDegrees, x -> Size(x) <> 2 ) then
+                Error( Concatenation( name, ": Face ", String(face), " is not a polygon (bad degrees)." ) );
+            fi;
+
+            # 3
+            perms := List( edges, e -> (VerticesOfEdges(obj)[e][1], VerticesOfEdges(obj)[e][2]) );
+            if not IsTransitive( Group(perms) ) then
+                Error( Concatenation( name, ": Face ", String(face), " is not a polygon (intransitive)." ) );
+            fi;
+        od;
+    end
+);
     
 
 #######################################
@@ -279,9 +305,7 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         __SIMPLICIAL_TwoVerticesPerEdge(arg[1], verticesOfEdges);
         __SIMPLICIAL_AtLeastTwoEdgesPerFace(arg[1], edgesOfFaces);
     end,
-    function( name, obj ) 
-        #TODO check if faces are polygons
-    end,
+    __SIMPLICIAL_CheckPolygons,
     ["vertices", "edges", "faces"],
     ["verticesOfEdges", "edgesOfFaces"]);
 
