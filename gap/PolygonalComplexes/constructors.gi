@@ -138,13 +138,13 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
 
             # Installing the long versions is a bit of a hassle because they
             # need many installations and redispatches
-            InstallMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
+            InstallOtherMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
                 function(arg)
                     return CallFuncList( ValueGlobal(nameNC), arg{shortPos});
                 end);
                 RedispatchOnCondition( ValueGlobal(nameNC), true,
                     longFilterAlt, longFilterRe, 0);
-            InstallMethod( ValueGlobal(name), descriptionLong, longFilter,
+            InstallOtherMethod( ValueGlobal(name), descriptionLong, longFilter,
                 normalFunction);
                 RedispatchOnCondition( ValueGlobal(name), true,
                     longFilterAlt, longFilterRe, 0);
@@ -172,14 +172,14 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     Append(description, Concatenation(" and ", String(Size(namesOfLists)), " lists"));
 
                     # Install the methods
-                    InstallMethod( ValueGlobal(nameNC), description, filterStd, 
+                    InstallOtherMethod( ValueGlobal(nameNC), description, filterStd, 
                         function(arg)
                             return CallFuncList( ValueGlobal(nameNC), 
                                 Concatenation(arg{[1..pos-1]}, [1..arg[pos]], arg{[pos+1..Size(arg)]}));
                         end);
                         RedispatchOnCondition( ValueGlobal(nameNC), true,
                             filterWeak, filterStrong, 0);
-                    InstallMethod( ValueGlobal(name), description, filterStd,
+                    InstallOtherMethod( ValueGlobal(name), description, filterStd,
                         function(arg)
                             return CallFuncList( ValueGlobal(name),
                                 Concatenation(arg{[1..pos-1]}, [1..arg[pos]], arg{[pos+1..Size(arg)]}));
