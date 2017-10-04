@@ -769,7 +769,7 @@ InstallMethod( CyclicVertexOrderOfFacesAsList,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
     "CyclicVertexOrderOfFacesAsList", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
         "VerticesOfEdges", "EdgesOfVertices"] );
-InstallMethod( CyclicVertexOrderOfFacesAsList, 
+InstallOtherMethod( CyclicVertexOrderOfFacesAsList, 
     "for a triangular complex with VerticesOfFaces",
     [IsTriangularComplex and HasVerticesOfFaces],
     function(complex)
@@ -787,7 +787,7 @@ InstallMethod( CyclicEdgeOrderOfFacesAsList,
         HasEdgesOfFaces and HasEdgesOfVertices and HasVerticesOfEdges],
     function(complex)
         local cylicList, f, localEdges, localCycle, adVertices, startEdge,
-            lastEdge, finVertex, nextVertex, lastVertex;
+            lastEdge, finVertex, nextVertex, lastVertex, adEdges;
 
         cylicList := [];
         for f in Faces(complex) do
@@ -796,7 +796,6 @@ InstallMethod( CyclicEdgeOrderOfFacesAsList,
             adVertices := VerticesOfEdges(complex)[startEdge];
             adEdges := List( adVertices, v ->
                     OtherEdgeOfVertexInFaceNC(complex, v, startEdge, f) );
-                    OtherVertexOfEdgeNC(complex,startVert,e) );
             Assert(1, Size(adEdges)<>2);
             Assert(1, adEdges[1] <> adEdges[2]);
 
@@ -831,7 +830,7 @@ InstallMethod( CyclicEdgeOrderOfFacesAsList,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
     "CyclicEdgeOrderOfFacesAsList", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
         "VerticesOfEdges", "EdgesOfVertices"] );
-InstallMethod( CyclicEdgeOrderOfFacesAsList, 
+InstallOtherMethod( CyclicEdgeOrderOfFacesAsList, 
     "for a triangular complex with EdgesOfFaces",
     [IsTriangularComplex and HasEdgesOfFaces],
     function(complex)
@@ -904,7 +903,7 @@ InstallMethod( CyclicVertexOrderOfFacesAsList,
             Faces(complex),
             VerticesOfEdges(complex),
             VerticesOfFaces(complex)
-        )
+        );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -920,7 +919,7 @@ InstallMethod( CyclicEdgeOrderOfFacesAsList,
             Faces(complex),
             EdgesOfVertices(complex),
             EdgesOfFaces(complex)
-        )
+        );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -1069,28 +1068,28 @@ InstallMethod( CyclicEdgeOrderOfFaceAsListNC, "for a polygonal complex",
     end
 );
 
-InstallMethod( CyclicVertexOrderOfFaceAsPerm, "for a polygonal complex".
+InstallMethod( CyclicVertexOrderOfFaceAsPerm, "for a polygonal complex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace(complex, face, "CyclicVertexOrderOfFaceAsPerm");
         return CyclicVertexOrderOfFaceAsPermNC(complex,face);
     end
 );
-InstallMethod( CyclicVertexOrderOfFaceAsList, "for a polygonal complex".
+InstallMethod( CyclicVertexOrderOfFaceAsList, "for a polygonal complex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace(complex, face, "CyclicVertexOrderOfFaceAsList");
         return CyclicVertexOrderOfFaceAsListNC(complex,face);
     end
 );
-InstallMethod( CyclicEdgeOrderOfFaceAsPerm, "for a polygonal complex".
+InstallMethod( CyclicEdgeOrderOfFaceAsPerm, "for a polygonal complex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace(complex, face, "CyclicEdgeOrderOfFacesAsPerm");
         return CyclicEdgeOrderOfFaceAsPermNC(complex,face);
     end
 );
-InstallMethod( CyclicEdgeOrderOfFaceAsList, "for a polygonal complex".
+InstallMethod( CyclicEdgeOrderOfFaceAsList, "for a polygonal complex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace(complex, face, "CyclicEdgeOrderOfFacesAsList");
@@ -1214,7 +1213,7 @@ InstallMethod( EdgeFacePathOfVertexNC, "for a polygonal surface and a vertex",
         return EdgeFacePathsOfVertices(surface)[vertex];
     end
 );
-    RedispatchOnCondition( EdgeFacePathOfVertexNC, [IsPolygonalComplex, IsPosInt],
+    RedispatchOnCondition( EdgeFacePathOfVertexNC, true, [IsPolygonalComplex, IsPosInt],
         [IsPolygonalSurface,],0);
 InstallMethod( EdgeFacePathOfVertex, "for a polygonal surface and a vertex",
     [IsPolygonalSurface, IsPosInt],
@@ -1223,7 +1222,7 @@ InstallMethod( EdgeFacePathOfVertex, "for a polygonal surface and a vertex",
         return EdgeFacePathOfVertexNC(surface, vertex);
     end
 );
-    RedispatchOnCondition( EdgeFacePathOfVertex, [IsPolygonalComplex, IsPosInt],
+    RedispatchOnCondition( EdgeFacePathOfVertex, true, [IsPolygonalComplex, IsPosInt],
         [IsPolygonalSurface, ], 0);
 
 InstallMethod( EdgeFacePathPartitionOfVertexNC,
@@ -1233,7 +1232,7 @@ InstallMethod( EdgeFacePathPartitionOfVertexNC,
         return EdgeFacePathPartitionsOfVertices(ramSurf)[vertex];
     end
 );
-    RedispatchOnCondition( EdgeFacePathPartitionOfVertexNC, 
+    RedispatchOnCondition( EdgeFacePathPartitionOfVertexNC, true,
         [IsPolygonalComplex, IsPosInt], [IsRamifiedPolygonalSurface,], 0 );
 InstallMethod( EdgeFacePathPartitionOfVertex,
     "for a ramified polygonal surface and a vertex",
@@ -1243,7 +1242,7 @@ InstallMethod( EdgeFacePathPartitionOfVertex,
         return EdgeFacePathPartitionOfVertexNC(ramSurf, vertex);
     end
 );
-    RedispatchOnCondition( EdgeFacePathPartitionOfVertex,
+    RedispatchOnCondition( EdgeFacePathPartitionOfVertex, true,
         [IsPolygonalComplex, IsPosInt], [IsRamifiedPolygonalSurface,], 0);
 
 ##
@@ -1315,7 +1314,7 @@ InstallMethod( FacesOfEdges,
 
                 for i in ind do
                     edge := p[2*i-1];
-                    if IsBound(faceOfEdges[edge]) then
+                    if IsBound(facesOfEdges[edge]) then
                         # Since the complex is ramified, the incident faces should be the same
                         continue;
                     fi;
