@@ -11,7 +11,7 @@
 #############################################################################
 
 # Set up the attribute scheduler
-BindGlobal( "SIMPLICIAL_ATTRIBUTE_SCHEDULER", AttributeScheduler([]) );
+BindGlobal( "SIMPLICIAL_ATTRIBUTE_SCHEDULER", AttributeSchedulerGraph([]) );
 
 #TODO make this method a native part of the attribute scheduler
 BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute", 
