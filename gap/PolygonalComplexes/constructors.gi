@@ -15,11 +15,18 @@ BindGlobal( "__SIMPLICIAL_AllTypes",
     ["PolygonalComplex", "TriangularComplex", "RamifiedPolygonalSurface", "RamifiedSimplicialSurface", "PolygonalSurface", "SimplicialSurface"] );
 ##
 ## Automated construction of the constructors. Parameters:
-## methodString: String for the method of the constructor (like "DownwardIncidence")
-## typeStringList: List of strings of all supported types (like "PolygonalComplex" and "SimplicialSurface")
+## methodString: String for the method of the constructor (like 
+##              "DownwardIncidence")
+## typeStringList: List of strings of all supported types (like 
+##              "PolygonalComplex" and "SimplicialSurface")
 ## objectConst: Function to construct an object with the given lists
-## preCheck: Function to check consistency in normal case (should work with long and short version of arguments)
-## postCheck: Function to check consistency in normal case after construction (only takes the constructed object as input)
+## preCheck: Function to check consistency in normal case (should work with 
+##              long and short version of arguments). This does not have to 
+##              check whether the sets only contain positive integers
+##              First argument is the name of the method where it is called,
+##              the other arguments follow.
+## postCheck: Function to check consistency in normal case after construction 
+##              (only takes the method name and the constructed object as input)
 ## namesOfSets: List of strings (for the optional set-parameters)
 ## namesOfLists: List of strings (for the additional list-parameters)
 BindGlobal( "__SIMPLICIAL_IntSetConstructor", 
@@ -78,16 +85,41 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 fi;
             end;
 
-            descriptionShort := Concatenation("for ", Size(namesOfLists), " lists");
-            descriptionLong := Concatenation("for ", Size(namesOfSets), " (sets of) positive integers and ", Size(namesOfLists), " lists");
+            descriptionShort := 
+                Concatenation("for ", String(Size(namesOfLists)), " lists");
+            descriptionLong := 
+                Concatenation("for ", String(Size(namesOfSets)), 
+                    " (sets of) positive integers and ", 
+                    String(Size(namesOfLists)), " lists");
 
             # Install the short versions first
             normalFunction := function( arg )
-                local obj;
+                local obj, i, off;
 
-                CallFuncList( preCheck, arg);
+                # Check the sets for well-definedness
+                if Size(arg) = Size(longFilter) then
+                    # The sets are present and have to be checked for well-definedness
+                    for i in [1..Size(namesOfSets)] do
+                        if ForAny(arg[i], x -> not IsPosInt(x)) then
+                            Error(Concatenation(name,": ", namesOfSets[1], " have to be positive integers."));
+                        fi;
+                    od;
+                fi;
+
+                # Check the lists for well-definedness
+                off := 0;
+                if Size(arg) = Size(longFilter) then
+                    off := Size(namesOfSets);
+                fi;
+                for i in [1..Size(namesOfLists)] do
+                    if ForAny( arg[i+off], l -> not IsList(l) and ForAll(l, IsPosInt ) ) then
+                        Error(Concatenation(name, ": The entries of ", namesOfLists[i], " hav to be lists of positive integers."));
+                    fi;
+                od;
+
+                CallFuncList( preCheck, Concatenation(name, arg));
                 obj := CallFuncList( objectConst, arg);
-                postCheck(obj);
+                postCheck(name, obj);
                 setterNormal(obj);
 
                 return obj;
@@ -136,7 +168,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                         filterStd[i] := ValueGlobal("IsObject");
                         Append(description, " an object,");
                     fi;
-                    Append(description, Concatenation(" and ", Size(namesOfLists), " lists"));
+                    Append(description, Concatenation(" and ", String(Size(namesOfLists)), " lists"));
 
                     # Install the methods
                     InstallMethod( ValueGlobal(nameNC), description, filterStd, 
@@ -160,6 +192,48 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
 );
 
 
+##
+## Provide some functions for checking inputs
+BindGlobal("__SIMPLICIAL_CompareSets", 
+    function(name, setA, setB, word)
+        local symDiff;
+        
+        if not setA = setB then
+            symDiff := Union( Difference(setA, setB), Difference(setB, setA) );
+            Error(Concatenation(name, ": Given ", word, " information does not match for ", String(symDiff)));
+        fi;
+    end
+);
+BindGlobal("__SIMPLICIAL_TwoVerticesPerEdge",
+    function(name, verticesOfEdges)
+        local e;
+
+        for e in [1..Size(verticesOfEdges)] do
+            if IsBound(verticesOfEdges[e]) then
+                if Size(verticesOfEdges[e]) <> 2 then
+                    Error(Concatenation(name, ": Edge ", String(e), 
+                        " should have exactly two vertices, but has ", 
+                        String(verticesOfEdges[e], ".")));
+                fi;
+            fi;
+        od;
+    end
+);
+BindGlobal( "__SIMPLICIAL_AtLeastTwoEdgesPerFace",
+    function(name, edgesOfFaces)
+        local f;
+
+        for f in [1..Size(edgesOfFaces)] do
+            if IsBound(edgesOfFaces[f]) then
+                if Size(edgesOfFaces[f] < 2) then
+                    Error(Concatenation(name, ": Face ", String(f),
+                        " should have at least two edges, but has ",
+                        String(edgesOfFaces[f]), "."));
+                fi;
+            fi;
+        od;
+    end
+);
     
 
 #######################################
@@ -177,8 +251,37 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
 
         return obj;
     end,
-    #preCheck,
-    function( arg ) end,
+    function( arg )
+        local verticesDed, edgesDed, facesDed, verticesOfEdges,
+            edgesOfFaces;
+
+        # First we deduce vertices, edges and faces
+        if Size(arg) = 3 then
+            verticesOfEdges := arg[2];
+            edgesOfFaces := arg[3];
+        else
+            verticesOfEdges := arg[5];
+            edgesOfFaces := arg[6];
+        fi;
+        verticesDed := Union( verticesOfEdges );
+        edgesDed := __SIMPLICIAL_BoundEntriesOfList(verticesOfEdges); # from incidence_geometry.gi
+        facesDed := __SIMPLICIAL_BoundEntriesOfList(edgesOfFaces);
+        
+        # Compare the vertex, edge and face data
+        if Size(arg) = 6 then
+            __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            __SIMPLICIAL_CompareSets( arg[1], arg[3], edgesDed, "edge" );
+            __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
+        fi;
+        __SIMPLICIAL_CompareSets( arg[1], edgesDed, Union(edgesOfFaces), "edge" );
+
+        # Guarantee basic size restrictions
+        __SIMPLICIAL_TwoVerticesPerEdge(arg[1], verticesOfEdges);
+        __SIMPLICIAL_AtLeastTwoEdgesPerFace(arg[1], edgesOfFaces);
+    end,
+    function( name, obj ) 
+        #TODO check if faces are polygons
+    end,
     ["vertices", "edges", "faces"],
     ["verticesOfEdges", "edgesOfFaces"]);
 
