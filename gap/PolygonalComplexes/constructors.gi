@@ -118,7 +118,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     fi;
                 od;
 
-                CallFuncList( preCheck, Concatenation(name, arg));
+                CallFuncList( preCheck, Concatenation([name], arg));
                 obj := CallFuncList( objectConst, arg);
                 postCheck(name, obj);
                 setterNormal(obj);
@@ -226,7 +226,7 @@ BindGlobal( "__SIMPLICIAL_AtLeastTwoEdgesPerFace",
 
         for f in [1..Size(edgesOfFaces)] do
             if IsBound(edgesOfFaces[f]) then
-                if Size(edgesOfFaces[f] < 2) then
+                if Size(edgesOfFaces[f]) < 2 then
                     Error(Concatenation(name, ": Face ", String(f),
                         " should have at least two edges, but has ",
                         String(edgesOfFaces[f]), "."));
