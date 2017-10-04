@@ -840,7 +840,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! @Returns a list of permutations/a permutation
 DeclareAttribute( "CyclicVertexOrderOfFacesAsPerm", IsPolygonalComplex );
 #! @Arguments complex
-DeclareOperation( "CyclicVertexOrderOfFace", [IsPolygonalComplex] );
+DeclareOperation( "CyclicVertexOrderOfFaces", [IsPolygonalComplex] );
 #! @Arguments complex, face
 DeclareOperation( "CyclicVertexOrderOfFaceAsPerm", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex, face
@@ -946,7 +946,7 @@ DeclareOperation( "CyclicVertexOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosI
 #! @Returns a list of permutations/a permutation
 DeclareAttribute( "CyclicEdgeOrderOfFacesAsPerm", IsPolygonalComplex );
 #! @Arguments complex
-DeclareOperation( "CyclicEdgeOrderOfFace", [IsPolygonalComplex] );
+DeclareOperation( "CyclicEdgeOrderOfFaces", [IsPolygonalComplex] );
 #! @Arguments complex, face
 DeclareOperation( "CyclicEdgeOrderOfFaceAsPerm", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex, face

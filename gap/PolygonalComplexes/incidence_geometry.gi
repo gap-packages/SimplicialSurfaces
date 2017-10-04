@@ -363,7 +363,7 @@ InstallMethod(EdgesOfFaceNC,
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
-        return EdgesOfFaces(complex)[edge];    
+        return EdgesOfFaces(complex)[face];    
     end
 );
 InstallMethod(EdgesOfFace,
@@ -532,8 +532,8 @@ InstallMethod( EdgeInFaceByVerticesNC,
     function( complex, face, vertSet )
         local possEdges;
 
-        possEdges := Filtered( EdgesOfFaces(surf)[face], e -> 
-                VerticesOfEdges(surf)[e] = vertList );
+        possEdges := Filtered( EdgesOfFaces(complex)[face], e -> 
+                VerticesOfEdges(complex)[e] = vertSet );
         if Size(possEdges) = 0 then
             return fail;
         elif Size(possEdges) > 1 then
@@ -725,14 +725,14 @@ InstallMethod( CyclicVertexOrderOfFacesAsList,
         HasEdgesOfFaces and HasEdgesOfVertices and HasVerticesOfEdges],
     function(complex)
         local cylicList, f, localVertices, localCycle, adEdges, startVert,
-            lastVert, finEdge, nextEdge, lastEdge;
+            lastVert, finEdge, nextEdge, lastEdge, adVertices;
 
         cylicList := [];
         for f in Faces(complex) do
             localVertices := VerticesOfFaces(complex)[f];
             startVert := Minimum(localVertices);
             adEdges := Intersection( EdgesOfFaces(complex)[f], 
-                        EdgesOfVertices(complex)[startVert );
+                        EdgesOfVertices(complex)[startVert] );
             adVertices := List( adEdges, e -> 
                     OtherVertexOfEdgeNC(complex,startVert,e) );
             Assert(1, Size(adVertices)<>2);

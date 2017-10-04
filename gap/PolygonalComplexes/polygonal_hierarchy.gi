@@ -43,7 +43,7 @@ InstallMethod( IsRamifiedPolygonalSurface, "for a polygonal complex",
     function( complex )
         local faceSize;
         
-        faceSize := List(Edges(complex), e -> Size(FacesOfEdges(complex)[e])));
+        faceSize := List( Edges(complex), e -> Size(FacesOfEdges(complex)[e]) );
         return Size( Filtered( faceSize, s -> s > 2 ) ) = 0;
     end
 );
@@ -54,16 +54,21 @@ InstallMethod( IsRamifiedPolygonalSurface, "for a polygonal complex",
 ## Check whether a ramified polygonal surface is a polygonal surface
 ##
 InstallMethod( IsPolygonalSurface, "for a ramified polygonal surface",
-    [ IsPolygonalComplex ],
+    [ IsPolygonalComplex and IsRamifiedPolygonalSurface],
     function( ramSurf )
         local paths, pathSize;
-
-        if not IsRamifiedPolygonalSurface( ramSurf ) then
-            return false;
-        fi;
 
         paths := EdgeFacePathPartitionsOfVertices(ramSurf);
         pathSize := List( Vertices(ramSurf), v -> Size(paths[v]) );
         return Filtered(pathSize, s -> s > 1) = 0;
+    end
+);
+InstallOtherMethod( IsPolygonalSurface, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        if not IsRamifiedPolygonalSurface(complex) then
+            return false;
+        fi;
+        return IsPolygonalSurface(complex); # Method above is called
     end
 );
