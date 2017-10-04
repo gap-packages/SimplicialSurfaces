@@ -24,7 +24,7 @@ PolygonalComplexType :=
 ##
 ## Check whether a polygonal complex is a triangular complex.
 ##
-InstallMethod( "IsTriangularComplex", "for a polygonal complex",
+InstallMethod( IsTriangularComplex, "for a polygonal complex",
     [ IsPolygonalComplex ],
     function( complex )
         local edgeSize;
@@ -38,7 +38,7 @@ InstallMethod( "IsTriangularComplex", "for a polygonal complex",
 ##
 ## Check whether a polygonal complex is a ramified polygonal surface.
 ##
-InstallMethod( "IsRamifiedPolygonalSurface", "for a polygonal complex",
+InstallMethod( IsRamifiedPolygonalSurface, "for a polygonal complex",
     [ IsPolygonalComplex ],
     function( complex )
         local faceSize;
@@ -53,7 +53,7 @@ InstallMethod( "IsRamifiedPolygonalSurface", "for a polygonal complex",
 ##
 ## Check whether a ramified polygonal surface is a polygonal surface
 ##
-InstallMethod( "IsPolygonalSurface", "for a ramified polygonal surface",
+InstallMethod( IsPolygonalSurface, "for a ramified polygonal surface",
     [ IsPolygonalComplex ],
     function( ramSurf )
         local paths, pathSize;
