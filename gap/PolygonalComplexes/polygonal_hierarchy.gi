@@ -60,7 +60,7 @@ InstallMethod( IsPolygonalSurface, "for a ramified polygonal surface",
 
         paths := EdgeFacePathPartitionsOfVertices(ramSurf);
         pathSize := List( Vertices(ramSurf), v -> Size(paths[v]) );
-        return Filtered(pathSize, s -> s > 1) = 0;
+        return ForAll(pathSize, s -> s = 1);
     end
 );
 InstallOtherMethod( IsPolygonalSurface, "for a polygonal complex",
