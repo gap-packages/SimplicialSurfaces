@@ -180,8 +180,8 @@ BindGlobal( "__SIMPLICIAL_Test_CyclicOrderInferences", function()
 
     complex := Objectify( PolygonalComplexType, rec() );
     SetCyclicVertexOrderOfFacesAsList( complex, cyclicVertAsList );
-    SetVerticesOfEdges( complex, verticesOfEdges );
-    SetVerticesOfFaces( complex, verticesOfFaces );
+    SetEdgesOfVertices( complex, edgesOfVertices );
+    SetEdgesOfFaces( complex, edgesOfFaces );
     Assert(0, CyclicEdgeOrderOfFacesAsList(complex)=cyclicEdgeAsList);
 
     #

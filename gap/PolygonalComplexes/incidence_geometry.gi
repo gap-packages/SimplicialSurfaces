@@ -812,7 +812,7 @@ InstallMethod( CyclicEdgeOrderOfFacesAsList,
             while true do
                 # find next edge
                 lastEdge := localCycle[Size(localCycle)];
-                nextVertex := OtherVertexOfEdgeNC( complex, lastVertex, lastEdge, f );
+                nextVertex := OtherVertexOfEdgeNC( complex, lastVertex, lastEdge);
                 if nextVertex = finVertex then
                     break;
                 fi;
@@ -1115,7 +1115,7 @@ InstallMethod( EdgesOfFaces,
     "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList",
     [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList],
     function(complex)
-        return List(CyclicVertexOrderOfFacesAsList(complex), Set);
+        return List(CyclicEdgeOrderOfFacesAsList(complex), Set);
     end
 );
 AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
