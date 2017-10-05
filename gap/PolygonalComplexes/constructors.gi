@@ -355,7 +355,7 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         allEdges := Union( vertexPairs );
         # This is verticesOfEdges
 
-        edgesOfFaces := List( vertexPairs, l -> List( p -> Position(allEdges,p) ) );
+        edgesOfFaces := List( vertexPairs, l -> List( l, p -> Position(allEdges,p) ) );
 
         obj := Objectify( PolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, allEdges);
