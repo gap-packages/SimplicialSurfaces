@@ -108,7 +108,7 @@ BindGlobal( "__SIMPLICIAL_Test_TransitiveIncidence", function()
 
     a_of_b := [ , [1,3], [3,5,7], , [5,7] ];
     b_of_c := [ [2], [2,3,5], , [3,5], [2,5] ];
-    a_of_c := [ [1,3], [1,3,5,7], , [3,5,7], , [1,3,5,7] ];
+    a_of_c := [ [1,3], [1,3,5,7], , [3,5,7], [1,3,5,7] ];
 
     # VerticesOfFaces
     complex := Objectify( PolygonalComplexType, rec() );
@@ -142,8 +142,8 @@ BindGlobal( "__SIMPLICIAL_Test_CyclicOrderInferences", function()
         cyclicEdgeAsPerm, cyclicEdgeAsList;
 
     faces := [1,3];
-    verticesOfFaces := [ [1,4,6,9], , [2,3,4,6,7,8] ];
-    edgesOfFaces := [ [1,5,9,7], , [2,3,6,7,10,11] ];
+    verticesOfFaces := [ [1,4,7,9], , [2,3,4,6,7,8] ];
+    edgesOfFaces := [ [1,5,6,9], , [2,3,6,7,10,11] ];
     verticesOfEdges := [ [4,9], [4,8], [3,8], , [1,9], [4,7], [3,6], , [1,7], [2,7], [2,6] ];
     edgesOfVertices := [ [5,9], [10,11], [3,7], [1,2,6], , [7,11], [6,9,10], [2,3], [1,5] ];
     
