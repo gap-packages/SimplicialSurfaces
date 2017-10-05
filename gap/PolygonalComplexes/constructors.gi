@@ -114,7 +114,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 fi;
                 for i in [1..Size(namesOfLists)] do
                     if ForAny( arg[i+off], l -> not IsList(l) and ForAll(l, IsPosInt ) ) then
-                        Error(Concatenation(name, ": The entries of ", namesOfLists[i], " hav to be lists of positive integers."));
+                        Error(Concatenation(name, ": The entries of ", namesOfLists[i], " have to be lists of positive integers."));
                     fi;
                 od;
 
@@ -211,7 +211,7 @@ BindGlobal("__SIMPLICIAL_TwoVerticesPerEdge",
 
         for e in [1..Size(verticesOfEdges)] do
             if IsBound(verticesOfEdges[e]) then
-                if Size(verticesOfEdges[e]) <> 2 then
+                if Size(verticesOfEdges[e]) <> 2 and verticesOfEdges[e][1] <> verticesOfEdges[e][2] then
                     Error(Concatenation(name, ": Edge ", String(e), 
                         " should have exactly two vertices, but has ", 
                         String(verticesOfEdges[e], ".")));
@@ -220,15 +220,15 @@ BindGlobal("__SIMPLICIAL_TwoVerticesPerEdge",
         od;
     end
 );
-BindGlobal( "__SIMPLICIAL_AtLeastTwoEdgesPerFace",
-    function(name, edgesOfFaces)
+BindGlobal( "__SIMPLICIAL_AtLeastTwoPerFace",
+    function(name, edgesOfFaces, words)
         local f;
 
         for f in [1..Size(edgesOfFaces)] do
             if IsBound(edgesOfFaces[f]) then
                 if Size(edgesOfFaces[f]) < 2 then
                     Error(Concatenation(name, ": Face ", String(f),
-                        " should have at least two edges, but has ",
+                        " should have at least two ", words,  ", but has ",
                         String(edgesOfFaces[f]), "."));
                 fi;
             fi;
@@ -304,7 +304,7 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
 
         # Guarantee basic size restrictions
         __SIMPLICIAL_TwoVerticesPerEdge(arg[1], verticesOfEdges);
-        __SIMPLICIAL_AtLeastTwoEdgesPerFace(arg[1], edgesOfFaces);
+        __SIMPLICIAL_AtLeastTwoPerFace(arg[1], edgesOfFaces, "edges");
     end,
     __SIMPLICIAL_CheckPolygons,
     ["vertices", "edges", "faces"],
@@ -336,7 +336,60 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
 ##  VerticesInFaces
 ##
 
+__SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
+    function( verticesInFaces )
+        local AdjacentVertices, allEdges, vertexPairs, edgesOfFaces, obj;
 
+        AdjacentVertices := function(list)
+            local pairs, i;
+
+            pairs := [ Set( [list[1], list[Length(list)]] ) ];
+            for i in [2..Length(list)] do
+                Add(pairs, Set([ list[i-1], list[i] ]));
+            od;
+            return pairs;
+        end;
+
+        vertexPairs := List(verticesInFaces, AdjacentVertices);
+
+        allEdges := Union( vertexPairs );
+        # This is verticesOfEdges
+
+        edgesOfFaces := List( vertexPairs, l -> List( p -> Position(allEdges,p) ) );
+
+        obj := Objectify( PolygonalComplexType, rec() );
+        SetVerticesOfEdges(obj, allEdges);
+        SetVerticesOfFaces(obj, List(verticesInFaces,Set));
+        SetEdgesOfFaces(obj, List(edgesOfFaces, Set));
+
+        return obj;
+    end,
+    function( arg )
+        local verticesDed, facesDed, verticesInFaces;
+
+        # First we deduce vertices and faces
+        if Size(arg) = 2 then
+            verticesInFaces := arg[2];
+        else
+            verticesInFaces := arg[4];
+        fi;
+        verticesDed := Union( verticesInFaces );
+        facesDed := __SIMPLICIAL_BoundEntriesOfList(verticesInFaces);
+        
+        # Compare the vertex and face data
+        if Size(arg) = 4 then
+            __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            __SIMPLICIAL_CompareSets( arg[1], arg[3], facesDed, "face" );
+        fi;
+
+        # Guarantee basic size restrictions
+        __SIMPLICIAL_AtLeastTwoPerFace(arg[1], verticesInFaces, "vertices");
+    end,
+    function( name, obj )
+        
+    end,
+    ["vertices", "faces"],
+    ["verticesInFaces"]);
 
 ##
 ##  End verticesInFaces

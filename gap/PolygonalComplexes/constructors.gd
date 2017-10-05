@@ -102,42 +102,50 @@
 #TODO should we introduce a "similar methods"-part at the end of
 # some methods? This might become too long..
 
-#! @BeginGroup
-#! @Description
-#! This method constructs a polygonal complex 
-#! (<Ref Sect="PolygonalStructures_complex"/>) based on the attributes
+#TODO 6 examples for the constructors (to showcase how each method
+# handles it).
+# TODO for visual distinguishing make the face colours slightly
+# different: yellow, cyan, green, light red, etc...
+# This needs styles and appropriate code
+
+## Here we write part of the documentation that is the same over the 
+## different versions
+#! @BeginChunk Documentation_DownwardIncidence
+#! based on the attributes
 #! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) and 
 #! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). It takes these
 #! arguments:
-#! * OPTIONAL: The sets of vertices, edges and faces (i.e. sets of positive 
-#!   integers).
-#!   If a positive integer <M>n</M> is given, it is interpreted as the set
-#!   <M>[1,...,n]</M>. Although these arguments are redundant, their use is
-#!   recommended to catch mistakes in the other arguments.
-#! * <K>verticesOfEdges</K>: A list that has an entry for each edge of the
-#!   polygonal complex. This entry has to be a list with the two
-#!   vertices (as positive integers) of this edge.
-#! * <K>edgesOfFaces</K>: A list that has an entry for each face of the 
-#!   polygonal complex. This entry has to be a list with the edges
-#!   (as positive integers) of this face.
+#! <Enum>
+#!   <Item>OPTIONAL: The sets of vertices, edges and faces (i.e. sets of 
+#!          positive integers). If a positive integer <M>n</M> is given, 
+#!          it is interpreted as the set <M>[1,...,n]</M>. Although these 
+#!          arguments are redundant, their use is recommended to catch 
+#!          mistakes in the other arguments.</Item>
+#!   <Item> <K>verticesOfEdges</K>: A list that has an entry for each edge of 
+#!          the polygonal complex. This entry has to be a list with the two 
+#!          vertices (as positive integers) of this edge.</Item>
+#!   <Item> <K>edgesOfFaces</K>: A list that has an entry for each face of 
+#!          the polygonal complex. This entry has to be a list with the edges 
+#!          (as positive integers) of this face.</Item>
+#! </Enum>
 #!
-#! The following checks will be performed. <E>Emphasized</E> checks are also
-#! performed by the NC-version:
-#! * Are the optional arguments <A>vertices</A>, <A>edges</A> and <A>faces</A>
-#!   either positive integers or sets of positive integers?
-#! * Are <A>verticesOfEdges</A> and <A>edgesOfFaces</A> lists where the entries
-#!   are lists of positive integers?
-#! * Is every bounded entry of <A>verticesOfEdges</A> a list with exactly two entries
-#!   that are different?
+#! The following checks will be performed. None of these will be
+#! performed by the NC-version.
+#! * Are the optional arguments <A>vertices</A>, <A>edges</A> and <A>faces</A> either positive integers or sets of positive integers?
+#! * Are <A>verticesOfEdges</A> and <A>edgesOfFaces</A> lists where the entries are lists of positive integers?
+#! * Is every bounded entry of <A>verticesOfEdges</A> a list with exactly two entries that are different?
 #! * Does every bounded entry of <A>edgesOfFaces</A> contain at least one element?
-#! * If <A>vertices</A> is given, is 
-#!   <K>Union</K>(<A>verticesOfEdges</A>) = <A>vertices</A>?
-#! * Are the bound positions of <A>verticesOfEdges</A> equal to 
-#!   <K>Union</K>(<A>edgesOfFaces</A>)? If <A>edges</A> is given, is it equal
-#!   to those two sets?
-#! * If <A>faces</A> is given, is it equal to the bound positions of 
-#!   <A>edgesOfFaces</A>?
-#!
+#! * If <A>vertices</A> is given, is <K>Union</K>(<A>verticesOfEdges</A>) = <A>vertices</A>?
+#! * Are the bound positions of <A>verticesOfEdges</A> equal to <K>Union</K>(<A>edgesOfFaces</A>)? If <A>edges</A> is given, is it equal to those two sets?
+#! * If <A>faces</A> is given, is it equal to the bound positions of <A>edgesOfFaces</A>?
+#! @EndChunk
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a polygonal complex 
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! @InsertChunk Documentation_DownwardIncidence
+#! 
 #! TODO example
 #! @Returns a polygonal complex
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
@@ -148,7 +156,11 @@ DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsList, IsList] );
 
 #! @BeginGroup
 #! @Description
-#! bla
+#! This method constructs a ramified polygonal surface
+#! (<Ref Sect="PolygonalStructures_ramified"/>)
+#! @InsertChunk Documentation_DownwardIncidence
+#!
+#! TODO example
 #! @Returns a ramified polygonal surface
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
@@ -158,7 +170,11 @@ DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidenceNC", [IsList, IsLi
 
 #! @BeginGroup
 #! @Description
-#! bla
+#! This method constructs a polygonal surface
+#! (<Ref Sect="PolygonalStructures_surface"/>)
+#! @InsertChunk Documentation_DownwardIncidence
+#!
+#! TODO example
 #! @Returns a polygonal surface
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
@@ -168,7 +184,11 @@ DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
 
 #! @BeginGroup
 #! @Description
-#! bla
+#! This method constructs a triangular complex
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! @InsertChunk Documentation_DownwardIncidence
+#!
+#! TODO example
 #! @Returns a triangular complex
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidence", [IsList, IsList] );
@@ -178,7 +198,11 @@ DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList] );
 
 #! @BeginGroup
 #! @Description
-#! bla
+#! This method constructs a ramified simplicial surface
+#! (<Ref Sect="PolygonalStructures_ramified"/>)
+#! @InsertChunk Documentation_DownwardIncidence
+#!
+#! TODO example
 #! @Returns a ramified simplicial surface
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
@@ -188,7 +212,11 @@ DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsList, IsL
 
 #! @BeginGroup
 #! @Description
-#! bla
+#! This method constructs a simplicial surface
+#! (<Ref Sect="PolygonalStructures_surface"/>)
+#! @InsertChunk Documentation_DownwardIncidence
+#!
+#! TODO example
 #! @Returns a simplicial surface
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
