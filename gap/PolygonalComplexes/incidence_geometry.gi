@@ -481,7 +481,7 @@ BindGlobal( "__SIMPLICIAL_TransitiveIncidence",
         a_of_c := [];
         for c in c_labels do
             b_in_c := b_of_c[c];
-            a_in_b := List( b_in_c, x -> a_of_b[c] );
+            a_in_b := List( b_in_c, x -> a_of_b[x] );
             a_of_c[c] := Union(a_in_b);
         od;
 
