@@ -9,16 +9,10 @@
 ##
 #############################################################################
 
+ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/AttributeScheduler.gi" );
 
-ReadPackage( "SimplicialSurfaces", "gap/MethodSelectionGraph.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/wild_simplicial_surface.gi" );
-
-ReadPackage( "SimplicialSurfaces", "gap/coloured_simplicial_surface.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_identification.gi" );
-
-ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_fan.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/folding_complex.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/folding_plan.gi" );
-ReadPackage( "SimplicialSurfaces", "surfaces/simplib.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 
