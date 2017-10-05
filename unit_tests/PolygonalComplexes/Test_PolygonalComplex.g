@@ -284,7 +284,7 @@ BindGlobal( "__SIMPLICIAL_Test_EdgeFacePathImplications", function()
     edgesOfFaces := [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,20,22],,[20,21,23] ];
     paths := [ [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ], , , ,
         [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ], [ [ 15, 2, 18, 4, 17 ] ],
-        [ [ 19, 11, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ] ];
+        [ [ 19, 9, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ] ];
 
     complex := Objectify( PolygonalComplexType, rec() );
     SetEdgeFacePathPartitionsOfVertices( complex, paths );

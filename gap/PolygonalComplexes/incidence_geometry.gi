@@ -1325,7 +1325,7 @@ InstallMethod( FacesOfEdges,
                     elif not even and i = Size(ind) then
                         incFaces := [p[Size(p)-1]];
                     else
-                        incFaces := Set( [p[2*i-1],p[2*i]] );
+                        incFaces := Set( [p[2*i-2],p[2*i]] );
                     fi;
                     facesOfEdges[edge] := incFaces;
                 od;
