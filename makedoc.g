@@ -402,6 +402,7 @@ AutoDoc( rec( scaffold := rec(
                         LateExtraPreamble := __SIMPLICIAL_TikZHeader)
                     ), 
               dir := __SIMPLICIAL_DocDirectory,
+              maketest := true,
 	      autodoc := rec( 
                     files := [ "doc/TableOfContents.autodoc" ],
                     scan_dirs := ["doc", "gap", "gap/PolygonalComplexes"]),

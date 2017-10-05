@@ -2,7 +2,7 @@
 ## Changes will be discarded by the next call of the AutoDoc method.
 
 
-AUTODOC_file_scan_list := [ "../PackageInfo.g", "../gap/MethodSelectionGraph.gd", "../gap/MethodSelectionGraph.gi", "../gap/coloured_simplicial_surface.gd", "../gap/coloured_simplicial_surface.gi", "../gap/folding_complex.gd", "../gap/folding_complex.gi", "../gap/folding_plan.gd", "../gap/folding_plan.gi", "../gap/modifying_simplicial_surfaces.g", "../gap/simplicial_surface.gd", "../gap/simplicial_surface.gi", "../gap/simplicial_surface_fan.gd", "../gap/simplicial_surface_fan.gi", "../gap/simplicial_surface_identification.gd", "../gap/simplicial_surface_identification.gi", "../gap/test.g", "../gap/wild_simplicial_surface.gd", "../gap/wild_simplicial_surface.gi", "../init.g", "../makedoc.g", "../read.g" ];
+AUTODOC_file_scan_list := [ "../PackageInfo.g", "../doc/PolygonalStructuresDefinitions.xml", "../gap/MethodSelectionGraph.gd", "../gap/MethodSelectionGraph.gi", "../gap/coloured_simplicial_surface.gd", "../gap/coloured_simplicial_surface.gi", "../gap/folding_complex.gd", "../gap/folding_complex.gi", "../gap/folding_plan.gd", "../gap/folding_plan.gi", "../gap/modifying_simplicial_surfaces.g", "../gap/simplicial_surface.gd", "../gap/simplicial_surface.gi", "../gap/simplicial_surface_fan.gd", "../gap/simplicial_surface_fan.gi", "../gap/simplicial_surface_identification.gd", "../gap/simplicial_surface_identification.gi", "../gap/test.g", "../gap/wild_simplicial_surface.gd", "../gap/wild_simplicial_surface.gi", "../init.g", "../makedoc.g", "../maketest.g", "../read.g" ];
 
 LoadPackage( "GAPDoc" );
 
