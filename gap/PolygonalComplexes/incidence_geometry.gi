@@ -1370,6 +1370,7 @@ InstallMethod( EdgeFacePathPartitionsOfVertices,
                     # very rare special case, where our first pick for a 
                     # non-closed path was lucky
                     leftFinished := true;
+                    backFace := fail;
                 else
                     # In the hope for a closed path, we continue with the 
                     # smaller face (and store the other one)
