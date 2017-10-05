@@ -382,20 +382,20 @@ InstallMethod(EdgesOfFace,
 ##
 BindGlobal( "__SIMPLICIAL_InvertIncidence", 
     function( a_labels, a_of_b, b_labels )
-        local b_list, b, a_set, a;
+        local b_of_a, a, b_set, b;
 
-        b_list := [];
-        for b in b_labels do
-            a_set := [];
-            for a in a_labels do
-                if b in a_of_b[a] then
-                    a_set := Union( a_set, [a] );
+        b_of_a := [];
+        for a in a_labels do
+            b_set := [];
+            for b in b_labels do
+                if a in a_of_b[b] then
+                    Add(b_set,b);
                 fi;
             od;
-            b_list[b] := a_set;
+            b_of_a[a] := Set(b_set);
         od;
 
-        return b_list;
+        return b_of_a;
     end
 );
 
