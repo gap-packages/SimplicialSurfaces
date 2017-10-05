@@ -77,6 +77,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             else
                 Error("This type is not supported.");
             fi;
+            #TODO the setterNC is modified in ALL constructors - how to avoid this?
 
             # The normal "setter" is just a test and can therefore easily
             # be implemented

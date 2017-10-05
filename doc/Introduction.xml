@@ -299,8 +299,11 @@ false
                  in this section that might be interesting to everyone. Since
                  we want to encourage skipping it at the same time, this has to
                  be rather mild information. -->
-            If we want to construct surfaces with non-triangular faces, the
-            method <K>SimplicialSurfaceByVerticesInFaces</K> is a bit more subtle.
+            If we want to construct surfaces with non-triangular faces, we 
+            have to use the
+            method <K>PolygonalSurfaceByVerticesInFaces</K>. We also have to
+            be more careful since this method is a bit more subtle.
+            <!--TODO add references?-->
             <!-- This formulation should help people with skipping this section.
                  If someone only cares about triangles and is a bit impatient
                  they will hopefully say "I don't want that" and skip ahead.-->
@@ -330,7 +333,7 @@ false
             <!-- TODO Is there a way to properly do this in the picture?-->
             But if we try to input the surface
 <Example>
-gap&gt; pyr := SimplicialSurfaceByVerticesInFaces( 
+gap&gt; pyr := PolygonalSurfaceByVerticesInFaces( 
 &gt;                    [[2,3,4,5], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
 </Example>
             we notice something strange: The resulting surface has the wrong
@@ -362,7 +365,7 @@ false
             face in our example the vertices do <Emph>not</Emph> determine its
             edges.<P/>
             
-            The method <K>SimplicialSurfaceByVerticesInFaces</K> will believe 
+            The method <K>PolygonalSurfaceByVerticesInFaces</K> will believe 
             that two
             adjacent vertices in the given list are also connected by an edge 
             of the face. Above, we gave the list [2, 3, 4, 5] for the square. If 
@@ -374,7 +377,7 @@ false
             
             Instead we have to give the vertices in a proper cyclic ordering:
 <Example>
-gap&gt; pyr := SimplicialSurfaceByVerticesInFaces(  
+gap&gt; pyr :=PolygonalSurfaceByVerticesInFaces(  
 &gt;                    [[2,3,5,4], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
 gap&gt; NrOfEdges(pyr);
 8
