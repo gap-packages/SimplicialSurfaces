@@ -941,29 +941,28 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##	be ignored.
 ##
 BindGlobal( "__SIMPLICIAL_TranslateCyclesIntoLists", 
-    function( listOfPerms, indexSet )
-
-	local listOfLists, i, points, listRep, j;
+    function( listOfPerms )
+	local listOfLists, Shift;
 
         if listOfPerms = fail then
             return fail;
         fi;
 
-	listOfLists := [];
-	for i in indexSet do
-		points := MovedPoints( listOfPerms[i] );
+        Shift := function( perm )
+            local points, listRep, j;
 
-		# Since points is a set, the first element is the smallest
-		listRep := [ points[1] ];
+            points := MovedPoints(perm);
 
-		for j in [1..Length(points)-1] do
-			Append( listRep, [ listRep[j]^listOfPerms[i] ] );
-		od;
+            # Since points is a set, the first element is the smallest
+            listRep := [ points[1] ];
+            for j in [1..Length(points)-1] do
+                Append(listRep, [ listRep[j]^perm ]);
+            od;
 
-            listOfLists[i] := listRep;
-	od;
+            return listRep;
+        end;
 
-	return listOfLists;
+        return List( listOfPerms, Shift );
     end
 );
 

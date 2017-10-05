@@ -26,13 +26,14 @@ BindGlobal( "PolygonalComplexFamily",
 
 # Define all secondary categories
 DeclareProperty( "IsTriangularComplex", IsPolygonalComplex);
-
+InstallTrueMethod( IsPolygonalComplex, IsTriangularComplex );
 
 DeclareProperty( "IsRamifiedPolygonalSurface", IsPolygonalComplex);
+InstallTrueMethod( IsPolygonalComplex, IsRamifiedPolygonalSurface );
 DeclareSynonym( "IsRamifiedSimplicialSurface", 
     IsRamifiedPolygonalSurface and IsTriangularComplex);
 
-DeclareProperty( "IsPolygonalSurface", 
-    IsPolygonalComplex and IsRamifiedPolygonalSurface );
+DeclareProperty( "IsPolygonalSurface", IsRamifiedPolygonalSurface );
+InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
 DeclareSynonym( "IsSimplicialSurface", 
     IsPolygonalSurface and IsTriangularComplex );

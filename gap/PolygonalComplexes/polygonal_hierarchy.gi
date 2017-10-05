@@ -24,8 +24,9 @@ PolygonalComplexType :=
 ##
 ## Check whether a polygonal complex is a triangular complex.
 ##
-InstallMethod( IsTriangularComplex, "for a polygonal complex",
-    [ IsPolygonalComplex ],
+__SIMPLICIAL_AddPolygonalAttribute( IsTriangularComplex );
+InstallMethod( IsTriangularComplex, "for a polygonal complex that has EdgesOfFaces",
+    [ IsPolygonalComplex and HasEdgesOfFaces ],
     function( complex )
         local edgeSize;
 
@@ -33,6 +34,8 @@ InstallMethod( IsTriangularComplex, "for a polygonal complex",
         return Size( Filtered( edgeSize, s -> s<>3 ) ) = 0;
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsTriangularComplex",
+    "EdgesOfFaces");
 
 
 ##

@@ -1152,6 +1152,8 @@ DeclareOperation( "EdgeFacePathOfVertex", [IsPolygonalSurface, IsPosInt] );
 DeclareOperation( "EdgeFacePathOfVertexNC", [IsPolygonalSurface, IsPosInt] );
 #! @EndGroup
 
+InstallTrueMethod( IsPolygonalSurface, HasEdgeFacePathsOfVertices );
+
 #! For ramified polygonal surfaces it might happen that there is no single
 #! edge-face-path that contains all edges and faces that are incident to one
 #! vertex.
@@ -1233,3 +1235,4 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #! @EndGroup
 #TODO maybe add method EdgeFacePathOfVertex for ramified that throws an error if not unique?
 
+InstallTrueMethod( IsRamifiedPolygonalSurface, HasEdgeFacePathPartitionsOfVertices );
