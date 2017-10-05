@@ -18,5 +18,5 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 
 
 # Tests (TODO remove later)
-ReadPackage( "SimplicialSurface", "unit_tests/PolygonalComplexes/Test_PolygonalComplex.g" );
+ReadPackage( "SimplicialSurfaces", "unit_tests/PolygonalComplexes/Test_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );

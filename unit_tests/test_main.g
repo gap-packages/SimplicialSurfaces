@@ -21,4 +21,4 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_CyclicOrderInferences();
     __SIMPLICIAL_Test_EdgeFacePathSwitch();
     __SIMPLICIAL_Test_EdgeFacePathImplications();
-end;
+end);
