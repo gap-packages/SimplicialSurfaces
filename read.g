@@ -16,3 +16,7 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.g
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 
+
+# Tests (TODO remove later)
+ReadPackage( "SimplicialSurface", "unit_tests/PolygonalComplexes/Test_PolygonalComplex.g" );
+ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );
