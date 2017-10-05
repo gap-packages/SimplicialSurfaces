@@ -47,8 +47,17 @@
 			    \coordinate (B) at (1.3,0.4);
 			    \coordinate (C) at (0.4,1.3);
 			
-			    \filldraw[face] (A) -- (B) to[bend right=45] (C) -- cycle;
-			    \filldraw[face] (A) -- (B) to[bend left=45] (C) -- cycle;
+                            \fill[\faceColor]
+			    %\filldraw[face]
+                            (A) -- (B) to[bend right=45] (C) -- cycle;
+                            \fill[\faceColor]
+                            %\filldraw[face] 
+                            (A) -- (B) to[bend left=45] (C) -- cycle;
+
+                            \draw (A) -- (B);
+                            \draw (B) to[bend right=45] (C);
+                            \draw (A) -- (C);
+                            \draw (B) to[bend left=45] (C);
 		        \end{scope}
 		
 		        % A surface from non-triangular shapes

@@ -223,4 +223,114 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
 #! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
 #! @EndGroup
+#TODO remark that most of these constructors also check for some properties
+
+
+
+#! @Section VerticesInFaces
+#! @SectionLabel Constructors_VerticesInFaces
+#!
+#! The constructors that are based on <E>VerticesInFaces</E> are based on
+#! the attribute <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>).
+#! 
+##TODO explain how it works (construction of edges)
+#! Any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
+#! be build.
+#! <Par/>
+#! These constructors also allow the optional arguments <A>vertices</A>
+#! and <A>faces</A>. If those sets are given, the incidence
+#! information is checked for compatibility with them. This is very useful
+#! in practice to notice typos in the incidence relations. It is also possible
+#! to give a positive integer <A>n</A> - it will be converted into the list
+#! <M>[1,...,n]</M>.
+#! <Par/>
+
+#! @BeginChunk Documentation_VerticesInFaces
+#! TODO
+#! @EndChunk
+
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a polygonal complex 
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! @InsertChunk Documentation_VerticesInFaces
+#! 
+#! TODO example
+#! @Returns a polygonal complex
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "PolygonalComplexByVerticesInFaces", [IsList] );
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a ramified polygonal surface
+#! (<Ref Sect="PolygonalStructures_ramified"/>)
+#! @InsertChunk Documentation_VerticesInFaces
+#! 
+#! TODO example
+#! @Returns a ramified polygonal surface
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFaces", [IsList] );
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFacesNC", [IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a polygonal surface
+#! (<Ref Sect="PolygonalStructures_surface"/>)
+#! @InsertChunk Documentation_VerticesInFaces
+#! 
+#! TODO example
+#! @Returns a polygonal surface
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "PolygonalSurfaceByVerticesInFaces", [IsList] );
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a triagonal complex 
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! @InsertChunk Documentation_VerticesInFaces
+#! 
+#! TODO example
+#! @Returns a triangular complex
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "TriangularComplexByVerticesInFaces", [IsList] );
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a ramified simplicial surface
+#! (<Ref Sect="PolygonalStructures_ramified"/>)
+#! @InsertChunk Documentation_VerticesInFaces
+#! 
+#! TODO example
+#! @Returns a ramified simplicial surface
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFaces", [IsList] );
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFacesNC", [IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a simplicial surface
+#! (<Ref Sect="PolygonalStructures_surface"/>)
+#! @InsertChunk Documentation_VerticesInFaces
+#! 
+#! TODO example
+#! @Returns a simplicial surface
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "SimplicialSurfaceByVerticesInFaces", [IsList] );
+#! @Arguments [vertices, faces,] verticesInFaces
+DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsList] );
+#! @EndGroup
 
