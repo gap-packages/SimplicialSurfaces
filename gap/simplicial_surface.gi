@@ -4494,10 +4494,54 @@ RedispatchOnCondition( SplitCut, true, [IsSimplicialSurface,IsPosInt], [IsActual
 InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edges",
     [IsSimplicialSurface and IsActualSurface, IsList, IsList],
     function(surf, flag1, flag2)
-        #TODO
+        local obj, check, edgesOfVertices, facesOfEdges, oV1, oV2;
+
+        check := function( flag )
+            if Length(flag) <> 2 then
+                Error("SplitMend: Flag has to consist of a vertex and an edge.");
+            fi;
+            if not flag[1] in Vertices(surf) then
+                Error("SplitMend: First entry of flag is not a vertex.");
+            fi;
+            if not flag[2] in Edges(surf) then
+                Error("SplitMend: Second entry of flag is not a vertex.");
+            fi;
+
+            if not flag[2] in BoundaryEdges(surf) then
+                Error("SplitMend: Given edges have to be boundary edges.");
+            fi;
+        end;
+        check(flag1);
+        check(flag2);
+
+        edgesOfVertices := ShallowCopy(EdgesOfVertices(surf));
+        facesOfEdges := ShallowCopy( FacesOfEdges(surf) );
+
+        if not IsEmpty( Intersection( edgesOfVertices[flag1[1]], edgesOfVertices[flag2[1]] ) ) then
+            Error("SplitMend: Given vertices are connected by an edge.");
+        fi;
+        edgesOfVertices[flag1[1]] := Difference( Union( edgesOfVertices[flag1[1]], edgesOfVertices[flag2[1]] ), [flag2[2]] );
+        Unbind( edgesOfVertices[ flag2[1] ] );
+        oV1 := Difference( VerticesOfEdges(surf)[flag1[2]], [flag1[1]] )[1];
+        oV2 := Difference( VerticesOfEdges(surf)[flag2[2]], [flag2[1]] )[1];
+        if not IsEmpty( Intersection( edgesOfVertices[oV1], edgesOfVertices[oV2] ) ) then
+            Error("SplitMend: Other vertices of given edges are connected by an edge.");
+        fi;
+        edgesOfVertices[oV1] := Difference( Union( edgesOfVertices[oV1], edgesOfVertices[oV2] ), [flag2[2]] );
+        Unbind( edgesOfVertices[oV2] );
+        
+        facesOfEdges[flag1[2]] := Union( facesOfEdges[flag1[2]], facesOfEdges[flag2[2]] );
+        Unbind( facesOfEdges[flag2[2]] );
+
+
+        obj := Objectify( SimplicialSurfaceType, rec() );
+        SetEdgesOfVertices( obj, edgesOfVertices );
+        SetFacesOfEdges( obj, facesOfEdges );
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(obj);
+        return obj;
     end
 );
-
+RedispatchOnCondition( SplitMend, true, [IsSimplicialSurface, IsList, IsList], [IsActualSurface], 0 );
 
 #
 ###  This program is free software: you can redistribute it and/or modify
