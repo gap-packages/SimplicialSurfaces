@@ -25,12 +25,20 @@ DeclareOperation( "AttributeSchedulerGraph", [ ] );
 DeclareOperation( "AttributeSchedulerGraph", [ IsList ] );
 #! @EndGroup
 
+#! @Description
+#! Add an attribute to the attribute scheduler graph. This method will
+#! install a method for the attribute that calls the attribute 
+#! scheduler graph.
+#! @Arguments graph, attribute, filter, description
+DeclareOperation( "AddAttribute", [IsAttributeSchedulerGraph, IsString, IsFilter, IsString] );
+
 #! @Arguments graph,property,requirements
 #! @Description
 #!  Adds an edge to <Agraph</A>. Tells the graph that the property <A>property</A> can
 #!  be computed if the properties in <A>requirements</A> are computed. All names
 #!  must be given as string.
 DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString, IsList ] );
+
 
 #! @Arguments graph,attribute,object
 #! @Returns Value for <A>attribute</A>
