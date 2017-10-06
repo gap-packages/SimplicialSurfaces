@@ -9,7 +9,7 @@
 ##
 #############################################################################
 
-ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/AttributeScheduler.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/gap/AttributeScheduler.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gi" );
