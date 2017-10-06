@@ -4438,7 +4438,66 @@ InstallMethod( RipMend, "for an actual surface and two boundary edges that share
 RedispatchOnCondition( RipMend, true, [IsSimplicialSurface, IsPosInt, IsPosInt], [IsActualSurface], 0 );
 
 
-#TODO write ripmend, splitcut and splitmend
+InstallMethod( SplitCut, "for an actual surface and an edge whose two vertices are boundary vertices",
+    [IsSimplicialSurface and IsActualSurface, IsPosInt],
+    function(surf, edge)
+        local verts, maxEdge, maxVertex, path1, path2, pos1, pos2,
+            edgesOfVertices, facesOfEdges, face1, face2, obj;
+
+        if not edge in Edges(surf) then
+            Error("SplitCut: Given edge has to be an edge of the surface.");
+        fi;
+        verts := VerticesOfEdges(surf)[edge];
+        if verts[1] in InnerVertices(surf) or verts[2] in InnerVertices(surf) then
+            Error("SplitCut: Vertices of given edge can't be inner vertices.");
+        fi;
+
+        maxVertex := Maximum( Vertices(surf) );
+        maxEdge := Maximum( Edges(surf) );
+
+        path1 := FaceEdgePathsOfVertex(surf,verts[1])[1];
+        path2 := FaceEdgePathsOfVertex(surf,verts[2])[1];
+        pos1 := Filtered( Positions(path1, edge), IsOddInt )[1];
+        pos2 := Filtered( Positions(path2, edge), IsOddInt )[1];
+
+        edgesOfVertices := ShallowCopy( EdgesOfVertices(surf) );
+        facesOfEdges := ShallowCopy( FacesOfEdges(surf) );
+
+        face1 := path1[pos1-1];
+        face2 := path1[pos1+1];
+
+        facesOfEdges[maxEdge+1] := [face1];
+        facesOfEdges[maxEdge+2] := [face2];
+        Unbind(facesOfEdges[edge]);
+
+        edgesOfVertices[verts[1]] := Set( Concatenation( [maxEdge+1], List( [1..(pos1-1)/2], i -> path1[2*i-1] ) ) );
+        edgesOfVertices[maxVertex+1] := Set( Concatenation( [maxEdge+2], List( [(pos1+3)/2..(Length(path1)+1)/2], i -> path1[2*i-1] ) ) );
+
+        if path2[pos2-1] = face2 then
+            path2 := Reversed(path2);
+            pos2 := Length(path2) + 1 - pos2;
+        fi;
+        edgesOfVertices[verts[2]] := Set( Concatenation( [maxEdge+1], List( [1..(pos2-1)/2], i -> path2[2*i-1] ) ) );
+        edgesOfVertices[maxVertex+2] := Set( Concatenation( [maxEdge+2], List( [(pos2+3)/2..(Length(path2)+1)/2], i -> path2[2*i-1] ) ) );
+
+        
+        obj := Objectify( SimplicialSurfaceType, rec() );
+        SetEdgesOfVertices( obj, edgesOfVertices );
+        SetFacesOfEdges( obj, facesOfEdges );
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(obj);
+        return obj;
+    end
+);
+RedispatchOnCondition( SplitCut, true, [IsSimplicialSurface,IsPosInt], [IsActualSurface], 0 );
+
+
+InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edges",
+    [IsSimplicialSurface and IsActualSurface, IsList, IsList],
+    function(surf, flag1, flag2)
+        #TODO
+    end
+);
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
