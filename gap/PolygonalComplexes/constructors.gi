@@ -126,29 +126,41 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
 
                 return obj;
             end;
-            InstallMethod( ValueGlobal(nameNC),descriptionShort,shortFilter,
-                function(arg)
-                    local obj;
+            # To install by using local functions we have to use a workaround
+            real_install := function( setterNC )
+                InstallMethod( ValueGlobal(nameNC),descriptionShort,shortFilter,
+                    function(arg)
+                        local obj;
 
-                    obj := CallFuncList(objectConst,arg);
-                    setterNC(obj);
-                    return obj;
-                end);
-            InstallMethod( ValueGlobal(name), descriptionShort, shortFilter,
-                normalFunction );
+                        obj := CallFuncList(objectConst,arg);
+                        setterNC(obj);
+                        return obj;
+                    end);
+            end;
+            real_install(setterNC);
+            real_install := function(normalFunction)
+                InstallMethod( ValueGlobal(name), descriptionShort, shortFilter,
+                    normalFunction );
+            end;
+            real_install(normalFunction);
 
             # Installing the long versions is a bit of a hassle because they
             # need many installations and redispatches
-            InstallOtherMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
-                function(arg)
-                    return CallFuncList( ValueGlobal(nameNC), arg{shortPos});
-                end);
-                RedispatchOnCondition( ValueGlobal(nameNC), true,
-                    longFilterAlt, longFilterRe, 0);
-            InstallOtherMethod( ValueGlobal(name), descriptionLong, longFilter,
-                normalFunction);
-                RedispatchOnCondition( ValueGlobal(name), true,
-                    longFilterAlt, longFilterRe, 0);
+            real_install := function()
+                InstallOtherMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
+                    function(arg)
+                        return CallFuncList( ValueGlobal(nameNC), arg{shortPos});
+                    end);
+                    RedispatchOnCondition( ValueGlobal(nameNC), true,
+                        longFilterAlt, longFilterRe, 0);
+            end;
+            real_install := function( normalFunction )
+                InstallOtherMethod( ValueGlobal(name), descriptionLong, longFilter,
+                    normalFunction);
+                    RedispatchOnCondition( ValueGlobal(name), true,
+                        longFilterAlt, longFilterRe, 0);
+            end;
+            real_install(normalFunction);
 
             # The implementation of the PosInt-alternative to sets takes
             # the most work:

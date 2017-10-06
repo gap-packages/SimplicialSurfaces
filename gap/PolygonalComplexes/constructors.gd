@@ -131,14 +131,21 @@
 #!
 #! The following checks will be performed. None of these will be
 #! performed by the NC-version.
-#! * Are the optional arguments <A>vertices</A>, <A>edges</A> and  <A>faces</A> 
+#! * Are the optional arguments <A>vertices</A>, <A>edges</A> and <A>faces</A>
 #!   either positive integers or sets of positive integers?
-#! * Are <A>verticesOfEdges</A> and <A>edgesOfFaces</A> lists where the entries are lists of positive integers?
-#! * Is every bounded entry of <A>verticesOfEdges</A> a list with exactly two entries that are different?
-#! * Does every bounded entry of <A>edgesOfFaces</A> contain at least one element?
-#! * If <A>vertices</A> is given, is <K>Union</K>(<A>verticesOfEdges</A>) = <A>vertices</A>?
-#! * Are the bound positions of <A>verticesOfEdges</A> equal to <K>Union</K>(<A>edgesOfFaces</A>)? If <A>edges</A> is given, is it equal to those two sets?
-#! * If <A>faces</A> is given, is it equal to the bound positions of <A>edgesOfFaces</A>?
+#! * Are <A>verticesOfEdges</A> and <A>edgesOfFaces</A> lists where the 
+#!   entries are lists of positive integers?
+#! * Is every bounded entry of <A>verticesOfEdges</A> a list with exactly two 
+#!   entries that are different?
+#! * Does every bounded entry of <A>edgesOfFaces</A> contain at least one 
+#!   element?
+#! * If <A>vertices</A> is given, is 
+#!   <K>Union</K>(<A>verticesOfEdges</A>) = <A>vertices</A>?
+#! * Are the bound positions of <A>verticesOfEdges</A> equal to 
+#!   <K>Union</K>(<A>edgesOfFaces</A>)? If <A>edges</A> is given, is it equal 
+#!   to those two sets?
+#! * If <A>faces</A> is given, is it equal to the bound positions of 
+#!   <A>edgesOfFaces</A>?
 #! @EndChunk
 
 #! @BeginGroup
