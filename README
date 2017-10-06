@@ -1,8 +1,8 @@
 The GAP 4 package `SimplicialSurfaces'
 ==============================
 
-To use this package, you first have to download or clone the repository
-(cloning via git is preferable as you get updates more easily).
+To use thid package, clone the following repository:
+    git clone --recursive https://github.com/markusbaumeister/simplicial-surfaces.git
 
 Then go into your installation directory for GAP, then the subfolder pkg/ and
 put the SimplicialSurface-folder there. Afterwards you can use
