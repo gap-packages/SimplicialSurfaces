@@ -4264,6 +4264,145 @@ InstallMethod( DisplayAsAutomorphism,
     end
 );
 
+InstallMethod( InnerVertices, "for an actual surface",
+    [IsSimplicialSurface and IsActualSurface],
+    function(surf)
+        local paths;
+        
+        paths := List( FaceEdgePathsOfVertices(surf), i -> i[1] );
+        return Filtered( Vertices(surf), v -> IsEvenInt( Size( paths[v] ) ) );
+    end
+);
+RedispatchOnCondition( InnerVertices, true, [IsSimplicialSurface], [IsActualSurface], 0 );
+
+##
+##           cuts and mends
+##
+InstallMethod(CraterCut, "for an actual surface and an inner edge",
+    [IsSimplicialSurface and IsActualSurface, IsPosInt],
+    function(surf, edge)
+        local verts, verticesOfEdges, facesOfEdges, maxEdge, adFaces, adVerts, obj;
+
+        # Check whether the edge is an inner edge
+        verts := VerticesOfEdges(surf)[edge];
+        if not verts[1] in InnerVertices(surf) or not verts[2] in InnerVertices(surf) then
+            Error("CraterCut: Given edge has to be an inner edge where both vertices are inner.");
+        fi;
+
+        verticesOfEdges := ShallowCopy(VerticesOfEdges(surf));
+        facesOfEdges := ShallowCopy(FacesOfEdges(surf));
+        maxEdge := Maximum(Edges(surf));
+
+        # replace edge by maxEdge+1 and maxEdge+2
+        adFaces := facesOfEdges[edge];
+        Unbind( facesOfEdges[edge] );
+        facesOfEdges[maxEdge+1] := [adFaces[1]];
+        facesOfEdges[maxEdge+2] := [adFaces[2]];
+
+        adVerts := verticesOfEdges[edge];
+        Unbind( verticesOfEdges[edge] );
+        verticesOfEdges[maxEdge+1] := adVerts;
+        verticesOfEdges[maxEdge+2] := adVerts;
+
+        obj := Objectify( SimplicialSurfaceType, rec() );
+        SetVerticesOfEdges(obj, verticesOfEdges);
+        SetFacesOfEdges(obj, facesOfEdges);
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(obj);
+
+        return obj;
+    end
+);
+RedispatchOnCondition( CraterCut, true, [IsSimplicialSurface, IsPosInt], [IsActualSurface], 0 );
+
+InstallMethod( CraterMend, "for an actual surface and two edges that form an edge anomaly",
+    [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt],
+    function(surf, e1, e2)
+        local verticesOfEdges, facesOfEdges, obj;
+
+        if VerticesOfEdges(surf)[e1] <> VerticesOfEdges(surf)[e2] then
+            Error("CraterMend: Given edges have to form an edge anomaly.");
+        fi;
+
+        verticesOfEdges := ShallowCopy( VerticesOfEdges(surf) );
+        Unbind(verticesOfEdges[e2]);
+
+        facesOfEdges := ShallowCopy( FacesOfEdges(surf) );
+        facesOfEdges[e1] := Union( facesOfEdges[e1], facesOfEdges[e2] );
+        Unbind(facesOfEdges[e2]);
+
+        obj := Objectify(SimplicialSurfaceType, rec());
+        SetVerticesOfEdges(obj, verticesOfEdges);
+        SetFacesOfEdges(obj, facesOfEdges);
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(obj);
+
+        return obj;
+    end
+);
+RedispatchOnCondition( CraterMend, true, [IsSimplicialSurface, IsPosInt, IsPosInt], [IsActualSurface], 0 );
+
+
+InstallMethod( RipCut, "for an actual surface and an inner edge where one vertex is inner and one is on the boundary",
+    [IsSimplicialSurface and IsActualSurface, IsPosInt],
+    function(surf, edge)
+        local verts, in1, in2, maxVert, maxEdge, edgesOfVertices, 
+            facesOfEdges, innerVert, boundVert, path, pos, edges1,
+            edges2, obj;
+
+        verts := VerticesOfEdges(surf)[edge];
+        in1 := verts[1] in InnerVertices(surf);
+        in2 := verts[2] in InnerVertices(surf);
+        if in1 = in2 then
+            Error("RipCut: Vertices of given edge have to be one on the boundary, one inner");
+        fi;
+
+        maxVert := Maximum(Vertices(surf));
+        maxEdge := Maximum(Edges(surf));
+        edgesOfVertices := ShallowCopy( EdgesOfVertices(surf) );
+        facesOfEdges := ShallowCopy( FacesOfEdges(surf) );
+
+        if in1 then
+            innerVert := verts[1];
+            boundVert := verts[2];
+        else
+            innerVert := verts[2];
+            boundVert := verts[1];
+        fi;
+
+        # Replace boundVert by maxVertex+1 and maxVertex+2
+        # Replace edge by maxEdge+1 and maxEdge+2
+        edgesOfVertices[innerVert] := Union( [maxEdge+1,maxEdge+2], Difference(edgesOfVertices[innerVert], [edge]) );
+        
+        # We traverse the path around the vertex and separate the edges
+        path := FaceEdgePathsOfVertex(surf, boundVert)[1];
+        pos := Positions(path, edge);
+        pos := Filtered( pos, IsOddInt );
+        Assert(0, Size(pos)=1);
+        pos := pos[1];
+
+        # edge is at position pos
+        edges1 := List([1..(pos-1)/2], i -> path[2*i-1]);
+        edges2 := List([(pos+3)/2..(Size(path)+1)/2], i -> path[2*i-1]);
+        Unbind( edgesOfVertices[boundVert] );
+        edgesOfVertices[maxVert+1] := Union( edges1, [maxEdge+1] );
+        edgesOfVertices[maxVert+2] := Union( edges2, [maxEdge+2] );
+
+        Unbind( facesOfEdges[edge] );
+        facesOfEdges[maxEdge+1] := [ path[pos-1] ];
+        facesOfEdges[maxEdge+2] := [ path[pos+1] ];
+
+        
+        obj := Objectify( SimplicialSurfaceType, rec() );
+        SetEdgesOfVertices( obj, edgesOfVertices);
+        SetFacesOfEdges( obj, facesOfEdges );
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(obj);
+
+        return obj;
+    end
+);
+RedispatchOnCondition( RipCut, true, [IsSimplicialSurface, IsPosInt], [IsActualSurface], 0 );
+
+#TODO write ripmend, splitcut and splitmend
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

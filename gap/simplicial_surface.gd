@@ -1236,6 +1236,17 @@ DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeS
 DeclareOperation( "DisplayAsAutomorphism", [IsSimplicialSurface, IsPerm] );
 DeclareOperation( "DisplayAsAutomorphismNC", [IsSimplicialSurface, IsPerm] );
 
+## cuts and mends
+DeclareOperation( "CraterCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
+DeclareOperation( "CraterMend", [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "RipCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
+DeclareOperation( "RipMend", [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "SplitCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
+DeclareOperation( "SplitMend", [IsSimplicialSurface and IsActualSurface, IsList, IsList] );
+
+DeclareAttribute( "InnerVertices", IsSimplicialSurface and IsActualSurface );
+
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
