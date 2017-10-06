@@ -4401,6 +4401,43 @@ InstallMethod( RipCut, "for an actual surface and an inner edge where one vertex
 );
 RedispatchOnCondition( RipCut, true, [IsSimplicialSurface, IsPosInt], [IsActualSurface], 0 );
 
+InstallMethod( RipMend, "for an actual surface and two boundary edges that share a vertex",
+    [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt],
+    function(surface, e1, e2)
+        local commonVertices, commonVertex, v1, v2, obj, edgesOfVertices, facesOfEdges;
+
+        if not e1 in BoundaryEdges(surface) or not e2 in BoundaryEdges(surface) then
+            Error("RipMend: The given edges have to be boundary edges.");
+        fi;
+
+        commonVertices := Intersection( VerticesOfEdges(surface)[e1], VerticesOfEdges(surface)[e2] );
+        if Size(commonVertices) <> 1 then
+            Error("RipMend: The given edges should have exactly one vertex in common.");
+        fi;
+
+        commonVertex := commonVertices[1];
+        v1 := Difference( VerticesOfEdges(surface)[e1], commonVertices )[1];
+        v2 := Difference( VerticesOfEdges(surface)[e2], commonVertices )[1];
+
+        edgesOfVertices := ShallowCopy( EdgesOfVertices(surface) );
+        edgesOfVertices[v1] := Difference( Union( edgesOfVertices[v1], edgesOfVertices[v2] ), [e2] );
+        Unbind( edgesOfVertices[v2] );
+        edgesOfVertices[commonVertex] := Difference( edgesOfVertices[commonVertex], [e2] );
+
+        facesOfEdges := ShallowCopy( FacesOfEdges(surface) );
+        facesOfEdges[e1] := Union( facesOfEdges[e1], facesOfEdges[e2] );
+        Unbind(facesOfEdges[e2]);
+
+        obj := Objectify( SimplicialSurfaceType, rec() );
+        SetEdgesOfVertices(obj, edgesOfVertices);
+        SetFacesOfEdges(obj, facesOfEdges);
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(obj);
+        return obj;
+    end
+);
+RedispatchOnCondition( RipMend, true, [IsSimplicialSurface, IsPosInt, IsPosInt], [IsActualSurface], 0 );
+
+
 #TODO write ripmend, splitcut and splitmend
 
 #
