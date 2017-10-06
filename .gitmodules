@@ -1,3 +1,0 @@
-[submodule "gap/AttributeScheduler"]
-	path = gap/AttributeScheduler
-        url = https://github.com/markusbaumeister/AttributeScheduler.git
