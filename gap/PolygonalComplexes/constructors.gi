@@ -34,7 +34,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
         local name, nameNC, typeString, shortFilter, nameProperty, setterNC, 
             setterNormal, descriptionShort, descriptionLong, longFilter, 
             shortPos, pos, filterStd, filterWeak, filterStrong, longFilterAlt,
-            longFilterRe, normalFunction, description, i;
+            longFilterRe, normalFunction, description, i, wrapper;
 
         shortFilter := List( namesOfLists, i -> ValueGlobal("IsList") );
         longFilter := Concatenation( List(namesOfSets, i -> ValueGlobal("IsSet") ), shortFilter );
@@ -77,15 +77,17 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             else
                 Error("This type is not supported.");
             fi;
-            #TODO the setterNC is modified in ALL constructors - how to avoid this?
 
             # The normal "setter" is just a test and can therefore easily
             # be implemented
-            setterNormal := function( obj )
-                if not ValueGlobal( Concatenation("Is", typeString) )(obj) then
-                    Error(Concatenation(name, ": Constructed complex is not a ", typeString));
-                fi;
+            wrapper := function( typeString, name )
+                return function( obj )
+                    if not ValueGlobal( Concatenation("Is", typeString) )(obj) then
+                        Error(Concatenation(name, ": Constructed complex is not a ", typeString));
+                    fi;
+                end;
             end;
+            setterNormal := wrapper(typeString, name);
 
             descriptionShort := 
                 Concatenation("for ", String(Size(namesOfLists)), " lists");
@@ -95,39 +97,42 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     String(Size(namesOfLists)), " lists");
 
             # Install the short versions first
-            normalFunction := function( arg )
-                local obj, i, off;
+            wrapper := function( longFilter, name, setterNormal )
+                return function(arg)
+                    local obj, i, off;
 
-                # Check the sets for well-definedness
-                if Size(arg) = Size(longFilter) then
-                    # The sets are present and have to be checked for well-definedness
-                    for i in [1..Size(namesOfSets)] do
-                        if ForAny(arg[i], x -> not IsPosInt(x)) then
-                            Error(Concatenation(name,": ", namesOfSets[1], " have to be positive integers."));
+                    # Check the sets for well-definedness
+                    if Size(arg) = Size(longFilter) then
+                        # The sets are present and have to be checked for well-definedness
+                        for i in [1..Size(namesOfSets)] do
+                            if ForAny(arg[i], x -> not IsPosInt(x)) then
+                                Error(Concatenation(name,": ", namesOfSets[1], " have to be positive integers."));
+                            fi;
+                        od;
+                    fi;
+
+                    # Check the lists for well-definedness
+                    off := 0;
+                    if Size(arg) = Size(longFilter) then
+                        off := Size(namesOfSets);
+                    fi;
+                    for i in [1..Size(namesOfLists)] do
+                        if ForAny( arg[i+off], l -> not IsList(l) and ForAll(l, IsPosInt ) ) then
+                            Error(Concatenation(name, ": The entries of ", namesOfLists[i], " have to be lists of positive integers."));
                         fi;
                     od;
-                fi;
 
-                # Check the lists for well-definedness
-                off := 0;
-                if Size(arg) = Size(longFilter) then
-                    off := Size(namesOfSets);
-                fi;
-                for i in [1..Size(namesOfLists)] do
-                    if ForAny( arg[i+off], l -> not IsList(l) and ForAll(l, IsPosInt ) ) then
-                        Error(Concatenation(name, ": The entries of ", namesOfLists[i], " have to be lists of positive integers."));
-                    fi;
-                od;
+                    CallFuncList( preCheck, Concatenation([name], arg));
+                    obj := CallFuncList( objectConst, arg);
+                    postCheck(name, obj);
+                    setterNormal(obj);
 
-                CallFuncList( preCheck, Concatenation([name], arg));
-                obj := CallFuncList( objectConst, arg);
-                postCheck(name, obj);
-                setterNormal(obj);
-
-                return obj;
+                    return obj;
+                end;
             end;
+            normalFunction := wrapper(longFilter, name, setterNormal);
             # To install by using local functions we have to use a workaround
-            real_install := function( setterNC )
+            wrapper := function( setterNC, descriptionShort, shortFilter )
                 InstallMethod( ValueGlobal(nameNC),descriptionShort,shortFilter,
                     function(arg)
                         local obj;
@@ -137,30 +142,28 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                         return obj;
                     end);
             end;
-            real_install(setterNC);
-            real_install := function(normalFunction)
+            wrapper(setterNC, descriptionShort, shortFilter);
+            wrapper := function(normalFunction, descriptionShort, shortFilter)
                 InstallMethod( ValueGlobal(name), descriptionShort, shortFilter,
                     normalFunction );
             end;
-            real_install(normalFunction);
+            wrapper(normalFunction, descriptionShort, shortFilter);
 
             # Installing the long versions is a bit of a hassle because they
             # need many installations and redispatches
-            real_install := function()
+            wrapper := function(name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe)
                 InstallOtherMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
                     function(arg)
                         return CallFuncList( ValueGlobal(nameNC), arg{shortPos});
                     end);
                     RedispatchOnCondition( ValueGlobal(nameNC), true,
                         longFilterAlt, longFilterRe, 0);
-            end;
-            real_install := function( normalFunction )
                 InstallOtherMethod( ValueGlobal(name), descriptionLong, longFilter,
                     normalFunction);
                     RedispatchOnCondition( ValueGlobal(name), true,
                         longFilterAlt, longFilterRe, 0);
             end;
-            real_install(normalFunction);
+            wrapper(name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe);
 
             # The implementation of the PosInt-alternative to sets takes
             # the most work:
@@ -185,20 +188,23 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     Append(description, Concatenation(" and ", String(Size(namesOfLists)), " lists"));
 
                     # Install the methods
-                    InstallOtherMethod( ValueGlobal(nameNC), description, filterStd, 
-                        function(arg)
-                            return CallFuncList( ValueGlobal(nameNC), 
-                                Concatenation(arg{[1..pos-1]}, [1..arg[pos]], arg{[pos+1..Size(arg)]}));
-                        end);
-                        RedispatchOnCondition( ValueGlobal(nameNC), true,
-                            filterWeak, filterStrong, 0);
-                    InstallOtherMethod( ValueGlobal(name), description, filterStd,
-                        function(arg)
-                            return CallFuncList( ValueGlobal(name),
-                                Concatenation(arg{[1..pos-1]}, [1..arg[pos]], arg{[pos+1..Size(arg)]}));
-                        end);
-                        RedispatchOnCondition( ValueGlobal(name), true,
-                            filterWeak, filterStrong, 0);
+                    wrapper := function( name, nameNC, description, filterStd, filterWeak, filterStrong )
+                        InstallOtherMethod( ValueGlobal(nameNC), description, filterStd, 
+                            function(arg)
+                                return CallFuncList( ValueGlobal(nameNC), 
+                                    Concatenation(arg{[1..pos-1]}, [1..arg[pos]], arg{[pos+1..Size(arg)]}));
+                            end);
+                            RedispatchOnCondition( ValueGlobal(nameNC), true,
+                                filterWeak, filterStrong, 0);
+                        InstallOtherMethod( ValueGlobal(name), description, filterStd,
+                            function(arg)
+                                return CallFuncList( ValueGlobal(name),
+                                    Concatenation(arg{[1..pos-1]}, [1..arg[pos]], arg{[pos+1..Size(arg)]}));
+                            end);
+                            RedispatchOnCondition( ValueGlobal(name), true,
+                                filterWeak, filterStrong, 0);
+                    end;
+                    wrapper(name, nameNC, description, filterStd, filterWeak, filterStrong);
                 od;
             od;
         od;
