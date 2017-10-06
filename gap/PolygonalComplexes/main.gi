@@ -16,12 +16,7 @@ BindGlobal( "SIMPLICIAL_ATTRIBUTE_SCHEDULER", AttributeSchedulerGraph([]) );
 #TODO make this method a native part of the attribute scheduler
 BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute", 
     function( attr )
-        InstallMethod(attr, "for a polygonal complex",
-            [IsPolygonalComplex],
-            function( complex )
-                return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-                    attr, complex);
-            end);
+        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsPolygonalComplex, "for a polygonal complex" );
     end
 );
 
