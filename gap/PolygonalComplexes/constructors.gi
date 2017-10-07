@@ -152,13 +152,13 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             # Installing the long versions is a bit of a hassle because they
             # need many installations and redispatches
             wrapper := function(name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe)
-                InstallOtherMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
+                InstallMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
                     function(arg)
                         return CallFuncList( ValueGlobal(nameNC), arg{shortPos});
                     end);
                     RedispatchOnCondition( ValueGlobal(nameNC), true,
                         longFilterAlt, longFilterRe, 0);
-                InstallOtherMethod( ValueGlobal(name), descriptionLong, longFilter,
+                InstallMethod( ValueGlobal(name), descriptionLong, longFilter,
                     normalFunction);
                     RedispatchOnCondition( ValueGlobal(name), true,
                         longFilterAlt, longFilterRe, 0);
