@@ -164,10 +164,14 @@
 #! 
 #! TODO example
 #! @Returns a polygonal complex
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidence", [IsList, IsList] );
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "PolygonalComplexByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -178,10 +182,14 @@ DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsList, IsList] );
 #!
 #! TODO example
 #! @Returns a ramified polygonal surface
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -192,10 +200,14 @@ DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidenceNC", [IsList, IsLi
 #!
 #! TODO example
 #! @Returns a polygonal surface
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "PolygonalSurfaceByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -206,10 +218,14 @@ DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
 #!
 #! TODO example
 #! @Returns a triangular complex
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidence", [IsList, IsList] );
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "TriangularComplexByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -220,10 +236,14 @@ DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList] );
 #!
 #! TODO example
 #! @Returns a ramified simplicial surface
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -234,10 +254,14 @@ DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsList, IsL
 #!
 #! TODO example
 #! @Returns a simplicial surface
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
-#! @Arguments [vertices, edges, faces,] verticesOfEdges, edgesOfFaces
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialSurfaceByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 #TODO remark that most of these constructors also check for some properties
 
@@ -274,10 +298,14 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
 #! 
 #! TODO example
 #! @Returns a polygonal complex
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments verticesInFaces
 DeclareOperation( "PolygonalComplexByVerticesInFaces", [IsList] );
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "PolygonalComplexByVerticesInFaces", [IsSet, IsSet, IsList] );
+#! @Arguments verticesInFaces
 DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsList] );
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -288,10 +316,14 @@ DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsList] );
 #! 
 #! TODO example
 #! @Returns a ramified polygonal surface
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments verticesInFaces
 DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFaces", [IsList] );
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFaces", [IsSet, IsSet, IsList] );
+#! @Arguments verticesInFaces
 DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFacesNC", [IsList] );
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -302,10 +334,14 @@ DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFacesNC", [IsList] );
 #! 
 #! TODO example
 #! @Returns a polygonal surface
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments verticesInFaces
 DeclareOperation( "PolygonalSurfaceByVerticesInFaces", [IsList] );
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "PolygonalSurfaceByVerticesInFaces", [IsSet, IsSet, IsList] );
+#! @Arguments verticesInFaces
 DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsList] );
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -316,10 +352,14 @@ DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsList] );
 #! 
 #! TODO example
 #! @Returns a triangular complex
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments verticesInFaces
 DeclareOperation( "TriangularComplexByVerticesInFaces", [IsList] );
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "TriangularComplexByVerticesInFaces", [IsSet, IsSet, IsList] );
+#! @Arguments verticesInFaces
 DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsList] );
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -330,10 +370,14 @@ DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsList] );
 #! 
 #! TODO example
 #! @Returns a ramified simplicial surface
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments verticesInFaces
 DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFaces", [IsList] );
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFaces", [IsSet, IsSet, IsList] );
+#! @Arguments verticesInFaces
 DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFacesNC", [IsList] );
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -344,9 +388,13 @@ DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFacesNC", [IsList] );
 #! 
 #! TODO example
 #! @Returns a simplicial surface
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments verticesInFaces
 DeclareOperation( "SimplicialSurfaceByVerticesInFaces", [IsList] );
-#! @Arguments [vertices, faces,] verticesInFaces
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "SimplicialSurfaceByVerticesInFaces", [IsSet, IsSet, IsList] );
+#! @Arguments verticesInFaces
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsList] );
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
