@@ -88,7 +88,7 @@
 #! <Ref Sect="Section_Access_BasicAccess"/>. Some more specialized
 #! applications for incidence can be found in section
 #! <Ref Sect="Section_Access_SpecializedAccess"/>.
-#! <Par/>
+#! 
 #! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/> 
 #! and <Ref Sect="Section_Access_OrderedVertexAccess"/>
 #! deal with variations of incidence that are usually not needed by the 
@@ -124,7 +124,7 @@
 ## TODO check if grape has changed their definition of Vertices
 #! @Description
 #! Return the set/number of vertices.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
 #! <Alt Only="TikZ">
@@ -139,7 +139,7 @@
 #! gap> NrOfVertices(complex);
 #! 4
 #! @EndExampleSession
-#! <Par/>
+#! 
 #! We have separated the operation <K>Vertices</K> from the corresponding
 #! attribute because there is a naming clash with the package grape.
 #! @Arguments complex
@@ -154,7 +154,7 @@ DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
 #! @BeginGroup
 #! @Description
 #! Return the set/number of edges.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
 #! <Alt Only="TikZ">
@@ -180,7 +180,7 @@ DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
 #! @BeginGroup
 #! @Description
 #! Return the set/number of faces.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
 #! <Alt Only="TikZ">
@@ -212,7 +212,7 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! describe the incidence structure by lists of sets.
 #! All those methods have the form *Of*, e.g. <K>VerticesOfFaces</K> and 
 #! <K>EdgesOfVertices</K>.
-#! <Par/>
+#! 
 #! We will illustrate the general pattern of these methods by showcasing
 #! these two methods. For that we will use the following polygonal complex:
 
@@ -267,10 +267,10 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! incident to face I. The second and third entries are not bounded since
 #! there are no faces II and III. Finally, the fourth entry contains all
 #! vertices that are incident to face IV.
-#! <Par/>
+#! 
 #! So we have a list that contains sets of vertices and is indexed by the 
 #! face labels.
-#! <Par/>
+#! 
 #! The method <K>EdgesOfVertices</K> works in the same way: It returns a list
 #! that contains sets of edges and is indexed by the vertex labels.
 #! @ExampleSession
@@ -279,7 +279,7 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! @EndExampleSession
 #! For example, if we consider the third entry of this list, we find the
 #! set [ 8, 9, 12 ]. Those are all edges that are incident to the vertex 3.
-#! <Par/>
+#! 
 #! In the same way all other *Of*-methods are defined.
 
 
@@ -289,13 +289,13 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! The method <K>EdgesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
 #! set of all edges that are incident to <A>vertex</A>. The NC-version does
 #! not check whether the given <A>vertex</A> is a vertex of <A>complex</A>.
-#! <Par/>
+#! 
 #! The attribute <K>EdgesOfVertices</K>(<A>complex</A>) collects all of those
 #! sets in a list that is indexed by the vertex labels, i.e.
 #! <K>EdgesOfVertices</K>(<A>complex</A>)[<A>vertex</A>] = 
 #! <K>EdgesOfVertex</K>(<A>complex</A>, <A>vertex</A>).
 #! All other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
@@ -330,13 +330,13 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! The method <K>FacesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
 #! set of all faces that are incident to <A>vertex</A>. The NC-version does
 #! not check whether the given <A>vertex</A> is a vertex of <A>complex</A>.
-#! <Par/>
+#! 
 #! The attribute <K>FacesOfVertices</K>(<A>complex</A>) collects all of those
 #! sets in a list that is indexed by the vertex labels, i.e.
 #! <K>FacesOfVertices</K>(<A>complex</A>)[<A>vertex</A>] = 
 #! <K>FacesOfVertex</K>(<A>complex</A>, <A>vertex</A>).
 #! All other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
@@ -370,13 +370,13 @@ DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! The method <K>VerticesOfEdge</K>(<A>complex</A>, <A>edge</A>) returns the
 #! set of all vertices that are incident to <A>edge</A>. The NC-version does
 #! not check whether the given <A>edge</A> is an edge of <A>complex</A>.
-#! <Par/>
+#! 
 #! The attribute <K>VerticesOfEdges</K>(<A>complex</A>) collects all of those
 #! sets in a list that is indexed by the edge labels, i.e.
 #! <K>VerticesOfEdges</K>(<A>complex</A>)[<A>edge</A>] = 
 #! <K>VerticesOfEdge</K>(<A>complex</A>, <A>edge</A>).
 #! All other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
@@ -410,13 +410,13 @@ DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! The method <K>FacesOfEdge</K>(<A>complex</A>, <A>edge</A>) returns the
 #! set of all faces that are incident to <A>edge</A>. The NC-version does
 #! not check whether the given <A>edge</A> is an edge of <A>complex</A>.
-#! <Par/>
+#! 
 #! The attribute <K>FacesOfEdges</K>(<A>complex</A>) collects all of those
 #! sets in a list that is indexed by the edge labels, i.e.
 #! <K>FacesOfEdges</K>(<A>complex</A>)[<A>edge</A>] = 
 #! <K>FacesOfEdge</K>(<A>complex</A>, <A>edge</A>).
 #! All other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
@@ -451,13 +451,13 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! The method <K>VerticesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
 #! set of all vertices that are incident to <A>face</A>. The NC-version does
 #! not check whether the given <A>face</A> is a face of <A>complex</A>.
-#! <Par/>
+#! 
 #! The attribute <K>VerticesOfFaces</K>(<A>complex</A>) collects all of those
 #! sets in a list that is indexed by the face labels, i.e.
 #! <K>VerticesOfFaces</K>(<A>complex</A>)[<A>face</A>] = 
 #! <K>VerticesOfFace</K>(<A>complex</A>, <A>face</A>).
 #! All other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
@@ -492,13 +492,13 @@ DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! The method <K>EdgesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
 #! set of all edges that are incident to <A>faces</A>. The NC-version does
 #! not check whether the given <A>face</A> is a face of <A>complex</A>.
-#! <Par/>
+#! 
 #! The attribute <K>EdgesOfFaces</K>(<A>complex</A>) collects all of those
 #! sets in a list that is indexed by the face labels, i.e.
 #! <K>EdgesOfFaces</K>(<A>complex</A>)[<A>face</A>] = 
 #! <K>EdgesOfFace</K>(<A>complex</A>, <A>face</A>).
 #! All other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
@@ -581,14 +581,14 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! Given a face and a list of two vertices of a polygonal complex, return the 
 #! edge that
 #! lies in the given face and is incident to the given vertices.
-#! <Par/>
+#! 
 #! If there is no such edge (because the given vertices are not incident to
 #! the given face or because they are not connected by an edge of the face),
 #! return <K>fail</K>.
-#! <Par/>
+#! 
 #! The NC-version does not check if <A>face</A> is a face of the given
 #! polygonal complex.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex from the start of section
 #! <Ref Sect="Section_Access_SpecializedAccess"/>:
 #! <Alt Only="TikZ">
@@ -621,10 +621,10 @@ DeclareOperation("EdgeInFaceByVerticesNC",
 #! If a vertex is incident to a face in a polygonal complex, there are exactly
 #! two edges that are incident to both vertex and face. If one of those is
 #! given to this method, it will return the other one.
-#! <Par/>
+#! 
 #! The NC-version does not check whether the given vertex, edge an face
 #! actually lie in the complex and are incident to each other.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
 #! <Ref Sect="Section_Access_SpecializedAccess"/>:
@@ -654,11 +654,11 @@ DeclareOperation("OtherEdgeOfVertexInFaceNC",
 #! @Description
 #! Every edge in a polygonal complex is incident to exactly two vertices.
 #! Given one of them, this method returns the other one.
-#! <Par/>
+#! 
 #! The NC-version does not check whether the given <A>edge</A> is an edge of 
 #! the
 #! polygonal complex and whether the given <A>vertex</A> is incident to it.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
 #! <Ref Sect="Section_Access_SpecializedAccess"/>:
@@ -688,14 +688,14 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! @Description
 #! If an edge is incident to exactly two faces and one of those is given,
 #! this method returns the other one.
-#! <Par/>
+#! 
 #! If this method is called for a boundary edge or a branching edge, it 
 #! returns <K>fail</K>.
-#! <Par/>
+#! 
 #! The NC-version does not check whether the given <A>edge</A> is an edge of
 #! the polygonal complex and whether the given <A>face</A> is an incident face
 #! of the complex.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
 #! <Alt Only="TikZ">
@@ -750,18 +750,18 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! are quite clumsy. For that reason the methods 
 #! <K>CyclicVertexOrderOfFace</K> and <K>CyclicEdgeOrderOfFace</K>
 #! were written.
-#! <Par/>
+#! 
 #! The cyclic order of the vertices is naturally represented by one of
 #! the permutations (1,6,3,2,9) or (1,9,2,3,6).
 #TODO put a link to permutations in the GAP-Manual here
 #! Since the operation should return a unique value, we have to pick
 #! one of these as a convention. We choose (1,6,3,2,9), since it has
 #! the smallest image under 1 (the smallest of the vertices).
-#! <Par/>
+#! 
 #! Likewise we have the permutations (2,6,3,8,4) and (2,4,8,3,6) for
 #! the cyclic order of the edges. With the same convention we choose
 #! (2,4,8,3,6) as the designated return value. 
-#! <Par/>
+#! 
 #! @ExampleSession
 #! gap> CyclicVertexOrderOfFace( pentagon, 2 );
 #! ( 1, 6, 3, 2, 9 )
@@ -800,25 +800,25 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! returns a cyclic permutation of all vertices in the given <A>face</A> such 
 #! that the images of every pair of vertices that are connected by an edge of 
 #! the given <A>face</A> will also be connected by an edge of <A>face</A>.
-#! <Par/>
+#! 
 #! This condition does not define the cyclic permutation uniquely, so we 
 #! stipulate that the image of the smallest vertex is minimal for the retuned
 #! permutation.
-#! <Par/>
+#! 
 #! The attribute <K>CyclicVertexOrderOfFacesAsPerm</K>(<A>complex</A>) 
 #! collects all of those permutations in a list that is indexed by the face 
 #! labels, i.e. 
 #! <K>CyclicVertexOrderOfFacesAsPerm</K>(<A>complex</A>)[<A>face</A>]
 #! = <K>CyclicVertexOrderOfFaceAsPerm</K>(<A>complex</A>, <A>face</A>). All
 #! other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
 #! The operations
 #! <K>CyclicVertexOrderOfFace</K>(<A>complex</A>, <A>face</A>) and
 #! <K>CyclicVertexOrderOfFaces</K>(<A>complex</A>) are wrappers for the
 #! corresponding <K>*AsPerm</K>-methods.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
 #! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
@@ -860,21 +860,21 @@ DeclareOperation( "CyclicVertexOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! that every two vertices that are connected by an edge of 
 #! the given <A>face</A> will be adjacent in the list (for this purpose,
 #! the first and the last entry of the list are adjacent).
-#! <Par/>
+#! 
 #! This condition does only define the list up to cyclic permutation, so we 
 #! stipulate that the first element of the list is the smallest vertex and
 #! the second element of the list is as small as possible.
-#! <Par/>
+#! 
 #! The attribute <K>CyclicVertexOrderOfFacesAsList</K>(<A>complex</A>) 
 #! collects all of those lists in a list that is indexed by the face 
 #! labels, i.e. 
 #! <K>CyclicVertexOrderOfFacesAsList</K>(<A>complex</A>)[<A>face</A>]
 #! = <K>CyclicVertexOrderOfFaceAsList</K>(<A>complex</A>, <A>face</A>). All
 #! other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
 #! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
@@ -906,25 +906,25 @@ DeclareOperation( "CyclicVertexOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosI
 #! returns a cyclic permutation of all edges in the given <A>face</A> such 
 #! that the images of every pair of edges that share a vertex of 
 #! the given <A>face</A> will also share a vertex of <A>face</A>.
-#! <Par/>
+#! 
 #! This condition does not define the cyclic permutation uniquely, so we 
 #! stipulate that the image of the smallest edge is minimal for the retuned
 #! permutation.
-#! <Par/>
+#! 
 #! The attribute <K>CyclicEdgeOrderOfFacesAsPerm</K>(<A>complex</A>) 
 #! collects all of those permutations in a list that is indexed by the face 
 #! labels, i.e. 
 #! <K>CyclicEdgeOrderOfFacesAsPerm</K>(<A>complex</A>)[<A>face</A>]
 #! = <K>CyclicEdgeOrderOfFaceAsPerm</K>(<A>complex</A>, <A>face</A>). All
 #! other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
 #! The operations
 #! <K>CyclicEdgeOrderOfFace</K>(<A>complex</A>, <A>face</A>) and
 #! <K>CyclicEdgeOrderOfFaces</K>(<A>complex</A>) are wrappers for the
 #! corresponding <K>*AsPerm</K>-methods.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
 #! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
@@ -966,21 +966,21 @@ DeclareOperation( "CyclicEdgeOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! that every two edges that share a vertex of 
 #! the given <A>face</A> will be adjacent in the list (for this purpose,
 #! the first and the last entry of the list are adjacent).
-#! <Par/>
+#! 
 #! This condition does only define the list up to cyclic permutation, so we 
 #! stipulate that the first element of the list is the smallest edge and
 #! the second element of the list is as small as possible.
-#! <Par/>
+#! 
 #! The attribute <K>CyclicEdgeOrderOfFacesAsList</K>(<A>complex</A>) 
 #! collects all of those lists in a list that is indexed by the face 
 #! labels, i.e. 
 #! <K>CyclicEdgeOrderOfFacesAsList</K>(<A>complex</A>)[<A>face</A>]
 #! = <K>CyclicEdgeOrderOfFaceAsList</K>(<A>complex</A>, <A>face</A>). All
 #! other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
-#! <Par/>
+#! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
 #! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
@@ -1033,9 +1033,9 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #!         <Alt Only="TikZ">
 #!           \input{Image_EdgeFacePath.tex}
 #!         </Alt>
-#! <Par/>
+#! 
 #! <#Include Label="EdgeFacePath_Definition">
-#! <Par/>
+#! 
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}
 #!      \input{Image_EdgeFacePath_open.tex}
@@ -1062,7 +1062,7 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! and inversion they are equivalent (they form an orbit under the dihedral 
 #! group of order
 #! 10).
-#! <Par/>
+#! 
 #! If we have to pick one by convention, we will choose the first entry to be
 #! minimal, say <M>e_2</M>. This leaves us with the two paths
 #! <M>(e_2,f_2,\ldots)</M> and <M>(e_2,f_1,\ldots)</M>. Of those, we pick the one
@@ -1079,20 +1079,20 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! * The first entry of the edge-face-path is minimal.
 #! * In the case of a closed edge-face-path, after restricting with the
 #!   first convention, the second entry of the edge-face-path is minimal.
-#! <Par/>
+#! 
 #! The attribute <K>EdgeFacePathsOfVertices</K>(<A>surface</A>) collects all
 #! of those edge-face-paths in a list that is indexed by the vertex labels,
 #! i.e. <K>EdgeFacePathsOfVertices</K>(<A>surface</A>)[<A>vertex</A>] = 
 #! <K>EdgeFacePathOfVertex</K>(<A>surface</A>, <A>vertex</A>). All other 
 #! positions of this list are not bounded.
-#! <Par/>
+#! 
 #! The NC-version does not check whether the given <A>vertex</A> lies in the
 #! given <A>surface</A>.
-#! <Par/>
+#! 
 #! For ramified polygonal surfaces the edge-face-paths around a vertex are
 #! not unique. Then you have to use the methods in
 #! <Ref Subsect="EdgeFacePathPartition"/> that return all of those paths.
-#! <Par/>
+#! 
 #! As example consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}
@@ -1176,7 +1176,7 @@ InstallTrueMethod( IsPolygonalSurface, HasEdgeFacePathsOfVertices );
 #! and faces incident to <A>vertex</A> are partitioned by these paths
 #! (i.e. each of them appears in exactly
 #! one edge-face-path).
-#! <Par/>
+#! 
 #! The result is determined as follows:
 #! * The partition of edges and faces is unique (reachability by 
 #!   edge-face-paths around <A>vertex</A>).
@@ -1188,21 +1188,21 @@ InstallTrueMethod( IsPolygonalSurface, HasEdgeFacePathsOfVertices );
 #!   * The second entry of the returned edge-face-path will be as small as
 #!     possible (after having minimized the first entry). This condition is
 #!     non-trivial only for closed edge-face-paths.
-#! <Par/>
+#! 
 #! The attribute <K>EdgeFacePathPartitionsOfVertices</K>(<A>ramSurf</A>)
 #! collects these partitions in a list (indexed by the vertex
 #! labels), i.e. 
 #! <K>EdgeFacePathPartitionsOfVertices</K>(<A>ramSurf</A>)[<A>vertex</A>] =
 #! <K>EdgeFacePathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>).
 #! All other positions of this list are not bounded.
-#! <Par/>
+#! 
 #! If you have a <E>polygonal surface</E>, all partition will only consist of
 #! one element. In this case, the methods
 #! in <Ref Subsect="EdgeFacePathSingle"/> will only return these unique 
 #! edge-face-paths.
-#! <Par/>
+#! 
 #! The NC-version does not check whether <A>vertex</A> lies in <A>ramSurf</A>.
-#! <Par/>
+#! 
 #! As example consider the following ramified polygonal surface.
 #! <Alt Only="TikZ">
 #!   \input{Image_EdgeFacePath_ramified.tex}

@@ -17,7 +17,7 @@
 #! complexes (as a generalization of simplicial surfaces). They are based
 #! on incidence structures, which were analysed in chapter
 #! <Ref Chap="Chapter_AccessIncidenceGeometry"/>.
-#! <Par/>
+#! 
 #! This chapter deals with the construction of custom polygonal complexes
 #! and simplicial surfaces.
 
@@ -51,7 +51,7 @@
 #! does not warrant much 
 #! explanation (except noting that all platonic solids are there), we will
 #! now explain the structure of the more general constructors.
-#! <Par/>
+#! 
 #! All general constructors are structured like [Type]By[Method](args), e.g.
 #! * <K>PolygonalComplexByDownwardIncidence</K>( <A>verticesOfEdges</A>, <A>edgesOfFaces</A> )
 #! * <K>SimplicialSurfaceByEdgeFacePaths</K>( <A>edgeFacePaths</A> )
@@ -82,14 +82,14 @@
 #! and <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). From these
 #! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
 #! be build.
-#! <Par/>
+#! 
 #! These constructors also allow the optional arguments <A>vertices</A>,
 #! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
 #! information is checked for compatibility with them. This is very useful
 #! in practice to notice typos in the incidence relations. It is also possible
 #! to give a positive integer <A>n</A> - it will be converted into the list
 #! <M>[1,...,n]</M>.
-#! <Par/>
+#! 
 #! The name <E>DownwardIncidence</E> stems from the fact that the incidence
 #! relation is given by referring to structures of lower dimension  - an edge
 #! (dimension 1) is defined by two vertices (dimension 0) and a face 
@@ -121,7 +121,7 @@
 #!          <A>edges</A> and <A>faces</A> is either a set of positive
 #!          integers or a positive integer. In the latter case, an integer
 #!          <M>n</M> represents the set <M>[1,...,n]</M>.
-#!          <Par/>
+#!          
 #!          Although these arguments can be deduced from the non-optional
 #!          arguments, their use is recommended to catch mistakes in these
 #!          other arguments.</Item>
@@ -252,14 +252,14 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
 ##TODO explain how it works (construction of edges)
 #! Any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
 #! be build.
-#! <Par/>
+#! 
 #! These constructors also allow the optional arguments <A>vertices</A>
 #! and <A>faces</A>. If those sets are given, the incidence
 #! information is checked for compatibility with them. This is very useful
 #! in practice to notice typos in the incidence relations. It is also possible
 #! to give a positive integer <A>n</A> - it will be converted into the list
 #! <M>[1,...,n]</M>.
-#! <Par/>
+#! 
 
 #! @BeginChunk Documentation_VerticesInFaces
 #! TODO
