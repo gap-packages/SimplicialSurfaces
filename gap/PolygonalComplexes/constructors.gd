@@ -111,34 +111,42 @@
 ## Here we write part of the documentation that is the same over the 
 ## different versions
 #! @BeginChunk Documentation_DownwardIncidence
-#! based on the attributes
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
 #! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) and 
-#! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). It takes these
+#! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>) and takes these
 #! arguments:
 #! <Enum>
-#!   <Item>OPTIONAL: The sets of vertices, edges and faces (i.e. sets of 
-#!          positive integers). If a positive integer <M>n</M> is given, 
-#!          it is interpreted as the set <M>[1,...,n]</M>. Although these 
-#!          arguments are redundant, their use is recommended to catch 
-#!          mistakes in the other arguments.</Item>
-#!   <Item> <K>verticesOfEdges</K>: A list that has an entry for each edge of 
-#!          the polygonal complex. This entry has to be a list with the two 
+#!   <Item>OPTIONAL: Each of the optional arguments <A>vertices</A>, 
+#!          <A>edges</A> and <A>faces</A> is either a set of positive
+#!          integers or a positive integer. In the latter case, an integer
+#!          <M>n</M> represents the set <M>[1,...,n]</M>.
+#!          <Par/>
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>verticesOfEdges</K>: A list that has an entry for each edge (a
+#!          positive integer).
+#!          This entry has to be a list of the two 
 #!          vertices (as positive integers) of this edge.</Item>
-#!   <Item> <K>edgesOfFaces</K>: A list that has an entry for each face of 
-#!          the polygonal complex. This entry has to be a list with the edges 
+#!   <Item> <K>edgesOfFaces</K>: A list that has an entry for each face (a
+#!          positive integer).
+#!          This entry has to be a list of the edges 
 #!          (as positive integers) of this face.</Item>
 #! </Enum>
 #!
-#! The following checks will be performed. None of these will be
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be
 #! performed by the NC-version.
 #! * Are the optional arguments <A>vertices</A>, <A>edges</A> and <A>faces</A>
 #!   either positive integers or sets of positive integers?
 #! * Are <A>verticesOfEdges</A> and <A>edgesOfFaces</A> lists where the 
 #!   entries are lists of positive integers?
-#! * Is every bounded entry of <A>verticesOfEdges</A> a list with exactly two 
+#! * Is every bound entry of <A>verticesOfEdges</A> a list with exactly two 
 #!   entries that are different?
-#! * Does every bounded entry of <A>edgesOfFaces</A> contain at least one 
-#!   element?
+#! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
+#!   elements?
 #! * If <A>vertices</A> is given, is 
 #!   <K>Union</K>(<A>verticesOfEdges</A>) = <A>vertices</A>?
 #! * Are the bound positions of <A>verticesOfEdges</A> equal to 
