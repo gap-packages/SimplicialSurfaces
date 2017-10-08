@@ -5,6 +5,9 @@
 
 \usepackage{amssymb}
 
+
+%%% Vertex styles
+
 % Courtesy of
 % https://tex.stackexchange.com/questions/59354/no-text-none-in-tikz
 \makeatletter
@@ -40,8 +43,11 @@
     vertexLabel/.style={text=none}
 } }
 \tikzset{ vertexDefault/.style={vertexNormal} }
+\tikzset{ vertexNode/.style={vertexDefault, vertexNode} }
+\tikzset{ vertexLabel/.style={vertexDefault, vertexLabel} }
 
 
+%%% Edge styles
 \tikzset{ edgePlain/.style={} }
 \tikzset{ edgeDouble/.style={thin, double=gray!90!white, double distance=.3pt} }
 \tikzset{ edgeDefault/.style={edgePlain} }
@@ -60,7 +66,7 @@
 \begin{document}
 
 
-\begin{tikzpicture}[edgeDefault/.style=edgeDouble, vertexBall]
+\begin{tikzpicture}[edgeDefault/.style=edgeDouble, vertexDefault/.style=vertexBall]
 
     \coordinate (A) at (0,0);
     \coordinate (B) at (1,0);
@@ -72,9 +78,9 @@
     \def\edgeLabels{1}
     \draw[edge] (C) to node[edge] {\edge{2}} (D);
 
-%    \node[vertexPlain] at (A) {};
-%    \node[vertexNormal] at (B) {};
-%    \node[vertexBall] at (C) {8};
+    \node[vertexPlain, vertexNode] at (A) {};
+    \node[vertexNormal, vertexNode] at (B) {};
+    \node[vertexBall, vertexNode] at (C) {8};
     \node[vertexNode] at (D) {9};
     \node[vertexLabel] at (5,0) {10};
 \end{tikzpicture}
