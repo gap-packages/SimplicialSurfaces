@@ -5,14 +5,54 @@
 
 \usepackage{amssymb}
 
+% Courtesy of
+% https://tex.stackexchange.com/questions/59354/no-text-none-in-tikz
+\makeatletter
+\newif\iftikz@node@phantom
+\tikzset{
+  phantom/.is if=tikz@node@phantom,
+  text/.code=%
+    \edef\tikz@temp{#1}%
+    \ifx\tikz@temp\tikz@nonetext
+      \tikz@node@phantomtrue
+    \else
+      \tikz@node@phantomfalse
+      \let\tikz@textcolor\tikz@temp
+    \fi
+}
+\usepackage{etoolbox}
+\patchcmd\tikz@fig@continue{\tikz@node@transformations}{%
+  \iftikz@node@phantom
+    \setbox\pgfnodeparttextbox\hbox{}
+  \fi\tikz@node@transformations}{}{}
+\makeatother
+
+\tikzset{ vertexPlain/.style={
+    vertexNode/.style={shape=circle, inner sep=0pt, minimum size=2pt, fill=gray},
+    vertexLabel/.style={gray}
+} }
+\tikzset{ vertexNormal/.style={
+    vertexNode/.style={shape=circle, inner sep=0pt, minimum size=4pt, fill=blue, text=none},
+    vertexLabel/.style={blue}
+} }
+\tikzset{ vertexBall/.style={
+    vertexNode/.style={shape=circle, ball color=orange, text=black, inner sep=2pt, outer sep=0pt, minimum size=3pt},
+    vertexLabel/.style={text=none}
+} }
+\tikzset{ vertexDefault/.style={vertexNormal} }
+
+
 \tikzset{ edgePlain/.style={} }
 \tikzset{ edgeDouble/.style={thin, double=gray!90!white, double distance=.3pt} }
+\tikzset{ edgeDefault/.style={edgePlain} }
 \tikzset{ edge/.code={
     \ifdefined\edgeLabels
-        \tikzset{fill=blue!20!white}
+        \tikzset{fill=blue!20!white, edgeDefault}
+    \else
+        \tikzset{edgeDefault}
     \fi}
 }
-\newcommand{\edgeLabel}[1]{
+\newcommand{\edge}[1]{
     \ifdefined\edgeLabels #1 \fi
 }
 
@@ -20,7 +60,7 @@
 \begin{document}
 
 
-\begin{tikzpicture}
+\begin{tikzpicture}[edgeDefault/.style=edgeDouble, vertexBall]
 
     \coordinate (A) at (0,0);
     \coordinate (B) at (1,0);
@@ -30,11 +70,13 @@
     \draw[edgePlain] (A) -- (B);
     \draw[edgeDouble] (B) -- (C);
     \def\edgeLabels{1}
-    \draw (C) to node[edge] \edgeLabel{2} (D);
-%    \expandafter\draw \expandafter(\expandafter C\expandafter) \edgeLabel{1} (D);
+    \draw[edge] (C) to node[edge] {\edge{2}} (D);
 
-    
-
+%    \node[vertexPlain] at (A) {};
+%    \node[vertexNormal] at (B) {};
+%    \node[vertexBall] at (C) {8};
+    \node[vertexNode] at (D) {9};
+    \node[vertexLabel] at (5,0) {10};
 \end{tikzpicture}
 
 
