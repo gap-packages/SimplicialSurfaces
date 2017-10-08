@@ -30,6 +30,8 @@
   \fi\tikz@node@transformations}{}{}
 \makeatother
 
+% Recursive style definition idea from
+% https://tex.stackexchange.com/questions/55948/choosing-styles-conditionally-in-tikz
 \tikzset{ vertexPlain/.style={
     vertexNode/.style={shape=circle, inner sep=0pt, minimum size=2pt, fill=gray},
     vertexLabel/.style={gray}
@@ -63,6 +65,10 @@
 }
 
 
+%%% Face styles
+
+
+
 \begin{document}
 
 
@@ -83,6 +89,9 @@
     \node[vertexBall, vertexNode] at (C) {8};
     \node[vertexNode] at (D) {9};
     \node[vertexLabel] at (5,0) {10};
+
+
+    \draw[fill=yellow, line join=round, edgeDouble] (5,0) -- (6,0) -- (5,4) -- cycle;
 \end{tikzpicture}
 
 
