@@ -1247,6 +1247,7 @@ DeclareOperation( "RipMend", [IsSimplicialSurface and IsActualSurface, IsPosInt,
 DeclareOperation( "SplitCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
 DeclareOperation( "SplitMend", [IsSimplicialSurface and IsActualSurface, IsList, IsList] );
 
+## Classification of vertices
 DeclareAttribute( "InnerVertices", IsSimplicialSurface and IsEdgesLikeSurface);
 DeclareAttribute( "BoundaryVertices", IsSimplicialSurface and IsEdgesLikeSurface );
 DeclareAttribute( "RamifiedVertices", IsSimplicialSurface and IsEdgesLikeSurface );
