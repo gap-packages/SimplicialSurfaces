@@ -728,12 +728,14 @@ DeclareProperty( "IsClosedSurface",
 #! @Arguments simpSurf
 #! @Returns a set of edges
 DeclareAttribute( "InnerEdges", IsSimplicialSurface );
+DeclareOperation( "IsInnerEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @Description
 #! Return the set of all border edges, that is edges with only one adjacent face.
 #! @Arguments simpSurf
 #! @Returns a set of edges
 DeclareAttribute( "BoundaryEdges", IsSimplicialSurface );
+DeclareOperation( "IsBoundaryEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @Description
 #! Return the set of all ramified edges, that is edges that have at least three
@@ -741,6 +743,7 @@ DeclareAttribute( "BoundaryEdges", IsSimplicialSurface );
 #! @Arguments simpSurf
 #! @Returns a set of edges
 DeclareAttribute( "RamifiedEdges", IsSimplicialSurface );
+DeclareOperation( "IsRamifiedEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @BeginGroup
 #! @Description
@@ -1244,8 +1247,13 @@ DeclareOperation( "RipMend", [IsSimplicialSurface and IsActualSurface, IsPosInt,
 DeclareOperation( "SplitCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
 DeclareOperation( "SplitMend", [IsSimplicialSurface and IsActualSurface, IsList, IsList] );
 
-DeclareAttribute( "InnerVertices", IsSimplicialSurface and IsActualSurface );
+DeclareAttribute( "InnerVertices", IsSimplicialSurface and IsEdgesLikeSurface);
+DeclareAttribute( "BoundaryVertices", IsSimplicialSurface and IsEdgesLikeSurface );
+DeclareAttribute( "RamifiedVertices", IsSimplicialSurface and IsEdgesLikeSurface );
 
+DeclareOperation( "IsInnerVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+DeclareOperation( "IsBoundaryVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+DeclareOperation( "IsRamifiedVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 
 #
 ###  This program is free software: you can redistribute it and/or modify

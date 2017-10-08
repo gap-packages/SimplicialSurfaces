@@ -2445,12 +2445,23 @@ InstallMethod( InnerEdges, "for a simplicial surface",
                     Size( FacesOfEdges(simpsurf)[e]  ) = 2 );
     end
 );
+InstallMethod( IsInnerEdge, "for a simplicial surface",
+    [IsSimplicialSurface, IsPosInt],
+    function(surf, edge)
+        return edge in InnerEdges(surf);
+    end
+);
 
 InstallMethod( BoundaryEdges, "for a simplicial surface",
         [IsSimplicialSurface], 
     function( simpsurf )
         return Filtered( Edges(simpsurf), e -> 
                     Size( FacesOfEdges(simpsurf)[e]  ) < 2 );
+    end
+);
+InstallMethod( IsBoundaryEdge, "", [IsSimplicialSurface, IsPosInt],
+    function(surf, edge)
+        return edge in BoundaryEdges(surf);
     end
 );
 
@@ -2461,7 +2472,11 @@ InstallMethod( RamifiedEdges, "for a simplicial surface",
                     Size( FacesOfEdges(simpsurf)[e]  ) > 2 );
     end
 );
-
+InstallMethod( IsRamifiedEdge, "", [IsSimplicialSurface, IsPosInt],
+    function(surf, edge)
+        return edge in RamifiedEdges(surf);
+    end
+);
 
 
 
@@ -4265,15 +4280,69 @@ InstallMethod( DisplayAsAutomorphism,
 );
 
 InstallMethod( InnerVertices, "for an actual surface",
-    [IsSimplicialSurface and IsActualSurface],
+    [IsSimplicialSurface and IsEdgesLikeSurface],
     function(surf)
         local paths;
         
-        paths := List( FaceEdgePathsOfVertices(surf), i -> i[1] );
-        return Filtered( Vertices(surf), v -> IsEvenInt( Size( paths[v] ) ) );
+        paths := FaceEdgePathsOfVertices(surf);
+        return Filtered( Vertices(surf), v -> Size(paths[v]) = 1 and IsEvenInt( Size( paths[v][1] ) ) );
     end
 );
-RedispatchOnCondition( InnerVertices, true, [IsSimplicialSurface], [IsActualSurface], 0 );
+RedispatchOnCondition( InnerVertices, true, [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );
+InstallMethod( IsInnerVertex, "for a ramified surface and a vertex",
+    [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt],
+    function(surf, v)
+        if not v in Vertices(surf) then
+            Error("IsInnerVertex: Not a vertex of the surface.");
+        fi;
+        return v in InnerVertices(surf);
+    end
+);
+RedispatchOnCondition( IsInnerVertex, true, [IsSimplicialSurface,IsPosInt], [IsEdgesLikeSurface],0 );
+
+
+InstallMethod( BoundaryVertices, "for a ramified surface",
+    [IsSimplicialSurface and IsEdgesLikeSurface],
+    function( surf )
+        local paths;
+
+        paths := FaceEdgePathsOfVertices(surf);
+        return Filtered( Vertices(surf), v -> Size(paths[v])=1 and IsOddInt( Size( paths[v][1] ) ) );
+    end
+);
+RedispatchOnCondition( BoundaryVertices, true, [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );
+InstallMethod( IsBoundaryVertex, "for a ramified surface and a vertex",
+    [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt],
+    function(surf, v)
+        if not v in Vertices(surf) then
+            Error("IsBoundaryVertex: Not a vertex of the surface.");
+        fi;
+        return v in BoundaryVertices(surf);
+    end
+);
+RedispatchOnCondition( IsBoundaryVertex, true, [IsSimplicialSurface,IsPosInt], [IsEdgesLikeSurface],0 );
+
+
+InstallMethod( RamifiedVertices, "for a ramified surface",
+    [IsSimplicialSurface and IsEdgesLikeSurface],
+    function( surf )
+        local paths;
+        
+        paths := FaceEdgePathsOfVertices(surf);
+        return Filtered(Vertices(surf), v->Size(paths[v])>1);
+    end
+);
+RedispatchOnCondition( RamifiedVertices, true, [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );
+InstallMethod( IsRamifiedVertex, "for a ramified surface and a vertex",
+    [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt],
+    function(surf, v)
+        if not v in Vertices(surf) then
+            Error("IsRamifiedVertex: Not a vertex of the surface.");
+        fi;
+        return v in RamifiedVertices(surf);
+    end
+);
+RedispatchOnCondition( IsRamifiedVertex, true, [IsSimplicialSurface,IsPosInt], [IsEdgesLikeSurface],0 );
 
 ##
 ##           cuts and mends
