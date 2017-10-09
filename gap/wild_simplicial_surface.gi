@@ -3349,6 +3349,7 @@ BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
 );
 
 
+#TODO install this method also for general surfaces (without colours)
 InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     [IsWildSimplicialSurface, IsString],
     function(surface, string)

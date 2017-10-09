@@ -4347,6 +4347,16 @@ RedispatchOnCondition( IsRamifiedVertex, true, [IsSimplicialSurface,IsPosInt], [
 ##
 ##           cuts and mends
 ##
+InstallMethod( CraterCuttableEdges, "for an actual surface",
+    [IsSimplicialSurface],
+    function(surf)
+        local innerEdges, innerVertices;
+
+        innerEdges := InnerEdges(surf);
+        innerVertices := InnerVertices(surf);
+        return Filtered( innerEdges, e -> ForAll( VerticesOfEdges(surf)[e], v -> v in innerVertices ) );
+    end
+);
 InstallMethod(CraterCut, "for an actual surface and an inner edge",
     [IsSimplicialSurface and IsActualSurface, IsPosInt],
     function(surf, edge)
@@ -4383,6 +4393,16 @@ InstallMethod(CraterCut, "for an actual surface and an inner edge",
 );
 RedispatchOnCondition( CraterCut, true, [IsSimplicialSurface, IsPosInt], [IsActualSurface], 0 );
 
+InstallMethod( CraterMendableEdgePairs, "for an actual surface",
+    [IsSimplicialSurface],
+    function(surf)
+        local edgeAnomalies, comb;
+
+        edgeAnomalies := List( EdgeAnomalyClasses(surf), cl -> Filtered(cl, e -> IsBoundaryEdge(surf, e)) );
+        comb := List( edgeAnomalies, a -> Combinations(a,2) );
+        return Union(comb);
+    end
+);
 InstallMethod( CraterMend, "for an actual surface and two edges that form an edge anomaly",
     [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt],
     function(surf, e1, e2)
@@ -4410,6 +4430,18 @@ InstallMethod( CraterMend, "for an actual surface and two edges that form an edg
 RedispatchOnCondition( CraterMend, true, [IsSimplicialSurface, IsPosInt, IsPosInt], [IsActualSurface], 0 );
 
 
+InstallMethod( RipCuttableEdges, "for an actual surface", [IsSimplicialSurface],
+    function(surf)
+        local innerEdges, innerVertices, boundVertices;
+
+        innerEdges := InnerEdges(surf);
+        innerVertices := InnerVertices(surf);
+        boundVertices := BoundaryVertices(surf);
+        return Filtered( innerEdges, e -> 
+            Size( Intersection( innerVertices, VerticesOfEdges(surf)[e] )) = 1
+            and Size( Intersection( boundVertices, VerticesOfEdges(surf)[e] ) ) = 1);
+    end
+);
 InstallMethod( RipCut, "for an actual surface and an inner edge where one vertex is inner and one is on the boundary",
     [IsSimplicialSurface and IsActualSurface, IsPosInt],
     function(surf, edge)
@@ -4470,6 +4502,24 @@ InstallMethod( RipCut, "for an actual surface and an inner edge where one vertex
 );
 RedispatchOnCondition( RipCut, true, [IsSimplicialSurface, IsPosInt], [IsActualSurface], 0 );
 
+
+InstallMethod( RipMendableEdgePairs, "for an actual surface", [IsSimplicialSurface],
+    function(surf)
+        local boundEdges, e1, e2, pairs;
+
+        pairs := [];
+        boundEdges := BoundaryEdges(surf);
+        for e1 in [1..Size(boundEdges)] do
+            for e2 in [e1+1..Size(boundEdges)] do
+                if Size( Intersection( VerticesOfEdges(surf)[boundEdges[e1]], VerticesOfEdges(surf)[boundEdges[e2]] ) ) = 1 then
+                    Add( pairs, [boundEdges[e1], boundEdges[e2]] );
+                fi;
+            od;
+        od;
+
+        return pairs;
+    end
+);
 InstallMethod( RipMend, "for an actual surface and two boundary edges that share a vertex",
     [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt],
     function(surface, e1, e2)
@@ -4507,6 +4557,16 @@ InstallMethod( RipMend, "for an actual surface and two boundary edges that share
 RedispatchOnCondition( RipMend, true, [IsSimplicialSurface, IsPosInt, IsPosInt], [IsActualSurface], 0 );
 
 
+InstallMethod( SplitCuttableEdges, "for an actual surface", [IsSimplicialSurface],
+    function(surf)
+        local innerEdges, boundVert;
+
+        innerEdges := InnerEdges(surf);
+        boundVert := BoundaryVertices(surf);
+
+        return Filtered( innerEdges, e -> IsSubset( boundVert, VerticesOfEdges(surf)[e] ) );
+    end
+);
 InstallMethod( SplitCut, "for an actual surface and an edge whose two vertices are boundary vertices",
     [IsSimplicialSurface and IsActualSurface, IsPosInt],
     function(surf, edge)
@@ -4560,6 +4620,31 @@ InstallMethod( SplitCut, "for an actual surface and an edge whose two vertices a
 RedispatchOnCondition( SplitCut, true, [IsSimplicialSurface,IsPosInt], [IsActualSurface], 0 );
 
 
+InstallMethod( SplitMendableFlagPairs, "for an actual surface", [IsSimplicialSurface],
+    function(surf)
+        local boundEdges, i, j, e1, e2, verts1, verts2, flagPairs, v;
+
+        boundEdges := BoundaryEdges(surf);
+        flagPairs := [];
+        for i in [1..Size(boundEdges)] do
+            for j in [i+1..Size(boundEdges)] do
+                e1 := boundEdges[i];
+                e2 := boundEdges[j];
+                verts1 := VerticesOfEdges(surf)[e1];
+                verts2 := VerticesOfEdges(surf)[e2];
+                if IsEmpty( Intersection( verts1, verts2 ) ) then
+                    for v in verts2 do
+                        if IsEmpty( Intersection( EdgesOfVertices(surf)[verts1[1]], EdgesOfVertices(surf)[v] ) ) then
+                            Add( flagPairs, [ [verts1[1], e1], [v, e2] ] );
+                        fi;
+                    od;
+                fi;
+            od;
+        od;
+
+        return flagPairs;
+    end
+);
 InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edges",
     [IsSimplicialSurface and IsActualSurface, IsList, IsList],
     function(surf, flag1, flag2)

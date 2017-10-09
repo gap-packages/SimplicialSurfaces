@@ -1256,6 +1256,15 @@ DeclareOperation( "IsInnerVertex", [IsSimplicialSurface and IsEdgesLikeSurface, 
 DeclareOperation( "IsBoundaryVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 DeclareOperation( "IsRamifiedVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 
+# Helpers for cuts and mends
+DeclareAttribute( "CraterCuttableEdges", IsSimplicialSurface );
+DeclareAttribute( "RipCuttableEdges", IsSimplicialSurface );
+DeclareAttribute( "SplitCuttableEdges", IsSimplicialSurface );
+
+DeclareAttribute( "CraterMendableEdgePairs", IsSimplicialSurface );
+DeclareAttribute( "RipMendableEdgePairs", IsSimplicialSurface );
+DeclareAttribute( "SplitMendableFlagPairs", IsSimplicialSurface );
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
