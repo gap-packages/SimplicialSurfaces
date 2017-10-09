@@ -30,40 +30,10 @@
   \fi\tikz@node@transformations}{}{}
 \makeatother
 
-% Recursive style definition idea from
-% https://tex.stackexchange.com/questions/55948/choosing-styles-conditionally-in-tikz
-\tikzset{ vertexPlain/.code={
-    vertexNodeStyle/.style={shape=circle, inner sep=0pt, minimum size=2pt, fill=gray, text=none},
-    \ifdefined\vertexLabels
-        vertexLabelStyle/.style={gray}
-    \else
-        vertexLabelStyle/.style={text=none}
-    \fi
-} }
-\tikzset{ vertexNormal/.code={
-    vertexNodeStyle/.style={shape=circle, inner sep=0pt, minimum size=4pt, fill=blue, text=none},
-    \ifdefined\vertexLabels
-        vertexLabelStyle/.style={blue}
-    \else
-        vertexLabelStyle/.style={text=none}
-    \fi
-} }
-\tikzset{ vertexBall/.code={
-    \ifdefined\vertexLabels
-        vertexNodeStyle/.style={shape=circle, ball color=orange, text=black, inner sep=2pt, outer sep=0pt, minimum size=3pt},
-    \else
-        vertexNodeStyle/.style={shape=circle, ball color=orange, text=none, inner sep=2pt, outer sep=0pt, minimum size=3pt},
-    \fi
-    vertexLabelStyle/.style={text=none}
-} }
-\tikzset{ vertexDefault/.style={vertexNormal} }
-\tikzset{ vertexNode/.style={vertexDefault, vertexNodeStyle} }
-\tikzset{ vertexLabel/.style={vertexDefault, vertexLabelStyle} }
-
 
 %%% Edge styles
-\tikzset{ edgePlain/.style={join line=round} }
-\tikzset{ edgeDouble/.style={thin, double=gray!90!white, double distance=.3pt, join line=round} }
+\tikzset{ edgePlain/.style={line join=round} }
+\tikzset{ edgeDouble/.style={thin, double=gray!90!white, double distance=.3pt, line join=round} }
 \tikzset{ edgeDefault/.style={edgePlain} }
 \tikzset{ edge/.code={
     \ifdefined\edgeLabels
@@ -82,21 +52,75 @@
 
 \newcommand{\faceColorY}{yellow!60!white}
 \tikzset{ faceY/.style={face=\faceColorY} } % yellow 
-\tikzset{ faceB/.style={face=blue!60!white} } % blue 
+\newcommand{\faceColorB}{blue!60!white}
+\tikzset{ faceB/.style={face=\faceColorB} } % blue 
 \tikzset{ faceP/.style={face=cyan!60} } % purple
 \tikzset{ faceR/.style={face=red!60!white} } % red
 \tikzset{ faceG/.style={face=green!60!white} } % green
 \tikzset{ faceO/.style={face=orange!50!yellow!70!white} } % orange
 
 \tikzset{ face/.default={\faceColorY} }
+\tikzset{ faceSwap/.code=
+    \ifdefined\swapColours
+        {face=\faceColorB}
+    \else
+        {face=\faceColorY}
+    \fi
+}
 
 
-
+% Recursive style definition idea from
+% https://tex.stackexchange.com/questions/55948/choosing-styles-conditionally-in-tikz
+% It is coupled with ideas from
+% https://tex.stackexchange.com/questions/125676/key-that-takes-a-list-of-other-keys-as-argument-and-sets-them
+\tikzset{ 
+    vertexNodePlain/.style = {fill=gray, shape=circle, inner sep=0pt, minimum size=2pt, text=none},
+    vertexPlain/labels/.style = {
+        vertexNode/.style={vertexNodePlain},
+        vertexLabel/.style={gray}
+    },
+    vertexPlain/nolabels/.style = {
+        vertexNode/.style={vertexNodePlain},
+        vertexLabel/.style={text=none}
+    },
+    vertexPlain/.style = vertexPlain/#1,
+    vertexPlain/.default=labels
+}
+\tikzset{
+    vertexNodeNormal/.style = {fill=blue, shape=circle, inner sep=0pt, minimum size=4pt, text=none},
+    vertexNormal/labels/.style = {
+        vertexNode/.style={vertexNodeNormal},
+        vertexLabel/.style={blue}
+    },
+    vertexNormal/nolabels/.style = {
+        vertexNode/.style={vertexNodeNormal},
+        vertexLabel/.style={text=none}
+    },
+    vertexNormal/.style = vertexNormal/#1,
+    vertexNormal/.default=labels
+}
+\tikzset{
+    vertexNodeBall/.style = {shape=circle, ball color=orange, inner sep=2pt, outer sep=0pt, minimum size=3pt},
+    vertexBall/labels/.style = {
+        vertexNode/.style={vertexNodeBall, text=black},
+        vertexLabel/.style={text=none}
+    },
+    vertexBall/nolabels/.style = {
+        vertexNode/.style={vertexNodeBall, text=none},
+        vertexLabel/.style={text=none}
+    },
+    vertexBall/.style = vertexBall/#1,
+    vertexBall/.default=labels
+}
+\tikzset{ 
+    vertexDefault/.style={vertexNormal=#1},
+    vertexDefault/.default = labels
+}
 
 \begin{document}
 
 
-\begin{tikzpicture}[edgeDefault/.style=edgeDouble, vertexDefault/.style=vertexBall]
+\begin{tikzpicture}[edgeDefault/.style=edgeDouble, vertexDefault=nolabels]
 
     \coordinate (A) at (0,0);
     \coordinate (B) at (1,0);
@@ -108,22 +132,15 @@
     \def\edgeLabels{1}
     \draw[edge] (C) to node[edge] {\edge{2}} (D);
 
-    \node[vertexPlain, vertexNode] at (A) {};
-    \node[vertexNormal, vertexNode] at (B) {};
-    \node[vertexBall, vertexNode] at (C) {8};
+    \node[vertexNode] at (A) {5};
+    \node[vertexNode] at (B) {2};
+    \node[vertexNode] at (C) {8};
     \node[vertexNode] at (D) {9};
     \node[vertexLabel] at (5,0) {10};
 
-
-    \draw[fill=yellow, line join=round, edgeDouble] (5,0) -- (6,0) -- (5,4) -- cycle;
 \end{tikzpicture}
 
 
-\begin{tikzpicture}[vertexPlain]
-    \coordinate (A) at (5,1);
-    \node[vertexNode] at (A) {3};
-    \node[vertexLabel] at (1,0) {2};
-\end{tikzpicture}
 
 
 
