@@ -32,26 +32,38 @@
 
 % Recursive style definition idea from
 % https://tex.stackexchange.com/questions/55948/choosing-styles-conditionally-in-tikz
-\tikzset{ vertexPlain/.style={
-    vertexNode/.style={shape=circle, inner sep=0pt, minimum size=2pt, fill=gray},
-    vertexLabel/.style={gray}
+\tikzset{ vertexPlain/.code={
+    vertexNodeStyle/.style={shape=circle, inner sep=0pt, minimum size=2pt, fill=gray, text=none},
+    \ifdefined\vertexLabels
+        vertexLabelStyle/.style={gray}
+    \else
+        vertexLabelStyle/.style={text=none}
+    \fi
 } }
-\tikzset{ vertexNormal/.style={
-    vertexNode/.style={shape=circle, inner sep=0pt, minimum size=4pt, fill=blue, text=none},
-    vertexLabel/.style={blue}
+\tikzset{ vertexNormal/.code={
+    vertexNodeStyle/.style={shape=circle, inner sep=0pt, minimum size=4pt, fill=blue, text=none},
+    \ifdefined\vertexLabels
+        vertexLabelStyle/.style={blue}
+    \else
+        vertexLabelStyle/.style={text=none}
+    \fi
 } }
-\tikzset{ vertexBall/.style={
-    vertexNode/.style={shape=circle, ball color=orange, text=black, inner sep=2pt, outer sep=0pt, minimum size=3pt},
-    vertexLabel/.style={text=none}
+\tikzset{ vertexBall/.code={
+    \ifdefined\vertexLabels
+        vertexNodeStyle/.style={shape=circle, ball color=orange, text=black, inner sep=2pt, outer sep=0pt, minimum size=3pt},
+    \else
+        vertexNodeStyle/.style={shape=circle, ball color=orange, text=none, inner sep=2pt, outer sep=0pt, minimum size=3pt},
+    \fi
+    vertexLabelStyle/.style={text=none}
 } }
 \tikzset{ vertexDefault/.style={vertexNormal} }
-\tikzset{ vertexNode/.style={vertexDefault, vertexNode} }
-\tikzset{ vertexLabel/.style={vertexDefault, vertexLabel} }
+\tikzset{ vertexNode/.style={vertexDefault, vertexNodeStyle} }
+\tikzset{ vertexLabel/.style={vertexDefault, vertexLabelStyle} }
 
 
 %%% Edge styles
-\tikzset{ edgePlain/.style={} }
-\tikzset{ edgeDouble/.style={thin, double=gray!90!white, double distance=.3pt} }
+\tikzset{ edgePlain/.style={join line=round} }
+\tikzset{ edgeDouble/.style={thin, double=gray!90!white, double distance=.3pt, join line=round} }
 \tikzset{ edgeDefault/.style={edgePlain} }
 \tikzset{ edge/.code={
     \ifdefined\edgeLabels
@@ -66,6 +78,18 @@
 
 
 %%% Face styles
+\tikzset{ face/.style={fill=#1} }
+
+\newcommand{\faceColorY}{yellow!60!white}
+\tikzset{ faceY/.style={face=\faceColorY} } % yellow 
+\tikzset{ faceB/.style={face=blue!60!white} } % blue 
+\tikzset{ faceP/.style={face=cyan!60} } % purple
+\tikzset{ faceR/.style={face=red!60!white} } % red
+\tikzset{ faceG/.style={face=green!60!white} } % green
+\tikzset{ faceO/.style={face=orange!50!yellow!70!white} } % orange
+
+\tikzset{ face/.default={\faceColorY} }
+
 
 
 
@@ -94,6 +118,12 @@
     \draw[fill=yellow, line join=round, edgeDouble] (5,0) -- (6,0) -- (5,4) -- cycle;
 \end{tikzpicture}
 
+
+\begin{tikzpicture}[vertexPlain]
+    \coordinate (A) at (5,1);
+    \node[vertexNode] at (A) {3};
+    \node[vertexLabel] at (1,0) {2};
+\end{tikzpicture}
 
 
 
