@@ -31,22 +31,6 @@
 \makeatother
 
 
-%%% Edge styles
-\tikzset{ edgePlain/.style={line join=round} }
-\tikzset{ edgeDouble/.style={thin, double=gray!90!white, double distance=.3pt, line join=round} }
-\tikzset{ edgeDefault/.style={edgePlain} }
-\tikzset{ edge/.code={
-    \ifdefined\edgeLabels
-        \tikzset{fill=blue!20!white, edgeDefault}
-    \else
-        \tikzset{edgeDefault}
-    \fi}
-}
-\newcommand{\edge}[1]{
-    \ifdefined\edgeLabels #1 \fi
-}
-
-
 %%% Face styles
 \tikzset{ face/.style={fill=#1} }
 
@@ -115,6 +99,22 @@
 \tikzset{ 
     vertexDefault/.style={vertexNormal=#1},
     vertexDefault/.default = labels
+}
+
+
+%%% Edge styles
+\tikzset{ edgePlain/.style={line join=round} }
+\tikzset{ edgeDouble/.style={thin, double=gray!90!white, double distance=.3pt, line join=round} }
+\tikzset{ edgeDefault/.style={edgePlain} }
+\tikzset{ edge/.code={
+    \ifdefined\edgeLabels
+        \tikzset{fill=blue!20!white, edgeDefault}
+    \else
+        \tikzset{edgeDefault}
+    \fi}
+}
+\newcommand{\edge}[1]{
+    \ifdefined\edgeLabels #1 \fi
 }
 
 \begin{document}
