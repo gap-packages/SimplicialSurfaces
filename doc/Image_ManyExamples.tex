@@ -1,4 +1,4 @@
-                    \begin{tikzpicture}
+                    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
                         % We need to define the drawing style
 	
 		        % First a tetrahedron
@@ -8,9 +8,10 @@
 		    	    \coordinate (C) at (0.8,1.5);
 			    \coordinate (D) at (1.9,0.7);
 			
-			    \filldraw[face] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[face] (B) -- (C) -- (D) -- cycle;
-			    \draw[dashed] (A) -- (D);
+                            \draw[face,edge]
+                                (A) -- (B) -- (C) -- cycle
+                                (B) -- (C) -- (D) -- cycle;
+			    \draw[dashed,edge] (A) -- (D);
 		        \end{scope}
 		
 		        % Second: four triangles in the form of a cone
@@ -22,13 +23,12 @@
 			    \coordinate (E) at (1,0.7);
 			
 			    % Take care to draw the faces in the back first
-			    \filldraw[face, line join=round] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[face, line join=round] (A) -- (C) -- (D) -- cycle;
-			    % Now the faces in the front
-			    \filldraw[face, line join=round] (A) -- (B) -- (E) -- cycle;
-			    \filldraw[face, line join=round] (A) -- (E) -- (D) -- cycle;
-			    % Finally the dashed line for the "hidden" edge
-			    \draw[dashed] (A) -- (C);
+                            \draw[face,edge]
+                                (A) -- (B) -- (C) -- cycle
+                                (A) -- (C) -- (D) -- cycle
+                                (A) -- (B) -- (E) -- cycle
+                                (A) -- (E) -- (D) -- cycle;
+                            \draw[edge, dashed] (A) -- (C);
 		        \end{scope}
 		
 		        % Three triangles that share an edge
@@ -47,17 +47,9 @@
 			    \coordinate (B) at (1.3,0.4);
 			    \coordinate (C) at (0.4,1.3);
 			
-                            \fill[\faceColor]
-			    %\filldraw[face]
-                            (A) -- (B) to[bend right=45] (C) -- cycle;
-                            \fill[\faceColor]
-                            %\filldraw[face] 
-                            (A) -- (B) to[bend left=45] (C) -- cycle;
-
-                            \draw (A) -- (B);
-                            \draw (B) to[bend right=45] (C);
-                            \draw (A) -- (C);
-                            \draw (B) to[bend left=45] (C);
+                            \draw[face, edge]
+                                (A) -- (B) to[bend right=45] (C) -- cycle
+                                (A) -- (B) to[bend left=45] (C) -- cycle;
 		        \end{scope}
 		
 		        % A surface from non-triangular shapes
@@ -71,10 +63,11 @@
 			    \coordinate (G) at (1.7,0.8);
 			    \coordinate (H) at (1.8,0.2);
 			
-			    \filldraw[face] (A) -- (B) -- (C) -- cycle;
-			    \filldraw[face] (A) -- (C) -- (D) -- cycle;
-			    \filldraw[face] (D) -- (C) -- (F) -- (E) -- cycle;
-			    \filldraw[face] (C) -- (F) -- (G) -- (H) -- (B) -- cycle;
+                            \draw[face, edge]
+                                (A) -- (B) -- (C) -- cycle
+                                (A) -- (C) -- (D) -- cycle
+                                (D) -- (C) -- (F) -- (E) -- cycle
+                                (C) -- (F) -- (G) -- (H) -- (B) -- cycle;
 		        \end{scope}
 
                         % Double tetrahedron

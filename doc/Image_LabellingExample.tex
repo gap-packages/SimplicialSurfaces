@@ -1,11 +1,4 @@
-\begin{tikzpicture}
-    % Mechanism to activate all labels
-    \ifdefined\allLabels
-        \def\vertexLabels{1}
-        \def\edgeLabels{1}
-        \def\faceLabels{1}
-    \fi
-
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
     %      P3
     %    2/  \5
     %    /    \
@@ -17,26 +10,15 @@
     \def\hdist{2}
     \def\vdist{1}
 
-    \coordinate [label={[vertex]left:\ifdefined\vertexLabels 2 \fi}] (P2) at (-\hdist,0);
-    \coordinate [label={[vertex]above:\ifdefined\vertexLabels 3 \fi}](P3) at (0,\vdist);
-    \coordinate [label={[vertex]below:\ifdefined\vertexLabels 5 \fi}](P5) at (0,-\vdist);
-    \coordinate [label={[vertex]right:\ifdefined\vertexLabels 7 \fi}](P7) at (\hdist,0);
+    \coordinate (P2) at (-\hdist,0);
+    \coordinate (P3) at (0,\vdist);
+    \coordinate (P5) at (0,-\vdist);
+    \coordinate (P7) at (\hdist,0);
 
-    \filldraw[face] (P2) -- (P3) -- (P7) -- (P5) -- cycle;
-    \ifdefined\faceLabels
-        \node at (barycentric cs:P2=1,P3=1,P5=1,P7=1) {III};
-    \fi
+    \draw[edge, face]
+        (P2) -- node[edgeLabel] {2} (P3) -- node[edgeLabel] {5} (P7) -- node[edgeLabel] {6} (P5) -- node[edgeLabel] {3} cycle;
+    \node[faceLabel] at (0,0) {III};
 
-    \ifdefined\edgeLabels
-        \drawEdge{P2}{P3}{2}
-        \drawEdge{P2}{P5}{3}
-        \drawEdge{P3}{P7}{5}
-        \drawEdge{P5}{P7}{6}
-    \fi
-
-    \ifdefined\vertexLabels
-        \foreach \p in {P2,P3,P7,P5}{
-            \fill[vertex] (\p) circle (\vSize);
-        }
-    \fi
+    \foreach \p/\r/\n in {P2/left/2, P3/above/3, P5/below/5, P7/right/7}
+        \vertexLabelR{\p}{\r}{\n}
 \end{tikzpicture}

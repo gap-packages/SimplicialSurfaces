@@ -1,22 +1,10 @@
 % This is the tikz-code for an open bag
-% 
-% The optional parameter is "\labels". If that is defined the bag will
-% be labelled.
-
-\begin{tikzpicture}
     \def\scale{1.7}        
 
-    % Custom method to check whether something is visible
-    \def\check#1{
-        \ifdefined \labels
-            #1
-        \fi
-    } 
-
-    % Define the coordinates (with coloured labels)
-    \coordinate [label={[\vertexColor]below:\check{1}}] (A) at (0,0);
-    \coordinate [label={[\vertexColor]right:\check{2}}] (B) at (\scale,2*\scale);
-    \coordinate [label={[\vertexColor]left:\check{3}}] (C) at (-1*\scale,2*\scale);
+    % Define the coordinates 
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (\scale,2*\scale);
+    \coordinate (C) at (-1*\scale,2*\scale);
 
 
     % Fill faces	
@@ -28,24 +16,18 @@
     % Since the generation of svg-images does not support shadings, we will replace the
     % shading by a darker fill-in in the HTML-version.
     \if\texforht
-        \filldraw[fill=\faceColor!80!black]
+        \draw[edge, face=\faceColor!80!black]
     \else
-        \filldraw[bottom color=\faceColor!53!black, top color=\faceColor]
+        \draw[edge, bottom color=\faceColor!53!black, top color=\faceColor]
     \fi
-        (B) to[bend right=45] node[above, near start]{\check{3}} (C) to[bend right=45] (B);
+        (B) to[bend right=45] node[edgeLabel]{3 (C) to[bend right=45] (B);
 
-    \filldraw[face] (A) -- node[right, near end]{\check{1}} (B) 
-            to[bend left=45] node[above, near end]{\check{4}} (C) 
-            -- node[left, near start]{\check{2}} cycle;
-			
-    
-    % Draw face labels
-    \node at ($1/2*(A)+1/4*(B)+1/4*(C)$) {\check{I}};
-    \node at ($1/2*(B)+1/2*(C)$) {\check{II}};
+    \draw[edge, face] (A) -- node[edgeLabel]{1} (B) 
+            to[bend left=45] node[edgeLabel]{4} (C) 
+            -- node[edgeLabel]{2} cycle;
 
+    \foreach \p/\r/\n in {A/below/1, B/right/2, C/left/3}
+        \vertexLabelR{\p}{\r}{\n}
 
-    % Draw vertices
-    \foreach \x in {A,B,C}
-	\fill[vertex] (\x) circle (\vSize); 
-
-\end{tikzpicture}
+    \node[faceLabel] at (barycentric cs:A=2,B=1,C=1) {I};
+    \node[faceLabel] at (barycentric cs:B=1,C=1) {II};

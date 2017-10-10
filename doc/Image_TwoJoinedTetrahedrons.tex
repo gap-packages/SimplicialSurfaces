@@ -7,11 +7,10 @@
 \coordinate (F) at (1.5,2);
 \coordinate (G) at (1.2,1);
 
-\filldraw[face] (A) -- (B) -- (C) -- cycle;
-\filldraw[face] (B) -- (C) -- (D) -- cycle;
-\filldraw[faceAlt] (D) -- (F) -- (E) -- cycle;
+\draw[edge, face]
+    (A) -- (B) -- (C) -- cycle
+    (B) -- (C) -- (D) -- cycle;
+\draw[edge, faceSwap] (D) -- (F) -- (E) -- cycle;
 
-\draw[dashed] (A) -- (D);
-\draw[dashed] (E) -- (G);
-\draw[dashed] (D) -- (G);
-\draw[dashed] (F) -- (G);
+\draw[edge, dashed]
+    (A) -- (D) (E) -- (G) (D) -- (G) (F) -- (G);

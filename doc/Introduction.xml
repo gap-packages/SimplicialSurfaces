@@ -100,7 +100,7 @@ true
              grasp at a glance from a picture, the dodecahedron is usually
              not more than a curiosity while the icosahedron is too big. -->
         <Alt Only="TikZ">
-            \begin{tikzpicture}
+            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels]
                 % We need to define the drawing style
 	
                 \coordinate (FDL) at (0,0); % front down left
@@ -122,7 +122,7 @@ true
 
                 % Draw the vertices
                 \foreach \x in {FDL, FDR, FUL, BDL, BDR, FUR, BUL, BUR} {
-                    \fill[vertex] (\x) circle (\vSize);
+                    \vertexLabelR{\x}{left}{}
                 }
             \end{tikzpicture}
         </Alt>
@@ -186,9 +186,9 @@ true
             connected by edges, like this:
         </Alt>
         <Alt Only="TikZ">
-            {
+            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
                 \input{Image_ThreeTrianglesInLine.tex}
-            }
+            \end{tikzpicture}
         </Alt>
 
         Disregarding lengths and angles, we can describe this surface quite
@@ -203,11 +203,9 @@ true
             V2,V4,V5.
         </Alt>
         <Alt Only="TikZ">
-            {
-                \def\vertexLabels{1}
-                \def\faceLabels{1}
+            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
                 \input{Image_ThreeTrianglesInLine.tex}
-            }
+            \end{tikzpicture}
         </Alt>
         <Alt Not="Text">
             For example the face I consists of the vertices [1, 2, 3] and the 
@@ -238,29 +236,30 @@ gap&gt; VerticesOfFaces(surf);
 
         A slightly more complicated example is a Möbius-strip.
         <Alt Only="TikZ">
-            \begin{tikzpicture}[ident/.style={very thick,blue}]
-                \coordinate [label=below:1] (A) at (0,0);
-                \coordinate [label=above:2] (B) at (1.5,2);
-                \coordinate [label=below:3] (C) at (3,0);
-                \coordinate [label=above:4] (D) at ($(B)+(C)$);
-                \coordinate [label=below:5] (E) at ($2*(C)$);
-                \coordinate [label=above:1] (F) at ($2*(C)+(B)$);
-                \coordinate [label=below:2] (G) at ($3*(C)$);
+            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, ident/.style={very thick,blue}]
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (1.5,2);
+                \coordinate (C) at (3,0);
+                \coordinate (D) at ($(B)+(C)$);
+                \coordinate (E) at ($2*(C)$);
+                \coordinate (F) at ($2*(C)+(B)$);
+                \coordinate (G) at ($3*(C)$);
 
-                % Draw a face with vertices 1,2,3 and label 4 in the middle
-                \def\drawFace#1#2#3#4{
-                    \filldraw[face] (#1) -- (#2) -- (#3) -- cycle;
-                    \node at ($1/3*(#1)+1/3*(#2)+1/3*(#3)$) {#4};
-                }
+                \draw[edge, face]
+                    (A) -- (B) -- (C) -- cycle
+                    (B) -- (C) -- (D) -- cycle
+                    (C) -- (D) -- (E) -- cycle
+                    (D) -- (E) -- (F) -- cycle
+                    (E) -- (F) -- (G) -- cycle;
+                
+                \foreach \l/\a/\b/\c in {I/A/B/C, II/B/C/D, III/C/D/E, IV/D/E/F, V/E/F/G}
+                    \node[faceLabel] at (barycentric cs:\a=1,\b=1,\c=1) {\l};    
+                    
+                \foreach \p/\r/\n in {A/below/1, B/above/2, C/below/3, D/above/4, E/below/5, F/above/1, G/below/2}
+                    \vertexLabelR{\p}{\r}{\n}
 
-                \drawFace{A}{B}{C}{I}
-                \drawFace{B}{C}{D}{II}
-                \drawFace{C}{D}{E}{III}
-                \drawFace{D}{E}{F}{IV}
-                \drawFace{E}{F}{G}{V}
-
-                \draw[ident] (A) -- (B);
-                \draw[ident] (F) -- (G);
+                \draw[edge, ident] (A) -- (B);
+                \draw[edge, ident] (F) -- (G);
             \end{tikzpicture}
         </Alt>
         <Alt Not="Text">
@@ -310,24 +309,23 @@ false
                  they will hopefully say "I don't want that" and skip ahead.-->
             We consider the example of a pyramid with a square base.
             <Alt Only="TikZ">
-                \begin{tikzpicture}
+                \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
                     \def\len{4} % The length of the base
                     \def\h{1}   % \h*\len is the hight of the apex above the 
                                 % center of the square
-                    \coordinate [label=above:1] (A) at (0.25*\len,0.25*\len+\len*\h);
-                    \coordinate [label=below:2] (B) at (0,0);
-                    \coordinate [label=below:3] (C) at (\len,0);
-                    \coordinate [label=left:4] (D) at (-0.5*\len,0.5*\len);
-                    \coordinate [label=right:5] (E) at ($(C)+(D)$);
+                    \coordinate (A) at (0.25*\len,0.25*\len+\len*\h);
+                    \coordinate (B) at (0,0);
+                    \coordinate (C) at (\len,0);
+                    \coordinate (D) at (-0.5*\len,0.5*\len);
+                    \coordinate (E) at ($(C)+(D)$);
 
-                    \filldraw[face] (A) -- (B) -- (D) -- cycle;
-                    \filldraw[face] (A) -- (B) -- (C) -- cycle;
+                    \draw[edge, face]
+                        (A) -- (B) -- (D) -- cycle
+                        (A) -- (B) -- (C) -- cycle;
+                    \draw[edge, dashed] (D) -- (E) (C) -- (E) (A) -- (E);
 
-                    \draw[edge, dashed] (D) -- (E);
-                    \draw[edge, dashed] (C) -- (E);
-                    \draw[edge, dashed] (A) -- (E);
-                    % We have to rewrite this label as it is behind the pyramid
-                    \node[above right] at (E) {5};
+                    \foreach \p/\r/\n in {A/above/1, B/below/2, C/below/3, D/left/4, E/right/5}
+                        \vertexLabelR{\p}{\r}{\n}
                 \end{tikzpicture}
             </Alt>
             To encode this surface we have to enumerate the faces.
@@ -405,11 +403,9 @@ true
         use the example from section
         <Ref Sect="Introduction_EasyConstruction"/>:
         <Alt Only="TikZ">
-            {
-                \def\vertexLabels{1}
-                \def\faceLabels{1}
+            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
                 \input{Image_ThreeTrianglesInLine.tex}
-            }
+            \end{tikzpicture}
         </Alt>
 <Example>
 gap&gt; surf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;
@@ -473,11 +469,9 @@ gap&gt; GlobalOrientationByVerticesAsList(surf);
         assume that we want to know which edges are incident to exactly two
         faces in our example from before.
         <Alt Only="TikZ">
-            {
-                \def\vertexLabels{1}
-                \def\faceLabels{1}
+            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
                 \input{Image_ThreeTrianglesInLine.tex}
-            }
+            \end{tikzpicture}
         </Alt>
 <Example>
 gap&gt; surf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;
@@ -496,12 +490,9 @@ gap&gt; VerticesOfEdges(surf);
         first edge. In our example the edge with number 1 is incident to the
         vertices 1 and 2. We can update our picture:
         <Alt Only="TikZ">
-            {
-                \def\vertexLabels{1}
-                \def\edgeLabels{1}
-                \def\faceLabels{1}
+            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
                 \input{Image_ThreeTrianglesInLine.tex}
-            }
+            \end{tikzpicture}
         </Alt>
         If we now want to know which edges are incident to exactly two
         faces, we only have to check
@@ -532,18 +523,17 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         An example of the second situation is given by two triangles 
         that share exactly two edges. They can be visualized as an "open bag".
         <Alt Only="TikZ">
-            {
+            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
                 \input{Image_OpenBag.tex}
-            }
+            \end{tikzpicture}
         </Alt>
         Since both faces share the same vertices we can't use 
         <K>SimplicialSurfaceByVerticesInFaces</K> here. Instead we need to label
         vertices, edges and faces individually: 
         <Alt Only="TikZ">
-            {
-                \def\labels{1}
+            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
                 \input{Image_OpenBag.tex}
-            }
+            \end{tikzpicture}
         </Alt>
         Now we have to tell &GAP; which vertices are incident to which edges
 <Example>

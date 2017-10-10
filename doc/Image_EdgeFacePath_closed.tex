@@ -4,22 +4,13 @@
         \foreach \i in {1,...,5}
             \coordinate (B\i) at (-90+72*\i:\r);
 
-        \foreach \p/\q/\F in {B1/B2/$f_1$, 
-                B2/B3/$f_2$, B3/B4/$f_3$, 
-                B4/B5/$f_4$, B5/B1/$f_5$}
+        \foreach \p/\q/\F/\e/\f in {B1/B2/$f_1$/$e_1$/$e_2$, 
+                B2/B3/$f_2$/$e_2$/$e_3$, B3/B4/$f_3$/$e_3$/$e_4$, 
+                B4/B5/$f_4$/$e_4$/$e_5$, B5/B1/$f_5$/$e_5$/$e_1$}
         {
-            \filldraw[face] (A) -- (\p) -- (\q) -- cycle;
-            \node at ($1/3*(A)+1/3*(\p)+1/3*(\q)$) {\F};
+            \draw[edge, face] (A) -- node[edgeLabel]{\e} (\p) -- (\q) -- node[edgeLabel]{\f} cycle;
+            \node[faceLabel] at ($1/3*(A)+1/3*(\p)+1/3*(\q)$) {\F};
         }
 
-        % Separate loop since otherwise the face drawing
-        % removes part of the edge denotation
-        \foreach \p/\E in {B1/$e_1$, B2/$e_2$, B3/$e_3$,
-                B4/$e_4$, B5/$e_5$}
-        {
-            \drawEdge{A}{\p}{\E}
-        }
-
-        \fill[vertex] (A) circle (\vSize);
-        \node[vertex,right=0.3cm of A] {$V$}; 
+        \vertexLabelR{A}{right=0.3cm}{$V$}
  

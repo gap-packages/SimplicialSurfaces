@@ -1,46 +1,30 @@
-\begin{tikzpicture}
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
     \def\dist{3}
     \def\w{15}
-    \def\differentColors{1}
+    \def\swapColors{1}
 
     \coordinate (P1) at (0,0);
-    \coordinate[label={[vertex]below left:6}] (SW) at (210:\dist);
-    \coordinate[label={[vertex]above:5}] (N) at (90:\dist);
-    \coordinate[label={[vertex]below right:7}] (SE) at (-30:\dist);
-    \coordinate[label={[vertex]right:8}] (ET) at (\w:2*\dist);
-    \coordinate[label={[vertex]right:10}] (EM) at (0:2*\dist);
-    \coordinate[label={[vertex]right:12}] (EB) at (-\w:2*\dist);
+    \coordinate (SW) at (210:\dist);
+    \coordinate (N) at (90:\dist);
+    \coordinate (SE) at (-30:\dist);
+    \coordinate (ET) at (\w:2*\dist);
+    \coordinate (EM) at (0:2*\dist);
+    \coordinate (EB) at (-\w:2*\dist);
 
-    \filldraw[face] (P1) -- (SW) -- (N) -- cycle;
-    \node at (barycentric cs:P1=2,SW=1,N=1) {$III$};
-    \filldraw[face] (P1) -- (SW) -- (SE) -- cycle;
-    \node at (barycentric cs:P1=1.2,SW=1,SE=1) {$IV$};
-    \filldraw[face] (P1) -- (N) -- (SE) -- cycle;
-    \node at (barycentric cs:P1=1,N=1.5,SE=1) {$II$};
+    \draw[edge, face]
+        (P1) -- (SW) -- node[edgeLabel]{13} -- cycle
+        (P1) -- node[edgeLabel]{16} (SW) -- node[edgeLabel]{17} (SE) -- cycle
+        (P1) -- node[edgeLabel]{14} (N) -- node[edgeLabel]{15} (SE) -- node[edgeLabel]{18} cycle;
+    \node[faceLabel] at (barycentric cs:P1=2,SW=1,N=1) {$III$};
+    \node[faceLabel] at (barycentric cs:P1=1.2,SW=1,SE=1) {$IV$};
+    \node[faceLabel] at (barycentric cs:P1=1,N=1.5,SE=1) {$II$};
 
-    \filldraw[faceAlt] (P1) -- (ET) -- (EM) -- cycle;
-    \node at (barycentric cs:P1=1,ET=1,EM=1) {$IX$};
-    \filldraw[faceAlt] (P1) -- (EM) -- (EB) -- cycle;
-    \node at (barycentric cs:P1=1,EM=1,EB=1) {$XI$};
+    \draw[edge, faceSwap]
+        (P1) -- node[edgeLabel]{19} (ET) -- node[edgeLabel]{22} (EM) -- cycle
+        (P1) -- node[edgeLabel]{20} (EM) -- node[edgeLabel]{23} (EB) -- node[edgeLabel]{21} cycle;
+    \node[faceLabel] at (barycentric cs:P1=1,ET=1,EM=1) {$IX$};
+    \node[faceLabel] at (barycentric cs:P1=1,EM=1,EB=1) {$XI$};
 
-    % Draw label of vertex 1
-    \node[vertex] at (barycentric cs:P1=6,SE=1,SW=1) {1};
-
-    \drawEdge{P1}{N}{14}
-    \drawEdge{P1}{SW}{16}
-    \drawEdge{P1}{SE}{18}
-
-    \drawEdge{N}{SW}{13}
-    \drawEdge{SW}{SE}{17}
-    \node[edgeBackground] at ($(N)!0.3!(SE)$) {15};
-
-    \drawEdge{P1}{ET}{19}
-    \drawEdge{P1}{EM}{20}
-    \drawEdge{P1}{EB}{21}
-
-    \drawEdge{ET}{EM}{22}
-    \drawEdge{EM}{EB}{23}
-
-    \foreach \i in {P1,N,SW,SE,ET,EM,EB}
-        \fill[vertex] (\i) circle (\vSize);
+    \foreach \p/\r/\n in {P1/below/1, SW/below left/6, N/above/5, SE/below right/7, ET/right/8, EM/right/10, EB/right/12}
+        \vertexLabelR{\p}{\r}{\n}
 \end{tikzpicture}

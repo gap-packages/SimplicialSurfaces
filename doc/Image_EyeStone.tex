@@ -1,4 +1,4 @@
-\begin{tikzpicture}
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
     %         8
     %       / | \ 
     %   10/   |8  \11
@@ -22,29 +22,18 @@
     \coordinate [label={[vertex]above:8}] (P8) at ($(P7)+(P6)$);
     \coordinate [label={[vertex]right:9}] (P9) at ($(P7)+(P5)$);
 
-    \filldraw[face] (P1) -- (P6) -- (P8) -- (P7) -- cycle;
-    \node at (barycentric cs:P1=1,P6=1,P7=1,P8=1) {$II$};
-    \filldraw[face] (P6) -- (P5) -- (P9) -- (P8) -- cycle;
-    \node at (barycentric cs:P6=1,P5=1,P9=1,P8=1) {$IV$};
-    \filldraw[face] (P1) -- (P2) to[bend left] (P6) -- cycle;
-    \node at (barycentric cs:P1=2,P2=1,P6=1) {$I$};
-    \filldraw[face] (P6) to[bend left] (P2) -- (P5) -- cycle;
-    \node at (barycentric cs:P2=1,P5=2,P6=1) {$V$};
+    \draw[edge, face]
+        (P1) -- (P6) -- (P8) -- node[edgeLabel]{10} (P7) -- node[edgeLabel]{7} cycle
+        (P6) -- (P5) -- node[edgeLabel]{9} (P9) -- node[edgeLabel]{11} (P8) -- node[edgeLabel]{8} cycle
+        (P1) -- node[edgeLabel]{1} (P2) to[bend left] node[edgeLabel]{3} (P6) -- node[edgeLabel] {5} cycle
+        (P6) to[bend left] node[edgeLabel]{4} (P2) -- node[edgeLabel]{5} (P5) -- node[edgeLabel]{6} cycle;
 
-    \drawEdge{P1}{P2}{1}
-    \drawEdge{P2}{P5}{2}
-    \def\dist{0.2*\hor}
-    \node[edgeBackground] at ($0.5*(P2)+0.5*(P6)+(-\dist,0)$) {3};
-    \node[edgeBackground] at ($0.5*(P2)+0.5*(P6)+(\dist,0)$) {4};
-    \drawEdge{P1}{P6}{5}
-    \drawEdge{P5}{P6}{6}
-    \drawEdge{P1}{P7}{7}
-    \drawEdge{P6}{P8}{8}
-    \drawEdge{P5}{P9}{9}
-    \drawEdge{P7}{P8}{10}
-    \drawEdge{P8}{P9}{11}
+    \node[faceLabel] at (barycentric cs:P1=1,P6=1,P7=1,P8=1) {$II$};
+    \node[faceLabel] at (barycentric cs:P6=1,P5=1,P9=1,P8=1) {$IV$};
+    \node[faceLabel] at (barycentric cs:P1=2,P2=1,P6=1) {$I$};
+    \node[faceLabel] at (barycentric cs:P2=1,P5=2,P6=1) {$V$};
 
-    \foreach \i in {1,2,6,5,7,8,9}
-        \fill[vertex] (P\i) circle (\vSize);
+    \foreach \p/\r/\n in {P1/left/1, P2/below/2, P6/below/6, P5/right/5, P7/left/7, P8/above/8, P9/right/9}
+        \vertexLabelR{\p}{\r}{\n}
 \end{tikzpicture}
 

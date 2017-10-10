@@ -6,166 +6,9 @@
 \usepackage{amssymb}
 
 
-%%% Vertex styles
-
-% Courtesy of
-% https://tex.stackexchange.com/questions/59354/no-text-none-in-tikz
-\makeatletter
-\newif\iftikz@node@phantom
-\tikzset{
-  phantom/.is if=tikz@node@phantom,
-  text/.code=%
-    \edef\tikz@temp{#1}%
-    \ifx\tikz@temp\tikz@nonetext
-      \tikz@node@phantomtrue
-    \else
-      \tikz@node@phantomfalse
-      \let\tikz@textcolor\tikz@temp
-    \fi
-}
-\usepackage{etoolbox}
-\patchcmd\tikz@fig@continue{\tikz@node@transformations}{%
-  \iftikz@node@phantom
-    \setbox\pgfnodeparttextbox\hbox{}
-  \fi\tikz@node@transformations}{}{}
-\makeatother
-
-
-% Recursive style definition idea from
-% https://tex.stackexchange.com/questions/55948/choosing-styles-conditionally-in-tikz
-% It is coupled with ideas from
-% https://tex.stackexchange.com/questions/125676/key-that-takes-a-list-of-other-keys-as-argument-and-sets-them
-\tikzset{ 
-    vertexNodePlain/.style = {fill=gray, shape=circle, inner sep=0pt, minimum size=2pt, text=none},
-    vertexPlain/labels/.style = {
-        vertexNode/.style={vertexNodePlain},
-        vertexLabel/.style={gray}
-    },
-    vertexPlain/nolabels/.style = {
-        vertexNode/.style={vertexNodePlain},
-        vertexLabel/.style={text=none}
-    },
-    vertexPlain/.style = vertexPlain/#1,
-    vertexPlain/.default=labels
-}
-\tikzset{
-    vertexNodeNormal/.style = {fill=blue, shape=circle, inner sep=0pt, minimum size=4pt, text=none},
-    vertexNormal/labels/.style = {
-        vertexNode/.style={vertexNodeNormal},
-        vertexLabel/.style={blue}
-    },
-    vertexNormal/nolabels/.style = {
-        vertexNode/.style={vertexNodeNormal},
-        vertexLabel/.style={text=none}
-    },
-    vertexNormal/.style = vertexNormal/#1,
-    vertexNormal/.default=labels
-}
-\tikzset{
-    vertexNodeBall/.style = {shape=circle, ball color=orange, inner sep=2pt, outer sep=0pt, minimum size=3pt},
-    vertexBall/labels/.style = {
-        vertexNode/.style={vertexNodeBall, text=black},
-        vertexLabel/.style={text=none}
-    },
-    vertexBall/nolabels/.style = {
-        vertexNode/.style={vertexNodeBall, text=none},
-        vertexLabel/.style={text=none}
-    },
-    vertexBall/.style = vertexBall/#1,
-    vertexBall/.default=labels
-}
-\tikzset{ 
-    vertexStyle/.style={vertexNormal=#1},
-    vertexStyle/.default = labels
-}
-
-
-%%% Edge styles
-\tikzset{
-    edgeLinePlain/.style={line join=round},
-    edgePlain/labels/.style = {
-        edge/.style={edgeLinePlain},
-        edgeLabel/.style={fill=blue!20!white}
-    },
-    edgePlain/nolabels/.style = {
-        edge/.style={edgeLinePlain},
-        edgeLabel/.style={text=none}
-    },
-    edgePlain/.style = edgePlain/#1,
-    edgePlain/.default = labels
-}
-\tikzset{
-    edgeLineDouble/.style = {thin, double=gray!90!white, double distance=.3pt, line join=round},
-    edgeDouble/labels/.style = {
-        edge/.style = {edgeLineDouble},
-        edgeLabel/.style = {fill=blue!20!white}
-    },
-    edgeDouble/nolabels/.style = {
-        edge/.style = {edgeLineDouble},
-        edgeLabel/.style = {text=none}
-    },
-    edgeDouble/.style = edgeDouble/#1,
-    edgeDouble/.default = labels
-}
-\tikzset{
-    edgeStyle/.style = {edgePlain=#1},
-    edgeStyle/.default = labels
-}
-
-
-
-%%% Face styles
-\newcommand{\faceColorY}{yellow!60!white}   % yellow
-\newcommand{\faceColorB}{blue!60!white}     % blue
-\newcommand{\faceColorP}{cyan!60}           % purple
-\newcommand{\faceColorR}{red!60!white}      % red
-\newcommand{\faceColorG}{green!60!white}    % green
-\newcommand{\faceColorO}{orange!50!yellow!70!white} % orange
-\tikzset{
-    face/.style = {fill=#1},
-    face/.default = \faceColorY,
-    faceY/.style = {face=\faceColorY},
-    faceB/.style = {face=\faceColorB},
-    faceP/.style = {face=\faceColorP},
-    faceR/.style = {face=\faceColorR},
-    faceG/.style = {face=\faceColorG},
-    faceO/.style = {face=\faceColorO}
-}
-\tikzset{
-    faceStyle/labels/.style = {
-        faceNode/.style = {}
-    },
-    faceStyle/nolabels/.style = {
-        faceNode/.style = {text=none}
-    },
-    faceStyle/.style = faceStyle/#1,
-    faceStyle/.default = labels
-}
-\tikzset{ face/.style={fill=#1} }
-\tikzset{ faceSwap/.code=
-    \ifdefined\swapColours
-        {face=\faceColorB}
-    \else
-        {face=\faceColorY}
-    \fi
-}
-
-% 1) position of the vertex
-% 2) relative position of the node
-% 3) name of the vertex
-\newcommand{\vertexLabelR}[3]{
-    \node[vertexLabel, #2] at (#1) {#3};
-}
-% 1) position of the vertex
-% 2) absolute position of the node
-% 3) name of the vertex
-\newcommand{\vertexLabelA}[3]{
-    \node[vertexLabel] at (#2) {#3};
-}
-
 \begin{document}
 
-\begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorG]
+\begin{tikzpicture}[vertexBall,edgeStyle,faceStyle, face/.default=\faceColorG]
     \def\hor{3}
     \def\ver{1}
     \def\down{4}
@@ -176,7 +19,7 @@
     \coordinate (DD) at (0,-\down);
 
     \draw[face,edge]
-        (L) -- node[edgeLabel] {2} (U) -- node[edgeLabel] {12} (R) -- (D) -- cycle
+        (L) to[blue,thick] node[edgeLabel] {2} (U) -- node[edgeLabel] {12} (R) -- (D) -- cycle
         (L) -- node[edgeLabel] {6} (D) -- (DD) -- node[edgeLabel] {8} cycle
         (D) -- node[edgeLabel] {10} (DD) -- node[edgeLabel] {15} (R) -- node[edgeLabel] {14} cycle;
 
@@ -210,6 +53,8 @@
     \node[vertexNode] at (D) {9};
     \node[vertexLabel] at (5,0) {10};
 
+
+    \fill[face/.default] (A) -- (-1,1) -- (-1,-1) -- cycle;
 \end{tikzpicture}
 
 

@@ -104,10 +104,7 @@
 #! and faces are labelled by positive integers.
 #! These labels do not have to be disjoint as shown in the following example:
 #! <Alt Only="TikZ">
-#!     {
-#!         \def\allLabels{1}
-#!         \input{Image_LabellingExample.tex}
-#!     }
+#!      \input{Image_LabellingExample.tex}
 #! </Alt>
 #TODO give a reference to the constructor
 #! @ExampleSession
@@ -128,10 +125,7 @@
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
 #! <Alt Only="TikZ">
-#!      {
-#!          \def\allLabels{1}
-#!          \input{Image_LabellingExample.tex}
-#!      }
+#!      \input{Image_LabellingExample.tex}
 #! </Alt>
 #! @ExampleSession
 #! gap> Vertices(complex);
@@ -158,10 +152,7 @@ DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
 #! <Alt Only="TikZ">
-#!      {
-#!          \def\allLabels{1}
-#!          \input{Image_LabellingExample.tex}
-#!      }
+#!      \input{Image_LabellingExample.tex}
 #! </Alt>
 #! @ExampleSession
 #! gap> Edges(complex);
@@ -184,10 +175,7 @@ DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
 #! <Alt Only="TikZ">
-#!      {
-#!          \def\allLabels{1}
-#!          \input{Image_LabellingExample.tex}
-#!      }
+#!      \input{Image_LabellingExample.tex}
 #! </Alt>
 #! @ExampleSession
 #! gap> Faces(complex);
@@ -238,10 +226,9 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 
 #TODO Text-version is crucial here, compare the picture in Image_StarOfStar
 #! <Alt Only="TikZ">
-#! {
-#! \def\allLabels{1}
-#! \input{Image_StarOfStarExample.tex}
-#! }
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_StarOfStarExample.tex}
+#!   \end{tikzpicture}
 #! </Alt>
 #!
 #TODO give a reference to the constructor
@@ -299,11 +286,9 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
-#!   {
-#!     \def\vertexLabels{1}
-#!     \def\edgeLabels{1}
-#!     \input{Image_StarOfStarExample.tex}
-#!   }
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
+#!       \input{Image_StarOfStarExample.tex}
+#!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgesOfVertex(complex, 2);
@@ -340,11 +325,9 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
-#!   {
-#!     \def\vertexLabels{1}
-#!     \def\faceLabels{1}
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
 #!     \input{Image_StarOfStarExample.tex}
-#!   }
+#!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
 #! gap> FacesOfVertex(complex, 2);
@@ -380,11 +363,9 @@ DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
-#!   {
-#!     \def\vertexLabels{1}
-#!     \def\edgeLabels{1}
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
 #!     \input{Image_StarOfStarExample.tex}
-#!   }
+#!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
 #! gap> VerticesOfEdge(complex, 8);
@@ -420,11 +401,9 @@ DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
-#!   {
-#!     \def\edgeLabels{1}
-#!     \def\faceLabels{1}
+#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
 #!     \input{Image_StarOfStarExample.tex}
-#!   }
+#!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
 #! gap> FacesOfEdge(complex, 9);
@@ -461,11 +440,9 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
-#!   {
-#!     \def\vertexLabels{1}
-#!     \def\faceLabels{1}
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
 #!     \input{Image_StarOfStarExample.tex}
-#!   }
+#!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
 #! gap> VerticesOfFace(complex, 1);
@@ -502,11 +479,9 @@ DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
 #! <Alt Only="TikZ">
-#!   {
-#!     \def\edgeLabels{1}
-#!     \def\faceLabels{1}
+#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
 #!     \input{Image_StarOfStarExample.tex}
-#!   }
+#!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgesOfFace(complex, 1);
@@ -1037,7 +1012,7 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! <#Include Label="EdgeFacePath_Definition">
 #! 
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle];
 #!      \input{Image_EdgeFacePath_open.tex}
 #!   \end{tikzpicture}
 #! </Alt>
@@ -1050,7 +1025,7 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! (<M>e_1</M> or <M>e_4</M>) to be <E>the</E> edge-face-path of <M>V</M>.
 #!
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle];
 #!     \input{Image_EdgeFacePath_closed.tex}
 #!   \end{tikzpicture}
 #! </Alt>
@@ -1095,38 +1070,27 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! 
 #! As example consider the following polygonal surface:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
 #!     \def\dist{1.8}
 #!     \coordinate (P2) at (0,0);
-#!     \coordinate[label={[vertex]right:8}] (PEE) at (2*\dist,0);
-#!     \coordinate[label={[vertex]below:9}] (PSE) at (\dist,-\dist);
-#!     \coordinate[label={[vertex]below:10}] (PSW) at (-\dist,-\dist);
-#!     \coordinate[label={[vertex]above:6}] (PNW) at (-\dist,\dist);
-#!     \coordinate[label={[vertex]above:7}] (PNE) at (\dist,\dist);
+#!     \coordinate (PEE) at (2*\dist,0);
+#!     \coordinate (PSE) at (\dist,-\dist);
+#!     \coordinate (PSW) at (-\dist,-\dist);
+#!     \coordinate (PNW) at (-\dist,\dist);
+#!     \coordinate (PNE) at (\dist,\dist);
 #!
-#!     \filldraw[face] (P2) -- (PNE) -- (PEE) -- (PSE) -- cycle;
-#!     \node at (barycentric cs:P2=1,PNE=1,PEE=1,PSE=1) {$III$};
-#!     \filldraw[face] (P2) -- (PSE) -- (PSW) -- cycle;
-#!     \node at (barycentric cs:P2=1,PSE=1,PSW=1) {$IV$};
-#!     \filldraw[face] (P2) -- (PSW) -- (PNW) -- cycle;
-#!     \node at (barycentric cs:P2=1,PSW=1,PNW=1) {$V$};
-#!     \filldraw[face] (P2) -- (PNW) -- (PNE) -- cycle;
-#!     \node at (barycentric cs:P2=1,PNW=1,PNE=1) {$II$};
+#!     \draw[edge, face]
+#!       (P2) -- (PNE) -- node[edgeLabel]{16} (PEE) -- node[edgeLabel]{17} (PSE) -- cycle
+#!       (P2) -- node[edgeLabel]{13} (PSE) -- node[edgeLabel]{18} (PSW) -- cycle
+#!       (P2) -- node[edgeLabel]{14} (PSW) -- node[edgeLabel]{19} (PNW) -- cycle
+#!       (P2) -- node[edgeLabel]{11} (PNW) -- node[edgeLabel]{15} (PNE) -- node[edgeLabel]{12} cycle;
+#!     \node[faceLabel] at (barycentric cs:P2=1,PNE=1,PEE=1,PSE=1) {$III$};
+#!     \node[faceLabel] at (barycentric cs:P2=1,PSE=1,PSW=1) {$IV$};
+#!     \node[faceLabel] at (barycentric cs:P2=1,PSW=1,PNW=1) {$V$};
+#!     \node[faceLabel] at (barycentric cs:P2=1,PNW=1,PNE=1) {$II$};
 #!
-#!     \drawEdge{P2}{PNW}{11}
-#!     \drawEdge{P2}{PNE}{12}
-#!     \drawEdge{P2}{PSE}{13}
-#!     \drawEdge{P2}{PSW}{14}
-#!     \drawEdge{PNW}{PNE}{15}
-#!     \drawEdge{PNE}{PEE}{16}
-#!     \drawEdge{PEE}{PSE}{17}
-#!     \drawEdge{PSE}{PSW}{18}
-#!     \drawEdge{PSW}{PNW}{19}
-#!
-#!     \foreach \p in {P2,PNW,PNE,PEE,PSE,PSW}
-#!       \fill[vertex] (\p) circle (\vSize);
-#!
-#!     \node[vertex] at (barycentric cs:P2=5,PNE=1,PSE=1) {1};
+#!     \foreach \p/\r/\n in {P2/right/1, PEE/right/8, PSE/below/9, PSW/below/10, PNW/above/6, PNE/above/7}
+#!       \vertexLabelR{\p}{\r}{\n}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession

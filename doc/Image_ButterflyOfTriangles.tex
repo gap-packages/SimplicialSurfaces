@@ -12,7 +12,9 @@
 \coordinate (F) at (-\LMX,\LMY);
 \coordinate (G) at (-\LUX,\LUY);
 			
-\filldraw[face] (A) -- (B) -- (C) -- cycle;
-\filldraw[face] (A) -- (C) -- (D) -- cycle;
-\filldraw[faceAlt] (A) -- (E) -- (F) -- cycle;
-\filldraw[faceAlt] (A) -- (F) -- (G) -- cycle;
+\draw[face,edge]
+    (A) -- (B) -- (C) -- cycle
+    (A) -- (C) -- (D) -- cycle;
+\draw[faceSwap, edge]
+    (A) -- (E) -- (F) -- cycle
+    (A) -- (F) -- (G) -- cycle;
