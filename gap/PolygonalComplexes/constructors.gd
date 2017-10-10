@@ -77,7 +77,7 @@
 #! @Section DownwardIncidence
 #! @SectionLabel Constructors_DownwardIncidence
 #!
-#! The constructors that are based on <E>DownwardIncidence</E> are based on
+#! The <E>DownwardIncidence</E>-constructors are based on
 #! the attributes <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) 
 #! and <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). From these
 #! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
@@ -270,12 +270,24 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! @Section VerticesInFaces
 #! @SectionLabel Constructors_VerticesInFaces
 #!
-#! The constructors that are based on <E>VerticesInFaces</E> are based on
-#! the attribute <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>).
-#! 
-##TODO explain how it works (construction of edges)
-#! Any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
-#! be build.
+#! The <E>VerticesInFaces</E>-constructors are based on
+#! the attribute <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>)
+#! and can construct any polygonal structure from chapter
+#! <Ref Chap="PolygonalStructures"/>.
+#!
+#! Since the constructor takes no edge information, it has to construct the
+#! edges in some way.
+#! This is done according to two rules:
+#! * An edge is uniquely identified by its incident vertices.
+#! * If a face is given by the vertex list <M>[v_1, v_2, ..., v_k]</M> then
+#!   adjacent vertices in the list are assumed to form an edge of the face
+#!   (first and last vertex count as adjacent). In this case we would have the edges
+#!   <M>[v_1,v_2]</M>, <M>[v_2,v_3]</M>, ..., <M>[v_k,v_1]</M>.
+#!
+#! For this reason, the order of the vertices for a given face (if it has more
+#! than three vertices) is important. An example of how this might go awry can
+#! be seen in subsection <Ref Subsect="Introduction_NonTriangularCase"/>.
+#TODO example here? Repeat old one?
 #! 
 #! These constructors also allow the optional arguments <A>vertices</A>
 #! and <A>faces</A>. If those sets are given, the incidence

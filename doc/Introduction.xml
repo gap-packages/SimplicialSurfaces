@@ -274,7 +274,8 @@ false
 </Example>
 <!-- TODO can you avoid the colour loss? Can't we just use the gap-prompt as a left fixture -->
         
-        <Subsection><Heading>Non-triangular faces</Heading>
+        <Subsection Label="Introduction_NonTriangularCase">
+            <Heading>Non-triangular faces</Heading>
             <Alt Only="LaTeX">
                 \addcontentsline{toc}{subsection}{Non--triangular faces}
             </Alt>
