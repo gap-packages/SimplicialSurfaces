@@ -162,8 +162,8 @@
         are incident to it).
         <Alt Only="TikZ">
             \begin{tikzpicture}[vertexStyle, edgeStyle]
-                \coordinate[label={[vertex]left:2}] (A) at (0,0);
-                \coordinate[label={[vertex]right:3}] (B) at (3,1);
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (3,1);
 
                 \draw[edge] (A) -- (B);
 
@@ -179,9 +179,9 @@
         <Alt Only="TikZ">
             \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels]
                 \def\xs{2}
-                \coordinate[label={[vertex]left:1}] (A) at (0,0);
-                \coordinate[label={[vertex]above:2}] (B) at (\xs,1);
-                \coordinate[label={[vertex]right:3}] (C) at (2*\xs,0);
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (\xs,1);
+                \coordinate (C) at (2*\xs,0);
 
                 \draw[edge] (A) to [bend left=30] (B);
                 \draw[edge] (A) to [bend right=30] (B);

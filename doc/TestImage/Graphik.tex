@@ -23,17 +23,14 @@
         (L) -- node[edgeLabel] {6} (D) -- (DD) -- node[edgeLabel] {8} cycle
         (D) -- node[edgeLabel] {10} (DD) -- node[edgeLabel] {15} (R) -- node[edgeLabel] {14} cycle;
 
-    \node[vertexNode] at (L) {3};
-    \node[vertexNode] at (U) {5};
-    \node[vertexNode] at (R) {7};
-    \node[vertexNode] at (D) {11};
-    \node[vertexNode] at (DD) {13};
+    \node[vertexLabel] at (L) {3};
+    \node[vertexLabel] at (U) {5};
+    \node[vertexLabel] at (R) {7};
+    \node[vertexLabel] at (D) {11};
+    \node[vertexLabel] at (DD) {13};
 
-    \vertexLabelR{L}{left}{3}
-    \vertexLabelR{U}{above}{5}
-    \vertexLabelR{R}{right}{7}
-    \vertexLabelR{D}{above}{11}
-    \vertexLabelR{DD}{below}{13}
+    \foreach \p/\r/\n in {L/left/3, U/above/5, R/right/7, D/above/11, DD/below/13}
+        \vertexLabelR{\p}{\r}{\n}
 \end{tikzpicture}
 
 \begin{tikzpicture}[edgeStyle=nolabels, vertexStyle=nolabels, faceStyle]
