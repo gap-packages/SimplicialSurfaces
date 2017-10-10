@@ -29,8 +29,9 @@
     \node[vertexLabel] at (D) {11};
     \node[vertexLabel] at (DD) {13};
 
-    \foreach \p/\r/\n in {L/left/3, U/above/5, R/right/7, D/above/11, DD/below/13}
+    \foreach \p/\r/\n in {L/left/3, U/above/5, R/right/7, D/above/11, DD/below/13}{
         \vertexLabelR{\p}{\r}{\n}
+    }
 \end{tikzpicture}
 
 \begin{tikzpicture}[edgeStyle=nolabels, vertexStyle=nolabels, faceStyle]
