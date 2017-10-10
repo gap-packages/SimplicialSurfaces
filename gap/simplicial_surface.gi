@@ -4697,6 +4697,103 @@ InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edg
 );
 RedispatchOnCondition( SplitMend, true, [IsSimplicialSurface, IsList, IsList], [IsActualSurface], 0 );
 
+
+## Connected sum
+InstallMethod( ConnectedSum, "", [IsSimplicialSurface, IsList, IsSimplicialSurface, IsList],
+    function( s1, flag1, s2, flag2 )
+        local IsFlag, maxVert1, maxEdge1, maxFace1, verticesOfEdges, 
+            edgesOfFaces, obj, e, f, verts2, edges2, vertPairs, edgePairs, 
+            v2, v2Alt, e1, e1Alt, oldVertices, oldEdges, pair, otherFace; 
+
+        IsFlag := function( surf, flag )
+            if Size(flag) <> 3 then
+                Error("ConnectedSum: Flag should consist of a vertex, an edge and a face.");
+            fi;
+            if not flag[1] in Vertices(surf) then
+                Error("First element of flag is not a vertex.");
+            fi;
+            if not flag[2] in Edges(surf) then
+                Error("Second element of flag is not an edge.");
+            fi;
+            if not flag[3] in Faces(surf) then
+                Error("Third element of flag is not a face.");
+            fi;
+            if not flag[1] in VerticesOfEdges(surf)[flag[2]] then
+                Error("Vertex is not in edge");
+            fi;
+            if not flag[2] in EdgesOfFaces(surf)[flag[3]] then
+                Error("Edge is not in face");
+            fi;
+        end;
+        IsFlag( s1, flag1 );
+        IsFlag( s2, flag2 );
+
+        maxVert1 := Maximum( Vertices(s1) );
+        maxEdge1 := Maximum( Edges(s1) );
+        maxFace1 := Maximum( Faces(s1) );
+
+        verticesOfEdges := ShallowCopy( VerticesOfEdges(s1) );
+        edgesOfFaces := ShallowCopy( EdgesOfFaces(s1) );
+
+        verts2 := VerticesOfEdges(s2);
+        edges2 := EdgesOfFaces(s2);
+
+        for e in Edges(s2) do
+            verticesOfEdges[maxEdge1+e] := List( verts2[e], x -> x + maxVert1 );
+        od;
+        for f in Faces(s2) do
+            edgesOfFaces[maxFace1+f] := List( edges2[f], x -> x + maxEdge1 );
+        od;
+
+        # Now we have the disjoint union
+
+        vertPairs := [];
+        edgePairs := [];
+        Add(vertPairs, [flag1[1], flag2[1]]);
+        Add(edgePairs, [flag1[2], flag2[2]]);
+        
+        v2 := OtherVertexOfEdgeNC(s1, flag1[1], flag1[2]);
+        v2Alt := OtherVertexOfEdgeNC( s2, flag2[1], flag2[2] );
+        Add(vertPairs, [v2, v2Alt]);
+
+        e1 := OtherEdgeOfVertexInFaceNC(s1, v2, flag1[2], flag1[3]);
+        e1Alt := OtherEdgeOfVertexInFace( s2, v2Alt, flag2[2], flag2[3] );
+        Add(edgePairs, [e1, e1Alt]);
+
+        Add( vertPairs, [ OtherVertexOfEdgeNC(s1, v2, e1) , OtherVertexOfEdgeNC(s2, v2Alt, e1Alt) ] );
+        Add( edgePairs, [ OtherEdgeOfVertexInFaceNC(s1, flag1[1], flag1[2], flag1[3]), OtherEdgeOfVertexInFaceNC( s2, flag2[1], flag2[2], flag2[3] ) ] );
+
+        Unbind( edgesOfFaces[flag1[3]] );
+        for e in EdgesOfFaces(s1)[flag1[3]] do
+            otherFace := Difference( FacesOfEdges(s1)[e], [flag1[3]] )[1];
+            oldEdges := edgesOfFaces[otherFace];
+            for pair in edgePairs do
+                if pair[1] in oldEdges then
+                    oldEdges := Difference( oldEdges, [pair[1]] );
+                    oldEdges := Union( oldEdges, [pair[2]] );
+                fi;
+            od;
+            edgesOfFaces[otherFace] := oldEdges;
+        od;
+        for e in Edges(s1) do
+            oldVertices := verticesOfEdges[e];
+            for pair in vertPairs do
+                if pair[1] in oldVertices then
+                    oldVertices := Difference( oldVertices, [pair[1]] );
+                    oldVertices := Union(oldVertices, [pair[2]]);
+                fi;
+            od;
+            verticesOfEdges[e] := oldVertices;
+        od;
+
+        obj := Objectify( SimplicialSurfaceType, rec() );
+        SetEdgesOfFaces(obj, edgesOfFaces);
+        SetVerticesOfEdges(obj, verticesOfEdges);
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(obj);
+        return obj;
+    end
+);
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
