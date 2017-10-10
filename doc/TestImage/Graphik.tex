@@ -134,10 +134,10 @@
 \tikzset{
     faceStyle/labels/.style = {
         faceNode/.style = {}
-    }
+    },
     faceStyle/nolabels/.style = {
         faceNode/.style = {text=none}
-    }
+    },
     faceStyle/.style = faceStyle/#1,
     faceStyle/.default = labels
 }
@@ -150,8 +150,48 @@
     \fi
 }
 
+% 1) position of the vertex
+% 2) relative position of the node
+% 3) name of the vertex
+\newcommand{\vertexLabelR}[3]{
+    \node[vertexLabel, #2] at (#1) {#3};
+}
+% 1) position of the vertex
+% 2) absolute position of the node
+% 3) name of the vertex
+\newcommand{\vertexLabelA}[3]{
+    \node[vertexLabel] at (#2) {#3};
+}
+
 \begin{document}
 
+\begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorG]
+    \def\hor{3}
+    \def\ver{1}
+    \def\down{4}
+    \coordinate (L) at (-\hor,0);
+    \coordinate (R) at (\hor,0);
+    \coordinate (U) at (0,\ver);
+    \coordinate (D) at (0,-\ver);
+    \coordinate (DD) at (0,-\down);
+
+    \draw[face,edge]
+        (L) -- node[edgeLabel] {2} (U) -- node[edgeLabel] {12} (R) -- (D) -- cycle
+        (L) -- node[edgeLabel] {6} (D) -- (DD) -- node[edgeLabel] {8} cycle
+        (D) -- node[edgeLabel] {10} (DD) -- node[edgeLabel] {15} (R) -- node[edgeLabel] {14} cycle;
+
+    \node[vertexNode] at (L) {3};
+    \node[vertexNode] at (U) {5};
+    \node[vertexNode] at (R) {7};
+    \node[vertexNode] at (D) {11};
+    \node[vertexNode] at (DD) {13};
+
+    \vertexLabelR{L}{left}{3}
+    \vertexLabelR{U}{above}{5}
+    \vertexLabelR{R}{right}{7}
+    \vertexLabelR{D}{above}{11}
+    \vertexLabelR{DD}{below}{13}
+\end{tikzpicture}
 
 \begin{tikzpicture}[edgeStyle=nolabels, vertexStyle=nolabels, faceStyle]
 
