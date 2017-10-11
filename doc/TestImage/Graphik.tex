@@ -8,7 +8,7 @@
 
 \begin{document}
 
-\begin{tikzpicture}[vertexBall,edgeStyle,faceStyle, face/.default=\faceColorG]
+\begin{tikzpicture}[vertexBall,edgeNone,faceStyle, face/.default=\faceColorG]
     \def\hor{3}
     \def\ver{1}
     \def\down{4}
@@ -20,7 +20,7 @@
 
     \def\swapColors{1}
     \draw[faceSwap,edge]
-        (L) to[blue,thick] node[edgeLabel] {2} (U) -- node[edgeLabel] {12} (R) -- (D) -- cycle
+        (L) -- node[edgeLabel] {2} (U) -- node[edgeLabel] {12} (R) -- (D) -- cycle
         (L) -- node[edgeLabel] {6} (D) -- (DD) -- node[edgeLabel] {8} cycle
         (D) -- node[edgeLabel] {10} (DD) -- node[edgeLabel] {15} (R) -- node[edgeLabel] {14} cycle;
 

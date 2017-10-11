@@ -403,7 +403,7 @@ AutoDoc( rec( scaffold := rec(
                     ), 
               dir := __SIMPLICIAL_DocDirectory,
               maketest := rec(
-                    commands := ["LoadPackage(\"SimplicialSurfaces\");"]
+                    commands := ["LoadPackage(\"SimplicialSurfaces\"); SIMPLICIAL_TestAll();"]
               ),
 	      autodoc := rec( 
                     files := [ "doc/TableOfContents.autodoc" ],

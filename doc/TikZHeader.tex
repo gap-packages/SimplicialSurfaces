@@ -71,7 +71,7 @@
     vertexNormal/.default=labels
 }
 \tikzset{
-    vertexNodeBall/.style = {shape=circle, ball color=orange, inner sep=2pt, outer sep=0pt, minimum size=3pt},
+    vertexNodeBall/.style = {shape=circle, ball color=orange, inner sep=2pt, outer sep=0pt, minimum size=3pt, font=\tiny},
     vertexBall/labels/.style = {
         vertexNode/.style={vertexNodeBall, text=black},
         vertexLabel/.style={text=none}
@@ -109,6 +109,19 @@
 % If you have trouble with the double-lines overlapping, this might (?) help:
 % https://tex.stackexchange.com/questions/288159/closing-the-ends-of-double-line-in-tikz
 \tikzset{
+    edgeLineNone/.style = {draw=none},
+    edgeNone/labels/.style = {
+        edge/.style = {edgeLineNone},
+        edgeLabel/.style = {fill=blue!20!white}
+    },
+    edgeNone/nolabels/.style = {
+        edge/.style = {edgeLineNone},
+        edgeLabel/.style = {text=none}
+    },
+    edgeNone/.style = edgeNone/#1,
+    edgeNone/.default = labels
+}
+\tikzset{
     edgeLinePlain/.style={line join=round},
     edgePlain/labels/.style = {
         edge/.style={edgeLinePlain},
@@ -144,19 +157,27 @@
 % 
 \newcommand{\faceColorY}{yellow!60!white}   % yellow
 \newcommand{\faceColorB}{blue!60!white}     % blue
-\newcommand{\faceColorP}{cyan!60}           % purple
+\newcommand{\faceColorC}{cyan!60}           % cyan
 \newcommand{\faceColorR}{red!60!white}      % red
 \newcommand{\faceColorG}{green!60!white}    % green
 \newcommand{\faceColorO}{orange!50!yellow!70!white} % orange
 
+% define default face colour (and default swap colour)
 \newcommand{\faceColor}{\faceColorY}
-\newcommand{\faceColorSwap}{\faceColorP}
+\newcommand{\faceColorSwap}{\faceColorC}
+
+% define secondary default colours (to use in a single section)
+\newcommand{\faceColorFirst}{\faceColorG}
+\newcommand{\faceColorSecond}{\faceColorB}
+\newcommand{\faceColorThird}{\faceColorR}
+\newcommand{\faceColorFourth}{\faceColorO}
+
 \tikzset{
     face/.style = {fill=#1},
     face/.default = \faceColor,
     faceY/.style = {face=\faceColorY},
     faceB/.style = {face=\faceColorB},
-    faceP/.style = {face=\faceColorP},
+    faceC/.style = {face=\faceColorC},
     faceR/.style = {face=\faceColorR},
     faceG/.style = {face=\faceColorG},
     faceO/.style = {face=\faceColorO}
