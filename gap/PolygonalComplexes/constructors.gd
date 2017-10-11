@@ -316,7 +316,33 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! For this reason, the order of the vertices for a given face (if it has more
 #! than three vertices) is important. An example of how this might go awry can
 #! be seen in subsection <Ref Subsect="Introduction_NonTriangularCase"/>.
-#TODO example here? Repeat old one?
+#!
+#! A different example is given by the following polygonal surface:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, face/.default=\faceColorThird]
+#!     \input{Image_ConstructorExample.tex};
+#!   \end{tikzpicture}
+#! </Alt>
+#! To accurately transcribe this surface we need to know which vertices are
+#! incident to which faces. This information is given as a list with an entry
+#! for each face. The entry for a given face is a list of the incident 
+#! vertices that allows reconstruction of the edges as specified above. In this
+#! example the following list does the job:
+#! @ExampleSession
+#! gap> verticesInFaces := [ [3,5,13,7], , , [3,11,7], , , , , [7,11,13] ];
+#! [ [ 3, 5, 13, 7 ], , , [ 3, 11, 7 ], , , , , [ 7, 11, 13 ] ]
+#! @EndExampleSession
+#! According to our rules, the list <M>[3, 5, 13, 7]</M> defines the four edges
+#! <M>[3,5]</M>, <M>[5,13]</M>, <M>[7,13]</M> and <M>[3,7]</M> (like in the 
+#! picture).
+#!
+#! Had we given the set <M>[3, 5, 7, 13]</M> we would have gotten different
+#! edges - the method would believe that <M>[5,7]</M> is an edge although 
+#! this is not the case in the surface we want to describe.
+#!
+#! @ExampleSession
+#! gap> PolygonalSurfaceByVerticesInFaces( verticesInFaces );;
+#! @EndExampleSession
 #! 
 #! These constructors also allow the optional arguments <A>vertices</A>
 #! and <A>faces</A>. If those sets are given, the incidence
@@ -324,6 +350,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! in practice to notice typos in the incidence relations. It is also possible
 #! to give a positive integer <A>n</A> - it will be converted into the list
 #! <M>[1,...,n]</M>.
+#! @ExampleSession
+#! gap> PolygonalSurfaceByVerticesInFaces( [3,5,7,11,13], [1,4,9], verticesInFaces );;
+#! @EndExampleSession
 #! 
 
 #! @BeginChunk Documentation_VerticesInFaces
