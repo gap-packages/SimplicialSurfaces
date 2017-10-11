@@ -12,20 +12,16 @@
 ##  This file contains the routines for the simplicial surfaces library
 ##
 
-BindGlobal( __SIMPLICIAL_LoadLibrary,
+BindGlobal( "__SIMPLICIAL_LoadLibrary",
     function()
         local allSurfs, absPaths, relPath, path, allFiles, file, surfs;
-
-        if IsBound(SIMPLICIAL_LIBRARY) then
-            return;
-        fi;
 
         # Otherwise we will fill the library
         # TODO for the moment we just load all surfaces (as we don't have many). This should be improved
 
         allSurfs := [];
 
-        relPath := "/pkg/simplicial-surfaces/surfaces";
+        relPath := "pkg/simplicial-surfaces/surfaces";
         # Find all possible paths where GAP might be and add the relative directory
         absPaths := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
         absPaths := Filtered( absPaths, IsDirectoryPath ); # check which ones actually exist
@@ -40,7 +36,7 @@ BindGlobal( __SIMPLICIAL_LoadLibrary,
                     continue;
                 fi;
 
-                surfs := ReadAsFunction( Concatenation(path, file) );
+                surfs := ReadAsFunction( Concatenation(path, file) )();
                 if not IsList(surfs) then
                     Error(Concatenation("Library could not be loaded. File ", file, " should be of form 'return list'."));
                 fi;
@@ -52,9 +48,10 @@ BindGlobal( __SIMPLICIAL_LoadLibrary,
             od;
         od;
 
-        BindGlobal( SIMPLICIAL_LIBRARY, allSurfs );
+        BindGlobal( "SIMPLICIAL_LIBRARY", allSurfs );
     end
 );
+__SIMPLICIAL_LoadLibrary();
 
 InstallGlobalFunction( "AllSimplicialSurfaces",
     function( arg )
@@ -64,7 +61,6 @@ InstallGlobalFunction( "AllSimplicialSurfaces",
             Error("The number of arguments has to be even: function-solution pairs.");
         fi;
 
-        __SIMPLICIAL_LoadLibrary();
         surfs := SIMPLICIAL_LIBRARY;
         for pos in [1..Size(arg)/2] do
             surfs := Filtered( surfs, s -> arg[2*pos-1](s) in arg[2*pos] );
