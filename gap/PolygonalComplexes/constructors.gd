@@ -304,7 +304,8 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! and can construct any polygonal structure from chapter
 #! <Ref Chap="PolygonalStructures"/>.
 #!
-#! Since the constructor takes no edge information, it has to construct the
+#! This constructor is only based on the incidence relation between vertices
+#! and faces. Since it takes no edge information, it has to construct the
 #! edges in some way.
 #! This is done according to two rules:
 #! * An edge is uniquely identified by its incident vertices.
@@ -313,11 +314,7 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #!   (first and last vertex count as adjacent). In this case we would have the edges
 #!   <M>[v_1,v_2]</M>, <M>[v_2,v_3]</M>, ..., <M>[v_k,v_1]</M>.
 #!
-#! For this reason, the order of the vertices for a given face (if it has more
-#! than three vertices) is important. An example of how this might go awry can
-#! be seen in subsection <Ref Subsect="Introduction_NonTriangularCase"/>.
-#!
-#! A different example is given by the following polygonal surface:
+#! Consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, face/.default=\faceColorThird]
 #!     \input{Image_ConstructorExample.tex};
@@ -338,7 +335,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #!
 #! Had we given the set <M>[3, 5, 7, 13]</M> we would have gotten different
 #! edges - the method would believe that <M>[5,7]</M> is an edge although 
-#! this is not the case in the surface we want to describe.
+#! this is not the case in the surface we want to describe. Therefore the
+#! order of the vertices in those lists is very important if the associated
+#! face has more than three vertices.
 #!
 #! @ExampleSession
 #! gap> PolygonalSurfaceByVerticesInFaces( verticesInFaces );;
