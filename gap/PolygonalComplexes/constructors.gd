@@ -308,6 +308,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #TODO remark that most of these constructors also check for some properties
 
 
+## It has to be remembered that these sections are primary candidates for
+## skipping targets - many people are probably interested in constructions.
+## Therefore they have to be mostly self-contained.
 
 #! @Section VerticesInFaces
 #! @SectionLabel Constructors_VerticesInFaces
