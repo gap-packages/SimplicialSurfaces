@@ -167,8 +167,9 @@
 
                 \draw[edge] (A) -- (B);
 
-                \foreach \p/\r/\n in {A/left/2, B/right/3}
+                \foreach \p/\r/\n in {A/left/2, B/right/3}{
                     \vertexLabelR{\p}{\r}{\n}
+                }
             \end{tikzpicture}
         </Alt>
         If we try to generalize this condition to the faces we encounter
@@ -187,8 +188,9 @@
                 \draw[edge] (A) to [bend right=30] (B);
                 \draw[edge] (B) -- (C);
 
-                \foreach \p/\r/\n in {A/left/1, B/above/2, C/right/3}
+                \foreach \p/\r/\n in {A/left/1, B/above/2, C/right/3}{
                     \vertexLabelR{\p}{\r}{\n}
+                }
             \end{tikzpicture}
         </Alt>
         We will solve this problem by imposing a cyclic ordering on the
@@ -367,8 +369,8 @@
             <Item> Every edge behaves "like a surface", i.e. it is incident to
                 at most two faces. This excludes cases like three triangles
                 that share one edge.
-                <Alt Only="TikZ">[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-                    \begin{tikzpicture}
+                <Alt Only="TikZ">
+                    \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
                         \input{Image_ThreeBranchingTriangles.tex}
                     \end{tikzpicture}
                 </Alt>

@@ -1089,8 +1089,9 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #!     \node[faceLabel] at (barycentric cs:P2=1,PSW=1,PNW=1) {$V$};
 #!     \node[faceLabel] at (barycentric cs:P2=1,PNW=1,PNE=1) {$II$};
 #!
-#!     \foreach \p/\r/\n in {P2/right/1, PEE/right/8, PSE/below/9, PSW/below/10, PNW/above/6, PNE/above/7}
+#!     \foreach \p/\r/\n in {P2/right/1, PEE/right/8, PSE/below/9, PSW/below/10, PNW/above/6, PNE/above/7}{
 #!       \vertexLabelR{\p}{\r}{\n}
+#!     }
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession

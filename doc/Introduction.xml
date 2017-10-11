@@ -255,8 +255,9 @@ gap&gt; VerticesOfFaces(surf);
                 \foreach \l/\a/\b/\c in {I/A/B/C, II/B/C/D, III/C/D/E, IV/D/E/F, V/E/F/G}
                     \node[faceLabel] at (barycentric cs:\a=1,\b=1,\c=1) {\l};    
                     
-                \foreach \p/\r/\n in {A/below/1, B/above/2, C/below/3, D/above/4, E/below/5, F/above/1, G/below/2}
+                \foreach \p/\r/\n in {A/below/1, B/above/2, C/below/3, D/above/4, E/below/5, F/above/1, G/below/2}{
                     \vertexLabelR{\p}{\r}{\n}
+                }
 
                 \draw[edge, ident] (A) -- (B);
                 \draw[edge, ident] (F) -- (G);
@@ -324,8 +325,9 @@ false
                         (A) -- (B) -- (C) -- cycle;
                     \draw[edge, dashed] (D) -- (E) (C) -- (E) (A) -- (E);
 
-                    \foreach \p/\r/\n in {A/above/1, B/below/2, C/below/3, D/left/4, E/right/5}
+                    \foreach \p/\r/\n in {A/above/1, B/below/2, C/below/3, D/left/4, E/right/5}{
                         \vertexLabelR{\p}{\r}{\n}
+                    }
                 \end{tikzpicture}
             </Alt>
             To encode this surface we have to enumerate the faces.

@@ -14,13 +14,13 @@
     %         2
     \def\hor{2.4}
     \def\ver{1.2}
-    \coordinate [label={[vertex]left:1}] (P1) at (0,0);
-    \coordinate [label={[vertex]below:2}] (P2) at (\hor,-\ver);
-    \coordinate [label={[vertex]below:6}] (P6) at (\hor,\ver);
-    \coordinate [label={[vertex]right:5}] (P5) at ($(P2)+(P6)$);
-    \coordinate [label={[vertex]left:7}] (P7) at (0,1.5*\ver);
-    \coordinate [label={[vertex]above:8}] (P8) at ($(P7)+(P6)$);
-    \coordinate [label={[vertex]right:9}] (P9) at ($(P7)+(P5)$);
+    \coordinate (P1) at (0,0);
+    \coordinate (P2) at (\hor,-\ver);
+    \coordinate (P6) at (\hor,\ver);
+    \coordinate (P5) at ($(P2)+(P6)$);
+    \coordinate (P7) at (0,1.5*\ver);
+    \coordinate (P8) at ($(P7)+(P6)$);
+    \coordinate (P9) at ($(P7)+(P5)$);
 
     \draw[edge, face]
         (P1) -- (P6) -- (P8) -- node[edgeLabel]{10} (P7) -- node[edgeLabel]{7} cycle
@@ -33,7 +33,8 @@
     \node[faceLabel] at (barycentric cs:P1=2,P2=1,P6=1) {$I$};
     \node[faceLabel] at (barycentric cs:P2=1,P5=2,P6=1) {$V$};
 
-    \foreach \p/\r/\n in {P1/left/1, P2/below/2, P6/below/6, P5/right/5, P7/left/7, P8/above/8, P9/right/9}
+    \foreach \p/\r/\n in {P1/left/1, P2/below/2, P6/below/6, P5/right/5, P7/left/7, P8/above/8, P9/right/9}{
         \vertexLabelR{\p}{\r}{\n}
+    }
 \end{tikzpicture}
 

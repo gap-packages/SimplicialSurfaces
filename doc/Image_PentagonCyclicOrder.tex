@@ -5,11 +5,11 @@
 
 \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
     \def\r{2}
-    \coordinate [label={[vertex]right:\ifdefined\abstractLabels $v_1$ \else 3 \fi}] (P1) at (306:\r);
-    \coordinate [label={[vertex]right:\ifdefined\abstractLabels $v_2$ \else 6 \fi}] (P2) at (18:\r);
-    \coordinate [label={[vertex]above:\ifdefined\abstractLabels $v_3$ \else 1 \fi}] (P3) at (90:\r);
-    \coordinate [label={[vertex]left:\ifdefined\abstractLabels $v_4$ \else 9 \fi}] (P4) at (162:\r);
-    \coordinate [label={[vertex]left:\ifdefined\abstractLabels $v_5$ \else 2 \fi}] (P5) at (234:\r);
+    \coordinate (P1) at (306:\r);
+    \coordinate (P2) at (18:\r);
+    \coordinate (P3) at (90:\r);
+    \coordinate (P4) at (162:\r);
+    \coordinate (P5) at (234:\r);
 
     \draw[edge, face]
         (P1) node[vertexLabel, right] {\ifdefined\abstractLabels $v_1$ \else 3 \fi}

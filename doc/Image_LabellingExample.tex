@@ -19,6 +19,7 @@
         (P2) -- node[edgeLabel] {2} (P3) -- node[edgeLabel] {5} (P7) -- node[edgeLabel] {6} (P5) -- node[edgeLabel] {3} cycle;
     \node[faceLabel] at (0,0) {III};
 
-    \foreach \p/\r/\n in {P2/left/2, P3/above/3, P5/below/5, P7/right/7}
+    \foreach \p/\r/\n in {P2/left/2, P3/above/3, P5/below/5, P7/right/7}{
         \vertexLabelR{\p}{\r}{\n}
+    }
 \end{tikzpicture}

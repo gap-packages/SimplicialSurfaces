@@ -26,8 +26,9 @@
             to[bend left=45] node[edgeLabel]{4} (C) 
             -- node[edgeLabel]{2} cycle;
 
-    \foreach \p/\r/\n in {A/below/1, B/right/2, C/left/3}
+    \foreach \p/\r/\n in {A/below/1, B/right/2, C/left/3}{
         \vertexLabelR{\p}{\r}{\n}
+    }
 
     \node[faceLabel] at (barycentric cs:A=2,B=1,C=1) {I};
     \node[faceLabel] at (barycentric cs:B=1,C=1) {II};

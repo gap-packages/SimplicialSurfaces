@@ -18,8 +18,9 @@
         (P1) -- node[edgeLabel]{6} (P2) -- (P3) -- node[edgeLabel]{8} cycle
         (P2) -- node[edgeLabel]{9} (P3) -- node[edgeLabel]{12} (P4) -- node[edgeLabel]{13} (P4) -- node[edgeLabel]{10} cycle;
 
-    \foreach \p/\r/\n in {P1/left/2, P2/below/5, P3/above/3, P4/above/7, P5/below/11}
+    \foreach \p/\r/\n in {P1/left/2, P2/below/5, P3/above/3, P4/above/7, P5/below/11}{
         \vertexLabelR{\p}{\r}{\n}
+    }
 
     \node[faceLabel] at (barycentric cs:P1=1,P2=1,P3=1) {I};
     \node[faceLabel] at (barycentric cs:P2=1,P3=1,P4=1,P5=1) {IV};
