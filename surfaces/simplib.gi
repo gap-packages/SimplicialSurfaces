@@ -14,7 +14,7 @@
 
 BindGlobal( __SIMPLICIAL_LoadLibrary,
     function()
-        local allSurfs, absPath, relPath, path, allFiles, file, surfs;
+        local allSurfs, absPaths, relPath, path, allFiles, file, surfs;
 
         if IsBound(SIMPLICIAL_LIBRARY) then
             return;
