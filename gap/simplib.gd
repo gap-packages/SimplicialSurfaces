@@ -12,6 +12,7 @@
 ##  This file contains the routines for the simplicial surfaces library
 ##
 
-DeclareGlobalFunction( "NrSimplicialSurfaces" );
-DeclareGlobalFunction( "SimplicialSurfaceLib" );
+DeclareGlobalFunction( "AllSimplicialSurfaces" );
+DeclareGlobalFunction( "OneSimplicialSurface" );
+#TODO can you define an operation with an unknown number of arguments?
 
