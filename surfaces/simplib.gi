@@ -56,3 +56,20 @@ BindGlobal( __SIMPLICIAL_LoadLibrary,
     end
 );
 
+InstallGlobalFunction( "AllSimplicialSurfaces",
+    function( arg )
+        local pos, surfs;
+
+        if IsOddInt(Size(arg)) then
+            Error("The number of arguments has to be even: function-solution pairs.");
+        fi;
+
+        __SIMPLICIAL_LoadLibrary();
+        surfs := SIMPLICIAL_LIBRARY;
+        for pos in [1..Size(arg)/2] do
+            surfs := Filtered( surfs, s -> arg[2*pos-1](s) in arg[2*pos] );
+        od;
+
+        return surfs;
+    end
+);
