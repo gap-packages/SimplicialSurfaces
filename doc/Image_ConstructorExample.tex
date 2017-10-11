@@ -1,0 +1,21 @@
+    \def\hor{3}
+    \def\ver{1}
+    \def\down{4}
+    \coordinate (L) at (-\hor,0);
+    \coordinate (R) at (\hor,0);
+    \coordinate (U) at (0,\ver);
+    \coordinate (D) at (0,-\ver);
+    \coordinate (DD) at (0,-\down);
+
+    \draw[face,edge]
+        (L) -- node[edgeLabel] {2} (U) -- node[edgeLabel] {12} (R) -- (D) -- cycle
+        (L) -- node[edgeLabel] {6} (D) -- (DD) -- node[edgeLabel] {8} cycle
+        (D) -- node[edgeLabel] {10} (DD) -- node[edgeLabel] {15} (R) -- node[edgeLabel] {14} cycle;
+
+    \node[faceLabel] at (0,0) {I};
+    \node[faceLabel] at (barycentric cs:L=1,D=1,DD=1) {IV};
+    \node[faceLabel] at (barycentric cs:D=1,R=1,DD=1) {IX};
+
+    \foreach \p/\r/\n in {L/left/3, U/above/5, R/right/13, D/above/7, DD/below/11}{
+        \vertexLabelR{\p}{\r}{\n}
+    }

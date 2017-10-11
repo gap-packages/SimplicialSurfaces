@@ -82,6 +82,31 @@
 #! and <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). From these
 #! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
 #! be build.
+#!
+#! As an example, consider the following polygonal surface:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle, face/.default=\faceColorFirst]
+#!     \input{Image_ConstructorExample.tex};
+#!   \end{tikzpicture}
+#! </Alt>
+#!
+#! To use the constructor, we need the lists <K>VerticesOfEdges</K> and
+#! <K>EdgesOfFaces</K>. For each edge there is an entry in 
+#! <K>VerticesOfEdges</K> that consists of the incident vertices (as set).
+#! @ExampleSession
+#! gap> verticesOfEdges := [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]];
+#! [ , [ 3, 5 ], , , , [ 3, 7 ], , [ 3, 11 ], , [ 7, 11 ], , [ 5, 13 ], , [ 7, 13 ], [ 11, 13 ] ]
+#! @EndExampleSession
+#! Similarly the list <K>EdgesOfFaces</K> has an entry for each face with the
+#! set of incident edges.
+#! @ExampleSession
+#! gap> edgesOfFaces := [ [3,5,7,13], , , [3,7,11], , , , , [7,11,13] ];
+#! [ [ 3, 5, 7, 13 ], , , [ 3, 7, 11 ], , , , , [ 7, 11, 13 ] ]
+#! @EndExampleSession
+#! These lists are sufficient to reconstruct the polygonal surface.
+#! @ExampleSession
+#! gap> PolygonalSurfaceByDownwardIncidence( verticesOfEdges, edgesOfFaces );;
+#! @EndExampleSession
 #! 
 #! These constructors also allow the optional arguments <A>vertices</A>,
 #! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
@@ -89,6 +114,10 @@
 #! in practice to notice typos in the incidence relations. It is also possible
 #! to give a positive integer <A>n</A> - it will be converted into the list
 #! <M>[1,...,n]</M>.
+#! @ExampleSession
+#! gap> PolygonalSurfaceByDownwardIncidence( [3,5,7,11,13], [2,6,8,10,12,14,15], 
+#!      [1,4,9], verticesOfEdges, edgesOfFaces );;
+#! @EndExampleSession
 #! 
 #! The name <E>DownwardIncidence</E> stems from the fact that the incidence
 #! relation is given by referring to structures of lower dimension  - an edge
