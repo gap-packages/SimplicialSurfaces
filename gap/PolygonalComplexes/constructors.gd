@@ -90,33 +90,46 @@
 #!   \end{tikzpicture}
 #! </Alt>
 #!
-#! To use the constructor, we need the lists <K>VerticesOfEdges</K> and
-#! <K>EdgesOfFaces</K>. For each edge there is an entry in 
-#! <K>VerticesOfEdges</K> that consists of the incident vertices (as set).
+#! To use the constructor, we need to describe two incidence relations:
+#! * incidence between vertices and edges (the argument <A>verticesOfEdges</A>)
+#! * incidence between edges and faces (the argument <A>edgesOfFaces</A>)
+#!
+#! Both of these incidence relations are given as lists. The list
+#! <A>verticesOfEdges</A> contains an entry for each edge of the polygonal
+#! surface. This entry contains the set
+#! of all vertices that are incident to that edge.
 #! @ExampleSession
 #! gap> verticesOfEdges := [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]];
 #! [ , [ 3, 5 ], , , , [ 3, 7 ], , [ 3, 11 ], , [ 7, 11 ], , [ 5, 13 ], , [ 7, 13 ], [ 11, 13 ] ]
 #! @EndExampleSession
-#! Similarly the list <K>EdgesOfFaces</K> has an entry for each face with the
+#! Similarly the list <A>edgesOfFaces</A> has an entry for each face with the
 #! set of incident edges.
 #! @ExampleSession
 #! gap> edgesOfFaces := [ [3,5,7,13], , , [3,7,11], , , , , [7,11,13] ];
 #! [ [ 3, 5, 7, 13 ], , , [ 3, 7, 11 ], , , , , [ 7, 11, 13 ] ]
 #! @EndExampleSession
-#! These lists are sufficient to reconstruct the polygonal surface.
+#! With these two lists we can construct the desired polygonal surface.
 #! @ExampleSession
 #! gap> PolygonalSurfaceByDownwardIncidence( verticesOfEdges, edgesOfFaces );;
 #! @EndExampleSession
 #! 
-#! These constructors also allow the optional arguments <A>vertices</A>,
+#! The <E>DownwardIncidence</E>-constructors also allow the optional arguments 
+#! <A>vertices</A>,
 #! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
-#! information is checked for compatibility with them. This is very useful
-#! in practice to notice typos in the incidence relations. It is also possible
-#! to give a positive integer <A>n</A> - it will be converted into the list
+#! information is checked for compatibility with them. This is not strictly 
+#! necessary since this information can be deduced from the lists
+#! <A>verticesOfEdges</A> and <A>edgesOfFaces</A>.
+#!
+#! In practice it is common to make mistakes in manually giving these lists.
+#! Especially in such situations it is recommended to use the optional 
+#! arguments as they might catch some mistakes.
+#!
+#! To make giving these lists easier, each of these sets can be replaces by
+#! a positive integer <A>n</A>, which will be interpreted as the set
 #! <M>[1,...,n]</M>.
 #! @ExampleSession
 #! gap> PolygonalSurfaceByDownwardIncidence( [3,5,7,11,13], [2,6,8,10,12,14,15], 
-#!      [1,4,9], verticesOfEdges, edgesOfFaces );;
+#! >     [1,4,9], verticesOfEdges, edgesOfFaces );;
 #! @EndExampleSession
 #! 
 #! The name <E>DownwardIncidence</E> stems from the fact that the incidence
