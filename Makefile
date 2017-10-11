@@ -12,6 +12,7 @@ doc/manual.six: makedoc.g \
 		doc/PolygonalStructures.xml \
 		doc/PolygonalStructuresDefinitions.xml \
 		doc/Image_* \
-		doc/TableOfContents.autodoc
+		doc/TableOfContents.autodoc\
+		doc/TikZHeader.tex
 	gap makedoc.g
 

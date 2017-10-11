@@ -12,7 +12,7 @@
     \coordinate (EB) at (-\w:2*\dist);
 
     \draw[edge, face]
-        (P1) -- (SW) -- node[edgeLabel]{13} cycle
+        (P1) -- (SW) -- node[edgeLabel]{13} (N) -- cycle
         (P1) -- node[edgeLabel]{16} (SW) -- node[edgeLabel]{17} (SE) -- cycle
         (P1) -- node[edgeLabel]{14} (N) -- node[edgeLabel]{15} (SE) -- node[edgeLabel]{18} cycle;
     \node[faceLabel] at (barycentric cs:P1=2,SW=1,N=1) {$III$};

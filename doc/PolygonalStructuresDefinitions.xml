@@ -24,13 +24,13 @@ edge <M>e_i</M> (where we read indices <M>\bmod k</M>).
 <#/GAPDoc>
 
 <#GAPDoc Label="PolygonalComplex_Face_simple">
-For every face the incident edges and vertices form a polygon. (See
-definition <Ref Subsect="Def_PolygonalComplex"/>.)
+For every face the incident edges and vertices form a polygon (see
+definition <Ref Subsect="Def_PolygonalComplex"/>).
 <#/GAPDoc>
 <!--TODO link to the complete definition-->
 <#GAPDoc Label="TriangularComplex_Face_simple">
-For every face the incident edges and vertices form a triangle. (See
-definition <Ref Subsect="Def_PolygonalComplex"/>.)
+For every face the incident edges and vertices form a triangle (see
+definition <Ref Subsect="Def_PolygonalComplex"/>).
 <#/GAPDoc>
 
 <#GAPDoc Label="PolygonalComplex_Incidence">

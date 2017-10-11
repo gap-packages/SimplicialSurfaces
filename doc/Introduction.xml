@@ -235,8 +235,9 @@ gap&gt; VerticesOfFaces(surf);
 </Example>
 
         A slightly more complicated example is a Möbius-strip.
+        <!-- TODO better colour for identified edges? -->
         <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, ident/.style={very thick,blue}]
+            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, ident/.style={very thick,purple}]
                 \coordinate (A) at (0,0);
                 \coordinate (B) at (1.5,2);
                 \coordinate (C) at (3,0);
@@ -251,6 +252,8 @@ gap&gt; VerticesOfFaces(surf);
                     (C) -- (D) -- (E) -- cycle
                     (D) -- (E) -- (F) -- cycle
                     (E) -- (F) -- (G) -- cycle;
+                \draw[edge, ident] (A) -- (B);
+                \draw[edge, ident] (F) -- (G);
                 
                 \foreach \l/\a/\b/\c in {I/A/B/C, II/B/C/D, III/C/D/E, IV/D/E/F, V/E/F/G}
                     \node[faceLabel] at (barycentric cs:\a=1,\b=1,\c=1) {\l};    
@@ -259,8 +262,6 @@ gap&gt; VerticesOfFaces(surf);
                     \vertexLabelR{\p}{\r}{\n}
                 }
 
-                \draw[edge, ident] (A) -- (B);
-                \draw[edge, ident] (F) -- (G);
             \end{tikzpicture}
         </Alt>
         <Alt Not="Text">

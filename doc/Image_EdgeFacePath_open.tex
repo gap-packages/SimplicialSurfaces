@@ -8,12 +8,13 @@
         \coordinate (B3) at (\start+2*\w:\r);
         \coordinate (B4) at (\start+3*\w:\r);
 
-        \foreach \p/\q/\F/\e/\f in {B1/B2/$f_1$/$e_1$/$e_2$,
-                B2/B3/$f_2$/$e_2$/$e_3$, B3/B4/$f_3$/$e_3$/$e_4$}
+        \foreach \p/\q/\F/\e in {B1/B2/$f_1$/$e_1$,
+                B2/B3/$f_2$/$e_2$, B3/B4/$f_3$/$e_3$}
         {
-            \draw[edge, face] (A) -- node[edgeLabel] {\e} (\p) -- (\q) -- node[edgeLabel] {\f} cycle;
+            \draw[edge, face] (A) -- node[edgeLabel] {\e} (\p) -- (\q) -- cycle;
             \node[faceLabel] at ($1/3*(A)+1/3*(\p)+1/3*(\q)$) {\F};
         }
+        \node[edgeLabel] at ($(A)!0.5!(B4)$) {$e_4$};
                             
         \vertexLabelR{A}{below left}{$V$}
 
