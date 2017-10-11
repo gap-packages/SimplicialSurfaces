@@ -21,7 +21,7 @@ BindGlobal( "__SIMPLICIAL_LoadLibrary",
 
         allSurfs := [];
 
-        relPath := "pkg/simplicial-surfaces/surfaces";
+        relPath := "pkg/simplicial-surfaces/surfaces/";
         # Find all possible paths where GAP might be and add the relative directory
         absPaths := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
         absPaths := Filtered( absPaths, IsDirectoryPath ); # check which ones actually exist
@@ -31,6 +31,11 @@ BindGlobal( "__SIMPLICIAL_LoadLibrary",
             allFiles := DirectoryContents( path );
 
             for file in allFiles do
+                # Ignore directories
+                if IsDirectoryPath( Concatenation(path, file) ) then
+                    continue;
+                fi;
+
                 # Ignore all unreadable files
                 if not IsReadableFile( Concatenation(path, file) ) then
                     continue;
@@ -67,5 +72,13 @@ InstallGlobalFunction( "AllSimplicialSurfaces",
         od;
 
         return surfs;
+    end
+);
+
+
+InstallGlobalFunction( "OneSimplicialSurface",
+    function( arg )
+        #TODO make this faster
+        return CallFuncList(AllSimplicialSurfaces, arg)[1];
     end
 );
