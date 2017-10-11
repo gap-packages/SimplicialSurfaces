@@ -5,10 +5,11 @@
 
 \usepackage{amssymb}
 
+%\tikzset{vertexNodeBall/.style = {shape=circle, ball color=blue!50!white, inner sep=2pt, outer sep=0pt, minimum size=3pt, font=\tiny}}
 
 \begin{document}
 
-\begin{tikzpicture}[vertexBall,edgeNone,faceStyle, face/.default=\faceColorG]
+\begin{tikzpicture}[vertexNormal,edgePlain,faceStyle, face/.default=olive!20!white]
     \def\hor{3}
     \def\ver{1}
     \def\down{4}
@@ -18,42 +19,14 @@
     \coordinate (D) at (0,-\ver);
     \coordinate (DD) at (0,-\down);
 
-    \def\swapColors{1}
-    \draw[faceSwap,edge]
+    \draw[face,edge]
         (L) -- node[edgeLabel] {2} (U) -- node[edgeLabel] {12} (R) -- (D) -- cycle
         (L) -- node[edgeLabel] {6} (D) -- (DD) -- node[edgeLabel] {8} cycle
         (D) -- node[edgeLabel] {10} (DD) -- node[edgeLabel] {15} (R) -- node[edgeLabel] {14} cycle;
 
-    \node[vertexLabel] at (L) {3};
-    \node[vertexLabel] at (U) {5};
-    \node[vertexLabel] at (R) {7};
-    \node[vertexLabel] at (D) {11};
-    \node[vertexLabel] at (DD) {13};
-
     \foreach \p/\r/\n in {L/left/3, U/above/5, R/right/7, D/above/11, DD/below/13}{
         \vertexLabelR{\p}{\r}{\n}
     }
-\end{tikzpicture}
-
-\begin{tikzpicture}[edgeStyle=nolabels, vertexStyle=nolabels, faceStyle]
-
-    \coordinate (A) at (0,0);
-    \coordinate (B) at (1,0);
-    \coordinate (C) at (1,3);
-    \coordinate (D) at (4,2);
-
-    \draw[edgePlain, edge] (A) -- (B);
-    \draw[edgeDouble, edge] (B) -- (C);
-    \draw[edge] (C) to node[edgeLabel] {2} (D);
-
-    \node[vertexNode] at (A) {5};
-    \node[vertexNode] at (B) {2};
-    \node[vertexNode] at (C) {8};
-    \node[vertexNode] at (D) {9};
-    \node[vertexLabel] at (5,0) {10};
-
-
-    \fill[face/.default] (A) -- (-1,1) -- (-1,-1) -- cycle;
 \end{tikzpicture}
 
 
