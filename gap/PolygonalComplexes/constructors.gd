@@ -83,6 +83,10 @@
 #! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
 #! be build.
 #!
+#! To use the constructor, we need to describe two incidence relations:
+#! * incidence between vertices and edges (the argument <A>verticesOfEdges</A>)
+#! * incidence between edges and faces (the argument <A>edgesOfFaces</A>)
+#!
 #! As an example, consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle, face/.default=\faceColorFirst]
@@ -90,11 +94,7 @@
 #!   \end{tikzpicture}
 #! </Alt>
 #!
-#! To use the constructor, we need to describe two incidence relations:
-#! * incidence between vertices and edges (the argument <A>verticesOfEdges</A>)
-#! * incidence between edges and faces (the argument <A>edgesOfFaces</A>)
-#!
-#! Both of these incidence relations are given as lists. The list
+#! Both of the incidence relations described above are given as lists. The list
 #! <A>verticesOfEdges</A> contains an entry for each edge of the polygonal
 #! surface. This entry contains the set
 #! of all vertices that are incident to that edge.
@@ -313,19 +313,16 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! @SectionLabel Constructors_VerticesInFaces
 #!
 #! The <E>VerticesInFaces</E>-constructors are based on
-#! the attribute <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>)
-#! and can construct any polygonal structure from chapter
-#! <Ref Chap="PolygonalStructures"/>.
-#!
-#! This constructor is only based on the incidence relation between vertices
-#! and faces. Since it takes no edge information, it has to construct the
-#! edges in some way.
-#! This is done according to two rules:
-#! * An edge is uniquely identified by its incident vertices.
-#! * If a face is given by the vertex list <M>[v_1, v_2, ..., v_k]</M> then
-#!   adjacent vertices in the list are assumed to form an edge of the face
-#!   (first and last vertex count as adjacent). In this case we would have the edges
-#!   <M>[v_1,v_2]</M>, <M>[v_2,v_3]</M>, ..., <M>[v_k,v_1]</M>.
+#! the attribute <K>CyclicVertexOrderOfFacesAsList</K> 
+#! (<Ref Subsect="CyclicVertexOrderOfFacesAsList"/>) which generalizes
+#! the attribute <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>) for
+#! non-triangular faces. 
+#! 
+#! To use the constructor we need to know the incidence relation between 
+#! vertices and faces (the edge information has to be deduced from that).
+#! Therefore it is assumed that every edge is uniquely identified by its
+#! incident vertices. Apart from this restriction, every polygonal structure
+#! from chapter <Ref Chap="PolygonalStructures"/> can be build.
 #!
 #! Consider the following polygonal surface:
 #! <Alt Only="TikZ">
@@ -333,35 +330,57 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #!     \input{Image_ConstructorExample.tex};
 #!   \end{tikzpicture}
 #! </Alt>
-#! To accurately transcribe this surface we need to know which vertices are
-#! incident to which faces. This information is given as a list with an entry
-#! for each face. The entry for a given face is a list of the incident 
-#! vertices that allows reconstruction of the edges as specified above. In this
-#! example the following list does the job:
+#!
+#! The face with number <M>4</M> is incident to the vertices <M>[3,7,11]</M>.
+#! Since the edges of a triangle are uniquely determined by its vertices, the 
+#! constructor will assume that the edges <M>[3,7]</M>, <M>[3,11]</M> and
+#! <M>[7,11]</M> exist. 
+#!
+#! The face <M>9</M> with the incident vertices 
+#! <M>[7,11,13]</M> is handled in the same way. This triangle also 
+#! contains an edge with vertices <M>7</M> and <M>11</M>, which is assumed to 
+#! be the same edge <M>[7,11]</M> of the face <M>4</M>.
+#!
+#! This deduction of edges does not work if a face is incident to more than
+#! three vertices. Here the face with number <M>1</M> is incident to four
+#! different vertices: <M>[3,5,7,13]</M>. As it is not obvious which of these
+#! are connected by edges, the method needs additional information. If the 
+#! vertices are given as the list <M>[3,5,13,7]</M>, the edges can be defined
+#! by adjacent entries in this list (the first and last entry count as 
+#! adjacent).
+#!
+#! The full rules for the edge deduction are:
+#! * An edge is uniquely identified by its incident vertices.
+#! * If a face is given by the vertex list <M>[v_1, v_2, ..., v_k]</M> then
+#!   adjacent vertices in the list are assumed to form an edge of the face
+#!   (first and last vertex count as adjacent). In this case we would have the edges
+#!   <M>[v_1,v_2]</M>, <M>[v_2,v_3]</M>, ..., <M>[v_k,v_1]</M>.
+#!
+#! The incidence information is given as a list that has an entry for each
+#! face. For every face this entry is a list of the incident vertices, where
+#! the order of the vertices in the list determines the edges (if there are
+#! more than three vertices).
 #! @ExampleSession
 #! gap> verticesInFaces := [ [3,5,13,7], , , [3,11,7], , , , , [7,11,13] ];
 #! [ [ 3, 5, 13, 7 ], , , [ 3, 11, 7 ], , , , , [ 7, 11, 13 ] ]
-#! @EndExampleSession
-#! According to our rules, the list <M>[3, 5, 13, 7]</M> defines the four edges
-#! <M>[3,5]</M>, <M>[5,13]</M>, <M>[7,13]</M> and <M>[3,7]</M> (like in the 
-#! picture).
-#!
-#! Had we given the set <M>[3, 5, 7, 13]</M> we would have gotten different
-#! edges - the method would believe that <M>[5,7]</M> is an edge although 
-#! this is not the case in the surface we want to describe. Therefore the
-#! order of the vertices in those lists is very important if the associated
-#! face has more than three vertices.
-#!
-#! @ExampleSession
 #! gap> PolygonalSurfaceByVerticesInFaces( verticesInFaces );;
 #! @EndExampleSession
 #! 
-#! These constructors also allow the optional arguments <A>vertices</A>
+#! The <E>VerticesInFaces</E>-constructors also allow the optional arguments 
+#! <A>vertices</A>
 #! and <A>faces</A>. If those sets are given, the incidence
 #! information is checked for compatibility with them. This is very useful
-#! in practice to notice typos in the incidence relations. It is also possible
-#! to give a positive integer <A>n</A> - it will be converted into the list
-#! <M>[1,...,n]</M>.
+#! in practice to notice typos in the incidence relations. 
+#! As this can be deduced from the argument <A>verticesInFaces</A> it is not
+#! necessary to give these optional arguments.
+#!
+#! In practice it is common to make mistakes in manually typing this list.
+#! Especially in a situation like this it is recommended to use the optional
+#! arguments to catch some mistakes. 
+#!
+#! To make this easier, each of these
+#! optional arguments can be replaced by a positive integer <A>n</A> (which
+#! will be interpreted as the set <M>[1,...,n]</M>).
 #! @ExampleSession
 #! gap> PolygonalSurfaceByVerticesInFaces( [3,5,7,11,13], [1,4,9], verticesInFaces );;
 #! @EndExampleSession

@@ -768,7 +768,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! @EndExampleSession
 #!
 
-#! @BeginGroup
+#! @BeginGroup CyclicVertexOrderOfFacesAsPerm
 #! @Description
 #! The operation 
 #! <K>CyclicVertexOrderOfFaceAsPerm</K>(<A>complex</A>,<A>face</A>) 
@@ -827,7 +827,7 @@ DeclareOperation( "CyclicVertexOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup CyclicVertexOrderOfFacesAsList
 #! @Description
 #! The operation 
 #! <K>CyclicVertexOrderOfFaceAsList</K>(<A>complex</A>,<A>face</A>) 
@@ -874,7 +874,7 @@ DeclareOperation( "CyclicVertexOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosI
 
 
 
-#! @BeginGroup
+#! @BeginGroup CyclicEdgeOrderOfFacesAsPerm
 #! @Description
 #! The operation 
 #! <K>CyclicEdgeOrderOfFaceAsPerm</K>(<A>complex</A>,<A>face</A>) 
@@ -933,7 +933,7 @@ DeclareOperation( "CyclicEdgeOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup CyclicEdgeOrderOfFacesAsList
 #! @Description
 #! The operation 
 #! <K>CyclicEdgeOrderOfFaceAsList</K>(<A>complex</A>,<A>face</A>) 
