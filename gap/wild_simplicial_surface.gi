@@ -3368,6 +3368,7 @@ BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
 );
 
 
+#TODO install this method also for general surfaces (without colours)
 InstallOtherMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
     [IsWildSimplicialSurface, IsString],
     function(surface, string)
@@ -3850,6 +3851,9 @@ InstallMethod( DrawSurfaceToTikz, "for a wild simplicial surface",
         # Now we write this information into several tikz-pictures
         name := Filename( DirectoryCurrent(), string );
         output := OutputTextFile( name, false ); # override other files
+        if output = fail then
+            Error(Concatenation("File ", String(name), " can't be opened.") );
+        fi;
         # Since apparently some editors format a long line into several lines
         # (and break the tex-code by that) we turn the formating off. We also
         # try to limit the amount of long lines.

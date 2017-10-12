@@ -728,12 +728,14 @@ DeclareProperty( "IsClosedSurface",
 #! @Arguments simpSurf
 #! @Returns a set of edges
 DeclareAttribute( "InnerEdges", IsSimplicialSurface );
+DeclareOperation( "IsInnerEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @Description
 #! Return the set of all border edges, that is edges with only one adjacent face.
 #! @Arguments simpSurf
 #! @Returns a set of edges
 DeclareAttribute( "BoundaryEdges", IsSimplicialSurface );
+DeclareOperation( "IsBoundaryEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @Description
 #! Return the set of all ramified edges, that is edges that have at least three
@@ -741,6 +743,7 @@ DeclareAttribute( "BoundaryEdges", IsSimplicialSurface );
 #! @Arguments simpSurf
 #! @Returns a set of edges
 DeclareAttribute( "RamifiedEdges", IsSimplicialSurface );
+DeclareOperation( "IsRamifiedEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @BeginGroup
 #! @Description
@@ -1220,6 +1223,51 @@ DeclareOperation( "StripDevelopment",
 #! @Returns a positive integer or fail
 DeclareOperation( "NeighbourFaceByEdge", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
 DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
+
+
+##
+##  Automorphism group representation
+##
+## Problem: Simultaneous permutation of vertices, edges and faces
+## Since they share labels this can't be easily represented
+## If we don't represent it as a permutation, we lose the kernel optimization
+##
+## Solution: Represent automorphisms by permutations (shiftet in the case
+## of edges and faces) and introduce a method for conversion.
+#
+# Returns a list of three permutations
+DeclareOperation( "DisplayAsAutomorphism", [IsSimplicialSurface, IsPerm] );
+DeclareOperation( "DisplayAsAutomorphismNC", [IsSimplicialSurface, IsPerm] );
+
+## cuts and mends
+DeclareOperation( "CraterCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
+DeclareOperation( "CraterMend", [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "RipCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
+DeclareOperation( "RipMend", [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "SplitCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
+DeclareOperation( "SplitMend", [IsSimplicialSurface and IsActualSurface, IsList, IsList] );
+
+## Classification of vertices
+DeclareAttribute( "InnerVertices", IsSimplicialSurface and IsEdgesLikeSurface);
+DeclareAttribute( "BoundaryVertices", IsSimplicialSurface and IsEdgesLikeSurface );
+DeclareAttribute( "RamifiedVertices", IsSimplicialSurface and IsEdgesLikeSurface );
+
+DeclareOperation( "IsInnerVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+DeclareOperation( "IsBoundaryVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+DeclareOperation( "IsRamifiedVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+
+# Helpers for cuts and mends
+DeclareAttribute( "CraterCuttableEdges", IsSimplicialSurface );
+DeclareAttribute( "RipCuttableEdges", IsSimplicialSurface );
+DeclareAttribute( "SplitCuttableEdges", IsSimplicialSurface );
+
+DeclareAttribute( "CraterMendableEdgePairs", IsSimplicialSurface );
+DeclareAttribute( "RipMendableEdgePairs", IsSimplicialSurface );
+DeclareAttribute( "SplitMendableFlagPairs", IsSimplicialSurface );
+
+
+# Connected sum, using two vertex-edge-face flags
+DeclareOperation( "ConnectedSum", [IsSimplicialSurface, IsList, IsSimplicialSurface, IsList] );
 
 #
 ###  This program is free software: you can redistribute it and/or modify
