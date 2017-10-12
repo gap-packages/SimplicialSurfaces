@@ -505,7 +505,7 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 
 ##TODO print nets of the structures in the example section (made with DrawSurfaceToTikZ)
 ##TODO better name for this section
-#! @Section Examples
+#! @Section Pre-defined structures
 #! @SectionLabel Constructors_Examples
 #! 
 #! The previous sections explained how polygonal structures can be constructed
