@@ -29,4 +29,16 @@
 #! @Section Invariants
 #! @SectionLabel Properties_Invariants
 #!
+#! TODO intro
+
+#TODO is an example needed? Does the code speak for its own?
+#! @Description
+#! Return the Euler-characteristic of the given polygonal complex.
+#! The Euler-characteristic is computed as
+#! @BeginLogSession
+#! gap> NrOfVertices(complex) - NrOfEdges(complex) + NrOfFaces(complex);
+#! @EndLogSession
 #! 
+#! @Returns an integer
+#! @Arguments complex
+DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
