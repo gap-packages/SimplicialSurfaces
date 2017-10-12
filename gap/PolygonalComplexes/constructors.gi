@@ -90,11 +90,11 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             setterNormal := wrapper(typeString, name);
 
             descriptionShort := 
-                Concatenation("for ", String(Size(namesOfLists)), " lists");
+                Concatenation("for ", String(Size(namesOfLists)), " list(s)");
             descriptionLong := 
                 Concatenation("for ", String(Size(namesOfSets)), 
                     " (sets of) positive integers and ", 
-                    String(Size(namesOfLists)), " lists");
+                    String(Size(namesOfLists)), " list(s)");
 
             # Install the short versions first
             wrapper := function( longFilter, name, setterNormal )
@@ -117,13 +117,13 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                         off := Size(namesOfSets);
                     fi;
                     for i in [1..Size(namesOfLists)] do
-                        if ForAny( arg[i+off], l -> not IsList(l) and ForAll(l, IsPosInt ) ) then
+                        if ForAny( arg[i+off], l -> not IsList(l) or ForAny(l, x -> not IsPosInt(x) ) ) then
                             Error(Concatenation(name, ": The entries of ", namesOfLists[i], " have to be lists of positive integers."));
                         fi;
                     od;
 
                     CallFuncList( preCheck, Concatenation([name], arg));
-                    obj := CallFuncList( objectConst, arg);
+                    obj := CallFuncList( objectConst, arg{[off+1..Size(arg)]});
                     postCheck(name, obj);
                     setterNormal(obj);
 
@@ -185,27 +185,28 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                         filterStd[i] := ValueGlobal("IsObject");
                         Append(description, " an object,");
                     fi;
-                    Append(description, Concatenation(" and ", String(Size(namesOfLists)), " lists"));
-
-                    # Install the methods
-                    wrapper := function( name, nameNC, description, filterStd, filterWeak, filterStrong )
-                        InstallOtherMethod( ValueGlobal(nameNC), description, filterStd, 
-                            function(arg)
-                                return CallFuncList( ValueGlobal(nameNC), 
-                                    Concatenation(arg{[1..pos-1]}, [1..arg[pos]], arg{[pos+1..Size(arg)]}));
-                            end);
-                            RedispatchOnCondition( ValueGlobal(nameNC), true,
-                                filterWeak, filterStrong, 0);
-                        InstallOtherMethod( ValueGlobal(name), description, filterStd,
-                            function(arg)
-                                return CallFuncList( ValueGlobal(name),
-                                    Concatenation(arg{[1..pos-1]}, [1..arg[pos]], arg{[pos+1..Size(arg)]}));
-                            end);
-                            RedispatchOnCondition( ValueGlobal(name), true,
-                                filterWeak, filterStrong, 0);
-                    end;
-                    wrapper(name, nameNC, description, filterStd, filterWeak, filterStrong);
                 od;
+                Append(description, Concatenation(" and ", String(Size(namesOfLists)), " list(s)"));
+                Append( filterStd, shortFilter );
+                
+                # Install the methods
+                wrapper := function( name, nameNC, description, filterStd, filterWeak, filterStrong, pos )
+                    InstallOtherMethod( ValueGlobal(nameNC), description, filterStd, 
+                        function(arg)
+                            return CallFuncList( ValueGlobal(nameNC), 
+                                Concatenation(arg{[1..pos-1]}, [[1..arg[pos]]], arg{[pos+1..Size(arg)]}));
+                        end);
+                        RedispatchOnCondition( ValueGlobal(nameNC), true,
+                            filterWeak, filterStrong, 0);
+                    InstallOtherMethod( ValueGlobal(name), description, filterStd,
+                        function(arg)
+                            return CallFuncList( ValueGlobal(name),
+                                Concatenation(arg{[1..pos-1]}, [[1..arg[pos]]], arg{[pos+1..Size(arg)]}));
+                        end);
+                        RedispatchOnCondition( ValueGlobal(name), true,
+                            filterWeak, filterStrong, 0);
+                end;
+                wrapper(name, nameNC, description, filterStd, filterWeak, filterStrong, pos);
             od;
         od;
     end
@@ -429,3 +430,61 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 ##  End edgeFacePaths
 ##
 #######################################
+
+
+
+
+#######################################
+##
+##      Example structures
+##
+InstallMethod( JanusHead, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces( 3, 2, 
+            [ [1,2,3], [1,2,3] ] );
+    end
+);
+
+InstallMethod( Tetrahedron, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces(4,4,
+            [[1,2,3],[1,2,4],[2,3,4],[1,3,4]] );
+    end
+);
+
+InstallMethod( Cube, "", [], function()
+    return PolygonalSurfaceByVerticesInFaces( 8, 6,
+        [ [1,2,3,4],[2,3,7,6],[1,2,6,5],[1,4,8,5],[3,4,8,7],[5,6,7,8] ] );
+    end
+);
+
+InstallMethod( Octahedron, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces(6,8,
+        [ [1,2,3],[1,3,4],[1,4,5],[1,2,5],[2,3,6],[3,4,6],[4,5,6],[2,5,6] ] );
+    end
+);
+
+InstallMethod( Dodecahedron, "", [], function()
+    return PolygonalSurfaceByVerticesInFaces( 20,12,
+        [ [1,2,3,4,5],[1,6,7,8,2],[2,3,10,9,8],[3,4,12,11,10],
+        [4,5,14,13,12],[1,6,15,14,5],[6,7,16,20,15],[17,9,8,7,16],
+        [17,9,10,11,18],[11,12,13,19,18],[19,13,14,15,20],[16,17,18,19,20] ] );
+    end
+);
+
+InstallMethod( Icosahedron, "", [], function()
+    return  SimplicialSurfaceByVerticesInFaces(12,20,
+		[ 	[1,2,3], [1,2,4], [1,4,5], [1,5,6],
+			[1,3,6], [2,3,7], [2,4,8], [4,9,5],
+			[5,6,10], [3,6,11], [2,7,8], [4,8,9],
+			[5,9,10], [6,10,11], [3,11,7], [7,8,12],
+			[8,9,12], [9,10,12], [10,11,12], [7,11,12]
+		] );
+    end
+);
+
+
+
+
+##
+##      End example structures
+##
+######################################
