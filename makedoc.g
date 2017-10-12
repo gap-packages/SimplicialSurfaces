@@ -406,7 +406,7 @@ AutoDoc( rec( scaffold := rec(
                     commands := ["LoadPackage(\"SimplicialSurfaces\"); SIMPLICIAL_TestAll();"]
               ),
 	      autodoc := rec( 
-                    files := [ "doc/TableOfContents.autodoc" ],
+                    files := [ ],
                     scan_dirs := ["doc", "gap", "gap/PolygonalComplexes"]),
               gapdoc := rec(
                     files := ["doc/PolygonalStructuresDefinitions.xml"]

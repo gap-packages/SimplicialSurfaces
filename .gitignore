@@ -3,6 +3,7 @@ doc/chap*
 doc/_Chapter*
 doc/title.xml
 doc/SimplicialSurfaces.tex
+doc/_AutoDocMainFile.xml
 doc/_IMAGE*
 doc/manual.pdf
 doc/manual.six
