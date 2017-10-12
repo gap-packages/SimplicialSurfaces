@@ -1201,3 +1201,15 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #TODO maybe add method EdgeFacePathOfVertex for ramified that throws an error if not unique?
 
 InstallTrueMethod( IsRamifiedPolygonalSurface, HasEdgeFacePathPartitionsOfVertices );
+
+
+#! @Section Graph interpretation
+#! @SectionLabel Access_IncidenceGraph
+#!
+#! TODO
+## How to balance the different graph packages?
+# grape is badly written, has not enough good methods but works quite stable
+# digraphs has promise but may fail to compile for unknown reasons
+# nautyTracesInterface is very restricted - can it even work with non-dense lists?
+# -> implement all of them? To guarantee stability? This is ok for isomorphism but not for automorphism group..
+# -> implement only NautyTraces? That is not a proper package (yet?) and is currently annoying to compile.
