@@ -1210,7 +1210,7 @@ DeclareOperation( "MaximalStripEmbedding",
 #! repeating itself.
 #! @Arguments surf, vertex, edge, face
 #! @Returns an edge-face-path and a simplicial surface
-DeclareOperation( "StripDevelopment",
+DeclareOperation( "GeodesicDevelopment",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt]);
 

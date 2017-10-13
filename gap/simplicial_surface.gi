@@ -4146,7 +4146,7 @@ InstallMethod( MaximalStripEmbedding, "",
         [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface,,,], 0);
 
-InstallMethod( StripDevelopment,
+InstallMethod( GeodesicDevelopment,
     "for a simplicial surface, a vertex, an edge and a face",
     [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
     IsPosInt, IsPosInt, IsPosInt],
@@ -4203,6 +4203,8 @@ InstallMethod( StripDevelopment,
             elif path[len] = path[1] and neighbour = path[2] and newBorderEdge = path[3] then
                 # finished
                 break;
+            elif Size(path) > 6*NrOfFaces(surf) then
+                Error("GeodesicDevelopment: Inconsistent surface input.");
             fi;
 
             Append( path, [neighbour, newBorderEdge] );
@@ -4212,11 +4214,11 @@ InstallMethod( StripDevelopment,
         return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces))];
     end
 );
-    RedispatchOnCondition( StripDevelopment, true,
+    RedispatchOnCondition( GeodesicDevelopment, true,
         [IsSimplicialSurface,IsPosInt, IsPosInt,IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface,,,], 0);
 
-InstallOtherMethod( StripDevelopment,
+InstallOtherMethod( GeodesicDevelopment,
     "for a simplicial surface, a vertex and a face",
     [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
     IsPosInt, IsPosInt],
@@ -4235,10 +4237,10 @@ InstallOtherMethod( StripDevelopment,
             Error("Given vertex is not incident to given face.");
         fi;
         
-        return StripDevelopment(surf, vertex, edges[1], face);
+        return GeodesicDevelopment(surf, vertex, edges[1], face);
     end
-);
-    RedispatchOnCondition( StripDevelopment, true,
+ );
+    RedispatchOnCondition( GeodesicDevelopment, true,
         [IsSimplicialSurface, IsPosInt, IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface, ,], 0);
 
