@@ -145,3 +145,13 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 DeclareProperty( "IsClosedSurface", IsPolygonalComplex and IsRamifiedPolygonalSurface );
 ## We can't use IsClosed since this is blocked by the orb-package
 
+
+#TODO connectivity
+
+#TODO orientability
+
+#TODO automorphism/isomorphism
+
+#TODO properties vertices
+
+# TODO properties edges

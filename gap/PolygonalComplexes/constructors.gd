@@ -10,7 +10,7 @@
 ##
 #############################################################################
 
-#! @Chapter Constructing surfaces
+#! @Chapter Constructing surfaces by their incidence structure
 #! @ChapterLabel Constructors
 #!
 #! In chapter <Ref Chap="PolygonalStructures"/> we introduced polygonal
