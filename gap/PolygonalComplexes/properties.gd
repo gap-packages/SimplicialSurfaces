@@ -268,6 +268,28 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 # isomorphism test
 # refer back to incidence graph
 
-#TODO properties vertices
+#! Section Types of vertices
+#! SectionLabel Properties_VertexTypes
+#! 
+#TODO improve this description
+#! The vertices of a polygonal complex (defined in 
+#! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
+#! positions. This can be seen in the example of the five-star (which was
+#! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_FiveTrianglesInCycle.tex};
+#!   \end{tikzpicture}
+#! </Alt>
+#! The vertex 1 is the only vertex that is completely surrounded by faces. It
+#! is called an <E>inner vertex</E> while the other vertices of the five-star
+#! are <E>boundary vertices</E>. This classifies all vertices of a polygonal
+#! surface.
+#!
+#! In general there are more than these two possibilities. In the case
+#TODO what are RamifiedVertices? More than one edge-face-path (even if some of them are open/closed);
+# or more general: vertex of a ramified edge? Should the vertex of a ramified edge
+# be ramified (probably not). How should it be called?
+#TODO to make this possible, we have to generalize EdgeFacePaths -> also allow fail
 
 # TODO properties edges
