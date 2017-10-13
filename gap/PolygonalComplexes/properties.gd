@@ -29,7 +29,9 @@
 #! @Section Invariants
 #! @SectionLabel Properties_Invariants
 #!
-#! TODO intro
+#! This section collects invariants of polygonal complexes.
+#!
+#! TODO
 
 #TODO is an example needed? Does the code speak for its own?
 #! @Description
@@ -38,6 +40,24 @@
 #! @BeginLogSession
 #! gap> NrOfVertices(complex) - NrOfEdges(complex) + NrOfFaces(complex);
 #! @EndLogSession
+#! As an example, consider the following simplicial surface:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_FiveTrianglesInCycle.tex};
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> complex := SimplicialSurfaceByVerticesInFaces( 6, 5, 
+#! >                [ [1,2,3], [1,3,4], [1,4,5], [1,5,6], [1,2,6] ] );;
+#! gap> NrOfVertices(complex);
+#! 6
+#! gap> NrOfEdges(complex);
+#! 10
+#! gap> NrOfFaces(complex);
+#! 5
+#! gap> EulerCharacteristic(complex);
+#! 1
+#! @EndExampleSession
 #! 
 #! @Returns an integer
 #! @Arguments complex

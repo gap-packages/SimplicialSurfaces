@@ -1,0 +1,21 @@
+\def\r{2}
+
+\coordinate (Z) at (0,0);
+\foreach \i in {1,...,5}{
+    \coordinate (P\i) at (90+\i*72:\r);
+}
+
+\draw[edge, face]
+    (Z) -- (P4) -- (P5) -- cycle
+    (Z) -- (P4) -- (P3) -- cycle
+    (Z) -- (P3) -- (P2) -- cycle
+    (Z) -- (P2) -- (P1) -- cycle
+    (Z) -- (P1) -- (P5) -- cycle;
+
+\foreach \p/\r/\n in {P1/left/6, P2/left/5, P3/right/4, P4/right/3, P5/above/2, Z/below/1}{
+    \vertexLabelR{\p}{\r}{\n}
+}
+
+\foreach \p/\q/\n in {P1/P2/IV, P2/P3/III, P3/P4/II, P4/P5/I, P5/P1/V}{
+    \node[faceLabel] at (barycentric cs:Z=1,\p=1,\q=1) {\n};
+}
