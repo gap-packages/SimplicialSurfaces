@@ -88,7 +88,7 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
 );
 
 InstallMethod( IsClosedSurface, "for a ramified polygonal surface",
-    [IsPolygonalComplex and IsRamifiedPolygonalSurface],
+    [IsRamifiedPolygonalSurface],
     function( ramSurf )
         return ForAll( List( FacesOfEdges(ramSurf), Size ), i -> i=2 );
     end

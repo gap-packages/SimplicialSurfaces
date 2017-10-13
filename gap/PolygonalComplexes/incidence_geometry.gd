@@ -251,7 +251,7 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! [ [ 2, 3, 5 ], , , [ 3, 5, 7, 11 ] ];
 #! @EndExampleSession
 #! The first entry of this list contains a set of all vertices that are
-#! incident to face I. The second and third entries are not bounded since
+#! incident to face I. The second and third entries are not bound since
 #! there are no faces II and III. Finally, the fourth entry contains all
 #! vertices that are incident to face IV.
 #! 
@@ -281,7 +281,7 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #! sets in a list that is indexed by the vertex labels, i.e.
 #! <K>EdgesOfVertices</K>(<A>complex</A>)[<A>vertex</A>] = 
 #! <K>EdgesOfVertex</K>(<A>complex</A>, <A>vertex</A>).
-#! All other positions of this list are not bounded.
+#! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
@@ -320,7 +320,7 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! sets in a list that is indexed by the vertex labels, i.e.
 #! <K>FacesOfVertices</K>(<A>complex</A>)[<A>vertex</A>] = 
 #! <K>FacesOfVertex</K>(<A>complex</A>, <A>vertex</A>).
-#! All other positions of this list are not bounded.
+#! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
@@ -358,7 +358,7 @@ DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! sets in a list that is indexed by the edge labels, i.e.
 #! <K>VerticesOfEdges</K>(<A>complex</A>)[<A>edge</A>] = 
 #! <K>VerticesOfEdge</K>(<A>complex</A>, <A>edge</A>).
-#! All other positions of this list are not bounded.
+#! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
@@ -396,7 +396,7 @@ DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! sets in a list that is indexed by the edge labels, i.e.
 #! <K>FacesOfEdges</K>(<A>complex</A>)[<A>edge</A>] = 
 #! <K>FacesOfEdge</K>(<A>complex</A>, <A>edge</A>).
-#! All other positions of this list are not bounded.
+#! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
@@ -435,7 +435,7 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! sets in a list that is indexed by the face labels, i.e.
 #! <K>VerticesOfFaces</K>(<A>complex</A>)[<A>face</A>] = 
 #! <K>VerticesOfFace</K>(<A>complex</A>, <A>face</A>).
-#! All other positions of this list are not bounded.
+#! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
@@ -474,7 +474,7 @@ DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! sets in a list that is indexed by the face labels, i.e.
 #! <K>EdgesOfFaces</K>(<A>complex</A>)[<A>face</A>] = 
 #! <K>EdgesOfFace</K>(<A>complex</A>, <A>face</A>).
-#! All other positions of this list are not bounded.
+#! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
@@ -785,7 +785,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! labels, i.e. 
 #! <K>CyclicVertexOrderOfFacesAsPerm</K>(<A>complex</A>)[<A>face</A>]
 #! = <K>CyclicVertexOrderOfFaceAsPerm</K>(<A>complex</A>, <A>face</A>). All
-#! other positions of this list are not bounded.
+#! other positions of this list are not bound.
 #! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
@@ -845,7 +845,7 @@ DeclareOperation( "CyclicVertexOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! labels, i.e. 
 #! <K>CyclicVertexOrderOfFacesAsList</K>(<A>complex</A>)[<A>face</A>]
 #! = <K>CyclicVertexOrderOfFaceAsList</K>(<A>complex</A>, <A>face</A>). All
-#! other positions of this list are not bounded.
+#! other positions of this list are not bound.
 #! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
@@ -891,7 +891,7 @@ DeclareOperation( "CyclicVertexOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosI
 #! labels, i.e. 
 #! <K>CyclicEdgeOrderOfFacesAsPerm</K>(<A>complex</A>)[<A>face</A>]
 #! = <K>CyclicEdgeOrderOfFaceAsPerm</K>(<A>complex</A>, <A>face</A>). All
-#! other positions of this list are not bounded.
+#! other positions of this list are not bound.
 #! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
@@ -951,7 +951,7 @@ DeclareOperation( "CyclicEdgeOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! labels, i.e. 
 #! <K>CyclicEdgeOrderOfFacesAsList</K>(<A>complex</A>)[<A>face</A>]
 #! = <K>CyclicEdgeOrderOfFaceAsList</K>(<A>complex</A>, <A>face</A>). All
-#! other positions of this list are not bounded.
+#! other positions of this list are not bound.
 #! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
@@ -1059,7 +1059,7 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! of those edge-face-paths in a list that is indexed by the vertex labels,
 #! i.e. <K>EdgeFacePathsOfVertices</K>(<A>surface</A>)[<A>vertex</A>] = 
 #! <K>EdgeFacePathOfVertex</K>(<A>surface</A>, <A>vertex</A>). All other 
-#! positions of this list are not bounded.
+#! positions of this list are not bound.
 #! 
 #! The NC-version does not check whether the given <A>vertex</A> lies in the
 #! given <A>surface</A>.
@@ -1159,7 +1159,7 @@ InstallTrueMethod( IsPolygonalSurface, HasEdgeFacePathsOfVertices );
 #! labels), i.e. 
 #! <K>EdgeFacePathPartitionsOfVertices</K>(<A>ramSurf</A>)[<A>vertex</A>] =
 #! <K>EdgeFacePathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>).
-#! All other positions of this list are not bounded.
+#! All other positions of this list are not bound.
 #! 
 #! If you have a <E>polygonal surface</E>, all partition will only consist of
 #! one element. In this case, the methods
