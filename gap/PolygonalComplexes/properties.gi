@@ -46,7 +46,7 @@ InstallMethod( VertexCounter, "for a polygonal complex with computed EdgeCounter
         local symbol, i, j, edgeCounter, sum;
 
         symbol := [];
-        edgeCounter := EdgeCounter(surf);
+        edgeCounter := EdgeCounter(complex);
         for i in [1..Size(edgeCounter)] do
             sum := edgeCounter[i][i];   # This is counted twice
             for j in [1..Size(edgeCounter)] do
@@ -67,16 +67,16 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
     function(complex)
         local edgeDegrees, max, edge, symbol, degs;
 
-        edgeDegrees := List( EdgesOfVertices(simpSurf), Size );
-        if NrOfEdges(simpSurf) = 0 then
+        edgeDegrees := List( EdgesOfVertices(complex), Size );
+        if NrOfEdges(complex) = 0 then
             return [];
         fi;
         max := Maximum( edgeDegrees ); # bigger than zero since edges exist
 
         # Set up the matrix
         symbol := List( [1..max], i -> List( [1..max], j -> 0 ) );
-        for edge in Edges(simpSurf) do
-            degs := List( VerticesOfEdges(simpSurf)[edge], v -> edgeDegrees[v] );
+        for edge in Edges(complex) do
+            degs := List( VerticesOfEdges(complex)[edge], v -> edgeDegrees[v] );
             symbol[ degs[1] ][ degs[2] ] := symbol[degs[1]][degs[2]] + 1;
             if degs[1] <> degs[2] then
                 symbol[ degs[2] ][ degs[1] ] := symbol[degs[2]][degs[1]] + 1;
@@ -84,6 +84,22 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
         od;
 
         return symbol;
+    end
+);
+
+InstallMethod( IsClosedSurface, "for a ramified polygonal surface",
+    [IsPolygonalComplex and IsRamifiedPolygonalSurface],
+    function( ramSurf )
+        return ForAll( List( FacesOfEdges(ramSurf), Size ), i -> i=2 );
+    end
+);
+InstallOtherMethod( IsClosedSurface, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        if not IsRamifiedPolygonalSurface(complex) then
+            Error("IsClosed: Given polygonal complex is not a ramified polygonal surface.");
+        fi;
+        return IsClosed(complex); # Call the function above
     end
 );
 

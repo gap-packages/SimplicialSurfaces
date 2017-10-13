@@ -112,3 +112,36 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 #! @Returns a matrix of positive integers
 #! @Arguments complex
 DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
+
+
+#! @Description
+#! Check whether the given ramified polygonal surface is <E>closed</E>.
+#! A ramified surface is closed if every edge is incident to <E>exactly</E> 
+#! two
+#! faces (whereas a polygonal complex is a ramified polygonal surface if 
+#! every edge is incident to <E>at most</E> two faces).
+#!
+#! For example, the platonic solids are closed.
+#! @ExampleSession
+#! gap> IsClosed( Octahedron() );
+#! true
+#! gap> IsClosed( Dodecahedron() );
+#! true
+#! @EndExampleSession
+#! In contrast, the following simplicial surface is not closed.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_FiveTrianglesInCycle.tex};
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> ramSurf := SimplicialSurfaceByVerticesInFaces( 6, 5, 
+#! >                [ [1,2,3], [1,3,4], [1,4,5], [1,5,6], [1,2,6] ] );;
+#! gap> IsClosed(ramSurf);
+#! false
+#! @EndExampleSession
+#!
+#! @Arguments ramSurf
+DeclareProperty( "IsClosedSurface", IsPolygonalComplex and IsRamifiedPolygonalSurface );
+## We can't use IsClosed since this is blocked by the orb-package
+
