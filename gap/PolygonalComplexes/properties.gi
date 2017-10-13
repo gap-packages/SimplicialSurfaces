@@ -22,6 +22,77 @@ InstallMethod( EulerCharacteristic, "for a polygonal complex",
     end
 );
 
+InstallMethod( IsClosedSurface, "for a ramified polygonal surface",
+    [IsRamifiedPolygonalSurface],
+    function( ramSurf )
+        return ForAll( List( FacesOfEdges(ramSurf), Size ), i -> i=2 );
+    end
+);
+InstallOtherMethod( IsClosedSurface, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        if not IsRamifiedPolygonalSurface(complex) then
+            Error("IsClosed: Given polygonal complex is not a ramified polygonal surface.");
+        fi;
+        return IsClosed(complex); # Call the function above
+    end
+);
+
+##
+##      End of invariants
+##
+#######################################
+
+
+#######################################
+##
+##      Degree-based properties
+##
+
+InstallMethod( EdgeDegreesOfVertices, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        return List( EdgesOfVertices(complex), Size );
+    end
+);
+InstallMethod( EdgeDegreeOfVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function( complex, vertex )
+        return EdgeDegreesOfVertices(complex)[vertex];
+    end
+);
+InstallMethod( EdgeDegreeOfVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function( complex, vertex )
+        __SIMPLICIAL_CheckVertex(complex, vertex, "EdgeDegreeOfVertex");
+        return EdgeDegreeOfVertexNC(complex, vertex);
+    end
+);
+
+
+InstallMethod( FaceDegreesOfVertices, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        return List( FacesOfVertices(complex), Size );
+    end
+);
+InstallMethod( FaceDegreeOfVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function( complex, vertex )
+        return FaceDegreesOfVertices(complex)[vertex];
+    end
+);
+InstallMethod( FaceDegreeOfVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function( complex, vertex )
+        __SIMPLICIAL_CheckVertex(complex, vertex, "FaceDegreeOfVertex");
+        return FaceDegreeOfVertexNC(complex, vertex);
+    end
+);
+
+
+
+
 InstallMethod( VertexCounter, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
@@ -87,23 +158,8 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
     end
 );
 
-InstallMethod( IsClosedSurface, "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
-    function( ramSurf )
-        return ForAll( List( FacesOfEdges(ramSurf), Size ), i -> i=2 );
-    end
-);
-InstallOtherMethod( IsClosedSurface, "for a polygonal complex",
-    [IsPolygonalComplex],
-    function(complex)
-        if not IsRamifiedPolygonalSurface(complex) then
-            Error("IsClosed: Given polygonal complex is not a ramified polygonal surface.");
-        fi;
-        return IsClosed(complex); # Call the function above
-    end
-);
 
 ##
-##      End of invariants
+##      End of degrees
 ##
 #######################################

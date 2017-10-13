@@ -426,7 +426,7 @@ gap&gt; VerticesOfFaces(surf);
         By using the incidence-structure we can distinguish vertices that lie 
         in a different number of faces.
 <Example>
-gap&gt; UnsortedDegrees(surf);
+gap&gt; FaceDegreesOfVertices(surf);
 [ 1, 2, 3, 2, 1]
 </Example>
         The first entry of this list counts the number of faces that are
