@@ -4254,6 +4254,7 @@ InstallMethod( Geodesics, "for a simplicial surface",
                 f -> List( Combinations(EdgesOfFaces(surface)[f],2),
                               c -> [c[1],f,c[2]] ) ) );
             vertOfEdge := VerticesOfEdges(surface);
+    return true;
 
             geodesics := [];
             while Size(triples) > 0 do
