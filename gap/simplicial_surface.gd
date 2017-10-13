@@ -1210,9 +1210,23 @@ DeclareOperation( "MaximalStripEmbedding",
 #! repeating itself.
 #! @Arguments surf, vertex, edge, face
 #! @Returns an edge-face-path and a simplicial surface
-DeclareOperation( "GeodesicDevelopment",
+DeclareOperation( "Geodesic",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt]);
+    #TODO IsGeodesic, IsOpenGeodesic, IsClosedGeodesic (also nC)
+
+#! @Description
+#! Return the set of all geodesics. Each geodesic is given in 
+#! normal form, defined by:
+#! * The smallest face is at position 2
+#! * Under the first condition, the third position is minimal
+#! * Under the first two conditions (only in the loop-case), the first
+#!   position is minimal
+#!
+#! @Returns a set of edge-face-paths
+#! @Arguments surface
+DeclareAttribute( "Geodesics", IsSimplicialSurface and IsTriangleSurface
+ and IsActualSurface);
 
 
 #TODO this should be further up but IsEdgesLikeSurface has to be read first

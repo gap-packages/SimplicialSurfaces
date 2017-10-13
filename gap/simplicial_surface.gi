@@ -4146,7 +4146,7 @@ InstallMethod( MaximalStripEmbedding, "",
         [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface,,,], 0);
 
-InstallMethod( GeodesicDevelopment,
+InstallMethod( Geodesic,
     "for a simplicial surface, a vertex, an edge and a face",
     [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
     IsPosInt, IsPosInt, IsPosInt],
@@ -4182,6 +4182,7 @@ InstallMethod( GeodesicDevelopment,
         traversedFaces := [face];
         pivotVert := vertex;
 
+        #TODO keep minimal triple(pos) in mind
         reversed := false; # Used for the direction of the extension
         while( true ) do
             # Try to extend the path
@@ -4204,7 +4205,7 @@ InstallMethod( GeodesicDevelopment,
                 # finished
                 break;
             elif Size(path) > 6*NrOfFaces(surf) then
-                Error("GeodesicDevelopment: Inconsistent surface input.");
+                Error("Geodesic: Inconsistent surface input.");
             fi;
 
             Append( path, [neighbour, newBorderEdge] );
@@ -4214,11 +4215,11 @@ InstallMethod( GeodesicDevelopment,
         return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces))];
     end
 );
-    RedispatchOnCondition( GeodesicDevelopment, true,
+    RedispatchOnCondition( Geodesic, true,
         [IsSimplicialSurface,IsPosInt, IsPosInt,IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface,,,], 0);
 
-InstallOtherMethod( GeodesicDevelopment,
+InstallOtherMethod( Geodesic,
     "for a simplicial surface, a vertex and a face",
     [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
     IsPosInt, IsPosInt],
@@ -4237,12 +4238,37 @@ InstallOtherMethod( GeodesicDevelopment,
             Error("Given vertex is not incident to given face.");
         fi;
         
-        return GeodesicDevelopment(surf, vertex, edges[1], face);
+        return Geodesic(surf, vertex, edges[1], face);
     end
  );
-    RedispatchOnCondition( GeodesicDevelopment, true,
+    RedispatchOnCondition( Geodesic, true,
         [IsSimplicialSurface, IsPosInt, IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface, ,], 0);
+
+InstallMethod( Geodesics, "for a simplicial surface",
+        [IsSimplicialSurface and IsTriangleSurface and IsActualSurface],
+        function(surface)
+            local triples, tr, geodesics, vertex, geo, vertOfEdge;
+
+            triples := Union( List( Faces(surface),
+                f -> List( Combinations(EdgesOfFaces(surface)[f],2),
+                              c -> [c[1],f,c[2]] ) ) );
+            vertOfEdge := VerticesOfEdges(surface);
+
+            geodesics := [];
+            while Size(triples) > 0 do
+               tr := triples[1];
+               geo := Geodesic( surface, 
+                  Intersection(vertOfEdge[tr[1]], vertOfEdge[tr[3]] )[1],
+                  tr[3], tr[2] )[1];
+                  #TODO write this as alternative input
+
+               
+            od;
+
+            return geodesics;
+        end
+);
 
 ##
 ##      Automorphisms
