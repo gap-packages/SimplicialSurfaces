@@ -27,3 +27,6 @@
 # CommonCover
 # DualSurface
 # AddVertexIntoEdge (and the rest of Jesse's stuf)
+
+DeclareOperation( "SubcomplexByFaces", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "SubcomplexByFacesNC", [IsPolygonalComplex, IsSet] );

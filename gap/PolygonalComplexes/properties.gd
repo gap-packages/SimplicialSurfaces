@@ -270,7 +270,7 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! * Determine the (strongly) connected components of a polygonal complex TODO ref
 #!
 #! It is important to note that there are actually two different notions of
-#! connectivity, as can be seen in the following example:
+#! connectivity (for non-surfaces), as can be seen in the following example:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
 #!      \input{Image_ButterflyOfTriangles.tex}
@@ -280,7 +280,8 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! gap> butterfly := RamifiedSimplicialSurface( 7, 4,
 #! > [ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;
 #! @EndExampleSession
-#! Under the usual definition of connectivity this example is
+#! Under the usual definition of connectivity (i.e. the incidence graph from
+#! TODO is connected) this example is
 #! connected.
 #! @ExampleSession
 #! gap> IsConnected( butterfly );
@@ -304,12 +305,16 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! @EndExampleSession
 #!
 
+#TODO examples for ConnectedComponents
+
 #! @BeginGroup IsConnected
 #! @Description
-#! Check whether the given polygonal complex is connected.
+#! Check whether the given polygonal complex is connected. A polygonal complex
+#! is connected if and only if its incidence graph (compare TODO) is 
+#! connected.
 #!
-#! For example, consider the example from the start of section
-#! <Ref Sect="Properties_Connectivity"/>:
+#! For example, consider the ramified simplicial surface from the start of 
+#! section <Ref Sect="Section_Properties_Connectivity"/>:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
 #!     \input{Image_ButterflyOfTriangles.tex}
@@ -327,12 +332,73 @@ DeclareProperty( "IsConnected", IsPolygonalComplex );
 #! @BeginGroup ConnectedComponents
 #! @Description
 #! Return a list of the connected components of the given polygonal complex 
-#! (as polygonal complexes).
+#! (as polygonal complexes). They correspond to the connected components
+#! of the incidence graph (compare TODO).
 #!
-#! 
-
+#! If a face of the polygonal complex is given as an additional argument,
+#! only the connected component containing that face is returned. The 
+#! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
+#!
+#! @Returns a list of polygonal complexes
+#! @Arguments complex
+DeclareOperation( "ConnectedComponentsOfComplex", [IsPolygonalComplex] );
+#! @Arguments complex
+DeclareAttribute( "ConnectedComponentsAttributeOfPolygonalComplex", IsPolygonalComplex );
+#! @Returns a polygonal complex
+#! @Arguments complex, face
+DeclareOperation( "ConnectedComponentOfFace", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "ConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
+
+#! @BeginGroup IsStronglyConnected
+#! @Description
+#! Check whether the given polygonal complex is strongly connected. A polygonal 
+#! complex
+#! is strongly connected if and only if one of the following equivalent 
+#! conditions hold:
+#! * It is still connected after removal of all vertices. 
+#! * For each pair of faces there is an edge-face-path (compare section 
+#!   <Ref Sect="Section_Access_OrderedVertexAccess"/>) that connects them.
+#!
+#! For example, consider the ramified simplicial surface from the start of 
+#! section <Ref Sect="Section_Properties_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsStronglyConnected( butterfly );
+#! false
+#! @EndExampleSession
+#! 
+#! @Arguments complex
+DeclareProperty( "IsStronglyConnected", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup StronglyConnectedComponents
+#! @Description
+#! Return a list of the strongly connected components of the given polygonal 
+#! complex 
+#! (as polygonal complexes).
+#!
+#! If a face of the polygonal complex is given as an additional argument,
+#! only the strongly connected component containing that face is returned. The 
+#! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
+#!
+#! @Returns a list of polygonal complexes
+#! @Arguments complex
+DeclareOperation( "StronglyConnectedComponents", [IsPolygonalComplex] );
+#! @Arguments complex
+DeclareAttribute( "StronglyConnectedComponentsAttributeOfPolygonalComplex", IsPolygonalComplex );
+#! @Returns a polygonal complex
+#! @Arguments complex, face
+DeclareOperation( "StronglyConnectedComponentOfFace", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
 
 
 #TODO orientability
