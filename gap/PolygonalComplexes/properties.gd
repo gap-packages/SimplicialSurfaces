@@ -259,7 +259,37 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 
 
-#TODO connectivity
+#! @Section Connectivity
+#! @SectionLabel Properties_Connectivity
+#!
+#! This section contains methods that deal with the connectivity of polygonal
+#! complexes (a generalisation of simplicial surfaces, compare chapter 
+#! <Ref Chap="PolygonalStructures"/>). More specifically it contains these
+#! capabilities:
+#! * Determine if a polygonal complex is (strongly) connected TODO ref
+#! * Determine the (strongly) connected components of a polygonal complex TODO ref
+#!
+#! It is important to note that there are actually two different notions of
+#! connectivity, as can be seen in the following examples:
+#! <Alt Only="TikZ">
+#!   \input{Image_RamifiedExamples.tex}
+#! </Alt>
+#! Under the usual definition of connectivity both of those examples are
+#! connected. But in several situations it is convenient to regard these
+#! examples as disconnected, with the following connected components:
+#! <Alt Only="TikZ">
+#!    {
+#!       \def\swapColors{1}
+#!       \input{Image_RamifiedExamples.tex}
+#!    }
+#! </Alt>
+#! This notion of connectivity is called <E>strong connectivity</E>. 
+#! A polygonal complex is strongly connected if and only if the polygonal 
+#! complex without
+#! its vertices is connected.
+#!
+#! 
+#!   
 
 #TODO orientability
 

@@ -91,8 +91,6 @@ InstallMethod( FaceDegreeOfVertex, "for a polygonal complex and a vertex",
 );
 
 
-
-
 InstallMethod( VertexCounter, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
@@ -158,12 +156,37 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
     end
 );
 
-
 ##
 ##      End of degrees
 ##
 #######################################
 
+
+#######################################
+##
+##      Connectivity
+##
+
+
+
+##
+##      End of connectivity
+##
+#######################################
+
+
+
+#######################################
+##
+##      Orientability
+##
+
+
+
+##
+##      End of orientability
+##
+#######################################
 
 
 
