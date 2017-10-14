@@ -1,0 +1,8 @@
+UnsortedDegrees
+    removed, replaced by EdgeDegreesOfVertices and FaceDegreesOfVertices
+
+SortedDegrees
+    removed
+
+LocalOrientation*
+    removed, replaced by CyclicOrderOfVertices*
