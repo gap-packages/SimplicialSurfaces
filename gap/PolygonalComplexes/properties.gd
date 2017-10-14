@@ -270,26 +270,70 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! * Determine the (strongly) connected components of a polygonal complex TODO ref
 #!
 #! It is important to note that there are actually two different notions of
-#! connectivity, as can be seen in the following examples:
+#! connectivity, as can be seen in the following example:
 #! <Alt Only="TikZ">
-#!   \input{Image_RamifiedExamples.tex}
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
 #! </Alt>
-#! Under the usual definition of connectivity both of those examples are
-#! connected. But in several situations it is convenient to regard these
-#! examples as disconnected, with the following connected components:
+#! @ExampleSession
+#! gap> butterfly := RamifiedSimplicialSurface( 7, 4,
+#! > [ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;
+#! @EndExampleSession
+#! Under the usual definition of connectivity this example is
+#! connected.
+#! @ExampleSession
+#! gap> IsConnected( butterfly );
+#! true
+#! @EndExampleSession
+#! But in several situations it is convenient to regard this
+#! example as disconnected, with the following connected components:
 #! <Alt Only="TikZ">
-#!    {
+#!    \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
 #!       \def\swapColors{1}
-#!       \input{Image_RamifiedExamples.tex}
-#!    }
+#!       \input{Image_ButterflyOfTriangles.tex}
+#!    \end{tikzpicture}
 #! </Alt>
 #! This notion of connectivity is called <E>strong connectivity</E>. 
 #! A polygonal complex is strongly connected if and only if the polygonal 
 #! complex without
 #! its vertices is connected.
+#! @ExampleSession
+#! gap> IsStronglyConnected( butterfly );
+#! false
+#! @EndExampleSession
+#!
+
+#! @BeginGroup IsConnected
+#! @Description
+#! Check whether the given polygonal complex is connected.
+#!
+#! For example, consider the example from the start of section
+#! <Ref Sect="Properties_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsConnected( butterfly );
+#! true
+#! @EndExampleSession
+#! 
+#! @Arguments complex
+DeclareProperty( "IsConnected", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup ConnectedComponents
+#! @Description
+#! Return a list of the connected components of the given polygonal complex 
+#! (as polygonal complexes).
 #!
 #! 
-#!   
+
+#! @EndGroup
+
+
 
 #TODO orientability
 

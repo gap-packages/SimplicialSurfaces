@@ -18,3 +18,11 @@
 \draw[faceSwap, edge]
     (A) -- (E) -- (F) -- cycle
     (A) -- (F) -- (G) -- cycle;
+
+\foreach \p/\r/\n in {A/below/1, D/above/2, C/left/3, B/below/4, G/below/5, F/right/6, E/above/7}{
+    \vertexLabelR{\p}{\r}{\n}
+}
+
+\foreach \p/\q/\n in {B/C/III, C/D/I, F/G/IV, E/F/II}{
+    \node[faceLabel] at (barycentric cs:A=1,\p=1,\q=1) {\n};
+}
