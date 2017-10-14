@@ -308,6 +308,233 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #TODO remark that most of these constructors also check for some properties
 
 
+#! @Section UpwardIncidence
+#! @SectionLabel Constructors_UpwardIncidence
+#!
+#! The <E>UpwardIncidence</E>-constructors are based on
+#! the attributes <K>EdgesOfVertices</K> (<Ref Subsect="EdgesOfVertices"/>) 
+#! and <K>FacesOfEdges</K> (<Ref Subsect="FacesOfEdges"/>). From these
+#! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
+#! be build.
+#!
+#! To use the constructor, we need to describe two incidence relations:
+#! * incidence between edges and vertices (the argument <A>edgesOfVertices</A>)
+#! * incidence between faces and edges (the argument <A>facesOfEdges</A>)
+#!
+#! As an example, consider the following polygonal surface:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle, face/.default=\faceColorSecond]
+#!     \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#!
+#! Both of the incidence relations described above are given as lists. The list
+#! <A>edgesOfVertices</A> contains an entry for each vertex of the polygonal
+#! surface. This entry contains the set
+#! of all edges that are incident to that vertex.
+#! @ExampleSession
+#! gap> edgesOfVertices := [,, [2,6,8],, [2,12],, [6,10,14],,,, [8,10,15],, [12,14,15] ];
+#! [ , ,  [ 2, 6, 8 ], , [ 2, 12 ], , [ 6, 10, 14 ], , , , [ 8, 10, 15 ], , [ 12, 14, 15 ] ]
+#! @EndExampleSession
+#! Similarly the list <A>facesOfEdges</A> has an entry for each edge with the
+#! set of incident faces.
+#! @ExampleSession
+#! gap> facesOfEdges := [ , [1], , , , [1,4], , [4], , [4,9], , [1], , [1,9], [9] ];
+#! [ , [ 1 ], , , , [ 1, 4 ], , [ 4 ], , [ 4, 9 ], , [ 1 ], , [ 1, 9 ], [ 9 ] ]
+#! @EndExampleSession
+#! With these two lists we can construct the desired polygonal surface.
+#! @ExampleSession
+#! gap> PolygonalSurfaceByUpwardIncidence( edgesOfVertices, facesOfEdges );;
+#! @EndExampleSession
+#! 
+#! The <E>UpwardIncidence</E>-constructors also allow the optional arguments 
+#! <A>vertices</A>,
+#! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
+#! information is checked for compatibility with them. This is not strictly 
+#! necessary since this information can be deduced from the lists
+#! <A>edgesOfVertices</A> and <A>facesOfEdges</A>.
+#!
+#! In practice it is common to make mistakes in manually giving these lists.
+#! Especially in such situations it is recommended to use the optional 
+#! arguments as they might catch some mistakes.
+#!
+#! To make giving these lists easier, each of these sets can be replaces by
+#! a positive integer <A>n</A>, which will be interpreted as the set
+#! <M>[1,...,n]</M>.
+#! @ExampleSession
+#! gap> PolygonalSurfaceByUpwardIncidence( [3,5,7,11,13], [2,6,8,10,12,14,15], 
+#! >     [1,4,9], edgesOfVertices, facesOfEdges );;
+#! @EndExampleSession
+#! 
+#! The name <E>UpwardIncidence</E> stems from the fact that the incidence
+#! relation is given by referring to structures of higher dimension  - a vertex
+#! (dimension 0) is defined by its edges (dimension 1) and an edge 
+#! is defined by faces (dimension 2).
+
+#TODO should the presentation be changed? (See above TODO);
+
+
+## Here we write part of the documentation that is the same over the 
+## different versions
+#! @BeginChunk Documentation_UpwardIncidence
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
+#! <K>EdgesOfVertices</K> (<Ref Subsect="EdgesOfVertices"/>) and 
+#! <K>FacesOfEdges</K> (<Ref Subsect="FacesOfEdges"/>) and takes these
+#! arguments:
+#! <Enum>
+#!   <Item>OPTIONAL: Each of the optional arguments <A>vertices</A>, 
+#!          <A>edges</A> and <A>faces</A> is either a set of positive
+#!          integers or a positive integer. In the latter case, an integer
+#!          <M>n</M> represents the set <M>[1,...,n]</M>.
+#!          
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>edgesOfVertices</K>: A list that has an entry for each vertex (a
+#!          positive integer).
+#!          This entry has to be a list of the incident
+#!          edges (as positive integers) of this vertex.</Item>
+#!   <Item> <K>facesOfEdges</K>: A list that has an entry for each edge (a
+#!          positive integer).
+#!          This entry has to be a list of the incident faces 
+#!          (as positive integers) of this edge.</Item>
+#! </Enum>
+#!
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be
+#! performed by the NC-version.
+#! * Are the optional arguments <A>vertices</A>, <A>edges</A> and <A>faces</A>
+#!   either positive integers or sets of positive integers?
+#! * Are <A>edgesOfVertices</A> and <A>facesOfEdges</A> lists where the 
+#!   entries are lists of positive integers?
+#! * Does every edge of the resulting polygonal complex has exactly two
+#!   incident vertices?
+#! * Does every face of the resulting polygonal complex has at least two
+#!   incident edges?
+#! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
+#!   elements?
+#! * If <A>vertices</A> is given, is it equal to the bound positions of
+#!   <A>edgesOfVertices</A>?
+#! * Are the bound positions of <A>facesOfEdges</A> equal to 
+#!   <K>Union</K>(<A>edgesOfVertices</A>)? If <A>edges</A> is given, is it equal 
+#!   to those two sets?
+#! * If <A>faces</A> is given, is it equal to 
+#!   <K>Union</K>(<A>facesOfEdges</A>)?
+#! @EndChunk
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a polygonal complex 
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! @InsertChunk Documentation_UpwardIncidence
+#! 
+#! TODO example
+#! @Returns a polygonal complex
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "PolygonalComplexByUpwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "PolygonalComplexByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "PolygonalComplexByUpwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "PolygonalComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a ramified polygonal surface
+#! (<Ref Sect="PolygonalStructures_ramified"/>)
+#! @InsertChunk Documentation_UpwardIncidence
+#!
+#! TODO example
+#! @Returns a ramified polygonal surface
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "RamifiedPolygonalSurfaceByUpwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "RamifiedPolygonalSurfaceByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "RamifiedPolygonalSurfaceByUpwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "RamifiedPolygonalSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a polygonal surface
+#! (<Ref Sect="PolygonalStructures_surface"/>)
+#! @InsertChunk Documentation_UpwardIncidence
+#!
+#! TODO example
+#! @Returns a polygonal surface
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "PolygonalSurfaceByUpwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "PolygonalSurfaceByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "PolygonalSurfaceByUpwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "PolygonalSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a triangular complex
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! @InsertChunk Documentation_UpwardIncidence
+#!
+#! TODO example
+#! @Returns a triangular complex
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "TriangularComplexByUpwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "TriangularComplexByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "TriangularComplexByUpwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "TriangularComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a ramified simplicial surface
+#! (<Ref Sect="PolygonalStructures_ramified"/>)
+#! @InsertChunk Documentation_UpwardIncidence
+#!
+#! TODO example
+#! @Returns a ramified simplicial surface
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a simplicial surface
+#! (<Ref Sect="PolygonalStructures_surface"/>)
+#! @InsertChunk Documentation_UpwardIncidence
+#!
+#! TODO example
+#! @Returns a simplicial surface
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialSurfaceByUpwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialSurfaceByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @EndGroup
+#TODO remark that most of these constructors also check for some properties
+
+
+
 ## It has to be remembered that these sections are primary candidates for
 ## skipping targets - many people are probably interested in constructions.
 ## Therefore they have to be mostly self-contained.

@@ -291,11 +291,9 @@ BindGlobal( "__SIMPLICIAL_CheckPolygons",
 __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
     function( verticesOfEdges, edgesOfFaces )
         local obj;
-
         obj := Objectify( PolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, verticesOfEdges);
         SetEdgesOfFaces(obj, edgesOfFaces);
-
         return obj;
     end,
     function( arg )
@@ -342,7 +340,46 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
 ##  Upward incidence
 ##
 
+__SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes, 
+    function( edgesOfVertices, facesOfEdges )
+        local obj;
+        obj := Objectify( PolygonalComplexType, rec() );
+        SetEdgesOfVertices( obj, edgesOfVertices );
+        SetFacesOfEdges(obj, facesOfEdges);
+        return obj;
+    end,
+    function( arg )
+        local verticesDed, edgesDed, facesDed, edgesOfVertices, facesOfEdges;
 
+        # First we deduce vertices, edges and faces
+        if Size(arg) = 3 then
+            edgesOfVertices := arg[2];
+            facesOfEdges := arg[3];
+        else
+            edgesOfVertices := arg[5];
+            facesOfEdges := arg[6];
+        fi;
+        facesDed := Union( facesOfEdges );
+        edgesDed := __SIMPLICIAL_BoundEntriesOfList(facesOfEdges);
+        verticesDed := __SIMPLICIAL_BoundEntriesOfList(edgesOfVertices);
+        
+        # Compare the vertex, edge and face data
+        if Size(arg) = 6 then
+            __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            __SIMPLICIAL_CompareSets( arg[1], arg[3], edgesDed, "edge" );
+            __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
+        fi;
+        __SIMPLICIAL_CompareSets( arg[1], edgesDed, Union(edgesOfVertices), "edge" );
+    end,
+    function( name, obj )
+        # We have to check whether we have polygons and we have to check the basic
+        # size restrictions
+        __SIMPLICIAL_TwoVerticesPerEdge(name, VerticesOfEdges(obj));
+        __SIMPLICIAL_AtLeastTwoPerFace(name, EdgesOfFaces(obj), "edges");
+        __SIMPLICIAL_CheckPolygons(name, obj);
+    end,
+    ["vertices", "edges", "faces"],
+    ["verticesOfEdges", "edgesOfFaces"]);
 
 ##
 ##  End updward incidence
