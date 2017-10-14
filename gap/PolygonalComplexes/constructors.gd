@@ -90,7 +90,7 @@
 #! As an example, consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle, face/.default=\faceColorFirst]
-#!     \input{Image_ConstructorExample.tex};
+#!     \input{Image_ConstructorExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #!
@@ -330,7 +330,7 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! Consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, face/.default=\faceColorThird]
-#!     \input{Image_ConstructorExample.tex};
+#!     \input{Image_ConstructorExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #!

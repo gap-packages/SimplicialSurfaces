@@ -30,7 +30,7 @@
 #! <E>five-star</E>:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex};
+#!     \input{Image_FiveTrianglesInCycle.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
@@ -57,7 +57,7 @@
 #! start of chapter <Ref Chap="Chapter_Properties"/>:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex};
+#!      \input{Image_FiveTrianglesInCycle.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
@@ -94,7 +94,7 @@ DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
 #! <Ref Chap="Chapter_Properties"/> is not closed.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex};
+#!      \input{Image_FiveTrianglesInCycle.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
@@ -145,7 +145,7 @@ DeclareProperty( "IsClosedSurface", IsRamifiedPolygonalSurface );
 #! <Ref Chap="Chapter_Properties"/>:
 #! <Alt Only="TikZ">
 #!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FiveTrianglesInCycle.tex};
+#!       \input{Image_FiveTrianglesInCycle.tex}
 #!    \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
@@ -185,7 +185,7 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! <Ref Chap="Chapter_Properties"/>:
 #! <Alt Only="TikZ">
 #!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FiveTrianglesInCycle.tex};
+#!       \input{Image_FiveTrianglesInCycle.tex}
 #!    \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
@@ -221,7 +221,7 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! <Ref Chap="Chapter_Properties"/>:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex};
+#!      \input{Image_FiveTrianglesInCycle.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
@@ -246,7 +246,7 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 #! <Ref Chap="Chapter_Properties"/>:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex};
+#!      \input{Image_FiveTrianglesInCycle.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
@@ -278,7 +278,7 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex};
+#!     \input{Image_FiveTrianglesInCycle.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! The vertex 1 is the only vertex that is completely surrounded by faces. It
@@ -304,7 +304,7 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex};
+#!      \input{Image_FiveTrianglesInCycle.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! The edges that are incident to the vertex 1 are different from the other 
@@ -319,7 +319,7 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! example:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[scale=2, vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!     \input{Image_ThreeBranchingTriangles.tex};
+#!     \input{Image_ThreeBranchingTriangles.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! Edges with more than two incident faces are called <E>ramified edges</E>.
