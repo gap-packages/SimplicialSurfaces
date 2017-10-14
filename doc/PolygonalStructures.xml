@@ -292,7 +292,7 @@
         The stereotypical polygonal complex that is <E>not</E> a ramified
         polygonal surface consists of three triangles that share a common edge.
         <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+            \begin{tikzpicture}[scale=2, vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
                 \input{Image_ThreeBranchingTriangles.tex}
             \end{tikzpicture}
         </Alt>

@@ -268,8 +268,8 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 # isomorphism test
 # refer back to incidence graph
 
-#! Section Types of vertices
-#! SectionLabel Properties_VertexTypes
+#! @Section Types of vertices
+#! @SectionLabel Properties_VertexTypes
 #! 
 #TODO improve this description
 #! The vertices of a polygonal complex (defined in 
@@ -293,3 +293,33 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #TODO to make this possible, we have to generalize EdgeFacePaths -> also allow fail
 
 # TODO properties edges
+
+#! @Section Types of edges
+#! @SectionLabel Properties_EdgeTypes
+#!
+#TODO improve
+#! The edges of a polygonal complex (defined in 
+#! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
+#! positions. This can be seen in the example of the five-star (which was
+#! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_FiveTrianglesInCycle.tex};
+#!   \end{tikzpicture}
+#! </Alt>
+#! The edges that are incident to the vertex 1 are different from the other 
+#! edges since they lie "inside" the surface. Edges with two incident faces
+#! are called <E>inner edges</E> while edges with only one incident face are
+#! called <E>boundary edges</E>.
+#!
+#! For ramified polygonal surfaces, only those two edge types can appear
+#! (by definition there are one or two faces incident to each edge). For
+#! general polygonal complexes there might appear a third case (more than
+#! two faces incident to an edge). This is exemplified in the following
+#! example:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!     \input{Image_ThreeBranchingTriangles.tex};
+#!   \end{tikzpicture}
+#! </Alt>
+#! Edges with more than two incident faces are called <E>ramified edges</E>.
