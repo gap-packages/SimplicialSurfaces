@@ -401,12 +401,17 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! @EndGroup
 
 
-#TODO orientability
+#! @Section Orientability
+#! @SectionLabel Orientability
+#! 
+#! TODO
 
-#TODO automorphism/isomorphism
-# automorphism group
-# isomorphism test
-# refer back to incidence graph
+
+#! @Section Automorphisms and Isomorphisms
+#! @SectionLabel Automorphisms
+#!
+#! TODO autGroup and isoTest (refer back to incidence graph);
+
 
 #! @Section Types of vertices
 #! @SectionLabel Properties_VertexTypes
