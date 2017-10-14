@@ -34,7 +34,7 @@
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( 
+#! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], 5,
 #! >                [ [1,2,3], [1,3,5], [1,5,7], [1,7,11], [1,2,11] ] );;
 #! @EndExampleSession
 #TODO projective plane on four faces?
@@ -323,3 +323,98 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #!   \end{tikzpicture}
 #! </Alt>
 #! Edges with more than two incident faces are called <E>ramified edges</E>.
+#!
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all <E>inner edges</E> of the given polygonal complex.
+#! An inner edge is an edge that is incident to exactly two faces.
+#!
+#! The method <K>IsInnerEdge</K> checks whether the given edge is an inner
+#! edge of the given polygonal complex. The NC-version does not check whether
+#! <A>edge</A> is an edge of <A>complex</A>.
+#!
+#! Consider the five-star from the start of chapter 
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_FiveTrianglesInCycle.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsInnerEdge( fiveStar, 4 );
+#! true
+#! gap> IsInnerEdge( fiveStar, 10 );
+#! false
+#! gap> InnerEdges( fiveStar );
+#! [ 1, 2, 3, 4, 5 ]
+#! @EndExampleSession
+#!
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "InnerEdges", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsInnerEdge", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsInnerEdgeNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all <E>boundary edges</E> of the given polygonal complex.
+#! A boundary edge is an edge that is incident to exactly one face.
+#!
+#! The method <K>IsBoundaryEdge</K> checks whether the given edge is a 
+#! boundary
+#! edge of the given polygonal complex. The NC-version does not check whether
+#! <A>edge</A> is an edge of <A>complex</A>.
+#!
+#! Consider the five-star from the start of chapter 
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_FiveTrianglesInCycle.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsBoundaryEdge( fiveStar, 4 );
+#! false
+#! gap> IsBoundaryEdge( fiveStar, 10 );
+#! true
+#! gap> BoundaryEdges( fiveStar );
+#! [ 6, 7, 8, 9, 10 ]
+#! @EndExampleSession
+#!
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "BoundaryEdges", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsBoundaryEdge", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsBoundaryEdgeNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all <E>ramified edges</E> of the given polygonal complex.
+#! A ramified edge is an edge that is incident to at least three faces.
+#!
+#! The method <K>IsRamifiedEdge</K> checks whether the given edge is a 
+#! ramified
+#! edge of the given polygonal complex. The NC-version does not check whether
+#! <A>edge</A> is an edge of <A>complex</A>.
+#!
+#! TODO example?
+#!
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "RamifiedEdges", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsRamifiedEdge", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup

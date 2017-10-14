@@ -163,3 +163,89 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
 ##      End of degrees
 ##
 #######################################
+
+
+
+
+
+#######################################
+##
+##      Types of edges
+##
+
+InstallMethod( InnerEdges, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local facesOfEdges;
+
+        facesOfEdges := FacesOfEdges(complex);
+        return Filtered( Edges(complex), e -> Size(facesOfEdges[e]) = 2 );
+    end
+);
+InstallMethod( IsInnerEdgeNC, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        return edge in InnerEdges(complex);
+    end
+);
+InstallMethod( IsInnerEdge, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        __SIMPLICIAL_CheckEdge(complex, edge, "IsInnerEdge");
+        return IsInnerEdgeNC(complex, edge);
+    end
+);
+
+
+InstallMethod( BoundaryEdges, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local facesOfEdges;
+
+        facesOfEdges := FacesOfEdges(complex);
+        return Filtered( Edges(complex), e -> Size(facesOfEdges[e]) = 1 );
+    end
+);
+InstallMethod( IsBoundaryEdgeNC, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        return edge in BoundaryEdges(complex);
+    end
+);
+InstallMethod( IsBoundaryEdge, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        __SIMPLICIAL_CheckEdge(complex, edge, "IsBoundaryEdge");
+        return IsBoundaryEdgeNC(complex, edge);
+    end
+);
+
+
+InstallMethod( RamifiedEdges, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local facesOfEdges;
+
+        facesOfEdges := FacesOfEdges(complex);
+        return Filtered( Edges(complex), e -> Size(facesOfEdges[e]) > 2 );
+    end
+);
+InstallMethod( IsRamifiedEdgeNC, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        return edge in RamifiedEdges(complex);
+    end
+);
+InstallMethod( IsRamifiedEdge, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        __SIMPLICIAL_CheckEdge(complex, edge, "IsRamifiedEdge");
+        return IsRamifiedEdgeNC(complex, edge);
+    end
+);
+
+
+##
+##      End of edge types
+##
+#######################################

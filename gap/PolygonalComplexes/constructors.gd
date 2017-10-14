@@ -393,6 +393,8 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! TODO
 #! @EndChunk
 
+#TODO explain how the edge numbers are choosen (such that VerticesOfEdges is a set);
+
 
 #! @BeginGroup
 #! @Description
