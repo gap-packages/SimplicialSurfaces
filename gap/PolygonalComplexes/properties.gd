@@ -262,15 +262,22 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! @Section Connectivity
 #! @SectionLabel Properties_Connectivity
 #!
-#! This section contains methods that deal with the connectivity of polygonal
-#! complexes (a generalisation of simplicial surfaces, compare chapter 
-#! <Ref Chap="PolygonalStructures"/>). More specifically it contains these
+#! This section contains methods that deal with the (strong) connectivity of 
+#! polygonal
+#! complexes (which were introduced in chapter 
+#! <Ref Chap="PolygonalStructures"/> as a generalisation of simplicial 
+#! surfaces). More specifically it contains these
 #! capabilities:
-#! * Determine if a polygonal complex is (strongly) connected TODO ref
-#! * Determine the (strongly) connected components of a polygonal complex TODO ref
+#! * Determine if a polygonal complex is (strongly) connected 
+#!   (<Ref Subsect="IsConnected"/> and <Ref Subsect="IsStronglyConnected"/>).
+#! * Determine the (strongly) connected components of a polygonal complex 
+#!   (<Ref Subsect="ConnectedComponents"/> and 
+#!   <Ref Subsect="StronglyConnectedComponents"/>).
 #!
-#! It is important to note that there are actually two different notions of
-#! connectivity (for non-surfaces), as can be seen in the following example:
+#! The distinction between <E>connectivity</E> and <E>strong connectivity</E> 
+#! is only
+#! relevant for polygonal complexes that are not also polygonal surfaces.
+#! This can be seen in this example:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
 #!      \input{Image_ButterflyOfTriangles.tex}
@@ -280,8 +287,7 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! gap> butterfly := RamifiedSimplicialSurface( 7, 4,
 #! > [ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;
 #! @EndExampleSession
-#! Under the usual definition of connectivity (i.e. the incidence graph from
-#! TODO is connected) this example is
+#! This example is connected since its incidence graph (see TODO) is 
 #! connected.
 #! @ExampleSession
 #! gap> IsConnected( butterfly );
