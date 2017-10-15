@@ -311,8 +311,6 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #! @EndExampleSession
 #!
 
-#TODO examples for ConnectedComponents
-
 #! @BeginGroup IsConnected
 #! @Description
 #! Check whether the given polygonal complex is connected. A polygonal complex
@@ -344,6 +342,22 @@ DeclareProperty( "IsConnected", IsPolygonalComplex );
 #! If a face of the polygonal complex is given as an additional argument,
 #! only the connected component containing that face is returned. The 
 #! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
+#!
+#! For example, consider the ramified simplicial surface from the start of
+#! section <Ref Sect="Section_Properties_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> comp := ConnectedComponentsOfComplex( butterfly );;
+#! gap> Size(comp);
+#! 1
+#! gap> comp[1] = butterfly;
+#! true
+#! @EndExampleSession
+#TODO better example..
 #!
 #! @Returns a list of polygonal complexes
 #! @Arguments complex
@@ -393,6 +407,27 @@ DeclareProperty( "IsStronglyConnected", IsPolygonalComplex );
 #! If a face of the polygonal complex is given as an additional argument,
 #! only the strongly connected component containing that face is returned. The 
 #! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
+#!
+#! For example, consider the ramified simplicial surface from the start of 
+#! section <Ref Sect="Section_Properties_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> comp := StronglyConnectedComponents(butterfly);;
+#! gap> Size(comp);
+#! 2
+#! gap> Faces( comp[1] );
+#! [ 1, 3 ]
+#! gap> Faces( comp[2] );
+#! [ 2, 4 ];
+#! gap> comp[1] = StronglyConnectedComponentOfFace(butterfly, 1);
+#! true
+#! gap> comp[2] = StronglyConnectedComponentOfFace(butterfly, 4);
+#! true
+#! @EndExampleSession
 #!
 #! @Returns a list of polygonal complexes
 #! @Arguments complex
