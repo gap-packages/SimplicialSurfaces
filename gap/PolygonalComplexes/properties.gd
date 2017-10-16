@@ -456,13 +456,38 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! A ramified polygonal surface is <E>orientable</E> if such a choice of
 #! directions is possible.
 #!
-#! The orientation of each face can be given in two different ways:
-#! * A cyclic permutation of the incident vertices
-#! * A cyclic permutation of the incident edges
+#! For a given ramified polygonal surface this orientation can be computed.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexPlain, edgePlain, faceStyle]
+#!      \def\orientation{1}
+#!      \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> surface := PolygonalSurfaceByDownwardIncidence(
+#! > [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]],
+#! > [ [3,5,7,13], , , [3,7,11], , , , , [7,11,13] ]);;
+#! gap> IsOrientable(surface);
+#! true
+#! @EndExampleSession
 #!
+#! The orientation of each face can be given in two different ways:
+#! * As a cyclic permutation of the incident vertices (e.g. (3,7,15,13) for the
+#!   quadrangular face)
+#! * As a cyclic permutation of the incident edges (e.g. (2,6,14,12) for the
+#!   quadrangular face)
+#!
+#! Additionally, the permutations can be replaced by lists, e.g. 
+#! <M>(3,7,15,13)</M> would be replaces by <M>[3, 7, 15, 13]</M>.
+#! @ExampleSession
+#! gap> OrientationByVerticesAsPerm( surface );;
+#! gap> OrientationByEdgesAsList( surface );;
+#! @EndExampleSession
+#TODO make example conform to actual code
 #! 
-#! Such an orientation can be given either as a list or as a permutation.
-#TODO
+#!
+#TODO mention that the return value is not unique
+#! 
 
 #! @Description
 #! Return whether the given ramified polygonal surface is orientable.
