@@ -12,14 +12,6 @@
 
 ## This chapter contains many diverse aspects of polygonal complexes.
 ## The current order may not be optimal, depending on what the future holds
-#TODO current plan:
-# 1) Invariants
-# 2) connectivity
-# 3) orientability
-# 4) automorphism/isomorphism?
-# 5) Properties of vertices
-# 6) Properties of edges
-# 7) Properties of faces (?);
 
 #! @Chapter Properties of surfaces and complexes
 #! @ChapterLabel Properties
@@ -445,6 +437,37 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! @Section Orientability
 #! @SectionLabel Orientability
 #! 
+#! This section contains methods that deal with the orientability of ramified 
+#! polygonal surfaces (which were defined in section
+#! <Ref Sect="PolygonalStructures_ramified"/>). For general polygonal 
+#! complexes the concept of orientability is not defined since there is no
+#! proper way to deal with edges that are incident to more than two faces.
+#TODO more explanation needed?
+#!
+#! A polygonal orientation is defined by choosing a direction along the 
+#! perimeter of each polygon such that for each edge with exactly two 
+#! incident faces both directions are defined.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexPlain=nolabels, edgePlain=nolabels, faceStyle=nolabels]
+#!     \def\orientation{1}
+#!     \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! A ramified polygonal surface is <E>orientable</E> if such a choice of
+#! directions is possible.
+#!
+#! The orientation of each face can be given in two different ways:
+#! * A cyclic permutation of the incident vertices
+#! * A cyclic permutation of the incident edges
+#!
+#! 
+#! Such an orientation can be given either as a list or as a permutation.
+#TODO
+
+#! @Description
+#! Return whether the given ramified polygonal surface is orientable.
+#!
+#! A ramified polygonal surface is orientable if it is possible to choose a 
 #! TODO
 
 

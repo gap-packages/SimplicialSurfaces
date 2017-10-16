@@ -19,3 +19,32 @@
     \foreach \p/\r/\n in {L/left/3, U/above/5, R/right/13, D/above/7, DD/below/11}{
         \vertexLabelR{\p}{\r}{\n}
     }
+
+    \ifdefined\orientation
+        % use barycentric coordinates with primary and secondary vertices
+        % quadrangle, obtuse
+        \def\qop{8}
+        \def\qos{2}
+        % quadrangle, acute
+        \def\qap{8}
+        \def\qas{2}
+        % triangle, left
+        \def\tlp{10}
+        \def\tls{2}
+        % triangle, mid
+        \def\tmp{10}
+        \def\tms{2}
+
+        \draw[thick, ->] (barycentric cs:L=\qap,D=\qas,U=1) -- (barycentric cs:D=\qop,L=\qos,R=1);
+        \draw[thick, ->] (barycentric cs:D=\qop,R=\qos,L=1) -- (barycentric cs:R=\qap,D=\qas,U=1);
+        \draw[thick, ->] (barycentric cs:R=\qap,U=\qas,D=1) -- (barycentric cs:U=\qop,R=\qos,L=1);
+        \draw[thick, ->] (barycentric cs:U=\qop,L=\qos,R=1) -- (barycentric cs:L=\qap,U=\qas,D=1);
+
+        \draw[thick, ->] (barycentric cs:L=\tlp,DD=\tls,D=1) -- (barycentric cs:DD=\tlp,L=\tls,D=1);
+        \draw[thick, ->] (barycentric cs:DD=\tlp,D=\tls,L=1) -- (barycentric cs:D=\tlp,DD=\tls,L=1);
+        \draw[thick, ->] (barycentric cs:D=\tlp,L=\tls,DD=1) -- (barycentric cs:L=\tlp,D=\tls,DD=1);
+
+        \draw[thick, <-] (barycentric cs:R=\tlp,DD=\tls,D=1) -- (barycentric cs:DD=\tlp,R=\tls,D=1);
+        \draw[thick, <-] (barycentric cs:DD=\tlp,D=\tls,R=1) -- (barycentric cs:D=\tlp,DD=\tls,R=1);
+        \draw[thick, <-] (barycentric cs:D=\tlp,R=\tls,DD=1) -- (barycentric cs:R=\tlp,D=\tls,DD=1);
+    \fi

@@ -5,28 +5,12 @@
 
 \usepackage{amssymb}
 
-%\tikzset{vertexNodeBall/.style = {shape=circle, ball color=blue!50!white, inner sep=2pt, outer sep=0pt, minimum size=3pt, font=\tiny}}
 
 \begin{document}
 
-\begin{tikzpicture}[vertexNormal,edgePlain,faceStyle, face/.default=olive!20!white]
-    \def\hor{3}
-    \def\ver{1}
-    \def\down{4}
-    \coordinate (L) at (-\hor,0);
-    \coordinate (R) at (\hor,0);
-    \coordinate (U) at (0,\ver);
-    \coordinate (D) at (0,-\ver);
-    \coordinate (DD) at (0,-\down);
-
-    \draw[face,edge]
-        (L) -- node[edgeLabel] {2} (U) -- node[edgeLabel] {12} (R) -- (D) -- cycle
-        (L) -- node[edgeLabel] {6} (D) -- (DD) -- node[edgeLabel] {8} cycle
-        (D) -- node[edgeLabel] {10} (DD) -- node[edgeLabel] {15} (R) -- node[edgeLabel] {14} cycle;
-
-    \foreach \p/\r/\n in {L/left/3, U/above/5, R/right/7, D/above/11, DD/below/13}{
-        \vertexLabelR{\p}{\r}{\n}
-    }
+\begin{tikzpicture}[vertexPlain=nolabels,edgePlain=nolabels,faceStyle=nolabels]
+    \def\orientation{1}
+    \input{../Image_ConstructorExample.tex}
 \end{tikzpicture}
 
 
