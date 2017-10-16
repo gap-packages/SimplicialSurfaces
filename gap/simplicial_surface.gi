@@ -4200,27 +4200,31 @@ InstallMethod( Geodesic,
             pivotVert := OtherVertexOfEdgeNC(surf, pivotVert, path[len]);
             newBorderEdge := OtherEdgeOfVertexInFaceNC(
                                  surf,pivotVert,path[len],neighbour);
-            if neighbour < path[minpos[1]+minpos[2]] then
-                if path[len] < newBorderEdge then
-                    minpos := [ len+2, -1 ];
-                else
-                    minpos := [ len, 1 ];
-                fi;
-            elif neighbour = path[minpos[1]+minpos[2]] then
-                if path[len] < newBorderEdge then
-                    if path[len] < path[minpos[1]+2*minpos[2]] then
-                        minpos := [len+2,-1];
-                    elif path[len] = path[minpos[1]+2*minpos[2]] then
-                        if newBorderEdge < path[minpos[1]] then
-                            minpos := [len+2,-1];
-                        fi;
+
+
+            if neighbour <> fail then
+                if neighbour < path[minpos[1]+minpos[2]] then
+                    if path[len] < newBorderEdge then
+                        minpos := [ len+2, -1 ];
+                    else
+                        minpos := [ len, 1 ];
                     fi;
-                else
-                    if newBorderEdge < path[minpos[1]+2*minpos[2]] then
-                        minpos := [len,1];
-                    elif newBorderEdge = path[minpos[1]+2*minpos[2]] then
-                        if path[len] < path[minpos[1]] then
+                elif neighbour = path[minpos[1]+minpos[2]] then
+                    if path[len] < newBorderEdge then
+                        if path[len] < path[minpos[1]+2*minpos[2]] then
+                            minpos := [len+2,-1];
+                        elif path[len] = path[minpos[1]+2*minpos[2]] then
+                            if newBorderEdge < path[minpos[1]] then
+                                minpos := [len+2,-1];
+                            fi;
+                        fi;
+                    else
+                        if newBorderEdge < path[minpos[1]+2*minpos[2]] then
                             minpos := [len,1];
+                        elif newBorderEdge = path[minpos[1]+2*minpos[2]] then
+                            if path[len] < path[minpos[1]] then
+                                minpos := [len,1];
+                            fi;
                         fi;
                     fi;
                 fi;
@@ -4244,9 +4248,6 @@ InstallMethod( Geodesic,
                 Error("Geodesic: Inconsistent surface input.");
             fi;
 
-            if neighbour=6 then
-              Error("");
-            fi;
             Append( path, [neighbour, newBorderEdge] );
             Add( traversedFaces, neighbour );
         od;
@@ -4269,10 +4270,10 @@ InstallMethod( Geodesic,
             # the path is closed
             if minpos[2] = 1 then
                path := Concatenation(path{[minpos[1]..Length(path)]},
-                        path{[1..minpos[1]-1]});
+                        path{[2..minpos[1]-1]}, [ path[minpos[1]] ]);
             else
-               path := Concatenation( path{[minpos[1]+1..Length(path)]},
-                        path{[1..minpos[1]]});
+               path := Concatenation( [ path[minpos[1]] ], path{[minpos[1]+1..Length(path)]},
+                        path{[2..minpos[1]]});
                path := Reversed(path);
             fi;
         fi;
@@ -4342,6 +4343,7 @@ InstallMethod( Geodesics, "for a simplicial surface",
                end;
                allFlags := List( allFlags, NormaliseFlag );
                triples := Difference( triples, allFlags);
+
             od;
 
             return Set(geodesics);
