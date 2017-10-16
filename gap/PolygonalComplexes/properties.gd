@@ -567,7 +567,7 @@ DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
 #! For example, consider the polygonal surface from the start of section
 #! <Ref Sect="Section_Orientability"/>:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
 #!      \input{Image_ConstructorExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
