@@ -459,7 +459,6 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! For a given ramified polygonal surface this orientation can be computed.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexPlain, edgePlain, faceStyle]
-#!      \def\orientation{1}
 #!      \input{Image_ConstructorExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
@@ -480,13 +479,23 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! Additionally, the permutations can be replaced by lists, e.g. 
 #! <M>(3,7,15,13)</M> would be replaces by <M>[3, 7, 15, 13]</M>.
 #! @ExampleSession
-#! gap> OrientationByVerticesAsPerm( surface );;
-#! gap> OrientationByEdgesAsList( surface );;
+#! gap> OrientationByVerticesAsPerm( surface );
+#! [ (3, 5, 13, 7), , , (3, 7, 11), , , , (7, 13, 11) ]
+#! gap> OrientationByEdgesAsList( surface );
+#! [ [ 2, 6, 14, 12 ], , , [ 6, 8, 10 ], , , , [ 7, 11, 13 ] ];
 #! @EndExampleSession
-#TODO make example conform to actual code
 #! 
+#! This does not define the orientation uniquely. If the orientation for
+#! one face is given, this defines the orientations for the strongly
+#! connected component (compare <Ref Subsect="StronglyConnectedComponents"/>)
+#! of this face. Therefore the following convention is followed:
+#! * For each strongly connected component there is a face with 
+#!   minimal number.
+#! * The orientation of this face is minimal according to the criteria from
+#!   section <Ref Sect="Section_Access_OrderedFaceAccess"/>.
 #!
-#TODO mention that the return value is not unique
+#! A consequence of this convention is that the orientations given by vertices
+#! and by edges do not necessarily coincide.
 #! 
 
 #! @Description
@@ -499,7 +508,7 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! As an example, consider the polygonal surface from the start of section
 #! <Ref Sect="Section_Orientability"/>:
 #! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!    \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle]
 #!       \input{Image_ConstructorExample.tex}
 #!    \end{tikzpicture}
 #! </Alt>
@@ -510,6 +519,73 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! TODO other example?
 #! @Arguments ramSurf
 DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
+
+#! @BeginGroup
+#! @Description
+#! Return the orientation of the given ramified polygonal surface, if
+#! it exists (otherwise return fail). The orientation is given as a list
+#! with the faces of <A>ramSurf</A> as indices.
+#!
+#! For each face, this list contains a permutation/list of the vertices that
+#! are incident to this face.
+#! 
+#! TODO describe properly
+#!
+#! For example, consider the polygonal surface from the start of section
+#! <Ref Sect="Section_Orientability"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> OrientationByVerticesAsPerm( surface );
+#! [ (3, 5, 13, 7), , , (3, 7, 11), , , , (7, 13, 11) ]
+#! gap> OrientationByVerticesAsList( surface );
+#! [ [3, 5, 13, 7], , , [3, 7, 11], , , , [7, 13, 11] ]
+#! @EndExampleSession
+#! 
+#! @Returns a list of permutations
+#! @Arguments ramSurf
+DeclareAttribute( "OrientationByVerticesAsPerm", IsRamifiedPolygonalSurface );
+#! @Returns a list of lists
+#! @Arguments ramSurf
+DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the orientation of the given ramified polygonal surface, if
+#! it exists (otherwise return fail). The orientation is given as a list
+#! with the faces of <A>ramSurf</A> as indices.
+#!
+#! For each face, this list contains a permutation/list of the vertices that
+#! are incident to this face.
+#! 
+#! TODO describe properly
+#!
+#! For example, consider the polygonal surface from the start of section
+#! <Ref Sect="Section_Orientability"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> OrientationByEdgesAsPerm( surface );
+#! [ ( 2, 6, 14, 12 ), , , ( 6, 8, 10 ), , , , ( 7, 11, 13 ) ];
+#! gap> OrientationByEdgesAsList( surface );
+#! [ [ 2, 6, 14, 12 ], , , [ 6, 8, 10 ], , , , [ 7, 11, 13 ] ];
+#! @EndExampleSession
+#! 
+#! @Returns a list of permutations
+#! @Arguments ramSurf
+DeclareAttribute( "OrientationByEdgesAsPerm", IsRamifiedPolygonalSurface );
+#! @Returns a list of lists
+#! @Arguments ramSurf
+DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
+#! @EndGroup
+
 
 
 #! @Section Automorphisms and Isomorphisms
