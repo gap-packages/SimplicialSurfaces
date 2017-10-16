@@ -493,7 +493,23 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! Return whether the given ramified polygonal surface is orientable.
 #!
 #! A ramified polygonal surface is orientable if it is possible to choose a 
-#! TODO
+#! direction along the perimeter of each face such that each pair of adjacent
+#! faces defines opposite directions on the shared edge.
+#!
+#! As an example, consider the polygonal surface from the start of section
+#! <Ref Sect="Section_Orientability"/>:
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!       \input{Image_ConstructorExample.tex}
+#!    \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsOrientable( surface );
+#! true
+#! @EndExampleSession
+#! TODO other example?
+#! @Arguments ramSurf
+DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 
 
 #! @Section Automorphisms and Isomorphisms
