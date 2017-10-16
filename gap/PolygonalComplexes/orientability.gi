@@ -45,10 +45,13 @@ BindGlobal( "__SIMPLICIAL_ConstructStandardOrientation",
 	orientable := true;
 	orientList := [];
 	while Number(orientList) < NrOfFaces(simpsurf) and orientable do
-		# We proceed individually in each connected component. This loop
-		# is called once per connected component. We start by finding a
-		# face that was not already included, define an orientation for it
-		# at random and then derive how all other orientations have to look
+		# We proceed individually in each strongly connected component. 
+                # This loop
+		# is called once per strongly connected component. We start by 
+                # finding a
+		# face that was not already included, define the minimal 
+                # orientation for it
+		# and then derive how all other orientations have to look
 		# like (and maybe find a contradiction).
 	
 		# Find the first face that has no defined orientation
