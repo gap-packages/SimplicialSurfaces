@@ -491,12 +491,13 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! of this face. Therefore the following convention is followed:
 #! * For each strongly connected component there is a face with 
 #!   minimal number.
-#! * The orientation of this face is minimal according to the criteria from
+#! * The orientation of this face (with respect to the vertices) is minimal 
+#!   according to the criteria from
 #!   section <Ref Sect="Section_Access_OrderedFaceAccess"/>.
+#! * The orientation with respect to the edges is the same as with respect
+#!   to the vertices. In particular they do not necessarily conform to the
+#!   minimality condition from before.
 #!
-#! A consequence of this convention is that the orientations given by vertices
-#! and by edges do not necessarily coincide.
-#! 
 
 #! @Description
 #! Return whether the given ramified polygonal surface is orientable.
@@ -573,9 +574,9 @@ DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
 #! </Alt>
 #! @ExampleSession
 #! gap> OrientationByEdgesAsPerm( surface );
-#! [ ( 2, 6, 14, 12 ), , , ( 6, 8, 10 ), , , , ( 7, 11, 13 ) ];
+#! [ ( 2, 12, 14, 6 ), , , ( 6, 10, 8 ), , , , ( 7, 13, 11 ) ];
 #! gap> OrientationByEdgesAsList( surface );
-#! [ [ 2, 6, 14, 12 ], , , [ 6, 8, 10 ], , , , [ 7, 11, 13 ] ];
+#! [ [ 2, 12, 14, 6 ], , , [ 6, 10, 8 ], , , , [ 7, 13, 11 ] ];
 #! @EndExampleSession
 #! 
 #! @Returns a list of permutations
