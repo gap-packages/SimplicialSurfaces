@@ -549,6 +549,8 @@ DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 #! @Returns a list of permutations
 #! @Arguments ramSurf
 DeclareAttribute( "OrientationByVerticesAsPerm", IsRamifiedPolygonalSurface );
+#! @Arguments ramSurf
+DeclareOperation( "OrientationByVertices", [IsRamifiedPolygonalSurface] );
 #! @Returns a list of lists
 #! @Arguments ramSurf
 DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
@@ -582,6 +584,8 @@ DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
 #! @Returns a list of permutations
 #! @Arguments ramSurf
 DeclareAttribute( "OrientationByEdgesAsPerm", IsRamifiedPolygonalSurface );
+#! @Arguments ramSurf
+DeclareOperation( "OrientationByEdges", [IsRamifiedPolygonalSurface] );
 #! @Returns a list of lists
 #! @Arguments ramSurf
 DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
