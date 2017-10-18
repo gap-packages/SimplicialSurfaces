@@ -49,16 +49,6 @@ TODO change this to
     -> Constructing surfaces from "nothing"(?) [this means data-base and examples, that could be better structured, like a section for platonic solids, one for random, one for doubleNgons...]
 ----------------
 
-Chapter "Elementary properties" [Bad name] "Invariants" is better (probably - check which operations are meant)
-    TODO: EulerCharacteristic, VertexCounter etc.
-
-
-Chapter "Connectivity"
-    TODO this is a small chapter -> Put somewhere else?
-
-Chapter "Orientation"
-    TODO this is a small chapter -> Put somewhere else?
-
 
 Chapter "Example implementations"
     Goal: Show how to efficiently use this package to program own methods
