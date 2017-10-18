@@ -625,7 +625,7 @@ InstallMethod( CyclicVertexOrderOfFace,
     "for a polygonal complex and a face (positive integer)",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
-        return CyclicVertexOrderOfFace(complex,face);
+        return CyclicVertexOrderOfFaceAsPerm(complex,face);
     end
 );
 InstallMethod( CyclicVertexOrderOfFaceNC,
@@ -646,7 +646,7 @@ InstallMethod( CyclicEdgeOrderOfFace,
     "for a polygonal complex and a face (positive integer)",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
-        return CyclicEdgeOrderOfFace(complex,face);
+        return CyclicEdgeOrderOfFaceAsPerm(complex,face);
     end
 );
 InstallMethod( CyclicEdgeOrderOfFaceNC,
@@ -787,7 +787,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##	the perspective of incidence geometry). We start with
 ##		a list of lists (in terms of elements A)
 ##		an index for the list (in our case that will be the faces)
-##		a conversion of A in terms of B
+##		a conversion of A in terms of B (the elements A are indices of this conversion)
 ##		a list of sets of all elements of B that are possible (for a given face)
 ##
 BindGlobal( "__SIMPLICIAL_ConversionListsVerticesEdges", 

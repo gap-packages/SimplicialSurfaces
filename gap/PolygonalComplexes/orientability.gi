@@ -22,6 +22,7 @@ InstallMethod( OrientationByVertices, "for a ramified polygonal surface",
 );
     RedispatchOnCondition( OrientationByVertices, true, 
         [IsPolygonalComplex], [IsRamifiedPolygonalSurface], 0);
+
 InstallMethod( OrientationByEdges, "for a ramified polygonal surface",
     [IsRamifiedPolygonalSurface],
     function( ramSurf )
@@ -50,7 +51,10 @@ InstallMethod( OrientationByVerticesAsPerm,
     [ IsRamifiedPolygonalSurface and HasFacesOfEdges and
         HasVerticesOfFaces and HasEdgesOfFaces and HasVerticesOfEdges ],
     function( surf )
-        local globalOr, FindGlobalOrientation, orAsList, f;
+	local facesOfEdges, verticesOfFaces, orientList, i, hole, edge,
+	    facesToCheck, checkedFaces, CompatibleOrientation, orient1,
+	    orient2, orientable, face, next, 
+            FindGlobalOrientation, correctOr;
 
         if NrOfFaces(surf) = 0 then
             return [];
@@ -65,10 +69,6 @@ InstallMethod( OrientationByVerticesAsPerm,
 	# if they induce opposite orientations on the edge between them (you
 	# can see this quite easily if you draw a picture). In this method we
 	# use this fact to construct an orientation for the complete surface.
-	local facesOfEdges, verticesOfFaces, orientList, i, hole, edge,
-	    facesToCheck, checkedFaces, CompatibleOrientation, orient1,
-	    orient2, orientable, face, neighbours, next, 
-            FindGlobalOrientation;
 
         facesOfEdges := FacesOfEdges(surf);
     	verticesOfFaces := VerticesOfFaces(surf);
@@ -120,7 +120,7 @@ InstallMethod( OrientationByVerticesAsPerm,
 		for edge in EdgesOfFaces(surf)[face] do
                     next := NeighbourFaceByEdge(surf, face, edge);
 		    # This should be unique (inner edge) or empty (border edge)
-		    if neighbour = fail then
+		    if next = fail then
 			continue;	# A border edge is no problem at all
 		    fi;
 			
@@ -131,8 +131,8 @@ InstallMethod( OrientationByVerticesAsPerm,
 		    orient1 := 0;
 		    orient2 := 0;
 		    # Check how these two faces act on the edge
-		    if CompatibleOrientation( VerticesOfEdges(simpsurf)[edge],
-                                            orientList[hole]) then
+		    if CompatibleOrientation( VerticesOfEdges(surf)[edge],
+                                            orientList[face]) then
 			orient1 := 1;
 		    else
 			orient1 := -1;
@@ -150,7 +150,7 @@ InstallMethod( OrientationByVerticesAsPerm,
                     # if orient1 * orient2 = 1 then they induce the same edge
                     # orientation => invert the cycle of next
                     correctOr := CyclicVertexOrderOfFace(surf,next)^(-1 * orient1 * orient2);
-                    if IsBound( orientList[next] and orientList[next] <> correctOr ) then
+                    if IsBound( orientList[next]) and orientList[next] <> correctOr  then
                         orientable := false;
                         break;
                     else
@@ -172,10 +172,9 @@ InstallMethod( OrientationByVerticesAsPerm,
         return fail;
     end
 );
-AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
-    "GlobalOrientationByVerticesAsList",
-    ["FacesOfEdges", "VerticesOfFaces", "EdgesOfFaces", "VerticesOfEdges",
-        "LocalOrientationByVerticesAsPerm", "LocalOrientationByVerticesAsList"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "OrientationByVerticesAsPerm",
+    ["FacesOfEdges", "VerticesOfFaces", "EdgesOfFaces", "VerticesOfEdges"] );
 
 
 
@@ -183,152 +182,132 @@ AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
 ##
 ##  VerticesAsPerm
 ##
-InstallMethod( GlobalOrientationByVerticesAsPerm, "for a simplicial surface",
-        [IsSimplicialSurface and IsEdgesLikeSurface and HasGlobalOrientationByVerticesAsList ],
-        function( surf )
-            return __SIMPLICIAL_TranslateListsIntoCycles(
-                GlobalOrientationByVerticesAsList(surf) );
-        end
+InstallMethod( OrientationByVerticesAsPerm, 
+    "for a ramified polygonal surface with OrientationByVerticesAsList",
+    [IsRamifiedPolygonalSurface and HasOrientationByVerticesAsList],
+    function( ramSurf )
+        return __SIMPLICIAL_TranslateListsIntoCycles( 
+                OrientationByVerticesAsList(ramSurf) );
+    end
 );
-AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-    "GlobalOrientationByVerticesAsPerm", "GlobalOrientationByVerticesAsList" );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "OrientationByVerticesAsPerm", "OrientationByVerticesAsList" );
 
 
 ################################
 ##
 ##  VerticesAsList
 ##
-InstallMethod( GlobalOrientationByVerticesAsList, "for a simplicial surface",
-        [ IsSimplicialSurface and IsEdgesLikeSurface ],
-        function( surf )
-            return ComputeProperty( SIMPLICIAL_METHOD_SELECTION_GRAPH,
-                        GlobalOrientationByVerticesAsList, surf );
-        end
-);
-    RedispatchOnCondition( GlobalOrientationByVerticesAsList, true,
-        [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );
-
-InstallMethod( GlobalOrientationByVerticesAsList, "for a simplicial surface",
-        [IsSimplicialSurface and IsEdgesLikeSurface and HasGlobalOrientationByVerticesAsPerm ],
-        function( surf )
-            return __SIMPLICIAL_TranslateCyclesIntoLists(
-                GlobalOrientationByVerticesAsPerm(surf), Faces(surf) );
-        end
-);
-AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-    "GlobalOrientationByVerticesAsList", "GlobalOrientationByVerticesAsPerm" );
-
-InstallMethod( GlobalOrientationByVerticesAsList, "for a simplicial surface",
-    [ IsSimplicialSurface and IsEdgesLikeSurface and HasGlobalOrientationByEdgesAsList ],
-    function( surf )
-        return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges(
-            GlobalOrientationByEdgesAsList(surf),
-            Faces(surf),
-            VerticesOfEdges(surf),
-            VerticesOfFaces(surf) );
+InstallMethod( OrientationByVerticesAsList,
+    "for a ramified polygonal surface with OrientationByVerticesAsPerm",
+    [ IsRamifiedPolygonalSurface and HasOrientationByVerticesAsPerm ],
+    function( ramSurf )
+        return __SIMPLICIAL_TranslateCyclesIntoLists(
+            OrientationByVerticesAsPerm(ramSurf)  );
     end
 );
-AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
-    "GlobalOrientationByVerticesAsList", 
-    ["GlobalOrientationByEdgesAsList", "VerticesOfEdges", "VerticesOfFaces"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "OrientationByVerticesAsList", "OrientationByVerticesAsPerm");
+
+InstallMethod( OrientationByVerticesAsList,
+    "for a ramified polygonal surface with OrientationByEdgesAsList, Faces, VerticesOfEdges and VerticesOfFaces",
+    [ IsRamifiedPolygonalSurface and HasOrientationByEdgesAsList and HasFaces and HasVerticesOfEdges and HasVerticesOfFaces ],
+    function( ramSurf )
+        return __SIMPLICIAL_ConversionListsVerticesEdges(
+            OrientationByEdgesAsList(ramSurf),
+            Faces(ramSurf),
+            VerticesOfEdges(ramSurf),
+            VerticesOfFaces(ramSurf) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "OrientationByVerticesAsList", 
+    ["OrientationByEdgesAsList", "Faces", "VerticesOfEdges", "VerticesOfFaces"]);
+
+
 ##############################
 ##
 ##  EdgesAsPerm
 ##
-InstallMethod( GlobalOrientationByEdgesAsPerm, "for a simplicial surface",
-        [ IsSimplicialSurface and IsEdgesLikeSurface ],
-        function( surf )
-            return ComputeProperty( SIMPLICIAL_METHOD_SELECTION_GRAPH,
-                        GlobalOrientationByEdgesAsPerm, surf );
-        end
+InstallMethod( OrientationByEdgesAsPerm,
+    "for a ramified polygonal surface with OrientationByEdgesAsList",
+    [ IsRamifiedPolygonalSurface and HasOrientationByEdgesAsList ],
+    function(ramSurf)
+        return __SIMPLICIAL_TranslateListsIntoCycles(
+            OrientationByEdgesAsList(ramSurf) );
+    end
 );
-    RedispatchOnCondition( GlobalOrientationByEdgesAsPerm, true,
-        [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );
-InstallMethod( GlobalOrientationByEdgesAsPerm, "for a simplicial surface",
-        [IsSimplicialSurface and IsEdgesLikeSurface and HasGlobalOrientationByEdgesAsList ],
-        function( surf )
-            return __SIMPLICIAL_TranslateListsIntoCycles(
-                GlobalOrientationByEdgesAsList(surf) );
-        end
-);
-AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-    "GlobalOrientationByEdgesAsPerm", "GlobalOrientationByEdgesAsList" );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "OrientationByEdgesAsPerm", "OrientationByEdgesAsList" );
 
 
 ################################
 ##
 ##  EdgesAsList
 ##
-InstallMethod( GlobalOrientationByEdgesAsList, "for a simplicial surface",
-        [ IsSimplicialSurface and IsEdgesLikeSurface ],
-        function( surf )
-            return ComputeProperty( SIMPLICIAL_METHOD_SELECTION_GRAPH,
-                        GlobalOrientationByEdgesAsList, surf );
-        end
-);
-    RedispatchOnCondition( GlobalOrientationByEdgesAsList, true,
-        [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );
-
-InstallMethod( GlobalOrientationByEdgesAsList, "for a simplicial surface",
-        [IsSimplicialSurface and IsEdgesLikeSurface and HasGlobalOrientationByEdgesAsPerm ],
-        function( surf )
-            return __SIMPLICIAL_TranslateCyclesIntoLists(
-                GlobalOrientationByEdgesAsPerm(surf), Faces(surf) );
-        end
-);
-AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH, 
-    "GlobalOrientationByEdgesAsList", "GlobalOrientationByEdgesAsPerm" );
-
-InstallMethod( GlobalOrientationByEdgesAsList, "for a simplicial surface",
-    [ IsSimplicialSurface and IsEdgesLikeSurface and HasGlobalOrientationByVerticesAsList ],
-    function( surf )
-        return __SIMPLICIAL_ConversionLocalOrientationVerticesEdges(
-            GlobalOrientationByVerticesAsList(surf),
-            Faces(surf),
-            EdgesOfVertices(surf),
-            EdgesOfFaces(surf) );
+InstallMethod( OrientationByEdgesAsList, 
+    "for a ramified polygonal surface with OrientationByEdgesAsPerm",
+    [IsRamifiedPolygonalSurface and HasOrientationByEdgesAsPerm],
+    function(ramSurf)
+        return __SIMPLICIAL_TranslateCyclesIntoLists(
+            OrientationByEdgesAsPerm(ramSurf) );
     end
 );
-AddPropertyIncidence( SIMPLICIAL_METHOD_SELECTION_GRAPH,
-    "GlobalOrientationByEdgesAsList", 
-    ["GlobalOrientationByVerticesAsList", "EdgesOfVertices", "EdgesOfFaces"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "OrientationByEdgesAsList", "OrientationByEdgesAsPerm");
 
+
+InstallMethod( OrientationByEdgesAsList,
+    "for a ramified polygonal surface with OrientationByVerticesAsList and Faces and EdgesOfVertices and EdgesOfFaces",
+    [IsRamifiedPolygonalSurface and HasOrientationByVerticesAsList and HasFaces and HasEdgesOfVertices and HasEdgesOfFaces],
+    function(ramSurf)
+        return __SIMPLICIAL_ConversionListsVerticesEdges(
+            OrientationByVerticesAsList(ramSurf),
+            Faces(ramSurf),
+            EdgesOfVertices(ramSurf),
+            EdgesOfFaces(ramSurf) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "OrientationByEdgesAsList",
+    ["OrientationByVerticesAsList", "Faces", "EdgesOfVertices", "EdgesOfFaces"]);
 
 
 ##
 ## Special case if the orientability is known
 ##
-InstallMethod( GlobalOrientationByVerticesAsList, "for a simplicial surface", 
-        [IsSimplicialSurface and HasIsOrientable],
-        function( surf )
-            if not IsOrientable(surf) then
-                return fail;
-            fi;
-            TryNextMethod();
-        end
+InstallMethod( OrientationByVerticesAsList, 
+    "for a ramified polygonal surface with known orientation",
+    [IsRamifiedPolygonalSurface and HasIsOrientable],
+    function(ramSurf)
+        if not IsOrientable(ramSurf) then
+            return fail;
+        fi;
+        TryNextMethod();
+    end
 );
 
 ##
 ##  Now we write the method to only check if an orientation exists
 ##
-InstallMethod( IsOrientable, "for a simplicial surface",
-        [IsSimplicialSurface and HasGlobalOrientationByVerticesAsList],
-        function(surf)
-            return GlobalOrientationByVerticesAsList(surf) <> fail;
-        end
+InstallMethod( IsOrientable,
+    "for a ramified polygonal surface with OrientationByVerticesAsPerm",
+    [IsRamifiedPolygonalSurface and HasOrientationByVerticesAsPerm],
+    function(ramSurf)
+        return OrientationByVerticesAsPerm(ramSurf) <> fail;
+    end
 );
 
 ## If we can't compute IsOrientable any other way, we try computing a global
 ## orientation first
-InstallMethod( IsOrientable, "for a simplicial surface",
-        [IsSimplicialSurface and IsEdgesLikeSurface ],
-        function(surf)
-            if HasGlobalOrientationByVerticesAsList(surf) then
-                TryNextMethod();
-            fi;
-            GlobalOrientationByVerticesAsList(surf);
-            return IsOrientable(surf);
-        end
+InstallMethod( IsOrientable,
+    "for a ramified polygonal surface",
+    [IsRamifiedPolygonalSurface],
+    function(ramSurf)
+        if HasOrientationByVerticesAsPerm(ramSurf) then
+            TryNextMethod();
+        fi;
+        OrientationByVerticesAsPerm(ramSurf);
+        return IsOrientable(ramSurf);
+    end
 );
-RedispatchOnCondition( IsOrientable, true, 
-    [IsSimplicialSurface], [IsEdgesLikeSurface], 0 );

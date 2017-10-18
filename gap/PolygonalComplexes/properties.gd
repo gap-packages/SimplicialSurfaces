@@ -465,7 +465,7 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! @ExampleSession
 #! gap> surface := PolygonalSurfaceByDownwardIncidence(
 #! > [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]],
-#! > [ [3,5,7,13], , , [3,7,11], , , , , [7,11,13] ]);;
+#! > [ [2,6,12,14], , , [6,8,10], , , , , [10,14,15] ]);;
 #! gap> IsOrientable(surface);
 #! true
 #! @EndExampleSession
@@ -477,12 +477,12 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #!   quadrangular face)
 #!
 #! Additionally, the permutations can be replaced by lists, e.g. 
-#! <M>(3,7,15,13)</M> would be replaces by <M>[3, 7, 15, 13]</M>.
+#! <M>(3,7,15,13)</M> would be replaced by <M>[3, 7, 15, 13]</M>.
 #! @ExampleSession
 #! gap> OrientationByVerticesAsPerm( surface );
 #! [ (3, 5, 13, 7), , , (3, 7, 11), , , , (7, 13, 11) ]
 #! gap> OrientationByEdgesAsList( surface );
-#! [ [ 2, 6, 14, 12 ], , , [ 6, 8, 10 ], , , , [ 7, 11, 13 ] ];
+#! [ [ 2, 12, 14, 6 ], , , [ 6, 10, 8 ], , , , [ 7, 13, 11 ] ];
 #! @EndExampleSession
 #! 
 #! This does not define the orientation uniquely. If the orientation for
@@ -562,8 +562,8 @@ DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
 #! it exists (otherwise return fail). The orientation is given as a list
 #! with the faces of <A>ramSurf</A> as indices.
 #!
-#! For each face, this list contains a permutation/list of the vertices that
-#! are incident to this face.
+#! For each face, this list contains a permutation/list of the edges that
+#! are incident to this face. 
 #! 
 #! TODO describe properly
 #!

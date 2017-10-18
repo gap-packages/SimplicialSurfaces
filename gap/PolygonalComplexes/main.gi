@@ -28,9 +28,19 @@ BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, ramSurf);
             end);
-        RedispatchOnCondition(attr, true, [IsPolygonalComplex], 
-                [IsRamifiedPolygonalSurface], 0);
-        #TODO install a general error if only a polygonal complex is given
+
+        InstallOtherMethod(attr, "for a polygonal complex (to check if ramified)",
+            [IsPolygonalComplex],
+            function(complex)
+                if HasIsRamifiedPolygonalSurface(complex) and IsRamifiedPolygonalSurface(complex) then
+                    TryNextMethod();
+                fi;
+                if not IsRamifiedPolygonalSurface(complex) then
+                    Error("Given polygonal complex is not a ramified polygonal surface");
+                fi;
+                return attr(complex);
+            end
+        );
     end
 );
 
@@ -42,8 +52,19 @@ BindGlobal( "__SIMPLICIAL_AddSurfaceAttribute",
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, surface);
             end);
-        RedispatchOnCondition(attr, true, [IsPolygonalComplex],
-                [IsRamifiedPolygonalSurface and IsPolygonalSurface], 0);
+
+        InstallOtherMethod(attr, "for a polygonal complex (to check if surface)",
+            [IsPolygonalComplex],
+            function(complex)
+                if HasIsPolygonalSurface(complex)and IsPolygonalSurface(complex) then
+                    TryNextMethod();
+                fi;
+                if not IsPolygonalSurface(complex) then
+                    Error("Given polygonal complex is not a polygonal surface.");
+                fi;
+                return attr(complex);
+            end
+        );
     end
 );
 

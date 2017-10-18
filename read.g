@@ -17,6 +17,7 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gi
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/connectivity.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/orientability.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gi" );
 
 

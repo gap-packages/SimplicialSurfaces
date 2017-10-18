@@ -13,7 +13,6 @@
 # This is the document that manages all other tests
 
 BindGlobal( "SIMPLICIAL_TestAll", function()
-
     # Polygonal complex
     __SIMPLICIAL_Test_ConnectionLabelStarOfStar();
     __SIMPLICIAL_Test_InvertIncidence();
@@ -22,4 +21,5 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_EdgeFacePathSwitch();
     __SIMPLICIAL_Test_EdgeFacePathImplications();
     __SIMPLICIAL_Test_ConnectivityImplications();
+    __SIMPLICIAL_Test_OrientabilityImplications();
 end);
