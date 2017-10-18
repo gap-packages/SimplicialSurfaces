@@ -1055,6 +1055,10 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! * In the case of a closed edge-face-path, after restricting with the
 #!   first convention, the second entry of the edge-face-path is minimal.
 #! 
+#! If such an edge-face-path does not exist (might happen for general
+#! polygonal complexes) or is not unique (might happen for general ramified
+#! polygonal surfaces), <K>fail</K> is returned.
+#! 
 #! The attribute <K>EdgeFacePathsOfVertices</K>(<A>surface</A>) collects all
 #! of those edge-face-paths in a list that is indexed by the vertex labels,
 #! i.e. <K>EdgeFacePathsOfVertices</K>(<A>surface</A>)[<A>vertex</A>] = 
@@ -1064,8 +1068,9 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! The NC-version does not check whether the given <A>vertex</A> lies in the
 #! given <A>surface</A>.
 #! 
-#! For ramified polygonal surfaces the edge-face-paths around a vertex are
-#! not unique. Then you have to use the methods in
+#! Since for ramified polygonal surfaces the edge-face-paths around a vertex
+#! are
+#! not unique, there are the methods from
 #! <Ref Subsect="EdgeFacePathPartition"/> that return all of those paths.
 #! 
 #! As example consider the following polygonal surface:
@@ -1109,15 +1114,14 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! 
 #! @Returns a list of edge-face-paths
 #! @Arguments surface
-DeclareAttribute( "EdgeFacePathsOfVertices", IsPolygonalSurface );
+DeclareAttribute( "EdgeFacePathsOfVertices", IsPolygonalComplex );
 #! @Returns an edge-face-path
 #! @Arguments surface, vertex
-DeclareOperation( "EdgeFacePathOfVertex", [IsPolygonalSurface, IsPosInt] );
+DeclareOperation( "EdgeFacePathOfVertex", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments surface, vertex
-DeclareOperation( "EdgeFacePathOfVertexNC", [IsPolygonalSurface, IsPosInt] );
+DeclareOperation( "EdgeFacePathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
-InstallTrueMethod( IsPolygonalSurface, HasEdgeFacePathsOfVertices );
 
 #! For ramified polygonal surfaces it might happen that there is no single
 #! edge-face-path that contains all edges and faces that are incident to one
@@ -1153,6 +1157,9 @@ InstallTrueMethod( IsPolygonalSurface, HasEdgeFacePathsOfVertices );
 #!   * The second entry of the returned edge-face-path will be as small as
 #!     possible (after having minimized the first entry). This condition is
 #!     non-trivial only for closed edge-face-paths.
+#!
+#! If there is no such set of paths (which can happen for general polygonal
+#! complexes), <K>fail</K> is returned instead.
 #! 
 #! The attribute <K>EdgeFacePathPartitionsOfVertices</K>(<A>ramSurf</A>)
 #! collects these partitions in a list (indexed by the vertex
@@ -1189,18 +1196,15 @@ InstallTrueMethod( IsPolygonalSurface, HasEdgeFacePathsOfVertices );
 #! @Returns a list of sets of edge-face-paths
 #! @Arguments ramSurf
 DeclareAttribute( "EdgeFacePathPartitionsOfVertices", 
-        IsRamifiedPolygonalSurface );
+        IsPolygonalComplex );
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf, vertex
 DeclareOperation( "EdgeFacePathPartitionOfVertex",
-        [ IsRamifiedPolygonalSurface, IsPosInt ]);
+        [ IsPolygonalComplex, IsPosInt ]);
 #! @Arguments ramSurf, vertex
 DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
-        [ IsRamifiedPolygonalSurface, IsPosInt ]);
+        [ IsPolygonalComplex, IsPosInt ]);
 #! @EndGroup
-#TODO maybe add method EdgeFacePathOfVertex for ramified that throws an error if not unique?
-
-InstallTrueMethod( IsRamifiedPolygonalSurface, HasEdgeFacePathPartitionsOfVertices );
 
 
 #! @Section Graph interpretation

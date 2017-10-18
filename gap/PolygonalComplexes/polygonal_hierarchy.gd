@@ -33,7 +33,7 @@ InstallTrueMethod( IsPolygonalComplex, IsRamifiedPolygonalSurface );
 DeclareSynonym( "IsRamifiedSimplicialSurface", 
     IsRamifiedPolygonalSurface and IsTriangularComplex);
 
-DeclareProperty( "IsPolygonalSurface", IsRamifiedPolygonalSurface );
+DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex );
 InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
 DeclareSynonym( "IsSimplicialSurface", 
     IsPolygonalSurface and IsTriangularComplex );

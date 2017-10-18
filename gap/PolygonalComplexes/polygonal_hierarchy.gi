@@ -41,8 +41,10 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsTriangularComplex",
 ##
 ## Check whether a polygonal complex is a ramified polygonal surface.
 ##
-InstallMethod( IsRamifiedPolygonalSurface, "for a polygonal complex",
-    [ IsPolygonalComplex ],
+__SIMPLICIAL_AddPolygonalAttribute( IsRamifiedPolygonalSurface );
+InstallMethod( IsRamifiedPolygonalSurface, 
+    "for a polygonal complex that has Edges and FacesOfEdges",
+    [ IsPolygonalComplex and HasFacesOfEdges and HasEdges ],
     function( complex )
         local faceSize;
         
@@ -50,14 +52,17 @@ InstallMethod( IsRamifiedPolygonalSurface, "for a polygonal complex",
         return Size( Filtered( faceSize, s -> s > 2 ) ) = 0;
     end
 );
-
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+    "IsRamifiedPolygonalSurface", ["Edges", "FacesOfEdges"] );
 
 
 ##
 ## Check whether a ramified polygonal surface is a polygonal surface
 ##
-InstallMethod( IsPolygonalSurface, "for a ramified polygonal surface",
-    [ IsPolygonalComplex and IsRamifiedPolygonalSurface],
+__SIMPLICIAL_AddPolygonalAttribute( IsPolygonalSurface );
+InstallMethod( IsPolygonalSurface, 
+    "for a ramified polygonal surface with EdgeFacePathPartitionsOfVertices and Vertices",
+    [ IsRamifiedPolygonalSurface and HasEdgeFacePathPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
     function( ramSurf )
         local paths, pathSize;
 
@@ -66,12 +71,15 @@ InstallMethod( IsPolygonalSurface, "for a ramified polygonal surface",
         return ForAll(pathSize, s -> s = 1);
     end
 );
-InstallOtherMethod( IsPolygonalSurface, "for a polygonal complex",
-    [IsPolygonalComplex],
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsPolygonalSurface",
+    ["IsRamifiedPolygonalSurface", "EdgeFacePathPartitionsOfVertices", "VerticesAttributeOfPolygonalComplex"] );
+InstallImmediateMethod( IsPolygonalSurface,
+    "for a polygonal complex that is no ramified polygonal surface",
+    IsPolygonalComplex and HasIsRamifiedPolygonalSurface, 0,
     function(complex)
         if not IsRamifiedPolygonalSurface(complex) then
             return false;
         fi;
-        return IsPolygonalSurface(complex); # Method above is called
+        TryNextMethod();
     end
 );
