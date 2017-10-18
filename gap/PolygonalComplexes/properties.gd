@@ -434,6 +434,35 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #! @EndGroup
 
 
+#! @BeginGroup NumberOfConnectedComponents
+#! @Description
+#! Return the number of (strongly) connected components of the given polygonal
+#! complex.
+#!
+#! TODO explain definitions
+#!
+#! For example consider the ramified simplicial surface from the start of
+#! section <Ref Sect="Section_Properties_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!      \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> NumberOfConnectedComponents(butterfly);
+#! 1
+#! gap> NumberOfStronglyConnectedComponents(butterfly);
+#! 2
+#! @EndExampleSession
+#!
+#! @Returns a positive integer
+#! @Arguments complex
+DeclareAttribute( "NumberOfConnectedComponents", IsPolygonalComplex );
+#! @Arguments complex
+DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
+#! @EndGroup
+
+
 #! @Section Orientability
 #! @SectionLabel Orientability
 #! 

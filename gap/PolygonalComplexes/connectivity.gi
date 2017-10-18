@@ -29,6 +29,19 @@ InstallMethod( StronglyConnectedComponents, "for a polygonal complex",
     end
 );
 
+InstallMethod( NumberOfConnectedComponents, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        return Size(ConnectedComponentsAttributeOfPolygonalComplex(complex));
+    end
+);
+InstallMethod( NumberOfStronglyConnectedComponents,
+    "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        return Size(StronglyConnectedComponentsAttributeOfPolygonalComplex(complex));
+    end
+);
+
 ##
 ## There is some interesting symmetry between connectivity and strong 
 ## connectivity: Connectivity means "connected in the incidence graph
