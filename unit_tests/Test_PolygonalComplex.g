@@ -453,7 +453,7 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
 
     # edgeAsPerm -> edgeAsList
     obj := Objectify( PolygonalComplexType, rec() );
-    SetOrientationByVerticesAsPerm(obj, edgeAsPerm);
+    SetOrientationByEdgesAsPerm(obj, edgeAsPerm);
     SetIsRamifiedPolygonalSurface(obj, true);
     Assert(0, edgeAsList = OrientationByEdgesAsList(obj) );
 
@@ -472,6 +472,9 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     SetIsOrientable(obj, false);
     Assert(0, fail=OrientationByVerticesAsList(obj));
     Assert(0, fail=OrientationByVerticesAsPerm(obj));
+    SetFaces(obj, faces);
+    SetVerticesOfEdges(obj, verticesOfEdges); # not perfect, but probably ok
+    SetEdgesOfFaces( obj, edgesOfFaces );
     Assert(0, fail=OrientationByEdgesAsList(obj));
     Assert(0, fail=OrientationByEdgesAsPerm(obj));
 

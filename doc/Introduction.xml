@@ -450,13 +450,13 @@ gap&gt; FacesOfVertices(surf);
         <M>i</M>.
 <Example>
 gap&gt; OrientationByVertices(surf);
-[ (1,3,2), (2,3,4), (3,5,4) ]
+[ (1,2,3), (2,4,3), (3,4,5) ]
 </Example>
         If we would rather work with lists instead of permutations (instead
         of the permutation (3,5,4) we would like the list [3, 5, 4]) we can use
 <Example>
 gap&gt; OrientationByVerticesAsList(surf);
-[ [ 1, 3, 2 ], [ 2, 3, 4 ], [ 3, 5, 4 ] ]
+[ [ 1, 2, 3 ], [ 2, 4, 3 ], [ 3, 4, 5 ] ]
 </Example>
     <!-- At this point people should be able to generalize our naming
          conventions for operations. As this is quite important, we try to

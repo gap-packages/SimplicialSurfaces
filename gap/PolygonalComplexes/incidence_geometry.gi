@@ -674,7 +674,7 @@ InstallMethod( CyclicVertexOrderOfFacesAsList,
                         EdgesOfVertices(complex)[startVert] );
             adVertices := List( adEdges, e -> 
                     OtherVertexOfEdgeNC(complex,startVert,e) );
-            Assert(1, Size(adVertices)<>2);
+            Assert(1, Size(adVertices)=2);
             Assert(1, adVertices[1] <> adVertices[2]);
 
             if adVertices[1] < adVertices[2] then
@@ -793,7 +793,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 BindGlobal( "__SIMPLICIAL_ConversionListsVerticesEdges", 
     function( listOfLists, listIndex, conversion, possibleNewElements )
 	local newListOfLists, i, oldList, newList, firstEl, secondEl, 
-            intersection, j, currentEl, nextEl;
+            intersection, j, currentEl, nextEl, min, pos;
 
         if listOfLists = fail then
             return fail;
@@ -825,6 +825,11 @@ BindGlobal( "__SIMPLICIAL_ConversionListsVerticesEdges",
                         Assert(1, Length(intersection)=1);
 			newList[j] := intersection[1];
 		od;
+
+                # Normalise the new list
+                min := Minimum( newList );
+                pos := Position( newList, min );
+                newList := Concatenation( newList{[pos..Length(newList)]}, newList{[1..pos-1]} );
 
 		newListOfLists[i] := newList;
 	od;
