@@ -162,6 +162,114 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
 #######################################
 
 
+#######################################
+##
+##      Types of vertices
+##
+InstallMethod( InnerVertices, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local edgeFacePaths;
+
+        edgeFacePaths := EdgeFacePathsOfVertices(complex);
+        return Filtered( Vertices(complex), v -> 
+            edgeFacePaths[v]<>fail and IsEvenInt(Size(edgeFacePaths[v])) );
+    end
+);
+InstallMethod( IsInnerVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return vertex in InnerVertices(complex);
+    end
+);
+InstallMethod( IsInnerVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        __SIMPLICIAL_CheckVertex(complex, vertex, "IsInnerVertex");
+        return IsInnerVertexNC(complex, vertex);
+    end
+);
+
+
+InstallMethod( BoundaryVertices, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local edgeFacePaths;
+
+        edgeFacePaths := EdgeFacePathsOfVertices(complex);
+        return Filtered( Vertices(complex), v -> 
+            edgeFacePaths[v]<>fail and IsOddInt(Size(edgeFacePaths[v])) );
+    end
+);
+InstallMethod( IsBoundaryVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return vertex in BoundaryVertices(complex);
+    end
+);
+InstallMethod( IsBoundaryVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        __SIMPLICIAL_CheckVertex(complex, vertex, "IsBoundaryVertex");
+        return IsBoundaryVertexNC(complex, vertex);
+    end
+);
+
+
+InstallMethod( RamifiedVertices, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local edgeFacePaths, partitions;
+
+        edgeFacePaths := EdgeFacePathsOfVertices(complex);
+        partitions := EdgeFacePathPartitionsOfVertices(complex);
+        return Filtered( Vertices(complex), v -> 
+            edgeFacePaths[v]=fail and partitions[v]<>fail );
+    end
+);
+InstallMethod( IsRamifiedVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return vertex in RamifiedVertices(complex);
+    end
+);
+InstallMethod( IsRamifiedVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        __SIMPLICIAL_CheckVertex(complex, vertex, "IsRamifiedVertex");
+        return IsRamifiedVertexNC(complex, vertex);
+    end
+);
+
+
+InstallMethod( ChaoticVertices, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local partitions;
+
+        partitions := EdgeFacePathPartitionsOfVertices(complex);
+        return Filtered( Vertices(complex), v -> partitions[v]=fail );
+    end
+);
+InstallMethod( IsChaoticVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return vertex in ChaoticVertices(complex);
+    end
+);
+InstallMethod( IsChaoticVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        __SIMPLICIAL_CheckVertex(complex, vertex, "IsChaoticVertex");
+        return IsChaoticVertexNC(complex, vertex);
+    end
+);
+
+
+##
+##      End of vertex-types
+##
+#######################################
 
 
 #######################################

@@ -646,13 +646,119 @@ DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
 #! are <E>boundary vertices</E>. This classifies all vertices of a polygonal
 #! surface.
 #!
-#! In general there are more than these two possibilities. In the case
-#TODO what are RamifiedVertices? More than one edge-face-path (even if some of them are open/closed);
-# or more general: vertex of a ramified edge? Should the vertex of a ramified edge
-# be ramified (probably not). How should it be called?
-#TODO to make this possible, we have to generalize EdgeFacePaths -> also allow fail
+#! In general there are more than these two possibilities. In the case of 
+#! ramified polygonal surfaces (defined in 
+#! <Ref Sect="PolygonalStructures_ramified"/>) there can be 
+#! <E>ramified vertices</E>:
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!       \input{Image_TwoJoinedTetrahedrons.tex}
+#!    \end{tikzpicture}
+#! </Alt>
+#!
+#! For general polygonal complexes (defined in 
+#! <Ref Sect="PolygonalStructures_complex"/>) there might be edges that are 
+#! incident to more than two faces.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!     \input{Image_ThreeBranchingTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! Vertices that are incident to such an edge are called 
+#! <E>chaotic vertices</E>.
 
-# TODO properties edges
+#! @BeginGroup
+#! @Description
+#! Return the set of all inner vertices.
+#!
+#! TODO explanation
+#!
+#! The method <K>IsInnerVertex</K> checks whether the given vertex is an inner
+#! vertex of the given polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "InnerVertices", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsInnerVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all boundary vertices.
+#!
+#! TODO explanation
+#!
+#! The method <K>IsBoundaryVertex</K> checks whether the given vertex is a 
+#! boundary
+#! vertex of the given polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "BoundaryVertices", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsBoundaryVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all ramified vertices.
+#!
+#! TODO explanation
+#!
+#! The method <K>IsRamifiedVertex</K> checks whether the given vertex is a
+#! ramified
+#! vertex of the given polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "RamifiedVertices", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsRamifiedVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all chaotic vertices.
+#!
+#! TODO explanation
+#!
+#! The method <K>IsChaoticVertex</K> checks whether the given vertex is a 
+#! chaotic
+#! vertex of the given polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "ChaoticVertices", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsChaoticVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsChaoticVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+
 
 #! @Section Types of edges
 #! @SectionLabel Properties_EdgeTypes
