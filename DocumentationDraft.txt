@@ -61,6 +61,10 @@ Chapter "Errors and bugs"
     Assume users find them by searching
     Also include what to do if errors are found (how to report them etc.)
 
+TODO: include VertexEdgePaths to deal with CyclicOrderOfBoundary and CyclicOrderInFace (for faces with only 2 edges). -> Make a section about different paths (maybe including connectivity?)
+    This would make the ordered access more homogeneous.
+    The paths should be defined independently from them (to be easier to localize)
+    Problem: They are a technical construction and might be boring to read "just because". At the same time, they are kind of central. Are there some method that use them? That would be especially convenient if it would fit into the access chapter..
 
 ------------------
 

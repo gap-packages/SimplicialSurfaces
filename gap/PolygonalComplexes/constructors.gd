@@ -41,15 +41,17 @@
 
 #! This package offers three different ways to construct a polygonal complex
 #! "from scratch":
-#! * Choose from a few standard example (like platonic solids) in section TODO
+#! * Choose from a few standard example (like platonic solids) in section
+#!   <Ref Sect="Section_Constructors_Examples"/>.
 #! * Define it directly by its incidence structure (this will be the main
 #!   content of this chapter)
 #! * Use the surface database to find appropriate complexes. This will be 
 #!   handled in chapter TODO
 #!
-#! As the list of some small standard examples in section TODO 
+#! As the list of some small standard examples in section
+#! <Ref Sect="Section_Constructors_Examples"/>
 #! does not warrant much 
-#! explanation (except noting that all platonic solids are there), we will
+#! explanation (except noting that all platonic solids are implemented), we will
 #! now explain the structure of the more general constructors.
 #! 
 #! All general constructors are structured like [Type]By[Method](args), e.g.
@@ -149,6 +151,7 @@
 # TODO for visual distinguishing make the face colours slightly
 # different: yellow, cyan, green, light red, etc...
 # This needs styles and appropriate code
+
 
 ## Here we write part of the documentation that is the same over the 
 ## different versions
