@@ -25,15 +25,15 @@
                 edge (E9) edge (E10) edge (E12) edge (E13);
 
             % Vertex nodes
-            \node[vertexNode] (V7) [below=of Help] {7}
+            \node[vertexNode] (V11) [below=of Help] {11}
                 edge (E10) edge (E13);
-            \node[vertexNode] (V11) [right=of V7] {11}
+            \node[vertexNode] (V7) [right=of V11] {7}
                 edge (E13) edge (E12);
-            \node[vertexNode] (V5) [left=of V7] {5}
+            \node[vertexNode] (V3) [left=of V11] {3}
                 edge (E8) edge (E9) edge (E12);
-            \node[vertexNode] (V3) [left=of V5] {3}
+            \node[vertexNode] (V5) [left=of V3] {5}
                 edge (E6) edge (E9) edge (E10);
-            \node[vertexNode] (V2) [left=of V3] {2}
+            \node[vertexNode] (V2) [left=of V5] {2}
                 edge (E6) edge (E8);
     \end{scope}
 \end{tikzpicture}

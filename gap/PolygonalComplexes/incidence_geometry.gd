@@ -1221,8 +1221,9 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #! as a coloured undirected graph, the <E>incidence graph</E> of the polygonal
 #! complex.
 #!
-#! The vertices of this incidence graph consist of all vertices, edges and 
-#! faces of the polygonal complex. The edges of the incidence graph are given
+#! The vertices of this incidence graph consist of all vertices (colour 0), 
+#! edges (colour 1) and 
+#! faces (colour 2) of the polygonal complex. The edges of the incidence graph are given
 #! by pairs of vertices-edges and edges-faces that are incident to each other.
 #! 
 #! As an example, consider the polygonal surface from section
@@ -1242,9 +1243,11 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 
 #! @BeginGroup
 #! @Description
-#! Return the incidence graph of the given polygonal complex. The incidence
+#! Return the incidence graph (a coloured, undirected graph) of the given 
+#! polygonal complex. The incidence
 #! graph is defined as follows:
-#! * The <E>vertices</E> are the vertices, edges and faces of <A>complex</A>.
+#! * The <E>vertices</E> are the vertices (colour 0), edges (colour 1) and 
+#!   faces (colour 2) of <A>complex</A>.
 #! * The <E>edges</E> are vertex-edge-pairs or edge-face-pairs such that the
 #!   elements of the pair are incident in <A>complex</A>.
 #!
