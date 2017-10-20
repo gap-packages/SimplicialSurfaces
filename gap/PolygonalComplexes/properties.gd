@@ -794,8 +794,8 @@ DeclareOperation( "IsChaoticVertexNC", [IsPolygonalComplex, IsPosInt] );
 
 #! @BeginGroup
 #! @Description
-#! Return the set of all <E>inner edges</E> of the given polygonal complex.
-#! An inner edge is an edge that is incident to exactly two faces.
+#! Return the set of all inner edges of the given polygonal complex.
+#! An <E>inner edge</E> is an edge that is incident to exactly two faces.
 #!
 #! The method <K>IsInnerEdge</K> checks whether the given edge is an inner
 #! edge of the given polygonal complex. The NC-version does not check whether
@@ -830,8 +830,8 @@ DeclareOperation( "IsInnerEdgeNC", [IsPolygonalComplex, IsPosInt] );
 
 #! @BeginGroup
 #! @Description
-#! Return the set of all <E>boundary edges</E> of the given polygonal complex.
-#! A boundary edge is an edge that is incident to exactly one face.
+#! Return the set of all boundary edges of the given polygonal complex.
+#! A <E>boundary edge</E> is an edge that is incident to exactly one face.
 #!
 #! The method <K>IsBoundaryEdge</K> checks whether the given edge is a 
 #! boundary
@@ -866,8 +866,8 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsPolygonalComplex, IsPosInt] );
 
 #! @BeginGroup
 #! @Description
-#! Return the set of all <E>ramified edges</E> of the given polygonal complex.
-#! A ramified edge is an edge that is incident to at least three faces.
+#! Return the set of all ramified edges of the given polygonal complex.
+#! A <E>ramified edge</E> is an edge that is incident to at least three faces.
 #!
 #! The method <K>IsRamifiedEdge</K> checks whether the given edge is a 
 #! ramified
