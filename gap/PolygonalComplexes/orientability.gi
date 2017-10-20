@@ -56,7 +56,7 @@ InstallMethod( OrientationByVerticesAsPerm,
 	    orient2, orientable, face, next, 
             FindGlobalOrientation, correctOr;
 
-        if NrOfFaces(surf) = 0 then
+        if NumberOfFaces(surf) = 0 then
             return [];
         fi;
 
@@ -84,7 +84,7 @@ InstallMethod( OrientationByVerticesAsPerm,
 	# to use Number instead of Length to only count the bound entries.
 	orientable := true;
 	orientList := [];
-	while Number(orientList) < NrOfFaces(surf) and orientable do
+	while Number(orientList) < NumberOfFaces(surf) and orientable do
 	    # We proceed individually in each strongly connected component. 
             # This loop
 	    # is called once per strongly connected component. We start by 

@@ -131,11 +131,11 @@ gap&gt; surface := Cube();;
 </Example>
         We can compute elementary properties of the surface
 <Example>
-gap&gt; NrOfVertices(surface);
+gap&gt; NumberOfVertices(surface);
 8
-gap&gt; NrOfEdges(surface);
+gap&gt; NumberOfEdges(surface);
 12
-gap&gt; NrOfFaces(surface);
+gap&gt; NumberOfFaces(surface);
 6
 gap&gt; EulerCharacteristic(surface);
 2
@@ -356,7 +356,7 @@ gap&gt; pyr := PolygonalSurfaceByVerticesInFaces(
                  3) It gives frustrated users a target for jumping (after
                     they got confused by their bad input). -->
 <Example>
-gap&gt; NrOfEdges(pyr);
+gap&gt; NumberOfEdges(pyr);
 10
 gap&gt; IsClosedSurface(pyr);
 false
@@ -381,7 +381,7 @@ false
 <Example>
 gap&gt; pyr :=PolygonalSurfaceByVerticesInFaces(  
 &gt;                    [[2,3,5,4], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;
-gap&gt; NrOfEdges(pyr);
+gap&gt; NumberOfEdges(pyr);
 8
 gap&gt; IsClosedSurface(pyr);
 true

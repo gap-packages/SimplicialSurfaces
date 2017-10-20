@@ -43,7 +43,7 @@
 #! Return the <E>Euler-characteristic</E> of the given polygonal complex.
 #! The Euler-characteristic is computed as
 #! @BeginLogSession
-#! gap> NrOfVertices(complex) - NrOfEdges(complex) + NrOfFaces(complex);
+#! gap> NumberOfVertices(complex) - NumberOfEdges(complex) + NumberOfFaces(complex);
 #! @EndLogSession
 #! As an example, consider the five-star that was introduced at the
 #! start of chapter <Ref Chap="Chapter_Properties"/>:
@@ -53,11 +53,11 @@
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> NrOfVertices(fiveStar);
+#! gap> NumberOfVertices(fiveStar);
 #! 6
-#! gap> NrOfEdges(fiveStar);
+#! gap> NumberOfEdges(fiveStar);
 #! 10
-#! gap> NrOfFaces(fiveStar);
+#! gap> NumberOfFaces(fiveStar);
 #! 5
 #! gap> EulerCharacteristic(fiveStar);
 #! 1

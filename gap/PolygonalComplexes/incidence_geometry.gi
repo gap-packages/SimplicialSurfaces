@@ -22,19 +22,19 @@ InstallMethod( Vertices, "for a polygonal complex", [IsPolygonalComplex],
 );
 
 # methods to compute number of vertices, edges, faces
-InstallMethod( NrOfVertices, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( NumberOfVertices, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
             return Length( Vertices(complex) );
     end
 );
 
-InstallMethod( NrOfEdges, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( NumberOfEdges, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
             return Length( Edges(complex) );
     end
 );
 
-InstallMethod( NrOfFaces, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( NumberOfFaces, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
             return Length( Faces(complex) );
     end

@@ -108,13 +108,14 @@
 #! </Alt>
 #TODO give a reference to the constructor
 #! @ExampleSession
-#! gap> complex := PolygonalComplexByDownwardIncidence( 4, 4, 1,
+#! gap> complex := PolygonalComplexByDownwardIncidence( 
 #! >        [ , [2,3], [2,5], , [3,7], [5,7] ], [ , , [2,3,5,6] ] );;
 #! @EndExampleSession
 #
 #! We can access the sets of
 #! all those labels by <K>Vertices</K>, <K>Edges</K> and <K>Faces</K>.
-#! If only the number of vertices is relevant, we can use <K>NrOfVertices</K>
+#! If only the number of vertices is relevant, we can use 
+#! <K>NumberOfVertices</K>
 #! instead (likewise for edges and faces).
 
 #! @BeginGroup
@@ -130,7 +131,7 @@
 #! @ExampleSession
 #! gap> Vertices(complex);
 #! [ 2, 3, 5, 7 ]
-#! gap> NrOfVertices(complex);
+#! gap> NumberOfVertices(complex);
 #! 4
 #! @EndExampleSession
 #! 
@@ -142,7 +143,7 @@ DeclareOperation( "Vertices", [IsPolygonalComplex] );
 #! @Arguments complex
 DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
+DeclareAttribute( "NumberOfVertices", IsPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup
@@ -157,7 +158,7 @@ DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
 #! @ExampleSession
 #! gap> Edges(complex);
 #! [ 2, 3, 5, 6 ]
-#! gap> NrOfEdges(complex);
+#! gap> NumberOfEdges(complex);
 #! 4
 #! @EndExampleSession
 #
@@ -165,7 +166,7 @@ DeclareAttribute( "NrOfVertices", IsPolygonalComplex );
 #! @Returns A set of positive integers/a non-negative integer
 DeclareAttribute( "Edges", IsPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
+DeclareAttribute( "NumberOfEdges", IsPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup
@@ -180,7 +181,7 @@ DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
 #! @ExampleSession
 #! gap> Faces(complex);
 #! [ 3 ]
-#! gap> NrOfFaces(complex);
+#! gap> NumberOfFaces(complex);
 #! 1
 #! @EndExampleSession
 #
@@ -188,7 +189,7 @@ DeclareAttribute( "NrOfEdges", IsPolygonalComplex );
 #! @Returns A set of positive integers/a non-negative integer
 DeclareAttribute( "Faces", IsPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
+DeclareAttribute( "NumberOfFaces", IsPolygonalComplex );
 #! @EndGroup
 
 
@@ -233,7 +234,7 @@ DeclareAttribute( "NrOfFaces", IsPolygonalComplex );
 #!
 #TODO give a reference to the constructor
 #! @ExampleSession
-#! gap> complex := PolygonalComplexByDownwardIncidence( 5, 6, 2, 
+#! gap> complex := PolygonalComplexByDownwardIncidence( 
 #! >    [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], 
 #! >    [[6,8,9], , , [9,10,12,13]]);;
 #! gap> Vertices(complex);

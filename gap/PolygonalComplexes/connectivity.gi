@@ -86,14 +86,14 @@ InstallMethod( IsConnected, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
 	local component;
 
-        if NrOfFaces(complex) = 0 then
+        if NumberOfFaces(complex) = 0 then
             return true;
         fi;
 
         component := __SIMPLICIAL_AbstractConnectedComponent( 
                         Faces(complex), VerticesOfFaces(complex), 
                         Faces(complex)[1] );
-        return Size( component ) = NrOfFaces(complex);
+        return Size( component ) = NumberOfFaces(complex);
     end
 );
 InstallImmediateMethod( IsConnected, 
@@ -110,14 +110,14 @@ InstallMethod( IsStronglyConnected, "for a polygonal complex", [IsPolygonalCompl
     function(complex)
 	local component;
 
-        if NrOfFaces(complex) = 0 then
+        if NumberOfFaces(complex) = 0 then
             return true;
         fi;
 
         component := __SIMPLICIAL_AbstractConnectedComponent( 
                         Faces(complex), EdgesOfFaces(complex), 
                         Faces(complex)[1] );
-        return Size( component ) = NrOfFaces(complex);
+        return Size( component ) = NumberOfFaces(complex);
     end
 );
 InstallImmediateMethod( IsStronglyConnected, 

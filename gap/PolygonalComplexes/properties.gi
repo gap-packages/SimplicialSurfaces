@@ -18,7 +18,7 @@
 InstallMethod( EulerCharacteristic, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return NrOfVertices(complex) - NrOfEdges(complex) + NrOfFaces(complex);
+        return NumberOfVertices(complex) - NumberOfEdges(complex) + NumberOfFaces(complex);
     end
 );
 
@@ -137,7 +137,7 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
         local edgeDegrees, max, edge, symbol, degs;
 
         edgeDegrees := List( EdgesOfVertices(complex), Size );
-        if NrOfEdges(complex) = 0 then
+        if NumberOfEdges(complex) = 0 then
             return [];
         fi;
         max := Maximum( edgeDegrees ); # bigger than zero since edges exist
