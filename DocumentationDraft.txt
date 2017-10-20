@@ -70,6 +70,7 @@ TODO: include VertexEdgePaths to deal with CyclicOrderOfBoundary and CyclicOrder
 
 Chapter "Modification of surfaces"
     TODO
+    TODO rename Geodesics to AllGeodesics (to make distinction to individual clear)
 
 Chapter "Development methods"
     TODO with example of wild simplicial surfaces (before they are introduced?)
