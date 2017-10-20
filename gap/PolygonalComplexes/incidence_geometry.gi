@@ -73,12 +73,6 @@ __SIMPLICIAL_AddPolygonalAttribute( EdgesOfFaces );
 ## Connection between labelled access and *Of*-attributes (via scheduler)
 ##
 
-BindGlobal( "__SIMPLICIAL_BoundEntriesOfList",
-    function( list )
-	return Filtered( [1..Length(list)], i -> IsBound( list[i] ) );
-    end
-);
-
 ## EdgesOfVertices
 InstallMethod( Edges, 
     "for a polygonal complex with EdgesOfVertices",

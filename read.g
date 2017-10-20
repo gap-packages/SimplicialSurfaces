@@ -14,6 +14,7 @@ ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/AttributeScheduler.gi
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/connectivity.gi" );

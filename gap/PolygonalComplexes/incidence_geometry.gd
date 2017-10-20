@@ -1239,6 +1239,7 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #! * <K>GRAPE</K> (method <K>IncidenceGrapeGraph</K>).
 #! * <K>NautyTracesInterface</K> (method <K>IncidenceNautyGraph</K>).
 #!
+#TODO html links
 #! TODO compare packages 
 
 #! @BeginGroup
@@ -1269,3 +1270,5 @@ DeclareAttribute( "IncidenceGrapeGraph", IsPolygonalComplex );
 #! @Arguments complex
 DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! @EndGroup
+
+#TODO better to split the methods to explain each graph individually?
