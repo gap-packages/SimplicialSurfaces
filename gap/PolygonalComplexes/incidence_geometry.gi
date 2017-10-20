@@ -735,7 +735,7 @@ InstallMethod( CyclicEdgeOrderOfFacesAsList,
             adVertices := VerticesOfEdges(complex)[startEdge];
             adEdges := List( adVertices, v ->
                     OtherEdgeOfVertexInFaceNC(complex, v, startEdge, f) );
-            Assert(1, Size(adEdges)<>2);
+            Assert(1, Size(adEdges)=2);
             Assert(1, adEdges[1] <> adEdges[2]);
 
             if adEdges[1] < adEdges[2] then

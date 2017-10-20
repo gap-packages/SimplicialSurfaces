@@ -102,13 +102,14 @@
 #! of all vertices that are incident to that edge.
 #! @ExampleSession
 #! gap> verticesOfEdges := [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]];
-#! [ , [ 3, 5 ], , , , [ 3, 7 ], , [ 3, 11 ], , [ 7, 11 ], , [ 5, 13 ], , [ 7, 13 ], [ 11, 13 ] ]
+#! [ , [ 3, 5 ],,,, [ 3, 7 ],, [ 3, 11 ],, [ 7, 11 ],, [ 5, 13 ],, 
+#!   [ 7, 13 ], [ 11, 13 ] ]
 #! @EndExampleSession
 #! Similarly the list <A>edgesOfFaces</A> has an entry for each face with the
 #! set of incident edges.
 #! @ExampleSession
-#! gap> edgesOfFaces := [ [3,5,7,13], , , [3,7,11], , , , , [7,11,13] ];
-#! [ [ 3, 5, 7, 13 ], , , [ 3, 7, 11 ], , , , , [ 7, 11, 13 ] ]
+#! gap> edgesOfFaces := [ [2,6,12,14], , , [6,8,10], , , , , [10,14,15] ];
+#! [ [ 2, 6, 12, 14 ],,, [ 6, 8, 10 ],,,,, [ 10, 14, 15 ] ]
 #! @EndExampleSession
 #! With these two lists we can construct the desired polygonal surface.
 #! @ExampleSession
@@ -337,13 +338,13 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! of all edges that are incident to that vertex.
 #! @ExampleSession
 #! gap> edgesOfVertices := [,, [2,6,8],, [2,12],, [6,10,14],,,, [8,10,15],, [12,14,15] ];
-#! [ , ,  [ 2, 6, 8 ], , [ 2, 12 ], , [ 6, 10, 14 ], , , , [ 8, 10, 15 ], , [ 12, 14, 15 ] ]
+#! [ ,,  [ 2, 6, 8 ],, [ 2, 12 ],, [ 6, 10, 14 ],,,, [ 8, 10, 15 ],, [ 12, 14, 15 ] ]
 #! @EndExampleSession
 #! Similarly the list <A>facesOfEdges</A> has an entry for each edge with the
 #! set of incident faces.
 #! @ExampleSession
 #! gap> facesOfEdges := [ , [1], , , , [1,4], , [4], , [4,9], , [1], , [1,9], [9] ];
-#! [ , [ 1 ], , , , [ 1, 4 ], , [ 4 ], , [ 4, 9 ], , [ 1 ], , [ 1, 9 ], [ 9 ] ]
+#! [ , [ 1 ],,,, [ 1, 4 ],, [ 4 ],, [ 4, 9 ],, [ 1 ],, [ 1, 9 ], [ 9 ] ]
 #! @EndExampleSession
 #! With these two lists we can construct the desired polygonal surface.
 #! @ExampleSession
@@ -595,7 +596,7 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! more than three vertices).
 #! @ExampleSession
 #! gap> verticesInFaces := [ [3,5,13,7], , , [3,11,7], , , , , [7,11,13] ];
-#! [ [ 3, 5, 13, 7 ], , , [ 3, 11, 7 ], , , , , [ 7, 11, 13 ] ]
+#! [ [ 3, 5, 13, 7 ],,, [ 3, 11, 7 ],,,,, [ 7, 11, 13 ] ]
 #! gap> PolygonalSurfaceByVerticesInFaces( verticesInFaces );;
 #! @EndExampleSession
 #! 

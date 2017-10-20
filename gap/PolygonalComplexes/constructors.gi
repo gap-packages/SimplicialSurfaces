@@ -180,14 +180,17 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                         Append(description, " a set,");
                     elif i = pos then
                         filterStd[i] := ValueGlobal("IsPosInt");
+                        filterWeak[i] := ValueGlobal("IsPosInt");
                         Append(description, " a positive integer,");
                     else
                         filterStd[i] := ValueGlobal("IsObject");
+                        filterWeak[i] := ValueGlobal("IsObject");
                         Append(description, " an object,");
                     fi;
                 od;
                 Append(description, Concatenation(" and ", String(Size(namesOfLists)), " list(s)"));
                 Append( filterStd, shortFilter );
+                Append( filterWeak, shortFilter );
                 
                 # Install the methods
                 wrapper := function( name, nameNC, description, filterStd, filterWeak, filterStrong, pos )
@@ -292,8 +295,8 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
     function( verticesOfEdges, edgesOfFaces )
         local obj;
         obj := Objectify( PolygonalComplexType, rec() );
-        SetVerticesOfEdges(obj, verticesOfEdges);
-        SetEdgesOfFaces(obj, edgesOfFaces);
+        SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
+        SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
         return obj;
     end,
     function( arg )
@@ -308,6 +311,7 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
             verticesOfEdges := arg[5];
             edgesOfFaces := arg[6];
         fi;
+
         verticesDed := Union( verticesOfEdges );
         edgesDed := __SIMPLICIAL_BoundEntriesOfList(verticesOfEdges); # from incidence_geometry.gi
         facesDed := __SIMPLICIAL_BoundEntriesOfList(edgesOfFaces);
@@ -344,8 +348,8 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
     function( edgesOfVertices, facesOfEdges )
         local obj;
         obj := Objectify( PolygonalComplexType, rec() );
-        SetEdgesOfVertices( obj, edgesOfVertices );
-        SetFacesOfEdges(obj, facesOfEdges);
+        SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
+        SetFacesOfEdges(obj, List(facesOfEdges, Set) );
         return obj;
     end,
     function( arg )

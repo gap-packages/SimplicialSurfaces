@@ -249,7 +249,7 @@ DeclareAttribute( "NumberOfFaces", IsPolygonalComplex );
 #! to which faces.
 #! @ExampleSession
 #! gap> VerticesOfFaces(complex);
-#! [ [ 2, 3, 5 ], , , [ 3, 5, 7, 11 ] ];
+#! [ [ 2, 3, 5 ],,, [ 3, 5, 7, 11 ] ]
 #! @EndExampleSession
 #! The first entry of this list contains a set of all vertices that are
 #! incident to face I. The second and third entries are not bound since
@@ -263,7 +263,7 @@ DeclareAttribute( "NumberOfFaces", IsPolygonalComplex );
 #! that contains sets of edges and is indexed by the vertex labels.
 #! @ExampleSession
 #! gap> EdgesOfVertices(complex);
-#! [ , [ 6, 8 ], [ 8, 9, 12 ], , [ 6, 9, 10 ], , [ 12, 13 ], , , , [ 10, 13 ] ]
+#! [ , [ 6, 8 ], [ 8, 9, 12 ],, [ 6, 9, 10 ],, [ 12, 13 ],,,, [ 10, 13 ] ]
 #! @EndExampleSession
 #! For example, if we consider the third entry of this list, we find the
 #! set [ 8, 9, 12 ]. Those are all edges that are incident to the vertex 3.
@@ -297,7 +297,7 @@ DeclareAttribute( "NumberOfFaces", IsPolygonalComplex );
 #! gap> EdgesOfVertex(complex, 5);
 #! [ 6, 9, 10 ]
 #! gap> EdgesOfVertices(complex);
-#! [ , [ 6, 8 ], [ 8, 9, 12 ], , [ 6, 9, 10 ], , [ 12, 13 ], , , [ 10, 13 ] ]
+#! [ , [ 6, 8 ], [ 8, 9, 12 ],, [ 6, 9, 10 ],, [ 12, 13 ],,,, [ 10, 13 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -336,7 +336,7 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! gap> FacesOfVertex(complex, 5);
 #! [ 1, 4 ]
 #! gap> FacesOfVertices(complex);
-#! [ , [ 1 ], [ 1, 4 ], , [ 1, 4 ], , [ 4 ], , , [ 4 ] ]
+#! [ , [ 1 ], [ 1, 4 ],, [ 1, 4 ],, [ 4 ],,,, [ 4 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -374,7 +374,8 @@ DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! gap> VerticesOfEdge(complex, 12);
 #! [ 3, 7 ]
 #! gap> VerticesOfEdges(complex);
-#! [ , , , , , [ 2, 5 ], , [ 2, 3 ], [ 3, 5 ], [ 5, 11 ], , [ 3, 7 ], [ 7, 11 ] ]
+#! [ ,,,,, [ 2, 5 ],, [ 2, 3 ], [ 3, 5 ], [ 5, 11 ],, [ 3, 7 ],
+#!   [ 7, 11 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -412,7 +413,7 @@ DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! gap> FacesOfEdge(complex, 10);
 #! [ 4 ]
 #! gap> FacesOfEdges(complex);
-#! [ , , , , , [ 1 ], , [ 1 ], [ 1, 4 ], [ 4 ], , [ 4 ], [ 4 ] ]
+#! [ ,,,,, [ 1 ],, [ 1 ], [ 1, 4 ], [ 4 ],, [ 4 ], [ 4 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -451,7 +452,7 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! gap> VerticesOfFace(complex, 4);
 #! [ 3, 5, 7, 11 ]
 #! gap> VerticesOfFaces(complex);
-#! [ [ 2, 3, 5 ], , , [ 3, 5, 7, 11 ] ]
+#! [ [ 2, 3, 5 ],,, [ 3, 5, 7, 11 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -490,7 +491,7 @@ DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! gap> EdgesOfFace(complex, 4);
 #! [ 9, 10, 12, 13 ]
 #! gap> EdgesOfFaces(complex);
-#! [ [ 6, 8, 9 ], , , [ 9, 10, 12, 13 ] ]
+#! [ [ 6, 8, 9 ],,, [ 9, 10, 12, 13 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -715,7 +716,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! </Alt>
 #! @ExampleSession
 #! gap> pentagon := PolygonalSurfaceByDownwardIncidence( 
-#! >    [,[3,6],[2,9],[1,6],,[2.3],,[1,9]], [, [2,3,4,6,8]] );;
+#! >    [,[3,6],[2,9],[1,6],,[2,3],,[1,9]], [, [2,3,4,6,8]] );;
 #! gap> VerticesOfFace(pentagon,2);
 #! [ 1, 2, 3, 6, 9 ]
 #! gap> EdgesOfFace(pentagon,2);
@@ -751,9 +752,9 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! [1,6,3,2,9] and [2,4,8,3,6].
 #! @ExampleSession
 #! gap> CyclicVertexOrderOfFaceAsList( pentagon, 2 );
-#! [ 1, 6, 3, 2, 9 ];
+#! [ 1, 6, 3, 2, 9 ]
 #! gap> CyclicEdgeOrderOfFaceAsList( pentagon, 2 );
-#! [ 2, 4, 8, 3, 6 ];
+#! [ 2, 4, 8, 3, 6 ]
 #! @EndExampleSession
 #!
 #! Since it might be confusing to remember whether the permutation or
@@ -1102,14 +1103,14 @@ DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt
 #! </Alt>
 #! @ExampleSession
 #! gap> surface := PolygonalSurfaceByDownwardIncidence( 
-#! >    [,,,,,,,,,, [1,6],[1,7],[1,8],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
-#! >    [[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
+#! >    [,,,,,,,,,, [1,6],[1,7],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
+#! >    [,[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
 #! gap> EdgeFacePathOfVertex(surface, 1);
 #! [ 11, 2, 12, 3, 13, 4, 14, 5 ]
 #! gap> EdgeFacePathOfVertex(surface, 7);
 #! [ 15, 2, 12, 3, 16 ]
 #! gap> EdgeFacePathsOfVertices(surface);
-#! [ [ 11, 2, 12, 3, 13, 4, 14, 5 ], , , , , [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ], 
+#! [ [ 11, 2, 12, 3, 13, 4, 14, 5 ],,,,, [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ], 
 #!      [ 16, 3, 17 ], [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ]
 #! @EndExampleSession
 #! 
@@ -1189,9 +1190,10 @@ DeclareOperation( "EdgeFacePathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! gap> EdgeFacePathPartitionOfVertex(ramSurf, 5);
 #! [ [ 13, 3, 14, 2, 15 ] ]
 #! gap> EdgeFacePathPartitionsOfVertices(ramSurf);
-#! [ [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ], , , , 
-#!      [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ], [ [ 15, 2, 18, 4, 17 ] ],
-#!      [ [ 19, 11, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ]
+#! [ [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ],,,,
+#!   [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ],
+#!   [ [ 15, 2, 18, 4, 17 ] ], [ [ 19, 9, 22 ] ],,
+#!   [ [ 22, 9, 20, 11, 23 ] ],, [ [ 21, 11, 23 ] ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of sets of edge-face-paths

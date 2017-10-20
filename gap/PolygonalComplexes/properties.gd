@@ -77,9 +77,9 @@ DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
 #!
 #! For example, the platonic solids are closed.
 #! @ExampleSession
-#! gap> IsClosed( Octahedron() );
+#! gap> IsClosedSurface( Octahedron() );
 #! true
-#! gap> IsClosed( Dodecahedron() );
+#! gap> IsClosedSurface( Dodecahedron() );
 #! true
 #! @EndExampleSession
 #! In contrast, the five-star from the start of chapter
@@ -90,7 +90,7 @@ DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> IsClosed(fiveStar);
+#! gap> IsClosedSurface(fiveStar);
 #! false
 #! @EndExampleSession
 #!
@@ -146,7 +146,7 @@ DeclareProperty( "IsClosedSurface", IsRamifiedPolygonalSurface );
 #! gap> EdgeDegreeOfVertex( fiveStar, 5 );
 #! 3
 #! gap> EdgeDegreesOfVertices( fiveStar );
-#! [ 5, 3, 3, , 3, , 3, , , , 3 ]
+#! [ 5, 3, 3,, 3,, 3,,,, 3 ]
 #! @EndExampleSession
 #!
 #! @Returns a list of positive integers
@@ -185,8 +185,8 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! 5
 #! gap> FaceDegreeOfVertex( fiveStar, 5 );
 #! 2
-#! gap> EdgeDegreesOfVertices( fiveStar );
-#! [ 5, 2, 2, , 2, , 2, , , , 2 ]
+#! gap> FaceDegreesOfVertices( fiveStar );
+#! [ 5, 2, 2,, 2,, 2,,,, 2 ]
 #! @EndExampleSession
 #!
 #! @Returns a list of positive integers
@@ -217,10 +217,10 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> List( EdgesOfVertices(complex), Size );
-#! [ 5, 3, 3, , 3, , 3, , , , 3 ]
-#! gap> VertexCounter(complex);
-#! [ , , 5, , 1 ]
+#! gap> List( EdgesOfVertices(fiveStar), Size );
+#! [ 5, 3, 3,, 3,, 3,,,, 3 ]
+#! gap> VertexCounter(fiveStar);
+#! [ ,, 5,, 1 ]
 #! @EndExampleSession
 #!
 #! @Returns a list of positive integers
@@ -242,8 +242,9 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> EdgeCounter(complex);
-#! [ [ , , , , ], [ , , , , ], [ , , 5, , 5 ], [ , , , , ], [ , , 5, , ] ]
+#! gap> EdgeCounter(fiveStar);
+#! [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 5, 0, 5 ], 
+#!   [ 0, 0, 0, 0, 0 ], [ 0, 0, 5, 0, 0] ]
 #! @EndExampleSession
 #!
 #! @Returns a matrix of positive integers
@@ -276,7 +277,7 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> butterfly := RamifiedSimplicialSurface( 7, 4,
+#! gap> butterfly := RamifiedSimplicialSurfaceByVerticesInFaces( 7, 4,
 #! > [ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;
 #! @EndExampleSession
 #! This example is connected since its incidence graph (see TODO) is 
@@ -414,7 +415,7 @@ DeclareProperty( "IsStronglyConnected", IsPolygonalComplex );
 #! gap> Faces( comp[1] );
 #! [ 1, 3 ]
 #! gap> Faces( comp[2] );
-#! [ 2, 4 ];
+#! [ 2, 4 ]
 #! gap> comp[1] = StronglyConnectedComponentOfFace(butterfly, 1);
 #! true
 #! gap> comp[2] = StronglyConnectedComponentOfFace(butterfly, 4);
@@ -494,7 +495,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
 #! @ExampleSession
 #! gap> surface := PolygonalSurfaceByDownwardIncidence(
 #! > [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]],
-#! > [ [2,6,12,14], , , [6,8,10], , , , , [10,14,15] ]);;
+#! > [ [2,6,12,14],,, [6,8,10],,,,, [10,14,15] ]);;
 #! gap> IsOrientable(surface);
 #! true
 #! @EndExampleSession
@@ -509,9 +510,9 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
 #! <M>(3,7,15,13)</M> would be replaced by <M>[3, 7, 15, 13]</M>.
 #! @ExampleSession
 #! gap> OrientationByVerticesAsPerm( surface );
-#! [ (3, 5, 13, 7), , , (3, 7, 11), , , , (7, 13, 11) ]
+#! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
 #! gap> OrientationByEdgesAsList( surface );
-#! [ [ 2, 12, 14, 6 ], , , [ 6, 10, 8 ], , , , [ 7, 13, 11 ] ];
+#! [ [ 2, 12, 14, 6 ],,, [ 6, 10, 8 ],,,,, [ 10, 14, 15 ] ]
 #! @EndExampleSession
 #! 
 #! This does not define the orientation uniquely. If the orientation for
@@ -570,9 +571,9 @@ DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 #! </Alt>
 #! @ExampleSession
 #! gap> OrientationByVerticesAsPerm( surface );
-#! [ (3, 5, 13, 7), , , (3, 7, 11), , , , (7, 13, 11) ]
+#! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
 #! gap> OrientationByVerticesAsList( surface );
-#! [ [3, 5, 13, 7], , , [3, 7, 11], , , , [7, 13, 11] ]
+#! [ [3, 5, 13, 7],,, [3, 7, 11],,,,, [7, 13, 11] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of permutations
@@ -605,9 +606,9 @@ DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
 #! </Alt>
 #! @ExampleSession
 #! gap> OrientationByEdgesAsPerm( surface );
-#! [ ( 2, 12, 14, 6 ), , , ( 6, 10, 8 ), , , , ( 7, 13, 11 ) ];
+#! [ (2,12,14,6),,, (6,10,8),,,,, (10,14,15) ]
 #! gap> OrientationByEdgesAsList( surface );
-#! [ [ 2, 12, 14, 6 ], , , [ 6, 10, 8 ], , , , [ 7, 13, 11 ] ];
+#! [ [ 2, 12, 14, 6 ],,, [ 6, 10, 8 ],,,,, [ 10, 14, 15 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of permutations

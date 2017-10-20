@@ -9,3 +9,6 @@ LocalOrientation*
 
 PathConnected*
     replaced by StronglyConnected*
+
+NrOf*
+    replaced by NumberOf*
