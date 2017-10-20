@@ -1216,6 +1216,25 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #! @Section Graph interpretation
 #! @SectionLabel Access_IncidenceGraph
 #!
+#! The incidence relation (which is central to our concept of polygonal 
+#! complexes, compare <Ref Chap="PolygonalStructures"/>) can be interpreted
+#! as a coloured undirected graph, the <E>incidence graph</E> of the polygonal
+#! complex.
+#!
+#! The vertices of this incidence graph consist of all vertices, edges and 
+#! faces of the polygonal complex. The edges of the incidence graph are given
+#! by pairs of vertices-edges and edges-faces that are incident to each other.
+#! 
+#! As an example, consider the polygonal surface from section
+#! <Ref Sect="Section_Access_BasicAccess"/>:
+#! <Alt Only="TikZ">
+#!    \input{Image_IncidenceGraph.tex}
+#! </Alt>
+#!
+#! The incidence graph is given as a GAP-graph. Currently three different
+#! packages are supported:
+#! * 
+#!
 #! TODO
 ## How to balance the different graph packages?
 # grape is badly written, has not enough good methods but works quite stable

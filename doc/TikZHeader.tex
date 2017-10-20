@@ -6,6 +6,7 @@
 \usepackage{tikz}
 \usetikzlibrary{calc}
 \usetikzlibrary{positioning}
+\usetikzlibrary{shapes}
 
 % Define a text=none option for nodes that ignores the given text, from
 % https://tex.stackexchange.com/questions/59354/no-text-none-in-tikz
@@ -108,11 +109,12 @@
 % Edge styles
 % If you have trouble with the double-lines overlapping, this might (?) help:
 % https://tex.stackexchange.com/questions/288159/closing-the-ends-of-double-line-in-tikz
+\newcommand{\edgeLabelColor}{blue!20!white}
 \tikzset{
     edgeLineNone/.style = {draw=none},
     edgeNone/labels/.style = {
         edge/.style = {edgeLineNone},
-        edgeLabel/.style = {fill=blue!20!white}
+        edgeLabel/.style = {fill=\edgeLabelColor}
     },
     edgeNone/nolabels/.style = {
         edge/.style = {edgeLineNone},
@@ -125,7 +127,7 @@
     edgeLinePlain/.style={line join=round},
     edgePlain/labels/.style = {
         edge/.style={edgeLinePlain},
-        edgeLabel/.style={fill=blue!20!white}
+        edgeLabel/.style={fill=\edgeLabelColor}
     },
     edgePlain/nolabels/.style = {
         edge/.style={edgeLinePlain},
@@ -138,7 +140,7 @@
     edgeLineDouble/.style = {thin, double=gray!90!white, double distance=.3pt, line join=round},
     edgeDouble/labels/.style = {
         edge/.style = {edgeLineDouble},
-        edgeLabel/.style = {fill=blue!20!white}
+        edgeLabel/.style = {fill=\edgeLabelColor}
     },
     edgeDouble/nolabels/.style = {
         edge/.style = {edgeLineDouble},

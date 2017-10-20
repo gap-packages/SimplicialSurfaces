@@ -1,0 +1,39 @@
+\begin{tikzpicture}[vertexNormal, edgePlain, faceStyle]
+    \begin{scope}[scale=1]
+        \input{Image_StarOfStarExample.tex}
+    \end{scope}
+
+    \begin{scope}[xshift=7cm, scale=1.4, 
+        vertexNode/.style={circle,fill=blue!50!white},
+        edgeNode/.style={fill=\edgeLabelColor},
+        faceNode/.style={fill=\faceColor, regular polygon, regular polygon sides=3},
+        node distance=0.5]
+                    
+            % Edge nodes
+            \node[edgeNode] (E6) {6};
+            \node[edgeNode] (E8) [right=of E6] {8};
+            \node[edgeNode] (E9) [right=of E8] {9};
+            \node[edgeNode] (E10) [right=of E9] {10};
+            \node[edgeNode] (E12) [right=of E10] {12};
+            \node[edgeNode] (E13) [right=of E12] {13};
+
+            % Face nodes
+            \node[faceNode] (F1) [above=of E8] {1}
+                edge (E6) edge (E8) edge (E9);
+            \node (Help) at ($(E10)!0.5!(E12)$) {};
+            \node[faceNode] (F4) [above=of Help] {4}
+                edge (E9) edge (E10) edge (E12) edge (E13);
+
+            % Vertex nodes
+            \node[vertexNode] (V7) [below=of Help] {7}
+                edge (E10) edge (E13);
+            \node[vertexNode] (V11) [right=of V7] {11}
+                edge (E13) edge (E12);
+            \node[vertexNode] (V5) [left=of V7] {5}
+                edge (E8) edge (E9) edge (E12);
+            \node[vertexNode] (V3) [left=of V5] {3}
+                edge (E6) edge (E9) edge (E10);
+            \node[vertexNode] (V2) [left=of V3] {2}
+                edge (E6) edge (E8);
+    \end{scope}
+\end{tikzpicture}
