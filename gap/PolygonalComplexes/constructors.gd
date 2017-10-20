@@ -101,7 +101,8 @@
 #! surface. This entry contains the set
 #! of all vertices that are incident to that edge.
 #! @ExampleSession
-#! gap> verticesOfEdges := [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]];
+#! gap> verticesOfEdges := 
+#! >          [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]];
 #! [ , [ 3, 5 ],,,, [ 3, 7 ],, [ 3, 11 ],, [ 7, 11 ],, [ 5, 13 ],, 
 #!   [ 7, 13 ], [ 11, 13 ] ]
 #! @EndExampleSession
@@ -337,8 +338,10 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! surface. This entry contains the set
 #! of all edges that are incident to that vertex.
 #! @ExampleSession
-#! gap> edgesOfVertices := [,, [2,6,8],, [2,12],, [6,10,14],,,, [8,10,15],, [12,14,15] ];
-#! [ ,,  [ 2, 6, 8 ],, [ 2, 12 ],, [ 6, 10, 14 ],,,, [ 8, 10, 15 ],, [ 12, 14, 15 ] ]
+#! gap> edgesOfVertices := 
+#! >         [,, [2,6,8],, [2,12],, [6,10,14],,,, [8,10,15],, [12,14,15] ];
+#! [ ,,  [ 2, 6, 8 ],, [ 2, 12 ],, [ 6, 10, 14 ],,,, [ 8, 10, 15 ],, 
+#!     [ 12, 14, 15 ] ]
 #! @EndExampleSession
 #! Similarly the list <A>facesOfEdges</A> has an entry for each edge with the
 #! set of incident faces.

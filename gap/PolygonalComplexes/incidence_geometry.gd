@@ -109,7 +109,8 @@
 #TODO give a reference to the constructor
 #! @ExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence( 
-#! >        [ , [2,3], [2,5], , [3,7], [5,7] ], [ , , [2,3,5,6] ] );;
+#! >        [ , [2,3], [2,5], , [3,7], [5,7] ], 
+#! >        [ , , [2,3,5,6] ] );;
 #! @EndExampleSession
 #
 #! We can access the sets of
@@ -716,7 +717,8 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! </Alt>
 #! @ExampleSession
 #! gap> pentagon := PolygonalSurfaceByDownwardIncidence( 
-#! >    [,[3,6],[2,9],[1,6],,[2,3],,[1,9]], [, [2,3,4,6,8]] );;
+#! >    [,[3,6],[2,9],[1,6],,[2,3],,[1,9]], 
+#! >    [, [2,3,4,6,8]] );;
 #! gap> VerticesOfFace(pentagon,2);
 #! [ 1, 2, 3, 6, 9 ]
 #! gap> EdgesOfFace(pentagon,2);
@@ -741,9 +743,9 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! 
 #! @ExampleSession
 #! gap> CyclicVertexOrderOfFace( pentagon, 2 );
-#! ( 1, 6, 3, 2, 9 )
+#! (1,6,3,2,9)
 #! gap> CyclicEdgeOrderOfFace( pentagon, 2 );
-#! ( 2, 4, 8, 3, 6 )
+#! (2,4,8,3,6)
 #! @EndExampleSession
 #!
 #! While the permutation representation is most natural, in many cases
@@ -764,9 +766,9 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #!
 #! @ExampleSession
 #! gap> CyclicVertexOrderOfFaceAsPerm( pentagon, 2 );
-#! ( 1, 6, 3, 2, 9 )
+#! (1,6,3,2,9)
 #! gap> CyclicEdgeOrderOfFaceAsPerm( pentagon, 2 );
-#! ( 2, 4, 8, 3, 6 )
+#! (2,4,8,3,6)
 #! @EndExampleSession
 #!
 
@@ -804,13 +806,13 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! </Alt>
 #! @ExampleSession
 #! gap> CyclicVertexOrderOfFaceAsPerm(pentagon, 2);
-#! ( 1, 6, 3, 2, 9 )
+#! (1,6,3,2,9)
 #! gap> CyclicVertexOrderOfFace(pentagon, 2);
-#! ( 1, 6, 3, 2, 9 )
+#! (1,6,3,2,9)
 #! gap> CyclicVertexOrderOfFacesAsPerm(pentagon);
-#! [ , ( 1, 6, 3, 2, 9 ) ]
+#! [ , (1,6,3,2,9) ]
 #! gap> CyclicVertexOrderOfFaces(pentagon);
-#! [ , ( 1, 6, 3, 2, 9 ) ]
+#! [ , (1,6,3,2,9) ]
 #! @EndExampleSession
 #! 
 #! @Arguments complex
@@ -910,13 +912,13 @@ DeclareOperation( "CyclicVertexOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosI
 #! </Alt>
 #! @ExampleSession
 #! gap> CyclicEdgeOrderOfFaceAsPerm(pentagon, 2);
-#! ( 2, 4, 8, 3, 6 )
+#! (2,4,8,3,6)
 #! gap> CyclicEdgeOrderOfFace(pentagon, 2);
-#! ( 2, 4, 8, 3, 6 )
+#! (2,4,8,3,6)
 #! gap> CyclicEdgeOrderOfFacesAsPerm(pentagon);
-#! [ , ( 2, 4, 8, 3, 6 ) ]
+#! [ , (2,4,8,3,6) ]
 #! gap> CyclicEdgeOrderOfFaces(pentagon);
-#! [ , ( 2, 4, 8, 3, 6 ) ]
+#! [ , (2,4,8,3,6) ]
 #! @EndExampleSession
 #! 
 #! @Arguments complex
@@ -1183,7 +1185,8 @@ DeclareOperation( "EdgeFacePathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! </Alt>
 #! @ExampleSession
 #! gap> ramSurf := RamifiedPolygonalSurfaceByDownwardIncidence(
-#! >    [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],[1,8],[1,10],[1,12],[8,10],[10,12] ],
+#! >    [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],
+#! >        [1,8],[1,10],[1,12],[8,10],[10,12] ],
 #! >    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
 #! gap> EdgeFacePathPartitionOfVertex(ramSurf, 1);
 #! [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ]

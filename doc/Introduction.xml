@@ -550,7 +550,7 @@ gap&gt; edgesOfFaces := [[1,2,4],[1,2,3]];;
         <K>SimplicialSurfaceByDownwardIncidence</K> (for an explanation of this name,
         see chapter ...<!--TODO Link-->)
 <Example>
-gap&gt; bag := SimplicialSurfaceByDownwardIncidence( verticesOfEdges, edgesOfFaces);;
+gap&gt; bag := SimplicialSurfaceByDownwardIncidence(verticesOfEdges, edgesOfFaces);;
 </Example>
         <!--TODO implement this constructor without the numbers-->
 
