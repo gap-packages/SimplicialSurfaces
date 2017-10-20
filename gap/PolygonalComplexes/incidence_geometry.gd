@@ -1233,12 +1233,36 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #!
 #! The incidence graph is given as a GAP-graph. Currently three different
 #! packages are supported:
-#! * 
+#! * <K>Digraphs</K> (method <K>IncidenceDigraphsGraph</K>).
+#!   This is returned if <K>IncidenceGraph</K> is called.
+#! * <K>GRAPE</K> (method <K>IncidenceGrapeGraph</K>).
+#! * <K>NautyTracesInterface</K> (method <K>IncidenceNautyGraph</K>).
 #!
-#! TODO
-## How to balance the different graph packages?
-# grape is badly written, has not enough good methods but works quite stable
-# digraphs has promise but may fail to compile for unknown reasons
-# nautyTracesInterface is very restricted - can it even work with non-dense lists?
-# -> implement all of them? To guarantee stability? This is ok for isomorphism but not for automorphism group..
-# -> implement only NautyTraces? That is not a proper package (yet?) and is currently annoying to compile.
+#! TODO compare packages 
+
+#! @BeginGroup
+#! @Description
+#! Return the incidence graph of the given polygonal complex. The incidence
+#! graph is defined as follows:
+#! * The <E>vertices</E> are the vertices, edges and faces of <A>complex</A>.
+#! * The <E>edges</E> are vertex-edge-pairs or edge-face-pairs such that the
+#!   elements of the pair are incident in <A>complex</A>.
+#!
+#! The returned graph can be given in three different formats, corresponding
+#! to different graph packages: <K>Digraphs</K>, <K>GRAPE</K> and 
+#! <K>NautyTracesInterface</K>.
+#!
+#! TODO example
+#!
+#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Arguments complex
+DeclareOperation( "IncidenceGraph", [IsPolygonalComplex] );
+#! @Arguments complex
+DeclareAttribute( "IncidenceDigraphsGraph", IsPolygonalComplex );
+#! @Returns a graph as defined in the package <K>GRAPE</K>
+#! @Arguments complex
+DeclareAttribute( "IncidenceGrapeGraph", IsPolygonalComplex );
+#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
+#! @Arguments complex
+DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
+#! @EndGroup
