@@ -30,15 +30,6 @@ About the chapter ordering:
         Rebuttal (Pro): The above argument is not completely correct. While it is true that "incidence" feels less technical than "filters" this does not hold if one considers the chapter length - while "incidence" spends a lot of time developing and explaining different ways to present the same information (which is mostly uninteresting), "filters" does focus on a lot of terms but it also develops them with specific examples in play. If it were the case that "incidence" was just a few pages long it could be in front of "filters" to make the focus more clear. As it is it would detract from the main point of the package - the surfaces and complexes.
         Rebuttal (Pro): If we also consider when a linear reader will start skipping it should be clear that the first such point should be after an explanation of the basic package architecture. To show "incidence" first risks that the skipping point is before "filters" which would be a bad development. It would be more plausible to have "filters" first in this case as the information from "incidence" can also be gleamed by a casual reading.
 
-    Then we have "Constructors", a technical chapter about different constructors. Since these differ for different filters, this HAS to be after the "filter"-chapter. Since they also heavily rely on the incidence structure it has to be after the "incidence"-chapter as well. This is therefore the earlies possible position.
-        Pro: Having this early means that people can define their surfaces.
-        Con: It is quite technical and therefore hinders reading flow.
-
-    Finally we have "Properties" which is a catch-all for all things that are too small to get their own chapter
-        -> Elementary properties (Euler Char. etc.)
-        -> Connectivity
-        -> Orientability
-    This has to be after the "incidence"-chapter as most of its calculations and explanations rely on the incidence structure. Furthermore it does not demand a huge amount of attention (it is a conglomeration of random functions) and might not be hindered much by a reduced reading flow after the "constructors"-chapter.
 
     After this more specialised chapters (like modifcations and embeddings) follow (hopefully).
     They should be behind the others as they are not really needed to work with the core processes.
@@ -90,5 +81,4 @@ Chapters (wild):
     Edge Colouring functions
     Group structure (?)
     Coverings
-
 

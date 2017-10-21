@@ -10,6 +10,21 @@
 ##
 #############################################################################
 
+#######
+## This constructor chapter has to be after the incidence geometry chapter 
+## and the polygonal structures chapter to make sense.
+##
+## It might hinder the reading flow => all strictly necessary chapters 
+## should be before this one.
+##
+## In comparison with the other constructor chapters (modifying existing
+## surfaces and getting existing surfaces) this is the first one as it is
+## the most general and should be the one that people know (if they only
+## know one of them):
+## -> modifications need an understanding of the structure
+## -> predefined surfaces only offer some limited options
+#######
+
 #! @Chapter Constructing surfaces by their incidence structure
 #! @ChapterLabel Constructors
 #!

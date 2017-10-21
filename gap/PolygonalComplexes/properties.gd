@@ -13,6 +13,12 @@
 ## This chapter contains many diverse aspects of polygonal complexes.
 ## The current order may not be optimal, depending on what the future holds
 
+#######
+## This has to be after the incidence chapter since it heavily relies on it.
+## Since it consists of disconnected ideas it is no big issue if it comes
+## after the constuctors-chapter that inclines the reader to skipping.
+#######
+
 #! @Chapter Properties of surfaces and complexes
 #! @ChapterLabel Properties
 #! 
