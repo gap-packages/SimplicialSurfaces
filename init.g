@@ -17,4 +17,5 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gd
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gd" );
 
