@@ -134,6 +134,7 @@ InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
             Append(edgeList, List( EdgesOfFaces(complex)[f], 
                     e -> [maxVertex + e, maxVertex + maxEdge + f] ) );
         od;
+#        return [edgeList, colourList, vertexList];
 
         return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
     end
@@ -142,3 +143,29 @@ InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
 ##      End NautyTracesInterface
 ##
 #######################################
+
+
+
+
+#######################################
+##
+##      Isomorphism test
+##
+InstallMethod( IsIsomorphicIncidenceStructure, "for two polygonal complexes",
+    [IsPolygonalComplex, IsPolygonalComplex],
+    function(complex1, complex2)
+        if LoadPackage("NautyTracesInterface") then
+            return IsomorphismGraphs( 
+                UnderlyingNautyGraph( IncidenceNautyGraph(complex1) ),
+                UnderlyingNautyGraph( IncidenceNautyGraph(complex2) )) <> fail;
+        elif LoadPackage("Digraphs") then
+            #TODO is this possible?
+        elif LoadPackage("GRAPE") then
+            return IsIsomorphicGraph(
+                ShallowCopy( IncidenceGrapeGraph(complex1) ),
+                ShallowCopy( IncidenceGrapeGraph(complex2) ) );
+        else
+            Error("Isomorphism test needs at least one of the packages NautyTracesInterface, Digraphs or GRAPE.");
+        fi;
+    end
+);

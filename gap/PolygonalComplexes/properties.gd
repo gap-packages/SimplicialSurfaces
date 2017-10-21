@@ -626,6 +626,40 @@ DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
 #! @Section Automorphisms and Isomorphisms
 #! @SectionLabel Automorphisms
 #!
+#! All structures from chapter <Ref Chap="PolygonalStructures"/>, from 
+#! polygonal complexes to simplicial surfaces, are completely described
+#! by their incidence structure (which chapter 
+#! <Ref Chap="AccessIncidenceGeometry"/> covers in more detail). Since the
+#! incidence structure can be equivalently described as a graph (compare
+#! section <Ref Sect="Access_IncidenceGraph"/>), the isomorphism problem
+#! for polygonal complexes reduces to the graph isomorphism problem.
+#!
+#! The graph isomorphism problem is solved by <K>Nauty/Bliss</K>, depending
+#! on the available packages. The <K>NautyTracesInterface</K> is preferred
+#! since it provides a fast interface to <K>Nauty</K> and also computes the
+#! automorphism group of the polygonal complex. If this is not available, the
+#! packages <K>Digraphs</K> and <K>GRAPE</K> will also be sufficient for an
+#! isomorphism test.
+#!
+
+#! @Description
+#! Return whether the given polygonal complexes are isomorphic. They are
+#! isomorphic if their incidence graphs (compare 
+#! <Ref Subsect="IncidenceGraph"/>) are isomorphic.
+#!
+#! @ExampleSession
+#! gap> IsIsomorphicIncidenceStructure( Cube(), Octahedron() );
+#! false
+#! @EndExampleSession
+#!
+#! @Returns true or false
+#! @Arguments complex1, complex2
+DeclareOperation( "IsIsomorphicIncidenceStructure", 
+    [IsPolygonalComplex, IsPolygonalComplex] );
+#TODO Combine with fining-method?
+
+
+#!
 #! TODO autGroup and isoTest (refer back to incidence graph);
 
 

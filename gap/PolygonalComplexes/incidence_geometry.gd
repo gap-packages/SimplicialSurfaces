@@ -1236,13 +1236,18 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #! packages are supported:
 #! * <K>Digraphs</K> (method <K>IncidenceDigraphsGraph</K>).
 #!   This is returned if <K>IncidenceGraph</K> is called.
-#! * <K>GRAPE</K> (method <K>IncidenceGrapeGraph</K>).
+#! * <K>GRAPE</K> (method <K>IncidenceGrapeGraph</K>). Since <K>GRAPE</K>
+#!   stores its graphs as records that are changed if some properties are
+#!   computed, the result of <K>IncidenceGrapeGraph</K> usually can't be
+#!   used immediately (since it is immutable). Therefore 
+#!   <K>ShallowCopy</K>(<K>IncidenceGrapeGraph</K>(<A>complex</A>)) has
+#!   to be used.
 #! * <K>NautyTracesInterface</K> (method <K>IncidenceNautyGraph</K>).
 #!
 #TODO html links
 #! TODO compare packages 
 
-#! @BeginGroup
+#! @BeginGroup IncidenceGraph
 #! @Description
 #! Return the incidence graph (a coloured, undirected graph) of the given 
 #! polygonal complex. The incidence
