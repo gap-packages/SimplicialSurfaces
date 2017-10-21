@@ -548,22 +548,21 @@ gap&gt; edgesOfFaces := [[1,2,4],[1,2,3]];;
 </Example>
         which allows us to use the constructor
         <K>SimplicialSurfaceByDownwardIncidence</K> (for an explanation of this name,
-        see chapter ...<!--TODO Link-->)
+        see section <Ref Sect="Section_Constructors_DownwardIncidence"/>)
 <Example>
 gap&gt; bag := SimplicialSurfaceByDownwardIncidence(verticesOfEdges, edgesOfFaces);;
 </Example>
-        <!--TODO implement this constructor without the numbers-->
-
         It would be nice if we were able to easily determine which edges/faces
         are not determined by their vertices alone. For that purpose we can use
         the following commands:
 <Example>
-gap&gt; EdgeAnomalies(bag);
+gap&gt; EdgeAnomalyClasses(bag);
 [ [ 1 ], [ 2 ], [ 3, 4 ] ]
-gap&gt; FaceAnomalies(bag);
+gap&gt; FaceAnomalyClasses(bag);
 [ [ 1, 2 ] ]
 </Example>
-        The list of edge anomalies is a partition of the edges such that two
+        The list of edge-anomaly-classes is a partition of the edges such that 
+        two
         edges are in the same equivalence class if and only if they have the
         same vertices. So we see here that the edges 3 and 4 have the same
         vertices. We can do the same for the faces and see that the two faces

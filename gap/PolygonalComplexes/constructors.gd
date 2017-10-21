@@ -91,6 +91,7 @@
 #!   <K>EdgeFacePathsOfVertices</K> (<Ref Subsect="EdgeFacePathSingle"/>)
 #!
 
+#TODO explain name of constructor very early
 #! @Section DownwardIncidence
 #! @SectionLabel Constructors_DownwardIncidence
 #!
