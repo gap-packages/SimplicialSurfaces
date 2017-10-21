@@ -629,9 +629,9 @@ DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
 #! All structures from chapter <Ref Chap="PolygonalStructures"/>, from 
 #! polygonal complexes to simplicial surfaces, are completely described
 #! by their incidence structure (which chapter 
-#! <Ref Chap="AccessIncidenceGeometry"/> covers in more detail). Since the
+#! <Ref Chap="Chapter_AccessIncidenceGeometry"/> covers in more detail). Since the
 #! incidence structure can be equivalently described as a graph (compare
-#! section <Ref Sect="Access_IncidenceGraph"/>), the isomorphism problem
+#! section <Ref Sect="Section_Access_IncidenceGraph"/>), the isomorphism problem
 #! for polygonal complexes reduces to the graph isomorphism problem.
 #!
 #! The graph isomorphism problem is solved by <K>Nauty/Bliss</K>, depending

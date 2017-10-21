@@ -134,8 +134,9 @@ InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
             Append(edgeList, List( EdgesOfFaces(complex)[f], 
                     e -> [maxVertex + e, maxVertex + maxEdge + f] ) );
         od;
-#        return [edgeList, colourList, vertexList];
 
+Error("NautyTracesInterface has a critical problem.");
+return true; # TODO resolve problem with NautyTracesInterface first
         return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
     end
 );
