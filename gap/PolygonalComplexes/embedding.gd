@@ -16,7 +16,7 @@
 #! One of the central questions about polygonal complexes and simplicial
 #! surfaces (for the detailed definitions see chapter 
 #! <Ref Chap="PolygonalStructures"/>) is whether they can be embedded into
-#! <M>R^3</M>. This is a very hard question and can
+#! <M>&RR;^3</M>. This is a very hard question and can
 #! currently only be solved for small examples.
 #!
 #! Therefore the <K>SimplicialSurface</K>-package does not contain methods to
@@ -171,4 +171,11 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
-#TODO IsAnomalyFree and synonym IsVertexFaithful
+#! @Section Drawing a net in TikZ
+#! @SectionLabel Embeddings_DrawTikz
+#!
+#! While it is very hard to compute an embedding into <M>&RR;^3</M> it is
+#! quite easy to draw the net of a ramified polygonal surface into a
+#! plane.
+#! 
+#! TODO
