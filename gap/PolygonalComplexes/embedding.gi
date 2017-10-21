@@ -39,6 +39,17 @@ BindGlobal( "__SIMPLICIAL_ComputeClasses",
     end
 );
 
+
+##
+## freedom
+##
+InstallMethod( IsAnomalyFree, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        return NumberOfEdges(complex) = Size(EdgeAnomalyClasses(complex))
+            and NumberOfFaces(complex) = Size(FaceAnomalyClasses(complex));
+    end
+);
+
 ##
 ## edges
 ##

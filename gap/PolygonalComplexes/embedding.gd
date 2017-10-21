@@ -57,11 +57,46 @@
 #! @ExampleSession
 #! gap> bag := SimplicialSurfaceByUpwardIncidence( [ [1,2], [1,3,4], [2,3,4] ],
 #! >               [ [1,2], [1,2], [2], [1] ]);;
+#! gap> IsAnomalyFree( bag );
+#! false
 #! gap> EdgeAnomalyClasses( bag );
 #! [ [ 1 ], [ 2 ], [ 3, 4 ] ]
 #! gap> FaceAnomalyClasses( bag );
 #! [ [ 1, 2 ] ]
 #! @EndExampleSession
+#!
+
+#TODO can an example be done?
+#! <ManSection> 
+#!   <Prop Name="IsAnomalyFree" Arg="complex" Label="for IsPolygonalComplex"
+#!      Comm="Checks whether a given polygonal complex contains anomalies"/>
+#!   <Filt Name="IsVertexFaithful" Arg="complex" Type="property"
+#!      Comm="Checks whether a given polygonal complex contains anomalies"/>
+#!   <Returns>true or false</Returns>
+#!   <Description>
+#!     Check whether the given polygonal complex contains anomalies, i.e.
+#!     pairs of edges or pairs of faces that are incident to the same 
+#!     vertices.
+#!     <P/>
+#!     As examples, consider a tetrahedron (without any anomalies) and the
+#!     open bag from the start of section 
+#!     <Ref Sect="Section_Embeddings_Anomalies"/> (with anomalies):
+#!
+## gap&gt; IsAnomalyFree( Tetrahedron() );
+## true
+## gap&gt; IsAnomalyFree( bag );
+## false
+## 
+## gap&gt; IsVertexFaithful( Tetrahedron() );
+## true
+## gap&gt; IsVertexFaithful( bag );
+## false
+#! 
+#!   </Description>
+#! </ManSection>
+# here no AutoDoc documentation since synonyms can't be handled automatically
+DeclareProperty( "IsAnomalyFree", IsPolygonalComplex );
+DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 
 
 #! @BeginGroup EdgeAnomalies

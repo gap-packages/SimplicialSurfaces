@@ -568,6 +568,5 @@ gap&gt; FaceAnomalyClasses(bag);
         vertices. We can do the same for the faces and see that the two faces
         share all their vertices.
     </Section>
-
 </Chapter>
 
