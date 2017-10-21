@@ -31,6 +31,10 @@ InstallMethod( IncidenceGraph, "for a polygonal complex",
 InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
     [IsPolygonalComplex],
     function( complex )
+        if LoadPackage("Digraphs") = fail then
+            Error("Package Digraphs has to be available to use IncidenceDigraphsGraph.");
+        fi;
+    
         return Digraph( IncidenceGrapeGraph(complex) );
         #TODO is there a better way?
     end
@@ -52,6 +56,10 @@ InstallMethod( IncidenceGrapeGraph, "for a polygonal complex",
     function(complex)
  	local graph, vertices, edges, faces, names, colours, incidence, 
 	    trivialAction;
+        
+        if LoadPackage("GRAPE") = fail then
+            Error("Package GRAPE has to be available to use IncidenceGrapeGraph.");
+        fi;
 
 	vertices := List( Vertices(complex), i -> [0,i] );
         edges := List( Edges(complex), i -> [1,i] );
@@ -96,8 +104,40 @@ InstallMethod( IncidenceGrapeGraph, "for a polygonal complex",
 ##
 ##      NautyTracesInterface
 ##
+InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
+            colSet, vertexList;
 
+        if LoadPackage("NautyTracesInterface") = fail then
+            Error("Package NautyTracesInterface has to be available to use IncidenceNautyGraph.");
+        fi;
 
+        maxVertex := Maximum( Vertices(complex) );
+        maxEdge := Maximum( Edges(complex) );
+
+        vertexList := ShallowCopy( Vertices(complex) );
+        edgeList := [];
+        colourList := List( [1..NumberOfVertices(complex)], i -> 0 );
+
+        for e in Edges(complex) do
+            Add(colourList, 1);
+            Append(edgeList, List( VerticesOfEdges(complex)[e], 
+                    v -> [v, maxVertex + e] ) );
+            Add(vertexList, maxVertex + e);
+        od;
+
+        for f in Faces(complex) do
+            Add(colourList, 2);
+            Add(vertexList, maxVertex + maxEdge + f);
+            Append(edgeList, List( EdgesOfFaces(complex)[f], 
+                    e -> [maxVertex + e, maxVertex + maxEdge + f] ) );
+        od;
+
+        return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
+    end
+);
 ##
 ##      End NautyTracesInterface
 ##
