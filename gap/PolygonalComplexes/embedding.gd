@@ -81,18 +81,17 @@
 #!     As examples, consider a tetrahedron (without any anomalies) and the
 #!     open bag from the start of section 
 #!     <Ref Sect="Section_Embeddings_Anomalies"/> (with anomalies):
-#! <Example>
+#! @ExampleSession
 #! gap> IsAnomalyFree( Tetrahedron() );
 #! true
 #! gap> IsAnomalyFree( bag );
 #! false
-#! </Example>
-#! <Example>
+#! 
 #! gap> IsVertexFaithful( Tetrahedron() );
 #! true
 #! gap> IsVertexFaithful( bag );
 #! false
-#! </Example> 
+#! @EndExampleSession
 #!   </Description>
 #! </ManSection>
 # here no AutoDoc documentation since synonyms can't be handled automatically
