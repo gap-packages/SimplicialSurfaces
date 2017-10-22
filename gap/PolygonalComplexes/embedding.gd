@@ -66,7 +66,7 @@
 #! @EndExampleSession
 #!
 
-#TODO can an example be done?
+
 #! <ManSection> 
 #!   <Prop Name="IsAnomalyFree" Arg="complex" Label="for IsPolygonalComplex"
 #!      Comm="Checks whether a given polygonal complex contains anomalies"/>
@@ -81,17 +81,18 @@
 #!     As examples, consider a tetrahedron (without any anomalies) and the
 #!     open bag from the start of section 
 #!     <Ref Sect="Section_Embeddings_Anomalies"/> (with anomalies):
-#!
-## gap&gt; IsAnomalyFree( Tetrahedron() );
-## true
-## gap&gt; IsAnomalyFree( bag );
-## false
-## 
-## gap&gt; IsVertexFaithful( Tetrahedron() );
-## true
-## gap&gt; IsVertexFaithful( bag );
-## false
-#! 
+#! <Example>
+#! gap> IsAnomalyFree( Tetrahedron() );
+#! true
+#! gap> IsAnomalyFree( bag );
+#! false
+#! </Example>
+#! <Example>
+#! gap> IsVertexFaithful( Tetrahedron() );
+#! true
+#! gap> IsVertexFaithful( bag );
+#! false
+#! </Example> 
 #!   </Description>
 #! </ManSection>
 # here no AutoDoc documentation since synonyms can't be handled automatically

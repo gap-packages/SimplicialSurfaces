@@ -1,6 +1,6 @@
 LoadPackage("NautyTracesInterface");
-LoadPackage("Orb");
-LoadPackage("Digraphs");
+#LoadPackage("Orb");
+#LoadPackage("Digraphs");
 
 
 g := NautyColoredGraphWithNodeLabels(
@@ -9,5 +9,5 @@ g := NautyColoredGraphWithNodeLabels(
   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ] 
 );
 
-#AutomorphismGroup(g);
-AutomorphismGroup( UnderlyingNautyGraph(g) );
+AutomorphismGroup(g);
+#AutomorphismGroup( UnderlyingNautyGraph(g) );
