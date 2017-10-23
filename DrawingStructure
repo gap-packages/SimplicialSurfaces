@@ -1,0 +1,29 @@
+The drawing command is controlled by a print record
+-> this has to be easy to understand as the user should be able to read, understand and modify it
+-> it consists of several subrecords in which different data can be stored
+-> it is possible to customize the drawing method and additional subrecords can be defined to help that goal
+-> essential record: drawingOrder [this is the main structure of the drawing method and can not be modified]
+-> essential record: coordinates [of vertices, edges, faces]
+-> essential record: metricData [to store lengths and angles]
+-> essential record: drawingStyle [to choose the styles and depictions in the drawing]
+
+At the start the print record has to be initialized. Mods may introduce additional entries here.
+At the end these aditional entries have to removed again. Therefore we need an initialization
+and a cleanup method. 
+    PrintRecordDrawingOrderInit( rec )
+    PrintRecordDrawingOrderCleanup( rec )
+
+Mods will be part of a set containing a function of each type (?).
+The essential components should be handled similarly (for consistency). (For each subrecord one set)
+Then it is also easier to swap some of them (like the default metric data handler) for a mod.
+
+Main loop:
+    1) Take a face that is not yet printed. If there are none, finished
+    2) Print it, save uncompleted vertices and edges
+    3) Find new edge to continue on
+    4) Compute adjacent face
+    5) Check if new face is ok here. If no, go back to (3)
+    6) Print new face, save uncompleted vertices and edges
+    7) If no more edges are uncompleted, go back to (1)
+
+
