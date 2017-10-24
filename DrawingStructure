@@ -35,11 +35,38 @@ Necessary entries:
     PrintRecordMetricDataComputeFace( rec, complex, face ) -> same but with starting face
 
     PrintRecordCoordinatesRecognizeVertices( rec, vertexEdgePath ) -> Returns a list of the same length as path. If the vertex/edge was new, the entry is not bound. Otherwise the position in the appropriate list is set here.
-    PrintRecordCoordinatesIntersection( rec, vertexEdgePath, recognized ) -> Returns true or false
+    PrintRecordCoordinatesIntersection( rec, vertexEdgePath, recognized, lastData ) -> Returns true or false
     PrintRecordCoordinatesAddFace( rec, vertexEdgePath, recognized )   ---- after calling, openVertices and openEdges have to be modified
 
 3) for determination of next edge there is a list of pairs [function, number] - the function is called at most number times (infinity is permitted) to determine
     which edge is the next one. If one is found but rejected by tests (also given by list of functions) the next one is tried. If tests reject all edges, the first edge
     that had been proposed is chosen instead. A function may return fail to signal that it did not find anything. Then the next element in the list is called.
+    Problem: 
+    a) change of internal parameters dangerous -> methods should not change internal parameters
+    b) multiple computations
+        b) can be alleviated by storing the coordinate results for each face computation (list by edges to make unbinding easier)
+        b) needs also storing of the intersection results (with certain faces?) -> need additional parameter: Each check will return a list [true/false, data],
+            where the data stores some (private) information about the test. In future tests, this data is an additional parameter. If the result of the test can
+            be determined from this parameter alone, it does not have to be repeated. If the result of the test only depends on some additional stuff (like intersection
+            testing does - you don't have to check all edges again, only the newly added ones), only the additional stuff has to be tested.
 
-    PrintRecordDrawingOrderNextGivenEdge( rec, forbiddenEdges )
+    PrintRecordDrawingOrderNextEdgeByGivenList( rec, forbiddenEdges )
+    PrintRecordDrawingOrderNextEdgeByFirstOpenVertex( rec, forbiddenEdges )
+    PrintRecordDrawingOrderNextEdgeByRandom( rec, forbiddenEdges )
+    PrintRecordDrawingOrderNextEdgeByLastFace( rec, forbiddenEdges )
+    PrintRecordDrawingOrderNextEdgeBySmallestIndex( rec, forbiddenEdges )
+
+    -> store drawingOrder!printOrder: list of [dim, number, pos] to store which vertices/edges/faces were added in which order
+
+
+In case of colouring, we replace MetricData by Colouring.
+
+To draw the surface into tikz, we need
+    PrintRecordDrawingStyleTikzVertex( rec, complex, vertex, tikzCoord )
+    PrintRecordDrawingStyleTikzEdge( rec, complex, edge, tikzCoords )
+    PrintRecordDrawingStyleTikzFace( rec, complex, edge, tikzCoords )
+    (note that the vertex coordinates were transformed into tikz coordinates before)
+    for the global styles: PrintRecordDrawingStyleGlobalStyles( rec, complex )
+    have some options: vertexLabels, edgeLabels, faceLabels, colours, scale etc. -> should only produce one change in tex-file (for easier manual change, just in case)
+    -> should be similar to "standard"-files [make TikZ-Header the default option?]
+    -> allow string as "custom header-part"
