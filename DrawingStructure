@@ -70,3 +70,33 @@ To draw the surface into tikz, we need
     have some options: vertexLabels, edgeLabels, faceLabels, colours, scale etc. -> should only produce one change in tex-file (for easier manual change, just in case)
     -> should be similar to "standard"-files [make TikZ-Header the default option?]
     -> allow string as "custom header-part"
+
+
+
+For drawing order:
+    Init
+    Cleanup
+    NextEdge*
+    GeneralMethod ?
+
+For drawing style:
+    Init
+    Cleanup
+    Tikz*
+    GlobalStyles
+
+For metric data:
+    Init
+    Cleanup
+    ComputeFace
+
+For coordinates:
+    Init
+    Cleanup
+    Intersection
+    AddFace
+
+For colouring
+    Init
+    Cleanup
+    ComputeFace
