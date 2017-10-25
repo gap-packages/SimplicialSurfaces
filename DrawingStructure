@@ -76,6 +76,7 @@ To draw the surface into tikz, we need
 For drawing order:
     Init
     Cleanup
+    StartingFace
     NextEdge*
     GeneralMethod ?
 
