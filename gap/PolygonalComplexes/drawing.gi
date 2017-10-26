@@ -7,8 +7,11 @@ InstallMethod( DrawSurfaceToTikz,
         local file, output;
 
         # If no mods are set as active, define the default
+        if not IsBound( printRecord!.defaultMods ) then
+            printRecord!.defaultMods := ["drawingOrder", "coordinates", "metricData", "drawingStyle"];
+        fi;
         if not IsBound( printRecord!.activeMods ) then
-            printRecord!.activeMods := ["drawingOrder", "coordinates", "metricData", "drawingStyle"];
+            printRecord!.activeMods := [];
         fi;
 
         # Try to open the given file
@@ -27,11 +30,16 @@ InstallMethod( DrawSurfaceToTikz,
         recognizeFct := [];
         addFct := [];
         startFct := [];
+        coordFct := [];
         nextFct := [];
         drawVertexFct := [];
         drawEdgeFct := [];
         drawFaceFct := [];
-        headerFct := [];
+        generalHeaderFct := [];
+        tikzHeaderFct := [];
+        beginDocFct := [];
+        endDocFct := [];
+        picOptFct := [];
 
         addAppendFunction := function( rec, modName, key, fct )
             local comp;
@@ -46,7 +54,7 @@ InstallMethod( DrawSurfaceToTikz,
             fi;
         end;
 
-        for modName in printRecord!.activeMods do 
+        for modName in Concatenation( printRecord!.activeMods, printRecord!.defaultMods ) do 
             if IsBound( __SIMPLICIAL_MODLIST!.(modName) ) then
                 # Initialize this mod
                 if not IsBound( printRecord!.(modName) ) then
@@ -73,8 +81,13 @@ InstallMethod( DrawSurfaceToTikz,
             addAppendFunction( printRecord, modName, "tikzVertex", drawVertexFct );
             addAppendFunction( printRecord, modName, "tikzEge", drawEdgeFct );
             addAppendFunction( printRecord, modName, "tikzFace", drawFaceFct );
-            addAppendFunction( printRecord, modName, "header", headerFct );
             addAppendFunction( printRecord, modName, "startFace", startFct );
+            addAppendFunction( printRecord, modName, "vertexCoords", coordFct );
+            addAppendFunction( printRecord, modName, "generalHeader", generalHeaderFct );
+            addAppendFunction( printRecord, modName, "tikzHeader", tikzHeaderFct );
+            addAppendFunction( printRecord, modName, "beginDocument", beginDocFct );
+            addAppendFunction( printRecord, modName, "endDocument", endDocFct );
+            addAppendFunction( printRecord, modName, "tikzOptions", picOptFct );
         od;
         if IsBound( printRecord!.checkFaceOrder ) then
             checkFct := printRecord!.checkFaceOrder;
@@ -90,6 +103,10 @@ InstallMethod( DrawSurfaceToTikz,
             startFct := printRecord!.startFaceOrder;
         fi;
 
+        # Initialize the record
+        for i in initFct do
+            ValueGlobal(i)(printRecord);
+        od;
         
         EvaluateFunctionList := function( list, args )
             local i, res;
@@ -208,9 +225,39 @@ InstallMethod( DrawSurfaceToTikz,
 
 
         # Write this data into the file
+        AppendTo( output, EvaluateFunctionList( generalHeaderFct, [printRecord] ) );
+        AppendTo( output, EvaluateFunctionList( tikzHeaderFct, [printRecord] ) );
+        AppendTo( output, EvaluateFunctionList( beginDocFct, [printRecord] ) );
+        for comp in StronglyConnectedComponents(surface) do
+            # Start the picture
+            AppendTo( output, "\n\\begin{tikzpicture}[", EvaluateFunctionList( picOptFct, [printRecord] ), "]\n" );
 
+            # Define coordinates of vertices
+            for v in Vertices(comp) do
+                vertexCoords := EvaluateFunctionList( coordFct, [printRecord, surface, v] );
+                for i in [1..Size(vertexCoords)] do
+                    AppendTo( output, "\\coordinate (V", v, "_", i, ") at (", vertexCoords[i][1], ", ", vertexCoords[i][2], ");\n" );
+                od;
+            od;
+            AppendTo(output, "\n\n");
+
+            # Draw faces
+            for f in Faces(comp) do
+                facePath := EvaluateFunctionList(  ); #TODO
+            od;
+
+            # End the picture
+            AppendTo( output, "\n\\end{tikzpicture}" );
+        od;
+        AppendTo( output, EvaluateFunctionList( endDocFct ) );
             
 
+        # Clean up the record
+        for i in cleanFct do
+            ValueGlobal(i)(printRecord);
+        od;
+
+        return printRecord;
     end
 );
 

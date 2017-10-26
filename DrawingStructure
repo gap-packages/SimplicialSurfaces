@@ -64,7 +64,7 @@ In case of colouring, we replace MetricData by Colouring.
 To draw the surface into tikz, we need
     PrintRecordDrawingStyleTikzVertex( rec, complex, vertex, tikzCoord )
     PrintRecordDrawingStyleTikzEdge( rec, complex, edge, tikzCoords )
-    PrintRecordDrawingStyleTikzFace( rec, complex, edge, tikzCoords )
+    PrintRecordDrawingStyleTikzFace( rec, complex, face, tikzCoords )
     (note that the vertex coordinates were transformed into tikz coordinates before)
     for the global styles: PrintRecordDrawingStyleGlobalStyles( rec, complex )
     have some options: vertexLabels, edgeLabels, faceLabels, colours, scale etc. -> should only produce one change in tex-file (for easier manual change, just in case)
