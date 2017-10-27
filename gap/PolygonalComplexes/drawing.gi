@@ -23,26 +23,37 @@ InstallMethod( DrawSurfaceToTikz,
         SetPrintFormattingStatus( output, false );
 
         # Initialize the functions for the main method
-        initFct := [];
-        cleanFct := [];
-        checkFct := [];
-        computeFct := [];
-        recognizeFct := [];
-        addFct := [];
-        startFct := [];
-        coordFct := [];
-        nextFct := [];
-        drawVertexFct := [];
-        drawEdgeFct := [];
-        drawFaceFct := [];
-        generalHeaderFct := [];
-        tikzHeaderFct := [];
-        beginDocFct := [];
-        endDocFct := [];
-        picOptFct := [];
+        initFct := ["init"];
+        cleanupFct := ["cleanup"];
+        checkFaceFct := ["checkFace"];
+        computeFaceFct := ["computeFace"];
+        recognizeVerticesFct := ["recognizeVertices"];
+        addFaceFct := ["addFace"];
+        startFaceFct := ["startFace"];
+        vertCoordFct := ["vertexCoords"];
+        facePerimeterFct := ["facePerimeter"];
+        edgeEndpointsFct := ["edgeEndpoints"];
+        nextEdgeFct := ["nextEdge"];
+        drawVertexFct := ["tikzVertex"];
+        drawEdgeFct := ["tikzEdge"];
+        drawFaceFct := ["tikeFace"];
+        generalHeaderFct := ["generalHeader"];
+        tikzHeaderFct := ["tikzHeader"];
+        beginDocFct := ["beginDocument"];
+        endDocFct := ["endDocument"];
+        pictureOptionsFct := ["tikzOptions"];
 
-        addAppendFunction := function( rec, modName, key, fct )
-            local comp;
+        allFcts := [ initFct, cleanupFct, checkFaceFct, computeFaceFct, 
+            recognizeVerticesFct, addFaceFct, startFaceFct, vertCoordFct,
+            facePerimeterFct, edgeEndpointsFct, nextEdgeFct, drawVertexFct,
+            drawEdgeFct, drawFaceFct, generalHeaderFct, tikzHeaderFct, 
+            beginDocFct, endDocFct, pictureOptionsFct];
+
+        addAppendFunction := function( rec, modName, fct )
+            local comp, key;
+
+            key := fct[1];
+            fct := [];
 
             if IsBound( rec!.(modName)!.(key) ) then
                 comp := rec!.(modName)!.(key);
@@ -70,24 +81,10 @@ InstallMethod( DrawSurfaceToTikz,
             if not IsBound( printRecord!.(modName) ) then
                 Error(Concatenation("The mod ", modName, " is not installed or given."));
             fi;
-
-            addAppendFunction( printRecord, modName, "init", initFct );
-            addAppendFunction( printRecord, modName, "cleanup", cleanFct );
-            addAppendFunction( printRecord, modName, "checkFace", checkFct );
-            addAppendFunction( printRecord, modName, "computeFace", computeFct );
-            addAppendFunction( printRecord, modName, "recognizeVertices", recognizeFct );
-            addAppendFunction( printRecord, modName, "addFace", addFct );
-            addAppendFunction( printRecord, modName, "nextEdge", nextFct );
-            addAppendFunction( printRecord, modName, "tikzVertex", drawVertexFct );
-            addAppendFunction( printRecord, modName, "tikzEge", drawEdgeFct );
-            addAppendFunction( printRecord, modName, "tikzFace", drawFaceFct );
-            addAppendFunction( printRecord, modName, "startFace", startFct );
-            addAppendFunction( printRecord, modName, "vertexCoords", coordFct );
-            addAppendFunction( printRecord, modName, "generalHeader", generalHeaderFct );
-            addAppendFunction( printRecord, modName, "tikzHeader", tikzHeaderFct );
-            addAppendFunction( printRecord, modName, "beginDocument", beginDocFct );
-            addAppendFunction( printRecord, modName, "endDocument", endDocFct );
-            addAppendFunction( printRecord, modName, "tikzOptions", picOptFct );
+            
+            for fct in allFcts do
+                addAppendFunction( printRecord, modName, fct );
+            od;
         od;
         if IsBound( printRecord!.checkFaceOrder ) then
             checkFct := printRecord!.checkFaceOrder;
@@ -130,7 +127,7 @@ InstallMethod( DrawSurfaceToTikz,
         while not IsEmpty(unplacedFaces) do
             # Find the starting face
             start := EvaluateFunctionList(startFct, [printRecord, surface, unplacedFaces]);
-            vertexEdgePath := EvaluateFunctionList( computeFct, [printRecord, surface, start] );
+            vertexEdgePath := EvaluateFunctionList( computeFaceFct, [printRecord, surface, start] );
             EvaluateFunctionList( addFct, [printRecord, vertexEdgePath, []] );
             unplacedFaces := Difference( unplacedFaces, [start] );
 
@@ -167,8 +164,8 @@ InstallMethod( DrawSurfaceToTikz,
                         testResults := repeatData[proposedEdge][4];
                     else
                         adFace := Intersection( FacesOfEdges(surface)[proposedEdge], unplacedFaces )[1];
-                        vertexEdgePath := EvaluateFunctionList( computeFct, [printRecord, surface, adFace, proposedEdge ] );
-                        recVertices := EvaluateFunctionList( recognizeFct, [printRecord, vertexEdgePath] );
+                        vertexEdgePath := EvaluateFunctionList( computeFaceFct, [printRecord, surface, adFace, proposedEdge ] );
+                        recVertices := EvaluateFunctionList( recognizeVerticesFct, [printRecord, vertexEdgePath] );
                         testResults := [];
                     fi;
 
@@ -177,9 +174,9 @@ InstallMethod( DrawSurfaceToTikz,
                     for j in [1..Size(checkFct)] do
                         if IsBound( testResults[j] ) then
                             # there was a test before
-                            testResults[j] := ValueGlobal( checkFct[j] )(printRecord, vertexEdgePath, recVertices, testResults[j]);
+                            testResults[j] := ValueGlobal( checkFaceFct[j] )(printRecord, vertexEdgePath, recVertices, testResults[j]);
                         else
-                            testResults[j] := ValueGlobal( checkFct[j] )(printRecord, vertexEdgePath, recVertices, []);
+                            testResults[j] := ValueGlobal( checkFaceFct[j] )(printRecord, vertexEdgePath, recVertices, []);
                         fi;
 
                         if testResults[j][1] = false then
@@ -228,28 +225,62 @@ InstallMethod( DrawSurfaceToTikz,
         AppendTo( output, EvaluateFunctionList( generalHeaderFct, [printRecord] ) );
         AppendTo( output, EvaluateFunctionList( tikzHeaderFct, [printRecord] ) );
         AppendTo( output, EvaluateFunctionList( beginDocFct, [printRecord] ) );
+        TikzCoordFromVertexPosition := function( vertPos )
+            return Concatenation( "(V", vertPos[1], "_", vertPos[2], ")" );
+        end;
+        allVertexCoords := EvaluateFunctionList( vertCoordFct, [printRecord, surface] );
         for comp in StronglyConnectedComponents(surface) do
             # Start the picture
             AppendTo( output, "\n\\begin{tikzpicture}[", EvaluateFunctionList( picOptFct, [printRecord] ), "]\n" );
 
             # Define coordinates of vertices
             for v in Vertices(comp) do
-                vertexCoords := EvaluateFunctionList( coordFct, [printRecord, surface, v] );
                 for i in [1..Size(vertexCoords)] do
-                    AppendTo( output, "\\coordinate (V", v, "_", i, ") at (", vertexCoords[i][1], ", ", vertexCoords[i][2], ");\n" );
+                    AppendTo( output, "\\coordinate ", TikzCoordFromVertexPosition([v,i]), " at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
                 od;
             od;
             AppendTo(output, "\n\n");
 
             # Draw faces
             for f in Faces(comp) do
-                facePath := EvaluateFunctionList(  ); #TODO
+                facePath := EvaluateFunctionList( facePerimeterFct, [printRecord, surface, f] );
+                vertexPositions := List( [1..Size(facePath)/2], i -> facePath[2*i-1] );
+                AppendTo( output, EvaluateFunctionList( drawFaceFct, 
+                    [printRecord, surface, f, 
+                        List(vertexPositions, TikzCoordFromVertexPosition), 
+                        List(vertexPositions, p -> allVertexCoords[p[1]][p[2]])] ) );
             od;
+
+            AppendTo( output, "\n\n" );
+            # Draw edges
+            for e in Edges(comp) do
+                ends := EvaluateFunctionList( edgeEndpointsFct, [printRecord, surface, e] );
+                for i in [1..Size(ends)] do
+                    AppendTo( output, EvaluateFunctionList( drawEdgeFct, [printRecord, surface, e, 
+                        List( ends[i], TikzCoordFromVertexPosition ),
+                        List( ends[i], p -> allVertexCoords[p[1]][p[2]] )] ) );
+                od;
+            od;
+
+            AppendTo( output, "\n\n" );
+            # Draw vertices
+            for v in Vertices(comp) do
+                positions := allVertexCoords[v];
+                for i in [1..Size(positions)] do
+                    AppendTo(output, EvaluateFunctionList( drawVertexFct, [printRecord, surface, v, TikzCoordFromVertexPosition([v,i]), allVertexCoords[v][i]] ));
+                od;
+            od;
+            
 
             # End the picture
             AppendTo( output, "\n\\end{tikzpicture}" );
         od;
         AppendTo( output, EvaluateFunctionList( endDocFct ) );
+        CloseStream(output);
+        Print( "Picture written in TikZ." );
+
+
+        #TODO compile?
             
 
         # Clean up the record
