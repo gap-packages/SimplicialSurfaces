@@ -29,14 +29,14 @@ InstallMethod( DrawSurfaceToTikz,
         computeFaceFct := ["computeFace"];
         recognizeVerticesFct := ["recognizeVertices"];
         addFaceFct := ["addFace"];
-        startFaceFct := ["startFace"];
-        vertCoordFct := ["vertexCoords"];
+        startFaceFct := ["startingFace"];
+        vertCoordFct := ["vertexCoordinates"];
         facePerimeterFct := ["facePerimeter"];
         edgeEndpointsFct := ["edgeEndpoints"];
         nextEdgeFct := ["nextEdge"];
         drawVertexFct := ["tikzVertex"];
         drawEdgeFct := ["tikzEdge"];
-        drawFaceFct := ["tikeFace"];
+        drawFaceFct := ["tikzFace"];
         generalHeaderFct := ["generalHeader"];
         tikzHeaderFct := ["tikzHeader"];
         beginDocFct := ["beginDocument"];
@@ -102,7 +102,7 @@ InstallMethod( DrawSurfaceToTikz,
 
         # Initialize the record
         for i in initFct do
-            ValueGlobal(i)(printRecord);
+            ValueGlobal(i)(printRecord, surface);
         od;
         
         EvaluateFunctionList := function( list, args )
@@ -313,19 +313,217 @@ InstallMethod( PrintRecordADDMOD,
 );
 
 # drawingOrder
+InstallMethod( PrintRecordDrawingOrderInit, 
+    "for a print record and a polygonal surface", 
+    [IsRecord, IsPolygonalSurface],
+    function(printRecord, surface)
+        if not IsBound( printRecord!.drawingOrder ) then
+            printRecord!.drawingOrder := rec();
+        fi;
+
+        printRecord!.computedStartingFaces := [];
+
+        # TODO initialize data
+    end
+);
+InstallMethod( PrintRecordDrawingOrderCleanup, 
+    "for a print record and a polygonal surface", 
+    [IsRecord, IsPolygonalSurface],
+    function(printRecord, surface)
+
+        printRecord!.startingFaces := printRecord!.computedStartingFaces;
+        Unbind(printRecord!.computedStartingFaces);
+        # TODO cleanup
+    end
+);
+InstallMethod( PrintRecordDrawingOrderStartingFace, 
+    "for a print record, a polygonal complex and a list of possible faces",
+    [IsRecord, IsPolygonalComplex, IsList],
+    function(printRecord, complex, possFaces)
+        local res;
+
+        res := Minimum( possFaces );
+        Add( printRecord!.computedStartingFaces, res );
+        return res;    
+    end
+);
 
 
 
 # coordinates
+InstallMethod( PrintRecordCoordinatesInit, 
+    "for a print record and a polygonal surface", 
+    [IsRecord, IsPolygonalSurface],
+    function(printRecord, surface)
+        if not IsBound( printRecord!.coordinates ) then
+            printRecord!.coordinates := rec();
+        fi;
+
+        # TODO initialize data
+    end
+);
+InstallMethod( PrintRecordCoordinatesCleanup, 
+    "for a print record and a polygonal surface", 
+    [IsRecord, IsPolygonalSurface],
+    function(printRecord, surface)
+        # TODO cleanup
+    end
+);
 
 
+BindGlobal( "__SIMPLICIAL_GuaranteeExistence",
+    function(record, name, default)
+        if not IsBound(record!.(name)) then
+            record!.(name) := default;
+        fi;
+    end
+);
+
+BindGlobal("__SIMPLICIAL_EqualFloats",
+    function(x,y, eps)
+        return (x-y)^2 < eps;
+    end
+);
 
 # metricData
+InstallMethod( PrintRecordMetricDataInit, 
+    "for a print record and a polygonal surface", 
+    [IsRecord, IsPolygonalSurface],
+    function(printRecord, surface)
+        local lengths, angles, edges, vertices;
+
+        __SIMPLICIAL_GuaranteeExistence( printRecord, "metricData", rec() );
+
+        # Check the consistency of the length/angle-information
+        __SIMPLICIAL_GuaranteeExistence( printRecord!.metricData, "edgeLengths", [] );
+        __SIMPLICIAL_GuaranteeExistence( printRecord!.metricData, "angles", [] );
+    
+        lengths := printRecord!.metricData!.edgeLengths;
+        angles := printRecord!.metricData!.angles;
+        printRecord!.metricData!.givenEdgeLengths := lengths;
+        printRecord!.metricData!.givenAngles := angles;
+
+        #TODO allow different way to give angles
+
+        # each angle is stored as a pair of floats [sin(alpha), cos(alpha)]
+        for f in Faces(surface) do
+            edges := EdgesOfFaces(surface)[f];
+            vertices := VerticesOfFaces(surface)[f];
+            if not IsBound(angles[f]) then
+                angles[f] := [];
+            fi;
+            # Case all values are set
+            if ForAll(edges, e -> IsBound(lengths[e])) and ForAll(vertices, v -> IsBound(angles[f][v])) then
+                # Check inner angle sum
+                radAngles := List( vertices, v -> Atan2(angles[f][v][1], angles[f][v][2]) );
+                angleSum := Sum( radAngles );
+                if __SIMPLICIAL_EqualFloats( angleSum, ( Size(edges) - 2 )/Size(edges)*FLOAT.PI, printRecord!.floatAccuracy ) then
+                    # Check whether the polygon closes
+                    #TODO do so with an vertexEdge-path around the perimeter
+                fi;
+                #TODO check for consistency and "continue" if successful
+            fi;
+
+            # Case triangle
+            if Size(edges) = 3 and ForAll(edges, e -> IsBound(lengths[e])) then
+                for i in [1,2,3] do
+                    # find opposing vertex
+                    oppVert := Difference(vertices, VerticesOfEdges(surface)[edges[i]])[1];
+                    j := i mod 3 + 1;
+                    k := (i+1) mod 3 + 1;
+                    cos := Float( (lengths[edges[i]]^2 - lengths[edges[j]]^2 - lengths[edges[k]]^2) / ( -2*lengths[j]*lengths[k] );
+                    sin := Sqrt(1 - cos^2);
+                    # TODO test validity of edge lengths
+                    angles[f][oppVert] := [sin, cos];
+                od;
+                continue;
+            fi;
+
+            # Define everything to be a regular polygon with side length 1
+            for e in edges do
+                lengths[e] := 1;
+            od;
+            regAngle := SinCos( (Size(edges) - 2) / Size(edges) * FLOAT.PI );
+            for v in vertices do
+                angles[v] := regAngle;
+            od;
+        od;
+
+        # TODO initialize data
+
+    end
+);
+InstallMethod( PrintRecordMetricDataCleanup, 
+    "for a print record and a polygonal surface", 
+    [IsRecord, IsPolygonalSurface],
+    function(printRecord, surface)
+        # TODO cleanup
+    end
+);
+InstallMethod( PrintRecordMetricDataComputeFace,
+    "for a print record, a polygonal surface and a face",
+    [IsRecord, IsPolygonalSurface, IsPosInt],
+    function(printRecord, surface, face)
+        local edges;
+
+        edges := EdgesOfFaces(surface)[face];
+        len := printRecord!.metricData!.edgeLengths[edges[1]];
+        verts := VerticesOfEdges(surface)[edges[1]];
+        return PrintRecordMetricDataComputeFace(printRecord, surface, face, 
+            [ edges[1], [ verts[1], [0.,0.] ], [verts[2], [Float(len),0.]] ]);
+    end
+);
+InstallMethod( PrintRecordMetricDataComputeFace,
+    "for a print record, a polygonal surface, a face and an edge (given as list of vertex coordinates)",
+    [IsRecord, IsPolygonalSurface, IsPosInt, IsList],
+    function(printRecord, surface, face, edge)
+        local vertexEdgePath;#TODO
+
+        vertexEdgePath := [edge[2], edge[1], edge[3]];
+        usedEdges := [edge[1]];
+        while Size(vertexEdgePath) < ;
+    end
+);
 
 
 
 # drawingStyle
+InstallMethod( PrintRecordDrawingStyleInit, 
+    "for a print record and a polygonal surface", 
+    [IsRecord, IsPolygonalSurface],
+    function(printRecord, surface)
+        if not IsBound( printRecord!.drawingStyle ) then
+            printRecord!.drawingStyle := rec();
+        fi;
+
+        # TODO initialize data
+    end
+);
+InstallMethod( PrintRecordDrawingStyleCleanup, 
+    "for a print record and a polygonal surface", 
+    [IsRecord, IsPolygonalSurface],
+    function(printRecord, surface)
+        # TODO cleanup
+    end
+);
+
 
 
 
 # colouring
+InstallMethod( PrintRecordDrawingOrderInit, "for a print record", [IsRecord],
+    function(printRecord)
+        if not IsBound( printRecord!.drawingOrder ) then
+            printRecord!.drawingOrder := rec();
+        fi;
+
+        # TODO initialize data
+    end
+);
+InstallMethod( PrintRecordDrawingOrderCleanup, "for a print record", [IsRecord],
+    function(printRecord)
+        # TODO cleanup
+    end
+);
+
+
