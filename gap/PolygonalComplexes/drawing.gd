@@ -21,6 +21,7 @@ DeclareOperation( "PrintRecordMetricDataComputeFace", [IsRecord, IsPolygonalSurf
 # coordinates
 DeclareOperation( "PrintRecordCoordinatesInit", [IsRecord, IsPolygonalSurface] );
 DeclareOperation( "PrintRecordCoordinatesCleanup", [IsRecord, IsPolygonalSurface] );
+DeclareOperation( "PrintRecordCoordinatesAddFace", [IsRecord, IsList, IsList] );
 
 
 # drawing style

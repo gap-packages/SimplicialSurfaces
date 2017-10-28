@@ -23,47 +23,16 @@ InstallMethod( DrawSurfaceToTikz,
         SetPrintFormattingStatus( output, false );
 
         # Initialize the functions for the main method
-        initFct := ["init"];
-        cleanupFct := ["cleanup"];
-        checkFaceFct := ["checkFace"];
-        computeFaceFct := ["computeFace"];
-        recognizeVerticesFct := ["recognizeVertices"];
-        addFaceFct := ["addFace"];
-        startFaceFct := ["startingFace"];
-        vertCoordFct := ["vertexCoordinates"];
-        facePerimeterFct := ["facePerimeter"];
-        edgeEndpointsFct := ["edgeEndpoints"];
-        nextEdgeFct := ["nextEdge"];
-        drawVertexFct := ["tikzVertex"];
-        drawEdgeFct := ["tikzEdge"];
-        drawFaceFct := ["tikzFace"];
-        generalHeaderFct := ["generalHeader"];
-        tikzHeaderFct := ["tikzHeader"];
-        beginDocFct := ["beginDocument"];
-        endDocFct := ["endDocument"];
-        pictureOptionsFct := ["tikzOptions"];
-
-        allFcts := [ initFct, cleanupFct, checkFaceFct, computeFaceFct, 
-            recognizeVerticesFct, addFaceFct, startFaceFct, vertCoordFct,
-            facePerimeterFct, edgeEndpointsFct, nextEdgeFct, drawVertexFct,
-            drawEdgeFct, drawFaceFct, generalHeaderFct, tikzHeaderFct, 
-            beginDocFct, endDocFct, pictureOptionsFct];
-
-        addAppendFunction := function( rec, modName, fct )
-            local comp, key;
-
-            key := fct[1];
-            fct := [];
-
-            if IsBound( rec!.(modName)!.(key) ) then
-                comp := rec!.(modName)!.(key);
-                if IsList(comp) then
-                    Append( fct, comp );
-                else
-                    Add(fct, comp);
-                fi;#TODO add tests
-            fi;
-        end;
+        fctRec := rec();
+        allKeys := ["init", "cleanup", "checkFace", "computeFace", 
+                "recognizeVertices", "addFace", "startingFace", 
+                "vertexCoordinates", "facePerimeter", "edgeEndpoints", 
+                "nextEdge", "tikzVertex", "tikzEdge", "tikzFace", 
+                "generalHeader", "tikzHeader", "beginDocument", "endDocument",
+                "tikzOptions"];
+        for key in allKeys do
+            fctRec!.(key) := [];
+        od;
 
         for modName in Concatenation( printRecord!.activeMods, printRecord!.defaultMods ) do 
             if IsBound( __SIMPLICIAL_MODLIST!.(modName) ) then
@@ -81,31 +50,41 @@ InstallMethod( DrawSurfaceToTikz,
             if not IsBound( printRecord!.(modName) ) then
                 Error(Concatenation("The mod ", modName, " is not installed or given."));
             fi;
-            
-            for fct in allFcts do
-                addAppendFunction( printRecord, modName, fct );
+
+            for key in allKeys do
+                if IsBound( printRecord!.(modName)!.(key) ) then
+                    comp := printRecord!(modName)!.(key);
+                    if IsList(comp) then
+                        Append( fctRec!.(key), comp );
+                    else
+                        Add( fctRec!.(key), comp );
+                    fi;
+                fi;
+                comp := printRecord!.(modName)!.
             od;
         od;
         if IsBound( printRecord!.checkFaceOrder ) then
-            checkFct := printRecord!.checkFaceOrder;
+            fctRec!.checkFaceOrder := printRecord!.checkFaceOrder;
         fi;
         
         if IsBound( printRecord!.nextEdgeOrder ) then
-            nextFct := printRecord!.nextEdgeOrder;
+            fctRec!.nextEdgeOrder := printRecord!.nextEdgeOrder;
         else
-            nextFct := List( nextFct, f -> [f,infinity] );
+            fctRec!.nextEdgeOrder := List( fctRec!.nextEdgeOrder, f -> [f,infinity] );
         fi;
 
         if IsBound( printRecord!.startFaceOrder ) then
-            startFct := printRecord!.startFaceOrder;
+            fctRec!.startFaceOrder := printRecord!.startFaceOrder;
         fi;
 
-        # Initialize the record
-        for i in initFct do
-            ValueGlobal(i)(printRecord, surface);
-        od;
+
+        EvaluateAllFunctions := function( list, args )
+            for name in list do
+                CallFuncList( ValueGlobal(name), args );
+            od;
+        end;
         
-        EvaluateFunctionList := function( list, args )
+        EvaluateUntilResult := function( list, args )
             local i, res;
 
             res := fail;
@@ -121,12 +100,16 @@ InstallMethod( DrawSurfaceToTikz,
             fi;
         end;
 
+        # Initialise the records
+        EvaluateAllFunctions( fctRec!.init, [printRecord, surface] );
+
         # Start the actual method
         unplacedFaces := Faces(surface);
         strongComponents := [];
         while not IsEmpty(unplacedFaces) do
+            #TODO rewrite function completely?
             # Find the starting face
-            start := EvaluateFunctionList(startFct, [printRecord, surface, unplacedFaces]);
+            start := EvaluateUntilResult(fctRec!.startingFace, [printRecord, surface, unplacedFaces]);
             vertexEdgePath := EvaluateFunctionList( computeFaceFct, [printRecord, surface, start] );
             EvaluateFunctionList( addFct, [printRecord, vertexEdgePath, []] );
             unplacedFaces := Difference( unplacedFaces, [start] );
@@ -477,11 +460,37 @@ InstallMethod( PrintRecordMetricDataComputeFace,
     "for a print record, a polygonal surface, a face and an edge (given as list of vertex coordinates)",
     [IsRecord, IsPolygonalSurface, IsPosInt, IsList],
     function(printRecord, surface, face, edge)
-        local vertexEdgePath;#TODO
+        local vertexEdgePath, usedEdges, len, lastEdge, lastVertex, vector, 
+            nextEdge, nextVertex, angle, newVector, nextVertexCoords;
 
         vertexEdgePath := [edge[2], edge[1], edge[3]];
         usedEdges := [edge[1]];
-        while Size(vertexEdgePath) < ;
+        while Size(vertexEdgePath) < 2 * Size(EdgesOfFaces(surface)[face]) - 1 do
+            len := Size(vertexEdgePath);
+            lastEdge := vertexEdgePath[len-1];
+            lastVertex := vertexEdgePath[len][1];
+            vector := vertexEdgePath[len-2][2] - vertexEdgePath[len][2];
+
+            nextEdge := OtherEdgeOfVertexInFace( surface, lastVertex, lastEdge, face );
+            nextVertex := OtherVertexOfEdge(surface, lastVertex, nextEdge);
+
+            # rescale the vector
+            vector := vector * Float( printRecord!.metricData!.edgeLengths[nextEdge] / printRecord!.metricData!.edgeLengths[lastEdge] );
+
+            # rotate the vector
+            angle := printRecord!.metricData!.angles[face][lastVertex];
+            newVector := [ angle[2]*vector[1]+angle[1]*vector[2], -angle[1]*vector[1]+angle[2]*vector[2] ];
+
+            nextVertexCoords := vertexEdgePath[len][2] + newVector;
+
+            Append( vertexEdgePath, [nextEdge, [nextVertex, nextVertexCoords]];
+            Add(usedEdges, nextEdge);
+        od;
+
+        Append( vertexEdgePath, Difference(EdgesOfFaces(surface)[face], usedEdges) );
+        Assert(1, Size(vertexEdgePath)=2*Size(EdgesOfFaces(surface)[face]));
+
+        return vertexEdgePath;
     end
 );
 
