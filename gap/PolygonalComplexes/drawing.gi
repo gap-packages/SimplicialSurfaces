@@ -1,3 +1,198 @@
+BindGlobal("__SIMPLICIAL_EqualFloats",
+    function(x,y, eps)
+        return (x-y)^2 < eps;
+    end
+);
+
+
+BindGlobal( "__SIMPLICIAL_PrintRecordInit",
+    function(rec)
+        local givenStarts;
+
+        # Starting faces
+        if IsBound(rec!.startingFaces) then
+            if IsPosInt(rec!.startingFaces) then
+                givenStarts := [ rec!.startingFaces ];
+            elif IsList( rec!.startingFaces ) and ForAll( rec!.startingFaces, IsPosInt ) then
+                givenStarts := rec!.startingFaces;
+            else
+                Print("Given starting faces are neither a list of faces nor a single face.");
+            fi;
+        else
+            rec!.givenStartingFaces := [];
+        fi;
+        rec!.givenStartingFaces := givenStarts;
+        rec!.startingFaces := [];
+
+
+        # edge lengths and angles
+        if not IsBound( rec!.edgeLengths ) then
+            rec!.edgeLengths := [];
+        fi;
+        rec!.givenEdgeLengths := rec!.edgeLengths;
+
+        if not IsBound( rec!.angles ) then
+            rec!.angles := [];
+        fi;
+        rec!.givenAngles := rec!.angles;
+
+        # float accuracy
+        if not IsBound( rec!.floatAccuracy ) then
+            rec!.floatAccuracy := 0.001;
+        fi;
+
+        # coordinates (always recomputed)
+        rec!.vertexCoordinates := [];
+        rec!.edgeEndpints := [];
+        rec!.faceVertices := [];
+
+        #
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordCleanup",
+    function(rec)
+        
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordInitializePolygons",
+    function(rec, surface)
+        local lengths, angles, edges, vertices;
+
+        lengths := rec!.edgeLengths;
+        angles := rec!.angles;
+
+        #TODO allow different way to give angles
+
+        # each angle is stored as a pair of floats [sin(alpha), cos(alpha)]
+        for f in Faces(surface) do
+            edges := EdgesOfFaces(surface)[f];
+            vertices := VerticesOfFaces(surface)[f];
+            if not IsBound(angles[f]) then
+                angles[f] := [];
+            fi;
+            # Case all values are set
+            if ForAll(edges, e -> IsBound(lengths[e])) and ForAll(vertices, v -> IsBound(angles[f][v])) then
+                # Check inner angle sum
+                radAngles := List( vertices, v -> Atan2(angles[f][v][1], angles[f][v][2]) );
+                angleSum := Sum( radAngles );
+                if __SIMPLICIAL_EqualFloats( angleSum, ( Size(edges) - 2 )/Size(edges)*FLOAT.PI, printRecord!.floatAccuracy ) then
+                    # Check whether the polygon closes
+                    #TODO do so with an vertexEdge-path around the perimeter
+                fi;
+                #TODO check for consistency and "continue" if successful
+            fi;
+
+            # Case triangle
+            if Size(edges) = 3 and ForAll(edges, e -> IsBound(lengths[e])) then
+                for i in [1,2,3] do
+                    # find opposing vertex
+                    oppVert := Difference(vertices, VerticesOfEdges(surface)[edges[i]])[1];
+                    j := i mod 3 + 1;
+                    k := (i+1) mod 3 + 1;
+                    cos := Float( (lengths[edges[i]]^2 - lengths[edges[j]]^2 - lengths[edges[k]]^2) / ( -2*lengths[j]*lengths[k] );
+                    sin := Sqrt(1 - cos^2);
+                    # TODO test validity of edge lengths
+                    angles[f][oppVert] := [sin, cos];
+                od;
+                continue;
+            fi;
+
+            # Define everything to be a regular polygon with side length 1
+            for e in edges do
+                lengths[e] := 1;
+            od;
+            regAngle := SinCos( (Size(edges) - 2) / Size(edges) * FLOAT.PI );
+            for v in vertices do
+                angles[v] := regAngle;
+            od;
+        od;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordStartingFace",
+    function(rec, surface, unplacedFaces)
+        local f;
+
+        # Try to find a starting face in the givenStartingFaces
+        for f in rec!.givenStartingFaces do
+            if f in unplacedFaces then
+                return f;
+            fi;
+        od;
+
+        # Otherwise return the smallest remaining face
+        return Minimum(unplacedFaces);
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordComputeFirstFace",
+    function(printRecord, surface, face)
+        local edges;
+
+        edges := EdgesOfFaces(surface)[face];
+        len := printRecord!.edgeLengths[edges[1]];
+        verts := VerticesOfEdges(surface)[edges[1]];
+
+        # Save those coordinates
+        printRecord!.vertexCoordinates[verts[1]] := [ [0.,0.] ];
+        printRecord!.vertexCoordinates[verts[2]] := [ [Float(len),0.] ];
+        printRecord!.edgeEndpoints[edges[1]] := [ [ verts[1], 1 ], [ verts[2], 2 ] ];
+        return __SIMPLICIAL_PrintRecordComputeFace( printRecord, surface, face, [edges[1],1] );
+    end
+);
+BindGlobal( "__SIMPLICIAL_PrintRecordComputeFace",
+    function(printRecord, surface, face, edge)
+        local vertexEdgePath, usedEdges, len, lastEdge, lastVertex, vector, 
+            nextEdge, nextVertex, angle, newVector, nextVertexCoords;
+
+        lastVertex := printRecord!.edgeEndpoints[edge[1]][edge[2]][1];
+        currentVertex := printRecord!.edgeEndpoints[edge[1]][edge[2]][2];
+        lastEdge := edge[1];
+        computedVertices := [ lastVertex[1], currentVertex[1] ];
+        while Size(computedVertices) < Size(VerticesOfFaces(surface)[face]) - 1 do
+            vector := printRecord!.vertexCoordinates[lastVertex[1]][lastVertex[2]] - printRecord!.vertexCoordinates[currentVertex[1]][currentVertex[2]];
+
+            nextEdge := OtherEdgeOfVertexInFace( surface, lastVertex[1], lastEdge, face );
+            nextVertex := OtherVertexOfEdge(surface, lastVertex[1], nextEdge);
+
+            # rescale the vector
+            vector := vector * Float( printRecord!.edgeLengths[nextEdge] / printRecord!.edgeLengths[lastEdge] );
+
+            # rotate the vector
+            angle := printRecord!.angles[face][lastVertex[1]];
+            newVector := [ angle[2]*vector[1]+angle[1]*vector[2], -angle[1]*vector[1]+angle[2]*vector[2] ];
+
+            nextVertexCoords := printRecord!.vertexCoordinates[currentVertex[1]][currentVertex[2]] + newVector;
+
+            # Check if this vertex coordinates already appear somewhere
+            newVertexPosition := 0;
+            if not IsBound( printRecord!.vertexCoordinates[nextVertex] ) then
+                printRecord!.vertexCoordinates[nextVertex] := [nextVertexCoords];
+                newVertexPosition := 1;
+            else
+                for i in [1..Length(printRecord!.vertexCoordinates[nextVertex])] do
+                    compareCoords := printRecord!.vertexCoordinates[nextVertex][i];
+                    if __SIMPLICIAL_EqualFloats( 0., (compareCoords[1]-nextVertexCoords[1])^2 + (compareCoords[2]-nextVertexCoords[2])^2, printRecord!.floatAccuracy ) then
+                        pos := i;
+                        break;
+                    fi;
+                od;
+                if newVertexPosition = 0 then # no match found
+                    Add( printRecord!.vertexCoordinates[nextVertex], nextVertexCoords );
+                    pos := Size(printRecord!.vertexCoordinates[nextVertex]);
+                fi;
+            fi;
+
+            Add( computedVertices, nextVertex );
+            lastVertex := currentVertex;
+            currentVertex := [nextVertex, pos];
+            lastEdge := nextEdge;
+        od;
+    end
+);
+
 
 # general method
 InstallMethod( DrawSurfaceToTikz, 
@@ -5,14 +200,6 @@ InstallMethod( DrawSurfaceToTikz,
     [IsPolygonalSurface, IsString, IsRecord],
     function(surf, fileName, printRecord)
         local file, output;
-
-        # If no mods are set as active, define the default
-        if not IsBound( printRecord!.defaultMods ) then
-            printRecord!.defaultMods := ["drawingOrder", "coordinates", "metricData", "drawingStyle"];
-        fi;
-        if not IsBound( printRecord!.activeMods ) then
-            printRecord!.activeMods := [];
-        fi;
 
         # Try to open the given file
         file := Filename( DirectoryCurrent(), fileName ); #TODO allow absolute paths
@@ -22,96 +209,18 @@ InstallMethod( DrawSurfaceToTikz,
         fi;
         SetPrintFormattingStatus( output, false );
 
-        # Initialize the functions for the main method
-        fctRec := rec();
-        allKeys := ["init", "cleanup", "checkFace", "computeFace", 
-                "recognizeVertices", "addFace", "startingFace", 
-                "vertexCoordinates", "facePerimeter", "edgeEndpoints", 
-                "nextEdge", "tikzVertex", "tikzEdge", "tikzFace", 
-                "generalHeader", "tikzHeader", "beginDocument", "endDocument",
-                "tikzOptions"];
-        for key in allKeys do
-            fctRec!.(key) := [];
-        od;
 
-        for modName in Concatenation( printRecord!.activeMods, printRecord!.defaultMods ) do 
-            if IsBound( __SIMPLICIAL_MODLIST!.(modName) ) then
-                # Initialize this mod
-                if not IsBound( printRecord!.(modName) ) then
-                    printRecord!.(modName) := __SIMPLICIAL_MODLIST!.(modName);
-                else
-                    for rname in RecNames(__SIMPLICIAL_MODLIST!.(modName)) do
-                        printRecord!.(modName)!.(rname) := __SIMPLICIAL_MODLIST!.(modName)!.(rname);
-                    od;
-                fi;
-            fi;
-
-            # add the mods to the functions
-            if not IsBound( printRecord!.(modName) ) then
-                Error(Concatenation("The mod ", modName, " is not installed or given."));
-            fi;
-
-            for key in allKeys do
-                if IsBound( printRecord!.(modName)!.(key) ) then
-                    comp := printRecord!(modName)!.(key);
-                    if IsList(comp) then
-                        Append( fctRec!.(key), comp );
-                    else
-                        Add( fctRec!.(key), comp );
-                    fi;
-                fi;
-                comp := printRecord!.(modName)!.
-            od;
-        od;
-        if IsBound( printRecord!.checkFaceOrder ) then
-            fctRec!.checkFaceOrder := printRecord!.checkFaceOrder;
-        fi;
-        
-        if IsBound( printRecord!.nextEdgeOrder ) then
-            fctRec!.nextEdgeOrder := printRecord!.nextEdgeOrder;
-        else
-            fctRec!.nextEdgeOrder := List( fctRec!.nextEdgeOrder, f -> [f,infinity] );
-        fi;
-
-        if IsBound( printRecord!.startFaceOrder ) then
-            fctRec!.startFaceOrder := printRecord!.startFaceOrder;
-        fi;
-
-
-        EvaluateAllFunctions := function( list, args )
-            for name in list do
-                CallFuncList( ValueGlobal(name), args );
-            od;
-        end;
-        
-        EvaluateUntilResult := function( list, args )
-            local i, res;
-
-            res := fail;
-            for i in [1..Size(list)] do
-                res := CallFuncList( ValueGlobal(list[i]), args );
-                if res <> fail then
-                    return res;
-                fi;
-            od;
-
-            if res = fail then
-                Error("Function list could not be evaluated.");
-            fi;
-        end;
-
-        # Initialise the records
-        EvaluateAllFunctions( fctRec!.init, [printRecord, surface] );
+        __SIMPLICIAL_PrintRecordInit(printRecord);
+        __SIMPLICIAL_PrintRecordInitializePolygons(printRecord, surface);
 
         # Start the actual method
         unplacedFaces := Faces(surface);
         strongComponents := [];
         while not IsEmpty(unplacedFaces) do
-            #TODO rewrite function completely?
             # Find the starting face
-            start := EvaluateUntilResult(fctRec!.startingFace, [printRecord, surface, unplacedFaces]);
-            vertexEdgePath := EvaluateFunctionList( computeFaceFct, [printRecord, surface, start] );
-            EvaluateFunctionList( addFct, [printRecord, vertexEdgePath, []] );
+            start := __SIMPLICIAL_PrintRecordStartingFace( printRecord, surface, unplacedFaces );
+            Add( printRecord!.startingFaces, start );
+            __SIMPLICIAL_PrintRecordComputeFirstFace( printRecord, surface, start );
             unplacedFaces := Difference( unplacedFaces, [start] );
 
             comp := [start];
@@ -272,266 +381,6 @@ InstallMethod( DrawSurfaceToTikz,
         od;
 
         return printRecord;
-    end
-);
-
-
-
-# mods
-
-BindGlobal( "__SIMPLICIAL_MODLIST", rec() );
-
-InstallMethod( PrintRecordADDMOD, 
-    "for the name of a mod and its record of essential components",
-    [IsString, IsRecord],
-    function(name, rec)
-        # Check if this mod was already added
-        if IsBound( __SIMPLICIAL_MODLIST!.(name) ) then
-            Error("PrintRecordADDMOD: This mod is already defined.");
-        fi;
-
-        # Otherwise add this mod
-        __SIMPLICIAL_MODLIST!.(name) := rec;
-    end
-);
-
-# drawingOrder
-InstallMethod( PrintRecordDrawingOrderInit, 
-    "for a print record and a polygonal surface", 
-    [IsRecord, IsPolygonalSurface],
-    function(printRecord, surface)
-        if not IsBound( printRecord!.drawingOrder ) then
-            printRecord!.drawingOrder := rec();
-        fi;
-
-        printRecord!.computedStartingFaces := [];
-
-        # TODO initialize data
-    end
-);
-InstallMethod( PrintRecordDrawingOrderCleanup, 
-    "for a print record and a polygonal surface", 
-    [IsRecord, IsPolygonalSurface],
-    function(printRecord, surface)
-
-        printRecord!.startingFaces := printRecord!.computedStartingFaces;
-        Unbind(printRecord!.computedStartingFaces);
-        # TODO cleanup
-    end
-);
-InstallMethod( PrintRecordDrawingOrderStartingFace, 
-    "for a print record, a polygonal complex and a list of possible faces",
-    [IsRecord, IsPolygonalComplex, IsList],
-    function(printRecord, complex, possFaces)
-        local res;
-
-        res := Minimum( possFaces );
-        Add( printRecord!.computedStartingFaces, res );
-        return res;    
-    end
-);
-
-
-
-# coordinates
-InstallMethod( PrintRecordCoordinatesInit, 
-    "for a print record and a polygonal surface", 
-    [IsRecord, IsPolygonalSurface],
-    function(printRecord, surface)
-        if not IsBound( printRecord!.coordinates ) then
-            printRecord!.coordinates := rec();
-        fi;
-
-        # TODO initialize data
-    end
-);
-InstallMethod( PrintRecordCoordinatesCleanup, 
-    "for a print record and a polygonal surface", 
-    [IsRecord, IsPolygonalSurface],
-    function(printRecord, surface)
-        # TODO cleanup
-    end
-);
-
-
-BindGlobal( "__SIMPLICIAL_GuaranteeExistence",
-    function(record, name, default)
-        if not IsBound(record!.(name)) then
-            record!.(name) := default;
-        fi;
-    end
-);
-
-BindGlobal("__SIMPLICIAL_EqualFloats",
-    function(x,y, eps)
-        return (x-y)^2 < eps;
-    end
-);
-
-# metricData
-InstallMethod( PrintRecordMetricDataInit, 
-    "for a print record and a polygonal surface", 
-    [IsRecord, IsPolygonalSurface],
-    function(printRecord, surface)
-        local lengths, angles, edges, vertices;
-
-        __SIMPLICIAL_GuaranteeExistence( printRecord, "metricData", rec() );
-
-        # Check the consistency of the length/angle-information
-        __SIMPLICIAL_GuaranteeExistence( printRecord!.metricData, "edgeLengths", [] );
-        __SIMPLICIAL_GuaranteeExistence( printRecord!.metricData, "angles", [] );
-    
-        lengths := printRecord!.metricData!.edgeLengths;
-        angles := printRecord!.metricData!.angles;
-        printRecord!.metricData!.givenEdgeLengths := lengths;
-        printRecord!.metricData!.givenAngles := angles;
-
-        #TODO allow different way to give angles
-
-        # each angle is stored as a pair of floats [sin(alpha), cos(alpha)]
-        for f in Faces(surface) do
-            edges := EdgesOfFaces(surface)[f];
-            vertices := VerticesOfFaces(surface)[f];
-            if not IsBound(angles[f]) then
-                angles[f] := [];
-            fi;
-            # Case all values are set
-            if ForAll(edges, e -> IsBound(lengths[e])) and ForAll(vertices, v -> IsBound(angles[f][v])) then
-                # Check inner angle sum
-                radAngles := List( vertices, v -> Atan2(angles[f][v][1], angles[f][v][2]) );
-                angleSum := Sum( radAngles );
-                if __SIMPLICIAL_EqualFloats( angleSum, ( Size(edges) - 2 )/Size(edges)*FLOAT.PI, printRecord!.floatAccuracy ) then
-                    # Check whether the polygon closes
-                    #TODO do so with an vertexEdge-path around the perimeter
-                fi;
-                #TODO check for consistency and "continue" if successful
-            fi;
-
-            # Case triangle
-            if Size(edges) = 3 and ForAll(edges, e -> IsBound(lengths[e])) then
-                for i in [1,2,3] do
-                    # find opposing vertex
-                    oppVert := Difference(vertices, VerticesOfEdges(surface)[edges[i]])[1];
-                    j := i mod 3 + 1;
-                    k := (i+1) mod 3 + 1;
-                    cos := Float( (lengths[edges[i]]^2 - lengths[edges[j]]^2 - lengths[edges[k]]^2) / ( -2*lengths[j]*lengths[k] );
-                    sin := Sqrt(1 - cos^2);
-                    # TODO test validity of edge lengths
-                    angles[f][oppVert] := [sin, cos];
-                od;
-                continue;
-            fi;
-
-            # Define everything to be a regular polygon with side length 1
-            for e in edges do
-                lengths[e] := 1;
-            od;
-            regAngle := SinCos( (Size(edges) - 2) / Size(edges) * FLOAT.PI );
-            for v in vertices do
-                angles[v] := regAngle;
-            od;
-        od;
-
-        # TODO initialize data
-
-    end
-);
-InstallMethod( PrintRecordMetricDataCleanup, 
-    "for a print record and a polygonal surface", 
-    [IsRecord, IsPolygonalSurface],
-    function(printRecord, surface)
-        # TODO cleanup
-    end
-);
-InstallMethod( PrintRecordMetricDataComputeFace,
-    "for a print record, a polygonal surface and a face",
-    [IsRecord, IsPolygonalSurface, IsPosInt],
-    function(printRecord, surface, face)
-        local edges;
-
-        edges := EdgesOfFaces(surface)[face];
-        len := printRecord!.metricData!.edgeLengths[edges[1]];
-        verts := VerticesOfEdges(surface)[edges[1]];
-        return PrintRecordMetricDataComputeFace(printRecord, surface, face, 
-            [ edges[1], [ verts[1], [0.,0.] ], [verts[2], [Float(len),0.]] ]);
-    end
-);
-InstallMethod( PrintRecordMetricDataComputeFace,
-    "for a print record, a polygonal surface, a face and an edge (given as list of vertex coordinates)",
-    [IsRecord, IsPolygonalSurface, IsPosInt, IsList],
-    function(printRecord, surface, face, edge)
-        local vertexEdgePath, usedEdges, len, lastEdge, lastVertex, vector, 
-            nextEdge, nextVertex, angle, newVector, nextVertexCoords;
-
-        vertexEdgePath := [edge[2], edge[1], edge[3]];
-        usedEdges := [edge[1]];
-        while Size(vertexEdgePath) < 2 * Size(EdgesOfFaces(surface)[face]) - 1 do
-            len := Size(vertexEdgePath);
-            lastEdge := vertexEdgePath[len-1];
-            lastVertex := vertexEdgePath[len][1];
-            vector := vertexEdgePath[len-2][2] - vertexEdgePath[len][2];
-
-            nextEdge := OtherEdgeOfVertexInFace( surface, lastVertex, lastEdge, face );
-            nextVertex := OtherVertexOfEdge(surface, lastVertex, nextEdge);
-
-            # rescale the vector
-            vector := vector * Float( printRecord!.metricData!.edgeLengths[nextEdge] / printRecord!.metricData!.edgeLengths[lastEdge] );
-
-            # rotate the vector
-            angle := printRecord!.metricData!.angles[face][lastVertex];
-            newVector := [ angle[2]*vector[1]+angle[1]*vector[2], -angle[1]*vector[1]+angle[2]*vector[2] ];
-
-            nextVertexCoords := vertexEdgePath[len][2] + newVector;
-
-            Append( vertexEdgePath, [nextEdge, [nextVertex, nextVertexCoords]];
-            Add(usedEdges, nextEdge);
-        od;
-
-        Append( vertexEdgePath, Difference(EdgesOfFaces(surface)[face], usedEdges) );
-        Assert(1, Size(vertexEdgePath)=2*Size(EdgesOfFaces(surface)[face]));
-
-        return vertexEdgePath;
-    end
-);
-
-
-
-# drawingStyle
-InstallMethod( PrintRecordDrawingStyleInit, 
-    "for a print record and a polygonal surface", 
-    [IsRecord, IsPolygonalSurface],
-    function(printRecord, surface)
-        if not IsBound( printRecord!.drawingStyle ) then
-            printRecord!.drawingStyle := rec();
-        fi;
-
-        # TODO initialize data
-    end
-);
-InstallMethod( PrintRecordDrawingStyleCleanup, 
-    "for a print record and a polygonal surface", 
-    [IsRecord, IsPolygonalSurface],
-    function(printRecord, surface)
-        # TODO cleanup
-    end
-);
-
-
-
-
-# colouring
-InstallMethod( PrintRecordDrawingOrderInit, "for a print record", [IsRecord],
-    function(printRecord)
-        if not IsBound( printRecord!.drawingOrder ) then
-            printRecord!.drawingOrder := rec();
-        fi;
-
-        # TODO initialize data
-    end
-);
-InstallMethod( PrintRecordDrawingOrderCleanup, "for a print record", [IsRecord],
-    function(printRecord)
-        # TODO cleanup
     end
 );
 
