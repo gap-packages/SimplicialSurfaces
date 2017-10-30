@@ -306,7 +306,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
         # We only have to check if there are new intersections
         # For that reason we store the checked edges in testResults
         cleanEdges := testResults[2];
-        newEdges := 
+        newEdges := List( [1..Size(vertexData)-1], i ->  );
     end
 );
 
