@@ -1290,6 +1290,9 @@ DeclareOperation( "ConnectedSum", [IsSimplicialSurface, IsList, IsSimplicialSurf
 
 
 DeclareAttribute( "AllFlags", IsSimplicialSurface );
+#TODO barycentric cover
+
+DeclareAttribute( "GeodesicFlagPermutation", IsSimplicialSurface );
 
 #
 ###  This program is free software: you can redistribute it and/or modify

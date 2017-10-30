@@ -4154,7 +4154,7 @@ InstallMethod( Geodesic,
     IsPosInt, IsPosInt, IsPosInt],
     function(surf,vertex,edge,face)
         local path, len, neighbour, pivotVert, newBorderEdge, 
-            traversedFaces, reversed, minpos;
+            traversedFaces, reversed, minpos, permList;
             #TODO copy of code above (with modifications) -> unify?
 
         if not vertex in Vertices(surf) then
@@ -4184,6 +4184,8 @@ InstallMethod( Geodesic,
         traversedFaces := [face];
         pivotVert := vertex;
 
+        permList := [ Position(AllFlags(surf), [vertex,edge,face]) ];
+
         # minpos[1] is the position of the edge of the minimal face
         # minpos[2] is the direction +1 means go right
         if path[1] < path[3] then 
@@ -4198,8 +4200,10 @@ InstallMethod( Geodesic,
             len := Size(path);
             neighbour := NeighbourFaceByEdgeNC(surf, path[len-1], path[len]);
             pivotVert := OtherVertexOfEdgeNC(surf, pivotVert, path[len]);
-            newBorderEdge := OtherEdgeOfVertexInFaceNC(
+            if neighbour <> fail then
+                newBorderEdge := OtherEdgeOfVertexInFaceNC(
                                  surf,pivotVert,path[len],neighbour);
+            fi;
 
 
             if neighbour <> fail then
@@ -4234,10 +4238,12 @@ InstallMethod( Geodesic,
             if neighbour = fail then
                 if reversed then
                     path := Reversed(path);
+                    permList := Reversed(permList);
                     break;
                 else
                     reversed := true;
                     path := Reversed(path);
+                    permList := Reversed(permList);
                     pivotVert := vertex; # Reset to original vertex
                     continue;
                 fi;
@@ -4250,6 +4256,7 @@ InstallMethod( Geodesic,
 
             Append( path, [neighbour, newBorderEdge] );
             Add( traversedFaces, neighbour );
+            Add( permList, Position(AllFlags(surf), [pivotVert, newBorderEdge, neighbour]) );
         od;
 
         # minimise the geodesic
@@ -4259,12 +4266,15 @@ InstallMethod( Geodesic,
                 #continue;
             elif path[2] > path[Length(path)-1] then
                 path := Reversed(path);
+                permList := Reversed(permList);
             elif  path[3] < path[Length(path)-2] then
                 #continue;
             elif  path[3] > path[Length(path)-2] then
                 path := Reversed(path);
+                permList := Reversed(permList);
             elif path[1] > path[Length(path)] then
                 path := Reversed(path);
+                permList := Reversed(permList);
             fi;
         else
             # the path is closed
@@ -4275,11 +4285,12 @@ InstallMethod( Geodesic,
                path := Concatenation( [ path[minpos[1]] ], path{[minpos[1]+1..Length(path)]},
                         path{[2..minpos[1]]});
                path := Reversed(path);
+               permList := Reversed(permList);
             fi;
         fi;
 
 
-        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces))];
+        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces)), __SIMPLICIAL_TranslateListsIntoCycles([permList])[1]];
     end
 );
     RedispatchOnCondition( Geodesic, true,
@@ -4316,7 +4327,7 @@ InstallMethod( Geodesics, "for a simplicial surface",
         [IsSimplicialSurface and IsTriangleSurface and IsActualSurface],
         function(surface)
             local triples, tr, geodesics, vertex, geo, vertOfEdge, allFlags,
-                NormaliseFlag;
+                NormaliseFlag, allGeos, bigPerm, g;
 
             triples := Union( List( Faces(surface),
                 f -> List( Combinations(EdgesOfFaces(surface)[f],2),
@@ -4346,8 +4357,22 @@ InstallMethod( Geodesics, "for a simplicial surface",
 
             od;
 
+            allGeos := Set(geodesics);
+            bigPerm := ();
+            for g in allGeos do
+                bigPerm := bigPerm * g[3];
+            od;
+            SetGeodesicFlagPermutation(surface, bigPerm);
+
             return Set(geodesics);
         end
+);
+InstallMethod( GeodesicFlagPermutation, "", [IsSimplicialSurface],
+    #TODO
+    function(complex)
+        Geodesics(complex);
+        return GeodesicFlagPermutation(complex);
+    end
 );
 
 ##
