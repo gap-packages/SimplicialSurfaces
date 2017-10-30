@@ -304,7 +304,9 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
         fi;
 
         # We only have to check if there are new intersections
-        # For that reason we store the checked ?? in testResults
+        # For that reason we store the checked edges in testResults
+        cleanEdges := testResults[2];
+        newEdges := 
     end
 );
 
