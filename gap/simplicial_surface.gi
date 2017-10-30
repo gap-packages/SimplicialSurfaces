@@ -4965,6 +4965,24 @@ InstallMethod( AllMaximalStripEmbeddings, "for a geodesic", [IsList],
     end
 );
 
+
+InstallMethod( AllFlags, "", [IsSimplicialSurface],
+    function(complex)
+        local res, e, v, f;
+
+        res := [];
+        for e in Edges(complex) do
+            for v in VerticesOfEdges(complex)[e] do
+                for f in FacesOfEdges(complex)[e] do
+                    Add( res, [v,e,f] );
+                od;
+            od;
+        od;
+
+        return Set(res);
+    end
+);
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by

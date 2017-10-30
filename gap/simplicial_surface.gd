@@ -1288,6 +1288,9 @@ DeclareAttribute( "SplitMendableFlagPairs", IsSimplicialSurface );
 # Connected sum, using two vertex-edge-face flags
 DeclareOperation( "ConnectedSum", [IsSimplicialSurface, IsList, IsSimplicialSurface, IsList] );
 
+
+DeclareAttribute( "AllFlags", IsSimplicialSurface );
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
