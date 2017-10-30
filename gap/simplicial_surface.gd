@@ -1216,6 +1216,11 @@ DeclareOperation( "Geodesic",
     #TODO IsGeodesic, IsOpenGeodesic, IsClosedGeodesic (also nC)
 
 #! @Description
+#! From a geodesic (returned as in Geodesic) construct all maximal
+#! strip embeddings.
+DeclareOperation( "AllMaximalStripEmbeddings", [IsList] );
+
+#! @Description
 #! Return the set of all geodesics. Each geodesic is given in 
 #! normal form, defined by:
 #! * The smallest face is at position 2

@@ -4902,6 +4902,69 @@ InstallMethod( ConnectedSum, "", [IsSimplicialSurface, IsList, IsSimplicialSurfa
     end
 );
 
+InstallMethod( AllMaximalStripEmbeddings, "for a geodesic", [IsList],
+    function(geo)
+        local res, max, start, seenFaces, rPos, nextFace, nextEdge, lPos, i;
+
+        #TODO how to check if geodesic is closed?
+        res := [];
+        for i in [2,4..Size(geo[1])-1] do
+            start := geo[1][i];
+            seenFaces := [start];
+            max := geo[1]{[i-1,i,i+1]};
+
+            # go to the right
+            rPos := i;
+            while(true) do
+                # increase rPos
+                if rPos = Size(geo[1])-1 then
+                    rPos := 2;
+                else
+                    rPos := rPos + 2;
+                fi;
+
+                # add face and edge
+                nextFace := geo[1][rPos];
+                nextEdge := geo[1][rPos+1];
+                Append( max, [nextFace, nextEdge] );
+
+                if nextFace in seenFaces then
+                    break;
+                else
+                    Add(seenFaces, nextFace);
+                fi;
+            od;
+
+            # go to the left
+            lPos := i;
+            while(true) do
+                # decrase lPos
+                if lPos = 2 then
+                    lPos := Size(geo[1]);
+                else
+                    lPos := lPos - 2;
+                fi;
+
+                # add face and edge
+                nextFace := geo[1][lPos];
+                nextEdge := geo[1][lPos-1];
+                
+                max := Concatenation( [nextEdge, nextFace], max );
+                if nextFace in seenFaces then
+                    break;
+                else
+                    Add(seenFaces, nextFace);
+                fi;
+            od;
+
+            Add(res, [max, Set(seenFaces)]);
+        od;
+
+        res := Set(res);
+        return List( res, m -> [m[1], SubsurfaceByFacesNC(geo[2], m[2])] );
+    end
+);
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
