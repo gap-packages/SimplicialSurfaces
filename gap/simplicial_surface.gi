@@ -4153,8 +4153,8 @@ InstallMethod( Geodesic,
     [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
     IsPosInt, IsPosInt, IsPosInt],
     function(surf,vertex,edge,face)
-        local path, len, neighbour, pivotVert, newBorderEdge, 
-            traversedFaces, reversed, minpos, permList;
+        local path, len, neighbour, pivotVert, newBorderEdge, other, 
+            traversedFaces, reversed, minpos, permList, invPermList;
             #TODO copy of code above (with modifications) -> unify?
 
         if not vertex in Vertices(surf) then
@@ -4180,11 +4180,13 @@ InstallMethod( Geodesic,
         # or stops at a boundary. In that case reverse course.
 
         # Initialize the system
-        path := [ OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face), face, edge ];
+        other := OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face);
+        path := [ other, face, edge ];
         traversedFaces := [face];
         pivotVert := vertex;
 
         permList := [ Position(AllFlags(surf), [vertex,edge,face]) ];
+        invPermList := [ Position(AllFlags(surf), [vertex,other,face]) ];
 
         # minpos[1] is the position of the edge of the minimal face
         # minpos[2] is the direction +1 means go right
@@ -4239,11 +4241,13 @@ InstallMethod( Geodesic,
                 if reversed then
                     path := Reversed(path);
                     permList := Reversed(permList);
+                    invPermList := Reversed( invPermList );
                     break;
                 else
                     reversed := true;
                     path := Reversed(path);
                     permList := Reversed(permList);
+                    invPermList := Reversed(invPermList);
                     pivotVert := vertex; # Reset to original vertex
                     continue;
                 fi;
@@ -4256,7 +4260,8 @@ InstallMethod( Geodesic,
 
             Append( path, [neighbour, newBorderEdge] );
             Add( traversedFaces, neighbour );
-            Add( permList, Position(AllFlags(surf), [pivotVert, newBorderEdge, neighbour]) );
+            permList := Concatenation( [Position(AllFlags(surf), [pivotVert, newBorderEdge, neighbour])], permList );
+            Add(invPermList, Position(AllFlags(surf), [pivotVert, path[len], neighbour ] ) );
         od;
 
         # minimise the geodesic
@@ -4267,14 +4272,17 @@ InstallMethod( Geodesic,
             elif path[2] > path[Length(path)-1] then
                 path := Reversed(path);
                 permList := Reversed(permList);
+                invPermList := Reversed(invPermList);
             elif  path[3] < path[Length(path)-2] then
                 #continue;
             elif  path[3] > path[Length(path)-2] then
                 path := Reversed(path);
                 permList := Reversed(permList);
+                invPermList := Reversed(invPermList);
             elif path[1] > path[Length(path)] then
                 path := Reversed(path);
                 permList := Reversed(permList);
+                invPermList := Reversed(invPermList);
             fi;
         else
             # the path is closed
@@ -4286,11 +4294,12 @@ InstallMethod( Geodesic,
                         path{[2..minpos[1]]});
                path := Reversed(path);
                permList := Reversed(permList);
+               invPermList := Reversed(invPermList);
             fi;
         fi;
 
 
-        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces)), __SIMPLICIAL_TranslateListsIntoCycles([permList])[1]];
+        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces)), __SIMPLICIAL_TranslateListsIntoCycles([permList, invPermList])];
     end
 );
     RedispatchOnCondition( Geodesic, true,
@@ -4360,7 +4369,7 @@ InstallMethod( Geodesics, "for a simplicial surface",
             allGeos := Set(geodesics);
             bigPerm := ();
             for g in allGeos do
-                bigPerm := bigPerm * g[3];
+                bigPerm := bigPerm * g[3][1] * g[3][2];
             od;
             SetGeodesicFlagPermutation(surface, bigPerm);
 
