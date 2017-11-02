@@ -84,11 +84,11 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInitializePolygons",
                 # Check inner angle sum
                 radAngles := List( vertices, v -> Atan2(angles[f][v][1], angles[f][v][2]) );
                 angleSum := Sum( radAngles );
-                if __SIMPLICIAL_EqualFloats( angleSum, ( Size(edges) - 2 )/Size(edges)*FLOAT.PI, printRecord!.floatAccuracy ) then
-                    # Check whether the polygon closes
-                    #TODO do so with an vertexEdge-path around the perimeter
+                if not __SIMPLICIAL_EqualFloats( angleSum, ( Size(edges) - 2 )/Size(edges)*FLOAT.PI, printRecord!.floatAccuracy ) then
+                    Error(Concatenation("Wrong angles for face ", String(f), " given.");
+                else
+                    continue; # We don't check whether the face closes since this is checked in __SIMPLICIAL_PrintRecordComputeFace
                 fi;
-                #TODO check for consistency and "continue" if successful
             fi;
 
             # Case triangle
