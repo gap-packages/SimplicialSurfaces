@@ -5015,6 +5015,70 @@ InstallMethod( AllFlags, "", [IsSimplicialSurface],
     end
 );
 
+BindGlobal( "FlagSurface", 
+    function( vertexPerm, edgePerm, facePerm )
+        local moved, CycleDegrees, mr, wild, origVerts, origEdges, origFaces,
+            flags, m, vert, edge, face, surf, verticesOfEdges, edgesOfFaces;
+
+        if not IsPerm(vertexPerm) or not IsPerm(edgePerm) or not IsPerm(facePerm) then
+            Error("Input has to be three involutions.");
+        fi;
+        if vertexPerm^2 <> () or edgePerm^2 <> () or facePerm^2 <> () then
+            Error("The given permutations have to have degree 2");
+        fi;
+        moved := MovedPoints( Group(vertexPerm, edgePerm, facePerm) );
+        CycleDegrees := function( perm, moved )
+            local orbs, lengths;
+
+            orbs := Orbits( Group(perm), moved );
+            lengths := List( orbs, Size );
+            return Set(lengths);
+        end;
+        if CycleDegrees(vertexPerm,moved) <> [2] or CycleDegrees(edgePerm,moved) <> [2] or CycleDegrees(facePerm,moved) <> [2] then
+            Error("Given involutions are not allowed to have fixed points.");
+        fi;
+
+        # The barycentric subdivision is just a mmm--coloured surface where 
+        # the vertex/edge-product has degree 3 and the vertex/face-product
+        # has degree 2
+        if CycleDegrees( vertexPerm*edgePerm, moved ) <> [3] then
+            Error("Product of first and second involution only consists of cycles of length 3.");
+        fi;
+        if CycleDegrees( vertexPerm*facePerm, moved ) <> [2] then
+            Error("Product of first and third involution only consists of cycles of length 2.");
+        fi;
+
+        mr := List( [1..Maximum(moved)], i->1 );
+        wild := AllWildSimplicialSurfaces( vertexPerm,edgePerm,facePerm, [mr,mr,mr] );
+        if Size(wild) <> 1 then
+            Error("Internal error: No mmm-surface found.");
+        fi;
+
+        # Reconstruct the flags of the original surface
+        origFaces := Orbits( Group( vertexPerm, edgePerm ), moved );
+        origEdges := Orbits( Group( vertexPerm, facePerm ), moved );
+        origVerts := Orbits( Group( edgePerm, facePerm ), moved );
+
+        verticesOfEdges := List( [1..Size(origEdges)], i->[] );
+        edgesOfFaces := List( [1..Size(origFaces)], i -> [] );
+
+        flags := [];
+        for m in moved do
+            vert := PositionProperty( origVerts, v -> m in v );
+            edge := PositionProperty( origEdges, e -> m in e );
+            face := PositionProperty( origFaces, f -> m in f );
+            flags[m] := [vert,edge,face];
+            verticesOfEdges[edge] := Union( verticesOfEdges[edge], [vert] );
+            edgesOfFaces[face] := Union( edgesOfFaces[face], [edge] );
+        od;
+
+        surf := SimplicialSurfaceByDownwardIncidenceNC( Size(origVerts), Size(origEdges), Size(origFaces),
+            verticesOfEdges, edgesOfFaces);
+
+        return [ flags, surf, wild ];
+    end
+);
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
