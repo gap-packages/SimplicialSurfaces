@@ -66,6 +66,15 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         if not IsBound( rec!.faceLabels ) or not IsBool(rec!.faceLabels) then
             rec!.faceLabels := true;
         fi;
+        if not IsBound( rec!.globalScale ) then
+            rec!.globalScale := 2;
+        fi;
+
+
+        # automatic compilation
+        if not IsBound( rec!.compileLaTeX ) or not IsBool( rec!.compileLaTeX ) then
+            rec!.compileLaTeX := false;
+        fi;
     end
 );
 
@@ -350,6 +359,24 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
     end
 );
 
+BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertex",
+    function( printRecord, surface, vertex, vertexTikzCoord, vertexCoord )
+        #TODO
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordDrawEdge",
+    function( printRecord, surface, edge, vertexTikzCoord, vertexCoord )
+        #TODO
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordDrawFace",
+    function( printRecord, surface, face, vertexTikzCoord, vertexCoord )
+        #TODO
+    end
+);
+
 BindGlobal( "__SIMPLICIAL_PrintRecordTikzOptions",
     function(printRecord, surface)
         local res;
@@ -367,13 +394,18 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzOptions",
         if printRecord!.edgeLabels = false then
             Append( res, "=nolabels" );
         fi;
-        Append( red, ", " );
+        Append( res, ", " );
 
         # Add the face style
         Append( res, "faceStyle" );
         if printRecord!.faceLabels = false then
             Append( res, "=nolabels" );
         fi;
+        Append( res, ", " );
+
+        # Scale the picture
+        Append( res, "scale=" );
+        Append( res, printRecord!.globalScale );
 
         return res;
     end
@@ -533,10 +565,8 @@ InstallMethod( DrawSurfaceToTikz,
             for f in Faces(comp) do
                 facePath := EvaluateFunctionList( facePerimeterFct, [printRecord, surface, f] );
                 vertexPositions := List( [1..Size(facePath)/2], i -> facePath[2*i-1] );
-                AppendTo( output, EvaluateFunctionList( drawFaceFct, 
-                    [printRecord, surface, f, 
-                        List(vertexPositions, TikzCoordFromVertexPosition), 
-                        List(vertexPositions, p -> allVertexCoords[p[1]][p[2]])] ) );
+                AppendTo( output, __SIMPLICIAL_PrintRecordDrawFace(printRecord, surface, f, 
+                    List(vertexPositions, TikzCoordFromVertexPosition), List(vertexPositions, p -> allVertexCoords[p[1]][p[2]])) );
             od;
 
             AppendTo( output, "\n\n" );
@@ -544,9 +574,9 @@ InstallMethod( DrawSurfaceToTikz,
             for e in Edges(comp) do
                 ends := EvaluateFunctionList( edgeEndpointsFct, [printRecord, surface, e] );
                 for i in [1..Size(ends)] do
-                    AppendTo( output, EvaluateFunctionList( drawEdgeFct, [printRecord, surface, e, 
+                    AppendTo( output, __SIMPLICIAL_PrintRecordDrawEdge( printRecord, surface, e,
                         List( ends[i], TikzCoordFromVertexPosition ),
-                        List( ends[i], p -> allVertexCoords[p[1]][p[2]] )] ) );
+                        List( ends[i], p -> allVertexCoords[p[1]][p[2]] ) ) );
                 od;
             od;
 
@@ -555,7 +585,7 @@ InstallMethod( DrawSurfaceToTikz,
             for v in Vertices(comp) do
                 positions := allVertexCoords[v];
                 for i in [1..Size(positions)] do
-                    AppendTo(output, EvaluateFunctionList( drawVertexFct, [printRecord, surface, v, TikzCoordFromVertexPosition([v,i]), allVertexCoords[v][i]] ));
+                    AppendTo( output, __SIMPLICIAL_PrintRecordDrawVertex( printRecord, surface, v, TikzCoordFromVertexPosition([v,i]), allVertexCoords[v][i] ));
                 od;
             od;
             
@@ -568,8 +598,15 @@ InstallMethod( DrawSurfaceToTikz,
         Print( "Picture written in TikZ." );
 
 
-        #TODO compile?
-            
+        if record.compileLaTeX then
+            Print( "Start LaTeX-compilation.\n" );
+
+            # Run pdfLaTeX on the file (without visible output)
+            Exec( "pdflatex ", name, " > /dev/null" );
+            Print( "Picture rendered (with pdflatex).\n");
+        fi;
+
+
 
         # Clean up the record
         for i in cleanFct do
