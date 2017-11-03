@@ -54,6 +54,18 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
 
         # openEdges
         rec!.openEdges := [];
+
+
+        # drawing options
+        if not IsBound( rec!.vertexLabels ) or not IsBool(rec!.vertexLabels) then
+            rec!.vertexLabels := true;
+        fi;
+        if not IsBound( rec!.edgeLabels ) or not IsBool(rec!.edgeLabels) then
+            rec!.edgeLabels := true;
+        fi;
+        if not IsBound( rec!.faceLabels ) or not IsBool(rec!.faceLabels) then
+            rec!.faceLabels := true;
+        fi;
     end
 );
 
@@ -306,7 +318,64 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
         # We only have to check if there are new intersections
         # For that reason we store the checked edges in testResults
         cleanEdges := testResults[2];
-        newEdges := List( [1..Size(vertexData)-1], i ->  );
+        newEdges := List( [1..Size(vertexData)-1], i ->  );#TODO
+    end
+);
+
+
+BindGlobal("__SIMPLICIAL_PrintRecordGeneralHeader",
+    function(printRecord)
+        return Concatenation(
+            "\\documentclass{article}\n\n",
+            "\\usepackage[inner=0.5cm,outer=0.5cm,top=1cm,bottom=0.5cm]{geometry}\n\n",
+            "\\pagestyle{empty}\n");
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
+    function(printRecord)
+        local relPath, gapPath, path, input, content;
+
+        relPath := "doc/TikZHeader.tex";
+        gapPath := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
+        gapPath := Filtered( gapPath, IsReadableFile );
+        for path in gapPath do
+            input := InputTextFile( path );
+            content := ReadAll(input);
+            CloseStream(input);
+            return content;
+        od;
+
+        Error("Internal Error: doc/TikZHeader.tex not found.");
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordTikzOptions",
+    function(printRecord, surface)
+        local res;
+
+        res := "";
+        # Add the vertex style
+        Append( res, "vertexBall" );
+        if printRecord!.vertexLabels = false then
+            Append( res, "=nolabels" );
+        fi;
+        Append( res, ", " );
+
+        # Add the edge style
+        Append( res, "edgeDouble" );
+        if printRecord!.edgeLabels = false then
+            Append( res, "=nolabels" );
+        fi;
+        Append( red, ", " );
+
+        # Add the face style
+        Append( res, "faceStyle" );
+        if printRecord!.faceLabels = false then
+            Append( res, "=nolabels" );
+        fi;
+
+        return res;
     end
 );
 
@@ -435,16 +504,22 @@ InstallMethod( DrawSurfaceToTikz,
 
 #TODO
         # Write this data into the file
-        AppendTo( output, EvaluateFunctionList( generalHeaderFct, [printRecord] ) );
-        AppendTo( output, EvaluateFunctionList( tikzHeaderFct, [printRecord] ) );
-        AppendTo( output, EvaluateFunctionList( beginDocFct, [printRecord] ) );
+        AppendTo( output, __SIMPLICIAL_PrintRecordGeneralHeader(printRecord) );
+        AppendTo( output, __SIMPLICIAL_PrintRecordTikzHeader(printRecord) );
+        AppendTo( output, "\\begin{document}\n\n" );
+        
+        if IsBound(printRecord!.caption) then
+          AppendTo( output,
+          "\\subsection*{", printRecord!.caption, "}\n \\bigskip\n");
+        fi;
+        
         TikzCoordFromVertexPosition := function( vertPos )
             return Concatenation( "(V", vertPos[1], "_", vertPos[2], ")" );
         end;
-        allVertexCoords := EvaluateFunctionList( vertCoordFct, [printRecord, surface] );
+        allVertexCoords := printRecord!.vertexCoordinates;
         for comp in StronglyConnectedComponents(surface) do
             # Start the picture
-            AppendTo( output, "\n\\begin{tikzpicture}[", EvaluateFunctionList( picOptFct, [printRecord] ), "]\n" );
+            AppendTo( output, "\n\\begin{tikzpicture}[", __SIMPLICIAL_PrintRecordTikzOptions(printRecord, comp), "]\n" );
 
             # Define coordinates of vertices
             for v in Vertices(comp) do
@@ -488,7 +563,7 @@ InstallMethod( DrawSurfaceToTikz,
             # End the picture
             AppendTo( output, "\n\\end{tikzpicture}" );
         od;
-        AppendTo( output, EvaluateFunctionList( endDocFct ) );
+        AppendTo( output, "\n\\end{document}\n");
         CloseStream(output);
         Print( "Picture written in TikZ." );
 
