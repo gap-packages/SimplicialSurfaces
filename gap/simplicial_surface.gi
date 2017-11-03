@@ -5071,9 +5071,15 @@ BindGlobal( "FlagSurface",
             verticesOfEdges[edge] := Union( verticesOfEdges[edge], [vert] );
             edgesOfFaces[face] := Union( edgesOfFaces[face], [edge] );
         od;
+        
+        # Check if the flags belong to a simplicial surface (there might be a problem if two edges of the same face are identified).
+        if Size( Set(flags) ) < Number(flags) then
+            # There is a problem
+            return [ flags, fail, wild ];
+        fi;
 
         surf := SimplicialSurfaceByDownwardIncidenceNC( Size(origVerts), Size(origEdges), Size(origFaces),
-            verticesOfEdges, edgesOfFaces);
+            verticesOfEdges, edgesOfFaces); #TODO constructor by flags
 
         return [ flags, surf, wild ];
     end
