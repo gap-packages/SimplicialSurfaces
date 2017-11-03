@@ -5085,6 +5085,60 @@ BindGlobal( "FlagSurface",
     end
 );
 
+BindGlobal( "DressVertexInvolution",
+    function( surf )
+        local flags, perm, i, fl;
+
+        flags := AllFlags(surf);
+        perm := [];
+        for i in [1..Size(flags)] do
+            fl := flags[i];
+            perm[i] := Position( flags, [ OtherVertexOfEdge(surf,fl[1],fl[2]), fl[2], fl[3] ] );
+        od;
+
+        return PermList( perm );
+    end
+);
+
+BindGlobal( "DressEdgeInvolution",
+    function( surf )
+        local flags, perm, i, fl;
+
+        flags := AllFlags(surf);
+        perm := [];
+        for i in [1..Size(flags)] do
+            fl := flags[i];
+            perm[i] := Position( flags, [ fl[1], OtherEdgeOfVertexInFace(surf,fl[1],fl[2],fl[3]), fl[3] ] );
+        od;
+
+        return PermList( perm );
+    end
+);
+
+
+
+BindGlobal( "DressFaceInvolution",
+    function( surf )
+        local flags, perm, i, fl;
+
+        flags := AllFlags(surf);
+        perm := [];
+        for i in [1..Size(flags)] do
+            fl := flags[i];
+            perm[i] := Position( flags, [ fl[1], fl[2], NeighbourFaceByEdge(surf,fl[3],fl[2]) ] );
+        od;
+
+        return PermList( perm );
+    end
+);
+
+BindGlobal( "DressGroup",
+    function(surf)
+        return Group( DressVertexInvolution(surf), DressEdgeInvolution(surf), DressFaceInvolution(surf) );
+    end
+);
+
+
 #
 ###  This program is free software: you can redistribute it and/or modify
 ###  it under the terms of the GNU General Public License as published by
