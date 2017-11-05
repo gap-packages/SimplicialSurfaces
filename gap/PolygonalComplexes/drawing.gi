@@ -3,6 +3,11 @@ BindGlobal("__SIMPLICIAL_EqualFloats",
         return (x-y)^2 < eps;
     end
 );
+BindGlobal( "__SIMPLICIAL_EqualPoints",
+    function( p, q, eps )
+        return (p[1]-q[1])^2 + (p[2]-q[2])^2 < eps;
+    end
+);
 
 
 BindGlobal( "__SIMPLICIAL_PrintRecordInit",
@@ -161,7 +166,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordFindVertex",
 
             for i in [1..Length(printRecord!.vertexCoordinates[prVertex[1]])] do
                 compareCoords := printRecord!.vertexCoordinates[prVertex[1]][i];
-                if __SIMPLICIAL_EqualFloats( 0., (compareCoords[1]-prVertex[2][1])^2 + (compareCoords[2]-prVertex[2][2])^2, printRecord!.floatAccuracy ) then
+                if __SIMPLICIAL_EqualPoints( compareCoords, prVertex, printRecord!.floatAccuracy ) then
                     pos := i;
                     break;
                 fi;
@@ -324,10 +329,101 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
             return testResults;
         fi;
 
+        # Convert the vertexData into a list v -> second entry
+        vertexInfo := [];
+        for pair in vertexData do
+            vertexInfo[pair[1]] := pair[2];
+        od;
+
         # We only have to check if there are new intersections
         # For that reason we store the checked edges in testResults
         cleanEdges := testResults[2];
-        newEdges := List( [1..Size(vertexData)-1], i ->  );#TODO
+        for edge in Edges(surface) do
+            for edgePos in [1..Size(printRecord!.edgeEndpoints[edge])] do
+                if [edge, edgePos] in cleanEdges then
+                    continue;
+                fi;
+
+                # We have not checked this edge before
+                edgeEndpoints := printRecord!.edgeEndpoints[edge][edgePos];
+                vertex1 := edgeEndpoints[1];
+                vertex2 := edgeEndpoints[2];
+                vertex1Coord := printRecord!.vertexCoordinates[ vertex1[1] ][ vertex1[2] ];
+                vertex2Coord := printRecord!.vertexCoordinates[ vertex2[1] ][ vertex2[2] ];
+
+                for newEdge in edgeData do
+                    newVertex1Name := newEdge[2][1];
+                    newVertex2Name := newEdge[2][2];
+
+                    # if vertex(i) = newVertex(j) then position [i][j] = 1
+                    correspondenceMatrix := [ [0,0], [0,0] ];
+
+                    #TODO get rid of code duplication
+                    if IsPosInt(vertexInfo[newVertex1Name]) then
+                        # compare directly with original vertices
+                        if vertex1 = [newVertex1Name, vertexInfo[newVertex1Name]] then #TODO can it happen that the new vertex v is identified with the old vertex w??
+                            correspondenceMatrix[1][1] := 1;
+                        elif vertex2 = [newVertex1Name, vertexInfo[newVertex1Name]] then
+                            correspondenceMatrix[2][1] := 1;
+                        fi;
+                    else
+                        # compare coordinates
+                        if __SIMPLICIAL_EqualPoints( vertex1Coord, vertexInfo[newVertex1Name], printRecord!.floatAccuracy ) then
+                            if newVertex1Name <> vertex1[1] then
+                                # Conflict with two different vertices at the same position
+                                return [false, cleanEdges];
+                            else
+                                correspondenceMatrix[1][1] := 1;
+                            fi;
+                        elif __SIMPLICIAL_EqualPoints( vertex2Coord, vertexInfo[newVertex1Name], printRecord!.floatAccuracy) then
+                            if newVertex1Name <> vertex2[1] then
+                                return [false, cleanEdges];
+                            else
+                                correspondenceMatrix[2][1] := 1;
+                            fi;
+                        fi;
+                    fi;
+
+                    if IsPosInt(vertexInfo[newVertex2Name]) then
+                        # compare directly with original vertices
+                        if vertex1 = [newVertex2Name, vertexInfo[newVertex2Name]] then #TODO can it happen that the new vertex v is identified with the old vertex w??
+                            correspondenceMatrix[1][2] := 1;
+                        elif vertex2 = [newVertex2Name, vertexInfo[newVertex2Name]] then
+                            correspondenceMatrix[2][2] := 1;
+                        fi;
+                    else
+                        # compare coordinates
+                        if __SIMPLICIAL_EqualPoints( vertex1Coord, vertexInfo[newVertex2Name], printRecord!.floatAccuracy ) then
+                            if newVertex2Name <> vertex1[1] then
+                                # Conflict with two different vertices at the same position
+                                return [false, cleanEdges];
+                            else
+                                correspondenceMatrix[1][2] := 1;
+                            fi;
+                        elif __SIMPLICIAL_EqualPoints( vertex2Coord, vertexInfo[newVertex2Name], printRecord!.floatAccuracy) then
+                            if newVertex2Name <> vertex2[1] then
+                                return [false, cleanEdges];
+                            else
+                                correspondenceMatrix[2][2] := 1;
+                            fi;
+                        fi;
+                    fi;
+
+                    # We now have constructed a correspondence matrix such that 
+                    # in every row and every column there is at most one 1.
+                    if Sum(Sum(correspondenceMatrix)) = 2 then
+                        # We only have to compare the edge numbers
+                        if edge <> newEdge[1] then
+                            return [false, cleanEdges];
+                        fi;
+                    elif ;#TODO 
+ 
+                od;
+            od;
+            Add( cleanEdges, [edge, edgePos] );
+        od;
+
+        return [true, Set(cleanEdges)];
     end
 );
 
