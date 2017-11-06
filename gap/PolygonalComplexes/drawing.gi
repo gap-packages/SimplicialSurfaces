@@ -24,7 +24,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
                 Print("Given starting faces are neither a list of faces nor a single face.");
             fi;
         else
-            printRecord!.givenStartingFaces := [];
+            givenStarts := [];
         fi;
         printRecord!.givenStartingFaces := givenStarts;
         printRecord!.startingFaces := [];
@@ -51,7 +51,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         for v in Vertices(surface) do
             printRecord!.vertexCoordinates[v] := [];
         od;
-        printRecord!.edgeEndpints := [];
+        printRecord!.edgeEndpoints := [];
         for e in Edges(surface) do
             printRecord!.edgeEndpoints[e] := [];
         od;
@@ -193,8 +193,8 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFace",
             compareCoords;
 
         givenEdge := edge;
-        givenPRVertexFirst := printRecord!.edgeEndpoints[edge[1]][1][1];
-        givenPRVertexSecond := printRecord!.edgeEndpoints[edge[1]][1][2];
+        givenPRVertexFirst := printRecord!.edgeEndpoints[edge][1][1];
+        givenPRVertexSecond := printRecord!.edgeEndpoints[edge][1][2];
 
         returnedVertices := [ givenPRVertexSecond ];
         returnedEdges := [];
@@ -257,7 +257,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFirstFace",
         # Save those coordinates
         printRecord!.vertexCoordinates[verts[1]] := [ [0.,0.] ];
         printRecord!.vertexCoordinates[verts[2]] := [ [Float(len),0.] ];
-        printRecord!.edgeEndpoints[edges[1]] := [ [ verts[1], 1 ], [ verts[2], 2 ] ];
+        printRecord!.edgeEndpoints[edges[1]] := [ [ [ verts[1], 1 ], [ verts[2], 2 ] ] ];
         if not IsBoundaryEdge( surface, edges[1] ) then
             Add(printRecord!.openEdges, edges[1]);
         fi;
@@ -835,4 +835,10 @@ InstallMethod( DrawSurfaceToTikz,
     end
 );
 
+InstallOtherMethod( DrawSurfaceToTikz, "for a polygonal surface and a file name",
+    [IsPolygonalSurface, IsString],
+    function(surface, file)
+        return DrawSurfaceToTikz(surface, file, rec());
+    end
+);
 
