@@ -71,8 +71,8 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         if not IsBound( rec!.faceLabels ) or not IsBool(rec!.faceLabels) then
             rec!.faceLabels := true;
         fi;
-        if not IsBound( rec!.globalScale ) then
-            rec!.globalScale := 2;
+        if not IsBound( rec!.scale ) then
+            rec!.scale := 2;
         fi;
 
 
@@ -459,7 +459,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
                     if IsPosInt(vertexInfo[newVertex2Name]) then
                         newVertex2Coord := printRecord!.vertexCoordinates[newVertex2Name][vertexInfo[newVertex2Name]];
                         # compare directly with original vertices
-                        if vertex1 = [newVertex2Name, vertexInfo[newVertex2Name]] then #TODO can it happen that the new vertex v is identified with the old vertex w??
+                        if vertex1 = [newVertex2Name, vertexInfo[newVertex2Name]] then 
                             correspondenceMatrix[1][2] := 1;
                         elif vertex2 = [newVertex2Name, vertexInfo[newVertex2Name]] then
                             correspondenceMatrix[2][2] := 1;
@@ -580,7 +580,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzOptions",
 
         # Scale the picture
         Append( res, "scale=" );
-        Append( res, printRecord!.globalScale );
+        Append( res, printRecord!.scale );
 
         return res;
     end
