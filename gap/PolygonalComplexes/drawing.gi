@@ -750,8 +750,8 @@ InstallMethod( DrawSurfaceToTikz,
         od;
 
         # Set the strongly connected components (if not already done)
-        if not HasStronglyConnectedComponents( surface ) then
-            SetStronglyConnectedComponents( surface, List( strongComponents, c -> SubsurfaceByFacesNC(surface, c) ) );
+        if not HasStronglyConnectedComponentsAttributeOfPolygonalComplex( surface ) then
+            SetStronglyConnectedComponentsAttributeOfPolygonalComplex( surface, List( strongComponents, c -> SubcomplexByFacesNC(surface, c) ) );
         fi;
 
         # Write this data into the file
