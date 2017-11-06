@@ -320,6 +320,76 @@ BindGlobal( "__SIMPLICIAL_PrintRecordNextEdge",
 );
 
 
+# We use the answer of
+# https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+# to compute the intersection of two line segments
+BindGlobal( "__SIMPLICIAL_IntersectingLineSegments",
+    function( edgeCoords1, edgeCoords2 )
+        local Cross, vtx1, vtx2, det, diff, factor1, factor2, min, max;
+
+        Cross := function( v, w )
+            return v[1]*w[2] - v[2]*w[1];
+        end;
+
+        # Rewrite the lines into p + t * v
+        vtx1 := edgeCoords1[2] - edgeCoords1[1];
+        vtx2 := edgeCoords2[2] - edgeCoords2[1];
+
+        # Check first if the lines are parallel
+        det := Cross( vtx1, vtx2 );
+        diff := edgeCoords2[1] - edgeCoords1[1];
+        if __SIMPLICIAL_EqualFloats(det, 0.) then
+            # parallel case:
+            # We have to check if the lines coincide
+            # For that we check if the vector between the two base
+            # points is parallel to the line directions
+            if not __SIMPLICIAL_EqualFloats( Cross( vtx1, diff ), Float(0)) then
+                return false;
+            fi;
+            
+            # Now we know that the associated lines coincide
+            # Determine factor1 such that
+            # p_2 = p_1 + factor1 * vtx_1
+            # and factor2 such that
+            # p_2 + vtx_2 = p_1 + factor * vtx_1
+            if not __SIMPLICIAL_EqualFloats( vtx1[1], Float(0) ) then
+                factor1 := diff[1]/vtx1[1];
+                factor2 := factor1 + vtx2[1]/vtx1[1];
+            else
+                factor1 := diff[2]/vtx1[2];
+                factor2 := factor1 + vtx2[2]/vtx1[2];
+            fi;
+            
+            # The segments intersect if the segment between the factors
+            # intersects (0,1)
+            min := Minimum( factor1, factor2 );
+            max := Maximum( factor1, factor2 );
+            if min <= Float(0) and max > Float(0) then
+                return true;
+            elif min > Float(1) and max < Float(1) then
+                return true;
+            else
+                return false;
+            fi;
+        else
+            # the associated lines intersect
+            factor1 := Cross( diff, vtx2 ) / det;
+            factor2 := Cross( diff, vtx1 ) / det;
+            if factor1 < Float(0) or factor1 > Float(1) then
+                return false;
+            elif factor2 < Float(0) or factor2 > Float(1) then
+                return false;
+            elif ( __SIMPLICIAL_EqualFloats(factor1,0.) or __SIMPLICIAL_EqualFloats(factor1,1.) )
+                and ( __SIMPLICIAL_EqualFloats(factor2,0.) or __SIMPLICIAL_EqualFloats(factor2,1.) ) then
+                return false;
+            else
+                return true;
+            fi;
+        fi;
+    end
+);
+
+
 BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
     function( printRecord, surface, vertexData, edgeData, testResults )
         local;
@@ -360,6 +430,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
 
                     #TODO get rid of code duplication
                     if IsPosInt(vertexInfo[newVertex1Name]) then
+                        newVertex1Coord := printRecord!.vertexCoordinates[newVertex1Name][vertexInfo[newVertex1Name]];
                         # compare directly with original vertices
                         if vertex1 = [newVertex1Name, vertexInfo[newVertex1Name]] then #TODO can it happen that the new vertex v is identified with the old vertex w??
                             correspondenceMatrix[1][1] := 1;
@@ -368,6 +439,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
                         fi;
                     else
                         # compare coordinates
+                        newVertex1Coord := vertexInfo[newVertex1Name];
                         if __SIMPLICIAL_EqualPoints( vertex1Coord, vertexInfo[newVertex1Name], printRecord!.floatAccuracy ) then
                             if newVertex1Name <> vertex1[1] then
                                 # Conflict with two different vertices at the same position
@@ -385,6 +457,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
                     fi;
 
                     if IsPosInt(vertexInfo[newVertex2Name]) then
+                        newVertex2Coord := printRecord!.vertexCoordinates[newVertex2Name][vertexInfo[newVertex2Name]];
                         # compare directly with original vertices
                         if vertex1 = [newVertex2Name, vertexInfo[newVertex2Name]] then #TODO can it happen that the new vertex v is identified with the old vertex w??
                             correspondenceMatrix[1][2] := 1;
@@ -392,6 +465,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
                             correspondenceMatrix[2][2] := 1;
                         fi;
                     else
+                        newVertex2Coord := vertexInfo[newVertex2Name];
                         # compare coordinates
                         if __SIMPLICIAL_EqualPoints( vertex1Coord, vertexInfo[newVertex2Name], printRecord!.floatAccuracy ) then
                             if newVertex2Name <> vertex1[1] then
@@ -416,7 +490,12 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
                         if edge <> newEdge[1] then
                             return [false, cleanEdges];
                         fi;
-                    elif ;#TODO 
+                    else
+                        # Compute the intersection normally
+                        if __SIMPLICIAL_IntersectingLineSegments( [vertex1Coord, vertex2Coord], [newVertex1Coord, newVertex2Coord] ) then
+                            return [false, cleanEdges];
+                        fi;
+                    fi;
  
                 od;
             od;
