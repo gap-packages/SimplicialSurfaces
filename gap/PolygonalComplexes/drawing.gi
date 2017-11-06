@@ -536,19 +536,49 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
 
 BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertex",
     function( printRecord, surface, vertex, vertexTikzCoord, vertexCoord )
-        #TODO
+        return "\\vertexLabelR{", vertexTikzCoord, "}{left}{$v_{", vertex, "}$}" 
     end
 );
 
 BindGlobal( "__SIMPLICIAL_PrintRecordDrawEdge",
     function( printRecord, surface, edge, vertexTikzCoord, vertexCoord )
-        #TODO
+        local res;
+
+        res := "";
+        Append(res, "\\draw[edge] (", vertexTikzCoord[1], ") -- node[edgeLabel] {$e_{", edge, "}$} (", vertexTikzCoord[2], ");");
+
+        return res;
     end
 );
 
 BindGlobal( "__SIMPLICIAL_PrintRecordDrawFace",
     function( printRecord, surface, face, vertexTikzCoord, vertexCoord )
-        #TODO
+        local res, i;
+
+        res := "";
+        Append(res, "\\fill[");
+        # Determine if the swap colour is used
+        if IsOrientable(surface) and printRecord!.faceVertices[f][2][1]^OrientationByVerticesAsPerm(surface)[face] = printRecord!.faceVertices[f][1][1] then
+            Append(res, "faceSwap");
+        else
+            Append(res, "face");
+        fi;
+        Append(res, "] ");
+
+        for coord in vertexTikzCoord do
+            Append(res, " (", coord, ") --");
+        od;
+        Append(res, " cycle;\n");
+        Append(res, "\\node[faceLabel] at (barycentric cs:");
+        for i in [1..Size(vertexTikzCoord)] do
+            if i > 1 then
+                Append(res, ", ");
+            fi;
+            Append(res, coord, "=1");
+        od;
+        Append(res, ") {$f_{", face, "}$};\n" );
+
+        return res;
     end
 );
 
@@ -709,7 +739,6 @@ InstallMethod( DrawSurfaceToTikz,
             SetStronglyConnectedComponents( surface, List( strongComponents, c -> SubsurfaceByFacesNC(surface, c) ) );
         fi;
 
-#TODO
         # Write this data into the file
         AppendTo( output, __SIMPLICIAL_PrintRecordGeneralHeader(printRecord) );
         AppendTo( output, __SIMPLICIAL_PrintRecordTikzHeader(printRecord) );
@@ -721,7 +750,7 @@ InstallMethod( DrawSurfaceToTikz,
         fi;
         
         TikzCoordFromVertexPosition := function( vertPos )
-            return Concatenation( "(V", vertPos[1], "_", vertPos[2], ")" );
+            return Concatenation( "V", vertPos[1], "_", vertPos[2], "" );
         end;
         allVertexCoords := printRecord!.vertexCoordinates;
         for comp in StronglyConnectedComponents(surface) do
@@ -731,7 +760,7 @@ InstallMethod( DrawSurfaceToTikz,
             # Define coordinates of vertices
             for v in Vertices(comp) do
                 for i in [1..Size(vertexCoords)] do
-                    AppendTo( output, "\\coordinate ", TikzCoordFromVertexPosition([v,i]), " at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
+                    AppendTo( output, "\\coordinate (", TikzCoordFromVertexPosition([v,i]), ") at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
                 od;
             od;
             AppendTo(output, "\n\n");
