@@ -5138,6 +5138,30 @@ BindGlobal( "DressGroup",
     end
 );
 
+BindGlobal( "EdgeGrapeGraph", 
+	function(simpsurf)
+		local graph, vertices, names, incidence, trivialAction;
+
+		vertices := Vertices(simpsurf);
+
+
+		names := vertices;
+		incidence := function(x,y)
+			return Set([x,y]) in VerticesOfEdges(simpsurf);
+		end;
+
+		trivialAction := function( pnt, g )
+			return pnt;
+		end;
+
+		graph := Graph( Group( () ), names, trivialAction, incidence );
+
+		return graph;
+	end
+);
+
+
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
