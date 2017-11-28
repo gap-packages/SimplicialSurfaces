@@ -4331,7 +4331,7 @@ InstallOtherMethod( Geodesic,
         [IsTriangleSurface and IsEdgesLikeSurface, ,], 0);
 
 InstallMethod( Geodesics, "for a simplicial surface",
-        [IsSimplicialSurface and IsTriangleSurface and IsActualSurface],
+        [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface],
         function(surface)
             local triples, tr, geodesics, vertex, geo, vertOfEdge, allFlags,
                 NormaliseFlag, allGeos, bigPerm, g;

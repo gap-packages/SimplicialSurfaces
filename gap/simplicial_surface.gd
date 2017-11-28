@@ -1231,7 +1231,7 @@ DeclareOperation( "AllMaximalStripEmbeddings", [IsList] );
 #! @Returns a set of edge-face-paths
 #! @Arguments surface
 DeclareAttribute( "Geodesics", IsSimplicialSurface and IsTriangleSurface
- and IsActualSurface);
+ and IsEdgesLikeSurface);
 
 
 #TODO this should be further up but IsEdgesLikeSurface has to be read first
