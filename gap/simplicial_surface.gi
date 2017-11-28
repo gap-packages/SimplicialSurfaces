@@ -3710,6 +3710,10 @@ InstallMethod( NeighbourFaceByEdgeNC,
         local possFaces;
 
         possFaces := FacesOfEdges(surf)[edge];
+        if Size(possFaces) = 1 then
+            return fail;
+        fi;
+
         if face = possFaces[1] then
             return possFaces[2];
         elif face = possFaces[2] then
