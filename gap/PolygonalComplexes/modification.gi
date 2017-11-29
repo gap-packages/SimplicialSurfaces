@@ -22,8 +22,13 @@ InstallMethod( SubcomplexByFaces, "for a polygonal complex and a set of faces",
 	return SubcomplexByFacesNC( complex, subfaces );
     end
 );
-    RedispatchOnCondition( SubcomplexByFaces, true, 
-		[IsPolygonalComplex, IsList], [,IsSet], 0);
+InstallOtherMethod( SubcomplexByFaces, 
+    "for a polygonal complex and a list of faces",
+    [ IsPolygonalComplex, IsList ],
+    function(complex, subfaces)
+        return SubcomplexByFaces(complex, Set(subfaces));
+    end
+);
 InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces",
     [IsPolygonalComplex, IsSet],
     function(complex, subfaces)
@@ -47,7 +52,12 @@ InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces"
 			subfaces, newVerticesOfEdges, newEdgesOfFaces );
     end
 );
-    RedispatchOnCondition( SubcomplexByFacesNC, true, 
-		[IsPolygonalComplex, IsList], [,IsSet], 0);
+InstallOtherMethod( SubcomplexByFacesNC, 
+    "for a polygonal complex and a list of faces",
+    [ IsPolygonalComplex, IsList ],
+    function(complex, subfaces)
+        return SubcomplexByFacesNC(complex, Set(subfaces));
+    end
+);
 
 
