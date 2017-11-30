@@ -620,7 +620,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawFace",
         Append(res, "\\node[faceLabel] at (barycentric cs:");
         for i in [1..Size(vertexTikzCoord)] do
             if i > 1 then
-                Append(res, ", ");
+                Append(res, ",");
             fi;
             Append(res, vertexTikzCoord[i]);
             Append(res, "=1");
