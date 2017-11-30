@@ -285,8 +285,8 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFirstFace",
 
 BindGlobal( "__SIMPLICIAL_PrintRecordAddFace",
     function( printRecord, surface, returnedVertices, returnedEdges, face )
-        local vertexPositions, prVertex, pos, prEdge, vertices, i, newEdge,
-            lastOrder, draw, specificVerts, generalVerts;
+        local vertexPositions, prVertex, pos, prEdge, vertices, i, 
+            draw, specificVerts, generalVerts;
 
         # We store the position of the vertex coordinates
         vertexPositions := [];
@@ -335,11 +335,6 @@ BindGlobal( "__SIMPLICIAL_PrintRecordAddFace",
                 fi;
             fi;
         od;
-
-        # Modify the edge draw order
-        newEdge := Difference( EdgesOfFaces(surface)[face], List(returnedEdges, pr -> pr[1]) )[1];
-        lastOrder := printRecord.edgeDrawOrder[Size(printRecord.edgeDrawOrder)];
-        Add(lastOrder, newEdge);
 
 
         # Add the face
@@ -678,7 +673,8 @@ InstallMethod( DrawSurfaceToTikz,
             strongComponents, start, computedFace, nextFct, checkFct, k,
             nextEdge, firstEdge, rejected, repeatData, tries, proposedEdge,
             adFace, vertexData, edgeData, testResults, e, ends, facePath,
-            vertexEdgeData, success, j, vertexCoords, vertexPositions;
+            vertexEdgeData, success, j, vertexCoords, vertexPositions, 
+            lastOrder;
 
         # Try to open the given file
         file := Filename( DirectoryCurrent(), fileName ); #TODO allow absolute paths
@@ -784,6 +780,11 @@ InstallMethod( DrawSurfaceToTikz,
                 __SIMPLICIAL_PrintRecordAddFace( printRecord, surface, repeatData[proposedEdge][2], repeatData[proposedEdge][3], repeatData[proposedEdge][1] );
                 unplacedFaces := Difference( unplacedFaces, [ repeatData[proposedEdge][1] ]);
                 printRecord!.openEdges := Difference( printRecord!.openEdges, [proposedEdge] );
+
+                # Modify the edge draw order
+                lastOrder := printRecord.edgeDrawOrder[Size(printRecord.edgeDrawOrder)];
+                Add(lastOrder, proposedEdge);
+
                 Add( comp, repeatData[proposedEdge][1] );
             od;
             Add( strongComponents, comp );
