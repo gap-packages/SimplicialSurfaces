@@ -31,8 +31,13 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         
         # Edge draw order
         if IsBound(printRecord.edgeDrawOrder) then
-            #TODO checks and alternative inputs
             givenEdgeDrawOrder := printRecord.edgeDrawOrder;
+            if not IsList(givenEdgeDrawOrder) then
+                givenEdgeDrawOrder := [];
+            elif ForAll( givenEdgeDrawOrder, IsPosInt ) then
+                givenEdgeDrawOrder := [ givenEdgeDrawOrder ];
+            fi;
+            #TODO more checks and warnings?
         else
             givenEdgeDrawOrder := [];
         fi;
@@ -347,6 +352,25 @@ BindGlobal( "__SIMPLICIAL_PrintRecordNextEdge",
         #TODO implement more involved methods
         # Naive method that returns the minimum open edge
         return Difference( printRecord!.openEdges, rejected )[1];
+    end
+);
+BindGlobal( "__SIMPLICIAL_PrintRecordNextEdgeByDrawOrder",
+    function( printRecord, rejected )
+        local currentCompNr, order, i, tryEdge;
+
+        # The number of starting faces corresponds to the number of the current component
+        currentCompNr := Size( printRecord!.startingFaces );
+
+        if IsBound( printRecord!.givenEdgeDrawOrder[currentCompNr] ) then
+            order := printRecord!.givenEdgeDrawOrder[currentCompNr];
+            for i in [1..Size(order)] do
+                tryEdge := order[i];
+                if IsPosInt(tryEdge) and tryEdge in printRecord!.openEdges and not tryEdge in rejected then
+                    return order[i];
+                fi;
+            od;
+        fi;
+        return fail;
     end
 );
 
@@ -668,13 +692,13 @@ InstallMethod( DrawSurfaceToTikz,
     "for a polygonal surface, a filename and a record",
     [IsPolygonalSurface, IsString, IsRecord],
     function(surface, fileName, printRecord)
-        local file, output, f, v, i, positions, name, comp, 
+        local file, output, f, v, i, positions, comp, 
             allVertexCoords, TikzCoordFromVertexPosition, unplacedFaces,
             strongComponents, start, computedFace, nextFct, checkFct, k,
             nextEdge, firstEdge, rejected, repeatData, tries, proposedEdge,
             adFace, vertexData, edgeData, testResults, e, ends, facePath,
             vertexEdgeData, success, j, vertexCoords, vertexPositions, 
-            lastOrder;
+            lastOrder, nextFctIndex;
 
         # Try to open the given file
         file := Filename( DirectoryCurrent(), fileName ); #TODO allow absolute paths
@@ -702,7 +726,7 @@ InstallMethod( DrawSurfaceToTikz,
             unplacedFaces := Difference( unplacedFaces, [start] );
 
             comp := [start];
-            nextFct := [ ["__SIMPLICIAL_PrintRecordNextEdge", infinity] ];
+            nextFct := [ ["__SIMPLICIAL_PrintRecordNextEdgeByDrawOrder", infinity], ["__SIMPLICIAL_PrintRecordNextEdge", infinity] ];
             checkFct := [ "__SIMPLICIAL_PrintRecordNoIntersection" ];
             # This is an infinite loop to extend all edges - bounded from above by the number of edges
             for k in [1..NumberOfEdges(surface)] do
@@ -714,12 +738,24 @@ InstallMethod( DrawSurfaceToTikz,
                 firstEdge := fail; # Fallback if all edges fail some test
                 rejected := [];
                 repeatData := [];
-                for i in [1..Size(nextFct)] do
-                    tries := 1;
-                    if tries > nextFct[i][2] then
+                nextFctIndex := 1;
+                tries := 1;
+                for i in [1..Size(printRecord!.openEdges)] do
+                    if nextFctIndex > Size(nextFct) then
+                        break;
+                    fi;
+                    if tries > nextFct[nextFctIndex][2] then
+                        nextFctIndex := nextFctIndex + 1;
+                        tries := 1;
                         continue;
                     fi;
-                    proposedEdge := ValueGlobal( nextFct[i][1] )(printRecord, rejected);
+                    proposedEdge := ValueGlobal( nextFct[nextFctIndex][1] )(printRecord, rejected);
+                    tries := tries + 1;
+                    if proposedEdge = fail then # TODO code duplication with lines above
+                        nextFctIndex := nextFctIndex + 1;
+                        tries := 1;
+                        continue;
+                    fi;
                     if firstEdge = fail then
                         firstEdge := proposedEdge;
                     fi;
@@ -861,7 +897,7 @@ InstallMethod( DrawSurfaceToTikz,
             Print( "Start LaTeX-compilation.\n" );
 
             # Run pdfLaTeX on the file (without visible output)
-            Exec( "pdflatex ", name, " > /dev/null" );
+            Exec( "pdflatex ", file, " > /dev/null" );
             Print( "Picture rendered (with pdflatex).\n");
         fi;
 
