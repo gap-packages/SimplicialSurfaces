@@ -3,3 +3,7 @@
 <!-- This is an automatically generated file. -->
 <#Include SYSTEM "_Chapter_Simplicial_Surfaces.xml">
 <#Include SYSTEM "_Chapter_Wild_Simplicial_Surfaces.xml">
+<#Include SYSTEM "_Chapter_Coloured_Simplicial_Surfaces.xml">
+<#Include SYSTEM "_Chapter_Simplicial_Surface_Identifications.xml">
+<#Include SYSTEM "_Chapter_Simplicial_Surface_Fans.xml">
+<#Include SYSTEM "_Chapter_Folding_Complexes.xml">
