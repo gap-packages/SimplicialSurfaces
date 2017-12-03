@@ -9,6 +9,42 @@ BindGlobal( "__SIMPLICIAL_EqualPoints",
     end
 );
 
+BindGlobal( "__SIMPLICIAL_PrintRecordInitStringList",
+    function(printRecord, entry, indices)
+        local ls, i;
+
+        if not IsBound(printRecord!.(entry)) then
+            printRecord!.(entry) := [];
+            return;
+        fi;
+
+        if printRecord!.(entry) = [] then
+            return;
+        fi;
+
+        if IsString( printRecord!.(entry) ) then
+            ls := [];
+            for i in indices do
+                ls[i] := printRecord!.(entry);
+            od;
+            printRecord!.(entry) := ls;
+            return;
+        fi;
+
+        if not IsList( printRecord!.(entry) ) then
+            printRecord!.(entry) := [];
+        fi;
+
+        printRecord!.(entry) := List( printRecord!.(entry), String );
+    end
+);
+BindGlobal( "__SIMPLICIAL_PrintRecordInitBool",
+    function(printRecord, entry, default)
+        if not IsBound(printRecord!.(entry)) or not IsBool(printRecord!.(entry)) then
+            printRecord!.(entry) := default;
+        fi;
+    end
+);
 
 BindGlobal( "__SIMPLICIAL_PrintRecordInit",
     function(printRecord, surface)
@@ -77,42 +113,33 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
 
 
         # drawing options
-        if not IsBound( printRecord!.vertexLabels ) or not IsBool(printRecord!.vertexLabels) then
-            printRecord!.vertexLabels := true;
-        fi;
-        if not IsBound( printRecord!.edgeLabels ) or not IsBool(printRecord!.edgeLabels) then
-            printRecord!.edgeLabels := true;
-        fi;
-        if not IsBound( printRecord!.faceLabels ) or not IsBool(printRecord!.faceLabels) then
-            printRecord!.faceLabels := true;
-        fi;
+        __SIMPLICIAL_PrintRecordInitBool( printRecord, "vertexLabelsActive", true );
+        __SIMPLICIAL_PrintRecordInitStringList( printRecord, "vertexLabels", Vertices(surface) );
+
+        __SIMPLICIAL_PrintRecordInitBool( printRecord, "edgeLabelsActive", true );
+        __SIMPLICIAL_PrintRecordInitStringList( printRecord, "edgeLabels", Edges(surface) );
+
+        __SIMPLICIAL_PrintRecordInitBool( printRecord, "faceLabelsActive", true );
+        __SIMPLICIAL_PrintRecordInitStringList( printRecord, "faceLabels", Faces(surface) );
+        
         if not IsBound( printRecord!.scale ) then
             printRecord!.scale := 2;
         fi;
+        #TODO option avoidIntersection ?
 
         # colours
-        if not IsBound( printRecord!.vertexColours ) then
-            printRecord!.vertexColours := [];
-        fi;
-        if not IsBound( printRecord!.edgeColours ) then
-            printRecord!.edgeColours := [];
-        fi;
-        if not IsBound( printRecord!.faceColours ) then
-            printRecord!.faceColours := [];
-        fi;
+        __SIMPLICIAL_PrintRecordInitStringList(printRecord, "vertexColours", Vertices(surface));
+        __SIMPLICIAL_PrintRecordInitStringList(printRecord, "edgeColours", Edges(surface));
+        __SIMPLICIAL_PrintRecordInitStringList(printRecord, "faceColours", Faces(surface));
 #        if not IsBound( printRecord!.faceSwapColoursActive ) then
 #            printRecord!.faceSwapColoursActive := false;
 #        fi;
 
 
         # automatic compilation
-        if not IsBound( printRecord!.compileLaTeX ) or not IsBool( printRecord!.compileLaTeX ) then
-            printRecord!.compileLaTeX := false;
-        fi;
+        __SIMPLICIAL_PrintRecordInitBool( printRecord, "compileLaTeX", false );
         # only write the tikzpicture (this will not be able to compile on its own!)
-        if not IsBound( printRecord!.onlyTikzpicture ) or not IsBool( printRecord!.onlyTikzpicture ) then
-            printRecord!.onlyTikzpicture := false;
-        fi;
+        __SIMPLICIAL_PrintRecordInitBool( printRecord, "onlyTikzpicture", false );
         if printRecord!.compileLaTeX and printRecord!.onlyTikzpicture then
             Error("DrawSurfaceToTikz: The options 'compileLaTeX' and 'onlyTikzpicture' can't be true simultaneously.");
         fi;
@@ -626,7 +653,13 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertex",
             res := Concatenation(res, "[", printRecord!.vertexColours[vertex],"]");
         fi;
 
-        res := Concatenation( res, "{", vertexTikzCoord, "}{left}{$v_{", String(vertex), "}$}\n" );
+        res := Concatenation( res, "{", vertexTikzCoord, "}{left}{$");
+        if IsBound(printRecord!.vertexLabels[vertex]) then
+            Append(res, printRecord!.vertexLabels[vertex]);
+        else
+            res := Concatenation(res, "v_{", String(vertex), "}");
+        fi;
+        Append(res,"$}\n" );
 
         return res;
     end
@@ -641,7 +674,13 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawEdge",
             res := Concatenation(res, "=", printRecord!.edgeColours[edge]);
         fi;
 
-        res := Concatenation(res, "] (", vertexTikzCoord[1], ") -- node[edgeLabel] {$e_{", String(edge), "}$} (", vertexTikzCoord[2], ");\n" );
+        res := Concatenation(res, "] (", vertexTikzCoord[1], ") -- node[edgeLabel] {$");
+        if IsBound(printRecord!.edgeLabels[edge]) then
+            Append(res, printRecord!.edgeLabels[edge]);
+        else
+            res := Concatenation(res, "e_{", String(edge), "}");
+        fi;
+        res := Concatenation(res, "$} (", vertexTikzCoord[2], ");\n" );
 
         return res;
     end
@@ -681,9 +720,15 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawFace",
             Append(res, vertexTikzCoord[i]);
             Append(res, "=1");
         od;
-        Append(res, ") {$f_{" );
-        Append(res, String(face));
-        Append(res, "}$};\n" );
+        Append(res, ") {$");
+        if IsBound( printRecord!.faceLabels[face] ) then
+            Append(res, printRecord!.faceLabels[face]);
+        else
+            Append(res, "f_{");
+            Append(res, String(face));
+            Append(res, "}");
+        fi;
+        Append(res, "$};\n" );
 
         return res;
     end
@@ -696,21 +741,21 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzOptions",
         res := "";
         # Add the vertex style
         Append( res, "vertexBall" );
-        if printRecord!.vertexLabels = false then
+        if printRecord!.vertexLabelsActive = false then
             Append( res, "=nolabels" );
         fi;
         Append( res, ", " );
 
         # Add the edge style
         Append( res, "edgeDouble" );
-        if printRecord!.edgeLabels = false then
+        if printRecord!.edgeLabelsActive = false then
             Append( res, "=nolabels" );
         fi;
         Append( res, ", " );
 
         # Add the face style
         Append( res, "faceStyle" );
-        if printRecord!.faceLabels = false then
+        if printRecord!.faceLabelsActive = false then
             Append( res, "=nolabels" );
         fi;
         Append( res, ", " );
