@@ -94,6 +94,9 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         if not IsBound( printRecord!.edgeColours ) then
             printRecord!.edgeColours := [];
         fi;
+        if not IsBound( printRecord!.vertexColours ) then
+            printRecord!.vertexColours := [];
+        fi;
 
 
         # automatic compilation
@@ -605,7 +608,12 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertex",
     function( printRecord, surface, vertex, vertexTikzCoord, vertexCoord )
         local res;
 
-        res := Concatenation( "\\vertexLabelR{", vertexTikzCoord, "}{left}{$v_{", String(vertex), "}$}\n" );
+        res := "\\vertexLabelR";
+        if IsBound( printRecord!.vertexColours[vertex] ) then
+            res := Concatenation(res, "[", printRecord!.vertexColours[vertex],"]");
+        fi;
+
+        res := Concatenation( res, "{", vertexTikzCoord, "}{left}{$v_{", String(vertex), "}$}\n" );
 
         return res;
     end
