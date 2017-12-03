@@ -128,7 +128,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         if not IsBound( printRecord!.scale ) then
             printRecord!.scale := 2;
         fi;
-        #TODO option avoidIntersection ?
+        __SIMPLICIAL_PrintRecordInitBool(printRecord, "avoidIntersections", true);
 
         # colours
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "vertexColours", Vertices(surface));
@@ -146,6 +146,8 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         if printRecord!.compileLaTeX and printRecord!.onlyTikzpicture then
             Error("DrawSurfaceToTikz: The options 'compileLaTeX' and 'onlyTikzpicture' can't be true simultaneously.");
         fi;
+
+        __SIMPLICIAL_PrintRecordInitBool(printRecord, "noOutput", false);
     end
 );
 
@@ -303,8 +305,6 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFace",
             currentVertex := nextVertex;
             currentVertexCoord := nextVertexCoords;
             lastEdge := nextEdge;
-
-#    Error("Compute face end of loop");
         od;
 
         # Check if the face was closed
@@ -506,6 +506,11 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
         # If there were intersections before, there are so now
         if testResults <> [] and testResults[1] = false then
             return testResults;
+        fi;
+
+        # If intersections should be ignored, return true
+        if not printRecord!.avoidIntersections then
+            return [true, []];
         fi;
 
         # Convert the vertexData into a list v -> second entry
@@ -793,6 +798,7 @@ InstallMethod( DrawSurfaceToTikz,
         if __SIMPLICIAL_MANUAL_MODE then
             printRecord!.onlyTikzpicture := true;
             printRecord!.compileLaTeX := false;
+            printRecord!.noOutput := true;
             fileName := Concatenation( "doc/_TIKZ_", fileName );
         fi;
 
@@ -1002,17 +1008,22 @@ InstallMethod( DrawSurfaceToTikz,
             AppendTo( output, "\n\\end{document}\n");
         fi;
         CloseStream(output);
-        Print( "Picture written in TikZ." );
+        if not printRecord!.noOutput then
+            Print( "Picture written in TikZ." );
+        fi;
 
 
         if printRecord.compileLaTeX then
-            Print( "Start LaTeX-compilation.\n" );
+            if not printRecord!.noOutput then
+                Print( "Start LaTeX-compilation.\n" );
+            fi;
 
             # Run pdfLaTeX on the file (without visible output)
             Exec( "pdflatex ", file, " > /dev/null" );
-            Print( "Picture rendered (with pdflatex).\n");
+            if not printRecord!.noOutput then
+                Print( "Picture rendered (with pdflatex).\n");
+            fi;
         fi;
-
 
 
         # Clean up the record

@@ -6,6 +6,7 @@ if fail = LoadPackage("GAPDoc", "1.6") then
     Error("GAPDoc version 1.6 or newer is required.");
 fi;
 
+#Read("maketest.g");
 
 # We generate the names automatically by a hash-function. Therefore we
 # have to clean up old files periodically. To know which files have
