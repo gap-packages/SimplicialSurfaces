@@ -21,6 +21,7 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/connectivity.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/orientability.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
 
 
 # Tests (TODO remove later)

@@ -179,3 +179,4 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! plane.
 #! 
 #! TODO
+DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalSurface, IsString, IsRecord] );
