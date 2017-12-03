@@ -189,6 +189,56 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_Octahedron.tex}
 #! </Alt>
+#!
+#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! Each call of the drawing method creates one of those:
+#! @ExampleSession
+#! gap> pr := DrawSurfaceToTikz( oct, "Octahedron" );;
+#! @EndExampleSession
+#!
+#! Maybe the edges should not be labelled. Then they can be turned off:
+#! @ExampleSession
+#! gap> pr.edgeLabelsActive := false;;
+#! gap> DrawSurfaceToTikz( oct, "Octahedron_noEdgeLabels", pr );;
+#! @EndExampleSession
+#! After compiling we get the following net.
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Octahedron_noEdgeLabels.tex}
+#! </Alt>
+#!
+#! The colours can also be changed very easily (especially if all colours
+#! should be changed at once). For example, let's make all vertices green:
+#! @ExampleSession
+#! gap> pr.vertexColours := "green";;
+#! @EndExampleSession
+#! Since it is impractical to always call &LaTeX; for every customization
+#! we can call it directly from within &GAP;:
+#! @ExampleSession
+#! gap> pr.compileLaTeX := true;;
+#! gap> DrawSurfaceToTikz( oct, "Octahedron_recoloured.tex", pr );;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Octahedron_recoloured.tex}
+#! </Alt>
+#! 
+#! It should be mentioned that all of these calls modify their 
+#! <A>printRecord</A>.
+#!
+#! Still the picture looks quite small. To see how big it currently is, we
+#! can look at the parameter <A>scale</A>:
+#! @ExampleSession
+#! gap> pr.scale;
+#! 2
+#! @EndExampleSession
+#! So the default <A>scale</A> is 2. Since there is a lot of space left,
+#! we can set the <A>scale</A> to 3.
+#! @ExampleSession
+#! gap> pr.scale := 3;;
+#! gap> DrawSurfaceToTikz( oct, "Octahedron_customized.tex", pr );;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Octahedron_customized.tex}
+#! </Alt>
 #! 
 #! TODO
 DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalSurface, IsString, IsRecord] );
