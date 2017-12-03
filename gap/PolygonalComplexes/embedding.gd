@@ -177,6 +177,18 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! While it is very hard to compute an embedding into <M>&RR;^3</M> it is
 #! quite easy to draw the net of a ramified polygonal surface into a
 #! plane.
+#!
+#! For example, the net of an octahedron can be drawn like this:
+#! @ExampleSession
+#! gap> oct := Octahedron();;
+#! gap> DrawSurfaceToTikz( oct, "Octahedron" );;
+#! @EndExampleSession
+#!
+#! This will write a file <E>Octahedron.tex</E> that contains the net of
+#! the octahedron, written in <K>TikZ</K>:
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Octahedron.tex}
+#! </Alt>
 #! 
 #! TODO
 DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalSurface, IsString, IsRecord] );

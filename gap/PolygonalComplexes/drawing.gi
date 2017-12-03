@@ -1,3 +1,6 @@
+BindGlobal( "__SIMPLICIAL_MANUAL_MODE", false );
+MakeReadWriteGlobal( "__SIMPLICIAL_MANUAL_MODE" );
+
 BindGlobal("__SIMPLICIAL_EqualFloats",
     function(x,y, eps)
         return (x-y)^2 < eps;
@@ -785,6 +788,18 @@ InstallMethod( DrawSurfaceToTikz,
             adFace, vertexData, edgeData, testResults, e, ends, facePath,
             vertexEdgeData, success, j, vertexCoords, vertexPositions, 
             lastOrder, nextFctIndex;
+
+        # Do something different for the manual
+        if __SIMPLICIAL_MANUAL_MODE then
+            printRecord!.onlyTikzpicture := true;
+            printRecord!.compileLaTeX := false;
+            fileName := Concatenation( "doc/_TIKZ_", fileName );
+        fi;
+
+        # Make the file end with .tex
+        if not EndsWith( fileName, ".tex" ) then
+            fileName := Concatenation( fileName, ".tex" );
+        fi;
 
         # Try to open the given file
         file := Filename( DirectoryCurrent(), fileName ); #TODO allow absolute paths
