@@ -109,6 +109,13 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         if not IsBound( printRecord!.compileLaTeX ) or not IsBool( printRecord!.compileLaTeX ) then
             printRecord!.compileLaTeX := false;
         fi;
+        # only write the tikzpicture (this will not be able to compile on its own!)
+        if not IsBound( printRecord!.onlyTikzpicture ) or not IsBool( printRecord!.onlyTikzpicture ) then
+            printRecord!.onlyTikzpicture := false;
+        fi;
+        if printRecord!.compileLaTeX and printRecord!.onlyTikzpicture then
+            Error("DrawSurfaceToTikz: The options 'compileLaTeX' and 'onlyTikzpicture' can't be true simultaneously.");
+        fi;
     end
 );
 
@@ -862,13 +869,15 @@ InstallMethod( DrawSurfaceToTikz,
         fi;
 
         # Write this data into the file
-        AppendTo( output, __SIMPLICIAL_PrintRecordGeneralHeader(printRecord) );
-        AppendTo( output, __SIMPLICIAL_PrintRecordTikzHeader(printRecord) );
-        AppendTo( output, "\n\n\\begin{document}\n\n" );
+        if not printRecord!.onlyTikzpicture then
+            AppendTo( output, __SIMPLICIAL_PrintRecordGeneralHeader(printRecord) );
+            AppendTo( output, __SIMPLICIAL_PrintRecordTikzHeader(printRecord) );
+            AppendTo( output, "\n\n\\begin{document}\n\n" );
         
-        if IsBound(printRecord!.caption) then
-          AppendTo( output,
-          "\\subsection*{", printRecord!.caption, "}\n \\bigskip\n");
+            if IsBound(printRecord!.caption) then
+            AppendTo( output,
+                "\\subsection*{", printRecord!.caption, "}\n \\bigskip\n");
+            fi;
         fi;
         
         TikzCoordFromVertexPosition := function( vertPos )
@@ -925,7 +934,9 @@ InstallMethod( DrawSurfaceToTikz,
             # End the picture
             AppendTo( output, "\n\\end{tikzpicture}" );
         od;
-        AppendTo( output, "\n\\end{document}\n");
+        if not printRecord!.onlyTikzpicture then
+            AppendTo( output, "\n\\end{document}\n");
+        fi;
         CloseStream(output);
         Print( "Picture written in TikZ." );
 
