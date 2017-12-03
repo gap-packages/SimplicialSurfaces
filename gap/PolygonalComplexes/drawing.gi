@@ -91,12 +91,18 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         fi;
 
         # colours
-        if not IsBound( printRecord!.edgeColours ) then
-            printRecord!.edgeColours := [];
-        fi;
         if not IsBound( printRecord!.vertexColours ) then
             printRecord!.vertexColours := [];
         fi;
+        if not IsBound( printRecord!.edgeColours ) then
+            printRecord!.edgeColours := [];
+        fi;
+        if not IsBound( printRecord!.faceColours ) then
+            printRecord!.faceColours := [];
+        fi;
+#        if not IsBound( printRecord!.faceSwapColoursActive ) then
+#            printRecord!.faceSwapColoursActive := false;
+#        fi;
 
 
         # automatic compilation
@@ -640,11 +646,17 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawFace",
 
         res := "";
         Append(res, "\\fill[");
+    #TODO this does not make sense without mirror/rotation edges -> revisit this problem then
         # Determine if the swap colour is used
-        if IsOrientable(surface) and printRecord!.faceVertices[face][2][1]^OrientationByVerticesAsPerm(surface)[face] = printRecord!.faceVertices[face][1][1] then
-            Append(res, "faceSwap");
-        else
+#        if IsOrientable(surface) and printRecord!.faceVertices[face][2][1]^OrientationByVerticesAsPerm(surface)[face] = printRecord!.faceVertices[face][1][1] then
+#            Append(res, "faceSwap");
+#        else
             Append(res, "face");
+#        fi;
+
+        if IsBound( printRecord!.faceColours[face] ) then
+            Append( res, "=" );
+            Append( res, printRecord!.faceColours[face] );
         fi;
         Append(res, "] ");
 
@@ -852,7 +864,7 @@ InstallMethod( DrawSurfaceToTikz,
         # Write this data into the file
         AppendTo( output, __SIMPLICIAL_PrintRecordGeneralHeader(printRecord) );
         AppendTo( output, __SIMPLICIAL_PrintRecordTikzHeader(printRecord) );
-        AppendTo( output, "\\begin{document}\n\n" );
+        AppendTo( output, "\n\n\\begin{document}\n\n" );
         
         if IsBound(printRecord!.caption) then
           AppendTo( output,
@@ -865,9 +877,14 @@ InstallMethod( DrawSurfaceToTikz,
         allVertexCoords := printRecord!.vertexCoordinates;
         for comp in StronglyConnectedComponents(surface) do
             # Start the picture
-            AppendTo( output, "\n\\begin{tikzpicture}[", __SIMPLICIAL_PrintRecordTikzOptions(printRecord, comp), "]\n" );
+            AppendTo( output, "\\begin{tikzpicture}[", __SIMPLICIAL_PrintRecordTikzOptions(printRecord, comp), "]\n\n" );
+            # Activate alternative face colours
+#            if printRecord!.faceSwapColoursActive then
+#                AppendTo( output, "\\def\\swapColors{1}\n\n" );
+#            fi;
 
             # Define coordinates of vertices
+            AppendTo( output, "% Define the coordinates of the vertices\n" );
             for v in Vertices(comp) do
                 for i in [1..Size(allVertexCoords[v])] do
                     AppendTo( output, "\\coordinate (", TikzCoordFromVertexPosition([v,i]), ") at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
@@ -876,14 +893,16 @@ InstallMethod( DrawSurfaceToTikz,
             AppendTo(output, "\n\n");
 
             # Draw faces
+            AppendTo( output, "% Fill in the faces\n" );
             for f in Faces(comp) do
                 vertexPositions := printRecord!.faceVertices[f];
                 AppendTo( output, __SIMPLICIAL_PrintRecordDrawFace(printRecord, surface, f, 
                     List(vertexPositions, TikzCoordFromVertexPosition), List(vertexPositions, p -> allVertexCoords[p[1]][p[2]])) );
             od;
-
             AppendTo( output, "\n\n" );
+
             # Draw edges
+            AppendTo( output, "% Draw the edges\n" );
             for e in Edges(comp) do
                 ends := printRecord!.edgeEndpoints[e];
                 for i in [1..Size(ends)] do
@@ -892,9 +911,10 @@ InstallMethod( DrawSurfaceToTikz,
                         List( ends[i], p -> allVertexCoords[p[1]][p[2]] ) ) );
                 od;
             od;
-
             AppendTo( output, "\n\n" );
+            
             # Draw vertices
+            AppendTo( output, "% Draw the vertices\n" );
             for v in Vertices(comp) do
                 positions := allVertexCoords[v];
                 for i in [1..Size(positions)] do
@@ -902,7 +922,6 @@ InstallMethod( DrawSurfaceToTikz,
                 od;
             od;
             
-
             # End the picture
             AppendTo( output, "\n\\end{tikzpicture}" );
         od;
