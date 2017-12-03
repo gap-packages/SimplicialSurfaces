@@ -657,7 +657,9 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertex",
         if IsBound(printRecord!.vertexLabels[vertex]) then
             Append(res, printRecord!.vertexLabels[vertex]);
         else
-            res := Concatenation(res, "v_{", String(vertex), "}");
+            #Append( res, "v_{" );
+            Append( res, String(vertex) );
+            #Append( res, "}" );
         fi;
         Append(res,"$}\n" );
 
@@ -678,7 +680,9 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawEdge",
         if IsBound(printRecord!.edgeLabels[edge]) then
             Append(res, printRecord!.edgeLabels[edge]);
         else
-            res := Concatenation(res, "e_{", String(edge), "}");
+            #Append( res, "e_{" );
+            Append( res, String(edge) );
+            #Append( res, "}" );
         fi;
         res := Concatenation(res, "$} (", vertexTikzCoord[2], ");\n" );
 
@@ -724,9 +728,9 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawFace",
         if IsBound( printRecord!.faceLabels[face] ) then
             Append(res, printRecord!.faceLabels[face]);
         else
-            Append(res, "f_{");
+            #Append(res, "f_{");
             Append(res, String(face));
-            Append(res, "}");
+            #Append(res, "}");
         fi;
         Append(res, "$};\n" );
 
