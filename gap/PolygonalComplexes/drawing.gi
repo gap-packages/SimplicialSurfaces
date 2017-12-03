@@ -90,6 +90,11 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
             printRecord!.scale := 2;
         fi;
 
+        # colours
+        if not IsBound( printRecord!.edgeColours ) then
+            printRecord!.edgeColours := [];
+        fi;
+
 
         # automatic compilation
         if not IsBound( printRecord!.compileLaTeX ) or not IsBool( printRecord!.compileLaTeX ) then
@@ -610,7 +615,12 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawEdge",
     function( printRecord, surface, edge, vertexTikzCoord, vertexCoord )
         local res;
 
-        res := Concatenation("\\draw[edge] (", vertexTikzCoord[1], ") -- node[edgeLabel] {$e_{", String(edge), "}$} (", vertexTikzCoord[2], ");\n" );
+        res := "\\draw[edge";
+        if IsBound( printRecord!.edgeColours[edge] ) then
+            res := Concatenation(res, "=", printRecord!.edgeColours[edge]);
+        fi;
+
+        res := Concatenation(res, "] (", vertexTikzCoord[1], ") -- node[edgeLabel] {$e_{", String(edge), "}$} (", vertexTikzCoord[2], ");\n" );
 
         return res;
     end

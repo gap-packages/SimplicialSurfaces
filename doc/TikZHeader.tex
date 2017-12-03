@@ -7,6 +7,7 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes}
+\usetikzlibrary{patterns}
 
 % Define a text=none option for nodes that ignores the given text, from
 % https://tex.stackexchange.com/questions/59354/no-text-none-in-tikz
@@ -112,38 +113,41 @@
 \newcommand{\edgeLabelColor}{blue!20!white}
 \tikzset{
     edgeLineNone/.style = {draw=none},
+    edgeLineNone/.default=black,
     edgeNone/labels/.style = {
-        edge/.style = {edgeLineNone},
+        edge/.style = {edgeLineNone=##1},
         edgeLabel/.style = {fill=\edgeLabelColor}
     },
     edgeNone/nolabels/.style = {
-        edge/.style = {edgeLineNone},
+        edge/.style = {edgeLineNone=##1},
         edgeLabel/.style = {text=none}
     },
     edgeNone/.style = edgeNone/#1,
     edgeNone/.default = labels
 }
 \tikzset{
-    edgeLinePlain/.style={line join=round},
+    edgeLinePlain/.style={line join=round, draw=#1},
+    edgeLinePlain/.default=black,
     edgePlain/labels/.style = {
-        edge/.style={edgeLinePlain},
+        edge/.style={edgeLinePlain=##1},
         edgeLabel/.style={fill=\edgeLabelColor}
     },
     edgePlain/nolabels/.style = {
-        edge/.style={edgeLinePlain},
+        edge/.style={edgeLinePlain=##1},
         edgeLabel/.style={text=none}
     },
     edgePlain/.style = edgePlain/#1,
     edgePlain/.default = labels
 }
 \tikzset{
-    edgeLineDouble/.style = {thin, double=gray!90!white, double distance=.3pt, line join=round},
+    edgeLineDouble/.style = {thin, double=#1, double distance=.6pt, line join=round},
+    edgeLineDouble/.default=gray!90!white,
     edgeDouble/labels/.style = {
-        edge/.style = {edgeLineDouble},
+        edge/.style = {edgeLineDouble=##1},
         edgeLabel/.style = {fill=\edgeLabelColor}
     },
     edgeDouble/nolabels/.style = {
-        edge/.style = {edgeLineDouble},
+        edge/.style = {edgeLineDouble=##1},
         edgeLabel/.style = {text=none}
     },
     edgeDouble/.style = edgeDouble/#1,
