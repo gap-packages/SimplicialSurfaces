@@ -199,30 +199,29 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! Maybe the edges should not be labelled. Then they can be turned off:
 #! @ExampleSession
 #! gap> pr.edgeLabelsActive := false;;
-#! gap> DrawSurfaceToTikz( oct, "Octahedron_noEdgeLabels", pr );;
 #! @EndExampleSession
-#! After compiling we get the following net.
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Octahedron_noEdgeLabels.tex}
-#! </Alt>
 #!
 #! The colours can also be changed very easily (especially if all colours
 #! should be changed at once). For example, let's make all vertices green:
 #! @ExampleSession
 #! gap> pr.vertexColours := "green";;
 #! @EndExampleSession
-#! Since it is impractical to always call &LaTeX; for every customization
-#! we can call it directly from within &GAP;:
+#!
+#! After compiling we get the following net.
 #! @ExampleSession
-#! gap> pr.compileLaTeX := true;;
 #! gap> DrawSurfaceToTikz( oct, "Octahedron_recoloured.tex", pr );;
 #! @EndExampleSession
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_Octahedron_recoloured.tex}
 #! </Alt>
-#! 
 #! It should be mentioned that all of these calls modify their 
 #! <A>printRecord</A>.
+#! 
+#! Since it is impractical to always call &LaTeX; for every customization
+#! we can call it directly from within &GAP;:
+#! @ExampleSession
+#! gap> pr.compileLaTeX := true;;
+#! @EndExampleSession
 #!
 #! Still the picture looks quite small. To see how big it currently is, we
 #! can look at the parameter <A>scale</A>:
@@ -231,14 +230,41 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! 2
 #! @EndExampleSession
 #! So the default <A>scale</A> is 2. Since there is a lot of space left,
-#! we can set the <A>scale</A> to 3.
+#! we can set the <A>scale</A> to 3. Furthermore we label the faces with
+#! roman numbers.
 #! @ExampleSession
 #! gap> pr.scale := 3;;
+#! gap> pr.faceLabels := ["I","II","III","IV","V","VI","VII","VIII"];;
 #! gap> DrawSurfaceToTikz( oct, "Octahedron_customized.tex", pr );;
 #! @EndExampleSession
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_Octahedron_customized.tex}
 #! </Alt>
-#! 
+#!
+#! Next we would like to change the shapes of the triangles. To do so we need
+#! to know how long are the edges.
+#! @ExampleSession
+#! gap> pr.edgeLabelsActive := true;;
+#! gap> DrawSurfaceToTikz( oct, "Octahedron_edgeLabels", pr );;
+#! gap> pr.edgeLengths;
+#! [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Octahedron_edgeLabels.tex}
+#! </Alt>
+#!
+#! We want to make the angles around vertex 1 larger, for example:
+#! @ExampleSession
+#! gap> pr.edgeLengths := [ 1, 1, 1, 1, 1.5, 1.5, 1, 1.5, 1, 1.5, 1, 1 ];;
+#! @EndExampleSession
+#! Since the <A>printRecord</A> also remembers the angles, this information
+#! has to be discarded before the recomputation.
+#! @ExampleSession
+#! gap> Unbind( pr.angles );
+#! gap> DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Octahedron_reshaped.tex}
+#! </Alt>
 #! TODO
 DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalSurface, IsString, IsRecord] );

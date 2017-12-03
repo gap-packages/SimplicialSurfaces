@@ -193,7 +193,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInitializePolygons",
                     oppVert := Difference(vertices, VerticesOfEdges(surface)[edges[i]])[1];
                     j := i mod 3 + 1;
                     k := (i+1) mod 3 + 1;
-                    cos := Float( (lengths[edges[i]]^2 - lengths[edges[j]]^2 - lengths[edges[k]]^2) / ( -2*lengths[j]*lengths[k] ) );
+                    cos := Float( (lengths[edges[i]]^2 - lengths[edges[j]]^2 - lengths[edges[k]]^2) / ( -2*lengths[edges[j]]*lengths[edges[k]] ) );
                     sin := Sqrt(1 - cos^2);
                     # TODO test validity of edge lengths
                     angles[f][oppVert] := [sin, cos];
