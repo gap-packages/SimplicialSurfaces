@@ -259,9 +259,9 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   #MB precompile the images
         LoadPackage("SimplicialSurfaces");
         Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm _TIKZ_*;\"" );
-        SIMPLICIAL_MANUAL_MODE := true;
+        __SIMPLICIAL_MANUAL_MODE := true;
         Read("gap/PolygonalComplexes/drawing.gd");
-        SIMPLICIAL_MANUAL_MODE := false;
+        __SIMPLICIAL_MANUAL_MODE := false;
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
 

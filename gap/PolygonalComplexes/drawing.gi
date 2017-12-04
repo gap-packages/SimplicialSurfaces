@@ -843,7 +843,7 @@ InstallMethod( DrawSurfaceToTikz,
                 repeatData := [];
                 nextFctIndex := 1;
                 tries := 1;
-                for i in [1..Size(printRecord!.openEdges)] do
+                for i in [1..Size(printRecord!.openEdges)+Size(nextFct)] do
                     if nextFctIndex > Size(nextFct) then
                         break;
                     fi;
