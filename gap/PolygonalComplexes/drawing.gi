@@ -282,7 +282,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFace",
             vector := vector * Float( printRecord!.edgeLengths[nextEdge] / printRecord!.edgeLengths[lastEdge] );
 
             # rotate the vector
-            angle := printRecord!.angles[face][lastVertex];
+            angle := printRecord!.angles[face][currentVertex];
             newVector := [ angle[2]*vector[1]+angle[1]*vector[2], -angle[1]*vector[1]+angle[2]*vector[2] ];
 
             nextVertexCoords := currentVertexCoord + newVector;
@@ -295,7 +295,6 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFace",
                 Add( returnedVertices, [nextVertex, pos] );
             fi;
             Add( returnedEdges, [nextEdge, [nextVertex, currentVertex]]  );
-
 
             lastVertex := currentVertex;
             lastVertexCoord := currentVertexCoord;
