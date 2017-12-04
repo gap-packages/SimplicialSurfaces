@@ -13,6 +13,11 @@
 # Set up the attribute scheduler
 BindGlobal( "SIMPLICIAL_ATTRIBUTE_SCHEDULER", AttributeSchedulerGraph([]) );
 
+# Set up a global variable to check if the manual is currently built
+BindGlobal( "__SIMPLICIAL_MANUAL_MODE", false );
+MakeReadWriteGlobal( "__SIMPLICIAL_MANUAL_MODE" );
+
+
 #TODO make this method a native part of the attribute scheduler
 BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute", 
     function( attr )

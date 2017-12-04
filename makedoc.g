@@ -6,7 +6,6 @@ if fail = LoadPackage("GAPDoc", "1.6") then
     Error("GAPDoc version 1.6 or newer is required.");
 fi;
 
-#Read("maketest.g");
 
 # We generate the names automatically by a hash-function. Therefore we
 # have to clean up old files periodically. To know which files have
@@ -258,6 +257,11 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   
   
   #MB precompile the images
+        LoadPackage("SimplicialSurfaces");
+        Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm _TIKZ_*;\"" );
+        SIMPLICIAL_MANUAL_MODE := true;
+        Read("gap/PolygonalComplexes/drawing.gd");
+        SIMPLICIAL_MANUAL_MODE := false;
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
 

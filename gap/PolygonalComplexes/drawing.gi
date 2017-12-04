@@ -1,6 +1,3 @@
-BindGlobal( "__SIMPLICIAL_MANUAL_MODE", false );
-MakeReadWriteGlobal( "__SIMPLICIAL_MANUAL_MODE" );
-
 BindGlobal("__SIMPLICIAL_EqualFloats",
     function(x,y, eps)
         return (x-y)^2 < eps;
