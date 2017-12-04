@@ -175,5 +175,6 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @SectionLabel Embeddings_DrawTikz
 #!
 #! @InsertChunk DrawSurfaceToTikz_Tutorial
+#!
 #! TODO
 DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalSurface, IsString, IsRecord] );
