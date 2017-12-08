@@ -11,7 +11,7 @@ SetPackageInfo( rec(
 PackageName := "SimplicialSurfaces",
 Subtitle := "Computation with simplicial surfaces and folding processes.",
 Version := "0.1",
-Date := "10/17/2017", # dd/mm/yyyy format
+Date := "17/10/2017", # dd/mm/yyyy format
 ArchiveURL := "TODO",
 ArchiveFormats := "TODO",
 
