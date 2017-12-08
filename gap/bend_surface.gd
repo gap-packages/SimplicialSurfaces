@@ -22,6 +22,7 @@ DeclareProperty( "IsRigidFaced", IsBendSurface );
 
 
 DeclareAttribute( "Geodesics", IsBendSurface );
+DeclareAttribute( "GeodesicsLength", IsBendSurface );
 DeclareAttribute( "GeodesicDual", IsBendSurface );
 
 DeclareOperation( "SourceOfLocalEdge", [IsPosInt] );
@@ -29,3 +30,4 @@ DeclareOperation( "TargetOfLocalEdge", [IsPosInt] );
 
 DeclareOperation( "LocalEdgeIntersection", [IsPosInt, IsPosInt] );
 
+DeclareAttribute( "EulerCharacteristic", IsBendSurface );

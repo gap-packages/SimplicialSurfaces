@@ -202,6 +202,11 @@ InstallMethod( Geodesics, "", [IsBendSurface],
         return Set( geos );
     end
 );
+InstallMethod( GeodesicsLength, "", [IsBendSurface],
+    function(surf)
+        return List( Geodesics(surf), Size );
+    end
+);
 
 InstallMethod( GeodesicDual, "", [IsBendSurface],
     function(surf)
@@ -226,3 +231,10 @@ InstallMethod( GeodesicDual, "", [IsBendSurface],
         return BendSurface( [1..Size(geos)], Edges(surf), Faces(surf), vertexMap, edgeMap, edgeSign );
     end
 );
+
+InstallMethod( EulerCharacteristic, "", [IsBendSurface],
+    function(surf)
+        return Size(Vertices(surf)) - Size(Edges(surf)) + Size(Faces(surf));
+    end
+);
+
