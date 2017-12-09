@@ -130,7 +130,9 @@ DrawSurfaceToTikz(cube, "Cube_example");;
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_Cube_example.tex}
 #! </Alt>
-#! * <E>vertexColours</E>: Modifies the colours of the vertices. The colours
+#! <List>
+#! <Item><E>vertexColours</E>: Modifies the colours of the vertices (the default
+#!   is <E>orange</E>). The colours
 #!   are given in a list <A>colours</A> such that <A>colours[v]</A> is the
 #!   colour of the vertex <A>v</A>. The colours are strings that are 
 #!   recognizable by &LaTeX;.
@@ -153,7 +155,33 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_Cube_vertexColouredGlobal.tex}
 #! </Alt>
-#! * <E>vertexLabels</E>: kk
+#! </Item>
+#! <Item><E>vertexLabelsActive</E>: By default all vertices are labelled. If they
+#!   should not be labelled, this parameter can be set to <K>false</K>.
+#! @BeginLog
+pr := rec( vertexLabelsActive := false );;
+DrawSurfaceToTikz( cube, "Cube_vertexLabelsOff", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Cube_vertexLabelsOff.tex}
+#! </Alt>
+#! </Item>
+#! <Item><E>vertexLabels</E>: By default the vertices are labelled by their 
+#!   number. This can be changed with this parameter (if you just want to
+#!   turn off the labels, use <E>vertexLabelsActive</E> instead).
+#! 
+#!   The labels are given as a list <A>labels</A> such that <A>labels[v]</A>
+#!   is the label of the vertex <A>v</A>. It is possible to skip some 
+#!   vertices - those will be labelled with their default label.
+#! @BeginLog
+pr := rec( vertexLabels := ["V_1", , "X", , "++"] );;
+DrawSurfaceToTikz( cube, "Cube_vertexLabels", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Cube_vertexLabels.tex}
+#! </Alt>
+#! </Item>
+#! </List>
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_LengthsAndAngles
