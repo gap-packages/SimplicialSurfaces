@@ -176,5 +176,37 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! @InsertChunk DrawSurfaceToTikz_Tutorial
 #!
-#! TODO
-DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalSurface, IsString, IsRecord] );
+#! @BeginGroup DrawSurfaceToTikz
+#! @Description
+#! Draw the net of the given <A>ramSurf</A> into a tex-file (using TikZ).
+#! An introduction to the use of this method (along with several examples) 
+#! can be found at the start of section 
+#! <Ref Sect="Section_Embeddings_DrawTikz"/>.
+#!
+#! * If the given <A>fileName</A> does not end in <E>.tex</E> the ending 
+#!   <E>.tex</E> will be added to it. 
+#! * The given file will be overwritten without asking if it already exists.
+#!   If you don't have permission to write in that file, this method will
+#!   throw an error.
+#! * The particulars of the drawing are determined by the 
+#!   given <A>printRecord</A>. If this is not given, the default settings are 
+#!   used. 
+#! * The <A>printRecord</A> will be modified and returned by this method.
+#!   It contains the data to recreate the drawing of the surface.
+#TODO give option to draw with just the record
+#! 
+#! There are several parameters to change the output of this method, from 
+#! cosmetic changes to exactly controlling in which order the faces are drawn.
+#! They are covered in detail in the subsections TODO
+#! 
+#! @Returns a record
+#! @Arguments ramSurf, fileName[, printRecord]
+DeclareOperation( "DrawSurfaceToTikz", [IsRamifiedPolygonalSurface, IsString, IsRecord] );
+#! @EndGroup
+
+#! @Subsection Colours and labels
+#! @InsertChunk DrawSurfaceToTikz_ColoursAndLabels
+#! @InsertChunk DrawSurfaceToTikz_LengthsAndAngles
+#! @InsertChunk DrawSurfaceToTikz_DrawOrder
+#! @InsertChunk DrawSurfaceToTikz_Output
+#! @InsertChunk DrawSurfaceToTikz_Data

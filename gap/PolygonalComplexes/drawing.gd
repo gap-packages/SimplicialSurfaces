@@ -27,19 +27,19 @@ fi;
 #! For example, the net of an octahedron can be drawn like this:
 #! @BeginLog
 oct := Octahedron();;
-DrawSurfaceToTikz( oct, "Octahedron" );;
+DrawSurfaceToTikz( oct, "Octahedron_example" );;
 #! @EndLog
 #!
-#! This will write a file <E>Octahedron.tex</E> that contains the net of
+#! This will write a file <E>Octahedron_example.tex</E> that contains the net of
 #! the octahedron, written in <K>TikZ</K>:
 #! <Alt Only="TikZ">
-#!     \input{_TIKZ_Octahedron.tex}
+#!     \input{_TIKZ_Octahedron_example.tex}
 #! </Alt>
 #!
 #! To customize this drawing, a record is used (called the <A>printRecord</A>).
 #! Each call of the drawing method creates one of those:
 #! @BeginLog
-pr := DrawSurfaceToTikz( oct, "Octahedron" );;
+pr := DrawSurfaceToTikz( oct, "Octahedron_example" );;
 #! @EndLog
 #!
 #! Maybe the edges should not be labelled. Then they can be turned off:
@@ -119,3 +119,55 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #
 #! @EndChunk
 
+#! @BeginChunk DrawSurfaceToTikz_ColoursAndLabels
+#! This subsection covers cosmetic changes that can be made to the drawings
+#! from <K>DrawSurfaceToTikz</K> (<Ref Subsect="DrawSurfaceToTikz"/>).
+#! We will exemplify them with the example of a cube:
+#! @BeginLog
+cube := Cube();;
+DrawSurfaceToTikz(cube, "Cube_example");;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Cube_example.tex}
+#! </Alt>
+#! * <E>vertexColours</E>: Modifies the colours of the vertices. The colours
+#!   are given in a list <A>colours</A> such that <A>colours[v]</A> is the
+#!   colour of the vertex <A>v</A>. The colours are strings that are 
+#!   recognizable by &LaTeX;.
+#!   It is possible to skip some vertices - those will be coloured with the
+#!   default vertex colour.
+#! @BeginLog
+pr := rec( vertexColours := ["red", "blue", "green",, "black!20!yellow"] );;
+DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Cube_vertexColouredLocal.tex}
+#! </Alt>
+#!   Instead of giving a whole list it is also possible to give just one
+#!   string defining a new colour for all vertices. It will be internally
+#!   converted into a list.
+#! @BeginLog
+pr := rec( vertexColours := "blue!60!white" );;
+DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Cube_vertexColouredGlobal.tex}
+#! </Alt>
+#! * <E>vertexLabels</E>: kk
+#! @EndChunk
+
+#! @BeginChunk DrawSurfaceToTikz_LengthsAndAngles
+#!
+#! @EndChunk
+
+#! @BeginChunk DrawSurfaceToTikz_DrawOrder
+#!
+#! @EndChunk
+
+#! @BeginChunk DrawSurfaceToTikz_Output
+#!
+#! @EndChunk
+
+#! @BeginChunk DrawSurfaceToTikz_Data
+#!
+#! @EndChunk

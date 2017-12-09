@@ -492,8 +492,9 @@ InstallMethod( Tetrahedron, "", [], function()
 );
 
 InstallMethod( Cube, "", [], function()
-    return PolygonalSurfaceByVerticesInFaces( 8, 6,
-        [ [1,2,3,4],[2,3,7,6],[1,2,6,5],[1,4,8,5],[3,4,8,7],[5,6,7,8] ] );
+    return PolygonalSurfaceByDownwardIncidence(8, 12, 6,
+        [[1,2],[2,3],[3,4],[1,4],[2,6],[3,7],[4,8],[1,5],[6,7],[7,8],[5,8],[5,6]],
+        [[1,2,3,4],[1,5,8,12],[2,5,6,9],[4,7,8,11],[3,6,7,10],[9,10,11,12]]);
     end
 );
 
