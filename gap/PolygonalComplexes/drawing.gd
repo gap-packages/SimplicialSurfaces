@@ -224,7 +224,13 @@ DrawSurfaceToTikz( cube, "Cube_faceColouredGlobal", pr );;
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_Labels
-#!
+#! This subsection covers the parameters that change the labels of vertices,
+#! edges and faces in the drawings of <K>DrawSurfaceToTikz</K>
+#! (<Ref Subsect="DrawSurfaceToTikz"/>).
+#! * <E>vertexLabelsActive</E>: Turn the vertex labels on or off (by default
+#!   they are turned on).
+#! * <E>vertexLabels</E>: Modify the vertex labels (by default they are 
+#!   labelled by their number).
 #! * <E>edgeLabelsActive</E>: Turn the edge labels on or off (by default
 #!   they are turned on).
 #! * <E>edgeLabels</E>: Modify the edge labels (by default they are 
@@ -233,19 +239,24 @@ DrawSurfaceToTikz( cube, "Cube_faceColouredGlobal", pr );;
 #!   they are turned on).
 #! * <E>faceLabels</E>: Modify the face labels (by default they are 
 #!   labelled by their number).
-#! * <E>vertexLabelsActive</E>: Turn the vertex labels on or off (by default
-#!   they are turned on).
-#! * <E>vertexLabels</E>: Modify the vertex labels (by default they are 
-#!   labelled by their number).
-#! <List>
-#! <Item><E>vertexLabelsActive</E>: By default all vertices are labelled. If they
-#!   should not be labelled, this parameter can be set to <K>false</K>.
+#! 
+#! We will exemplify these parameters on the example of a tetrahedron:
 #! @BeginLog
-pr := rec( vertexLabelsActive := false );;
-DrawSurfaceToTikz( cube, "Cube_vertexLabelsOff", pr);;
+tetra := Tetrahedron();;
+DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{_TIKZ_Cube_vertexLabelsOff.tex}
+#!    \input{_TIKZ_Tetrahedron_example.tex}
+#! </Alt>
+#! <List>
+#!   <Item><E>vertexLabelsActive</E>: By default all vertices are labelled. If they
+#!     should not be labelled, this parameter can be set to <K>false</K>.
+#! @BeginLog
+pr := rec( vertexLabelsActive := false );;
+DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabelsOff", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Tetrahedron_vertexLabelsOff.tex}
 #! </Alt>
 #! </Item>
 #! <Item><E>vertexLabels</E>: By default the vertices are labelled by their 
@@ -256,13 +267,65 @@ DrawSurfaceToTikz( cube, "Cube_vertexLabelsOff", pr);;
 #!   is the label of the vertex <A>v</A>. It is possible to skip some 
 #!   vertices - those will be labelled with their default label.
 #! @BeginLog
-pr := rec( vertexLabels := ["V_1", , "X", , "++"] );;
-DrawSurfaceToTikz( cube, "Cube_vertexLabels", pr);;
+pr := rec( vertexLabels := ["V_1", , "X", "++"] );;
+DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabels", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!    \input{_TIKZ_Cube_vertexLabels.tex}
+#!    \input{_TIKZ_Tetrahedron_vertexLabels.tex}
+#! </Alt>
+#!   </Item>
+#! 
+#!   <Item><E>edgeLabelsActive</E>: By default all edges are labelled. If they
+#!     should not be labelled, this parameter can be set to <K>false</K>.
+#! @BeginLog
+pr := rec( edgeLabelsActive := false );;
+DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabelsOff", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Tetrahedron_edgeLabelsOff.tex}
 #! </Alt>
 #! </Item>
+#! <Item><E>edgeLabels</E>: By default the edges are labelled by their 
+#!   number. This can be changed with this parameter (if you just want to
+#!   turn off the labels, use <E>edgeLabelsActive</E> instead).
+#! 
+#!   The labels are given as a list <A>labels</A> such that <A>labels[e]</A>
+#!   is the label of the edge <A>e</A>. It is possible to skip some 
+#!   edges - those will be labelled with their default label.
+#! @BeginLog
+pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
+DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabels", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Tetrahedron_edgeLabels.tex}
+#! </Alt>
+#!   </Item>
+#!
+#!   <Item><E>faceLabelsActive</E>: By default all faces are labelled. If they
+#!     should not be labelled, this parameter can be set to <K>false</K>.
+#! @BeginLog
+pr := rec( faceLabelsActive := false );;
+DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabelsOff", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Tetrahedron_faceLabelsOff.tex}
+#! </Alt>
+#! </Item>
+#! <Item><E>faceLabels</E>: By default the faces are labelled by their 
+#!   number. This can be changed with this parameter (if you just want to
+#!   turn off the labels, use <E>faceLabelsActive</E> instead).
+#! 
+#!   The labels are given as a list <A>labels</A> such that <A>labels[f]</A>
+#!   is the label of the face <A>f</A>. It is possible to skip some 
+#!   faces - those will be labelled with their default label.
+#! @BeginLog
+pr := rec( faceLabels := ["I", "f_2", , "42"] );;
+DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Tetrahedron_faceLabels.tex}
+#! </Alt>
+#!   </Item>
 #! </List>
 #! @EndChunk
 
