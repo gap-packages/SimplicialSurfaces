@@ -330,17 +330,74 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_LengthsAndAngles
+#! This subsection explains the parameters that modify the size and shapes 
+#! of the
+#! faces that are drawn by the method <K>DrawSurfaceToTikz</K>
+#! (<Ref Subsect="DrawSurfaceToTikz"/>). More specifically it explains the
+#! following parameters:
+#! * <E>scale</E>: Globally scales the picture. The default is 2.
+#! * <E>edgeLengths</E>: Is a list <A>lengths</A> such that
+#!   <A>lengths[e]</A> is the length of the edge <A>e</A>. By default, each
+#!   edge has length 1.
+#! * <E>angles</E>: This parameter controls the inner angles of the faces.
+#!   The angles are stored as a list <A>angles</A> such that
+#!   <A>angles[f][v]</A> represents the angle in face <A>f</A> at vertex
+#!   <A>v</A>. The angle is represented as a list <A>[cos,sin]</A> with
+#!   the cosine and sine of the angle.
+#! * <E>floatAccuracy</E>: Internal parameter to decide when two floats are
+#!   regarded as equal. The default is 0.001. Usually it should not be 
+#!   necessary to modify this value.
 #!
+#! By default, all faces are drawn as regular polygons. To choose different
+#! polygons their edge lengths and inner angles have to be defined (exception:
+#! for triangles it is sufficient to define the edge lengths, as long as the
+#! angles are not set). An example can be seen at the start of this section
+#! (<Ref Sect="Section_Embeddings_DrawTikz"/>).
+#!
+#! If the given information is inconsistent an error is thrown.
+#TODO example?
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_DrawOrder
+#! This subsection is concerned with the parameters that control the draw
+#! order of the drawings from <K>DrawSurfaceToTikz</K> 
+#! (<Ref Subsect="DrawSurfaceToTikz"/>). The drawing order is decided by the
+#! following parameters:
+#! * <E>avoidIntersections</E>: If this parameter is <K>true</K> (the default) 
+#!   intersections in the drawing are avoided if possible. If there is a 
+#!   conflict between a given drawing order and the intersection avoidance,
+#!   the avoidance will prevail!
+#! * <E>startingFaces</E>: After drawing this list contains one face from
+#!   each strongly connected component. These are the first faces that were
+#!   drawn from these components. By giving this list manually the first
+#!   drawn faces can be customized.
+#! * <E>edgeDrawOrder</E>: After drawing this list contains a list of edges
+#!   for each strongly connected component. For each component, this list
+#!   explains the order in which these edges were completed (an edge is 
+#!   completed if both adjacent faces are drawn). This can be customized and
+#!   <K>DrawSurfaceToTikz</K> will try to follow it as closely as possible
+#!   while avoiding intersections (if <E>avoidIntersections</E> is set).
+#! 
+#! To see this in action, we consider TODO
 #!
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_Output
-#!
+#! This subsection contains miscellaneous parameters to control the output
+#! of <K>DrawSurfaceToTikz</K> (<Ref Subsect="DrawSurfaceToTikz"/>). It 
+#! contains the following options:
+#! * <E>compileLaTeX</E>: If this parameter is <K>true</K> (the default is
+#!   <K>false</K>) the generated tex-file will be automatically compiled
+#!   with <K>pdflatex</K>.
+#! * <E>noOutput</E>: If this parameter is <K>true</K> (the default is
+#!   <K>false</K>) the method <K>DrawSurfaceToTikz</K> will produce no
+#!   output on the console.
+#! * <E>onlyTikzpicture</E>: If this parameter is <K>true</K> (the default
+#!   is <K>false</K>) the generated tex-file will only consist of a 
+#!   <E>tikzpicture</E> without header (it is not possible to compile it on
+#!   its own).
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_Data
-#!
+#! TODO
 #! @EndChunk
