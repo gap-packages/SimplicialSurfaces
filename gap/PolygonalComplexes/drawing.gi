@@ -48,7 +48,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInitBool",
 
 BindGlobal( "__SIMPLICIAL_PrintRecordInit",
     function(printRecord, surface)
-        local givenStarts, v, e, givenEdgeDrawOrder;
+        local givenStarts, v, e, givenEdgeDrawOrder, i, col;
 
         # Starting faces
         if IsBound(printRecord!.startingFaces) then
@@ -131,6 +131,16 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "vertexColours", Vertices(surface));
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "edgeColours", Edges(surface));
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "faceColours", Faces(surface));
+        # if the faceColours are custom given, we check for errors
+        for i in [1..Size(printRecord!.faceColours)] do
+            if IsBound( printRecord!.faceColours[i] ) then
+                col := printRecord!.faceColours[i];
+                if StartsWith( col, "\\faceColour" ) then
+                    Remove(col,10);
+                    printRecord!.faceColours[i] := col;
+                fi;
+            fi;
+        od;
 #        if not IsBound( printRecord!.faceSwapColoursActive ) then
 #            printRecord!.faceSwapColoursActive := false;
 #        fi;
