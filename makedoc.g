@@ -261,6 +261,7 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm _TIKZ_*;\"" );
         __SIMPLICIAL_MANUAL_MODE := true;
         Read("gap/PolygonalComplexes/drawing.gd");
+        Read("gap/PolygonalComplexes/constructors_images.gd");
         __SIMPLICIAL_MANUAL_MODE := false;
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
@@ -408,7 +409,7 @@ AutoDoc( rec( scaffold := rec(
                     ), 
               dir := __SIMPLICIAL_DocDirectory,
               maketest := rec(
-                    commands := ["LoadPackage(\"SimplicialSurfaces\");\n SIMPLICIAL_TestAll();\n __SIMPLICIAL_MANUAL_MODE := true;"]
+                    commands := ["LoadPackage(\"SimplicialSurfaces\");\n SIMPLICIAL_TestAll();\n"]
               ),
 	      autodoc := rec( 
                     files := [ ],

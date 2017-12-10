@@ -766,10 +766,11 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! e.g. platonic solids.
 #!
 #! The example structures are ordered by their number of faces. Since it might
-#! be useful to see the incidence at a glance, every one of those methods will
+#! be useful to see the incidence structure at a glance, every one of those 
+#! methods will
 #! feature a net of the constructed polygonal structure (if possible). Those
-#! nets are constructed by the method <K>DrawSurfaceToTikZ</K> 
-#! (TODO reference).
+#! nets are constructed by the method <K>DrawSurfaceToTikz</K> 
+#! (<Ref Subsect="DrawSurfaceToTikz"/>).
 
 #TODO should we do something more with the surfaces in the examples? Give some
 # incidence relations?
@@ -777,13 +778,8 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! Return a <E>Janus-Head</E> as a simplicial surface. A Janus-Head consists
 #! of two triangular faces that share three edges.
 #! 
-#! TODO picture
-#!
-#! @ExampleSession
-#! gap> janus := JanusHead();;
-#! @EndExampleSession
+#! @InsertChunk Example_JanusHead
 #! 
-#! TODO net
 #! @Returns a simplicial surface
 DeclareOperation( "JanusHead", [] );
 
@@ -791,27 +787,17 @@ DeclareOperation( "JanusHead", [] );
 #! Return a <E>tetrahedron</E> as a simplicial surface. A tetrahedron is the
 #! platonic solid with four triangular faces. 
 #! 
-#! TODO picture
+#! @InsertChunk Example_Tetrahedron
 #!
-#! @ExampleSession
-#! gap> tetra := Tetrahedron();;
-#! @EndExampleSession
-#! 
-#! TODO net
 #! @Returns a simplicial surface
 DeclareOperation( "Tetrahedron", [] );
 
 #! @Description
 #! Return a <E>cube</E> as a polygonal surface. A cube is the platonic
 #! solid with six square faces.
-#! 
-#! TODO picture
 #!
-#! @ExampleSession
-#! gap> cube := Cube();;
-#! @EndExampleSession
+#! @InsertChunk Example_Cube
 #! 
-#! TODO net
 #! @Returns a polygonal surface
 DeclareOperation( "Cube", [] );
 
@@ -819,13 +805,8 @@ DeclareOperation( "Cube", [] );
 #! Return an <E>octahedron</E> as a simplicial surface. An octahedron is the
 #! platonic solid with eight triangular faces.
 #! 
-#! TODO picture
+#! @InsertChunk Example_Octahedron
 #!
-#! @ExampleSession
-#! gap> octa := Octahedron();;
-#! @EndExampleSession
-#! 
-#! TODO net
 #! @Returns a simplicial surface
 DeclareOperation( "Octahedron", [] );
 
@@ -834,13 +815,8 @@ DeclareOperation( "Octahedron", [] );
 #! Return a <E>dodecahedron</E> as a polygonal surface. A dodecahedron ist the
 #! platonic solid with 12 pentagon faces.
 #! 
-#! TODO picture
+#! @InsertChunk Example_Dodecahedron
 #!
-#! @ExampleSession
-#! gap> dode := Dodecahedron();;
-#! @EndExampleSession
-#! 
-#! TODO net
 #! @Returns a polygonal surface
 DeclareOperation( "Dodecahedron", [] );
 
@@ -848,12 +824,7 @@ DeclareOperation( "Dodecahedron", [] );
 #! Return an <E>icosahedron</E> as a simplicial surface. An icosahedron is the
 #! platonic solid with 20 triangular faces.
 #! 
-#! TODO picture
-#!
-#! @ExampleSession
-#! gap> ico := Icosahedron();;
-#! @EndExampleSession
+#! @InsertChunk Example_Icosahedron
 #! 
-#! TODO net
 #! @Returns a simplicial surface
 DeclareOperation( "Icosahedron", [] );
