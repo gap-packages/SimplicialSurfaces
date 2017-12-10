@@ -394,10 +394,13 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #!   output on the console.
 #! * <E>onlyTikzpicture</E>: If this parameter is <K>true</K> (the default
 #!   is <K>false</K>) the generated tex-file will only consist of a 
-#!   <E>tikzpicture</E> without header (it is not possible to compile it on
+#!   <K>tikzpicture</K> without header (it is not possible to compile it on
 #!   its own).
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_Data
 #! TODO
+#vertexCoordinates
+#edgeEndpoints
+#faceVertices
 #! @EndChunk
