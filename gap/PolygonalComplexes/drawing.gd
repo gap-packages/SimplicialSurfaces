@@ -119,9 +119,18 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #
 #! @EndChunk
 
-#! @BeginChunk DrawSurfaceToTikz_ColoursAndLabels
-#! This subsection covers cosmetic changes that can be made to the drawings
+#! @BeginChunk DrawSurfaceToTikz_Colours
+#! This subsection covers how to change the colours of vertices, edges and 
+#! faces in the drawings 
 #! from <K>DrawSurfaceToTikz</K> (<Ref Subsect="DrawSurfaceToTikz"/>).
+#! It covers the following parameters:
+#! * <E>vertexColours</E>: Modify the colours of the vertices (the default
+#!   colour is orange).
+#! * <E>edgeColours</E>: Modify the colours of the edges (the default
+#!   colour is gray).
+#! * <E>faceColours</E>: Modify the colours of the face (the default
+#!   colour is a darker shade of yellow).
+#!
 #! We will exemplify them with the example of a cube:
 #! @BeginLog
 cube := Cube();;
@@ -131,13 +140,14 @@ DrawSurfaceToTikz(cube, "Cube_example");;
 #!     \input{_TIKZ_Cube_example.tex}
 #! </Alt>
 #! <List>
-#! <Item><E>vertexColours</E>: Modifies the colours of the vertices (the default
-#!   is <E>orange</E>). The colours
-#!   are given in a list <A>colours</A> such that <A>colours[v]</A> is the
-#!   colour of the vertex <A>v</A>. The colours are strings that are 
-#!   recognizable by &LaTeX;.
-#!   It is possible to skip some vertices - those will be coloured with the
-#!   default vertex colour.
+#!   <Item><E>vertexColours</E>: Modifies the colours of the vertices. The 
+#!     colours
+#!     are given in a list <A>colours</A> such that <A>colours[v]</A> is the
+#!     colour of the vertex <A>v</A>. The colours are strings that are 
+#!     recognizable by &LaTeX;.
+#!
+#!     It is possible to skip some vertices - those will be coloured with the
+#!     default vertex colour (orange).
 #! @BeginLog
 pr := rec( vertexColours := ["red", "blue", "green",, "black!20!yellow"] );;
 DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;
@@ -155,7 +165,79 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_Cube_vertexColouredGlobal.tex}
 #! </Alt>
-#! </Item>
+#!   </Item>
+#!
+#!   <Item><E>edgeColours</E>: Modifies the colours of the edges. The
+#!     colours are given in a list <A>colours</A> such that <A>colours[e]</A>
+#!     is the colour of the edge <A>e</A>. The colours are strings that are
+#!     recognizable by &LaTeX;.
+#!
+#!     Is is possible to skip some edges - those will be coloured with the
+#!     default edge colour (gray).
+#! @BeginLog
+pr := rec( edgeColours := [,,,,"red", "blue", "purple", "green!80!black"] );;
+DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Cube_edgeColouredLocal.tex}
+#! </Alt>
+#!     Instead of giving a whole list it is also possible to give just one
+#!     string defining a new colour for all edges. It will be internally 
+#!     converted into a list.
+#! @BeginLog
+pr := rec( edgeColours := "red" );;
+DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Cube_edgeColouredGlobal.tex}
+#! </Alt>
+#!   </Item>
+#!
+#!   <Item><E>faceColours</E>: Modifies the colours of the faces. The
+#!     colours are given in a list <A>colours</A> such that <A>colours[f]</A>
+#!     is the colour of the face <A>f</A>. It is possible to skip some
+#!     faces - those will be coloured with the default face colour (a darker
+#!     shape of yellow, the custom colour <E>\\faceColorY</E>).
+#!
+#!     The colours can be strings that are recognized by &LaTeX;, but they can
+#!     also be one of six pre-defined colours of this package:
+#! @BeginLog
+pr := rec( faceColours := ["\\faceColorY", "\\faceColorB", 
+    "\\faceColorC", "\\faceColorR", "\\faceColorG", "\\faceColorO"] );;
+DrawSurfaceToTikz( cube, "Cube_faceColouredLocal", pr );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Cube_faceColouredLocal.tex}
+#! </Alt>
+#!     Instead of giving a whole list it is also possible to give just one
+#!     string defining a new colour for all faces. It will be internally
+#!     converted into a list.
+#! @BeginLog
+pr := rec( faceColours := "olive!20!white" );;
+DrawSurfaceToTikz( cube, "Cube_faceColouredGlobal", pr );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Cube_faceColouredGlobal.tex}
+#! </Alt>
+#!   </Item>
+#! </List>
+#! @EndChunk
+
+#! @BeginChunk DrawSurfaceToTikz_Labels
+#!
+#! * <E>edgeLabelsActive</E>: Turn the edge labels on or off (by default
+#!   they are turned on).
+#! * <E>edgeLabels</E>: Modify the edge labels (by default they are 
+#!   labelled by their number).
+#! * <E>faceLabelsActive</E>: Turn the face labels on or off (by default
+#!   they are turned on).
+#! * <E>faceLabels</E>: Modify the face labels (by default they are 
+#!   labelled by their number).
+#! * <E>vertexLabelsActive</E>: Turn the vertex labels on or off (by default
+#!   they are turned on).
+#! * <E>vertexLabels</E>: Modify the vertex labels (by default they are 
+#!   labelled by their number).
+#! <List>
 #! <Item><E>vertexLabelsActive</E>: By default all vertices are labelled. If they
 #!   should not be labelled, this parameter can be set to <K>false</K>.
 #! @BeginLog

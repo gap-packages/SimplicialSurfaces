@@ -197,16 +197,54 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! 
 #! There are several parameters to change the output of this method, from 
 #! cosmetic changes to exactly controlling in which order the faces are drawn.
-#! They are covered in detail in the subsections TODO
+#! There are the following classes of parameters:
+#! * <E>Colours</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Colours"/>): Change the 
+#!   colours of vertices, edges and faces.
+#! * <E>Labels</E>
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Labels"/>): Modify the labels
+#!   of vertices, edges and faces.
+#! * <E>Lengths and angles</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_LengthsAndAngles"/>): These
+#!   parameters control the size and shape of the drawing and the individual 
+#!   faces.
+#! * <E>Draw order</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_DrawOrder"/>): They control 
+#!   the order in which the faces are drawn.
+#! * <E>Output control</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Output"/>): Modify how the
+#!   &LaTeX;-output behaves and how much information is printed to the 
+#!   console.
+#! * <E>Data representation</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Data"/>): These
+#!   parameters can't be influenced by the user and contain the information to
+#!   recreate the drawing.
 #! 
 #! @Returns a record
 #! @Arguments ramSurf, fileName[, printRecord]
 DeclareOperation( "DrawSurfaceToTikz", [IsRamifiedPolygonalSurface, IsString, IsRecord] );
 #! @EndGroup
 
-#! @Subsection Colours and labels
-#! @InsertChunk DrawSurfaceToTikz_ColoursAndLabels
+#! @Subsection Colours
+#! @SubsectionLabel DrawSurfaceToTikz_Colours
+#! @InsertChunk DrawSurfaceToTikz_Colours
+#!
+#! @Subsection Labels
+#! @SubsectionLabel DrawSurfaceToTikz_Labels
+#! @InsertChunk DrawSurfaceToTikz_Labels
+#!
+#! @Subsection Lengths and angles
+#! @SubsectionLabel DrawSurfaceToTikz_LengthsAndAngles
 #! @InsertChunk DrawSurfaceToTikz_LengthsAndAngles
+#! 
+#! @Subsection Draw order
+#! @SubsectionLabel DrawSurfaceToTikz_DrawOrder
 #! @InsertChunk DrawSurfaceToTikz_DrawOrder
+#!
+#! @Subsection Output control
+#! @SubsectionLabel DrawSurfaceToTikz_Output
 #! @InsertChunk DrawSurfaceToTikz_Output
+#!
+#! @Subsection Data representation
+#! @SubsectionLabel DrawSurfaceToTikz_Data
 #! @InsertChunk DrawSurfaceToTikz_Data
