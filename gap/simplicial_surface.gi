@@ -5019,6 +5019,7 @@ InstallMethod( AllFlags, "", [IsSimplicialSurface],
     end
 );
 
+#TODO make this work with only the surface
 BindGlobal( "FlagSurface", 
     function( vertexPerm, edgePerm, facePerm )
         local moved, CycleDegrees, mr, wild, origVerts, origEdges, origFaces,
