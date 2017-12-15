@@ -4802,7 +4802,7 @@ InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edg
                 Error("SplitMend: First entry of flag is not a vertex.");
             fi;
             if not flag[2] in Edges(surf) then
-                Error("SplitMend: Second entry of flag is not a vertex.");
+                Error("SplitMend: Second entry of flag is not an edge.");
             fi;
 
             if not flag[2] in BoundaryEdges(surf) then
@@ -4816,6 +4816,7 @@ InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edg
         facesOfEdges := ShallowCopy( FacesOfEdges(surf) );
 
         if not IsEmpty( Intersection( edgesOfVertices[flag1[1]], edgesOfVertices[flag2[1]] ) ) then
+            return fail;
             Error("SplitMend: Given vertices are connected by an edge.");
         fi;
         edgesOfVertices[flag1[1]] := Difference( Union( edgesOfVertices[flag1[1]], edgesOfVertices[flag2[1]] ), [flag2[2]] );
@@ -4823,6 +4824,7 @@ InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edg
         oV1 := Difference( VerticesOfEdges(surf)[flag1[2]], [flag1[1]] )[1];
         oV2 := Difference( VerticesOfEdges(surf)[flag2[2]], [flag2[1]] )[1];
         if not IsEmpty( Intersection( edgesOfVertices[oV1], edgesOfVertices[oV2] ) ) then
+            return fail;
             Error("SplitMend: Other vertices of given edges are connected by an edge.");
         fi;
         edgesOfVertices[oV1] := Difference( Union( edgesOfVertices[oV1], edgesOfVertices[oV2] ), [flag2[2]] );
