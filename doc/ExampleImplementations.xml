@@ -68,7 +68,7 @@
      a summary). This would allow the expert users to look slightly above to 
      see the naive code and compare. This goes on the cost of space, of course..
      -->
-
+<!-- TODO this whole discussion seems like overkill - how does the code look like? If it is simple enough we don't even have to disuss this... -->
 
 
 <Chapter Label="ExampleImplementations"><Heading>Example Implementations</Heading>
