@@ -4,7 +4,82 @@
      by giving examples of actual code that (could) stand in the package.
      The aim is to help novices learn the ropes of the package -->
 
+<!-- As usual there is the question of the ordering. To make look-ups easily
+     possible there will be a section for each example method. We will then
+     order these sections in a way that increases the complexity (but leaves
+     the individual sections independently readable).
+
+     This leaves the ordering problem within each section. Here we have 
+     different preferences. The main difference is whether the code gets
+     developed in the section or just handed down.
+     -> If the code is developed, the section should start with a rough idea
+        of the method that gets improved over time (when border cases pop up).
+        It would discuss the maximal applicability of the method, start with
+        a naive implementation and improve this over time. It would end with
+        the complete code.
+        Pro: Makes good explanation possible.
+        Pro: Teaches people how to code.
+        Con: Harder to find concrete explanation for something.
+        Con: Takes longer to answer question "How is this done?"
+     -> If the code is handed down, the completed version is shown and then
+        explained.
+        Pro: Very efficient in imparting the relevant information (code)
+        Pro: Easy to find explanation of a certain part in the code
+        Con: Hard to reproduce
+        Con: Harder to casually read
+     
+     Unfortunately for us, both of these users can be expected. While this
+     chapter seems to be tailored to the second kind (as it is mostly used as
+     a reference) this is only true to the first degree. After having looked
+     it up (or found it by a link in an early chapter) the reader is either
+     immediately satisfied (if they just wanted to know a certain method name)
+     or wants a deeper explanation (if they don't understand how to produce
+     similar code - a common reason for searching out these examples).
+
+     That would suggest frontloading the code and then explaining the
+     development of it step by step. This would satisfy both extremes, but
+     would complicate matters for a middle preference that just wants a quick
+     explanation of the code to move on (and does not want to go onto a big
+     tangent about code development).
+     But explaining the complete code first and only then going into 
+     development would turn off readers who need to see the development.
+     This could be ameliorated by not giving the optimized full code but only
+     a naive code that is easy to understand. This would frustrate the expert
+     readers though since they need more than the naive approach.
+
+     If one were to start with links at the start of each section that give
+     a rough table of contents ("if you want to see the complete code, click 
+     here"). We could make two standard subsections (possible since we don't
+     use ManSections in this chapter anyway), namely "Naive implementation"
+     and "Expert implementation" that start with the corresponding code.
+     This would give the following structure:
+     -> Start with the links
+     -> Explain what the method should do, understand its usage
+     -> Subsection Naive Code
+        -> Start with code
+        -> Develop the naive code
+     -> Subsection Expert Code
+        -> Start with code
+        -> Develop expert code from naive code
+     This is good for newbies and people that want to understand the naive
+     code. It is still bad for people that want to understand the expert code
+     as they have to jump around more.
+     We could end each of the subsections with the corresponding code (as 
+     a summary). This would allow the expert users to look slightly above to 
+     see the naive code and compare. This goes on the cost of space, of course..
+     -->
+
+
+
 <Chapter Label="ExampleImplementations"><Heading>Example Implementations</Heading>
+    This chapter contains implementation examples of some methods from the
+    <K>SimplicialSurface</K>-package. Every section discusses a method in the
+    following way:
+    <Enum>
+        <Item>Shortly explain what the method should do</Item>
+        <Item>Show the code</Item>
+        <Item>Explain how that code was developed</Item>
+    </Enum>
 
 </Chapter>
 
