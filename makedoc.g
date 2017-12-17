@@ -415,7 +415,7 @@ AutoDoc( rec( scaffold := rec(
                     files := [ ],
                     scan_dirs := ["doc", "gap", "gap/PolygonalComplexes"]),
               gapdoc := rec(
-                    files := ["doc/PolygonalStructuresDefinitions.xml"]
+                    files := ["doc/PolygonalStructuresDefinitions.xml", "doc/ExampleImplementations.xml"]
               ))
 );
 

@@ -41,11 +41,6 @@ TODO change this to
 ----------------
 
 
-Chapter "Example implementations"
-    Goal: Show how to efficiently use this package to program own methods
-    Method: Show actual implementations of internal methods and explain the reasoning behind them.
-    First show method, then implementation, then step-by-step development of the code (may be too front-heavy?)
-
 Chapter "Errors and bugs"
     Goal: Document all possible error messages, together with explanation for their appearance and
         how to resolve them.
