@@ -65,6 +65,7 @@ Chapter "Modification of surfaces"
 
 Chapter "Development methods"
     TODO with example of wild simplicial surfaces (before they are introduced?)
+    TODO make clear in title that this is NOT intended for common usage
 
 Chapter: "Database of surfaces"
     this is not part of constructors chapter because it has several properties that are more than just construction.

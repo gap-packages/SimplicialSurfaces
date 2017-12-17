@@ -29,6 +29,7 @@
     <#Include SYSTEM "_Chapter_Constructors.xml">
     <#Include SYSTEM "_Chapter_Properties.xml">
     <#Include SYSTEM "_Chapter_Embeddings.xml">
+    <#Include SYSTEM "ExampleImplementations.xml">
 </Body>
 <TheIndex/>
 </Book>
