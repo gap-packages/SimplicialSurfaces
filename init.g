@@ -23,4 +23,4 @@ ReadPackage( "SimplicialSurfaces", "gap/folding_plan.gd" );
 
 ReadPackage( "SimplicialSurfaces", "gap/simplib.gd" );
 
-
+ReadPackage( "SimplicialSurfaces", "gap/bend_surface.gd" );
