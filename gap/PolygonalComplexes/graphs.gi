@@ -16,6 +16,29 @@
 #####
 #####
 
+##
+## We define a more general package loading method that works even
+## if loading the package normally throws an error (as happens
+## quite often when working with Digraphs).
+##
+BindGlobal( "__SIMPLICIAL_LoadPackage", 
+    function(name)
+        local breakOnError, res;
+
+        breakOnError := BreakOnError;
+        BreakOnError := false;
+        res := LoadPackage(name);
+
+        # If there was an error in the loading, return false
+        if not IsBound(res) then
+            res := false;
+        fi;
+
+        BreakOnError := breakOnError;
+        return res;
+    end
+);
+
 InstallMethod( IncidenceGraph, "for a polygonal complex", 
     [IsPolygonalComplex],
     function(complex)
@@ -31,7 +54,7 @@ InstallMethod( IncidenceGraph, "for a polygonal complex",
 InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
     [IsPolygonalComplex],
     function( complex )
-        if LoadPackage("Digraphs") = fail then
+        if __SIMPLICIAL_LoadPackage("Digraphs") <> true then
             Error("Package Digraphs has to be available to use IncidenceDigraphsGraph.");
         fi;
     
@@ -57,7 +80,7 @@ InstallMethod( IncidenceGrapeGraph, "for a polygonal complex",
  	local graph, vertices, edges, faces, names, colours, incidence, 
 	    trivialAction;
         
-        if LoadPackage("GRAPE") = fail then
+        if __SIMPLICIAL_LoadPackage("GRAPE") <> true then
             Error("Package GRAPE has to be available to use IncidenceGrapeGraph.");
         fi;
 
@@ -110,7 +133,7 @@ InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
         local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
             colSet, vertexList;
 
-        if LoadPackage("NautyTracesInterface") = fail then
+        if __SIMPLICIAL_LoadPackage("NautyTracesInterface") <> true then
             Error("Package NautyTracesInterface has to be available to use IncidenceNautyGraph.");
         fi;
 
@@ -153,13 +176,13 @@ InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
 InstallMethod( IsIsomorphicIncidenceStructure, "for two polygonal complexes",
     [IsPolygonalComplex, IsPolygonalComplex],
     function(complex1, complex2)
-        if LoadPackage("NautyTracesInterface") = true then
+        if __SIMPLICIAL_LoadPackage("NautyTracesInterface") = true then
             return IsomorphismGraphs( 
                 UnderlyingNautyGraph( IncidenceNautyGraph(complex1) ),
                 UnderlyingNautyGraph( IncidenceNautyGraph(complex2) )) <> fail;
-        elif LoadPackage("Digraphs") = true then
+        elif __SIMPLICIAL_LoadPackage("Digraphs") = true then
             #TODO is this possible?
-        elif LoadPackage("GRAPE") = true then
+        elif __SIMPLICIAL_LoadPackage("GRAPE") = true then
             return IsIsomorphicGraph(
                 ShallowCopy( IncidenceGrapeGraph(complex1) ),
                 ShallowCopy( IncidenceGrapeGraph(complex2) ) );
