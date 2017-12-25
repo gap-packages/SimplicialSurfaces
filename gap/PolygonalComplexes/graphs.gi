@@ -2,7 +2,7 @@
 ##
 ##  SimplicialSurface package
 ##
-##  Copyright 2012-2016
+##  Copyright 2012-2018
 ##    Markus Baumeister, RWTH Aachen University
 ##    Alice Niemeyer, RWTH Aachen University 
 ##
@@ -20,24 +20,24 @@
 ## We define a more general package loading method that works even
 ## if loading the package normally throws an error (as happens
 ## quite often when working with Digraphs).
-##
-BindGlobal( "__SIMPLICIAL_LoadPackage", 
-    function(name)
-        local breakOnError, res;
-
-        breakOnError := BreakOnError;
-        BreakOnError := false;
-        res := LoadPackage(name);
+##TODO maybe use CALL_WITH_CATCH(LoadPackage, ["name"]); instead?
+#BindGlobal( "__SIMPLICIAL_LoadPackage", 
+#    function(name)
+#        local breakOnError, res;
+#
+#        breakOnError := BreakOnError;
+#        BreakOnError := false;
+#        res := LoadPackage(name);
 
         # If there was an error in the loading, return false
-        if not IsBound(res) then
-            res := false;
-        fi;
+#        if not IsBound(res) then
+#            res := false;
+#        fi;
 
-        BreakOnError := breakOnError;
-        return res;
-    end
-);
+#        BreakOnError := breakOnError;
+#        return res;
+#    end
+#);
 
 InstallMethod( IncidenceGraph, "for a polygonal complex", 
     [IsPolygonalComplex],
@@ -54,7 +54,7 @@ InstallMethod( IncidenceGraph, "for a polygonal complex",
 InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
     [IsPolygonalComplex],
     function( complex )
-        if __SIMPLICIAL_LoadPackage("Digraphs") <> true then
+        if LoadPackage("Digraphs") <> true then
             Error("Package Digraphs has to be available to use IncidenceDigraphsGraph.");
         fi;
     
@@ -80,7 +80,7 @@ InstallMethod( IncidenceGrapeGraph, "for a polygonal complex",
  	local graph, vertices, edges, faces, names, colours, incidence, 
 	    trivialAction;
         
-        if __SIMPLICIAL_LoadPackage("GRAPE") <> true then
+        if LoadPackage("GRAPE") <> true then
             Error("Package GRAPE has to be available to use IncidenceGrapeGraph.");
         fi;
 
@@ -133,7 +133,7 @@ InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
         local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
             colSet, vertexList;
 
-        if __SIMPLICIAL_LoadPackage("NautyTracesInterface") <> true then
+        if LoadPackage("NautyTracesInterface") <> true then
             Error("Package NautyTracesInterface has to be available to use IncidenceNautyGraph.");
         fi;
 
@@ -176,15 +176,15 @@ InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
 InstallMethod( IsIsomorphicIncidenceStructure, "for two polygonal complexes",
     [IsPolygonalComplex, IsPolygonalComplex],
     function(complex1, complex2)
-        if __SIMPLICIAL_LoadPackage("NautyTracesInterface") = true then
+        if LoadPackage("NautyTracesInterface") = true then
             return IsomorphismGraphs( 
                 UnderlyingNautyGraph( IncidenceNautyGraph(complex1) ),
                 UnderlyingNautyGraph( IncidenceNautyGraph(complex2) )) <> fail;
-        elif __SIMPLICIAL_LoadPackage("GRAPE") = true then
+        elif LoadPackage("GRAPE") = true then
             return IsIsomorphicGraph(
                 ShallowCopy( IncidenceGrapeGraph(complex1) ),
                 ShallowCopy( IncidenceGrapeGraph(complex2) ) );
-        elif __SIMPLICIAL_LoadPackage("Digraphs") = true then
+        elif not ARCH_IS_WINDOWS() and LoadPackage("Digraphs") = true then # We disable Digraphs on Windows as it may not load
             #TODO is this possible? Then maybe put in in second place
             Error("Isomorphism test in Digraphs not implemented. GRAPE and NautyTracesInterface are not loaded.");
         else
