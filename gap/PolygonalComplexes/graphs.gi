@@ -180,12 +180,13 @@ InstallMethod( IsIsomorphicIncidenceStructure, "for two polygonal complexes",
             return IsomorphismGraphs( 
                 UnderlyingNautyGraph( IncidenceNautyGraph(complex1) ),
                 UnderlyingNautyGraph( IncidenceNautyGraph(complex2) )) <> fail;
-        elif __SIMPLICIAL_LoadPackage("Digraphs") = true then
-            #TODO is this possible?
         elif __SIMPLICIAL_LoadPackage("GRAPE") = true then
             return IsIsomorphicGraph(
                 ShallowCopy( IncidenceGrapeGraph(complex1) ),
                 ShallowCopy( IncidenceGrapeGraph(complex2) ) );
+        elif __SIMPLICIAL_LoadPackage("Digraphs") = true then
+            #TODO is this possible? Then maybe put in in second place
+            Error("Isomorphism test in Digraphs not implemented. GRAPE and NautyTracesInterface are not loaded.");
         else
             Error("Isomorphism test needs at least one of the packages NautyTracesInterface, Digraphs or GRAPE.");
         fi;
