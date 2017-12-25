@@ -34,7 +34,7 @@ InstallOtherMethod( IsClosedSurface, "for a polygonal complex",
         if not IsRamifiedPolygonalSurface(complex) then
             Error("IsClosed: Given polygonal complex is not a ramified polygonal surface.");
         fi;
-        return IsClosed(complex); # Call the function above
+        return IsClosedSurface(complex); # Call the function above
     end
 );
 
