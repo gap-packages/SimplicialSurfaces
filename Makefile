@@ -11,6 +11,7 @@ doc/manual.six: makedoc.g \
 		doc/Introduction.xml \
 		doc/PolygonalStructures.xml \
 		doc/PolygonalStructuresDefinitions.xml \
+		doc/ExampleImplementations.xml \
 		doc/Image_* \
 		doc/TableOfContents.autodoc\
 		doc/TikZHeader.tex

@@ -94,16 +94,13 @@ InstallMethod( FaceDegreeOfVertex, "for a polygonal complex and a vertex",
 InstallMethod( VertexCounter, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeDegrees, maxDeg, sym, d, pos;
+        local edgeDegrees, colDegrees, sym, pair;
 
         edgeDegrees := List( EdgesOfVertices(complex), Size );
-        maxDeg := Maximum(edgeDegrees);
+        colDegrees := Collected( Compacted( edgeDegrees ) );
         sym := [];
-        for d in [1..maxDeg] do
-            pos := Size( Positions(edgeDegrees, d) );
-            if pos <> 0 then
-                sym[d] := pos;
-            fi;
+        for pair in colDegrees do
+            sym[pair[1]] := pair[2];
         od;
 
         return sym;

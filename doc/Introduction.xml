@@ -311,25 +311,7 @@ false
                  they will hopefully say "I don't want that" and skip ahead.-->
             We consider the example of a pyramid with a square base.
             <Alt Only="TikZ">
-                \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
-                    \def\len{4} % The length of the base
-                    \def\h{1}   % \h*\len is the hight of the apex above the 
-                                % center of the square
-                    \coordinate (A) at (0.25*\len,0.25*\len+\len*\h);
-                    \coordinate (B) at (0,0);
-                    \coordinate (C) at (\len,0);
-                    \coordinate (D) at (-0.5*\len,0.5*\len);
-                    \coordinate (E) at ($(C)+(D)$);
-
-                    \draw[edge, face]
-                        (A) -- (B) -- (D) -- cycle
-                        (A) -- (B) -- (C) -- cycle;
-                    \draw[edge, dashed] (D) -- (E) (C) -- (E) (A) -- (E);
-
-                    \foreach \p/\r/\n in {A/above/1, B/below/2, C/below/3, D/left/4, E/right/5}{
-                        \vertexLabelR{\p}{\r}{\n}
-                    }
-                \end{tikzpicture}
+                \input{Image_SquarePyramid.tex}
             </Alt>
             To encode this surface we have to enumerate the faces.
             <!-- TODO Is there a way to properly do this in the picture?-->
@@ -534,9 +516,12 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         <K>SimplicialSurfaceByVerticesInFaces</K> here. Instead we need to label
         vertices, edges and faces individually: 
         <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-                \input{Image_OpenBag.tex}
-            \end{tikzpicture}
+            {
+                \def\introLabels{1}
+                \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+                    \input{Image_OpenBag.tex}
+                \end{tikzpicture}
+            }
         </Alt>
         Now we have to tell &GAP; which vertices are incident to which edges
 <Example>

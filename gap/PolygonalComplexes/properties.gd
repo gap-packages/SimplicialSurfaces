@@ -208,6 +208,7 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 
 
 
+#! @BeginGroup VertexCounter
 #! @Description
 #! Return the <E>vertex counter</E> of the given polygonal complex.
 #! The vertex counter is a list that counts how many vertices are incident
@@ -232,6 +233,7 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Returns a list of positive integers
 #! @Arguments complex
 DeclareAttribute( "VertexCounter", IsPolygonalComplex );
+#! @EndGroup
 
 
 #! @Description

@@ -1,0 +1,26 @@
+\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
+    \def\len{4} % The length of the base
+    \def\h{1}   % \h*\len is the hight of the apex above the 
+                % center of the square
+    \coordinate (A) at (0.25*\len,0.25*\len+\len*\h);
+    \coordinate (B) at (0,0);
+    \coordinate (C) at (\len,0);
+    \coordinate (D) at (-0.5*\len,0.5*\len);
+    \coordinate (E) at ($(C)+(D)$);
+
+    \draw[edge, face]
+        (A) -- (B) -- (D) -- cycle
+        (A) -- (B) -- (C) -- cycle;
+    \draw[edge, dashed] (D) -- (E) (C) -- (E) (A) -- (E);
+
+    \ifdefined\introLabels
+        \foreach \p/\r/\n in {A/above/1, B/below/2, C/below/3, D/left/4, E/right/5}{
+            \vertexLabelR{\p}{\r}{\n}
+        }
+    \else
+        \foreach \p/\r/\n in {A/above/1, B/below/3, C/below/4, D/below/6, E/below/5}{
+            \vertexLabelR{\p}{\r}{\n}
+        }
+    \fi
+\end{tikzpicture}
+
