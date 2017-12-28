@@ -801,6 +801,7 @@ DeclareOperation( "Tetrahedron", [] );
 #! @Returns a polygonal surface
 DeclareOperation( "Cube", [] );
 
+#! @BeginGroup Octahedron
 #! @Description
 #! Return an <E>octahedron</E> as a simplicial surface. An octahedron is the
 #! platonic solid with eight triangular faces.
@@ -809,6 +810,7 @@ DeclareOperation( "Cube", [] );
 #!
 #! @Returns a simplicial surface
 DeclareOperation( "Octahedron", [] );
+#! @EndGroup
 
 
 #! @Description

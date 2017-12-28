@@ -126,7 +126,7 @@ DeclareProperty( "IsClosedSurface", IsRamifiedPolygonalSurface );
 #TODO mention vertexCounter, edgeCounter
 
 
-#! @BeginGroup
+#! @BeginGroup EdgeDegreesOfVertices
 #! @Description
 #! The method <K>EdgeDegreeOfVertex</K>(<A>complex</A>, <A>vertex</A>) 
 #! returns the <E>edge-degree</E> of the given vertex in the given

@@ -92,10 +92,10 @@
 <Example>
 gap&gt; VertexCounter_custom := function( complex )
 &gt;     local edgeDegrees, colDegrees, count, pair;
-&gt;
+&gt; 
 &gt;     edgeDegrees := List( EdgesOfVertices(complex), Size );
 &gt;     colDegrees := Collected( Compacted( edgeDegrees ) );
-&gt;
+&gt; 
 &gt;     count := [];
 &gt;     for pair in colDegrees do
 &gt;         count[pair[1]] := pair[2];
@@ -120,11 +120,18 @@ gap&gt; VertexCounter_custom( pyr );
 
         First of all we have to find the relevant information. We want to
         count how many edges are incident to a vertex. Therefore we use
-        the method <K>EdgesOfVertices</K> that gives us exactly this 
+        the method <K>EdgesOfVertices</K> (<Ref Subsect="EdgesOfVertices"/>) 
+        that gives us exactly this 
         information. Since we only want to know the <E>number</E> of edges,
         we apply the method <K>Size</K> to every component.
 <Example>
 gap&gt; edgeDegrees := List( EdgesOfVertices(pyr), Size );
+[ 4, , 3, 3, 3, 3 ]
+</Example>
+        Alternatively we could have used the specialized method
+        <K>EdgeDegreesOfVertices</K> (<Ref Subsect="EdgeDegreesOfVertices"/>) directly.
+<Example>
+gap&gt; EdgeDegreesOfVertices( pyr );
 [ 4, , 3, 3, 3, 3 ]
 </Example>
         Now we need to count how often each entry appears. This can be done
@@ -145,7 +152,7 @@ gap&gt; colDegrees := Collected( Compacted( edgeDegrees ) );
 </Example>
         From this list we can read of the result: There are four vertices
         with edge degree 3 and one vertex of edge degree 4. To translate it
-        into the form of a list, we can use a for-loop.
+        into a list, we can use a for-loop.
 <Example>
 gap&gt;  count := [];;
 gap&gt;  for pair in colDegrees do
@@ -153,6 +160,105 @@ gap&gt;  for pair in colDegrees do
 &gt;     od;
 gap&gt;  count;
 [ , , 4, 1 ]
+</Example>
+    </Section>
+
+    <Section Label="ExampleStronglyConnectedComponent">
+            <Heading>StronglyConnectedComponentOfFace</Heading>
+            The method <K>StronglyConnectedComponentOfFace</K> 
+            (<Ref Subsect="StronglyConnectedComponents"/>) finds all faces
+            that are connected to a given face by edge-face-paths and returns
+            the polygonal complex consisting of these faces.
+            <Par/>
+            This could be implemented like this:
+<Example>
+gap&gt; StrongComponent_custom := function( complex, face )
+&gt;        local component, f, edge, newFace;
+&gt;  
+&gt;        component := [ face ];
+&gt;        for f in component do
+&gt;            for edge in EdgesOfFace(complex, f) do
+&gt;                newFace := NeighbourFaceByEdge( complex, f, edge );
+&gt;                if not newFace in component then
+&gt;                    Add(component, newFace);
+&gt;                fi;
+&gt;            od;
+&gt;        od;
+&gt; 
+&gt;        return SubcomplexByFaces( complex, component );
+&gt;    end;;
+</Example>
+            We illustrate this with an octahedron (<Ref Subsect="Octahedron"/>):
+            <Alt Only="TikZ">
+                \input{_TIKZ_Octahedron_constructor.tex}
+            </Alt>
+<Example>
+gap&gt; octa := Octahedron();;
+gap&gt; StrongComponent_custom(octa,7) = StronglyConnectedComponentOfFace(octa,7);
+true
+</Example>
+            To develop this code we first have to find an algorithm to 
+            compute the strongly connected component of an face. We begin with
+            the starting face (for example 7) and add all faces to the strong
+            component that are adjacent to it (so 1, 5 and 6). Then we add
+            the neighbours of those faces (and so on). We will end up with all
+            faces of the strongly connected component of 7.
+
+            The initialization of this algorithm is easy.
+<Example>
+gap&gt; component := [ 7 ];
+[ 7 ]
+</Example>
+            For each edge of this face there is a neighbour. Therefore we need
+            the edges of this face.
+<Example>
+gap&gt; EdgesOfFace( octa, 7 );
+[ 2, 3, 8 ]
+</Example>
+            The neighbours can be computed by calling the method
+            <K>NeighbourFaceByEdge</K> (<Ref Subsect="NeighbourFaceByEdge"/>).
+<Example>
+gap&gt; newFace := NeighbourFaceByEdge( octa, 7, 2 );
+1
+</Example>
+            If this face is not already accounted for, we have to add it
+            to our component.
+<Log>
+gap&gt; if not newFace in component then
+&gt;        Add( component, newFace );
+&gt;    fi;
+</Log>
+            To check all neighbours, we loop over the incident edges:
+<Log>
+gap&gt; for edge in EdgesOfFace(octa, 7) do
+&gt;        newFace := NeighbourFaceByEdge( octa, 7, edge );
+&gt;        if not newFace in component then
+&gt;            Add( component, newFace );
+&gt;        fi;
+&gt;    od;
+</Log>
+            Finally we have to loop over all faces in the component. At this
+            point we use a feature of &GAP;: We can loop over a list that is
+            changed during the loop. So our algorithm can simply be written as
+<Example>
+gap&gt; for f in component do
+&gt;        for edge in EdgesOfFace(octa, f) do
+&gt;            newFace := NeighbourFaceByEdge( octa, f, edge );
+&gt;            if not newFace in component then
+&gt;                Add(component, newFace);
+&gt;            fi;
+&gt;        od;
+&gt;    od;
+gap&gt; component;
+[ 7, 1, 5, 6, 3, 4, 8, 2 ]
+</Example>
+            Now we have computed all faces of the strongly connected 
+            component of our starting face. To make a polygonal complex
+            out of it, we use the method <K>SubcomplexByFaces</K> that returns
+            the induced subcomplex of a given list of faces.<!--TODO reference-->
+<Example>
+gap&gt; SubcomplexByFaces( octa, component ) = octa;
+true
 </Example>
     </Section>
 
