@@ -51,6 +51,7 @@ InstallMethod( IncidenceGraph, "for a polygonal complex",
 ##
 ##      Digraphs
 ##
+if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
     [IsPolygonalComplex],
     function( complex )
@@ -62,6 +63,7 @@ InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
         #TODO is there a better way?
     end
 );
+fi;
 ##
 ##      End Digraphs
 ##
