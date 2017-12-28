@@ -142,4 +142,17 @@ BindGlobal( "__SIMPLICIAL_BoundEntriesOfList",
     end
 );
 
+##
+## Equality and display methods
+##
 
+## Equality test
+InstallMethod( \=, "for two polygonal complexes", IsIdenticalObj,
+    [IsPolygonalComplex, IsPolygonalComplex],
+    function(c1, c2)
+        return VerticesOfEdges(c1) = VerticesOfEdges(c2) and EdgesOfFaces(c1) = EdgesOfFaces(c2);
+    end
+);
+
+
+#TODO display properly
