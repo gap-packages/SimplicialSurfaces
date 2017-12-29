@@ -19,9 +19,13 @@ DeclareOperation( "DecoratedSurface", [IsSimplicialSurface] );
 
 
 DeclareOperation( "IdentifyVertices", [IsDecoratedSurface, IsPosInt, IsPosInt] );
-DeclareOperation( "IdentifyFlagVertices", [IsDecoratedSurface, IsPosInt, IsPosInt] );
 DeclareOperation( "IdentifyVertexClassLabels", [IsDecoratedSurface, IsPosInt, IsPosInt] );
-DeclareOperation( "IdentifyFlagVertexClassLabels", [IsDecoratedSurface, IsPosInt, IsPosInt] );
+
+DeclareOperation( "IdentifyEdges", [IsDecoratedSurface, IsList, IsList] );
+DeclareOperation( "IdentifyEdgeClassLabels", [IsDecoratedSurface, IsList, IsList] );
+
+DeclareOperation( "IdentifyFaces", [IsDecoratedSurface, IsList, IsList] );
+DeclareOperation( "IdentifyFaceClassLabels", [IsDecoratedSurface, IsList, IsList] );
 
 ##
 ## Maybe later implement convenience access:

@@ -120,6 +120,23 @@ BindGlobal( "__SIMPLICIAL_ReplaceValueInList",
     end
 );
 
+
+#TODO has this to be declared before (since it is recursive)?
+BindGlobal( "__SIMPLICIAL_PairIdentificationsInList",
+    function( list, pairs )
+        local res;
+
+        if Size(pairs) = 0 then
+            return list;
+        fi;
+
+        res := __SIMPLICIAL_ReplaceValueInList(list, pairs[1][2], pairs[1][1]);
+        return __SIMPLICIAL_PairIdentificationsInList( res, 
+            List( pairs{[2..Size(pairs)]}, 
+                p -> __SIMPLICIAL_ReplaceValueInList(p, pairs[1][2], pairs[1][1]) ));
+    end
+);
+
 InstallMethod( IdentifyVertexClassLabels, "", [IsDecoratedSurface, IsPosInt, IsPosInt],
     function(dec, label1, label2)
         local comp, vertexEq, flagVertexEq, verts1, verts2, flagLabel1, flagLabel2;
@@ -142,6 +159,91 @@ InstallMethod( IdentifyVertexClassLabels, "", [IsDecoratedSurface, IsPosInt, IsP
 
         SetEquivalenceLabelsOfVertices(comp, vertexEq);
         SetEquivalenceLabelsOfFlagVertices(comp, flagVertexEq);
+
+        return comp;
+    end
+);
+
+InstallMethod( IdentifyEdgeClassLabels, "", [IsDecoratedSurface, IsList, IsList],
+    function(dec, edge1, edge2)
+        local v1, e1, v2, e2;
+
+        v1 := Position( EquivalenceLabelsOfVertices(dec), edge1[1] );
+        v2 := Position( EquivalenceLabelsOfVertices(dec), edge2[1] );
+        e1 := Position( EquivalenceLabelsOfEdges(dec), edge1[2] );
+        e2 := Position( EquivalenceLabelsOfEdges(dec), edge2[2] );
+
+        return IdentifyEdges( dec, [v1,e1], [v2,e2] );
+    end
+);
+
+InstallMethod( IdentifyEdges, "", [IsDecoratedSurface, IsList, IsList],
+    function(dec, flag1, flag2)
+        local comp, v1, v2, e1, e2, w1, w2, v1L, v2L, e1L, e2L, w1L, w2L,
+            vertexEq, edgeEq, flagVertexEq, flagEdgeEq, flagSurf,
+            v1F,v2F,w1F,w2F,e1F,e2F,ve1F,ve2F,we1F,we2F;
+
+        v1 := flag1[1];
+        v2 := flag2[1];
+        e1 := flag1[2];
+        e2 := flag2[2];
+        w1 := OtherVertexOfEdge( UnderlyingSurface(dec), v1, e1 );
+        w2 := OtherVertexOfEdge( UnderlyingSurface(dec), v2, e2 );
+
+        # Identification on the surface
+        v1L := EquivalenceLabelsOfVertices(dec)[v1];
+        v2L := EquivalenceLabelsOfVertices(dec)[v2];
+        e1L := EquivalenceLabelsOfEdges(dec)[e1];
+        e2L := EquivalenceLabelsOfEdges(dec)[e2];
+        w1L := EquivalenceLabelsOfVertices(dec)[w1];
+        w2L := EquivalenceLabelsOfVertices(dec)[w2];
+
+        vertexEq := __SIMPLICIAL_PairIdentificationsInList( 
+            EquivalenceLabelsOfVertices(dec),
+            [
+                [ v2L, v1L ], [w2L, w1L]
+            ]);
+        edgeEq := __SIMPLICIAL_ReplaceValueInList( EquivalenceLabelsOfEdges(dec), e2L, e1L );
+
+        # Identification on the flag surface
+        flagSurf := UnderlyingFlagSurface(dec);
+        v1F := VertexByFlag( flagSurf, [0,v1] );
+        v2F := VertexByFlag( flagSurf, [0,v2] );
+        w1F := VertexByFlag( flagSurf, [0,w1] );
+        w2F := VertexByFlag( flagSurf, [0,w2] );
+        e1F := VertexByFlag( flagSurf, [1,e1] );
+        e2F := VertexByFlag( flagSurf, [1,e2] );
+        ve1F := EdgeByFlag( flagSurf, [1,[v1,e1]] );
+        ve2F := EdgeByFlag( flagSurf, [1,[v2,e2]] );
+        we1F := EdgeByFlag( flagSurf, [1,[w1,e1]] );
+        we2F := EdgeByFlag( flagSurf, [1,[w2,e2]] );
+
+        flagVertexEq := __SIMPLICIAL_PairIdentificationsInList(
+            EquivalenceLabelsOfFlagVertices(dec),
+            [
+                [ EquivalenceLabelsOfFlagVertices(dec)[v2F], EquivalenceLabelsOfFlagVertices(dec)[v1F] ],
+                [ EquivalenceLabelsOfFlagVertices(dec)[w2F], EquivalenceLabelsOfFlagVertices(dec)[w1F] ],
+                [ EquivalenceLabelsOfFlagVertices(dec)[e2F], EquivalenceLabelsOfFlagVertices(dec)[e1F] ]
+            ]
+        );
+        flagEdgeEq := __SIMPLICIAL_PairIdentificationsInList(
+            EquivalenceLabelsOfFlagEdges(dec),
+            [
+                [ EquivalenceLabelsOfFlagEdges(dec)[ve2F], EquivalenceLabelsOfFlagEdges(dec)[ve1F] ],
+                [ EquivalenceLabelsOfFlagEdges(dec)[we2F], EquivalenceLabelsOfFlagEdges(dec)[we1F] ],
+            ]
+        );
+
+
+        comp := Objectify( DecoratedSurfaceType, rec() );
+        SetUnderlyingSurface( comp, UnderlyingSurface(dec) );
+        SetEquivalenceLabelsOfFaces(comp, EquivalenceLabelsOfFaces(dec));
+        SetEquivalenceLabelsOfFlagFaces(comp, EquivalenceLabelsOfFlagFaces(dec));
+
+        SetEquivalenceLabelsOfVertices(comp, vertexEq);
+        SetEquivalenceLabelsOfEdges(comp, edgeEq);
+        SetEquivalenceLabelsOfFlagVertices(comp, flagVertexEq);
+        SetEquivalenceLabelsOfFlagEdges(comp, flagEdgeEq);
 
         return comp;
     end
