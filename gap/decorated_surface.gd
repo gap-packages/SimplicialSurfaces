@@ -16,3 +16,17 @@ DeclareAttribute( "EquivalenceLabelsOfFlagFaces", IsDecoratedSurface );
 
 
 DeclareOperation( "DecoratedSurface", [IsSimplicialSurface] );
+
+
+DeclareOperation( "IdentifyVertices", [IsDecoratedSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "IdentifyFlagVertices", [IsDecoratedSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "IdentifyVertexClassLabels", [IsDecoratedSurface, IsPosInt, IsPosInt] );
+DeclareOperation( "IdentifyFlagVertexClassLabels", [IsDecoratedSurface, IsPosInt, IsPosInt] );
+
+##
+## Maybe later implement convenience access:
+## EquivalenceClassesOfVertices
+## VertexEquivalenceClasses [indexed by labels]
+## VertexEquivalenceLabels [set]
+##
+## all also with flags -> automatic implementation necessary

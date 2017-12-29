@@ -60,3 +60,19 @@ InstallMethod( FlagSurface, "for a simplicial surface", [IsSimplicialSurface],
         return flagComplex;
     end
 );
+
+InstallMethod( VertexByFlag, "", [IsFlagSurface, IsList],
+    function(fs, flag)
+        return Position(FlagsVertices(fs), flag  );
+    end
+);
+InstallMethod( EdgeByFlag, "", [IsFlagSurface, IsList],
+    function(fs, flag)
+        return Position(FlagsEdges(fs), flag  );
+    end
+);
+InstallMethod( FaceByFlag, "", [IsFlagSurface, IsList],
+    function(fs, flag)
+        return Position(FlagsFaces(fs), flag  );
+    end
+);

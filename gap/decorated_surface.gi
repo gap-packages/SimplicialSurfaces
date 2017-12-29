@@ -83,3 +83,66 @@ InstallMethod( QuotientSurface, "", [IsDecoratedSurface],
         return quot;
     end
 );
+
+InstallMethod( UnderlyingFlagSurface, "", [IsDecoratedSurface],
+    function(dec)
+        return FlagSurface(UnderlyingSurface(dec));
+    end
+);
+
+InstallMethod( IdentifyVertices, "", [IsDecoratedSurface, IsPosInt, IsPosInt],
+    function(dec, v1, v2)
+        local vl1, vl2;
+
+        vl1 := EquivalenceLabelsOfVertices(dec)[v1];
+        vl2 := EquivalenceLabelsOfVertices(dec)[v2];
+        if vl1 = vl2 then
+            return dec;
+        else
+            return IdentifyVertexClassLabels(dec,vl1,vl2);
+        fi;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_ReplaceValueInList", 
+    function( list, oldValue, newValue )
+        local i, res;
+
+        res := ShallowCopy(list);
+
+        for i in [1..Size(res)] do
+            if IsBound(res[i]) and res[i] = oldValue then
+                res[i] := newValue;
+            fi;
+        od;
+
+        return res;
+    end
+);
+
+InstallMethod( IdentifyVertexClassLabels, "", [IsDecoratedSurface, IsPosInt, IsPosInt],
+    function(dec, label1, label2)
+        local comp, vertexEq, flagVertexEq, verts1, verts2, flagLabel1, flagLabel2;
+
+        vertexEq := __SIMPLICIAL_ReplaceValueInList( EquivalenceLabelsOfVertices(dec), label2, label1 );
+
+        # Find the corresponding labels for the flag surface
+        verts1 := Positions( EquivalenceLabelsOfVertices(dec), label1 );
+        verts2 := Positions( EquivalenceLabelsOfVertices(dec), label2 );
+        flagLabel1 := EquivalenceLabelsOfFlagVertices(dec)[ VertexByFlag( UnderlyingFlagSurface(dec), [0,verts1[1]] ) ];
+        flagLabel2 := EquivalenceLabelsOfFlagVertices(dec)[ VertexByFlag( UnderlyingFlagSurface(dec), [0,verts2[1]] ) ];
+        flagVertexEq := __SIMPLICIAL_ReplaceValueInList( EquivalenceLabelsOfFlagVertices(dec), flagLabel1, flagLabel2 );
+
+        comp := Objectify( DecoratedSurfaceType, rec() );
+        SetUnderlyingSurface(comp, UnderlyingSurface(dec));
+        SetEquivalenceLabelsOfEdges(comp, EquivalenceLabelsOfEdges(dec));
+        SetEquivalenceLabelsOfFlagEdges(comp, EquivalenceLabelsOfFlagEdges(dec));
+        SetEquivalenceLabelsOfFaces(comp, EquivalenceLabelsOfFaces(dec));
+        SetEquivalenceLabelsOfFlagFaces(comp, EquivalenceLabelsOfFlagFaces(dec));
+
+        SetEquivalenceLabelsOfVertices(comp, vertexEq);
+        SetEquivalenceLabelsOfFlagVertices(comp, flagVertexEq);
+
+        return comp;
+    end
+);

@@ -11,3 +11,8 @@ DeclareAttribute( "FlagsEdges", IsFlagSurface );
 DeclareAttribute( "FlagsFaces", IsFlagSurface );
 
 DeclareOperation( "FlagSurface", [IsSimplicialSurface] );
+
+DeclareOperation( "VertexByFlag", [IsFlagSurface, IsList] );
+DeclareOperation( "EdgeByFlag", [IsFlagSurface, IsList] );
+DeclareOperation( "FaceByFlag", [IsFlagSurface, IsList] );
+
