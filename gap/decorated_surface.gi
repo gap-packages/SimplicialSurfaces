@@ -248,3 +248,100 @@ InstallMethod( IdentifyEdges, "", [IsDecoratedSurface, IsList, IsList],
         return comp;
     end
 );
+
+InstallMethod( IdentifyFaceClassLabels, "", [IsDecoratedSurface, IsList, IsList],
+    function(dec, flag1, flag2)
+        local v1, e1, f1, v2, e2, f2;
+
+        v1 := Position( EquivalenceLabelsOfVertices(dec), flag1[1] );
+        v2 := Position( EquivalenceLabelsOfVertices(dec), flag2[1] );
+        e1 := Position( EquivalenceLabelsOfEdges(dec), flag1[2] );
+        e2 := Position( EquivalenceLabelsOfEdges(dec), flag2[2] );
+        f1 := Position( EquivalenceLabelsOfFaces(dec), flag1[3] );
+        f2 := Position( EquivalenceLabelsOfFaces(dec), flag2[3] );
+
+        return IdentifyFaces( dec, [v1,e1,f1], [v2,e2,f2] );
+    end
+);
+
+InstallMethod( IdentifyFaces, "", [IsDecoratedSurface, IsList, IsList],
+    function(dec, flag1, flag2)
+        local v1, v2, e1, e2, f1, f2, surf, flagSurf, surfVerts, surfEdges,
+            surfFaces, flagVerts, flagEdges, flagFaces, i, comp, vertexEq,
+            edgeEq, faceEq, flagVertexEq, flagEdgeEq, flagFaceEq;
+
+        v1 := flag1[1];
+        e1 := flag1[2];
+        f1 := flag1[3];
+        v2 := flag2[1];
+        e2 := flag2[2];
+        f2 := flag2[3];
+
+        surf := UnderlyingSurface(dec);
+        flagSurf := UnderlyingFlagSurface(dec);
+
+        if Size( EdgesOfFaces(surf)[f1] ) <> Size( EdgesOfFaces(surf)[f2] ) then
+            Error("Identified faces have to have the same number of vertices.");
+        fi;
+
+        surfVerts := [];
+        surfEdges := [];
+        surfFaces := [ [f1,f2] ];
+        flagVerts := [ [ [2,f1], [2,f2] ] ];
+        flagEdges := [];
+        flagFaces := [];
+        for i in [1..Size(EdgesOfFaces(surf)[f1])] do
+            # Register the pairs for this flag
+            if IsOddInt(i) then
+                Add(surfVerts, [v1,v2]);
+                Add(flagVerts, [[0,v1],[0,v2]]);
+                Add(flagEdges, [[2,[v1,f1]],[2,[v2,f2]]]);
+            else
+                Add(surfEdges, [e1,e2]);
+                Add(flagVerts, [[1,e1],[1,e2]]);
+                Add(flagEdges, [[3,[e1,f1]],[3,[e2,f2]]]);
+            fi;
+            Add(flagEdges, [ [1,[v1,e1]],[1,[v2,e2]] ]);
+            Add(flagFaces, [ [v1,e1,f1],[v2,e2,f2] ]);
+
+            # Find the next flag
+            if IsOddInt(i) then
+                v1 := OtherVertexOfEdge(surf, v1, e1);
+                v2 := OtherVertexOfEdge(surf, v2, e2);
+            else
+                e1 := OtherEdgeOfVertexInFace(surf, v1, e1, f1);
+                e2 := OtherEdgeOfVertexInFace(surf, v2, e2, f2);
+            fi;
+        od;
+
+        # Convert the flag pairs into numbers
+        flagVerts := List( flagVerts, p -> List( p, v -> VertexByFlag(flagSurf, v) ) );
+        flagEdges := List( flagEdges, p -> List( p, e -> EdgeByFlag(flagSurf, e) ) );
+        flagFaces := List( flagFaces, p -> List( p, f -> FaceByFlag(flagSurf, f) ) );
+
+        vertexEq := __SIMPLICIAL_PairIdentificationsInList( 
+            EquivalenceLabelsOfVertices(dec), surfVerts);
+        edgeEq := __SIMPLICIAL_PairIdentificationsInList(
+            EquivalenceLabelsOfEdges(dec), surfEdges);
+        faceEq := __SIMPLICIAL_PairIdentificationsInList(
+            EquivalenceLabelsOfFaces(dec), surfFaces);
+
+        flagVertexEq := __SIMPLICIAL_PairIdentificationsInList(
+            EquivalenceLabelsOfFlagVertices(dec), flagVerts);
+        flagEdgeEq := __SIMPLICIAL_PairIdentificationsInList(
+            EquivalenceLabelsOfFlagEdges(dec), flagEdges);
+        flagFaceEq := __SIMPLICIAL_PairIdentificationsInList(
+            EquivalenceLabelsOfFlagFaces(dec), flagFaces);
+
+        comp := Objectify( DecoratedSurfaceType, rec() );
+        SetUnderlyingSurface(comp, surf);
+        SetEquivalenceLabelsOfVertices(comp, vertexEq);
+        SetEquivalenceLabelsOfEdges(comp, edgeEq);
+        SetEquivalenceLabelsOfFaces(comp, faceEq);
+        SetEquivalenceLabelsOfFlagVertices(comp, flagVertexEq);
+        SetEquivalenceLabelsOfFlagEdges(comp, flagEdgeEq);
+        SetEquivalenceLabelsOfFlagFaces(comp, flagFaceEq);
+
+        return comp;
+    end
+);
