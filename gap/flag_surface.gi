@@ -47,9 +47,11 @@ InstallMethod( FlagSurface, "for a simplicial surface", [IsSimplicialSurface],
             ];
         od;
 
-        flagComplex := Objectify( FlagSurfaceType, [] );
+        flagComplex := Objectify( FlagSurfaceType, rec() );
         SetVerticesOfEdges(flagComplex, verticesOfEdges);
         SetEdgesOfFaces(flagComplex, edgesOfFaces);
+		DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(flagComplex);
+
         SetOriginalSurface(flagComplex, complex);
         SetFlagsVertices(flagComplex, oneFlags);
         SetFlagsEdges(flagComplex, twoFlags);
