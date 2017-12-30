@@ -1,4 +1,4 @@
-# Autodoc-documentation
+# Documentation and automatically generated files
 doc/chap*
 doc/_Chapter*
 doc/title.xml
@@ -8,6 +8,7 @@ doc/_IMAGE*
 doc/_TIKZ*
 doc/manual.pdf
 doc/manual.six
+maketest.g
 
 # intermediate compilation stuff
 *.4ct
