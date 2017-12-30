@@ -1232,7 +1232,20 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #!    \input{Image_IncidenceGraph.tex}
 #! </Alt>
 #!
-#! The incidence graph is given as a GAP-graph. Currently three different
+#! Unfortunately the vertex labels of the graph in &GAP; have to be distinct, 
+#! which is not guaranteed in general.
+#! Therefore we shift the labels of the edges by the maximal vertex label and
+#! the face labels by the sum of the maximal vertex and edge labels. In the
+#! example above the maximal vertex label is 11 and the maximal edge label 
+#! is 13. It would be modified like this:
+#! <Alt Only="TikZ">
+#!   {
+#!      \def\shiftLabels{1}
+#!      \input{Image_IncidenceGraph.tex}
+#!   }
+#! </Alt>
+#!
+#! The incidence graph is given as a &GAP;-graph. Currently three different
 #! packages are supported:
 #! * <K>Digraphs</K> (method <K>IncidenceDigraphsGraph</K>).
 #!   This is returned if <K>IncidenceGraph</K> is called.
@@ -1253,7 +1266,13 @@ DeclareOperation( "EdgeFacePathPartitionOfVertexNC",
 #! polygonal complex. The incidence
 #! graph is defined as follows:
 #! * The <E>vertices</E> are the vertices (colour 0), edges (colour 1) and 
-#!   faces (colour 2) of <A>complex</A>.
+#!   faces (colour 2) of <A>complex</A>. The labels are shifted in the
+#!   following way:
+#!   * The vertex labels stay the same.
+#!   * The edge labels are shifted by the maximal vertex label (to be
+#!     distinct from them).
+#!   * The face labels are shifted by the sum of maximal vertex label and
+#!     maximal edge label.
 #! * The <E>edges</E> are vertex-edge-pairs or edge-face-pairs such that the
 #!   elements of the pair are incident in <A>complex</A>.
 #!
@@ -1277,3 +1296,4 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! @EndGroup
 
 #TODO better to split the methods to explain each graph individually?
+# Now they are synchronised..

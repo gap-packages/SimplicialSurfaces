@@ -86,24 +86,24 @@ InstallMethod( IncidenceGrapeGraph, "for a polygonal complex",
             Error("Package GRAPE has to be available to use IncidenceGrapeGraph.");
         fi;
 
-	vertices := List( Vertices(complex), i -> [0,i] );
-        edges := List( Edges(complex), i -> [1,i] );
-        faces := List( Faces(complex), i -> [2,i] );
+        maxVert := Maximum( Vertices(complex) );
+        maxEdge := Maximum( Edges(complex) );
+        vertices := ShallowCopy( Vertices(complex) );
+        edges := List( Edges(complex), e -> e + maxVert );
+        faces := List( Faces(complex), f -> f + maxVert + maxEdge );
 
         names := Union( vertices, edges, faces);
 	colours := [vertices,edges, faces];
 	incidence := function(x,y)
-	    if x[1] = 0 and y[1] = 1 then
-		return x[2] in VerticesOfEdges(complex)[y[2]];
-	    elif x[1] = 1 and y[1] = 0 then
-		return y[2] in VerticesOfEdges(complex)[x[2]];
-
-	    elif x[1] = 1 and y[1] = 2 then
-		return x[2] in EdgesOfFaces(complex)[y[2]];
-	    elif x[1] = 2 and y[1] = 1 then
-		return y[2] in EdgesOfFaces(complex)[x[2]];
-
-	    else
+            if x in vertices and y in edges then
+                return x in VerticesOfEdges(complex)[y-maxVert];
+            elif x in edges and y in vertices then
+                return y in VerticesOfEdges(complex)[x-maxVert];
+            elif x in edges and y in faces then
+                return x-maxVert in EdgesOfFaces(complex)[y-maxVert-maxEdge];
+            elif x in faces and y in edges then
+                return y-maxVert in EdgesOfFaces(complex)[x-maxVert-maxEdge];
+            else
 		return false;
 	    fi;
 	end;

@@ -10,18 +10,18 @@
         node distance=0.6]
                     
             % Edge nodes
-            \node[edgeNode] (E6) {6};
-            \node[edgeNode] (E8) [right=of E6] {8};
-            \node[edgeNode] (E9) [right=of E8] {9};
-            \node[edgeNode] (E10) [right=of E9] {10};
-            \node[edgeNode] (E12) [right=of E10] {12};
-            \node[edgeNode] (E13) [right=of E12] {13};
+            \node[edgeNode] (E6) {\ifdefined\shiftLabels 17 \else 6 \fi};
+            \node[edgeNode] (E8) [right=of E6] {\ifdefined\shiftLabels 19 \else 8 \fi};
+            \node[edgeNode] (E9) [right=of E8] {\ifdefined\shiftLabels 20 \else 9 \fi};
+            \node[edgeNode] (E10) [right=of E9] {\ifdefined\shiftLabels 21 \else 10 \fi};
+            \node[edgeNode] (E12) [right=of E10] {\ifdefined\shiftLabels 23 \else 12 \fi};
+            \node[edgeNode] (E13) [right=of E12] {\ifdefined\shiftLabels 24 \else 13 \fi};
 
             % Face nodes
-            \node[faceNode] (F1) [above=of E8] {1}
+            \node[faceNode] (F1) [above=of E8] {\ifdefined\shiftLabels 25 \else 1 \fi}
                 edge (E6) edge (E8) edge (E9);
             \node (Help) at ($(E10)!0.5!(E12)$) {};
-            \node[faceNode] (F4) [above=of Help] {4}
+            \node[faceNode] (F4) [above=of Help] {\ifdefined\shiftLabels 28 \else 4 \fi}
                 edge (E9) edge (E10) edge (E12) edge (E13);
 
             % Vertex nodes
