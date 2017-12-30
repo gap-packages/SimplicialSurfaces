@@ -187,4 +187,53 @@ InstallMethod( PrintObj, "for a polygonal complex", [IsPolygonalComplex],
         Print(str);
     end
 );
-#TODO display properly
+
+# Display
+InstallMethod( Display, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        if IsSimplicialSurface(complex) then
+            Print("SimplicialSurface");
+        elif IsPolygonalSurface(complex) then
+            Print("PolygonalSurface");
+        elif IsRamifiedSimplicialSurface(complex) then
+            Print("RamifiedSimplicialSurface");
+        elif IsRamifiedPolygonalSurface(complex) then
+            Print("RamifiedPolygonalSurface");
+        elif IsTriangularComplex(complex) then
+            Print("TriangularComplex");
+        else
+            Print("PolygonalComplex");
+        fi;
+
+        if IsPolygonalSurface(complex) then # more information
+            Print( " (" );
+            if IsClosedSurface(complex) then
+                Print("closed, ");
+            fi;
+            
+            if IsOrientable(complex) then
+                Print("orientable, ");
+            else
+                Print("non-orientable, ");
+            fi;
+
+            if IsConnected(complex) then
+                Print("Euler-characteristic ", EulerCharacteristic(complex) );
+            else
+                Print( NumberOfConnectedComponents(complex), " connected components" );
+            fi;
+            Print( ")\n");
+        fi;
+
+        Print( "    Vertices (", NumberOfVertices(complex), "): ", Vertices(complex), "\n" );
+        Print( "    Edges (", NumberOfEdges(complex), "): ", Edges(complex), "\n" );
+        Print( "    Faces (", NumberOfFaces(complex), "): ", Faces(complex), "\n" );
+
+        Print( "    VerticesOfEdges: ", VerticesOfEdges(complex), "\n" );
+        Print( "    VerticesOfFaces: ", VerticesOfFaces(complex), "\n" );
+        Print( "    EdgesOfFaces: ", EdgesOfFaces(complex), "\n" );
+
+        Print("\n");
+    end
+);
+
