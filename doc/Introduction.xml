@@ -311,7 +311,10 @@ false
                  they will hopefully say "I don't want that" and skip ahead.-->
             We consider the example of a pyramid with a square base.
             <Alt Only="TikZ">
-                \input{Image_SquarePyramid.tex}
+                {
+                    \def\introLabels{1}
+                    \input{Image_SquarePyramid.tex}
+                }
             </Alt>
             To encode this surface we have to enumerate the faces.
             <!-- TODO Is there a way to properly do this in the picture?-->
@@ -516,12 +519,9 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         <K>SimplicialSurfaceByVerticesInFaces</K> here. Instead we need to label
         vertices, edges and faces individually: 
         <Alt Only="TikZ">
-            {
-                \def\introLabels{1}
-                \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-                    \input{Image_OpenBag.tex}
-                \end{tikzpicture}
-            }
+            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+                \input{Image_OpenBag.tex}
+            \end{tikzpicture}
         </Alt>
         Now we have to tell &GAP; which vertices are incident to which edges
 <Example>
