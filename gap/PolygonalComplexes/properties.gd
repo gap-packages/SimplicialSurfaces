@@ -671,138 +671,6 @@ DeclareOperation( "IsIsomorphicIncidenceStructure",
 #! TODO autGroup and isoTest (refer back to incidence graph);
 
 
-#! @Section Types of vertices
-#! @SectionLabel Properties_VertexTypes
-#! 
-#TODO improve this description
-#! The vertices of a polygonal complex (defined in 
-#! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
-#! positions. This can be seen in the example of the five-star (which was
-#! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
-#! </Alt>
-#! The vertex 1 is the only vertex that is completely surrounded by faces. It
-#! is called an <E>inner vertex</E> while the other vertices of the five-star
-#! are <E>boundary vertices</E>. This classifies all vertices of a polygonal
-#! surface.
-#!
-#! In general there are more than these two possibilities. In the case of 
-#! ramified polygonal surfaces (defined in 
-#! <Ref Sect="PolygonalStructures_ramified"/>) there can be 
-#! <E>ramified vertices</E>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!       \input{Image_TwoJoinedTetrahedrons.tex}
-#!    \end{tikzpicture}
-#! </Alt>
-#!
-#! For general polygonal complexes (defined in 
-#! <Ref Sect="PolygonalStructures_complex"/>) there might be edges that are 
-#! incident to more than two faces.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!     \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
-#! </Alt>
-#! Vertices that are incident to such an edge are called 
-#! <E>chaotic vertices</E>.
-
-#! @BeginGroup
-#! @Description
-#! Return the set of all inner vertices.
-#!
-#! TODO explanation
-#!
-#! The method <K>IsInnerVertex</K> checks whether the given vertex is an inner
-#! vertex of the given polygonal complex. The NC-version does not check whether
-#! <A>vertex</A> is an vertex of <A>complex</A>.
-#!
-#! TODO example
-#! 
-#! @Returns a set of positive integers
-#! @Arguments complex
-DeclareAttribute( "InnerVertices", IsPolygonalComplex );
-#! @Returns true or false
-#! @Arguments complex, vertex
-DeclareOperation( "IsInnerVertex", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, vertex
-DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
-#! @EndGroup
-
-#! @BeginGroup
-#! @Description
-#! Return the set of all boundary vertices.
-#!
-#! TODO explanation
-#!
-#! The method <K>IsBoundaryVertex</K> checks whether the given vertex is a 
-#! boundary
-#! vertex of the given polygonal complex. The NC-version does not check whether
-#! <A>vertex</A> is an vertex of <A>complex</A>.
-#!
-#! TODO example
-#! 
-#! @Returns a set of positive integers
-#! @Arguments complex
-DeclareAttribute( "BoundaryVertices", IsPolygonalComplex );
-#! @Returns true or false
-#! @Arguments complex, vertex
-DeclareOperation( "IsBoundaryVertex", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, vertex
-DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
-#! @EndGroup
-
-#! @BeginGroup
-#! @Description
-#! Return the set of all ramified vertices.
-#!
-#! TODO explanation
-#!
-#! The method <K>IsRamifiedVertex</K> checks whether the given vertex is a
-#! ramified
-#! vertex of the given polygonal complex. The NC-version does not check whether
-#! <A>vertex</A> is an vertex of <A>complex</A>.
-#!
-#! TODO example
-#! 
-#! @Returns a set of positive integers
-#! @Arguments complex
-DeclareAttribute( "RamifiedVertices", IsPolygonalComplex );
-#! @Returns true or false
-#! @Arguments complex, vertex
-DeclareOperation( "IsRamifiedVertex", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, vertex
-DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
-#! @EndGroup
-
-#! @BeginGroup
-#! @Description
-#! Return the set of all chaotic vertices.
-#!
-#! TODO explanation
-#!
-#! The method <K>IsChaoticVertex</K> checks whether the given vertex is a 
-#! chaotic
-#! vertex of the given polygonal complex. The NC-version does not check whether
-#! <A>vertex</A> is an vertex of <A>complex</A>.
-#!
-#! TODO example
-#! 
-#! @Returns a set of positive integers
-#! @Arguments complex
-DeclareAttribute( "ChaoticVertices", IsPolygonalComplex );
-#! @Returns true or false
-#! @Arguments complex, vertex
-DeclareOperation( "IsChaoticVertex", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, vertex
-DeclareOperation( "IsChaoticVertexNC", [IsPolygonalComplex, IsPosInt] );
-#! @EndGroup
-
-
-
 #! @Section Types of edges
 #! @SectionLabel Properties_EdgeTypes
 #!
@@ -834,7 +702,7 @@ DeclareOperation( "IsChaoticVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! Edges with more than two incident faces are called <E>ramified edges</E>.
 #!
 
-#! @BeginGroup
+#! @BeginGroup InnerEdges
 #! @Description
 #! Return the set of all inner edges of the given polygonal complex.
 #! An <E>inner edge</E> is an edge that is incident to exactly two faces.
@@ -870,7 +738,7 @@ DeclareOperation( "IsInnerEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup BoundaryEdges
 #! @Description
 #! Return the set of all boundary edges of the given polygonal complex.
 #! A <E>boundary edge</E> is an edge that is incident to exactly one face.
@@ -927,3 +795,157 @@ DeclareOperation( "IsRamifiedEdge", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex, edge
 DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
+
+
+
+#! @Section Types of vertices
+#! @SectionLabel Properties_VertexTypes
+#! 
+#TODO improve this description
+#! The vertices of a polygonal complex (defined in 
+#! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
+#! positions. This can be seen in the example of the five-star (which was
+#! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_FiveTrianglesInCycle.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! The vertex 1 is the only vertex that is completely surrounded by faces. It
+#! is called an <E>inner vertex</E> while the other vertices of the five-star
+#! are <E>boundary vertices</E>. This classifies all vertices of a polygonal
+#! surface.
+#!
+#! In general there are more than these two possibilities. In the case of 
+#! ramified polygonal surfaces (defined in 
+#! <Ref Sect="PolygonalStructures_ramified"/>) there can be 
+#! <E>ramified vertices</E>:
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!       \input{Image_TwoJoinedTetrahedrons.tex}
+#!    \end{tikzpicture}
+#! </Alt>
+#!
+#! For general polygonal complexes (defined in 
+#! <Ref Sect="PolygonalStructures_complex"/>) there might be edges that are 
+#! incident to more than two faces.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!     \input{Image_ThreeBranchingTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! Vertices that are incident to such an edge are called 
+#! <E>chaotic vertices</E>.
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all inner vertices. 
+#! 
+#! In a polygonal surface a vertex is
+#! an inner vertex if and only if every incident edge is incident to exactly
+#! two faces (that is, if it only incident to inner edges 
+#! (<Ref Subsect="InnerEdges"/>)).
+#!
+#! In general a vertex is an inner vertex if and only if there is exactly
+#! one closed edge-face-path around it (compare section 
+#! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
+#! edge-face-paths).
+#!
+#! The method <K>IsInnerVertex</K> checks whether the given vertex is an inner
+#! vertex of the given polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "InnerVertices", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, vertex
+DeclareOperation( "IsInnerVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all boundary vertices.
+#!
+#! In a polygonal surface a vertex is a boundary vertex if and only if it
+#! is incident to one edge that is incident to only one face (if it is 
+#! incident to a boundary edge (<Ref Subsect="BoundaryEdges"/>)).
+#!
+#! In general a vertex is a boundary vertex if and only if there is exactly
+#! one non-closed edge-face-path around it (compare section
+#! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
+#! edge-face-paths).
+#!
+#! The method <K>IsBoundaryVertex</K> checks whether the given vertex is a 
+#! boundary
+#! vertex of the given polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "BoundaryVertices", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, vertex
+DeclareOperation( "IsBoundaryVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all ramified vertices.
+#!
+#! A vertex is ramified if and only if there is a well-defined
+#! edge-face-path partition around it (compare 
+#! <Ref Subsect="EdgeFacePathPartition"/>) and there are at least two
+#! elements in this partition.
+#!
+#! The method <K>IsRamifiedVertex</K> checks whether the given vertex is a
+#! ramified
+#! vertex of the given polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "RamifiedVertices", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, vertex
+DeclareOperation( "IsRamifiedVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the set of all chaotic vertices.
+#!
+#! A vertex is chaotic if and only if it is incident to an edge that is
+#! incident to at least three faces. In other words, there is no well-defined
+#! edge-face-path partition (<Ref Subsect="EdgeFacePathPartition"/>) around 
+#! a chaotic vertex.
+#!
+#! The method <K>IsChaoticVertex</K> checks whether the given vertex is a 
+#! chaotic
+#! vertex of the given polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "ChaoticVertices", IsPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, vertex
+DeclareOperation( "IsChaoticVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "IsChaoticVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
