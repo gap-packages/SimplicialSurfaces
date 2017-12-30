@@ -631,44 +631,14 @@ DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
 
 
 
-#! @Section Automorphisms and Isomorphisms
+#! @Section Automorphism group
 #! @SectionLabel Automorphisms
 #!
-#! All structures from chapter <Ref Chap="PolygonalStructures"/>, from 
-#! polygonal complexes to simplicial surfaces, are completely described
-#! by their incidence structure (which chapter 
-#! <Ref Chap="Chapter_AccessIncidenceGeometry"/> covers in more detail). Since the
-#! incidence structure can be equivalently described as a graph (compare
-#! section <Ref Sect="Section_Access_IncidenceGraph"/>), the isomorphism problem
-#! for polygonal complexes reduces to the graph isomorphism problem.
-#!
-#! The graph isomorphism problem is solved by <K>Nauty/Bliss</K>, depending
-#! on the available packages. The <K>NautyTracesInterface</K> is preferred
-#! since it provides a fast interface to <K>Nauty</K> and also computes the
-#! automorphism group of the polygonal complex. If this is not available, the
-#! packages <K>Digraphs</K> and <K>GRAPE</K> will also be sufficient for an
-#! isomorphism test.
-#!
-
-#! @Description
-#! Return whether the given polygonal complexes are isomorphic. They are
-#! isomorphic if their incidence graphs (compare 
-#! <Ref Subsect="IncidenceGraph"/>) are isomorphic.
-#!
-#! @ExampleSession
-#! gap> IsIsomorphicIncidenceStructure( Cube(), Octahedron() );
-#! false
-#! @EndExampleSession
-#!
-#! @Returns true or false
-#! @Arguments complex1, complex2
-DeclareOperation( "IsIsomorphicIncidenceStructure", 
-    [IsPolygonalComplex, IsPolygonalComplex] );
-#TODO Combine with fining-method?
-
-#! As long as <K>NautyTracesInterface</K> is available we can also compute the
-#! automorphism group of polygonal complexes (which is the automorphism group
-#! of the incidence graph).
+#! As long as the package <K>NautyTracesInterface</K> is available 
+#! the automorphism groups of polygonal complexes can be computed with the
+#! method <K>AutomorphismGroup</K> (<Ref Subsect="AutomorphismGroup"/>) as the
+#! automorphism groups of the corresponding incidence graphs (see section
+#! <Ref Sect="Section_Access_IncidenceGraph"/> for details).
 #!
 #! Unfortunately it is not completely trivial to work with the automorphis
 #! group of a polygonal complex in &GAP;. This can already be seen on the
@@ -722,7 +692,8 @@ DeclareOperation( "IsIsomorphicIncidenceStructure",
 #! * The face labels are shifted upwards by the sum of maximal vertex
 #!   label and maximal edge label.
 #! To see the action on the original labels, the method
-#! <K>DisplayAsAutomorphism</K> (TODO label) can be used.
+#! <K>DisplayAsAutomorphism</K> (<Ref Subsect="DisplayAsAutomorphism"/>) can 
+#! be used.
 #! @ExampleSession
 #! gap> DisplayAsAutomorphism( tetra, (3,4)(6,7)(8,9)(11,12) );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
@@ -731,6 +702,7 @@ DeclareOperation( "IsIsomorphicIncidenceStructure",
 #! second component shows the action on the edges and the final
 #! component represents the action on the faces.
 
+#! @BeginGroup AutomorphismGroup
 #! @Description
 #! Compute the automorphism group of the polygonal complex <A>complex</A> as
 #! a permutation group.
@@ -744,7 +716,7 @@ DeclareOperation( "IsIsomorphicIncidenceStructure",
 #! <Ref Sect="Section_Automorphisms"/>.
 #! 
 #! To see the action on the original labels, use the method 
-#! <K>DisplayAsAutomorphism</K>(TODO ref).
+#! <K>DisplayAsAutomorphism</K>(<Ref Subsect="DisplayAsAutomorphism"/>).
 #!
 #! For example, the automorphism group of an icosahedron 
 #! (<Ref Subsect="Icosahedron"/>) is the direct product of a cyclic group
@@ -761,7 +733,9 @@ DeclareOperation( "IsIsomorphicIncidenceStructure",
 #! @Arguments complex
 #! @Returns a permutation group
 DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
+#! @EndGroup
 
+#! @BeginGroup DisplayAsAutomorphism
 #! @Description
 #! Display an automorphism of the given <A>complex</A> by its individual
 #! action on vertices, edges and faces. If this is not possible (because
@@ -791,6 +765,7 @@ DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
 #! @Arguments complex, perm
 #! @Returns A list of three permutations or fail
 DeclareOperation( "DisplayAsAutomorphism", [IsPolygonalComplex, IsPerm] );
+#! @EndGroup
 
 
 #! TODO explain restrictions to vertices etc., when are they sufficient (anomalies?)?
