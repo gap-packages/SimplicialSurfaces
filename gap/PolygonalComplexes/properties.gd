@@ -666,9 +666,135 @@ DeclareOperation( "IsIsomorphicIncidenceStructure",
     [IsPolygonalComplex, IsPolygonalComplex] );
 #TODO Combine with fining-method?
 
-
+#! As long as <K>NautyTracesInterface</K> is available we can also compute the
+#! automorphism group of polygonal complexes (which is the automorphism group
+#! of the incidence graph).
 #!
-#! TODO autGroup and isoTest (refer back to incidence graph);
+#! Unfortunately it is not completely trivial to work with the automorphis
+#! group of a polygonal complex in &GAP;. This can already be seen on the
+#! example of a tetrahedron.
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Tetrahedron_constructor.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> aut := AutomorphismGroup(tetra);
+#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
+#! @EndExampleSession
+#! The generators of this group seem very complicated in comparison to
+#! the size of the automorphism group - it is just a symmetric group
+#! on four elements.
+#! @ExampleSession
+#! gap> Size(aut);
+#! 24
+#! gap> IsSymmetricGroup(aut);
+#! true
+#! @EndExampleSession
+#! Furthermore there are labels (like 14) that don't appear as labels
+#! of the tetrahedron.
+#!
+#! This complication appears because there are surfaces where it is
+#! necessary to describe the action on vertices, edges and faces 
+#! separately. One such example is the janus-head, two triangles 
+#! combined along all their edges.
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Janus_constructor.tex}
+#! </Alt>
+#! If the automorphism group would be determined by the action on
+#! the vertices (or edges) alone, it would be a subgroup of the
+#! symmetric group on 3 elements. Then it would have at most 6
+#! elements. If it were determined by the action on the faces, it
+#! would have at most 2 elements. But it actually has 12 elements.
+#! @ExampleSession
+#! gap> autJan := AutomorphismGroup( JanusHead() );
+#! Group([ (7,8), (2,3)(4,5), (1,2)(5,6) ])
+#! gap> Size(autJan);
+#! 12
+#! @EndExampleSession
+#! 
+#! The labels for vertices, edges and faces in polygonal complexes
+#! may overlap. Then the automorphisms can't be represented as permutations
+#! over the integers - which is important for fast performance in &GAP;.
+#! Therefore the edges and faces are relabelled for the purpose of the
+#! automorphisms.
+#! * The vertex labels stay the same
+#! * The edge labels are shifted upwards by the maximal vertex label.
+#! * The face labels are shifted upwards by the sum of maximal vertex
+#!   label and maximal edge label.
+#! To see the action on the original labels, the method
+#! <K>DisplayAsAutomorphism</K> (TODO label) can be used.
+#! @ExampleSession
+#! gap> DisplayAsAutomorphism( tetra, (3,4)(6,7)(8,9)(11,12) );
+#! [ (3,4), (2,3)(4,5), (1,2) ]
+#! @EndExampleSession
+#! The first component describes the action on the vertices, the
+#! second component shows the action on the edges and the final
+#! component represents the action on the faces.
+
+#! @Description
+#! Compute the automorphism group of the polygonal complex <A>complex</A> as
+#! a permutation group.
+#! 
+#! The automorphisms see the labels of <A>complex</A> in the following way:
+#! * The vertex labels stay the same.
+#! * The edge labels are shifted upwards by the maximal vertex label.
+#! * The face labels are shifted upwards by the sum of the maximal vertex
+#!   label and the maximal edge label.
+#! For a more exhaustive explanation (and the reason for this) see section
+#! <Ref Sect="Section_Automorphisms"/>.
+#! 
+#! To see the action on the original labels, use the method 
+#! <K>DisplayAsAutomorphism</K>(TODO ref).
+#!
+#! For example, the automorphism group of an icosahedron 
+#! (<Ref Subsect="Icosahedron"/>) is the direct product of a cyclic group
+#! of order 2 and an alternating group of order 60.
+#! @ExampleSession
+#! gap> autIco := AutomorphismGroup( Icosahedron() );;
+#! gap> Size(autIco);
+#! 120
+#! gap> StructureDescription(autIco);
+#! "C2 x A5"
+#! @EndExampleSession
+#TODO example with picture? or more of them? Is this really necessary for the kind of people who look at this method..
+#!
+#! @Arguments complex
+#! @Returns a permutation group
+DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
+
+#! @Description
+#! Display an automorphism of the given <A>complex</A> by its individual
+#! action on vertices, edges and faces. If this is not possible (because
+#! the given permutation is not an automorphism) fail is returned.
+#!
+#! An explanation for the necessity of this method is given in section
+#! <Ref Sect="Section_Automorphisms"/>.
+#!
+#! We illustrate this on the example of a tetrahedron.
+#! <Alt Only="TikZ">
+#!  \input{_TIKZ_Tetrahedron_constructor.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> aut := AutomorphismGroup( tetra );
+#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
+#! gap> DisplayAsAutomorphism( tetra, (3,4)(6,7)(8,9)(11,12) );
+#! [ (3,4), (2,3)(4,5), (1,2) ]
+#! gap> DisplayAsAutomorphism( tetra, (1,2)(6,8)(7,9)(13,14) );
+#! [ (1,2), (2,4)(3,5), (3,4) ]
+#! gap> DisplayAsAutomorphism( tetra, (2,3)(5,6)(9,10)(12,14) );
+#! [ (2,3), (1,2)(5,6), (2,4) ]
+#! gap> DisplayAsAutomorphism( tetra, (1,5) );
+#! fail
+#! @EndExampleSession
+#! 
+#! @Arguments complex, perm
+#! @Returns A list of three permutations or fail
+DeclareOperation( "DisplayAsAutomorphism", [IsPolygonalComplex, IsPerm] );
+
+
+#! TODO explain restrictions to vertices etc., when are they sufficient (anomalies?)?
+
 
 
 #! @Section Types of edges
