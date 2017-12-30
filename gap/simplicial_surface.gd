@@ -1210,9 +1210,28 @@ DeclareOperation( "MaximalStripEmbedding",
 #! repeating itself.
 #! @Arguments surf, vertex, edge, face
 #! @Returns an edge-face-path and a simplicial surface
-DeclareOperation( "StripDevelopment",
+DeclareOperation( "Geodesic",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt]);
+    #TODO IsGeodesic, IsOpenGeodesic, IsClosedGeodesic (also nC)
+
+#! @Description
+#! From a geodesic (returned as in Geodesic) construct all maximal
+#! strip embeddings.
+DeclareOperation( "AllMaximalStripEmbeddings", [IsList] );
+
+#! @Description
+#! Return the set of all geodesics. Each geodesic is given in 
+#! normal form, defined by:
+#! * The smallest face is at position 2
+#! * Under the first condition, the third position is minimal
+#! * Under the first two conditions (only in the loop-case), the first
+#!   position is minimal
+#!
+#! @Returns a set of edge-face-paths
+#! @Arguments surface
+DeclareAttribute( "Geodesics", IsSimplicialSurface and IsTriangleSurface
+ and IsEdgesLikeSurface);
 
 
 #TODO this should be further up but IsEdgesLikeSurface has to be read first
@@ -1268,6 +1287,14 @@ DeclareAttribute( "SplitMendableFlagPairs", IsSimplicialSurface );
 
 # Connected sum, using two vertex-edge-face flags
 DeclareOperation( "ConnectedSum", [IsSimplicialSurface, IsList, IsSimplicialSurface, IsList] );
+
+
+DeclareAttribute( "AllFlags", IsSimplicialSurface );
+#TODO barycentric cover
+
+DeclareAttribute( "GeodesicFlagPermutation", IsSimplicialSurface );
+
+DeclareOperation( "FlagSurface", [IsPerm, IsPerm, IsPerm] );
 
 #
 ###  This program is free software: you can redistribute it and/or modify

@@ -3247,7 +3247,7 @@ InstallMethod( SnippOffEars, "for a wild simplicial surface",
 ## TODO: FaceWithEdges wrong call?
 InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface and IsActualSurface], function(surface)
 
-    local gens, newcolours, wild, edgeColours, allsurf;
+    local gens, newcolours, wild, edgeColours, allsurf, edgesOfFaces;
 
         allsurf := [];
 
@@ -3257,6 +3257,16 @@ InstallOtherMethod( AllWildSimplicialSurfaces,"",[IsSimplicialSurface and IsActu
         # wild colouring, then TestGens will return an empty list.
         for gens in GeneratorsFromFacePairs( FacesOfEdges(surface) ) do
             newcolours := __SIMPLICIAL_TestGeneratorsForFaceEdgePaths( gens, List( FaceEdgePathsOfVertices(surface), i -> i[1] ) );
+            # These are colours that match locally at the vertices.
+            # The edge colouring of an ear might not have worked
+            if not IsClosedSurface(surface) then
+                edgesOfFaces := EdgesOfFaces(surface);
+                newcolours := Filtered( newcolours, poss ->
+                    ForAll( Faces(surface), f -> 
+                        Size(Intersection(edgesOfFaces[f], poss[1]))=1 and
+                        Size(Intersection(edgesOfFaces[f], poss[2]))=1 and
+                        Size(Intersection(edgesOfFaces[f], poss[3]))=1 ));
+            fi;
             # All coloured face-edge-paths with these generators
             for edgeColours in newcolours do
                 if edgeColours <> [] then

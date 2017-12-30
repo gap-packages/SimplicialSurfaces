@@ -3710,6 +3710,10 @@ InstallMethod( NeighbourFaceByEdgeNC,
         local possFaces;
 
         possFaces := FacesOfEdges(surf)[edge];
+        if Size(possFaces) = 1 then
+            return fail;
+        fi;
+
         if face = possFaces[1] then
             return possFaces[2];
         elif face = possFaces[2] then
@@ -3766,6 +3770,8 @@ InstallMethod( OtherVertexOfEdge,
         if not edge in Edges(surf) then
             Error("Given edge does not lie in surface.");
         fi;
+
+        return OtherVertexOfEdgeNC(surf,vertex,edge);
     end
 );
 
@@ -4146,13 +4152,13 @@ InstallMethod( MaximalStripEmbedding, "",
         [IsSimplicialSurface, IsPosInt, IsPosInt, IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface,,,], 0);
 
-InstallMethod( StripDevelopment,
+InstallMethod( Geodesic,
     "for a simplicial surface, a vertex, an edge and a face",
     [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
     IsPosInt, IsPosInt, IsPosInt],
     function(surf,vertex,edge,face)
-        local path, len, neighbour, pivotVert, newBorderEdge, 
-            traversedFaces, reversed;
+        local path, len, neighbour, pivotVert, newBorderEdge, other, 
+            traversedFaces, reversed, minpos, permList, invPermList, swapList;
             #TODO copy of code above (with modifications) -> unify?
 
         if not vertex in Vertices(surf) then
@@ -4178,9 +4184,21 @@ InstallMethod( StripDevelopment,
         # or stops at a boundary. In that case reverse course.
 
         # Initialize the system
-        path := [ OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face), face, edge ];
+        other := OtherEdgeOfVertexInFaceNC(surf, vertex, edge, face);
+        path := [ other, face, edge ];
         traversedFaces := [face];
         pivotVert := vertex;
+
+        invPermList := [ Position(AllFlags(surf), [vertex,edge,face]) ];
+        permList := [ Position(AllFlags(surf), [vertex,other,face]) ];
+
+        # minpos[1] is the position of the edge of the minimal face
+        # minpos[2] is the direction +1 means go right
+        if path[1] < path[3] then 
+            minpos := [3,-1]; 
+        else 
+            minpos := [1,1]; 
+        fi;
 
         reversed := false; # Used for the direction of the extension
         while( true ) do
@@ -4188,35 +4206,109 @@ InstallMethod( StripDevelopment,
             len := Size(path);
             neighbour := NeighbourFaceByEdgeNC(surf, path[len-1], path[len]);
             pivotVert := OtherVertexOfEdgeNC(surf, pivotVert, path[len]);
-            newBorderEdge := OtherEdgeOfVertexInFaceNC(surf,pivotVert,path[len],neighbour);
+            if neighbour <> fail then
+                newBorderEdge := OtherEdgeOfVertexInFaceNC(
+                                 surf,pivotVert,path[len],neighbour);
+            fi;
+
+
+            if neighbour <> fail then
+                if neighbour < path[minpos[1]+minpos[2]] then
+                    if path[len] < newBorderEdge then
+                        minpos := [ len+2, -1 ];
+                    else
+                        minpos := [ len, 1 ];
+                    fi;
+                elif neighbour = path[minpos[1]+minpos[2]] then
+                    if path[len] < newBorderEdge then
+                        if path[len] < path[minpos[1]+2*minpos[2]] then
+                            minpos := [len+2,-1];
+                        elif path[len] = path[minpos[1]+2*minpos[2]] then
+                            if newBorderEdge < path[minpos[1]] then
+                                minpos := [len+2,-1];
+                            fi;
+                        fi;
+                    else
+                        if newBorderEdge < path[minpos[1]+2*minpos[2]] then
+                            minpos := [len,1];
+                        elif newBorderEdge = path[minpos[1]+2*minpos[2]] then
+                            if path[len] < path[minpos[1]] then
+                                minpos := [len,1];
+                            fi;
+                        fi;
+                    fi;
+                fi;
+            fi;
+            
 
             if neighbour = fail then
                 if reversed then
                     path := Reversed(path);
+                    permList := Reversed(permList);
+                    invPermList := Reversed( invPermList );
+                    swapList := invPermList;
+                    invPermList := permList;
+                    permList := swapList;
                     break;
                 else
                     reversed := true;
                     path := Reversed(path);
+                    permList := Reversed(permList);
+                    invPermList := Reversed(invPermList);
+                    swapList := invPermList;
+                    invPermList := permList;
+                    permList := swapList;
                     pivotVert := vertex; # Reset to original vertex
                     continue;
                 fi;
             elif path[len] = path[1] and neighbour = path[2] and newBorderEdge = path[3] then
                 # finished
                 break;
+            elif Size(path) > 6*NrOfFaces(surf) then
+                Error("Geodesic: Inconsistent surface input.");
             fi;
 
             Append( path, [neighbour, newBorderEdge] );
             Add( traversedFaces, neighbour );
+            invPermList := Concatenation( [Position(AllFlags(surf), [pivotVert, newBorderEdge, neighbour])], invPermList );
+            Add(permList, Position(AllFlags(surf), [pivotVert, path[len], neighbour ] ) );
         od;
 
-        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces))];
+        # minimise the geodesic
+        if reversed then
+            # the path is not closed
+            if path[2] < path[Length(path)-1] then
+                #continue;
+            elif path[2] > path[Length(path)-1] then
+                path := Reversed(path);
+            elif  path[3] < path[Length(path)-2] then
+                #continue;
+            elif  path[3] > path[Length(path)-2] then
+                path := Reversed(path);
+            elif path[1] > path[Length(path)] then
+                path := Reversed(path);
+            fi;
+        else
+            # the path is closed
+            if minpos[2] = 1 then
+               path := Concatenation(path{[minpos[1]..Length(path)]},
+                        path{[2..minpos[1]-1]}, [ path[minpos[1]] ]);
+            else
+               path := Concatenation( [ path[minpos[1]] ], path{[minpos[1]+1..Length(path)]},
+                        path{[2..minpos[1]]});
+               path := Reversed(path);
+            fi;
+        fi;
+
+
+        return [path, SubsurfaceByFacesNC(surf, Set(traversedFaces)), __SIMPLICIAL_TranslateListsIntoCycles([permList, invPermList])];
     end
 );
-    RedispatchOnCondition( StripDevelopment, true,
+    RedispatchOnCondition( Geodesic, true,
         [IsSimplicialSurface,IsPosInt, IsPosInt,IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface,,,], 0);
 
-InstallOtherMethod( StripDevelopment,
+InstallOtherMethod( Geodesic,
     "for a simplicial surface, a vertex and a face",
     [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface,
     IsPosInt, IsPosInt],
@@ -4235,12 +4327,64 @@ InstallOtherMethod( StripDevelopment,
             Error("Given vertex is not incident to given face.");
         fi;
         
-        return StripDevelopment(surf, vertex, edges[1], face);
+        return Geodesic(surf, vertex, edges[1], face);
     end
-);
-    RedispatchOnCondition( StripDevelopment, true,
+ );
+    RedispatchOnCondition( Geodesic, true,
         [IsSimplicialSurface, IsPosInt, IsPosInt],
         [IsTriangleSurface and IsEdgesLikeSurface, ,], 0);
+
+InstallMethod( Geodesics, "for a simplicial surface",
+        [IsSimplicialSurface and IsTriangleSurface and IsEdgesLikeSurface],
+        function(surface)
+            local triples, tr, geodesics, vertex, geo, vertOfEdge, allFlags,
+                NormaliseFlag, allGeos, bigPerm, g;
+
+            triples := Union( List( Faces(surface),
+                f -> List( Combinations(EdgesOfFaces(surface)[f],2),
+                              c -> [c[1],f,c[2]] ) ) );
+            vertOfEdge := VerticesOfEdges(surface);
+
+            geodesics := [];
+            while Size(triples) > 0 do
+               tr := triples[1];
+               geo := Geodesic( surface, 
+                  Intersection(vertOfEdge[tr[1]], vertOfEdge[tr[3]] )[1],
+                  tr[3], tr[2] );
+                  #TODO write this as alternative input
+               Add(geodesics,geo);
+               # remove all flags
+               allFlags := List( [1..(Length(geo[1])-1)/2], i ->
+                           geo[1]{[2*i-1,2*i,2*i+1]} );
+               NormaliseFlag := function(x)
+                   if x[1] > x[3] then
+                       return [x[3],x[2],x[1]];
+                   else
+                       return x;
+                   fi;
+               end;
+               allFlags := List( allFlags, NormaliseFlag );
+               triples := Difference( triples, allFlags);
+
+            od;
+
+            allGeos := Set(geodesics);
+            bigPerm := ();
+            for g in allGeos do
+                bigPerm := bigPerm * g[3][1] * g[3][2];
+            od;
+            SetGeodesicFlagPermutation(surface, bigPerm);
+
+            return Set(geodesics);
+        end
+);
+InstallMethod( GeodesicFlagPermutation, "", [IsSimplicialSurface],
+    #TODO
+    function(complex)
+        Geodesics(complex);
+        return GeodesicFlagPermutation(complex);
+    end
+);
 
 ##
 ##      Automorphisms
@@ -4658,7 +4802,7 @@ InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edg
                 Error("SplitMend: First entry of flag is not a vertex.");
             fi;
             if not flag[2] in Edges(surf) then
-                Error("SplitMend: Second entry of flag is not a vertex.");
+                Error("SplitMend: Second entry of flag is not an edge.");
             fi;
 
             if not flag[2] in BoundaryEdges(surf) then
@@ -4672,6 +4816,7 @@ InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edg
         facesOfEdges := ShallowCopy( FacesOfEdges(surf) );
 
         if not IsEmpty( Intersection( edgesOfVertices[flag1[1]], edgesOfVertices[flag2[1]] ) ) then
+            return fail;
             Error("SplitMend: Given vertices are connected by an edge.");
         fi;
         edgesOfVertices[flag1[1]] := Difference( Union( edgesOfVertices[flag1[1]], edgesOfVertices[flag2[1]] ), [flag2[2]] );
@@ -4679,6 +4824,7 @@ InstallMethod( SplitMend, "for an actual surface and two 2-flags of vertices-edg
         oV1 := Difference( VerticesOfEdges(surf)[flag1[2]], [flag1[1]] )[1];
         oV2 := Difference( VerticesOfEdges(surf)[flag2[2]], [flag2[1]] )[1];
         if not IsEmpty( Intersection( edgesOfVertices[oV1], edgesOfVertices[oV2] ) ) then
+            return fail;
             Error("SplitMend: Other vertices of given edges are connected by an edge.");
         fi;
         edgesOfVertices[oV1] := Difference( Union( edgesOfVertices[oV1], edgesOfVertices[oV2] ), [flag2[2]] );
@@ -4793,6 +4939,236 @@ InstallMethod( ConnectedSum, "", [IsSimplicialSurface, IsList, IsSimplicialSurfa
         return obj;
     end
 );
+
+InstallMethod( AllMaximalStripEmbeddings, "for a geodesic", [IsList],
+    function(geo)
+        local res, max, start, seenFaces, rPos, nextFace, nextEdge, lPos, i;
+
+        #TODO how to check if geodesic is closed?
+        res := [];
+        for i in [2,4..Size(geo[1])-1] do
+            start := geo[1][i];
+            seenFaces := [start];
+            max := geo[1]{[i-1,i,i+1]};
+
+            # go to the right
+            rPos := i;
+            while(true) do
+                # increase rPos
+                if rPos = Size(geo[1])-1 then
+                    rPos := 2;
+                else
+                    rPos := rPos + 2;
+                fi;
+
+                # add face and edge
+                nextFace := geo[1][rPos];
+                nextEdge := geo[1][rPos+1];
+                Append( max, [nextFace, nextEdge] );
+
+                if nextFace in seenFaces then
+                    break;
+                else
+                    Add(seenFaces, nextFace);
+                fi;
+            od;
+
+            # go to the left
+            lPos := i;
+            while(true) do
+                # decrase lPos
+                if lPos = 2 then
+                    lPos := Size(geo[1]);
+                else
+                    lPos := lPos - 2;
+                fi;
+
+                # add face and edge
+                nextFace := geo[1][lPos];
+                nextEdge := geo[1][lPos-1];
+                
+                max := Concatenation( [nextEdge, nextFace], max );
+                if nextFace in seenFaces then
+                    break;
+                else
+                    Add(seenFaces, nextFace);
+                fi;
+            od;
+
+            Add(res, [max, Set(seenFaces)]);
+        od;
+
+        res := Set(res);
+        return List( res, m -> [m[1], SubsurfaceByFacesNC(geo[2], m[2])] );
+    end
+);
+
+
+InstallMethod( AllFlags, "", [IsSimplicialSurface],
+    function(complex)
+        local res, e, v, f;
+
+        res := [];
+        for e in Edges(complex) do
+            for v in VerticesOfEdges(complex)[e] do
+                for f in FacesOfEdges(complex)[e] do
+                    Add( res, [v,e,f] );
+                od;
+            od;
+        od;
+
+        return Set(res);
+    end
+);
+
+#TODO make this work with only the surface
+InstallMethod( FlagSurface, "", [IsPerm, IsPerm, IsPerm], 
+    function( vertexPerm, edgePerm, facePerm )
+        local moved, CycleDegrees, mr, wild, origVerts, origEdges, origFaces,
+            flags, m, vert, edge, face, surf, verticesOfEdges, edgesOfFaces;
+
+        if not IsPerm(vertexPerm) or not IsPerm(edgePerm) or not IsPerm(facePerm) then
+            Error("Input has to be three involutions.");
+        fi;
+        if vertexPerm^2 <> () or edgePerm^2 <> () or facePerm^2 <> () then
+            Error("The given permutations have to have degree 2");
+        fi;
+        moved := MovedPoints( Group(vertexPerm, edgePerm, facePerm) );
+        CycleDegrees := function( perm, moved )
+            local orbs, lengths;
+
+            orbs := Orbits( Group(perm), moved );
+            lengths := List( orbs, Size );
+            return Set(lengths);
+        end;
+        if CycleDegrees(vertexPerm,moved) <> [2] or CycleDegrees(edgePerm,moved) <> [2] or CycleDegrees(facePerm,moved) <> [2] then
+            Error("Given involutions are not allowed to have fixed points.");
+        fi;
+
+        # The barycentric subdivision is just a mmm--coloured surface where 
+        # the vertex/edge-product has degree 3 and the vertex/face-product
+        # has degree 2
+        if CycleDegrees( vertexPerm*edgePerm, moved ) <> [3] then
+            Error("Product of first and second involution only consists of cycles of length 3.");
+        fi;
+        if CycleDegrees( vertexPerm*facePerm, moved ) <> [2] then
+            Error("Product of first and third involution only consists of cycles of length 2.");
+        fi;
+
+        mr := List( [1..Maximum(moved)], i->1 );
+        wild := AllWildSimplicialSurfaces( vertexPerm,edgePerm,facePerm, [mr,mr,mr] );
+        if Size(wild) <> 1 then
+            Error("Internal error: No mmm-surface found.");
+        fi;
+
+        # Reconstruct the flags of the original surface
+        origFaces := Orbits( Group( vertexPerm, edgePerm ), moved );
+        origEdges := Orbits( Group( vertexPerm, facePerm ), moved );
+        origVerts := Orbits( Group( edgePerm, facePerm ), moved );
+
+        verticesOfEdges := List( [1..Size(origEdges)], i->[] );
+        edgesOfFaces := List( [1..Size(origFaces)], i -> [] );
+
+        flags := [];
+        for m in moved do
+            vert := PositionProperty( origVerts, v -> m in v );
+            edge := PositionProperty( origEdges, e -> m in e );
+            face := PositionProperty( origFaces, f -> m in f );
+            flags[m] := [vert,edge,face];
+            verticesOfEdges[edge] := Union( verticesOfEdges[edge], [vert] );
+            edgesOfFaces[face] := Union( edgesOfFaces[face], [edge] );
+        od;
+        
+        # Check if the flags belong to a simplicial surface (there might be a problem if two edges of the same face are identified).
+        if Size( Set(flags) ) < Number(flags) then
+            # There is a problem
+            return [ flags, fail, wild ];
+        fi;
+
+        surf := SimplicialSurfaceByDownwardIncidenceNC( Size(origVerts), Size(origEdges), Size(origFaces),
+            verticesOfEdges, edgesOfFaces); #TODO constructor by flags
+
+        return [ flags, surf, wild ];
+    end
+);
+
+BindGlobal( "DressVertexInvolution",
+    function( surf )
+        local flags, perm, i, fl;
+
+        flags := AllFlags(surf);
+        perm := [];
+        for i in [1..Size(flags)] do
+            fl := flags[i];
+            perm[i] := Position( flags, [ OtherVertexOfEdge(surf,fl[1],fl[2]), fl[2], fl[3] ] );
+        od;
+
+        return PermList( perm );
+    end
+);
+
+BindGlobal( "DressEdgeInvolution",
+    function( surf )
+        local flags, perm, i, fl;
+
+        flags := AllFlags(surf);
+        perm := [];
+        for i in [1..Size(flags)] do
+            fl := flags[i];
+            perm[i] := Position( flags, [ fl[1], OtherEdgeOfVertexInFace(surf,fl[1],fl[2],fl[3]), fl[3] ] );
+        od;
+
+        return PermList( perm );
+    end
+);
+
+
+
+BindGlobal( "DressFaceInvolution",
+    function( surf )
+        local flags, perm, i, fl;
+
+        flags := AllFlags(surf);
+        perm := [];
+        for i in [1..Size(flags)] do
+            fl := flags[i];
+            perm[i] := Position( flags, [ fl[1], fl[2], NeighbourFaceByEdge(surf,fl[3],fl[2]) ] );
+        od;
+
+        return PermList( perm );
+    end
+);
+
+BindGlobal( "DressGroup",
+    function(surf)
+        return Group( DressVertexInvolution(surf), DressEdgeInvolution(surf), DressFaceInvolution(surf) );
+    end
+);
+
+BindGlobal( "EdgeGrapeGraph", 
+	function(simpsurf)
+		local graph, vertices, names, incidence, trivialAction;
+
+		vertices := Vertices(simpsurf);
+
+
+		names := vertices;
+		incidence := function(x,y)
+			return Set([x,y]) in VerticesOfEdges(simpsurf);
+		end;
+
+		trivialAction := function( pnt, g )
+			return pnt;
+		end;
+
+		graph := Graph( Group( () ), names, trivialAction, incidence );
+
+		return graph;
+	end
+);
+
+
+
 
 #
 ###  This program is free software: you can redistribute it and/or modify
