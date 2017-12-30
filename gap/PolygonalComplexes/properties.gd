@@ -726,9 +726,9 @@ DeclareOperation( "IsIsomorphicIncidenceStructure",
 #! @Arguments complex
 DeclareAttribute( "InnerVertices", IsPolygonalComplex );
 #! @Returns true or false
-#! @Arguments complex, edge
+#! @Arguments complex, vertex
 DeclareOperation( "IsInnerVertex", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, edge
+#! @Arguments complex, vertex
 DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
@@ -749,9 +749,9 @@ DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex
 DeclareAttribute( "BoundaryVertices", IsPolygonalComplex );
 #! @Returns true or false
-#! @Arguments complex, edge
+#! @Arguments complex, vertex
 DeclareOperation( "IsBoundaryVertex", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, edge
+#! @Arguments complex, vertex
 DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
@@ -772,9 +772,9 @@ DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex
 DeclareAttribute( "RamifiedVertices", IsPolygonalComplex );
 #! @Returns true or false
-#! @Arguments complex, edge
+#! @Arguments complex, vertex
 DeclareOperation( "IsRamifiedVertex", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, edge
+#! @Arguments complex, vertex
 DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
@@ -795,9 +795,9 @@ DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex
 DeclareAttribute( "ChaoticVertices", IsPolygonalComplex );
 #! @Returns true or false
-#! @Arguments complex, edge
+#! @Arguments complex, vertex
 DeclareOperation( "IsChaoticVertex", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, edge
+#! @Arguments complex, vertex
 DeclareOperation( "IsChaoticVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
