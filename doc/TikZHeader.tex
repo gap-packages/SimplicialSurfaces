@@ -11,6 +11,20 @@
 \usetikzlibrary{shapes}
 \usetikzlibrary{patterns}
 
+
+% Sometimes we want to implement different behaviour for the generated 
+% HTML-pictures (for example, shading is not supported in HTML).
+% For that we define a macro to check whether we run the code with
+% htlatex. The code comes from 
+% https://tex.stackexchange.com/questions/93852/what-is-the-correct-way-to-check-for-latex-pdflatex-and-html-in-the-same-latex
+\makeatletter
+\edef\texforht{TT\noexpand\fi
+  \@ifpackageloaded{tex4ht}
+    {\noexpand\iftrue}
+    {\noexpand\iffalse}}
+\makeatother
+
+
 % Define a text=none option for nodes that ignores the given text, from
 % https://tex.stackexchange.com/questions/59354/no-text-none-in-tikz
 \makeatletter
@@ -77,7 +91,16 @@
     vertexNormal/.default=labels
 }
 \tikzset{
-    vertexNodeBall/.style = {shape=circle, ball color=#1, inner sep=2pt, outer sep=0pt, minimum size=3pt, font=\tiny},
+    vertexNodeBallShading/pdf/.style = {ball color=#1},
+    vertexNodeBallShading/svg/.style = {fill=#1},
+    vertexNodeBallShading/.code = {% Conditional shading depending whether we want pdf or svg output
+        \if\texforht
+            \tikzset{vertexNodeBallShading/svg=#1}
+        \else
+            \tikzset{vertexNodeBallShading/pdf=#1}
+        \fi
+    },
+    vertexNodeBall/.style = {shape=circle, vertexNodeBallShading=#1, inner sep=2pt, outer sep=0pt, minimum size=3pt, font=\tiny},
     vertexNodeBall/.default = orange,
     vertexBall/labels/.style = {
         vertexNode/.style={vertexNodeBall=##1, text=black},
@@ -218,17 +241,6 @@
     \fi
 }
 
-% Sometimes we want to implement different behaviour for the generated 
-% HTML-pictures (for example, shading is not supported in HTML).
-% For that we define a macro to check whether we run the code with
-% htlatex. The code comes from 
-% https://tex.stackexchange.com/questions/93852/what-is-the-correct-way-to-check-for-latex-pdflatex-and-html-in-the-same-latex
-\makeatletter
-\edef\texforht{TT\noexpand\fi
-  \@ifpackageloaded{tex4ht}
-    {\noexpand\iftrue}
-    {\noexpand\iffalse}}
-\makeatother
 
 
 \usepackage{hyperref}

@@ -1,12 +1,31 @@
 \documentclass{article}
 
+
+
 \input{../TikZHeader.tex}
+\if\texforht
+    \def\pgfsysdriver{pgfsys-tex4ht.def}
+\fi
 \usetikzlibrary{arrows, decorations.pathreplacing, calc, decorations.pathmorphing, shapes}
 
 \usepackage{amssymb}
 
-
 \begin{document}
+
+\tikzset{
+    test/ht/.style={shape=circle, fill=#1},
+    test/normal/.style={shape=circle, ball color=#1},
+    test/.code={
+        \if\texforht\tikzset{test/ht=#1}\else\tikzset{test/normal=#1}\fi
+    },
+    neu/.style={test=#1, font=\small}
+}
+
+\begin{tikzpicture}
+    \node[neu=green] at (0,0) {8};
+\end{tikzpicture}
+
+%\end{document}
 
 \begin{tikzpicture}[vertexBall,edgePlain=nolabels,faceStyle=nolabels]
     \def\orientation{1}
