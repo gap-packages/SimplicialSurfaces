@@ -155,4 +155,36 @@ InstallMethod( \=, "for two polygonal complexes", IsIdenticalObj,
 );
 
 
+# Print
+InstallMethod( PrintObj, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        local str, out;
+
+        str := "";
+        out := OutputTextString(str, true);
+        if IsSimplicialSurface(complex) then
+            PrintTo( out, "SimplicialSurface");
+        elif IsPolygonalSurface(complex) then
+            PrintTo( out, "PolygonalSurface");
+        elif IsRamifiedSimplicialSurface(complex) then
+            PrintTo( out, "RamifiedSimplicialSurface");
+        elif IsRamifiedPolygonalSurface(complex) then
+            PrintTo( out, "RamifiedPolygonalSurface");
+        elif IsTriangularComplex(complex) then
+            PrintTo( out, "TriangularComplex");
+        else
+            PrintTo( out, "PolygonalComplex");
+        fi;
+
+        PrintTo( out, "ByDownwardIncidenceNC(" );
+        PrintTo( out, VerticesOfEdges(complex) );
+        PrintTo( out, ", " );
+        PrintTo( out, EdgesOfFaces(complex) );
+        PrintTo( out, ");" );
+
+        CloseStream(out);
+
+        Print(str);
+    end
+);
 #TODO display properly
