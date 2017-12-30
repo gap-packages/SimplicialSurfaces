@@ -58,8 +58,8 @@
 #! defined by the right-hand-rule from physics.)
 
 
-DeclareInfoClass( "InfoSimplicial" );
-SetInfoLevel(InfoSimplicial,1);
+#DeclareInfoClass( "InfoSimplicial" );
+#SetInfoLevel(InfoSimplicial,1);
 # TODO explain structure of everything in a separate tex-file
 
 #TODO remove LocalOrientation from simplicial surfaces (separate incidence 
@@ -72,8 +72,8 @@ SetInfoLevel(InfoSimplicial,1);
 ##	save attributes once they are computed (this includes properties) and
 ##	consists of components.
 ##
-DeclareCategory( "IsSimplicialSurface",
-			IsComponentObjectRep and IsAttributeStoringRep );
+#DeclareCategory( "IsSimplicialSurface",
+#			IsComponentObjectRep and IsAttributeStoringRep );
 
 ##
 ##	Define a new family for simplicial surfaces. The family defines a necessary
@@ -81,8 +81,8 @@ DeclareCategory( "IsSimplicialSurface",
 ##	The argument IsSimplicialSurface guarantees that only objects that lie in
 ##	this category can be part of the family.
 ##
-BindGlobal( "SimplicialSurfaceFamily", 
-    NewFamily("SimplicialSurfaceFamily",  IsObject, IsSimplicialSurface) );
+#BindGlobal( "SimplicialSurfaceFamily", 
+#    NewFamily("SimplicialSurfaceFamily",  IsObject, IsSimplicialSurface) );
 
 
 
@@ -100,32 +100,32 @@ BindGlobal( "SimplicialSurfaceFamily",
 #! Return a simplicial surface that represents a janus head.
 #! @Arguments
 #! @Returns a simplicial surface
-DeclareOperation( "Janushead", [] );
+#DeclareOperation( "Janushead", [] );
 
 #! @Description
 #! Return a simplicial surface that represents a tetrahedron.
 #! @Returns a simplicial surface
-DeclareOperation( "Tetrahedron", [] );
+#DeclareOperation( "Tetrahedron", [] );
 
 #! @Description
 #! Return a simplicial surface that represents a cube
 #! @Returns a simplicial surface
-DeclareOperation( "Cube", [] );
+#DeclareOperation( "Cube", [] );
 
 #! @Description
 #! Return a simplicial surface that represents a octahedron.
 #! @Returns a simplicial surface
-DeclareOperation( "Octahedron", [] );
+#DeclareOperation( "Octahedron", [] );
 
 #! @Description
 #! Return a simplicial surface that represents a dodecahedron.
 #! @Returns a simplicial surface
-DeclareOperation( "Dodecahedron", [] );
+#DeclareOperation( "Dodecahedron", [] );
 
 #! @Description
 #! Return a simplicial surface that represents a icosahedron.
 #! @Returns a simplicial surface
-DeclareOperation( "Icosahedron", [] );
+#DeclareOperation( "Icosahedron", [] );
 
 
 #! @BeginGroup
@@ -158,11 +158,11 @@ DeclareOperation( "Icosahedron", [] );
 #!
 #! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
 #! @Returns a simplicial surface
-DeclareOperation( "SimplicialSurfaceByUpwardIncidence",
-	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#DeclareOperation( "SimplicialSurfaceByUpwardIncidence",
+#	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
-DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
-	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
+#	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @EndGroup
 
 
@@ -196,11 +196,11 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC",
 #!
 #! @Returns a simplicial surface
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
-DeclareOperation( "SimplicialSurfaceByDownwardIncidence",
-	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#DeclareOperation( "SimplicialSurfaceByDownwardIncidence",
+#	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
-DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
-	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
+#	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -246,11 +246,11 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC",
 #!
 #! @Returns a simplicial surface
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces[, namesOfFaces]
-DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientation",
-	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientation",
+#	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces[, namesOfFaces]
-DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
-	[ IsSet, IsSet, IsSet, IsList, IsList ] );
+#DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
+#	[ IsSet, IsSet, IsSet, IsList, IsList ] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -289,11 +289,11 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceWithOrientationNC",
 #!
 #! @Arguments vertices, faces, verticesOfFaces[, namesOfFaces]
 #! @Returns a simplicial surface
-DeclareOperation( "SimplicialSurfaceByVerticesInFaces", 
-	[ IsSet, IsSet, IsList ] );
+#DeclareOperation( "SimplicialSurfaceByVerticesInFaces", 
+#	[ IsSet, IsSet, IsList ] );
 #! @Arguments vertices, faces, verticesOfFaces[, namesOfFaces]
-DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
-	[ IsSet, IsSet, IsList ] );
+#DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", 
+#	[ IsSet, IsSet, IsList ] );
 #TODO also allow IsList as only argument
 #TODO after the split with constructor SimplicialSurfaceBy.. write an error message that recommends the more general constructor.
 #! @EndGroup
@@ -314,41 +314,41 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC",
 #! Returns the vertices as a set. The vertices are positive integers.
 #! @Arguments simpSurf
 #! @Returns the set of vertices, a set of positive integers
-DeclareOperation( "Vertices", [IsSimplicialSurface] );
+#DeclareOperation( "Vertices", [IsSimplicialSurface] );
 #! @Arguments simpSurf
-DeclareAttribute( "VerticesAttributeOfSimplicialSurface", IsSimplicialSurface );
+#DeclareAttribute( "VerticesAttributeOfSimplicialSurface", IsSimplicialSurface );
 #! @EndGroup
 
 #! @Description
 #! Returns the edges as a set. The edges are positive integers.
 #! @Arguments simpSurf
 #! @Returns the set of edges, a set of positive integers
-DeclareAttribute( "Edges", IsSimplicialSurface );
+#DeclareAttribute( "Edges", IsSimplicialSurface );
 
 #! @Description
 #! Returns the faces as a set. The faces are positive integers.
 #! @Arguments simpSurf
 #! @Returns the set of faces, a set of positive integers
-DeclareAttribute( "Faces", IsSimplicialSurface );
+#DeclareAttribute( "Faces", IsSimplicialSurface );
 
 
 #! @Description
 #! Returns the number of vertices.
 #! @Arguments simpSurf
 #! @Returns a non-negative integer
-DeclareAttribute( "NrOfVertices", IsSimplicialSurface );
+#DeclareAttribute( "NrOfVertices", IsSimplicialSurface );
 
 #! @Description
 #! Returns the number of edges.
 #! @Arguments simpSurf
 #! @Returns a non-negative integer
-DeclareAttribute( "NrOfEdges", IsSimplicialSurface );
+#DeclareAttribute( "NrOfEdges", IsSimplicialSurface );
 
 #! @Description
 #! Returns the number of faces.
 #! @Arguments simpSurf
 #! @Returns a non-negative integer
-DeclareAttribute( "NrOfFaces", IsSimplicialSurface );
+#DeclareAttribute( "NrOfFaces", IsSimplicialSurface );
 
 
 #! @Description
@@ -359,7 +359,7 @@ DeclareAttribute( "NrOfFaces", IsSimplicialSurface );
 #!
 #! @Arguments simpSurf
 #! @Returns a list of sets of positive integers
-DeclareAttribute( "EdgesOfVertices", IsSimplicialSurface );
+#DeclareAttribute( "EdgesOfVertices", IsSimplicialSurface );
 
 #! @Description
 #! Return a list facesOfVertices such that
@@ -369,7 +369,7 @@ DeclareAttribute( "EdgesOfVertices", IsSimplicialSurface );
 #!
 #! @Arguments simpSurf
 #! @Returns a list of sets of positive integers
-DeclareAttribute( "FacesOfVertices", IsSimplicialSurface);
+#DeclareAttribute( "FacesOfVertices", IsSimplicialSurface);
 
 #! @Description
 #! Return a list verticesOfEdges such that
@@ -379,7 +379,7 @@ DeclareAttribute( "FacesOfVertices", IsSimplicialSurface);
 #!
 #! @Arguments simpSurf
 #! @Returns a list of sets of positive integers
-DeclareAttribute( "VerticesOfEdges", IsSimplicialSurface);
+#DeclareAttribute( "VerticesOfEdges", IsSimplicialSurface);
 
 #! @Description
 #! Return a list facesOfEdges such that
@@ -389,7 +389,7 @@ DeclareAttribute( "VerticesOfEdges", IsSimplicialSurface);
 #!
 #! @Arguments simpSurf
 #! @Returns a list of sets of positive integers
-DeclareAttribute( "FacesOfEdges", IsSimplicialSurface);
+#DeclareAttribute( "FacesOfEdges", IsSimplicialSurface);
 
 #! @Description
 #! Return a list verticesOfFaces such that
@@ -399,7 +399,7 @@ DeclareAttribute( "FacesOfEdges", IsSimplicialSurface);
 #!
 #! @Arguments simpSurf
 #! @Returns a list of sets of positive integers
-DeclareAttribute( "VerticesOfFaces", IsSimplicialSurface);
+#DeclareAttribute( "VerticesOfFaces", IsSimplicialSurface);
 
 #! @Description
 #! Return a list edgesOfFaces such that
@@ -409,15 +409,15 @@ DeclareAttribute( "VerticesOfFaces", IsSimplicialSurface);
 #!
 #! @Arguments simpSurf
 #! @Returns a list of sets of positive integers
-DeclareAttribute( "EdgesOfFaces", IsSimplicialSurface);
+#DeclareAttribute( "EdgesOfFaces", IsSimplicialSurface);
 
 
 #! @Description
 #! Return the edge of the given face that is incident to the given vertices.
 #! @Arguments simpSurf, face, vertexList
 #! @Returns the edge
-DeclareOperation( "EdgeInFaceByVertices", 
-        [IsSimplicialSurface, IsPosInt, IsList] );
+#DeclareOperation( "EdgeInFaceByVertices", 
+#        [IsSimplicialSurface, IsPosInt, IsList] );
 
 
 #! @Description
@@ -425,8 +425,8 @@ DeclareOperation( "EdgeInFaceByVertices",
 #! given vertex in the given face.
 #! @Arguments surf, vertex, edge, face
 #! @Returns the edge
-DeclareOperation( "OtherEdgeOfVertexInFace", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
-DeclareOperation( "OtherEdgeOfVertexInFaceNC", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
+#DeclareOperation( "OtherEdgeOfVertexInFace", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
+#DeclareOperation( "OtherEdgeOfVertexInFaceNC", [IsSimplicialSurface,IsPosInt,IsPosInt,IsPosInt] );
 
 
 
@@ -434,8 +434,8 @@ DeclareOperation( "OtherEdgeOfVertexInFaceNC", [IsSimplicialSurface,IsPosInt,IsP
 #! Return the other vertex of a given edge.
 #! @Arguments surf, vertex, edge
 #! @Returns a positive integer
-DeclareOperation( "OtherVertexOfEdge", [IsSimplicialSurface,IsPosInt,IsPosInt] );
-DeclareOperation( "OtherVertexOfEdgeNC", [IsSimplicialSurface,IsPosInt,IsPosInt] );
+#DeclareOperation( "OtherVertexOfEdge", [IsSimplicialSurface,IsPosInt,IsPosInt] );
+#DeclareOperation( "OtherVertexOfEdgeNC", [IsSimplicialSurface,IsPosInt,IsPosInt] );
 
 
 #############################################################################
@@ -451,13 +451,13 @@ DeclareOperation( "OtherVertexOfEdgeNC", [IsSimplicialSurface,IsPosInt,IsPosInt]
 #!  vertices, $|E|$ is the number of edges and $|F|$ is the number of faces.
 #!  @Returns an integer, the Euler characteristic.
 #!  @Arguments simpSurf
-DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
+#DeclareAttribute( "EulerCharacteristic", IsSimplicialSurface );
 
 #! @Description
 #! The property IsTriangleSurface is true if all faces of the simplicial
 #! surface are triangles (i.e. they consist of three edges).
 #! @Arguments simpSurf
-DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
+#DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 
 
 #TODO write chapter (or section) to explain connectivity
@@ -466,7 +466,7 @@ DeclareProperty( "IsTriangleSurface", IsSimplicialSurface );
 #! If the simplicial surface is path connected (i.e. if every two faces are
 #! connected by a face-edge-path) this method returns true, otherwise false.
 #! @Arguments simpSurf
-DeclareProperty( "IsPathConnected", IsSimplicialSurface );
+#DeclareProperty( "IsPathConnected", IsSimplicialSurface );
 #TODO This property is also known as StronglyConnected -> change or allow both?
 
 
@@ -479,11 +479,11 @@ DeclareProperty( "IsPathConnected", IsSimplicialSurface );
 #! in the simplicial surface.
 #! @Arguments simpSurf
 #! @Returns a list of simplicial surfaces
-DeclareAttribute( "PathConnectedComponents", IsSimplicialSurface );
+#DeclareAttribute( "PathConnectedComponents", IsSimplicialSurface );
 #! @Arguments simpSurf, face
-DeclareOperation( "PathConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
+#DeclareOperation( "PathConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
 #! @Arguments simpSurf, face
-DeclareOperation( "PathConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
+#DeclareOperation( "PathConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 
 
@@ -492,8 +492,8 @@ DeclareOperation( "PathConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosI
 #! Return if a simplicial surface is connected. If two faces share at least one
 #! vertex they are considered to be connected.
 #! @Arguments simpSurf
-DeclareProperty( "IsConnected", IsSimplicialSurface );
-InstallTrueMethod( IsConnected, IsPathConnected );
+#DeclareProperty( "IsConnected", IsSimplicialSurface );
+#InstallTrueMethod( IsConnected, IsPathConnected );
 
 #! @BeginGroup
 #! @Description
@@ -504,15 +504,15 @@ InstallTrueMethod( IsConnected, IsPathConnected );
 #! in the simplicial surface.
 #! @Arguments simpSurf
 #! @Returns a list of simplicial surfaces
-DeclareAttribute( "ConnectedComponentsAttributeOfSimplicialSurface", 
-		IsSimplicialSurface );
+#DeclareAttribute( "ConnectedComponentsAttributeOfSimplicialSurface", 
+#		IsSimplicialSurface );
 #DeclareOperation( "ConnectedComponents", [IsSimplicialSurface] );
 #TODO uncomment as soon as situation with GRAPE is resolved
 
 #! @Arguments simpSurf, face
-DeclareOperation( "ConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
+#DeclareOperation( "ConnectedComponentOfFace", [IsSimplicialSurface, IsPosInt] );
 #! @Arguments simpSurf, face
-DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
+#DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 
 
@@ -523,7 +523,7 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsSimplicialSurface, IsPosInt] 
 #! of the vertex).
 #! @Arguments simpSurf
 #! @Returns a list of positive integers
-DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
+#DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
 
 #! @Description
 #! Return a sorted list sortedDegrees such that the degree of each vertex
@@ -531,7 +531,7 @@ DeclareAttribute( "UnsortedDegrees", IsSimplicialSurface );
 #! list (counting repetitions).
 #! @Arguments simpSurf
 #! @Returns a sorted list of positive integers
-DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
+#DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 
 #! @Description
 #! Return the vertex counter of a simplicial surface.
@@ -540,7 +540,7 @@ DeclareAttribute( "SortedDegrees", IsSimplicialSurface );
 #! are no vertices with i incident edges, this entry is unbounded.
 #! @Arguments simpSurf
 #! @Returns a list of positive integers
-DeclareAttribute( "VertexCounter", IsSimplicialSurface );
+#DeclareAttribute( "VertexCounter", IsSimplicialSurface );
 
 #!
 #!  @Description
@@ -549,7 +549,7 @@ DeclareAttribute( "VertexCounter", IsSimplicialSurface );
 #!  the two vertices of the edge have edge-degrees i and j.
 #!  @Arguments simpSurf
 #!  @Returns a matrix of integers
-DeclareAttribute( "EdgeCounter", IsSimplicialSurface );
+#DeclareAttribute( "EdgeCounter", IsSimplicialSurface );
 
 #! @Description
 #! Return the face-anomaly-classes of a simplicial surface.
@@ -558,14 +558,14 @@ DeclareAttribute( "EdgeCounter", IsSimplicialSurface );
 #! vertices.
 #! @Returns The face-anomaly-classes (as a list of sets)
 #! @Arguments  simpSurf
-DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
+#DeclareAttribute( "FaceAnomalyClasses", IsSimplicialSurface );
 
 #! @Description
 #! Return the edge-anomaly-classes of a simplicial surface (two edges are in
 #! the same edge-anomaly-class if they contain the same vertices).
 #! @Returns The edge-anomaly-classes (as a list of sets)
 #! @Arguments simpSurf
-DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface ); 
+#DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface ); 
 
 #! @Description
 #! Return whether the simplicial surface contains no anomalies (of faces or
@@ -573,9 +573,9 @@ DeclareAttribute( "EdgeAnomalyClasses", IsSimplicialSurface );
 #! surface is vertex faithful if all face and edge anomaly classes are trivial.
 #! @Returns true or false
 #! @Arguments simpSurf
-DeclareProperty( "IsAnomalyFree", IsSimplicialSurface );
+#DeclareProperty( "IsAnomalyFree", IsSimplicialSurface );
 #
-DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
+#DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 
 #! @Description
 #! Return the coloured incidence graph of a simplicial surface.
@@ -585,7 +585,7 @@ DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 #! * The edges are given by vertex-edge and edge-face pairs.
 #! @Returns the coloured incidence graph
 #! @Arguments  simpSurf
-DeclareAttribute( "IncidenceGraph", IsSimplicialSurface );
+#DeclareAttribute( "IncidenceGraph", IsSimplicialSurface );
 
 
 #############################################################################
@@ -634,7 +634,7 @@ DeclareOperation( "SnippOffEarsRecursive", [IsSimplicialSurface] );
 #! even present).
 #! @Arguments s1, s2
 #! @Returns true or false
-DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );
+#DeclareOperation( "IsIsomorphic", [IsSimplicialSurface, IsSimplicialSurface] );
 #TODO change name to IsIsomorphicSimplicialSurfaces? To distinguish it from
 # IsIsomorphicWildSimplicialSurfaces. Or is there a better way?
 
@@ -693,20 +693,20 @@ DeclareOperation( "AddVertexIntoEdge", [IsSimplicialSurface, IsPosInt] );
 #! holds if there is only one face-edge-path (up to description) around each
 #! vertex.
 #! @Arguments simpSurf
-DeclareProperty( "IsVerticesLikeSurface", IsSimplicialSurface );
+#DeclareProperty( "IsVerticesLikeSurface", IsSimplicialSurface );
 
 #! @Description
 #! The property IsEdgesLikeSurface holds if every edge of the simplicial
 #! surface is incident to at most two faces.
 #! @Arguments simpSurf
-DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
+#DeclareProperty( "IsEdgesLikeSurface", IsSimplicialSurface );
 
 
 #TODO AutoDoc can't handle synonyms at the moment.
 #TODO Should this be renamed? Maybe to "IsSurface"?
-DeclareSynonym( "IsActualSurface", 
-		IsVerticesLikeSurface and IsEdgesLikeSurface );
-InstallTrueMethod( IsPathConnected, IsConnected and IsActualSurface );
+#DeclareSynonym( "IsActualSurface", 
+#		IsVerticesLikeSurface and IsEdgesLikeSurface );
+#InstallTrueMethod( IsPathConnected, IsConnected and IsActualSurface );
                 
 #! @Description
 #!  The property IsActualSurface is true if both IsEdgesLikeSurface and
@@ -719,31 +719,31 @@ InstallTrueMethod( IsPathConnected, IsConnected and IsActualSurface );
 #! faces, this method checks if the surface is closed. (A simplicial surface
 #! is closed if every edge is incident to exactly two faces.)
 #! @Arguments simpSurf
-DeclareProperty( "IsClosedSurface", 
-			IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareProperty( "IsClosedSurface", 
+#			IsSimplicialSurface and IsEdgesLikeSurface );
 
 #! @Description
 #! Return the set of all inner edges, that is edges with exactly two ajacent
 #! faces.
 #! @Arguments simpSurf
 #! @Returns a set of edges
-DeclareAttribute( "InnerEdges", IsSimplicialSurface );
-DeclareOperation( "IsInnerEdge", [IsSimplicialSurface, IsPosInt] );
+#DeclareAttribute( "InnerEdges", IsSimplicialSurface );
+#DeclareOperation( "IsInnerEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @Description
 #! Return the set of all border edges, that is edges with only one adjacent face.
 #! @Arguments simpSurf
 #! @Returns a set of edges
-DeclareAttribute( "BoundaryEdges", IsSimplicialSurface );
-DeclareOperation( "IsBoundaryEdge", [IsSimplicialSurface, IsPosInt] );
+#DeclareAttribute( "BoundaryEdges", IsSimplicialSurface );
+#DeclareOperation( "IsBoundaryEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @Description
 #! Return the set of all ramified edges, that is edges that have at least three
 #! adjacent faces.
 #! @Arguments simpSurf
 #! @Returns a set of edges
-DeclareAttribute( "RamifiedEdges", IsSimplicialSurface );
-DeclareOperation( "IsRamifiedEdge", [IsSimplicialSurface, IsPosInt] );
+#DeclareAttribute( "RamifiedEdges", IsSimplicialSurface );
+#DeclareOperation( "IsRamifiedEdge", [IsSimplicialSurface, IsPosInt] );
 
 #! @BeginGroup
 #! @Description
@@ -761,14 +761,14 @@ DeclareOperation( "IsRamifiedEdge", [IsSimplicialSurface, IsPosInt] );
 #! actually is a vertex of the simplicial surface.
 #! @Arguments simpSurf
 #! @Returns a list of lists of face-edge-paths
-DeclareAttribute( "FaceEdgePathsOfVertices", 
-		IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareAttribute( "FaceEdgePathsOfVertices", 
+#		IsSimplicialSurface and IsEdgesLikeSurface );
 #! @Arguments simpSurf, vertex
-DeclareOperation( "FaceEdgePathsOfVertex", 
-		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+#DeclareOperation( "FaceEdgePathsOfVertex", 
+#		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 #! @Arguments simpSurf, vertex
-DeclareOperation( "FaceEdgePathsOfVertexNC", 
-		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+#DeclareOperation( "FaceEdgePathsOfVertexNC", 
+#		[IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 #! @EndGroup
 
 
@@ -927,7 +927,7 @@ DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 #! is orientable if we can assign a side for each face such that for every two
 #! adjacent sides either both or none are assigned.
 #! @Arguments simpSurf
-DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
 
 
 #! @BeginGroup
@@ -946,11 +946,11 @@ DeclareProperty( "IsOrientable", IsSimplicialSurface and IsEdgesLikeSurface );
 #!
 #! @Arguments simpSurf
 #! @Returns a list of permutations or fail
-DeclareAttribute( "GlobalOrientationByVerticesAsPerm", 
-    IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareAttribute( "GlobalOrientationByVerticesAsPerm", 
+#    IsSimplicialSurface and IsEdgesLikeSurface );
 #! @Arguments simpSurf
-DeclareOperation( "GlobalOrientation",
-    [ IsSimplicialSurface and IsEdgesLikeSurface ] );
+#DeclareOperation( "GlobalOrientation",
+#    [ IsSimplicialSurface and IsEdgesLikeSurface ] );
 #! @EndGroup
 
 #! @Description
@@ -968,8 +968,8 @@ DeclareOperation( "GlobalOrientation",
 #!
 #! @Arguments simpSurf
 #! @Returns a list of lists or fail
-DeclareAttribute( "GlobalOrientationByVerticesAsList", 
-    IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareAttribute( "GlobalOrientationByVerticesAsList", 
+#    IsSimplicialSurface and IsEdgesLikeSurface );
 
 #! @Description
 #! Return the distinguished global orientation if the simplicial surface is 
@@ -986,8 +986,8 @@ DeclareAttribute( "GlobalOrientationByVerticesAsList",
 #!
 #! @Arguments simpSurf
 #! @Returns a list of permutations or fail
-DeclareAttribute( "GlobalOrientationByEdgesAsPerm", 
-    IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareAttribute( "GlobalOrientationByEdgesAsPerm", 
+#    IsSimplicialSurface and IsEdgesLikeSurface );
 
 #! @Description
 #! Return the distinguished global orientation if the simplicial surface is 
@@ -1004,8 +1004,8 @@ DeclareAttribute( "GlobalOrientationByEdgesAsPerm",
 #!
 #! @Arguments simpSurf
 #! @Returns a list of lists or fail
-DeclareAttribute( "GlobalOrientationByEdgesAsList", 
-    IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareAttribute( "GlobalOrientationByEdgesAsList", 
+#    IsSimplicialSurface and IsEdgesLikeSurface );
 
 
 ###############################################################################
@@ -1240,8 +1240,8 @@ DeclareAttribute( "Geodesics", IsSimplicialSurface and IsTriangleSurface
 #! If the given edge is a boundary edge, return fail.
 #! @Arguments surf, face, edge
 #! @Returns a positive integer or fail
-DeclareOperation( "NeighbourFaceByEdge", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
-DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
+#DeclareOperation( "NeighbourFaceByEdge", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
+#DeclareOperation( "NeighbourFaceByEdgeNC", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt, IsPosInt] );
 
 
 ##
@@ -1267,13 +1267,13 @@ DeclareOperation( "SplitCut", [IsSimplicialSurface and IsActualSurface, IsPosInt
 DeclareOperation( "SplitMend", [IsSimplicialSurface and IsActualSurface, IsList, IsList] );
 
 ## Classification of vertices
-DeclareAttribute( "InnerVertices", IsSimplicialSurface and IsEdgesLikeSurface);
-DeclareAttribute( "BoundaryVertices", IsSimplicialSurface and IsEdgesLikeSurface );
-DeclareAttribute( "RamifiedVertices", IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareAttribute( "InnerVertices", IsSimplicialSurface and IsEdgesLikeSurface);
+#DeclareAttribute( "BoundaryVertices", IsSimplicialSurface and IsEdgesLikeSurface );
+#DeclareAttribute( "RamifiedVertices", IsSimplicialSurface and IsEdgesLikeSurface );
 
-DeclareOperation( "IsInnerVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
-DeclareOperation( "IsBoundaryVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
-DeclareOperation( "IsRamifiedVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+#DeclareOperation( "IsInnerVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+#DeclareOperation( "IsBoundaryVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
+#DeclareOperation( "IsRamifiedVertex", [IsSimplicialSurface and IsEdgesLikeSurface, IsPosInt] );
 
 # Helpers for cuts and mends
 DeclareAttribute( "CraterCuttableEdges", IsSimplicialSurface );
