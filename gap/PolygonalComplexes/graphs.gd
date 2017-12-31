@@ -16,11 +16,11 @@
 
 #! @BeginChunk Graphs_LabelShift
 #! <List>
-#!   <Item>The vertex labels stay the same.</Item>
-#!   <Item>The edge labels are shifted upwards by the maximal vertex label.
+#!   <Item>The vertex labels stay the same</Item>
+#!   <Item>The edge labels are shifted upwards by the maximal vertex label
 #!     </Item>
 #!   <Item>The face labels are shifted upwards by the sum of the maximal
-#!     vertex label and the maximal edge label.</Item>
+#!     vertex label and the maximal edge label</Item>
 #! </List>
 #! @EndChunk
 
@@ -157,85 +157,114 @@ DeclareOperation( "IsIsomorphicIncidenceStructure",
 #! @Section Automorphism group
 #! @SectionLabel Graphs_Automorphisms
 #!
-#! As long as one of the graph packages (
+#! This section explains how to compute automorphism groups of polygonal
+#! complexes. Since the incidence graph is necessary for the computation,
+#! at least one of the following packages has to be available:
 #! @InsertChunk Graphs_Packages
-#! ) is available 
-#! the automorphism groups of polygonal complexes can be computed with the
-#! method <K>AutomorphismGroup</K> (<Ref Subsect="AutomorphismGroup"/>) as the
-#! automorphism groups of the corresponding incidence graphs (see section
-#! <Ref Sect="Section_Graphs_Incidence"/> for details).
 #!
-#! Unfortunately it is not completely trivial to work with the automorphism
-#! group of a polygonal complex in &GAP;. This can already be seen on the
-#! example of a tetrahedron.
+#! Working with the automorphism group of a polygonal complex is complicated
+#! since any automorphism acts on vertices, edges and faces simultaneously.
+#! In general it is not possible to define an automorphism by defining it just
+#! on the vertices (or edges, or faces). If that is possible, the situation
+#! becomes much easier. This happens for example with the tetrahedron:
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Tetrahedron_constructor.tex}
 #! </Alt>
 #! @ExampleSession
 #! gap> tetra := Tetrahedron();;
-#! gap> aut := AutomorphismGroup(tetra);
-#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
-#! @EndExampleSession
-#! The generators of this group seem very complicated in comparison to
-#! the size of the automorphism group - it is just a symmetric group
-#! on four elements.
-#! @ExampleSession
-#! gap> Size(aut);
-#! 24
-#! gap> IsSymmetricGroup(aut);
+#! gap> IsAutomorphismDefinedByFaces(tetra);
 #! true
+#! gap> AutomorphismGroupOnFaces(tetra);
+#! Group( [ (1,2), (3,4), (2,4) ] )
 #! @EndExampleSession
-#! Furthermore there are labels (like 14) that don't appear as labels
-#! of the tetrahedron.
 #!
-#! This complication appears because there are surfaces where it is
-#! necessary to describe the action on vertices, edges and faces 
-#! separately. One such example is the janus-head, two triangles 
-#! combined along all their edges.
+#! For the janus-head this is not possible.
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Janus_constructor.tex}
 #! </Alt>
-#! If the automorphism group would be determined by the action on
-#! the vertices (or edges) alone, it would be a subgroup of the
-#! symmetric group on 3 elements. Then it would have at most 6
-#! elements. If it were determined by the action on the faces, it
-#! would have at most 2 elements. But it actually has 12 elements.
 #! @ExampleSession
-#! gap> autJan := AutomorphismGroup( JanusHead() );
+#! gap> janus := JanusHead();;
+#! gap> IsAutomorphismDefinedByVertices(janus);
+#! false
+#! gap> IsAutomorphismDefinedByEdges(janus);
+#! false
+#! gap> IsAutomorphismDefinedByFaces(janus);
+#! false
+#! @EndExampleSession
+#! Therefore it is necessary to consider the action on vertices, edges and 
+#! faces simultaneously.
+#!
+#! Since some labels are used multiple times (for example, the label 3 appears
+#! as vertex and edge in the janus-head), some labels have to change to make
+#! the automorphism group a permutation group (which is necessary for efficient
+#! computations). For this purpose the labels are changed:
+#! @InsertChunk Graphs_LabelShift
+#! @ExampleSession
+#! gap> AutomorphismGroup(janus);
 #! Group([ (7,8), (2,3)(4,5), (1,2)(5,6) ])
-#! gap> Size(autJan);
+#! gap> Size( last );
 #! 12
 #! @EndExampleSession
-#! 
-#! The labels for vertices, edges and faces in polygonal complexes
-#! may overlap. Then the automorphisms can't be represented as permutations
-#! over the integers - which is important for fast performance in &GAP;.
-#! Therefore the edges and faces are relabelled for the purpose of the
-#! automorphisms.
-#! @InsertChunk Graphs_LabelShift
-#! To see the action on the original labels, the method
-#! <K>DisplayAsAutomorphism</K> (<Ref Subsect="DisplayAsAutomorphism"/>) can 
-#! be used.
+#!
+#! Unfortunately this makes it more complicated to understand the 
+#! automorphisms at a glance. To see the individual action on vertices,
+#! edges and faces, the method <K>DisplayAsAutomorphism</K>
+#! (<Ref Subsect="DisplayAsAutomorphism"/>) can be used.
 #! @ExampleSession
+#! gap> AutomorphismGroup(tetra);
+#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
 #! gap> DisplayAsAutomorphism( tetra, (3,4)(6,7)(8,9)(11,12) );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
 #! @EndExampleSession
 #! The first component describes the action on the vertices, the
 #! second component shows the action on the edges and the final
 #! component represents the action on the faces.
+#! 
+#! Most times, it can be avoided to calculate with this big group
+#! representation since the automorphism are usually defined by
+#! vertices, edges or faces. For example, consider the open bag.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_OpenBag.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> openBag := SimplicialSurfaceByDownwardIncidence(
+#! >        [[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;
+#! gap> IsAutomorphismDefinedByVertices(openBag);
+#! false
+#! gap> IsAutomorphismDefinedByEdges(openBag);
+#! true
+#! gap> IsAutomorphismDefinedByFaces(openBag);
+#! false
+#! @EndExampleSession
+#! Therefore the automorphism group is best represented by its action on
+#! the edges.
+#! @ExampleSession
+#! gap> AutomorphismGroupOnEdges(openBag);
+#! Group( [ (3,4), (1,2) ] )
+#! @EndExampleSession
 
 #! @BeginGroup AutomorphismGroup
 #! @Description
 #! Compute the automorphism group of the polygonal complex <A>complex</A> as
-#! a permutation group.
+#! a permutation group. For an introduction into the usage and conventions
+#! of the <K>SimplicialSurface</K>-package, compare the start of section
+#! <Ref Sect="Section_Graphs_Automorphisms"/>.
 #! 
 #! The automorphisms see the labels of <A>complex</A> in the following way:
 #! @InsertChunk Graphs_LabelShift
-#! For a more exhaustive explanation (and the reason for this) see section
-#! <Ref Sect="Section_Automorphisms"/>.
 #! 
 #! To see the action on the original labels, use the method 
 #! <K>DisplayAsAutomorphism</K>(<Ref Subsect="DisplayAsAutomorphism"/>).
+#!
+#! To compute just the action on vertices, edges or faces individually, use
+#! the methods <K>AutomorphismGroupOnVertices</K> 
+#! (<Ref Subsect="AutomorphismGroupOnVertices"/>), 
+#! <K>AutomorphismGroupOnEdges</K>
+#! (<Ref Subsect="AutomorphismGroupOnEdges"/>) and
+#! <K>AutomorphismGroupOnFaces</K>
+#! (<Ref Subsect="AutomorphismGroupOnFaces"/>).
 #!
 #! For example, the automorphism group of an icosahedron 
 #! (<Ref Subsect="Icosahedron"/>) is the direct product of a cyclic group
@@ -261,7 +290,7 @@ DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
 #! the given permutation is not an automorphism) fail is returned.
 #!
 #! An explanation for the necessity of this method is given in section
-#! <Ref Sect="Section_Automorphisms"/>.
+#! <Ref Sect="Section_Graphs_Automorphisms"/>.
 #!
 #! We illustrate this on the example of a tetrahedron.
 #! <Alt Only="TikZ">
@@ -286,9 +315,84 @@ DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
 DeclareOperation( "DisplayAsAutomorphism", [IsPolygonalComplex, IsPerm] );
 #! @EndGroup
 
+#! @BeginGroup AutomorphismGroupOnVertices
+#! @Description
+#! The method <K>AutomorphismGroupOnVertices</K> returns the action of the 
+#! automorphism group of <A>complex</A> on its vertices. If 
+#! <K>IsAutomorphismDefinedByVertices</K>(<A>complex</A>) is true, this is
+#! isomorphic to the full automorphism group.
+#! 
+#! For the cube (<Ref Subsect="Cube"/>) we get:
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Cube_constructor.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> cube := Cube();;
+#! gap> IsAutomorphismDefinedByVertices(cube);
+#! true
+#! gap> AutomorphismGroupOnVertices(cube);
+#! Group( [ (1,2)(3,4)(5,6)(7,8), (3,6)(4,5), (1,2,3,4)(5,6,7,8) ] )
+#! @EndExampleSession
+#! 
+#! @Arguments complex
+#! @Returns a permutation group
+DeclareAttribute( "AutomorphismGroupOnVertices", IsPolygonalComplex );
+#! @Arguments complex
+DeclareProperty( "IsAutomorphismDefinedByVertices", IsPolygonalComplex );
+#! @EndGroup
 
-#! TODO explain restrictions to vertices etc., when are they sufficient (anomalies?)?
+#! @BeginGroup AutomorphismGroupOnEdges
+#! @Description
+#! The method <K>AutomorphismGroupOnEdges</K> returns the action of the 
+#! automorphism group of <A>complex</A> on its edges. If 
+#! <K>IsAutomorphismDefinedByEdges</K>(<A>complex</A>) is true, this is
+#! isomorphic to the full automorphism group.
+#! 
+#! For the cube (<Ref Subsect="Cube"/>) we get:
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Cube_constructor.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> cube := Cube();;
+#! gap> IsAutomorphismDefinedByEdges(cube);
+#! true
+#! gap> AutomorphismGroupOnEdges(cube);
+#! Group( [ (2,4)(5,8)(6,7)(9,11), (2,5)(3,12)(4,8)(6,9)(7,11), 
+#!             (1,2,3,4)(5,6,7,8)(9,10,11,12) ] )
+#! @EndExampleSession
+#! 
+#! @Arguments complex
+#! @Returns a permutation group
+DeclareAttribute( "AutomorphismGroupOnEdges", IsPolygonalComplex );
+#! @Arguments complex
+DeclareProperty( "IsAutomorphismDefinedByEdges", IsPolygonalComplex );
+#! @EndGroup
 
+#! @BeginGroup AutomorphismGroupOnFaces
+#! @Description
+#! The method <K>AutomorphismGroupOnFaces</K> returns the action of the 
+#! automorphism group of <A>complex</A> on its faces. If 
+#! <K>IsAutomorphismDefinedByFaces</K>(<A>complex</A>) is true, this is
+#! isomorphic to the full automorphism group.
+#! 
+#! For the cube (<Ref Subsect="Cube"/>) we get:
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Cube_constructor.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> cube := Cube();;
+#! gap> IsAutomorphismDefinedByFaces(cube);
+#! true
+#! gap> AutomorphismGroupOnFaces(cube);
+#! Group( [ (3,4), (1,2)(5,6), (2,3,5,4) ] )
+#! @EndExampleSession
+#! 
+#! @Arguments complex
+#! @Returns a permutation group
+DeclareAttribute( "AutomorphismGroupOnFaces", IsPolygonalComplex );
+#! @Arguments complex
+DeclareProperty( "IsAutomorphismDefinedByFaces", IsPolygonalComplex );
+#! @EndGroup
 
 
 
