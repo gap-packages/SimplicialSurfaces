@@ -95,7 +95,7 @@
     vertexNodeBallShading/svg/.style = {fill=#1},
     vertexNodeBallShading/.code = {% Conditional shading depending whether we want pdf or svg output
         \if\texforht
-            \tikzset{vertexNodeBallShading/svg=#1}
+            \tikzset{vertexNodeBallShading/svg=#1!90!black}
         \else
             \tikzset{vertexNodeBallShading/pdf=#1}
         \fi
