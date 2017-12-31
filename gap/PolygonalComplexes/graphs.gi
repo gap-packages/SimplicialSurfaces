@@ -29,6 +29,18 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
             #TODO is there a better way?
         end
     );
+
+    InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
+        [IsPolygonalComplex],
+        function(complex)
+            local graph;
+
+            # Digraphs can only create graphs with vertices [1..n]
+            # Therefore we have to take a subgraph of this graph
+            graph := DigraphByEdges( Compacted( VerticesOfEdges(complex) ) );
+            return InducedSubdigraph( graph, Vertices(complex) );
+        end
+    );
 fi;
 ##
 ##      End Digraphs
@@ -81,6 +93,28 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	    return graph;   
         end
     );
+
+    InstallMethod( EdgeGrapeGraph, "for a polygonal complex",
+        [IsPolygonalComplex],
+        function(complex)
+    	    local graph, vertices, names, incidence, trivialAction;
+
+	    vertices := Vertices(simpsurf);
+
+            names := vertices;
+	    incidence := function(x,y)
+		return Set([x,y]) in VerticesOfEdges(simpsurf);
+	    end;
+
+	    trivialAction := function( pnt, g )
+		return pnt;
+	    end;
+
+	    graph := Graph( Group( () ), names, trivialAction, incidence );
+
+	    return graph;
+        end
+    );
 fi;
 ##
 ##      End GRAPE
@@ -122,6 +156,13 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             od;
 
             return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
+        end
+    );
+
+    InstallMethod( EdgeNautyGraph, "for a polygonal complex",
+        [IsPolygonalComplex],
+        function(complex)
+            return NautyGraphWithNodeLabels( VerticesOfEdges(complex), Vertices(complex) );
         end
     );
 fi;
@@ -350,3 +391,4 @@ InstallMethod( IsAutomorphismDefinedByFaces, "for a polygonal complex",
             and Size( Set(FacesOfVertices(complex)) ) = NumberOfVertices(complex);
     end
 );
+

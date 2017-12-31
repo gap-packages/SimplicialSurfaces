@@ -395,20 +395,64 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsPolygonalComplex );
 #! @EndGroup
 
 
-
-
-
 #! @Section Which graph package should be used?
 #! @SectionLabel Graphs_Discussion
-#! TODO
+#! 
+#! The <K>SimplicialSurface</K>-package supports three different graph 
+#! packages:
+#! @InsertChunk Graphs_Packages
+#!
+#! They have different benefits and disadvantages and are therefore 
+#! recommended for different uses:
+#! <List>
+#!  <Item><K>NautyTracesInterface</K>: This package is designed for the single
+#!   purpose of enabling a fast
+#!   interface to <K>Nauty/Traces</K>. In this measure it excells. On almost
+#!   all
+#!   other measures it does not compete.
+#!
+#!   Therefore it is recommended to have this package available to make
+#!   isomorphism testing and automorphism computation fast. For other
+#!   purposes it is not recommended.</Item>
+#!  <Item><K>GRAPE</K>: This package is designed to work with graphs that have
+#!   large automorphism groups. Unfortunately it is written in a way that
+#!   is not fully compatible with modern &GAP;. Therefore it is often
+#!   necessary to perform <K>ShallowCopy</K> on a graph before any 
+#!   methods can be applied to it.
+#!
+#!   Its main advantage is that it works out of the box.</Item>
+#!  <Item><K>Digraphs</K>: This package has the goal of becoming the leading
+#!   graph package in &GAP;. It is still developed further but there are
+#!   sometimes problems with its installation.
+#! 
+#!   If the installation is working though, it is recommended to use 
+#!   <K>Digraphs</K> instead of <K>GRAPE</K>.</Item>
+#! </List>
 
+#! @Section Other graphs
+#! @SectionLabel Graphs_Others
+#! 
+#! For some purposes it is useful to work with other associated graphs of
+#! polygonal complexes. These are collected in this section. All of them are
+#! implemented for all supported graph packages:
+#! @InsertChunk Graphs_Packages
+#!
 
-#! * <K>Digraphs</K> (method <K>IncidenceDigraphsGraph</K>).
-#!   This is returned if <K>IncidenceGraph</K> is called.
-#! * <K>GRAPE</K> (method <K>IncidenceGrapeGraph</K>). Since <K>GRAPE</K>
-#!   stores its graphs as records that are changed if some properties are
-#!   computed, the result of <K>IncidenceGrapeGraph</K> usually can't be
-#!   used immediately (since it is immutable). Therefore 
-#!   <K>ShallowCopy</K>(<K>IncidenceGrapeGraph</K>(<A>complex</A>)) has
-#!   to be used.
-#! * <K>NautyTracesInterface</K> (method <K>IncidenceNautyGraph</K>).
+#! @BeginGroup EdgeGraph
+#! @Description 
+#! Return the edge graph of the given polygonal complex. The vertices of the
+#! edge graph are the vertices of <A>complex</A> and for every edge in
+#! <A>complex</A> there is a corresponding edge in the edge graph.
+#!
+#! TODO example
+#!
+#! @Arguments complex
+#! @Returns a graph as defined in the package <K>Digraphs</K>
+DeclareAttribute( "EdgeDigraphsGraph", IsPolygonalComplex );
+#! @Arguments complex
+#! @Returns a graph as defined in the package <K>GRAPE</K>
+DeclareAttribute( "EdgeGrapeGraph", IsPolygonalComplex );
+#! @Arguments complex
+#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
+DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
+#! @EndGroup
