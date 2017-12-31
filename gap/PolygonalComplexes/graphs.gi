@@ -99,11 +99,11 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
         function(complex)
     	    local graph, vertices, names, incidence, trivialAction;
 
-	    vertices := Vertices(simpsurf);
+	    vertices := Vertices(complex);
 
             names := vertices;
 	    incidence := function(x,y)
-		return Set([x,y]) in VerticesOfEdges(simpsurf);
+		return Set([x,y]) in VerticesOfEdges(complex);
 	    end;
 
 	    trivialAction := function( pnt, g )

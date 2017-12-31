@@ -155,8 +155,11 @@ InstallMethod( \=, "for two polygonal complexes", IsIdenticalObj,
 );
 
 
-# Print
-InstallMethod( PrintObj, "for a polygonal complex", [IsPolygonalComplex],
+##
+## We implement the display/view/print-methods as recommended in the GAP-manual
+
+# Print (via String)
+InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         local str, out;
 
@@ -184,56 +187,93 @@ InstallMethod( PrintObj, "for a polygonal complex", [IsPolygonalComplex],
 
         CloseStream(out);
 
-        Print(str);
+        return str;
+    end
+);
+
+# View
+InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        local str, out;
+
+        str := "";
+        out := OutputTextString(str, true);
+
+        if IsSimplicialSurface(complex) then
+            PrintTo( out, "simplicial surface" );
+        elif IsPolygonalSurface(complex) then
+            PrintTo( out, "polygonal surface" );
+        elif IsRamifiedSimplicialSurface(complex) then
+            PrintTo( out, "ramified simplicial surface" );
+        elif IsRamifiedPolygonalSurface(complex) then
+            PrintTo( out, "ramified polygonal surface" );
+        elif IsTriangularComplex(complex) then
+            PrintTo( out, "triangular complex" );
+        else
+            PrintTo( out, "polygonal complex" );
+        fi;
+
+        PrintTo( out, " with ", NumberOfVertices(complex), " vertices, ", NumberOfEdges(complex), " edges and ", NumberOfFaces(complex), " faces" );
+
+        CloseStream(out);
+        return str;
     end
 );
 
 # Display
-InstallMethod( Display, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( DisplayString, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
+        local str, out;
+
+        str := "";
+        out := OutputTextString(str, true);
+
         if IsSimplicialSurface(complex) then
-            Print("SimplicialSurface");
+            PrintTo(out, "SimplicialSurface");
         elif IsPolygonalSurface(complex) then
-            Print("PolygonalSurface");
+            PrintTo(out, "PolygonalSurface");
         elif IsRamifiedSimplicialSurface(complex) then
-            Print("RamifiedSimplicialSurface");
+            PrintTo(out, "RamifiedSimplicialSurface");
         elif IsRamifiedPolygonalSurface(complex) then
-            Print("RamifiedPolygonalSurface");
+            PrintTo(out, "RamifiedPolygonalSurface");
         elif IsTriangularComplex(complex) then
-            Print("TriangularComplex");
+            PrintTo(out, "TriangularComplex");
         else
-            Print("PolygonalComplex");
+            PrintTo(out, "PolygonalComplex");
         fi;
 
         if IsPolygonalSurface(complex) then # more information
-            Print( " (" );
+            PrintTo(out,  " (" );
             if IsClosedSurface(complex) then
-                Print("closed, ");
+                PrintTo(out, "closed, ");
             fi;
             
             if IsOrientable(complex) then
-                Print("orientable, ");
+                PrintTo(out, "orientable, ");
             else
-                Print("non-orientable, ");
+                PrintTo(out, "non-orientable, ");
             fi;
 
             if IsConnected(complex) then
-                Print("Euler-characteristic ", EulerCharacteristic(complex) );
+                PrintTo(out, "Euler-characteristic ", EulerCharacteristic(complex) );
             else
-                Print( NumberOfConnectedComponents(complex), " connected components" );
+                PrintTo(out,  NumberOfConnectedComponents(complex), " connected components" );
             fi;
-            Print( ")\n");
+            PrintTo(out,  ")\n");
         fi;
 
-        Print( "    Vertices (", NumberOfVertices(complex), "): ", Vertices(complex), "\n" );
-        Print( "    Edges (", NumberOfEdges(complex), "): ", Edges(complex), "\n" );
-        Print( "    Faces (", NumberOfFaces(complex), "): ", Faces(complex), "\n" );
+        PrintTo(out,  "    Vertices (", NumberOfVertices(complex), "): ", Vertices(complex), "\n" );
+        PrintTo(out,  "    Edges (", NumberOfEdges(complex), "): ", Edges(complex), "\n" );
+        PrintTo(out,  "    Faces (", NumberOfFaces(complex), "): ", Faces(complex), "\n" );
 
-        Print( "    VerticesOfEdges: ", VerticesOfEdges(complex), "\n" );
-        Print( "    VerticesOfFaces: ", VerticesOfFaces(complex), "\n" );
-        Print( "    EdgesOfFaces: ", EdgesOfFaces(complex), "\n" );
+        PrintTo(out,  "    VerticesOfEdges: ", VerticesOfEdges(complex), "\n" );
+        PrintTo(out,  "    VerticesOfFaces: ", VerticesOfFaces(complex), "\n" );
+        PrintTo(out,  "    EdgesOfFaces: ", EdgesOfFaces(complex), "\n" );
 
-        Print("\n");
+        PrintTo(out, "\n");
+
+        CloseStream(out);
+        return str;
     end
 );
 
