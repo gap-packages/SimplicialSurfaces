@@ -82,12 +82,20 @@
     </Enum>
 
     <Section Label="Example_VertexCounter"><Heading>VertexCounter</Heading>
-        The method <K>VertexCounter</K> (<Ref Subsect="VertexCounter"/>)
-        counts the edge--degrees of all vertices and collects those in a list:
-        The entry at position
-        <A>pos</A> counts the number of vertices with exactly <A>pos</A> 
-        incident edges.
+        The method <K>VertexCounter</K> (<Ref Subsect="VertexCounter"/>) 
+        creates a list in which the entry at position <A>pos</A> is the
+        number of vertices with exactly <A>pos</A> incident edges.
         <Par/>
+        We illustrate it on the example of a pyramid with square base.
+        <Alt Only="TikZ">
+            \input{Image_SquarePyramid.tex}
+        </Alt>
+<Example>
+gap&gt; pyr := PolygonalSurfaceByVerticesInFaces( 
+&gt;            [ [3,4,5,6], [1,3,4], [1,4,5], [1,5,6], [1,6,3] ]);;
+gap&gt; VertexCounter( pyr );
+[ , , 4, 1 ]
+</Example>
         This could be implemented like this:
 <Example>
 gap&gt; VertexCounter_custom := function( complex )
@@ -103,16 +111,7 @@ gap&gt; VertexCounter_custom := function( complex )
 &gt; 
 &gt;     return count;
 &gt; end;;
-</Example>
-        We illustrate this on the example of a pyramid with square base.
-        <Alt Only="TikZ">
-            \input{Image_SquarePyramid.tex}
-        </Alt>
-<Example>
-gap&gt; pyr := PolygonalSurfaceByVerticesInFaces( 
-&gt;            [ [3,4,5,6], [1,3,4], [1,4,5], [1,5,6], [1,6,3] ]);;
-gap&gt; VertexCounter( pyr );
-[ , , 4, 1 ]
+gap&gt; 
 gap&gt; VertexCounter_custom( pyr );
 [ , , 4, 1 ]
 </Example>
@@ -170,6 +169,15 @@ gap&gt;  count;
             that are connected to a given face by edge-face-paths and returns
             the polygonal complex consisting of these faces.
             <Par/>
+            We illustrate this with an octahedron (<Ref Subsect="Octahedron"/>):
+            <Alt Only="TikZ">
+                \input{_TIKZ_Octahedron_constructor.tex}
+            </Alt>
+<Example>
+gap&gt; octa := Octahedron();;
+gap&gt; octa = StronglyConnectedComponentOfFace(octa,7);
+true
+</Example>
             This could be implemented like this:
 <Example>
 gap&gt; StrongComponent_custom := function( complex, face )
@@ -187,13 +195,7 @@ gap&gt; StrongComponent_custom := function( complex, face )
 &gt; 
 &gt;        return SubcomplexByFaces( complex, component );
 &gt;    end;;
-</Example>
-            We illustrate this with an octahedron (<Ref Subsect="Octahedron"/>):
-            <Alt Only="TikZ">
-                \input{_TIKZ_Octahedron_constructor.tex}
-            </Alt>
-<Example>
-gap&gt; octa := Octahedron();;
+gap&gt; 
 gap&gt; StrongComponent_custom(octa,7) = StronglyConnectedComponentOfFace(octa,7);
 true
 </Example>
