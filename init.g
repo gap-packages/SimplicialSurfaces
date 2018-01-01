@@ -11,6 +11,8 @@
 
 ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/AttributeScheduler.gd" );
 
+ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gd" );
+
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gd" );

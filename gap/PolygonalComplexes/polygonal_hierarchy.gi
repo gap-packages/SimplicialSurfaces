@@ -16,8 +16,8 @@ DeclareRepresentation("IsGenericPolygonalComplexRep",
     IsPolygonalComplex and IsAttributeStoringRep, []);
 
 # Define a generic type
-PolygonalComplexType := 
-    NewType( PolygonalComplexFamily, IsGenericPolygonalComplexRep );
+BindGlobal( "PolygonalComplexType", 
+    NewType( PolygonalComplexFamily, IsGenericPolygonalComplexRep ));
 
 
 

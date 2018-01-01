@@ -910,25 +910,11 @@ BindGlobal( "__SIMPLICIAL_TranslateCyclesIntoLists",
 ##	was described for the function above).
 ##
 BindGlobal( "__SIMPLICIAL_TranslateListsIntoCycles", function( listOfLists )
-    local Shift;
-
         if listOfLists = fail then
             return fail;
         fi;
 
-	# local function that shifts each entry of the list to the previous one
-	Shift := function( list )
-		local newList, i;
-
-		newList := [];
-		newList[ Length(list) ] := list[1];
-		for i in [2..Length(list)] do
-			newList[i-1] := list[i];
-		od;
-		return newList;
-	end;
-
-	return List( listOfLists, list -> MappingPermListList(list, Shift(list)) );
+        return List( listOfLists, __SIMPLICIAL_ListToCycle ); # see dual_path.gi for implementation
     end
 );
 
