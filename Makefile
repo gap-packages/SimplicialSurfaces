@@ -7,6 +7,8 @@ doc/manual.six: makedoc.g \
 		gap/*.gd gap/*.gi \
 		gap/PolygonalComplexes/*.gd \
 		gap/PolygonalComplexes/*.gi \
+		gap/Paths/*gd \
+		gap/Paths/*gi \
 		doc/SimplicialSurfaces.xml \
 		doc/Introduction.xml \
 		doc/PolygonalStructures.xml \
