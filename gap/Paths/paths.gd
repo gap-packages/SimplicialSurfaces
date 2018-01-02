@@ -80,38 +80,112 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #! <ManSection>
 #!   <Attr Name="PathAsList" Arg="vertexEdgePath" 
 #!     Label="for IsVertexEdgePath" Comm="Return the complete path as list"/>
+#!   <Returns>A list of positive integers</Returns>
+#!   <Description>
+#!   Return the complete vertex-edge-path as a list (with vertices and
+#!   edges alternating).
+#!
+#!   TODO example
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since we use a synonym
+DeclareSynonym( "PathAsList", "Path" );
+
+#! <ManSection>
 #!   <Attr Name="Vertices" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath" 
 #!     Comm="Return the odd entries of the path as list"/>
+#!   <Returns>A list of positive integers</Returns>
+#!   <Description>
+#!   Return the vertices of the vertex-edge-path as a list.
+#!
+#!   TODO example
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since we use a synonym
+DeclareSynonym( "Vertices", "OddPart" );
+
+#! <ManSection>
 #!   <Attr Name="Edges" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath" 
 #!     Comm="Return the odd entries of the path as list"/>
 #!   <Returns>A list of positive integers</Returns>
 #!   <Description>
-#!     The method <K>PathAsList</K> returns the complete vertex-edge-path as
-#!     a list (with vertices and edges alternating).
+#!     Return the edges of the vertex-edge-path as a list.
 #!
-#!     The method <K>Vertices</K> returns only the list of vertices and the 
-#!     method <K>Edges</K> returns only the list of edges.
-#! @ExampleSession
-#! gap> TODO
-#! @EndExampleSession
-#!
+#!     TODO example
 #!   </Description>
 #! </ManSection>
-# No AutoDoc-documentation since we make heavy use of synonyms
-DeclareSynonym( "PathAsList", "Path" );
-DeclareSynonym( "Vertices", "OddPart" );
+# No AutoDoc since we use a synonym
 DeclareSynonym( "Edges", "EvenPart" );
 
-TODO should the method above be separated? Yes.
 
-IsClosed
+#! <ManSection Label="IsClosedPath">
+#!   <Prop Name="IsClosedPath" Arg="vertexEdgePath"
+#!     Label="for IsVertexEdgePath"
+#!     Comm="Return whether the given path is closed"/>
+#!   <Returns>true or false</Returns>
+#!   <Description>
+#!     Check whether the given vertex-edge-path is closed, i.e. whether
+#!     the first and last vertex in this path are equal.
+#!
+#!     TODO example
+#!   </Description>
+#! </ManSection>
+# This is documentation for a declaration in dual_path.gd
 
-IsDuplicateFree
 
-VerticesAsPerm
-EdgesAsPerm
+#! <ManSection Label="IsDuplicateFree">
+#!   <Prop Name="IsDuplicateFree" Arg="vertexEdgePath"
+#!     Label="for IsVertexEdgePath"
+#!     Comm="Return whether the given path is duplicate-free"/>
+#!   <Returns>true or false</Returns>
+#!   <Description>
+#!     Check whether the given vertex-edge-path is duplicate-free.
+#!
+#!     A vertex-edge-path is duplicate-free if no vertices or edges
+#!     appear twice in it - with one exception: if the path is closed
+#!     (see <Ref Subsect="IsClosedPath"/>) it does not matter that the
+#!     first and last vertex are the same.
+#!
+#!     TODO example
+#!   </Description>
+#! </ManSection>
+# This is documentation for a declaration in dual_path.gd
+
+
+#! <ManSection Label="VerticesAsPerm">
+#!   <Attr Name="VerticesAsPerm" Arg="vertexEdgePath"
+#!     Label="for IsVertexEdgePath and IsClosed and IsDuplicateFree" 
+#!     Comm="Return the vertices of the given vertex-edge-path as permutation"/>
+#!   <Returns>A permutation</Returns>
+#!   <Description>
+#!     If a vertex-edge-path is closed and duplicate-free, it induces
+#!     a cyclic permutation on its vertices. This method returns that
+#!     permutation.
+#!
+#! TODO example
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since it is a synonym
+DeclareSynonym( "VerticesAsPerm", OddPartAsPerm );
+
+
+#! <ManSection Label="EdgesAsPerm">
+#!   <Attr Name="EdgesAsPerm" Arg="vertexEdgePath"
+#!     Label="for IsVertexEdgePath and IsClosed and IsDuplicateFree" 
+#!     Comm="Return the edges of the given vertex-edge-path as permutation"/>
+#!   <Returns>A permutation</Returns>
+#!   <Description>
+#!     If a vertex-edge-path is closed and duplicate-free, it induces
+#!     a cyclic permutation on its edges. This method returns that
+#!     permutation.
+#!
+#! TODO example
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since it is a synonym
+DeclareSynonym( "EdgesAsPerm", EvenPartAsPerm );
 
 
 #! @Description
