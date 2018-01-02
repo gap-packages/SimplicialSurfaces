@@ -12,34 +12,28 @@
 
 \begin{document}
 
-\tikzset{
-    test/ht/.style={shape=circle, fill=#1},
-    test/normal/.style={shape=circle, ball color=#1},
-    test/.code={
-        \if\texforht\tikzset{test/ht=#1}\else\tikzset{test/normal=#1}\fi
-    },
-    neu/.style={test=#1, font=\small}
-}
-
-\begin{tikzpicture}
-    \node[neu=green] at (0,0) {8};
+\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
+    \input{../Image_SixTrianglesInCycle.tex}
 \end{tikzpicture}
 
-%\end{document}
-
-\begin{tikzpicture}[vertexBall,edgePlain=nolabels,faceStyle=nolabels]
-    \def\orientation{1}
-    \input{../Image_ConstructorExample.tex}
+\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
+    \def\circlePath{1}
+    \input{../Image_SixTrianglesInCycle.tex}
 \end{tikzpicture}
 
-\begin{tikzpicture}
-    \foreach \i in {1,...,3}
-        \coordinate (A\i) at (-0.5+\i, 0);
-
-    \foreach \i in {1,2,3}
-        \fill (A\i) circle (2pt);
-
+\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
+    \def\omegaPath{1}
+    \input{../Image_SixTrianglesInCycle.tex}
 \end{tikzpicture}
 
+\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
+    \def\cloverPath{1}
+    \input{../Image_SixTrianglesInCycle.tex}
+\end{tikzpicture}
+
+\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
+    \def\alphaPath{1}
+    \input{../Image_SixTrianglesInCycle.tex}
+\end{tikzpicture}
 
 \end{document} 

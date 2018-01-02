@@ -1,0 +1,63 @@
+\def\r{2.5}
+\tikzset{path/.style={double=red,double distance=1.3pt}}
+\tikzset{edgeSpec/.style={edgeLabel,font=\small}}
+
+\coordinate (Z) at (0,0);
+\foreach \i in {1,...,6}{
+    \coordinate (P\i) at (-60+60*\i:\r);
+}
+
+\draw[face=\faceColorSecond]
+    \foreach \i/\j in {1/2,2/3,3/4,4/5,5/6,6/1}{
+        (Z) -- (P\i) -- (P\j) -- cycle
+    }
+;
+
+
+% Draw the edges separately, depending on the vertex-edge-paths that are active
+
+% Edge 1, 4
+\draw[edge,\ifdefined\cloverPath path\fi] 
+    (Z) -- node[edgeSpec] {1} (P1)
+    (Z) -- node[edgeSpec] {4} (P4);
+
+% Edge 2, 3
+\draw[edge,\ifdefined\cloverPath path\fi,\ifdefined\alphaPath path\fi] 
+    (Z) -- node[edgeSpec] {2} (P2)
+    (Z) -- node[edgeSpec] {3} (P3);
+
+% Edge 5, 6
+\draw[edge,\ifdefined\omegaPath path\fi,\ifdefined\cloverPath path\fi,\ifdefined\alphaPath path\fi]
+    (Z) -- node[edgeSpec] {5} (P5)
+    (Z) -- node[edgeSpec] {6} (P6);
+
+% Edge 7
+\draw[edge,\ifdefined\circlePath path\fi,\ifdefined\omegaPath path\fi,\ifdefined\cloverPath path\fi]
+    (P1) -- node[edgeSpec] {7} (P2);
+
+% Edge 8
+\draw[edge,\ifdefined\circlePath path\fi]
+    (P2) -- node[edgeSpec] {8} (P3);
+% Edge 9
+\draw[edge,\ifdefined\circlePath path\fi,\ifdefined\omegaPath path\fi,\ifdefined\cloverPath path\fi,\ifdefined\alphaPath path\fi]
+    (P3) -- node[edgeSpec] {9} (P4);
+
+% Edge 10
+\draw[edge,\ifdefined\circlePath path\fi,\ifdefined\omegaPath path\fi,\ifdefined\alphaPath path\fi]
+    (P4) -- node[edgeSpec] {10} (P5);
+
+% Edge 11
+\draw[edge,\ifdefined\circlePath path\fi,\ifdefined\cloverPath path\fi]
+    (P5) -- node[edgeSpec] {11} (P6);
+
+% Edge 12
+\draw[edge,\ifdefined\circlePath path\fi,\ifdefined\omegaPath path\fi]
+    (P6) -- node[edgeSpec] {12} (P1);
+
+
+
+
+% Draw vertices
+\foreach \p/\r/\n in {P1/right/1, P2/above/2, P3/above/3, P4/left/4, P5/below/5, P6/below/6, Z/above/7}{
+    \vertexLabelR{\p}{\r}{\n}
+}
