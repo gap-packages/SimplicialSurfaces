@@ -224,7 +224,7 @@ BindGlobal("__SIMPLICIAL_CompareSets",
         
         if not setA = setB then
             symDiff := Union( Difference(setA, setB), Difference(setB, setA) );
-            Error(Concatenation(name, ": Given ", word, " information does not match for ", String(symDiff)));
+            Error(Concatenation(name, ": Given ", word, " information does not match for each ", word, " in ", String(symDiff)));
         fi;
     end
 );
