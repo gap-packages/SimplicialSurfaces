@@ -119,6 +119,7 @@ InstallMethod( EvenPartAsPerm, "for a closed, duplicate-free dual path",
         return __SIMPLICIAL_ListToCycle(even);
     end
 );
+RedispatchOnCondition( EvenPartAsPerm, true, [IsDualPath], [IsClosedPath and IsDuplicateFree], 0 );
 
 
 InstallMethod( OddPartAsPerm, "for a closed, duplicate-free dual path",
@@ -130,6 +131,7 @@ InstallMethod( OddPartAsPerm, "for a closed, duplicate-free dual path",
         return __SIMPLICIAL_ListToCycle(odd);
     end
 );
+RedispatchOnCondition( EvenPartAsPerm, true, [IsDualPath], [IsClosedPath and IsDuplicateFree], 0 );
 
 InstallMethod( ViewString, "for a dual path", [IsDualPath],
     function(path)

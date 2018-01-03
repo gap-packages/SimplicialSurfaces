@@ -49,7 +49,8 @@
 #! * The vertices <M>v_j</M> and <M>v_{{j+1}}</M> are different
 #! @EndChunk
 
-#! <ManSection>
+#TODO is there a way to tell that a filter is a category?
+#! <ManSection Label="VertexEdgePath">
 #!   <Oper Name="VertexEdgePath" Arg="complex, path" 
 #!      Label="for IsPolygonalComplex and IsDenseList"
 #!      Comm="Construct a vertex-edge-path from a polygonal complex and a list"/>
@@ -70,25 +71,25 @@
 #!     introduced at the start of section 
 #!     <Ref Sect="Section_Paths_VertexEdge"/>.
 #!     <Alt Only="TikZ">
-#!       \begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
-#!         \begin{scope}
-#!           \def\alphaPath{1}
-#!           \input{Image_SixTrianglesInCycle.tex}
-#!         \end{scope}
-#!         \begin{scope}[xshift=6cm]
-#!           \def\omegaPath{1}
-#!           \input{Image_SixTrianglesInCycle.tex}
-#!         \end{scope}
-#!       \end{tikzpicture}
+#!       \input{Image_SixTriangles_AlphaAndOmega.tex}
 #!     </Alt>
-#!
-#!     @InsertChunk Definition_VertexEdgePath
-#!
 #!     @ExampleSession
 #! gap> alphaPath := VertexEdgePath(hex, [2,2,7,5,5,10,4,9,3,3,7,6,6]);
 #! [ 2, 2, 7, 5, 5, 10, 4, 9, 3, 3, 7, 6, 6 ]
 #! gap> omegaPath := VertexEdgePath(hex, [3,9,4,10,5,5,7,6,6,12,1,7,2]);
 #! [ 3, 9, 4, 10, 5, 5, 7, 6, 6, 12, 1, 7, 2 ]
+#!     @EndExampleSession
+#!
+#!     @InsertChunk Definition_VertexEdgePath
+#!
+#!     <Alt Only="TikZ">
+#!       \input{Image_SixTriangles_CircleAndClover.tex}
+#!     </Alt>
+#!     @ExampleSession
+#! gap> circlePath := VertexEdgePath( hex, [1,7,2,8,3,9,4,10,5,11,6,12,1] );
+#! [ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+#! gap> cloverPath := VertexEdgePath( hex, [1,7,2,2,7,5,5,11,6,6,7,3,3,9,4,4,7,1,1] );
+#! [ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ]
 #!     @EndExampleSession
 #!
 #!     The NC-version does not check if the
@@ -116,8 +117,20 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #!   <Description>
 #!   Return the complete vertex-edge-path as a list (with vertices and
 #!   edges alternating).
-#!
-#!   TODO example
+#!   
+#!   For the examples from <K>VertexEdgePath</K> 
+#!   (<Ref Subsect="VertexEdgePath"/>) in the simplicial surface from the 
+#!   start of section <Ref Sect="Section_Paths_VertexEdge"/>:
+#!   @ExampleSession
+#! gap> PathAsList( alphaPath );
+#! [ 2, 2, 7, 5, 5, 10, 4, 9, 3, 3, 7, 6, 6 ]
+#! gap> PathAsList( omegaPath );
+#! [ 3, 9, 4, 10, 5, 5, 7, 6, 6, 12, 1, 7, 2 ]
+#! gap> PathAsList( circlePath );
+#! [ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+#! gap> PathAsList( cloverPath );
+#! [ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ]
+#!   @EndExampleSession
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since we use a synonym
@@ -131,7 +144,19 @@ DeclareSynonym( "PathAsList", "Path" );
 #!   <Description>
 #!   Return the vertices of the vertex-edge-path as a list.
 #!
-#!   TODO example
+#!   For the examples from <K>VertexEdgePath</K> 
+#!   (<Ref Subsect="VertexEdgePath"/>) in the simplicial surface from the 
+#!   start of section <Ref Sect="Section_Paths_VertexEdge"/>:
+#!   @ExampleSession
+#! gap> VerticesAsList( alphaPath );
+#! [ 2, 7, 5, 4, 3, 7, 6 ]
+#! gap> VerticesAsList( omegaPath );
+#! [ 3, 4, 5, 7, 6, 1, 2 ]
+#! gap> VerticesAsList( circlePath );
+#! [ 1, 2, 3, 4, 5, 6, 1 ]
+#! gap> VerticesAsList( cloverPath );
+#! [ 1, 2, 7, 5, 6, 7, 3, 4, 7, 1 ]
+#!   @EndExampleSession
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since we use a synonym
@@ -145,7 +170,19 @@ DeclareSynonym( "VerticesAsList", "OddPart" );
 #!   <Description>
 #!     Return the edges of the vertex-edge-path as a list.
 #!
-#!     TODO example
+#!   For the examples from <K>VertexEdgePath</K> 
+#!   (<Ref Subsect="VertexEdgePath"/>) in the simplicial surface from the 
+#!   start of section <Ref Sect="Section_Paths_VertexEdge"/>:
+#!   @ExampleSession
+#! gap> EdgesAsList( alphaPath );
+#! [ 2, 5, 10, 9, 3, 6 ]
+#! gap> EdgesAsList( omegaPath );
+#! [ 9, 10, 5, 6, 12, 7 ]
+#! gap> EdgesAsList( circlePath );
+#! [ 7, 8, 9, 10, 11, 12 ]
+#! gap> EdgesAsList( cloverPath );
+#! [ 7, 2, 5, 11, 6, 3, 9, 4, 1 ]
+#!   @EndExampleSession
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since we use a synonym
@@ -161,7 +198,22 @@ DeclareSynonym( "EdgesAsList", "EvenPart" );
 #!     Check whether the given vertex-edge-path is closed, i.e. whether
 #!     the first and last vertex in this path are equal.
 #!
-#!     TODO example
+#!     From the example paths (introduced in 
+#!     <Ref Subsect="VertexEdgePath"/> (<K>VertexEdgePath</K>)) only two
+#!     are closed:
+#!     @ExampleSession
+#! gap> IsClosedPath( alphaPath );
+#! false
+#! gap> IsClosedPath( omegaPath );
+#! false
+#! gap> IsClosedPath( circlePath );
+#! true
+#! gap> IsClosedPath( cloverPath );
+#! true
+#!     @EndExampleSession
+#!     <Alt Only="TikZ">
+#!       \input{Image_SixTriangles_CircleAndClover.tex}
+#!     </Alt>
 #!   </Description>
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
@@ -180,7 +232,22 @@ DeclareSynonym( "EdgesAsList", "EvenPart" );
 #!     (see <Ref Subsect="IsClosedPath"/>) it does not matter that the
 #!     first and last vertex are the same.
 #!
-#!     TODO example
+#!     From the example paths (introduced in 
+#!     <Ref Subsect="VertexEdgePath"/> (<K>VertexEdgePath</K>)) only two
+#!     are duplicate-free:
+#!     @ExampleSession
+#! gap> IsDuplicateFree( alphaPath );
+#! false
+#! gap> IsDuplicateFree( omegaPath );
+#! true
+#! gap> IsDuplicateFree( circlePath );
+#! true
+#! gap> IsDuplicateFree( cloverPath );
+#! false
+#!     @EndExampleSession
+#!     <Alt Only="TikZ">
+#!       \input{Image_SixTriangles_CircleAndOmega.tex}
+#!     </Alt>
 #!   </Description>
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
@@ -195,8 +262,19 @@ DeclareSynonym( "EdgesAsList", "EvenPart" );
 #!     If a vertex-edge-path is closed and duplicate-free, it induces
 #!     a cyclic permutation on its vertices. This method returns that
 #!     permutation.
-#!
-#! TODO example
+#! 
+#!     We illustrate this with
+#!     the circle path from <K>VertexEdgePath</K> 
+#!     (<Ref Sect="VertexEdgePath"/>).
+#!     <Alt Only="TikZ">
+#!       \input{Image_SixTriangles_Circle.tex}
+#!     </Alt>
+#!     @ExampleSession
+#! gap> circlePath;
+#! [ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+#! gap> VerticesAsPerm(circlePath);
+#! (1,2,3,4,5,6)
+#!     @EndExampleSession
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since it is a synonym
@@ -213,7 +291,18 @@ DeclareSynonym( "VerticesAsPerm", OddPartAsPerm );
 #!     a cyclic permutation on its edges. This method returns that
 #!     permutation.
 #!
-#! TODO example
+#!     We illustrate this with
+#!     the circle path from <K>VertexEdgePath</K> 
+#!     (<Ref Sect="VertexEdgePath"/>).
+#!     <Alt Only="TikZ">
+#!       \input{Image_SixTriangles_Circle.tex}
+#!     </Alt>
+#!     @ExampleSession
+#! gap> circlePath;
+#! [ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+#! gap> EdgesAsPerm(circlePath);
+#! (7,8,9,10,11,12)
+#!     @EndExampleSession
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since it is a synonym
