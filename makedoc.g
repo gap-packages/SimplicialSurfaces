@@ -199,7 +199,7 @@ BindGlobal( "CleanImageDirectory", function(  )
         if StartsWith( file, "_IMAGE_" ) then
             if ForAny( __SIMPLICIAL_ImageNames, n -> StartsWith(file,n) ) then
                 # This is a file to an existing picture
-                if not ForAny( [".tex", ".svg", ".log", ".pdf"], e -> EndsWith(file,e) ) then
+                if not ForAny( [".tex", ".svg", ".pdf"], e -> EndsWith(file,e) ) then
                     # Does not end in one of those file extensions
                     Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm ", file, ";\"" );
                 fi;
