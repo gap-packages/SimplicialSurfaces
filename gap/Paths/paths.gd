@@ -18,7 +18,7 @@
 #! edge-face-paths were introduced. This chapter documents which methods
 #! are available for these paths (in sections 
 #! <Ref Sect="Section_Paths_VertexEdge"/> and 
-#! <Ref Sect="Section_Paths_Edgeface"/>). Then it
+#! <Ref Sect="Section_Paths_EdgeFace"/>). Then it
 #! discusses applications of these paths, namely connectivity (TODO) and
 #! orientability (TODO).
 
