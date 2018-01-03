@@ -128,7 +128,7 @@ InstallMethod( OddPartAsPerm, "for a closed, duplicate-free dual path",
         local odd;
 
         odd := OddPart(dualPath);
-        return __SIMPLICIAL_ListToCycle(odd);
+        return __SIMPLICIAL_ListToCycle(odd{[1..Length(odd)-1]});
     end
 );
 RedispatchOnCondition( EvenPartAsPerm, true, [IsDualPath], [IsClosedPath and IsDuplicateFree], 0 );

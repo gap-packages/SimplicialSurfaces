@@ -134,7 +134,7 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since we use a synonym
-DeclareSynonym( "PathAsList", "Path" );
+DeclareSynonym( "PathAsList", Path );
 
 #! <ManSection>
 #!   <Attr Name="VerticesAsList" Arg="vertexEdgePath"
@@ -160,7 +160,7 @@ DeclareSynonym( "PathAsList", "Path" );
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since we use a synonym
-DeclareSynonym( "VerticesAsList", "OddPart" );
+DeclareSynonym( "VerticesAsList", OddPart );
 
 #! <ManSection>
 #!   <Attr Name="EdgesAsList" Arg="vertexEdgePath"
@@ -186,7 +186,7 @@ DeclareSynonym( "VerticesAsList", "OddPart" );
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since we use a synonym
-DeclareSynonym( "EdgesAsList", "EvenPart" );
+DeclareSynonym( "EdgesAsList", EvenPart );
 
 
 #! <ManSection Label="IsClosedPath">
