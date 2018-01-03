@@ -183,7 +183,7 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
         PrintTo( out, VerticesOfEdges(complex) );
         PrintTo( out, ", " );
         PrintTo( out, EdgesOfFaces(complex) );
-        PrintTo( out, ");" );
+        PrintTo( out, ")" );
 
         CloseStream(out);
 

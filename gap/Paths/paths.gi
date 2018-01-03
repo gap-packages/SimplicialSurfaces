@@ -68,3 +68,22 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
         return VertexEdgePathNC(complex, path);
     end
 );
+
+
+InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        local str, out;
+        
+        str := "";
+        out := OutputTextStream(str,true);
+
+        PrintTo(out, "VertexEdgePathNC( ");
+        PrintTo(out, AssociatedPolygonalComplex(path));
+        PrintTo(out, ", ");
+        PrintTo(out, PathAsList(path));
+        PrintTo(out, ")");
+
+        CloseSream(out);
+        return str;
+    end
+);

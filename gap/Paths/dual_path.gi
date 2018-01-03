@@ -131,4 +131,13 @@ InstallMethod( OddPartAsPerm, "for a closed, duplicate-free dual path",
     end
 );
 
-
+InstallMethod( ViewString, "for a dual path", [IsDualPath],
+    function(path)
+        local str, out;
+        str := "";
+        out := OutputTextStream(str,true);
+        PrintTo( out, Path(path) );
+        CloseStream(out);
+        return str;
+    end
+);
