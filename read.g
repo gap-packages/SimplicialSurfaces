@@ -12,6 +12,7 @@
 ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/AttributeScheduler.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/Paths/paths.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gi" );

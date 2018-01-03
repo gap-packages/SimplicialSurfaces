@@ -27,7 +27,18 @@
 #! vertex-edge-paths describe all paths that are realized by walking only on
 #! the vertices and edges of a polygonal complex.
 #!
-#!
+#! We will illustrate several properties with vertex-edge-paths that are
+#! defined on this simplicial surface:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle,edgePlain,faceStyle]
+#!     \input{Image_SixTrianglesInCycle.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> hex := SimplicialSurfaceByDownwardIncidence( 
+#! >      [ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],
+#! >      [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;
+#! @EndExampleSession
 
 #! @BeginChunk Definition_VertexEdgePath
 #! A <E>vertex-edge-path</E> in a polygonal complex is a tuple
@@ -55,9 +66,30 @@
 #!     method <K>IsVertexEdgePath</K> checks if a given &GAP;-object
 #!     represents such a path.
 #!
-#!     TODO picture
+#!     We illustrate this with two paths on the simplicial surface that was
+#!     introduced at the start of section 
+#!     <Ref Sect="Section_Paths_VertexEdge"/>.
+#!     <Alt Only="TikZ">
+#!       \begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
+#!         \begin{scope}
+#!           \def\alphaPath{1}
+#!           \input{Image_SixTrianglesInCycle.tex}
+#!         \end{scope}
+#!         \begin{scope}[xshift=6cm]
+#!           \def\omegaPath{1}
+#!           \input{Image_SixTrianglesInCycle.tex}
+#!         \end{scope}
+#!       \end{tikzpicture}
+#!     </Alt>
 #!
 #!     @InsertChunk Definition_VertexEdgePath
+#!
+#!     @ExampleSession
+#! gap> alphaPath := VertexEdgePath(hex, [2,2,7,5,5,10,4,9,3,3,7,6,6]);
+#! [ 2, 2, 7, 5, 5, 10, 4, 9, 3, 3, 7, 6, 6 ]
+#! gap> omegaPath := VertexEdgePath(hex, [3,9,4,10,5,5,7,6,6,12,1,7,2]);
+#! [ 3, 9, 4, 10, 5, 5, 7, 6, 6, 12, 1, 7, 2 ]
+#!     @EndExampleSession
 #!
 #!     The NC-version does not check if the
 #!     given <A>path</A> is a list 
@@ -92,7 +124,7 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 DeclareSynonym( "PathAsList", "Path" );
 
 #! <ManSection>
-#!   <Attr Name="Vertices" Arg="vertexEdgePath"
+#!   <Attr Name="VerticesAsList" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath" 
 #!     Comm="Return the odd entries of the path as list"/>
 #!   <Returns>A list of positive integers</Returns>
@@ -103,10 +135,10 @@ DeclareSynonym( "PathAsList", "Path" );
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since we use a synonym
-DeclareSynonym( "Vertices", "OddPart" );
+DeclareSynonym( "VerticesAsList", "OddPart" );
 
 #! <ManSection>
-#!   <Attr Name="Edges" Arg="vertexEdgePath"
+#!   <Attr Name="EdgesAsList" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath" 
 #!     Comm="Return the odd entries of the path as list"/>
 #!   <Returns>A list of positive integers</Returns>
@@ -117,7 +149,7 @@ DeclareSynonym( "Vertices", "OddPart" );
 #!   </Description>
 #! </ManSection>
 # No AutoDoc since we use a synonym
-DeclareSynonym( "Edges", "EvenPart" );
+DeclareSynonym( "EdgesAsList", "EvenPart" );
 
 
 #! <ManSection Label="IsClosedPath">

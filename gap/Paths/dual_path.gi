@@ -135,7 +135,7 @@ InstallMethod( ViewString, "for a dual path", [IsDualPath],
     function(path)
         local str, out;
         str := "";
-        out := OutputTextStream(str,true);
+        out := OutputTextString(str,true);
         PrintTo( out, Path(path) );
         CloseStream(out);
         return str;

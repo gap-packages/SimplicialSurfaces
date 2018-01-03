@@ -17,13 +17,18 @@
 \end{tikzpicture}
 
 \begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
-    \def\circlePath{1}
-    \input{../Image_SixTrianglesInCycle.tex}
-\end{tikzpicture}
-
-\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
-    \def\omegaPath{1}
-    \input{../Image_SixTrianglesInCycle.tex}
+    \begin{scope}
+        \def\circlePath{1}
+        \input{../Image_SixTrianglesInCycle.tex}
+    \end{scope}
+    \begin{scope}[xshift=6cm]
+        \def\omegaPath{1}
+        \input{../Image_SixTrianglesInCycle.tex}
+    \end{scope}
+    \begin{scope}[xshift=12cm]
+        \def\alphaPath{1}
+        \input{../Image_SixTrianglesInCycle.tex}
+    \end{scope}
 \end{tikzpicture}
 
 \begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]

@@ -13,6 +13,9 @@
     }
 ;
 
+\foreach \p/\q/\n in {P1/P2/I, P2/P3/II, P3/P4/III, P4/P5/IV, P5/P6/V, P6/P1/VI}{
+    \node[faceLabel] at (barycentric cs:Z=1,\p=1,\q=1) {\n};
+}
 
 % Draw the edges separately, depending on the vertex-edge-paths that are active
 
