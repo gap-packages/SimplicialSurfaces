@@ -16,9 +16,12 @@
 #!
 #! In sections TODO and TODO the concepts of vertex-edge-paths and 
 #! edge-face-paths were introduced. This chapter documents which methods
-#! are available for these paths (in sections TODO and TODO). Then it
+#! are available for these paths (in sections 
+#! <Ref Sect="Section_Paths_VertexEdge"/> and 
+#! <Ref Sect="Section_Paths_Edgeface"/>). Then it
 #! discusses applications of these paths, namely connectivity (TODO) and
 #! orientability (TODO).
+
 
 #! @Section Vertex-Edge-Paths
 #! @SectionLabel Paths_VertexEdge
@@ -315,3 +318,13 @@ DeclareSynonym( "EdgesAsPerm", EvenPartAsPerm );
 #! @Arguments vertexEdgePath
 #! @Returns a polygonal complex
 DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
+
+
+
+
+#! @Section Edge-Face-Paths
+#! @SectionLabel Paths_EdgeFace
+#!
+#! This section describes all methods for edge-face-paths. Intuitively,
+#! edge-face-paths describe all paths that are realized by walking
+#! from face to face on a polygonal complex, while only passing edges.
