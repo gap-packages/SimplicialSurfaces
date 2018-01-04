@@ -456,7 +456,21 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #!     Check whether the given edge-face-path is closed, i.e. whether
 #!     the first and last vertex in this path are equal.
 #!
-#!TODO
+#! The example from <K>EdgeFacePath</K>
+#! (<Ref Subsect="EdgeFacePath"/>) is not closed but an extended version
+#! of the path is.
+#! <Alt Only="TikZ">
+#!   \input{Image_ThinTorus_longPath.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsClosedPath(edgeFacePath);
+#! false
+#! gap> longPath := EdgeFacePath( thinTorus,
+#! >                 [13,7,14,8,15,9,11,3,7,4,8,5,12,11,18,12,13]);
+#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 12, 11, 18, 12, 13 ]
+#! gap> IsClosedPath(longPath);
+#! true
+#! @EndExampleSession
 #!   </Description>
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
@@ -475,19 +489,41 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #!     (see <Ref Subsect="EdgeFace_IsClosedPath"/>) it does not matter that the
 #!     first and last edge are the same.
 #!
-#! TODO
+#!     Both the path from <K>EdgeFacePath</K>
+#!     (<Ref Subsect="EdgeFacePath"/>) and the longer one from
+#!     <K>IsClosedPath</K> (<Ref Subsect="EdgeFace_IsClosedPath"/>)
+#!     are duplicate-free.
+#!     @ExampleSession
+#! gap> IsDuplicateFree( edgeFacePath );
+#! true
+#! gap> IsDuplicateFree( longPath );
+#! true
+#!     @EndExampleSession
+#! 
+#! TODO example where non-central edges are double
 #!   </Description>
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
 
 
-#! @BeginGroup EdgeFace_VerticesAsPerm
+#! @BeginGroup EdgeFace_EdgesAsPerm
 #! @Description
 #!     If an edge-face-path is closed and duplicate-free, it induces
 #!     a cyclic permutation on its edges. This method returns that
 #!     permutation.
 #! 
-#!TODO
+#! We illustrate this on the long path from <K>IsClosed</K>
+#! (<Ref Subsect="EdgeFace_IsClosedPath"/>).
+#! <Alt Only="TikZ">
+#!  \input{Image_ThinTorus_longPath.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> longPath;
+#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 12, 11, 18, 12, 13 ]
+#! gap> EdgesAsPerm(longPath);
+#! (7,8,12,18,13,14,15,11)
+#! @EndExampleSession
+#! 
 #! @Arguments edgeFacePath
 #! @Returns a permutation
 DeclareAttribute( "EdgesAsPerm", IsEdgeFacePath );
@@ -500,7 +536,18 @@ DeclareAttribute( "EdgesAsPerm", IsEdgeFacePath );
 #!     a cyclic permutation on its faces. This method returns that
 #!     permutation.
 #!
-#! TODO
+#! We illustrate this on the long path from <K>IsClosed</K>
+#! (<Ref Subsect="EdgeFace_IsClosedPath"/>).
+#! <Alt Only="TikZ">
+#!  \input{Image_ThinTorus_longPath.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> longPath;
+#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 12, 11, 18, 12, 13 ]
+#! gap> FacesAsPerm(longPath);
+#! (3,4,5,11,12,7,8,9)
+#! @EndExampleSession
+#!
 #! @Arguments edgeFacePath
 #! @Returns A permutation
 DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
