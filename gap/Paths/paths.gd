@@ -95,6 +95,11 @@
 #! [ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ]
 #!     @EndExampleSession
 #!
+#!     The elements of a vertex-edge-path can be accessed by using the methods
+#!     <K>PathAsList</K> (<Ref Subsect="VertexEdge_PathAsList"/>), 
+#!     <K>VerticesAsList</K> (<Ref Subsect="VertexEdge_VerticesAsList"/>) and 
+#!     <K>EdgesAsList</K> (<Ref Subsect="VertexEdge_EdgesAsList"/>).
+#!
 #!     The NC-version does not check if the
 #!     given <A>path</A> is a list 
 #!     <M>[v_1,e_1,v_2,e_2,\ldots,v_n,e_n,v_{{n+1}}]</M> that fulfills these
@@ -110,10 +115,7 @@ DeclareOperation( "VertexEdgePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 
 
-#! The elements of a vertex-edge-path can be accessed by using the methods
-#! <K>PathAsList</K>, <K>Vertices</K> and <K>Edges</K>.
-
-#! <ManSection>
+#! <ManSection Label="VertexEdge_PathAsList">
 #!   <Attr Name="PathAsList" Arg="vertexEdgePath" 
 #!     Label="for IsVertexEdgePath" Comm="Return the complete path as list"/>
 #!   <Returns>A list of positive integers</Returns>
@@ -139,7 +141,7 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 # No AutoDoc since we use a synonym
 DeclareSynonym( "PathAsList", Path );
 
-#! <ManSection>
+#! <ManSection Label="VertexEdge_VerticesAsList">
 #!   <Attr Name="VerticesAsList" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath" 
 #!     Comm="Return the odd entries of the path as list"/>
@@ -165,10 +167,10 @@ DeclareSynonym( "PathAsList", Path );
 # No AutoDoc since we use a synonym
 DeclareSynonym( "VerticesAsList", OddPart );
 
-#! <ManSection>
+#! <ManSection Label="VertexEdge_EdgesAsList">
 #!   <Attr Name="EdgesAsList" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath" 
-#!     Comm="Return the odd entries of the path as list"/>
+#!     Comm="Return the even entries of the path as list"/>
 #!   <Returns>A list of positive integers</Returns>
 #!   <Description>
 #!     Return the edges of the vertex-edge-path as a list.
@@ -192,7 +194,7 @@ DeclareSynonym( "VerticesAsList", OddPart );
 DeclareSynonym( "EdgesAsList", EvenPart );
 
 
-#! <ManSection Label="IsClosedPath">
+#! <ManSection Label="VertexEdge_IsClosedPath">
 #!   <Prop Name="IsClosedPath" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath"
 #!     Comm="Return whether the given path is closed"/>
@@ -222,7 +224,7 @@ DeclareSynonym( "EdgesAsList", EvenPart );
 # This is documentation for a declaration in dual_path.gd
 
 
-#! <ManSection Label="IsDuplicateFree">
+#! <ManSection Label="VertexEdge_IsDuplicateFree">
 #!   <Prop Name="IsDuplicateFree" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath"
 #!     Comm="Return whether the given path is duplicate-free"/>
@@ -232,7 +234,7 @@ DeclareSynonym( "EdgesAsList", EvenPart );
 #!
 #!     A vertex-edge-path is duplicate-free if no vertices or edges
 #!     appear twice in it - with one exception: if the path is closed
-#!     (see <Ref Subsect="IsClosedPath"/>) it does not matter that the
+#!     (see <Ref Subsect="VertexEdge_IsClosedPath"/>) it does not matter that the
 #!     first and last vertex are the same.
 #!
 #!     From the example paths (introduced in 
@@ -379,19 +381,25 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #!         \def\edgeFacePath{1}
 #!         \input{Image_ThinTorus.tex}
 #!       \end{tikzpicture}
+#!     </Alt>
 #!
 #!     @InsertChunk Definition_EdgeFacePath
 #!
 #!     @ExampleSession
-#! gap> edgeFacePath := EdgeFacePath( thinTorus, [13,7,14,8,15,9,11,3,7,4,8,9] );
-#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 9 ]
+#! gap> edgeFacePath := EdgeFacePath( thinTorus, [13,7,14,8,15,9,11,3,7,4,8,5,9] );
+#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 9 ]
 #! gap> IsEdgeFacePath(edgeFacePath);
 #! true
 #! gap> IsList(edgeFacePath);
 #! false
-#! gap> IsEdgeFacePath( [13,7,14,8,15,9,11,3,7,4,8,9] );
+#! gap> IsEdgeFacePath( [13,7,14,8,15,9,11,3,7,4,8,5,9] );
 #! false
 #!     @EndExampleSession
+#!  
+#!     The elements of a vertex-edge-path can be accessed by using the methods
+#!     <K>PathAsList</K> (<Ref Subsect="EdgeFace_PathAsList"/>),
+#!     <K>EdgesAsList</K> (<Ref Subsect="EdgeFace_EdgesAsList"/>) and 
+#      <K>FacesAsList</K> (<Ref Subsect="EdgeFace_FacesAsList"/>).
 #!
 #!     The NC-version does not check if the
 #!     given <A>path</A> is a list 
@@ -406,5 +414,144 @@ BindGlobal( "EdgeFacePathFamily",
     NewFamily("EdgeFacePathFamily", IsObject, IsVertexEdgePath) );
 DeclareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
+
+
+#! <ManSection Label="EdgeFace_PathAsList">
+#!   <Attr Name="PathAsList" Arg="edgeFacePath" 
+#!     Label="for IsEdgeFacePath" Comm="Return the complete path as list"/>
+#!   <Returns>A list of positive integers</Returns>
+#!   <Description>
+#!   Return the complete edge-face-path as a list (with edges and
+#!   faces alternating).
+#!   
+#!   For the examples from <K>EdgeFacePath</K> 
+#!   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
+#!   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
+#!   @ExampleSession
+#! gap> PathAsList( edgeFacePath );
+#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 9 ]
+#!   @EndExampleSession
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since we use a synonym
+DeclareSynonym( "PathAsList", Path );
+
+#! <ManSection Label="EdgeFace_EdgesAsList">
+#!   <Attr Name="EdgesAsList" Arg="edgeFacePath"
+#!     Label="for IsEdgeFacePath" 
+#!     Comm="Return the odd entries of the path as list"/>
+#!   <Returns>A list of positive integers</Returns>
+#!   <Description>
+#!   Return the edges of the edge-face-path as a list.
+#!
+#!   For the examples from <K>EdgeFacePath</K> 
+#!   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
+#!   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
+#!   @ExampleSession
+#! gap> EdgesAsList( edgeFacePath );
+#! [ 13, 14, 15, 11, 7, 8, 9 ]
+#!   @EndExampleSession
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since we use a synonym
+DeclareSynonym( "EdgesAsList", OddPart );
+
+#! <ManSection Label="EdgeFace_FacesAsList">
+#!   <Attr Name="FacesAsList" Arg="edgeFacePath"
+#!     Label="for IsEdgeFacePath" 
+#!     Comm="Return the even entries of the path as list"/>
+#!   <Returns>A list of positive integers</Returns>
+#!   <Description>
+#!     Return the faces of the edge-face-path as a list.
+#!
+#!   For the examples from <K>EdgeFacePath</K> 
+#!   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
+#!   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
+#!   @ExampleSession
+#! gap> FacesAsList( edgeFacePath );
+#! [ 7, 8, 9, 3, 4, 5 ]
+#!   @EndExampleSession
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since we use a synonym
+DeclareSynonym( "FacesAsList", EvenPart );
+
+
+#! <ManSection Label="EdgeFace_IsClosedPath">
+#!   <Prop Name="IsClosedPath" Arg="edgeFacePath"
+#!     Label="for IsEdgeFacePath"
+#!     Comm="Return whether the given path is closed"/>
+#!   <Returns>true or false</Returns>
+#!   <Description>
+#!     Check whether the given edge-face-path is closed, i.e. whether
+#!     the first and last vertex in this path are equal.
+#!
+#!TODO
+#!   </Description>
+#! </ManSection>
+# This is documentation for a declaration in dual_path.gd
+
+
+#! <ManSection Label="EdgeFace_IsDuplicateFree">
+#!   <Prop Name="IsDuplicateFree" Arg="edgeFacePath"
+#!     Label="for IsEdgeFacePath"
+#!     Comm="Return whether the given path is duplicate-free"/>
+#!   <Returns>true or false</Returns>
+#!   <Description>
+#!     Check whether the given edge-face-path is duplicate-free.
+#!
+#!     An edge-face-path is duplicate-free if no edges or faces
+#!     appear twice in it - with one exception: if the path is closed
+#!     (see <Ref Subsect="EdgeFace_IsClosedPath"/>) it does not matter that the
+#!     first and last edge are the same.
+#!
+#! TODO
+#!   </Description>
+#! </ManSection>
+# This is documentation for a declaration in dual_path.gd
+
+
+#! <ManSection Label="EdgeFace_VerticesAsPerm">
+#!   <Attr Name="EdgesAsPerm" Arg="edgeFacePath"
+#!     Label="for IsEdgeFacePath and IsClosed and IsDuplicateFree" 
+#!     Comm="Return the edges of the given edge-face-path as permutation"/>
+#!   <Returns>A permutation</Returns>
+#!   <Description>
+#!     If an edge-face-path is closed and duplicate-free, it induces
+#!     a cyclic permutation on its edges. This method returns that
+#!     permutation.
+#! 
+#!TODO
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since it is a synonym
+DeclareSynonym( "EdgesAsPerm", OddPartAsPerm );
+
+
+#! <ManSection Label="EdgeFace_FacesAsPerm">
+#!   <Attr Name="FacesAsPerm" Arg="edgeFacePath"
+#!     Label="for IsEdgeFacePath and IsClosed and IsDuplicateFree" 
+#!     Comm="Return the faces of the given edge-face-path as permutation"/>
+#!   <Returns>A permutation</Returns>
+#!   <Description>
+#!     If an edge-face-path is closed and duplicate-free, it induces
+#!     a cyclic permutation on its faces. This method returns that
+#!     permutation.
+#!
+#!TODO
+#!   </Description>
+#! </ManSection>
+# No AutoDoc since it is a synonym
+DeclareSynonym( "EdgesAsPerm", EvenPartAsPerm );
+
+
+#! @Description
+#! Return the polygonal complex for which the given edge-face-path is
+#! defined.
+#! @Arguments edgeFacePath
+#! @Returns a polygonal complex
+DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
+
+
 
 
