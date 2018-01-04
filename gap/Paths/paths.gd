@@ -593,3 +593,377 @@ DeclareProperty( "IsGeodesic", IsEdgeFacePath );
 #!
 #! @Arguments edgeFacePath
 DeclareProperty( "IsClosedGeodesic", IsEdgeFacePath );
+
+
+#! @Section Connectivity
+#! @SectionLabel Paths_Connectivity
+#!
+#! This section contains methods that deal with the (strong) connectivity of 
+#! polygonal
+#! complexes (which were introduced in chapter 
+#! <Ref Chap="PolygonalStructures"/> as a generalisation of simplicial 
+#! surfaces). More specifically it contains these
+#! capabilities:
+#! * Determine if a polygonal complex is (strongly) connected 
+#!   (<Ref Subsect="IsConnected"/> and <Ref Subsect="IsStronglyConnected"/>).
+#! * Determine the (strongly) connected components of a polygonal complex 
+#!   (<Ref Subsect="ConnectedComponents"/> and 
+#!   <Ref Subsect="StronglyConnectedComponents"/>).
+#!
+#! The distinction between <E>connectivity</E> and <E>strong connectivity</E> 
+#! is only
+#! relevant for polygonal complexes that are not also polygonal surfaces.
+#! This can be seen in this example:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> butterfly := RamifiedSimplicialSurfaceByVerticesInFaces( 7, 4,
+#! > [ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;
+#! @EndExampleSession
+#! This example is connected since its incidence graph (see section
+#! <Ref Sect="Section_Graphs_Incidence"/>) is 
+#! connected.
+#! @ExampleSession
+#! gap> IsConnected( butterfly );
+#! true
+#! @EndExampleSession
+#! But in several situations it is convenient to regard this
+#! example as disconnected, with the following connected components:
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!       \def\swapColors{1}
+#!       \input{Image_ButterflyOfTriangles.tex}
+#!    \end{tikzpicture}
+#! </Alt>
+#! This notion of connectivity is called <E>strong connectivity</E>. 
+#! A polygonal complex is strongly connected if and only if the polygonal 
+#! complex without
+#! its vertices is connected.
+#! @ExampleSession
+#! gap> IsStronglyConnected( butterfly );
+#! false
+#! @EndExampleSession
+#!
+
+#! @BeginGroup IsConnected
+#! @Description
+#! Check whether the given polygonal complex is connected. A polygonal complex
+#! is connected if and only if its incidence graph (compare section 
+#! <Ref Sect="Section_Graphs_Incidence"/>) is 
+#! connected.
+#!
+#! For example, consider the ramified simplicial surface from the start of 
+#! section <Ref Sect="Section_Properties_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsConnected( butterfly );
+#! true
+#! @EndExampleSession
+#! 
+#! @Arguments complex
+DeclareProperty( "IsConnected", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup ConnectedComponents
+#! @Description
+#! Return a list of the connected components of the given polygonal complex 
+#! (as polygonal complexes). They correspond to the connected components
+#! of the incidence graph (compare TODO).
+#!
+#! If a face of the polygonal complex is given as an additional argument,
+#! only the connected component containing that face is returned. The 
+#! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
+#!
+#! For example, consider the ramified simplicial surface from the start of
+#! section <Ref Sect="Section_Paths_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> comp := ConnectedComponentsOfComplex( butterfly );;
+#! gap> Size(comp);
+#! 1
+#! gap> comp[1] = butterfly;
+#! true
+#! @EndExampleSession
+#TODO better example..
+#!
+#! @Returns a list of polygonal complexes
+#! @Arguments complex
+DeclareOperation( "ConnectedComponentsOfComplex", [IsPolygonalComplex] );
+#! @Arguments complex
+DeclareAttribute( "ConnectedComponentsAttributeOfPolygonalComplex", IsPolygonalComplex );
+#! @Returns a polygonal complex
+#! @Arguments complex, face
+DeclareOperation( "ConnectedComponentOfFace", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "ConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup IsStronglyConnected
+#! @Description
+#! Check whether the given polygonal complex is strongly connected. A polygonal 
+#! complex
+#! is strongly connected if and only if one of the following equivalent 
+#! conditions hold:
+#! * It is still connected after removal of all vertices. 
+#! * For each pair of faces there is an edge-face-path (compare section 
+#!   <Ref Sect="Section_Access_OrderedVertexAccess"/>) that connects them.
+#!
+#! For example, consider the ramified simplicial surface from the start of 
+#! section <Ref Sect="Section_Paths_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsStronglyConnected( butterfly );
+#! false
+#! @EndExampleSession
+#! 
+#! @Arguments complex
+DeclareProperty( "IsStronglyConnected", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup StronglyConnectedComponents
+#! @Description
+#! Return a list of the strongly connected components of the given polygonal 
+#! complex 
+#! (as polygonal complexes).
+#!
+#! If a face of the polygonal complex is given as an additional argument,
+#! only the strongly connected component containing that face is returned. The 
+#! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
+#!
+#! For example, consider the ramified simplicial surface from the start of 
+#! section <Ref Sect="Section_Paths_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+#!     \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> comp := StronglyConnectedComponents(butterfly);;
+#! gap> Size(comp);
+#! 2
+#! gap> Faces( comp[1] );
+#! [ 1, 3 ]
+#! gap> Faces( comp[2] );
+#! [ 2, 4 ]
+#! gap> comp[1] = StronglyConnectedComponentOfFace(butterfly, 1);
+#! true
+#! gap> comp[2] = StronglyConnectedComponentOfFace(butterfly, 4);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a list of polygonal complexes
+#! @Arguments complex
+DeclareOperation( "StronglyConnectedComponents", [IsPolygonalComplex] );
+#! @Arguments complex
+DeclareAttribute( "StronglyConnectedComponentsAttributeOfPolygonalComplex", IsPolygonalComplex );
+#! @Returns a polygonal complex
+#! @Arguments complex, face
+DeclareOperation( "StronglyConnectedComponentOfFace", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex, face
+DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup NumberOfConnectedComponents
+#! @Description
+#! Return the number of (strongly) connected components of the given polygonal
+#! complex.
+#!
+#! TODO explain definitions
+#!
+#! For example consider the ramified simplicial surface from the start of
+#! section <Ref Sect="Section_Paths_Connectivity"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!      \input{Image_ButterflyOfTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> NumberOfConnectedComponents(butterfly);
+#! 1
+#! gap> NumberOfStronglyConnectedComponents(butterfly);
+#! 2
+#! @EndExampleSession
+#!
+#! @Returns a positive integer
+#! @Arguments complex
+DeclareAttribute( "NumberOfConnectedComponents", IsPolygonalComplex );
+#! @Arguments complex
+DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
+#! @EndGroup
+
+
+#! @Section Orientability
+#! @SectionLabel Orientability
+#! 
+#! This section contains methods that deal with the orientability of ramified 
+#! polygonal surfaces (which were defined in section
+#! <Ref Sect="PolygonalStructures_ramified"/>). For general polygonal 
+#! complexes the concept of orientability is not defined since there is no
+#! proper way to deal with edges that are incident to more than two faces.
+#TODO more explanation needed?
+#!
+#! A polygonal orientation is defined by choosing a direction along the 
+#! perimeter of each polygon such that for each edge with exactly two 
+#! incident faces both directions are defined.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexPlain=nolabels, edgePlain=nolabels, faceStyle=nolabels]
+#!     \def\orientation{1}
+#!     \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! A ramified polygonal surface is <E>orientable</E> if such a choice of
+#! directions is possible.
+#!
+#! For a given ramified polygonal surface this orientation can be computed.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexPlain, edgePlain, faceStyle]
+#!      \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> surface := PolygonalSurfaceByDownwardIncidence(
+#! > [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]],
+#! > [ [2,6,12,14],,, [6,8,10],,,,, [10,14,15] ]);;
+#! gap> IsOrientable(surface);
+#! true
+#! @EndExampleSession
+#!
+#! The orientation of each face can be given in two different ways:
+#! * As a cyclic permutation of the incident vertices (e.g. (3,7,15,13) for the
+#!   quadrangular face)
+#! * As a cyclic permutation of the incident edges (e.g. (2,6,14,12) for the
+#!   quadrangular face)
+#!
+#! Additionally, the permutations can be replaced by lists, e.g. 
+#! <M>(3,7,15,13)</M> would be replaced by <M>[3, 7, 15, 13]</M>.
+#! @ExampleSession
+#! gap> OrientationByVerticesAsPerm( surface );
+#! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
+#! gap> OrientationByEdgesAsList( surface );
+#! [ [ 2, 12, 14, 6 ],,, [ 6, 10, 8 ],,,,, [ 10, 14, 15 ] ]
+#! @EndExampleSession
+#! 
+#! This does not define the orientation uniquely. If the orientation for
+#! one face is given, this defines the orientations for the strongly
+#! connected component (compare <Ref Subsect="StronglyConnectedComponents"/>)
+#! of this face. Therefore the following convention is followed:
+#! * For each strongly connected component there is a face with 
+#!   minimal number.
+#! * The orientation of this face (with respect to the vertices) is minimal 
+#!   according to the criteria from
+#!   section <Ref Sect="Section_Access_OrderedFaceAccess"/>.
+#! * The orientation with respect to the edges is the same as with respect
+#!   to the vertices. In particular they do not necessarily conform to the
+#!   minimality condition from before.
+#!
+
+#! @Description
+#! Return whether the given ramified polygonal surface is orientable.
+#!
+#! A ramified polygonal surface is orientable if it is possible to choose a 
+#! direction along the perimeter of each face such that each pair of adjacent
+#! faces defines opposite directions on the shared edge.
+#!
+#! As an example, consider the polygonal surface from the start of section
+#! <Ref Sect="Section_Orientability"/>:
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle]
+#!       \input{Image_ConstructorExample.tex}
+#!    \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsOrientable( surface );
+#! true
+#! @EndExampleSession
+#! TODO other example?
+#! @Arguments ramSurf
+DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
+
+#! @BeginGroup
+#! @Description
+#! Return the orientation of the given ramified polygonal surface, if
+#! it exists (otherwise return fail). The orientation is given as a list
+#! with the faces of <A>ramSurf</A> as indices.
+#!
+#! For each face, this list contains a permutation/list of the vertices that
+#! are incident to this face.
+#! 
+#! TODO describe properly
+#!
+#! For example, consider the polygonal surface from the start of section
+#! <Ref Sect="Section_Orientability"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> OrientationByVerticesAsPerm( surface );
+#! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
+#! gap> OrientationByVerticesAsList( surface );
+#! [ [3, 5, 13, 7],,, [3, 7, 11],,,,, [7, 13, 11] ]
+#! @EndExampleSession
+#! 
+#! @Returns a list of permutations
+#! @Arguments ramSurf
+DeclareAttribute( "OrientationByVerticesAsPerm", IsRamifiedPolygonalSurface );
+#! @Arguments ramSurf
+DeclareOperation( "OrientationByVertices", [IsRamifiedPolygonalSurface] );
+#! @Returns a list of lists
+#! @Arguments ramSurf
+DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the orientation of the given ramified polygonal surface, if
+#! it exists (otherwise return fail). The orientation is given as a list
+#! with the faces of <A>ramSurf</A> as indices.
+#!
+#! For each face, this list contains a permutation/list of the edges that
+#! are incident to this face. 
+#! 
+#! TODO describe properly
+#!
+#! For example, consider the polygonal surface from the start of section
+#! <Ref Sect="Section_Orientability"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
+#!      \input{Image_ConstructorExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> OrientationByEdgesAsPerm( surface );
+#! [ (2,12,14,6),,, (6,10,8),,,,, (10,14,15) ]
+#! gap> OrientationByEdgesAsList( surface );
+#! [ [ 2, 12, 14, 6 ],,, [ 6, 10, 8 ],,,,, [ 10, 14, 15 ] ]
+#! @EndExampleSession
+#! 
+#! @Returns a list of permutations
+#! @Arguments ramSurf
+DeclareAttribute( "OrientationByEdgesAsPerm", IsRamifiedPolygonalSurface );
+#! @Arguments ramSurf
+DeclareOperation( "OrientationByEdges", [IsRamifiedPolygonalSurface] );
+#! @Returns a list of lists
+#! @Arguments ramSurf
+DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
+#! @EndGroup
+
+
