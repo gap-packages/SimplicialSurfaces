@@ -563,4 +563,33 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
 
 
 
+#! @Section Geodesics and umbrellas
+#! @SectionLabel Paths_Geodesics
+#!
+#! Section <Ref Sect="Section_Paths_EdgeFace"/> introduced the concept of
+#! edge-face-paths. This section deals with two specific types of 
+#! edge-face-paths, namely umbrellas and geodesics.
+#!
+#! 
 
+#! @Description
+#! Check whether the given edge-face-path is an umbrella, i.e. whether
+#! there is one vertex such that all edges and faces of the edge-face-path
+#! are incident to it.
+#!
+#! TODO example
+#!
+#! @Arguments edgeFacePath
+DeclareProperty( "IsUmbrella", IsEdgeFacePath );
+
+#! @Description
+#! Check whether the given edge-face-path is a geodesic, i.e. TODO
+#!
+#! @Arguments edgeFacePath
+DeclareProperty( "IsGeodesic", IsEdgeFacePath );
+
+#! @Description
+#! Check whether the given edge-face-path is a closed geodesic, i.e. TODO
+#!
+#! @Arguments edgeFacePath
+DeclareProperty( "IsClosedGeodesic", IsEdgeFacePath );

@@ -243,3 +243,58 @@ InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
+
+
+
+InstallMethod( IsUmbrella, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        local commonFaceVertex, commonEdgeVertex, commonVertex;
+
+        commonEdgeVertex := Intersection( VerticesOfEdges(AssociatedPolygonalComplex(path)){EdgesAsList(path)} );
+        commonFaceVertex := Intersection( VerticesOfFaces(AssociatedPolygonalComplex(path)){FacesAsList(path)} );
+        commonVertex := Intersection( commonEdgeVertex, commonFaceVertex );
+        return Size(commonVertex) <> 0;
+    end
+);
+
+
+InstallMethod( IsGeodesic, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        local vertexList, com, i, vertex;
+
+        # Geodesics are exactly those edge-face-paths that also define a vertex-edge-path
+        com := AssociatedPolygonalComplex(path);
+        vertexList := [];
+
+        for i in [2,4..Length(Path(path))-1] do
+            vertex := Intersection( VerticesOfEdges(com){Path(path){[i-1,i+1]}} );
+            if Size(vertex) <> 1 then
+                Error("IsGeodesic: Internal Error.");
+            fi;
+            vertex := vertex[1];
+            vertexList[i/2] := vertex;
+            if i > 2 and vertexList[i/2] = vertexList[i/2-1] then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
+
+InstallMethod( IsClosedGeodesic, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        local start, fin, com, len;
+
+        if not IsGeodesic(path) then
+            return false;
+        fi;
+
+        com := AssociatedPolygonalComplex(path);
+        start := Intersection( VerticesOfEdges(com){Path(path){[1,3]}} )[1];
+        len := Length(Path(path));
+        fin := Intersection( VerticesOfEdges(com){Path(path){[len-2,len]}} )[1];
+
+        return start <> fin;
+    end
+);
