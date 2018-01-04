@@ -91,12 +91,42 @@ InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
 );
 
 
+InstallMethod( PathAsList, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        return Path(path);
+    end
+);
+
+InstallMethod( VerticesAsList, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        return OddPart(path);
+    end
+);
+
+InstallMethod( EdgesAsList, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        return EvenPart(path);
+    end
+);
+
+InstallMethod( VerticesAsPerm, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        return OddPartAsPerm(path);
+    end
+);
+
+InstallMethod( EdgesAsPerm, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        return EvenPartAsPerm(path);
+    end
+);
+
 
 #######################################
 ##
 ##      Edge-Face-Paths
 ##
-DeclareRepresentation("EdgefacePathRep", IsEdgeFacePath and IsAttributeStoringRep, []);
+DeclareRepresentation("EdgeFacePathRep", IsEdgeFacePath and IsAttributeStoringRep, []);
 BindGlobal("EdgeFacePathType", NewType(EdgeFacePathFamily, EdgeFacePathRep));
 
 
@@ -182,4 +212,34 @@ InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
+
+InstallMethod( PathAsList, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        return Path(path);
+    end
+);
+
+InstallMethod( EdgesAsList, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        return OddPart(path);
+    end
+);
+
+InstallMethod( FacesAsList, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        return EvenPart(path);
+    end
+);
+
+InstallMethod( EdgesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        return OddPartAsPerm(path);
+    end
+);
+
+InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        return EvenPartAsPerm(path);
+    end
+);
 

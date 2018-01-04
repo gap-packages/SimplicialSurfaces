@@ -115,11 +115,8 @@ DeclareOperation( "VertexEdgePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 
 
-#! <ManSection Label="VertexEdge_PathAsList">
-#!   <Attr Name="PathAsList" Arg="vertexEdgePath" 
-#!     Label="for IsVertexEdgePath" Comm="Return the complete path as list"/>
-#!   <Returns>A list of positive integers</Returns>
-#!   <Description>
+#! @BeginGroup VertexEdge_PathAsList
+#! @Description
 #!   Return the complete vertex-edge-path as a list (with vertices and
 #!   edges alternating).
 #!   
@@ -136,17 +133,13 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #! gap> PathAsList( cloverPath );
 #! [ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ]
 #!   @EndExampleSession
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since we use a synonym
-DeclareSynonym( "PathAsList", Path );
+#! @Arguments vertexEdgePath
+#! @Returns a list of positive integers
+DeclareAttribute( "PathAsList", IsVertexEdgePath );
+#! @EndGroup
 
-#! <ManSection Label="VertexEdge_VerticesAsList">
-#!   <Attr Name="VerticesAsList" Arg="vertexEdgePath"
-#!     Label="for IsVertexEdgePath" 
-#!     Comm="Return the odd entries of the path as list"/>
-#!   <Returns>A list of positive integers</Returns>
-#!   <Description>
+#! @BeginGroup VertexEdge_VerticesAsList
+#! @Description
 #!   Return the vertices of the vertex-edge-path as a list.
 #!
 #!   For the examples from <K>VertexEdgePath</K> 
@@ -162,17 +155,13 @@ DeclareSynonym( "PathAsList", Path );
 #! gap> VerticesAsList( cloverPath );
 #! [ 1, 2, 7, 5, 6, 7, 3, 4, 7, 1 ]
 #!   @EndExampleSession
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since we use a synonym
-DeclareSynonym( "VerticesAsList", OddPart );
+#! @Arguments vertexEdgePath
+#! @Returns a list of positive integers
+DeclareAttribute( "VerticesAsList", IsVertexEdgePath );
+#! @EndGroup
 
-#! <ManSection Label="VertexEdge_EdgesAsList">
-#!   <Attr Name="EdgesAsList" Arg="vertexEdgePath"
-#!     Label="for IsVertexEdgePath" 
-#!     Comm="Return the even entries of the path as list"/>
-#!   <Returns>A list of positive integers</Returns>
-#!   <Description>
+#! @BeginGroup VertexEdge_EdgesAsList
+#! @Description
 #!     Return the edges of the vertex-edge-path as a list.
 #!
 #!   For the examples from <K>VertexEdgePath</K> 
@@ -188,10 +177,10 @@ DeclareSynonym( "VerticesAsList", OddPart );
 #! gap> EdgesAsList( cloverPath );
 #! [ 7, 2, 5, 11, 6, 3, 9, 4, 1 ]
 #!   @EndExampleSession
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since we use a synonym
-DeclareSynonym( "EdgesAsList", EvenPart );
+#! @Arguments vertexEdgePath
+#! @Returns a list of positive integers
+DeclareAttribute( "EdgesAsList", IsVertexEdgePath );
+#! @EndGroup
 
 
 #! <ManSection Label="VertexEdge_IsClosedPath">
@@ -258,12 +247,8 @@ DeclareSynonym( "EdgesAsList", EvenPart );
 # This is documentation for a declaration in dual_path.gd
 
 
-#! <ManSection Label="VerticesAsPerm">
-#!   <Attr Name="VerticesAsPerm" Arg="vertexEdgePath"
-#!     Label="for IsVertexEdgePath and IsClosed and IsDuplicateFree" 
-#!     Comm="Return the vertices of the given vertex-edge-path as permutation"/>
-#!   <Returns>A permutation</Returns>
-#!   <Description>
+#! @BeginGroup VertexEdge_VerticesAsPerm
+#! @Description
 #!     If a vertex-edge-path is closed and duplicate-free, it induces
 #!     a cyclic permutation on its vertices. This method returns that
 #!     permutation.
@@ -280,18 +265,14 @@ DeclareSynonym( "EdgesAsList", EvenPart );
 #! gap> VerticesAsPerm(circlePath);
 #! (1,2,3,4,5,6)
 #!     @EndExampleSession
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since it is a synonym
-DeclareSynonym( "VerticesAsPerm", OddPartAsPerm );
+#! @Arguments vertexEdgePath
+#! @Returns a permutation
+DeclareAttribute( "VerticesAsPerm", IsVertexEdgePath );
+#! @EndGroup
 
 
-#! <ManSection Label="EdgesAsPerm">
-#!   <Attr Name="EdgesAsPerm" Arg="vertexEdgePath"
-#!     Label="for IsVertexEdgePath and IsClosed and IsDuplicateFree" 
-#!     Comm="Return the edges of the given vertex-edge-path as permutation"/>
-#!   <Returns>A permutation</Returns>
-#!   <Description>
+#! @BeginGroup VertexEdge_EdgesAsPerm
+#! @Description
 #!     If a vertex-edge-path is closed and duplicate-free, it induces
 #!     a cyclic permutation on its edges. This method returns that
 #!     permutation.
@@ -308,10 +289,10 @@ DeclareSynonym( "VerticesAsPerm", OddPartAsPerm );
 #! gap> EdgesAsPerm(circlePath);
 #! (7,8,9,10,11,12)
 #!     @EndExampleSession
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since it is a synonym
-DeclareSynonym( "EdgesAsPerm", EvenPartAsPerm );
+#! @Arguments vertexEdgePath
+#! @Returns a permutation
+DeclareAttribute( "EdgesAsPerm", IsVertexEdgePath );
+#! @EndGroup
 
 
 #! @Description
@@ -416,11 +397,8 @@ DeclareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
 
 
-#! <ManSection Label="EdgeFace_PathAsList">
-#!   <Attr Name="PathAsList" Arg="edgeFacePath" 
-#!     Label="for IsEdgeFacePath" Comm="Return the complete path as list"/>
-#!   <Returns>A list of positive integers</Returns>
-#!   <Description>
+#! @BeginGroup EdgeFace_PathAsList
+#! @Description
 #!   Return the complete edge-face-path as a list (with edges and
 #!   faces alternating).
 #!   
@@ -431,17 +409,13 @@ DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
 #! gap> PathAsList( edgeFacePath );
 #! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 9 ]
 #!   @EndExampleSession
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since we use a synonym
-DeclareSynonym( "PathAsList", Path );
+#! @Arguments edgeFacePath
+#! @Returns a list of positive integers
+DeclareAttribute( "PathAsList", IsEdgeFacePath );
+#! @EndGroup
 
-#! <ManSection Label="EdgeFace_EdgesAsList">
-#!   <Attr Name="EdgesAsList" Arg="edgeFacePath"
-#!     Label="for IsEdgeFacePath" 
-#!     Comm="Return the odd entries of the path as list"/>
-#!   <Returns>A list of positive integers</Returns>
-#!   <Description>
+#! @BeginGroup EdgeFace_EdgesAsList
+#! @Description
 #!   Return the edges of the edge-face-path as a list.
 #!
 #!   For the examples from <K>EdgeFacePath</K> 
@@ -451,17 +425,13 @@ DeclareSynonym( "PathAsList", Path );
 #! gap> EdgesAsList( edgeFacePath );
 #! [ 13, 14, 15, 11, 7, 8, 9 ]
 #!   @EndExampleSession
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since we use a synonym
-DeclareSynonym( "EdgesAsList", OddPart );
+#! @Arguments edgeFacePath
+#! @Returns a list of positive integers
+DeclareAttribute( "EdgesAsList", IsEdgeFacePath );
+#! @EndGroup
 
-#! <ManSection Label="EdgeFace_FacesAsList">
-#!   <Attr Name="FacesAsList" Arg="edgeFacePath"
-#!     Label="for IsEdgeFacePath" 
-#!     Comm="Return the even entries of the path as list"/>
-#!   <Returns>A list of positive integers</Returns>
-#!   <Description>
+#! @BeginGroup EdgeFace_FacesAsList
+#! @Description
 #!     Return the faces of the edge-face-path as a list.
 #!
 #!   For the examples from <K>EdgeFacePath</K> 
@@ -471,10 +441,10 @@ DeclareSynonym( "EdgesAsList", OddPart );
 #! gap> FacesAsList( edgeFacePath );
 #! [ 7, 8, 9, 3, 4, 5 ]
 #!   @EndExampleSession
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since we use a synonym
-DeclareSynonym( "FacesAsList", EvenPart );
+#! @Arguments edgeFacePath
+#! @Returns a list of positive integers
+DeclareAttribute( "FacesAsList", IsEdgeFacePath );
+#! @EndGroup
 
 
 #! <ManSection Label="EdgeFace_IsClosedPath">
@@ -511,38 +481,30 @@ DeclareSynonym( "FacesAsList", EvenPart );
 # This is documentation for a declaration in dual_path.gd
 
 
-#! <ManSection Label="EdgeFace_VerticesAsPerm">
-#!   <Attr Name="EdgesAsPerm" Arg="edgeFacePath"
-#!     Label="for IsEdgeFacePath and IsClosed and IsDuplicateFree" 
-#!     Comm="Return the edges of the given edge-face-path as permutation"/>
-#!   <Returns>A permutation</Returns>
-#!   <Description>
+#! @BeginGroup EdgeFace_VerticesAsPerm
+#! @Description
 #!     If an edge-face-path is closed and duplicate-free, it induces
 #!     a cyclic permutation on its edges. This method returns that
 #!     permutation.
 #! 
 #!TODO
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since it is a synonym
-DeclareSynonym( "EdgesAsPerm", OddPartAsPerm );
+#! @Arguments edgeFacePath
+#! @Returns a permutation
+DeclareAttribute( "EdgesAsPerm", IsEdgeFacePath );
+#! @EndGroup
 
 
-#! <ManSection Label="EdgeFace_FacesAsPerm">
-#!   <Attr Name="FacesAsPerm" Arg="edgeFacePath"
-#!     Label="for IsEdgeFacePath and IsClosed and IsDuplicateFree" 
-#!     Comm="Return the faces of the given edge-face-path as permutation"/>
-#!   <Returns>A permutation</Returns>
-#!   <Description>
+#! @BeginGroup EdgeFace_FacesAsPerm
+#! @Description
 #!     If an edge-face-path is closed and duplicate-free, it induces
 #!     a cyclic permutation on its faces. This method returns that
 #!     permutation.
 #!
-#!TODO
-#!   </Description>
-#! </ManSection>
-# No AutoDoc since it is a synonym
-DeclareSynonym( "EdgesAsPerm", EvenPartAsPerm );
+#! TODO
+#! @Arguments edgeFacePath
+#! @Returns A permutation
+DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
+#! @EndGroup
 
 
 #! @Description
