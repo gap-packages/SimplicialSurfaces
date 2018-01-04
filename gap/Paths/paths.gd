@@ -328,3 +328,18 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! This section describes all methods for edge-face-paths. Intuitively,
 #! edge-face-paths describe all paths that are realized by walking
 #! from face to face on a polygonal complex, while only passing edges.
+#!
+#! We will illustrate them on this simplicial surface:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!     \input{Image_ThinTorus.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> thinTorus := SimplicialSurfaceByDownwardIncidence(
+#! >      [[1,2],[2,3],[1,3],[1,4],[1,5],[2,5],[2,6],[3,6],[3,4],
+#! >        [4,5],[5,6],[4,6],[1,4],[1,5],[2,5],[2,6],[3,6],[3,4]],
+#! >      [[4,5,10],[1,5,6],[6,7,11],[2,7,8],[8,9,12],[3,4,9],
+#! >        [10,13,14],[1,14,15],[11,15,16],[2,16,17],[12,17,18],[3,13,18]];;
+#! @EndExampleSession
+);

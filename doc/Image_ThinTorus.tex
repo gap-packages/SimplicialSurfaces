@@ -1,0 +1,41 @@
+\def\dist{2.5}
+
+\coordinate (A1) at (0,0);
+\coordinate (B1) at (\dist,0);
+\coordinate (C1) at ($2*(B1)$);
+\coordinate (A2) at ($3*(B1)$);
+\coordinate (D1) at (120:\dist);
+\coordinate (E) at ($(B1)+(D1)$);
+\coordinate (F) at ($(B1)+(E)$);
+\coordinate (D2) at ($(C1)+(E)$);
+\coordinate (A3) at ($(D1)+(E)$);
+\coordinate (B2) at ($2*(E)$);
+\coordinate (C2) at ($(B1)+(B2)$);
+\coordinate (A4) at ($(B2)+(C1)$);
+
+\tikzset{customFace/.style={face=\faceColorR}}
+\draw[face,edge]
+    (D1) -- (E) -- (A3) -- node[edgeLabel]{4} cycle
+    (A3) -- node[edgeLabel]{5} (E) -- (B2) -- node[edgeLabel]{1} cycle
+    (C2) -- (D2) -- node[edgeLabel]{4} (A4) -- node[edgeLabel]{3} cycle
+    (B1) -- node[edgeLabel]{2} (C1) -- (F) -- cycle;
+\draw[edge,\ifdefined\longEdgeFacePath customFace\else face\fi]
+    (C1) -- node[edgeLabel]{17} (F) -- (D2) -- cycle
+    (C1) -- node[edgeLabel]{18} (D2) -- node[edgeLabel]{13} (A2) -- node[edgeLabel]{3} cycle;
+\draw[edge,\ifdefined\edgeFacePath customFace\else face\fi]
+    (E) -- node[edgeLabel]{6} (B2) -- (F) -- cycle
+    (B2) -- node[edgeLabel]{7} (F) -- (C2) -- node[edgeLabel]{2} cycle
+    (F) -- node[edgeLabel]{8} (C2) -- node[edgeLabel]{9} (D2) -- node[edgeLabel]{12} cycle
+    (A1) -- node[edgeLabel]{13} (D1) -- node[edgeLabel]{10} (E) -- cycle
+    (A1) -- node[edgeLabel]{1} (B1) -- (E) -- node[edgeLabel]{14} cycle
+    (B1) -- node[edgeLabel]{15} (E) -- node[edgeLabel]{11} (F) -- node[edgeLabel]{16} cycle;
+
+
+\foreach \a/\b/\c/\n in {A3/E/D1/I, A3/B2/E/II, B2/F/E/III, B2/C2/F/IV, C2/D2/F/V, C2/A4/D2/VI, D1/E/A1/VII, E/B1/A1/VIII, E/F/B1/IX, F/C1/B1/X, F/D2/C1/XI, D2/A2/C1/XII}{
+    \node at (barycentric cs:\a=1,\b=1,\c=1) {\n};
+}
+
+\foreach \p/\r/\n in {A3/above/1, B2/above/2, C2/above/3, A4/above/1, D1/left/4, E/above/5, F/below/6, D2/right/4, A1/below/1, B1/below/2, C1/below/3, A2/below/1}{
+    \vertexLabelR{\p}{\r}{\n}
+}
+
