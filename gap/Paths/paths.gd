@@ -340,6 +340,71 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! >      [[1,2],[2,3],[1,3],[1,4],[1,5],[2,5],[2,6],[3,6],[3,4],
 #! >        [4,5],[5,6],[4,6],[1,4],[1,5],[2,5],[2,6],[3,6],[3,4]],
 #! >      [[4,5,10],[1,5,6],[6,7,11],[2,7,8],[8,9,12],[3,4,9],
-#! >        [10,13,14],[1,14,15],[11,15,16],[2,16,17],[12,17,18],[3,13,18]];;
+#! >        [10,13,14],[1,14,15],[11,15,16],[2,16,17],[12,17,18],[3,13,18]]);;
 #! @EndExampleSession
-);
+
+#TODO replace old definition by this
+#! @BeginChunk Definition_EdgeFacePath
+#! An <E>edge-face-path</E> in a polygonal complex is a tuple
+#! <M>(e_1, f_1, e_2, f_2, \ldots ,e_n, f_n, e_{{n+1}})</M> such that
+#! * The <M>e_i</M> are edges of the polygonal complex
+#! * The <M>f_j</M> are faces of the polygonal complex
+#! * Every face <M>f_j</M> is incident to the edges <M>e_j</M> and <M>e_{{j+1}}</M>
+#! * The edges <M>e_j</M> and <M>e_{{j+1}}</M> are different
+#! @EndChunk
+
+#TODO is there a way to tell that a filter is a category?
+#! <ManSection Label="EdgeFacePath">
+#!   <Oper Name="EdgeFacePath" Arg="complex, path" 
+#!      Label="for IsPolygonalComplex and IsDenseList"
+#!      Comm="Construct an edge-face-path from a polygonal complex and a list"/>
+#!   <Oper Name="EdgeFacePathNC" Arg="complex, path" 
+#!      Label="for IsPolygonalComplex and IsDenseList"
+#!      Comm="Construct an edge-face-path from a polygonal complex and a list"/>
+#!   <Returns>An EdgeFacePath-&GAP;-object</Returns>
+#!   <Filt Name="IsEdgeFacePath" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is an EdgeFacePath"/>
+#!   <Returns>true or false</Returns>
+#!   <Description>
+#!     The method <K>EdgeFacePath</K> constructs a new edge-face-path from
+#!     a polygonal complex and a dense list of positive integers. The
+#!     method <K>IsEdgeFacePath</K> checks if a given &GAP;-object
+#!     represents such a path.
+#!
+#!     We illustrate this with a path on the simplicial surface that was 
+#!     introduced at the start of section
+#!     <Ref Sect="Section_Paths_EdgeFace"/>.
+#!     <Alt Only="TikZ">
+#!       \begin{tikzpicture}[vertexStyle=nolabels,edgePlain,faceStyle]
+#!         \def\edgeFacePath{1}
+#!         \input{Image_ThinTorus.tex}
+#!       \end{tikzpicture}
+#!
+#!     @InsertChunk Definition_EdgeFacePath
+#!
+#!     @ExampleSession
+#! gap> edgeFacePath := EdgeFacePath( thinTorus, [13,7,14,8,15,9,11,3,7,4,8,9] );
+#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 9 ]
+#! gap> IsEdgeFacePath(edgeFacePath);
+#! true
+#! gap> IsList(edgeFacePath);
+#! false
+#! gap> IsEdgeFacePath( [13,7,14,8,15,9,11,3,7,4,8,9] );
+#! false
+#!     @EndExampleSession
+#!
+#!     The NC-version does not check if the
+#!     given <A>path</A> is a list 
+#!     <M>[e_1,f_1,e_2,f_2,\ldots,e_n,f_n,e_{{n+1}}]</M> that fulfills these
+#!     conditions.
+#!   </Description>
+#! </ManSection>
+# No AutoDoc-documentation since the order of the next two entries should
+# be switched
+DeclareCategory( "IsEdgeFacePath", IsDualPath );
+BindGlobal( "EdgeFacePathFamily", 
+    NewFamily("EdgeFacePathFamily", IsObject, IsVertexEdgePath) );
+DeclareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
+
+
