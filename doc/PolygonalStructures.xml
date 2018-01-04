@@ -300,7 +300,7 @@
         A stereotypical example of a ramified polygonal surface would be two 
         tetrahedrons that have one vertex in common.
         <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+            \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
                 \input{Image_TwoJoinedTetrahedrons.tex}
             \end{tikzpicture}
         </Alt>

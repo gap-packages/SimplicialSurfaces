@@ -655,7 +655,7 @@ DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
 #! two faces incident to an edge). This is exemplified in the following
 #! example:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
 #!     \input{Image_ThreeBranchingTriangles.tex}
 #!   \end{tikzpicture}
 #! </Alt>
