@@ -350,84 +350,46 @@ end);
 BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     # Example from the manual
     local verticesOfEdges, edgesOfFaces, vertAsPerm, vertAsList, edgeAsPerm,
-        edgeAsList, obj, verticesOfFaces, faces;
+        edgeAsList, obj, verticesOfFaces, faces, perim;
 
     verticesOfEdges := [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]];
     edgesOfFaces := [ [2,6,12,14], , , [6,8,10], , , , , [10,14,15] ];
     verticesOfFaces := [ [3,5,7,13],,, [3,7,11], , , , , [7,11,13] ];
     faces := [1,4,9];
     vertAsPerm := [ (3, 5, 13, 7), , , (3, 7, 11), , , , ,(7, 13, 11)  ];
-    vertAsList := [ [3, 5, 13, 7], , , [3, 7, 11], , , , , [7, 13, 11] ];
+    vertAsList := [ [3, 5, 13, 7, 3], , , [3, 7, 11, 3], , , , , [7, 13, 11, 7] ];
     edgeAsPerm := [ ( 2, 12, 14, 6 ), , , ( 6, 10, 8 ), , , , , ( 10, 14, 15 ) ];
-    edgeAsList := [ [ 2, 12, 14, 6 ], , , [ 6, 10, 8 ], , , , , [ 10, 14, 15 ] ];
+    edgeAsList := [ [ 2, 12, 14, 6 ], , , [ 6, 10, 8 ], , , , , [ 14, 15, 10 ] ];
+    perim := [ [3,2,5,12,13,14,7,6,3],,, [3,6,7,10,11,8,3],,,,, [7,14,13,15,11,10,7] ];
 
 
     # Test computation
     obj := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges( obj, verticesOfEdges );
     SetEdgesOfFaces( obj, edgesOfFaces );
-    Assert(0, vertAsPerm = OrientationByVerticesAsPerm(obj));
+    Assert(0, vertAsPerm = List(Orientation(obj),VerticesAsPerm));
+    Assert(0, vertAsList = List(Orientation(obj),VerticesAsList));
+    Assert(0, edgeAsPerm = List(Orientation(obj),EdgesAsPerm));
+    Assert(0, edgeAsList = List(Orientation(obj),EdgesAsList));
 
-    # vertAsList -> vertAsPerm
-    obj := Objectify( PolygonalComplexType, rec() );
-    SetOrientationByVerticesAsList(obj, vertAsList);
-    SetIsRamifiedPolygonalSurface(obj, true);
-    Assert(0, vertAsPerm = OrientationByVerticesAsPerm(obj));
-
-    # vertAsPerm -> vertAsList
-    obj := Objectify( PolygonalComplexType, rec() );
-    SetOrientationByVerticesAsPerm(obj, vertAsPerm);
-    SetIsRamifiedPolygonalSurface(obj, true);
-    Assert(0, vertAsList = OrientationByVerticesAsList(obj));
-
-    # edgeAsList -> vertAsList
-    obj := Objectify( PolygonalComplexType, rec() );
-    SetOrientationByEdgesAsList( obj, edgeAsList );
-    SetVerticesOfEdges( obj, verticesOfEdges );
-    SetVerticesOfFaces( obj, verticesOfFaces );
-    SetIsRamifiedPolygonalSurface(obj, true);
-    Assert(0, vertAsList = OrientationByVerticesAsList(obj));
-
-    # edgeAsList -> edgeAsPerm
-    obj := Objectify( PolygonalComplexType, rec() );
-    SetOrientationByEdgesAsList( obj, edgeAsList );
-    SetIsRamifiedPolygonalSurface(obj, true);
-    Assert(0, edgeAsList = OrientationByEdgesAsList(obj));
-
-    # edgeAsPerm -> edgeAsList
-    obj := Objectify( PolygonalComplexType, rec() );
-    SetOrientationByEdgesAsPerm(obj, edgeAsPerm);
-    SetIsRamifiedPolygonalSurface(obj, true);
-    Assert(0, edgeAsList = OrientationByEdgesAsList(obj) );
-
-    # vertAsList -> edgeAsList
-    obj := Objectify( PolygonalComplexType, rec() );
-    SetOrientationByVerticesAsList(obj, vertAsList);
-    SetFaces(obj, faces);
-    SetVerticesOfEdges(obj, verticesOfEdges); # not perfect, but probably ok
-    SetEdgesOfFaces( obj, edgesOfFaces );
-    Assert(0, edgeAsList = OrientationByEdgesAsList(obj));
-
-    
+   
     # If the surface is not orientable, then we don't have an orientation
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsRamifiedPolygonalSurface(obj, true);
     SetIsOrientable(obj, false);
-    Assert(0, fail=OrientationByVerticesAsList(obj));
-    Assert(0, fail=OrientationByVerticesAsPerm(obj));
+    Assert(0, fail=Orientation(obj));
     SetFaces(obj, faces);
     SetVerticesOfEdges(obj, verticesOfEdges); # not perfect, but probably ok
     SetEdgesOfFaces( obj, edgesOfFaces );
-    Assert(0, fail=OrientationByEdgesAsList(obj));
-    Assert(0, fail=OrientationByEdgesAsPerm(obj));
+    Assert(0, fail=Orientation(obj));
 
     # Check if inference from existence of orientation sets IsOrientable
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsRamifiedPolygonalSurface(obj, true);
-    SetOrientationByVerticesAsPerm( obj, vertAsPerm );
+    SetOrientation( obj, List(perim, p -> VertexEdgePathNC(obj,p) ) );
     Assert(0, IsOrientable(obj));
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsRamifiedPolygonalSurface(obj, true);
-    SetOrientationByVerticesAsPerm( obj, fail );
+    SetOrientation( obj, fail );
     Assert(0, not IsOrientable(obj));
 end);

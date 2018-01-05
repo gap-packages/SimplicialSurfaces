@@ -430,19 +430,17 @@ gap&gt; FacesOfVertices(surf);
         to the faces 1 and 2.<P/>
         An additional advantage of the incidential information is that we can
         determine a concrete global orientation if the surface is orientable.
-        By using <K>OrientationByVertices</K> we will get a list of permutations such
-        that the <M>i</M>-th entry is a permutation of the vertices in face 
+        From the method <K>Orientation</K> we can compute a list of 
+        permutations such
+        that the <M>i</M>-th entry is a cyclic permutation of the vertices in face 
         <M>i</M>.
 <Example>
-gap&gt; OrientationByVertices(surf);
+gap&gt; List( Orientation(surf), VerticesAsPerm );
 [ (1,2,3), (2,4,3), (3,4,5) ]
 </Example>
-        If we would rather work with lists instead of permutations (instead
-        of the permutation (2,4,3) we would like the list [2, 4, 3]) we can use
-<Example>
-gap&gt; OrientationByVerticesAsList(surf);
-[ [ 1, 2, 3 ], [ 2, 4, 3 ], [ 3, 4, 5 ] ]
-</Example>
+    <!-- We only show this snippet and hope that an interested reader will
+         be able to find the alternative representations easily enough by
+         looking at the table of contents. -->
     <!-- At this point people should be able to generalize our naming
          conventions for operations. As this is quite important, we try to
          teach the correct spelling subconsciously at first. When we explain

@@ -611,7 +611,7 @@ InstallMethod( PerimeterOfFaceNC,
     "for a polygonal complex and a face (positive integer)",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
-        return PerimeterOfFaceNC(complex, face);
+        return PerimetersOfFaces(complex)[face];
     end
 );
 InstallMethod( PerimeterOfFace,

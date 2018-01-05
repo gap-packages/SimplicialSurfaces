@@ -762,10 +762,11 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! smallest of the vertices).
 #!
 #! While the permutation representation is most natural, in many cases
-#! a list would be more convenient.
+#! a list would be more convenient (be careful, the first vertex is 
+#! repeated at the end!).
 #! @ExampleSession
 #! gap> VerticesAsList(perim);
-#! [ 1, 6, 2, 3, 9 ]
+#! [ 1, 6, 2, 3, 9, 1 ]
 #! gap> EdgesAsList(perim);
 #! [ 8, 3, 6, 2, 4 ]
 #! @EndExampleSession
@@ -778,7 +779,8 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! The operation 
 #! <K>PerimeterOfFaces</K>(<A>complex</A>,<A>face</A>) returns a closed
 #! vertex-edge-path (for the exact definition compare 
-#! <Ref Subsect="VertexEdgePath"/> and <Ref Subsect="VertexEdge_Closed"/>) of
+#! <Ref Subsect="VertexEdgePath"/> and 
+#! <Ref Subsect="VertexEdge_IsClosedPath"/>) of
 #! all vertices and edges incident to the given <A>face</A>.
 #!
 #! Since this condition does not define the path uniquely, we further 
@@ -809,7 +811,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! gap> PathAsList(perim);
 #! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
 #! gap> VerticesAsList(perim);
-#! [ 1, 6, 2, 3, 9 ]
+#! [ 1, 6, 2, 3, 9, 1 ]
 #! gap> EdgesAsList(perim);
 #! [ 8, 3, 6, 2, 4 ]
 #! gap> VerticesAsPerm(perim);

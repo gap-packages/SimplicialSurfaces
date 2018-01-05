@@ -566,10 +566,9 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! @SectionLabel Constructors_VerticesInFaces
 #!
 #! The <E>VerticesInFaces</E>-constructors are based on
-#! the attribute <K>CyclicVertexOrderOfFacesAsList</K> 
-#! (<Ref Subsect="CyclicVertexOrderOfFacesAsList"/>) which generalizes
-#! the attribute <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>) for
-#! non-triangular faces. 
+#! the attribute <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>)
+#! for triangular faces and an oriented version of it for non-triagular 
+#! ones.
 #! 
 #! To use the constructor we need to know the incidence relation between 
 #! vertices and faces (the edge information has to be deduced from that).

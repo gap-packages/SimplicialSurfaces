@@ -209,6 +209,15 @@ DeclareAttribute( "EdgesAsList", IsVertexEdgePath );
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
 
+#! @Description
+#! Return the inverse vertex-edge-path to the given path.
+#!
+#! TODO example
+#!
+#! @Arguments vertexEdgePath
+#! @Returns a vertex-edge-path
+DeclareAttribute( "Inverse", IsVertexEdgePath );
+
 
 #! <ManSection Label="VertexEdge_IsDuplicateFree">
 #!   <Prop Name="IsDuplicateFree" Arg="vertexEdgePath"
@@ -839,33 +848,33 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
 #! true
 #! @EndExampleSession
 #!
-#! The orientation of each face can be given in two different ways:
-#! * As a cyclic permutation of the incident vertices (e.g. (3,7,15,13) for the
-#!   quadrangular face)
-#! * As a cyclic permutation of the incident edges (e.g. (2,6,14,12) for the
-#!   quadrangular face)
+#! The orientation of a face is given as a vertex-edge-path (compare section
+#! <Ref Sect="Section_Paths_VertexEdge"/>) in which vertices and edges are
+#! alternating. For the quadrangular face we could represent one of these
+#! paths as <M>[3,6,7,14,13,12,5,2,3]</M>. From the paths we can also
+#! compute the corresponding permutations of vertices and edges alone.
 #!
-#! Additionally, the permutations can be replaced by lists, e.g. 
-#! <M>(3,7,15,13)</M> would be replaced by <M>[3, 7, 15, 13]</M>.
 #! @ExampleSession
-#! gap> OrientationByVerticesAsPerm( surface );
+#! gap> orient := Orientation( surface );
+#! [ [3,2,5,12,13,14,7,6,3],,, [3,6,7,10,11,8,3],,,,, [7,14,13,15,11,10,7] ]
+#! gap> List(orient, VerticesAsPerm);
 #! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
-#! gap> OrientationByEdgesAsList( surface );
-#! [ [ 2, 12, 14, 6 ],,, [ 6, 10, 8 ],,,,, [ 10, 14, 15 ] ]
+#! gap> List(orient, VerticesAsList);
+#! [ [3,5,13,7,3],,, [3,7,11,3],,,,, [7,13,11,7] ]
+#! gap> List(orient, EdgesAsPerm);
+#! [ (2,12,14,6),,, (6,10,8),,,,, (10,14,15) ]
+#! gap> List(orient, EdgesAsList);
+#! [ [2,12,14,6],,, [6,10,8],,,,, [14,15,10] ]
 #! @EndExampleSession
-#! 
-#! This does not define the orientation uniquely. If the orientation for
-#! one face is given, this defines the orientations for the strongly
-#! connected component (compare <Ref Subsect="StronglyConnectedComponents"/>)
-#! of this face. Therefore the following convention is followed:
+#!
+#! If the orientation for one face is given, this defined the orientations
+#! for the strongly connected component (compare
+#! <Ref Subsect="StronglyConnectedComponents"/>) of this face. The convention
+#! for returning an orientation is as follows:
 #! * For each strongly connected component there is a face with 
 #!   minimal number.
-#! * The orientation of this face (with respect to the vertices) is minimal 
-#!   according to the criteria from
-#!   section <Ref Sect="Section_Access_OrderedFaceAccess"/>.
-#! * The orientation with respect to the edges is the same as with respect
-#!   to the vertices. In particular they do not necessarily conform to the
-#!   minimality condition from before.
+#! * The orientation of this face is equal to <K>PermeterOfFace</K>
+#!   (<Ref Subsect="PerimetersOfFaces"/>) of this face.
 #!
 
 #! @Description
@@ -896,68 +905,35 @@ DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 #! it exists (otherwise return fail). The orientation is given as a list
 #! with the faces of <A>ramSurf</A> as indices.
 #!
-#! For each face, this list contains a permutation/list of the vertices that
-#! are incident to this face.
+#! For each face, this list contains a vertex-edge-path (see 
+#! <Ref Subsect="VertexEdgePath"/> for the precise definition) of this face.
+#! To access vertex-edge-paths the methods of section
+#! <Ref Sect="Section_Paths_VertexEdge"/> can be used.
 #! 
 #! TODO describe properly
 #!
 #! For example, consider the polygonal surface from the start of section
 #! <Ref Sect="Section_Orientability"/>:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
 #!      \input{Image_ConstructorExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> OrientationByVerticesAsPerm( surface );
+#! gap> orient := Orientation( surface );
+#! [ [3,2,5,12,13,14,7,6,3],,, [3,6,7,10,11,8,3],,,,, [7,14,13,15,11,10,7] ]
+#! gap> List(orient, VerticesAsPerm);
 #! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
-#! gap> OrientationByVerticesAsList( surface );
-#! [ [3, 5, 13, 7],,, [3, 7, 11],,,,, [7, 13, 11] ]
-#! @EndExampleSession
-#! 
-#! @Returns a list of permutations
-#! @Arguments ramSurf
-DeclareAttribute( "OrientationByVerticesAsPerm", IsRamifiedPolygonalSurface );
-#! @Arguments ramSurf
-DeclareOperation( "OrientationByVertices", [IsRamifiedPolygonalSurface] );
-#! @Returns a list of lists
-#! @Arguments ramSurf
-DeclareAttribute( "OrientationByVerticesAsList", IsRamifiedPolygonalSurface );
-#! @EndGroup
-
-#! @BeginGroup
-#! @Description
-#! Return the orientation of the given ramified polygonal surface, if
-#! it exists (otherwise return fail). The orientation is given as a list
-#! with the faces of <A>ramSurf</A> as indices.
-#!
-#! For each face, this list contains a permutation/list of the edges that
-#! are incident to this face. 
-#! 
-#! TODO describe properly
-#!
-#! For example, consider the polygonal surface from the start of section
-#! <Ref Sect="Section_Orientability"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
-#!      \input{Image_ConstructorExample.tex}
-#!   \end{tikzpicture}
-#! </Alt>
-#! @ExampleSession
-#! gap> OrientationByEdgesAsPerm( surface );
+#! gap> List(orient, VerticesAsList);
+#! [ [3,5,13,7,3],,, [3,7,11,3],,,,, [7,13,11,7] ]
+#! gap> List(orient, EdgesAsPerm);
 #! [ (2,12,14,6),,, (6,10,8),,,,, (10,14,15) ]
-#! gap> OrientationByEdgesAsList( surface );
-#! [ [ 2, 12, 14, 6 ],,, [ 6, 10, 8 ],,,,, [ 10, 14, 15 ] ]
+#! gap> List(orient, EdgesAsList);
+#! [ [2,12,14,6],,, [6,10,8],,,,, [14,15,10] ]
 #! @EndExampleSession
 #! 
-#! @Returns a list of permutations
+#! @Returns a list of vertex-edge-paths
 #! @Arguments ramSurf
-DeclareAttribute( "OrientationByEdgesAsPerm", IsRamifiedPolygonalSurface );
-#! @Arguments ramSurf
-DeclareOperation( "OrientationByEdges", [IsRamifiedPolygonalSurface] );
-#! @Returns a list of lists
-#! @Arguments ramSurf
-DeclareAttribute( "OrientationByEdgesAsList", IsRamifiedPolygonalSurface );
+DeclareAttribute( "Orientation", IsRamifiedPolygonalSurface );
 #! @EndGroup
-
 

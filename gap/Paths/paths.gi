@@ -118,6 +118,13 @@ InstallMethod( EdgesAsList, "for a vertex-edge-path", [IsVertexEdgePath],
     end
 );
 
+InstallMethod( Inverse, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        return VertexEdgePathNC( AssociatedPolygonalComplex(path),
+            Reversed(Path(path)));
+    end
+);
+
 InstallMethod( VerticesAsPerm, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
         return OddPartAsPerm(path);
