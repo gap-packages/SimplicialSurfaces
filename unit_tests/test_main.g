@@ -18,8 +18,8 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_InvertIncidence();
     __SIMPLICIAL_Test_TransitiveIncidence();
     __SIMPLICIAL_Test_PerimeterInferences();
-    __SIMPLICIAL_Test_EdgeFacePathSwitch();
-    __SIMPLICIAL_Test_EdgeFacePathImplications();
+    __SIMPLICIAL_Test_UmbrellaSwitch();
+    __SIMPLICIAL_Test_UmbrellaImplications();
     __SIMPLICIAL_Test_ConnectivityImplications();
     __SIMPLICIAL_Test_OrientabilityImplications();
 end);

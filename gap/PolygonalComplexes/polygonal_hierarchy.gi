@@ -61,18 +61,18 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 __SIMPLICIAL_AddPolygonalAttribute( IsPolygonalSurface );
 InstallMethod( IsPolygonalSurface, 
-    "for a ramified polygonal surface with EdgeFacePathPartitionsOfVertices and Vertices",
-    [ IsRamifiedPolygonalSurface and HasEdgeFacePathPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
+    "for a ramified polygonal surface with UmbrellaPartitionsOfVertices and Vertices",
+    [ IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
     function( ramSurf )
         local paths, pathSize;
 
-        paths := EdgeFacePathPartitionsOfVertices(ramSurf);
+        paths := UmbrellaPartitionsOfVertices(ramSurf);
         pathSize := List( Vertices(ramSurf), v -> Size(paths[v]) );
         return ForAll(pathSize, s -> s = 1);
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsPolygonalSurface",
-    ["IsRamifiedPolygonalSurface", "EdgeFacePathPartitionsOfVertices", "VerticesAttributeOfPolygonalComplex"] );
+    ["IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices", "VerticesAttributeOfPolygonalComplex"] );
 InstallImmediateMethod( IsPolygonalSurface,
     "for a polygonal complex that is no ramified polygonal surface",
     IsPolygonalComplex and HasIsRamifiedPolygonalSurface, 0,

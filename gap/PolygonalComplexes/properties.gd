@@ -494,7 +494,7 @@ DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! A vertex is ramified if and only if there is a well-defined
 #! edge-face-path partition around it (compare 
-#! <Ref Subsect="EdgeFacePathPartition"/>) and there are at least two
+#! <Ref Subsect="UmbrellaPartitionsOfVertices"/>) and there are at least two
 #! elements in this partition.
 #!
 #! The method <K>IsRamifiedVertex</K> checks whether the given vertex is a
@@ -520,7 +520,7 @@ DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! A vertex is chaotic if and only if it is incident to an edge that is
 #! incident to at least three faces. In other words, there is no well-defined
-#! edge-face-path partition (<Ref Subsect="EdgeFacePathPartition"/>) around 
+#! edge-face-path partition (<Ref Subsect="UmbrellaPartitionsOfVertices"/>) around 
 #! a chaotic vertex.
 #!
 #! The method <K>IsChaoticVertex</K> checks whether the given vertex is a 

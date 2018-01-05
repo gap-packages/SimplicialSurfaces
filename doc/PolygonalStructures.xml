@@ -397,9 +397,9 @@
         </Alt>
         They can be distinguished by the fact that faces of the same colour are
         connected by edges that are incident to the given vertex. More formally:
-        <Subsection Label="Definition_EdgeFacePath_Vertex">
-            <Heading>Definition (Edge-Face-Path around a vertex)</Heading>
-                <#Include Label="EdgeFacePath_Definition">
+        <Subsection Label="Definition_Umbrella">
+            <Heading>Definition (Umbrella around a vertex)</Heading>
+                <#Include Label="Umbrella_Definition">
                 <Alt Only="Tikz">
                     \input{Image_EdgeFacePath.tex}
                 </Alt>
@@ -409,12 +409,12 @@
                 <Item><#Include Label="PolygonalComplex_Paths"></Item>
             </List>
             For a general ramified polygonal surface we can't expect to get
-            exactly one edge-face-path. In our examples above all incident edges
-            and faces could be represented by two edge-face-paths.
+            exactly one umbrella. In our examples above all incident edges
+            and faces could be represented by two umbrellas.
 
-            In general we can always find a set of edge-face-paths of a vertex
+            In general we can always find a set of umbrella of a vertex
             such that all edges and faces incident to that vertex lie in exactly
-            one of those paths. This is called the <E>edge-face-path partition</E>
+            one of those umbrellas. This is called the <E>umbrella partition</E>
             of the vertex (we will talk more about this topic in section
             <Ref Sect="Section_Access_OrderedVertexAccess"/>).
             
