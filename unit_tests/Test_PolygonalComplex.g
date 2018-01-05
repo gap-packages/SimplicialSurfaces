@@ -136,10 +136,9 @@ end);
 ##        9        \     /
 ##                10\   /11
 ##                    2
-BindGlobal( "__SIMPLICIAL_Test_CyclicOrderInferences", function()
+BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     local complex, faces, verticesOfFaces, edgesOfFaces, verticesOfEdges, 
-        edgesOfVertices, cyclicVertAsPerm, cyclicVertAsList, 
-        cyclicEdgeAsPerm, cyclicEdgeAsList;
+        edgesOfVertices, perimeter;
 
     faces := [1,3];
     verticesOfFaces := [ [1,4,7,9], , [2,3,4,6,7,8] ];
@@ -147,10 +146,7 @@ BindGlobal( "__SIMPLICIAL_Test_CyclicOrderInferences", function()
     verticesOfEdges := [ [4,9], [4,8], [3,8], , [1,9], [4,7], [3,6], , [1,7], [2,7], [2,6] ];
     edgesOfVertices := [ [5,9], [10,11], [3,7], [1,2,6], , [7,11], [6,9,10], [2,3], [1,5] ];
     
-    cyclicVertAsList := [ [1,7,4,9], , [2,6,3,8,4,7] ];
-    cyclicVertAsPerm := [ (1,7,4,9), , (2,6,3,8,4,7) ];
-    cyclicEdgeAsList := [ [1,5,9,6], , [2,3,7,11,10,6] ];
-    cyclicEdgeAsPerm := [ (1,5,9,6), , (2,3,7,11,10,6) ];
+    perimeter := [ [1,9,7,6,4,1,9,5,1], , [2,11,6,7,3,3,8,2,4,6,7,10,2] ];
 
     #
     # generic computation
@@ -160,79 +156,26 @@ BindGlobal( "__SIMPLICIAL_Test_CyclicOrderInferences", function()
     SetEdgesOfFaces( complex, edgesOfFaces );
     SetVerticesOfEdges( complex, verticesOfEdges );
     SetEdgesOfVertices( complex, edgesOfVertices );
-    Assert(0, CyclicVertexOrderOfFacesAsList(complex)=cyclicVertAsList);
-
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetVerticesOfFaces( complex, verticesOfFaces );
-    SetEdgesOfFaces( complex, edgesOfFaces );
-    SetVerticesOfEdges( complex, verticesOfEdges );
-    SetEdgesOfVertices( complex, edgesOfVertices );
-    Assert(0, CyclicEdgeOrderOfFacesAsList(complex)=cyclicEdgeAsList);
-
-    #
-    # conversion between vertices and edges
-    #
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicEdgeOrderOfFacesAsList( complex, cyclicEdgeAsList );
-    SetVerticesOfEdges( complex, verticesOfEdges );
-    SetVerticesOfFaces( complex, verticesOfFaces );
-    Assert(0, CyclicVertexOrderOfFacesAsList(complex)=cyclicVertAsList);
-
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicVertexOrderOfFacesAsList( complex, cyclicVertAsList );
-    SetEdgesOfVertices( complex, edgesOfVertices );
-    SetEdgesOfFaces( complex, edgesOfFaces );
-    Assert(0, CyclicEdgeOrderOfFacesAsList(complex)=cyclicEdgeAsList);
-
-    #
-    # conversion between perm and list representations
-    #
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicVertexOrderOfFacesAsList( complex, cyclicVertAsList );
-    Assert(0, CyclicVertexOrderOfFacesAsPerm(complex)=cyclicVertAsPerm);
-
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicVertexOrderOfFacesAsPerm( complex, cyclicVertAsPerm );
-    Assert(0, CyclicVertexOrderOfFacesAsList(complex)=cyclicVertAsList);
-
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicEdgeOrderOfFacesAsList( complex, cyclicEdgeAsList );
-    Assert(0, CyclicEdgeOrderOfFacesAsPerm(complex)=cyclicEdgeAsPerm);
-
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicEdgeOrderOfFacesAsPerm( complex, cyclicEdgeAsPerm );
-    Assert(0, CyclicEdgeOrderOfFacesAsList(complex)=cyclicEdgeAsList);
+    Assert(0, List(perimeter,p->VertexEdgePathNC(complex,p)) = PerimetersOfFaces(complex));
 
 
     #
     # inferences about *OfFaces
     #
     complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicVertexOrderOfFacesAsList(complex, cyclicVertAsList);
+    SetPerimetersOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     Assert(0, VerticesOfFaces(complex)=verticesOfFaces);
 
     complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicEdgeOrderOfFacesAsList( complex, cyclicEdgeAsList );
+    SetPerimetersOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     Assert(0, EdgesOfFaces(complex)=edgesOfFaces);
 
     #
     # inferences about Faces
     #
     complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicEdgeOrderOfFacesAsList(complex, cyclicEdgeAsList);
+    SetPerimetersOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     Assert(0, Faces(complex) = faces);
-
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicEdgeOrderOfFacesAsPerm(complex, cyclicEdgeAsPerm);
-    Assert(0, Faces(complex) = faces);
-
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicVertexOrderOfFacesAsList(complex, cyclicVertAsList);
-    Assert(0, Faces(complex)=faces);
-
-    complex := Objectify( PolygonalComplexType, rec() );
-    SetCyclicVertexOrderOfFacesAsPerm(complex, cyclicVertAsPerm);
-    Assert(0, Faces(complex)=faces);
 end);
 
 ##

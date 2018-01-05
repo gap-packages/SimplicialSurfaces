@@ -603,176 +603,110 @@ InstallMethod( NeighbourFaceByEdge,
 ##
 ##          Face-induced order of vertices/edges
 ##
-__SIMPLICIAL_AddPolygonalAttribute(CyclicVertexOrderOfFacesAsPerm);
-__SIMPLICIAL_AddPolygonalAttribute(CyclicVertexOrderOfFacesAsList);
-__SIMPLICIAL_AddPolygonalAttribute(CyclicEdgeOrderOfFacesAsPerm);
-__SIMPLICIAL_AddPolygonalAttribute(CyclicEdgeOrderOfFacesAsList);
+__SIMPLICIAL_AddPolygonalAttribute(PerimetersOfFaces);
+
 
 # the wrappers
-InstallMethod( CyclicVertexOrderOfFaces, "for a polygonal complex",
+InstallMethod( PerimeterOfFaceNC, 
+    "for a polygonal complex and a face (positive integer)",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return PerimeterOfFaceNC(complex, face);
+    end
+);
+InstallMethod( PerimeterOfFace,
+    "for a polygonal complex and a face (positive integer)",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        __SIMPLICIAL_CheckFace(complex, face, "PerimeterOfFace");
+        return PerimeterOfFaceNC(complex, face);
+    end
+);
+
+
+# main computation method
+InstallMethod( PerimetersOfFaces, "for a polygonal complex", 
     [IsPolygonalComplex],
     function(complex)
-        return CyclicVertexOrderOfFacesAsPerm(complex);
-    end
-);
-InstallMethod( CyclicVertexOrderOfFace, 
-    "for a polygonal complex and a face (positive integer)",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        return CyclicVertexOrderOfFaceAsPerm(complex,face);
-    end
-);
-InstallMethod( CyclicVertexOrderOfFaceNC,
-    "for a polygonal complex and a face (positive integer)",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        return CyclicVertexOrderOfFaceAsPermNC(complex, face);
-    end
-);
+        local paths, f, localVertices, startVert, adEdges, adVertices,
+            i, localPath, len;
 
-InstallMethod( CyclicEdgeOrderOfFaces, "for a polygonal complex",
-    [IsPolygonalComplex],
-    function(complex)
-        return CyclicEdgeOrderOfFacesAsPerm(complex);
-    end
-);
-InstallMethod( CyclicEdgeOrderOfFace, 
-    "for a polygonal complex and a face (positive integer)",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        return CyclicEdgeOrderOfFaceAsPerm(complex,face);
-    end
-);
-InstallMethod( CyclicEdgeOrderOfFaceNC,
-    "for a polygonal complex and a face (positive integer)",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        return CyclicEdgeOrderOfFaceAsPermNC(complex, face);
-    end
-);
-
-# write the general methods to compute the cyclic lists
-InstallMethod( CyclicVertexOrderOfFacesAsList,
-    "for a polygonal complex with faces, verticesOfFaces, edgesOfFaces, edgesOfVertices and verticesOfEdges",
-    [IsPolygonalComplex and HasFaces and HasVerticesOfFaces and 
-        HasEdgesOfFaces and HasEdgesOfVertices and HasVerticesOfEdges],
-    function(complex)
-        local cylicList, f, localVertices, localCycle, adEdges, startVert,
-            lastVert, finEdge, nextEdge, lastEdge, adVertices;
-
-        cylicList := [];
+        paths := [];
         for f in Faces(complex) do
             localVertices := VerticesOfFaces(complex)[f];
             startVert := Minimum(localVertices);
-            adEdges := Intersection( EdgesOfFaces(complex)[f], 
-                        EdgesOfVertices(complex)[startVert] );
-            adVertices := List( adEdges, e -> 
-                    OtherVertexOfEdgeNC(complex,startVert,e) );
+            adEdges := Intersection( EdgesOfFaces(complex)[f],
+                        EdgesOfVertices(complex)[startVert]);
+            adVertices := List(adEdges, e ->
+                    OtherVertexOfEdgeNC(complex,startVert,e));
             Assert(1, Size(adVertices)=2);
-            Assert(1, adVertices[1] <> adVertices[2]);
-
+            Assert(1, adEdges[1]<>adEdges[2]);
+            
             if adVertices[1] < adVertices[2] then
-                localCycle := [ startVert, adVertices[1] ];
-                lastEdge := adEdges[1];
-                finEdge := adEdges[2];
+                localPath := [ startVert, adEdges[1], adVertices[1] ];
+            elif adVertices[1] > adVertices[2] then
+                localPath := [ startVert, adEdges[2], adVertices[2] ];
             else
-                localCycle := [ startVert, adVertices[2] ];
-                lastEdge := adEdges[2];
-                finEdge := adEdges[1];
+                if adEdges[1] < adEdges[2] then
+                    localPath := [ startVert, adEdges[1], adVertices[1] ];
+                else
+                    localPath := [ startVert, adEdges[2], adVertices[2] ];
+                fi;
             fi;
 
-            while true do
-                # find next edge
-                lastVert := localCycle[Size(localCycle)];
-                nextEdge := OtherEdgeOfVertexInFaceNC( complex, lastVert, lastEdge, f );
-                if nextEdge = finEdge then
-                    break;
-                fi;
-
-                lastEdge := nextEdge;
-                Add( localCycle, OtherVertexOfEdgeNC(complex,lastVert,nextEdge) );
+            for i in [2..Size(localVertices)] do # How long will the path be?
+                len := Length(localPath);
+                Add( localPath, OtherEdgeOfVertexInFaceNC(complex,
+                        localPath[len],localPath[len-1],f) );
+                Add( localPath, OtherVertexOfEdgeNC(complex,
+                        localPath[len],localPath[len+1]) );
             od;
-
-            cylicList[f] := localCycle;
+            Assert(1, localPath[1] = localPath[Length(localPath)]);
+            paths[f] := VertexEdgePathNC(complex, localPath);
         od;
 
-        return cylicList;
+        return paths;
+    end
+);
+
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "PerimetersOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
+                    "VerticesOfEdges", "EdgesOfVertices"]);
+
+
+# inferences from the vertexEdgePath
+InstallMethod( VerticesOfFaces, 
+    "for a polygonal complex with PerimetersOfFaces",
+    [IsPolygonalComplex and HasPerimetersOfFaces],
+    function(complex)
+        return List( PerimetersOfFaces(complex), p -> Set(VerticesAsList(p)) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "CyclicVertexOrderOfFacesAsList", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
-        "VerticesOfEdges", "EdgesOfVertices"] );
-InstallOtherMethod( CyclicVertexOrderOfFacesAsList, 
-    "for a triangular complex with VerticesOfFaces",
-    [IsTriangularComplex and HasVerticesOfFaces],
+    "VerticesOfFaces", ["PerimetersOfFaces"] );
+
+
+InstallMethod( EdgesOfFaces, 
+    "for a polygonal complex with PerimetersOfFaces",
+    [IsPolygonalComplex and HasPerimetersOfFaces],
     function(complex)
-        return VerticesOfFaces(complex);
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicVertexOrderOfFacesAsList", ["IsTriangularComplex", "VerticesOfFaces"]);
-    #TODO is this correct?
-
-
-InstallMethod( CyclicEdgeOrderOfFacesAsList,
-    "for a polygonal complex with faces, verticesOfFaces, edgesOfFaces, edgesOfVertices and verticesOfEdges",
-    [IsPolygonalComplex and HasFaces and HasVerticesOfFaces and 
-        HasEdgesOfFaces and HasEdgesOfVertices and HasVerticesOfEdges],
-    function(complex)
-        local cylicList, f, localEdges, localCycle, adVertices, startEdge,
-            lastEdge, finVertex, nextVertex, lastVertex, adEdges;
-
-        cylicList := [];
-        for f in Faces(complex) do
-            localEdges := EdgesOfFaces(complex)[f];
-            startEdge := Minimum(localEdges);
-            adVertices := VerticesOfEdges(complex)[startEdge];
-            adEdges := List( adVertices, v ->
-                    OtherEdgeOfVertexInFaceNC(complex, v, startEdge, f) );
-            Assert(1, Size(adEdges)=2);
-            Assert(1, adEdges[1] <> adEdges[2]);
-
-            if adEdges[1] < adEdges[2] then
-                localCycle := [ startEdge, adEdges[1] ];
-                lastVertex := adVertices[1];
-                finVertex := adVertices[2];
-            else
-                localCycle := [ startEdge, adEdges[2] ];
-                lastVertex := adVertices[2];
-                finVertex := adVertices[1];
-            fi;
-
-            while true do
-                # find next edge
-                lastEdge := localCycle[Size(localCycle)];
-                nextVertex := OtherVertexOfEdgeNC( complex, lastVertex, lastEdge);
-                if nextVertex = finVertex then
-                    break;
-                fi;
-
-                lastVertex := nextVertex;
-                Add( localCycle, OtherEdgeOfVertexInFaceNC(complex,nextVertex,lastEdge,f) );
-            od;
-
-            cylicList[f] := localCycle;
-        od;
-
-        return cylicList;
+        return List( PerimetersOfFaces(complex), p -> Set(EdgesAsList(p)) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "CyclicEdgeOrderOfFacesAsList", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
-        "VerticesOfEdges", "EdgesOfVertices"] );
-InstallOtherMethod( CyclicEdgeOrderOfFacesAsList, 
-    "for a triangular complex with EdgesOfFaces",
-    [IsTriangularComplex and HasEdgesOfFaces],
+    "EdgesOfFaces", ["PerimetersOfFaces"] );
+
+
+InstallMethod( Faces,
+    "for a polygonal complex that has PerimetersOfFaces",
+    [IsPolygonalComplex and HasPerimetersOfFaces],
     function(complex)
-        return EdgesOfFaces(complex);
+        return __SIMPLICIAL_BoundEntriesOfList( PerimetersOfFaces(complex) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicEdgeOrderOfFacesAsList", ["IsTriangularComplex", "EdgesOfFaces"]);
-    #TODO is this correct?
+    "Faces", "PerimetersOfFaces");
+
 
 
 ##
@@ -831,38 +765,7 @@ BindGlobal( "__SIMPLICIAL_ConversionListsVerticesEdges",
 	return newListOfLists;
     end
 );
-InstallMethod( CyclicVertexOrderOfFacesAsList, 
-    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList, Faces, VerticesOfEdges and VerticesOfFaces",
-    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList and HasFaces and
-        HasVerticesOfEdges and HasVerticesOfFaces],
-    function(complex)
-        return __SIMPLICIAL_ConversionListsVerticesEdges(
-            CyclicEdgeOrderOfFacesAsList(complex),
-            Faces(complex),
-            VerticesOfEdges(complex),
-            VerticesOfFaces(complex)
-        );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicVertexOrderOfFacesAsList", ["CyclicEdgeOrderOfFacesAsList", 
-        "Faces", "VerticesOfEdges", "VerticesOfFaces"]);
-InstallMethod( CyclicEdgeOrderOfFacesAsList, 
-    "for a polygonal complex that has CyclicVertexOrderOfFacesAsList, Faces, EdgesOfVertices and EdgesOfFaces",
-    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsList and HasFaces and
-        HasEdgesOfVertices and HasEdgesOfFaces],
-    function(complex)
-        return __SIMPLICIAL_ConversionListsVerticesEdges(
-            CyclicVertexOrderOfFacesAsList(complex),
-            Faces(complex),
-            EdgesOfVertices(complex),
-            EdgesOfFaces(complex)
-        );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicEdgeOrderOfFacesAsList", ["CyclicVertexOrderOfFacesAsList", 
-        "Faces", "EdgesOfVertices", "EdgesOfFaces"]);
+
 
 #
 # conversion between permutation and list representation
@@ -917,176 +820,6 @@ BindGlobal( "__SIMPLICIAL_TranslateListsIntoCycles", function( listOfLists )
         return List( listOfLists, __SIMPLICIAL_ListToCycle ); # see dual_path.gi for implementation
     end
 );
-
-
-InstallMethod( CyclicVertexOrderOfFacesAsPerm,
-    "for a polygonal complex that has CyclicVertexOrderOfFacesAsList",
-    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsList],
-    function( complex )
-        return __SIMPLICIAL_TranslateListsIntoCycles( 
-                    CyclicVertexOrderOfFacesAsList(complex) );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicVertexOrderOfFacesAsPerm", "CyclicVertexOrderOfFacesAsList");
-InstallMethod( CyclicEdgeOrderOfFacesAsPerm,
-    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList",
-    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList],
-    function( complex )
-        return __SIMPLICIAL_TranslateListsIntoCycles( 
-                    CyclicEdgeOrderOfFacesAsList(complex) );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicEdgeOrderOfFacesAsPerm", "CyclicEdgeOrderOfFacesAsList");
-
-
-InstallMethod( CyclicVertexOrderOfFacesAsList,
-    "for a polygonal complex that has CyclicVertexOrderOfFacesAsPerm",
-    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsPerm],
-    function( complex )
-        return __SIMPLICIAL_TranslateCyclesIntoLists( 
-                    CyclicVertexOrderOfFacesAsPerm(complex) );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicVertexOrderOfFacesAsList", "CyclicVertexOrderOfFacesAsPerm");
-InstallMethod( CyclicEdgeOrderOfFacesAsList,
-    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsPerm",
-    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsPerm],
-    function( complex )
-        return __SIMPLICIAL_TranslateCyclesIntoLists( 
-                    CyclicEdgeOrderOfFacesAsPerm(complex) );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "CyclicEdgeOrderOfFacesAsList", "CyclicEdgeOrderOfFacesAsPerm");
-
-
-#
-# convenience methods
-#
-InstallMethod( CyclicVertexOrderOfFaceAsPermNC, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face )
-        return CyclicVertexOrderOfFacesAsPerm(complex)[face];
-    end
-);
-InstallMethod( CyclicVertexOrderOfFaceAsListNC, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        return CyclicVertexOrderOfFacesAsList(complex)[face];
-    end
-);
-InstallMethod( CyclicEdgeOrderOfFaceAsPermNC, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face )
-        return CyclicEdgeOrderOfFacesAsPerm(complex)[face];
-    end
-);
-InstallMethod( CyclicEdgeOrderOfFaceAsListNC, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        return CyclicEdgeOrderOfFacesAsList(complex)[face];
-    end
-);
-
-InstallMethod( CyclicVertexOrderOfFaceAsPerm, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        __SIMPLICIAL_CheckFace(complex, face, "CyclicVertexOrderOfFaceAsPerm");
-        return CyclicVertexOrderOfFaceAsPermNC(complex,face);
-    end
-);
-InstallMethod( CyclicVertexOrderOfFaceAsList, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        __SIMPLICIAL_CheckFace(complex, face, "CyclicVertexOrderOfFaceAsList");
-        return CyclicVertexOrderOfFaceAsListNC(complex,face);
-    end
-);
-InstallMethod( CyclicEdgeOrderOfFaceAsPerm, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        __SIMPLICIAL_CheckFace(complex, face, "CyclicEdgeOrderOfFacesAsPerm");
-        return CyclicEdgeOrderOfFaceAsPermNC(complex,face);
-    end
-);
-InstallMethod( CyclicEdgeOrderOfFaceAsList, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, face)
-        __SIMPLICIAL_CheckFace(complex, face, "CyclicEdgeOrderOfFacesAsList");
-        return CyclicEdgeOrderOfFaceAsListNC(complex,face);
-    end
-);
-
-
-#
-# inferences from cyclic order
-# 
-InstallMethod( VerticesOfFaces,
-    "for a polygonal complex that has CyclicVertexOrderOfFacesAsList",
-    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsList],
-    function(complex)
-        return List(CyclicVertexOrderOfFacesAsList(complex), Set );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "VerticesOfFaces", "CyclicVertexOrderOfFacesAsList");
-
-InstallMethod( EdgesOfFaces,
-    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList",
-    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList],
-    function(complex)
-        return List(CyclicEdgeOrderOfFacesAsList(complex), Set);
-    end
-);
-AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "EdgesOfFaces", "CyclicEdgeOrderOfFacesAsList");
-
-
-InstallMethod( Faces,
-    "for a polygonal complex that has CyclicVertexOrderOfFacesAsPerm",
-    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsPerm],
-    function( complex )
-        return __SIMPLICIAL_BoundEntriesOfList( CyclicVertexOrderOfFacesAsPerm(complex) );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "Faces", "CyclicVertexOrderOfFacesAsPerm");
-
-InstallMethod( Faces,
-    "for a polygonal complex that has CyclicVertexOrderOfFacesAsList",
-    [IsPolygonalComplex and HasCyclicVertexOrderOfFacesAsList],
-    function( complex )
-        return __SIMPLICIAL_BoundEntriesOfList( CyclicVertexOrderOfFacesAsList(complex) );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "Faces", "CyclicVertexOrderOfFacesAsList");
-
-
-InstallMethod( Faces,
-    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsPerm",
-    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsPerm],
-    function( complex )
-        return __SIMPLICIAL_BoundEntriesOfList( CyclicEdgeOrderOfFacesAsPerm(complex) );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "Faces", "CyclicEdgeOrderOfFacesAsPerm");
-
-
-InstallMethod( Faces,
-    "for a polygonal complex that has CyclicEdgeOrderOfFacesAsList",
-    [IsPolygonalComplex and HasCyclicEdgeOrderOfFacesAsList],
-    function( complex )
-        return __SIMPLICIAL_BoundEntriesOfList( CyclicEdgeOrderOfFacesAsList(complex) );
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "Faces", "CyclicEdgeOrderOfFacesAsList");
-
 
 ##
 ##          End of face-induced order

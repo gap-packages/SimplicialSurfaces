@@ -17,7 +17,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_ConnectionLabelStarOfStar();
     __SIMPLICIAL_Test_InvertIncidence();
     __SIMPLICIAL_Test_TransitiveIncidence();
-    __SIMPLICIAL_Test_CyclicOrderInferences();
+    __SIMPLICIAL_Test_PerimeterInferences();
     __SIMPLICIAL_Test_EdgeFacePathSwitch();
     __SIMPLICIAL_Test_EdgeFacePathImplications();
     __SIMPLICIAL_Test_ConnectivityImplications();

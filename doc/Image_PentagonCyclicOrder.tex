@@ -12,15 +12,15 @@
     \coordinate (P5) at (234:\r);
 
     \draw[edge, face]
-        (P1) node[vertexLabel, right] {\ifdefined\abstractLabels $v_1$ \else 3 \fi}
-            -- node[edgeLabel] {\ifdefined\abstractLabels $e_1$ \else 2 \fi} 
+        (P1) node[vertexLabel, right] {\ifdefined\abstractLabels $v_1$ \else 2 \fi}
+            -- node[edgeLabel] {\ifdefined\abstractLabels $e_1$ \else 3 \fi} 
         (P2) node[vertexLabel, right] {\ifdefined\abstractLabels $v_2$ \else 6 \fi} 
-            -- node[edgeLabel] {\ifdefined\abstractLabels $e_2$ \else 4 \fi} 
+            -- node[edgeLabel] {\ifdefined\abstractLabels $e_2$ \else 8 \fi} 
         (P3) node[vertexLabel, above] {\ifdefined\abstractLabels $v_3$ \else 1 \fi}
-            -- node[edgeLabel] {\ifdefined\abstractLabels $e_3$ \else 8 \fi} 
+            -- node[edgeLabel] {\ifdefined\abstractLabels $e_3$ \else 4 \fi} 
         (P4) node[vertexLabel, left] {\ifdefined\abstractLabels $v_4$ \else 9 \fi} 
-            -- node[edgeLabel] {\ifdefined\abstractLabels $e_4$ \else 3 \fi}
-        (P5) node[vertexLabel, left] {\ifdefined\abstractLabels $v_5$ \else 2 \fi} 
+            -- node[edgeLabel] {\ifdefined\abstractLabels $e_4$ \else 2 \fi}
+        (P5) node[vertexLabel, left] {\ifdefined\abstractLabels $v_5$ \else 3 \fi} 
             -- node[edgeLabel] {\ifdefined\abstractLabels $e_5$ \else 6 \fi} cycle;
 
     \foreach \p in {P1,P2,P3,P4,P5}{

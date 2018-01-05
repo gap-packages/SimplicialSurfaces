@@ -91,6 +91,15 @@ InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
 );
 
 
+InstallMethod( \=, "for two vertex-edge-paths", IsIdenticalObj,
+    [IsVertexEdgePath, IsVertexEdgePath],
+    function(path1, path2)
+        return PathAsList(path1) = PathAsList(path2) and 
+            AssociatedPolygonalComplex(path1) = AssociatedPolygonalComplex(path2);
+    end
+);
+
+
 InstallMethod( PathAsList, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
         return Path(path);
@@ -212,6 +221,13 @@ InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
+InstallMethod( \=, "for two edge-face-paths", IsIdenticalObj,
+    [IsEdgeFacePath, IsEdgeFacePath],
+    function(path1, path2)
+        return PathAsList(path1) = PathAsList(path2) and 
+            AssociatedPolygonalComplex(path1) = AssociatedPolygonalComplex(path2);
+    end
+);
 
 InstallMethod( PathAsList, "for an edge-face-path", [IsEdgeFacePath],
     function(path)

@@ -717,7 +717,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! </Alt>
 #! @ExampleSession
 #! gap> pentagon := PolygonalSurfaceByDownwardIncidence( 
-#! >    [,[3,6],[2,9],[1,6],,[2,3],,[1,9]], 
+#! >    [,[3,9],[2,6],[1,9],,[2,3],,[1,6]], 
 #! >    [, [2,3,4,6,8]] );;
 #! gap> VerticesOfFace(pentagon,2);
 #! [ 1, 2, 3, 6, 9 ]
@@ -725,78 +725,77 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! [ 2, 3, 4, 6, 8 ]
 #! @EndExampleSession
 #! If we want to know in which order the vertices (or edges) are
-#! arranged around the boundary of the given face, the previous methods 
-#! are quite clumsy. For that reason the methods 
-#! <K>CyclicVertexOrderOfFace</K> and <K>CyclicEdgeOrderOfFace</K>
-#! were written.
-#! 
-#! The cyclic order of the vertices is naturally represented by one of
-#! the permutations (1,6,3,2,9) or (1,9,2,3,6).
-#TODO put a link to permutations in the GAP-Manual here
-#! Since the operation should return a unique value, we have to pick
-#! one of these as a convention. We choose (1,6,3,2,9), since it has
-#! the smallest image under 1 (the smallest of the vertices).
-#! 
-#! Likewise we have the permutations (2,6,3,8,4) and (2,4,8,3,6) for
-#! the cyclic order of the edges. With the same convention we choose
-#! (2,4,8,3,6) as the designated return value. 
+#! arranged around the perimeter of the given face, the previous methods 
+#! are quite clumsy. For that reason the method 
+#! <K>PerimeterOfFace</K> was written.
 #! 
 #! @ExampleSession
-#! gap> CyclicVertexOrderOfFace( pentagon, 2 );
-#! (1,6,3,2,9)
-#! gap> CyclicEdgeOrderOfFace( pentagon, 2 );
+#! gap> perim := PerimeterOfFace( pentagon, 2 );
+#! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
+#! @EndExampleSession
+#!
+#! It returns the perimeter as a vertex-edge-path, not a list (all available
+#! methods for vertex-edge-paths can be found in section 
+#! <Ref Sect="Section_Paths_VertexEdge"/>).
+#! @BeginExampleSession
+#! gap> IsList(perim);
+#! false
+#! gap> IsVertexEdgePath(perim);
+#! true
+#! @EndExampleSession
+#!
+#! @InsertChunk Definition_VertexEdgePath
+#!
+#! The order of vertices and edges is best described by a cyclic permutation.
+#! @ExampleSession
+#! gap> VerticesAsPerm(perim);
+#! (1,6,2,3,9)
+#! gap> EdgesAsPerm(perim);
 #! (2,4,8,3,6)
 #! @EndExampleSession
+#!
+#! There are two possible cyclic permutations of vertices and edges
+#! (clockwise and 
+#! counter-clockwise). Since the method has to return a unique value,
+#! one of them has to be picked as a convention. We choose this one, 
+#! since the vertex permutation has the smaller image under 1 (the
+#! smallest of the vertices).
 #!
 #! While the permutation representation is most natural, in many cases
-#! a list would be more convenient. For this reason the permutations
-#! (1,6,3,2,9) and (2,4,8,3,6) can also be given as the lists
-#! [1,6,3,2,9] and [2,4,8,3,6].
+#! a list would be more convenient.
 #! @ExampleSession
-#! gap> CyclicVertexOrderOfFaceAsList( pentagon, 2 );
-#! [ 1, 6, 3, 2, 9 ]
-#! gap> CyclicEdgeOrderOfFaceAsList( pentagon, 2 );
-#! [ 2, 4, 8, 3, 6 ]
+#! gap> VerticesAsList(perim);
+#! [ 1, 6, 2, 3, 9 ]
+#! gap> EdgesAsList(perim);
+#! [ 8, 3, 6, 2, 4 ]
 #! @EndExampleSession
-#!
-#! Since it might be confusing to remember whether the permutation or
-#! the list representation is the default one, we also offer the operations
-#! <K>CyclicVertexOrderOfFaceAsPerm</K> and
-#! <K>CyclicEdgeOrderOfFaceAsPerm</K>.
-#!
-#! @ExampleSession
-#! gap> CyclicVertexOrderOfFaceAsPerm( pentagon, 2 );
-#! (1,6,3,2,9)
-#! gap> CyclicEdgeOrderOfFaceAsPerm( pentagon, 2 );
-#! (2,4,8,3,6)
-#! @EndExampleSession
-#!
+#! While the vertex list starts with the smallest vertex, the edge list
+#! will start with an edge incident to the smallest vertex (the other
+#! end is the smaller of the two adjacent vertices).
 
-#! @BeginGroup CyclicVertexOrderOfFacesAsPerm
+#! @BeginGroup PerimetersOfFaces
 #! @Description
 #! The operation 
-#! <K>CyclicVertexOrderOfFaceAsPerm</K>(<A>complex</A>,<A>face</A>) 
-#! returns a cyclic permutation of all vertices in the given <A>face</A> such 
-#! that the images of every pair of vertices that are connected by an edge of 
-#! the given <A>face</A> will also be connected by an edge of <A>face</A>.
+#! <K>PerimeterOfFaces</K>(<A>complex</A>,<A>face</A>) returns a closed
+#! vertex-edge-path (for the exact definition compare 
+#! <Ref Subsect="VertexEdgePath"/> and <Ref Subsect="VertexEdge_Closed"/>) of
+#! all vertices and edges incident to the given <A>face</A>.
+#!
+#! Since this condition does not define the path uniquely, we further 
+#! stipulate that the smallest vertex is followed by the smallest possible
+#! vertex. If that is not unique (for a face with only two vertices), the
+#! smallest vertex is followed by the smallest possible edge.
 #! 
-#! This condition does not define the cyclic permutation uniquely, so we 
-#! stipulate that the image of the smallest vertex is minimal for the retuned
-#! permutation.
-#! 
-#! The attribute <K>CyclicVertexOrderOfFacesAsPerm</K>(<A>complex</A>) 
-#! collects all of those permutations in a list that is indexed by the face 
+#! The attribute <K>PerimetersOfFaces</K>(<A>complex</A>) 
+#! collects all of those vertex-edge-paths in a list that is indexed by the face 
 #! labels, i.e. 
-#! <K>CyclicVertexOrderOfFacesAsPerm</K>(<A>complex</A>)[<A>face</A>]
-#! = <K>CyclicVertexOrderOfFaceAsPerm</K>(<A>complex</A>, <A>face</A>). All
+#! <K>PerimetersOfFaces</K>(<A>complex</A>)[<A>face</A>]
+#! = <K>PerimeterOfFace</K>(<A>complex</A>, <A>face</A>). All
 #! other positions of this list are not bound.
 #! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
 #! given <A>complex</A>.
 #! The operations
-#! <K>CyclicVertexOrderOfFace</K>(<A>complex</A>, <A>face</A>) and
-#! <K>CyclicVertexOrderOfFaces</K>(<A>complex</A>) are wrappers for the
-#! corresponding <K>*AsPerm</K>-methods.
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
@@ -805,181 +804,29 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #!   \input{Image_PentagonCyclicOrder.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> CyclicVertexOrderOfFaceAsPerm(pentagon, 2);
-#! (1,6,3,2,9)
-#! gap> CyclicVertexOrderOfFace(pentagon, 2);
-#! (1,6,3,2,9)
-#! gap> CyclicVertexOrderOfFacesAsPerm(pentagon);
-#! [ , (1,6,3,2,9) ]
-#! gap> CyclicVertexOrderOfFaces(pentagon);
-#! [ , (1,6,3,2,9) ]
-#! @EndExampleSession
-#! 
-#! @Arguments complex
-#! @Returns a list of permutations/a permutation
-DeclareAttribute( "CyclicVertexOrderOfFacesAsPerm", IsPolygonalComplex );
-#! @Arguments complex
-DeclareOperation( "CyclicVertexOrderOfFaces", [IsPolygonalComplex] );
-#! @Arguments complex, face
-DeclareOperation( "CyclicVertexOrderOfFaceAsPerm", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, face
-DeclareOperation( "CyclicVertexOrderOfFace", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, face
-DeclareOperation( "CyclicVertexOrderOfFaceAsPermNC", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, face
-DeclareOperation( "CyclicVertexOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
-#! @EndGroup
-
-
-#! @BeginGroup CyclicVertexOrderOfFacesAsList
-#! @Description
-#! The operation 
-#! <K>CyclicVertexOrderOfFaceAsList</K>(<A>complex</A>,<A>face</A>) 
-#! returns a list of all vertices in the given <A>face</A> such 
-#! that every two vertices that are connected by an edge of 
-#! the given <A>face</A> will be adjacent in the list (for this purpose,
-#! the first and the last entry of the list are adjacent).
-#! 
-#! This condition does only define the list up to cyclic permutation, so we 
-#! stipulate that the first element of the list is the smallest vertex and
-#! the second element of the list is as small as possible.
-#! 
-#! The attribute <K>CyclicVertexOrderOfFacesAsList</K>(<A>complex</A>) 
-#! collects all of those lists in a list that is indexed by the face 
-#! labels, i.e. 
-#! <K>CyclicVertexOrderOfFacesAsList</K>(<A>complex</A>)[<A>face</A>]
-#! = <K>CyclicVertexOrderOfFaceAsList</K>(<A>complex</A>, <A>face</A>). All
-#! other positions of this list are not bound.
-#! 
-#! The NC-version does not check if the given <A>face</A> is a face of the
-#! given <A>complex</A>.
-#! 
-#! As an example consider the polygonal complex that was introduced at the
-#! start of section
-#! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PentagonCyclicOrder.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> CyclicVertexOrderOfFaceAsList(pentagon, 2);
-#! [ 1, 6, 3, 2, 9 ]
-#! gap> CyclicVertexOrderOfFacesAsList(pentagon);
-#! [ , [ 1, 6, 3, 2, 9  ] ]
-#! @EndExampleSession
-#! 
-#! @Arguments complex
-#! @Returns a list of lists/a list
-DeclareAttribute( "CyclicVertexOrderOfFacesAsList", IsPolygonalComplex );
-#! @Arguments complex, face
-DeclareOperation( "CyclicVertexOrderOfFaceAsList", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, face
-DeclareOperation( "CyclicVertexOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt] );
-#! @EndGroup
-
-
-
-#! @BeginGroup CyclicEdgeOrderOfFacesAsPerm
-#! @Description
-#! The operation 
-#! <K>CyclicEdgeOrderOfFaceAsPerm</K>(<A>complex</A>,<A>face</A>) 
-#! returns a cyclic permutation of all edges in the given <A>face</A> such 
-#! that the images of every pair of edges that share a vertex of 
-#! the given <A>face</A> will also share a vertex of <A>face</A>.
-#! 
-#! This condition does not define the cyclic permutation uniquely, so we 
-#! stipulate that the image of the smallest edge is minimal for the retuned
-#! permutation.
-#! 
-#! The attribute <K>CyclicEdgeOrderOfFacesAsPerm</K>(<A>complex</A>) 
-#! collects all of those permutations in a list that is indexed by the face 
-#! labels, i.e. 
-#! <K>CyclicEdgeOrderOfFacesAsPerm</K>(<A>complex</A>)[<A>face</A>]
-#! = <K>CyclicEdgeOrderOfFaceAsPerm</K>(<A>complex</A>, <A>face</A>). All
-#! other positions of this list are not bound.
-#! 
-#! The NC-version does not check if the given <A>face</A> is a face of the
-#! given <A>complex</A>.
-#! The operations
-#! <K>CyclicEdgeOrderOfFace</K>(<A>complex</A>, <A>face</A>) and
-#! <K>CyclicEdgeOrderOfFaces</K>(<A>complex</A>) are wrappers for the
-#! corresponding <K>*AsPerm</K>-methods.
-#! 
-#! As an example consider the polygonal complex that was introduced at the
-#! start of section
-#! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PentagonCyclicOrder.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> CyclicEdgeOrderOfFaceAsPerm(pentagon, 2);
+#! gap> perim := PerimeterOfFace(pentagon, 2);
+#! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
+#! gap> PathAsList(perim);
+#! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
+#! gap> VerticesAsList(perim);
+#! [ 1, 6, 2, 3, 9 ]
+#! gap> EdgesAsList(perim);
+#! [ 8, 3, 6, 2, 4 ]
+#! gap> VerticesAsPerm(perim);
+#! (1,6,2,3,9)
+#! gap> EdgesAsPerm(perim);
 #! (2,4,8,3,6)
-#! gap> CyclicEdgeOrderOfFace(pentagon, 2);
-#! (2,4,8,3,6)
-#! gap> CyclicEdgeOrderOfFacesAsPerm(pentagon);
-#! [ , (2,4,8,3,6) ]
-#! gap> CyclicEdgeOrderOfFaces(pentagon);
-#! [ , (2,4,8,3,6) ]
+#! gap> PerimetersOfFaces(pentagon);
+#! [ , [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ] ]
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-#! @Returns a list of permutations/a permutation
-DeclareAttribute( "CyclicEdgeOrderOfFacesAsPerm", IsPolygonalComplex );
-#! @Arguments complex
-DeclareOperation( "CyclicEdgeOrderOfFaces", [IsPolygonalComplex] );
+#! @Returns a list of vertex-edge-paths
+DeclareAttribute( "PerimetersOfFaces", IsPolygonalComplex );
 #! @Arguments complex, face
-DeclareOperation( "CyclicEdgeOrderOfFaceAsPerm", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "PerimeterOfFace", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "CyclicEdgeOrderOfFace", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, face
-DeclareOperation( "CyclicEdgeOrderOfFaceAsPermNC", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, face
-DeclareOperation( "CyclicEdgeOrderOfFaceNC", [IsPolygonalComplex, IsPosInt] );
-#! @EndGroup
-
-
-#! @BeginGroup CyclicEdgeOrderOfFacesAsList
-#! @Description
-#! The operation 
-#! <K>CyclicEdgeOrderOfFaceAsList</K>(<A>complex</A>,<A>face</A>) 
-#! returns a list of all edges in the given <A>face</A> such 
-#! that every two edges that share a vertex of 
-#! the given <A>face</A> will be adjacent in the list (for this purpose,
-#! the first and the last entry of the list are adjacent).
-#! 
-#! This condition does only define the list up to cyclic permutation, so we 
-#! stipulate that the first element of the list is the smallest edge and
-#! the second element of the list is as small as possible.
-#! 
-#! The attribute <K>CyclicEdgeOrderOfFacesAsList</K>(<A>complex</A>) 
-#! collects all of those lists in a list that is indexed by the face 
-#! labels, i.e. 
-#! <K>CyclicEdgeOrderOfFacesAsList</K>(<A>complex</A>)[<A>face</A>]
-#! = <K>CyclicEdgeOrderOfFaceAsList</K>(<A>complex</A>, <A>face</A>). All
-#! other positions of this list are not bound.
-#! 
-#! The NC-version does not check if the given <A>face</A> is a face of the
-#! given <A>complex</A>.
-#! 
-#! As an example consider the polygonal complex that was introduced at the
-#! start of section
-#! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PentagonCyclicOrder.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> CyclicEdgeOrderOfFaceAsList(pentagon, 2);
-#! [ 2, 4, 8, 3, 6 ]
-#! gap> CyclicEdgeOrderOfFacesAsList(pentagon);
-#! [ , [ 2, 4, 8, 3, 6  ] ]
-#! @EndExampleSession
-#! 
-#! @Arguments complex
-#! @Returns a list of lists/a list
-DeclareAttribute( "CyclicEdgeOrderOfFacesAsList", IsPolygonalComplex );
-#! @Arguments complex, face
-DeclareOperation( "CyclicEdgeOrderOfFaceAsList", [IsPolygonalComplex, IsPosInt] );
-#! @Arguments complex, face
-DeclareOperation( "CyclicEdgeOrderOfFaceAsListNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 

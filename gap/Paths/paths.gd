@@ -650,7 +650,7 @@ DeclareProperty( "IsClosedGeodesic", IsEdgeFacePath );
 #! connected.
 #!
 #! For example, consider the ramified simplicial surface from the start of 
-#! section <Ref Sect="Section_Properties_Connectivity"/>:
+#! section <Ref Sect="Section_Paths_Connectivity"/>:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
 #!     \input{Image_ButterflyOfTriangles.tex}
