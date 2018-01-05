@@ -921,35 +921,13 @@ InstallMethod( UmbrellaPartitionOfVertex,
 ## Implications from UmbrellaPartitionsOfVertices (only to *Of*, since 
 ## implications to vertices, edges and faces follow from that)
 ##
-BindGlobal( "__SIMPLICIAL_EvenEntries", function(list)
-    local len, ind;
-
-    len := Size(list);
-    if IsEvenInt(len) then
-        ind := [1..len/2];
-    else
-        ind := [1..(len-1)/2];
-    fi;
-    return Set( List( ind, i->list[2*i] ) );
-end);
-BindGlobal( "__SIMPLICIAL_OddEntries", function(list)
-    local len, ind;
-    
-    len := Size(list);
-    if IsEvenInt(len) then
-        ind := [1..len/2];
-    else
-        ind := [1..(len+1)/2];
-    fi;
-    return Set( List( ind, i->list[2*i-1] ) );
-end);
 
 InstallMethod( EdgesOfVertices, 
     "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices", 
     [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices],
     function(complex)
         return List( UmbrellaPartitionsOfVertices(complex), part ->
-            Union( List( part, __SIMPLICIAL_OddEntries ) ));
+            Union( List( part, EdgesAsList ) ));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -961,7 +939,7 @@ InstallMethod( FacesOfVertices,
     [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices],
     function(complex)
         return List( UmbrellaPartitionsOfVertices(complex), part ->
-            Union( List( part, __SIMPLICIAL_EvenEntries ) ));
+            Union( List( part, FacesAsList ) ));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -972,35 +950,30 @@ InstallMethod( FacesOfEdges,
     "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices and VerticesAttributeOfPolygonalComplex",
     [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
     function(complex)
-        local facesOfEdges, parts, v, p, even, ind, i, edge, incFaces;
+        local facesOfEdges, parts, v, p, even, ind, i, edge, incFaces, path;
 
         parts := UmbrellaPartitionsOfVertices(complex);
 
         facesOfEdges := [];
         for v in Vertices(complex) do
             for p in parts[v] do
-                even := IsEvenInt(Size(p));
-                if even then
-                    ind := [1..Size(p)/2];
-                else
-                    ind := [1..(Size(p)+1)/2];
-                fi;
+                path := PathAsList(p);
 
-                for i in ind do
-                    edge := p[2*i-1];
+                for i in [1..(Size(path)+1)/2] do
+                    edge := path[2*i-1];
                     if IsBound(facesOfEdges[edge]) then
                         # Since the complex is ramified, the incident faces should be the same
                         continue;
                     fi;
 
-                    if i = 1 and even then
-                        incFaces := Set([ p[2], p[Size(p)] ]);
+                    if i = 1 and IsClosedPath(p) then
+                        incFaces := Set([ path[2], path[Size(path)-1] ]);
                     elif i = 1 then
-                        incFaces := [p[2]];
-                    elif not even and i = Size(ind) then
-                        incFaces := [p[Size(p)-1]];
+                        incFaces := [path[2]];
+                    elif not IsClosedPath(p) and 2*i = Size(path)+1 then
+                        incFaces := [path[Size(path)-1]];
                     else
-                        incFaces := Set( [p[2*i-2],p[2*i]] );
+                        incFaces := Set( [path[2*i-2],path[2*i]] );
                     fi;
                     facesOfEdges[edge] := incFaces;
                 od;
@@ -1114,7 +1087,10 @@ InstallMethod( UmbrellaPartitionsOfVertices,
                     break;
                 fi;
 
-                Add(path, path[1]);
+                if IsEvenInt( Length(path) ) then
+                    # It is a closed path
+                    Add(path, path[1]);
+                fi;
                 Add(paths, EdgeFacePathNC(ramSurf,path));
             od;
 

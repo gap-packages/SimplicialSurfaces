@@ -187,30 +187,30 @@ end);
 BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
     local paths, partitions, complex;
     
-    paths := [ [ 11, 2, 12, 3, 13, 4, 14, 5 ], , , , , [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ],
+    paths := [ [ 11, 2, 12, 3, 13, 4, 14, 5, 11 ], , , , , [ 15, 2, 11, 5, 19 ], [ 15, 2, 12, 3, 16 ],
         [ 16, 3, 17 ], [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ];
-    partitions := [ [[ 11, 2, 12, 3, 13, 4, 14, 5 ]], , , , , [[ 15, 2, 11, 5, 19 ]], [[ 15, 2, 12, 3, 16 ]],
+    partitions := [ [[ 11, 2, 12, 3, 13, 4, 14, 5, 11 ]], , , , , [[ 15, 2, 11, 5, 19 ]], [[ 15, 2, 12, 3, 16 ]],
         [[ 16, 3, 17 ]], [[ 17, 3, 13, 4, 18 ]], [[ 18, 4, 14, 5, 19 ]] ];
 
     # from partitions to paths (first direct test, then check whether type can be inferred)
     complex := Objectify( PolygonalComplexType, rec() );
-    SetUmbrellaPartitionsOfVertices( complex, partitions );
+    SetUmbrellaPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
     SetIsPolygonalSurface( complex, true );
-    Assert(0, UmbrellasOfVertices(complex)=paths);
+    Assert(0, List(UmbrellasOfVertices(complex),PathAsList)=paths);
 
     complex := Objectify( PolygonalComplexType, rec() );
-    SetUmbrellaPartitionsOfVertices( complex, partitions );
-    Assert(0, UmbrellasOfVertices(complex)=paths);
+    SetUmbrellaPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
+    Assert(0, List(UmbrellasOfVertices(complex),PathAsList)=paths);
 
     # from paths to partitions (first direct test, then check whether type can be inferred)
     complex := Objectify( PolygonalComplexType, rec() );
-    SetUmbrellasOfVertices( complex, paths );
+    SetUmbrellasOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
     SetIsRamifiedPolygonalSurface( complex, true );
-    Assert(0, UmbrellaPartitionsOfVertices(complex)=partitions);
+    Assert(0, List(UmbrellaPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
     complex := Objectify( PolygonalComplexType, rec() );
-    SetUmbrellasOfVertices( complex, paths );
-    Assert(0, UmbrellaPartitionsOfVertices(complex)=partitions);
+    SetUmbrellasOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
+    Assert(0, List(UmbrellaPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
 end);
 
@@ -225,12 +225,12 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaImplications", function()
     faces := [2,3,4,9,11];
     verticesOfEdges := [ ,,,,,,,,,,,,[5,6],[1,5],[5,7],[1,6],[6,7],[1,7],[1,8],[1,10],[1,12],[8,10],[10,12] ];
     edgesOfFaces := [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,20,22],,[20,21,23] ];
-    paths := [ [ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ], , , ,
+    paths := [ [ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ], , , ,
         [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ], [ [ 15, 2, 18, 4, 17 ] ],
         [ [ 19, 9, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ] ];
 
     complex := Objectify( PolygonalComplexType, rec() );
-    SetUmbrellaPartitionsOfVertices( complex, paths );
+    SetUmbrellaPartitionsOfVertices( complex, List(paths,s->List(s, p->EdgeFacePathNC(complex,p) ) ) );
     Assert(0, Vertices(complex)=vertices);
     Assert(0, Edges(complex)=edges);
     Assert(0, Faces(complex)=faces);
@@ -240,7 +240,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaImplications", function()
     complex := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges(complex, verticesOfEdges);
     SetEdgesOfFaces(complex, edgesOfFaces);
-    Assert(0, UmbrellaPartitionsOfVertices(complex)=paths);
+    Assert(0, List(UmbrellaPartitionsOfVertices(complex),p->List(p,PathAsList))=paths);
 end);
 
 

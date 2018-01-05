@@ -168,7 +168,7 @@ InstallMethod( InnerVertices, "for a polygonal complex",
     function(complex)
         local edgeFacePaths;
 
-        edgeFacePaths := EdgeFacePathsOfVertices(complex);
+        edgeFacePaths := UmbrellasOfVertices(complex);
         return Filtered( Vertices(complex), v -> 
             edgeFacePaths[v]<>fail and IsEvenInt(Size(edgeFacePaths[v])) );
     end
@@ -193,7 +193,7 @@ InstallMethod( BoundaryVertices, "for a polygonal complex",
     function(complex)
         local edgeFacePaths;
 
-        edgeFacePaths := EdgeFacePathsOfVertices(complex);
+        edgeFacePaths := UmbrellasOfVertices(complex);
         return Filtered( Vertices(complex), v -> 
             edgeFacePaths[v]<>fail and IsOddInt(Size(edgeFacePaths[v])) );
     end
@@ -218,8 +218,8 @@ InstallMethod( RamifiedVertices, "for a polygonal complex",
     function(complex)
         local edgeFacePaths, partitions;
 
-        edgeFacePaths := EdgeFacePathsOfVertices(complex);
-        partitions := EdgeFacePathPartitionsOfVertices(complex);
+        edgeFacePaths := UmbrellasOfVertices(complex);
+        partitions := UmbrellaPartitionsOfVertices(complex);
         return Filtered( Vertices(complex), v -> 
             edgeFacePaths[v]=fail and partitions[v]<>fail );
     end
@@ -244,7 +244,7 @@ InstallMethod( ChaoticVertices, "for a polygonal complex",
     function(complex)
         local partitions;
 
-        partitions := EdgeFacePathPartitionsOfVertices(complex);
+        partitions := UmbrellaPartitionsOfVertices(complex);
         return Filtered( Vertices(complex), v -> partitions[v]=fail );
     end
 );

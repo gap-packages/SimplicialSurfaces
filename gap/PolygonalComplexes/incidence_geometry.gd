@@ -858,7 +858,8 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #!         faces that are incident to a vertex. It is achieved by "travelling 
 #!         around the vertex" while staying on the surface. 
 #! This order is called <E>umbrella</E> and we formalize it
-#! by <E>edge-face-paths</E>.
+#! by <E>edge-face-paths</E> (section <Ref Sect="Section_Paths_EdgeFace"/>
+#! contains the methods to access those paths).
 #!         <Alt Only="TikZ">
 #!           \input{Image_EdgeFacePath.tex}
 #!         </Alt>
@@ -906,7 +907,7 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>) that contains all edges
 #! and faces incident to <A>vertex</A>, with the following 
 #! conventions:
-#! * The first entry of the ummbrella is minimal.
+#! * The first entry of the umbrella is minimal.
 #! * In the case of a closed umbrella, after restricting with the
 #!   first convention, the second entry of the umbrella is minimal.
 #! 
@@ -961,17 +962,22 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! gap> surface := PolygonalSurfaceByDownwardIncidence( 
 #! >    [,,,,,,,,,, [1,6],[1,7],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
 #! >    [,[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
-#! gap> UmbrellaOfVertex(surface, 1);
+#! gap> um1 := UmbrellaOfVertex(surface, 1);
 #! [ 11, 2, 12, 3, 13, 4, 14, 5, 11 ]
-#! gap> EdgesAsList(last);
+#! gap> EdgesAsList(um1);
 #! [ 11, 12, 13, 14, 11 ]
-#! gap> UmbrellaOfVertex(surface, 7);
-#! [ 15, 2, 12, 3, 16, 15 ]
-#! gap> FacesAsPerm(last);
-#! (2,3,15)
+#! gap> EdgesAsPerm(um1);
+#! (11,12,13,14)
+#! gap> um7 := UmbrellaOfVertex(surface, 7);
+#! [ 15, 2, 12, 3, 16 ]
+#! gap> EdgesAsList(um7);
+#! [ 15, 12, 16 ]
+#! gap> FacesAsList(um7);
+#! [ 2, 3 ]
 #! gap> UmbrellasOfVertices(surface);
-#! [ [ 11, 2, 12, 3, 13, 4, 14, 5, 11 ],,,,, [ 15, 2, 11, 5, 19, 15 ], [ 15, 2, 12, 3, 16, 15 ], 
-#!      [ 16, 3, 17, 16 ], [ 17, 3, 13, 4, 18, 17 ], [ 18, 4, 14, 5, 19, 18 ] ]
+#! [ [ 11, 2, 12, 3, 13, 4, 14, 5, 11 ],,,,, [ 15, 2, 11, 5, 19 ], 
+#!      [ 15, 2, 12, 3, 16 ], [ 16, 3, 17 ], 
+#!      [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of edge-face-paths
@@ -995,7 +1001,7 @@ DeclareOperation( "UmbrellaOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! edges and faces (i.e. every incident edge or face appears in exactly one
 #! of the umbrellas). In the above image, the umbrella-partition of
 #! the vertex 1 is
-#! <M>[ [ 14, 2, 18, 4, 16, 3 ], [ 19, 9, 20, 11, 21 ] ]</M>.
+#! <M>[ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ]</M>.
 
 
 #! @BeginGroup UmbrellaPartitionsOfVertices
@@ -1047,14 +1053,14 @@ DeclareOperation( "UmbrellaOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! >        [1,8],[1,10],[1,12],[8,10],[10,12] ],
 #! >    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
 #! gap> UmbrellaPartitionOfVertex(ramSurf, 1);
-#! [ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21, 19 ] ]
+#! [ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ]
 #! gap> UmbrellaPartitionOfVertex(ramSurf, 5);
-#! [ [ 13, 3, 14, 2, 15, 13 ] ]
+#! [ [ 13, 3, 14, 2, 15 ] ]
 #! gap> UmbrellaPartitionsOfVertices(ramSurf);
-#! [ [ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21, 19 ] ],,,,
-#!   [ [ 13, 3, 14, 2, 15, 13 ] ], [ [ 13, 3, 16, 4, 17, 13 ] ],
-#!   [ [ 15, 2, 18, 4, 17, 15 ] ], [ [ 19, 9, 22, 19 ] ],,
-#!   [ [ 22, 9, 20, 11, 23, 22 ] ],, [ [ 21, 11, 23, 21 ] ] ]
+#! [ [ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ],,,,
+#!   [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ],
+#!   [ [ 15, 2, 18, 4, 17 ] ], [ [ 19, 9, 22 ] ],,
+#!   [ [ 22, 9, 20, 11, 23 ] ],, [ [ 21, 11, 23 ] ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of sets of edge-face-paths
