@@ -5,7 +5,10 @@ SortedDegrees
     removed
 
 LocalOrientation*
-    replaced by CyclicOrderOfVertices*
+    replaced by PerimeterOfFaces (see section about VertexEdgePaths)
+
+EdgeFacePathsOfVertices
+    replaced by UmbrellasOfVertices (see section about EdgeFacePaths)
 
 PathConnected*
     replaced by StronglyConnected*
