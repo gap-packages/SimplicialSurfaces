@@ -2,7 +2,7 @@
 ##
 ##  SimplicialSurface package
 ##
-##  Copyright 2012-2016
+##  Copyright 2012-2018
 ##    Markus Baumeister, RWTH Aachen University
 ##    Alice Niemeyer, RWTH Aachen University 
 ##
@@ -11,6 +11,10 @@
 #############################################################################
 
 
+
+#######################################
+##
+##      PolygonalComplex-part
 ##
 ## All documentation is done in doc/PolygonalStructures.xml
 
@@ -37,3 +41,19 @@ DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex );
 InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
 DeclareSynonym( "IsSimplicialSurface", 
     IsPolygonalSurface and IsTriangularComplex );
+
+
+#######################################
+##
+##      Paths-part
+##
+## documented in gap/Paths/paths.gd
+
+DeclareCategory( "IsVertexEdgePath", IsDualPath );
+BindGlobal( "VertexEdgePathFamily", 
+    NewFamily("VertexEdgePathFamily", IsObject, IsVertexEdgePath) );
+
+
+DeclareCategory( "IsEdgeFacePath", IsDualPath );
+BindGlobal( "EdgeFacePathFamily", 
+    NewFamily("EdgeFacePathFamily", IsObject, IsVertexEdgePath) );

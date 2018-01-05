@@ -108,9 +108,6 @@
 #! </ManSection>
 # No AutoDoc-documentation since the order of the next two entries should
 # be switched
-DeclareCategory( "IsVertexEdgePath", IsDualPath );
-BindGlobal( "VertexEdgePathFamily", 
-    NewFamily("VertexEdgePathFamily", IsObject, IsVertexEdgePath) );
 DeclareOperation( "VertexEdgePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 
@@ -390,9 +387,6 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! </ManSection>
 # No AutoDoc-documentation since the order of the next two entries should
 # be switched
-DeclareCategory( "IsEdgeFacePath", IsDualPath );
-BindGlobal( "EdgeFacePathFamily", 
-    NewFamily("EdgeFacePathFamily", IsObject, IsVertexEdgePath) );
 DeclareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
 
