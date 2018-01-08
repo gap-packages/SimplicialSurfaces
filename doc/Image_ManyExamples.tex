@@ -16,20 +16,7 @@
 		
 		        % Second: four triangles in the form of a cone
 		        \begin{scope}[xshift=3cm]
-			    \coordinate (A) at (0,0);
-			    \coordinate (B) at (1.7,0.5);
-			    \coordinate (C) at (1.3,1.4);
-			    \coordinate (D) at (0.5,1.5);
-			    \coordinate (E) at (1,0.7);
-			
-			    % Take care to draw the faces in the back first
-                            \draw[face,edge]
-                                (A) -- (B) -- (C) -- cycle
-                                (A) -- (C) -- (D) -- cycle;
-                            \draw[face,edge]
-                                (A) -- (B) -- (E) -- cycle
-                                (A) -- (E) -- (D) -- cycle;
-                            \draw[edge, dashed] (A) -- (C);
+                            \input{Image_OpenPyramid.tex}
 		        \end{scope}
 		
 		        % Three triangles that share an edge

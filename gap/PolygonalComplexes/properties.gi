@@ -170,7 +170,7 @@ InstallMethod( InnerVertices, "for a polygonal complex",
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         return Filtered( Vertices(complex), v -> 
-            edgeFacePaths[v]<>fail and IsEvenInt(Size(edgeFacePaths[v])) );
+            edgeFacePaths[v]<>fail and IsClosedPath(edgeFacePaths[v]) );
     end
 );
 InstallMethod( IsInnerVertexNC, "for a polygonal complex and a vertex",
@@ -195,7 +195,7 @@ InstallMethod( BoundaryVertices, "for a polygonal complex",
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         return Filtered( Vertices(complex), v -> 
-            edgeFacePaths[v]<>fail and IsOddInt(Size(edgeFacePaths[v])) );
+            edgeFacePaths[v]<>fail and not IsClosedPath(edgeFacePaths[v]) );
     end
 );
 InstallMethod( IsBoundaryVertexNC, "for a polygonal complex and a vertex",

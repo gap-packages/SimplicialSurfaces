@@ -706,7 +706,9 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! @SectionLabel Access_OrderedFaceAccess
 #!
 #! In section <Ref Sect="Section_Access_BasicAccess"/> we
-#! introduced the methods <K>VerticesOfFace</K> and <K>EdgesOfFace</K> to
+#! introduced the methods <K>VerticesOfFace</K>
+#! (<Ref Subsect="VerticesOfFaces"/>) and <K>EdgesOfFace</K>
+#! (<Ref Subsect="EdgesOfFaces"/>) to
 #! determine the vertices and edges of a given face. A drawback of those
 #! methods is that they always return sets.
 #! This might not be sufficient in the case of non-triangular faces, as
@@ -832,7 +834,7 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
-#! @Section Circular path of edges and faces around vertex
+#! @Section Circular path of edges and faces around a vertex
 #! @SectionLabel Access_OrderedVertexAccess
 #!
 ##
@@ -852,6 +854,13 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 ## useful to find the appropriate numbers more effectively - especially if
 ## some of the are roman numerals).
 ##
+#! In section <Ref Sect="Section_Access_BasicAccess"/> the methods 
+#! <K>EdgesOfVertex</K> (<Ref Subsect="EdgesOfVertices"/>) and
+#! <K>FacesOfVertex</K> (<Ref Subsect="FacesOfVertices"/>) were introduced. 
+#! They
+#! allow access to the edges and faces incident to a vertex but they don't
+#! give any information about the relationship between them
+#!
 #!         For polygonal surfaces (that were introduced in section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
 #!         ordering of the edges and 
@@ -1076,3 +1085,51 @@ DeclareOperation( "UmbrellaPartitionOfVertexNC",
         [ IsPolygonalComplex, IsPosInt ]);
 #! @EndGroup
 
+
+#! @Section Perimeter around holes in surfaces
+#! @SectionLabel Access_OrderedHoleAccess
+#!
+#! If a polygonal surface (introduced in 
+#! <Ref Sect="PolygonalStructures_surface"/>) is not closed, it has at least
+#! one "hole". For example the open pyramid and the open bag each have
+#! one hole:
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexPlain=nolabels,edgeStyle=nolabels,faceStyle=nolabels]
+#!     \begin{scope}[scale=2,xshift=0cm]
+#!       \input{Image_OpenPyramid.tex}
+#!     \end{scope}
+#!     \begin{scope}[scale=0.9,xshift=8cm]
+#!       \input{Image_OpenBag.tex}
+#!     \end{scope}
+#!   \end{tikzpicture}
+#! </Alt>
+#!
+#! Informally, a hole can be characterised by the vertices and edges along its
+#! perimeter. These can be given as an alternating path of vertices and edges
+#! that starts and stops with the same vertex. This notion is formalized by
+#! <E>vertex-edge-paths</E> which are defined in more detail in section
+#! <Ref Sect="Section_Paths_VertexEdge"/>.
+#!
+#! TODO example with access to vertices and edges
+#!
+
+#! @Description
+#! Return a set of closed vertex-edge-paths (compare 
+#! <Ref Subsect="VertexEdgePath"/> and <Ref Subsect="IsClosedPath"/> for
+#! the exact definitions) that represent the holes in the given polygonal
+#! surface.
+#!
+#! For each hole there is a unique perimeter of boundary vertices and edges.
+#! To each of these we associate a unique closed vertex-edge-path by the 
+#! following conventions:
+#! * It starts with the smallest vertex on the perimeter
+#! * After using the first condition, the next vertex is as small as possible
+#! * After using the first two conditions, the first edge is minimal
+#!
+#! All of those vertex-edge-paths are returned as a set.
+#! TODO example
+#!
+#! @Arguments surface
+#! @Returns a set of closed vertex-edge-paths
+DeclareAttribute( "PerimeterOfHoles", IsPolygonalSurface );
