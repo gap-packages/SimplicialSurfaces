@@ -1145,7 +1145,7 @@ DeclareOperation( "DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC",
 #! used since it may be expensive to compute the string.
 #! @Arguments simpSurf
 #! @Returns a string
-DeclareAttribute( "PrintStringAttributeOfSimplicialSurface", 
+#DeclareAttribute( "PrintStringAttributeOfSimplicialSurface", 
 		IsSimplicialSurface );
 
 #! @Description
@@ -1255,8 +1255,8 @@ DeclareAttribute( "Geodesics", IsSimplicialSurface and IsTriangleSurface
 ## of edges and faces) and introduce a method for conversion.
 #
 # Returns a list of three permutations
-DeclareOperation( "DisplayAsAutomorphism", [IsSimplicialSurface, IsPerm] );
-DeclareOperation( "DisplayAsAutomorphismNC", [IsSimplicialSurface, IsPerm] );
+#DeclareOperation( "DisplayAsAutomorphism", [IsSimplicialSurface, IsPerm] );
+#DeclareOperation( "DisplayAsAutomorphismNC", [IsSimplicialSurface, IsPerm] );
 
 ## cuts and mends
 DeclareOperation( "CraterCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );

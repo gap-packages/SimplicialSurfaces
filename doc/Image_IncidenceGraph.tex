@@ -18,10 +18,10 @@
             \node[edgeNode] (E13) [right=of E12] {\ifdefined\shiftLabels 24 \else 13 \fi};
 
             % Face nodes
-            \node[faceNode] (F1) [above=of E8] {\ifdefined\shiftLabels 25 \else 1 \fi}
+            \node[faceNode, regular polygon sides=3] (F1) [above=of E8] {\ifdefined\shiftLabels 25 \else 1 \fi}
                 edge (E6) edge (E8) edge (E9);
             \node (Help) at ($(E10)!0.5!(E12)$) {};
-            \node[faceNode] (F4) [above=of Help] {\ifdefined\shiftLabels 28 \else 4 \fi}
+            \node[faceNode, regular polygon sides=4] (F4) [above=of Help] {\ifdefined\shiftLabels 28 \else 4 \fi}
                 edge (E9) edge (E10) edge (E12) edge (E13);
 
             % Vertex nodes
