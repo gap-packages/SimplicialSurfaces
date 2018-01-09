@@ -1116,7 +1116,7 @@ DeclareOperation( "UmbrellaPartitionOfVertexNC",
 
 #! @Description
 #! Return a set of closed vertex-edge-paths (compare 
-#! <Ref Subsect="VertexEdgePath"/> and <Ref Subsect="IsClosedPath"/> for
+#! <Ref Subsect="VertexEdgePath"/> and <Ref Subsect="VertexEdge_IsClosedPath"/> for
 #! the exact definitions) that represent the holes in the given polygonal
 #! surface.
 #!
