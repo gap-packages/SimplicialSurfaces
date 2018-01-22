@@ -121,8 +121,9 @@ BindGlobal( "__SIMPLICIAL_ReplaceValueInList",
 );
 
 
+DeclareGlobalFunction( "__SIMPLICIAL_PairIdentificationsInList" );
 #TODO has this to be declared before (since it is recursive)?
-BindGlobal( "__SIMPLICIAL_PairIdentificationsInList",
+InstallGlobalFunction( "__SIMPLICIAL_PairIdentificationsInList",
     function( list, pairs )
         local res;
 
