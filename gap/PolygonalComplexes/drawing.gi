@@ -406,9 +406,15 @@ BindGlobal( "__SIMPLICIAL_PrintRecordAddFace",
 
 BindGlobal( "__SIMPLICIAL_PrintRecordNextEdge",
     function( printRecord, rejected )
+        local diff;
         #TODO implement more involved methods
         # Naive method that returns the minimum open edge
-        return Difference( printRecord!.openEdges, rejected )[1];
+        diff := Difference( printRecord!.openEdges, rejected );
+        if IsEmpty(diff) then
+            return fail;
+        else
+            return diff[1];
+        fi;
     end
 );
 BindGlobal( "__SIMPLICIAL_PrintRecordNextEdgeByDrawOrder",
