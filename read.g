@@ -13,6 +13,7 @@
 ReadPackage( "SimplicialSurfaces", "gap/MethodSelectionGraph.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/wild_simplicial_surface.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/bend_surface.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/coloured_simplicial_surface.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_identification.gi" );

@@ -13,6 +13,7 @@
 ReadPackage( "SimplicialSurfaces", "gap/MethodSelectionGraph.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/wild_simplicial_surface.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/bend_surface.gd" );
 
 ReadPackage( "SimplicialSurfaces", "gap/coloured_simplicial_surface.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/simplicial_surface_identification.gd" );
