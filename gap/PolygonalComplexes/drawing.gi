@@ -647,9 +647,10 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
 BindGlobal("__SIMPLICIAL_PrintRecordGeneralHeader",
     function(printRecord)
         return Concatenation(
-            "\\documentclass{article}\n\n",
-            "\\usepackage[inner=0.5cm,outer=0.5cm,top=1cm,bottom=0.5cm]{geometry}\n\n",
-            "\\pagestyle{empty}\n");
+            "\\documentclass{standalone}\n\n",
+#            "\\usepackage[inner=0.5cm,outer=0.5cm,top=1cm,bottom=0.5cm]{geometry}\n\n",
+            "\\pagestyle{empty}\n"
+            );
     end
 );
 
