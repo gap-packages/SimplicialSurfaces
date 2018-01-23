@@ -6,6 +6,10 @@ doc/SimplicialSurfaces.tex
 doc/manual*
 doc/_IMAGE*
 doc/_TIKZ_*
+doc/_AutoDocMainFile.xml
+
+# Automatically generated files
+maketest.g
 
 # intermediate compilation stuff
 *.4ct
