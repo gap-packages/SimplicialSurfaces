@@ -284,7 +284,7 @@ InstallMethod( PrintStringAttributeOfSimplicialSurface,
 		PrintTo( out, Edges(simpsurf), ",\n" );
 		PrintTo( out, Faces(simpsurf), ",\n" );
 		PrintTo( out, VerticesOfEdges(simpsurf), ",\n" );
-		PrintTo( out, LocalOrientationByEdgesAsList(simpsurf), ",\n" );
+		PrintTo( out, LocalOrientationByEdgesAsList(simpsurf), "\n" );
 
 		if IsFaceNamesDefault(simpsurf) then
 			PrintTo( out, ");\n" );
