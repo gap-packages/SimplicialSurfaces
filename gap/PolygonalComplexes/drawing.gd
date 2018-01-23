@@ -114,7 +114,9 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #! </Alt>
 #! 
 #! We can see that the programm chose to display a different net to avoid
-#! self-intersections. This feature can be turned off by setting the
+#! self-intersections. If the system can't easily avoid intersections it
+#! will split up the surface and draw these components separately. This feature 
+#! can be turned off by setting the
 #! parameter <A>avoidIntersections</A> to <K>false</K>.
 #
 #! @EndChunk
