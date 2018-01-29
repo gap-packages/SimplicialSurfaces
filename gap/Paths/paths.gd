@@ -119,7 +119,7 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #! @BeginGroup VertexEdge_PathAsList
 #! @Description
 #!   Return the complete vertex-edge-path as a list (with vertices and
-#!   edges alternating).
+#!   edges alternating), starting with a vertex.
 #!   
 #!   For the examples from <K>VertexEdgePath</K> 
 #!   (<Ref Subsect="VertexEdgePath"/>) in the simplicial surface from the 
@@ -408,7 +408,7 @@ DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
 #! @BeginGroup EdgeFace_PathAsList
 #! @Description
 #!   Return the complete edge-face-path as a list (with edges and
-#!   faces alternating).
+#!   faces alternating), starting with an edge.
 #!   
 #!   For the examples from <K>EdgeFacePath</K> 
 #!   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
