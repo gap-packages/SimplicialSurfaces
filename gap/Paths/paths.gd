@@ -82,9 +82,9 @@
 #!     </Alt>
 #!     @ExampleSession
 #! gap> alphaPath := VertexEdgePath(hex, [2,2,7,5,5,10,4,9,3,3,7,6,6]);
-#! [ 2, 2, 7, 5, 5, 10, 4, 9, 3, 3, 7, 6, 6 ]
+#! | v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
 #! gap> omegaPath := VertexEdgePath(hex, [3,9,4,10,5,5,7,6,6,12,1,7,2]);
-#! [ 3, 9, 4, 10, 5, 5, 7, 6, 6, 12, 1, 7, 2 ]
+#! | v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |
 #!     @EndExampleSession
 #!
 #!     @InsertChunk Definition_VertexEdgePath
@@ -94,9 +94,9 @@
 #!     </Alt>
 #!     @ExampleSession
 #! gap> circlePath := VertexEdgePath( hex, [1,7,2,8,3,9,4,10,5,11,6,12,1] );
-#! [ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+#! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
 #! gap> cloverPath := VertexEdgePath( hex, [1,7,2,2,7,5,5,11,6,6,7,3,3,9,4,4,7,1,1] );
-#! [ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ]
+#! ( v1, E7, v2, E2, v7, E5, v5, E11, v6, E6, v7, E3, v3, E9, v4, E4, v7, E1, v1 )
 #!     @EndExampleSession
 #!
 #!     The elements of a vertex-edge-path can be accessed by using the methods
@@ -134,6 +134,7 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #! gap> PathAsList( cloverPath );
 #! [ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ]
 #!   @EndExampleSession
+#TODO should we execute the original paths again?
 #! @Arguments vertexEdgePath
 #! @Returns a list of positive integers
 DeclareAttribute( "PathAsList", IsVertexEdgePath );
@@ -271,7 +272,7 @@ DeclareAttribute( "Inverse", IsVertexEdgePath );
 #!     </Alt>
 #!     @ExampleSession
 #! gap> circlePath;
-#! [ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+#! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
 #! gap> VerticesAsPerm(circlePath);
 #! (1,2,3,4,5,6)
 #!     @EndExampleSession
@@ -295,7 +296,7 @@ DeclareAttribute( "VerticesAsPerm", IsVertexEdgePath );
 #!     </Alt>
 #!     @ExampleSession
 #! gap> circlePath;
-#! [ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+#! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
 #! gap> EdgesAsPerm(circlePath);
 #! (7,8,9,10,11,12)
 #!     @EndExampleSession
@@ -378,7 +379,7 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #!
 #!     @ExampleSession
 #! gap> edgeFacePath := EdgeFacePath( thinTorus, [13,7,14,8,15,9,11,3,7,4,8,5,9] );
-#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 9 ]
+#! | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
 #! gap> IsEdgeFacePath(edgeFacePath);
 #! true
 #! gap> IsList(edgeFacePath);
@@ -413,6 +414,8 @@ DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
 #!   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
 #!   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
 #!   @ExampleSession
+#! gap> edgeFacePath;
+#! | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
 #! gap> PathAsList( edgeFacePath );
 #! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 9 ]
 #!   @EndExampleSession
@@ -429,6 +432,8 @@ DeclareAttribute( "PathAsList", IsEdgeFacePath );
 #!   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
 #!   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
 #!   @ExampleSession
+#! gap> edgeFacePath;
+#! | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
 #! gap> EdgesAsList( edgeFacePath );
 #! [ 13, 14, 15, 11, 7, 8, 9 ]
 #!   @EndExampleSession
@@ -445,6 +450,8 @@ DeclareAttribute( "EdgesAsList", IsEdgeFacePath );
 #!   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
 #!   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
 #!   @ExampleSession
+#! gap> edgeFacePath;
+#! | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
 #! gap> FacesAsList( edgeFacePath );
 #! [ 7, 8, 9, 3, 4, 5 ]
 #!   @EndExampleSession
@@ -470,11 +477,13 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #!   \input{Image_ThinTorus_longPath.tex}
 #! </Alt>
 #! @ExampleSession
+#! gap> edgeFacePath;
+#! | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
 #! gap> IsClosedPath(edgeFacePath);
 #! false
 #! gap> longPath := EdgeFacePath( thinTorus,
 #! >                 [13,7,14,8,15,9,11,3,7,4,8,5,12,11,18,12,13]);
-#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 12, 11, 18, 12, 13 ]
+#! ( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )
 #! gap> IsClosedPath(longPath);
 #! true
 #! @EndExampleSession
@@ -507,7 +516,7 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #! true
 #!     @EndExampleSession
 #! 
-#! TODO example where non-central edges are double
+#! TODO example where non-central edges are double. Execute other paths again?
 #!   </Description>
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
@@ -526,7 +535,7 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #! </Alt>
 #! @ExampleSession
 #! gap> longPath;
-#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 12, 11, 18, 12, 13 ]
+#! ( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )
 #! gap> EdgesAsPerm(longPath);
 #! (7,8,12,18,13,14,15,11)
 #! @EndExampleSession
@@ -550,7 +559,7 @@ DeclareAttribute( "EdgesAsPerm", IsEdgeFacePath );
 #! </Alt>
 #! @ExampleSession
 #! gap> longPath;
-#! [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 12, 11, 18, 12, 13 ]
+#! ( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )
 #! gap> FacesAsPerm(longPath);
 #! (3,4,5,11,12,7,8,9)
 #! @EndExampleSession
@@ -860,7 +869,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
 #!
 #! @ExampleSession
 #! gap> orient := Orientation( surface );
-#! [ [3,2,5,12,13,14,7,6,3],,, [3,6,7,10,11,8,3],,,,, [7,14,13,15,11,10,7] ]
+#! [ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,, (v7,E14,v13,E15,v11,E10,v7) ]
 #! gap> List(orient, VerticesAsPerm);
 #! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
 #! gap> List(orient, VerticesAsList);
@@ -925,7 +934,7 @@ DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 #! </Alt>
 #! @ExampleSession
 #! gap> orient := Orientation( surface );
-#! [ [3,2,5,12,13,14,7,6,3],,, [3,6,7,10,11,8,3],,,,, [7,14,13,15,11,10,7] ]
+#! [ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,, (v7,E14,v13,E15,v11,E10,v7) ]
 #! gap> List(orient, VerticesAsPerm);
 #! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
 #! gap> List(orient, VerticesAsList);

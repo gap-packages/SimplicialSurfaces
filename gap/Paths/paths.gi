@@ -90,6 +90,40 @@ InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
     end
 );
 
+InstallMethod( ViewString, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        local str, out, i;
+        
+        str := "";
+        out := OutputTextString(str,true);
+
+        if IsClosedPath(path) then
+            PrintTo(out, "(");
+        else
+            PrintTo(out, "|");
+        fi;
+        for i in [1..Length(PathAsList(path))] do
+            if i>1 then
+                PrintTo(out, ", ");
+            fi;
+            if IsEvenInt(i) then
+                PrintTo(out, "E");
+            else
+                PrintTo(out, "v");
+            fi;
+            PrintTo(out, PathAsList(path)[i]);
+        od;
+        if IsClosedPath(path) then
+            PrintTo(out, ")");
+        else
+            PrintTo(out, "|");
+        fi;
+
+        CloseStream(out);
+        return str;
+    end
+);
+
 
 InstallMethod( \=, "for two vertex-edge-paths", IsIdenticalObj,
     [IsVertexEdgePath, IsVertexEdgePath],
@@ -227,6 +261,42 @@ InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
         return str;
     end
 );
+
+InstallMethod( ViewString, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        local str, out, i;
+        
+        str := "";
+        out := OutputTextString(str,true);
+
+        if IsClosedPath(path) then
+            PrintTo(out, "(");
+        else
+            PrintTo(out, "|");
+        fi;
+        for i in [1..Length(PathAsList(path))] do
+            if i>1 then
+                PrintTo(out, ", ");
+            fi;
+            if IsEvenInt(i) then
+                PrintTo(out, "F");
+            else
+                PrintTo(out, "e");
+            fi;
+            PrintTo(out, PathAsList(path)[i]);
+        od;
+        if IsClosedPath(path) then
+            PrintTo(out, ")");
+        else
+            PrintTo(out, "|");
+        fi;
+
+        CloseStream(out);
+        return str;
+    end
+);
+
+#TODO what is important for a display-function?
 
 InstallMethod( \=, "for two edge-face-paths", IsIdenticalObj,
     [IsEdgeFacePath, IsEdgeFacePath],

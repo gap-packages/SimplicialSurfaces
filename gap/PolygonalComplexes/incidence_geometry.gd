@@ -733,7 +733,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! 
 #! @ExampleSession
 #! gap> perim := PerimeterOfFace( pentagon, 2 );
-#! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
+#! ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 )
 #! @EndExampleSession
 #!
 #! It returns the perimeter as a vertex-edge-path, not a list (all available
@@ -809,7 +809,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! </Alt>
 #! @ExampleSession
 #! gap> perim := PerimeterOfFace(pentagon, 2);
-#! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
+#! ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 )
 #! gap> PathAsList(perim);
 #! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
 #! gap> VerticesAsList(perim);
@@ -821,7 +821,7 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! gap> EdgesAsPerm(perim);
 #! (2,4,8,3,6)
 #! gap> PerimetersOfFaces(pentagon);
-#! [ , [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ] ]
+#! [ , ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 ) ]
 #! @EndExampleSession
 #! 
 #! @Arguments complex
@@ -972,21 +972,21 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! >    [,,,,,,,,,, [1,6],[1,7],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
 #! >    [,[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
 #! gap> um1 := UmbrellaOfVertex(surface, 1);
-#! [ 11, 2, 12, 3, 13, 4, 14, 5, 11 ]
+#! ( e11, F2, e12, F3, e13, F4, e14, F5, e11 )
 #! gap> EdgesAsList(um1);
 #! [ 11, 12, 13, 14, 11 ]
 #! gap> EdgesAsPerm(um1);
 #! (11,12,13,14)
 #! gap> um7 := UmbrellaOfVertex(surface, 7);
-#! [ 15, 2, 12, 3, 16 ]
+#! | e15, F2, e12, F3, e16 |
 #! gap> EdgesAsList(um7);
 #! [ 15, 12, 16 ]
 #! gap> FacesAsList(um7);
 #! [ 2, 3 ]
 #! gap> UmbrellasOfVertices(surface);
-#! [ [ 11, 2, 12, 3, 13, 4, 14, 5, 11 ],,,,, [ 15, 2, 11, 5, 19 ], 
-#!      [ 15, 2, 12, 3, 16 ], [ 16, 3, 17 ], 
-#!      [ 17, 3, 13, 4, 18 ], [ 18, 4, 14, 5, 19 ] ]
+#! [ ( e11, F2, e12, F3, e13, F4, e14, F5, e11 ),,,,, | e15, F2, e11, F5, e19 |, 
+#!      | e15, F2, e12, F3, e16 |, | e16, F3, e17 |, 
+#!      | e17, F3, e13, F4, e18 |, | e18, F4, e14, F5, e19 | ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of edge-face-paths
@@ -1062,14 +1062,14 @@ DeclareOperation( "UmbrellaOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! >        [1,8],[1,10],[1,12],[8,10],[10,12] ],
 #! >    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
 #! gap> UmbrellaPartitionOfVertex(ramSurf, 1);
-#! [ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ]
+#! [ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ]
 #! gap> UmbrellaPartitionOfVertex(ramSurf, 5);
-#! [ [ 13, 3, 14, 2, 15 ] ]
+#! [ | e13, F3, e14, F2, e15 | ]
 #! gap> UmbrellaPartitionsOfVertices(ramSurf);
-#! [ [ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ],,,,
-#!   [ [ 13, 3, 14, 2, 15 ] ], [ [ 13, 3, 16, 4, 17 ] ],
-#!   [ [ 15, 2, 18, 4, 17 ] ], [ [ 19, 9, 22 ] ],,
-#!   [ [ 22, 9, 20, 11, 23 ] ],, [ [ 21, 11, 23 ] ] ]
+#! [ [ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ],,,,
+#!   [ | e13, F3, e14, F2, e15 | ], [ | e13, F3, e16, F4, e17 | ],
+#!   [ | e15, F2, e18, F4, e17 | ], [ | e19, F9, e22 | ],,
+#!   [ | e22, F9, e20, F11, e23 | ],, [ | e21, F11, e23 | ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of sets of edge-face-paths
