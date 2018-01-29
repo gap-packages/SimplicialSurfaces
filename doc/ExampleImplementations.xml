@@ -72,7 +72,7 @@
 
 
 <Chapter Label="ExampleImplementations"><Heading>Example Implementations</Heading>
-    This chapter contains examples of implementation of some of the methods
+    This chapter contains examples of implementations of some of the methods
     in the package <K>SimplicialSurfaces</K>. We chose
     examples which  illustrate many of the different fundamental features
     and methods of the package while at the same time
