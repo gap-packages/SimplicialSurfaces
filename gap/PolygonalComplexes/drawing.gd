@@ -113,8 +113,8 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #!    \input{_TIKZ_Octahedron_reshaped.tex}
 #! </Alt>
 #! 
-#! We can see that the programm chose to display a different net to avoid
-#! self-intersections. If the system can't easily avoid intersections it
+#! We can see that the programm chooses to display a different net to avoid
+#! self-intersections. If the system can not easily avoid intersections it
 #! will split up the surface and draw these components separately. This feature 
 #! can be turned off by setting the
 #! parameter <A>avoidIntersections</A> to <K>false</K>.
@@ -148,7 +148,7 @@ DrawSurfaceToTikz(cube, "Cube_example");;
 #!     colour of the vertex <A>v</A>. The colours are strings that are 
 #!     recognizable by &LaTeX;.
 #!
-#!     It is possible to skip some vertices - those will be coloured with the
+#!     It is possible to leave some vertex colours unbound - those will be coloured with the
 #!     default vertex colour (orange).
 #! @BeginLog
 pr := rec( vertexColours := ["red", "blue", "green",, "black!20!yellow"] );;
@@ -157,7 +157,7 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_Cube_vertexColouredLocal.tex}
 #! </Alt>
-#!   Instead of giving a whole list it is also possible to give just one
+#!   Instead of giving an entire list it is also possible to give just one
 #!   string defining a new colour for all vertices. It will be internally
 #!   converted into a list.
 #! @BeginLog
@@ -174,7 +174,7 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #!     is the colour of the edge <A>e</A>. The colours are strings that are
 #!     recognizable by &LaTeX;.
 #!
-#!     Is is possible to skip some edges - those will be coloured with the
+#!     Is is possible to leave some edge colours unbound - those will be coloured with the
 #!     default edge colour (gray).
 #! @BeginLog
 pr := rec( edgeColours := [,,,,"red", "blue", "purple", "green!80!black"] );;
@@ -183,7 +183,7 @@ DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;
 #! <Alt Only="TikZ">
 #!    \input{_TIKZ_Cube_edgeColouredLocal.tex}
 #! </Alt>
-#!     Instead of giving a whole list it is also possible to give just one
+#!     Instead of giving an entire list it is also possible to give just one
 #!     string defining a new colour for all edges. It will be internally 
 #!     converted into a list.
 #! @BeginLog
@@ -197,8 +197,8 @@ DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;
 #!
 #!   <Item><E>faceColours</E>: Modifies the colours of the faces. The
 #!     colours are given in a list <A>colours</A> such that <A>colours[f]</A>
-#!     is the colour of the face <A>f</A>. It is possible to skip some
-#!     faces - those will be coloured with the default face colour (a darker
+#!     is the colour of the face <A>f</A>. It is possible to leave some
+#!     face colours unbound - those will be coloured with the default face colour (a darker
 #!     shape of yellow, the custom colour <E>\\faceColorY</E>).
 #!
 #!     The colours can be strings that are recognized by &LaTeX;, but they can
@@ -211,7 +211,7 @@ DrawSurfaceToTikz( cube, "Cube_faceColouredLocal", pr );;
 #! <Alt Only="TikZ">
 #!    \input{_TIKZ_Cube_faceColouredLocal.tex}
 #! </Alt>
-#!     Instead of giving a whole list it is also possible to give just one
+#!     Instead of giving an entire list it is also possible to give just one
 #!     string defining a new colour for all faces. It will be internally
 #!     converted into a list.
 #! @BeginLog
@@ -266,8 +266,8 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabelsOff", pr);;
 #!   turn off the labels, use <E>vertexLabelsActive</E> instead).
 #! 
 #!   The labels are given as a list <A>labels</A> such that <A>labels[v]</A>
-#!   is the label of the vertex <A>v</A>. It is possible to skip some 
-#!   vertices - those will be labelled with their default label.
+#!   is the label of the vertex <A>v</A>. It is possible to leave some 
+#!   vertex labels unbound - those will be labelled with their default label.
 #! @BeginLog
 pr := rec( vertexLabels := ["V_1", , "X", "++"] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabels", pr);;
@@ -292,8 +292,8 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabelsOff", pr);;
 #!   turn off the labels, use <E>edgeLabelsActive</E> instead).
 #! 
 #!   The labels are given as a list <A>labels</A> such that <A>labels[e]</A>
-#!   is the label of the edge <A>e</A>. It is possible to skip some 
-#!   edges - those will be labelled with their default label.
+#!   is the label of the edge <A>e</A>. It is possible to leave some 
+#!   edge labels unbound - those will be labelled with their default label.
 #! @BeginLog
 pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabels", pr);;
@@ -318,8 +318,8 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabelsOff", pr);;
 #!   turn off the labels, use <E>faceLabelsActive</E> instead).
 #! 
 #!   The labels are given as a list <A>labels</A> such that <A>labels[f]</A>
-#!   is the label of the face <A>f</A>. It is possible to skip some 
-#!   faces - those will be labelled with their default label.
+#!   is the label of the face <A>f</A>. It is possible to leave some 
+#!   face labels unbound - those will be labelled with their default label.
 #! @BeginLog
 pr := rec( faceLabels := ["I", "f_2", , "42"] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
