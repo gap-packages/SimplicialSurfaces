@@ -171,7 +171,8 @@ gap&gt;  count;
             <Heading>StronglyConnectedComponentOfFace</Heading>
             The method <K>StronglyConnectedComponentOfFace</K> 
             (<Ref Subsect="StronglyConnectedComponents"/>) finds all faces
-            that are connected to a given face by edge-face-paths and returns
+            that are connected to a given face by edge-face-paths
+            (<Ref Sect="Section_Paths_EdgeFace"/>) and returns
             the polygonal complex consisting of these faces.
             <Par/>
             We illustrate this with an octahedron (<Ref Subsect="Octahedron"/>):
