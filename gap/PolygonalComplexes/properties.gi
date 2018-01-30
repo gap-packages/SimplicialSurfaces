@@ -94,10 +94,10 @@ InstallMethod( FaceDegreeOfVertex, "for a polygonal complex and a vertex",
 InstallMethod( VertexCounter, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeDegrees, colDegrees, sym, pair;
+        local faceDegrees, colDegrees, sym, pair;
 
-        edgeDegrees := List( EdgesOfVertices(complex), Size );
-        colDegrees := Collected( Compacted( edgeDegrees ) );
+        faceDegrees := List( FacesOfVertices(complex), Size );
+        colDegrees := Collected( Compacted( faceDegrees ) );
         sym := [];
         for pair in colDegrees do
             sym[pair[1]] := pair[2];
@@ -131,18 +131,18 @@ InstallMethod( VertexCounter, "for a polygonal complex with computed EdgeCounter
 InstallMethod( EdgeCounter, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeDegrees, max, edge, symbol, degs;
+        local faceDegrees, max, edge, symbol, degs;
 
-        edgeDegrees := List( EdgesOfVertices(complex), Size );
+        faceDegrees := List( FacesOfVertices(complex), Size );
         if NumberOfEdges(complex) = 0 then
             return [];
         fi;
-        max := Maximum( edgeDegrees ); # bigger than zero since edges exist
+        max := Maximum( faceDegrees ); # bigger than zero since edges exist
 
         # Set up the matrix
         symbol := List( [1..max], i -> List( [1..max], j -> 0 ) );
         for edge in Edges(complex) do
-            degs := List( VerticesOfEdges(complex)[edge], v -> edgeDegrees[v] );
+            degs := List( VerticesOfEdges(complex)[edge], v -> faceDegrees[v] );
             symbol[ degs[1] ][ degs[2] ] := symbol[degs[1]][degs[2]] + 1;
             if degs[1] <> degs[2] then
                 symbol[ degs[2] ][ degs[1] ] := symbol[degs[2]][degs[1]] + 1;

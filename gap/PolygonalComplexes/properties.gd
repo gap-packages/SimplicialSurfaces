@@ -166,7 +166,7 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup FaceDegreesOfVertices
 #! @Description
 #! The method <K>FaceDegreeOfVertex</K>(<A>complex</A>, <A>vertex</A>) 
 #! returns the <E>face-degree</E> of the given vertex in the given
@@ -212,9 +212,9 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Description
 #! Return the <E>vertex counter</E> of the given polygonal complex.
 #! The vertex counter is a list that counts how many vertices are incident
-#! to how many edges. If the entry at position <A>pos</A> is bound, it
+#! to how many faces. If the entry at position <A>pos</A> is bound, it
 #! contains the number of vertices that are incident to exactly <A>pos</A>
-#! edges.
+#! faces.
 #!
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
@@ -224,10 +224,10 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> List( EdgesOfVertices(fiveStar), Size );
-#! [ 5, 3, 3,, 3,, 3,,,, 3 ]
+#! gap> List( FacesOfVertices(fiveStar), Size );
+#! [ 5, 2, 2,, 2,, 2,,,, 2 ]
 #! gap> VertexCounter(fiveStar);
-#! [ ,, 5,, 1 ]
+#! [ , 5,,, 1 ]
 #! @EndExampleSession
 #!
 #! @Returns a list of positive integers
@@ -239,8 +239,8 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 #! @Description
 #! Return the <E>edge counter</E> of the given polygonal complex.
 #! The edge counter is a symmetric matrix <M>M</M> such that the entry
-#! <M>M[i,j]</M> counts the number of edges such that the two vertices
-#! of the edge are respectively incident to <M>i</M> and <M>j</M> edges.
+#! <M>M[i,j]</M> counts the number of edges whose vertices are
+#! incident to <M>i</M>, respectively <M>j</M> faces.
 #!
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
@@ -251,8 +251,8 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgeCounter(fiveStar);
-#! [ [ 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0 ], [ 0, 0, 5, 0, 5 ], 
-#!   [ 0, 0, 0, 0, 0 ], [ 0, 0, 5, 0, 0] ]
+#! [ [ 0, 0, 0, 0, 0 ], [ 0, 5, 0, 0, 5 ], [ 0, 0, 0, 0, 0 ], 
+#!   [ 0, 0, 0, 0, 0 ], [ 0, 5, 0, 0, 0] ]
 #! @EndExampleSession
 #!
 #! @Returns a matrix of positive integers
