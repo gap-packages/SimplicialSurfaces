@@ -13,4 +13,78 @@
 #! @Chapter Library of surfaces
 #! @ChapterLabel Library
 #! 
+#! While chapter <Ref Chap="Chapter_Constructors"/> described how to construct
+#! polygonal complexes from their incidence structure, this chapter describes
+#! how to access the pre-defined surfaces and complexes in this package.
 #!
+#! The main feature is the library access <K>AllPolygonalComplexes</K>, which
+#! is similar to the group libraries of &GAP;
+#!
+#! TODO complete introduction, maybe discuss some of the pre-defined structures?
+
+#! @Section Using the library
+#! @SectionLabel Library_Usage
+#!
+#! This section explains the functionality of the library method
+#! <K>AllPolygonalComplexes</K> (<Ref Subsect="AllPolygonalComplexes"/>).
+#!
+#! @BeginGroup AllPolygonalComplexes
+#! Return all polygonal complexes of the library with the desired properties.
+#!
+#! The number of arguments can be arbitrarily long. In general the arguments
+#! have to come in pairs. The first argument in such a pair is a function and
+#! the second argument is either the result of that function or a list of
+#! accepted results. For example
+#! @BeginLog
+#! gap> AllPolygonalComplexes( NrOfVertices, [10,12], IsOrientable, false );
+#! @EndLog
+#! returns all non-orientable polygonal complexes with 10 or 12 vertices from
+#! the library,
+#!
+#! For user convenience the following simplifications may be used:
+#! * If one of the more specific incarnations, like 
+#!   <K>AllSimplicialSurfaces</K> is called, the returned complexes will
+#!   satisfy this additional requirement (in this case, they will be 
+#!   simplicial surfaces).
+#! * If the function in the first argument pair is <K>NrOfFaces</K>, it
+#!   can be omitted. This is the only possible case in which the first
+#!   argument is not a function.
+#! * If the second argument of a pair is omitted, it is assumed to be
+#!   <K>true</K>. This is especially useful if the corresponding function
+#!   is a property.
+#! For example, the following command returns all platonic solids:
+#! @BeginExampleSession
+#! gap> plat := AllPolygonalSurfaces( EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
+#! gap> Size(plat);
+#! 5
+#! @EndExampleSession
+#! To just get the platonic solids with triangular faces, the following
+#! command may be used:
+#! @BeginExampleSession
+#! gap> plat := AllSimplicialSurfaces( EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
+#! gap> Size(plat);
+#! 3
+#! @EndExampleSession
+#!
+#! To obtain just tetrahedron and octahedron, the number of faces can be
+#! restricted:
+#! @BeginExampleSession
+#! gap> plat := AllPolygonalComplexes( [4,8], EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
+#! gap> Size(plat);
+#! 2
+#! @EndExampleSession
+#!
+#! @Returns a list of polygonal complexes
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllPolygonalComplexes");
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllTriangularComplexes");
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllRamifiedPolygonalSurfaces");
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllRamifiedSimplicialSurfaces");
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllPolygonalSurfaces");
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllSimplicialSurfaces");
+#! @EndGroup
