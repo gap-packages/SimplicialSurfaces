@@ -34,6 +34,11 @@ BindGlobal( "__SIMPLICIAL_LoadLibrary",
                     continue;
                 fi;
 
+                # Ignore temporary files TODO
+                if ForAny( [".swp", "~"], e -> EndsWith(file,e) ) then
+                    continue;
+                fi;
+
                 # Ignore all unreadable files
                 if not IsReadableFile( Concatenation(path, file) ) then
                     continue;
@@ -107,13 +112,18 @@ BindGlobal( "__SIMPLICIAL_ReadLibraryAccessList",
 );
 
 BindGlobal( "__SIMPLICIAL_AccessLibrary",
-    function(arg)
-        local complexes, pos, checkRes;
+    function(argList)
+        local complexes, pos, CheckAtPos;
 
         complexes := SIMPLICIAL_LIBRARY;
-        for pos in [1..Size(arg)/2] do
-            checkRes := arg[2*pos-1](s);
-            complexes := Filtered( complexes, s -> checkRes = arg[2*pos] or checkRes in arg[2*pos] );
+        CheckAtPos := function(complex, pos)
+            local checkRes;
+
+            checkRes := argList[2*pos-1](complex);
+            return checkRes = argList[2*pos] or ( IsList(argList[2*pos]) and checkRes in argList[2*pos] );
+        end;
+        for pos in [1..Size(argList)/2] do
+            complexes := Filtered( complexes, s -> CheckAtPos(s,pos) );
         od;
 
         return complexes;
@@ -150,7 +160,7 @@ InstallGlobalFunction( "AllRamifiedPolygonalSurfaces",
     end
 );
 
-InstallGlobalFunction( "AllRamifiedSimplicialSurface",
+InstallGlobalFunction( "AllRamifiedSimplicialSurfaces",
     function(arg)
         local trueArg;
 
@@ -176,7 +186,7 @@ InstallGlobalFunction( "AllSimplicialSurfaces",
 
         trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllSimplicialSurfaces");
         return __SIMPLICIAL_AccessLibrary(
-            Concatenation([IsSimplicialSurface, true, ] trueArg) );
+            Concatenation([IsSimplicialSurface, true], trueArg) );
     end
 );
 

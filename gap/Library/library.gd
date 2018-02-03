@@ -39,7 +39,19 @@
 #! gap> AllPolygonalComplexes( NrOfVertices, [10,12], IsOrientable, false );
 #! @EndLog
 #! returns all non-orientable polygonal complexes with 10 or 12 vertices from
-#! the library,
+#! the library.
+#!
+#! To obtain the platonic solids a custom function has to be written:
+#! @BeginExampleSession
+#! gap> DegreeRegular := function( complex )
+#! >      return Size(FaceDegreesOfVertices(complex)) = 1;
+#! >    end;;
+#! gap> plat := AllPolygonalComplex( IsPolygonalSurface, true,
+#! >      EulerCharacteristic, 2, DegreeRegular, true,
+#! >      IsConnected, true, IsClosedSurface, true);;
+#! gap> Size(plat);
+#! 5
+#! @EndExampleSession
 #!
 #! For user convenience the following simplifications may be used:
 #! * If one of the more specific incarnations, like 
@@ -52,13 +64,15 @@
 #! * If the second argument of a pair is omitted, it is assumed to be
 #!   <K>true</K>. This is especially useful if the corresponding function
 #!   is a property.
-#! For example, the following command returns all platonic solids:
+#! For example, the above command for the platonic solids can be simplified
+#! as follows:
 #! @BeginExampleSession
-#! gap> plat := AllPolygonalSurfaces( EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
+#! gap> plat := AllPolygonalSurfaces( EulerCharacteristic, 2, DegreeRegular,
+#! >      IsConnected, IsClosedSurface );;
 #! gap> Size(plat);
 #! 5
 #! @EndExampleSession
-#! To just get the platonic solids with triangular faces, the following
+#! To get just the platonic solids with triangular faces, the following
 #! command may be used:
 #! @BeginExampleSession
 #! gap> plat := AllSimplicialSurfaces( EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
