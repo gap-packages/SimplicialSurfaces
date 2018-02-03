@@ -5177,6 +5177,19 @@ BindGlobal( "EdgeGrapeGraph",
 );
 
 
+BindGlobal( "FaceCounter",
+    function(complex)
+        local vertexDegrees, faceDeg, i;
+        
+        vertexDegrees := List( FacesOfVertices(complex), Size );
+        faceDeg := List( VerticesOfFaces(complex), v -> List( v, i -> vertexDegrees[i] ) );
+        for i in faceDeg do
+            Sort(i);
+        od;
+
+        return Collected(faceDeg);
+    end
+);
 
 
 #
