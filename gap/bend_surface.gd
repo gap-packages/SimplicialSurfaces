@@ -14,6 +14,7 @@ DeclareAttribute( "EdgeMap", IsBendSurface );
 
 DeclareOperation( "BendSurface", [IsList, IsList, IsList, IsList, IsList, IsList] );
 DeclareOperation( "BendSurface", [IsSimplicialSurface] );
+DeclareOperation( "SimplicialSurface", [IsBendSurface] );
 
 DeclareAttribute( "RigidFaces", IsBendSurface );
 DeclareAttribute( "BendFaces", IsBendSurface );

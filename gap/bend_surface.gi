@@ -79,6 +79,55 @@ InstallMethod( BendSurface, "", [IsSimplicialSurface],
     end
 );
 
+InstallMethod( SimplicialSurface, "", [IsBendSurface],
+    function(bend)
+        local verts, edge, surf, vertsOfEdges, edgesOfFaces,
+            incVerts, f, incEdges, i;
+
+        surf := Objectify( SimplicialSurfaceType, rec() );
+        SetVerticesAttributeOfSimplicialSurface(surf, Vertices(bend));
+        SetEdges(surf, Edges(bend));
+        SetFaces(surf, Faces(bend));
+
+        vertsOfEdges := [];
+        edgesOfFaces := [];
+        for f in Faces(bend) do
+            incEdges := EdgeMap(bend)[f];
+            if Size(Set(incEdges)) <> Size(incEdges) then
+                return fail;
+            fi;
+            edgesOfFaces[f] := Set(incEdges);
+
+            incVerts := VertexMap(bend)[f];
+            for i in [1..Size(incEdges)] do
+                edge := incEdges[i];
+                if i = Size(incEdges) then
+                    verts := [ incVerts[1], incVerts[i] ];
+                else
+                    verts := [ incVerts[i], incVerts[i+1] ];
+                fi;
+                if IsBound( vertsOfEdges[edge] ) then
+                    if vertsOfEdges[edge] <> Set(verts) then
+                        return fail;
+                    fi;
+                else
+                    if Size(Set(verts)) <> Size(verts) then
+                        return fail;
+                    fi;
+                    vertsOfEdges[edge] := Set(verts);
+                fi;
+            od;
+        od;
+
+        SetVerticesOfEdges(surf, vertsOfEdges);
+        SetEdgesOfFaces(surf, edgesOfFaces);
+
+
+        DeriveLocalOrientationAndFaceNamesFromIncidenceGeometryNC(surf);
+        return surf;
+    end
+);
+
 InstallMethod( VertexMap, "", [IsBendSurface],
     function(surf)
         return surf!.vertexMap;

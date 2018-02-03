@@ -284,7 +284,7 @@ InstallMethod( PrintStringAttributeOfSimplicialSurface,
 		PrintTo( out, Edges(simpsurf), ",\n" );
 		PrintTo( out, Faces(simpsurf), ",\n" );
 		PrintTo( out, VerticesOfEdges(simpsurf), ",\n" );
-		PrintTo( out, LocalOrientationByEdgesAsList(simpsurf), ",\n" );
+		PrintTo( out, LocalOrientationByEdgesAsList(simpsurf), "\n" );
 
 		if IsFaceNamesDefault(simpsurf) then
 			PrintTo( out, ");\n" );
@@ -3311,20 +3311,29 @@ InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
 
 BindGlobal( "__SIMPLICIAL_SnippOffEarsOfSimplicialSurface",
 	function(simpsurf)
-		local vertexDegree, ears, newSurface, ear, facesToRemove, 
-				remainingFaces;
+		local vertexDegree, ears, newSurface, facesToRemove, 
+		    adFaces, opEdges, remainingFaces, singleEars, doubleEars, v;
 
 		# Find ears
 		vertexDegree := UnsortedDegrees( simpsurf );
-		ears := Filtered( Vertices(simpsurf), i -> vertexDegree[i] <= 1);
+		singleEars := Filtered( Vertices(simpsurf), i -> vertexDegree[i] = 1);
+		doubleEars := Filtered( Vertices(simpsurf), i -> vertexDegree[i] = 2);
 
-		if IsEmpty( ears ) then
+		if IsEmpty( singleEars ) and IsEmpty( doubleEars ) then
 			return simpsurf;
 		fi;
 
-		facesToRemove := Union( List( ears, i->FacesOfVertices(simpsurf)[i]) );
+		facesToRemove := Union( List( singleEars, i->FacesOfVertices(simpsurf)[i]) );
 		remainingFaces := Difference( Faces(simpsurf), facesToRemove );
 		newSurface := SubsurfaceByFacesNC( simpsurf, remainingFaces );
+
+                for v in doubleEars do
+                    adFaces := FacesOfVertices(simpsurf)[v];
+                    opEdges := List( adFaces, f -> Difference(EdgesOfFaces(newSurface)[f],EdgesOfVertices(newSurface)[v])[1] );
+                    # Identify opEdges
+                    newSurface := SubsurfaceByFacesNC( newSurface, Difference(Faces(newSurface),adFaces) );
+                    newSurface := CraterMend( newSurface, opEdges[1], opEdges[2] );
+                od;
 	
 		return newSurface;
 	end

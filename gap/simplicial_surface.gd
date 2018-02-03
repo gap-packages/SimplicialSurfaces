@@ -616,6 +616,8 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsSimplicialSurface, IsSet] );
 #! Remove all ears of the simplicial surface and return the resulting surface.
 #! An ear is a face that has at most two vertices in common with all other
 #! faces.
+#!
+#! We also consider two faces that share all vertices to be an ear.
 #! <P/>
 #! The recursive-version applies this method recursively until the resulting
 #! simplicial surface has no more ears.

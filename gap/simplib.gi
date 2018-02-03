@@ -36,6 +36,11 @@ BindGlobal( "__SIMPLICIAL_LoadLibrary",
                     continue;
                 fi;
 
+                # Ignore temporary files TODO
+                if ForAny( [".swp", "~"], e -> EndsWith(file,e) ) then
+                    continue;
+                fi;
+
                 # Ignore all unreadable files
                 if not IsReadableFile( Concatenation(path, file) ) then
                     continue;
