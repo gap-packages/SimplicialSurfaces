@@ -28,6 +28,8 @@ ReadPackage( "SimplicialSurfaces", "gap/Paths/paths.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/connectivity.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/orientability.gi" );
 
+ReadPackage( "SimplicialSurfaces", "gap/Library/library.gi" );
+
 
 # Tests (TODO remove later)
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_PolygonalComplex.g" );

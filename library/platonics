@@ -4,4 +4,4 @@ return [
     Octahedron(),
     Dodecahedron(),
     Icosahedron()
-]
+];
