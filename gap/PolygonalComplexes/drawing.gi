@@ -159,6 +159,10 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
             Error("DrawSurfaceToTikz: The options 'compileLaTeX' and 'onlyTikzpicture' can't be true simultaneously.");
         fi;
 
+        if not IsBound(printRecord.latexDocumentclass) then
+            printRecord.latexDocumentclass := "article";
+        fi;
+
         __SIMPLICIAL_PrintRecordInitBool(printRecord, "noOutput", false);
     end
 );
@@ -647,7 +651,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
 BindGlobal("__SIMPLICIAL_PrintRecordGeneralHeader",
     function(printRecord)
         return Concatenation(
-            "\\documentclass{standalone}\n\n",
+            "\\documentclass{", printRecord.latexDocumentclass, "}\n\n",
 #            "\\usepackage[inner=0.5cm,outer=0.5cm,top=1cm,bottom=0.5cm]{geometry}\n\n",
             "\\pagestyle{empty}\n"
             );

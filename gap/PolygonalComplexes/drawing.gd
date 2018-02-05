@@ -391,6 +391,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! * <E>compileLaTeX</E>: If this parameter is <K>true</K> (the default is
 #!   <K>false</K>) the generated tex-file will be automatically compiled
 #!   with <K>pdflatex</K>.
+#! * <E>latexDocumentclass</E>: Defines which documentclass is used for
+#!   the output. The default is <K>article</K>. If the picture should
+#!   not be cropped (and not be printed), <K>standalone</K> is recommended.
 #! * <E>noOutput</E>: If this parameter is <K>true</K> (the default is
 #!   <K>false</K>) the method <K>DrawSurfaceToTikz</K> will produce no
 #!   output on the console.
