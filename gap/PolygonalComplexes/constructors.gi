@@ -312,7 +312,7 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
             edgesOfFaces := arg[6];
         fi;
 
-        verticesDed := Union( verticesOfEdges );
+        verticesDed := Union( verticesOfEdges ); #TODO this still can throw an error!
         edgesDed := __SIMPLICIAL_BoundEntriesOfList(verticesOfEdges); # from incidence_geometry.gi
         facesDed := __SIMPLICIAL_BoundEntriesOfList(edgesOfFaces);
         

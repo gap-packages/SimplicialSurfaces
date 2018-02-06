@@ -409,3 +409,8 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #edgeEndpoints
 #faceVertices
 #! @EndChunk
+
+
+#TODO modify boundaries of page (to center picture for printing)
+#TODO for triangles, the length information should overwrite the angle information
+#TODO for >triangles can we define a notion of "this was probably meant" by minimum distance or so?
