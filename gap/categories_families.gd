@@ -72,15 +72,15 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
     NewFamily("EdgeColouredPolygonalComplexFamily", IsObject, 
         IsEdgeColouredPolygonalComplex) );
 
-DeclareProperty( "IsEdgeColouredTriangularComplex", IsEdgeColouredPolygonalComplex );
-InstallTrueMethod( IsEdgeColouredPolygonalComplex, IsEdgeColouredTriangularComplex );
+#DeclareProperty( "IsEdgeColouredTriangularComplex", IsEdgeColouredPolygonalComplex );
+#InstallTrueMethod( IsEdgeColouredPolygonalComplex, IsEdgeColouredTriangularComplex );
 
-DeclareProperty( "IsEdgeColouredRamifiedPolygonalSurface", IsEdgeColouredPolygonalComplex );
-InstallTrueMethod( IsEdgeColouredPolygonalComplex, IsEdgeColouredRamifiedPolygonalSurface );
-DeclareSynonym( "IsEdgeColouredRamifiedSimplicialSurface",
-    IsEdgeColouredRamifiedPolygonalSurface and IsEdgeColouredTriangularComplex);
+#DeclareProperty( "IsEdgeColouredRamifiedPolygonalSurface", IsEdgeColouredPolygonalComplex );
+#InstallTrueMethod( IsEdgeColouredPolygonalComplex, IsEdgeColouredRamifiedPolygonalSurface );
+#DeclareSynonym( "IsEdgeColouredRamifiedSimplicialSurface",
+#    IsEdgeColouredRamifiedPolygonalSurface and IsEdgeColouredTriangularComplex);
 
-DeclareProperty( "IsEdgeColouredPolygonalSurface", IsEdgeColouredPolygonalComplex );
-InstallTrueMethod( IsEdgeColouredRamifiedPolygonalSurface, IsEdgeColouredPolygonalSurface );
-DeclareSynonym( "IsEdgeColouredSimplicialSurface",
-    IsEdgeColouredPolygonalSurface and IsEdgeColouredTriangularComplex);
+#DeclareProperty( "IsEdgeColouredPolygonalSurface", IsEdgeColouredPolygonalComplex );
+#InstallTrueMethod( IsEdgeColouredRamifiedPolygonalSurface, IsEdgeColouredPolygonalSurface );
+#DeclareSynonym( "IsEdgeColouredSimplicialSurface",
+#    IsEdgeColouredPolygonalSurface and IsEdgeColouredTriangularComplex);
