@@ -30,6 +30,7 @@
 #!
 
 #! @BeginGroup AllPolygonalComplexes
+#! @Description
 #! Return all polygonal complexes of the library with the desired properties.
 #!
 #! The number of arguments can be arbitrarily long. In general the arguments

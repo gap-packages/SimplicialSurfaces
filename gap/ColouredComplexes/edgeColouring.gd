@@ -28,21 +28,24 @@
 #! and an edge colouring. These can be accessed by the methods
 #! <K>PolygonalComplex</K>(TODO) and <K>EdgeColouring</K>(TODO) respectively.
 #!
+#TODO explain this using a bigger example with two different colourings
+#maybe show off the feature of using GAPs capabilities?
 
-#! <ManSection Label="IsEdgeColouredPolygonalComplex">
-#!   <Filt Name="IsEdgeColouredPolygonalComplex" Arg="object" 
-#!      Label="for IsObject" 
-#!      Comm="Check whether a given object is an EdgeColouredPolygonalComplex"/>
-#!   <Returns>true or false</Returns>
-#!   <Description>
-#!     Check if a given object is an <K>EdgeColouredPolygonalComplex</K>.
-#!     This is the case if it is consists of a polygonal complex and an edge
-#!     colouring, accessible by <K>PolygonalComplex</K> (TODO) and
-#!     <K>EdgeColouring</K> (TODO) respectively.
-#!   </Description>
-#! </ManSection>
+#! @Description
+#! Check if a given object is an <K>IsEdgeColouredPolygonalComplex</K>. This
+#! is the case if it consists of a polygonal complex and an edge colouring,
+#! accessible by <K>PolygonalComplex</K> (TODO) and <K>EdgeColouring</K> (TODO);
+#! respectively.
+#! @Arguments object
+#! @Returns true or false
+DeclareCategory( "IsEdgeColouredPolygonalComplex", IsObject );
+
+BindGlobal( "EdgeColouredPolygonalComplexFamily",
+    NewFamily("EdgeColouredPolygonalComplexFamily", IsObject, 
+        IsEdgeColouredPolygonalComplex) );
 
 #! @BeginGroup EdgeColouredPolygonalComplex
+#! @Description
 #! Construct an edge coloured polygonal complex. The edge colouring has to be
 #! given as a list <A>edgeColours</A> of positive integers. For every edge
 #! <A>edge</A> in the given <A>complex</A> the entry <A>edgeColours[edge]</A>
@@ -60,27 +63,15 @@
 #! gap> colComplex := EdgeColouredPolygonalComplex(tetra, edgeColours);;
 #! @EndExampleSession
 #!
-#! The variants like <K>EdgeColouredSimplicialSurface</K> check if the given
-#! <A>complex</A> satisfies the additional requirement of the method (in this
-#! case it checks if <A>complex</A> is a simplicial surface).
-#!
-#! The NC-versions don't check whether <A>complex</A> satisfies the additional
-#! requirements (rather, they will store this information in <A>complex</A>)
-#! and will also not check whether the given <A>edgeColours</A> are consistent
-#! with the edges of <A>complex</A>.
+#! The NC-version does not check whether the given <A>edgeColours</A> are consistent
+#! with the edges of <A>complex</A>, i.e.
+#! * Does every edge of <A>complex</A> have a colour in the list 
+#!   <A>edgeColours</A>?
+#! * Does every bound entry of <A>edgeColours</A> corresponds to an edge of
+#!   <A>complex</A>?
 #!
 #! @Returns an <K>EdgeColouredPolygonalComplex</K>
 #! @Arguments complex, edgeColours
 DeclareOperation( "EdgeColouredPolygonalComplex", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredTriangularComplex", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredRamifiedPolygonalSurface", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredRamifiedSimplicialSurface", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredPolygonalSurface", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredSimplicialSurface", [IsPolygonalComplex, IsList] );
 DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredTriangularComplexNC", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredRamifiedPolygonalSurfaceNC", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredRamifiedSimplicialSurfaceNC", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredPolygonalSurfaceNC", [IsPolygonalComplex, IsList] );
-DeclareOperation( "EdgeColouredSimplicialSurfaceNC", [IsPolygonalComplex, IsList] );
 #! @EndGroup
