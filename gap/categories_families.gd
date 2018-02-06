@@ -37,6 +37,9 @@ InstallTrueMethod( IsPolygonalComplex, IsRamifiedPolygonalSurface );
 DeclareSynonym( "IsRamifiedSimplicialSurface", 
     IsRamifiedPolygonalSurface and IsTriangularComplex);
 
+# The next property is a subproperty of IsRamifiedPolygonalSurface
+# We define it for general polygonal complexes so that it can
+# be tested anyway
 DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex );
 InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
 DeclareSynonym( "IsSimplicialSurface", 
@@ -57,3 +60,27 @@ BindGlobal( "VertexEdgePathFamily",
 DeclareCategory( "IsEdgeFacePath", IsDualPath );
 BindGlobal( "EdgeFacePathFamily", 
     NewFamily("EdgeFacePathFamily", IsObject, IsVertexEdgePath) );
+
+
+#######################################
+##
+##      Edge-colouring
+##
+## documented in gap/EdgeColouring/edgeColouring.gd
+DeclareCategory( "IsEdgeColouredPolygonalComplex", IsObject );
+BindGlobal( "EdgeColouredPolygonalComplexFamily",
+    NewFamily("EdgeColouredPolygonalComplexFamily", IsObject, 
+        IsEdgeColouredPolygonalComplex) );
+
+DeclareProperty( "IsEdgeColouredTriangularComplex", IsEdgeColouredPolygonalComplex );
+InstallTrueMethod( IsEdgeColouredPolygonalComplex, IsEdgeColouredTriangularComplex );
+
+DeclareProperty( "IsEdgeColouredRamifiedPolygonalSurface", IsEdgeColouredPolygonalComplex );
+InstallTrueMethod( IsEdgeColouredPolygonalComplex, IsEdgeColouredRamifiedPolygonalSurface );
+DeclareSynonym( "IsEdgeColouredRamifiedSimplicialSurface",
+    IsEdgeColouredRamifiedPolygonalSurface and IsEdgeColouredTriangularComplex);
+
+DeclareProperty( "IsEdgeColouredPolygonalSurface", IsEdgeColouredPolygonalComplex );
+InstallTrueMethod( IsEdgeColouredRamifiedPolygonalSurface, IsEdgeColouredPolygonalSurface );
+DeclareSynonym( "IsEdgeColouredSimplicialSurface",
+    IsEdgeColouredPolygonalSurface and IsEdgeColouredTriangularComplex);
