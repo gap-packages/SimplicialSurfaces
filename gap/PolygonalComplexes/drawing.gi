@@ -650,11 +650,19 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
 
 BindGlobal("__SIMPLICIAL_PrintRecordGeneralHeader",
     function(printRecord)
-        return Concatenation(
-            "\\documentclass{", printRecord.latexDocumentclass, "}\n\n",
-#            "\\usepackage[inner=0.5cm,outer=0.5cm,top=1cm,bottom=0.5cm]{geometry}\n\n",
-            "\\pagestyle{empty}\n"
-            );
+        local res;
+
+        res := Concatenation(
+            "\\documentclass{", printRecord.latexDocumentclass, "}\n\n" );
+
+        if printRecord.latexDocumentclass <> "standalone" then
+            res := Concatenation( res,
+            "\\usepackage[inner=0.5cm,outer=0.5cm,top=1cm,bottom=0.5cm]{geometry}\n\n");
+        fi;
+
+        res := Concatenation( res, "\\pagestyle{empty}\n");
+
+        return res;
     end
 );
 
