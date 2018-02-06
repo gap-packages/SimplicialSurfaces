@@ -9,6 +9,10 @@ doc/manual.six: makedoc.g \
 		gap/PolygonalComplexes/*.gi \
 		gap/Paths/*gd \
 		gap/Paths/*gi \
+		gap/Library/*gd \
+		gap/Library/*gi \
+		gap/ColouredComplexes/*gd \
+		gap/ColouredComplexes/*gi \
 		doc/SimplicialSurfaces.xml \
 		doc/Introduction.xml \
 		doc/PolygonalStructures.xml \

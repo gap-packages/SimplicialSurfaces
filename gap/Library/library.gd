@@ -28,6 +28,7 @@
 #! This section explains the functionality of the library method
 #! <K>AllPolygonalComplexes</K> (<Ref Subsect="AllPolygonalComplexes"/>).
 #!
+
 #! @BeginGroup AllPolygonalComplexes
 #! Return all polygonal complexes of the library with the desired properties.
 #!
@@ -44,9 +45,12 @@
 #! To obtain the platonic solids a custom function has to be written:
 #! @BeginExampleSession
 #! gap> DegreeRegular := function( complex )
-#! >      return Size(FaceDegreesOfVertices(complex)) = 1;
+#! >      local degrees;
+#! >  
+#! >      degrees := Set(FaceDegreesOfVertices(complex));
+#! >      return Size(degrees) = 1 and degrees[1] >= 3;
 #! >    end;;
-#! gap> plat := AllPolygonalComplex( IsPolygonalSurface, true,
+#! gap> plat := AllPolygonalComplexes( IsPolygonalSurface, true,
 #! >      EulerCharacteristic, 2, DegreeRegular, true,
 #! >      IsConnected, true, IsClosedSurface, true);;
 #! gap> Size(plat);
@@ -75,7 +79,8 @@
 #! To get just the platonic solids with triangular faces, the following
 #! command may be used:
 #! @BeginExampleSession
-#! gap> plat := AllSimplicialSurfaces( EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
+#! gap> plat := AllSimplicialSurfaces( EulerCharacteristic, 2, DegreeRegular,
+#! >      IsConnected, IsClosedSurface );;
 #! gap> Size(plat);
 #! 3
 #! @EndExampleSession
