@@ -213,7 +213,7 @@ InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
             PrintTo( out, "polygonal complex" );
         fi;
 
-        PrintTo( out, " with ", NumberOfVertices(complex), " vertices, ", NumberOfEdges(complex), " edges and ", NumberOfFaces(complex), " faces" );
+        PrintTo( out, " (", NumberOfVertices(complex), " vertices, ", NumberOfEdges(complex), " edges and ", NumberOfFaces(complex), " faces)" );
 
         CloseStream(out);
         return str;
