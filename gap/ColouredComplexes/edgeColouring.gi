@@ -63,6 +63,10 @@ InstallMethod( EdgeColouredPolygonalComplex,
     end
 );
 
+#######################################
+##
+##      Access to colouring
+##
 
 InstallMethod( ColourOfEdgeNC, 
     "for an edge coloured polygonal complex and an edge",
@@ -79,3 +83,64 @@ InstallMethod( ColourOfEdge,
         return ColourOfEdgeNC(colComplex, edge);
     end
 );
+
+
+
+
+InstallMethod( EdgesOfColour,
+    "for an edge coloured polygonal complex and a colour",
+    [IsEdgeColouredPolygonalComplex, IsPosInt],
+    function(colComplex, colour)
+        local edges;
+        
+        edges := EdgesOfColours(colComplex);
+        if IsBound(edges[colour]) then
+            return edges[colour];
+        else
+            return [];
+        fi;
+    end
+);
+
+
+# Since we only have to attributes, the usage of the AttributeScheduler is
+# not necessary
+InstallMethod( ColoursOfEdges,
+    "for an edge coloured polygonal complex that has EdgesOfColours",
+    [IsEdgeColouredPolygonalComplex and HasEdgesOfColours],
+    function(colComplex)
+        local colEdge, edgeCol, col, edge;
+
+        edgeCol := EdgesOfColours(colComplex);
+        colEdge := [];
+        for col in BoundPositions(edgeCol) do
+            for edge in edgeCol[col] do
+                colEdge[edge] := col;
+            od;
+        od;
+
+        return colEdge;
+    end
+);
+
+InstallMethod( EdgesOfColours,
+    "for an edge coloured polygonal complex that has ColoursOfEdges",
+    [IsEdgeColouredPolygonalComplex and HasColoursOfEdges],
+    function(colComplex)
+        local colEdge, edgeCol, col;
+
+        colEdge := ColoursOfEdges(colComplex);
+        edgeCol := [];
+        for col in Set(colEdge) do
+            edgeCol[col] := Filtered( Edges(PolygonalComplex(colComplex)), e -> colEdge[e] = col );
+        od;
+
+        return edgeCol;
+    end
+);
+
+
+##
+##      End access to colouring
+##
+#######################################

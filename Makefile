@@ -4,6 +4,8 @@ doc: doc/manual.six
 
 doc/manual.six: makedoc.g \
     		PackageInfo.g \
+		init.g \
+		read.g \
 		gap/*.gd gap/*.gi \
 		gap/PolygonalComplexes/*.gd \
 		gap/PolygonalComplexes/*.gi \

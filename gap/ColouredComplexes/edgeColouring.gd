@@ -118,3 +118,24 @@ DeclareOperation( "ColourOfEdge", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 #! @Arguments colComplex, edge
 DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 #! @EndGroup
+
+#! @BeginGroup EdgesOfColours
+#! @Description
+#! The method <K>EdgesOfColour</K>(<A>colComplex</A>, <A>colour</A>) returns 
+#! the set of all edges with colour <A>colour</A>. If a colour is not used
+#! in the given edge coloured polygonal complex, the empty set is returned.
+#!
+#! The attribute <K>EdgesOfColours</K>(<A>colComplex</A>) collects all of
+#! these sets in a list that is indexed by the colours (given as positive
+#! integers), i.e. <K>EdgesOfColours</K>(<A>colComplex</A>)[<A>colour</A>]
+#! = <K>EdgesOfColour</K>(<A>colComplex</A>, <A>colour</A>). All other
+#! positions of this list are not bound.
+#!
+#! TODO example
+#! @Returns a list of sets of positive integers / a set of positive integers
+#! @Arguments colComplex
+DeclareAttribute( "EdgesOfColours", IsEdgeColouredPolygonalComplex );
+#! @Arguments colComplex, colour
+DeclareOperation( "EdgesOfColour", [IsEdgeColouredPolygonalComplex, IsPosInt] );
+#TODO is this the right way or should the wrong colour lead to an error?
+#! @EndGroup
