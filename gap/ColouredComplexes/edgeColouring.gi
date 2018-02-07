@@ -62,3 +62,20 @@ InstallMethod( EdgeColouredPolygonalComplex,
         return EdgeColouredPolygonalComplexNC(complex, edgeColours);
     end
 );
+
+
+InstallMethod( ColourOfEdgeNC, 
+    "for an edge coloured polygonal complex and an edge",
+    [IsEdgeColouredPolygonalComplex, IsPosInt],
+    function(colComplex, edge)
+        return ColoursOfEdges(colComplex)[edge];
+    end
+);
+InstallMethod( ColourOfEdge,
+    "for an edge coloured polygonal complex and an edge",
+    [IsEdgeColouredPolygonalComplex, IsPosInt],
+    function(colComplex, edge)
+        __SIMPLICIAL_CheckEdge( PolygonalComplex(colComplex), edge, "ColourOfEdge" );
+        return ColourOfEdgeNC(colComplex, edge);
+    end
+);

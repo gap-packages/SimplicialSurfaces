@@ -98,14 +98,23 @@ DeclareAttribute( "PolygonalComplex", IsEdgeColouredPolygonalComplex );
 
 #! @BeginGroup ColoursOfEdges
 #! @Description
-#! Return the edge colouring of the given coloured polygonal complex.
+#! The method <K>ColourOfEdge</K>(<A>colComplex</A>, <A>edge</A>) returns the
+#! colour of <A>edge</A>, represented by a positive integer. The NC-version
+#! does not check whether the given <A>edge</A> is an edge of the underlying
+#! polygonal complex.
 #!
-#! The edge colouring is given as a list with a bound entry for every
-#! edge of the coloured complex. At position <A>edge</A> stands the colour
-#! of this edge, given as a positive integer.
+#! The attribute <K>ColoursOfEdges</K>(<A>colComplex</A>) collects all of
+#! those colours in a list that is indexed by the edge labels, i.e.
+#! <K>ColoursOfEdges</K>(<A>colComplex</A>)[<A>edge</A>] 
+#! = <K>ColourOfEdge</K>(<A>colComplex</A>, <A>edge</A>). All other
+#! positions of this list are not bound.
 #!
 #! TODO example
-#! @Returns a list of positive integers
+#! @Returns a list of positive integers / a positive integer
 #! @Arguments colComplex
 DeclareAttribute( "ColoursOfEdges", IsEdgeColouredPolygonalComplex );
+#! @Arguments colComplex, edge
+DeclareOperation( "ColourOfEdge", [IsEdgeColouredPolygonalComplex, IsPosInt] );
+#! @Arguments colComplex, edge
+DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 #! @EndGroup
