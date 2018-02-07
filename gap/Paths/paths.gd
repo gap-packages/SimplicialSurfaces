@@ -691,7 +691,8 @@ DeclareProperty( "IsConnected", IsPolygonalComplex );
 #! @Description
 #! Return a list of the connected components of the given polygonal complex 
 #! (as polygonal complexes). They correspond to the connected components
-#! of the incidence graph (compare TODO).
+#! of the incidence graph (compare section 
+#! <Ref Sect="Section_Graphs_Incidence"/>).
 #!
 #! If a face of the polygonal complex is given as an additional argument,
 #! only the connected component containing that face is returned. The 

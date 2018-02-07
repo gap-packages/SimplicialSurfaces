@@ -59,9 +59,9 @@
 #! * Choose from a few standard example (like platonic solids) in section
 #!   <Ref Sect="Section_Constructors_Examples"/>.
 #! * Define it directly by its incidence structure (this will be the main
-#!   content of this chapter)
+#!   content of this chapter).
 #! * Use the surface database to find appropriate complexes. This will be 
-#!   handled in chapter TODO
+#!   handled in chapter <Ref Chap="Chapter_Library"/>.
 #!
 #! As the list of some small standard examples in section
 #! <Ref Sect="Section_Constructors_Examples"/>

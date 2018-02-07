@@ -76,6 +76,7 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
 #!   <A>edgeColours</A>?
 #! * Does every bound entry of <A>edgeColours</A> corresponds to an edge of
 #!   <A>complex</A>?
+#! * Are the entries of the list positive integers?
 #!
 #! @Returns an <K>EdgeColouredPolygonalComplex</K>
 #! @Arguments complex, edgeColours
