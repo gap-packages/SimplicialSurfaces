@@ -130,8 +130,8 @@ preProcessTikz := function( node )
             Exec( "sh -c \" cd ", path, "; mv _IMAGE_TMP.tex ", Concatenation(name, ".tex"), "; \" " );
 
             # Step 6
-            Exec( "sh -c \" cd ", path, "; pdflatex ", Concatenation(name, ".tex"), "; \" " );
-            Exec( "sh -c \" cd ", path, "; htlatex ", Concatenation(name, ".tex"), "; \" " );
+            Exec( "sh -c \" cd ", path, "; pdflatex -halt-on-error ", Concatenation(name, ".tex"), "; \" " );
+            Exec( "sh -c \" cd ", path, "; htlatex -halt-on-error ", Concatenation(name, ".tex"), "; \" " );
 
             # After compiling we do some post-processing on the image.
             # We will modify
