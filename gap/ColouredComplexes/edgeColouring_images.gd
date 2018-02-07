@@ -10,9 +10,10 @@
 ##
 #############################################################################
 
-#! @BeginChunk Example_Coloured_Tetrahedron
+
 pr := rec( scale := 2.5, edgeColours := ["red","blue","green","green","blue","red"] );
 DrawSurfaceToTikz( Tetrahedron(), "Tetrahedron_coloured", pr );
+#! @BeginChunk Example_Coloured_Tetrahedron
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Tetrahedron_coloured.tex}
 #! </Alt>

@@ -24,17 +24,24 @@
 #! This section describes how an edge-colouring is implemented in the
 #! <K>SimplicialSurfaces</K>-package.
 #!
-#! An <K>EdgeColouredPolygonalComplex</K>(TODO) consists of a polygonal complex
+#! An <K>EdgeColouredPolygonalComplex</K> 
+#! (<Ref Subsect="EdgeColouredPolygonalComplex"/>) consists of a polygonal 
+#! complex
 #! and an edge colouring. These can be accessed by the methods
-#! <K>PolygonalComplex</K>(TODO) and <K>EdgeColouring</K>(TODO) respectively.
+#! <K>PolygonalComplex</K> (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) 
+#! and <K>ColoursOfEdges</K> (<Ref Subsect="ColoursOfEdges"/>) respectively.
 #!
 #TODO explain this using a bigger example with two different colourings
 #maybe show off the feature of using GAPs capabilities?
 
+#TODO choose a general example where the edge list is not dense
+
 #! @Description
 #! Check if a given object is an <K>IsEdgeColouredPolygonalComplex</K>. This
 #! is the case if it consists of a polygonal complex and an edge colouring,
-#! accessible by <K>PolygonalComplex</K> (TODO) and <K>EdgeColouring</K> (TODO);
+#! accessible by <K>PolygonalComplex</K> 
+#! (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) and <K>ColoursOfEdges</K> 
+#! (<Ref Subsect="ColoursOfEdges"/>);
 #! respectively.
 #! @Arguments object
 #! @Returns true or false
@@ -73,5 +80,31 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
 #! @Returns an <K>EdgeColouredPolygonalComplex</K>
 #! @Arguments complex, edgeColours
 DeclareOperation( "EdgeColouredPolygonalComplex", [IsPolygonalComplex, IsList] );
+#! @Arguments complex, edgeColours
 DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList] );
+#! @EndGroup
+
+
+#! @BeginGroup EdgeColouring_PolygonalComplex
+#! @Description
+#! Return the underlying polygonal complex of an edge coloured polygonal
+#! complex.
+#! @Returns a polygonal complex
+#! @Arguments colComplex
+DeclareAttribute( "PolygonalComplex", IsEdgeColouredPolygonalComplex );
+#! @EndGroup
+
+
+#! @BeginGroup ColoursOfEdges
+#! @Description
+#! Return the edge colouring of the given coloured polygonal complex.
+#!
+#! The edge colouring is given as a list with a bound entry for every
+#! edge of the coloured complex. At position <A>edge</A> stands the colour
+#! of this edge, given as a positive integer.
+#!
+#! TODO example
+#! @Returns a list of positive integers
+#! @Arguments colComplex
+DeclareAttribute( "ColoursOfEdges", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
