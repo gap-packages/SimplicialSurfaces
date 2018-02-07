@@ -139,3 +139,12 @@ DeclareAttribute( "EdgesOfColours", IsEdgeColouredPolygonalComplex );
 DeclareOperation( "EdgesOfColour", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 #TODO is this the right way or should the wrong colour lead to an error?
 #! @EndGroup
+
+
+#Section drawing specifics
+#Section Incidence graphs and automorphisms
+#Section Rainbow colouring
+    #general properties: ColouredEdgesOfFaces, NeighbourfaceByEdgeColour, EdgeColouredEdgeFacePath
+    #group theoretic description: Generators, Group, VertexGroup
+    #perfect colourings: MRTypeOfEdges, IsMRTypeColourInvariant
+    #construction: All..., SixfoldCover, (DoubleCover);
