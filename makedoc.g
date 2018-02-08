@@ -131,7 +131,7 @@ preProcessTikz := function( node )
 
             # Step 6
             Exec( "sh -c \" cd ", path, "; pdflatex -halt-on-error ", Concatenation(name, ".tex"), "; \" " );
-            Exec( "sh -c \" cd ", path, "; htlatex -halt-on-error ", Concatenation(name, ".tex"), "; \" " );
+            Exec( "sh -c \" cd ", path, "; htlatex ", Concatenation(name, ".tex"), "; \" " );
 
             # After compiling we do some post-processing on the image.
             # We will modify

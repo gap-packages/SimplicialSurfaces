@@ -144,3 +144,82 @@ InstallMethod( EdgesOfColours,
 ##      End access to colouring
 ##
 #######################################
+
+
+
+#######################################
+##
+##      Drawing method
+##
+
+InstallOtherMethod( DrawSurfaceToTikz, 
+    "for an edge coloured polygonal complex and a file name",
+    [IsEdgeColouredPolygonalComplex, IsString],
+    function(colComp, file)
+        return DrawSurfaceToTikz(colComp, file, rec());
+    end
+);
+
+InstallMethod( DrawSurfaceToTikz,
+    "for an edge coloured polygonal complex, a file name and a print record",
+    [IsEdgeColouredPolygonalComplex, IsString, IsRecord],
+    function(colComp,file,printRecord)
+        local classLen, classCol, e, edgeLen, edgeCol;
+
+        if not IsRamifiedPolygonalSurface(PolygonalComplex(colComp)) then
+            Error("DrawSurfaceToTikz: The underlying polygonal complex has to be a ramified polygonal surface.");
+        fi;
+
+        if not IsBound(printRecord.edgeColourClassActive) then
+            printRecord.edgeColourClassActive := true;
+        fi;
+
+        if printRecord.edgeColourClassActive then
+            if IsBound(printRecord.edgeColourClassLengths) then
+                classLen := printRecord.edgeColourClassLengths;
+                if not IsList(classLen) then
+                    Print("Warning: edgeColourClassLengths should be a list.");
+                else
+                    # We require that all colours are given
+                    #TODO change that and allow partial information
+                    if not BoundPositions(classLen) = Set(ColoursOfEdges(colComp)) then
+                        Error("DrawSurfaceToTikz: In edgeColourClassLengths there has to be a length for every colour (and only for the appearing colours).");
+                    fi;
+                    edgeLen := [];
+                    for e in Edges(PolygonalComplex(colComp)) do
+                        edgeLen[e] := classLen[ColourOfEdgeNC(colComp, e)];
+                    od;
+                    printRecord.edgeLengths := edgeLen;
+                fi;
+            fi;
+
+            if not IsBound(printRecord.edgeColourClassColours) and Size(Set(ColoursOfEdges(colComp))) = 3 then
+                printRecord.edgeColourClassColours := ["red","blue","green"];
+            fi; #TODO this is a special case for 3 colours - what can be done in general?
+            if IsBound(printRecord.edgeColourClassColours) then
+                classCol := printRecord.edgeColourClassColours;
+                if not IsList(classCol) then
+                    Print("Warning: edgeColourClassColours should be a list.");
+                else
+                    # We require that all colours are given
+                    #TODO change that and allow partial information
+                    if not BoundPositions(classCol) = Set(ColoursOfEdges(colComp)) then
+                        Error("DrawSurfaceToTikz: In edgeColourClassColours there has to be a colour for every colour (and only for the appearing colours).");
+                    fi;
+                    edgeCol := [];
+                    for e in Edges(PolygonalComplex(colComp)) do
+                        edgeCol[e] := classCol[ColourOfEdgeNC(colComp, e)];
+                    od;
+                    printRecord.edgeColours := edgeCol;
+                fi;
+            fi;
+        fi;
+
+        return DrawSurfaceToTikz( PolygonalComplex(colComp), file, printRecord );
+    end
+);
+
+##
+##      End of drawing method
+##
+#######################################

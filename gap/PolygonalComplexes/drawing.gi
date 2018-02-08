@@ -190,19 +190,10 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInitializePolygons",
             if not IsBound(angles[f]) then
                 angles[f] := [];
             fi;
-            # Case all values are set
-            if ForAll(edges, e -> IsBound(lengths[e])) and ForAll(vertices, v -> IsBound(angles[f][v])) then
-                # Check inner angle sum
-                radAngles := List( vertices, v -> Atan2(angles[f][v][1], angles[f][v][2]) );
-                angleSum := Sum( radAngles );
-                if not __SIMPLICIAL_EqualFloats( angleSum, ( Size(edges) - 2 )*FLOAT.PI, printRecord!.floatAccuracy ) then
-                    Error(Concatenation("Wrong angles for face ", String(f), " given."));
-                else
-                    continue; # We don't check whether the face closes since this is checked in __SIMPLICIAL_PrintRecordComputeFace
-                fi;
-            fi;
 
-            # Case triangle
+#TODO can we do something to avoid recomputing angles every time?
+
+            # Case triangle (this will overwrite the angle information!)
             if Size(edges) = 3 and ForAll(edges, e -> IsBound(lengths[e])) then
                 for i in [1,2,3] do
                     # find opposing vertex
@@ -215,6 +206,19 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInitializePolygons",
                     angles[f][oppVert] := [sin, cos];
                 od;
                 continue;
+            fi;
+
+
+            # Case all values are set (only relevant for non-triangles because of case before)
+            if ForAll(edges, e -> IsBound(lengths[e])) and ForAll(vertices, v -> IsBound(angles[f][v])) then
+                # Check inner angle sum
+                radAngles := List( vertices, v -> Atan2(angles[f][v][1], angles[f][v][2]) );
+                angleSum := Sum( radAngles );
+                if not __SIMPLICIAL_EqualFloats( angleSum, ( Size(edges) - 2 )*FLOAT.PI, printRecord!.floatAccuracy ) then
+                    Error(Concatenation("Wrong angles for face ", String(f), " given."));
+                else
+                    continue; # We don't check whether the face closes since this is checked in __SIMPLICIAL_PrintRecordComputeFace
+                fi;
             fi;
 
             # Define everything to be a regular polygon with side length 1

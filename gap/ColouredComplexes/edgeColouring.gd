@@ -31,17 +31,18 @@
 #! <K>PolygonalComplex</K> (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) 
 #! and <K>ColoursOfEdges</K> (<Ref Subsect="ColoursOfEdges"/>) respectively.
 #!
+#! @InsertChunk Example_Coloured_Pyramid
+#!
 #TODO explain this using a bigger example with two different colourings
 #maybe show off the feature of using GAPs capabilities?
 
-#TODO choose a general example where the edge list is not dense
 
 #! @Description
 #! Check if a given object is an <K>IsEdgeColouredPolygonalComplex</K>. This
 #! is the case if it consists of a polygonal complex and an edge colouring,
 #! accessible by <K>PolygonalComplex</K> 
 #! (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) and <K>ColoursOfEdges</K> 
-#! (<Ref Subsect="ColoursOfEdges"/>);
+#! (<Ref Subsect="ColoursOfEdges"/>)
 #! respectively.
 #! @Arguments object
 #! @Returns true or false
@@ -58,17 +59,7 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
 #! <A>edge</A> in the given <A>complex</A> the entry <A>edgeColours[edge]</A>
 #! contains the colour of <A>edge</A> (we encode colours by positive integers).
 #!
-#! For example, we can construct a colouring of a tetrahedron in the
-#! following fashion.
-#!
-#! @InsertChunk Example_Coloured_Tetrahedron
-#!
-#! @BeginExampleSession
-#! gap> tetra := Tetrahedron();;
-#! gap> edgeColours := [1,2,3,3,2,1];
-#! [ 1, 2, 3, 3, 2, 1 ]
-#! gap> colComplex := EdgeColouredPolygonalComplex(tetra, edgeColours);;
-#! @EndExampleSession
+#! @InsertChunk Example_TwiceColoured_Pyramid
 #!
 #! The NC-version does not check whether the given <A>edgeColours</A> are consistent
 #! with the edges of <A>complex</A>, i.e.
@@ -90,6 +81,15 @@ DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList]
 #! @Description
 #! Return the underlying polygonal complex of an edge coloured polygonal
 #! complex.
+#!
+#! For example both edge coloured pyramids from 
+#! <Ref Subsect="EdgeColouredPolygonalComplex"/> have the same underlying
+#! polygonal complex.
+#! @BeginExampleSession
+#! gap> PolygonalComplex(colPyr1) = PolygonalComplex(colPyr2);
+#! true
+#! @EndExampleSession
+#!
 #! @Returns a polygonal complex
 #! @Arguments colComplex
 DeclareAttribute( "PolygonalComplex", IsEdgeColouredPolygonalComplex );
@@ -109,7 +109,8 @@ DeclareAttribute( "PolygonalComplex", IsEdgeColouredPolygonalComplex );
 #! = <K>ColourOfEdge</K>(<A>colComplex</A>, <A>edge</A>). All other
 #! positions of this list are not bound.
 #!
-#! TODO example
+#! @InsertChunk Example_ColoursOfEdges_Pyramid
+#!
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments colComplex
 DeclareAttribute( "ColoursOfEdges", IsEdgeColouredPolygonalComplex );
@@ -131,13 +132,66 @@ DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredPolygonalComplex, IsPosInt] )
 #! = <K>EdgesOfColour</K>(<A>colComplex</A>, <A>colour</A>). All other
 #! positions of this list are not bound.
 #!
-#! TODO example
+#! @InsertChunk Example_EdgesOfColours_Pyramid
+#! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments colComplex
 DeclareAttribute( "EdgesOfColours", IsEdgeColouredPolygonalComplex );
 #! @Arguments colComplex, colour
 DeclareOperation( "EdgesOfColour", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 #TODO is this the right way or should the wrong colour lead to an error?
+#! @EndGroup
+
+
+#! @Section Drawing edge coloured surfaces
+#! @SectionLabel EdgeColouring_Drawing
+#!
+#! @InsertChunk Example_EdgeColouring_Drawing
+
+#! @BeginGroup DrawSurfaceToTikz_EdgeColoured
+#! @Description
+#! Draw the net of the given <A>colRamSurf</A> into a tex-file (using TikZ).
+#! This method extends the drawing method for ramified polygonal surfaces
+#! (compare <Ref Subsect="DrawSurfaceToTikz"/>) by respecting the edge colour
+#! classes of <A>colRamSurf</A>. An introduction the the usage of the 
+#! additional parameters can be found at the start of section
+#! <Ref Sect="Section_EdgeColouring_Drawing"/>.
+#!
+#! * If the given <A>fileName</A> does not end in <E>.tex</E> the ending 
+#!   <E>.tex</E> will be added to it. 
+#! * The given file will be overwritten without asking if it already exists.
+#!   If you don't have permission to write in that file, this method will
+#!   throw an error.
+#! * The particulars of the drawing are determined by the 
+#!   given <A>printRecord</A>. If this is not given, the default settings are 
+#!   used. 
+#! * The <A>printRecord</A> will be modified and returned by this method.
+#!   It contains the data to recreate the drawing of the surface.
+#TODO give option to draw with just the record
+#! 
+#! There are several parameters to change the output of this method, from 
+#! cosmetic changes to exactly controlling in which order the faces are drawn.
+#! For the standard parameters, see <Ref Subsect="DrawSurfaceToTikz"/>. For
+#! edge coloured ramified polygonal surfaces the 
+#! <E>edgeColourClass</E>-parameters are added:
+#! * <E>edgeColourClassActive</E>: If this parameter is <K>false</K> the
+#!   other <E>edgeColourClass</E>-parameters have no effect. By default, it
+#!   is <K>true</K>.
+#! * <E>edgeColourClassLengths</E>: This parameter is a list with an entry
+#!   for every colour of <A>colRamSurf</A>. The entry of a colour defines 
+#!   the length of all
+#!   edges with this colour.
+#!   This parameter overwrites <E>edgeLengths</E> as long as
+#!   <E>edgeColourClassActive</E> is <K>true</K>.
+#! * <E>edgeColourClassColours</E>: This parameter is a list with an entry
+#!   for every colour of <A>colRamSurf</A>. The entry of a colour defines
+#!   the drawing colour for all edges of this colour class.
+#!   This parameter overwrites <E>edgeColours</E> as long as
+#!   <E>edgeColourClassActive</E> is <K>true</K>.
+#! 
+#! @Returns a record
+#! @Arguments colRamSurf, fileName[, printRecord]
+DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex, IsString, IsRecord] );
 #! @EndGroup
 
 
