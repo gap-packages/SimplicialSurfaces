@@ -73,7 +73,7 @@ DrawSurfaceToTikz( colPyr1, "Pyramid_coloured_1", rec(scale:=2.5, edgeColourClas
 #! @BeginExample
 colPyr2 := EdgeColouredPolygonalComplex(pyr, [,1,2,3,4,1,2,3,4]);;
 #! @EndExample
-DrawSurfaceToTikz( colPyr2, "Pyramid_coloured_2", rec(scale:=2.5, edgeColourClassColours:=["red","cyan","green","purple"]) );
+DrawSurfaceToTikz( colPyr2, "Pyramid_coloured_2", rec(scale:=2.5, edgeColourClassColours:=["red","cyan","olive","green"]) );
 #! <Alt Only="TikZ">
 #!  \input{_TIKZ_Pyramid_coloured_2.tex}
 #! </Alt>
