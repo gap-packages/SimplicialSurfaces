@@ -263,6 +263,7 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         Read("gap/PolygonalComplexes/drawing.gd");
         Read("gap/PolygonalComplexes/constructors_images.gd");
         Read("gap/ColouredComplexes/edgeColouring_images.gd");
+        Read("gap/ColouredComplexes/rainbowEdges_images.gd");
         __SIMPLICIAL_MANUAL_MODE := false;
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
