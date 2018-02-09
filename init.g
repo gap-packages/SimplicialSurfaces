@@ -27,3 +27,5 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/Library/library.gd" );
 
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/edgeColouring.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/rainbowEdges.gd" );
+

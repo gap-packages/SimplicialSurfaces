@@ -30,7 +30,9 @@ ReadPackage( "SimplicialSurfaces", "gap/Paths/orientability.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Library/library.gi" );
 
+
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/edgeColouring.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/rainbowEdges.gi" );
 
 # Tests (TODO remove later)
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_PolygonalComplex.g" );

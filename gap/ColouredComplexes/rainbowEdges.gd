@@ -55,7 +55,28 @@
 #! the property <K>IsPerfectFaceRainbowEdgeColouring</K>. For a simplicial
 #! surface this means that there are exactly three colours.
 #!
-#! @InsertChunk Example_ColouredPrism_NonPerfect
+#! We illustrate this on the prism that was introduced at the start of
+#! section <Ref Sect="Section_RainbowEdgeColouring_Definition"/>.
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Prism_coloured.tex}
+#! </Alt>
+#! The given edge colouring is a non-perfect rainbow colouring.
+#! @BeginExampleSession
+#! gap> EdgesOfColours( colPrism );
+#! [ [ 1, 4 ], [ 3, 6 ], [ 9 ], [ 2, 7 ], [ 5, 8 ] ]
+#! gap> IsFaceRainbowEdgeColouring( colPrism );
+#! true
+#! gap> IsPerfectFaceRainbowEdgeColouring( colPrism );
+#! false
+#! @EndExampleSession
+#! 
+#! Since there are faces with four
+#! incident edges, any colouring with less than four colours can't be
+#! a rainbow colouring. Conversely, a colouring with more than four colours
+#! can't be perfect.
+#! 
+#! In fact, there is no perfect rainbow colouring for this polygonal surface.
+#! TODO refer to comparison with simplicial surface (prove this result there);
 #!
 #! @Arguments colComplex
 DeclareProperty("IsFaceRainbowEdgeColouring", IsEdgeColouredPolygonalComplex);
@@ -63,4 +84,47 @@ DeclareProperty("IsFaceRainbowEdgeColouring", IsEdgeColouredPolygonalComplex);
 DeclareProperty("IsPerfectFaceRainbowEdgeColouring", IsEdgeColouredPolygonalComplex);
 #! @EndGroup
 InstallTrueMethod( IsFaceRainbowEdgeColouring, IsPerfectFaceRainbowEdgeColouring );
+
+
+#! @BeginGroup ColouredEdgesOfFaces
+#! @Description
+#! For a rainbow edge coloured polygonal complex
+#! the method <K>ColouredEdgesOfFace</K>(<A>rbComp</A>, <A>face</A>) returns a
+#! list of the incident edges of <A>face</A> such that the <E>i</E>-th entry has the
+#! colour <E>i</E>. The NC-version does not check whether the given <A>face</A>
+#! is an actual face of the coloured complex.
+#!
+#! The attribute <K>ColouredEdgesOfFaces</K> collects all of these lists in 
+#! a list indexed by the face labels, i.e.
+#! <K>ColouredEdgesOfFaces</K>(<A>rbComp</A>)[<A>face</A>] =
+#! <K>ColouredEdgesOfFace</K>(<A>rbComp</A>, <A>face</A>). All other positions
+#! are unbound.
+#!
+#! Consider the prism example from the start of section 
+#! <Ref Sect="Section_RainbowEdgeColouring_Definition"/>.
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Prism_coloured.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> ColoursOfEdges(colPrism);
+#! [ 1, 4, 2, 1, 5, 2, 4, 5, 3 ]
+#! gap> ColouredEdgesOfFace(colPrism, 1);
+#! [ 1, 3,, 2 ]
+#! gap> ColouredEdgesOfFace(colPrism, 4);
+#! [ 1, 6,, 7, 5 ]
+#! gap> ColouredEdgesOfFaces(colPrism);
+#! [ [ 1, 3,, 2 ],, [ 4, 3, 9,, 5 ], [ 1, 6,, 7, 5 ], [ 4, 6,, 2, 8 ],, [ ,, 9,  7, 8 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list of (lists of) positive integers
+#! @Arguments rbComp
+DeclareAttribute( "ColouredEdgesOfFaces", 
+    IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring );
+#! @Arguments rbComp, face
+DeclareOperation( "ColouredEdgesOfFace",
+    [IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring, IsPosInt]);
+#! @Arguments rbComp, face
+DeclareOperation( "ColouredEdgesOfFaceNC",
+    [IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring, IsPosInt]);
+#! @EndGroup
 

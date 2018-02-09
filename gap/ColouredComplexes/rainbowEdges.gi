@@ -38,3 +38,45 @@ InstallMethod( IsPerfectFaceRainbowEdgeColouring,
         return nrCol = Maximum(nrEdges);
     end
 );
+
+
+#######################################
+##
+##      ColouredEdgesOfFaces
+##
+InstallMethod( ColouredEdgesOfFaceNC,
+    "for a rainbow edge coloured polygonal complex and a face",
+    [IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring, IsPosInt],
+    function(rbComp, face)
+        return ColouredEdgesOfFaces(rbComp)[face];
+    end
+);
+
+InstallMethod( ColouredEdgesOfFace,
+    "for a rainbow edge coloured polygonal complex and a face",
+    [IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring, IsPosInt],
+    function(rbComp, face)
+        __SIMPLICIAL_CheckFace( PolygonalComplex(rbComp), face, "ColouredEdgesOfFace" );
+        return ColouredEdgesOfFaceNC(rbComp,face);
+    end
+);
+
+InstallMethod( ColouredEdgesOfFaces,
+    "for a rainbow edge coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring],
+    function(rbComp)
+        local edges, colEdgesOfFaces, face, edgesOfCol, e;
+
+        colEdgesOfFaces := [];
+        for face in Faces( PolygonalComplex(rbComp) ) do
+            edges := EdgesOfFaces(PolygonalComplex(rbComp))[face];
+            edgesOfCol := [];
+            for e in edges do
+                edgesOfCol[ ColoursOfEdges(rbComp)[e] ] := e;
+            od;
+            colEdgesOfFaces[face] := edgesOfCol;
+        od;
+                
+        return colEdgesOfFaces;
+    end
+);

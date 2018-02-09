@@ -30,27 +30,3 @@ DrawSurfaceToTikz(colPrism, "Prism_coloured", pr );;
 #! </Alt>
 #! @EndChunk
 
-#! @BeginChunk Example_ColouredPrism_NonPerfect
-#! We illustrate this on the prism that was introduced at the start of
-#! section <Ref Sect="Section_RainbowEdgeColouring_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Prism_coloured.tex}
-#! </Alt>
-#! The given edge colouring is a non-perfect rainbow colouring.
-#! @BeginExample
-EdgesOfColours( colPrism );
-#! [ [ 1, 4 ], [ 3, 6 ], [ 9 ], [ 2, 7 ], [ 5, 8 ] ]
-IsFaceRainbowEdgeColouring( colPrism );
-#! true
-IsPerfectFaceRainbowEdgeColouring( colPrism );
-#! false
-#! @EndExample
-#! 
-#! Since there are faces with four
-#! incident edges, any colouring with less than four colours can't be
-#! a rainbow colouring. Conversely, a colouring with more than four colours
-#! can't be perfect.
-#! 
-#! In fact, there is no perfect rainbow colouring for this polygonal surface.
-#! TODO refer to comparison with simplicial surface (prove this result there);
-#! @EndChunk
