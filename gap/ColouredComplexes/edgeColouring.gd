@@ -195,7 +195,6 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex, IsString
 #! @EndGroup
 
 
-#Section drawing specifics
 #Section Incidence graphs and automorphisms
 #Section Rainbow colouring
     #general properties: ColouredEdgesOfFaces, NeighbourfaceByEdgeColour, EdgeColouredEdgeFacePath
