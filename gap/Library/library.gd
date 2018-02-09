@@ -26,10 +26,10 @@
 #! @SectionLabel Library_Usage
 #!
 #! This section explains the functionality of the library method
-#! <K>AllPolygonalComplexes</K> (<Ref Subsect="AllPolygonalComplexes"/>).
+#! <K>AllPolygonalComplexes</K> (<Ref Subsect="Library_AllPolygonalComplexes"/>).
 #!
 
-#! @BeginGroup AllPolygonalComplexes
+#! @BeginGroup Library_AllPolygonalComplexes
 #! @Description
 #! Return all polygonal complexes of the library with the desired properties.
 #!
