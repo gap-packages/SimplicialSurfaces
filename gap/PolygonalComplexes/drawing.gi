@@ -551,6 +551,9 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
             cleanEdges := testResults[2];
         fi;
         for edge in Edges(surface) do
+            if IsEmpty(printRecord.edgeEndpoints[edge]) then
+                continue;
+            fi;
             for edgePos in [1..Size(printRecord!.edgeEndpoints[edge])] do
                 if printRecord.edgeEndpoints[edge][edgePos][3] <> drawIndex then
                     continue;
