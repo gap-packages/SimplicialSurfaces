@@ -35,8 +35,15 @@
 
 #! @Section Definition and elementary properties
 #! @SectionLabel RainbowEdgeColouring_Definition
-#! This section defines the concept of rainbow edge colourings and introduces
-#! several modifications to previouly existing access functions.
+#! This section defines the concept of rainbow edge colourings
+#! (<Ref Subsect="IsFaceRainbowEdgeColouring"/>) and introduces
+#! the coloured versions of these methods:
+#! * <K>ColouredEdgesOfFaces</K> (<Ref Subsect="ColouredEdgesOfFaces"/>) 
+#!   extends <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>).
+#TODO should we also implement NeighbourFaceByColour?
+#! * <K>EdgeColouredUmbrellasOfVertices</K> 
+#!   (<Ref Subsect="EdgeColouredUmbrellasOfVertices"/>) extends
+#!   <K>UmbrellasOfVertices</K> (<Ref Subsect="UmbrellasOfVertices"/>).
 #! 
 #! @InsertChunk Example_ColouredPrism
 
@@ -128,3 +135,5 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
     [IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring, IsPosInt]);
 #! @EndGroup
 
+#TODO implement EdgeColouredEdgeFacePaths as subcategory of EdgeFacePaths -> only difference is View??. Do we actually need this subcategory then?
+#TODO for colouredEdgeFacePaths -> how to denote colours? we can use  a,b,c,d,e,... but is this better than the numbers of the colours?

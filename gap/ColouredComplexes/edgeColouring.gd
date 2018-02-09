@@ -197,7 +197,6 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex, IsString
 
 #Section Incidence graphs and automorphisms
 #Section Rainbow colouring
-    #general properties: ColouredEdgesOfFaces, NeighbourfaceByEdgeColour, EdgeColouredEdgeFacePath
     #group theoretic description: Generators, Group, VertexGroup
     #perfect colourings: MRTypeOfEdges, IsMRTypeColourInvariant
     #construction: All..., SixfoldCover, (DoubleCover);
