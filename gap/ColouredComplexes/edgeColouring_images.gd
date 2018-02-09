@@ -164,7 +164,7 @@ pr.edgeLengths;
 #! [ 5, 4, 3, 3, 4, 5 ]
 #! @EndLog
 #! To change individual edges the colour connection has to be ignored.
-#! This is possible by using the entry <A>edgeColourClassIgnored</A>.
+#! This is possible by using the entry <A>edgeColourClassActive</A>.
 #! @BeginLog
 pr.edgeColourClassActive := false;;
 pr.edgeLengths := [4,4,3,4,4,5];;
