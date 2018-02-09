@@ -19,12 +19,16 @@ BindGlobal("EdgeColouredPolygonalComplexType",
 InstallMethod( EdgeColouredPolygonalComplexNC, 
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
-    function(complex, edgeColours)
+    function(complex, colouring)
         local obj;
 
         obj := Objectify( EdgeColouredPolygonalComplexType, rec() );
         SetPolygonalComplex(obj, complex);
-        SetColoursOfEdges(obj,edgeColours);
+        if ForAll(colouring, IsPosInt) then
+            SetColoursOfEdges(obj, colouring);
+        else
+            SetEdgesOfColours(obj, List(colouring, Set));
+        fi;
 
         return obj;
     end
@@ -32,34 +36,64 @@ InstallMethod( EdgeColouredPolygonalComplexNC,
 InstallMethod( EdgeColouredPolygonalComplex,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
-    function(complex, edgeColours)
-        local edges, bound, diff, nonPos;
+    function(complex, colouring)
+        local edges, bound, diff, nonPos, i, j, inter, foundEdges;
 
         edges := Edges(complex);
-        bound := BoundPositions(edgeColours);
+        bound := BoundPositions(colouring);
+        if ForAll(colouring, IsPosInt) then
+            # We should have a list edge->colour
 
-        diff := Difference(edges, bound);
-        if not IsEmpty( diff ) then
-            Error(Concatenation( 
-                "EdgeColouredPolygonalComplex: There are no colours for the edges in ", 
-                diff, "." ));
+            diff := Difference(edges, bound);
+            if not IsEmpty( diff ) then
+                Error(Concatenation( 
+                    "EdgeColouredPolygonalComplex: There are no colours for the edges in ", 
+                    diff, "." ));
+            fi;
+
+            diff := Difference(bound, edges);
+            if not IsEmpty( diff ) then
+                Error(Concatenation( 
+                    "EdgeColouredPolygonalComplex: The positions in ", 
+                    diff, " do not correspond to any edge." ));
+            fi;
+        elif ForAll(colouring, IsList) then
+            # The entries should be lists of positive integers
+            foundEdges := Union(colouring);
+
+            # Check equality of edges
+            diff := Difference(edges, foundEdges);
+            if not IsEmpty(diff) then
+                Error(Concatenation(
+                    "EdgeColouredPolygonalComplex: The edges in ", diff, 
+                    " do not appear in any colour class."));
+            fi;
+
+            diff := Difference(foundEdges, edges);
+            if not IsEmpty(diff) then
+                Error(Concatenation(
+                    "EdgeColouredPolygonalComplex: The numbers in ", diff, 
+                    " appear in colour classes but don't correspond to edges."));
+            fi;
+
+            # Check if the classes are disjoint
+            for i in [1..Size(bound)] do
+                for j in [i+1..Size(bound)] do
+                    inter := Intersection( 
+                        colouring[bound[i]], colouring[bound[j]] );
+                    if not IsEmpty(inter) then
+                        Error(Concatenation(
+                            "EdgeColouredPolygonalComplex: The colour classes at positions ",
+                            bound[i], " and ", bound[j], " are not disjoint."));
+                    fi;
+                od;
+            od;
+        else
+            # This should not have happened
+            Error("EdgeColouredPolygonalComplex: The edge colouring should be either a list of positive integers or a list of sets of positive integers.");
         fi;
 
-        diff := Difference(bound, edges);
-        if not IsEmpty( diff ) then
-            Error(Concatenation( 
-                "EdgeColouredPolygonalComplex: The positions in ", 
-                diff, " do not correspond to any edge." ));
-        fi;
-
-        nonPos := Filtered(edgeColours, i -> not IsPosInt(i));
-        if not IsEmpty(nonPos) then
-            Error(Concatenation(
-                "EdgeColouredPolygonalComplex: The following entries are not positive integers: ", 
-                nonPos, "."));
-        fi;
-        
-        return EdgeColouredPolygonalComplexNC(complex, edgeColours);
+        return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );
 
@@ -145,6 +179,14 @@ InstallMethod( EdgesOfColours,
 ##
 #######################################
 
+InstallMethod( \=, "for two edge coloured polygonal complexes", 
+    IsIdenticalObj, 
+    [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex],
+    function(ec1, ec2)
+        return ColoursOfEdges(ec1) = ColoursOfEdges(ec2) and 
+            PolygonalComplex(ec1) = PolygonalComplex(ec2);
+    end
+);
 
 
 #######################################

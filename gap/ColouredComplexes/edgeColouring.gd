@@ -25,11 +25,12 @@
 #! <K>SimplicialSurfaces</K>-package.
 #!
 #! An <K>EdgeColouredPolygonalComplex</K> 
-#! (<Ref Subsect="EdgeColouredPolygonalComplex"/>) consists of a polygonal 
-#! complex
-#! and an edge colouring. These can be accessed by the methods
-#! <K>PolygonalComplex</K> (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) 
-#! and <K>ColoursOfEdges</K> (<Ref Subsect="ColoursOfEdges"/>) respectively.
+#! (<Ref Subsect="EdgeColouredPolygonalComplex"/>) consists of:
+#! * a polygonal complex, accessible by <K>PolygonalComplex</K> 
+#!   (<Ref Subsect="EdgeColouring_PolygonalComplex"/>)
+#! * an edge colouring, which can be accessed by 
+#!   <K>ColoursOfEdges</K> (<Ref Subsect="ColoursOfEdges"/>) and
+#!   <K>EdgesOfColours</K> (<Ref Subsect="EdgesOfColours"/>)
 #!
 #! @InsertChunk Example_Coloured_Pyramid
 #!
@@ -54,25 +55,32 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
 
 #! @BeginGroup EdgeColouredPolygonalComplex
 #! @Description
-#! Construct an edge coloured polygonal complex. The edge colouring has to be
-#! given as a list <A>edgeColours</A> of positive integers. For every edge
-#! <A>edge</A> in the given <A>complex</A> the entry <A>edgeColours[edge]</A>
-#! contains the colour of <A>edge</A> (we encode colours by positive integers).
+#! Construct an edge coloured polygonal complex. The edge colouring can be
+#! given in one of two ways:
+#! <Enum>
+#!   <Item>As a list <A>colouring</A> of positive integers. For every edge
+#!      <A>edge</A> in the given <A>complex</A> the entry 
+#!      <A>colouring[edge]</A> contains the colour of <A>edge</A> 
+#!      (we encode colours by positive integers).
+#!   </Item>
+#!   <Item>As a list <A>colouring</A> of sets of positive integers. For
+#!      every colour <A>col</A> (the colours are described by positive
+#!      integers) the entry <A>colouring[col]</A> contains the set of
+#!      all edges with colour <A>col</A>.
+#!   </Item>
+#! </Enum>
 #!
 #! @InsertChunk Example_TwiceColoured_Pyramid
 #!
-#! The NC-version does not check whether the given <A>edgeColours</A> are consistent
+#! The NC-version does not check whether the given <A>colouring</A> is consistent
 #! with the edges of <A>complex</A>, i.e.
-#! * Does every edge of <A>complex</A> have a colour in the list 
-#!   <A>edgeColours</A>?
-#! * Does every bound entry of <A>edgeColours</A> corresponds to an edge of
-#!   <A>complex</A>?
-#! * Are the entries of the list positive integers?
+#! * Does every edge of <A>complex</A> appear?
+#! * Is every purported edge of <A>colouring</A> an edge of <A>complex</A>?
 #!
 #! @Returns an <K>EdgeColouredPolygonalComplex</K>
-#! @Arguments complex, edgeColours
+#! @Arguments complex, colouring
 DeclareOperation( "EdgeColouredPolygonalComplex", [IsPolygonalComplex, IsList] );
-#! @Arguments complex, edgeColours
+#! @Arguments complex, colouring
 DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList] );
 #! @EndGroup
 
@@ -194,8 +202,8 @@ DeclareOperation( "EdgesOfColour", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex, IsString, IsRecord] );
 #! @EndGroup
 
+#TODO Section Incidence graphs and automorphisms
 
-#Section Incidence graphs and automorphisms
 #Section Rainbow colouring
     #group theoretic description: Generators, Group, VertexGroup
     #perfect colourings: MRTypeOfEdges, IsMRTypeColourInvariant

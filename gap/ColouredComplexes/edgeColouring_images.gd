@@ -23,17 +23,30 @@ DrawSurfaceToTikz( pyr, "Pyramid_coloured", pr );
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Pyramid_coloured.tex}
 #! </Alt>
-#! To do that we encode the colours as positive integers (for example 1,2,3).
-#! Then we need a list that encodes which edge has which colour.
+#! To do that we describe the colours by positive integers (for example 1,2,3).
+#! We can encode the edge colouring in two ways:
+#! <Enum>
+#!   <Item>We can give a list that encodes which edge has which colour.
 #! @BeginExample
 colOfEdges := [,2,1,1,2,3,1,3,2];
 #! [ , 2, 1, 1, 2, 3, 1, 3, 2 ]
 #! @EndExample
-#! The entry at position <A>edge</A> denotes the colour of <A>edge</A>.
+#!   The entry at position <A>edge</A> denotes the colour of <A>edge</A>.
+#!   </Item>
+#!   <Item>We can give a edge colour class for each colour (as list).
+#! @BeginExample
+colClasses := [ [ 3, 4, 7 ], [ 2, 5, 9 ], [ 6, 8 ] ];
+#! [ [ 3, 4, 7 ], [ 2, 5, 9 ], [ 6, 8 ] ]
+#! @EndExample
+#!   </Item>
+#! </Enum>
 #!
-#! The edge coloured polygonal complex can be constructed as follows:
+#! Both of those can be used to construct the edge coloured polygonal complex:
 #! @BeginExample
 colPyr := EdgeColouredPolygonalComplex( pyr, colOfEdges );;
+colPyrAlt := EdgeColouredPolygonalComplex( pyr, colClasses );;
+colPyr = colPyrAlt;
+#! true
 #! @EndExamples
 #! Both the polygonal surface and the colouring can be accessed.
 #! @BeginExample
@@ -41,19 +54,16 @@ PolygonalComplex(colPyr) = pyr;
 #! true
 ColoursOfEdges(colPyr) = colOfEdges;
 #! true
-#! @EndExample
-#! We can even look at the equivalence classes of edges with the
-#! same colour.
-#! @BeginExample
-EdgesOfColours(colPyr);
-#! [ [ 3, 4, 7 ], [ 2, 5, 9 ], [ 6, 8 ] ]
+EdgesOfColours(colPyr) = colClasses;
+#! true
 #! @EndExample
 #! @EndChunk
 
 
 #! @BeginChunk Example_TwiceColoured_Pyramid
 #! As illustration we colour the pyramid from the start of section
-#! <Ref Sect="Section_EdgeColouring_Definition"/> in two different ways.
+#! <Ref Sect="Section_EdgeColouring_Definition"/> in two different ways and
+#! use both ways of encoding the colouring.
 #! @BeginExample
 pyr := PolygonalSurfaceByDownwardIncidence(
     [ , [1,2], [2,3], [3,4], [1,4], [2,10], [3,10], [4,10], [1,10] ],
@@ -63,6 +73,7 @@ DrawSurfaceToTikz( pyr, "Pyramid_uncoloured", rec(scale:=2.5) );
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Pyramid_uncoloured.tex}
 #! </Alt>
+#! We use the first method of encoding the colouring (based on the edges):
 #! @BeginExample
 colPyr1 := EdgeColouredPolygonalComplex(pyr, [,2,1,1,2,3,1,3,2]);;
 #! @EndExample
@@ -70,10 +81,12 @@ DrawSurfaceToTikz( colPyr1, "Pyramid_coloured_1", rec(scale:=2.5, edgeColourClas
 #! <Alt Only="TikZ">
 #!  \input{_TIKZ_Pyramid_coloured_1.tex}
 #! </Alt>
+#! We can also pick a different colouring which we will define by the
+#! second method of encoding:
 #! @BeginExample
-colPyr2 := EdgeColouredPolygonalComplex(pyr, [,1,2,3,4,1,2,3,4]);;
+colPyr2 := EdgeColouredPolygonalComplex(pyr, [[2,6],[3,7],,[4,8],[5,9]]);;
 #! @EndExample
-DrawSurfaceToTikz( colPyr2, "Pyramid_coloured_2", rec(scale:=2.5, edgeColourClassColours:=["red","cyan","olive","green"]) );
+DrawSurfaceToTikz( colPyr2, "Pyramid_coloured_2", rec(scale:=2.5, edgeColourClassColours:=["red","cyan",,"olive","green"]) );
 #! <Alt Only="TikZ">
 #!  \input{_TIKZ_Pyramid_coloured_2.tex}
 #! </Alt>
