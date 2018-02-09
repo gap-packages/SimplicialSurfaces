@@ -145,7 +145,7 @@ DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_rectangular", pr );;
 #! </Alt>
 #! The colours can also be changed in the same fashion.
 #! @BeginLog
-pr.edgeColourClassColours := ["cyan","olive","violet"];
+pr.edgeColourClassColours := ["cyan","olive","magenta"];
 DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_coloured", pr );
 #! @EndLog
 #! <Alt Only="TikZ">
