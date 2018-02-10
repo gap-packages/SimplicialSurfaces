@@ -1,3 +1,5 @@
+TODO: check in detail
+
 UnsortedDegrees
     replaced by EdgeDegreesOfVertices and FaceDegreesOfVertices
 
@@ -15,3 +17,6 @@ PathConnected*
 
 NrOf*
     replaced by NumberOf*
+
+WildSimplicialSurfaces
+    complete rewrite. Refer to the chapters about edge colouring for details.
