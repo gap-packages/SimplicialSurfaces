@@ -18,9 +18,14 @@
 #! a specific type of edge colourings, where every edge of a given face has to
 #! have a different colour (so it is a rainbow colouring on each face).
 #!
-#! Section TODO will introduce special access functions made possible by
-#! rainbow edge colourings. In section TODO the colouring will be represented
-#! by permutations.
+#! In section <Ref Sect="Section_RainbowEdgeColouring_Definition"/> 
+#! the concept of the rainbow edge colouring is defined. In addition,
+#! some access
+#! functions made possible by the colouring are described.
+#!
+#! Section <Ref Sect="Section_RainbowEdgeColouring_Permutations"/> represents
+#! the edge colouring of ramified polygonal complexes as permutations, the
+#! <K>ColourInvolutions</K> (<Ref Subsect="ColourInvolutions"/>).
 #!
 #! After these general properties, section TODO deals with a special
 #! subclass of a rainbow colouring: a <E>perfect</E> rainbow colouring in

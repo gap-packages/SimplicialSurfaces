@@ -14,8 +14,17 @@
 #! @ChapterLabel EdgeColouring
 #! 
 #! This chapter is concerned with edge-coloured polygonal complexes and in
-#! particular simplicial surfaces. While it defines general functionality for
-#! arbitrary edge-colourings, it lays a focus on specific edge-colourings. TODO explain better
+#! particular simplicial surfaces. The first section 
+#! (<Ref Sect="Section_EdgeColouring_Definition"/>) deals with the definition
+#! of arbitrary edge-colourings and the methods to access its colouring.
+#!
+#! The second section (<Ref Sect="Section_EdgeColouring_Drawing"/>) explains
+#! how the drawing functionality for ramified polygonal surfaces (compare
+#! section <Ref Sect="Section_Embeddings_DrawTikz"/> for details) is extended
+#! for edge-coloured ramified polygonal surfaces.
+#!
+#! Finally section <Ref Sect="Section_EdgeColouring_Isomorphism"/> deals
+#! with the isomorphism problem of edge-coloured polygonal complexes.
 #!
 
 #! @Section General definition
@@ -202,7 +211,11 @@ DeclareOperation( "EdgesOfColour", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex, IsString, IsRecord] );
 #! @EndGroup
 
-#TODO Section Incidence graphs and automorphisms
+
+#! @Section Isomorphisms between edge-coloured polygonal complexes
+#! @SectionLabel EdgeColouring_Isomorphism
+#!
+#!TODO Section Incidence graphs and automorphisms
 
 #Section Rainbow colouring
     #perfect colourings: MRTypeOfEdges, IsMRTypeColourInvariant

@@ -23,20 +23,20 @@ DrawSurfaceToTikz( pyr, "Pyramid_coloured", pr );
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Pyramid_coloured.tex}
 #! </Alt>
-#! To do that we describe the colours by positive integers (for example 1,2,3).
+#! To do that we describe the colours by positive integers (for example 1,2,4).
 #! We can encode the edge colouring in two ways:
 #! <Enum>
 #!   <Item>We can give a list that encodes which edge has which colour.
 #! @BeginExample
-colOfEdges := [,2,1,1,2,3,1,3,2];
-#! [ , 2, 1, 1, 2, 3, 1, 3, 2 ]
+colOfEdges := [,2,1,1,2,4,1,4,2];
+#! [ , 2, 1, 1, 2, 4, 1, 4, 2 ]
 #! @EndExample
 #!   The entry at position <A>edge</A> denotes the colour of <A>edge</A>.
 #!   </Item>
 #!   <Item>We can give a edge colour class for each colour (as list).
 #! @BeginExample
-colClasses := [ [ 3, 4, 7 ], [ 2, 5, 9 ], [ 6, 8 ] ];
-#! [ [ 3, 4, 7 ], [ 2, 5, 9 ], [ 6, 8 ] ]
+colClasses := [ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ];
+#! [ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ]
 #! @EndExample
 #!   </Item>
 #! </Enum>
@@ -105,7 +105,7 @@ ColourOfEdge( colPyr, 2 );
 ColourOfEdge( colPyr, 7);
 #! 1
 ColoursOfEdges( colPyr );
-#! [ , 2, 1, 1, 2, 3, 1, 3, 2 ]
+#! [ , 2, 1, 1, 2, 4, 1, 4, 2 ]
 #! @EndExample
 #! @EndChunk
 
@@ -119,12 +119,12 @@ ColoursOfEdges( colPyr );
 #! @BeginExample
 EdgesOfColour( colPyr, 1 );
 #! [ 3, 4, 7 ]
-EdgesOfColour( colPyr, 3);
+EdgesOfColour( colPyr, 4);
 #! [ 6, 8 ]
 EdgesOfColour( colPyr, 5 );
 #! []
 EdgesOfColours( colPyr );
-#! [ [ 3, 4, 7 ], [ 2, 5, 9 ], [ 6, 8 ] ]
+#! [ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ]
 #! @EndExample
 #! @EndChunk
 
