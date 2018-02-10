@@ -174,3 +174,8 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! @Arguments rcRamSurf
 DeclareAttribute("ColourInvolutions", 
     IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring);
+#! @EndGroup
+
+#TODO Is this relabelling ok?
+#TODO Is ColourGroup really necessary? It is just one Group(..)-call more...
+#TODO Should "VertexGroup" be renamed? What does it actually do?
