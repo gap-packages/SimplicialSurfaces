@@ -152,6 +152,11 @@ DeclareOperation( "IsIsomorphicPolygonalComplex",
     [IsPolygonalComplex, IsPolygonalComplex] );
 #! @EndGroup
 
+#! In many cases it is enough to know whether two polygonal complexes are
+#! isomorphic. In some cases it is useful to know the concrete isomorphism
+#! between them.
+#! TODO can something be done about this? Currently the returned isomorphism does not match the labels (and group actions are hard to define);
+
 
 #! @Section Automorphism group
 #! @SectionLabel Graphs_Automorphisms
