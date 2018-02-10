@@ -80,3 +80,39 @@ InstallMethod( ColouredEdgesOfFaces,
         return colEdgesOfFaces;
     end
 );
+
+
+InstallMethod( ColourInvolutions,
+    "for a rainbow edge coloured ramified polygonal surface",
+    [IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring],
+    function(rbComp)
+        local invs, cols, col, toList, edges, edge, facesOfEdge;
+
+        if not IsRamifiedPolygonalSurface(PolygonalComplex(rbComp)) then
+            return fail;
+        fi;
+
+        invs := [];
+        cols := Set( ColoursOfEdges(rbComp) );
+
+        for col in cols do
+            # Find edges of this colour
+            edges := EdgesOfColours(rbComp)[col];
+
+            # Construct the permutation from a list
+            toList := [1..Maximum(Faces(PolygonalComplex(rbComp)))];
+
+            for edge in edges do
+                facesOfEdge := FacesOfEdges(PolygonalComplex(rbComp))[edge];
+                if Length(facesOfEdge) = 2 then
+                    toList[ facesOfEdge[1] ] := facesOfEdge[2];
+                    toList[ facesOfEdge[2] ] := facesOfEdge[1];
+                fi;
+            od;
+
+            invs[col] := PermList( toList );
+        od;
+
+        return invs;
+    end
+);

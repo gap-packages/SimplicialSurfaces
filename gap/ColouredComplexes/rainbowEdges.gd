@@ -120,7 +120,7 @@ InstallTrueMethod( IsFaceRainbowEdgeColouring, IsPerfectFaceRainbowEdgeColouring
 #! gap> ColouredEdgesOfFace(colPrism, 4);
 #! [ 1, 6,, 7, 5 ]
 #! gap> ColouredEdgesOfFaces(colPrism);
-#! [ [ 1, 3,, 2 ],, [ 4, 3, 9,, 5 ], [ 1, 6,, 7, 5 ], [ 4, 6,, 2, 8 ],, [ ,, 9,  7, 8 ] ]
+#! [ [ 1, 3,, 2 ],, [ 4, 3, 9,, 5 ], [ 1, 6,, 7, 5 ], [ 4, 6,, 2, 8 ],, [ ,, 9, 7, 8 ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of (lists of) positive integers
@@ -137,3 +137,40 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 
 #TODO implement EdgeColouredEdgeFacePaths as subcategory of EdgeFacePaths -> only difference is View??. Do we actually need this subcategory then?
 #TODO for colouredEdgeFacePaths -> how to denote colours? we can use  a,b,c,d,e,... but is this better than the numbers of the colours?
+
+
+#! @Section Permutation description
+#! @SectionLabel RainbowEdgeColouring_Permutations
+#!
+#! While section <Ref Sect="Section_RainbowEdgeColouring_Definition"/> dealt
+#! with general rainbow edge colourings, this section is restricted to
+#! rainbow edge colourings of ramified polygonal surfaces. For those there are
+#! at most two faces incident to an edge.
+#!
+#! Therefore every colour can be interpreted as an involution on the set of 
+#! faces
+#! (which swaps two faces that are connected by an edge of that colour).
+#!
+#! @InsertChunk Example_ColouredDisk
+
+#! @BeginGroup ColourInvolutions
+#! @Description
+#! For a rainbow edge coloured (<Ref Subsect="IsFaceRainbowEdgeColouring"/>) 
+#! ramified polygonal surface (<Ref Subsect="IsRamifiedPolygonalSurface"/>),
+#! return the colour involutions. If the underlying polygonal complex is
+#! not a ramified polygonal surface, <K>fail</K> is returned.
+#!
+#! The attribute <K>ColourInvolutions</K>(<A>rcRamSurf</A>) returns a list
+#! of involutions (the position <A>col</A> is bound if and only if <A>col</A>
+#! is a colour of the underlying ramified polygonal surface).
+#!
+#! For a given colour <A>col</A> the colour involution encodes the 
+#! neighbouring relation
+#! of the faces that is induced by the edges of the colour <A>col</A>. A 
+#! boundary edge induces a fixed point.
+#! 
+#! @InsertChunk Example_ColouredDisk_ColourInvolutions
+#! @Returns a list of involutions
+#! @Arguments rcRamSurf
+DeclareAttribute("ColourInvolutions", 
+    IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring);
