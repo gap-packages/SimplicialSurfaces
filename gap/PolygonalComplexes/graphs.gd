@@ -44,8 +44,8 @@
 #! and automorphism group computation, it may be skipped at first.
 #!
 #! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the method
-#! <K>IsIsomorphicIncidenceStructure</K> 
-#! (<Ref Subsect="IsIsomorphicIncidenceStructure"/>).
+#! <K>IsIsomorphicPolygonalComplex</K> 
+#! (<Ref Subsect="IsIsomorphicPolygonalComplex"/>).
 #!
 #! Section <Ref Sect="Section_Graphs_Automorphisms"/> explains in detail
 #! how to use the automorphism group of polygonal complexes.
@@ -135,22 +135,21 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! are 
 #! @InsertChunk Graphs_Packages 
 
-#! @BeginGroup IsIsomorphicIncidenceStructure
+#! @BeginGroup IsIsomorphicPolygonalComplex
 #! @Description
 #! Return whether the given polygonal complexes are isomorphic. They are
 #! isomorphic if their incidence graphs (compare 
 #! <Ref Subsect="Section_Graphs_Incidence"/>) are isomorphic.
 #!
 #! @ExampleSession
-#! gap> IsIsomorphicIncidenceStructure( Cube(), Octahedron() );
+#! gap> IsIsomorphicPolygonalComplex( Cube(), Octahedron() );
 #! false
 #! @EndExampleSession
 #!
 #! @Returns true or false
 #! @Arguments complex1, complex2
-DeclareOperation( "IsIsomorphicIncidenceStructure", 
+DeclareOperation( "IsIsomorphicPolygonalComplex", 
     [IsPolygonalComplex, IsPolygonalComplex] );
-#TODO Combine with fining-method?
 #! @EndGroup
 
 

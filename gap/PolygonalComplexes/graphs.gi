@@ -181,10 +181,10 @@ fi;
 
 ## The order of installation describes which of these functions is
 ## preferred - the last one has highest priority.
-InstallMethod( IsIsomorphicIncidenceStructure, "for two polygonal complexes",
+InstallMethod( IsIsomorphicPolygonalComplex, "for two polygonal complexes",
     [IsPolygonalComplex, IsPolygonalComplex],
     function(complex1, complex2)
-        Error("IsIsomorphicIncidenceStructure: One of the packages NautyTracesInterface or GRAPE has to be available.");
+        Error("IsIsomorphicPolygonalComplex: One of the packages NautyTracesInterface or GRAPE has to be available.");
     end
 );
 InstallMethod( AutomorphismGroup, "for a polygonal complex", 
@@ -195,7 +195,7 @@ InstallMethod( AutomorphismGroup, "for a polygonal complex",
 );
 
 if IsPackageMarkedForLoading("GRAPE", ">=0") then
-    InstallMethod( IsIsomorphicIncidenceStructure, 
+    InstallMethod( IsIsomorphicPolygonalComplex, 
         "for two polygonal complexes",
         [IsPolygonalComplex, IsPolygonalComplex],
         function(complex1, complex2)
@@ -226,7 +226,7 @@ if IsPackageMarkedForLoading("Digraphs", ">=0") and not ARCH_IS_WINDOWS() then
 fi;
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
-    InstallMethod( IsIsomorphicIncidenceStructure, 
+    InstallMethod( IsIsomorphicPolygonalComplex, 
         "for two polygonal complexes", 
         [IsPolygonalComplex, IsPolygonalComplex],
         function(complex1, complex2)
