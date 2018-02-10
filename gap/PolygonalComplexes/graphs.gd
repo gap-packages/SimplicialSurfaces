@@ -152,6 +152,28 @@ DeclareOperation( "IsIsomorphicPolygonalComplex",
     [IsPolygonalComplex, IsPolygonalComplex] );
 #! @EndGroup
 
+#! @Description
+#! The method <K>IsomorphismRepresentatives</K> takes a list of polygonal
+#! complexes and returns a reduced list in which no two entries are 
+#! isomorphic.
+#!
+#! @BeginExampleSession
+#! gap> complexList := [ Cube(), JanusHead(), Cube(), Cube() ];;
+#! gap> Size(complexList);
+#! 4
+#! gap> repList := IsomorphismRepresentatives(complexList);;
+#! gap> Size(repList);
+#! 2
+#! gap> Cube() in repList;
+#! true
+#! gap> JanusHead() in repList;
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a list of polygonal complexes
+#! @Arguments complexList
+DeclareOperation( "IsomorphismRepresentatives", [IsList] );
+
 #! In many cases it is enough to know whether two polygonal complexes are
 #! isomorphic. In some cases it is useful to know the concrete isomorphism
 #! between them.
