@@ -296,6 +296,3 @@ DeclareAttribute( "ColourIncidenceNautyGraph", IsEdgeColouredPolygonalComplex );
 DeclareOperation( "IsIsomorphicEdgeColouredPolygonalComplex",
     [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex]);
 
-#Section Rainbow colouring
-    #perfect colourings: MRTypeOfEdges, IsMRTypeColourInvariant
-    #construction: All..., SixfoldCover, (DoubleCover);

@@ -51,6 +51,9 @@ InstallMethod( ColouredEdgesOfFaceNC,
         return ColouredEdgesOfFaces(rbComp)[face];
     end
 );
+    RedispatchOnCondition( ColouredEdgesOfFaceNC, true, 
+        [IsEdgeColouredPolygonalComplex, IsPosInt], 
+        [IsFaceRainbowEdgeColouring,], 0 );
 
 InstallMethod( ColouredEdgesOfFace,
     "for a rainbow edge coloured polygonal complex and a face",
@@ -60,6 +63,9 @@ InstallMethod( ColouredEdgesOfFace,
         return ColouredEdgesOfFaceNC(rbComp,face);
     end
 );
+    RedispatchOnCondition( ColouredEdgesOfFace, true, 
+        [IsEdgeColouredPolygonalComplex,IsPosInt], 
+        [IsFaceRainbowEdgeColouring,], 0 );
 
 InstallMethod( ColouredEdgesOfFaces,
     "for a rainbow edge coloured polygonal complex",
@@ -80,6 +86,9 @@ InstallMethod( ColouredEdgesOfFaces,
         return colEdgesOfFaces;
     end
 );
+    RedispatchOnCondition( ColouredEdgesOfFaces, true, 
+        [IsEdgeColouredPolygonalComplex], 
+        [IsFaceRainbowEdgeColouring], 0 );
 
 
 InstallMethod( ColourInvolutions,
@@ -116,3 +125,79 @@ InstallMethod( ColourInvolutions,
         return invs;
     end
 );
+    RedispatchOnCondition( ColourInvolutions, true, 
+        [IsEdgeColouredPolygonalComplex], 
+        [IsFaceRainbowEdgeColouring], 0 );
+
+
+#######################################
+##
+##      MRTypeOfEdges
+##
+
+InstallMethod( MRTypeOfEdgesAsNumbers, 
+    "for a perfect rainbow edge coloured simplicial surface",
+    [IsEdgeColouredPolygonalComplex and IsPerfectFaceRainbowEdgeColouring],
+    function(colSurf)
+        local mr, surf, r, verts, faces, e1, e2, e;
+
+        surf := PolygonalComplex(colSurf);
+        if not IsSimplicialSurface(surf) then
+            return fail;
+        fi;
+
+        mr := [];
+        for e in Edges(surf) do
+            if IsBoundaryEdge(surf,e) then
+                mr[e] := 0; # boundary
+            else
+                verts := VerticesOfEdges(surf)[e];
+                faces := FacesOfEdges(surf)[e];
+                e1 := OtherEdgeOfVertexInFace(surf,verts[1],e,faces[1]);
+                e2 := OtherEdgeOfVertexInFace(surf,verts[1],e,faces[2]);
+                if ColoursOfEdges(colSurf)[e1] = ColoursOfEdges(colSurf)[e2] then
+                    mr[e] := 1; # mirror
+                else
+                    mr[e] := 2; # rotation
+                fi;
+            fi;
+        od;
+
+        return mr;
+    end
+);
+    RedispatchOnCondition( MRTypeOfEdgesAsNumbers, true, 
+        [IsEdgeColouredPolygonalComplex], 
+        [IsPerfectFaceRainbowEdgeColouring], 0 );
+
+BindGlobal( "__SIMPLICIAL_MRTypeNamesOfNumber",
+    function( e )
+        if e = 0 then 
+            return "boundary";
+        elif e = 1 then 
+            return "mirror";
+        elif e = 2 then 
+            return "rotation";
+        else 
+            Error("__SIMPLICIAL_MRTypeNamesOfNumber: unknown mr type number");
+        fi;
+    end
+);
+InstallMethod( MRTypeOfEdges, 
+    "for a perfect rainbow edge coloured simplicial surface",
+    [IsEdgeColouredPolygonalComplex and IsPerfectFaceRainbowEdgeColouring], 
+    function(colSurf)
+        local mr;
+
+        mr := MRTypeOfEdgesAsNumbers(colSurf);
+        if mr=fail then
+            return fail;
+        fi;
+        return List(mr, __SIMPLICIAL_MRTypeNamesOfNumber );
+    end
+);
+    RedispatchOnCondition( MRTypeOfEdges, true, 
+        [IsEdgeColouredPolygonalComplex], 
+        [IsPerfectFaceRainbowEdgeColouring], 0 );
+
+

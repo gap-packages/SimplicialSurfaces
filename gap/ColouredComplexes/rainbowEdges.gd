@@ -27,7 +27,8 @@
 #! the edge colouring of ramified polygonal complexes as permutations, the
 #! <K>ColourInvolutions</K> (<Ref Subsect="ColourInvolutions"/>).
 #!
-#! After these general properties, section TODO deals with a special
+#! After these general properties, section 
+#! <Ref Sect="Section_RainbowEdgeColouring_Perfect"/> deals with a special
 #! subclass of a rainbow colouring: a <E>perfect</E> rainbow colouring in
 #! which the number of colours is minimal (for example, in a simplicial 
 #! surface there can only be three colours). It describes a method to
@@ -182,5 +183,51 @@ DeclareAttribute("ColourInvolutions",
 #! @EndGroup
 
 #TODO Is this relabelling ok?
-#TODO Is ColourGroup really necessary? It is just one Group(..)-call more...
-#TODO Should "VertexGroup" be renamed? What does it actually do?
+
+#! @Section Perfect rainbow colouring
+#! @SectionLabel RainbowEdgeColouring_Perfect
+#!
+#! While the previous sections dealt with general rainbow edge-colourings,
+#! this section focuses exclusively on perfect rainbow edge-coloured
+#! simplicial surfaces, i.,e. simplicial surfaces whose edges are coloured
+#! with three colours such that the edges of each face have different colours.
+#!
+#! In this situation there is an additional local symmetry structure on the
+#! edges. For every inner edge (<Ref Subsect="InnerEdges"/>) there are two
+#! possible colourings of the adjacent faces, which can be described by a 
+#! symmetry with respect to the edge between them. The colours can either be
+#! mirrored or rotated into each other.
+#! <Alt Only="TikZ">
+#!   \input{Image_MRType.tex}
+#! </Alt>
+#! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
+#! Together with the <E>boundary</E>-type for the boundary edges
+#! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>MRTypeOfEdges</K>
+#! (<Ref Subsect="MRTypeOfEdges"/>).
+#!
+#! Together with the edge colouring, the MR-type determines the underlying
+#! simplicial surface.
+
+#! @BeginGroup MRTypeOfEdges
+#! @Description
+#! Return the MR-type of the edges in <A>colSurf</A>. If the underlying
+#! polygonal complex is not a simplicial surface, <K>fail</K> is returned.
+#!
+#! TODO explain after name is fixed
+#!
+#! TODO tests
+#!
+#! @Returns a list of strings
+#! @Arguments colSurf
+DeclareAttribute( "MRTypeOfEdges", IsEdgeColouredPolygonalComplex and 
+    IsPerfectFaceRainbowEdgeColouring );
+#! @Returns a list of positive integers
+#! @Arguments colSurf
+DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsEdgeColouredPolygonalComplex and 
+    IsPerfectFaceRainbowEdgeColouring );
+#! @EndGroup
+
+#Section Rainbow colouring
+    #perfect colourings: MRTypeOfEdges, IsMRTypeColourInvariant
+    #construction: All..., SixfoldCover, (DoubleCover);
+
