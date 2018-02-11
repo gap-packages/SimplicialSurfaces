@@ -1,4 +1,4 @@
-# @DoNotReadRestOfFile
+#! @DoNotReadRestOfFile
 
 ##############################################################################
 ##
@@ -89,7 +89,6 @@ DeclareOperation( "ColouredFaceEdgePathOfVertexNC",
 #############################################################################
 ##
 ##
-#!  @Section Functions for wild coloured simplicial surfaces
 #!
 #!
 #!

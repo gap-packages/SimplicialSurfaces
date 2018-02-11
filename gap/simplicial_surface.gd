@@ -1,11 +1,4 @@
-
-
-#############################################################################
-##
-##
-#!  @Section Functions for simplicial surfaces
-#!
-#!
+#! @DoNotReadRestOfFile
 
 
 #! @BeginGroup
@@ -91,7 +84,6 @@ DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 ###############################################################################
 ##
 ##
-#!  @Section Technical functions (for development)
 #!
 #! This section contains methods that concern the internal structure of
 #! simplicial surfaces. You only have to read this section if you want to

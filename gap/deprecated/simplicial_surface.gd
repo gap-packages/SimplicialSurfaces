@@ -1,3 +1,6 @@
+#! @DoNotReadRestOfFile
+
+
 ##############################################################################
 ##
 #W  simplicial_surface.gd     SimplicialSurfaces             Alice Niemeyer
