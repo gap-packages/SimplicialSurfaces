@@ -1,22 +1,35 @@
-TODO: check in detail
+Changelog from master to rewrite (hopefully mostly complete)
 
-UnsortedDegrees
-    replaced by EdgeDegreesOfVertices and FaceDegreesOfVertices
+For simplicial surfaces:
+    1) Huge change in the category-structure, introduction of polygonal 
+        complexes. Refer to chapter "Polygonal Structures" for details.
+    2) NrOf* is replaced by NumberOf*
+    3) IsTriangleSurface is replaced by IsTriangularComplex
+    4) PathConnected* is replaced by StronglyConnected*, see section
+        "Connectivity" for details.
+    5) UnsortedDegrees is replaced by EdgeDegreesOfVertices and 
+        FaceDegreesOfVertices, SortedDegrees is removed entirely.
+    6) *Counter changed their definition and return values. Refer
+        to the respective documentation for details.
+    7) IncidenceGraph is replaced by more specific calls to the
+        respective graph packages. Refer to chapter "Graphs and isomorphisms"
+        for details.
+    8) IsomorphismCheck is now done by IsIsomorphicPolygonalComplexes.
+    9) IsVerticesLikeSurface, IsEdgesLikeSurface and IsActualSurface are
+        removed. Use the relevant categories from chapter
+        "Polygonal Structures".
+    10) FaceEdgePathsOfVertices is replaced by UmbrellasOfVertices.
+        See section "Edge-Face-Paths" for details of the new data structure.
+    11) LocalOrientation* is replaced by PerimeterOfFaces. Refer to section
+        "Face-induced order of incident vertices/edges".
+    12) NamesOfFaces are removed. They will be reintroduced when surfaces
+        can be folded properly.
+    13) GlobalOrientation is replaced by Orientation. See section 
+        "Orientability" for all corresponding changes.
+    14) ObjectifySimplicialSurface is removed.
+    15) DeriveLocalOrientation* is removed.
 
-SortedDegrees
-    removed
 
-LocalOrientation*
-    replaced by PerimeterOfFaces (see section about VertexEdgePaths)
 
-EdgeFacePathsOfVertices
-    replaced by UmbrellasOfVertices (see section about EdgeFacePaths)
-
-PathConnected*
-    replaced by StronglyConnected*
-
-NrOf*
-    replaced by NumberOf*
-
-WildSimplicialSurfaces
-    complete rewrite. Refer to the chapters about edge colouring for details.
+For wild simplicial surfaces:
+    1) complete rewrite. Refer to the chapters about edge colouring for details.
