@@ -174,6 +174,13 @@ InstallMethod( EdgesOfColours,
 );
 
 
+InstallMethod( Colours, "for an edge coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComplex)
+        return Set(ColoursOfEdges(colComplex));
+    end
+);
+
 ##
 ##      End access to colouring
 ##
@@ -263,5 +270,162 @@ InstallMethod( DrawSurfaceToTikz,
 
 ##
 ##      End of drawing method
+##
+#######################################
+
+
+
+#######################################
+##
+##      Isomorphism testing
+##
+
+if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
+    InstallMethod( ColourIncidenceDigraphsGraph, 
+        "for an edge coloured polygonal complex",
+        [IsEdgeColouredPolygonalComplex],
+        function( colComplex )
+            return Digraph( ColourIncidenceGrapeGraph(colComplex) );
+            #TODO is there a better way?
+        end
+    );
+fi;
+
+if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
+    InstallMethod( ColourIncidenceGrapeGraph, 
+        "for an edge coloured polygonal complex",
+        [IsEdgeColouredPolygonalComplex],
+        function(colComplex)
+ 	    local graph, vertices, edges, faces, names, colours, incidence, 
+	        trivialAction, maxVert, maxEdge, maxFace, complex, cols;
+
+            complex := PolygonalComplex(colComplex);
+
+            maxVert := Maximum( Vertices(complex) );
+            maxEdge := Maximum( Edges(complex) );
+            maxFace := Maximum( Faces(complex) );
+            vertices := ShallowCopy( Vertices(complex) );
+            edges := List( Edges(complex), e -> e + maxVert );
+            faces := List( Faces(complex), f -> f + maxVert + maxEdge );
+            cols := List( Colours(colComplex), c -> c + maxVert + maxEdge + maxFace );
+
+            names := Union( vertices, edges, faces, cols);
+	    colours := [vertices,edges, faces,cols];
+	    incidence := function(x,y)
+                if x in vertices and y in edges then
+                    return x in VerticesOfEdges(complex)[y-maxVert];
+                elif x in edges and y in vertices then
+                    return y in VerticesOfEdges(complex)[x-maxVert];
+                elif x in edges and y in faces then
+                    return x-maxVert in EdgesOfFaces(complex)[y-maxVert-maxEdge];
+                elif x in faces and y in edges then
+                    return y-maxVert in EdgesOfFaces(complex)[x-maxVert-maxEdge];
+                elif x in edges and y in cols then
+                    return y-maxVert-maxEdge-maxFace = ColoursOfEdges(colComplex)[x-maxVert];
+                elif x in cols and y in edges then
+                    return x-maxVert-maxEdge-maxFace = ColoursOfEdges(colComplex)[y-maxVert];
+                else
+		    return false;
+	        fi; 
+	    end;
+
+	    trivialAction := function( pnt, g )
+	        return pnt;
+	    end;
+
+	    graph := Graph( Group( () ), names, trivialAction, incidence );
+	    graph!.colourClasses := colours;
+
+	    return graph;   
+        end
+    );
+fi;
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
+    InstallMethod( ColourIncidenceNautyGraph, 
+        "for an edge coloured polygonal complex",
+        [IsEdgeColouredPolygonalComplex],
+        function(colComplex)
+            local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
+                colSet, vertexList, complex, c;
+
+            complex := PolygonalComplex(colComplex);
+
+            maxVertex := Maximum( Vertices(complex) );
+            maxEdge := Maximum( Edges(complex) );
+            maxFace := Maximum( Faces(complex) );
+
+            vertexList := ShallowCopy( Vertices(complex) );
+            edgeList := [];
+            colourList := List( [1..NumberOfVertices(complex)], i -> 0 );
+
+            for e in Edges(complex) do
+                Add(colourList, 1);
+                Append(edgeList, List( VerticesOfEdges(complex)[e], 
+                    v -> [v, maxVertex + e] ) );
+                Add(vertexList, maxVertex + e);
+            od;
+
+            for f in Faces(complex) do
+                Add(colourList, 2);
+                Add(vertexList, maxVertex + maxEdge + f);
+                Append(edgeList, List( EdgesOfFaces(complex)[f], 
+                    e -> [maxVertex + e, maxVertex + maxEdge + f] ) );
+            od;
+
+            for c in Colours(colComplex) do
+                Add(colourList, 3);
+                Add(vertexList, maxVertex + maxEdge + maxFace + c);
+                Append(edgeList, List( EdgesOfColours(colComplex)[c],
+                   e -> [maxVertex + e, maxVertex + maxEdge + maxFace + c] ));
+            od;
+
+            return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
+        end
+    );
+fi;
+
+## The order of installation describes which of these functions is
+## preferred - the last one has highest priority.
+InstallMethod( IsIsomorphicEdgeColouredPolygonalComplex, 
+    "for two edge coloured polygonal complexes",
+    [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex],
+    function(complex1, complex2)
+        Error("IsIsomorphicEdgeColouredPolygonalComplex: One of the packages NautyTracesInterface or GRAPE has to be available.");
+    end
+);
+
+if IsPackageMarkedForLoading("GRAPE", ">=0") then
+    InstallMethod( IsIsomorphicEdgeColouredPolygonalComplex, 
+        "for two edge coloured polygonal complexes",
+        [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex],
+        function(complex1, complex2)
+            return IsIsomorphicGraph(
+                ShallowCopy( ColourIncidenceGrapeGraph(complex1) ),
+                ShallowCopy( ColourIncidenceGrapeGraph(complex2) ) );
+        end
+    );
+fi;
+
+if IsPackageMarkedForLoading("Digraphs", ">=0") and not ARCH_IS_WINDOWS() then
+
+#TODO install the digraphs function as soon as it is available
+fi;
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
+    InstallMethod( IsIsomorphicEdgeColouredPolygonalComplex, 
+        "for two edge coloured polygonal complexes", 
+        [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex],
+        function(complex1, complex2)
+            return IsomorphismGraphs( 
+                UnderlyingNautyGraph( ColourIncidenceNautyGraph(complex1) ),
+                UnderlyingNautyGraph( ColourIncidenceNautyGraph(complex2) )) <> fail;
+        end
+    );
+fi;
+
+
+##
+##      End of isomorphism testing
 ##
 #######################################

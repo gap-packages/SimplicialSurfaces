@@ -57,6 +57,11 @@ ColoursOfEdges(colPyr) = colOfEdges;
 EdgesOfColours(colPyr) = colClasses;
 #! true
 #! @EndExample
+#! A quick access to the used colours is also available:
+#! @BeginExample
+Colours(colPyr);
+#! [ 1, 2, 4 ]
+#! @EndExample
 #! @EndChunk
 
 

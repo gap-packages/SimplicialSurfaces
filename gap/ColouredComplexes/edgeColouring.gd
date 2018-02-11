@@ -160,6 +160,15 @@ DeclareOperation( "EdgesOfColour", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
+#! @Description
+#! Return the set of all edge colours that are used in the given edge
+#! coloured polygonal complex.
+#!
+#! @Returns a set of positive integers
+#! @Arguments colComplex
+DeclareAttribute( "Colours", IsEdgeColouredPolygonalComplex );
+
+
 #! @Section Drawing edge coloured surfaces
 #! @SectionLabel EdgeColouring_Drawing
 #!
@@ -215,7 +224,77 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex, IsString
 #! @Section Isomorphisms between edge-coloured polygonal complexes
 #! @SectionLabel EdgeColouring_Isomorphism
 #!
-#!TODO Section Incidence graphs and automorphisms
+#! An edge-coloured polygonal complex can be completely described by the
+#! incidence structure of its polygonal complex and the edge colouring.
+#! These can be encoded in an extended incidence graph. To do so, we start
+#! with the incidence graph from section 
+#! <Ref Sect="Section_Graphs_Incidence"/> and add a vertex for each colour,
+#! which is connected to all edges of this colour.
+#!
+#! Then the isomorphism problem can be decided if one of the following graph
+#! packages is loaded:
+#! @InsertChunk Graphs_Packages
+
+#! @BeginGroup ColourIncidenceGraph
+#! @Description
+#! Return the colour-extended incidence graph (a coloured, undirected graph)
+#! of the given edge coloured polygonal complex. It is defined as follows:
+#! <List>
+#!   <Item>The <E>vertices</E> are the vertices (colour 0), edges (colour 1), 
+#!   faces (colour 2) and colours (colour 4) of <A>colComplex</A>. The labels
+#!   are shifted in the following way:
+#!      @InsertChunk Graphs_LabelShift
+#!      <List>
+#!          <Item>The colour labels are shifted upwards by the sum of the 
+#!              maximal vertex
+#!              label, the maximal edge label and the maximal face label.
+#!          </Item>
+#!      </List>
+#!   </Item>
+#!   <Item>The <E>edges</E> can be one of these:
+#!      <List>
+#!          <Item>Vertex-edge-pairs or edge-face-pairs such that the elements of
+#!              the pair are incident in the polygonal complex of <A>colComplex</A>
+#!          </Item>
+#!          <Item>edge-colour-pairs such that the edge has the corresponding colour
+#!              in <A>colComplex</A>.</Item>
+#!      </List>
+#!    </Item>
+#! </List>
+#! The returned graph can be given in three different formats, corresponding
+#! to different graph packages:
+#! @InsertChunk Graphs_Packages
+#! 
+#! TODO example
+#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Arguments colComplex
+DeclareAttribute( "ColourIncidenceDigraphsGraph", IsEdgeColouredPolygonalComplex );
+#! @Returns a graph as defined in the package <K>GRAPE</K>
+#! @Arguments colComplex
+DeclareAttribute( "ColourIncidenceGrapeGraph", IsEdgeColouredPolygonalComplex );
+#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
+#! @Arguments colComplex
+DeclareAttribute( "ColourIncidenceNautyGraph", IsEdgeColouredPolygonalComplex );
+#! @EndGroup
+
+
+#! @Description
+#! Return whether the given edge coloured polygonal complexes are isomorphic.
+#! They are isomorphic if their colour-extended incidence graphs
+#! (compare <Ref Subsect="ColourIncidenceGraph"/>) are isomorphic. Changes
+#! of the colour labels are explicitly allowed.
+#!
+#! For example the two colourings from 
+#! <Ref Subsect="EdgeColouredPolygonalComplex"/> are not isomorphic.
+#! @BeginExampleSession
+#! gap> IsIsomorphicEdgeColouredPolygonalComplex(colPyr1, colPyr2);
+#! false
+#! @EndExampleSession
+#!
+#! @Returns true or false
+#! @Arguments colComplex1, colComplex2
+DeclareOperation( "IsIsomorphicEdgeColouredPolygonalComplex",
+    [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex]);
 
 #Section Rainbow colouring
     #perfect colourings: MRTypeOfEdges, IsMRTypeColourInvariant
