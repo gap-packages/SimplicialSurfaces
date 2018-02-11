@@ -86,87 +86,6 @@
         <Item>The development of the code</Item>
     </Enum>
 
-    <Section Label="Example_VertexCounter"><Heading>VertexCounter</Heading>
-        The method <K>VertexCounter</K> (<Ref Subsect="VertexCounter"/>) 
-        creates a list in which the entry at position <A>pos</A> is the
-        number of vertices with exactly <A>pos</A> incident faces.
-        <Par/>
-        We illustrate it on the example of a pyramid with square base.
-        <Alt Only="TikZ">
-            \input{Image_SquarePyramid.tex}
-        </Alt>
-<Example>
-gap&gt; pyr := PolygonalSurfaceByVerticesInFaces( 
-&gt;            [ [3,4,5,6], [1,3,4], [1,4,5], [1,5,6], [1,6,3] ]);;
-gap&gt; VertexCounter( pyr );
-[ , , 4, 1 ]
-</Example>
-        This could be implemented like this:
-<Example>
-gap&gt; VertexCounter_custom := function( complex )
-&gt;     local faceDegrees, colDegrees, count, pair;
-&gt; 
-&gt;     faceDegrees := List( FacesOfVertices(complex), Size );
-&gt;     colDegrees := Collected( Compacted( faceDegrees ) );
-&gt; 
-&gt;     count := [];
-&gt;     for pair in colDegrees do
-&gt;         count[pair[1]] := pair[2];
-&gt;     od;
-&gt; 
-&gt;     return count;
-&gt; end;;
-gap&gt; 
-gap&gt; VertexCounter_custom( pyr );
-[ , , 4, 1 ]
-</Example>
-        How do we arrive at this code? 
-
-        First of all we have to find the relevant information. We want to
-        count how many faces are incident to a vertex. Therefore we use
-        the method <K>FacesOfVertices</K> (<Ref Subsect="FacesOfVertices"/>) 
-        that gives us exactly this 
-        information. Since we only want to know the <E>number</E> of faces,
-        we apply the method <K>Size</K> to every component.
-<Example>
-gap&gt; faceDegrees := List( FacesOfVertices(pyr), Size );
-[ 4, , 3, 3, 3, 3 ]
-</Example>
-        Alternatively we could have used the specialized method
-        <K>FaceDegreesOfVertices</K> (<Ref Subsect="FaceDegreesOfVertices"/>) directly.
-<Example>
-gap&gt; FaceDegreesOfVertices( pyr );
-[ 4, , 3, 3, 3, 3 ]
-</Example>
-        Now we need to count how often each entry appears. This can be done
-        by a loop but we will use the &GAP;-function <K>Collected</K> instead.
-        Unfortunately it only works for lists without holes:
-<Example>
-gap&gt; Collected( faceDegrees );
-Error, List Element: &lt;list&gt;[2] must have an assigned value
-</Example>
-        If we want to program with this package, we have to expect
-        holes. In this case it is sufficient to remove all holes
-        with the  &GAP;-function <K>Compacted</K>.
-<Example>
-gap&gt; Compacted( faceDegrees );
-[ 4, 3, 3, 3, 3 ]
-gap&gt; colDegrees := Collected( Compacted( faceDegrees ) );
-[ [ 3, 4 ], [ 4, 1 ] ]
-</Example>
-        From this list we can read of the result: There are four vertices
-        with edge degree 3 and one vertex of edge degree 4. To translate it
-        into a list, we can use a for-loop.
-<Example>
-gap&gt;  count := [];;
-gap&gt;  for pair in colDegrees do
-&gt;         count[pair[1]] := pair[2];
-&gt;     od;
-gap&gt;  count;
-[ , , 4, 1 ]
-</Example>
-    </Section>
-
     <Section Label="ExampleStronglyConnectedComponent">
             <Heading>StronglyConnectedComponentOfFace</Heading>
             The method <K>StronglyConnectedComponentOfFace</K> 
@@ -269,6 +188,73 @@ gap&gt; SubcomplexByFaces( octa, component ) = octa;
 true
 </Example>
     </Section>
+
+    <Section Label="Example_VertexCounter"><Heading>VertexCounter</Heading>
+        The method <K>VertexCounter</K> (<Ref Subsect="VertexCounter"/>) 
+        creates a list of pairs <A>[degree,number]</A> such that the second 
+        entry of each pair
+        counts the number of vertices that have exactly <A>degree</A>
+        incident faces.
+        <Par/>
+        We illustrate it on the example of a pyramid with square base.
+        <Alt Only="TikZ">
+            \input{Image_SquarePyramid.tex}
+        </Alt>
+<Example>
+gap&gt; pyr := PolygonalSurfaceByVerticesInFaces( 
+&gt;            [ [3,4,5,6], [1,3,4], [1,4,5], [1,5,6], [1,6,3] ]);;
+gap&gt; VertexCounter( pyr );
+[ [ 3, 4 ], [ 4, 1 ] ]
+</Example>
+        This could be implemented like this:
+<Example>
+gap&gt; VertexCounter_custom := function( complex )
+&gt;     local faceDegrees;
+&gt; 
+&gt;     faceDegrees := List( FacesOfVertices(complex), Size );
+&gt;     return Collected( Compacted( faceDegrees ) );
+&gt; end;;
+gap&gt; 
+gap&gt; VertexCounter_custom( pyr );
+[ [ 3, 4 ], [ 4, 1 ] ]
+</Example>
+        How do we arrive at this code? 
+
+        First of all we have to find the relevant information. We want to
+        count how many faces are incident to a vertex. Therefore we use
+        the method <K>FacesOfVertices</K> (<Ref Subsect="FacesOfVertices"/>) 
+        that gives us exactly this 
+        information. Since we only want to know the <E>number</E> of faces,
+        we apply the method <K>Size</K> to every component.
+<Example>
+gap&gt; faceDegrees := List( FacesOfVertices(pyr), Size );
+[ 4, , 3, 3, 3, 3 ]
+</Example>
+        Alternatively we could have used the specialized method
+        <K>FaceDegreesOfVertices</K> (<Ref Subsect="FaceDegreesOfVertices"/>) directly.
+<Example>
+gap&gt; FaceDegreesOfVertices( pyr );
+[ 4, , 3, 3, 3, 3 ]
+</Example>
+        Now we need to count how often each entry appears. This can be done
+        by a loop but we will use the &GAP;-function <K>Collected</K> instead.
+        Unfortunately it only works for lists without holes:
+<Example>
+gap&gt; Collected( faceDegrees );
+Error, List Element: &lt;list&gt;[2] must have an assigned value
+</Example>
+        If we want to program with this package, we have to expect
+        holes. In this case it is sufficient to remove all holes
+        with the  &GAP;-function <K>Compacted</K>.
+<Example>
+gap&gt; Compacted( faceDegrees );
+[ 4, 3, 3, 3, 3 ]
+gap&gt; colDegrees := Collected( Compacted( faceDegrees ) );
+[ [ 3, 4 ], [ 4, 1 ] ]
+</Example>
+        This is exactly the result we aimed for.
+    </Section>
+
 
 </Chapter>
 

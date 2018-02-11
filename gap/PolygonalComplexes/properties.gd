@@ -212,9 +212,9 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Description
 #! Return the <E>vertex counter</E> of the given polygonal complex.
 #! The vertex counter is a list that counts how many vertices are incident
-#! to how many faces. If the entry at position <A>pos</A> is bound, it
-#! contains the number of vertices that are incident to exactly <A>pos</A>
-#! faces.
+#! to how many faces. It is a list of pairs <E>[degree, number]</E>, where
+#! <E>number</E> counts the number of vertices with exactly <E>degree</E>
+#! incident faces.
 #!
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
@@ -227,10 +227,10 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! gap> List( FacesOfVertices(fiveStar), Size );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
 #! gap> VertexCounter(fiveStar);
-#! [ , 5,,, 1 ]
+#! [ [ 2, 5 ], [ 5, 1 ] ]
 #! @EndExampleSession
 #!
-#! @Returns a list of positive integers
+#! @Returns a list of pairs of positive integers
 #! @Arguments complex
 DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 #! @EndGroup
@@ -238,9 +238,11 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 
 #! @Description
 #! Return the <E>edge counter</E> of the given polygonal complex.
-#! The edge counter is a symmetric matrix <M>M</M> such that the entry
-#! <M>M[i,j]</M> counts the number of edges whose vertices are
-#! incident to <M>i</M>, respectively <M>j</M> faces.
+#! The edge counter is a list of pairs <E>[degreeList, number]</E>,
+#! where <E>number</E> counts the number of edges whose vertices
+#! are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces,
+#! respectively. The list <E>degreeList</E> is always sorted but may
+#! contain duplicates.
 #!
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
@@ -251,15 +253,39 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgeCounter(fiveStar);
-#! [ [ 0, 0, 0, 0, 0 ], [ 0, 5, 0, 0, 5 ], [ 0, 0, 0, 0, 0 ], 
-#!   [ 0, 0, 0, 0, 0 ], [ 0, 5, 0, 0, 0] ]
+#! [ [ [ 2, 2 ], 5 ], [ [ 2, 5 ], 5 ] ]
 #! @EndExampleSession
 #!
-#! @Returns a matrix of positive integers
+#! @Returns a list of pairs
 #! @Arguments complex
 DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 
 
+#! @Description
+#! Return the <E>face counter</E> of the given polygonal complex.
+#! The face counter is a list of pairs <E>[degreeList, number]</E>,
+#! where <E>number</E> counts the number of faces whose vertes degrees
+#! match <E>degreeList</E>, i.e. for every vertex there is exactly one
+#! entry of <E>degreeList</E> such that the vertex is incident this 
+#! number of faces.
+#!
+#! The <E>degreeList</E> is always sorted but may contain duplicates.
+#!
+#! As an example, consider the five-star from the start of chapter
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_FiveTrianglesInCycle.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> FaceCounter(fiveStar);
+#! [ [ [ 2, 2, 5 ], 5 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list of pairs
+#! @Arguments complex
+DeclareAttribute( "FaceCounter", IsPolygonalComplex );
 
 
 #! @Section Types of edges
