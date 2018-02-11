@@ -214,10 +214,17 @@ InstallMethod( IsMRTypeColourInvariant,
         mrCol := [];
         for c in Colours(colSurf) do
             ind_mr := Set( mr{EdgesOfColours(colSurf)[c]} );
-            if Size(ind_mr) <> 1 then
+            if 1 in ind_mr and 2 in ind_mr then
                 return false;
             fi;
-            mrCol[c] := ind_mr[1];
+            # Set the colour mr-type
+            if 1 in ind_mr then
+                mrCol[c] := 1;
+            elif 2 in ind_mr then
+                mrCol[c] := 2;
+            else
+                mrCol[c] := 0;
+            fi;
         od;
         SetMRTypeOfColoursAsNumbers(colSurf, mrCol);
 
