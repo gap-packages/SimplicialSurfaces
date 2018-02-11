@@ -153,8 +153,8 @@ InstallMethod( MRTypeOfEdgesAsNumbers,
             else
                 verts := VerticesOfEdges(surf)[e];
                 faces := FacesOfEdges(surf)[e];
-                e1 := OtherEdgeOfVertexInFace(surf,verts[1],e,faces[1]);
-                e2 := OtherEdgeOfVertexInFace(surf,verts[1],e,faces[2]);
+                e1 := OtherEdgeOfVertexInFaceNC(surf,verts[1],e,faces[1]);
+                e2 := OtherEdgeOfVertexInFaceNC(surf,verts[1],e,faces[2]);
                 if ColoursOfEdges(colSurf)[e1] = ColoursOfEdges(colSurf)[e2] then
                     mr[e] := 1; # mirror
                 else
