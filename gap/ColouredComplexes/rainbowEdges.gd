@@ -227,7 +227,34 @@ DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsEdgeColouredPolygonalComplex and
     IsPerfectFaceRainbowEdgeColouring );
 #! @EndGroup
 
+
+#! Of particular interest are those colourings where the MR-type is equal
+#! for each edge of the same colour.
+#! @BeginGroup IsMRTypeColourInvariant
+#! @Description
+#! Return whether the MR-type (<Ref Subsect="MRTypeOfEdges"/>) is equal
+#! for all edges of the same colour.
+#!
+#! If the underlying polygonal complex is not a simplicial surface, <K>fail</K> is returned.
+#!
+#! The method <K>MRTypeOfColours</K> returns a list of MR-types that is
+#! indexed by the colours.
+#! 
+#! TODO a lot of tests (how should this interact with other options?);
+#! 
+#! @Arguments colSurf
+DeclareProperty( "IsMRTypeColourInvariant", IsEdgeColouredPolygonalComplex and 
+    IsPerfectFaceRainbowEdgeColouring);
+#! @Returns a list of strings
+#! @Arguments colSurf
+DeclareAttribute( "MRTypeOfColours", IsEdgeColouredPolygonalComplex and
+    IsMRTypeColourInvariant);
+#! @Returns a list of positive integers
+#! @Arguments colSurf
+DeclareAttribute( "MRTypeOfColoursAsNumbers", IsEdgeColouredPolygonalComplex and
+    IsMRTypeColourInvariant);
+#! @EndGroup
+
 #Section Rainbow colouring
-    #perfect colourings: MRTypeOfEdges, IsMRTypeColourInvariant
     #construction: All..., SixfoldCover, (DoubleCover);
 
