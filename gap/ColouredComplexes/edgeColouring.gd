@@ -47,6 +47,7 @@
 #maybe show off the feature of using GAPs capabilities?
 
 
+#! @BeginGroup IsEdgeColouredPolygonalComplex
 #! @Description
 #! Check if a given object is an <K>IsEdgeColouredPolygonalComplex</K>. This
 #! is the case if it consists of a polygonal complex and an edge colouring,
@@ -54,9 +55,27 @@
 #! (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) and <K>ColoursOfEdges</K> 
 #! (<Ref Subsect="ColoursOfEdges"/>)
 #! respectively.
+#!
+#! In addition there are some properties of the type 
+#! <K>IsEdgeColoured</K><E>Thing</E> which check if
+#! the underlying polygonal complex fulfills <E>Thing</E>. For example
+#! <K>IsEdgeColouredSimplicialSurface</K> checks if the underlying
+#! polygonal complex is a simplicial surface.
+#! 
 #! @Arguments object
 #! @Returns true or false
 DeclareCategory( "IsEdgeColouredPolygonalComplex", IsObject );
+#! @Arguments colComplex
+DeclareProperty( "IsEdgeColouredTriangularComplex", IsEdgeColouredPolygonalComplex );
+#! @Arguments colComplex
+DeclareProperty( "IsEdgeColouredRamifiedPolygonalSurface", IsEdgeColouredPolygonalComplex );
+#! @Arguments colComplex
+DeclareProperty( "IsEdgeColouredRamifiedSimplicialSurface", IsEdgeColouredPolygonalComplex );
+#! @Arguments colComplex
+DeclareProperty( "IsEdgeColouredPolygonalSurface", IsEdgeColouredPolygonalComplex );
+#! @Arguments colComplex
+DeclareProperty( "IsEdgeColouredSimplicialSurface", IsEdgeColouredPolygonalComplex );
+#! @EndGroup
 
 BindGlobal( "EdgeColouredPolygonalComplexFamily",
     NewFamily("EdgeColouredPolygonalComplexFamily", IsObject, 

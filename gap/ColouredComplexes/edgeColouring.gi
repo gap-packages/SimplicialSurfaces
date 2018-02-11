@@ -15,6 +15,42 @@ DeclareRepresentation( "EdgeColouredPolygonalComplexRep",
 BindGlobal("EdgeColouredPolygonalComplexType", 
     NewType(EdgeColouredPolygonalComplexFamily, EdgeColouredPolygonalComplexRep));
 
+InstallMethod( IsEdgeColouredTriangularComplex,
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComplex)
+        return IsTriangularComplex( PolygonalComplex(colComplex) );
+    end
+);
+InstallMethod( IsEdgeColouredRamifiedPolygonalSurface,
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComplex)
+        return IsRamifiedPolygonalSurface( PolygonalComplex(colComplex) );
+    end
+);
+InstallMethod( IsEdgeColouredRamifiedSimplicialSurface,
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComplex)
+        return IsRamifiedSimplicialSurface( PolygonalComplex(colComplex) );
+    end
+);
+InstallMethod( IsEdgeColouredPolygonalSurface,
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComplex)
+        return IsPolygonalSurface( PolygonalComplex(colComplex) );
+    end
+);
+InstallMethod( IsEdgeColouredSimplicialSurface,
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComplex)
+        return IsSimplicialSurface( PolygonalComplex(colComplex) );
+    end
+);
+
 
 InstallMethod( EdgeColouredPolygonalComplexNC, 
     "for a polygonal complex and a list of positive integers",

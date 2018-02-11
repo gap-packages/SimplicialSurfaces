@@ -163,8 +163,7 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! @Description
 #! For a rainbow edge coloured (<Ref Subsect="IsFaceRainbowEdgeColouring"/>) 
 #! ramified polygonal surface (<Ref Subsect="IsRamifiedPolygonalSurface"/>),
-#! return the colour involutions. If the underlying polygonal complex is
-#! not a ramified polygonal surface, <K>fail</K> is returned.
+#! return the colour involutions. 
 #!
 #! The attribute <K>ColourInvolutions</K>(<A>rcRamSurf</A>) returns a list
 #! of involutions (the position <A>col</A> is bound if and only if <A>col</A>
@@ -179,7 +178,7 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! @Returns a list of involutions
 #! @Arguments rcRamSurf
 DeclareAttribute("ColourInvolutions", 
-    IsEdgeColouredPolygonalComplex and IsFaceRainbowEdgeColouring);
+    IsEdgeColouredRamifiedPolygonalSurface and IsFaceRainbowEdgeColouring);
 #! @EndGroup
 
 #TODO Is this relabelling ok?
@@ -210,8 +209,7 @@ DeclareAttribute("ColourInvolutions",
 
 #! @BeginGroup MRTypeOfEdges
 #! @Description
-#! Return the MR-type of the edges in <A>colSurf</A>. If the underlying
-#! polygonal complex is not a simplicial surface, <K>fail</K> is returned.
+#! Return the MR-type of the edges in <A>colSurf</A>.
 #!
 #! TODO explain after name is fixed
 #!
@@ -219,11 +217,11 @@ DeclareAttribute("ColourInvolutions",
 #!
 #! @Returns a list of strings
 #! @Arguments colSurf
-DeclareAttribute( "MRTypeOfEdges", IsEdgeColouredPolygonalComplex and 
+DeclareAttribute( "MRTypeOfEdges", IsEdgeColouredSimplicialSurface and 
     IsPerfectFaceRainbowEdgeColouring );
 #! @Returns a list of positive integers
 #! @Arguments colSurf
-DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsEdgeColouredPolygonalComplex and 
+DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsEdgeColouredSimplicialSurface and 
     IsPerfectFaceRainbowEdgeColouring );
 #! @EndGroup
 
@@ -235,23 +233,21 @@ DeclareAttribute( "MRTypeOfEdgesAsNumbers", IsEdgeColouredPolygonalComplex and
 #! Return whether the MR-type (<Ref Subsect="MRTypeOfEdges"/>) is equal
 #! for all edges of the same colour.
 #!
-#! If the underlying polygonal complex is not a simplicial surface, <K>fail</K> is returned.
-#!
 #! The method <K>MRTypeOfColours</K> returns a list of MR-types that is
 #! indexed by the colours.
 #! 
 #! TODO a lot of tests (how should this interact with other options?);
 #! 
 #! @Arguments colSurf
-DeclareProperty( "IsMRTypeColourInvariant", IsEdgeColouredPolygonalComplex and 
+DeclareProperty( "IsMRTypeColourInvariant", IsEdgeColouredSimplicialSurface and 
     IsPerfectFaceRainbowEdgeColouring);
 #! @Returns a list of strings
 #! @Arguments colSurf
-DeclareAttribute( "MRTypeOfColours", IsEdgeColouredPolygonalComplex and
+DeclareAttribute( "MRTypeOfColours", IsEdgeColouredSimplicialSurface and
     IsMRTypeColourInvariant);
 #! @Returns a list of positive integers
 #! @Arguments colSurf
-DeclareAttribute( "MRTypeOfColoursAsNumbers", IsEdgeColouredPolygonalComplex and
+DeclareAttribute( "MRTypeOfColoursAsNumbers", IsEdgeColouredSimplicialSurface and
     IsMRTypeColourInvariant);
 #! @EndGroup
 
