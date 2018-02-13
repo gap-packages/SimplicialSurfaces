@@ -235,8 +235,8 @@ DeclareAttribute( "TwoFlags", IsPolygonalComplex );
 #!
 #! For that reason vertices, edges and faces are wrapped into a list:
 #! * The vertex <A>v</A> is wrapped into [ 0, <A>v</A> ].
-#! * The edge <A>e</A> is wrapped into [ 0, <A>e</A> ].
-#! * The face <A>f</A> is wrapped into [ 0, <A>f</A> ].
+#! * The edge <A>e</A> is wrapped into [ 1, <A>e</A> ].
+#! * The face <A>f</A> is wrapped into [ 2, <A>f</A> ].
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
@@ -261,7 +261,61 @@ DeclareAttribute( "OneFlags", IsPolygonalComplex );
 #! @Section Dress group
 #! @SectionLabel Flags_DressGroup
 #!
+#! While flags can be defined for any polygonal complex (as was done in
+#! section <Ref Sect="Section_Flags_Definition"/>), they have additional
+#! structure for ramified polygonal surfaces:
+#! <Enum>
+#!   <Item>For every flag <M>[v,e,f]</M> there is exactly one other vertex 
+#!         <M>X</M> such that <M>[X,e,f]</M> is also a flag.</Item>
+#!   <Item>For every flag <M>[v,e,f]</M> there is exactly one other edge
+#!         <M>X</M> such that <M>[v,X,f]</M> is also a flag.</Item>
+#!   <Item>For every flag <M>[v,e,f]</M> there is <E>at most</E> one other
+#!         face <M>X</M> such that <M>[v,e,X]</M> is also a flag.</Item>
+#! </Enum>
+#! Each of these observations divides the flags into partitions of at most
+#! two elements. Therefore it possible to define involutions that swap these
+#! elements. They are called <E>Dress involutions</E>.
+#!
+#! To represent them in &GAP; the flags have to be encoded as positive 
+#! integers. The set of flags from <K>Flags</K> (<Ref Subsect="Flags"/>)
+#! serves this purpose: Every flag is identified with its position in this
+#! set.
+
+#! @BeginGroup DressInvolutions
+#! @Description
+#! Return the three <E>Dress involutions</E> of <A>complex</A> as a list
+#! or as the generators of a group. The Dress involutions act on the set
+#! of flags of <A>complex</A>.
+#!
+#! The flags of <A>complex</A> are identified with their position in the
+#! set <K>Flags</K>(<A>complex</A>). Assuming this identification the 
+#! Dress involutions are defined as follows:
+#! <Enum>
+#!   <Item>The first Dress involution maps the flag <M>[v,e,f]</M> to
+#!         the flag <M>[X,e,f]</M> where <M>X</M> is the unique vertex
+#!         different from <M>v</M> such that <M>[X,e,f]</M> is a flag.
+#!     </Item>
+#!   <Item>The second Dress involution maps the flag <M>[v,e,f]</M> to
+#!         the flag <M>[v,X,f]</M> where <M>X</M> is the unique edge
+#!         different from <M>e</M> such that <M>[v,X,f]</M> is a flag.
+#!     </Item>
+#!   <Item>The thirs Dress involution maps the flag <M>[v,e,f]</M> to
+#!         the flag <M>[v,e,X]</M> if there is a face <M>X</M> different
+#!         from <M>f</M> such that <M>[v,e,X]</M> is a flag. Otherwise
+#!         it fixes this flag.
+#!     </Item>
+#! </Enum>
+#! If <K>DressGroup</K> is called, its generators <M>G.1</M>, <M>G.2</M>
+#! and <M>G.3</M> are the Dress involutions.
+#!
+#! TODO example
 #! 
+#! @Returns a list of three involutions
+#! @Arguments complex
+DeclareAttribute( "DressInvolutions", IsRamifiedPolygonalSurface );
+#! @Returns a group
+#! @Arguments complex
+DeclareAttribute( "DressGroup", IsRamifiedPolygonalSurface );
 
 #! @Section Flag complex
 #! @SectionLabel Flags_FlagComplex

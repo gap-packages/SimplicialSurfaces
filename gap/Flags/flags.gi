@@ -115,3 +115,49 @@ InstallMethod( OneFlags, "for a polygonal complex", [IsPolygonalComplex],
 ##      End of general flags
 ##
 #######################################
+
+
+
+#######################################
+##
+##      Dress involutions
+##
+InstallMethod( DressInvolutions, "for a ramified polygonal surface", 
+    [IsRamifiedPolygonalSurface],
+    function(complex)
+        local inv, flags, i, vPerm, ePerm, fPerm, fl;
+
+        inv := [];
+        flags := Flags(complex);
+
+        vPerm := [];
+        ePerm := [];
+        fPerm := [];
+        for i in [1..Size(flags)] do
+            fl := flags[i];
+            vPerm[i] := Position( flags, [ OtherVertexOfEdgeNC(complex,fl[1],fl[2]), fl[2], fl[3] ] );
+            ePerm[i] := Position( flags, [ fl[1], OtherEdgeOfVertexInFaceNC(complex, fl[1], fl[2], fl[3]), fl[3] ] );
+            if IsBoundaryEdge(complex, fl[2]) then
+                fPerm[i] := i;
+            else
+                fPerm[i] := Position( flags, [ fl[1], fl[2], NeighbourFaceByEdgeNC(complex, fl[3], fl[2]) ] );
+            fi;
+        od;
+        inv[1] := PermList(vPerm);
+        inv[2] := PermList(ePerm);
+        inv[3] := PermList(fPerm);
+
+        return inv;
+    end
+);
+
+InstallMethod( DressGroup, "for a ramified polygonal surface",
+    [IsRamifiedPolygonalSurface],
+    function(complex)
+        return Group( DressInvolutions(complex) );
+    end
+);
+##
+##      End of Dress involutions
+##
+#######################################
