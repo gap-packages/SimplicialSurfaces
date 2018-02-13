@@ -7,14 +7,16 @@ doc/manual.six: makedoc.g \
 		init.g \
 		read.g \
 		gap/*.gd gap/*.gi \
-		gap/PolygonalComplexes/*.gd \
-		gap/PolygonalComplexes/*.gi \
-		gap/Paths/*gd \
-		gap/Paths/*gi \
-		gap/Library/*gd \
-		gap/Library/*gi \
 		gap/ColouredComplexes/*gd \
 		gap/ColouredComplexes/*gi \
+		gap/Flags/flags.gd \
+		gap/Flags/flags.gi \
+		gap/Library/*gd \
+		gap/Library/*gi \
+		gap/Paths/*gd \
+		gap/Paths/*gi \
+		gap/PolygonalComplexes/*.gd \
+		gap/PolygonalComplexes/*.gi \
 		doc/SimplicialSurfaces.xml \
 		doc/Introduction.xml \
 		doc/PolygonalStructures.xml \
