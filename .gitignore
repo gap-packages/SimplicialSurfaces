@@ -10,6 +10,21 @@ doc/manual.pdf
 doc/manual.six
 maketest.g
 
+# flatex-folder
+flatex/.deps/
+flatex/Makefile
+flatex/Makefile.in
+flatex/aclocal.m4
+flatex/autom4te.cache/
+flatex/compile
+flatex/config.status
+flatex/configure
+flatex/depcomp
+flatex/flatex
+flatex/flatex.o
+flatex/install-sh
+flatex/missing
+
 # intermediate compilation stuff
 *.4ct
 *.4tc

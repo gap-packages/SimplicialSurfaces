@@ -1,4 +1,4 @@
-all: doc
+all: doc flatex/flatex
 
 doc: doc/manual.six
 
@@ -24,4 +24,10 @@ doc/manual.six: makedoc.g \
 		doc/TableOfContents.autodoc\
 		doc/TikZHeader.tex
 	gap makedoc.g
+
+flatex/flatex: flatex/flatex.c \
+    		flatex/configure.ac \
+		flatex/autogen.sh \
+		flatex/Makefile.am
+	cd flatex && ./autogen.sh && ./configure && make
 
