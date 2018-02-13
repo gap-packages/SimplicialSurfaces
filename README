@@ -26,7 +26,6 @@ installation and type
     git clone https://github.com/frankluebeck/GAPDoc.git
     git clone https://github.com/gap-packages/AutoDoc.git
 To compile the pictures, you also need the following bash-commands:
-    de-macro
     htlatex
     md5sum
     pdflatex

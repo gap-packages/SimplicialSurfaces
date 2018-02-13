@@ -55,10 +55,9 @@ preProcessTikz := function( node )
         # 1) Write the picture into a temporary file _IMAGE_TMP.tex
         #       We use a sed-command to remove all leading whitespaces
         #       (othewise the same picture might be compiled twice).
-        # 2) Call de-macro _IMAGE_TMP.tex
-        #       This creates the file _IMAGE_TMP-clean.tex
-        #       (and other *-clean.tex files)
-        # 3) Calculate the hash of this tex-file
+        # 2) Call ../flatex/flatex _IMAGE_TMP.tex
+        #       This creates the file _IMAGE_TMP.flt
+        # 3) Calculate the hash of this file
         # 4) Check if _IMAGE_<Hash>-1.svg (and the tex-file) already exist
         #       If they do, do nothing.
         # 5) Otherwise call mv _IMAGE_TMP.tex _IMAGE_<Hash>.tex
@@ -91,7 +90,7 @@ preProcessTikz := function( node )
         # TODO separate the calls to these shell-files into a function and call
         # that. Furthermore, add into the README a short test if a user has all
         # necessary capabilities (and maybe an installation for them)
-        Exec( "sh -c \" cd ", path, "; de-macro ", 
+        Exec( "sh -c \" cd ", path, "; ../flatex/flatex ", 
             Concatenation(tmpImageName, ".tex"), "; \"" );
 
         # Step 3
@@ -104,14 +103,10 @@ preProcessTikz := function( node )
         inStream := InputTextNone();
         out := "";
         outStream := OutputTextString(out, true);
-        Process( Directory(path), md5, inStream, outStream, [ Concatenation(tmpImageName, "-clean.tex") ] );
+        Process( Directory(path), md5, inStream, outStream, [ Concatenation(tmpImageName, ".flt") ] );
         CloseStream(inStream);
         CloseStream(outStream);
         hash := SplitString( out, " " )[1];
-
-        # We have to remove the -clean file immediately (otherwise
-        # all further calls will assume they don't have work to do)
-        RemoveFile( Filename( DirectoryCurrent(), Concatenation(path, tmpImageName, "-clean.tex") ) );
 
         # Step 4
         name := Concatenation( "_IMAGE_", hash );
@@ -209,9 +204,6 @@ BindGlobal( "CleanImageDirectory", function(  )
             fi;
         fi;
     od;
-
-    # Finally we remove the -clean files
-    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm *-clean.tex;\"" );
 end 
 );
 
