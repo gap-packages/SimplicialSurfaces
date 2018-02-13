@@ -34,6 +34,7 @@
     <#Include SYSTEM "_Chapter_Embeddings.xml">
     <#Include SYSTEM "_Chapter_EdgeColouring.xml">
     <#Include SYSTEM "_Chapter_RainbowEdgeColouring.xml">
+    <#Include SYSTEM "_Chapter_Flags.xml">
     <#Include SYSTEM "ExampleImplementations.xml">
 </Body>
 <TheIndex/>

@@ -34,6 +34,8 @@ ReadPackage( "SimplicialSurfaces", "gap/Library/library.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/edgeColouring.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/rainbowEdges.gi" );
 
+ReadPackage( "SimplicialSurfaces", "gap/Flags/flags.gi" );
+
 # Tests (TODO remove later)
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_EdgeColouring.g" );
