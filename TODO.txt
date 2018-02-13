@@ -1,0 +1,8 @@
+Contraction: Delete two adjacent triangles
+Enlargement: Add two adjacent triangles into a double-edge
+    Automated testing by calculating the orbits of automorphism group on edges (not in same triangle, a vertex incident) -> into example?
+
+Add standard names?
+
+
+Colouring for drawing by circle around vertices.
