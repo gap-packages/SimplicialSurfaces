@@ -11,9 +11,6 @@ SplitVertex(complex, vertex)
     -> all new vertices have new names
     -> this may split the complex into several components
 
-RemoveFaces(complex, [faces])
-    -> Return complex
-    -> Remove the faces and keep only those edges that still have a face
 
 SplitVertexEdgePath(complex, vePath)
 SplitVertexEdgePath(complex, [v,e,v,..])
@@ -29,8 +26,11 @@ SplitVertexEdgePath(complex, [e,v,..])
 
 SplitEdgePath -> same as above, but first and final vertex (if non-closed) are not splitted
 
+-------------------------------------------------------------------
 
-
+RemoveFaces(complex, [faces])
+    -> Return complex
+    -> Remove the faces and keep only those edges that still have a face
 
 -------------------------------------
 
@@ -38,6 +38,8 @@ DisjointUnion(complex1, complex2, [optional: shift])
     -> Return [complex, shift]
     -> Apply uniform shift to all labels
     -> If given shift is larger than necessary, use it (otherwise as large as necessary)
+
+----------------------------------------------------------------------
 
 JoinVertices(complex, v1, v2)
     -> Return [complex, new vertex]
