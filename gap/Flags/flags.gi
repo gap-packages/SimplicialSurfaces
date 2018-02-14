@@ -318,11 +318,11 @@ InstallOtherMethod( DrawSurfaceToTikz,
                     twoFlag := TwoFlags(OriginalComplex(flagSurf))[e];
                     if twoFlag[1] = 1 then # vertex-edge-flag
                         printRecord.edgeLengths[e] := 1;
-                        printRecord.edgeColours[e] := "green";
+                        printRecord.edgeColours[e] := "blue";
                     elif twoFlag[1] = 2 then # vertex-face-flag
                         n := faceSizes[twoFlag[2][2]];
                         printRecord.edgeLengths[e] := 1/Sin(FLOAT.PI/n);
-                        printRecord.edgeColours[e] := "blue";
+                        printRecord.edgeColours[e] := "green";
                     else # edge-face-flag
                         n := faceSizes[twoFlag[2][2]];
                         printRecord.edgeLengths[e] := 1/Tan(FLOAT.PI/n);

@@ -372,7 +372,8 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! * <E>startingFaces</E>: After drawing this list contains one face from
 #!   each strongly connected component. These are the first faces that were
 #!   drawn from these components. By giving this list manually the first
-#!   drawn faces can be customized.
+#!   drawn faces can be customized. The function will auto-correct the 
+#!   spelling <E>startingFace</E> into <E>startingFaces</E>.
 #! * <E>edgeDrawOrder</E>: After drawing this list contains a list of edges
 #!   for each strongly connected component. For each component, this list
 #!   explains the order in which these edges were completed (an edge is 

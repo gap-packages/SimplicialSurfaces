@@ -51,6 +51,11 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         local givenStarts, v, e, givenEdgeDrawOrder, i, col, f;
 
         # Starting faces
+        if not IsBound(printRecord.startingFaces) and IsBound(printRecord.startingFace) then
+            # If someone spells startingFace instead of startingFaces, we are lenient..
+            printRecord.startingFaces := printRecord.startingFace;
+            Unbind(printRecord.startingFace);
+        fi;
         if IsBound(printRecord!.startingFaces) then
             if IsPosInt(printRecord!.startingFaces) then
                 givenStarts := [ printRecord!.startingFaces ];
@@ -58,6 +63,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
                 givenStarts := printRecord!.startingFaces;
             else
                 Print("Given starting faces are neither a list of faces nor a single face.");
+                givenStarts := [];
             fi;
         else
             givenStarts := [];

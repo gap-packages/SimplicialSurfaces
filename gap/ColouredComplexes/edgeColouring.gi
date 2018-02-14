@@ -278,7 +278,7 @@ InstallMethod( DrawSurfaceToTikz,
             fi;
 
             if not IsBound(printRecord.edgeColourClassColours) and Size(Set(ColoursOfEdges(colComp))) = 3 then
-                printRecord.edgeColourClassColours := ["red","blue","green"];
+                printRecord.edgeColourClassColours := ["red","green","blue"];
             fi; #TODO this is a special case for 3 colours - what can be done in general?
             if IsBound(printRecord.edgeColourClassColours) then
                 classCol := printRecord.edgeColourClassColours;
