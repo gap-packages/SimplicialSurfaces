@@ -35,7 +35,7 @@ PolygonalComplex(flagComp);;
 #! Compare <Ref Subsect="DrawSurfaceToTikz_FlagComplex"/>
 #! for details.
 #! @BeginLog
-DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=4,
+DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=4.2,
     vertexLabels := OneFlags(complex),
     edgeLabels := TwoFlags(complex),
     faceLabels := ThreeFlags(complex),
