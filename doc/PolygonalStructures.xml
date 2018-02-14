@@ -240,7 +240,7 @@
         <ManSection>
             <Filt Name="IsPolygonalComplex" Arg="object" Type="category"
                 Comm="Checks whether the given object is a polygonal complex"/>
-            <Returns>true or false</Returns>
+            <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
                 Checks whether <A>object</A> is a polygonal complex. A polygonal
                 complex can be informally described as a structure that is
@@ -261,7 +261,7 @@
         <ManSection>
             <Prop Name="IsTriangularComplex" Arg="object"
                 Comm="Checks whether the given object is a triangular complex"/>
-            <Returns>true or false</Returns>
+            <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
                 Checks whether <A>object</A> is a triangular complex (a 
                 polygonal complex with triangular faces). A triangular complex
@@ -316,7 +316,7 @@
         <ManSection>
             <Prop Name="IsRamifiedPolygonalSurface" Arg="object" 
                 Comm="Checks whether the given object is a ramified polygonal surface."/>
-            <Returns>true or false</Returns>
+            <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
                 Checks whether <A>object</A> is a ramified polygonal surface (a
                 polygonal complex where every edge is incident to at most two faces).
@@ -338,7 +338,7 @@
         <ManSection>
             <Prop Name="IsRamifiedSimplicialSurface" Arg="object"
                 Comm="Checks whether the given object is a ramified simplicial surface"/>
-            <Returns>true or false</Returns>
+            <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
                 Checks whether <A>object</A> is a ramified simplicial surface (a 
                 polygonal complex with triangular faces where every edge is incident
@@ -425,7 +425,7 @@
             <ManSection>
                 <Prop Name="IsPolygonalSurface" Arg="object"
                     Comm="Checks whether the given object is a polygonal surface."/>
-                <Returns>true or false</Returns>
+                <Returns><K>true</K> or <K>false</K></Returns>
                 <Description>
                     Checks whether <A>object</A> is a polygonal surface. Informally
                     a polygonal surface is a surface (with boundary) that is build
@@ -450,7 +450,7 @@
             <ManSection>
                 <Prop Name="IsSimplicialSurface" Arg="object"
                     Comm="Checks whether the given object is a simplicial surface."/>
-                <Returns>true or false</Returns>
+                <Returns><K>true</K> or <K>false</K></Returns>
                 <Description>
                     Checks whether <A>object</A> is a simplicial surface. 
                     Informally a simplicial surface is a surface (with boundary)

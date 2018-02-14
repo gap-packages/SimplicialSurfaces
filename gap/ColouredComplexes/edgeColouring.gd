@@ -63,7 +63,6 @@
 #! polygonal complex is a simplicial surface.
 #! 
 #! @Arguments object
-#! @Returns true or false
 DeclareCategory( "IsEdgeColouredPolygonalComplex", IsObject );
 #! @Arguments colComplex
 DeclareProperty( "IsEdgeColouredTriangularComplex", IsEdgeColouredPolygonalComplex );
@@ -310,7 +309,7 @@ DeclareAttribute( "ColourIncidenceNautyGraph", IsEdgeColouredPolygonalComplex );
 #! false
 #! @EndExampleSession
 #!
-#! @Returns true or false
+#! @Returns <K>true</K> or <K>false</K>
 #! @Arguments colComplex1, colComplex2
 DeclareOperation( "IsIsomorphicEdgeColouredPolygonalComplex",
     [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex]);

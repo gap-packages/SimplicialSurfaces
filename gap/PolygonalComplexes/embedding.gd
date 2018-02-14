@@ -72,7 +72,7 @@
 #!      Comm="Checks whether a given polygonal complex contains anomalies"/>
 #!   <Filt Name="IsVertexFaithful" Arg="complex" Type="property"
 #!      Comm="Checks whether a given polygonal complex contains anomalies"/>
-#!   <Returns>true or false</Returns>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     Check whether the given polygonal complex contains anomalies, i.e.
 #!     pairs of edges or pairs of faces that are incident to the same 

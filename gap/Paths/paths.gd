@@ -67,7 +67,7 @@
 #!   <Returns>A VertexEdgePath-&GAP;-object</Returns>
 #!   <Filt Name="IsVertexEdgePath" Arg="object" Label="for IsObject"
 #!      Comm="Check whether a given object is a VertexEdgePath"/>
-#!   <Returns>true or false</Returns>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     The method <K>VertexEdgePath</K> constructs a new vertex-edge-path from
 #!     a polygonal complex and a dense list of positive integers. The
@@ -189,7 +189,7 @@ DeclareAttribute( "EdgesAsList", IsVertexEdgePath );
 #!   <Prop Name="IsClosedPath" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath"
 #!     Comm="Return whether the given path is closed"/>
-#!   <Returns>true or false</Returns>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     Check whether the given vertex-edge-path is closed, i.e. whether
 #!     the first and last vertex in this path are equal.
@@ -228,7 +228,7 @@ DeclareAttribute( "Inverse", IsVertexEdgePath );
 #!   <Prop Name="IsDuplicateFree" Arg="vertexEdgePath"
 #!     Label="for IsVertexEdgePath"
 #!     Comm="Return whether the given path is duplicate-free"/>
-#!   <Returns>true or false</Returns>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     Check whether the given vertex-edge-path is duplicate-free.
 #!
@@ -358,7 +358,7 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #!   <Returns>An EdgeFacePath-&GAP;-object</Returns>
 #!   <Filt Name="IsEdgeFacePath" Arg="object" Label="for IsObject"
 #!      Comm="Check whether a given object is an EdgeFacePath"/>
-#!   <Returns>true or false</Returns>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     The method <K>EdgeFacePath</K> constructs a new edge-face-path from
 #!     a polygonal complex and a dense list of positive integers. The
@@ -465,7 +465,7 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #!   <Prop Name="IsClosedPath" Arg="edgeFacePath"
 #!     Label="for IsEdgeFacePath"
 #!     Comm="Return whether the given path is closed"/>
-#!   <Returns>true or false</Returns>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     Check whether the given edge-face-path is closed, i.e. whether
 #!     the first and last vertex in this path are equal.
@@ -496,7 +496,7 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #!   <Prop Name="IsDuplicateFree" Arg="edgeFacePath"
 #!     Label="for IsEdgeFacePath"
 #!     Comm="Return whether the given path is duplicate-free"/>
-#!   <Returns>true or false</Returns>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     Check whether the given edge-face-path is duplicate-free.
 #!
@@ -916,7 +916,7 @@ DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 #! @BeginGroup Orientation
 #! @Description
 #! Return the orientation of the given ramified polygonal surface, if
-#! it exists (otherwise return fail). The orientation is given as a list
+#! it exists (otherwise return <K>fail</K>). The orientation is given as a list
 #! with the faces of <A>ramSurf</A> as indices.
 #!
 #! For each face, this list contains a vertex-edge-path (see 

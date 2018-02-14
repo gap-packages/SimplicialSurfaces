@@ -146,7 +146,7 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! false
 #! @EndExampleSession
 #!
-#! @Returns true or false
+#! @Returns <K>true</K> or <K>false</K>
 #! @Arguments complex1, complex2
 DeclareOperation( "IsIsomorphicPolygonalComplex", 
     [IsPolygonalComplex, IsPolygonalComplex] );
@@ -313,7 +313,7 @@ DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
 #! @Description
 #! Display an automorphism of the given <A>complex</A> by its individual
 #! action on vertices, edges and faces. If this is not possible (because
-#! the given permutation is not an automorphism) fail is returned.
+#! the given permutation is not an automorphism) <K>fail</K> is returned.
 #!
 #! An explanation for the necessity of this method is given in section
 #! <Ref Sect="Section_Graphs_Automorphisms"/>.
@@ -337,7 +337,7 @@ DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
 #! @EndExampleSession
 #! 
 #! @Arguments complex, perm
-#! @Returns A list of three permutations or fail
+#! @Returns A list of three permutations or <K>fail</K>
 DeclareOperation( "DisplayAsAutomorphism", [IsPolygonalComplex, IsPerm] );
 #! @EndGroup
 
@@ -345,7 +345,8 @@ DeclareOperation( "DisplayAsAutomorphism", [IsPolygonalComplex, IsPerm] );
 #! @Description
 #! The method <K>AutomorphismGroupOnVertices</K> returns the action of the 
 #! automorphism group of <A>complex</A> on its vertices. If 
-#! <K>IsAutomorphismDefinedByVertices</K>(<A>complex</A>) is true, this is
+#! <K>IsAutomorphismDefinedByVertices</K>(<A>complex</A>) is <K>true</K>, 
+#! this is
 #! isomorphic to the full automorphism group.
 #! 
 #! For the cube (<Ref Subsect="Cube"/>) we get:
@@ -371,7 +372,8 @@ DeclareProperty( "IsAutomorphismDefinedByVertices", IsPolygonalComplex );
 #! @Description
 #! The method <K>AutomorphismGroupOnEdges</K> returns the action of the 
 #! automorphism group of <A>complex</A> on its edges. If 
-#! <K>IsAutomorphismDefinedByEdges</K>(<A>complex</A>) is true, this is
+#! <K>IsAutomorphismDefinedByEdges</K>(<A>complex</A>) is <K>true</K>, 
+#! this is
 #! isomorphic to the full automorphism group.
 #! 
 #! For the cube (<Ref Subsect="Cube"/>) we get:
@@ -398,7 +400,8 @@ DeclareProperty( "IsAutomorphismDefinedByEdges", IsPolygonalComplex );
 #! @Description
 #! The method <K>AutomorphismGroupOnFaces</K> returns the action of the 
 #! automorphism group of <A>complex</A> on its faces. If 
-#! <K>IsAutomorphismDefinedByFaces</K>(<A>complex</A>) is true, this is
+#! <K>IsAutomorphismDefinedByFaces</K>(<A>complex</A>) is <K>true</K>, 
+#! this is
 #! isomorphic to the full automorphism group.
 #! 
 #! For the cube (<Ref Subsect="Cube"/>) we get:

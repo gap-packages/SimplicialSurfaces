@@ -692,7 +692,7 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! fail
 #! @EndExampleSession
 #!
-#! @Returns a positive integer or fail
+#! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFaceByEdge", 
         [IsPolygonalComplex, IsPosInt, IsPosInt]);

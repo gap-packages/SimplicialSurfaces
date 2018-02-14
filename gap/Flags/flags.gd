@@ -447,7 +447,7 @@ DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #!   barycentric subdivision of the original ramified surface.
 #! * If there are faces with different numbers of edges, the default edge 
 #!   lengths will not be colour invariant. In this case the value
-#!   <E>edgeColourClassActive</E> will be set to false.
+#!   <E>edgeColourClassActive</E> will be set to <K>false</K>.
 #! 
 #! TODO example
 #!
