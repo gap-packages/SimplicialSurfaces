@@ -185,6 +185,72 @@ InstallMethod( IsFlagSurface,
 
 
 
+InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        local oneFlags, twoFlags, threeFlags, verticesOfEdges, facesOfEdges,
+            cols, e, incVert, v, f, incFaces, colComp, newComp;
+
+        oneFlags := OneFlags(complex);
+        twoFlags := TwoFlags(complex);
+        threeFlags := ThreeFlags(complex);
+
+        verticesOfEdges := [];
+        facesOfEdges := [];
+        cols := [];
+        for e in [1..Length(twoFlags)] do
+            # Compute colour
+            cols[e] := twoFlags[e][1];
+
+            # Compute VerticesOfEdges
+            incVert := [];
+            for v in [1..Length(oneFlags)] do
+                if oneFlags[v][1] = 0 then # oneFlag is vertex
+                    if twoFlags[e][1] = 1 and oneFlags[v][2] = twoFlags[e][2][1] then
+                        Add(incVert, v);
+                    elif twoFlags[e][1] = 2 and oneFlags[v][2] = twoFlags[e][2][1] then
+                        Add(incVert, v);
+                    fi;
+                elif oneFlags[v][1] = 1 then # oneFlag is edge
+                    if twoFlags[e][1] = 1 and oneFlags[v][2] = twoFlags[e][2][2] then
+                        Add(incVert, v);
+                    elif twoFlags[e][1] = 3 and oneFlags[v][2] = twoFlags[e][2][1] then
+                        Add(incVert, v);
+                    fi;
+                else # oneFlag is face
+                    if twoFlags[e][1] = 2 and oneFlags[v][2] = twoFlags[e][2][2] then
+                        Add(incVert, v);
+                    elif twoFlags[e][1] = 3 and oneFlags[v][2] = twoFlags[e][2][2] then
+                        Add(incVert, v);
+                    fi;
+                fi;
+            od;
+            verticesOfEdges[e] := incVert;
+
+            # Compute FacesOfEdges
+            incFaces := [];
+            for f in [1..Length(threeFlags)] do
+                if twoFlags[e][1] = 1 and twoFlags[e][2][1] = threeFlags[f][1] and twoFlags[e][2][2] = threeFlags[f][2] then
+                    Add(incFaces, f);
+                elif twoFlags[e][1] = 2 and twoFlags[e][2][1] = threeFlags[f][1] and twoFlags[e][2][2] = threeFlags[f][3] then
+                    Add(incFaces, f);
+                elif twoFlags[e][1] = 3 and twoFlags[e][2][1] = threeFlags[f][2] and twoFlags[e][2][2] = threeFlags[f][3] then
+                    Add(incFaces, f);
+                fi;
+            od;
+            facesOfEdges[f] := incFaces;
+        od;
+
+        newComp := Objectify(PolygonalComplexType, rec());
+        SetVerticesOfEdges(newComp, verticesOfEdges);
+        SetFacesOfEdges(newComp, facesOfEdges);
+
+        colComp := EdgeColouredPolygonalComplex(newComp, cols);
+        SetOriginalComplex(colComp, complex);
+        SetIsFlagComplex(colComp, true);
+
+        return colComp;
+    end
+);
 
 InstallMethod( IsRamifiedFlagSurface,
     "for a ramified polygonal surface", [IsRamifiedPolygonalSurface],
