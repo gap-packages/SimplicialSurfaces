@@ -1,0 +1,67 @@
+
+SplitEdge(complex, edge)
+    -> Return [complex, [new edges]]
+    -> Split edge into as many edges as there are faces incident (with same vertices)
+    -> This creates an edge anomaly
+    -> all new edges have different names
+
+SplitVertex(complex, vertex)
+    -> Return [ complex, [new vertices] ]
+    -> Split vertex into as many vertices as the umbrella partition of the vertex has (connected component of star without vertex)
+    -> all new vertices have new names
+    -> this may split the complex into several components
+
+RemoveFaces(complex, [faces])
+    -> Return complex
+    -> Remove the faces and keep only those edges that still have a face
+
+SplitVertexEdgePath(complex, vePath)
+SplitVertexEdgePath(complex, [v,e,v,..])
+SplitVertexEdgePath(complex, [e,v,..])
+    case: no repetitions
+        -> Return [complex, ?]
+        -> Split all edges in the path, then split all vertices in the path
+        -> The new perimeter of the splitted complex (which was cutted by the path)
+            falls into several connected components. Return all of them while trying
+            to retain the order of the original vePath (this means that there will
+            be two paths starting at the first vertex if that was an inner vertex)
+        -> The complex may be splitted into several components
+
+SplitEdgePath -> same as above, but first and final vertex (if non-closed) are not splitted
+
+
+
+
+-------------------------------------
+
+DisjointUnion(complex1, complex2, [optional: shift])
+    -> Return [complex, shift]
+    -> Apply uniform shift to all labels
+    -> If given shift is larger than necessary, use it (otherwise as large as necessary)
+
+JoinVertices(complex, v1, v2)
+    -> Return [complex, new vertex]
+    -> If this is not possible (edge between them), fail is returned 
+JoinVertices(complex1, v1, complex2, v2, [optional: shift])
+    -> Return [complex, new vertex, shift]
+    -> Combination of DisjointUnion and then JoinVertices (with shifted v2)
+
+
+JoinEdges(complex, e1, e2)
+    -> Return [complex, new edge]
+    -> The edges should have been in an edge anomaly
+
+
+JoinVertexEdgePaths(complex, path1, path2)
+    -> Combination, as above
+JoinVertexEdgePaths(complex1, path1, complex2, path2, optional:shift)
+    -> return [complex, new path, shift]
+    -> shift second complex, then join
+    -> return the vePath that connects the two components
+
+
+JoinPerimeters(complex, path1, path2)
+    -> if the paths are not complete, they will be completed to the full perimeter
+    -> can also be given as [vertex, edge] or [edge, edge] or [vertex,vertex] if that specifies the perimeter uniquely
+    -> return fail if it is not possible (internally)
+    -> Error if perimeters have different length
