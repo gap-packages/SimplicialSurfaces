@@ -161,3 +161,70 @@ InstallMethod( DressGroup, "for a ramified polygonal surface",
 ##      End of Dress involutions
 ##
 #######################################
+
+
+
+#######################################
+##
+##      Flag complexes
+##
+InstallMethod( IsRamifiedFlagSurface, 
+    "for an edge coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComp)
+        return IsEdgeColouredRamifiedPolygonalSurface(colComp) and IsFlagComplex(colComp);
+    end
+);
+InstallMethod( IsFlagSurface, 
+    "for an edge coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComp)
+        return IsEdgeColouredPolygonalSurface(colComp) and IsFlagComplex(colComp);
+    end
+);
+
+
+
+
+InstallMethod( IsRamifiedFlagSurface,
+    "for a ramified polygonal surface", [IsRamifiedPolygonalSurface],
+    function(ramSurf)
+        return FlagComplex(ramSurf);
+    end
+);
+RedispatchOnCondition( IsRamifiedFlagSurface, true, [IsPolygonalComplex],
+    [IsRamifiedPolygonalSurface], 0);
+InstallMethod( IsFlagSurface,
+    "for a polygonal surface", [IsPolygonalSurface],
+    function(surf)
+        return FlagComplex(surf);
+    end
+);
+RedispatchOnCondition( IsFlagSurface, true, [IsPolygonalComplex],
+    [IsPolygonalSurface], 0);
+
+
+
+
+
+InstallMethod( OriginalRamifiedSurface, "for a ramified flag surface", 
+    [IsRamifiedFlagSurface],
+    function(flagComp)
+        return OriginalComplex(flagComp);
+    end
+);
+RedispatchOnCondition( OriginalRamifiedSurface, true, [IsFlagComplex],
+    [IsRamifiedFlagSurface], 0);
+InstallMethod( OriginalSurface, "for a flag surface", 
+    [IsFlagSurface],
+    function(flagComp)
+        return OriginalComplex(flagComp);
+    end
+);
+RedispatchOnCondition( OriginalSurface, true, [IsFlagComplex],
+    [IsFlagSurface], 0);
+
+##
+##      End of flag complexes
+##
+#######################################

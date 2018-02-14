@@ -23,7 +23,7 @@
 #!
 #! Section <Ref Sect="Section_Flags_DressGroup"/> uses the knowledge of the 
 #! flags to compute the <K>DressGroup</K>
-#! (<Ref Subsect="DressGroup"/>)
+#! (<Ref Subsect="DressInvolutions"/>)
 #! of a ramified polygonal surface.
 #!
 #! In section <Ref Sect="Section_Flags_FlagComplex"/> defines a triangular
@@ -320,4 +320,113 @@ DeclareAttribute( "DressGroup", IsRamifiedPolygonalSurface );
 #! @Section Flag complex
 #! @SectionLabel Flags_FlagComplex
 #!
+#! The flags of a polygonal complex can be used to define a subdivision of
+#! the polygonal complex, where each face is split into several triangles.
+#! <Enum>
+#!   <Item>The vertices are given by the <K>OneFlags</K> 
+#!         (<Ref Subsect="OneFlags"/>), i.e. there is a new vertex for every
+#!         original vertex, in the middle of each edge and in the center
+#!         of gravity for each face.</Item>
+#!   <Item>The edges are given by the <K>TwoFlags</K>
+#!         (<Ref Subsect="TwoFlags"/>).</Item>
+#!   <Item>The faces are given by the <K>ThreeFlags</K> 
+#!         (<Ref Subsect="Flags"/>).</Item>
+#! </Enum>
 #! 
+#! @InsertChunk Example_FlagComplex
+#!
+#! The flag complex is an edge coloured triangular complex. The polygonal
+#! hierarchy (compare to chapter 
+#! <Ref Chap="PolygonalStructures"/>) is unchanged otherwise, e.g. the flag 
+#! complex of a 
+#! polygonal complex is always a simplicial surface.
+#!
+#! For the flag complex of a ramified polygonal surface the Dress involutions
+#! (<Ref Subsect="DressInvolutions"/>) are the colour involutions for the
+#! colouring (compare <Ref Subsect="ColourInvolutions"/>).
+
+#! @BeginGroup IsFlagComplex
+#! @Description
+#! Check whether the given <A>colComplex</A> is a flag complex. Every flag
+#! complex is also an edge-coloured polygonal complex. Besides access to
+#! the uncoloured flag complex via <K>PolygonalComplex</A>
+#! (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) it also allows access
+#! to the original polygonal complex by <K>OriginalComplex</K>
+#! (<Ref Subsect="OriginalComplex"/>).
+#!
+#! This will also return <K>true</K> if the original complex would be a <E>bend</E> complex.
+#!
+#! The additional properties check if the underlying polygonal complex
+#! is a ramified polygonal surface or a polygonal surface, respectively.
+#!
+#! TODO example?
+#!
+#! @Arguments object
+DeclareProperty( "IsFlagComplex", IsEdgeColouredPolygonalComplex );
+#! @Arguments flagComp
+DeclareProperty( "IsRamifiedFlagSurface", IsEdgeColouredPolygonalComplex );
+#! @Arguments flagComp
+DeclareProperty( "IsFlagSurface", IsEdgeColouredPolygonalComplex );
+#! @EndGroup
+InstallTrueMethod( IsFlagComplex, IsRamifiedFlagSurface );
+InstallTrueMethod( IsRamifiedFlagSurface, IsFlagSurface );
+
+
+#!
+#! TODO isomorphic complex
+#!
+
+
+#! @BeginGroup FlagComplex
+#! @Description
+#! Return the flag complex of <A>complex</A>. The flag complex is an 
+#! edge-coloured (<Ref Chap="Chapter_EdgeColouring"/>) triangular complex
+#! (<Ref Subsect="IsTriangularComplex"/>).
+#!
+#! Its vertices are given by the <K>OneFlags</K> (<Ref Subsect="OneFlags"/>),
+#! its edges by the <K>TwoFlags</K> (<Ref Subsect="TwoFlags"/>) and its faces
+#! by the <K>ThreeFlags</K> (<Ref Subsect="Flags"/>).
+#!
+#! @InsertChunk Example_FlagComplex_Construction
+#!
+#! The more specific commands require <A>complex</A> to be a ramified
+#! polygonal surface (<Ref Subsect="IsRamifiedPolygonalSurface"/>) or
+#! a polygonal surface (<Ref Subsect="IsPolygonalSurface"/>), respectively.
+#!
+#! @Returns a flag complex
+#! @Arguments complex
+DeclareAttribute("FlagComplex", IsPolygonalComplex);
+#! @Returns a ramified flag surface
+#! @Arguments ramSurf
+DeclareOperation("RamifiedFlagSurface", [IsRamifiedPolygonalSurface]);
+#! @Returns a flag surface
+#! @Arguments surf
+DeclareOperation("FlagSurface", [IsPolygonalSurface]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalComplex
+#! @Description
+#! Return the original polygonal complex of the given flag complex
+#! <A>flagComp</A>, i.e.
+#! the unique polygonal complex <A>complex</A> such that 
+#! <K>FlagComplex</K>(<A>complex</A>) = <A>flagComp</A>.
+#!
+#! If the returned polygonal complex would be <E>bend</E>, <K>fail</K> is returned.
+#!
+#! The more specific commands require the original complex to be
+#! a ramified polygonal surface
+#! (<Ref Subsect="IsRamifiedPolygonalSurface"/>) or a polygonal surface
+#! (<Ref Subsect="IsPolygonalSurface"/>), respectively.
+#!
+#! @Returns a polygonal complex
+#! @Arguments flagComp
+DeclareAttribute("OriginalComplex", IsFlagComplex);
+#! @Returns a ramified polygonal surface
+#! @Arguments flagRamSurf
+DeclareOperation("OrigianlRamifiedSurface", [IsRamifiedFlagSurface]);
+#! @Returns a polygonal surface
+#! @Arguments flagSurf
+DeclareOperation("OriginalSurface", [IsFlagSurface]);
+#! @EndGroup
+
