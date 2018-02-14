@@ -168,16 +168,19 @@ InstallMethod( DressGroup, "for a ramified polygonal surface",
 ##
 ##      Flag complexes
 ##
+DeclareRepresentation("FlagComplexRep", IsFlagComplex and IsAttributeStoringRep, []);
+BindGlobal("FlagComplexType", NewType(EdgeColouredPolygonalComplexFamily, FlagComplexRep));
+
 InstallMethod( IsRamifiedFlagSurface, 
     "for an edge coloured polygonal complex",
-    [IsEdgeColouredPolygonalComplex],
+    [IsFlagComplex],
     function(colComp)
         return IsEdgeColouredRamifiedPolygonalSurface(colComp) and IsFlagComplex(colComp);
     end
 );
 InstallMethod( IsFlagSurface, 
     "for an edge coloured polygonal complex",
-    [IsEdgeColouredPolygonalComplex],
+    [IsFlagComplex],
     function(colComp)
         return IsEdgeColouredPolygonalSurface(colComp) and IsFlagComplex(colComp);
     end
@@ -188,7 +191,7 @@ InstallMethod( IsFlagSurface,
 InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         local oneFlags, twoFlags, threeFlags, verticesOfEdges, facesOfEdges,
-            cols, e, incVert, v, f, incFaces, colComp, newComp;
+            cols, e, incVert, v, f, incFaces, newComp, flagComp;
 
         oneFlags := OneFlags(complex);
         twoFlags := TwoFlags(complex);
@@ -199,7 +202,7 @@ InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
         cols := [];
         for e in [1..Length(twoFlags)] do
             # Compute colour
-            cols[e] := twoFlags[e][1];
+            cols[e] := 4 - twoFlags[e][1];
 
             # Compute VerticesOfEdges
             incVert := [];
@@ -237,41 +240,45 @@ InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
                     Add(incFaces, f);
                 fi;
             od;
-            facesOfEdges[f] := incFaces;
+            facesOfEdges[e] := incFaces;
         od;
 
         newComp := Objectify(PolygonalComplexType, rec());
         SetVerticesOfEdges(newComp, verticesOfEdges);
         SetFacesOfEdges(newComp, facesOfEdges);
 
-        colComp := EdgeColouredPolygonalComplex(newComp, cols);
-        SetOriginalComplex(colComp, complex);
-        SetIsFlagComplex(colComp, true);
+        flagComp := Objectify(FlagComplexType,rec());
+        SetOriginalComplex(flagComp, complex);
+        SetPolygonalComplex(flagComp, newComp);
+        SetColoursOfEdges(flagComp, cols);
 
-        return colComp;
+        return flagComp;
     end
 );
 
-InstallMethod( IsRamifiedFlagSurface,
+InstallMethod( RamifiedFlagSurface,
     "for a ramified polygonal surface", [IsRamifiedPolygonalSurface],
     function(ramSurf)
         return FlagComplex(ramSurf);
     end
 );
-RedispatchOnCondition( IsRamifiedFlagSurface, true, [IsPolygonalComplex],
+RedispatchOnCondition( RamifiedFlagSurface, true, [IsPolygonalComplex],
     [IsRamifiedPolygonalSurface], 0);
-InstallMethod( IsFlagSurface,
+InstallMethod( FlagSurface,
     "for a polygonal surface", [IsPolygonalSurface],
     function(surf)
         return FlagComplex(surf);
     end
 );
-RedispatchOnCondition( IsFlagSurface, true, [IsPolygonalComplex],
+RedispatchOnCondition( FlagSurface, true, [IsPolygonalComplex],
     [IsPolygonalSurface], 0);
 
 
 
-
+# Assume that this attribute is set if it is known that the complex
+# is a flag complex
+RedispatchOnCondition( OriginalComplex, true, 
+    [IsEdgeColouredPolygonalComplex], [IsFlagComplex], 0 );
 
 InstallMethod( OriginalRamifiedSurface, "for a ramified flag surface", 
     [IsRamifiedFlagSurface],
@@ -289,6 +296,51 @@ InstallMethod( OriginalSurface, "for a flag surface",
 );
 RedispatchOnCondition( OriginalSurface, true, [IsFlagComplex],
     [IsFlagSurface], 0);
+
+
+InstallOtherMethod( DrawSurfaceToTikz, 
+    "for a ramified flag surface, a file name and a print record",
+    [IsRamifiedFlagSurface, IsString, IsRecord],
+    function(flagSurf, file, printRecord)
+        local complex, faceSizes, twoFlag, n, e;
+
+        complex := PolygonalComplex(flagSurf);
+
+        if not IsBound(printRecord.edgeLengths) and not IsBound(printRecord.edgeColourClassLengths) then
+            # no length information given
+            faceSizes := List( VerticesOfFaces(OriginalComplex(flagSurf)), Size );
+            if Size( Set(faceSizes) ) <> 1 or ( IsBound(printRecord.edgeColourClassActive) and not printRecord.edgeColourClassActive ) then
+                # edge lengths not colour invariant
+                printRecord.edgeColourClassActive := false;
+                printRecord.edgeLengths := [];
+                printRecord.edgeColours := [];
+                for e in Edges(complex) do
+                    twoFlag := TwoFlags(OriginalComplex(flagSurf))[e];
+                    if twoFlag[1] = 1 then # vertex-edge-flag
+                        printRecord.edgeLengths[e] := 1;
+                        printRecord.edgeColours[e] := "green";
+                    elif twoFlag[1] = 2 then # vertex-face-flag
+                        n := faceSizes[twoFlag[2][2]];
+                        printRecord.edgeLengths[e] := 1/Sin(FLOAT.PI/n);
+                        printRecord.edgeColours[e] := "blue";
+                    else # edge-face-flag
+                        n := faceSizes[twoFlag[2][2]];
+                        printRecord.edgeLengths[e] := 1/Tan(FLOAT.PI/n);
+                        printRecord.edgeColours[e] := "red";
+                    fi;
+                od;
+            else
+                # edge lengths colour invariant
+                n := faceSizes[1];
+                printRecord.edgeColourClassLengths := [ 1/Tan(FLOAT.PI/n), 1/Sin(FLOAT.PI/n), 1 ];
+            fi;
+        fi;
+
+        TryNextMethod();
+    end
+);
+RedispatchOnCondition( DrawSurfaceToTikz, true, 
+    [IsFlagComplex, IsString, IsRecord], [IsRamifiedFlagSurface], 0 );
 
 ##
 ##      End of flag complexes

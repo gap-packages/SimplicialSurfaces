@@ -9,8 +9,8 @@ doc/manual.six: makedoc.g \
 		gap/*.gd gap/*.gi \
 		gap/ColouredComplexes/*gd \
 		gap/ColouredComplexes/*gi \
-		gap/Flags/flags.gd \
-		gap/Flags/flags.gi \
+		gap/Flags/*.gd \
+		gap/Flags/*.gi \
 		gap/Library/*gd \
 		gap/Library/*gi \
 		gap/Paths/*gd \

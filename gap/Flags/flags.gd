@@ -349,7 +349,7 @@ DeclareAttribute( "DressGroup", IsRamifiedPolygonalSurface );
 #! @Description
 #! Check whether the given <A>colComplex</A> is a flag complex. Every flag
 #! complex is also an edge-coloured polygonal complex. Besides access to
-#! the uncoloured flag complex via <K>PolygonalComplex</A>
+#! the uncoloured flag complex via <K>PolygonalComplex</K>
 #! (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) it also allows access
 #! to the original polygonal complex by <K>OriginalComplex</K>
 #! (<Ref Subsect="OriginalComplex"/>).
@@ -362,14 +362,17 @@ DeclareAttribute( "DressGroup", IsRamifiedPolygonalSurface );
 #! TODO example?
 #!
 #! @Arguments object
-DeclareProperty( "IsFlagComplex", IsEdgeColouredPolygonalComplex );
+DeclareCategory( "IsFlagComplex", IsEdgeColouredPolygonalComplex );
 #! @Arguments flagComp
-DeclareProperty( "IsRamifiedFlagSurface", IsEdgeColouredPolygonalComplex );
+DeclareProperty( "IsRamifiedFlagSurface", IsFlagComplex );
 #! @Arguments flagComp
-DeclareProperty( "IsFlagSurface", IsEdgeColouredPolygonalComplex );
+DeclareProperty( "IsFlagSurface", IsFlagComplex );
 #! @EndGroup
-InstallTrueMethod( IsFlagComplex, IsRamifiedFlagSurface );
 InstallTrueMethod( IsRamifiedFlagSurface, IsFlagSurface );
+InstallTrueMethod( IsEdgeColouredRamifiedPolygonalSurface, IsRamifiedFlagSurface );
+InstallTrueMethod( IsRamifiedFlagSurface, IsEdgeColouredRamifiedPolygonalSurface and IsFlagComplex );
+InstallTrueMethod( IsEdgeColouredPolygonalSurface, IsFlagSurface );
+InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalSurface and IsFlagComplex );
 
 
 #!
@@ -424,9 +427,29 @@ DeclareOperation("FlagSurface", [IsPolygonalSurface]);
 DeclareAttribute("OriginalComplex", IsFlagComplex);
 #! @Returns a ramified polygonal surface
 #! @Arguments flagRamSurf
-DeclareOperation("OrigianlRamifiedSurface", [IsRamifiedFlagSurface]);
+DeclareOperation("OriginalRamifiedSurface", [IsRamifiedFlagSurface]);
 #! @Returns a polygonal surface
 #! @Arguments flagSurf
 DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #! @EndGroup
 
+
+#! @BeginGroup DrawSurfaceToTikz_FlagComplex
+#! @Description
+#! Draw the net of the given ramified flag surface into a tex-file (using 
+#! TikZ). The method for flag complexes is the same as the one for 
+#! edge coloured ramified polygonal surfaces 
+#! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>) except for one feature:
+#! * If no edge lengths are given in the printing record, the default edge
+#!   lengths are set in such a way that the faces are drawn as the
+#!   barycentric subdivision of the original ramified surface.
+#! * If there are faces with different numbers of edges, the default edge 
+#!   lengths will not be colour invariant. In this case the value
+#!   <E>edgeColourClassActive</E> will be set to false.
+#! 
+#! TODO example
+#!
+#! @Returns a record
+#! @Arguments flagSurf, fileName[, printRecord]
+DeclareOperation( "DrawSurfaceToTikz", [IsRamifiedFlagSurface, IsString, IsRecord] );
+#! @EndGroup

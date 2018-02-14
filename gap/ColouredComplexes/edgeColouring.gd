@@ -236,7 +236,7 @@ DeclareAttribute( "Colours", IsEdgeColouredPolygonalComplex );
 #! 
 #! @Returns a record
 #! @Arguments colRamSurf, fileName[, printRecord]
-DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex, IsString, IsRecord] );
+DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredRamifiedPolygonalSurface, IsString, IsRecord] );
 #! @EndGroup
 
 

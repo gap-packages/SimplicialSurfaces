@@ -239,21 +239,20 @@ InstallMethod( \=, "for two edge coloured polygonal complexes",
 
 InstallOtherMethod( DrawSurfaceToTikz, 
     "for an edge coloured polygonal complex and a file name",
-    [IsEdgeColouredPolygonalComplex, IsString],
+    [IsEdgeColouredRamifiedPolygonalSurface, IsString],
     function(colComp, file)
         return DrawSurfaceToTikz(colComp, file, rec());
     end
 );
+RedispatchOnCondition( DrawSurfaceToTikz, true, 
+    [IsEdgeColouredPolygonalComplex, IsString], 
+    [IsEdgeColouredRamifiedPolygonalSurface], 0 );
 
 InstallMethod( DrawSurfaceToTikz,
     "for an edge coloured polygonal complex, a file name and a print record",
-    [IsEdgeColouredPolygonalComplex, IsString, IsRecord],
+    [IsEdgeColouredRamifiedPolygonalSurface, IsString, IsRecord],
     function(colComp,file,printRecord)
         local classLen, classCol, e, edgeLen, edgeCol;
-
-        if not IsRamifiedPolygonalSurface(PolygonalComplex(colComp)) then
-            Error("DrawSurfaceToTikz: The underlying polygonal complex has to be a ramified polygonal surface.");
-        fi;
 
         if not IsBound(printRecord.edgeColourClassActive) then
             printRecord.edgeColourClassActive := true;
@@ -303,6 +302,9 @@ InstallMethod( DrawSurfaceToTikz,
         return DrawSurfaceToTikz( PolygonalComplex(colComp), file, printRecord );
     end
 );
+RedispatchOnCondition( DrawSurfaceToTikz, true, 
+    [IsEdgeColouredPolygonalComplex, IsString, IsRecord], 
+    [IsEdgeColouredRamifiedPolygonalSurface], 0 );
 
 ##
 ##      End of drawing method
