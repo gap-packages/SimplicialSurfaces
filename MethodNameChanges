@@ -28,6 +28,9 @@ For simplicial surfaces:
         "Orientability" for all corresponding changes.
     14) ObjectifySimplicialSurface is removed.
     15) DeriveLocalOrientation* is removed.
+    16) AllFlags is replaced by Flags (compare chapter "Flags")
+    17) Dress*Involution are replaced by DressInvolutions
+    18)
 
 
 

@@ -317,7 +317,7 @@ DeclareAttribute( "DressInvolutions", IsRamifiedPolygonalSurface );
 #! @Arguments complex
 DeclareAttribute( "DressGroup", IsRamifiedPolygonalSurface );
 
-#! @Section Flag complex
+#! @Section Flag complex / Barycentric subdivision
 #! @SectionLabel Flags_FlagComplex
 #!
 #! The flags of a polygonal complex can be used to define a subdivision of
@@ -406,6 +406,8 @@ DeclareOperation("RamifiedFlagSurface", [IsRamifiedPolygonalSurface]);
 #! @Arguments surf
 DeclareOperation("FlagSurface", [IsPolygonalSurface]);
 #! @EndGroup
+
+
 
 
 #! @BeginGroup OriginalComplex

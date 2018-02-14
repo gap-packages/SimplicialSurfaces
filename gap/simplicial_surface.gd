@@ -251,10 +251,5 @@ DeclareAttribute( "SplitMendableFlagPairs", IsSimplicialSurface );
 DeclareOperation( "ConnectedSum", [IsSimplicialSurface, IsList, IsSimplicialSurface, IsList] );
 
 
-DeclareAttribute( "AllFlags", IsSimplicialSurface );
-#TODO barycentric cover
-
 DeclareAttribute( "GeodesicFlagPermutation", IsSimplicialSurface );
-
-DeclareOperation( "FlagSurface", [IsPerm, IsPerm, IsPerm] );
 

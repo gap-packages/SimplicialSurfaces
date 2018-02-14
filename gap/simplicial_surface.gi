@@ -1458,24 +1458,7 @@ InstallMethod( AllMaximalStripEmbeddings, "for a geodesic", [IsList],
 );
 
 
-InstallMethod( AllFlags, "", [IsSimplicialSurface],
-    function(complex)
-        local res, e, v, f;
 
-        res := [];
-        for e in Edges(complex) do
-            for v in VerticesOfEdges(complex)[e] do
-                for f in FacesOfEdges(complex)[e] do
-                    Add( res, [v,e,f] );
-                od;
-            od;
-        od;
-
-        return Set(res);
-    end
-);
-
-#TODO make this work with only the surface
 InstallMethod( FlagSurface, "", [IsPerm, IsPerm, IsPerm], 
     function( vertexPerm, edgePerm, facePerm )
         local moved, CycleDegrees, mr, wild, origVerts, origEdges, origFaces,
@@ -1546,71 +1529,4 @@ InstallMethod( FlagSurface, "", [IsPerm, IsPerm, IsPerm],
     end
 );
 
-BindGlobal( "DressVertexInvolution",
-    function( surf )
-        local flags, perm, i, fl;
-
-        flags := AllFlags(surf);
-        perm := [];
-        for i in [1..Size(flags)] do
-            fl := flags[i];
-            perm[i] := Position( flags, [ OtherVertexOfEdge(surf,fl[1],fl[2]), fl[2], fl[3] ] );
-        od;
-
-        return PermList( perm );
-    end
-);
-
-BindGlobal( "DressEdgeInvolution",
-    function( surf )
-        local flags, perm, i, fl;
-
-        flags := AllFlags(surf);
-        perm := [];
-        for i in [1..Size(flags)] do
-            fl := flags[i];
-            perm[i] := Position( flags, [ fl[1], OtherEdgeOfVertexInFace(surf,fl[1],fl[2],fl[3]), fl[3] ] );
-        od;
-
-        return PermList( perm );
-    end
-);
-
-
-
-BindGlobal( "DressFaceInvolution",
-    function( surf )
-        local flags, perm, i, fl;
-
-        flags := AllFlags(surf);
-        perm := [];
-        for i in [1..Size(flags)] do
-            fl := flags[i];
-            perm[i] := Position( flags, [ fl[1], fl[2], NeighbourFaceByEdge(surf,fl[3],fl[2]) ] );
-        od;
-
-        return PermList( perm );
-    end
-);
-
-BindGlobal( "DressGroup",
-    function(surf)
-        return Group( DressVertexInvolution(surf), DressEdgeInvolution(surf), DressFaceInvolution(surf) );
-    end
-);
-
-
-BindGlobal( "FaceCounter",
-    function(complex)
-        local vertexDegrees, faceDeg, i;
-        
-        vertexDegrees := List( FacesOfVertices(complex), Size );
-        faceDeg := List( VerticesOfFaces(complex), v -> List( v, i -> vertexDegrees[i] ) );
-        for i in faceDeg do
-            Sort(i);
-        od;
-
-        return Collected(faceDeg);
-    end
-);
 
