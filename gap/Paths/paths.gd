@@ -913,7 +913,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
 #! @Arguments ramSurf
 DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 
-#! @BeginGroup
+#! @BeginGroup Orientation
 #! @Description
 #! Return the orientation of the given ramified polygonal surface, if
 #! it exists (otherwise return fail). The orientation is given as a list

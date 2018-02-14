@@ -435,7 +435,8 @@ gap&gt; FacesOfVertices(surf);
         to the faces 1 and 2.<P/>
         An additional advantage of the incidential information is that we can
         determine a concrete global orientation if the surface is orientable.
-        From the method <K>Orientation</K> we can compute a list of 
+        From the method <K>Orientation</K> (<Ref Subsect="Orientation"/>) we 
+        can compute a list of 
         permutations such
         that the <M>i</M>-th entry is a cyclic permutation of the vertices in face 
         <M>i</M>.
