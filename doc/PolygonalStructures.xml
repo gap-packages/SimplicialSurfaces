@@ -7,21 +7,25 @@
      Since we don't want to bore readers, we aim for an engagingly written
      chapter with many pictures to easily visualize what is going on. -->
 <Chapter Label="PolygonalStructures"><Heading>Polygonal Structures</Heading>
-    Although we are mostly interested in surfaces, the process of folding 
-    naturally leads us to more general structures. Therefore, the most general 
+    In this chapter we present the general structures that we consider in
+    the <K>SimplicialSurfaces</K>-package. These are mainly surfaces, but
+    in the context of folding more general structures arise naturally.
+    The most general 
     structure that we consider in this package is a polygonal complex (a 
     generalisation of simplicial surfaces and complexes).
     <Par/>
-    <E>Polygonal Complexes</E> are structures that are build from polygons 
-    (for the exact
-    definition, see section <Ref Sect="PolygonalStructures_complex"/>), like
+    <E>Polygonal Complexes</E> are structures that are build from polygons, 
+    like shown in the following figure (for the precise definition, see
+    section <Ref Sect="PolygonalStructures_complex"/>).
     <Alt Only="TikZ">
         \input{Image_ManyExamples.tex}
     </Alt>
-    Since we are especially interested in surfaces we need a way to recognize
-    them. For technical reasons we split this process into two separate steps,
-    with the ramified polygonal surfaces as the intermediate structure between
-    polygonal complexes and polygonal surfaces.
+    Surfaces are a special case of polygonal complexes and the package 
+    provides functionality to determine whether a polygonal complex is
+    a surface.
+    For technical reasons we further consider an intermediate generalization
+    of surfaces, the ramified polygonal surfaces (that will be defined in
+    section <Ref Sect="PolygonalStructures_ramified"/>).
     <Par/>
     In many cases the definitions and algorithms simplify if we only consider
     triangles instead of general polygons. For this reason we also have equivalents
@@ -103,7 +107,6 @@
 
     <Section Label="PolygonalStructures_complex">
         <Heading>Polygonal and Triangular Complexes</Heading>
-        
         A polygonal complex is defined by a two-dimensional incidence geometry
         that fulfills some regularity conditions (the complete definition will
         be given at the end of this section in definition 
@@ -155,8 +158,9 @@
         <!-- TODO add "subset VxE" to those? Is that possible? -->
 
 
-        Instead of a general incidence relation we only want to consider
-        those relations that have similar properties to our example. For
+        However, we do not permit arbitrary incidence relations but only
+        those satisfying certain regularity conditions (like in our example).
+        For
         example, every edge should consist of exactly two vertices (more
         formally, for every edge there should be exactly two vertices that
         are incident to it).

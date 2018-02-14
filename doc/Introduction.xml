@@ -38,8 +38,17 @@
          introduction). For this reason this section is also used as an
          "overview"-section that gives an easy starting point for further
          inquiry. -->
+
+        To use this package, it has to be loaded into GAP via
+    <!--TODO Can you change the title of the box? "Example" sounds wrong-->
+<Log>
+gap&gt; LoadPackage("SimplicialSurfaces");
+true
+</Log>
+
     <Section Label="Introduction_Teaser"><Heading>What can it do?</Heading>
-        The <K>SimplicialSurface</K>-package contains this basic functionality:
+        The <K>SimplicialSurface</K>-package contains the following basic 
+        functionality:
         <Enum>
             <Item>It allows computations with simplicial surfaces (and 
                 generalisations of 
@@ -55,17 +64,11 @@
                 incidence geometry (for more details see section
                 <Ref Sect="PolygonalStructures_complex"/>).
             </Item>
-            <Item>Working with edge colourings of simplicial surfaces (in 
-                general and for the purpose of an embedding). <!--TODO--> </Item>
-            <Item>Treatment of folding and unfolding for these objects. 
+            <Item>It can work with edge colourings of simplicial surfaces
+                (in general and for the purpose of an embedding). <!--TODO--></Item>
+            <Item>It can fold and unfold these objects.
                 <!--TODO abstract nature has to be made clear--> </Item>
         </Enum>
-        To use this package, you have to load it into GAP via
-    <!--TODO Can you change the title of the box? "Example" sounds wrong-->
-<Log>
-gap&gt; LoadPackage("SimplicialSurfaces");
-true
-</Log>
 
     </Section>
 
@@ -84,7 +87,8 @@ true
          -->
     <Section Label="Introduction_Playing">
         <Heading>Playing with simplicial surfaces</Heading>
-        Since the platonic solids are pre-defined we use them to show a few 
+        Since the platonic solids are pre-defined in the 
+        <K>SimplicialSurfaces</K>-package we use them to show a few 
         capabilities of this package.
         <!-- This sentence informs the user about a way to define some surfaces 
              which helps them to test more cases themselves.
@@ -168,7 +172,7 @@ true
 
 
     <Section Label="Introduction_EasyConstruction">
-        <Heading>Constructing some surfaces</Heading>
+        <Heading>Constructing new surfaces</Heading>
         In most cases one is not interested in the properties of platonic 
         solids (usually one already knows a lot about them). Therefore we need 
         a way to tell the package about the surfaces we are interested in. 
@@ -227,8 +231,9 @@ gap&gt; verticesOfFaces := [ [1,2,3], [2,3,4], [3,5,4] ];
 <Example>
 gap&gt; surf := SimplicialSurfaceByVerticesInFaces( verticesOfFaces );;
 </Example>
-        that retains this information (note that the list [3, 5, 4] was
-        internally converted into a set):
+        that retains this information (note that the order of the incident
+        lists can change (here for [3, 5, 4]) as they are
+        internally converted into sets):
 <Example>
 gap&gt; VerticesOfFaces(surf);
 [ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ] ]
@@ -276,7 +281,7 @@ false
 <!-- TODO can you avoid the colour loss? Can't we just use the gap-prompt as a left fixture -->
         
         <Subsection Label="Introduction_NonTriangularCase">
-            <Heading>Non-triangular faces</Heading>
+            <Heading>Creating non-triangular faces</Heading>
             <Alt Only="LaTeX">
                 \addcontentsline{toc}{subsection}{Non--triangular faces}
             </Alt>
@@ -496,7 +501,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
 
 
     <Section Label="Introduction_GeneralConstructor">
-        <Heading>Constructors with vertex, edge and face data</Heading>
+        <Heading>Constructing surfaces with vertex, edge and face data</Heading>
 
         There are some cases in which we don't want to use
         <K>SimplicialSurfaceByVerticesInFaces</K> but a more versatile method,
