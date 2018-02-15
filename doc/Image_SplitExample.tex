@@ -1,0 +1,119 @@
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+    \def\r{2.5}
+    \def\off{0.5}
+
+    % WARNING: Not all of the options that are given
+    % are actually supported
+
+    % Define coordinates in relation to given flags
+    %        OL ---- OR
+    %       /  \    /  \
+    %      /    \  /    \
+    %     L1 --- Z1 --- R1
+    %     L2 --- Z2 --- R2
+    %      \    /  \    /
+    %       \  /    \  /
+    %        UL ---- UR
+    \ifdefined\splitCenter
+        \coordinate (Z1) at (0,\off);
+        \coordinate (Z2) at (0,-\off);
+    \else
+        \coordinate (Z1) at (0,0);
+        \coordinate (Z2) at (0,0);
+    \fi
+
+    \ifdefined\splitBoundaryRight
+        \coordinate (R1) at (\r,\off);
+        \coordinate (R2) at (\r,-\off);
+    \else
+        \coordinate (R1) at (\r,0);
+        \coordinate (R2) at (\r,0);
+    \fi
+
+    \ifdefined\splitBoundaryLeft
+        \coordinate (L1) at (-\r,\off);
+        \coordinate (L2) at (-\r,-\off);
+    \else
+        \coordinate (L1) at (-\r,0);
+        \coordinate (L2) at (-\r,0);
+    \fi
+
+    \coordinate (OL) at ($(Z1)+(120:\r)$);
+    \coordinate (OR) at ($(Z1)+(60:\r)$);
+    
+    \coordinate (UL) at ($(Z2)+(-120:\r)$);
+    \coordinate (UR) at ($(Z2)+(-60:\r)$);
+
+
+    % Faces and edges
+    \ifdefined\splitEdge
+        \draw[edge,face]
+            (Z1) to[bend left] node[edgeLabel]{13} (R1) -- node[edgeLabel]{7} (OR) -- cycle
+            (Z2) to[bend right] node[edgeLabel]{14} (R2) -- node[edgeLabel]{12} (UR) -- cycle;
+    \else
+        \ifdefined\splitBoundaryRight
+            \draw[edge,face]
+                (Z1) -- node[edgeLabel]{13} (R1) -- node[edgeLabel]{7} (OR) -- cycle
+                (Z2) -- node[edgeLabel]{14} (R2) -- node[edgeLabel]{12} (UR) -- cycle;
+        \else
+            \ifdefined\splitCenter
+                \draw[edge,face]
+                    (Z1) -- node[edgeLabel]{13} (R1) -- node[edgeLabel]{7} (OR) -- cycle
+                    (Z2) -- node[edgeLabel]{14} (R2) -- node[edgeLabel]{12} (UR) -- cycle;
+            \else
+                \draw[edge,face]
+                    (Z1) -- (R1) -- node[edgeLabel]{7} (OR) -- cycle
+                    (Z2) -- node[edgeLabel]{1} (R2) -- node[edgeLabel]{12} (UR) -- cycle;
+            \fi
+        \fi
+    \fi
+
+    \ifdefined\splitCenter
+        \draw[edge,face]
+            (Z1) -- node[edgeLabel]{15} (L1) -- node[edgeLabel]{9} (OL) -- cycle
+            (Z2) -- node[edgeLabel]{16} (L2) -- node[edgeLabel]{10} (UL) -- cycle;
+    \else
+        \draw[edge,face]
+            (Z1) -- (L1) -- node[edgeLabel]{9} (OL) -- cycle
+            (Z2) -- node[edgeLabel]{4} (L2) -- node[edgeLabel]{10} (UL) -- cycle;
+    \fi
+
+    \draw[edge,face]
+        (Z1) -- node[edgeLabel]{2} (OR) -- node[edgeLabel]{8} (OL) -- node[edgeLabel]{3} cycle
+        (Z2) -- node[edgeLabel]{6} (UR) -- node[edgeLabel]{11} (UL) -- node[edgeLabel]{5} cycle;
+
+
+    % Draw vertices
+    \foreach \p/\d/\n in {OL/above/3, OR/above/2, UL/below/5, UR/below/6}{
+        \vertexLabelR{\p}{\d}{\n}
+    }
+    \ifdefined\splitCenter
+        \ifdefined\splitBoundaryRight
+            \foreach \p/\d/\n in {L1/below/10, Z1/below/12, R1/below/8, L2/above/11, Z2/above/13, R2/above/9}{
+                \vertexLabelR{\p}{\d}{\n}
+            }
+        \else
+            \foreach \p/\d/\n in {L1/left/4, Z1/below/8, R1/right/1, Z2/above/9}{
+                \vertexLabelR{\p}{\d}{\n}
+            }
+        \fi
+    \else
+        \vertexLabelR{L1}{left}{4}
+        \vertexLabelR{Z1}{below}{7}
+        \ifdefined\splitBoundaryRight
+            \vertexLabelR{R1}{below}{8}
+            \vertexLabelR{R2}{above}{9}
+        \else
+            \vertexLabelR{R1}{right}{1}
+        \fi
+    \fi
+
+    % face labels
+    \foreach \p/\q/\s/\n in {Z1/R1/OR/I, Z1/OR/OL/II, Z1/OL/L1/III, Z2/L2/UL/IV, Z2/UL/UR/V, Z2/UR/R2/VI}{
+        \node[faceLabel] at (barycentric cs:\s=1,\p=1,\q=1) {\n};
+    }
+
+
+        
+
+\end{tikzpicture}
