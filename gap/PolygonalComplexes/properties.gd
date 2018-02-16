@@ -391,7 +391,7 @@ DeclareOperation( "IsBoundaryEdge", [IsPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsBoundaryEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
-#! @BeginGroup
+#! @BeginGroup RamifiedEdges
 #! @Description
 #! Return the set of all ramified edges of the given polygonal complex.
 #! A <E>ramified edge</E> is an edge that is incident to at least three faces.
@@ -454,7 +454,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! Vertices that are incident to such an edge are called 
 #! <E>chaotic vertices</E>.
 
-#! @BeginGroup
+#! @BeginGroup InnerVertices
 #! @Description
 #! Return the set of all inner vertices. 
 #! 
@@ -484,7 +484,7 @@ DeclareOperation( "IsInnerVertex", [IsPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
-#! @BeginGroup
+#! @BeginGroup BoundaryVertices
 #! @Description
 #! Return the set of all boundary vertices.
 #!
@@ -514,7 +514,7 @@ DeclareOperation( "IsBoundaryVertex", [IsPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
-#! @BeginGroup
+#! @BeginGroup RamifiedVertices
 #! @Description
 #! Return the set of all ramified vertices.
 #!
@@ -540,7 +540,7 @@ DeclareOperation( "IsRamifiedVertex", [IsPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
-#! @BeginGroup
+#! @BeginGroup ChaoticVertices
 #! @Description
 #! Return the set of all chaotic vertices.
 #!
