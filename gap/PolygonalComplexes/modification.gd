@@ -191,6 +191,100 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! @EndGroup
 
 
+#! @BeginGroup SplitVertexEdgePath
+#! @Description
+#! Split the given <A>complex</A> along the given <A>vePath</A>. First,
+#! all edges of the path are splitted by <K>SplitEdge</K> 
+#! (<Ref Subsect="SplitEdge"/>), then all vertices of the path are splitted
+#! by <K>SplitVertex</K> (<Ref Subsect="SplitVertex"/>). If the first and
+#! final vertex of <A>vePath</A> should not be splitted, the method
+#! <K>SplitEdgePath</K> (<Ref Subsect="SplitEdgePath"/>) should be used
+#! instead.
+#!
+#! The given <A>vePath</A> has to be a duplicate-free 
+#! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
+#! (for the definition see <Ref Subsect="VertexEdgePath"/>) of <A>complex</A>.
+#!
+#! This method returns a pair where the first component is the splitted
+#! <A>complex</A> and the second one contains the changed labels.
+#! The second component is a list of pairs [<A>newPath</A>, <A>oldPath</A>].
+#! These are computed as follows: If the original <A>vePath</A> would be 
+#! marked in the splitted complex, it would show up as multiple 
+#! vertex-edge-paths. Each of those is a <A>newPath</A> and the corresponding
+#! <A>oldPath</A> is the unique subpath of the original <A>vePath</A>, such
+#! that each element of <A>newPath</A> was obtained from the element at the
+#! same position in <A>oldPath</A>.
+#!
+#! TODO explain better
+#!
+#! TODO many, many examples
+#!
+#! TODO explain alternative calls, refer to vertex-edge-paths and how those
+#! can be constructed "more easily".
+#!
+#! The NC-versions do not check whether the given vertex-edge-paths match
+#! the given <A>complex</A>.
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the
+#!   second entry encodes the label changes
+#! @Arguments complex, vePath
+DeclareOperation( "SplitVertexEdgePath", [IsPolygonalComplex, IsVertexEdgePath] );
+#! @Arguments complex, vePath
+DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath] );
+#! @Arguments complex, pathAsList
+DeclareOperation( "SplitVertexEdgePath", [IsPolygonalComplex, IsList] );
+#! @Arguments complex, pathAsList
+DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsList] );
+#! @EndGroup
+
+
+#! @BeginGroup SplitEdgePath
+#! @Description
+#! Split the given <A>complex</A> along the given <A>vePath</A>. First,
+#! all edges of the path are splitted by <K>SplitEdge</K> 
+#! (<Ref Subsect="SplitEdge"/>), then all vertices of the path (except first
+#! and last) are splitted
+#! by <K>SplitVertex</K> (<Ref Subsect="SplitVertex"/>). If the first and
+#! final vertex of <A>vePath</A> should also be splitted, the method
+#! <K>SplitVertexEdgePath</K> (<Ref Subsect="SplitVertexEdgePath"/>) should
+#! be used instead.
+#!
+#! The given <A>vePath</A> has to be a duplicate-free 
+#! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
+#! (for the definition see <Ref Subsect="VertexEdgePath"/>) of <A>complex</A>.
+#!
+#! This method returns a pair where the first component is the splitted
+#! <A>complex</A> and the second one contains the changed labels.
+#! The second component is a list of pairs [<A>newPath</A>, <A>oldPath</A>].
+#! These are computed as follows: If the original <A>vePath</A> would be 
+#! marked in the splitted complex, it would show up as multiple 
+#! vertex-edge-paths. Each of those is a <A>newPath</A> and the corresponding
+#! <A>oldPath</A> is the unique subpath of the original <A>vePath</A>, such
+#! that each element of <A>newPath</A> was obtained from the element at the
+#! same position in <A>oldPath</A>.
+#!
+#! TODO explain better
+#!
+#! TODO many, many examples
+#!
+#! TODO explain alternative calls, refer to vertex-edge-paths and how those
+#! can be constructed "more easily".
+#!
+#! The NC-versions do not check whether the given vertex-edge-paths match
+#! the given <A>complex</A>.
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the
+#!   second entry encodes the label changes
+#! @Arguments complex, vePath
+DeclareOperation( "SplitEdgePath", [IsPolygonalComplex, IsVertexEdgePath] );
+#! @Arguments complex, vePath
+DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath] );
+#! @Arguments complex, pathAsList
+DeclareOperation( "SplitEdgePath", [IsPolygonalComplex, IsList] );
+#! @Arguments complex, pathAsList
+DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsList] );
+#! @EndGroup
+
 
 #!
 #! 

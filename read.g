@@ -20,13 +20,14 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gi
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Paths/paths.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/connectivity.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/orientability.gi" );
+ 
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Library/library.gi" );
 
