@@ -351,7 +351,26 @@ gap&gt; NumberOfEdges(pyr);
 gap&gt; IsClosedSurface(pyr);
 false
 </Example>
-            The problem is: We did not tell our method what the edges
+            Since this seems strange it would be natural to check the edges.
+            For that the method <K>VerticesOfEdges</K> (which will be 
+            explained in more detail in section 
+            <Ref Sect="Introduction_EdgeNumbering"/>) can be used. It shows
+            for each edge its incident vertices.
+<Example>
+gap&gt; VerticesOfEdges(pyr);
+[ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 4 ], 
+        [ 2, 5 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ]
+</Example>
+            This shows that in addition to the expected edges we also have
+            the edges [ 2, 5 ] and [ 3, 4 ]. How did those edges get added?
+            <P/>
+            <!-- The above concrete calculation of the edges is risky since
+                 it uses (implicit) knowledge of the edge labels.
+                 At the same time it would be a natural reaction in this
+                 kind of situations. -->
+
+            The problem is: We did not tell the method 
+            <K>PolygonalSurfaceByVerticesInFaces</K> what the edges
             should be. For triangular faces this is not an issue because
             there is an edge between any pair of vertices. But for the square
             face in our example the vertices do <Emph>not</Emph> determine its
