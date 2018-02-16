@@ -408,8 +408,6 @@ RedispatchOnCondition( SplitEdgePathNC, true,
 InstallMethod( SubcomplexByFaces, "for a polygonal complex and a set of faces",
     [IsPolygonalComplex, IsSet],
     function(complex, subfaces)
-	local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f;
-
 	if not IsSubset( Faces(complex), subfaces ) then
 	    Error("SubcomplexByFaces: there are not only faces given.");
 	fi;
@@ -455,4 +453,54 @@ InstallOtherMethod( SubcomplexByFacesNC,
     end
 );
 
+####
+
+InstallMethod( RemoveFaces, "for a polygonal complex and a set of faces",
+    [IsPolygonalComplex, IsSet],
+    function(complex, subfaces)
+	if not IsSubset( Faces(complex), subfaces ) then
+	    Error("RemoveFaces: there are not only faces given.");
+	fi;
+
+	return RemoveFacesNC( complex, subfaces );
+    end
+);
+InstallOtherMethod( RemoveFaces, 
+    "for a polygonal complex and a list of faces",
+    [ IsPolygonalComplex, IsList ],
+    function(complex, subfaces)
+        return RemoveFaces(complex, Set(subfaces));
+    end
+);
+InstallMethod( RemoveFacesNC, "for a polygonal complex and a set of faces",
+    [IsPolygonalComplex, IsSet],
+    function(complex, subfaces)
+        return SubcomplexByFacesNC(complex, Difference(Faces(complex), subfaces));
+    end
+);
+InstallOtherMethod( RemoveFacesNC, 
+    "for a polygonal complex and a list of faces",
+    [ IsPolygonalComplex, IsList ],
+    function(complex, subfaces)
+        return RemoveFacesNC(complex, Set(subfaces));
+    end
+);
+
+InstallMethod( RemoveFace, "for a polygonal complex and a face",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        if not face in Faces(complex) then
+            Error(Concatenation("RemoveFace: The given face ", face, 
+                " is not a face of the given complex: ", 
+                Faces(complex), ".") );
+        fi;
+        return RemoveFaceNC(complex, face);
+    end
+);
+InstallMethod( RemoveFaceNC, "for a polygonal complex and a face",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return RemoveFaces(complex,[face]);
+    end
+);
 
