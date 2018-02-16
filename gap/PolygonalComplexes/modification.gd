@@ -342,9 +342,101 @@ DeclareOperation( "RemoveFaceNC", [IsPolygonalComplex, IsPosInt] );
 
 
 #! @Section Disjoint union
-#! @Section Modification_DisjointUnion
-#! TODO
-#Section Disjoint union
+#! @SectionLabel Modification_DisjointUnion
+#! 
+#! This section explains the conventions of disjoint unions 
+#! (<Ref Subsect="DisjointUnion"/>) of polygonal
+#! complexes. While this might seem trivial at first, its behaviour has
+#! to be stated clearly and unambiguously, since all of the joining
+#! modifications of section <Ref Sect="Section_Modification_Joining"/> are
+#! based on it.
+#!
+#! To illustrate this, consider the tetrahedron.
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!     \input{Image_Tetrahedron_Net.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! Both of these tetrahedra have the same labels for vertices, edges and faces.
+#! @BeginExampleSession
+#! gap> Vertices(tetra);
+#! [ 1, 2, 3, 4 ]
+#! gap> Edges(tetra);
+#! [ 1, 2, 3, 4, 5, 6 ]
+#! gap> Faces(tetra);
+#! [ 1, 2, 3, 4 ]
+#! @EndExampleSession
+#! A disjoint union can't just combine these labels because it would not be
+#! clear to which component the vertex 2 is belonging. This conflict of labels
+#! is a common occurence and has to be handled delicately.
+#!
+#! The <K>SimplicialSurface</K>-package deals with this problem by uniformly
+#! shifting the labels of the second argument.
+#! @BeginExampleSession
+#! gap> disjoint := DisjointUnion(tetra, tetra);;
+#! gap> Vertices( disjoint[1] );
+#! [ 1, 2, 3, 4, 7, 8, 9, 10 ]
+#! gap> Edges( disjoint[1] );
+#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+#! gap> Faces( disjoint[1] );
+#! [ 1, 2, 3, 4, 7, 8, 9, 10 ]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!     \begin{scope}
+#!        \input{Image_Tetrahedron_Net.tex}
+#!     \end{scope}
+#!     \begin{scope}[xshift=8cm];
+#!        \def\disjoint{1}
+#!        \input{Image_Tetrahedron_Net.tex}
+#!     \end{scope}
+#!   \end{tikzpicture}
+#! </Alt>
+#! Notably all labels of the second tetrahedron were shifted by the same
+#! amount. More precisely they are shifted by the highest label of the
+#! first tetrahedron - which is the edge label 6.
+#!
+#! To be able to use this information in further calculations, the used
+#! shift is returned as well.
+#! @BeginExampleSession
+#! gap> disjoint[2];
+#! 6
+#! @EndExampleSession
+#!
+
+
+#! @BeginGroup DisjointUnion
+#! @Description
+#! Return the disjoint union of the given two polygonal complexes.
+#! In this process the labels of the second complex usually are shifted.
+#! The default shift is determined by this procedure:
+#! <Enum>
+#!   <Item>If the labels of vertices, edges and faces do not overlap,
+#!      the second labels do not need to be shifted. The default shift
+#!      is 0.</Item>
+#!   <Item>Otherwise the labels of the second complex are shifted by
+#!      the highest label of the first complex - which may be the label
+#!      of a vertex, an edge or a face.</Item>
+#! </Enum>
+#! If the optional <A>shift</A> is higher than the default shift, it will
+#! be used instead. Otherwise it will be ignored.
+#! 
+#! All labels of the second complex are shifted upwards by the same amount,
+#! even if it would not be necessary to shift all of them that much to make
+#! the labels disjoint.
+#!       
+#! TODO example different from the one before?
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the
+#!   second entry is the used shift
+#! @Arguments complex1, complex2[, shift]
+DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsInt] );
+#! @EndGroup
+
+
 
 #! @Section Joining along a path
 #! @SectionLabel Modification_Joining

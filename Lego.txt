@@ -1,11 +1,4 @@
 
-DisjointUnion(complex1, complex2, [optional: shift])
-    -> Return [complex, shift]
-    -> Apply uniform shift to all labels
-    -> If given shift is larger than necessary, use it (otherwise as large as necessary)
-
-----------------------------------------------------------------------
-
 JoinVertices(complex, v1, v2)
     -> Return [complex, new vertex]
     -> If this is not possible (edge between them), fail is returned 

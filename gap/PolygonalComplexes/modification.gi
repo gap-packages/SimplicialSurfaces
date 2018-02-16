@@ -405,6 +405,11 @@ RedispatchOnCondition( SplitEdgePathNC, true,
 ##
 #######################################
 
+
+#######################################
+##
+##      Face removal
+##
 InstallMethod( SubcomplexByFaces, "for a polygonal complex and a set of faces",
     [IsPolygonalComplex, IsSet],
     function(complex, subfaces)
@@ -503,4 +508,63 @@ InstallMethod( RemoveFaceNC, "for a polygonal complex and a face",
         return RemoveFaces(complex,[face]);
     end
 );
+
+
+##
+##      End of face removal
+##
+#######################################
+
+
+#######################################
+##
+##      Disjoint Union
+##
+
+InstallOtherMethod(DisjointUnion, "for two polygonal complexes",
+    [IsPolygonalComplex, IsPolygonalComplex],
+    function(complex1, complex2)
+        return DisjointUnion(complex1, complex2, 0);
+    end
+);
+InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
+    [IsPolygonalComplex, IsPolygonalComplex, IsInt],
+    function(complex1, complex2, shift)
+        local realShift, newVerticesOfEdges, newFacesOfEdges, obj, e;
+
+        if IsEmpty( Intersection(Vertices(complex1), Vertices(complex2)) ) and
+            IsEmpty( Intersection(Edges(complex1), Edges(complex2)) ) and
+            IsEmpty( Intersection(Faces(complex1), Faces(complex2)) ) then
+                realShift := 0;
+        else
+            realShift := Maximum( Concatenation( 
+                Vertices(complex1), Edges(complex1), Faces(complex1) ) );
+        fi;
+
+        if shift > realShift then
+            realShift := shift;
+        fi;
+
+        newVerticesOfEdges := ShallowCopy( VerticesOfEdges(complex1) );
+        newFacesOfEdges := ShallowCopy( FacesOfEdges(complex1) );
+        for e in Edges(complex2) do
+            newVerticesOfEdges[e + realShift] := 
+                List( VerticesOfEdges(complex2)[e], v -> v + realShift );
+            newFacesOfEdges[e + realShift] := 
+                List( FacesOfEdges(complex2)[e], f -> f + realShift );
+        od;
+
+        obj := Objectify( PolygonalComplexType, rec() );
+        SetVerticesOfEdges(obj, newVerticesOfEdges);
+        SetFacesOfEdges(obj, newFacesOfEdges);
+
+        return [obj, realShift];
+    end
+);
+
+
+##
+##      End of disjoint union
+##
+#######################################
 
