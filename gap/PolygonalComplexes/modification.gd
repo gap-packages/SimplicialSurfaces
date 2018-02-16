@@ -440,8 +440,22 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 
 #! @Section Joining along a path
 #! @SectionLabel Modification_Joining
-#! TODO
-#Section Joining along a path
+#!
+#! This section contains the basic functionality for joining polygonal 
+#! complexes along vertices and edges and more generally along
+#! vertex-edge-paths (for their definition, compare
+#! <Ref Subsect="VertexEdgePath"/>). More specifically the following
+#! operations are supported:
+#! * Identifying two vertices (<Ref Subsect="JoinVertices"/>)
+#! * Identifying two edges (<Ref Subsect="JoinEdges"/>)
+#! * Identifying two vertex-edge-paths (<Ref Subsect="JoinVertexEdgePaths"/>)
+#! * Identifying the perimeters of two boundaries/holes 
+#!   (<Ref Subsect="JoinPerimeters"/>)
+#!
+#! 
+#! TODO examples + Tests
+
+
 
 
 
