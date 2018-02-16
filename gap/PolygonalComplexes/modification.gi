@@ -210,6 +210,195 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
     end
 );
 
+## Splitting vertex-edge-paths
+BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
+    function(oldComplex, vePath, newComplex, labelList)
+        local partialPaths, i, newPaths, p, pNew, pOld, newEdge, used, 
+            newVertex;
+
+        partialPaths := [ [[],[]] ];
+        for i in [1..Size(labelList)] do
+            # Try to extend every partial path in as many ways as possible
+            if IsEvenInt(i) then
+                # We have to add an edge => paths can't start here
+                newPaths := [];
+                for p in partialPaths do
+                    pNew := p[1];
+                    pOld := p[2];
+                    for newEdge in labelList[i] do
+                        if pNew[Size(pNew)] in VerticesOfEdges(newComplex)[newEdge] then
+                            Add(newPaths, [ 
+                                Concatenation(pNew, [newEdge]), 
+                                Concatenation(pOld, [PathAsList(vePath)[i]]) 
+                            ] );
+                        fi;
+                    od;
+                od;
+                partialPaths := newPaths;
+            else
+                # We have to add a vertex => paths can start here
+                newPaths := [];
+                for newVertex in labelList[i] do
+                    used := false;
+                    for p in partialPaths do
+                        pNew := p[1];
+                        pOld := p[2];
+                        if Size(pNew) = 0 or pNew[Size(pNew)] in EdgesOfVertices(newComplex)[newVertex] then
+                            Add(newPaths, [
+                                Concatenation(pNew, [newVertex]),
+                                Concatenation(pOld, [PathAsList(vePath)[i]])
+                            ]);
+                            used := true;
+                        fi;
+                    od;
+                    if not used then
+                        Add(newPaths, 
+                            [ [newVertex], [PathAsList(vePath)[i]] ]);
+                    fi;
+                od;
+                partialPaths := newPaths;
+            fi;
+        od;
+
+        return newPaths;
+    end
+);
+
+InstallMethod( SplitVertexEdgePath, 
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, pathAsList)
+        local path;
+
+        path := VertexEdgePath(complex, pathAsList);
+        if not IsDuplicateFree(path) then
+            Error("SplitVertexEdgePath: Given list of vertices and edges has to represent a duplicate-free vertex-edge-path");
+        fi;
+        return SplitVertexEdgePathNC(complex, path);
+    end
+);
+InstallMethod( SplitVertexEdgePathNC,
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, pathAsList)
+        return SplitVertexEdgePathNC(complex, VertexEdgePath(complex, pathAsList));
+    end
+);
+
+InstallMethod( SplitVertexEdgePath,
+    "for a polygonal complex and a duplicate-free vertex-edge-path",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
+    function(complex, vePath)
+        if not complex = AssociatedPolygonalComplex(vePath) then
+            Error("SplitVertexEdgePath: Given vertex-edge-path has to match the given polygonal complex.");
+        fi;
+        return SplitVertexEdgePathNC(complex, vePath);
+    end
+);
+RedispatchOnCondition( SplitVertexEdgePath, true, 
+    [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
+
+InstallMethod( SplitVertexEdgePathNC,
+    "for a polygonal complex and a duplicate-free vertex-edge-path",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
+    function(complex, vePath)
+        local newLabelList, swapComplex, newComplex, i, edgeSplit, 
+            vertexSplit;
+
+        newLabelList := [];
+        swapComplex := complex;
+        # Split the edges
+        for i in [1..Size(EdgesAsList(vePath))] do
+            edgeSplit := SplitEdge(swapComplex, EdgesAsList(vePath)[i]);
+            swapComplex := edgeSplit[1];
+            newLabelList[2*i] := edgeSplit[2];
+        od;
+        # Split the vertices
+        for i in [1..Size(VerticesAsList(vePath))] do
+            vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[i]);
+            swapComplex := vertexSplit[1];
+            newLabelList[2*i-1] := vertexSplit[2];
+        od;
+        newComplex := swapComplex;
+
+        return [newComplex, __SIMPLICIAL_ComputeNewVertexEdgePaths(
+                    complex,vePath, newComplex, newLabelList)];
+    end
+);
+RedispatchOnCondition( SplitVertexEdgePathNC, true, 
+    [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
+
+
+#####
+
+
+
+InstallMethod( SplitEdgePath, 
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, pathAsList)
+        local path;
+
+        path := VertexEdgePath(complex, pathAsList);
+        if not IsDuplicateFree(path) then
+            Error("SplitEdgePath: Given list of vertices and edges has to represent a duplicate-free vertex-edge-path");
+        fi;
+        return SplitEdgePathNC(complex, path);
+    end
+);
+InstallMethod( SplitEdgePathNC,
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, pathAsList)
+        return SplitEdgePathNC(complex, VertexEdgePath(complex, pathAsList));
+    end
+);
+
+InstallMethod( SplitEdgePath,
+    "for a polygonal complex and a duplicate-free vertex-edge-path",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
+    function(complex, vePath)
+        if not complex = AssociatedPolygonalComplex(vePath) then
+            Error("SplitEdgePath: Given vertex-edge-path has to match the given polygonal complex.");
+        fi;
+        return SplitEdgePathNC(complex, vePath);
+    end
+);
+RedispatchOnCondition( SplitEdgePath, true, 
+    [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
+
+InstallMethod( SplitEdgePathNC,
+    "for a polygonal complex and a duplicate-free vertex-edge-path",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
+    function(complex, vePath)
+        local newLabelList, swapComplex, newComplex, i, edgeSplit, 
+            vertexSplit;
+
+        newLabelList := [];
+        swapComplex := complex;
+        # Split the edges
+        for i in [1..Size(EdgesAsList(vePath))] do
+            edgeSplit := SplitEdge(swapComplex, EdgesAsList(vePath)[i]);
+            swapComplex := edgeSplit[1];
+            newLabelList[2*i] := edgeSplit[2];
+        od;
+        # Split the vertices
+        newLabelList[1] := [VerticesAsList(vePath)[1]];
+        for i in [2..Size(VerticesAsList(vePath))-1] do
+            vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[i]);
+            swapComplex := vertexSplit[1];
+            newLabelList[2*i-1] := vertexSplit[2];
+        od;
+        Add(newLabelList, [VerticesAsList(vePath)[Size(VerticesAsList(vePath))]]);
+        newComplex := swapComplex;
+
+        return [newComplex, __SIMPLICIAL_ComputeNewVertexEdgePaths(
+                    complex,vePath, newComplex, newLabelList)];
+    end
+);
+RedispatchOnCondition( SplitEdgePathNC, true, 
+    [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
+
 
 ##
 ##      End splitting methods

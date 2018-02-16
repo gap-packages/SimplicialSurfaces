@@ -276,9 +276,9 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsList] );
 #! @Returns a pair, where the first entry is a polygonal complex and the
 #!   second entry encodes the label changes
 #! @Arguments complex, vePath
-DeclareOperation( "SplitEdgePath", [IsPolygonalComplex, IsVertexEdgePath] );
+DeclareOperation( "SplitEdgePath", [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree] );
 #! @Arguments complex, vePath
-DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath] );
+DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree] );
 #! @Arguments complex, pathAsList
 DeclareOperation( "SplitEdgePath", [IsPolygonalComplex, IsList] );
 #! @Arguments complex, pathAsList
