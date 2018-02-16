@@ -1,21 +1,5 @@
 #! @DoNotReadRestOfFile
 
-
-#! @BeginGroup
-#! @Description
-#! Return the subsurface of a simplicial surface that is defined by the given
-#! set of faces.
-#! <P/>
-#! The NC-version does not check if the given faces actually are faces of the
-#! simplicial surface.
-#! @Arguments simpSurf, faces
-#! @Returns a simplicial surface
-DeclareOperation( "SubsurfaceByFaces", [IsSimplicialSurface, IsSet] );
-#! @Arguments simpSurf, faces
-DeclareOperation( "SubsurfaceByFacesNC", [IsSimplicialSurface, IsSet] );
-#! @EndGroup
-
-
 #! @BeginGroup
 #! @Description
 #! Remove all ears of the simplicial surface and return the resulting surface.

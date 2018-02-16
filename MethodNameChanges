@@ -30,9 +30,11 @@ For simplicial surfaces:
     15) DeriveLocalOrientation* is removed.
     16) AllFlags is replaced by Flags (compare chapter "Flags")
     17) Dress*Involution are replaced by DressInvolutions
-    18)
+    18) SubsurfaceByFaces is replaced by SubcomplexByFaces
+    19) 
 
 
 
 For wild simplicial surfaces:
     1) complete rewrite. Refer to the chapters about edge colouring for details.
+    2) 

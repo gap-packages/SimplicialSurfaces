@@ -1,56 +1,5 @@
 #! @DoNotReadRestOfFile
 
-
-#############################################################################
-##
-#!	@Description
-#!	This function returns the simplicial subsurface that is defined by the
-#!	given set of faces.
-#!	The NC-version does not check if the given faces actually are faces of
-#!	the simplicial surface.
-#!	@Arguments a simplicial surface object simpsurf, a set of positive integers
-#!	@Returns a simplicial surface object
-InstallMethod( SubsurfaceByFaces, "for a simplicial surface",
-	[IsSimplicialSurface, IsSet],
-	function(simpsurf, subfaces)
-		local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f;
-
-		if not IsSubset( Faces(simpsurf), subfaces ) then
-			Error("SubsurfaceByFaces: there are not only faces given.");
-		fi;
-
-		return SubsurfaceByFacesNC( simpsurf, subfaces );
-	end
-);
-	RedispatchOnCondition( SubsurfaceByFaces, true, 
-		[IsSimplicialSurface, IsList], [,IsSet], 0);
-InstallMethod( SubsurfaceByFacesNC, "for a simplicial surface",
-	[IsSimplicialSurface, IsSet],
-	function(simpsurf, subfaces)
-		local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f;
-
-
-		subEdges := Union( List( subfaces, f -> EdgesOfFaces(simpsurf)[f] ));
-		subVertices := Union( List( subEdges, e -> 
-											VerticesOfEdges(simpsurf)[e] ) );
-
-		newVerticesOfEdges := [];
-		for e in subEdges do
-			newVerticesOfEdges[e] := VerticesOfEdges(simpsurf)[e];
-		od;
-
-		newEdgesOfFaces := [];
-		for f in subfaces do
-			newEdgesOfFaces[f] := EdgesOfFaces(simpsurf)[f];
-		od;
-
-		return SimplicialSurfaceByDownwardIncidenceNC( subVertices, subEdges,
-			subfaces, newVerticesOfEdges, newEdgesOfFaces );
-	end
-);
-	RedispatchOnCondition( SubsurfaceByFacesNC, true, 
-		[IsSimplicialSurface, IsList], [,IsSet], 0);
-
 #############################################################################
 ##
 ##		SnippOffEars - methods
