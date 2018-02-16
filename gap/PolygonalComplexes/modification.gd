@@ -65,7 +65,7 @@
 #! @BeginExampleSession
 #! gap> edgeSplit := SplitEdge(hex, 1);;
 #! gap> edgeSplit[2];
-#! [ 13, 14 ];
+#! [ 13, 14 ]
 #! @EndExampleSession
 #! <Alt Only="TikZ">
 #!   {
@@ -134,6 +134,31 @@
 #! </Alt>
 #!
 #! 
+
+
+#! @BeginGroup SplitEdge
+#! @Description
+#! Split the given <A>edge</A> in the polygonal complex <A>complex</A> into
+#! as many edges as there are faces incident to <A>edge</A>. If there was only
+#! one incident face (i.e. the edge is a boundary edge) then no labels are
+#! changed. Otherwise the old edge label is no longer used and will be
+#! replaced by the appropriate number of new labels. The new labels can be
+#! defined by the optional argument <A>newEdgeLabels</A>.
+#!
+#! TODO example
+#!
+#! The NC-version does not check whether <A>edge</A> is an actual edge of
+#! <A>complex</A> and whether the new edge labels are actually available.
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the
+#!   second entry is a set of the new edge labels.
+#! @Arguments complex, edge[, newEdgeLabels]
+DeclareOperation( "SplitEdge", [IsPolygonalComplex, IsPosInt, IsList] );
+#! @Arguments complex, edge[, newEdgeLabels]
+DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
+#! @EndGroup
+
+
 #!
 #! 
 #!

@@ -5,7 +5,9 @@ Enlargement: Add two adjacent triangles into a double-edge
 Add standard names?
 
 
-Colouring for drawing by circle around vertices.
-
-
-Colour names: maybe call them DualColouring? -> They are proper edge colourings of the dual surface
+ColourNames:
+    EdgeColoured...
+    RainbowEdgeColoured..
+    MinimalRainbowEdgeColoured..
+    LocalSymmetriesOfEdges... 
+    MRTypeColourInvariant (Struktur)    -->  GroupColouring
