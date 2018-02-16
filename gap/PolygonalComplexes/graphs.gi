@@ -245,13 +245,13 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 fi;
 
 
-InstallMethod( IsomorphismRepresentatives,
+InstallMethod( PolygonalComplexIsomorphismRepresentatives,
     "for a list of polygonal complexes", [IsList],
     function(ls)
         local newList, p;
 
         if ForAny(ls, x -> not IsPolygonalComplex(x)) then
-            Error("IsomorphismRepresentatives: Argument has to be a list of polygonal complexes.");
+            Error("PolygonalComplexIsomorphismRepresentatives: Argument has to be a list of polygonal complexes.");
         fi;
 
         newList := [];

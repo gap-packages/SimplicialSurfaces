@@ -314,3 +314,16 @@ DeclareAttribute( "ColourIncidenceNautyGraph", IsEdgeColouredPolygonalComplex );
 DeclareOperation( "IsIsomorphicEdgeColouredPolygonalComplex",
     [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex]);
 
+#! @Description
+#! The method <K>EdgeColouredPolygonalComplexIsomorphismRepresentatives</K> 
+#! takes a list of edge coloured polygonal
+#! complexes and returns a reduced list in which no two entries are 
+#! isomorphic.
+#!
+#! TODO example
+#!
+#! @Returns a list of edge coloured polygonal complexes
+#! @Arguments complexList
+DeclareOperation( "EdgeColouredPolygonalComplexIsomorphismRepresentatives", [IsList] );
+
+

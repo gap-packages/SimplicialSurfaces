@@ -462,6 +462,27 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     );
 fi;
 
+InstallMethod( EdgeColouredPolygonalComplexIsomorphismRepresentatives,
+    "for a list of edge colorued polygonal complexes", [IsList],
+    function(ls)
+        local newList, p;
+
+        if ForAny(ls, x -> not IsEdgeColouredPolygonalComplex(x)) then
+            Error("EdgeColouredPolygonalComplexIsomorphismRepresentatives: Argument has to be a list of edge coloured polygonal complexes.");
+        fi;
+
+        newList := [];
+        for p in ls do
+            if ForAll( newList, q -> not IsIsomorphicEdgeColouredPolygonalComplex(p,q) ) then
+                Add(newList, p);
+            fi;
+        od;
+
+        return newList;
+    end
+);
+
+
 
 ##
 ##      End of isomorphism testing
