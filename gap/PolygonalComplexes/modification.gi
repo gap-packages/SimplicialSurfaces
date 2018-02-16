@@ -15,6 +15,9 @@
 ##
 ##      Start splitting methods
 ##
+
+
+## Splitting edges
 InstallOtherMethod( SplitEdge, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -103,6 +106,110 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
         return [obj, newEdgeLabels];
     end
 );
+
+
+## Splitting vertices
+BindGlobal( "__SIMPLICIAL_ConnectedStarComponents",
+    function(complex, vertex)
+        local faces, edges, edgeOfFaces, f, comp, conn;
+
+        faces := FacesOfVertices(complex)[vertex];
+        edges := EdgesOfVertices(complex)[vertex];
+        edgeOfFaces := [];
+        for f in faces do
+            edgeOfFaces[f] := Intersection( edges, EdgesOfFaces(complex)[f] );
+        od;
+
+        comp := [];
+        while Size(faces) > 0 do
+            conn := __SIMPLICIAL_AbstractConnectedComponent( 
+                faces, edgeOfFaces, faces[1] );
+            Add( comp, [ conn, Union(edgeOfFaces{conn}) ] );
+            faces := Difference(faces, conn);
+        od;
+
+        return comp;
+    end
+);
+InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        if not vertex in Vertices(complex) then
+            Error(Concatenation("SplitVertex: Given vertex ", vertex, 
+                " is not one of the vertices ", Vertices(complex), 
+                " of the given polygonal complex." ) );
+        fi;
+        return SplitVertexNC(complex, vertex);
+    end
+);
+InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        local nrIncStars;
+
+        nrIncStars := Size(__SIMPLICIAL_ConnectedStarComponents(complex, vertex));
+        if nrIncStars = 1 then
+            return SplitVertexNC(complex, vertex, [vertex]);
+        else
+            return SplitVertexNC(complex, vertex, 
+                List([1..nrIncStars], i -> Maximum(Vertices(complex))+i));
+        fi;
+    end
+);
+
+InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
+    [IsPolygonalComplex, IsPosInt, IsList],
+    function(complex, vertex, newVertexLabels)
+        local intersect;
+
+        if not vertex in Vertices(complex) then
+            Error(Concatenation("SplitVertex: Given vertex ", vertex, 
+                " is not one of the vertices ", Vertices(complex), 
+                " of the given polygonal complex." ) );
+        fi;
+
+        if ForAny(newVertexLabels, v -> not IsPosInt(v)) then
+            Error(Concatenation(
+                "SplitVertex: The new vertex labels have to be positive integers, but are ", 
+                newVertexLabels, "."));
+        fi;
+
+        if Size( Set(newVertexLabels) ) <> Size(__SIMPLICIAL_ConnectedStarComponents(complex, vertex)) then
+            Error(Concatenation(
+                "SplitVertex: The number of new vertex labels has to be equal to the number of incident stars.TODO"
+            ));
+        fi;
+
+        intersect := Intersection( Vertices(complex), newVertexLabels );
+        if Size(intersect) = 0 or (Size(intersect)=1 and intersect[1] = vertex) then
+            return SplitVertexNC(complex, vertex, newVertexLabels);
+        else
+            Error(Concatenation("SplitVertex: The new vertex labels ", 
+                newVertexLabels, 
+                " have to be disjoint from the existing vertex labels ", 
+                Vertices(complex)));
+        fi;
+    end
+);
+InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
+    [IsPolygonalComplex, IsPosInt, IsList],
+    function(complex, vertex, newVertexLabels)
+        local newEdgesOfVertices, starComp, i, obj;
+
+        newEdgesOfVertices := ShallowCopy(EdgesOfVertices(complex));
+        starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
+        Unbind(newEdgesOfVertices[vertex]);
+        for i in [1..Size(newVertexLabels)] do
+            newEdgesOfVertices[newVertexLabels[i]] := starComp[i][2];
+        od;
+
+        obj := Objectify( PolygonalComplexType, rec() );
+        SetEdgesOfVertices(obj, newEdgesOfVertices);
+        SetEdgesOfFaces(obj, EdgesOfFaces(complex));
+        return [obj, newVertexLabels];
+    end
+);
+
 
 ##
 ##      End splitting methods

@@ -140,12 +140,13 @@
 #! @Description
 #! Split the given <A>edge</A> in the polygonal complex <A>complex</A> into
 #! as many edges as there are faces incident to <A>edge</A>. If there was only
-#! one incident face (i.e. the edge is a boundary edge) then no labels are
+#! one incident face (i.e. the edge is a boundary edge 
+#! (<Ref Subsect="BoundaryEdges"/>)) then no labels are
 #! changed. Otherwise the old edge label is no longer used and will be
 #! replaced by the appropriate number of new labels. The new labels can be
 #! defined by the optional argument <A>newEdgeLabels</A>.
 #!
-#! TODO example
+#! TODO examples
 #!
 #! The NC-version does not check whether <A>edge</A> is an actual edge of
 #! <A>complex</A> and whether the new edge labels are actually available.
@@ -157,6 +158,38 @@ DeclareOperation( "SplitEdge", [IsPolygonalComplex, IsPosInt, IsList] );
 #! @Arguments complex, edge[, newEdgeLabels]
 DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! @EndGroup
+
+
+#! @BeginGroup SplitVertex
+#! @Description
+#! Split the given <A>vertex</A> in the polygonal complex <A>complex</A> into
+#! as many vertices as necessary such that the incident faces of the new
+#! vertices are connected via the incident edges of these vertices.
+#!
+#! For a polygonal surface this corresponds to adding one vertex for each
+#! element of the umbrella partition 
+#! (<Ref Subsect="UmbrellaPartitionsOfVertices"/>) of <A>vertex</A>.
+#!
+#! If the vertex does not have to be split according to this rule (i.e. it is
+#! an inner (<Ref Subsect="InnerVertices"/>) or a boundary 
+#! (<Ref Subsect="BoundaryVertices"/>) vertex), its
+#! label will stay the same. Otherwise the old label will be removed and
+#! replaced by new labels. The new labels can be defined by the optional
+#! argument <A>newVertexLabels</A>.
+#!
+#! TODO examples
+#!
+#! The NC-version does not check whether <A>vertex</A> is an actual vertex of
+#! <A>complex</A> and whether the new vertex labels are actually available.
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the
+#!   second entry is a set of the new vertex labels.
+#! @Arguments complex, vertex[, newVertexLabels]
+DeclareOperation( "SplitVertex", [IsPolygonalComplex, IsPosInt, IsList] );
+#! @Arguments complex, vertex[, newVertexLabels]
+DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
+#! @EndGroup
+
 
 
 #!
