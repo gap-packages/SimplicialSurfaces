@@ -863,7 +863,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ## first. Afterward we will connect the partitions with everything else.
 ##
 
-InstallMethod( UmbrellasOfVertices, 
+InstallMethod( UmbrellasOfVertices,
     "for a polygonal surface that has UmbrellaPartitionsOfVertices",
     [IsPolygonalSurface and HasUmbrellaPartitionsOfVertices],
     function( surface )
@@ -873,6 +873,27 @@ InstallMethod( UmbrellasOfVertices,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
     "UmbrellasOfVertices", 
     ["IsPolygonalSurface", "UmbrellaPartitionsOfVertices"]);
+
+InstallMethod( UmbrellasOfVertices,
+    "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices",
+    [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices],
+    function(ramSurf)
+        local FirstOrFail;
+
+        FirstOrFail := function(list)
+            if Size(list) = 1 then
+                return list[1];
+            else
+                return fail;
+            fi;
+        end;
+
+        return List( UmbrellaPartitionsOfVertices(ramSurf), FirstOrFail );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+    "UmbrellasOfVertices", 
+    ["IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices"]);
 
 InstallMethod( UmbrellaPartitionsOfVertices,
     "for a ramified polygonal surface that has UmbrellasOfVertices",
