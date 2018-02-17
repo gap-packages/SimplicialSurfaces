@@ -573,6 +573,9 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
 ##
 ##      Joining methods
 ##
+
+
+## Vertices
 InstallMethod( JoinVertices, "for two polygonal complexes and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt],
     function(complex1, v1, complex2, v2)
@@ -627,7 +630,7 @@ InstallMethod( JoinVertices,
             Error(Concatenation("JoinVertices: Given vertex list ", vertList, 
                 " contains more than two different elements."));
         fi;
-        if not IsSubset(Vertices(complex), vertList) then
+        if not IsSubset(Vertices(complex), vertSet) then
             Error(Concatenation("JoinVertices: Given vertex list ", vertList,
                 " is not a subset of the vertices of the given complex: ",
                 Vertices(complex), "."));
@@ -708,6 +711,134 @@ InstallMethod( JoinVerticesNC,
         return [obj, newVertexLabel];
     end
 );
+
+
+
+## Edges
+InstallOtherMethod( JoinEdges, 
+    "for a polygonal complex and a list of two edges",
+    [IsPolygonalComplex, IsList],
+    function(complex, edgeList)
+        return JoinEdges(complex, edgeList, Maximum(Edges(complex))+1);
+    end
+);
+InstallOtherMethod( JoinEdgesNC, 
+    "for a polygonal complex and a list of two edges",
+    [IsPolygonalComplex, IsList],
+    function(complex, edgeList)
+        return JoinEdgesNC(complex, edgeList, Maximum(Edges(complex))+1);
+    end
+);
+InstallMethod( JoinEdges,
+    "for a polygonal complex, a list of two edges and a new edge label",
+    [IsPolygonalComplex, IsList, IsPosInt],
+    function(complex, edgeList, newEdgeLabel)
+         local edgeSet;
+
+        edgeSet := Set(edgeList);
+        if Size(edgeSet) <> 2 then
+            Error(Concatenation("JoinEdges: Given edge list ", edgeList, 
+                " contains more than two different elements."));
+        fi;
+        if not IsSubset(Edges(complex), edgeSet) then
+            Error(Concatenation("JoinEdges: Given edge list ", edgeList,
+                " is not a subset of the edges of the given complex: ",
+                Edges(complex), "."));
+        fi;
+        if not newEdgeLabel in edgeSet and newEdgeLabel in Edges(complex) then
+            Error(Concatenation("JoinEdges: Given new edge label ", 
+                newEdgeLabel, " conflicts with existing edges: ", 
+                Edges(complex), "."));
+        fi;
+
+        return JoinEdges(complex, edgeSet[1], edgeSet[2], newEdgeLabel);
+    end
+);
+InstallMethod( JoinEdgesNC,
+    "for a polygonal complex, a list of two edges and a new edge label",
+    [IsPolygonalComplex, IsList, IsPosInt],
+    function(complex, edgeList, newEdgeLabel)
+        local edgeSet;
+
+        edgeSet := Set(edgeList);
+        return JoinEdgesNC(complex, edgeSet[1], edgeSet[2], newEdgeLabel);
+    end
+);
+
+InstallOtherMethod( JoinEdges, "for a polygonal complex and two edges",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, e1, e2)
+        return JoinEdges(complex, e1, e2, Maximum(Edges(complex))+1);
+    end
+);
+InstallOtherMethod( JoinEdgesNC, "for a polygonal complex and two edges",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, e1, e2)
+        return JoinEdgesNC(complex, e1, e2, Maximum(Edges(complex))+1);
+    end
+);
+
+InstallMethod( JoinEdges, 
+    "for a polygonal complex, two edges and a new edge label",
+    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    function(complex, e1, e2, newEdgeLabel)
+        __SIMPLICIAL_CheckEdge(complex, e1, "JoinEdges");
+        __SIMPLICIAL_CheckEdge(complex, e2, "JoinEdges");
+        if e1 = e2 then
+            Error(Concatenation("JoinEdges: Given edges are identical: ", e1, "."));
+        fi;
+        if newEdgeLabel <> e1 and newEdgeLabel <> e2 and newEdgeLabel in Edges(complex) then
+            Error(Concatenation("JoinEdges: Given new edge label ", 
+                newEdgeLabel, " conflicts with existing edges: ", 
+                Edges(complex), "."));
+        fi;
+        if VerticesOfEdges(complex)[e1] <> VerticesOfEdges(complex)[e2] then
+            Error(Concatenation(
+                "JoinEdges: The two given edges are incident to different vertices, namely ",
+                VerticesOfEdges(complex)[e1], " and ",
+                VerticesOfEdges(complex)[e2], "."));
+        fi;
+
+        return JoinEdgesNC(complex, e1, e2, newEdgeLabel);
+    end
+);
+InstallMethod( JoinEdgesNC,
+    "for a polygonal complex, two edges and a new edge label",
+    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    function(complex, e1, e2, newEdgeLabel)
+        local obj, newVerticesOfEdges, newFacesOfEdges, faces, verts;
+
+        newVerticesOfEdges := ShallowCopy( VerticesOfEdges(complex) );
+        newFacesOfEdges := ShallowCopy( FacesOfEdges(complex) );
+
+        verts := newVerticesOfEdges[e1];
+        Unbind(newVerticesOfEdges[e1]);
+        Unbind(newVerticesOfEdges[e2]);
+        newVerticesOfEdges[newEdgeLabel] := verts;
+
+        faces := Union(newFacesOfEdges[e1], newFacesOfEdges[e2]);
+        Unbind(newFacesOfEdges[e1]);
+        Unbind(newFacesOfEdges[e2]);
+        newFacesOfEdges[newEdgeLabel] := faces;
+
+        obj := Objectify( PolygonalComplexType, rec() );
+        SetVerticesOfEdges(obj, newVerticesOfEdges);
+        SetFacesOfEdges(obj, newFacesOfEdges);
+        return [obj, newEdgeLabel];
+    end
+);
+
+
+
+
+## VertexEdgePaths
+
+
+
+
+
+## Perimeters
+
 
 
 ##

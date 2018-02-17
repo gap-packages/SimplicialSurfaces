@@ -546,7 +546,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! 12
 #! @EndExampleSession
 #!
-#! The NC-versions don't check whether the given vertices are vertices of
+#! The NC-versions don't check whether the given vertices are distinct vertices of
 #! the corresponding complexes and whether the <A>newVertexLabel</A> is available.
 #!
 #! @Returns a list, where the first entry is a polygonal complex, the second
@@ -567,6 +567,66 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! @EndGroup
 
 
+#! @BeginGroup JoinEdges
+#! @Description
+#! Combine two edges <A>e1</A> and <A>e2</A> of a polygonal complex into one
+#! edge, whose new label can be given by the optional argument 
+#! <A>newEdgeLabel</A> (otherwise a default label is chosen). The edges have 
+#! to have had the same incident vertices.
+#! 
+#! This method returns a pair, where the first entry is the modified polygonal
+#! complex and the second entry is the label of the new edge.
+#!
+#! For example consider the following ramified simplicial surface:
+#! @BeginExampleSession
+#! gap> eye := RamifiedSimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\open{1}
+#!     \input{Image_Eye_OpenClosed.tex}
+#!   }
+#! </Alt>
+#! The only edges that can be joined are those with equal incident vertices.
+#! These can be found by <K>EdgeAnomalyClasses</K> 
+#! (<Ref Subsect="EdgeAnomalies"/>).
+#! @BeginExampleSession
+#! gap> EdgeAnomalyClasses(eye);
+#! [ [ 1 ], [ 2, 6 ], [ 3 ], [ 4 ], [ 5 ] ]
+#! @EndExampleSession
+#! The only pair of edges with the same incident vertices are 2 and 6.
+#! @BeginExampleSession
+#! gap> closeEye := JoinEdges( eye, 2, 6 );;
+#! gap> closeEye[2];
+#! 7
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\open{1}
+#!     \input{Image_Eye_OpenClosed.tex}
+#!   }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> EdgeAnomalyClasses(closeEye[1]);
+#! [ [ 1 ], [ 3 ], [ 4 ], [ 5 ], [ 7 ] ]
+#! @EndExampleSession
+#!
+#! The NC-versions do not check whether the given edges are distinct edges
+#! with the same incident vertices of <A>complex</A> and whether the new edge label is
+#! actually valid.
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the
+#!    second one is the new edge label
+#! @Arguments complex, e1, e2[, newEdgeLabel]
+DeclareOperation("JoinEdges", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, e1, e2[, newEdgeLabel]
+DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, edgeList[, newEdgeLabel]
+DeclareOperation("JoinEdges", [IsPolygonalComplex, IsList, IsPosInt]);
+#! @Arguments complex, edgeList[, newEdgeLabel]
+DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
+#! @EndGroup
 
 
 

@@ -1,16 +1,4 @@
 
-JoinVertices(complex, v1, v2)
-    -> Return [complex, new vertex]
-    -> If this is not possible (edge between them), fail is returned 
-JoinVertices(complex1, v1, complex2, v2, [optional: shift])
-    -> Return [complex, new vertex, shift]
-    -> Combination of DisjointUnion and then JoinVertices (with shifted v2)
-
-
-JoinEdges(complex, e1, e2)
-    -> Return [complex, new edge]
-    -> The edges should have been in an edge anomaly
-
 
 JoinVertexEdgePaths(complex, path1, path2)
     -> Combination, as above
