@@ -40,7 +40,7 @@ Every vertex is incident to an edge and every edge is incident to a face.
 <#GAPDoc Label="PolygonalComplex_Definition">
 A <E>polygonal complex</E> is a two-dimensional incidence geometry consisting 
 of vertices, edges and faces such that the following conditions hold (for a
-more detailed explanation see section 
+more intuitive explanation see section 
 <Ref Sect="PolygonalStructures_complex"/>):
 <Enum>
     <Item><#Include Label="PolygonalComplex_Edge"></Item>

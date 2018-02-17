@@ -1244,3 +1244,45 @@ RedispatchOnCondition( JoinBoundaries, true, [IsPolygonalComplex, IsList, IsList
 ##      End of joining
 ##
 #######################################
+
+
+#######################################
+##
+##      Applications
+##
+
+InstallMethod( ConnectedFaceSum, "for two polygonal surfaces and two flags",
+    [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList],
+    function(surface1, flag1, surface2, flag2)
+        local rem1, rem2;
+
+        if not flag1 in Flags(surface1) then
+            Error(Concatenation("ConnectedFaceSum: The first list ", 
+                String(flag1), 
+                " is not a flag of the first polygonal surface."));
+        fi;
+        if not flag2 in Flags(surface2) then
+            Error(Concatenation("ConnectedFaceSum: The second list ", 
+                String(flag1), 
+                " is not a flag of the second polygonal surface."));
+        fi;
+
+        if ForAny( EdgesOfFaces(surface1)[flag1[3]], e -> IsBoundaryEdgeNC(surface1, e) ) then
+            return fail;
+        fi;
+        if ForAny( EdgesOfFaces(surface2)[flag2[3]], e -> IsBoundaryEdgeNC(surface2, e) ) then
+            return fail;
+        fi;
+
+        rem1 := RemoveFaceNC( surface1, flag1[3] );
+        rem2 := RemoveFaceNC( surface2, flag2[3] );
+        return JoinBoundaries( rem1, flag1{[1,2]}, rem2, flag2{[1,2]} )[1];
+    end
+);
+RedispatchOnCondition( ConnectedFaceSum, true, 
+    [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList], 
+    [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+
+
+
+

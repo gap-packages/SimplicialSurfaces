@@ -231,9 +231,5 @@ DeclareAttribute( "RipMendableEdgePairs", IsSimplicialSurface );
 DeclareAttribute( "SplitMendableFlagPairs", IsSimplicialSurface );
 
 
-# Connected sum, using two vertex-edge-face flags
-DeclareOperation( "ConnectedSum", [IsSimplicialSurface, IsList, IsSimplicialSurface, IsList] );
-
-
 DeclareAttribute( "GeodesicFlagPermutation", IsSimplicialSurface );
 

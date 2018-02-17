@@ -31,7 +31,7 @@ For simplicial surfaces:
     16) AllFlags is replaced by Flags (compare chapter "Flags")
     17) Dress*Involution are replaced by DressInvolutions
     18) SubsurfaceByFaces is replaced by SubcomplexByFaces
-    19) 
+    19) ConnectedSum is replaced by ConnectedFaceSum
 
 
 

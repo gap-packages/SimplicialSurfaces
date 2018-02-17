@@ -27,13 +27,10 @@
 #!
 #! The aim of these operations is to provide a set of tools that allows a
 #! user to develop their own modifications without worrying too much about
-#! the underlying incidence structure. To make this easier, section TODO
+#! the underlying incidence structure. To make this easier, section
+#! <Ref Sect="Section_Modification_Applications"/>
 #! contains several useful modifications, along with an explanation how
 #! they can be constructed with the elementary tools.
-#!
-#! Section TODO contains a more involved example that combines the 
-#! modification of surfaces with a judicious use of the automorphism
-#! group of section <Ref Sect="Section_Graphs_Automorphisms"/>.
 
 
 #! @Section Splitting along a path
@@ -765,6 +762,45 @@ DeclareOperation( "JoinBoundaries", [IsPolygonalSurface, IsList, IsList] );
 #! @Arguments surface1, veList1, surface2, veList2
 DeclareOperation( "JoinBoundaries", [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList] );
 #! @EndGroup
+
+
+#! @Section Specific modifications
+#! @SectionLabel Modification_Applications
+#! 
+#! This section contains some specific modifications that are generally 
+#! useful. To illustrate the power of the modification toolbox that was
+#! developed in the previous sections, the fundamental code for each
+#! of them is presented as well. To make seeing the underlying structure
+#! easier, this code will not consider border cases or check its inputs
+#! for validity.
+#!
+#! 
+
+#! @Description
+#! Compute the <E>connected face-sum</E> of two polygonal surfaces.
+#! The connected face-sum identifies the faces of two polygonal surfaces
+#! and removes them afterwards. The edges of the identified faces can't
+#! be boundary edges (<Ref Subsect="BoundaryEdges"/>), otherwise <K>fail</K>
+#! is returned.
+#!
+#! Since there are six different ways how the two faces could be identified,
+#! this methods needs a flag of each complex, i.e. a list of a vertex, an edge
+#! and a face that are all incident.
+#!
+#! TODO example
+#!
+#! The central part of this can be implemented like this:
+#! @BeginLogSession
+#! gap> rem1 := RemoveFace( surface1, flag1[3] );
+#! gap> rem2 := RemoveFace( surface2, flag2[3] );
+#! gap> conSum := JoinBoundaries(rem1, flag1{[1,2]}, rem2, flag2{[1,2]})[1];
+#! @EndLogSession
+#!
+#! @Returns a polygonal surface or <K>fail</K>
+#! @Arguments surface1, flag1, surface2, flag2
+DeclareOperation( "ConnectedFaceSum", [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList] );
+#TODO can this be implemented more generally?
+
 
 
 # Connected sum over
