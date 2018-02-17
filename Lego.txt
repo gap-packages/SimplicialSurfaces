@@ -1,7 +1,0 @@
-
-
-JoinPerimeters(complex, path1, path2)
-    -> if the paths are not complete, they will be completed to the full perimeter
-    -> can also be given as [vertex, edge] or [edge, edge] or [vertex,vertex] if that specifies the perimeter uniquely
-    -> return fail if it is not possible (internally)
-    -> Error if perimeters have different length

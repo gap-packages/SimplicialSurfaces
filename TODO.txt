@@ -7,7 +7,8 @@ Add standard names?
 
 ColourNames:
     EdgeColoured...
-    RainbowEdgeColoured..
-    MinimalRainbowEdgeColoured..
+    EdgeVariColoured
+    EdgeExactColoured
     LocalSymmetriesOfEdges... 
+    ???
     MRTypeColourInvariant (Struktur)    -->  GroupColouring
