@@ -1226,7 +1226,7 @@ InstallMethod(JoinBoundaries,
                 return Concatenation( path{[vPos..Size(path)-1]}, path{[1..vPos]} );
             elif ePos + 1 = vPos then
                 # wrong direction
-                return Reversed( Concatenation( path{[vPos..Size(path)]}, path{[1..vPos]} ) );
+                return Reversed( Concatenation( path{[vPos..Size(path)]}, path{[2..vPos]} ) );
             fi;
             Error("JoinBoundaries: Internal Error");
         end;
