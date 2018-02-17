@@ -668,14 +668,28 @@ InstallOtherMethod( JoinVertices,
     "for a polygonal complex and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, v1, v2)
-        return JoinVertices(complex, v1, v2, Maximum(Vertices(complex))+1);
+        local label;
+
+        if v1 = v2 then
+            label := v1;
+        else
+            label := Maximum(Vertices(complex))+1;
+        fi;
+        return JoinVertices(complex, v1, v2, label);
     end
 );
 InstallOtherMethod( JoinVerticesNC,
     "for a polygonal complex and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, v1, v2)
-        return JoinVerticesNC(complex, v1, v2, Maximum(Vertices(complex))+1);
+        local label;
+
+        if v1 = v2 then
+            label := v1;
+        else
+            label := Maximum(Vertices(complex))+1;
+        fi;
+        return JoinVerticesNC(complex, v1, v2, label);
     end
 );
 
@@ -685,9 +699,6 @@ InstallMethod( JoinVertices,
     function(complex, v1, v2, newVertexLabel)
         __SIMPLICIAL_CheckVertex(complex, v1, "JoinVertices");
         __SIMPLICIAL_CheckVertex(complex, v2, "JoinVertices");
-        if v1 = v2 then
-            Error(Concatenation("JoinVertices: Given vertices are identical: ", v1, "."));
-        fi;
         if newVertexLabel <> v1 and newVertexLabel <> v2 and newVertexLabel in Vertices(complex) then
             Error(Concatenation("JoinVertices: Given new vertex label ", 
                 newVertexLabel, " conflicts with existing vertices: ", 
@@ -841,6 +852,231 @@ InstallMethod( JoinEdgesNC,
 
 
 ## VertexEdgePaths
+## Section 1
+InstallMethod( JoinVertexEdgePaths, 
+    "for two polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
+        IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
+    function(complex1, vePath1, complex2, vePath2)
+        if complex1 <> AssociatedPolygonalComplex(vePath1) then
+            Error(Concatenation("JoinVertexEdgePaths: The first path ", 
+                vePath1, " does not belong to the first polygonal complex."));
+        fi;
+        if complex2 <> AssociatedPolygonalComplex(vePath2) then
+            Error(Concatenation("JoinVertexEdgePaths: The second path ", 
+                vePath2, " does not belong to the first polygonal complex."));
+        fi;
+
+        if Size(VerticesAsList(vePath1)) <> Size(VerticesAsList(vePath2)) then
+            Error(Concatenation("JoinVertexEdgePaths: The given paths ",
+                vePath1, " and ", vePath2, " have different lengths."));
+        fi;
+
+        return JoinVertexEdgePathsNC(complex1, vePath1, complex2, vePath2);
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePaths, true, 
+    [IsPolygonalComplex, IsVertexEdgePath, IsPolygonalComplex, IsVertexEdgePath],
+    [,IsDuplicateFree,,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePaths,
+    "for two polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, IsPolygonalComplex, IsList],
+    function(complex1, vePath1, complex2, pathAsList2)
+        return JoinVertexEdgePaths(complex1, vePath1, complex2, VertexEdgePath(complex2, pathAsList2));
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePaths, true,
+    [IsPolygonalComplex, IsVertexEdgePath, IsPolygonalComplex, IsList],
+    [,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePaths,
+    "for two polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsList, IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
+    function(complex1, pathAsList1, complex2, vePath2)
+        return JoinVertexEdgePaths(complex1, VertexEdgePath(complex1, pathAsList1), complex2, vePath2);
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePaths, true,
+    [IsPolygonalComplex, IsList, IsPolygonalComplex, IsVertexEdgePath],
+    [,,,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePaths,
+    "for two polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex,IsList,IsPolygonalComplex,IsList],
+    function(complex1, pathAsList1, complex2, pathAsList2)
+        return JoinVertexEdgePaths(complex1, VertexEdgePath(complex1, pathAsList1), complex2, VertexEdgePath(complex2, pathAsList2));
+    end
+);
+
+## Section 2
+InstallMethod( JoinVertexEdgePathsNC, 
+    "for two polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
+        IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
+    function(complex1, vePath1, complex2, vePath2)
+        local disjoint;
+
+        disjoint := DisjointUnion(complex1, complex2);
+        return JoinVertexEdgePathsNC(disjoint[1], vePath1, 
+            VertexEdgePath(disjoint[1], List(PathAsList(vePath2), x -> x+disjoint[2]) ) );
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePathsNC, true, 
+    [IsPolygonalComplex, IsVertexEdgePath, IsPolygonalComplex, IsVertexEdgePath],
+    [,IsDuplicateFree,,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePathsNC,
+    "for two polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, IsPolygonalComplex, IsList],
+    function(complex1, vePath1, complex2, pathAsList2)
+        return JoinVertexEdgePathsNC(complex1, vePath1, complex2, VertexEdgePath(complex2, pathAsList2));
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePathsNC, true,
+    [IsPolygonalComplex, IsVertexEdgePath, IsPolygonalComplex, IsList],
+    [,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePathsNC,
+    "for two polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsList, IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
+    function(complex1, pathAsList1, complex2, vePath2)
+        return JoinVertexEdgePathsNC(complex1, VertexEdgePath(complex1, pathAsList1), complex2, vePath2);
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePathsNC, true,
+    [IsPolygonalComplex, IsList, IsPolygonalComplex, IsVertexEdgePath],
+    [,,,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePathsNC,
+    "for two polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex,IsList,IsPolygonalComplex,IsList],
+    function(complex1, pathAsList1, complex2, pathAsList2)
+        return JoinVertexEdgePathsNC(complex1, VertexEdgePath(complex1, pathAsList1), complex2, VertexEdgePath(complex2, pathAsList2));
+    end
+);
+
+## Section 3
+InstallMethod( JoinVertexEdgePaths, 
+    "for a polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
+        IsVertexEdgePath and IsDuplicateFree],
+    function(complex, vePath1, vePath2)
+        if complex <> AssociatedPolygonalComplex(vePath1) then
+            Error(Concatenation("JoinVertexEdgePaths: The first path ", 
+                vePath1, " does not belong to the polygonal complex."));
+        fi;
+        if complex <> AssociatedPolygonalComplex(vePath2) then
+            Error(Concatenation("JoinVertexEdgePaths: The second path ", 
+                vePath2, " does not belong to the polygonal complex."));
+        fi;
+
+        if Size(VerticesAsList(vePath1)) <> Size(VerticesAsList(vePath2)) then
+            Error(Concatenation("JoinVertexEdgePaths: The given paths ",
+                vePath1, " and ", vePath2, " have different lengths."));
+        fi;
+
+        return JoinVertexEdgePathsNC(complex, vePath1, vePath2);
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePaths, true, 
+    [IsPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
+    [,IsDuplicateFree,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePaths,
+    "for a polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, IsList],
+    function(complex, vePath1, pathAsList2)
+        return JoinVertexEdgePaths(complex, vePath1, VertexEdgePath(complex, pathAsList2));
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePaths, true,
+    [IsPolygonalComplex, IsVertexEdgePath, IsList],
+    [,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePaths,
+    "for a polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsList, IsVertexEdgePath and IsDuplicateFree],
+    function(complex, pathAsList1, vePath2)
+        return JoinVertexEdgePaths(complex, VertexEdgePath(complex, pathAsList1), vePath2);
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePaths, true,
+    [IsPolygonalComplex, IsList, IsVertexEdgePath],
+    [,,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePaths,
+    "for a polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex,IsList,IsList],
+    function(complex, pathAsList1, pathAsList2)
+        return JoinVertexEdgePaths(complex, VertexEdgePath(complex, pathAsList1), VertexEdgePath(complex, pathAsList2));
+    end
+);
+
+## Section 4
+InstallMethod( JoinVertexEdgePathsNC, 
+    "for a polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
+        IsVertexEdgePath and IsDuplicateFree],
+    function(complex, vePath1, vePath2)
+        local swapComplex, labelList, i, join;
+
+        swapComplex := complex;
+        labelList := [];
+
+        # Identify vertices
+        for i in [1..Size(VerticesAsList(vePath1))] do;
+            join := JoinVerticesNC( swapComplex, VerticesAsList(vePath1)[i], VerticesAsList(vePath2)[i] );
+            if swapComplex = fail then
+                return fail;
+            fi;
+            labelList[2*i-1] := join[2];
+            swapComplex := join[1];
+        od;
+
+        # Identify edges
+        for i in [1..Size(EdgesAsList(vePath1))] do
+            join := JoinEdgesNC( swapComplex, EdgesAsList(vePath1)[i], EdgesAsList(vePath2)[i] );
+            labelList[2*i] := join[2];
+            swapComplex := join[1];
+        od;
+
+        return [swapComplex, VertexEdgePath(swapComplex, labelList)];
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePathsNC, true, 
+    [IsPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
+    [,IsDuplicateFree,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePathsNC,
+    "for a polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, IsList],
+    function(complex, vePath1, pathAsList2)
+        return JoinVertexEdgePathsNC(complex, vePath1, VertexEdgePath(complex, pathAsList2));
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePathsNC, true,
+    [IsPolygonalComplex, IsVertexEdgePath, IsList],
+    [,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePathsNC,
+    "for a polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex, IsList, IsVertexEdgePath and IsDuplicateFree],
+    function(complex, pathAsList1, vePath2)
+        return JoinVertexEdgePathsNC(complex, VertexEdgePath(complex, pathAsList1), vePath2);
+    end
+);
+RedispatchOnCondition( JoinVertexEdgePathsNC, true,
+    [IsPolygonalComplex, IsList, IsVertexEdgePath],
+    [,,IsDuplicateFree], 0);
+
+InstallOtherMethod(JoinVertexEdgePathsNC,
+    "for a polygonal complexes and two duplicate-free vertex-edge-paths",
+    [IsPolygonalComplex,IsList,IsList],
+    function(complex, pathAsList1, pathAsList2)
+        return JoinVertexEdgePathsNC(complex, VertexEdgePath(complex, pathAsList1), VertexEdgePath(complex, pathAsList2));
+    end
+);
 
 
 

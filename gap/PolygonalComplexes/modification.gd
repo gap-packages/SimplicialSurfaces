@@ -602,10 +602,7 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! 7
 #! @EndExampleSession
 #! <Alt Only="TikZ">
-#!   {
-#!     \def\open{1}
 #!     \input{Image_Eye_OpenClosed.tex}
-#!   }
 #! </Alt>
 #! @BeginExampleSession
 #! gap> EdgeAnomalyClasses(closeEye[1]);
@@ -629,9 +626,80 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! @EndGroup
 
 
-
-#TODO duality where combining and cutting method are described together?
-
+#! @BeginGroup JoinVertexEdgePaths
+#! @Description
+#! Combine two duplicate-free (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) 
+#! vertex-edge-paths (<Ref Subsect="VertexEdgePath"/>) of equal length 
+#! into
+#! one. This is done by first joining the corresponding vertices by
+#! <K>JoinVertices</K> (<Ref Subsect="JoinVertices"/>) and then identifying
+#! the corresponding edges with <K>JoinEdges</K> (<Ref Subsect="JoinEdges"/>).
+#! If two polygonal complexes are given, they are combined with 
+#! <K>DisjointUnion</K> (<Ref Subsect="DisjointUnion"/>) before these
+#! identifications take place.
+#!
+#! If some of the vertices can't be identified because they are incident
+#! to the same edge, <K>fail</K> is returned. Otherwise this method returns a
+#! pair, where the first entry is a polygonal complex and the second one
+#! is the vertex-edge-path in the new polygonal complex that was generated
+#! by the identified vertex-edge-paths.
+#!
+#! One thing that can be done is the construction of a ramified edge. 
+#! Consider just one triangle:
+#! @BeginExampleSession
+#! gap> triangle := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,3],[2,3]],[[1,2,3]] );;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!     \def\len{3}
+#!     \coordinate (L) at (0,0);
+#!     \coordinate (R) at (\len,0);
+#!     \coordinate (U) at (60:\len);
+#!
+#!     \draw[edge,face] (L) -- node[edgeLabel]{2} (R) -- node[edgeLabel]{3} (U) -- node[edgeLabel]{2} cycle;
+#!     \node[faceLabel] at (barycentric cs:L=1,R=1,U=1){I};
+#!     \foreach \p/\r/\n in {L/left/1,R/right/2,U/above/3}{
+#!       \vertexLabelR{\p}{\r}{\n}
+#!     }
+#!   \end{tikzpicture}
+#! </Alt>
+#! First we combine two of them:
+#! @BeginExampleSession
+#! gap> join := JoinVertexEdgePaths(triangle, [1,1,2], triangle, [1,1,2]);;
+#! gap> join[2];
+#! | v7, E7, v8 |
+#! @EndExampleSession
+#! Along this vertex-edge-path another of the triangles can be added:
+#! @BeginExampleSession
+#! gap> tripleJoin := JoinVertexEdgePaths(join[1],join[2],triangle,[1,1,2]);;
+#! gap> tripleJoin[2];
+#! | v12, E12, v13 |
+#! gap> RamifiedEdges(tripleJoin[1]);
+#! [ 12 ]
+#! @EndExampleSession
+#! 
+#! The NC-versions do not check whether the given vertex-edge-paths are
+#! actually vertex-edge-paths of the polygonal complexes.
+#! 
+#! @Returns a pair, where the first entry is a polygonal complex and the
+#!   second entry is a vertex-edge-path
+#! @Arguments complex, vePath1, vePath2
+DeclareOperation("JoinVertexEdgePaths", [IsPolygonalComplex, 
+    IsVertexEdgePath and IsDuplicateFree, 
+    IsVertexEdgePath and IsDuplicateFree]);
+#! @Arguments complex, vePath1, vePath2
+DeclareOperation("JoinVertexEdgePathsNC", [IsPolygonalComplex, 
+    IsVertexEdgePath and IsDuplicateFree, 
+    IsVertexEdgePath and IsDuplicateFree]);
+#! @Arguments complex1, vePath1, complex2, vePath2
+DeclareOperation("JoinVertexEdgePaths", 
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
+    IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree]);
+#! @Arguments complex1, vePath1, complex2, vePath2
+DeclareOperation("JoinVertexEdgePathsNC", 
+    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
+    IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree]);
+#! @EndGroup
 
 
 # Connected sum over

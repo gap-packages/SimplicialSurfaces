@@ -1,13 +1,5 @@
 
 
-JoinVertexEdgePaths(complex, path1, path2)
-    -> Combination, as above
-JoinVertexEdgePaths(complex1, path1, complex2, path2, optional:shift)
-    -> return [complex, new path, shift]
-    -> shift second complex, then join
-    -> return the vePath that connects the two components
-
-
 JoinPerimeters(complex, path1, path2)
     -> if the paths are not complete, they will be completed to the full perimeter
     -> can also be given as [vertex, edge] or [edge, edge] or [vertex,vertex] if that specifies the perimeter uniquely
