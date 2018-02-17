@@ -1,0 +1,8 @@
+
+ColourNames:
+    EdgeColoured...
+    EdgeVariColoured
+    EdgeExactColoured
+    LocalSymmetriesOfEdges... 
+    ???
+    MRTypeColourInvariant (Struktur)    -->  GroupColouring
