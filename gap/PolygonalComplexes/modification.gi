@@ -303,7 +303,7 @@ InstallMethod( SplitVertexEdgePathNC,
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath)
         local newLabelList, swapComplex, newComplex, i, edgeSplit, 
-            vertexSplit;
+            vertexSplit, size;
 
         newLabelList := [];
         swapComplex := complex;
@@ -314,11 +314,20 @@ InstallMethod( SplitVertexEdgePathNC,
             newLabelList[2*i] := edgeSplit[2];
         od;
         # Split the vertices
-        for i in [1..Size(VerticesAsList(vePath))] do
+        for i in [1..Size(VerticesAsList(vePath))-1] do
             vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[i]);
             swapComplex := vertexSplit[1];
             newLabelList[2*i-1] := vertexSplit[2];
         od;
+        size := Size(VerticesAsList(vePath));
+        if IsClosedPath(vePath) then
+            # The last vertex has already be splitted!
+            newLabelList[2*size-1] := newLabelList[1];
+        else
+            vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[size]);
+            swapComplex := vertexSplit[1];
+            newLabelList[2*size-1] := vertexSplit[2];
+        fi;
         newComplex := swapComplex;
 
         return [newComplex, __SIMPLICIAL_ComputeNewVertexEdgePaths(
