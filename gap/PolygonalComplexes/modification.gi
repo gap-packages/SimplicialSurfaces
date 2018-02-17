@@ -608,6 +608,9 @@ InstallMethod( JoinVerticesNC, "for two polygonal complexes and two vertices",
 
         disjoint := DisjointUnion(complex1, complex2);
         join := JoinVerticesNC( disjoint[1], v1, v2+disjoint[2] );
+        if join = fail then
+            return fail;
+        fi;
         Add(join, disjoint[2]);
         return join;
     end
@@ -617,14 +620,30 @@ InstallOtherMethod( JoinVertices,
     "for a polygonal complex and a list of two vertices",
     [IsPolygonalComplex, IsList],
     function(complex, vertList)
-        return JoinVertices(complex, vertList, Maximum(Vertices(complex))+1);
+        local vertSet, label;
+
+        vertSet := Set(vertList);
+        if Size(vertSet) = 1 then
+            label := vertSet[1];
+        else
+            label := Maximum(Vertices(complex)) + 1;
+        fi;
+        return JoinVertices(complex, vertSet, label);
     end
 );
 InstallOtherMethod( JoinVerticesNC,
     "for a polygonal complex and a list of two vertices",
     [IsPolygonalComplex, IsList],
     function(complex, vertList)
-        return JoinVerticesNC(complex, vertList, Maximum(Vertices(complex))+1);
+        local vertSet, label;
+
+        vertSet := Set(vertList);
+        if Size(vertSet) = 1 then
+            label := vertSet[1];
+        else
+            label := Maximum(Vertices(complex)) + 1;
+        fi;
+        return JoinVerticesNC(complex, vertSet, label);
     end
 );
 
@@ -635,7 +654,7 @@ InstallMethod( JoinVertices,
         local vertSet;
 
         vertSet := Set(vertList);
-        if Size(vertSet) <> 2 then
+        if Size(vertSet) > 2 then
             Error(Concatenation("JoinVertices: Given vertex list ", vertList, 
                 " contains more than two different elements."));
         fi;
@@ -650,7 +669,11 @@ InstallMethod( JoinVertices,
                 Vertices(complex), "."));
         fi;
 
-        return JoinVerticesNC(complex, vertSet[1], vertSet[2], newVertexLabel);
+        if Size(vertSet) = 2 then
+            return JoinVerticesNC(complex, vertSet[1], vertSet[2], newVertexLabel);
+        else
+            return JoinVerticesNC(complex, vertSet[1], vertSet[1], newVertexLabel);
+        fi;
     end
 );
 InstallMethod( JoinVerticesNC,
@@ -660,7 +683,11 @@ InstallMethod( JoinVerticesNC,
         local vertSet;
 
         vertSet := Set(vertList);
-        return JoinVerticesNC(complex, vertSet[1], vertSet[2], newVertexLabel);
+        if Size(vertSet) = 2 then
+            return JoinVerticesNC(complex, vertSet[1], vertSet[2], newVertexLabel);
+        else
+            return JoinVerticesNC(complex, vertSet[1], vertSet[1], newVertexLabel);
+        fi;
     end
 );
 
@@ -714,7 +741,11 @@ InstallMethod( JoinVerticesNC,
     function(complex, v1, v2, newVertexLabel)
         local newEdgesOfVertices, newEdges, obj;
 
-        if ForAny( VerticesOfFaces(complex), verts -> IsSubset(verts,[v1,v2]) ) then
+        if v1 = v2 and v1 = newVertexLabel then
+            return [complex, newVertexLabel];
+        fi;
+
+        if v1 <> v2 and ForAny( VerticesOfFaces(complex), verts -> IsSubset(verts,[v1,v2]) ) then
             return fail;
         fi;
 
@@ -915,11 +946,17 @@ InstallMethod( JoinVertexEdgePathsNC,
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
         IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex1, vePath1, complex2, vePath2)
-        local disjoint;
+        local disjoint, join;
 
         disjoint := DisjointUnion(complex1, complex2);
-        return JoinVertexEdgePathsNC(disjoint[1], vePath1, 
+        join := JoinVertexEdgePathsNC(disjoint[1], vePath1, 
             VertexEdgePath(disjoint[1], List(PathAsList(vePath2), x -> x+disjoint[2]) ) );
+        if join = fail then
+            return fail;
+        fi;
+
+        Add(join, disjoint[2]);
+        return join;
     end
 );
 RedispatchOnCondition( JoinVertexEdgePathsNC, true, 
@@ -1019,20 +1056,39 @@ InstallMethod( JoinVertexEdgePathsNC,
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
         IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath1, vePath2)
-        local swapComplex, labelList, i, join;
+        local swapComplex, labelList, i, join, v1, v2, size;
 
         swapComplex := complex;
         labelList := [];
 
         # Identify vertices
-        for i in [1..Size(VerticesAsList(vePath1))] do;
+        for i in [1..Size(VerticesAsList(vePath1))-1] do;
             join := JoinVerticesNC( swapComplex, VerticesAsList(vePath1)[i], VerticesAsList(vePath2)[i] );
-            if swapComplex = fail then
+            if join = fail then
                 return fail;
             fi;
             labelList[2*i-1] := join[2];
             swapComplex := join[1];
         od;
+        # The last step has to be handled differently if the paths are closed
+        size := Size(VerticesAsList(vePath1));
+        if IsClosedPath(vePath1) then
+            v1 := labelList[1];
+        else
+            v1 := VerticesAsList(vePath1)[size];
+        fi;
+        if IsClosedPath(vePath2) then
+            v2 := labelList[1];
+        else
+            v2 := VerticesAsList(vePath2)[size];
+        fi;
+        join := JoinVerticesNC( swapComplex, v1, v2 );
+        if join = fail then
+            return fail;
+        fi;
+        labelList[2*size-1] := join[2];
+        swapComplex := join[1];
+
 
         # Identify edges
         for i in [1..Size(EdgesAsList(vePath1))] do
@@ -1079,10 +1135,108 @@ InstallOtherMethod(JoinVertexEdgePathsNC,
 );
 
 
+## Boundaries
+InstallMethod(JoinBoundaries,
+    "for two polygonal surfaces and two 2-flags",
+    [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList],
+    function(surface1, flag1, surface2, flag2)
+        local disjoint, join;
 
+        disjoint := DisjointUnion(surface1, surface2);
+        join := JoinBoundaries( disjoint[1], flag1, List(flag2, x -> x + disjoint[2]) );
+        if join = fail then
+            return fail;
+        fi;
+        Add(join, disjoint[2]);
+        return join;
+    end
+);
+RedispatchOnCondition( JoinBoundaries, true, [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList], [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+InstallMethod(JoinBoundaries,
+    "for a polygonal surface and two 2-flags",
+    [IsPolygonalSurface, IsList, IsList],
+    function(surface, flag1, flag2)
+        local perims, perim1, perim2, bound1, bound2, Reorient;
 
+        if Size(flag1) < 2 then
+            Error(Concatenation("JoinBoundaries: First 2-flag should contain two elements, but actually has ", Size(flag1),"."));
+        fi;
+        if Size(flag2) < 2 then
+            Error(Concatenation("JoinBoundaries: Second 2-flag should contain two elements, but actually has ", Size(flag2),"."));
+        fi;
+        if not IsBoundaryVertex(surface, flag1[1]) then
+            Error(Concatenation("JoinBoundaries: Vertex ", flag1[1], " of first flag is not a boundary vertex."));
+        fi;
+        if not IsBoundaryVertex(surface, flag2[1]) then
+            Error(Concatenation("JoinBoundaries: Vertex ", flag2[1], " of second flag is not a boundary vertex."));
+        fi;
+        if not IsBoundaryEdge(surface, flag1[2]) then
+            Error(Concatenation("JoinBoundaries: Edge ", flag1[2], " of first flag is not a boundary edge."));
+        fi;
+        if not IsBoundaryEdge(surface, flag2[2]) then
+            Error(Concatenation("JoinBoundaries: Edge ", flag2[2], " of second flag is not a boundary edge."));
+        fi;
+        if not flag1[1] in VerticesOfEdges(surface)[flag1[2]] then
+            Error(Concatenation("JoinBoundaries: First list ", flag1, " should be a flag of a vertex and an edge."));
+        fi;
+        if not flag2[1] in VerticesOfEdges(surface)[flag2[2]] then
+            Error(Concatenation("JoinBoundaries: Second list ", flag2, " should be a flag of a vertex and an edge."));
+        fi;
 
-## Perimeters
+        perims := PerimeterOfHoles(surface);
+        # Each edge can be in only one boundary path
+        #TODO could this become another VertexEdgePath-Constructor?
+        perim1 := Filtered(perims, p -> flag1[2] in EdgesAsList(p));
+        perim2 := Filtered(perims, p -> flag2[2] in EdgesAsList(p));
+        Assert(0, Size(perim1) = 1);
+        Assert(0, Size(perim2) = 1);
+        perim1 := perim1[1];
+        perim2 := perim2[1];
+
+        # We have to reorient the paths correctly
+        # TODO this could be a separate method
+        Reorient := function( path, vertex, edge )
+            local vPos, ePos, i;
+
+            if path[1] = vertex and path[2] = edge then
+                return path;
+            fi;
+            if path[Size(path)] = vertex and path[Size(path)-1] = edge then
+                return Reversed(path);
+            fi;
+
+            vPos := 0;
+            for i in [3,5..Size(path)-2] do
+                if path[i] = vertex then
+                    vPos := i;
+                fi;
+            od;
+            Assert(0, vPos > 0);
+
+            ePos := 0;
+            for i in [2,4..Size(path)-1] do
+                if path[i] = edge then
+                    ePos := i;
+                fi;
+            od;
+            Assert(0, ePos > 0);
+
+            if vPos + 1 = ePos then
+                # right direction
+                return Concatenation( path{[vPos..Size(path)-1]}, path{[1..vPos]} );
+            elif ePos + 1 = vPos then
+                # wrong direction
+                return Reversed( Concatenation( path{[vPos..Size(path)]}, path{[1..vPos]} ) );
+            fi;
+            Error("JoinBoundaries: Internal Error");
+        end;
+
+        bound1 := VertexEdgePath( surface, Reorient( PathAsList(perim1), flag1[1], flag1[2] ) );
+        bound2 := VertexEdgePath( surface, Reorient( PathAsList(perim2), flag2[1], flag2[2] ) );
+        return JoinVertexEdgePathsNC(surface, bound1, bound2);
+    end
+);
+RedispatchOnCondition( JoinBoundaries, true, [IsPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
 
 
 

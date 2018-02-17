@@ -450,7 +450,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! * Identifying two edges (<Ref Subsect="JoinEdges"/>)
 #! * Identifying two vertex-edge-paths (<Ref Subsect="JoinVertexEdgePaths"/>)
 #! * Identifying the perimeters of two boundaries/holes 
-#!   (<Ref Subsect="JoinPerimeters"/>)
+#!   (<Ref Subsect="JoinBoundaries"/>)
 #!
 #! 
 #! TODO examples + Tests
@@ -682,7 +682,8 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! actually vertex-edge-paths of the polygonal complexes.
 #! 
 #! @Returns a pair, where the first entry is a polygonal complex and the
-#!   second entry is a vertex-edge-path
+#!   second entry is a vertex-edge-path. The optional third entry describes
+#!   the label shift of <A>complex2</A> (if applicable).
 #! @Arguments complex, vePath1, vePath2
 DeclareOperation("JoinVertexEdgePaths", [IsPolygonalComplex, 
     IsVertexEdgePath and IsDuplicateFree, 
@@ -699,6 +700,70 @@ DeclareOperation("JoinVertexEdgePaths",
 DeclareOperation("JoinVertexEdgePathsNC", 
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
     IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree]);
+#! @EndGroup
+
+
+#TODO allow more options here, NC-versions
+#! @BeginGroup JoinBoundaries
+#! @Description
+#! Combine two boundaries into one. This method takes the starts of two
+#! vertex-edge-paths (<Ref Subsect="VertexEdgePath"/>) and extends those
+#! into vertex-edge-paths along the boundary of the given polygonal surfaces.
+#! Then the method <K>JoinVertexEdgePaths</K> 
+#! (<Ref Subsect="JoinVertexEdgePaths"/>) will be called on these 
+#! vertex-edge-paths.
+#!
+#! If two surfaces should be combined, <K>DisjointUnion</K> 
+#! (<Ref Subsect="DisjointUnion"/>) will be
+#! called beforehand.
+#!
+#! Currently the <A>veList</A> has to be given as a list
+#! [<A>vertex</A>, <A>edge</A>].
+#!
+#! For example, consider the following simplicial surface:
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!      \def\len{2.5}
+#!      \coordinate (Z) at (0,0);
+#!      \foreach \i in {0,1,2,3}{
+#!          \coordinate (P\i) at (45+90*\i:\len);
+#!      }
+#!
+#!      \draw[edge,face]
+#!          (Z) -- (P0) -- node[edgeLabel]{5} (P1) -- cycle
+#!          (Z) -- node[edgeLabel]{2} (P1) -- node[edgeLabel]{6} (P2) -- cycle
+#!          (Z) -- node[edgeLabel]{3} (P2) -- node[edgeLabel]{7} (P3) -- cycle
+#!          (Z) -- node[edgeLabel]{4} (P3) -- node[edgeLabel]{8} (P0) -- node[edgeLabel]{1} cycle;
+#!
+#!      \foreach \p/\q/\n in {0/1/I, 1/2/II, 2/3/III, 3/0/IV}{
+#!          \node[faceLabel] at (barycentric cs:Z=1,P\p=1,P\q=1) {\n};
+#!      }
+#!  
+#!      \foreach \p/\r/\n in {Z/right/1, P0/right/2, P1/above/3, P2/left/4, P3/below/5}{
+#!          \vertexLabelR{\p}{\r}{\n}
+#!      }
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
+#! >        [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]], 
+#! >         [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
+#! @EndExampleSession
+#!
+#! Combining two of these along their boundaries gives the octahedron.
+#! @BeginExampleSession
+#! gap> oct := JoinBoundaries(fourGon, [3,6], fourGon, [4,7]);;
+#! gap> IsIsomorphicPolygonalComplex(oct[1], Octahedron());
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a list, where the first entry is a polygonal surface, the
+#!   second one is a vertex-edge-path and the third one is the label
+#!   shift of <A>complex2</A> (if applicable).
+#! @Arguments surface, veList1, veList2
+DeclareOperation( "JoinBoundaries", [IsPolygonalSurface, IsList, IsList] );
+#! @Arguments surface1, veList1, surface2, veList2
+DeclareOperation( "JoinBoundaries", [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList] );
 #! @EndGroup
 
 

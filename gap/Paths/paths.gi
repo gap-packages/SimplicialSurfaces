@@ -59,9 +59,9 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
                 fi;
                 if Set( [path[i-1], path[i+1]] ) <> VerticesOfEdges(complex)[path[i]] then
                     Error( Concatenation( "VertexEdgePath: The numbers ",
-                        path[i-1], " and ", path[i+1], 
-                        " are not all incident vertices to the edge ", path[i],
-                        " (position ", i, ") in the given complex.") );
+                        String(path[i-1]), " and ", String(path[i+1]), 
+                        " are not all incident vertices to the edge ", String(path[i]),
+                        " (position ", String(i), ") in the given complex.") );
                 fi;
             fi;
         od;
@@ -137,6 +137,12 @@ InstallMethod( \=, "for two vertex-edge-paths", IsIdenticalObj,
 InstallMethod( PathAsList, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
         return Path(path);
+    end
+);
+InstallMethod( \<, "for two vertex-edge-paths", 
+    [IsVertexEdgePath, IsVertexEdgePath],
+    function(path1, path2)
+        return PathAsList(path1) < PathAsList(path2);
     end
 );
 
@@ -309,6 +315,12 @@ InstallMethod( \=, "for two edge-face-paths", IsIdenticalObj,
 InstallMethod( PathAsList, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
         return Path(path);
+    end
+);
+InstallMethod( \<, "for two edge-face-paths", 
+    [IsEdgeFacePath, IsEdgeFacePath],
+    function(path1, path2)
+        return PathAsList(path1) < PathAsList(path2);
     end
 );
 
