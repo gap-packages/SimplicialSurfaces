@@ -72,7 +72,7 @@ InstallMethod( EdgeAnomalyClassOfEdgeNC,
             fi;
         od;
 
-        Error("EdgeAnomalyClassOfEdge: Given edge not found.");
+        Error(Concatenation("EdgeAnomalyClassOfEdge: Given edge ", String(edge), " not found."));
     end
 );
 InstallMethod( EdgeAnomalyClassOfEdge,
@@ -106,7 +106,7 @@ InstallMethod( FaceAnomalyClassOfFaceNC,
             fi;
         od;
 
-        Error("FaceAnomalyClassOfFace: Given face not found.");
+        Error(Concatenation("FaceAnomalyClassOfFace: Given face ", String(face), " not found."));
     end
 );
 InstallMethod( FaceAnomalyClassOfFace,

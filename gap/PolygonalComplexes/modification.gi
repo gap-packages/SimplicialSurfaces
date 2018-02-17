@@ -22,8 +22,8 @@ InstallOtherMethod( SplitEdge, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
         if not edge in Edges(complex) then
-            Error(Concatenation("SplitEdge: Given edge ", edge, 
-                " is not one of the edges ", Edges(complex), 
+            Error(Concatenation("SplitEdge: Given edge ", String(edge), 
+                " is not one of the edges ", String(Edges(complex)), 
                 " of the given polygonal complex." ) );
         fi;
         return SplitEdgeNC(complex, edge);
@@ -50,15 +50,15 @@ InstallMethod( SplitEdge, "for a polygonal complex, an edge and a list",
         local intersect;
 
         if not edge in Edges(complex) then
-            Error(Concatenation("SplitEdge: Given edge ", edge, 
-                " is not one of the edges ", Edges(complex), 
+            Error(Concatenation("SplitEdge: Given edge ", String(edge), 
+                " is not one of the edges ", String(Edges(complex)), 
                 " of the given polygonal complex." ) );
         fi;
 
         if ForAny(newEdgeLabels, e -> not IsPosInt(e)) then
             Error(Concatenation(
                 "SplitEdge: The new edge labels have to be positive integers, but are ", 
-                newEdgeLabels, "."));
+                String(newEdgeLabels), "."));
         fi;
 
         if Size( Set(newEdgeLabels) ) <> Size(FacesOfEdges(complex)[edge]) then
@@ -72,9 +72,9 @@ InstallMethod( SplitEdge, "for a polygonal complex, an edge and a list",
             return SplitEdgeNC(complex, edge, newEdgeLabels);
         else
             Error(Concatenation("SplitEdge: The new edge labels ", 
-                newEdgeLabels, 
+                String(newEdgeLabels), 
                 " have to be disjoint from the existing edge labels ", 
-                Edges(complex)));
+                String(Edges(complex)) ));
         fi;
     end
 );
@@ -135,8 +135,8 @@ InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
         if not vertex in Vertices(complex) then
-            Error(Concatenation("SplitVertex: Given vertex ", vertex, 
-                " is not one of the vertices ", Vertices(complex), 
+            Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
+                " is not one of the vertices ", String(Vertices(complex)), 
                 " of the given polygonal complex." ) );
         fi;
         return SplitVertexNC(complex, vertex);
@@ -163,15 +163,15 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
         local intersect;
 
         if not vertex in Vertices(complex) then
-            Error(Concatenation("SplitVertex: Given vertex ", vertex, 
-                " is not one of the vertices ", Vertices(complex), 
+            Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
+                " is not one of the vertices ", String(Vertices(complex)), 
                 " of the given polygonal complex." ) );
         fi;
 
         if ForAny(newVertexLabels, v -> not IsPosInt(v)) then
             Error(Concatenation(
                 "SplitVertex: The new vertex labels have to be positive integers, but are ", 
-                newVertexLabels, "."));
+                String(newVertexLabels), "."));
         fi;
 
         if Size( Set(newVertexLabels) ) <> Size(__SIMPLICIAL_ConnectedStarComponents(complex, vertex)) then
@@ -185,9 +185,9 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
             return SplitVertexNC(complex, vertex, newVertexLabels);
         else
             Error(Concatenation("SplitVertex: The new vertex labels ", 
-                newVertexLabels, 
+                String(newVertexLabels), 
                 " have to be disjoint from the existing vertex labels ", 
-                Vertices(complex)));
+                String(Vertices(complex)) ));
         fi;
     end
 );
@@ -504,9 +504,9 @@ InstallMethod( RemoveFace, "for a polygonal complex and a face",
     [IsPolygonalComplex, IsPosInt],
     function(complex, face)
         if not face in Faces(complex) then
-            Error(Concatenation("RemoveFace: The given face ", face, 
+            Error(Concatenation("RemoveFace: The given face ", String(face), 
                 " is not a face of the given complex: ", 
-                Faces(complex), ".") );
+                String(Faces(complex)), ".") );
         fi;
         return RemoveFaceNC(complex, face);
     end
@@ -589,14 +589,14 @@ InstallMethod( JoinVertices, "for two polygonal complexes and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt],
     function(complex1, v1, complex2, v2)
         if not v1 in Vertices(complex1) then
-            Error(Concatenation("JoinVertices: The first vertex ", v1, 
+            Error(Concatenation("JoinVertices: The first vertex ", String(v1), 
                 " is not one of the vertices in the first polygonal complex: ", 
-                Vertices(complex1), "."));
+                String(Vertices(complex1)), "."));
         fi;
         if not v2 in Vertices(complex2) then
-            Error(Concatenation("JoinVertices: The second vertex ", v2, 
+            Error(Concatenation("JoinVertices: The second vertex ", String(v2), 
                 " is not one of the vertices in the second polygonal complex: ", 
-                Vertices(complex2), "."));
+                String(Vertices(complex2)), "."));
         fi;
         return JoinVerticesNC(complex1,v1,complex2,v2);
     end
@@ -655,18 +655,18 @@ InstallMethod( JoinVertices,
 
         vertSet := Set(vertList);
         if Size(vertSet) > 2 then
-            Error(Concatenation("JoinVertices: Given vertex list ", vertList, 
+            Error(Concatenation("JoinVertices: Given vertex list ", String(vertList), 
                 " contains more than two different elements."));
         fi;
         if not IsSubset(Vertices(complex), vertSet) then
-            Error(Concatenation("JoinVertices: Given vertex list ", vertList,
+            Error(Concatenation("JoinVertices: Given vertex list ", String(vertList),
                 " is not a subset of the vertices of the given complex: ",
-                Vertices(complex), "."));
+                String(Vertices(complex)), "."));
         fi;
         if not newVertexLabel in vertSet and newVertexLabel in Vertices(complex) then
             Error(Concatenation("JoinVertices: Given new vertex label ", 
-                newVertexLabel, " conflicts with existing vertices: ", 
-                Vertices(complex), "."));
+                String(newVertexLabel), " conflicts with existing vertices: ", 
+                String(Vertices(complex)), "."));
         fi;
 
         if Size(vertSet) = 2 then
@@ -728,8 +728,8 @@ InstallMethod( JoinVertices,
         __SIMPLICIAL_CheckVertex(complex, v2, "JoinVertices");
         if newVertexLabel <> v1 and newVertexLabel <> v2 and newVertexLabel in Vertices(complex) then
             Error(Concatenation("JoinVertices: Given new vertex label ", 
-                newVertexLabel, " conflicts with existing vertices: ", 
-                Vertices(complex), "."));
+                String(newVertexLabel), " conflicts with existing vertices: ", 
+                String(Vertices(complex)), "."));
         fi;
 
         return JoinVerticesNC(complex, v1, v2, newVertexLabel);
@@ -788,18 +788,18 @@ InstallMethod( JoinEdges,
 
         edgeSet := Set(edgeList);
         if Size(edgeSet) <> 2 then
-            Error(Concatenation("JoinEdges: Given edge list ", edgeList, 
+            Error(Concatenation("JoinEdges: Given edge list ", String(edgeList), 
                 " contains more than two different elements."));
         fi;
         if not IsSubset(Edges(complex), edgeSet) then
-            Error(Concatenation("JoinEdges: Given edge list ", edgeList,
+            Error(Concatenation("JoinEdges: Given edge list ", String(edgeList),
                 " is not a subset of the edges of the given complex: ",
-                Edges(complex), "."));
+                String(Edges(complex)), "."));
         fi;
         if not newEdgeLabel in edgeSet and newEdgeLabel in Edges(complex) then
             Error(Concatenation("JoinEdges: Given new edge label ", 
-                newEdgeLabel, " conflicts with existing edges: ", 
-                Edges(complex), "."));
+                String(newEdgeLabel), " conflicts with existing edges: ", 
+                String(Edges(complex)), "."));
         fi;
 
         return JoinEdges(complex, edgeSet[1], edgeSet[2], newEdgeLabel);
@@ -836,18 +836,18 @@ InstallMethod( JoinEdges,
         __SIMPLICIAL_CheckEdge(complex, e1, "JoinEdges");
         __SIMPLICIAL_CheckEdge(complex, e2, "JoinEdges");
         if e1 = e2 then
-            Error(Concatenation("JoinEdges: Given edges are identical: ", e1, "."));
+            Error(Concatenation("JoinEdges: Given edges are identical: ", String(e1), "."));
         fi;
         if newEdgeLabel <> e1 and newEdgeLabel <> e2 and newEdgeLabel in Edges(complex) then
             Error(Concatenation("JoinEdges: Given new edge label ", 
-                newEdgeLabel, " conflicts with existing edges: ", 
-                Edges(complex), "."));
+                String(newEdgeLabel), " conflicts with existing edges: ", 
+                String(Edges(complex)), "."));
         fi;
         if VerticesOfEdges(complex)[e1] <> VerticesOfEdges(complex)[e2] then
             Error(Concatenation(
                 "JoinEdges: The two given edges are incident to different vertices, namely ",
-                VerticesOfEdges(complex)[e1], " and ",
-                VerticesOfEdges(complex)[e2], "."));
+                String(VerticesOfEdges(complex)[e1]), " and ",
+                String(VerticesOfEdges(complex)[e2]), "."));
         fi;
 
         return JoinEdgesNC(complex, e1, e2, newEdgeLabel);
@@ -891,16 +891,16 @@ InstallMethod( JoinVertexEdgePaths,
     function(complex1, vePath1, complex2, vePath2)
         if complex1 <> AssociatedPolygonalComplex(vePath1) then
             Error(Concatenation("JoinVertexEdgePaths: The first path ", 
-                vePath1, " does not belong to the first polygonal complex."));
+                String(vePath1), " does not belong to the first polygonal complex."));
         fi;
         if complex2 <> AssociatedPolygonalComplex(vePath2) then
             Error(Concatenation("JoinVertexEdgePaths: The second path ", 
-                vePath2, " does not belong to the first polygonal complex."));
+                String(vePath2), " does not belong to the first polygonal complex."));
         fi;
 
         if Size(VerticesAsList(vePath1)) <> Size(VerticesAsList(vePath2)) then
             Error(Concatenation("JoinVertexEdgePaths: The given paths ",
-                vePath1, " and ", vePath2, " have different lengths."));
+                String(vePath1), " and ", String(vePath2), " have different lengths."));
         fi;
 
         return JoinVertexEdgePathsNC(complex1, vePath1, complex2, vePath2);
@@ -1001,16 +1001,16 @@ InstallMethod( JoinVertexEdgePaths,
     function(complex, vePath1, vePath2)
         if complex <> AssociatedPolygonalComplex(vePath1) then
             Error(Concatenation("JoinVertexEdgePaths: The first path ", 
-                vePath1, " does not belong to the polygonal complex."));
+                String(vePath1), " does not belong to the polygonal complex."));
         fi;
         if complex <> AssociatedPolygonalComplex(vePath2) then
             Error(Concatenation("JoinVertexEdgePaths: The second path ", 
-                vePath2, " does not belong to the polygonal complex."));
+                String(vePath2), " does not belong to the polygonal complex."));
         fi;
 
         if Size(VerticesAsList(vePath1)) <> Size(VerticesAsList(vePath2)) then
             Error(Concatenation("JoinVertexEdgePaths: The given paths ",
-                vePath1, " and ", vePath2, " have different lengths."));
+                String(vePath1), " and ", String(vePath2), " have different lengths."));
         fi;
 
         return JoinVertexEdgePathsNC(complex, vePath1, vePath2);
@@ -1159,28 +1159,28 @@ InstallMethod(JoinBoundaries,
         local perims, perim1, perim2, bound1, bound2, Reorient;
 
         if Size(flag1) < 2 then
-            Error(Concatenation("JoinBoundaries: First 2-flag should contain two elements, but actually has ", Size(flag1),"."));
+            Error(Concatenation("JoinBoundaries: First 2-flag should contain two elements, but actually has ", String(Size(flag1)),"."));
         fi;
         if Size(flag2) < 2 then
-            Error(Concatenation("JoinBoundaries: Second 2-flag should contain two elements, but actually has ", Size(flag2),"."));
+            Error(Concatenation("JoinBoundaries: Second 2-flag should contain two elements, but actually has ", String(Size(flag2)),"."));
         fi;
         if not IsBoundaryVertex(surface, flag1[1]) then
-            Error(Concatenation("JoinBoundaries: Vertex ", flag1[1], " of first flag is not a boundary vertex."));
+            Error(Concatenation("JoinBoundaries: Vertex ", String(flag1[1]), " of first flag is not a boundary vertex."));
         fi;
         if not IsBoundaryVertex(surface, flag2[1]) then
-            Error(Concatenation("JoinBoundaries: Vertex ", flag2[1], " of second flag is not a boundary vertex."));
+            Error(Concatenation("JoinBoundaries: Vertex ", String(flag2[1]), " of second flag is not a boundary vertex."));
         fi;
         if not IsBoundaryEdge(surface, flag1[2]) then
-            Error(Concatenation("JoinBoundaries: Edge ", flag1[2], " of first flag is not a boundary edge."));
+            Error(Concatenation("JoinBoundaries: Edge ", String(flag1[2]), " of first flag is not a boundary edge."));
         fi;
         if not IsBoundaryEdge(surface, flag2[2]) then
-            Error(Concatenation("JoinBoundaries: Edge ", flag2[2], " of second flag is not a boundary edge."));
+            Error(Concatenation("JoinBoundaries: Edge ", String(flag2[2]), " of second flag is not a boundary edge."));
         fi;
         if not flag1[1] in VerticesOfEdges(surface)[flag1[2]] then
-            Error(Concatenation("JoinBoundaries: First list ", flag1, " should be a flag of a vertex and an edge."));
+            Error(Concatenation("JoinBoundaries: First list ", String(flag1), " should be a flag of a vertex and an edge."));
         fi;
         if not flag2[1] in VerticesOfEdges(surface)[flag2[2]] then
-            Error(Concatenation("JoinBoundaries: Second list ", flag2, " should be a flag of a vertex and an edge."));
+            Error(Concatenation("JoinBoundaries: Second list ", String(flag2), " should be a flag of a vertex and an edge."));
         fi;
 
         perims := PerimeterOfHoles(surface);

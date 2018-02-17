@@ -84,14 +84,14 @@ InstallMethod( EdgeColouredPolygonalComplex,
             if not IsEmpty( diff ) then
                 Error(Concatenation( 
                     "EdgeColouredPolygonalComplex: There are no colours for the edges in ", 
-                    diff, "." ));
+                    String(diff), "." ));
             fi;
 
             diff := Difference(bound, edges);
             if not IsEmpty( diff ) then
                 Error(Concatenation( 
                     "EdgeColouredPolygonalComplex: The positions in ", 
-                    diff, " do not correspond to any edge." ));
+                    String(diff), " do not correspond to any edge." ));
             fi;
         elif ForAll(colouring, IsList) then
             # The entries should be lists of positive integers
@@ -101,14 +101,14 @@ InstallMethod( EdgeColouredPolygonalComplex,
             diff := Difference(edges, foundEdges);
             if not IsEmpty(diff) then
                 Error(Concatenation(
-                    "EdgeColouredPolygonalComplex: The edges in ", diff, 
+                    "EdgeColouredPolygonalComplex: The edges in ", String(diff), 
                     " do not appear in any colour class."));
             fi;
 
             diff := Difference(foundEdges, edges);
             if not IsEmpty(diff) then
                 Error(Concatenation(
-                    "EdgeColouredPolygonalComplex: The numbers in ", diff, 
+                    "EdgeColouredPolygonalComplex: The numbers in ", String(diff), 
                     " appear in colour classes but don't correspond to edges."));
             fi;
 
@@ -120,7 +120,7 @@ InstallMethod( EdgeColouredPolygonalComplex,
                     if not IsEmpty(inter) then
                         Error(Concatenation(
                             "EdgeColouredPolygonalComplex: The colour classes at positions ",
-                            bound[i], " and ", bound[j], " are not disjoint."));
+                            String(bound[i]), " and ", String(bound[j]), " are not disjoint."));
                     fi;
                 od;
             od;

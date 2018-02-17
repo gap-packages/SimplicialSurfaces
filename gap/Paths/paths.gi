@@ -48,13 +48,13 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
             if IsOddInt(i) then
                 if not path[i] in Vertices(complex) then
                     Error( Concatenation( "VertexEdgePath: The number ",
-                        path[i], " (position ", i,  
+                        String(path[i]), " (position ", String(i),  
                         ") is not a vertex of the given complex.") );
                 fi;
             else
                 if not path[i] in Edges(complex) then
                     Error( Concatenation( "VertexEdgePath: The number ", 
-                        path[i], " (position ", i, 
+                        String(path[i]), " (position ", String(i), 
                         ") is not an edge of the given complex." ) );
                 fi;
                 if Set( [path[i-1], path[i+1]] ) <> VerticesOfEdges(complex)[path[i]] then
@@ -215,31 +215,31 @@ InstallMethod( EdgeFacePath, "for a polygonal complex and a list",
             if IsOddInt(i) then
                 if not path[i] in Edges(complex) then
                     Error( Concatenation( "EdgeFacePath: The number ",
-                        path[i], " (position ", i,  
+                        String(path[i]), " (position ", String(i),  
                         ") is not an edge of the given complex.") );
                 fi;
             else
                 if not path[i] in Faces(complex) then
                     Error( Concatenation( "EdgeFacePath: The number ", 
-                        path[i], " (position ", i, 
+                        String(path[i]), " (position ", String(i), 
                         ") is not a face of the given complex." ) );
                 fi;
                 if path[i-1] = path[i+1] then
                     Error( Concatenation( 
                         "EdgeFacePath: Two adjacent edges can't be equal (positions ", 
-                        i-1, " and ", i+1, ")." ) );
+                        String(i-1), " and ", String(i+1), ")." ) );
                 fi;
                 if not path[i-1] in EdgesOfFaces(complex)[path[i]] then
                     Error( Concatenation( "EdgeFacePath: The edge ", 
-                        path[i-1], " (position ", i-1, 
-                        ") is not incident to the face ", path[i], 
-                        " (position ", i, ") in the given complex." ) );
+                        String(path[i-1]), " (position ", String(i-1), 
+                        ") is not incident to the face ", String(path[i]), 
+                        " (position ", String(i), ") in the given complex." ) );
                 fi;
                 if not path[i+1] in EdgesOfFaces(complex)[path[i]] then
                     Error( Concatenation( "EdgeFacePath: The edge ", 
-                        path[i+1], " (position ", i+1, 
-                        ") is not incident to the face ", path[i], 
-                        " (position ", i, ") in the given complex." ) );
+                        String(path[i+1]), " (position ", String(i+1), 
+                        ") is not incident to the face ", String(path[i]), 
+                        " (position ", String(i), ") in the given complex." ) );
                 fi;
             fi;
         od;
