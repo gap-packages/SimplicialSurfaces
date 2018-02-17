@@ -1284,5 +1284,34 @@ RedispatchOnCondition( ConnectedFaceSum, true,
     [IsPolygonalSurface,,IsPolygonalSurface], 0 );
 
 
+InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
+    function(surface)
+        local facePairs, commonEdges, snippPairs, joinEdges, remFaces, 
+            swapSurf, pair, join;
+
+        facePairs := Combinations(Faces(surface), 2);
+        commonEdges := List(facePairs, p -> [p[1],p[2],
+            Intersection( EdgesOfFaces(surface)[p[1]], EdgesOfFaces(surface)[p[2]] )]);
+        snippPairs := Filtered(commonEdges, c -> Size(c[3]) = 2);
+
+        joinEdges := List( snippPairs, p -> [ 
+            Difference(EdgesOfFaces(surface)[p[1]], p[3])[1], 
+            Difference(EdgesOfFaces(surface)[p[2]], p[3])[1] ] );
+
+        remFaces := Set( Flat( List( snippPairs, p -> [p[1],p[2]] ) ) );
+        swapSurf := RemoveFacesNC(surface, remFaces);
+
+        for pair in joinEdges do
+            if IsSubset( Edges(swapSurf), pair ) then
+                join := JoinEdgesNC(swapSurf, pair);
+                swapSurf := join[1];
+            fi;
+        od;
+
+        return swapSurf;
+    end
+);
+RedispatchOnCondition( SnippOffEars, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
+
 
 

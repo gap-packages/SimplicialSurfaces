@@ -802,17 +802,33 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalSurface, IsList, IsPolygonalSu
 #TODO can this be implemented more generally?
 
 
+#! @Description
+#! Remove all "ears" of the given simplicial surface, i.e. all pairs of faces
+#! that share two edges. The resulting edge anomaly is also fixed by
+#! identifying the edges.
+#!
+#! TODO example
+#!
+#! For a given face-anomaly [<A>face1</A>, <A>face2</A>] this could be
+#! implemented like this:
+#! @BeginLogSession
+#! gap> commonEdges := Intersection( 
+#! >          EdgesOfFace(surface,face1), EdgesOfFace(surface,face2) );
+#! gap> edge1 := Difference( EdgesOfFace(surface,face1), commonEdges )[1];
+#! gap> edge2 := Difference( EdgesOfFace(surface,face2), commonEdges )[1];
+#! gap> rem := RemoveFaces(surface, [face1, face2]);
+#! gap> snipp := JoinEdges(rem, edge1, edge2)[1];
+#! @EndLogSession
+#!
+#! @Returns a simplicial surface
+#! @Arguments surface
+DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
-# Connected sum over
-# * face
-# * edge (where edge blows up)
-# <-> Separation at two-waist or three-waist
 
 # cut/mend edges
 
 # These do not fit the above pattern:
 # SnippOffEars      -> can be an advanced example
 # CommonCover       -> does not fit here at all -> chapter Coverings (or only as a section in chapter "Associated Complexes" that also includes DualSurface?)
-# DualSurface       -> does not fit here at all -> ?
 # AddVertexIntoEdge (and the rest of Jesse's stuf) -> subdivision section?
 

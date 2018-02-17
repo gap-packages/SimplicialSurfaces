@@ -32,6 +32,8 @@ For simplicial surfaces:
     17) Dress*Involution are replaced by DressInvolutions
     18) SubsurfaceByFaces is replaced by SubcomplexByFaces
     19) ConnectedSum is replaced by ConnectedFaceSum
+    20) SnippOffEarsRecursively was removed since it was unused.
+    21)
 
 
 

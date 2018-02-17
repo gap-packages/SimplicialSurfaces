@@ -2,62 +2,6 @@
 
 #############################################################################
 ##
-##		SnippOffEars - methods
-##
-
-BindGlobal( "__SIMPLICIAL_SnippOffEarsOfSimplicialSurface",
-	function(simpsurf)
-		local vertexDegree, ears, newSurface, facesToRemove, 
-		    adFaces, opEdges, remainingFaces, singleEars, doubleEars, v;
-
-		# Find ears
-		vertexDegree := UnsortedDegrees( simpsurf );
-		singleEars := Filtered( Vertices(simpsurf), i -> vertexDegree[i] = 1);
-		doubleEars := Filtered( Vertices(simpsurf), i -> vertexDegree[i] = 2);
-
-		if IsEmpty( singleEars ) and IsEmpty( doubleEars ) then
-			return simpsurf;
-		fi;
-
-		facesToRemove := Union( List( singleEars, i->FacesOfVertices(simpsurf)[i]) );
-		remainingFaces := Difference( Faces(simpsurf), facesToRemove );
-		newSurface := SubsurfaceByFacesNC( simpsurf, remainingFaces );
-
-                for v in doubleEars do
-                    adFaces := FacesOfVertices(simpsurf)[v];
-                    opEdges := List( adFaces, f -> Difference(EdgesOfFaces(newSurface)[f],EdgesOfVertices(newSurface)[v])[1] );
-                    # Identify opEdges
-                    newSurface := SubsurfaceByFacesNC( newSurface, Difference(Faces(newSurface),adFaces) );
-                    newSurface := CraterMend( newSurface, opEdges[1], opEdges[2] );
-                od;
-	
-		return newSurface;
-	end
-);
-
-InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
-	__SIMPLICIAL_SnippOffEarsOfSimplicialSurface );
-
-
-InstallMethod( SnippOffEarsRecursive, "for a simplicial surface", 
-	[IsSimplicialSurface], function( simpsurf )
-		local newSurface;
-
-		newSurface := SnippOffEars( simpsurf );
-		# Use a simplified equality test
-		if NrOfFaces(newSurface) = NrOfFaces(simpsurf) then
-			return simpsurf;
-		fi;
-
-		return SnippOffEarsRecursive(newSurface);
-	end
-);
-
-##
-###############################################################################
-
-#############################################################################
-##
 #!	@Description
 #!	Return a list of tuples where at each face-number there is a list with two
 #!	entries. The first one is the name of the upper face-side, the second one
