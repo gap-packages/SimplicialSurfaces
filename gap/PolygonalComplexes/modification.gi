@@ -568,3 +568,149 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
 ##
 #######################################
 
+
+#######################################
+##
+##      Joining methods
+##
+InstallMethod( JoinVertices, "for two polygonal complexes and two vertices",
+    [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt],
+    function(complex1, v1, complex2, v2)
+        if not v1 in Vertices(complex1) then
+            Error(Concatenation("JoinVertices: The first vertex ", v1, 
+                " is not one of the vertices in the first polygonal complex: ", 
+                Vertices(complex1), "."));
+        fi;
+        if not v2 in Vertices(complex2) then
+            Error(Concatenation("JoinVertices: The second vertex ", v2, 
+                " is not one of the vertices in the second polygonal complex: ", 
+                Vertices(complex2), "."));
+        fi;
+        return JoinVerticesNC(complex1,v1,complex2,v2);
+    end
+);
+InstallMethod( JoinVerticesNC, "for two polygonal complexes and two vertices",
+    [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt],
+    function(complex1, v1, complex2, v2)
+        local disjoint, join;
+
+        disjoint := DisjointUnion(complex1, complex2);
+        join := JoinVerticesNC( disjoint[1], v1, v2+disjoint[2] );
+        Add(join, disjoint[2]);
+        return join;
+    end
+);
+
+InstallOtherMethod( JoinVertices, 
+    "for a polygonal complex and a list of two vertices",
+    [IsPolygonalComplex, IsList],
+    function(complex, vertList)
+        return JoinVertices(complex, vertList, Maximum(Vertices(complex))+1);
+    end
+);
+InstallOtherMethod( JoinVerticesNC,
+    "for a polygonal complex and a list of two vertices",
+    [IsPolygonalComplex, IsList],
+    function(complex, vertList)
+        return JoinVerticesNC(complex, vertList, Maximum(Vertices(complex))+1);
+    end
+);
+
+InstallMethod( JoinVertices, 
+    "for a polygonal complex, a list of two vertices and a new vertex label",
+    [IsPolygonalComplex, IsList, IsPosInt],
+    function(complex, vertList, newVertexLabel)
+        local vertSet;
+
+        vertSet := Set(vertList);
+        if Size(vertSet) <> 2 then
+            Error(Concatenation("JoinVertices: Given vertex list ", vertList, 
+                " contains more than two different elements."));
+        fi;
+        if not IsSubset(Vertices(complex), vertList) then
+            Error(Concatenation("JoinVertices: Given vertex list ", vertList,
+                " is not a subset of the vertices of the given complex: ",
+                Vertices(complex), "."));
+        fi;
+        if not newVertexLabel in vertSet and newVertexLabel in Vertices(complex) then
+            Error(Concatenation("JoinVertices: Given new vertex label ", 
+                newVertexLabel, " conflicts with existing vertices: ", 
+                Vertices(complex), "."));
+        fi;
+
+        return JoinVerticesNC(complex, vertSet[1], vertSet[2], newVertexLabel);
+    end
+);
+InstallMethod( JoinVerticesNC,
+    "for a polygonal complex, a list of two vertices and a new vertex label",
+    [IsPolygonalComplex, IsList, IsPosInt],
+    function(complex, vertList, newVertexLabel)
+        local vertSet;
+
+        vertSet := Set(vertList);
+        return JoinVerticesNC(complex, vertSet[1], vertSet[2], newVertexLabel);
+    end
+);
+
+InstallOtherMethod( JoinVertices,
+    "for a polygonal complex and two vertices",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, v1, v2)
+        return JoinVertices(complex, v1, v2, Maximum(Vertices(complex))+1);
+    end
+);
+InstallOtherMethod( JoinVerticesNC,
+    "for a polygonal complex and two vertices",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, v1, v2)
+        return JoinVerticesNC(complex, v1, v2, Maximum(Vertices(complex))+1);
+    end
+);
+
+InstallMethod( JoinVertices,
+    "for a polygonal complex, two vertices and a new vertex label",
+    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    function(complex, v1, v2, newVertexLabel)
+        __SIMPLICIAL_CheckVertex(complex, v1, "JoinVertices");
+        __SIMPLICIAL_CheckVertex(complex, v2, "JoinVertices");
+        if v1 = v2 then
+            Error(Concatenation("JoinVertices: Given vertices are identical: ", v1, "."));
+        fi;
+        if newVertexLabel <> v1 and newVertexLabel <> v2 and newVertexLabel in Vertices(complex) then
+            Error(Concatenation("JoinVertices: Given new vertex label ", 
+                newVertexLabel, " conflicts with existing vertices: ", 
+                Vertices(complex), "."));
+        fi;
+
+        return JoinVerticesNC(complex, v1, v2, newVertexLabel);
+    end
+);
+InstallMethod( JoinVerticesNC,
+    "for a polygonal complex, two vertices and a new vertex label",
+    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    function(complex, v1, v2, newVertexLabel)
+        local newEdgesOfVertices, newEdges, obj;
+
+        if ForAny( VerticesOfFaces(complex), verts -> IsSubset(verts,[v1,v2]) ) then
+            return fail;
+        fi;
+
+        newEdgesOfVertices := ShallowCopy(EdgesOfVertices(complex));
+        newEdges := Union( newEdgesOfVertices[v1], newEdgesOfVertices[v2] );
+        Unbind(newEdgesOfVertices[v1]);
+        Unbind(newEdgesOfVertices[v2]);
+        newEdgesOfVertices[newVertexLabel] := newEdges;
+
+        obj := Objectify(PolygonalComplexType, rec());
+        SetEdgesOfVertices(obj, newEdgesOfVertices);
+        SetFacesOfEdges(obj, FacesOfEdges(complex));
+
+        return [obj, newVertexLabel];
+    end
+);
+
+
+##
+##      End of joining
+##
+#######################################

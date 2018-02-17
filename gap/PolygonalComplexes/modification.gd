@@ -455,6 +455,117 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! 
 #! TODO examples + Tests
 
+#! @BeginGroup JoinVertices
+#! @Description
+#! Combine two vertices into one. This method comes in two flavors:
+#! <Enum>
+#!   <Item>Combine two vertices <A>v1</A> and <A>v2</A> of a single
+#!      polygonal complex <A>complex</A> into one. This will return
+#!      <K>fail</K> if the vertices are incident to a common face.
+#!
+#!      The optional argument <A>newVertexLabel</A> allows to set the
+#!      label of the new vertex. By default, an unused label will be
+#!      chosen.</Item>
+#!   <Item>Combine two vertices <A>v1</A> and <A>v2</A> of two distinct
+#!      polygonal complexes <A>complex1</A> and <A>complex2</A>. This will
+#!      perform <K>DisjointUnion</K> (<Ref Subsect="DisjointUnion"/>) on
+#!      the two complexes to reduce this problem to the first case.</Item>
+#! </Enum>
+#!
+#! Both methods return a list, where the first entry is the new polygonal
+#! complex, the second entry is the label of the new vertex and (only in the
+#! second case) the third entry is the used shift of the disjoint union (refer
+#! to section <Ref Sect="Section_Modification_DisjointUnion"/> for details).
+#!
+#! To illustrate the first case, consider the octahedron.
+#! @BeginExampleSession
+#! gap> octa := Octahedron();;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#! It is possible to join vertices on opposite sides, for example 1 and 6.
+#! @BeginExampleSession
+#! gap> octJoin := JoinVertices(octa, 1, 6);;
+#! gap> octJoin = fail;
+#! false
+#! @EndExampleSession
+#! This combines the vertices 1 and 6 into a new one, which becomes a 
+#! ramified vertex (<Ref Subsect="RamifiedVertices"/>).
+#! @BeginExampleSession
+#! gap> octJoin[2];
+#! 7
+#! gap> Vertices(octJoin[1]);
+#! [ 2, 3, 4, 5, 7 ]
+#! gap> RamifiedVertices(octJoin[1]);
+#! [ 7 ]
+#! @EndExampleSession
+#! On the other hand, it is not possible to join two vertices if they are 
+#! connected by an edge.
+#! @BeginExampleSession
+#! gap> JoinVertices(octa, [2,3]);
+#! fail
+#! @EndExampleSession
+#!
+#! To illustrate the second case, consider the following two simplicial
+#! surfaces:
+#! @BeginExampleSession
+#! gap> leftWing := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],,[3,4,5]] );;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\leftWing{1}
+#!     \input{Image_Butterfly_unbalanced.tex}
+#!   }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> rightWing := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4]] );;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\rightWing{1}
+#!     \input{Image_Butterfly_unbalanced.tex}
+#!   }
+#! </Alt>
+#! If these two surfaces are joined along the vertices 3 (of the left wing) and
+#! 2 (of the right wing), the labels of the second one have to be shifted.
+#! @BeginExampleSession
+#! gap> butterfly := JoinVertices(leftWing, 3, rightWing, 2);;
+#! gap> butterfly[3];
+#! 7
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\leftWing{1}
+#!     \def\rightWing{1}
+#!     \input{Image_Butterfly_unbalanced.tex}
+#!   }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> butterfly[2];
+#! 12
+#! @EndExampleSession
+#!
+#! The NC-versions don't check whether the given vertices are vertices of
+#! the corresponding complexes and whether the <A>newVertexLabel</A> is available.
+#!
+#! @Returns a list, where the first entry is a polygonal complex, the second
+#!   one is the new vertex label and the third is the shift for the labels of
+#!   the second input <A>complex2</A> (only if applicable).
+#! @Arguments complex, v1, v2[, newVertexLabel]
+DeclareOperation( "JoinVertices", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt] );
+#! @Arguments complex, v1, v2[, newVertexLabel]
+DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt] );
+#! @Arguments complex, vertexList[, newVertexLabel]
+DeclareOperation( "JoinVertices", [IsPolygonalComplex, IsList, IsPosInt] );
+#! @Arguments complex, vertexList[, newVertexLabel]
+DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsList, IsPosInt] );
+#! @Arguments complex1, v1, complex2, v2
+DeclareOperation( "JoinVertices", [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt] );
+#! @Arguments complex1, v1, complex2, v2
+DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
 
 
 

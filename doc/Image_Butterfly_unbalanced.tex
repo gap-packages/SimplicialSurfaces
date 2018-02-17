@@ -1,0 +1,70 @@
+% The used flags are:
+% \leftWing
+% \rightWing
+\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+
+    \def\len{2}
+    \coordinate (Z) at (0,0);
+    \foreach \i in {0,1,2,3}{
+        \coordinate (L\i) at (105+50*\i:\len);
+    }
+    \foreach \i in {0,1,2}{
+        \coordinate (R\i) at (60-60*\i:\len);
+    }
+
+    % Draw edges and faces
+    \draw[edge,face]
+        \ifdefined\leftWing
+            (Z) -- (L0) -- (L1) -- cycle
+            (Z) -- (L1) -- (L2) -- cycle
+            (Z) -- (L2) -- (L3) -- cycle
+        \fi
+        \ifdefined\rightWing
+            (Z) -- (R0) -- (R1) -- cycle
+            (Z) -- (R1) -- (R2) -- cycle
+        \fi
+        ;
+
+    % Draw face labels
+    \ifdefined\leftWing
+        \foreach \p/\q/\n in {L0/L1/1, L1/L2/2, L2/L3/4}{
+            \node[faceLabel] at (barycentric cs:Z=1,\p=1,\q=1) {\n};
+        }
+    \fi
+    \ifdefined\rightWing
+        \foreach \p/\q/\n in {
+            R0/R1/\ifdefined\leftWing 8\else 1\fi,
+            R1/R2/\ifdefined\leftWing 10\else 3\fi
+        }{
+            \node[faceLabel] at (barycentric cs:Z=1,\p=1,\q=1) {\n};
+        }
+    \fi
+
+    % Draw vertex labels
+    \ifdefined\leftWing
+        \foreach \p/\r/\n in {L0/above/1, L1/left/2, L2/left/4, L3/below/5}{
+            \vertexLabelR{\p}{\r}{\n}
+        }
+    \fi
+    \ifdefined\rightWing
+        \foreach \p/\r/\n in {
+            R0/above/\ifdefined\leftWing 8\else 1\fi,
+            R1/right/\ifdefined\leftWing 10\else 3\fi,
+            R2/below/\ifdefined\leftWing 11\else 4\fi}{
+                \vertexLabelR{\p}{\r}{\n}
+        }
+    \fi
+
+    \ifdefined\leftWing
+        \ifdefined\rightWing
+            \vertexLabelR{Z}{left}{12}
+        \else
+            \vertexLabelR{Z}{right}{3}
+        \fi
+    \else
+        \ifdefined\rightWing
+            \vertexLabelR{Z}{left}{2}
+        \fi
+    \fi
+
+\end{tikzpicture}
