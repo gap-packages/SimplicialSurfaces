@@ -70,7 +70,8 @@
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     The method <K>VertexEdgePath</K> constructs a new vertex-edge-path from
-#!     a polygonal complex and a dense list of positive integers. The
+#!     a polygonal complex and a dense list of positive integers (alternating
+#!     vertices and edges). The
 #!     method <K>IsVertexEdgePath</K> checks if a given &GAP;-object
 #!     represents such a path.
 #!
@@ -104,6 +105,11 @@
 #!     <K>VerticesAsList</K> (<Ref Subsect="VertexEdge_VerticesAsList"/>) and 
 #!     <K>EdgesAsList</K> (<Ref Subsect="VertexEdge_EdgesAsList"/>).
 #!
+#!     Some shorter (but more ambigous) constructors are 
+#!     <K>VertexEdgePathByVertices</K> 
+#!     (<Ref Subsect="VertexEdgePathByVertices"/>) and
+#!     <K>VertexEdgePathByEdges</K> (<Ref Subsect="VertexEdgePathByEdges"/>).
+#!
 #!     The NC-version does not check if the
 #!     given <A>path</A> is a list 
 #!     <M>[v_1,e_1,v_2,e_2,\ldots,v_n,e_n,v_{{n+1}}]</M> that fulfills these
@@ -114,6 +120,81 @@
 # be switched
 DeclareOperation( "VertexEdgePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
+
+
+#! @BeginGroup VertexEdgePathByVertices
+#! @Description
+#! Construct a new vertex-edge-path (<Ref Subsect="VertexEdgePath"/>) from a
+#! polygonal complex and a dense list of vertices. Every two adjacent vertices
+#! have to be connected by an edge. If there are multiple such edges, the one
+#! with the smallest label is used. If the given <A>vertexList</A> is empty,
+#! <K>fail</K> is returned.
+#!
+#! With this the paths from <Ref Subsect="VertexEdgePath"/> can be defined
+#! more compactly:
+#! @BeginExampleSession
+#! gap> newAlpha := VertexEdgePathByVertices( hex, [2,7,5,4,3,7,6] );
+#! | v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
+#! gap> alphaPath = newAlpha;
+#! true
+#! gap> newOmega := VertexEdgePathByVertices( hex, [3,4,5,7,6,1,2] );
+#! | v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |
+#! gap> omegaPath = newOmega;
+#! true
+#! @EndExampleSession
+#!     <Alt Only="TikZ">
+#!       \input{Image_SixTriangles_AlphaAndOmega.tex}
+#!     </Alt>
+#! 
+#! TODO ambiguous examples
+#!
+#! The NC-version does not check whether the given <A>vertexList</A> consists
+#! of vertices in <A>complex</A> and whether every two adjacent vertices are
+#! connected by an edge.
+#!
+#! @Returns a vertex-edge-path or <K>fail</K>
+#! @Arguments complex, vertexList
+DeclareOperation( "VertexEdgePathByVertices", [IsPolygonalComplex, IsDenseList] );
+#! @Arguments complex, vertexList
+DeclareOperation( "VertexEdgePathByVerticesNC", [IsPolygonalComplex, IsDenseList] );
+#! @EndGroup
+
+
+#! @BeginGroup VertexEdgePathByEdges
+#! @Description
+#! Construct a new vertex-edge-path (<Ref Subsect="VertexEdgePath"/>) from a
+#! polygonal complex and a dense list of edges. Every two adjacent edges
+#! have to be connected by a vertex. If any vertex position is ambigous (for
+#! example if only one edge is given), the smallest possible vertex is chosen
+#! to be traversed first.
+#!
+#! With this the paths from <Ref Subsect="VertexEdgePath"/> can be defined
+#! more compactly:
+#! @BeginExampleSession
+#! gap> newAlpha := VertexEdgePathByEdges( hex, [2,5,10,9,3,6] );
+#! | v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
+#! gap> alphaPath = newAlpha;
+#! true
+#! gap> newOmega := VertexEdgePathByEdges( hex, [9,10,5,6,12,7] );
+#! | v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |
+#! gap> omegaPath = newOmega;
+#! true
+#! @EndExampleSession
+#!     <Alt Only="TikZ">
+#!       \input{Image_SixTriangles_AlphaAndOmega.tex}
+#!     </Alt>
+#! 
+#! TODO ambiguous examples
+#!
+#! The NC-version does not check whether the given <A>edgeList</A> consists
+#! of edges in <A>complex</A>.
+#!
+#! @Returns a vertex-edge-path
+#! @Arguments complex, edgeList
+DeclareOperation( "VertexEdgePathByEdges", [IsPolygonalComplex, IsDenseList] );
+#! @Arguments complex, edgeList
+DeclareOperation( "VertexEdgePathByEdgesNC", [IsPolygonalComplex, IsDenseList] );
+#! @EndGroup
 
 
 #! @BeginGroup VertexEdge_PathAsList

@@ -71,6 +71,137 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
 );
 RedispatchOnCondition( VertexEdgePath, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
 
+InstallMethod( VertexEdgePathByVerticesNC, 
+    "for a polygonal complex and a list of vertices",
+    [IsPolygonalComplex, IsDenseList],
+    function(complex, vertexList)
+        local path, i;
+
+        if vertexList = [] then
+            return fail;
+        fi;
+        path := [ vertexList[1] ];
+        for i in [2..Size(vertexList)] do
+            path[2*i-2] := Position( VerticesOfEdges(complex), Set([vertexList[i-1],vertexList[i]]) );
+            path[2*i-1] := vertexList[i];
+        od;
+
+        return VertexEdgePathNC(complex, path);
+    end
+);
+RedispatchOnCondition( VertexEdgePathByVerticesNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+
+InstallMethod( VertexEdgePathByVertices, 
+    "for a polygonal complex and a list of vertices",
+    [IsPolygonalComplex, IsDenseList],
+    function(complex, vertexList)
+        local path, i, pos;
+
+        if vertexList = [] then
+            return fail;
+        fi;
+        __SIMPLICIAL_CheckVertex(complex, vertexList[1], "VertexEdgePathByVertices");
+        path := [ vertexList[1] ];
+        for i in [2..Size(vertexList)] do
+            __SIMPLICIAL_CheckVertex(complex, vertexList[i], "VertexEdgePathByVertices");
+            pos := Position( VerticesOfEdges(complex), Set([vertexList[i-1],vertexList[i]]) );
+            if pos = fail then
+                Error(Concatenation("VertexEdgePathByVertices: The vertices ", 
+                    String(vertexList[i-1]), " (position ", String(i-1), ") and ", 
+                    String(vertexList[i]), " (position ", String(i), 
+                    ") are not connected by an edge in the given polygonal complex."));
+            fi;
+            path[2*i-2] := pos;
+            path[2*i-1] := vertexList[i];
+        od;
+
+        return VertexEdgePathNC(complex, path);
+    end
+);
+RedispatchOnCondition( VertexEdgePathByVertices, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+
+
+InstallMethod( VertexEdgePathByEdgesNC, 
+    "for a polygonal complex and a list of edges",
+    [IsPolygonalComplex, IsDenseList],
+    function(complex, edgeList)
+        local path, firstDefinedPos, i, verts;
+         
+        if edgeList = [] then
+            return VertexEdgePathNC(complex, [Minimum(Vertices(complex))]);
+        fi;
+
+        firstDefinedPos := 0;
+        for i in [2..Size(edgeList)] do
+            if VerticesOfEdges(complex)[edgeList[i-1]] <> VerticesOfEdges(complex)[edgeList[i]] then
+                firstDefinedPos := i;
+                break;
+            fi;
+        od;
+
+        if firstDefinedPos = 0 then
+            # all edges have the same edges
+            verts := VerticesOfEdges(complex)[edgeList[1]];
+            path := [verts[1]];
+            for i in [1..Size(edgeList)] do
+                path[2*i] := edgeList[i];
+                if IsEvenInt(i) then
+                    path[2*i+1] := verts[1];
+                else
+                    path[2*i+1] := verts[2];
+                fi;
+            od;
+            return VertexEdgePathNC(complex, path);
+        fi;
+
+        # the vertex between first-1 and first is unique
+        path := [];
+        path[2*firstDefinedPos-1] := Intersection( 
+            VerticesOfEdges(complex)[edgeList[firstDefinedPos-1]],
+            VerticesOfEdges(complex)[edgeList[firstDefinedPos]])[1];
+        for i in [firstDefinedPos, firstDefinedPos+1..Size(edgeList)] do
+            path[2*i] := edgeList[i];
+            path[2*i+1] := OtherVertexOfEdgeNC(complex, path[2*i-1], path[2*i]);
+        od;
+        for i in [firstDefinedPos-1, firstDefinedPos-2..1] do
+            path[2*i] := edgeList[i];
+            path[2*i-1] := OtherVertexOfEdgeNC(complex, path[2*i+1], path[2*i]);
+        od;
+        return VertexEdgePathNC(complex, path);
+    end
+);
+RedispatchOnCondition( VertexEdgePathByEdgesNC, true, [IsPolygonalComplex, IsList],[,IsDenseList],0 );
+
+InstallMethod( VertexEdgePathByEdges,
+    "for a polygonal complex and a list of edges",
+    [IsPolygonalComplex, IsDenseList],
+    function(complex, edgeList)
+        local i;
+
+        if Size(edgeList) > 0 then
+            __SIMPLICIAL_CheckEdge(complex, edgeList[1], "VertexEdgePathByEdges");
+            for i in [2..Size(edgeList)] do
+                __SIMPLICIAL_CheckEdge(complex, edgeList[i], "VertexEdgePathByEdges");
+                if IsEmpty( Intersection(
+                    VerticesOfEdges(complex)[edgeList[i-1]], 
+                    VerticesOfEdges(complex)[edgeList[i]]) ) then
+                        Error(Concatenation(
+                            "VertexEdgePathByEdges: The edges ",
+                            String(edgeList[i-1]), " (position ",
+                            String(i-1), ") and ",
+                            String(edgeList[i]), " (position ",
+                            String(i), 
+                            ") do not share a vertex in the given polygonal complex."));
+                fi;
+            od;
+        fi;
+
+        return VertexEdgePathByEdgesNC(complex, edgeList);
+    end
+);
+RedispatchOnCondition( VertexEdgePathByEdges, true, [IsPolygonalComplex, IsList],[,IsDenseList],0 );
+
+
 
 InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
