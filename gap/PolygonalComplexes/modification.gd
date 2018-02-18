@@ -99,8 +99,22 @@
 #! through the edges 1 and 4 of the hexagon (along with the incident
 #! vertices), we can use <K>SplitVertexEdgePath</K> 
 #! (<Ref Subsect="SplitVertexEdgePath"/>).
+#!
+#! The splitting path can be given in multiple ways: via vertices,
+#! via edges or by giving an alternating list of both.
 #! @BeginExampleSession
-#! gap> hexCut := SplitVertexEdgePath( hex, [4,4,7,1,1] );;
+#! gap> cutPath := VertexEdgePath(hex, [4,4,7,1,1]);
+#! | v4, E4, v7, E1, v1 |
+#! gap> VertexEdgePathByVertices(hex, [4,7,1]);
+#! | v4, E4, v7, E1, v1 |
+#! gap> VertexEdgePathByEdges(hex, [4,1]);
+#! | v4, E4, v7, E1, v1 |
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_SplitExample.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> hexCut := SplitVertexEdgePath( hex, cutPath );;
 #! gap> NumberOfConnectedComponents(hexCut[1]);
 #! 2
 #! @EndExampleSession
@@ -118,7 +132,7 @@
 #! edge split "opens" the surface), the method <K>SplitEdgePath</K>
 #! (<Ref Subsect="SplitEdgePath"/>) can be used instead.
 #! @BeginExampleSession
-#! gap> hexOpen := SplitEdgePath( hex, [4,4,7,1,1] );;
+#! gap> hexOpen := SplitEdgePath( hex, cutPath );;
 #! gap> NumberOfConnectedComponents(hexOpen[1]);
 #! 1
 #! @EndExampleSession
@@ -201,6 +215,13 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! The given <A>vePath</A> has to be a duplicate-free 
 #! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
 #! (for the definition see <Ref Subsect="VertexEdgePath"/>) of <A>complex</A>.
+#! Vertex-edge-paths can be created easily:
+#! * From a list of vertices: <K>VertexEdgePathByVertices</K> 
+#!   (<Ref Subsect="VertexEdgePathByVertices"/>)
+#! * From a list of edges: <K>VertexEdgePathByEdges</K>
+#!   (<Ref Subsect="VertexEdgePathByEdges"/>)
+#! * From a list in which vertices and edges are alternating:
+#!   <K>VertexEdgePath</K> (<Ref Subsect="VertexEdgePath"/>)
 #!
 #! This method returns a pair where the first component is the splitted
 #! <A>complex</A> and the second one contains the changed labels.
@@ -216,9 +237,6 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #!
 #! TODO many, many examples
 #!
-#! TODO explain alternative calls, refer to vertex-edge-paths and how those
-#! can be constructed "more easily".
-#!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
 #!
@@ -228,10 +246,6 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 DeclareOperation( "SplitVertexEdgePath", [IsPolygonalComplex, IsVertexEdgePath] );
 #! @Arguments complex, vePath
 DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath] );
-#! @Arguments complex, pathAsList
-DeclareOperation( "SplitVertexEdgePath", [IsPolygonalComplex, IsList] );
-#! @Arguments complex, pathAsList
-DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsList] );
 #! @EndGroup
 
 
@@ -249,6 +263,13 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsList] );
 #! The given <A>vePath</A> has to be a duplicate-free 
 #! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
 #! (for the definition see <Ref Subsect="VertexEdgePath"/>) of <A>complex</A>.
+#! Vertex-edge-paths can be created easily:
+#! * From a list of vertices: <K>VertexEdgePathByVertices</K> 
+#!   (<Ref Subsect="VertexEdgePathByVertices"/>)
+#! * From a list of edges: <K>VertexEdgePathByEdges</K>
+#!   (<Ref Subsect="VertexEdgePathByEdges"/>)
+#! * From a list in which vertices and edges are alternating:
+#!   <K>VertexEdgePath</K> (<Ref Subsect="VertexEdgePath"/>)
 #!
 #! This method returns a pair where the first component is the splitted
 #! <A>complex</A> and the second one contains the changed labels.
@@ -264,9 +285,6 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsList] );
 #!
 #! TODO many, many examples
 #!
-#! TODO explain alternative calls, refer to vertex-edge-paths and how those
-#! can be constructed "more easily".
-#!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
 #!
@@ -276,10 +294,6 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsList] );
 DeclareOperation( "SplitEdgePath", [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree] );
 #! @Arguments complex, vePath
 DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree] );
-#! @Arguments complex, pathAsList
-DeclareOperation( "SplitEdgePath", [IsPolygonalComplex, IsList] );
-#! @Arguments complex, pathAsList
-DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsList] );
 #! @EndGroup
 
 

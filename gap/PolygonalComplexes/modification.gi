@@ -264,26 +264,6 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
     end
 );
 
-InstallMethod( SplitVertexEdgePath, 
-    "for a polygonal complex and a list of positive integers",
-    [IsPolygonalComplex, IsList],
-    function(complex, pathAsList)
-        local path;
-
-        path := VertexEdgePath(complex, pathAsList);
-        if not IsDuplicateFree(path) then
-            Error("SplitVertexEdgePath: Given list of vertices and edges has to represent a duplicate-free vertex-edge-path");
-        fi;
-        return SplitVertexEdgePathNC(complex, path);
-    end
-);
-InstallMethod( SplitVertexEdgePathNC,
-    "for a polygonal complex and a list of positive integers",
-    [IsPolygonalComplex, IsList],
-    function(complex, pathAsList)
-        return SplitVertexEdgePathNC(complex, VertexEdgePath(complex, pathAsList));
-    end
-);
 
 InstallMethod( SplitVertexEdgePath,
     "for a polygonal complex and a duplicate-free vertex-edge-path",
@@ -340,28 +320,6 @@ RedispatchOnCondition( SplitVertexEdgePathNC, true,
 
 #####
 
-
-
-InstallMethod( SplitEdgePath, 
-    "for a polygonal complex and a list of positive integers",
-    [IsPolygonalComplex, IsList],
-    function(complex, pathAsList)
-        local path;
-
-        path := VertexEdgePath(complex, pathAsList);
-        if not IsDuplicateFree(path) then
-            Error("SplitEdgePath: Given list of vertices and edges has to represent a duplicate-free vertex-edge-path");
-        fi;
-        return SplitEdgePathNC(complex, path);
-    end
-);
-InstallMethod( SplitEdgePathNC,
-    "for a polygonal complex and a list of positive integers",
-    [IsPolygonalComplex, IsList],
-    function(complex, pathAsList)
-        return SplitEdgePathNC(complex, VertexEdgePath(complex, pathAsList));
-    end
-);
 
 InstallMethod( SplitEdgePath,
     "for a polygonal complex and a duplicate-free vertex-edge-path",
