@@ -2,26 +2,8 @@
 # it continues: ( v1, E1, v2, E4, v4, E5, v3, E3, v1 )
 StandardTrianglePair := SimplicialSurfaceByDownwardIncidence( [[1,2],[2,3],[1,3],[2,4],[3,4]], [[1,2,3],[2,4,5]] );
 
-VEPath := function(surface, e1, e2)
-    local inc, path, V1, V2;
-
-    path := [];
-    path[2] := e1;
-    path[4] := e2;
-
-    V1 := VerticesOfEdges(surface)[e1];
-    V2 := VerticesOfEdges(surface)[e2];
-    inc := Intersection(V1,V2)[1];
-    path[3] := inc;
-    path[1] := Difference(V1, [inc])[1];
-    path[5] := Difference(V2, [inc])[1];
-
-    return VertexEdgePath(surface, path);
-end;
-
-
 Enlargement := function(surface)
-    local autGrp, edgePairs, v, incEdgePairs, orbs, orb, splits, orbRep, splitEdge, bound, join;
+    local autGrp, edgePairs, v, incEdgePairs, orbs, orb, splits, orbRep, splitEdge, bound, join, splitPath;
 
     # Compute all pairs of edges with one incident vertex that don't lie in a common face
     edgePairs := [];
@@ -40,7 +22,8 @@ Enlargement := function(surface)
     splits := [];
     for orb in orbs do
         orbRep := orb[1];
-        splitEdge := SplitEdgePath(surface, VEPath(surface, orbRep[1], orbRep[2]));
+        splitPath := VertexEdgePathByEdgesNC(surface, orbRep);
+        splitEdge := SplitEdgePath(surface, splitPath);
         # The second component are two vertex-edge-paths in which the cut was separated in
         bound := splitEdge[2][1][1];
         join := JoinBoundaries(splitEdge[1], PathAsList(bound){[1,2]}, StandardTrianglePair, [1,1]);
