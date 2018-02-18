@@ -33,6 +33,16 @@
 #! they can be constructed with the elementary tools.
 
 
+#! @BeginChunk VertexEdgePath_Construction
+#! Vertex-edge-paths can be created easily:
+#! * From a list of vertices: <K>VertexEdgePathByVertices</K> 
+#!   (<Ref Subsect="VertexEdgePathByVertices"/>)
+#! * From a list of edges: <K>VertexEdgePathByEdges</K>
+#!   (<Ref Subsect="VertexEdgePathByEdges"/>)
+#! * From a list in which vertices and edges are alternating:
+#!   <K>VertexEdgePath</K> (<Ref Subsect="VertexEdgePath"/>)
+#! @EndChunk
+
 #! @Section Splitting along a path
 #! @SectionLabel Modification_Splitting
 #!
@@ -215,13 +225,7 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! The given <A>vePath</A> has to be a duplicate-free 
 #! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
 #! (for the definition see <Ref Subsect="VertexEdgePath"/>) of <A>complex</A>.
-#! Vertex-edge-paths can be created easily:
-#! * From a list of vertices: <K>VertexEdgePathByVertices</K> 
-#!   (<Ref Subsect="VertexEdgePathByVertices"/>)
-#! * From a list of edges: <K>VertexEdgePathByEdges</K>
-#!   (<Ref Subsect="VertexEdgePathByEdges"/>)
-#! * From a list in which vertices and edges are alternating:
-#!   <K>VertexEdgePath</K> (<Ref Subsect="VertexEdgePath"/>)
+#! @InsertChunk VertexEdgePath_Construction
 #!
 #! This method returns a pair where the first component is the splitted
 #! <A>complex</A> and the second one contains the changed labels.
@@ -263,13 +267,7 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! The given <A>vePath</A> has to be a duplicate-free 
 #! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
 #! (for the definition see <Ref Subsect="VertexEdgePath"/>) of <A>complex</A>.
-#! Vertex-edge-paths can be created easily:
-#! * From a list of vertices: <K>VertexEdgePathByVertices</K> 
-#!   (<Ref Subsect="VertexEdgePathByVertices"/>)
-#! * From a list of edges: <K>VertexEdgePathByEdges</K>
-#!   (<Ref Subsect="VertexEdgePathByEdges"/>)
-#! * From a list in which vertices and edges are alternating:
-#!   <K>VertexEdgePath</K> (<Ref Subsect="VertexEdgePath"/>)
+#! @InsertChunk VertexEdgePath_Construction
 #!
 #! This method returns a pair where the first component is the splitted
 #! <A>complex</A> and the second one contains the changed labels.
@@ -676,13 +674,15 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! </Alt>
 #! First we combine two of them:
 #! @BeginExampleSession
-#! gap> join := JoinVertexEdgePaths(triangle, [1,1,2], triangle, [1,1,2]);;
+#! gap> joinPath := VertexEdgePathByVertices(triangle, [1,2]);
+#! | v1, E1, v2 |
+#! gap> join := JoinVertexEdgePaths(triangle, joinPath, triangle, joinPath);;
 #! gap> join[2];
 #! | v7, E7, v8 |
 #! @EndExampleSession
 #! Along this vertex-edge-path another of the triangles can be added:
 #! @BeginExampleSession
-#! gap> tripleJoin := JoinVertexEdgePaths(join[1],join[2],triangle,[1,1,2]);;
+#! gap> tripleJoin := JoinVertexEdgePaths(join[1],join[2],triangle,joinPath);;
 #! gap> tripleJoin[2];
 #! | v12, E12, v13 |
 #! gap> RamifiedEdges(tripleJoin[1]);
