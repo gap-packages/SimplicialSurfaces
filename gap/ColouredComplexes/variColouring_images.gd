@@ -43,7 +43,7 @@ IsClosedSurface(disk);
 #! false
 colDisk := EdgeColouredPolygonalComplex(disk, 
     [[13,15,17,19],,[5,2,8,18],[14,12,4,9],[20,7,3,10],[6,1,11,16]] );;
-IsFaceRainbowEdgeColouring(colDisk);
+IsEdgeVariColouring(colDisk);
 #! true
 #! @EndExample
 #! <Alt Only="TikZ">
@@ -66,7 +66,7 @@ ColourInvolutions(colDisk);
 
 #! @BeginChunk Example_ColouredDisk_ColourInvolutions
 #! This can be seen on the example from the start of section 
-#! <Ref Sect="Section_RainbowEdgeColouring_Permutations"/>.
+#! <Ref Sect="Section_EdgeVariColouring_Permutations"/>.
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_ColouredDisk.tex}
 #! </Alt>
