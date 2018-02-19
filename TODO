@@ -3,16 +3,11 @@ StripEmbedding?
 
 Chapter Modifications:
 Cut/Mend
-ConnectedSumAtFace
 ConnectedSumAtEdge
 DualSurface
 AddVertexIntoEdge [Jesse]
-SnippOffEars
 CommonCover?
 
-
-WildColouredSurface -> EdgeExactColouredSimplicialSurface
-TameColouredSurface -> 
 
 Display: immer Umbrellas (bei EdgeColoured nur gefärbt @Frank/Gutsche: Kann man Konsolenausgabe farbig machen?)
     -> everything coloured (OnOff-Switch)
@@ -20,7 +15,6 @@ Display: immer Umbrellas (bei EdgeColoured nur gefärbt @Frank/Gutsche: Kann man
     -> in general give vertices, edges and faces different colours and display those
 
 
-ColourNames -> All...
 ColourNames -> View/Display for colouring
 AllWild... -> IsomorphicFlagSurface
 

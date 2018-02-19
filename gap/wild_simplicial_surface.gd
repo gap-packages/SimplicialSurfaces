@@ -33,35 +33,6 @@
 ##     The function WildSimplicialSurfacesFromFacePath takes this input
 ##     and returns all wild coloured simplicial surfaces matching the
 ##     description
-##  3) Input a wild coloured surface by the following data structure, 
-##     called the *generic-surface* data structure. The generic-surface
-##     data structure is the most general data structure to describe
-##     surfaces and is not restricted to wild coloured surfaces only.
-##     The generic-surface data structure is a list of
-##      the number of vertices, edges and faces
-##      then pairs of vertices making up the edges, 
-##      then triples of edges making up the faces, e.g.
-##      ( |V|, |E|, |F|, [ [v1,v2],...],  [[e1,e2,e3],... ] )
-##       here ei is a number, which is a position in the list of edges,
-##       so that the list of vertex pairs can be indexed by ei to find
-##       the two vertex numbers of edges ei.
-##     
-##
-##
-##    As GAP objects, certain general methods are installed for 
-##    simplicial surface objects, such as Print and Display and "=".
-##
-##    The mr-type of a wild coloured simplicial surface simpsurf
-##    can be determined with the function MrTypeOfWildSimplicialSurface.
-##
-##    As Simplicial surfaces are GAP objects, they cannot be 
-##    accessed like records.
-##
-##    An action of a permutation on a simplicial surface is installed, 
-##    allowing us to compute the orbits of a group acting on a set of
-##    simplicial surfaces.
-##    
-##
 
 
 
