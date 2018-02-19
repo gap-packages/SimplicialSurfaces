@@ -258,3 +258,235 @@ InstallMethod( LocalSymmetryOfColours,
         [IsEdgeColouredPolygonalComplex],
         [IsTameColouredSurface], 0);
 
+
+
+#######################################
+##
+##      AllWild...
+##
+
+## Surface-variation
+InstallOtherMethod( AllWildColouredSurfaces, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(simpSurf)
+        return AllWildColouredSurfaces(simpSurf, []);
+    end
+);
+    RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex], [IsSimplicialSurface], 0);
+InstallOtherMethod( AllTameColouredSurfaces, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(simpSurf)
+        return AllTameColouredSurfaces(simpSurf, []);
+    end
+);
+    RedispatchOnCondition(AllTameColouredSurfaces, true, [IsPolygonalComplex], [IsSimplicialSurface], 0);
+
+BindGlobal( "__SIMPLICIAL_WildTameSurface_FixLocalSymmetry",
+    function(surface, localSymmetry, name)
+        local e, newSym;
+
+        for e in Edges(surface) do
+            if IsBound(localSymmetry[e]) then
+                if not localSymmetry[e] in [0,1,2] then
+                    Error(Concatenation(name, 
+                        ": The local symmetry may only take values 0, 1 and 2, but at position ", 
+                        String(e), " is a ", 
+                        String(localSymmetry[e]), "."));
+                fi;
+            else
+                localSymmetry[e] := 0;
+            fi;
+        od;
+
+        return localSymmetry;
+    end
+);
+
+InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
+    [IsSimplicialSurface, IsList],
+    function(simpSurf, localSymmetry)
+        #local;
+
+        # Initialize localSymmetry
+        localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllWildColouredSurfaces");
+
+        Error("TODO");
+    end
+);
+    RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0);
+InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
+    [IsSimplicialSurface, IsList],
+    function(simpSurf, localSymmetry)
+        #local ;
+
+        # Initialize localSymmetry
+        localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllTameColouredSurfaces");
+        
+        Error("TODO");
+    end
+);
+    RedispatchOnCondition(AllTameColouredSurfaces, true, [IsPolygonalComplex,IsList], [IsSimplicialSurface], 0);
+
+## Involution-variation
+InstallOtherMethod( AllWildColouredSurfaces, "for three involutions",
+    [IsPerm, IsPerm, IsPerm],
+    function(gen1, gen2, gen3)
+        return AllWildColouredSurfaces( [gen1,gen2,gen3] );
+    end
+);
+InstallOtherMethod( AllTameColouredSurfaces, "for three involutions",
+    [IsPerm, IsPerm, IsPerm],
+    function(gen1, gen2, gen3)
+        return AllTameColouredSurfaces( [gen1,gen2,gen3] );
+    end
+);
+
+InstallOtherMethod( AllWildColouredSurfaces, 
+    "for three involutions and a list", [IsPerm, IsPerm, IsPerm, IsList],
+    function(gen1,gen2,gen3, localSymmetry)
+        return AllWildColouredSurfaces( [gen1,gen2,gen3], localSymmetry );
+    end
+);
+InstallOtherMethod( AllTameColouredSurfaces, 
+    "for three involutions and a list", [IsPerm, IsPerm, IsPerm, IsList],
+    function(gen1,gen2,gen3, localSymmetry)
+        return AllTameColouredSurfaces( [gen1,gen2,gen3], localSymmetry );
+    end
+);
+
+InstallOtherMethod( AllWildColouredSurfaces, 
+    "for a group with three generators", [IsGroup],
+    function(grp)
+        return AllWildColouredSurfaces(grp, []);
+    end
+);
+InstallOtherMethod( AllTameColouredSurfaces, 
+    "for a group with three generators", [IsGroup],
+    function(grp)
+        return AllTameColouredSurfaces(grp, []);
+    end
+);
+
+InstallOtherMethod( AllWildColouredSurfaces, 
+    "for a group with three generators and a list", [IsGroup, IsList],
+    function(grp, localSymmetry)
+        local gens;
+
+        gens := GeneratorsOfGroup(grp);
+        if Size(gens) <> 3 then
+            Error("AllWildColouredSurfaces: Given group has to have exactly three generators.");
+        fi;
+        return AllWildColouredSurfaces( gens, localSymmetry );
+    end
+);
+InstallOtherMethod( AllTameColouredSurfaces, 
+    "for a group with three generators and a list", [IsGroup, IsList],
+    function(grp, localSymmetry)
+        local gens;
+
+        gens := GeneratorsOfGroup(grp);
+        if Size(gens) <> 3 then
+            Error("AllTameColouredSurfaces: Given group has to have exactly three generators.");
+        fi;
+        return AllTameColouredSurfaces( gens, localSymmetry );
+    end
+);
+
+InstallOtherMethod( AllWildColouredSurfaces,
+    "for a list with three involutions", [IsList],
+    function(invList)
+        return AllWildColouredSurfaces(invList, []);
+    end
+);
+InstallOtherMethod( AllTameColouredSurfaces,
+    "for a list with three involutions", [IsList],
+    function(invList)
+        return AllTameColouredSurfaces(invList, []);
+    end
+);
+
+BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
+    function(invList, localSymmetry, name)
+        local moved, maxMoved, cycles, newSym, bound, b, n, cycList;
+
+        if Number(invList) <> 3 then
+            Error( Concatenation( name,
+                ": Given list of involutions has to contain 3 involutions, but actually only has ",
+                String(Size(invList)), " elements.") );
+        fi;
+        if ForAny(invList, i -> not IsPerm(i)) then
+            Error( Concatenation( name, 
+                ": Elements of given list of involutions have to satisy IsPerm." ) );
+        fi;
+        if ForAny(invList, g -> not g^2 = One(g)) then
+            Error( Concatenation( name,
+                ": The first list has to consist of involutions.") );
+        fi;
+
+        moved := MovedPoints( invList );
+        maxMoved := Maximum(moved);
+        moved := [1..maxMoved];
+
+        cycles := List(invList, i -> Cycles(i, moved));
+        newSym := [];
+
+        bound := BoundPositions(invList);
+        for b in bound do
+            # Check the given localSymmetry
+            if not IsBound(localSymmetry[b]) or localSymmetry[b] = 0 then
+                newSym[b] := List( cycles[b], i -> 0 );
+            elif localSymmetry[b] = 1 or localSymmetry[b] = 2 then
+                newSym[b] := List( cycles[b], i -> localSymmetry[b] );
+            elif IsList(localSymmetry[b]) then
+                cycList := [];
+                for n in [1..Size(cycles[b])] do
+                    if not IsBound(localSymmetry[b][n]) or localSymmetry[b][n] = 0 then
+                        cycList[n] := 0;
+                    elif localSymmetry[b][n] in [1,2] then
+                        cycList[n] := localSymmetry[b][n];
+                    else
+                        Error(Concatenation(name, 
+                            ": The local symmetry list at position ", 
+                            String(b), " has the invalid entry ", 
+                            String(localSymmetry[b][n]), " at position ", 
+                            String(n), 
+                            " (entries may only be 0, 1, 2 or unbound.)"));
+                    fi;
+                od;
+                newSym[b] := cycList;
+            else
+                Error( Concatenation(name, 
+                    ": The local symmetry at position ", String(b), 
+                    " is neither unbound, 0, 1, 2 or a list.") );
+            fi;
+        od;
+
+        return newSym;
+    end
+);
+
+InstallMethod( AllWildColouredSurfaces,
+    "for a list with three involutions and a list", [IsList, IsList],
+    function(invList, localSymmetry)
+        #local;
+
+        localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
+                        invList, localSymmetry, "AllWildColouredSurfaces");
+        Error("TODO");
+    end
+);
+InstallMethod( AllTameColouredSurfaces,
+    "for a list with three involutions and a list", [IsList, IsList],
+    function(invList, localSymmetry)
+        #local;
+
+        localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
+                        invList, localSymmetry, "AllTameColouredSurfaces");
+        Error("TODO");
+    end
+);
+
+##
+##      End of AllWild...
+##
+#######################################

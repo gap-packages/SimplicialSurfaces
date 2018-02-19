@@ -91,7 +91,7 @@ preProcessTikz := function( node )
         # that. Furthermore, add into the README a short test if a user has all
         # necessary capabilities (and maybe an installation for them)
         Exec( "sh -c \" cd ", path, "; ../flatex/flatex ", 
-            Concatenation(tmpImageName, ".tex"), "; \"" );
+            Concatenation(tmpImageName, ".tex"), "> /dev/null; \"" );
 
         # Step 3
         sysDirPath := DirectoriesSystemPrograms();

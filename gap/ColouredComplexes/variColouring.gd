@@ -273,6 +273,75 @@ DeclareAttribute( "LocalSymmetryOfColoursAsNumbers", IsTameColouredSurface);
 #! @EndGroup
 InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 
+
+#! @BeginGroup AllWildColouredSurfaces
+#! @Description
+#! This method computes all wild-coloured surfaces based on the given
+#! information. The information can be given in one of two forms:
+#! <Enum>
+#!   <Item>A simplicial surface (<Ref Subsect="IsSimplicialSurface"/>).
+#!      The optional argument <A>localSymmetry</A> is a list that encodes
+#!      the local symmetry (<Ref Subsect="LocalSymmetryOfEdges"/>) of some
+#!      edges:
+#!      <List>
+#!        <Item>If <A>localSymmetry</A>[<A>edge</A>] = 1, then <A>edge</A> will
+#!           become a mirror-edge.</Item>
+#!        <Item>If <A>localSymmetry</A>[<A>edge</A>] = 2, then <A>edge</A> will
+#!           become a rotation-edge.</Item>
+#!        <Item>Unbound positions and the value 0 are ignored, all other entries
+#!           will throw errors. </Item>
+#!      </List>
+#!   </Item>
+#!   <Item>A list of three involutions that will become the colour involutions
+#!       (<Ref Subsect="ColourInvolutions"/>) of all returned wild-coloured 
+#!       surfaces. The involutions can also be given individually (with 
+#!       colours 1, 2, 3) or as generators of a group.
+#! 
+#!       The optional argument <A>localSymmetry</A> is a list that
+#!       encodes the local symmetry (<Ref Subsect="IsTameColouredSurface"/>)
+#!       of the colours. The entry <A>localSymmetry</A>[<A>colour</A>] can be
+#!       given in one of two forms (all others will throw errors):
+#!       <Enum>
+#!         <Item>If it is 1, then all edges with colour <A>col</A> will be
+#!            mirror edges. If it is 2, they will be rotation edges. If the
+#!            entry is 0 or unbound, no information is given.</Item>
+#!         <Item>It can be given as a list indexed by the cycles of the
+#!            involution <A>invList</A>[<A>colour</A>], i.e. the entry at 
+#!            position <A>k</A> encodes the local symmetry of the k-th cycle
+#!            (counted in 
+#!            <K>Cycles</K>(<A>invList</A>[<A>colour</A>], <A>[1..n]</A>), 
+#!            where <A>n</A> is the highest point moved by the involutions). 
+#!            As usual, 1 means mirror and 2 means rotation.</Item>
+#!       </Enum>
+#!   </Item>
+#! </Enum>
+#!
+#! The method <K>AllTameColouredSurfaces</K> works identical, except that it
+#! only returns the tame-coloured surfaces 
+#! (<Ref Subsect="IsTameColouredSurface"/>).
+#!
+#! @BeginExampleSession
+#! gap> tetWild := AllWildColouredSurfaces(Tetrahedron());;
+#! gap> Size(tetWild);
+#! 1
+#! gap> tetTame := AllTameColouredSurfaces(Tetrahedron());;
+#! gap> Size(tetTame);
+#! 1
+#! @EndExampleSession
+#! TODO examples that use local symmetries -> what is interesting (but small)?
+#!
+#! @Returns a list of wild-coloured surfaces 
+#! @Arguments simpSurf[, localSymmetry]
+DeclareOperation( "AllWildColouredSurfaces", [IsSimplicialSurface, IsList] );
+#! @Arguments simpSurf[, localSymmetry]
+DeclareOperation( "AllTameColouredSurfaces", [IsSimplicialSurface, IsList] );
+#! @Arguments invList[, localSymmetry]
+DeclareOperation( "AllWildColouredSurfaces", [IsList, IsList] );
+#! @Arguments invList[, localSymmetry]
+DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList] );
+#! @EndGroup
+
+
 #Section Rainbow colouring
     #construction: All..., SixfoldCover, (DoubleCover);
 
