@@ -28,7 +28,7 @@
 #! <K>ColourInvolutions</K> (<Ref Subsect="ColourInvolutions"/>).
 #!
 #! After these general properties, section 
-#! <Ref Sect="Section_EdgeVariColouring_Exact"/> deals with a special
+#! <Ref Sect="Section_EdgeVariColouring_Wild"/> deals with a special
 #! subclass of a vari-colouring: <E>edge exact-colourings</E>, in
 #! which the number of colours is minimal (for example, in a simplicial 
 #! surface there can only be three colours). It describes a method to
@@ -185,13 +185,15 @@ DeclareAttribute("ColourInvolutions",
 
 #TODO Is this relabelling ok?
 
-#! @Section Edge exact colourings
-#! @SectionLabel EdgeVariColouring_Exact
+#! @Section Wild coloured surfaces
+#! @SectionLabel EdgeVariColouring_Wild
 #!
 #! While the previous sections dealt with general edge vari-colourings,
 #! this section focuses exclusively on edge exact-coloured
 #! simplicial surfaces, i.,e. simplicial surfaces whose edges are coloured
 #! with three colours such that the edges of each face have different colours.
+#! Since these are quite important structures, we will denote them by
+#! <E>wild-coloured surfaces</E> (<Ref Subsect="IsWildColouredSurface"/>).
 #!
 #! In this situation there is an additional local symmetry structure on the
 #! edges. For every inner edge (<Ref Subsect="InnerEdges"/>) there are two
@@ -209,6 +211,24 @@ DeclareAttribute("ColourInvolutions",
 #! Together with the edge colouring, the local symmetry determines the underlying
 #! simplicial surface.
 
+#! @BeginGroup IsWildColouredSurface
+#! @Description
+#! Check if an edge-coloured polygonal complex is a 
+#! <E>wild-coloured surface</E>, i.e.
+#! * It is a simplicial surface (<Ref Subsect="IsSimplicialSurface"/>)
+#! * It has an edge-exact colouring (<Ref Subsect="IsEdgeVariColouring"/>), 
+#!   i.e. the edges are coloured by three colours and the edges of every
+#!   face have different colours.
+#!
+#! TODO example
+#!
+#! @Arguments colSurf
+DeclareProperty( "IsWildColouredSurface", IsEdgeColouredPolygonalComplex );
+#! @EndGroup
+InstallTrueMethod( IsEdgeExactColouring, IsWildColouredSurface );
+InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsWildColouredSurface );
+
+
 #! @BeginGroup LocalSymmetryOfEdges
 #! @Description
 #! Return the local symmetry of the edges in <A>colSurf</A>, i.e. whether the 
@@ -220,20 +240,21 @@ DeclareAttribute("ColourInvolutions",
 #!
 #! @Returns a list of strings
 #! @Arguments colSurf
-DeclareAttribute( "LocalSymmetryOfEdges", IsEdgeColouredSimplicialSurface and 
-    IsEdgeExactColouring );
+DeclareAttribute( "LocalSymmetryOfEdges", IsWildColouredSurface );
 #! @Returns a list of positive integers
 #! @Arguments colSurf
-DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsEdgeColouredSimplicialSurface and 
-    IsEdgeExactColouring );
+DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsWildColouredSurface ); 
 #! @EndGroup
 
 
 #! Of particular interest are those colourings where the local symmetry is equal
-#! for each edge of the same colour.
-#! @BeginGroup IsMRTypeColourInvariant
+#! for each edge of the same colour. In comparison to the wild-coloured 
+#! surfaces these colourings are much better behaved. Therefore they are 
+#! called <E>tame-coloured surfaces</E>.
+#! @BeginGroup IsTameColouredSurface
 #! @Description
-#! Return whether the local symmetry (<Ref Subsect="LocalSymmetryOfEdges"/>) is equal
+#! Check whether the local symmetry (<Ref Subsect="LocalSymmetryOfEdges"/>) of
+#! a wild-coloured surface is equal
 #! for all edges of the same colour.
 #!
 #! The method <K>LocalSymmetryOfColours</K> returns a list of local symmetries that is
@@ -242,17 +263,15 @@ DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsEdgeColouredSimplicialSurfa
 #! TODO a lot of tests (how should this interact with other options?);
 #! 
 #! @Arguments colSurf
-DeclareProperty( "IsMRTypeColourInvariant", IsEdgeColouredSimplicialSurface and 
-    IsEdgeExactColouring);
+DeclareProperty( "IsTameColouredSurface", IsEdgeColouredPolygonalComplex);
 #! @Returns a list of strings
 #! @Arguments colSurf
-DeclareAttribute( "LocalSymmetryOfColours", IsEdgeColouredSimplicialSurface and
-    IsMRTypeColourInvariant);
+DeclareAttribute( "LocalSymmetryOfColours", IsTameColouredSurface);
 #! @Returns a list of positive integers
 #! @Arguments colSurf
-DeclareAttribute( "LocalSymmetryOfColoursAsNumbers", IsEdgeColouredSimplicialSurface and
-    IsMRTypeColourInvariant);
+DeclareAttribute( "LocalSymmetryOfColoursAsNumbers", IsTameColouredSurface);
 #! @EndGroup
+InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 
 #Section Rainbow colouring
     #construction: All..., SixfoldCover, (DoubleCover);

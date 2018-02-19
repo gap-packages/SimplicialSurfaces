@@ -132,9 +132,17 @@ InstallMethod( ColourInvolutions,
 ##      LocalSymmetryOfEdges
 ##
 
+InstallMethod( IsWildColouredSurface, 
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComp)
+        return IsEdgeColouredSimplicialSurface(colComp) and IsEdgeExactColouring(colComp);
+    end
+);
+
 InstallMethod( LocalSymmetryOfEdgesAsNumbers, 
     "for an edge exact-coloured simplicial surface",
-    [IsEdgeColouredSimplicialSurface and IsEdgeExactColouring],
+    [IsWildColouredSurface],
     function(colSurf)
         local mr, surf, r, verts, faces, e1, e2, e;
 
@@ -162,7 +170,7 @@ InstallMethod( LocalSymmetryOfEdgesAsNumbers,
 );
     RedispatchOnCondition( LocalSymmetryOfEdgesAsNumbers, true, 
         [IsEdgeColouredPolygonalComplex], 
-        [IsEdgeExactColouring and IsEdgeColouredSimplicialSurface], 0 );
+        [IsWildColouredSurface], 0 );
 
 BindGlobal( "__SIMPLICIAL_LocalSymmetryNamesOfNumber",
     function( e )
@@ -178,8 +186,8 @@ BindGlobal( "__SIMPLICIAL_LocalSymmetryNamesOfNumber",
     end
 );
 InstallMethod( LocalSymmetryOfEdges, 
-    "for an edge exact-coloured simplicial surface",
-    [IsEdgeColouredSimplicialSurface and IsEdgeExactColouring], 
+    "for an edge-coloured simplicial surface",
+    [IsWildColouredSurface], 
     function(colSurf)
         local mr;
 
@@ -189,13 +197,17 @@ InstallMethod( LocalSymmetryOfEdges,
 );
     RedispatchOnCondition( LocalSymmetryOfEdges, true, 
         [IsEdgeColouredPolygonalComplex], 
-        [IsEdgeExactColouring and IsEdgeColouredSimplicialSurface], 0 );
+        [IsWildColouredSurface], 0 );
 
-InstallMethod( IsMRTypeColourInvariant,
-    "for an edge exact-coloured simplicial surface",
-    [IsEdgeColouredSimplicialSurface and IsEdgeExactColouring],
+InstallMethod( IsTameColouredSurface,
+    "for an edge-coloured simplicial surface",
+    [IsEdgeColouredPolygonalComplex],
     function(colSurf)
         local mr, c, ind_mr, mrCol;
+
+        if not IsWildColouredSurface(colSurf) then
+            return false;
+        fi;
 
         mr := LocalSymmetryOfEdgesAsNumbers(colSurf);
 
@@ -219,24 +231,21 @@ InstallMethod( IsMRTypeColourInvariant,
         return true;
     end
 );
-    RedispatchOnCondition( IsMRTypeColourInvariant, true,
-        [IsEdgeColouredPolygonalComplex],
-        [IsEdgeExactColouring and IsEdgeColouredSimplicialSurface], 0);
 
 InstallMethod( LocalSymmetryOfColoursAsNumbers,
-    "TODO for a perfect rainbow edge coloured simplicial surface",
-    [IsEdgeColouredSimplicialSurface and IsMRTypeColourInvariant],
+    "for a tame-coloured surface",
+    [IsTameColouredSurface],
     function(colSurf)
         return LocalSymmetryOfColoursAsNumbers(colSurf); # The previous check should set the attribute
     end
 );
     RedispatchOnCondition( LocalSymmetryOfColoursAsNumbers, true,
         [IsEdgeColouredPolygonalComplex],
-        [IsMRTypeColourInvariant and IsEdgeColouredSimplicialSurface], 0);
+        [IsTameColouredSurface], 0);
 
 InstallMethod( LocalSymmetryOfColours,
-    "TODO for a perfect rainbow edge coloured simplicial surface",
-    [IsEdgeColouredSimplicialSurface and IsMRTypeColourInvariant],
+    "for a tame-coloured surface",
+    [IsTameColouredSurface],
     function(colSurf)
         local mr;
 
@@ -247,5 +256,5 @@ InstallMethod( LocalSymmetryOfColours,
 );
     RedispatchOnCondition( LocalSymmetryOfColours, true,
         [IsEdgeColouredPolygonalComplex],
-        [IsMRTypeColourInvariant and IsEdgeColouredSimplicialSurface], 0);
+        [IsTameColouredSurface], 0);
 

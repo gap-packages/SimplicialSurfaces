@@ -9,3 +9,22 @@ DualSurface
 AddVertexIntoEdge [Jesse]
 SnippOffEars
 CommonCover?
+
+
+WildColouredSurface -> EdgeExactColouredSimplicialSurface
+TameColouredSurface -> 
+
+Display: immer Umbrellas (bei EdgeColoured nur gefärbt @Frank/Gutsche: Kann man Konsolenausgabe farbig machen?)
+    -> everything coloured (OnOff-Switch)
+    -> colorprompt.g for application -> Can this be done via DisplayString? Or write Display explicitly?
+    -> in general give vertices, edges and faces different colours and display those
+
+
+ColourNames -> All...
+ColourNames -> View/Display for colouring
+AllWild... -> IsomorphicFlagSurface
+
+Cover
+
+Geodesics
+
