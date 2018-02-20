@@ -23,6 +23,8 @@ BindGlobal("__SIMPLICIAL_DocDirectory", "doc/");
 # the primary documentation file and the generated image files.
 BindGlobal("__SIMPLICIAL_TikZHeader", "\\input{TikZHeader.tex}\n\n" );
 
+# We load the package since we need it for some computations in the manual
+LoadPackage("SimplicialSurfaces");
 
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
@@ -249,7 +251,6 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   
   
   #MB precompile the images
-        LoadPackage("SimplicialSurfaces");
         Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm _TIKZ_*;\"" );
         __SIMPLICIAL_MANUAL_MODE := true;
         Read("gap/PolygonalComplexes/drawing.gd");

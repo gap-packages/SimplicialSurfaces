@@ -839,10 +839,348 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalSurface, IsList, IsPolygonalSu
 DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
 
-# cut/mend edges
+#TODO maybe move into chapter ExampleApplications?
+#! @Section Example: Cut and Mend
+#! @SectionLabel Modification_CutMend
+#!
+#! While the previous sections talked about general modifications and some
+#! often-used modifications, this section shows how these tools could be used
+#! in practice. After introducing some modifications of theoretical value it
+#! is shown how they could be implemented with the help from the package.
+#! 
+#! Specifically this concerns the following operations (for polygonal surfaces):
+#! <Enum>
+#!   <Item><K>CraterCut</K> (<Ref Subsect="CraterCut"/>): For an inner edge 
+#!      (<Ref Subsect="InnerEdges"/>) 
+#!      with two
+#!      incident inner vertices (<Ref Subsect="InnerVertices"/>), split the
+#!      edge in two (while leaving the vertices intact).
+#!
+#!      The inverse operation is the <K>CraterMend</K>
+#!      (<Ref Subsect="CraterMend"/>).</Item>
+#!   <Item><K>RipCut</K> (<Ref Subsect="RipCut"/>): For an inner edge 
+#!      (<Ref Subsect="InnerEdges"/>), 
+#!      where one of the incident vertices is an inner vertex 
+#!      (<Ref Subsect="InnerVertices"/>) and one is a boundary vertex
+#!      (<Ref Subsect="BoundaryVertices"/>), split the edge and the boundary
+#!      vertex.
+#!
+#!      The inverse operation is the <K>RipMend</K>
+#!      (<Ref Subsect="RipMend"/>).</Item>
+#!   <Item><K>SplitCut</K> (<Ref Subsect="SplitCut"/>): For an inner edge 
+#!      with two incident boundary
+#!      vertices (<Ref Subsect="BoundaryVertices"/>), split the edge and
+#!      both incident vertices in two.
+#!
+#!      The inverse operation is the <K>SplitMend</K>
+#!      (<Ref Subsect="SplitMend"/>).</Item>
+#! </Enum>
+#!
+#! Besides the actual modification it is also important to have some function
+#! available that checks if the conditions are fulfilled.
+#!
+#! Each of these six operations has their own manual entry with a code 
+#! snippet. These code snippets could be put into a file <E>CutMend.g</E>
+#! and read into an active &GAP;-session by 
+#! @BeginLogSession
+#! gap> Read("CutMend.g");
+#! @EndLogSession
+#! While this is not necessary for the concrete methods in this section, this
+#! would be the method of choice for used-defined modifications.
+
+#! @BeginGroup CraterCut
+#! @Description
+#! Every inner edge (<Ref Subsect="InnerEdges"/>) whose incident vertices are
+#! both inner vertices (<Ref Subsect="InnerVertices"/>) can be split into
+#! two boundary edges by a
+#! <K>CraterCut</K>. The attribute 
+#! <K>CraterCuttableEdges</K>(<A>complex</A>) returns the set of all 
+#! edges that fulfill these conditions.
+#!
+#! TODO example
+#!
+#! This could be implemented like this:
+#! @BeginExampleSession
+#! gap> CraterCuttableEdges_custom := function(complex)
+#! >      return Filtered( InnerEdges(complex),
+#! >         e -> ForAll( VerticesOfEdges(complex)[e], 
+#! >            v -> IsInnerVertexNC(complex,v) ) );
+#! >    end;
+#! function( complex ) ... end
+#! gap> CraterCut_custom := function(complex, edge)
+#! >       if not edge in CraterCuttableEdges_custom(complex) then
+#! >         Error("Given edge has to be crater-cuttable");
+#! >       fi;
+#! >       
+#! >       return SplitEdge(complex, edge)[1];
+#! >    end;
+#! function( complex, edge ) ... end
+#! @EndExampleSession
+#!
+#! @Returns a polygonal complex
+#! @Arguments complex, edge
+DeclareOperation( "CraterCut", [IsPolygonalComplex, IsPosInt] );
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup CraterMend
+#! @Description
+#! Every pair of boundary edges (<Ref Subsect="BoundaryEdges"/>) with the
+#! same incident vertices, that also are boundary vertices 
+#! (<Ref Subsect="BoundaryVertices"/>), can be joined into one inner edge
+#! by a <K>CraterMend</K>. The attribute 
+#! <K>CraterMendableEdgePairs</K>(<A>complex</A>) returns the set of all
+#! edge pairs that fulfill these conditions.
+#!
+#! TODO example
+#!
+#! This could be implemented like this:
+#! @BeginExampleSession
+#! gap> CraterMendableEdgePairs_custom := function(complex)
+#! >        local edgeAnom, edgePairs;
+#! > 
+#! >        edgeAnom := List( EdgeAnomalyClasses(complex), 
+#! >            cl -> Filtered( cl, 
+#! >                e -> IsBoundaryEdgeNC(complex, e) and 
+#! >                    ForAll( VerticesOfEdges(complex)[e], 
+#! >                        v -> IsBoundaryVertexNC(complex, v) ) ) );
+#! >        edgePairs := Combinations(edgeAnom, 2);
+#! >        return Union(edgePairs);
+#! >    end;
+#! function( complex ) ... end
+#! gap> CraterMend_custom := function(complex, edgePair)
+#! >        if not Set(edgePair) in CraterMendableEdgePairs_custom(complex) then
+#! >            Error("Given edge-pair has to be crater-mendable.");
+#! >        fi;
+#! >        return JoinEdgesNC(complex, edgePair)[1];
+#! >    end;
+#! function( complex, edgePair ) ... end
+#! @EndExampleSession
+#!
+#! @Returns a polygonal complex
+#! @Arguments complex, edgePair
+DeclareOperation( "CraterMend", [IsPolygonalComplex, IsList] );
+#! @Returns a set of edge pairs
+#! @Arguments complex
+DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
+#! @EndGroup
+
+
+#! @BeginGroup RipCut
+#! @Description
+#! For every inner edge (<Ref Subsect="InnerEdges"/>) where one incident vertex
+#! is an inner vertex (<Ref Subsect="InnerVertices"/>) and one is a boundary
+#! vertex (<Ref Subsect="BoundaryVertices"/>) a <E>rip cut</E> can be 
+#! performed. In doing so, the edge and the boundary vertex are split in two.
+#! The attribute <K>RipCuttableEdges</K>(<A>complex</A>) returns a set of all
+#! edges with these properties.
+#!
+#! TODO example
+#!
+#! This could be implemented like this:
+#! @BeginExampleSession
+#! gap> RipCuttableEdges_custom := function(complex)
+#! >        local CheckInnerBound;
+#! >    
+#! >        CheckInnerBound := function(e)
+#! >            local verts;
+#! >    
+#! >            verts := VerticesOfEdges(complex)[e];
+#! >            return ( IsInnerVertexNC(complex, verts[1]) and 
+#! >                        IsBoundaryVertexNC(complex, verts[2]) ) 
+#! >                or ( IsInnerVertexNC(complex, verts[2]) and 
+#! >                        IsBoundaryVertexNC(complex, verts[1]) );
+#! >        end;
+#! >        return Filtered(InnerEdges(complex), CheckInnerBound );
+#! >    end;
+#! function( complex ) ... end
+#! gap> RipCut_custom := function(complex, edge)
+#! >        if not edge in RipCuttableEdges_custom(complex) then
+#! >            Error("Given edge has to be rip-cuttable.");
+#! >        fi;
+#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC([edge]));
+#! >    end;
+#! function( complex, edge ) ... end
+#! @EndExampleSession
+#! 
+#! @Returns a polygonal complex
+#! @Arguments complex, edge
+DeclareOperation( "RipCut", [IsPolygonalComplex, IsPosInt] );
+#! @Returns a set of edges
+#! @Arguments complex
+DeclareAttribute( "RipCuttableEdges", IsPolygonalComplex );
+#! @EndGroup
+
+
+#! @BeginGroup RipMend
+#! @Description
+#! Every pair of boundary edges (<Ref Subsect="BoundaryEdges"/>) that has
+#! exactly one boundary vertex (<Ref Subsect="BoundaryVertices"/>) and no
+#! other vertex in common, can be joined by a <K>RipMend</K>. The 
+#! attribute <K>RipMendableEdgePairs</K>(<A>complex</A>) returns the set of
+#! all edge pairs that fulfill these conditions.
+#!
+#! If the joined vertices are connected by an edge, the mend can not be
+#! performed and <K>fail</K> will be returned.
+#!
+#! TODO examples
+#!
+#! This could be implemented like this:
+#! @BeginExampleSession
+#! gap> RipMendableEdgePairs_custom := function(complex)
+#! >        local pairs, v, boundEdges, edgePairs;
+#! >    
+#! >        pairs := [];
+#! >        for v in BoundaryVertices(complex) do
+#! >            boundEdges := Filtered( EdgesOfVertices(complex), 
+#! >                e -> IsBoundaryEdgeNC(complex, e) );
+#! >            edgePairs := Combinations(boundEdges, 2);
+#! >            Append(pairs, Filtered(edgePairs, p -> 
+#! >                OtherVertexOfEdgeNC(complex,v,p[1]) <> 
+#! >                OtherVertexOfEdgeNC(complex,v,p[2])));
+#! >        od;
+#! >    
+#! >        return Set(pairs);
+#! >    end;
+#! function( complex ) ... end
+#! gap> RipMend_custom := function(complex, edgePair)
+#! >        local commonVertex, path1, path2, join;
+#! > 
+#! >        if not edgePair in RipMendableEdgePairs(complex) then
+#! >            Error("Given edge-pair has to be rip-mendable.");
+#! >        fi;
+#! >        commonVertex := Intersection( 
+#! >            VerticesOfEdges(complex, edgePair[1]), 
+#! >            VerticesOfEdges(complex, edgePair[2]) )[1];
+#! >        path1 := VertexEdgePathNC(complex, [commonVertex, edgePair[1], 
+#! >                OtherVertexOfEdgeNC(complex, commonVertex, edgePair[1])]);
+#! >        path2 := VertexEdgePathNC(complex, [commonVertex, edgePair[2], 
+#! >                OtherVertexOfEdgeNC(complex, commonVertex, edgePair[2])]);
+#! >        join := JoinVertexEdgePathsNC(complex, path1, path2)[1];
+#! >        if join = fail then
+#! >            return fail;
+#! >        else
+#! >            return join[1];
+#! >        fi;
+#! >    end;
+#! function( complex, edgePair ) ... end
+#! @EndExampleSession
+#!
+#! @Returns a polygonal complex or <K>fail</K>
+#! @Arguments complex, edgePair
+DeclareOperation( "RipMend", [IsPolygonalComplex, IsList] );
+#! @Returns a set of edge pairs
+#! @Arguments complex
+DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
+#! @EndGroup
+
+
+#! @BeginGroup SplitCut
+#! @Description
+#! Any inner edge (<Ref Subsect="InnerEdges"/>) with two incident
+#! boundary vertices (<Ref Subsect="InnerVertices"/>) can be splitted
+#! into two boundary edges by a <K>SplitCut</K>. The attribute
+#! <K>SplitCuttableEdges</K>(<A>complex</A>) returns the set of all edges
+#! satisfying this property.
+#!
+#! TODO example
+#!
+#! This could be implemented like this:
+#! @BeginExampleSession
+#! gap> SplitCuttableEdges_custom := function(complex)
+#! >        return Filtered(InnerEdges(complex), 
+#! >            e -> ForAll(VerticesOfEdges(complex)[e], 
+#! >                v -> IsBoundaryVertexNC(complex, v)));
+#! >    end;
+#! function( complex ) ... end
+#! gap> SplitCut_custom := function(complex, edge)
+#! >        if not edge in SplitCuttableEdges_custom(complex) then
+#! >            Error("Given edge has to be split-cuttable.");
+#! >        fi;
+#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]));
+#! >    end;
+#! function( complex, edge ) ... end
+#! @EndExampleSession
+#! 
+#! @Returns a polygonal complex
+#! @Arguments complex, edge
+DeclareOperation( "SplitCut", [IsPolygonalComplex, IsPosInt] );
+#! @Returns a set of edges
+#! @Arguments complex
+DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup SplitMend
+#! @Description
+#! Two boundary edges (<Ref Subsect="BoundaryEdges"/>) with no shared
+#! vertices can be joined by <K>SplitMend</K>. For this operation to
+#! be well-defined two vertices of these edges that should be combined 
+#! have to be
+#! given as well. The attribute 
+#! <K>SplitMendableFlagPairs</K>(<A>complex</A>) returns the set of
+#! all pairs of vertex-edge-flags (<Ref Subsect="VertexEdgeFlags"/>)
+#! that fulfill the above conditions.
+#!
+#! If two given flags can't be joined (because two vertices that should
+#! be joined are connected by an edge), <K>fail</K> is returned.
+#!
+#! TODO examples
+#!
+#! This could be implemented like this:
+#! @BeginExampleSession
+#! gap> SplitMendableFlagPairs_custom := function( complex )
+#! >        local boundPairs, flagPairs, verts1, verts2, pair;
+#! >    
+#! >        flagPairs := [];
+#! >        boundPairs := Combinations( BoundaryEdges(complex), 2 );
+#! >        for pair in boundPairs do
+#! >            verts1 := VerticesOfEdges(complex)[pair[1]];
+#! >            verts2 := VerticesOfEdges(complex)[pair[2]];
+#! >            if IsEmpty(Intersection(verts1, verts2)) then
+#! >                Append( flagPairs, [ 
+#! >                    Set( [ [ verts1[1], pair[1] ], [ verts2[1], pair[2] ] ] ),
+#! >                    Set( [ [ verts1[1], pair[1] ], [ verts2[2], pair[2] ] ] ),
+#! >                    Set( [ [ verts1[2], pair[1] ], [ verts2[1], pair[2] ] ] ),
+#! >                    Set( [ [ verts1[2], pair[1] ], [ verts2[2], pair[2] ] ] )] );
+#! >            fi;
+#! >        od;
+#! >    
+#! >        return Set(flagPairs);
+#! >    end;
+#! function( complex ) ... end
+#! gap> SplitMend_custom := function( complex, flagPair )
+#! >        local path1, path2, join;
+#! >    
+#! >        if not flagPair in SplitMendableFlagPairs(complex) then
+#! >            Error("Given flag-pair has to be split-mendable");
+#! >        fi;
+#! >    
+#! >        path1 := VertexEdgePathNC(complex, [ flagPair[1][1], flagPair[1][2],
+#! >            OtherVertexOfEdgeNC(complex, flagPair[1][1], flagPair[1][2])]);
+#! >        path2 := VertexEdgePathNC(complex, [ flagPair[2][1], flagPair[2][2],
+#! >            OtherVertexOfEdgeNC(complex, flagPair[2][1], flagPair[2][2])]);
+#! >        join := JoinVertexEdgePathsNC(complex, path1, path2);
+#! >        if join = fail then
+#! >            return fail;
+#! >        else
+#! >            return join[1];
+#! >        fi;
+#! >    end;
+#! function( complex, flagPair ) ... end
+#! @EndExampleSession
+#!
+#! @Returns a polygonal complex or <K>fail</K>
+#! @Arguments complex, flagPair
+DeclareOperation( "SplitMend", [IsPolygonalComplex, IsList] );
+#! @Returns a set of vertex-edge-flag pairs
+#! @Arguments complex
+DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
+#! @EndGroup
+ 
 
 # These do not fit the above pattern:
-# SnippOffEars      -> can be an advanced example
 # CommonCover       -> does not fit here at all -> chapter Coverings (or only as a section in chapter "Associated Complexes" that also includes DualSurface?)
 # AddVertexIntoEdge (and the rest of Jesse's stuf) -> subdivision section?
 

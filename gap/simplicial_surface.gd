@@ -194,24 +194,5 @@ DeclareAttribute( "Geodesics", IsSimplicialSurface and IsTriangleSurface
  and IsEdgesLikeSurface);
 
 
-## cuts and mends
-DeclareOperation( "CraterCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
-DeclareOperation( "CraterMend", [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt] );
-DeclareOperation( "RipCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
-DeclareOperation( "RipMend", [IsSimplicialSurface and IsActualSurface, IsPosInt, IsPosInt] );
-DeclareOperation( "SplitCut", [IsSimplicialSurface and IsActualSurface, IsPosInt] );
-DeclareOperation( "SplitMend", [IsSimplicialSurface and IsActualSurface, IsList, IsList] );
-
-
-# Helpers for cuts and mends
-DeclareAttribute( "CraterCuttableEdges", IsSimplicialSurface );
-DeclareAttribute( "RipCuttableEdges", IsSimplicialSurface );
-DeclareAttribute( "SplitCuttableEdges", IsSimplicialSurface );
-
-DeclareAttribute( "CraterMendableEdgePairs", IsSimplicialSurface );
-DeclareAttribute( "RipMendableEdgePairs", IsSimplicialSurface );
-DeclareAttribute( "SplitMendableFlagPairs", IsSimplicialSurface );
-
-
 DeclareAttribute( "GeodesicFlagPermutation", IsSimplicialSurface );
 

@@ -1148,4 +1148,211 @@ InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
 RedispatchOnCondition( SnippOffEars, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
 
 
+##
+##      End Applications
+##
+#######################################
+
+
+
+
+#######################################
+##
+##      Cut/Mend
+##
+
+InstallMethod( CraterCuttableEdges, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local innerEdges;
+
+        innerEdges := InnerEdges(complex);
+        return Filtered(innerEdges, e -> ForAll( VerticesOfEdges(complex)[e], v -> IsInnerVertexNC(complex, v) ));
+    end
+);
+InstallMethod( CraterCut, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        if not edge in CraterCuttableEdges(complex) then
+            Error(Concatenation("CraterCut: The second argument ", 
+                String(edge), 
+                " is not a crater-cuttable edge of the given polygonal complex." ));
+        fi;
+        return SplitEdgeNC(complex, edge)[1];
+    end
+);
+
+InstallMethod( CraterMendableEdgePairs, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local edgeAnom, edgePairs;
+
+        edgeAnom := List( EdgeAnomalyClasses(complex), 
+            cl -> Filtered( cl, 
+                e -> IsBoundaryEdgeNC(complex, e) and 
+                    ForAll( VerticesOfEdges(complex)[e], 
+                        v -> IsBoundaryVertexNC(complex, v) ) ) );
+        edgePairs := Combinations(edgeAnom, 2);
+        return Union(edgePairs);
+    end
+);
+InstallMethod( CraterMend, "for a polygonal complex and a pair of edges",
+    [IsPolygonalComplex, IsList],
+    function(complex, edgePair)
+        if not Set(edgePair) in CraterMendableEdgePairs(complex) then
+            Error(Concatenation("CraterMend: The second argument ",
+                String(edgePair), 
+                " is not a crater-mendable edge pair of the given polygonal complex."));
+        fi;
+        return JoinEdgesNC(complex, edgePair)[1];
+    end
+);
+
+InstallMethod( RipCuttableEdges, "for a polygonal complex", 
+    [IsPolygonalComplex],
+    function(complex)
+        local CheckInnerBound;
+
+        CheckInnerBound := function(e)
+            local verts;
+
+            verts := VerticesOfEdges(complex)[e];
+            return ( IsInnerVertexNC(complex, verts[1]) and 
+                        IsBoundaryVertexNC(complex, verts[2]) ) 
+                or ( IsInnerVertexNC(complex, verts[2]) and 
+                        IsBoundaryVertexNC(complex, verts[1]) );
+        end;
+        return Filtered(InnerEdges(complex), CheckInnerBound );
+    end
+);
+InstallMethod( RipCut, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        if not edge in RipCuttableEdges(complex) then
+            Error(Concatenation("RipCut: Second argument ",
+                String(edge), " is not a rip-cuttable edge of the given polygonal complex."));
+        fi;
+        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC([edge]));
+    end
+);
+
+InstallMethod( RipMendableEdgePairs, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local pairs, v, boundEdges, edgePairs;
+
+        pairs := [];
+        for v in BoundaryVertices(complex) do
+            boundEdges := Filtered( EdgesOfVertices(complex), 
+                e -> IsBoundaryEdgeNC(complex, e) );
+            edgePairs := Combinations(boundEdges, 2);
+            Append(pairs, Filtered(edgePairs, p -> 
+                OtherVertexOfEdgeNC(complex,v,p[1]) <> 
+                    OtherVertexOfEdgeNC(complex,v,p[2])));
+        od;
+
+        return Set(pairs);
+    end
+);
+InstallMethod( RipMend, "for a polygonal complex and a pair of edges",
+    [IsPolygonalComplex, IsList],
+    function(complex, edgePair)
+        local commonVertex, path1, path2, join;
+
+        if not edgePair in RipMendableEdgePairs(complex) then
+            Error(Concatenation("RipMend: Second argument ",
+                String(edgePair), 
+                " is not a rip-mendable edge pair of the given polygonal complex."));
+        fi;
+        commonVertex := Intersection( 
+            VerticesOfEdges(complex, edgePair[1]), 
+            VerticesOfEdges(complex, edgePair[2]) )[1];
+        path1 := VertexEdgePathNC(complex, [commonVertex, edgePair[1], 
+                OtherVertexOfEdgeNC(complex, commonVertex, edgePair[1])]);
+        path2 := VertexEdgePathNC(complex, [commonVertex, edgePair[2], 
+                OtherVertexOfEdgeNC(complex, commonVertex, edgePair[2])]);
+
+        join := JoinVertexEdgePathsNC(complex, path1, path2)[1];
+        if join = fail then
+            return fail;
+        else
+            return join[1];
+        fi;
+    end
+);
+
+
+InstallMethod( SplitCuttableEdges, "for a polygonal complex", 
+    [IsPolygonalComplex],
+    function(complex)
+        return Filtered(InnerEdges(complex), 
+            e -> ForAll(VerticesOfEdges(complex)[e], 
+                v -> IsBoundaryVertexNC(complex, v)));
+    end
+);
+InstallMethod( SplitCut, "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        if not edge in SplitCuttableEdges(complex) then
+            Error(Concatenation("SplitCut: Second argument ", 
+                String(edge),
+                " is not a split-cuttable edge of the given polygonal complex"));
+        fi;
+        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]));
+    end
+);
+
+
+InstallMethod( SplitMendableFlagPairs, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local boundPairs, flagPairs, verts1, verts2, pair;
+
+        flagPairs := [];
+        boundPairs := Combinations( BoundaryEdges(complex), 2 );
+        for pair in boundPairs do
+            verts1 := VerticesOfEdges(complex)[pair[1]];
+            verts2 := VerticesOfEdges(complex)[pair[2]];
+            if IsEmpty(Intersection(verts1, verts2)) then
+                Append( flagPairs, [ 
+                    Set( [ [ verts1[1], pair[1] ], [ verts2[1], pair[2] ] ] ),
+                    Set( [ [ verts1[1], pair[1] ], [ verts2[2], pair[2] ] ] ),
+                    Set( [ [ verts1[2], pair[1] ], [ verts2[1], pair[2] ] ] ),
+                    Set( [ [ verts1[2], pair[1] ], [ verts2[2], pair[2] ] ] )] );
+            fi;
+        od;
+
+        return Set(flagPairs);
+    end
+);
+InstallMethod( SplitMend, 
+    "for a polygonal complex and a pair of vertex-edge-flags",
+    [IsPolygonalComplex, IsList],
+    function(complex, flagPair)
+        local path1, path2, join;
+
+        if not flagPair in SplitMendableFlagPairs(complex) then
+            Error(Concatenation("SplitMend: Second argument ", 
+                String(flagPair),
+                " is not a split-mendable flag pair."));
+        fi;
+
+        path1 := VertexEdgePathNC(complex, [ flagPair[1][1], flagPair[1][2],
+            OtherVertexOfEdgeNC(complex, flagPair[1][1], flagPair[1][2])]);
+        path2 := VertexEdgePathNC(complex, [ flagPair[2][1], flagPair[2][2],
+            OtherVertexOfEdgeNC(complex, flagPair[2][1], flagPair[2][2])]);
+        join := JoinVertexEdgePathsNC(complex, path1, path2);
+        if join = fail then
+            return fail;
+        else
+            return join[1];
+        fi;
+    end
+);
+
+
+##
+##      End of Cut/Mend
+##
+#######################################
 
