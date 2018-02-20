@@ -342,6 +342,13 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList] );
 #! @EndGroup
 
 
-#Section Rainbow colouring
-    #construction: All..., SixfoldCover, (DoubleCover);
+#! @Description
+#! Construct the <E>six-fold-cover</E> of a simplicial surface.
+#! 
+#! TODO
+#!
+#! @Returns a wild coloured surface
+#! @Arguments simpSurf, localSymmetry
+DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
+
 
