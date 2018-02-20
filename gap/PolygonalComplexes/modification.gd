@@ -839,6 +839,20 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalSurface, IsList, IsPolygonalSu
 DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
 
+#! @Description
+#! Split all vertices of the given polygonal complex via <K>SplitVertex</K>
+#! (<Ref Subsect="SplitVertex"/>). For ramified polygonal complexes
+#! (<Ref Sect="PolygonalStructures_ramified"/>) this is equivalent to
+#! splitting all ramified vertices (<Ref Subsect="RamifiedVertices"/>). In
+#! this case a polygonal surface will be returned.
+#!
+#! TODO example
+#!
+#! @Returns a polygonal complex
+#! @Arguments complex
+DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
+
+
 #TODO maybe move into chapter ExampleApplications?
 #! @Section Example: Cut and Mend
 #! @SectionLabel Modification_CutMend

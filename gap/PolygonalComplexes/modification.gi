@@ -1147,6 +1147,19 @@ InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
 );
 RedispatchOnCondition( SnippOffEars, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
 
+InstallMethod( SplitAllVertices, "for a polygonal complex", 
+    [IsPolygonalComplex],
+    function(complex)
+        local swapComplex, v;
+
+        swapComplex := complex;
+        for v in Vertices(complex) do
+            swapComplex := SplitVertexNC(swapComplex, v)[1];
+        od;
+
+        return swapComplex;
+    end
+);
 
 ##
 ##      End Applications
