@@ -33,7 +33,9 @@ For simplicial surfaces:
     18) SubsurfaceByFaces is replaced by SubcomplexByFaces
     19) ConnectedSum is replaced by ConnectedFaceSum
     20) SnippOffEarsRecursively was removed since it was unused.
-    21)
+    21) *Cut/Mend is changed in its calls. Please refer to section
+        "Example: Cut and Mend" for details
+    22) 
 
 
 
