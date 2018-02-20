@@ -74,6 +74,7 @@
 DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
 
 
+#! @BeginGroup IsClosedSurface
 #! @Description
 #! Check whether the given ramified polygonal surface is <E>closed</E>.
 #! A ramified surface is closed if every edge is incident to <E>exactly</E> 
@@ -103,6 +104,7 @@ DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
 #! @Arguments ramSurf
 DeclareProperty( "IsClosedSurface", IsRamifiedPolygonalSurface );
 ## We can't use IsClosed since this is blocked by the orb-package
+#! @EndGroup
 
 
 #! @Section Degree-based properties and invariants

@@ -41,4 +41,6 @@ For simplicial surfaces:
 
 For wild simplicial surfaces:
     1) complete rewrite. Refer to the chapters about edge colouring for details.
-    2) 
+    2) DoubleCover is now called OrientationCover and available for all
+        ramified polygonal surfaces.
+    3) 

@@ -972,6 +972,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
 #!   (<Ref Subsect="PerimetersOfFaces"/>) of this face.
 #!
 
+#! @BeginGroup IsOrientable
 #! @Description
 #! Return whether the given ramified polygonal surface is orientable.
 #!
@@ -993,6 +994,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
 #! TODO other example?
 #! @Arguments ramSurf
 DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
+#! @EndGroup
 
 #! @BeginGroup Orientation
 #! @Description
@@ -1032,3 +1034,31 @@ DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 DeclareAttribute( "Orientation", IsRamifiedPolygonalSurface );
 #! @EndGroup
 
+
+#! @Description
+#! Compute the <E>orientation cover</E> of a ramified polygonal surface
+#! <A>ramSurf</A>.
+#! It is defined as TODO
+#!
+#! The resulting polygonal surface is always closed 
+#! (<Ref Subsect="IsClosedSurface"/>) and orientable 
+#! (<Ref Subsect="IsOrientable"/>). If the original <A>ramSurf</A> was
+#! orientable, it has two connected components, otherwise just one.
+#!
+#! @BeginExampleSession
+#! gap> tetCov := OrientationCover(Tetrahedron());;
+#! gap> NumberOfVertices(tetCov);
+#! 8
+#! gap> NumberOfEdges(tetCov);
+#! 12
+#! gap> NumberOfFaces(tetCov);
+#! 8
+#! gap> NumberOfConnectedComponents(tetCov);
+#! 2
+#! gap> 
+#! @EndExampleSession
+#! TODO more varied examples
+#! 
+#! @Returns a polygonal surface
+#! @Arguments ramSurf
+DeclareOperation("OrientationCover", [IsRamifiedPolygonalSurface]);

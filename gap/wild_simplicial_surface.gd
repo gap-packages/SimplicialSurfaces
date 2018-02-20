@@ -79,16 +79,6 @@ DeclareOperation( "EdgeByFacesAndColour",
 DeclareOperation( "EdgeByFacesAndColourNC", 
 	[ IsWildSimplicialSurface, IsSet, IsPosInt ] );
 
-
-
-#! @Description
-#! Return the double cover of the wild simplicial surface, keeping the 
-#! MR-type fixed.
-#! 
-#! @Arguments wildSimplicialSurface
-#! @Returns the double cover
-DeclareOperation( "DoubleCover", [IsWildSimplicialSurface] );
-
 #############################################################################
 ##
 #!   @Description

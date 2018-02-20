@@ -198,3 +198,128 @@ InstallMethod( IsOrientable,
         return IsOrientable(ramSurf);
     end
 );
+
+
+## OrientationCover 
+##TODO maybe reorganise -> This might not be the best spot
+## maybe put VertexEdgePaths in their own chapter etc.
+
+InstallMethod( OrientationCover, "for a ramified polygonal surface", 
+    [IsRamifiedPolygonalSurface],
+    function(ramSurf)
+        local splitSurf, newFaces, f, perimeter, newEdges, e, incFaces, v1, 
+            v2, newF1, newF2, newF, cyc1, cyc2, bool1, bool2, newVertices,
+            sideA, sideB, i, j, diff1A, diff1B, diff2A, diff2B, obj,
+            vert, faces, vertsOfEdges, facesOfEdges, v, umb, first, edge, 
+            neighbours, nVertex, nEdge, nFace;
+
+        # Remove all ramified vertices
+        splitSurf := SplitAllVertices(ramSurf);
+
+        newFaces := [];
+        for f in Faces(splitSurf) do
+            perimeter := PerimetersOfFaces(splitSurf)[f];
+            newFaces[f] := [[f,perimeter], [f,Inverse(perimeter)]];
+        od;
+
+        newEdges := [];
+        for e in Edges(splitSurf) do
+            incFaces := FacesOfEdges(splitSurf)[e];
+            if Size(incFaces) = 1 then
+                newF := newFaces[incFaces[1]];
+                newEdges[e] := [ [e,newF] ];
+            else
+                # inner edge
+                v1 := VerticesOfEdges(splitSurf)[e][1];
+                v2 := VerticesOfEdges(splitSurf)[e][2];
+                newF1 := newFaces[incFaces[1]];
+                newF2 := newFaces[incFaces[2]];
+                cyc1 := VerticesAsPerm( newF1[1][2] );
+                cyc2 := VerticesAsPerm( newF2[1][2] );
+                # this only works for faces with at least three vertices!
+                bool1 := v1^cyc1 = v2;
+                bool2 := v1^cyc2 = v2;
+                if bool1 = bool2 then
+                    # the "first" perimeters have opposite orientation
+                    newEdges[e] := [ 
+                        [ e, [ newF1[1], newF2[2] ] ], [ e, [ newF1[2], newF2[1] ] ]
+                    ];
+                else
+                    # the "first" perimeters have equal orientation
+                    newEdges[e] := [ 
+                        [ e, [ newF1[1], newF2[1] ] ], [ e, [ newF1[2], newF2[2] ] ]
+                    ];
+                fi;
+            fi;
+        od;
+
+        newVertices := [];
+        for v in Vertices(splitSurf) do
+            umb := UmbrellasOfVertices(splitSurf)[v];
+            if IsClosedPath(umb) then
+                sideA := [];
+                sideB := [];
+                first := FacesAsList(umb)[1];
+                Add(sideA, newFaces[first][1]);
+                Add(sideB, newFaces[first][2]);
+                for i in [2..Size(EdgesAsList(umb))-1] do
+                    edge := EdgesAsList(umb)[i];
+                    diff1A := Difference( newEdges[edge][1][2], sideA );
+                    diff1B := Difference( newEdges[edge][1][2], sideB );
+                    diff2A := Difference( newEdges[edge][2][2], sideA );
+                    diff2B := Difference( newEdges[edge][2][2], sideB );
+                    if Size(diff1A) = 1 then
+                        Append(sideA, diff1A);
+                        Append(sideB, diff2B);
+                    else
+                        Append(sideA, diff2A);
+                        Append(sideB, diff1B);
+                    fi;
+                od;
+                newVertices[v] := [ [v,sideA], [v,sideB ] ];
+            else
+                # all incident faces show up with both sides
+                neighbours := [];
+                for f in FacesAsList(umb) do
+                    newF := newFaces[f];
+                    Append( neighbours, [ List(newF, p -> [ f, p ]) ] );
+                od;
+                newVertices[v] := [ [v,neighbours]];
+            fi;
+        od;
+
+
+        newVertices := Concatenation(newVertices);
+        newEdges := Concatenation(newEdges);
+        newFaces := Concatenation(newFaces);
+        vertsOfEdges := [];
+        facesOfEdges := [];
+        for i in [1..Size(newEdges)] do
+            vert := [];
+            nEdge := newEdges[i];
+            for j in [1..Size(newVertices)] do
+                nVertex := newVertices[j];
+                if nVertex[1] in VerticesOfEdges(splitSurf)[nEdge[1]] and IsSubset(nVertex[2], nEdge[2]) then
+                    Add(vert,j);
+                fi;
+            od;
+            vertsOfEdges[i] := vert;
+
+            faces := [];
+            for j in [1..Size(newFaces)] do
+                nFace := newFaces[j];
+                if nEdge[1] in EdgesOfFaces(splitSurf)[nFace[1]] and nFace in nEdge[2] then
+                    Add(faces,j);
+                fi;
+            od;
+            facesOfEdges[i] := faces;
+        od;
+
+        obj := Objectify(PolygonalComplexType, rec());
+        SetVerticesOfEdges(obj, vertsOfEdges);
+        SetFacesOfEdges(obj, facesOfEdges);
+        return obj;
+    end
+);
+RedispatchOnCondition( OrientationCover, true, [IsPolygonalComplex], [IsRamifiedPolygonalSurface], 0 );
+#TODO this can be improved with a wild colouring. Can that be implemented in some way?
