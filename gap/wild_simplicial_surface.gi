@@ -8,6 +8,7 @@
 ##
 BindGlobal( "__SIMPLICIAL_ConvertWildLegacyIntoModern", 
 	function( faces, edgeCycles, vertexPaths, gens )
+    local nrCycles, totalNrCycles, edges, edgeColours, facesOfEdges, colEdgesOfFaces, edgesOfFaces, init, surf, vertices, FindEdges, edgesOfVertices, f, col, i;
 	
 	local nrCycles, edges, edgeColours, facesOfEdges, vertices, 
               edgesOfVertices, FindEdges, surf, init, edgesOfFaces,

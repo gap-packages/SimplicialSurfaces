@@ -302,10 +302,12 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!       of the colours. The entry <A>localSymmetry</A>[<A>colour</A>] can be
 #!       given in one of two forms (all others will throw errors):
 #!       <Enum>
-#!         <Item>If it is 1, then all edges with colour <A>col</A> will be
+#!         <Item>If the entry <A>localSymmetry</A>[<A>colour</A>] is 1, then all edges 
+#!            with colour <A>colour</A> will be
 #!            mirror edges. If it is 2, they will be rotation edges. If the
 #!            entry is 0 or unbound, no information is given.</Item>
-#!         <Item>It can be given as a list indexed by the cycles of the
+#!         <Item>If the entry <A>localSymmetry</A>[<A>colour</A>] is again
+#!            a list, it has to be indexed by the cycles of the
 #!            involution <A>invList</A>[<A>colour</A>], i.e. the entry at 
 #!            position <A>k</A> encodes the local symmetry of the k-th cycle
 #!            (counted in 
@@ -354,6 +356,8 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 
 #! @Description
 #! Compute the <E>common cover</E> of two simplicial surfaces.
+#!
+#! TODO
 #!
 #! @Returns a simplicial surface
 #! @Arguments surf1, surf2, localSym1, localSym2
