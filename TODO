@@ -4,7 +4,6 @@ StripEmbedding?
 Chapter Modifications:
 DualSurface
 AddVertexIntoEdge [Jesse]
-CommonCover?
 
 
 Display: immer Umbrellas (bei EdgeColoured nur gefärbt @Frank/Gutsche: Kann man Konsolenausgabe farbig machen?)
@@ -19,4 +18,10 @@ AllWild... -> IsomorphicFlagSurface
 Cover
 
 Geodesics
+    Have GeodesicFlagPermutation as an attribute of geodesics
+    Have MaximalStripEmbedding(geodesic, face) an operation
+    -> In long term split chapter "Paths and Orientations"
+        -> One chapter for vertex-edge-paths
+        -> One chapter for edge-face-paths (maybe even one for geodesics if geodesic duality is concerned)
+        -> Unclear where connectivity and orientability should end up
 
