@@ -248,3 +248,5 @@ DeclareOperation( "DrawSurfaceToTikz", [IsRamifiedPolygonalSurface, IsString, Is
 #! @Subsection Data representation
 #! @SubsectionLabel DrawSurfaceToTikz_Data
 #! @InsertChunk DrawSurfaceToTikz_Data
+
+

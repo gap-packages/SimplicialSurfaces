@@ -352,3 +352,10 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList] );
 DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 
 
+#! @Description
+#! Compute the <E>common cover</E> of two simplicial surfaces.
+#!
+#! @Returns a simplicial surface
+#! @Arguments surf1, surf2, localSym1, localSym2
+DeclareOperation( "CommonCover", [IsSimplicialSurface, IsSimplicialSurface, IsList, IsList] );
+

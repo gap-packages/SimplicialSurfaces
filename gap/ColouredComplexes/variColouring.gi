@@ -490,3 +490,287 @@ InstallMethod( AllTameColouredSurfaces,
 ##      End of AllWild...
 ##
 #######################################
+
+
+
+#######################################
+##
+##      Common Cover
+##
+
+
+InstallMethod( CommonCover, 
+    "for two simplicial surfaces and local symmetries of edges",
+    [IsSimplicialSurface, IsSimplicialSurface, IsList, IsList],
+    function( surf1, surf2, mrType1, mrType2 )
+        local facePairs, newFaces, pair, vert1, vert2, allImages,
+            TauByMR, taus1, taus2, tau1, tau2, e, e1, e2, vertOfE2,
+            vertexBaseSet, vertexBasePositionsByFace, facePos,
+            newFace, foundPairs, adjacencyList, AdjacentFace,
+            edgePair, adFace1, adFace2, otherIso, bothFaces, otherFace,  
+            found, j, baseVertPos1, baseVertPos2, baseVertA1, baseVertA2,
+            baseVertB1, baseVertB2, vertOfEdge,
+            vertexGraph, connComp, edgeDescription, i, edge, 
+            surface, altNames, simpFaces, simpEdges, simpVertices,
+            simpVerticesOfEdges, simpFacesOfEdges;
+
+        # The new faces are given by all isomorphisms between faces
+        # of the original two surfaces
+        # We encode those as 
+        # [first face, second face, bijection between first and second vertices]
+        # The first vertices are ordered, the second vertices are arbitrary
+        facePairs := Cartesian(Faces(surf1),Faces(surf2));
+        newFaces := [];
+        for pair in facePairs do
+            vert1 := VerticesOfFaces(surf1)[pair[1]];
+            vert2 := VerticesOfFaces(surf2)[pair[2]];
+            allImages := Arrangements(vert2, Size(vert2));
+            Append( newFaces, List(allImages, im -> 
+                [pair[1], pair[2], GeneralMappingByElements( 
+                    Domain(vert1), 
+                    Domain(vert2),
+                    List([1,2,3], i-> DirectProductElement([vert1[i],im[i]]))
+                    # we only have triangular faces
+                )]
+            ));
+        od;
+
+        # We will now proceed this way:
+        # 1) Define the set from which the vertices will be derived
+        # 2) Iterate over all edge combinations (and construct adjacent faces)
+        #   2.1) Those define the new edges
+        #   2.2) They define the incidence to the faces
+        #   2.3) They define the equivalence between vertices
+
+        # Before we do this we need to define the maps tau that mirror or
+        # rotate the vertices of a face along an edge (as given in the mrtype)
+        TauByMR := function( surf, edge, mr )
+            local vertsOfEdge, adjacentFaces, thirdVertices;
+
+            vertsOfEdge := VerticesOfEdges(surf)[edge];
+            adjacentFaces := FacesOfEdges(surf)[edge];
+            thirdVertices := Difference( Union( List(adjacentFaces, 
+                f -> VerticesOfFaces(surf)[f]) ), vertsOfEdge );
+
+            if mr = 1 then # mirror
+                if Size(thirdVertices) = 1 then
+                    return ();
+                else
+                    return (thirdVertices[1],thirdVertices[2]);
+                fi;
+            elif mr = 2 then # rotation
+                if Size(thirdVertices) = 1 then
+                    return (vertsOfEdge[1],vertsOfEdge[2]);
+                else
+                    return (vertsOfEdge[1],vertsOfEdge[2])(thirdVertices[1],thirdVertices[2]);
+                fi;
+            else
+                Error("CommonCover: Given LocalSymmetry not complete.");
+            fi;
+        end;
+        taus1 := [];
+        for e in Edges(surf1) do
+            taus1[e] := TauByMR(surf1, e, mrType1[e]);            
+        od;
+        taus2 := [];
+        for e in Edges(surf2) do
+            taus2[e] := TauByMR(surf2, e, mrType2[e]);
+        od;
+
+        # 1) 
+        # The equivalence relation is defined on the set of pairs
+        # [newFace, vertex], where the vertex is a vertex of the first
+        # surface and lies in the face of the first surface that is 
+        # defined by the newFace.
+        vertexBaseSet := [];
+        vertexBasePositionsByFace := [];
+        for facePos in [1..Size(newFaces)] do
+            vertexBasePositionsByFace[facePos] := 
+                [Size(vertexBaseSet)+1..Size(vertexBaseSet)+3];
+            newFace := newFaces[facePos];
+            Append(vertexBaseSet, List(VerticesOfFaces(surf1)[newFace[1]], 
+                v -> [facePos,v] ));
+        od;
+
+
+        # We will need a helper function to compute the adjacent face to
+        # a given face. If the face is on the boundary, it will be returned.
+        # Otherwise its neighbour will be returned.
+        # TODO make this into a separate method for IsEdgesLikeSurface
+        AdjacentFace := function( surf, face, edge )
+            local allFaces;
+
+            allFaces := FacesOfEdges(surf)[edge];
+            if Size(allFaces) = 1 then
+                return allFaces[1];
+            else
+                return Difference(allFaces, [face])[1];
+            fi;
+        end;
+        
+        # 2)
+        # We iterate over the new edges. We represent a new edge as
+        # [first edge, second edge, {adjacent new faces} ]
+        # Since not all of those combinations are valid, we calculate
+        # the adjacent face manually by using the tau-mappings:
+        # If tau1 is the  mr-transfer of the first edge and tau2 is the 
+        # mr-transfer of the second edge, we have
+        # tau2 \circ iso1 = iso2 \circ tau1
+        foundPairs := [];
+        adjacencyList := [];    # List of adjacencies for the digraph package
+        for facePos in [1..Size(newFaces)] do
+            newFace := newFaces[facePos];
+            # Consider all pairs of possible edges
+            for e1 in EdgesOfFaces(surf1)[newFace[1]] do
+                # Find the partner edge
+                vertOfE2 := List( VerticesOfEdges(surf1)[e1], 
+                        v -> Image(newFace[3],v) );
+                e2 := EdgeInFaceByVertices(surf2, newFace[2], vertOfE2);
+                edgePair := [e1,e2];
+
+                # We need to find the adjacent faces
+                adFace1 := AdjacentFace(surf1, newFace[1], edgePair[1]);
+                adFace2 := AdjacentFace(surf2, newFace[2], edgePair[2]);
+                # Define tau2 and tau1^(-1)
+                tau2 := MappingByFunction( Range(newFace[3]), 
+                    Domain(VerticesOfFaces(surf2)[adFace2]),
+                    function(x) return x^taus2[edgePair[2]]; end );
+                tau1 := MappingByFunction( 
+                    Domain(VerticesOfFaces(surf1)[adFace1]),
+                    Source( newFace[3] ), 
+                    function(x) return x^taus1[edgePair[1]]; end );
+                # Now we can compute the composition mapping
+                otherIso := CompositionMapping( tau2, newFace[3], tau1);
+                otherFace := [adFace1, adFace2, otherIso];
+                bothFaces := Set( [newFace, otherFace] );
+
+                # Check whether we already found this combination
+                found := false;
+                for j in [1..Size(foundPairs)] do
+                    if edgePair = foundPairs[j][1] and 
+                                bothFaces = foundPairs[j][2] then
+                        foundPairs[j][3] := Union( foundPairs[j][3], [facePos] );
+                        found := true;
+                        break;
+                    fi;
+                od;
+                if not found then
+                    # We have to add this pair. At this point we also calculate
+                    # the vertices.
+
+                    # Compute the pairs of equivalent vertices
+                    baseVertPos1 := vertexBasePositionsByFace[facePos];
+                    baseVertPos2 := vertexBasePositionsByFace[
+                            Position(newFaces, otherFace)];
+
+                    vertOfEdge := VerticesOfEdges(surf1)[edgePair[1]];
+                    # Localize the vertices on the common edge
+                    baseVertA1 := Filtered( baseVertPos1, p ->
+                        vertexBaseSet[p][2] = vertOfEdge[1])[1];
+                    baseVertA2 := Filtered( baseVertPos2, p ->
+                        vertexBaseSet[p][2] = vertOfEdge[1])[1];
+                
+                    baseVertB1 := Filtered( baseVertPos1, p ->
+                        vertexBaseSet[p][2] = vertOfEdge[2])[1];
+                    baseVertB2 := Filtered( baseVertPos2, p ->
+                        vertexBaseSet[p][2] = vertOfEdge[2])[1];
+
+
+                    # Since the isomorphism already connects the faces with
+                    # respect to their mr-type, the vertices just have to care
+                    # about what is happening on one simplicial surface
+
+                    # The situation for the first surface is:
+                    #       baseVertA1 . baseVertA2
+                    #                / | \
+                    #               /  |  \
+                    #              . F1|F2 .
+                    #               \  |  /
+                    #                \ | /
+                    #       baseVertB1 . baseVertB2
+
+                    # Since the vertices of the two surfaces are connected by
+                    # their isomorphism, we only work with the vertices of one
+                    # surface. But it is easier to imagine that we work with the
+                    # pair of vertices in the common cover (instead of a single
+                    # vertex in one surface).
+
+                    # If we have an mm or rr-edge-pair, A1 and A2 are identified
+                    # Otherwise A1 and B2 are identified.
+                    if IsOddInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
+                        # The inverted case
+                        Append( adjacencyList,
+                            [[baseVertA1,baseVertB2], [baseVertB1, baseVertA2]]);
+                    else
+                        Append( adjacencyList, 
+                            [[baseVertA1, baseVertA2], [baseVertB1, baseVertB2]]);
+                    fi;
+                    
+                    # Finally we add the pair to our list
+                    Add(foundPairs, [edgePair, bothFaces, [facePos], 
+                        [baseVertA1, baseVertA2, baseVertB1, baseVertB2]]);
+                fi;
+                #TODO can this be implemented more efficiently?
+
+            od;
+        od;
+
+        # Now we have to compute the true vertices by finding the connected
+        # components of the graph that we defined with our adjacencyList.
+        vertexGraph := DigraphByEdges(adjacencyList);
+        connComp := DigraphConnectedComponents(vertexGraph);
+        #TODO can GRAPE work with unbound entries in lists?
+
+        # Now we translate all this information into a simplicial surface.
+        # Simultaneously we define the alternative names.
+        altNames := rec();
+
+        # Faces
+        simpFaces := [1..Size(newFaces)];
+        altNames.Faces := List(newFaces, f -> [[f[1],f[2]], 
+            [Elements(Source(f[3])), List(Elements(Source(f[3])),
+                                e->Image(f[3],e))]]);
+        altNames.DescriptionFaces := 
+            "[[old face 1, old face 2], bijection of vertices by elements]";
+
+        # Edges and FacesOfEdges and VerticesOfEdges from foundPairs
+        simpEdges := [1..Size(foundPairs)];
+        altNames.DescriptionEdges := 
+            "[ [old edge 1, old edge 2], set of adjacent new faces (as numbers) ]";
+        edgeDescription := [];
+        simpFacesOfEdges := [];
+        simpVerticesOfEdges := [];
+        for i in [1..Size(foundPairs)] do
+            edge := foundPairs[i];
+            edgeDescription[i] := [edge[1],edge[3]];
+            simpFacesOfEdges[i] := edge[3];
+            simpVerticesOfEdges[i] := Set( List(edge[4], v -> connComp.id[v]) );
+        od;
+        altNames.Edges := edgeDescription;
+
+        # Vertices from connComp
+        simpVertices := [1..Size(connComp.comps)];
+        altNames.Vertices := List(connComp.comps, cc ->
+            List( cc, pos -> vertexBaseSet[pos] ) );
+        altNames.DescriptionVertices :=
+            "list of equivalence classes of [new face (as number), old vertex]-pairs";
+
+        # Construct the new simplicial surface
+        surface := Objectify( PolygonalComplexType, rec() );
+        SetFacesOfEdges(surface, simpFacesOfEdges);
+        SetVerticesOfEdges(surface, simpVerticesOfEdges);
+        #SetAlternativeNames(surface, rec( commonCover := altNames) );
+
+        return surface;
+    end
+);
+RedispatchOnCondition( CommonCover, true, 
+    [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList], 
+    [IsSimplicialSurface, IsSimplicialSurface], 0 );
+
+
+
+##
+##  End of Common Cover
+##
+#######################################
