@@ -394,22 +394,22 @@ InstallMethod( AutomorphismGroupOnFaces, "for a polygonal complex",
 InstallMethod( IsAutomorphismDefinedByVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return Size( Set(VerticesOfEdges(complex)) ) = NumberOfEdges(complex) 
-            and Size( Set(VerticesOfFaces(complex)) ) = NumberOfFaces(complex);
+        return Length( Set(VerticesOfEdges(complex)) ) = NumberOfEdges(complex) 
+            and Length( Set(VerticesOfFaces(complex)) ) = NumberOfFaces(complex);
     end
 );
 InstallMethod( IsAutomorphismDefinedByEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return Size( Set(EdgesOfVertices(complex)) ) = NumberOfVertices(complex) 
-            and Size( Set(EdgesOfFaces(complex)) ) = NumberOfFaces(complex);
+        return Length( Set(EdgesOfVertices(complex)) ) = NumberOfVertices(complex) 
+            and Length( Set(EdgesOfFaces(complex)) ) = NumberOfFaces(complex);
     end
 );
 InstallMethod( IsAutomorphismDefinedByFaces, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return Size( Set(FacesOfEdges(complex)) ) = NumberOfEdges(complex) 
-            and Size( Set(FacesOfVertices(complex)) ) = NumberOfVertices(complex);
+        return Length( Set(FacesOfEdges(complex)) ) = NumberOfEdges(complex) 
+            and Length( Set(FacesOfVertices(complex)) ) = NumberOfVertices(complex);
     end
 );
 

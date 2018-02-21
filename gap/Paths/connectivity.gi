@@ -32,13 +32,13 @@ InstallMethod( StronglyConnectedComponents, "for a polygonal complex",
 InstallMethod( NumberOfConnectedComponents, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return Size(ConnectedComponentsAttributeOfPolygonalComplex(complex));
+        return Length(ConnectedComponentsAttributeOfPolygonalComplex(complex));
     end
 );
 InstallMethod( NumberOfStronglyConnectedComponents,
     "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
-        return Size(StronglyConnectedComponentsAttributeOfPolygonalComplex(complex));
+        return Length(StronglyConnectedComponentsAttributeOfPolygonalComplex(complex));
     end
 );
 
@@ -93,7 +93,7 @@ InstallMethod( IsConnected, "for a polygonal complex", [IsPolygonalComplex],
         component := __SIMPLICIAL_AbstractConnectedComponent( 
                         Faces(complex), VerticesOfFaces(complex), 
                         Faces(complex)[1] );
-        return Size( component ) = NumberOfFaces(complex);
+        return Length( component ) = NumberOfFaces(complex);
     end
 );
 InstallImmediateMethod( IsConnected, 
@@ -117,7 +117,7 @@ InstallMethod( IsStronglyConnected, "for a polygonal complex", [IsPolygonalCompl
         component := __SIMPLICIAL_AbstractConnectedComponent( 
                         Faces(complex), EdgesOfFaces(complex), 
                         Faces(complex)[1] );
-        return Size( component ) = NumberOfFaces(complex);
+        return Length( component ) = NumberOfFaces(complex);
     end
 );
 InstallImmediateMethod( IsStronglyConnected, 
@@ -337,7 +337,7 @@ InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
 
         vertList := List( strongComponents, Vertices );
 
-        check := [1..Size(strongComponents)];
+        check := [1..Length(strongComponents)];
         while not IsEmpty(check) do
             newComponent := [ check[1] ];
             currentVert := vertList[ check[1] ];

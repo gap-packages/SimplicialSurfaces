@@ -30,8 +30,8 @@ InstallMethod( IsTriangularComplex, "for a polygonal complex that has EdgesOfFac
     function( complex )
         local edgeSize;
 
-        edgeSize := List(Faces(complex), f -> Size(EdgesOfFaces(complex)[f]));
-        return Size( Filtered( edgeSize, s -> s<>3 ) ) = 0;
+        edgeSize := List(Faces(complex), f -> Length(EdgesOfFaces(complex)[f]));
+        return Length( Filtered( edgeSize, s -> s<>3 ) ) = 0;
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsTriangularComplex",
@@ -48,8 +48,8 @@ InstallMethod( IsRamifiedPolygonalSurface,
     function( complex )
         local faceSize;
         
-        faceSize := List( Edges(complex), e -> Size(FacesOfEdges(complex)[e]) );
-        return Size( Filtered( faceSize, s -> s > 2 ) ) = 0;
+        faceSize := List( Edges(complex), e -> Length(FacesOfEdges(complex)[e]) );
+        return Length( Filtered( faceSize, s -> s > 2 ) ) = 0;
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
@@ -67,7 +67,7 @@ InstallMethod( IsPolygonalSurface,
         local paths, pathSize;
 
         paths := UmbrellaPartitionsOfVertices(ramSurf);
-        pathSize := List( Vertices(ramSurf), v -> Size(paths[v]) );
+        pathSize := List( Vertices(ramSurf), v -> Length(paths[v]) );
         return ForAll(pathSize, s -> s = 1);
     end
 );

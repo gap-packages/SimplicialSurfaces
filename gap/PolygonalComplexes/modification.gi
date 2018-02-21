@@ -34,7 +34,7 @@ InstallOtherMethod( SplitEdgeNC, "for a polygonal complex and an edge",
     function(complex, edge)
         local nrIncFaces;
 
-        nrIncFaces := Size(FacesOfEdges(complex)[edge]);
+        nrIncFaces := Length(FacesOfEdges(complex)[edge]);
         if nrIncFaces = 1 then
             return SplitEdgeNC(complex, edge, [edge]);
         else
@@ -61,14 +61,14 @@ InstallMethod( SplitEdge, "for a polygonal complex, an edge and a list",
                 String(newEdgeLabels), "."));
         fi;
 
-        if Size( Set(newEdgeLabels) ) <> Size(FacesOfEdges(complex)[edge]) then
+        if Length( Set(newEdgeLabels) ) <> Length(FacesOfEdges(complex)[edge]) then
             Error(Concatenation(
                 "SplitEdge: The number of new edge labels has to be equal to the number of incident faces."
             ));
         fi;
 
         intersect := Intersection( Edges(complex), newEdgeLabels );
-        if Size(intersect) = 0 or (Size(intersect)=1 and intersect[1] = edge) then
+        if Length(intersect) = 0 or (Length(intersect)=1 and intersect[1] = edge) then
             return SplitEdgeNC(complex, edge, newEdgeLabels);
         else
             Error(Concatenation("SplitEdge: The new edge labels ", 
@@ -95,7 +95,7 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
 
         incFaces := newFacesOfEdges[edge];
         Unbind(newFacesOfEdges[edge]);
-        for i in [1..Size(incFaces)] do
+        for i in [1..Length(incFaces)] do
             newFacesOfEdges[newEdgeLabels[i]] := [incFaces[i]];
         od;
 
@@ -121,7 +121,7 @@ BindGlobal( "__SIMPLICIAL_ConnectedStarComponents",
         od;
 
         comp := [];
-        while Size(faces) > 0 do
+        while Length(faces) > 0 do
             conn := __SIMPLICIAL_AbstractConnectedComponent( 
                 faces, edgeOfFaces, faces[1] );
             Add( comp, [ conn, Union(edgeOfFaces{conn}) ] );
@@ -147,7 +147,7 @@ InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
     function(complex, vertex)
         local nrIncStars;
 
-        nrIncStars := Size(__SIMPLICIAL_ConnectedStarComponents(complex, vertex));
+        nrIncStars := Length(__SIMPLICIAL_ConnectedStarComponents(complex, vertex));
         if nrIncStars = 1 then
             return SplitVertexNC(complex, vertex, [vertex]);
         else
@@ -174,14 +174,14 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
                 String(newVertexLabels), "."));
         fi;
 
-        if Size( Set(newVertexLabels) ) <> Size(__SIMPLICIAL_ConnectedStarComponents(complex, vertex)) then
+        if Length( Set(newVertexLabels) ) <> Length(__SIMPLICIAL_ConnectedStarComponents(complex, vertex)) then
             Error(Concatenation(
                 "SplitVertex: The number of new vertex labels has to be equal to the number of incident stars.TODO"
             ));
         fi;
 
         intersect := Intersection( Vertices(complex), newVertexLabels );
-        if Size(intersect) = 0 or (Size(intersect)=1 and intersect[1] = vertex) then
+        if Length(intersect) = 0 or (Length(intersect)=1 and intersect[1] = vertex) then
             return SplitVertexNC(complex, vertex, newVertexLabels);
         else
             Error(Concatenation("SplitVertex: The new vertex labels ", 
@@ -199,7 +199,7 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
         newEdgesOfVertices := ShallowCopy(EdgesOfVertices(complex));
         starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
         Unbind(newEdgesOfVertices[vertex]);
-        for i in [1..Size(newVertexLabels)] do
+        for i in [1..Length(newVertexLabels)] do
             newEdgesOfVertices[newVertexLabels[i]] := starComp[i][2];
         od;
 
@@ -217,7 +217,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
             newVertex;
 
         partialPaths := [ [[],[]] ];
-        for i in [1..Size(labelList)] do
+        for i in [1..Length(labelList)] do
             # Try to extend every partial path in as many ways as possible
             if IsEvenInt(i) then
                 # We have to add an edge => paths can't start here
@@ -226,7 +226,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                     pNew := p[1];
                     pOld := p[2];
                     for newEdge in labelList[i] do
-                        if pNew[Size(pNew)] in VerticesOfEdges(newComplex)[newEdge] then
+                        if pNew[Length(pNew)] in VerticesOfEdges(newComplex)[newEdge] then
                             Add(newPaths, [ 
                                 Concatenation(pNew, [newEdge]), 
                                 Concatenation(pOld, [PathAsList(vePath)[i]]) 
@@ -243,7 +243,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                     for p in partialPaths do
                         pNew := p[1];
                         pOld := p[2];
-                        if Size(pNew) = 0 or pNew[Size(pNew)] in EdgesOfVertices(newComplex)[newVertex] then
+                        if Length(pNew) = 0 or pNew[Length(pNew)] in EdgesOfVertices(newComplex)[newVertex] then
                             Add(newPaths, [
                                 Concatenation(pNew, [newVertex]),
                                 Concatenation(pOld, [PathAsList(vePath)[i]])
@@ -288,18 +288,18 @@ InstallMethod( SplitVertexEdgePathNC,
         newLabelList := [];
         swapComplex := complex;
         # Split the edges
-        for i in [1..Size(EdgesAsList(vePath))] do
+        for i in [1..Length(EdgesAsList(vePath))] do
             edgeSplit := SplitEdge(swapComplex, EdgesAsList(vePath)[i]);
             swapComplex := edgeSplit[1];
             newLabelList[2*i] := edgeSplit[2];
         od;
         # Split the vertices
-        for i in [1..Size(VerticesAsList(vePath))-1] do
+        for i in [1..Length(VerticesAsList(vePath))-1] do
             vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[i]);
             swapComplex := vertexSplit[1];
             newLabelList[2*i-1] := vertexSplit[2];
         od;
-        size := Size(VerticesAsList(vePath));
+        size := Length(VerticesAsList(vePath));
         if IsClosedPath(vePath) then
             # The last vertex has already be splitted!
             newLabelList[2*size-1] := newLabelList[1];
@@ -344,19 +344,19 @@ InstallMethod( SplitEdgePathNC,
         newLabelList := [];
         swapComplex := complex;
         # Split the edges
-        for i in [1..Size(EdgesAsList(vePath))] do
+        for i in [1..Length(EdgesAsList(vePath))] do
             edgeSplit := SplitEdge(swapComplex, EdgesAsList(vePath)[i]);
             swapComplex := edgeSplit[1];
             newLabelList[2*i] := edgeSplit[2];
         od;
         # Split the vertices
         newLabelList[1] := [VerticesAsList(vePath)[1]];
-        for i in [2..Size(VerticesAsList(vePath))-1] do
+        for i in [2..Length(VerticesAsList(vePath))-1] do
             vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[i]);
             swapComplex := vertexSplit[1];
             newLabelList[2*i-1] := vertexSplit[2];
         od;
-        Add(newLabelList, [VerticesAsList(vePath)[Size(VerticesAsList(vePath))]]);
+        Add(newLabelList, [VerticesAsList(vePath)[Length(VerticesAsList(vePath))]]);
         newComplex := swapComplex;
 
         return [newComplex, __SIMPLICIAL_ComputeNewVertexEdgePaths(
@@ -581,7 +581,7 @@ InstallOtherMethod( JoinVertices,
         local vertSet, label;
 
         vertSet := Set(vertList);
-        if Size(vertSet) = 1 then
+        if Length(vertSet) = 1 then
             label := vertSet[1];
         else
             label := Maximum(Vertices(complex)) + 1;
@@ -596,7 +596,7 @@ InstallOtherMethod( JoinVerticesNC,
         local vertSet, label;
 
         vertSet := Set(vertList);
-        if Size(vertSet) = 1 then
+        if Length(vertSet) = 1 then
             label := vertSet[1];
         else
             label := Maximum(Vertices(complex)) + 1;
@@ -612,7 +612,7 @@ InstallMethod( JoinVertices,
         local vertSet;
 
         vertSet := Set(vertList);
-        if Size(vertSet) > 2 then
+        if Length(vertSet) > 2 then
             Error(Concatenation("JoinVertices: Given vertex list ", String(vertList), 
                 " contains more than two different elements."));
         fi;
@@ -627,7 +627,7 @@ InstallMethod( JoinVertices,
                 String(Vertices(complex)), "."));
         fi;
 
-        if Size(vertSet) = 2 then
+        if Length(vertSet) = 2 then
             return JoinVerticesNC(complex, vertSet[1], vertSet[2], newVertexLabel);
         else
             return JoinVerticesNC(complex, vertSet[1], vertSet[1], newVertexLabel);
@@ -641,7 +641,7 @@ InstallMethod( JoinVerticesNC,
         local vertSet;
 
         vertSet := Set(vertList);
-        if Size(vertSet) = 2 then
+        if Length(vertSet) = 2 then
             return JoinVerticesNC(complex, vertSet[1], vertSet[2], newVertexLabel);
         else
             return JoinVerticesNC(complex, vertSet[1], vertSet[1], newVertexLabel);
@@ -745,7 +745,7 @@ InstallMethod( JoinEdges,
          local edgeSet;
 
         edgeSet := Set(edgeList);
-        if Size(edgeSet) <> 2 then
+        if Length(edgeSet) <> 2 then
             Error(Concatenation("JoinEdges: Given edge list ", String(edgeList), 
                 " contains more than two different elements."));
         fi;
@@ -855,7 +855,7 @@ InstallMethod( JoinVertexEdgePaths,
                 String(vePath2), " does not belong to the first polygonal complex."));
         fi;
 
-        if Size(VerticesAsList(vePath1)) <> Size(VerticesAsList(vePath2)) then
+        if Length(VerticesAsList(vePath1)) <> Length(VerticesAsList(vePath2)) then
             Error(Concatenation("JoinVertexEdgePaths: The given paths ",
                 String(vePath1), " and ", String(vePath2), " have different lengths."));
         fi;
@@ -903,7 +903,7 @@ InstallMethod( JoinVertexEdgePaths,
                 String(vePath2), " does not belong to the polygonal complex."));
         fi;
 
-        if Size(VerticesAsList(vePath1)) <> Size(VerticesAsList(vePath2)) then
+        if Length(VerticesAsList(vePath1)) <> Length(VerticesAsList(vePath2)) then
             Error(Concatenation("JoinVertexEdgePaths: The given paths ",
                 String(vePath1), " and ", String(vePath2), " have different lengths."));
         fi;
@@ -926,7 +926,7 @@ InstallMethod( JoinVertexEdgePathsNC,
         labelList := [];
 
         # Identify vertices
-        for i in [1..Size(VerticesAsList(vePath1))-1] do;
+        for i in [1..Length(VerticesAsList(vePath1))-1] do;
             join := JoinVerticesNC( swapComplex, VerticesAsList(vePath1)[i], VerticesAsList(vePath2)[i] );
             if join = fail then
                 return fail;
@@ -935,7 +935,7 @@ InstallMethod( JoinVertexEdgePathsNC,
             swapComplex := join[1];
         od;
         # The last step has to be handled differently if the paths are closed
-        size := Size(VerticesAsList(vePath1));
+        size := Length(VerticesAsList(vePath1));
         if IsClosedPath(vePath1) then
             v1 := labelList[1];
         else
@@ -955,7 +955,7 @@ InstallMethod( JoinVertexEdgePathsNC,
 
 
         # Identify edges
-        for i in [1..Size(EdgesAsList(vePath1))] do
+        for i in [1..Length(EdgesAsList(vePath1))] do
             join := JoinEdgesNC( swapComplex, EdgesAsList(vePath1)[i], EdgesAsList(vePath2)[i] );
             labelList[2*i] := join[2];
             swapComplex := join[1];
@@ -992,11 +992,11 @@ InstallMethod(JoinBoundaries,
     function(surface, flag1, flag2)
         local perims, perim1, perim2, bound1, bound2, Reorient;
 
-        if Size(flag1) < 2 then
-            Error(Concatenation("JoinBoundaries: First 2-flag should contain two elements, but actually has ", String(Size(flag1)),"."));
+        if Length(flag1) < 2 then
+            Error(Concatenation("JoinBoundaries: First 2-flag should contain two elements, but actually has ", String(Length(flag1)),"."));
         fi;
-        if Size(flag2) < 2 then
-            Error(Concatenation("JoinBoundaries: Second 2-flag should contain two elements, but actually has ", String(Size(flag2)),"."));
+        if Length(flag2) < 2 then
+            Error(Concatenation("JoinBoundaries: Second 2-flag should contain two elements, but actually has ", String(Length(flag2)),"."));
         fi;
         if not IsBoundaryVertex(surface, flag1[1]) then
             Error(Concatenation("JoinBoundaries: Vertex ", String(flag1[1]), " of first flag is not a boundary vertex."));
@@ -1022,8 +1022,8 @@ InstallMethod(JoinBoundaries,
         #TODO could this become another VertexEdgePath-Constructor?
         perim1 := Filtered(perims, p -> flag1[2] in EdgesAsList(p));
         perim2 := Filtered(perims, p -> flag2[2] in EdgesAsList(p));
-        Assert(0, Size(perim1) = 1);
-        Assert(0, Size(perim2) = 1);
+        Assert(0, Length(perim1) = 1);
+        Assert(0, Length(perim2) = 1);
         perim1 := perim1[1];
         perim2 := perim2[1];
 
@@ -1035,12 +1035,12 @@ InstallMethod(JoinBoundaries,
             if path[1] = vertex and path[2] = edge then
                 return path;
             fi;
-            if path[Size(path)] = vertex and path[Size(path)-1] = edge then
+            if path[Length(path)] = vertex and path[Length(path)-1] = edge then
                 return Reversed(path);
             fi;
 
             vPos := 0;
-            for i in [3,5..Size(path)-2] do
+            for i in [3,5..Length(path)-2] do
                 if path[i] = vertex then
                     vPos := i;
                 fi;
@@ -1048,7 +1048,7 @@ InstallMethod(JoinBoundaries,
             Assert(0, vPos > 0);
 
             ePos := 0;
-            for i in [2,4..Size(path)-1] do
+            for i in [2,4..Length(path)-1] do
                 if path[i] = edge then
                     ePos := i;
                 fi;
@@ -1057,10 +1057,10 @@ InstallMethod(JoinBoundaries,
 
             if vPos + 1 = ePos then
                 # right direction
-                return Concatenation( path{[vPos..Size(path)-1]}, path{[1..vPos]} );
+                return Concatenation( path{[vPos..Length(path)-1]}, path{[1..vPos]} );
             elif ePos + 1 = vPos then
                 # wrong direction
-                return Reversed( Concatenation( path{[vPos..Size(path)]}, path{[2..vPos]} ) );
+                return Reversed( Concatenation( path{[vPos..Length(path)]}, path{[2..vPos]} ) );
             fi;
             Error("JoinBoundaries: Internal Error");
         end;
@@ -1126,7 +1126,7 @@ InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
         facePairs := Combinations(Faces(surface), 2);
         commonEdges := List(facePairs, p -> [p[1],p[2],
             Intersection( EdgesOfFaces(surface)[p[1]], EdgesOfFaces(surface)[p[2]] )]);
-        snippPairs := Filtered(commonEdges, c -> Size(c[3]) = 2);
+        snippPairs := Filtered(commonEdges, c -> Length(c[3]) = 2);
 
         joinEdges := List( snippPairs, p -> [ 
             Difference(EdgesOfFaces(surface)[p[1]], p[3])[1], 

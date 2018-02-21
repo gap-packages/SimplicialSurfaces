@@ -133,7 +133,7 @@ InstallMethod( DressInvolutions, "for a ramified polygonal surface",
         vPerm := [];
         ePerm := [];
         fPerm := [];
-        for i in [1..Size(flags)] do
+        for i in [1..Length(flags)] do
             fl := flags[i];
             vPerm[i] := Position( flags, [ OtherVertexOfEdgeNC(complex,fl[1],fl[2]), fl[2], fl[3] ] );
             ePerm[i] := Position( flags, [ fl[1], OtherEdgeOfVertexInFaceNC(complex, fl[1], fl[2], fl[3]), fl[3] ] );
@@ -308,8 +308,8 @@ InstallOtherMethod( DrawSurfaceToTikz,
 
         if not IsBound(printRecord.edgeLengths) and not IsBound(printRecord.edgeColourClassLengths) then
             # no length information given
-            faceSizes := List( VerticesOfFaces(OriginalComplex(flagSurf)), Size );
-            if Size( Set(faceSizes) ) <> 1 or ( IsBound(printRecord.edgeColourClassActive) and not printRecord.edgeColourClassActive ) then
+            faceSizes := List( VerticesOfFaces(OriginalComplex(flagSurf)), Length );
+            if Length( Set(faceSizes) ) <> 1 or ( IsBound(printRecord.edgeColourClassActive) and not printRecord.edgeColourClassActive ) then
                 # edge lengths not colour invariant
                 printRecord.edgeColourClassActive := false;
                 printRecord.edgeLengths := [];

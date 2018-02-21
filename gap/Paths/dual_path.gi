@@ -69,13 +69,13 @@ InstallMethod( IsDuplicateFree, "for a dual path", [IsDualPath],
 
         even := EvenPart(dualPath);
         odd := OddPart(dualPath);
-        if Size(even) <> Size( Set(even) ) then
+        if Length(even) <> Length( Set(even) ) then
             return false;
         fi;
         # No duplicates in even part
 
         oddSet := Set(odd);
-        if Size(odd) = Size(oddSet) then
+        if Length(odd) = Length(oddSet) then
             return true;
         fi;
         # There has to be a duplication in the odd part
@@ -85,7 +85,7 @@ InstallMethod( IsDuplicateFree, "for a dual path", [IsDualPath],
         fi;
         # There is at least one duplicate in the odd part
 
-        return Size(odd) = 1 + Size(oddSet);
+        return Length(odd) = 1 + Length(oddSet);
     end
 );
 

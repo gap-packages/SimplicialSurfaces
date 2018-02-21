@@ -143,7 +143,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "edgeColours", Edges(surface));
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "faceColours", Faces(surface));
         # if the faceColours are custom given, we check for errors
-        for i in [1..Size(printRecord!.faceColours)] do
+        for i in [1..Length(printRecord!.faceColours)] do
             if IsBound( printRecord!.faceColours[i] ) then
                 col := printRecord!.faceColours[i];
                 if StartsWith( col, "\\faceColour" ) then
@@ -200,7 +200,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInitializePolygons",
 #TODO can we do something to avoid recomputing angles every time?
 
             # Case triangle (this will overwrite the angle information!)
-            if Size(edges) = 3 and ForAll(edges, e -> IsBound(lengths[e])) then
+            if Length(edges) = 3 and ForAll(edges, e -> IsBound(lengths[e])) then
                 for i in [1,2,3] do
                     # find opposing vertex
                     oppVert := Difference(vertices, VerticesOfEdges(surface)[edges[i]])[1];
@@ -220,7 +220,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInitializePolygons",
                 # Check inner angle sum
                 radAngles := List( vertices, v -> Atan2(angles[f][v][1], angles[f][v][2]) );
                 angleSum := Sum( radAngles );
-                if not __SIMPLICIAL_EqualFloats( angleSum, ( Size(edges) - 2 )*FLOAT.PI, printRecord!.floatAccuracy ) then
+                if not __SIMPLICIAL_EqualFloats( angleSum, ( Length(edges) - 2 )*FLOAT.PI, printRecord!.floatAccuracy ) then
                     Error(Concatenation("Wrong angles for face ", String(f), " given."));
                 else
                     continue; # We don't check whether the face closes since this is checked in __SIMPLICIAL_PrintRecordComputeFace
@@ -231,7 +231,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInitializePolygons",
             for e in edges do
                 lengths[e] := 1;
             od;
-            regAngle := SinCos( (Size(edges) - 2) / Size(edges) * FLOAT.PI );
+            regAngle := SinCos( (Length(edges) - 2) / Length(edges) * FLOAT.PI );
             for v in vertices do
                 angles[f][v] := regAngle;
             od;
@@ -308,7 +308,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFace",
         currentVertexCoord := printRecord!.vertexCoordinates[currentVertex][givenPRVertexSecond[2]]{[1,2]};
         lastEdge := givenEdge;
 
-        while Size(returnedVertices) < Size(VerticesOfFaces(surface)[face]) do
+        while Length(returnedVertices) < Length(VerticesOfFaces(surface)[face]) do
             vector := lastVertexCoord - currentVertexCoord;
 
             nextEdge := OtherEdgeOfVertexInFace( surface, currentVertex, lastEdge, face );
@@ -340,7 +340,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFace",
         od;
 
         # Check if the face was closed
-        lastVertex := returnedVertices[ Size(returnedVertices) ];
+        lastVertex := returnedVertices[ Length(returnedVertices) ];
         if lastVertex <> givenPRVertexFirst then
             Error("Face does not close.");
         fi;
@@ -359,12 +359,12 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFirstFace",
         # Save those coordinates
         Add( printRecord!.vertexCoordinates[verts[1]], [0.,0.,drawIndex] );
         Add( printRecord!.vertexCoordinates[verts[2]], [Float(len),0.,drawIndex] );
-        v1 := [ verts[1], Size(printRecord.vertexCoordinates[verts[1]]) ];
-        v2 := [ verts[2], Size(printRecord.vertexCoordinates[verts[2]]) ];
+        v1 := [ verts[1], Length(printRecord.vertexCoordinates[verts[1]]) ];
+        v2 := [ verts[2], Length(printRecord.vertexCoordinates[verts[2]]) ];
         Add( printRecord!.edgeEndpoints[edges[1]], [ v1, v2, drawIndex ] );
 
         res := __SIMPLICIAL_PrintRecordComputeFace( printRecord, surface, face, edges[1], drawIndex );
-        printRecord!.edgeEndpoints[edges[1]][Size(printRecord.edgeEndpoints[edges[1]])] := [ v2, v1, drawIndex ];
+        printRecord!.edgeEndpoints[edges[1]][Length(printRecord.edgeEndpoints[edges[1]])] := [ v2, v1, drawIndex ];
         return res;
     end
 );
@@ -386,7 +386,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordAddFace",
                 if pos = 0 then
                     # It is new
                     Add( printRecord!.vertexCoordinates[prVertex[1]], [prVertex[2][1], prVertex[2][2], drawIndex] );
-                    pos := Size( printRecord!.vertexCoordinates[prVertex[1]] );
+                    pos := Length( printRecord!.vertexCoordinates[prVertex[1]] );
                 fi;
                 vertexPositions[prVertex[1]] := pos;
             fi;
@@ -398,7 +398,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordAddFace",
             # Check if the (drawn) edge already exists
             pos := 0;
             draw := true;
-            for i in [1..Size(printRecord!.edgeEndpoints[prEdge[1]])] do
+            for i in [1..Length(printRecord!.edgeEndpoints[prEdge[1]])] do
                 specificVerts := Set( printRecord!.edgeEndpoints[prEdge[1]][i]{[1,2]} );
                 generalVerts := List( specificVerts, m -> m[1] );
                 if generalVerts = Set( prEdge[2] ) then
@@ -440,11 +440,11 @@ BindGlobal( "__SIMPLICIAL_PrintRecordNextEdgeByDrawOrder",
         local currentCompNr, order, i, tryEdge;
 
         # The number of starting faces corresponds to the number of the current component
-        currentCompNr := Size( printRecord!.startingFaces );
+        currentCompNr := Length( printRecord!.startingFaces );
 
         if IsBound( printRecord!.givenEdgeDrawOrder[currentCompNr] ) then
             order := printRecord!.givenEdgeDrawOrder[currentCompNr];
-            for i in [1..Size(order)] do
+            for i in [1..Length(order)] do
                 tryEdge := order[i];
                 if IsPosInt(tryEdge) and tryEdge in printRecord!.openEdges and not tryEdge in rejected then
                     return order[i];
@@ -560,7 +560,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
             if IsEmpty(printRecord.edgeEndpoints[edge]) then
                 continue;
             fi;
-            for edgePos in [1..Size(printRecord!.edgeEndpoints[edge])] do
+            for edgePos in [1..Length(printRecord!.edgeEndpoints[edge])] do
                 if printRecord.edgeEndpoints[edge][edgePos][3] <> drawIndex then
                     continue;
                 fi;
@@ -770,7 +770,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawFace",
         od;
         Append(res, " cycle;\n");
         Append(res, "\\node[faceLabel] at (barycentric cs:");
-        for i in [1..Size(vertexTikzCoord)] do
+        for i in [1..Length(vertexTikzCoord)] do
             if i > 1 then
                 Append(res, ",");
             fi;
@@ -879,14 +879,14 @@ InstallMethod( DrawSurfaceToTikz,
             computedFace := __SIMPLICIAL_PrintRecordComputeFirstFace( printRecord, surface, start, drawIndex );
             __SIMPLICIAL_PrintRecordAddFace(printRecord, surface, computedFace[1], computedFace[2], start, drawIndex);
             unplacedFaces := Difference( unplacedFaces, [start] );
-            printRecord.openEdges := Filtered( EdgesOfFaces(surface)[start], e -> Size( Intersection(unplacedFaces, FacesOfEdges(surface)[e]) ) > 0 );
+            printRecord.openEdges := Filtered( EdgesOfFaces(surface)[start], e -> Length( Intersection(unplacedFaces, FacesOfEdges(surface)[e]) ) > 0 );
 
             nextFct := [ ["__SIMPLICIAL_PrintRecordNextEdgeByDrawOrder", infinity], ["__SIMPLICIAL_PrintRecordNextEdge", infinity] ];
             checkFct := [ "__SIMPLICIAL_PrintRecordNoIntersection" ];
             repeatData := [];
             # This is an infinite loop to extend all edges - bounded from above by the number of edges
             for k in [1..NumberOfEdges(surface)] do
-                if Size(printRecord!.openEdges) = 0 then
+                if Length(printRecord!.openEdges) = 0 then
                     break;
                 fi;
                 # Find the next edge
@@ -895,8 +895,8 @@ InstallMethod( DrawSurfaceToTikz,
                 rejected := [];
                 nextFctIndex := 1;
                 tries := 1;
-                for i in [1..Size(printRecord!.openEdges)+Size(nextFct)] do
-                    if nextFctIndex > Size(nextFct) then
+                for i in [1..Length(printRecord!.openEdges)+Length(nextFct)] do
+                    if nextFctIndex > Length(nextFct) then
                         break;
                     fi;
                     if tries > nextFct[nextFctIndex][2] then
@@ -939,7 +939,7 @@ InstallMethod( DrawSurfaceToTikz,
                     # drawing component will keep beeing false (otherwise
                     # the tried addition will produce an error).
                     success := true;
-                    for j in [1..Size(checkFct)] do
+                    for j in [1..Length(checkFct)] do
                         if IsBound( testResults[j] ) then
                             # there was a test before
                             testResults[j] := ValueGlobal( checkFct[j] )(printRecord, surface, vertexData, edgeData, drawIndex, testResults[j]);
@@ -978,7 +978,7 @@ InstallMethod( DrawSurfaceToTikz,
                     __SIMPLICIAL_PrintRecordAddFace( printRecord, surface, repeatData[proposedEdge][2], repeatData[proposedEdge][3], repeatData[proposedEdge][1], drawIndex );
                     # We will be in this case until we can't continue any edge without failing some test.
                     # Therefore this case will always add in the component that was last modified
-                    Add( comp[Size(comp)], repeatData[proposedEdge][1] );
+                    Add( comp[Length(comp)], repeatData[proposedEdge][1] );
                 fi;
 
                 # Add the new face and remove initial edge from openEdges
@@ -992,7 +992,7 @@ InstallMethod( DrawSurfaceToTikz,
                 od;
 
                 # Modify the edge draw order
-                lastOrder := printRecord.edgeDrawOrder[Size(printRecord.edgeDrawOrder)];
+                lastOrder := printRecord.edgeDrawOrder[Length(printRecord.edgeDrawOrder)];
                 Add(lastOrder, proposedEdge);
             od;
             Add( printRecord.drawComponents, comp );
@@ -1020,7 +1020,7 @@ InstallMethod( DrawSurfaceToTikz,
         end;
         allVertexCoords := printRecord!.vertexCoordinates;
         for strongComp in printRecord.drawComponents do
-            for ind in [1..Size(strongComp)] do;
+            for ind in [1..Length(strongComp)] do;
                 drawComp := strongComp[ind];
                 comp := SubcomplexByFacesNC(surface,drawComp);
 
@@ -1034,7 +1034,7 @@ InstallMethod( DrawSurfaceToTikz,
                 # Define coordinates of vertices
                 AppendTo( output, "% Define the coordinates of the vertices\n" );
                 for v in Vertices(comp) do
-                    for i in [1..Size(allVertexCoords[v])] do
+                    for i in [1..Length(allVertexCoords[v])] do
                         if allVertexCoords[v][i][3] = ind then;
                             AppendTo( output, "\\coordinate (", TikzCoordFromVertexPosition([v,i]), ") at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
                         fi;
@@ -1055,7 +1055,7 @@ InstallMethod( DrawSurfaceToTikz,
                 AppendTo( output, "% Draw the edges\n" );
                 for e in Edges(comp) do
                     ends := printRecord!.edgeEndpoints[e];
-                    for i in [1..Size(ends)] do
+                    for i in [1..Length(ends)] do
                         if ends[i][3] = ind then
                             AppendTo( output, __SIMPLICIAL_PrintRecordDrawEdge( printRecord, surface, e,
                                 List( ends[i]{[1,2]}, TikzCoordFromVertexPosition ),
@@ -1069,7 +1069,7 @@ InstallMethod( DrawSurfaceToTikz,
                 AppendTo( output, "% Draw the vertices\n" );
                 for v in Vertices(comp) do
                     positions := allVertexCoords[v];
-                    for i in [1..Size(positions)] do
+                    for i in [1..Length(positions)] do
                         if allVertexCoords[v][i][3] = ind then
                             AppendTo( output, __SIMPLICIAL_PrintRecordDrawVertex( printRecord, surface, v, TikzCoordFromVertexPosition([v,i]), allVertexCoords[v][i] ));
                         fi;

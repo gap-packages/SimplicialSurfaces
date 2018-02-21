@@ -81,7 +81,7 @@ InstallMethod( VertexEdgePathByVerticesNC,
             return fail;
         fi;
         path := [ vertexList[1] ];
-        for i in [2..Size(vertexList)] do
+        for i in [2..Length(vertexList)] do
             path[2*i-2] := Position( VerticesOfEdges(complex), Set([vertexList[i-1],vertexList[i]]) );
             path[2*i-1] := vertexList[i];
         od;
@@ -102,7 +102,7 @@ InstallMethod( VertexEdgePathByVertices,
         fi;
         __SIMPLICIAL_CheckVertex(complex, vertexList[1], "VertexEdgePathByVertices");
         path := [ vertexList[1] ];
-        for i in [2..Size(vertexList)] do
+        for i in [2..Length(vertexList)] do
             __SIMPLICIAL_CheckVertex(complex, vertexList[i], "VertexEdgePathByVertices");
             pos := Position( VerticesOfEdges(complex), Set([vertexList[i-1],vertexList[i]]) );
             if pos = fail then
@@ -132,7 +132,7 @@ InstallMethod( VertexEdgePathByEdgesNC,
         fi;
 
         firstDefinedPos := 0;
-        for i in [2..Size(edgeList)] do
+        for i in [2..Length(edgeList)] do
             if VerticesOfEdges(complex)[edgeList[i-1]] <> VerticesOfEdges(complex)[edgeList[i]] then
                 firstDefinedPos := i;
                 break;
@@ -143,7 +143,7 @@ InstallMethod( VertexEdgePathByEdgesNC,
             # all edges have the same edges
             verts := VerticesOfEdges(complex)[edgeList[1]];
             path := [verts[1]];
-            for i in [1..Size(edgeList)] do
+            for i in [1..Length(edgeList)] do
                 path[2*i] := edgeList[i];
                 if IsEvenInt(i) then
                     path[2*i+1] := verts[1];
@@ -159,7 +159,7 @@ InstallMethod( VertexEdgePathByEdgesNC,
         path[2*firstDefinedPos-1] := Intersection( 
             VerticesOfEdges(complex)[edgeList[firstDefinedPos-1]],
             VerticesOfEdges(complex)[edgeList[firstDefinedPos]])[1];
-        for i in [firstDefinedPos, firstDefinedPos+1..Size(edgeList)] do
+        for i in [firstDefinedPos, firstDefinedPos+1..Length(edgeList)] do
             path[2*i] := edgeList[i];
             path[2*i+1] := OtherVertexOfEdgeNC(complex, path[2*i-1], path[2*i]);
         od;
@@ -178,9 +178,9 @@ InstallMethod( VertexEdgePathByEdges,
     function(complex, edgeList)
         local i;
 
-        if Size(edgeList) > 0 then
+        if Length(edgeList) > 0 then
             __SIMPLICIAL_CheckEdge(complex, edgeList[1], "VertexEdgePathByEdges");
-            for i in [2..Size(edgeList)] do
+            for i in [2..Length(edgeList)] do
                 __SIMPLICIAL_CheckEdge(complex, edgeList[i], "VertexEdgePathByEdges");
                 if IsEmpty( Intersection(
                     VerticesOfEdges(complex)[edgeList[i-1]], 
@@ -489,7 +489,7 @@ InstallMethod( IsUmbrella, "for an edge-face-path", [IsEdgeFacePath],
         commonEdgeVertex := Intersection( VerticesOfEdges(AssociatedPolygonalComplex(path)){EdgesAsList(path)} );
         commonFaceVertex := Intersection( VerticesOfFaces(AssociatedPolygonalComplex(path)){FacesAsList(path)} );
         commonVertex := Intersection( commonEdgeVertex, commonFaceVertex );
-        return Size(commonVertex) <> 0;
+        return Length(commonVertex) <> 0;
     end
 );
 
@@ -504,7 +504,7 @@ InstallMethod( IsGeodesic, "for an edge-face-path", [IsEdgeFacePath],
 
         for i in [2,4..Length(Path(path))-1] do
             vertex := Intersection( VerticesOfEdges(com){Path(path){[i-1,i+1]}} );
-            if Size(vertex) <> 1 then
+            if Length(vertex) <> 1 then
                 Error("IsGeodesic: Internal Error.");
             fi;
             vertex := vertex[1];

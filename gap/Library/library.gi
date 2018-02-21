@@ -88,7 +88,7 @@ BindGlobal( "__SIMPLICIAL_ReadLibraryAccessList",
         fi;
 
         # Now we add pairs of functions and results
-        while ind <= Size(argList) do
+        while ind <= Length(argList) do
             if not IsFunction(argList[ind]) then
                 Error(Concatenation(fctName,
                     ": The arguments have to alternate between functions and",
@@ -122,7 +122,7 @@ BindGlobal( "__SIMPLICIAL_AccessLibrary",
             checkRes := argList[2*pos-1](complex);
             return checkRes = argList[2*pos] or ( IsList(argList[2*pos]) and checkRes in argList[2*pos] );
         end;
-        for pos in [1..Size(argList)/2] do
+        for pos in [1..Length(argList)/2] do
             complexes := Filtered( complexes, s -> CheckAtPos(s,pos) );
         od;
 

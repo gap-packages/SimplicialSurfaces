@@ -225,7 +225,7 @@ InstallMethod( OrientationCover, "for a ramified polygonal surface",
         newEdges := [];
         for e in Edges(splitSurf) do
             incFaces := FacesOfEdges(splitSurf)[e];
-            if Size(incFaces) = 1 then
+            if Length(incFaces) = 1 then
                 newF := newFaces[incFaces[1]];
                 newEdges[e] := [ [e,newF] ];
             else
@@ -262,13 +262,13 @@ InstallMethod( OrientationCover, "for a ramified polygonal surface",
                 first := FacesAsList(umb)[1];
                 Add(sideA, newFaces[first][1]);
                 Add(sideB, newFaces[first][2]);
-                for i in [2..Size(EdgesAsList(umb))-1] do
+                for i in [2..Length(EdgesAsList(umb))-1] do
                     edge := EdgesAsList(umb)[i];
                     diff1A := Difference( newEdges[edge][1][2], sideA );
                     diff1B := Difference( newEdges[edge][1][2], sideB );
                     diff2A := Difference( newEdges[edge][2][2], sideA );
                     diff2B := Difference( newEdges[edge][2][2], sideB );
-                    if Size(diff1A) = 1 then
+                    if Length(diff1A) = 1 then
                         Append(sideA, diff1A);
                         Append(sideB, diff2B);
                     else
@@ -294,10 +294,10 @@ InstallMethod( OrientationCover, "for a ramified polygonal surface",
         newFaces := Concatenation(newFaces);
         vertsOfEdges := [];
         facesOfEdges := [];
-        for i in [1..Size(newEdges)] do
+        for i in [1..Length(newEdges)] do
             vert := [];
             nEdge := newEdges[i];
-            for j in [1..Size(newVertices)] do
+            for j in [1..Length(newVertices)] do
                 nVertex := newVertices[j];
                 if nVertex[1] in VerticesOfEdges(splitSurf)[nEdge[1]] and IsSubset(nVertex[2], nEdge[2]) then
                     Add(vert,j);
@@ -306,7 +306,7 @@ InstallMethod( OrientationCover, "for a ramified polygonal surface",
             vertsOfEdges[i] := vert;
 
             faces := [];
-            for j in [1..Size(newFaces)] do
+            for j in [1..Length(newFaces)] do
                 nFace := newFaces[j];
                 if nEdge[1] in EdgesOfFaces(splitSurf)[nFace[1]] and nFace in nEdge[2] then
                     Add(faces,j);

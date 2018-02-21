@@ -467,9 +467,9 @@ InstallMethod( EdgeInFaceByVerticesNC,
 
         possEdges := Filtered( EdgesOfFaces(complex)[face], e -> 
                 VerticesOfEdges(complex)[e] = vertSet );
-        if Size(possEdges) = 0 then
+        if Length(possEdges) = 0 then
             return fail;
-        elif Size(possEdges) > 1 then
+        elif Length(possEdges) > 1 then
             Error("EdgeInFaceByVertices: Internal error.");
         fi;
         return possEdges[1];
@@ -565,7 +565,7 @@ InstallMethod( NeighbourFaceByEdgeNC,
         local possFaces;
         
         possFaces := FacesOfEdges(complex)[edge];
-        if Size(possFaces) <> 2 then #TODO special case for RamifiedComplexes useful?
+        if Length(possFaces) <> 2 then #TODO special case for RamifiedComplexes useful?
             return fail;
         fi;
 
@@ -639,7 +639,7 @@ InstallMethod( PerimetersOfFaces, "for a polygonal complex",
                         EdgesOfVertices(complex)[startVert]);
             adVertices := List(adEdges, e ->
                     OtherVertexOfEdgeNC(complex,startVert,e));
-            Assert(1, Size(adVertices)=2);
+            Assert(1, Length(adVertices)=2);
             Assert(1, adEdges[1]<>adEdges[2]);
             
             if adVertices[1] < adVertices[2] then
@@ -654,7 +654,7 @@ InstallMethod( PerimetersOfFaces, "for a polygonal complex",
                 fi;
             fi;
 
-            for i in [2..Size(localVertices)] do # How long will the path be?
+            for i in [2..Length(localVertices)] do # How long will the path be?
                 len := Length(localPath);
                 Add( localPath, OtherEdgeOfVertexInFaceNC(complex,
                         localPath[len],localPath[len-1],f) );
@@ -881,7 +881,7 @@ InstallMethod( UmbrellasOfVertices,
         local FirstOrFail;
 
         FirstOrFail := function(list)
-            if Size(list) = 1 then
+            if Length(list) = 1 then
                 return list[1];
             else
                 return fail;
@@ -980,7 +980,7 @@ InstallMethod( FacesOfEdges,
             for p in parts[v] do
                 path := PathAsList(p);
 
-                for i in [1..(Size(path)+1)/2] do
+                for i in [1..(Length(path)+1)/2] do
                     edge := path[2*i-1];
                     if IsBound(facesOfEdges[edge]) then
                         # Since the complex is ramified, the incident faces should be the same
@@ -988,11 +988,11 @@ InstallMethod( FacesOfEdges,
                     fi;
 
                     if i = 1 and IsClosedPath(p) then
-                        incFaces := Set([ path[2], path[Size(path)-1] ]);
+                        incFaces := Set([ path[2], path[Length(path)-1] ]);
                     elif i = 1 then
                         incFaces := [path[2]];
-                    elif not IsClosedPath(p) and 2*i = Size(path)+1 then
-                        incFaces := [path[Size(path)-1]];
+                    elif not IsClosedPath(p) and 2*i = Length(path)+1 then
+                        incFaces := [path[Length(path)-1]];
                     else
                         incFaces := Set( [path[2*i-2],path[2*i]] );
                     fi;
@@ -1162,11 +1162,11 @@ InstallMethod( PerimeterOfHoles, "for a polygonal surface",
 
             lastEdge := path[2];
             lastVertex := path[3];
-            while path[1] <> path[ Size(path) ] do
+            while path[1] <> path[ Length(path) ] do
                 nextEdge := Difference( 
                     Intersection( boundEdges, EdgesOfVertices(surface)[lastVertex] ), 
                     [lastEdge] );
-                Assert(1, Size(nextEdge)=1);
+                Assert(1, Length(nextEdge)=1);
                 nextEdge := nextEdge[1];
 
                 nextVertex := OtherVertexOfEdgeNC(surface,lastVertex,nextEdge);

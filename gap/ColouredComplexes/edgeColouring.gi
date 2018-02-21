@@ -113,8 +113,8 @@ InstallMethod( EdgeColouredPolygonalComplex,
             fi;
 
             # Check if the classes are disjoint
-            for i in [1..Size(bound)] do
-                for j in [i+1..Size(bound)] do
+            for i in [1..Length(bound)] do
+                for j in [i+1..Length(bound)] do
                     inter := Intersection( 
                         colouring[bound[i]], colouring[bound[j]] );
                     if not IsEmpty(inter) then
@@ -277,7 +277,7 @@ InstallMethod( DrawSurfaceToTikz,
                 fi;
             fi;
 
-            if not IsBound(printRecord.edgeColourClassColours) and Size(Set(ColoursOfEdges(colComp))) = 3 then
+            if not IsBound(printRecord.edgeColourClassColours) and Length(Set(ColoursOfEdges(colComp))) = 3 then
                 printRecord.edgeColourClassColours := ["red","green","blue"];
             fi; #TODO this is a special case for 3 colours - what can be done in general?
             if IsBound(printRecord.edgeColourClassColours) then

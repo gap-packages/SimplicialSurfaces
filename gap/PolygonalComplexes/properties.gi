@@ -25,7 +25,7 @@ InstallMethod( EulerCharacteristic, "for a polygonal complex",
 InstallMethod( IsClosedSurface, "for a ramified polygonal surface",
     [IsRamifiedPolygonalSurface],
     function( ramSurf )
-        return ForAll( List( FacesOfEdges(ramSurf), Size ), i -> i=2 );
+        return ForAll( List( FacesOfEdges(ramSurf), Length ), i -> i=2 );
     end
 );
 InstallOtherMethod( IsClosedSurface, "for a polygonal complex",
@@ -52,7 +52,7 @@ InstallOtherMethod( IsClosedSurface, "for a polygonal complex",
 InstallMethod( EdgeDegreesOfVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return List( EdgesOfVertices(complex), Size );
+        return List( EdgesOfVertices(complex), Length );
     end
 );
 InstallMethod( EdgeDegreeOfVertexNC, "for a polygonal complex and a vertex",
@@ -73,7 +73,7 @@ InstallMethod( EdgeDegreeOfVertex, "for a polygonal complex and a vertex",
 InstallMethod( FaceDegreesOfVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return List( FacesOfVertices(complex), Size );
+        return List( FacesOfVertices(complex), Length );
     end
 );
 InstallMethod( FaceDegreeOfVertexNC, "for a polygonal complex and a vertex",
@@ -96,7 +96,7 @@ InstallMethod( VertexCounter, "for a polygonal complex",
     function(complex)
         local faceDegrees;
 
-        faceDegrees := List( FacesOfVertices(complex), Size );
+        faceDegrees := List( FacesOfVertices(complex), Length );
         return Collected( Compacted( faceDegrees ) );
     end
 );
@@ -106,7 +106,7 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
     function(complex)
         local faceDegrees, edgeDegrees;
 
-        faceDegrees := List( FacesOfVertices(complex), Size );
+        faceDegrees := List( FacesOfVertices(complex), Length );
         edgeDegrees := List( VerticesOfEdges(complex), vs -> List(vs, v -> faceDegrees[v]) );
         Perform( edgeDegrees, Sort );
         return Collected( Compacted( edgeDegrees ) );
@@ -118,7 +118,7 @@ InstallMethod( FaceCounter, "for a polygonal complex",
     function(complex)
         local vertexDegrees, faceDegrees;
 
-        vertexDegrees := List( FacesOfVertices(complex), Size );
+        vertexDegrees := List( FacesOfVertices(complex), Length );
         faceDegrees := List( VerticesOfFaces(complex), vs -> List(vs, v -> vertexDegrees[v]) );
         Perform( faceDegrees, Sort );
         return Collected( Compacted( faceDegrees ) );
@@ -251,7 +251,7 @@ InstallMethod( InnerEdges, "for a polygonal complex",
         local facesOfEdges;
 
         facesOfEdges := FacesOfEdges(complex);
-        return Filtered( Edges(complex), e -> Size(facesOfEdges[e]) = 2 );
+        return Filtered( Edges(complex), e -> Length(facesOfEdges[e]) = 2 );
     end
 );
 InstallMethod( IsInnerEdgeNC, "for a polygonal complex and an edge",
@@ -275,7 +275,7 @@ InstallMethod( BoundaryEdges, "for a polygonal complex",
         local facesOfEdges;
 
         facesOfEdges := FacesOfEdges(complex);
-        return Filtered( Edges(complex), e -> Size(facesOfEdges[e]) = 1 );
+        return Filtered( Edges(complex), e -> Length(facesOfEdges[e]) = 1 );
     end
 );
 InstallMethod( IsBoundaryEdgeNC, "for a polygonal complex and an edge",
@@ -299,7 +299,7 @@ InstallMethod( RamifiedEdges, "for a polygonal complex",
         local facesOfEdges;
 
         facesOfEdges := FacesOfEdges(complex);
-        return Filtered( Edges(complex), e -> Size(facesOfEdges[e]) > 2 );
+        return Filtered( Edges(complex), e -> Length(facesOfEdges[e]) > 2 );
     end
 );
 InstallMethod( IsRamifiedEdgeNC, "for a polygonal complex and an edge",
