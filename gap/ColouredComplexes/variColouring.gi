@@ -652,7 +652,7 @@ InstallMethod( AllWildColouredSurfaces,
                     finVertsInFaces, partialLocalSym )
             local nextPos, next, face, facePos, e1, e2, umbrella, allUmbrellas_c,
                 umbInfo, finVertsInFaces_c, finUmbrellas_c, 
-                usedVertexNames_c, obj, partialLocalSym_c, colSurf;
+                usedVertexNames_c, obj, partialLocalSym_c, colSurf, knownFaces;
 
             nextPos := BestNextVertex( usedVertexNames, finVertsInFaces );
             if nextPos = false then
@@ -686,10 +686,13 @@ InstallMethod( AllWildColouredSurfaces,
             umbrella := [e1, face, e2];
             usedVertexNames[nextPos] := true;
             finVertsInFaces[face] := finVertsInFaces[face] + 1;
+            knownFaces := List(faces, x -> false);
+            knownFaces[facePos] := true;
+            
 
             # Recursive computation
             allUmbrellas := [];
-            LoopOneVertex( umbrella, [face], usedVertexNames, 
+            LoopOneVertex( umbrella, knownFaces, usedVertexNames, 
                 finVertsInFaces, partialLocalSym );
 
 
@@ -714,8 +717,8 @@ InstallMethod( AllWildColouredSurfaces,
                 usedVertexNames_c;
 
             umbrella_c := Concatenation(umbrella, [nextFace, nextEdge]);
-            knownFaces_c := Concatenation(knownFaces, [nextFace]);
-                #MB is this faster than putting it into a set?
+            knownFaces_c := ShallowCopy(knownFaces);
+            knownFaces_c[facePosition[nextFace]] := true;
             finVertsInFaces_c := ShallowCopy(finVertsInFaces);
             finVertsInFaces_c[nextFace] := finVertsInFaces_c[nextFace] + 1;
             Assert(1, finVertsInFaces_c[nextFace] <= 3);
@@ -803,7 +806,7 @@ InstallMethod( AllWildColouredSurfaces,
                 LoopOneVertex( Reversed(umbrella), knownFaces, 
                     usedVertexNames, finVertsInFaces, partialLocalSym );
                 return;
-            elif nextFace in knownFaces then
+            elif knownFaces[nextFace] then
 #Print("         Illegal continuation. Abort.\n");
                 # this is an error since we never construct a face of an umbrella twice
                 return;
@@ -813,6 +816,7 @@ InstallMethod( AllWildColouredSurfaces,
                 prevEdge := umbrella[Length(umbrella)-2];
                 prevCol := coloursOfEdges[prevEdge];
                 lastCol := coloursOfEdges[lastEdge];
+                # For more than two local symmetries this will not work
                 if partialLocalSym[lastEdge] <> 2 then
                     # mirror is possible
 #Print("             Try out mirror.\n");
