@@ -413,13 +413,124 @@ BindGlobal( "__SIMPLICIAL_WildTameSurface_FixLocalSymmetry",
 InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
     [IsSimplicialSurface, IsList],
     function(simpSurf, localSymmetry)
-        #local;
+        local edgePosition, i, facePosition, NextBestFacePos, ExtendColouring,
+            SetEdgeToColour, colEdgePos, todoFacePos, allColSurfaces, 
+            generators, colEdgesOfFaces, startingFace, edges;
 
         # Initialize localSymmetry
         localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllWildColouredSurfaces");
 
+        edgePosition := [];
+        for i in [1..Length(Edges(simpSurf))] do
+            edgePosition[Edges(simpSurf)[i]] := i;
+        od;
+        facePosition := [];
+        for i in [1..Length(Faces(simpSurf))] do
+            facePosition[Faces(simpSurf)[i]] := i;
+        od;
     
-        Error("TODO");
+
+        NextBestFacePos := function( colEdgesOfFaces, todoFacePos, localSymOfEdges )
+            local foundPos, f;
+
+            foundPos := 0;
+            for f in [1..Length(todoFacePos)] do
+                if todoFacePos[f] then
+                    # check colEdgesOfFaces at positions
+                    # 3*f - 2, 3*f - 1, 3*f
+                    if colEdgesOfFaces[3*f - 1] <> 0 then
+                        return f;
+                    elif localSymOfEdges[colEdgesOfFaces[3*f-2]] <> 0 then
+                        return f;
+                    # todoFaces only contains faces with at least one colour
+                    else
+                        if foundPos = 0 then
+                            foundPos := f;
+                        fi;
+                    fi;
+                fi;
+            od;
+
+            return foundPos;
+        end;
+
+        ExtendColouring := function( colEdgesOfFaces, todoFacePos, 
+                localSymOfEdges, generators, colEdgePos )
+            local nextFacePos;
+
+            nextFacePos := NextBestFacePos( colEdgesOfFaces, todoFacePos,
+                localSymOfEdges);
+
+            if colEdgesOfFaces[3*nextFacePos] <> 0 then
+                # all three edges are already coloured
+                # check for consistency (assume that coloured edges don't have their
+                # local symmetry defined)
+                # we also assume that the three colours are different (checked
+                # in the extension of the generators)
+            fi;
+
+        end;
+
+        SetEdgeToColour := function( edgePos, lastFacePos, colour, colEdgesOfFaces, 
+                todoFacePos, generators, colEdgePos)
+            local neighbour, neighbourPos, lastFace, gen, basePos;
+
+            neighbour := NeighbourFaceByEdgeNC( simpSurf, 
+                Faces(simpSurf)[lastFacePos], Edges(simpSurf)[edgePos] );
+            colEdgePos[edgePos] := colour;
+            if neighbour <> fail then
+                # inner edge
+                neighbourPos := facePosition[neighbour];
+                todoFacePos[neighbourPos] := true;
+                lastFace := Faces(simpSurf)[lastFacePos];
+
+                # Add the face transposition to the generator
+                # Check whether the generator already moves neighbour
+                gen := generators[colour];
+                #Alice: How fast?  + return fail if it fails
+                generators[colour] := gen;
+
+                # Add the edge to colEdgesOfFaces
+                basePos := 3*neighbourPos - 2;
+                if colEdgesOfFaces[basePos] = 0 then
+                    colEdgesOfFaces[basePos] := Edges(simpSurf)[edgePos];
+                elif colEdgesOfFaces[basePos + 1] = 0 then
+                    colEdgesOfFaces[basePos+1] := Edges(simpSurf)[edgePos];
+                else
+                    colEdgesOfFaces[basePos+2] := Edges(simpSurf)[edgePos];
+                fi;
+
+            fi; # Otherwise boundary edge, nothing to do
+            return true;
+        end;
+
+        # store which edge positions are coloured how
+        colEdgePos := List(Edges(simpSurf), i -> 0);
+        # store the coloured edges for each face:
+        # [ colEdge1 of face 1, colEdge2 of face 1, colEdge3 of face 1, colEdge1 of face 2, ... ]
+        # the list is dense (indexed by facePositions)
+        # entry is 0 if edge is not coloured
+        # entry is number of coloured edge if it is coloured
+        # entries for each face are not necessarily sorted
+        # smaller indices are filled first
+        colEdgesOfFaces := List([1..3*Length(Faces(simpSurf))], i -> 0);
+
+        startingFace := Faces(simpSurf)[1];
+        edges := EdgesOfFaces(simpSurf)[startingFace];
+        todoFacePos := List(Faces(simpSurf), i -> false);
+        generators := [ (),(),() ];
+
+        # Initialise colours for first face
+        for i in [1,2,3] do
+            SetEdgeToColour( edgePosition[edges[i]], 
+                facePosition[startingFace], i, colEdgesOfFaces, todoFacePos,
+                generators, colEdgePos);
+        od;
+
+        allColSurfaces := [];
+        ExtendColouring( colEdgesOfFaces, todoFacePos, localSymmetry, generators, colEdgePos );
+    
+        return allColSurfaces;
     end
 );
     RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0);
