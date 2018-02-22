@@ -494,43 +494,91 @@ InstallMethod( IsUmbrella, "for an edge-face-path", [IsEdgeFacePath],
 );
 
 
-InstallMethod( IsGeodesic, "for an edge-face-path", [IsEdgeFacePath],
-    function(path)
-        local vertexList, com, i, vertex;
+BindGlobal( "__SIMPLICIAL_ZigZagPath",
+    function(com, efPath)
+        local veList, pathAsList, i, e1, e2, vertex, firstVertex, lastEdge, 
+            vePath;
 
-        # Geodesics are exactly those edge-face-paths that also define a vertex-edge-path
-        com := AssociatedPolygonalComplex(path);
-        vertexList := [];
-
-        for i in [2,4..Length(Path(path))-1] do
-            vertex := Intersection( VerticesOfEdges(com){Path(path){[i-1,i+1]}} );
-            if Length(vertex) <> 1 then
-                Error("IsGeodesic: Internal Error.");
-            fi;
+        pathAsList := Path(efPath);
+        veList := [];
+        for i in [2,4..Length(pathAsList)-1] do
+            e1 := pathAsList[i-1];
+            e2 := pathAsList[i+1];
+            vertex := Intersection( VerticesOfEdges(com){[e1,e2]} );
+            Assert(1, Length(vertex) = 1);
             vertex := vertex[1];
-            vertexList[i/2] := vertex;
-            if i > 2 and vertexList[i/2] = vertexList[i/2-1] then
-                return false;
+            Append(veList, [e1,vertex]);
+            if i > 2 and veList[Length(veList)] = veList[Length(veList)-2] then
+                SetIsGeodesic(efPath, false);
+                return fail;
             fi;
         od;
 
-        return true;
+        SetIsGeodesic(efPath, true);
+        # Complete the first vertex
+        firstVertex := OtherVertexOfEdgeNC( com, veList[2], veList[1] );
+        lastEdge := OtherEdgeOfVertexInFaceNC(com, veList[Length(veList)], veList[Length(veList)-1], pathAsList[Length(pathAsList)-1]);
+        if lastEdge = veList[1] and firstVertex = veList[Length(veList)] then
+            # closed geodesic
+            SetIsClosedGeodesic(efPath, true);
+            vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList));
+            SetIsClosedPath(vePath, true);
+        else
+            # open geodesic
+            SetIsClosedGeodesic(efPath, false);
+            # Complete last vertex
+            vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList, [lastEdge, OtherVertexOfEdgeNC(com, veList[Length(veList), lastEdge])]));
+        fi;
+        SetVertexEdgePath(efPath, vePath);
+    end
+);
+InstallMethod( IsGeodesic, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(path), path );
+        return IsGeodesic(path);
     end
 );
 
+InstallMethod( VertexEdgePath, "for a geodesic", 
+    [IsEdgeFacePath and IsGeodesic],
+    function(geo)
+        __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(geo), geo );
+        return VertexEdgePath(geo);
+    end
+);
+RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsGeodesic], 0);
+
 InstallMethod( IsClosedGeodesic, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
-        local start, fin, com, len;
-
         if not IsGeodesic(path) then
             return false;
         fi;
 
-        com := AssociatedPolygonalComplex(path);
-        start := Intersection( VerticesOfEdges(com){Path(path){[1,3]}} )[1];
-        len := Length(Path(path));
-        fin := Intersection( VerticesOfEdges(com){Path(path){[len-2,len]}} )[1];
-
-        return start <> fin;
+        return IsClosedPath(path) and IsClosedPath( VertexEdgePath(path) );
     end
 );
+
+
+InstallMethod( GeodesicFlagCycle, "for a closed geodesic", 
+    [IsEdgeFacePath and IsClosedGeodesic],
+    function(closedGeo)
+        local vePath, flagPath, i, vertex, edge, face, flagPerm;
+
+        vePath := VertexEdgePath(closedGeo);
+        flagPath := [];
+        for i in [1,3..Length(Path(vePath))-2] do
+            vertex := Path(vePath)[i];
+            edge := Path(closedGeo)[i];
+            face := Path(closedGeo)[i+1];
+            Add(flagPath, Position(Flags(AssociatedPolygonalComplex(closedGeo)), [vertex,edge,face]));
+        od;
+
+        flagPerm := [1..Length(Flags(AssociatedPolygonalComplex(closedGeo)))];
+        for i in [1..Length(flagPath)-1] do
+            flagPerm[flagPath[i]] := flagPath[i+1];
+        od;
+        flagPerm[flagPath[Length(flagPath)]] := flagPath[1];
+        return PermList(flagPerm);
+    end
+);
+RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsClosedGeodesic], 0 );

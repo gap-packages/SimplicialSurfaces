@@ -679,17 +679,57 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
 #! @Arguments edgeFacePath
 DeclareProperty( "IsUmbrella", IsEdgeFacePath );
 
+#! @BeginGroup IsGeodesic
 #! @Description
-#! Check whether the given edge-face-path is a geodesic, i.e. TODO
+#! Check whether the given edge-face-path is a geodesic, i.e. whether each
+#! vertex (except those of the first and last edge) is incident to exactly
+#! three faces of the path.
+#!
+#! TODO example
 #!
 #! @Arguments edgeFacePath
 DeclareProperty( "IsGeodesic", IsEdgeFacePath );
+#! @EndGroup
 
 #! @Description
-#! Check whether the given edge-face-path is a closed geodesic, i.e. TODO
+#! For every geodesic (<Ref Subsect="IsGeodesic"/>) there is an interwoven
+#! vertex-edge-path with the same edges. All vertices of the geodesic appear
+#! in this vertex-edge-path.
+#! 
+#! TODO explain, draw picture of this zig-zagging vertex-edge-path
+#!
+#! @Returns a vertex-edge-path
+#! @Arguments geodesic
+DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesic );
+#TODO is this a good name?
+
+#! @BeginGroup IsClosedGeodesic
+#! @Description
+#! Check whether the given edge-face-path is a closed geodesic, i.e. whether
+#! is is a geodesic (<Ref Subsect="IsGeodesic"/>) where first and last edge
+#! coincide, such that all vertices are incident to exactly three faces of
+#! the path.
+#!
+#! TODO example
 #!
 #! @Arguments edgeFacePath
 DeclareProperty( "IsClosedGeodesic", IsEdgeFacePath );
+#! @EndGroup
+InstallTrueMethod( IsGeodesic, IsClosedGeodesic );
+
+#! @Description
+#! For a closed geodesic (<Ref Subsect="IsClosedGeodesic"/>) construct the
+#! <E>geodesic flag cycle</E>. This is a permutation on the 3-flags
+#! (<Ref Subsect="Flags"/>). It can also be obtained as one cycle of
+#! the product of the Dress involutions (<Ref Subsect="DressInvolutions"/>),
+#! by first applying the one for vertices, then edges and finally faces.
+#!
+#! TODO explain properly with picture
+#!
+#! @Returns a permutation
+#! @Arguments closedGeodesic
+DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesic );
+#TODO is this a good name?
 
 
 #! @Section Connectivity
