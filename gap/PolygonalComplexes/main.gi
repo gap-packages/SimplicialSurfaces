@@ -363,7 +363,6 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         Remove(strList);
         Add( strList, [ " ]\n", 0 ] );
 
-        Add( strList, ["\n",0] );
         return strList;
     end
 );
