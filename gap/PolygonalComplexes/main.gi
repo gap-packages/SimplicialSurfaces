@@ -159,19 +159,19 @@ InstallMethod( \=, "for two polygonal complexes", IsIdenticalObj,
 ## We implement the display/view/print-methods as recommended in the GAP-manual
 
 BindGlobal( "__SIMPLICIAL_PrintTo_Name",
-    function(complex, out, nameList)
+    function(complex, nameList)
         if IsSimplicialSurface(complex) then
-            PrintTo( out, nameList[1]);
+            return nameList[1];
         elif IsPolygonalSurface(complex) then
-            PrintTo( out, nameList[2]);
+            return nameList[2];
         elif IsRamifiedSimplicialSurface(complex) then
-            PrintTo( out, nameList[3]);
+            return nameList[3];
         elif IsRamifiedPolygonalSurface(complex) then
-            PrintTo( out, nameList[4]);
+            return nameList[4];
         elif IsTriangularComplex(complex) then
-            PrintTo( out, nameList[5]);
+            return nameList[5];
         else
-            PrintTo( out, nameList[6]);
+            return nameList[6];
         fi;
     end
 );
@@ -183,10 +183,10 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
 
         str := "";
         out := OutputTextString(str, true);
-        __SIMPLICIAL_PrintTo_Name(complex, out,
+        PrintTo(out,  __SIMPLICIAL_PrintTo_Name(complex,
             ["SimplicialSurface", "PolygonalSurface", 
             "RamifiedSimplicialSurface", "RamifiedPolygonalSurface", 
-            "TriangularComplex", "PolygonalComplex"]);
+            "TriangularComplex", "PolygonalComplex"]) );
 
         PrintTo( out, "ByDownwardIncidenceNC(" );
         PrintTo( out, VerticesOfEdges(complex) );
@@ -204,61 +204,62 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
 
 # To avoid recomputing the view-information every time the colour scheme
 # changes, this method was created
-#TODO make this into an attribute
-# Write method to convert list into coloured string (with the colours as inputs);
-BindGlobal( "__SIMPLICIAL_View_PolygonalComplex",
+InstallMethod( ViewInformation, "for a polygonal complex", 
+    [IsPolygonalComplex],
     function(complex)
         local strList, str, out;
 
         strList := [];
         str := "";
         out := OutputTextString(str,true);
-        __SIMPLICIAL_PrintTo_Name(complex, out,
+        PrintTo( out, __SIMPLICIAL_PrintTo_Name(complex,
             ["simplicial surface", "polygonal surface", 
             "ramified simplicial surface", "ramified polygonal surface", 
-            "triangular complex", "polygonal complex"]);
+            "triangular complex", "polygonal complex"]));
         PrintTo(out, " (");
-        Add( strList, [str, -1] );
+        Add( strList, [str, 0] );
 
-        Add( strList, [Concatenation(String(NumberOfVertices(complex)), " vertices "), 0] );
-        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges "), 1] );
-        Add( strList, ["and ", -1] );
-        Add( strList, [Concatenation(String(NumberOfFaces(complex)), " faces"), 2] );
-        Add( strList, [")", -1] );
+        Add( strList, [Concatenation(String(NumberOfVertices(complex)), " vertices"), 1] );
+        Add( strList, [", ", 0] );
+        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges "), 2] );
+        Add( strList, ["and ", 0] );
+        Add( strList, [Concatenation(String(NumberOfFaces(complex)), " faces"), 3] );
+        Add( strList, [")", 0] );
 
         return strList;
     end
 );
 InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
-        local str, out;
-
-        str := "";
-        out := OutputTextString(str, true);
-        __SIMPLICIAL_PrintTo_Name(complex, out,
-            ["simplicial surface", "polygonal surface", 
-            "ramified simplicial surface", "ramified polygonal surface", 
-            "triangular complex", "polygonal complex"]);
-
-        PrintTo( out, " (", NumberOfVertices(complex), " vertices, ", NumberOfEdges(complex), " edges and ", NumberOfFaces(complex), " faces)" );
-
-        CloseStream(out);
-        return str;
+        return __SIMPLICIAL_ColourString( ViewInformation(complex), 
+            [ SIMPLICIAL_COLOURS_VERTICES_DEFAULT, SIMPLICIAL_COLOURS_EDGES_DEFAULT, SIMPLICIAL_COLOURS_FACES_DEFAULT ]);
+    end
+);
+InstallMethod( ViewObj, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        if SIMPLICIAL_COLOURS_ON then
+            Print(__SIMPLICIAL_ColourString( ViewInformation(complex), 
+                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]));
+        else
+            Print(__SIMPLICIAL_UncolouredString( ViewInformation(complex) ));
+        fi;
     end
 );
 
-# Display
-InstallMethod( DisplayString, "for a polygonal complex", [IsPolygonalComplex],
-    function(complex)
-        local str, out;
 
+# Display
+InstallMethod( DisplayInformation, "for a polygonal complex", 
+    [IsPolygonalComplex],
+    function(complex)
+        local strList, x, umb, set, str, out;
+
+        strList := [];
         str := "";
         out := OutputTextString(str, true);
-        __SIMPLICIAL_PrintTo_Name(complex, out,
+        PrintTo(out, __SIMPLICIAL_PrintTo_Name(complex,
             ["SimplicialSurface", "PolygonalSurface", 
             "RamifiedSimplicialSurface", "RamifiedPolygonalSurface", 
-            "TriangularComplex", "PolygonalComplex"]);
-
+            "TriangularComplex", "PolygonalComplex"]) );
         if IsPolygonalSurface(complex) then # more information
             PrintTo(out,  " (" );
             if IsClosedSurface(complex) then
@@ -278,19 +279,108 @@ InstallMethod( DisplayString, "for a polygonal complex", [IsPolygonalComplex],
             fi;
             PrintTo(out,  ")\n");
         fi;
+        Add( strList, [ str, 0 ] );
 
-        PrintTo(out,  "    Vertices (", NumberOfVertices(complex), "): ", Vertices(complex), "\n" );
-        PrintTo(out,  "    Edges (", NumberOfEdges(complex), "): ", Edges(complex), "\n" );
-        PrintTo(out,  "    Faces (", NumberOfFaces(complex), "): ", Faces(complex), "\n" );
+        # Vertices
+        Add( strList, [ Concatenation(
+            "    Vertices (", String(NumberOfVertices(complex)), "): ", 
+            String(Vertices(complex)), "\n"), 1 ] );
+        # Edges
+        Add( strList, [ Concatenation(
+            "    Edges (", String(NumberOfEdges(complex)), "): ", 
+            String(Edges(complex)), "\n"), 2 ] );
+        # Faces
+        Add( strList, [ Concatenation(
+            "    Faces (", String(NumberOfFaces(complex)), "): ", 
+            String(Faces(complex)), "\n"), 3 ] );
 
-        PrintTo(out,  "    VerticesOfEdges: ", VerticesOfEdges(complex), "\n" );
-        PrintTo(out,  "    VerticesOfFaces: ", VerticesOfFaces(complex), "\n" );
-        PrintTo(out,  "    EdgesOfFaces: ", EdgesOfFaces(complex), "\n" );
+        # VerticesOfEdges
+        Add( strList, [ "    Vertices", 1 ] );
+        Add( strList, [ "of", 0 ] );
+        Add( strList, [ "Edges", 2 ] );
+        Add( strList, [ ": [ ", 0 ] );
+        for set in VerticesOfEdges(complex) do
+            Add( strList, [ "[ ", 2 ] );
+            Add( strList, [ String(set[1]), 1 ] );
+            Add( strList, [ ", ", 0 ] );
+            Add( strList, [ String(set[2]), 1 ] );
+            Add( strList, [ " ]", 2 ] );
+            Add( strList, [", ", 0] );
+        od;
+        # Remove final ","
+        Remove(strList);
+        Add( strList, [ " ]\n", 0 ] );
 
-        PrintTo(out, "\n");
+        
+        # VerticesOfFaces
+        Add( strList, [ "    Vertices", 1 ] );
+        Add( strList, [ "of", 0 ] );
+        Add( strList, [ "Faces", 3 ] );
+        Add( strList, [ ": [ ", 0 ] );
+        for set in VerticesOfFaces(complex) do
+            Add( strList, [ "[ ", 3 ] );
+            for x in set do
+                Add( strList, [ String(x), 1 ] );
+                Add( strList, [ ", ", 0 ] );
+            od;
+            # Replace last "," by "]"
+            Remove(strList);
+            Add( strList, [" ]", 3] );
+            Add( strList, [", ", 0] );
+        od;
+        # Remove final ","
+        Remove(strList);
+        Add( strList, [ " ]\n", 0 ] );
+        
+        
+        # EdgesOfFaces
+        Add( strList, [ "    Edges", 2 ] );
+        Add( strList, [ "of", 0 ] );
+        Add( strList, [ "Faces", 3 ] );
+        Add( strList, [ ": [ ", 0 ] );
+        for set in EdgesOfFaces(complex) do
+            Add( strList, [ "[ ", 3 ] );
+            for x in set do
+                Add( strList, [ String(x), 2 ] );
+                Add( strList, [ ", ", 0 ] );
+            od;
+            # Replace last "," by "]"
+            Remove(strList);
+            Add( strList, [" ]", 3] );
+            Add( strList, [", ", 0] );
+        od;
+        # Remove final ","
+        Remove(strList);
+        Add( strList, [ " ]\n", 0 ] );
 
-        CloseStream(out);
-        return str;
+        
+        # UmbrellasOfVertices
+        Add( strList, [ "    Umbrellas: [ ", 0 ] );
+        for umb in UmbrellasOfVertices(complex) do
+            Append( strList, ViewInformation(umb) );
+            Add( strList, [", ", 0] );
+        od;
+        Remove(strList);
+        Add( strList, [ " ]\n", 0 ] );
+
+        Add( strList, ["\n",0] );
+        return strList;
+    end
+);
+InstallMethod( DisplayString, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        return __SIMPLICIAL_ColourString( DisplayInformation(complex),
+            [SIMPLICIAL_COLOURS_VERTICES_DEFAULT, SIMPLICIAL_COLOURS_EDGES_DEFAULT, SIMPLICIAL_COLOURS_FACES_DEFAULT]);
+    end
+);
+InstallMethod( Display, "for a polygonal complex", [IsPolygonalComplex],
+    function(complex)
+        if SIMPLICIAL_COLOURS_ON then
+            Print(__SIMPLICIAL_ColourString( DisplayInformation(complex), 
+                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]));
+        else
+            Print(__SIMPLICIAL_UncolouredString( DisplayInformation(complex) ));
+        fi;
     end
 );
 

@@ -396,6 +396,10 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 
 
 
+##
+## Coloured output-attributes
+DeclareAttribute( "ViewInformation", IsVertexEdgePath );
+
 
 #! @Section Edge-Face-Paths
 #! @SectionLabel Paths_EdgeFace
@@ -659,6 +663,9 @@ DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
 
 
+##
+## Coloured output-attributes
+DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 
 #! @Section Geodesics and umbrellas
 #! @SectionLabel Paths_Geodesics

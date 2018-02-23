@@ -16,3 +16,7 @@
 # The custom info class
 DeclareInfoClass( "InfoPolygonalComplex" );
 
+
+# Attribute for colour information
+DeclareAttribute( "ViewInformation", IsPolygonalComplex );
+DeclareAttribute( "DisplayInformation", IsPolygonalComplex );

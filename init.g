@@ -10,6 +10,7 @@
 #############################################################################
 
 ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/AttributeScheduler.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/colours.g" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gd" );
 
 ReadPackage( "SimplicialSurfaces", "gap/categories_families.gd" );

@@ -221,37 +221,51 @@ InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
     end
 );
 
-InstallMethod( ViewString, "for a vertex-edge-path", [IsVertexEdgePath],
+InstallMethod( ViewInformation, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
-        local str, out, i;
-        
-        str := "";
-        out := OutputTextString(str,true);
+        local strList, i;
 
+        strList := [];
         if IsClosedPath(path) then
-            PrintTo(out, "(");
+            Add( strList, [ "( ", 0 ] );
         else
-            PrintTo(out, "|");
+            Add( strList, [ "| ", 0 ] );
         fi;
         for i in [1..Length(PathAsList(path))] do
-            if i>1 then
-                PrintTo(out, ", ");
-            fi;
             if IsEvenInt(i) then
-                PrintTo(out, "E");
+                Add( strList, ["E", 2] );
+                Add( strList, [String(Path(path)[i]), 2] );
             else
-                PrintTo(out, "v");
+                Add( strList, ["v", 1] );
+                Add( strList, [String(Path(path)[i]), 1] );
             fi;
-            PrintTo(out, PathAsList(path)[i]);
+            Add( strList, [", ", 0] );
         od;
+        # Remove trailing ","
+        Remove(strList);
         if IsClosedPath(path) then
-            PrintTo(out, ")");
+            Add( strList, [ ")", 0 ] );
         else
-            PrintTo(out, "|");
+            Add( strList, [ "|", 0 ] );
         fi;
 
-        CloseStream(out);
-        return str;
+        return strList;
+    end
+);
+InstallMethod( ViewString, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        return __SIMPLICIAL_ColourString( ViewInformation(path), 
+            [ SIMPLICIAL_COLOURS_VERTICES_DEFAULT, SIMPLICIAL_COLOURS_EDGES_DEFAULT, SIMPLICIAL_COLOURS_FACES_DEFAULT ]);
+    end
+);
+InstallMethod( ViewObj, "for a vertex-edge-path", [IsVertexEdgePath],
+    function(path)
+        if SIMPLICIAL_COLOURS_ON then
+            Print(__SIMPLICIAL_ColourString( ViewInformation(path), 
+                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]));
+        else
+            Print(__SIMPLICIAL_UncolouredString( ViewInformation(path) ));
+        fi;
     end
 );
 
@@ -399,41 +413,55 @@ InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
-InstallMethod( ViewString, "for an edge-face-path", [IsEdgeFacePath],
+InstallMethod( ViewInformation, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
-        local str, out, i;
-        
-        str := "";
-        out := OutputTextString(str,true);
+        local strList, i;
 
+        strList := [];
         if IsClosedPath(path) then
-            PrintTo(out, "(");
+            Add( strList, [ "( ", 0 ] );
         else
-            PrintTo(out, "|");
+            Add( strList, [ "| ", 0 ] );
         fi;
         for i in [1..Length(PathAsList(path))] do
-            if i>1 then
-                PrintTo(out, ", ");
-            fi;
             if IsEvenInt(i) then
-                PrintTo(out, "F");
+                Add( strList, ["F", 3] );
+                Add( strList, [String(Path(path)[i]), 3] );
             else
-                PrintTo(out, "e");
+                Add( strList, ["e", 2] );
+                Add( strList, [String(Path(path)[i]), 2] );
             fi;
-            PrintTo(out, PathAsList(path)[i]);
+            Add( strList, [", ", 0] );
         od;
+        # Remove trailing ","
+        Remove(strList);
         if IsClosedPath(path) then
-            PrintTo(out, ")");
+            Add( strList, [ ")", 0 ] );
         else
-            PrintTo(out, "|");
+            Add( strList, [ "|", 0 ] );
         fi;
 
-        CloseStream(out);
-        return str;
+        return strList;
+    end
+);
+InstallMethod( ViewString, "for an edge-fae-path", [IsEdgeFacePath],
+    function(path)
+        return __SIMPLICIAL_ColourString( ViewInformation(path), 
+            [ SIMPLICIAL_COLOURS_VERTICES_DEFAULT, SIMPLICIAL_COLOURS_EDGES_DEFAULT, SIMPLICIAL_COLOURS_FACES_DEFAULT ]);
+    end
+);
+InstallMethod( ViewObj, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        if SIMPLICIAL_COLOURS_ON then
+            Print(__SIMPLICIAL_ColourString( ViewInformation(path), 
+                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]));
+        else
+            Print(__SIMPLICIAL_UncolouredString( ViewInformation(path) ));
+        fi;
     end
 );
 
-#TODO what is important for a display-function?
+;
 
 InstallMethod( \=, "for two edge-face-paths", IsIdenticalObj,
     [IsEdgeFacePath, IsEdgeFacePath],
