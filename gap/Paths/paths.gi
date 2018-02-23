@@ -244,9 +244,9 @@ InstallMethod( ViewInformation, "for a vertex-edge-path", [IsVertexEdgePath],
         # Remove trailing ","
         Remove(strList);
         if IsClosedPath(path) then
-            Add( strList, [ ")", 0 ] );
+            Add( strList, [ " )", 0 ] );
         else
-            Add( strList, [ "|", 0 ] );
+            Add( strList, [ " |", 0 ] );
         fi;
 
         return strList;
@@ -436,9 +436,9 @@ InstallMethod( ViewInformation, "for an edge-face-path", [IsEdgeFacePath],
         # Remove trailing ","
         Remove(strList);
         if IsClosedPath(path) then
-            Add( strList, [ ")", 0 ] );
+            Add( strList, [ " )", 0 ] );
         else
-            Add( strList, [ "|", 0 ] );
+            Add( strList, [ " |", 0 ] );
         fi;
 
         return strList;
