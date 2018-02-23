@@ -261,8 +261,8 @@ InstallMethod( ViewString, "for a vertex-edge-path", [IsVertexEdgePath],
 InstallMethod( ViewObj, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
         if SIMPLICIAL_COLOURS_ON then
-            Print(__SIMPLICIAL_ColourString( ViewInformation(path), 
-                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]));
+            __SIMPLICIAL_PrintColourString( ViewInformation(path), 
+                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
         else
             Print(__SIMPLICIAL_UncolouredString( ViewInformation(path) ));
         fi;
@@ -453,8 +453,8 @@ InstallMethod( ViewString, "for an edge-fae-path", [IsEdgeFacePath],
 InstallMethod( ViewObj, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
         if SIMPLICIAL_COLOURS_ON then
-            Print(__SIMPLICIAL_ColourString( ViewInformation(path), 
-                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]));
+            __SIMPLICIAL_PrintColourString( ViewInformation(path), 
+                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
         else
             Print(__SIMPLICIAL_UncolouredString( ViewInformation(path) ));
         fi;

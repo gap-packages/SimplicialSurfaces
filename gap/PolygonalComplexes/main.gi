@@ -238,8 +238,8 @@ InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
 InstallMethod( ViewObj, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         if SIMPLICIAL_COLOURS_ON then
-            Print(__SIMPLICIAL_ColourString( ViewInformation(complex), 
-                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]));
+            __SIMPLICIAL_PrintColourString( ViewInformation(complex), 
+                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
         else
             Print(__SIMPLICIAL_UncolouredString( ViewInformation(complex) ));
         fi;
@@ -375,8 +375,8 @@ InstallMethod( DisplayString, "for a polygonal complex", [IsPolygonalComplex],
 InstallMethod( Display, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         if SIMPLICIAL_COLOURS_ON then
-            Print(__SIMPLICIAL_ColourString( DisplayInformation(complex), 
-                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]));
+            __SIMPLICIAL_PrintColourString( DisplayInformation(complex), 
+                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
         else
             Print(__SIMPLICIAL_UncolouredString( DisplayInformation(complex) ));
         fi;

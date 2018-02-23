@@ -69,4 +69,42 @@ BindGlobal( "__SIMPLICIAL_ColourString",
     end
 );
 
+BindGlobal( "__SIMPLICIAL_PrintColourString",
+    function(colList, colours)
+        local columnSize, currSize, stringSize, pair, breakPos;
+
+        columnSize := SizeScreen()[1];
+        # Make the row length maximal to avoid overflow
+        SizeScreen( [4096, SizeScreen()[2]] );
+        currSize := 0;
+        for pair in colList do
+            stringSize := Length(pair[1]);
+            if currSize + stringSize >= columnSize then
+                # overflow
+                Print(" \\\n");
+                currSize := 0;
+            fi;
+
+            # we assume that all components are smaller than the columnSize
+            if pair[2] = 0 then
+                Print("\033[0m");
+            else
+                Print(colours[pair[2]]);
+            fi;
+            Print( pair[1] );
+            currSize := currSize + stringSize;
+            if '\n' in pair[1] then
+                # We have to reset the currSize
+                breakPos := Maximum( Positions( pair[1], '\n' ) );
+                currSize := stringSize - breakPos;
+            fi;
+        od;
+        # end with a colour reset
+        Print( "\033[0m" );
+
+        # Reset the original values of SizeScreen
+        SizeScreen( [columnSize, SizeScreen()[2]] );
+    end
+);
+
 #TODO the automatical row wrap makes some of the colour commands visible -> should be avoided
