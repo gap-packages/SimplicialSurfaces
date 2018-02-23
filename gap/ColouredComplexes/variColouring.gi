@@ -415,7 +415,8 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
     function(simpSurf, localSymmetry)
         local edgePosition, i, facePosition, NextBestFacePos, ExtendColouring,
             SetEdgeToColour, colEdgePos, todoFacePos, allColSurfaces, 
-            generators, colEdgesOfFaces, startingFace, edges;
+            generators, colEdgesOfFaces, startingFace, edges, edgeColSurfaces,
+            info, coloursOfEdges, obj;
 
         # Initialize localSymmetry
         localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllWildColouredSurfaces");
@@ -456,10 +457,41 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
 
         ExtendColouring := function( colEdgesOfFaces, todoFacePos, 
                 localSymOfEdges, generators, colEdgePos )
-            local nextFacePos;
+            local nextFacePos, CheckEdgeColour, face, perimeter, neighbour,
+                neighEdge, colEdgePos_c, colEdgesOfFaces_c, generators_c,
+                localSym_c, edge, edge1, edge2, edgeA, edgeB, commVert,
+                todoFacePos_c, colNeigh, colEdge, verts, lastCol, lastEdge,
+                edgePerm, vertsA, vertsB;
 
             nextFacePos := NextBestFacePos( colEdgesOfFaces, todoFacePos,
                 localSymOfEdges);
+
+            if nextFacePos = 0 then
+                # colouring complete
+                Add( allColSurfaces, [generators, colEdgePos, localSymOfEdges] );
+                return;
+            fi;
+            face := Faces(simpSurf)[nextFacePos];
+
+            CheckEdgeColour := function( face, edge, incVertex, incEdge )
+                neighbour := face^generators[colEdgePos[edgePosition[edge]]];
+                # By construction this can't be a boundary edge
+                neighEdge := OtherEdgeOfVertexInFaceNC(simpSurf, incVertex, edge, neighbour);
+                if colEdgePos[ edgePosition[neighEdge] ] = colEdgePos[ edgePosition[incEdge] ] then
+                    # mirror case
+                    if localSymOfEdges[edge] = 2 then # only bad case
+                        return false;
+                    fi;
+                    localSymOfEdges[edge] := 1;
+                else
+                    # rotation case
+                    if localSymOfEdges[edge] = 1 then # only bad case
+                        return false;
+                    fi;
+                    localSymOfEdges[edge] := 2;
+                fi;
+                return true;
+            end;
 
             if colEdgesOfFaces[3*nextFacePos] <> 0 then
                 # all three edges are already coloured
@@ -467,6 +499,113 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
                 # local symmetry defined)
                 # we also assume that the three colours are different (checked
                 # in the extension of the generators)
+                perimeter := PathAsList(PerimetersOfFaces(simpSurf)[face]);
+                # Since we have only triangles, PathAsList is a list with 7 entries
+                if not CheckEdgeColour( face, perimeter[2], perimeter[3], perimeter[4] ) then
+                    return;
+                fi;
+                if not CheckEdgeColour( face, perimeter[4], perimeter[5], perimeter[6] ) then
+                    return;
+                fi;
+                if not CheckEdgeColour( face, perimeter[6], perimeter[1], perimeter[2] ) then
+                    return;
+                fi;
+
+                todoFacePos[nextFacePos] := false;
+                ExtendColouring(colEdgesOfFaces, todoFacePos, localSymOfEdges, generators, colEdgePos);
+            elif colEdgesOfFaces[3*nextFacePos - 1] <> 0 then
+                # two edges are already coloured
+                edgeA := colEdgesOfFaces[3*nextFacePos-2];
+                edgeB := colEdgesOfFaces[3*nextFacePos-1];
+                # find intersecting vertex
+                vertsA := VerticesOfEdges(simpSurf)[edgeA];
+                vertsB := VerticesOfEdges(simpSurf)[edgeB];
+                if vertsA[1] = vertsB[1] or vertsA[1] = vertsB[2] then
+                    commVert := vertsA[1];
+                else
+                    commVert := vertsA[2];
+                fi;
+
+                if not CheckEdgeColour( face, edgeA, commVert, edgeB ) then
+                    return;
+                fi;
+                if not CheckEdgeColour( face, edgeB, commVert, edgeA ) then
+                    return;
+                fi;
+
+                lastCol := 6 - colEdgePos[edgePosition[edgeA]] - colEdgePos[edgePosition[edgeB]];
+                # find last edge via edge permutation
+                edgePerm := EdgesAsPerm( PerimetersOfFaces(simpSurf)[face] );
+                lastEdge := edgeA^edgePerm;
+                if lastEdge = edgeB then
+                    lastEdge := edgeB^edgePerm;
+                fi;
+                if SetEdgeToColour( edgePosition[lastEdge], nextFacePos, 
+                    lastCol, colEdgesOfFaces, todoFacePos, generators,
+                    colEdgePos) then
+                    # Unique extension
+                    todoFacePos[nextFacePos] := false;
+                    ExtendColouring(colEdgesOfFaces, todoFacePos, localSymOfEdges, generators, colEdgePos);
+                else
+                    return;
+                fi;
+            elif colEdgesOfFaces[3*nextFacePos-2] <> 0 then
+                # only one edge already coloured
+                edge := colEdgesOfFaces[3*nextFacePos-2];
+                colEdge := colEdgePos[edgePosition[edge]];
+                verts := VerticesOfEdges(simpSurf)[edge];
+                neighbour := face^generators[colEdge];
+                neighEdge := OtherEdgeOfVertexInFaceNC(simpSurf, verts[1], edge, neighbour);
+                colNeigh := colEdgePos[edgePosition[neighEdge]];
+
+                edge1 := OtherEdgeOfVertexInFaceNC(simpSurf, verts[1], edge, face);
+                edge2 := OtherEdgeOfVertexInFaceNC(simpSurf, verts[2], edge, face);
+
+                if localSymOfEdges[edge] <> 1 then
+                    # mirror is possible
+                    colEdgesOfFaces_c := ShallowCopy(colEdgesOfFaces);
+                    todoFacePos_c := ShallowCopy(todoFacePos);
+                    localSym_c := ShallowCopy(localSymOfEdges);
+                    generators_c := ShallowCopy(generators);
+                    colEdgePos_c := ShallowCopy(colEdgePos);
+
+                    # edge1 becomes the same colour as neighEdge
+                    if SetEdgeToColour( edgePosition[edge1], nextFacePos, 
+                        colNeigh, colEdgesOfFaces_c, todoFacePos_c,
+                        generators_c, colEdgePos_c) and
+                       SetEdgeToColour( edgePosition[edge2], nextFacePos, 
+                        6-colNeigh-colEdge, colEdgesOfFaces_c, todoFacePos_c,
+                        generators_c, colEdgePos_c) then
+                        # continue this colouring
+                        todoFacePos_c[nextFacePos] := false;
+                        localSym_c[edge] := 1;
+                        ExtendColouring(colEdgesOfFaces_c, todoFacePos_c, localSym_c, generators_c, colEdgePos_c);
+                    fi;
+                fi;
+                if localSymOfEdges[edge] <> 2 then
+                    # rotation is possible
+                    colEdgesOfFaces_c := ShallowCopy(colEdgesOfFaces);
+                    todoFacePos_c := ShallowCopy(todoFacePos);
+                    localSym_c := ShallowCopy(localSymOfEdges);
+                    generators_c := ShallowCopy(generators);
+                    colEdgePos_c := ShallowCopy(colEdgePos);
+
+                    # edge2 becomes the same colour as neighEdge
+                    if SetEdgeToColour( edgePosition[edge2], nextFacePos, 
+                        colNeigh, colEdgesOfFaces_c, todoFacePos_c,
+                        generators_c, colEdgePos_c) and
+                       SetEdgeToColour( edgePosition[edge1], nextFacePos, 
+                        6-colNeigh-colEdge, colEdgesOfFaces_c, todoFacePos_c,
+                        generators_c, colEdgePos_c) then
+                        # continue this colouring
+                        todoFacePos_c[nextFacePos] := false;
+                        localSym_c[edge] := 2;
+                        ExtendColouring(colEdgesOfFaces_c, todoFacePos_c, localSym_c, generators_c, colEdgePos_c);
+                    fi;
+                fi;
+            else
+                # This should not have happened if the surface was connected
+                Error("AllWildColouredSurfaces: Surface not connected.");
             fi;
 
         end;
@@ -487,7 +626,12 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
                 # Add the face transposition to the generator
                 # Check whether the generator already moves neighbour
                 gen := generators[colour];
-                #Alice: How fast?  + return fail if it fails
+                if lastFace^gen = lastFace and neighbour^gen = neighbour then
+                    # Transposition is new
+                    gen := gen * (lastFace, neighbour);
+                else
+                    return false;
+                fi;
                 generators[colour] := gen;
 
                 # Add the edge to colEdgesOfFaces
@@ -529,12 +673,32 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
 
         allColSurfaces := [];
         ExtendColouring( colEdgesOfFaces, todoFacePos, localSymmetry, generators, colEdgePos );
+
+        # transform the colour information into edge coloured surfaces
+        edgeColSurfaces := [];
+        for info in allColSurfaces do
+            obj := Objectify( EdgeColouredPolygonalComplexType, rec() );
+            SetPolygonalComplex(obj, simpSurf);
+            SetIsWildColouredSurface(obj, true);
+            SetColourInvolutions(obj, info[1]);
+
+            colEdgePos := info[2];
+            coloursOfEdges := [];
+            for i in [1..Length(Edges(simpSurf))] do
+                coloursOfEdges[Edges(simpSurf)[i]] := colEdgePos[i];
+            od;
+            SetColoursOfEdges(obj, coloursOfEdges);
+
+            SetLocalSymmetryOfEdgesAsNumbers(obj, info[3]);
+
+            Add( edgeColSurfaces, obj );
+        od;
     
-        return allColSurfaces;
+        return edgeColSurfaces;
     end
 );
     RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0);
-InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
+InstallMethod( AllTameColouredSurfaces, "for a simplicial surface and a list",
     [IsSimplicialSurface, IsList],
     function(simpSurf, localSymmetry)
         #local ;
