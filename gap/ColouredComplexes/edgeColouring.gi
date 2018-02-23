@@ -133,6 +133,47 @@ InstallMethod( EdgeColouredPolygonalComplex,
     end
 );
 
+
+InstallMethod( TriangularComplex, "for an edge coloured triangular complex",
+    [IsEdgeColouredTriangularComplex],
+    function(colComplex)
+        return PolygonalComplex(colComplex);
+    end
+);
+RedispatchOnCondition( TriangularComplex, true, [IsEdgeColouredPolygonalComplex], [IsEdgeColouredTriangularComplex], 0 );
+
+InstallMethod( RamifiedPolygonalSurface, "for an edge coloured ramified polygonal surface",
+    [IsEdgeColouredRamifiedPolygonalSurface],
+    function(colComplex)
+        return PolygonalComplex(colComplex);
+    end
+);
+RedispatchOnCondition( RamifiedPolygonalSurface, true, [IsEdgeColouredPolygonalComplex], [IsEdgeColouredRamifiedPolygonalSurface], 0 );
+
+InstallMethod( RamifiedSimplicialSurface, "for an edge coloured ramified simplicial surface",
+    [IsEdgeColouredRamifiedSimplicialSurface],
+    function(colComplex)
+        return PolygonalComplex(colComplex);
+    end
+);
+RedispatchOnCondition( RamifiedSimplicialSurface, true, [IsEdgeColouredPolygonalComplex], [IsEdgeColouredRamifiedSimplicialSurface], 0 );
+
+InstallMethod( PolygonalSurface, "for an edge coloured polygonal surface",
+    [IsEdgeColouredPolygonalSurface],
+    function(colComplex)
+        return PolygonalComplex(colComplex);
+    end
+);
+RedispatchOnCondition( PolygonalSurface, true, [IsEdgeColouredPolygonalComplex], [IsEdgeColouredPolygonalSurface], 0 );
+
+InstallMethod( SimplicialSurface, "for an edge coloured simplicial surface",
+    [IsEdgeColouredSimplicialSurface],
+    function(colComplex)
+        return PolygonalComplex(colComplex);
+    end
+);
+RedispatchOnCondition( SimplicialSurface, true, [IsEdgeColouredPolygonalComplex], [IsEdgeColouredSimplicialSurface], 0 );
+
 #######################################
 ##
 ##      Access to colouring

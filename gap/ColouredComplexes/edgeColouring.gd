@@ -115,7 +115,8 @@ DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList]
 #! @BeginGroup EdgeColouring_PolygonalComplex
 #! @Description
 #! Return the underlying polygonal complex of an edge coloured polygonal
-#! complex.
+#! complex. The other variants return the same thing but will
+#! guarantee the more specific type.
 #!
 #! For example both edge coloured pyramids from 
 #! <Ref Subsect="EdgeColouredPolygonalComplex"/> have the same underlying
@@ -128,6 +129,21 @@ DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList]
 #! @Returns a polygonal complex
 #! @Arguments colComplex
 DeclareAttribute( "PolygonalComplex", IsEdgeColouredPolygonalComplex );
+#! @Returns a triangular complex
+#! @Arguments colComplex
+DeclareAttribute( "TriangularComplex", IsEdgeColouredTriangularComplex );
+#! @Returns a polygonal complex
+#! @Arguments colComplex
+DeclareAttribute( "RamifiedPolygonalSurface", IsEdgeColouredRamifiedPolygonalSurface );
+#! @Returns a polygonal complex
+#! @Arguments colComplex
+DeclareAttribute( "RamifiedSimplicialSurface", IsEdgeColouredRamifiedSimplicialSurface );
+#! @Returns a polygonal complex
+#! @Arguments colComplex
+DeclareAttribute( "PolygonalSurface", IsEdgeColouredPolygonalSurface );
+#! @Returns a polygonal complex
+#! @Arguments colComplex
+DeclareAttribute( "SimplicialSurface", IsEdgeColouredSimplicialSurface );
 #! @EndGroup
 
 
