@@ -405,7 +405,7 @@ AutoDoc( rec( scaffold := rec(
                     ), 
               dir := __SIMPLICIAL_DocDirectory,
               maketest := rec(
-                    commands := ["LoadPackage(\"SimplicialSurfaces\");\n SIMPLICIAL_TestAll();\n"]
+                    commands := ["LoadPackage(\"SimplicialSurfaces\");\n SIMPLICIAL_TestAll();\n SIMPLICIAL_COLOURS_ON := false;\n"]
               ),
 	      autodoc := rec( 
                     files := [ ],
