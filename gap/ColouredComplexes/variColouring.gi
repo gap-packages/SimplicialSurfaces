@@ -410,16 +410,17 @@ BindGlobal( "__SIMPLICIAL_WildTameSurface_FixLocalSymmetry",
     end
 );
 
-InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
-    [IsSimplicialSurface, IsList],
-    function(simpSurf, localSymmetry)
+BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
+    function(simpSurf, localSymmetry, onlyTame)
         local edgePosition, i, facePosition, NextBestFacePos, ExtendColouring,
             SetEdgeToColour, colEdgePos, todoFacePos, allColSurfaces, 
             generators, colEdgesOfFaces, startingFace, edges, edgeColSurfaces,
-            info, coloursOfEdges, obj;
+            info, coloursOfEdges, obj, symOfColour;
 
         # Initialize localSymmetry
-        localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllWildColouredSurfaces");
+        if onlyTame then
+            symOfColour := [0,0,0];
+        fi;
 
         edgePosition := [];
         for i in [1..Length(Edges(simpSurf))] do
@@ -474,21 +475,32 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
             face := Faces(simpSurf)[nextFacePos];
 
             CheckEdgeColour := function( face, edge, incVertex, incEdge )
+                local neighbour, neighEdge, colEdge;
+
                 neighbour := face^generators[colEdgePos[edgePosition[edge]]];
                 # By construction this can't be a boundary edge
                 neighEdge := OtherEdgeOfVertexInFaceNC(simpSurf, incVertex, edge, neighbour);
-                if colEdgePos[ edgePosition[neighEdge] ] = colEdgePos[ edgePosition[incEdge] ] then
+                colEdge := colEdgePos[ edgePosition[incEdge] ];
+                if colEdgePos[ edgePosition[neighEdge] ] = colEdge then
                     # mirror case
-                    if localSymOfEdges[edge] = 2 then # only bad case
+                    if localSymOfEdges[edge] = 2 or 
+                            (onlyTame and symOfColour[colEdge] = 2) then # only bad case
                         return false;
                     fi;
                     localSymOfEdges[edge] := 1;
+                    if onlyTame then
+                        symOfColour[colEdge] := 1;
+                    fi;
                 else
                     # rotation case
-                    if localSymOfEdges[edge] = 1 then # only bad case
+                    if localSymOfEdges[edge] = 1  or 
+                            (onlyTame and symOfColour[colEdge] = 1) then # only bad case
                         return false;
                     fi;
                     localSymOfEdges[edge] := 2;
+                    if onlyTame then
+                        symOfColour[colEdge] := 2;
+                    fi;
                 fi;
                 return true;
             end;
@@ -561,7 +573,7 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
                 edge1 := OtherEdgeOfVertexInFaceNC(simpSurf, verts[1], edge, face);
                 edge2 := OtherEdgeOfVertexInFaceNC(simpSurf, verts[2], edge, face);
 
-                if localSymOfEdges[edge] <> 1 then
+                if localSymOfEdges[edge] <> 1 and (not onlyTame or symOfColour[colEdge] <> 2) then
                     # mirror is possible
                     colEdgesOfFaces_c := ShallowCopy(colEdgesOfFaces);
                     todoFacePos_c := ShallowCopy(todoFacePos);
@@ -582,7 +594,7 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
                         ExtendColouring(colEdgesOfFaces_c, todoFacePos_c, localSym_c, generators_c, colEdgePos_c);
                     fi;
                 fi;
-                if localSymOfEdges[edge] <> 2 then
+                if localSymOfEdges[edge] <> 2 and (not onlyTame or symOfColour[colEdge] <> 2) then
                     # rotation is possible
                     colEdgesOfFaces_c := ShallowCopy(colEdgesOfFaces);
                     todoFacePos_c := ShallowCopy(todoFacePos);
@@ -697,16 +709,22 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
         return edgeColSurfaces;
     end
 );
+
+InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
+    [IsSimplicialSurface, IsList],
+    function(simpSurf, localSymmetry);
+        # Initialize localSymmetry
+        localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllWildColouredSurfaces");
+        return __SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion(simpSurf, localSymmetry, false);
+    end
+);
     RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0);
 InstallMethod( AllTameColouredSurfaces, "for a simplicial surface and a list",
     [IsSimplicialSurface, IsList],
     function(simpSurf, localSymmetry)
-        #local ;
-
         # Initialize localSymmetry
         localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllTameColouredSurfaces");
-        
-        Error("TODO");
+        return __SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion(simpSurf, localSymmetry, true);
     end
 );
     RedispatchOnCondition(AllTameColouredSurfaces, true, [IsPolygonalComplex,IsList], [IsSimplicialSurface], 0);
