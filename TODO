@@ -1,3 +1,7 @@
+Coloured output:
+    -> Change implementation in GAP (FormatOutput in
+        https://github.com/gap-system/gap/blob/master/src/io.c )
+    -> Maybe switch to a different hack: open stdout in IO and turn off formatting
 
     -> In long term split chapter "Paths and Orientations"
         -> One chapter for vertex-edge-paths
