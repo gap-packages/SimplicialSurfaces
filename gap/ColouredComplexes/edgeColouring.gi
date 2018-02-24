@@ -275,6 +275,37 @@ InstallMethod( \=, "for two edge coloured polygonal complexes",
 
 #######################################
 ##
+##      Print, View, Display
+##
+InstallMethod( String, "for an edge coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex], 
+    function(colComplex)
+        local out, str;
+
+        str := "";
+        out := OutputTextString(str, true);
+        PrintTo( out, "EdgeColoured" );
+        PrintTo( out, __SIMPLICIAL_PolygonalComplexName( PolygonalComplex(colComplex), true ) );
+        PrintTo( out, "NC( " );
+        PrintTo( out, String(PolygonalComplex(colComplex)) );
+        PrintTo( out, ", " );
+        PrintTo( out, String(ColoursOfEdges(colComplex)) );
+        PrintTo( out, " )" );
+
+        CloseStream(out);
+        return str;
+    end
+);
+
+
+##
+##      End Print, View, Display
+##
+#######################################
+
+
+#######################################
+##
 ##      Drawing method
 ##
 

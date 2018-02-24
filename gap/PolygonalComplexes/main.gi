@@ -158,8 +158,20 @@ InstallMethod( \=, "for two polygonal complexes", IsIdenticalObj,
 ##
 ## We implement the display/view/print-methods as recommended in the GAP-manual
 
-BindGlobal( "__SIMPLICIAL_PrintTo_Name",
-    function(complex, nameList)
+BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
+    function(complex, big)
+        local nameList;
+
+        if big then
+            nameList := ["SimplicialSurface", "PolygonalSurface", 
+                "RamifiedSimplicialSurface", "RamifiedPolygonalSurface", 
+                "TriangularComplex", "PolygonalComplex"];
+        else
+            nameList := ["simplicial surface", "polygonal surface", 
+                "ramified simplicial surface", "ramified polygonal surface", 
+                "triangular complex", "polygonal complex"];
+        fi;
+
         if IsSimplicialSurface(complex) then
             return nameList[1];
         elif IsPolygonalSurface(complex) then
@@ -183,10 +195,7 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
 
         str := "";
         out := OutputTextString(str, true);
-        PrintTo(out,  __SIMPLICIAL_PrintTo_Name(complex,
-            ["SimplicialSurface", "PolygonalSurface", 
-            "RamifiedSimplicialSurface", "RamifiedPolygonalSurface", 
-            "TriangularComplex", "PolygonalComplex"]) );
+        PrintTo(out,  __SIMPLICIAL_PolygonalComplexName(complex, true) );
 
         PrintTo( out, "ByDownwardIncidenceNC(" );
         PrintTo( out, VerticesOfEdges(complex) );
@@ -212,10 +221,7 @@ InstallMethod( ViewInformation, "for a polygonal complex",
         strList := [];
         str := "";
         out := OutputTextString(str,true);
-        PrintTo( out, __SIMPLICIAL_PrintTo_Name(complex,
-            ["simplicial surface", "polygonal surface", 
-            "ramified simplicial surface", "ramified polygonal surface", 
-            "triangular complex", "polygonal complex"]));
+        PrintTo( out, __SIMPLICIAL_PolygonalComplexName(complex, false) );
         PrintTo(out, " (");
         Add( strList, [str, 0] );
 
@@ -256,10 +262,7 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         strList := [];
         str := "";
         out := OutputTextString(str, true);
-        PrintTo(out, __SIMPLICIAL_PrintTo_Name(complex,
-            ["SimplicialSurface", "PolygonalSurface", 
-            "RamifiedSimplicialSurface", "RamifiedPolygonalSurface", 
-            "TriangularComplex", "PolygonalComplex"]) );
+        PrintTo(out, __SIMPLICIAL_PolygonalComplexName(complex, true) );
         if IsPolygonalSurface(complex) then # more information
             PrintTo(out,  " (" );
             if IsClosedSurface(complex) then
