@@ -232,6 +232,13 @@ DeclareOperation( "EdgesOfColour", [IsEdgeColouredPolygonalComplex, IsPosInt] );
 DeclareAttribute( "Colours", IsEdgeColouredPolygonalComplex );
 
 
+
+##
+## View and Display
+DeclareAttribute( "ViewInformation", IsEdgeColouredPolygonalComplex );
+DeclareAttribute( "DisplayInformation", IsEdgeColouredPolygonalComplex );
+
+
 #! @Section Drawing edge coloured surfaces
 #! @SectionLabel EdgeColouring_Drawing
 #!

@@ -394,6 +394,311 @@ InstallMethod( String, "for an edge coloured polygonal complex",
     end
 );
 
+BindGlobal( "__SIMPLICIAL_TameSurfaceType",
+    function(colComp)
+        local strList, p, col, localSym;
+
+        strList := [];
+        # only three colours in a tame coloured surface
+        for p in [1,2,3] do
+            col := Colours(colComp)[p];
+            localSym := LocalSymmetryOfColoursAsNumbers(colComp)[col];
+            if localSym = 1 then
+                Add(strList, ["M", p]);
+            elif localSym = 2 then
+                Add(strList, ["R", p]);
+            else
+                # boundary
+                Add(strList, ["B", p]);
+            fi;
+        od;
+        return strList;
+    end
+);
+
+InstallMethod( ViewInformation, "for an edge coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComp)
+        local strList, str, out;
+
+        strList := [];
+        str := "";
+        out := OutputTextString(str, true);
+        if IsWildColouredSurface(colComp) then
+            if IsTameColouredSurface(colComp) then
+                Add(strList, ["tame coloured surface (", 0]);
+                Append(strList, __SIMPLICIAL_TameSurfaceType(colComp));
+                Add(strList, [" with ", 0]);
+            else
+                Add(strList, ["wild coloured surface (", 0]);
+            fi;
+        else
+            PrintTo( out, "edge coloured " );
+            PrintTo( out, __SIMPLICIAL_PolygonalComplexName( PolygonalComplex(colComp), false ) );
+            PrintTo( out, " (" );
+            Add( strList, [ str, 0 ] );
+            str := "";
+        fi;
+
+        PrintTo( out, String( NumberOfVertices( PolygonalComplex(colComp) ) ) );
+        PrintTo( out, " vertices, " );
+        PrintTo( out, String( NumberOfEdges( PolygonalComplex(colComp) ) ) );
+        PrintTo( out, " edges" );
+        if IsWildColouredSurface(colComp) then
+            PrintTo( out, " and " );
+        else
+            PrintTo( out, ", " );
+        fi;
+        PrintTo( out, String( NumberOfFaces( PolygonalComplex(colComp) ) ) );
+        PrintTo( out, " faces" );
+        if not IsWildColouredSurface(colComp) then
+            PrintTo( out, " and " );
+            PrintTo( out, String( Length( Colours(colComp) ) ) );
+            PrintTo( out, " colours" );
+        fi;
+        PrintTo( out, ")" );
+        CloseStream(out);
+        Add( strList, [ str, 0 ] );
+
+        return strList;
+    end
+);
+InstallMethod( ViewString, "for an edge coloured polygonal complex", 
+    [IsEdgeColouredPolygonalComplex],
+    function(complex)
+        return __SIMPLICIAL_ColourString( ViewInformation(complex), 
+            [ SIMPLICIAL_COLOURS_WILD_1_DEFAULT, SIMPLICIAL_COLOURS_WILD_2_DEFAULT, SIMPLICIAL_COLOURS_WILD_3_DEFAULT ]);
+    end
+);
+InstallMethod( ViewObj, "for an edge coloured polygonal complex", 
+    [IsEdgeColouredPolygonalComplex],
+    function(complex)
+        if SIMPLICIAL_COLOURS_ON then
+            __SIMPLICIAL_PrintColourString( ViewInformation(complex), 
+                [ SIMPLICIAL_COLOURS_WILD_1, SIMPLICIAL_COLOURS_WILD_2, SIMPLICIAL_COLOURS_WILD_3 ]);
+        else
+            Print(__SIMPLICIAL_UncolouredString( ViewInformation(complex) ));
+        fi;
+    end
+);
+
+
+
+# Display
+InstallMethod( DisplayInformation, "for an edge coloured polygonal complex", 
+    [IsEdgeColouredPolygonalComplex],
+    function(colComp)
+        local strList, x, umb, set, str, out, i, edge, complex, posOfColour, c;
+
+        complex := PolygonalComplex(colComp);
+        
+        strList := [];
+        str := "";
+        out := OutputTextString(str, true);
+
+        # make a colour list
+        posOfColour := [];
+        if IsWildColouredSurface(colComp) then
+            for i in [1,2,3] do
+                posOfColour[Colours(colComp)[i]] := i;
+            od;
+        else
+            for c in Colours(colComp) do
+                posOfColour[c] := 0;
+            od;
+        fi;
+
+
+        # Set the most specific name
+        if IsWildColouredSurface(colComp) then
+            if IsTameColouredSurface(colComp) then
+                Add(strList, ["Tame coloured surface (", 0]);
+                Append(strList, __SIMPLICIAL_TameSurfaceType(colComp));
+                Add(strList, [", ", 0]);
+            else
+                Add(strList, ["Wild coloured surface (", 0]);
+            fi;
+        else
+            PrintTo( out, "Edge coloured " );
+            PrintTo( out, __SIMPLICIAL_PolygonalComplexName( PolygonalComplex(colComp), false ) );
+            if IsPolygonalSurface( PolygonalComplex(colComp) ) then
+                PrintTo( out, " (" );
+            fi;
+            Add( strList, [ str, 0 ] );
+            str := "";
+        fi;
+
+        # Special information for edge coloured polygonal surfaces
+        if IsPolygonalSurface(PolygonalComplex(colComp)) then # more information
+            if IsClosedSurface(complex) then
+                PrintTo(out, "closed, ");
+            fi;
+            
+            if IsOrientable(complex) then
+                PrintTo(out, "orientable, ");
+            else
+                PrintTo(out, "non-orientable, ");
+            fi;
+
+            if IsConnected(complex) then
+                PrintTo(out, "Euler-characteristic ", EulerCharacteristic(complex) );
+            else
+                PrintTo(out,  NumberOfConnectedComponents(complex), " connected components" );
+            fi;
+            PrintTo(out,  ")");
+        fi;
+        PrintTo(out, "\n");
+        CloseStream(out);
+        Add( strList, [ str, 0 ] );
+
+        # Vertices
+        Add( strList, [
+            Concatenation( "    Vertices (", 
+                String(NumberOfVertices(complex)), "): ", 
+                String(Vertices(complex)), "\n" ), 0 ] );
+
+        # Edges
+        if IsWildColouredSurface(colComp) then
+            Add( strList, [ Concatenation( "    Edges (", String(NumberOfEdges(complex)), "): [ " ), 0 ] );
+            for x in Edges(complex) do
+                Add( strList, [ String(x), posOfColour[ColoursOfEdges(colComp)[x]] ] );
+                Add( strList, [ ", ", 0 ] );
+            od;
+            Remove(strList);
+            Add(strList, [" ]\n", 0]);
+        else
+            Add( strList, [ Concatenation( "    Edges (", String(NumberOfEdges(complex)), "): ", String(Edges(complex)), "\n" ), 0 ] );
+        fi;
+
+
+        # Faces
+        Add( strList, [
+            Concatenation( "    Faces (", 
+                String(NumberOfFaces(complex)), "): ", 
+                String(Faces(complex)), "\n" ), 0 ] );
+
+
+        # VerticesOfEdges
+        Add( strList, [ "    VerticesOfEdges: [", 0] );
+        for i in [1..Length(VerticesOfEdges(complex))] do
+            if IsBound(VerticesOfEdges(complex)[i]) then
+                set := VerticesOfEdges(complex)[i];
+                Add( strList, [ String(set), posOfColour[ColoursOfEdges(colComp)[i]] ] );
+            fi;
+            Add( strList, [", ", 0] );
+        od;
+        # Remove final ","
+        Remove(strList);
+        Add( strList, [ " ]\n", 0 ] );
+
+        
+        # VerticesOfFaces
+        Add( strList, [ Concatenation("    VerticesOfFaces: ", String(VerticesOfFaces(complex)), "\n"), 0 ] );
+
+
+        # EdgesOfFaces
+        Add( strList, [ "    EdgesOfFaces: [ ", 0 ] );
+        for i in [1..Length(EdgesOfFaces(complex))] do
+            if IsBound(EdgesOfFaces(complex)[i]) then
+                set := EdgesOfFaces(complex)[i];
+                Add( strList, [ "[ ", 0 ] );
+                for x in set do
+                    Add( strList, [ String(x), posOfColour[ColoursOfEdges(colComp)[x]] ] );
+                    Add( strList, [ ", ", 0 ] );
+                od;
+                # Replace last "," by "]"
+                Remove(strList);
+                Add( strList, [" ]", 0] );
+            fi;
+            Add( strList, [", ", 0] );
+        od;
+        # Remove final ","
+        Remove(strList);
+        Add( strList, [ " ]\n", 0 ] );
+        
+
+        # UmbrellasOfVertices
+        Add( strList, [ "    Umbrellas: [ ", 0 ] );
+        for i in [1..Length(UmbrellasOfVertices(complex))] do
+            if IsBound(UmbrellasOfVertices(complex)[i]) then
+                umb := UmbrellasOfVertices(complex)[i];
+                
+                if IsClosedPath(umb) then
+                    Add( strList, [ "( ", 0 ] );
+                else
+                    Add( strList, [ "| ", 0 ] );
+                fi;
+                for x in [1..Length(PathAsList(umb))] do
+                    if IsEvenInt(x) then
+                        Add( strList, [ Concatenation( "F", String(Path(umb)[x]) ), 0 ] );
+                    else
+                        edge := Path(umb)[x];
+                        Add(strList, [ Concatenation( "e", String(edge) ), posOfColour[ColoursOfEdges(colComp)[edge]] ]);
+                    fi;
+                    Add( strList, [", ", 0] );
+                od;
+                # Remove trailing ","
+                Remove(strList);
+                if IsClosedPath(umb) then
+                    Add( strList, [ " )", 0 ] );
+                else
+                    Add( strList, [ " |", 0 ] );
+                fi;
+            fi;
+            Add( strList, [", ", 0] );
+        od;
+        Remove(strList);
+        Add( strList, [ " ]\n", 0 ] );
+
+
+        # EdgesOfColours
+        Add( strList, ["    EdgesOfColours: [ ", 0] );
+        for i in [1..Length(EdgesOfColours(colComp))] do
+            if IsBound(EdgesOfColours(colComp)[i]) then
+                Add( strList, [String(EdgesOfColours(colComp)[i]), posOfColour[i]] );
+            fi;
+            Add(strList, [", ", 0]);
+        od;
+        Remove(strList);
+        Add( strList, [" ]\n", 0] );
+
+
+        # LocalSymmetry
+        if IsWildColouredSurface(colComp) then
+            Add(strList, ["    LocalSymmetry: [ ", 0]);
+            for i in [1..Length(LocalSymmetryOfEdges(colComp))] do
+                if IsBound(LocalSymmetryOfEdges(colComp)[i]) then
+                    Add( strList, [ LocalSymmetryOfEdges(colComp)[i], posOfColour[ColoursOfEdges(colComp)[i]] ] );
+                fi;
+                Add( strList, [", ", 0] );
+            od;
+            Remove(strList);
+            Add( strList, [" ]\n", 0] );
+        fi;
+
+        return strList;
+    end
+);
+InstallMethod( DisplayString, "for an edge coloured polygonal complex", 
+    [IsEdgeColouredPolygonalComplex],
+    function(complex)
+        return __SIMPLICIAL_ColourString( DisplayInformation(complex),
+            [SIMPLICIAL_COLOURS_WILD_1_DEFAULT, SIMPLICIAL_COLOURS_WILD_2_DEFAULT, SIMPLICIAL_COLOURS_WILD_3_DEFAULT]);
+    end
+);
+InstallMethod( Display, "for an edge coloured polygonal complex", 
+    [IsEdgeColouredPolygonalComplex],
+    function(complex)
+        if SIMPLICIAL_COLOURS_ON then
+            __SIMPLICIAL_PrintColourString( DisplayInformation(complex), 
+                [ SIMPLICIAL_COLOURS_WILD_1, SIMPLICIAL_COLOURS_WILD_2, SIMPLICIAL_COLOURS_WILD_3 ]);
+        else
+            Print(__SIMPLICIAL_UncolouredString( DisplayInformation(complex) ));
+        fi;
+    end
+);
+
+
 
 ##
 ##      End Print, View, Display

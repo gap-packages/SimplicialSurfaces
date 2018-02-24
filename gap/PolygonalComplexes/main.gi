@@ -223,6 +223,7 @@ InstallMethod( ViewInformation, "for a polygonal complex",
         out := OutputTextString(str,true);
         PrintTo( out, __SIMPLICIAL_PolygonalComplexName(complex, false) );
         PrintTo(out, " (");
+        CloseStream(out);
         Add( strList, [str, 0] );
 
         Add( strList, [Concatenation(String(NumberOfVertices(complex)), " vertices"), 1] );
@@ -257,7 +258,7 @@ InstallMethod( ViewObj, "for a polygonal complex", [IsPolygonalComplex],
 InstallMethod( DisplayInformation, "for a polygonal complex", 
     [IsPolygonalComplex],
     function(complex)
-        local strList, x, umb, set, str, out;
+        local strList, x, umb, set, str, out, i;
 
         strList := [];
         str := "";
@@ -302,12 +303,15 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         Add( strList, [ "of", 0 ] );
         Add( strList, [ "Edges", 2 ] );
         Add( strList, [ ": [ ", 0 ] );
-        for set in VerticesOfEdges(complex) do
-            Add( strList, [ "[ ", 2 ] );
-            Add( strList, [ String(set[1]), 1 ] );
-            Add( strList, [ ", ", 0 ] );
-            Add( strList, [ String(set[2]), 1 ] );
-            Add( strList, [ " ]", 2 ] );
+        for i in [1..Length(VerticesOfEdges(complex))] do
+            if IsBound( VerticesOfEdges(complex)[i] ) then
+                set := VerticesOfEdges(complex)[i];
+                Add( strList, [ "[ ", 2 ] );
+                Add( strList, [ String(set[1]), 1 ] );
+                Add( strList, [ ", ", 0 ] );
+                Add( strList, [ String(set[2]), 1 ] );
+                Add( strList, [ " ]", 2 ] );
+            fi;
             Add( strList, [", ", 0] );
         od;
         # Remove final ","
@@ -320,15 +324,18 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         Add( strList, [ "of", 0 ] );
         Add( strList, [ "Faces", 3 ] );
         Add( strList, [ ": [ ", 0 ] );
-        for set in VerticesOfFaces(complex) do
-            Add( strList, [ "[ ", 3 ] );
-            for x in set do
-                Add( strList, [ String(x), 1 ] );
-                Add( strList, [ ", ", 0 ] );
-            od;
-            # Replace last "," by "]"
-            Remove(strList);
-            Add( strList, [" ]", 3] );
+        for i in [1..Length(VerticesOfFaces(complex))] do
+            if IsBound(VerticesOfFaces(complex)[i]) then
+                set := VerticesOfFaces(complex)[i];
+                Add( strList, [ "[ ", 3 ] );
+                for x in set do
+                    Add( strList, [ String(x), 1 ] );
+                    Add( strList, [ ", ", 0 ] );
+                od;
+                # Replace last "," by "]"
+                Remove(strList);
+                Add( strList, [" ]", 3] );
+            fi;
             Add( strList, [", ", 0] );
         od;
         # Remove final ","
@@ -341,15 +348,18 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         Add( strList, [ "of", 0 ] );
         Add( strList, [ "Faces", 3 ] );
         Add( strList, [ ": [ ", 0 ] );
-        for set in EdgesOfFaces(complex) do
-            Add( strList, [ "[ ", 3 ] );
-            for x in set do
-                Add( strList, [ String(x), 2 ] );
-                Add( strList, [ ", ", 0 ] );
-            od;
-            # Replace last "," by "]"
-            Remove(strList);
-            Add( strList, [" ]", 3] );
+        for i in [1..Length(EdgesOfFaces(complex))] do
+            if IsBound(EdgesOfFaces(complex)[i]) then
+                set := EdgesOfFaces(complex)[i];
+                Add( strList, [ "[ ", 3 ] );
+                for x in set do
+                    Add( strList, [ String(x), 2 ] );
+                    Add( strList, [ ", ", 0 ] );
+                od;
+                # Replace last "," by "]"
+                Remove(strList);
+                Add( strList, [" ]", 3] );
+            fi;
             Add( strList, [", ", 0] );
         od;
         # Remove final ","
@@ -359,8 +369,11 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         
         # UmbrellasOfVertices
         Add( strList, [ "    Umbrellas: [ ", 0 ] );
-        for umb in UmbrellasOfVertices(complex) do
-            Append( strList, ViewInformation(umb) );
+        for i in [1..Length(UmbrellasOfVertices(complex))] do
+            if IsBound(UmbrellasOfVertices(complex)[i]) then
+                umb := UmbrellasOfVertices(complex)[i];
+                Append( strList, ViewInformation(umb) );
+            fi;
             Add( strList, [", ", 0] );
         od;
         Remove(strList);
