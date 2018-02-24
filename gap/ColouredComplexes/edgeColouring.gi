@@ -132,6 +132,103 @@ InstallMethod( EdgeColouredPolygonalComplex,
         return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );
+# triangular complex
+InstallMethod( EdgeColouredTriangularComplexNC, 
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        SetIsTriangularComplex( complex, true );
+        return EdgeColouredPolygonalComplexNC(complex, colouring);
+    end
+);
+InstallMethod( EdgeColouredTriangularComplex,
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        if not IsTriangularComplex(complex) then
+            Error("EdgeColouredTriangularComplex: Given complex is not a triangular complex.");
+        fi;
+        return EdgeColouredPolygonalComplex(complex, colouring);
+    end
+);
+# ramified polygonal surface
+InstallMethod( EdgeColouredRamifiedPolygonalSurfaceNC, 
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        SetIsRamifiedPolygonalSurface( complex, true );
+        return EdgeColouredPolygonalComplexNC(complex, colouring);
+    end
+);
+InstallMethod( EdgeColouredRamifiedPolygonalSurface,
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        if not IsRamifiedPolygonalSurface(complex) then
+            Error("EdgeColouredTriangularComplex: Given complex is not a ramified polygonal surface.");
+        fi;
+        return EdgeColouredPolygonalComplex(complex, colouring);
+    end
+);
+# ramified simplicial surface
+InstallMethod( EdgeColouredRamifiedSimplicialSurfaceNC, 
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        SetIsTriangularComplex( complex, true );
+        SetIsRamifiedPolygonalSurface( complex, true );
+        return EdgeColouredPolygonalComplexNC(complex, colouring);
+    end
+);
+InstallMethod( EdgeColouredRamifiedSimplicialSurface,
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        if not IsRamifiedSimplicialSurface(complex) then
+            Error("EdgeColouredTriangularComplex: Given complex is not a ramified simplicial surface.");
+        fi;
+        return EdgeColouredPolygonalComplex(complex, colouring);
+    end
+);
+# polygonal surface
+InstallMethod( EdgeColouredPolygonalSurfaceNC, 
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        SetIsPolygonalSurface( complex, true );
+        return EdgeColouredPolygonalComplexNC(complex, colouring);
+    end
+);
+InstallMethod( EdgeColouredPolygonalSurface,
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        if not IsPolygonalSurface(complex) then
+            Error("EdgeColouredTriangularComplex: Given complex is not a polygonal surface.");
+        fi;
+        return EdgeColouredPolygonalComplex(complex, colouring);
+    end
+);
+# simplicial surface
+InstallMethod( EdgeColouredSimplicialSurfaceNC, 
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        SetIsTriangularComplex( complex, true );
+        SetIsPolygonalSurface( complex, true );
+        return EdgeColouredPolygonalComplexNC(complex, colouring);
+    end
+);
+InstallMethod( EdgeColouredSimplicialSurface,
+    "for a polygonal complex and a list of positive integers",
+    [IsPolygonalComplex, IsList],
+    function(complex, colouring)
+        if not IsSimplicialSurface(complex) then
+            Error("EdgeColouredTriangularComplex: Given complex is not a simplicial surface.");
+        fi;
+        return EdgeColouredPolygonalComplex(complex, colouring);
+    end
+);
 
 
 InstallMethod( TriangularComplex, "for an edge coloured triangular complex",

@@ -97,6 +97,10 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
 #!   </Item>
 #! </Enum>
 #!
+#! The more specific variations enforce their more restrictive type on
+#! <A>complex</A>, e.g. <K>EdgeColouredSimplicialSurface</K> requires
+#! <A>complex</A> to be a simplicial surface.
+#!
 #! @InsertChunk Example_TwiceColoured_Pyramid
 #!
 #! The NC-version does not check whether the given <A>colouring</A> is consistent
@@ -109,6 +113,31 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
 DeclareOperation( "EdgeColouredPolygonalComplex", [IsPolygonalComplex, IsList] );
 #! @Arguments complex, colouring
 DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList] );
+#! @Returns an <K>EdgeColouredTriangularComplex</K>
+#! @Arguments complex, colouring
+DeclareOperation( "EdgeColouredTriangularComplex", [IsPolygonalComplex, IsList] );
+#! @Arguments complex, colouring
+DeclareOperation( "EdgeColouredTriangularComplexNC", [IsPolygonalComplex, IsList] );
+#! @Returns an <K>EdgeColouredRamifiedPolygonalSurface</K>
+#! @Arguments ramSurf, colouring
+DeclareOperation( "EdgeColouredRamifiedPolygonalSurface", [IsPolygonalComplex, IsList] );
+#! @Arguments ramSurf, colouring
+DeclareOperation( "EdgeColouredRamifiedPolygonalSurfaceNC", [IsPolygonalComplex, IsList] );
+#! @Returns an <K>EdgeColouredRamifiedSimplicialSurface</K>
+#! @Arguments ramSurf, colouring
+DeclareOperation( "EdgeColouredRamifiedSimplicialSurface", [IsPolygonalComplex, IsList] );
+#! @Arguments ramSurf, colouring
+DeclareOperation( "EdgeColouredRamifiedSimplicialSurfaceNC", [IsPolygonalComplex, IsList] );
+#! @Returns an <K>EdgeColouredPolygonalSurface</K>
+#! @Arguments surface, colouring
+DeclareOperation( "EdgeColouredPolygonalSurface", [IsPolygonalComplex, IsList] );
+#! @Arguments surface, colouring
+DeclareOperation( "EdgeColouredPolygonalSurfaceNC", [IsPolygonalComplex, IsList] );
+#! @Returns an <K>EdgeColouredSimplicialSurface</K>
+#! @Arguments surface, colouring
+DeclareOperation( "EdgeColouredSimplicialSurface", [IsPolygonalComplex, IsList] );
+#! @Arguments surface, colouring
+DeclareOperation( "EdgeColouredSimplicialSurfaceNC", [IsPolygonalComplex, IsList] );
 #! @EndGroup
 
 
