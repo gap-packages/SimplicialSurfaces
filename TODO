@@ -1,27 +1,16 @@
-Chapter Embedding:
-StripEmbedding?
 
-Chapter Modifications:
-DualSurface
-AddVertexIntoEdge [Jesse]
-
-
-Display: immer Umbrellas (bei EdgeColoured nur gefärbt @Frank/Gutsche: Kann man Konsolenausgabe farbig machen?)
-    -> everything coloured (OnOff-Switch)
-    -> colorprompt.g for application -> Can this be done via DisplayString? Or write Display explicitly?
-    -> in general give vertices, edges and faces different colours and display those
-
-
-ColourNames -> View/Display for colouring
-AllWild... -> IsomorphicFlagSurface
-
-Cover
-
-Geodesics
-    Have GeodesicFlagPermutation as an attribute of geodesics
-    Have MaximalStripEmbedding(geodesic, face) an operation
     -> In long term split chapter "Paths and Orientations"
         -> One chapter for vertex-edge-paths
         -> One chapter for edge-face-paths (maybe even one for geodesics if geodesic duality is concerned)
         -> Unclear where connectivity and orientability should end up
 
+
+Cover: Return complex and new vertices, edges, faces
+SixFoldCover
+IsomorphicFlagSurface
+Geodesic: Computation of MaximalGeodesics, MaximalStripEmbedding as operation
+AllTame: Rearrange methods to make this computation efficient
+
+
+Modification:
+    AddVertexIntoEdge etc.
