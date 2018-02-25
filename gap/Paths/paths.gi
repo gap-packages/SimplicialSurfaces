@@ -586,6 +586,56 @@ InstallMethod( IsClosedGeodesic, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
+InstallMethod( DefiningFlags, "for a geodesic", [IsEdgeFacePath and IsGeodesic],
+    function(geo)
+        local vePath, efPath, flags, i;
+
+        vePath := VertexEdgePath(geo);
+        efPath := Path(geo);
+        flags := [];
+        for i in [2,4..Length(efPath)-1] do
+            Add(flags, [ vePath[i-1], vePath[i], efPath[i] ]);
+        od;
+
+        return Set(flags);
+    end
+);
+RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsGeodesic], 0 );
+
+
+InstallMethod( MaximalGeodesicOfFlagNC, 
+    "for a ramified polygonal surface and a flag",
+    [IsRamifiedPolygonalSurface, IsList],
+    function(ramSurf, flag)
+        local maxGeo, geo, inv;
+
+        maxGeo := MaximalGeodesics(ramSurf);
+        for geo in maxGeo do
+            if flag in DefiningFlags(geo) then
+                return geo;
+            fi;
+            inv := Inverse(geo);
+            if flag in DefiningFlags(inv) then
+                return inv;
+            fi;
+        od;
+
+        Error("MaximalGeodesicOfFlagNC: The given flag was not valid!");
+    end
+);
+InstallMethod( MaximalGeodesicOfFlag,
+    "for a ramified polygonal surface and a flag",
+    [IsRamifiedPolygonalSurface, IsList],
+    function(ramSurf, flag)
+        if not flag in Flags(ramSurf) then
+            Error(Concatenation("MaximalGeodesicOfFlag: Second argument ", 
+                String(flag), 
+                " is not a flag of the given ramified polygonal surface."));
+        fi;
+        return MaximalGeodesicOfFlagNC(ramSurf, flag);
+    end
+);
+
 
 InstallMethod( GeodesicFlagCycle, "for a closed geodesic", 
     [IsEdgeFacePath and IsClosedGeodesic],
@@ -618,7 +668,7 @@ InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
         local geos, flags, dressVertex, dressEdge, dressFace, boundary,
             dressVEF, dressVEV, todoFlags, start, flagList, invList, i,
             fin, lastFlag, almostNext, next, closed, geo, vePath, efPath,
-            flag, lastFlagInv;
+            flag, lastFlagInv, geoFlags, invFlags;
 
         flags := Flags(ramSurf);
         dressVertex := DressInvolutions(ramSurf)[1];
@@ -691,8 +741,13 @@ InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
             SetIsClosedGeodesic(geo, closed);
             SetVertexEdgePath(geo, VertexEdgePathNC(ramSurf, vePath));
 
+            geoFlags := flags{flagList};
+            SetDefiningFlags(geo, Set(geoFlags));
+            invFlags := flags{invList};
+            SetDefiningFlags(Inverse(geo), Set(invFlags));
+
             Add( geos, geo );
-            todoFlags := Difference( todoFlags, Concatenation( flags{flagList}, flags{invList} ) );
+            todoFlags := Difference( todoFlags, Concatenation( geoFlags, invFlags ) );
         od;
 
         return Set(geos);

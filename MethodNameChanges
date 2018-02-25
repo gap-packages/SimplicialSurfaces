@@ -35,7 +35,8 @@ For simplicial surfaces:
     20) SnippOffEarsRecursively was removed since it was unused.
     21) *Cut/Mend is changed in its calls. Please refer to section
         "Example: Cut and Mend" for details
-    22) 
+    22) Geodesic is replaced by MaximalGeodesicOfFlag
+    23) Geodesics is replaces by MaximalGeodesics
 
 
 

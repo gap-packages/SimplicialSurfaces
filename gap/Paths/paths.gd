@@ -715,11 +715,21 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesic );
 #! Compute the set of all maximal geodesics of <A>ramSurf</A>, i.e. the
 #! set of all geodesics that can not be extended further.
 #!
+#! The operation <K>MaximalGeodesicOfFlag</K>(<A>ramSurf</A>, <A>flag</A>)
+#! returns the unique maximal geodesic that is defined by the given
+#! <A>flag</A>. The NC-version does not check whether the given <A>flag</A>
+#! is actually a flag of <A>ramSurf</A>.
+#!
 #! TODO explanation and examples
 #!
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf
 DeclareAttribute( "MaximalGeodesics", IsRamifiedPolygonalSurface );
+#! @Returns an edge-face-path
+#! @Arguments ramSurf, flag
+DeclareOperation( "MaximalGeodesicOfFlag", [IsRamifiedPolygonalSurface, IsList] );
+#! @Arguments ramSurf, flag
+DeclareOperation( "MaximalGeodesicOfFlagNC", [IsRamifiedPolygonalSurface, IsList] );
 #! @EndGroup
 
 #! @BeginGroup IsClosedGeodesic
@@ -735,6 +745,17 @@ DeclareAttribute( "MaximalGeodesics", IsRamifiedPolygonalSurface );
 DeclareProperty( "IsClosedGeodesic", IsEdgeFacePath );
 #! @EndGroup
 InstallTrueMethod( IsGeodesic, IsClosedGeodesic );
+
+#! @Description
+#! Return the defining flags of the given geodesic 
+#! (<Ref Subsect="IsGeodesic"/>).
+#!
+#! TODO explanation
+#!
+#! @Returns a set of flags
+#! @Arguments geodesic
+DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesic );
+#TODO good name?
 
 #! @Description
 #! For a closed geodesic (<Ref Subsect="IsClosedGeodesic"/>) construct the

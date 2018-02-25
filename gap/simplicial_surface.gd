@@ -152,37 +152,9 @@ DeclareOperation( "MaximalStripEmbedding",
     [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
     IsPosInt, IsPosInt, IsPosInt] );
 
-#! @Description
-#! Determine a strip development of the surface, given a flag.
-#! The strip is defined as in <E>MaximalStripEmbedding</E> with the
-#! difference that it will be continued until it closes completely
-#! i.e. it can't be extended any further in any direction without
-#! repeating itself.
-#! @Arguments surf, vertex, edge, face
-#! @Returns an edge-face-path and a simplicial surface
-DeclareOperation( "Geodesic",
-    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
-    IsPosInt, IsPosInt, IsPosInt]);
-    #TODO IsGeodesic, IsOpenGeodesic, IsClosedGeodesic (also nC)
 
 #! @Description
 #! From a geodesic (returned as in Geodesic) construct all maximal
 #! strip embeddings.
 DeclareOperation( "AllMaximalStripEmbeddings", [IsList] );
-
-#! @Description
-#! Return the set of all geodesics. Each geodesic is given in 
-#! normal form, defined by:
-#! * The smallest face is at position 2
-#! * Under the first condition, the third position is minimal
-#! * Under the first two conditions (only in the loop-case), the first
-#!   position is minimal
-#!
-#! @Returns a set of edge-face-paths
-#! @Arguments surface
-DeclareAttribute( "Geodesics", IsSimplicialSurface and IsTriangleSurface
- and IsEdgesLikeSurface);
-
-
-DeclareAttribute( "GeodesicFlagPermutation", IsSimplicialSurface );
 
