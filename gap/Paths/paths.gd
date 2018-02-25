@@ -1148,7 +1148,7 @@ DeclareAttribute( "Orientation", IsRamifiedPolygonalSurface );
 #! orientable, it has two connected components, otherwise just one.
 #!
 #! @BeginExampleSession
-#! gap> tetCov := OrientationCover(Tetrahedron());;
+#! gap> tetCov := OrientationCover(Tetrahedron())[1];;
 #! gap> NumberOfVertices(tetCov);
 #! 8
 #! gap> NumberOfEdges(tetCov);
@@ -1161,6 +1161,7 @@ DeclareAttribute( "Orientation", IsRamifiedPolygonalSurface );
 #! @EndExampleSession
 #! TODO more varied examples
 #! 
-#! @Returns a polygonal surface
+#! @Returns a list, where the first entry is a polygonal surface and the
+#! subsequent entries are its vertices, edges and faces
 #! @Arguments ramSurf
 DeclareOperation("OrientationCover", [IsRamifiedPolygonalSurface]);

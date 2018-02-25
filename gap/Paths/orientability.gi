@@ -318,7 +318,7 @@ InstallMethod( OrientationCover, "for a ramified polygonal surface",
         obj := Objectify(PolygonalComplexType, rec());
         SetVerticesOfEdges(obj, vertsOfEdges);
         SetFacesOfEdges(obj, facesOfEdges);
-        return obj;
+        return [obj, newVertices, newEdges, newFaces];
     end
 );
 RedispatchOnCondition( OrientationCover, true, [IsPolygonalComplex], [IsRamifiedPolygonalSurface], 0 );
