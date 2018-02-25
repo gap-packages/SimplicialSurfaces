@@ -329,6 +329,9 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #! gap> tetTame := AllTameColouredSurfaces(Tetrahedron());;
 #! gap> Size(tetTame);
 #! 1
+#! gap> octTame := AllTameColouredSurfaces(Octahedron());;
+#! gap> Size(octTame);
+#! 4
 #! @EndExampleSession
 #! TODO examples that use local symmetries -> what is interesting (but small)?
 #!
