@@ -49,10 +49,6 @@ Chapter "Errors and bugs"
 
 ------------------
 
-Chapter "Modification of surfaces"
-    TODO
-    TODO rename Geodesics to AllGeodesics (to make distinction to individual clear)
-
 Chapter "Development methods"
     TODO with example of wild simplicial surfaces (before they are introduced?)
     TODO make clear in title that this is NOT intended for common usage
