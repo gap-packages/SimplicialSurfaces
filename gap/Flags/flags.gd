@@ -375,11 +375,6 @@ InstallTrueMethod( IsEdgeColouredPolygonalSurface, IsFlagSurface );
 InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalSurface and IsFlagComplex );
 
 
-#!
-#! TODO isomorphic complex
-#!
-
-
 #! @BeginGroup FlagComplex
 #! @Description
 #! Return the flag complex of <A>complex</A>. The flag complex is an 
@@ -433,6 +428,25 @@ DeclareOperation("OriginalRamifiedSurface", [IsRamifiedFlagSurface]);
 #! @Returns a polygonal surface
 #! @Arguments flagSurf
 DeclareOperation("OriginalSurface", [IsFlagSurface]);
+#! @EndGroup
+
+
+#! @BeginGroup IsomorphicFlagSurface
+#! @Description
+#! Construct a flag surface (<Ref Subsect="FlagComplex"/>) that is
+#! isomorphic to the given tame-coloured surface, if possible (the first
+#! colour involution will become the vertex involution, etc.). It returns:
+#! * a flag surface, if successful
+#! * <K>true</K> if the given <A>tameSurface</A> is isomorphic to a flag surface
+#!   but the original surface (<Ref Subsect="OriginalComplex"/>) is bend.
+#! * <K>false</K> if this is not possible
+#! * <K>fail</K> if the given <A>tameSurface</A> is not a MMM-surface.
+#!
+#! TODO example
+#!
+#! @Returns a flag surface or <K>fail</K>
+#! @Arguments tameSurface
+DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 #! @EndGroup
 
 

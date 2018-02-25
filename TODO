@@ -11,10 +11,13 @@ Coloured output:
 
 Cover: Return complex and new vertices, edges, faces
 SixFoldCover
-IsomorphicFlagSurface
 
 
-Modification:
+Better inclusion of covers:
+    -> maybe by map cover->surface ?
+    -> where are vertices, edges, faces represented?
+
+Modification (mid-term):
     AddVertexIntoEdge etc.
 
 

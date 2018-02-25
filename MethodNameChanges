@@ -39,6 +39,8 @@ For simplicial surfaces:
     23) Geodesics is replaces by MaximalGeodesics
     24) MaximalStripEmbedding is replaces by MaximalDuplicateFreeGeodesics
         and MaximalDuplicateFreeGeodesicOfFlag
+    25) The previous FlagSurface is replaced by IsomorphicFlagSurface
+        and called differently. Refer to the manual for details.
 
 
 

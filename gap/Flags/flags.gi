@@ -298,6 +298,63 @@ RedispatchOnCondition( OriginalSurface, true, [IsFlagComplex],
     [IsFlagSurface], 0);
 
 
+InstallMethod( IsomorphicFlagSurface, "for a tame coloured surface", 
+    [IsTameColouredSurface],
+    function(tameSurf)
+        local perms, bound, i, origVerts, origEdges, origFaces, verticesOfEdges,
+            edgesOfFaces, flags, m, vert, edge, face, surf;
+
+        if 2 in LocalSymmetryOfColours(tameSurf) then
+            return fail; # has to be MMM-surface
+        fi;
+
+        perms := [];
+        bound := BoundPositions(ColourInvolutions(tameSurf));
+        for i in [1..Length(bound)] do
+            perms[i] := ColourInvolutions(tameSurf)[bound[i]];
+        od;
+
+        # Check the order conditions
+        if (perms[1]*perms[2])^3 <> () then
+            return false;
+        fi;
+        if (perms[1]*perms[3])^2 <> () then
+            return false;
+        fi;
+
+
+        # Reconstruct the flags of the original surface
+        origFaces := Orbits( Group( perms[1], perms[2] ), Faces(PolygonalComplex(tameSurf)) );
+        origEdges := Orbits( Group( perms[1], perms[3] ), Faces(PolygonalComplex(tameSurf)) );
+        origVerts := Orbits( Group( perms[2], perms[3] ), Faces(PolygonalComplex(tameSurf)) );
+
+        verticesOfEdges := List( [1..Size(origEdges)], i->[] );
+        edgesOfFaces := List( [1..Size(origFaces)], i -> [] );
+
+        flags := [];
+        for m in Faces(PolygonalComplex(tameSurf)) do
+            vert := PositionProperty( origVerts, v -> m in v );
+            edge := PositionProperty( origEdges, e -> m in e );
+            face := PositionProperty( origFaces, f -> m in f );
+            flags[m] := [vert,edge,face];
+            verticesOfEdges[edge] := Union( verticesOfEdges[edge], [vert] );
+            edgesOfFaces[face] := Union( edgesOfFaces[face], [edge] );
+        od;
+        
+        # Check if the flags belong to a simplicial surface (there might be a problem if two edges of the same face are identified).
+        if Size( Set(flags) ) < Number(flags) then
+            # There is a problem
+            return true;
+        fi;
+
+        surf := SimplicialSurfaceByDownwardIncidenceNC( Size(origVerts), Size(origEdges), Size(origFaces),
+            verticesOfEdges, edgesOfFaces); #TODO constructor by flags
+        return FlagSurface(surf);
+    end
+);
+RedispatchOnCondition(IsomorphicFlagSurface, true, [IsEdgeColouredPolygonalComplex], [IsTameColouredSurface], 0);
+
+
 InstallOtherMethod( DrawSurfaceToTikz, 
     "for a ramified flag surface, a file name and a print record",
     [IsRamifiedFlagSurface, IsString, IsRecord],
