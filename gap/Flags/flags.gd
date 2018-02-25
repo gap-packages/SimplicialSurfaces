@@ -444,7 +444,7 @@ DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #!
 #! TODO example
 #!
-#! @Returns a flag surface or <K>fail</K>
+#! @Returns a flag surface, <K>true</K>, <K>false</K> or <K>fail</K>
 #! @Arguments tameSurface
 DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 #! @EndGroup
