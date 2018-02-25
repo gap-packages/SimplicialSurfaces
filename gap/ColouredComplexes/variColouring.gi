@@ -1521,9 +1521,8 @@ InstallMethod( CommonCover,
         surface := Objectify( PolygonalComplexType, rec() );
         SetFacesOfEdges(surface, simpFacesOfEdges);
         SetVerticesOfEdges(surface, simpVerticesOfEdges);
-        #SetAlternativeNames(surface, rec( commonCover := altNames) );
 
-        return surface;
+        return [surface, altNames];
     end
 );
 RedispatchOnCondition( CommonCover, true, 

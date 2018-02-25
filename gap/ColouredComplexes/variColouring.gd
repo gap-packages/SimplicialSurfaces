@@ -362,7 +362,8 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #!
 #! TODO
 #!
-#! @Returns a simplicial surface
+#! @Returns a pair of a simplicial surface and a record that stores
+#! vertices, edges and faces of it
 #! @Arguments surf1, surf2, localSym1, localSym2
 DeclareOperation( "CommonCover", [IsSimplicialSurface, IsSimplicialSurface, IsList, IsList] );
 
