@@ -141,64 +141,6 @@ DeclareOperation( "ImageWildSimplicialSurface",
 
 #############################################################################
 ##
-##  AllWildSimplicialSurfaces( gens[, mrtype] ) . . . . all simplicial surfaces
-##  AllWildSimplicialSurfaces( grp[, mrtype] )
-##  AllWildSimplicialSurfaces( sig1, sig2, sig3[, mrtype] )
-##
-##
-#!  @Description
-#!  This function computes all wild-coloured simplicial surfaces generated
-#!  by a triple of involutions as specified in the input. If the optional
-#!  argument mrtype is present, only those wit a predefined mrtype are
-#!  constructed.
-#!  The involution triple can be given to the function in various ways.
-#!  Either they are input as a list gens of three involutions, or as
-#!  a group grp whose generators are the tree involutions, or they can
-#!  be input into the function as three arguments, one for each involution.
-#! 
-#!  In case the optional argument mrtype  is present, it can be used to
-#!  restrict to wild-colourings for which some or all edges have a predefined
-#!  colour. This is equivalent to marking the cycles of the three involutions
-#!  as follows. If the edge $(j, j^\sigma_i)$ of the involution $\sigma_i$ is
-#!  to be a reflection (mirror) let $k=1$, if it is to be a rotation, let 
-#!  $k=2$ and if it can be either let $k=0.$ Then set $mrtype[i][j] = k$.
-#!  @Returns a list of all wild-coloured simplicial surfaces with generating
-#!  set given by three involutions.
-#!  The function AllWildSimplicialSurfaces when called with the optional argument
-#!  mrtype now returns all wild-coloured simplicial surfaces whose edges
-#!  are coloured according to the restrictions imposed by mrtype.
-#!  @Arguments gens,  a list of three involutions
-#!
-DeclareOperation( "AllWildSimplicialSurfaces", [IsList,IsList] ); 
-
-##############################################################################
-##
-#!	@Description
-#!	For a given list of wild simplicial surfaces this method returns all of
-#!	them where edges with the same colour have the same MR-type.
-#!
-#!	@Arguments wildSimplicialSurfaceList
-#!	@Returns a list of wild simplicial surfaces
-DeclareOperation( "FilteredStructuresWildSimplicialSurface", [IsList] );
-
-
-#############################################################################
-##
-#!	@Description
-#!	Possible inputs are:
-#!	- a group
-#!	- a list with three involutions
-#!	- three involutions
-#!	This method returns all wild simplicial surfaces that can be defined
-#!	on the basis of these three involutions.
-#!
-#!	@Arguments listOfInvolutions
-#!	@Returns a list of wild simplicial surfaces
-DeclareOperation( "AllStructuresWildSimplicialSurfaces", [IsList] );
-
-
-#############################################################################
-##
 #!  @Description
 #!  This function takes as input a list of pairs of integers. Suppose the
 #!  integers occurring in this list of pairs is the set faces. Then this

@@ -48,4 +48,7 @@ For wild simplicial surfaces:
     1) complete rewrite. Refer to the chapters about edge colouring for details.
     2) DoubleCover is now called OrientationCover and available for all
         ramified polygonal surfaces.
-    3) 
+    3) FilteredStructures* is removed
+    4) AllStructures is replaced by AllTameColouredSurfaces
+    5) WildIsomorphismRepresentatives is replaced by 
+        EdgeColouredPolygonalComplexIsomorphismRepresentatives
