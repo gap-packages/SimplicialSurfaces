@@ -1535,3 +1535,37 @@ RedispatchOnCondition( CommonCover, true,
 ##  End of Common Cover
 ##
 #######################################
+
+
+#######################################
+##
+##  SixFoldCover
+##
+
+InstallMethod( SixFoldCover, "for a simplicial surface and a list",
+    [IsSimplicialSurface, IsList],
+    function(simpSurf, localSymmetry)
+        local cfaces, f, cSym;
+      
+        # first we compute the faces of the cover
+        # faces are given by the three edges incident to the face
+        # Arrangements( [1,2,3], 3) are the images of the map beta in
+        # definition of six-fold cover 
+        cfaces := [];
+        for f in Faces(simpSurf) do
+            Append( cfaces, List( Arrangements( EdgesOfFaces(simpSurf)[f], 3),
+                a-> [f,a] ));
+        od;
+
+        # We store the local symmetry 
+        cSym := [];
+
+        Error("TODO");
+        # What exactly should SixFoldCover do?
+    end
+);
+
+##
+##  End of SixFoldCover
+##
+#######################################
