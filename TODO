@@ -12,7 +12,6 @@ Coloured output:
 Cover: Return complex and new vertices, edges, faces
 SixFoldCover
 IsomorphicFlagSurface
-Geodesic: Computation of MaximalGeodesics, MaximalStripEmbedding as operation
 
 
 Modification:

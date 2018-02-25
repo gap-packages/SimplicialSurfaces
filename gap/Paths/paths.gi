@@ -597,7 +597,7 @@ InstallMethod( DefiningFlags, "for a geodesic", [IsEdgeFacePath and IsGeodesic],
             Add(flags, [ vePath[i-1], vePath[i], efPath[i] ]);
         od;
 
-        return Set(flags);
+        return flags;
     end
 );
 RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsGeodesic], 0 );
@@ -635,6 +635,91 @@ InstallMethod( MaximalGeodesicOfFlag,
         return MaximalGeodesicOfFlagNC(ramSurf, flag);
     end
 );
+
+BindGlobal( "__SIMPLICIAL_DuplicateFreeGeodesic",
+    function( ramSurf, geo, flag )
+        local defFlags, indices, faces, pos, startPos;
+    
+        defFlags := DefiningFlags(geo);
+        startPos := Position(defFlags, flag);
+        indices := [ startPos ];
+        faces := [ flag[3] ];
+
+        pos := startPos;
+        while true do
+            pos := pos + 1;
+            if pos > Length(defFlags) or defFlags[pos][3] in faces then
+                break;
+            else
+                Add(indices, pos);
+                Add(faces, defFlags[pos][3]);
+            fi;
+        od;
+        pos := startPos;
+        while true do
+            pos := pos - 1;
+            if pos = 0 or defFlags[pos][3] in faces then
+                break;
+            else
+                indices := Concatenation( [pos], indices );
+                Add(faces, defFlags[pos][3]);
+            fi;
+        od;
+
+        # Now indices encodes the smaller geodesic
+        # flag number k represents positions 2*k-1, 2*k
+        return EdgeFacePathNC( ramSurf, Path(geo){[2*indices[1]-1..2*indices[Length(indices)]+1]} );
+    end
+);
+InstallMethod( MaximalDuplicateFreeGeodesicOfFlag,
+    "for a ramified polygonal surface and a flag",
+    [IsRamifiedPolygonalSurface, IsList],
+    function(ramSurf, flag)
+        if not flag in Flags(ramSurf) then
+            Error(Concatenation("MaximalDuplicateFreeGeodesicOfFlag: Second argument ", 
+                String(flag), 
+                " is not a flag of the given ramified polygonal surface."));
+        fi;
+        return MaximalDuplicateFreeGeodesicOfFlagNC(ramSurf, flag);
+    end
+);
+RedispatchOnCondition( MaximalDuplicateFreeGeodesicOfFlag, true,
+    [IsPolygonalComplex, IsList], [IsRamifiedPolygonalSurface], 0);
+InstallMethod( MaximalDuplicateFreeGeodesicOfFlagNC,
+    "for a ramified polygonal surface and a flag",
+    [IsRamifiedPolygonalSurface, IsList],
+    function(ramSurf, flag)
+        local geo;
+
+        geo := MaximalGeodesicOfFlagNC(ramSurf, flag);
+        return __SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, geo, flag);
+    end
+);
+RedispatchOnCondition( MaximalDuplicateFreeGeodesicOfFlagNC, true,
+    [IsPolygonalComplex, IsList], [IsRamifiedPolygonalSurface], 0);
+InstallMethod( MaximalDuplicateFreeGeodesics,
+    "for a ramified polygonal surface", [IsRamifiedPolygonalSurface],
+    function(ramSurf)
+        local maxGeo, geo, flag, inv, localGeo;
+
+        maxGeo := [];
+        for geo in MaximalGeodesics(ramSurf) do
+            localGeo := [];
+            for flag in DefiningFlags(geo) do
+                localGeo := Union( localGeo, [__SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, geo, flag)] );
+            od;
+            inv := Inverse(geo);
+            for flag in DefiningFlags(inv) do
+                localGeo := Union( localGeo, [__SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, inv, flag)] );
+            od;
+            Append(maxGeo, localGeo);
+        od;
+
+        return Set(maxGeo);
+    end
+);
+RedispatchOnCondition( MaximalDuplicateFreeGeodesics, true,
+    [IsPolygonalComplex], [IsRamifiedPolygonalSurface], 0);
 
 
 InstallMethod( GeodesicFlagCycle, "for a closed geodesic", 
@@ -742,9 +827,9 @@ InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
             SetVertexEdgePath(geo, VertexEdgePathNC(ramSurf, vePath));
 
             geoFlags := flags{flagList};
-            SetDefiningFlags(geo, Set(geoFlags));
+            SetDefiningFlags(geo, geoFlags);
             invFlags := flags{invList};
-            SetDefiningFlags(Inverse(geo), Set(invFlags));
+            SetDefiningFlags(Inverse(geo), invFlags);
 
             Add( geos, geo );
             todoFlags := Difference( todoFlags, Concatenation( geoFlags, invFlags ) );

@@ -123,38 +123,3 @@ DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 #! @Arguments simpSurf
 #! @Returns a record
 DeclareAttribute( "AlternativeNames", IsSimplicialSurface );
-
-
-
-
-#! @Description
-#! Compute the maximal strip cover of a simplicial surface, given 
-#! a flag (vertex, edge, face) of the surface.
-#! <P/>
-#! A strip is a simplicial surface where every vertex has vertex 
-#! degree at most 3. Given an identification of a strip face and
-#! a face of the simplicial surface, this determines a map from
-#! the strip to the surface.
-#! <P/>
-#! A strip is maximal if no larger strip can extend this map while
-#! staying injective (on the faces). This method will compute such
-#! a maximal strip assuming that the strip continues along the edges 
-#! of the given vertex. First the extension along the given edge
-#! will be pursued. If this terminates, the other edge will be pursued.
-#! <P/>
-#! This method will return a list with two elements:
-#! 1) An edge-face-path that corresponds to the strip.
-#! 2) The subsurface that is induced by the faces in the strip
-#! 
-#! @Arguments surf, vertex, edge, face
-#! @Returns an edge-face-path and a simplicial surface
-DeclareOperation( "MaximalStripEmbedding", 
-    [IsSimplicialSurface and IsEdgesLikeSurface and IsTriangleSurface,
-    IsPosInt, IsPosInt, IsPosInt] );
-
-
-#! @Description
-#! From a geodesic (returned as in Geodesic) construct all maximal
-#! strip embeddings.
-DeclareOperation( "AllMaximalStripEmbeddings", [IsList] );
-

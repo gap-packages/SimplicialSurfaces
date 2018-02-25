@@ -748,14 +748,36 @@ InstallTrueMethod( IsGeodesic, IsClosedGeodesic );
 
 #! @Description
 #! Return the defining flags of the given geodesic 
-#! (<Ref Subsect="IsGeodesic"/>).
+#! (<Ref Subsect="IsGeodesic"/>) as a list.
 #!
 #! TODO explanation
 #!
-#! @Returns a set of flags
+#! @Returns a list of flags
 #! @Arguments geodesic
 DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesic );
 #TODO good name?
+
+
+#! @BeginGroup MaximalDuplicateFreeGeodesics
+#! @Description
+#! For a given <A>flag</A> return the maximal duplicate-free geodesic
+#! defined by this flag, i.e. it is extended in positive direction until one
+#! face-duplication arises. Then it is extended in negative direction.
+#!
+#! The method <K>MaximalDuplicateFreeGeodesics</K>(<A>ramSurf</A>) returns
+#! the set of all those geodesics.
+#!
+#! TODO examples
+#!
+#! @Returns a set of duplicate-free geodesics
+#! @Arguments ramSurf
+DeclareAttribute( "MaximalDuplicateFreeGeodesics", IsRamifiedPolygonalSurface );
+#! @Returns a duplicate-free geodesic
+#! @Arguments ramSurf, flag
+DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlag", [IsRamifiedPolygonalSurface, IsList] );
+#! @Arguments ramSurf, flag
+DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlagNC", [IsRamifiedPolygonalSurface, IsList] );
+#! @EndGroup
 
 #! @Description
 #! For a closed geodesic (<Ref Subsect="IsClosedGeodesic"/>) construct the

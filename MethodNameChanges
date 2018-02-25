@@ -37,6 +37,8 @@ For simplicial surfaces:
         "Example: Cut and Mend" for details
     22) Geodesic is replaced by MaximalGeodesicOfFlag
     23) Geodesics is replaces by MaximalGeodesics
+    24) MaximalStripEmbedding is replaces by MaximalDuplicateFreeGeodesics
+        and MaximalDuplicateFreeGeodesicOfFlag
 
 
 
