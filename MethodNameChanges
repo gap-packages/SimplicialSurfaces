@@ -1,14 +1,14 @@
 Changelog from master to rewrite (hopefully mostly complete)
 
 For simplicial surfaces:
-    1) Huge change in the category-structure, introduction of polygonal 
+    1) Huge change in the category-structure; introduction of polygonal 
         complexes. Refer to chapter "Polygonal Structures" for details.
     2) NrOf* is replaced by NumberOf*
     3) IsTriangleSurface is replaced by IsTriangularComplex
     4) PathConnected* is replaced by StronglyConnected*, see section
         "Connectivity" for details.
     5) UnsortedDegrees is replaced by EdgeDegreesOfVertices and 
-        FaceDegreesOfVertices, SortedDegrees is removed entirely.
+        FaceDegreesOfVertices. SortedDegrees is removed entirely.
     6) *Counter changed their definition and return values. Refer
         to the respective documentation for details.
     7) IncidenceGraph is replaced by more specific calls to the
@@ -16,7 +16,7 @@ For simplicial surfaces:
         for details.
     8) IsomorphismCheck is now done by IsIsomorphicPolygonalComplexes.
     9) IsVerticesLikeSurface, IsEdgesLikeSurface and IsActualSurface are
-        removed. Use the relevant categories from chapter
+        removed. Use the apprpriate categories from chapter
         "Polygonal Structures".
     10) FaceEdgePathsOfVertices is replaced by UmbrellasOfVertices.
         See section "Edge-Face-Paths" for details of the new data structure.
