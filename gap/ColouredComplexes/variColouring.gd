@@ -45,13 +45,10 @@
 #! @SectionLabel EdgeVariColouring_Definition
 #! This section defines the concept of edge vari-colourings
 #! (<Ref Subsect="IsEdgeVariColouring"/>) and introduces
-#! the coloured versions of these methods:
+#! the coloured version of this method:
 #! * <K>ColouredEdgesOfFaces</K> (<Ref Subsect="ColouredEdgesOfFaces"/>) 
 #!   extends <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>).
 #TODO should we also implement NeighbourFaceByColour?
-#! * <K>EdgeColouredUmbrellasOfVertices</K> 
-#!   (<Ref Subsect="EdgeColouredUmbrellasOfVertices"/>) extends
-#!   <K>UmbrellasOfVertices</K> (<Ref Subsect="UmbrellasOfVertices"/>).
 #! 
 #! @InsertChunk Example_ColouredPrism
 
