@@ -710,6 +710,18 @@ DeclareProperty( "IsGeodesic", IsEdgeFacePath );
 DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesic );
 #TODO is this a good name?
 
+#! @BeginGroup MaximalGeodesics
+#! @Description
+#! Compute the set of all maximal geodesics of <A>ramSurf</A>, i.e. the
+#! set of all geodesics that can not be extended further.
+#!
+#! TODO explanation and examples
+#!
+#! @Returns a set of edge-face-paths
+#! @Arguments ramSurf
+DeclareAttribute( "MaximalGeodesics", IsRamifiedPolygonalSurface );
+#! @EndGroup
+
 #! @BeginGroup IsClosedGeodesic
 #! @Description
 #! Check whether the given edge-face-path is a closed geodesic, i.e. whether

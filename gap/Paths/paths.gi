@@ -610,3 +610,91 @@ InstallMethod( GeodesicFlagCycle, "for a closed geodesic",
     end
 );
 RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsClosedGeodesic], 0 );
+
+
+InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
+    [IsRamifiedPolygonalSurface],
+    function(ramSurf)
+        local geos, flags, dressVertex, dressEdge, dressFace, boundary,
+            dressVEF, dressVEV, todoFlags, start, flagList, invList, i,
+            fin, lastFlag, almostNext, next, closed, geo, vePath, efPath,
+            flag, lastFlagInv;
+
+        flags := Flags(ramSurf);
+        dressVertex := DressInvolutions(ramSurf)[1];
+        dressEdge := DressInvolutions(ramSurf)[2];
+        dressFace := DressInvolutions(ramSurf)[3];
+        boundary := BoundaryEdges(ramSurf);
+
+        dressVEV := dressVertex * dressEdge * dressVertex;
+        dressVEF := dressVertex * dressEdge * dressFace;
+
+        geos := [];
+        todoFlags := ShallowCopy(flags);
+        while not IsEmpty(todoFlags) do
+            # Start with a boundary edge if possible
+            start := First( todoFlags, f -> f[2] in boundary );
+            if start = fail then
+                start := todoFlags[1];
+            fi;
+
+            flagList := [ Position(flags, start) ];
+            fin := false;
+            while not fin do
+                lastFlag := flagList[Length(flagList)];
+                almostNext := (lastFlag^dressVertex)^dressEdge;
+                next := almostNext^dressFace;
+                if next = almostNext then
+                    # We found another boundary
+                    fin := true;
+                    closed := false;
+                elif next = flagList[1] then
+                    # The geodesic closes
+                    fin := true;
+                    closed := true;
+                else
+                    # Continue the geodesic
+                    Add( flagList, next );
+                fi;
+            od;
+
+            # Compute the flags of the inverse geodesic
+            invList := [];
+            invList[1] := flagList[Length(flagList)]^dressVEV;
+            for i in [2..Length(flagList)] do
+                Add(invList, invList[Length(invList)]^dressVEF);
+            od;
+
+            # Write geodesic and zig-zag-path
+            vePath := [];
+            efPath := [];
+            for i in [1..Length(flagList)] do
+                flag := flags[flagList[i]];
+                Add( vePath, flag[1] );
+                Add( vePath, flag[2] );
+                Add( efPath, flag[2] );
+                Add( efPath, flag[3] );
+            od;
+            if closed then
+                Add(vePath, vePath[1]);
+                Add(efPath, efPath[1]);
+            else
+                Add(vePath, OtherVertexOfEdgeNC(ramSurf, vePath[Length(vePath)-1], vePath[Length(vePath)]));
+                lastFlagInv := flags[invList[1]];
+                Add(vePath, lastFlagInv[2]);
+                Add(vePath, lastFlagInv[1]);
+                Add(efPath, lastFlagInv[2]);
+            fi;
+
+            geo := EdgeFacePathNC(ramSurf, efPath);
+            SetIsGeodesic(geo, true);
+            SetIsClosedGeodesic(geo, closed);
+            SetVertexEdgePath(geo, VertexEdgePathNC(ramSurf, vePath));
+
+            Add( geos, geo );
+            todoFlags := Difference( todoFlags, Concatenation( flags{flagList}, flags{invList} ) );
+        od;
+
+        return Set(geos);
+    end
+);
