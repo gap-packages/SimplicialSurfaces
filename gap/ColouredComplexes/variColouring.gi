@@ -808,8 +808,8 @@ InstallOtherMethod( AllTameColouredSurfaces,
 );
 
 BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
-    function(invList, localSymmetry, name)
-        local moved, maxMoved, cycles, newSym, bound, b, n, cycList;
+    function(invList, localSymmetry, name, onlyTame)
+        local moved, maxMoved, cycles, newSym, bound, b, n, cycList, cycSet;
 
         if Number(invList) <> 3 then
             Error( Concatenation( name,
@@ -855,6 +855,13 @@ BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
                             " (entries may only be 0, 1, 2 or unbound.)"));
                     fi;
                 od;
+                cycSet := Set(cycList);
+                if onlyTame and 1 in cycSet and 2 in cycSet then
+                    Error(Concatenation(name,
+                        ": The local symmetry for colour ",
+                        String(b), 
+                        " has to be unique for a tame colouring."));
+                fi;
                 newSym[b] := cycList;
             else
                 Error( Concatenation(name, 
@@ -866,18 +873,11 @@ BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
         return newSym;
     end
 );
-
-InstallMethod( AllWildColouredSurfaces,
-    "for a list with three involutions and a list", [IsList, IsList],
+BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup",
     function(invList, localSymmetry)
-        local faces, facesOfEdges, coloursOfEdges, cyc, allWildSurfaces,
-            allUmbrellas, BestNextVertex, LoopOneVertex, FindWildColouredSurface,
-            facePosition, localSymOfEdges, invOfEdges, edgesOfFacesByColour,
-            vertexNames, AddUmbrellaStep, edgesOfFaces, i, f, p;
-
-        localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
-                        invList, localSymmetry, "AllWildColouredSurfaces");
-
+        local faces, facePosition, facesOfEdges, coloursOfEdges,
+            invOfEdges, edgesOfFacesByColour, p, cyc, i, f, edgesOfFaces, vertexNames;
+        
         faces := MovedPoints( Group(invList) );
         # The faces can have holes, but we still want to have fast access 
         # to the position of a face in this list
@@ -888,7 +888,6 @@ InstallMethod( AllWildColouredSurfaces,
 
         facesOfEdges := [];
         coloursOfEdges := [];
-        localSymOfEdges := [];
         invOfEdges := [];
         edgesOfFacesByColour := List(facePosition, i -> []);
         for p in BoundPositions(invList) do
@@ -905,13 +904,35 @@ InstallMethod( AllWildColouredSurfaces,
             od;
             Append( coloursOfEdges, List(cyc, c -> p) );
             Append(facesOfEdges, cyc );
-            Append(localSymOfEdges, localSymmetry[p]);
             Append( invOfEdges, List(cyc, c -> invList[p]) );
         od;
 
         edgesOfFaces := __SIMPLICIAL_InvertIncidence(faces, facesOfEdges, [1..Length(facesOfEdges)]);
         vertexNames := Concatenation( List( faces, f -> 
             List( Combinations(edgesOfFaces[f],2), c -> [f,c[1],c[2]] ) ) );
+
+        return [faces, facePosition, coloursOfEdges, facesOfEdges, invOfEdges,
+            edgesOfFacesByColour, edgesOfFaces, vertexNames];
+   end
+);
+
+BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
+    function( invList, localSymmetry, setup )
+        local faces, facePosition, coloursOfEdges, localSymOfEdges, invOfEdges,
+            edgesOfFacesByColour, edgesOfFaces, vertexNames, allWildSurfaces,
+            BestNextVertex, ExtendColouring, FindWildColouredSurface,
+            AddUmbrellaStep, LoopOneVertex, facesOfEdges, allUmbrellas;
+
+        faces := setup[1];
+        facePosition := setup[2];
+        coloursOfEdges := setup[3];
+        facesOfEdges := setup[4];
+        invOfEdges := setup[5];
+        edgesOfFacesByColour := setup[6];
+        edgesOfFaces := setup[7];
+        vertexNames := setup[8];
+
+        localSymOfEdges := Concatenation(localSymmetry);
 
         # Since the algorithm works recursively by constructing umbrellas, it 
         # is optimal if the next face is adjacent to the previously constructed
@@ -1140,14 +1161,63 @@ InstallMethod( AllWildColouredSurfaces,
         return allWildSurfaces;
     end
 );
+
+InstallMethod( AllWildColouredSurfaces,
+    "for a list with three involutions and a list", [IsList, IsList],
+    function(invList, localSymmetry)
+        local faces, facesOfEdges, coloursOfEdges, allWildSurfaces,
+            allUmbrellas, BestNextVertex, LoopOneVertex, FindWildColouredSurface,
+            facePosition, localSymOfEdges, invOfEdges, edgesOfFacesByColour,
+            vertexNames, AddUmbrellaStep, edgesOfFaces, setup;
+
+        localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
+                        invList, localSymmetry, "AllWildColouredSurfaces", false);
+        setup := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup(invList, localSymmetry);
+        return __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion(
+            invList, localSymmetry, setup);
+    end
+);
+
 InstallMethod( AllTameColouredSurfaces,
     "for a list with three involutions and a list", [IsList, IsList],
     function(invList, localSymmetry)
-        #local;
+        local setup, possTameSym, b, set, i, bound, poss, sym, allTameSurf;
 
         localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
-                        invList, localSymmetry, "AllTameColouredSurfaces");
-        Error("TODO");
+                        invList, localSymmetry, "AllTameColouredSurfaces", true);
+        setup := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup(invList, localSymmetry);
+
+        bound := BoundPositions(invList);
+
+        possTameSym := [];
+        for i in [1..Length(bound)] do
+            b := bound[i];
+            set := Set(localSymmetry[b]);
+            if 1 in set or 2 in set then
+                # only one option
+                possTameSym[i] := [ localSymmetry[b] ];
+            else
+                # two options
+                possTameSym[i] := [ List(localSymmetry[b], i -> 1), List(localSymmetry[b], i -> 2) ];
+            fi;
+        od;
+        
+        allTameSurf := [];
+        # Combine the possible local symmetries
+        possTameSym := Cartesian( possTameSym );
+        for poss in possTameSym do
+            # Reconvert into actual bound positions
+            sym := [];
+            for i in [1..Length(bound)] do
+                sym[bound[i]] := poss[i];
+            od;
+
+            Append(allTameSurf, 
+                __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion(
+                    invList, sym, setup));
+        od;
+
+        return allTameSurf;
     end
 );
 
