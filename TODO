@@ -9,9 +9,6 @@ Coloured output:
         -> Unclear where connectivity and orientability should end up
 
 
-Cover: Return complex and new vertices, edges, faces
-SixFoldCover
-
 
 Better inclusion of covers:
     -> maybe by map cover->surface ?
@@ -23,3 +20,19 @@ Modification (mid-term):
 
 Profile Classification script: Step 18 -> 20
  and optimize
+    -> polygonal_hierarchy: Replace List(Length) and only compute Length in the loop
+    -> Pull-Request auf NautyTracesInterface Zeile 22 in *NodeLabels* (etc.)
+    -> ListWithIdenticalEntries
+    -> List is slower than a for-loop (factor 2..)
+    -> Maximum is no attribute (line 169 modification)
+    -> modification 289 NC!
+    -> TransitiveIncidence with loop in list (write in position) and perform Set
+    -> BoundPositions replaced by loop (with separate counting variable)
+    -> Replace Filtered in general in this fashion (maybe write a custom filtered?)
+    -> Improve OnTuplesTuples (PR): lines 362 in NautyGraph.gi (and in general)
+        -> Evtly PR against library?
+    => Custom Union, Filtered, List commands
+    -> Replace ValueGlobal by Kernel command (or PR with NC) in Scheduler
+
+
+evtl. Coloured labels in drawing method?? LabelColour?
