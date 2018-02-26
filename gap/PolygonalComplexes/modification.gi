@@ -102,10 +102,18 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
         obj := Objectify( PolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVertsOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
-        SetVerticesOfFaces(obj, VerticesOfFaces(complex));
-        SetFacesOfVertices(obj, FacesOfVertices(complex));
-        SetVerticesAttributeOfPolygonalComplex(obj, Vertices(complex));
-        SetFaces(obj, Faces(complex));
+        if HasVerticesOfFaces(complex) then
+            SetVerticesOfFaces(obj, VerticesOfFaces(complex));
+        fi;
+        if HasFacesOfVertices(complex) then
+            SetFacesOfVertices(obj, FacesOfVertices(complex));
+        fi;
+        if HasVerticesAttributeOfPolygonalComplex(complex) then
+            SetVerticesAttributeOfPolygonalComplex(obj, Vertices(complex));
+        fi;
+        if HasFaces(complex) then
+            SetFaces(obj, Faces(complex));
+        fi;
 
         return [obj, newEdgeLabels];
     end
@@ -209,10 +217,18 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
 
         obj := Objectify( PolygonalComplexType, rec() );
         SetEdgesOfVertices(obj, newEdgesOfVertices);
-        SetEdgesOfFaces(obj, EdgesOfFaces(complex));
-        SetFacesOfEdges(obj, FacesOfEdges(complex));
-        SetEdges(obj, Edges(complex));
-        SetFaces(obj, Faces(complex));
+
+        if HasFacesOfEdges(complex) then
+            SetFacesOfEdges(obj, FacesOfEdges(complex));
+        else
+            SetEdgesOfFaces(obj, EdgesOfFaces(complex));
+        fi;
+        if HasEdges(complex) then
+            SetEdges(obj, Edges(complex));
+        fi;
+        if HasFaces(complex) then
+            SetFaces(obj, Faces(complex));
+        fi;
         return [obj, newVertexLabels];
     end
 );
@@ -726,10 +742,17 @@ InstallMethod( JoinVerticesNC,
 
         obj := Objectify(PolygonalComplexType, rec());
         SetEdgesOfVertices(obj, newEdgesOfVertices);
-        SetFacesOfEdges(obj, FacesOfEdges(complex));
-        SetEdgesOfFaces(obj, EdgesOfFaces(complex));
-        SetEdges(obj, Edges(complex));
-        SetFaces(obj, Faces(complex));
+        if HasEdgesOfFaces(complex) then
+            SetEdgesOfFaces(obj, EdgesOfFaces(complex));
+        else
+            SetFacesOfEdges(obj, FacesOfEdges(complex));
+        fi;
+        if HasEdges(complex) then
+            SetEdges(obj, Edges(complex));
+        fi;
+        if HasFaces(complex) then
+            SetFaces(obj, Faces(complex));
+        fi;
 
         return [obj, newVertexLabel];
     end
@@ -847,10 +870,18 @@ InstallMethod( JoinEdgesNC,
         obj := Objectify( PolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
-        SetVerticesOfFaces(obj, VerticesOfFaces(complex));
-        SetFacesOfVertices(obj, FacesOfVertices(complex));
-        SetVerticesAttributeOfPolygonalComplex(obj, Vertices(complex));
-        SetFaces(obj, Faces(complex));
+        if HasVerticesOfFaces(complex) then
+            SetVerticesOfFaces(obj, VerticesOfFaces(complex));
+        fi;
+        if HasFacesOfVertices(complex) then
+            SetFacesOfVertices(obj, FacesOfVertices(complex));
+        fi;
+        if HasVerticesAttributeOfPolygonalComplex(complex) then
+            SetVerticesAttributeOfPolygonalComplex(obj, Vertices(complex));
+        fi;
+        if HasFaces(complex) then
+            SetFaces(obj, Faces(complex));
+        fi;
         return [obj, newEdgeLabel];
     end
 );
