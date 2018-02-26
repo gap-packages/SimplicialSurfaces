@@ -28,10 +28,15 @@ __SIMPLICIAL_AddPolygonalAttribute( IsTriangularComplex );
 InstallMethod( IsTriangularComplex, "for a polygonal complex that has EdgesOfFaces",
     [ IsPolygonalComplex and HasEdgesOfFaces ],
     function( complex )
-        local edgeSize;
+        local edgeSize, e;
 
         edgeSize := List(Faces(complex), f -> Length(EdgesOfFaces(complex)[f]));
-        return Length( Filtered( edgeSize, s -> s<>3 ) ) = 0;
+        for e in edgeSize do
+            if e <> 3 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsTriangularComplex",
@@ -46,10 +51,15 @@ InstallMethod( IsRamifiedPolygonalSurface,
     "for a polygonal complex that has Edges and FacesOfEdges",
     [ IsPolygonalComplex and HasFacesOfEdges and HasEdges ],
     function( complex )
-        local faceSize;
+        local faceSize, f;
         
         faceSize := List( Edges(complex), e -> Length(FacesOfEdges(complex)[e]) );
-        return Length( Filtered( faceSize, s -> s > 2 ) ) = 0;
+        for f in faceSize do
+            if f > 2 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
@@ -64,11 +74,16 @@ InstallMethod( IsPolygonalSurface,
     "for a ramified polygonal surface with UmbrellaPartitionsOfVertices and Vertices",
     [ IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
     function( ramSurf )
-        local paths, pathSize;
+        local paths, pathSize, s;
 
         paths := UmbrellaPartitionsOfVertices(ramSurf);
         pathSize := List( VerticesAttributeOfPolygonalComplex(ramSurf), v -> Length(paths[v]) );
-        return ForAll(pathSize, s -> s = 1);
+        for s in pathSize do
+            if s <> 1 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsPolygonalSurface",
