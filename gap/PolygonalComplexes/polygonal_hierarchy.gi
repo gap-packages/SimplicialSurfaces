@@ -20,6 +20,45 @@ BindGlobal( "PolygonalComplexType",
     NewType( PolygonalComplexFamily, IsGenericPolygonalComplexRep ));
 
 
+##
+## All of the filters
+## * IsTriangularComplex
+## * IsRamifiedPolygonalSurface
+## * IsRamifiedSimplicialSurface
+## * IsPolygonalSurface
+## * IsSimplicialSurface
+## should act like categories
+InstallOtherMethod( IsTriangularComplex, "for an object", [IsObject],
+    function(obj)
+        if not IsPolygonalComplex(obj) then
+            return false;
+        fi;
+        # Since IsPolygonalComplex is a category, the above
+        # check can't change anything
+        TryNextMethod();
+    end
+);
+InstallOtherMethod( IsRamifiedPolygonalSurface, "for an object", [IsObject],
+    function(obj)
+        if not IsPolygonalComplex(obj) then
+            return false;
+        fi;
+        # Since IsPolygonalComplex is a category, the above
+        # check can't change anything
+        TryNextMethod();
+    end
+);
+InstallOtherMethod( IsPolygonalSurface, "for an object", [IsObject],
+    function(obj)
+        if not IsPolygonalComplex(obj) then
+            return false;
+        fi;
+        # Since IsPolygonalComplex is a category, the above
+        # check can't change anything
+        TryNextMethod();
+    end
+);
+
 
 ##
 ## Check whether a polygonal complex is a triangular complex.
