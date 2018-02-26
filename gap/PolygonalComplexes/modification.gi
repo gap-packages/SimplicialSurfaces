@@ -102,6 +102,10 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
         obj := Objectify( PolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVertsOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
+        SetVerticesOfFaces(obj, VerticesOfFaces(complex));
+        SetFacesOfVertices(obj, FacesOfVertices(complex));
+        SetVerticesAttributeOfPolygonalComplex(obj, Vertices(complex));
+        SetFaces(obj, Faces(complex));
 
         return [obj, newEdgeLabels];
     end
@@ -206,6 +210,9 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
         obj := Objectify( PolygonalComplexType, rec() );
         SetEdgesOfVertices(obj, newEdgesOfVertices);
         SetEdgesOfFaces(obj, EdgesOfFaces(complex));
+        SetFacesOfEdges(obj, FacesOfEdges(complex));
+        SetEdges(obj, Edges(complex));
+        SetFaces(obj, Faces(complex));
         return [obj, newVertexLabels];
     end
 );
@@ -497,7 +504,8 @@ InstallOtherMethod(DisjointUnion, "for two polygonal complexes",
 InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
     [IsPolygonalComplex, IsPolygonalComplex, IsInt],
     function(complex1, complex2, shift)
-        local realShift, newVerticesOfEdges, newFacesOfEdges, obj, e;
+        local realShift, newVerticesOfEdges, newFacesOfEdges, obj, e, 
+            newEdges;
 
         if IsEmpty( Intersection(Vertices(complex1), Vertices(complex2)) ) and
             IsEmpty( Intersection(Edges(complex1), Edges(complex2)) ) and
@@ -514,16 +522,19 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
 
         newVerticesOfEdges := ShallowCopy( VerticesOfEdges(complex1) );
         newFacesOfEdges := ShallowCopy( FacesOfEdges(complex1) );
+        newEdges := ShallowCopy( Edges(complex1) );
         for e in Edges(complex2) do
             newVerticesOfEdges[e + realShift] := 
                 List( VerticesOfEdges(complex2)[e], v -> v + realShift );
             newFacesOfEdges[e + realShift] := 
                 List( FacesOfEdges(complex2)[e], f -> f + realShift );
+            Add(newEdges, e + realShift);
         od;
 
         obj := Objectify( PolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
+        SetEdges(obj, newEdges);
 
         return [obj, realShift];
     end
@@ -716,6 +727,9 @@ InstallMethod( JoinVerticesNC,
         obj := Objectify(PolygonalComplexType, rec());
         SetEdgesOfVertices(obj, newEdgesOfVertices);
         SetFacesOfEdges(obj, FacesOfEdges(complex));
+        SetEdgesOfFaces(obj, EdgesOfFaces(complex));
+        SetEdges(obj, Edges(complex));
+        SetFaces(obj, Faces(complex));
 
         return [obj, newVertexLabel];
     end
@@ -833,6 +847,10 @@ InstallMethod( JoinEdgesNC,
         obj := Objectify( PolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
+        SetVerticesOfFaces(obj, VerticesOfFaces(complex));
+        SetFacesOfVertices(obj, FacesOfVertices(complex));
+        SetVerticesAttributeOfPolygonalComplex(obj, Vertices(complex));
+        SetFaces(obj, Faces(complex));
         return [obj, newEdgeLabel];
     end
 );
