@@ -335,7 +335,7 @@ InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
             return [];
         fi;
 
-        vertList := List( strongComponents, Vertices );
+        vertList := List( strongComponents, VerticesAttributeOfPolygonalComplex );
 
         check := [1..Length(strongComponents)];
         while not IsEmpty(check) do

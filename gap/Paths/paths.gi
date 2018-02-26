@@ -46,7 +46,7 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
 
         for i in [1..Length(path)] do
             if IsOddInt(i) then
-                if not path[i] in Vertices(complex) then
+                if not path[i] in VerticesAttributeOfPolygonalComplex(complex) then
                     Error( Concatenation( "VertexEdgePath: The number ",
                         String(path[i]), " (position ", String(i),  
                         ") is not a vertex of the given complex.") );
@@ -128,7 +128,8 @@ InstallMethod( VertexEdgePathByEdgesNC,
         local path, firstDefinedPos, i, verts;
          
         if edgeList = [] then
-            return VertexEdgePathNC(complex, [Minimum(Vertices(complex))]);
+            return VertexEdgePathNC(complex, 
+                [Minimum(VerticesAttributeOfPolygonalComplex(complex))]);
         fi;
 
         firstDefinedPos := 0;

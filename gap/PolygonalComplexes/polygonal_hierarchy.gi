@@ -67,7 +67,7 @@ InstallMethod( IsPolygonalSurface,
         local paths, pathSize;
 
         paths := UmbrellaPartitionsOfVertices(ramSurf);
-        pathSize := List( Vertices(ramSurf), v -> Length(paths[v]) );
+        pathSize := List( VerticesAttributeOfPolygonalComplex(ramSurf), v -> Length(paths[v]) );
         return ForAll(pathSize, s -> s = 1);
     end
 );

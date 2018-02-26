@@ -555,7 +555,7 @@ InstallMethod( DisplayInformation, "for an edge coloured polygonal complex",
         Add( strList, [
             Concatenation( "    Vertices (", 
                 String(NumberOfVertices(complex)), "): ", 
-                String(Vertices(complex)), "\n" ), 0 ] );
+                String(VerticesAttributeOfPolygonalComplex(complex)), "\n" ), 0 ] );
 
         # Edges
         if IsWildColouredSurface(colComp) then
@@ -813,10 +813,10 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 
             complex := PolygonalComplex(colComplex);
 
-            maxVert := Maximum( Vertices(complex) );
+            maxVert := Maximum( VerticesAttributeOfPolygonalComplex(complex) );
             maxEdge := Maximum( Edges(complex) );
             maxFace := Maximum( Faces(complex) );
-            vertices := ShallowCopy( Vertices(complex) );
+            vertices := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
             edges := List( Edges(complex), e -> e + maxVert );
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
             cols := List( Colours(colComplex), c -> c + maxVert + maxEdge + maxFace );
@@ -863,11 +863,11 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
             complex := PolygonalComplex(colComplex);
 
-            maxVertex := Maximum( Vertices(complex) );
+            maxVertex := Maximum( VerticesAttributeOfPolygonalComplex(complex) );
             maxEdge := Maximum( Edges(complex) );
             maxFace := Maximum( Faces(complex) );
 
-            vertexList := ShallowCopy( Vertices(complex) );
+            vertexList := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
             edgeList := [];
             colourList := List( [1..NumberOfVertices(complex)], i -> 0 );
 
