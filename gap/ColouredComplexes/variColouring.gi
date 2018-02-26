@@ -1698,6 +1698,14 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
 );
 RedispatchOnCondition( SixFoldCover, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0 );
 
+InstallOtherMethod( SixFoldCover, "for a simplicial surface", 
+    [IsSimplicialSurface],
+    function(simpSurf)
+        return SixFoldCover(simpSurf, [1,1,1]);
+    end
+);
+RedispatchOnCondition( SixFoldCover, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
+
 ##
 ##  End of SixFoldCover
 ##

@@ -8,6 +8,7 @@ Coloured output:
         -> One chapter for edge-face-paths (maybe even one for geodesics if geodesic duality is concerned)
         -> Unclear where connectivity and orientability should end up
 
+Implement EdgeColouredUmbrellas -> seems to be needed
 
 
 Better inclusion of covers:
