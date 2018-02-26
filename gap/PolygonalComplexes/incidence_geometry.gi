@@ -319,16 +319,15 @@ BindGlobal( "__SIMPLICIAL_InvertIncidence",
 
         b_of_a := [];
         for a in a_labels do
-            b_set := [];
-            for b in b_labels do
-                if a in a_of_b[b] then
-                    Add(b_set,b);
-                fi;
+            b_of_a[a] := [];
+        od;
+        for b in b_labels do
+            for a in a_of_b[b] do
+                Add( b_of_a[a], b );
             od;
-            b_of_a[a] := Set(b_set);
         od;
 
-        return b_of_a;
+        return List( b_of_a, Set );
     end
 );
 
