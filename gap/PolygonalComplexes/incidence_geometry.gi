@@ -24,7 +24,7 @@ InstallMethod( Vertices, "for a polygonal complex", [IsPolygonalComplex],
 # methods to compute number of vertices, edges, faces
 InstallMethod( NumberOfVertices, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
-            return Length( Vertices(complex) );
+            return Length( VerticesAttributeOfPolygonalComplex(complex) );
     end
 );
 
@@ -335,7 +335,8 @@ InstallMethod( EdgesOfVertices,
     "for a polygonal complex that has VerticesOfEdges",
     [IsPolygonalComplex and HasVerticesOfEdges],
     function(complex)
-        return __SIMPLICIAL_InvertIncidence( Vertices(complex),
+        return __SIMPLICIAL_InvertIncidence( 
+            VerticesAttributeOfPolygonalComplex(complex),
             VerticesOfEdges(complex), Edges(complex));
     end
 );
@@ -347,7 +348,8 @@ InstallMethod( FacesOfVertices,
     "for a polygonal complex that has VerticesOfFaces",
     [IsPolygonalComplex and HasVerticesOfFaces],
     function(complex)
-        return __SIMPLICIAL_InvertIncidence( Vertices(complex),
+        return __SIMPLICIAL_InvertIncidence( 
+            VerticesAttributeOfPolygonalComplex(complex),
             VerticesOfFaces(complex), Faces(complex));
     end
 );
@@ -360,7 +362,8 @@ InstallMethod( VerticesOfEdges,
     [IsPolygonalComplex and HasEdgesOfVertices],
     function(complex)
         return __SIMPLICIAL_InvertIncidence(Edges(complex),
-            EdgesOfVertices(complex), Vertices(complex));
+            EdgesOfVertices(complex), 
+            VerticesAttributeOfPolygonalComplex(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -384,7 +387,8 @@ InstallMethod( VerticesOfFaces,
     [IsPolygonalComplex and HasFacesOfVertices],
     function(complex)
         return __SIMPLICIAL_InvertIncidence( Faces(complex),
-            FacesOfVertices(complex), Vertices(complex));
+            FacesOfVertices(complex), 
+            VerticesAttributeOfPolygonalComplex(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -425,7 +429,8 @@ InstallMethod( VerticesOfFaces,
     "for a polygonal complex with VerticesOfEdges and EdgesOfFaces",
     [IsPolygonalComplex and HasVerticesOfEdges and HasEdgesOfFaces],
     function(complex)
-        return __SIMPLICIAL_TransitiveIncidence( Vertices(complex),
+        return __SIMPLICIAL_TransitiveIncidence( 
+            VerticesAttributeOfPolygonalComplex(complex),
             VerticesOfEdges(complex), Edges(complex), EdgesOfFaces(complex),
             Faces(complex));
     end
@@ -439,7 +444,7 @@ InstallMethod( FacesOfVertices,
     function(complex)
         return __SIMPLICIAL_TransitiveIncidence( Faces(complex),
             FacesOfEdges(complex), Edges(complex), EdgesOfVertices(complex),
-            Vertices(complex));
+            VerticesAttributeOfPolygonalComplex(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -975,7 +980,7 @@ InstallMethod( FacesOfEdges,
         parts := UmbrellaPartitionsOfVertices(complex);
 
         facesOfEdges := [];
-        for v in Vertices(complex) do
+        for v in VerticesAttributeOfPolygonalComplex(complex) do
             for p in parts[v] do
                 path := PathAsList(p);
 
@@ -1019,7 +1024,7 @@ InstallMethod( UmbrellaPartitionsOfVertices,
 
         faceEdgePathPart := [];
 
-        for vertex in Vertices(ramSurf) do
+        for vertex in VerticesAttributeOfPolygonalComplex(ramSurf) do
             incidentEdges := EdgesOfVertices(ramSurf)[vertex];
             paths := [];
 

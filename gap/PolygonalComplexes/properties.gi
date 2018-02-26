@@ -140,7 +140,7 @@ InstallMethod( InnerVertices, "for a polygonal complex",
         local edgeFacePaths;
 
         edgeFacePaths := UmbrellasOfVertices(complex);
-        return Filtered( Vertices(complex), v -> 
+        return Filtered( VerticesAttributeOfPolygonalComplex(complex), v -> 
             edgeFacePaths[v]<>fail and IsClosedPath(edgeFacePaths[v]) );
     end
 );
@@ -165,7 +165,7 @@ InstallMethod( BoundaryVertices, "for a polygonal complex",
         local edgeFacePaths;
 
         edgeFacePaths := UmbrellasOfVertices(complex);
-        return Filtered( Vertices(complex), v -> 
+        return Filtered( VerticesAttributeOfPolygonalComplex(complex), v -> 
             edgeFacePaths[v]<>fail and not IsClosedPath(edgeFacePaths[v]) );
     end
 );
@@ -191,7 +191,7 @@ InstallMethod( RamifiedVertices, "for a polygonal complex",
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         partitions := UmbrellaPartitionsOfVertices(complex);
-        return Filtered( Vertices(complex), v -> 
+        return Filtered( VerticesAttributeOfPolygonalComplex(complex), v -> 
             edgeFacePaths[v]=fail and partitions[v]<>fail );
     end
 );
@@ -216,7 +216,7 @@ InstallMethod( ChaoticVertices, "for a polygonal complex",
         local partitions;
 
         partitions := UmbrellaPartitionsOfVertices(complex);
-        return Filtered( Vertices(complex), v -> partitions[v]=fail );
+        return Filtered( VerticesAttributeOfPolygonalComplex(complex), v -> partitions[v]=fail );
     end
 );
 InstallMethod( IsChaoticVertexNC, "for a polygonal complex and a vertex",
