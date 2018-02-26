@@ -14,7 +14,7 @@
 # that should be read before the other files
 
 # The custom info class
-DeclareInfoClass( "InfoPolygonalComplex" );
+DeclareInfoClass( "InfoSimplicial" );
 
 
 # Attribute for colour information

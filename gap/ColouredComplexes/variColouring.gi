@@ -1545,8 +1545,10 @@ RedispatchOnCondition( CommonCover, true,
 InstallMethod( SixFoldCover, "for a simplicial surface and a list",
     [IsSimplicialSurface, IsList],
     function(simpSurf, localSymmetry)
-        local cfaces, f, cSym;
-      
+        local cfaces, f, cSym, wild, altNames, cyc, cgens, cSymCyc,
+            i, j, moved, perm, sigi, img, arrange, f1, f2, e1, e2,
+            ind1, ind2, remed, edge1, edge2, verts, cf, e, neigh;
+
         # first we compute the faces of the cover
         # faces are given by the three edges incident to the face
         # Arrangements( [1,2,3], 3) are the images of the map beta in
@@ -1558,12 +1560,143 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
         od;
 
         # We store the local symmetry 
-        cSym := [];
+        # store for every colour (1,2,3) whether the appropriate
+        # edge of face f is a mirror or a rotation
+        cSym := List( [1,2,3], j -> List(cfaces, i -> 0) );
 
-        Error("TODO");
-        # What exactly should SixFoldCover do?
+        # now we have to compute the edges
+        # Starting from (f,(e_x, e_y, e_z)) the generator sigma_1
+        # maps (f,(e_x, e_y, e_z)) to (f,(e_x, e_y, e_z)) if $e_x$ is a
+        # boundary edge and to (g,(e_x, e_u, e_v)) if $e_x$ is an inner
+        # edge such that (f,g) are the two faces incident to e_x and
+        # e_y, e_u, e_x are incident to a common vertex and
+        # e_z, e_v, e_x are incident to a common vertex, if
+        # (f,g) is a mirror-cycle of sigma_1 and
+        # to (g,(e_x, e_v, e_u)) otherwise.
+
+  
+        cgens := [];
+        for i in [1..3]  do
+            sigi := []; # define generator sigma_i
+            for j in [1..Length(cfaces)] do
+                cf := cfaces[j]; # work out the image of cf under sigi
+                # e.g. cf = [1, [2, 3, 1]] means face 1, edges 2,3,1
+                # if i=2 we have to map along the edge in position 2 (i.e. 3)
+                # and need to find the neighbour of cf along this edge
+                # cf[2][k] is the edge  along which to map
+  #	      k := cf[2],i);
+  	      # the face numbers of  the neighbouring faces
+                neigh := NeighbourFaceByEdgeNC(simpSurf, cf[1], cf[2][i]);
+                                      
+                if neigh = fail then
+                    img := ShallowCopy(cf); # boundary edge
+                else
+                    img := [neigh];
+                    e := EdgesOfFaces(simpSurf)[neigh]; # the edges of neigh
+  		    arrange := [];
+  		    arrange[i] := cf[2][i]; # this edge remains fixed
+  
+                    # all faces are triangles
+                    if cf[2][i] = e[1] then
+                        remed := [e[2],e[3]];
+                    elif cf[2][i] = e[2] then
+                        remed := [e[1],e[3]];
+                    else
+                        remed := [e[1],e[2]];
+                    fi;
+  
+                    #
+  		    #                 /|\
+  		    #                / | \
+  		    #               /  |  \
+  		    #              e1  |   f1
+  		    #             /    |    \
+  		    #             \    |    /
+  		    #              e2  |   f2
+  		    #               \  |  /
+  		    #                \ | /
+  		    #                 \|/
+                    if i = 1 then
+                        ind1 := 2;
+                        ind2 := 3;
+                    elif i = 2 then
+                        ind1 := 1;
+                        ind2 := 3;
+                    else
+                        ind1 := 1;
+                        ind2 := 2;
+                    fi;
+  
+                    e1 := cf[2][ind1];
+                    e2 := cf[2][ind2];
+  
+                    verts := VerticesOfEdges(simpSurf)[cf[2][i]];
+                    edge1 := EdgesOfVertices(simpSurf)[verts[1]];
+                    edge2 := EdgesOfVertices(simpSurf)[verts[2]];
+                    if ( e1 in edge1 and remed[1] in edge1 ) or 
+                        ( e1 in edge2 and remed[1] in edge2 ) then
+                            f1 := remed[1];
+                            f2 := remed[2];
+                    else
+                            f1 := remed[2];
+                            f2 := remed[1];
+                    fi;
+  
+                    if localSymmetry[i] = 1 then
+                           # \sigma_i is mirror
+                           arrange[ind1] := f1;
+                           arrange[ind2] := f2;
+  
+                           cSym[i][j] := 1;
+                    else
+                          # rotation
+                          arrange[ind1] := f2;
+                          arrange[ind2] := f1;
+  
+                          cSym[i][j] := 2;
+                    fi;
+  		
+                    img[2] := arrange;
+                    sigi[j] := Position( cfaces, img );
+                    #TODO make this faster by calculating which position it will
+                    # end up being: For each face there are exactly 6 arrangements
+                    # => by knowing the position we only have to check 6 entries
+                    # Since the arrangements are ordered as well, we can use the
+                    # information from this loop to find the correct position
+                    # (left as an exercise :P).
+                 fi;
+              od;
+  
+              perm := PermList(sigi);
+              if perm = fail then 
+                  Info( InfoSimplicial, 1, "Surface does not exist");
+                  Error("Internal Error (SixfoldCover): No permutation defined.");
+                return false;
+            fi;
+            Add( cgens, perm );
+        od;
+
+        # Rewrite cSym in terms of permutation cycles
+        cSymCyc := [[],[],[]];
+        moved := MovedPoints( cgens );
+        for i in [1,2,3] do
+            cyc := Cycles(cgens[i],moved);
+            for j in [1..Length(cyc)] do
+                cSymCyc[i][j] := cSym[i][cyc[j][1]];
+            od;
+        od;
+    
+        wild := AllWildColouredSurfaces( cgens, cSymCyc );
+        Assert(1, Length(wild)=1);
+  
+        # Set the alternative names
+        altNames := rec( Faces := cfaces,
+          Description := "[oldFace, [vertices of the oldFace]]");
+        
+        return [wild[1], altNames];
     end
 );
+RedispatchOnCondition( SixFoldCover, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0 );
 
 ##
 ##  End of SixFoldCover
