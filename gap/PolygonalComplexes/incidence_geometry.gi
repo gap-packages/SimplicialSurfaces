@@ -508,11 +508,19 @@ InstallMethod( OtherEdgeOfVertexInFaceNC,
     "for a polygonal complex, a vertex, an edge and a face",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
     function( complex, vertex, edge, face )
-        local possEdges, res;
+        local possEdges, poss, verts;
 
         possEdges := EdgesOfFaces(complex)[face];
-        res := Filtered( possEdges, e -> vertex in VerticesOfEdges(complex)[e] and e <> edge );
-        return res[1];
+        for poss in possEdges do
+            if poss <> edge then
+                verts := VerticesOfEdges(complex)[poss];
+                if vertex = verts[1] or vertex = verts[2] then
+                    return poss;
+                fi;
+            fi;
+        od;
+
+        Error("OtherEdgeOfVertexInFaceNC: No valid edge found.");
     end
  );
 
