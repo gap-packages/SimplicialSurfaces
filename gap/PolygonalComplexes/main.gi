@@ -399,3 +399,61 @@ InstallMethod( Display, "for a polygonal complex", [IsPolygonalComplex],
     end
 );
 
+
+##
+## <
+##
+BindGlobal("__SIMPLICIAL_LexicographicCounterComparison",
+    function(count1, count2)
+        local i, l1, l2;
+    
+        l1 := Length(count1);
+        l2 := Length(count2);
+
+        for i in [ 1 .. Minimum(l1,l2)] do
+            if count1[i][1] <> count2[i][1] then
+                return count1[i][1] < count2[i][1];
+            elif count1[i][2] <> count2[i][2] then
+                return count1[i][2] > count2[i][2];  #first one has more 
+            fi;
+        od;
+        # now we know that up to the minimum of their lengths equality holds
+        return l1 < l2;   
+    end
+);
+InstallMethod( \<, "for two polygonal complexes", 
+    [IsPolygonalComplex, IsPolygonalComplex],
+    function(complex1, complex2)
+        # First compare the number of faces
+        if NumberOfFaces(complex1) <> NumberOfFaces(complex2) then
+            return NumberOfFaces(complex1) < NumberOfFaces(complex2);
+        fi;
+
+        # Then compare the number of vertices
+        if NumberOfVertices(complex1) <> NumberOfVertices(complex2) then
+            return NumberOfVertices(complex1) < NumberOfVertices(complex2);
+        fi;
+
+        # Compare VertexCounters lexicographically
+        if VertexCounter(complex1) <> VertexCounter(complex2) then
+            return __SIMPLICIAL_LexicographicCounterComparison(VertexCounter(complex1), VertexCounter(complex2));
+        fi;
+
+        # Compare FaceCounters lexicographically
+        if FaceCounter(complex1) <> FaceCounter(complex2) then
+            return __SIMPLICIAL_LexicographicCounterComparison(FaceCounter(complex1), FaceCounter(complex2));
+        fi;
+
+        ###############################
+        # above are comparisons for isomorphism classes
+        #
+        # below are internal comparisons
+        ###############################
+        if EdgesOfFaces(complex1) <> EdgesOfFaces(complex2) then
+            return EdgesOfFaces(complex1) < EdgesOfFaces(complex2);
+        fi;
+        if VerticesOfEdges(complex1) <> VerticesOfEdges(complex2) then
+            return VerticesOfEdges(complex1) < VerticesOfEdges(complex2);
+        fi;
+    end
+);
