@@ -1,0 +1,42 @@
+\begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+
+    \def\dist{2.5}
+
+    \coordinate (A1) at (0,0);
+    \coordinate (B1) at (\dist,0);
+    \coordinate (A2) at ($2*(B1)$);
+    \coordinate (C1) at (60:\dist);
+    \coordinate (D) at ($(B1)+(C1)$);
+    \coordinate (C2) at ($(A2)+(C1)$);
+    \coordinate (A3) at ($2*(C1)$);
+    \coordinate (B2) at ($(A3)+(B1)$);
+    \coordinate (A4) at ($(A3)+(A2)$);
+
+    \tikzset{customFace/.style={face=\faceColorR}}
+    \draw[edge,\ifdefined\pathOne customFace\else face\fi]
+        (A1) -- node[edgeLabel]{1} (B1) -- (C1) -- node[edgeLabel]{3} cycle;
+    \draw[edge,\ifdefined\pathTwo customFace\else face\fi]
+        (B1) -- (D) -- (C1) -- node[edgeLabel]{4} cycle;
+    \draw[edge,\ifdefined\pathThree customFace\else face\fi]
+        (B1) -- node[edgeLabel]{2} (A2) -- (D) -- node[edgeLabel]{5} cycle;
+    \draw[edge,\ifdefined\pathFour customFace\else face\fi]
+        (A2) -- node[edgeLabel]{3} (C2) -- (D) -- node[edgeLabel]{6} cycle;
+    \draw[edge,\ifdefined\pathFive customFace\else face\fi]
+        (C1) -- node[edgeLabel]{7} (D) -- (A3) -- node[edgeLabel]{9} cycle;
+    \draw[edge,\ifdefined\pathSix customFace\else face\fi]
+        (D) -- (B2) -- node[edgeLabel]{1} (A3) -- node[edgeLabel]{10} cycle;
+    \draw[edge,\ifdefined\pathSeven customFace\else face\fi]
+        (D) -- node[edgeLabel]{8} (C2) -- (B2) -- node[edgeLabel]{11} cycle;
+    \draw[edge,\ifdefined\pathEight customFace\else face\fi]
+        (C2) -- node[edgeLabel]{7} (A4) -- node[edgeLabel]{2} (B2) -- node[edgeLabel]{12} cycle;
+
+
+    \foreach \a/\b/\c/\n in {A1/B1/C1/I, B1/D/C1/II, B1/A2/D/III, A2/C2/D/IV, C1/D/A3/V, D/B2/A3/VI, D/C2/B2/VII, C2/A4/B2/VIII}{
+        \node at (barycentric cs:\a=1,\b=1,\c=1) {\n};
+    }
+
+    \foreach \p/\r/\n in {A1/below/1, B1/below/2, A2/below/1, C1/left/3, D/above/4, C2/right/3, A3/above/1, B2/above/2, A4/above/1}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+
+\end{tikzpicture}

@@ -685,6 +685,15 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! edge-face-paths. This section deals with two specific types of 
 #! edge-face-paths, namely umbrellas and geodesics.
 #!
+#! This will be illustrated on the following torus:
+#! <Alt Only="TikZ">
+#!   \input{Image_Geodesics.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> torus := SimplicialSurfaceByDownwardIncidence(
+#! >     [ [1,2],[1,2],[1,3],[2,3],[2,4],[1,4],[3,4],[3,4],[1,3],[1,4],[2,4],[2,3] ],
+#! >     [ [1,3,4],[4,5,7],[2,5,6],[3,6,8],[7,9,10],[1,10,11],[8,11,12],[2,9,12] ]);;
+#! @EndExampleSession
 #! 
 
 #! @Description
@@ -692,19 +701,67 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! there is one vertex such that all edges and faces of the edge-face-path
 #! are incident to it.
 #!
-#! TODO example
+#! As an illustration consider the torus from the start of section
+#! <Ref Sect="Section_Paths_Geodesics"/>:
+#! <Alt Only="TikZ">
+#!   {
+#!      \def\pathFive{1}
+#!      \def\pathSix{1}
+#!      \def\pathSeven{1}
+#!      \def\pathFour{1}
+#!      \input{Image_Geodesics.tex}
+#!   }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> umb := EdgeFacePath( torus, [7,5,10,6,11,7,8,4,6] );
+#! | e7, F5, e10, F6, e11, F7, e8, F4, e6 |
+#! gap> IsUmbrella(umb);
+#! true
+#! @EndExampleSession
 #!
 #! @Arguments edgeFacePath
 DeclareProperty( "IsUmbrella", IsEdgeFacePath );
+
 
 #! @BeginGroup IsGeodesic
 #! @Description
 #! Check whether the given edge-face-path is a geodesic, i.e. whether each
 #! vertex (except those of the first and last edge) is incident to exactly
 #! three faces of the path.
-#!
-#! TODO example
-#!
+#! 
+#! As an illustration consider the torus from the start of section
+#! <Ref Sect="Section_Paths_Geodesics"/>:
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\pathOne{1}
+#!      \def\pathTwo{1}
+#!      \def\pathThree{1}
+#!      \def\pathFour{1}
+#!      \input{Image_Geodesics.tex}
+#!  }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> closedGeo := EdgeFacePath( torus, [3,1,4,2,5,3,6,4,3] );
+#! ( e3, F1, e4, F2, e5, F3, e6, F4, e3 )
+#! gap> IsGeodesic(closedGeo);
+#! true
+#! @EndExampleSession
+#! Geodesics do not have to be closed (<Ref Subsect="IsClosedGeodesic"/>):
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\pathFive{1}
+#!      \def\pathTwo{1}
+#!      \def\pathThree{1}
+#!      \input{Image_Geodesics.tex}
+#!  }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> openGeo := EdgeFacePath( torus, [9,5,7,2,5,3,2] );
+#! | e9, F5, e7, F2, e5, F3, e2 |
+#! gap> IsGeodesic(openGeo);
+#! true
+#! @EndExampleSession
+#! 
 #! @Arguments edgeFacePath
 DeclareProperty( "IsGeodesic", IsEdgeFacePath );
 #! @EndGroup
@@ -715,6 +772,35 @@ DeclareProperty( "IsGeodesic", IsEdgeFacePath );
 #! in this vertex-edge-path.
 #! 
 #! TODO explain, draw picture of this zig-zagging vertex-edge-path
+#!
+#! As an illustration consider the two geodesics from 
+#! <Ref Subsect="IsGeodesic"/>:
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\pathOne{1}
+#!      \def\pathTwo{1}
+#!      \def\pathThree{1}
+#!      \def\pathFour{1}
+#!      \input{Image_Geodesics.tex}
+#!  }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> VertexEdgePath(closedGeo);
+#! ( v1, E3, v3, E4, v2, E5, v4, E6, v1 )
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\pathFive{1}
+#!      \def\pathTwo{1}
+#!      \def\pathThree{1}
+#!      \input{Image_Geodesics.tex}
+#!  }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> VertexEdgePath(openGeo);
+#! ( v1, E9, v3, E7, v4, E5, v2, E2, v1 )
+#! @EndExampleSession
+#! 
 #!
 #! @Returns a vertex-edge-path
 #! @Arguments geodesic
@@ -731,7 +817,23 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesic );
 #! <A>flag</A>. The NC-version does not check whether the given <A>flag</A>
 #! is actually a flag of <A>ramSurf</A>.
 #!
-#! TODO explanation and examples
+#! As an illustration consider the torus from the start of section
+#! <Ref Sect="Section_Paths_Geodesics"/>:
+#! <Alt Only="TikZ">
+#!      \input{Image_Geodesics.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> MaximalGeodesics(torus);
+#! [ ( e1, F1, e4, F2, e7, F5, e10, F6, e1 ), 
+#!  ( e1, F6, e11, F7, e8, F4, e3, F1, e1 ), 
+#!  ( e2, F3, e5, F2, e7, F5, e9, F8, e2 ), 
+#!  ( e2, F8, e12, F7, e8, F4, e6, F3, e2 ), 
+#!  ( e3, F1, e4, F2, e5, F3, e6, F4, e3 ), 
+#!  ( e9, F8, e12, F7, e11, F6, e10, F5, e9 ) ]
+#! @EndExampleSession
+#! TODO more explanation and example with boundaries?
+#!
+#! TODO If there are multiple ways to write a geodesic, which is picked?
 #!
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf
@@ -750,7 +852,33 @@ DeclareOperation( "MaximalGeodesicOfFlagNC", [IsRamifiedPolygonalSurface, IsList
 #! coincide, such that all vertices are incident to exactly three faces of
 #! the path.
 #!
-#! TODO example
+#! As an illustration consider the two geodesics from 
+#! <Ref Subsect="IsGeodesic"/>:
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\pathOne{1}
+#!      \def\pathTwo{1}
+#!      \def\pathThree{1}
+#!      \def\pathFour{1}
+#!      \input{Image_Geodesics.tex}
+#!  }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> IsClosedGeodesic(closedGeo);
+#! true
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\pathFive{1}
+#!      \def\pathTwo{1}
+#!      \def\pathThree{1}
+#!      \input{Image_Geodesics.tex}
+#!  }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> IsClosedGeodesic(openGeo);
+#! false
+#! @EndExampleSession
 #!
 #! @Arguments edgeFacePath
 DeclareProperty( "IsClosedGeodesic", IsEdgeFacePath );

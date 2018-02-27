@@ -563,7 +563,7 @@ BindGlobal( "__SIMPLICIAL_ZigZagPath",
             # open geodesic
             SetIsClosedGeodesic(efPath, false);
             # Complete last vertex
-            vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList, [lastEdge, OtherVertexOfEdgeNC(com, veList[Length(veList), lastEdge])]));
+            vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList, [lastEdge, OtherVertexOfEdgeNC(com, veList[Length(veList)], lastEdge)]));
         fi;
         SetVertexEdgePath(efPath, vePath);
     end
