@@ -59,6 +59,9 @@ BindGlobal( "VertexEdgePathFamily",
 
 DeclareCategory( "IsEdgeFacePath", IsDualPath );
 BindGlobal( "EdgeFacePathFamily", 
-    NewFamily("EdgeFacePathFamily", IsObject, IsVertexEdgePath) );
+    NewFamily("EdgeFacePathFamily", IsObject, IsEdgeFacePath) );
 
+DeclareCategory( "IsEdgeColouredEdgeFacePath", IsEdgeFacePath );
+BindGlobal( "EdgeColouredEdgeFacePathFamily",
+    NewFamily("EdgeColouredEdgeFacePathFamily", IsObject, IsEdgeColouredEdgeFacePath));
 

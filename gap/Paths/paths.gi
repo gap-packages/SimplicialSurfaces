@@ -445,7 +445,7 @@ InstallMethod( ViewInformation, "for an edge-face-path", [IsEdgeFacePath],
         return strList;
     end
 );
-InstallMethod( ViewString, "for an edge-fae-path", [IsEdgeFacePath],
+InstallMethod( ViewString, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
         return __SIMPLICIAL_ColourString( ViewInformation(path), 
             [ SIMPLICIAL_COLOURS_VERTICES_DEFAULT, SIMPLICIAL_COLOURS_EDGES_DEFAULT, SIMPLICIAL_COLOURS_FACES_DEFAULT ]);
@@ -837,5 +837,75 @@ InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
         od;
 
         return Set(geos);
+    end
+);
+
+
+#######################################
+##
+##      edge coloured Edge-Face-Paths
+##
+DeclareRepresentation("EdgeColouredEdgeFacePathRep", 
+    IsEdgeColouredEdgeFacePath and IsAttributeStoringRep, []);
+BindGlobal("EdgeColouredEdgeFacePathType", 
+    NewType(EdgeColouredEdgeFacePathFamily, EdgeColouredEdgeFacePathRep));
+
+# We could do some inferences between the associated polygonal
+# complex and the associated edge-coloured polygonal complex but
+# there is no need for that right now (as they are only used for
+
+InstallMethod( ViewInformation, "for an edge-coloured edge-face-path", 
+    [IsEdgeColouredEdgeFacePath],
+    function(path)
+        local strList, i, posOfColour, col, edge;
+        
+        posOfColour := [];
+        for i in [1,2,3] do
+            posOfColour[Colours(AssociatedEdgeColouredPolygonalComplex(path))[i]] := i;
+        od;
+
+        strList := [];
+        if IsClosedPath(path) then
+            Add( strList, [ "( ", 0 ] );
+        else
+            Add( strList, [ "| ", 0 ] );
+        fi;
+        for i in [1..Length(PathAsList(path))] do
+            if IsEvenInt(i) then
+                Add( strList, [ Concatenation( "F", String(Path(path)[i]) ), 0 ] );
+            else
+                edge := Path(path)[i];
+                col := ColoursOfEdges(AssociatedEdgeColouredPolygonalComplex(path))[edge];
+                Add(strList, [ Concatenation( "e", String(edge) ), posOfColour[col] ]);
+            fi;
+            Add( strList, [", ", 0] );
+        od;
+        # Remove trailing ","
+        Remove(strList);
+        if IsClosedPath(path) then
+            Add( strList, [ " )", 0 ] );
+        else
+            Add( strList, [ " |", 0 ] );
+        fi;
+
+        return strList;
+    end
+);
+InstallMethod( ViewString, "for an edge-coloured edge-face-path", 
+    [IsEdgeColouredEdgeFacePath],
+    function(path)
+        return __SIMPLICIAL_ColourString( ViewInformation(path), 
+            [ SIMPLICIAL_COLOURS_WILD_1_DEFAULT, SIMPLICIAL_COLOURS_WILD_2_DEFAULT, SIMPLICIAL_COLOURS_WILD_3_DEFAULT ]);
+    end
+);
+InstallMethod( ViewObj, "for an edge-coloured edge-face-path", 
+    [IsEdgeColouredEdgeFacePath],
+    function(path)
+        if SIMPLICIAL_COLOURS_ON then
+            __SIMPLICIAL_PrintColourString( ViewInformation(path), 
+                [ SIMPLICIAL_COLOURS_WILD_1, SIMPLICIAL_COLOURS_WILD_2, SIMPLICIAL_COLOURS_WILD_3 ]);
+        else
+            Print(__SIMPLICIAL_UncolouredString( ViewInformation(path) ));
+        fi;
     end
 );

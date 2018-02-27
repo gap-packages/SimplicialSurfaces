@@ -1165,3 +1165,9 @@ DeclareAttribute( "Orientation", IsRamifiedPolygonalSurface );
 #! subsequent entries are its vertices, edges and faces
 #! @Arguments ramSurf
 DeclareOperation("OrientationCover", [IsRamifiedPolygonalSurface]);
+
+
+
+##
+## Undocumented stuff for edge-coloured edge-face-paths
+DeclareAttribute("AssociatedEdgeColouredPolygonalComplex", IsEdgeColouredEdgeFacePath);

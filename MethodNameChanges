@@ -52,3 +52,4 @@ For wild simplicial surfaces:
     4) AllStructures is replaced by AllTameColouredSurfaces
     5) WildIsomorphismRepresentatives is replaced by 
         EdgeColouredPolygonalComplexIsomorphismRepresentatives
+    6) Generators are now called ColourInvolutions

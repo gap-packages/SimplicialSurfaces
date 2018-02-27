@@ -36,7 +36,8 @@
 #! introducing the <E>local symmetries</E> 
 #! (<Ref Subsect="LocalSymmetryOfEdges"/>)).
 #!
-#! Finally section TODO describes some methods to construct vari-coloured
+#! Section <Ref Sect="Section_EdgeVariColouring_Wild"/> also
+#! describes some methods to construct vari-coloured
 #! and exact-coloured
 #! surfaces.
 #!
@@ -48,7 +49,6 @@
 #! the coloured version of this method:
 #! * <K>ColouredEdgesOfFaces</K> (<Ref Subsect="ColouredEdgesOfFaces"/>) 
 #!   extends <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>).
-#TODO should we also implement NeighbourFaceByColour?
 #! 
 #! @InsertChunk Example_ColouredPrism
 
@@ -140,8 +140,7 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
     [IsEdgeColouredPolygonalComplex and IsEdgeVariColouring, IsPosInt]);
 #! @EndGroup
 
-#TODO implement EdgeColouredEdgeFacePaths as subcategory of EdgeFacePaths -> only difference is View??. Do we actually need this subcategory then?
-#TODO for colouredEdgeFacePaths -> how to denote colours? we can use  a,b,c,d,e,... but is this better than the numbers of the colours?
+
 
 
 #! @Section Permutation description
@@ -224,6 +223,35 @@ DeclareProperty( "IsWildColouredSurface", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
 InstallTrueMethod( IsEdgeExactColouring, IsWildColouredSurface );
 InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsWildColouredSurface );
+
+
+#! @BeginGroup ColouredUmbrellasOfVertices
+#! @Description
+#! For a wild coloured surface (<Ref Subsect="IsWildColouredSurface"/>) the method 
+#! <K>ColouredUmbrellaOfVertex</K>(<A>wildSurf</A>, <A>vertex</A>) returns an edge-coloured 
+#! edge-face path for the umbrella around <A>vertex</A>. All of these umbrellas
+#! are collected in the attribute
+#! <K>ColouredUmbrellasOfVertices</K>(<A>wildSurf</A>), i.e.
+#! <K>ColouredUmbrellasOfVertices</K>(<A>wildSurf</A>)[<A>vertex</A>]
+#! = <K>ColouredUmbrellaOfVertex</K>(<A>wildSurf</A>, <A>vertex</A>).
+#!
+#! This method extends <K>UmbrellasOfVertices</K> 
+#! (<Ref Subsect="UmbrellasOfVertices"/>). The edge-coloured edge-face-paths
+#! behave exactly as regular edge-face-paths but are displayed differently.
+#! 
+#! The NC-version does not check whether the given <A>vertex</A> actually
+#! is a vertex of <A>wildSurf</A>.
+#!
+#! @Returns a list of coloured edge-face-paths
+#! @Arguments wildSurf
+DeclareAttribute( "ColouredUmbrellasOfVertices", IsWildColouredSurface );
+#! @Returns a coloured edge-face-path
+#! @Arguments wildSurf, vertex
+DeclareOperation( "ColouredUmbrellaOfVertex", [IsWildColouredSurface, IsPosInt] );
+#! @Returns a coloured edge-face-path
+#! @Arguments wildSurf, vertex
+DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt] );
+#! @EndGroup
 
 
 #! @BeginGroup LocalSymmetryOfEdges

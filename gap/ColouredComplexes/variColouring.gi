@@ -129,6 +129,56 @@ InstallMethod( ColourInvolutions,
 
 #######################################
 ##
+##      ColouredUmbrellasOfVertices
+##
+InstallMethod( ColouredUmbrellaOfVertexNC,
+    "for a wild coloured surface and a vertex",
+    [IsWildColouredSurface, IsPosInt],
+    function(wildSurf, vertex)
+        return ColouredUmbrellasOfVertices(wildSurf)[vertex];
+    end
+);
+    RedispatchOnCondition( ColouredUmbrellaOfVertexNC, true, 
+        [IsEdgeColouredPolygonalComplex, IsPosInt], 
+        [IsWildColouredSurface], 0 );
+
+InstallMethod( ColouredUmbrellaOfVertex,
+    "for a wild coloured surface and a vertex",
+    [IsWildColouredSurface, IsPosInt],
+    function(wildSurf, vertex)
+        __SIMPLICIAL_CheckVertex( PolygonalComplex(wildSurf), vertex, "ColouredUmbrellaOfVertex" );
+        return ColouredUmbrellaOfVertexNC(wildSurf,vertex);
+    end
+);
+    RedispatchOnCondition( ColouredUmbrellaOfVertex, true, 
+        [IsEdgeColouredPolygonalComplex,IsPosInt], 
+        [IsWildColouredSurface], 0 );
+
+InstallMethod( ColouredUmbrellasOfVertices,
+    "for a wild coloured surface",
+    [IsWildColouredSurface],
+    function(wildSurf)
+        local umb, colUmb, complex, colUmbs, v;
+
+        complex := PolygonalComplex(wildSurf);
+        umb := UmbrellasOfVertices( complex );
+        colUmbs := [];
+        for v in VerticesAttributeOfPolygonalComplex(complex) do
+            colUmb := Objectify( EdgeColouredEdgeFacePathType, rec() );
+            SetPath( colUmb, Path(umb[v]) );
+            SetAssociatedPolygonalComplex( colUmb, complex);
+            SetAssociatedEdgeColouredPolygonalComplex(colUmb, wildSurf);
+            colUmbs[v] := colUmb;
+        od;
+        return colUmbs;
+    end
+);
+RedispatchOnCondition( ColouredUmbrellasOfVertices, true,
+    [IsEdgeColouredPolygonalComplex], [IsWildColouredSurface], 0);
+
+
+#######################################
+##
 ##      LocalSymmetryOfEdges
 ##
 

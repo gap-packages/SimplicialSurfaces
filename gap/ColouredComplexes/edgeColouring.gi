@@ -619,34 +619,23 @@ InstallMethod( DisplayInformation, "for an edge coloured polygonal complex",
 
         # UmbrellasOfVertices
         Add( strList, [ "    Umbrellas: [ ", 0 ] );
-        for i in [1..Length(UmbrellasOfVertices(complex))] do
-            if IsBound(UmbrellasOfVertices(complex)[i]) then
-                umb := UmbrellasOfVertices(complex)[i];
-                
-                if IsClosedPath(umb) then
-                    Add( strList, [ "( ", 0 ] );
-                else
-                    Add( strList, [ "| ", 0 ] );
+        if IsWildColouredSurface(colComp) then
+            for i in [1..Length(ColouredUmbrellasOfVertices(colComp))] do
+                if IsBound(ColouredUmbrellasOfVertices(colComp)[i]) then
+                    umb := ColouredUmbrellasOfVertices(colComp)[i];
+                    Append( strList, ViewInformation(umb) );
                 fi;
-                for x in [1..Length(PathAsList(umb))] do
-                    if IsEvenInt(x) then
-                        Add( strList, [ Concatenation( "F", String(Path(umb)[x]) ), 0 ] );
-                    else
-                        edge := Path(umb)[x];
-                        Add(strList, [ Concatenation( "e", String(edge) ), posOfColour[ColoursOfEdges(colComp)[edge]] ]);
-                    fi;
-                    Add( strList, [", ", 0] );
-                od;
-                # Remove trailing ","
-                Remove(strList);
-                if IsClosedPath(umb) then
-                    Add( strList, [ " )", 0 ] );
-                else
-                    Add( strList, [ " |", 0 ] );
+                Add( strList, [", ", 0] );
+            od;
+        else
+            for i in [1..Length(UmbrellasOfVertices(complex))] do
+                if IsBound(UmbrellasOfVertices(complex)[i]) then
+                    umb := UmbrellasOfVertices(complex)[i];
+                    Add(strList, [__SIMPLICIAL_UncolouredString(ViewInformation(umb)), 0]);
                 fi;
-            fi;
-            Add( strList, [", ", 0] );
-        od;
+                Add( strList, [", ", 0] );
+            od;
+        fi;
         Remove(strList);
         Add( strList, [ " ]\n", 0 ] );
 
