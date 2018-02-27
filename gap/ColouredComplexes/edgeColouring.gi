@@ -652,6 +652,20 @@ InstallMethod( DisplayInformation, "for an edge coloured polygonal complex",
         Add( strList, [" ]\n", 0] );
 
 
+        # ColourInvolutions
+        if IsWildColouredSurface(colComp) then
+            Add(strList, ["    ColourInvolutions: [ ", 0]);
+            for i in [1..Length(ColourInvolutions(colComp))] do
+                if IsBound(ColourInvolutions(colComp)[i]) then
+                    Add( strList, [ String(ColourInvolutions(colComp)[i]), posOfColour[i] ] );
+                fi;
+                Add( strList, [", ", 0] );
+            od;
+            Remove(strList);
+            Add(strList, [" ]\n", 0]);
+        fi;
+
+
         # LocalSymmetry
         if IsWildColouredSurface(colComp) then
             Add(strList, ["    LocalSymmetry: [ ", 0]);
