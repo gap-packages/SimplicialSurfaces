@@ -496,6 +496,13 @@ InstallMethod( FacesAsList, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
+InstallMethod( Inverse, "for a edge-face-path", [IsEdgeFacePath],
+    function(path)
+        return EdgeFacePathNC( AssociatedPolygonalComplex(path),
+            Reversed(Path(path)));
+    end
+);
+
 InstallMethod( EdgesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
         return OddPartAsPerm(path);

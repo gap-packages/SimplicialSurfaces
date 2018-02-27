@@ -577,6 +577,17 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 # This is documentation for a declaration in dual_path.gd
 
 
+#! @Description
+#! Return the inverse edge-face-path to the given path.
+#!
+#! TODO example
+#!
+#! @Arguments edgeFacePath
+#! @Returns a edge-face-path
+DeclareAttribute( "Inverse", IsEdgeFacePath );
+
+
+
 #! <ManSection Label="EdgeFace_IsDuplicateFree">
 #!   <Prop Name="IsDuplicateFree" Arg="edgeFacePath"
 #!     Label="for IsEdgeFacePath"
