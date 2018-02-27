@@ -1260,6 +1260,59 @@ InstallMethod( AllTameColouredSurfaces,
 ##      Common Cover
 ##
 
+# From a directed adjacency list (each pair is a set) compute the connected
+# components of the associated undirected graph.
+# The components are returned as a record with two entries:
+# id: A list, for each vertex it gives the number of its connected component
+# comps: A list, which stores the connected components as lists of vertices
+if IsPackageMarkedForLoading( "Digraphs", "0.10.1" ) then
+    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
+        function(adjacencyList)
+            local digraph;
+
+            digraph := DigraphByEdges(adjacencyList);
+            return DigraphConnectedComponents(digraph);
+        end
+    );
+elif IsPackageMarkedForLoading( "GRAPE", "4.7" ) then
+    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
+        function(adjacencyList)
+            local symAd, graph, max, pos, pair,
+                comps, compRec, v, id;
+
+            max := 0;
+            symAd := [];
+            pos := 1;
+            for pair in adjacencyList do
+                # Each pair is a set
+                if pair[2] > max then
+                    max := pair[2];
+                fi;
+                symAd[pos] := pair;
+                symAd[pos+1] := [pair[2],pair[1]];
+                pos := pos+2;
+            od;
+            graph := EdgeOrbitsGraph( Group(()), symAd, max );
+
+            comps := ConnectedComponents(graph);
+            # This is a list of vertex lists
+            compRec := rec();
+            compRec.comps := comps;
+            id := [];
+            for v in Vertices(graph) do
+                id[v] := PositionProperty(comps, c -> v in c);
+            od;
+            compRec.id := id;
+            return compRec;
+        end
+    );
+else
+    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
+        function(adjacencyList)
+            Error("CommonCover: Neither Digraphs nor GRAPE are loaded.");
+        end
+    );
+fi;
 
 InstallMethod( CommonCover, 
         "for two simplicial surfaces and local symmetries of edges",
@@ -1272,7 +1325,7 @@ InstallMethod( CommonCover,
             edgePair, adFace1, adFace2, otherIso, bothFaces, otherFace,  
             found, j, baseVertPos1, baseVertPos2, baseVertA1, baseVertA2,
             baseVertB1, baseVertB2, vertOfEdge,
-            vertexGraph, connComp, edgeDescription, i, edge, 
+            connComp, edgeDescription, i, edge, 
             surface, altNames, simpFaces, simpEdges, simpVertices,
             simpVerticesOfEdges, simpFacesOfEdges;
 
@@ -1477,11 +1530,9 @@ InstallMethod( CommonCover,
         od;
         od;
 
-    # Now we have to compute the true vertices by finding the connected
-    # components of the graph that we defined with our adjacencyList.
-    vertexGraph := DigraphByEdges(adjacencyList);
-    connComp := DigraphConnectedComponents(vertexGraph);
-    #TODO can GRAPE work with unbound entries in lists?
+        # Now we have to compute the true vertices by finding the connected
+        # components of the graph that we defined with our adjacencyList.
+        connComp := __SIMPLICIAL_ComputeConnectedComponents(adjacencyList);
 
         # Now we translate all this information into a simplicial surface.
         # Simultaneously we define the alternative names.
