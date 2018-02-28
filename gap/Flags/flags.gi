@@ -328,8 +328,8 @@ InstallMethod( IsomorphicFlagSurface, "for a tame coloured surface",
         origEdges := Orbits( Group( perms[1], perms[3] ), Faces(PolygonalComplex(tameSurf)) );
         origVerts := Orbits( Group( perms[2], perms[3] ), Faces(PolygonalComplex(tameSurf)) );
 
-        verticesOfEdges := List( [1..Size(origEdges)], i->[] );
-        edgesOfFaces := List( [1..Size(origFaces)], i -> [] );
+        verticesOfEdges := List( [1..Length(origEdges)], i->[] );
+        edgesOfFaces := List( [1..Length(origFaces)], i -> [] );
 
         flags := [];
         for m in Faces(PolygonalComplex(tameSurf)) do
@@ -342,12 +342,12 @@ InstallMethod( IsomorphicFlagSurface, "for a tame coloured surface",
         od;
         
         # Check if the flags belong to a simplicial surface (there might be a problem if two edges of the same face are identified).
-        if Size( Set(flags) ) < Number(flags) then
+        if Length( Set(flags) ) < Number(flags) then
             # There is a problem
             return true;
         fi;
 
-        surf := SimplicialSurfaceByDownwardIncidenceNC( Size(origVerts), Size(origEdges), Size(origFaces),
+        surf := SimplicialSurfaceByDownwardIncidenceNC( Length(origVerts), Length(origEdges), Length(origFaces),
             verticesOfEdges, edgesOfFaces); #TODO constructor by flags
         return FlagSurface(surf);
     end
