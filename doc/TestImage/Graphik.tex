@@ -1,44 +1,10 @@
 \documentclass{article}
 
 
-
 \input{../TikZHeader.tex}
-\if\texforht
-    \def\pgfsysdriver{pgfsys-tex4ht.def}
-\fi
-\usetikzlibrary{arrows, decorations.pathreplacing, calc, decorations.pathmorphing, shapes}
-
-\usepackage{amssymb}
 
 \begin{document}
 
-\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
-    \input{../Image_SixTrianglesInCycle.tex}
-\end{tikzpicture}
-
-\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
-    \begin{scope}
-        \def\circlePath{1}
-        \input{../Image_SixTrianglesInCycle.tex}
-    \end{scope}
-    \begin{scope}[xshift=6cm]
-        \def\omegaPath{1}
-        \input{../Image_SixTrianglesInCycle.tex}
-    \end{scope}
-    \begin{scope}[xshift=12cm]
-        \def\alphaPath{1}
-        \input{../Image_SixTrianglesInCycle.tex}
-    \end{scope}
-\end{tikzpicture}
-
-\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
-    \def\cloverPath{1}
-    \input{../Image_SixTrianglesInCycle.tex}
-\end{tikzpicture}
-
-\begin{tikzpicture}[vertexStyle,edgePlain,faceStyle=nolabels]
-    \def\alphaPath{1}
-    \input{../Image_SixTrianglesInCycle.tex}
-\end{tikzpicture}
+    \input{../Image_DefiningFlags.tex}
 
 \end{document} 

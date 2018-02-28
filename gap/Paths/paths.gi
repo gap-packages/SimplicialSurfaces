@@ -598,7 +598,7 @@ InstallMethod( DefiningFlags, "for a geodesic", [IsEdgeFacePath and IsGeodesic],
     function(geo)
         local vePath, efPath, flags, i;
 
-        vePath := VertexEdgePath(geo);
+        vePath := Path(VertexEdgePath(geo));
         efPath := Path(geo);
         flags := [];
         for i in [2,4..Length(efPath)-1] do

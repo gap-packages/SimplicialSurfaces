@@ -889,7 +889,46 @@ InstallTrueMethod( IsGeodesic, IsClosedGeodesic );
 #! Return the defining flags of the given geodesic 
 #! (<Ref Subsect="IsGeodesic"/>) as a list.
 #!
-#! TODO explanation
+#! Consider the geodesic
+#! <M>[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1]</M>.
+#! <Alt Only="TikZ">
+#!      \input{Image_DefiningFlags.tex}
+#! </Alt>
+#! The defining flags can be illustrated as follows:
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\normal{1}
+#!      \input{Image_DefiningFlags.tex}
+#!  }
+#! </Alt>
+#! 
+#! As an illustration consider the two geodesics from
+#! <Ref Subsect="IsGeodesic"/>.
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\pathOne{1}
+#!      \def\pathTwo{1}
+#!      \def\pathThree{1}
+#!      \def\pathFour{1}
+#!      \input{Image_Geodesics.tex}
+#!  }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> DefiningFlags(closedGeo);
+#! [ [ 1, 3, 1 ], [ 3, 4, 2 ], [ 2, 5, 3 ], [ 4, 6, 4 ] ]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!  {
+#!      \def\pathFive{1}
+#!      \def\pathTwo{1}
+#!      \def\pathThree{1}
+#!      \input{Image_Geodesics.tex}
+#!  }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> DefiningFlags(openGeo);
+#! [ [ 1, 9, 5 ], [ 3, 7, 2 ], [ 4, 5, 3 ] ]
+#! @EndExampleSession
 #!
 #! @Returns a list of flags
 #! @Arguments geodesic
