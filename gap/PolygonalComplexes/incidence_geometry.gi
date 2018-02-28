@@ -88,7 +88,7 @@ InstallMethod( VerticesAttributeOfPolygonalComplex,
     "for a polygonal complex with EdgesOfVertices",
     [IsPolygonalComplex and HasEdgesOfVertices],
     function(complex)
-        return __SIMPLICIAL_BoundEntriesOfList(EdgesOfVertices(complex));
+        return __SIMPLICIAL_BoundPositions(EdgesOfVertices(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -109,7 +109,7 @@ InstallMethod( VerticesAttributeOfPolygonalComplex,
     "for a polygonal complex with FacesOfVertices",
     [IsPolygonalComplex and HasFacesOfVertices],
     function(complex)
-        return __SIMPLICIAL_BoundEntriesOfList(FacesOfVertices(complex));
+        return __SIMPLICIAL_BoundPositions(FacesOfVertices(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -130,7 +130,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod( Edges, "for a polygonal complex with VerticesOfEdges",
     [IsPolygonalComplex and HasVerticesOfEdges],
     function(complex)
-        return __SIMPLICIAL_BoundEntriesOfList(VerticesOfEdges(complex));
+        return __SIMPLICIAL_BoundPositions(VerticesOfEdges(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -150,7 +150,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod( Edges, "for a polygonal complex with FacesOfEdges",
     [IsPolygonalComplex and HasFacesOfEdges],
     function(complex)
-        return __SIMPLICIAL_BoundEntriesOfList(FacesOfEdges(complex));
+        return __SIMPLICIAL_BoundPositions(FacesOfEdges(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -171,7 +171,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod( Faces, "for a polygonal complex with VerticesOfFaces",
     [IsPolygonalComplex and HasVerticesOfFaces],
     function(complex)
-        return __SIMPLICIAL_BoundEntriesOfList(VerticesOfFaces(complex));
+        return __SIMPLICIAL_BoundPositions(VerticesOfFaces(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -192,7 +192,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod( Faces, "for a polygonal complex with EdgesOfFaces",
     [IsPolygonalComplex and HasEdgesOfFaces],
     function(complex)
-        return __SIMPLICIAL_BoundEntriesOfList(EdgesOfFaces(complex));
+        return __SIMPLICIAL_BoundPositions(EdgesOfFaces(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -713,7 +713,7 @@ InstallMethod( Faces,
     "for a polygonal complex that has PerimetersOfFaces",
     [IsPolygonalComplex and HasPerimetersOfFaces],
     function(complex)
-        return __SIMPLICIAL_BoundEntriesOfList( PerimetersOfFaces(complex) );
+        return __SIMPLICIAL_BoundPositions( PerimetersOfFaces(complex) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,

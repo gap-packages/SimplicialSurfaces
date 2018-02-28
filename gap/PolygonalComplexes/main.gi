@@ -136,12 +136,6 @@ BindGlobal( "__SIMPLICIAL_CheckIncidenceEdgeFace",
     end
 );
 
-BindGlobal( "__SIMPLICIAL_BoundEntriesOfList",
-    function( list )
-	return Filtered( [1..Length(list)], i -> IsBound( list[i] ) );
-    end
-);
-
 ##
 ## Equality and display methods
 ##

@@ -909,7 +909,7 @@ BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
         cycles := List(invList, i -> Cycles(i, moved));
         newSym := [];
 
-        bound := BoundPositions(invList);
+        bound := __SIMPLICIAL_BoundPositions(invList);
         for b in bound do
             # Check the given localSymmetry
             if not IsBound(localSymmetry[b]) or localSymmetry[b] = 0 then
@@ -967,7 +967,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup",
         coloursOfEdges := [];
         invOfEdges := [];
         edgesOfFacesByColour := List(facePosition, i -> []);
-        for p in BoundPositions(invList) do
+        for p in __SIMPLICIAL_BoundPositions(invList) do
             cyc := Cycles( invList[p], faces );
             # Loop over all edges of colour p
             for i in [1..Length(cyc)] do
@@ -1264,7 +1264,7 @@ InstallMethod( AllTameColouredSurfaces,
                         invList, localSymmetry, "AllTameColouredSurfaces", true);
         setup := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup(invList, localSymmetry);
 
-        bound := BoundPositions(invList);
+        bound := __SIMPLICIAL_BoundPositions(invList);
 
         possTameSym := [];
         for i in [1..Length(bound)] do
