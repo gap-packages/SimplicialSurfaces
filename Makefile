@@ -1,4 +1,4 @@
-all: doc flatex/flatex
+all: flatex/flatex doc
 
 doc: doc/manual.six
 
