@@ -315,7 +315,31 @@ DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSe
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_DownwardIncidence
 #!
-#! TODO example
+#! As an example consider the following net of a simplicial surface:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle,face/.default=\faceColorFirst]
+#!          \input{Image_Constructor_SimplicialSurface.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := SimplicialSurfaceByDownwardIncidence(
+#! >      [[1,5],[2,5],[5,6],[5,9],[4,5],,[1,4],[1,2],[2,6],,
+#! >       [1,7],[2,7],[6,7],[7,10],[4,7],,[6,9],[4,9],[6,10],[4,10],,[9,10]],
+#! >      [[1,5,7],[1,2,8],[2,3,9],[3,4,17],[4,5,18],,,,[17,19,22],
+#! >       [18,20,22],[7,11,15],[8,11,12],[9,12,13],[13,14,19],[14,15,20]]);;
+#! gap> Vertices(surf);
+#! [ 1, 2, 4, 5, 6, 7, 9, 10 ]
+#! gap> Edges(surf);
+#! [ 1, 2, 3, 4, 5, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19, 20, 22 ]
+#! gap> Faces(surf);
+#! [ 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15 ]
+#! gap> EulerCharacteristic(surf);
+#! 2
+#! gap> IsClosedSurface(surf);
+#! true
+#! @EndExampleSession
+#TODO maybe show Display?
+#!
 #! @Returns a simplicial surface
 #! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
@@ -543,7 +567,32 @@ DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet,
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_UpwardIncidence
 #!
-#! TODO example
+#! As an example consider the following net of a simplicial surface:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond]
+#!          \input{Image_Constructor_SimplicialSurface.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := SimplicialSurfaceByUpwardIncidence(
+#! >      [[1,7,8,11],[2,8,9,12],,[5,7,15,18,20],[1,2,3,4,5],
+#! >       [3,9,13,17,19],[11,12,13,14,15],,[4,17,18,22],[14,19,20,22]],
+#! >      [[1,2],[2,3],[3,4],[4,5],[1,5],,[1,11],[2,12],[3,13],,
+#! >       [11,12],[12,13],[13,14],[14,15],[11,15],,
+#! >       [4,9],[5,10],[9,14],[10,15],,[9,10]]);;
+#! gap> Vertices(surf);
+#! [ 1, 2, 4, 5, 6, 7, 9, 10 ]
+#! gap> Edges(surf);
+#! [ 1, 2, 3, 4, 5, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19, 20, 22 ]
+#! gap> Faces(surf);
+#! [ 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15 ]
+#! gap> EulerCharacteristic(surf);
+#! 2
+#! gap> IsClosedSurface(surf);
+#! true
+#! @EndExampleSession
+#TODO maybe Display?
+#!
 #! @Returns a simplicial surface
 #! @Arguments edgesOfVertices, facesOfEdges
 DeclareOperation( "SimplicialSurfaceByUpwardIncidence", [IsList, IsList] );
@@ -741,7 +790,29 @@ DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet,
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_VerticesInFaces
 #! 
-#! TODO example
+#! As an example consider the following net of a simplicial surface:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorThird]
+#!          \input{Image_Constructor_SimplicialSurface.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := SimplicialSurfaceByVerticesInFaces(
+#! >      [[1,4,5],[1,2,5],[2,5,6],[5,6,9],[4,5,9],,,,
+#! >       [6,9,10],[4,9,10],[1,4,7],[1,2,7],[2,6,7],[6,7,10],[4,7,10]]);;
+#! gap> Vertices(surf);
+#! [ 1, 2, 4, 5, 6, 7, 9, 10 ]
+#! gap> NumberOfEdges(surf);
+#! 18
+#! gap> Faces(surf);
+#! [ 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15 ]
+#! gap> EulerCharacteristic(surf);
+#! 2
+#! gap> IsClosedSurface(surf);
+#! true
+#! @EndExampleSession
+#TODO maybe Display?
+#! 
 #! @Returns a simplicial surface
 #! @Arguments verticesInFaces
 DeclareOperation( "SimplicialSurfaceByVerticesInFaces", [IsList] );

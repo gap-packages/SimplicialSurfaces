@@ -1,0 +1,35 @@
+    \def\dist{2.5}
+
+    \coordinate (X) at (\dist,0);
+    \coordinate (Y) at (-60:\dist);
+    \foreach \i in {0,1,2,3,4}{
+        \foreach \j in {0,1,2,3}{
+            \coordinate (K\i\j) at ($\i*(X)+\j*(Y)$);
+        }
+    }
+
+    \draw[edge,face]
+        (K10) -- (K11) -- (K01) -- node[edgeLabel]{7} cycle
+        (K10) -- node[edgeLabel]{8} (K20) -- (K11) -- node[edgeLabel]{1} cycle
+        (K20) -- node[edgeLabel]{9} (K21) -- (K11) -- node[edgeLabel]{2} cycle
+        (K11) -- node[edgeLabel]{3} (K21) -- (K12) -- node[edgeLabel]{4} cycle
+        (K01) -- node[edgeLabel]{5} (K11) -- node[edgeLabel]{4} (K02) -- node[edgeLabel]{18} cycle
+        (K21) -- (K22) -- (K12) -- node[edgeLabel]{17} cycle
+        (K12) -- node[edgeLabel]{22} (K22) -- node[edgeLabel]{20} (K13) -- node[edgeLabel]{18} cycle
+        (K40) -- node[edgeLabel]{7} (K41) -- (K31) -- cycle
+        (K30) -- node[edgeLabel]{8} (K40) -- node[edgeLabel]{11} (K31) -- cycle
+        (K30) -- node[edgeLabel]{12} (K31) -- (K21) -- node[edgeLabel]{9} cycle
+        (K21) -- node[edgeLabel]{13} (K31) -- node[edgeLabel]{14} (K22) -- node[edgeLabel]{19} cycle
+        (K31) -- node[edgeLabel]{15} (K41) -- node[edgeLabel]{20} (K32) -- node[edgeLabel]{14} cycle;
+
+
+    % Face labels
+    \foreach \a/\b/\c/\n in {10/11/01/1, 10/20/11/2, 20/21/11/3, 11/21/12/4, 01/11/02/5, 21/22/12/9, 12/22/13/10, 40/41/31/11, 30/40/31/12, 30/31/21/13, 21/31/22/14, 31/41/32/20}{
+        \node at (barycentric cs:K\a=1,K\b=1,K\c=1) {\n};
+    }
+
+    % Vertex labels
+    \foreach \p/\r/\n in {10/above/1, 20/above/2, 30/above/2, 40/above/1, 01/left/4, 11/below/5, 21/above/6, 31/below/7, 41/right/4, 02/below/9, 12/left/9, 22/right/10, 32/below/10, 13/below/4}{
+        \vertexLabelR{K\p}{\r}{\n}
+    }
+
