@@ -526,11 +526,11 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
         local realShift, newVerticesOfEdges, newFacesOfEdges, obj, e, 
             newEdges;
 
-        if IsEmpty( Intersection(
+        if Length( Intersection(
                     VerticesAttributeOfPolygonalComplex(complex1), 
-                    VerticesAttributeOfPolygonalComplex(complex2)) ) and
-            IsEmpty( Intersection(Edges(complex1), Edges(complex2)) ) and
-            IsEmpty( Intersection(Faces(complex1), Faces(complex2)) ) then
+                    VerticesAttributeOfPolygonalComplex(complex2)) ) = 0 and
+            Length( Intersection(Edges(complex1), Edges(complex2)) ) = 0 and
+            Length( Intersection(Faces(complex1), Faces(complex2)) ) = 0 then
                 realShift := 0;
         else
             realShift := Maximum( Concatenation( 
@@ -1384,7 +1384,7 @@ InstallMethod( SplitMendableFlagPairs, "for a polygonal complex",
         for pair in boundPairs do
             verts1 := VerticesOfEdges(complex)[pair[1]];
             verts2 := VerticesOfEdges(complex)[pair[2]];
-            if IsEmpty(Intersection(verts1, verts2)) then
+            if Length(Intersection(verts1, verts2)) = 0 then
                 Append( flagPairs, [ 
                     Set( [ [ verts1[1], pair[1] ], [ verts2[1], pair[2] ] ] ),
                     Set( [ [ verts1[1], pair[1] ], [ verts2[2], pair[2] ] ] ),

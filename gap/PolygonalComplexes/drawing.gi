@@ -430,7 +430,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordNextEdge",
         #TODO implement more involved methods
         # Naive method that returns the minimum open edge
         diff := Difference( printRecord!.openEdges, rejected );
-        if IsEmpty(diff) then
+        if Length(diff) = 0 then
             return fail;
         else
             return diff[1];
@@ -559,7 +559,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordNoIntersection",
             cleanEdges := testResults[2];
         fi;
         for edge in Edges(surface) do
-            if IsEmpty(printRecord.edgeEndpoints[edge]) then
+            if Length(printRecord.edgeEndpoints[edge]) = 0 then
                 continue;
             fi;
             for edgePos in [1..Length(printRecord!.edgeEndpoints[edge])] do
@@ -870,7 +870,7 @@ InstallMethod( DrawSurfaceToTikz,
         # Start the actual method
         unplacedFaces := Faces(surface);
         strongComponents := [];
-        while not IsEmpty(unplacedFaces) do
+        while Length(unplacedFaces) > 0 do
             # Find the starting face
             start := __SIMPLICIAL_PrintRecordStartingFace( printRecord, surface, unplacedFaces );
             Add( printRecord!.startingFaces, start );
@@ -986,7 +986,7 @@ InstallMethod( DrawSurfaceToTikz,
                 # Add the new face and remove initial edge from openEdges
                 unplacedFaces := Difference( unplacedFaces, [ repeatData[proposedEdge][1] ]);
                 for e in EdgesOfFaces(surface)[repeatData[proposedEdge][1]] do
-                    if IsEmpty( Intersection(unplacedFaces, FacesOfEdges(surface)[e]) ) then
+                    if Length( Intersection(unplacedFaces, FacesOfEdges(surface)[e]) ) = 0 then
                         printRecord.openEdges := Difference( printRecord.openEdges, [e] );
                     else
                         printRecord.openEdges := Union( printRecord.openEdges, [e] );

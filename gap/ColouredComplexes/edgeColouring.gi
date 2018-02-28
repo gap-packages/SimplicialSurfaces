@@ -81,14 +81,14 @@ InstallMethod( EdgeColouredPolygonalComplex,
             # We should have a list edge->colour
 
             diff := Difference(edges, bound);
-            if not IsEmpty( diff ) then
+            if Length( diff ) > 0 then
                 Error(Concatenation( 
                     "EdgeColouredPolygonalComplex: There are no colours for the edges in ", 
                     String(diff), "." ));
             fi;
 
             diff := Difference(bound, edges);
-            if not IsEmpty( diff ) then
+            if Length( diff ) > 0 then
                 Error(Concatenation( 
                     "EdgeColouredPolygonalComplex: The positions in ", 
                     String(diff), " do not correspond to any edge." ));
@@ -99,14 +99,14 @@ InstallMethod( EdgeColouredPolygonalComplex,
 
             # Check equality of edges
             diff := Difference(edges, foundEdges);
-            if not IsEmpty(diff) then
+            if Length(diff) > 0 then
                 Error(Concatenation(
                     "EdgeColouredPolygonalComplex: The edges in ", String(diff), 
                     " do not appear in any colour class."));
             fi;
 
             diff := Difference(foundEdges, edges);
-            if not IsEmpty(diff) then
+            if Length(diff) > 0 then
                 Error(Concatenation(
                     "EdgeColouredPolygonalComplex: The numbers in ", String(diff), 
                     " appear in colour classes but don't correspond to edges."));
@@ -117,7 +117,7 @@ InstallMethod( EdgeColouredPolygonalComplex,
                 for j in [i+1..Length(bound)] do
                     inter := Intersection( 
                         colouring[bound[i]], colouring[bound[j]] );
-                    if not IsEmpty(inter) then
+                    if Length(inter) > 0 then
                         Error(Concatenation(
                             "EdgeColouredPolygonalComplex: The colour classes at positions ",
                             String(bound[i]), " and ", String(bound[j]), " are not disjoint."));

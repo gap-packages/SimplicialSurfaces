@@ -1036,7 +1036,7 @@ InstallMethod( UmbrellaPartitionsOfVertices,
             incidentEdges := EdgesOfVertices(ramSurf)[vertex];
             paths := [];
 
-            while not IsEmpty( incidentEdges ) do
+            while Length(incidentEdges) > 0 do
                 # If the path is not closed, we can't hope to find the correct 
                 # start immediately. If the path is closed, the correct start 
                 # is the smallest edge.
@@ -1156,7 +1156,7 @@ InstallMethod( PerimeterOfHoles, "for a polygonal surface",
         boundVerts := BoundaryVertices(surface);
         boundEdges := BoundaryEdges(surface);
         res := [];
-        while not IsEmpty(boundVerts) do
+        while Length(boundVerts) > 0 do
             path := [boundVerts[1]];
             incEdges := Intersection( boundEdges, EdgesOfVertices(surface)[path[1]] );
             adVertices := List(incEdges, e -> OtherVertexOfEdgeNC(surface,path[1],e));
@@ -1194,7 +1194,7 @@ InstallMethod( PerimeterOfHoles, "for a polygonal surface",
             boundEdges := Difference( boundEdges, EdgesAsList(vePath) );
         od;
 
-        Assert(1, IsEmpty(boundEdges));
+        Assert(1, Length(boundEdges)=0);
 
         return Set(res);
     end

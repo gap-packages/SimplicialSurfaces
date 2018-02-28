@@ -259,7 +259,7 @@ InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
 
 	faces := Faces(complex);
 	comp := [ ];
-	while not IsEmpty(faces) do
+	while Length(faces) > 0 do
 	    f := faces[1];
             component := ConnectedComponentOfFace(complex, f);
 	    Append( comp, [component] );
@@ -284,7 +284,7 @@ InstallMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex,
 
 	faces := Faces(complex);
 	comp := [ ];
-	while not IsEmpty(faces) do
+	while Length(faces) > 0 do
 	    f := faces[1];
             component := StronglyConnectedComponentOfFace(complex,f);
 	    Append( comp, [component] );
@@ -338,14 +338,14 @@ InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
         vertList := List( strongComponents, VerticesAttributeOfPolygonalComplex );
 
         check := [1..Length(strongComponents)];
-        while not IsEmpty(check) do
+        while Length(check) > 0 do
             newComponent := [ check[1] ];
             currentVert := vertList[ check[1] ];
             done := false;
             while not done do
                 done := true;
                 for i in Difference( check, newComponent ) do
-                    if not IsEmpty( Intersection( currentVert, vertList[i] ) ) then
+                    if Length( Intersection( currentVert, vertList[i] ) ) > 0 then
                         Add(newComponent, i );
                         check := Difference( check, [i] );
                         currentVert := Union( currentVert, vertList[i] );

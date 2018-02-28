@@ -183,9 +183,9 @@ InstallMethod( VertexEdgePathByEdges,
             __SIMPLICIAL_CheckEdge(complex, edgeList[1], "VertexEdgePathByEdges");
             for i in [2..Length(edgeList)] do
                 __SIMPLICIAL_CheckEdge(complex, edgeList[i], "VertexEdgePathByEdges");
-                if IsEmpty( Intersection(
+                if Length( Intersection(
                     VerticesOfEdges(complex)[edgeList[i-1]], 
-                    VerticesOfEdges(complex)[edgeList[i]]) ) then
+                    VerticesOfEdges(complex)[edgeList[i]]) ) = 0 then
                         Error(Concatenation(
                             "VertexEdgePathByEdges: The edges ",
                             String(edgeList[i-1]), " (position ",
@@ -774,7 +774,7 @@ InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
 
         geos := [];
         todoFlags := ShallowCopy(flags);
-        while not IsEmpty(todoFlags) do
+        while Length(todoFlags) > 0 do
             # Start with a boundary edge if possible
             start := First( todoFlags, f -> f[2] in boundary );
             if start = fail then
