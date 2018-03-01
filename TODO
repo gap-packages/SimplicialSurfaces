@@ -22,7 +22,6 @@ Profile Classification script: Step 18 -> 20
     -> ListWithIdenticalEntries
     -> List is slower than a for-loop (factor 2..)
     -> TransitiveIncidence with loop in list (write in position) and perform Set
-    -> BoundPositions replaced by loop (with separate counting variable)
     -> Replace Filtered in general in this fashion (maybe write a custom filtered?)
     -> Improve OnTuplesTuples (PR): lines 362 in NautyGraph.gi (and in general)
         -> Evtly PR against library?

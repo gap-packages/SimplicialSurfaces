@@ -1,3 +1,6 @@
+LoadPackage("profiling");
+LoadPackage("SimplicialSurfaces");
+
 # Only relevant: Boundary starts with [1,1]
 # it continues: ( v1, E1, v2, E4, v4, E5, v3, E3, v1 )
 StandardTrianglePair := SimplicialSurfaceByDownwardIncidence( [[1,2],[2,3],[1,3],[2,4],[3,4]], [[1,2,3],[2,4,5]] );
