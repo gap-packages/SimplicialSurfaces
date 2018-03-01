@@ -287,7 +287,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
             fi;
         od;
 
-        return List(newPaths, p -> [VertexEdgePath(newComplex, p[1]), VertexEdgePath(oldComplex,p[2])]);
+        return List(newPaths, p -> [VertexEdgePathNC(newComplex, p[1]), VertexEdgePathNC(oldComplex,p[2])]);
     end
 );
 

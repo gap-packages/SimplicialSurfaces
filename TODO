@@ -21,8 +21,6 @@ Profile Classification script: Step 18 -> 20
     -> Pull-Request auf NautyTracesInterface Zeile 22 in *NodeLabels* (etc.)
     -> ListWithIdenticalEntries
     -> List is slower than a for-loop (factor 2..)
-    -> Maximum is no attribute (line 169 modification)
-    -> modification 289 NC!
     -> TransitiveIncidence with loop in list (write in position) and perform Set
     -> BoundPositions replaced by loop (with separate counting variable)
     -> Replace Filtered in general in this fashion (maybe write a custom filtered?)
