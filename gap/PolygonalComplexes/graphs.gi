@@ -140,7 +140,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
             vertexList := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
             edgeList := [];
-            colourList := List( [1..NumberOfVertices(complex)], i -> 0 );
+            colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
 
             for e in Edges(complex) do
                 Add(colourList, 1);
