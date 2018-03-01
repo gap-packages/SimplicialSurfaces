@@ -8,9 +8,6 @@ Coloured output:
         -> One chapter for edge-face-paths (maybe even one for geodesics if geodesic duality is concerned)
         -> Unclear where connectivity and orientability should end up
 
-Implement EdgeColouredUmbrellas -> seems to be needed
-
-
 Better inclusion of covers:
     -> maybe by map cover->surface ?
     -> where are vertices, edges, faces represented?
@@ -21,7 +18,6 @@ Modification (mid-term):
 
 Profile Classification script: Step 18 -> 20
  and optimize
-    -> polygonal_hierarchy: Replace List(Length) and only compute Length in the loop
     -> Pull-Request auf NautyTracesInterface Zeile 22 in *NodeLabels* (etc.)
     -> ListWithIdenticalEntries
     -> List is slower than a for-loop (factor 2..)

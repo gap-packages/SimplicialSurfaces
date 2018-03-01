@@ -32,14 +32,15 @@ InstallOtherMethod( SplitEdge, "for a polygonal complex and an edge",
 InstallOtherMethod( SplitEdgeNC, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
-        local nrIncFaces;
+        local nrIncFaces, max;
 
         nrIncFaces := Length(FacesOfEdges(complex)[edge]);
         if nrIncFaces = 1 then
             return SplitEdgeNC(complex, edge, [edge]);
         else
+            max := Maximum(Edges(complex));
             return SplitEdgeNC(complex, edge, 
-                List([1..nrIncFaces], i -> Maximum(Edges(complex))+i));
+                List([1..nrIncFaces], i -> max+i));
         fi;
     end
 );
@@ -158,15 +159,15 @@ InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
 InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
-        local nrIncStars;
+        local nrIncStars, max;
 
         nrIncStars := Length(__SIMPLICIAL_ConnectedStarComponents(complex, vertex));
         if nrIncStars = 1 then
             return SplitVertexNC(complex, vertex, [vertex]);
         else
+            max := Maximum(VerticesAttributeOfPolygonalComplex(complex));
             return SplitVertexNC(complex, vertex, 
-                List([1..nrIncStars], i -> 
-                    Maximum(VerticesAttributeOfPolygonalComplex(complex))+i));
+                List([1..nrIncStars], i -> max+i));
         fi;
     end
 );
