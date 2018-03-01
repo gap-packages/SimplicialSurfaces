@@ -32,7 +32,7 @@ InstallMethod( IsEdgeExactColouring,
             return false;
         fi;
 
-        nrCol := Length( Set( ColoursOfEdges(colComp) ) );
+        nrCol := Length( Colours(colComp) );
         edges := EdgesOfFaces( PolygonalComplex(colComp) );
         nrEdges := List(edges, Length);
         return nrCol = Maximum(nrEdges);
@@ -314,114 +314,6 @@ InstallMethod( LocalSymmetryOfColours,
 ##
 ##      AllWild...
 ##
-
-BindGlobal( "__SIMPLICIAL_GeneratorsFromFacePairs",
-    function(facepairs)
-        local gens, g, i,  cycs, cycs_c, gens_c, faces, fixedpoints_c, c,
-              AllGenSets, NextFace, fixedpoints, IsEligible, check;
-
-        if Length(facepairs) = 0 then return [ (), (), () ]; fi;
-        check := Filtered( facepairs, i-> not IsList(i) or 
-                           not Length(i) in [1,2] or not IsPosInt(i[1]) or 
-                           Length( Filtered(i, j-> not IsPosInt(j)) ) > 0 );
-        if Length(check)<> 0 then 
-            Error("__SIMPLICIAL_GeneratorsFromFacePairs: ", 
-                  "input not a list of pairs of positive integers");
-        fi;
-
-        facepairs := Compacted(facepairs);
-        faces := Set( Flat(facepairs) );
-        
-        cycs := ShallowCopy(facepairs);
-
-        c := First( cycs, i-> Length(i) = 2 );
-        if c = fail then return [ (), (), () ]; fi;
-        Remove(cycs,Position(cycs,c));
-        Sort(cycs);
-        
-
-        cycs_c := ShallowCopy(cycs);
-        # the first cycle has to be somewhere so it might as well
-        # be on the first generator
-        gens_c := [ (c[1], c[2]), (), () ];
-
-
-        # here we record which fixed points we have used in which
-        # generator so far
-        fixedpoints := [];
-        fixedpoints[1] := List( [1..Length(faces)], i-> false );
-        fixedpoints[2] := List( [1..Length(faces)], i-> false );
-        fixedpoints[3] := List( [1..Length(faces)], i-> false );
-
-        # a global variable to store the results
-        AllGenSets := [];
-
-
-        # test whether g can be extended with the cycle c
-        IsEligible := function (g,i, c, fix )
-              
-            if Length(c) = 2 then
-                # first we have to ensure that neither c[1] nor c[2] are
-                # fixed points of g
-                if fix[i][c[1]] = false and fix[i][c[2]] = false and
-                   c[1]^g = c[1] and c[2]^g = c[2] then
-                    return true; # the 2-cycle is not in gens[i] yet
-                else return false;
-                fi;
-            else # c is a 1-cycle
-                # if it has not yet been used in g and g fixes it, return true
-                if fix[i][c[1]] = false and c[1]^g=c[1] then return true; fi;
-            fi;
-
-            return false;
-
-        end;
-
-        # find all possibilities of moving face f
-        NextFace := function( gens, cycs, fixedpoints )
-            local g, i, c, nf;
-
-        
-            # choose the first cycle that contains f
-            c := cycs[1];
-
-            # now we try to add c to each of the generators
-            for i in [ 1 .. 3 ] do
-                g := gens[i];
-                if IsEligible(g,i,c, fixedpoints) then
-                    # this generator does not already move the 
-                    # points in c, hence we can extend it by c.
-                    gens_c := ShallowCopy(gens);
-                    cycs_c := ShallowCopy(cycs);
-                    fixedpoints_c := 
-                        List(fixedpoints, x -> ShallowCopy(x));
-                    if Length(c) = 2 then 
-                        # if c is a 2-cycle, extend g
-                        gens_c[i] := g * (c[1],c[2]);
-                    else
-                        # if c is a 1-cycle record its use in g
-                        fixedpoints_c[i][c[1]] := true;
-                    fi;
-                    Remove( cycs_c, Position(cycs_c,c) );
-
-                    if Length(cycs_c) = 0 then
-                        # there are no more points to move 
-                        # hence we found a valid assignment
-                        Sort( gens_c );
-                        Add(AllGenSets, gens_c);
-                    else
-                        NextFace( gens_c,cycs_c,fixedpoints_c);
-                    fi;
-                fi;
-            od;
-
-        end;
-
-        NextFace( gens_c, cycs_c, fixedpoints );
-
-        return Set(AllGenSets);
-    end
-);
 
 ## Surface-variation
 InstallOtherMethod( AllWildColouredSurfaces, "for a simplicial surface",
@@ -746,7 +638,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
         # entry is number of coloured edge if it is coloured
         # entries for each face are not necessarily sorted
         # smaller indices are filled first
-        colEdgesOfFaces := List([1..3*Length(Faces(simpSurf))], i -> 0);
+        colEdgesOfFaces := ListWithIdenticalEntries(3*Length(Faces(simpSurf)),0);
 
         startingFace := Faces(simpSurf)[1];
         edges := EdgesOfFaces(simpSurf)[startingFace];
@@ -1664,6 +1556,7 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
         # store for every colour (1,2,3) whether the appropriate
         # edge of face f is a mirror or a rotation
         cSym := List( [1,2,3], j -> List(cfaces, i -> 0) );
+        cSym := List( [1,2,3], j -> ListWithIdenticalEntries(Length(cfaces),0) );
 
         # now we have to compute the edges
         # Starting from (f,(e_x, e_y, e_z)) the generator sigma_1
