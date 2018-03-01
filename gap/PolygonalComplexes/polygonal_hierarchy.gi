@@ -67,11 +67,10 @@ __SIMPLICIAL_AddPolygonalAttribute( IsTriangularComplex );
 InstallMethod( IsTriangularComplex, "for a polygonal complex that has EdgesOfFaces",
     [ IsPolygonalComplex and HasEdgesOfFaces ],
     function( complex )
-        local edgeSize, e;
+        local f;
 
-        edgeSize := List(Faces(complex), f -> Length(EdgesOfFaces(complex)[f]));
-        for e in edgeSize do
-            if e <> 3 then
+        for f in Faces(complex) do
+            if Length(EdgesOfFaces(complex)[f]) <> 3 then
                 return false;
             fi;
         od;
@@ -90,11 +89,10 @@ InstallMethod( IsRamifiedPolygonalSurface,
     "for a polygonal complex that has Edges and FacesOfEdges",
     [ IsPolygonalComplex and HasFacesOfEdges and HasEdges ],
     function( complex )
-        local faceSize, f;
-        
-        faceSize := List( Edges(complex), e -> Length(FacesOfEdges(complex)[e]) );
-        for f in faceSize do
-            if f > 2 then
+        local e;
+
+        for e in Edges(complex) do
+            if Length(FacesOfEdges(complex)[e]) > 2 then
                 return false;
             fi;
         od;
@@ -113,12 +111,11 @@ InstallMethod( IsPolygonalSurface,
     "for a ramified polygonal surface with UmbrellaPartitionsOfVertices and Vertices",
     [ IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
     function( ramSurf )
-        local paths, pathSize, s;
+        local paths, v;
 
         paths := UmbrellaPartitionsOfVertices(ramSurf);
-        pathSize := List( VerticesAttributeOfPolygonalComplex(ramSurf), v -> Length(paths[v]) );
-        for s in pathSize do
-            if s <> 1 then
+        for v in VerticesAttributeOfPolygonalComplex(ramSurf) do
+            if Length(paths[v]) <> 1 then
                 return false;
             fi;
         od;
