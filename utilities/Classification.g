@@ -10,7 +10,7 @@ Enlargement := function(surface)
 
     # Compute all pairs of edges with one incident vertex that don't lie in a common face
     edgePairs := [];
-    for v in Vertices(surface) do
+    for v in VerticesAttributeOfPolygonalComplex(surface) do
         incEdgePairs := Combinations( EdgesOfVertices(surface)[v], 2);
         incEdgePairs := Filtered(incEdgePairs, p -> ForAll(EdgesOfFaces(surface), es -> not IsSubset(es, p)));
         Append(edgePairs, incEdgePairs);
@@ -52,12 +52,12 @@ end;
 CompareLists := function( list1, list2 )
     local union, unionRep;
 
-    if Size(list1) <> Size(list2) then
+    if Length(list1) <> Length(list2) then
         return false;
     fi;
     union := Concatenation(list1, list2);
     unionRep := PolygonalComplexIsomorphismRepresentatives(union);
-    if Size(unionRep) <> Size(list1) then
+    if Length(unionRep) <> Length(list1) then
         return false;
     else
         return true;
