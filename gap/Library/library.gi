@@ -67,7 +67,7 @@ BindGlobal( "__SIMPLICIAL_ReadLibraryAccessList",
         local trueArg, ind;
 
         trueArg := [];
-        if IsEmpty(argList) then
+        if Length(argList) = 0 then
             return trueArg;
         fi;
 
