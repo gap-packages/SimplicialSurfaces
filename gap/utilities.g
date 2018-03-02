@@ -13,14 +13,12 @@
 
 BindGlobal( "__SIMPLICIAL_BoundPositions",
     function( list )
-        local res, i, pos;
+        local res, i;
 
         res := [];
-        pos := 1;
         for i in [1..Length(list)] do
             if IsBound(list[i]) then
-                res[pos] := i;
-                pos := pos+1;
+                Add(res, i);
             fi;
         od;
         return res;

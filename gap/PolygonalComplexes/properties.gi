@@ -137,15 +137,13 @@ InstallMethod( FaceCounter, "for a polygonal complex",
 InstallMethod( InnerVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeFacePaths, res, pos, v;
+        local edgeFacePaths, res, v;
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         res := [];
-        pos := 1;
         for v in VerticesAttributeOfPolygonalComplex(complex) do
             if edgeFacePaths[v] <> fail and IsClosedPath(edgeFacePaths[v]) then
-                res[pos] := v;
-                pos := pos + 1;
+                Add(res, v);
             fi;
         od;
         return res;
@@ -169,15 +167,13 @@ InstallMethod( IsInnerVertex, "for a polygonal complex and a vertex",
 InstallMethod( BoundaryVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeFacePaths, res, pos, v;
+        local edgeFacePaths, res, v;
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         res := [];
-        pos := 1;
         for v in VerticesAttributeOfPolygonalComplex(complex) do
             if edgeFacePaths[v] <> fail and not IsClosedPath(edgeFacePaths[v]) then
-                res[pos] := v;
-                pos := pos + 1;
+                Add(res, v);
             fi;
         od;
         return res;
@@ -201,16 +197,14 @@ InstallMethod( IsBoundaryVertex, "for a polygonal complex and a vertex",
 InstallMethod( RamifiedVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeFacePaths, partitions, res, pos, v;
+        local edgeFacePaths, partitions, res, v;
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         partitions := UmbrellaPartitionsOfVertices(complex);
         res := [];
-        pos := 1;
         for v in VerticesAttributeOfPolygonalComplex(complex) do
             if edgeFacePaths[v] = fail and partitions[v] <> fail then
-                res[pos] := v;
-                pos := pos + 1;
+                Add(res, v);
             fi;
         od;
         return res;
@@ -234,15 +228,13 @@ InstallMethod( IsRamifiedVertex, "for a polygonal complex and a vertex",
 InstallMethod( ChaoticVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local partitions, res, pos, v;
+        local partitions, res, v;
 
         partitions := UmbrellaPartitionsOfVertices(complex);
         res := [];
-        pos := 1;
         for v in VerticesAttributeOfPolygonalComplex(complex) do
             if partitions[v] = fail then
-                res[pos] := v;
-                pos := pos + 1;
+                Add(res, v);
             fi;
         od;
         return res;
@@ -277,15 +269,13 @@ InstallMethod( IsChaoticVertex, "for a polygonal complex and a vertex",
 InstallMethod( InnerEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local facesOfEdges, res, pos, e;
+        local facesOfEdges, res, e;
 
         facesOfEdges := FacesOfEdges(complex);
         res := [];
-        pos := 1;
         for e in Edges(complex) do
             if Length(facesOfEdges[e]) = 2 then
-                res[pos] := e;
-                pos := pos + 1;
+                Add(res, e);
             fi;
         od;
         return res;
@@ -309,15 +299,13 @@ InstallMethod( IsInnerEdge, "for a polygonal complex and an edge",
 InstallMethod( BoundaryEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local facesOfEdges, res, pos, e, u,v;
+        local facesOfEdges, res, e, u,v;
 
         facesOfEdges := FacesOfEdges(complex);
         res := [];
-        pos := 1;
         for e in Edges(complex) do
             if Length(facesOfEdges[e]) = 1 then
-                res[pos] := e;
-                pos := pos + 1;
+                Add(res,e);
             fi;
         od;
         return res;
@@ -341,15 +329,13 @@ InstallMethod( IsBoundaryEdge, "for a polygonal complex and an edge",
 InstallMethod( RamifiedEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local facesOfEdges, ram, pos, e;
+        local facesOfEdges, ram, e;
 
         facesOfEdges := FacesOfEdges(complex);
         ram := [];
-        pos := 1;
         for e in Edges(complex) do
             if Length(facesOfEdges[e]) > 2 then
-                ram[pos] := e;
-                pos := pos + 1;
+                Add(ram, e);
             fi;
         od;
         return ram;
