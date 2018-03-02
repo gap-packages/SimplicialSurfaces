@@ -38,9 +38,8 @@ InstallOtherMethod( SplitEdgeNC, "for a polygonal complex and an edge",
         if nrIncFaces = 1 then
             return SplitEdgeNC(complex, edge, [edge]);
         else
-            max := Maximum(Edges(complex));
-            return SplitEdgeNC(complex, edge, 
-                List([1..nrIncFaces], i -> max+i));
+            max := Edges(complex)[NumberOfEdges(complex)];
+            return SplitEdgeNC(complex, edge, [1..nrIncFaces]+max);
         fi;
     end
 );
@@ -165,9 +164,8 @@ InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
         if nrIncStars = 1 then
             return SplitVertexNC(complex, vertex, [vertex]);
         else
-            max := Maximum(VerticesAttributeOfPolygonalComplex(complex));
-            return SplitVertexNC(complex, vertex, 
-                List([1..nrIncStars], i -> max+i));
+            max := VerticesAttributeOfPolygonalComplex(complex)[ NumberOfVertices(complex) ];
+            return SplitVertexNC(complex, vertex, [1..nrIncStars]+max );
         fi;
     end
 );
@@ -372,14 +370,14 @@ InstallMethod( SplitEdgePathNC,
         swapComplex := complex;
         # Split the edges
         for i in [1..Length(EdgesAsList(vePath))] do
-            edgeSplit := SplitEdge(swapComplex, EdgesAsList(vePath)[i]);
+            edgeSplit := SplitEdgeNC(swapComplex, EdgesAsList(vePath)[i]);
             swapComplex := edgeSplit[1];
             newLabelList[2*i] := edgeSplit[2];
         od;
         # Split the vertices
         newLabelList[1] := [VerticesAsList(vePath)[1]];
         for i in [2..Length(VerticesAsList(vePath))-1] do
-            vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[i]);
+            vertexSplit := SplitVertexNC(swapComplex, VerticesAsList(vePath)[i]);
             swapComplex := vertexSplit[1];
             newLabelList[2*i-1] := vertexSplit[2];
         od;
@@ -525,7 +523,7 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
     [IsPolygonalComplex, IsPolygonalComplex, IsInt],
     function(complex1, complex2, shift)
         local realShift, newVerticesOfEdges, newFacesOfEdges, obj, e, 
-            newEdges;
+            newEdges, vMax, eMax, fMax;
 
         if Length( Intersection(
                     VerticesAttributeOfPolygonalComplex(complex1), 
@@ -534,9 +532,10 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
             Length( Intersection(Faces(complex1), Faces(complex2)) ) = 0 then
                 realShift := 0;
         else
-            realShift := Maximum( Concatenation( 
-                VerticesAttributeOfPolygonalComplex(complex1), 
-                Edges(complex1), Faces(complex1) ) );
+            vMax := VerticesAttributeOfPolygonalComplex(complex1)[ NumberOfVertices(complex1) ];
+            eMax := Edges(complex1)[NumberOfEdges(complex1)];
+            fMax := Faces(complex1)[NumberOfFaces(complex1)];
+            realShift := Maximum( [vMax, eMax, fMax] );
         fi;
 
         if shift > realShift then
@@ -547,10 +546,8 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
         newFacesOfEdges := ShallowCopy( FacesOfEdges(complex1) );
         newEdges := ShallowCopy( Edges(complex1) );
         for e in Edges(complex2) do
-            newVerticesOfEdges[e + realShift] := 
-                List( VerticesOfEdges(complex2)[e], v -> v + realShift );
-            newFacesOfEdges[e + realShift] := 
-                List( FacesOfEdges(complex2)[e], f -> f + realShift );
+            newVerticesOfEdges[e + realShift] := VerticesOfEdges(complex2)[e] + realShift;
+            newFacesOfEdges[e + realShift] := FacesOfEdges(complex2)[e] + realShift;
             Add(newEdges, e + realShift);
         od;
 
@@ -618,7 +615,7 @@ InstallOtherMethod( JoinVertices,
         if Length(vertSet) = 1 then
             label := vertSet[1];
         else
-            label := Maximum(VerticesAttributeOfPolygonalComplex(complex)) + 1;
+            label := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)] + 1;
         fi;
         return JoinVertices(complex, vertSet, label);
     end
@@ -633,7 +630,7 @@ InstallOtherMethod( JoinVerticesNC,
         if Length(vertSet) = 1 then
             label := vertSet[1];
         else
-            label := Maximum(VerticesAttributeOfPolygonalComplex(complex)) + 1;
+            label := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)] + 1;
         fi;
         return JoinVerticesNC(complex, vertSet, label);
     end
@@ -693,7 +690,7 @@ InstallOtherMethod( JoinVertices,
         if v1 = v2 then
             label := v1;
         else
-            label := Maximum(VerticesAttributeOfPolygonalComplex(complex))+1;
+            label := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)]+1;
         fi;
         return JoinVertices(complex, v1, v2, label);
     end
@@ -707,7 +704,7 @@ InstallOtherMethod( JoinVerticesNC,
         if v1 = v2 then
             label := v1;
         else
-            label := Maximum(VerticesAttributeOfPolygonalComplex(complex))+1;
+            label := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)]+1;
         fi;
         return JoinVerticesNC(complex, v1, v2, label);
     end
@@ -740,6 +737,7 @@ InstallMethod( JoinVerticesNC,
         fi;
 
         if v1 <> v2 and ForAny( VerticesOfFaces(complex), verts -> IsSubset(verts,[v1,v2]) ) then
+        #if v1 <> v2 and Intersection( FacesOfVertices(complex)[v1], FacesOfVertices(complex)[v2] ) <> [] then
             return fail;
         fi;
 
@@ -774,14 +772,14 @@ InstallOtherMethod( JoinEdges,
     "for a polygonal complex and a list of two edges",
     [IsPolygonalComplex, IsList],
     function(complex, edgeList)
-        return JoinEdges(complex, edgeList, Maximum(Edges(complex))+1);
+        return JoinEdges(complex, edgeList, Edges(complex)[NumberOfEdges(complex)] +1);
     end
 );
 InstallOtherMethod( JoinEdgesNC, 
     "for a polygonal complex and a list of two edges",
     [IsPolygonalComplex, IsList],
     function(complex, edgeList)
-        return JoinEdgesNC(complex, edgeList, Maximum(Edges(complex))+1);
+        return JoinEdgesNC(complex, edgeList, Edges(complex)[NumberOfEdges(complex)] + 1);
     end
 );
 InstallMethod( JoinEdges,
@@ -823,13 +821,13 @@ InstallMethod( JoinEdgesNC,
 InstallOtherMethod( JoinEdges, "for a polygonal complex and two edges",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, e1, e2)
-        return JoinEdges(complex, e1, e2, Maximum(Edges(complex))+1);
+        return JoinEdges(complex, e1, e2, Edges(complex)[NumberOfEdges(complex)]+1);
     end
 );
 InstallOtherMethod( JoinEdgesNC, "for a polygonal complex and two edges",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, e1, e2)
-        return JoinEdgesNC(complex, e1, e2, Maximum(Edges(complex))+1);
+        return JoinEdgesNC(complex, e1, e2, Edges(complex)[NumberOfEdges(complex)]+1);
     end
 );
 
@@ -1036,7 +1034,7 @@ InstallMethod(JoinBoundaries,
         local disjoint, join;
 
         disjoint := DisjointUnion(surface1, surface2);
-        join := JoinBoundaries( disjoint[1], flag1, List(flag2, x -> x + disjoint[2]) );
+        join := JoinBoundaries( disjoint[1], flag1, flag2 + disjoint[2] );
         if join = fail then
             return fail;
         fi;
@@ -1049,7 +1047,7 @@ InstallMethod(JoinBoundaries,
     "for a polygonal surface and two 2-flags",
     [IsPolygonalSurface, IsList, IsList],
     function(surface, flag1, flag2)
-        local perims, perim1, perim2, bound1, bound2, Reorient;
+        local perims, perim1, perim2, bound1, bound2, Reorient, p;
 
         if Length(flag1) < 2 then
             Error(Concatenation("JoinBoundaries: First 2-flag should contain two elements, but actually has ", String(Length(flag1)),"."));
@@ -1057,16 +1055,16 @@ InstallMethod(JoinBoundaries,
         if Length(flag2) < 2 then
             Error(Concatenation("JoinBoundaries: Second 2-flag should contain two elements, but actually has ", String(Length(flag2)),"."));
         fi;
-        if not IsBoundaryVertex(surface, flag1[1]) then
+        if not flag1[1] in BoundaryVertices(surface) then
             Error(Concatenation("JoinBoundaries: Vertex ", String(flag1[1]), " of first flag is not a boundary vertex."));
         fi;
-        if not IsBoundaryVertex(surface, flag2[1]) then
+        if not flag2[1] in BoundaryVertices(surface) then
             Error(Concatenation("JoinBoundaries: Vertex ", String(flag2[1]), " of second flag is not a boundary vertex."));
         fi;
-        if not IsBoundaryEdge(surface, flag1[2]) then
+        if not flag1[2] in BoundaryEdges(surface) then
             Error(Concatenation("JoinBoundaries: Edge ", String(flag1[2]), " of first flag is not a boundary edge."));
         fi;
-        if not IsBoundaryEdge(surface, flag2[2]) then
+        if not flag2[2] in BoundaryEdges(surface) then
             Error(Concatenation("JoinBoundaries: Edge ", String(flag2[2]), " of second flag is not a boundary edge."));
         fi;
         if not flag1[1] in VerticesOfEdges(surface)[flag1[2]] then
@@ -1079,8 +1077,16 @@ InstallMethod(JoinBoundaries,
         perims := PerimeterOfHoles(surface);
         # Each edge can be in only one boundary path
         #TODO could this become another VertexEdgePath-Constructor?
-        perim1 := Filtered(perims, p -> flag1[2] in EdgesAsList(p));
-        perim2 := Filtered(perims, p -> flag2[2] in EdgesAsList(p));
+        perim1 := [];
+        perim2 := [];
+        for p in perims do
+            if flag1[2] in EdgesAsList(p) then
+                Add(perim1, p);
+            fi;
+            if flag2[2] in EdgesAsList(p) then
+                Add(perim2, p);
+            fi;
+        od;
         Assert(0, Length(perim1) = 1);
         Assert(0, Length(perim2) = 1);
         perim1 := perim1[1];
@@ -1124,8 +1130,8 @@ InstallMethod(JoinBoundaries,
             Error("JoinBoundaries: Internal Error");
         end;
 
-        bound1 := VertexEdgePath( surface, Reorient( PathAsList(perim1), flag1[1], flag1[2] ) );
-        bound2 := VertexEdgePath( surface, Reorient( PathAsList(perim2), flag2[1], flag2[2] ) );
+        bound1 := VertexEdgePathNC( surface, Reorient( PathAsList(perim1), flag1[1], flag1[2] ) );
+        bound2 := VertexEdgePathNC( surface, Reorient( PathAsList(perim2), flag2[1], flag2[2] ) );
         return JoinVertexEdgePathsNC(surface, bound1, bound2);
     end
 );
