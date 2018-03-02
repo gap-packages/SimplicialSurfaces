@@ -412,13 +412,16 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 BindGlobal( "__SIMPLICIAL_TransitiveIncidence", 
     function( a_labels, a_of_b, b_labels, b_of_c, c_labels )
-        local c, a_of_c, a_in_b, b_in_c;
+        local c, a_of_c, a_in_b, b_in_c, x;
 
         a_of_c := [];
         for c in c_labels do
             b_in_c := b_of_c[c];
-            a_in_b := List( b_in_c, x -> a_of_b[x] );
-            a_of_c[c] := Union(a_in_b);
+            a_in_b := [];
+            for x in b_in_c do
+                Append(a_in_b, a_of_b[x]);
+            od;
+            a_of_c[c] := Set(a_in_b);
         od;
 
         return a_of_c;
