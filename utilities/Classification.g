@@ -26,7 +26,7 @@ Enlargement := function(surface)
     for orb in orbs do
         orbRep := orb[1];
         splitPath := VertexEdgePathByEdgesNC(surface, orbRep);
-        splitEdge := SplitEdgePath(surface, splitPath);
+        splitEdge := SplitEdgePathNC(surface, splitPath);
         # The second component are two vertex-edge-paths in which the cut was separated in
         bound := splitEdge[2][1][1];
         join := JoinBoundaries(splitEdge[1], PathAsList(bound){[1,2]}, StandardTrianglePair, [1,1]);
