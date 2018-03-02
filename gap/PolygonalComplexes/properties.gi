@@ -137,11 +137,18 @@ InstallMethod( FaceCounter, "for a polygonal complex",
 InstallMethod( InnerVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeFacePaths;
+        local edgeFacePaths, res, pos, v;
 
         edgeFacePaths := UmbrellasOfVertices(complex);
-        return Filtered( VerticesAttributeOfPolygonalComplex(complex), v -> 
-            edgeFacePaths[v]<>fail and IsClosedPath(edgeFacePaths[v]) );
+        res := [];
+        pos := 1;
+        for v in VerticesAttributeOfPolygonalComplex(complex) do
+            if edgeFacePaths[v] <> fail and IsClosedPath(edgeFacePaths[v]) then
+                res[pos] := v;
+                pos := pos + 1;
+            fi;
+        od;
+        return res;
     end
 );
 InstallMethod( IsInnerVertexNC, "for a polygonal complex and a vertex",
@@ -162,11 +169,18 @@ InstallMethod( IsInnerVertex, "for a polygonal complex and a vertex",
 InstallMethod( BoundaryVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeFacePaths;
+        local edgeFacePaths, res, pos, v;
 
         edgeFacePaths := UmbrellasOfVertices(complex);
-        return Filtered( VerticesAttributeOfPolygonalComplex(complex), v -> 
-            edgeFacePaths[v]<>fail and not IsClosedPath(edgeFacePaths[v]) );
+        res := [];
+        pos := 1;
+        for v in VerticesAttributeOfPolygonalComplex(complex) do
+            if edgeFacePaths[v] <> fail and not IsClosedPath(edgeFacePaths[v]) then
+                res[pos] := v;
+                pos := pos + 1;
+            fi;
+        od;
+        return res;
     end
 );
 InstallMethod( IsBoundaryVertexNC, "for a polygonal complex and a vertex",
@@ -187,12 +201,19 @@ InstallMethod( IsBoundaryVertex, "for a polygonal complex and a vertex",
 InstallMethod( RamifiedVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local edgeFacePaths, partitions;
+        local edgeFacePaths, partitions, res, pos, v;
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         partitions := UmbrellaPartitionsOfVertices(complex);
-        return Filtered( VerticesAttributeOfPolygonalComplex(complex), v -> 
-            edgeFacePaths[v]=fail and partitions[v]<>fail );
+        res := [];
+        pos := 1;
+        for v in VerticesAttributeOfPolygonalComplex(complex) do
+            if edgeFacePaths[v] = fail and partitions[v] <> fail then
+                res[pos] := v;
+                pos := pos + 1;
+            fi;
+        od;
+        return res;
     end
 );
 InstallMethod( IsRamifiedVertexNC, "for a polygonal complex and a vertex",
@@ -213,10 +234,18 @@ InstallMethod( IsRamifiedVertex, "for a polygonal complex and a vertex",
 InstallMethod( ChaoticVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local partitions;
+        local partitions, res, pos, v;
 
         partitions := UmbrellaPartitionsOfVertices(complex);
-        return Filtered( VerticesAttributeOfPolygonalComplex(complex), v -> partitions[v]=fail );
+        res := [];
+        pos := 1;
+        for v in VerticesAttributeOfPolygonalComplex(complex) do
+            if partitions[v] = fail then
+                res[pos] := v;
+                pos := pos + 1;
+            fi;
+        od;
+        return res;
     end
 );
 InstallMethod( IsChaoticVertexNC, "for a polygonal complex and a vertex",
@@ -248,10 +277,18 @@ InstallMethod( IsChaoticVertex, "for a polygonal complex and a vertex",
 InstallMethod( InnerEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local facesOfEdges;
+        local facesOfEdges, res, pos, e;
 
         facesOfEdges := FacesOfEdges(complex);
-        return Filtered( Edges(complex), e -> Length(facesOfEdges[e]) = 2 );
+        res := [];
+        pos := 1;
+        for e in Edges(complex) do
+            if Length(facesOfEdges[e]) = 2 then
+                res[pos] := e;
+                pos := pos + 1;
+            fi;
+        od;
+        return res;
     end
 );
 InstallMethod( IsInnerEdgeNC, "for a polygonal complex and an edge",
@@ -272,10 +309,18 @@ InstallMethod( IsInnerEdge, "for a polygonal complex and an edge",
 InstallMethod( BoundaryEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local facesOfEdges;
+        local facesOfEdges, res, pos, e, u,v;
 
         facesOfEdges := FacesOfEdges(complex);
-        return Filtered( Edges(complex), e -> Length(facesOfEdges[e]) = 1 );
+        res := [];
+        pos := 1;
+        for e in Edges(complex) do
+            if Length(facesOfEdges[e]) = 1 then
+                res[pos] := e;
+                pos := pos + 1;
+            fi;
+        od;
+        return res;
     end
 );
 InstallMethod( IsBoundaryEdgeNC, "for a polygonal complex and an edge",
@@ -296,10 +341,18 @@ InstallMethod( IsBoundaryEdge, "for a polygonal complex and an edge",
 InstallMethod( RamifiedEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local facesOfEdges;
+        local facesOfEdges, ram, pos, e;
 
         facesOfEdges := FacesOfEdges(complex);
-        return Filtered( Edges(complex), e -> Length(facesOfEdges[e]) > 2 );
+        ram := [];
+        pos := 1;
+        for e in Edges(complex) do
+            if Length(facesOfEdges[e]) > 2 then
+                ram[pos] := e;
+                pos := pos + 1;
+            fi;
+        od;
+        return ram;
     end
 );
 InstallMethod( IsRamifiedEdgeNC, "for a polygonal complex and an edge",

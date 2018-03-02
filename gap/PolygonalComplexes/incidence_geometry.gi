@@ -1082,7 +1082,7 @@ InstallMethod( UmbrellaPartitionsOfVertices,
                         path[Length(path)], nextEdge); # calls FacesOfEdges
                     if nextFace = fail then
                         # check if we had a branch
-                        if IsRamifiedEdge(ramSurf, nextEdge) then
+                        if nextEdge in RamifiedEdges(ramSurf) then
                             path := fail;
                             break;
                         fi;
