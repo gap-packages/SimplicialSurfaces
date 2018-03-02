@@ -16,11 +16,11 @@
 
 #! @BeginChunk Graphs_LabelShift
 #! <List>
-#!   <Item>The vertex labels stay the same</Item>
-#!   <Item>The edge labels are shifted upwards by the maximal vertex label
+#!   <Item>The vertex numbers, not modified</Item>
+#!   <Item>The edge numbers, shifted upwards by the maximal vertex number
 #!     </Item>
-#!   <Item>The face labels are shifted upwards by the sum of the maximal
-#!     vertex label and the maximal edge label</Item>
+#!   <Item>The face numbers, shifted upwards by the sum of the maximal
+#!     vertex number and the maximal edge number</Item>
 #! </List>
 #! @EndChunk
 
@@ -191,7 +191,7 @@ DeclareOperation( "PolygonalComplexIsomorphismRepresentatives", [IsList] );
 #! Working with the automorphism group of a polygonal complex is complicated
 #! since any automorphism acts on vertices, edges and faces simultaneously.
 #! In general it is not possible to define an automorphism by defining it just
-#! on the vertices (or edges, or faces). If that is possible, the situation
+#! on the vertices (or edges, or faces). Whenever this is possible, the situation
 #! becomes much easier. This happens for example with the tetrahedron:
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Tetrahedron_constructor.tex}
@@ -220,12 +220,29 @@ DeclareOperation( "PolygonalComplexIsomorphismRepresentatives", [IsList] );
 #! Therefore it is necessary to consider the action on vertices, edges and 
 #! faces simultaneously.
 #!
-#! Since some labels are used multiple times (for example, the label 3 appears
-#! as vertex and edge in the janus-head), some labels have to change to make
+#! Since vertices, edges and faces are represented by numbers and some numbers
+#! are used multiple times (for example, the label 3 appears
+#! as vertex and edge in the janus-head), some numbers have to change to make
 #! the automorphism group a permutation group (which is necessary for efficient
-#! computations). For this purpose the labels are changed:
+#! computations). Therefore the following numbers are used:
 #! @InsertChunk Graphs_LabelShift
+#!
+#! For the tetrahedron we get the following numbering:
+#! * The vertex numbers are <M>[1,2,3,4]</M> and stay that way.
+#! * The edge numbers are <M>[1,2,3,4,5,6]</M>. They are shifted upwards by
+#!   the maximal vertex number, i.e. <M>4</M>. Therefore the numbers
+#!   <M>[5,6,7,8,9,10]</M> are representing the edges.
+#! * The face numbers <M>[1,2,3,4]</M> are shifted by both the maximal vertex
+#!   number (4) and the maximal edge number (6), for a total of 10. Then
+#!   the numbers <M>[11,12,13,14]</M> represent the faces.
+#! <Alt Only="TikZ">
+#!      \input{_TIKZ_Tetrahedron_constructor_labelShift.tex}
+#! </Alt>
 #! @ExampleSession
+#! gap> AutomorphismGroup(tetra);
+#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
+#! gap> Size(last);
+#! 24
 #! gap> AutomorphismGroup(janus);
 #! Group([ (7,8), (2,3)(4,5), (1,2)(5,6) ])
 #! gap> Size( last );
@@ -236,9 +253,10 @@ DeclareOperation( "PolygonalComplexIsomorphismRepresentatives", [IsList] );
 #! automorphisms at a glance. To see the individual action on vertices,
 #! edges and faces, the method <K>DisplayAsAutomorphism</K>
 #! (<Ref Subsect="DisplayAsAutomorphism"/>) can be used.
+#!
+#! For example the first generator of the tetrahedron automorphism group
+#! is <M>(3,4)(6,7)(8,9)(11,12)</M>, which can be displayed like this:
 #! @ExampleSession
-#! gap> AutomorphismGroup(tetra);
-#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
 #! gap> DisplayAsAutomorphism( tetra, (3,4)(6,7)(8,9)(11,12) );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
 #! @EndExampleSession
@@ -246,7 +264,7 @@ DeclareOperation( "PolygonalComplexIsomorphismRepresentatives", [IsList] );
 #! second component shows the action on the edges and the final
 #! component represents the action on the faces.
 #! 
-#! Most times, it can be avoided to calculate with this big group
+#! Often, it can be avoided to calculate with such a big group
 #! representation since the automorphism are usually defined by
 #! vertices, edges or faces. For example, consider the open bag.
 #! <Alt Only="TikZ">
@@ -274,23 +292,58 @@ DeclareOperation( "PolygonalComplexIsomorphismRepresentatives", [IsList] );
 #! @BeginGroup AutomorphismGroup
 #! @Description
 #! Compute the automorphism group of the polygonal complex <A>complex</A> as
-#! a permutation group. For an introduction into the usage and conventions
-#! of the <K>SimplicialSurface</K>-package, compare the start of section
+#! a permutation group on vertices, edges and faces of <A>complex</A>. For an 
+#! introduction into the usage and conventions of automorphism groups in
+#! the <K>SimplicialSurface</K>-package, compare the start of section
 #! <Ref Sect="Section_Graphs_Automorphisms"/>.
 #! 
-#! The automorphisms see the labels of <A>complex</A> in the following way:
+#! As vertices, edges and faces can be denoted by the same numbers in 
+#! <A>complex</A>, they have to be distinguished for the description of
+#! the automorphism group. The automorphisms act on the following numbers:
 #! @InsertChunk Graphs_LabelShift
 #! 
+#! For the tetrahedron this gives the following result:
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> Vertices(tetra);
+#! [ 1, 2, 3, 4 ]
+#! gap> Edges(tetra);
+#! [ 1, 2, 3, 4, 5, 6 ]
+#! gap> Faces(tetra);
+#! [ 1, 2, 3, 4 ]
+#! gap> aut := AutomorphismGroup(tetra);
+#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Tetrahedron_constructor.tex}
+#! </Alt>
+#! 
 #! To see the action on the original labels, use the method 
-#! <K>DisplayAsAutomorphism</K>(<Ref Subsect="DisplayAsAutomorphism"/>).
+#! <K>DisplayAsAutomorphism</K> (<Ref Subsect="DisplayAsAutomorphism"/>).
+#! @BeginExampleSession
+#! gap> DisplayAsAutomorphism( tetra, aut.1 );
+#! [ (3,4), (2,3)(4,5), (1,2) ]
+#! gap> DisplayAsAutomorphism( tetra, aut.2 );
+#! [ (1,2), (2,4)(3,5), (3,4) ]
+#! gap> DisplayAsAutomorphism( tetra, aut.3 );
+#! [ (2,3), (1,2)(5,6), (2,4) ]
+#! @EndExampleSession
 #!
-#! To compute just the action on vertices, edges or faces individually, use
+#! To compute the action on vertices, edges or faces individually, use
 #! the methods <K>AutomorphismGroupOnVertices</K> 
 #! (<Ref Subsect="AutomorphismGroupOnVertices"/>), 
 #! <K>AutomorphismGroupOnEdges</K>
-#! (<Ref Subsect="AutomorphismGroupOnEdges"/>) and
+#! (<Ref Subsect="AutomorphismGroupOnEdges"/>) or
 #! <K>AutomorphismGroupOnFaces</K>
 #! (<Ref Subsect="AutomorphismGroupOnFaces"/>).
+#! @BeginExampleSession
+#! gap> AutomorphismGroupOnVertices(tetra);
+#! Group( [ (3,4), (1,2), (2,3) ] )
+#! gap> AutomorphismGroupOnEdges(tetra);
+#! Group( [ (2,3)(4,5), (2,4)(3,5), (1,2)(5,6) ] )
+#! gap> AutomorphismGroupOnFaces(tetra);
+#! Group( [ (1,2), (3,4), (2,4) ] )
+#! @EndExampleSession
 #!
 #! For example, the automorphism group of an icosahedron 
 #! (<Ref Subsect="Icosahedron"/>) is the direct product of a cyclic group

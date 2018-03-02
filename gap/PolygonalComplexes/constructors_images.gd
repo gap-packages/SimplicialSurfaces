@@ -32,6 +32,8 @@ tetra := Tetrahedron();;
 #! @EndExample
 pr := rec( scale := 2.5 );
 DrawSurfaceToTikz(tetra, "Tetrahedron_constructor", pr);;
+pr := rec( scale := 2.5, vertexLabels:=[1,2,3,4], edgeLabels:=[5,6,7,8,9,10], faceLabels:=[11,12,13,14] );
+DrawSurfaceToTikz(tetra, "Tetrahedron_constructor_labelShift", pr);
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_Tetrahedron_constructor.tex}
 #! </Alt>
