@@ -149,6 +149,12 @@ InstallMethod( InnerVertices, "for a polygonal complex",
         return res;
     end
 );
+InstallMethod( InnerVertices, "for a closed polygonal complex",
+    [IsPolygonalComplex and IsClosedSurface],
+    function(complex)
+        return VerticesAttributeOfPolygonalComplex(complex);
+    end
+);
 InstallMethod( IsInnerVertexNC, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
@@ -162,6 +168,7 @@ InstallMethod( IsInnerVertex, "for a polygonal complex and a vertex",
         return IsInnerVertexNC(complex, vertex);
     end
 );
+#TODO implication to IsClosedSurface
 
 
 InstallMethod( BoundaryVertices, "for a polygonal complex",
@@ -179,6 +186,12 @@ InstallMethod( BoundaryVertices, "for a polygonal complex",
         return res;
     end
 );
+InstallMethod( BoundaryVertices, "for a closed polygonal complex",
+    [IsPolygonalComplex and IsClosedSurface],
+    function(complex)
+        return [];
+    end
+);
 InstallMethod( IsBoundaryVertexNC, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
@@ -192,6 +205,7 @@ InstallMethod( IsBoundaryVertex, "for a polygonal complex and a vertex",
         return IsBoundaryVertexNC(complex, vertex);
     end
 );
+#TODO implement implication to IsClosedSurface?
 
 
 InstallMethod( RamifiedVertices, "for a polygonal complex",
@@ -210,6 +224,12 @@ InstallMethod( RamifiedVertices, "for a polygonal complex",
         return res;
     end
 );
+InstallMethod( RamifiedVertices, "for a polygonal surface",
+    [IsPolygonalSurface],
+    function(surf)
+        return [];
+    end
+);
 InstallMethod( IsRamifiedVertexNC, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
@@ -221,6 +241,17 @@ InstallMethod( IsRamifiedVertex, "for a polygonal complex and a vertex",
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex(complex, vertex, "IsRamifiedVertex");
         return IsRamifiedVertexNC(complex, vertex);
+    end
+);
+
+InstallMethod( IsPolygonalSurface, 
+    "for a polygonal complex with RamifiedVertices",
+    [IsPolygonalComplex and HasRamifiedVertices],
+    function(complex)
+        if Length(RamifiedVertices(complex)) <> 0 then
+            return false;
+        fi;
+        TryNextMethod();
     end
 );
 
@@ -240,6 +271,12 @@ InstallMethod( ChaoticVertices, "for a polygonal complex",
         return res;
     end
 );
+InstallMethod( ChaoticVertices, "for a ramified polygonal surface",
+    [IsRamifiedPolygonalSurface],
+    function(ramSurf)
+        return [];
+    end
+);
 InstallMethod( IsChaoticVertexNC, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
@@ -251,6 +288,17 @@ InstallMethod( IsChaoticVertex, "for a polygonal complex and a vertex",
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex(complex, vertex, "IsChaoticVertex");
         return IsChaoticVertexNC(complex, vertex);
+    end
+);
+
+InstallMethod( IsRamifiedPolygonalSurface, 
+    "for a polygonal complex with ChaoticVertices",
+    [IsPolygonalComplex and HasChaoticVertices],
+    function(complex)
+        if Length(ChaoticVertices(complex)) <> 1 then
+            return false;
+        fi;
+        TryNextMethod();
     end
 );
 
@@ -281,6 +329,12 @@ InstallMethod( InnerEdges, "for a polygonal complex",
         return res;
     end
 );
+InstallMethod( InnerEdges, "for a closed polygonal surface",
+    [IsPolygonalSurface and IsClosedSurface],
+    function(complex)
+        return Edges(complex);
+    end
+);
 InstallMethod( IsInnerEdgeNC, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -294,6 +348,7 @@ InstallMethod( IsInnerEdge, "for a polygonal complex and an edge",
         return IsInnerEdgeNC(complex, edge);
     end
 );
+#TODO Implication to IsClosedSurface
 
 
 InstallMethod( BoundaryEdges, "for a polygonal complex",
@@ -309,6 +364,12 @@ InstallMethod( BoundaryEdges, "for a polygonal complex",
             fi;
         od;
         return res;
+    end
+);
+InstallMethod( BoundaryEdges, "for a closed polygonal complex",
+    [IsPolygonalComplex and IsClosedSurface],
+    function(complex)
+        return [];
     end
 );
 InstallMethod( IsBoundaryEdgeNC, "for a polygonal complex and an edge",
@@ -341,6 +402,12 @@ InstallMethod( RamifiedEdges, "for a polygonal complex",
         return ram;
     end
 );
+InstallMethod( RamifiedEdges, "for a ramified polygonal surface",
+    [IsRamifiedPolygonalSurface],
+    function(ramSurf)
+        return []; # There are no ramified edges in a ramified polygonal surface
+    end
+);
 InstallMethod( IsRamifiedEdgeNC, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -352,6 +419,16 @@ InstallMethod( IsRamifiedEdge, "for a polygonal complex and an edge",
     function(complex, edge)
         __SIMPLICIAL_CheckEdge(complex, edge, "IsRamifiedEdge");
         return IsRamifiedEdgeNC(complex, edge);
+    end
+);
+InstallMethod( IsRamifiedPolygonalSurface, 
+    "for a polygonal complex with RamifiedEdges",
+    [IsPolygonalComplex and HasRamifiedEdges],
+    function(complex)
+        if Length(RamifiedEdges(complex)) <> 0 then
+            return false;
+        fi;
+        TryNextMethod();
     end
 );
 
