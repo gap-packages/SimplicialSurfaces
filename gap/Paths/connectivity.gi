@@ -69,12 +69,12 @@ BindGlobal( "__SIMPLICIAL_AbstractConnectedComponent",
                     change := true;
                     internals := Union( internals, compOfElements[el] );
                     elements := Difference( elements, [el] );
-                    component := Union( component, [el] );
+                    Add(component, el);
                 fi;
             od;
         od;
 
-        return component;
+        return Set(component);
     end
 );
 
