@@ -62,8 +62,8 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
  	    local graph, vertices, edges, faces, names, colours, incidence, 
 	        trivialAction, maxVert, maxEdge;
 
-            maxVert := Maximum( VerticesAttributeOfPolygonalComplex(complex) );
-            maxEdge := Maximum( Edges(complex) );
+            maxVert := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            maxEdge := Edges(complex)[NumberOfEdges(complex)];
             vertices := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
             edges := List( Edges(complex), e -> e + maxVert );
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
@@ -135,8 +135,8 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
                 colSet, vertexList;
 
-            maxVertex := Maximum( VerticesAttributeOfPolygonalComplex(complex) );
-            maxEdge := Maximum( Edges(complex) );
+            maxVertex := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            maxEdge := Edges(complex)[NumberOfEdges(complex)];
 
             vertexList := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
             edgeList := [];
@@ -280,15 +280,15 @@ InstallMethod( PolygonalComplexIsomorphismRepresentatives,
 
 BindGlobal( "__SIMPLICIAL_RestrictToVertices",
     function(complex, g)
-        return RESTRICTED_PERM(g, [1..Maximum(VerticesAttributeOfPolygonalComplex(complex))],true);
+        return RESTRICTED_PERM(g, [1..VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)]],true);
     end
 );
 BindGlobal( "__SIMPLICIAL_RestrictToEdges",
     function(complex,  g)
         local maxVert, maxEdge, autEdge, listPerm;
 
-        maxVert := Maximum( VerticesAttributeOfPolygonalComplex(complex) );
-        maxEdge := Maximum( Edges(complex) );
+        maxVert := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+        maxEdge := Edges(complex)[NumberOfEdges(complex)];
         autEdge := RESTRICTED_PERM(g, [maxVert+1..maxVert+maxEdge],true);
 
         if autEdge = fail then
@@ -309,9 +309,9 @@ BindGlobal( "__SIMPLICIAL_RestrictToFaces",
     function(complex, g)
         local maxVert, maxEdge, maxFace, autFace, listPerm, sep1, sep2;
 
-        maxVert := Maximum( VerticesAttributeOfPolygonalComplex(complex) );
-        maxEdge := Maximum( Edges(complex) );
-        maxFace := Maximum( Faces(complex) );
+        maxVert := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+        maxEdge := Edges(complex)[NumberOfEdges(complex)];
+        maxFace := Faces(complex)[NumberOfFaces(complex)];
 
         sep1 := maxVert + maxEdge;
         sep2 := maxVert + maxEdge + maxFace;

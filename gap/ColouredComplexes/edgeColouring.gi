@@ -816,9 +816,9 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 
             complex := PolygonalComplex(colComplex);
 
-            maxVert := Maximum( VerticesAttributeOfPolygonalComplex(complex) );
-            maxEdge := Maximum( Edges(complex) );
-            maxFace := Maximum( Faces(complex) );
+            maxVert := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            maxEdge := Edges(complex)[NumberOfEdges(complex)];
+            maxFace := Faces(complex)[NumberOfFaces(complex)];
             vertices := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
             edges := List( Edges(complex), e -> e + maxVert );
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
@@ -866,9 +866,9 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
             complex := PolygonalComplex(colComplex);
 
-            maxVertex := Maximum( VerticesAttributeOfPolygonalComplex(complex) );
-            maxEdge := Maximum( Edges(complex) );
-            maxFace := Maximum( Faces(complex) );
+            maxVertex := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            maxEdge := Edges(complex)[NumberOfEdges(complex)];
+            maxFace := Faces(complex)[NumberOfFaces(complex)];
 
             vertexList := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
             edgeList := [];
