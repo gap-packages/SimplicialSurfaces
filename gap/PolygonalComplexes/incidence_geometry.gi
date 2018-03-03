@@ -1034,7 +1034,7 @@ InstallMethod( UmbrellaPartitionsOfVertices,
     function(ramSurf)
         local faceEdgePathPart, vertex, incidentEdges, paths,
             edgeStart, possFaces, rightFinished, leftFinished, backFace, path,
-            nextEdge, nextFace;
+            nextEdge, nextFace, usedEdges;
 
         faceEdgePathPart := [];
 
@@ -1073,13 +1073,13 @@ InstallMethod( UmbrellaPartitionsOfVertices,
                 # As we may have to traverse both directions (non-closed case)
                 # and those traversals are completely equal we use one loop
                 # for both
+                usedEdges := [];
                 while not rightFinished or not leftFinished do
                     # Try to extend the path beyond the last face
                     nextEdge := OtherEdgeOfVertexInFaceNC(ramSurf, vertex, 
                             path[Length(path)-1], path[Length(path)]); 
                             # calls EdgesOfFaces and VerticesOfEdges
-                    # We only need to care for this set (the other is ignored)
-                    incidentEdges := Difference( incidentEdges, [nextEdge] );
+                    Add(usedEdges, nextEdge);
 
                     nextFace := NeighbourFaceByEdgeNC(ramSurf, 
                         path[Length(path)], nextEdge); # calls FacesOfEdges
@@ -1131,6 +1131,7 @@ InstallMethod( UmbrellaPartitionsOfVertices,
                     Add(path, path[1]);
                 fi;
                 Add(paths, EdgeFacePathNC(ramSurf,path));
+                incidentEdges := Difference( incidentEdges, usedEdges );
             od;
 
             faceEdgePathPart[vertex] := paths;
