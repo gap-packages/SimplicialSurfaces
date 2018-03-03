@@ -25,4 +25,17 @@ BindGlobal( "__SIMPLICIAL_BoundPositions",
     end
 );
 
+# This custom command is slightly faster than the regular Union if
+# called for lists of sets
+BindGlobal( "__SIMPLICIAL_UnionSets",
+    function(list)
+        local res, x;
+
+        res := [];
+        for x in list do
+            Append(res,x);
+        od;
+        return Set(res);
+    end
+);
 

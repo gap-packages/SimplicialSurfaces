@@ -137,7 +137,7 @@ BindGlobal( "__SIMPLICIAL_ConnectedStarComponents",
         while Length(faces) > 0 do
             conn := __SIMPLICIAL_AbstractConnectedComponent( 
                 faces, edgeOfFaces, faces[1] );
-            Add( comp, [ conn, Union(edgeOfFaces{conn}) ] );
+            Add( comp, [ conn, __SIMPLICIAL_UnionSets(edgeOfFaces{conn}) ] );
             faces := Difference(faces, conn);
         od;
 
@@ -425,8 +425,8 @@ InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces"
 	local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f;
 
 
-	subEdges := Union( List( subfaces, f -> EdgesOfFaces(complex)[f] ));
-	subVertices := Union( List( subEdges, e -> VerticesOfEdges(complex)[e] ) );
+        subEdges := __SIMPLICIAL_UnionSets( EdgesOfFaces(complex){subfaces} );
+        subVertices := __SIMPLICIAL_UnionSets( VerticesOfEdges(complex){subEdges} );
 
 	newVerticesOfEdges := [];
 	for e in subEdges do

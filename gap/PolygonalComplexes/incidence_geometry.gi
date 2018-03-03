@@ -78,7 +78,7 @@ InstallMethod( Edges,
     "for a polygonal complex with EdgesOfVertices",
     [IsPolygonalComplex and HasEdgesOfVertices],
     function(complex)
-        return Union(EdgesOfVertices(complex));
+        return __SIMPLICIAL_UnionSets(EdgesOfVertices(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -99,7 +99,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod( Faces, "for a polygonal complex with FacesOfVertices",
     [IsPolygonalComplex and HasFacesOfVertices],
     function(complex)
-        return Union(FacesOfVertices(complex));
+        return __SIMPLICIAL_UnionSets(FacesOfVertices(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -121,7 +121,7 @@ InstallMethod( VerticesAttributeOfPolygonalComplex,
     "for a polygonal complex with VerticesOfEdges",
     [IsPolygonalComplex and HasVerticesOfEdges],
     function(complex)
-        return Union(VerticesOfEdges(complex));
+        return __SIMPLICIAL_UnionSets(VerticesOfEdges(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -141,7 +141,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod( Faces, "for a polygonal complex with FacesOfEdges",
     [IsPolygonalComplex and HasFacesOfEdges],
     function(complex)
-        return Union(FacesOfEdges(complex));
+        return __SIMPLICIAL_UnionSets(FacesOfEdges(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -162,7 +162,7 @@ InstallMethod( VerticesAttributeOfPolygonalComplex,
     "for a polygonal complex with VerticesOfFaces",
     [IsPolygonalComplex and HasVerticesOfFaces],
     function(complex)
-        return Union(VerticesOfFaces(complex));
+        return __SIMPLICIAL_UnionSets(VerticesOfFaces(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -183,7 +183,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod( Edges, "for a polygonal complex with EdgesOfFaces",
     [IsPolygonalComplex and HasEdgesOfFaces],
     function(complex)
-        return Union(EdgesOfFaces(complex));
+        return __SIMPLICIAL_UnionSets(EdgesOfFaces(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -963,7 +963,7 @@ InstallMethod( EdgesOfVertices,
     [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices],
     function(complex)
         return List( UmbrellaPartitionsOfVertices(complex), part ->
-            Union( List( part, EdgesAsList ) ));
+            __SIMPLICIAL_UnionSets( List( part, EdgesAsList ) ));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -975,7 +975,7 @@ InstallMethod( FacesOfVertices,
     [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices],
     function(complex)
         return List( UmbrellaPartitionsOfVertices(complex), part ->
-            Union( List( part, FacesAsList ) ));
+            __SIMPLICIAL_UnionSets( List( part, FacesAsList ) ));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
