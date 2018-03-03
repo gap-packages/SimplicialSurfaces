@@ -133,7 +133,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         [IsPolygonalComplex],
         function(complex)
             local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
-                colSet, vertexList;
+                colSet, vertexList, verts;
 
             maxVertex := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
             maxEdge := Edges(complex)[NumberOfEdges(complex)];
@@ -144,16 +144,19 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
             for e in Edges(complex) do
                 Add(colourList, 1);
-                Append(edgeList, List( VerticesOfEdges(complex)[e], 
-                    v -> [v, maxVertex + e] ) );
+                # There are two vertices for each edge
+                verts := VerticesOfEdges(complex)[e];
+                Add( edgeList, [verts[1], maxVertex + e] );
+                Add( edgeList, [verts[2], maxVertex + e] );
                 Add(vertexList, maxVertex + e);
             od;
 
             for f in Faces(complex) do
                 Add(colourList, 2);
                 Add(vertexList, maxVertex + maxEdge + f);
-                Append(edgeList, List( EdgesOfFaces(complex)[f], 
-                    e -> [maxVertex + e, maxVertex + maxEdge + f] ) );
+                for e in EdgesOfFaces(complex)[f] do
+                    Add( edgeList, [maxVertex + e, maxVertex + maxEdge + f] );
+                od;
             od;
 
             return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
