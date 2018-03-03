@@ -300,8 +300,7 @@ BindGlobal( "__SIMPLICIAL_RestrictToEdges",
 
         # Rescale the permutations
         listPerm := ListPerm(autEdge, maxVert+maxEdge);
-        listPerm := listPerm{[maxVert+1..maxVert+maxEdge]};
-        listPerm := List( listPerm, i -> i - maxVert );
+        listPerm := listPerm{[maxVert+1..maxVert+maxEdge]} - maxVert;
         autEdge := PermList( listPerm );
 
         return autEdge;
@@ -326,8 +325,7 @@ BindGlobal( "__SIMPLICIAL_RestrictToFaces",
 
         # Rescale the permutation
         listPerm := ListPerm(autFace, sep2);
-        listPerm := listPerm{[sep1+1..sep2]};
-        listPerm := List( listPerm, i -> i - sep1 );
+        listPerm := listPerm{[sep1+1..sep2]} - sep1;
         autFace := PermList( listPerm );
 
         return autFace;
