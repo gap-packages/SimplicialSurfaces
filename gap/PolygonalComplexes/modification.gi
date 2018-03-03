@@ -115,6 +115,9 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
         fi;
+        if HasIsTriangularComplex(complex) then
+            SetIsTriangularComplex(obj, IsTriangularComplex(complex));
+        fi;
 
         return [obj, newEdgeLabels];
     end
@@ -230,6 +233,9 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
         fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
+        fi;
+        if HasIsTriangularComplex(complex) then
+            SetIsTriangularComplex(obj, IsTriangularComplex(complex));
         fi;
         return [obj, newVertexLabels];
     end
@@ -555,6 +561,9 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
         SetEdges(obj, newEdges);
+        if HasIsTriangularComplex(complex1) and HasIsTriangularComplex(complex2) then
+            SetIsTriangularComplex(obj, IsTriangularComplex(complex1) and IsTriangularComplex(complex2));
+        fi;
 
         return [obj, realShift];
     end
@@ -770,6 +779,9 @@ InstallMethod( JoinVerticesNC,
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
         fi;
+        if HasIsTriangularComplex(complex) then
+            SetIsTriangularComplex(obj, IsTriangularComplex(complex));
+        fi;
 
         return [obj, newVertexLabel];
     end
@@ -899,6 +911,9 @@ InstallMethod( JoinEdgesNC,
         fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
+        fi;
+        if HasIsTriangularComplex(complex) then
+            SetIsTriangularComplex(obj, IsTriangularComplex(complex));
         fi;
         return [obj, newEdgeLabel];
     end
