@@ -761,7 +761,7 @@ InstallMethod( JoinVerticesNC,
         fi;
 
         newEdgesOfVertices := ShallowCopy(EdgesOfVertices(complex));
-        newEdges := Union( newEdgesOfVertices[v1], newEdgesOfVertices[v2] );
+        newEdges := __SIMPLICIAL_UnionSets( [newEdgesOfVertices[v1],newEdgesOfVertices[v2]] );
         Unbind(newEdgesOfVertices[v1]);
         Unbind(newEdgesOfVertices[v2]);
         newEdgesOfVertices[newVertexLabel] := newEdges;
