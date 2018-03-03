@@ -1072,7 +1072,7 @@ InstallMethod(JoinBoundaries,
     "for a polygonal surface and two 2-flags",
     [IsPolygonalSurface, IsList, IsList],
     function(surface, flag1, flag2)
-        local perims, perim1, perim2, bound1, bound2, Reorient, p;
+        local perims, perim1, perim2, bound1, bound2, Reorient, p, join;
 
         if Length(flag1) < 2 then
             Error(Concatenation("JoinBoundaries: First 2-flag should contain two elements, but actually has ", String(Length(flag1)),"."));
@@ -1158,6 +1158,16 @@ InstallMethod(JoinBoundaries,
         bound1 := VertexEdgePathNC( surface, Reorient( PathAsList(perim1), flag1[1], flag1[2] ) );
         bound2 := VertexEdgePathNC( surface, Reorient( PathAsList(perim2), flag2[1], flag2[2] ) );
         return JoinVertexEdgePathsNC(surface, bound1, bound2);
+        #join := JoinVertexEdgePathsNC(surface, bound1, bound2);
+        #if join = fail then
+        #    return fail;
+        #fi;
+        # Joining boundaries always produces polygonal surfaces
+        #SetIsPolygonalSurface( join[1], true );
+        #if HasIsTriangularComplex( surface ) then
+        #    SetIsTriangularComplex( join[1], IsTriangularComplex(surface) );
+        #fi;
+        #return join;
     end
 );
 RedispatchOnCondition( JoinBoundaries, true, [IsPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
