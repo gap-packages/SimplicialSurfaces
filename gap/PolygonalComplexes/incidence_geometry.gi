@@ -327,7 +327,10 @@ BindGlobal( "__SIMPLICIAL_InvertIncidence",
             od;
         od;
 
-        return List( b_of_a, Set );
+        for a in a_labels do
+            Sort(b_of_a[a]);
+        od;
+        return b_of_a;
     end
 );
 
