@@ -1157,51 +1157,65 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod( PerimeterOfHoles, "for a polygonal surface",
     [IsPolygonalSurface], 
     function(surface)
-        local res, boundVerts, boundEdges, incEdges, path, adVertices,
-            vePath, nextEdge, lastEdge, nextVertex, lastVertex;
+        local boundVerts, boundEdges, res, transVert, e, incVert,
+            transEdge, v, umb, path, incEdges, adVertices, lastEdge,
+            lastVertex, nextEdge, nextVertex, vePath, incEdge;
+
+        # Find all boundary edges and encode the incident vertices
+        # as transpositions
+        boundEdges := BoundaryEdges(surface);
+        transVert := [];
 
         boundVerts := BoundaryVertices(surface);
-        boundEdges := BoundaryEdges(surface);
+        transEdge := [];
+        incEdge := [];
+        for v in boundVerts do
+            incEdge[v] := [];
+        od;
+
+        for e in boundEdges do
+            incVert := VerticesOfEdges(surface)[e];
+            transVert[e] := (incVert[1],incVert[2]);
+            Add( incEdge[incVert[1]], e );
+            Add( incEdge[incVert[2]], e );
+        od;
+
+        # Find all boundary vertices and encode the incident boundary
+        # edges as transpositions
+        for v in boundVerts do
+            transEdge[v] := (incEdge[v][1],incEdge[v][2]);
+        od;
+
+
         res := [];
-        while Length(boundVerts) > 0 do
-            path := [boundVerts[1]];
-            incEdges := Intersection( boundEdges, EdgesOfVertices(surface)[path[1]] );
-            adVertices := List(incEdges, e -> OtherVertexOfEdgeNC(surface,path[1],e));
+        while Length(boundVerts) <> 0 do
+            path := [ boundVerts[1] ];
+            incEdges := incEdge[path[1]];
+            adVertices := [ path[1]^transVert[incEdges[1]], path[1]^transVert[incEdges[2]] ];
             if adVertices[1] < adVertices[2] then
                 Append(path, [incEdges[1],adVertices[1]]);
             elif adVertices[2] < adVertices[1] then
                 Append(path, [incEdges[2],adVertices[2]]);
-            else
-                if incEdges[1] < incEdges[2] then
-                    Append(path, [incEdges[1],adVertices[1]]);
-                else
-                    Append(path, [incEdges[2],adVertices[2]]);
-                fi;
+            else # incEdge only consists of sets (by construction)
+                Append(path, [incEdges[1],adVertices[1]]);
             fi;
 
             lastEdge := path[2];
             lastVertex := path[3];
             while path[1] <> path[ Length(path) ] do
-                nextEdge := Difference( 
-                    Intersection( boundEdges, EdgesOfVertices(surface)[lastVertex] ), 
-                    [lastEdge] );
-                Assert(1, Length(nextEdge)=1);
-                nextEdge := nextEdge[1];
-
-                nextVertex := OtherVertexOfEdgeNC(surface,lastVertex,nextEdge);
-                Append(path, [nextEdge,nextVertex]);
-
+                nextEdge := lastEdge^transEdge[lastVertex];
+                nextVertex := lastVertex^transVert[nextEdge];
+                
+                Append(path, [nextEdge, nextVertex]);
+                
                 lastEdge := nextEdge;
                 lastVertex := nextVertex;
             od;
-                    
-            vePath := VertexEdgePathNC(surface,path);
+
+            vePath := VertexEdgePathNC(surface, path);
             Add(res, vePath);
             boundVerts := Difference( boundVerts, VerticesAsList(vePath) );
-            boundEdges := Difference( boundEdges, EdgesAsList(vePath) );
         od;
-
-        Assert(1, Length(boundEdges)=0);
 
         return Set(res);
     end
