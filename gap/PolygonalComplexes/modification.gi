@@ -730,15 +730,25 @@ InstallMethod( JoinVerticesNC,
     "for a polygonal complex, two vertices and a new vertex label",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
     function(complex, v1, v2, newVertexLabel)
-        local newEdgesOfVertices, newEdges, obj;
+        local newEdgesOfVertices, newEdges, obj, vSet, verts;
 
         if v1 = v2 and v1 = newVertexLabel then
             return [complex, newVertexLabel];
         fi;
 
-        if v1 <> v2 and ForAny( VerticesOfFaces(complex), verts -> IsSubset(verts,[v1,v2]) ) then
-        #if v1 <> v2 and Intersection( FacesOfVertices(complex)[v1], FacesOfVertices(complex)[v2] ) <> [] then
-            return fail;
+        if v1 <> v2 then
+            if IsTriangularComplex(complex) then
+                vSet := Set([v1,v2]);
+                for verts in VerticesOfEdges(complex) do
+                    if verts = vSet then
+                        return fail;
+                    fi;
+                od;
+            else
+                if ForAny( VerticesOfFaces(complex), verts -> IsSubset(verts,[v1,v2]) ) then
+                    return fail;
+                fi;
+            fi; 
         fi;
 
         newEdgesOfVertices := ShallowCopy(EdgesOfVertices(complex));
