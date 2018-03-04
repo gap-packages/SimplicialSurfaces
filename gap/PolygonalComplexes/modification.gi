@@ -1044,7 +1044,7 @@ InstallMethod( JoinVertexEdgePathsNC,
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
         IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath1, vePath2)
-        local swapComplex, labelList, i, join, v1, v2, size;
+        local swapComplex, labelList, i, join, v1, v2, size, maxEdge;
 
         swapComplex := complex;
         labelList := [];
@@ -1079,9 +1079,11 @@ InstallMethod( JoinVertexEdgePathsNC,
 
 
         # Identify edges
+        maxEdge := Edges(swapComplex)[NumberOfEdges(swapComplex)];
         for i in [1..Length(EdgesAsList(vePath1))] do
-            join := JoinEdgesNC( swapComplex, EdgesAsList(vePath1)[i], EdgesAsList(vePath2)[i] );
+            join := JoinEdgesNC( swapComplex, EdgesAsList(vePath1)[i], EdgesAsList(vePath2)[i], maxEdge+i );
             labelList[2*i] := join[2];
+            Assert(1, maxEdge + i = join[2]);
             swapComplex := join[1];
         od;
 
