@@ -796,7 +796,7 @@ InstallMethod( JoinVerticesNC,
     "for a polygonal complex, two vertices and a new vertex label",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
     function(complex, v1, v2, newVertexLabel)
-        local newEdgesOfVertices, newEdges, obj, vSet, verts;
+        local newEdgesOfVertices, newEdges, obj, vSet, verts, edgeOfVert, e;
 
         if v1 = v2 and v1 = newVertexLabel then
             return [complex, newVertexLabel];
@@ -804,9 +804,12 @@ InstallMethod( JoinVerticesNC,
 
         if v1 <> v2 then
             if IsTriangularComplex(complex) then
-                vSet := Set([v1,v2]);
-                for verts in VerticesOfEdges(complex) do
-                    if verts = vSet then
+                # Since we need EdgesOfVertices later, there is no harm in 
+                # using it here as well
+                edgeOfVert := EdgesOfVertices(complex);
+                # Manually check for intersection
+                for e in edgeOfVert[v1] do
+                    if e in edgeOfVert[v2] then
                         return fail;
                     fi;
                 od;
