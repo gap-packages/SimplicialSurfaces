@@ -112,17 +112,8 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
             SetVerticesAttributeOfPolygonalComplex(obj, 
                 VerticesAttributeOfPolygonalComplex(complex));
         fi;
-        if HasNumberOfVertices(complex) then
-            SetNumberOfVertices(obj, NumberOfVertices(complex));
-        fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
-        fi;
-        if HasNumberOfFaces(complex) then
-            SetNumberOfFaces(obj, NumberOfFaces(complex));
-        fi;
-        if HasNumberOfEdges(complex) then
-            SetNumberOfEdges(obj, NumberOfEdges(complex) - 1 + Length(newEdgeLabels));
         fi;
         if HasIsTriangularComplex(complex) then
             SetIsTriangularComplex(obj, IsTriangularComplex(complex));
@@ -177,17 +168,8 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStarComponent",
         if HasEdges(complex) then
             SetEdges(obj, Edges(complex));
         fi;
-        if HasNumberOfEdges(complex) then
-            SetNumberOfEdges(obj, NumberOfEdges(complex));
-        fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
-        fi;
-        if HasNumberOfFaces(complex) then
-            SetNumberOfFaces(obj, NumberOfFaces(complex));
-        fi;
-        if HasNumberOfVertices(complex) then
-            SetNumberOfVertices(obj, NumberOfVertices(complex) - 1 + Length(newVertexLabels));
         fi;
         if HasIsTriangularComplex(complex) then
             SetIsTriangularComplex(obj, IsTriangularComplex(complex));
