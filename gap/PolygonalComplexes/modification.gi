@@ -267,7 +267,7 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
 BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
     function(oldComplex, vePath, newComplex, labelList)
         local partialPaths, i, newPaths, p, pNew, pOld, newEdge, used, 
-            newVertex, resPaths;
+            newVertex, resPaths, extNew, extOld;
 
         partialPaths := [ [[],[]] ];
         for i in [1..Length(labelList)] do
@@ -280,10 +280,13 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                     pOld := p[2];
                     for newEdge in labelList[i] do
                         if pNew[Length(pNew)] in VerticesOfEdges(newComplex)[newEdge] then
-                            Add(newPaths, [ 
-                                Concatenation(pNew, [newEdge]), 
-                                Concatenation(pOld, [PathAsList(vePath)[i]]) 
-                            ] );
+                            # Extend old and new path
+                            extNew := ShallowCopy(pNew);
+                            Add(extNew, newEdge);
+                            extOld := ShallowCopy(pOld);
+                            Add(extOld, PathAsList(vePath)[i]);
+
+                            Add(newPaths, [ extNew, extOld ]);
                         fi;
                     od;
                 od;
@@ -297,10 +300,13 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                         pNew := p[1];
                         pOld := p[2];
                         if Length(pNew) = 0 or pNew[Length(pNew)] in EdgesOfVertices(newComplex)[newVertex] then
-                            Add(newPaths, [
-                                Concatenation(pNew, [newVertex]),
-                                Concatenation(pOld, [PathAsList(vePath)[i]])
-                            ]);
+                            # Extend old and new path
+                            extNew := ShallowCopy(pNew);
+                            Add(extNew, newVertex);
+                            extOld := ShallowCopy(pOld);
+                            Add(extOld, PathAsList(vePath)[i]);
+
+                            Add(newPaths, [ extNew, extOld ]);
                             used := true;
                         fi;
                     od;
