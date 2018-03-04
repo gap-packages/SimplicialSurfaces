@@ -285,7 +285,7 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
 BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
     function(oldComplex, vePath, newComplex, labelList)
         local partialPaths, i, newPaths, p, pNew, pOld, newEdge, used, 
-            newVertex;
+            newVertex, resPaths;
 
         partialPaths := [ [[],[]] ];
         for i in [1..Length(labelList)] do
@@ -331,7 +331,11 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
             fi;
         od;
 
-        return List(newPaths, p -> [VertexEdgePathNC(newComplex, p[1]), VertexEdgePathNC(oldComplex,p[2])]);
+        resPaths := [];
+        for i in [1..Length(newPaths)] do
+            resPaths[i] := [ VertexEdgePathNC(newComplex, newPaths[i][1]), VertexEdgePathNC(oldComplex, newPaths[i][2]) ];
+        od;
+        return resPaths;
     end
 );
 
