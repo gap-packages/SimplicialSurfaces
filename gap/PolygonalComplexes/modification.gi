@@ -1044,19 +1044,28 @@ InstallMethod( JoinVertexEdgePathsNC,
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
         IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath1, vePath2)
-        local swapComplex, labelList, i, join, v1, v2, size, maxEdge;
+        local swapComplex, labelList, i, join, v1, v2, size, maxEdge, maxVert;
 
         swapComplex := complex;
         labelList := [];
 
         # Identify vertices
+        maxVert := VerticesAttributeOfPolygonalComplex(swapComplex)[NumberOfVertices(swapComplex)];
         for i in [1..Length(VerticesAsList(vePath1))-1] do;
-            join := JoinVerticesNC( swapComplex, VerticesAsList(vePath1)[i], VerticesAsList(vePath2)[i] );
-            if join = fail then
-                return fail;
+            v1 := VerticesAsList(vePath1)[i];
+            v2 := VerticesAsList(vePath2)[i];
+            if v1 = v2 then
+                # no change
+                labelList[2*i-1] := v1;
+            else
+                # this will possibly skip some labels
+                join := JoinVerticesNC( swapComplex, v1, v2, maxVert+i );
+                if join = fail then
+                    return fail;
+                fi;
+                labelList[2*i-1] := join[2];
+                swapComplex := join[1];
             fi;
-            labelList[2*i-1] := join[2];
-            swapComplex := join[1];
         od;
         # The last step has to be handled differently if the paths are closed
         size := Length(VerticesAsList(vePath1));
@@ -1070,12 +1079,17 @@ InstallMethod( JoinVertexEdgePathsNC,
         else
             v2 := VerticesAsList(vePath2)[size];
         fi;
-        join := JoinVerticesNC( swapComplex, v1, v2 );
-        if join = fail then
-            return fail;
+
+        if v1 = v2 then
+            labelList[2*size-1] := v1;
+        else
+            join := JoinVerticesNC( swapComplex, v1, v2, maxVert+size );
+            if join = fail then
+                return fail;
+            fi;
+            labelList[2*size-1] := join[2];
+            swapComplex := join[1];
         fi;
-        labelList[2*size-1] := join[2];
-        swapComplex := join[1];
 
 
         # Identify edges
@@ -1087,7 +1101,7 @@ InstallMethod( JoinVertexEdgePathsNC,
             swapComplex := join[1];
         od;
 
-        return [swapComplex, VertexEdgePath(swapComplex, labelList)];
+        return [swapComplex, VertexEdgePathNC(swapComplex, labelList)];
     end
 );
 RedispatchOnCondition( JoinVertexEdgePathsNC, true, 
