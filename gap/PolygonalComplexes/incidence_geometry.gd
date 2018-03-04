@@ -1112,6 +1112,7 @@ DeclareOperation( "UmbrellaPartitionOfVertexNC",
 #! <Ref Sect="Section_Paths_VertexEdge"/>.
 #!
 #! TODO example with access to vertices and edges
+#! TODO These examples should include holes of different sizes: at least 2, 3 and 4 edges
 #!
 
 #! @Description

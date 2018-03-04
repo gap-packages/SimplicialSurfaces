@@ -23,6 +23,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_ConnectivityImplications();
     __SIMPLICIAL_Test_OrientabilityImplications();
 
+    __SIMPLICIAL_Test_Properties();
+    __SIMPLICIAL_Test_PolygonalHierarchy();
+
     # Edge coloured polygonal complex
     __SIMPLICIAL_Test_EdgeColours();
 end);
