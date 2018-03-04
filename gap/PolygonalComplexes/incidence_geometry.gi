@@ -885,7 +885,14 @@ InstallMethod( UmbrellasOfVertices,
     "for a polygonal surface that has UmbrellaPartitionsOfVertices",
     [IsPolygonalSurface and HasUmbrellaPartitionsOfVertices],
     function( surface )
-        return List( UmbrellaPartitionsOfVertices(surface), p -> p[1] );
+        local umbPart, v, res;
+
+        res := [];
+        umbPart := UmbrellaPartitionsOfVertices(surface);
+        for v in VerticesAttributeOfPolygonalComplex(surface) do
+            res[v] := umbPart[v][1];
+        od;
+        return res;
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
