@@ -608,8 +608,18 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
         SetEdges(obj, newEdges);
+
         if HasIsTriangularComplex(complex1) and HasIsTriangularComplex(complex2) then
             SetIsTriangularComplex(obj, IsTriangularComplex(complex1) and IsTriangularComplex(complex2));
+        fi;
+
+        if HasIsPolygonalSurface(complex1) and HasIsPolygonalSurface(complex2) then
+            SetIsPolygonalSurface(obj, IsPolygonalSurface(complex1) and IsPolygonalSurface(complex2));
+        fi;
+
+        if not HasIsRamifiedPolygonalSurface(obj) and
+                HasIsRamifiedPolygonalSurface(complex1) and HasIsRamifiedPolygonalSurface(complex2) then
+            SetIsRamifiedPolygonalSurface(obj, IsRamifiedPolygonalSurface(complex1) and IsRamifiedPolygonalSurface(complex2));
         fi;
 
         return [obj, realShift];
