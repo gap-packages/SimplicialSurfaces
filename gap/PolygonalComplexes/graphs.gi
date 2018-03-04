@@ -253,15 +253,24 @@ fi;
 InstallMethod( PolygonalComplexIsomorphismRepresentatives,
     "for a list of polygonal complexes", [IsList],
     function(ls)
-        local newList, p;
+        local newList, p, q, newOne;
 
-        if ForAny(ls, x -> not IsPolygonalComplex(x)) then
-            Error("PolygonalComplexIsomorphismRepresentatives: Argument has to be a list of polygonal complexes.");
-        fi;
+        for p in ls do
+            if not IsPolygonalComplex(p) then
+                Error("PolygonalComplexIsomorphismRepresentatives: Argument has to be a list of polygonal complexes.");
+            fi;
+        od;
 
         newList := [];
         for p in ls do
-            if ForAll( newList, q -> not IsIsomorphicPolygonalComplex(p,q) ) then
+            newOne := true;
+            for q in newList do
+                if IsIsomorphicPolygonalComplex(p,q) then
+                    newOne := false;
+                    break;
+                fi;
+            od;
+            if newOne then
                 Add(newList, p);
             fi;
         od;
