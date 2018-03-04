@@ -16,14 +16,6 @@ Modification (mid-term):
     AddVertexIntoEdge etc.
 
 
-Profile Classification script: Step 18 -> 20
- and optimize
-    -> Pull-Request auf NautyTracesInterface Zeile 22 in *NodeLabels* (etc.)
-    -> Replace Filtered in general in this fashion (maybe write a custom filtered?)
-    => Custom Union, Filtered, List commands
-    -> Replace ValueGlobal by Kernel command (or PR with NC) in Scheduler
-
-
 evtl. Coloured labels in drawing method?? LabelColour?
 
 

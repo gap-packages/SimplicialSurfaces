@@ -112,8 +112,17 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
             SetVerticesAttributeOfPolygonalComplex(obj, 
                 VerticesAttributeOfPolygonalComplex(complex));
         fi;
+        if HasNumberOfVertices(complex) then
+            SetNumberOfVertices(obj, NumberOfVertices(complex));
+        fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
+        fi;
+        if HasNumberOfFaces(complex) then
+            SetNumberOfFaces(obj, NumberOfFaces(complex));
+        fi;
+        if HasNumberOfEdges(complex) then
+            SetNumberOfEdges(obj, NumberOfEdges(complex) - 1 + Length(newEdgeLabels));
         fi;
         if HasIsTriangularComplex(complex) then
             SetIsTriangularComplex(obj, IsTriangularComplex(complex));
@@ -168,15 +177,36 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStarComponent",
         if HasEdges(complex) then
             SetEdges(obj, Edges(complex));
         fi;
+        if HasNumberOfEdges(complex) then
+            SetNumberOfEdges(obj, NumberOfEdges(complex));
+        fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
+        fi;
+        if HasNumberOfFaces(complex) then
+            SetNumberOfFaces(obj, NumberOfFaces(complex));
+        fi;
+        if HasNumberOfVertices(complex) then
+            SetNumberOfVertices(obj, NumberOfVertices(complex) - 1 + Length(newVertexLabels));
         fi;
         if HasIsTriangularComplex(complex) then
             SetIsTriangularComplex(obj, IsTriangularComplex(complex));
         fi;
         return [obj, newVertexLabels];
     end
- );
+);
+BindGlobal( "__SIMPLICIAL_SplitVertexWithStar",
+    function(complex, vertex, starComp)
+        local max;
+
+        if Length(starComp) = 1 then
+            return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [vertex], starComp);
+        else
+            max := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [1..Length(starComp)]+max, starComp);
+        fi;
+    end
+);
 InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
@@ -375,8 +405,7 @@ InstallMethod( SplitEdgePath,
 RedispatchOnCondition( SplitEdgePath, true, 
     [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
 
-InstallMethod( SplitEdgePathNC,
-    "for a polygonal complex and a duplicate-free vertex-edge-path",
+InstallMethod( SplitEdgePathNC, "for a polygonal complex and a duplicate-free vertex-edge-path",
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath)
         local newLabelList, swapComplex, newComplex, i, edgeSplit, 
@@ -386,14 +415,18 @@ InstallMethod( SplitEdgePathNC,
         swapComplex := complex;
         # Split the edges
         for i in [1..Length(EdgesAsList(vePath))] do
+            # Repeated edge splits are "relatively cheap" since they only
+            # modify VerticesOfEdges and FacesOfEdges
             edgeSplit := SplitEdgeNC(swapComplex, EdgesAsList(vePath)[i]);
             swapComplex := edgeSplit[1];
             newLabelList[2*i] := edgeSplit[2];
         od;
+        
         # Split the vertices
         newLabelList[1] := [VerticesAsList(vePath)[1]];
         for i in [2..Length(VerticesAsList(vePath))-1] do
             vertexSplit := SplitVertexNC(swapComplex, VerticesAsList(vePath)[i]);
+
             swapComplex := vertexSplit[1];
             newLabelList[2*i-1] := vertexSplit[2];
         od;
@@ -901,7 +934,7 @@ InstallMethod( JoinEdgesNC,
         Unbind(newVerticesOfEdges[e2]);
         newVerticesOfEdges[newEdgeLabel] := verts;
 
-        faces := Union(newFacesOfEdges[e1], newFacesOfEdges[e2]);
+        faces := __SIMPLICIAL_UnionSets( newFacesOfEdges{[e1,e2]} );
         Unbind(newFacesOfEdges[e1]);
         Unbind(newFacesOfEdges[e2]);
         newFacesOfEdges[newEdgeLabel] := faces;
