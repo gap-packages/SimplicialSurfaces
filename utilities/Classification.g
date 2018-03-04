@@ -29,6 +29,7 @@ Enlargement := function(surface)
         splitEdge := SplitEdgePathNC(surface, splitPath);
         # The second component are two vertex-edge-paths in which the cut was separated in
         bound := splitEdge[2][1][1];
+        SetIsPolygonalSurface( splitEdge[1], true ); # We know that the result is a simplicial surface in this case
         join := JoinBoundaries(splitEdge[1], PathAsList(bound){[1,2]}, StandardTrianglePair, [1,1]);
         Add(splits, join[1]);
     od;
