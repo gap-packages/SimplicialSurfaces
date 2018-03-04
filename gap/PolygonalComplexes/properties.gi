@@ -171,8 +171,7 @@ InstallMethod( IsInnerVertex, "for a polygonal complex and a vertex",
 #TODO implication to IsClosedSurface
 
 
-InstallMethod( BoundaryVertices, "for a polygonal complex",
-    [IsPolygonalComplex],
+BindGlobal("__SIMPLICIAL_BoundaryVertices_Umbrellas",
     function(complex)
         local edgeFacePaths, res, v;
 
@@ -186,12 +185,57 @@ InstallMethod( BoundaryVertices, "for a polygonal complex",
         return res;
     end
 );
+BindGlobal("__SIMPLICIAL_BoundaryVertices_BoundaryEdges",
+    function(surface)
+        local boundEdges;
+
+        boundEdges := BoundaryEdges(surface);
+        return __SIMPLICIAL_UnionSets( VerticesOfEdges(surface){boundEdges} );
+    end
+);
+
+# Generic method
+InstallMethod( BoundaryVertices, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        return __SIMPLICIAL_BoundaryVertices_Umbrellas(complex);
+    end
+);
+# Special case closed surface
 InstallMethod( BoundaryVertices, "for a closed polygonal complex",
     [IsPolygonalComplex and IsClosedSurface],
     function(complex)
         return [];
     end
 );
+# Special case umbrellas are known
+InstallMethod( BoundaryVertices, 
+    "for a polygonal complex with UmbrellasOfVertices",
+    [IsPolygonalComplex and HasUmbrellasOfVertices],
+    function(complex)
+        return __SIMPLICIAL_BoundaryVertices_Umbrellas(complex);
+    end
+);
+# Special case polygonal surface and boundary edges are known
+InstallMethod( BoundaryVertices, "for a polygonal surface with BoundaryEdges",
+    [IsPolygonalSurface and HasBoundaryEdges],
+    function(surface)
+        return __SIMPLICIAL_BoundaryVertices_BoundaryEdges(surface);
+    end
+);
+# "Generic" case for polygonal surfaces
+InstallMethod( BoundaryVertices, "for a polygonal surface",
+    [IsPolygonalSurface],
+    function(surface)
+        if HasUmbrellasOfVertices(surface) then
+            TryNextMethod();
+        fi;
+        return __SIMPLICIAL_BoundaryVertices_BoundaryEdges(surface);
+    end
+);
+
+
+
 InstallMethod( IsBoundaryVertexNC, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)

@@ -1137,17 +1137,17 @@ InstallMethod(JoinBoundaries,
         if Length(flag2) < 2 then
             Error(Concatenation("JoinBoundaries: Second 2-flag should contain two elements, but actually has ", String(Length(flag2)),"."));
         fi;
-        if not flag1[1] in BoundaryVertices(surface) then
-            Error(Concatenation("JoinBoundaries: Vertex ", String(flag1[1]), " of first flag is not a boundary vertex."));
-        fi;
-        if not flag2[1] in BoundaryVertices(surface) then
-            Error(Concatenation("JoinBoundaries: Vertex ", String(flag2[1]), " of second flag is not a boundary vertex."));
-        fi;
         if not flag1[2] in BoundaryEdges(surface) then
             Error(Concatenation("JoinBoundaries: Edge ", String(flag1[2]), " of first flag is not a boundary edge."));
         fi;
         if not flag2[2] in BoundaryEdges(surface) then
             Error(Concatenation("JoinBoundaries: Edge ", String(flag2[2]), " of second flag is not a boundary edge."));
+        fi;
+        if not flag1[1] in BoundaryVertices(surface) then
+            Error(Concatenation("JoinBoundaries: Vertex ", String(flag1[1]), " of first flag is not a boundary vertex."));
+        fi;
+        if not flag2[1] in BoundaryVertices(surface) then
+            Error(Concatenation("JoinBoundaries: Vertex ", String(flag2[1]), " of second flag is not a boundary vertex."));
         fi;
         if not flag1[1] in VerticesOfEdges(surface)[flag1[2]] then
             Error(Concatenation("JoinBoundaries: First list ", String(flag1), " should be a flag of a vertex and an edge."));
