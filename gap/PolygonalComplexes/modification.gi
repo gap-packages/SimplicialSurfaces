@@ -147,74 +147,11 @@ BindGlobal( "__SIMPLICIAL_ConnectedStarComponents",
         return comp;
     end
 );
-InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, vertex)
-        if not vertex in VerticesAttributeOfPolygonalComplex(complex) then
-            Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
-                " is not one of the vertices ", String(Vertices(complex)), 
-                " of the given polygonal complex." ) );
-        fi;
-        return SplitVertexNC(complex, vertex);
-    end
-);
-InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
-    function(complex, vertex)
-        local nrIncStars, max;
-
-        nrIncStars := Length(__SIMPLICIAL_ConnectedStarComponents(complex, vertex));
-        if nrIncStars = 1 then
-            return SplitVertexNC(complex, vertex, [vertex]);
-        else
-            max := VerticesAttributeOfPolygonalComplex(complex)[ NumberOfVertices(complex) ];
-            return SplitVertexNC(complex, vertex, [1..nrIncStars]+max );
-        fi;
-    end
-);
-
-InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
-    [IsPolygonalComplex, IsPosInt, IsList],
-    function(complex, vertex, newVertexLabels)
-        local intersect;
-
-        if not vertex in VerticesAttributeOfPolygonalComplex(complex) then
-            Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
-                " is not one of the vertices ", String(Vertices(complex)), 
-                " of the given polygonal complex." ) );
-        fi;
-
-        if ForAny(newVertexLabels, v -> not IsPosInt(v)) then
-            Error(Concatenation(
-                "SplitVertex: The new vertex labels have to be positive integers, but are ", 
-                String(newVertexLabels), "."));
-        fi;
-
-        if Length( Set(newVertexLabels) ) <> Length(__SIMPLICIAL_ConnectedStarComponents(complex, vertex)) then
-            Error(Concatenation(
-                "SplitVertex: The number of new vertex labels has to be equal to the number of incident stars.TODO"
-            ));
-        fi;
-
-        intersect := Intersection( VerticesAttributeOfPolygonalComplex(complex), 
-            newVertexLabels );
-        if Length(intersect) = 0 or (Length(intersect)=1 and intersect[1] = vertex) then
-            return SplitVertexNC(complex, vertex, newVertexLabels);
-        else
-            Error(Concatenation("SplitVertex: The new vertex labels ", 
-                String(newVertexLabels), 
-                " have to be disjoint from the existing vertex labels ", 
-                String(Vertices(complex)) ));
-        fi;
-    end
-);
-InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
-    [IsPolygonalComplex, IsPosInt, IsList],
-    function(complex, vertex, newVertexLabels)
-        local newEdgesOfVertices, starComp, i, obj;
+BindGlobal( "__SIMPLICIAL_SplitVertexWithStarComponent",
+    function(complex, vertex, newVertexLabels, starComp)
+        local newEdgesOfVertices, i, obj;
 
         newEdgesOfVertices := ShallowCopy(EdgesOfVertices(complex));
-        starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
         Unbind(newEdgesOfVertices[vertex]);
         for i in [1..Length(newVertexLabels)] do
             newEdgesOfVertices[newVertexLabels[i]] := starComp[i][2];
@@ -238,6 +175,79 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
             SetIsTriangularComplex(obj, IsTriangularComplex(complex));
         fi;
         return [obj, newVertexLabels];
+    end
+ );
+InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        if not vertex in VerticesAttributeOfPolygonalComplex(complex) then
+            Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
+                " is not one of the vertices ", String(Vertices(complex)), 
+                " of the given polygonal complex." ) );
+        fi;
+        return SplitVertexNC(complex, vertex);
+    end
+);
+InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        local nrIncStars, max, starComp;
+
+        starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
+        nrIncStars := Length(starComp);
+        if nrIncStars = 1 then
+            return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [vertex], starComp);
+        else
+            max := VerticesAttributeOfPolygonalComplex(complex)[ NumberOfVertices(complex) ];
+            return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [1..nrIncStars]+max, starComp);
+        fi;
+    end
+);
+
+InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
+    [IsPolygonalComplex, IsPosInt, IsList],
+    function(complex, vertex, newVertexLabels)
+        local intersect, starComp;
+
+        if not vertex in VerticesAttributeOfPolygonalComplex(complex) then
+            Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
+                " is not one of the vertices ", String(Vertices(complex)), 
+                " of the given polygonal complex." ) );
+        fi;
+
+        if ForAny(newVertexLabels, v -> not IsPosInt(v)) then
+            Error(Concatenation(
+                "SplitVertex: The new vertex labels have to be positive integers, but are ", 
+                String(newVertexLabels), "."));
+        fi;
+
+        starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
+        if Length( Set(newVertexLabels) ) <> Length(starComp) then
+            Error(Concatenation(
+                "SplitVertex: The number of new vertex labels has to be equal to the number of incident stars.TODO"
+            ));
+        fi;
+
+        intersect := Intersection( VerticesAttributeOfPolygonalComplex(complex), 
+            newVertexLabels );
+        if Length(intersect) = 0 or (Length(intersect)=1 and intersect[1] = vertex) then
+            return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, newVertexLabels, starComp);
+        else
+            Error(Concatenation("SplitVertex: The new vertex labels ", 
+                String(newVertexLabels), 
+                " have to be disjoint from the existing vertex labels ", 
+                String(Vertices(complex)) ));
+        fi;
+    end
+);
+InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
+    [IsPolygonalComplex, IsPosInt, IsList],
+    function(complex, vertex, newVertexLabels)
+        local starComp;
+        
+        starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
+
+        return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, newVertexLabels, starComp);
     end
 );
 
