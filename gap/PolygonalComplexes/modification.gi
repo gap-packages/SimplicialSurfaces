@@ -1215,17 +1215,17 @@ InstallMethod(JoinBoundaries,
 
         bound1 := VertexEdgePathNC( surface, Reorient( PathAsList(perim1), flag1[1], flag1[2] ) );
         bound2 := VertexEdgePathNC( surface, Reorient( PathAsList(perim2), flag2[1], flag2[2] ) );
-        return JoinVertexEdgePathsNC(surface, bound1, bound2);
-        #join := JoinVertexEdgePathsNC(surface, bound1, bound2);
-        #if join = fail then
-        #    return fail;
-        #fi;
+        #return JoinVertexEdgePathsNC(surface, bound1, bound2);
+        join := JoinVertexEdgePathsNC(surface, bound1, bound2);
+        if join = fail then
+            return fail;
+        fi;
         # Joining boundaries always produces polygonal surfaces
-        #SetIsPolygonalSurface( join[1], true );
-        #if HasIsTriangularComplex( surface ) then
-        #    SetIsTriangularComplex( join[1], IsTriangularComplex(surface) );
-        #fi;
-        #return join;
+        SetIsPolygonalSurface( join[1], true );
+        if HasIsTriangularComplex( surface ) then
+            SetIsTriangularComplex( join[1], IsTriangularComplex(surface) );
+        fi;
+        return join;
     end
 );
 RedispatchOnCondition( JoinBoundaries, true, [IsPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
