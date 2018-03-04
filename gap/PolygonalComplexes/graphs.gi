@@ -143,21 +143,20 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
 
             for e in Edges(complex) do
-                Add(colourList, 1);
                 # There are two vertices for each edge
                 verts := VerticesOfEdges(complex)[e];
-                Add( edgeList, [verts[1], maxVertex + e] );
-                Add( edgeList, [verts[2], maxVertex + e] );
-                Add(vertexList, maxVertex + e);
+                Append( edgeList, [ [verts[1], maxVertex+e], [verts[2], maxVertex+e] ] );
             od;
+            Append(vertexList, Edges(complex) + maxVertex);
+            Append(colourList, ListWithIdenticalEntries( NumberOfEdges(complex), 1 ));
 
             for f in Faces(complex) do
-                Add(colourList, 2);
-                Add(vertexList, maxVertex + maxEdge + f);
+                Add(colourList, 2); # done manually since NumberOfFaces is not necessarily computed
                 for e in EdgesOfFaces(complex)[f] do
                     Add( edgeList, [maxVertex + e, maxVertex + maxEdge + f] );
                 od;
             od;
+            Append(vertexList, Faces(complex) + maxVertex + maxEdge);
 
             return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
         end
