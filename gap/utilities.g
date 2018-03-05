@@ -39,3 +39,24 @@ BindGlobal( "__SIMPLICIAL_UnionSets",
     end
 );
 
+BindGlobal( "__SIMPLICIAL_ListToCycle",
+    function(list)
+        local Shift;
+
+	# local function that shifts each entry of the list to the previous one
+	Shift := function( list )
+		local newList, i;
+
+		newList := [];
+		newList[ Length(list) ] := list[1];
+		for i in [2..Length(list)] do
+			newList[i-1] := list[i];
+		od;
+		return newList;
+	end;
+
+        return MappingPermListList( list, Shift(list) );
+    end
+);
+
+
