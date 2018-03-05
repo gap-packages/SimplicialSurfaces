@@ -46,6 +46,8 @@ Chapter "Errors and bugs"
         how to resolve them.
     Assume users find them by searching
     Also include what to do if errors are found (how to report them etc.)
+    -> This does not need a separate chapter
+    -> Document error messages in the part of the manual where they are introduced
 
 ------------------
 

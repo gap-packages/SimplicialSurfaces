@@ -231,7 +231,7 @@ BindGlobal( "__SIMPLICIAL_LocalSymmetryNamesOfNumber",
         elif e = 2 then 
             return "rotation";
         else 
-            Error("__SIMPLICIAL_LocalSymmetryNamesOfNumber: unknown mr type number");
+            Error("__SIMPLICIAL_LocalSymmetryNamesOfNumber: unknown local symmetry type number");
         fi;
     end
 );
