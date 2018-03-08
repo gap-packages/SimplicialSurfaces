@@ -361,17 +361,19 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         Add( strList, [ " ]\n", 0 ] );
 
         
-        # UmbrellasOfVertices
-        Add( strList, [ "    Umbrellas: [ ", 0 ] );
-        for i in [1..Length(UmbrellasOfVertices(complex))] do
-            if IsBound(UmbrellasOfVertices(complex)[i]) then
-                umb := UmbrellasOfVertices(complex)[i];
-                Append( strList, ViewInformation(umb) );
-            fi;
-            Add( strList, [", ", 0] );
-        od;
-        Remove(strList);
-        Add( strList, [ " ]\n", 0 ] );
+        if IsPolygonalSurface(complex) then
+            # UmbrellasOfVertices
+            Add( strList, [ "    Umbrellas: [ ", 0 ] );
+            for i in [1..Length(UmbrellasOfVertices(complex))] do
+                if IsBound(UmbrellasOfVertices(complex)[i]) then
+                    umb := UmbrellasOfVertices(complex)[i];
+                    Append( strList, ViewInformation(umb) );
+                fi;
+                Add( strList, [", ", 0] );
+            od;
+            Remove(strList);
+            Add( strList, [ " ]\n", 0 ] );
+        fi;
 
         return strList;
     end
