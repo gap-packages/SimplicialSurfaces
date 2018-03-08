@@ -527,9 +527,9 @@ DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! Return the set of all ramified vertices.
 #!
 #! A vertex is ramified if and only if there is a well-defined
-#! edge-face-path partition around it (compare 
+#! umbrella partition around it (compare 
 #! <Ref Subsect="UmbrellaPartitionsOfVertices"/>) and there are at least two
-#! elements in this partition.
+#! umbrellas in this partition.
 #!
 #! The method <K>IsRamifiedVertex</K> checks whether the given vertex is a
 #! ramified
