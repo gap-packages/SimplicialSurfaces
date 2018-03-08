@@ -1,3 +1,4 @@
+% Edge (A) -- (B) is central edge
 \coordinate (A) at (0,0);
 \coordinate (B) at (0,1.5);
 \coordinate (C) at (-0.7,0.4);
@@ -10,4 +11,15 @@
     (A) -- (B) -- (C) -- cycle
     (A) -- (B) -- (D) -- cycle;
 \draw[edge, dashed] (A) -- (E);
+	
+% Special marking for edge
+\ifdefined\emphEdge
+    \draw[thick, edge=blue] (A) -- (B);
+\fi
+
+% Special marking for vertices
+\ifdefined\emphVertex
+    \fill[red] (A) circle (1pt);
+    \fill[red] (B) circle (1pt);
+\fi
 		     

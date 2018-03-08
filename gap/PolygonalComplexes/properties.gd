@@ -315,7 +315,8 @@ DeclareAttribute( "FaceCounter", IsPolygonalComplex );
 #! example:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!     \input{Image_ThreeBranchingTriangles.tex}
+#!      \def\emphEdge{1}
+#!      \input{Image_ThreeBranchingTriangles.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! Edges with more than two incident faces are called <E>ramified edges</E>.
@@ -441,7 +442,8 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! <E>ramified vertices</E>:
 #! <Alt Only="TikZ">
 #!    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!       \input{Image_TwoJoinedTetrahedrons.tex}
+#!      \def\emphVertex{1}
+#!      \input{Image_TwoJoinedTetrahedrons.tex}
 #!    \end{tikzpicture}
 #! </Alt>
 #!
@@ -450,7 +452,8 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! incident to more than two faces.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!     \input{Image_ThreeBranchingTriangles.tex}
+#!      \def\emphVertex{1}
+#!      \input{Image_ThreeBranchingTriangles.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! Vertices that are incident to such an edge are called 
@@ -490,11 +493,14 @@ DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Description
 #! Return the set of all boundary vertices.
 #!
-#! In a polygonal surface a vertex is a boundary vertex if and only if it
-#! is incident to one edge that is incident to only one face (if it is 
+#! For polygonal surfaces the boundary vertices can be described very
+#! easily: a vertex is a boundary vertex if and only if it
+#! is incident to at least one edge that is incident to exactly one face 
+#! (i.e. if it is 
 #! incident to a boundary edge (<Ref Subsect="BoundaryEdges"/>)).
 #!
-#! In general a vertex is a boundary vertex if and only if there is exactly
+#! For more general polygonal complexes a more complicated description is
+#! required: a vertex is a boundary vertex if and only if there is exactly
 #! one non-closed edge-face-path around it (compare section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
 #! edge-face-paths).
