@@ -469,9 +469,9 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! (<Ref Subsect="InnerEdges"/>)).
 #!
 #! In general a vertex is an inner vertex if and only if there is exactly
-#! one closed edge-face-path around it (compare section 
+#! one closed umbrella around it (compare section 
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
-#! edge-face-paths).
+#! umbrellas).
 #!
 #! The method <K>IsInnerVertex</K> checks whether the given vertex is an inner
 #! vertex of the given polygonal complex. The NC-version does not check whether
@@ -503,7 +503,7 @@ DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! required: a vertex is a boundary vertex if and only if there is exactly
 #! one non-closed umbrella around it (compare section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
-#! edge-face-paths).
+#! umbrellas).
 #!
 #! The method <K>IsBoundaryVertex</K> checks whether the given vertex is a 
 #! boundary
@@ -554,7 +554,7 @@ DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! A vertex is chaotic if and only if it is incident to an edge that is
 #! incident to at least three faces. In other words, there is no well-defined
-#! edge-face-path partition (<Ref Subsect="UmbrellaPartitionsOfVertices"/>) around 
+#! umbrella partition (<Ref Subsect="UmbrellaPartitionsOfVertices"/>) around 
 #! a chaotic vertex.
 #!
 #! The method <K>IsChaoticVertex</K> checks whether the given vertex is a 
