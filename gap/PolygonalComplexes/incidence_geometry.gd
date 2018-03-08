@@ -102,7 +102,9 @@
 #! In polygonal complexes (the most general supported incidence structure,
 #! compare chapter <Ref Chap="PolygonalStructures"/>) all vertices, edges
 #! and faces are labelled by positive integers.
-#! These labels do not have to be disjoint as shown in the following example:
+#!
+#! These labels do not have to be consecutive or disjoint, as shown in 
+#! the following example:
 #! <Alt Only="TikZ">
 #!      \input{Image_LabellingExample.tex}
 #! </Alt>
