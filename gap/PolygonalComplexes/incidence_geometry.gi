@@ -786,13 +786,15 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     ["IsPolygonalSurface", "UmbrellaPartitionsOfVertices"]);
 
 InstallMethod( UmbrellasOfVertices,
-    "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices",
-    [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices],
+    "for a polygonal complex that has UmbrellaPartitionsOfVertices",
+    [IsPolygonalComplex and HasUmbrellaPartitionsOfVertices],
     function(ramSurf)
         local FirstOrFail;
 
         FirstOrFail := function(list)
-            if Length(list) = 1 then
+            if list = fail then
+                return fail;
+            elif Length(list) = 1 then
                 return list[1];
             else
                 return fail;
@@ -804,7 +806,9 @@ InstallMethod( UmbrellasOfVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
     "UmbrellasOfVertices", 
-    ["IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices"]);
+    ["UmbrellaPartitionsOfVertices"]);
+
+
 
 InstallMethod( UmbrellaPartitionsOfVertices,
     "for a ramified polygonal surface that has UmbrellasOfVertices",

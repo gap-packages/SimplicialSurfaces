@@ -501,7 +501,7 @@ DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! For more general polygonal complexes a more complicated description is
 #! required: a vertex is a boundary vertex if and only if there is exactly
-#! one non-closed edge-face-path around it (compare section
+#! one non-closed umbrella around it (compare section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
 #! edge-face-paths).
 #!
