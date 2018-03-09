@@ -35,6 +35,16 @@
 #! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], 5,
 #! >                [ [1,2,3], [1,3,5], [1,5,7], [1,7,11], [1,2,11] ] );;
 #! @EndExampleSession
+#!
+#! Another one is the <E>triforce</E>:
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_Triforce.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> triforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;
+#! @EndExampleSession
 #TODO projective plane on four faces?
 
 #! @Section Invariants
@@ -89,8 +99,8 @@ DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
 #! gap> IsClosedSurface( Dodecahedron() );
 #! true
 #! @EndExampleSession
-#! In contrast, the five-star from the start of chapter
-#! <Ref Chap="Chapter_Properties"/> is not closed.
+#! In contrast, the five-star and the triforce from the start of chapter
+#! <Ref Chap="Chapter_Properties"/> are not closed.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
 #!      \input{Image_FiveTrianglesInCycle.tex}
@@ -98,6 +108,15 @@ DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
 #! </Alt>
 #! @ExampleSession
 #! gap> IsClosedSurface(fiveStar);
+#! false
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_Triforce.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsClosedSurface(triforce);
 #! false
 #! @EndExampleSession
 #!
@@ -463,12 +482,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! @Description
 #! Return the set of all inner vertices. 
 #! 
-#! In a polygonal surface a vertex is
-#! an inner vertex if and only if every incident edge is incident to exactly
-#! two faces (that is, if it only incident to inner edges 
-#! (<Ref Subsect="InnerEdges"/>)).
-#!
-#! In general a vertex is an inner vertex if and only if there is exactly
+#! A vertex is an inner vertex if and only if there is exactly
 #! one closed umbrella around it (compare section 
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
 #! umbrellas).
@@ -476,8 +490,28 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! The method <K>IsInnerVertex</K> checks whether the given vertex is an inner
 #! vertex of the given polygonal complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
-#!
-#! TODO example
+#! 
+#! Consider the five-star from the start of chapter
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_FiveTrianglesInCycle.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> IsInnerVertex( fiveStar, 1 );
+#! true
+#! gap> IsInnerVertex( fiveStar, 3 );
+#! false
+#! gap> InnerVertices( fiveStar );
+#! [ 1 ]
+#! @EndExampleSession
+#! 
+#! For the special case of a polygonal surface the inner vertices have an
+#! easier characterisation: a vertex is
+#! an inner vertex if and only if every incident edge is incident to exactly
+#! two faces (that is, if it only incident to inner edges 
+#! (<Ref Subsect="InnerEdges"/>)).
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
@@ -493,14 +527,7 @@ DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Description
 #! Return the set of all boundary vertices.
 #!
-#! For polygonal surfaces the boundary vertices can be described very
-#! easily: a vertex is a boundary vertex if and only if it
-#! is incident to at least one edge that is incident to exactly one face 
-#! (i.e. if it is 
-#! incident to a boundary edge (<Ref Subsect="BoundaryEdges"/>)).
-#!
-#! For more general polygonal complexes a more complicated description is
-#! required: a vertex is a boundary vertex if and only if there is exactly
+#! A vertex is a boundary vertex if and only if there is exactly
 #! one non-closed umbrella around it (compare section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
 #! umbrellas).
@@ -510,7 +537,43 @@ DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! vertex of the given polygonal complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
-#! TODO example
+#! Consider the triforce from the start of section
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_Triforce.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> IsBoundaryVertex( triforce, 6 );
+#! true
+#! gap> IsBoundaryVertex( triforce, 2 );
+#! false
+#! gap> BoundaryVertices( triforce );
+#! [ 1, 4, 6 ]
+#! @EndExampleSession
+#!
+#! For polygonal surfaces the boundary vertices can be described more
+#! easily: a vertex is a boundary vertex if and only if it
+#! is incident to at least one edge that is incident to exactly one face 
+#! (i.e. if it is 
+#! incident to a boundary edge (<Ref Subsect="BoundaryEdges"/>)).
+#!
+#! Consider the five-star from the start of section 
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_FiveTrianglesInCycle.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> IsBoundaryVertex( fiveStar, 5 );
+#! true
+#! gap> IsBoundaryVertex( fiveStar, 1 );
+#! false
+#! gap> BoundaryVertices( fiveStar );
+#! [ 2, 3, 5, 7, 11 ]
+#! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
@@ -536,7 +599,21 @@ DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! vertex of the given polygonal complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
-#! TODO example
+#! Consider the triforce from the start of section
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_Triforce.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> IsRamifiedVertex( triforce, 3 );
+#! true
+#! gap> IsRamifiedVertex( triforce, 4 );
+#! false
+#! gap> RamifiedVertices( triforce );
+#! [ 2, 3, 5 ]
+#! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
