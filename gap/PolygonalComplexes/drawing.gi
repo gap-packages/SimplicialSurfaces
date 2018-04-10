@@ -1037,7 +1037,7 @@ InstallMethod( DrawSurfaceToTikz,
                 AppendTo( output, "% Define the coordinates of the vertices\n" );
                 for v in VerticesAttributeOfPolygonalComplex(comp) do
                     for i in [1..Length(allVertexCoords[v])] do
-                        if allVertexCoords[v][i][3] = ind then;
+                        if allVertexCoords[v][i][3] = ind then
                             AppendTo( output, "\\coordinate (", TikzCoordFromVertexPosition([v,i]), ") at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
                         fi;
                     od;
