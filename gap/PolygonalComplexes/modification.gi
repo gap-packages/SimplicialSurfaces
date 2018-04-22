@@ -1409,7 +1409,7 @@ InstallMethod( RipCut, "for a polygonal complex and an edge",
             Error(Concatenation("RipCut: Second argument ",
                 String(edge), " is not a rip-cuttable edge of the given polygonal complex."));
         fi;
-        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC([edge]));
+        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
     end
 );
 
@@ -1475,7 +1475,7 @@ InstallMethod( SplitCut, "for a polygonal complex and an edge",
                 String(edge),
                 " is not a split-cuttable edge of the given polygonal complex"));
         fi;
-        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]));
+        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
     end
 );
 

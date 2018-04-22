@@ -1014,7 +1014,7 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! >        if not edge in RipCuttableEdges_custom(complex) then
 #! >            Error("Given edge has to be rip-cuttable.");
 #! >        fi;
-#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC([edge]));
+#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
 #! >    end;
 #! function( complex, edge ) ... end
 #! @EndExampleSession
@@ -1113,7 +1113,7 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! >        if not edge in SplitCuttableEdges_custom(complex) then
 #! >            Error("Given edge has to be split-cuttable.");
 #! >        fi;
-#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]));
+#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
 #! >    end;
 #! function( complex, edge ) ... end
 #! @EndExampleSession
