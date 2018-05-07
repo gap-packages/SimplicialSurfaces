@@ -58,13 +58,10 @@ DeclareOperation( "DisplayAsIsomorphism", [IsPolygonalComplex, IsPerm] );
 #! @EndGroup
 
 
-
-
 #######################################
 ##
 ##      Group action
 ##
-
 InstallMethod( DisplayAsIsomorphism, 
     "for a polygonal complex and a permutation",
     [IsPolygonalComplex, IsPerm],
