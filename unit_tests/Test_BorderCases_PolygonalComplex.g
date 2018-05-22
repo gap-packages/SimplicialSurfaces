@@ -3,7 +3,9 @@
 
 BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     local tet, tet_verts, tet_vertsOfEdges, tet_edges, tet_faces,
-        tet_edgesOfFaces, triforce, paperAirplane, doubleTetrahedron;
+        tet_edgesOfFaces, triforce, paperAirplane, doubleTetrahedron, eye,
+        closeEye, triple, tripleTogether, tripleDoubleTogether, falseTriforce, 
+        fT1, fT2, fT3, fT4, fT5, fT6;
 
     ################################
     # Case Tetrahedron
@@ -138,7 +140,7 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
 
     # Case DoubleTetrahedron
     doubleTetrahedron := PolygonalComplexByDownwardIncidence(
-        [,,,,,,,[1,6],[1,5],[5,6],[2,6],[2,5],[1,2],[2,7],[4,7],[3,7],[2,4],
+        [,,,,,,,[1,6],[1,5],[5,6],[2,6],[2,5],[1,2],[2,7],[4,7],[3,7],[2,4], 
           [4,3],[2,3]],
         [[8,9,10],[10,11,12],[9,12,13],[8,13,11],[14,17,15],[15,18,16],
           [17,19,18],[14,16,19]]); 
@@ -179,6 +181,51 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     Assert(0,IsChaoticVertexNC(doubleTetrahedron,7)=false);
     Assert(0,ChaoticVertices(doubleTetrahedron)=[]);
 
+    ########################################
+    #
+    #Test Join Edges
+    #
+    ########################################
+
+     #Test Close Eye
+
+     eye := RamifiedSimplicialSurfaceByDownwardIncidence(
+             [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], 
+             [[1,2,3],[4,5,6]]);; 
+
+     closeEye := JoinEdges( eye, 2, 6 );;
+     Assert(0,InnerEdges(closeEye[1])=[7]);     
+
+     #Test Triple
+
+     triple := PolygonalComplexByDownwardIncidence(
+             [[1,2],[2,3],[3,1],[1,3],[3,4],[4,1],[1,3],[3,5],[5,1]],
+             [[1,2,3],[4,5,6],[7,8,9]]);  
+
+     tripleTogether := JoinEdges(triple, [3,4])[1];
+     tripleDoubleTogether:=JoinEdges(tripleTogether,[7,10])[1];
+
+     Assert(0,InnerEdges(tripleTogether)=[10]);
+     Assert(0,InnerEdges(tripleDoubleTogether)=[]);
+     Assert(0,RamifiedEdges(tripleDoubleTogether)=[11]);   
+
+     # Test False Triforce
+
+     falseTriforce := RamifiedPolygonalSurfaceByDownwardIncidence(
+             [[1,2],[2,3],[3,1],[3,4],[4,1],[1,3],[4,2],[2,1],[1,4],[2,3],
+              [3,4],[4,2]],
+             [[1,2,3],[4,5,6],[7,8,9],[10,11,12]]);
+
+     fT1 := JoinEdgesNC(falseTriforce,[2,10])[1];     
+     fT2 := JoinEdgesNC(fT1,4,11)[1];
+     fT3 := JoinEdges(fT2,[7,12])[1];
+     fT4 := JoinEdges(fT3,1,8)[1];
+     fT5 := JoinEdges(fT4,[3,6],99)[1];
+     fT6 := JoinEdges(fT5,5,9,100)[1];
+
+     Assert(0,InnerEdges(fT1) = [13]);
+     Assert(0,EdgesOfFace(fT3,4) = [ 13, 14, 15 ]);
+     Assert(0,InnerEdges(fT6)=[ 13, 14, 15, 16, 99, 100]);
 
 end);
 
