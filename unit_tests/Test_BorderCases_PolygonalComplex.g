@@ -239,3 +239,35 @@ BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
      Assert(0,EdgesOfFace(fT3,4) = [ 13, 14, 15 ]);
      Assert(0,InnerEdges(fT6)=[ 13, 14, 15, 16, 99, 100]);
 end);
+
+BindGlobal( "__SIMPLICIAL_Test_JoinVertices", function()
+    local doubleTriangle, OpenDoubleTriangle, Isomorph, DoubleSquare, 
+	DoubleSquare1, DoubleSquare2, DoubleSquare3;
+
+    #Test Double Triangle
+
+    doubleTriangle := PolygonalComplexByDownwardIncidence(
+	[[1,2],[2,3],[3,4],[4,1],[4,2]],
+	[[1,4,5],[2,3,5]]); 
+
+    OpenDoubleTriangle := JoinVertices(doubleTriangle,1,3)[1];
+
+    Assert(0,BoundaryVertices(OpenDoubleTriangle) = [2,4]);
+    Assert(0,RamifiedVertices(OpenDoubleTriangle) = [5]);
+
+    #Test Moebius Band
+
+    DoubleSquare := PolygonalComplexByDownwardIncidence(
+	[[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],[2,5]],
+	[[2,3,4,7],[1,5,6,7]]);
+    DoubleSquare1 := JoinVerticesNC(DoubleSquare,[1,4])[1];
+    DoubleSquare2 := JoinVertices(DoubleSquare1,[3,6])[1];
+    DoubleSquare3 := JoinEdges(DoubleSquare2, 3,6)[1];    
+
+    Isomorph := PolygonalComplexByDownwardIncidence(
+	[[1,2],[2,4],[3,4],[3,1],[1,4],[2,3]],
+	[[1,2,3,4],[1,3,5,6]]);    
+  
+   Assert(0,IsIsomorphicPolygonalComplex(Isomorph,DoubleSquare3)=true);
+   
+end);
