@@ -870,6 +870,7 @@ InstallMethod( DrawSurfaceToTikz,
         # Start the actual method
         unplacedFaces := Faces(surface);
         strongComponents := [];
+        #drawIndex := 0;
         while Length(unplacedFaces) > 0 do
             # Find the starting face
             start := __SIMPLICIAL_PrintRecordStartingFace( printRecord, surface, unplacedFaces );
@@ -877,6 +878,7 @@ InstallMethod( DrawSurfaceToTikz,
             Add( printRecord.edgeDrawOrder,  [] );
 
             comp := [[start]];
+            #drawIndex := drawIndex + 1;
             drawIndex := 1;
             computedFace := __SIMPLICIAL_PrintRecordComputeFirstFace( printRecord, surface, start, drawIndex );
             __SIMPLICIAL_PrintRecordAddFace(printRecord, surface, computedFace[1], computedFace[2], start, drawIndex);
