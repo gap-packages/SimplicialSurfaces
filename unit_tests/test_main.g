@@ -25,6 +25,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     __SIMPLICIAL_Test_Properties();
     __SIMPLICIAL_Test_PolygonalHierarchy();
+    __SIMPLICIAL_Test_SplitEdge();
 
     # Edge coloured polygonal complex
     __SIMPLICIAL_Test_EdgeColours();
