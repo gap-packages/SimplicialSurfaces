@@ -24,7 +24,9 @@ BindGlobal("__SIMPLICIAL_DocDirectory", "doc/");
 BindGlobal("__SIMPLICIAL_TikZHeader", "\\input{TikZHeader.tex}\n\n" );
 
 # We load the package since we need it for some computations in the manual
-LoadPackage("SimplicialSurfaces");
+if fail = LoadPackage("SimplicialSurfaces") then
+    Error("SimplicialSurfaces package has to be available.");
+fi;
 
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
