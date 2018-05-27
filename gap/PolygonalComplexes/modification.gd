@@ -1048,7 +1048,7 @@ DeclareAttribute( "RipCuttableEdges", IsPolygonalComplex );
 #! >    
 #! >        pairs := [];
 #! >        for v in BoundaryVertices(complex) do
-#! >            boundEdges := Filtered( EdgesOfVertices(complex), 
+#! >            boundEdges := Filtered( EdgesOfVertices(complex)[v], 
 #! >                e -> IsBoundaryEdgeNC(complex, e) );
 #! >            edgePairs := Combinations(boundEdges, 2);
 #! >            Append(pairs, Filtered(edgePairs, p -> 
@@ -1066,13 +1066,13 @@ DeclareAttribute( "RipCuttableEdges", IsPolygonalComplex );
 #! >            Error("Given edge-pair has to be rip-mendable.");
 #! >        fi;
 #! >        commonVertex := Intersection( 
-#! >            VerticesOfEdges(complex, edgePair[1]), 
-#! >            VerticesOfEdges(complex, edgePair[2]) )[1];
+#! >            VerticesOfEdge(complex, edgePair[1]), 
+#! >            VerticesOfEdge(complex, edgePair[2]) )[1];
 #! >        path1 := VertexEdgePathNC(complex, [commonVertex, edgePair[1], 
 #! >                OtherVertexOfEdgeNC(complex, commonVertex, edgePair[1])]);
 #! >        path2 := VertexEdgePathNC(complex, [commonVertex, edgePair[2], 
 #! >                OtherVertexOfEdgeNC(complex, commonVertex, edgePair[2])]);
-#! >        join := JoinVertexEdgePathsNC(complex, path1, path2)[1];
+#! >        join := JoinVertexEdgePathsNC(complex, path1, path2);
 #! >        if join = fail then
 #! >            return fail;
 #! >        else
