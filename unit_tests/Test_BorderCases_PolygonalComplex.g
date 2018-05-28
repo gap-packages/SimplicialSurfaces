@@ -195,4 +195,42 @@ BindGlobal( "__SIMPLICIAL_Test_PolygonalHierarchy", function()
     Assert(0, not IsSimplicialSurface(x));
 end);
 
+BindGlobal( "__SIMPLICIAL_Test_SplitEdge", function()
+    local oct, split, split2, split3, triangle, eye, eye1, eye2, hourglass, hourglass1;
 
+    #Test repeated spliting
+    oct := Octahedron();
+    split := SplitEdge(oct, 1);
+    Assert(0, split[2] = [13, 14]);
+    Assert(0, split = SplitEdgeNC(oct, 1));
+
+    split2 := SplitEdge(split[1], 2);
+    Assert(0, split2[2] = [15, 16]);
+    Assert(0, split2 = SplitEdgeNC(split[1], 2));
+
+    split3 := SplitEdge(split2[1], 5);
+    Assert(0, split3[2] = [17, 18]);
+    Assert(0, split3 = SplitEdgeNC(split2[1], 5));
+
+    #Test if spliting outer edge changes anything
+    triangle := SimplicialSurfaceByDownwardIncidence([[1,2], [1,3], [2,3]], [[1,2,3]]);
+    split := SplitEdge(triangle, 3);
+    Assert(0, split[2] = [3]);
+    Assert(0, split = SplitEdgeNC(triangle, 3));
+
+    #
+    eye := PolygonalComplexByDownwardIncidence([[1,2], [2,3], [3,4], [4,1], [1,3], [1,3]], [[1,2,5], [5, 6], [3,4,6]]);
+    eye1 := PolygonalComplexByDownwardIncidence([[1,2], [2,3], [3,4], [4,1],, [1,3], [1,3], [1,3]], [[1,2,7], [8, 6], [3,4,6]]);
+    eye2 := PolygonalComplexByDownwardIncidence([[1,2], [2,3], [3,4], [4,1],,, [1,3], [1,3], [1,3], [1,3]], [[1,2,7], [8, 9], [3,4,10]]);
+    Assert(0, SplitEdge(eye, 5)[1] = eye1);
+    Assert(0, SplitEdgeNC(eye, 5)[1] = eye1);
+    Assert(0, SplitEdge(eye1, 6)[1] = eye2);
+    Assert(0, SplitEdgeNC(eye1, 6)[1] = eye2);
+
+    #
+    hourglass := PolygonalComplexByDownwardIncidence([[1,2], [2,3], [1,3], [3,2], [3,1]], [[1,2,3], [4,5,1]]);
+    hourglass1 := PolygonalComplexByDownwardIncidence([, [2,3], [1,3], [3,2], [3,1], [1,2], [1,2]], [[6,2,3], [4,5,7]]);
+    Assert(0, SplitEdge(hourglass, 1) = [hourglass1, [6,7]]);
+    Assert(0, SplitEdgeNC(hourglass, 1) = [hourglass1, [6,7]]);
+
+end);
