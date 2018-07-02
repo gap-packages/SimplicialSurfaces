@@ -545,10 +545,6 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #!	@Description
 #!	Find the canonical form of a surface, with its lex least numbering of faces, edges and vertices,
 #! 	and also provide the maps between the elements of the original surface and the canonical surface.
-#!	@Arguments A polygona surface
-#!	@Returns A list containing the canonical form of the surface and maps from the new
-#!	face, edge and point set respectively, to the old face, edge and point set.
-DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurface]);
 
 #! The following example illustrates the use of the CanonicalRepresentativeOfPolygonalSurface
 #! command. We define the cube, but with a labelling of larger than necessary integers.  
@@ -562,12 +558,17 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> faces := [ 20, 21, 22, 23, 24, 25 ];;
 #! gap> edges := [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];;
 #! gap> vertices := [ 12, 13, 14, 15, 16, 17, 18, 19 ];;
-#! gap> edgesoffaces := [ ,,,,,,,,,,,,,,,,,,, [ 4, 5, 6, 7 ], [ 4, 8, 11, 15 ], [ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ], [ 12, 13, 14, 15 ] ];;
-#! gap> verticesofedges := [ ,,, [ 12, 13 ], [ 13, 14 ], [ 14, 15 ], [ 12, 15 ], [ 13, 17 ], [ 14, 18 ], [ 15, 19 ], [ 12, 16 ], [ 17, 18 ], [ 18, 19 ], [ 16, 19 ], [ 16, 17 ] ];;
-#! gap> cube := PolygonalSurfaceByDownwardIncidence(vertices, edges, faces, verticesofedges, edgesoffaces);;
-#! gap> canonicalcube:=CanonicalRepresentativeOfPolygonalSurface(cube);;
-#! gap> canon:=canonicalcube[1];;
-#! gap> preimage:=MappingOfSurfaces(canon, canonicalcube[2][1], canonicalcube[2][2], canonicalcube[2][3]);;
+#! gap> edgesOfFaces := [ ,,,,,,,,,,,,,,,,,,, [ 4, 5, 6, 7 ], [ 4, 8, 11, 15 ], 
+#! [ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ], [ 12, 13, 14, 15 ] ];;
+#! gap> verticesOfEdges := [ ,,, [ 12, 13 ], [ 13, 14 ], [ 14, 15 ], [ 12, 15 ], 
+#! [ 13, 17 ], [ 14, 18 ], [ 15, 19 ], [ 12, 16 ], [ 17, 18 ], [ 18, 19 ], 
+#! [ 16, 19 ], [ 16, 17 ] ];;
+#! gap> cube := PolygonalSurfaceByDownwardIncidence(vertices, edges, faces, 
+#! verticesOfEdges, edgesOfFaces);;
+#! gap> canonicalCube:=CanonicalRepresentativeOfPolygonalSurface(cube);;
+#! gap> canon:=canonicalCube[1];;
+#! gap> preimage:=MappingOfSurfaces(canon, canonicalCube[2][1], canonicalCube[2][2], 
+#! canonicalCube[2][3]);;
 #! gap> Faces(canon);
 #! [ 1, 2, 3, 4, 5, 6 ]
 #! gap> Edges(canon);
@@ -575,9 +576,11 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> Vertices(canon);
 #! [ 1, 2, 3, 4, 5, 6, 7, 8 ]
 #! gap> EdgesOfFaces(canon);
-#! [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 1, 5, 9, 10 ], [ 3, 7, 9, 11 ], [ 4, 8, 10, 12 ], [ 2, 6, 11, 12 ] ]
+#! [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 1, 5, 9, 10 ], [ 3, 7, 9, 11 ], 
+#! [ 4, 8, 10, 12 ], [ 2, 6, 11, 12 ] ]
 #! gap> VerticesOfEdges(canon);
-#! [ [ 1, 2 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 5, 6 ], [ 7, 8 ], [ 5, 7 ], [ 6, 8 ], [ 1, 5 ], [ 2, 6 ], [ 3, 7 ], [ 4, 8 ] ]
+#! [ [ 1, 2 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 5, 6 ], [ 7, 8 ], [ 5, 7 ], [ 6, 8 ], 
+#! [ 1, 5 ], [ 2, 6 ], [ 3, 7 ], [ 4, 8 ] ]
 #! gap> canon=cube;
 #! false
 #! gap> IsIsomorphicPolygonalComplex(cube, canon);
@@ -585,3 +588,8 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> preimage=cube;
 #! true
 #! @EndExampleSession
+
+#!	@Arguments surface
+#!	@Returns A list containing the canonical form of the surface and maps from the new
+#!	face, edge and point set respectively, to the old face, edge and point set.
+DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurface]);

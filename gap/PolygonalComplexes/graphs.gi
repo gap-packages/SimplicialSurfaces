@@ -433,7 +433,7 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
         totalgraphverts, mapfaces, mapedges, mapvertices, currentvert, i, vertsofgraph,
         edges, edgesofface, j, verticesofface, verticesofedge, graph, perm, perminv, 
         edgesoffacesofsurf, F, edgesofface2, verticesofedgesofsurf, e, verticesofedge2,
-        newfaces, newedges, newvertices,
+        newfaces, newedges, newvertices, n1, n2, n3,
         mapfaces2, mapedges2, mapvertices2, edgesoffacesofsurf2, verticesofedgesofsurf2,
         surf2, surf3, colours, inversefacemap, inverseedgemap, inversevertexmap;
 
