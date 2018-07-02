@@ -20,3 +20,15 @@ DeclareInfoClass( "InfoSimplicial" );
 # Attribute for colour information
 DeclareAttribute( "ViewInformation", IsPolygonalComplex );
 DeclareAttribute( "DisplayInformation", IsPolygonalComplex );
+
+
+
+
+#!	@Description
+#!	Takes a surface and maps between from the faces, edges and vertices, and returns the surface
+#!	under the mapping. The maps are given as lists, with the position of the list indexed by
+#!	the input of the map (that is, the face/edge/vertex of the given surface) and the value at
+#!	that position is the image under the map.
+#!	@Arguments A polygonal surface, facemap, edgemap, vertexmap
+#!	@Returns a simplicial surface
+DeclareOperation( "MappingOfSurfaces", [IsPolygonalSurface, IsList, IsList, IsList]);
