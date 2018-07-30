@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- TODO insert stuff about VEFComplex and BendPolygonalComplex -->
+
 <!-- This chapter is technical but very important for the rest of the package.
      Especially the definition of polygonal complex is essential (since most
      operations refer to it in one way or another). Therefore it has to explained

@@ -24,6 +24,11 @@ BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute",
         AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsPolygonalComplex, "for a polygonal complex" );
     end
 );
+BindGlobal( "__SIMPLICIAL_AddVEFAttribute", 
+    function( attr )
+        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsVEFComplex, "for a VEF-complex" );
+    end
+);
 
 BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
     function( attr )

@@ -15,26 +15,26 @@
 ##
 ##          Methods for labelled access
 ##
-InstallMethod( Vertices, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( Vertices, "for a polygonal complex", [IsVEFComplex],
 	function(complex)
 		return VerticesAttributeOfPolygonalComplex( complex );
 	end
 );
 
 # methods to compute number of vertices, edges, faces
-InstallMethod( NumberOfVertices, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( NumberOfVertices, "for a polygonal complex", [IsVEFComplex],
     function(complex)
             return Length( VerticesAttributeOfPolygonalComplex(complex) );
     end
 );
 
-InstallMethod( NumberOfEdges, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( NumberOfEdges, "for a polygonal complex", [IsVEFComplex],
     function(complex)
             return Length( Edges(complex) );
     end
 );
 
-InstallMethod( NumberOfFaces, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( NumberOfFaces, "for a polygonal complex", [IsVEFComplex],
     function(complex)
             return Length( Faces(complex) );
     end
@@ -43,9 +43,9 @@ InstallMethod( NumberOfFaces, "for a polygonal complex", [IsPolygonalComplex],
 ##
 ## Inclusion in the attribute scheduler
 ##
-__SIMPLICIAL_AddPolygonalAttribute( VerticesAttributeOfPolygonalComplex );
-__SIMPLICIAL_AddPolygonalAttribute( Edges );
-__SIMPLICIAL_AddPolygonalAttribute( Faces );
+__SIMPLICIAL_AddVEFAttribute( VerticesAttributeOfPolygonalComplex );
+__SIMPLICIAL_AddVEFAttribute( Edges );
+__SIMPLICIAL_AddVEFAttribute( Faces );
 
 ##
 ##              End of labelled access
@@ -62,12 +62,12 @@ __SIMPLICIAL_AddPolygonalAttribute( Faces );
 ##
 ## Inclusion in the attribute scheduler
 ##
-__SIMPLICIAL_AddPolygonalAttribute( EdgesOfVertices );
-__SIMPLICIAL_AddPolygonalAttribute( FacesOfVertices );
-__SIMPLICIAL_AddPolygonalAttribute( VerticesOfEdges );
-__SIMPLICIAL_AddPolygonalAttribute( FacesOfEdges );
-__SIMPLICIAL_AddPolygonalAttribute( VerticesOfFaces );
-__SIMPLICIAL_AddPolygonalAttribute( EdgesOfFaces );
+__SIMPLICIAL_AddVEFAttribute( EdgesOfVertices );
+__SIMPLICIAL_AddVEFAttribute( FacesOfVertices );
+__SIMPLICIAL_AddVEFAttribute( VerticesOfEdges );
+__SIMPLICIAL_AddVEFAttribute( FacesOfEdges );
+__SIMPLICIAL_AddVEFAttribute( VerticesOfFaces );
+__SIMPLICIAL_AddVEFAttribute( EdgesOfFaces );
 
 ##
 ## Connection between labelled access and *Of*-attributes (via scheduler)
@@ -76,7 +76,7 @@ __SIMPLICIAL_AddPolygonalAttribute( EdgesOfFaces );
 ## EdgesOfVertices
 InstallMethod( Edges, 
     "for a polygonal complex with EdgesOfVertices",
-    [IsPolygonalComplex and HasEdgesOfVertices],
+    [IsVEFComplex and HasEdgesOfVertices],
     function(complex)
         return __SIMPLICIAL_UnionSets(EdgesOfVertices(complex));
     end
@@ -86,7 +86,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( VerticesAttributeOfPolygonalComplex, 
     "for a polygonal complex with EdgesOfVertices",
-    [IsPolygonalComplex and HasEdgesOfVertices],
+    [IsVEFComplex and HasEdgesOfVertices],
     function(complex)
         return __SIMPLICIAL_BoundPositions(EdgesOfVertices(complex));
     end
@@ -97,7 +97,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 ## FacesOfVertices
 InstallMethod( Faces, "for a polygonal complex with FacesOfVertices",
-    [IsPolygonalComplex and HasFacesOfVertices],
+    [IsVEFComplex and HasFacesOfVertices],
     function(complex)
         return __SIMPLICIAL_UnionSets(FacesOfVertices(complex));
     end
@@ -107,7 +107,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( VerticesAttributeOfPolygonalComplex, 
     "for a polygonal complex with FacesOfVertices",
-    [IsPolygonalComplex and HasFacesOfVertices],
+    [IsVEFComplex and HasFacesOfVertices],
     function(complex)
         return __SIMPLICIAL_BoundPositions(FacesOfVertices(complex));
     end
@@ -119,7 +119,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ## VerticesOfEdges
 InstallMethod( VerticesAttributeOfPolygonalComplex, 
     "for a polygonal complex with VerticesOfEdges",
-    [IsPolygonalComplex and HasVerticesOfEdges],
+    [IsVEFComplex and HasVerticesOfEdges],
     function(complex)
         return __SIMPLICIAL_UnionSets(VerticesOfEdges(complex));
     end
@@ -128,7 +128,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "VerticesAttributeOfPolygonalComplex", "VerticesOfEdges");
 
 InstallMethod( Edges, "for a polygonal complex with VerticesOfEdges",
-    [IsPolygonalComplex and HasVerticesOfEdges],
+    [IsVEFComplex and HasVerticesOfEdges],
     function(complex)
         return __SIMPLICIAL_BoundPositions(VerticesOfEdges(complex));
     end
@@ -139,7 +139,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 ## FacesOfEdges
 InstallMethod( Faces, "for a polygonal complex with FacesOfEdges",
-    [IsPolygonalComplex and HasFacesOfEdges],
+    [IsVEFComplex and HasFacesOfEdges],
     function(complex)
         return __SIMPLICIAL_UnionSets(FacesOfEdges(complex));
     end
@@ -148,7 +148,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "Faces", "FacesOfEdges");
 
 InstallMethod( Edges, "for a polygonal complex with FacesOfEdges",
-    [IsPolygonalComplex and HasFacesOfEdges],
+    [IsVEFComplex and HasFacesOfEdges],
     function(complex)
         return __SIMPLICIAL_BoundPositions(FacesOfEdges(complex));
     end
@@ -160,7 +160,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ## VerticesOfFaces
 InstallMethod( VerticesAttributeOfPolygonalComplex, 
     "for a polygonal complex with VerticesOfFaces",
-    [IsPolygonalComplex and HasVerticesOfFaces],
+    [IsVEFComplex and HasVerticesOfFaces],
     function(complex)
         return __SIMPLICIAL_UnionSets(VerticesOfFaces(complex));
     end
@@ -169,7 +169,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "VerticesAttributeOfPolygonalComplex", "VerticesOfFaces");
 
 InstallMethod( Faces, "for a polygonal complex with VerticesOfFaces",
-    [IsPolygonalComplex and HasVerticesOfFaces],
+    [IsVEFComplex and HasVerticesOfFaces],
     function(complex)
         return __SIMPLICIAL_BoundPositions(VerticesOfFaces(complex));
     end
@@ -181,7 +181,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 ## EdgesOfFaces
 InstallMethod( Edges, "for a polygonal complex with EdgesOfFaces",
-    [IsPolygonalComplex and HasEdgesOfFaces],
+    [IsVEFComplex and HasEdgesOfFaces],
     function(complex)
         return __SIMPLICIAL_UnionSets(EdgesOfFaces(complex));
     end
@@ -190,7 +190,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "Edges", "EdgesOfFaces");
 
 InstallMethod( Faces, "for a polygonal complex with EdgesOfFaces",
-    [IsPolygonalComplex and HasEdgesOfFaces],
+    [IsVEFComplex and HasEdgesOfFaces],
     function(complex)
         return __SIMPLICIAL_BoundPositions(EdgesOfFaces(complex));
     end
@@ -205,14 +205,14 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ## EdgesOfVertices
 InstallMethod(EdgesOfVertexNC, 
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         return EdgesOfVertices(complex)[vertex];
     end
 );
 InstallMethod(EdgesOfVertex,
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex( complex, vertex, "EdgesOfVertex" );
         return EdgesOfVertexNC(complex,vertex);
@@ -222,14 +222,14 @@ InstallMethod(EdgesOfVertex,
 ## FacesOfVertices
 InstallMethod(FacesOfVertexNC, 
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         return FacesOfVertices(complex)[vertex];
     end
 );
 InstallMethod(FacesOfVertex,
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex( complex, vertex, "FacesOfVertex" );
         return FacesOfVertexNC(complex,vertex);
@@ -240,14 +240,14 @@ InstallMethod(FacesOfVertex,
 ## VerticesOfEdges
 InstallMethod(VerticesOfEdgeNC, 
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, edge)
         return VerticesOfEdges(complex)[edge];  
     end
 );
 InstallMethod(VerticesOfEdge,
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, edge)
         __SIMPLICIAL_CheckEdge( complex, edge, "VerticesOfEdge" );
         return VerticesOfEdgeNC(complex,edge);
@@ -258,14 +258,14 @@ InstallMethod(VerticesOfEdge,
 ## FacesOfEdges
 InstallMethod(FacesOfEdgeNC, 
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, edge)
         return FacesOfEdges(complex)[edge]; 
     end
 );
 InstallMethod(FacesOfEdge,
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, edge)
         __SIMPLICIAL_CheckEdge( complex, edge, "FacesOfEdge" );
         return FacesOfEdgeNC(complex,edge);
@@ -276,14 +276,14 @@ InstallMethod(FacesOfEdge,
 ## VerticesOfFaces
 InstallMethod(VerticesOfFaceNC, 
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         return VerticesOfFaces(complex)[face];
     end
 );
 InstallMethod(VerticesOfFace,
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace( complex, face, "VerticesOfFace" );
         return VerticesOfFaceNC(complex,face);
@@ -294,14 +294,14 @@ InstallMethod(VerticesOfFace,
 ## EdgesOfFaces
 InstallMethod(EdgesOfFaceNC, 
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         return EdgesOfFaces(complex)[face];    
     end
 );
 InstallMethod(EdgesOfFace,
     "for a polygonal complex and a positive integer",
-    [IsPolygonalComplex, IsPosInt],
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace( complex, face, "EdgesOfFace" );
         return EdgesOfFaceNC(complex,face);
@@ -336,7 +336,7 @@ BindGlobal( "__SIMPLICIAL_InvertIncidence",
 
 InstallMethod( EdgesOfVertices,
     "for a polygonal complex that has VerticesOfEdges",
-    [IsPolygonalComplex and HasVerticesOfEdges],
+    [IsVEFComplex and HasVerticesOfEdges],
     function(complex)
         return __SIMPLICIAL_InvertIncidence( 
             VerticesAttributeOfPolygonalComplex(complex),
@@ -349,7 +349,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( FacesOfVertices,
     "for a polygonal complex that has VerticesOfFaces",
-    [IsPolygonalComplex and HasVerticesOfFaces],
+    [IsVEFComplex and HasVerticesOfFaces],
     function(complex)
         return __SIMPLICIAL_InvertIncidence( 
             VerticesAttributeOfPolygonalComplex(complex),
@@ -362,7 +362,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( VerticesOfEdges,
     "for a polygonal complex that has EdgesOfVertices",
-    [IsPolygonalComplex and HasEdgesOfVertices],
+    [IsVEFComplex and HasEdgesOfVertices],
     function(complex)
         return __SIMPLICIAL_InvertIncidence(Edges(complex),
             EdgesOfVertices(complex), 
@@ -375,7 +375,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( FacesOfEdges,
     "for a polygonal complex that has EdgesOfFaces",
-    [IsPolygonalComplex and HasEdgesOfFaces],
+    [IsVEFComplex and HasEdgesOfFaces],
     function(complex)
         return __SIMPLICIAL_InvertIncidence( Edges(complex),
             EdgesOfFaces(complex), Faces(complex));
@@ -387,7 +387,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( VerticesOfFaces,
     "for a polygonal complex that has FacesOfVertices",
-    [IsPolygonalComplex and HasFacesOfVertices],
+    [IsVEFComplex and HasFacesOfVertices],
     function(complex)
         return __SIMPLICIAL_InvertIncidence( Faces(complex),
             FacesOfVertices(complex), 
@@ -400,7 +400,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( EdgesOfFaces,
     "for a polygonal complex that has FacesOfEdges",
-    [IsPolygonalComplex and HasFacesOfEdges],
+    [IsVEFComplex and HasFacesOfEdges],
     function(complex)
         return __SIMPLICIAL_InvertIncidence( Faces(complex),
             FacesOfEdges(complex), Edges(complex));
@@ -433,7 +433,7 @@ BindGlobal( "__SIMPLICIAL_TransitiveIncidence",
 
 InstallMethod( VerticesOfFaces,
     "for a polygonal complex with VerticesOfEdges and EdgesOfFaces",
-    [IsPolygonalComplex and HasVerticesOfEdges and HasEdgesOfFaces],
+    [IsVEFComplex and HasVerticesOfEdges and HasEdgesOfFaces],
     function(complex)
         return __SIMPLICIAL_TransitiveIncidence( 
             VerticesAttributeOfPolygonalComplex(complex),
@@ -446,7 +446,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( FacesOfVertices,
     "for a polygonal complex with FacesOfEdges and EdgesOfVertices",
-    [IsPolygonalComplex and HasFacesOfEdges and HasEdgesOfVertices],
+    [IsVEFComplex and HasFacesOfEdges and HasEdgesOfVertices],
     function(complex)
         return __SIMPLICIAL_TransitiveIncidence( Faces(complex),
             FacesOfEdges(complex), Edges(complex), EdgesOfVertices(complex),

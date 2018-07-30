@@ -142,11 +142,11 @@
 #! attribute because there is a naming clash with the package grape.
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
-DeclareOperation( "Vertices", [IsPolygonalComplex] );
+DeclareOperation( "Vertices", [IsVEFComplex] );
 #! @Arguments complex
-DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsPolygonalComplex );
+DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsVEFComplex ); #TODO rename? talk with GRAPE?
 #! @Arguments complex
-DeclareAttribute( "NumberOfVertices", IsPolygonalComplex );
+DeclareAttribute( "NumberOfVertices", IsVEFComplex );
 #! @EndGroup
 
 #! @BeginGroup
@@ -167,9 +167,9 @@ DeclareAttribute( "NumberOfVertices", IsPolygonalComplex );
 #
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
-DeclareAttribute( "Edges", IsPolygonalComplex );
+DeclareAttribute( "Edges", IsVEFComplex );
 #! @Arguments complex
-DeclareAttribute( "NumberOfEdges", IsPolygonalComplex );
+DeclareAttribute( "NumberOfEdges", IsVEFComplex );
 #! @EndGroup
 
 #! @BeginGroup
@@ -190,9 +190,9 @@ DeclareAttribute( "NumberOfEdges", IsPolygonalComplex );
 #
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
-DeclareAttribute( "Faces", IsPolygonalComplex );
+DeclareAttribute( "Faces", IsVEFComplex );
 #! @Arguments complex
-DeclareAttribute( "NumberOfFaces", IsPolygonalComplex );
+DeclareAttribute( "NumberOfFaces", IsVEFComplex );
 #! @EndGroup
 
 
@@ -305,11 +305,11 @@ DeclareAttribute( "NumberOfFaces", IsPolygonalComplex );
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "EdgesOfVertices", IsPolygonalComplex );
+DeclareAttribute( "EdgesOfVertices", IsVEFComplex );
 #! @Arguments complex, vertex
-DeclareOperation( "EdgesOfVertex", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "EdgesOfVertex", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, vertex
-DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "EdgesOfVertexNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -344,11 +344,11 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "FacesOfVertices", IsPolygonalComplex );
+DeclareAttribute( "FacesOfVertices", IsVEFComplex );
 #! @Arguments complex, vertex
-DeclareOperation( "FacesOfVertex", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "FacesOfVertex", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, vertex
-DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "FacesOfVertexNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -383,11 +383,11 @@ DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "VerticesOfEdges", IsPolygonalComplex );
+DeclareAttribute( "VerticesOfEdges", IsVEFComplex );
 #! @Arguments complex, edge
-DeclareOperation( "VerticesOfEdge", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "VerticesOfEdge", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, edge
-DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "VerticesOfEdgeNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -421,11 +421,11 @@ DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "FacesOfEdges", IsPolygonalComplex );
+DeclareAttribute( "FacesOfEdges", IsVEFComplex );
 #! @Arguments complex, edge
-DeclareOperation( "FacesOfEdge", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "FacesOfEdge", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, edge
-DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "FacesOfEdgeNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -460,11 +460,11 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "VerticesOfFaces", IsPolygonalComplex );
+DeclareAttribute( "VerticesOfFaces", IsVEFComplex );
 #! @Arguments complex, face
-DeclareOperation( "VerticesOfFace", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "VerticesOfFace", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, face
-DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "VerticesOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -499,11 +499,11 @@ DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "EdgesOfFaces", IsPolygonalComplex );
+DeclareAttribute( "EdgesOfFaces", IsVEFComplex );
 #! @Arguments complex, face
-DeclareOperation( "EdgesOfFace", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "EdgesOfFace", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, face
-DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
