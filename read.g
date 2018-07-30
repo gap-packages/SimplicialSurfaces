@@ -9,8 +9,6 @@
 ##
 #############################################################################
 
-ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/AttributeScheduler.gi" );
-
 ReadPackage( "SimplicialSurfaces", "gap/utilities.g" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gi" );
