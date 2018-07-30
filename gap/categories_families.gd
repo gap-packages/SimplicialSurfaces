@@ -14,25 +14,37 @@
 
 #######################################
 ##
+##      Incidence geometry part
+##
+
+DeclareCategory( "IsVEFComplex", IsObject );
+
+# Define the family
+# [For two object to be equal, they have to lie in the same family]
+BindGlobal( "VEFComplexFamily", 
+    NewFamily("VEFComplexFamily", IsObject, IsVEFComplex));
+
+
+
+#######################################
+##
 ##      PolygonalComplex-part
 ##
 ## All documentation is done in doc/PolygonalStructures.xml
 
+
 # Define the main category
 # [Categories are used to determine which operations can be used]
-DeclareCategory( "IsPolygonalComplex", IsObject );
-
-# Define the family
-# [For two object to be equal, they have to lie in the same family]
-BindGlobal( "PolygonalComplexFamily", 
-    NewFamily("PolygonalComplexFamily", IsObject, IsPolygonalComplex));
-
+DeclareProperty( "IsPolygonalComplex", IsVEFComplex );
+InstallTrueMethod( IsVEFComplex, IsPolygonalComplex );
 
 # Define all secondary categories
-DeclareProperty( "IsTriangularComplex", IsPolygonalComplex);
+
+
+DeclareProperty( "IsTriangularComplex", IsPolygonalComplex); #TODO replace by surface def
 InstallTrueMethod( IsPolygonalComplex, IsTriangularComplex );
 
-DeclareProperty( "IsRamifiedPolygonalSurface", IsPolygonalComplex);
+DeclareProperty( "IsRamifiedPolygonalSurface", IsPolygonalComplex); #TODO replace by surface def
 InstallTrueMethod( IsPolygonalComplex, IsRamifiedPolygonalSurface );
 DeclareSynonym( "IsRamifiedSimplicialSurface", 
     IsRamifiedPolygonalSurface and IsTriangularComplex);
@@ -40,7 +52,7 @@ DeclareSynonym( "IsRamifiedSimplicialSurface",
 # The next property is a subproperty of IsRamifiedPolygonalSurface
 # We define it for general polygonal complexes so that it can
 # be tested anyway
-DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex );
+DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex ); #TODO replace by surface def
 InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
 DeclareSynonym( "IsSimplicialSurface", 
     IsPolygonalSurface and IsTriangularComplex );

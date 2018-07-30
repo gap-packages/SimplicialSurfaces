@@ -17,7 +17,7 @@ DeclareRepresentation("IsGenericPolygonalComplexRep",
 
 # Define a generic type
 BindGlobal( "PolygonalComplexType", 
-    NewType( PolygonalComplexFamily, IsGenericPolygonalComplexRep ));
+    NewType( VEFComplexFamily, IsGenericPolygonalComplexRep ));
 
 
 ##
@@ -28,6 +28,16 @@ BindGlobal( "PolygonalComplexType",
 ## * IsPolygonalSurface
 ## * IsSimplicialSurface
 ## should act like categories
+InstallOtherMethod( IsPolygonalComplex, "for an object", [IsObject],
+    function(obj)
+        if not IsVEFComplex(obj) then
+            return false;
+        fi;
+        # Since IsPolygonalComplex is a category, the above
+        # check can't change anything
+        TryNextMethod();
+    end
+);
 InstallOtherMethod( IsTriangularComplex, "for an object", [IsObject],
     function(obj)
         if not IsPolygonalComplex(obj) then
