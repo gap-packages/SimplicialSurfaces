@@ -9,13 +9,22 @@
      Since we don't want to bore readers, we aim for an engagingly written
      chapter with many pictures to easily visualize what is going on. -->
 <Chapter Label="PolygonalStructures"><Heading>Polygonal Structures</Heading>
-    In this chapter we present the general structures that we consider in
-    the <K>SimplicialSurfaces</K>-package. These are mainly surfaces, but
-    in the context of folding more general structures arise naturally.
-    The most general 
-    structure that we consider in this package is a polygonal complex (a 
-    generalisation of simplicial surfaces and complexes).
+    This chapter presents the data structures for the surfaces that are used
+    in the <K>SimplicialSurfaces</K>-package. More accurately, it presents 
+    the structures (which can be much more general than simplicial surfaces)
+    that are build from polygons.
     <Par/>
+    To model these structures there are two main options:
+    <Enum>
+        <Item>Description by incidence geometry. This leads to the concept
+            of <K>PolygonalComplex</K> (TODO Ref). The requirements for these
+            to be surfaces are explained in section TODO Ref.</Item>
+        <Item>If incidence geometry is not sufficient to describe a polygonal
+            structure, additional information (subdivision of faces) can be
+            used. This leads to the concept of <K>BendPolygonalComplex</K>
+            (TODO Ref). The weaker properties of the incidence geometry are
+            explained in section TODO Ref.</Item>
+    </Enum>
     <E>Polygonal Complexes</E> are structures that are build from polygons, 
     like shown in the following figure (for the precise definition, see
     section <Ref Sect="PolygonalStructures_complex"/>).
@@ -25,87 +34,10 @@
     Surfaces are a special case of polygonal complexes and the package 
     provides functionality to determine whether a polygonal complex is
     a surface.
-    For technical reasons we further consider an intermediate generalization
-    of surfaces, the ramified polygonal surfaces (that will be defined in
-    section <Ref Sect="PolygonalStructures_ramified"/>).
-    <Par/>
-    In many cases the definitions and algorithms simplify if we only consider
-    triangles instead of general polygons. For this reason we also have equivalents
-    of these structures that are only build from triangles. We can summarize
-    the relationships graphically (higher means more general):
-    <!-- This is one of the few exceptions to our rule of not explaining the
-         manual structure explicitly. At this point our interests are two-fold:
-         1) We want to give more experienced readers a quick answer to 
-            questions of the form "Which of these concepts is more general?" or 
-            "What was the intermediate form called?"
-         2) We don't want to burden new readers with the whole information
-            complex immediately.
-         These interests are standing in obvious conflict. Our method of 
-         resolution is to explain a simplified model of the polygonal 
-         hierarchy. Together with this simplification the diagram can be read
-         in context and becomes easier to process.
-
-         At the same time the hierarchy is a natural structure for this chapter
-         since PolygonalSurfaces rely on both the steps from PolygonalComplexes
-         and from RamifiedPolygonalSurfaces. Since the hierarchy had to be
-         explained anyway, this explanation does not count heavily against our
-         rule. -->
-    <Alt Only="TikZ">
-        \begin{tikzpicture}[
-            % Define the hyperlink structure. This code was adapted from
-            % https://tex.stackexchange.com/questions/36109/making-tikz-nodes-hyperlinkable
-            hyperlink node/.style={
-                alias=sourcenode,
-                append after command={
-                    let \p1 = (sourcenode.north west),
-                        \p2=(sourcenode.south east),
-                        \n1={\x2-\x1},
-                        \n2={\y1-\y2} in
-                    node [inner sep=0pt, outer sep=0pt,anchor=north west,at=(\p1)] 
-                        {\hyperref[#1]{\XeTeXLinkBox{\phantom{\rule{\n1}{\n2}}}}}
-                    %xelatex needs \XeTeXLinkBox, won't create a link unless it
-                    %finds text --- rules don't work without \XeTeXLinkBox.
-                    %Still builds correctly with pdflatex and lualatex
-                }
-            },
-            % The style for the boxes
-            box/.style={
-                rectangle,          % The shape
-                inner sep=2ex,      % The size
-                draw=black,         % The boundary
-                minimum width=5cm   % The minimal width (to make all nodes equal)
-            }
-        ]
-            % Make hyperlink locally invisible
-            \hypersetup{hidelinks}
-
-            % Define the nodes
-            \node (PC) [box, hyperlink node=PolygonalStructures_complex] 
-                    {\textbf{Polygonal Complex}};
-            \node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm,
-                hyperlink node=PolygonalStructures_complex] {Triangular Complex};
-	
-            \node (RPS) [box, below=of PC, hyperlink node=PolygonalStructures_ramified] 
-                    {\textit{Ramified Polygonal Surface}};
-            \node (RSS) [box, below=of TC, hyperlink node=PolygonalStructures_ramified] 
-                    {\textit{Ramified Simplicial Surface}};
-	
-            \node (PS) [box, below=of RPS, hyperlink node=PolygonalStructures_surface] 
-                    {Polygonal Surface};
-            \node (SS) [box, below=of RSS, hyperlink node=PolygonalStructures_surface] 
-                    {\textbf{Simplicial Surface}};
-	
-	    \draw (PC.east) -- (TC.west);
-	    \draw (RPS.east) -- (RSS.west);
-	    \draw (PS.east) -- (SS.west);
-	
-	    \draw (PC) -- (RPS) -- (PS);
-	    \draw (TC) -- (RSS) -- (SS);
-        \end{tikzpicture}
-    </Alt>
-    <!-- TODO this is broken since the pictures are compiled indiviually - how to fix?-->
-    <!-- TODO this only works in LaTeX - how are the references done in HTML in comparison? -->
-    <!-- TODO this can be done in Text as well-->
+    <!-- There is no example of a bend polygonal complex here as it seems
+         not necessary to burden the reader with it. If someone needs a
+         more general structure, we have told him before where he might find
+         it. For all others it would be a needless distraction. -->
 
     <Section Label="PolygonalStructures_complex">
         <Heading>Polygonal and Triangular Complexes</Heading>
