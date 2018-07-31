@@ -78,3 +78,14 @@ An <E>umbrella around the vertex <M>V</M></E> is a tuple
 If <M>e_1 = e_{{n+1}}</M> the umbrella is called <E>closed</E>.
 <#/GAPDoc>
  
+
+<#GAPDoc Label="VEFComplex_Properties">
+<Enum>
+    <Item>For every edge there are at least one and at most two 
+        vertices incident to it.</Item>
+    <Item>For every face there is at least one edge incident
+        to it.</Item>
+    <Item>Each vertex is incident to at least one edge and
+        each edge is incident to at least one face.</Item>
+</Enum>
+<#/GAPDoc>

@@ -178,7 +178,7 @@
 
 
         <ManSection>
-            <Filt Name="IsPolygonalComplex" Arg="object" Type="property"
+            <Prop Name="IsPolygonalComplex" Arg="object"
                 Comm="Checks whether the given object is a polygonal complex"/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
@@ -426,7 +426,38 @@
 
     <Section Label="PolygonalStructures_bendIncidence">
         <Heading>Incidence geometry of bend polygonal complexes</Heading>
-        TODO VEFComplex
+        In bend polygonal complexes (section 
+        <Ref Sect="PolygonalStructures_bend"/>) the incidence geometry is 
+        not as 
+        constrained as in polygonal complexes (section
+        <Ref Sect="PolygonalStructures_complex"/>).
+
+        We denote this more liberal incidence geometry by 
+        <E>VEF-complex</E> (VEF stands for vertex-edge-face).
+        <Subsection Label="Def_VEFComplex">
+            <Heading>Definition (VEF-complex)</Heading>
+            A <E>VEF-complex</E> is a two-dimensional incidence geometry
+            consisting of vertices, edges, and faces such that the
+            following conditions hold:
+            <#Include Label="VEFComplex_Properties"/>
+        </Subsection>
+            
+        <ManSection>
+            <Filt Name="IsVEFComplex" Arg="object" Type="category"
+                Comm="Checks whether the given object is a VEF-complex."/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether <A>object</A> is a VEF-complex. A 
+                <E>VEF-complex</E>
+                is a two-dimensional incidence geometry of vertices, edges, and
+                faces such that the following conditions hold:
+                <#Include Label="VEFComplex_Properties"/>
+            </Description>
+        </ManSection>
+
+       
+
+        <!-- TODO intuition, more information? -->
     </Section>
                                     
 </Chapter> 
