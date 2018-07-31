@@ -20,7 +20,8 @@
             of <K>PolygonalComplex</K> 
             (section <Ref Sect="PolygonalStructures_complex"/>). The 
             requirements for these
-            to be surfaces are explained in section TODO Ref.</Item>
+            to be surfaces are explained in section
+            <Ref Sect="PolygonalStructures_surface"/>.</Item>
         <Item>If incidence geometry is not sufficient to describe a polygonal
             structure, additional information (subdivision of faces) can be
             used. This leads to the concept of <K>BendPolygonalComplex</K>
@@ -223,6 +224,7 @@
 
     </Section>
 
+<!-- TODO remove/replace 
     <Section Label="PolygonalStructures_ramified">
         <Heading>Ramified polygonal and simplicial surfaces</Heading>
         Ramified polygonal (simplicial) surfaces are an intermediate concept
@@ -252,8 +254,6 @@
 
         Although these structures are not true surfaces, in many applications 
         they behave very similar (for example for questions of orientability).
-        <!-- TODO link to orientability chapter or give better example with link-->
- 
         <ManSection>
             <Prop Name="IsRamifiedPolygonalSurface" Arg="object" 
                 Comm="Checks whether the given object is a ramified polygonal surface."/>
@@ -299,17 +299,20 @@
             </Description>
         </ManSection>
     </Section>
+    -->
 
 
     <Section Label="PolygonalStructures_surface">
         <Heading>Polygonal and simplicial surfaces</Heading>
-        Polygonal (simplicial) surfaces are polygonal (triangular) complexes
+        Polygonal surfaces are polygonal complexes (compare section 
+        <Ref Sect="PolygonalStructures_complex"/>)
         that behave like surfaces (two-dimensional manifolds with boundary). 
         For example, they arise from the discretisation of a continuous 
-        surface.
+        surface. Simplicial surfaces are polygonal surfaces, where all
+        polygons are triangles.
         <Par/>
-        There are two properties that distinguish polygonal/simplicial surfaces
-        from polygonal/triangular complexes:
+        There are two properties that distinguish polygonal surfaces
+        from polygonal complexes:
         <Enum>
             <Item> Every edge behaves "like a surface", i.e. it is incident to
                 at most two faces. This excludes cases like three triangles
@@ -322,16 +325,15 @@
             </Item>
             <Item> Every vertex behaves "like a surface". We will formalize this
                 below but the aim of this condition is to exclude cases like 
-                those:
+                these:
                 <Alt Only="TikZ">
                     \input{Image_RamifiedExamples.tex}
                 </Alt>
             </Item>
         </Enum>
-        If only the first condition is fulfilled, we talk about <E>ramified
-        polygonal/simplicial surfaces</E> 
-        (<Ref Sect="PolygonalStructures_ramified"/>).
-
+        If only the first condition is fulfilled, we have a <E>polygonal 
+        complex without edge ramifications</E>.
+    
         We now proceed to formalize the second condition. Intuitively we want to
         distinguish between the different coloured faces in these examples:
         <Alt Only="TikZ">
@@ -353,11 +355,12 @@
             <List>
                 <Item><#Include Label="PolygonalComplex_Paths"></Item>
             </List>
-            For a general ramified polygonal surface we can't expect to get
+            For generic polygonal complexes without edge ramifications we 
+            can't expect to get
             exactly one umbrella. In our examples above all incident edges
             and faces could be represented by two umbrellas.
 
-            In general we can always find a set of umbrella of a vertex
+            In general, we can always find a set of umbrella of a vertex
             such that all edges and faces incident to that vertex lie in exactly
             one of those umbrellas. This is called the <E>umbrella partition</E>
             of the vertex (we will talk more about this topic in section
@@ -373,10 +376,9 @@
                     only from polygons.
                     <Par/>
                     More formally (for more details and examples see sections
-                    <Ref Sect="PolygonalStructures_complex"/>,
-                    <Ref Sect="PolygonalStructures_ramified"/> and
+                    <Ref Sect="PolygonalStructures_complex"/> and
                     <Ref Sect="PolygonalStructures_surface"/>) a polygonal surface
-                    is a two-dimensional incidence geometry of vertices, edges and
+                    is a two-dimensional incidence geometry of vertices, edges, and
                     faces such that the following conditions hold:
                     <Enum>
                         <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
@@ -398,10 +400,9 @@
                     that is build only from triangles.
                     <Par/>
                     More formally (for more details and examples see sections
-                    <Ref Sect="PolygonalStructures_complex"/>,
-                    <Ref Sect="PolygonalStructures_ramified"/> and
+                    <Ref Sect="PolygonalStructures_complex"/> and
                     <Ref Sect="PolygonalStructures_surface"/>) a simplicial surface
-                    is a two-dimensional incidence geometry of vertices, edges and
+                    is a two-dimensional incidence geometry of vertices, edges, and
                     faces such that the following conditions hold:
                     <Enum>
                         <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
