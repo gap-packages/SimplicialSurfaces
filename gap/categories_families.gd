@@ -24,7 +24,9 @@ DeclareCategory( "IsVEFComplex", IsObject );
 BindGlobal( "VEFComplexFamily", 
     NewFamily("VEFComplexFamily", IsObject, IsVEFComplex));
 
-
+DeclareCategory( "IsBendPolygonalComplex", IsVEFComplex );
+BindGlobal( "BendPolygonalComplexFamily",
+    NewFamily("BendPolygonalComplexFamily", IsObject, IsBendPolygonalComplex));
 
 #######################################
 ##

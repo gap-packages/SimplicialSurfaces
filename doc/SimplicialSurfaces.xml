@@ -37,6 +37,7 @@
     <#Include SYSTEM "_Chapter_EdgeVariColouring.xml">
     <#Include SYSTEM "_Chapter_Flags.xml">
     <#Include SYSTEM "ExampleImplementations.xml">
+    <#Include SYSTEM "_Chapter_AccessBendPolygonalComplex.xml">
 </Body>
 <TheIndex/>
 </Book>
