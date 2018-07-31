@@ -25,8 +25,10 @@
         <Item>If incidence geometry is not sufficient to describe a polygonal
             structure, additional information (subdivision of faces) can be
             used. This leads to the concept of <K>BendPolygonalComplex</K>
-            (TODO Ref). The weaker properties of the incidence geometry are
-            explained in section TODO Ref.</Item>
+            (section <Ref Sect="PolygonalStructures_bend"/>). 
+            The weaker properties of the incidence geometry are
+            explained in section <Ref Sect="PolygonalStructures_bendIncidence"/>.
+            </Item>
     </Enum>
     <E>Polygonal Complexes</E> are structures that are build from polygons, 
     like shown in the following figure (for the precise definition, see
@@ -300,7 +302,7 @@
         </ManSection>
     </Section>
     -->
-
+<!-- TODO maybe talk about how to access this information with a link to the appropriate chapter? -->
 
     <Section Label="PolygonalStructures_surface">
         <Heading>Polygonal and simplicial surfaces</Heading>
@@ -414,6 +416,17 @@
                 </Description>
             </ManSection>
 
+    </Section>
+
+    <Section Label="PolygonalStructures_bend">
+        <Heading>Bend polygonal complexes and surfaces</Heading>
+        TODO explain, motivate, define bend polygonal complexes
+        TODO explain how to work with it
+    </Section>
+
+    <Section Label="PolygonalStructures_bendIncidence">
+        <Heading>Incidence geometry of bend polygonal complexes</Heading>
+        TODO VEFComplex
     </Section>
                                     
 </Chapter> 
