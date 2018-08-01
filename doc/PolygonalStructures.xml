@@ -14,6 +14,7 @@
     the structures (which can be much more general than simplicial surfaces)
     that are build from polygons.
     <Par/>
+    These structures are described as <K>DiscreteComplex</K>es.
     To model these structures there are two main options:
     <Enum>
         <Item>Description by incidence geometry. This leads to the concept

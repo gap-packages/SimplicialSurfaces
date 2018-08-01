@@ -24,9 +24,6 @@ DeclareCategory( "IsVEFComplex", IsObject );
 BindGlobal( "VEFComplexFamily", 
     NewFamily("VEFComplexFamily", IsObject, IsVEFComplex));
 
-DeclareCategory( "IsBendPolygonalComplex", IsVEFComplex );
-BindGlobal( "BendPolygonalComplexFamily",
-    NewFamily("BendPolygonalComplexFamily", IsObject, IsBendPolygonalComplex));
 
 #######################################
 ##
@@ -34,12 +31,18 @@ BindGlobal( "BendPolygonalComplexFamily",
 ##
 ## All documentation is done in doc/PolygonalStructures.xml
 
+# filter that should encode what PolygonalComplex and BendPolygonalComplex have in common
+DeclareFilter( "IsDiscreteComplex", IsObject );
 
 # Define the main category
 # [Categories are used to determine which operations can be used]
-DeclareCategory( "IsPolygonalComplex", IsVEFComplex );
+DeclareCategory( "IsPolygonalComplex", IsVEFComplex and IsDiscreteComplex );
 BindGlobal( "PolygonalComplexFamily",
     NewFamily("PolygonalComplexFamily", IsObject, IsPolygonalComplex));
+
+DeclareCategory( "IsBendPolygonalComplex", IsVEFComplex and IsDiscreteComplex );
+BindGlobal( "BendPolygonalComplexFamily",
+    NewFamily("BendPolygonalComplexFamily", IsObject, IsBendPolygonalComplex));
 
 # Define all secondary categories
 
