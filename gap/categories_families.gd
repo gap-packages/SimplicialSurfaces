@@ -37,8 +37,9 @@ BindGlobal( "BendPolygonalComplexFamily",
 
 # Define the main category
 # [Categories are used to determine which operations can be used]
-DeclareProperty( "IsPolygonalComplex", IsVEFComplex );
-InstallTrueMethod( IsVEFComplex, IsPolygonalComplex );
+DeclareCategory( "IsPolygonalComplex", IsVEFComplex );
+BindGlobal( "PolygonalComplexFamily",
+    NewFamily("PolygonalComplexFamily", IsObject, IsPolygonalComplex));
 
 # Define all secondary categories
 

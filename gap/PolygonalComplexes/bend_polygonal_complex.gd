@@ -123,3 +123,10 @@ DeclareAttribute("LocalFlagEdgeInvolution", [IsBendPolygonalComplex]);
 #! @Arguments bendComplex
 DeclareAttribute("LocalFlagFaceInvolution", [IsBendPolygonalComplex]);
 #! @EndGroup
+
+
+#! @Section Bend faces and edges
+#! @SectionLabel AccessBend_BendFacesEdges
+#!
+#! 
+

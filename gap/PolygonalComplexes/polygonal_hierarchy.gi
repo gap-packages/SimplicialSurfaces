@@ -17,7 +17,17 @@ DeclareRepresentation("IsGenericPolygonalComplexRep",
 
 # Define a generic type
 BindGlobal( "PolygonalComplexType", 
-    NewType( VEFComplexFamily, IsGenericPolygonalComplexRep ));
+    NewType( PolygonalComplexFamily, IsGenericPolygonalComplexRep ));
+
+
+# We define a generic representation for polygonal complexes
+DeclareRepresentation("IsGenericBendPolygonalComplexRep", 
+    IsBendPolygonalComplex and IsAttributeStoringRep, []);
+
+# Define a generic type
+BindGlobal( "BendPolygonalComplexType", 
+    NewType( BendPolygonalComplexFamily, IsGenericBendPolygonalComplexRep ));
+
 
 
 ##
