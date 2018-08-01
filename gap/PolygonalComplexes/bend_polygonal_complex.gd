@@ -24,23 +24,39 @@
 #! the concept of <K>BendPolygonalComplex</K> that went further than
 #! a pure incidence geometry. This chapter describes this additional
 #! structure and how to access it.
-#! <P/>
+#! 
 
 #! TODO restructure this chapter after more information about correct access design is obtained
 
 #! @Section Local flags
 #! @SectionLabel AccessBend_LocalFlags
 
+#! The main difference in contrast to a polygonal complex is an additional
+#! structure on the flags of the bend polygonal complex. Since these flags
+#! are different from the flags of the incidence structure, we denote them
+#! as <E>local flags</E>, i.e. flags of the single polygons (before any
+#! identifications took place).
+#!
+#! We will identify the set of local flags with a set of positive integers.
+#! The attribute <K>LocalFlags</K> returns this set. In addition there are
+#! two other structures:
+#! <Enum>
+#!     <Item>The interaction of the local flags with the incidence geometry,
+#!           encoded by the attributes <K>VerticesOfLocalFlags</K> or
+#!           <K>LocalFlagsOfVertices</K>.</Item>
+#!     <Item>The neighbouring relations between the local flags. Generically
+#!           they are given by the attribute <K>LocalFlagVertexPartition</K> 
+#!           but if all classes have at most two elements, 
+#!           <K>LocalFlagVertexInvolution</K> can be used instead.</Item>
+#! </Enum>
+#!
+ 
 #! @Description
 #! Return the set of local flags of the given bend polygonal complex.
-#! A local flag is a tuple <M>[face, [vertex,edge]]</M>, where <A>face</A>
-#! is a face of <A>complex</A> and <A>vertex,edge</A> are a local vertex and
-#! a local edge of <A>face</A>, which are incident.
 #!
 #! @Arguments bendComplex
-#! @Returns A set of local flags
+#! @Returns A set of positive integers
 DeclareAttribute( "LocalFlags", [IsBendPolygonalComplex] );
-##TODO allow holes in the set of local flags (for connected components)
 
 
 #! @BeginGroup
@@ -51,11 +67,11 @@ DeclareAttribute( "LocalFlags", [IsBendPolygonalComplex] );
 #!
 #! @Returns A list of positive integers
 #! @Arguments bendComplex
-DeclareAttribute( "GlobalVerticesOfLocalFlags", [IsBendPolygonalComplex] );
+DeclareAttribute( "VerticesOfLocalFlags", [IsBendPolygonalComplex] );
 #! @Arguments bendComplex
-DeclareAttribute( "GlobalEdgesOfLocalFlags", [IsBendPolygonalComplex] );
+DeclareAttribute( "EdgesOfLocalFlags", [IsBendPolygonalComplex] );
 #! @Arguments bendComplex
-DeclareAttribute( "GlobalFacesOfLocalFlags", [IsBendPolygonalComplex] );
+DeclareAttribute( "FacesOfLocalFlags", [IsBendPolygonalComplex] );
 #! @EndGroup
 
 
@@ -66,11 +82,11 @@ DeclareAttribute( "GlobalFacesOfLocalFlags", [IsBendPolygonalComplex] );
 #!
 #! @Returns A list of sets of positive integers
 #! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfGlobalVertices", [IsBendPolygonalComplex] );
+DeclareAttribute( "LocalFlagsOfVertices", [IsBendPolygonalComplex] );
 #! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfGlobalEdges", [IsBendPolygonalComplex] );
+DeclareAttribute( "LocalFlagsOfEdges", [IsBendPolygonalComplex] );
 #! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfGlobalFaces", [IsBendPolygonalComplex] );
+DeclareAttribute( "LocalFlagsOfFaces", [IsBendPolygonalComplex] );
 #! @EndGroup
 
 

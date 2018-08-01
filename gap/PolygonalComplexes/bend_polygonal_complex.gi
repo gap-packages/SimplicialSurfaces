@@ -62,27 +62,27 @@ BindGlobal( "__SIMPLICIAL_PartitionFromEquivalenceNumber",
     end
 );
 
-InstallMethod( LocalFlagsOfGlobalVertices, "for a bend polygonal complex",
+InstallMethod( LocalFlagsOfVertices, "for a bend polygonal complex",
     [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_PartitionFromEquivalenceNumber( 
-            GlobalVerticesOfLocalFlags(bendComplex) );
+            VerticesOfLocalFlags(bendComplex) );
     end
 );
 
-InstallMethod( LocalFlagsOfGlobalEdges, "for a bend polygonal complex",
+InstallMethod( LocalFlagsOfEdges, "for a bend polygonal complex",
     [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_PartitionFromEquivalenceNumber( 
-            GlobalEdgesOfLocalFlags(bendComplex) );
+            EdgesOfLocalFlags(bendComplex) );
     end
 );
 
-InstallMethod( LocalFlagsOfGlobalFaces, "for a bend polygonal complex",
+InstallMethod( LocalFlagsOfFaces, "for a bend polygonal complex",
     [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_PartitionFromEquivalenceNumber( 
-            GlobalFacesOfLocalFlags(bendComplex) );
+            FacesOfLocalFlags(bendComplex) );
     end
 );
 
@@ -104,27 +104,27 @@ BindGlobal( "__SIMPLICIAL_EquivalenceNumberFromPartition",
     end
 );
 
-InstallMethod( GlobalVerticesOfLocalFlags, "for a bend polygonal complex",
+InstallMethod( VerticesOfLocalFlags, "for a bend polygonal complex",
     [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_EquivalenceNumberFromPartition( 
-            LocalFlagsOfGlobalVertices(bendComplex) );
+            LocalFlagsOfVertices(bendComplex) );
     end
 );
 
-InstallMethod( GlobalEdgesOfLocalFlags, "for a bend polygonal complex",
+InstallMethod( EdgesOfLocalFlags, "for a bend polygonal complex",
     [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_EquivalenceNumberFromPartition( 
-            LocalFlagsOfGlobalEdges(bendComplex) );
+            LocalFlagsOfEdges(bendComplex) );
     end
 );
 
-InstallMethod( GlobalFacesOfLocalFlags, "for a bend polygonal complex",
+InstallMethod( FacesOfLocalFlags, "for a bend polygonal complex",
     [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_EquivalenceNumberFromPartition( 
-            LocalFlagsOfGlobalFaces(bendComplex) );
+            LocalFlagsOfFaces(bendComplex) );
     end
 );
 
@@ -178,14 +178,14 @@ InstallMethod( LocalFlagVertexPartition, "for a bend polygonal complex",
     [IsBendPolygonalComplex],
     function(bendComplex)
         return Cycles( LocalFlagVertexInvolution(bendComplex),
-            [1..Length(LocalFlags(bendComplex))]);
+            LocalFlags(bendComplex)));
     end
 );
 InstallMethod( LocalFlagEdgePartition, "for a bend polygonal complex",
     [IsBendPolygonalComplex],
     function(bendComplex)
         return Cycles( LocalFlagEdgeInvolution(bendComplex),
-            [1..Length(LocalFlags(bendComplex))]);
+            LocalFlags(bendComplex)));
     end
 );
 InstallMethod( LocalFlagFacePartition, "for a bend polygonal complex",
@@ -195,7 +195,7 @@ InstallMethod( LocalFlagFacePartition, "for a bend polygonal complex",
             TryNextMethod();
         else
             return Cycles( LocalFlagFaceInvolution(bendComplex),
-                [1..Length(LocalFlags(bendComplex))]);
+                LocalFlags(bendComplex)));
         fi;
     end
 );
