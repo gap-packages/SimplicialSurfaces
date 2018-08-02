@@ -99,7 +99,7 @@
 #! @Section Labels of vertices, edges and faces
 #! @SectionLabel Access_LabelAccess
 #!
-#! In polygonal complexes (the most general supported incidence structure,
+#! In VEF-complexes (the most general supported incidence structure,
 #! compare chapter <Ref Chap="PolygonalStructures"/>) all vertices, edges
 #! and faces are labelled by positive integers.
 #!
@@ -139,7 +139,7 @@
 #! @EndExampleSession
 #! 
 #! We have separated the operation <K>Vertices</K> from the corresponding
-#! attribute because there is a naming clash with the package grape.
+#! attribute because there is a naming clash with the package <K>grape</K>.
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
 DeclareOperation( "Vertices", [IsVEFComplex] );
@@ -558,16 +558,20 @@ DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
 
 #! @BeginGroup EdgeInFaceByVertices
 #! @Description
-#! Given a face and a list of two vertices of a polygonal complex, return the 
+#! Given a face and a list of two vertices of a VEF-complex, return the 
 #! edge that
 #! lies in the given face and is incident to the given vertices.
 #! 
 #! If there is no such edge (because the given vertices are not incident to
 #! the given face or because they are not connected by an edge of the face),
 #! return <K>fail</K>.
+#!
+#! If there are several possible edges (this can't happen with polygonal
+#! complexes but might happen with bend polygonal complexes), the set of
+#! all edges fulfilling this specification is returned.
 #! 
 #! The NC-version does not check if <A>face</A> is a face of the given
-#! polygonal complex.
+#! VEF-complex.
 #! 
 #! As an example consider the polygonal complex from the start of section
 #! <Ref Sect="Section_Access_SpecializedAccess"/>:
@@ -589,10 +593,10 @@ DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
 #!
 #! @Returns a positive integer
 #! @Arguments complex, face, verts
-DeclareOperation("EdgeInFaceByVertices", [IsPolygonalComplex, IsPosInt, IsList]);
+DeclareOperation("EdgeInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
 #! @Arguments complex, face, verts
 DeclareOperation("EdgeInFaceByVerticesNC", 
-        [IsPolygonalComplex, IsPosInt, IsList]);
+        [IsVEFComplex, IsPosInt, IsList]);
 #! @EndGroup
 
 
