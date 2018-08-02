@@ -40,4 +40,5 @@ ReadPackage( "SimplicialSurfaces", "gap/Flags/flags.gi" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_BorderCases_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_EdgeColouring.g" );
+ReadPackage( "SimplicialSurfaces", "unit_tests/Test_VEFComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );

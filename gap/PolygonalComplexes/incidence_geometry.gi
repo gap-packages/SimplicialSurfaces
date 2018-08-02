@@ -469,31 +469,60 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 ##          Start of specialized access
 ##
+InstallMethod( EdgesInFaceByVerticesNC,
+    "for a VEF-complex, a face, and a set of two vertices",
+    [IsVEFComplex, IsPosInt, IsSet],
+    function( complex, face, vertSet )
+        return Filtered( EdgesOfFaces(complex)[face], e ->
+            VerticesOfEdges(complex)[e] = vertSet);
+    end
+);
+InstallMethod( EdgesInFaceByVerticesNC,
+    "for a VEF-complex, a face, and a list of two vertices",
+    [IsVEFComplex, IsPosInt, IsList],
+    function( complex, face, vertList )
+        return EdgesInFaceByVerticesNC(complex, face, Set(vertList));
+    end
+);
+InstallMethod( EdgesInFaceByVertices,
+    "for a VEF-complex, a face, and a set of two vertices",
+    [IsVEFComplex, IsPosInt, IsSet],
+    function( complex, face, vertSet )
+        __SIMPLICIAL_CheckFace(complex, face, "EdgesInFaceByVertices");
+        return EdgesInFaceByVerticesNC(complex, face, vertSet);
+    end
+);
+InstallMethod( EdgesInFaceByVertices,
+    "for a VEF-complex, a face, and a list of two vertices",
+    [IsVEFComplex, IsPosInt, IsList],
+    function( complex, face, vertList )
+        return EdgesInFaceByVertices(complex, face, Set(vertList));
+    end
+);
+
+
 InstallMethod( EdgeInFaceByVerticesNC, 
-    "for a VEF-complex, a face and a set of two vertices",
+    "for a VEF-complex, a face, and a set of two vertices",
     [IsVEFComplex, IsPosInt, IsSet],
     function( complex, face, vertSet )
         local possEdges;
 
-        possEdges := Filtered( EdgesOfFaces(complex)[face], e -> 
-                VerticesOfEdges(complex)[e] = vertSet );
-        if Length(possEdges) = 0 then
+        possEdges := EdgesInFaceByVerticesNC(complex, face, vertSet);
+        if Length(possEdges) = 0  or Length(possEdges) > 1 then
             return fail;
-        elif Length(possEdges) > 1 then
-            return possEdges;
         fi;
         return possEdges[1];
     end
 );
 InstallMethod( EdgeInFaceByVerticesNC,
-    "for a VEF-complex, a face and a list of two vertices",
+    "for a VEF-complex, a face, and a list of two vertices",
     [IsVEFComplex, IsPosInt, IsList],
     function( complex, face, vertList )
         return EdgeInFaceByVerticesNC(complex, face, Set(vertList));
     end
 );
 InstallMethod( EdgeInFaceByVertices,
-    "for a VEF-complex, a face and a set of two vertices",
+    "for a VEF-complex, a face, and a set of two vertices",
     [IsVEFComplex, IsPosInt, IsSet],
     function( complex, face, vertSet )
         __SIMPLICIAL_CheckFace(complex, face, "EdgeInFaceByVertices");
@@ -501,7 +530,7 @@ InstallMethod( EdgeInFaceByVertices,
     end
 );
 InstallMethod( EdgeInFaceByVertices,
-    "for a VEF-complex, a face and a list of two vertices",
+    "for a VEF-complex, a face, and a list of two vertices",
     [IsVEFComplex, IsPosInt, IsList],
     function( complex, face, vertList )
         return EdgeInFaceByVertices(complex, face, Set(vertList));
@@ -509,6 +538,7 @@ InstallMethod( EdgeInFaceByVertices,
 );
 
 
+#######################################
 
 InstallMethod( OtherEdgeOfVertexInFaceNC,
     "for a polygonal complex, a vertex, an edge and a face",

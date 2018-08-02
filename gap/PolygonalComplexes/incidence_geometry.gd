@@ -558,19 +558,21 @@ DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
 
 #! @BeginGroup EdgeInFaceByVertices
 #! @Description
-#! Given a face and a list of two vertices of a VEF-complex, return the 
+#! If the method <K>EdgeInFaceByVertices</K> is given a face and a list of 
+#! two vertices of a VEF-complex, it returns the 
 #! edge that
-#! lies in the given face and is incident to the given vertices.
+#! lies in the given face and is incident to the given vertices, if possible.
 #! 
 #! If there is no such edge (because the given vertices are not incident to
 #! the given face or because they are not connected by an edge of the face),
-#! return <K>fail</K>.
+#! or if there are several of these edges (might happen for bend polygonal
+#! complexes)
+#! it returns <K>fail</K>.
 #!
-#! If there are several possible edges (this can't happen with polygonal
-#! complexes but might happen with bend polygonal complexes), the set of
-#! all edges fulfilling this specification is returned.
+#! The method <K>EdgesInFaceByVertices</K> takes the same arguments but
+#! returns the set of all edges fulfilling this specification.
 #! 
-#! The NC-version does not check if <A>face</A> is a face of the given
+#! The NC-versions do not check if <A>face</A> is a face of the given
 #! VEF-complex.
 #! 
 #! As an example consider the polygonal complex from the start of section
@@ -591,11 +593,17 @@ DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! fail
 #! @EndExampleSession
 #!
-#! @Returns a positive integer
+#! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, face, verts
 DeclareOperation("EdgeInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
 #! @Arguments complex, face, verts
 DeclareOperation("EdgeInFaceByVerticesNC", 
+        [IsVEFComplex, IsPosInt, IsList]);
+#! @Returns a set of positive integers
+#! @Arguments complex, face, verts
+DeclareOperation("EdgesInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
+#! @Arguments complex, face, verts
+DeclareOperation("EdgesInFaceByVerticesNC", 
         [IsVEFComplex, IsPosInt, IsList]);
 #! @EndGroup
 
@@ -605,8 +613,11 @@ DeclareOperation("EdgeInFaceByVerticesNC",
 #! If a vertex is incident to a face in a polygonal complex, there are exactly
 #! two edges that are incident to both vertex and face. If one of those is
 #! given to this method, it will return the other one.
+#!
+#! For a bend polygonal complex it might happen that more than two edges are
+#! incident to both vertex and face. In this case <K>fail</K> is returned.
 #! 
-#! The NC-version does not check whether the given vertex, edge an face
+#! The NC-version does not check whether the given vertex, edge, and face
 #! actually lie in the complex and are incident to each other.
 #! 
 #! As an example consider the polygonal complex that was introduced at the

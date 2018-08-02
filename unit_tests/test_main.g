@@ -27,6 +27,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_PolygonalHierarchy();
     __SIMPLICIAL_Test_SplitEdge();
 
+    # VEF-complex
+    __SIMPLICIAL_Test_VEF_SpecialisedIncidence();
+
     # Edge coloured polygonal complex
     __SIMPLICIAL_Test_EdgeColours();
 end);
