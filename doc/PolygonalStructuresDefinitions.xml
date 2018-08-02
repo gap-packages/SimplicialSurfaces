@@ -53,14 +53,16 @@ exactly three incident vertices.-->
 
 
 <#GAPDoc Label="PolygonalComplex_Ramified">
-Every edge is incident to at most two faces.
+Every edge is incident to at most two faces, i.e. there are no 
+edge-ramifications.
 <#/GAPDoc>
 
 
 <#GAPDoc Label="PolygonalComplex_Paths">
 For every vertex <M>V</M> all incident edges and faces can
 be arranged in an umbrella around <M>V</M> (compare
-definition <Ref Subsect="Definition_Umbrella"/>).
+definition <Ref Subsect="Definition_Umbrella"/>), i.e. there
+are no vertex-ramifications.
 <#/GAPDoc>
 
 <#GAPDoc Label="Umbrella_Definition">

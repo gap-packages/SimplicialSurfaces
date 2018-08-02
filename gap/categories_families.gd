@@ -17,12 +17,9 @@
 ##      Incidence geometry part
 ##
 
-DeclareCategory( "IsVEFComplex", IsObject );
+# This filter captures the "surface"-qualities of PolygonalComplex and BendPolygonalComplex
+DeclareFilter( "IsVEFComplex", IsObject );
 
-# Define the family
-# [For two object to be equal, they have to lie in the same family]
-BindGlobal( "VEFComplexFamily", 
-    NewFamily("VEFComplexFamily", IsObject, IsVEFComplex));
 
 
 #######################################
@@ -31,16 +28,15 @@ BindGlobal( "VEFComplexFamily",
 ##
 ## All documentation is done in doc/PolygonalStructures.xml
 
-# filter that should encode what PolygonalComplex and BendPolygonalComplex have in common
-DeclareFilter( "IsDiscreteComplex", IsObject );
 
 # Define the main category
 # [Categories are used to determine which operations can be used]
-DeclareCategory( "IsPolygonalComplex", IsVEFComplex and IsDiscreteComplex );
+# [For two object to be equal, they have to lie in the same family]
+DeclareCategory( "IsPolygonalComplex", IsVEFComplex );
 BindGlobal( "PolygonalComplexFamily",
     NewFamily("PolygonalComplexFamily", IsObject, IsPolygonalComplex));
 
-DeclareCategory( "IsBendPolygonalComplex", IsVEFComplex and IsDiscreteComplex );
+DeclareCategory( "IsBendPolygonalComplex", IsVEFComplex );
 BindGlobal( "BendPolygonalComplexFamily",
     NewFamily("BendPolygonalComplexFamily", IsObject, IsBendPolygonalComplex));
 
