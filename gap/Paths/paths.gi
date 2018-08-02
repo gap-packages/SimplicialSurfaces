@@ -332,21 +332,21 @@ DeclareRepresentation("EdgeFacePathRep", IsEdgeFacePath and IsAttributeStoringRe
 BindGlobal("EdgeFacePathType", NewType(EdgeFacePathFamily, EdgeFacePathRep));
 
 
-InstallMethod( EdgeFacePathNC, "for a polygonal complex and a list",
-    [IsPolygonalComplex, IsDenseList],
+InstallMethod( EdgeFacePathNC, "for a VEF-complex and a list",
+    [IsVEFComplex, IsDenseList],
     function(complex, path)
         local obj;
 
         obj := Objectify( EdgeFacePathType, rec() );
         SetPath(obj, path);
-        SetAssociatedPolygonalComplex(obj, complex);
+        SetAssociatedVEFComplex(obj, complex);
 
         return obj;
     end
 );
-RedispatchOnCondition( EdgeFacePathNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
-InstallMethod( EdgeFacePath, "for a polygonal complex and a list",
-    [IsPolygonalComplex, IsDenseList],
+RedispatchOnCondition( EdgeFacePathNC, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
+InstallMethod( EdgeFacePath, "for a VEF-complex and a list",
+    [IsVEFComplex, IsDenseList],
     function(complex, path)
         local i;
 
@@ -370,22 +370,27 @@ InstallMethod( EdgeFacePath, "for a polygonal complex and a list",
                         String(path[i]), " (position ", String(i), 
                         ") is not a face of the given complex." ) );
                 fi;
-                if path[i-1] = path[i+1] then
-                    Error( Concatenation( 
-                        "EdgeFacePath: Two adjacent edges can't be equal (positions ", 
-                        String(i-1), " and ", String(i+1), ")." ) );
-                fi;
                 if not path[i-1] in EdgesOfFaces(complex)[path[i]] then
                     Error( Concatenation( "EdgeFacePath: The edge ", 
                         String(path[i-1]), " (position ", String(i-1), 
                         ") is not incident to the face ", String(path[i]), 
                         " (position ", String(i), ") in the given complex." ) );
                 fi;
-                if not path[i+1] in EdgesOfFaces(complex)[path[i]] then
-                    Error( Concatenation( "EdgeFacePath: The edge ", 
-                        String(path[i+1]), " (position ", String(i+1), 
-                        ") is not incident to the face ", String(path[i]), 
-                        " (position ", String(i), ") in the given complex." ) );
+
+                if path[i-1] = path[i+1] then
+                    # Check if this is possible
+                    if IsPolygonalComplex(complex) or Length( Positions( EdgesOfLocalFlags{LocalFlagsOfFaces(complex)[path[i]]}, path[i-1] ) ) <= 1 then
+                        Error( Concatenation(
+                            "EdgeFacePath: These two adjacent edges can't be equal (positions ", 
+                            String(i-1), " and ", String(i+1), ")." ) );
+                    fi;
+                else
+                    if not path[i+1] in EdgesOfFaces(complex)[path[i]] then
+                        Error( Concatenation( "EdgeFacePath: The edge ", 
+                            String(path[i+1]), " (position ", String(i+1), 
+                            ") is not incident to the face ", String(path[i]), 
+                            " (position ", String(i), ") in the given complex." ) );
+                    fi;
                 fi;
             fi;
         od;
@@ -393,7 +398,7 @@ InstallMethod( EdgeFacePath, "for a polygonal complex and a list",
         return EdgeFacePathNC(complex, path);
     end
 );
-RedispatchOnCondition( EdgeFacePath, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( EdgeFacePath, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
 
 
 InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
@@ -404,7 +409,7 @@ InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
         out := OutputTextString(str,true);
 
         PrintTo(out, "EdgeFacePathNC( ");
-        PrintTo(out, AssociatedPolygonalComplex(path));
+        PrintTo(out, AssociatedVEFComplex(path));
         PrintTo(out, ", ");
         PrintTo(out, PathAsList(path));
         PrintTo(out, ")");
@@ -468,7 +473,7 @@ InstallMethod( \=, "for two edge-face-paths", IsIdenticalObj,
     [IsEdgeFacePath, IsEdgeFacePath],
     function(path1, path2)
         return PathAsList(path1) = PathAsList(path2) and 
-            AssociatedPolygonalComplex(path1) = AssociatedPolygonalComplex(path2);
+            AssociatedVEFComplex(path1) = AssociatedVEFComplex(path2);
     end
 );
 
@@ -498,7 +503,7 @@ InstallMethod( FacesAsList, "for an edge-face-path", [IsEdgeFacePath],
 
 InstallMethod( Inverse, "for a edge-face-path", [IsEdgeFacePath],
     function(path)
-        return EdgeFacePathNC( AssociatedPolygonalComplex(path),
+        return EdgeFacePathNC( AssociatedVEFComplex(path),
             Reversed(Path(path)));
     end
 );
@@ -520,12 +525,20 @@ InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
 
 InstallMethod( IsUmbrella, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
-        local commonFaceVertex, commonEdgeVertex, commonVertex;
+        local commonFaceVertex, commonEdgeVertex, commonVertex, complex;
 
-        commonEdgeVertex := Intersection( VerticesOfEdges(AssociatedPolygonalComplex(path)){EdgesAsList(path)} );
-        commonFaceVertex := Intersection( VerticesOfFaces(AssociatedPolygonalComplex(path)){FacesAsList(path)} );
-        commonVertex := Intersection( commonEdgeVertex, commonFaceVertex );
-        return Length(commonVertex) <> 0;
+        complex := AssociatedVEFComplex(path);
+
+        if IsPolygonalComplex(complex) then
+            commonEdgeVertex := Intersection( VerticesOfEdges(complex){EdgesAsList(path)} );
+            commonFaceVertex := Intersection( VerticesOfFaces(complex){FacesAsList(path)} );
+            commonVertex := Intersection( commonEdgeVertex, commonFaceVertex );
+            return Length(commonVertex) <> 0;
+        elif IsBendPolygonalComplex(complex) then
+            #TODO
+        else
+            Error("IsUmbrella: Internal error, this case is not implemented yet.");
+        fi;
     end
 );
 

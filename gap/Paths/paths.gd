@@ -407,7 +407,7 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #!
 #! This section describes all methods for edge-face-paths. Intuitively,
 #! edge-face-paths describe all paths that are realized by walking
-#! from face to face on a polygonal complex, while only passing edges.
+#! from face to face on a (bend) polygonal complex, while only passing edges.
 #!
 #! We will illustrate them on this simplicial surface:
 #! <Alt Only="TikZ">
@@ -429,24 +429,24 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! <M>(e_1, f_1, e_2, f_2, \ldots ,e_n, f_n, e_{{n+1}})</M> such that
 #! * The <M>e_i</M> are edges of the polygonal complex
 #! * The <M>f_j</M> are faces of the polygonal complex
-#! * Every face <M>f_j</M> is incident to the edges <M>e_j</M> and <M>e_{{j+1}}</M>
-#! * The edges <M>e_j</M> and <M>e_{{j+1}}</M> are different
+#! * The edges <M>e_j</M> and <M>e_{{j+1}}</M> occur in two different
+#!   positions in the perimeter of the face <M>f_j</M>.
 #! @EndChunk
 
 #! <ManSection Label="EdgeFacePath">
 #!   <Oper Name="EdgeFacePath" Arg="complex, path" 
-#!      Label="for IsPolygonalComplex and IsDenseList"
-#!      Comm="Construct an edge-face-path from a polygonal complex and a list"/>
+#!      Label="for IsVEFComplex and IsDenseList"
+#!      Comm="Construct an edge-face-path from a VEF-complex and a list"/>
 #!   <Oper Name="EdgeFacePathNC" Arg="complex, path" 
-#!      Label="for IsPolygonalComplex and IsDenseList"
-#!      Comm="Construct an edge-face-path from a polygonal complex and a list"/>
+#!      Label="for IsVEFComplex and IsDenseList"
+#!      Comm="Construct an edge-face-path from a VEF-complex and a list"/>
 #!   <Returns>An EdgeFacePath-&GAP;-object</Returns>
 #!   <Filt Name="IsEdgeFacePath" Arg="object" Label="for IsObject" Type="category"
 #!      Comm="Check whether a given object is an EdgeFacePath"/>
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     The method <K>EdgeFacePath</K> constructs a new edge-face-path from
-#!     a polygonal complex and a dense list of positive integers. The
+#!     a VEF-complex and a dense list of positive integers. The
 #!     method <K>IsEdgeFacePath</K> checks if a given &GAP;-object
 #!     represents such a path.
 #!
@@ -486,8 +486,8 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! </ManSection>
 # No AutoDoc-documentation since the order of the next two entries should
 # be switched
-DeclareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
-DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "EdgeFacePath", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "EdgeFacePathNC", [IsVEFComplex, IsDenseList] );
 
 
 #! @BeginGroup EdgeFace_PathAsList
@@ -667,11 +667,11 @@ DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 
 
 #! @Description
-#! Return the polygonal complex for which the given edge-face-path is
+#! Return the VEF-complex for which the given edge-face-path is
 #! defined.
 #! @Arguments edgeFacePath
-#! @Returns a polygonal complex
-DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
+#! @Returns a VEF-complex
+DeclareAttribute( "AssociatedVEFComplex", IsEdgeFacePath );
 
 
 ##
