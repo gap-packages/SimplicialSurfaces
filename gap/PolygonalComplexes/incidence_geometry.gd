@@ -610,12 +610,16 @@ DeclareOperation("EdgesInFaceByVerticesNC",
 
 #! @BeginGroup OtherEdgeOfVertexInFace
 #! @Description
-#! If a vertex is incident to a face in a polygonal complex, there are exactly
-#! two edges that are incident to both vertex and face. If one of those is
-#! given to this method, it will return the other one.
+#! If the method <K>OtherEdgeOfVertexInFace</K> is given a vertex, an edge,
+#! and a face of a VEF-complex, it returns the other edge incident to the
+#! vertex and the face, if possible.
 #!
-#! For a bend polygonal complex it might happen that more than two edges are
+#! For a bend polygonal complex it might happen that only one or more than 
+#! two edges are
 #! incident to both vertex and face. In this case <K>fail</K> is returned.
+#! 
+#! The method <K>OtherEdgesOfVertexInFace</K> returns the set of all edges
+#! satisfying this restriction.
 #! 
 #! The NC-version does not check whether the given vertex, edge, and face
 #! actually lie in the complex and are incident to each other.
@@ -635,13 +639,20 @@ DeclareOperation("EdgesInFaceByVerticesNC",
 #! 1
 #! @EndExampleSession
 #!
-#! @Returns a positive integer
+#! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgeOfVertexInFace", 
-        [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgeOfVertexInFaceNC",
-        [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Returns a set of positive integers
+#! @Arguments complex, vertex, edge, face
+DeclareOperation("OtherEdgesOfVertexInFace", 
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertex, edge, face
+DeclareOperation("OtherEdgesOfVertexInFaceNC",
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 

@@ -540,8 +540,46 @@ InstallMethod( EdgeInFaceByVertices,
 
 #######################################
 
+InstallMethod( OtherEdgesOfVertexInFaceNC,
+    "for a VEF-complex, a vertex, an edge, and a face",
+    [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt],
+    function( complex, vertex, edge, face )
+        local possEdges, poss, verts, res;
+
+        possEdges := EdgesOfFaces(complex)[face];
+        res := [];
+        for poss in possEdges do
+            if poss <> edge then
+                verts := VerticesOfEdges(complex)[poss];
+                if vertex in verts then # Should this be done manually for polygonal complexes?
+                    Add(res, poss);
+                fi;
+            fi;
+        od;
+
+        return res;
+    end
+);
+InstallMethod( OtherEdgesOfVertexInFace,
+    "for a VEF-complex, a vertex, an edge, and a face",
+    [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt],
+    function( complex, vertex, edge, face )
+        local name;
+
+        name := "OtherEdgesOfVertexInFace";
+        __SIMPLICIAL_CheckVertex(complex, vertex, name);
+        __SIMPLICIAL_CheckEdge(complex, edge, name);
+        __SIMPLICIAL_CheckFace(complex, face, name);
+        __SIMPLICIAL_CheckIncidenceVertexEdge(complex, vertex, edge, name);
+        __SIMPLICIAL_CheckIncidenceEdgeFace(complex, edge, face, name);
+
+        return OtherEdgesOfVertexInFaceNC(complex, vertex, edge, face);
+    end
+);
+
+
 InstallMethod( OtherEdgeOfVertexInFaceNC,
-    "for a polygonal complex, a vertex, an edge and a face",
+    "for a polygonal complex, a vertex, an edge, and a face",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
     function( complex, vertex, edge, face )
         local possEdges, poss, verts;
@@ -558,11 +596,24 @@ InstallMethod( OtherEdgeOfVertexInFaceNC,
 
         Error("OtherEdgeOfVertexInFaceNC: No valid edge found.");
     end
- );
+);
+InstallMethod( OtherEdgeOfVertexInFaceNC,
+    "for a bend polygonal complex, a vertex, an edge, and a face",
+    [IsBendPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    function( complex, vertex, edge, face )
+        local possEdges;
 
+        possEdges := OtherEdgesOfVertexInFaceNC(complex,vertex,edge,face);
+        if Length(possEdges) <> 1 then
+            return fail;
+        else
+            return possEdges[1];
+        fi;
+    end
+);
 InstallMethod( OtherEdgeOfVertexInFace,
-    "for a polygonal complex, a vertex, an edge and a face",
-    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    "for a VEF-complex, a vertex, an edge, and a face",
+    [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt],
     function( complex, vertex, edge, face )
         local name;
 
@@ -577,6 +628,7 @@ InstallMethod( OtherEdgeOfVertexInFace,
     end
 );
 
+#######################################
 
 InstallMethod( OtherVertexOfEdgeNC,
     "for a polygonal complex, a vertex and an edge",
