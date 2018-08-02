@@ -15,6 +15,7 @@ ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gi" );
 
 
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/bend_polygonal_complex.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );

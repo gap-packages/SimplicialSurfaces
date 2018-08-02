@@ -6,17 +6,19 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         torus_ve := [[2],[2],,[2]];
         torus_vf := [[2],,[2]];
         torus_ef := [[1,2,4],,[1,2,4]];
-        torus := Objectify(BendPolygonalComplexType, rec());
-        SetVerticesOfEdges(torus, torus_ve);
-        SetEdgesOfFaces(torus, torus_ef);
+        torus := BendPolygonalComplexBySignedFacePerimeters(
+            [[2,1,2,4,2,2],,[2,-2,2,-1,2,-4]]);
+        Assert(0, VerticesOfEdges(torus)=torus_ve);
+        Assert(0, EdgesOfFaces(torus)=torus_ef);
         Assert(0, VerticesOfFaces(torus)=torus_vf);
 
         ball_ve := [,[1,2],[2],[2,4]];
         ball_vf := [[1,2],,[2,4]];
         ball_ef := [[2,3],,[3,4]];
-        ball := Objectify(BendPolygonalComplexType, rec());
-        SetVerticesOfEdges(ball, ball_ve);
-        SetEdgesOfFaces(ball, ball_ef);
+        ball := BendPolygonalComplexBySignedFacePerimeters(
+            [[2,3,2,2,1,-2],,[2,3,2,4,4,-4]] );
+        Assert(0, VerticesOfEdges(ball)=ball_ve);
+        Assert(0, EdgesOfFaces(ball)=ball_ef);
         Assert(0, VerticesOfFaces(ball)=ball_vf);
 
 
@@ -40,5 +42,10 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         Assert(0, OtherVertexOfEdge(torus, 2,4) = 2);
         Assert(0, OtherVertexOfEdge(ball, 2,3) = 2);
         Assert(0, OtherVertexOfEdge(ball, 4,4) = 2);
+
+
+        Assert(0, NeighbourFaceByEdge(torus,1,2)=3);
+        Assert(0, NeighbourFacesByEdge(torus,1,2)=[3]);
+        Assert(0, NeighbourFaceByEdge(ball,1,2)=1);
     end
 );

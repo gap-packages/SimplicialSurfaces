@@ -694,10 +694,13 @@ DeclareOperation("OtherVertexOfEdgeNC",
 
 #! @BeginGroup NeighbourFaceByEdge
 #! @Description
-#! If an edge is incident to exactly two faces and one of those is given,
-#! this method returns the other one.
+#! If the method <K>NeighbourFacesByEdge</K> is given a face and an edge, it
+#! returns the set of all faces that are also incident to this edge. In a
+#! polygonal complex, these have to be different from the given face. In a
+#! bend polygonal complex, this might not be the case.
 #! 
-#! If this method is called for a boundary edge or a branching edge, it 
+#! If the set of these neighbours contains exactly one face, this face
+#! is returned by <K>NeighbourFaceByEdge</K>. Otherwise, this method
 #! returns <K>fail</K>.
 #! 
 #! The NC-version does not check whether the given <A>edge</A> is an edge of
@@ -725,10 +728,17 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFaceByEdge", 
-        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFaceByEdgeNC",
-        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Returns a set of positive integers
+#! @Arguments complex, face, edge
+DeclareOperation("NeighbourFacesByEdge", 
+        [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, face, edge
+DeclareOperation("NeighbourFacesByEdgeNC",
+        [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 

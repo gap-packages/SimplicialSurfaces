@@ -56,7 +56,7 @@
 #!
 #! @Arguments bendComplex
 #! @Returns A set of positive integers
-DeclareAttribute( "LocalFlags", [IsBendPolygonalComplex] );
+DeclareAttribute( "LocalFlags", IsBendPolygonalComplex );
 
 
 #! @BeginGroup
@@ -67,11 +67,11 @@ DeclareAttribute( "LocalFlags", [IsBendPolygonalComplex] );
 #!
 #! @Returns A list of positive integers
 #! @Arguments bendComplex
-DeclareAttribute( "VerticesOfLocalFlags", [IsBendPolygonalComplex] );
+DeclareAttribute( "VerticesOfLocalFlags", IsBendPolygonalComplex );
 #! @Arguments bendComplex
-DeclareAttribute( "EdgesOfLocalFlags", [IsBendPolygonalComplex] );
+DeclareAttribute( "EdgesOfLocalFlags", IsBendPolygonalComplex );
 #! @Arguments bendComplex
-DeclareAttribute( "FacesOfLocalFlags", [IsBendPolygonalComplex] );
+DeclareAttribute( "FacesOfLocalFlags", IsBendPolygonalComplex );
 #! @EndGroup
 
 
@@ -82,11 +82,11 @@ DeclareAttribute( "FacesOfLocalFlags", [IsBendPolygonalComplex] );
 #!
 #! @Returns A list of sets of positive integers
 #! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfVertices", [IsBendPolygonalComplex] );
+DeclareAttribute( "LocalFlagsOfVertices", IsBendPolygonalComplex );
 #! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfEdges", [IsBendPolygonalComplex] );
+DeclareAttribute( "LocalFlagsOfEdges", IsBendPolygonalComplex );
 #! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfFaces", [IsBendPolygonalComplex] );
+DeclareAttribute( "LocalFlagsOfFaces", IsBendPolygonalComplex );
 #! @EndGroup
 
 
@@ -98,11 +98,11 @@ DeclareAttribute( "LocalFlagsOfFaces", [IsBendPolygonalComplex] );
 #!
 #! @Returns A set of sets
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagVertexPartition", [IsBendPolygonalComplex]);
+DeclareAttribute("LocalFlagVertexPartition", IsBendPolygonalComplex);
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagEdgePartition", [IsBendPolygonalComplex]);
+DeclareAttribute("LocalFlagEdgePartition", IsBendPolygonalComplex);
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagFacePartition", [IsBendPolygonalComplex]);
+DeclareAttribute("LocalFlagFacePartition", IsBendPolygonalComplex);
 #! @EndGroup
 
 
@@ -117,12 +117,34 @@ DeclareAttribute("LocalFlagFacePartition", [IsBendPolygonalComplex]);
 #!
 #! @Returns An involution or <K>fail</K>
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagVertexInvolution", [IsBendPolygonalComplex]);
+DeclareAttribute("LocalFlagVertexInvolution", IsBendPolygonalComplex);
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagEdgeInvolution", [IsBendPolygonalComplex]);
+DeclareAttribute("LocalFlagEdgeInvolution", IsBendPolygonalComplex);
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagFaceInvolution", [IsBendPolygonalComplex]);
+DeclareAttribute("LocalFlagFaceInvolution", IsBendPolygonalComplex);
 #! @EndGroup
+
+
+#! @Description
+#! Construct a bend polygonal complex from signed face perimeters, i.e.
+#! a list (bound entries indexed by the faces) such that we have a list
+#! of the following form for each face:
+#! * Alternating vertex and edge numbers (the vertex-edge-path of the
+#!   face perimeter) where each edge number might be multiplied with -1
+#!
+#! This is interpreted in the following way:
+#! * The length of this list defines how many vertices the polygon for this
+#!   face will have. (Length 6 = triangle)
+#! * Every two adjacent elements define a flag. The flags of the first face
+#!   are numbered from 1 to the length of the list. This gives all of the
+#!   edges an implicit orientation
+#! * If two edges have the same absolute value, they are identified. If
+#!   their signs agree, they are identified with the same orientation,
+#!   otherwise reversed.
+#!
+#! @Returns a bend polygonal complex
+#! @Arguments signedFacePerimeter
+DeclareOperation( "BendPolygonalComplexBySignedFacePerimeters", [IsList] );
 
 
 #! @Section Bend faces and edges
