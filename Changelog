@@ -1,4 +1,9 @@
 Changes from master to rewrite:
 
-1) Introduce BendPolygonalComplexes
+1) Introduce category BendPolygonalComplexes
+2) Introduce filter VEFComplexes as a generalisation of PolygonalComplexes and
+    BendPolygonalComplexes
+3) Rename VerticesAttributeOfPolygonalComplex to VerticesAttributeOfVEFComplex
+4) Generalise many methods to work properly with BendPolygonalComplexes (see
+    the manual for changes)
 
