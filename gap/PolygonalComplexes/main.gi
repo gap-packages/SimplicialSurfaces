@@ -86,7 +86,7 @@ BindGlobal( "__SIMPLICIAL_CheckVertex",
     function( complex, vertex, name )
         local mes;
 
-        if not vertex in VerticesAttributeOfPolygonalComplex(complex) then
+        if not vertex in VerticesAttributeOfVEFComplex(complex) then
             mes := Concatenation( name, ": Given vertex ", String(vertex), 
                 " does not lie in the given complex." );
             Error(mes);
@@ -286,7 +286,7 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         # Vertices
         Add( strList, [ Concatenation(
             "    Vertices (", String(NumberOfVertices(complex)), "): ", 
-            String(VerticesAttributeOfPolygonalComplex(complex)), "\n"), 1 ] );
+            String(VerticesAttributeOfVEFComplex(complex)), "\n"), 1 ] );
         # Edges
         Add( strList, [ Concatenation(
             "    Edges (", String(NumberOfEdges(complex)), "): ", 

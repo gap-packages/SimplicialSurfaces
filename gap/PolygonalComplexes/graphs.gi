@@ -39,7 +39,7 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
             # Therefore we have to take a subgraph of this graph
             graph := DigraphByEdges( Compacted( VerticesOfEdges(complex) ) );
             return InducedSubdigraph( graph, 
-                VerticesAttributeOfPolygonalComplex(complex) );
+                VerticesAttributeOfVEFComplex(complex) );
         end
     );
 fi;
@@ -62,9 +62,9 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
  	    local graph, vertices, edges, faces, names, colours, incidence, 
 	        trivialAction, maxVert, maxEdge;
 
-            maxVert := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            maxVert := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
             maxEdge := Edges(complex)[NumberOfEdges(complex)];
-            vertices := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
+            vertices := ShallowCopy( VerticesAttributeOfVEFComplex(complex) );
             edges := List( Edges(complex), e -> e + maxVert );
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
 
@@ -100,7 +100,7 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
         function(complex)
     	    local graph, vertices, names, incidence, trivialAction;
 
-	    vertices := VerticesAttributeOfPolygonalComplex(complex);
+	    vertices := VerticesAttributeOfVEFComplex(complex);
 
             names := vertices;
 	    incidence := function(x,y)
@@ -135,10 +135,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
                 colSet, vertexList, verts;
 
-            maxVertex := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            maxVertex := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
             maxEdge := Edges(complex)[NumberOfEdges(complex)];
 
-            vertexList := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
+            vertexList := ShallowCopy( VerticesAttributeOfVEFComplex(complex) );
             edgeList := [];
             colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
 
@@ -166,7 +166,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         [IsPolygonalComplex],
         function(complex)
             return NautyGraphWithNodeLabels( VerticesOfEdges(complex), 
-                VerticesAttributeOfPolygonalComplex(complex) );
+                VerticesAttributeOfVEFComplex(complex) );
         end
     );
 fi;
@@ -291,14 +291,14 @@ InstallMethod( PolygonalComplexIsomorphismRepresentatives,
 
 BindGlobal( "__SIMPLICIAL_RestrictToVertices",
     function(complex, g)
-        return RESTRICTED_PERM(g, [1..VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)]],true);
+        return RESTRICTED_PERM(g, [1..VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)]],true);
     end
 );
 BindGlobal( "__SIMPLICIAL_RestrictToEdges",
     function(complex,  g)
         local maxVert, maxEdge, autEdge, listPerm;
 
-        maxVert := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+        maxVert := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
         maxEdge := Edges(complex)[NumberOfEdges(complex)];
         autEdge := RESTRICTED_PERM(g, [maxVert+1..maxVert+maxEdge],true);
 
@@ -319,7 +319,7 @@ BindGlobal( "__SIMPLICIAL_RestrictToFaces",
     function(complex, g)
         local maxVert, maxEdge, maxFace, autFace, listPerm, sep1, sep2;
 
-        maxVert := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+        maxVert := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
         maxEdge := Edges(complex)[NumberOfEdges(complex)];
         maxFace := Faces(complex)[NumberOfFaces(complex)];
 

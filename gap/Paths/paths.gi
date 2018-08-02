@@ -19,21 +19,21 @@ DeclareRepresentation("VertexEdgePathRep", IsVertexEdgePath and IsAttributeStori
 BindGlobal("VertexEdgePathType", NewType(VertexEdgePathFamily, VertexEdgePathRep));
 
 
-InstallMethod( VertexEdgePathNC, "for a polygonal complex and a list",
-    [IsPolygonalComplex, IsDenseList],
+InstallMethod( VertexEdgePathNC, "for a VEF-complex and a list",
+    [IsVEFComplex, IsDenseList],
     function(complex, path)
         local obj;
 
         obj := Objectify( VertexEdgePathType, rec() );
         SetPath(obj, path);
-        SetAssociatedPolygonalComplex(obj, complex);
+        SetAssociatedVEFComplex(obj, complex);
 
         return obj;
     end
 );
-RedispatchOnCondition( VertexEdgePathNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
-InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
-    [IsPolygonalComplex, IsDenseList],
+RedispatchOnCondition( VertexEdgePathNC, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
+InstallMethod( VertexEdgePath, "for a VEF-complex and a list",
+    [IsVEFComplex, IsDenseList],
     function(complex, path)
         local i;
 
@@ -46,7 +46,7 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
 
         for i in [1..Length(path)] do
             if IsOddInt(i) then
-                if not path[i] in VerticesAttributeOfPolygonalComplex(complex) then
+                if not path[i] in VerticesAttributeOfVEFComplex(complex) then
                     Error( Concatenation( "VertexEdgePath: The number ",
                         String(path[i]), " (position ", String(i),  
                         ") is not a vertex of the given complex.") );
@@ -69,11 +69,11 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePath, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePath, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByVerticesNC, 
-    "for a polygonal complex and a list of vertices",
-    [IsPolygonalComplex, IsDenseList],
+    "for a VEF-complex and a list of vertices",
+    [IsVEFComplex, IsDenseList],
     function(complex, vertexList)
         local path, i;
 
@@ -89,11 +89,11 @@ InstallMethod( VertexEdgePathByVerticesNC,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByVerticesNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByVerticesNC, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByVertices, 
-    "for a polygonal complex and a list of vertices",
-    [IsPolygonalComplex, IsDenseList],
+    "for a VEF-complex and a list of vertices",
+    [IsVEFComplex, IsDenseList],
     function(complex, vertexList)
         local path, i, pos;
 
@@ -109,7 +109,7 @@ InstallMethod( VertexEdgePathByVertices,
                 Error(Concatenation("VertexEdgePathByVertices: The vertices ", 
                     String(vertexList[i-1]), " (position ", String(i-1), ") and ", 
                     String(vertexList[i]), " (position ", String(i), 
-                    ") are not connected by an edge in the given polygonal complex."));
+                    ") are not connected by an edge in the given VEF-complex."));
             fi;
             path[2*i-2] := pos;
             path[2*i-1] := vertexList[i];
@@ -118,18 +118,18 @@ InstallMethod( VertexEdgePathByVertices,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByVertices, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByVertices, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
 
 
 InstallMethod( VertexEdgePathByEdgesNC, 
-    "for a polygonal complex and a list of edges",
-    [IsPolygonalComplex, IsDenseList],
+    "for a VEF-complex and a list of edges",
+    [IsVEFComplex, IsDenseList],
     function(complex, edgeList)
         local path, firstDefinedPos, i, verts;
          
         if edgeList = [] then
             return VertexEdgePathNC(complex, 
-                [Minimum(VerticesAttributeOfPolygonalComplex(complex))]);
+                [Minimum(VerticesAttributeOfVEFComplex(complex))]);
         fi;
 
         firstDefinedPos := 0;
@@ -171,11 +171,11 @@ InstallMethod( VertexEdgePathByEdgesNC,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByEdgesNC, true, [IsPolygonalComplex, IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByEdgesNC, true, [IsVEFComplex, IsList],[,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByEdges,
-    "for a polygonal complex and a list of edges",
-    [IsPolygonalComplex, IsDenseList],
+    "for a VEF-complex and a list of edges",
+    [IsVEFComplex, IsDenseList],
     function(complex, edgeList)
         local i;
 
@@ -192,7 +192,7 @@ InstallMethod( VertexEdgePathByEdges,
                             String(i-1), ") and ",
                             String(edgeList[i]), " (position ",
                             String(i), 
-                            ") do not share a vertex in the given polygonal complex."));
+                            ") do not share a vertex in the given VEF-complex."));
                 fi;
             od;
         fi;
@@ -200,7 +200,7 @@ InstallMethod( VertexEdgePathByEdges,
         return VertexEdgePathByEdgesNC(complex, edgeList);
     end
 );
-RedispatchOnCondition( VertexEdgePathByEdges, true, [IsPolygonalComplex, IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByEdges, true, [IsVEFComplex, IsList],[,IsDenseList],0 );
 
 
 
@@ -212,7 +212,7 @@ InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
         out := OutputTextString(str,true);
 
         PrintTo(out, "VertexEdgePathNC( ");
-        PrintTo(out, AssociatedPolygonalComplex(path));
+        PrintTo(out, AssociatedVEFComplex(path));
         PrintTo(out, ", ");
         PrintTo(out, PathAsList(path));
         PrintTo(out, ")");
@@ -275,7 +275,7 @@ InstallMethod( \=, "for two vertex-edge-paths", IsIdenticalObj,
     [IsVertexEdgePath, IsVertexEdgePath],
     function(path1, path2)
         return PathAsList(path1) = PathAsList(path2) and 
-            AssociatedPolygonalComplex(path1) = AssociatedPolygonalComplex(path2);
+            AssociatedVEFComplex(path1) = AssociatedVEFComplex(path2);
     end
 );
 
@@ -306,7 +306,7 @@ InstallMethod( EdgesAsList, "for a vertex-edge-path", [IsVertexEdgePath],
 
 InstallMethod( Inverse, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
-        return VertexEdgePathNC( AssociatedPolygonalComplex(path),
+        return VertexEdgePathNC( AssociatedVEFComplex(path),
             Reversed(Path(path)));
     end
 );

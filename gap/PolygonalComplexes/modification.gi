@@ -108,9 +108,9 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
         if HasFacesOfVertices(complex) then
             SetFacesOfVertices(obj, FacesOfVertices(complex));
         fi;
-        if HasVerticesAttributeOfPolygonalComplex(complex) then
-            SetVerticesAttributeOfPolygonalComplex(obj, 
-                VerticesAttributeOfPolygonalComplex(complex));
+        if HasVerticesAttributeOfVEFComplex(complex) then
+            SetVerticesAttributeOfVEFComplex(obj, 
+                VerticesAttributeOfVEFComplex(complex));
         fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
@@ -184,7 +184,7 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStar",
         if Length(starComp) = 1 then
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [vertex], starComp);
         else
-            max := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            max := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [1..Length(starComp)]+max, starComp);
         fi;
     end
@@ -192,7 +192,7 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStar",
 InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
-        if not vertex in VerticesAttributeOfPolygonalComplex(complex) then
+        if not vertex in VerticesAttributeOfVEFComplex(complex) then
             Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
                 " is not one of the vertices ", String(Vertices(complex)), 
                 " of the given polygonal complex." ) );
@@ -210,7 +210,7 @@ InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
         if nrIncStars = 1 then
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [vertex], starComp);
         else
-            max := VerticesAttributeOfPolygonalComplex(complex)[ NumberOfVertices(complex) ];
+            max := VerticesAttributeOfVEFComplex(complex)[ NumberOfVertices(complex) ];
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [1..nrIncStars]+max, starComp);
         fi;
     end
@@ -221,7 +221,7 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
     function(complex, vertex, newVertexLabels)
         local intersect, starComp;
 
-        if not vertex in VerticesAttributeOfPolygonalComplex(complex) then
+        if not vertex in VerticesAttributeOfVEFComplex(complex) then
             Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
                 " is not one of the vertices ", String(Vertices(complex)), 
                 " of the given polygonal complex." ) );
@@ -240,7 +240,7 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
             ));
         fi;
 
-        intersect := Intersection( VerticesAttributeOfPolygonalComplex(complex), 
+        intersect := Intersection( VerticesAttributeOfVEFComplex(complex), 
             newVertexLabels );
         if Length(intersect) = 0 or (Length(intersect)=1 and intersect[1] = vertex) then
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, newVertexLabels, starComp);
@@ -332,7 +332,7 @@ InstallMethod( SplitVertexEdgePath,
     "for a polygonal complex and a duplicate-free vertex-edge-path",
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath)
-        if not complex = AssociatedPolygonalComplex(vePath) then
+        if not complex = AssociatedVEFComplex(vePath) then
             Error("SplitVertexEdgePath: Given vertex-edge-path has to match the given polygonal complex.");
         fi;
         return SplitVertexEdgePathNC(complex, vePath);
@@ -388,7 +388,7 @@ InstallMethod( SplitEdgePath,
     "for a polygonal complex and a duplicate-free vertex-edge-path",
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath)
-        if not complex = AssociatedPolygonalComplex(vePath) then
+        if not complex = AssociatedVEFComplex(vePath) then
             Error("SplitEdgePath: Given vertex-edge-path has to match the given polygonal complex.");
         fi;
         return SplitEdgePathNC(complex, vePath);
@@ -567,13 +567,13 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
             newEdges, vMax, eMax, fMax;
 
         if Length( Intersection(
-                    VerticesAttributeOfPolygonalComplex(complex1), 
-                    VerticesAttributeOfPolygonalComplex(complex2)) ) = 0 and
+                    VerticesAttributeOfVEFComplex(complex1), 
+                    VerticesAttributeOfVEFComplex(complex2)) ) = 0 and
             Length( Intersection(Edges(complex1), Edges(complex2)) ) = 0 and
             Length( Intersection(Faces(complex1), Faces(complex2)) ) = 0 then
                 realShift := 0;
         else
-            vMax := VerticesAttributeOfPolygonalComplex(complex1)[ NumberOfVertices(complex1) ];
+            vMax := VerticesAttributeOfVEFComplex(complex1)[ NumberOfVertices(complex1) ];
             eMax := Edges(complex1)[NumberOfEdges(complex1)];
             fMax := Faces(complex1)[NumberOfFaces(complex1)];
             realShift := Maximum( [vMax, eMax, fMax] );
@@ -631,12 +631,12 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
 InstallMethod( JoinVertices, "for two polygonal complexes and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt],
     function(complex1, v1, complex2, v2)
-        if not v1 in VerticesAttributeOfPolygonalComplex(complex1) then
+        if not v1 in VerticesAttributeOfVEFComplex(complex1) then
             Error(Concatenation("JoinVertices: The first vertex ", String(v1), 
                 " is not one of the vertices in the first polygonal complex: ", 
                 String(Vertices(complex1)), "."));
         fi;
-        if not v2 in VerticesAttributeOfPolygonalComplex(complex2) then
+        if not v2 in VerticesAttributeOfVEFComplex(complex2) then
             Error(Concatenation("JoinVertices: The second vertex ", String(v2), 
                 " is not one of the vertices in the second polygonal complex: ", 
                 String(Vertices(complex2)), "."));
@@ -669,7 +669,7 @@ InstallOtherMethod( JoinVertices,
         if Length(vertSet) = 1 then
             label := vertSet[1];
         else
-            label := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)] + 1;
+            label := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)] + 1;
         fi;
         return JoinVertices(complex, vertSet, label);
     end
@@ -684,7 +684,7 @@ InstallOtherMethod( JoinVerticesNC,
         if Length(vertSet) = 1 then
             label := vertSet[1];
         else
-            label := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)] + 1;
+            label := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)] + 1;
         fi;
         return JoinVerticesNC(complex, vertSet, label);
     end
@@ -701,13 +701,13 @@ InstallMethod( JoinVertices,
             Error(Concatenation("JoinVertices: Given vertex list ", String(vertList), 
                 " contains more than two different elements."));
         fi;
-        if not IsSubset(VerticesAttributeOfPolygonalComplex(complex), vertSet) then
+        if not IsSubset(VerticesAttributeOfVEFComplex(complex), vertSet) then
             Error(Concatenation("JoinVertices: Given vertex list ", String(vertList),
                 " is not a subset of the vertices of the given complex: ",
                 String(Vertices(complex)), "."));
         fi;
         if not newVertexLabel in vertSet and 
-                newVertexLabel in VerticesAttributeOfPolygonalComplex(complex) then
+                newVertexLabel in VerticesAttributeOfVEFComplex(complex) then
             Error(Concatenation("JoinVertices: Given new vertex label ", 
                 String(newVertexLabel), " conflicts with existing vertices: ", 
                 String(Vertices(complex)), "."));
@@ -744,7 +744,7 @@ InstallOtherMethod( JoinVertices,
         if v1 = v2 then
             label := v1;
         else
-            label := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)]+1;
+            label := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)]+1;
         fi;
         return JoinVertices(complex, v1, v2, label);
     end
@@ -758,7 +758,7 @@ InstallOtherMethod( JoinVerticesNC,
         if v1 = v2 then
             label := v1;
         else
-            label := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)]+1;
+            label := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)]+1;
         fi;
         return JoinVerticesNC(complex, v1, v2, label);
     end
@@ -771,7 +771,7 @@ InstallMethod( JoinVertices,
         __SIMPLICIAL_CheckVertex(complex, v1, "JoinVertices");
         __SIMPLICIAL_CheckVertex(complex, v2, "JoinVertices");
         if newVertexLabel <> v1 and newVertexLabel <> v2 and 
-                newVertexLabel in VerticesAttributeOfPolygonalComplex(complex) then
+                newVertexLabel in VerticesAttributeOfVEFComplex(complex) then
             Error(Concatenation("JoinVertices: Given new vertex label ", 
                 String(newVertexLabel), " conflicts with existing vertices: ", 
                 String(Vertices(complex)), "."));
@@ -953,9 +953,9 @@ InstallMethod( JoinEdgesNC,
         if HasFacesOfVertices(complex) then
             SetFacesOfVertices(obj, FacesOfVertices(complex));
         fi;
-        if HasVerticesAttributeOfPolygonalComplex(complex) then
-            SetVerticesAttributeOfPolygonalComplex(obj, 
-                VerticesAttributeOfPolygonalComplex(complex));
+        if HasVerticesAttributeOfVEFComplex(complex) then
+            SetVerticesAttributeOfVEFComplex(obj, 
+                VerticesAttributeOfVEFComplex(complex));
         fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
@@ -976,11 +976,11 @@ InstallMethod( JoinVertexEdgePaths,
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
         IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex1, vePath1, complex2, vePath2)
-        if complex1 <> AssociatedPolygonalComplex(vePath1) then
+        if complex1 <> AssociatedVEFComplex(vePath1) then
             Error(Concatenation("JoinVertexEdgePaths: The first path ", 
                 String(vePath1), " does not belong to the first polygonal complex."));
         fi;
-        if complex2 <> AssociatedPolygonalComplex(vePath2) then
+        if complex2 <> AssociatedVEFComplex(vePath2) then
             Error(Concatenation("JoinVertexEdgePaths: The second path ", 
                 String(vePath2), " does not belong to the first polygonal complex."));
         fi;
@@ -1024,11 +1024,11 @@ InstallMethod( JoinVertexEdgePaths,
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
         IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath1, vePath2)
-        if complex <> AssociatedPolygonalComplex(vePath1) then
+        if complex <> AssociatedVEFComplex(vePath1) then
             Error(Concatenation("JoinVertexEdgePaths: The first path ", 
                 String(vePath1), " does not belong to the polygonal complex."));
         fi;
-        if complex <> AssociatedPolygonalComplex(vePath2) then
+        if complex <> AssociatedVEFComplex(vePath2) then
             Error(Concatenation("JoinVertexEdgePaths: The second path ", 
                 String(vePath2), " does not belong to the polygonal complex."));
         fi;
@@ -1056,7 +1056,7 @@ InstallMethod( JoinVertexEdgePathsNC,
         labelList := [];
 
         # Identify vertices
-        maxVert := VerticesAttributeOfPolygonalComplex(swapComplex)[NumberOfVertices(swapComplex)];
+        maxVert := VerticesAttributeOfVEFComplex(swapComplex)[NumberOfVertices(swapComplex)];
         for i in [1..Length(VerticesAsList(vePath1))-1] do;
             v1 := VerticesAsList(vePath1)[i];
             v2 := VerticesAsList(vePath2)[i];
@@ -1317,7 +1317,7 @@ InstallMethod( SplitAllVertices, "for a polygonal complex",
         local swapComplex, v;
 
         swapComplex := complex;
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             swapComplex := SplitVertexNC(swapComplex, v)[1];
         od;
 

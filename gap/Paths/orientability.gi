@@ -254,7 +254,7 @@ InstallMethod( OrientationCover, "for a ramified polygonal surface",
         od;
 
         newVertices := [];
-        for v in VerticesAttributeOfPolygonalComplex(splitSurf) do
+        for v in VerticesAttributeOfVEFComplex(splitSurf) do
             umb := UmbrellasOfVertices(splitSurf)[v];
             if IsClosedPath(umb) then
                 sideA := [];

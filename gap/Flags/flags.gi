@@ -56,7 +56,7 @@ InstallMethod( VertexFaceFlags, "for a polygonal complex", [IsPolygonalComplex],
         local flags, v, f;
         
         flags := [];
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             for f in FacesOfVertices(complex)[v] do
                 Add(flags,[v,f]);
             od;
@@ -102,7 +102,7 @@ InstallMethod( OneFlags, "for a polygonal complex", [IsPolygonalComplex],
         local flags;
 
         flags := [];
-        Append(flags, List(VerticesAttributeOfPolygonalComplex(complex), v -> [0,v]));
+        Append(flags, List(VerticesAttributeOfVEFComplex(complex), v -> [0,v]));
         Append(flags, List(Edges(complex), e -> [1,e]));
         Append(flags, List(Faces(complex), f -> [2,f]));
 

@@ -17,14 +17,14 @@
 ##
 InstallMethod( Vertices, "for a polygonal complex", [IsVEFComplex],
 	function(complex)
-		return VerticesAttributeOfPolygonalComplex( complex );
+		return VerticesAttributeOfVEFComplex( complex );
 	end
 );
 
 # methods to compute number of vertices, edges, faces
 InstallMethod( NumberOfVertices, "for a polygonal complex", [IsVEFComplex],
     function(complex)
-            return Length( VerticesAttributeOfPolygonalComplex(complex) );
+            return Length( VerticesAttributeOfVEFComplex(complex) );
     end
 );
 
@@ -43,7 +43,7 @@ InstallMethod( NumberOfFaces, "for a polygonal complex", [IsVEFComplex],
 ##
 ## Inclusion in the attribute scheduler
 ##
-__SIMPLICIAL_AddVEFAttribute( VerticesAttributeOfPolygonalComplex );
+__SIMPLICIAL_AddVEFAttribute( VerticesAttributeOfVEFComplex );
 __SIMPLICIAL_AddVEFAttribute( Edges );
 __SIMPLICIAL_AddVEFAttribute( Faces );
 
@@ -84,7 +84,7 @@ InstallMethod( Edges,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "Edges", "EdgesOfVertices");
 
-InstallMethod( VerticesAttributeOfPolygonalComplex, 
+InstallMethod( VerticesAttributeOfVEFComplex, 
     "for a polygonal complex with EdgesOfVertices",
     [IsVEFComplex and HasEdgesOfVertices],
     function(complex)
@@ -92,7 +92,7 @@ InstallMethod( VerticesAttributeOfPolygonalComplex,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "VerticesAttributeOfPolygonalComplex", "EdgesOfVertices");
+    "VerticesAttributeOfVEFComplex", "EdgesOfVertices");
 
 
 ## FacesOfVertices
@@ -105,7 +105,7 @@ InstallMethod( Faces, "for a polygonal complex with FacesOfVertices",
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "Faces", "FacesOfVertices");
 
-InstallMethod( VerticesAttributeOfPolygonalComplex, 
+InstallMethod( VerticesAttributeOfVEFComplex, 
     "for a polygonal complex with FacesOfVertices",
     [IsVEFComplex and HasFacesOfVertices],
     function(complex)
@@ -113,11 +113,11 @@ InstallMethod( VerticesAttributeOfPolygonalComplex,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "VerticesAttributeOfPolygonalComplex", "FacesOfVertices");
+    "VerticesAttributeOfVEFComplex", "FacesOfVertices");
 
 
 ## VerticesOfEdges
-InstallMethod( VerticesAttributeOfPolygonalComplex, 
+InstallMethod( VerticesAttributeOfVEFComplex, 
     "for a polygonal complex with VerticesOfEdges",
     [IsVEFComplex and HasVerticesOfEdges],
     function(complex)
@@ -125,7 +125,7 @@ InstallMethod( VerticesAttributeOfPolygonalComplex,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "VerticesAttributeOfPolygonalComplex", "VerticesOfEdges");
+    "VerticesAttributeOfVEFComplex", "VerticesOfEdges");
 
 InstallMethod( Edges, "for a polygonal complex with VerticesOfEdges",
     [IsVEFComplex and HasVerticesOfEdges],
@@ -158,7 +158,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 
 ## VerticesOfFaces
-InstallMethod( VerticesAttributeOfPolygonalComplex, 
+InstallMethod( VerticesAttributeOfVEFComplex, 
     "for a polygonal complex with VerticesOfFaces",
     [IsVEFComplex and HasVerticesOfFaces],
     function(complex)
@@ -166,7 +166,7 @@ InstallMethod( VerticesAttributeOfPolygonalComplex,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "VerticesAttributeOfPolygonalComplex", "VerticesOfFaces");
+    "VerticesAttributeOfVEFComplex", "VerticesOfFaces");
 
 InstallMethod( Faces, "for a polygonal complex with VerticesOfFaces",
     [IsVEFComplex and HasVerticesOfFaces],
@@ -339,7 +339,7 @@ InstallMethod( EdgesOfVertices,
     [IsVEFComplex and HasVerticesOfEdges],
     function(complex)
         return __SIMPLICIAL_InvertIncidence( 
-            VerticesAttributeOfPolygonalComplex(complex),
+            VerticesAttributeOfVEFComplex(complex),
             VerticesOfEdges(complex), Edges(complex));
     end
 );
@@ -352,7 +352,7 @@ InstallMethod( FacesOfVertices,
     [IsVEFComplex and HasVerticesOfFaces],
     function(complex)
         return __SIMPLICIAL_InvertIncidence( 
-            VerticesAttributeOfPolygonalComplex(complex),
+            VerticesAttributeOfVEFComplex(complex),
             VerticesOfFaces(complex), Faces(complex));
     end
 );
@@ -366,7 +366,7 @@ InstallMethod( VerticesOfEdges,
     function(complex)
         return __SIMPLICIAL_InvertIncidence(Edges(complex),
             EdgesOfVertices(complex), 
-            VerticesAttributeOfPolygonalComplex(complex));
+            VerticesAttributeOfVEFComplex(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -391,7 +391,7 @@ InstallMethod( VerticesOfFaces,
     function(complex)
         return __SIMPLICIAL_InvertIncidence( Faces(complex),
             FacesOfVertices(complex), 
-            VerticesAttributeOfPolygonalComplex(complex));
+            VerticesAttributeOfVEFComplex(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -436,7 +436,7 @@ InstallMethod( VerticesOfFaces,
     [IsVEFComplex and HasVerticesOfEdges and HasEdgesOfFaces],
     function(complex)
         return __SIMPLICIAL_TransitiveIncidence( 
-            VerticesAttributeOfPolygonalComplex(complex),
+            VerticesAttributeOfVEFComplex(complex),
             VerticesOfEdges(complex), Edges(complex), EdgesOfFaces(complex),
             Faces(complex));
     end
@@ -450,7 +450,7 @@ InstallMethod( FacesOfVertices,
     function(complex)
         return __SIMPLICIAL_TransitiveIncidence( Faces(complex),
             FacesOfEdges(complex), Edges(complex), EdgesOfVertices(complex),
-            VerticesAttributeOfPolygonalComplex(complex));
+            VerticesAttributeOfVEFComplex(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -946,7 +946,7 @@ InstallMethod( UmbrellasOfVertices,
 
         res := [];
         umbPart := UmbrellaPartitionsOfVertices(surface);
-        for v in VerticesAttributeOfPolygonalComplex(surface) do
+        for v in VerticesAttributeOfVEFComplex(surface) do
             res[v] := umbPart[v][1];
         od;
         return res;
@@ -1054,15 +1054,15 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     ["IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices"]);
 
 InstallMethod( FacesOfEdges,
-    "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices and VerticesAttributeOfPolygonalComplex",
-    [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfPolygonalComplex],
+    "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices and VerticesAttributeOfVEFComplex",
+    [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfVEFComplex],
     function(complex)
         local facesOfEdges, parts, v, p, even, ind, i, edge, incFaces, path;
 
         parts := UmbrellaPartitionsOfVertices(complex);
 
         facesOfEdges := [];
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             for p in parts[v] do
                 path := PathAsList(p);
 
@@ -1091,12 +1091,12 @@ InstallMethod( FacesOfEdges,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "FacesOfEdges", 
-    ["UmbrellaPartitionsOfVertices", "VerticesAttributeOfPolygonalComplex", "IsRamifiedPolygonalSurface"]);
+    ["UmbrellaPartitionsOfVertices", "VerticesAttributeOfVEFComplex", "IsRamifiedPolygonalSurface"]);
 
 
 InstallMethod( UmbrellaPartitionsOfVertices, 
-    "for a polygonal complex that has VerticesAttributeOfPolygonalComplex, EdgesOfVertices, EdgesOfFaces, FacesOfEdges and VerticesOfEdges",
-    [IsPolygonalComplex and HasVerticesAttributeOfPolygonalComplex and 
+    "for a polygonal complex that has VerticesAttributeOfVEFComplex, EdgesOfVertices, EdgesOfFaces, FacesOfEdges and VerticesOfEdges",
+    [IsPolygonalComplex and HasVerticesAttributeOfVEFComplex and 
         HasEdgesOfVertices and HasEdgesOfFaces and HasFacesOfEdges and 
         HasVerticesOfEdges],
     function(ramSurf)
@@ -1106,7 +1106,7 @@ InstallMethod( UmbrellaPartitionsOfVertices,
 
         faceEdgePathPart := [];
 
-        for vertex in VerticesAttributeOfPolygonalComplex(ramSurf) do
+        for vertex in VerticesAttributeOfVEFComplex(ramSurf) do
             incidentEdges := EdgesOfVertices(ramSurf)[vertex];
             paths := [];
 
@@ -1210,7 +1210,7 @@ InstallMethod( UmbrellaPartitionsOfVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
     "UmbrellaPartitionsOfVertices", 
-    ["VerticesAttributeOfPolygonalComplex", "EdgesOfVertices", "EdgesOfFaces", 
+    ["VerticesAttributeOfVEFComplex", "EdgesOfVertices", "EdgesOfFaces", 
         "FacesOfEdges", "VerticesOfEdges"]);
 ##
 ##          End of edge-face-paths

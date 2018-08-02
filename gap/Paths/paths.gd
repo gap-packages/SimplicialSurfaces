@@ -32,7 +32,7 @@
 #!
 #! This section describes all methods for vertex-edge-paths. Intuitively,
 #! vertex-edge-paths describe all paths that are realized by walking only on
-#! the vertices and edges of a polygonal complex.
+#! the vertices and edges of a (bend) polygonal complex.
 #!
 #! We will illustrate several properties with vertex-edge-paths that are
 #! defined on this simplicial surface:
@@ -52,25 +52,23 @@
 #! <M>(v_1, e_1, v_2, e_2, \ldots ,v_n, e_n, v_{{n+1}})</M> such that
 #! * The <M>v_i</M> are vertices of the polygonal complex
 #! * The <M>e_j</M> are edges of the polygonal complex
-#! * Every edge <M>e_j</M> is incident to the vertices <M>v_j</M> and <M>v_{{j+1}}</M>
-#! * The vertices <M>v_j</M> and <M>v_{{j+1}}</M> are different
+#! * For the edge <M>e_j</M> the set of incident vertices is <M>\{v_j,v_{{j+1}}}\}</M>
 #! @EndChunk
 
-#TODO is there a way to tell that a filter is a category?
 #! <ManSection Label="VertexEdgePath">
 #!   <Oper Name="VertexEdgePath" Arg="complex, path" 
-#!      Label="for IsPolygonalComplex and IsDenseList"
-#!      Comm="Construct a vertex-edge-path from a polygonal complex and a list"/>
+#!      Label="for IsVEFComplex and IsDenseList"
+#!      Comm="Construct a vertex-edge-path from a VEF-complex and a list"/>
 #!   <Oper Name="VertexEdgePathNC" Arg="complex, path" 
-#!      Label="for IsPolygonalComplex and IsDenseList"
-#!      Comm="Construct a vertex-edge-path from a polygonal complex and a list"/>
+#!      Label="for IsVEFComplex and IsDenseList"
+#!      Comm="Construct a vertex-edge-path from a VEF-complex and a list"/>
 #!   <Returns>A VertexEdgePath-&GAP;-object</Returns>
-#!   <Filt Name="IsVertexEdgePath" Arg="object" Label="for IsObject"
+#!   <Filt Name="IsVertexEdgePath" Arg="object" Label="for IsObject" Type="category"
 #!      Comm="Check whether a given object is a VertexEdgePath"/>
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     The method <K>VertexEdgePath</K> constructs a new vertex-edge-path from
-#!     a polygonal complex and a dense list of positive integers (alternating
+#!     a VEF-complex and a dense list of positive integers (alternating
 #!     vertices and edges). The
 #!     method <K>IsVertexEdgePath</K> checks if a given &GAP;-object
 #!     represents such a path.
@@ -118,14 +116,14 @@
 #! </ManSection>
 # No AutoDoc-documentation since the order of the next two entries should
 # be switched
-DeclareOperation( "VertexEdgePath", [IsPolygonalComplex, IsDenseList] );
-DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePath", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathNC", [IsVEFComplex, IsDenseList] );
 
 
 #! @BeginGroup VertexEdgePathByVertices
 #! @Description
 #! Construct a new vertex-edge-path (<Ref Subsect="VertexEdgePath"/>) from a
-#! polygonal complex and a dense list of vertices. Every two adjacent vertices
+#! VEF-complex and a dense list of vertices. Every two adjacent vertices
 #! have to be connected by an edge. If there are multiple such edges, the one
 #! with the smallest label is used. If the given <A>vertexList</A> is empty,
 #! <K>fail</K> is returned.
@@ -154,16 +152,16 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #!
 #! @Returns a vertex-edge-path or <K>fail</K>
 #! @Arguments complex, vertexList
-DeclareOperation( "VertexEdgePathByVertices", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathByVertices", [IsVEFComplex, IsDenseList] );
 #! @Arguments complex, vertexList
-DeclareOperation( "VertexEdgePathByVerticesNC", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathByVerticesNC", [IsVEFComplex, IsDenseList] );
 #! @EndGroup
 
 
 #! @BeginGroup VertexEdgePathByEdges
 #! @Description
 #! Construct a new vertex-edge-path (<Ref Subsect="VertexEdgePath"/>) from a
-#! polygonal complex and a dense list of edges. Every two adjacent edges
+#! VEF-complex and a dense list of edges. Every two adjacent edges
 #! have to be connected by a vertex. If any vertex position is ambigous (for
 #! example if only one edge is given), the smallest possible vertex is chosen
 #! to be traversed first.
@@ -191,9 +189,9 @@ DeclareOperation( "VertexEdgePathByVerticesNC", [IsPolygonalComplex, IsDenseList
 #!
 #! @Returns a vertex-edge-path
 #! @Arguments complex, edgeList
-DeclareOperation( "VertexEdgePathByEdges", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathByEdges", [IsVEFComplex, IsDenseList] );
 #! @Arguments complex, edgeList
-DeclareOperation( "VertexEdgePathByEdgesNC", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathByEdgesNC", [IsVEFComplex, IsDenseList] );
 #! @EndGroup
 
 
@@ -387,12 +385,15 @@ DeclareAttribute( "EdgesAsPerm", IsVertexEdgePath );
 #! @EndGroup
 
 
+#! @BeginGroup
 #! @Description
-#! Return the polygonal complex for which the given vertex-edge-path is
+#! Return the VEF-complex for which the given vertex-edge-path is
 #! defined.
+#!
+#! @Returns a VEF-complex
 #! @Arguments vertexEdgePath
-#! @Returns a polygonal complex
-DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
+DeclareAttribute( "AssociatedVEFComplex", IsVertexEdgePath );
+#! @EndGroup
 
 
 
@@ -432,7 +433,6 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! * The edges <M>e_j</M> and <M>e_{{j+1}}</M> are different
 #! @EndChunk
 
-#TODO is there a way to tell that a filter is a category?
 #! <ManSection Label="EdgeFacePath">
 #!   <Oper Name="EdgeFacePath" Arg="complex, path" 
 #!      Label="for IsPolygonalComplex and IsDenseList"
@@ -441,7 +441,7 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #!      Label="for IsPolygonalComplex and IsDenseList"
 #!      Comm="Construct an edge-face-path from a polygonal complex and a list"/>
 #!   <Returns>An EdgeFacePath-&GAP;-object</Returns>
-#!   <Filt Name="IsEdgeFacePath" Arg="object" Label="for IsObject"
+#!   <Filt Name="IsEdgeFacePath" Arg="object" Label="for IsObject" Type="category"
 #!      Comm="Check whether a given object is an EdgeFacePath"/>
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>

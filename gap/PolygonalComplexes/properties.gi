@@ -141,7 +141,7 @@ InstallMethod( InnerVertices, "for a polygonal complex",
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         res := [];
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             if edgeFacePaths[v] <> fail and IsClosedPath(edgeFacePaths[v]) then
                 Add(res, v);
             fi;
@@ -152,7 +152,7 @@ InstallMethod( InnerVertices, "for a polygonal complex",
 InstallMethod( InnerVertices, "for a closed polygonal complex",
     [IsPolygonalComplex and IsClosedSurface],
     function(complex)
-        return VerticesAttributeOfPolygonalComplex(complex);
+        return VerticesAttributeOfVEFComplex(complex);
     end
 );
 InstallMethod( IsInnerVertexNC, "for a polygonal complex and a vertex",
@@ -177,7 +177,7 @@ BindGlobal("__SIMPLICIAL_BoundaryVertices_Umbrellas",
 
         edgeFacePaths := UmbrellasOfVertices(complex);
         res := [];
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             if edgeFacePaths[v] <> fail and not IsClosedPath(edgeFacePaths[v]) then
                 Add(res, v);
             fi;
@@ -260,7 +260,7 @@ InstallMethod( RamifiedVertices, "for a polygonal complex",
         edgeFacePaths := UmbrellasOfVertices(complex);
         partitions := UmbrellaPartitionsOfVertices(complex);
         res := [];
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             if edgeFacePaths[v] = fail and partitions[v] <> fail then
                 Add(res, v);
             fi;
@@ -307,7 +307,7 @@ InstallMethod( ChaoticVertices, "for a polygonal complex",
 
         partitions := UmbrellaPartitionsOfVertices(complex);
         res := [];
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             if partitions[v] = fail then
                 Add(res, v);
             fi;

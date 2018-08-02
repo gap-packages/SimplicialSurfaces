@@ -555,7 +555,7 @@ InstallMethod( DisplayInformation, "for an edge coloured polygonal complex",
         Add( strList, [
             Concatenation( "    Vertices (", 
                 String(NumberOfVertices(complex)), "): ", 
-                String(VerticesAttributeOfPolygonalComplex(complex)), "\n" ), 0 ] );
+                String(VerticesAttributeOfVEFComplex(complex)), "\n" ), 0 ] );
 
         # Edges
         if IsWildColouredSurface(colComp) then
@@ -816,10 +816,10 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 
             complex := PolygonalComplex(colComplex);
 
-            maxVert := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            maxVert := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
             maxEdge := Edges(complex)[NumberOfEdges(complex)];
             maxFace := Faces(complex)[NumberOfFaces(complex)];
-            vertices := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
+            vertices := ShallowCopy( VerticesAttributeOfVEFComplex(complex) );
             edges := List( Edges(complex), e -> e + maxVert );
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
             cols := List( Colours(colComplex), c -> c + maxVert + maxEdge + maxFace );
@@ -866,11 +866,11 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
             complex := PolygonalComplex(colComplex);
 
-            maxVertex := VerticesAttributeOfPolygonalComplex(complex)[NumberOfVertices(complex)];
+            maxVertex := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
             maxEdge := Edges(complex)[NumberOfEdges(complex)];
             maxFace := Faces(complex)[NumberOfFaces(complex)];
 
-            vertexList := ShallowCopy( VerticesAttributeOfPolygonalComplex(complex) );
+            vertexList := ShallowCopy( VerticesAttributeOfVEFComplex(complex) );
             edgeList := [];
             colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
 

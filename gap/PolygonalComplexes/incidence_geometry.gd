@@ -144,7 +144,7 @@
 #! @Returns A set of positive integers/a non-negative integer
 DeclareOperation( "Vertices", [IsVEFComplex] );
 #! @Arguments complex
-DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsVEFComplex ); #TODO rename? talk with GRAPE?
+DeclareAttribute( "VerticesAttributeOfVEFComplex", IsVEFComplex ); #TODO rename? talk with GRAPE?
 #! @Arguments complex
 DeclareAttribute( "NumberOfVertices", IsVEFComplex );
 #! @EndGroup
