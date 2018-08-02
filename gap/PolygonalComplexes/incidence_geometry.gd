@@ -866,11 +866,11 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! 
 #! @Arguments complex
 #! @Returns a list of vertex-edge-paths
-DeclareAttribute( "PerimetersOfFaces", IsPolygonalComplex );
+DeclareAttribute( "PerimetersOfFaces", IsVEFComplex );
 #! @Arguments complex, face
-DeclareOperation( "PerimeterOfFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "PerimeterOfFace", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "PerimeterOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 

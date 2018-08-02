@@ -792,20 +792,20 @@ InstallMethod( NeighbourFacesByEdge,
 ##
 ##          Face-induced order of vertices/edges
 ##
-__SIMPLICIAL_AddPolygonalAttribute(PerimetersOfFaces);
+__SIMPLICIAL_AddVEFAttribute(PerimetersOfFaces);
 
 
 # the wrappers
 InstallMethod( PerimeterOfFaceNC, 
-    "for a polygonal complex and a face (positive integer)",
-    [IsPolygonalComplex, IsPosInt],
+    "for a VEF-complex and a face (positive integer)",
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         return PerimetersOfFaces(complex)[face];
     end
 );
 InstallMethod( PerimeterOfFace,
-    "for a polygonal complex and a face (positive integer)",
-    [IsPolygonalComplex, IsPosInt],
+    "for a VEF-complex and a face (positive integer)",
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace(complex, face, "PerimeterOfFace");
         return PerimeterOfFaceNC(complex, face);
@@ -861,12 +861,64 @@ InstallMethod( PerimetersOfFaces, "for a polygonal complex",
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "PerimetersOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
                     "VerticesOfEdges", "EdgesOfVertices"]);
+    #TODO how does scheduler interact with (Bend)PolygonalComplex?
+
+# TODO document ordering
+InstallMethod( PerimetersOfFaces,
+    "for a bend polygonal complex",
+    [IsBendPolygonalComplex],
+    function(bendComplex)
+        local perims, f, vertexInv, edgeInv, localFlags, allCycles,
+            flag, lstAB, PathFromFlags, paths, k;
+
+        perims := [];
+        vertexInv := LocalFlagVertexInvolution(bendComplex);
+        edgeInv := LocalFlagEdgeInvolution(bendComplex);
+        for f in Faces(bendComplex) do
+            localFlags := LocalFlagsOfFaces(bendComplex)[f];
+
+            # Compute all possible flag cycles
+            allCycles := [];
+            for flag in localFlags do
+                lstAB := [flag, flag^vertexInv];
+                for k in [1..Length(localFlags)/2-1] do
+                    lstAB[2*k+1] := lstAB[2*k]^edgeInv;
+                    lstAB[2*k+2] := lstAB[2*k+1]^vertexInv;
+                od;
+
+                Add(allCycles, lstAB);
+            od;
+
+            # Convert the cycles into vertex-edge-paths
+            PathFromFlags := function( lst )
+                local path, k;
+
+                path := [ VerticesOfLocalFlags(bendComplex)[lst[1]], EdgesOfLocalFlags(bendComplex)[lst[1]] ];
+                for k in [2..Length(lst)] do
+                    if IsEvenInt(k) then
+                        Add(path, VerticesOfLocalFlags(bendComplex)[lst[k]]);
+                    else
+                        Add(path, EdgesOfLocalFlags(bendComplex)[lst[k]]);
+                    fi;
+                od;
+
+                return path;
+            end;
+            paths := List(allCycles, PathFromFlags);
+
+            # Pick the minimal path
+            perims[f] := VertexEdgePathNC( bendComplex, Minimum(paths) );
+        od;
+
+        return perims;
+    end
+);
 
 
 # inferences from the vertexEdgePath
 InstallMethod( VerticesOfFaces, 
-    "for a polygonal complex with PerimetersOfFaces",
-    [IsPolygonalComplex and HasPerimetersOfFaces],
+    "for a VEF-complex with PerimetersOfFaces",
+    [IsVEFComplex and HasPerimetersOfFaces],
     function(complex)
         return List( PerimetersOfFaces(complex), p -> Set(VerticesAsList(p)) );
     end
@@ -876,8 +928,8 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 
 InstallMethod( EdgesOfFaces, 
-    "for a polygonal complex with PerimetersOfFaces",
-    [IsPolygonalComplex and HasPerimetersOfFaces],
+    "for a VEF-complex with PerimetersOfFaces",
+    [IsVEFComplex and HasPerimetersOfFaces],
     function(complex)
         return List( PerimetersOfFaces(complex), p -> Set(EdgesAsList(p)) );
     end
@@ -887,8 +939,8 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 
 InstallMethod( Faces,
-    "for a polygonal complex that has PerimetersOfFaces",
-    [IsPolygonalComplex and HasPerimetersOfFaces],
+    "for a VEF-complex that has PerimetersOfFaces",
+    [IsVEFComplex and HasPerimetersOfFaces],
     function(complex)
         return __SIMPLICIAL_BoundPositions( PerimetersOfFaces(complex) );
     end
