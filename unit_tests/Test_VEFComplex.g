@@ -35,5 +35,10 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         Assert(0, OtherEdgeOfVertexInFace(ball, 1,2,1)=fail);
         Assert(0, OtherEdgeOfVertexInFace(ball, 2,2,1)=3);
         Assert(0, OtherEdgesOfVertexInFace(ball, 1,2,1)=[]);
+
+
+        Assert(0, OtherVertexOfEdge(torus, 2,4) = 2);
+        Assert(0, OtherVertexOfEdge(ball, 2,3) = 2);
+        Assert(0, OtherVertexOfEdge(ball, 4,4) = 2);
     end
 );

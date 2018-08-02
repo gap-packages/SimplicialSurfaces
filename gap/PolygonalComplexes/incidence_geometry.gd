@@ -659,11 +659,13 @@ DeclareOperation("OtherEdgesOfVertexInFaceNC",
 #! @BeginGroup OtherVertexOfEdge
 #! @Description
 #! Every edge in a polygonal complex is incident to exactly two vertices.
-#! Given one of them, this method returns the other one.
+#! Given one of them, this method returns the other one. For a bend 
+#! polygonal complex, an edge might only be incident to one vertex. This
+#! method will return the same vertex if it is given.
 #! 
 #! The NC-version does not check whether the given <A>edge</A> is an edge of 
 #! the
-#! polygonal complex and whether the given <A>vertex</A> is incident to it.
+#! VEF-complex and whether the given <A>vertex</A> is incident to it.
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
@@ -682,10 +684,10 @@ DeclareOperation("OtherEdgesOfVertexInFaceNC",
 #!
 #! @Returns a positive integer
 #! @Arguments complex, vertex, edge
-DeclareOperation("OtherVertexOfEdge", [IsPolygonalComplex, IsPosInt, IsPosInt]);
+DeclareOperation("OtherVertexOfEdge", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge
 DeclareOperation("OtherVertexOfEdgeNC", 
-        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
