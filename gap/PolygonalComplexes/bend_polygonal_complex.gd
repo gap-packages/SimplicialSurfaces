@@ -92,18 +92,47 @@ DeclareAttribute( "LocalFlagsOfFaces", IsBendPolygonalComplex );
 
 #! @BeginGroup
 #! @Description
+#! Return the sets of local vertices, local edges, and half-edges.
+#!
+#! @Returns a set of positive integers
+#! @Arguments bendComplex
+DeclareAttribute( "LocalVertices", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "HalfEdges", IsBendPolygonalComplex );
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
 #! Return the set of partitions of the local flags with regard to the
 #! vertex/edge/face-equivalence relation. The local flags are given by
 #! their positions in <K>LocalFlags</K>(<A>bendComplex</A>).
 #!
 #! @Returns A set of sets
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagVertexPartition", IsBendPolygonalComplex);
+DeclareAttribute("LocalFlagsOfLocalVertices", IsBendPolygonalComplex);
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagEdgePartition", IsBendPolygonalComplex);
+DeclareAttribute("LocalFlagsOfLocalEdges", IsBendPolygonalComplex);
 #! @Arguments bendComplex
-DeclareAttribute("LocalFlagFacePartition", IsBendPolygonalComplex);
+DeclareAttribute("LocalFlagsOfHalfEdges", IsBendPolygonalComplex);
 #! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! 
+#!
+#! @Returns A list of positive integers
+#! @Arguments bendComplex
+DeclareAttribute( "LocalVerticesOfLocalFlags", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalEdgesOfLocalFlags", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "HalfEdgesOfLocalFlags", IsBendPolygonalComplex );
+#! @EndGroup
+
 
 
 #! @BeginGroup
@@ -123,6 +152,8 @@ DeclareAttribute("LocalFlagEdgeInvolution", IsBendPolygonalComplex);
 #! @Arguments bendComplex
 DeclareAttribute("LocalFlagFaceInvolution", IsBendPolygonalComplex);
 #! @EndGroup
+
+
 
 
 #! @Description

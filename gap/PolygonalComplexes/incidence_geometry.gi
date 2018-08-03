@@ -708,7 +708,7 @@ InstallMethod( NeighbourFacesByEdgeNC,
         # Which flags are incident to this face-edge-pair?
         possFlags := Intersection( LocalFlagsOfFaces(complex)[face], LocalFlagsOfEdges(complex)[edge] );
 
-        neigh := Filtered( LocalFlagFacePartition(complex), p -> possFlags[1] in p )[1];
+        neigh := Filtered( LocalFlagsOfHalfEdges(complex), p -> possFlags[1] in p )[1];
         neigh := Difference( neigh, [possFlags[1]] );
 
         faces := List(neigh, n -> FacesOfLocalFlags(complex)[n]);

@@ -61,32 +61,6 @@ BindGlobal( "__SIMPLICIAL_PartitionFromEquivalenceNumber",
         return partitionOfNumber;
     end
 );
-
-InstallMethod( LocalFlagsOfVertices, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasVerticesOfLocalFlags],
-    function(bendComplex)
-        return __SIMPLICIAL_PartitionFromEquivalenceNumber( 
-            VerticesOfLocalFlags(bendComplex) );
-    end
-);
-
-InstallMethod( LocalFlagsOfEdges, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasEdgesOfLocalFlags],
-    function(bendComplex)
-        return __SIMPLICIAL_PartitionFromEquivalenceNumber( 
-            EdgesOfLocalFlags(bendComplex) );
-    end
-);
-
-InstallMethod( LocalFlagsOfFaces, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasFacesOfLocalFlags],
-    function(bendComplex)
-        return __SIMPLICIAL_PartitionFromEquivalenceNumber( 
-            FacesOfLocalFlags(bendComplex) );
-    end
-);
-
-
 BindGlobal( "__SIMPLICIAL_EquivalenceNumberFromPartition",
     function( partitionOfNumber )
         local numberOfElements, i, el;
@@ -104,29 +78,105 @@ BindGlobal( "__SIMPLICIAL_EquivalenceNumberFromPartition",
     end
 );
 
-InstallMethod( VerticesOfLocalFlags, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagsOfVertices],
-    function(bendComplex)
-        return __SIMPLICIAL_EquivalenceNumberFromPartition( 
-            LocalFlagsOfVertices(bendComplex) );
+# This makes the incidence relations easier to implement
+# (as they are all symmetrical)
+
+BindGlobal( "__SIMPLICIAL_OneToManyBendIncidenceRelations",
+    function( set_many, set_one, many_of_one, one_of_many )
+        local attr_one, attr_many, attr_oneOfMany, attr_manyOfOne,
+            genString;
+
+        genString := "for a bend polygonal complex with ";
+
+        # Compute the actual attributes
+        attr_one := VALUE_GLOBAL(set_one);
+        attr_many := VALUE_GLOBAL(set_many);
+        attr_oneOfMany := VALUE_GLOBAL(one_of_many);
+        attr_manyOfOne := VALUE_GLOBAL(many_of_one);
+
+        # Add all properties to the attribute scheduler
+        # Exception: set_one (since it would be added several times)
+        __SIMPLICIAL_AddBendPolygonalAttribute( attr_oneOfMany );
+        __SIMPLICIAL_AddBendPolygonalAttribute( attr_manyOfOne );
+
+        # Implement the inversion functions
+        InstallMethod( attr_oneOfMany,
+            Concatenation(genString, many_of_one ),
+            [IsBendPolygonalComplex and Tester( attr_manyOfOne )],
+            function(bendComplex)
+                return __SIMPLICIAL_EquivalenceNumberFromPartition(
+                    attr_manyOfOne(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            one_of_many, many_of_one);
+
+        InstallMethod( attr_manyOfOne,
+            Concatenation(genString, one_of_many ),
+            [IsBendPolygonalComplex and Tester( attr_oneOfMany )],
+            function(bendComplex)
+                return __SIMPLICIAL_PartitionFromEquivalenceNumber(
+                    attr_oneOfMany(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            many_of_one, one_of_many );
+
+        # Implement inferences to set_many and set_one
+        InstallMethod( attr_one,
+            Concatenation(genString, one_of_many),
+            [IsBendPolygonalComplex and Tester( attr_oneOfMany )],
+            function(bendComplex)
+                return Set( attr_oneOfMany(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            set_one, one_of_many);
+
+        InstallMethod( attr_many,
+            Concatenation(genString, many_of_one),
+            [IsBendPolygonalComplex and Tester( attr_manyOfOne )],
+            function(bendComplex)
+                return __SIMPLICIAL_UnionSets( attr_manyOfOne(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            set_many, many_of_one);
+
+        InstallMethod( attr_many,
+            Concatenation(genString, one_of_many),
+            [IsBendPolygonalComplex and Tester( attr_oneOfMany )],
+            function(bendComplex)
+                return __SIMPLICIAL_BoundPositions( attr_oneOfMany(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            set_many, one_of_many);
+
+        InstallMethod( attr_one,
+            Concatenation(genString, many_of_one),
+            [IsBendPolygonalComplex and Tester( attr_manyOfOne )],
+            function(bendComplex)
+                __SIMPLICIAL_BoundPositions( attr_manyOfOne(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            set_one, many_of_one);
     end
 );
 
-InstallMethod( EdgesOfLocalFlags, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagsOfEdges],
-    function(bendComplex)
-        return __SIMPLICIAL_EquivalenceNumberFromPartition( 
-            LocalFlagsOfEdges(bendComplex) );
-    end
-);
+__SIMPLICIAL_AddBendPolygonalAttribute( LocalFlags );
+__SIMPLICIAL_OneToManyBendIncidenceRelations( "LocalFlags", 
+    "VerticesAttributeOfVEFComplex", "LocalFlagsOfVertices", 
+    "VerticesOfLocalFlags" );
+__SIMPLICIAL_OneToManyBendIncidenceRelations( "LocalFlags", 
+    "Edges", "LocalFlagsOfEdges", 
+    "EdgesOfLocalFlags" );
+__SIMPLICIAL_OneToManyBendIncidenceRelations( "LocalFlags", 
+    "Faces", "LocalFlagsOfFaces", 
+    "FacesOfLocalFlags" );
 
-InstallMethod( FacesOfLocalFlags, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagsOfFaces],
-    function(bendComplex)
-        return __SIMPLICIAL_EquivalenceNumberFromPartition( 
-            LocalFlagsOfFaces(bendComplex) );
-    end
-);
+
 
 
 
@@ -134,6 +184,23 @@ InstallMethod( FacesOfLocalFlags, "for a bend polygonal complex",
 ##
 ##  Interaction between local flag partitions and involution
 ##
+
+__SIMPLICIAL_AddBendPolygonalAttribute( LocalVertices );
+__SIMPLICIAL_AddBendPolygonalAttribute( LocalEdges );
+__SIMPLICIAL_AddBendPolygonalAttribute( HalfEdges );
+
+
+__SIMPLICIAL_OneToManyBendIncidenceRelations( "LocalFlags", 
+    "LocalVertices", "LocalFlagsOfLocalVertices", 
+    "LocalVerticesOfLocalFlags" );
+__SIMPLICIAL_OneToManyBendIncidenceRelations( "LocalFlags", 
+    "LocalEdges", "LocalFlagsOfLocalEdges", 
+    "LocalEdgesOfLocalFlags" );
+__SIMPLICIAL_OneToManyBendIncidenceRelations( "LocalFlags", 
+    "HalfEdges", "LocalFlagsOfHalfEdges", 
+    "HalfEdgesOfLocalFlags" );
+
+
 
 BindGlobal("__SIMPLICIAL_InvolutionFromPartition",
     function(partition)
@@ -152,53 +219,27 @@ BindGlobal("__SIMPLICIAL_InvolutionFromPartition",
 );
 
 InstallMethod( LocalFlagVertexInvolution, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagVertexPartition],
+    [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_InvolutionFromPartition(
-            LocalFlagVertexPartition(bendComplex) );
+            LocalFlagsOfLocalVertices(bendComplex) );
     end
 );
 InstallMethod( LocalFlagEdgeInvolution, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagEdgePartition],
+    [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_InvolutionFromPartition(
-            LocalFlagEdgePartition(bendComplex) );
+            LocalFlagsOfLocalEdges(bendComplex) );
     end
 );
 InstallMethod( LocalFlagFaceInvolution, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagFacePartition],
+    [IsBendPolygonalComplex],
     function(bendComplex)
         return __SIMPLICIAL_InvolutionFromPartition(
-            LocalFlagFacePartition(bendComplex) );
+            LocalFlagsOfHalfEdges(bendComplex) );
     end
 );
 
-
-InstallMethod( LocalFlagVertexPartition, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagVertexInvolution],
-    function(bendComplex)
-        return Cycles( LocalFlagVertexInvolution(bendComplex),
-            LocalFlags(bendComplex));
-    end
-);
-InstallMethod( LocalFlagEdgePartition, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagEdgeInvolution],
-    function(bendComplex)
-        return Cycles( LocalFlagEdgeInvolution(bendComplex),
-            LocalFlags(bendComplex));
-    end
-);
-InstallMethod( LocalFlagFacePartition, "for a bend polygonal complex",
-    [IsBendPolygonalComplex and HasLocalFlagFaceInvolution],
-    function(bendComplex)
-        if LocalFlagFaceInvolution(bendComplex) = fail then
-            TryNextMethod();
-        else
-            return Cycles( LocalFlagFaceInvolution(bendComplex),
-                LocalFlags(bendComplex));
-        fi;
-    end
-);
 
 
 #TODO compute incidence information from flags in attribute scheduler
@@ -284,12 +325,14 @@ InstallMethod( BendPolygonalComplexBySignedFacePerimeters,
         complex := Objectify(BendPolygonalComplexType, rec());
         SetVerticesOfEdges(complex, vertexOfEdge);
         SetEdgesOfFaces(complex, edgeOfFace);
+        
         SetVerticesOfLocalFlags(complex, vertexMap);
         SetEdgesOfLocalFlags(complex, edgeMap);
         SetFacesOfLocalFlags(complex, faceMap);
-        SetLocalFlagVertexPartition(complex, vertexPart);
-        SetLocalFlagEdgePartition(complex, edgePart);
-        SetLocalFlagFacePartition(complex, facePart);
+        
+        SetLocalFlagsOfLocalVertices(complex, vertexPart);
+        SetLocalFlagsOfLocalEdges(complex, edgePart);
+        SetLocalFlagsOfHalfEdges(complex, facePart);
         return complex;
     end
 );
