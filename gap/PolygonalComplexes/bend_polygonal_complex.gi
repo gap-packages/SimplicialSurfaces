@@ -201,6 +201,98 @@ __SIMPLICIAL_OneToManyBendIncidenceRelations( "LocalFlags",
     "HalfEdgesOfLocalFlags" );
 
 
+BindGlobal( "__SIMPLICIAL_ManyToManyBendIncidenceRelations",
+    function( set_A, set_B, A_of_B, B_of_A )
+        local attr_A, attr_B, attr_AofB, attr_BofA,
+            genString;
+
+        genString := "for a bend polygonal complex with ";
+
+        # Compute the actual attributes
+        attr_A := VALUE_GLOBAL(set_A);
+        attr_B := VALUE_GLOBAL(set_B);
+        attr_AofB := VALUE_GLOBAL(A_of_B);
+        attr_BofA := VALUE_GLOBAL(B_of_A);
+
+        # Add all properties to the attribute scheduler
+        # Exception: set_one (since it would be added several times)
+        __SIMPLICIAL_AddBendPolygonalAttribute( attr_AofB );
+        __SIMPLICIAL_AddBendPolygonalAttribute( attr_BofA );
+
+        # Implement the inversion functions
+        InstallMethod( attr_AofB,
+            Concatenation(genString, B_of_A ),
+            [IsBendPolygonalComplex and Tester( attr_BofA )],
+            function(bendComplex)
+                return __SIMPLICIAL_InvertIncidence(
+                    attr_B(bendComplex), attr_BofA(bendComplex), attr_A(bendComplex));
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            A_of_B, B_of_A);
+
+        InstallMethod( attr_BofA,
+            Concatenation(genString, A_of_B ),
+            [IsBendPolygonalComplex and Tester( attr_AofB )],
+            function(bendComplex)
+                return __SIMPLICIAL_InvertIncidence(
+                    attr_A(bendComplex), attr_AofB(bendComplex), attr_B(bendComplex));
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            B_of_A, A_of_B);
+
+        # Implement inferences to set_many and set_one
+        InstallMethod( attr_A,
+            Concatenation(genString,A_of_B),
+            [IsBendPolygonalComplex and Tester( attr_AofB )],
+            function(bendComplex)
+                return __SIMPLICIAL_UnionSets( attr_AofB(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            set_A, A_of_B);
+        InstallMethod( attr_B,
+            Concatenation(genString,B_of_A),
+            [IsBendPolygonalComplex and Tester( attr_BofA )],
+            function(bendComplex)
+                return __SIMPLICIAL_UnionSets( attr_BofA(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            set_B, B_of_A);
+
+        InstallMethod( attr_A,
+            Concatenation(genString, B_of_A),
+            [IsBendPolygonalComplex and Tester( attr_BofA )],
+            function(bendComplex)
+                return __SIMPLICIAL_BoundPositions( attr_BofA(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            set_A, B_of_A);
+        InstallMethod( attr_B,
+            Concatenation(genString, A_of_B),
+            [IsBendPolygonalComplex and Tester( attr_AofB )],
+            function(bendComplex)
+                return __SIMPLICIAL_BoundPositions( attr_AofB(bendComplex) );
+            end
+        );
+        AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+            set_B, A_of_B);
+    end
+);
+
+__SIMPLICIAL_ManyToManyBendIncidenceRelations(
+    "LocalVertices", "Faces", "LocalVerticesOfFaces", "FacesOfLocalVertices");
+__SIMPLICIAL_ManyToManyBendIncidenceRelations(
+    "LocalEdges", "Faces", "LocalEdgesOfFaces", "FacesOfLocalEdges");
+__SIMPLICIAL_ManyToManyBendIncidenceRelations(
+    "HalfEdges", "Faces", "HalfEdgesOfFaces", "FacesOfHalfEdges");
+__SIMPLICIAL_ManyToManyBendIncidenceRelations(
+    "Edges", "LocalEdges", "EdgesOfLocalEdges", "LocalEdgesOfEdges");
+
+
 
 BindGlobal("__SIMPLICIAL_InvolutionFromPartition",
     function(partition)

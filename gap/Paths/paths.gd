@@ -433,6 +433,7 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #!   positions in the perimeter of the face <M>f_j</M>.
 #! @EndChunk
 
+#TODO include necessity of giving edge-face-path-elements for some bend polygonal complexes
 #! <ManSection Label="EdgeFacePath">
 #!   <Oper Name="EdgeFacePath" Arg="complex, path" 
 #!      Label="for IsVEFComplex and IsDenseList"
@@ -487,7 +488,9 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 # No AutoDoc-documentation since the order of the next two entries should
 # be switched
 DeclareOperation( "EdgeFacePath", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "EdgeFacePath", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
 DeclareOperation( "EdgeFacePathNC", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "EdgeFacePathNC", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
 
 
 #! @BeginGroup EdgeFace_PathAsList
@@ -544,6 +547,18 @@ DeclareAttribute( "EdgesAsList", IsEdgeFacePath );
 #! @Returns a list of positive integers
 DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #! @EndGroup
+
+
+#! @Description
+#! For each face, this gives an element [face,[local edge in, local edge out]]
+#! 
+#! TODO
+#!
+#! Only valid for bend polygonal complexes, otherwise will return <K>fail</K>
+#!
+#! @Returns a list or fail
+#! @Arguments edgeFacePath
+DeclareAttribute( "EdgeFacePathElements", IsEdgeFacePath );
 
 
 #! <ManSection Label="EdgeFace_IsClosedPath">

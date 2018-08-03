@@ -122,7 +122,7 @@ DeclareAttribute("LocalFlagsOfHalfEdges", IsBendPolygonalComplex);
 
 #! @BeginGroup
 #! @Description
-#! 
+#! TODO
 #!
 #! @Returns A list of positive integers
 #! @Arguments bendComplex
@@ -133,6 +133,30 @@ DeclareAttribute( "LocalEdgesOfLocalFlags", IsBendPolygonalComplex );
 DeclareAttribute( "HalfEdgesOfLocalFlags", IsBendPolygonalComplex );
 #! @EndGroup
 
+
+#! @BeginGroup
+#! @Description
+#!
+#! TODO
+#!
+#! @Returns 
+#! @Arguments bendComplex
+DeclareAttribute( "LocalVerticesOfFaces", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalEdgesOfFaces", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "HalfEdgesOfFaces", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "FacesOfLocalVertices", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "FacesOfLocalEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "FacesOfHalfEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "EdgesOfLocalEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalEdgesOfEdges", IsBendPolygonalComplex );
+#! @EndGroup
 
 
 #! @BeginGroup

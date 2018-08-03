@@ -332,7 +332,7 @@ DeclareRepresentation("EdgeFacePathRep", IsEdgeFacePath and IsAttributeStoringRe
 BindGlobal("EdgeFacePathType", NewType(EdgeFacePathFamily, EdgeFacePathRep));
 
 
-InstallMethod( EdgeFacePathNC, "for a VEF-complex and a list",
+InstallMethod( EdgeFacePathNC, "for a VEF-complex and a dense list",
     [IsVEFComplex, IsDenseList],
     function(complex, path)
         local obj;
@@ -340,13 +340,58 @@ InstallMethod( EdgeFacePathNC, "for a VEF-complex and a list",
         obj := Objectify( EdgeFacePathType, rec() );
         SetPath(obj, path);
         SetAssociatedVEFComplex(obj, complex);
+        # for bend polygonal complexes this relies on the fact
+        # that the edge-face-path-elements can be computed
 
         return obj;
     end
 );
 RedispatchOnCondition( EdgeFacePathNC, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
-InstallMethod( EdgeFacePath, "for a VEF-complex and a list",
-    [IsVEFComplex, IsDenseList],
+InstallMethod( EdgeFacePathNC, "for a bend polygonal complex and two dense lists",
+    [IsBendPolygonalComplex, IsDenseList, IsDenseList],
+    function(complex, path, elements)
+        local obj;
+
+        obj := Objectify( EdgeFacePathType, rec() );
+        SetPath(obj, path);
+        SetAssociatedVEFComplex(obj, complex);
+        SetEdgeFacePathElements(obj, elements);
+
+        return obj;
+    end
+);
+RedispatchOnCondition( EdgeFacePathNC, true, [IsBendPolygonalComplex,IsList,IsList],[,IsDenseList,IsDenseList],0 );
+
+BindGlobal( "__SIMPLICIAL_EdgeFacePath_EdgeCheck",
+    function(position, element, edges)
+        if not element in edges then
+            Error( Concatenation( "EdgeFacePath: The number ",
+                String(element), " (position ", String(position),  
+                ") is not an edge of the given complex.") );
+        fi;
+    end
+);
+BindGlobal( "__SIMPLICIAL_EdgeFacePath_FaceCheck",
+    function(position, element, faces)
+        if not element in faces then
+            Error( Concatenation( "EdgeFacePath: The number ",
+                String(element), " (position ", String(position),  
+                ") is not a face of the given complex.") );
+        fi;
+    end
+);
+BindGlobal( "__SIMPLICIAL_EdgeFacePath_IncidenceCheck",
+    function(posE, edge, posF, face, complex)
+        if not edge in EdgesOfFaces(complex)[face] then
+            Error( Concatenation( "EdgeFacePath: The edge ", 
+                String(edge), " (position ", String(posE), 
+                ") is not incident to the face ", String(face), 
+                " (position ", String(posF), ") in the given complex." ) );
+        fi;
+    end
+);
+InstallMethod( EdgeFacePath, "for a polygonal complex and a dense list",
+    [IsPolygonalComplex, IsDenseList],
     function(complex, path)
         local i;
 
@@ -359,46 +404,170 @@ InstallMethod( EdgeFacePath, "for a VEF-complex and a list",
 
         for i in [1..Length(path)] do
             if IsOddInt(i) then
-                if not path[i] in Edges(complex) then
-                    Error( Concatenation( "EdgeFacePath: The number ",
-                        String(path[i]), " (position ", String(i),  
-                        ") is not an edge of the given complex.") );
-                fi;
+                __SIMPLICIAL_EdgeFacePath_EdgeCheck(i, path[i], Edges(complex));
             else
-                if not path[i] in Faces(complex) then
-                    Error( Concatenation( "EdgeFacePath: The number ", 
-                        String(path[i]), " (position ", String(i), 
-                        ") is not a face of the given complex." ) );
-                fi;
-                if not path[i-1] in EdgesOfFaces(complex)[path[i]] then
-                    Error( Concatenation( "EdgeFacePath: The edge ", 
-                        String(path[i-1]), " (position ", String(i-1), 
-                        ") is not incident to the face ", String(path[i]), 
-                        " (position ", String(i), ") in the given complex." ) );
-                fi;
+                __SIMPLICIAL_EdgeFacePath_FaceCheck(i, path[i], Faces(complex));
+                __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i-1, path[i-1], i, path[i], complex);
 
                 if path[i-1] = path[i+1] then
-                    # Check if this is possible
-                    if IsPolygonalComplex(complex) or Length( Positions( EdgesOfLocalFlags{LocalFlagsOfFaces(complex)[path[i]]}, path[i-1] ) ) <= 1 then
-                        Error( Concatenation(
-                            "EdgeFacePath: These two adjacent edges can't be equal (positions ", 
-                            String(i-1), " and ", String(i+1), ")." ) );
-                    fi;
-                else
-                    if not path[i+1] in EdgesOfFaces(complex)[path[i]] then
-                        Error( Concatenation( "EdgeFacePath: The edge ", 
-                            String(path[i+1]), " (position ", String(i+1), 
-                            ") is not incident to the face ", String(path[i]), 
-                            " (position ", String(i), ") in the given complex." ) );
-                    fi;
+                    Error( Concatenation( 
+                        "EdgeFacePath: The two adjacent edges at positions ", 
+                        String(i-1), " and ", String(i), 
+                        " must not be equal." ) );
                 fi;
+
+                __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i+1, path[i+1], i, path[i], complex);
             fi;
         od;
 
         return EdgeFacePathNC(complex, path);
     end
 );
+BindGlobal( "__SIMPLICIAL_EdgeFacePath_FindLocalEdge",
+    function( path, posE, posF, complex )
+        local face, edge, locEdge, found, res, loc;
+
+        edge := path[posE];
+        face := path[posF];
+        locEdge := LocalEdgesOfFaces(complex)[face];
+        found := false;
+        res := 0;
+        for loc in locEdge do
+            if EdgesOfLocalEdges(complex)[loc] = edge then
+                # We found a match
+                if found then
+                    # This is the second match
+                    Error(Concatenation(
+                        "EdgeFacePath: There are several different local edges for the edge ", 
+                        String(edge), " (position ", String(posE), 
+                        ") of the face ", String(face), "(position ", 
+                        String(posF), ")."));
+                else
+                    found := true;
+                    res := loc;
+                fi;
+            fi;
+        od;
+
+        if not found then
+            # We found no match
+            Error(Concatenation(
+                "EdgeFacePath: There is no local edge for the edge ", 
+                String(edge), " (position ", String(posE), ") of the face ",
+                String(face), "(position ", String(posF), ")."));
+        fi;
+
+        return res;
+    end
+);
+InstallMethod( EdgeFacePath, "for a bend polygonal complex and a dense list",
+    [IsBendPolygonalComplex, IsDenseList],
+    function(complex, path)
+        local i, elements;
+
+        if not ForAll(path, IsPosInt) then
+            Error("EdgeFacePath: All entries of the path have to be positive integers.");
+        fi;
+        if IsEvenInt(Length(path)) then
+            Error("EdgeFacePath: The given list has to have odd length.");
+        fi;
+
+        elements := [];
+        for i in [1..Length(path)] do
+            if IsOddInt(i) then
+                __SIMPLICIAL_EdgeFacePath_EdgeCheck(i, path[i], Edges(complex));
+            else
+                __SIMPLICIAL_EdgeFacePath_FaceCheck(i, path[i], Faces(complex));
+                __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i-1, path[i-1], i, path[i], complex);
+                if path[i-1] <> path[i] then
+                    __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i+1, path[i+1], i, path[i], complex);
+                fi;
+
+                # We also have to compute the edge-face-path-elements
+                Add(elements, [path[i], 
+                    [ __SIMPLICIAL_EdgeFacePath_FindLocalEdge(path, i-1,i, complex),
+                        __SIMPLICIAL_EdgeFacePath_FindLocalEdge(path,i+1,i,complex)]]);
+
+            fi;
+        od;
+
+        return EdgeFacePathNC(complex, path, elements);
+    end
+);
 RedispatchOnCondition( EdgeFacePath, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
+
+InstallMethod( EdgeFacePath, "for a bend polygonal complex and two dense lists",
+    [IsBendPolygonalComplex, IsDenseList, IsDenseList],
+    function(complex, path, elements)
+        local i;
+
+        if not ForAll(path, IsPosInt) then
+            Error("EdgeFacePath: All entries of the path have to be positive integers.");
+        fi;
+        if IsEvenInt(Length(path)) then
+            Error("EdgeFacePath: The given list has to have odd length.");
+        fi;
+        if Length(path) <> Length(elements) then
+            Error("EdgeFacePath: The two given lists have to have the same length.");
+        fi;
+
+        for i in [1..Length(path)] do
+            if IsOddInt(i) then
+                __SIMPLICIAL_EdgeFacePath_EdgeCheck(i, path[i], Edges(complex));
+            else
+                __SIMPLICIAL_EdgeFacePath_FaceCheck(i, path[i], Faces(complex));
+                __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i-1, path[i-1], i, path[i], complex);
+                if path[i-1] <> path[i] then
+                    __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i+1, path[i+1], i, path[i], complex);
+                fi;
+
+                #TODO check consistency
+                # TODO allow to define a path only by the elements
+
+            fi;
+        od;
+
+        return EdgeFacePathNC(complex, path, elements);
+    end
+);
+RedispatchOnCondition( EdgeFacePath, true, [IsBendPolygonalComplex,IsList,IsList],[,IsDenseList,IsDenseList],0 );
+
+
+
+InstallMethod( EdgeFacePathElements, "for an edge-face-path", [IsEdgeFacePath],
+    function(path)
+        local complex, pathAsList, k, res, edge_in, edge_out, flags, inv,
+            orbs, first, second, orb;
+
+        complex := AssociatedVEFComplex(path);
+        if IsPolygonalComplex(complex) then
+            return fail;
+        fi;
+
+        res := [];
+        # go through all faces in order
+        pathAsList := PathAsList(path);
+        for k in [2,4..Length(pathAsList)-1] do
+            edge_in := pathAsList[k-1];
+            edge_out := pathAsList[k+1];
+
+            #TODO very inefficient. What is necessary to improve? LocalEdgesOfFaces?
+            flags := LocalFlagsOfFaces(complex)[pathAsList[k]];
+            inv := LocalFlagEdgeInvolution(complex);
+            orbs := Orbits(inv, flags);
+            for orb in orbs do
+                if EdgesOfLocalFlags(complex)[orb[1]] = edge_in then
+                    first := LocalEdgesOfLocalFlags(complex)[orb[1]];
+                fi;
+                if EdgesOfLocalFlags(complex)[orb[1]] = edge_out then
+                    second := LocalEdgesOfLocalFlags(complex)[orb[1]];
+                fi;
+            od;
+            Add(res, [pathAsList[k],[first,second]]);
+        od;
+        return res;
+    end
+);
 
 
 InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
