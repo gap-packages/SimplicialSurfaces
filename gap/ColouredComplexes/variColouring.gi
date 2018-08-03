@@ -166,7 +166,7 @@ InstallMethod( ColouredUmbrellasOfVertices,
         for v in VerticesAttributeOfVEFComplex(complex) do
             colUmb := Objectify( EdgeColouredEdgeFacePathType, rec() );
             SetPath( colUmb, Path(umb[v]) );
-            SetAssociatedPolygonalComplex( colUmb, complex);
+            SetAssociatedVEFComplex( colUmb, complex);
             SetAssociatedEdgeColouredPolygonalComplex(colUmb, wildSurf);
             colUmbs[v] := colUmb;
         od;

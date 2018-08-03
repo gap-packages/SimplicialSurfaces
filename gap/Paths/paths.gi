@@ -583,7 +583,7 @@ BindGlobal( "__SIMPLICIAL_ZigZagPath",
 );
 InstallMethod( IsGeodesic, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
-        __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(path), path );
+        __SIMPLICIAL_ZigZagPath( AssociatedVEFComplex(path), path );
         return IsGeodesic(path);
     end
 );
@@ -591,7 +591,7 @@ InstallMethod( IsGeodesic, "for an edge-face-path", [IsEdgeFacePath],
 InstallMethod( VertexEdgePath, "for a geodesic", 
     [IsEdgeFacePath and IsGeodesic],
     function(geo)
-        __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(geo), geo );
+        __SIMPLICIAL_ZigZagPath( AssociatedVEFComplex(geo), geo );
         return VertexEdgePath(geo);
     end
 );
@@ -754,10 +754,10 @@ InstallMethod( GeodesicFlagCycle, "for a closed geodesic",
             vertex := Path(vePath)[i];
             edge := Path(closedGeo)[i];
             face := Path(closedGeo)[i+1];
-            Add(flagPath, Position(Flags(AssociatedPolygonalComplex(closedGeo)), [vertex,edge,face]));
+            Add(flagPath, Position(Flags(AssociatedVEFComplex(closedGeo)), [vertex,edge,face]));
         od;
 
-        flagPerm := [1..Length(Flags(AssociatedPolygonalComplex(closedGeo)))];
+        flagPerm := [1..Length(Flags(AssociatedVEFComplex(closedGeo)))];
         for i in [1..Length(flagPath)-1] do
             flagPerm[flagPath[i]] := flagPath[i+1];
         od;

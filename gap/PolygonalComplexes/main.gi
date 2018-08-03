@@ -18,14 +18,38 @@ BindGlobal( "__SIMPLICIAL_MANUAL_MODE", false );
 MakeReadWriteGlobal( "__SIMPLICIAL_MANUAL_MODE" );
 
 
-BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute", 
-    function( attr )
-        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsPolygonalComplex, "for a polygonal complex" );
-    end
-);
+# Methods to add attributes into the attribute scheduler
 BindGlobal( "__SIMPLICIAL_AddVEFAttribute", 
     function( attr )
         AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsVEFComplex, "for a VEF-complex" );
+    end
+);
+BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute", 
+    function( attr )
+        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsPolygonalComplex, "for a polygonal complex" );
+
+        # Add a method that gives an error if executed for bend polygonal complexes
+        InstallOtherMethod( attr, "for a bend polygonal complex",
+            [IsBendPolygonalComplex],
+            function(bendComplex)
+                Error( Concatenation( "The attribute ", String(attr), 
+                    " can only be computed for polygonal complexes." ) );
+            end
+        );
+    end
+);
+BindGlobal( "__SIMPLICIAL_AddBendPolygonalAttribute", 
+    function( attr )
+        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsBendPolygonalComplex, "for a bend polygonal complex" );
+
+        # Add a method that gives an error if executed for polygonal complexes
+        InstallOtherMethod( attr, "for a polygonal complex",
+            [IsPolygonalComplex],
+            function(complex)
+                Error( Concatenation( "The attribute ", String(attr), 
+                    " can only be computed for bend polygonal complexes." ) );
+            end
+        );
     end
 );
 
