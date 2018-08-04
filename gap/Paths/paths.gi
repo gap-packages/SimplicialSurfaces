@@ -496,10 +496,11 @@ InstallMethod( EdgeFacePath, "for a bend polygonal complex and a dense list",
 );
 RedispatchOnCondition( EdgeFacePath, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
 
+                # TODO allow to define a path only by the elements
 InstallMethod( EdgeFacePath, "for a bend polygonal complex and two dense lists",
     [IsBendPolygonalComplex, IsDenseList, IsDenseList],
     function(complex, path, elements)
-        local i;
+        local i, el;
 
         if not ForAll(path, IsPosInt) then
             Error("EdgeFacePath: All entries of the path have to be positive integers.");
@@ -507,8 +508,8 @@ InstallMethod( EdgeFacePath, "for a bend polygonal complex and two dense lists",
         if IsEvenInt(Length(path)) then
             Error("EdgeFacePath: The given list has to have odd length.");
         fi;
-        if Length(path) <> Length(elements) then
-            Error("EdgeFacePath: The two given lists have to have the same length.");
+        if [2,4..Length(path)] <> Length(elements) then
+            Error("EdgeFacePath: The seoncd list must have as many elements as there a faces in the first list.");
         fi;
 
         for i in [1..Length(path)] do
@@ -521,9 +522,36 @@ InstallMethod( EdgeFacePath, "for a bend polygonal complex and two dense lists",
                     __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i+1, path[i+1], i, path[i], complex);
                 fi;
 
-                #TODO check consistency
-                # TODO allow to define a path only by the elements
-
+                el := elements[i/2];
+                if not IsList(el) or Length(el)<>2 or not IsPosInt(el[1]) or 
+                    not IsList(el[2]) or Length(el[2]) <> 2 or 
+                    not IsPosInt(el[2][1]) or not IsPosInt(el[2][2]) then
+                        Error(Concatenation(
+                            "EdgeFacePath: the edge-face-path-element at position ", 
+                            String(i/2), 
+                            " must have the form [face, [local edge, local edge]]."));
+                fi;
+                if path[i] <> el[1] then
+                    Error(Concatenation(
+                        "EdgeFacePath: The face of the edge-face-path element ", 
+                        String(el), " (position ", String(i/2), 
+                        ") is not equal to the face ", String(path[i]), 
+                        " (position ", String(i), ")."));
+                fi;
+                if el[2][1] = el[2][2] then
+                    Error(Concatenation(
+                        "EdgeFacePath: The local edges of the edge-face-path element ",
+                        String(el), " (position ", String(i/2), 
+                        ") have to be different."));
+                fi;
+                if not IsSubset(LocalEdgesOfFaces(complex)[path[i]], el[2]) then
+                    Error(Concatenation(
+                        "EdgeFacePath: The local edges of the edge-face-path element ",
+                        String(el), " (position ", String(i/2), 
+                        ") are not the local edges of the face ", 
+                        String(path[i]), " (these would be ", 
+                        String(LocalEdgesOfFaces(complex)[path[i]]), ")."));
+                fi;
             fi;
         od;
 
