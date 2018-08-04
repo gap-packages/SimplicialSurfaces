@@ -700,8 +700,20 @@ InstallMethod( FacesAsList, "for an edge-face-path", [IsEdgeFacePath],
 
 InstallMethod( Inverse, "for a edge-face-path", [IsEdgeFacePath],
     function(path)
-        return EdgeFacePathNC( AssociatedVEFComplex(path),
-            Reversed(Path(path)));
+        local Rev, complex, rev, i;
+
+        complex := AssociatedVEFComplex(path);
+        if IsPolygonalComplex(complex) then
+            return EdgeFacePathNC( complex, Reversed(Path(path)));
+        elif IsBendPolygonalComplex(complex) then
+            rev := Reversed( EdgeFacePathElements(path) );
+            for i in [1..Length(rev)] do
+                rev[i][2] := [ rev[i][2][2], rev[i][2][1] ];
+            od;
+            return EdgeFacePathNC( complex, Reversed(Path(path)), rev );
+        fi;
+
+        Error("Inverse: This is not implemented if the associated VEF-complex is neither a polygonal nor a bend polygonal complex.");
     end
 );
 
