@@ -734,7 +734,8 @@ InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
 
 InstallMethod( IsUmbrella, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
-        local commonFaceVertex, commonEdgeVertex, commonVertex, complex;
+        local commonFaceVertex, commonEdgeVertex, commonVertex, complex,
+            vertex, el, flags1, flags2, vert1, vert2, int, vFlags, v;
 
         complex := AssociatedVEFComplex(path);
 
@@ -744,7 +745,27 @@ InstallMethod( IsUmbrella, "for an edge-face-path", [IsEdgeFacePath],
             commonVertex := Intersection( commonEdgeVertex, commonFaceVertex );
             return Length(commonVertex) <> 0;
         elif IsBendPolygonalComplex(complex) then
-            #TODO
+            vertex := -1;
+            for el in EdgeFacePathElements(path) do
+                flags1 := LocalFlagsOfLocalEdges(complex)[el[2][1]];
+                flags2 := LocalFlagsOfLocalEdges(complex)[el[2][2]];
+                vert1 := LocalVerticesOfLocalFlags(complex){flags1};
+                vert2 := LocalVerticesOfLocalFlags(complex){flags2};
+                int := Intersection(vert1, vert2);
+                if int = [] then
+                    return false;
+                elif Length(int) >= 2 then
+                    Error("IsUmbrella: Internal error.");
+                fi;
+                vFlags := LocalFlagsOfLocalVertices(complex)[int[1]];
+                v := VerticesOfLocalFlags(complex)[vFlags[1]];
+                if vertex = -1 then
+                    vertex := v;
+                elif vertex <> v then
+                    return false;
+                fi;
+            od;
+            return true;
         else
             Error("IsUmbrella: Internal error, this case is not implemented yet.");
         fi;
