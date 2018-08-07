@@ -32,7 +32,7 @@ BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute",
         InstallOtherMethod( attr, "for a bend polygonal complex",
             [IsBendPolygonalComplex],
             function(bendComplex)
-                Error( Concatenation( "The attribute ", String(attr), 
+                Error( Concatenation( "The attribute ", NameFunction(attr), 
                     " can only be computed for polygonal complexes." ) );
             end
         );
@@ -46,7 +46,7 @@ BindGlobal( "__SIMPLICIAL_AddBendPolygonalAttribute",
         InstallOtherMethod( attr, "for a polygonal complex",
             [IsPolygonalComplex],
             function(complex)
-                Error( Concatenation( "The attribute ", String(attr), 
+                Error( Concatenation( "The attribute ", NameFunction(attr), 
                     " can only be computed for bend polygonal complexes." ) );
             end
         );

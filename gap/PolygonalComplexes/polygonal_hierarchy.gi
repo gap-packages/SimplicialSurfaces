@@ -98,7 +98,7 @@ InstallMethod( IsTriangularComplex, "for a polygonal complex that has EdgesOfFac
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsTriangularComplex",
-    "EdgesOfFaces");
+    "EdgesOfFaces", ["IsPolygonalComplex"]);
 
 
 ##
@@ -120,7 +120,7 @@ InstallMethod( IsRamifiedPolygonalSurface,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "IsRamifiedPolygonalSurface", ["Edges", "FacesOfEdges"] );
+    "IsRamifiedPolygonalSurface", ["Edges", "FacesOfEdges"], ["IsPolygonalComplex"] );
 
 
 ##
@@ -143,7 +143,7 @@ InstallMethod( IsPolygonalSurface,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsPolygonalSurface",
-    ["IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices", "VerticesAttributeOfVEFComplex"] );
+    ["IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices", "VerticesAttributeOfVEFComplex"], ["IsPolygonalComplex"] );
 InstallImmediateMethod( IsPolygonalSurface,
     "for a polygonal complex that is no ramified polygonal surface",
     IsPolygonalComplex and HasIsRamifiedPolygonalSurface, 0,

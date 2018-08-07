@@ -876,7 +876,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup",
             Append( invOfEdges, List(cyc, c -> invList[p]) );
         od;
 
-        edgesOfFaces := __SIMPLICIAL_InvertIncidence(faces, facesOfEdges, [1..Length(facesOfEdges)]);
+        edgesOfFaces := __SIMPLICIAL_InvertIncidence_ManyOfMany(faces, facesOfEdges, [1..Length(facesOfEdges)]);
         vertexNames := Concatenation( List( faces, f -> 
             List( Combinations(edgesOfFaces[f],2), c -> [f,c[1],c[2]] ) ) );
 

@@ -152,10 +152,45 @@ DeclareAttribute( "FacesOfLocalVertices", IsBendPolygonalComplex );
 DeclareAttribute( "FacesOfLocalEdges", IsBendPolygonalComplex );
 #! @Arguments bendComplex
 DeclareAttribute( "FacesOfHalfEdges", IsBendPolygonalComplex );
+
+#! @Arguments bendComplex
+DeclareAttribute( "VerticesOfLocalEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalEdgesOfVertices", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "VerticesOfLocalVertices", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalVerticesOfVertices", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "VerticesOfHalfEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "HalfEdgesOfVertices", IsBendPolygonalComplex );
+
 #! @Arguments bendComplex
 DeclareAttribute( "EdgesOfLocalEdges", IsBendPolygonalComplex );
 #! @Arguments bendComplex
 DeclareAttribute( "LocalEdgesOfEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "EdgesOfHalfEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "HalfEdgesOfEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "EdgesOfLocalVertices", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalVerticesOfEdges", IsBendPolygonalComplex );
+
+#! @Arguments bendComplex
+DeclareAttribute( "LocalVerticesOfHalfEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "HalfEdgesOfLocalVertices", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalEdgesOfHalfEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "HalfEdgesOfLocalEdges", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalEdgesOfLocalVertices", IsBendPolygonalComplex );
+#! @Arguments bendComplex
+DeclareAttribute( "LocalVerticesOfLocalEdges", IsBendPolygonalComplex );
 #! @EndGroup
 
 
