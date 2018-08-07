@@ -78,7 +78,6 @@ InstallMethod( LocalFlagFaceInvolution, "for a bend polygonal complex",
 
 
 
-#TODO compute incidence information from flags in attribute scheduler
 InstallMethod( BendPolygonalComplexBySignedFacePerimeters,
     "for a list of signed face perimeters", [IsList],
     function(signedFacePerimeter)
@@ -88,14 +87,14 @@ InstallMethod( BendPolygonalComplexBySignedFacePerimeters,
 
         currLength := 0;
 
-        vertexMap := [];
-        edgeMap := [];
+        vertexMap := []; # VerticesOfLocalFlags
+        edgeMap := [];  # EdgesOfLocalFlags
         edgeSignMap := [];
-        faceMap := [];
+        faceMap := [];  # FacesOfLocalFlags
 
-        vertexPart := [];
-        edgePart := [];
-        facePart := [];
+        vertexPart := []; # LocalFlagsOfLocalVertices
+        edgePart := []; # LocalFlagsOfLocalEdges
+        facePart := []; # LocalFlagsOfHalfEdges
 
         edgeOfFace := [];
         vertexOfEdge := [];

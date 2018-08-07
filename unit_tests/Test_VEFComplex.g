@@ -8,6 +8,7 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         torus_ef := [[1,2,4],,[1,2,4]];
         torus := BendPolygonalComplexBySignedFacePerimeters(
             [[2,1,2,4,2,2],,[2,-2,2,-1,2,-4]]);
+        __SIMPLICIAL_BendPolygonalComplex_SufficientInformation(torus);
         Assert(0, VerticesOfEdges(torus)=torus_ve);
         Assert(0, EdgesOfFaces(torus)=torus_ef);
         Assert(0, VerticesOfFaces(torus)=torus_vf);
@@ -17,6 +18,7 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         ball_ef := [[2,3],,[3,4]];
         ball := BendPolygonalComplexBySignedFacePerimeters(
             [[2,3,2,2,1,-2],,[2,3,2,4,4,-4]] );
+        __SIMPLICIAL_BendPolygonalComplex_SufficientInformation(ball);
         Assert(0, VerticesOfEdges(ball)=ball_ve);
         Assert(0, EdgesOfFaces(ball)=ball_ef);
         Assert(0, VerticesOfFaces(ball)=ball_vf);

@@ -513,3 +513,13 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
 __SIMPLICIAL_InstallIncidenceMethods();
 
 
+BindGlobal( "__SIMPLICIAL_BendPolygonalComplex_SufficientInformation",
+    function(complex)
+        VerticesOfLocalFlags(complex);
+        EdgesOfLocalFlags(complex);
+        FacesOfLocalFlags(complex);
+        LocalVerticesOfLocalFlags(complex);
+        LocalEdgesOfLocalFlags(complex);
+        HalfEdgesOfLocalFlags(complex);
+    end
+);
