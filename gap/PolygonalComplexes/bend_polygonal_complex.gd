@@ -213,6 +213,26 @@ DeclareAttribute("LocalFlagFaceInvolution", IsBendPolygonalComplex);
 #! @EndGroup
 
 
+#! @BeginGroup
+#! @Description
+#! TODO
+#!
+#! @Returns true or false
+#! @Arguments bendComplex, flag1, flag2
+DeclareOperation("IsLocalFlagsVertexEquivalent", [IsBendPolygonalComplex, IsPosInt, IsPosInt]);
+#! @Arguments bendComplex, flag1, flag2
+DeclareOperation("IsLocalFlagsEdgeEquivalent", [IsBendPolygonalComplex, IsPosInt, IsPosInt]);
+#! @Arguments bendComplex, flag1, flag2
+DeclareOperation("IsLocalFlagsFaceEquivalent", [IsBendPolygonalComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+#! @Description
+#! TODO
+#! @Returns a local flag
+#! @Arguments bendComplex, localVertex, localEdge, face
+DeclareOperation("LocalFlagByLocalVertexLocalEdgeFace", [IsBendPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+
+
 
 
 #! @Description

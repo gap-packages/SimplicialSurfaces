@@ -1031,12 +1031,12 @@ DeclareOperation( "PerimeterOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! 
 #! @Returns a list of edge-face-paths
 #! @Arguments surface
-DeclareAttribute( "UmbrellasOfVertices", IsPolygonalComplex );
+DeclareAttribute( "UmbrellasOfVertices", IsVEFComplex );
 #! @Returns an edge-face-path
 #! @Arguments surface, vertex
-DeclareOperation( "UmbrellaOfVertex", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "UmbrellaOfVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments surface, vertex
-DeclareOperation( "UmbrellaOfVertexNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "UmbrellaOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -1115,14 +1115,14 @@ DeclareOperation( "UmbrellaOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Returns a list of sets of edge-face-paths
 #! @Arguments ramSurf
 DeclareAttribute( "UmbrellaPartitionsOfVertices", 
-        IsPolygonalComplex );
+        IsVEFComplex );
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf, vertex
 DeclareOperation( "UmbrellaPartitionOfVertex",
-        [ IsPolygonalComplex, IsPosInt ]);
+        [ IsVEFComplex, IsPosInt ]);
 #! @Arguments ramSurf, vertex
 DeclareOperation( "UmbrellaPartitionOfVertexNC",
-        [ IsPolygonalComplex, IsPosInt ]);
+        [ IsVEFComplex, IsPosInt ]);
 #! @EndGroup
 
 

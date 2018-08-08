@@ -77,6 +77,64 @@ InstallMethod( LocalFlagFaceInvolution, "for a bend polygonal complex",
 );
 
 
+#TODO give them checks and NC-versions
+InstallMethod( IsLocalFlagsVertexEquivalent,
+    "for a bend polygonal complex and two local flags",
+    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
+    function(bendComplex, flag1, flag2)
+        return flag1^LocalFlagVertexInvolution(bendComplex) = flag2;
+    end
+);
+InstallMethod( IsLocalFlagsEdgeEquivalent,
+    "for a bend polygonal complex and two local flags",
+    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
+    function(bendComplex, flag1, flag2)
+        return flag1^LocalFlagEdgeInvolution(bendComplex) = flag2;
+    end
+);
+InstallMethod( IsLocalFlagsFaceEquivalent,
+    "for a bend polygonal complex and two local flags",
+    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
+    function(bendComplex, flag1, flag2)
+        local inv, part, bool1, bool2;
+
+        inv := LocalFlagFaceInvolution(bendComplex);
+        if inv = fail then
+            for part in LocalFlagsOfHalfEdges(bendComplex) do
+                bool1 := flag1 in part;
+                bool2 := flag2 in part;
+                if bool1 and bool2 then
+                    return true;
+                fi;
+                if bool1 or bool2 then
+                    return false;
+                fi;
+            od;
+            return false;
+        else
+            return flag1^LocalFlagFaceInvolution(bendComplex) = flag2;
+        fi;
+    end
+);
+
+InstallMethod( LocalFlagByLocalVertexLocalEdgeFace,
+    "for a bend polygonal complex, a local vertex, a local edge and a face",
+    [IsBendPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    function(bendComplex, localVertex, localEdge, face)
+        local flags, locVerts, locEdges, faces, i;
+
+        flags := LocalFlags(bendComplex);
+        locVerts := LocalVerticesOfLocalFlags(bendComplex);
+        locEdges := LocalEdgesOfLocalFlags(bendComplex);
+        faces := FacesOfLocalFlags(bendComplex);
+        for i in flags do
+            if locVerts[i] = localVertex and locEdges[i] = localEdge and faces[i] = face then
+                return i;
+            fi;
+        od;
+        return fail;
+    end
+);
 
 InstallMethod( BendPolygonalComplexBySignedFacePerimeters,
     "for a list of signed face perimeters", [IsList],
@@ -113,16 +171,16 @@ InstallMethod( BendPolygonalComplexBySignedFacePerimeters,
                         edgeMap[currLength+f] := AbsoluteValue(perimeter[f]);
                         edgeSignMap[currLength+f] := SignInt(perimeter[f]);
                         if f = size then
-                            Add(edgePart, [currLength+1, currLength+size]);
+                            Add(vertexPart, [currLength+1, currLength+size]);
                         else
-                            Add(edgePart, [currLength+f, currLength+f+1]);
+                            Add(vertexPart, [currLength+f, currLength+f+1]);
                         fi;
                     else
                         vertexMap[currLength+f] := perimeter[f];
                         edge := AbsoluteValue(perimeter[f+1]);
                         edgeMap[currLength+f] := edge;
                         edgeSignMap[currLength+f] := SignInt(perimeter[f+1])*(-1);
-                        Add(vertexPart, [currLength+f, currLength+f+1]);
+                        Add(edgePart, [currLength+f, currLength+f+1]);
 
                         Add(edges, edge);
                         verts := Set([perimeter[f],perimeter[f+2]]);

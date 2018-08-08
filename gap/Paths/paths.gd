@@ -396,6 +396,18 @@ DeclareAttribute( "AssociatedVEFComplex", IsVertexEdgePath );
 #! @EndGroup
 
 
+#! @BeginGroup
+#! @Description
+#! Return whether the given vertex-edge-path is defined on a
+#! (bend) polygonal complex.
+#!
+#! @Arguments vertexEdgePath
+DeclareProperty( "IsPolygonalComplexPath", IsVertexEdgePath );
+#! @Arguments vertexEdgePath
+DeclareProperty( "IsBendPolygonalComplexPath", IsVertexEdgePath );
+#! @EndGroup
+
+
 
 ##
 ## Coloured output-attributes
@@ -687,6 +699,18 @@ DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 #! @Arguments edgeFacePath
 #! @Returns a VEF-complex
 DeclareAttribute( "AssociatedVEFComplex", IsEdgeFacePath );
+
+#! @BeginGroup
+#! @Description
+#! Return whether the given edge-face-path is defined on a
+#! (bend) polygonal complex.
+#!
+#! @Arguments vertexEdgePath
+DeclareProperty( "IsPolygonalComplexPath", IsEdgeFacePath );
+#! @Arguments vertexEdgePath
+DeclareProperty( "IsBendPolygonalComplexPath", IsEdgeFacePath );
+#! @EndGroup
+
 
 
 ##

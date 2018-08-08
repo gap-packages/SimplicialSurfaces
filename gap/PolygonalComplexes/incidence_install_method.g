@@ -90,21 +90,15 @@ BindGlobal( "__SIMPLICIAL_InvertIncidence_UniqueOfPartition",
 ##
 BindGlobal( "__SIMPLICIAL_InvertIncidence_PartitionOfUnique", 
     function( a_labels, a_of_b, b_labels )
-        local b_of_a, a, b_set, b;
+        local b_of_a, a, b;
 
         b_of_a := [];
-        for a in a_labels do
-            b_of_a[a] := [];
-        od;
         for b in b_labels do
             for a in a_of_b[b] do
-                Add( b_of_a[a], b );
+                b_of_a[a] := b;
             od;
         od;
 
-        for a in a_labels do
-            Sort(b_of_a[a]);
-        od;
         return b_of_a;
     end
 );
@@ -165,6 +159,19 @@ BindGlobal( "__SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_SetStar",
         return a_of_c;
     end
 );
+BindGlobal( "__SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_SetStar_ToUnique",
+    function( a_of_b, b_of_c, c_labels )
+        local c, a_of_c;
+
+        a_of_c := [];
+        for c in c_labels do
+            a_of_c[c] := a_of_b[ b_of_c[c][1] ];
+        od;
+
+        return a_of_c;
+    end
+);
+
 ##
 ## Combine a_of_b and b_of_c to a_of_c (unique-of-partition + many-of-many)
 ##
@@ -173,9 +180,19 @@ BindGlobal( "__SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_ManyOfMany",
         return __SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_SetStar(a_of_b, b_of_c, c_labels);
     end
 );
+BindGlobal( "__SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_ManyOfMany_ToUnique", 
+    function( a_of_b, b_of_c, c_labels )
+        return __SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_SetStar_ToUnique(a_of_b, b_of_c, c_labels);
+    end
+);
 BindGlobal( "__SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_PartitionOfUnique", 
     function( a_of_b, b_of_c, c_labels )
         return __SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_SetStar(a_of_b, b_of_c, c_labels);
+    end
+);
+BindGlobal( "__SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_PartitionOfUnique_ToUnique", 
+    function( a_of_b, b_of_c, c_labels )
+        return __SIMPLICIAL_TransitiveIncidence_UniqueOfPartition_SetStar_ToUnique(a_of_b, b_of_c, c_labels);
     end
 );
 
@@ -257,7 +274,7 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
         local attrList, relationList, VEF, BEND, POLY, Find_category, attr, r,
             i, j, attr_A, attr_B, name, type, cat, invName, invAttr,
             invFctName, invFct, transAttr, transName, transFctName, transFct,
-            attr_1, attr_2, wrapper, transTriple, ok;
+            attr_1, attr_2, wrapper, transTriple, ok, GetRelation;
             
         ## Define the different categories
         # name: Name of the category
@@ -364,6 +381,17 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                 Add( relationList, rec( name := name, attr := attr, type := type, cat := cat.short, attr_content := attr_A, attr_index := attr_B, tester := Tester(attr) ) );
             od;
         od;
+
+        GetRelation := function( name )
+            local el;
+
+            for el in relationList do
+                if el.name = name then
+                    return el;
+                fi;
+            od;
+            return fail;
+        end;
 
 
         for attr in relationList do
@@ -476,7 +504,7 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                 if [attr_1.attr_content.plur, attr_1.attr_index.plur, attr_2.attr_index.plur] in transTriple then
                     ok := true;
                 fi;
-                if attr_1.type = "PartitionOfUnique" and attr_2.type = "UniqueOfPartition" then
+                if attr_1.type = "UniqueOfPartition" and attr_2.type = "PartitionOfUnique" then
                     ok := true;
                 fi;
 
@@ -490,11 +518,14 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                 fi;
 
                 transName := Concatenation(attr_1.attr_content.plur, "Of", attr_2.attr_index.plur);
-                transAttr := VALUE_GLOBAL(transName);
+                transAttr := GetRelation(transName);
                 transFctName := Concatenation( "__SIMPLICIAL_TransitiveIncidence_", attr_1.type, "_", attr_2.type );
+                if transAttr.type = "UniqueOfPartition" then
+                    transFctName := Concatenation(transFctName, "_ToUnique");
+                fi;
                 transFct := VALUE_GLOBAL(transFctName);
                 wrapper := function( transAttr, cat, attr_1, attr_2, transFct )
-                    InstallMethod( transAttr,
+                    InstallMethod( transAttr.attr,
                         Concatenation("for a ", cat.string, " with ", attr_1.name, " and ", attr_2.name, " and ", attr_2.attr_index.name),
                         [ cat.cat and attr_1.tester and attr_2.tester and attr_2.attr_index.tester ],
                         function(complex)

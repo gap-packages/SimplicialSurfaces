@@ -1,7 +1,7 @@
 BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
     function()
         local torus, torus_ve, torus_vf, torus_ef, ball, ball_ve, ball_vf, 
-            ball_ef;
+            ball_ef, torus_umb, ball_umb;
 
         torus_ve := [[2],[2],,[2]];
         torus_vf := [[2],,[2]];
@@ -55,6 +55,17 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         Assert(0, PerimeterOfFace(torus,3)=VertexEdgePath(torus,[2,1,2,2,2,4,2]));
         Assert(0, PerimetersOfFaces(ball)[1]=VertexEdgePath(ball,[1,2,2,3,2,2,1]));
         Assert(0, PerimetersOfFaces(ball)[3]=VertexEdgePath(ball,[2,3,2,4,4,4,2]));
+
+        # UmbrellasOfVertices
+        torus_umb := UmbrellasOfVertices(torus);
+        ball_umb := UmbrellasOfVertices(ball);
+        Assert(0, torus_umb[2] <> fail);
+        Assert(0, IsUmbrella(torus_umb[2]));
+        Assert(0, Length(PathAsList(torus_umb[2]))=13);
+        Assert(0, fail <> ball_umb[2]);
+        Assert(0, ForAll(ball_umb, IsUmbrella));
+        Assert(0, Length(PathAsList(ball_umb[2]))=9);
+
 
     end
 );
