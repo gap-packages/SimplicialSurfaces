@@ -135,8 +135,8 @@ InstallMethod( FaceCounter, "for a VEF-complex",
 ##
 ##      Types of vertices
 ##
-InstallMethod( InnerVertices, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( InnerVertices, "for a VEFcomplex",
+    [IsVEFComplex],
     function(complex)
         local edgeFacePaths, res, v;
 
@@ -156,14 +156,14 @@ InstallMethod( InnerVertices, "for a closed polygonal complex",
         return VerticesAttributeOfVEFComplex(complex);
     end
 );
-InstallMethod( IsInnerVertexNC, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( IsInnerVertexNC, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         return vertex in InnerVertices(complex);
     end
 );
-InstallMethod( IsInnerVertex, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( IsInnerVertex, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex(complex, vertex, "IsInnerVertex");
         return IsInnerVertexNC(complex, vertex);
@@ -196,8 +196,8 @@ BindGlobal("__SIMPLICIAL_BoundaryVertices_BoundaryEdges",
 );
 
 # Generic method
-InstallMethod( BoundaryVertices, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( BoundaryVertices, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         return __SIMPLICIAL_BoundaryVertices_Umbrellas(complex);
     end
@@ -211,8 +211,8 @@ InstallMethod( BoundaryVertices, "for a closed polygonal complex",
 );
 # Special case umbrellas are known
 InstallMethod( BoundaryVertices, 
-    "for a polygonal complex with UmbrellasOfVertices",
-    [IsPolygonalComplex and HasUmbrellasOfVertices],
+    "for a VEF-complex with UmbrellasOfVertices",
+    [IsVEFComplex and HasUmbrellasOfVertices],
     function(complex)
         return __SIMPLICIAL_BoundaryVertices_Umbrellas(complex);
     end
@@ -237,14 +237,14 @@ InstallMethod( BoundaryVertices, "for a polygonal surface",
 
 
 
-InstallMethod( IsBoundaryVertexNC, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( IsBoundaryVertexNC, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         return vertex in BoundaryVertices(complex);
     end
 );
-InstallMethod( IsBoundaryVertex, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( IsBoundaryVertex, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex(complex, vertex, "IsBoundaryVertex");
         return IsBoundaryVertexNC(complex, vertex);
@@ -253,8 +253,8 @@ InstallMethod( IsBoundaryVertex, "for a polygonal complex and a vertex",
 #TODO implement implication to IsClosedSurface?
 
 
-InstallMethod( RamifiedVertices, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( RamifiedVertices, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         local edgeFacePaths, partitions, res, v;
 
@@ -275,14 +275,14 @@ InstallMethod( RamifiedVertices, "for a polygonal surface",
         return [];
     end
 );
-InstallMethod( IsRamifiedVertexNC, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( IsRamifiedVertexNC, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         return vertex in RamifiedVertices(complex);
     end
 );
-InstallMethod( IsRamifiedVertex, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( IsRamifiedVertex, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex(complex, vertex, "IsRamifiedVertex");
         return IsRamifiedVertexNC(complex, vertex);
@@ -300,9 +300,15 @@ InstallMethod( IsPolygonalSurface,
     end
 );
 
+InstallMethod( IsNotVertexRamified, "for a VEF-complex", [IsVEFComplex],
+    function(complex)
+        return IsNotEdgeRamified(complex) and Length(RamifiedVertices(complex)) = 0;
+    end
+);
 
-InstallMethod( ChaoticVertices, "for a polygonal complex",
-    [IsPolygonalComplex],
+
+InstallMethod( ChaoticVertices, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         local partitions, res, v;
 
@@ -322,25 +328,25 @@ InstallMethod( ChaoticVertices, "for a ramified polygonal surface",
         return [];
     end
 );
-InstallMethod( IsChaoticVertexNC, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( IsChaoticVertexNC, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         return vertex in ChaoticVertices(complex);
     end
 );
-InstallMethod( IsChaoticVertex, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( IsChaoticVertex, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex(complex, vertex, "IsChaoticVertex");
         return IsChaoticVertexNC(complex, vertex);
     end
 );
 
-InstallMethod( IsRamifiedPolygonalSurface, 
-    "for a polygonal complex with ChaoticVertices",
-    [IsPolygonalComplex and HasChaoticVertices],
+InstallMethod( IsNotEdgeRamified,
+    "for a VEF-complex with ChaoticVertices",
+    [IsVEFComplex and HasChaoticVertices],
     function(complex)
-        if Length(ChaoticVertices(complex)) <> 1 then
+        if Length(ChaoticVertices(complex)) > 0 then
             return false;
         fi;
         TryNextMethod();

@@ -556,12 +556,12 @@ DeclareProperty( "IsNotEdgeRamified", IsVEFComplex );
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "InnerVertices", IsPolygonalComplex );
+DeclareAttribute( "InnerVertices", IsVEFComplex );
 #! @Returns true or false
 #! @Arguments complex, vertex
-DeclareOperation( "IsInnerVertex", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsInnerVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsInnerVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup BoundaryVertices
@@ -618,12 +618,12 @@ DeclareOperation( "IsInnerVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "BoundaryVertices", IsPolygonalComplex );
+DeclareAttribute( "BoundaryVertices", IsVEFComplex );
 #! @Returns true or false
 #! @Arguments complex, vertex
-DeclareOperation( "IsBoundaryVertex", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsBoundaryVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsBoundaryVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup RamifiedVertices
@@ -658,13 +658,22 @@ DeclareOperation( "IsBoundaryVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "RamifiedVertices", IsPolygonalComplex );
+DeclareAttribute( "RamifiedVertices", IsVEFComplex );
 #! @Returns true or false
 #! @Arguments complex, vertex
-DeclareOperation( "IsRamifiedVertex", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsRamifiedVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsRamifiedVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
+
+
+#! @Description
+#! Check whether the given VEF-complex has any vertex ramifications.
+#! If there are none, this method will return <K>true</K>.
+#!
+#! @Arguments complex
+DeclareProperty( "IsNotVertexRamified", IsVEFComplex );
+
 
 #! @BeginGroup ChaoticVertices
 #! @Description
@@ -684,11 +693,11 @@ DeclareOperation( "IsRamifiedVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "ChaoticVertices", IsPolygonalComplex );
+DeclareAttribute( "ChaoticVertices", IsVEFComplex );
 #! @Returns true or false
 #! @Arguments complex, vertex
-DeclareOperation( "IsChaoticVertex", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsChaoticVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "IsChaoticVertexNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsChaoticVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
