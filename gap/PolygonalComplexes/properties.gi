@@ -132,6 +132,183 @@ InstallMethod( FaceCounter, "for a VEF-complex",
 
 #######################################
 ##
+##      Types of faces
+##
+
+InstallMethod( IsFaceHomogeneous, "for a polygonal complex", 
+    [IsPolygonalComplex],
+    function(complex)
+        local nr, f, verts, faces;
+
+        verts := VerticesOfFaces(complex);
+        faces := Faces(complex);
+        if Length(faces) = 0 then
+            return true;
+        fi;
+
+        nr := Length( verts[faces[1]] );
+        for f in [2..Length(faces)] do
+            if Length(verts[faces[f]]) <> nr then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
+InstallMethod( IsFaceHomogeneous, "for a bend polygonal complex", 
+    [IsBendPolygonalComplex],
+    function(complex)
+        local nr, f, verts, faces;
+
+        verts := LocalVerticesOfFaces(complex);
+        faces := Faces(complex);
+        if Length(faces) = 0 then
+            return true;
+        fi;
+
+        nr := Length( verts[faces[1]] );
+        for f in [2..Length(faces)] do
+            if Length(verts[faces[f]]) <> nr then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
+
+
+InstallMethod( IsTriangular, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local verts, f;
+
+        verts := VerticesOfFaces(complex);
+        for f in Faces(complex) do
+            if Length(verts[f]) <> 3 then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
+InstallMethod( IsTriangular, "for a polygonal complex with homogeneous faces",
+    [IsPolygonalComplex and IsFaceHomogeneous],
+    function(complex)
+        local verts;
+
+        verts := VerticesOfFaces(complex);
+        if Length(Faces(complex)) = 0 then
+            return true;
+        else
+            return Length(verts[Faces(complex)[1]]) = 3;
+        fi;
+    end
+);
+InstallMethod( IsTriangular, "for a bend polygonal complex",
+    [IsBendPolygonalComplex],
+    function(complex)
+        local verts, f;
+
+        verts := LocalVerticesOfFaces(complex);
+        for f in Faces(complex) do
+            if Length(verts[f]) <> 3 then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
+InstallMethod( IsTriangular, 
+    "for a bend polygonal complex with homogeneous faces",
+    [IsBendPolygonalComplex and IsFaceHomogeneous],
+    function(complex)
+        local verts;
+
+        verts := LocalVerticesOfFaces(complex);
+        if Length(Faces(complex)) = 0 then
+            return true;
+        else
+            return Length(verts[Faces(complex)[1]]) = 3;
+        fi;
+    end
+);
+
+
+
+InstallMethod( IsQuadrangular, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local verts, f;
+
+        verts := VerticesOfFaces(complex);
+        for f in Faces(complex) do
+            if Length(verts[f]) <> 4 then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
+InstallMethod( IsQuadrangular, 
+    "for a polygonal complex with homogeneous faces",
+    [IsPolygonalComplex and IsFaceHomogeneous],
+    function(complex)
+        local verts;
+
+        verts := VerticesOfFaces(complex);
+        if Length(Faces(complex)) = 0 then
+            return true;
+        else
+            return Length(verts[Faces(complex)[1]]) = 4;
+        fi;
+    end
+);
+InstallMethod( IsQuadrangular, "for a bend polygonal complex",
+    [IsBendPolygonalComplex],
+    function(complex)
+        local verts, f;
+
+        verts := LocalVerticesOfFaces(complex);
+        for f in Faces(complex) do
+            if Length(verts[f]) <> 4 then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
+InstallMethod( IsQuadrangular, 
+    "for a bend polygonal complex with homogeneous faces",
+    [IsBendPolygonalComplex and IsFaceHomogeneous],
+    function(complex)
+        local verts;
+
+        verts := LocalVerticesOfFaces(complex);
+        if Length(Faces(complex)) = 0 then
+            return true;
+        else
+            return Length(verts[Faces(complex)[1]]) = 4;
+        fi;
+    end
+);
+
+
+
+##
+##      End of types of faces
+##
+#######################################
+
+
+
+#######################################
+##
 ##      Types of vertices
 ##
 InstallMethod( InnerVertices, "for a polygonal complex",

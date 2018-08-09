@@ -310,6 +310,38 @@ DeclareAttribute( "EdgeCounter", IsVEFComplex );
 DeclareAttribute( "FaceCounter", IsVEFComplex );
 
 
+#! @Section Types of faces
+#! @SectionLabel Properties_FaceTypes
+#!
+#! The faces in a (bend) polygonal complex are (bend) polygons. In
+#! particular there can be polygons with different numbers of vertices,
+#! i.e. triangle, quadrangles, and so on.
+#!
+#! TODO examples
+
+
+#! @Description
+#! Check whether all polygons in this VEF-complex have the same number
+#! of vertices.
+#! @Arguments complex
+DeclareProperty( "IsFaceHomogeneous", IsVEFComplex );
+
+
+#! @Description
+#! Check whether all polygons in this VEF-complex are triangles.
+#! @Arguments complex
+DeclareProperty( "IsTriangular", IsVEFComplex );
+InstallTrueMethod(IsFaceHomogeneous, IsTriangular);
+
+
+#! @Description
+#! Check whether all polygons in this VEF-complex are quadrangles.
+#! @Arguments complex
+DeclareProperty( "IsQuadrangular", IsVEFComplex );
+InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
+
+
+
 #! @Section Types of edges
 #! @SectionLabel Properties_EdgeTypes
 #!
