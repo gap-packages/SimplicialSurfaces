@@ -50,13 +50,13 @@
 #! @Section Invariants
 #! @SectionLabel Properties_Invariants
 #!
-#! This section collects invariants of polygonal complexes.
+#! This section collects invariants of (bend) polygonal complexes.
 #!
 #! TODO
 #!
 
 #! @Description
-#! Return the <E>Euler-characteristic</E> of the given polygonal complex.
+#! Return the <E>Euler-characteristic</E> of the given VEF-complex.
 #! The Euler-characteristic is computed as
 #! @BeginLogSession
 #! gap> NumberOfVertices(complex) - NumberOfEdges(complex) + NumberOfFaces(complex);
@@ -81,7 +81,7 @@
 #! 
 #! @Returns an integer
 #! @Arguments complex
-DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
+DeclareAttribute( "EulerCharacteristic", IsVEFComplex );
 
 
 #! @BeginGroup IsClosedSurface
@@ -124,6 +124,7 @@ DeclareAttribute( "EulerCharacteristic", IsPolygonalComplex );
 DeclareProperty( "IsClosedSurface", IsRamifiedPolygonalSurface );
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
+#TODO handle after edge ramifications are a property again
 
 
 #! @Section Degree-based properties and invariants

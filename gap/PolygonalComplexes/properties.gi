@@ -15,8 +15,8 @@
 ##
 ##      Invariants
 ##
-InstallMethod( EulerCharacteristic, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( EulerCharacteristic, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         return NumberOfVertices(complex) - NumberOfEdges(complex) + NumberOfFaces(complex);
     end
