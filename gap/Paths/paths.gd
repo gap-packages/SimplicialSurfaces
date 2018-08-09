@@ -1229,10 +1229,11 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
 #! @Section Orientability
 #! @SectionLabel Orientability
 #! 
-#! This section contains methods that deal with the orientability of ramified 
-#! polygonal surfaces (which were defined in section
-#! <Ref Sect="PolygonalStructures_ramified"/>). For general polygonal 
-#! complexes the concept of orientability is not defined since there is no
+#! This section contains methods that deal with the orientability of (bend)
+#! polygonal surfaces without edge ramifications (compare section
+#! <Ref Sect="PolygonalStructures_surface"/>). For (bend) polygonal 
+#! complexes with edge ramifications the concept of orientability is not 
+#! well-defined since there is no
 #! proper way to deal with edges that are incident to more than two faces.
 #TODO more explanation needed?
 #!
