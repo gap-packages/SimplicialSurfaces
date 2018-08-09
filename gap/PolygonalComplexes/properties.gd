@@ -401,12 +401,12 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "InnerEdges", IsPolygonalComplex );
+DeclareAttribute( "InnerEdges", IsVEFComplex );
 #! @Returns true or false
 #! @Arguments complex, edge
-DeclareOperation( "IsInnerEdge", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsInnerEdge", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, edge
-DeclareOperation( "IsInnerEdgeNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsInnerEdgeNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -438,12 +438,12 @@ DeclareOperation( "IsInnerEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "BoundaryEdges", IsPolygonalComplex );
+DeclareAttribute( "BoundaryEdges", IsVEFComplex );
 #! @Returns true or false
 #! @Arguments complex, edge
-DeclareOperation( "IsBoundaryEdge", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsBoundaryEdge", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, edge
-DeclareOperation( "IsBoundaryEdgeNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsBoundaryEdgeNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup RamifiedEdges
@@ -460,13 +460,21 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "RamifiedEdges", IsPolygonalComplex );
+DeclareAttribute( "RamifiedEdges", IsVEFComplex );
 #! @Returns true or false
 #! @Arguments complex, edge
-DeclareOperation( "IsRamifiedEdge", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsRamifiedEdge", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, edge
-DeclareOperation( "IsRamifiedEdgeNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
+
+
+#! @Description
+#! Check whether the given VEF-complex has any edge ramifications.
+#! If there are none, this method will return <K>true</K>.
+#!
+#! @Arguments complex
+DeclareProperty( "IsNotEdgeRamified", IsVEFComplex );
 
 
 
