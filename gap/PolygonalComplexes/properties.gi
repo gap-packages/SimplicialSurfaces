@@ -49,20 +49,20 @@ InstallOtherMethod( IsClosedSurface, "for a polygonal complex",
 ##      Degree-based properties
 ##
 
-InstallMethod( EdgeDegreesOfVertices, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( EdgeDegreesOfVertices, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         return List( EdgesOfVertices(complex), Length );
     end
 );
-InstallMethod( EdgeDegreeOfVertexNC, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( EdgeDegreeOfVertexNC, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function( complex, vertex )
         return EdgeDegreesOfVertices(complex)[vertex];
     end
 );
-InstallMethod( EdgeDegreeOfVertex, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( EdgeDegreeOfVertex, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function( complex, vertex )
         __SIMPLICIAL_CheckVertex(complex, vertex, "EdgeDegreeOfVertex");
         return EdgeDegreeOfVertexNC(complex, vertex);
@@ -70,20 +70,20 @@ InstallMethod( EdgeDegreeOfVertex, "for a polygonal complex and a vertex",
 );
 
 
-InstallMethod( FaceDegreesOfVertices, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( FaceDegreesOfVertices, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         return List( FacesOfVertices(complex), Length );
     end
 );
-InstallMethod( FaceDegreeOfVertexNC, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( FaceDegreeOfVertexNC, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function( complex, vertex )
         return FaceDegreesOfVertices(complex)[vertex];
     end
 );
-InstallMethod( FaceDegreeOfVertex, "for a polygonal complex and a vertex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( FaceDegreeOfVertex, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
     function( complex, vertex )
         __SIMPLICIAL_CheckVertex(complex, vertex, "FaceDegreeOfVertex");
         return FaceDegreeOfVertexNC(complex, vertex);
@@ -91,8 +91,8 @@ InstallMethod( FaceDegreeOfVertex, "for a polygonal complex and a vertex",
 );
 
 
-InstallMethod( VertexCounter, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( VertexCounter, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         local faceDegrees;
 
@@ -101,8 +101,8 @@ InstallMethod( VertexCounter, "for a polygonal complex",
     end
 );
 
-InstallMethod( EdgeCounter, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( EdgeCounter, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         local faceDegrees, edgeDegrees;
 
@@ -113,8 +113,8 @@ InstallMethod( EdgeCounter, "for a polygonal complex",
     end
 );
 
-InstallMethod( FaceCounter, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( FaceCounter, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
         local vertexDegrees, faceDegrees;
 

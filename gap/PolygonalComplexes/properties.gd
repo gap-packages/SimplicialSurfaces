@@ -152,7 +152,7 @@ DeclareProperty( "IsClosedSurface", IsRamifiedPolygonalSurface );
 #! @Description
 #! The method <K>EdgeDegreeOfVertex</K>(<A>complex</A>, <A>vertex</A>) 
 #! returns the <E>edge-degree</E> of the given vertex in the given
-#! polygonal complex, i.e. the number of incident edges. The NC-version does
+#! VEF-complex, i.e. the number of incident edges. The NC-version does
 #! not check whether <A>vertex</A> is a vertex of <A>complex</A>.
 #!
 #! The attribute <K>EdgeDegreesOfVertices</K>(<A>complex</A>) collects all of
@@ -179,12 +179,12 @@ DeclareProperty( "IsClosedSurface", IsRamifiedPolygonalSurface );
 #!
 #! @Returns a list of positive integers
 #! @Arguments complex
-DeclareAttribute( "EdgeDegreesOfVertices", IsPolygonalComplex );
+DeclareAttribute( "EdgeDegreesOfVertices", IsVEFComplex );
 #! @Returns a positive integer
 #! @Arguments complex, vertex
-DeclareOperation( "EdgeDegreeOfVertex", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "EdgeDegreeOfVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "EdgeDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "EdgeDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -192,7 +192,7 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Description
 #! The method <K>FaceDegreeOfVertex</K>(<A>complex</A>, <A>vertex</A>) 
 #! returns the <E>face-degree</E> of the given vertex in the given
-#! polygonal complex, i.e. the number of incident faces. The NC-version does
+#! VEF-complex, i.e. the number of incident faces. The NC-version does
 #! not check whether <A>vertex</A> is a vertex of <A>complex</A>.
 #!
 #! The attribute <K>FaceDegreesOfVertices</K>(<A>complex</A>) collects all of
@@ -219,12 +219,12 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! @Returns a list of positive integers
 #! @Arguments complex
-DeclareAttribute( "FaceDegreesOfVertices", IsPolygonalComplex );
+DeclareAttribute( "FaceDegreesOfVertices", IsVEFComplex );
 #! @Returns a positive integer
 #! @Arguments complex, vertex
-DeclareOperation( "FaceDegreeOfVertex", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "FaceDegreeOfVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "FaceDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -232,7 +232,7 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 
 #! @BeginGroup VertexCounter
 #! @Description
-#! Return the <E>vertex counter</E> of the given polygonal complex.
+#! Return the <E>vertex counter</E> of the given VEF-complex.
 #! The vertex counter is a list that counts how many vertices are incident
 #! to how many faces. It is a list of pairs <E>[degree, number]</E>, where
 #! <E>number</E> counts the number of vertices with exactly <E>degree</E>
@@ -254,12 +254,12 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! @Returns a list of pairs of positive integers
 #! @Arguments complex
-DeclareAttribute( "VertexCounter", IsPolygonalComplex );
+DeclareAttribute( "VertexCounter", IsVEFComplex );
 #! @EndGroup
 
 
 #! @Description
-#! Return the <E>edge counter</E> of the given polygonal complex.
+#! Return the <E>edge counter</E> of the given VEF-complex.
 #! The edge counter is a list of pairs <E>[degreeList, number]</E>,
 #! where <E>number</E> counts the number of edges whose vertices
 #! are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces,
@@ -280,11 +280,11 @@ DeclareAttribute( "VertexCounter", IsPolygonalComplex );
 #!
 #! @Returns a list of pairs
 #! @Arguments complex
-DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
+DeclareAttribute( "EdgeCounter", IsVEFComplex );
 
 
 #! @Description
-#! Return the <E>face counter</E> of the given polygonal complex.
+#! Return the <E>face counter</E> of the given VEF-complex.
 #! The face counter is a list of pairs <E>[degreeList, number]</E>,
 #! where <E>number</E> counts the number of faces whose vertes degrees
 #! match <E>degreeList</E>, i.e. for every vertex there is exactly one
@@ -307,7 +307,7 @@ DeclareAttribute( "EdgeCounter", IsPolygonalComplex );
 #!
 #! @Returns a list of pairs
 #! @Arguments complex
-DeclareAttribute( "FaceCounter", IsPolygonalComplex );
+DeclareAttribute( "FaceCounter", IsVEFComplex );
 
 
 #! @Section Types of edges
