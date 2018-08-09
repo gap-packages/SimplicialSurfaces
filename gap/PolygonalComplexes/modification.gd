@@ -588,7 +588,7 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #!
 #! For example consider the following ramified simplicial surface:
 #! @BeginExampleSession
-#! gap> eye := RamifiedSimplicialSurfaceByDownwardIncidence(
+#! gap> eye := TriangularComplexByDownwardIncidence(
 #! >     [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;
 #! @EndExampleSession
 #! <Alt Only="TikZ">

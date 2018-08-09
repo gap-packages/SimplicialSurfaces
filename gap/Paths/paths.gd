@@ -1036,7 +1036,7 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesic );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> butterfly := RamifiedSimplicialSurfaceByVerticesInFaces( 7, 4,
+#! gap> butterfly := TriangularComplexByVerticesInFaces( 7, 4,
 #! > [ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;
 #! @EndExampleSession
 #! This example is connected since its incidence graph (see section

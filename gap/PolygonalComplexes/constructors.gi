@@ -12,7 +12,7 @@
 
 
 BindGlobal( "__SIMPLICIAL_AllTypes", 
-    ["PolygonalComplex", "TriangularComplex", "RamifiedPolygonalSurface", "RamifiedSimplicialSurface", "PolygonalSurface", "SimplicialSurface"] );
+    ["PolygonalComplex", "TriangularComplex", "PolygonalSurface", "SimplicialSurface"] );
 ##
 ## Automated construction of the constructors. Parameters:
 ## methodString: String for the method of the constructor (like 

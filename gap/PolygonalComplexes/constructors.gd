@@ -237,23 +237,6 @@ DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsList, IsList] );
 DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 
-#! @BeginGroup
-#! @Description
-#! This method constructs a ramified polygonal surface
-#! (<Ref Sect="PolygonalStructures_ramified"/>)
-#! @InsertChunk Documentation_DownwardIncidence
-#!
-#! TODO example
-#! @Returns a ramified polygonal surface
-#! @Arguments verticesOfEdges, edgesOfFaces
-DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
-#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
-DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @Arguments verticesOfEdges, edgesOfFaces
-DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList] );
-#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
-DeclareOperation( "RamifiedPolygonalSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @EndGroup
 
 #! @BeginGroup
 #! @Description
@@ -291,23 +274,6 @@ DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList] );
 DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 
-#! @BeginGroup
-#! @Description
-#! This method constructs a ramified simplicial surface
-#! (<Ref Sect="PolygonalStructures_ramified"/>)
-#! @InsertChunk Documentation_DownwardIncidence
-#!
-#! TODO example
-#! @Returns a ramified simplicial surface
-#! @Arguments verticesOfEdges, edgesOfFaces
-DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidence", [IsList, IsList] );
-#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
-DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @Arguments verticesOfEdges, edgesOfFaces
-DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
-#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
-DeclareOperation( "RamifiedSimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @EndGroup
 
 #! @BeginGroup
 #! @Description
@@ -491,24 +457,6 @@ DeclareOperation( "PolygonalComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, I
 
 #! @BeginGroup
 #! @Description
-#! This method constructs a ramified polygonal surface
-#! (<Ref Sect="PolygonalStructures_ramified"/>)
-#! @InsertChunk Documentation_UpwardIncidence
-#!
-#! TODO example
-#! @Returns a ramified polygonal surface
-#! @Arguments edgesOfVertices, facesOfEdges
-DeclareOperation( "RamifiedPolygonalSurfaceByUpwardIncidence", [IsList, IsList] );
-#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
-DeclareOperation( "RamifiedPolygonalSurfaceByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @Arguments edgesOfVertices, facesOfEdges
-DeclareOperation( "RamifiedPolygonalSurfaceByUpwardIncidenceNC", [IsList, IsList] );
-#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
-DeclareOperation( "RamifiedPolygonalSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @EndGroup
-
-#! @BeginGroup
-#! @Description
 #! This method constructs a polygonal surface
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_UpwardIncidence
@@ -543,23 +491,6 @@ DeclareOperation( "TriangularComplexByUpwardIncidenceNC", [IsList, IsList] );
 DeclareOperation( "TriangularComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 
-#! @BeginGroup
-#! @Description
-#! This method constructs a ramified simplicial surface
-#! (<Ref Sect="PolygonalStructures_ramified"/>)
-#! @InsertChunk Documentation_UpwardIncidence
-#!
-#! TODO example
-#! @Returns a ramified simplicial surface
-#! @Arguments edgesOfVertices, facesOfEdges
-DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidence", [IsList, IsList] );
-#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
-DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @Arguments edgesOfVertices, facesOfEdges
-DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList] );
-#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
-DeclareOperation( "RamifiedSimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @EndGroup
 
 #! @BeginGroup
 #! @Description
@@ -714,24 +645,6 @@ DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 
 #! @BeginGroup
 #! @Description
-#! This method constructs a ramified polygonal surface
-#! (<Ref Sect="PolygonalStructures_ramified"/>)
-#! @InsertChunk Documentation_VerticesInFaces
-#! 
-#! TODO example
-#! @Returns a ramified polygonal surface
-#! @Arguments verticesInFaces
-DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFaces", [IsList] );
-#! @Arguments vertices, faces, verticesInFaces
-DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFaces", [IsSet, IsSet, IsList] );
-#! @Arguments verticesInFaces
-DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFacesNC", [IsList] );
-#! @Arguments vertices, faces, verticesInFaces
-DeclareOperation( "RamifiedPolygonalSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
-#! @EndGroup
-
-#! @BeginGroup
-#! @Description
 #! This method constructs a polygonal surface
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_VerticesInFaces
@@ -766,23 +679,6 @@ DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsList] );
 DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
-#! @BeginGroup
-#! @Description
-#! This method constructs a ramified simplicial surface
-#! (<Ref Sect="PolygonalStructures_ramified"/>)
-#! @InsertChunk Documentation_VerticesInFaces
-#! 
-#! TODO example
-#! @Returns a ramified simplicial surface
-#! @Arguments verticesInFaces
-DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFaces", [IsList] );
-#! @Arguments vertices, faces, verticesInFaces
-DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFaces", [IsSet, IsSet, IsList] );
-#! @Arguments verticesInFaces
-DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFacesNC", [IsList] );
-#! @Arguments vertices, faces, verticesInFaces
-DeclareOperation( "RamifiedSimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
-#! @EndGroup
 
 #! @BeginGroup
 #! @Description

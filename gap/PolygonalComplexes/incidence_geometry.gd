@@ -1097,7 +1097,7 @@ DeclareOperation( "UmbrellaOfVertexNC", [IsVEFComplex, IsPosInt] );
 #!   \input{Image_EdgeFacePath_ramified.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> ramSurf := RamifiedPolygonalSurfaceByDownwardIncidence(
+#! gap> ramSurf := PolygonalComplexByDownwardIncidence(
 #! >    [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],
 #! >        [1,8],[1,10],[1,12],[8,10],[10,12] ],
 #! >    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
