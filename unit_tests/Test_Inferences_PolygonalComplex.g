@@ -252,35 +252,35 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If the connected components are known, the connectivity is known
     obj := Objectify( PolygonalComplexType, rec() );
-    SetConnectedComponentsAttributeOfPolygonalComplex( obj, [] );
+    SetConnectedComponentsAttributeOfVEFComplex( obj, [] );
     Assert(0, IsConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
-    SetConnectedComponentsAttributeOfPolygonalComplex( obj, [ 1 ] );
+    SetConnectedComponentsAttributeOfVEFComplex( obj, [ 1 ] );
     Assert(0, IsConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
-    SetConnectedComponentsAttributeOfPolygonalComplex( obj, [ 1, 2 ] );
+    SetConnectedComponentsAttributeOfVEFComplex( obj, [ 1, 2 ] );
     Assert(0, not IsConnected(obj));
 
 
     # If the strongly connected components are known, the strong connectivity is known
     obj := Objectify( PolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfPolygonalComplex( obj, [] );
+    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [] );
     Assert(0, IsStronglyConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfPolygonalComplex( obj, [ obj ] );
+    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [ obj ] );
     Assert(0, IsStronglyConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfPolygonalComplex( obj, [ 1, 2 ] );
+    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [ 1, 2 ] );
     Assert(0, not IsStronglyConnected(obj));
 
 
     # If there is more than one connected component, the complex is not strongly connected
     obj := Objectify( PolygonalComplexType, rec() );
-    SetConnectedComponentsAttributeOfPolygonalComplex(obj, [1,2]);
+    SetConnectedComponentsAttributeOfVEFComplex(obj, [1,2]);
     Assert(0, not IsStronglyConnected(obj));
 
 
@@ -307,7 +307,7 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     # If a complex is connected, there is only one connected component
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsConnected(obj, true);
-    Assert(0, ConnectedComponentsAttributeOfPolygonalComplex(obj)=[obj]);
+    Assert(0, ConnectedComponentsAttributeOfVEFComplex(obj)=[obj]);
 
 
     # If a complex is strongly connected, there is only one strongly connected component
@@ -318,24 +318,24 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If there is only one strongly connected component, then the complex is connected
     obj := Objectify( PolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfPolygonalComplex( obj, [] );
+    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [] );
     Assert(0, IsConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfPolygonalComplex( obj, [obj] );
+    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [obj] );
     Assert(0, IsConnected(obj));
 
 
     # If we have a polygonal surface, connected = strongly connected
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsPolygonalSurface(obj, true);
-    SetConnectedComponentsAttributeOfPolygonalComplex(obj, [obj]);
+    SetConnectedComponentsAttributeOfVEFComplex(obj, [obj]);
     Assert(0, StronglyConnectedComponents(obj) = [obj]);
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsPolygonalSurface(obj, true);
-    SetStronglyConnectedComponentsAttributeOfPolygonalComplex( obj, [obj] );
-    Assert(0, ConnectedComponentsAttributeOfPolygonalComplex(obj) = [obj]);
+    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [obj] );
+    Assert(0, ConnectedComponentsAttributeOfVEFComplex(obj) = [obj]);
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsPolygonalSurface(obj, true);

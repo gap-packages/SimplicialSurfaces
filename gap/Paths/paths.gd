@@ -1084,7 +1084,7 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesic );
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-DeclareProperty( "IsConnected", IsPolygonalComplex );
+DeclareProperty( "IsConnected", IsVEFComplex );
 #! @EndGroup
 
 #! @BeginGroup ConnectedComponents
@@ -1116,14 +1116,14 @@ DeclareProperty( "IsConnected", IsPolygonalComplex );
 #!
 #! @Returns a list of polygonal complexes
 #! @Arguments complex
-DeclareOperation( "ConnectedComponentsOfComplex", [IsPolygonalComplex] );
+DeclareOperation( "ConnectedComponentsOfComplex", [IsVEFComplex] );
 #! @Arguments complex
-DeclareAttribute( "ConnectedComponentsAttributeOfPolygonalComplex", IsPolygonalComplex );
+DeclareAttribute( "ConnectedComponentsAttributeOfVEFComplex", IsVEFComplex );
 #! @Returns a polygonal complex
 #! @Arguments complex, face
-DeclareOperation( "ConnectedComponentOfFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "ConnectedComponentOfFace", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "ConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "ConnectedComponentOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -1150,7 +1150,7 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] )
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-DeclareProperty( "IsStronglyConnected", IsPolygonalComplex );
+DeclareProperty( "IsStronglyConnected", IsVEFComplex );
 #! @EndGroup
 
 #! @BeginGroup StronglyConnectedComponents
@@ -1186,14 +1186,14 @@ DeclareProperty( "IsStronglyConnected", IsPolygonalComplex );
 #!
 #! @Returns a list of polygonal complexes
 #! @Arguments complex
-DeclareOperation( "StronglyConnectedComponents", [IsPolygonalComplex] );
+DeclareOperation( "StronglyConnectedComponents", [IsVEFComplex] );
 #! @Arguments complex
-DeclareAttribute( "StronglyConnectedComponentsAttributeOfPolygonalComplex", IsPolygonalComplex );
+DeclareAttribute( "StronglyConnectedComponentsAttributeOfVEFComplex", IsVEFComplex );
 #! @Returns a polygonal complex
 #! @Arguments complex, face
-DeclareOperation( "StronglyConnectedComponentOfFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "StronglyConnectedComponentOfFace", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -1220,9 +1220,9 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #!
 #! @Returns a positive integer
 #! @Arguments complex
-DeclareAttribute( "NumberOfConnectedComponents", IsPolygonalComplex );
+DeclareAttribute( "NumberOfConnectedComponents", IsVEFComplex );
 #! @Arguments complex
-DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
+DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
 #! @EndGroup
 
 

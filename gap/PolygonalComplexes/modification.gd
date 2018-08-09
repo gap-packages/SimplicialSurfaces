@@ -319,9 +319,9 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! 
 #! @Returns a polygonal complex
 #! @Arguments complex, faces
-DeclareOperation( "SubcomplexByFaces", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "SubcomplexByFaces", [IsVEFComplex, IsSet] );
 #! @Arguments complex, faces
-DeclareOperation( "SubcomplexByFacesNC", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "SubcomplexByFacesNC", [IsVEFComplex, IsSet] );
 #! @EndGroup
 
 
@@ -339,13 +339,13 @@ DeclareOperation( "SubcomplexByFacesNC", [IsPolygonalComplex, IsSet] );
 #!
 #! @Returns a polygonal complex
 #! @Arguments complex, faces
-DeclareOperation( "RemoveFaces", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "RemoveFaces", [IsVEFComplex, IsSet] );
 #! @Arguments complex, faces
-DeclareOperation( "RemoveFacesNC", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "RemoveFacesNC", [IsVEFComplex, IsSet] );
 #! @Arguments complex, face
-DeclareOperation( "RemoveFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "RemoveFace", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "RemoveFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "RemoveFaceNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 

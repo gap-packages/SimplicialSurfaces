@@ -1003,8 +1003,8 @@ InstallMethod( DrawSurfaceToTikz,
         od;
 
         # Set the strongly connected components (if not already done)
-        if not HasStronglyConnectedComponentsAttributeOfPolygonalComplex( surface ) then
-            SetStronglyConnectedComponentsAttributeOfPolygonalComplex( surface, List( printRecord.drawComponents, c -> SubcomplexByFacesNC(surface, Union(c) ) ));
+        if not HasStronglyConnectedComponentsAttributeOfVEFComplex( surface ) then
+            SetStronglyConnectedComponentsAttributeOfVEFComplex( surface, List( printRecord.drawComponents, c -> SubcomplexByFacesNC(surface, Union(c) ) ));
         fi;
 
         # Write this data into the file

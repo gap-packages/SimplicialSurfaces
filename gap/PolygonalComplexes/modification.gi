@@ -443,8 +443,8 @@ RedispatchOnCondition( SplitEdgePathNC, true,
 ##
 ##      Face removal
 ##
-InstallMethod( SubcomplexByFaces, "for a polygonal complex and a set of faces",
-    [IsPolygonalComplex, IsSet],
+InstallMethod( SubcomplexByFaces, "for a VEF-complex and a set of faces",
+    [IsVEFComplex, IsSet],
     function(complex, subfaces)
 	if not IsSubset( Faces(complex), subfaces ) then
 	    Error("SubcomplexByFaces: there are not only faces given.");
@@ -454,8 +454,8 @@ InstallMethod( SubcomplexByFaces, "for a polygonal complex and a set of faces",
     end
 );
 InstallOtherMethod( SubcomplexByFaces, 
-    "for a polygonal complex and a list of faces",
-    [ IsPolygonalComplex, IsList ],
+    "for a VEF-complex and a list of faces",
+    [ IsVEFComplex, IsList ],
     function(complex, subfaces)
         return SubcomplexByFaces(complex, Set(subfaces));
     end
@@ -483,9 +483,49 @@ InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces"
 			subfaces, newVerticesOfEdges, newEdgesOfFaces );
     end
 );
+InstallMethod( SubcomplexByFacesNC, 
+    "for a bend polygonal complex and a set of faces",
+    [IsBendPolygonalComplex, IsSet],
+    function(complex, subfaces)
+        local flags, f, verts, edges, faces, locVerts, locEdges, halfEdges, 
+            sub;
+
+        flags := [];
+        for f in subfaces do
+            Append(flags, LocalFlagsOfFaces(complex)[f]);
+        od;
+
+        verts := [];
+        edges := [];
+        faces := [];
+        locVerts := [];
+        locEdges := [];
+        halfEdges := [];
+        for f in flags do
+            verts[f] := VerticesOfLocalFlags(complex)[f];
+            edges[f] := EdgesOfLocalFlags(complex)[f];
+            faces[f] := FacesOfLocalFlags(complex)[f];
+            locVerts[f] := LocalVerticesOfLocalFlags(complex)[f];
+            locEdges[f] := LocalEdgesOfLocalFlags(complex)[f];
+            halfEdges[f] := HalfEdgesOfLocalFlags(complex)[f];
+        od;
+
+        sub := Objectify( BendPolygonalComplexType, rec() );
+        SetVerticesOfLocalFlags(sub, verts);
+        SetEdgesOfLocalFlags(sub, edges);
+        SetFacesOfLocalFlags(sub, faces);
+        SetLocalVerticesOfLocalFlags(sub, locVerts);
+        SetLocalEdgesOfLocalFlags(sub, locEdges);
+        SetHalfEdgesOfLocalFlags(sub, halfEdges);
+
+        #TODO transfer some surface properties (like NoEdgeRamifications) if possible
+
+        return sub;
+    end
+);
 InstallOtherMethod( SubcomplexByFacesNC, 
-    "for a polygonal complex and a list of faces",
-    [ IsPolygonalComplex, IsList ],
+    "for a VEF-complex and a list of faces",
+    [ IsVEFComplex, IsList ],
     function(complex, subfaces)
         return SubcomplexByFacesNC(complex, Set(subfaces));
     end
@@ -493,8 +533,8 @@ InstallOtherMethod( SubcomplexByFacesNC,
 
 ####
 
-InstallMethod( RemoveFaces, "for a polygonal complex and a set of faces",
-    [IsPolygonalComplex, IsSet],
+InstallMethod( RemoveFaces, "for a VEF-complex and a set of faces",
+    [IsVEFComplex, IsSet],
     function(complex, subfaces)
 	if not IsSubset( Faces(complex), subfaces ) then
 	    Error("RemoveFaces: there are not only faces given.");
@@ -504,28 +544,28 @@ InstallMethod( RemoveFaces, "for a polygonal complex and a set of faces",
     end
 );
 InstallOtherMethod( RemoveFaces, 
-    "for a polygonal complex and a list of faces",
-    [ IsPolygonalComplex, IsList ],
+    "for a VEF-complex and a list of faces",
+    [ IsVEFComplex, IsList ],
     function(complex, subfaces)
         return RemoveFaces(complex, Set(subfaces));
     end
 );
-InstallMethod( RemoveFacesNC, "for a polygonal complex and a set of faces",
-    [IsPolygonalComplex, IsSet],
+InstallMethod( RemoveFacesNC, "for a VEF-complex and a set of faces",
+    [IsVEFComplex, IsSet],
     function(complex, subfaces)
         return SubcomplexByFacesNC(complex, Difference(Faces(complex), subfaces));
     end
 );
 InstallOtherMethod( RemoveFacesNC, 
-    "for a polygonal complex and a list of faces",
-    [ IsPolygonalComplex, IsList ],
+    "for a VEF-complex and a list of faces",
+    [ IsVEFComplex, IsList ],
     function(complex, subfaces)
         return RemoveFacesNC(complex, Set(subfaces));
     end
 );
 
-InstallMethod( RemoveFace, "for a polygonal complex and a face",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( RemoveFace, "for a VEF-complex and a face",
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         if not face in Faces(complex) then
             Error(Concatenation("RemoveFace: The given face ", String(face), 
@@ -535,8 +575,8 @@ InstallMethod( RemoveFace, "for a polygonal complex and a face",
         return RemoveFaceNC(complex, face);
     end
 );
-InstallMethod( RemoveFaceNC, "for a polygonal complex and a face",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( RemoveFaceNC, "for a VEF-complex and a face",
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         return RemoveFaces(complex,[face]);
     end
