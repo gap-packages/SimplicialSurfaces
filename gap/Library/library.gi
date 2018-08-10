@@ -150,26 +150,6 @@ InstallGlobalFunction( "AllTriangularComplexes",
     end
 );
 
-InstallGlobalFunction( "AllRamifiedPolygonalSurfaces",
-    function(arg)
-        local trueArg;
-
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllRamifiedPolygonalSurfaces");
-        return __SIMPLICIAL_AccessLibrary(
-            Concatenation([IsRamifiedPolygonalSurface, true], trueArg) );
-    end
-);
-
-InstallGlobalFunction( "AllRamifiedSimplicialSurfaces",
-    function(arg)
-        local trueArg;
-
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllRamifiedSimplicialSurfaces");
-        return __SIMPLICIAL_AccessLibrary(
-            Concatenation([IsRamifiedSimplicialSurface, true], trueArg) );
-    end
-);
-
 InstallGlobalFunction( "AllPolygonalSurfaces",
     function(arg)
         local trueArg;
