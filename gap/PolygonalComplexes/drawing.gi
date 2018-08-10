@@ -830,8 +830,8 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzOptions",
 
 # general method
 InstallMethod( DrawSurfaceToTikz, 
-    "for a polygonal surface, a filename and a record",
-    [IsRamifiedPolygonalSurface, IsString, IsRecord],
+    "for a polygonal complex without edge ramifications, a filename and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(surface, fileName, printRecord)
         local file, output, f, v, i, positions, comp, 
             allVertexCoords, TikzCoordFromVertexPosition, unplacedFaces,
@@ -1112,11 +1112,14 @@ InstallMethod( DrawSurfaceToTikz,
         return printRecord;
     end
 );
+RedispatchOnCondition( DrawSurfaceToTikz, true, [IsPolygonalComplex,IsString,IsRecord], [IsNotEdgeRamified], 0  );
 
-InstallOtherMethod( DrawSurfaceToTikz, "for a polygonal surface and a file name",
-    [IsRamifiedPolygonalSurface, IsString],
+InstallOtherMethod( DrawSurfaceToTikz, 
+    "for a polygonal complex without edge ramifications and a file name",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsString],
     function(surface, file)
         return DrawSurfaceToTikz(surface, file, rec());
     end
 );
+RedispatchOnCondition( DrawSurfaceToTikz, true, [IsPolygonalComplex,IsString], [IsNotEdgeRamified], 0  );
 
