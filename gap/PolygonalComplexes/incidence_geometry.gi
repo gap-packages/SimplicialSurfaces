@@ -667,24 +667,25 @@ __SIMPLICIAL_AddVEFAttribute(UmbrellasOfVertices);
 ##
 ## Implement the immediate methods for inferences about the complex
 ##
-InstallImmediateMethod( IsPolygonalSurface, 
-    "for a polygonal complex that has UmbrellasOfVertices",
-    IsPolygonalComplex and HasUmbrellasOfVertices, 0,
+InstallImmediateMethod( IsNotVertexRamified, 
+    "for a VEF-complex that has UmbrellasOfVertices",
+    IsVEFComplex and HasUmbrellasOfVertices, 0,
     function(complex)
         return not fail in UmbrellasOfVertices(complex);
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "IsPolygonalSurface", "UmbrellasOfVertices", ["IsPolygonalComplex"]);
-InstallImmediateMethod( IsRamifiedPolygonalSurface,
-    "for a polygonal complex that has UmbrellaPartitionsOfVertices",
-    IsPolygonalComplex and HasUmbrellaPartitionsOfVertices, 0,
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsNotVertexRamified", "UmbrellasOfVertices");
+
+InstallImmediateMethod( IsNotEdgeRamified,
+    "for a VEF-complex that has UmbrellaPartitionsOfVertices",
+    IsVEFComplex and HasUmbrellaPartitionsOfVertices, 0,
     function(complex)
         return not fail in UmbrellaPartitionsOfVertices(complex);
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices", ["IsPolygonalComplex"]);
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsNotEdgeRamified", "UmbrellaPartitionsOfVertices");
 
 ##
 ## We will implement the connections between singular paths and partitions
@@ -692,8 +693,8 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 
 InstallMethod( UmbrellasOfVertices,
-    "for a polygonal surface that has UmbrellaPartitionsOfVertices",
-    [IsPolygonalSurface and HasUmbrellaPartitionsOfVertices],
+    "for a VEF-surface that has UmbrellaPartitionsOfVertices",
+    [IsVEFSurface and HasUmbrellaPartitionsOfVertices],
     function( surface )
         local umbPart, v, res;
 
@@ -705,9 +706,6 @@ InstallMethod( UmbrellasOfVertices,
         return res;
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "UmbrellasOfVertices", 
-    ["IsPolygonalSurface", "UmbrellaPartitionsOfVertices"], ["IsPolygonalComplex"]);
 
 InstallMethod( UmbrellasOfVertices,
     "for a VEF-complex that has UmbrellaPartitionsOfVertices",
@@ -734,16 +732,13 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 
 
-InstallMethod( UmbrellaPartitionsOfVertices,
-    "for a ramified polygonal surface that has UmbrellasOfVertices",
-    [IsRamifiedPolygonalSurface and HasUmbrellasOfVertices],
+InstallImmediateMethod( UmbrellaPartitionsOfVertices,
+    "for a VEF-complex without edge ramifications that has UmbrellasOfVertices",
+    IsVEFComplex and IsNotEdgeRamified and HasUmbrellasOfVertices, 0,
     function( ramSurf )
         return List( UmbrellasOfVertices(ramSurf), p -> [p] );
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "UmbrellaPartitionsOfVertices", 
-    ["UmbrellasOfVertices", "IsRamifiedPolygonalSurface"], ["IsPolygonalComplex"] );
 
 
 ## Methods for one single vertex
@@ -782,9 +777,10 @@ InstallMethod( UmbrellaPartitionOfVertex,
 ## implications to vertices, edges and faces follow from that)
 ##
 
+#TODO It might be useful to compute IsNotEdgeRamified for the possibility of simplifying the calculations
 InstallMethod( EdgesOfVertices, 
-    "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices", 
-    [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices],
+    "for a VEF-complex without edge ramifications that has UmbrellaPartitionsOfVertices", 
+    [IsVEFComplex and IsNotEdgeRamified and HasUmbrellaPartitionsOfVertices],
     function(complex)
         return List( UmbrellaPartitionsOfVertices(complex), part ->
             __SIMPLICIAL_UnionSets( List( part, EdgesAsList ) ));
@@ -792,11 +788,11 @@ InstallMethod( EdgesOfVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "EdgesOfVertices", 
-    ["IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices"], ["IsPolygonalComplex"]);
+    ["UmbrellaPartitionsOfVertices"], ["IsNotEdgeRamified"]);
 
 InstallMethod( FacesOfVertices,
-    "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices",
-    [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices],
+    "for a VEF-complex without edge ramifications that has UmbrellaPartitionsOfVertices",
+    [IsVEFComplex and IsNotEdgeRamified and HasUmbrellaPartitionsOfVertices],
     function(complex)
         return List( UmbrellaPartitionsOfVertices(complex), part ->
             __SIMPLICIAL_UnionSets( List( part, FacesAsList ) ));
@@ -804,11 +800,11 @@ InstallMethod( FacesOfVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "FacesOfVertices", 
-    ["IsRamifiedPolygonalSurface", "UmbrellaPartitionsOfVertices"], ["IsPolygonalComplex"]);
+    ["UmbrellaPartitionsOfVertices"], ["IsNotEdgeRamified"]);
 
 InstallMethod( FacesOfEdges,
-    "for a ramified polygonal surface that has UmbrellaPartitionsOfVertices and VerticesAttributeOfVEFComplex",
-    [IsRamifiedPolygonalSurface and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfVEFComplex],
+    "for a VEF-complex without edge ramifications that has UmbrellaPartitionsOfVertices and VerticesAttributeOfVEFComplex",
+    [IsVEFComplex and IsNotEdgeRamified and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfVEFComplex],
     function(complex)
         local facesOfEdges, parts, v, p, even, ind, i, edge, incFaces, path;
 
@@ -844,14 +840,15 @@ InstallMethod( FacesOfEdges,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "FacesOfEdges", 
-    ["UmbrellaPartitionsOfVertices", "VerticesAttributeOfVEFComplex", "IsRamifiedPolygonalSurface"], ["IsPolygonalComplex"]);
+    ["UmbrellaPartitionsOfVertices", "VerticesAttributeOfVEFComplex"], 
+    ["IsNotEdgeRamified"]);
 
 
 InstallMethod( UmbrellaPartitionsOfVertices, 
-    "for a polygonal complex that has VerticesAttributeOfVEFComplex, EdgesOfVertices, EdgesOfFaces, FacesOfEdges and VerticesOfEdges",
+    "for a polygonal complex that has VerticesAttributeOfVEFComplex, EdgesOfVertices, EdgesOfFaces, FacesOfEdges, VerticesOfEdges and RamifiedEdges",
     [IsPolygonalComplex and HasVerticesAttributeOfVEFComplex and 
         HasEdgesOfVertices and HasEdgesOfFaces and HasFacesOfEdges and 
-        HasVerticesOfEdges],
+        HasVerticesOfEdges and HasRamifiedEdges],
     function(ramSurf)
         local faceEdgePathPart, vertex, incidentEdges, paths,
             edgeStart, possFaces, rightFinished, leftFinished, backFace, path,
@@ -964,7 +961,7 @@ InstallMethod( UmbrellaPartitionsOfVertices,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
     "UmbrellaPartitionsOfVertices", 
     ["VerticesAttributeOfVEFComplex", "EdgesOfVertices", "EdgesOfFaces", 
-        "FacesOfEdges", "VerticesOfEdges"], ["IsPolygonalComplex"]);
+        "FacesOfEdges", "VerticesOfEdges", "RamifiedEdges"], ["IsPolygonalComplex"]);
 
 InstallMethod( UmbrellaPartitionsOfVertices, 
     Concatenation("for a bend polygonal complex that has ",

@@ -26,7 +26,7 @@ InstallMethod( IsEdgeColouredRamifiedPolygonalSurface,
     "for an edge-coloured polygonal complex",
     [IsEdgeColouredPolygonalComplex],
     function(colComplex)
-        return IsRamifiedPolygonalSurface( PolygonalComplex(colComplex) );
+        return IsNotEdgeRamified( PolygonalComplex(colComplex) );
     end
 );
 InstallMethod( IsEdgeColouredRamifiedSimplicialSurface,
@@ -137,7 +137,7 @@ InstallMethod( EdgeColouredTriangularComplexNC,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
     function(complex, colouring)
-        SetIsTriangularComplex( complex, true );
+        SetIsTriangular( complex, true );
         return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );
@@ -145,7 +145,7 @@ InstallMethod( EdgeColouredTriangularComplex,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
     function(complex, colouring)
-        if not IsTriangularComplex(complex) then
+        if not IsTriangular(complex) then
             Error("EdgeColouredTriangularComplex: Given complex is not a triangular complex.");
         fi;
         return EdgeColouredPolygonalComplex(complex, colouring);
@@ -156,7 +156,7 @@ InstallMethod( EdgeColouredRamifiedPolygonalSurfaceNC,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
     function(complex, colouring)
-        SetIsRamifiedPolygonalSurface( complex, true );
+        SetIsNotEdgeRamified( complex, true );
         return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );
@@ -164,7 +164,7 @@ InstallMethod( EdgeColouredRamifiedPolygonalSurface,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
     function(complex, colouring)
-        if not IsRamifiedPolygonalSurface(complex) then
+        if not IsNotEdgeRamified(complex) then
             Error("EdgeColouredTriangularComplex: Given complex is not a ramified polygonal surface.");
         fi;
         return EdgeColouredPolygonalComplex(complex, colouring);
@@ -175,8 +175,8 @@ InstallMethod( EdgeColouredRamifiedSimplicialSurfaceNC,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
     function(complex, colouring)
-        SetIsTriangularComplex( complex, true );
-        SetIsRamifiedPolygonalSurface( complex, true );
+        SetIsTriangular( complex, true );
+        SetIsNotEdgeRamified(complex, true);
         return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );
@@ -184,7 +184,7 @@ InstallMethod( EdgeColouredRamifiedSimplicialSurface,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
     function(complex, colouring)
-        if not IsRamifiedSimplicialSurface(complex) then
+        if not IsNotEdgeRamified(complex) then
             Error("EdgeColouredTriangularComplex: Given complex is not a ramified simplicial surface.");
         fi;
         return EdgeColouredPolygonalComplex(complex, colouring);
@@ -195,7 +195,8 @@ InstallMethod( EdgeColouredPolygonalSurfaceNC,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
     function(complex, colouring)
-        SetIsPolygonalSurface( complex, true );
+        SetIsNotEdgeRamified( complex, true );
+        SetIsNotVertexRamified( complex, true );
         return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );
@@ -214,8 +215,9 @@ InstallMethod( EdgeColouredSimplicialSurfaceNC,
     "for a polygonal complex and a list of positive integers",
     [IsPolygonalComplex, IsList],
     function(complex, colouring)
-        SetIsTriangularComplex( complex, true );
-        SetIsPolygonalSurface( complex, true );
+        SetIsTriangular( complex, true );
+        SetIsNotEdgeRamified( complex, true );
+        SetIsNotVertexRamified( complex, true );
         return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );

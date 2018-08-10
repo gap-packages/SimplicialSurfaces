@@ -115,8 +115,8 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
         fi;
-        if HasIsTriangularComplex(complex) then
-            SetIsTriangularComplex(obj, IsTriangularComplex(complex));
+        if HasIsTriangular(complex) then
+            SetIsTriangular(obj, IsTriangular(complex));
         fi;
 
         return [obj, newEdgeLabels];
@@ -171,8 +171,8 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStarComponent",
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
         fi;
-        if HasIsTriangularComplex(complex) then
-            SetIsTriangularComplex(obj, IsTriangularComplex(complex));
+        if HasIsTriangular(complex) then
+            SetIsTriangular(obj, IsTriangular(complex));
         fi;
         return [obj, newVertexLabels];
     end
@@ -637,17 +637,16 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
         SetFacesOfEdges(obj, newFacesOfEdges);
         SetEdges(obj, newEdges);
 
-        if HasIsTriangularComplex(complex1) and HasIsTriangularComplex(complex2) then
-            SetIsTriangularComplex(obj, IsTriangularComplex(complex1) and IsTriangularComplex(complex2));
+        if HasIsTriangular(complex1) and HasIsTriangular(complex2) then
+            SetIsTriangular(obj, IsTriangular(complex1) and IsTriangular(complex2));
         fi;
 
-        if HasIsPolygonalSurface(complex1) and HasIsPolygonalSurface(complex2) then
-            SetIsPolygonalSurface(obj, IsPolygonalSurface(complex1) and IsPolygonalSurface(complex2));
+        if HasIsNotEdgeRamified(complex1) and HasIsNotEdgeRamified(complex2) then
+            SetIsNotEdgeRamified(obj, IsNotEdgeRamified(complex1) and IsNotEdgeRamified(complex2));
         fi;
 
-        if not HasIsRamifiedPolygonalSurface(obj) and
-                HasIsRamifiedPolygonalSurface(complex1) and HasIsRamifiedPolygonalSurface(complex2) then
-            SetIsRamifiedPolygonalSurface(obj, IsRamifiedPolygonalSurface(complex1) and IsRamifiedPolygonalSurface(complex2));
+        if HasIsNotVertexRamified(complex1) and HasIsNotVertexRamified(complex2) then
+            SetIsNotVertexRamified(obj, IsNotVertexRamified(complex1) and IsNotVertexRamified(complex2));
         fi;
 
         return [obj, realShift];
@@ -831,7 +830,7 @@ InstallMethod( JoinVerticesNC,
         fi;
 
         if v1 <> v2 then
-            if IsTriangularComplex(complex) then
+            if IsTriangular(complex) then
                 # Since we need EdgesOfVertices later, there is no harm in 
                 # using it here as well
                 edgeOfVert := EdgesOfVertices(complex);
@@ -867,8 +866,8 @@ InstallMethod( JoinVerticesNC,
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
         fi;
-        if HasIsTriangularComplex(complex) then
-            SetIsTriangularComplex(obj, IsTriangularComplex(complex));
+        if HasIsTriangular(complex) then
+            SetIsTriangular(obj, IsTriangular(complex));
         fi;
 
         return [obj, newVertexLabel];
@@ -1000,8 +999,8 @@ InstallMethod( JoinEdgesNC,
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
         fi;
-        if HasIsTriangularComplex(complex) then
-            SetIsTriangularComplex(obj, IsTriangularComplex(complex));
+        if HasIsTriangular(complex) then
+            SetIsTriangular(obj, IsTriangular(complex));
         fi;
         return [obj, newEdgeLabel];
     end
@@ -1267,9 +1266,10 @@ InstallMethod(JoinBoundaries,
             return fail;
         fi;
         # Joining boundaries always produces polygonal surfaces
-        SetIsPolygonalSurface( join[1], true );
-        if HasIsTriangularComplex( surface ) then
-            SetIsTriangularComplex( join[1], IsTriangularComplex(surface) );
+        SetIsNotEdgeRamified( join[1], true );
+        SetIsNotVertexRamified( join[1], true );
+        if HasIsTriangular( surface ) then
+            SetIsTriangular( join[1], IsTriangular(surface) );
         fi;
         return join;
     end

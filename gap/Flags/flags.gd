@@ -312,10 +312,10 @@ DeclareAttribute( "OneFlags", IsPolygonalComplex );
 #! 
 #! @Returns a list of three involutions
 #! @Arguments complex
-DeclareAttribute( "DressInvolutions", IsRamifiedPolygonalSurface );
+DeclareAttribute( "DressInvolutions", IsVEFComplex and IsNotEdgeRamified );
 #! @Returns a group
 #! @Arguments complex
-DeclareAttribute( "DressGroup", IsRamifiedPolygonalSurface );
+DeclareAttribute( "DressGroup", IsVEFComplex and IsNotEdgeRamified );
 
 #! @Section Flag complex / Barycentric subdivision
 #! @SectionLabel Flags_FlagComplex

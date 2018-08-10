@@ -122,8 +122,9 @@ InstallMethod( OneFlags, "for a polygonal complex", [IsPolygonalComplex],
 ##
 ##      Dress involutions
 ##
-InstallMethod( DressInvolutions, "for a ramified polygonal surface", 
-    [IsRamifiedPolygonalSurface],
+InstallMethod( DressInvolutions, 
+    "for a polygonal complex without edge ramifications", 
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function(complex)
         local inv, flags, i, vPerm, ePerm, fPerm, fl;
 
@@ -151,8 +152,8 @@ InstallMethod( DressInvolutions, "for a ramified polygonal surface",
     end
 );
 
-InstallMethod( DressGroup, "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
+InstallMethod( DressGroup, "for a VEF-complex without edge ramifications",
+    [IsVEFComplex and IsNotEdgeRamified],
     function(complex)
         return Group( DressInvolutions(complex) );
     end

@@ -876,12 +876,12 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesic );
 #!
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf
-DeclareAttribute( "MaximalGeodesics", IsRamifiedPolygonalSurface );
+DeclareAttribute( "MaximalGeodesics", IsPolygonalComplex and IsNotEdgeRamified );
 #! @Returns an edge-face-path
 #! @Arguments ramSurf, flag
-DeclareOperation( "MaximalGeodesicOfFlag", [IsRamifiedPolygonalSurface, IsList] );
+DeclareOperation( "MaximalGeodesicOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @Arguments ramSurf, flag
-DeclareOperation( "MaximalGeodesicOfFlagNC", [IsRamifiedPolygonalSurface, IsList] );
+DeclareOperation( "MaximalGeodesicOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @EndGroup
 
 #! @BeginGroup IsClosedGeodesic
@@ -988,12 +988,12 @@ DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesic );
 #!
 #! @Returns a set of duplicate-free geodesics
 #! @Arguments ramSurf
-DeclareAttribute( "MaximalDuplicateFreeGeodesics", IsRamifiedPolygonalSurface );
+DeclareAttribute( "MaximalDuplicateFreeGeodesics", IsPolygonalComplex and IsNotEdgeRamified );
 #! @Returns a duplicate-free geodesic
 #! @Arguments ramSurf, flag
-DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlag", [IsRamifiedPolygonalSurface, IsList] );
+DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @Arguments ramSurf, flag
-DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlagNC", [IsRamifiedPolygonalSurface, IsList] );
+DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @EndGroup
 
 #! @Description
@@ -1313,7 +1313,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
 #! @EndExampleSession
 #! TODO other example?
 #! @Arguments ramSurf
-DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
+DeclareProperty( "IsOrientable", IsVEFComplex and IsNotEdgeRamified );
 #! @EndGroup
 
 #! @BeginGroup Orientation
@@ -1351,7 +1351,7 @@ DeclareProperty( "IsOrientable", IsRamifiedPolygonalSurface );
 #! 
 #! @Returns a list of vertex-edge-paths
 #! @Arguments ramSurf
-DeclareAttribute( "Orientation", IsRamifiedPolygonalSurface );
+DeclareAttribute( "Orientation", IsVEFComplex and IsNotEdgeRamified );
 #! @EndGroup
 
 
@@ -1382,7 +1382,7 @@ DeclareAttribute( "Orientation", IsRamifiedPolygonalSurface );
 #! @Returns a list, where the first entry is a polygonal surface and the
 #! subsequent entries are its vertices, edges and faces
 #! @Arguments ramSurf
-DeclareOperation("OrientationCover", [IsRamifiedPolygonalSurface]);
+DeclareOperation("OrientationCover", [IsVEFComplex and IsNotEdgeRamified]);
 
 
 

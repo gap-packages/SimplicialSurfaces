@@ -195,7 +195,8 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
     # from partitions to paths (first direct test, then check whether type can be inferred)
     complex := Objectify( PolygonalComplexType, rec() );
     SetUmbrellaPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
-    SetIsPolygonalSurface( complex, true );
+    SetIsNotEdgeRamified(complex, true);
+    SetIsNotVertexRamified(complex, true);
     Assert(0, List(UmbrellasOfVertices(complex),PathAsList)=paths);
 
     complex := Objectify( PolygonalComplexType, rec() );
@@ -205,7 +206,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
     # from paths to partitions (first direct test, then check whether type can be inferred)
     complex := Objectify( PolygonalComplexType, rec() );
     SetUmbrellasOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
-    SetIsRamifiedPolygonalSurface( complex, true );
+    SetIsNotEdgeRamified(complex, true);
     Assert(0, List(UmbrellaPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
     complex := Objectify( PolygonalComplexType, rec() );
@@ -328,17 +329,20 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If we have a polygonal surface, connected = strongly connected
     obj := Objectify( PolygonalComplexType, rec() );
-    SetIsPolygonalSurface(obj, true);
+    SetIsNotEdgeRamified(obj, true);
+    SetIsNotVertexRamified(obj, true);
     SetConnectedComponentsAttributeOfVEFComplex(obj, [obj]);
     Assert(0, StronglyConnectedComponents(obj) = [obj]);
 
     obj := Objectify( PolygonalComplexType, rec() );
-    SetIsPolygonalSurface(obj, true);
+    SetIsNotEdgeRamified(obj, true);
+    SetIsNotVertexRamified(obj, true);
     SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [obj] );
     Assert(0, ConnectedComponentsAttributeOfVEFComplex(obj) = [obj]);
 
     obj := Objectify( PolygonalComplexType, rec() );
-    SetIsPolygonalSurface(obj, true);
+    SetIsNotEdgeRamified(obj, true);
+    SetIsNotVertexRamified(obj, true);
     SetIsConnected(obj, true);
     Assert(0, StronglyConnectedComponents(obj)=[obj]);
 end);
@@ -375,7 +379,7 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
    
     # If the surface is not orientable, then we don't have an orientation
     obj := Objectify( PolygonalComplexType, rec() );
-    SetIsRamifiedPolygonalSurface(obj, true);
+    SetIsNotEdgeRamified(obj, true);
     SetIsOrientable(obj, false);
     Assert(0, fail=Orientation(obj));
     SetFaces(obj, faces);
@@ -385,11 +389,11 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
 
     # Check if inference from existence of orientation sets IsOrientable
     obj := Objectify( PolygonalComplexType, rec() );
-    SetIsRamifiedPolygonalSurface(obj, true);
+    SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, List(perim, p -> VertexEdgePathNC(obj,p) ) );
     Assert(0, IsOrientable(obj));
     obj := Objectify( PolygonalComplexType, rec() );
-    SetIsRamifiedPolygonalSurface(obj, true);
+    SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, fail );
     Assert(0, not IsOrientable(obj));
 end);

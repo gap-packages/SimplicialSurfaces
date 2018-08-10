@@ -24,8 +24,8 @@ __SIMPLICIAL_AddRamifiedAttribute( Orientation );
 ## Primary computation
 ##
 InstallMethod( Orientation, 
-    "for a ramified polygonal surface with FacesOfEdges, VerticesOfFaces, EdgesOfFaces, VerticesOfEdges",
-    [ IsRamifiedPolygonalSurface and HasFacesOfEdges and
+    "for a polygonal complex without edge ramifications with FacesOfEdges, VerticesOfFaces, EdgesOfFaces, VerticesOfEdges",
+    [ IsPolygonalComplex and IsNotEdgeRamified and HasFacesOfEdges and
         HasVerticesOfFaces and HasEdgesOfFaces and HasVerticesOfEdges ],
     function( surf )
 	local facesOfEdges, verticesOfFaces, orientList, i, hole, edge,
@@ -156,16 +156,17 @@ InstallMethod( Orientation,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "Orientation",
-    ["FacesOfEdges", "VerticesOfFaces", "EdgesOfFaces", "VerticesOfEdges"] );
+    ["FacesOfEdges", "VerticesOfFaces", "EdgesOfFaces", "VerticesOfEdges"],
+    ["IsPolygonalComplex"]);
 
 
 
 ##
 ## Special case if the orientability is known
 ##
-InstallMethod( Orientation, 
-    "for a ramified polygonal surface with known orientation",
-    [IsRamifiedPolygonalSurface and HasIsOrientable],
+InstallImmediateMethod( Orientation, 
+    "for a polygonal complex without edge ramifications with known orientation",
+    IsPolygonalComplex and IsNotEdgeRamified and HasIsOrientable, 0,
     function(ramSurf)
         if not IsOrientable(ramSurf) then
             return fail;
@@ -177,9 +178,9 @@ InstallMethod( Orientation,
 ##
 ##  Now we write the method to only check if an orientation exists
 ##
-InstallMethod( IsOrientable,
-    "for a ramified polygonal surface with Orientation",
-    [IsRamifiedPolygonalSurface and HasOrientation],
+InstallImmediateMethod( IsOrientable,
+    "for a polygonal complex without edge ramifications with Orientation",
+    IsPolygonalComplex and IsNotEdgeRamified and HasOrientation, 0,
     function(ramSurf)
         return Orientation(ramSurf) <> fail;
     end
@@ -188,8 +189,8 @@ InstallMethod( IsOrientable,
 ## If we can't compute IsOrientable any other way, we try computing a global
 ## orientation first
 InstallMethod( IsOrientable,
-    "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
+    "for a polygonal complex without edge ramifications",
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         if HasOrientation(ramSurf) then
             TryNextMethod();
@@ -204,8 +205,8 @@ InstallMethod( IsOrientable,
 ##TODO maybe reorganise -> This might not be the best spot
 ## maybe put VertexEdgePaths in their own chapter etc.
 
-InstallMethod( OrientationCover, "for a ramified polygonal surface", 
-    [IsRamifiedPolygonalSurface],
+InstallMethod( OrientationCover, "for a polygonal complex without edge ramifications", 
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         local splitSurf, newFaces, f, perimeter, newEdges, e, incFaces, v1, 
             v2, newF1, newF2, newF, cyc1, cyc2, bool1, bool2, newVertices,
@@ -321,5 +322,5 @@ InstallMethod( OrientationCover, "for a ramified polygonal surface",
         return [obj, newVertices, newEdges, newFaces];
     end
 );
-RedispatchOnCondition( OrientationCover, true, [IsPolygonalComplex], [IsRamifiedPolygonalSurface], 0 );
+RedispatchOnCondition( OrientationCover, true, [IsPolygonalComplex], [IsNotEdgeRamified], 0 );
 #TODO this can be improved with a wild colouring. Can that be implemented in some way?

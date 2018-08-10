@@ -121,7 +121,7 @@ DeclareAttribute( "EulerCharacteristic", IsVEFComplex );
 #! @EndExampleSession
 #!
 #! @Arguments ramSurf
-DeclareProperty( "IsClosedSurface", IsRamifiedPolygonalSurface );
+DeclareProperty( "IsClosedSurface", IsVEFComplex and IsNotEdgeRamified );
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
 #TODO handle after edge ramifications are a property again
@@ -469,15 +469,6 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
-#! @Description
-#! Check whether the given VEF-complex has any edge ramifications.
-#! If there are none, this method will return <K>true</K>.
-#!
-#! @Arguments complex
-DeclareProperty( "IsNotEdgeRamified", IsVEFComplex );
-
-
-
 #! @Section Types of vertices
 #! @SectionLabel Properties_VertexTypes
 #! 
@@ -665,14 +656,6 @@ DeclareOperation( "IsRamifiedVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
 DeclareOperation( "IsRamifiedVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
-
-
-#! @Description
-#! Check whether the given VEF-complex has any vertex ramifications.
-#! If there are none, this method will return <K>true</K>.
-#!
-#! @Arguments complex
-DeclareProperty( "IsNotVertexRamified", IsVEFComplex );
 
 
 #! @BeginGroup ChaoticVertices

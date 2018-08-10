@@ -40,11 +40,28 @@ DeclareCategory( "IsBendPolygonalComplex", IsVEFComplex );
 BindGlobal( "BendPolygonalComplexFamily",
     NewFamily("BendPolygonalComplexFamily", IsObject, IsBendPolygonalComplex));
 
-# Define all secondary categories
+## Define all secondary categories
 
 
-DeclareProperty( "IsTriangularComplex", IsPolygonalComplex); #TODO replace by surface def
-InstallTrueMethod( IsPolygonalComplex, IsTriangularComplex );
+# Ramifications
+DeclareProperty( "IsNotEdgeRamified", IsVEFComplex );
+DeclareProperty( "IsNotVertexRamified", IsVEFComplex );
+InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);
+
+
+DeclareSynonym( "IsVEFSurface", IsVEFComplex and IsNotEdgeRamified and IsNotVertexRamified );
+DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsVEFSurface );
+DeclareSynonym( "IsBendPolygonalSurface", IsBendPolygonalComplex and IsVEFSurface );
+
+
+DeclareProperty( "IsTriangular", IsVEFComplex );    #TODO this is currently twice declared (also in properties.gd)
+DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
+DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
+
+
+
+#DeclareProperty( "IsTriangularComplex", IsPolygonalComplex); #TODO replace by surface def
+#InstallTrueMethod( IsPolygonalComplex, IsTriangularComplex );
 
 DeclareProperty( "IsRamifiedPolygonalSurface", IsPolygonalComplex); #TODO replace by surface def
 InstallTrueMethod( IsPolygonalComplex, IsRamifiedPolygonalSurface );
@@ -54,10 +71,10 @@ DeclareSynonym( "IsRamifiedSimplicialSurface",
 # The next property is a subproperty of IsRamifiedPolygonalSurface
 # We define it for general polygonal complexes so that it can
 # be tested anyway
-DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex ); #TODO replace by surface def
-InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
-DeclareSynonym( "IsSimplicialSurface", 
-    IsPolygonalSurface and IsTriangularComplex );
+#DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex ); #TODO replace by surface def
+#InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
+#DeclareSynonym( "IsSimplicialSurface", 
+#    IsPolygonalSurface and IsTriangularComplex );
 
 
 #######################################

@@ -55,21 +55,21 @@ BindGlobal( "__SIMPLICIAL_AddBendPolygonalAttribute",
 
 BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
     function( attr )
-        InstallMethod(attr, "for a ramified polygonal surface",
-            [IsRamifiedPolygonalSurface],
+        InstallMethod(attr, "for a VEF-complex without edge ramifications",
+            [IsVEFComplex and IsNotEdgeRamified],
             function( ramSurf )
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, ramSurf);
             end);
 
-        InstallOtherMethod(attr, "for a polygonal complex (to check if ramified)",
-            [IsPolygonalComplex],
+        InstallOtherMethod(attr, "for a VEF-complex (to check for edge ramifications)",
+            [IsVEFComplex],
             function(complex)
-                if HasIsRamifiedPolygonalSurface(complex) and IsRamifiedPolygonalSurface(complex) then
+                if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) then
                     TryNextMethod();
                 fi;
-                if not IsRamifiedPolygonalSurface(complex) then
-                    Error("Given polygonal complex is not a ramified polygonal surface");
+                if not IsNotEdgeRamified(complex) then
+                    Error("Given VEF-complex contains edge ramifications.");
                 fi;
                 return attr(complex);
             end
@@ -79,21 +79,22 @@ BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
 
 BindGlobal( "__SIMPLICIAL_AddSurfaceAttribute",
     function( attr )
-        InstallMethod(attr, "for a polygonal surface",
-            [IsPolygonalSurface],
+        InstallMethod(attr, "for a VEF-surface",
+            [IsVEFSurface],
             function( surface )
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, surface);
             end);
 
-        InstallOtherMethod(attr, "for a polygonal complex (to check if surface)",
-            [IsPolygonalComplex],
+        InstallOtherMethod(attr, "for a VEF-complex (to check if surface)",
+            [IsVEFComplex],
             function(complex)
-                if HasIsPolygonalSurface(complex)and IsPolygonalSurface(complex) then
+                if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) and
+                    HasIsNotVertexRamified(complex) and IsNotVertexRamified(complex) then
                     TryNextMethod();
                 fi;
-                if not IsPolygonalSurface(complex) then
-                    Error("Given polygonal complex is not a polygonal surface.");
+                if not IsVEFSurface(complex) then
+                    Error("Given VEF-complex is not a VEF-surface.");
                 fi;
                 return attr(complex);
             end

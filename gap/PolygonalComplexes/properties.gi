@@ -22,17 +22,23 @@ InstallMethod( EulerCharacteristic, "for a VEF-complex",
     end
 );
 
-InstallMethod( IsClosedSurface, "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
+InstallMethod( IsClosedSurface, "for a polygonal complex without edge ramifications",
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function( ramSurf )
         return ForAll( List( FacesOfEdges(ramSurf), Length ), i -> i=2 );
     end
 );
-InstallOtherMethod( IsClosedSurface, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( IsClosedSurface, "for a bend polygonal complex without edge ramifications",
+    [IsBendPolygonalComplex and IsNotEdgeRamified],
+    function( ramSurf )
+        return ForAll( List( LocalEdgesOfEdges(ramSurf), Length ), i -> i=2 );
+    end
+);
+InstallOtherMethod( IsClosedSurface, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
-        if not IsRamifiedPolygonalSurface(complex) then
-            Error("IsClosed: Given polygonal complex is not a ramified polygonal surface.");
+        if not IsNotEdgeRamified(complex) then
+            Error("IsClosed: Given VEF-complex contains ramified edges.");
         fi;
         return IsClosedSurface(complex); # Call the function above
     end
@@ -253,8 +259,10 @@ InstallMethod( IsBoundaryVertex, "for a VEF-complex and a vertex",
 #TODO implement implication to IsClosedSurface?
 
 
-InstallMethod( RamifiedVertices, "for a VEF-complex",
-    [IsVEFComplex],
+__SIMPLICIAL_AddVEFAttribute( RamifiedVertices );
+InstallMethod( RamifiedVertices, 
+    "for a VEF-complex with UmbrellasOfVertices, UmbrellaPartitionsOfVertices and VerticesAttributeOfVEFComplex",
+    [IsVEFComplex and HasUmbrellasOfVertices and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfVEFComplex],
     function(complex)
         local edgeFacePaths, partitions, res, v;
 
@@ -269,8 +277,12 @@ InstallMethod( RamifiedVertices, "for a VEF-complex",
         return res;
     end
 );
-InstallMethod( RamifiedVertices, "for a polygonal surface",
-    [IsPolygonalSurface],
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "RamifiedVertices", 
+    ["UmbrellasOfVertices", "UmbrellaPartitionsOfVertices", "VerticesAttributeOfVEFComplex"]);
+
+InstallImmediateMethod( RamifiedVertices, "for a VEF-surface",
+    IsVEFSurface, 0,
     function(surf)
         return [];
     end
@@ -289,22 +301,17 @@ InstallMethod( IsRamifiedVertex, "for a VEF-complex and a vertex",
     end
 );
 
-InstallMethod( IsPolygonalSurface, 
-    "for a polygonal complex with RamifiedVertices",
-    [IsPolygonalComplex and HasRamifiedVertices],
-    function(complex)
-        if Length(RamifiedVertices(complex)) <> 0 then
-            return false;
-        fi;
-        TryNextMethod();
-    end
-);
 
-InstallMethod( IsNotVertexRamified, "for a VEF-complex", [IsVEFComplex],
+__SIMPLICIAL_AddVEFAttribute( IsNotVertexRamified );
+InstallMethod( IsNotVertexRamified, 
+    "for a VEF-complex with IsNotEdgeRamified and RamifiedVerticces", 
+    [IsVEFComplex and HasIsNotEdgeRamified and HasRamifiedVertices],
     function(complex)
         return IsNotEdgeRamified(complex) and Length(RamifiedVertices(complex)) = 0;
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsNotVertexRamified", ["IsNotEdgeRamified", "RamifiedVertices"]);
 
 
 InstallMethod( ChaoticVertices, "for a VEF-complex",
@@ -322,8 +329,8 @@ InstallMethod( ChaoticVertices, "for a VEF-complex",
         return res;
     end
 );
-InstallMethod( ChaoticVertices, "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
+InstallMethod( ChaoticVertices, "for a VEF-complex without edge ramifications",
+    [IsVEFComplex and IsNotEdgeRamified],
     function(ramSurf)
         return [];
     end
@@ -468,8 +475,10 @@ InstallMethod( IsBoundaryEdge, "for a VEF-complex and an edge",
 );
 
 
-InstallMethod( RamifiedEdges, "for a polygonal complex",
-    [IsPolygonalComplex],
+__SIMPLICIAL_AddVEFAttribute(RamifiedEdges);
+InstallMethod( RamifiedEdges, 
+    "for a polygonal complex with FacesOfEdges and Edges",
+    [IsPolygonalComplex and HasFacesOfEdges and HasEdges],
     function(complex)
         local facesOfEdges, ram, e;
 
@@ -483,8 +492,11 @@ InstallMethod( RamifiedEdges, "for a polygonal complex",
         return ram;
     end
 );
-InstallMethod( RamifiedEdges, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "RamifiedEdges", ["FacesOfEdges", "Edges"], ["IsPolygonalComplex"]);
+InstallMethod( RamifiedEdges, 
+    "for a bend polygonal complex with LocalEdgesOfEdges and Edges",
+    [IsBendPolygonalComplex and HasLocalEdgesOfEdges and HasEdges],
     function(complex)
         local facesOfEdges, ram, e;
 
@@ -498,8 +510,12 @@ InstallMethod( RamifiedEdges, "for a bend polygonal complex",
         return ram;
     end
 );
-InstallMethod( RamifiedEdges, "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "RamifiedEdges", ["LocalEdgesOfEdges", "Edges"], ["IsBendPolygonalComplex"]);
+
+InstallImmediateMethod( RamifiedEdges, 
+    "for a polygonal complex without edge ramifications",
+    IsVEFComplex and IsNotEdgeRamified, 0,
     function(ramSurf)
         return []; # There are no ramified edges in a ramified polygonal surface
     end
@@ -518,11 +534,16 @@ InstallMethod( IsRamifiedEdge, "for a VEF-complex and an edge",
     end
 );
 
-InstallMethod( IsNotEdgeRamified, "for a VEF-complex", [IsVEFComplex],
+__SIMPLICIAL_AddVEFAttribute( IsNotEdgeRamified );
+InstallMethod( IsNotEdgeRamified, 
+    "for a VEF-complex with RamifiedEdges", 
+    [IsVEFComplex and HasRamifiedEdges],
     function(complex)
         return Length(RamifiedEdges(complex)) = 0;
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsNotEdgeRamified", "RamifiedEdges");
 
 
 ##

@@ -954,8 +954,8 @@ RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsPolygonalComple
 
 
 InstallMethod( MaximalGeodesicOfFlagNC, 
-    "for a ramified polygonal surface and a flag",
-    [IsRamifiedPolygonalSurface, IsList],
+    "for a polygonal complex without edge ramifications and a flag",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         local maxGeo, geo, inv;
 
@@ -974,8 +974,8 @@ InstallMethod( MaximalGeodesicOfFlagNC,
     end
 );
 InstallMethod( MaximalGeodesicOfFlag,
-    "for a ramified polygonal surface and a flag",
-    [IsRamifiedPolygonalSurface, IsList],
+    "for a polygonal complex without edge ramifications and a flag",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         if not flag in Flags(ramSurf) then
             Error(Concatenation("MaximalGeodesicOfFlag: Second argument ", 
@@ -1022,8 +1022,8 @@ BindGlobal( "__SIMPLICIAL_DuplicateFreeGeodesic",
     end
 );
 InstallMethod( MaximalDuplicateFreeGeodesicOfFlag,
-    "for a ramified polygonal surface and a flag",
-    [IsRamifiedPolygonalSurface, IsList],
+    "for a polygonal complex without edge ramifications and a flag",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         if not flag in Flags(ramSurf) then
             Error(Concatenation("MaximalDuplicateFreeGeodesicOfFlag: Second argument ", 
@@ -1034,10 +1034,10 @@ InstallMethod( MaximalDuplicateFreeGeodesicOfFlag,
     end
 );
 RedispatchOnCondition( MaximalDuplicateFreeGeodesicOfFlag, true,
-    [IsPolygonalComplex, IsList], [IsRamifiedPolygonalSurface], 0);
+    [IsPolygonalComplex, IsList], [IsNotEdgeRamified], 0);
 InstallMethod( MaximalDuplicateFreeGeodesicOfFlagNC,
-    "for a ramified polygonal surface and a flag",
-    [IsRamifiedPolygonalSurface, IsList],
+    "for a polygonal complex without edge ramifications and a flag",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         local geo;
 
@@ -1046,9 +1046,9 @@ InstallMethod( MaximalDuplicateFreeGeodesicOfFlagNC,
     end
 );
 RedispatchOnCondition( MaximalDuplicateFreeGeodesicOfFlagNC, true,
-    [IsPolygonalComplex, IsList], [IsRamifiedPolygonalSurface], 0);
+    [IsPolygonalComplex, IsList], [IsNotEdgeRamified], 0);
 InstallMethod( MaximalDuplicateFreeGeodesics,
-    "for a ramified polygonal surface", [IsRamifiedPolygonalSurface],
+    "for a polygonal complex without edge ramifications", [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         local maxGeo, geo, flag, inv, localGeo;
 
@@ -1069,7 +1069,7 @@ InstallMethod( MaximalDuplicateFreeGeodesics,
     end
 );
 RedispatchOnCondition( MaximalDuplicateFreeGeodesics, true,
-    [IsPolygonalComplex], [IsRamifiedPolygonalSurface], 0);
+    [IsPolygonalComplex], [IsNotEdgeRamified], 0);
 
 
 InstallMethod( GeodesicFlagCycle, 
@@ -1098,8 +1098,8 @@ InstallMethod( GeodesicFlagCycle,
 RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsClosedGeodesic], 0 );
 
 
-InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
+InstallMethod( MaximalGeodesics, "for a polygonal complex without edge ramifications",
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         local geos, flags, dressVertex, dressEdge, dressFace, boundary,
             dressVEF, dressVEV, todoFlags, start, flagList, invList, i,
