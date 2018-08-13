@@ -176,7 +176,7 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! @Returns a list of involutions
 #! @Arguments rcRamSurf
 DeclareAttribute("ColourInvolutions", 
-    IsEdgeColouredRamifiedPolygonalSurface and IsEdgeVariColouring);
+    IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsEdgeVariColouring);
 #! @EndGroup
 
 #TODO Is this relabelling ok?

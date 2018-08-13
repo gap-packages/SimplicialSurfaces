@@ -35,6 +35,7 @@ ReadPackage( "SimplicialSurfaces", "gap/Library/library.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/edgeColouring.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/variColouring.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/colouring_copy_attributes.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Flags/flags.gi" );
 

@@ -59,22 +59,11 @@ DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
 DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
 
 
-
-#DeclareProperty( "IsTriangularComplex", IsPolygonalComplex); #TODO replace by surface def
-#InstallTrueMethod( IsPolygonalComplex, IsTriangularComplex );
-
 DeclareProperty( "IsRamifiedPolygonalSurface", IsPolygonalComplex); #TODO replace by surface def
 InstallTrueMethod( IsPolygonalComplex, IsRamifiedPolygonalSurface );
 DeclareSynonym( "IsRamifiedSimplicialSurface", 
     IsRamifiedPolygonalSurface and IsTriangularComplex);
 
-# The next property is a subproperty of IsRamifiedPolygonalSurface
-# We define it for general polygonal complexes so that it can
-# be tested anyway
-#DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex ); #TODO replace by surface def
-#InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
-#DeclareSynonym( "IsSimplicialSurface", 
-#    IsPolygonalSurface and IsTriangularComplex );
 
 
 #######################################

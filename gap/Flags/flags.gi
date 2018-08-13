@@ -176,14 +176,14 @@ InstallMethod( IsRamifiedFlagSurface,
     "for an edge coloured polygonal complex",
     [IsFlagComplex],
     function(colComp)
-        return IsEdgeColouredRamifiedPolygonalSurface(colComp) and IsFlagComplex(colComp);
+        return IsEdgeColouredPolygonalComplex(colComp) and IsNotEdgeRamified(colComp) and IsFlagComplex(colComp);
     end
 );
 InstallMethod( IsFlagSurface, 
     "for an edge coloured polygonal complex",
     [IsFlagComplex],
     function(colComp)
-        return IsEdgeColouredPolygonalSurface(colComp) and IsFlagComplex(colComp);
+        return IsEdgeColouredPolygonalComplex(colComp) and IsNotEdgeRamified(colComp) and IsNotVertexRamified(colComp) and IsFlagComplex(colComp);
     end
 );
 
@@ -258,13 +258,13 @@ InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
 );
 
 InstallMethod( RamifiedFlagSurface,
-    "for a ramified polygonal surface", [IsRamifiedPolygonalSurface],
+    "for a ramified polygonal surface", [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         return FlagComplex(ramSurf);
     end
 );
 RedispatchOnCondition( RamifiedFlagSurface, true, [IsPolygonalComplex],
-    [IsRamifiedPolygonalSurface], 0);
+    [IsNotEdgeRamified], 0);
 InstallMethod( FlagSurface,
     "for a polygonal surface", [IsPolygonalSurface],
     function(surf)

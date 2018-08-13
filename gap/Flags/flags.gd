@@ -369,10 +369,10 @@ DeclareProperty( "IsRamifiedFlagSurface", IsFlagComplex );
 DeclareProperty( "IsFlagSurface", IsFlagComplex );
 #! @EndGroup
 InstallTrueMethod( IsRamifiedFlagSurface, IsFlagSurface );
-InstallTrueMethod( IsEdgeColouredRamifiedPolygonalSurface, IsRamifiedFlagSurface );
-InstallTrueMethod( IsRamifiedFlagSurface, IsEdgeColouredRamifiedPolygonalSurface and IsFlagComplex );
-InstallTrueMethod( IsEdgeColouredPolygonalSurface, IsFlagSurface );
-InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalSurface and IsFlagComplex );
+InstallTrueMethod( IsEdgeColouredPolygonalComplex and IsNotEdgeRamified, IsRamifiedFlagSurface );
+InstallTrueMethod( IsRamifiedFlagSurface, IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsFlagComplex );
+InstallTrueMethod( IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified, IsFlagSurface );
+InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified and IsFlagComplex );
 
 
 #! @BeginGroup FlagComplex
@@ -396,7 +396,7 @@ InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalSurface and IsFlagCompl
 DeclareAttribute("FlagComplex", IsPolygonalComplex);
 #! @Returns a ramified flag surface
 #! @Arguments ramSurf
-DeclareOperation("RamifiedFlagSurface", [IsRamifiedPolygonalSurface]);
+DeclareOperation("RamifiedFlagSurface", [IsPolygonalComplex and IsNotEdgeRamified]);
 #! @Returns a flag surface
 #! @Arguments surf
 DeclareOperation("FlagSurface", [IsPolygonalSurface]);

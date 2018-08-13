@@ -93,7 +93,7 @@ InstallMethod( ColouredEdgesOfFaces,
 
 InstallMethod( ColourInvolutions,
     "for an edge vari-coloured ramified polygonal surface",
-    [IsEdgeColouredRamifiedPolygonalSurface and IsEdgeVariColouring],
+    [IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsEdgeVariColouring],
     function(rbComp)
         local invs, cols, col, toList, edges, edge, facesOfEdge;
 
@@ -124,7 +124,7 @@ InstallMethod( ColourInvolutions,
 );
     RedispatchOnCondition( ColourInvolutions, true, 
         [IsEdgeColouredPolygonalComplex], 
-        [IsEdgeVariColouring and IsEdgeColouredRamifiedPolygonalSurface], 0 );
+        [IsEdgeVariColouring and IsNotEdgeRamified], 0 );
 
 
 #######################################
