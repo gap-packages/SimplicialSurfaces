@@ -76,6 +76,10 @@ DeclareCategory( "IsVertexEdgePath", IsDualPath );
 BindGlobal( "VertexEdgePathFamily", 
     NewFamily("VertexEdgePathFamily", IsObject, IsVertexEdgePath) );
 
+DeclareCategory( "IsPerimeterPath", IsVertexEdgePath and IsClosedPath );
+BindGlobal( "PerimeterPathFamily",
+    NewFamily("PerimeterPathFamily", IsObject, IsPerimeterPath));
+
 
 DeclareCategory( "IsEdgeFacePath", IsDualPath );
 BindGlobal( "EdgeFacePathFamily", 

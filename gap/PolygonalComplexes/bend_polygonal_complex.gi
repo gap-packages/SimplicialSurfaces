@@ -229,3 +229,36 @@ InstallMethod( BendPolygonalComplexBySignedFacePerimeters,
         return complex;
     end
 );
+
+InstallMethod( LocalFaceNC,
+    "for a bend polygonal complex and one face",
+    [IsBendPolygonalComplex, IsPosInt],
+    function(bendComplex, face)
+        local obj, vertOfEdge, faceOfEdge, e;
+
+        obj := Objectify( PolygonalComplexType, rec() );
+        SetVerticesAttributeOfVEFComplex(obj, LocalVerticesOfFaces(bendComplex)[face]);
+        SetEdges(obj, LocalEdgesOfFaces(bendComplex)[face]);
+        SetFaces(obj, [face]);
+
+        vertOfEdge := [];
+        faceOfEdge := [];
+        for e in Edges(obj) do
+            vertOfEdge[e] := LocalVerticesOfLocalEdges(bendComplex)[e];
+            faceOfEdge[e] := [face];
+        od;
+        SetVerticesOfEdges(obj, vertOfEdge);
+        SetFacesOfEdges(obj, faceOfEdge);
+
+        return obj;
+    end
+);
+
+InstallMethod( LocalFace,
+    "for a bend polygonal complex and one face",
+    [IsBendPolygonalComplex, IsPosInt],
+    function(bendComplex, face)
+        __SIMPLICIAL_CheckFace(bendComplex, face, "LocalFace");
+        return LocalFaceNC(bendComplex, face);
+    end
+);

@@ -23,7 +23,10 @@
 #! In section <Ref Sect="PolygonalStructures_complex"/> we introduced 
 #! incidence geometries to describe polygonal complexes.
 #! This chapter describes several different ways to access these
-#! incidence structures.
+#! incidence structures. Most of these methods are also valid for
+#! VEF-complexes (so they can be used for bend polygonal complexes). For
+#! mor specific access to bend polygonal complexes, compare
+#! chapter <Ref Chap="Chapter_AccessBendPolygonalComplex"/>.
 #! <P/>
 
 ####
@@ -89,8 +92,9 @@
 #! applications for incidence can be found in section
 #! <Ref Sect="Section_Access_SpecializedAccess"/>.
 #! 
-#! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/> 
-#! and <Ref Sect="Section_Access_OrderedVertexAccess"/>
+#! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/>,
+#! <Ref Sect="Section_Access_OrderedVertexAccess"/>, and
+#! <Ref Sect="Section_Access_OrderedHoleAccess"/>
 #! deal with variations of incidence that are usually not needed by the 
 #! standard user.
 #TODO how to improve this introduction to give more information but
@@ -514,7 +518,7 @@ DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! The methods from section <Ref Sect="Section_Access_BasicAccess"/> are
 #! sufficient to answer all questions about the incidence structure of a given
 #! polygonal complex - in principle. In practice this may be quite cumbersome.
-#! Therefore we provide some specialized methods that are used quite often.
+#! Therefore we provide some specialized methods that are often useful.
 #! We will exemplify them with the following example.
 #! 
 #! <Alt Only="TikZ">

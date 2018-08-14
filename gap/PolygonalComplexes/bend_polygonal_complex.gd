@@ -263,4 +263,20 @@ DeclareOperation( "BendPolygonalComplexBySignedFacePerimeters", [IsList] );
 #! 
 
 
+#! @BeginGroup
+#! @Description
+#! For a given face of a bend polygonal complex, return the polygonal
+#! complex of this single polygon (the local vertices and edges of
+#! <A>bendComplex</A> become the vertices and edges of the returned 
+#! polygonal complex).
+#!
+#! The NC-version does not check whether <A>face</A> is a face of
+#! <A>bendComplex</A>.
+#!
+#! @Returns a polygonal complex
+#! @Arguments bendComplex, face
+DeclareOperation("LocalFace", [IsBendPolygonalComplex, IsPosInt]);
+#! @Arguments bendComplex, face
+DeclareOperation("LocalFaceNC", [IsBendPolygonalComplex, IsPosInt]);
+#! @EndGroup
 

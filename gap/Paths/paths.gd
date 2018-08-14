@@ -413,6 +413,94 @@ DeclareProperty( "IsBendPolygonalComplexPath", IsVertexEdgePath );
 ## Coloured output-attributes
 DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 
+#! @Section Perimeter paths
+#! @SectionLabel Paths_Perimeter
+#!
+#! This section describes <E>perimeter paths</E>, which are special
+#! vertex-edge-paths (with additional information). They are returned by
+#! methods like <K>PerimeterPathsOfFaces</K> 
+#! (<Ref Subsect="PerimeterPathsOfFaces"/>) and <K>OrientationOfFaces</K>
+#! (<Ref Subsect="OrientationOfFaces"/>).
+#!
+#! TODO explain stuff
+#!
+#! 
+
+
+
+#! <ManSection Label="IsPerimeterPath">
+#!   <Prop Name="IsPerimeterPath" Arg="object"
+#!     Label="for IsObject"
+#!     Comm="Return whether the given object is a perimeter path"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!      TODO
+#!   </Description>
+#! </ManSection>
+
+
+#! @Description
+#! Return the face to which this perimeter path belongs.
+#!
+#! @Returns a face
+#! @Arguments perimPath
+DeclareAttribute( "Face", IsPerimeterPath );
+
+
+#! @BeginGroup PerimeterPath
+#! @Description
+#! Construct a perimeter path from a vertex-edge-path and a 
+#! face. If the face is not given, but can be uniquely reconstructed
+#! from the vertex-edge-path, this will be done.
+#!
+#! If some edges of the given face are identified (this might
+#! happen for a bend polygonal complex), the construction 
+#! will fail as well.
+#!
+#! The NC-version does not check whether <A>face</A> is a face of
+#! the underlying complex and whether it matches to the given
+#! <A>vePath</A>. It also does not check whether the vertex-edge-path
+#! is closed.
+#!
+#! @Returns a perimeter path
+#! @Arguments vePath, face
+DeclareOperation( "PerimeterPath", [IsVertexEdgePath, IsPosInt] );
+#! @Arguments vePath, face
+DeclareOperation( "PerimeterPathNC", [IsVertexEdgePath, IsPosInt] );
+#! @Arguments vePath
+DeclareOperation( "PerimeterPath", [IsVertexEdgePath] );
+#! @EndGroup
+
+
+#! @BeginGroup PerimeterPathByLocalPath
+#! @Description
+#! Construct a perimeter path for a bend polygonal complex from
+#! a perimeter path on <K>LocalFace</K>(<A>bendComplex</A>).
+#!
+#! 
+#! @Returns a perimeter path
+#! @Arguments bendComplex, localPath
+DeclareOperation( "PerimeterPathByLocalPath", [IsBendPolygonalComplex, IsPerimeterPath] );
+#! @Arguments bendComplex, localPath
+DeclareOperation( "PerimeterPathByLocalPathNC", [IsBendPolygonalComplex, IsPerimeterPath] );
+#! @EndGroup
+
+
+#! @Description
+#! If the perimeter path is defined on a bend polygonal complex 
+#! <K>bendComplex</K>
+#! this method returns the corresponding perimeter path on
+#! the polygonal complex <K>LocalFace(bendComplex)</K>.
+#!
+#! If the underlying VEF-complex is a polygonal complex already,
+#! this method returns <K>fail</K>.
+#!
+#! @Returns a perimeter path or <K>fail</K>
+#! @Arguments perimPath
+DeclareAttribute( "LocalPath", IsPerimeterPath );
+
+
+
 
 #! @Section Edge-Face-Paths
 #! @SectionLabel Paths_EdgeFace
