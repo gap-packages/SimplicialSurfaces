@@ -9,12 +9,13 @@
      Since we don't want to bore readers, we aim for an engagingly written
      chapter with many pictures to easily visualize what is going on. -->
 <Chapter Label="PolygonalStructures"><Heading>Polygonal Structures</Heading>
-    This chapter presents the data structures for the surfaces that are used
+    This chapter presents the different ways in which surfaces are used
     in the <K>SimplicialSurfaces</K>-package. More accurately, it presents 
-    the structures (which can be much more general than simplicial surfaces)
-    that are build from polygons.
+    structures
+    that are build from polygons (note that these can be much more general
+    than simplicial surfaces).
     <Par/>
-    These structures are described as <K>DiscreteComplex</K>es.
+    These structures are described as <K>VEFComplex</K>es.
     To model these structures there are two main options:
     <Enum>
         <Item>Description by incidence geometry. This leads to the concept
@@ -24,7 +25,8 @@
             to be surfaces are explained in section
             <Ref Sect="PolygonalStructures_surface"/>.</Item>
         <Item>If incidence geometry is not sufficient to describe a polygonal
-            structure, additional information (subdivision of faces) can be
+            structure, additional information (a barycentric subdivision of 
+            the faces) can be
             used. This leads to the concept of <K>BendPolygonalComplex</K>
             (section <Ref Sect="PolygonalStructures_bend"/>). 
             The weaker properties of the incidence geometry are
@@ -179,7 +181,7 @@
 
 
         <ManSection>
-            <Prop Name="IsPolygonalComplex" Arg="object"
+            <Prop Name="IsPolygonalComplex" Arg="object" Label="for IsObject"
                 Comm="Checks whether the given object is a polygonal complex"/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
@@ -203,6 +205,100 @@
     </Section>
 <!-- TODO maybe talk about how to access this information with a link to the appropriate chapter? -->
 
+    <Section Label="PolygonalStructures_bend">
+        <Heading>Bend polygonal complexes and surfaces</Heading>
+        A bend polygonal complex consists of a set of polygons whose vertices
+        and edges can be arbitrarily identified. In particular a square whose
+        opposite edges are identified (so it becomes a topological torus) can
+        be described by a bend polygonal complex (but not by a polygonal 
+        complex).
+        <Alt Only="TikZ">
+            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+                \def\off{0.3}
+                \def\len{2.2}
+
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (\len,0);
+                \coordinate (D) at (0,\len);
+                \coordinate (C) at ($(B)+(D)$);
+
+                \draw[edge,face] (A) -- (B) -- (C) -- (D) -- cycle;
+
+                \foreach \p/\r in {A/left, B/right, C/right, D/left}{
+                    \vertexLabelR{\p}{\r}{}
+                }
+
+                \draw[blue,thick,->] ($(A)+(-\off,0)$) -- ($(D)+(-\off,0)$);
+                \draw[blue,thick,->] ($(B)+(\off,0)$) -- ($(C)+(\off,0)$);
+                \draw[red,thick,->] ($(A)+(0,-\off)$) -- ($(B)+(0,-\off)$);
+                \draw[red,thick,->] ($(D)+(0,\off)$) -- ($(C)+(0,\off)$);
+            \end{tikzpicture}
+        </Alt>
+        This is achieved by storing additional information:
+        <Enum>
+            <Item><E>Local vertices</E>: For every polygon there is
+                a local vertex for each corner (or angle).</Item>
+            <Item><E>Local edges</E>: For every polygon there is a 
+                local edge for each side. </Item>
+            <Item><E>Half-edges</E>: A tuple of a vertex and an edge
+                (incident to each other).</Item>
+            <Item><E>Local flags</E>: A triple of a local vertex, a
+                local edge and a face, all of them incident.</Item>
+        </Enum>
+
+        TODO explain, motivate, define bend polygonal complexes
+        <ManSection>
+            <Prop Name="IsBendPolygonalComplex" Arg="object" 
+                Label="for IsObject"
+                Comm="Checks whether the given object is a bend polygonal complex"/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether <A>object</A> is a bend polygonal complex.
+                
+                TODO
+            </Description>
+        </ManSection>
+
+
+        TODO explain how to work with it
+    </Section>
+
+    <Section Label="PolygonalStructures_bendIncidence">
+        <Heading>Incidence geometry of bend polygonal complexes</Heading>
+        In bend polygonal complexes (section 
+        <Ref Sect="PolygonalStructures_bend"/>) the incidence geometry is 
+        not as 
+        constrained as in polygonal complexes (section
+        <Ref Sect="PolygonalStructures_complex"/>).
+
+        We denote this more liberal incidence geometry by 
+        <E>VEF-complex</E> (VEF stands for vertex-edge-face).
+        <Subsection Label="Def_VEFComplex">
+            <Heading>Definition (VEF-complex)</Heading>
+            A <E>VEF-complex</E> is a two-dimensional incidence geometry
+            consisting of vertices, edges, and faces such that the
+            following conditions hold:
+            <#Include Label="VEFComplex_Properties"/>
+        </Subsection>
+            
+        <ManSection>
+            <Filt Name="IsVEFComplex" Arg="object" Type="category"
+                Comm="Checks whether the given object is a VEF-complex."/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether <A>object</A> is a VEF-complex. A 
+                <E>VEF-complex</E>
+                is a two-dimensional incidence geometry of vertices, edges, and
+                faces such that the following conditions hold:
+                <#Include Label="VEFComplex_Properties"/>
+            </Description>
+        </ManSection>
+
+       
+
+        <!-- TODO intuition, more information? -->
+    </Section>
+
     <Section Label="PolygonalStructures_surface">
         <Heading>Polygonal and simplicial surfaces</Heading>
         Polygonal surfaces are polygonal complexes (compare section 
@@ -215,7 +311,7 @@
         There are two properties that distinguish polygonal surfaces
         from polygonal complexes:
         <Enum>
-            <Item> Every edge behaves "like a surface", i.e. it is incident to
+            <Item> There are no ramified edges, i.e. every edge is incident to
                 at most two faces. This excludes cases like three triangles
                 that share one edge.
                 <Alt Only="TikZ">
@@ -224,7 +320,7 @@
                     \end{tikzpicture}
                 </Alt>
             </Item>
-            <Item> Every vertex behaves "like a surface". We will formalize this
+            <Item> There are no ramified vertices. We will formalize this
                 below but the aim of this condition is to exclude cases like 
                 these:
                 <Alt Only="TikZ">
@@ -235,18 +331,18 @@
         If only the first condition is fulfilled, we have a <E>polygonal 
         complex without edge ramifications</E>.
          <ManSection>
-            <Prop Name="IsNotEdgeRamified" Arg="complex"
+            <Prop Name="IsNotEdgeRamified" Arg="complex" Label="for VEFComplex"
                 Comm="Checks whether the given VEF-complex has no edge ramifications"/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
                 Checks whether the VEF-complex <A>complex</A> has no edge
                 ramifications.
-
+                <P/>
                 If <A>complex</A> is a polygonal complex, this means that
                 every edge is incident to at most two faces.
-
+                <P/>
                 If <A>complex</A> is a bend polygonal complex, this means that
-                every edge is incident to at most three local edges.
+                every edge is incident to at most two local edges.
             </Description>
         </ManSection>
 
@@ -301,7 +397,8 @@
                 Comm="Checks whether the given object is a polygonal surface."/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
-                Checks whether <A>object</A> is a polygonal surface. Informally
+                Checks whether <A>object</A> (a polygonal complex) is a 
+                polygonal surface. Informally
                 a polygonal surface is a surface (with boundary) that is build
                 only from polygons.
                 <Par/>
@@ -325,7 +422,8 @@
                 Comm="Checks whether the given object is a simplicial surface."/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
-                Checks whether <A>object</A> is a simplicial surface. 
+                Checks whether <A>object</A> (a polygonal complex) is a 
+                simplicial surface. 
                 Informally a simplicial surface is a surface (with boundary)
                 that is build only from triangles.
                 <Par/>
@@ -346,46 +444,5 @@
 
     </Section>
 
-    <Section Label="PolygonalStructures_bend">
-        <Heading>Bend polygonal complexes and surfaces</Heading>
-        TODO explain, motivate, define bend polygonal complexes
-        TODO explain how to work with it
-    </Section>
-
-    <Section Label="PolygonalStructures_bendIncidence">
-        <Heading>Incidence geometry of bend polygonal complexes</Heading>
-        In bend polygonal complexes (section 
-        <Ref Sect="PolygonalStructures_bend"/>) the incidence geometry is 
-        not as 
-        constrained as in polygonal complexes (section
-        <Ref Sect="PolygonalStructures_complex"/>).
-
-        We denote this more liberal incidence geometry by 
-        <E>VEF-complex</E> (VEF stands for vertex-edge-face).
-        <Subsection Label="Def_VEFComplex">
-            <Heading>Definition (VEF-complex)</Heading>
-            A <E>VEF-complex</E> is a two-dimensional incidence geometry
-            consisting of vertices, edges, and faces such that the
-            following conditions hold:
-            <#Include Label="VEFComplex_Properties"/>
-        </Subsection>
-            
-        <ManSection>
-            <Filt Name="IsVEFComplex" Arg="object" Type="category"
-                Comm="Checks whether the given object is a VEF-complex."/>
-            <Returns><K>true</K> or <K>false</K></Returns>
-            <Description>
-                Checks whether <A>object</A> is a VEF-complex. A 
-                <E>VEF-complex</E>
-                is a two-dimensional incidence geometry of vertices, edges, and
-                faces such that the following conditions hold:
-                <#Include Label="VEFComplex_Properties"/>
-            </Description>
-        </ManSection>
-
-       
-
-        <!-- TODO intuition, more information? -->
-    </Section>
-                                    
+                                   
 </Chapter> 
