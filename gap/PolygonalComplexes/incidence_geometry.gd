@@ -1152,7 +1152,7 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! @Section Perimeter around holes in surfaces
 #! @SectionLabel Access_OrderedHoleAccess
 #!
-#! If a polygonal surface (introduced in 
+#! If a (bend) polygonal surface (introduced in 
 #! <Ref Sect="PolygonalStructures_surface"/>) is not closed, it has at least
 #! one "hole". For example the open pyramid and the open bag each have
 #! one hole:
@@ -1188,12 +1188,11 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! To each of these we associate a unique closed vertex-edge-path by the 
 #! following conventions:
 #! * It starts with the smallest vertex on the perimeter
-#! * After using the first condition, the next vertex is as small as possible
-#! * After using the first two conditions, the first edge is minimal
+#! * The first edge (incident to the smallest vertex) is minimal
 #!
 #! All of those vertex-edge-paths are returned as a set.
 #! TODO example
 #!
 #! @Arguments surface
 #! @Returns a set of closed vertex-edge-paths
-DeclareAttribute( "PerimeterOfHoles", IsPolygonalSurface );
+DeclareAttribute( "PerimeterOfHoles", IsVEFSurface );

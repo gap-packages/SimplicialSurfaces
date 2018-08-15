@@ -1158,11 +1158,11 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 ##          Start of HolePerimeter
 ##
-InstallMethod( PerimeterOfHoles, "for a polygonal surface",
-    [IsPolygonalSurface], 
+InstallMethod( PerimeterOfHoles, "for a VEF-surface",
+    [IsVEFSurface], 
     function(surface)
         local boundVerts, boundEdges, res, transVert, e, incVert,
-            transEdge, v, umb, path, incEdges, adVertices, lastEdge,
+            transEdge, v, umb, path, incEdges, adVertex, i, lastEdge,
             lastVertex, nextEdge, nextVertex, vePath, incEdge;
 
         # Find all boundary edges and encode the incident vertices
@@ -1195,14 +1195,13 @@ InstallMethod( PerimeterOfHoles, "for a polygonal surface",
         while Length(boundVerts) <> 0 do
             path := [ boundVerts[1] ];
             incEdges := incEdge[path[1]];
-            adVertices := [ path[1]^transVert[incEdges[1]], path[1]^transVert[incEdges[2]] ];
-            if adVertices[1] < adVertices[2] then
-                Append(path, [incEdges[1],adVertices[1]]);
-            elif adVertices[2] < adVertices[1] then
-                Append(path, [incEdges[2],adVertices[2]]);
-            else # incEdge only consists of sets (by construction)
-                Append(path, [incEdges[1],adVertices[1]]);
+            if incEdges[1] < incEdges[2] then
+                i := 1;
+            else
+                i := 2;
             fi;
+            adVertex := path[1]^transVert[incEdges[i]];
+            Append(path, [incEdges[i], adVertex]);
 
             lastEdge := path[2];
             lastVertex := path[3];
@@ -1224,4 +1223,4 @@ InstallMethod( PerimeterOfHoles, "for a polygonal surface",
         return Set(res);
     end
 );
-RedispatchOnCondition( PerimeterOfHoles, true, [IsPolygonalComplex], [IsPolygonalSurface], 0 );
+RedispatchOnCondition( PerimeterOfHoles, true, [IsVEFComplex], [IsVEFSurface], 0 );
