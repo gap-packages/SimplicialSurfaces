@@ -9,5 +9,7 @@ Changes from master to rewrite:
 5) Rename PerimetersOfFaces to PerimeterPathsOfFaces. Introduce the new
     category IsPerimeterPath as a specialisation of IsVertexEdgePath
 6) Rename Umbrella* to UmbrellaPath*
-7) 
+7) The package now needs GAP 4.9 and a new version of the AttributeScheduler
+    to run.
+8)
 
