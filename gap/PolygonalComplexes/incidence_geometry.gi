@@ -493,56 +493,49 @@ InstallMethod( NeighbourFacesByEdge,
 ##
 ##          Face-induced order of vertices/edges
 ##
-__SIMPLICIAL_AddVEFAttribute(PerimetersOfFaces);
+__SIMPLICIAL_AddVEFAttribute(PerimeterPathsOfFaces);
 
 
 # the wrappers
-InstallMethod( PerimeterOfFaceNC, 
+InstallMethod( PerimeterPathOfFaceNC, 
     "for a VEF-complex and a face (positive integer)",
     [IsVEFComplex, IsPosInt],
     function(complex, face)
-        return PerimetersOfFaces(complex)[face];
+        return PerimeterPathsOfFaces(complex)[face];
     end
 );
-InstallMethod( PerimeterOfFace,
+InstallMethod( PerimeterPathOfFace,
     "for a VEF-complex and a face (positive integer)",
     [IsVEFComplex, IsPosInt],
     function(complex, face)
-        __SIMPLICIAL_CheckFace(complex, face, "PerimeterOfFace");
-        return PerimeterOfFaceNC(complex, face);
+        __SIMPLICIAL_CheckFace(complex, face, "PerimeterPathOfFace");
+        return PerimeterPathOfFaceNC(complex, face);
     end
 );
 
 
 # main computation method
-InstallMethod( PerimetersOfFaces, "for a polygonal complex", 
+InstallMethod( PerimeterPathsOfFaces, "for a polygonal complex", 
     [IsPolygonalComplex],
     function(complex)
-        local paths, f, localVertices, startVert, adEdges, adVertices,
-            i, localPath, len;
+        local paths, f, localVertices, startVert, adEdges,
+            i, localPath, len, perim;
 
         paths := [];
+        perim := [];
         for f in Faces(complex) do
             localVertices := VerticesOfFaces(complex)[f];
             startVert := Minimum(localVertices);
             adEdges := Intersection( EdgesOfFaces(complex)[f],
                         EdgesOfVertices(complex)[startVert]);
-            adVertices := List(adEdges, e ->
-                    OtherVertexOfEdgeNC(complex,startVert,e));
-            Assert(1, Length(adVertices)=2);
             Assert(1, adEdges[1]<>adEdges[2]);
-            
-            if adVertices[1] < adVertices[2] then
-                localPath := [ startVert, adEdges[1], adVertices[1] ];
-            elif adVertices[1] > adVertices[2] then
-                localPath := [ startVert, adEdges[2], adVertices[2] ];
+
+            if adEdges[1] < adEdges[2] then
+                localPath := [ startVert, adEdges[1], OtherVertexOfEdgeNC(complex,startVert,adEdges[1]) ];
             else
-                if adEdges[1] < adEdges[2] then
-                    localPath := [ startVert, adEdges[1], adVertices[1] ];
-                else
-                    localPath := [ startVert, adEdges[2], adVertices[2] ];
-                fi;
+                localPath := [ startVert, adEdges[2], OtherVertexOfEdgeNC(complex,startVert,adEdges[2]) ];
             fi;
+            
 
             for i in [2..Length(localVertices)] do # How long will the path be?
                 len := Length(localPath);
@@ -553,101 +546,130 @@ InstallMethod( PerimetersOfFaces, "for a polygonal complex",
             od;
             Assert(1, localPath[1] = localPath[Length(localPath)]);
             paths[f] := VertexEdgePathNC(complex, localPath);
+            perim[f] := PerimeterPathNC(paths[f], f);
         od;
 
-        return paths;
+        return perim;
     end
 );
 
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "PerimetersOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
-                    "VerticesOfEdges", "EdgesOfVertices"]);
-    #TODO how does scheduler interact with (Bend)PolygonalComplex?
+    "PerimeterPathsOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
+        "VerticesOfEdges", "EdgesOfVertices"], ["IsPolygonalComplex"]);
 
 # TODO document ordering
-InstallMethod( PerimetersOfFaces,
-    "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
+InstallMethod( PerimeterPathsOfFaces,
+    "for a bend polygonal complex with Faces, VerticesOfFaces, LocalVerticesOfVertices, LocalVerticesOfFaces, EdgesOfLocalEdges, VerticesOfLocalVertices",
+    [IsBendPolygonalComplex and HasFaces and HasVerticesOfFaces and 
+        HasLocalVerticesOfVertices and HasLocalVerticesOfFaces and
+        HasEdgesOfLocalEdges and HasVerticesOfLocalVertices],
     function(bendComplex)
-        local perims, f, vertexInv, edgeInv, localFlags, allCycles,
-            flag, lstAB, PathFromFlags, paths, k;
+        local perim, f, localFace, verts, startVert, locVerts, startLoc, obj,
+            locEdges, edges, localPath, path, i, len, localVE, localPerim;
 
-        perims := [];
-        vertexInv := LocalFlagEdgeInvolution(bendComplex);
-        edgeInv := LocalFlagVertexInvolution(bendComplex);
+        perim := [];
         for f in Faces(bendComplex) do
-            localFlags := LocalFlagsOfFaces(bendComplex)[f];
+            localFace := LocalFace(bendComplex, f);
 
-            # Compute all possible flag cycles
-            allCycles := [];
-            for flag in localFlags do
-                lstAB := [flag, flag^vertexInv];
-                for k in [1..Length(localFlags)/2-1] do
-                    lstAB[2*k+1] := lstAB[2*k]^edgeInv;
-                    lstAB[2*k+2] := lstAB[2*k+1]^vertexInv;
-                od;
+            # Find the starting vertex
+            verts := VerticesOfFaces(bendComplex)[f];
+            startVert := Minimum(verts);
+            locVerts := Intersection( 
+                LocalVerticesOfVertices(bendComplex)[startVert],
+                LocalVerticesOfFaces(bendComplex)[f] );
+            startLoc := Minimum(locVerts);
 
-                Add(allCycles, lstAB);
+            # Find the next edge
+            locEdges := EdgesOfVertices(localFace)[startLoc];
+            edges := EdgesOfLocalEdges(bendComplex){locEdges};
+
+            if edges[1] = edges[2] then
+                # tie-breaker by local edges
+                if locEdges[1] < locEdges[2] then
+                    localPath := [ startLoc, locEdges[1] ];
+                    path := [ startVert, edges[1] ];
+                else
+                    localPath := [ startLoc, locEdges[2] ];
+                    path := [ startVert, edges[2] ];
+                fi;
+            elif edges[1] < edges[2] then
+                localPath := [ startLoc, locEdges[1] ];
+                path := [ startVert, edges[1] ];
+            else
+                localPath := [ startLoc, locEdges[1] ];
+                path := [ startVert, edges[1] ];
+            fi;
+            Add(localPath, OtherVertexOfEdgeNC(localFace, localPath[1], localPath[2]));
+            Add(path, VerticesOfLocalVertices(bendComplex)[localPath[3]]);
+
+
+            for i in [2..NumberOfEdges(localFace)] do # How long will the path be?
+                len := Length(localPath);
+
+                Add( localPath, OtherEdgeOfVertexInFaceNC(localFace, 
+                    localPath[len], localPath[len-1],f) );
+                Add( localPath, OtherVertexOfEdgeNC(localFace, 
+                    localPath[len], localPath[len+1]) );
+
+                Add( path, EdgesOfLocalEdges(bendComplex)[localPath[len+1]] );
+                Add( path, VerticesOfLocalVertices(bendComplex)[localPath[len+2]] );
             od;
+            Assert(1, localPath[1] = localPath[Length(localPath)]);
 
-            # Convert the cycles into vertex-edge-paths
-            PathFromFlags := function( lst )
-                local path, k;
+            localVE := VertexEdgePathNC(localFace, localPath);
+            localPerim := PerimeterPathNC(localVE, f);
 
-                path := [ VerticesOfLocalFlags(bendComplex)[lst[1]], EdgesOfLocalFlags(bendComplex)[lst[1]] ];
-                for k in [2..Length(lst)] do
-                    if IsEvenInt(k) then
-                        Add(path, VerticesOfLocalFlags(bendComplex)[lst[k]]);
-                    else
-                        Add(path, EdgesOfLocalFlags(bendComplex)[lst[k]]);
-                    fi;
-                od;
+            obj := Objectify( PerimeterPathType, rec() );
+            SetPath(obj, path);
+            SetLocalPath( obj, localPerim );
+            SetAssociatedVEFComplex(obj, bendComplex);
+            SetFace(obj, f);
 
-                return path;
-            end;
-            paths := List(allCycles, PathFromFlags);
-
-            # Pick the minimal path
-            perims[f] := VertexEdgePathNC( bendComplex, Minimum(paths) );
+            perim[f] := obj;
         od;
 
-        return perims;
+        return perim;
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "PerimeterPathsOfFaces", 
+    ["Faces", "VerticesOfFaces", "LocalVerticesOfVertices", 
+        "LocalVerticesOfFaces", "EdgesOfLocalEdges", 
+        "VerticesOfLocalVertices"],
+    ["IsBendPolygonalComplex"]);
 
 
-# inferences from the vertexEdgePath
+# inferences from the perimeter path
 InstallMethod( VerticesOfFaces, 
-    "for a VEF-complex with PerimetersOfFaces",
-    [IsVEFComplex and HasPerimetersOfFaces],
+    "for a VEF-complex with PerimeterPathsOfFaces",
+    [IsVEFComplex and HasPerimeterPathsOfFaces],
     function(complex)
-        return List( PerimetersOfFaces(complex), p -> Set(VerticesAsList(p)) );
+        return List( PerimeterPathsOfFaces(complex), p -> Set(VerticesAsList(p)) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "VerticesOfFaces", ["PerimetersOfFaces"] );
+    "VerticesOfFaces", ["PerimeterPathsOfFaces"] );
 
 
 InstallMethod( EdgesOfFaces, 
-    "for a VEF-complex with PerimetersOfFaces",
-    [IsVEFComplex and HasPerimetersOfFaces],
+    "for a VEF-complex with PerimeterPathsOfFaces",
+    [IsVEFComplex and HasPerimeterPathsOfFaces],
     function(complex)
-        return List( PerimetersOfFaces(complex), p -> Set(EdgesAsList(p)) );
+        return List( PerimeterPathsOfFaces(complex), p -> Set(EdgesAsList(p)) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "EdgesOfFaces", ["PerimetersOfFaces"] );
+    "EdgesOfFaces", ["PerimeterPathsOfFaces"] );
 
 
 InstallMethod( Faces,
-    "for a VEF-complex that has PerimetersOfFaces",
-    [IsVEFComplex and HasPerimetersOfFaces],
+    "for a VEF-complex that has PerimeterPathsOfFaces",
+    [IsVEFComplex and HasPerimeterPathsOfFaces],
     function(complex)
-        return __SIMPLICIAL_BoundPositions( PerimetersOfFaces(complex) );
+        return __SIMPLICIAL_BoundPositions( PerimeterPathsOfFaces(complex) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "Faces", "PerimetersOfFaces");
+    "Faces", "PerimeterPathsOfFaces");
 
 ##
 ##          End of face-induced order

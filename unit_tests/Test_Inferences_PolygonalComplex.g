@@ -146,35 +146,36 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     verticesOfEdges := [ [4,9], [4,8], [3,8], , [1,9], [4,7], [3,6], , [1,7], [2,7], [2,6] ];
     edgesOfVertices := [ [5,9], [10,11], [3,7], [1,2,6], , [7,11], [6,9,10], [2,3], [1,5] ];
     
-    perimeter := [ [1,9,7,6,4,1,9,5,1], , [2,11,6,7,3,3,8,2,4,6,7,10,2] ];
+    perimeter := [ [1,5,9,1,4,6,7,9,1], , [2,10,7,6,4,2,8,3,3,7,6,11,2] ];
 
     #
     # generic computation
     #
     complex := Objectify( PolygonalComplexType, rec() );
+    SetFaces(complex, faces);
     SetVerticesOfFaces( complex, verticesOfFaces );
     SetEdgesOfFaces( complex, edgesOfFaces );
     SetVerticesOfEdges( complex, verticesOfEdges );
     SetEdgesOfVertices( complex, edgesOfVertices );
-    Assert(0, List(perimeter,p->VertexEdgePathNC(complex,p)) = PerimetersOfFaces(complex));
+    Assert(0, perimeter = List(PerimeterPathsOfFaces(complex),PathAsList));
 
 
     #
     # inferences about *OfFaces
     #
     complex := Objectify( PolygonalComplexType, rec() );
-    SetPerimetersOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
+    SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     Assert(0, VerticesOfFaces(complex)=verticesOfFaces);
 
     complex := Objectify( PolygonalComplexType, rec() );
-    SetPerimetersOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
+    SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     Assert(0, EdgesOfFaces(complex)=edgesOfFaces);
 
     #
     # inferences about Faces
     #
     complex := Objectify( PolygonalComplexType, rec() );
-    SetPerimetersOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
+    SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     Assert(0, Faces(complex) = faces);
 end);
 

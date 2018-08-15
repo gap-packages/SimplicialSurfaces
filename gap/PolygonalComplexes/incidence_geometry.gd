@@ -773,16 +773,18 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! If we want to know in which order the vertices (or edges) are
 #! arranged around the perimeter of the given face, the previous methods 
 #! are quite clumsy. For that reason the method 
-#! <K>PerimeterOfFace</K> was written.
+#! <K>PerimeterPathOfFace</K> was written.
 #! 
 #! @ExampleSession
-#! gap> perim := PerimeterOfFace( pentagon, 2 );
-#! ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 )
+#! gap> perim := PerimeterPathOfFace( pentagon, 2 );
+#! ( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 )
 #! @EndExampleSession
 #!
-#! It returns the perimeter as a vertex-edge-path, not a list (all available
-#! methods for vertex-edge-paths can be found in section 
-#! <Ref Sect="Section_Paths_VertexEdge"/>).
+#! It returns the perimeter of the polygon as a perimeter path (a special
+#! vertex-edge-path), not a list (all available
+#! methods for vertex-edge-paths and perimeter paths can be found in sections
+#! <Ref Sect="Section_Paths_VertexEdge"/> and 
+#! <Ref Sect="Section_Paths_Perimeter"/>).
 #! @BeginExampleSession
 #! gap> IsList(perim);
 #! false
@@ -795,9 +797,9 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! The order of vertices and edges is best described by a cyclic permutation.
 #! @ExampleSession
 #! gap> VerticesAsPerm(perim);
-#! (1,6,2,3,9)
+#! (1,9,3,2,6)
 #! gap> EdgesAsPerm(perim);
-#! (2,4,8,3,6)
+#! (2,6,3,8,4)
 #! @EndExampleSession
 #!
 #! There are two possible cyclic permutations of vertices and edges
@@ -812,33 +814,41 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! repeated at the end!).
 #! @ExampleSession
 #! gap> VerticesAsList(perim);
-#! [ 1, 6, 2, 3, 9, 1 ]
+#! [ 1, 9, 3, 2, 6, 1 ]
 #! gap> EdgesAsList(perim);
-#! [ 8, 3, 6, 2, 4 ]
+#! [ 4, 2, 6, 3, 8 ]
 #! @EndExampleSession
 #! While the vertex list starts with the smallest vertex, the edge list
 #! will start with an edge incident to the smallest vertex (the other
 #! end is the smaller of the two adjacent vertices).
 
-#! @BeginGroup PerimetersOfFaces
+#! @BeginGroup PerimeterPathsOfFaces
 #! @Description
 #! The operation 
-#! <K>PerimeterOfFaces</K>(<A>complex</A>,<A>face</A>) returns a closed
+#! <K>PerimeterPathOfFace</K>(<A>complex</A>,<A>face</A>) returns a perimeter
+#! path (section <Ref Sect="Section_Paths_Perimeter"/>), i.e. a closed
 #! vertex-edge-path (for the exact definition compare 
 #! <Ref Subsect="VertexEdgePath"/> and 
 #! <Ref Subsect="VertexEdge_IsClosedPath"/>) of
 #! all vertices and edges incident to the given <A>face</A>.
 #!
 #! Since this condition does not define the path uniquely, we further 
-#! stipulate that the smallest vertex is followed by the smallest possible
-#! vertex. If that is not unique (for a face with only two vertices), the
-#! smallest vertex is followed by the smallest possible edge.
+#! stipulate that perimeter path starts with the smallest vertex and continues
+#! with the smallest incident edge. For polygonal complexes, this defines
+#! the path uniquely.
+#!
+#! For a bend polygonal complex, the position of vertices and edges in a
+#! polygon may
+#! not be uniquely defined by their label. If this is not unique, the 
+#! following conventions are in effect: If a vertex is not unique, the 
+#! position of its smallest local vertex is used. If an edge is not unique,
+#! the position of its smallest local edge is used.
 #! 
-#! The attribute <K>PerimetersOfFaces</K>(<A>complex</A>) 
+#! The attribute <K>PerimeterPathsOfFaces</K>(<A>complex</A>) 
 #! collects all of those vertex-edge-paths in a list that is indexed by the face 
 #! labels, i.e. 
-#! <K>PerimetersOfFaces</K>(<A>complex</A>)[<A>face</A>]
-#! = <K>PerimeterOfFace</K>(<A>complex</A>, <A>face</A>). All
+#! <K>PerimeterPathsOfFaces</K>(<A>complex</A>)[<A>face</A>]
+#! = <K>PerimeterPathOfFace</K>(<A>complex</A>, <A>face</A>). All
 #! other positions of this list are not bound.
 #! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
@@ -852,29 +862,29 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #!   \input{Image_PentagonCyclicOrder.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> perim := PerimeterOfFace(pentagon, 2);
-#! ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 )
+#! gap> perim := PerimeterPathOfFace(pentagon, 2);
+#! ( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 )
 #! gap> PathAsList(perim);
-#! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
+#! [ 1, 4, 9, 2, 3, 6, 2, 3, 6, 8, 1 ]
 #! gap> VerticesAsList(perim);
-#! [ 1, 6, 2, 3, 9, 1 ]
+#! [ 1, 9, 3, 2, 6, 1 ]
 #! gap> EdgesAsList(perim);
-#! [ 8, 3, 6, 2, 4 ]
+#! [ 4, 2, 6, 3, 8 ]
 #! gap> VerticesAsPerm(perim);
-#! (1,6,2,3,9)
+#! (1,9,3,2,6)
 #! gap> EdgesAsPerm(perim);
-#! (2,4,8,3,6)
-#! gap> PerimetersOfFaces(pentagon);
-#! [ , ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 ) ]
+#! (2,6,3,8,4)
+#! gap> PerimeterPathsOfFaces(pentagon);
+#! [ , ( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 ) ]
 #! @EndExampleSession
 #! 
 #! @Arguments complex
 #! @Returns a list of vertex-edge-paths
-DeclareAttribute( "PerimetersOfFaces", IsVEFComplex );
+DeclareAttribute( "PerimeterPathsOfFaces", IsVEFComplex );
 #! @Arguments complex, face
-DeclareOperation( "PerimeterOfFace", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "PerimeterPathOfFace", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "PerimeterOfFaceNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "PerimeterPathOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 

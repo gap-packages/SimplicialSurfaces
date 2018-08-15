@@ -12,6 +12,7 @@
 ReadPackage( "SimplicialSurfaces", "gap/utilities.g" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/Paths/perimeter.gi" );
 
 
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gi" );
@@ -27,7 +28,6 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/paths.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/connectivity.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/orientability.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/Paths/perimeter.gi" );
  
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gi" );
 

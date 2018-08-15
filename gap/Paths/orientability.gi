@@ -81,7 +81,7 @@ InstallMethod( Orientation,
 	    od;
 	
 	    # Define the standard orientation of this face
-	    orientList[hole] := PerimeterOfFace(surf,hole);
+	    orientList[hole] := PerimeterPathOfFaceNC(surf,hole);
 	    facesToCheck := [hole];		# Save the faces that have to be checked
 	    checkedFaces := [];			# Save the faces that are "clear"
 
@@ -116,7 +116,7 @@ InstallMethod( Orientation,
 		    fi;
 
 		    if CompatibleOrientation( VerticesOfEdges(surf)[edge], 
-                            PerimeterOfFace(surf,next) ) then
+                            PerimeterPathOfFaceNC(surf,next) ) then
 			orient2 := 1;
 		    else
 			orient2 := -1;
@@ -128,9 +128,9 @@ InstallMethod( Orientation,
                     # orientation => invert the cycle of next
                     relOrient := -1 * orient1 * orient2;
                     if relOrient = 1 then
-                        correctOr := PerimeterOfFace(surf,next);
+                        correctOr := PerimeterPathOfFaceNC(surf,next);
                     else
-                        correctOr := Inverse( PerimeterOfFace(surf,next) );
+                        correctOr := Inverse( PerimeterPathOfFaceNC(surf,next) );
                     fi;
                     if IsBound( orientList[next]) and orientList[next] <> correctOr  then
                         orientable := false;
@@ -219,7 +219,7 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
 
         newFaces := [];
         for f in Faces(splitSurf) do
-            perimeter := PerimetersOfFaces(splitSurf)[f];
+            perimeter := PerimeterPathsOfFaces(splitSurf)[f];
             newFaces[f] := [[f,perimeter], [f,Inverse(perimeter)]];
         od;
 

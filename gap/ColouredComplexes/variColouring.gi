@@ -461,7 +461,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                 # local symmetry defined)
                 # we also assume that the three colours are different (checked
                 # in the extension of the generators)
-                perimeter := PathAsList(PerimetersOfFaces(simpSurf)[face]);
+                perimeter := PathAsList(PerimeterPathsOfFaces(simpSurf)[face]);
                 # Since we have only triangles, PathAsList is a list with 7 entries
                 if not CheckEdgeColour( face, perimeter[2], perimeter[3], perimeter[4] ) then
                     return;
@@ -499,7 +499,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
 
                 lastCol := 6 - colEdgePos[edgePosition[edgeA]] - colEdgePos[edgePosition[edgeB]];
                 # find last edge via edge permutation
-                edgePerm := EdgesAsPerm( PerimetersOfFaces(simpSurf)[face] );
+                edgePerm := EdgesAsPerm( PerimeterPathsOfFaces(simpSurf)[face] );
                 lastEdge := edgeA^edgePerm;
                 if lastEdge = edgeB then
                     lastEdge := edgeB^edgePerm;

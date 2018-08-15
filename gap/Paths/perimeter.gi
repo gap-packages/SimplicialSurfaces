@@ -80,7 +80,7 @@ InstallMethod( PerimeterPathNC, "for a vertex-edge-path and a face",
 
         obj := Objectify(PerimeterPathType, rec());
         SetAssociatedVEFComplex(obj, AssociatedVEFComplex(vePath));
-        SetPathAsList(obj, PathAsList(vePath));
+        SetPath(obj, PathAsList(vePath));
         SetFace(obj, face);
 
         if IsBendPolygonalComplexPath(obj) then
@@ -143,7 +143,7 @@ InstallMethod( PerimeterPathByLocalPathNC,
                 Add(path, EdgesOfLocalEdges(bendComplex)[locPath[i]]);
             fi;
         od;
-        SetPathAsList(obj, path);
+        SetPath(obj, path);
 
         return obj;
     end
