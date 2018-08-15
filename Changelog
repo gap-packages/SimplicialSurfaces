@@ -8,5 +8,6 @@ Changes from master to rewrite:
     the manual for changes)
 5) Rename PerimetersOfFaces to PerimeterPathsOfFaces. Introduce the new
     category IsPerimeterPath as a specialisation of IsVertexEdgePath
-6) 
+6) Rename Umbrella* to UmbrellaPath*
+7) 
 

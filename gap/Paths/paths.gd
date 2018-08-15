@@ -805,12 +805,12 @@ DeclareProperty( "IsBendPolygonalComplexPath", IsEdgeFacePath );
 ## Coloured output-attributes
 DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 
-#! @Section Geodesics and umbrellas
+#! @Section Geodesic and umbrella paths
 #! @SectionLabel Paths_Geodesics
 #!
 #! Section <Ref Sect="Section_Paths_EdgeFace"/> introduced the concept of
 #! edge-face-paths. This section deals with two specific types of 
-#! edge-face-paths, namely umbrellas and geodesics.
+#! edge-face-paths, namely umbrella and geodesic paths.
 #!
 #! This will be illustrated on the following torus:
 #! <Alt Only="TikZ">
@@ -824,7 +824,7 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! 
 
 #! @Description
-#! Check whether the given edge-face-path is an umbrella, i.e. whether
+#! Check whether the given edge-face-path is an umbrella-path, i.e. whether
 #! there is one vertex such that all edges and faces of the edge-face-path
 #! are incident to it.
 #!
@@ -842,12 +842,12 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! @BeginExampleSession
 #! gap> umb := EdgeFacePath( torus, [7,5,10,6,11,7,8,4,6] );
 #! | e7, F5, e10, F6, e11, F7, e8, F4, e6 |
-#! gap> IsUmbrella(umb);
+#! gap> IsUmbrellaPath(umb);
 #! true
 #! @EndExampleSession
 #!
 #! @Arguments edgeFacePath
-DeclareProperty( "IsUmbrella", IsEdgeFacePath );
+DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 
 
 #! @BeginGroup IsGeodesic

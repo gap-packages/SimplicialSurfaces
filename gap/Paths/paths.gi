@@ -770,7 +770,7 @@ InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
 
 
 
-InstallMethod( IsUmbrella, "for an edge-face-path on a polygonal complex", 
+InstallMethod( IsUmbrellaPath, "for an edge-face-path on a polygonal complex", 
     [IsEdgeFacePath and IsPolygonalComplexPath],
     function(path)
         local complex, commonEdgeVertex, commonFaceVertex, commonVertex;
@@ -783,9 +783,9 @@ InstallMethod( IsUmbrella, "for an edge-face-path on a polygonal complex",
         return Length(commonVertex) <> 0;
     end
 );
-RedispatchOnCondition(IsUmbrella, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
+RedispatchOnCondition(IsUmbrellaPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
 
-InstallMethod( IsUmbrella, "for an edge-face-path on a bend polygonal complex", 
+InstallMethod( IsUmbrellaPath, "for an edge-face-path on a bend polygonal complex", 
     [IsEdgeFacePath and IsBendPolygonalComplexPath],
     function(path)
         local commonFaceVertex, commonEdgeVertex, commonVertex, complex,
@@ -804,7 +804,7 @@ InstallMethod( IsUmbrella, "for an edge-face-path on a bend polygonal complex",
             if int = [] then
                 return false;
             elif Length(int) >= 2 then
-                Error("IsUmbrella: Internal error.");
+                Error("IsUmbrellaPath: Internal error.");
             fi;
             vFlags := LocalFlagsOfLocalVertices(complex)[int[1]];
             Add(flagList, [Intersection(flags1,vFlags)[1], Intersection(flags2,vFlags)[1]]);
@@ -824,7 +824,7 @@ InstallMethod( IsUmbrella, "for an edge-face-path on a bend polygonal complex",
         return true;
     end
 );
-RedispatchOnCondition(IsUmbrella, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
+RedispatchOnCondition(IsUmbrellaPath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
 
 
 
@@ -891,7 +891,7 @@ InstallMethod( IsGeodesic, "for an edge-face-path on a bend polygonal complex",
             if int = [] then
                 return false;
             elif Length(int) >= 2 then
-                Error("IsUmbrella: Internal error.");
+                Error("IsUmbrellaPath: Internal error.");
             fi;
             vFlags := LocalFlagsOfLocalVertices(complex)[int[1]];
             Add(flagList, [Intersection(flags1,vFlags)[1], Intersection(flags2,vFlags)[2]]);

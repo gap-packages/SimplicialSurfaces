@@ -86,9 +86,9 @@
 #! * <E>VerticesInFaces</E>
 #!   (<Ref Sect="Section_Constructors_VerticesInFaces"/>):
 #!   <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>)
-#! * <E>Umbrellas</E>
+#! * <E>UmbrellaPaths</E>
 #!   (<Ref Sect="Section_Constructors_Umbrellas"/>):
-#!   <K>UmbrellasOfVertices</K> (<Ref Subsect="UmbrellasOfVertices"/>)
+#!   <K>UmbrellaPathsOfVertices</K> (<Ref Subsect="UmbrellaPathsOfVertices"/>)
 #!
 
 #TODO explain name of constructor very early

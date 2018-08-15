@@ -229,14 +229,15 @@ InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsWildColouredSurface );
 #! @Description
 #! For a wild coloured surface (<Ref Subsect="IsWildColouredSurface"/>) the method 
 #! <K>ColouredUmbrellaOfVertex</K>(<A>wildSurf</A>, <A>vertex</A>) returns an edge-coloured 
-#! edge-face path for the umbrella around <A>vertex</A>. All of these umbrellas
+#! edge-face path for the umbrella-path around <A>vertex</A>. All of these 
+#! umbrella-paths
 #! are collected in the attribute
 #! <K>ColouredUmbrellasOfVertices</K>(<A>wildSurf</A>), i.e.
 #! <K>ColouredUmbrellasOfVertices</K>(<A>wildSurf</A>)[<A>vertex</A>]
 #! = <K>ColouredUmbrellaOfVertex</K>(<A>wildSurf</A>, <A>vertex</A>).
 #!
-#! This method extends <K>UmbrellasOfVertices</K> 
-#! (<Ref Subsect="UmbrellasOfVertices"/>). The edge-coloured edge-face-paths
+#! This method extends <K>UmbrellaPathsOfVertices</K> 
+#! (<Ref Subsect="UmbrellaPathsOfVertices"/>). The edge-coloured edge-face-paths
 #! behave exactly as regular edge-face-paths but are displayed differently.
 #! 
 #! The NC-version does not check whether the given <A>vertex</A> actually

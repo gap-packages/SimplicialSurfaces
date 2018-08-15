@@ -515,9 +515,9 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! Return the set of all inner vertices. 
 #! 
 #! A vertex is an inner vertex if and only if there is exactly
-#! one closed umbrella around it (compare section 
+#! one closed umbrella-path around it (compare section 
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
-#! umbrellas).
+#! umbrella-paths).
 #!
 #! The method <K>IsInnerVertex</K> checks whether the given vertex is an inner
 #! vertex of the given polygonal complex. The NC-version does not check whether
@@ -560,9 +560,9 @@ DeclareOperation( "IsInnerVertexNC", [IsVEFComplex, IsPosInt] );
 #! Return the set of all boundary vertices.
 #!
 #! A vertex is a boundary vertex if and only if there is exactly
-#! one non-closed umbrella around it (compare section
+#! one non-closed umbrella-path around it (compare section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/> for the definition of
-#! umbrellas).
+#! umbrella-paths).
 #!
 #! The method <K>IsBoundaryVertex</K> checks whether the given vertex is a 
 #! boundary
@@ -622,9 +622,9 @@ DeclareOperation( "IsBoundaryVertexNC", [IsVEFComplex, IsPosInt] );
 #! Return the set of all ramified vertices.
 #!
 #! A vertex is ramified if and only if there is a well-defined
-#! umbrella partition around it (compare 
-#! <Ref Subsect="UmbrellaPartitionsOfVertices"/>) and there are at least two
-#! umbrellas in this partition.
+#! umbrella-path partition around it (compare 
+#! <Ref Subsect="UmbrellaPathPartitionsOfVertices"/>) and there are at least two
+#! umbrella-paths in this partition.
 #!
 #! The method <K>IsRamifiedVertex</K> checks whether the given vertex is a
 #! ramified
@@ -664,7 +664,7 @@ DeclareOperation( "IsRamifiedVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! A vertex is chaotic if and only if it is incident to an edge that is
 #! incident to at least three faces. In other words, there is no well-defined
-#! umbrella partition (<Ref Subsect="UmbrellaPartitionsOfVertices"/>) around 
+#! umbrella-path partition (<Ref Subsect="UmbrellaPathPartitionsOfVertices"/>) around 
 #! a chaotic vertex.
 #!
 #! The method <K>IsChaoticVertex</K> checks whether the given vertex is a 

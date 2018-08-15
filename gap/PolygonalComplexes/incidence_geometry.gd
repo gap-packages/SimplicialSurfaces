@@ -906,7 +906,7 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsVEFComplex, IsPosInt] );
 ##
 ## Right now, this can't happen since the labels are all different (this is
 ## useful to find the appropriate numbers more effectively - especially if
-## some of the are roman numerals).
+## some of them are roman numerals).
 ##
 #! In section <Ref Sect="Section_Access_BasicAccess"/> the methods 
 #! <K>EdgesOfVertex</K> (<Ref Subsect="EdgesOfVertices"/>) and
@@ -915,12 +915,12 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! allow access to the edges and faces incident to a vertex but they don't
 #! give any information about the relationship between them
 #!
-#!         For polygonal surfaces (that were introduced in section
+#!         For (bend) polygonal surfaces (described in section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
 #!         ordering of the edges and 
 #!         faces that are incident to a vertex. It is achieved by "travelling 
 #!         around the vertex" while staying on the surface. 
-#! This order is called <E>umbrella</E> and we formalize it
+#! This order is called <E>umbrella-path</E> and we formalize it
 #! by <E>edge-face-paths</E> (section <Ref Sect="Section_Paths_EdgeFace"/>
 #! contains the methods to access those paths).
 #!         <Alt Only="TikZ">
@@ -934,20 +934,20 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsVEFComplex, IsPosInt] );
 #!      \input{Image_EdgeFacePath_open.tex}
 #!   \end{tikzpicture}
 #! </Alt>
-#! In the image above we have two umbrellas that contain all edges and
+#! In the image above we have two umbrella-paths that contain all edges and
 #! faces that are incident to the vertex <M>V</M>, namely
 #! <M>(e_1,f_1,e_2,f_2,e_3,f_3,e_4)</M> and 
 #! <M>(e_4,f_3,e_3,f_2,e_2,f_1,e_1)</M>. Both of them encode the same
-#! information. By convention, we will choose the umbrella with the smaller first 
-#! entry
-#! (<M>e_1</M> or <M>e_4</M>) to be <E>the</E> umbrella of <M>V</M>.
+#! information. By convention, we will choose the umbrella-path with the 
+#! smaller first entry
+#! (<M>e_1</M> or <M>e_4</M>) to be <E>the</E> umbrella-path of <M>V</M>.
 #!
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle];
 #!     \input{Image_EdgeFacePath_closed.tex}
 #!   \end{tikzpicture}
 #! </Alt>
-#! In this image we have ten different closed umbrellas that contain all
+#! In this image we have ten different closed umbrella-paths that contain all
 #! edges and faces that are incident to the vertex <M>V</M>, like
 #!  <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4, e_5, f_5, e_1)</M> and 
 #! <M>(e_3, f_2, e_2, f_1, e_1, f_5, e_5, f_4, e_4, f_3, e_3)</M>. Up to cyclic 
@@ -960,40 +960,44 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! minimal, say <M>e_2</M>. This leaves us with the two paths
 #! <M>(e_2,f_2,\ldots)</M> and <M>(e_2,f_1,\ldots)</M>. Of those, we pick the one
 #! with the smallest second entry (<M>f_2</M> or <M>f_1</M>).
-#TODO is this a good convention?
 #! 
     
-#! @BeginGroup UmbrellasOfVertices
+#! @BeginGroup UmbrellaPathsOfVertices
 #! @Description
-#! The method <K>UmbrellaOfVertex</K>(<A>surface</A>,<A>vertex</A>)
-#! returns an umbrella around <A>vertex</A> (as defined in section
+#! The method <K>UmbrellaPathOfVertex</K>(<A>surface</A>,<A>vertex</A>)
+#! returns an umbrella-path around <A>vertex</A> (as defined in section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>) that contains all edges
 #! and faces incident to <A>vertex</A>, with the following 
 #! conventions:
-#! * The first entry of the umbrella is minimal.
-#! * In the case of a closed umbrella, after restricting with the
-#!   first convention, the second entry of the umbrella is minimal.
+#! * The first entry of the umbrella-path is minimal (for bend polygonal
+#!   complexes: if this does not uniquely define a half-edge, the smallest
+#!   of the half-edges within the minimal edge is chosen).
+#! * In the case of a closed umbrella-path, after restricting with the
+#!   first convention, the second entry of the umbrella-path is minimal
+#!   (for bend polygonal complexes: if this is not unique, the face with
+#!   the smaller local edge is chosen).
 #! 
-#! If such an umbrella does not exist (might happen for general
-#! polygonal complexes) or is not unique (might happen for general ramified
-#! polygonal surfaces), <K>fail</K> is returned. To access the contents
-#! of the umbrellas, the methods from section 
+#! If such an umbrella-path does not exist (this might happen if the 
+#! VEF-complex is edge-ramified) or is not unique (this might happen 
+#! if the VEF-complex is vertex-ramified), <K>fail</K> is returned. 
+#! To access the contents
+#! of the umbrella-paths, the methods from section 
 #! <Ref Sect="Section_Paths_EdgeFace"/> can be used.
 #! 
-#! The attribute <K>UmbrellasOfVertices</K>(<A>surface</A>) collects all
-#! of those umbrellas in a list that is indexed by the vertex labels,
-#! i.e. <K>UmbrellasOfVertices</K>(<A>surface</A>)[<A>vertex</A>] = 
-#! <K>UmbrellaOfVertex</K>(<A>surface</A>, <A>vertex</A>). All other 
+#! The attribute <K>UmbrellaPathsOfVertices</K>(<A>surface</A>) collects all
+#! of those umbrella-paths in a list that is indexed by the vertex labels,
+#! i.e. <K>UmbrellaPathsOfVertices</K>(<A>surface</A>)[<A>vertex</A>] = 
+#! <K>UmbrellaPathOfVertex</K>(<A>surface</A>, <A>vertex</A>). All other 
 #! positions of this list are not bound.
 #! 
 #! The NC-version does not check whether the given <A>vertex</A> lies in the
 #! given <A>surface</A>.
 #! 
-#! Since for ramified polygonal surfaces the umbrellas around a vertex
-#! are
-#! not unique, there are the methods from
-#! <Ref Subsect="UmbrellaPartitionsOfVertices"/> that return all of
-#! those umbrellas.
+#! For VEF-complexes with vertex-ramifications the umbrella-paths around
+#! a vertex are
+#! not unique. The methods from
+#! <Ref Subsect="UmbrellaPathPartitionsOfVertices"/> return all of
+#! those umbrella-paths.
 #! 
 #! As example consider the following polygonal surface:
 #! <Alt Only="TikZ">
@@ -1025,19 +1029,19 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! gap> surface := PolygonalSurfaceByDownwardIncidence( 
 #! >    [,,,,,,,,,, [1,6],[1,7],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
 #! >    [,[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
-#! gap> um1 := UmbrellaOfVertex(surface, 1);
+#! gap> um1 := UmbrellaPathOfVertex(surface, 1);
 #! ( e11, F2, e12, F3, e13, F4, e14, F5, e11 )
 #! gap> EdgesAsList(um1);
 #! [ 11, 12, 13, 14, 11 ]
 #! gap> EdgesAsPerm(um1);
 #! (11,12,13,14)
-#! gap> um7 := UmbrellaOfVertex(surface, 7);
+#! gap> um7 := UmbrellaPathOfVertex(surface, 7);
 #! | e15, F2, e12, F3, e16 |
 #! gap> EdgesAsList(um7);
 #! [ 15, 12, 16 ]
 #! gap> FacesAsList(um7);
 #! [ 2, 3 ]
-#! gap> UmbrellasOfVertices(surface);
+#! gap> UmbrellaPathsOfVertices(surface);
 #! [ ( e11, F2, e12, F3, e13, F4, e14, F5, e11 ),,,,, | e15, F2, e11, F5, e19 |, 
 #!      | e15, F2, e12, F3, e16 |, | e16, F3, e17 |, 
 #!      | e17, F3, e13, F4, e18 |, | e18, F4, e14, F5, e19 | ]
@@ -1045,68 +1049,73 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! 
 #! @Returns a list of edge-face-paths
 #! @Arguments surface
-DeclareAttribute( "UmbrellasOfVertices", IsVEFComplex );
+DeclareAttribute( "UmbrellaPathsOfVertices", IsVEFComplex );
 #! @Returns an edge-face-path
 #! @Arguments surface, vertex
-DeclareOperation( "UmbrellaOfVertex", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "UmbrellaPathOfVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments surface, vertex
-DeclareOperation( "UmbrellaOfVertexNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "UmbrellaPathOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! For ramified polygonal surfaces it might happen that there is no single
-#! umbrella that contains all edges and faces that are incident to one
+#! umbrella-path that contains all edges and faces that are incident to one
 #! vertex.
 #! <Alt Only="TikZ">
 #!   \input{Image_EdgeFacePath_ramified.tex}
 #! </Alt>
-#! But there is a set of umbrellas that <E>partitions</E> the incident
+#! But there is a set of umbrella-paths that <E>partitions</E> the incident
 #! edges and faces (i.e. every incident edge or face appears in exactly one
-#! of the umbrellas). In the above image, the umbrella-partition of
+#! umbrella-path). In the above image, the umbrella-path-partition of
 #! the vertex 1 is
 #! <M>[ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ]</M>.
 
 
-#! @BeginGroup UmbrellaPartitionsOfVertices
+#! @BeginGroup UmbrellaPathPartitionsOfVertices
 #! @Description
 #! The method 
-#! <K>UmbrellaPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>) returns
-#! a set of umbrellas around <A>vertex</A> (as defined in section
+#! <K>UmbrellaPathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>) returns
+#! a set of umbrellas-paths around <A>vertex</A> (as defined in section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>). The edges
-#! and faces incident to <A>vertex</A> are partitioned by these umbrellas
+#! and faces incident to <A>vertex</A> are partitioned by these 
+#! umbrella-paths
 #! (i.e. each of them appears in exactly
-#! one umbrella).
+#! one umbrella-path).
 #! 
 #! The result is determined as follows:
 #! * The partition of edges and faces is unique (reachability by 
-#!   umbrellas around <A>vertex</A>).
+#!   umbrella-paths around <A>vertex</A>).
 #! * Every set in this partition consists of the elements of exactly
-#!   one umbrella. For each set there are several options. We choose
+#!   one umbrella-path. For each set there are several options. We choose
 #!   one of those by this convention:
-#!   * The first entry of the returned umbrella will be as small as
-#!     possible.
-#!   * The second entry of the returned umbrella will be as small as
+#!   * The first entry of the returned umbrella-path will be as small as
+#!     possible (for bend polygonal complexes: if this does not define a
+#!     half-edge uniquely, the smallest of these half-edges will be picked).
+#!   * The second entry of the returned umbrella-path will be as small as
 #!     possible (after having minimized the first entry). This condition is
-#!     non-trivial only for closed umbrellas.
+#!     non-trivial only for closed umbrella-paths (for bend polygonal 
+#!     complexes: if this is not unique, the face with the smaller local 
+#!     edge is chosen).
 #!
-#! If there is no such set of umbrellas (which can happen for general polygonal
-#! complexes), <K>fail</K> is returned instead.
+#! If there is no such set of umbrella-paths (which can happen for 
+#! VEF-complexes with edge-ramifications), <K>fail</K> is returned instead.
 #! 
-#! The attribute <K>UmbrellaPartitionsOfVertices</K>(<A>ramSurf</A>)
+#! The attribute <K>UmbrellaPathPartitionsOfVertices</K>(<A>ramSurf</A>)
 #! collects these partitions in a list (indexed by the vertex
 #! labels), i.e. 
-#! <K>UmbrellaPartitionsOfVertices</K>(<A>ramSurf</A>)[<A>vertex</A>] =
-#! <K>UmbrellaPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>).
+#! <K>UmbrellaPathPartitionsOfVertices</K>(<A>ramSurf</A>)[<A>vertex</A>] =
+#! <K>UmbrellaPathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>).
 #! All other positions of this list are not bound.
 #! 
-#! For a <E>polygonal surface</E>, all partitions will only consist of
+#! For a <E>surface</E>, all partitions will only consist of
 #! one element. In this case, the methods
-#! in <Ref Subsect="UmbrellasOfVertices"/> will only return these unique 
-#! umbrellas.
+#! in <Ref Subsect="UmbrellaPathsOfVertices"/> will only return these unique 
+#! umbrella-paths.
 #! 
 #! The NC-version does not check whether <A>vertex</A> lies in <A>ramSurf</A>.
 #! 
-#! As example consider the following ramified polygonal surface.
+#! As example consider the following polygonal complex with 
+#! vertex-ramifications (but no edge-ramifications).
 #! <Alt Only="TikZ">
 #!   \input{Image_EdgeFacePath_ramified.tex}
 #! </Alt>
@@ -1115,11 +1124,11 @@ DeclareOperation( "UmbrellaOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! >    [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],
 #! >        [1,8],[1,10],[1,12],[8,10],[10,12] ],
 #! >    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
-#! gap> UmbrellaPartitionOfVertex(ramSurf, 1);
+#! gap> UmbrellaPathPartitionOfVertex(ramSurf, 1);
 #! [ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ]
-#! gap> UmbrellaPartitionOfVertex(ramSurf, 5);
+#! gap> UmbrellaPathPartitionOfVertex(ramSurf, 5);
 #! [ | e13, F3, e14, F2, e15 | ]
-#! gap> UmbrellaPartitionsOfVertices(ramSurf);
+#! gap> UmbrellaPathPartitionsOfVertices(ramSurf);
 #! [ [ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ],,,,
 #!   [ | e13, F3, e14, F2, e15 | ], [ | e13, F3, e16, F4, e17 | ],
 #!   [ | e15, F2, e18, F4, e17 | ], [ | e19, F9, e22 | ],,
@@ -1128,14 +1137,14 @@ DeclareOperation( "UmbrellaOfVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! @Returns a list of sets of edge-face-paths
 #! @Arguments ramSurf
-DeclareAttribute( "UmbrellaPartitionsOfVertices", 
+DeclareAttribute( "UmbrellaPathPartitionsOfVertices", 
         IsVEFComplex );
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf, vertex
-DeclareOperation( "UmbrellaPartitionOfVertex",
+DeclareOperation( "UmbrellaPathPartitionOfVertex",
         [ IsVEFComplex, IsPosInt ]);
 #! @Arguments ramSurf, vertex
-DeclareOperation( "UmbrellaPartitionOfVertexNC",
+DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
         [ IsVEFComplex, IsPosInt ]);
 #! @EndGroup
 

@@ -60,13 +60,13 @@ edge-ramifications.
 
 <#GAPDoc Label="PolygonalComplex_Paths">
 For every vertex <M>V</M> all incident edges and faces can
-be arranged in an umbrella around <M>V</M> (compare
+be arranged in an umbrella-path around <M>V</M> (compare
 definition <Ref Subsect="Definition_Umbrella"/>), i.e. there
 are no vertex-ramifications.
 <#/GAPDoc>
 
 <#GAPDoc Label="Umbrella_Definition">
-An <E>umbrella around the vertex <M>V</M></E> is a tuple
+An <E>umbrella-path around the vertex <M>V</M></E> is a tuple
 <M>(e_1,f_1,e_2,f_2, \ldots, e_n, f_n, e_{{n+1}})</M> such that:
 <List>
     <Item>The <M>f_i</M> are pairwise disjoint faces incident to <M>V</M>.
@@ -77,7 +77,7 @@ An <E>umbrella around the vertex <M>V</M></E> is a tuple
     <Item>The edges <M>e_i</M> and <M>e_{{i+1}}</M> are incident to <M>f_i</M>
         for all <M>i</M>.</Item>
 </List>
-If <M>e_1 = e_{{n+1}}</M> the umbrella is called <E>closed</E>.
+If <M>e_1 = e_{{n+1}}</M> the umbrella-path is called <E>closed</E>.
 <#/GAPDoc>
  
 

@@ -146,7 +146,7 @@ InstallMethod( InnerVertices, "for a VEFcomplex",
     function(complex)
         local edgeFacePaths, res, v;
 
-        edgeFacePaths := UmbrellasOfVertices(complex);
+        edgeFacePaths := UmbrellaPathsOfVertices(complex);
         res := [];
         for v in VerticesAttributeOfVEFComplex(complex) do
             if edgeFacePaths[v] <> fail and IsClosedPath(edgeFacePaths[v]) then
@@ -182,7 +182,7 @@ BindGlobal("__SIMPLICIAL_BoundaryVertices_Umbrellas",
     function(complex)
         local edgeFacePaths, res, v;
 
-        edgeFacePaths := UmbrellasOfVertices(complex);
+        edgeFacePaths := UmbrellaPathsOfVertices(complex);
         res := [];
         for v in VerticesAttributeOfVEFComplex(complex) do
             if edgeFacePaths[v] <> fail and not IsClosedPath(edgeFacePaths[v]) then
@@ -217,8 +217,8 @@ InstallMethod( BoundaryVertices, "for a closed polygonal complex",
 );
 # Special case umbrellas are known
 InstallMethod( BoundaryVertices, 
-    "for a VEF-complex with UmbrellasOfVertices",
-    [IsVEFComplex and HasUmbrellasOfVertices],
+    "for a VEF-complex with UmbrellaPathsOfVertices",
+    [IsVEFComplex and HasUmbrellaPathsOfVertices],
     function(complex)
         return __SIMPLICIAL_BoundaryVertices_Umbrellas(complex);
     end
@@ -234,7 +234,7 @@ InstallMethod( BoundaryVertices, "for a polygonal surface with BoundaryEdges",
 InstallMethod( BoundaryVertices, "for a polygonal surface",
     [IsPolygonalSurface],
     function(surface)
-        if HasUmbrellasOfVertices(surface) then
+        if HasUmbrellaPathsOfVertices(surface) then
             TryNextMethod();
         fi;
         return __SIMPLICIAL_BoundaryVertices_BoundaryEdges(surface);
@@ -261,13 +261,13 @@ InstallMethod( IsBoundaryVertex, "for a VEF-complex and a vertex",
 
 __SIMPLICIAL_AddVEFAttribute( RamifiedVertices );
 InstallMethod( RamifiedVertices, 
-    "for a VEF-complex with UmbrellasOfVertices, UmbrellaPartitionsOfVertices and VerticesAttributeOfVEFComplex",
-    [IsVEFComplex and HasUmbrellasOfVertices and HasUmbrellaPartitionsOfVertices and HasVerticesAttributeOfVEFComplex],
+    "for a VEF-complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices and VerticesAttributeOfVEFComplex",
+    [IsVEFComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfVEFComplex],
     function(complex)
         local edgeFacePaths, partitions, res, v;
 
-        edgeFacePaths := UmbrellasOfVertices(complex);
-        partitions := UmbrellaPartitionsOfVertices(complex);
+        edgeFacePaths := UmbrellaPathsOfVertices(complex);
+        partitions := UmbrellaPathPartitionsOfVertices(complex);
         res := [];
         for v in VerticesAttributeOfVEFComplex(complex) do
             if edgeFacePaths[v] = fail and partitions[v] <> fail then
@@ -279,7 +279,7 @@ InstallMethod( RamifiedVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "RamifiedVertices", 
-    ["UmbrellasOfVertices", "UmbrellaPartitionsOfVertices", "VerticesAttributeOfVEFComplex"]);
+    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfVEFComplex"]);
 
 InstallImmediateMethod( RamifiedVertices, "for a VEF-surface",
     IsVEFSurface, 0,
@@ -319,7 +319,7 @@ InstallMethod( ChaoticVertices, "for a VEF-complex",
     function(complex)
         local partitions, res, v;
 
-        partitions := UmbrellaPartitionsOfVertices(complex);
+        partitions := UmbrellaPathPartitionsOfVertices(complex);
         res := [];
         for v in VerticesAttributeOfVEFComplex(complex) do
             if partitions[v] = fail then

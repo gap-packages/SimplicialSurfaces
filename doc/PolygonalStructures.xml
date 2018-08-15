@@ -358,7 +358,7 @@
         They can be distinguished by the fact that faces of the same colour are
         connected by edges that are incident to the given vertex. More formally:
         <Subsection Label="Definition_Umbrella">
-            <Heading>Definition (Umbrella around a vertex)</Heading>
+            <Heading>Definition (Umbrella-path around a vertex)</Heading>
                 <#Include Label="Umbrella_Definition">
                 <Alt Only="Tikz">
                     \input{Image_EdgeFacePath.tex}

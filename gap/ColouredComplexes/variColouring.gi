@@ -161,7 +161,7 @@ InstallMethod( ColouredUmbrellasOfVertices,
         local umb, colUmb, complex, colUmbs, v;
 
         complex := PolygonalComplex(wildSurf);
-        umb := UmbrellasOfVertices( complex );
+        umb := UmbrellaPathsOfVertices( complex );
         colUmbs := [];
         for v in VerticesAttributeOfVEFComplex(complex) do
             colUmb := Objectify( EdgeColouredEdgeFacePathType, rec() );
@@ -946,7 +946,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 SetFacesOfEdges(obj, facesOfEdges);
                 SetFaces(obj, faces);
                 SetEdgesOfFaces(obj, edgesOfFaces);
-                SetUmbrellasOfVertices(obj, 
+                SetUmbrellaPathsOfVertices(obj, 
                     List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
 
                 # construction of the coloured surface

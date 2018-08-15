@@ -629,8 +629,8 @@ InstallMethod( DisplayInformation, "for an edge coloured polygonal complex",
         Add( strList, [ " ]\n", 0 ] );
         
 
-        # UmbrellasOfVertices
-        Add( strList, [ "    Umbrellas: [ ", 0 ] );
+        # UmbrellaPathsOfVertices
+        Add( strList, [ "    Umbrella-paths: [ ", 0 ] );
         if IsWildColouredSurface(colComp) then
             for i in [1..Length(ColouredUmbrellasOfVertices(colComp))] do
                 if IsBound(ColouredUmbrellasOfVertices(colComp)[i]) then
@@ -640,9 +640,9 @@ InstallMethod( DisplayInformation, "for an edge coloured polygonal complex",
                 Add( strList, [", ", 0] );
             od;
         else
-            for i in [1..Length(UmbrellasOfVertices(complex))] do
-                if IsBound(UmbrellasOfVertices(complex)[i]) then
-                    umb := UmbrellasOfVertices(complex)[i];
+            for i in [1..Length(UmbrellaPathsOfVertices(complex))] do
+                if IsBound(UmbrellaPathsOfVertices(complex)[i]) then
+                    umb := UmbrellaPathsOfVertices(complex)[i];
                     Add(strList, [__SIMPLICIAL_UncolouredString(ViewInformation(umb)), 0]);
                 fi;
                 Add( strList, [", ", 0] );

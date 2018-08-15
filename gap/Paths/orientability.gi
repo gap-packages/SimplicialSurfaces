@@ -256,7 +256,7 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
 
         newVertices := [];
         for v in VerticesAttributeOfVEFComplex(splitSurf) do
-            umb := UmbrellasOfVertices(splitSurf)[v];
+            umb := UmbrellaPathsOfVertices(splitSurf)[v];
             if IsClosedPath(umb) then
                 sideA := [];
                 sideB := [];

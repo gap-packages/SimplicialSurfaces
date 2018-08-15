@@ -89,7 +89,7 @@
 #! @EndExampleSession
 #!
 #! After the edge split the vertex 1 has two umbrellas (compare
-#! <Ref Subsect="UmbrellaPartitionsOfVertices"/> for details). These
+#! <Ref Subsect="UmbrellaPathPartitionsOfVertices"/> for details). These
 #! can be split up by <K>SplitVertex</K> (<Ref Subsect="SplitVertex"/>).
 #! @BeginExampleSession
 #! gap> vertSplit := SplitVertex( edgeSplit[1], 1 );;
@@ -189,7 +189,7 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #!
 #! For a polygonal surface this corresponds to adding one vertex for each
 #! element of the umbrella partition 
-#! (<Ref Subsect="UmbrellaPartitionsOfVertices"/>) of <A>vertex</A>.
+#! (<Ref Subsect="UmbrellaPathPartitionsOfVertices"/>) of <A>vertex</A>.
 #!
 #! If the vertex does not have to be split according to this rule (i.e. it is
 #! an inner (<Ref Subsect="InnerVertices"/>) or a boundary 
