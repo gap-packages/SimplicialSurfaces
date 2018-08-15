@@ -1377,7 +1377,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
 #! * For each strongly connected component there is a face with 
 #!   minimal number.
 #! * The orientation of this face is equal to <K>PermeterOfFace</K>
-#!   (<Ref Subsect="PerimetersOfFaces"/>) of this face.
+#!   (<Ref Subsect="PerimeterPathsOfFaces"/>) of this face.
 #!
 
 #! @BeginGroup IsOrientable
