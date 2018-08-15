@@ -48,7 +48,7 @@
 #! @EndExampleSession
 
 #! @BeginChunk Definition_VertexEdgePath
-#! A <E>vertex-edge-path</E> in a polygonal complex is a tuple
+#! A <E>vertex-edge-path</E> in a VEF-complex is a tuple
 #! <M>(v_1, e_1, v_2, e_2, \ldots ,v_n, e_n, v_{{n+1}})</M> such that
 #! * The <M>v_i</M> are vertices of the polygonal complex
 #! * The <M>e_j</M> are edges of the polygonal complex
@@ -396,16 +396,19 @@ DeclareAttribute( "AssociatedVEFComplex", IsVertexEdgePath );
 #! @EndGroup
 
 
-#! @BeginGroup
 #! @Description
 #! Return whether the given vertex-edge-path is defined on a
-#! (bend) polygonal complex.
+#! polygonal complex.
 #!
 #! @Arguments vertexEdgePath
 DeclareProperty( "IsPolygonalComplexPath", IsVertexEdgePath );
+
+#! @Description
+#! Return whether the given vertex-edge-path is defined on a
+#! bend polygonal complex.
+#!
 #! @Arguments vertexEdgePath
 DeclareProperty( "IsBendPolygonalComplexPath", IsVertexEdgePath );
-#! @EndGroup
 
 
 
@@ -472,20 +475,6 @@ DeclareOperation( "PerimeterPath", [IsVertexEdgePath] );
 #! @EndGroup
 
 
-#! @BeginGroup PerimeterPathByLocalPath
-#! @Description
-#! Construct a perimeter path for a bend polygonal complex from
-#! a perimeter path on <K>LocalFace</K>(<A>bendComplex</A>).
-#!
-#! 
-#! @Returns a perimeter path
-#! @Arguments bendComplex, localPath
-DeclareOperation( "PerimeterPathByLocalPath", [IsBendPolygonalComplex, IsPerimeterPath] );
-#! @Arguments bendComplex, localPath
-DeclareOperation( "PerimeterPathByLocalPathNC", [IsBendPolygonalComplex, IsPerimeterPath] );
-#! @EndGroup
-
-
 #! @Description
 #! If the perimeter path is defined on a bend polygonal complex 
 #! <K>bendComplex</K>
@@ -500,16 +489,59 @@ DeclareOperation( "PerimeterPathByLocalPathNC", [IsBendPolygonalComplex, IsPerim
 DeclareAttribute( "LocalPath", IsPerimeterPath );
 
 
+#! @BeginGroup PerimeterPathByLocalPath
+#! @Description
+#! Construct a perimeter path for a bend polygonal complex from
+#! a perimeter path on <K>LocalFace</K>(<A>bendComplex</A>).
+#!
+#! 
+#! @Returns a perimeter path
+#! @Arguments bendComplex, localPath
+DeclareOperation( "PerimeterPathByLocalPath", [IsBendPolygonalComplex, IsPerimeterPath] );
+#! @Arguments bendComplex, localPath
+DeclareOperation( "PerimeterPathByLocalPathNC", [IsBendPolygonalComplex, IsPerimeterPath] );
+#! @EndGroup
+
 
 
 #! @Section Edge-Face-Paths
 #! @SectionLabel Paths_EdgeFace
 #!
-#! This section describes all methods for edge-face-paths. Intuitively,
-#! edge-face-paths describe all paths that are realized by walking
-#! from face to face on a (bend) polygonal complex, while only passing edges.
+#! This section describes edge-face-paths. Intuitively, an
+#! edge-face-path is a sequence of faces that are connected by edges.
+#! More formally:
 #!
-#! We will illustrate them on this simplicial surface:
+#! @InsertChunk Definition_EdgeFacePath
+#!
+
+#TODO replace old definition by this
+#! @BeginChunk Definition_EdgeFacePath
+#! An <E>edge-face-path</E> in a VEF-complex is a tuple
+#! <M>(e_1, f_1, e_2, f_2, \ldots ,e_n, f_n, e_{{n+1}})</M> such that
+#! * The <M>e_i</M> are edges of the polygonal complex
+#! * The <M>f_j</M> are faces of the polygonal complex
+#! * The edges <M>e_j</M> and <M>e_{{j+1}}</M> occur in two different
+#!   positions in the perimeter of the face <M>f_j</M>.
+#! @EndChunk
+
+#! Depending on the type of the underlying VEF-complex, the implementation
+#! of edge-face-paths in the <K>SimplicialSurfaces</K>-package differs:
+#! <Enum>
+#!   <Item>For polygonal complexes, it is sufficient to store the alternating
+#!      list of edges and faces, i.e <K>PathAsList</K> 
+#!      (<Ref Subsect="PathAsList"/>). </Item>
+#!   <Item>For bend polygonal complexes, more information is needed (since 
+#!      two edges in the same face may share the same label). In this case,
+#!      the <K>EdgeFacePathElements</K> 
+#!      (<Ref Subsect="EdgeFacePathElements"/>) are crucial. An 
+#!      edge-face-path-element is a tuple 
+#!      <M>[face, [localEdgeIn, localEdgeOut]]</M>, consisting of
+#!      a face and two local edges. The two local edges describe through
+#!      which edges of the perimeter the path enters and leaves the face.
+#!      </Item>
+#! </Enum>
+
+#! We will illustrate the polygonal case on this simplicial surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
 #!     \input{Image_ThinTorus.tex}
@@ -523,17 +555,6 @@ DeclareAttribute( "LocalPath", IsPerimeterPath );
 #! >        [10,13,14],[1,14,15],[11,15,16],[2,16,17],[12,17,18],[3,13,18]]);;
 #! @EndExampleSession
 
-#TODO replace old definition by this
-#! @BeginChunk Definition_EdgeFacePath
-#! An <E>edge-face-path</E> in a polygonal complex is a tuple
-#! <M>(e_1, f_1, e_2, f_2, \ldots ,e_n, f_n, e_{{n+1}})</M> such that
-#! * The <M>e_i</M> are edges of the polygonal complex
-#! * The <M>f_j</M> are faces of the polygonal complex
-#! * The edges <M>e_j</M> and <M>e_{{j+1}}</M> occur in two different
-#!   positions in the perimeter of the face <M>f_j</M>.
-#! @EndChunk
-
-#TODO include necessity of giving edge-face-path-elements for some bend polygonal complexes
 #! <ManSection Label="EdgeFacePath">
 #!   <Oper Name="EdgeFacePath" Arg="complex, path" 
 #!      Label="for IsVEFComplex and IsDenseList"
@@ -541,18 +562,36 @@ DeclareAttribute( "LocalPath", IsPerimeterPath );
 #!   <Oper Name="EdgeFacePathNC" Arg="complex, path" 
 #!      Label="for IsVEFComplex and IsDenseList"
 #!      Comm="Construct an edge-face-path from a VEF-complex and a list"/>
+#!   <Oper Name="EdgeFacePath" Arg="bendComplex, path, elements" 
+#!      Label="for IsBendPolygonalComplex and IsDenseList and IsDenseList"
+#!      Comm="Construct an edge-face-path from a bend polygonal complex and two lists"/>
+#!   <Oper Name="EdgeFacePathNC" Arg="bendComplex, path, elements" 
+#!      Label="for IsBendPolygonalComplex and IsDenseList and IsDenseList"
+#!      Comm="Construct an edge-face-path from a bend polygonal complex and two lists"/>
 #!   <Returns>An EdgeFacePath-&GAP;-object</Returns>
 #!   <Filt Name="IsEdgeFacePath" Arg="object" Label="for IsObject" Type="category"
 #!      Comm="Check whether a given object is an EdgeFacePath"/>
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     The method <K>EdgeFacePath</K> constructs a new edge-face-path from
-#!     a VEF-complex and a dense list of positive integers. The
+#!     a VEF-complex and one (or two) dense list of positive integers. The
 #!     method <K>IsEdgeFacePath</K> checks if a given &GAP;-object
 #!     represents such a path.
 #!
-#!     We illustrate this with a path on the simplicial surface that was 
-#!     introduced at the start of section
+#!     The list <A>path</A> is an alternating list of edges and faces of
+#!     the given VEF-complex <A>complex</A> (starting and ending with an 
+#!     edge).
+#!
+#!     The list <A>elements</A> is only relevant if <A>complex</A> is a bend
+#!     polygonal complex. It only has to be given if some edges within the
+#!     same face of <A>complex</A> are identified. It is a list of
+#!     <M>[face, [localEdgeIn, localEdgeOut]]</M>, where <A>face</A> is a
+#!     face of <A>complex</A> and <A>localEdgeIn</A> and <A>localEdgeOut</A>
+#!     are local edges within <A>face</A>. The local edges designate where
+#!     the edge-face-path enters and leaves the face <A>face</A>.
+#!
+#!     We illustrate this with a path on the simplicial surface from the start
+#!     of section
 #!     <Ref Sect="Section_Paths_EdgeFace"/>.
 #!     <Alt Only="TikZ">
 #!       \begin{tikzpicture}[vertexStyle=nolabels,edgePlain,faceStyle]
@@ -577,7 +616,11 @@ DeclareAttribute( "LocalPath", IsPerimeterPath );
 #!     The elements of a vertex-edge-path can be accessed by using the methods
 #!     <K>PathAsList</K> (<Ref Subsect="EdgeFace_PathAsList"/>),
 #!     <K>EdgesAsList</K> (<Ref Subsect="EdgeFace_EdgesAsList"/>) and 
-#      <K>FacesAsList</K> (<Ref Subsect="EdgeFace_FacesAsList"/>).
+#!     <K>FacesAsList</K> (<Ref Subsect="EdgeFace_FacesAsList"/>).
+#!
+#!     If the associated VEF-complex is a bend polygonal complex, the 
+#!     edge-face-path-elements can be accessed by <K>EdgeFacePathElements</K>
+#!     (<Ref Subsect="EdgeFacePathElements"/>).
 #!
 #!     The NC-version does not check if the
 #!     given <A>path</A> is a list 
@@ -588,8 +631,8 @@ DeclareAttribute( "LocalPath", IsPerimeterPath );
 # No AutoDoc-documentation since the order of the next two entries should
 # be switched
 DeclareOperation( "EdgeFacePath", [IsVEFComplex, IsDenseList] );
-DeclareOperation( "EdgeFacePath", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
 DeclareOperation( "EdgeFacePathNC", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "EdgeFacePath", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
 DeclareOperation( "EdgeFacePathNC", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
 
 
@@ -788,16 +831,20 @@ DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 #! @Returns a VEF-complex
 DeclareAttribute( "AssociatedVEFComplex", IsEdgeFacePath );
 
-#! @BeginGroup
+
 #! @Description
 #! Return whether the given edge-face-path is defined on a
 #! (bend) polygonal complex.
 #!
 #! @Arguments vertexEdgePath
 DeclareProperty( "IsPolygonalComplexPath", IsEdgeFacePath );
+
+#! @Description
+#! Return whether the given edge-face-path is defined on a
+#! (bend) polygonal complex.
+#!
 #! @Arguments vertexEdgePath
 DeclareProperty( "IsBendPolygonalComplexPath", IsEdgeFacePath );
-#! @EndGroup
 
 
 
