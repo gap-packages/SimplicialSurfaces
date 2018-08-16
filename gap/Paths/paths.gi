@@ -719,6 +719,17 @@ InstallMethod( \<, "for two edge-face-paths on polygonal complexes",
     end
 );
 RedispatchOnCondition(\<, true, [IsEdgeFacePath,IsEdgeFacePath], [IsPolygonalComplexPath,IsPolygonalComplexPath], 0);
+InstallMethod( \<, "for two edge-face-paths on bend polygonal complexes", 
+    [IsEdgeFacePath and IsBendPolygonalComplexPath, IsEdgeFacePath and IsBendPolygonalComplexPath],
+    function(path1, path2)
+        if PathAsList(path1) = PathAsList(path2) then
+            return EdgeFacePathElements(path1) < EdgeFacePathElements(path2);
+        else
+            return PathAsList(path1) < PathAsList(path2);
+        fi;
+    end
+);
+RedispatchOnCondition(\<, true, [IsEdgeFacePath,IsEdgeFacePath], [IsBendPolygonalComplexPath,IsBendPolygonalComplexPath], 0);
 
 InstallMethod( EdgesAsList, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
@@ -742,12 +753,14 @@ RedispatchOnCondition(Inverse, true, [IsEdgeFacePath], [IsPolygonalComplexPath],
 InstallMethod( Inverse, "for a edge-face-path on a bend polygonal complex", 
     [IsEdgeFacePath and IsBendPolygonalComplexPath],
     function(path)
-        local Rev, complex, rev, i;
+        local Rev, complex, rev, i, efElements, el;
 
         complex := AssociatedVEFComplex(path);
-        rev := Reversed( EdgeFacePathElements(path) );
-        for i in [1..Length(rev)] do
-            rev[i][2] := [ rev[i][2][2], rev[i][2][1] ];
+        efElements := EdgeFacePathElements(path);
+        rev := [];
+        for i in [1..Length(efElements)] do
+            el := efElements[Length(efElements)+1-i];
+            rev[i] := [ el[1], [ el[2][2], el[2][1] ] ];
         od;
         return EdgeFacePathNC( complex, Reversed(Path(path)), rev );
     end

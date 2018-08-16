@@ -66,6 +66,8 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         Assert(0, ForAll(ball_umb, IsUmbrellaPath));
         Assert(0, Length(PathAsList(ball_umb[2]))=9);
 
-
+        # MaximalGeodesicPaths
+        Assert(0, Length(MaximalGeodesicPaths(torus))=3);
+        Assert(0, Length(MaximalGeodesicPaths(ball))=1);
     end
 );
