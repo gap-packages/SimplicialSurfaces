@@ -947,7 +947,7 @@ DeclareProperty( "IsGeodesicPath", IsEdgeFacePath );
 #! vertex-edge-path with the same edges. All vertices of the geodesic path 
 #! appear
 #! in this vertex-edge-path.
-#! 
+#!
 #! TODO explain, draw picture of this zig-zagging vertex-edge-path
 #!
 #! As an illustration consider the two geodesic paths from 
@@ -984,15 +984,20 @@ DeclareProperty( "IsGeodesicPath", IsEdgeFacePath );
 DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesicPath );
 #TODO is this a good name?
 
+
 #! @BeginGroup MaximalGeodesicPaths
 #! @Description
 #! Compute the set of all maximal geodesic paths of <A>ramSurf</A>, i.e. the
 #! set of all geodesic paths that can not be extended further.
 #!
-#! The operation <K>MaximalGeodesicPathOfFlag</K>(<A>ramSurf</A>, <A>flag</A>)
+#! For a polygonal complex, the operation 
+#! <K>MaximalGeodesicPathOfFlag</K>(<A>ramSurf</A>, <A>flag</A>)
 #! returns the unique maximal geodesic path that is defined by the given
 #! <A>flag</A>. The NC-version does not check whether the given <A>flag</A>
 #! is actually a flag of <A>ramSurf</A>.
+#!
+#! For a bend polygonal complex, this works similarly, but instead of
+#! a flag a local flag has to be given.
 #!
 #! As an illustration consider the torus from the start of section
 #! <Ref Sect="Section_Paths_Geodesics"/>:
@@ -1014,12 +1019,16 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesicPath );
 #!
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf
-DeclareAttribute( "MaximalGeodesicPaths", IsPolygonalComplex and IsNotEdgeRamified );
+DeclareAttribute( "MaximalGeodesicPaths", IsVEFComplex and IsNotEdgeRamified );
 #! @Returns an edge-face-path
 #! @Arguments ramSurf, flag
 DeclareOperation( "MaximalGeodesicPathOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @Arguments ramSurf, flag
 DeclareOperation( "MaximalGeodesicPathOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
+#! @Arguments ramSurf, localFlag
+DeclareOperation( "MaximalGeodesicPathOfLocalFlag", [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt] );
+#! @Arguments ramSurf, localFlag
+DeclareOperation( "MaximalGeodesicPathOfLocalFlagNC", [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup IsClosedGeodesicPath
@@ -1064,9 +1073,14 @@ DeclareProperty( "IsClosedGeodesicPath", IsEdgeFacePath );
 #! @EndGroup
 InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 
+#! @BeginGroup
 #! @Description
 #! Return the defining flags of the given geodesic path
 #! (<Ref Subsect="IsGeodesicPath"/>) as a list.
+#!
+#! If the geodesic path is defined on a polygonal complex, regular
+#! flags are used. If it is defined on a bend polygonal complex,
+#! local flags have to be used (and <K>DefiningLocalFlags</K>).
 #!
 #! Consider the geodesic path
 #! <M>[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1]</M>.
@@ -1111,8 +1125,12 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #!
 #! @Returns a list of flags
 #! @Arguments geodesic
-DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesicPath );
+DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath );
+#! @Returns a list of local flags
+#! @Arguments geodesic
+DeclareAttribute( "DefiningLocalFlags", IsEdgeFacePath and IsBendPolygonalComplexPath and IsGeodesicPath );
 #TODO good name?
+#! @EndGroup
 
 
 #! @BeginGroup MaximalDuplicateFreeGeodesicPaths
@@ -1140,10 +1158,16 @@ DeclareOperation( "MaximalDuplicateFreeGeodesicPathOfFlagNC", [IsPolygonalComple
 #! @Description
 #! For a closed geodesic path (<Ref Subsect="IsClosedGeodesicPath"/>) 
 #! construct the
-#! <E>geodesic flag cycle</E>. This is a permutation on the 3-flags
+#! <E>geodesic flag cycle</E>.
+#!
+#! If <A>closedGeodesic</A> is defined on a polygonal complex, this is a 
+#! permutation on the 3-flags
 #! (<Ref Subsect="Flags"/>). It can also be obtained as one cycle of
 #! the product of the Dress involutions (<Ref Subsect="DressInvolutions"/>),
 #! by first applying the one for vertices, then edges and finally faces.
+#!
+#! If <A>closedGeodesic</A> is defined on a bend polygonal complex, this
+#! is a permutation on the local flags.
 #!
 #! TODO explain properly with picture
 #!

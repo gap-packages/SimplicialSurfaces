@@ -875,42 +875,57 @@ InstallMethod( IsGeodesicPath,
     end
 );
 RedispatchOnCondition(IsGeodesicPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
+
+BindGlobal("__SIMPLICIAL_DefiningLocalFlags",
+    function(path)
+        local flagList, complex, el, vert1, vert2, int, flag, oldFlag,
+            vFlag, evFlag, v;
+
+        complex := AssociatedVEFComplex(path);
+        for el in EdgeFacePathElements(complex) do
+            vert1 := LocalVerticesOfLocalEdges(complex)[el[2][1]];
+            vert2 := LocalVerticesOfLocalEdges(complex)[el[2][2]];
+            int := Intersection(vert1, vert2);
+            if Length(int) <> 1 then
+                return fail;
+            fi;
+            if int[1] = vert1[1] then
+                v := vert1[2];
+            else
+                v := vert1[1];
+            fi;
+            flag := LocalFlagByLocalVertexLocalEdgeFace(v, el[2][1], el[1]);
+
+            if Length(flagList) > 0 then
+                oldFlag := flagList[Length(flagList)];
+                # Check whether we have a geodesic
+                vFlag := oldFlag^LocalFlagEdgeInvolution(complex);
+                evFlag := vFlag^LocalFlagVertexInvolution(complex);
+                if flag = evFlag or not IsLocalFlagsFaceEquivalent(complex, evFlag, flag) then
+                    return fail;
+                fi;
+            fi;
+            Add(flagList, flag);
+        od;
+
+        return flagList;
+    end
+);
 InstallMethod( IsGeodesicPath, 
     "for an edge-face-path on a bend polygonal complex", 
     [IsEdgeFacePath and IsBendPolygonalComplexPath],
     function(path)
-        local complex, flagList, el, flags1, flags2, vert1, vert2, int,
-            vFlags, i, part, found;
+        local def;
 
-        complex := AssociatedVEFComplex(path);
-        flagList := [];
-        for el in EdgeFacePathElements(path) do
-            flags1 := LocalFlagsOfLocalEdges(complex)[el[2][1]];
-            flags2 := LocalFlagsOfLocalEdges(complex)[el[2][2]];
-            vert1 := LocalVerticesOfLocalFlags(complex){flags1};
-            vert2 := LocalVerticesOfLocalFlags(complex){flags2};
-            int := Intersection(vert1, vert2);
-            if int = [] then
-                return false;
-            elif Length(int) >= 2 then
-                Error("IsUmbrellaPath: Internal error.");
-            fi;
-            vFlags := LocalFlagsOfLocalVertices(complex)[int[1]];
-            Add(flagList, [Intersection(flags1,vFlags)[1], Intersection(flags2,vFlags)[2]]);
-        od;
-        for i in [1..Length(flagList)-1] do
-            found := false;
-            for part in LocalFlagsOfHalfEdges(complex) do
-                if IsSubset( part, [flagList[i][2],flagList[i+1][1]] ) then
-                    found := true;
-                    break;
-                fi;
-            od;
-            if found then
-                return false;
-            fi;
-        od;
-    end
+        def := __SIMPLICIAL_DefiningLocalFlags(path);
+        if def = fail then
+            # no geodesic path
+            return false;
+        fi;
+
+        SetDefiningLocalFlags(path, def);
+        return true;
+   end
 );
 RedispatchOnCondition(IsGeodesicPath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
 
@@ -925,6 +940,43 @@ InstallMethod( VertexEdgePath, "for a geodesic path on a polygonal complex",
 );
 RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesicPath], 0);
 
+InstallMethod( VertexEdgePath, 
+    "for a geodesic path on a bend polygonal complex",
+    [IsEdgeFacePath and IsBendPolygonalComplexPath and IsGeodesicPath],
+    function(geo)
+        local complex, def, vePath, flag, edge, vertex, vLast,
+            lastFlag, vevLast;
+
+        complex := AssociatedVEFComplex(geo);
+        def := DefiningLocalFlags(geo);
+
+        vePath := [];
+        for flag in def do
+            edge := EdgesOfLocalFlags(complex)[flag];
+            vertex := VerticesOfLocalFlags(complex)[flag];
+            Append(vePath, [edge, vertex]);
+        od;
+
+        lastFlag := def[Length(def)];
+        vLast := lastFlag^LocalFlagEdgeInvolution(complex);
+        Add(vePath, VerticesOfLocalFlags(complex)[vLast]);
+
+        if IsClosedGeodesicPath(geo) then
+            # The path is finished
+            return VertexEdgePathNC(complex, vePath);
+        else
+            # We have to add an edge and a vertex to finish the path
+            vevLast := (vLast^LocalFlagVertexInvolution(complex))^LocalFlagEdgeInvolution(complex);
+            edge := EdgesOfLocalFlags(complex)[vevLast];
+            vertex := VerticesOfLocalFlags(complex)[vevLast];
+            Append(vePath, [edge, vertex]);
+            return VertexEdgePathNC(complex, vePath);
+        fi;
+    end
+);
+RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath and IsGeodesicPath], 0);
+
+
 InstallMethod( IsClosedGeodesicPath, 
     "for an edge-face-path on a polygonal complex", 
     [IsEdgeFacePath and IsPolygonalComplexPath],
@@ -937,6 +989,25 @@ InstallMethod( IsClosedGeodesicPath,
     end
 );
 RedispatchOnCondition(IsClosedPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
+InstallMethod( IsClosedGeodesicPath,
+    "for an edge-face-path on a bend polygonal complex",
+    [IsEdgeFacePath and IsBendPolygonalComplexPath],
+    function(path)
+        local def, complex, first, last, vLast, evLast;
+
+        def := DefiningLocalFlags(path);
+        complex := AssociatedVEFComplex(path);
+
+        first := def[1];
+        last := def[Length(def)];
+        vLast := last^LocalFlagEdgeInvolution(complex);
+        evLast := vLast^LocalFlagVertexInvolution(complex);
+
+        return first <> evLast and IsLocalFlagsFaceEquivalent(complex, first, evLast);
+    end
+);
+RedispatchOnCondition(IsClosedPath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
+
 
 InstallMethod( DefiningFlags, "for a geodesic path on a polygonal complex", 
     [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath],
@@ -954,6 +1025,15 @@ InstallMethod( DefiningFlags, "for a geodesic path on a polygonal complex",
     end
 );
 RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesicPath], 0 );
+
+InstallMethod( DefiningLocalFlags, 
+    "for a geodesic path on a bend polygonal complex",
+    [IsEdgeFacePath and IsBendPolygonalComplexPath and IsGeodesicPath],
+    function(geo)
+        return __SIMPLICIAL_DefiningLocalFlags(geo);
+    end
+);
+RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath and IsGeodesicPath], 0 );
 
 
 InstallMethod( MaximalGeodesicPathOfFlagNC, 
@@ -983,11 +1063,45 @@ InstallMethod( MaximalGeodesicPathOfFlag,
         if not flag in Flags(ramSurf) then
             Error(Concatenation("MaximalGeodesicPathOfFlag: Second argument ", 
                 String(flag), 
-                " is not a flag of the given ramified polygonal surface."));
+                " is not a flag of the given polygonal complex."));
         fi;
         return MaximalGeodesicPathOfFlagNC(ramSurf, flag);
     end
 );
+
+InstallMethod( MaximalGeodesicPathOfLocalFlagNC, 
+    "for a bend polygonal complex without edge ramifications and a local flag",
+    [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt],
+    function(ramSurf, flag)
+        local maxGeo, geo, inv;
+
+        maxGeo := MaximalGeodesicPaths(ramSurf);
+        for geo in maxGeo do
+            if flag in DefiningLocalFlags(geo) then
+                return geo;
+            fi;
+            inv := Inverse(geo);
+            if flag in DefiningLocalFlags(inv) then
+                return inv;
+            fi;
+        od;
+
+        Error("MaximalGeodesicPathOfLocalFlagNC: The given flag was not valid!");
+    end
+);
+InstallMethod( MaximalGeodesicPathOfLocalFlag,
+    "for a bend polygonal complex without edge ramifications and a local flag",
+    [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt],
+    function(ramSurf, flag)
+        if not flag in LocalFlags(ramSurf) then
+            Error(Concatenation("MaximalGeodesicPathOfLocalFlag: Second argument ", 
+                String(flag), 
+                " is not a local flag of the given bend polygonal complex."));
+        fi;
+        return MaximalGeodesicPathOfLocalFlagNC(ramSurf, flag);
+    end
+);
+
 
 BindGlobal( "__SIMPLICIAL_DuplicateFreeGeodesic",
     function( ramSurf, geo, flag )
@@ -1099,6 +1213,17 @@ InstallMethod( GeodesicFlagCycle,
     end
 );
 RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsClosedGeodesicPath], 0 );
+InstallMethod( GeodesicFlagCycle,
+    "for a closed geodesic path on a bend polygonal complex",
+    [IsEdgeFacePath and IsBendPolygonalComplexPath and IsClosedGeodesicPath],
+    function(closedGeo)
+        local def;
+
+        def := DefiningLocalFlags(closedGeo);
+        return __SIMPLICIAL_ListToCycle(def);
+    end
+);
+RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath and IsClosedGeodesicPath], 0 );
 
 
 InstallMethod( MaximalGeodesicPaths, 
@@ -1193,6 +1318,116 @@ InstallMethod( MaximalGeodesicPaths,
         return Set(geos);
     end
 );
+
+InstallMethod( MaximalGeodesicPaths, 
+    "for a bend polygonal complex without edge ramifications",
+    [IsBendPolygonalComplex and IsNotEdgeRamified],
+    function(ramSurf)
+        local flags, dressVertex, dressEdge, dressFace, dressVEV, dressVEF,
+            boundaryEdges, boundaryFlags, geos, todoFlags, start, flagList,
+            fin, lastFlag, almostNext, next, closed, invList, i, v, e, f,
+            vePath, efPath, elPath, localEdgeOut, localEdgeIn, oppFlag,
+            vLastFlag, geo;
+
+        flags := LocalFlags(ramSurf);
+        dressVertex := LocalFlagEdgeInvolution(ramSurf);
+        dressEdge := LocalFlagVertexInvolution(ramSurf);
+        dressFace := LocalFlagFaceInvolution(ramSurf);
+
+        boundaryEdges := BoundaryEdges(ramSurf);
+        boundaryFlags := Union( LocalFlagsOfEdges(ramSurf){boundaryEdges} );
+
+        dressVEV := dressVertex * dressEdge * dressVertex;
+        dressVEF := dressVertex * dressEdge * dressFace;
+
+        geos := [];
+        todoFlags := ShallowCopy(flags);
+        while Length(todoFlags) > 0 do
+            # Start with a boundary edge if possible
+            start := First( todoFlags, f -> f in boundaryFlags );
+            if start = fail then
+                start := todoFlags[1];
+            fi;
+
+            flagList := [ start ];
+            fin := false;
+            while not fin do
+                lastFlag := flagList[Length(flagList)];
+                almostNext := (lastFlag^dressVertex)^dressEdge;
+                next := almostNext^dressFace;
+                if next = almostNext then
+                    # We found another boundary
+                    fin := true;
+                    closed := false;
+                elif next = flagList[1] then
+                    # The geodesic path closes
+                    fin := true;
+                    closed := true;
+                else
+                    # Continue the geodesic path
+                    Add( flagList, next );
+                fi;
+            od;
+
+            # Compute the flags of the inverse geodesic path
+            invList := [];
+            invList[1] := flagList[Length(flagList)]^dressVEV;
+            for i in [2..Length(flagList)] do
+                Add(invList, invList[Length(invList)]^dressVEF);
+            od;
+
+
+            # Write geodesic path and zig-zag-path
+            vePath := [];
+            efPath := [];
+            elPath := [];
+            for i in [1..Length(flagList)] do
+                v := VerticesOfLocalFlags(ramSurf)[flagList[i]];
+                e := EdgesOfLocalFlags(ramSurf)[flagList[i]];
+                f := FacesOfLocalFlags(ramSurf)[flagList[i]];
+                localEdgeIn := LocalEdgesOfLocalFlags(ramSurf)[flagList[i]];
+                localEdgeOut := LocalEdgesOfLocalFlags(ramSurf)[flagList[i]^dressVEV];
+
+
+                Add( vePath, v );
+                Add( vePath, e );
+                Add( efPath, e );
+                Add( efPath, f );
+                Add( elPath, [f, [localEdgeIn, localEdgeOut]] );
+            od;
+            if closed then
+                Add(vePath, vePath[1]);
+                Add(efPath, efPath[1]);
+            else
+                lastFlag := flagList[Length(flagList)];
+                vLastFlag := lastFlag^dressVertex;
+                oppFlag := lastFlag^dressVEV;
+
+                v := VerticesOfLocalFlags(ramSurf)[oppFlag];
+                e := EdgesOfLocalFlags(ramSurf)[oppFlag];
+                Add(vePath, VerticesOfLocalFlags(ramSurf)[vLastFlag]);
+                Add(vePath, e);
+                Add(vePath, v);
+
+                Add(efPath, e);
+            fi;
+
+            geo := EdgeFacePathNC(ramSurf, efPath, elPath);
+            SetIsGeodesicPath(geo, true);
+            SetIsClosedGeodesicPath(geo, closed);
+            SetVertexEdgePath(geo, VertexEdgePathNC(ramSurf, vePath));
+
+            SetDefiningLocalFlags(geo, flagList);
+            SetDefiningFlags(Inverse(geo), invList);
+
+            Add( geos, geo );
+            todoFlags := Difference( todoFlags, Concatenation( flagList, invList ) );
+        od;
+
+        return Set(geos);
+    end
+);
+
 
 
 #######################################
