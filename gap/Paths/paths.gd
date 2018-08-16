@@ -529,7 +529,7 @@ DeclareOperation( "PerimeterPathByLocalPathNC", [IsBendPolygonalComplex, IsPerim
 #! <Enum>
 #!   <Item>For polygonal complexes, it is sufficient to store the alternating
 #!      list of edges and faces, i.e <K>PathAsList</K> 
-#!      (<Ref Subsect="PathAsList"/>). </Item>
+#!      (<Ref Subsect="VertexEdge_PathAsList"/>). </Item>
 #!   <Item>For bend polygonal complexes, more information is needed (since 
 #!      two edges in the same face may share the same label). In this case,
 #!      the <K>EdgeFacePathElements</K> 
@@ -692,6 +692,7 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #! @EndGroup
 
 
+#! @BeginGroup EdgeFacePathElements
 #! @Description
 #! For each face, this gives an element [face,[local edge in, local edge out]]
 #! 
@@ -702,6 +703,7 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #! @Returns a list or fail
 #! @Arguments edgeFacePath
 DeclareAttribute( "EdgeFacePathElements", IsEdgeFacePath );
+#! @EndGroup
 
 
 #! <ManSection Label="EdgeFace_IsClosedPath">
@@ -899,10 +901,20 @@ DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 
 #! @BeginGroup IsGeodesicPath
 #! @Description
-#! Check whether the given edge-face-path is a geodesic path, i.e. whether 
+#! Check whether the given edge-face-path is a geodesic path.
+#!
+#! If the edge-face-path is defined on a polygonal complex, this is
+#! equivalent to asking, whether 
 #! each
 #! vertex (except those of the first and last edge) is incident to exactly
 #! three faces of the path.
+#!
+#! If the edge-face-path is defined on a bend polygonal complex, a geodesic
+#! path
+#! is defined by its <K>DefiningLocalFlags</K> (compare 
+#! <Ref Subsect="DefiningFlags"/>).
+#!
+#! TODO give more information
 #! 
 #! As an illustration consider the torus from the start of section
 #! <Ref Sect="Section_Paths_Geodesics"/>:
@@ -1073,7 +1085,7 @@ DeclareProperty( "IsClosedGeodesicPath", IsEdgeFacePath );
 #! @EndGroup
 InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 
-#! @BeginGroup
+#! @BeginGroup DefiningFlags
 #! @Description
 #! Return the defining flags of the given geodesic path
 #! (<Ref Subsect="IsGeodesicPath"/>) as a list.
