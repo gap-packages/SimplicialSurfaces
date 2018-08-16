@@ -843,38 +843,40 @@ BindGlobal( "__SIMPLICIAL_ZigZagPath",
             vertex := vertex[1];
             Append(veList, [e1,vertex]);
             if i > 2 and veList[Length(veList)] = veList[Length(veList)-2] then
-                SetIsGeodesic(efPath, false);
+                SetIsGeodesicPath(efPath, false);
                 return fail;
             fi;
         od;
 
-        SetIsGeodesic(efPath, true);
+        SetIsGeodesicPath(efPath, true);
         # Complete the first vertex
         firstVertex := OtherVertexOfEdgeNC( com, veList[2], veList[1] );
         lastEdge := OtherEdgeOfVertexInFaceNC(com, veList[Length(veList)], veList[Length(veList)-1], pathAsList[Length(pathAsList)-1]);
         if lastEdge = veList[1] and firstVertex = veList[Length(veList)] then
-            # closed geodesic
-            SetIsClosedGeodesic(efPath, true);
+            # closed geodesic path
+            SetIsClosedGeodesicPath(efPath, true);
             vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList));
             SetIsClosedPath(vePath, true);
         else
-            # open geodesic
-            SetIsClosedGeodesic(efPath, false);
+            # open geodesic path
+            SetIsClosedGeodesicPath(efPath, false);
             # Complete last vertex
             vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList, [lastEdge, OtherVertexOfEdgeNC(com, veList[Length(veList)], lastEdge)]));
         fi;
         SetVertexEdgePath(efPath, vePath);
     end
 );
-InstallMethod( IsGeodesic, "for an edge-face-path on a polygonal complex", 
+InstallMethod( IsGeodesicPath, 
+    "for an edge-face-path on a polygonal complex", 
     [IsEdgeFacePath and IsPolygonalComplexPath],
     function(path)
         __SIMPLICIAL_ZigZagPath( AssociatedVEFComplex(path), path );
-        return IsGeodesic(path);
+        return IsGeodesicPath(path);
     end
 );
-RedispatchOnCondition(IsGeodesic, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
-InstallMethod( IsGeodesic, "for an edge-face-path on a bend polygonal complex", 
+RedispatchOnCondition(IsGeodesicPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
+InstallMethod( IsGeodesicPath, 
+    "for an edge-face-path on a bend polygonal complex", 
     [IsEdgeFacePath and IsBendPolygonalComplexPath],
     function(path)
         local complex, flagList, el, flags1, flags2, vert1, vert2, int,
@@ -910,23 +912,24 @@ InstallMethod( IsGeodesic, "for an edge-face-path on a bend polygonal complex",
         od;
     end
 );
-RedispatchOnCondition(IsGeodesic, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
+RedispatchOnCondition(IsGeodesicPath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
 
 
 
 InstallMethod( VertexEdgePath, "for a geodesic path on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesic],
+    [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath],
     function(geo)
         __SIMPLICIAL_ZigZagPath( AssociatedVEFComplex(geo), geo );
         return VertexEdgePath(geo);
     end
 );
-RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesic], 0);
+RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesicPath], 0);
 
-InstallMethod( IsClosedGeodesic, "for an edge-face-path on a polygonal complex", 
+InstallMethod( IsClosedGeodesicPath, 
+    "for an edge-face-path on a polygonal complex", 
     [IsEdgeFacePath and IsPolygonalComplexPath],
     function(path)
-        if not IsGeodesic(path) then
+        if not IsGeodesicPath(path) then
             return false;
         fi;
 
@@ -935,8 +938,8 @@ InstallMethod( IsClosedGeodesic, "for an edge-face-path on a polygonal complex",
 );
 RedispatchOnCondition(IsClosedPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
 
-InstallMethod( DefiningFlags, "for a geodesic on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesic],
+InstallMethod( DefiningFlags, "for a geodesic path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath],
     function(geo)
         local vePath, efPath, flags, i;
 
@@ -950,16 +953,16 @@ InstallMethod( DefiningFlags, "for a geodesic on a polygonal complex",
         return flags;
     end
 );
-RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesic], 0 );
+RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesicPath], 0 );
 
 
-InstallMethod( MaximalGeodesicOfFlagNC, 
+InstallMethod( MaximalGeodesicPathOfFlagNC, 
     "for a polygonal complex without edge ramifications and a flag",
     [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         local maxGeo, geo, inv;
 
-        maxGeo := MaximalGeodesics(ramSurf);
+        maxGeo := MaximalGeodesicPaths(ramSurf);
         for geo in maxGeo do
             if flag in DefiningFlags(geo) then
                 return geo;
@@ -970,19 +973,19 @@ InstallMethod( MaximalGeodesicOfFlagNC,
             fi;
         od;
 
-        Error("MaximalGeodesicOfFlagNC: The given flag was not valid!");
+        Error("MaximalGeodesicPathOfFlagNC: The given flag was not valid!");
     end
 );
-InstallMethod( MaximalGeodesicOfFlag,
+InstallMethod( MaximalGeodesicPathOfFlag,
     "for a polygonal complex without edge ramifications and a flag",
     [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         if not flag in Flags(ramSurf) then
-            Error(Concatenation("MaximalGeodesicOfFlag: Second argument ", 
+            Error(Concatenation("MaximalGeodesicPathOfFlag: Second argument ", 
                 String(flag), 
                 " is not a flag of the given ramified polygonal surface."));
         fi;
-        return MaximalGeodesicOfFlagNC(ramSurf, flag);
+        return MaximalGeodesicPathOfFlagNC(ramSurf, flag);
     end
 );
 
@@ -1021,39 +1024,39 @@ BindGlobal( "__SIMPLICIAL_DuplicateFreeGeodesic",
         return EdgeFacePathNC( ramSurf, Path(geo){[2*indices[1]-1..2*indices[Length(indices)]+1]} );
     end
 );
-InstallMethod( MaximalDuplicateFreeGeodesicOfFlag,
+InstallMethod( MaximalDuplicateFreeGeodesicPathOfFlag,
     "for a polygonal complex without edge ramifications and a flag",
     [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         if not flag in Flags(ramSurf) then
-            Error(Concatenation("MaximalDuplicateFreeGeodesicOfFlag: Second argument ", 
+            Error(Concatenation("MaximalDuplicateFreeGeodesicPathOfFlag: Second argument ", 
                 String(flag), 
                 " is not a flag of the given ramified polygonal surface."));
         fi;
-        return MaximalDuplicateFreeGeodesicOfFlagNC(ramSurf, flag);
+        return MaximalDuplicateFreeGeodesicPathOfFlagNC(ramSurf, flag);
     end
 );
-RedispatchOnCondition( MaximalDuplicateFreeGeodesicOfFlag, true,
+RedispatchOnCondition( MaximalDuplicateFreeGeodesicPathOfFlag, true,
     [IsPolygonalComplex, IsList], [IsNotEdgeRamified], 0);
-InstallMethod( MaximalDuplicateFreeGeodesicOfFlagNC,
+InstallMethod( MaximalDuplicateFreeGeodesicPathOfFlagNC,
     "for a polygonal complex without edge ramifications and a flag",
     [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         local geo;
 
-        geo := MaximalGeodesicOfFlagNC(ramSurf, flag);
+        geo := MaximalGeodesicPathOfFlagNC(ramSurf, flag);
         return __SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, geo, flag);
     end
 );
-RedispatchOnCondition( MaximalDuplicateFreeGeodesicOfFlagNC, true,
+RedispatchOnCondition( MaximalDuplicateFreeGeodesicPathOfFlagNC, true,
     [IsPolygonalComplex, IsList], [IsNotEdgeRamified], 0);
-InstallMethod( MaximalDuplicateFreeGeodesics,
+InstallMethod( MaximalDuplicateFreeGeodesicPaths,
     "for a polygonal complex without edge ramifications", [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         local maxGeo, geo, flag, inv, localGeo;
 
         maxGeo := [];
-        for geo in MaximalGeodesics(ramSurf) do
+        for geo in MaximalGeodesicPaths(ramSurf) do
             localGeo := [];
             for flag in DefiningFlags(geo) do
                 localGeo := Union( localGeo, [__SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, geo, flag)] );
@@ -1068,13 +1071,13 @@ InstallMethod( MaximalDuplicateFreeGeodesics,
         return Set(maxGeo);
     end
 );
-RedispatchOnCondition( MaximalDuplicateFreeGeodesics, true,
+RedispatchOnCondition( MaximalDuplicateFreeGeodesicPaths, true,
     [IsPolygonalComplex], [IsNotEdgeRamified], 0);
 
 
 InstallMethod( GeodesicFlagCycle, 
-    "for a closed geodesic on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath and IsClosedGeodesic],
+    "for a closed geodesic path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath and IsClosedGeodesicPath],
     function(closedGeo)
         local vePath, flagPath, i, vertex, edge, face, flagPerm;
 
@@ -1095,10 +1098,11 @@ InstallMethod( GeodesicFlagCycle,
         return PermList(flagPerm);
     end
 );
-RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsClosedGeodesic], 0 );
+RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsClosedGeodesicPath], 0 );
 
 
-InstallMethod( MaximalGeodesics, "for a polygonal complex without edge ramifications",
+InstallMethod( MaximalGeodesicPaths, 
+    "for a polygonal complex without edge ramifications",
     [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         local geos, flags, dressVertex, dressEdge, dressFace, boundary,
@@ -1135,23 +1139,23 @@ InstallMethod( MaximalGeodesics, "for a polygonal complex without edge ramificat
                     fin := true;
                     closed := false;
                 elif next = flagList[1] then
-                    # The geodesic closes
+                    # The geodesic path closes
                     fin := true;
                     closed := true;
                 else
-                    # Continue the geodesic
+                    # Continue the geodesic path
                     Add( flagList, next );
                 fi;
             od;
 
-            # Compute the flags of the inverse geodesic
+            # Compute the flags of the inverse geodesic path
             invList := [];
             invList[1] := flagList[Length(flagList)]^dressVEV;
             for i in [2..Length(flagList)] do
                 Add(invList, invList[Length(invList)]^dressVEF);
             od;
 
-            # Write geodesic and zig-zag-path
+            # Write geodesic path and zig-zag-path
             vePath := [];
             efPath := [];
             for i in [1..Length(flagList)] do
@@ -1173,8 +1177,8 @@ InstallMethod( MaximalGeodesics, "for a polygonal complex without edge ramificat
             fi;
 
             geo := EdgeFacePathNC(ramSurf, efPath);
-            SetIsGeodesic(geo, true);
-            SetIsClosedGeodesic(geo, closed);
+            SetIsGeodesicPath(geo, true);
+            SetIsClosedGeodesicPath(geo, closed);
             SetVertexEdgePath(geo, VertexEdgePathNC(ramSurf, vePath));
 
             geoFlags := flags{flagList};

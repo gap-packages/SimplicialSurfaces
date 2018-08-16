@@ -897,9 +897,10 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 
 
-#! @BeginGroup IsGeodesic
+#! @BeginGroup IsGeodesicPath
 #! @Description
-#! Check whether the given edge-face-path is a geodesic, i.e. whether each
+#! Check whether the given edge-face-path is a geodesic path, i.e. whether 
+#! each
 #! vertex (except those of the first and last edge) is incident to exactly
 #! three faces of the path.
 #! 
@@ -917,10 +918,10 @@ DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 #! @BeginExampleSession
 #! gap> closedGeo := EdgeFacePath( torus, [3,1,4,2,5,3,6,4,3] );
 #! ( e3, F1, e4, F2, e5, F3, e6, F4, e3 )
-#! gap> IsGeodesic(closedGeo);
+#! gap> IsGeodesicPath(closedGeo);
 #! true
 #! @EndExampleSession
-#! Geodesics do not have to be closed (<Ref Subsect="IsClosedGeodesic"/>):
+#! Geodesic paths do not have to be closed (<Ref Subsect="IsClosedGeodesicPath"/>):
 #! <Alt Only="TikZ">
 #!  {
 #!      \def\pathFive{1}
@@ -932,23 +933,25 @@ DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 #! @BeginExampleSession
 #! gap> openGeo := EdgeFacePath( torus, [9,5,7,2,5,3,2] );
 #! | e9, F5, e7, F2, e5, F3, e2 |
-#! gap> IsGeodesic(openGeo);
+#! gap> IsGeodesicPath(openGeo);
 #! true
 #! @EndExampleSession
 #! 
 #! @Arguments edgeFacePath
-DeclareProperty( "IsGeodesic", IsEdgeFacePath );
+DeclareProperty( "IsGeodesicPath", IsEdgeFacePath );
 #! @EndGroup
 
 #! @Description
-#! For every geodesic (<Ref Subsect="IsGeodesic"/>) there is an interwoven
-#! vertex-edge-path with the same edges. All vertices of the geodesic appear
+#! For every geodesic path (<Ref Subsect="IsGeodesicPath"/>) there is an 
+#! interwoven
+#! vertex-edge-path with the same edges. All vertices of the geodesic path 
+#! appear
 #! in this vertex-edge-path.
 #! 
 #! TODO explain, draw picture of this zig-zagging vertex-edge-path
 #!
-#! As an illustration consider the two geodesics from 
-#! <Ref Subsect="IsGeodesic"/>:
+#! As an illustration consider the two geodesic paths from 
+#! <Ref Subsect="IsGeodesicPath"/>:
 #! <Alt Only="TikZ">
 #!  {
 #!      \def\pathOne{1}
@@ -978,16 +981,16 @@ DeclareProperty( "IsGeodesic", IsEdgeFacePath );
 #!
 #! @Returns a vertex-edge-path
 #! @Arguments geodesic
-DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesic );
+DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesicPath );
 #TODO is this a good name?
 
-#! @BeginGroup MaximalGeodesics
+#! @BeginGroup MaximalGeodesicPaths
 #! @Description
-#! Compute the set of all maximal geodesics of <A>ramSurf</A>, i.e. the
-#! set of all geodesics that can not be extended further.
+#! Compute the set of all maximal geodesic paths of <A>ramSurf</A>, i.e. the
+#! set of all geodesic paths that can not be extended further.
 #!
-#! The operation <K>MaximalGeodesicOfFlag</K>(<A>ramSurf</A>, <A>flag</A>)
-#! returns the unique maximal geodesic that is defined by the given
+#! The operation <K>MaximalGeodesicPathOfFlag</K>(<A>ramSurf</A>, <A>flag</A>)
+#! returns the unique maximal geodesic path that is defined by the given
 #! <A>flag</A>. The NC-version does not check whether the given <A>flag</A>
 #! is actually a flag of <A>ramSurf</A>.
 #!
@@ -997,7 +1000,7 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesic );
 #!      \input{Image_Geodesics.tex}
 #! </Alt>
 #! @BeginExampleSession
-#! gap> MaximalGeodesics(torus);
+#! gap> MaximalGeodesicPaths(torus);
 #! [ ( e1, F1, e4, F2, e7, F5, e10, F6, e1 ), 
 #!  ( e1, F6, e11, F7, e8, F4, e3, F1, e1 ), 
 #!  ( e2, F3, e5, F2, e7, F5, e9, F8, e2 ), 
@@ -1011,23 +1014,25 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesic );
 #!
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf
-DeclareAttribute( "MaximalGeodesics", IsPolygonalComplex and IsNotEdgeRamified );
+DeclareAttribute( "MaximalGeodesicPaths", IsPolygonalComplex and IsNotEdgeRamified );
 #! @Returns an edge-face-path
 #! @Arguments ramSurf, flag
-DeclareOperation( "MaximalGeodesicOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
+DeclareOperation( "MaximalGeodesicPathOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @Arguments ramSurf, flag
-DeclareOperation( "MaximalGeodesicOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
+DeclareOperation( "MaximalGeodesicPathOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @EndGroup
 
-#! @BeginGroup IsClosedGeodesic
+#! @BeginGroup IsClosedGeodesicPath
 #! @Description
-#! Check whether the given edge-face-path is a closed geodesic, i.e. whether
-#! is is a geodesic (<Ref Subsect="IsGeodesic"/>) where first and last edge
+#! Check whether the given edge-face-path is a closed geodesic path, i.e. 
+#! whether
+#! is is a geodesic path (<Ref Subsect="IsGeodesicPath"/>) where first and 
+#! last edge
 #! coincide, such that all vertices are incident to exactly three faces of
 #! the path.
 #!
-#! As an illustration consider the two geodesics from 
-#! <Ref Subsect="IsGeodesic"/>:
+#! As an illustration consider the two geodesic paths from 
+#! <Ref Subsect="IsGeodesicPath"/>:
 #! <Alt Only="TikZ">
 #!  {
 #!      \def\pathOne{1}
@@ -1038,7 +1043,7 @@ DeclareOperation( "MaximalGeodesicOfFlagNC", [IsPolygonalComplex and IsNotEdgeRa
 #!  }
 #! </Alt>
 #! @BeginExampleSession
-#! gap> IsClosedGeodesic(closedGeo);
+#! gap> IsClosedGeodesicPath(closedGeo);
 #! true
 #! @EndExampleSession
 #! <Alt Only="TikZ">
@@ -1050,20 +1055,20 @@ DeclareOperation( "MaximalGeodesicOfFlagNC", [IsPolygonalComplex and IsNotEdgeRa
 #!  }
 #! </Alt>
 #! @BeginExampleSession
-#! gap> IsClosedGeodesic(openGeo);
+#! gap> IsClosedGeodesicPath(openGeo);
 #! false
 #! @EndExampleSession
 #!
 #! @Arguments edgeFacePath
-DeclareProperty( "IsClosedGeodesic", IsEdgeFacePath );
+DeclareProperty( "IsClosedGeodesicPath", IsEdgeFacePath );
 #! @EndGroup
-InstallTrueMethod( IsGeodesic, IsClosedGeodesic );
+InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 
 #! @Description
-#! Return the defining flags of the given geodesic 
-#! (<Ref Subsect="IsGeodesic"/>) as a list.
+#! Return the defining flags of the given geodesic path
+#! (<Ref Subsect="IsGeodesicPath"/>) as a list.
 #!
-#! Consider the geodesic
+#! Consider the geodesic path
 #! <M>[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1]</M>.
 #! <Alt Only="TikZ">
 #!      \input{Image_DefiningFlags.tex}
@@ -1076,8 +1081,8 @@ InstallTrueMethod( IsGeodesic, IsClosedGeodesic );
 #!  }
 #! </Alt>
 #! 
-#! As an illustration consider the two geodesics from
-#! <Ref Subsect="IsGeodesic"/>.
+#! As an illustration consider the two geodesic paths from
+#! <Ref Subsect="IsGeodesicPath"/>.
 #! <Alt Only="TikZ">
 #!  {
 #!      \def\pathOne{1}
@@ -1106,33 +1111,35 @@ InstallTrueMethod( IsGeodesic, IsClosedGeodesic );
 #!
 #! @Returns a list of flags
 #! @Arguments geodesic
-DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesic );
+DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesicPath );
 #TODO good name?
 
 
-#! @BeginGroup MaximalDuplicateFreeGeodesics
+#! @BeginGroup MaximalDuplicateFreeGeodesicPaths
 #! @Description
 #! For a given <A>flag</A> return the maximal duplicate-free geodesic
+#! path
 #! defined by this flag, i.e. it is extended in positive direction until one
 #! face-duplication arises. Then it is extended in negative direction.
 #!
-#! The method <K>MaximalDuplicateFreeGeodesics</K>(<A>ramSurf</A>) returns
+#! The method <K>MaximalDuplicateFreeGeodesicPaths</K>(<A>ramSurf</A>) returns
 #! the set of all those geodesics.
 #!
 #! TODO examples
 #!
-#! @Returns a set of duplicate-free geodesics
+#! @Returns a set of duplicate-free geodesic paths
 #! @Arguments ramSurf
-DeclareAttribute( "MaximalDuplicateFreeGeodesics", IsPolygonalComplex and IsNotEdgeRamified );
-#! @Returns a duplicate-free geodesic
+DeclareAttribute( "MaximalDuplicateFreeGeodesicPaths", IsPolygonalComplex and IsNotEdgeRamified );
+#! @Returns a duplicate-free geodesic path
 #! @Arguments ramSurf, flag
-DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
+DeclareOperation( "MaximalDuplicateFreeGeodesicPathOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @Arguments ramSurf, flag
-DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
+DeclareOperation( "MaximalDuplicateFreeGeodesicPathOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @EndGroup
 
 #! @Description
-#! For a closed geodesic (<Ref Subsect="IsClosedGeodesic"/>) construct the
+#! For a closed geodesic path (<Ref Subsect="IsClosedGeodesicPath"/>) 
+#! construct the
 #! <E>geodesic flag cycle</E>. This is a permutation on the 3-flags
 #! (<Ref Subsect="Flags"/>). It can also be obtained as one cycle of
 #! the product of the Dress involutions (<Ref Subsect="DressInvolutions"/>),
@@ -1142,7 +1149,7 @@ DeclareOperation( "MaximalDuplicateFreeGeodesicOfFlagNC", [IsPolygonalComplex an
 #!
 #! @Returns a permutation
 #! @Arguments closedGeodesic
-DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesic );
+DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath );
 #TODO is this a good name?
 
 
