@@ -73,5 +73,33 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         # Orientation
         Assert(0, IsOrientable(torus));
         Assert(0, IsOrientable(ball));
+
+        # Euler-characteristic
+        Assert(0, EulerCharacteristic(torus)=0);
+        Assert(0, EulerCharacteristic(ball)=2);
+
+        # IsClosedSurface
+        Assert(0, IsClosedSurface(torus));
+        Assert(0, IsClosedSurface(ball));
+
+        # EdgeDegrees
+        Assert(0, EdgeDegreeOfVertex(torus,2)=3);
+        Assert(0, EdgeDegreesOfVertices(ball)=[1,3,,1]);
+
+        # FaceDegrees
+        Assert(0, FaceDegreeOfVertex(torus,2) = 2);
+        Assert(0, FaceDegreesOfVertices(ball)=[1,2,,1]);
+
+        # VertexCounter
+        Assert(0, VertexCounter(torus)=[ [2,1] ]);
+        Assert(0, VertexCounter(ball)=[ [1,2], [2,1] ]);
+
+        # IsFaceHomogeneous
+        Assert(0, IsFaceHomogeneous(torus));
+        Assert(0, IsTriangular(torus));
+        Assert(0, not IsQuadrangular(torus));
+        Assert(0, IsFaceHomogeneous(ball));
+        Assert(0, IsTriangular(ball));
+        Assert(0, not IsQuadrangular(ball));
     end
 );

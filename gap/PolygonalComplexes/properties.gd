@@ -86,10 +86,12 @@ DeclareAttribute( "EulerCharacteristic", IsVEFComplex );
 
 #! @BeginGroup IsClosedSurface
 #! @Description
-#! Check whether the given ramified polygonal surface is <E>closed</E>.
-#! A ramified surface is closed if every edge is incident to <E>exactly</E> 
+#! Check whether the given VEF-complex without edge ramifications is 
+#! <E>closed</E>.
+#! A VEF-complex without edge ramifications is closed if every edge is 
+#! incident to <E>exactly</E> 
 #! two
-#! faces (whereas a polygonal complex is a ramified polygonal surface if 
+#! faces (whereas the absence of edge ramifications only means that
 #! every edge is incident to <E>at most</E> two faces).
 #!
 #! For example, the platonic solids are closed.
@@ -124,7 +126,6 @@ DeclareAttribute( "EulerCharacteristic", IsVEFComplex );
 DeclareProperty( "IsClosedSurface", IsVEFComplex and IsNotEdgeRamified );
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
-#TODO handle after edge ramifications are a property again
 
 
 #! @Section Degree-based properties and invariants
@@ -144,7 +145,6 @@ DeclareProperty( "IsClosedSurface", IsVEFComplex and IsNotEdgeRamified );
 #! These two definitions are distinguished by calling them 
 #! <K>EdgeDegreesOfVertices</K> and <K>FaceDegreesOfVertices</K>.
 #! 
-#TODO explain sorted/unsorted
 #TODO mention vertexCounter, edgeCounter
 
 
@@ -346,7 +346,7 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! @SectionLabel Properties_EdgeTypes
 #!
 #TODO improve
-#! The edges of a polygonal complex (defined in 
+#! The edges of a VEF-complex (defined in 
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
@@ -360,9 +360,9 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! are called <E>inner edges</E> while edges with only one incident face are
 #! called <E>boundary edges</E>.
 #!
-#! For ramified polygonal surfaces, only those two edge types can appear
-#! (by definition there are one or two faces incident to each edge). For
-#! general polygonal complexes there might appear a third case (more than
+#! If edge ramifications are not allowed, only those two edge types can appear
+#! (by definition there are one or two faces incident to each edge). In 
+#! general there might appear a third case (more than
 #! two faces incident to an edge). This is exemplified in the following
 #! example:
 #! <Alt Only="TikZ">
@@ -376,11 +376,11 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 
 #! @BeginGroup InnerEdges
 #! @Description
-#! Return the set of all inner edges of the given polygonal complex.
+#! Return the set of all inner edges of the given VEF-complex.
 #! An <E>inner edge</E> is an edge that is incident to exactly two faces.
 #!
 #! The method <K>IsInnerEdge</K> checks whether the given edge is an inner
-#! edge of the given polygonal complex. The NC-version does not check whether
+#! edge of the given VEF-complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
 #! Consider the five-star from the start of chapter 
@@ -412,12 +412,12 @@ DeclareOperation( "IsInnerEdgeNC", [IsVEFComplex, IsPosInt] );
 
 #! @BeginGroup BoundaryEdges
 #! @Description
-#! Return the set of all boundary edges of the given polygonal complex.
+#! Return the set of all boundary edges of the given VEF-complex.
 #! A <E>boundary edge</E> is an edge that is incident to exactly one face.
 #!
 #! The method <K>IsBoundaryEdge</K> checks whether the given edge is a 
 #! boundary
-#! edge of the given polygonal complex. The NC-version does not check whether
+#! edge of the given VEF-complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
 #! Consider the five-star from the start of chapter 
@@ -448,12 +448,12 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsVEFComplex, IsPosInt] );
 
 #! @BeginGroup RamifiedEdges
 #! @Description
-#! Return the set of all ramified edges of the given polygonal complex.
+#! Return the set of all ramified edges of the given VEF-complex.
 #! A <E>ramified edge</E> is an edge that is incident to at least three faces.
 #!
 #! The method <K>IsRamifiedEdge</K> checks whether the given edge is a 
 #! ramified
-#! edge of the given polygonal complex. The NC-version does not check whether
+#! edge of the given VEF-complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
 #! TODO example?
@@ -473,7 +473,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! @SectionLabel Properties_VertexTypes
 #! 
 #TODO improve this description
-#! The vertices of a polygonal complex (defined in 
+#! The vertices of a VEF-complex (defined in 
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
@@ -484,12 +484,11 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! </Alt>
 #! The vertex 1 is the only vertex that is completely surrounded by faces. It
 #! is called an <E>inner vertex</E> while the other vertices of the five-star
-#! are <E>boundary vertices</E>. This classifies all vertices of a polygonal
-#! surface.
+#! are <E>boundary vertices</E>. This classifies all vertices of a VEF-surface.
 #!
-#! In general there are more than these two possibilities. In the case of 
-#! ramified polygonal surfaces (defined in 
-#! <Ref Sect="PolygonalStructures_ramified"/>) there can be 
+#! In general there are more than these two possibilities. In the case of
+#! vertex ramifications (defined in <Ref Sect="PolygonalStructures_surface"/>)
+#! there can be 
 #! <E>ramified vertices</E>:
 #! <Alt Only="TikZ">
 #!    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
@@ -498,8 +497,8 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #!    \end{tikzpicture}
 #! </Alt>
 #!
-#! For general polygonal complexes (defined in 
-#! <Ref Sect="PolygonalStructures_complex"/>) there might be edges that are 
+#! In the case of edge ramifications (also defined in 
+#! <Ref Sect="PolygonalStructures_surface"/>) there might be edges that are 
 #! incident to more than two faces.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
@@ -520,7 +519,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! umbrella-paths).
 #!
 #! The method <K>IsInnerVertex</K> checks whether the given vertex is an inner
-#! vertex of the given polygonal complex. The NC-version does not check whether
+#! vertex of the given VEF-complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #! 
 #! Consider the five-star from the start of chapter
@@ -539,7 +538,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! [ 1 ]
 #! @EndExampleSession
 #! 
-#! For the special case of a polygonal surface the inner vertices have an
+#! For the special case of a VEF-surface the inner vertices have an
 #! easier characterisation: a vertex is
 #! an inner vertex if and only if every incident edge is incident to exactly
 #! two faces (that is, if it only incident to inner edges 
@@ -566,7 +565,7 @@ DeclareOperation( "IsInnerVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! The method <K>IsBoundaryVertex</K> checks whether the given vertex is a 
 #! boundary
-#! vertex of the given polygonal complex. The NC-version does not check whether
+#! vertex of the given VEF-complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
 #! Consider the triforce from the start of section
@@ -585,7 +584,7 @@ DeclareOperation( "IsInnerVertexNC", [IsVEFComplex, IsPosInt] );
 #! [ 1, 4, 6 ]
 #! @EndExampleSession
 #!
-#! For polygonal surfaces the boundary vertices can be described more
+#! For VEF-surfaces the boundary vertices can be described more
 #! easily: a vertex is a boundary vertex if and only if it
 #! is incident to at least one edge that is incident to exactly one face 
 #! (i.e. if it is 
@@ -628,7 +627,7 @@ DeclareOperation( "IsBoundaryVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! The method <K>IsRamifiedVertex</K> checks whether the given vertex is a
 #! ramified
-#! vertex of the given polygonal complex. The NC-version does not check whether
+#! vertex of the given VEF-complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
 #! Consider the triforce from the start of section
@@ -669,7 +668,7 @@ DeclareOperation( "IsRamifiedVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! The method <K>IsChaoticVertex</K> checks whether the given vertex is a 
 #! chaotic
-#! vertex of the given polygonal complex. The NC-version does not check whether
+#! vertex of the given VEF-complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
 #! TODO example
