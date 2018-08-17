@@ -30,6 +30,15 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
         end
     );
 
+    InstallMethod( LocalIncidenceDigraphsGraph, 
+        "for a bend polygonal complex",
+        [IsBendPolygonalComplex],
+        function( complex )
+            return Digraph( LocalIncidenceGrapeGraph(complex) );
+            #TODO is there a better way?
+        end
+    );
+
     InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
@@ -94,6 +103,62 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	    return graph;   
         end
     );
+
+    InstallMethod( LocalIncidenceGrapeGraph, "for a bend polygonal complex",
+        [IsBendPolygonalComplex],
+        function(complex)
+            local maxLocalVert, maxLocalEdge, localVertices, localEdges, 
+                halfEdges, names, colours, incidence, trivialAction, graph;
+
+            maxLocalVert := LocalVertices(complex)[Length(LocalVertices(complex))];
+            maxLocalEdge := LocalEdges(complex)[Length(LocalEdges(complex))];
+            localVertices := ShallowCopy( LocalVertices( complex ) );
+            localEdges := List( LocalEdges( complex ), e -> e + maxLocalVert );
+            halfEdges := List( HalfEdges( complex ), h -> h + maxLocalVert + maxLocalEdge );
+
+            names := Concatenation( localVertices, localEdges, halfEdges );
+            colours := [localVertices, localEdges, halfEdges];
+	    incidence := function(x,y)
+                if x in localVertices and y in localEdges then
+                    return Length( Intersection( 
+                        LocalFlagsOfLocalVertices(complex)[x], 
+                        LocalFlagsOfLocalEdges(complex)[y-maxLocalVert] ) ) = 1;
+                elif x in localEdges and y in localVertices then
+                    return Length( Intersection( 
+                        LocalFlagsOfLocalEdges(complex)[x-maxLocalVert], 
+                        LocalFlagsOfLocalVertices(complex)[y] ) ) = 1;
+                elif x in localVertices and y in halfEdges then
+                    return Length( Intersection( 
+                        LocalFlagsOfLocalVertices(complex)[x], 
+                        LocalFlagsOfHalfEdges(complex)[y-maxLocalVert-maxLocalEdge] ) ) = 1;
+                elif x in halfEdges and y in localVertices then
+                    return Length( Intersection( 
+                        LocalFlagsOfHalfEdges(complex)[x-maxLocalVert-maxLocalEdge], 
+                        LocalFlagsOfLocalVertices(complex)[y] ) ) = 1;
+                elif x in localEdges and y in halfEdges then
+                    return Length( Intersection(
+                        LocalFlagsOfLocalEdges(complex)[x-maxLocalVert],
+                        LocalFlagsOfHalfEdges(complex)[y-maxLocalVert-maxLocalEdge]) ) = 1;
+                elif x in halfEdges and y in localEdges then
+                    return Length( Intersection(
+                        LocalFlagsOfHalfEdges(complex)[x-maxLocalVert-maxLocalEdge],
+                        LocalFlagsOfLocalEdges(complex)[y-maxLocalVert-maxLocalVert]) ) = 1;
+                else
+                    return false;
+                fi;
+	    end;
+
+	    trivialAction := function( pnt, g )
+	        return pnt;
+	    end;
+
+	    graph := Graph( Group( () ), names, trivialAction, incidence );
+	    graph!.colourClasses := colours;
+
+	    return graph;   
+        end
+    );
+
 
     InstallMethod( EdgeGrapeGraph, "for a polygonal complex",
         [IsPolygonalComplex],
@@ -161,6 +226,39 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
         end
     );
+
+    InstallMethod( LocalIncidenceNautyGraph, "for a bend polygonal complex",
+        [IsBendPolygonalComplex],
+        function(complex)
+            local maxLocalVert, maxLocalEdge, vertexList, edgeList, colourList,
+                f, locVert, locEdge, halfEdge;
+
+            maxLocalVert := LocalVertices(complex)[Length(LocalVertices(complex))];
+            maxLocalEdge := LocalEdges(complex)[Length(LocalEdges(complex))];
+
+            vertexList := ShallowCopy( LocalVertices(complex) );
+            edgeList := [];
+            colourList := ListWithIdenticalEntries( Length(LocalVertices(complex)), 0 );
+
+            Append(vertexList, LocalEdges(complex) + maxLocalVert);
+            Append(colourList, ListWithIdenticalEntries( Length( LocalEdges(complex) ), 1 ));
+            Append(vertexList, HalfEdges(complex) + maxLocalVert + maxLocalEdge);
+            Append(colourList, ListWithIdenticalEntries( Length( HalfEdges(complex) ), 2 ));
+
+            for f in LocalFlags(complex) do
+                locVert := LocalVerticesOfLocalFlags(complex)[f];
+                locEdge := LocalEdgesOfLocalFlags(complex)[f];
+                halfEdge := HalfEdgesOfLocalFlags(complex)[f];
+                Append(edgeList, [ [ locVert, locEdge + maxLocalVert ], 
+                    [ locVert, halfEdge + maxLocalVert + maxLocalEdge ], 
+                    [ locEdge + maxLocalVert, halfEdge + maxLocalVert + maxLocalEdge ] ]);
+            od;
+
+            return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
+        end
+    );
+
+
 
     InstallMethod( EdgeNautyGraph, "for a polygonal complex",
         [IsPolygonalComplex],

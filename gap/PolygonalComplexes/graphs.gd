@@ -16,24 +16,39 @@
 
 #! @BeginChunk Graphs_LabelShift
 #! <List>
-#!   <Item>The vertex numbers, not modified</Item>
-#!   <Item>The edge numbers, shifted upwards by the maximal vertex number
+#!   <Item>The vertex numbers are not modified</Item>
+#!   <Item>The edge numbers are shifted upwards by the maximal vertex number
 #!     </Item>
-#!   <Item>The face numbers, shifted upwards by the sum of the maximal
+#!   <Item>The face numbers are shifted upwards by the sum of the maximal
 #!     vertex number and the maximal edge number</Item>
+#! </List>
+#! @EndChunk
+#! @BeginChunk Graphs_LabelShiftLocal
+#! <List>
+#!   <Item>The local vertex numbers are not modified</Item>
+#!   <Item>The local edge numbers are shifted upwards by the maximal local 
+#!      vertex number</Item>
+#!   <Item>The half-edge numbers are shifted upwards by the sum of the maximal
+#!     local vertex number and the maximal local edge number</Item>
 #! </List>
 #! @EndChunk
 
 #! @Chapter Graphs and isomorphisms
 #! @ChapterLabel Graphs
 #! 
-#! All polygonal structures from chapter <Ref Chap="PolygonalStructures"/>
-#! can be completely described by their incidence structure. Therefore the
-#! isomorphism problem reduces to the graph isomorphism problem. This chapter
+#! The structures from chapter <Ref Chap="PolygonalStructures"/>
+#! can be completely described by their incidence structure (in the case of
+#! polygonal complexes) or their local flag structure (for bend polygonal
+#! complexes). Both of these structures can equivalently be described as
+#! graphs. Therefore the
+#! isomorphism problem for VEF-complexes reduces to the graph isomorphism 
+#! problem. This chapter
 #! explains the associated functionality.
 #!
 #! Most of the methods in this chapter need access to one of the graph 
-#! packages in &GAP;. Currently supported are the packages
+#! packages in &GAP; (check the method descriptions to see whether a
+#! certain graph package is sufficient to execute the method). 
+#! Currently supported are the packages
 #! @InsertChunk Graphs_Packages
 #! A discussion of their 
 #! individual merits is postponed to section 
@@ -43,9 +58,13 @@
 #! graphs is introduced. While this is the backbone of the isomorphism testing
 #! and automorphism group computation, it may be skipped at first.
 #!
-#! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the method
-#! <K>IsIsomorphicPolygonalComplex</K> 
-#! (<Ref Subsect="IsIsomorphicPolygonalComplex"/>).
+#! In section <Ref Sect="Section_Graphs_LocalIncidence"/> the incidence
+#! of local flags (for bend polygonal complexes) is discussed.
+#!
+#! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the isomorphism 
+#! method
+#! <K>IsIsomorphic</K> 
+#! (<Ref Subsect="IsIsomorphic"/>).
 #!
 #! Section <Ref Sect="Section_Graphs_Automorphisms"/> explains in detail
 #! how to use the automorphism group of polygonal complexes.
@@ -118,6 +137,67 @@ DeclareAttribute( "IncidenceGrapeGraph", IsPolygonalComplex );
 #! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 #! @Arguments complex
 DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
+#! @EndGroup
+
+
+#! @Section Local incidence graph
+#! @SectionLabel Graphs_LocalIncidence
+#! 
+#! Bend polygonal complexes (explained in section 
+#! <Ref Sect="PolygonalStructures_bend"/>) are not described by their 
+#! incidence structure alone but by their local incidence structure,
+#! consisting of local vertices, local edges and half-edges.
+#!
+#! The vertices of the local incidence graph consist of all local vertices 
+#! (colour 0), 
+#! local edges (colour 1) and 
+#! half-edges (colour 2) of the bend polygonal complex. The edges of the
+#! local incidence graph are defined by the local flags: If a local vertex
+#! and a local edge are incident to the same local flag, they will be 
+#! connected by an edge (similar for the other pairs).
+#! 
+#!
+#! Unfortunately the vertex labels of the graph in &GAP; have to be distinct, 
+#! which is not guaranteed in general.
+#! Therefore the labels have to be shifted.
+#!
+#! The local incidence graph is given as a &GAP;-graph. Currently these packages
+#! are supported:
+#! @InsertChunk Graphs_Packages
+#!
+
+#! @BeginGroup LocalIncidenceGraph
+#! @Description
+#! Return the local incidence graph (a coloured, undirected graph) of the given 
+#! bend polygonal complex. The local incidence
+#! graph is defined as follows:
+#! <List>
+#!   <Item>The <E>vertices</E> are the local vertices (colour 0), local edges 
+#!     (colour 1) and 
+#!     half-edges (colour 2) of <A>complex</A>. The labels are shifted in the
+#!     following way:
+#! @InsertChunk Graphs_LabelShiftLocal
+#!     </Item>
+#!   <Item>The <E>edges</E> are pairs of vertices such that the same local
+#!     flag is incident to both elements of the pair (excluding loops).
+#!     </Item>
+#! </List>
+#!
+#! The returned graph can be given in three different formats, corresponding
+#! to different graph packages: 
+#! @InsertChunk Graphs_Packages
+#!
+#! TODO example
+#!
+#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Arguments complex
+DeclareAttribute( "LocalIncidenceDigraphsGraph", IsBendPolygonalComplex );
+#! @Returns a graph as defined in the package <K>GRAPE</K>
+#! @Arguments complex
+DeclareAttribute( "LocalIncidenceGrapeGraph", IsBendPolygonalComplex );
+#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
+#! @Arguments complex
+DeclareAttribute( "LocalIncidenceNautyGraph", IsBendPolygonalComplex );
 #! @EndGroup
 
 
