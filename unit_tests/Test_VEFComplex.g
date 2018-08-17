@@ -69,5 +69,9 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         # MaximalGeodesicPaths
         Assert(0, Length(MaximalGeodesicPaths(torus))=3);
         Assert(0, Length(MaximalGeodesicPaths(ball))=1);
+
+        # Orientation
+        Assert(0, IsOrientable(torus));
+        Assert(0, IsOrientable(ball));
     end
 );

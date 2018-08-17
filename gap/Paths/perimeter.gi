@@ -186,8 +186,55 @@ InstallMethod( \=, "for two perimeter paths", IsIdenticalObj,
     [IsPerimeterPath, IsPerimeterPath],
     function(path1, path2)
         return Face(path1) = Face(path2) and 
+            Path(path1) = Path(path2) and
             AssociatedVEFComplex(path1) = AssociatedVEFComplex(path2) and
             LocalPath(path1) = LocalPath(path2);
     end
 );
+
+InstallMethod( LocalFlagCycle, 
+    "for a perimeter path on a bend polygonal complex",
+    [IsPerimeterPath and IsBendPolygonalComplexPath],
+    function(perimPath)
+        local complex, flags, swapVertex, swapEdge, localPath, last,
+            firstLocalVertex, firstLocalEdge, firstFlag, flagList, i;
+
+        complex := AssociatedVEFComplex(perimPath);
+        swapVertex := LocalFlagEdgeInvolution(complex);
+        swapEdge := LocalFlagVertexInvolution(complex);
+
+        localPath := LocalPath(perimPath);
+        firstLocalVertex := Path(localPath)[1];
+        firstLocalEdge := Path(localPath)[2];
+        firstFlag := LocalFlagByLocalVertexLocalEdgeFace(complex, firstLocalVertex, firstLocalEdge, Face(perimPath));
+
+        flagList := [firstFlag, firstFlag^swapVertex];
+        for i in [2..Length(EdgesAsList(localPath))] do
+            last := flagList[Length(flagList)];
+            Append(flagList, [last^swapEdge, (last^swapEdge)^swapVertex]);
+        od;
+
+        return __SIMPLICIAL_ListToCycle(flagList);
+    end
+);
+RedispatchOnCondition(LocalFlagCycle, true, [IsPerimeterPath], [IsBendPolygonalComplexPath], 0);
+
+InstallMethod( Inverse, "for a perimeter path", [IsPerimeterPath],
+    function(path)
+        local obj;
+
+        obj := Objectify(PerimeterPathType, rec());
+        SetPath(obj, Reversed(Path(path)));
+        SetAssociatedVEFComplex(obj, AssociatedVEFComplex(path));
+        SetFace(obj, Face(path));
+        if LocalPath(path) = fail then
+            SetLocalPath(obj, fail);
+        else
+            SetLocalPath(obj, Inverse(LocalPath(path)));
+        fi;
+
+        return obj;
+    end
+);
+
 

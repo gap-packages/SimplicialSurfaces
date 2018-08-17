@@ -422,8 +422,8 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! This section describes <E>perimeter paths</E>, which are special
 #! vertex-edge-paths (with additional information). They are returned by
 #! methods like <K>PerimeterPathsOfFaces</K> 
-#! (<Ref Subsect="PerimeterPathsOfFaces"/>) and <K>OrientationOfFaces</K>
-#! (<Ref Subsect="OrientationOfFaces"/>).
+#! (<Ref Subsect="PerimeterPathsOfFaces"/>) and <K>Orientation</K>
+#! (<Ref Subsect="Orientation"/>).
 #!
 #! TODO explain stuff
 #!
@@ -502,6 +502,15 @@ DeclareOperation( "PerimeterPathByLocalPath", [IsBendPolygonalComplex, IsPerimet
 DeclareOperation( "PerimeterPathByLocalPathNC", [IsBendPolygonalComplex, IsPerimeterPath] );
 #! @EndGroup
 
+
+#! @Description
+#! A perimeter path of a face on a bend polygonal complex defines a cyclic
+#! orientation of the local flags within the face. This method returns
+#! that cyclic permutation.
+#!
+#! @Returns a permutation
+#! @Arguments perimPath
+DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPath);
 
 
 #! @Section Edge-Face-Paths
@@ -1417,17 +1426,19 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
 #!
 #! A polygonal orientation is defined by choosing a direction along the 
 #! perimeter of each polygon such that for each edge with exactly two 
-#! incident faces both directions are defined.
+#! incident faces both directions are defined. This direction is modelled
+#! by a perimeter path (compare <Ref Sect="Section_Paths_Perimeter"/> for
+#! details).
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexPlain=nolabels, edgePlain=nolabels, faceStyle=nolabels]
 #!     \def\orientation{1}
 #!     \input{Image_ConstructorExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
-#! A ramified polygonal surface is <E>orientable</E> if such a choice of
+#! A VEF-complex without edge ramifications is <E>orientable</E> if such a choice of
 #! directions is possible.
 #!
-#! For a given ramified polygonal surface this orientation can be computed.
+#! For a given VEF-complex this orientation can be computed.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexPlain, edgePlain, faceStyle]
 #!      \input{Image_ConstructorExample.tex}
@@ -1500,10 +1511,11 @@ DeclareProperty( "IsOrientable", IsVEFComplex and IsNotEdgeRamified );
 #! it exists (otherwise return <K>fail</K>). The orientation is given as a list
 #! with the faces of <A>ramSurf</A> as indices.
 #!
-#! For each face, this list contains a vertex-edge-path (see 
-#! <Ref Subsect="VertexEdgePath"/> for the precise definition) of this face.
-#! To access vertex-edge-paths the methods of section
-#! <Ref Sect="Section_Paths_VertexEdge"/> can be used.
+#! For each face, this list contains a perimeter-path (see 
+#! <Ref Subsect="PerimeterPath"/> for the precise definition) of this face.
+#! To access perimeter-paths the methods of sections
+#! <Ref Sect="Section_Paths_VertexEdge"/> and
+#! <Ref Sect="Section_Paths_Perimeter"/> can be used.
 #! 
 #! TODO describe properly
 #!
@@ -1534,8 +1546,8 @@ DeclareAttribute( "Orientation", IsVEFComplex and IsNotEdgeRamified );
 
 
 #! @Description
-#! Compute the <E>orientation cover</E> of a ramified polygonal surface
-#! <A>ramSurf</A>.
+#! Compute the <E>orientation cover</E> of a polygonal complex without edge
+#! ramifications.
 #! It is defined as TODO
 #!
 #! The resulting polygonal surface is always closed 
@@ -1560,7 +1572,7 @@ DeclareAttribute( "Orientation", IsVEFComplex and IsNotEdgeRamified );
 #! @Returns a list, where the first entry is a polygonal surface and the
 #! subsequent entries are its vertices, edges and faces
 #! @Arguments ramSurf
-DeclareOperation("OrientationCover", [IsVEFComplex and IsNotEdgeRamified]);
+DeclareOperation("OrientationCover", [IsPolygonalComplex and IsNotEdgeRamified]);
 
 
 
