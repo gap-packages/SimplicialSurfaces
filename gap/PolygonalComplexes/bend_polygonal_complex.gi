@@ -262,3 +262,105 @@ InstallMethod( LocalFace,
         return LocalFaceNC(bendComplex, face);
     end
 );
+InstallMethod( RigidFaces, "for a bend polygonal complex",
+    [IsBendPolygonalComplex],
+    function(bendComplex)
+        local rigid, f;
+
+        rigid := [];
+        for f in Faces(bendComplex) do
+            if Length(VerticesOfFaces(bendComplex)[f]) = Length(LocalVerticesOfFaces(bendComplex)[f]) then
+                Add(rigid,f);
+            fi;
+        od;
+
+        return rigid;
+    end
+);
+
+InstallMethod( BendFaces, "for a bend polygonal complex",
+    [IsBendPolygonalComplex],
+    function(bendComplex)
+        local bend, f;
+
+        bend := [];
+        for f in Faces(bendComplex) do
+            if Length(VerticesOfFaces(bendComplex)[f]) <> Length(LocalVerticesOfFaces(bendComplex)[f]) then
+                Add(bend,f);
+            fi;
+        od;
+
+        return bend;
+    end
+);
+
+
+InstallMethod( PolygonalComplex, "for a bend polygonal complex",
+    [IsBendPolygonalComplex],
+    function(bendComplex)
+        local obj;
+
+        if RigidFaces(bendComplex) <> Faces(bendComplex) then
+            return fail;
+        fi;
+
+        obj := Objectify(PolygonalComplexType, rec());
+        SetVerticesAttributeOfVEFComplex(obj, VerticesAttributeOfVEFComplex(bendComplex));
+        SetEdges(obj, Edges(bendComplex));
+        SetFaces(obj, Faces(bendComplex));
+        SetVerticesOfEdges(obj, VerticesOfEdges(bendComplex));
+        SetEdgesOfFaces(obj, EdgesOfFaces(bendComplex));
+
+        return obj;
+    end
+);
+
+
+InstallMethod( BendPolygonalComplex, "for a polygonal complex", 
+    [IsPolygonalComplex],
+    function(polyComplex)
+        local obj, threeFlags, veFlags, vfFlags, efFlags, vertOfFlag,
+            edgeOfFlag, faceOfFlag, locVertexOfFlag, locEdgeOfFlag, 
+            halfEdgeOfFlag, i, f;
+
+        obj := Objectify( BendPolygonalComplexType, rec() );
+        SetVerticesAttributeOfVEFComplex(obj, VerticesAttributeOfVEFComplex(polyComplex));
+        SetEdges(obj, Edges(polyComplex));
+        SetFaces(obj, Faces(polyComplex));
+        SetVerticesOfEdges(obj, VerticesOfEdges(polyComplex));
+        SetEdgesOfFaces(obj, EdgesOfFaces(polyComplex));
+
+        # local flags
+        threeFlags := ThreeFlags(polyComplex);
+        veFlags := VertexEdgeFlags(polyComplex);
+        vfFlags := VertexFaceFlags(polyComplex);
+        efFlags := EdgeFaceFlags(polyComplex);
+        SetLocalFlags(obj, [1..Length(threeFlags)]);
+        
+        vertOfFlag := [];
+        edgeOfFlag := [];
+        faceOfFlag := [];
+        locVertexOfFlag := [];
+        locEdgeOfFlag := [];
+        halfEdgeOfFlag := [];
+        for i in [1..Length(threeFlags)] do
+            f := threeFlags[i];
+
+            vertOfFlag[i] := f[1];
+            edgeOfFlag[i] := f[2];
+            faceOfFlag[i] := f[3];
+
+            locVertexOfFlag[i] := Position( vfFlags, [ f[1], f[3] ] );
+            locEdgeOfFlag[i] := Position( efFlags, [ f[2], f[3] ] );
+            halfEdgeOfFlag[i] := Position( veFlags, [ f[1], f[2] ] );
+        od;
+        SetVerticesOfLocalFlags(obj, vertOfFlag);
+        SetEdgesOfLocalFlags(obj, edgeOfFlag);
+        SetFacesOfLocalFlags(obj, faceOfFlag);
+        SetLocalVerticesOfLocalFlags(obj, locVertexOfFlag);
+        SetLocalEdgesOfLocalFlags(obj, locEdgeOfFlag);
+        SetHalfEdgesOfLocalFlags(obj, halfEdgeOfFlag);
+
+        return obj;
+    end
+);

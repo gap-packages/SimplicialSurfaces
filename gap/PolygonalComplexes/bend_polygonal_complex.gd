@@ -280,3 +280,46 @@ DeclareOperation("LocalFace", [IsBendPolygonalComplex, IsPosInt]);
 DeclareOperation("LocalFaceNC", [IsBendPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
+#! @Description
+#! Return the set of all rigid faces in the given bend polygonal
+#! complex. These are the faces whose vertices are not identified.
+#!
+#! @Returns a set of positive integers
+#! @Arguments bendComplex
+DeclareAttribute("RigidFaces", IsBendPolygonalComplex);
+
+#! @Description
+#! Return the set of all bend faces in the given bend polygonal
+#! complex. These are the faces in which vertices are identified.
+#!
+#! @Returns a set of positive integers
+#! @Arguments bendComplex
+DeclareAttribute("BendFaces", IsBendPolygonalComplex);
+
+
+#! @Description
+#! Construct a polygonal complex from the given bend polygonal
+#! complex, if possible. Otherwise return <K>fail</K>.
+#!
+#! The labels of vertices, edges and faces are retained.
+#!
+#! @Returns a polygonal complex or <K>fail</K>
+#! @Argument bendComplex
+DeclareAttribute("PolygonalComplex", IsBendPolygonalComplex);
+
+
+#! @Description
+#! Construct a bend polygonal complex from the given polygonal complex.
+#! The additional labels are defined as follows:
+#! * The position of the 3-flags in <K>ThreeFlags</K> defines the labels
+#!   of the local flags.
+#! * The position of the 2-flags in <K>VertexEdgeFlags</K> defines the
+#!   labels of the half-edges.
+#! * The position of the 2-flags in <K>VertexFaceFlags</K> defines the
+#!   labels of the local vertices.
+#! * The position of the 2-flags in <K>EdgeFaceFlags</K> defines the
+#!   labels of the local edges.
+#!
+#! @Returns a bend polygonal complex
+#! @Argument polyComplex
+DeclareAttribute("BendPolygonalComplex", IsPolygonalComplex);
