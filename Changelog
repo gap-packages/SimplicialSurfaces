@@ -12,4 +12,5 @@ Changes from master to rewrite:
 7) The package now needs GAP 4.9 and a new version of the AttributeScheduler
     to run.
 8) Rename Geodesic to GeodesicPath
+9) Rename IsIsomorphicPolygonalComplex to IsIsomorphic
 

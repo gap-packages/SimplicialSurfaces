@@ -204,10 +204,13 @@ DeclareAttribute( "LocalIncidenceNautyGraph", IsBendPolygonalComplex );
 #! @Section Isomorphism testing
 #! @SectionLabel Graphs_Isomorphism
 #!
-#! Since all polygonal structures (from polygonal complexes to simplicial 
-#! surfaces) from chapter <Ref Chap="PolygonalStructures"/> are completely
-#! described by their incidence structure, the isomorphism problem for
-#! those reduces to the graph isomorphism problem.
+#! The structures from chapter <Ref Chap="PolygonalStructures"/> (polygonal
+#! complex and bend polygonal complexes) can be described by some kind
+#! of incidence structure (compare sections 
+#! <Ref Sect="Section_Graphs_Incidence"/> and
+#! <Ref Sect="Section_Graphs_LocalIncidence"/>). Since these can
+#! be modelled as graphs, the isomorphism problem for (bend) polygonal 
+#! complexes reduces to the graph isomorphism problem.
 #!
 #! The graph isomorphism problem is solved by <K>Nauty/Bliss</K>, depending
 #! on the available packages. As long as one of the graph packages of &GAP;
@@ -215,22 +218,35 @@ DeclareAttribute( "LocalIncidenceNautyGraph", IsBendPolygonalComplex );
 #! are 
 #! @InsertChunk Graphs_Packages 
 
-#! @BeginGroup IsIsomorphicPolygonalComplex
+
+#! @BeginGroup IsIsomorphic
 #! @Description
-#! Return whether the given polygonal complexes are isomorphic. They are
-#! isomorphic if their incidence graphs (compare 
-#! <Ref Subsect="Section_Graphs_Incidence"/>) are isomorphic.
+#! Return whether the given VEF-complexes are isomorphic. Here we have
+#! several cases to consider:
+#! * Two polygonal complexes are isomorphic if and only if their incidence
+#!   graphs (compare 
+#!   <Ref Subsect="Section_Graphs_Incidence"/>) are isomorphic.
+#! * Two bend polygonal complexes are isomorphic if and only if their
+#!   local incidence graphs (compare 
+#!   <Ref Subsect="Section_Graphs_LocalIncidence"/>) are isomorphic.
+#! * A polygonal complex is isomorphic to a bend polygonal complex, if and
+#!   only if the bend polygonal complex can be defined as a polygonal complex
+#!   and is isomorphic to the other polygonal complex.
+#!
+#! The isomorphism check needs the package <K>NautyTracesInterface</K> or
+#! <K>Digraphs</K> to work.
 #!
 #! @ExampleSession
-#! gap> IsIsomorphicPolygonalComplex( Cube(), Octahedron() );
+#! gap> IsIsomorphic( Cube(), Octahedron() );
 #! false
 #! @EndExampleSession
 #!
 #! @Returns <K>true</K> or <K>false</K>
 #! @Arguments complex1, complex2
-DeclareOperation( "IsIsomorphicPolygonalComplex", 
-    [IsPolygonalComplex, IsPolygonalComplex] );
+DeclareOperation( "IsIsomorphic", 
+    [IsVEFComplex, IsVEFComplex] );
 #! @EndGroup
+
 
 #! @Description
 #! The method <K>PolygonalComplexIsomorphismRepresentatives</K> takes a list of polygonal

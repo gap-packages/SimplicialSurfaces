@@ -764,7 +764,7 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! Combining two of these along their boundaries gives the octahedron.
 #! @BeginExampleSession
 #! gap> oct := JoinBoundaries(fourGon, [3,6], fourGon, [4,7]);;
-#! gap> IsIsomorphicPolygonalComplex(oct[1], Octahedron());
+#! gap> IsIsomorphic(oct[1], Octahedron());
 #! true
 #! @EndExampleSession
 #!

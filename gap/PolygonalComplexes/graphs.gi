@@ -281,12 +281,39 @@ fi;
 ##      Isomorphism test and automorphism group
 ##
 
+InstallMethod( IsIsomorphic, 
+    "for a polygonal complex and a bend polygonal complex",
+    [IsPolygonalComplex, IsBendPolygonalComplex],
+    function(poly, bend)
+        local obj;
+
+        obj := PolygonalComplex(bend);
+        if obj = fail then
+            return false;
+        fi;
+        return IsIsomorphic(poly, obj);
+    end
+);
+InstallMethod( IsIsomorphic, 
+    "for a bend polygonal complex and a polygonal complex",
+    [IsBendPolygonalComplex, IsPolygonalComplex],
+    function(bend, poly)
+        local obj;
+
+        obj := PolygonalComplex(bend);
+        if obj = fail then
+            return false;
+        fi;
+        return IsIsomorphic(poly, obj);
+    end
+);
+
 ## The order of installation describes which of these functions is
 ## preferred - the last one has highest priority.
-InstallMethod( IsIsomorphicPolygonalComplex, "for two polygonal complexes",
-    [IsPolygonalComplex, IsPolygonalComplex],
+InstallMethod( IsIsomorphic, "for two VEF-complexes",
+    [IsVEFComplex, IsVEFComplex],
     function(complex1, complex2)
-        Error("IsIsomorphicPolygonalComplex: One of the packages NautyTracesInterface or GRAPE has to be available.");
+        Error("IsIsomorphic: One of the packages NautyTracesInterface or GRAPE has to be available.");
     end
 );
 InstallMethod( AutomorphismGroup, "for a polygonal complex", 
@@ -297,44 +324,111 @@ InstallMethod( AutomorphismGroup, "for a polygonal complex",
 );
 
 if IsPackageMarkedForLoading("GRAPE", ">=0") then
-    InstallMethod( IsIsomorphicPolygonalComplex, 
+    InstallMethod( IsIsomorphic, 
         "for two polygonal complexes",
         [IsPolygonalComplex, IsPolygonalComplex],
         function(complex1, complex2)
+            local graph1, graph2;
+
+            Error("IsIsomorphic can't be computed by GRAPE since GRAPE allows the exchange of colour classes.");
+
+
+            graph1 := ShallowCopy( IncidenceGrapeGraph(complex1) );
+            graph2 := ShallowCopy( IncidenceGrapeGraph(complex2) );
+
+            # Compute canonical labelling
+            SetAutGroupCanonicalLabellingNauty(graph1, true);
+            SetAutGroupCanonicalLabellingNauty(graph2, true);
+        end
+    );
+    InstallMethod( IsIsomorphic, 
+        "for two bend polygonal complexes",
+        [IsBendPolygonalComplex, IsBendPolygonalComplex],
+        function(complex1, complex2)
+            Error("IsIsomorphic can't be computed by GRAPE since GRAPE allows the exchange of colour classes.");
+
             return IsIsomorphicGraph(
-                ShallowCopy( IncidenceGrapeGraph(complex1) ),
-                ShallowCopy( IncidenceGrapeGraph(complex2) ) );
+                ShallowCopy( LocalIncidenceGrapeGraph(complex1) ),
+                ShallowCopy( LocalIncidenceGrapeGraph(complex2) ) );
         end
     );
 
     InstallMethod( AutomorphismGroup, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
+            Error("AutomorphismGroup can't be computed by GRAPE since GRAPE allows the exchange of colour classes.");
             return AutGroupGraph( ShallowCopy( IncidenceGrapeGraph(complex) ) );
         end
     );
 fi;
 
 if IsPackageMarkedForLoading("Digraphs", ">=0") and not ARCH_IS_WINDOWS() then
+    InstallMethod( IsIsomorphic, 
+        "for two polygonal complexes",
+        [IsPolygonalComplex, IsPolygonalComplex],
+        function(complex1, complex2)
+            local graph1, graph2, grape1, grape2, col1, col2;
 
-#TODO install the digraphs function as soon as it is available
+            grape1 := IncidenceGrapeGraph(complex1);
+            col1 := grape1.colourClasses;
+            graph1 := IncidenceDigraphsGraph(complex1);
+
+            grape2 := IncidenceGrapeGraph(complex2);
+            col2 := grape1.colourClasses;
+            graph2 := IncidenceDigraphsGraph(complex2);
+
+            return IsomorphismDigraphs(graph1, graph2, col1, col2);
+        end
+    );
+    InstallMethod( IsIsomorphic, 
+        "for two bend polygonal complexes",
+        [IsBendPolygonalComplex, IsBendPolygonalComplex],
+        function(complex1, complex2)
+            local graph1, graph2, grape1, grape2, col1, col2;
+
+            grape1 := LocalIncidenceGrapeGraph(complex1);
+            col1 := grape1.colourClasses;
+            graph1 := LocalIncidenceDigraphsGraph(complex1);
+
+            grape2 := LocalIncidenceGrapeGraph(complex2);
+            col2 := grape1.colourClasses;
+            graph2 := LocalIncidenceDigraphsGraph(complex2);
+
+            return IsomorphismDigraphs(graph1, graph2, col1, col2);
+        end
+    );
+
 
     InstallMethod( AutomorphismGroup, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
-            return AutomorphismGroup( IncidenceDigraphsGraph(complex) );
+            local graph, grape, col;
+
+            grape := IncidenceGrapeGraph(complex);
+            col := grape.colourClasses;
+            graph := IncidenceDigraphsGraph(complex);
+            return AutomorphismGroup( graph, col );
         end
     );
 fi;
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
-    InstallMethod( IsIsomorphicPolygonalComplex, 
+    InstallMethod( IsIsomorphic, 
         "for two polygonal complexes", 
         [IsPolygonalComplex, IsPolygonalComplex],
         function(complex1, complex2)
             return IsomorphismGraphs( 
                 UnderlyingNautyGraph( IncidenceNautyGraph(complex1) ),
                 UnderlyingNautyGraph( IncidenceNautyGraph(complex2) )) <> fail;
+        end
+    );
+    InstallMethod( IsIsomorphic, 
+        "for two bend polygonal complexes", 
+        [IsBendPolygonalComplex, IsBendPolygonalComplex],
+        function(complex1, complex2)
+            return IsomorphismGraphs( 
+                UnderlyingNautyGraph( LocalIncidenceNautyGraph(complex1) ),
+                UnderlyingNautyGraph( LocalIncidenceNautyGraph(complex2) )) <> fail;
         end
     );
 
@@ -362,7 +456,7 @@ InstallMethod( PolygonalComplexIsomorphismRepresentatives,
         for p in ls do
             newOne := true;
             for q in newList do
-                if IsIsomorphicPolygonalComplex(p,q) then
+                if IsIsomorphic(p,q) then
                     newOne := false;
                     break;
                 fi;

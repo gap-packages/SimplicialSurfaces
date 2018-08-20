@@ -304,7 +304,7 @@ DeclareAttribute("BendFaces", IsBendPolygonalComplex);
 #! The labels of vertices, edges and faces are retained.
 #!
 #! @Returns a polygonal complex or <K>fail</K>
-#! @Argument bendComplex
+#! @Arguments bendComplex
 DeclareAttribute("PolygonalComplex", IsBendPolygonalComplex);
 
 
@@ -321,5 +321,5 @@ DeclareAttribute("PolygonalComplex", IsBendPolygonalComplex);
 #!   labels of the local edges.
 #!
 #! @Returns a bend polygonal complex
-#! @Argument polyComplex
+#! @Arguments polyComplex
 DeclareAttribute("BendPolygonalComplex", IsPolygonalComplex);
