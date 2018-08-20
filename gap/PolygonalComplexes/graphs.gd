@@ -66,8 +66,10 @@
 #! <K>IsIsomorphic</K> 
 #! (<Ref Subsect="IsIsomorphic"/>).
 #!
-#! Section <Ref Sect="Section_Graphs_Automorphisms"/> explains in detail
-#! how to use the automorphism group of polygonal complexes.
+#! Section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> explains in detail
+#! how to use the automorphism group of polygonal complexes and section
+#! <Ref Sect="Section_Graphs_Automorphisms_Bend"/> does the same for bend polygonal
+#! complexes.
 
 #! @Section Incidence graph
 #! @SectionLabel Graphs_Incidence
@@ -276,8 +278,8 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! TODO can something be done about this? Currently the returned isomorphism does not match the labels (and group actions are hard to define);
 
 
-#! @Section Automorphism group
-#! @SectionLabel Graphs_Automorphisms
+#! @Section Automorphism groups of polygonal complexes
+#! @SectionLabel Graphs_Automorphisms_Polygonal
 #!
 #! This section explains how to compute automorphism groups of polygonal
 #! complexes. Since the incidence graph is necessary for the computation,
@@ -388,10 +390,10 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! @BeginGroup AutomorphismGroup
 #! @Description
 #! Compute the automorphism group of the polygonal complex <A>complex</A> as
-#! a permutation group on vertices, edges and faces of <A>complex</A>. For an 
+#! a permutation group on the vertices, edges and faces of <A>complex</A>. For an 
 #! introduction into the usage and conventions of automorphism groups in
 #! the <K>SimplicialSurface</K>-package, compare the start of section
-#! <Ref Sect="Section_Graphs_Automorphisms"/>.
+#! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
 #! 
 #! As vertices, edges and faces can be denoted by the same numbers in 
 #! <A>complex</A>, they have to be distinguished for the description of
@@ -465,7 +467,7 @@ DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
 #! the given permutation is not an automorphism) <K>fail</K> is returned.
 #!
 #! An explanation for the necessity of this method is given in section
-#! <Ref Sect="Section_Graphs_Automorphisms"/>.
+#! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
 #!
 #! We illustrate this on the example of a tetrahedron.
 #! <Alt Only="TikZ">
@@ -572,6 +574,46 @@ DeclareAttribute( "AutomorphismGroupOnFaces", IsPolygonalComplex );
 DeclareProperty( "IsAutomorphismDefinedByFaces", IsPolygonalComplex );
 #! @EndGroup
 
+#TODO AutomorphismGroupOnFlags
+
+
+#! @Section Automorphism groups of bend polygonal complexes
+#! @SectionLabel Graphs_Automorphisms_Bend
+#!
+#! Section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> was concerned
+#! with the automorphism groups of polygonal complexes.
+#! For the automorphism group of bend polygonal complexes similar concerns
+#! arise. Since a bend polygonal complex is not uniquely defined by its
+#! vertices, edges, and faces, its automorphisms won't be as well.
+#! Therefore the automorphisms are given as permutations of the 
+#! <E>local flags</E>.
+#!
+#! 
+
+#! @BeginGroup
+#! @Description
+#! Return the automorphism group of the given bend polygonal complex.
+#! This automorphism group is given as a permutation in the local flags
+#! of <A>bendComplex</A>.
+#!
+#! @ExampleSession
+#! gap> bendTet := BendPolygonalComplex( Tetrahedron() );;
+#! gap> aut := AutomorphismGroup(bendTet);;
+#! gap> Size(aut);
+#! 24
+#! gap> aut = AutomorphismGroupOnLocalFlags(bendTet);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a permutation group
+#! @Arguments bendComplex
+DeclareAttribute("AutomorphismGroup", IsBendPolygonalComplex);
+#! @Arguments bendComplex
+DeclareAttribute("AutomorphismGroupOnLocalFlags", IsBendPolygonalComplex);
+#! @EndGroup
+
+#TODO AutomorphismGroupOn* for the others
+
 
 #! @Section Which graph package should be used?
 #! @SectionLabel Graphs_Discussion
@@ -606,6 +648,9 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsPolygonalComplex );
 #!   If the installation is working though, it is recommended to use 
 #!   <K>Digraphs</K> instead of <K>GRAPE</K>.</Item>
 #! </List>
+
+
+
 
 #! @Section Other graphs
 #! @SectionLabel Graphs_Others

@@ -281,6 +281,50 @@ fi;
 ##      Isomorphism test and automorphism group
 ##
 
+BindGlobal( "__SIMPLICIAL_BendAutomorphismFromNauty",
+    function(complex, autGrp)
+        local maxLocalVert, maxLocalEdge, gen, genLocVert, genLocEdge, g,
+            temp, listPerm, genLocalFlag, i, permList, f, locVert, locEdge,
+            face, newLoc, newLocVert, newLocEdge;
+
+        maxLocalVert := LocalVertices(complex)[Length(LocalVertices(complex))];
+        maxLocalEdge := LocalEdges(complex)[Length(LocalEdges(complex))];
+
+        gen := GeneratorsOfGroup(autGrp);
+        genLocVert := [];
+        genLocEdge := [];
+        for g in gen do
+            Add( genLocVert, RESTRICTED_PERM(g, [1..maxLocalVert], true) );
+
+            temp := RESTRICTED_PERM(g, [maxLocalVert+1..maxLocalVert+maxLocalEdge], true);
+            # Rescale
+            listPerm := ListPerm(temp, maxLocalVert+maxLocalEdge);
+            listPerm := listPerm{[maxLocalVert+1..maxLocalVert+maxLocalEdge]} - maxLocalVert;
+            Add( genLocEdge, PermList( listPerm ) );
+        od;
+
+        genLocalFlag := [];
+        for i in [1..Length(gen)] do
+            permList := [];
+            for f in LocalFlags(complex) do
+                locVert := LocalVerticesOfLocalFlags(complex)[f];
+                locEdge := LocalEdgesOfLocalFlags(complex)[f];
+
+                newLocVert := locVert^genLocVert[i];
+                newLocEdge := locEdge^genLocEdge[i];
+                face := FacesOfLocalVertices(complex)[newLocVert];
+                Assert(1, face = FacesOfLocalEdges(complex)[newLocEdge]);
+
+                newLoc := LocalFlagByLocalVertexLocalEdgeFace(complex, newLocVert, newLocEdge, face);
+                permList[f] := newLoc;
+            od;
+            Add(genLocalFlag, PermList(permList));
+        od;
+
+        return Group( genLocalFlag );
+    end
+);
+
 InstallMethod( IsIsomorphic, 
     "for a polygonal complex and a bend polygonal complex",
     [IsPolygonalComplex, IsBendPolygonalComplex],
@@ -322,6 +366,12 @@ InstallMethod( AutomorphismGroup, "for a polygonal complex",
         Error("AutomorphismGroup: One of the packages NautyTracesInterface, Digraphs or GRAPE has to be available.");
     end
 );
+InstallMethod( AutomorphismGroup, "for a bend polygonal complex", 
+    [IsBendPolygonalComplex],
+    function(complex)
+        Error("AutomorphismGroup: One of the packages NautyTracesInterface, Digraphs or GRAPE has to be available.");
+    end
+);
 
 if IsPackageMarkedForLoading("GRAPE", ">=0") then
     InstallMethod( IsIsomorphic, 
@@ -358,6 +408,12 @@ if IsPackageMarkedForLoading("GRAPE", ">=0") then
         function(complex)
             Error("AutomorphismGroup can't be computed by GRAPE since GRAPE allows the exchange of colour classes.");
             return AutGroupGraph( ShallowCopy( IncidenceGrapeGraph(complex) ) );
+        end
+    );
+    InstallMethod( AutomorphismGroup, "for a bend polygonal complex",
+        [IsBendPolygonalComplex],
+        function(complex)
+            Error("AutomorphismGroup can't be computed by GRAPE since GRAPE allows the exchange of colour classes.");
         end
     );
 fi;
@@ -410,6 +466,18 @@ if IsPackageMarkedForLoading("Digraphs", ">=0") and not ARCH_IS_WINDOWS() then
             return AutomorphismGroup( graph, col );
         end
     );
+    InstallMethod( AutomorphismGroup, "for a bend polygonal complex",
+        [IsBendPolygonalComplex],
+        function(complex)
+            local graph, grape, col, aut;
+
+            grape := LocalIncidenceGrapeGraph(complex);
+            col := grape.colourClasses;
+            graph := LocalIncidenceDigraphsGraph(complex);
+            aut := AutomorphismGroup( graph, col );
+            return __SIMPLICIAL_BendAutomorphismFromNauty(complex, aut);
+        end
+    );
 fi;
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
@@ -436,6 +504,13 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         [IsPolygonalComplex],
         function(complex)
             return AutomorphismGroup( IncidenceNautyGraph(complex) );
+        end
+    );
+    InstallMethod( AutomorphismGroup, "for a bend polygonal complex",
+        [IsBendPolygonalComplex],
+        function(complex)
+            return __SIMPLICIAL_BendAutomorphismFromNauty( complex,
+                AutomorphismGroup( LocalIncidenceNautyGraph(complex) ) );
         end
     );
 fi;
@@ -616,3 +691,10 @@ InstallMethod( IsAutomorphismDefinedByFaces, "for a polygonal complex",
     end
 );
 
+
+InstallMethod( AutomorphismGroupOnLocalFlags,
+    "for a bend polygonal complex", [IsBendPolygonalComplex],
+    function(complex)
+        return AutomorphismGroup(complex);
+    end
+);
