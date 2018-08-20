@@ -364,3 +364,58 @@ InstallMethod( BendPolygonalComplex, "for a polygonal complex",
         return obj;
     end
 );
+
+
+InstallMethod( GeodesicDual, "for a polygonal surface", [IsPolygonalSurface],
+    function(polySurf)
+        return GeodesicDual( BendPolygonalComplex( polySurf ) );
+    end
+);
+RedispatchOnCondition(GeodesicDual, true, [IsPolygonalComplex], [IsPolygonalSurface], 0);
+InstallMethod( GeodesicDual, "for a bend polygonal surface",
+    [IsBendPolygonalSurface],
+    function(bendSurf)
+        local obj, vertexInv, edgeInv, faceInv, newFaceInv, locFlags,
+            halfEdgeOrb, vertexOrb;
+
+        obj := Objectify( BendPolygonalComplexType, rec() );
+
+        # The polygons stay the same
+        SetLocalFlags(obj, LocalFlags(bendSurf));
+        SetLocalVertices(obj, LocalVertices(bendSurf));
+        SetLocalEdges(obj, LocalEdges(bendSurf));
+        SetFaces(obj, Faces(bendSurf));
+        SetLocalVerticesOfLocalFlags(obj, LocalVerticesOfLocalFlags(bendSurf));
+        SetLocalEdgesOfLocalFlags(obj, LocalEdgesOfLocalFlags(bendSurf));
+        SetFacesOfLocalFlags(obj, FacesOfLocalFlags(bendSurf));
+
+        # Edges stay the same (although twisted)
+        SetEdges(obj, Edges(bendSurf));
+        SetEdgesOfLocalFlags(obj, EdgesOfLocalFlags(bendSurf));
+
+        # Update vertices and half-edges
+        vertexInv := LocalFlagVertexInvolution(bendSurf);
+        edgeInv := LocalFlagEdgeInvolution(bendSurf);
+        faceInv := LocalFlagFaceInvolution(bendSurf);
+
+        newFaceInv := edgeInv * faceInv;
+        locFlags := LocalFlags(obj);
+
+        SetLocalFlagVertexInvolution(obj, vertexInv);
+        SetLocalFlagEdgeInvolution(obj, edgeInv);
+        SetLocalFlagFaceInvolution(obj, newFaceInv);
+
+        # Define half-edges by orbits
+        halfEdgeOrb := Orbits( Group([newFaceInv]), locFlags );
+        SetHalfEdges( obj, [1..Length(halfEdgeOrb)] );
+        SetLocalFlagsOfHalfEdges(obj, halfEdgeOrb);
+
+        # Define vertices by orbits
+        vertexOrb := Orbits( Group([vertexInv,newFaceInv]), locFlags);
+        SetVerticesAttributeOfVEFComplex(obj, [1..Length(vertexOrb)]);
+        SetLocalFlagsOfVertices(obj, vertexOrb);
+
+        return obj;
+    end
+);
+RedispatchOnCondition(GeodesicDual, true, [IsBendPolygonalComplex], [IsBendPolygonalSurface], 0);

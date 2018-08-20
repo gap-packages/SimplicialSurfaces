@@ -296,6 +296,8 @@ DeclareAttribute("RigidFaces", IsBendPolygonalComplex);
 #! @Arguments bendComplex
 DeclareAttribute("BendFaces", IsBendPolygonalComplex);
 
+#! @Section Constructions
+#! @SectionLabel AccessBend_Constructions
 
 #! @Description
 #! Construct a polygonal complex from the given bend polygonal
@@ -323,3 +325,19 @@ DeclareAttribute("PolygonalComplex", IsBendPolygonalComplex);
 #! @Returns a bend polygonal complex
 #! @Arguments polyComplex
 DeclareAttribute("BendPolygonalComplex", IsPolygonalComplex);
+
+
+#! @BeginGroup GeodesicDual
+#! @Description
+#! Construct the geodesic dual of the given bend polygonal surface.
+#! If a polygonal surface is given, it is silently converted into
+#! a bend polygonal complex by the previous method.
+#!
+#! TODO
+#! 
+#! @Returns a bend polygonal surface
+#! @Arguments bendSurface
+DeclareAttribute( "GeodesicDual", IsBendPolygonalSurface );
+#! @Arguments polySurface
+DeclareAttribute( "GeodesicDual", IsPolygonalSurface );
+#! @EndGroup
