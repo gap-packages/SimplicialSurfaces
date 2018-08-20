@@ -441,14 +441,14 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 fi;
 
 
-InstallMethod( PolygonalComplexIsomorphismRepresentatives,
-    "for a list of polygonal complexes", [IsList],
+InstallMethod( IsomorphismRepresentatives,
+    "for a list of VEF-complexes", [IsList],
     function(ls)
         local newList, p, q, newOne;
 
         for p in ls do
-            if not IsPolygonalComplex(p) then
-                Error("PolygonalComplexIsomorphismRepresentatives: Argument has to be a list of polygonal complexes.");
+            if not IsVEFComplex(p) then
+                Error("IsomorphismRepresentatives: Argument has to be a list of VEF-complexes.");
             fi;
         od;
 

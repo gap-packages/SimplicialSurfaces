@@ -13,4 +13,7 @@ Changes from master to rewrite:
     to run.
 8) Rename Geodesic to GeodesicPath
 9) Rename IsIsomorphicPolygonalComplex to IsIsomorphic
+10) Rename PolygonalComplexIsomorphismRepresentatives to
+    IsomorphismRepresentatives
+11)
 
