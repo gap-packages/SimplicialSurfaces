@@ -327,11 +327,13 @@ DeclareAttribute( "FaceCounter", IsVEFComplex );
 DeclareProperty( "IsFaceHomogeneous", IsVEFComplex );
 
 
+#! @BeginGroup IsTriangular
 #! @Description
 #! Check whether all polygons in this VEF-complex are triangles.
 #! @Arguments complex
 DeclareProperty( "IsTriangular", IsVEFComplex );
 InstallTrueMethod(IsFaceHomogeneous, IsTriangular);
+#! @EndGroup
 
 
 #! @Description

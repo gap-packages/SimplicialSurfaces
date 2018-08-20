@@ -24,7 +24,7 @@
 #! Section <Ref Sect="Section_Flags_DressGroup"/> uses the knowledge of the 
 #! flags to compute the <K>DressGroup</K>
 #! (<Ref Subsect="DressInvolutions"/>)
-#! of a ramified polygonal surface.
+#! of a polygonal complex without edge ramifications.
 #!
 #! In section <Ref Sect="Section_Flags_FlagComplex"/> defines a triangular
 #! complex whose faces are given by the flags and describes some special
@@ -263,7 +263,7 @@ DeclareAttribute( "OneFlags", IsPolygonalComplex );
 #!
 #! While flags can be defined for any polygonal complex (as was done in
 #! section <Ref Sect="Section_Flags_Definition"/>), they have additional
-#! structure for ramified polygonal surfaces:
+#! structure for polygonal complexes without edge ramifications.
 #! <Enum>
 #!   <Item>For every flag <M>[v,e,f]</M> there is exactly one other vertex 
 #!         <M>X</M> such that <M>[X,e,f]</M> is also a flag.</Item>
@@ -341,7 +341,8 @@ DeclareAttribute( "DressGroup", IsVEFComplex and IsNotEdgeRamified );
 #! complex of a 
 #! polygonal complex is always a simplicial surface.
 #!
-#! For the flag complex of a ramified polygonal surface the Dress involutions
+#! For the flag complex of a polygonal complex without edge ramifications 
+#! the Dress involutions
 #! (<Ref Subsect="DressInvolutions"/>) are the colour involutions for the
 #! colouring (compare <Ref Subsect="ColourInvolutions"/>).
 
@@ -350,27 +351,22 @@ DeclareAttribute( "DressGroup", IsVEFComplex and IsNotEdgeRamified );
 #! Check whether the given <A>colComplex</A> is a flag complex. Every flag
 #! complex is also an edge-coloured polygonal complex. Besides access to
 #! the uncoloured flag complex via <K>PolygonalComplex</K>
-#! (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) it also allows access
+#! (<Ref Subsect="EdgeColouring_VEFComplex"/>) it also allows access
 #! to the original polygonal complex by <K>OriginalComplex</K>
 #! (<Ref Subsect="OriginalComplex"/>).
 #!
 #! This will also return <K>true</K> if the original complex would be a <E>bend</E> complex.
 #!
-#! The additional properties check if the underlying polygonal complex
-#! is a ramified polygonal surface or a polygonal surface, respectively.
+#! The additional property check if the underlying polygonal complex
+#! is a polygonal surface.
 #!
 #! TODO example?
 #!
 #! @Arguments object
 DeclareCategory( "IsFlagComplex", IsEdgeColouredPolygonalComplex );
 #! @Arguments flagComp
-DeclareProperty( "IsRamifiedFlagSurface", IsFlagComplex );
-#! @Arguments flagComp
 DeclareProperty( "IsFlagSurface", IsFlagComplex );
 #! @EndGroup
-InstallTrueMethod( IsRamifiedFlagSurface, IsFlagSurface );
-InstallTrueMethod( IsEdgeColouredPolygonalComplex and IsNotEdgeRamified, IsRamifiedFlagSurface );
-InstallTrueMethod( IsRamifiedFlagSurface, IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsFlagComplex );
 InstallTrueMethod( IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified, IsFlagSurface );
 InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified and IsFlagComplex );
 
@@ -379,7 +375,7 @@ InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalComplex and IsNotEdgeRa
 #! @Description
 #! Return the flag complex of <A>complex</A>. The flag complex is an 
 #! edge-coloured (<Ref Chap="Chapter_EdgeColouring"/>) triangular complex
-#! (<Ref Subsect="IsTriangularComplex"/>).
+#! (<Ref Subsect="IsTriangular"/>).
 #!
 #! Its vertices are given by the <K>OneFlags</K> (<Ref Subsect="OneFlags"/>),
 #! its edges by the <K>TwoFlags</K> (<Ref Subsect="TwoFlags"/>) and its faces
@@ -387,16 +383,12 @@ InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalComplex and IsNotEdgeRa
 #!
 #! @InsertChunk Example_FlagComplex_Construction
 #!
-#! The more specific commands require <A>complex</A> to be a ramified
-#! polygonal surface (<Ref Subsect="IsRamifiedPolygonalSurface"/>) or
+#! The more specific command require <A>complex</A> to be
 #! a polygonal surface (<Ref Subsect="IsPolygonalSurface"/>), respectively.
 #!
 #! @Returns a flag complex
 #! @Arguments complex
 DeclareAttribute("FlagComplex", IsPolygonalComplex);
-#! @Returns a ramified flag surface
-#! @Arguments ramSurf
-DeclareOperation("RamifiedFlagSurface", [IsPolygonalComplex and IsNotEdgeRamified]);
 #! @Returns a flag surface
 #! @Arguments surf
 DeclareOperation("FlagSurface", [IsPolygonalSurface]);
@@ -414,17 +406,13 @@ DeclareOperation("FlagSurface", [IsPolygonalSurface]);
 #!
 #! If the returned polygonal complex would be <E>bend</E>, <K>fail</K> is returned.
 #!
-#! The more specific commands require the original complex to be
-#! a ramified polygonal surface
-#! (<Ref Subsect="IsRamifiedPolygonalSurface"/>) or a polygonal surface
-#! (<Ref Subsect="IsPolygonalSurface"/>), respectively.
+#! The more specific command require the original complex to be
+#! a polygonal surface
+#! (<Ref Subsect="IsPolygonalSurface"/>).
 #!
 #! @Returns a polygonal complex
 #! @Arguments flagComp
 DeclareAttribute("OriginalComplex", IsFlagComplex);
-#! @Returns a ramified polygonal surface
-#! @Arguments flagRamSurf
-DeclareOperation("OriginalRamifiedSurface", [IsRamifiedFlagSurface]);
 #! @Returns a polygonal surface
 #! @Arguments flagSurf
 DeclareOperation("OriginalSurface", [IsFlagSurface]);
@@ -452,13 +440,14 @@ DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 
 #! @BeginGroup DrawSurfaceToTikz_FlagComplex
 #! @Description
-#! Draw the net of the given ramified flag surface into a tex-file (using 
+#! Draw the net of the given flag complex without edge ramifications 
+#! into a tex-file (using 
 #! TikZ). The method for flag complexes is the same as the one for 
-#! edge coloured ramified polygonal surfaces 
+#! edge coloured polygonal complexes without edge ramifications
 #! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>) except for one feature:
 #! * If no edge lengths are given in the printing record, the default edge
 #!   lengths are set in such a way that the faces are drawn as the
-#!   barycentric subdivision of the original ramified surface.
+#!   barycentric subdivision of the original complex.
 #! * If there are faces with different numbers of edges, the default edge 
 #!   lengths will not be colour invariant. In this case the value
 #!   <E>edgeColourClassActive</E> will be set to <K>false</K>.
@@ -467,5 +456,5 @@ DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 #!
 #! @Returns a record
 #! @Arguments flagSurf, fileName[, printRecord]
-DeclareOperation( "DrawSurfaceToTikz", [IsRamifiedFlagSurface, IsString, IsRecord] );
+DeclareOperation( "DrawSurfaceToTikz", [IsFlagComplex and IsNotEdgeRamified, IsString, IsRecord] );
 #! @EndGroup
