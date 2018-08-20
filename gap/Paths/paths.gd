@@ -52,7 +52,7 @@
 #! <M>(v_1, e_1, v_2, e_2, \ldots ,v_n, e_n, v_{{n+1}})</M> such that
 #! * The <M>v_i</M> are vertices of the polygonal complex
 #! * The <M>e_j</M> are edges of the polygonal complex
-#! * For the edge <M>e_j</M> the set of incident vertices is <M>\{v_j,v_{{j+1}}}\}</M>
+#! * For the edge <M>e_j</M> the set of incident vertices is <M>\{v_j,v_{{j+1}}\}</M>
 #! @EndChunk
 
 #! <ManSection Label="VertexEdgePath">

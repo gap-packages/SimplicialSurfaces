@@ -586,7 +586,8 @@ DeclareOperation( "JoinVerticesNC", [IsVEFComplex, IsPosInt, IsVEFComplex, IsPos
 #! This method returns a pair, where the first entry is the modified polygonal
 #! complex and the second entry is the label of the new edge.
 #!
-#! For example consider the following ramified simplicial surface:
+#! For example consider the following triangular complex without edge
+#! ramifications:
 #! @BeginExampleSession
 #! gap> eye := TriangularComplexByDownwardIncidence(
 #! >     [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;
@@ -841,8 +842,9 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
 #! @Description
 #! Split all vertices of the given polygonal complex via <K>SplitVertex</K>
-#! (<Ref Subsect="SplitVertex"/>). For ramified polygonal complexes
-#! (<Ref Sect="PolygonalStructures_ramified"/>) this is equivalent to
+#! (<Ref Subsect="SplitVertex"/>). For polygonal complexes without edge 
+#! ramifications
+#! (<Ref Sect="IsNotEdgeRamified"/>) this is equivalent to
 #! splitting all ramified vertices (<Ref Subsect="RamifiedVertices"/>). In
 #! this case a polygonal surface will be returned.
 #!
