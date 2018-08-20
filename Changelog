@@ -15,5 +15,6 @@ Changes from master to rewrite:
 9) Rename IsIsomorphicPolygonalComplex to IsIsomorphic
 10) Rename PolygonalComplexIsomorphismRepresentatives to
     IsomorphismRepresentatives
-11)
+11) RamifiedPolygonalSurface and RamifiedSimplicialSurface are no longer
+    available. Please use IsNotEdgeRamified instead.
 

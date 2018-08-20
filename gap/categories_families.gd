@@ -59,12 +59,6 @@ DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
 DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
 
 
-DeclareProperty( "IsRamifiedPolygonalSurface", IsPolygonalComplex); #TODO replace by surface def
-InstallTrueMethod( IsPolygonalComplex, IsRamifiedPolygonalSurface );
-DeclareSynonym( "IsRamifiedSimplicialSurface", 
-    IsRamifiedPolygonalSurface and IsTriangularComplex);
-
-
 
 #######################################
 ##

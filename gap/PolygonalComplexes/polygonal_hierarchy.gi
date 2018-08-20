@@ -33,8 +33,6 @@ BindGlobal( "BendPolygonalComplexType",
 ##
 ## All of the filters
 ## * IsTriangularComplex
-## * IsRamifiedPolygonalSurface
-## * IsRamifiedSimplicialSurface
 ## * IsPolygonalSurface
 ## * IsSimplicialSurface
 ## should act like categories
@@ -49,16 +47,6 @@ InstallOtherMethod( IsPolygonalComplex, "for an object", [IsObject],
     end
 );
 InstallOtherMethod( IsTriangularComplex, "for an object", [IsObject],
-    function(obj)
-        if not IsPolygonalComplex(obj) then
-            return false;
-        fi;
-        # Since IsPolygonalComplex is a category, the above
-        # check can't change anything
-        TryNextMethod();
-    end
-);
-InstallOtherMethod( IsRamifiedPolygonalSurface, "for an object", [IsObject],
     function(obj)
         if not IsPolygonalComplex(obj) then
             return false;
