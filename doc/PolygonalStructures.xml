@@ -330,7 +330,7 @@
         </Enum>
         If only the first condition is fulfilled, we have a <E>polygonal 
         complex without edge ramifications</E>.
-         <ManSection>
+         <ManSection Label="IsNotEdgeRamified">
             <Prop Name="IsNotEdgeRamified" Arg="complex" Label="for VEFComplex"
                 Comm="Checks whether the given VEF-complex has no edge ramifications"/>
             <Returns><K>true</K> or <K>false</K></Returns>

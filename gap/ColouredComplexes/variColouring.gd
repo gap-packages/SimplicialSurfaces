@@ -24,7 +24,8 @@
 #! functions made possible by the colouring are described.
 #!
 #! Section <Ref Sect="Section_EdgeVariColouring_Permutations"/> represents
-#! the edge vari-colouring of ramified polygonal complexes as permutations, the
+#! the edge vari-colouring of polygonal complexes without edge ramifications 
+#! as permutations, the
 #! <K>ColourInvolutions</K> (<Ref Subsect="ColourInvolutions"/>).
 #!
 #! After these general properties, section 
@@ -148,7 +149,8 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #!
 #! While section <Ref Sect="Section_EdgeVariColouring_Definition"/> dealt
 #! with general edge vari-colourings, this section is restricted to
-#! edge vari-colourings of ramified polygonal surfaces. For those there are
+#! edge vari-colourings of polygonal complexes without edge ramifications. 
+#! For those there are
 #! at most two faces incident to an edge.
 #!
 #! Therefore every colour can be interpreted as an involution on the set of 
@@ -160,12 +162,13 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! @BeginGroup ColourInvolutions
 #! @Description
 #! For an edge vari-coloured (<Ref Subsect="IsEdgeVariColouring"/>) 
-#! ramified polygonal surface (<Ref Subsect="IsRamifiedPolygonalSurface"/>),
+#! polygonal complex without edge ramifications 
+#! (<Ref Subsect="IsNotEdgeRamified"/>),
 #! return the colour involutions. 
 #!
 #! The attribute <K>ColourInvolutions</K>(<A>rcRamSurf</A>) returns a list
 #! of involutions (the position <A>col</A> is bound if and only if <A>col</A>
-#! is a colour of the underlying ramified polygonal surface).
+#! is a colour of the underlying polygonal complex without edge ramifications).
 #!
 #! For a given colour <A>col</A> the colour involution encodes the 
 #! neighbouring relation
