@@ -415,6 +415,11 @@ InstallMethod( GeodesicDual, "for a bend polygonal surface",
         SetVerticesAttributeOfVEFComplex(obj, [1..Length(vertexOrb)]);
         SetLocalFlagsOfVertices(obj, vertexOrb);
 
+
+        # This returns a surface
+        SetIsNotEdgeRamified(obj, true);
+        SetIsNotVertexRamified(obj, true);
+
         return obj;
     end
 );
