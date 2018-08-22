@@ -10,7 +10,7 @@ Enlargement := function(surface)
 
     # Compute all pairs of edges with one incident vertex that don't lie in a common face
     edgePairs := [];
-    for v in VerticesAttributeOfPolygonalComplex(surface) do
+    for v in VerticesAttributeOfVEFComplex(surface) do
         incEdgePairs := Combinations( EdgesOfVertices(surface)[v], 2);
         incEdgePairs := Filtered(incEdgePairs, p -> ForAll(EdgesOfFaces(surface), es -> not IsSubset(es, p)));
         Append(edgePairs, incEdgePairs);
@@ -29,7 +29,8 @@ Enlargement := function(surface)
         splitEdge := SplitEdgePathNC(surface, splitPath);
         # The second component are two vertex-edge-paths in which the cut was separated in
         bound := splitEdge[2][1][1];
-        SetIsPolygonalSurface( splitEdge[1], true ); # We know that the result is a simplicial surface in this case
+        SetIsNotEdgeRamified( splitEdge[1], true ); # We know that the result is a simplicial surface in this case
+        SetIsNotVertexRamified( splitEdge[1], true ); # We know that the result is a simplicial surface in this case
         join := JoinBoundaries(splitEdge[1], PathAsList(bound){[1,2]}, StandardTrianglePair, [1,1]);
         Add(splits, join[1]);
     od;
@@ -46,7 +47,7 @@ IncreaseSize := function( surfaceList )
         Append(newSurfaces, Enlargement(surf));
     od;
 
-    return PolygonalComplexIsomorphismRepresentatives(newSurfaces);
+    return IsomorphismRepresentatives(newSurfaces);
 end;
 
 
@@ -57,7 +58,7 @@ CompareLists := function( list1, list2 )
         return false;
     fi;
     union := Concatenation(list1, list2);
-    unionRep := PolygonalComplexIsomorphismRepresentatives(union);
+    unionRep := IsomorphismRepresentatives(union);
     if Length(unionRep) <> Length(list1) then
         return false;
     else
