@@ -849,7 +849,7 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
         inversevertexmap:= List(inversevertexmap, t -> t^perminv);
         inversevertexmap:= List(inversevertexmap, t -> Position(mapvertices, t));
 
-        surf2 := PolygonalSurfaceByDownwardIncidence(verticesofedgesofsurf2, edgesoffacesofsurf2);
+        surf2 := PolygonalSurfaceByDownwardIncidenceNC(verticesofedgesofsurf2, edgesoffacesofsurf2);
 
         # return the canonical form of the surface and
         # the bijcetions mapping the new elements to old, by element i in canonical surface
