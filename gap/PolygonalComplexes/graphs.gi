@@ -809,7 +809,7 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
         newvertices := Set(originalverticesofsurf, t -> mapvertices[t]^perm);
 
         # Now that we have the newly labelled, canonical elements,
-        # we map them a lex least labelling.
+        # we map them to a lex least labelling.
         # We simply take the set of the new + canonical labels and make a bijection to
         # its position in the set.
         mapfaces2 := [];
