@@ -89,7 +89,7 @@
 #! @EndExampleSession
 #!
 #! After the edge split the vertex 1 has two umbrellas (compare
-#! <Ref Subsect="UmbrellaPartitionsOfVertices"/> for details). These
+#! <Ref Subsect="UmbrellaPathPartitionsOfVertices"/> for details). These
 #! can be split up by <K>SplitVertex</K> (<Ref Subsect="SplitVertex"/>).
 #! @BeginExampleSession
 #! gap> vertSplit := SplitVertex( edgeSplit[1], 1 );;
@@ -189,7 +189,7 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #!
 #! For a polygonal surface this corresponds to adding one vertex for each
 #! element of the umbrella partition 
-#! (<Ref Subsect="UmbrellaPartitionsOfVertices"/>) of <A>vertex</A>.
+#! (<Ref Subsect="UmbrellaPathPartitionsOfVertices"/>) of <A>vertex</A>.
 #!
 #! If the vertex does not have to be split according to this rule (i.e. it is
 #! an inner (<Ref Subsect="InnerVertices"/>) or a boundary 
@@ -206,9 +206,9 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! @Returns a pair, where the first entry is a polygonal complex and the
 #!   second entry is a set of the new vertex labels.
 #! @Arguments complex, vertex[, newVertexLabels]
-DeclareOperation( "SplitVertex", [IsPolygonalComplex, IsPosInt, IsList] );
+DeclareOperation( "SplitVertex", [IsVEFComplex, IsPosInt, IsList] );
 #! @Arguments complex, vertex[, newVertexLabels]
-DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
+DeclareOperation( "SplitVertexNC", [IsVEFComplex, IsPosInt, IsList] );
 #! @EndGroup
 
 
@@ -247,9 +247,9 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! @Returns a pair, where the first entry is a polygonal complex and the
 #!   second entry encodes the label changes
 #! @Arguments complex, vePath
-DeclareOperation( "SplitVertexEdgePath", [IsPolygonalComplex, IsVertexEdgePath] );
+DeclareOperation( "SplitVertexEdgePath", [IsVEFComplex, IsVertexEdgePath] );
 #! @Arguments complex, vePath
-DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath] );
+DeclareOperation( "SplitVertexEdgePathNC", [IsVEFComplex, IsVertexEdgePath] );
 #! @EndGroup
 
 
@@ -289,9 +289,9 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! @Returns a pair, where the first entry is a polygonal complex and the
 #!   second entry encodes the label changes
 #! @Arguments complex, vePath
-DeclareOperation( "SplitEdgePath", [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree] );
+DeclareOperation( "SplitEdgePath", [IsVEFComplex, IsVertexEdgePath and IsDuplicateFree] );
 #! @Arguments complex, vePath
-DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree] );
+DeclareOperation( "SplitEdgePathNC", [IsVEFComplex, IsVertexEdgePath and IsDuplicateFree] );
 #! @EndGroup
 
 
@@ -319,9 +319,9 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! 
 #! @Returns a polygonal complex
 #! @Arguments complex, faces
-DeclareOperation( "SubcomplexByFaces", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "SubcomplexByFaces", [IsVEFComplex, IsSet] );
 #! @Arguments complex, faces
-DeclareOperation( "SubcomplexByFacesNC", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "SubcomplexByFacesNC", [IsVEFComplex, IsSet] );
 #! @EndGroup
 
 
@@ -339,13 +339,13 @@ DeclareOperation( "SubcomplexByFacesNC", [IsPolygonalComplex, IsSet] );
 #!
 #! @Returns a polygonal complex
 #! @Arguments complex, faces
-DeclareOperation( "RemoveFaces", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "RemoveFaces", [IsVEFComplex, IsSet] );
 #! @Arguments complex, faces
-DeclareOperation( "RemoveFacesNC", [IsPolygonalComplex, IsSet] );
+DeclareOperation( "RemoveFacesNC", [IsVEFComplex, IsSet] );
 #! @Arguments complex, face
-DeclareOperation( "RemoveFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "RemoveFace", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "RemoveFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "RemoveFaceNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -442,7 +442,7 @@ DeclareOperation( "RemoveFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @Returns a pair, where the first entry is a polygonal complex and the
 #!   second entry is the used shift
 #! @Arguments complex1, complex2[, shift]
-DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsInt] );
+DeclareOperation( "DisjointUnion", [IsVEFComplex, IsVEFComplex, IsInt] );
 #! @EndGroup
 
 
@@ -562,17 +562,17 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #!   one is the new vertex label and the third is the shift for the labels of
 #!   the second input <A>complex2</A> (only if applicable).
 #! @Arguments complex, v1, v2[, newVertexLabel]
-DeclareOperation( "JoinVertices", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt] );
+DeclareOperation( "JoinVertices", [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt] );
 #! @Arguments complex, v1, v2[, newVertexLabel]
-DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt] );
+DeclareOperation( "JoinVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt] );
 #! @Arguments complex, vertexList[, newVertexLabel]
-DeclareOperation( "JoinVertices", [IsPolygonalComplex, IsList, IsPosInt] );
+DeclareOperation( "JoinVertices", [IsVEFComplex, IsList, IsPosInt] );
 #! @Arguments complex, vertexList[, newVertexLabel]
-DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsList, IsPosInt] );
+DeclareOperation( "JoinVerticesNC", [IsVEFComplex, IsList, IsPosInt] );
 #! @Arguments complex1, v1, complex2, v2
-DeclareOperation( "JoinVertices", [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "JoinVertices", [IsVEFComplex, IsPosInt, IsVEFComplex, IsPosInt] );
 #! @Arguments complex1, v1, complex2, v2
-DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "JoinVerticesNC", [IsVEFComplex, IsPosInt, IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -586,9 +586,10 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! This method returns a pair, where the first entry is the modified polygonal
 #! complex and the second entry is the label of the new edge.
 #!
-#! For example consider the following ramified simplicial surface:
+#! For example consider the following triangular complex without edge
+#! ramifications:
 #! @BeginExampleSession
-#! gap> eye := RamifiedSimplicialSurfaceByDownwardIncidence(
+#! gap> eye := TriangularComplexByDownwardIncidence(
 #! >     [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;
 #! @EndExampleSession
 #! <Alt Only="TikZ">
@@ -625,13 +626,13 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! @Returns a pair, where the first entry is a polygonal complex and the
 #!    second one is the new edge label
 #! @Arguments complex, e1, e2[, newEdgeLabel]
-DeclareOperation("JoinEdges", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+DeclareOperation("JoinEdges", [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @Arguments complex, e1, e2[, newEdgeLabel]
-DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+DeclareOperation("JoinEdgesNC", [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList[, newEdgeLabel]
-DeclareOperation("JoinEdges", [IsPolygonalComplex, IsList, IsPosInt]);
+DeclareOperation("JoinEdges", [IsVEFComplex, IsList, IsPosInt]);
 #! @Arguments complex, edgeList[, newEdgeLabel]
-DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
+DeclareOperation("JoinEdgesNC", [IsVEFComplex, IsList, IsPosInt]);
 #! @EndGroup
 
 
@@ -696,21 +697,21 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #!   second entry is a vertex-edge-path. The optional third entry describes
 #!   the label shift of <A>complex2</A> (if applicable).
 #! @Arguments complex, vePath1, vePath2
-DeclareOperation("JoinVertexEdgePaths", [IsPolygonalComplex, 
+DeclareOperation("JoinVertexEdgePaths", [IsVEFComplex, 
     IsVertexEdgePath and IsDuplicateFree, 
     IsVertexEdgePath and IsDuplicateFree]);
 #! @Arguments complex, vePath1, vePath2
-DeclareOperation("JoinVertexEdgePathsNC", [IsPolygonalComplex, 
+DeclareOperation("JoinVertexEdgePathsNC", [IsVEFComplex, 
     IsVertexEdgePath and IsDuplicateFree, 
     IsVertexEdgePath and IsDuplicateFree]);
 #! @Arguments complex1, vePath1, complex2, vePath2
 DeclareOperation("JoinVertexEdgePaths", 
-    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
-    IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree]);
+    [IsVEFComplex, IsVertexEdgePath and IsDuplicateFree, 
+    IsVEFComplex, IsVertexEdgePath and IsDuplicateFree]);
 #! @Arguments complex1, vePath1, complex2, vePath2
 DeclareOperation("JoinVertexEdgePathsNC", 
-    [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
-    IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree]);
+    [IsVEFComplex, IsVertexEdgePath and IsDuplicateFree, 
+    IsVEFComplex, IsVertexEdgePath and IsDuplicateFree]);
 #! @EndGroup
 
 
@@ -764,7 +765,7 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! Combining two of these along their boundaries gives the octahedron.
 #! @BeginExampleSession
 #! gap> oct := JoinBoundaries(fourGon, [3,6], fourGon, [4,7]);;
-#! gap> IsIsomorphicPolygonalComplex(oct[1], Octahedron());
+#! gap> IsIsomorphic(oct[1], Octahedron());
 #! true
 #! @EndExampleSession
 #!
@@ -772,9 +773,9 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #!   second one is a vertex-edge-path and the third one is the label
 #!   shift of <A>complex2</A> (if applicable).
 #! @Arguments surface, veList1, veList2
-DeclareOperation( "JoinBoundaries", [IsPolygonalSurface, IsList, IsList] );
+DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsList] );
 #! @Arguments surface1, veList1, surface2, veList2
-DeclareOperation( "JoinBoundaries", [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList] );
+DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList] );
 #! @EndGroup
 
 
@@ -812,7 +813,7 @@ DeclareOperation( "JoinBoundaries", [IsPolygonalSurface, IsList, IsPolygonalSurf
 #!
 #! @Returns a polygonal surface or <K>fail</K>
 #! @Arguments surface1, flag1, surface2, flag2
-DeclareOperation( "ConnectedFaceSum", [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList] );
+DeclareOperation( "ConnectedFaceSum", [IsVEFSurface, IsList, IsVEFSurface, IsList] );
 #TODO can this be implemented more generally?
 
 
@@ -841,8 +842,9 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 
 #! @Description
 #! Split all vertices of the given polygonal complex via <K>SplitVertex</K>
-#! (<Ref Subsect="SplitVertex"/>). For ramified polygonal complexes
-#! (<Ref Sect="PolygonalStructures_ramified"/>) this is equivalent to
+#! (<Ref Subsect="SplitVertex"/>). For polygonal complexes without edge 
+#! ramifications
+#! (<Ref Sect="IsNotEdgeRamified"/>) this is equivalent to
 #! splitting all ramified vertices (<Ref Subsect="RamifiedVertices"/>). In
 #! this case a polygonal surface will be returned.
 #!
@@ -850,7 +852,7 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 #!
 #! @Returns a polygonal complex
 #! @Arguments complex
-DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
+DeclareOperation("SplitAllVertices", [IsVEFComplex]);
 
 
 #TODO maybe move into chapter ExampleApplications?

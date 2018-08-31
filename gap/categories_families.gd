@@ -14,36 +14,50 @@
 
 #######################################
 ##
+##      Incidence geometry part
+##
+
+# This filter captures the "surface"-qualities of PolygonalComplex and BendPolygonalComplex
+DeclareFilter( "IsVEFComplex", IsObject );
+
+
+
+#######################################
+##
 ##      PolygonalComplex-part
 ##
 ## All documentation is done in doc/PolygonalStructures.xml
 
+
 # Define the main category
 # [Categories are used to determine which operations can be used]
-DeclareCategory( "IsPolygonalComplex", IsObject );
-
-# Define the family
 # [For two object to be equal, they have to lie in the same family]
-BindGlobal( "PolygonalComplexFamily", 
+DeclareCategory( "IsPolygonalComplex", IsVEFComplex );
+BindGlobal( "PolygonalComplexFamily",
     NewFamily("PolygonalComplexFamily", IsObject, IsPolygonalComplex));
 
+DeclareCategory( "IsBendPolygonalComplex", IsVEFComplex );
+BindGlobal( "BendPolygonalComplexFamily",
+    NewFamily("BendPolygonalComplexFamily", IsObject, IsBendPolygonalComplex));
 
-# Define all secondary categories
-DeclareProperty( "IsTriangularComplex", IsPolygonalComplex);
-InstallTrueMethod( IsPolygonalComplex, IsTriangularComplex );
+## Define all secondary categories
 
-DeclareProperty( "IsRamifiedPolygonalSurface", IsPolygonalComplex);
-InstallTrueMethod( IsPolygonalComplex, IsRamifiedPolygonalSurface );
-DeclareSynonym( "IsRamifiedSimplicialSurface", 
-    IsRamifiedPolygonalSurface and IsTriangularComplex);
 
-# The next property is a subproperty of IsRamifiedPolygonalSurface
-# We define it for general polygonal complexes so that it can
-# be tested anyway
-DeclareProperty( "IsPolygonalSurface", IsPolygonalComplex );
-InstallTrueMethod( IsRamifiedPolygonalSurface, IsPolygonalSurface );
-DeclareSynonym( "IsSimplicialSurface", 
-    IsPolygonalSurface and IsTriangularComplex );
+# Ramifications
+DeclareProperty( "IsNotEdgeRamified", IsVEFComplex );
+DeclareProperty( "IsNotVertexRamified", IsVEFComplex );
+InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);
+
+
+DeclareSynonym( "IsVEFSurface", IsVEFComplex and IsNotEdgeRamified and IsNotVertexRamified );
+DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsVEFSurface );
+DeclareSynonym( "IsBendPolygonalSurface", IsBendPolygonalComplex and IsVEFSurface );
+
+
+DeclareProperty( "IsTriangular", IsVEFComplex );    #TODO this is currently twice declared (also in properties.gd)
+DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
+DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
+
 
 
 #######################################
@@ -55,6 +69,10 @@ DeclareSynonym( "IsSimplicialSurface",
 DeclareCategory( "IsVertexEdgePath", IsDualPath );
 BindGlobal( "VertexEdgePathFamily", 
     NewFamily("VertexEdgePathFamily", IsObject, IsVertexEdgePath) );
+
+DeclareCategory( "IsPerimeterPath", IsVertexEdgePath and IsClosedPath );
+BindGlobal( "PerimeterPathFamily",
+    NewFamily("PerimeterPathFamily", IsObject, IsPerimeterPath));
 
 
 DeclareCategory( "IsEdgeFacePath", IsDualPath );

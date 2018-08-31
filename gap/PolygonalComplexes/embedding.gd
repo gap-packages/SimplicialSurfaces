@@ -222,7 +222,7 @@ DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! 
 #! @Returns a record
 #! @Arguments ramSurf, fileName[, printRecord]
-DeclareOperation( "DrawSurfaceToTikz", [IsRamifiedPolygonalSurface, IsString, IsRecord] );
+DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord] );
 #! @EndGroup
 
 #! @Subsection Colours

@@ -19,21 +19,21 @@ DeclareRepresentation("VertexEdgePathRep", IsVertexEdgePath and IsAttributeStori
 BindGlobal("VertexEdgePathType", NewType(VertexEdgePathFamily, VertexEdgePathRep));
 
 
-InstallMethod( VertexEdgePathNC, "for a polygonal complex and a list",
-    [IsPolygonalComplex, IsDenseList],
+InstallMethod( VertexEdgePathNC, "for a VEF-complex and a list",
+    [IsVEFComplex, IsDenseList],
     function(complex, path)
         local obj;
 
         obj := Objectify( VertexEdgePathType, rec() );
         SetPath(obj, path);
-        SetAssociatedPolygonalComplex(obj, complex);
+        SetAssociatedVEFComplex(obj, complex);
 
         return obj;
     end
 );
-RedispatchOnCondition( VertexEdgePathNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
-InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
-    [IsPolygonalComplex, IsDenseList],
+RedispatchOnCondition( VertexEdgePathNC, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
+InstallMethod( VertexEdgePath, "for a VEF-complex and a list",
+    [IsVEFComplex, IsDenseList],
     function(complex, path)
         local i;
 
@@ -46,7 +46,7 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
 
         for i in [1..Length(path)] do
             if IsOddInt(i) then
-                if not path[i] in VerticesAttributeOfPolygonalComplex(complex) then
+                if not path[i] in VerticesAttributeOfVEFComplex(complex) then
                     Error( Concatenation( "VertexEdgePath: The number ",
                         String(path[i]), " (position ", String(i),  
                         ") is not a vertex of the given complex.") );
@@ -69,11 +69,11 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePath, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePath, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByVerticesNC, 
-    "for a polygonal complex and a list of vertices",
-    [IsPolygonalComplex, IsDenseList],
+    "for a VEF-complex and a list of vertices",
+    [IsVEFComplex, IsDenseList],
     function(complex, vertexList)
         local path, i;
 
@@ -89,11 +89,11 @@ InstallMethod( VertexEdgePathByVerticesNC,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByVerticesNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByVerticesNC, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByVertices, 
-    "for a polygonal complex and a list of vertices",
-    [IsPolygonalComplex, IsDenseList],
+    "for a VEF-complex and a list of vertices",
+    [IsVEFComplex, IsDenseList],
     function(complex, vertexList)
         local path, i, pos;
 
@@ -109,7 +109,7 @@ InstallMethod( VertexEdgePathByVertices,
                 Error(Concatenation("VertexEdgePathByVertices: The vertices ", 
                     String(vertexList[i-1]), " (position ", String(i-1), ") and ", 
                     String(vertexList[i]), " (position ", String(i), 
-                    ") are not connected by an edge in the given polygonal complex."));
+                    ") are not connected by an edge in the given VEF-complex."));
             fi;
             path[2*i-2] := pos;
             path[2*i-1] := vertexList[i];
@@ -118,18 +118,18 @@ InstallMethod( VertexEdgePathByVertices,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByVertices, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByVertices, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
 
 
 InstallMethod( VertexEdgePathByEdgesNC, 
-    "for a polygonal complex and a list of edges",
-    [IsPolygonalComplex, IsDenseList],
+    "for a VEF-complex and a list of edges",
+    [IsVEFComplex, IsDenseList],
     function(complex, edgeList)
         local path, firstDefinedPos, i, verts;
          
         if edgeList = [] then
             return VertexEdgePathNC(complex, 
-                [Minimum(VerticesAttributeOfPolygonalComplex(complex))]);
+                [Minimum(VerticesAttributeOfVEFComplex(complex))]);
         fi;
 
         firstDefinedPos := 0;
@@ -171,11 +171,11 @@ InstallMethod( VertexEdgePathByEdgesNC,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByEdgesNC, true, [IsPolygonalComplex, IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByEdgesNC, true, [IsVEFComplex, IsList],[,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByEdges,
-    "for a polygonal complex and a list of edges",
-    [IsPolygonalComplex, IsDenseList],
+    "for a VEF-complex and a list of edges",
+    [IsVEFComplex, IsDenseList],
     function(complex, edgeList)
         local i;
 
@@ -192,7 +192,7 @@ InstallMethod( VertexEdgePathByEdges,
                             String(i-1), ") and ",
                             String(edgeList[i]), " (position ",
                             String(i), 
-                            ") do not share a vertex in the given polygonal complex."));
+                            ") do not share a vertex in the given VEF-complex."));
                 fi;
             od;
         fi;
@@ -200,8 +200,21 @@ InstallMethod( VertexEdgePathByEdges,
         return VertexEdgePathByEdgesNC(complex, edgeList);
     end
 );
-RedispatchOnCondition( VertexEdgePathByEdges, true, [IsPolygonalComplex, IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByEdges, true, [IsVEFComplex, IsList],[,IsDenseList],0 );
 
+
+InstallMethod( IsPolygonalComplexPath, "for a vertex-edge-path",
+    [IsVertexEdgePath],
+    function(path)
+        return IsPolygonalComplex(AssociatedVEFComplex(path));
+    end
+);
+InstallMethod( IsBendPolygonalComplexPath, "for a vertex-edge-path",
+    [IsVertexEdgePath],
+    function(path)
+        return IsBendPolygonalComplex(AssociatedVEFComplex(path));
+    end
+);
 
 
 InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
@@ -212,7 +225,7 @@ InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
         out := OutputTextString(str,true);
 
         PrintTo(out, "VertexEdgePathNC( ");
-        PrintTo(out, AssociatedPolygonalComplex(path));
+        PrintTo(out, AssociatedVEFComplex(path));
         PrintTo(out, ", ");
         PrintTo(out, PathAsList(path));
         PrintTo(out, ")");
@@ -275,7 +288,7 @@ InstallMethod( \=, "for two vertex-edge-paths", IsIdenticalObj,
     [IsVertexEdgePath, IsVertexEdgePath],
     function(path1, path2)
         return PathAsList(path1) = PathAsList(path2) and 
-            AssociatedPolygonalComplex(path1) = AssociatedPolygonalComplex(path2);
+            AssociatedVEFComplex(path1) = AssociatedVEFComplex(path2);
     end
 );
 
@@ -306,7 +319,7 @@ InstallMethod( EdgesAsList, "for a vertex-edge-path", [IsVertexEdgePath],
 
 InstallMethod( Inverse, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
-        return VertexEdgePathNC( AssociatedPolygonalComplex(path),
+        return VertexEdgePathNC( AssociatedVEFComplex(path),
             Reversed(Path(path)));
     end
 );
@@ -332,20 +345,65 @@ DeclareRepresentation("EdgeFacePathRep", IsEdgeFacePath and IsAttributeStoringRe
 BindGlobal("EdgeFacePathType", NewType(EdgeFacePathFamily, EdgeFacePathRep));
 
 
-InstallMethod( EdgeFacePathNC, "for a polygonal complex and a list",
-    [IsPolygonalComplex, IsDenseList],
+InstallMethod( EdgeFacePathNC, "for a VEF-complex and a dense list",
+    [IsVEFComplex, IsDenseList],
     function(complex, path)
         local obj;
 
         obj := Objectify( EdgeFacePathType, rec() );
         SetPath(obj, path);
-        SetAssociatedPolygonalComplex(obj, complex);
+        SetAssociatedVEFComplex(obj, complex);
+        # for bend polygonal complexes this relies on the fact
+        # that the edge-face-path-elements can be computed
 
         return obj;
     end
 );
-RedispatchOnCondition( EdgeFacePathNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
-InstallMethod( EdgeFacePath, "for a polygonal complex and a list",
+RedispatchOnCondition( EdgeFacePathNC, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
+InstallMethod( EdgeFacePathNC, "for a bend polygonal complex and two dense lists",
+    [IsBendPolygonalComplex, IsDenseList, IsDenseList],
+    function(complex, path, elements)
+        local obj;
+
+        obj := Objectify( EdgeFacePathType, rec() );
+        SetPath(obj, path);
+        SetAssociatedVEFComplex(obj, complex);
+        SetEdgeFacePathElements(obj, elements);
+
+        return obj;
+    end
+);
+RedispatchOnCondition( EdgeFacePathNC, true, [IsBendPolygonalComplex,IsList,IsList],[,IsDenseList,IsDenseList],0 );
+
+BindGlobal( "__SIMPLICIAL_EdgeFacePath_EdgeCheck",
+    function(position, element, edges)
+        if not element in edges then
+            Error( Concatenation( "EdgeFacePath: The number ",
+                String(element), " (position ", String(position),  
+                ") is not an edge of the given complex.") );
+        fi;
+    end
+);
+BindGlobal( "__SIMPLICIAL_EdgeFacePath_FaceCheck",
+    function(position, element, faces)
+        if not element in faces then
+            Error( Concatenation( "EdgeFacePath: The number ",
+                String(element), " (position ", String(position),  
+                ") is not a face of the given complex.") );
+        fi;
+    end
+);
+BindGlobal( "__SIMPLICIAL_EdgeFacePath_IncidenceCheck",
+    function(posE, edge, posF, face, complex)
+        if not edge in EdgesOfFaces(complex)[face] then
+            Error( Concatenation( "EdgeFacePath: The edge ", 
+                String(edge), " (position ", String(posE), 
+                ") is not incident to the face ", String(face), 
+                " (position ", String(posF), ") in the given complex." ) );
+        fi;
+    end
+);
+InstallMethod( EdgeFacePath, "for a polygonal complex and a dense list",
     [IsPolygonalComplex, IsDenseList],
     function(complex, path)
         local i;
@@ -359,41 +417,217 @@ InstallMethod( EdgeFacePath, "for a polygonal complex and a list",
 
         for i in [1..Length(path)] do
             if IsOddInt(i) then
-                if not path[i] in Edges(complex) then
-                    Error( Concatenation( "EdgeFacePath: The number ",
-                        String(path[i]), " (position ", String(i),  
-                        ") is not an edge of the given complex.") );
-                fi;
+                __SIMPLICIAL_EdgeFacePath_EdgeCheck(i, path[i], Edges(complex));
             else
-                if not path[i] in Faces(complex) then
-                    Error( Concatenation( "EdgeFacePath: The number ", 
-                        String(path[i]), " (position ", String(i), 
-                        ") is not a face of the given complex." ) );
-                fi;
+                __SIMPLICIAL_EdgeFacePath_FaceCheck(i, path[i], Faces(complex));
+                __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i-1, path[i-1], i, path[i], complex);
+
                 if path[i-1] = path[i+1] then
                     Error( Concatenation( 
-                        "EdgeFacePath: Two adjacent edges can't be equal (positions ", 
-                        String(i-1), " and ", String(i+1), ")." ) );
+                        "EdgeFacePath: The two adjacent edges at positions ", 
+                        String(i-1), " and ", String(i), 
+                        " must not be equal." ) );
                 fi;
-                if not path[i-1] in EdgesOfFaces(complex)[path[i]] then
-                    Error( Concatenation( "EdgeFacePath: The edge ", 
-                        String(path[i-1]), " (position ", String(i-1), 
-                        ") is not incident to the face ", String(path[i]), 
-                        " (position ", String(i), ") in the given complex." ) );
-                fi;
-                if not path[i+1] in EdgesOfFaces(complex)[path[i]] then
-                    Error( Concatenation( "EdgeFacePath: The edge ", 
-                        String(path[i+1]), " (position ", String(i+1), 
-                        ") is not incident to the face ", String(path[i]), 
-                        " (position ", String(i), ") in the given complex." ) );
-                fi;
+
+                __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i+1, path[i+1], i, path[i], complex);
             fi;
         od;
 
         return EdgeFacePathNC(complex, path);
     end
 );
-RedispatchOnCondition( EdgeFacePath, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+BindGlobal( "__SIMPLICIAL_EdgeFacePath_FindLocalEdge",
+    function( path, posE, posF, complex )
+        local face, edge, locEdge, found, res, loc;
+
+        edge := path[posE];
+        face := path[posF];
+        locEdge := LocalEdgesOfFaces(complex)[face];
+        found := false;
+        res := 0;
+        for loc in locEdge do
+            if EdgesOfLocalEdges(complex)[loc] = edge then
+                # We found a match
+                if found then
+                    # This is the second match
+                    Error(Concatenation(
+                        "EdgeFacePath: There are several different local edges for the edge ", 
+                        String(edge), " (position ", String(posE), 
+                        ") of the face ", String(face), "(position ", 
+                        String(posF), ")."));
+                else
+                    found := true;
+                    res := loc;
+                fi;
+            fi;
+        od;
+
+        if not found then
+            # We found no match
+            Error(Concatenation(
+                "EdgeFacePath: There is no local edge for the edge ", 
+                String(edge), " (position ", String(posE), ") of the face ",
+                String(face), "(position ", String(posF), ")."));
+        fi;
+
+        return res;
+    end
+);
+InstallMethod( EdgeFacePath, "for a bend polygonal complex and a dense list",
+    [IsBendPolygonalComplex, IsDenseList],
+    function(complex, path)
+        local i, elements;
+
+        if not ForAll(path, IsPosInt) then
+            Error("EdgeFacePath: All entries of the path have to be positive integers.");
+        fi;
+        if IsEvenInt(Length(path)) then
+            Error("EdgeFacePath: The given list has to have odd length.");
+        fi;
+
+        elements := [];
+        for i in [1..Length(path)] do
+            if IsOddInt(i) then
+                __SIMPLICIAL_EdgeFacePath_EdgeCheck(i, path[i], Edges(complex));
+            else
+                __SIMPLICIAL_EdgeFacePath_FaceCheck(i, path[i], Faces(complex));
+                __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i-1, path[i-1], i, path[i], complex);
+                if path[i-1] <> path[i] then
+                    __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i+1, path[i+1], i, path[i], complex);
+                fi;
+
+                # We also have to compute the edge-face-path-elements
+                Add(elements, [path[i], 
+                    [ __SIMPLICIAL_EdgeFacePath_FindLocalEdge(path, i-1,i, complex),
+                        __SIMPLICIAL_EdgeFacePath_FindLocalEdge(path,i+1,i,complex)]]);
+
+            fi;
+        od;
+
+        return EdgeFacePathNC(complex, path, elements);
+    end
+);
+RedispatchOnCondition( EdgeFacePath, true, [IsVEFComplex,IsList],[,IsDenseList],0 );
+
+                # TODO allow to define a path only by the elements
+InstallMethod( EdgeFacePath, "for a bend polygonal complex and two dense lists",
+    [IsBendPolygonalComplex, IsDenseList, IsDenseList],
+    function(complex, path, elements)
+        local i, el;
+
+        if not ForAll(path, IsPosInt) then
+            Error("EdgeFacePath: All entries of the path have to be positive integers.");
+        fi;
+        if IsEvenInt(Length(path)) then
+            Error("EdgeFacePath: The given list has to have odd length.");
+        fi;
+        if (Length(path)-1)/2 <> Length(elements) then
+            Error("EdgeFacePath: The second list must have as many elements as there a faces in the first list.");
+        fi;
+
+        for i in [1..Length(path)] do
+            if IsOddInt(i) then
+                __SIMPLICIAL_EdgeFacePath_EdgeCheck(i, path[i], Edges(complex));
+            else
+                __SIMPLICIAL_EdgeFacePath_FaceCheck(i, path[i], Faces(complex));
+                __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i-1, path[i-1], i, path[i], complex);
+                if path[i-1] <> path[i] then
+                    __SIMPLICIAL_EdgeFacePath_IncidenceCheck(i+1, path[i+1], i, path[i], complex);
+                fi;
+
+                el := elements[i/2];
+                if not IsList(el) or Length(el)<>2 or not IsPosInt(el[1]) or 
+                    not IsList(el[2]) or Length(el[2]) <> 2 or 
+                    not IsPosInt(el[2][1]) or not IsPosInt(el[2][2]) then
+                        Error(Concatenation(
+                            "EdgeFacePath: the edge-face-path-element at position ", 
+                            String(i/2), 
+                            " must have the form [face, [local edge, local edge]]."));
+                fi;
+                if path[i] <> el[1] then
+                    Error(Concatenation(
+                        "EdgeFacePath: The face of the edge-face-path element ", 
+                        String(el), " (position ", String(i/2), 
+                        ") is not equal to the face ", String(path[i]), 
+                        " (position ", String(i), ")."));
+                fi;
+                if el[2][1] = el[2][2] then
+                    Error(Concatenation(
+                        "EdgeFacePath: The local edges of the edge-face-path element ",
+                        String(el), " (position ", String(i/2), 
+                        ") have to be different."));
+                fi;
+                if not IsSubset(LocalEdgesOfFaces(complex)[path[i]], el[2]) then
+                    Error(Concatenation(
+                        "EdgeFacePath: The local edges of the edge-face-path element ",
+                        String(el), " (position ", String(i/2), 
+                        ") are not the local edges of the face ", 
+                        String(path[i]), " (these would be ", 
+                        String(LocalEdgesOfFaces(complex)[path[i]]), ")."));
+                fi;
+            fi;
+        od;
+
+        return EdgeFacePathNC(complex, path, elements);
+    end
+);
+RedispatchOnCondition( EdgeFacePath, true, [IsBendPolygonalComplex,IsList,IsList],[,IsDenseList,IsDenseList],0 );
+
+InstallMethod( IsPolygonalComplexPath, "for an edge-face-path",
+    [IsEdgeFacePath],
+    function(path)
+        return IsPolygonalComplex(AssociatedVEFComplex(path));
+    end
+);
+InstallMethod( IsBendPolygonalComplexPath, "for an edge-face-path",
+    [IsEdgeFacePath],
+    function(path)
+        return IsBendPolygonalComplex(AssociatedVEFComplex(path));
+    end
+);
+
+InstallMethod( EdgeFacePathElements, 
+    "for an edge-face-path on a polygonal complex",
+    [IsEdgeFacePath and IsPolygonalComplexPath],
+    function(path)
+        return fail;
+    end
+);
+RedispatchOnCondition( EdgeFacePathElements, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0 );
+InstallMethod( EdgeFacePathElements,
+    "for an edge-face-path on a bend polygonal complex", 
+    [IsEdgeFacePath and IsBendPolygonalComplexPath],
+    function(path)
+        local complex, pathAsList, k, res, edge_in, edge_out, flags, inv,
+            orbs, first, second, orb;
+
+        complex := AssociatedVEFComplex(path);
+
+        res := [];
+        # go through all faces in order
+        pathAsList := PathAsList(path);
+        for k in [2,4..Length(pathAsList)-1] do
+            edge_in := pathAsList[k-1];
+            edge_out := pathAsList[k+1];
+
+            #TODO very inefficient. What is necessary to improve? LocalEdgesOfFaces?
+            flags := LocalFlagsOfFaces(complex)[pathAsList[k]];
+            inv := LocalFlagEdgeInvolution(complex);
+            orbs := Orbits(inv, flags);
+            for orb in orbs do
+                if EdgesOfLocalFlags(complex)[orb[1]] = edge_in then
+                    first := LocalEdgesOfLocalFlags(complex)[orb[1]];
+                fi;
+                if EdgesOfLocalFlags(complex)[orb[1]] = edge_out then
+                    second := LocalEdgesOfLocalFlags(complex)[orb[1]];
+                fi;
+            od;
+            Add(res, [pathAsList[k],[first,second]]);
+        od;
+        return res;
+    end
+);
+RedispatchOnCondition( EdgeFacePathElements, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0 );
 
 
 InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
@@ -404,7 +638,7 @@ InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
         out := OutputTextString(str,true);
 
         PrintTo(out, "EdgeFacePathNC( ");
-        PrintTo(out, AssociatedPolygonalComplex(path));
+        PrintTo(out, AssociatedVEFComplex(path));
         PrintTo(out, ", ");
         PrintTo(out, PathAsList(path));
         PrintTo(out, ")");
@@ -468,7 +702,8 @@ InstallMethod( \=, "for two edge-face-paths", IsIdenticalObj,
     [IsEdgeFacePath, IsEdgeFacePath],
     function(path1, path2)
         return PathAsList(path1) = PathAsList(path2) and 
-            AssociatedPolygonalComplex(path1) = AssociatedPolygonalComplex(path2);
+            EdgeFacePathElements(path1) = EdgeFacePathElements(path2) and
+            AssociatedVEFComplex(path1) = AssociatedVEFComplex(path2);
     end
 );
 
@@ -477,12 +712,24 @@ InstallMethod( PathAsList, "for an edge-face-path", [IsEdgeFacePath],
         return Path(path);
     end
 );
-InstallMethod( \<, "for two edge-face-paths", 
-    [IsEdgeFacePath, IsEdgeFacePath],
+InstallMethod( \<, "for two edge-face-paths on polygonal complexes", 
+    [IsEdgeFacePath and IsPolygonalComplexPath, IsEdgeFacePath and IsPolygonalComplexPath],
     function(path1, path2)
         return PathAsList(path1) < PathAsList(path2);
     end
 );
+RedispatchOnCondition(\<, true, [IsEdgeFacePath,IsEdgeFacePath], [IsPolygonalComplexPath,IsPolygonalComplexPath], 0);
+InstallMethod( \<, "for two edge-face-paths on bend polygonal complexes", 
+    [IsEdgeFacePath and IsBendPolygonalComplexPath, IsEdgeFacePath and IsBendPolygonalComplexPath],
+    function(path1, path2)
+        if PathAsList(path1) = PathAsList(path2) then
+            return EdgeFacePathElements(path1) < EdgeFacePathElements(path2);
+        else
+            return PathAsList(path1) < PathAsList(path2);
+        fi;
+    end
+);
+RedispatchOnCondition(\<, true, [IsEdgeFacePath,IsEdgeFacePath], [IsBendPolygonalComplexPath,IsBendPolygonalComplexPath], 0);
 
 InstallMethod( EdgesAsList, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
@@ -496,12 +743,30 @@ InstallMethod( FacesAsList, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
-InstallMethod( Inverse, "for a edge-face-path", [IsEdgeFacePath],
+InstallMethod( Inverse, "for a edge-face-path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath],
     function(path)
-        return EdgeFacePathNC( AssociatedPolygonalComplex(path),
-            Reversed(Path(path)));
+        return EdgeFacePathNC( AssociatedVEFComplex(path), Reversed(Path(path)));
     end
 );
+RedispatchOnCondition(Inverse, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
+InstallMethod( Inverse, "for a edge-face-path on a bend polygonal complex", 
+    [IsEdgeFacePath and IsBendPolygonalComplexPath],
+    function(path)
+        local Rev, complex, rev, i, efElements, el;
+
+        complex := AssociatedVEFComplex(path);
+        efElements := EdgeFacePathElements(path);
+        rev := [];
+        for i in [1..Length(efElements)] do
+            el := efElements[Length(efElements)+1-i];
+            rev[i] := [ el[1], [ el[2][2], el[2][1] ] ];
+        od;
+        return EdgeFacePathNC( complex, Reversed(Path(path)), rev );
+    end
+);
+RedispatchOnCondition(Inverse, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
+
 
 InstallMethod( EdgesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
@@ -518,16 +783,62 @@ InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
 
 
 
-InstallMethod( IsUmbrella, "for an edge-face-path", [IsEdgeFacePath],
+InstallMethod( IsUmbrellaPath, "for an edge-face-path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath],
     function(path)
-        local commonFaceVertex, commonEdgeVertex, commonVertex;
+        local complex, commonEdgeVertex, commonFaceVertex, commonVertex;
 
-        commonEdgeVertex := Intersection( VerticesOfEdges(AssociatedPolygonalComplex(path)){EdgesAsList(path)} );
-        commonFaceVertex := Intersection( VerticesOfFaces(AssociatedPolygonalComplex(path)){FacesAsList(path)} );
+        complex := AssociatedVEFComplex(path);
+
+        commonEdgeVertex := Intersection( VerticesOfEdges(complex){EdgesAsList(path)} );
+        commonFaceVertex := Intersection( VerticesOfFaces(complex){FacesAsList(path)} );
         commonVertex := Intersection( commonEdgeVertex, commonFaceVertex );
         return Length(commonVertex) <> 0;
     end
 );
+RedispatchOnCondition(IsUmbrellaPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
+
+InstallMethod( IsUmbrellaPath, "for an edge-face-path on a bend polygonal complex", 
+    [IsEdgeFacePath and IsBendPolygonalComplexPath],
+    function(path)
+        local commonFaceVertex, commonEdgeVertex, commonVertex, complex,
+            vertex, el, flags1, flags2, vert1, vert2, int, vFlags, v,
+            part, found, i, j, flagList;
+
+        complex := AssociatedVEFComplex(path);
+
+        flagList := [];
+        for el in EdgeFacePathElements(path) do
+            flags1 := LocalFlagsOfLocalEdges(complex)[el[2][1]];
+            flags2 := LocalFlagsOfLocalEdges(complex)[el[2][2]];
+            vert1 := LocalVerticesOfLocalFlags(complex){flags1};
+            vert2 := LocalVerticesOfLocalFlags(complex){flags2};
+            int := Intersection(vert1, vert2);
+            if int = [] then
+                return false;
+            elif Length(int) >= 2 then
+                Error("IsUmbrellaPath: Internal error.");
+            fi;
+            vFlags := LocalFlagsOfLocalVertices(complex)[int[1]];
+            Add(flagList, [Intersection(flags1,vFlags)[1], Intersection(flags2,vFlags)[1]]);
+        od;
+        for i in [1..Length(flagList)-1] do
+            found := false;
+            for part in LocalFlagsOfHalfEdges(complex) do
+                if IsSubset( part, [flagList[i][2],flagList[i+1][1]] ) then
+                    found := true;
+                    break;
+                fi;
+            od;
+            if not found then
+                return false;
+            fi;
+        od;
+        return true;
+    end
+);
+RedispatchOnCondition(IsUmbrellaPath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
+
 
 
 BindGlobal( "__SIMPLICIAL_ZigZagPath",
@@ -545,56 +856,174 @@ BindGlobal( "__SIMPLICIAL_ZigZagPath",
             vertex := vertex[1];
             Append(veList, [e1,vertex]);
             if i > 2 and veList[Length(veList)] = veList[Length(veList)-2] then
-                SetIsGeodesic(efPath, false);
+                SetIsGeodesicPath(efPath, false);
                 return fail;
             fi;
         od;
 
-        SetIsGeodesic(efPath, true);
+        SetIsGeodesicPath(efPath, true);
         # Complete the first vertex
         firstVertex := OtherVertexOfEdgeNC( com, veList[2], veList[1] );
         lastEdge := OtherEdgeOfVertexInFaceNC(com, veList[Length(veList)], veList[Length(veList)-1], pathAsList[Length(pathAsList)-1]);
         if lastEdge = veList[1] and firstVertex = veList[Length(veList)] then
-            # closed geodesic
-            SetIsClosedGeodesic(efPath, true);
+            # closed geodesic path
+            SetIsClosedGeodesicPath(efPath, true);
             vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList));
             SetIsClosedPath(vePath, true);
         else
-            # open geodesic
-            SetIsClosedGeodesic(efPath, false);
+            # open geodesic path
+            SetIsClosedGeodesicPath(efPath, false);
             # Complete last vertex
             vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList, [lastEdge, OtherVertexOfEdgeNC(com, veList[Length(veList)], lastEdge)]));
         fi;
         SetVertexEdgePath(efPath, vePath);
     end
 );
-InstallMethod( IsGeodesic, "for an edge-face-path", [IsEdgeFacePath],
+InstallMethod( IsGeodesicPath, 
+    "for an edge-face-path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath],
     function(path)
-        __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(path), path );
-        return IsGeodesic(path);
+        __SIMPLICIAL_ZigZagPath( AssociatedVEFComplex(path), path );
+        return IsGeodesicPath(path);
     end
 );
+RedispatchOnCondition(IsGeodesicPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
 
-InstallMethod( VertexEdgePath, "for a geodesic", 
-    [IsEdgeFacePath and IsGeodesic],
+BindGlobal("__SIMPLICIAL_DefiningLocalFlags",
+    function(path)
+        local flagList, complex, el, vert1, vert2, int, flag, oldFlag,
+            vFlag, evFlag, v;
+
+        complex := AssociatedVEFComplex(path);
+        for el in EdgeFacePathElements(complex) do
+            vert1 := LocalVerticesOfLocalEdges(complex)[el[2][1]];
+            vert2 := LocalVerticesOfLocalEdges(complex)[el[2][2]];
+            int := Intersection(vert1, vert2);
+            if Length(int) <> 1 then
+                return fail;
+            fi;
+            if int[1] = vert1[1] then
+                v := vert1[2];
+            else
+                v := vert1[1];
+            fi;
+            flag := LocalFlagByLocalVertexLocalEdgeFace(v, el[2][1], el[1]);
+
+            if Length(flagList) > 0 then
+                oldFlag := flagList[Length(flagList)];
+                # Check whether we have a geodesic
+                vFlag := oldFlag^LocalFlagEdgeInvolution(complex);
+                evFlag := vFlag^LocalFlagVertexInvolution(complex);
+                if flag = evFlag or not IsLocalFlagsFaceEquivalent(complex, evFlag, flag) then
+                    return fail;
+                fi;
+            fi;
+            Add(flagList, flag);
+        od;
+
+        return flagList;
+    end
+);
+InstallMethod( IsGeodesicPath, 
+    "for an edge-face-path on a bend polygonal complex", 
+    [IsEdgeFacePath and IsBendPolygonalComplexPath],
+    function(path)
+        local def;
+
+        def := __SIMPLICIAL_DefiningLocalFlags(path);
+        if def = fail then
+            # no geodesic path
+            return false;
+        fi;
+
+        SetDefiningLocalFlags(path, def);
+        return true;
+   end
+);
+RedispatchOnCondition(IsGeodesicPath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
+
+
+
+InstallMethod( VertexEdgePath, "for a geodesic path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath],
     function(geo)
-        __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(geo), geo );
+        __SIMPLICIAL_ZigZagPath( AssociatedVEFComplex(geo), geo );
         return VertexEdgePath(geo);
     end
 );
-RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsGeodesic], 0);
+RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesicPath], 0);
 
-InstallMethod( IsClosedGeodesic, "for an edge-face-path", [IsEdgeFacePath],
+InstallMethod( VertexEdgePath, 
+    "for a geodesic path on a bend polygonal complex",
+    [IsEdgeFacePath and IsBendPolygonalComplexPath and IsGeodesicPath],
+    function(geo)
+        local complex, def, vePath, flag, edge, vertex, vLast,
+            lastFlag, vevLast;
+
+        complex := AssociatedVEFComplex(geo);
+        def := DefiningLocalFlags(geo);
+
+        vePath := [];
+        for flag in def do
+            edge := EdgesOfLocalFlags(complex)[flag];
+            vertex := VerticesOfLocalFlags(complex)[flag];
+            Append(vePath, [edge, vertex]);
+        od;
+
+        lastFlag := def[Length(def)];
+        vLast := lastFlag^LocalFlagEdgeInvolution(complex);
+        Add(vePath, VerticesOfLocalFlags(complex)[vLast]);
+
+        if IsClosedGeodesicPath(geo) then
+            # The path is finished
+            return VertexEdgePathNC(complex, vePath);
+        else
+            # We have to add an edge and a vertex to finish the path
+            vevLast := (vLast^LocalFlagVertexInvolution(complex))^LocalFlagEdgeInvolution(complex);
+            edge := EdgesOfLocalFlags(complex)[vevLast];
+            vertex := VerticesOfLocalFlags(complex)[vevLast];
+            Append(vePath, [edge, vertex]);
+            return VertexEdgePathNC(complex, vePath);
+        fi;
+    end
+);
+RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath and IsGeodesicPath], 0);
+
+
+InstallMethod( IsClosedGeodesicPath, 
+    "for an edge-face-path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath],
     function(path)
-        if not IsGeodesic(path) then
+        if not IsGeodesicPath(path) then
             return false;
         fi;
 
         return IsClosedPath(path) and IsClosedPath( VertexEdgePath(path) );
     end
 );
+RedispatchOnCondition(IsClosedPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
+InstallMethod( IsClosedGeodesicPath,
+    "for an edge-face-path on a bend polygonal complex",
+    [IsEdgeFacePath and IsBendPolygonalComplexPath],
+    function(path)
+        local def, complex, first, last, vLast, evLast;
 
-InstallMethod( DefiningFlags, "for a geodesic", [IsEdgeFacePath and IsGeodesic],
+        def := DefiningLocalFlags(path);
+        complex := AssociatedVEFComplex(path);
+
+        first := def[1];
+        last := def[Length(def)];
+        vLast := last^LocalFlagEdgeInvolution(complex);
+        evLast := vLast^LocalFlagVertexInvolution(complex);
+
+        return first <> evLast and IsLocalFlagsFaceEquivalent(complex, first, evLast);
+    end
+);
+RedispatchOnCondition(IsClosedPath, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath], 0);
+
+
+InstallMethod( DefiningFlags, "for a geodesic path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath],
     function(geo)
         local vePath, efPath, flags, i;
 
@@ -608,16 +1037,25 @@ InstallMethod( DefiningFlags, "for a geodesic", [IsEdgeFacePath and IsGeodesic],
         return flags;
     end
 );
-RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsGeodesic], 0 );
+RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesicPath], 0 );
+
+InstallMethod( DefiningLocalFlags, 
+    "for a geodesic path on a bend polygonal complex",
+    [IsEdgeFacePath and IsBendPolygonalComplexPath and IsGeodesicPath],
+    function(geo)
+        return __SIMPLICIAL_DefiningLocalFlags(geo);
+    end
+);
+RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath and IsGeodesicPath], 0 );
 
 
-InstallMethod( MaximalGeodesicOfFlagNC, 
-    "for a ramified polygonal surface and a flag",
-    [IsRamifiedPolygonalSurface, IsList],
+InstallMethod( MaximalGeodesicPathOfFlagNC, 
+    "for a polygonal complex without edge ramifications and a flag",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         local maxGeo, geo, inv;
 
-        maxGeo := MaximalGeodesics(ramSurf);
+        maxGeo := MaximalGeodesicPaths(ramSurf);
         for geo in maxGeo do
             if flag in DefiningFlags(geo) then
                 return geo;
@@ -628,21 +1066,55 @@ InstallMethod( MaximalGeodesicOfFlagNC,
             fi;
         od;
 
-        Error("MaximalGeodesicOfFlagNC: The given flag was not valid!");
+        Error("MaximalGeodesicPathOfFlagNC: The given flag was not valid!");
     end
 );
-InstallMethod( MaximalGeodesicOfFlag,
-    "for a ramified polygonal surface and a flag",
-    [IsRamifiedPolygonalSurface, IsList],
+InstallMethod( MaximalGeodesicPathOfFlag,
+    "for a polygonal complex without edge ramifications and a flag",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         if not flag in Flags(ramSurf) then
-            Error(Concatenation("MaximalGeodesicOfFlag: Second argument ", 
+            Error(Concatenation("MaximalGeodesicPathOfFlag: Second argument ", 
                 String(flag), 
-                " is not a flag of the given ramified polygonal surface."));
+                " is not a flag of the given polygonal complex."));
         fi;
-        return MaximalGeodesicOfFlagNC(ramSurf, flag);
+        return MaximalGeodesicPathOfFlagNC(ramSurf, flag);
     end
 );
+
+InstallMethod( MaximalGeodesicPathOfLocalFlagNC, 
+    "for a bend polygonal complex without edge ramifications and a local flag",
+    [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt],
+    function(ramSurf, flag)
+        local maxGeo, geo, inv;
+
+        maxGeo := MaximalGeodesicPaths(ramSurf);
+        for geo in maxGeo do
+            if flag in DefiningLocalFlags(geo) then
+                return geo;
+            fi;
+            inv := Inverse(geo);
+            if flag in DefiningLocalFlags(inv) then
+                return inv;
+            fi;
+        od;
+
+        Error("MaximalGeodesicPathOfLocalFlagNC: The given flag was not valid!");
+    end
+);
+InstallMethod( MaximalGeodesicPathOfLocalFlag,
+    "for a bend polygonal complex without edge ramifications and a local flag",
+    [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt],
+    function(ramSurf, flag)
+        if not flag in LocalFlags(ramSurf) then
+            Error(Concatenation("MaximalGeodesicPathOfLocalFlag: Second argument ", 
+                String(flag), 
+                " is not a local flag of the given bend polygonal complex."));
+        fi;
+        return MaximalGeodesicPathOfLocalFlagNC(ramSurf, flag);
+    end
+);
+
 
 BindGlobal( "__SIMPLICIAL_DuplicateFreeGeodesic",
     function( ramSurf, geo, flag )
@@ -679,39 +1151,39 @@ BindGlobal( "__SIMPLICIAL_DuplicateFreeGeodesic",
         return EdgeFacePathNC( ramSurf, Path(geo){[2*indices[1]-1..2*indices[Length(indices)]+1]} );
     end
 );
-InstallMethod( MaximalDuplicateFreeGeodesicOfFlag,
-    "for a ramified polygonal surface and a flag",
-    [IsRamifiedPolygonalSurface, IsList],
+InstallMethod( MaximalDuplicateFreeGeodesicPathOfFlag,
+    "for a polygonal complex without edge ramifications and a flag",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         if not flag in Flags(ramSurf) then
-            Error(Concatenation("MaximalDuplicateFreeGeodesicOfFlag: Second argument ", 
+            Error(Concatenation("MaximalDuplicateFreeGeodesicPathOfFlag: Second argument ", 
                 String(flag), 
                 " is not a flag of the given ramified polygonal surface."));
         fi;
-        return MaximalDuplicateFreeGeodesicOfFlagNC(ramSurf, flag);
+        return MaximalDuplicateFreeGeodesicPathOfFlagNC(ramSurf, flag);
     end
 );
-RedispatchOnCondition( MaximalDuplicateFreeGeodesicOfFlag, true,
-    [IsPolygonalComplex, IsList], [IsRamifiedPolygonalSurface], 0);
-InstallMethod( MaximalDuplicateFreeGeodesicOfFlagNC,
-    "for a ramified polygonal surface and a flag",
-    [IsRamifiedPolygonalSurface, IsList],
+RedispatchOnCondition( MaximalDuplicateFreeGeodesicPathOfFlag, true,
+    [IsPolygonalComplex, IsList], [IsNotEdgeRamified], 0);
+InstallMethod( MaximalDuplicateFreeGeodesicPathOfFlagNC,
+    "for a polygonal complex without edge ramifications and a flag",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsList],
     function(ramSurf, flag)
         local geo;
 
-        geo := MaximalGeodesicOfFlagNC(ramSurf, flag);
+        geo := MaximalGeodesicPathOfFlagNC(ramSurf, flag);
         return __SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, geo, flag);
     end
 );
-RedispatchOnCondition( MaximalDuplicateFreeGeodesicOfFlagNC, true,
-    [IsPolygonalComplex, IsList], [IsRamifiedPolygonalSurface], 0);
-InstallMethod( MaximalDuplicateFreeGeodesics,
-    "for a ramified polygonal surface", [IsRamifiedPolygonalSurface],
+RedispatchOnCondition( MaximalDuplicateFreeGeodesicPathOfFlagNC, true,
+    [IsPolygonalComplex, IsList], [IsNotEdgeRamified], 0);
+InstallMethod( MaximalDuplicateFreeGeodesicPaths,
+    "for a polygonal complex without edge ramifications", [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         local maxGeo, geo, flag, inv, localGeo;
 
         maxGeo := [];
-        for geo in MaximalGeodesics(ramSurf) do
+        for geo in MaximalGeodesicPaths(ramSurf) do
             localGeo := [];
             for flag in DefiningFlags(geo) do
                 localGeo := Union( localGeo, [__SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, geo, flag)] );
@@ -726,12 +1198,13 @@ InstallMethod( MaximalDuplicateFreeGeodesics,
         return Set(maxGeo);
     end
 );
-RedispatchOnCondition( MaximalDuplicateFreeGeodesics, true,
-    [IsPolygonalComplex], [IsRamifiedPolygonalSurface], 0);
+RedispatchOnCondition( MaximalDuplicateFreeGeodesicPaths, true,
+    [IsPolygonalComplex], [IsNotEdgeRamified], 0);
 
 
-InstallMethod( GeodesicFlagCycle, "for a closed geodesic", 
-    [IsEdgeFacePath and IsClosedGeodesic],
+InstallMethod( GeodesicFlagCycle, 
+    "for a closed geodesic path on a polygonal complex", 
+    [IsEdgeFacePath and IsPolygonalComplexPath and IsClosedGeodesicPath],
     function(closedGeo)
         local vePath, flagPath, i, vertex, edge, face, flagPerm;
 
@@ -741,10 +1214,10 @@ InstallMethod( GeodesicFlagCycle, "for a closed geodesic",
             vertex := Path(vePath)[i];
             edge := Path(closedGeo)[i];
             face := Path(closedGeo)[i+1];
-            Add(flagPath, Position(Flags(AssociatedPolygonalComplex(closedGeo)), [vertex,edge,face]));
+            Add(flagPath, Position(Flags(AssociatedVEFComplex(closedGeo)), [vertex,edge,face]));
         od;
 
-        flagPerm := [1..Length(Flags(AssociatedPolygonalComplex(closedGeo)))];
+        flagPerm := [1..Length(Flags(AssociatedVEFComplex(closedGeo)))];
         for i in [1..Length(flagPath)-1] do
             flagPerm[flagPath[i]] := flagPath[i+1];
         od;
@@ -752,11 +1225,23 @@ InstallMethod( GeodesicFlagCycle, "for a closed geodesic",
         return PermList(flagPerm);
     end
 );
-RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsClosedGeodesic], 0 );
+RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsClosedGeodesicPath], 0 );
+InstallMethod( GeodesicFlagCycle,
+    "for a closed geodesic path on a bend polygonal complex",
+    [IsEdgeFacePath and IsBendPolygonalComplexPath and IsClosedGeodesicPath],
+    function(closedGeo)
+        local def;
+
+        def := DefiningLocalFlags(closedGeo);
+        return __SIMPLICIAL_ListToCycle(def);
+    end
+);
+RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsBendPolygonalComplexPath and IsClosedGeodesicPath], 0 );
 
 
-InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
+InstallMethod( MaximalGeodesicPaths, 
+    "for a polygonal complex without edge ramifications",
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         local geos, flags, dressVertex, dressEdge, dressFace, boundary,
             dressVEF, dressVEV, todoFlags, start, flagList, invList, i,
@@ -792,23 +1277,23 @@ InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
                     fin := true;
                     closed := false;
                 elif next = flagList[1] then
-                    # The geodesic closes
+                    # The geodesic path closes
                     fin := true;
                     closed := true;
                 else
-                    # Continue the geodesic
+                    # Continue the geodesic path
                     Add( flagList, next );
                 fi;
             od;
 
-            # Compute the flags of the inverse geodesic
+            # Compute the flags of the inverse geodesic path
             invList := [];
             invList[1] := flagList[Length(flagList)]^dressVEV;
             for i in [2..Length(flagList)] do
                 Add(invList, invList[Length(invList)]^dressVEF);
             od;
 
-            # Write geodesic and zig-zag-path
+            # Write geodesic path and zig-zag-path
             vePath := [];
             efPath := [];
             for i in [1..Length(flagList)] do
@@ -830,8 +1315,8 @@ InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
             fi;
 
             geo := EdgeFacePathNC(ramSurf, efPath);
-            SetIsGeodesic(geo, true);
-            SetIsClosedGeodesic(geo, closed);
+            SetIsGeodesicPath(geo, true);
+            SetIsClosedGeodesicPath(geo, closed);
             SetVertexEdgePath(geo, VertexEdgePathNC(ramSurf, vePath));
 
             geoFlags := flags{flagList};
@@ -846,6 +1331,116 @@ InstallMethod( MaximalGeodesics, "for a ramified polygonal surface",
         return Set(geos);
     end
 );
+
+InstallMethod( MaximalGeodesicPaths, 
+    "for a bend polygonal complex without edge ramifications",
+    [IsBendPolygonalComplex and IsNotEdgeRamified],
+    function(ramSurf)
+        local flags, dressVertex, dressEdge, dressFace, dressVEV, dressVEF,
+            boundaryEdges, boundaryFlags, geos, todoFlags, start, flagList,
+            fin, lastFlag, almostNext, next, closed, invList, i, v, e, f,
+            vePath, efPath, elPath, localEdgeOut, localEdgeIn, oppFlag,
+            vLastFlag, geo;
+
+        flags := LocalFlags(ramSurf);
+        dressVertex := LocalFlagEdgeInvolution(ramSurf);
+        dressEdge := LocalFlagVertexInvolution(ramSurf);
+        dressFace := LocalFlagFaceInvolution(ramSurf);
+
+        boundaryEdges := BoundaryEdges(ramSurf);
+        boundaryFlags := Union( LocalFlagsOfEdges(ramSurf){boundaryEdges} );
+
+        dressVEV := dressVertex * dressEdge * dressVertex;
+        dressVEF := dressVertex * dressEdge * dressFace;
+
+        geos := [];
+        todoFlags := ShallowCopy(flags);
+        while Length(todoFlags) > 0 do
+            # Start with a boundary edge if possible
+            start := First( todoFlags, f -> f in boundaryFlags );
+            if start = fail then
+                start := todoFlags[1];
+            fi;
+
+            flagList := [ start ];
+            fin := false;
+            while not fin do
+                lastFlag := flagList[Length(flagList)];
+                almostNext := (lastFlag^dressVertex)^dressEdge;
+                next := almostNext^dressFace;
+                if next = almostNext then
+                    # We found another boundary
+                    fin := true;
+                    closed := false;
+                elif next = flagList[1] then
+                    # The geodesic path closes
+                    fin := true;
+                    closed := true;
+                else
+                    # Continue the geodesic path
+                    Add( flagList, next );
+                fi;
+            od;
+
+            # Compute the flags of the inverse geodesic path
+            invList := [];
+            invList[1] := flagList[Length(flagList)]^dressVEV;
+            for i in [2..Length(flagList)] do
+                Add(invList, invList[Length(invList)]^dressVEF);
+            od;
+
+
+            # Write geodesic path and zig-zag-path
+            vePath := [];
+            efPath := [];
+            elPath := [];
+            for i in [1..Length(flagList)] do
+                v := VerticesOfLocalFlags(ramSurf)[flagList[i]];
+                e := EdgesOfLocalFlags(ramSurf)[flagList[i]];
+                f := FacesOfLocalFlags(ramSurf)[flagList[i]];
+                localEdgeIn := LocalEdgesOfLocalFlags(ramSurf)[flagList[i]];
+                localEdgeOut := LocalEdgesOfLocalFlags(ramSurf)[flagList[i]^dressVEV];
+
+
+                Add( vePath, v );
+                Add( vePath, e );
+                Add( efPath, e );
+                Add( efPath, f );
+                Add( elPath, [f, [localEdgeIn, localEdgeOut]] );
+            od;
+            if closed then
+                Add(vePath, vePath[1]);
+                Add(efPath, efPath[1]);
+            else
+                lastFlag := flagList[Length(flagList)];
+                vLastFlag := lastFlag^dressVertex;
+                oppFlag := lastFlag^dressVEV;
+
+                v := VerticesOfLocalFlags(ramSurf)[oppFlag];
+                e := EdgesOfLocalFlags(ramSurf)[oppFlag];
+                Add(vePath, VerticesOfLocalFlags(ramSurf)[vLastFlag]);
+                Add(vePath, e);
+                Add(vePath, v);
+
+                Add(efPath, e);
+            fi;
+
+            geo := EdgeFacePathNC(ramSurf, efPath, elPath);
+            SetIsGeodesicPath(geo, true);
+            SetIsClosedGeodesicPath(geo, closed);
+            SetVertexEdgePath(geo, VertexEdgePathNC(ramSurf, vePath));
+
+            SetDefiningLocalFlags(geo, flagList);
+            SetDefiningFlags(Inverse(geo), invList);
+
+            Add( geos, geo );
+            todoFlags := Difference( todoFlags, Concatenation( flagList, invList ) );
+        od;
+
+        return Set(geos);
+    end
+);
+
 
 
 #######################################

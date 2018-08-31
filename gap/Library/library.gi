@@ -130,15 +130,24 @@ BindGlobal( "__SIMPLICIAL_AccessLibrary",
     end
 );
 
+InstallGlobalFunction( "AllVEFComplexes",
+    function(arg)
+        local trueArg;
+
+        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllVEFComplexes");
+        return __SIMPLICIAL_AccessLibrary(trueArg);
+    end
+);
+
 InstallGlobalFunction( "AllPolygonalComplexes",
     function(arg)
         local trueArg;
 
         trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllPolygonalComplexes");
-        return __SIMPLICIAL_AccessLibrary(trueArg);
+        return __SIMPLICIAL_AccessLibrary(
+            Concatenation([IsPolygonalComplex, true], trueArg) );
     end
 );
-
 
 InstallGlobalFunction( "AllTriangularComplexes",
     function(arg)
@@ -146,27 +155,7 @@ InstallGlobalFunction( "AllTriangularComplexes",
 
         trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllTriangularComplexes");
         return __SIMPLICIAL_AccessLibrary(
-            Concatenation([IsTriangularComplex, true], trueArg) );
-    end
-);
-
-InstallGlobalFunction( "AllRamifiedPolygonalSurfaces",
-    function(arg)
-        local trueArg;
-
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllRamifiedPolygonalSurfaces");
-        return __SIMPLICIAL_AccessLibrary(
-            Concatenation([IsRamifiedPolygonalSurface, true], trueArg) );
-    end
-);
-
-InstallGlobalFunction( "AllRamifiedSimplicialSurfaces",
-    function(arg)
-        local trueArg;
-
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllRamifiedSimplicialSurfaces");
-        return __SIMPLICIAL_AccessLibrary(
-            Concatenation([IsRamifiedSimplicialSurface, true], trueArg) );
+            Concatenation([IsPolygonalComplex, true, IsTriangularComplex, true], trueArg) );
     end
 );
 
@@ -191,3 +180,13 @@ InstallGlobalFunction( "AllSimplicialSurfaces",
 );
 
 
+
+InstallGlobalFunction( "AllBendPolygonalComplexes",
+    function(arg)
+        local trueArg;
+
+        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllBendPolygonalComplexes");
+        return __SIMPLICIAL_AccessLibrary(
+            Concatenation([IsBendPolygonalComplex, true], trueArg) );
+    end
+);

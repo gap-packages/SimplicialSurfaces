@@ -13,13 +13,14 @@
 #! @Chapter Edge colourings
 #! @ChapterLabel EdgeColouring
 #! 
-#! This chapter is concerned with edge-coloured polygonal complexes and in
+#! This chapter is concerned with edge-coloured VEF-complexes and in
 #! particular simplicial surfaces. The first section 
 #! (<Ref Sect="Section_EdgeColouring_Definition"/>) deals with the definition
 #! of arbitrary edge-colourings and the methods to access its colouring.
 #!
 #! The second section (<Ref Sect="Section_EdgeColouring_Drawing"/>) explains
-#! how the drawing functionality for ramified polygonal surfaces (compare
+#! how the drawing functionality for polygonal surfaces without edge
+#! ramifications (compare
 #! section <Ref Sect="Section_Embeddings_DrawTikz"/> for details) is extended
 #! for edge-coloured ramified polygonal surfaces.
 #!
@@ -33,56 +34,63 @@
 #! This section describes how an edge-colouring is implemented in the
 #! <K>SimplicialSurfaces</K>-package.
 #!
-#! An <K>EdgeColouredPolygonalComplex</K> 
+#! An <K>EdgeColouredVEFComplex</K> 
 #! (<Ref Subsect="EdgeColouredPolygonalComplex"/>) consists of:
-#! * a polygonal complex, accessible by <K>PolygonalComplex</K> 
-#!   (<Ref Subsect="EdgeColouring_PolygonalComplex"/>)
+#! * a VEF-complex, accessible by <K>VEFComplex</K> 
+#!   (<Ref Subsect="EdgeColouring_VEFComplex"/>)
 #! * an edge colouring, which can be accessed by 
 #!   <K>ColoursOfEdges</K> (<Ref Subsect="ColoursOfEdges"/>) and
 #!   <K>EdgesOfColours</K> (<Ref Subsect="EdgesOfColours"/>)
+#!
+#! The specialisations <K>EdgeColouredPolygonalComplex</K> and
+#! <K>EdgeColouredBendPolygonalComplex</K> exist as well and behave
+#! in the expected way.
 #!
 #! @InsertChunk Example_Coloured_Pyramid
 #!
 #TODO explain this using a bigger example with two different colourings
 #maybe show off the feature of using GAPs capabilities?
 
+#TODO mention that attributes are copied over
 
-#! @BeginGroup IsEdgeColouredPolygonalComplex
+#! @BeginGroup IsEdgeColouredVEFComplex
 #! @Description
-#! Check if a given object is an <K>IsEdgeColouredPolygonalComplex</K>. This
-#! is the case if it consists of a polygonal complex and an edge colouring,
-#! accessible by <K>PolygonalComplex</K> 
-#! (<Ref Subsect="EdgeColouring_PolygonalComplex"/>) and <K>ColoursOfEdges</K> 
+#! Check if a given object is an <K>IsEdgeColouredVEFComplex</K>. This
+#! is the case if it consists of a VEF-complex and an edge colouring,
+#! accessible by <K>VEFComplex</K> 
+#! (<Ref Subsect="EdgeColouring_VEFComplex"/>) and <K>ColoursOfEdges</K> 
 #! (<Ref Subsect="ColoursOfEdges"/>)
 #! respectively.
 #!
 #! In addition there are some properties of the type 
 #! <K>IsEdgeColoured</K><E>Thing</E> which check if
-#! the underlying polygonal complex fulfills <E>Thing</E>. For example
+#! the underlying VEF-complex fulfills <E>Thing</E>. For example
 #! <K>IsEdgeColouredSimplicialSurface</K> checks if the underlying
 #! polygonal complex is a simplicial surface.
 #! 
 #! @Arguments object
-DeclareCategory( "IsEdgeColouredPolygonalComplex", IsObject );
-#! @Arguments colComplex
-DeclareProperty( "IsEdgeColouredTriangularComplex", IsEdgeColouredPolygonalComplex );
-#! @Arguments colComplex
-DeclareProperty( "IsEdgeColouredRamifiedPolygonalSurface", IsEdgeColouredPolygonalComplex );
-#! @Arguments colComplex
-DeclareProperty( "IsEdgeColouredRamifiedSimplicialSurface", IsEdgeColouredPolygonalComplex );
-#! @Arguments colComplex
-DeclareProperty( "IsEdgeColouredPolygonalSurface", IsEdgeColouredPolygonalComplex );
+DeclareCategory( "IsEdgeColouredVEFComplex", IsVEFComplex );
+#! @Arguments object
+DeclareCategory( "IsEdgeColouredPolygonalComplex", IsPolygonalComplex and IsEdgeColouredVEFComplex );
+#! @Arguments object
+DeclareCategory( "IsEdgeColouredBendPolygonalComplex", IsBendPolygonalComplex and IsEdgeColouredVEFComplex );
 #! @Arguments colComplex
 DeclareProperty( "IsEdgeColouredSimplicialSurface", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
 
+BindGlobal( "EdgeColouredVEFComplexFamily",
+    NewFamily("EdgeColouredVEFComplexFamily", IsObject, 
+        IsEdgeColouredPolygonalComplex) );
 BindGlobal( "EdgeColouredPolygonalComplexFamily",
     NewFamily("EdgeColouredPolygonalComplexFamily", IsObject, 
+        IsEdgeColouredPolygonalComplex) );
+BindGlobal( "EdgeColouredBendPolygonalComplexFamily",
+    NewFamily("EdgeColouredBendPolygonalComplexFamily", IsObject, 
         IsEdgeColouredPolygonalComplex) );
 
 #! @BeginGroup EdgeColouredPolygonalComplex
 #! @Description
-#! Construct an edge coloured polygonal complex. The edge colouring can be
+#! Construct an edge coloured (bend) polygonal complex. The edge colouring can be
 #! given in one of two ways:
 #! <Enum>
 #!   <Item>As a list <A>colouring</A> of positive integers. For every edge
@@ -113,26 +121,11 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
 DeclareOperation( "EdgeColouredPolygonalComplex", [IsPolygonalComplex, IsList] );
 #! @Arguments complex, colouring
 DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList] );
-#! @Returns an <K>EdgeColouredTriangularComplex</K>
+#! @Returns an <K>EdgeColouredBendPolygonalComplex</K>
 #! @Arguments complex, colouring
-DeclareOperation( "EdgeColouredTriangularComplex", [IsPolygonalComplex, IsList] );
+DeclareOperation( "EdgeColouredBendPolygonalComplex", [IsBendPolygonalComplex, IsList] );
 #! @Arguments complex, colouring
-DeclareOperation( "EdgeColouredTriangularComplexNC", [IsPolygonalComplex, IsList] );
-#! @Returns an <K>EdgeColouredRamifiedPolygonalSurface</K>
-#! @Arguments ramSurf, colouring
-DeclareOperation( "EdgeColouredRamifiedPolygonalSurface", [IsPolygonalComplex, IsList] );
-#! @Arguments ramSurf, colouring
-DeclareOperation( "EdgeColouredRamifiedPolygonalSurfaceNC", [IsPolygonalComplex, IsList] );
-#! @Returns an <K>EdgeColouredRamifiedSimplicialSurface</K>
-#! @Arguments ramSurf, colouring
-DeclareOperation( "EdgeColouredRamifiedSimplicialSurface", [IsPolygonalComplex, IsList] );
-#! @Arguments ramSurf, colouring
-DeclareOperation( "EdgeColouredRamifiedSimplicialSurfaceNC", [IsPolygonalComplex, IsList] );
-#! @Returns an <K>EdgeColouredPolygonalSurface</K>
-#! @Arguments surface, colouring
-DeclareOperation( "EdgeColouredPolygonalSurface", [IsPolygonalComplex, IsList] );
-#! @Arguments surface, colouring
-DeclareOperation( "EdgeColouredPolygonalSurfaceNC", [IsPolygonalComplex, IsList] );
+DeclareOperation( "EdgeColouredBendPolygonalComplexNC", [IsBendPolygonalComplex, IsList] );
 #! @Returns an <K>EdgeColouredSimplicialSurface</K>
 #! @Arguments surface, colouring
 DeclareOperation( "EdgeColouredSimplicialSurface", [IsPolygonalComplex, IsList] );
@@ -141,10 +134,10 @@ DeclareOperation( "EdgeColouredSimplicialSurfaceNC", [IsPolygonalComplex, IsList
 #! @EndGroup
 
 
-#! @BeginGroup EdgeColouring_PolygonalComplex
+#! @BeginGroup EdgeColouring_VEFComplex
 #! @Description
-#! Return the underlying polygonal complex of an edge coloured polygonal
-#! complex. The other variants return the same thing but will
+#! Return the underlying VEF-complex of an edge coloured VEF-complex. 
+#! The other variants return the same object but will
 #! guarantee the more specific type.
 #!
 #! For example both edge coloured pyramids from 
@@ -155,22 +148,16 @@ DeclareOperation( "EdgeColouredSimplicialSurfaceNC", [IsPolygonalComplex, IsList
 #! true
 #! @EndExampleSession
 #!
+#! @Returns a VEF-complex
+#! @Arguments colComplex
+DeclareAttribute( "VEFComplex", IsEdgeColouredVEFComplex );
 #! @Returns a polygonal complex
 #! @Arguments colComplex
 DeclareAttribute( "PolygonalComplex", IsEdgeColouredPolygonalComplex );
-#! @Returns a triangular complex
+#! @Returns a bend polygonal complex
 #! @Arguments colComplex
-DeclareAttribute( "TriangularComplex", IsEdgeColouredTriangularComplex );
-#! @Returns a polygonal complex
-#! @Arguments colComplex
-DeclareAttribute( "RamifiedPolygonalSurface", IsEdgeColouredRamifiedPolygonalSurface );
-#! @Returns a polygonal complex
-#! @Arguments colComplex
-DeclareAttribute( "RamifiedSimplicialSurface", IsEdgeColouredRamifiedSimplicialSurface );
-#! @Returns a polygonal complex
-#! @Arguments colComplex
-DeclareAttribute( "PolygonalSurface", IsEdgeColouredPolygonalSurface );
-#! @Returns a polygonal complex
+DeclareAttribute( "BendPolygonalComplex", IsEdgeColouredBendPolygonalComplex );
+#! @Returns a simplicial surface
 #! @Arguments colComplex
 DeclareAttribute( "SimplicialSurface", IsEdgeColouredSimplicialSurface );
 #! @EndGroup
@@ -181,7 +168,7 @@ DeclareAttribute( "SimplicialSurface", IsEdgeColouredSimplicialSurface );
 #! The method <K>ColourOfEdge</K>(<A>colComplex</A>, <A>edge</A>) returns the
 #! colour of <A>edge</A>, represented by a positive integer. The NC-version
 #! does not check whether the given <A>edge</A> is an edge of the underlying
-#! polygonal complex.
+#! VEF-complex.
 #!
 #! The attribute <K>ColoursOfEdges</K>(<A>colComplex</A>) collects all of
 #! those colours in a list that is indexed by the edge labels, i.e.
@@ -193,18 +180,18 @@ DeclareAttribute( "SimplicialSurface", IsEdgeColouredSimplicialSurface );
 #!
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments colComplex
-DeclareAttribute( "ColoursOfEdges", IsEdgeColouredPolygonalComplex );
+DeclareAttribute( "ColoursOfEdges", IsEdgeColouredVEFComplex );
 #! @Arguments colComplex, edge
-DeclareOperation( "ColourOfEdge", [IsEdgeColouredPolygonalComplex, IsPosInt] );
+DeclareOperation( "ColourOfEdge", [IsEdgeColouredVEFComplex, IsPosInt] );
 #! @Arguments colComplex, edge
-DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredPolygonalComplex, IsPosInt] );
+DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredVEFComplex, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup EdgesOfColours
 #! @Description
 #! The method <K>EdgesOfColour</K>(<A>colComplex</A>, <A>colour</A>) returns 
 #! the set of all edges with colour <A>colour</A>. If a colour is not used
-#! in the given edge coloured polygonal complex, the empty set is returned.
+#! in the given edge coloured VEF-complex, the empty set is returned.
 #!
 #! The attribute <K>EdgesOfColours</K>(<A>colComplex</A>) collects all of
 #! these sets in a list that is indexed by the colours (given as positive
@@ -216,27 +203,27 @@ DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredPolygonalComplex, IsPosInt] )
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments colComplex
-DeclareAttribute( "EdgesOfColours", IsEdgeColouredPolygonalComplex );
+DeclareAttribute( "EdgesOfColours", IsEdgeColouredVEFComplex );
 #! @Arguments colComplex, colour
-DeclareOperation( "EdgesOfColour", [IsEdgeColouredPolygonalComplex, IsPosInt] );
+DeclareOperation( "EdgesOfColour", [IsEdgeColouredVEFComplex, IsPosInt] );
 #TODO is this the right way or should the wrong colour lead to an error?
 #! @EndGroup
 
 
 #! @Description
 #! Return the set of all edge colours that are used in the given edge
-#! coloured polygonal complex.
+#! coloured VEF-complex.
 #!
 #! @Returns a set of positive integers
 #! @Arguments colComplex
-DeclareAttribute( "Colours", IsEdgeColouredPolygonalComplex );
+DeclareAttribute( "Colours", IsEdgeColouredVEFComplex );
 
 
 
 ##
 ## View and Display
-DeclareAttribute( "ViewInformation", IsEdgeColouredPolygonalComplex );
-DeclareAttribute( "DisplayInformation", IsEdgeColouredPolygonalComplex );
+DeclareAttribute( "ViewInformation", IsEdgeColouredVEFComplex );
+DeclareAttribute( "DisplayInformation", IsEdgeColouredVEFComplex );
 
 
 #! @Section Drawing edge coloured surfaces
@@ -247,7 +234,8 @@ DeclareAttribute( "DisplayInformation", IsEdgeColouredPolygonalComplex );
 #! @BeginGroup DrawSurfaceToTikz_EdgeColoured
 #! @Description
 #! Draw the net of the given <A>colRamSurf</A> into a tex-file (using TikZ).
-#! This method extends the drawing method for ramified polygonal surfaces
+#! This method extends the drawing method for polygonal surfaces without edge
+#! ramifications
 #! (compare <Ref Subsect="DrawSurfaceToTikz"/>) by respecting the edge colour
 #! classes of <A>colRamSurf</A>. An introduction the the usage of the 
 #! additional parameters can be found at the start of section
@@ -287,7 +275,7 @@ DeclareAttribute( "DisplayInformation", IsEdgeColouredPolygonalComplex );
 #! 
 #! @Returns a record
 #! @Arguments colRamSurf, fileName[, printRecord]
-DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredRamifiedPolygonalSurface, IsString, IsRecord] );
+DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord] );
 #! @EndGroup
 
 

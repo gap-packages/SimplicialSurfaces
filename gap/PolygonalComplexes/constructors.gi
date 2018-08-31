@@ -12,7 +12,7 @@
 
 
 BindGlobal( "__SIMPLICIAL_AllTypes", 
-    ["PolygonalComplex", "TriangularComplex", "RamifiedPolygonalSurface", "RamifiedSimplicialSurface", "PolygonalSurface", "SimplicialSurface"] );
+    ["PolygonalComplex", "TriangularComplex", "PolygonalSurface", "SimplicialSurface"] );
 ##
 ## Automated construction of the constructors. Parameters:
 ## methodString: String for the method of the constructor (like 
@@ -54,25 +54,27 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 setterNC := function( obj ) end;
             elif typeString = "TriangularComplex" then
                 setterNC := function( obj )
-                    SetIsTriangularComplex(obj, true);
+                    SetIsTriangular(obj, true);
                 end;
             elif typeString = "RamifiedPolygonalSurface" then
                 setterNC := function( obj )
-                    SetIsRamifiedPolygonalSurface(obj, true);
+                    SetIsNotEdgeRamified(obj, true);
                 end;
             elif typeString = "RamifiedSimplicialSurface" then
                 setterNC := function( obj )
-                    SetIsRamifiedPolygonalSurface(obj, true);
-                    SetIsTriangularComplex(obj, true);
+                    SetIsNotEdgeRamified(obj, true);
+                    SetIsTriangular(obj, true);
                 end;
             elif typeString = "PolygonalSurface" then
                 setterNC := function( obj )
-                    SetIsPolygonalSurface(obj, true);
+                    SetIsNotEdgeRamified(obj, true);
+                    SetIsNotVertexRamified(obj, true);
                 end;
             elif typeString = "SimplicialSurface" then
                 setterNC := function( obj )
-                    SetIsPolygonalSurface(obj, true);
-                    SetIsTriangularComplex(obj, true);
+                    SetIsNotEdgeRamified(obj, true);
+                    SetIsNotVertexRamified(obj, true);
+                    SetIsTriangular(obj, true);
                 end;
             else
                 Error("This type is not supported.");

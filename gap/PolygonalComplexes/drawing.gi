@@ -107,7 +107,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
 
         # coordinates (always recomputed)
         printRecord!.vertexCoordinates := [];
-        for v in VerticesAttributeOfPolygonalComplex(surface) do
+        for v in VerticesAttributeOfVEFComplex(surface) do
             printRecord!.vertexCoordinates[v] := [];
         od;
         printRecord!.edgeEndpoints := [];
@@ -126,7 +126,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         # drawing options
         __SIMPLICIAL_PrintRecordInitBool( printRecord, "vertexLabelsActive", true );
         __SIMPLICIAL_PrintRecordInitStringList( printRecord, "vertexLabels", 
-            VerticesAttributeOfPolygonalComplex(surface) );
+            VerticesAttributeOfVEFComplex(surface) );
 
         __SIMPLICIAL_PrintRecordInitBool( printRecord, "edgeLabelsActive", true );
         __SIMPLICIAL_PrintRecordInitStringList( printRecord, "edgeLabels", Edges(surface) );
@@ -141,7 +141,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
 
         # colours
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "vertexColours", 
-            VerticesAttributeOfPolygonalComplex(surface));
+            VerticesAttributeOfVEFComplex(surface));
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "edgeColours", Edges(surface));
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "faceColours", Faces(surface));
         # if the faceColours are custom given, we check for errors
@@ -830,8 +830,8 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzOptions",
 
 # general method
 InstallMethod( DrawSurfaceToTikz, 
-    "for a polygonal surface, a filename and a record",
-    [IsRamifiedPolygonalSurface, IsString, IsRecord],
+    "for a polygonal complex without edge ramifications, a filename and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(surface, fileName, printRecord)
         local file, output, f, v, i, positions, comp, 
             allVertexCoords, TikzCoordFromVertexPosition, unplacedFaces,
@@ -1003,8 +1003,8 @@ InstallMethod( DrawSurfaceToTikz,
         od;
 
         # Set the strongly connected components (if not already done)
-        if not HasStronglyConnectedComponentsAttributeOfPolygonalComplex( surface ) then
-            SetStronglyConnectedComponentsAttributeOfPolygonalComplex( surface, List( printRecord.drawComponents, c -> SubcomplexByFacesNC(surface, Union(c) ) ));
+        if not HasStronglyConnectedComponentsAttributeOfVEFComplex( surface ) then
+            SetStronglyConnectedComponentsAttributeOfVEFComplex( surface, List( printRecord.drawComponents, c -> SubcomplexByFacesNC(surface, Union(c) ) ));
         fi;
 
         # Write this data into the file
@@ -1037,7 +1037,7 @@ InstallMethod( DrawSurfaceToTikz,
 
                 # Define coordinates of vertices
                 AppendTo( output, "% Define the coordinates of the vertices\n" );
-                for v in VerticesAttributeOfPolygonalComplex(comp) do
+                for v in VerticesAttributeOfVEFComplex(comp) do
                     for i in [1..Length(allVertexCoords[v])] do
                         if allVertexCoords[v][i][3] = ind then
                             AppendTo( output, "\\coordinate (", TikzCoordFromVertexPosition([v,i]), ") at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
@@ -1071,7 +1071,7 @@ InstallMethod( DrawSurfaceToTikz,
                 
                 # Draw vertices
                 AppendTo( output, "% Draw the vertices\n" );
-                for v in VerticesAttributeOfPolygonalComplex(comp) do
+                for v in VerticesAttributeOfVEFComplex(comp) do
                     positions := allVertexCoords[v];
                     for i in [1..Length(positions)] do
                         if allVertexCoords[v][i][3] = ind then
@@ -1112,11 +1112,14 @@ InstallMethod( DrawSurfaceToTikz,
         return printRecord;
     end
 );
+RedispatchOnCondition( DrawSurfaceToTikz, true, [IsPolygonalComplex,IsString,IsRecord], [IsNotEdgeRamified], 0  );
 
-InstallOtherMethod( DrawSurfaceToTikz, "for a polygonal surface and a file name",
-    [IsRamifiedPolygonalSurface, IsString],
+InstallOtherMethod( DrawSurfaceToTikz, 
+    "for a polygonal complex without edge ramifications and a file name",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsString],
     function(surface, file)
         return DrawSurfaceToTikz(surface, file, rec());
     end
 );
+RedispatchOnCondition( DrawSurfaceToTikz, true, [IsPolygonalComplex,IsString], [IsNotEdgeRamified], 0  );
 

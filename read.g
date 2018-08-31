@@ -9,15 +9,16 @@
 ##
 #############################################################################
 
-ReadPackage( "SimplicialSurfaces", "gap/AttributeScheduler/AttributeScheduler.gi" );
-
 ReadPackage( "SimplicialSurfaces", "gap/utilities.g" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/Paths/perimeter.gi" );
 
 
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_install_method.g" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/bend_polygonal_complex.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );
@@ -35,6 +36,7 @@ ReadPackage( "SimplicialSurfaces", "gap/Library/library.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/edgeColouring.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/variColouring.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/colouring_copy_attributes.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Flags/flags.gi" );
 
@@ -42,4 +44,5 @@ ReadPackage( "SimplicialSurfaces", "gap/Flags/flags.gi" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_BorderCases_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_EdgeColouring.g" );
+ReadPackage( "SimplicialSurfaces", "unit_tests/Test_VEFComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );

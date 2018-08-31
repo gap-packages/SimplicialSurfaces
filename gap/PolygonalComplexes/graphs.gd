@@ -16,24 +16,39 @@
 
 #! @BeginChunk Graphs_LabelShift
 #! <List>
-#!   <Item>The vertex numbers, not modified</Item>
-#!   <Item>The edge numbers, shifted upwards by the maximal vertex number
+#!   <Item>The vertex numbers are not modified</Item>
+#!   <Item>The edge numbers are shifted upwards by the maximal vertex number
 #!     </Item>
-#!   <Item>The face numbers, shifted upwards by the sum of the maximal
+#!   <Item>The face numbers are shifted upwards by the sum of the maximal
 #!     vertex number and the maximal edge number</Item>
+#! </List>
+#! @EndChunk
+#! @BeginChunk Graphs_LabelShiftLocal
+#! <List>
+#!   <Item>The local vertex numbers are not modified</Item>
+#!   <Item>The local edge numbers are shifted upwards by the maximal local 
+#!      vertex number</Item>
+#!   <Item>The half-edge numbers are shifted upwards by the sum of the maximal
+#!     local vertex number and the maximal local edge number</Item>
 #! </List>
 #! @EndChunk
 
 #! @Chapter Graphs and isomorphisms
 #! @ChapterLabel Graphs
 #! 
-#! All polygonal structures from chapter <Ref Chap="PolygonalStructures"/>
-#! can be completely described by their incidence structure. Therefore the
-#! isomorphism problem reduces to the graph isomorphism problem. This chapter
+#! The structures from chapter <Ref Chap="PolygonalStructures"/>
+#! can be completely described by their incidence structure (in the case of
+#! polygonal complexes) or their local flag structure (for bend polygonal
+#! complexes). Both of these structures can equivalently be described as
+#! graphs. Therefore the
+#! isomorphism problem for VEF-complexes reduces to the graph isomorphism 
+#! problem. This chapter
 #! explains the associated functionality.
 #!
 #! Most of the methods in this chapter need access to one of the graph 
-#! packages in &GAP;. Currently supported are the packages
+#! packages in &GAP; (check the method descriptions to see whether a
+#! certain graph package is sufficient to execute the method). 
+#! Currently supported are the packages
 #! @InsertChunk Graphs_Packages
 #! A discussion of their 
 #! individual merits is postponed to section 
@@ -43,12 +58,18 @@
 #! graphs is introduced. While this is the backbone of the isomorphism testing
 #! and automorphism group computation, it may be skipped at first.
 #!
-#! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the method
-#! <K>IsIsomorphicPolygonalComplex</K> 
-#! (<Ref Subsect="IsIsomorphicPolygonalComplex"/>).
+#! In section <Ref Sect="Section_Graphs_LocalIncidence"/> the incidence
+#! of local flags (for bend polygonal complexes) is discussed.
 #!
-#! Section <Ref Sect="Section_Graphs_Automorphisms"/> explains in detail
-#! how to use the automorphism group of polygonal complexes.
+#! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the isomorphism 
+#! method
+#! <K>IsIsomorphic</K> 
+#! (<Ref Subsect="IsIsomorphic"/>).
+#!
+#! Section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> explains in detail
+#! how to use the automorphism group of polygonal complexes and section
+#! <Ref Sect="Section_Graphs_Automorphisms_Bend"/> does the same for bend polygonal
+#! complexes.
 
 #! @Section Incidence graph
 #! @SectionLabel Graphs_Incidence
@@ -121,13 +142,77 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! @EndGroup
 
 
+#! @Section Local incidence graph
+#! @SectionLabel Graphs_LocalIncidence
+#! 
+#! Bend polygonal complexes (explained in section 
+#! <Ref Sect="PolygonalStructures_bend"/>) are not described by their 
+#! incidence structure alone but by their local incidence structure,
+#! consisting of local vertices, local edges and half-edges.
+#!
+#! The vertices of the local incidence graph consist of all local vertices 
+#! (colour 0), 
+#! local edges (colour 1) and 
+#! half-edges (colour 2) of the bend polygonal complex. The edges of the
+#! local incidence graph are defined by the local flags: If a local vertex
+#! and a local edge are incident to the same local flag, they will be 
+#! connected by an edge (similar for the other pairs).
+#! 
+#!
+#! Unfortunately the vertex labels of the graph in &GAP; have to be distinct, 
+#! which is not guaranteed in general.
+#! Therefore the labels have to be shifted.
+#!
+#! The local incidence graph is given as a &GAP;-graph. Currently these packages
+#! are supported:
+#! @InsertChunk Graphs_Packages
+#!
+
+#! @BeginGroup LocalIncidenceGraph
+#! @Description
+#! Return the local incidence graph (a coloured, undirected graph) of the given 
+#! bend polygonal complex. The local incidence
+#! graph is defined as follows:
+#! <List>
+#!   <Item>The <E>vertices</E> are the local vertices (colour 0), local edges 
+#!     (colour 1) and 
+#!     half-edges (colour 2) of <A>complex</A>. The labels are shifted in the
+#!     following way:
+#! @InsertChunk Graphs_LabelShiftLocal
+#!     </Item>
+#!   <Item>The <E>edges</E> are pairs of vertices such that the same local
+#!     flag is incident to both elements of the pair (excluding loops).
+#!     </Item>
+#! </List>
+#!
+#! The returned graph can be given in three different formats, corresponding
+#! to different graph packages: 
+#! @InsertChunk Graphs_Packages
+#!
+#! TODO example
+#!
+#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Arguments complex
+DeclareAttribute( "LocalIncidenceDigraphsGraph", IsBendPolygonalComplex );
+#! @Returns a graph as defined in the package <K>GRAPE</K>
+#! @Arguments complex
+DeclareAttribute( "LocalIncidenceGrapeGraph", IsBendPolygonalComplex );
+#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
+#! @Arguments complex
+DeclareAttribute( "LocalIncidenceNautyGraph", IsBendPolygonalComplex );
+#! @EndGroup
+
+
 #! @Section Isomorphism testing
 #! @SectionLabel Graphs_Isomorphism
 #!
-#! Since all polygonal structures (from polygonal complexes to simplicial 
-#! surfaces) from chapter <Ref Chap="PolygonalStructures"/> are completely
-#! described by their incidence structure, the isomorphism problem for
-#! those reduces to the graph isomorphism problem.
+#! The structures from chapter <Ref Chap="PolygonalStructures"/> (polygonal
+#! complex and bend polygonal complexes) can be described by some kind
+#! of incidence structure (compare sections 
+#! <Ref Sect="Section_Graphs_Incidence"/> and
+#! <Ref Sect="Section_Graphs_LocalIncidence"/>). Since these can
+#! be modelled as graphs, the isomorphism problem for (bend) polygonal 
+#! complexes reduces to the graph isomorphism problem.
 #!
 #! The graph isomorphism problem is solved by <K>Nauty/Bliss</K>, depending
 #! on the available packages. As long as one of the graph packages of &GAP;
@@ -135,33 +220,46 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! are 
 #! @InsertChunk Graphs_Packages 
 
-#! @BeginGroup IsIsomorphicPolygonalComplex
+
+#! @BeginGroup IsIsomorphic
 #! @Description
-#! Return whether the given polygonal complexes are isomorphic. They are
-#! isomorphic if their incidence graphs (compare 
-#! <Ref Subsect="Section_Graphs_Incidence"/>) are isomorphic.
+#! Return whether the given VEF-complexes are isomorphic. Here we have
+#! several cases to consider:
+#! * Two polygonal complexes are isomorphic if and only if their incidence
+#!   graphs (compare 
+#!   <Ref Subsect="Section_Graphs_Incidence"/>) are isomorphic.
+#! * Two bend polygonal complexes are isomorphic if and only if their
+#!   local incidence graphs (compare 
+#!   <Ref Subsect="Section_Graphs_LocalIncidence"/>) are isomorphic.
+#! * A polygonal complex is isomorphic to a bend polygonal complex, if and
+#!   only if the bend polygonal complex can be defined as a polygonal complex
+#!   and is isomorphic to the other polygonal complex.
+#!
+#! The isomorphism check needs the package <K>NautyTracesInterface</K> or
+#! <K>Digraphs</K> to work.
 #!
 #! @ExampleSession
-#! gap> IsIsomorphicPolygonalComplex( Cube(), Octahedron() );
+#! gap> IsIsomorphic( Cube(), Octahedron() );
 #! false
 #! @EndExampleSession
 #!
 #! @Returns <K>true</K> or <K>false</K>
 #! @Arguments complex1, complex2
-DeclareOperation( "IsIsomorphicPolygonalComplex", 
-    [IsPolygonalComplex, IsPolygonalComplex] );
+DeclareOperation( "IsIsomorphic", 
+    [IsVEFComplex, IsVEFComplex] );
 #! @EndGroup
 
+
 #! @Description
-#! The method <K>PolygonalComplexIsomorphismRepresentatives</K> takes a list of polygonal
-#! complexes and returns a reduced list in which no two entries are 
+#! The method <K>IsomorphismRepresentatives</K> takes a list of VEF-complexes 
+#! and returns a reduced list in which no two entries are 
 #! isomorphic.
 #!
 #! @BeginExampleSession
 #! gap> complexList := [ Cube(), JanusHead(), Cube(), Cube() ];;
 #! gap> Size(complexList);
 #! 4
-#! gap> repList := PolygonalComplexIsomorphismRepresentatives(complexList);;
+#! gap> repList := IsomorphismRepresentatives(complexList);;
 #! gap> Size(repList);
 #! 2
 #! gap> Cube() in repList;
@@ -170,9 +268,9 @@ DeclareOperation( "IsIsomorphicPolygonalComplex",
 #! true
 #! @EndExampleSession
 #!
-#! @Returns a list of polygonal complexes
+#! @Returns a list of VEF-complexes
 #! @Arguments complexList
-DeclareOperation( "PolygonalComplexIsomorphismRepresentatives", [IsList] );
+DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 
 #! In many cases it is enough to know whether two polygonal complexes are
 #! isomorphic. In some cases it is useful to know the concrete isomorphism
@@ -180,8 +278,8 @@ DeclareOperation( "PolygonalComplexIsomorphismRepresentatives", [IsList] );
 #! TODO can something be done about this? Currently the returned isomorphism does not match the labels (and group actions are hard to define);
 
 
-#! @Section Automorphism group
-#! @SectionLabel Graphs_Automorphisms
+#! @Section Automorphism groups of polygonal complexes
+#! @SectionLabel Graphs_Automorphisms_Polygonal
 #!
 #! This section explains how to compute automorphism groups of polygonal
 #! complexes. Since the incidence graph is necessary for the computation,
@@ -292,10 +390,10 @@ DeclareOperation( "PolygonalComplexIsomorphismRepresentatives", [IsList] );
 #! @BeginGroup AutomorphismGroup
 #! @Description
 #! Compute the automorphism group of the polygonal complex <A>complex</A> as
-#! a permutation group on vertices, edges and faces of <A>complex</A>. For an 
+#! a permutation group on the vertices, edges and faces of <A>complex</A>. For an 
 #! introduction into the usage and conventions of automorphism groups in
 #! the <K>SimplicialSurface</K>-package, compare the start of section
-#! <Ref Sect="Section_Graphs_Automorphisms"/>.
+#! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
 #! 
 #! As vertices, edges and faces can be denoted by the same numbers in 
 #! <A>complex</A>, they have to be distinguished for the description of
@@ -369,7 +467,7 @@ DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
 #! the given permutation is not an automorphism) <K>fail</K> is returned.
 #!
 #! An explanation for the necessity of this method is given in section
-#! <Ref Sect="Section_Graphs_Automorphisms"/>.
+#! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
 #!
 #! We illustrate this on the example of a tetrahedron.
 #! <Alt Only="TikZ">
@@ -476,6 +574,46 @@ DeclareAttribute( "AutomorphismGroupOnFaces", IsPolygonalComplex );
 DeclareProperty( "IsAutomorphismDefinedByFaces", IsPolygonalComplex );
 #! @EndGroup
 
+#TODO AutomorphismGroupOnFlags
+
+
+#! @Section Automorphism groups of bend polygonal complexes
+#! @SectionLabel Graphs_Automorphisms_Bend
+#!
+#! Section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> was concerned
+#! with the automorphism groups of polygonal complexes.
+#! For the automorphism group of bend polygonal complexes similar concerns
+#! arise. Since a bend polygonal complex is not uniquely defined by its
+#! vertices, edges, and faces, its automorphisms won't be as well.
+#! Therefore the automorphisms are given as permutations of the 
+#! <E>local flags</E>.
+#!
+#! 
+
+#! @BeginGroup
+#! @Description
+#! Return the automorphism group of the given bend polygonal complex.
+#! This automorphism group is given as a permutation in the local flags
+#! of <A>bendComplex</A>.
+#!
+#! @ExampleSession
+#! gap> bendTet := BendPolygonalComplex( Tetrahedron() );;
+#! gap> aut := AutomorphismGroup(bendTet);;
+#! gap> Size(aut);
+#! 24
+#! gap> aut = AutomorphismGroupOnLocalFlags(bendTet);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a permutation group
+#! @Arguments bendComplex
+DeclareAttribute("AutomorphismGroup", IsBendPolygonalComplex);
+#! @Arguments bendComplex
+DeclareAttribute("AutomorphismGroupOnLocalFlags", IsBendPolygonalComplex);
+#! @EndGroup
+
+#TODO AutomorphismGroupOn* for the others
+
 
 #! @Section Which graph package should be used?
 #! @SectionLabel Graphs_Discussion
@@ -510,6 +648,9 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsPolygonalComplex );
 #!   If the installation is working though, it is recommended to use 
 #!   <K>Digraphs</K> instead of <K>GRAPE</K>.</Item>
 #! </List>
+
+
+
 
 #! @Section Other graphs
 #! @SectionLabel Graphs_Others

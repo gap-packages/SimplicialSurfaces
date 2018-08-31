@@ -56,7 +56,7 @@ InstallMethod( VertexFaceFlags, "for a polygonal complex", [IsPolygonalComplex],
         local flags, v, f;
         
         flags := [];
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             for f in FacesOfVertices(complex)[v] do
                 Add(flags,[v,f]);
             od;
@@ -102,7 +102,7 @@ InstallMethod( OneFlags, "for a polygonal complex", [IsPolygonalComplex],
         local flags;
 
         flags := [];
-        Append(flags, List(VerticesAttributeOfPolygonalComplex(complex), v -> [0,v]));
+        Append(flags, List(VerticesAttributeOfVEFComplex(complex), v -> [0,v]));
         Append(flags, List(Edges(complex), e -> [1,e]));
         Append(flags, List(Faces(complex), f -> [2,f]));
 
@@ -122,8 +122,9 @@ InstallMethod( OneFlags, "for a polygonal complex", [IsPolygonalComplex],
 ##
 ##      Dress involutions
 ##
-InstallMethod( DressInvolutions, "for a ramified polygonal surface", 
-    [IsRamifiedPolygonalSurface],
+InstallMethod( DressInvolutions, 
+    "for a polygonal complex without edge ramifications", 
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function(complex)
         local inv, flags, i, vPerm, ePerm, fPerm, fl;
 
@@ -151,8 +152,8 @@ InstallMethod( DressInvolutions, "for a ramified polygonal surface",
     end
 );
 
-InstallMethod( DressGroup, "for a ramified polygonal surface",
-    [IsRamifiedPolygonalSurface],
+InstallMethod( DressGroup, "for a VEF-complex without edge ramifications",
+    [IsVEFComplex and IsNotEdgeRamified],
     function(complex)
         return Group( DressInvolutions(complex) );
     end
@@ -171,18 +172,11 @@ InstallMethod( DressGroup, "for a ramified polygonal surface",
 DeclareRepresentation("FlagComplexRep", IsFlagComplex and IsAttributeStoringRep, []);
 BindGlobal("FlagComplexType", NewType(EdgeColouredPolygonalComplexFamily, FlagComplexRep));
 
-InstallMethod( IsRamifiedFlagSurface, 
-    "for an edge coloured polygonal complex",
-    [IsFlagComplex],
-    function(colComp)
-        return IsEdgeColouredRamifiedPolygonalSurface(colComp) and IsFlagComplex(colComp);
-    end
-);
 InstallMethod( IsFlagSurface, 
     "for an edge coloured polygonal complex",
     [IsFlagComplex],
     function(colComp)
-        return IsEdgeColouredPolygonalSurface(colComp) and IsFlagComplex(colComp);
+        return IsEdgeColouredPolygonalComplex(colComp) and IsNotEdgeRamified(colComp) and IsNotVertexRamified(colComp) and IsFlagComplex(colComp);
     end
 );
 
@@ -256,14 +250,6 @@ InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
     end
 );
 
-InstallMethod( RamifiedFlagSurface,
-    "for a ramified polygonal surface", [IsRamifiedPolygonalSurface],
-    function(ramSurf)
-        return FlagComplex(ramSurf);
-    end
-);
-RedispatchOnCondition( RamifiedFlagSurface, true, [IsPolygonalComplex],
-    [IsRamifiedPolygonalSurface], 0);
 InstallMethod( FlagSurface,
     "for a polygonal surface", [IsPolygonalSurface],
     function(surf)
@@ -280,14 +266,6 @@ RedispatchOnCondition( FlagSurface, true, [IsPolygonalComplex],
 RedispatchOnCondition( OriginalComplex, true, 
     [IsEdgeColouredPolygonalComplex], [IsFlagComplex], 0 );
 
-InstallMethod( OriginalRamifiedSurface, "for a ramified flag surface", 
-    [IsRamifiedFlagSurface],
-    function(flagComp)
-        return OriginalComplex(flagComp);
-    end
-);
-RedispatchOnCondition( OriginalRamifiedSurface, true, [IsFlagComplex],
-    [IsRamifiedFlagSurface], 0);
 InstallMethod( OriginalSurface, "for a flag surface", 
     [IsFlagSurface],
     function(flagComp)
@@ -356,8 +334,8 @@ RedispatchOnCondition(IsomorphicFlagSurface, true, [IsEdgeColouredPolygonalCompl
 
 
 InstallOtherMethod( DrawSurfaceToTikz, 
-    "for a ramified flag surface, a file name and a print record",
-    [IsRamifiedFlagSurface, IsString, IsRecord],
+    "for a flag complex without edge ramifications, a file name and a print record",
+    [IsFlagComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(flagSurf, file, printRecord)
         local complex, faceSizes, twoFlag, n, e;
 
@@ -397,7 +375,7 @@ InstallOtherMethod( DrawSurfaceToTikz,
     end
 );
 RedispatchOnCondition( DrawSurfaceToTikz, true, 
-    [IsFlagComplex, IsString, IsRecord], [IsRamifiedFlagSurface], 0 );
+    [IsFlagComplex, IsString, IsRecord], [IsNotEdgeRamified], 0 );
 
 ##
 ##      End of flag complexes

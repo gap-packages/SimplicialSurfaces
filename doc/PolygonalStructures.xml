@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- TODO insert stuff about VEFComplex and BendPolygonalComplex -->
+
 <!-- This chapter is technical but very important for the rest of the package.
      Especially the definition of polygonal complex is essential (since most
      operations refer to it in one way or another). Therefore it has to explained
@@ -7,13 +9,30 @@
      Since we don't want to bore readers, we aim for an engagingly written
      chapter with many pictures to easily visualize what is going on. -->
 <Chapter Label="PolygonalStructures"><Heading>Polygonal Structures</Heading>
-    In this chapter we present the general structures that we consider in
-    the <K>SimplicialSurfaces</K>-package. These are mainly surfaces, but
-    in the context of folding more general structures arise naturally.
-    The most general 
-    structure that we consider in this package is a polygonal complex (a 
-    generalisation of simplicial surfaces and complexes).
+    This chapter presents the different ways in which surfaces are used
+    in the <K>SimplicialSurfaces</K>-package. More accurately, it presents 
+    structures
+    that are build from polygons (note that these can be much more general
+    than simplicial surfaces).
     <Par/>
+    These structures are described as <K>VEFComplex</K>es.
+    To model these structures there are two main options:
+    <Enum>
+        <Item>Description by incidence geometry. This leads to the concept
+            of <K>PolygonalComplex</K> 
+            (section <Ref Sect="PolygonalStructures_complex"/>). The 
+            requirements for these
+            to be surfaces are explained in section
+            <Ref Sect="PolygonalStructures_surface"/>.</Item>
+        <Item>If incidence geometry is not sufficient to describe a polygonal
+            structure, additional information (a barycentric subdivision of 
+            the faces) can be
+            used. This leads to the concept of <K>BendPolygonalComplex</K>
+            (section <Ref Sect="PolygonalStructures_bend"/>). 
+            The weaker properties of the incidence geometry are
+            explained in section <Ref Sect="PolygonalStructures_bendIncidence"/>.
+            </Item>
+    </Enum>
     <E>Polygonal Complexes</E> are structures that are build from polygons, 
     like shown in the following figure (for the precise definition, see
     section <Ref Sect="PolygonalStructures_complex"/>).
@@ -23,90 +42,13 @@
     Surfaces are a special case of polygonal complexes and the package 
     provides functionality to determine whether a polygonal complex is
     a surface.
-    For technical reasons we further consider an intermediate generalization
-    of surfaces, the ramified polygonal surfaces (that will be defined in
-    section <Ref Sect="PolygonalStructures_ramified"/>).
-    <Par/>
-    In many cases the definitions and algorithms simplify if we only consider
-    triangles instead of general polygons. For this reason we also have equivalents
-    of these structures that are only build from triangles. We can summarize
-    the relationships graphically (higher means more general):
-    <!-- This is one of the few exceptions to our rule of not explaining the
-         manual structure explicitly. At this point our interests are two-fold:
-         1) We want to give more experienced readers a quick answer to 
-            questions of the form "Which of these concepts is more general?" or 
-            "What was the intermediate form called?"
-         2) We don't want to burden new readers with the whole information
-            complex immediately.
-         These interests are standing in obvious conflict. Our method of 
-         resolution is to explain a simplified model of the polygonal 
-         hierarchy. Together with this simplification the diagram can be read
-         in context and becomes easier to process.
-
-         At the same time the hierarchy is a natural structure for this chapter
-         since PolygonalSurfaces rely on both the steps from PolygonalComplexes
-         and from RamifiedPolygonalSurfaces. Since the hierarchy had to be
-         explained anyway, this explanation does not count heavily against our
-         rule. -->
-    <Alt Only="TikZ">
-        \begin{tikzpicture}[
-            % Define the hyperlink structure. This code was adapted from
-            % https://tex.stackexchange.com/questions/36109/making-tikz-nodes-hyperlinkable
-            hyperlink node/.style={
-                alias=sourcenode,
-                append after command={
-                    let \p1 = (sourcenode.north west),
-                        \p2=(sourcenode.south east),
-                        \n1={\x2-\x1},
-                        \n2={\y1-\y2} in
-                    node [inner sep=0pt, outer sep=0pt,anchor=north west,at=(\p1)] 
-                        {\hyperref[#1]{\XeTeXLinkBox{\phantom{\rule{\n1}{\n2}}}}}
-                    %xelatex needs \XeTeXLinkBox, won't create a link unless it
-                    %finds text --- rules don't work without \XeTeXLinkBox.
-                    %Still builds correctly with pdflatex and lualatex
-                }
-            },
-            % The style for the boxes
-            box/.style={
-                rectangle,          % The shape
-                inner sep=2ex,      % The size
-                draw=black,         % The boundary
-                minimum width=5cm   % The minimal width (to make all nodes equal)
-            }
-        ]
-            % Make hyperlink locally invisible
-            \hypersetup{hidelinks}
-
-            % Define the nodes
-            \node (PC) [box, hyperlink node=PolygonalStructures_complex] 
-                    {\textbf{Polygonal Complex}};
-            \node (TC) [box, right=of PC, xshift=2cm, yshift=-1cm,
-                hyperlink node=PolygonalStructures_complex] {Triangular Complex};
-	
-            \node (RPS) [box, below=of PC, hyperlink node=PolygonalStructures_ramified] 
-                    {\textit{Ramified Polygonal Surface}};
-            \node (RSS) [box, below=of TC, hyperlink node=PolygonalStructures_ramified] 
-                    {\textit{Ramified Simplicial Surface}};
-	
-            \node (PS) [box, below=of RPS, hyperlink node=PolygonalStructures_surface] 
-                    {Polygonal Surface};
-            \node (SS) [box, below=of RSS, hyperlink node=PolygonalStructures_surface] 
-                    {\textbf{Simplicial Surface}};
-	
-	    \draw (PC.east) -- (TC.west);
-	    \draw (RPS.east) -- (RSS.west);
-	    \draw (PS.east) -- (SS.west);
-	
-	    \draw (PC) -- (RPS) -- (PS);
-	    \draw (TC) -- (RSS) -- (SS);
-        \end{tikzpicture}
-    </Alt>
-    <!-- TODO this is broken since the pictures are compiled indiviually - how to fix?-->
-    <!-- TODO this only works in LaTeX - how are the references done in HTML in comparison? -->
-    <!-- TODO this can be done in Text as well-->
+    <!-- There is no example of a bend polygonal complex here as it seems
+         not necessary to burden the reader with it. If someone needs a
+         more general structure, we have told him before where he might find
+         it. For all others it would be a needless distraction. -->
 
     <Section Label="PolygonalStructures_complex">
-        <Heading>Polygonal and Triangular Complexes</Heading>
+        <Heading>Polygonal Complexes (pure incidence geometry)</Heading>
         A polygonal complex is defined by a two-dimensional incidence geometry
         that fulfills some regularity conditions (the complete definition will
         be given at the end of this section in definition 
@@ -119,7 +61,7 @@
         </Alt>
         In a two-dimensional incidence geometry we have a set <M>V</M> of
         vertices, a set <M>E</M> of edges and a set <M>F</M> of faces. If we label
-        our picture like this,
+        our surface like this,
         <!-- The choice to make the labelling disjoint and non-consecutive is
              deliberate: It shows that the labelling may contain holes and it
              makes it easier to distinguish between vertices and edges.
@@ -139,14 +81,15 @@
         <Par/>
         <M>F = \{I, IV\}</M>.
         <Par/>
-        These sets can't encode the surface on their own. We also need the 
-        relations between vertices, edges and faces. For that we define a 
+        These sets can't encode the surface on their own. The 
+        relations between vertices, edges, and faces are also necessary. 
+        Therefore we define a 
         transitive relation in the union of <M>V \times E</M>, 
-        <M>V \times F</M> and <M>E \times F</M>, where <M>(a,b)</M> is in the 
+        <M>V \times F</M>, and <M>E \times F</M>, where <M>(a,b)</M> is in the 
         relation if and only if <M>a</M> is incident to <M>b</M>.
         Since the relation is transitive, it is sufficient to specify the 
         tuples in <M>V \times E</M> and <M>E \times F</M>. In our example the 
-        relation would be generated by
+        relation is generated by
         <Par/>
         <M>\{ (2,6), (2,8), (3,8), (3,9), (3,12), (5,6), (5,9), (5,10), (7,12), 
             (7,13), (11,10), (11,13)\}</M>
@@ -200,7 +143,7 @@
         We will solve this problem by imposing a cyclic ordering on the
         vertices and edges that are incident to each face, such that those
         are compatible with the incidence structure. Since this definition
-        is equally valid for all possible faces (not just triangles), we
+        is equally valid for all polygons (not just triangles), we
         formally define:
         <Par/>
 
@@ -215,7 +158,7 @@
             }
         </Alt>
 
-        With these conditions we have guaranteed that our edges and faces
+        With these conditions we have guaranteed that all edges and faces
         behave as in our previous example. But they still allow the possibility
         of an incidence relation where we have vertices but no faces. Since
         we want to exclude singular cases like this from our considerations, we
@@ -224,7 +167,7 @@
         <Par/>
 
         <Subsection Label="Def_PolygonalComplex">
-            <Heading>Definition (polygonal complex and triangular complex)</Heading>
+            <Heading>Definition (polygonal complex)</Heading>
             <#Include Label="PolygonalComplex_Definition">
         </Subsection>
 
@@ -238,7 +181,7 @@
 
 
         <ManSection>
-            <Filt Name="IsPolygonalComplex" Arg="object" Type="category"
+            <Prop Name="IsPolygonalComplex" Arg="object" Label="for IsObject"
                 Comm="Checks whether the given object is a polygonal complex"/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
@@ -258,119 +201,117 @@
             </Description>
         </ManSection>
 
-        <ManSection>
-            <Prop Name="IsTriangularComplex" Arg="object"
-                Comm="Checks whether the given object is a triangular complex"/>
-            <Returns><K>true</K> or <K>false</K></Returns>
-            <Description>
-                Checks whether <A>object</A> is a triangular complex (a 
-                polygonal complex with triangular faces). A triangular complex
-                can be informally described as a structure that is constructed
-                from triangles.
-                <Par/>
-                More formally (for a more extensive explanation see section
-                <Ref Sect="PolygonalStructures_complex"/>) a triangular complex
-                is a two-dimensional incidence geometry of vertices, edges and
-                faces such that the following conditions hold:
-                <Enum>
-                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
-                    <Item><#Include Label="TriangularComplex_Face_simple"></Item>
-                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
-                </Enum>
-            </Description>
-        </ManSection>
 
     </Section>
+<!-- TODO maybe talk about how to access this information with a link to the appropriate chapter? -->
 
-    <Section Label="PolygonalStructures_ramified">
-        <Heading>Ramified polygonal and simplicial surfaces</Heading>
-        Ramified polygonal (simplicial) surfaces are an intermediate concept
-        between polygonal (triangular) complexes 
-        (<Ref Sect="PolygonalStructures_complex"/>) and polygonal (simplicial)
-        surfaces (<Ref Sect="PolygonalStructures_surface"/>).
-        <Par/>
-        A <E>ramified polygonal surface</E> is a polygonal complex where every
-        edge is incident to at most two faces. If every face is a triangle, we
-        call it a <E>ramified simplicial surface</E>.
-        <Par/>
-        The stereotypical polygonal complex that is <E>not</E> a ramified
-        polygonal surface consists of three triangles that share a common edge.
+    <Section Label="PolygonalStructures_bend">
+        <Heading>Bend polygonal complexes and surfaces</Heading>
+        A bend polygonal complex consists of a set of polygons whose vertices
+        and edges can be arbitrarily identified. In particular a square whose
+        opposite edges are identified (so it becomes a topological torus) can
+        be described by a bend polygonal complex (but not by a polygonal 
+        complex).
         <Alt Only="TikZ">
-            \begin{tikzpicture}[scale=2, vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-                \input{Image_ThreeBranchingTriangles.tex}
+            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+                \def\off{0.3}
+                \def\len{2.2}
+
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (\len,0);
+                \coordinate (D) at (0,\len);
+                \coordinate (C) at ($(B)+(D)$);
+
+                \draw[edge,face] (A) -- (B) -- (C) -- (D) -- cycle;
+
+                \foreach \p/\r in {A/left, B/right, C/right, D/left}{
+                    \vertexLabelR{\p}{\r}{}
+                }
+
+                \draw[blue,thick,->] ($(A)+(-\off,0)$) -- ($(D)+(-\off,0)$);
+                \draw[blue,thick,->] ($(B)+(\off,0)$) -- ($(C)+(\off,0)$);
+                \draw[red,thick,->] ($(A)+(0,-\off)$) -- ($(B)+(0,-\off)$);
+                \draw[red,thick,->] ($(D)+(0,\off)$) -- ($(C)+(0,\off)$);
             \end{tikzpicture}
         </Alt>
+        This is achieved by storing additional information:
+        <Enum>
+            <Item><E>Local vertices</E>: For every polygon there is
+                a local vertex for each corner (or angle).</Item>
+            <Item><E>Local edges</E>: For every polygon there is a 
+                local edge for each side. </Item>
+            <Item><E>Half-edges</E>: A tuple of a vertex and an edge
+                (incident to each other).</Item>
+            <Item><E>Local flags</E>: A triple of a local vertex, a
+                local edge and a face, all of them incident.</Item>
+        </Enum>
 
-        A stereotypical example of a ramified polygonal surface would be two 
-        tetrahedrons that have one vertex in common.
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-                \input{Image_TwoJoinedTetrahedrons.tex}
-            \end{tikzpicture}
-        </Alt>
-
-        Although these structures are not true surfaces, in many applications 
-        they behave very similar (for example for questions of orientability).
-        <!-- TODO link to orientability chapter or give better example with link-->
- 
+        TODO explain, motivate, define bend polygonal complexes
         <ManSection>
-            <Prop Name="IsRamifiedPolygonalSurface" Arg="object" 
-                Comm="Checks whether the given object is a ramified polygonal surface."/>
+            <Prop Name="IsBendPolygonalComplex" Arg="object" 
+                Label="for IsObject"
+                Comm="Checks whether the given object is a bend polygonal complex"/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
-                Checks whether <A>object</A> is a ramified polygonal surface (a
-                polygonal complex where every edge is incident to at most two faces).
-                <Par/>
-                More formally (for a more extensive explanation see sections
-                <Ref Sect="PolygonalStructures_complex"/> and
-                <Ref Sect="PolygonalStructures_ramified"/>) a ramified polygonal
-                surface is a two-dimensional incidence geometry of vertices, edges and 
-                faces such that the following conditions hold:
-                <Enum>
-                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
-                    <Item><#Include Label="PolygonalComplex_Face_simple"></Item>
-                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
-                    <Item>Every edge is incident to at most two faces.</Item>
-                </Enum>
+                Checks whether <A>object</A> is a bend polygonal complex.
+                
+                TODO
             </Description>
         </ManSection>
 
-        <ManSection>
-            <Prop Name="IsRamifiedSimplicialSurface" Arg="object"
-                Comm="Checks whether the given object is a ramified simplicial surface"/>
-            <Returns><K>true</K> or <K>false</K></Returns>
-            <Description>
-                Checks whether <A>object</A> is a ramified simplicial surface (a 
-                polygonal complex with triangular faces where every edge is incident
-                to at most two faces).
-                <Par/>
-                More formally (for a more extensive explanation see sections
-                <Ref Sect="PolygonalStructures_complex"/> and
-                <Ref Sect="PolygonalStructures_ramified"/>) a ramified simplicial surface
-                is a two-dimensional incidence geometry of vertices, edges and
-                faces such that the following conditions hold:
-                <Enum>
-                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
-                    <Item><#Include Label="TriangularComplex_Face_simple"></Item>
-                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
-                    <Item>Every edge is incident to at most two faces.</Item>
-                </Enum>
-            </Description>
-        </ManSection>
+
+        TODO explain how to work with it
     </Section>
 
+    <Section Label="PolygonalStructures_bendIncidence">
+        <Heading>Incidence geometry of bend polygonal complexes</Heading>
+        In bend polygonal complexes (section 
+        <Ref Sect="PolygonalStructures_bend"/>) the incidence geometry is 
+        not as 
+        constrained as in polygonal complexes (section
+        <Ref Sect="PolygonalStructures_complex"/>).
+
+        We denote this more liberal incidence geometry by 
+        <E>VEF-complex</E> (VEF stands for vertex-edge-face).
+        <Subsection Label="Def_VEFComplex">
+            <Heading>Definition (VEF-complex)</Heading>
+            A <E>VEF-complex</E> is a two-dimensional incidence geometry
+            consisting of vertices, edges, and faces such that the
+            following conditions hold:
+            <#Include Label="VEFComplex_Properties"/>
+        </Subsection>
+            
+        <ManSection>
+            <Filt Name="IsVEFComplex" Arg="object" Type="category"
+                Comm="Checks whether the given object is a VEF-complex."/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether <A>object</A> is a VEF-complex. A 
+                <E>VEF-complex</E>
+                is a two-dimensional incidence geometry of vertices, edges, and
+                faces such that the following conditions hold:
+                <#Include Label="VEFComplex_Properties"/>
+            </Description>
+        </ManSection>
+
+       
+
+        <!-- TODO intuition, more information? -->
+    </Section>
 
     <Section Label="PolygonalStructures_surface">
         <Heading>Polygonal and simplicial surfaces</Heading>
-        Polygonal (simplicial) surfaces are polygonal (triangular) complexes
+        Polygonal surfaces are polygonal complexes (compare section 
+        <Ref Sect="PolygonalStructures_complex"/>)
         that behave like surfaces (two-dimensional manifolds with boundary). 
         For example, they arise from the discretisation of a continuous 
-        surface.
+        surface. Simplicial surfaces are polygonal surfaces, where all
+        polygons are triangles.
         <Par/>
-        There are two properties that distinguish polygonal/simplicial surfaces
-        from polygonal/triangular complexes:
+        There are two properties that distinguish polygonal surfaces
+        from polygonal complexes:
         <Enum>
-            <Item> Every edge behaves "like a surface", i.e. it is incident to
+            <Item> There are no ramified edges, i.e. every edge is incident to
                 at most two faces. This excludes cases like three triangles
                 that share one edge.
                 <Alt Only="TikZ">
@@ -379,18 +320,33 @@
                     \end{tikzpicture}
                 </Alt>
             </Item>
-            <Item> Every vertex behaves "like a surface". We will formalize this
+            <Item> There are no ramified vertices. We will formalize this
                 below but the aim of this condition is to exclude cases like 
-                those:
+                these:
                 <Alt Only="TikZ">
                     \input{Image_RamifiedExamples.tex}
                 </Alt>
             </Item>
         </Enum>
-        If only the first condition is fulfilled, we talk about <E>ramified
-        polygonal/simplicial surfaces</E> 
-        (<Ref Sect="PolygonalStructures_ramified"/>).
+        If only the first condition is fulfilled, we have a <E>polygonal 
+        complex without edge ramifications</E>.
+         <ManSection Label="IsNotEdgeRamified">
+            <Prop Name="IsNotEdgeRamified" Arg="complex" Label="for VEFComplex"
+                Comm="Checks whether the given VEF-complex has no edge ramifications"/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether the VEF-complex <A>complex</A> has no edge
+                ramifications.
+                <P/>
+                If <A>complex</A> is a polygonal complex, this means that
+                every edge is incident to at most two faces.
+                <P/>
+                If <A>complex</A> is a bend polygonal complex, this means that
+                every edge is incident to at most two local edges.
+            </Description>
+        </ManSection>
 
+    
         We now proceed to formalize the second condition. Intuitively we want to
         distinguish between the different coloured faces in these examples:
         <Alt Only="TikZ">
@@ -402,76 +358,91 @@
         They can be distinguished by the fact that faces of the same colour are
         connected by edges that are incident to the given vertex. More formally:
         <Subsection Label="Definition_Umbrella">
-            <Heading>Definition (Umbrella around a vertex)</Heading>
+            <Heading>Definition (Umbrella-path around a vertex)</Heading>
                 <#Include Label="Umbrella_Definition">
                 <Alt Only="Tikz">
                     \input{Image_EdgeFacePath.tex}
                 </Alt>
-            </Subsection>
-            With this definition in mind we can explicate the second property:
-            <List>
-                <Item><#Include Label="PolygonalComplex_Paths"></Item>
-            </List>
-            For a general ramified polygonal surface we can't expect to get
-            exactly one umbrella. In our examples above all incident edges
-            and faces could be represented by two umbrellas.
+        </Subsection>
+        With this definition in mind we can explicate the second property:
+        <List>
+            <Item><#Include Label="PolygonalComplex_Paths"></Item>
+        </List>
+        For generic polygonal complexes without edge ramifications we 
+        can't expect to get
+        exactly one umbrella. In our examples above all incident edges
+        and faces could be represented by two umbrellas.
+        
+        <ManSection>
+            <Prop Name="IsNotVertexRamified" Arg="complex"
+                Comm="Checks whether the given VEF-complex has no vertex ramifications"/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether the VEF-complex <A>complex</A> has no vertex
+                ramifications, i.e. that there is exactly one maximal umbrella
+                for every vertex.
+            </Description>
+        </ManSection>
 
-            In general we can always find a set of umbrella of a vertex
-            such that all edges and faces incident to that vertex lie in exactly
-            one of those umbrellas. This is called the <E>umbrella partition</E>
-            of the vertex (we will talk more about this topic in section
-            <Ref Sect="Section_Access_OrderedVertexAccess"/>).
+
+
+        In general, we can always find a set of umbrella of a vertex
+        such that all edges and faces incident to that vertex lie in exactly
+        one of those umbrellas. This is called the <E>umbrella partition</E>
+        of the vertex (we will talk more about this topic in section
+        <Ref Sect="Section_Access_OrderedVertexAccess"/>).
             
-            <ManSection>
-                <Prop Name="IsPolygonalSurface" Arg="object"
-                    Comm="Checks whether the given object is a polygonal surface."/>
-                <Returns><K>true</K> or <K>false</K></Returns>
-                <Description>
-                    Checks whether <A>object</A> is a polygonal surface. Informally
-                    a polygonal surface is a surface (with boundary) that is build
-                    only from polygons.
-                    <Par/>
-                    More formally (for more details and examples see sections
-                    <Ref Sect="PolygonalStructures_complex"/>,
-                    <Ref Sect="PolygonalStructures_ramified"/> and
-                    <Ref Sect="PolygonalStructures_surface"/>) a polygonal surface
-                    is a two-dimensional incidence geometry of vertices, edges and
-                    faces such that the following conditions hold:
-                    <Enum>
-                        <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
-                        <Item><#Include Label="PolygonalComplex_Face_simple"></Item>
-                        <Item><#Include Label="PolygonalComplex_Incidence"></Item>
-                        <Item><#Include Label="PolygonalComplex_Ramified"></Item>
-                        <Item><#Include Label="PolygonalComplex_Paths"></Item>
-                    </Enum>
-                </Description>
-            </ManSection>
+        <ManSection>
+            <Prop Name="IsPolygonalSurface" Arg="object"
+                Comm="Checks whether the given object is a polygonal surface."/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether <A>object</A> (a polygonal complex) is a 
+                polygonal surface. Informally
+                a polygonal surface is a surface (with boundary) that is build
+                only from polygons.
+                <Par/>
+                More formally (for more details and examples see sections
+                <Ref Sect="PolygonalStructures_complex"/> and
+                <Ref Sect="PolygonalStructures_surface"/>) a polygonal surface
+                is a two-dimensional incidence geometry of vertices, edges, and
+                faces such that the following conditions hold:
+                <Enum>
+                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Face_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
+                    <Item><#Include Label="PolygonalComplex_Ramified"></Item>
+                    <Item><#Include Label="PolygonalComplex_Paths"></Item>
+                </Enum>
+            </Description>
+        </ManSection>
 
-            <ManSection>
-                <Prop Name="IsSimplicialSurface" Arg="object"
-                    Comm="Checks whether the given object is a simplicial surface."/>
-                <Returns><K>true</K> or <K>false</K></Returns>
-                <Description>
-                    Checks whether <A>object</A> is a simplicial surface. 
-                    Informally a simplicial surface is a surface (with boundary)
-                    that is build only from triangles.
-                    <Par/>
-                    More formally (for more details and examples see sections
-                    <Ref Sect="PolygonalStructures_complex"/>,
-                    <Ref Sect="PolygonalStructures_ramified"/> and
-                    <Ref Sect="PolygonalStructures_surface"/>) a simplicial surface
-                    is a two-dimensional incidence geometry of vertices, edges and
-                    faces such that the following conditions hold:
-                    <Enum>
-                        <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
-                        <Item><#Include Label="TriangularComplex_Face_simple"></Item>
-                        <Item><#Include Label="PolygonalComplex_Incidence"></Item>
-                        <Item><#Include Label="PolygonalComplex_Ramified"></Item>
-                        <Item><#Include Label="PolygonalComplex_Paths"></Item>
-                    </Enum>
-                </Description>
-            </ManSection>
+        <ManSection>
+            <Prop Name="IsSimplicialSurface" Arg="object"
+                Comm="Checks whether the given object is a simplicial surface."/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether <A>object</A> (a polygonal complex) is a 
+                simplicial surface. 
+                Informally a simplicial surface is a surface (with boundary)
+                that is build only from triangles.
+                <Par/>
+                More formally (for more details and examples see sections
+                <Ref Sect="PolygonalStructures_complex"/> and
+                <Ref Sect="PolygonalStructures_surface"/>) a simplicial surface
+                is a two-dimensional incidence geometry of vertices, edges, and
+                faces such that the following conditions hold:
+                <Enum>
+                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
+                    <Item><#Include Label="TriangularComplex_Face_simple"></Item>
+                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
+                    <Item><#Include Label="PolygonalComplex_Ramified"></Item>
+                    <Item><#Include Label="PolygonalComplex_Paths"></Item>
+                </Enum>
+            </Description>
+        </ManSection>
 
     </Section>
-                                    
+
+                                   
 </Chapter> 

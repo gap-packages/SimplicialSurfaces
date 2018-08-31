@@ -93,7 +93,7 @@ InstallMethod( ColouredEdgesOfFaces,
 
 InstallMethod( ColourInvolutions,
     "for an edge vari-coloured ramified polygonal surface",
-    [IsEdgeColouredRamifiedPolygonalSurface and IsEdgeVariColouring],
+    [IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsEdgeVariColouring],
     function(rbComp)
         local invs, cols, col, toList, edges, edge, facesOfEdge;
 
@@ -124,7 +124,7 @@ InstallMethod( ColourInvolutions,
 );
     RedispatchOnCondition( ColourInvolutions, true, 
         [IsEdgeColouredPolygonalComplex], 
-        [IsEdgeVariColouring and IsEdgeColouredRamifiedPolygonalSurface], 0 );
+        [IsEdgeVariColouring and IsNotEdgeRamified], 0 );
 
 
 #######################################
@@ -161,12 +161,12 @@ InstallMethod( ColouredUmbrellasOfVertices,
         local umb, colUmb, complex, colUmbs, v;
 
         complex := PolygonalComplex(wildSurf);
-        umb := UmbrellasOfVertices( complex );
+        umb := UmbrellaPathsOfVertices( complex );
         colUmbs := [];
-        for v in VerticesAttributeOfPolygonalComplex(complex) do
+        for v in VerticesAttributeOfVEFComplex(complex) do
             colUmb := Objectify( EdgeColouredEdgeFacePathType, rec() );
             SetPath( colUmb, Path(umb[v]) );
-            SetAssociatedPolygonalComplex( colUmb, complex);
+            SetAssociatedVEFComplex( colUmb, complex);
             SetAssociatedEdgeColouredPolygonalComplex(colUmb, wildSurf);
             colUmbs[v] := colUmb;
         od;
@@ -461,7 +461,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                 # local symmetry defined)
                 # we also assume that the three colours are different (checked
                 # in the extension of the generators)
-                perimeter := PathAsList(PerimetersOfFaces(simpSurf)[face]);
+                perimeter := PathAsList(PerimeterPathsOfFaces(simpSurf)[face]);
                 # Since we have only triangles, PathAsList is a list with 7 entries
                 if not CheckEdgeColour( face, perimeter[2], perimeter[3], perimeter[4] ) then
                     return;
@@ -499,7 +499,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
 
                 lastCol := 6 - colEdgePos[edgePosition[edgeA]] - colEdgePos[edgePosition[edgeB]];
                 # find last edge via edge permutation
-                edgePerm := EdgesAsPerm( PerimetersOfFaces(simpSurf)[face] );
+                edgePerm := EdgesAsPerm( PerimeterPathsOfFaces(simpSurf)[face] );
                 lastEdge := edgeA^edgePerm;
                 if lastEdge = edgeB then
                     lastEdge := edgeB^edgePerm;
@@ -876,7 +876,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup",
             Append( invOfEdges, List(cyc, c -> invList[p]) );
         od;
 
-        edgesOfFaces := __SIMPLICIAL_InvertIncidence(faces, facesOfEdges, [1..Length(facesOfEdges)]);
+        edgesOfFaces := __SIMPLICIAL_InvertIncidence_ManyOfMany(faces, facesOfEdges, [1..Length(facesOfEdges)]);
         vertexNames := Concatenation( List( faces, f -> 
             List( Combinations(edgesOfFaces[f],2), c -> [f,c[1],c[2]] ) ) );
 
@@ -946,7 +946,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 SetFacesOfEdges(obj, facesOfEdges);
                 SetFaces(obj, faces);
                 SetEdgesOfFaces(obj, edgesOfFaces);
-                SetUmbrellasOfVertices(obj, 
+                SetUmbrellaPathsOfVertices(obj, 
                     List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
 
                 # construction of the coloured surface

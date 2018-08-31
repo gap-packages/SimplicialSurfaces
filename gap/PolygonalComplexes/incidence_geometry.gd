@@ -23,7 +23,10 @@
 #! In section <Ref Sect="PolygonalStructures_complex"/> we introduced 
 #! incidence geometries to describe polygonal complexes.
 #! This chapter describes several different ways to access these
-#! incidence structures.
+#! incidence structures. Most of these methods are also valid for
+#! VEF-complexes (so they can be used for bend polygonal complexes). For
+#! mor specific access to bend polygonal complexes, compare
+#! chapter <Ref Chap="Chapter_AccessBendPolygonalComplex"/>.
 #! <P/>
 
 ####
@@ -89,8 +92,9 @@
 #! applications for incidence can be found in section
 #! <Ref Sect="Section_Access_SpecializedAccess"/>.
 #! 
-#! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/> 
-#! and <Ref Sect="Section_Access_OrderedVertexAccess"/>
+#! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/>,
+#! <Ref Sect="Section_Access_OrderedVertexAccess"/>, and
+#! <Ref Sect="Section_Access_OrderedHoleAccess"/>
 #! deal with variations of incidence that are usually not needed by the 
 #! standard user.
 #TODO how to improve this introduction to give more information but
@@ -99,7 +103,7 @@
 #! @Section Labels of vertices, edges and faces
 #! @SectionLabel Access_LabelAccess
 #!
-#! In polygonal complexes (the most general supported incidence structure,
+#! In VEF-complexes (the most general supported incidence structure,
 #! compare chapter <Ref Chap="PolygonalStructures"/>) all vertices, edges
 #! and faces are labelled by positive integers.
 #!
@@ -139,14 +143,14 @@
 #! @EndExampleSession
 #! 
 #! We have separated the operation <K>Vertices</K> from the corresponding
-#! attribute because there is a naming clash with the package grape.
+#! attribute because there is a naming clash with the package <K>grape</K>.
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
-DeclareOperation( "Vertices", [IsPolygonalComplex] );
+DeclareOperation( "Vertices", [IsVEFComplex] );
 #! @Arguments complex
-DeclareAttribute( "VerticesAttributeOfPolygonalComplex", IsPolygonalComplex );
+DeclareAttribute( "VerticesAttributeOfVEFComplex", IsVEFComplex ); #TODO rename? talk with GRAPE?
 #! @Arguments complex
-DeclareAttribute( "NumberOfVertices", IsPolygonalComplex );
+DeclareAttribute( "NumberOfVertices", IsVEFComplex );
 #! @EndGroup
 
 #! @BeginGroup
@@ -167,9 +171,9 @@ DeclareAttribute( "NumberOfVertices", IsPolygonalComplex );
 #
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
-DeclareAttribute( "Edges", IsPolygonalComplex );
+DeclareAttribute( "Edges", IsVEFComplex );
 #! @Arguments complex
-DeclareAttribute( "NumberOfEdges", IsPolygonalComplex );
+DeclareAttribute( "NumberOfEdges", IsVEFComplex );
 #! @EndGroup
 
 #! @BeginGroup
@@ -190,9 +194,9 @@ DeclareAttribute( "NumberOfEdges", IsPolygonalComplex );
 #
 #! @Arguments complex
 #! @Returns A set of positive integers/a non-negative integer
-DeclareAttribute( "Faces", IsPolygonalComplex );
+DeclareAttribute( "Faces", IsVEFComplex );
 #! @Arguments complex
-DeclareAttribute( "NumberOfFaces", IsPolygonalComplex );
+DeclareAttribute( "NumberOfFaces", IsVEFComplex );
 #! @EndGroup
 
 
@@ -305,11 +309,11 @@ DeclareAttribute( "NumberOfFaces", IsPolygonalComplex );
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "EdgesOfVertices", IsPolygonalComplex );
+DeclareAttribute( "EdgesOfVertices", IsVEFComplex );
 #! @Arguments complex, vertex
-DeclareOperation( "EdgesOfVertex", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "EdgesOfVertex", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, vertex
-DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "EdgesOfVertexNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -344,11 +348,11 @@ DeclareOperation( "EdgesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "FacesOfVertices", IsPolygonalComplex );
+DeclareAttribute( "FacesOfVertices", IsVEFComplex );
 #! @Arguments complex, vertex
-DeclareOperation( "FacesOfVertex", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "FacesOfVertex", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, vertex
-DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "FacesOfVertexNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -383,11 +387,11 @@ DeclareOperation( "FacesOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "VerticesOfEdges", IsPolygonalComplex );
+DeclareAttribute( "VerticesOfEdges", IsVEFComplex );
 #! @Arguments complex, edge
-DeclareOperation( "VerticesOfEdge", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "VerticesOfEdge", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, edge
-DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "VerticesOfEdgeNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -421,11 +425,11 @@ DeclareOperation( "VerticesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "FacesOfEdges", IsPolygonalComplex );
+DeclareAttribute( "FacesOfEdges", IsVEFComplex );
 #! @Arguments complex, edge
-DeclareOperation( "FacesOfEdge", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "FacesOfEdge", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, edge
-DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "FacesOfEdgeNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -460,11 +464,11 @@ DeclareOperation( "FacesOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "VerticesOfFaces", IsPolygonalComplex );
+DeclareAttribute( "VerticesOfFaces", IsVEFComplex );
 #! @Arguments complex, face
-DeclareOperation( "VerticesOfFace", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "VerticesOfFace", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, face
-DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "VerticesOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -499,11 +503,11 @@ DeclareOperation( "VerticesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "EdgesOfFaces", IsPolygonalComplex );
+DeclareAttribute( "EdgesOfFaces", IsVEFComplex );
 #! @Arguments complex, face
-DeclareOperation( "EdgesOfFace", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "EdgesOfFace", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, face
-DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
+DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -514,7 +518,7 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! The methods from section <Ref Sect="Section_Access_BasicAccess"/> are
 #! sufficient to answer all questions about the incidence structure of a given
 #! polygonal complex - in principle. In practice this may be quite cumbersome.
-#! Therefore we provide some specialized methods that are used quite often.
+#! Therefore we provide some specialized methods that are often useful.
 #! We will exemplify them with the following example.
 #! 
 #! <Alt Only="TikZ">
@@ -558,16 +562,22 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 
 #! @BeginGroup EdgeInFaceByVertices
 #! @Description
-#! Given a face and a list of two vertices of a polygonal complex, return the 
+#! If the method <K>EdgeInFaceByVertices</K> is given a face and a list of 
+#! two vertices of a VEF-complex, it returns the 
 #! edge that
-#! lies in the given face and is incident to the given vertices.
+#! lies in the given face and is incident to the given vertices, if possible.
 #! 
 #! If there is no such edge (because the given vertices are not incident to
 #! the given face or because they are not connected by an edge of the face),
-#! return <K>fail</K>.
+#! or if there are several of these edges (might happen for bend polygonal
+#! complexes)
+#! it returns <K>fail</K>.
+#!
+#! The method <K>EdgesInFaceByVertices</K> takes the same arguments but
+#! returns the set of all edges fulfilling this specification.
 #! 
-#! The NC-version does not check if <A>face</A> is a face of the given
-#! polygonal complex.
+#! The NC-versions do not check if <A>face</A> is a face of the given
+#! VEF-complex.
 #! 
 #! As an example consider the polygonal complex from the start of section
 #! <Ref Sect="Section_Access_SpecializedAccess"/>:
@@ -587,22 +597,35 @@ DeclareOperation( "EdgesOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! fail
 #! @EndExampleSession
 #!
-#! @Returns a positive integer
+#! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, face, verts
-DeclareOperation("EdgeInFaceByVertices", [IsPolygonalComplex, IsPosInt, IsList]);
+DeclareOperation("EdgeInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
 #! @Arguments complex, face, verts
 DeclareOperation("EdgeInFaceByVerticesNC", 
-        [IsPolygonalComplex, IsPosInt, IsList]);
+        [IsVEFComplex, IsPosInt, IsList]);
+#! @Returns a set of positive integers
+#! @Arguments complex, face, verts
+DeclareOperation("EdgesInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
+#! @Arguments complex, face, verts
+DeclareOperation("EdgesInFaceByVerticesNC", 
+        [IsVEFComplex, IsPosInt, IsList]);
 #! @EndGroup
 
 
 #! @BeginGroup OtherEdgeOfVertexInFace
 #! @Description
-#! If a vertex is incident to a face in a polygonal complex, there are exactly
-#! two edges that are incident to both vertex and face. If one of those is
-#! given to this method, it will return the other one.
+#! If the method <K>OtherEdgeOfVertexInFace</K> is given a vertex, an edge,
+#! and a face of a VEF-complex, it returns the other edge incident to the
+#! vertex and the face, if possible.
+#!
+#! For a bend polygonal complex it might happen that only one or more than 
+#! two edges are
+#! incident to both vertex and face. In this case <K>fail</K> is returned.
 #! 
-#! The NC-version does not check whether the given vertex, edge an face
+#! The method <K>OtherEdgesOfVertexInFace</K> returns the set of all edges
+#! satisfying this restriction.
+#! 
+#! The NC-version does not check whether the given vertex, edge, and face
 #! actually lie in the complex and are incident to each other.
 #! 
 #! As an example consider the polygonal complex that was introduced at the
@@ -620,24 +643,33 @@ DeclareOperation("EdgeInFaceByVerticesNC",
 #! 1
 #! @EndExampleSession
 #!
-#! @Returns a positive integer
+#! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgeOfVertexInFace", 
-        [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgeOfVertexInFaceNC",
-        [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Returns a set of positive integers
+#! @Arguments complex, vertex, edge, face
+DeclareOperation("OtherEdgesOfVertexInFace", 
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertex, edge, face
+DeclareOperation("OtherEdgesOfVertexInFaceNC",
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
 #! @BeginGroup OtherVertexOfEdge
 #! @Description
 #! Every edge in a polygonal complex is incident to exactly two vertices.
-#! Given one of them, this method returns the other one.
+#! Given one of them, this method returns the other one. For a bend 
+#! polygonal complex, an edge might only be incident to one vertex. This
+#! method will return the same vertex if it is given.
 #! 
 #! The NC-version does not check whether the given <A>edge</A> is an edge of 
 #! the
-#! polygonal complex and whether the given <A>vertex</A> is incident to it.
+#! VEF-complex and whether the given <A>vertex</A> is incident to it.
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
@@ -656,20 +688,23 @@ DeclareOperation("OtherEdgeOfVertexInFaceNC",
 #!
 #! @Returns a positive integer
 #! @Arguments complex, vertex, edge
-DeclareOperation("OtherVertexOfEdge", [IsPolygonalComplex, IsPosInt, IsPosInt]);
+DeclareOperation("OtherVertexOfEdge", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge
 DeclareOperation("OtherVertexOfEdgeNC", 
-        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
 
 #! @BeginGroup NeighbourFaceByEdge
 #! @Description
-#! If an edge is incident to exactly two faces and one of those is given,
-#! this method returns the other one.
+#! If the method <K>NeighbourFacesByEdge</K> is given a face and an edge, it
+#! returns the set of all faces that are also incident to this edge. In a
+#! polygonal complex, these have to be different from the given face. In a
+#! bend polygonal complex, this might not be the case.
 #! 
-#! If this method is called for a boundary edge or a branching edge, it 
+#! If the set of these neighbours contains exactly one face, this face
+#! is returned by <K>NeighbourFaceByEdge</K>. Otherwise, this method
 #! returns <K>fail</K>.
 #! 
 #! The NC-version does not check whether the given <A>edge</A> is an edge of
@@ -697,10 +732,17 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFaceByEdge", 
-        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFaceByEdgeNC",
-        [IsPolygonalComplex, IsPosInt, IsPosInt]);
+        [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Returns a set of positive integers
+#! @Arguments complex, face, edge
+DeclareOperation("NeighbourFacesByEdge", 
+        [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, face, edge
+DeclareOperation("NeighbourFacesByEdgeNC",
+        [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
@@ -731,16 +773,18 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! If we want to know in which order the vertices (or edges) are
 #! arranged around the perimeter of the given face, the previous methods 
 #! are quite clumsy. For that reason the method 
-#! <K>PerimeterOfFace</K> was written.
+#! <K>PerimeterPathOfFace</K> was written.
 #! 
 #! @ExampleSession
-#! gap> perim := PerimeterOfFace( pentagon, 2 );
-#! ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 )
+#! gap> perim := PerimeterPathOfFace( pentagon, 2 );
+#! ( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 )
 #! @EndExampleSession
 #!
-#! It returns the perimeter as a vertex-edge-path, not a list (all available
-#! methods for vertex-edge-paths can be found in section 
-#! <Ref Sect="Section_Paths_VertexEdge"/>).
+#! It returns the perimeter of the polygon as a perimeter path (a special
+#! vertex-edge-path), not a list (all available
+#! methods for vertex-edge-paths and perimeter paths can be found in sections
+#! <Ref Sect="Section_Paths_VertexEdge"/> and 
+#! <Ref Sect="Section_Paths_Perimeter"/>).
 #! @BeginExampleSession
 #! gap> IsList(perim);
 #! false
@@ -753,9 +797,9 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! The order of vertices and edges is best described by a cyclic permutation.
 #! @ExampleSession
 #! gap> VerticesAsPerm(perim);
-#! (1,6,2,3,9)
+#! (1,9,3,2,6)
 #! gap> EdgesAsPerm(perim);
-#! (2,4,8,3,6)
+#! (2,6,3,8,4)
 #! @EndExampleSession
 #!
 #! There are two possible cyclic permutations of vertices and edges
@@ -770,33 +814,41 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #! repeated at the end!).
 #! @ExampleSession
 #! gap> VerticesAsList(perim);
-#! [ 1, 6, 2, 3, 9, 1 ]
+#! [ 1, 9, 3, 2, 6, 1 ]
 #! gap> EdgesAsList(perim);
-#! [ 8, 3, 6, 2, 4 ]
+#! [ 4, 2, 6, 3, 8 ]
 #! @EndExampleSession
 #! While the vertex list starts with the smallest vertex, the edge list
 #! will start with an edge incident to the smallest vertex (the other
 #! end is the smaller of the two adjacent vertices).
 
-#! @BeginGroup PerimetersOfFaces
+#! @BeginGroup PerimeterPathsOfFaces
 #! @Description
 #! The operation 
-#! <K>PerimeterOfFaces</K>(<A>complex</A>,<A>face</A>) returns a closed
+#! <K>PerimeterPathOfFace</K>(<A>complex</A>,<A>face</A>) returns a perimeter
+#! path (section <Ref Sect="Section_Paths_Perimeter"/>), i.e. a closed
 #! vertex-edge-path (for the exact definition compare 
 #! <Ref Subsect="VertexEdgePath"/> and 
 #! <Ref Subsect="VertexEdge_IsClosedPath"/>) of
 #! all vertices and edges incident to the given <A>face</A>.
 #!
 #! Since this condition does not define the path uniquely, we further 
-#! stipulate that the smallest vertex is followed by the smallest possible
-#! vertex. If that is not unique (for a face with only two vertices), the
-#! smallest vertex is followed by the smallest possible edge.
+#! stipulate that perimeter path starts with the smallest vertex and continues
+#! with the smallest incident edge. For polygonal complexes, this defines
+#! the path uniquely.
+#!
+#! For a bend polygonal complex, the position of vertices and edges in a
+#! polygon may
+#! not be uniquely defined by their label. If this is not unique, the 
+#! following conventions are in effect: If a vertex is not unique, the 
+#! position of its smallest local vertex is used. If an edge is not unique,
+#! the position of its smallest local edge is used.
 #! 
-#! The attribute <K>PerimetersOfFaces</K>(<A>complex</A>) 
+#! The attribute <K>PerimeterPathsOfFaces</K>(<A>complex</A>) 
 #! collects all of those vertex-edge-paths in a list that is indexed by the face 
 #! labels, i.e. 
-#! <K>PerimetersOfFaces</K>(<A>complex</A>)[<A>face</A>]
-#! = <K>PerimeterOfFace</K>(<A>complex</A>, <A>face</A>). All
+#! <K>PerimeterPathsOfFaces</K>(<A>complex</A>)[<A>face</A>]
+#! = <K>PerimeterPathOfFace</K>(<A>complex</A>, <A>face</A>). All
 #! other positions of this list are not bound.
 #! 
 #! The NC-version does not check if the given <A>face</A> is a face of the
@@ -810,29 +862,29 @@ DeclareOperation("NeighbourFaceByEdgeNC",
 #!   \input{Image_PentagonCyclicOrder.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> perim := PerimeterOfFace(pentagon, 2);
-#! ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 )
+#! gap> perim := PerimeterPathOfFace(pentagon, 2);
+#! ( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 )
 #! gap> PathAsList(perim);
-#! [ 1, 8, 6, 3, 2, 6, 3, 2, 9, 4, 1 ]
+#! [ 1, 4, 9, 2, 3, 6, 2, 3, 6, 8, 1 ]
 #! gap> VerticesAsList(perim);
-#! [ 1, 6, 2, 3, 9, 1 ]
+#! [ 1, 9, 3, 2, 6, 1 ]
 #! gap> EdgesAsList(perim);
-#! [ 8, 3, 6, 2, 4 ]
+#! [ 4, 2, 6, 3, 8 ]
 #! gap> VerticesAsPerm(perim);
-#! (1,6,2,3,9)
+#! (1,9,3,2,6)
 #! gap> EdgesAsPerm(perim);
-#! (2,4,8,3,6)
-#! gap> PerimetersOfFaces(pentagon);
-#! [ , ( v1, E8, v6, E3, v2, E6, v3, E2, v9, E4, v1 ) ]
+#! (2,6,3,8,4)
+#! gap> PerimeterPathsOfFaces(pentagon);
+#! [ , ( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 ) ]
 #! @EndExampleSession
 #! 
 #! @Arguments complex
 #! @Returns a list of vertex-edge-paths
-DeclareAttribute( "PerimetersOfFaces", IsPolygonalComplex );
+DeclareAttribute( "PerimeterPathsOfFaces", IsVEFComplex );
 #! @Arguments complex, face
-DeclareOperation( "PerimeterOfFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "PerimeterPathOfFace", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "PerimeterPathOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -854,7 +906,7 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 ##
 ## Right now, this can't happen since the labels are all different (this is
 ## useful to find the appropriate numbers more effectively - especially if
-## some of the are roman numerals).
+## some of them are roman numerals).
 ##
 #! In section <Ref Sect="Section_Access_BasicAccess"/> the methods 
 #! <K>EdgesOfVertex</K> (<Ref Subsect="EdgesOfVertices"/>) and
@@ -863,12 +915,12 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! allow access to the edges and faces incident to a vertex but they don't
 #! give any information about the relationship between them
 #!
-#!         For polygonal surfaces (that were introduced in section
+#!         For (bend) polygonal surfaces (described in section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
 #!         ordering of the edges and 
 #!         faces that are incident to a vertex. It is achieved by "travelling 
 #!         around the vertex" while staying on the surface. 
-#! This order is called <E>umbrella</E> and we formalize it
+#! This order is called <E>umbrella-path</E> and we formalize it
 #! by <E>edge-face-paths</E> (section <Ref Sect="Section_Paths_EdgeFace"/>
 #! contains the methods to access those paths).
 #!         <Alt Only="TikZ">
@@ -882,20 +934,20 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #!      \input{Image_EdgeFacePath_open.tex}
 #!   \end{tikzpicture}
 #! </Alt>
-#! In the image above we have two umbrellas that contain all edges and
+#! In the image above we have two umbrella-paths that contain all edges and
 #! faces that are incident to the vertex <M>V</M>, namely
 #! <M>(e_1,f_1,e_2,f_2,e_3,f_3,e_4)</M> and 
 #! <M>(e_4,f_3,e_3,f_2,e_2,f_1,e_1)</M>. Both of them encode the same
-#! information. By convention, we will choose the umbrella with the smaller first 
-#! entry
-#! (<M>e_1</M> or <M>e_4</M>) to be <E>the</E> umbrella of <M>V</M>.
+#! information. By convention, we will choose the umbrella-path with the 
+#! smaller first entry
+#! (<M>e_1</M> or <M>e_4</M>) to be <E>the</E> umbrella-path of <M>V</M>.
 #!
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle];
 #!     \input{Image_EdgeFacePath_closed.tex}
 #!   \end{tikzpicture}
 #! </Alt>
-#! In this image we have ten different closed umbrellas that contain all
+#! In this image we have ten different closed umbrella-paths that contain all
 #! edges and faces that are incident to the vertex <M>V</M>, like
 #!  <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4, e_5, f_5, e_1)</M> and 
 #! <M>(e_3, f_2, e_2, f_1, e_1, f_5, e_5, f_4, e_4, f_3, e_3)</M>. Up to cyclic 
@@ -908,40 +960,44 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! minimal, say <M>e_2</M>. This leaves us with the two paths
 #! <M>(e_2,f_2,\ldots)</M> and <M>(e_2,f_1,\ldots)</M>. Of those, we pick the one
 #! with the smallest second entry (<M>f_2</M> or <M>f_1</M>).
-#TODO is this a good convention?
 #! 
     
-#! @BeginGroup UmbrellasOfVertices
+#! @BeginGroup UmbrellaPathsOfVertices
 #! @Description
-#! The method <K>UmbrellaOfVertex</K>(<A>surface</A>,<A>vertex</A>)
-#! returns an umbrella around <A>vertex</A> (as defined in section
+#! The method <K>UmbrellaPathOfVertex</K>(<A>surface</A>,<A>vertex</A>)
+#! returns an umbrella-path around <A>vertex</A> (as defined in section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>) that contains all edges
 #! and faces incident to <A>vertex</A>, with the following 
 #! conventions:
-#! * The first entry of the umbrella is minimal.
-#! * In the case of a closed umbrella, after restricting with the
-#!   first convention, the second entry of the umbrella is minimal.
+#! * The first entry of the umbrella-path is minimal (for bend polygonal
+#!   complexes: if this does not uniquely define a half-edge, the smallest
+#!   of the half-edges within the minimal edge is chosen).
+#! * In the case of a closed umbrella-path, after restricting with the
+#!   first convention, the second entry of the umbrella-path is minimal
+#!   (for bend polygonal complexes: if this is not unique, the face with
+#!   the smaller local edge is chosen).
 #! 
-#! If such an umbrella does not exist (might happen for general
-#! polygonal complexes) or is not unique (might happen for general ramified
-#! polygonal surfaces), <K>fail</K> is returned. To access the contents
-#! of the umbrellas, the methods from section 
+#! If such an umbrella-path does not exist (this might happen if the 
+#! VEF-complex is edge-ramified) or is not unique (this might happen 
+#! if the VEF-complex is vertex-ramified), <K>fail</K> is returned. 
+#! To access the contents
+#! of the umbrella-paths, the methods from section 
 #! <Ref Sect="Section_Paths_EdgeFace"/> can be used.
 #! 
-#! The attribute <K>UmbrellasOfVertices</K>(<A>surface</A>) collects all
-#! of those umbrellas in a list that is indexed by the vertex labels,
-#! i.e. <K>UmbrellasOfVertices</K>(<A>surface</A>)[<A>vertex</A>] = 
-#! <K>UmbrellaOfVertex</K>(<A>surface</A>, <A>vertex</A>). All other 
+#! The attribute <K>UmbrellaPathsOfVertices</K>(<A>surface</A>) collects all
+#! of those umbrella-paths in a list that is indexed by the vertex labels,
+#! i.e. <K>UmbrellaPathsOfVertices</K>(<A>surface</A>)[<A>vertex</A>] = 
+#! <K>UmbrellaPathOfVertex</K>(<A>surface</A>, <A>vertex</A>). All other 
 #! positions of this list are not bound.
 #! 
 #! The NC-version does not check whether the given <A>vertex</A> lies in the
 #! given <A>surface</A>.
 #! 
-#! Since for ramified polygonal surfaces the umbrellas around a vertex
-#! are
-#! not unique, there are the methods from
-#! <Ref Subsect="UmbrellaPartitionsOfVertices"/> that return all of
-#! those umbrellas.
+#! For VEF-complexes with vertex-ramifications the umbrella-paths around
+#! a vertex are
+#! not unique. The methods from
+#! <Ref Subsect="UmbrellaPathPartitionsOfVertices"/> return all of
+#! those umbrella-paths.
 #! 
 #! As example consider the following polygonal surface:
 #! <Alt Only="TikZ">
@@ -973,19 +1029,19 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! gap> surface := PolygonalSurfaceByDownwardIncidence( 
 #! >    [,,,,,,,,,, [1,6],[1,7],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
 #! >    [,[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;
-#! gap> um1 := UmbrellaOfVertex(surface, 1);
+#! gap> um1 := UmbrellaPathOfVertex(surface, 1);
 #! ( e11, F2, e12, F3, e13, F4, e14, F5, e11 )
 #! gap> EdgesAsList(um1);
 #! [ 11, 12, 13, 14, 11 ]
 #! gap> EdgesAsPerm(um1);
 #! (11,12,13,14)
-#! gap> um7 := UmbrellaOfVertex(surface, 7);
+#! gap> um7 := UmbrellaPathOfVertex(surface, 7);
 #! | e15, F2, e12, F3, e16 |
 #! gap> EdgesAsList(um7);
 #! [ 15, 12, 16 ]
 #! gap> FacesAsList(um7);
 #! [ 2, 3 ]
-#! gap> UmbrellasOfVertices(surface);
+#! gap> UmbrellaPathsOfVertices(surface);
 #! [ ( e11, F2, e12, F3, e13, F4, e14, F5, e11 ),,,,, | e15, F2, e11, F5, e19 |, 
 #!      | e15, F2, e12, F3, e16 |, | e16, F3, e17 |, 
 #!      | e17, F3, e13, F4, e18 |, | e18, F4, e14, F5, e19 | ]
@@ -993,81 +1049,86 @@ DeclareOperation( "PerimeterOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! 
 #! @Returns a list of edge-face-paths
 #! @Arguments surface
-DeclareAttribute( "UmbrellasOfVertices", IsPolygonalComplex );
+DeclareAttribute( "UmbrellaPathsOfVertices", IsVEFComplex );
 #! @Returns an edge-face-path
 #! @Arguments surface, vertex
-DeclareOperation( "UmbrellaOfVertex", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "UmbrellaPathOfVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments surface, vertex
-DeclareOperation( "UmbrellaOfVertexNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "UmbrellaPathOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! For ramified polygonal surfaces it might happen that there is no single
-#! umbrella that contains all edges and faces that are incident to one
+#! umbrella-path that contains all edges and faces that are incident to one
 #! vertex.
 #! <Alt Only="TikZ">
 #!   \input{Image_EdgeFacePath_ramified.tex}
 #! </Alt>
-#! But there is a set of umbrellas that <E>partitions</E> the incident
+#! But there is a set of umbrella-paths that <E>partitions</E> the incident
 #! edges and faces (i.e. every incident edge or face appears in exactly one
-#! of the umbrellas). In the above image, the umbrella-partition of
+#! umbrella-path). In the above image, the umbrella-path-partition of
 #! the vertex 1 is
 #! <M>[ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ]</M>.
 
 
-#! @BeginGroup UmbrellaPartitionsOfVertices
+#! @BeginGroup UmbrellaPathPartitionsOfVertices
 #! @Description
 #! The method 
-#! <K>UmbrellaPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>) returns
-#! a set of umbrellas around <A>vertex</A> (as defined in section
+#! <K>UmbrellaPathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>) returns
+#! a set of umbrellas-paths around <A>vertex</A> (as defined in section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>). The edges
-#! and faces incident to <A>vertex</A> are partitioned by these umbrellas
+#! and faces incident to <A>vertex</A> are partitioned by these 
+#! umbrella-paths
 #! (i.e. each of them appears in exactly
-#! one umbrella).
+#! one umbrella-path).
 #! 
 #! The result is determined as follows:
 #! * The partition of edges and faces is unique (reachability by 
-#!   umbrellas around <A>vertex</A>).
+#!   umbrella-paths around <A>vertex</A>).
 #! * Every set in this partition consists of the elements of exactly
-#!   one umbrella. For each set there are several options. We choose
+#!   one umbrella-path. For each set there are several options. We choose
 #!   one of those by this convention:
-#!   * The first entry of the returned umbrella will be as small as
-#!     possible.
-#!   * The second entry of the returned umbrella will be as small as
+#!   * The first entry of the returned umbrella-path will be as small as
+#!     possible (for bend polygonal complexes: if this does not define a
+#!     half-edge uniquely, the smallest of these half-edges will be picked).
+#!   * The second entry of the returned umbrella-path will be as small as
 #!     possible (after having minimized the first entry). This condition is
-#!     non-trivial only for closed umbrellas.
+#!     non-trivial only for closed umbrella-paths (for bend polygonal 
+#!     complexes: if this is not unique, the face with the smaller local 
+#!     edge is chosen).
 #!
-#! If there is no such set of umbrellas (which can happen for general polygonal
-#! complexes), <K>fail</K> is returned instead.
+#! If there is no such set of umbrella-paths (which can happen for 
+#! VEF-complexes with edge-ramifications), <K>fail</K> is returned instead.
 #! 
-#! The attribute <K>UmbrellaPartitionsOfVertices</K>(<A>ramSurf</A>)
+#! The attribute <K>UmbrellaPathPartitionsOfVertices</K>(<A>ramSurf</A>)
 #! collects these partitions in a list (indexed by the vertex
 #! labels), i.e. 
-#! <K>UmbrellaPartitionsOfVertices</K>(<A>ramSurf</A>)[<A>vertex</A>] =
-#! <K>UmbrellaPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>).
+#! <K>UmbrellaPathPartitionsOfVertices</K>(<A>ramSurf</A>)[<A>vertex</A>] =
+#! <K>UmbrellaPathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>).
 #! All other positions of this list are not bound.
 #! 
-#! For a <E>polygonal surface</E>, all partitions will only consist of
+#! For a <E>surface</E>, all partitions will only consist of
 #! one element. In this case, the methods
-#! in <Ref Subsect="UmbrellasOfVertices"/> will only return these unique 
-#! umbrellas.
+#! in <Ref Subsect="UmbrellaPathsOfVertices"/> will only return these unique 
+#! umbrella-paths.
 #! 
 #! The NC-version does not check whether <A>vertex</A> lies in <A>ramSurf</A>.
 #! 
-#! As example consider the following ramified polygonal surface.
+#! As example consider the following polygonal complex with 
+#! vertex-ramifications (but no edge-ramifications).
 #! <Alt Only="TikZ">
 #!   \input{Image_EdgeFacePath_ramified.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> ramSurf := RamifiedPolygonalSurfaceByDownwardIncidence(
+#! gap> ramSurf := PolygonalComplexByDownwardIncidence(
 #! >    [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],
 #! >        [1,8],[1,10],[1,12],[8,10],[10,12] ],
 #! >    [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
-#! gap> UmbrellaPartitionOfVertex(ramSurf, 1);
+#! gap> UmbrellaPathPartitionOfVertex(ramSurf, 1);
 #! [ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ]
-#! gap> UmbrellaPartitionOfVertex(ramSurf, 5);
+#! gap> UmbrellaPathPartitionOfVertex(ramSurf, 5);
 #! [ | e13, F3, e14, F2, e15 | ]
-#! gap> UmbrellaPartitionsOfVertices(ramSurf);
+#! gap> UmbrellaPathPartitionsOfVertices(ramSurf);
 #! [ [ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ],,,,
 #!   [ | e13, F3, e14, F2, e15 | ], [ | e13, F3, e16, F4, e17 | ],
 #!   [ | e15, F2, e18, F4, e17 | ], [ | e19, F9, e22 | ],,
@@ -1076,22 +1137,22 @@ DeclareOperation( "UmbrellaOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! @Returns a list of sets of edge-face-paths
 #! @Arguments ramSurf
-DeclareAttribute( "UmbrellaPartitionsOfVertices", 
-        IsPolygonalComplex );
+DeclareAttribute( "UmbrellaPathPartitionsOfVertices", 
+        IsVEFComplex );
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf, vertex
-DeclareOperation( "UmbrellaPartitionOfVertex",
-        [ IsPolygonalComplex, IsPosInt ]);
+DeclareOperation( "UmbrellaPathPartitionOfVertex",
+        [ IsVEFComplex, IsPosInt ]);
 #! @Arguments ramSurf, vertex
-DeclareOperation( "UmbrellaPartitionOfVertexNC",
-        [ IsPolygonalComplex, IsPosInt ]);
+DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
+        [ IsVEFComplex, IsPosInt ]);
 #! @EndGroup
 
 
 #! @Section Perimeter around holes in surfaces
 #! @SectionLabel Access_OrderedHoleAccess
 #!
-#! If a polygonal surface (introduced in 
+#! If a (bend) polygonal surface (introduced in 
 #! <Ref Sect="PolygonalStructures_surface"/>) is not closed, it has at least
 #! one "hole". For example the open pyramid and the open bag each have
 #! one hole:
@@ -1127,12 +1188,11 @@ DeclareOperation( "UmbrellaPartitionOfVertexNC",
 #! To each of these we associate a unique closed vertex-edge-path by the 
 #! following conventions:
 #! * It starts with the smallest vertex on the perimeter
-#! * After using the first condition, the next vertex is as small as possible
-#! * After using the first two conditions, the first edge is minimal
+#! * The first edge (incident to the smallest vertex) is minimal
 #!
 #! All of those vertex-edge-paths are returned as a set.
 #! TODO example
 #!
 #! @Arguments surface
 #! @Returns a set of closed vertex-edge-paths
-DeclareAttribute( "PerimeterOfHoles", IsPolygonalSurface );
+DeclareAttribute( "PerimeterOfHoles", IsVEFSurface );

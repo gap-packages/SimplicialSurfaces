@@ -7,7 +7,7 @@
 <!-- Polygonal and Triangular complexes -->
 
 <#GAPDoc Label="PolygonalComplex_Edge">
-For every edge there should be exactly two vertices that are incident to it.
+For every edge there are exactly two vertices that are incident to it.
 <#/GAPDoc>
 
 <#GAPDoc Label="PolygonalComplex_Edge_simple">
@@ -39,7 +39,7 @@ Every vertex is incident to an edge and every edge is incident to a face.
 
 <#GAPDoc Label="PolygonalComplex_Definition">
 A <E>polygonal complex</E> is a two-dimensional incidence geometry consisting 
-of vertices, edges and faces such that the following conditions hold (for a
+of vertices, edges, and faces such that the following conditions hold (for a
 more intuitive explanation see section 
 <Ref Sect="PolygonalStructures_complex"/>):
 <Enum>
@@ -47,24 +47,26 @@ more intuitive explanation see section
     <Item><#Include Label="PolygonalComplex_Face"></Item>
     <Item><#Include Label="PolygonalComplex_Incidence"></Item>
 </Enum>
-A <E>triangular complex</E> is a polygonal complex where every face has
-exactly three incident vertices.
+<!-- A <E>triangular complex</E> is a polygonal complex where every face has
+exactly three incident vertices.-->
 <#/GAPDoc>
 
 
 <#GAPDoc Label="PolygonalComplex_Ramified">
-Every edge is incident to at most two faces.
+Every edge is incident to at most two faces, i.e. there are no 
+edge-ramifications.
 <#/GAPDoc>
 
 
 <#GAPDoc Label="PolygonalComplex_Paths">
 For every vertex <M>V</M> all incident edges and faces can
-be arranged in an umbrella around <M>V</M> (compare
-definition <Ref Subsect="Definition_Umbrella"/>).
+be arranged in an umbrella-path around <M>V</M> (compare
+definition <Ref Subsect="Definition_Umbrella"/>), i.e. there
+are no vertex-ramifications.
 <#/GAPDoc>
 
 <#GAPDoc Label="Umbrella_Definition">
-An <E>umbrella around the vertex <M>V</M></E> is a tuple
+An <E>umbrella-path around the vertex <M>V</M></E> is a tuple
 <M>(e_1,f_1,e_2,f_2, \ldots, e_n, f_n, e_{{n+1}})</M> such that:
 <List>
     <Item>The <M>f_i</M> are pairwise disjoint faces incident to <M>V</M>.
@@ -75,6 +77,17 @@ An <E>umbrella around the vertex <M>V</M></E> is a tuple
     <Item>The edges <M>e_i</M> and <M>e_{{i+1}}</M> are incident to <M>f_i</M>
         for all <M>i</M>.</Item>
 </List>
-If <M>e_1 = e_{{n+1}}</M> the umbrella is called <E>closed</E>.
+If <M>e_1 = e_{{n+1}}</M> the umbrella-path is called <E>closed</E>.
 <#/GAPDoc>
  
+
+<#GAPDoc Label="VEFComplex_Properties">
+<Enum>
+    <Item>For every edge there are at least one and at most two 
+        vertices incident to it.</Item>
+    <Item>For every face there is at least one edge incident
+        to it.</Item>
+    <Item>Each vertex is incident to at least one edge and
+        each edge is incident to at least one face.</Item>
+</Enum>
+<#/GAPDoc>

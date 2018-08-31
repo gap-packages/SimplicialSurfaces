@@ -18,30 +18,58 @@ BindGlobal( "__SIMPLICIAL_MANUAL_MODE", false );
 MakeReadWriteGlobal( "__SIMPLICIAL_MANUAL_MODE" );
 
 
-#TODO make this method a native part of the attribute scheduler
+# Methods to add attributes into the attribute scheduler
+BindGlobal( "__SIMPLICIAL_AddVEFAttribute", 
+    function( attr )
+        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsVEFComplex, "for a VEF-complex" );
+    end
+);
 BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute", 
     function( attr )
         AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsPolygonalComplex, "for a polygonal complex" );
+
+        # Add a method that gives an error if executed for bend polygonal complexes
+        InstallOtherMethod( attr, "for a bend polygonal complex",
+            [IsBendPolygonalComplex],
+            function(bendComplex)
+                Error( Concatenation( "The attribute ", NameFunction(attr), 
+                    " can only be computed for polygonal complexes." ) );
+            end
+        );
+    end
+);
+BindGlobal( "__SIMPLICIAL_AddBendPolygonalAttribute", 
+    function( attr )
+        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsBendPolygonalComplex, "for a bend polygonal complex" );
+
+        # Add a method that gives an error if executed for polygonal complexes
+        InstallOtherMethod( attr, "for a polygonal complex",
+            [IsPolygonalComplex],
+            function(complex)
+                Error( Concatenation( "The attribute ", NameFunction(attr), 
+                    " can only be computed for bend polygonal complexes." ) );
+            end
+        );
     end
 );
 
 BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
     function( attr )
-        InstallMethod(attr, "for a ramified polygonal surface",
-            [IsRamifiedPolygonalSurface],
+        InstallMethod(attr, "for a VEF-complex without edge ramifications",
+            [IsVEFComplex and IsNotEdgeRamified],
             function( ramSurf )
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, ramSurf);
             end);
 
-        InstallOtherMethod(attr, "for a polygonal complex (to check if ramified)",
-            [IsPolygonalComplex],
+        InstallOtherMethod(attr, "for a VEF-complex (to check for edge ramifications)",
+            [IsVEFComplex],
             function(complex)
-                if HasIsRamifiedPolygonalSurface(complex) and IsRamifiedPolygonalSurface(complex) then
+                if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) then
                     TryNextMethod();
                 fi;
-                if not IsRamifiedPolygonalSurface(complex) then
-                    Error("Given polygonal complex is not a ramified polygonal surface");
+                if not IsNotEdgeRamified(complex) then
+                    Error("Given VEF-complex contains edge ramifications.");
                 fi;
                 return attr(complex);
             end
@@ -51,21 +79,22 @@ BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
 
 BindGlobal( "__SIMPLICIAL_AddSurfaceAttribute",
     function( attr )
-        InstallMethod(attr, "for a polygonal surface",
-            [IsPolygonalSurface],
+        InstallMethod(attr, "for a VEF-surface",
+            [IsVEFSurface],
             function( surface )
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, surface);
             end);
 
-        InstallOtherMethod(attr, "for a polygonal complex (to check if surface)",
-            [IsPolygonalComplex],
+        InstallOtherMethod(attr, "for a VEF-complex (to check if surface)",
+            [IsVEFComplex],
             function(complex)
-                if HasIsPolygonalSurface(complex)and IsPolygonalSurface(complex) then
+                if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) and
+                    HasIsNotVertexRamified(complex) and IsNotVertexRamified(complex) then
                     TryNextMethod();
                 fi;
-                if not IsPolygonalSurface(complex) then
-                    Error("Given polygonal complex is not a polygonal surface.");
+                if not IsVEFSurface(complex) then
+                    Error("Given VEF-complex is not a VEF-surface.");
                 fi;
                 return attr(complex);
             end
@@ -82,7 +111,7 @@ BindGlobal( "__SIMPLICIAL_CheckVertex",
     function( complex, vertex, name )
         local mes;
 
-        if not vertex in VerticesAttributeOfPolygonalComplex(complex) then
+        if not vertex in VerticesAttributeOfVEFComplex(complex) then
             mes := Concatenation( name, ": Given vertex ", String(vertex), 
                 " does not lie in the given complex." );
             Error(mes);
@@ -170,10 +199,6 @@ BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
             return nameList[1];
         elif IsPolygonalSurface(complex) then
             return nameList[2];
-        elif IsRamifiedSimplicialSurface(complex) then
-            return nameList[3];
-        elif IsRamifiedPolygonalSurface(complex) then
-            return nameList[4];
         elif IsTriangularComplex(complex) then
             return nameList[5];
         else
@@ -282,7 +307,7 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         # Vertices
         Add( strList, [ Concatenation(
             "    Vertices (", String(NumberOfVertices(complex)), "): ", 
-            String(VerticesAttributeOfPolygonalComplex(complex)), "\n"), 1 ] );
+            String(VerticesAttributeOfVEFComplex(complex)), "\n"), 1 ] );
         # Edges
         Add( strList, [ Concatenation(
             "    Edges (", String(NumberOfEdges(complex)), "): ", 
@@ -362,11 +387,11 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
 
         
         if IsPolygonalSurface(complex) then
-            # UmbrellasOfVertices
-            Add( strList, [ "    Umbrellas: [ ", 0 ] );
-            for i in [1..Length(UmbrellasOfVertices(complex))] do
-                if IsBound(UmbrellasOfVertices(complex)[i]) then
-                    umb := UmbrellasOfVertices(complex)[i];
+            # UmbrellaPathsOfVertices
+            Add( strList, [ "    Umbrella-paths: [ ", 0 ] );
+            for i in [1..Length(UmbrellaPathsOfVertices(complex))] do
+                if IsBound(UmbrellaPathsOfVertices(complex)[i]) then
+                    umb := UmbrellaPathsOfVertices(complex)[i];
                     Append( strList, ViewInformation(umb) );
                 fi;
                 Add( strList, [", ", 0] );

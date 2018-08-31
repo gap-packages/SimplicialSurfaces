@@ -189,8 +189,6 @@ BindGlobal( "__SIMPLICIAL_Test_PolygonalHierarchy", function()
     x := 5;
     Assert(0, not IsPolygonalComplex(x));
     Assert(0, not IsTriangularComplex(x));
-    Assert(0, not IsRamifiedPolygonalSurface(x));
-    Assert(0, not IsRamifiedSimplicialSurface(x));
     Assert(0, not IsPolygonalSurface(x));
     Assert(0, not IsSimplicialSurface(x));
 end);

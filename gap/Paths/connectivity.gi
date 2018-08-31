@@ -16,29 +16,29 @@
 ##      Connectivity
 ##
 
-InstallMethod( ConnectedComponentsOfComplex, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( ConnectedComponentsOfComplex, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
-        return ConnectedComponentsAttributeOfPolygonalComplex(complex);
+        return ConnectedComponentsAttributeOfVEFComplex(complex);
     end
 );
-InstallMethod( StronglyConnectedComponents, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( StronglyConnectedComponents, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
-        return StronglyConnectedComponentsAttributeOfPolygonalComplex(complex);
+        return StronglyConnectedComponentsAttributeOfVEFComplex(complex);
     end
 );
 
-InstallMethod( NumberOfConnectedComponents, "for a polygonal complex",
-    [IsPolygonalComplex],
+InstallMethod( NumberOfConnectedComponents, "for a VEF-complex",
+    [IsVEFComplex],
     function(complex)
-        return Length(ConnectedComponentsAttributeOfPolygonalComplex(complex));
+        return Length(ConnectedComponentsAttributeOfVEFComplex(complex));
     end
 );
 InstallMethod( NumberOfStronglyConnectedComponents,
-    "for a polygonal complex", [IsPolygonalComplex],
+    "for a VEF-complex", [IsVEFComplex],
     function(complex)
-        return Length(StronglyConnectedComponentsAttributeOfPolygonalComplex(complex));
+        return Length(StronglyConnectedComponentsAttributeOfVEFComplex(complex));
     end
 );
 
@@ -82,7 +82,7 @@ BindGlobal( "__SIMPLICIAL_AbstractConnectedComponent",
 ##
 ## general connectivity
 ##
-InstallMethod( IsConnected, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( IsConnected, "for a VEF-complex", [IsVEFComplex], 
     function(complex)
 	local component;
 
@@ -97,16 +97,16 @@ InstallMethod( IsConnected, "for a polygonal complex", [IsPolygonalComplex],
     end
 );
 InstallImmediateMethod( IsConnected, 
-    IsPolygonalComplex and HasConnectedComponentsAttributeOfPolygonalComplex,0, 
+    IsVEFComplex and HasConnectedComponentsAttributeOfVEFComplex,0, 
     function(complex)
 	local components;
 
-	components := ConnectedComponentsAttributeOfPolygonalComplex(complex);
+	components := ConnectedComponentsAttributeOfVEFComplex(complex);
 	return Length(components) <= 1;
     end
 );
 
-InstallMethod( IsStronglyConnected, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( IsStronglyConnected, "for a VEF-complex", [IsVEFComplex],
     function(complex)
 	local component;
 
@@ -121,21 +121,21 @@ InstallMethod( IsStronglyConnected, "for a polygonal complex", [IsPolygonalCompl
     end
 );
 InstallImmediateMethod( IsStronglyConnected, 
-    IsPolygonalComplex and HasStronglyConnectedComponentsAttributeOfPolygonalComplex, 0, 
+    IsVEFComplex and HasStronglyConnectedComponentsAttributeOfVEFComplex, 0, 
     function(complex)
 	local components;
 
-	components := StronglyConnectedComponentsAttributeOfPolygonalComplex(complex);
+	components := StronglyConnectedComponentsAttributeOfVEFComplex(complex);
 	return Length(components) <= 1;
     end
 );
 
-InstallImmediateMethod( IsStronglyConnected, IsPolygonalComplex and 
-    HasConnectedComponentsAttributeOfPolygonalComplex, 0,
+InstallImmediateMethod( IsStronglyConnected, IsVEFComplex and 
+    HasConnectedComponentsAttributeOfVEFComplex, 0,
     function(complex)
         local components;
 
-        components := ConnectedComponentsAttributeOfPolygonalComplex(complex);
+        components := ConnectedComponentsAttributeOfVEFComplex(complex);
         if Length(components) > 1 then
             return false;
         fi;
@@ -144,7 +144,7 @@ InstallImmediateMethod( IsStronglyConnected, IsPolygonalComplex and
 );
 
 InstallImmediateMethod( IsStronglyConnected, 
-    IsPolygonalComplex and HasIsConnected, 0,
+    IsVEFComplex and HasIsConnected, 0,
     function(complex)
         if not IsConnected(complex) then
             return false;
@@ -156,8 +156,8 @@ InstallImmediateMethod( IsStronglyConnected,
 ##
 ## components
 ##
-InstallMethod( ConnectedComponentOfFaceNC, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( ConnectedComponentOfFaceNC, "for a VEF-complex",
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         local comp, subsurf;
 
@@ -170,14 +170,14 @@ InstallMethod( ConnectedComponentOfFaceNC, "for a polygonal complex",
 	return subsurf;
     end
 );
-InstallMethod( ConnectedComponentOfFaceNC, "for a polygonal complex",
-    [IsPolygonalComplex and IsConnected, IsPosInt],
+InstallMethod( ConnectedComponentOfFaceNC, "for a VEF-complex",
+    [IsVEFComplex and IsConnected, IsPosInt],
     function(complex, f)
 	return complex; # A connected surface has only one connected component
     end
 );
-InstallMethod( ConnectedComponentOfFace, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( ConnectedComponentOfFace, "for a VEF-complex",
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
 	local faceList, faces, points, comp, change, faceNr, subsurf;
 
@@ -187,8 +187,8 @@ InstallMethod( ConnectedComponentOfFace, "for a polygonal complex",
     end
 );
 
-InstallMethod( StronglyConnectedComponentOfFaceNC, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( StronglyConnectedComponentOfFaceNC, "for a VEF-complex",
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
         local comp, subsurf;
 
@@ -201,14 +201,14 @@ InstallMethod( StronglyConnectedComponentOfFaceNC, "for a polygonal complex",
 	return subsurf;
     end
 );
-InstallMethod( StronglyConnectedComponentOfFaceNC, "for a polygonal complex",
-    [IsPolygonalComplex and IsStronglyConnected, IsPosInt],
+InstallMethod( StronglyConnectedComponentOfFaceNC, "for a VEF-complex",
+    [IsVEFComplex and IsStronglyConnected, IsPosInt],
     function(complex, face)
 	return complex; # A strongly connected surface has only one strongly connected component
     end
 );
-InstallMethod( StronglyConnectedComponentOfFace, "for a polygonal complex",
-    [IsPolygonalComplex, IsPosInt],
+InstallMethod( StronglyConnectedComponentOfFace, "for a VEF-complex",
+    [IsVEFComplex, IsPosInt],
     function(complex, face)
 	local faceList, faces, points, comp, change, faceNr, subsurf;
 
@@ -219,13 +219,13 @@ InstallMethod( StronglyConnectedComponentOfFace, "for a polygonal complex",
 );
 
 
-InstallMethod( ConnectedComponentOfFaceNC, "for a polygonal complex",
-    [IsPolygonalComplex and HasConnectedComponentsAttributeOfPolygonalComplex,
+InstallMethod( ConnectedComponentOfFaceNC, "for a VEF-complex",
+    [IsVEFComplex and HasConnectedComponentsAttributeOfVEFComplex,
         IsPosInt],
     function( complex, face )
 	local conCom, comp;
 
-	conCom := ConnectedComponentsAttributeOfPolygonalComplex(complex);
+	conCom := ConnectedComponentsAttributeOfVEFComplex(complex);
 	for comp in conCom do
 	    if face in Faces(comp) then
 		return comp;
@@ -236,12 +236,12 @@ InstallMethod( ConnectedComponentOfFaceNC, "for a polygonal complex",
 );
 
 
-InstallMethod( StronglyConnectedComponentOfFaceNC, "for a polygonal complex",
-    [IsPolygonalComplex and HasStronglyConnectedComponentsAttributeOfPolygonalComplex, IsPosInt],
+InstallMethod( StronglyConnectedComponentOfFaceNC, "for a VEF-complex",
+    [IsVEFComplex and HasStronglyConnectedComponentsAttributeOfVEFComplex, IsPosInt],
     function(complex, face)
 	local conCom, comp;
 
-	conCom := StronglyConnectedComponentsAttributeOfPolygonalComplex(complex);
+	conCom := StronglyConnectedComponentsAttributeOfVEFComplex(complex);
 	for comp in conCom do
 	    if face in Faces(comp) then
 		return comp;
@@ -252,8 +252,8 @@ InstallMethod( StronglyConnectedComponentOfFaceNC, "for a polygonal complex",
 );
 
 
-InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
-    "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( ConnectedComponentsAttributeOfVEFComplex,
+    "for a VEF-complex", [IsVEFComplex],
     function(complex)
 	local faces, comp, f, component;
 
@@ -269,16 +269,16 @@ InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
 	return comp;
     end
 );
-InstallImmediateMethod( ConnectedComponentsAttributeOfPolygonalComplex,
-    IsPolygonalComplex and IsConnected, 0, 
+InstallImmediateMethod( ConnectedComponentsAttributeOfVEFComplex,
+    IsVEFComplex and IsConnected, 0, 
     function(complex)
 	return [complex];
     end
 );
 
 
-InstallMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex,
-    "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( StronglyConnectedComponentsAttributeOfVEFComplex,
+    "for a VEF-complex", [IsVEFComplex],
     function(complex)
 	local faces, comp, f, component;
 
@@ -294,8 +294,8 @@ InstallMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex,
 	return comp;
     end
 );
-InstallImmediateMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex,
-    IsPolygonalComplex and IsStronglyConnected, 0,
+InstallImmediateMethod( StronglyConnectedComponentsAttributeOfVEFComplex,
+    IsVEFComplex and IsStronglyConnected, 0,
     function(complex)
         return [complex];
     end
@@ -307,11 +307,11 @@ InstallImmediateMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex,
 ## also want to work with the connection between them. We start with the
 ## direction "strongly connected"->"connected"
 InstallImmediateMethod( IsConnected, 
-    IsPolygonalComplex and HasStronglyConnectedComponentsAttributeOfPolygonalComplex, 0, 
+    IsVEFComplex and HasStronglyConnectedComponentsAttributeOfVEFComplex, 0, 
     function( complex )
         local components;
 
-        components := StronglyConnectedComponentsAttributeOfPolygonalComplex(complex);
+        components := StronglyConnectedComponentsAttributeOfVEFComplex(complex);
         if Length(components) <= 1 then
             return true;
         fi;
@@ -322,9 +322,9 @@ InstallImmediateMethod( IsConnected,
     end
 );
 
-InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
-    "for a polygonal complex with strongly connected components",
-    [IsPolygonalComplex and HasStronglyConnectedComponentsAttributeOfPolygonalComplex ],
+InstallMethod( ConnectedComponentsAttributeOfVEFComplex,
+    "for a VEF-complex with strongly connected components",
+    [IsVEFComplex and HasStronglyConnectedComponentsAttributeOfVEFComplex ],
     function( complex )
         local strongComponents, components, vertList, check, newComponent,
             currentVert, done, i;
@@ -335,7 +335,7 @@ InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
             return [];
         fi;
 
-        vertList := List( strongComponents, VerticesAttributeOfPolygonalComplex );
+        vertList := List( strongComponents, VerticesAttributeOfVEFComplex );
 
         check := [1..Length(strongComponents)];
         while Length(check) > 0 do
@@ -361,13 +361,13 @@ InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
     end
 );
 
-InstallMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex, 
-    "for a polygonal complex with connected components",
-    [ IsPolygonalComplex and HasConnectedComponentsAttributeOfPolygonalComplex ],
+InstallMethod( StronglyConnectedComponentsAttributeOfVEFComplex, 
+    "for a VEF-complex with connected components",
+    [ IsVEFComplex and HasConnectedComponentsAttributeOfVEFComplex ],
     function( complex )
         local comp, pathComp, s;
 
-        comp := ConnectedComponentsAttributeOfPolygonalComplex(complex);
+        comp := ConnectedComponentsAttributeOfVEFComplex(complex);
 
         # If we only have one component, this method offers no benefit
         if Length(comp) = 1 then
@@ -376,7 +376,7 @@ InstallMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex,
 
         pathComp := [];
         for s in comp do
-            Append( pathComp, StronglyConnectedComponentsAttributeOfPolygonalComplex( s ) );
+            Append( pathComp, StronglyConnectedComponentsAttributeOfVEFComplex( s ) );
         od;
 
         return pathComp;
@@ -385,22 +385,22 @@ InstallMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex,
 
 ## For surfaces the connected and path-connected components are
 ## identical. 
-InstallMethod( ConnectedComponentsAttributeOfPolygonalComplex,
+InstallMethod( ConnectedComponentsAttributeOfVEFComplex,
     "for a polygonal surface with strongly connected components",
-    [IsPolygonalSurface and HasStronglyConnectedComponentsAttributeOfPolygonalComplex ],
+    [IsPolygonalSurface and HasStronglyConnectedComponentsAttributeOfVEFComplex ],
     function(surf)
-        return StronglyConnectedComponentsAttributeOfPolygonalComplex(surf);
+        return StronglyConnectedComponentsAttributeOfVEFComplex(surf);
     end
 );
-InstallMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex, 
+InstallMethod( StronglyConnectedComponentsAttributeOfVEFComplex, 
     "for a polygonal surface with connected components",
     [IsPolygonalSurface and 
-        HasConnectedComponentsAttributeOfPolygonalComplex ],
+        HasConnectedComponentsAttributeOfVEFComplex ],
     function(surf)
-        return ConnectedComponentsAttributeOfPolygonalComplex(surf);
+        return ConnectedComponentsAttributeOfVEFComplex(surf);
     end
 );
-InstallImmediateMethod( StronglyConnectedComponentsAttributeOfPolygonalComplex,
+InstallImmediateMethod( StronglyConnectedComponentsAttributeOfVEFComplex,
     IsPolygonalSurface and IsConnected, 0, 
     function(surf)
         return [surf];
