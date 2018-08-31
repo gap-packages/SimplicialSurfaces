@@ -689,9 +689,9 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #!	- For any isomorphic surface, the same unique representative is returned in each case.
 #!	Also provides a map between the elements of the original surface and the canonical surface.
 
-#! The following example illustrates the use of the CanonicalRepresentativeOfPolygonalSurface
+#! The following example illustrates the use of the <K>CanonicalRepresentativeOfPolygonalSurface</K>
 #! command. We define the cube, but with a labelling of larger than necessary integers.  
-#! CanonicalRepresentativeOfPolygonalSurface is then used to return both the canonical 
+#! <K>CanonicalRepresentativeOfPolygonalSurface</K> is then used to return both the canonical 
 #! representative of the cube and the maps between the cube and its canonical representative. The faces, edges 
 #! and vertices are displayed and are clearly now lex least in their ordering. Some 
 #! checks reveal that the cube is not identical to its canonical representative, it is however isomorphic, and 
