@@ -10,6 +10,11 @@
 ##
 #############################################################################
 
+#TODO "Library" can raise erroneous assumptions (like libraries in C).
+# "Using the library" mirrors the language there as well. Maybe rename
+# to "Collection" or similar others? But this conflicts with established
+# names for other libraries in GAP..
+
 #! @Chapter Library of surfaces
 #! @ChapterLabel Library
 #! 
