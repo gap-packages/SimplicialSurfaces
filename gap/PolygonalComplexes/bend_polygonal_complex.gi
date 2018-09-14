@@ -230,6 +230,63 @@ InstallMethod( BendPolygonalComplexBySignedFacePerimeters,
     end
 );
 
+InstallMethod( BendPolygonalSurfaceByCosetAction,
+    "for two groups", [IsGroup, IsGroup],
+    function(G, H)
+        local cosetTable, perms, moved, i, abOrbits, aOrbits, bOrbits,
+            cOrbits, acOrbits, bcOrbits, obj;
+
+        # Check if the given arguments are valid
+        if not IsSubgroup(G,H) then
+            Error("BendPolygonalSurfaceByCosetAction: The second argument has to be a subgroup of the first argument.");
+        fi;
+        moved := [1..Index(G,H)];
+        if Length( GeneratorsOfGroup(G) ) <> 3 then
+            Error("BendPolygonalSurfaceByCosetAction: First group has to have three generators.");
+        fi;
+        cosetTable := CosetTableBySubgroup(G,H);
+        perms := List(cosetTable, PermList);
+        for i in [1..3] do
+            if i < 3 then
+                if MovedPoints(perms[2*i-1]) <> moved then
+                    Error("BendPolygonalSurfaceByCosetAction: The first and second generator have to act without fixed points.");
+                fi;
+            fi;
+            if perms[2*i-1] <> perms[2*i] then
+                Error("BendPolygonalSurfaceByCosetAction: All generators have to act like involutions.");
+            fi;
+        od;
+
+        abOrbits := Orbits( Group(perms{[1,3]}) );
+        if ForAny(abOrbits, orb -> Length(orb)<6) then
+            Error("BendPolygonalSurfaceByCosetAction: There can't be an orbit of size less than six for first and second generator.");
+        fi;
+
+        # Construct all orbits
+        aOrbits := Orbits( Group(perms[1]) );
+        bOrbits := Orbits( Group(perms[3]) );
+        cOrbits := Orbits( Group(perms[5]) );
+        acOrbits := Orbits( Group(perms{[1,5]}) );
+        bcOrbits := Orbits( Group(perms{[3,5]}) );
+
+
+        # Construct the surface
+        obj := Objectify( BendPolygonalComplexType, rec() );
+        SetIsNotVertexRamified(obj, true);
+        SetIsNotEdgeRamified(obj, true);
+        SetLocalFlags(obj, moved);
+
+        SetLocalFlagsOfLocalVertices(obj, bOrbits);
+        SetLocalFlagsOfLocalEdges(obj, aOrbits);
+        SetLocalFlagsOfHalfEdges(obj, cOrbits);
+        SetLocalFlagsOfVertices(obj, bcOrbits);
+        SetLocalFlagsOfEdges(obj, acOrbits);
+        SetLocalFlagsOfFaces(obj, abOrbits);
+
+        return obj;
+    end
+);
+
 InstallMethod( LocalFaceNC,
     "for a bend polygonal complex and one face",
     [IsBendPolygonalComplex, IsPosInt],

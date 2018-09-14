@@ -256,6 +256,33 @@ DeclareOperation("LocalFlagByLocalVertexLocalEdgeFace", [IsBendPolygonalComplex,
 #! @Arguments signedFacePerimeter
 DeclareOperation( "BendPolygonalComplexBySignedFacePerimeters", [IsList] );
 
+#! @Description
+#! Construct a bend polygonal surface from the coset action of a group.
+#! There are some stipulations the arguments have to fulfill:
+#! * The group <A>G</A> has to have three generators, denoted by <M>a</M>,
+#!   <M>b</M> and <M>c</M>. 
+#! * The index of the subgroup <A>H</A> in <A>G</A>
+#!   has to be finite.
+#! * All three generators have to act like involutions on the cosets.
+#! * The action of <M>a</M> and <M>b</M> can't have fixed points on the 
+#!   cosets.
+#! * The orbits of <M>a</M> and <M>b</M> on the cosets have to have
+#!   at least length 6.
+#!
+#! If these conditions are met, the bend polygonal surface is constructed
+#! as follows:
+#! * The set of flags is the set of moved points
+#! * The orbits of <M>a</M> become the local edges
+#! * The orbits of <M>b</M> become the local vertices
+#! * The orbits of <M>c</M> become the half-edges
+#! * The orbits of <M>a,b</M> become the faces
+#! * The orbits of <M>a,c</M> become the edges
+#! * The orbits of <M>b,c</M> become the vertices
+#!
+#! @Returns a bend polygonal surface
+#! @Arguments G, H
+DeclareOperation( "BendPolygonalSurfaceByCosetAction", [IsGroup, IsGroup] );
+
 
 #! @Section Bend faces and edges
 #! @SectionLabel AccessBend_BendFacesEdges
