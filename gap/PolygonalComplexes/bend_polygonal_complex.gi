@@ -287,6 +287,27 @@ InstallMethod( BendPolygonalSurfaceByCosetAction,
     end
 );
 
+InstallMethod( BendPolygonalComplexByLocalFlagsNC, 
+    "for six lists",
+    [IsList, IsList, IsList, IsList, IsList, IsList],
+    function(localVerticesOfLocalFlags, localEdgesOfLocalFlags,
+        halfEdgesOfLocalFlags, verticesOfLocalFlags, edgesOfLocalFlags, 
+        facesOfLocalFlags)
+
+        local obj;
+
+        obj := Objectify(BendPolygonalComplexType, rec());
+        SetLocalVerticesOfLocalFlags(obj, localVerticesOfLocalFlags);
+        SetLocalEdgesOfLocalFlags(obj, localEdgesOfLocalFlags);
+        SetHalfEdgesOfLocalFlags(obj, halfEdgesOfLocalFlags);
+        SetVerticesOfLocalFlags(obj, verticesOfLocalFlags);
+        SetEdgesOfLocalFlags(obj, edgesOfLocalFlags);
+        SetFacesOfLocalFlags(obj, facesOfLocalFlags);
+
+        return obj;
+    end
+);
+
 InstallMethod( LocalFaceNC,
     "for a bend polygonal complex and one face",
     [IsBendPolygonalComplex, IsPosInt],

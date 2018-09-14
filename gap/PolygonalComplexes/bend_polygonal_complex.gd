@@ -283,6 +283,14 @@ DeclareOperation( "BendPolygonalComplexBySignedFacePerimeters", [IsList] );
 #! @Arguments G, H
 DeclareOperation( "BendPolygonalSurfaceByCosetAction", [IsGroup, IsGroup] );
 
+#! @Description
+#! Construct a bend polygonal complex by all incidence relations that
+#! start from local flags.
+#!
+#! @Returns a bend polygonal complex
+#! @Arguments localVerticesOfLocalFlags, localEdgesOfLocalFlags, halfEdgesOfLocalFlags, verticesOfLocalFlags, edgesOfLocalFlags, facesOfLocalFlags
+DeclareOperation( "BendPolygonalComplexByLocalFlagsNC", [IsList, IsList, IsList, IsList, IsList, IsList] );
+
 
 #! @Section Bend faces and edges
 #! @SectionLabel AccessBend_BendFacesEdges
