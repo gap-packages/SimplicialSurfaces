@@ -382,23 +382,27 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
             v2, newF1, newF2, newF, cyc1, cyc2, bool1, bool2, newVertices,
             sideA, sideB, i, j, diff1A, diff1B, diff2A, diff2B, obj,
             vert, faces, vertsOfEdges, facesOfEdges, v, umb, first, edge, 
-            neighbours, nVertex, nEdge, nFace;
+            neighbours, nVertex, nEdge, nFace, faceMap, edgeMap, vertexMap;
 
         # Remove all ramified vertices
         splitSurf := SplitAllVertices(ramSurf);
 
         newFaces := [];
+        faceMap := [];
         for f in Faces(splitSurf) do
             perimeter := PerimeterPathsOfFaces(splitSurf)[f];
             newFaces[f] := [[f,perimeter], [f,Inverse(perimeter)]];
+            Append(faceMap, [f,f]);
         od;
 
         newEdges := [];
+        edgeMap := [];
         for e in Edges(splitSurf) do
             incFaces := FacesOfEdges(splitSurf)[e];
             if Length(incFaces) = 1 then
                 newF := newFaces[incFaces[1]];
                 newEdges[e] := [ [e,newF] ];
+                Add(edgeMap, [e]);
             else
                 # inner edge
                 v1 := VerticesOfEdges(splitSurf)[e][1];
@@ -421,10 +425,12 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
                         [ e, [ newF1[1], newF2[1] ] ], [ e, [ newF1[2], newF2[2] ] ]
                     ];
                 fi;
+                Append(edgeMap,[e,e]);
             fi;
         od;
 
         newVertices := [];
+        vertexMap := [];
         for v in VerticesAttributeOfVEFComplex(splitSurf) do
             umb := UmbrellaPathsOfVertices(splitSurf)[v];
             if IsClosedPath(umb) then
@@ -448,6 +454,7 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
                     fi;
                 od;
                 newVertices[v] := [ [v,sideA], [v,sideB ] ];
+                Append(vertexMap, [v,v]);
             else
                 # all incident faces show up with both sides
                 neighbours := [];
@@ -456,6 +463,7 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
                     Append( neighbours, [ List(newF, p -> [ f, p ]) ] );
                 od;
                 newVertices[v] := [ [v,neighbours]];
+                Add(vertexMap, v);
             fi;
         od;
 
@@ -489,7 +497,7 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
         obj := Objectify(PolygonalComplexType, rec());
         SetVerticesOfEdges(obj, vertsOfEdges);
         SetFacesOfEdges(obj, facesOfEdges);
-        return [obj, newVertices, newEdges, newFaces];
+        return [obj, [vertexMap,edgeMap,faceMap], List(newFaces, i -> i[2])];
     end
 );
 RedispatchOnCondition( OrientationCover, true, [IsPolygonalComplex], [IsNotEdgeRamified], 0 );

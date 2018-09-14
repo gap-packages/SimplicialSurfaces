@@ -1548,7 +1548,25 @@ DeclareAttribute( "Orientation", IsVEFComplex and IsNotEdgeRamified );
 #! @Description
 #! Compute the <E>orientation cover</E> of a polygonal complex without edge
 #! ramifications.
-#! It is defined as TODO
+#! It is constructed in the following way:
+#! * For each face in <A>ramSurf</A> the orientation cover has to faces,
+#!   corresponding to the two possible orientations of this face. These
+#!   orientations are represented as <E>perimeter paths</E> (compare
+#!   section <Ref Sect="Section_Paths_Perimeter"/>).
+#! * Two adjacent faces with orientation in <A>ramSurf</A> are adjacent
+#!   in the cover if these orientations induce opposite orientations on
+#!   the connecting edge.
+#! * The vertices are defined by going around an umbrella and transforming
+#!   the orientations correspondingly.
+#!
+#! This method returns a list with three entries:
+#! * The first entry is the covering surface
+#! * The second entry is a map from the covering surface to <A>ramSurf</A>.
+#!   It is given in the form of three lists: The first list maps the vertices
+#!   of the cover to the vertices of <A>ramSurf</A>, the second list maps the
+#!   edges and the third one maps the faces.
+#! * The third entry is a map from the faces of the covering surface to the
+#!   orientation that was used in defining this face.
 #!
 #! The resulting polygonal surface is always closed 
 #! (<Ref Subsect="IsClosedSurface"/>) and orientable 
