@@ -299,6 +299,7 @@ DeclareAttribute("BendFaces", IsBendPolygonalComplex);
 #! @Section Constructions
 #! @SectionLabel AccessBend_Constructions
 
+#! @BeginGroup
 #! @Description
 #! Construct a polygonal complex from the given bend polygonal
 #! complex, if possible. Otherwise return <K>fail</K>.
@@ -308,6 +309,11 @@ DeclareAttribute("BendFaces", IsBendPolygonalComplex);
 #! @Returns a polygonal complex or <K>fail</K>
 #! @Arguments bendComplex
 DeclareAttribute("PolygonalComplex", IsBendPolygonalComplex);
+#! @Arguments bendComplex
+DeclareAttribute("PolygonalSurface", IsBendPolygonalComplex);
+#! @Arguments bendComplex
+DeclareAttribute("SimplicialSurface", IsBendPolygonalComplex);
+#! @EndGroup
 
 
 #! @Description

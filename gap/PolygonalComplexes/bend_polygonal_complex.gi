@@ -314,6 +314,32 @@ InstallMethod( PolygonalComplex, "for a bend polygonal complex",
         return obj;
     end
 );
+InstallMethod( PolygonalSurface, "for a bend polygonal complex",
+    [IsBendPolygonalComplex],
+    function(bendComplex)
+        local obj;
+
+        obj := PolygonalComplex(bendComplex);
+        if IsPolygonalSurface(obj) then
+            return obj;
+        else
+            return fail;
+        fi;
+    end
+);
+InstallMethod( SimplicialSurface, "for a bend polygonal complex",
+    [IsBendPolygonalComplex],
+    function(bendComplex)
+        local obj;
+
+        obj := PolygonalComplex(bendComplex);
+        if IsSimplicialSurface(obj) then
+            return obj;
+        else
+            return fail;
+        fi;
+    end
+);
 
 
 InstallMethod( BendPolygonalComplex, "for a polygonal complex", 
