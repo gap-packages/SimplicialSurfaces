@@ -428,7 +428,8 @@ BindGlobal( "__SIMPLICIAL_TameSurfaceType",
     end
 );
 
-InstallMethod( ViewInformation, "for an edge coloured polygonal complex",
+InstallMethod( ViewInformationEdgeColoured, 
+    "for an edge coloured polygonal complex",
     [IsEdgeColouredPolygonalComplex],
     function(colComp)
         local strList, str, out;
@@ -475,29 +476,12 @@ InstallMethod( ViewInformation, "for an edge coloured polygonal complex",
         return strList;
     end
 );
-InstallMethod( ViewString, "for an edge coloured polygonal complex", 
-    [IsEdgeColouredPolygonalComplex],
-    function(complex)
-        return __SIMPLICIAL_ColourString( ViewInformation(complex), 
-            [ SIMPLICIAL_COLOURS_WILD_1_DEFAULT, SIMPLICIAL_COLOURS_WILD_2_DEFAULT, SIMPLICIAL_COLOURS_WILD_3_DEFAULT ]);
-    end
-);
-InstallMethod( ViewObj, "for an edge coloured polygonal complex", 
-    [IsEdgeColouredPolygonalComplex],
-    function(complex)
-        if SIMPLICIAL_COLOURS_ON then
-            __SIMPLICIAL_PrintColourString( ViewInformation(complex), 
-                [ SIMPLICIAL_COLOURS_WILD_1, SIMPLICIAL_COLOURS_WILD_2, SIMPLICIAL_COLOURS_WILD_3 ]);
-        else
-            Print(__SIMPLICIAL_UncolouredString( ViewInformation(complex) ));
-        fi;
-    end
-);
 
 
 
 # Display
-InstallMethod( DisplayInformation, "for an edge coloured polygonal complex", 
+InstallMethod( DisplayInformationEdgeColoured, 
+    "for an edge coloured polygonal complex", 
     [IsEdgeColouredPolygonalComplex],
     function(colComp)
         local strList, x, umb, set, str, out, i, edge, complex, posOfColour, c;
@@ -692,24 +676,6 @@ InstallMethod( DisplayInformation, "for an edge coloured polygonal complex",
         fi;
 
         return strList;
-    end
-);
-InstallMethod( DisplayString, "for an edge coloured polygonal complex", 
-    [IsEdgeColouredPolygonalComplex],
-    function(complex)
-        return __SIMPLICIAL_ColourString( DisplayInformation(complex),
-            [SIMPLICIAL_COLOURS_WILD_1_DEFAULT, SIMPLICIAL_COLOURS_WILD_2_DEFAULT, SIMPLICIAL_COLOURS_WILD_3_DEFAULT]);
-    end
-);
-InstallMethod( Display, "for an edge coloured polygonal complex", 
-    [IsEdgeColouredPolygonalComplex],
-    function(complex)
-        if SIMPLICIAL_COLOURS_ON then
-            __SIMPLICIAL_PrintColourString( DisplayInformation(complex), 
-                [ SIMPLICIAL_COLOURS_WILD_1, SIMPLICIAL_COLOURS_WILD_2, SIMPLICIAL_COLOURS_WILD_3 ]);
-        else
-            Print(__SIMPLICIAL_UncolouredString( DisplayInformation(complex) ));
-        fi;
     end
 );
 

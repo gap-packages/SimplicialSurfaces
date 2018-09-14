@@ -222,8 +222,8 @@ DeclareAttribute( "Colours", IsEdgeColouredVEFComplex );
 
 ##
 ## View and Display
-DeclareAttribute( "ViewInformation", IsEdgeColouredVEFComplex );
-DeclareAttribute( "DisplayInformation", IsEdgeColouredVEFComplex );
+DeclareAttribute( "ViewInformationEdgeColoured", IsEdgeColouredVEFComplex );
+DeclareAttribute( "DisplayInformationEdgeColoured", IsEdgeColouredVEFComplex );
 
 
 #! @Section Drawing edge coloured surfaces

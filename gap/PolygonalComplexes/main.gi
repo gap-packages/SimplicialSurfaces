@@ -214,13 +214,24 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
 
         str := "";
         out := OutputTextString(str, true);
-        PrintTo(out,  __SIMPLICIAL_PolygonalComplexName(complex, true) );
-
-        PrintTo( out, "ByDownwardIncidenceNC(" );
-        PrintTo( out, VerticesOfEdges(complex) );
-        PrintTo( out, ", " );
-        PrintTo( out, EdgesOfFaces(complex) );
-        PrintTo( out, ")" );
+        # Since EdgeColouredComplexes are derived, we need to handle them
+        # as well
+        if IsEdgeColouredPolygonalComplex(complex) then
+            PrintTo( out, "EdgeColoured" );
+            PrintTo( out, __SIMPLICIAL_PolygonalComplexName( PolygonalComplex(complex), true ) );
+            PrintTo( out, "NC( " );
+            PrintTo( out, String(PolygonalComplex(complex)) );
+            PrintTo( out, ", " );
+            PrintTo( out, String(ColoursOfEdges(complex)) );
+            PrintTo( out, " )" );
+        else
+            PrintTo(out,  __SIMPLICIAL_PolygonalComplexName(complex, true) );
+            PrintTo( out, "ByDownwardIncidenceNC(" );
+            PrintTo( out, VerticesOfEdges(complex) );
+            PrintTo( out, ", " );
+            PrintTo( out, EdgesOfFaces(complex) );
+            PrintTo( out, ")" );
+        fi;
 
         CloseStream(out);
 
@@ -257,17 +268,41 @@ InstallMethod( ViewInformation, "for a polygonal complex",
 );
 InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
-        return __SIMPLICIAL_ColourString( ViewInformation(complex), 
-            [ SIMPLICIAL_COLOURS_VERTICES_DEFAULT, SIMPLICIAL_COLOURS_EDGES_DEFAULT, SIMPLICIAL_COLOURS_FACES_DEFAULT ]);
+        # We have to distinguish coloured and uncoloured complexes
+        if IsEdgeColouredPolygonalComplex(complex) then
+             return __SIMPLICIAL_ColourString( ViewInformationEdgeColoured(complex), 
+                [ SIMPLICIAL_COLOURS_WILD_1_DEFAULT, 
+                    SIMPLICIAL_COLOURS_WILD_2_DEFAULT, 
+                    SIMPLICIAL_COLOURS_WILD_3_DEFAULT ]);
+        else
+            return __SIMPLICIAL_ColourString( ViewInformation(complex), 
+                [ SIMPLICIAL_COLOURS_VERTICES_DEFAULT, 
+                    SIMPLICIAL_COLOURS_EDGES_DEFAULT, 
+                    SIMPLICIAL_COLOURS_FACES_DEFAULT ]);
+        fi; 
     end
 );
 InstallMethod( ViewObj, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
-        if SIMPLICIAL_COLOURS_ON then
-            __SIMPLICIAL_PrintColourString( ViewInformation(complex), 
-                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
+        # We have to distinguish coloured and uncoloured complexes
+        if IsEdgeColouredPolygonalComplex(complex) then
+             if SIMPLICIAL_COLOURS_ON then
+                __SIMPLICIAL_PrintColourString( ViewInformationEdgeColoured(complex), 
+                    [ SIMPLICIAL_COLOURS_WILD_1, 
+                        SIMPLICIAL_COLOURS_WILD_2, 
+                        SIMPLICIAL_COLOURS_WILD_3 ]);
+            else
+                Print(__SIMPLICIAL_UncolouredString( ViewInformationEdgeColoured(complex) ));
+            fi;
         else
-            Print(__SIMPLICIAL_UncolouredString( ViewInformation(complex) ));
+            if SIMPLICIAL_COLOURS_ON then
+                __SIMPLICIAL_PrintColourString( ViewInformation(complex), 
+                    [ SIMPLICIAL_COLOURS_VERTICES, 
+                        SIMPLICIAL_COLOURS_EDGES, 
+                        SIMPLICIAL_COLOURS_FACES ]);
+            else
+                Print(__SIMPLICIAL_UncolouredString( ViewInformation(complex) ));
+            fi;
         fi;
     end
 );
@@ -405,17 +440,40 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
 );
 InstallMethod( DisplayString, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
-        return __SIMPLICIAL_ColourString( DisplayInformation(complex),
-            [SIMPLICIAL_COLOURS_VERTICES_DEFAULT, SIMPLICIAL_COLOURS_EDGES_DEFAULT, SIMPLICIAL_COLOURS_FACES_DEFAULT]);
+        # We have to distinguish coloured and uncoloured complexes
+        if IsEdgeColouredPolygonalComplex(complex) then
+            return __SIMPLICIAL_ColourString( DisplayInformationEdgeColoured(complex),
+                [SIMPLICIAL_COLOURS_WILD_1_DEFAULT, 
+                    SIMPLICIAL_COLOURS_WILD_2_DEFAULT, 
+                    SIMPLICIAL_COLOURS_WILD_3_DEFAULT]);
+ 
+        else
+            return __SIMPLICIAL_ColourString( DisplayInformation(complex),
+                [SIMPLICIAL_COLOURS_VERTICES_DEFAULT, 
+                    SIMPLICIAL_COLOURS_EDGES_DEFAULT, 
+                    SIMPLICIAL_COLOURS_FACES_DEFAULT]);
+        fi;
     end
 );
 InstallMethod( Display, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
-        if SIMPLICIAL_COLOURS_ON then
-            __SIMPLICIAL_PrintColourString( DisplayInformation(complex), 
-                [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
+        # We have to distinguish coloured and uncoloured complexes
+        if IsEdgeColouredPolygonalComplex(complex) then
+            if SIMPLICIAL_COLOURS_ON then
+                __SIMPLICIAL_PrintColourString( DisplayInformationEdgeColoured(complex), 
+                    [ SIMPLICIAL_COLOURS_WILD_1, 
+                        SIMPLICIAL_COLOURS_WILD_2, 
+                        SIMPLICIAL_COLOURS_WILD_3 ]);
+            else
+                Print(__SIMPLICIAL_UncolouredString( DisplayInformationEdgeColoured(complex) ));
+            fi;
         else
-            Print(__SIMPLICIAL_UncolouredString( DisplayInformation(complex) ));
+            if SIMPLICIAL_COLOURS_ON then
+                __SIMPLICIAL_PrintColourString( DisplayInformation(complex), 
+                    [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
+            else
+                Print(__SIMPLICIAL_UncolouredString( DisplayInformation(complex) ));
+            fi;
         fi;
     end
 );
