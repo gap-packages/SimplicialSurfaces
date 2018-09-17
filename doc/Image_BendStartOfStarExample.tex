@@ -1,0 +1,105 @@
+% there are several optional arguments to turn on certain labels:
+% vertices, edges, and faces are handled in the arguments of tikzpicture
+% localFlags, localVertices, localEdges, halfEdges are new
+
+
+
+% P1 is upper left
+% P2 is upper middle
+% P3 is far right
+% P4 is lower middle
+% P5 is lower left
+
+\def\len{7}
+\coordinate (P4) at (0,0);
+\coordinate (P5) at (-\len,0);
+\coordinate (P2) at (0,\len);
+\coordinate (P3) at (30:\len);
+\coordinate (P1) at ($(P2)+(P5)$);
+
+\coordinate (SquareCenter) at (barycentric cs:P1=1,P2=1,P4=1,P5=1);
+\coordinate (TriCenter) at (barycentric cs:P2=1,P3=1,P4=1);
+
+\coordinate (MW) at ($(P1)!0.5!(P5)$);
+\coordinate (MN) at ($(P1)!0.5!(P2)$);
+\coordinate (MS) at ($(P4)!0.5!(P5)$);
+\coordinate (MM) at ($(P2)!0.5!(P4)$);
+\coordinate (MNE) at ($(P2)!0.5!(P3)$);
+\coordinate (MSE) at ($(P3)!0.5!(P4)$);
+
+
+
+% Draw polygons
+\draw[face] (P1) -- (P2) -- (P4) -- (P5) -- cycle (P2) -- (P3) -- (P4) -- cycle;
+
+
+% Draw and label local flags
+\ifdefined\localFlags
+    \foreach \a/\b/\c/\n in {SquareCenter/P5/MS/1, SquareCenter/MS/P4/2, 
+        SquareCenter/P4/MM/3, SquareCenter/MM/P2/4, SquareCenter/P2/MN/5,
+        SquareCenter/MN/P1/6, SquareCenter/P1/MW/7, SquareCenter/MW/P5/8,
+        TriCenter/P4/MSE/11, TriCenter/MSE/P3/12, TriCenter/P3/MNE/13,
+        TriCenter/MNE/P2/14, TriCenter/P2/MM/15, TriCenter/MM/P4/16}{
+            \draw[dashed] (\a) -- (\b);
+            \node at (barycentric cs:\a=1,\b=1,\c=1) {\n};
+        }
+\fi
+
+% Draw face labels
+\node[faceLabel,circle,fill=\faceColorY] at (SquareCenter) {V};
+\node[faceLabel,circle,fill=\faceColorY] at (TriCenter) {I};
+
+
+% Draw and label local vertices
+\ifdefined\localVertices
+    \def\localVertexColour{red}
+    \def\localVertexDist{0.8}
+    \foreach \v/\x/\y/\n in {P1/-90/0/7, P2/180/270/5, P2/-90/-30/15, 
+            P3/150/210/13, P4/30/90/11, P4/90/180/3, P5/0/90/8}{
+        \filldraw[draw=\localVertexColour,fill=\faceColorY] 
+            ($(\v)+(\x:\localVertexDist)$) arc (\x:\y:\localVertexDist) -- (\v) -- cycle;
+        \node[\localVertexColour] at 
+            ($(\v)+(\x:1/3*\localVertexDist)+(\y:1/3*\localVertexDist)$) {\n};
+    }
+\fi
+
+% Draw and label local edges
+\ifdefined\localEdges
+    \def\localEdgeColour{blue}
+    \def\localEdgeDist{0.9}
+    \foreach \v/\x/\n in {MN/180/6, MW/-90/8, MS/0/2, MM/90/4, MM/-90/15, 
+            MNE/150/14, MSE/30/12}{
+        \filldraw[draw=\localEdgeColour,fill=\faceColorY]
+            ($(\v)+(\x:\localEdgeDist)$) -- ($(\v)+(90+\x:\localEdgeDist)$) -- 
+                ($(\v)+(180+\x:\localEdgeDist)$) -- cycle;
+        \node[\localEdgeColour] at ($(\v)+(90+\x:1/2*\localEdgeDist)$) {\n};
+    }
+\fi
+
+% Label the edges
+\foreach \v/\n in {MN/2, MNE/14, MSE/12, MS/2, MW/8, MM/4}{
+    \node[edgeLabel] at (\v) {\n};
+}
+
+% Draw and label the half-edges
+\ifdefined\halfEdges
+    \def\halfEdgeColour{green!80!black}
+    \def\halfEdgeDist{0.5}
+    \foreach \s/\f/\n in {MN/P1/1, MN/P2/2, MW/P1/7, MW/P5/8, MS/P5/1, 
+            MS/P4/2, MM/P2/4, MM/P4/3, MNE/P2/11, MNE/P3/12, MSE/P3/12, 
+            MSE/P4/11}{
+        \coordinate (V) at ($(\s)!0.5!(\f)$);
+        \tikzAngleOfLine(\s)(\f){\angle}
+        \filldraw[draw=\halfEdgeColour,fill=\faceColorY]
+            ($(V)+(\angle:\halfEdgeDist)$) -- 
+            ($(V)+(120+\angle:\halfEdgeDist)$) -- 
+            ($(V)+(240+\angle:\halfEdgeDist)$) -- cycle;
+        \node[\halfEdgeColour] at (V) {\n};
+    }
+\fi
+
+
+% Draw vertices
+\foreach \p/\r/\n in {P1/above/1, P2/above/3, P3/right/13, P4/below/3, P5/below/1}{
+    \vertexLabelR{\p}{\r}{\n}
+}

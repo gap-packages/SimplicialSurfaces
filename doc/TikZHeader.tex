@@ -47,6 +47,15 @@
   \fi\tikz@node@transformations}{}{}
 \makeatother
 
+% Find the angle of a given line (within TikZ)
+\newcommand{\tikzAngleOfLine}{\tikz@AngleOfLine}
+\def\tikz@AngleOfLine(#1)(#2)#3{%
+  \pgfmathanglebetweenpoints{%
+    \pgfpointanchor{#1}{center}}{%
+    \pgfpointanchor{#2}{center}}
+  \pgfmathsetmacro{#3}{\pgfmathresult}%
+}
+
 % Now we define the global styles
 % The global styles are defined nestedly. You have to give your tikzpicture
 % the global options [vertexStyle, edgeStyle, faceStyle] to activate them.
