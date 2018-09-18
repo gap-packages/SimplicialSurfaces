@@ -317,11 +317,16 @@ DeclareOperation( "SplitEdgePathNC", [IsVEFComplex, IsVertexEdgePath and IsDupli
 #! The NC-version does not check whether the given set of <A>faces</A>
 #! actually consists only of faces in <A>complex</A>.
 #! 
-#! @Returns a polygonal complex
+#! @Returns a VEF-complex
 #! @Arguments complex, faces
 DeclareOperation( "SubcomplexByFaces", [IsVEFComplex, IsSet] );
 #! @Arguments complex, faces
 DeclareOperation( "SubcomplexByFacesNC", [IsVEFComplex, IsSet] );
+#! @Returns a VEF-surface
+#! @Arguments surface, faces
+DeclareOperation( "SubsurfaceByFaces", [IsVEFSurface, IsSet] );
+#! @Arguments surface, faces
+DeclareOperation( "SubsurfaceByFacesNC", [IsVEFSurface, IsSet] );
 #! @EndGroup
 
 

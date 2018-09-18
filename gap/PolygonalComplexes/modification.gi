@@ -531,6 +531,50 @@ InstallOtherMethod( SubcomplexByFacesNC,
     end
 );
 
+InstallMethod( SubsurfaceByFaces, "for a VEF-surface and a set of faces",
+    [IsVEFSurface, IsSet],
+    function(complex, subfaces)
+        local sub;
+
+        sub := SubcomplexByFaces(complex, subfaces);
+        SetIsNotVertexRamified(sub, true);
+        SetIsNotEdgeRamified(sub, true);
+
+        return sub;
+    end
+);
+InstallOtherMethod( SubsurfaceByFaces, 
+    "for a VEF-surface and a list of faces",
+    [ IsVEFSurface, IsList ],
+    function(complex, subfaces)
+        return SubsurfaceByFaces(complex, Set(subfaces));
+    end
+);
+RedispatchOnCondition( SubsurfaceByFaces, true, [IsVEFComplex, IsList], [IsVEFSurface], 0 );
+InstallOtherMethod( SubsurfaceByFacesNC, 
+    "for a VEF-surface and a set of faces",
+    [ IsVEFSurface, IsSet ],
+    function(complex, subfaces)
+        local sub;
+
+        sub := SubcomplexByFacesNC(complex, subfaces);
+        SetIsNotVertexRamified(sub, true);
+        SetIsNotEdgeRamified(sub, true);
+
+        return sub;
+    end
+);
+InstallOtherMethod( SubsurfaceByFacesNC, 
+    "for a VEF-surface and a list of faces",
+    [ IsVEFSurface, IsList ],
+    function(complex, subfaces)
+        return SubsurfaceByFacesNC(complex, Set(subfaces));
+    end
+);
+RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsVEFComplex, IsList], [IsVEFSurface], 0 );
+
+
+
 ####
 
 InstallMethod( RemoveFaces, "for a VEF-complex and a set of faces",
