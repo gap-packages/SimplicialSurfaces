@@ -536,3 +536,34 @@ InstallMethod( \<, "for two polygonal complexes",
         fi;
     end
 );
+
+
+
+
+
+InstallMethod( MappingOfSurfaces, 
+    "for a surface and three lists", [IsPolygonalSurface, IsList, IsList, IsList],
+    function(surf, mapfaces, mapedges, mapvertices)
+        local edgesoffaces, face, f2, edgesofface, newedgesofface, verticesofedge, verticesofedges,
+        e2, newverticesofedge, newfaces, newedges, newvertices, edge;
+        edgesoffaces:=[];
+        for face in Faces(surf) do
+            f2 := mapfaces[face];
+            edgesofface:=EdgesOfFace(surf, face);
+            newedgesofface := List(edgesofface, t -> mapedges[t]);
+            edgesoffaces[f2]:= Set(newedgesofface);
+        od;
+
+        verticesofedges:=[];
+        for edge in Edges(surf) do
+            e2 := mapedges[edge];
+            verticesofedge:=VerticesOfEdge(surf, edge);
+            newverticesofedge := List(verticesofedge, t -> mapvertices[t]);
+            verticesofedges[e2]:= Set(newverticesofedge);
+        od;
+        newfaces:=Set(Faces(surf), t -> mapfaces[t]);
+        newedges := Set(Edges(surf), t -> mapedges[t]);
+        newvertices:=Set(Vertices(surf), t -> mapvertices[t]);
+        return PolygonalSurfaceByDownwardIncidence(newvertices, newedges, newfaces, verticesofedges, edgesoffaces);
+    end
+);

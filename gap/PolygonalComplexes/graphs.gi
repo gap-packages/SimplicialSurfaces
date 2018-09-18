@@ -692,6 +692,172 @@ InstallMethod( IsAutomorphismDefinedByFaces, "for a polygonal complex",
 );
 
 
+
+InstallMethod( CanonicalRepresentativeOfPolygonalSurface, 
+    "for a polygonal surface", [IsPolygonalSurface],
+    function( surf )
+        local originalfacesofsurf, originaledgesofsurf, originalverticesofsurf,
+        totalgraphverts, mapfaces, mapedges, mapvertices, currentvert, i, vertsofgraph,
+        edges, edgesofface, j, verticesofface, verticesofedge, graph, perm, perminv, 
+        edgesoffacesofsurf, F, edgesofface2, verticesofedgesofsurf, e, verticesofedge2,
+        newfaces, newedges, newvertices, n1, n2, n3,
+        mapfaces2, mapedges2, mapvertices2, edgesoffacesofsurf2, verticesofedgesofsurf2,
+        surf2, surf3, colours, inversefacemap, inverseedgemap, inversevertexmap;
+
+
+        # The original faces/edges/vertices of surf
+        originalfacesofsurf := Faces(surf); 
+        originaledgesofsurf := Edges(surf);
+        originalverticesofsurf := Vertices(surf);
+        # The number of faces/edges/vertices of surf
+        n1 := NumberOfFaces(surf);
+        n2 := NumberOfEdges(surf);
+        n3 := NumberOfVertices(surf);
+        # Total number of elements of surf - we make a bijection with the elements
+        totalgraphverts := n1+n2+n3;
+
+        # Create maps from the elements to the new labels.
+        # Map faces to [1 .. n1], edges to [n1+1 .. n1+n2] and vertices to [n1+n2+1 .. totalverts]
+        # Let i be a face, then the i maps to mapfaces[i]
+        mapfaces := ListWithIdenticalEntries(Maximum(originalfacesofsurf), 0);
+        mapedges := ListWithIdenticalEntries(Maximum(originaledgesofsurf), 0);
+        mapvertices := ListWithIdenticalEntries(Maximum(originalverticesofsurf), 0);
+        # Also assign each element a colour - faces are 1, edges are 2, vertices are 3
+        # Let i be an element of surf with the new labelling. Then the colour can be
+        # established with colours[i]
+        colours:=[];
+        currentvert:=0;
+        for i in originalfacesofsurf do
+            currentvert := currentvert + 1;
+            mapfaces[i] := currentvert;
+            Add(colours, 1);
+        od;
+        for i in originaledgesofsurf do
+            currentvert := currentvert + 1;
+            mapedges[i] := currentvert;
+            Add(colours, 2);
+        od;
+        for i in originalverticesofsurf do
+            currentvert := currentvert + 1;
+            mapvertices[i] := currentvert;
+            Add(colours, 3);
+        od;
+
+
+        # Create the corresponding graph.
+        # The elements of surf form the vertices of the graph.
+        # There is an edge in the graph if the corresponding elements of surf are incident.
+        vertsofgraph := [1 .. totalgraphverts];
+
+        # Loop through the faces and for each face loop through vertices and edges.
+        # If the face is incident with the edge/vertex, put an edge in the graph.
+        edges := [];
+        for i in originalfacesofsurf do
+            edgesofface := EdgesOfFace( surf, i);
+            for j in edgesofface do
+                Add(edges, [mapfaces[i], mapedges[j]]);
+            od; 
+            verticesofface := VerticesOfFace( surf, i);
+            for j in verticesofface do
+                Add(edges, [mapfaces[i], mapvertices[j]]);
+            od; 
+        od;
+        # Repeat for edges. Only need to check for vertices, since we did faces-edges above.
+        for i in originaledgesofsurf do
+            verticesofedge := VerticesOfEdge( surf, i);
+            for j in verticesofedge do
+                Add(edges, [mapedges[i], mapvertices[j]]);
+            od; 
+        od;
+        # No need to loop through vertices, since vertices are not incident with vertices,
+        # and incidence with faces/edges done above.
+
+        # Find the canonical form of the graph with Nauty,
+        # preserving the colours (ie  map faces to faces, edges to edge etc...)
+        graph := NautyColoredGraph(edges, colours);
+        # Find the permutation which will map the old vertices to the new.
+        perminv := CanonicalLabeling(graph);
+        perm := perminv^(-1);
+
+        # Now that we have the canonical labelling, we can write the surface in canonical form.
+        # First take a face and write it by its edges
+        # Map the face to its new labelling, and then permute to canonical form.
+        # Map the edges to the new labelling
+        # Permute the newly labelled eges to their canonical form.
+        # Now put the edges in the list of FacesByEdges
+        edgesoffacesofsurf := [];
+        for i in originalfacesofsurf do
+            F := mapfaces[i]^perm;
+            edgesofface := EdgesOfFace( surf, i);
+            edgesofface2 := List(edgesofface, t -> mapedges[t]^perm);
+            edgesoffacesofsurf[F] := edgesofface2;;
+        od;
+
+        # Same as above, but for edges with respect to vertices
+        verticesofedgesofsurf := [];
+        for i in originaledgesofsurf do
+            e := mapedges[i]^perm;
+            verticesofedge := VerticesOfEdge( surf, i);
+            verticesofedge2 := List(verticesofedge, t -> mapvertices[t]^perm);
+            verticesofedgesofsurf[e] := verticesofedge2;;
+        od;
+
+
+        # Map the elements to the new labelling, then permute to canonical form
+        newfaces := Set(originalfacesofsurf, t -> mapfaces[t]^perm);
+        newedges := Set(originaledgesofsurf, t -> mapedges[t]^perm);
+        newvertices := Set(originalverticesofsurf, t -> mapvertices[t]^perm);
+
+        # Now that we have the newly labelled, canonical elements,
+        # we map them to a lex least labelling.
+        # We simply take the set of the new + canonical labels and make a bijection to
+        # its position in the set.
+        mapfaces2 := [];
+        for i in [1 .. Size(newfaces)] do
+            mapfaces2[newfaces[i]] := i;
+        od;
+        mapedges2 := [];
+        for i in [1 .. Size(newedges)] do
+            mapedges2[newedges[i]] := i;
+        od;
+        mapvertices2 := [];
+        for i in [1 .. Size(newvertices)] do
+            mapvertices2[newvertices[i]] := i;
+        od;
+
+        edgesoffacesofsurf2 := [];
+        for i in newfaces do
+            F := mapfaces2[i];
+            edgesoffacesofsurf2[F] := List(edgesoffacesofsurf[i], t -> mapedges2[t]);;
+        od;
+
+        verticesofedgesofsurf2 := [];
+        for i in newedges do
+            e := mapedges2[i];
+            verticesofedgesofsurf2[e] := List(verticesofedgesofsurf[i], t -> mapvertices2[t]);;
+        od;
+
+        # To get the inverse map, we reverse the lex least map,
+        # then the canonical permuting, then the bijection to new labelling.
+        inversefacemap:= List([1 .. n1], t -> Position(mapfaces2, t));
+        inversefacemap:= List(inversefacemap, t -> t^perminv);
+        inversefacemap:= List(inversefacemap, t -> Position(mapfaces, t));
+        inverseedgemap:= List([1 .. n2], t -> Position(mapedges2, t));
+        inverseedgemap:= List(inverseedgemap, t -> t^perminv);
+        inverseedgemap:= List(inverseedgemap, t -> Position(mapedges, t));
+        inversevertexmap:= List([1 .. n3], t -> Position(mapvertices2, t));
+        inversevertexmap:= List(inversevertexmap, t -> t^perminv);
+        inversevertexmap:= List(inversevertexmap, t -> Position(mapvertices, t));
+
+        surf2 := PolygonalSurfaceByDownwardIncidenceNC(verticesofedgesofsurf2, edgesoffacesofsurf2);
+
+        # return the canonical form of the surface and
+        # the bijcetions mapping the new elements to old, by element i in canonical surface
+        # maps to inversemap[i] in the old surface.
+        return [surf2, [inversefacemap, inverseedgemap, inversevertexmap]];
+    end
+);
+
 InstallMethod( AutomorphismGroupOnLocalFlags,
     "for a bend polygonal complex", [IsBendPolygonalComplex],
     function(complex)
