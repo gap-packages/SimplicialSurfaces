@@ -24,11 +24,3 @@ DeclareAttribute( "DisplayInformation", IsPolygonalComplex );
 
 
 
-#!	@Description
-#!	Takes a surface and maps from the faces, edges and vertices, and returns the surface
-#!	under the mapping. The maps are given as lists, with the position of the list indexed by
-#!	the input of the map (that is, the face/edge/vertex of the given surface) and the value at
-#!	that position is the image under the map.
-#!	@Arguments surface, facemap, edgemap, vertexmap
-#!	@Returns a simplicial surface
-DeclareOperation( "MappingOfSurfaces", [IsPolygonalSurface, IsList, IsList, IsList]);

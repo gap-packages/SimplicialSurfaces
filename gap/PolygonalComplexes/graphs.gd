@@ -278,6 +278,73 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! TODO can something be done about this? Currently the returned isomorphism does not match the labels (and group actions are hard to define);
 
 
+#! @Description
+#! Find the canonical representative of a polygonal surface, i.e. an 
+#! isomorphic surface with the following properties:
+#! * The vertices are numbered consecutively from 1 to the number of 
+#!   vertices (and similarly for edges and faces)
+#! * For any isomorphic surface, the same unique representative is 
+#!   returned in each case.
+#! 
+#! Also provides a map between the elements of the original surface and the 
+#! canonical surface.
+
+#! The following example illustrates the use of the 
+#! <K>CanonicalRepresentativeOfPolygonalSurface</K>
+#! command. We define the cube, but with a labelling of larger than necessary 
+#! integers.  
+#! <K>CanonicalRepresentativeOfPolygonalSurface</K> is then used to return 
+#! both the canonical 
+#! representative of the cube and the maps between the cube and its canonical 
+#! representative. The faces, edges 
+#! and vertices are displayed and are clearly now lex least in their 
+#! ordering. Some 
+#! checks reveal that the cube is not identical to its canonical 
+#! representative, it is however isomorphic, and 
+#! mapping the canonical representative under its preimage map returns the 
+#! cube again.
+
+#! @ExampleSession
+#! gap> faces := [ 20, 21, 22, 23, 24, 25 ];;
+#! gap> edges := [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];;
+#! gap> vertices := [ 12, 13, 14, 15, 16, 17, 18, 19 ];;
+#! gap> edgesOfFaces := [ ,,,,,,,,,,,,,,,,,,, [ 4, 5, 6, 7 ], [ 4, 8, 11, 15 ], 
+#! >        [ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ], [ 12, 13, 14, 15 ] ];;
+#! gap> verticesOfEdges := [ ,,, [ 12, 13 ], [ 13, 14 ], [ 14, 15 ], [ 12, 15 ], 
+#! >        [ 13, 17 ], [ 14, 18 ], [ 15, 19 ], [ 12, 16 ], [ 17, 18 ], [ 18, 19 ], 
+#! >        [ 16, 19 ], [ 16, 17 ] ];;
+#! gap> cube := PolygonalSurfaceByDownwardIncidence(vertices, edges, faces, 
+#! >        verticesOfEdges, edgesOfFaces);;
+#! gap> canonicalCube:=CanonicalRepresentativeOfPolygonalSurface(cube);;
+#! gap> canon:=canonicalCube[1];;
+#! gap> preimage:=MappingOfSurfaces(canon, canonicalCube[2][1], canonicalCube[2][2], 
+#! >        canonicalCube[2][3]);;
+#! gap> Faces(canon);
+#! [ 1, 2, 3, 4, 5, 6 ]
+#! gap> Edges(canon);
+#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+#! gap> Vertices(canon);
+#! [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+#! gap> EdgesOfFaces(canon);
+#! [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 1, 5, 9, 10 ], [ 3, 7, 9, 11 ], 
+#! [ 4, 8, 10, 12 ], [ 2, 6, 11, 12 ] ]
+#! gap> VerticesOfEdges(canon);
+#! [ [ 1, 2 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 5, 6 ], [ 7, 8 ], [ 5, 7 ], [ 6, 8 ], 
+#! [ 1, 5 ], [ 2, 6 ], [ 3, 7 ], [ 4, 8 ] ]
+#! gap> canon=cube;
+#! false
+#! gap> IsIsomorphic(cube, canon);
+#! true
+#! gap> preimage=cube;
+#! true
+#! @EndExampleSession
+
+#!	@Arguments surface
+#!	@Returns A list containing the canonical form of the surface and maps from the new
+#!	face, edge and vertex set respectively, to the old face, edge and vertex set.
+DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurface]);
+
+
 #! @Section Automorphism groups of polygonal complexes
 #! @SectionLabel Graphs_Automorphisms_Polygonal
 #!
@@ -683,56 +750,3 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 
 
 
-#!	@Description
-#!	Find the canonical representative of a polygonal surface, i.e. an isomorphic surface with the following properties:
-#!	- The vertices are numbered consecutively from 1 to the number of vertices (and similarly for edges and faces)
-#!	- For any isomorphic surface, the same unique representative is returned in each case.
-#!	Also provides a map between the elements of the original surface and the canonical surface.
-
-#! The following example illustrates the use of the <K>CanonicalRepresentativeOfPolygonalSurface</K>
-#! command. We define the cube, but with a labelling of larger than necessary integers.  
-#! <K>CanonicalRepresentativeOfPolygonalSurface</K> is then used to return both the canonical 
-#! representative of the cube and the maps between the cube and its canonical representative. The faces, edges 
-#! and vertices are displayed and are clearly now lex least in their ordering. Some 
-#! checks reveal that the cube is not identical to its canonical representative, it is however isomorphic, and 
-#! mapping the canonical representative under its preimage map returns the cube again.
-
-#! @ExampleSession
-#! gap> faces := [ 20, 21, 22, 23, 24, 25 ];;
-#! gap> edges := [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];;
-#! gap> vertices := [ 12, 13, 14, 15, 16, 17, 18, 19 ];;
-#! gap> edgesOfFaces := [ ,,,,,,,,,,,,,,,,,,, [ 4, 5, 6, 7 ], [ 4, 8, 11, 15 ], 
-#! >        [ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ], [ 12, 13, 14, 15 ] ];;
-#! gap> verticesOfEdges := [ ,,, [ 12, 13 ], [ 13, 14 ], [ 14, 15 ], [ 12, 15 ], 
-#! >        [ 13, 17 ], [ 14, 18 ], [ 15, 19 ], [ 12, 16 ], [ 17, 18 ], [ 18, 19 ], 
-#! >        [ 16, 19 ], [ 16, 17 ] ];;
-#! gap> cube := PolygonalSurfaceByDownwardIncidence(vertices, edges, faces, 
-#! verticesOfEdges, edgesOfFaces);;
-#! gap> canonicalCube:=CanonicalRepresentativeOfPolygonalSurface(cube);;
-#! gap> canon:=canonicalCube[1];;
-#! gap> preimage:=MappingOfSurfaces(canon, canonicalCube[2][1], canonicalCube[2][2], 
-#! >        canonicalCube[2][3]);;
-#! gap> Faces(canon);
-#! [ 1, 2, 3, 4, 5, 6 ]
-#! gap> Edges(canon);
-#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-#! gap> Vertices(canon);
-#! [ 1, 2, 3, 4, 5, 6, 7, 8 ]
-#! gap> EdgesOfFaces(canon);
-#! [ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 1, 5, 9, 10 ], [ 3, 7, 9, 11 ], 
-#! [ 4, 8, 10, 12 ], [ 2, 6, 11, 12 ] ]
-#! gap> VerticesOfEdges(canon);
-#! [ [ 1, 2 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 5, 6 ], [ 7, 8 ], [ 5, 7 ], [ 6, 8 ], 
-#! [ 1, 5 ], [ 2, 6 ], [ 3, 7 ], [ 4, 8 ] ]
-#! gap> canon=cube;
-#! false
-#! gap> IsIsomorphicPolygonalComplex(cube, canon);
-#! true
-#! gap> preimage=cube;
-#! true
-#! @EndExampleSession
-
-#!	@Arguments surface
-#!	@Returns A list containing the canonical form of the surface and maps from the new
-#!	face, edge and vertex set respectively, to the old face, edge and vertex set.
-DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurface]);

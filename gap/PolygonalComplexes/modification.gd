@@ -1194,7 +1194,22 @@ DeclareOperation( "SplitMend", [IsPolygonalComplex, IsList] );
 #! @Arguments complex
 DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
 #! @EndGroup
+
+#TODO this section is only here for a short time. As soon as it is more
+# developed, it should get its own chapter
+#! @Section Maps between polygonal surfaces
+#! This section is under construction and currently only contains a minimal
+#! implementation.
  
+#!	@Description
+#!	Takes a surface and maps from the faces, edges and vertices, and returns the surface
+#!	under the mapping. The maps are given as lists, with the position of the list indexed by
+#!	the input of the map (that is, the face/edge/vertex of the given surface) and the value at
+#!	that position is the image under the map.
+#!	@Arguments surface, facemap, edgemap, vertexmap
+#!	@Returns a simplicial surface
+DeclareOperation( "MappingOfSurfaces", [IsPolygonalSurface, IsList, IsList, IsList]);
+# This is currently implemented in main.gi
 
 # These do not fit the above pattern:
 # CommonCover       -> does not fit here at all -> chapter Coverings (or only as a section in chapter "Associated Complexes" that also includes DualSurface?)
