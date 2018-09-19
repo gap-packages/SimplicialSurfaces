@@ -129,6 +129,11 @@ BindGlobal( "__SIMPLICIAL_ConnectedStarComponents",
     function(complex, vertex)
         local faces, edges, edgeOfFaces, f, comp, conn;
 
+        # Compute some data in advance to avoid attribute scheduling
+        VerticesAttributeOfVEFComplex(complex);
+        Edges(complex);
+        Faces(complex);
+
         faces := FacesOfVertices(complex)[vertex];
         edges := EdgesOfVertices(complex)[vertex];
         edgeOfFaces := [];
@@ -269,6 +274,8 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
         local partialPaths, i, newPaths, p, pNew, pOld, newEdge, used, 
             newVertex, resPaths, extNew, extOld;
 
+        VerticesAttributeOfVEFComplex(newComplex); # Compute this once to avoid scheduling
+
         partialPaths := [ [[],[]] ];
         for i in [1..Length(labelList)] do
             # Try to extend every partial path in as many ways as possible
@@ -352,13 +359,13 @@ InstallMethod( SplitVertexEdgePathNC,
         swapComplex := complex;
         # Split the edges
         for i in [1..Length(EdgesAsList(vePath))] do
-            edgeSplit := SplitEdge(swapComplex, EdgesAsList(vePath)[i]);
+            edgeSplit := SplitEdgeNC(swapComplex, EdgesAsList(vePath)[i]);
             swapComplex := edgeSplit[1];
             newLabelList[2*i] := edgeSplit[2];
         od;
         # Split the vertices
         for i in [1..Length(VerticesAsList(vePath))-1] do
-            vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[i]);
+            vertexSplit := SplitVertexNC(swapComplex, VerticesAsList(vePath)[i]);
             swapComplex := vertexSplit[1];
             newLabelList[2*i-1] := vertexSplit[2];
         od;
@@ -367,7 +374,7 @@ InstallMethod( SplitVertexEdgePathNC,
             # The last vertex has already be splitted!
             newLabelList[2*size-1] := newLabelList[1];
         else
-            vertexSplit := SplitVertex(swapComplex, VerticesAsList(vePath)[size]);
+            vertexSplit := SplitVertexNC(swapComplex, VerticesAsList(vePath)[size]);
             swapComplex := vertexSplit[1];
             newLabelList[2*size-1] := vertexSplit[2];
         fi;
