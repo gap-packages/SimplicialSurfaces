@@ -643,6 +643,132 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsPolygonalComplex );
 
 #TODO AutomorphismGroupOnFlags
 
+#! @Section Action on paths
+#! @SectionLabel Graphs_Automorphisms_PathActions
+#!
+#! In section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> the action
+#! of the automorphism group on vertices, edges, and faces was defined. Since
+#! these actions are given as permutations, they can be efficiently computed
+#! in GAP. Nevertheless, it is sometimes convenient (if slower) to act
+#! on some composite objects (like <K>VertexEdgePaths</K>) directly.
+
+
+#! @Description
+#! Apply the automorphism <A>aut</A> to the vertex-edge-path <A>vePath</A>
+#! (for their definition consult section 
+#! <Ref Sect="Section_Paths_VertexEdge"/>).
+#! Currently this is only implemented if <A>vePath</A> is defined on a 
+#! polygonal complex.
+#!
+#! The automorphism should be given in the form that is returned by
+#! <K>AutomorphismGroup</K> (<Ref Subsect="AutomorphismGroup"/>). If the
+#! given automorphism is not well-defined for the given <A>vePath</A>
+#! (as checked by <K>DisplayAsAutomorphism</K>, 
+#! <Ref Subsect="DisplayAsAutomorphism"/>), <K>fail</K> is returned.
+#!
+#! As an example, we consider the octahedron.
+#! @ExampleSession
+#! gap> oct := Octahedron();;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#!
+#! We compute all duplicate-free vertex-edge-paths of length 2.
+#! @ExampleSession
+#! gap> paths := [];
+#! []
+#! gap> for v in Vertices(oct) do
+#! >        for edgePair in Arrangements( EdgesOfVertex(oct,v), 2 ) do
+#! >            Add( paths, VertexEdgePathByEdges(oct, edgePair) );
+#! >        od;
+#! >    od;
+#! gap> Length(paths);
+#! 72
+#! @EndExampleSession
+#!
+#! The automorphism group has exactly two orbits on this
+#! set of paths (either the two edges belong to one triangle, or they don't).
+#! @ExampleSession
+#! gap> autOct := AutomorphismGroup(oct);;
+#! gap> pathOrbits := Orbits(autOct, paths, OnVertexEdgePaths);;
+#! gap> Length(pathOrbits);
+#! 2
+#! gap> pathOrbits[1][1];
+#! | v2, E1, v1, E2, v3 |
+#! gap> pathOrbits[2][1];
+#! | v2, E1, v1, E3, v4 |
+#! gap> List( pathOrbits, Length );
+#! [ 48, 24 ]
+#! @EndExampleSession
+#!
+#! @Arguments vePath, aut
+#! @Returns a vertex-edge-path
+DeclareOperation( "OnVertexEdgePaths", 
+    [ IsVertexEdgePath and IsPolygonalComplexPath, IsPerm ] );
+
+
+#! @Description
+#! Apply the automorphism <A>aut</A> to the edge-face-path <A>efPath</A>
+#! (for their definition consult section 
+#! <Ref Sect="Section_Paths_EdgeFace"/>).
+#! Currently this is only implemented if <A>efPath</A> is defined on a 
+#! polygonal complex.
+#!
+#! The automorphism should be given in the form that is returned by
+#! <K>AutomorphismGroup</K> (<Ref Subsect="AutomorphismGroup"/>). If the
+#! given automorphism is not well-defined for the given <A>vePath</A>
+#! (as checked by <K>DisplayAsAutomorphism</K>, 
+#! <Ref Subsect="DisplayAsAutomorphism"/>), <K>fail</K> is returned.
+#!
+#! As an example, we consider the octahedron.
+#! @ExampleSession
+#! gap> oct := Octahedron();;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#!
+#! We compute all duplicate-free edge-face-paths of length 2.
+#! @ExampleSession
+#! gap> paths := [];
+#! []
+#! gap> for f in Faces(oct) do
+#! >        for pair in Arrangements( EdgesOfFace(oct, f), 2 ) do
+#! >            sndFace := NeighbourFaceByEdge(oct, f, pair[2]);
+#! >            otherEdges := Difference( EdgesOfFace(oct, sndFace), [pair[2]] );
+#! >            for finalEdge in otherEdges do
+#! >                Add(paths, 
+#! >                    EdgeFacePath(oct, [pair[1],f,pair[2],sndFace, finalEdge]));
+#! >            od;
+#! >        od;
+#! >    od;
+#! gap> Length(paths);
+#! 96
+#! @EndExampleSession
+#!
+#! The automorphism group has exactly two orbits on this
+#! set of paths.
+#! @ExampleSession
+#! gap> autOct := AutomorphismGroup(oct);;
+#! gap> pathOrbits := Orbits(autOct, paths, OnEdgeFacePaths);;
+#! gap> Length(pathOrbits);
+#! 2
+#! gap> pathOrbits[1][1];
+#! | e1, F1, e2, F7, e3 |
+#! gap> pathOrbits[2][1];
+#! | e1, F1, e2, F7, e8 |
+#! gap> List( pathOrbits, Length );
+#! [ 48, 48 ]
+#! @EndExampleSession
+#!
+#! @Arguments efPath, aut
+#! @Returns an edge-face-path
+DeclareOperation( "OnEdgeFacePaths", 
+    [ IsEdgeFacePath and IsPolygonalComplexPath, IsPerm ] );
+
+
+
 
 #! @Section Automorphism groups of bend polygonal complexes
 #! @SectionLabel Graphs_Automorphisms_Bend

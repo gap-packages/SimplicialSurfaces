@@ -692,6 +692,63 @@ InstallMethod( IsAutomorphismDefinedByFaces, "for a polygonal complex",
 );
 
 
+InstallMethod( OnVertexEdgePaths, 
+    "for a vertex-edge-path on a polygonal complex and an automorphism",
+    [IsVertexEdgePath and IsPolygonalComplexPath, IsPerm],
+    function( vePath, aut )
+        local surf, list, display, verts, edges, i;
+
+        surf := AssociatedVEFComplex(vePath);
+        display := DisplayAsAutomorphism(surf, aut);
+        if display = fail then
+            return fail;
+        fi;
+
+        list := [];
+        verts := VerticesAsList(vePath);
+        edges := EdgesAsList(vePath);
+        for i in [1..Length(verts)] do
+            list[2*i-1] := verts[i]^display[1];
+        od;
+        for i in [1..Length(edges)] do
+            list[2*i] := edges[i]^display[2];
+        od;
+
+        return VertexEdgePathNC(surf, list);
+    end
+);
+RedispatchOnCondition( OnVertexEdgePaths, true, [IsVertexEdgePath, IsPerm], [IsPolygonalComplexPath], 0 );
+
+
+InstallMethod( OnEdgeFacePaths, 
+    "for an edge-face-path on a polygonal complex and an automorphism",
+    [IsEdgeFacePath and IsPolygonalComplexPath, IsPerm],
+    function( efPath, aut )
+        local surf, list, display, faces, edges, i;
+
+        surf := AssociatedVEFComplex(efPath);
+        display := DisplayAsAutomorphism(surf, aut);
+        if display = fail then
+            return fail;
+        fi;
+
+        list := [];
+        edges := EdgesAsList(efPath);
+        faces := FacesAsList(efPath);
+        for i in [1..Length(edges)] do
+            list[2*i-1] := edges[i]^display[2];
+        od;
+        for i in [1..Length(faces)] do
+            list[2*i] := faces[i]^display[3];
+        od;
+
+        return EdgeFacePathNC(surf, list);
+    end
+);
+RedispatchOnCondition( OnEdgeFacePaths, true, [IsEdgeFacePath, IsPerm], [IsPolygonalComplexPath], 0 );
+
+
+
 
 InstallMethod( CanonicalRepresentativeOfPolygonalSurface, 
     "for a polygonal surface", [IsPolygonalSurface],
