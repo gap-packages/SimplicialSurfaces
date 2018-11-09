@@ -207,11 +207,11 @@
 
     <Section Label="PolygonalStructures_bend">
         <Heading>Bend polygonal complexes and surfaces</Heading>
-        A bend polygonal complex consists of a set of polygons whose vertices
-        and edges can be arbitrarily identified. In particular a square whose
-        opposite edges are identified (so it becomes a topological torus) can
-        be described by a bend polygonal complex (but not by a polygonal 
-        complex).
+        While polygonal complexes are quite general, they can't describe all
+        possible triangulations of a topological surface. For example, we
+        can construct a torus from a single polygon by starting with a 
+        square and identifying opposite edges.
+
         <Alt Only="TikZ">
             \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
                 \def\off{0.3}
@@ -234,7 +234,20 @@
                 \draw[red,thick,->] ($(D)+(0,\off)$) -- ($(C)+(0,\off)$);
             \end{tikzpicture}
         </Alt>
-        This is achieved by storing additional information:
+        Since all vertices of the square collapse into a single vertex, it
+        is impossible to describe this situation by a polygonal complex (as
+        every edge needs to be incident to <E>exactly two</E> vertices).
+
+        Structures like these appear naturally in several cases, for example.
+        <List>
+            <Item>Construction of surfaces from the coset action of a group.
+                </Item>
+            <Item>Construction of the geodesic dual.</Item>
+        </List>
+
+        For this reason, the more general <E>bend polygonal complexes</E>
+        are introduced. In comparison to polygonal complexes, they store
+        a lot more information:
         <Enum>
             <Item><E>Local vertices</E>: For every polygon there is
                 a local vertex for each corner (or angle).</Item>
@@ -246,7 +259,14 @@
                 local edge and a face, all of them incident.</Item>
         </Enum>
 
-        TODO explain, motivate, define bend polygonal complexes
+        Every polygon has its own local vertices and local edges (which
+        in turn define its local flags). Then the (global) vertices are 
+        equivalence
+        classes of local vertices. In the example of the square from before,
+        we would have four local vertices and only one (global) vertex.
+
+
+        TODO define bend polygonal complexes
         <ManSection>
             <Prop Name="IsBendPolygonalComplex" Arg="object" 
                 Label="for IsObject"
