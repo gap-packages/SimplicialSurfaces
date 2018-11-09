@@ -1174,8 +1174,26 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! <E>vertex-edge-paths</E> which are defined in more detail in section
 #! <Ref Sect="Section_Paths_VertexEdge"/>.
 #!
+#! For example, consider the following polygonal surface:
+#! <Alt Only="TikZ">
+#!   \input{Image_HoleExample.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> holeSurf := PolygonalSurfaceByDownwardIncidence(
+#! >     [ [1,4],[1,6],[1,7],[1,2],[2,8],[2,5],[2,3],[4,6],[6,7],[7,8],[5,8],
+#! >       [3,5],[4,9],[6,9],[6,7],[8,10],[5,10],[3,13],[9,11],[6,11],[7,11],
+#! >       [11,12],[8,12],[10,12],[12,13],[10,13] ],
+#! >     [ [1,2,8],[2,3,9],[3,4,5,10],[5,6,11],[6,7,12],[8,13,14],,,
+#! >       [12,17,18,26],[14,19,20],[15,20,21],[10,21,22,23],[16,23,24],
+#! >       [24,25,26] ]);;
+#! gap> PerimeterOfHoles(holeSurf);
+#! [ ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, 
+#!     E4, v1 ), ( v5, E11, v8, E16, v10, E17, v5 ), ( v6, E9, v7, E15, v6 ) ]
+#! @EndExampleSession
+#!
+#! 
+#!
 #! TODO example with access to vertices and edges
-#! TODO These examples should include holes of different sizes: at least 2, 3 and 4 edges
 #!
 
 #! @Description
@@ -1191,7 +1209,17 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! * The first edge (incident to the smallest vertex) is minimal
 #!
 #! All of those vertex-edge-paths are returned as a set.
-#! TODO example
+#!
+#! As an example, consider the surface from the start of section
+#! <Ref Sect="Section_Access_OrderedHoleAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_HoleExample.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> PerimeterOfHoles(holeSurf);
+#! [ ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, 
+#!     E4, v1 ), ( v5, E11, v8, E16, v10, E17, v5 ), ( v6, E9, v7, E15, v6 ) ]
+#! @EndExampleSession
 #!
 #! @Arguments surface
 #! @Returns a set of closed vertex-edge-paths

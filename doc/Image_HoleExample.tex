@@ -1,0 +1,45 @@
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle, scale=2.5]
+    \coordinate (D1) at (0,0);
+    \coordinate (D2) at (1,0);
+    \coordinate (D3) at (2.5,0);
+
+    \coordinate (M1) at (-0.5,1);
+    \coordinate (M2) at (0.5,1);
+    \coordinate (M3) at (1.5,1);
+    \coordinate (M4) at (2,0.5);
+    \coordinate (M5) at (2,1.5);
+
+    \coordinate (U1) at (0,2);
+    \coordinate (U2) at (1,2);
+    \coordinate (U3) at (2.5,2);
+
+    \coordinate (L1) at (-1,0.6);
+    \coordinate (L2) at (-1,1.4);
+
+
+    \draw[edge,face]
+        (U1) -- node[edgeLabel]{1} (L2) -- (M1) -- (U1)
+        (U1) -- node[edgeLabel]{2} (M1) to[bend left] node[edgeLabel]{9} (M2) -- (U1)
+        (U1) -- node[edgeLabel]{3} (M2) -- (M3) -- (U2) -- node[edgeLabel]{4} (U1)
+        (U2) -- node[edgeLabel]{5} (M3) -- node[edgeLabel]{11} (M5) -- (U2)
+        (U2) -- node[edgeLabel]{6} (M5) -- (U3) -- node[edgeLabel]{7} (U2)
+        (L2) -- node[edgeLabel]{13} (L1) -- (M1) -- node[edgeLabel]{8} (L2)
+        (M5) -- node[edgeLabel]{17} (M4) -- (D3) -- node[edgeLabel]{18} (U3) -- node[edgeLabel]{12} (M5)
+        (L1) -- node[edgeLabel]{19} (D1) -- (M1) -- node[edgeLabel]{14} (L1)
+        (M1) to[bend right] node[edgeLabel]{15} (M2) -- (D1) -- node[edgeLabel]{20} (M1)
+        (M2) -- node[edgeLabel]{21} (D1) -- node[edgeLabel]{22} (D2) -- (M3) -- node[edgeLabel]{10} (M2)
+        (M3) -- node[edgeLabel]{23} (D2) -- (M4) -- node[edgeLabel]{16} (M3)
+        (M4) -- node[edgeLabel]{24} (D2) -- node[edgeLabel]{25} (D3) -- node[edgeLabel]{26} (M4);
+
+    \foreach \a/\b/\c/\n in {U1/L2/M1/I, U1/M1/M2/II, U2/M3/M5/IV, U2/U3/M5/V, L2/L1/M1/VI, L1/M1/D1/X, M1/M2/D1/XI, D2/M3/M4/XIII, D2/M4/D3/XIV}{
+        \node[faceLabel] at (barycentric cs:\a=1,\b=1,\c=1) {\n};
+    }
+    \node[faceLabel] at (barycentric cs:U1=1,U2=1,M2=1,M3=1) {III};
+    \node[faceLabel] at (barycentric cs:M5=1,U3=1,M4=1,D3=1) {IX};
+    \node[faceLabel] at (barycentric cs:D1=1,D2=1,M2=1,M3=1) {XII};
+
+    \foreach \p/\r/\n in {U1/above/1, U2/above/2, U3/above/3, L2/left/4, M5/right/5, M1/right/6, M2/left/7, M3/right/8, L1/left/9, M4/right/10, D1/below/11, D2/below/12, D3/below/13}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+
+\end{tikzpicture}
