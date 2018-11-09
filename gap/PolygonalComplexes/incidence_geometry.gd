@@ -1186,14 +1186,27 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! >     [ [1,2,8],[2,3,9],[3,4,5,10],[5,6,11],[6,7,12],[8,13,14],,,
 #! >       [12,17,18,26],[14,19,20],[15,20,21],[10,21,22,23],[16,23,24],
 #! >       [24,25,26] ]);;
+#! @EndExampleSession
+#! 
+#! This polygonal surface has three holes. Two of them are easy to see and
+#! consist of two and three edges each. The third one is limited by the outer
+#! boundary of the visualisation and consists of eight edges.
+#! 
+#! @ExampleSession
 #! gap> PerimeterOfHoles(holeSurf);
 #! [ ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, 
 #!     E4, v1 ), ( v5, E11, v8, E16, v10, E17, v5 ), ( v6, E9, v7, E15, v6 ) ]
 #! @EndExampleSession
 #!
-#! 
+#! If we want to know which edges are part of the outer boundary, we need to
+#! access the inner workings of vertex-edge-paths.
+#! @ExampleSession
+#! gap> boundary := PerimeterOfHoles(holeSurf)[1];
+#! ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, E4, v1 )
+#! gap> EdgesAsList(boundary);
+#! [ 1, 13, 19, 22, 25, 18, 7, 4 ]
+#! @EndExampleSession
 #!
-#! TODO example with access to vertices and edges
 #!
 
 #! @Description
