@@ -43,7 +43,7 @@
 #! @ExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence( 
 #! >        [[1,2],[2,5],[2,6],[2,6],[1,6],[5,6],[1,7],[6,8],[5,9],[7,8],[8,9],
-#! >         [8,12],[2,13],[13,14]],
+#! >         [8,12],[2,13],[12,13]],
 #! >        [[1,3,5],[5,7,8,10],,[6,8,9,11],[2,4,6],[2,9,11,12,13,14]]);;
 #! @EndExampleSession
 #
@@ -51,4 +51,82 @@
 #! @Section Moving along edges
 #! @SectionLabel Navigation_Edges
 #!
+#! This section is concerned with movement along edges, i.e. the relation
+#! between vertices and edges. It contains the following methods (illustrated
+#! on the polygonal complex from the start of chapter 
+#! <Ref Chap="Chapter_Navigation"/>):
+#! * <K>IsVerticesAdjacent</K> (<Ref Subsect="IsVerticesAdjacent"/>) checks
+#!   whether two vertices are adjacent (i.e. connected by an edge).
+#! @ExampleSession
+#! gap> IsVerticesAdjacent( complex, 1, 2 );
+#! true
+#! gap> IsVerticesAdjacent( complex, 7, 12 );
+#! false
+#! gap> IsVerticesAdjacent( complex, 2, 2 );
+#! false
+#! @EndExampleSession
+#! * <K>Edge(s)BetweenVertices</K> (<Ref Subsect="EdgesBetweenVertices"/>)
+#!   returns the edge (or edges) between two vertices.
+#! @ExampleSession
+#! gap> EdgeBetweenVertices( complex, 1, 2 );
+#! 1
+#! gap> EdgesBetweenVertices( complex, 1, 2 );
+#! [ 1 ]
+#! gap> EdgeBetweenVertices( complex, 2, 6 );
+#! fail
+#! gap> EdgesBetweenVertices( complex, 2, 6 );
+#! [ 3, 4 ]
+#! gap> EdgeBetweenVertices( complex, 7, 9 );
+#! fail
+#! gap> EdgesBetweenVertices( complex, 7, 9 );
+#! [  ]
+#! @EndExampleSession
+#! * <K>OtherVertexOfEdge</K> (<Ref Subsect="OtherVertexOfEdge"/>) takes
+#!   an edge and an incident vertex and returns the other incident vertex
+#!   of the given edge.
+#! @ExampleSession
+#! gap> OtherEdgeOfVertexInFace( complex, 1, 5, 2 );
+#! 7
+#! @EndExampleSession
+#
+
+#! @BeginGroup IsVerticesAdjacent
+#! @Description
+#! The method <K>IsVerticesAdjacent</K> checks whether two given vertices
+#! of a VEF-complex are adjacent, i.e. whether they are connected by an
+#! edge.
 #! 
+#! The NC-version does not check whether <A>v1</A> and <A>v2</A> are vertices
+#! of the given
+#! VEF-complex.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsVerticesAdjacent( complex, 1, 2 );
+#! true
+#! gap> IsVerticesAdjacent( complex, 7, 12 );
+#! false
+#! gap> IsVerticesAdjacent( complex, 2, 2 );
+#! false
+#! gap> IsVerticesAdjacent( complex, 2, 6 );
+#! true
+#! @EndExampleSession
+#!
+#! This method can be implemented with the methods from chapter
+#! <Ref Chap="Chapter_AccessIncidenceGeometry"/>:
+#! @LogSession
+#! gap> Set([v1,v2]) in VerticesOfEdges(complex);
+#! @EndLogSession
+#!
+#! @Returns <K>true</K> or <K>false</K>
+#! @Arguments complex, v1, v2
+DeclareOperation("IsVerticesAdjacent", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, v1, v2
+DeclareOperation("IsVerticesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+

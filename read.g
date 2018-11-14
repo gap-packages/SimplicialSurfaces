@@ -22,6 +22,7 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/bend_polygonal_comple
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/navigation.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
 
