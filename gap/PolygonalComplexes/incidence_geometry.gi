@@ -331,51 +331,6 @@ InstallMethod( OtherEdgeOfVertexInFace,
 
 #######################################
 
-InstallMethod( OtherVertexOfEdgeNC,
-    "for a polygonal complex, a vertex, and an edge",
-    [IsPolygonalComplex, IsPosInt, IsPosInt],
-    function( complex, vertex, edge )
-        local possVert;
-        
-        possVert := VerticesOfEdges(complex)[edge];
-        if vertex = possVert[1] then
-            return possVert[2];
-        else
-            return possVert[1];
-        fi;
-    end
-);
-InstallMethod( OtherVertexOfEdgeNC,
-    "for a bend polygonal complex, a vertex, and an edge",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
-    function( complex, vertex, edge )
-        local possVert;
-        
-        possVert := VerticesOfEdges(complex)[edge];
-        if Length(possVert) = 1 then
-            return possVert[1];
-        fi;
-
-        if vertex = possVert[1] then
-            return possVert[2];
-        else
-            return possVert[1];
-        fi;
-    end
-);
-InstallMethod( OtherVertexOfEdge,
-    "for a VEF-complex, a vertex, and an edge",
-    [IsVEFComplex, IsPosInt, IsPosInt],
-    function( complex, vertex, edge )
-        local name;
-        
-        name := "OtherVertexOfEdge";
-        __SIMPLICIAL_CheckEdge(complex, edge, name);
-        __SIMPLICIAL_CheckIncidenceVertexEdge(complex, vertex, edge, name);
-        return OtherVertexOfEdgeNC(complex, vertex, edge);
-    end
-);
-
 #######################################
 
 InstallMethod( NeighbourFacesByEdgeNC,
