@@ -140,3 +140,79 @@ InstallMethod( OtherVertexOfEdge,
     end
 );
 
+
+
+#######################################
+##
+##      Moving within faces
+##
+InstallMethod( EdgesInFaceByVerticesNC,
+    "for a VEF-complex, a face, and a set of two vertices",
+    [IsVEFComplex, IsPosInt, IsSet],
+    function( complex, face, vertSet )
+        return Filtered( EdgesOfFaces(complex)[face], e ->
+            VerticesOfEdges(complex)[e] = vertSet);
+    end
+);
+InstallMethod( EdgesInFaceByVerticesNC,
+    "for a VEF-complex, a face, and a list of two vertices",
+    [IsVEFComplex, IsPosInt, IsList],
+    function( complex, face, vertList )
+        return EdgesInFaceByVerticesNC(complex, face, Set(vertList));
+    end
+);
+InstallMethod( EdgesInFaceByVertices,
+    "for a VEF-complex, a face, and a set of two vertices",
+    [IsVEFComplex, IsPosInt, IsSet],
+    function( complex, face, vertSet )
+        __SIMPLICIAL_CheckFace(complex, face, "EdgesInFaceByVertices");
+        return EdgesInFaceByVerticesNC(complex, face, vertSet);
+    end
+);
+InstallMethod( EdgesInFaceByVertices,
+    "for a VEF-complex, a face, and a list of two vertices",
+    [IsVEFComplex, IsPosInt, IsList],
+    function( complex, face, vertList )
+        return EdgesInFaceByVertices(complex, face, Set(vertList));
+    end
+);
+
+
+InstallMethod( EdgeInFaceByVerticesNC, 
+    "for a VEF-complex, a face, and a set of two vertices",
+    [IsVEFComplex, IsPosInt, IsSet],
+    function( complex, face, vertSet )
+        local possEdges;
+
+        possEdges := EdgesInFaceByVerticesNC(complex, face, vertSet);
+        if Length(possEdges) = 0  or Length(possEdges) > 1 then
+            return fail;
+        fi;
+        return possEdges[1];
+    end
+);
+InstallMethod( EdgeInFaceByVerticesNC,
+    "for a VEF-complex, a face, and a list of two vertices",
+    [IsVEFComplex, IsPosInt, IsList],
+    function( complex, face, vertList )
+        return EdgeInFaceByVerticesNC(complex, face, Set(vertList));
+    end
+);
+InstallMethod( EdgeInFaceByVertices,
+    "for a VEF-complex, a face, and a set of two vertices",
+    [IsVEFComplex, IsPosInt, IsSet],
+    function( complex, face, vertSet )
+        __SIMPLICIAL_CheckFace(complex, face, "EdgeInFaceByVertices");
+        return EdgeInFaceByVerticesNC(complex, face, vertSet);
+    end
+);
+InstallMethod( EdgeInFaceByVertices,
+    "for a VEF-complex, a face, and a list of two vertices",
+    [IsVEFComplex, IsPosInt, IsList],
+    function( complex, face, vertList )
+        return EdgeInFaceByVertices(complex, face, Set(vertList));
+    end
+);
+
+
+######

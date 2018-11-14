@@ -228,3 +228,86 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! @EndGroup
 
 
+
+#! @Section Moving within a face
+#! @SectionLabel Navigation_WithinFaces
+#!
+#! This section is concerned with the movement within a face, i.e. the 
+#! computation of related elements in a fixed face. This includes the
+#! following methods (illustrated with the polygonal complex from the
+#! start of chapter
+#! <Ref Chap="Chapter_Navigation"/>):
+#!
+#! * <K>EdgeInFaceByVertices</K> (<Ref Subsect="EdgeInFaceByVertices"/>)
+#!   returns the edge of a face that is incident to two vertices (and 
+#!   <K>fail</K> otherwise).
+#! @ExampleSession
+#! gap> EdgeInFaceByVertices( complex, 5, [2,6] );
+#! 4
+#! gap> EdgeInFaceByVertices( complex, 4, [6,9] );
+#! fail
+#! @EndExampleSession
+
+
+
+
+
+#! @BeginGroup EdgeInFaceByVertices
+#! @Description
+#! If the method <K>EdgeInFaceByVertices</K> is given a face and a list of 
+#! two vertices of a VEF-complex, it returns the 
+#! edge that
+#! lies in the given face and is incident to the given vertices, if possible.
+#! 
+#! If there is no such edge (because the given vertices are not incident to
+#! the given face or because they are not connected by an edge of the face),
+#! or if there are several of these edges (this might happen for bend polygonal
+#! complexes)
+#! it returns <K>fail</K>.
+#!
+#! The method <K>EdgesInFaceByVertices</K> takes the same arguments but
+#! returns the set of all edges fulfilling this specification.
+#! 
+#! The NC-versions do not check if <A>face</A> is a face of the given
+#! VEF-complex.
+#! 
+#! As an example consider the polygonal complex from the start of section
+#! <Ref Sect="Section_Access_SpecializedAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> EdgeInFaceByVertices(complex, 5, [2,6]);
+#! 4
+#! gap> EdgeInFaceByVertices(complex, 1, [2,1]);
+#! 1
+#! gap> EdgeInFaceByVertices(complex, 1, [2,6]);
+#! 3
+#! gap> EdgeInFaceByVertices(complex, 2, [1,2]);
+#! fail
+#! gap> EdgeInFaceByVertices(complex, 4, [5,8]);
+#! fail
+#! @EndExampleSession
+#!
+#! The method <K>EdgesInFaceByVertices</K> can be implemented with the
+#! methods of chapter <Ref Chap="Chapter_AccessIncidenceGeometry"/>:
+#! @LogSession
+#! gap> Intersection( EdgesOfFace(complex, face), 
+#! >      EdgesOfVertex(complex, verts[1]), EdgesOfVertex(complex, verts[2]) );
+#! @EndLogSession
+#!
+#! @Returns a positive integer or <K>fail</K>
+#! @Arguments complex, face, verts
+DeclareOperation("EdgeInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
+#! @Arguments complex, face, verts
+DeclareOperation("EdgeInFaceByVerticesNC", 
+        [IsVEFComplex, IsPosInt, IsList]);
+#! @Returns a set of positive integers
+#! @Arguments complex, face, verts
+DeclareOperation("EdgesInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
+#! @Arguments complex, face, verts
+DeclareOperation("EdgesInFaceByVerticesNC", 
+        [IsVEFComplex, IsPosInt, IsList]);
+#! @EndGroup
+
+

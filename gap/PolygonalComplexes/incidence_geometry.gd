@@ -560,58 +560,6 @@ DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! @EndExampleSession
 #! 
 
-#! @BeginGroup EdgeInFaceByVertices
-#! @Description
-#! If the method <K>EdgeInFaceByVertices</K> is given a face and a list of 
-#! two vertices of a VEF-complex, it returns the 
-#! edge that
-#! lies in the given face and is incident to the given vertices, if possible.
-#! 
-#! If there is no such edge (because the given vertices are not incident to
-#! the given face or because they are not connected by an edge of the face),
-#! or if there are several of these edges (might happen for bend polygonal
-#! complexes)
-#! it returns <K>fail</K>.
-#!
-#! The method <K>EdgesInFaceByVertices</K> takes the same arguments but
-#! returns the set of all edges fulfilling this specification.
-#! 
-#! The NC-versions do not check if <A>face</A> is a face of the given
-#! VEF-complex.
-#! 
-#! As an example consider the polygonal complex from the start of section
-#! <Ref Sect="Section_Access_SpecializedAccess"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> EdgeInFaceByVertices(complex, 5, [2,6]);
-#! 4
-#! gap> EdgeInFaceByVertices(complex, 1, [2,1]);
-#! 1
-#! gap> EdgeInFaceByVertices(complex, 1, [2,6]);
-#! 3
-#! gap> EdgeInFaceByVertices(complex, 2, [1,2]);
-#! fail
-#! gap> EdgeInFaceByVertices(complex, 4, [5,8]);
-#! fail
-#! @EndExampleSession
-#!
-#! @Returns a positive integer or <K>fail</K>
-#! @Arguments complex, face, verts
-DeclareOperation("EdgeInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
-#! @Arguments complex, face, verts
-DeclareOperation("EdgeInFaceByVerticesNC", 
-        [IsVEFComplex, IsPosInt, IsList]);
-#! @Returns a set of positive integers
-#! @Arguments complex, face, verts
-DeclareOperation("EdgesInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
-#! @Arguments complex, face, verts
-DeclareOperation("EdgesInFaceByVerticesNC", 
-        [IsVEFComplex, IsPosInt, IsList]);
-#! @EndGroup
-
-
 #! @BeginGroup OtherEdgeOfVertexInFace
 #! @Description
 #! If the method <K>OtherEdgeOfVertexInFace</K> is given a vertex, an edge,
