@@ -237,7 +237,9 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! following methods (illustrated with the polygonal complex from the
 #! start of chapter
 #! <Ref Chap="Chapter_Navigation"/>):
-#!
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
 #! * <K>EdgeInFaceByVertices</K> (<Ref Subsect="EdgeInFaceByVertices"/>)
 #!   returns the edge of a face that is incident to two vertices (and 
 #!   <K>fail</K> otherwise).
