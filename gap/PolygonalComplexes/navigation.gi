@@ -309,7 +309,6 @@ InstallMethod( OtherEdgeOfVertexInFace,
 
 ###########
 
-
 InstallMethod( OppositeVertexOfEdgeInTriangleNC,
     "for a polygonal complex, an edge, and a face",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
@@ -344,5 +343,43 @@ InstallMethod( OppositeVertexOfEdgeInTriangle,
         fi;
 
         return OppositeVertexOfEdgeInTriangleNC(complex, edge, face);
+    end
+);
+
+
+InstallMethod( OppositeEdgeOfVertexInTriangleNC,
+    "for a polygonal complex, a vertex, and a face",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, vertex, face)
+        local eFace, eVertex, e;
+
+        eFace := EdgesOfFaces(complex)[face];
+        eVertex := EdgesOfVertices(complex)[vertex];
+        for e in eFace do
+            if not e in eVertex then
+                return e;
+            fi;
+        od;
+
+        Error("OppositeEdgexOfVertexInTriangleNC: Illegal input. Please don't use the NC-version.");
+    end
+);
+InstallMethod( OppositeEdgeOfVertexInTriangle,
+    "for a polygonal complex, a vertex, and a face",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, vertex, face)
+        local name, len;
+
+        name := "OppositeEdgeOfVertexInTriangle";
+        __SIMPLICIAL_CheckVertex(complex, vertex, name);
+        __SIMPLICIAL_CheckFace(complex, face, name);
+        __SIMPLICIAL_CheckIncidenceVertexFace(complex, vertex, face, name);
+        len := Length( EdgesOfFaces(complex)[face] );
+        if len <> 3 then
+            Error(Concatenation(name, ": Given face", String(face), 
+                    " should be a triangle, but has ", String(len), " edges." ));
+        fi;
+
+        return OppositeEdgeOfVertexInTriangleNC(complex, vertex, face);
     end
 );

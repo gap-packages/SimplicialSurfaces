@@ -269,8 +269,8 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #!   edge that is incident to the face but not to the vertex.
 #!   Currently, this is only supported for polygonal complexes.
 #! @ExampleSession
-#! gap> OppositeEdgeOfVertexInTriangle( complex, 4, 5 );
-#! 5
+#! gap> OppositeEdgeOfVertexInTriangle( complex, 5, 5 );
+#! 4
 #! @EndExampleSession
 #!  
 #
@@ -436,6 +436,55 @@ DeclareOperation("OtherEdgesOfVertexInFaceNC",
 DeclareOperation("OppositeVertexOfEdgeInTriangle",
     [IsPolygonalComplex, IsPosInt, IsPosInt]);
 DeclareOperation("OppositeVertexOfEdgeInTriangleNC",
+    [IsPolygonalComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup OppositeEdgeOfVertexInTriangle
+#! @Description
+#! If the method <K>OppositeEdgeOfVertexInTriangle</K> is given a vertex and
+#! a face of a polygonal complex, such that the vertex is incident to the face 
+#! and
+#! the face is a triangle, then it returns the unique edge incident to the
+#! face, but not the vertex.
+#!
+#! The NC-version does not check whether the given vertex and face
+#! actually lie in the complex, are incident to each other and whether
+#! the given face is a triangle.
+#! 
+#! As an example consider the polygonal complex that was introduced at the
+#! start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> OppositeEdgeOfVertexInTriangle( complex, 1, 1 );
+#! 3
+#! gap> OppositeEdgeOfVertexInTriangle( complex, 2, 1 );
+#! 5
+#! gap> OppositeEdgeOfVertexInTriangle( complex, 6, 1 );
+#! 1
+#! gap> OppositeEdgeOfVertexInTriangle( complex, 2, 5 );
+#! 6
+#! gap> OppositeEdgeOfVertexInTriangle( complex, 5, 5 );
+#! 4
+#! gap> OppositeEdgeOfVertexInTriangle( complex, 6, 5 );
+#! 2
+#! @EndExampleSession
+#!
+#! This method can be implemented with
+#! the methods of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! @LogSession
+#! gap> Difference( EdgesOfFace(complex,face), EdgesOfVertex(complex,vertex) );
+#! @EndLogSession
+#!
+#! @Returns a positive integer
+#! @Arguments complex, vertex, face
+DeclareOperation("OppositeEdgeOfVertexInTriangle",
+    [IsPolygonalComplex, IsPosInt, IsPosInt]);
+DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
     [IsPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 

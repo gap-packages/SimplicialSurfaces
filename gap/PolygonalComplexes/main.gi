@@ -164,6 +164,18 @@ BindGlobal( "__SIMPLICIAL_CheckIncidenceEdgeFace",
         fi;
     end
 );
+BindGlobal( "__SIMPLICIAL_CheckIncidenceVertexFace",
+    function( complex, vertex, face, name )
+        local mes;
+        
+        if not vertex in VerticesOfFaces(complex)[face] then
+            mes := Concatenation( name, ": Given vertex ", String(vertex),
+                " does not lie in given face ", String(face),
+                " of the given complex.");
+            Error(mes);
+        fi;
+    end
+);
 
 ##
 ## Equality and display methods
