@@ -307,3 +307,42 @@ InstallMethod( OtherEdgeOfVertexInFace,
 );
 
 
+###########
+
+
+InstallMethod( OppositeVertexOfEdgeInTriangleNC,
+    "for a polygonal complex, an edge, and a face",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, edge, face)
+        local vFace, vEdge, v;
+
+        vFace := VerticesOfFaces(complex)[face];
+        vEdge := VerticesOfEdges(complex)[edge];
+        for v in vFace do
+            if not v in vEdge then
+                return v;
+            fi;
+        od;
+
+        Error("OppositeVertexOfEdgeInTriangleNC: Illegal input. Please don't use the NC-version.");
+    end
+);
+InstallMethod( OppositeVertexOfEdgeInTriangle,
+    "for a polygonal complex, an edge, and a face",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, edge, face)
+        local name, len;
+
+        name := "OppositeVertexOfEdgeInTriangle";
+        __SIMPLICIAL_CheckEdge(complex, edge, name);
+        __SIMPLICIAL_CheckFace(complex, face, name);
+        __SIMPLICIAL_CheckIncidenceEdgeFace(complex, edge, face, name);
+        len := Length( EdgesOfFaces(complex)[face] );
+        if len <> 3 then
+            Error(Concatenation(name, ": Given face", String(face), 
+                    " should be a triangle, but has ", String(len), " edges." ));
+        fi;
+
+        return OppositeVertexOfEdgeInTriangleNC(complex, edge, face);
+    end
+);

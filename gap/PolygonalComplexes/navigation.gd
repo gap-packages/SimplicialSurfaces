@@ -165,7 +165,7 @@ DeclareOperation("IsVerticesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #!
 #! The method <K>EdgesBetweenVertices</K> can be implemented with the 
 #! methods from chapter
-#! <Ref Chap="Chapter_AccessIncidenceGeometry"/>:
+#! <Ref Chap="Chapter_Navigation"/>:
 #! @LogSession
 #! gap> Intersection( EdgesOfVertex(complex,v1), EdgesOfVertex(complex,v2) );
 #! @EndLogSession
@@ -196,7 +196,7 @@ DeclareOperation("EdgeBetweenVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter
-#! <Ref Chap="Chapter_AccessIncidenceGeometry"/>:
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
 #! </Alt>
@@ -254,10 +254,26 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! gap> OtherEdgeOfVertexInFace( complex, 1, 5, 2 );
 #! 7
 #! @EndExampleSession
+#! * <K>OppositeVertexOfEdgeInTriangle</K>
+#!   (<Ref Subsect="OppositeVertexOfEdgeInTriangle"/>) is given an edge
+#!   and an incident face (which has to be a triangle) and returns the
+#!   unique vertex that is incident to the face but not to the edge.
+#!   Currently, this is only supported for polygonal complexes.
+#! @ExampleSession
+#! gap> OppositeVertexOfEdgeInTriangle( complex, 3, 1 );
+#! 1
+#! @EndExampleSession
+#! * <K>OppositeEdgeOfVertexInTriangle</K>
+#!   (<Ref Subsect="OppositeEdgeOfVertexInTriangle"/>) is given a vertex
+#!   and an incident face (which has to be a triangle) and returns the unique
+#!   edge that is incident to the face but not to the vertex.
+#!   Currently, this is only supported for polygonal complexes.
+#! @ExampleSession
+#! gap> OppositeEdgeOfVertexInTriangle( complex, 4, 5 );
+#! 5
+#! @EndExampleSession
+#!  
 #
-
-
-
 
 
 #! @BeginGroup EdgeInFaceByVertices
@@ -279,8 +295,8 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! The NC-versions do not check if <A>face</A> is a face of the given
 #! VEF-complex.
 #! 
-#! As an example consider the polygonal complex from the start of section
-#! <Ref Sect="Section_Access_SpecializedAccess"/>:
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
 #! </Alt>
@@ -336,8 +352,8 @@ DeclareOperation("EdgesInFaceByVerticesNC",
 #! actually lie in the complex and are incident to each other.
 #! 
 #! As an example consider the polygonal complex that was introduced at the
-#! start of section
-#! <Ref Sect="Section_Access_SpecializedAccess"/>:
+#! start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
 #!   \input{Image_EyeStone.tex}
 #! </Alt>
@@ -372,6 +388,55 @@ DeclareOperation("OtherEdgesOfVertexInFace",
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgesOfVertexInFaceNC",
         [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup OppositeVertexOfEdgeInTriangle
+#! @Description
+#! If the method <K>OppositeVertexOfEdgeInTriangle</K> is given an edge and
+#! a face of a polygonal complex, such that the edge is incident to the face 
+#! and
+#! the face is a triangle, then it returns the unique vertex incident to the
+#! face, but not the edge.
+#!
+#! The NC-version does not check whether the given edge and face
+#! actually lie in the complex, are incident to each other and whether
+#! the given face is a triangle.
+#! 
+#! As an example consider the polygonal complex that was introduced at the
+#! start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> OppositeVertexOfEdgeInTriangle( complex, 1, 1 );
+#! 6
+#! gap> OppositeVertexOfEdgeInTriangle( complex, 3, 1 );
+#! 1
+#! gap> OppositeVertexOfEdgeInTriangle( complex, 5, 1 );
+#! 2
+#! gap> OppositeVertexOfEdgeInTriangle( complex, 2, 5 );
+#! 6
+#! gap> OppositeVertexOfEdgeInTriangle( complex, 4, 5 );
+#! 5
+#! gap> OppositeVertexOfEdgeInTriangle( complex, 6, 5 );
+#! 2
+#! @EndExampleSession
+#!
+#! This method can be implemented with
+#! the methods of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! @LogSession
+#! gap> Difference( VerticesOfFace(complex,face), VerticesOfEdge(complex,edge) );
+#! @EndLogSession
+#!
+#! @Returns a positive integer
+#! @Arguments complex, edge, face
+DeclareOperation("OppositeVertexOfEdgeInTriangle",
+    [IsPolygonalComplex, IsPosInt, IsPosInt]);
+DeclareOperation("OppositeVertexOfEdgeInTriangleNC",
+    [IsPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
