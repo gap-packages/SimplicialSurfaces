@@ -130,3 +130,55 @@ DeclareOperation("IsVerticesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
+
+#! @BeginGroup EdgesBetweenVertices
+#! @Description
+#! The method <K>EdgesBetweenVertices</K> returns the set of all edges that
+#! are incident to both given vertices
+#! of a VEF-complex. If there is exactly one edge incident to both vertices,
+#! <K>EdgeBetweenVertices</K> directly returns this edge (or <K>fail</K> if
+#! this is not the case).
+#! 
+#! The NC-versions do not check whether <A>v1</A> and <A>v2</A> are vertices
+#! of the given
+#! VEF-complex.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> EdgeBetweenVertices( complex, 1, 2 );
+#! 1
+#! gap> EdgesBetweenVertices( complex, 1, 2 );
+#! [ 1 ]
+#! gap> EdgeBetweenVertices( complex, 2, 6 );
+#! fail
+#! gap> EdgesBetweenVertices( complex, 2, 6 );
+#! [ 3, 4 ]
+#! gap> EdgeBetweenVertices( complex, 7, 9 );
+#! fail
+#! gap> EdgesBetweenVertices( complex, 7, 9 );
+#! [  ]
+#! @EndExampleSession
+#!
+#! The method <K>EdgesBetweenVertices</K> can be implemented with the 
+#! methods from chapter
+#! <Ref Chap="Chapter_AccessIncidenceGeometry"/>:
+#! @LogSession
+#! gap> Intersection( EdgesOfVertex(complex,v1), EdgesOfVertex(complex,v2) );
+#! @EndLogSession
+#!
+#! @Returns A set of edges
+#! @Arguments complex, v1, v2
+DeclareOperation("EdgesBetweenVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, v1, v2
+DeclareOperation("EdgesBetweenVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Returns An edge or <K>fail</K>
+#! @Arguments complex, v1, v2
+DeclareOperation("EdgeBetweenVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, v1, v2
+DeclareOperation("EdgeBetweenVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
+
