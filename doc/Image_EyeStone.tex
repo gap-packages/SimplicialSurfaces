@@ -1,17 +1,17 @@
 \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-    %         8
-    %       / | \ 
-    %   10/   |8  \11
-    %   /     |     \
-    % 7  II   6  IV  9
-    % |     / |\     |
-    % |7  /5  |  6\  |9
-    % | /    | |    \|
-    % 1  I 3|   |4 V 5
-    %   \    | |    /
-    %    1\   |   /2
-    %       \ | /
-    %         2
+    %         8 ------------ 12
+    %       / | \      12    |
+    %   10/   |8  \11        |
+    %   /     |     \        |
+    % 7  II   6  IV  9       |
+    % |     / |\     |       |
+    % |7  /5  |  6\  |9  VI  |14
+    % | /    | |    \|       |
+    % 1  I 3|   |4 V 5       |
+    %   \    | |    /        |
+    %    1\   |   /2         |
+    %       \ | /      13    |
+    %         2 ------------ 13
     \def\hor{2.4}
     \def\ver{1.2}
     \coordinate (P1) at (0,0);
@@ -21,8 +21,11 @@
     \coordinate (P7) at (0,1.5*\ver);
     \coordinate (P8) at ($(P7)+(P6)$);
     \coordinate (P9) at ($(P7)+(P5)$);
+    \coordinate (P12) at ($(P8)+(1.6*\hor,0)$);
+    \coordinate (P13) at ($(P2)+(1.6*\hor,0)$);
 
     \draw[edge, face]
+        (P2) -- node[edgeLabel]{13} (P13) -- node[edgeLabel]{14} (P12) -- node[edgeLabel]{12} (P8) -- (P9) -- (P5) -- cycle
         (P1) -- (P6) -- (P8) -- node[edgeLabel]{10} (P7) -- node[edgeLabel]{7} cycle
         (P6) -- (P5) -- node[edgeLabel]{9} (P9) -- node[edgeLabel]{11} (P8) -- node[edgeLabel]{8} cycle
         (P1) -- node[edgeLabel]{1} (P2) to[bend left] node[edgeLabel]{3} (P6) -- node[edgeLabel] {5} cycle
@@ -32,8 +35,9 @@
     \node[faceLabel] at (barycentric cs:P6=1,P5=1,P9=1,P8=1) {$IV$};
     \node[faceLabel] at (barycentric cs:P1=2,P2=1,P6=1) {$I$};
     \node[faceLabel] at (barycentric cs:P2=1,P5=2,P6=1) {$V$};
+    \node[faceLabel] at (barycentric cs:P5=1,P9=1,P12=1,P13=1) {$VI$};
 
-    \foreach \p/\r/\n in {P1/left/1, P2/below/2, P6/below/6, P5/right/5, P7/left/7, P8/above/8, P9/right/9}{
+    \foreach \p/\r/\n in {P1/left/1, P2/below/2, P6/below/6, P5/right/5, P7/left/7, P8/above/8, P9/right/9, P12/above/12, P13/below/13}{
         \vertexLabelR{\p}{\r}{\n}
     }
 \end{tikzpicture}
