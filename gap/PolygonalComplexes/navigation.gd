@@ -247,6 +247,14 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! gap> EdgeInFaceByVertices( complex, 4, [6,9] );
 #! fail
 #! @EndExampleSession
+#! * <K>OtherEdgeOfVertexInFace</K> (<Ref Subsect="OtherEdgeOfVertexInFace"/>)
+#!   is given a vertex, an edge, and a face (all of them incident). It returns
+#!   the other edge incident to both the vertex and the face (or <K>fail</K>).
+#! @ExampleSession
+#! gap> OtherEdgeOfVertexInFace( complex, 1, 5, 2 );
+#! 7
+#! @EndExampleSession
+#
 
 
 
@@ -309,5 +317,62 @@ DeclareOperation("EdgesInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
 DeclareOperation("EdgesInFaceByVerticesNC", 
         [IsVEFComplex, IsPosInt, IsList]);
 #! @EndGroup
+
+
+#! @BeginGroup OtherEdgeOfVertexInFace
+#! @Description
+#! If the method <K>OtherEdgeOfVertexInFace</K> is given a vertex, an edge,
+#! and a face of a VEF-complex, it returns the other edge incident to the
+#! vertex and the face, if possible.
+#!
+#! For a bend polygonal complex it might happen that only one or more than 
+#! two edges are
+#! incident to both vertex and face. In this case <K>fail</K> is returned.
+#! 
+#! The method <K>OtherEdgesOfVertexInFace</K> returns the set of all edges
+#! satisfying this restriction.
+#! 
+#! The NC-version does not check whether the given vertex, edge, and face
+#! actually lie in the complex and are incident to each other.
+#! 
+#! As an example consider the polygonal complex that was introduced at the
+#! start of section
+#! <Ref Sect="Section_Access_SpecializedAccess"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> OtherEdgeOfVertexInFace(complex, 1, 5, 2);
+#! 7
+#! gap> OtherEdgeOfVertexInFace(complex, 5, 9, 4);
+#! 6
+#! gap> OtherEdgeOfVertexInFace(complex, 1, 5, 1);
+#! 1
+#! @EndExampleSession
+#!
+#! The method <K>OtherEdgesOfVertexInFace</K> can be implemented with
+#! the methods of chapter
+#! <Ref Chap="Chapter_AccessIncidenceGeometry"/>:
+#! @LogSession
+#! gap> Difference( Intersection( EdgesOfFace(complex, face), 
+#! >                     EdgesOfVertex(complex, vertex) ), [ edge ] );
+#! @EndLogSession
+#!
+#! @Returns a positive integer or <K>fail</K>
+#! @Arguments complex, vertex, edge, face
+DeclareOperation("OtherEdgeOfVertexInFace", 
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertex, edge, face
+DeclareOperation("OtherEdgeOfVertexInFaceNC",
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Returns a set of positive integers
+#! @Arguments complex, vertex, edge, face
+DeclareOperation("OtherEdgesOfVertexInFace", 
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertex, edge, face
+DeclareOperation("OtherEdgesOfVertexInFaceNC",
+        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @EndGroup
+
 
 
