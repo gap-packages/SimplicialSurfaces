@@ -492,3 +492,46 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 
 
 
+#! @Section Moving between faces
+#! @SectionLabel Navigation_BetweenFaces
+#! 
+#! This section contains methods for the movement between faces, i.e.
+#! whether faces are adjacent and, if so, by which edge. It includes the
+#! following methods (illustrated on the polygonal complex
+#! from the start of chapter <Ref Chap="Chapter_Navigation"/>):
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#!
+#! * <K>IsFacesAdjacent</K> (<Ref Subsect="IsFacesAdjacent"/>) checks whether
+#!   two faces are adjacent (i.e. if they are different but there is an 
+#!   edge incident to both).
+#! @ExampleSession
+#! gap> IsFacesAdjacent( complex, 1, 2 );
+#! true
+#! gap> IsFacesAdjacent( complex, 1, 4 );
+#! false
+#! @EndExampleSession
+#! * <K>Edge(s)BetweenFaces</K> (<Ref Subsect="EdgesBetweenFaces"/>) returns
+#!   the edge (or edges) between two faces.
+#! @ExampleSession
+#! gap> EdgeBetweenFaces( complex, 2, 4 );
+#! 8
+#! gap> EdgesBetweenFaces( complex, 2, 4 );
+#! [ 8 ]
+#! gap> EdgeBetweenFaces( complex, 4, 6 );
+#! fail
+#! gap> EdgesBetweenFaces( complex, 4, 6 );
+#! [ 9, 11 ]
+#! gap> EdgeBetweenFaces( complex, 2, 5 );
+#! fail
+#! gap> EdgesBetweenFaces( complex, 2, 5 );
+#! [  ]
+#! @EndExampleSession
+#! * <K>NeighbourFaceByEdge</K> (<Ref Subsect="NeighbourFaceByEdge"/>) returns
+#!   the face that is adjacent to the
+#!   given face (with respect to the given edge).
+#! @ExampleSession
+#! gap> NeighbourFaceByEdge( complex, 2, 8 );
+#! 4
+#! @EndExampleSession
