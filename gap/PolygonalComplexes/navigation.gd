@@ -535,3 +535,99 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 #! gap> NeighbourFaceByEdge( complex, 2, 8 );
 #! 4
 #! @EndExampleSession
+
+
+#! @BeginGroup IsFacesAdjacent
+#! @Description
+#! The method <K>IsFacesAdjacent</K> checks whether two given faces
+#! of a VEF-complex are adjacent, i.e. whether they are connected by an
+#! edge.
+#! 
+#! The NC-version does not check whether <A>f1</A> and <A>f2</A> are faces
+#! of the given
+#! VEF-complex.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsFacesAdjacent( complex, 1, 2 );
+#! true
+#! gap> IsFacesAdjacent( complex, 1, 4 );
+#! false
+#! gap> IsFacesAdjacent( complex, 2, 2 );
+#! false
+#! gap> IsFacesAdjacent( complex, 4, 5 );
+#! true
+#! @EndExampleSession
+#!
+#! This method can be implemented with the methods from chapter
+#! <Ref Chap="Chapter_AccessIncidenceGeometry"/>:
+#! @LogSession
+#! gap> Set([f1,f2]) in FacesOfEdges(complex);
+#! @EndLogSession
+#!
+#! @Returns <K>true</K> or <K>false</K>
+#! @Arguments complex, f1, f2
+DeclareOperation("IsFacesAdjacent", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, f1, f2
+DeclareOperation("IsFacesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+
+
+#! @BeginGroup EdgesBetweenFaces
+#! @Description
+#! The method <K>EdgesBetweenFaces</K> returns the set of all edges that
+#! are incident to both given faces
+#! of a VEF-complex. If there is exactly one edge incident to both faces,
+#! <K>EdgeBetweenFaces</K> directly returns this edge (or <K>fail</K> if
+#! this is not the case).
+#! 
+#! The NC-versions do not check whether <A>f1</A> and <A>f2</A> are faces
+#! of the given
+#! VEF-complex.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> EdgeBetweenFaces( complex, 2, 4 );
+#! 8
+#! gap> EdgesBetweenFaces( complex, 2, 4 );
+#! [ 8 ]
+#! gap> EdgeBetweenFaces( complex, 4, 6 );
+#! fail
+#! gap> EdgesBetweenFaces( complex, 4, 6 );
+#! [ 9, 11 ]
+#! gap> EdgeBetweenFaces( complex, 2, 5 );
+#! fail
+#! gap> EdgesBetweenFaces( complex, 2, 5 );
+#! [  ]
+#! @EndExampleSession
+#!
+#! The method <K>EdgesBetweenFaces</K> can be implemented with the 
+#! methods from chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! @LogSession
+#! gap> Intersection( EdgesOfFace(complex,f1), EdgesOfFace(complex,f2) );
+#! @EndLogSession
+#!
+#! @Returns A set of edges
+#! @Arguments complex, f1, f2
+DeclareOperation("EdgesBetweenFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, f1, f2
+DeclareOperation("EdgesBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Returns An edge or <K>fail</K>
+#! @Arguments complex, f1, f2
+DeclareOperation("EdgeBetweenFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, f1, f2
+DeclareOperation("EdgeBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+
+

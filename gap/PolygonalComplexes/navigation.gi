@@ -383,3 +383,89 @@ InstallMethod( OppositeEdgeOfVertexInTriangle,
         return OppositeEdgeOfVertexInTriangleNC(complex, vertex, face);
     end
 );
+
+
+#######################################
+##
+##      Moving between faces
+##
+InstallMethod( IsFacesAdjacentNC, "for a VEF-complex and two faces",
+    [IsVEFComplex, IsPosInt, IsPosInt],
+    function(complex, f1, f2)
+        if f1 < f2 then
+            return [f1,f2] in FacesOfEdges(complex);
+        else
+            return [f2,f1] in FacesOfEdges(complex);
+        fi;
+    end
+);
+InstallMethod( IsFacesAdjacent, "for a VEF-complex and two faces",
+    [IsVEFComplex, IsPosInt, IsPosInt],
+    function(complex, f1, f2)
+        local name;
+
+        name := "IsFacesAdjacent";
+        __SIMPLICIAL_CheckFace(complex, f1, name);
+        __SIMPLICIAL_CheckFace(complex, f2, name);
+
+        return IsFacesAdjacentNC(complex, f1, f2);
+    end
+);
+
+InstallMethod( EdgesBetweenFacesNC, "for a VEF-complex and two faces",
+    [IsVEFComplex, IsPosInt, IsPosInt],
+    function(complex, f1, f2)
+        local res, e1, e2, e;
+
+        res := [];
+        e1 := EdgesOfFaces(complex)[f1];
+        e2 := EdgesOfFaces(complex)[f2];
+        for e in e1 do
+            if e in e2 then
+                Add(res,e);
+            fi;
+        od;
+
+        return res;
+    end
+);
+InstallMethod( EdgesBetweenFaces, "for a VEF-complex and two faces",
+    [IsVEFComplex, IsPosInt, IsPosInt],
+    function(complex, f1, f2)
+        local name;
+
+        name := "EdgesBetweenFaces";
+        __SIMPLICIAL_CheckFace(complex, f1, name);
+        __SIMPLICIAL_CheckFace(complex, f2, name);
+
+        return EdgesBetweenFacesNC(complex, f1, f2);
+    end
+);
+
+InstallMethod( EdgeBetweenFacesNC, "for a VEF-complex and two faces",
+    [IsVEFComplex, IsPosInt, IsPosInt],
+    function(complex, f1, f2)
+        local edges;
+
+        edges := EdgesBetweenFacesNC(complex, f1, f2);
+        if Length(edges) = 1 then
+            return edges[1];
+        else
+            return fail;
+        fi;
+    end
+);
+InstallMethod( EdgeBetweenFaces, "for a VEF-complex and two faces",
+    [IsVEFComplex, IsPosInt, IsPosInt],
+    function(complex, f1, f2)
+        local name;
+
+        name := "EdgeBetweenFaces";
+        __SIMPLICIAL_CheckFace(complex, f1, name);
+        __SIMPLICIAL_CheckFace(complex, f2, name);
+
+        return EdgeBetweenFacesNC(complex,f1,f2);
+    end
+);
+
+
