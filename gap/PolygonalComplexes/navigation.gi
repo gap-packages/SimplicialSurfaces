@@ -468,4 +468,108 @@ InstallMethod( EdgeBetweenFaces, "for a VEF-complex and two faces",
     end
 );
 
+############
+
+InstallMethod( NeighbourFacesByEdgeNC,
+    "for a polygonal complex, a face, and an edge",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex,face,edge)
+        local possFaces;
+
+        possFaces := FacesOfEdges(complex)[edge];
+        if Length(possFaces) = 1 then
+            return [];
+        fi;
+
+        if Length(possFaces) = 2 then
+            if possFaces[1] = face then
+                return [possFaces[2]];
+            else
+                return [possFaces[1]];
+            fi;
+        fi;
+
+        return Difference(possFaces, [face]);
+    end
+);
+InstallMethod( NeighbourFacesByEdgeNC,
+    "for a bend polygonal complex, a face, and an edge",
+    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, face, edge)
+        local possFlags, neigh, faces;
+
+        # Which flags are incident to this face-edge-pair?
+        possFlags := Intersection( LocalFlagsOfFaces(complex)[face], LocalFlagsOfEdges(complex)[edge] );
+
+        neigh := Filtered( LocalFlagsOfHalfEdges(complex), p -> possFlags[1] in p )[1];
+        neigh := Difference( neigh, [possFlags[1]] );
+
+        faces := List(neigh, n -> FacesOfLocalFlags(complex)[n]);
+        return Set(faces);
+    end
+);
+
+InstallMethod( NeighbourFaceByEdgeNC,
+    "for a polygonal complex, a face, and an edge",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function( complex, face, edge )
+        local possFaces;
+        
+        possFaces := FacesOfEdges(complex)[edge];
+        if Length(possFaces) <> 2 then
+            return fail;
+        fi;
+
+        if possFaces[1] = face then
+            return possFaces[2];
+        else
+            return possFaces[1];
+        fi;
+    end
+);
+InstallMethod( NeighbourFaceByEdgeNC,
+    "for a bend polygonal complex, a face, and an edge",
+    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, face, edge)
+        local poss;
+
+        poss := NeighbourFacesByEdgeNC(complex,face,edge);
+        if Length(poss) = 1 then
+            return poss[1];
+        else
+            return fail;
+        fi;
+    end
+);
+
+
+InstallMethod( NeighbourFaceByEdge,
+    "for a VEF-complex, a face, and an edge",
+    [IsVEFComplex, IsPosInt, IsPosInt],
+    function( complex, face, edge )
+        local name;
+        
+        name := "NeighbourFaceByEdge";
+        __SIMPLICIAL_CheckEdge(complex,edge, name);
+        __SIMPLICIAL_CheckFace(complex, face, name);
+        __SIMPLICIAL_CheckIncidenceEdgeFace(complex, edge, face, name);
+        
+        return NeighbourFaceByEdgeNC(complex, face, edge);
+    end
+);
+InstallMethod( NeighbourFacesByEdge,
+    "for a VEF-complex, a face, and an edge",
+    [IsVEFComplex, IsPosInt, IsPosInt],
+    function( complex, face, edge )
+        local name;
+        
+        name := "NeighbourFacesByEdge";
+        __SIMPLICIAL_CheckEdge(complex,edge, name);
+        __SIMPLICIAL_CheckFace(complex, face, name);
+        __SIMPLICIAL_CheckIncidenceEdgeFace(complex, edge, face, name);
+        
+        return NeighbourFacesByEdgeNC(complex, face, edge);
+    end
+);
+
 

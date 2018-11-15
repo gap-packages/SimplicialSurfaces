@@ -89,8 +89,8 @@
 #! conventions for vertices, edges and faces are explained. The central
 #! incidence relations between them are described in section
 #! <Ref Sect="Section_Access_BasicAccess"/>. Some more specialized
-#! applications for incidence can be found in section
-#! <Ref Sect="Section_Access_SpecializedAccess"/>.
+#! applications for incidence can be found in chapter
+#! <Ref Chap="Chapter_Navigation"/>.
 #! 
 #! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/>,
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>, and
@@ -508,105 +508,6 @@ DeclareAttribute( "EdgesOfFaces", IsVEFComplex );
 DeclareOperation( "EdgesOfFace", [IsVEFComplex, IsPosInt]);
 #! @Arguments complex, face
 DeclareOperation( "EdgesOfFaceNC", [IsVEFComplex, IsPosInt]);
-#! @EndGroup
-
-
-#TODO How to integrate this section properly?
-#! @Section Specialized access to the incidence structure
-#! @SectionLabel Access_SpecializedAccess
-#!
-#! The methods from section <Ref Sect="Section_Access_BasicAccess"/> are
-#! sufficient to answer all questions about the incidence structure of a given
-#! polygonal complex - in principle. In practice this may be quite cumbersome.
-#! Therefore we provide some specialized methods that are often useful.
-#! We will exemplify them with the following example.
-#! 
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> complex := PolygonalComplexByDownwardIncidence( 
-#! >        [[1,2],[2,5],[2,6],[2,6],[1,6],[5,6],[1,7],[6,8],[5,9],[7,8],[8,9]],
-#! >        [[1,3,5],[5,7,8,10],,[6,8,9,11],[2,4,6]]);;
-#! @EndExampleSession
-#!
-#! This section contains the following methods:
-#! * <K>EdgeInFaceByVertices</K> (<Ref Subsect="EdgeInFaceByVertices"/>) 
-#!   returns the edge of a face that is defined by
-#!   its two vertices.
-#! @ExampleSession
-#! gap> EdgeInFaceByVertices( complex, 5, [2,6] );
-#! 4
-#! @EndExampleSession
-#! * <K>OtherEdgeOfVertexInFace</K> (<Ref Subsect="OtherEdgeOfVertexInFace"/>) 
-#!   returns the other edge of a given vertex
-#!   with respect to the given face.
-#! @ExampleSession
-#! gap> OtherEdgeOfVertexInFace( complex, 1, 5, 2 );
-#! 7
-#! @EndExampleSession
-#! * <K>OtherVertexOfEdge</K> (<Ref Subsect="OtherVertexOfEdge"/>) returns the 
-#!   other vertex of the given edge
-#! @ExampleSession
-#! gap> OtherVertexOfEdge( complex, 7, 10 );
-#! 8
-#! @EndExampleSession
-#! * <K>NeighbourFaceByEdge</K> (<Ref Subsect="NeighbourFaceByEdge"/>) returns 
-#!   the face that is adjacent to the
-#!   given face (with respect to the given edge)
-#! @ExampleSession
-#! gap> NeighbourFaceByEdge( complex, 2, 8 );
-#! 4
-#! @EndExampleSession
-#! 
-
-#! @BeginGroup NeighbourFaceByEdge
-#! @Description
-#! If the method <K>NeighbourFacesByEdge</K> is given a face and an edge, it
-#! returns the set of all faces that are also incident to this edge. In a
-#! polygonal complex, these have to be different from the given face. In a
-#! bend polygonal complex, this might not be the case.
-#! 
-#! If the set of these neighbours contains exactly one face, this face
-#! is returned by <K>NeighbourFaceByEdge</K>. Otherwise, this method
-#! returns <K>fail</K>.
-#! 
-#! The NC-version does not check whether the given <A>edge</A> is an edge of
-#! the polygonal complex and whether the given <A>face</A> is an incident face
-#! of the complex.
-#! 
-#! As an example consider the polygonal complex that was introduced at the
-#! start of section
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> NeighbourFaceByEdge(complex, 2, 8);
-#! 4
-#! gap> NeighbourFaceByEdge(complex, 1, 5);
-#! 2
-#! gap> NeighbourFaceByEdge(complex, 4, 6);
-#! 5
-#! gap> NeighbourFaceByEdge(complex, 1, 3);
-#! fail
-#! gap> NeighbourFaceByEdge(complex, 4, 11);
-#! fail
-#! @EndExampleSession
-#!
-#! @Returns a positive integer or <K>fail</K>
-#! @Arguments complex, face, edge
-DeclareOperation("NeighbourFaceByEdge", 
-        [IsVEFComplex, IsPosInt, IsPosInt]);
-#! @Arguments complex, face, edge
-DeclareOperation("NeighbourFaceByEdgeNC",
-        [IsVEFComplex, IsPosInt, IsPosInt]);
-#! @Returns a set of positive integers
-#! @Arguments complex, face, edge
-DeclareOperation("NeighbourFacesByEdge", 
-        [IsVEFComplex, IsPosInt, IsPosInt]);
-#! @Arguments complex, face, edge
-DeclareOperation("NeighbourFacesByEdgeNC",
-        [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 

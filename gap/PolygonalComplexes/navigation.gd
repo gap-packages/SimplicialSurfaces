@@ -528,12 +528,14 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 #! gap> EdgesBetweenFaces( complex, 2, 5 );
 #! [  ]
 #! @EndExampleSession
-#! * <K>NeighbourFaceByEdge</K> (<Ref Subsect="NeighbourFaceByEdge"/>) returns
-#!   the face that is adjacent to the
+#! * <K>NeighbourFace(s)ByEdge</K> (<Ref Subsect="NeighbourFaceByEdge"/>) returns
+#!   the face (or the set of faces) that is adjacent to the
 #!   given face (with respect to the given edge).
 #! @ExampleSession
 #! gap> NeighbourFaceByEdge( complex, 2, 8 );
 #! 4
+#! gap> NeighbourFacesByEdge( complex, 2, 8 );
+#! [ 4 ]
 #! @EndExampleSession
 
 
@@ -627,6 +629,68 @@ DeclareOperation("EdgesBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 DeclareOperation("EdgeBetweenFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, f1, f2
 DeclareOperation("EdgeBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup NeighbourFaceByEdge
+#! @Description
+#! If the method <K>NeighbourFacesByEdge</K> is given a face and an edge, it
+#! returns the set of all faces that are also incident to this edge. In a
+#! polygonal complex, these have to be different from the given face. In a
+#! bend polygonal complex, this might not be the case.
+#! 
+#! If the set of these neighbours contains exactly one face, this face
+#! is returned by <K>NeighbourFaceByEdge</K>. Otherwise, this method
+#! returns <K>fail</K>.
+#! 
+#! The NC-version does not check whether the given <A>edge</A> is an edge of
+#! the polygonal complex and whether the given <A>face</A> is an incident face
+#! of the complex.
+#! 
+#! As an example consider the polygonal complex that was introduced at the
+#! start of chapter <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> NeighbourFaceByEdge(complex, 2, 8);
+#! 4
+#! gap> NeighbourFaceByEdge(complex, 1, 5);
+#! 2
+#! gap> NeighbourFaceByEdge(complex, 4, 6);
+#! 5
+#! gap> NeighbourFaceByEdge(complex, 1, 3);
+#! fail
+#! gap> NeighbourFaceByEdge(complex, 6, 12);
+#! fail
+#! @EndExampleSession
+#!
+#! 
+#! This method can be implemented with the 
+#! methods from chapter
+#! <Ref Chap="Chapter_AccessIncidenceGeometry"/>. We only give the
+#! implementation for polygonal complexes, since the implementation 
+#! for bend polygonal complexes only includes an additional case
+#! distinction.
+#! @LogSession
+#! gap> Difference( FacesOfEdge(complex, edge), [ face ] )[1];
+#! @EndLogSession
+#! 
+#!
+#! @Returns a positive integer or <K>fail</K>
+#! @Arguments complex, face, edge
+DeclareOperation("NeighbourFaceByEdge", 
+        [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, face, edge
+DeclareOperation("NeighbourFaceByEdgeNC",
+        [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Returns a set of positive integers
+#! @Arguments complex, face, edge
+DeclareOperation("NeighbourFacesByEdge", 
+        [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, face, edge
+DeclareOperation("NeighbourFacesByEdgeNC",
+        [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
