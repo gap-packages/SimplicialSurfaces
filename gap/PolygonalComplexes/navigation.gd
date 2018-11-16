@@ -695,3 +695,69 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 
 
 
+#! @Section Localising subconfigurations with special properties
+#! @SectionLabel Navigation_Subconfigurations
+#!
+#! In many cases it is necessary to find all vertices fulfilling a
+#! certain property. Consider the polygonal complex from the start
+#! of chapter <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! If we want to know all vertices that are incident to exactly three or four
+#! faces, we can use the <K>Filtered</K>-command.
+#! @ExampleSession
+#! gap> Filtered( Vertices(complex), v -> FaceDegreeOfVertex(complex,v) in [3, 4] );
+#! [ 2, 5, 6, 8 ]
+#! @EndExampleSession
+#! While this is a good method to find vertices, edges and faces with 
+#! individual properties, it quickly becomes complicated if one searches
+#! for more complicated structures.
+#!
+#! For example, assume we are interested in all edges, whose incident vertices
+#! are both incident to three or four faces. We could write a function to
+#! check this property:
+#! @ExampleSession
+#! gap> Is34Edge := function( complex, edge )
+#! >      local vertices;
+#! >
+#! >      vertices := VerticesOfEdge(complex, edge);
+#! >      return FaceDegreeOfVertex(complex, vertices[1]) in [3,4] and 
+#! >         FaceDegreeOfVertex(complex, vertices[2]) in [3,4];
+#! >    end;
+#! function( complex, edge ) ... end
+#! gap> Filtered( Edges(complex), e -> Is34Edge(complex, e) );
+#! [ 2, 3, 4, 6, 8 ]
+#! @EndExampleSession
+#!
+#! With the knowledge how sublists can be produced, the condition can be
+#! expressed more succintly:
+#! @ExampleSession
+#! gap> edge := 8;;
+#! gap> vertices := VerticesOfEdge(complex, edge);
+#! [ 6, 8 ]
+#! gap> FaceDegreesOfVertices(complex){vertices};
+#! [ 4, 3 ]
+#! gap> IsSubset( [3,4], Set(last) );
+#! true
+#! @EndExampleSession
+#!
+#! Then a single <K>Filtered</K>-command would be sufficient as well.
+#! @ExampleSession
+#! gap> Filtered( Edges(complex), e -> 
+#! >      IsSubset( [3,4], 
+#! >        Set(FaceDegreesOfVertices(complex){ VerticesOfEdge(complex, e) } ) 
+#! >    ) );
+#! [ 2, 3, 4, 6, 8 ]
+#! @EndExampleSession
+#! 
+#! But even though this is technically a one-liner, it is still very 
+#! complicated. Therefore this section contains some methods to simplify
+#! some of these situations.
+#! 
+#! Unfortunately, many special situations will still require writing
+#! custom functions, as there is (as of yet) no way to test for arbitrary
+#! substructures with arbitrary properties.
+#!
+#! 
+#! 
