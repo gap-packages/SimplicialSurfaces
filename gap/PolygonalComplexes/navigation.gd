@@ -720,7 +720,7 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! @ExampleSession
 #! gap> Is34Edge := function( complex, edge )
 #! >      local vertices;
-#! >
+#! > 
 #! >      vertices := VerticesOfEdge(complex, edge);
 #! >      return FaceDegreeOfVertex(complex, vertices[1]) in [3,4] and 
 #! >         FaceDegreeOfVertex(complex, vertices[2]) in [3,4];
@@ -742,7 +742,7 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! true
 #! @EndExampleSession
 #!
-#! Then a single <K>Filtered</K>-command would be sufficient as well.
+#! Then a single <K>Filtered</K>-command could be used as well.
 #! @ExampleSession
 #! gap> Filtered( Edges(complex), e -> 
 #! >      IsSubset( [3,4], 
@@ -751,8 +751,9 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! [ 2, 3, 4, 6, 8 ]
 #! @EndExampleSession
 #! 
-#! But even though this is technically a one-liner, it is still very 
-#! complicated. Therefore this section contains some methods to simplify
+#! But even though this is technically a one-liner, it is still quite
+#! complicated for a rather simple-seeming task. 
+#! Therefore this section contains some methods to simplify
 #! some of these situations.
 #! 
 #! Unfortunately, many special situations will still require writing
