@@ -382,7 +382,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList] );
 #! 1 (mirror) or 
 #! 2 (rotation).
 #! 
-#! The <E>six fold cover</E> of a simplicial surface is a wild coloured
+#! The <E>six fold cover</E> of a simplicial surface is a tame coloured
 #! simplicial surface that covers the original surface six times.
 #!
 #! It is constructed in the following way:
@@ -411,7 +411,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList] );
 #!   <A>localSymmetry[2]</A> (mirror if it is 1, rotation if it is 2).
 #!
 #!
-#! @Returns a wild coloured surface
+#! @Returns a tame coloured surface
 #! @Arguments simpSurf, localSymmetry
 DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 
