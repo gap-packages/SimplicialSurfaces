@@ -410,6 +410,35 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList] );
 #!   <M>i=2</M> in the preceding explanation will get the local symmetry
 #!   <A>localSymmetry[2]</A> (mirror if it is 1, rotation if it is 2).
 #!
+#! @ExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> SixFoldCover(tetra);
+#! [ tame coloured surface (MMM with 12 vertices, 36 edges and 24 faces), 
+#!   rec( Description := "[oldFace, [vertices of the oldFace]]", 
+#!     Faces := [ [ 1, [ 1, 2, 4 ] ], [ 1, [ 1, 4, 2 ] ], [ 1, [ 2, 1, 4 ] ], 
+#!               [ 1, [ 2, 4, 1 ] ], [ 1, [ 4, 1, 2 ] ], [ 1, [ 4, 2, 1 ] ], 
+#!               [ 2, [ 1, 3, 5 ] ], [ 2, [ 1, 5, 3 ] ], [ 2, [ 3, 1, 5 ] ], 
+#!               [ 2, [ 3, 5, 1 ] ], [ 2, [ 5, 1, 3 ] ], [ 2, [ 5, 3, 1 ] ], 
+#!               [ 3, [ 4, 5, 6 ] ], [ 3, [ 4, 6, 5 ] ], [ 3, [ 5, 4, 6 ] ], 
+#!               [ 3, [ 5, 6, 4 ] ], [ 3, [ 6, 4, 5 ] ], [ 3, [ 6, 5, 4 ] ], 
+#!               [ 4, [ 2, 3, 6 ] ], [ 4, [ 2, 6, 3 ] ], [ 4, [ 3, 2, 6 ] ], 
+#!               [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ],[ 4, [ 6, 3, 2 ] ] ] ) ]
+#! gap> NumberOfConnectedComponents(last[1]);
+#! 1
+#! gap> SixFoldCover(Tetrahedron(), [2,2,2] );
+#! [ tame coloured surface (RRR with 24 vertices, 36 edges and 24 faces), 
+#!   rec( Description := "[oldFace, [vertices of the oldFace]]", 
+#!    Faces := [ [ 1, [ 1, 2, 4 ] ], [ 1, [ 1, 4, 2 ] ], [ 1, [ 2, 1, 4 ] ], 
+#!               [ 1, [ 2, 4, 1 ] ], [ 1, [ 4, 1, 2 ] ], [ 1, [ 4, 2, 1 ] ], 
+#!               [ 2, [ 1, 3, 5 ] ], [ 2, [ 1, 5, 3 ] ], [ 2, [ 3, 1, 5 ] ], 
+#!               [ 2, [ 3, 5, 1 ] ], [ 2, [ 5, 1, 3 ] ], [ 2, [ 5, 3, 1 ] ], 
+#!               [ 3, [ 4, 5, 6 ] ], [ 3, [ 4, 6, 5 ] ], [ 3, [ 5, 4, 6 ] ], 
+#!               [ 3, [ 5, 6, 4 ] ], [ 3, [ 6, 4, 5 ] ], [ 3, [ 6, 5, 4 ] ], 
+#!               [ 4, [ 2, 3, 6 ] ], [ 4, [ 2, 6, 3 ] ], [ 4, [ 3, 2, 6 ] ], 
+#!               [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ], [ 4, [ 6, 3, 2 ] ] ] ) ]
+#! gap> NumberOfConnectedComponents(last[1]);
+#! 6
+#! @EndExampleSession
 #!
 #! @Returns a tame coloured surface
 #! @Arguments simpSurf, localSymmetry
