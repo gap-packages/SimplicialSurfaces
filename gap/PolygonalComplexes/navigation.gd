@@ -764,7 +764,9 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! * Localising adjacent vertices fulfilling certain properties. These
 #!   may be returned as pairs of vertices 
 #!   (<K>AdjacentVerticesWithProperties</K>, see 
-#!   <Ref Subsect="AdjacentVerticesWithProperties"/>) or as edges.
+#!   <Ref Subsect="AdjacentVerticesWithProperties"/>) or as edges
+#!   (<K>EdgesWithVertexProperties</K>, see
+#!   <Ref Subsect="EdgesWithVertexProperties"/>).
 #! * Localising faces whose vertices (or edges) fulfill certain properties.
 #! 
 
@@ -775,6 +777,9 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! returns all pairs of vertices <M>[v_1,v_2]</M> such that <M>v_1</M>
 #! fulfills property <A>prop1</A> and <M>v_2</M> fulfills property
 #! <A>prop2</A>.
+#! 
+#! The two properties can be given as list [<A>prop1</A>, <A>prop2</A>] as 
+#! well.
 #!
 #! A property can be given in two ways (otherwise an error will be thrown);
 #! * As a function <A>prop</A> with two arguments. Then, for a given vertex 
@@ -816,7 +821,7 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! [ [ 1, 2 ], [ 9, 5 ], [ 9, 8 ] ]
 #! gap> AdjacentVerticesWithProperties(complex, VertexNotIncidentToTriangle,
 #! >      v -> IsInnerVertex(complex, v));
-#! [ [ 9, 5 ], [ 8, 9 ] ]
+#! [ [ 8, 9 ], [ 9, 5 ] ]
 #! @EndExampleSession
 #!
 #! Note for efficient computations: The only way to provide a general method
@@ -830,14 +835,91 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! functionality into the code.
 #!
 #! 
-#! @Returns a list of tuples of positive integers
+#! @Returns a set of tuples of positive integers
 #! @Arguments complex, prop1, prop2
 DeclareOperation("AdjacentVerticesWithProperties", 
         [IsVEFComplex, IsFunction, IsFunction]);
+#! @Arguments complex, propList
+DeclareOperation("AdjacentVerticesWithProperties", 
+        [IsVEFComplex, IsList]);
 #! @Returns a set of ordered tuples of positive integers
 #! @Arguments complex, prop
 DeclareOperation("AdjacentVerticesWithProperty", 
         [IsVEFComplex, IsFunction]);
+#! @EndGroup
+
+
+#! @BeginGroup EdgesWithVertexProperties
+#! @Description
+#! For a given VEF-complex <A>complex</A> the method 
+#! <K>EdgesWithVertexProperty</K>(<A>complex</A>, <A>prop</A>) returns
+#! the set of all edges such that both of its vertices fulfill property 
+#! <A>prop</A>.
+#!
+#! A property can be given in two ways (otherwise an error will be thrown);
+#! * As a function <A>prop</A> with two arguments. Then, for a given vertex 
+#!   <M>v</M>, it is checked whether <A>prop</A>(<A>complex</A>, <M>v</M>)
+#!   is <K>true</K>.
+#! * As a function <A>prop</A> with one argument. Then, for a given vertex
+#!   <M>v</M>, it is checked whether <A>prop</A>(<M>v</M>) is <K>true</K>.
+#!   In particular, it is assumed that the given function depends on
+#!   <A>complex</A> (otherwise there can be strange results).
+#!
+#! The alternative method 
+#! <K>EdgesWithVertexProperties</K>(<A>complex</A>, <A>prop1</A>, <A>prop2</A>)
+#! returns the set of all edges such that one of the incident vertices in the
+#! edge fulfills <A>prop1</A> and the other fulfills property <A>prop2</A>.
+#!
+#! The two properties can be given as list [<A>prop1</A>, <A>prop2</A>] as 
+#! well.
+#!
+#! 
+#! As an example consider the polygonal complex that was introduced at the
+#! start of chapter <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> EdgesWithVertexProperty(complex, v -> IsBoundaryVertex(complex, v));
+#! [ 5, 7, 8, 10, 12, 14 ]
+#! gap> NotAdjacentToInnerVertex := function(complex, vertex)
+#! >      local edges, otherVerts;
+#! >   
+#! >      edges := EdgesOfVertex(complex, vertex);
+#! >      otherVerts := List(edges, e -> OtherVertexOfEdge(complex, vertex, e));
+#! >      return ForAll( otherVerts, v -> not IsInnerVertex(complex, v) );
+#! > end;;
+#! gap> EdgesWithVertexProperty(complex, NotAdjacentToInnerVertex);
+#! [ 7, 14 ]
+#! gap> 
+#! gap> EdgesWithVertexProperties(complex,
+#! >      v -> IsBoundaryVertex(complex, v),
+#! >      v -> IsRamifiedVertex(complex, v) );
+#! [ 1, 3, 4, 13 ]
+#! gap> EdgesWithVertexProperties(complex, NotAdjacentToInnerVertex,
+#! >      v -> IsRamifiedVertex(complex, v));
+#! [ 1, 13 ]
+#! @EndExampleSession
+#!
+#! Note for efficient computations: The only way to provide a general method
+#! like <K>EdgesWithVertexProperties</K> is by wrapping the properties
+#! into functions. Unfortunately, calling a function introduces an overhead.
+#! In particular, if the executed instructions are very fast (for example a
+#! small computation or a list lookup), then the overhead by the function
+#! call may be as time intensive as the actual computation. Therefore, if
+#! high efficiency is required and the functionality of this method is time
+#! critical, it is probably more efficient to manually implement the 
+#! functionality into the code.
+#!
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex, prop1, prop2
+DeclareOperation("EdgesWithVertexProperties", 
+        [IsVEFComplex, IsFunction, IsFunction]);
+#! @Arguments complex, propList
+DeclareOperation("EdgesWithVertexProperties", [IsVEFComplex, IsList] );
+#! @Arguments complex, prop
+DeclareOperation("EdgesWithVertexProperty", [IsVEFComplex, IsFunction]);
 #! @EndGroup
 
 

@@ -578,6 +578,19 @@ InstallMethod( NeighbourFacesByEdge,
 ##      Localising substructures
 ##
 
+BindGlobal("__SIMPLICIAL_WrapProperty",
+    function( complex, prop )
+        # We assume that the 1-argument case is more common
+        if NumberArgumentsFunction(prop) = 1 then
+            return prop;
+        elif NumberArgumentsFunction(prop) = 2 then
+            return x -> prop(complex, x);
+        else
+            return fail;
+        fi;
+    end
+);
+
 InstallMethod( AdjacentVerticesWithProperty, 
     "for a VEF-complex and a function", [IsVEFComplex, IsFunction],
     function( complex, prop )
@@ -585,11 +598,8 @@ InstallMethod( AdjacentVerticesWithProperty,
 
         # put the property in a standard format
         # (we assume that the 1-argument case is more common)
-        if NumberArgumentsFunction(prop) = 1 then
-            testProp := prop; # no change
-        elif NumberArgumentsFunction(prop) = 2 then
-            testProp := v -> prop(complex, v); # wrapper
-        else
+        testProp := __SIMPLICIAL_WrapProperty(complex, prop);
+        if testProp = fail then
             Error("AdjacentVerticesWithProperty: Given function can only take one or two arguments.");
         fi;
 
@@ -614,19 +624,13 @@ InstallMethod( AdjacentVerticesWithProperties,
 
         # put the property in a standard format
         # (we assume that the 1-argument case is more common)
-        if NumberArgumentsFunction(prop1) = 1 then
-            testProp1 := prop1; # no change
-        elif NumberArgumentsFunction(prop1) = 2 then
-            testProp1 := v -> prop1(complex, v); # wrapper
-        else
+        testProp1 := __SIMPLICIAL_WrapProperty(complex, prop1);
+        if testProp1 = fail then
             Error("AdjacentVerticesWithProperties: First given function can only take one or two arguments.");
         fi;
 
-        if NumberArgumentsFunction(prop2) = 1 then
-            testProp2 := prop2; # no change
-        elif NumberArgumentsFunction(prop2) = 2 then
-            testProp2 := v -> prop2(complex, v); # wrapper
-        else
+        testProp2 := __SIMPLICIAL_WrapProperty(complex, prop2);
+        if testProp2 = fail then
             Error("AdjacentVerticesWithProperties: Second given function can only take one or two arguments.");
         fi;
 
@@ -642,6 +646,110 @@ InstallMethod( AdjacentVerticesWithProperties,
             fi;
         od;
 
+        return Set(result);
+    end
+);
+InstallMethod( AdjacentVerticesWithProperties,
+    "for a VEF-complex and a list of two functions",
+    [IsVEFComplex, IsList],
+    function( complex, propList )
+        local name, prop1, prop2;
+
+        name := "AdjacentVerticesWithProperties: ";
+        if Length(propList) <> 2 then
+            Error(Concatenation(name, "Given property list has to have length 2."));
+        fi;
+        prop1 := propList[1];
+        prop2 := propList[2];
+        if not IsFunction(prop1) then
+            Error(Concatenation(name, "First entry of the property list is not a function."));
+        fi;
+        if not IsFunction(prop2) then
+            Error(Concatenation(name, "Second entry of the property list is not a function."));
+        fi;
+
+        return AdjacentVerticesWithProperties(complex, prop1, prop2);
+    end
+);
+
+
+#########
+
+
+InstallMethod( EdgesWithVertexProperty, 
+    "for a VEF-complex and a function", [IsVEFComplex, IsFunction],
+    function( complex, prop )
+        local testProp, result, pair, e;
+
+        # put the property in a standard format
+        testProp := __SIMPLICIAL_WrapProperty(complex, prop);
+        if testProp = fail then
+            Error("EdgesWithVertexProperty: Given function can only take one or two arguments.");
+        fi;
+
+        result := [];
+        for e in Edges(complex) do
+            pair := VerticesOfEdges(complex)[e];
+            if testProp(pair[1]) and testProp(pair[2]) then
+                Add(result, e);
+            fi;
+        od;
+
         return result;
+    end
+);
+
+InstallMethod( EdgesWithVertexProperties, 
+    "for a VEF-complex and two functions", 
+    [IsVEFComplex, IsFunction, IsFunction],
+    function( complex, prop1, prop2 )
+        local testProp1, testProp2, result, pair, e;
+
+        # put the property in a standard format
+        testProp1 := __SIMPLICIAL_WrapProperty(complex, prop1);
+        if testProp1 = fail then
+            Error("EdgesWithVertexProperties: First given function can only take one or two arguments.");
+        fi;
+
+        testProp2 := __SIMPLICIAL_WrapProperty(complex, prop2);
+        if testProp2 = fail then
+            Error("EdgesWithVertexProperties: Second given function can only take one or two arguments.");
+        fi;
+
+
+        result := [];
+        for e in Edges(complex) do
+            pair := VerticesOfEdges(complex)[e];
+            if testProp1(pair[1]) and testProp2(pair[2]) then
+                Add(result, e);
+            fi;
+            if testProp2(pair[1]) and testProp1(pair[2]) then
+                Add(result, e);
+            fi;
+        od;
+
+        return Set(result);
+    end
+);
+InstallMethod( EdgesWithVertexProperties,
+    "for a VEF-complex and a list of two functions",
+    [IsVEFComplex, IsList],
+    function( complex, propList )
+        local name, prop1, prop2;
+
+        name := "EdgesWithVertexProperties: ";
+        if Length(propList) <> 2 then
+            Error(Concatenation(name, "Given property list has to have length 2."));
+        fi;
+        prop1 := propList[1];
+        prop2 := propList[2];
+        if not IsFunction(prop1) then
+            Error(Concatenation(name, "First entry of the property list is not a function."));
+        fi;
+        if not IsFunction(prop2) then
+            Error(Concatenation(name, "Second entry of the property list is not a function."));
+        fi;
+
+        return EdgesWithVertexProperties(complex, prop1, prop2);
     end
 );
