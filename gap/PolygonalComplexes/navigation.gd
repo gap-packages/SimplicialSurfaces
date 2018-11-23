@@ -760,5 +760,84 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! custom functions, as there is (as of yet) no way to test for arbitrary
 #! substructures with arbitrary properties.
 #!
+#! This section contains the following shortcuts:
+#! * Localising adjacent vertices fulfilling certain properties. These
+#!   may be returned as pairs of vertices 
+#!   (<K>AdjacentVerticesWithProperties</K>, see 
+#!   <Ref Subsect="AdjacentVerticesWithProperties"/>) or as edges.
+#! * Localising faces whose vertices (or edges) fulfill certain properties.
 #! 
+
+#! @BeginGroup AdjacentVerticesWithProperties
+#! @Description
+#! For a given VEF-complex <A>complex</A> the method 
+#! <K>AdjacentVerticesWithProperties</K>(<A>complex</A>, <A>prop1</A>, <A>prop2</A>)
+#! returns all pairs of vertices <M>[v_1,v_2]</M> such that <M>v_1</M>
+#! fulfills property <A>prop1</A> and <M>v_2</M> fulfills property
+#! <A>prop2</A>.
+#!
+#! A property can be given in two ways (otherwise an error will be thrown);
+#! * As a function <A>prop</A> with two arguments. Then, for a given vertex 
+#!   <M>v</M>, it is checked whether <A>prop</A>(<A>complex</A>, <M>v</M>)
+#!   is <K>true</K>.
+#! * As a function <A>prop</A> with one argument. Then, for a given vertex
+#!   <M>v</M>, it is checked whether <A>prop</A>(<M>v</M>) is <K>true</K>.
+#!   In particular, it is assumed that the given function depends on
+#!   <A>complex</A> (otherwise there can be strange results).
+#!
+#! For the alternative method <K>AdjacentVerticesWithProperty</K> there are
+#! two differences:
+#! * Both vertices have to fulfill the same property
+#! * If <M>[v_1,v_2]</M> is a valid answer, then <M>[v_2,v_1]</M> also would
+#!   be. Therefore only the smaller one of these is returned.
+#!
 #! 
+#! As an example consider the polygonal complex that was introduced at the
+#! start of chapter <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> AdjacentVerticesWithProperty(complex, 
+#! >      v -> FaceDegreeOfVertex(complex,v) = 3);
+#! [ [ 2, 5 ] ]
+#! gap> VertexNotIncidentToTriangle := function(complex, vertex)
+#! >      local faces;
+#! > 
+#! >      faces := FacesOfVertex(complex, vertex);
+#! >      return ForAll( faces, f -> Length(EdgesOfFace(complex,f)) <> 3 );
+#! > end;;
+#! gap> AdjacentVerticesWithProperty( complex, VertexNotIncidentToTriangle );
+#! [ [ 7, 8 ], [ 8, 9 ], [ 8, 12 ], [ 12, 13 ] ]
+#! gap> 
+#! gap> AdjacentVerticesWithProperties( complex, 
+#! >      v -> FaceDegreeOfVertex(complex, v) = 2,
+#! >      v -> FaceDegreeOfVertex(complex, v) = 3);
+#! [ [ 1, 2 ], [ 9, 5 ], [ 9, 8 ] ]
+#! gap> AdjacentVerticesWithProperties(complex, VertexNotIncidentToTriangle,
+#! >      v -> IsInnerVertex(complex, v));
+#! [ [ 9, 5 ], [ 8, 9 ] ]
+#! @EndExampleSession
+#!
+#! Note for efficient computations: The only way to provide a general method
+#! like <K>AdjacentVerticesWithProperties</K> is by wrapping the properties
+#! into functions. Unfortunately, calling a function introduces an overhead.
+#! In particular, if the executed instructions are very fast (for example a
+#! small computation or a list lookup), then the overhead by the function
+#! call may be as time intensive as the actual computation. Therefore, if
+#! high efficiency is required and the functionality of this method is time
+#! critical, it is probably more efficient to manually implement the 
+#! functionality into the code.
+#!
+#! 
+#! @Returns a list of tuples of positive integers
+#! @Arguments complex, prop1, prop2
+DeclareOperation("AdjacentVerticesWithProperties", 
+        [IsVEFComplex, IsFunction, IsFunction]);
+#! @Returns a set of ordered tuples of positive integers
+#! @Arguments complex, prop
+DeclareOperation("AdjacentVerticesWithProperty", 
+        [IsVEFComplex, IsFunction]);
+#! @EndGroup
+
+

@@ -573,3 +573,75 @@ InstallMethod( NeighbourFacesByEdge,
 );
 
 
+#######################################
+##
+##      Localising substructures
+##
+
+InstallMethod( AdjacentVerticesWithProperty, 
+    "for a VEF-complex and a function", [IsVEFComplex, IsFunction],
+    function( complex, prop )
+        local testProp, result, pairs, pair;
+
+        # put the property in a standard format
+        # (we assume that the 1-argument case is more common)
+        if NumberArgumentsFunction(prop) = 1 then
+            testProp := prop; # no change
+        elif NumberArgumentsFunction(prop) = 2 then
+            testProp := v -> prop(complex, v); # wrapper
+        else
+            Error("AdjacentVerticesWithProperty: Given function can only take one or two arguments.");
+        fi;
+
+
+        pairs := VerticesOfEdges(complex);
+        result := [];
+        for pair in pairs do
+            if testProp(pair[1]) and testProp(pair[2]) then
+                Add(result, pair);
+            fi;
+        od;
+
+        return result;
+    end
+);
+
+InstallMethod( AdjacentVerticesWithProperties, 
+    "for a VEF-complex and two functions", 
+    [IsVEFComplex, IsFunction, IsFunction],
+    function( complex, prop1, prop2 )
+        local testProp1, testProp2, result, pairs, pair;
+
+        # put the property in a standard format
+        # (we assume that the 1-argument case is more common)
+        if NumberArgumentsFunction(prop1) = 1 then
+            testProp1 := prop1; # no change
+        elif NumberArgumentsFunction(prop1) = 2 then
+            testProp1 := v -> prop1(complex, v); # wrapper
+        else
+            Error("AdjacentVerticesWithProperties: First given function can only take one or two arguments.");
+        fi;
+
+        if NumberArgumentsFunction(prop2) = 1 then
+            testProp2 := prop2; # no change
+        elif NumberArgumentsFunction(prop2) = 2 then
+            testProp2 := v -> prop2(complex, v); # wrapper
+        else
+            Error("AdjacentVerticesWithProperties: Second given function can only take one or two arguments.");
+        fi;
+
+
+        pairs := VerticesOfEdges(complex);
+        result := [];
+        for pair in pairs do
+            if testProp1(pair[1]) and testProp2(pair[2]) then
+                Add(result, pair);
+            fi;
+            if testProp2(pair[1]) and testProp1(pair[2]) then
+                Add(result, [pair[2], pair[1]]);
+            fi;
+        od;
+
+        return result;
+    end
+);
