@@ -768,6 +768,10 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #!   (<K>EdgesWithVertexProperties</K>, see
 #!   <Ref Subsect="EdgesWithVertexProperties"/>).
 #! * Localising faces whose vertices (or edges) fulfill certain properties.
+#!   The available methods are <K>FacesWithVertexProperties</K>
+#!   (<Ref Subsect="FacesWithVertexProperties"/>) and
+#!   <K>FacesWithEdgeProperties</K> 
+#!   (<Ref Subsect="FacesWithEdgeProperties"/>).
 #! 
 
 #! @BeginGroup AdjacentVerticesWithProperties
@@ -923,3 +927,81 @@ DeclareOperation("EdgesWithVertexProperty", [IsVEFComplex, IsFunction]);
 #! @EndGroup
 
 
+#! @BeginGroup FacesWithVertexProperties
+#! @Description
+#! For a given VEF-complex <A>complex</A> the method 
+#! <K>FacesWithVertexProperty</K>(<A>complex</A>, <A>prop</A>) returns
+#! the set of all faces such that all of its incident vertices fulfill 
+#! property 
+#! <A>prop</A>.
+#!
+#! A property can be given in two ways (otherwise an error will be thrown);
+#! * As a function <A>prop</A> with two arguments. Then, for a given vertex 
+#!   <M>v</M>, it is checked whether <A>prop</A>(<A>complex</A>, <M>v</M>)
+#!   is <K>true</K>.
+#! * As a function <A>prop</A> with one argument. Then, for a given vertex
+#!   <M>v</M>, it is checked whether <A>prop</A>(<M>v</M>) is <K>true</K>.
+#!   In particular, it is assumed that the given function depends on
+#!   <A>complex</A> (otherwise there can be strange results).
+#!
+#! The alternative method 
+#! <K>FacesWithVertexProperties</K>(<A>complex</A>, <A>propList</A>)
+#! returns the set of all faces such that each of the incident vertices in the
+#! face fulfills one property of <A>propList</A>, such that every entry is
+#! fulfilled exactly once (this implies in particular that the number of
+#! incident vertices is equal to <K>Length</K>(<A>propList</A>)).
+#!
+#! Empty positions in this list are filled with the function that always
+#! returns <K>true</K>.
+#!
+#! 
+#! As an example consider the polygonal complex that was introduced at the
+#! start of chapter <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> FacesWithVertexProperty( complex, v -> not IsInnerVertex(complex,v) );
+#! [ 1, 2 ]
+#! gap> TwoBoundaryEdgesIncident := function(complex, vertex)
+#! >      local edges, boundEdges;
+#! > 
+#! >      edges := EdgesOfVertex(complex, vertex);
+#! >      boundEdges := Filtered(edges, e -> IsBoundaryEdge(complex, e));
+#! >      return Length(boundEdges) = 2;
+#! > end;;
+#! gap> FacesWithVertexProperty( complex, TwoBoundaryEdgesIncident );
+#! [ 2 ]
+#! gap> 
+#! gap> FacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident,
+#! >      v -> IsRamifiedVertex(complex, v),
+#! >      v -> FaceDegreeOfVertex(complex, v) = 2 ] );
+#! [ 1 ]
+#! gap> FacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident,
+#! >      v -> IsRamifiedVertex(complex, v),
+#! >      v -> EdgeDegreeOfVertex(complex, v) = 3 ] );
+#! [ 1, 5 ]
+#! gap> FacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident, , ,
+#! >      v -> IsInnerVertex(complex, v)] );
+#! [ 4 ]
+#! @EndExampleSession
+#!
+#! Note for efficient computations: The only way to provide a general method
+#! like <K>FacesWithVertexProperties</K> is by wrapping the properties
+#! into functions. Unfortunately, calling a function introduces an overhead.
+#! In particular, if the executed instructions are very fast (for example a
+#! small computation or a list lookup), then the overhead by the function
+#! call may be as time intensive as the actual computation. Therefore, if
+#! high efficiency is required and the functionality of this method is time
+#! critical, it is probably more efficient to manually implement the 
+#! functionality into the code.
+#!
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex, propList
+DeclareOperation("FacesWithVertexProperties", [IsVEFComplex, IsList] );
+#! @Arguments complex, prop
+DeclareOperation("FacesWithVertexProperty", [IsVEFComplex, IsFunction]);
+#! @EndGroup
+
+ 
