@@ -40,14 +40,30 @@ end;
 
 # Assume list of non-isomorphic surfaces, add 2 faces by enlargement
 IncreaseSize := function( surfaceList )
-    local newSurfaces, surf;
+    local newSurfaces, surf, larger, s;
 
     newSurfaces := [];
     for surf in surfaceList do
-        Append(newSurfaces, Enlargement(surf));
+	larger := Enlargement(surf);
+ 	for s in larger do
+	    Add(newSurfaces, 
+		CanonicalRepresentativeOfPolygonalSurface( s )[1] );
+	od;
     od;
 
-    return IsomorphismRepresentatives(newSurfaces);
+    return Set(newSurfaces);
+end;
+
+
+PrintSurfaceListToFile := function( string, surfaceList)
+    local fileName, output;
+
+    fileName := Filename(DirectoryCurrent(), string);
+    output := OutputTextFile( fileName, false );
+    AppendTo( output, "return " );
+    AppendTo( output, surfaceList );
+    AppendTo( output, ";");
+    CloseStream(output);
 end;
 
 
