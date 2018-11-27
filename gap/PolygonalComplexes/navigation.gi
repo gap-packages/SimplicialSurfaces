@@ -755,6 +755,35 @@ InstallMethod( EdgesWithVertexProperties,
 );
 
 
+
+#########
+
+BindGlobal( "__SIMPLICIAL_WrapPropertyList",
+    function(name, complex, propList)
+        local testList, i, test;
+
+        testList := [];
+        for i in [1..Length(propList)] do
+            if IsBound(propList[i]) then
+                if not IsFunction(propList[i]) then
+                    Error( Concatenation( name, "The entry at position ", String(i), " is not function." ) );
+                else
+                    test := __SIMPLICIAL_WrapProperty(complex, propList[i]);
+                    if test = fail then
+                        Error( Concatenation( name, "The function at position ", String(i), " should only take one or two arguments." ) );
+                    fi;
+                    testList[i] := test;
+                fi;
+            else
+                testList[i] := x -> true;
+            fi;
+        od;
+
+        return testList;
+    end
+);
+
+
 InstallMethod( FacesWithVertexProperty, "for a VEF-complex and a function",
     [IsVEFComplex, IsFunction],
     function(complex, prop)
@@ -784,37 +813,89 @@ InstallMethod( FacesWithVertexProperty, "for a VEF-complex and a function",
     end
 );
 
-
 InstallMethod( FacesWithVertexProperties, 
     "for a VEF-complex and a list of functions",
     [IsVEFComplex, IsList],
     function(complex, propList)
-        local name, testList, i, test, res, f, verts, arr, exclude;
+        local name, testList, i, res, f, verts, arr, exclude;
 
         name := "FacesWithVertexProperties: ";
 
         # Fix the list
-        testList := [];
-        for i in [1..Length(propList)] do
-            if IsBound(propList[i]) then
-                if not IsFunction(propList[i]) then
-                    Error( Concatenation( name, "The entry at position ", String(i), " is not function." ) );
-                else
-                    test := __SIMPLICIAL_WrapProperty(complex, propList[i]);
-                    if test = fail then
-                        Error( Concatenation( name, "The function at position ", String(i), " should only take one or two arguments." ) );
-                    fi;
-                    testList[i] := test;
-                fi;
-            else
-                testList[i] := x -> true;
-            fi;
-        od;
-
+        testList := __SIMPLICIAL_WrapPropertyList(name, complex, propList);
 
         res := [];
         for f in Faces(complex) do
             verts := VerticesOfFaces(complex)[f];
+            if Length(verts) = Length(testList) then
+                
+                for arr in Arrangements( [1..Length(verts)], Length(verts) ) do
+                    exclude := false;
+                    for i in [1..Length(verts)] do
+                        if not testList[i](verts[arr[i]]) then
+                            exclude := true;
+                            break;
+                        fi;
+                    od;
+
+                    if not exclude then
+                        Add(res, f);
+                        break;
+                    fi;
+                od;
+            
+            fi;
+        od;
+
+        return res;
+    end
+);
+
+
+
+InstallMethod( FacesWithEdgeProperty, "for a VEF-complex and a function",
+    [IsVEFComplex, IsFunction],
+    function(complex, prop)
+        local testProp, res, f, verts, exclude, v;
+
+        testProp := __SIMPLICIAL_WrapProperty(complex, prop);
+        if testProp = fail then
+            Error("FacesWithEdgeProperty: Given function can only take one or two arguments.");
+        fi;
+
+        res := [];
+        for f in Faces(complex) do
+            verts := EdgesOfFaces(complex)[f];
+            exclude := false;
+            for v in verts do
+                if not testProp(v) then
+                    exclude := true;
+                    break;
+                fi;
+            od;
+            if not exclude then
+                Add(res, f);
+            fi;
+        od;
+
+        return res;
+    end
+);
+
+InstallMethod( FacesWithEdgeProperties, 
+    "for a VEF-complex and a list of functions",
+    [IsVEFComplex, IsList],
+    function(complex, propList)
+        local name, testList, i, res, f, verts, arr, exclude;
+
+        name := "FacesWithEdgeProperties: ";
+
+        # Fix the list
+        testList := __SIMPLICIAL_WrapPropertyList(name, complex, propList);
+
+        res := [];
+        for f in Faces(complex) do
+            verts := EdgesOfFaces(complex)[f];
             if Length(verts) = Length(testList) then
                 
                 for arr in Arrangements( [1..Length(verts)], Length(verts) ) do

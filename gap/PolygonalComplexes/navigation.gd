@@ -1005,3 +1005,81 @@ DeclareOperation("FacesWithVertexProperty", [IsVEFComplex, IsFunction]);
 #! @EndGroup
 
  
+#! @BeginGroup FacesWithEdgeProperties
+#! @Description
+#! For a given VEF-complex <A>complex</A> the method 
+#! <K>FacesWithEdgeProperty</K>(<A>complex</A>, <A>prop</A>) returns
+#! the set of all faces such that all of its incident edges fulfill 
+#! property 
+#! <A>prop</A>.
+#!
+#! A property can be given in two ways (otherwise an error will be thrown);
+#! * As a function <A>prop</A> with two arguments. Then, for a given edge
+#!   <M>e</M>, it is checked whether <A>prop</A>(<A>complex</A>, <M>e</M>)
+#!   is <K>true</K>.
+#! * As a function <A>prop</A> with one argument. Then, for a given edge
+#!   <M>e</M>, it is checked whether <A>prop</A>(<M>e</M>) is <K>true</K>.
+#!   In particular, it is assumed that the given function depends on
+#!   <A>complex</A> (otherwise there can be strange results).
+#!
+#! The alternative method 
+#! <K>FacesWithEdgeProperties</K>(<A>complex</A>, <A>propList</A>)
+#! returns the set of all faces such that each of the incident edges in the
+#! face fulfills one property of <A>propList</A>, such that every entry is
+#! fulfilled exactly once (this implies in particular that the number of
+#! incident edges is equal to <K>Length</K>(<A>propList</A>)).
+#!
+#! Empty positions in this list are filled with the function that always
+#! returns <K>true</K>.
+#!
+#! 
+#! As an example consider the polygonal complex that was introduced at the
+#! start of chapter <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> FacesWithEdgeProperty(complex, e -> IsInnerEdge(complex, e));
+#! [ 4 ]
+#! gap> InnerEdgeOrRamifiedVertex := function( complex, edge )
+#! >      local verts;
+#! > 
+#! >      if IsInnerEdge(complex, edge) then
+#! >        return true;
+#! >      fi;
+#! > 
+#! >      verts := VerticesOfEdge(complex, edge);
+#! >      return ForAny(verts, v -> IsRamifiedVertex(complex, v));
+#! > end;;
+#! gap> FacesWithEdgeProperty( complex, InnerEdgeOrRamifiedVertex );
+#! [ 1, 4, 5 ]
+#! gap> 
+#! gap> FacesWithEdgeProperties(complex, [ 
+#! >      e -> IsInnerEdge(complex, e),
+#! >      InnerEdgeOrRamifiedVertex,
+#! >      e -> IsBoundaryEdge(complex, e)]);
+#! [ 1, 5 ]
+#! gap> FacesWithEdgeProperties(complex, [ , ,
+#! >     e -> IsBoundaryEdge(complex, e), InnerEdgeOrRamifiedVertex]);
+#! [ 2 ]
+#! @EndExampleSession
+#!
+#! Note for efficient computations: The only way to provide a general method
+#! like <K>FacesWithEdgeProperties</K> is by wrapping the properties
+#! into functions. Unfortunately, calling a function introduces an overhead.
+#! In particular, if the executed instructions are very fast (for example a
+#! small computation or a list lookup), then the overhead by the function
+#! call may be as time intensive as the actual computation. Therefore, if
+#! high efficiency is required and the functionality of this method is time
+#! critical, it is probably more efficient to manually implement the 
+#! functionality into the code.
+#!
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex, propList
+DeclareOperation("FacesWithEdgeProperties", [IsVEFComplex, IsList] );
+#! @Arguments complex, prop
+DeclareOperation("FacesWithEdgeProperty", [IsVEFComplex, IsFunction]);
+#! @EndGroup
+
+
