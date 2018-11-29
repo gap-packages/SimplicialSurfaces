@@ -189,7 +189,7 @@ BindGlobal( "CleanImageDirectory", function(  )
     local allFiles, file;
 
     # First we remove the temporary files
-    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm _IMAGE_TMP*;\"" );
+    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force _IMAGE_TMP*;\"" );
 
     # Secondly we remove all old image files
     allFiles := DirectoryContents( __SIMPLICIAL_DocDirectory );
@@ -200,11 +200,11 @@ BindGlobal( "CleanImageDirectory", function(  )
                 # This is a file to an existing picture
                 if not ForAny( [".tex", ".svg", ".pdf"], e -> EndsWith(file,e) ) then
                     # Does not end in one of those file extensions
-                    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm ", file, ";\"" );
+                    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force ", file, ";\"" );
                 fi;
             else
                 # This is an old file that can be removed
-                Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm ", file, ";\"" );
+                Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force ", file, ";\"" );
             fi;
         fi;
     od;
@@ -253,7 +253,7 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   
   
   #MB precompile the images
-        Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm _TIKZ_*;\"" );
+        Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force _TIKZ_*;\"" );
         __SIMPLICIAL_MANUAL_MODE := true;
         Read("gap/PolygonalComplexes/drawing.gd");
         Read("gap/PolygonalComplexes/constructors_images.gd");
