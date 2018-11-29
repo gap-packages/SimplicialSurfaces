@@ -371,11 +371,20 @@ BindGlobal( "__SIMPLICIAL_PrintRecordComputeFirstFace",
     end
 );
 
+BindGlobal( "__SIMPLICIAL_IsFloatZero",
+    function( fl, accuracy )
+        if AbsoluteValue(fl) < accuracy then
+            return 0.;
+        else
+            return fl;
+        fi;
+    end
+);
 
 BindGlobal( "__SIMPLICIAL_PrintRecordAddFace",
     function( printRecord, surface, returnedVertices, returnedEdges, face, drawIndex )
         local vertexPositions, prVertex, pos, prEdge, vertices, i, 
-            draw, specificVerts, generalVerts;
+            draw, specificVerts, generalVerts, first, second;
 
         # We store the position of the vertex coordinates
         vertexPositions := [];
@@ -387,7 +396,10 @@ BindGlobal( "__SIMPLICIAL_PrintRecordAddFace",
                 pos := __SIMPLICIAL_PrintRecordFindVertex( printRecord, prVertex, drawIndex );
                 if pos = 0 then
                     # It is new
-                    Add( printRecord!.vertexCoordinates[prVertex[1]], [prVertex[2][1], prVertex[2][2], drawIndex] );
+                    first := __SIMPLICIAL_IsFloatZero(prVertex[2][1], printRecord.floatAccuracy);
+                    second := __SIMPLICIAL_IsFloatZero(prVertex[2][2], printRecord.floatAccuracy);
+
+                    Add( printRecord!.vertexCoordinates[prVertex[1]], [first, second, drawIndex] );
                     pos := Length( printRecord!.vertexCoordinates[prVertex[1]] );
                 fi;
                 vertexPositions[prVertex[1]] := pos;
