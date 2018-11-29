@@ -392,7 +392,10 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! contains the following options:
 #! * <E>compileLaTeX</E>: If this parameter is <K>true</K> (the default is
 #!   <K>false</K>) the generated tex-file will be automatically compiled
-#!   with <K>pdflatex</K>.
+#!   with <K>pdflatex</K>. In rare cases the compilation might run into
+#!   a problem and stop. To abort such a computation, type 'x' and hit
+#!   ENTER (this command is passed to <K>pdflatex</K>). If this happens,
+#!   please notify the developers so it can be fixed in a later version.
 #! * <E>latexDocumentclass</E>: Defines which documentclass is used for
 #!   the output. The default is <K>article</K>. If the picture should
 #!   not be cropped (and not be printed), <K>standalone</K> is recommended.

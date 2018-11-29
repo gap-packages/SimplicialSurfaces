@@ -1095,7 +1095,7 @@ InstallMethod( DrawSurfaceToTikz,
 
         if printRecord.compileLaTeX then
             if not printRecord!.noOutput then
-                Print( "Start LaTeX-compilation.\n" );
+                Print( "Start LaTeX-compilation (type 'x' and press ENTER to abort).\n" );
             fi;
 
             # Run pdfLaTeX on the file (without visible output)
