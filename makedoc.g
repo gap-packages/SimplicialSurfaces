@@ -77,6 +77,7 @@ preProcessTikz := function( node )
         output := OutputTextFile( tmpFile, false );
         SetPrintFormattingStatus( output, false );
         AppendTo( output,
+            "\\nonstopmode\n",
             "\\documentclass{standalone}\n\n",
             __SIMPLICIAL_TikZHeader,
             "\\def\\pgfsysdriver{pgfsys-tex4ht.def}\n\n",
