@@ -52,7 +52,12 @@ InstallMethod( EdgeColouredPolygonalComplexNC,
         local obj;
 
         obj := Objectify( EdgeColouredPolygonalComplexType, rec() );
-        SetVEFComplex(obj, complex);
+        if IsEdgeColouredPolygonalComplex(complex) then
+            SetVEFComplex(obj, PolygonalComplex(complex));
+        else
+            SetVEFComplex(obj, complex);
+        fi;
+
         if ForAll(colouring, IsPosInt) then
             SetColoursOfEdges(obj, colouring);
         else
@@ -155,7 +160,12 @@ InstallMethod( EdgeColouredBendPolygonalComplexNC,
         local obj;
 
         obj := Objectify( EdgeColouredBendPolygonalComplexType, rec() );
-        SetVEFComplex(obj, complex);
+        if IsEdgeColouredBendPolygonalComplex(complex) then
+            SetVEFComplex(obj, BendPolygonalComplex(complex));
+        else
+            SetVEFComplex(obj, complex);
+        fi;
+
         if ForAll(colouring, IsPosInt) then
             SetColoursOfEdges(obj, colouring);
         else

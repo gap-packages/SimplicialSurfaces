@@ -659,7 +659,11 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
         edgeColSurfaces := [];
         for info in allColSurfaces do
             obj := Objectify( EdgeColouredPolygonalComplexType, rec() );
-            SetPolygonalComplex(obj, simpSurf);
+            if IsEdgeColouredPolygonalComplex(simpSurf) then
+                SetPolygonalComplex(obj, PolygonalComplex(simpSurf));
+            else
+                SetPolygonalComplex(obj, simpSurf);
+            fi;
             SetIsWildColouredSurface(obj, true);
             SetColourInvolutions(obj, info[1]);
 

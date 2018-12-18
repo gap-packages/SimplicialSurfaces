@@ -109,6 +109,9 @@ BindGlobal( "EdgeColouredBendPolygonalComplexFamily",
 #! <A>complex</A>, e.g. <K>EdgeColouredSimplicialSurface</K> requires
 #! <A>complex</A> to be a simplicial surface.
 #!
+#! Note: If the given <A>complex</A> is already edge coloured, it will be
+#! stripped of this colouring first.
+#!
 #! @InsertChunk Example_TwiceColoured_Pyramid
 #!
 #! The NC-version does not check whether the given <A>colouring</A> is consistent
