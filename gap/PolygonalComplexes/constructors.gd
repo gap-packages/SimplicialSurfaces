@@ -244,7 +244,28 @@ DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet,
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_DownwardIncidence
 #!
-#! TODO example
+#! As an example consider the following net of a simplicial surface:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle,face/.default=\faceColorFirst]
+#!          \input{Image_Constructor_PolygonalSurface.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := PolygonalSurfaceByDownwardIncidence(
+#! >      [[1,2],[2,3],[3,4],[4,5],[5,1],
+#! >       [1,6],[2,7],[2,8],[3,9],[3,10],[4,11],[4,12],[5,13],[5,14],[1,15],
+#! >       [6,15],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[12,13],[13,14],[14,15]],
+#! >      [[6,15,16],[1,6,7,17],[7,8,18],[2,8,9,19],[9,10,20],[3,10,11,21],
+#! >       [11,12,22],[4,12,13,23],[13,14,24],[5,14,15,25]]);;
+#! gap> IsClosedSurface(surf);
+#! false
+#! gap> PerimeterOfHoles(surf);
+#! [ (v1, E1, v2, E2, v3, E3, v4, E4, v5, E5, v1), 
+#!   (v6, E16, v15, E25, v14, E24, v13, E23, v12, E22, v11, E21, 
+#!             v10, E20, v9, E19, v8, E18, v7, E17, v6) ]
+#! @EndExampleSession
+#!TODO maybe show Display?
+#!
 #! @Returns a polygonal surface
 #! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalSurfaceByDownwardIncidence", [IsList, IsList] );
@@ -461,7 +482,28 @@ DeclareOperation( "PolygonalComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, I
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_UpwardIncidence
 #!
-#! TODO example
+#! As an example consider the following net of a simplicial surface:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle,face/.default=\faceColorSecond]
+#!          \input{Image_Constructor_PolygonalSurface.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := PolygonalSurfaceByUpwardIncidence(
+#! >      [[1,5,6,15],[1,2,7,8],[2,3,9,10],[3,4,11,12],[4,5,13,14],
+#! >       [6,16,17],[7,17,18],[8,18,19],[9,19,20],[10,20,21],[11,21,22],
+#! >       [12,22,23],[13,23,24],[14,24,25],[15,16,25]],
+#! >      [[2],[4],[6],[8],[10],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],
+#! >       [8,9],[9,10],[1,10],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]);;
+#! gap> IsClosedSurface(surf);
+#! false
+#! gap> PerimeterOfHoles(surf);
+#! [ (v1, E1, v2, E2, v3, E3, v4, E4, v5, E5, v1), 
+#!   (v6, E16, v15, E25, v14, E24, v13, E23, v12, E22, v11, E21, 
+#!             v10, E20, v9, E19, v8, E18, v7, E17, v6) ]
+#! @EndExampleSession
+#!TODO maybe show Display?
+#!
 #! @Returns a polygonal surface
 #! @Arguments edgesOfVertices, facesOfEdges
 DeclareOperation( "PolygonalSurfaceByUpwardIncidence", [IsList, IsList] );
@@ -648,8 +690,22 @@ DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 #! This method constructs a polygonal surface
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_VerticesInFaces
+#!
+#! As an example consider the following net of a simplicial surface:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle,face/.default=\faceColorThird]
+#!          \input{Image_Constructor_PolygonalSurface.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := PolygonalSurfaceByVerticesInFaces(
+#! >      [[1,6,15],[1,2,7,6],[2,7,8],[2,3,9,8],[3,9,10],[3,4,11,10],[4,11,12],
+#! >       [4,5,13,12],[5,13,14],[1,5,14,15]]);;
+#! gap> IsClosedSurface(surf);
+#! false
+#! @EndExampleSession
+#!TODO maybe show Display?
 #! 
-#! TODO example
 #! @Returns a polygonal surface
 #! @Arguments verticesInFaces
 DeclareOperation( "PolygonalSurfaceByVerticesInFaces", [IsList] );

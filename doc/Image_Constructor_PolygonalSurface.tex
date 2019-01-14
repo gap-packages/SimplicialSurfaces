@@ -1,0 +1,35 @@
+    \def\distI{2}
+    \def\distA{1.5}
+
+    \foreach \i in {0,1,2,3,4}{
+        \coordinate (I\i) at (90+72*\i:\distI);
+        \coordinate (OR\i) at ($(I\i)+(90+72*\i-36:\distA)$);
+        \coordinate (OL\i) at ($(I\i)+(90+72*\i+36:\distA)$);
+    }
+
+    \draw[edge,face]
+        (I0) -- (OL0) -- node[edgeLabel]{16} (OR0) -- cycle
+        (I0) -- node[edgeLabel]{5} (I1) -- (OR1) -- node[edgeLabel]{25} (OL0) -- node[edgeLabel]{15} cycle
+        (OL1) -- node[edgeLabel]{24} (OR1) -- node[edgeLabel]{14} (I1) -- cycle
+        (OR2) -- node[edgeLabel]{23} (OL1) -- node[edgeLabel]{13} (I1) -- node[edgeLabel]{4} (I2) -- cycle
+        (OL2) -- node[edgeLabel]{22} (OR2) -- node[edgeLabel]{12} (I2) -- cycle
+        (OR3) -- node[edgeLabel]{21} (OL2) -- node[edgeLabel]{11} (I2) -- node[edgeLabel]{3} (I3) -- cycle
+        (OL3) -- node[edgeLabel]{20} (OR3) -- node[edgeLabel]{10} (I3) -- cycle
+        (OR4) -- node[edgeLabel]{19} (OL3) -- node[edgeLabel]{9} (I3) -- node[edgeLabel]{2} (I4) -- cycle
+        (OL4) -- node[edgeLabel]{18} (OR4) -- node[edgeLabel]{8} (I4) -- cycle
+        (OR0) -- node[edgeLabel]{17} (OL4) -- node[edgeLabel]{7} (I4) -- node[edgeLabel]{1} (I0) -- node[edgeLabel]{6} cycle;
+
+
+    % Face labels
+    \foreach \a/\n in {0/I, 1/IX, 2/VII, 3/V, 4/III}{
+        \node at (barycentric cs:I\a=1,OR\a=1,OL\a=1) {\n};
+    }
+    \foreach \a/\b/\n in {0/1/X, 1/2/VIII, 2/3/VI, 3/4/IV, 4/0/II}{
+        \node at (barycentric cs:I\a=1,OL\a=1,I\b=1,OR\b=1) {\n};
+    }
+
+    % Vertex labels
+    \foreach \p/\r/\n in {I0/below/1, I4/left/2, I3/above/3, I2/above/4, I1/right/5, OR0/above/6, OL4/right/7, OR4/right/8, OL3/right/9, OR3/below/10, OL2/below/11, OR2/left/12, OL1/left/13, OR1/above/14, OL0/above/15}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+
