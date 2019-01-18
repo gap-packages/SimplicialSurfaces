@@ -283,7 +283,31 @@ DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet,
 #! (<Ref Sect="PolygonalStructures_complex"/>)
 #! @InsertChunk Documentation_DownwardIncidence
 #!
-#! TODO example
+#! As an example consider the following net of a triangular complex (at the
+#! vertices and edges marked red, there are ramifications):
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorFirst]
+#!          \input{Image_Constructor_TriangularComplex.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := TriangularComplexByDownwardIncidence(
+#! >        [[1,7],[2,7],[3,7],[4,7],[5,7],[6,7],
+#! >         [1,9],[8,9],[3,9],[4,9],[9,10],[6,9],
+#! >         [1,12],[11,12],[3,12],[4,12],[12,13],[6,12],
+#! >         [1,2],[2,3],[3,4],[4,5],[5,6],,[1,8],[3,8],
+#! >         [4,10],[6,10],[1,11],[3,11],[4,13],[6,13]],
+#! >        [[1,2,19],[2,3,20],[3,4,21],[4,5,22],[5,6,23],
+#! >         [7,8,25],[8,9,26],[9,10,21],[10,11,27],[11,12,28],
+#! >         [13,14,29],[14,15,30],[15,16,21],[16,17,31],[17,18,32]]);;
+#! gap> UmbrellaPathPartitionOfVertex(complex, 1);
+#! [ | e1, F1, e19 |, | e7, F6, e25 |, | e13, F11, e29 | ]
+#! gap> UmbrellaPathPartitionOfVertex(complex, 6);
+#! [ | e6, F5, e23 |, | e12, F10, e28 |, | e18, F15, e32 | ]
+#! gap> FacesOfEdge(complex, 21);
+#! [ 3, 8, 13 ]
+#! @EndExampleSession
+#!
 #! @Returns a triangular complex
 #! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidence", [IsList, IsList] );
@@ -521,7 +545,32 @@ DeclareOperation( "PolygonalSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, I
 #! (<Ref Sect="PolygonalStructures_complex"/>)
 #! @InsertChunk Documentation_UpwardIncidence
 #!
-#! TODO example
+#! As an example consider the following net of a triangular complex (at the
+#! vertices and edges marked red, there are ramifications):
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond]
+#!          \input{Image_Constructor_TriangularComplex.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := TriangularComplexByUpwardIncidence(
+#! >        [[1,19,7,25,13,29],[2,19,20],
+#! >         [20,3,21,9,26,15,30],[22,4,21,10,27,16,31],
+#! >         [23,5,22],[6,23,12,28,18,32],[1,2,3,4,5,6],[26,8,25],
+#! >         [7,8,9,10,11,12],[27,11,28],[30,14,29],[13,14,15,16,17,18],
+#! >         [31,17,32]],
+#! >        [[1],[1,2],[2,3],[3,4],[4,5],[5],
+#! >         [6],[6,7],[7,8],[8,9],[9,10],[10],
+#! >         [11],[11,12],[12,13],[13,14],[14,15],[15],
+#! >         [1],[2],[3,8,13],[4],[5],,[6],[7],[9],[10],[11],[12],[14],[15]]);;
+#! gap> UmbrellaPathPartitionOfVertex(complex, 1);
+#! [ | e1, F1, e19 |, | e7, F6, e25 |, | e13, F11, e29 | ]
+#! gap> UmbrellaPathPartitionOfVertex(complex, 6);
+#! [ | e6, F5, e23 |, | e12, F10, e28 |, | e18, F15, e32 | ]
+#! gap> FacesOfEdge(complex, 21);
+#! [ 3, 8, 13 ]
+#! @EndExampleSession
+#
 #! @Returns a triangular complex
 #! @Arguments edgesOfVertices, facesOfEdges
 DeclareOperation( "TriangularComplexByUpwardIncidence", [IsList, IsList] );
@@ -722,8 +771,21 @@ DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 #! This method constructs a triagonal complex 
 #! (<Ref Sect="PolygonalStructures_complex"/>)
 #! @InsertChunk Documentation_VerticesInFaces
-#! 
-#! TODO example
+#!
+#! As an example consider the following net of a triangular complex (at the
+#! vertices and edges marked red, there are ramifications):
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorThird]
+#!          \input{Image_Constructor_TriangularComplex.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := TriangularComplexByVerticesInFaces(
+#! >        [[1,2,7],[2,3,7],[3,4,7],[4,5,7],[5,6,7],
+#! >         [1,8,9],[3,8,9],[3,4,9],[4,10,9],[6,10,9],
+#! >         [1,11,12],[3,11,12],[3,4,12],[4,13,12],[6,13,12]]);;
+#! @EndExampleSession
+#!
 #! @Returns a triangular complex
 #! @Arguments verticesInFaces
 DeclareOperation( "TriangularComplexByVerticesInFaces", [IsList] );

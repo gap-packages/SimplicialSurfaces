@@ -77,7 +77,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     SetIsTriangular(obj, true);
                 end;
             else
-                Error("This type is not supported.");
+                Error("This type is not supported.\n");
             fi;
 
             # The normal "setter" is just a test and can therefore easily
@@ -85,7 +85,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             wrapper := function( typeString, name )
                 return function( obj )
                     if not ValueGlobal( Concatenation("Is", typeString) )(obj) then
-                        Error(Concatenation(name, ": Constructed complex is not a ", typeString));
+                        Error(Concatenation(name, ": Constructed complex is not a ", typeString, ".\n"));
                     fi;
                 end;
             end;
@@ -108,7 +108,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                         # The sets are present and have to be checked for well-definedness
                         for i in [1..Length(namesOfSets)] do
                             if ForAny(arg[i], x -> not IsPosInt(x)) then
-                                Error(Concatenation(name,": ", namesOfSets[1], " have to be positive integers."));
+                                Error(Concatenation(name,": ", namesOfSets[1], " have to be positive integers.\n"));
                             fi;
                         od;
                     fi;
@@ -120,7 +120,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     fi;
                     for i in [1..Length(namesOfLists)] do
                         if ForAny( arg[i+off], l -> not IsList(l) or ForAny(l, x -> not IsPosInt(x) ) ) then
-                            Error(Concatenation(name, ": The entries of ", namesOfLists[i], " have to be lists of positive integers."));
+                            Error(Concatenation(name, ": The entries of ", namesOfLists[i], " have to be lists of positive integers.\n"));
                         fi;
                     od;
 
@@ -226,7 +226,7 @@ BindGlobal("__SIMPLICIAL_CompareSets",
         
         if not setA = setB then
             symDiff := Union( Difference(setA, setB), Difference(setB, setA) );
-            Error(Concatenation(name, ": Given ", word, " information does not match for each ", word, " in ", String(symDiff)));
+            Error(Concatenation(name, ": Given ", word, " information does not match for each ", word, " in ", String(symDiff),".\n"));
         fi;
     end
 );
@@ -236,10 +236,10 @@ BindGlobal("__SIMPLICIAL_TwoVerticesPerEdge",
 
         for e in [1..Length(verticesOfEdges)] do
             if IsBound(verticesOfEdges[e]) then
-                if Length(verticesOfEdges[e]) <> 2 and verticesOfEdges[e][1] <> verticesOfEdges[e][2] then
+                if Length(verticesOfEdges[e]) <> 2 or verticesOfEdges[e][1] = verticesOfEdges[e][2] then
                     Error(Concatenation(name, ": Edge ", String(e), 
                         " should have exactly two vertices, but has ", 
-                        String(verticesOfEdges[e], ".")));
+                        String(verticesOfEdges[e]), ".\n"));
                 fi;
             fi;
         od;
@@ -254,7 +254,7 @@ BindGlobal( "__SIMPLICIAL_AtLeastTwoPerFace",
                 if Length(edgesOfFaces[f]) < 2 then
                     Error(Concatenation(name, ": Face ", String(f),
                         " should have at least two ", words,  ", but has ",
-                        String(edgesOfFaces[f]), "."));
+                        String(edgesOfFaces[f]), ".\n"));
                 fi;
             fi;
         od;
@@ -275,13 +275,13 @@ BindGlobal( "__SIMPLICIAL_CheckPolygons",
             # 2
             vertexDegrees := List( vertices, v -> Intersection(edges, EdgesOfVertices(obj)[v]) );
             if ForAny( vertexDegrees, x -> Length(x) <> 2 ) then
-                Error( Concatenation( name, ": Face ", String(face), " is not a polygon (bad degrees)." ) );
+                Error( Concatenation( name, ": Face ", String(face), " is not a polygon (bad degrees).\n" ) );
             fi;
 
             # 3
             perms := List( edges, e -> (VerticesOfEdges(obj)[e][1], VerticesOfEdges(obj)[e][2]) );
             if not IsTransitive( Group(perms) ) then
-                Error( Concatenation( name, ": Face ", String(face), " is not a polygon (intransitive)." ) );
+                Error( Concatenation( name, ": Face ", String(face), " is not a polygon (intransitive).\n" ) );
             fi;
         od;
     end

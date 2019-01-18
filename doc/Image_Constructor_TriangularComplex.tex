@@ -1,0 +1,50 @@
+    \def\dist{2}
+
+    \coordinate (X) at (-30:\dist);
+    \coordinate (Y) at (30:\dist);
+    \foreach \i in {0,1,2,3,4,5}{
+        \foreach \j in {0,1,2,3,4,5}{
+            \coordinate (K\i\j) at ($\i*(X)+\j*(Y)$);
+        }
+    }
+
+    \draw[edge,face]
+        (K10) -- node[edgeLabel]{23} (K20) -- (K11) -- node[edgeLabel]{6} cycle
+        (K11) -- node[edgeLabel]{5} (K20) -- node[edgeLabel]{22} (K21) -- cycle
+        (K11) -- node[edgeLabel]{4} (K21) -- (K12) -- cycle
+        (K11) -- node[edgeLabel]{3} (K12) -- node[edgeLabel]{20} (K02) -- cycle
+        (K11) -- node[edgeLabel]{2} (K02) -- node[edgeLabel]{19} (K01) -- node[edgeLabel]{1} cycle
+
+        (K22) -- node[edgeLabel]{7} (K23) -- node[edgeLabel]{25} (K13) -- cycle
+        (K22) -- node[edgeLabel]{8} (K13) -- node[edgeLabel]{26} (K12) -- cycle
+        (K22) -- node[edgeLabel]{9} (K12) -- (K21) -- cycle
+        (K22) -- node[edgeLabel]{10} (K21) -- node[edgeLabel]{27} (K31) -- cycle
+        (K22) -- node[edgeLabel]{11} (K31) -- node[edgeLabel]{28} (K32) -- node[edgeLabel]{12} cycle
+
+        (K44) -- node[edgeLabel]{13} (K45) -- node[edgeLabel]{29} (K35) -- cycle
+        (K44) -- node[edgeLabel]{14} (K35) -- node[edgeLabel]{30} (K34) -- cycle
+        (K44) -- node[edgeLabel]{15} (K34) -- (K43) -- cycle
+        (K44) -- node[edgeLabel]{16} (K43) -- node[edgeLabel]{31} (K53) -- cycle
+        (K44) -- node[edgeLabel]{17} (K53) -- node[edgeLabel]{32} (K54) -- node[edgeLabel]{18} cycle;
+
+    % different coloured edges
+    \draw[thick,edge=red]
+        (K21) -- node[edgeLabel]{21} (K12)
+        (K43) -- node[edgeLabel]{21} (K34);
+
+    % Face labels
+    \foreach \a/\b/\c/\n in {01/02/11/1, 02/12/11/2, 12/21/11/3, 21/20/11/4, 20/10/11/5, 
+                            23/13/22/6, 13/12/22/7, 12/21/22/8, 21/31/22/9, 31/32/22/10, 
+                            45/35/44/11, 35/34/44/12, 34/43/44/13, 43/53/44/14, 53/54/44/15}{
+        \node at (barycentric cs:K\a=1,K\b=1,K\c=1) {\n};
+    }
+
+    % Vertex labels
+    \foreach \p/\r/\n in {02/above/2, 12/above/3, 11/left/7, 21/below/4, 20/below/5, 13/above/8, 22/right/9, 31/below/10, 34/above/3, 43/below/4, 35/above/11, 44/right/12, 53/below/13}{
+        \vertexLabelR{K\p}{\r}{\n}
+    }
+
+    % different coloured vertices
+    \foreach \p/\r/\n in {01/left/1, 10/left/6, 23/right/1, 32/right/6, 45/right/1, 54/right/6 }{
+        \vertexLabelR[red]{K\p}{\r}{\n}
+    }
