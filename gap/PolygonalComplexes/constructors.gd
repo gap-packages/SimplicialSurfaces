@@ -225,7 +225,23 @@
 #! (<Ref Sect="PolygonalStructures_complex"/>)
 #! @InsertChunk Documentation_DownwardIncidence
 #! 
-#! TODO example
+#! As an example consider the following net of a polygonal complex (note, there
+#! are both vertex and edge ramifications):
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorFirst]
+#!          \input{Image_Constructor_PolygonalComplex.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence(
+#! >        [[1,2],[2,3],[1,3],[3,6],[1,6],[6,5],[2,5],[1,5]],
+#! >        [[1,7,8],[1,7,8],[2,4,6,7],[2,4,6,7],[3,4,5],[3,4,5]]);;
+#! gap> RamifiedVertices(complex);
+#! [ 1 ]
+#! gap> ChaoticVertices(complex);
+#! [ 2, 3, 5, 6 ]
+#! @EndExampleSession
+#!
 #! @Returns a polygonal complex
 #! @Arguments verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidence", [IsList, IsList] );
@@ -486,7 +502,23 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! (<Ref Sect="PolygonalStructures_complex"/>)
 #! @InsertChunk Documentation_UpwardIncidence
 #! 
-#! TODO example
+#! As an example consider the following net of a polygonal complex (note, there
+#! are both vertex and edge ramifications):
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond]
+#!          \input{Image_Constructor_PolygonalComplex.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := PolygonalComplexByUpwardIncidence(
+#! >        [[1,8,3,5],[1,2,7],[2,3,4],,[6,7,8],[4,5,6]],
+#! >        [[1,2],[3,4],[5,6],[3,4,5,6],[5,6],[3,4],[1,2,3,4],[1,2]]);;
+#! gap> RamifiedVertices(complex);
+#! [ 1 ]
+#! gap> ChaoticVertices(complex);
+#! [ 2, 3, 5, 6 ]
+#! @EndExampleSession
+#!
 #! @Returns a polygonal complex
 #! @Arguments edgesOfVertices, facesOfEdges
 DeclareOperation( "PolygonalComplexByUpwardIncidence", [IsList, IsList] );
@@ -717,8 +749,23 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! This method constructs a polygonal complex 
 #! (<Ref Sect="PolygonalStructures_complex"/>)
 #! @InsertChunk Documentation_VerticesInFaces
+#!
+#! As an example consider the following net of a polygonal complex (note, there
+#! are both vertex and edge ramifications):
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorThird]
+#!          \input{Image_Constructor_PolygonalComplex.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := PolygonalComplexByVerticesInFaces(
+#! >        [[1,2,5],[1,2,5],[2,3,6,5],[2,3,6,5],[1,6,3],[1,3,6]]);;
+#! gap> RamifiedVertices(complex);
+#! [ 1 ]
+#! gap> ChaoticVertices(complex);
+#! [ 2, 3, 5, 6 ]
+#! @EndExampleSession
 #! 
-#! TODO example
 #! @Returns a polygonal complex
 #! @Arguments verticesInFaces
 DeclareOperation( "PolygonalComplexByVerticesInFaces", [IsList] );
