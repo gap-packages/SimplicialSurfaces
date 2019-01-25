@@ -164,7 +164,7 @@
 #TODO should we introduce a "similar methods"-part at the end of
 # some methods? This might become too long..
 
-#TODO 6 examples for the constructors (to showcase how each method
+#TODO 4 examples for the constructors (to showcase how each method
 # handles it).
 # TODO for visual distinguishing make the face colours slightly
 # different: yellow, cyan, green, light red, etc...
@@ -264,7 +264,6 @@ DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet,
 #!   (v6, E16, v15, E25, v14, E24, v13, E23, v12, E22, v11, E21, 
 #!             v10, E20, v9, E19, v8, E18, v7, E17, v6) ]
 #! @EndExampleSession
-#!TODO maybe show Display?
 #!
 #! @Returns a polygonal surface
 #! @Arguments verticesOfEdges, edgesOfFaces
@@ -349,7 +348,6 @@ DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! gap> IsClosedSurface(surf);
 #! true
 #! @EndExampleSession
-#TODO maybe show Display?
 #!
 #! @Returns a simplicial surface
 #! @Arguments verticesOfEdges, edgesOfFaces
@@ -526,7 +524,6 @@ DeclareOperation( "PolygonalComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, I
 #!   (v6, E16, v15, E25, v14, E24, v13, E23, v12, E22, v11, E21, 
 #!             v10, E20, v9, E19, v8, E18, v7, E17, v6) ]
 #! @EndExampleSession
-#!TODO maybe show Display?
 #!
 #! @Returns a polygonal surface
 #! @Arguments edgesOfVertices, facesOfEdges
@@ -613,7 +610,6 @@ DeclareOperation( "TriangularComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! gap> IsClosedSurface(surf);
 #! true
 #! @EndExampleSession
-#TODO maybe Display?
 #!
 #! @Returns a simplicial surface
 #! @Arguments edgesOfVertices, facesOfEdges
@@ -753,7 +749,6 @@ DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 #! gap> IsClosedSurface(surf);
 #! false
 #! @EndExampleSession
-#!TODO maybe show Display?
 #! 
 #! @Returns a polygonal surface
 #! @Arguments verticesInFaces
@@ -825,7 +820,6 @@ DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! gap> IsClosedSurface(surf);
 #! true
 #! @EndExampleSession
-#TODO maybe Display?
 #! 
 #! @Returns a simplicial surface
 #! @Arguments verticesInFaces
@@ -839,7 +833,6 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! @EndGroup
 
 
-##TODO print nets of the structures in the example section (made with DrawSurfaceToTikZ)
 ##TODO better name for this section
 #! @Section Pre-defined structures
 #! @SectionLabel Constructors_Examples
