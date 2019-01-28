@@ -9,20 +9,33 @@
 %\coordinate (E) at (0.9,0.8);
 			
 \draw[edge, face]
-    (A) -- (B) -- (E) -- cycle;
+    (A) -- (B) -- node[edgeLabel]{5} (E) -- cycle;
 \draw[edge,face]
-    (A) -- (B) -- (C) -- cycle
-    (A) -- (B) -- (D) -- cycle;
-\draw[edge, dashed] (A) -- (E);
+    (A) -- (B) -- node[edgeLabel]{2} (C) -- node[edgeLabel]{1} cycle
+    (A) -- (B) -- node[edgeLabel]{3} (D) -- node[edgeLabel]{4} cycle;
+\draw[edge, dashed] (A) -- node[edgeLabel]{6} (E);
 	
 % Special marking for edge
 \ifdefined\emphEdge
-    \draw[thick, edge=blue] (A) -- (B);
+    \draw[thick, edge=blue] (A) -- node[edgeLabel]{7} (B);
+\else
+    \draw[edge] (A) -- node[edgeLabel]{7} (B);
 \fi
 
+
+\vertexLabelR{C}{right}{3}
+\vertexLabelR{D}{left}{4}
+\vertexLabelR{E}{left}{5}
 % Special marking for vertices
 \ifdefined\emphVertex
-    \fill[red] (A) circle (1pt);
-    \fill[red] (B) circle (1pt);
+    \vertexLabelR[red]{A}{below}{1}
+    \vertexLabelR[red]{B}{above}{2}
+\else
+    \vertexLabelR{A}{below}{1}
+    \vertexLabelR{B}{above}{2}
 \fi
 		     
+
+\node[faceLabel] at (barycentric cs:A=1,B=1,C=1) {I};
+\node[faceLabel] at (barycentric cs:A=3,B=1,D=1) {II};
+\node[faceLabel] at (barycentric cs:A=1,B=1,E=3) {III};

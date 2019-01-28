@@ -503,7 +503,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! <Ref Sect="PolygonalStructures_surface"/>) there might be edges that are 
 #! incident to more than two faces.
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#!   \begin{tikzpicture}[scale=2, vertexNormal=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
 #!      \def\emphVertex{1}
 #!      \input{Image_ThreeBranchingTriangles.tex}
 #!   \end{tikzpicture}
@@ -673,7 +673,23 @@ DeclareOperation( "IsRamifiedVertexNC", [IsVEFComplex, IsPosInt] );
 #! vertex of the given VEF-complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
-#! TODO example
+#! As an example, we consider the following triangular complex:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle, faceStyle]
+#!      \input{Image_ThreeBranchingTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> branch := TriangularComplexByDownwardIncidence(
+#! >        [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], 
+#! >        [[1,2,7],[3,4,7],[5,6,7]]);;
+#! gap> IsChaoticVertex(branch, 1);
+#! true
+#! gap> IsChaoticVertex(branch, 3);
+#! false
+#! gap> ChaoticVertices(branch);
+#! [ 1, 2 ]
+#! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
