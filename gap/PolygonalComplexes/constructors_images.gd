@@ -14,7 +14,6 @@
 # create the surface and the image of the net.
 
 #! @BeginChunk Example_JanusHead
-#! TODO picture?
 #! @BeginExample
 janus := JanusHead();;
 #! @EndExample
@@ -26,7 +25,6 @@ DrawSurfaceToTikz(janus, "Janus_constructor", pr);;
 #! @EndChunk
 
 #! @BeginChunk Example_Tetrahedron
-#! TODO picture?
 #! @BeginExample
 tetra := Tetrahedron();;
 #! @EndExample
@@ -40,7 +38,6 @@ DrawSurfaceToTikz(tetra, "Tetrahedron_constructor_labelShift", pr);
 #! @EndChunk
 
 #! @BeginChunk Example_Cube
-#! TODO picture?
 #! @BeginExample
 cube := Cube();;
 #! @EndExample
@@ -52,7 +49,6 @@ DrawSurfaceToTikz(cube, "Cube_constructor", pr);;
 #! @EndChunk
 
 #! @BeginChunk Example_Octahedron
-#! TODO picture?
 #! @BeginExample
 octa := Octahedron();;
 #! @EndExample
@@ -64,7 +60,6 @@ DrawSurfaceToTikz(octa, "Octahedron_constructor", pr);;
 #! @EndChunk
 
 #! @BeginChunk Example_Dodecahedron
-#! TODO picture?
 #! @BeginExample
 dode := Dodecahedron();;
 #! @EndExample
@@ -76,7 +71,6 @@ DrawSurfaceToTikz(dode, "Dodecahedron_constructor", pr);;
 #! @EndChunk
 
 #! @BeginChunk Example_Icosahedron
-#! TODO picture?
 #! @BeginExample
 ico := Icosahedron();;
 #! @EndExample
