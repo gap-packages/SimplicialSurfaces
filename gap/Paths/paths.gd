@@ -453,7 +453,43 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! (<Ref Subsect="PerimeterPathsOfFaces"/>) and <K>Orientation</K>
 #! (<Ref Subsect="Orientation"/>).
 #!
-#! TODO explain stuff
+#! Mathematically, a perimerter path is a closed vertex-edge-path that
+#! encircles a face. For example, consider the tetrahedron
+#! (<Ref Subsect="Tetrahedron"/>):
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Tetrahedron_constructor.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> tet := Tetrahedron();;
+#! gap> PerimeterPathOfFace(tet, 1);
+#! ( v1, E1, v2, E4, v3, E2, v1 )
+#! gap> EdgesOfFace(tet, 1);
+#! [ 1, 2, 4 ]
+#! gap> VerticesOfFace(tet, 1);
+#! [ 1, 2, 3 ]
+#! @EndExampleSession
+#!
+#! Additionally, given a perimeter path, we sometimes need to access
+#! the face it encircles. For most surfaces this is unproblematic,
+#! but there are some exceptions, like the Janus-head
+#! (<Ref Subsect="JanusHead"/>). For this reason, the attribute
+#! <K>Face</K> (<Ref Subsect="PerimeterPath_Face"/>) was introduced.
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Janus_constructor.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> janus := JanusHead();;
+#! gap> EdgesOfFace(janus,1) = EdgesOfFace(janus,2);
+#! true
+#! gap> VerticesOfFace(janus,1) = VerticesOfFace(janus, 2);
+#! true
+#! gap> perims := PerimeterPathsOfFaces(janus);
+#! [ ( v1, E1, v2, E3, v3, E2, v1 ), ( v1, E1, v2, E3, v3, E2, v1 ) ]
+#! gap> perims[1] = perims[2];
+#! false
+#! gap> Face(perims[1]);
+#! 1
+#! @EndExampleSession
 #!
 #! 
 
@@ -470,12 +506,14 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! </ManSection>
 
 
+#! @BeginGroup PerimeterPath_Face
 #! @Description
 #! Return the face to which this perimeter path belongs.
 #!
 #! @Returns a face
 #! @Arguments perimPath
 DeclareAttribute( "Face", IsPerimeterPath );
+#! @EndGroup
 
 
 #! @BeginGroup PerimeterPath
