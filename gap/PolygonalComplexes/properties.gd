@@ -458,7 +458,23 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsVEFComplex, IsPosInt] );
 #! edge of the given VEF-complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
-#! TODO example?
+#! We illustrate it on the following triangular complex:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle, faceStyle]
+#!      \input{Image_ThreeBranchingTriangles.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> branch := TriangularComplexByDownwardIncidence(
+#! >        [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], 
+#! >        [[1,2,7],[3,4,7],[5,6,7]]);;
+#! gap> IsRamifiedEdge(branch, 1);
+#! false
+#! gap> IsRamifiedEdge(branch, 7);
+#! true
+#! gap> RamifiedEdges(branch);
+#! [ 7 ]
+#! @EndExampleSession
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex
