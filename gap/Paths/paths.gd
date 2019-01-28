@@ -144,7 +144,21 @@ DeclareOperation( "VertexEdgePathNC", [IsVEFComplex, IsDenseList] );
 #!       \input{Image_SixTriangles_AlphaAndOmega.tex}
 #!     </Alt>
 #! 
-#! TODO ambiguous examples
+#! An example of the ambiguous nature is this triangular complex:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\open{1}
+#!     \input{Image_Eye_OpenClosed.tex}
+#!   }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> eye := TriangularComplexByDownwardIncidence(
+#! >            [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;
+#! gap> VertexEdgePathByVertices( eye, [1,2,3,4] );
+#! | v1, E1, v2, E2, v3, E5, v4 |
+#! gap> VertexEdgePathByVertices( eye, [2,3,2] );
+#! ( v2, E2, v3, E2, v2 )
+#! @EndExampleSession
 #!
 #! The NC-version does not check whether the given <A>vertexList</A> consists
 #! of vertices in <A>complex</A> and whether every two adjacent vertices are
@@ -182,7 +196,21 @@ DeclareOperation( "VertexEdgePathByVerticesNC", [IsVEFComplex, IsDenseList] );
 #!       \input{Image_SixTriangles_AlphaAndOmega.tex}
 #!     </Alt>
 #! 
-#! TODO ambiguous examples
+#! An example of the ambiguous nature is this triangular complex:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\open{1}
+#!     \input{Image_Eye_OpenClosed.tex}
+#!   }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> eye := TriangularComplexByDownwardIncidence(
+#! >            [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;
+#! gap> VertexEdgePathByEdges( eye, [2] );
+#! | v2, E2, v3 |
+#! gap> VertexEdgePathByEdges( eye, [2,6] );
+#! ( v2, E2, v3, E6, v2 )
+#! @EndExampleSession
 #!
 #! The NC-version does not check whether the given <A>edgeList</A> consists
 #! of edges in <A>complex</A>.
