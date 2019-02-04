@@ -412,7 +412,7 @@ AutoDoc( rec( scaffold := rec(
               ),
 	      autodoc := rec( 
                     files := [ ],
-                    scan_dirs := ["doc", "gap", "gap/PolygonalComplexes", "gap/Paths", "gap/Library", "gap/ColouredComplexes", "gap/Flags"]),
+                    scan_dirs := ["doc", "gap", "gap/PolygonalComplexes", "gap/Paths", "gap/Library", "gap/ColouredComplexes", "gap/Flags", "gap/Morphisms"]),
               gapdoc := rec(
                     files := ["doc/PolygonalStructuresDefinitions.xml", "doc/ExampleImplementations.xml"]
               ))

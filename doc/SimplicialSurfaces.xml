@@ -28,6 +28,7 @@
     <#Include SYSTEM "_Chapter_AccessIncidenceGeometry.xml">
     <#Include SYSTEM "_Chapter_Constructors.xml">
     <#Include SYSTEM "_Chapter_AccessBendPolygonalComplex.xml">
+    <#Include SYSTEM "_Chapter_Morphisms.xml">
     <#Include SYSTEM "_Chapter_Paths.xml">
     <#Include SYSTEM "_Chapter_Properties.xml">
     <#Include SYSTEM "_Chapter_Navigation.xml">
