@@ -1,0 +1,33 @@
+    % rotate by 90 degree
+    %       P3 ------------ P4
+    %      / |       12     | 
+    %    8/  |              |
+    %    /   |              |
+    %  P1  I |9      IV     |13
+    %    \   |              |
+    %    6\  |              |
+    %      \ |       10     |
+    %       P2 ------------ P5
+
+    \def\dist{3}
+    \coordinate (P5) at (0,0);
+    \coordinate (P4) at (\dist,0);
+    \coordinate (P2) at (0,\dist);
+    \coordinate (P3) at ($(P4)+(P2)$);
+    \coordinate (P1) at ($(P2)+(60:\dist)$);
+    
+
+    \draw[edge, face]
+        (P1) -- node[edgeLabel]{\ifdefined\shiftLabels 17 \else 6\fi} (P2) -- (P3) 
+            -- node[edgeLabel]{\ifdefined\shiftLabels 19 \else 8 \fi} cycle
+        (P2) -- node[edgeLabel]{\ifdefined\shiftLabels 20 \else 9\fi} (P3) 
+            -- node[edgeLabel]{\ifdefined\shiftLabels 23 \else 12\fi} (P4) 
+            -- node[edgeLabel]{\ifdefined\shiftLabels 24 \else 13\fi} (P5) 
+            -- node[edgeLabel]{\ifdefined\shiftLabels 21 \else 10\fi} cycle;
+
+    \foreach \p/\r/\n in {P1/above/2, P2/left/5, P3/right/3, P4/right/7, P5/left/11}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+
+    \node[faceLabel] at (barycentric cs:P1=1,P2=1,P3=1) {\ifdefined\shiftLabels 25 \else I\fi};
+    \node[faceLabel] at (barycentric cs:P2=1,P3=1,P4=1,P5=1) {\ifdefined\shiftLabels 28 \else IV\fi};

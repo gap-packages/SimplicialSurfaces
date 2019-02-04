@@ -43,6 +43,8 @@
 #! surfaces.
 #!
 
+#TODO maybe add example of a simplicial surface without a vari-colouring
+
 #! @Section Definition and elementary properties
 #! @SectionLabel EdgeVariColouring_Definition
 #! This section defines the concept of edge vari-colourings

@@ -14,7 +14,7 @@
 #! @ChapterLabel Flags
 #! 
 #! This chapter is concerned with the <E>flags</E> of a polygonal complex. 
-#! A flag is a triple <M>(V,E,F)</M> of vertex <M>V</M>m an edge <M>E</M>
+#! A flag is a triple <M>(V,E,F)</M> of vertex <M>V</M>, an edge <M>E</M>,
 #! and a face <M>F</M> that are incident to each other. They can be computed
 #! with the command <K>Flags</K> (<Ref Subsect="Flags"/>).
 #!
@@ -42,7 +42,7 @@
 #! For example consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExampleSession
@@ -89,7 +89,7 @@
 #! <Ref Sect="Section_Flags_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExampleSession
@@ -118,7 +118,7 @@ DeclareAttribute( "ThreeFlags", IsPolygonalComplex );
 #! <Ref Sect="Section_Flags_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExampleSession
@@ -142,7 +142,7 @@ DeclareAttribute( "VertexEdgeFlags", IsPolygonalComplex );
 #! <Ref Sect="Section_Flags_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExampleSession
@@ -165,7 +165,7 @@ DeclareAttribute( "VertexFaceFlags", IsPolygonalComplex );
 #! <Ref Sect="Section_Flags_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExampleSession
@@ -206,7 +206,7 @@ DeclareAttribute( "EdgeFaceFlags", IsPolygonalComplex );
 #! <Ref Sect="Section_Flags_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExampleSession
@@ -242,7 +242,7 @@ DeclareAttribute( "TwoFlags", IsPolygonalComplex );
 #! <Ref Sect="Section_Flags_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExampleSession
@@ -299,7 +299,7 @@ DeclareAttribute( "OneFlags", IsPolygonalComplex );
 #!         the flag <M>[v,X,f]</M> where <M>X</M> is the unique edge
 #!         different from <M>e</M> such that <M>[v,X,f]</M> is a flag.
 #!     </Item>
-#!   <Item>The thirs Dress involution maps the flag <M>[v,e,f]</M> to
+#!   <Item>The third Dress involution maps the flag <M>[v,e,f]</M> to
 #!         the flag <M>[v,e,X]</M> if there is a face <M>X</M> different
 #!         from <M>f</M> such that <M>[v,e,X]</M> is a flag. Otherwise
 #!         it fixes this flag.
@@ -328,9 +328,14 @@ DeclareAttribute( "DressGroup", IsVEFComplex and IsNotEdgeRamified );
 #!         original vertex, in the middle of each edge and in the center
 #!         of gravity for each face.</Item>
 #!   <Item>The edges are given by the <K>TwoFlags</K>
-#!         (<Ref Subsect="TwoFlags"/>).</Item>
+#!         (<Ref Subsect="TwoFlags"/>), e.g. for each incident
+#!          edge-face-pair there is a new edge between the middle
+#!          of the edge and the center of gravity of the face. There
+#!          are also new edges for the vertex-edge- and vertex-face-pairs.</Item>
 #!   <Item>The faces are given by the <K>ThreeFlags</K> 
-#!         (<Ref Subsect="Flags"/>).</Item>
+#!         (<Ref Subsect="Flags"/>), i.e. for every flag <M>(V,E,F)</M>
+#!          there is a new face between <M>V</M>, the middle of <M>E</M>
+#!          and the center of gravity of <M>F</M>.</Item>
 #! </Enum>
 #! 
 #! @InsertChunk Example_FlagComplex

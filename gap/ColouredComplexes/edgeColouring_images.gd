@@ -74,7 +74,7 @@ pyr := PolygonalSurfaceByDownwardIncidence(
     [ , [1,2], [2,3], [3,4], [1,4], [2,10], [3,10], [4,10], [1,10] ],
     [ [2,3,4,5], , [2,6,9], [3,6,7], [4,7,8], [5,8,9] ] );;
 #! @EndExample
-DrawSurfaceToTikz( pyr, "Pyramid_uncoloured", rec(scale:=2.5) );
+DrawSurfaceToTikz( pyr, "Pyramid_uncoloured", rec(scale:=2.5, edgeColours:="black") );
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Pyramid_uncoloured.tex}
 #! </Alt>

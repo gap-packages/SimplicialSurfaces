@@ -19,7 +19,7 @@ complex := PolygonalComplexByDownwardIncidence(
 #! <Ref Sect="Section_Flags_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExample
@@ -35,11 +35,11 @@ PolygonalComplex(flagComp);;
 #! Compare <Ref Subsect="DrawSurfaceToTikz_FlagComplex"/>
 #! for details.
 #! @BeginLog
-DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=4.2,
+DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=5,
     vertexLabels := OneFlags(complex),
     edgeLabels := TwoFlags(complex),
     faceLabels := ThreeFlags(complex),
-    startingFaces := 10));;
+    startingFaces := 14));;
 #! @EndLog
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_FlagComplex_Labelled.tex}
@@ -52,14 +52,14 @@ DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=4.2,
 #! <Ref Sect="Section_Flags_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
+#!       \input{Image_FlagComplexExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
 #! @BeginExample
 flagSurf := FlagSurface(complex);;
 #! @EndExample
 DrawSurfaceToTikz(flagSurf, "FlagSurface", 
-                rec(scale:=3, startingFaces:=10));;
+                rec(scale:=3, startingFaces:=14));;
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_FlagSurface.tex}
 #! </Alt>
