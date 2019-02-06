@@ -76,8 +76,6 @@ BindGlobal( "GeneralPolygonalMorphismFamily",
 # implement EdgeMapAsImageList (for single-valued);
 # implement FaceMapAsImageList (for single-valued);
 
-
-
 # attribute SourceComplex
 # attribute SourceSurface
 # attribute RangeComplex
@@ -92,3 +90,10 @@ BindGlobal( "GeneralPolygonalMorphismFamily",
 ##########################################
 # For a polygonal complex: maps between edges and shiftedEdges (compare graph.gi);
 # For a polygonal complex: maps between faces and shiftedFaces (compare graph.gi);
+# VEFLabelOfVertex
+# VEFLabelOfEdge
+# VEFLabelOfFace
+# VertexOfVEFLabel
+# EdgeOfVEFLabel
+# FaceOfVEFLabel
+# I don't like the name VEFLabel..
