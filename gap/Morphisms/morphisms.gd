@@ -36,43 +36,59 @@ DeclareCategory("IsGeneralPolygonalMorphism", IsNonSPGeneralMapping);
 BindGlobal( "GeneralPolygonalMorphismFamily", 
     NewFamily( "GeneralPolygonalMorphismFamily", IsGeneralMapping, IsGeneralPolygonalMorphism ) );
 
+#! @Section Construction of Morphisms
+#! @SectionLabel Morphisms_Construction
+#!
+#! In this section, we give several different ways to construct morphisms
+#! from scratch.
+
+# TODO implement constructor by three lists (images of vertices, edges and faces)
+
+# TODO implement IdentityMapping
+
+# TODO implement InverseMapping/InverseMorphism (for appropriate...)
+
+# TODO overload CompositionMapping2
+
+#! @Section Elementary properties
+#! @SectionLabel Morphisms_Properties
+
+# TODO document some of the generic properties like IsInjective, IsSurjective, ...
+
+
+#! @Section Images and pre-images
+
+#TODO
+# implement PreImagesOfVertex
+# implement PreImagesOfEdge
+# implement PreImagesOfFace
+
+
+# implement ImageOfVertex (for a total and single-valued ..);
+# implement ImageOfEdge (for a total and single-valued ..);
+# implement ImageOfFace (for a total and single-valued ..);
+
+
+#! @Section Components of a morphism
 
 #List of TODO:
+# implement VertexMapAsImageList (for single-valued);
+# implement EdgeMapAsImageList (for single-valued);
+# implement FaceMapAsImageList (for single-valued);
 
-# For a polygonal complex: maps between edges and shiftedEdges (compare graph.gi);
-# For a polygonal complex: maps between faces and shiftedFaces (compare graph.gi);
+
 
 # attribute SourceComplex
 # attribute SourceSurface
 # attribute RangeComplex
 # attribute RangeSurface
 
-# overload CompositionMapping2
 
 # attribute VertexMapping
 # attribute EdgeMapping
 # attribute FaceMapping
 
-# implement PreImagesOfVertex
-# implement PreImagesOfEdge
-# implement PreImagesOfFace
 
-# implement ImagesOfVertex
-# implement ImagesOfEdge
-# implement ImagesOfFace
-
-# implement ImageOfVertex (for a total and single-valued ..);
-# implement ImageOfEdge (for a total and single-valued ..);
-# implement ImageOfFace (for a total and single-valued ..);
-
-# implement IdentityMapping
-
-# document some of the generic properties like IsInjective, IsSurjective, ...
-
-# implement InverseMapping/InverseMorphism (for appropriate...)
-
-# implement constructor by three lists (images of vertices, edges and faces)
-
-# implement VertexMapAsImageList (for single-valued);
-# implement EdgeMapAsImageList (for single-valued);
-# implement FaceMapAsImageList (for single-valued);
+##########################################
+# For a polygonal complex: maps between edges and shiftedEdges (compare graph.gi);
+# For a polygonal complex: maps between faces and shiftedFaces (compare graph.gi);
