@@ -17,6 +17,13 @@
 #! complexes (morphisms between bend polygonal complexes are not implemented
 #! so far).
 #!
+#! A morphism between two polygonal complexes <M>(V_1,E_1,F_1)</M> and
+#! <M>(V_2,E_2,F_2)</M> consists of maps <M>V_1 \to V_2</M>, <M>E_1 \to E_2</M>,
+#! and <M>F_1 \to F_2</M>, such that incident elements remain incident.
+#!
+#! TODO: these maps can be represented as lists, or as mappings (in GAP)
+#! TODO: example with constructors for the two
+#!
 #! TODO a lot of introduction
 
 #idea: polygonal morphisms are maps between sets: vertices+edges+faces, where edges

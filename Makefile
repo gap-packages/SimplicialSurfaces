@@ -15,6 +15,8 @@ doc/manual.six: makedoc.g \
 		gap/Library/*gi \
 		gap/Paths/*gd \
 		gap/Paths/*gi \
+		gap/Morphisms/*gd \
+		gap/Morphisms/*gi \
 		gap/PolygonalComplexes/*.gd \
 		gap/PolygonalComplexes/*.gi \
 		doc/SimplicialSurfaces.xml \
