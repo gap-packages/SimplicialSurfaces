@@ -133,18 +133,62 @@ DeclareOperation( "VEFLabelOfFace", [IsVEFComplex, IsPosInt]);
 DeclareOperation( "VEFLabelOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! @EndGroup
 
-# TODO
-# For a polygonal complex: maps between edges and shiftedEdges (compare graph.gi);
-# For a polygonal complex: maps between faces and shiftedFaces (compare graph.gi);
-# VertexOfVEFLabel
-# EdgeOfVEFLabel
-# FaceOfVEFLabel
-# I don't like the name VEFLabel..
 
-# How should VertexOfVEFLabel etc. work?
-# all return the vertex if possible. How do they react to the following situations?
-# a) Input is not in the correct range
-# b) Input is not a VEF-label
+#! @BeginGroup VertexOfVEFLabel
+#! @Description
+#! Given a VEF-complex <A>complex</A> and a VEF-label <A>label</A>, the
+#! method <K>VertexOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
+#! the vertex associated to <A>label</A>.
+#!
+#! TODO example
+#!
+#! The NC-version does not check whether the given <A>label</A> is valid.
+#! The normal version checks this and returns <K>fail</K> if <A>label</A>
+#! is not valid.
+#! @Returns a positive integer or <K>fail</K>
+#! @Arguments complex, label
+DeclareOperation( "VertexOfVEFLabel", [IsVEFComplex, IsPosInt] );
+#! @Arguments complex, label
+DeclareOperation( "VertexOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup EdgeOfVEFLabel
+#! @Description
+#! Given a VEF-complex <A>complex</A> and a VEF-label <A>label</A>, the
+#! method <K>EdgeOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
+#! the edge associated to <A>label</A>.
+#!
+#! TODO example
+#!
+#! The NC-version does not check whether the given <A>label</A> is valid.
+#! The normal version checks this and returns <K>fail</K> if <A>label</A>
+#! is not valid.
+#! @Returns a positive integer or <K>fail</K>
+#! @Arguments complex, label
+DeclareOperation( "EdgeOfVEFLabel", [IsVEFComplex, IsPosInt] );
+#! @Arguments complex, label
+DeclareOperation( "EdgeOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup FaceOfVEFLabel
+#! @Description
+#! Given a VEF-complex <A>complex</A> and a VEF-label <A>label</A>, the
+#! method <K>FaceOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
+#! the face associated to <A>label</A>. 
+#!
+#! TODO example
+#!
+#! The NC-version does not check whether the given <A>label</A> is valid.
+#! The normal version checks this and returns <K>fail</K> if <A>label</A>
+#! is not valid.
+#! @Returns a positive integer of <K>fail</K>
+#! @Arguments complex, label
+DeclareOperation( "FaceOfVEFLabel", [IsVEFComplex, IsPosInt] );
+#! @Arguments complex, label
+DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
+#! @EndGroup
 
 
 

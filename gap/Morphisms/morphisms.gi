@@ -89,6 +89,66 @@ for pairs in [ ["Vertex", "Vertices"], ["Edge", "Edges"], ["Face", "Faces"] ] do
 od;
 
 
+InstallMethod( VertexOfVEFLabelNC, "for a VEF-complex and a positive integer",
+    [IsVEFComplex, IsPosInt],
+    function(complex, label)
+        return label;
+    end
+);
+InstallMethod( VertexOfVEFLabel, "for a VEF-complex and a positive integer",
+    [IsVEFComplex, IsPosInt],
+    function(complex, label)
+        local res;
+
+        res := VertexOfVEFLabelNC(complex, label);
+        if res in VerticesAttributeOfVEFComplex(complex) then
+            return res;
+        else
+            return fail;
+        fi;
+    end
+);
+
+InstallMethod( EdgeOfVEFLabelNC, "for a VEF-complex and a positive integer",
+    [IsVEFComplex, IsPosInt],
+    function(complex, label)
+        return label - Maximum(VerticesAttributeOfVEFComplex(complex));
+    end
+);
+InstallMethod( EdgeOfVEFLabel, "for a VEF-complex and a positive integer",
+    [IsVEFComplex, IsPosInt],
+    function(complex, label)
+        local res;
+
+        res := EdgeOfVEFLabelNC(complex, label);
+        if res in Edges(complex) then
+            return res;
+        else
+            return fail;
+        fi;
+    end
+);
+
+InstallMethod( FaceOfVEFLabelNC, "for a VEF-complex and a positive integer",
+    [IsVEFComplex, IsPosInt],
+    function(complex, label)
+        return label - Maximum(VerticesAttributeOfVEFComplex(complex)) - Maximum(Edges(complex));
+    end
+);
+InstallMethod( FaceOfVEFLabel, "for a VEF-complex and a positive integer",
+    [IsVEFComplex, IsPosInt],
+    function(complex, label)
+        local res;
+
+        res := FaceOfVEFLabelNC(complex, label);
+        if res in Faces(complex) then
+            return res;
+        else
+            return fail;
+        fi;
+    end
+);
+
 
 ##
 ##      End VEF-labels
