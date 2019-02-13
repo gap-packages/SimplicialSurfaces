@@ -42,17 +42,37 @@ InstallMethod( VEFLabels, "for a VEF-complex", [IsVEFComplex],
 
 InstallMethod( VEFLabelsOfVertices, "for a VEF-complex", [IsVEFComplex],
     function(complex)
-        return VerticesAttributeOfVEFComplex(complex);
+        local res, v;
+
+        res := [];
+        for v in VerticesAttributeOfVEFComplex(complex) do
+            res[v] := v;
+        od;
+        return res;
     end
 );
 InstallMethod( VEFLabelsOfEdges, "for a VEF-complex", [IsVEFComplex],
     function(complex)
-        return Edges(complex) + Maximum(VerticesAttributeOfVEFComplex(complex));
+        local res, e, shift;
+
+        shift := Maximum(VerticesAttributeOfVEFComplex(complex));
+        res := [];
+        for e in Edges(complex) do
+            res[e] := e + shift;
+        od;
+        return res;
     end
 );
 InstallMethod( VEFLabelsOfFaces, "for a VEF-complex", [IsVEFComplex],
     function(complex)
-        return Faces(complex) + Maximum(VerticesAttributeOfVEFComplex(complex)) + Maximum(Edges(complex));
+        local res, f, shift;
+        
+        shift := Maximum(VerticesAttributeOfVEFComplex(complex)) + Maximum(Edges(complex));
+        res := [];
+        for f in Faces(complex) do
+            res[f] := f + shift;
+        od;
+        return res;
     end
 );
 

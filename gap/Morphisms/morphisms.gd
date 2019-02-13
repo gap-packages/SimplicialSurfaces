@@ -37,14 +37,54 @@ BindGlobal( "GeneralPolygonalMorphismFamily",
     NewFamily( "GeneralPolygonalMorphismFamily", IsGeneralMapping, IsGeneralPolygonalMorphism ) );
 
 #! @Section Consistent labels for vertices, edges, and faces
-#! @SectionLabel Section_VEFLabels
+#! @SectionLabel VEFLabels
 #!
 #! We have defined VEF-complexes in a way such that the labels for vertices,
 #! edges, and faces do not have to be distinct. While this is more convenient
 #! for the casual user, it is sometimes practical to enforce distinct labels.
 #! Notably, these cases include morphisms and automorphism groups.
 #!
-#! The distinct label set is called <K>VEFLabels</K>:
+#! The distinct label set is called <K>VEFLabels</K>. Consider the following
+#! polygonal surface:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!     \input{Image_VEFLabelsExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> cat := PolygonalSurfaceByUpwardIncidence(
+#! >        [[1,2,4,5],, [1,7], [2,7,8], [8,9], [4,9,10], [5,10]],
+#! >        [[1], [1,2],, [2,4], [4],, [1], [2], [2], [4]]);;
+#! gap> Vertices(cat);
+#! [ 1, 3, 4, 5, 6, 7 ]
+#! gap> Edges(cat);
+#! [ 1, 2, 4, 5, 7, 8, 9, 10 ]
+#! gap> Faces(cat);
+#! [ 1, 2, 4 ]
+#! gap> Intersection( Vertices(cat), Edges(cat) );
+#! [ 1, 4, 5, 7 ]
+#! @EndExampleSession
+#! Using the VEF-labels shifts the labels of edges and faces upwards to
+#! avoid intersections.
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!     \def\veflabels{1}
+#!     \input{Image_VEFLabelsExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> VEFLabels(cat);
+#! [ 1, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21 ]
+#! gap> VEFLabelsOfVertices(cat);
+#! [ 1,, 3, 4, 5, 6, 7 ]
+#! gap> VEFLabelsOfEdges(cat);
+#! [ 8, 9,, 11, 12,, 14, 15, 16, 17 ]
+#! gap> VEFLabelsOfFaces(cat);
+#! [ 18, 19,, 21 ]
+#! @EndExampleSession
+
+
+
 #! @BeginGroup VEFLabels
 #! @Description
 #! Return the set of VEF-labels for the given VEF-complex. The
@@ -55,7 +95,23 @@ BindGlobal( "GeneralPolygonalMorphismFamily",
 #! * The face labels are shifted upwards by the sum of maximal vertex
 #!   label and maximal edge label
 #!
-#! TODO example for the section
+#! For example, consider the polygonal surface from the start of
+#! section <Ref Sect="Section_VEFLabels"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_VEFLabels_SideBySide.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> Vertices(cat);
+#! [ 1, 3, 4, 5, 6, 7 ]
+#! gap> Edges(cat);
+#! [ 1, 2, 4, 5, 7, 8, 9, 10 ]
+#! gap> Faces(cat);
+#! [ 1, 2, 4 ]
+#! gap> VEFLabels(cat);
+#! [ 1, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21 ]
+#! @EndExampleSession
 #! @Arguments complex
 #! @Returns a set of positive integers
 DeclareAttribute( "VEFLabels", IsVEFComplex );
@@ -74,7 +130,21 @@ DeclareAttribute( "VEFLabels", IsVEFComplex );
 #! <K>VEFLabelOfVertex</K>(<A>complex</A>, <A>vertex</A>).
 #! All other positions of this list are not bound.
 #! 
-#! TODO example
+#! For example, consider the polygonal surface from the start of
+#! section <Ref Sect="Section_VEFLabels"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_VEFLabels_SideBySide.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> VEFLabelOfVertex(cat, 3);
+#! 3
+#! gap> VEFLabelOfVertex(cat, 6);
+#! 6
+#! gap> VEFLabelsOfVertices(cat);
+#! [ 1,, 3, 4, 5, 6, 7 ]
+#! @EndExampleSession
 #! 
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments complex
@@ -98,7 +168,21 @@ DeclareOperation( "VEFLabelOfVertexNC", [IsVEFComplex, IsPosInt]);
 #! <K>VEFLabelOfEdge</K>(<A>complex</A>, <A>edge</A>).
 #! All other positions of this list are not bound.
 #! 
-#! TODO example
+#! For example, consider the polygonal surface from the start of
+#! section <Ref Sect="Section_VEFLabels"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_VEFLabels_SideBySide.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> VEFLabelOfEdge(cat, 2);
+#! 9
+#! gap> VEFLabelOfEdge(cat, 10);
+#! 17
+#! gap> VEFLabelsOfEdges(cat);
+#! [ 8, 9,, 11, 12,, 14, 15, 16, 17 ]
+#! @EndExampleSession
 #! 
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments complex
@@ -122,7 +206,21 @@ DeclareOperation( "VEFLabelOfEdgeNC", [IsVEFComplex, IsPosInt]);
 #! <K>VEFLabelOfFace</K>(<A>complex</A>, <A>face</A>).
 #! All other positions of this list are not bound.
 #! 
-#! TODO example
+#! For example, consider the polygonal surface from the start of
+#! section <Ref Sect="Section_VEFLabels"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_VEFLabels_SideBySide.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> VEFLabelOfFace(cat, 2);
+#! 19
+#! gap> VEFLabelOfFace(cat, 4);
+#! 21
+#! gap> VEFLabelsOfFaces(cat);
+#! [ 18, 19,, 21 ]
+#! @EndExampleSession
 #! 
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments complex
@@ -140,7 +238,23 @@ DeclareOperation( "VEFLabelOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! method <K>VertexOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
 #! the vertex associated to <A>label</A>.
 #!
-#! TODO example
+#! For example, consider the polygonal surface from the start of
+#! section <Ref Sect="Section_VEFLabels"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_VEFLabels_SideBySide.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> VertexOfVEFLabel(cat, 1);
+#! 1
+#! gap> VertexOfVEFLabel(cat, 2);
+#! fail
+#! gap> VertexOfVEFLabel(cat, 7);
+#! 7
+#! gap> VertexOfVEFLabel(cat, 8);
+#! fail
+#! @EndExampleSession
 #!
 #! The NC-version does not check whether the given <A>label</A> is valid.
 #! The normal version checks this and returns <K>fail</K> if <A>label</A>
@@ -159,7 +273,25 @@ DeclareOperation( "VertexOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! method <K>EdgeOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
 #! the edge associated to <A>label</A>.
 #!
-#! TODO example
+#! For example, consider the polygonal surface from the start of
+#! section <Ref Sect="Section_VEFLabels"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_VEFLabels_SideBySide.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> EdgeOfVEFLabel(cat, 7);
+#! fail
+#! gap> EdgeOfVEFLabel(cat, 9);
+#! 2
+#! gap> EdgeOfVEFLabel(cat, 10);
+#! fail
+#! gap> EdgeOfVEFLabel(cat, 16);
+#! 9
+#! gap> EdgeOfVEFLabel(cat, 18);
+#! fail
+#! @EndExampleSession
 #!
 #! The NC-version does not check whether the given <A>label</A> is valid.
 #! The normal version checks this and returns <K>fail</K> if <A>label</A>
@@ -178,7 +310,25 @@ DeclareOperation( "EdgeOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! method <K>FaceOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
 #! the face associated to <A>label</A>. 
 #!
-#! TODO example
+#! For example, consider the polygonal surface from the start of
+#! section <Ref Sect="Section_VEFLabels"/>:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_VEFLabels_SideBySide.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> FaceOfVEFLabel(cat, 17);
+#! fail
+#! gap> FaceOfVEFLabel(cat, 18);
+#! 1
+#! gap> FaceOfVEFLabel(cat, 20);
+#! fail
+#! gap> FaceOfVEFLabel(cat, 21);
+#! 4
+#! gap> FaceOfVEFLabel(cat, 22);
+#! fail
+#! @EndExampleSession
 #!
 #! The NC-version does not check whether the given <A>label</A> is valid.
 #! The normal version checks this and returns <K>fail</K> if <A>label</A>
