@@ -32,4 +32,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     # Edge coloured polygonal complex
     __SIMPLICIAL_Test_EdgeColours();
+
+    # Polygonal morphisms
+    __SIMPLICIAL_Test_SourceRange();
 end);

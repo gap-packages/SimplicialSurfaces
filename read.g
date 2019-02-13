@@ -48,4 +48,5 @@ ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_PolygonalComplex.
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_BorderCases_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_EdgeColouring.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_VEFComplex.g" );
+ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_Morphisms.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );

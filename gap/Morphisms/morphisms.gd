@@ -29,7 +29,7 @@
 #idea: polygonal morphisms are maps between sets: vertices+edges+faces, where edges
 # are shifted by MaxVertex and faces are shifted by MaxVertex+MaxEdge
 DeclareCategory("IsGeneralPolygonalMorphism", IsNonSPGeneralMapping);
-# TODO maybe add more specific properties, like IsPolygonalMorphism
+DeclareSynonym("IsPolygonalMorphism", IsGeneralPolygonalMorphism and IsTotal and IsSingleValued);
 # TODO are the names good? Or should we be more specific, e.g. IsPolygonalComplexMorphism, IsPolygonalSurfaceMorphism?
 
 
@@ -348,7 +348,42 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! In this section, we give several different ways to construct morphisms
 #! from scratch.
 
-# TODO implement constructor by three lists (images of vertices, edges and faces)
+#! @BeginGroup
+#! @Description
+#! Construct a polygonal morphism by three lists. The necessary arguments
+#! are
+#! * <A>sourceComplex</A>: The polygonal complex that become the source
+#!   of the polygonal morphism.
+#! * <A>rangeComplex</A>: The polygonal complex that becomes the range
+#!   of the polygonal morphism.
+#! * <A>vertexMap</A>: A list, such that for each vertex <A>v</A> in
+#!   <A>sourceComplex</A>, the element <A>vertexMap[v]</A> is a vertex
+#!   in <A>rangeComplex</A>, representing the image under the polygonal
+#!   morphism.
+#! * <A>edgeMap</A>: A list, such that for each edge <A>e</A> in
+#!   <A>sourceComplex</A>, the element <A>edgeMap[v]</A> is an edge
+#!   in <A>rangeComplex</A>, representing the image under the polygonal
+#!   morphism.
+#! * <A>faceMap</A>: A list, such that for each face <A>f</A> in
+#!   <A>sourceComplex</A>, the element <A>faceMap[v]</A> is a face
+#!   in <A>rangeComplex</A>, representing the image under the polygonal
+#!   morphism.
+#!
+#! TODO example
+#!
+#! The NC-version does not check whether:
+#! * The individual argument lists map every vertex/edge/face of
+#!   <A>sourceComplex</A> to a vertex/edge/face of <A>rangeComplex</A>.
+#! * The incidence structure is preserved by the mapping.
+#!
+#! @Returns a polygonal mapping
+#! @Arguments sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap
+DeclareOperation( "PolygonalMorphismByLists", 
+    [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList] );
+DeclareOperation( "PolygonalMorphismByListsNC", 
+    [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList] );
+#! @EndGroup
+
 
 # TODO implement IdentityMapping
 
@@ -376,16 +411,50 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 
 
 #! @Section Components of a morphism
+#! @SectionLabel Morphisms_Components
+#!
+#! This section contains the ingredients within a polygonal morphism.
+#! TODO
+
+
+#! @BeginGroup
+#! @Description
+#! Return the polygonal complex (or surface) that is the source
+#! of the general polygonal mapping <A>polMap</A>.
+#!
+#! If the source is not a polygonal surface, then <K>SourceSurface</K>
+#! will return <K>fail</K>.
+#!
+#! @Returns a polygonal complex
+#! @Arguments polMap
+DeclareAttribute( "SourceComplex", IsGeneralPolygonalMorphism );
+#! @Returns a polygonal surface of <K>fail</K>
+#! @Arguments polMap
+DeclareAttribute( "SourceSurface", IsGeneralPolygonalMorphism );
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#! Return the polygonal complex (or surface) that is the range
+#! of the general polygonal mapping <A>polMap</A>.
+#!
+#! If the range is not a polygonal surface, then <K>RangeSurface</K>
+#! will return <K>fail</K>.
+#!
+#! @Returns a polygonal complex
+#! @Arguments polMap
+DeclareAttribute( "RangeComplex", IsGeneralPolygonalMorphism );
+#! @Returns a polygonal surface of <K>fail</K>
+#! @Arguments polMap
+DeclareAttribute( "RangeSurface", IsGeneralPolygonalMorphism );
+#! @EndGroup
+
 
 #List of TODO:
 # implement VertexMapAsImageList (for single-valued);
 # implement EdgeMapAsImageList (for single-valued);
 # implement FaceMapAsImageList (for single-valued);
-
-# attribute SourceComplex
-# attribute SourceSurface
-# attribute RangeComplex
-# attribute RangeSurface
 
 
 # attribute VertexMapping

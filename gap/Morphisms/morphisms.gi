@@ -11,7 +11,7 @@
 #############################################################################
 
 DeclareRepresentation( "PolygonalComplexMorphismRep", 
-    IsGeneralPolygonalMorphism and IsAttributeStoringRep, [] );
+    IsPolygonalMorphism and IsAttributeStoringRep, [] );
 
 BindGlobal( "PolygonalComplexMorphismType", 
     NewType( GeneralPolygonalMorphismFamily, PolygonalComplexMorphismRep ) );
@@ -172,5 +172,84 @@ InstallMethod( FaceOfVEFLabel, "for a VEF-complex and a positive integer",
 
 ##
 ##      End VEF-labels
+##
+#######################################
+
+
+
+
+#######################################
+##
+##      Constructions of morphisms
+##
+
+InstallMethod( PolygonalMorphismByListsNC,
+    "for two polygonal complexes and three lists",
+    [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList],
+    function(sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap)
+        Error("TODO");
+    end
+);
+
+
+##
+##      End of constructions
+##
+#######################################
+
+
+
+#######################################
+##
+##      Components of morphisms
+##
+
+InstallMethod( SourceComplex, 
+    "for a general polygonal morphism with SourceSurface",
+    [IsGeneralPolygonalMorphism and HasSourceSurface],
+    function(polMor)
+        return SourceSurface(polMor);
+    end
+);
+InstallMethod( SourceSurface, 
+    "for a general polygonal morphism with SourceComplex",
+    [IsGeneralPolygonalMorphism and HasSourceComplex],
+    function(polMor)
+        local source;
+
+        source := SourceComplex(polMor);
+        if IsPolygonalSurface(source) then
+            return source;
+        else
+            return fail;
+        fi;
+    end
+);
+
+
+InstallMethod( RangeComplex, 
+    "for a general polygonal morphism with RangeSurface",
+    [IsGeneralPolygonalMorphism and HasRangeSurface],
+    function(polMor)
+        return RangeSurface(polMor);
+    end
+);
+InstallMethod( RangeSurface, 
+    "for a general polygonal morphism with RangeComplex",
+    [IsGeneralPolygonalMorphism and HasRangeComplex],
+    function(polMor)
+        local range;
+
+        range := RangeComplex(polMor);
+        if IsPolygonalSurface(range) then
+            return range;
+        else
+            return fail;
+        fi;
+    end
+);
+
+##
+##      End of components
 ##
 #######################################
