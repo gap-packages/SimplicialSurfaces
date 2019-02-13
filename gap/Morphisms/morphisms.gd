@@ -461,5 +461,7 @@ DeclareAttribute( "RangeSurface", IsGeneralPolygonalMorphism );
 # attribute EdgeMapping
 # attribute FaceMapping
 
+#TODO
+# Use attributes VertexMapAsImageList, EdgeMapAsImageList, FaceMapAsImageList, VEFLabelMapAsImageList
+# (and their inverses, if appropriate) to define Image, PreImage etc.
 
-##########################################
