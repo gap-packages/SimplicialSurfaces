@@ -249,6 +249,70 @@ InstallMethod( RangeSurface,
     end
 );
 
+
+InstallMethod( VertexMapAsImageList,
+    "for a polygonal morphism with SourceComplex, RangeComplex and VEFLabelMapAsImageList",
+    [IsPolygonalMorphism and HasSourceComplex and HasRangeComplex and HasVEFLabelMapAsImageList],
+    function(polMor)
+        local vMap, source, range, v, vefLabel, vIm, vefImage;
+
+        vMap := [];
+        source := SourceComplex(polMor);
+        range := RangeComplex(polMor);
+        for v in VerticesAttributeOfVEFComplex( source ) do
+            vefLabel := VEFLabelsOfVertices(source)[v];
+            vefImage := VEFLabelMapAsImageList(polMor)[vefLabel];
+            vIm := VertexOfVEFLabel(range, vefImage);
+            vMap[v] := vIm;
+        od;
+
+        return vMap;
+    end
+);
+
+InstallMethod( EdgeMapAsImageList,
+    "for a polygonal morphism with SourceComplex, RangeComplex and VEFLabelMapAsImageList",
+    [IsPolygonalMorphism and HasSourceComplex and HasRangeComplex and HasVEFLabelMapAsImageList],
+    function(polMor)
+        local eMap, source, range, e, vefLabel, eIm, vefImage;
+
+        eMap := [];
+        source := SourceComplex(polMor);
+        range := RangeComplex(polMor);
+        for e in Edges( source ) do
+            vefLabel := VEFLabelsOfEdges(source)[e];
+            vefImage := VEFLabelMapAsImageList(polMor)[vefLabel];
+            eIm := EdgeOfVEFLabel(range, vefImage);
+            eMap[e] := eIm;
+        od;
+
+        return eMap;
+    end
+);
+
+InstallMethod( FaceMapAsImageList,
+    "for a polygonal morphism with SourceComplex, RangeComplex and VEFLabelMapAsImageList",
+    [IsPolygonalMorphism and HasSourceComplex and HasRangeComplex and HasVEFLabelMapAsImageList],
+    function(polMor)
+        local fMap, source, range, f, vefLabel, fIm, vefImage;
+
+        fMap := [];
+        source := SourceComplex(polMor);
+        range := RangeComplex(polMor);
+        for f in Faces( source ) do
+            vefLabel := VEFLabelsOfFaces(source)[f];
+            vefImage := VEFLabelMapAsImageList(polMor)[vefLabel];
+            fIm := FaceOfVEFLabel(range, vefImage);
+            fMap[f] := fIm;
+        od;
+
+        return fMap;
+    end
+);
+
+
+#TODO compute VEFList from the three other lists
+
 ##
 ##      End of components
 ##

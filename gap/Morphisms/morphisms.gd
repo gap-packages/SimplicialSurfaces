@@ -417,7 +417,7 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #! TODO
 
 
-#! @BeginGroup
+#! @BeginGroup SourceComplex
 #! @Description
 #! Return the polygonal complex (or surface) that is the source
 #! of the general polygonal mapping <A>polMap</A>.
@@ -434,7 +434,7 @@ DeclareAttribute( "SourceSurface", IsGeneralPolygonalMorphism );
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup RangeComplex
 #! @Description
 #! Return the polygonal complex (or surface) that is the range
 #! of the general polygonal mapping <A>polMap</A>.
@@ -450,6 +450,69 @@ DeclareAttribute( "RangeComplex", IsGeneralPolygonalMorphism );
 DeclareAttribute( "RangeSurface", IsGeneralPolygonalMorphism );
 #! @EndGroup
 
+
+#! @BeginGroup VertexMapAsImageList
+#! @Description
+#! Given a polygonal morphism <A>polMor</A>, return the restriction
+#! of the mapping to the vertices. The result is a list <A>vMap</A>,
+#! such that <A>vMap[v]</A> is the image of the vertex <A>v</A> under
+#! the polygonal morphism <A>polMor</A>. All other list entries are
+#! not bound.
+#!
+#! TODO example
+#!
+#! @Returns a list
+#! @Arguments polMor
+DeclareAttribute( "VertexMapAsImageList", IsPolygonalMorphism );
+#! @EndGroup
+
+
+#! @BeginGroup EdgeMapAsImageList
+#! @Description
+#! Given a polygonal morphism <A>polMor</A>, return the restriction
+#! of the mapping to the edges. The result is a list <A>eMap</A>,
+#! such that <A>eMap[e]</A> is the image of the edge <A>e</A> under
+#! the polygonal morphism <A>polMor</A>. All other list entries are
+#! not bound.
+#!
+#! TODO example
+#!
+#! @Returns a list
+#! @Arguments polMor
+DeclareAttribute( "EdgeMapAsImageList", IsPolygonalMorphism );
+#! @EndGroup
+
+
+#! @BeginGroup FaceMapAsImageList
+#! @Description
+#! Given a polygonal morphism <A>polMor</A>, return the restriction
+#! of the mapping to the faces. The result is a list <A>fMap</A>,
+#! such that <A>fMap[f]</A> is the image of the face <A>f</A> under
+#! the polygonal morphism <A>polMor</A>. All other list entries are
+#! not bound.
+#!
+#! TODO example
+#!
+#! @Returns a list
+#! @Arguments polMor
+DeclareAttribute( "FaceMapAsImageList", IsPolygonalMorphism );
+#! @EndGroup
+
+
+#! @BeginGroup VEFLabelMapAsImageList
+#! @Description
+#! A polygonal morphism <A>polMor</A> can be described by a map
+#! between the VEF-labels of source and target complex. This method
+#! returns this map as an image list, i.e. it returns a list 
+#! <A>vefMap</A>, such that <A>vefMap[x]</A> is the image of
+#! the VEF-label <A>x</A>. All other list entries are not bound.
+#!
+#! TODO example
+#!
+#! @Returns a list
+#! @Arguments polMor
+DeclareAttribute( "VEFLabelMapAsImageList", IsPolygonalMorphism );
+#! @EndGroup
 
 #List of TODO:
 # implement VertexMapAsImageList (for single-valued);
