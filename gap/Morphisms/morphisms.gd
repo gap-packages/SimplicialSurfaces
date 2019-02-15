@@ -514,12 +514,8 @@ DeclareAttribute( "FaceMapAsImageList", IsPolygonalMorphism );
 DeclareAttribute( "VEFLabelMapAsImageList", IsPolygonalMorphism );
 #! @EndGroup
 
+
 #List of TODO:
-# implement VertexMapAsImageList (for single-valued);
-# implement EdgeMapAsImageList (for single-valued);
-# implement FaceMapAsImageList (for single-valued);
-
-
 # attribute VertexMapping
 # attribute EdgeMapping
 # attribute FaceMapping

@@ -311,7 +311,31 @@ InstallMethod( FaceMapAsImageList,
 );
 
 
-#TODO compute VEFList from the three other lists
+InstallMethod( VEFLabelMapAsImageList,
+    "for a polygonal morphism with SourceComplex, RangeComplex, VertexMapAsImageList, EdgeMapAsImageList and FaceMapAsImageList",
+    [IsPolygonalMorphism and HasSourceSurface and HasRangeComplex and HasVertexMapAsImageList and HasEdgeMapAsImageList and HasFaceMapAsImageList],
+    function(polMor)
+        local vefMap, v, e, f, source, range, im;
+
+        vefMap := [];
+        source := SourceComplex(polMor);
+        range := RangeComplex(polMor);
+        for v in VerticesAttributeOfVEFComplex(source) do
+            im := VertexMapAsImageList(polMor)[v];
+            vefMap[ VEFLabelsOfVertices(source)[v] ] := VEFLabelsOfVertices(range)[im];
+        od;
+        for e in Edges(source) do
+            im := EdgeMapAsImageList(polMor)[e];
+            vefMap[ VEFLabelsOfEdges(source)[e] ] := VEFLabelsOfEdges(range)[im];
+        od;
+        for f in Faces(source) do
+            im := FaceMapAsImageList(polMor)[f];
+            vefMap[ VEFLabelsOfFaces(source)[f] ] := VEFLabelsOfFaces(range)[im];
+        od;
+
+        return vefMap;
+    end
+);
 
 ##
 ##      End of components
