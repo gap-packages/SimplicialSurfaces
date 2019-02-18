@@ -187,7 +187,105 @@ InstallMethod( PolygonalMorphismByListsNC,
     "for two polygonal complexes and three lists",
     [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList],
     function(sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap)
-        Error("TODO");
+        local obj;
+
+        obj := Objectify( PolygonalComplexMorphismType, rec() );
+        SetSourceComplex(obj, sourceComplex);
+        SetRangeComplex(obj, rangeComplex);
+        SetVertexMapAsImageList(obj, vertexMap);
+        SetEdgeMapAsImageList(obj, edgeMap);
+        SetFaceMapAsImageList(obj, faceMap);
+
+        return obj;
+    end
+);
+InstallMethod( PolygonalMorphismByLists,
+    "for two polygonal complexes and three lists",
+    [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList],
+    function(sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap)
+        local v, e, f, vIm, eIm, fIm, rangeEdges, rangeVerts;
+
+        # Check vertex map
+        for v in VerticesAttributeOfVEFComplex(sourceComplex) do
+            if not IsBound(vertexMap[v]) then
+                Error(Concatenation("PolygonalMorphismByLists: Vertex ", String(v), " has no image.\n"));
+            fi;
+            if not IsPosInt(vertexMap[v]) then
+                Error(Concatenation("PolygonalMorphismByLists: Vertex ", String(v), " is not mapped to a vertex of the range complex, but to ", String(vertexMap[v]), ".\n"));
+            fi;
+        od;
+        for v in Difference( [1..Length(vertexMap)], VerticesAttributeOfVEFComplex(sourceComplex) ) do
+            if IsBound(vertexMap[v]) then
+                Error(Concatenation("PolygonalMorphismByLists: Index ", String(v), " is not a vertex of the source complex, but is mapped to ", String(vertexMap[v]), ".\n"));
+            fi;
+        od;
+
+        # Check edge map
+        for e in Edges(sourceComplex) do
+            if not IsBound(edgeMap[e]) then
+                Error(Concatenation("PolygonalMorphismByLists: Edge ", String(e), " has no image.\n"));
+            fi;
+            if not IsPosInt(edgeMap[e]) then
+                Error(Concatenation("PolygonalMorphismByLists: Edge ", String(e), " is not mapped to an edge of the range complex, but to ", String(edgeMap[e]), ".\n"));
+            fi;
+        od;
+        for e in Difference( [1..Length(edgeMap)], Edges(sourceComplex) ) do
+            if IsBound(edgeMap[e]) then
+                Error(Concatenation("PolygonalMorphismByLists: Index ", String(e), " is not an edge of the source complex, but is mapped to ", String(edgeMap[e]), ".\n"));
+            fi;
+        od;
+
+        # Check face map
+        for f in Faces(sourceComplex) do
+            if not IsBound(faceMap[f]) then
+                Error(Concatenation("PolygonalMorphismByLists: Face ", String(f), " has no image.\n"));
+            fi;
+            if not IsPosInt(faceMap[f]) then
+                Error(Concatenation("PolygonalMorphismByLists: Face ", String(f), " is not mapped to a face of the range complex, but to ", String(faceMap[f]), ".\n"));
+            fi;
+        od;
+        for f in Difference( [1..Length(faceMap)], Faces(sourceComplex) ) do
+            if IsBound(faceMap[f]) then
+                Error(Concatenation("PolygonalMorphismByLists: Index ", String(f), " is not a face of the source complex, but is mapped to ", String(faceMap[f]), ".\n"));
+            fi;
+        od;
+
+        # At this point, all individual maps are single-valued and total
+        # Check incidence relation
+
+        # vertex-edge incidence
+        for e in Edges(sourceComplex) do
+            eIm := edgeMap[e];
+            rangeVerts := VerticesOfEdges(rangeComplex)[eIm];
+            for v in VerticesOfEdges(sourceComplex)[e] do
+                vIm := vertexMap[v];
+                if not vIm in rangeVerts then
+                    Error("PolygonalMorphismByLists: In the source complex, vertex ", 
+                        String(v), " is incident to edge ", String(e), 
+                        ", but they are mapped to the vertex ", 
+                        String(vIm), " and the edge ", String(eIm), 
+                        ", which are not incident in the range complex.\n");
+                fi;
+            od;
+        od;
+        # edge-face incidence
+        for f in Faces(sourceComplex) do
+            fIm := faceMap[f];
+            rangeEdges := EdgesOfFaces(rangeComplex)[fIm];
+            for e in EdgesOfFaces(sourceComplex)[f] do
+                eIm := edgeMap[e];
+                if not eIm in rangeEdges then
+                    Error("PolygonalMorphismByLists: In the source complex, edge ", 
+                        String(e), " is incident to face ", String(f), 
+                        ", but they are mapped to the edge ", 
+                        String(eIm), " and the face ", String(fIm), 
+                        ", which are not incident in the range complex.\n");
+                fi;
+            od;
+        od;
+
+
+        return PolygonalMorphismByListsNC(sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap);
     end
 );
 
