@@ -210,7 +210,7 @@ InstallMethod( PolygonalMorphismByLists,
             if not IsBound(vertexMap[v]) then
                 Error(Concatenation("PolygonalMorphismByLists: Vertex ", String(v), " has no image.\n"));
             fi;
-            if not IsPosInt(vertexMap[v]) then
+            if not vertexMap[v] in VerticesAttributeOfVEFComplex(rangeComplex) then
                 Error(Concatenation("PolygonalMorphismByLists: Vertex ", String(v), " is not mapped to a vertex of the range complex, but to ", String(vertexMap[v]), ".\n"));
             fi;
         od;
@@ -225,7 +225,7 @@ InstallMethod( PolygonalMorphismByLists,
             if not IsBound(edgeMap[e]) then
                 Error(Concatenation("PolygonalMorphismByLists: Edge ", String(e), " has no image.\n"));
             fi;
-            if not IsPosInt(edgeMap[e]) then
+            if not edgeMap[e] in Edges(rangeComplex) then
                 Error(Concatenation("PolygonalMorphismByLists: Edge ", String(e), " is not mapped to an edge of the range complex, but to ", String(edgeMap[e]), ".\n"));
             fi;
         od;
@@ -240,7 +240,7 @@ InstallMethod( PolygonalMorphismByLists,
             if not IsBound(faceMap[f]) then
                 Error(Concatenation("PolygonalMorphismByLists: Face ", String(f), " has no image.\n"));
             fi;
-            if not IsPosInt(faceMap[f]) then
+            if not faceMap[f] in Faces(rangeComplex) then
                 Error(Concatenation("PolygonalMorphismByLists: Face ", String(f), " is not mapped to a face of the range complex, but to ", String(faceMap[f]), ".\n"));
             fi;
         od;
@@ -295,6 +295,68 @@ InstallMethod( PolygonalMorphismByLists,
 ##
 #######################################
 
+
+#######################################
+##
+##      Images and Preimages
+##
+
+InstallMethod( ImageOfVertexNC, 
+    "for a polygonal morphism and a positive integer", 
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, v)
+        return VertexMapAsImageList(polMor)[v];
+    end
+);
+InstallMethod( ImageOfVertex, 
+    "for a polygonal morphism and a positive integer", 
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, v)
+        __SIMPLICIAL_CheckVertex( SourceComplex(polMor), v, "ImageOfVertex" );
+        return ImageOfVertexNC(polMor, v);
+    end
+);
+
+
+InstallMethod( ImageOfEdgeNC, 
+    "for a polygonal morphism and a positive integer", 
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, e)
+        return EdgeMapAsImageList(polMor)[e];
+    end
+);
+InstallMethod( ImageOfEdge, 
+    "for a polygonal morphism and a positive integer", 
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, e)
+        __SIMPLICIAL_CheckEdge( SourceComplex(polMor), e, "ImageOfEdge" );
+        return ImageOfEdgeNC(polMor, e);
+    end
+);
+
+
+InstallMethod( ImageOfFaceNC, 
+    "for a polygonal morphism and a positive integer", 
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, f)
+        return FaceMapAsImageList(polMor)[f];
+    end
+);
+InstallMethod( ImageOfFace, 
+    "for a polygonal morphism and a positive integer", 
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, f)
+        __SIMPLICIAL_CheckFace( SourceComplex(polMor), f, "ImageOfFace" );
+        return ImageOfFaceNC(polMor, f);
+    end
+);
+
+
+
+##
+##      End of (pre)Images
+##
+#######################################
 
 
 #######################################

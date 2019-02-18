@@ -398,16 +398,81 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 
 
 #! @Section Images and pre-images
+#! @Section Morphisms_Images
+#!
+#! This section contains the functionality to compute images and
+#! preimages.
+#!
+#! TODO introduction
+
+
+#! @BeginGroup ImageOfVertex
+#! @Description
+#! Given a polygonal morphism <A>polMor</A> and a vertex <A>v</A>,
+#! return the image of <A>v</A> under <A>polMor</A>. If the given
+#! <A>v</A> is not a vertex of the source complex (compare
+#! <Ref Subsect="SourceComplex"/>)
+#! of <A>polMor</A>,
+#! an error is raised. The NC-version does not check whether <A>v</A>
+#! is a vertex of the source complex.
+#!
+#! TODO example
+#!
+#! @Returns a positive integer
+#! @Arguments polMor, v
+DeclareOperation( "ImageOfVertex", [IsPolygonalMorphism, IsPosInt] );
+#! @Arguments polMor, v
+DeclareOperation( "ImageOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup ImageOfEdge
+#! @Description
+#! Given a polygonal morphism <A>polMor</A> and an edge <A>e</A>,
+#! return the image of <A>e</A> under <A>polMor</A>. If the given
+#! <A>e</A> is not an edge of the source complex (compare
+#! <Ref Subsect="SourceComplex"/>)
+#! of <A>polMor</A>,
+#! an error is raised. The NC-version does not check whether <A>e</A>
+#! is an edge of the source complex.
+#!
+#! TODO example
+#!
+#! @Returns a positive integer
+#! @Arguments polMor, e
+DeclareOperation( "ImageOfEdge", [IsPolygonalMorphism, IsPosInt] );
+#! @Arguments polMor, e
+DeclareOperation( "ImageOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup ImageOfFace
+#! @Description
+#! Given a polygonal morphism <A>polMor</A> and a face <A>f</A>,
+#! return the image of <A>f</A> under <A>polMor</A>. If the given
+#! <A>f</A> is not a face of the source complex (compare
+#! <Ref Subsect="SourceComplex"/>)
+#! of <A>polMor</A>,
+#! an error is raised. The NC-version does not check whether <A>f</A>
+#! is a face of the source complex.
+#!
+#! TODO example
+#!
+#! @Returns a positive integer
+#! @Arguments polMor, f
+DeclareOperation( "ImageOfFace", [IsPolygonalMorphism, IsPosInt] );
+#! @Arguments polMor, f
+DeclareOperation( "ImageOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
+#! @EndGroup
+
 
 #TODO
 # implement PreImagesOfVertex
 # implement PreImagesOfEdge
 # implement PreImagesOfFace
 
-
-# implement ImageOfVertex (for a total and single-valued ..);
-# implement ImageOfEdge (for a total and single-valued ..);
-# implement ImageOfFace (for a total and single-valued ..);
+# document Image
+# document PreImage
 
 
 #! @Section Components of a morphism
