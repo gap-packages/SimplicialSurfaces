@@ -404,6 +404,25 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #! preimages.
 #!
 #! TODO introduction
+#!
+#! We illustrate it on the following polygonal morphism.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Square.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> source := PolygonalComplexByDownwardIncidence(
+#! >                [[1,2],, [2,4],, [4,5], [5,6],, [6,8],, [8,10],, 
+#! >                 [10,12],, [1,12], [2,12], [4,10], [4,6]],
+#! >                [[1,14,15], [3,16,12,15],, [16,17,8,10], [5,6,17]]);;
+#! gap> range := PolygonalComplexByDownwardIncidence( 
+#! >  [[1,2], [2,3], [3,4], [4,5], [5,6],, [6,8],, [8,1], [2,8], [2,4], [4,6]],
+#! >  [[1,10,9], [2,3,11],, [11,12,7,10], [4,5,12]]);;
+#! gap> polMor := PolygonalMorphismByLists( source, range, 
+#! >      [ 1, 2,, 4, 3, 2,, 8,, 6,, 8 ],
+#! >      [ 1,, 11,, 3, 2,, 10,, 7,, 7,, 9, 10, 12, 11 ], [ 1, 4,, 4, 2 ]);;
+#! @EndExampleSession
 
 
 #! @BeginGroup ImageOfVertex
