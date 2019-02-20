@@ -466,11 +466,73 @@ DeclareOperation( "ImageOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! @EndGroup
 
 
-#TODO
-# implement PreImagesOfVertex
-# implement PreImagesOfEdge
-# implement PreImagesOfFace
+#! @BeginGroup PreImagesOfVertex
+#! @Description
+#! Given a polygonal morphism <A>polMor</A> and a vertex <A>v</A> of
+#! the range complex (compare
+#! <Ref Subsect="RangeComplex"/>), 
+#! return the set of all preimages of <A>v</A> under
+#! <A>polMor</A>. If the given vertex <A>v</A> is not a vertex of the
+#! range complexi, an error is raised.
+#!
+#! The NC-version does not check whether <A>v</A> is a vertex of the
+#! range complex.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments polMor, v
+DeclareOperation( "PreImagesOfVertex", [IsPolygonalMorphism, IsPosInt] );
+#! @Arguments polMor, v
+DeclareOperation( "PreImagesOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
+#! @EndGroup
 
+
+#! @BeginGroup PreImagesOfEdge
+#! @Description
+#! Given a polygonal morphism <A>polMor</A> and an edge <A>e</A> of
+#! the range complex (compare
+#! <Ref Subsect="RangeComplex"/>), 
+#! return the set of all preimages of <A>e</A> under
+#! <A>polMor</A>. If the given edge <A>e</A> is not an edge of the
+#! range complexi, an error is raised.
+#!
+#! The NC-version does not check whether <A>e</A> is an edge of the
+#! range complex.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments polMor, e
+DeclareOperation( "PreImagesOfEdge", [IsPolygonalMorphism, IsPosInt] );
+#! @Arguments polMor, e
+DeclareOperation( "PreImagesOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup PreImagesOfFace
+#! @Description
+#! Given a polygonal morphism <A>polMor</A> and a face <A>f</A> of
+#! the range complex (compare
+#! <Ref Subsect="RangeComplex"/>), 
+#! return the set of all preimages of <A>f</A> under
+#! <A>polMor</A>. If the given face <A>f</A> is not a face of the
+#! range complexi, an error is raised.
+#!
+#! The NC-version does not check whether <A>f</A> is a face of the
+#! range complex.
+#!
+#! TODO example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments polMor, f
+DeclareOperation( "PreImagesOfFace", [IsPolygonalMorphism, IsPosInt] );
+#! @Arguments polMor, f
+DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
+#! @EndGroup
+
+
+#TODO
 # document Image
 # document PreImage
 

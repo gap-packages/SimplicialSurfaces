@@ -353,6 +353,58 @@ InstallMethod( ImageOfFace,
 
 
 
+
+InstallMethod( PreImagesOfVertexNC, 
+    "for a polygonal morphism and a positive integer",
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, el)
+        return Positions( VertexMapAsImageList(polMor), el );
+    end
+);
+InstallMethod( PreImagesOfVertex, 
+    "for a polygonal morphism and a positive integer",
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, el)
+        __SIMPLICIAL_CheckVertex( RangeComplex(polMor), el, "PreImagesOfVertex" );
+        return PreImagesOfVertexNC(polMor, el);
+    end
+);
+
+
+InstallMethod( PreImagesOfEdgeNC, 
+    "for a polygonal morphism and a positive integer",
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, el)
+        return Positions( EdgeMapAsImageList(polMor), el );
+    end
+);
+InstallMethod( PreImagesOfEdge, 
+    "for a polygonal morphism and a positive integer",
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, el)
+        __SIMPLICIAL_CheckEdge( RangeComplex(polMor), el, "PreImagesOfEdge" );
+        return PreImagesOfEdgeNC(polMor, el);
+    end
+);
+
+
+InstallMethod( PreImagesOfFaceNC, 
+    "for a polygonal morphism and a positive integer",
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, el)
+        return Positions( FaceMapAsImageList(polMor), el );
+    end
+);
+InstallMethod( PreImagesOfFace, 
+    "for a polygonal morphism and a positive integer",
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, el)
+        __SIMPLICIAL_CheckFace( RangeComplex(polMor), el, "PreImagesOfFace" );
+        return PreImagesOfFaceNC(polMor, el);
+    end
+);
+
+
 ##
 ##      End of (pre)Images
 ##
