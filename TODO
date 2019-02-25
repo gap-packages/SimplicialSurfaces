@@ -22,3 +22,6 @@ evtl. Coloured labels in drawing method?? LabelColour?
 Set up Travis/Codecov as soon as the repository turns public
     -> Use travis.yml and codecov.yml from other packages
     -> Together with directory "scripts"
+
+Set up package website with GitHubPagesForGAP (script setup.sh)
+    https://github.com/gap-system/GitHubPagesForGAP
