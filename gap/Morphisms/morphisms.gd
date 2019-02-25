@@ -384,12 +384,21 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! @Arguments sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap
 DeclareOperation( "PolygonalMorphismByLists", 
     [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList] );
+#! @Arguments sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap
 DeclareOperation( "PolygonalMorphismByListsNC", 
     [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList] );
 #! @EndGroup
 
 
-# TODO implement IdentityMapping
+#! @Description
+#! Given a polygonal complex, return the polygonal morphism that
+#! sends this complex to itself (the identity morphism).
+#!
+#! TODO example
+#!
+#! @Returns a polygonal mapping
+#! @Arguments complex
+DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 
 # TODO implement InverseMapping/InverseMorphism (for appropriate...)
 
@@ -754,7 +763,4 @@ DeclareAttribute( "VEFLabelMapAsImageList", IsPolygonalMorphism );
 # attribute EdgeMapping
 # attribute FaceMapping
 
-#TODO
-# Use attributes VertexMapAsImageList, EdgeMapAsImageList, FaceMapAsImageList, VEFLabelMapAsImageList
-# (and their inverses, if appropriate) to define Image, PreImage etc.
 

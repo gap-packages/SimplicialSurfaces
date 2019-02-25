@@ -329,6 +329,28 @@ InstallMethod( PolygonalMorphismByLists,
     end
 );
 
+InstallMethod( PolygonalIdentityMorphism, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function( complex )
+        local vMap, eMap, fMap, v, e, f;
+
+        vMap := [];
+        for v in VerticesAttributeOfVEFComplex(complex) do
+            vMap[v] := v;
+        od;
+        eMap := [];
+        for e in Edges(complex) do
+            eMap[e] := e;
+        od;
+        fMap := [];
+        for f in Faces(complex) do
+            fMap[f] := f;
+        od;
+
+        return PolygonalMorphismByListsNC(complex, complex, vMap, eMap, fMap);
+    end
+);
+
 
 ##
 ##      End of constructions
