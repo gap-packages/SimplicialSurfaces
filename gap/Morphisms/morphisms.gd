@@ -402,7 +402,7 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 
 # TODO implement InverseMapping/InverseMorphism (for appropriate...)
 
-# TODO overload CompositionMapping2
+# TODO document and test CompositionMapping2
 
 #! @Section Elementary properties
 #! @SectionLabel Morphisms_Properties

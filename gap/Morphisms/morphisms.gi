@@ -352,6 +352,30 @@ InstallMethod( PolygonalIdentityMorphism, "for a polygonal complex",
 );
 
 
+InstallMethod( CompositionMapping2, "for two polygonal morphisms",
+    [IsPolygonalMorphism, IsPolygonalMorphism],
+    function( second, first )
+        local vMap, eMap, fMap, source, v, e, f;
+
+        source := SourceComplex( first );
+        vMap := [];
+        for v in VerticesAttributeOfVEFComplex(source) do
+            vMap[v] := VertexMapAsImageList(second)[VertexMapAsImageList(first)[v]];
+        od;
+        eMap := [];
+        for e in Edges(source) do
+            eMap[e] := EdgeMapAsImageList(second)[EdgeMapAsImageList(first)[e]];
+        od;
+        fMap := [];
+        for f in Faces(source) do
+            fMap[f] := FaceMapAsImageList(second)[FaceMapAsImageList(first)[f]];
+        od;
+
+        return PolygonalMorphismByListsNC(source, RangeComplex(second), vMap, eMap, fMap);
+    end
+);
+
+
 ##
 ##      End of constructions
 ##
