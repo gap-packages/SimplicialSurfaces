@@ -203,7 +203,8 @@ InstallMethod( PolygonalMorphismByLists,
     "for two polygonal complexes and three lists",
     [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList],
     function(sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap)
-        local v, e, f, vIm, eIm, fIm, rangeEdges, rangeVerts;
+        local v, e, f, vIm, eIm, fIm, rangeEdges, rangeVerts, srcEdges,
+            imEdges, rngEdges, srcVertices, imVertices, v1, v2;
 
         # Check vertex map
         for v in VerticesAttributeOfVEFComplex(sourceComplex) do
@@ -267,10 +268,29 @@ InstallMethod( PolygonalMorphismByLists,
                         ", which are not incident in the range complex.\n");
                 fi;
             od;
+            # Check whether the two incident vertices are mapped to
+            # different vertices
+            v1 := VerticesOfEdges(sourceComplex)[e][1];
+            v2 := VerticesOfEdges(sourceComplex)[e][2];
+            if vertexMap[v1] = vertexMap[v2] then
+                Error("PolygonalMorphismByLists: The vertices ", String(v1), 
+                    " and ", String(v2), " of the edge ", String(e), 
+                    " have to be mapped to the different vertices.\n");
+            fi;
         od;
         # edge-face incidence
         for f in Faces(sourceComplex) do
             fIm := faceMap[f];
+            srcEdges := EdgesOfFaces(sourceComplex)[f];
+            rngEdges := EdgesOfFaces(rangeComplex)[fIm];
+            if Length( srcEdges ) <> Length( rngEdges ) then
+                Error("PolygonalMorphismByLists: The polygon ", String(f),
+                    " has ", String(Length(srcEdges)),
+                    " sides, but is mapped to the polygon ", String(fIm),
+                    ", which has ", String(Length(rngEdges)),
+                    " sides.\n");
+            fi;
+
             rangeEdges := EdgesOfFaces(rangeComplex)[fIm];
             for e in EdgesOfFaces(sourceComplex)[f] do
                 eIm := edgeMap[e];
@@ -282,6 +302,26 @@ InstallMethod( PolygonalMorphismByLists,
                         ", which are not incident in the range complex.\n");
                 fi;
             od;
+            # Check whether the polygon-structure is preserved
+            # We need to check that the vertices and edges are mapped to
+            # different elements and that they are not mapped to a larger 
+            # polygon
+            imEdges := List(srcEdges, e -> edgeMap[e]);
+            if Length(Set(imEdges)) < Length(srcEdges) then
+                Error("PolygonalMorphismByLists: The edges ", 
+                    String(srcEdges), " of the face ", String(f),
+                    " have to be mapped to different edges, but are mapped to ",
+                    String(imEdges), ".\n");
+            fi;
+
+            srcVertices := VerticesOfFaces(sourceComplex)[f];
+            imVertices := List(srcVertices, v -> vertexMap[v]);
+            if Length(Set(imVertices)) < Length(srcVertices) then
+                Error("PolygonalMorphismByLists: The vertices ",
+                    String(srcVertices), " of the face ", String(f),
+                    " have to be mapped to different vertices, but are mapped to ",
+                    String(imVertices), ".\n");
+            fi;
         od;
 
 

@@ -375,6 +375,10 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! * The individual argument lists map every vertex/edge/face of
 #!   <A>sourceComplex</A> to a vertex/edge/face of <A>rangeComplex</A>.
 #! * The incidence structure is preserved by the mapping.
+#! * The vertices incident to an edge are mappped to different vertices.
+#! * A polygon is mapped to a polygon with the same number of sides.
+#! * The edges incident to a face are mapped to different edges.
+#! * The vertices incident to a face are mapped to different vertices.
 #!
 #! @Returns a polygonal mapping
 #! @Arguments sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap
