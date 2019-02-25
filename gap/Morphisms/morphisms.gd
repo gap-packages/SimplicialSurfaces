@@ -398,7 +398,7 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 
 
 #! @Section Images and pre-images
-#! @Section Morphisms_Images
+#! @SectionLabel Morphisms_Images
 #!
 #! This section contains the functionality to compute images and
 #! preimages.
@@ -435,7 +435,21 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #! an error is raised. The NC-version does not check whether <A>v</A>
 #! is a vertex of the source complex.
 #!
-#! TODO example
+#! Consider the polygonal morphism from the start of section
+#! <Ref Sect="Section_Morphisms_Images"/> as illustration.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Square.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> ImageOfVertex(polMor, 1);
+#! 1
+#! gap> ImageOfVertex(polMor, 5);
+#! 3
+#! gap> ImageOfVertex(polMor, 6);
+#! 2
+#! @EndExampleSession
 #!
 #! @Returns a positive integer
 #! @Arguments polMor, v
@@ -455,7 +469,21 @@ DeclareOperation( "ImageOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #! an error is raised. The NC-version does not check whether <A>e</A>
 #! is an edge of the source complex.
 #!
-#! TODO example
+#! Consider the polygonal morphism from the start of section
+#! <Ref Sect="Section_Morphisms_Images"/> as illustration.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Square.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> ImageOfEdge(polMor, 1);
+#! 1
+#! gap> ImageOfEdge(polMor, 5);
+#! 3
+#! gap> ImageOfEdge(polMor, 8);
+#! 10
+#! @EndExampleSession
 #!
 #! @Returns a positive integer
 #! @Arguments polMor, e
@@ -475,7 +503,21 @@ DeclareOperation( "ImageOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #! an error is raised. The NC-version does not check whether <A>f</A>
 #! is a face of the source complex.
 #!
-#! TODO example
+#! Consider the polygonal morphism from the start of section
+#! <Ref Sect="Section_Morphisms_Images"/> as illustration.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Square.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> ImageOfFace(polMor, 1);
+#! 1
+#! gap> ImageOfFace(polMor, 5);
+#! 2
+#! gap> ImageOfFace(polMor, 4);
+#! 4
+#! @EndExampleSession
 #!
 #! @Returns a positive integer
 #! @Arguments polMor, f
@@ -497,7 +539,21 @@ DeclareOperation( "ImageOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! The NC-version does not check whether <A>v</A> is a vertex of the
 #! range complex.
 #!
-#! TODO example
+#! Consider the polygonal morphism from the start of section
+#! <Ref Sect="Section_Morphisms_Images"/> as illustration.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Square.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> PreImagesOfVertex(polMor, 1);
+#! [ 1 ]
+#! gap> PreImagesOfVertex(polMor, 2);
+#! [ 2, 6 ]
+#! gap> PreImagesOfVertex(polMor, 5);
+#! [ ]
+#! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
 #! @Arguments polMor, v
@@ -519,7 +575,21 @@ DeclareOperation( "PreImagesOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #! The NC-version does not check whether <A>e</A> is an edge of the
 #! range complex.
 #!
-#! TODO example
+#! Consider the polygonal morphism from the start of section
+#! <Ref Sect="Section_Morphisms_Images"/> as illustration.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Square.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> PreImagesOfEdge(polMor, 2);
+#! [ 6 ]
+#! gap> PreImagesOfEdge(polMor, 11);
+#! [ 3, 17 ]
+#! gap> PreImagesOfEdge(polMor, 4);
+#! [ ]
+#! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
 #! @Arguments polMor, e
@@ -541,7 +611,21 @@ DeclareOperation( "PreImagesOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #! The NC-version does not check whether <A>f</A> is a face of the
 #! range complex.
 #!
-#! TODO example
+#! Consider the polygonal morphism from the start of section
+#! <Ref Sect="Section_Morphisms_Images"/> as illustration.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Square.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> PreImagesOfFace(polMor, 2);
+#! [ 5 ]
+#! gap> PreImagesOfFace(polMor, 4);
+#! [ 2, 4 ]
+#! gap> PreImagesOfFace(polMor, 5);
+#! [ ]
+#! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
 #! @Arguments polMor, f
