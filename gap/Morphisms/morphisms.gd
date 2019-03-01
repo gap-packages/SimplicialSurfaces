@@ -89,6 +89,16 @@ BindGlobal( "GeneralPolygonalMorphismFamily",
 #! [ 1, 2, 3, 1, 2, 3 ]
 #! gap> polMor := PolygonalMorphismByLists(six, three, 
 #! >                        vertexMap, edgeMap, faceMap);;
+#! gap> SourceComplex(polMor) = six;
+#! true
+#! gap> RangeComplex(polMor) = three;
+#! true
+#! gap> VertexMapAsImageList(polMor) = vertexMap;
+#! true
+#! gap> EdgeMapAsImageList(polMor) = edgeMap;
+#! true
+#! gap> FaceMapAsImageList(polMor) = faceMap;
+#! true
 #! @EndExampleSession
 #!
 #! The NC-version does not check whether:
