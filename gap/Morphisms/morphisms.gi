@@ -357,6 +357,10 @@ InstallMethod( CompositionMapping2, "for two polygonal morphisms",
     function( second, first )
         local vMap, eMap, fMap, source, v, e, f;
 
+        if RangeComplex(first) <> SourceComplex(second) then
+            Error( "CompositionMapping2: Range of the first polygonal morphism is not equal to the source of the second polygonal morphism.");
+        fi;
+
         source := SourceComplex( first );
         vMap := [];
         for v in VerticesAttributeOfVEFComplex(source) do

@@ -130,9 +130,39 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #! @Arguments complex
 DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 
+
+#! <ManSection Label="CompositionMapping">
+#!   <Oper Name="CompositionMapping" Arg="map1, map2, ..." 
+#!      Label="for a sequence of polygonal morphisms"
+#!      Comm="Construct the composite map from the given polygonal morphisms"/>
+#!   <Oper Name="CompositionMapping2" Arg="map2, map1" 
+#!      Label="for two polygonal morphisms"
+#!      Comm="Construct the composite map from the given polygonal morphisms"/>
+#!   <Returns>A polygonal morphism</Returns>
+#!   <Description>
+#!     Compose several polygonal morphisms. The method
+#!     <K>CompositionMapping2</K> returns the polygonal morphisms that
+#!     is obtained by first applying <A>map1</A> and then applying
+#!     <A>map2</A>.
+#!
+#!     The method <K>CompositionMapping</K> can compose an arbitrary number
+#!     of polygonal morphisms. Here, the order of arguments is switched, such
+#!     that <A>map1</A> is used first, then <A>map2</A>, and so on. In
+#!     addition, it also respects <K>IsInjective</K> and <K>IsSurjective</K>,
+#!     if applicable.
+#!
+#!     If the range of the <M>i</M>-th map is not equal to the source of the 
+#!     <M>(i+1)</M>th
+#!     map, an error is raised.
+#!
+#!     TODO example
+#!
+#!   </Description>
+#! </ManSection>
+
+
 # TODO implement InverseMapping/InverseMorphism (for appropriate...)
 
-# TODO document and test CompositionMapping2
 
 #! @Section Elementary properties
 #! @SectionLabel Morphisms_Properties
@@ -157,7 +187,7 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #! * For faces: <K>ImageOfFace</K> (<Ref Subsect="ImageOfFace"/>)
 #!   and <K>PreImagesOfFace</K> (<Ref Subsect="PreImagesOfFace"/>).
 #!
-#! We illustrate it on the following polygonal morphism.
+#! We illustrate these methods on the following polygonal morphism.
 #! <Alt Only="TikZ">
 #!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
 #!    \input{Image_PolygonalMorphism_Square.tex}
