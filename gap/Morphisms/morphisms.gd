@@ -24,6 +24,11 @@
 #! * different vertices of an edge are mapped to different vertices
 #! * different vertices/edges of a face are mapped to different vertices/edges
 #!
+#! Since polygonal morphisms are stored as mappings (in the GAP-sense), all
+#! methods available for mappings (chapter TODO) are available for polygonal
+#! morphisms. In particular, <K>IsInjective</K>, <K>IsSurjective</K>,
+#! <K>IsBijective</K>.
+#!
 #! TODO: these maps can be represented as lists, or as mappings (in GAP)
 #! TODO: example with constructors for the two
 #!
@@ -133,7 +138,7 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 
 #! <ManSection Label="CompositionMapping">
 #!   <Oper Name="CompositionMapping" Arg="map1, map2, ..." 
-#!      Label="for a sequence of polygonal morphisms"
+#!      Label="for IsPolygonalMorphism, IsPolygonalMorphism, ..."
 #!      Comm="Construct the composite map from the given polygonal morphisms"/>
 #!   <Oper Name="CompositionMapping2" Arg="map2, map1" 
 #!      Label="for two polygonal morphisms"
@@ -161,13 +166,46 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #! </ManSection>
 
 
-# TODO implement InverseMapping/InverseMorphism (for appropriate...)
 
-
-#! @Section Elementary properties
-#! @SectionLabel Morphisms_Properties
-
-# TODO document some of the generic properties like IsInjective, IsSurjective, ...
+#! <ManSection Label="InversePolygonalMorphism">
+#!   <Attr Name="InversePolygonalMorphism" Arg="isoMor" 
+#!      Label="for IsPolygonalMorphism and IsBijective"
+#!      Comm="Construct the inverse polygonal morphism from a bijective polygonal morphism"/>
+#!   <Oper Name="Inverse" Arg="autoMor" 
+#!      Label="for a bijective polygonal morphisms with identical source and range"
+#!      Comm="Construct the inverse polygonal morphism from a bijective polygonal morphism with identical source and range"/>
+#!   <Attr Name="InverseGeneralMapping" Arg="isoMor" 
+#!      Label="for a bijective polygonal morphism"
+#!      Comm="Construct the inverse polygonal morphism from a bijective polygonal morphism"/>
+#!   <Returns>A polygonal morphism</Returns>
+#!   <Description>
+#!     Given a bijective polygonal morphism, one can define its inverse,
+#!     i.e. a polygonal morphism, in which <K>SourceComplex</K>
+#!     (<Ref Subsect="SourceComplex"/>) and <K>RangeComplex</K>
+#!     (<Ref Subsect="RangeComplex"/>) are switched.
+#!     
+#!     Due to the way in which GAP handles inverses and mappings (compare the
+#!     introduction of chapter 32 of the GAP manual TODO), the different 
+#!     methods perform subtly different tasks:
+#!     * <K>InversePolygonalMorphism</K>(<A>isoMor</A>) 
+#!       constructs the expected inverse
+#!       map, from <K>RangeComplex</K>(<A>isoMor</A>) to
+#!       <K>SourceComplex</K>(<A>isoMor</A>).
+#!     * <K>Inverse</K>(<A>autoMor</A>) <E>only</E> constructs this inverse, if 
+#!       <K>SourceComplex</K>(<A>autoMor</A>) and
+#!       <K>RangeComplex</K>(<A>autoMor</A>) coincide.
+#!     * <K>InverseGeneralMapping</K> does the same
+#!       as <K>InversePolygonalMorphism</K>, but might be subject to future
+#!       change, if inverses are defined for non-bijective morphisms in
+#!       the future.
+#!
+#!     All of the methods throw errors if their requirements are not met.
+#!
+#! TODO example
+#!   </Description>
+#! </ManSection>
+#
+DeclareAttribute( "InversePolygonalMorphism", IsPolygonalMorphism and IsBijective );
 
 
 #! @Section Images and pre-images

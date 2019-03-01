@@ -380,6 +380,46 @@ InstallMethod( CompositionMapping2, "for two polygonal morphisms",
 );
 
 
+InstallMethod( InversePolygonalMorphism, "for a bijective polygonal morphism",
+    [IsPolygonalMorphism and IsBijective],
+    function( isoMor )
+        local newSource, newRange, newVertexMap, newEdgeMap, newFaceMap, v, e, f;
+
+        newSource := RangeComplex(isoMor);
+        newRange := SourceComplex(isoMor);
+
+        newVertexMap := [];
+        for v in VerticesAttributeOfVEFComplex(newRange) do
+            newVertexMap[ VertexMapAsImageList(isoMor)[v] ] := v;
+        od;
+
+        newEdgeMap := [];
+        for e in Edges(newRange) do
+            newEdgeMap[ EdgeMapAsImageList(isoMor)[e] ] := e;
+        od;
+
+        newFaceMap := [];
+        for f in Faces(newRange) do
+            newFaceMap[ FaceMapAsImageList(isoMor)[f] ] := f;
+        od;
+
+        return PolygonalMorphismByListsNC(newSource, newRange, newVertexMap, newEdgeMap, newFaceMap);
+    end
+);
+RedispatchOnCondition( InversePolygonalMorphism, true, [IsPolygonalMorphism], [IsBijective], 0 );
+
+InstallMethod( InverseGeneralMapping, "for a polygonal morphism",
+    [IsPolygonalMorphism],
+    function( polMor )
+        if not IsBijective(polMor) then
+            Error("InverseGeneralMapping: Only bijective polygonal morphisms can be inverted.");
+        fi;
+
+        return InversePolygonalMorphism(polMor);
+    end
+);
+
+
 ##
 ##      End of constructions
 ##
