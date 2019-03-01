@@ -24,7 +24,7 @@
     \vertexLabelR{Z}{above}{8}
 
     \foreach \i/\j/\n in {1/2/I, 2/3/II, 3/4/III, 4/5/IV, 5/6/V, 6/1/VI}{
-        \node at (barycentric cs:A\i=1,A\j=1,Z=1) {$\n$};
+        \node[faceLabel] at (barycentric cs:A\i=1,A\j=1,Z=1) {$\n$};
     }
 \end{scope}
 
@@ -46,6 +46,6 @@
     \vertexLabelR{Z}{below left}{5}
 
     \foreach \i/\j/\n in {1/2/I, 2/3/II, 3/4/III}{
-        \node at (barycentric cs:A\i=1,A\j=1,Z=1) {$\n$};
+        \node[faceLabel] at (barycentric cs:A\i=1,A\j=1,Z=1) {$\n$};
     }
 \end{scope}

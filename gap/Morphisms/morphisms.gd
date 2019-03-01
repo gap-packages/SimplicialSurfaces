@@ -144,9 +144,18 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #! @SectionLabel Morphisms_Images
 #!
 #! This section contains the functionality to compute images and
-#! preimages.
-#!
-#! TODO introduction
+#! preimages. Since polygonal morphisms connect two polygonal
+#! complexes, it is often necessary to make this connection
+#! explicit. For that reason, methods to compute images and preimages
+#! are provided.
+#! 
+#! Currently, the following methods are implemented:
+#! * For vertices: <K>ImageOfVertex</K> (<Ref Subsect="ImageOfVertex"/>)
+#!   and <K>PreImagesOfVertex</K> (<Ref Subsect="PreImagesOfVertex"/>).
+#! * For edges: <K>ImageOfEdge</K> (<Ref Subsect="ImageOfEdge"/>)
+#!   and <K>PreImagesOfEdge</K> (<Ref Subsect="PreImagesOfEdge"/>).
+#! * For faces: <K>ImageOfFace</K> (<Ref Subsect="ImageOfFace"/>)
+#!   and <K>PreImagesOfFace</K> (<Ref Subsect="PreImagesOfFace"/>).
 #!
 #! We illustrate it on the following polygonal morphism.
 #! <Alt Only="TikZ">
@@ -181,7 +190,7 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
 #!    \input{Image_PolygonalMorphism_Square.tex}
 #!  \end{tikzpicture}
 #! </Alt>
@@ -215,7 +224,7 @@ DeclareOperation( "ImageOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle=nolabels]
 #!    \input{Image_PolygonalMorphism_Square.tex}
 #!  \end{tikzpicture}
 #! </Alt>
@@ -249,7 +258,7 @@ DeclareOperation( "ImageOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle]
 #!    \input{Image_PolygonalMorphism_Square.tex}
 #!  \end{tikzpicture}
 #! </Alt>
@@ -285,7 +294,7 @@ DeclareOperation( "ImageOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
 #!    \input{Image_PolygonalMorphism_Square.tex}
 #!  \end{tikzpicture}
 #! </Alt>
@@ -321,7 +330,7 @@ DeclareOperation( "PreImagesOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle=nolabels]
 #!    \input{Image_PolygonalMorphism_Square.tex}
 #!  \end{tikzpicture}
 #! </Alt>
@@ -357,7 +366,7 @@ DeclareOperation( "PreImagesOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle]
 #!    \input{Image_PolygonalMorphism_Square.tex}
 #!  \end{tikzpicture}
 #! </Alt>
