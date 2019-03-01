@@ -68,7 +68,28 @@ BindGlobal( "GeneralPolygonalMorphismFamily",
 #!   in <A>rangeComplex</A>, representing the image under the polygonal
 #!   morphism.
 #!
-#! TODO example
+#! As an illustration we define a polygonal morphisms from a 6-umbrella
+#! to a 3--umbrella.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Hexagon.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> six := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
+#! >     [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;
+#! gap> three := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,1],,[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,5]]);;
+#! gap> vertexMap := [1,2,3,1,2,3,,5];
+#! [ 1, 2, 3, 1, 2, 3,, 5 ]
+#! gap> edgeMap := [1,2,3,1,2,3,,5,6,7,5,6,7];
+#! [ 1, 2, 3, 1, 2, 3,, 5, 6, 7, 5, 6, 7 ]
+#! gap> faceMap := [1,2,3,1,2,3];
+#! [ 1, 2, 3, 1, 2, 3 ]
+#! gap> polMor := PolygonalMorphismByLists(six, three, 
+#! >                        vertexMap, edgeMap, faceMap);;
+#! @EndExampleSession
 #!
 #! The NC-version does not check whether:
 #! * The individual argument lists map every vertex/edge/face of
