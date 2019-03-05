@@ -693,11 +693,10 @@ BindGlobal("__SIMPLICIAL_PrintRecordGeneralHeader",
     end
 );
 
-BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
-    function(printRecord)
-        local relPath, gapPath, path, input, content;
+BindGlobal( "__SIMPLICIAL_ReadTemplateFromFile",
+    function(relPath)
+        local gapPath, path, input, content;
 
-        relPath := "/pkg/simplicial-surfaces/doc/TikZHeader.tex";
         gapPath := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
         gapPath := Filtered( gapPath, IsReadableFile );
         for path in gapPath do
@@ -707,7 +706,15 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
             return content;
         od;
 
-        Error("Internal Error: /pkg/simplicial-surfaces/doc/TikZHeader.tex not found in GAP root directories.");
+        Error("Internal Error: ", relPath, " not found in GAP root directories.");
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
+    function(printRecord)
+        local relPath;
+        relPath := "/pkg/simplicial-surfaces/doc/TikZHeader.tex";
+				return __SIMPLICIAL_ReadTemplateFromFile(relPath);
     end
 );
 
