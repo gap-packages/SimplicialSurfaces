@@ -1,0 +1,5 @@
+		faces.computeFaceNormals();
+		faces.computeVertexNormals();
+		// the final object
+		var object = new THREE.Mesh(faces, faces_material);
+		obj.add(object);

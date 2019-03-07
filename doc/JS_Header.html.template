@@ -246,6 +246,23 @@
 			}
 		};
 
+		function Circle(radius, posX, posY, posZ, rotX, rotY, rotZ) {
+			var segments = 360;
+			var material = new THREE.LineBasicMaterial( { color: "black", linewidth: 3  } );
+			var geometry = new THREE.CircleGeometry( radius, segments );
+			// Remove center vertex
+			geometry.vertices.shift();
+			// Non closed circle with one open segment:
+			var circle = new THREE.Line( geometry, material );
+			circle.position.x = posX;
+			circle.position.y = posY;
+			circle.position.z = posZ;
+			circle.rotation.x = rotX;
+			circle.rotation.y = rotY;
+			circle.rotation.z = rotZ;
+			return circle;
+		};
+
 		var controls = new THREE.TrackballControls(camera, container);
 		controls.zoomSpeed = 0.2;
 		controls.rotateSpeed = 4;

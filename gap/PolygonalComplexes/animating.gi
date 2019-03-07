@@ -66,12 +66,110 @@ InstallMethod( GetVertexCoordiantes3D,
     end
 );
 
+InstallMethod( CalculateParametersOfInnerCircle,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+				local norm, distance, normalize, crossProd, Atan2, res, vertOfFace, P1, P2, P3,
+					d1, d2, d3, incenter, s, radius, x, y, z, alpha, beta, gamma;
+				if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
+					Error( " invalid coordinate format " );
+				fi;
+				norm:=function(v) return Sqrt( v[1]*v[1] + v[2]*v[2] + v[3]*v[3] ); end;
+				distance:=function(p,q) return norm(p-q); end;
+				normalize:=function(v) return v/norm(v); end;
+				crossProd:=function(v,w) return [ v[2]*w[3]-v[3]*w[2], v[3]*w[1]-v[1]*w[3], v[1]*w[2]-v[2]*w[1] ]; end;
+				Atan2:=function(y,x)
+					if x > 0. then
+						return Atan(y/x);
+					fi;
+					if x < 0. then
+						if y > 0. then
+							return Atan(y/x)+4*Atan(1.0);
+						fi;
+						if y = 0. then
+							return 4*Atan(1.0);
+						fi;
+						return Atan(y/x)-4*Atan(1.0);
+					fi;
+					if y > 0. then
+						return 2*Atan(1.0);
+					fi;
+					if y < 0. then
+						return -2*Atan(1.0);
+					fi;
+					return 0.;
+				end;
+				res := [];
+				for vertOfFace in VerticesOfFaces(surface) do
+					if Length(vertOfFace) <> 3 then
+						Append(res, [[]]);
+						continue;
+					fi;
+					P1 := printRecord.vertexCoordinates3D[vertOfFace[1]];
+					P2 := printRecord.vertexCoordinates3D[vertOfFace[2]];
+					P3 := printRecord.vertexCoordinates3D[vertOfFace[3]];
+					# calculate distances
+					d1 := distance(P2,P3);
+					d2 := distance(P1,P3);
+					d3 := distance(P1,P2);
+					# calculate coordiantes of incenter
+					incenter := ( d1*P1 + d2*P2 + d3*P3 ) / ( d1 + d2 + d3 );
+					# calculate radius
+					s := ( d1 + d2 + d3 ) / 2;
+					radius := Sqrt( s * ( s - d1 ) * ( s - d2 ) * ( s - d3 ) ) / s;
+					# calculate rotation angles (from x-y-plane)
+					z := normalize(crossProd( P2-P1, P3-P1 ));
+					x := normalize((P1+P2)/2 - P3);
+					y := crossProd(z, x);
+					alpha := Atan2(-z[2], z[3]);
+					beta := Asin(z[1]);
+					gamma := Atan2(-y[1], x[1]);
+					Append(res, [ [incenter, radius, [ alpha, beta, gamma ] ] ]);
+				od;
+				printRecord.innerCircles := res;
+				return printRecord;
+    end
+);
+
+InstallMethod( ActivateInnerCircle,
+    "for a record",
+    [IsRecord],
+    function(printRecord)
+				if not IsBound(printRecord.innerCircles) then
+					Error(" The parameters of the innercircles are not set ");
+				fi;
+				printRecord.drawInnerCircles := true;
+				return printRecord;
+    end
+);
+
+InstallMethod( DeactivateInnerCircle,
+    "for a record",
+    [IsRecord],
+    function(printRecord)
+				printRecord.drawInnerCircles := false;
+				return printRecord;
+    end
+);
+
+InstallMethod( IsInnerCircleActive,
+    "for a record",
+    [IsRecord],
+    function(printRecord)
+				if not IsBound(printRecord.innerCircles) then
+					return false;
+				fi;
+				return printRecord.drawInnerCircles;
+    end
+);
+
 # general method
 InstallMethod( DrawSurfaceToJavaScript, 
     "for a polygonal complex without edge ramifications, a filename and a record",
     [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(surface, fileName, printRecord)
-				local file, output, template, coords, i, vertOfFace, vertOfEdge;
+				local file, output, template, coords, i, vertOfFace, vertOfEdge, parametersOfCircle;
 
         # Make the file end with .html
         if not EndsWith( fileName, ".html" ) then
@@ -119,10 +217,26 @@ InstallMethod( DrawSurfaceToJavaScript,
 				for vertOfFace in VerticesOfFaces(surface) do
 					AppendTo(output, "\t\tfaces.faces.push(new THREE.Face3(", vertOfFace[1]-1, ",", vertOfFace[2]-1, ",", vertOfFace[3]-1, ",undefined, undefined, 0));\n");
 				od;
-				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_add_faces_init_edges.html.template");
+				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_add_faces.html.template");
 				AppendTo( output, template );
 
+				if IsInnerCircleActive(printRecord) then
+					if not IsBound(printRecord.innerCircles) then
+						printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
+					fi;
+					AppendTo(output, "\n\n");
+					for parametersOfCircle in printRecord.innerCircles do
+						AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
+							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
+							parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ");\n");
+						AppendTo(output, "\t\tobj.add(circle);\n");
+					od;
+					AppendTo(output, "\n\n");
+				fi;
+
 				# Add Edges to scenario
+				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_init_edges.html.template");
+				AppendTo( output, template );
 				for vertOfEdge in VerticesOfEdges(surface) do
 					AppendTo(output, "\t\tvar line = new THREE.Geometry();\n");
 					AppendTo(output, "\t\tline.vertices.push(allpoints[", vertOfEdge[1]-1, "].vector);\n");
