@@ -1,0 +1,6 @@
+		//colour of vertices
+		var points_material = new THREE.MeshBasicMaterial( {color: 0xF58137, } );
+		//visible from every side
+		points_material.side = THREE.DoubleSide;
+		points_material.transparent = true;
+		// draw a node as a sphere of radius 0.05, with colour as above

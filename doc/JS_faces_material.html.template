@@ -1,0 +1,7 @@
+		centroids.push(computeCentroid(faces));
+		<!-- FACE style -->
+		var faces_material = new THREE.MeshBasicMaterial ({color: 0xFFFF00, transparent: true, opacity: 1,side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );
+		faces_material.side = THREE.DoubleSide;
+		faces_material.transparent = true;
+		<!-- FACETS -->
+		// all faces are triangles

@@ -1,0 +1,261 @@
+<!--
+	polymake for sebastian
+	Thu Sep 27 15:27:32 2018
+	unnamed
+-->
+
+
+<html>
+	<head>
+		<title>unnamed</title>
+		<style>
+			/*
+			// COMMON_CODE_BLOCK_BEGIN
+			*/
+			html{overflow: scroll;}
+			body { font-family: Arial, Helvetica, sans-serif}
+			strong{font-size: 18px;}
+			canvas { z-index: 8; }
+			input[type='range'] {}
+			input[type='radio'] {margin-left:0;}
+			input[type='checkbox'] {margin-right:7px; margin-left: 0px; padding-left:0px;}
+			.group{padding-bottom: 40px;}
+			.settings * {z-index: 11; }
+			.settings{z-index: 10; margin-left: 30px; display: none; width: 14em; height: 90%; border: solid 1px silver; padding: 2px; overflow-y: scroll; background-color: white }
+			.indented{margin-left: 20px; margin-top: 15px; padding-bottom: 0px;} 
+			.shownObjectsList{overflow: auto; max-width: 150px; max-height: 150px;}
+			.showSettingsButton{display: block; z-index: 12; position: absolute }
+			.hideSettingsButton{display: none; z-index: 12; position: absolute; opacity: 0.5}
+			.resetButton{margin-top: 20px;}
+			button{margin-left: 0;}
+			img{cursor: pointer;}
+			.suboption{padding-top: 30px;}
+			.transparency{display: none;}
+			.labelsCheckbox{margin-top: 10px;}
+
+			input[type=range] {
+				-webkit-appearance: none;
+				padding:0; 
+				width:90%; 
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 20px;
+				display: block;	
+			}
+			input[type=range]:focus {
+				outline: none;
+			}
+			input[type=range]::-webkit-slider-runnable-track {
+				height: 4px;
+				cursor: pointer;
+				animate: 0.2s;
+				box-shadow: 0px 0px 0px #000000;
+				background: #E3E3E3;
+				border-radius: 0px;
+				border: 0px solid #000000;
+			}
+			input[type=range]::-webkit-slider-thumb {
+				box-shadow: 1px 1px 2px #B8B8B8;
+				border: 1px solid #ABABAB;
+				height: 13px;
+				width: 25px;
+				border-radius: 20px;
+				background: #E0E0E0;
+				cursor: pointer;
+				-webkit-appearance: none;
+				margin-top: -5px;
+			}
+			input[type=range]:focus::-webkit-slider-runnable-track {
+				background: #E3E3E3;
+			}
+			input[type=range]::-moz-range-track {
+				height: 4px;
+				cursor: pointer;
+				animate: 0.2s;
+				box-shadow: 0px 0px 0px #000000;
+				background: #E3E3E3;
+				border-radius: 0px;
+				border: 0px solid #000000;
+			}
+			input[type=range]::-moz-range-thumb {
+				box-shadow: 1px 1px 2px #B8B8B8;
+				border: 1px solid #ABABAB;
+				height: 13px;
+				width: 25px;
+				border-radius: 20px;
+				background: #E0E0E0;
+				cursor: pointer;
+			}
+			input[type=range]::-ms-track {
+				height: 4px;
+				cursor: pointer;
+				animate: 0.2s;
+				background: transparent;
+				border-color: transparent;
+				color: transparent;
+			}
+			input[type=range]::-ms-fill-lower {
+				background: #E3E3E3;
+				border: 0px solid #000000;
+				border-radius: 0px;
+				box-shadow: 0px 0px 0px #000000;
+			}
+			input[type=range]::-ms-fill-upper {
+				background: #E3E3E3;
+				border: 0px solid #000000;
+				border-radius: 0px;
+				box-shadow: 0px 0px 0px #000000;
+			}
+			input[type=range]::-ms-thumb {
+				box-shadow: 1px 1px 2px #B8B8B8;
+				border: 1px solid #ABABAB;
+				height: 13px;
+				width: 25px;
+				border-radius: 20px;
+				background: #E0E0E0;
+				cursor: pointer;
+			}
+			input[type=range]:focus::-ms-fill-lower {
+				background: #E3E3E3;
+			}
+			input[type=range]:focus::-ms-fill-upper {
+				background: #E3E3E3;
+			}
+			/*
+			// COMMON_CODE_BLOCK_END
+			*/
+		</style>
+	</head>
+
+	<body>
+		<div id='settings_OUTPUTID' class='settings'>
+			<div class=group id='transparency_OUTPUTID' class='transparency'>
+				<strong>Transparency</strong>
+				<input id='transparencyRange_OUTPUTID' type='range' min=0 max=1 step=0.01 value=0>
+			</div>
+			<div class=group id='rotation_OUTPUTID'>
+				<strong>Rotation</strong>
+				<div class=indented>
+					<div><input type='checkbox' id='changeRotationX_OUTPUTID'> x-axis</div>
+					<div><input type='checkbox' id='changeRotationY_OUTPUTID'> y-axis</div>
+					<div><input type='checkbox' id='changeRotationZ_OUTPUTID'> z-axis</div>
+					<button id='resetButton_OUTPUTID' class='resetButton' >Reset</button>
+				</div>
+				<div class=suboption>Rotation speed</div>
+				<input id='rotationSpeedRange_OUTPUTID' type='range' min=0 max=5 step=0.01 value=2>
+			</div>
+			<div class=group id='display_OUTPUTID'>
+				<strong>Display</strong>
+				<div class=indented>
+					<div id='shownObjectsList_OUTPUTID' class='shownObjectsList'></div>
+					<div class='labelsCheckbox'><input type='checkbox' id='labelsCheckboxInput_OUTPUTID' checked>Labels</div>
+				</div>
+			</div>
+			<div class=group id='svg_OUTPUTID'>
+				<strong>SVG</strong>
+				<div class=indented>
+					<form>
+						<input type="radio" name='screenshotMode' value='download' id='download_OUTPUTID' checked> Download<br>
+						<input type="radio" name='screenshotMode' value='tab' id='tab_OUTPUTID' > New tab<br>
+					</form>
+					<button id='takeScreenshot_OUTPUTID'>Screenshot</button>
+				</div>
+			</div>
+		</div>	<!-- end of settings -->
+		<img id='hideSettingsButton_OUTPUTID' class='hideSettingsButton' src='close.svg' width=20px">
+		<img id='showSettingsButton_OUTPUTID' class='showSettingsButton' src='menu.svg' width=20px">
+		<div id="model58685233662"></div>
+
+	<script src='three.polymake.js'></script>
+	<script>
+		// COMMON_CODE_BLOCK_BEGIN
+		var foldable = false;
+		var container = document.getElementById( 'model58685233662' );
+		var renderer = Detector.webgl? new THREE.WebGLRenderer({antialias: true}): new THREE.CanvasRenderer({antialias: true});
+		var svgRenderer = new THREE.SVGRenderer({antialias: true});
+		var width = document.body.clientWidth - 20;
+		var height = document.body.clientHeight - 20;
+		renderer.setSize(width, height);
+		svgRenderer.setSize(width, height);
+		renderer.setClearColor(0xFFFFFF, 1);
+		svgRenderer.setClearColor(0xFFFFFF, 1);
+		container.appendChild(renderer.domElement);
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
+		var renderid;
+
+		camera.position.set(0, 0, 5);
+		camera.lookAt(0, 0, 0);
+		camera.up.set(0, 1, 0);
+		// class to allow move points together with labels and spheres
+		var PMPoint = function (x,y,z) {
+			this.vector = new THREE.Vector3(x,y,z);
+			this.sprite = null;
+			this.sphere = null;
+		}
+		PMPoint.prototype.makelabel = function(label) {
+			this.sprite = textSprite( label );
+			this.sprite.position.copy(this.vector);
+		}
+		PMPoint.prototype.makesphere = function(radius,material) {
+			this.sphere = new THREE.Mesh(new THREE.SphereGeometry(radius), material);
+			this.sphere.position.copy(this.vector);
+		}
+		PMPoint.prototype.setX = function(x) {
+			this.vector.setX(x);
+			if (this.sprite) {
+				this.sprite.position.setX(x);
+			}
+			if (this.sphere) {
+				this.sphere.position.setX(x);
+			}
+		};
+		PMPoint.prototype.setY = function(y) {
+			this.vector.setY(y);
+			if (this.sprite) {
+				this.sprite.position.setY(y);
+			}
+			if (this.sphere) {
+				this.sphere.position.setY(y);
+			}
+		};
+		PMPoint.prototype.setZ = function(z) {
+			this.vector.setZ(z);
+			if (this.sprite) {
+				this.sprite.position.setZ(z);
+			}
+			if (this.sphere) {
+				this.sphere.position.setZ(z);
+			}
+		};
+		PMPoint.prototype.set = function(x,y,z) {
+			this.vector.set(x,y,z);
+			if (this.sprite) {
+				this.sprite.position.set(x,y,z);
+			}
+			if (this.sphere) {
+				this.sphere.position.set(x,y,z);
+			}
+		};
+		PMPoint.prototype.add = function(o) {
+			if (this.sprite) {
+				o.add(this.sprite);
+			}
+			if (this.sphere) {
+				o.add(this.sphere);
+			}
+		};
+
+		var controls = new THREE.TrackballControls(camera, container);
+		controls.zoomSpeed = 0.2;
+		controls.rotateSpeed = 4;
+
+		var all_objects = [];
+		var centroids = [];
+// COMMON_CODE_BLOCK_END
+
+		var objectnames = ["octaeder"];
+		var obj = new THREE.Object3D();
+		var allpoints = [];
+
+		// the position of the points
