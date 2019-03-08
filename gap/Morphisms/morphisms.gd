@@ -25,9 +25,13 @@
 #! * different vertices/edges of a face are mapped to different vertices/edges
 #!
 #! Since polygonal morphisms are stored as mappings (in the GAP-sense), all
-#! methods available for mappings (chapter TODO) are available for polygonal
+#! methods available for mappings (in particular those from
+#! section 
+#! <Ref Sect="Properties and Attributes of (General) Mappings" BookName="Reference"/>) 
+#! are available for polygonal
 #! morphisms. In particular, <K>IsInjective</K>, <K>IsSurjective</K>,
 #! <K>IsBijective</K>.
+#! <!-- The reference can be found at doc/ref/mapping.xml within GAP -->
 #!
 #! TODO: these maps can be represented as lists, or as mappings (in GAP)
 #! TODO: example with constructors for the two
@@ -185,7 +189,9 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #!     (<Ref Subsect="RangeComplex"/>) are switched.
 #!     
 #!     Due to the way in which GAP handles inverses and mappings (compare the
-#!     introduction of chapter 32 of the GAP manual TODO), the different 
+#!     introduction of section 
+#!     <Ref Sect="Arithmetic Operations for General Mapping" BookName="Reference"/>), 
+#!     the different 
 #!     methods perform subtly different tasks:
 #!     * <K>InversePolygonalMorphism</K>(<A>isoMor</A>) 
 #!       constructs the expected inverse
