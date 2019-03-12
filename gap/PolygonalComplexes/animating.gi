@@ -621,6 +621,9 @@ InstallMethod( DrawSurfaceToJavaScript,
 				for i in [0..(NumberOfVertices(surface)-1)] do
 					if IsVertexActive(surface, i+1, printRecord) then
 						colour := GetVertexColour(surface, i+1, printRecord);
+						if not StartsWith(colour, "0x") then
+							colour := Concatenation("\"", colour, "\"");
+						fi;
 						AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
 						AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
 						AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
@@ -641,6 +644,9 @@ InstallMethod( DrawSurfaceToJavaScript,
 				for i in [1..(NumberOfFaces(surface))] do
 					vertOfFace := VerticesOfFaces(surface)[i];
 					colour := GetFaceColour(surface, i, printRecord);
+					if not StartsWith(colour, "0x") then
+						colour := Concatenation("\"", colour, "\"");
+					fi;
 					AppendTo(output, "\t\tfaces.faces.push(new THREE.Face3(", vertOfFace[1]-1, ",", vertOfFace[2]-1, ",", vertOfFace[3]-1, ",undefined, undefined, 0));\n");
 				od;
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_add_faces.html.template");
@@ -651,6 +657,9 @@ InstallMethod( DrawSurfaceToJavaScript,
 					if IsInnerCircleActive(surface, i, printRecord) then
 						parametersOfCircle := printRecord.innerCircles[i];
 						colour := GetCircleColour(surface, i, printRecord);
+						if not StartsWith(colour, "0x") then
+							colour := Concatenation("\"", colour, "\"");
+						fi;
 						AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
 							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
 							parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
@@ -669,6 +678,9 @@ InstallMethod( DrawSurfaceToJavaScript,
 					if IsEdgeActive(surface, i, printRecord) then
 						parametersOfEdge := printRecord.edges[i];
 						colour := GetEdgeColour(surface, i, printRecord);
+						if not StartsWith(colour, "0x") then
+							colour := Concatenation("\"", colour, "\"");
+						fi;
 						AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", ", parametersOfEdge[1][1], ", ",
 							parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
 							parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
