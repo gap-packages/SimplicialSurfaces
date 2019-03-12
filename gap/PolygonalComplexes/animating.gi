@@ -249,6 +249,78 @@ InstallMethod( CalculateParametersOfEdges,
     end
 );
 
+InstallMethod( ActivateEdges,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			if not IsBound(printRecord.edges) then
+				printRecord := CalculateParametersOfEdges(surface, printRecord);
+			fi;
+			printRecord.drawEdges := [];
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateEdges,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			local i;
+			for i in [1..NumberOfEdges(surface)] do
+				printRecord := DeactivateEdge(i, printRecord);
+			od;
+			return printRecord;
+    end
+);
+
+InstallMethod( ActivateEdge,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.edges) then
+				Error(" The parameters of the innercircles are not set ");
+			fi;
+			if not IsBound(printRecord.drawEdges) then
+				printRecord.drawEdges := [];
+				return printRecord;
+			fi;
+			printRecord.drawEdges[index] := true;
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateEdge,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.drawEdges) then
+				printRecord.drawEdges := [];
+			fi;
+			printRecord.drawEdges[index] := false;
+			return printRecord;
+    end
+);
+
+InstallMethod( IsEdgeActive,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.edges) then
+					return false;
+				fi;
+				if not IsBound(printRecord.drawEdges) then
+					return true;
+				fi;
+				if (index <= 0) then
+					return false;
+				fi;
+				if not IsBound(printRecord.drawEdges[index]) then
+					return true;
+				fi;
+				return printRecord.drawEdges[index] = true;
+    end
+);
+
 InstallMethod( SetFaceColour,
     "for an index, a string and a record",
     [IsCyclotomic, IsString, IsRecord],
@@ -520,12 +592,14 @@ InstallMethod( DrawSurfaceToJavaScript,
 					printRecord := CalculateParametersOfEdges(surface, printRecord);
 				fi;
 				for i in [1..(NumberOfEdges(surface))] do
-					parametersOfEdge := printRecord.edges[i];
-					colour := GetEdgeColour(i, printRecord);
-					AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", ", parametersOfEdge[1][1], ", ",
-						parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-						parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
-					AppendTo(output, "\t\tobj.add(edge);\n");
+					if IsEdgeActive(i, printRecord) then
+						parametersOfEdge := printRecord.edges[i];
+						colour := GetEdgeColour(i, printRecord);
+						AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", ", parametersOfEdge[1][1], ", ",
+							parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
+							parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
+						AppendTo(output, "\t\tobj.add(edge);\n");
+					fi;
 				od;
 
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Footer.html.template");

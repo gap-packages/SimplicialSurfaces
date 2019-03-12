@@ -12,6 +12,11 @@ DeclareOperation( "DeactivateInnerCircle", [IsCyclotomic, IsRecord] );
 DeclareOperation( "IsInnerCircleActive", [IsCyclotomic, IsRecord] );
 
 DeclareOperation( "CalculateParametersOfEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateEdge", [IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateEdge", [IsCyclotomic, IsRecord] );
+DeclareOperation( "IsEdgeActive", [IsCyclotomic, IsRecord] );
 
 DeclareOperation( "SetFaceColour", [IsCyclotomic, IsString, IsRecord] );
 DeclareOperation( "GetFaceColour", [IsCyclotomic, IsRecord] );
