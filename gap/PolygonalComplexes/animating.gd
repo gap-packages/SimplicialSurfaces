@@ -5,9 +5,11 @@ DeclareOperation( "GetVertexCoordiantes3DNC", [IsRecord, IsCyclotomic] );
 DeclareOperation( "GetVertexCoordiantes3D", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord, IsCyclotomic] );
 
 DeclareOperation( "CalculateParametersOfInnerCircle", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
-DeclareOperation( "ActivateInnerCircle", [IsRecord] );
-DeclareOperation( "DeactivateInnerCircle", [IsRecord] );
-DeclareOperation( "IsInnerCircleActive", [IsRecord] );
+DeclareOperation( "ActivateInnerCircles", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateInnerCircles", [IsRecord] );
+DeclareOperation( "ActivateInnerCircle", [IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateInnerCircle", [IsCyclotomic, IsRecord] );
+DeclareOperation( "IsInnerCircleActive", [IsCyclotomic, IsRecord] );
 
 DeclareOperation( "CalculateParametersOfEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
 

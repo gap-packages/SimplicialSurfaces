@@ -132,35 +132,71 @@ InstallMethod( CalculateParametersOfInnerCircle,
     end
 );
 
-InstallMethod( ActivateInnerCircle,
+InstallMethod( ActivateInnerCircles,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			local i;
+			if not IsBound(printRecord.innerCircles) then
+				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
+			fi;
+			for i in [1..NumberOfFaces(surface)] do
+				printRecord := ActivateInnerCircle(i, printRecord);
+			od;
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateInnerCircles,
     "for a record",
     [IsRecord],
     function(printRecord)
-				if not IsBound(printRecord.innerCircles) then
-					Error(" The parameters of the innercircles are not set ");
-				fi;
-				printRecord.drawInnerCircles := true;
-				return printRecord;
+			printRecord.drawInnerCircles := [];
+			return printRecord;
+    end
+);
+
+InstallMethod( ActivateInnerCircle,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.innerCircles) then
+				Error(" The parameters of the innercircles are not set ");
+			fi;
+			if not IsBound(printRecord.drawInnerCircles) then
+				printRecord.drawInnerCircles := [];
+			fi;
+			printRecord.drawInnerCircles[index] := true;
+			return printRecord;
     end
 );
 
 InstallMethod( DeactivateInnerCircle,
-    "for a record",
-    [IsRecord],
-    function(printRecord)
-				printRecord.drawInnerCircles := false;
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.drawInnerCircles) then
 				return printRecord;
+			fi;
+			printRecord.drawInnerCircles[index] := false;
+			return printRecord;
     end
 );
 
 InstallMethod( IsInnerCircleActive,
-    "for a record",
-    [IsRecord],
-    function(printRecord)
-				if not IsBound(printRecord.innerCircles) then
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.innerCircles) then
 					return false;
 				fi;
-				return printRecord.drawInnerCircles;
+				if not IsBound(printRecord.drawInnerCircles) or (index <= 0) then
+					return false;
+				fi;
+				if not IsBound(printRecord.drawInnerCircles[index]) then
+					return false;
+				fi;
+				return printRecord.drawInnerCircles[index] = true;
     end
 );
 
@@ -464,21 +500,18 @@ InstallMethod( DrawSurfaceToJavaScript,
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_add_faces.html.template");
 				AppendTo( output, template );
 
-				if IsInnerCircleActive(printRecord) then
-					if not IsBound(printRecord.innerCircles) then
-						printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
-					fi;
-					AppendTo(output, "\n\n");
-					for i in [1..(NumberOfFaces(surface))] do
+				AppendTo(output, "\n\n");
+				for i in [1..(NumberOfFaces(surface))] do
+					if IsInnerCircleActive(i, printRecord) then
 						parametersOfCircle := printRecord.innerCircles[i];
 						colour := GetCircleColour(i, printRecord);
 						AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
 							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
 							parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
 						AppendTo(output, "\t\tobj.add(circle);\n");
-					od;
-					AppendTo(output, "\n\n");
-				fi;
+					fi;
+				od;
+				AppendTo(output, "\n\n");
 
 				# Add Edges to scenario
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_init_edges.html.template");
