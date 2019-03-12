@@ -11,4 +11,24 @@ DeclareOperation( "IsInnerCircleActive", [IsRecord] );
 
 DeclareOperation( "CalculateParametersOfEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
 
+DeclareOperation( "SetFaceColour", [IsCyclotomic, IsString, IsRecord] );
+DeclareOperation( "GetFaceColour", [IsCyclotomic, IsRecord] );
+DeclareOperation( "SetFaceColours", [IsDenseList, IsRecord] );
+DeclareOperation( "GetFaceColours", [IsRecord] );
+
+DeclareOperation( "SetVertexColour", [IsCyclotomic, IsString, IsRecord] );
+DeclareOperation( "GetVertexColour", [IsCyclotomic, IsRecord] );
+DeclareOperation( "SetVertexColours", [IsDenseList, IsRecord] );
+DeclareOperation( "GetVertexColours", [IsRecord] );
+
+DeclareOperation( "SetEdgeColour", [IsCyclotomic, IsString, IsRecord] );
+DeclareOperation( "GetEdgeColour", [IsCyclotomic, IsRecord] );
+DeclareOperation( "SetEdgeColours", [IsDenseList, IsRecord] );
+DeclareOperation( "GetEdgeColours", [IsRecord] );
+
+DeclareOperation( "SetCircleColour", [IsCyclotomic, IsString, IsRecord] );
+DeclareOperation( "GetCircleColour", [IsCyclotomic, IsRecord] );
+DeclareOperation( "SetCircleColours", [IsDenseList, IsRecord] );
+DeclareOperation( "GetCircleColours", [IsRecord] );
+
 DeclareOperation( "DrawSurfaceToJavaScript", [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord] );

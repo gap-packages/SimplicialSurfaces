@@ -213,12 +213,204 @@ InstallMethod( CalculateParametersOfEdges,
     end
 );
 
+InstallMethod( SetFaceColour,
+    "for an index, a string and a record",
+    [IsCyclotomic, IsString, IsRecord],
+    function(index, colour, printRecord)
+				if not IsBound(printRecord.faceColours) then
+					printRecord.faceColours := [];
+				fi;
+				printRecord.faceColours[index] := colour;
+				return printRecord;
+    end
+);
+
+InstallMethod( GetFaceColour,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+				local default;
+				default := "0xFFFF00";
+				if not IsBound(printRecord.faceColours) or (index <= 0) then
+					return default;
+				fi;
+				if not IsBound(printRecord.faceColours[index]) then
+					return default;
+				fi;
+				return printRecord.faceColours[index];
+    end
+);
+
+InstallMethod( SetFaceColours,
+    "for a list and a record",
+    [IsDenseList, IsRecord],
+    function(faceColours, printRecord)
+				printRecord.faceColours := faceColours;
+				return printRecord;
+    end
+);
+
+InstallMethod( GetFaceColours,
+    "for a record",
+    [IsRecord],
+    function(printRecord)
+				if not IsBound(printRecord.faceColours) then
+					return [];
+				fi;
+				return printRecord.faceColours;
+    end
+);
+
+InstallMethod( SetVertexColour,
+    "for an index, a string and a record",
+    [IsCyclotomic, IsString, IsRecord],
+    function(index, colour, printRecord)
+				if not IsBound(printRecord.vertexColours) then
+					printRecord.vertexColours := [];
+				fi;
+				printRecord.vertexColours[index] := colour;
+				return printRecord;
+    end
+);
+
+InstallMethod( GetVertexColour,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+				local default;
+				default := "0xF58137";
+				if not IsBound(printRecord.vertexColours) or (index <= 0) then
+					return default;
+				fi;
+				if not IsBound(printRecord.vertexColours[index]) then
+					return default;
+				fi;
+				return printRecord.vertexColours[index];
+    end
+);
+
+InstallMethod( SetVertexColours,
+    "for a list and a record",
+    [IsDenseList, IsRecord],
+    function(vertexColours, printRecord)
+				printRecord.vertexColours := vertexColours;
+				return printRecord;
+    end
+);
+
+InstallMethod( GetVertexColours,
+    "for a record",
+    [IsRecord],
+    function(printRecord)
+				if not IsBound(printRecord.vertexColours) then
+					return [];
+				fi;
+				return printRecord.vertexColours;
+    end
+);
+
+InstallMethod( SetEdgeColour,
+    "for an index, a string and a record",
+    [IsCyclotomic, IsString, IsRecord],
+    function(index, colour, printRecord)
+				if not IsBound(printRecord.edgeColours) then
+					printRecord.edgeColours := [];
+				fi;
+				printRecord.edgeColours[index] := colour;
+				return printRecord;
+    end
+);
+
+InstallMethod( GetEdgeColour,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+				local default;
+				default := "0xff0000";
+				if not IsBound(printRecord.edgeColours) or (index <= 0) then
+					return default;
+				fi;
+				if not IsBound(printRecord.edgeColours[index]) then
+					return default;
+				fi;
+				return printRecord.edgeColours[index];
+    end
+);
+
+InstallMethod( SetEdgeColours,
+    "for a list and a record",
+    [IsDenseList, IsRecord],
+    function(edgeColours, printRecord)
+				printRecord.edgeColours := edgeColours;
+				return printRecord;
+    end
+);
+
+InstallMethod( GetEdgeColours,
+    "for a record",
+    [IsRecord],
+    function(printRecord)
+				if not IsBound(printRecord.EdgeColours) then
+					return [];
+				fi;
+				return printRecord.EdgeColours;
+    end
+);
+
+InstallMethod( SetCircleColour,
+    "for an index, a string and a record",
+    [IsCyclotomic, IsString, IsRecord],
+    function(index, colour, printRecord)
+				if not IsBound(printRecord.circleColours) then
+					printRecord.circleColours := [];
+				fi;
+				printRecord.circleColours[index] := colour;
+				return printRecord;
+    end
+);
+
+InstallMethod( GetCircleColour,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+				local default;
+				default := "0x000000";
+				if not IsBound(printRecord.circleColours) or (index <= 0) then
+					return default;
+				fi;
+				if not IsBound(printRecord.circleColours[index]) then
+					return default;
+				fi;
+				return printRecord.circleColours[index];
+    end
+);
+
+InstallMethod( SetCircleColours,
+    "for a list and a record",
+    [IsDenseList, IsRecord],
+    function(circleColours, printRecord)
+				printRecord.circleColours := circleColours;
+				return printRecord;
+    end
+);
+
+InstallMethod( GetCircleColours,
+    "for a record",
+    [IsRecord],
+    function(printRecord)
+				if not IsBound(printRecord.circleColours) then
+					return [];
+				fi;
+				return printRecord.circleColours;
+    end
+);
+
 # general method
 InstallMethod( DrawSurfaceToJavaScript, 
     "for a polygonal complex without edge ramifications, a filename and a record",
     [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(surface, fileName, printRecord)
-				local file, output, template, coords, i, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge;
+				local file, output, template, coords, i, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge;
 
         # Make the file end with .html
         if not EndsWith( fileName, ".html" ) then
@@ -245,13 +437,14 @@ InstallMethod( DrawSurfaceToJavaScript,
 					AppendTo(output, "\t\tallpoints.push(new PMPoint(", coords[1], ",", coords[2], ",", coords[3], "));\n");
 				od;
 
-				# Load points_material from file
-				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_points_material.html.template");
-				AppendTo( output, template );
-
         # Add points to scenario
 				for i in [0..(NumberOfVertices(surface)-1)] do
-					AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material);\n");
+					colour := GetVertexColour(i+1, printRecord);
+					AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
+					AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
+					AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
+					AppendTo(output, "\t\t// draw a node as a sphere of radius 0.05\n");
+					AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material", i, ");\n");
 					AppendTo(output, "\t\tallpoints[", i, "].makelabel(", i+1, ");\n");
 				od;
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_associate_points_init_faces.html.template");
@@ -263,7 +456,9 @@ InstallMethod( DrawSurfaceToJavaScript,
 				# Add Faces to scenario
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_faces_material.html.template");
 				AppendTo( output, template );
-				for vertOfFace in VerticesOfFaces(surface) do
+				for i in [1..(NumberOfFaces(surface))] do
+					vertOfFace := VerticesOfFaces(surface)[i];
+					colour := GetFaceColour(i, printRecord);
 					AppendTo(output, "\t\tfaces.faces.push(new THREE.Face3(", vertOfFace[1]-1, ",", vertOfFace[2]-1, ",", vertOfFace[3]-1, ",undefined, undefined, 0));\n");
 				od;
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_add_faces.html.template");
@@ -274,10 +469,12 @@ InstallMethod( DrawSurfaceToJavaScript,
 						printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
 					fi;
 					AppendTo(output, "\n\n");
-					for parametersOfCircle in printRecord.innerCircles do
+					for i in [1..(NumberOfFaces(surface))] do
+						parametersOfCircle := printRecord.innerCircles[i];
+						colour := GetCircleColour(i, printRecord);
 						AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
 							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
-							parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ");\n");
+							parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
 						AppendTo(output, "\t\tobj.add(circle);\n");
 					od;
 					AppendTo(output, "\n\n");
@@ -289,10 +486,12 @@ InstallMethod( DrawSurfaceToJavaScript,
 				if not IsBound(printRecord.edges) then
 					printRecord := CalculateParametersOfEdges(surface, printRecord);
 				fi;
-				for parametersOfEdge in printRecord.edges do
+				for i in [1..(NumberOfEdges(surface))] do
+					parametersOfEdge := printRecord.edges[i];
+					colour := GetEdgeColour(i, printRecord);
 					AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", ", parametersOfEdge[1][1], ", ",
 						parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-						parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ");\n");
+						parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
 					AppendTo(output, "\t\tobj.add(edge);\n");
 				od;
 

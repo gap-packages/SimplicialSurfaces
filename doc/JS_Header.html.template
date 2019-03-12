@@ -246,9 +246,9 @@
 			}
 		};
 
-		function Circle(radius, posX, posY, posZ, rotX, rotY, rotZ) {
+		function Circle(radius, posX, posY, posZ, rotX, rotY, rotZ, colour) {
 			var segments = 360;
-			var material = new THREE.LineBasicMaterial( { color: "black", linewidth: 3  } );
+			var material = new THREE.LineBasicMaterial( { color: colour, linewidth: 3  } );
 			var geometry = new THREE.CircleGeometry( radius, segments );
 			// Remove center vertex
 			geometry.vertices.shift();
@@ -263,10 +263,10 @@
 			return circle;
 		};
 
-		function Edge(length, posX, posY, posZ, rotX, rotY, rotZ) {
+		function Edge(length, posX, posY, posZ, rotX, rotY, rotZ, colour) {
 			var segments = 360;
 			var cylGeo = new THREE.CylinderGeometry(0.01, 0.01, length, segments, 1, true);
-			var cylRed = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+			var cylRed = new THREE.MeshBasicMaterial( {color: colour} );
 			var cylinder = new THREE.Mesh( cylGeo, cylRed );
 			cylinder.position.x = posX;
 			cylinder.position.y = posY;
