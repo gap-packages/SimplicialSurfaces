@@ -18,6 +18,12 @@ DeclareOperation( "ActivateEdge", [IsCyclotomic, IsRecord] );
 DeclareOperation( "DeactivateEdge", [IsCyclotomic, IsRecord] );
 DeclareOperation( "IsEdgeActive", [IsCyclotomic, IsRecord] );
 
+DeclareOperation( "ActivateVertices", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateVertices", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateVertex", [IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateVertex", [IsCyclotomic, IsRecord] );
+DeclareOperation( "IsVertexActive", [IsCyclotomic, IsRecord] );
+
 DeclareOperation( "SetFaceColour", [IsCyclotomic, IsString, IsRecord] );
 DeclareOperation( "GetFaceColour", [IsCyclotomic, IsRecord] );
 DeclareOperation( "SetFaceColours", [IsDenseList, IsRecord] );

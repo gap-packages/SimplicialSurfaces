@@ -321,6 +321,78 @@ InstallMethod( IsEdgeActive,
     end
 );
 
+InstallMethod( ActivateVertices,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			if not IsBound(printRecord.vertexCoordinates3D) then
+				Error(" The 3D-coordinates of the vertices are not set ");
+			fi;
+			printRecord.drawVertices := [];
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateVertices,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			local i;
+			for i in [1..NumberOfVertices(surface)] do
+				printRecord := DeactivateVertex(i, printRecord);
+			od;
+			return printRecord;
+    end
+);
+
+InstallMethod( ActivateVertex,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.vertexCoordinates3D) then
+				Error(" The 3D-coordinates of the vertices are not set ");
+			fi;
+			if not IsBound(printRecord.drawVertices) then
+				printRecord.drawVertices := [];
+				return printRecord;
+			fi;
+			printRecord.drawVertices[index] := true;
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateVertex,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.drawVertices) then
+				printRecord.drawVertices := [];
+			fi;
+			printRecord.drawVertices[index] := false;
+			return printRecord;
+    end
+);
+
+InstallMethod( IsVertexActive,
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
+			if not IsBound(printRecord.vertexCoordinates3D) then
+					return false;
+				fi;
+				if not IsBound(printRecord.drawVertices) then
+					return true;
+				fi;
+				if (index <= 0) then
+					return false;
+				fi;
+				if not IsBound(printRecord.drawVertices[index]) then
+					return true;
+				fi;
+				return printRecord.drawVertices[index] = true;
+    end
+);
+
 InstallMethod( SetFaceColour,
     "for an index, a string and a record",
     [IsCyclotomic, IsString, IsRecord],
@@ -547,13 +619,15 @@ InstallMethod( DrawSurfaceToJavaScript,
 
         # Add points to scenario
 				for i in [0..(NumberOfVertices(surface)-1)] do
-					colour := GetVertexColour(i+1, printRecord);
-					AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
-					AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
-					AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
-					AppendTo(output, "\t\t// draw a node as a sphere of radius 0.05\n");
-					AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material", i, ");\n");
-					AppendTo(output, "\t\tallpoints[", i, "].makelabel(", i+1, ");\n");
+					if IsVertexActive(i+1, printRecord) then
+						colour := GetVertexColour(i+1, printRecord);
+						AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
+						AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
+						AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
+						AppendTo(output, "\t\t// draw a node as a sphere of radius 0.05\n");
+						AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material", i, ");\n");
+						AppendTo(output, "\t\tallpoints[", i, "].makelabel(", i+1, ");\n");
+					fi;
 				od;
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_associate_points_init_faces.html.template");
 				AppendTo( output, template );
