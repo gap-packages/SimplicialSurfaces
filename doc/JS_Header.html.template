@@ -263,6 +263,20 @@
 			return circle;
 		};
 
+		function Edge(length, posX, posY, posZ, rotX, rotY, rotZ) {
+			var segments = 360;
+			var cylGeo = new THREE.CylinderGeometry(0.01, 0.01, length, segments, 1, true);
+			var cylRed = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+			var cylinder = new THREE.Mesh( cylGeo, cylRed );
+			cylinder.position.x = posX;
+			cylinder.position.y = posY;
+			cylinder.position.z = posZ;
+			cylinder.rotation.x = rotX;
+			cylinder.rotation.y = rotY;
+			cylinder.rotation.z = rotZ;
+			return cylinder;
+		};
+
 		var controls = new THREE.TrackballControls(camera, container);
 		controls.zoomSpeed = 0.2;
 		controls.rotateSpeed = 4;

@@ -1,5 +1,1 @@
-		<!-- Edge style -->
-		var lines_material = new THREE.LineBasicMaterial({color: 0xFF0000, linewidth: 3,});
-		lines_material.side = THREE.DoubleSide;
-		lines_material.transparent = true;
 		<!-- EDGES -->

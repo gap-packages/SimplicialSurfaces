@@ -9,4 +9,6 @@ DeclareOperation( "ActivateInnerCircle", [IsRecord] );
 DeclareOperation( "DeactivateInnerCircle", [IsRecord] );
 DeclareOperation( "IsInnerCircleActive", [IsRecord] );
 
+DeclareOperation( "CalculateParametersOfEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+
 DeclareOperation( "DrawSurfaceToJavaScript", [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord] );

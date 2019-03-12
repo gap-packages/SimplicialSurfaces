@@ -164,12 +164,61 @@ InstallMethod( IsInnerCircleActive,
     end
 );
 
+InstallMethod( CalculateParametersOfEdges,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+				local norm, distance, Atan2, res, vertOfEdge, P1, P2, d, mid, beta, gamma;
+				if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
+					Error( " invalid coordinate format " );
+				fi;
+				norm:=function(v) return Sqrt( v[1]*v[1] + v[2]*v[2] + v[3]*v[3] ); end;
+				distance:=function(p,q) return norm(p-q); end;
+				Atan2:=function(y,x)
+					if x > 0. then
+						return Atan(y/x);
+					fi;
+					if x < 0. then
+						if y > 0. then
+							return Atan(y/x)+4*Atan(1.0);
+						fi;
+						if y = 0. then
+							return 4*Atan(1.0);
+						fi;
+						return Atan(y/x)-4*Atan(1.0);
+					fi;
+					if y > 0. then
+						return 2*Atan(1.0);
+					fi;
+					if y < 0. then
+						return -2*Atan(1.0);
+					fi;
+					return 0.;
+				end;
+				res := [];
+				for vertOfEdge in VerticesOfEdges(surface) do
+					P1 := printRecord.vertexCoordinates3D[vertOfEdge[1]];
+					P2 := printRecord.vertexCoordinates3D[vertOfEdge[2]];
+					# calculate distance
+					d := distance(P1,P2);
+					# calculate coordiantes of mid of edge
+					mid := ( P1 + P2 ) / 2;
+					# calculate rotation angles (from y-direction)
+					beta := Atan2(-1.0*(P2[3]-P1[3]), 1.0*(P2[1]-P1[1]));
+					gamma := -Acos(1.0*(P2[2]-P1[2])/d);
+					Append(res, [ [mid, d, [ 0., beta, gamma ] ] ]);
+				od;
+				printRecord.edges := res;
+				return printRecord;
+    end
+);
+
 # general method
 InstallMethod( DrawSurfaceToJavaScript, 
     "for a polygonal complex without edge ramifications, a filename and a record",
     [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(surface, fileName, printRecord)
-				local file, output, template, coords, i, vertOfFace, vertOfEdge, parametersOfCircle;
+				local file, output, template, coords, i, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge;
 
         # Make the file end with .html
         if not EndsWith( fileName, ".html" ) then
@@ -237,11 +286,14 @@ InstallMethod( DrawSurfaceToJavaScript,
 				# Add Edges to scenario
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_init_edges.html.template");
 				AppendTo( output, template );
-				for vertOfEdge in VerticesOfEdges(surface) do
-					AppendTo(output, "\t\tvar line = new THREE.Geometry();\n");
-					AppendTo(output, "\t\tline.vertices.push(allpoints[", vertOfEdge[1]-1, "].vector);\n");
-					AppendTo(output, "\t\tline.vertices.push(allpoints[", vertOfEdge[2]-1, "].vector);\n");
-					AppendTo(output, "\t\tobj.add(new THREE.Line(line, lines_material));\n");
+				if not IsBound(printRecord.edges) then
+					printRecord := CalculateParametersOfEdges(surface, printRecord);
+				fi;
+				for parametersOfEdge in printRecord.edges do
+					AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", ", parametersOfEdge[1][1], ", ",
+						parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
+						parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ");\n");
+					AppendTo(output, "\t\tobj.add(edge);\n");
 				od;
 
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Footer.html.template");

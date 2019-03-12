@@ -53,15 +53,11 @@
 					if (all_objects[i].children[j].material.type == "MultiMaterial") {
 						for (var k=0; k<all_objects[i].children[j].material.materials.length; k++){
 							all_objects[i].children[j].material.materials[k].opacity = opacity;
-							all_objects[i].children[j].material.materials[k].depthWrite = opacity < 0.5 ? false : true;
-							all_objects[i].children[j].material.materials[k].depthTest = opacity < 0.5 ? false : true;
 						}
 					} else if (all_objects[i].children[j].material.transparent &&
 						all_objects[i].children[j].material.type == "MeshBasicMaterial" &&
 						all_objects[i].children[j].geometry.type == "Geometry"){
 						all_objects[i].children[j].material.opacity = opacity;
-						all_objects[i].children[j].material.depthWrite = opacity < 0.5 ? false : true;
-						all_objects[i].children[j].material.depthTest = opacity < 0.5 ? false : true;
 					}
 				}
 			}
