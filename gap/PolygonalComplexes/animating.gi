@@ -48,21 +48,21 @@ InstallOtherMethod( SetVertexCoordiantes3D,
 );
 
 InstallMethod( GetVertexCoordiantes3DNC,
-    "for a record and an index",
-    [IsRecord, IsCyclotomic],
-    function(printRecord, index)
+    "for an index and a record",
+    [IsCyclotomic, IsRecord],
+    function(index, printRecord)
 				return printRecord.vertexCoordinates3D[index];
     end
 );
 
 InstallMethod( GetVertexCoordiantes3D,
-    "for a polygonal complex without edge ramifications, a record and an index",
-    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord, IsCyclotomic],
-    function(surface, printRecord, index)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 				if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
 					Error( " invalid coordinate format " );
 				fi;
-				return GetVertexCoordiantes3DNC(printRecord, index);
+				return GetVertexCoordiantes3DNC(index, printRecord);
     end
 );
 
@@ -141,25 +141,25 @@ InstallMethod( ActivateInnerCircles,
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
 			fi;
 			for i in [1..NumberOfFaces(surface)] do
-				printRecord := ActivateInnerCircle(i, printRecord);
+				printRecord := ActivateInnerCircle(surface, i, printRecord);
 			od;
 			return printRecord;
     end
 );
 
 InstallMethod( DeactivateInnerCircles,
-    "for a record",
-    [IsRecord],
-    function(printRecord)
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
 			printRecord.drawInnerCircles := [];
 			return printRecord;
     end
 );
 
 InstallMethod( ActivateInnerCircle,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				Error(" The parameters of the innercircles are not set ");
 			fi;
@@ -172,9 +172,9 @@ InstallMethod( ActivateInnerCircle,
 );
 
 InstallMethod( DeactivateInnerCircle,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.drawInnerCircles) then
 				return printRecord;
 			fi;
@@ -184,9 +184,9 @@ InstallMethod( DeactivateInnerCircle,
 );
 
 InstallMethod( IsInnerCircleActive,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
 				fi;
@@ -267,16 +267,16 @@ InstallMethod( DeactivateEdges,
     function(surface, printRecord)
 			local i;
 			for i in [1..NumberOfEdges(surface)] do
-				printRecord := DeactivateEdge(i, printRecord);
+				printRecord := DeactivateEdge(surface, i, printRecord);
 			od;
 			return printRecord;
     end
 );
 
 InstallMethod( ActivateEdge,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.edges) then
 				Error(" The parameters of the innercircles are not set ");
 			fi;
@@ -290,9 +290,9 @@ InstallMethod( ActivateEdge,
 );
 
 InstallMethod( DeactivateEdge,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.drawEdges) then
 				printRecord.drawEdges := [];
 			fi;
@@ -302,9 +302,9 @@ InstallMethod( DeactivateEdge,
 );
 
 InstallMethod( IsEdgeActive,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.edges) then
 					return false;
 				fi;
@@ -339,16 +339,16 @@ InstallMethod( DeactivateVertices,
     function(surface, printRecord)
 			local i;
 			for i in [1..NumberOfVertices(surface)] do
-				printRecord := DeactivateVertex(i, printRecord);
+				printRecord := DeactivateVertex(surface, i, printRecord);
 			od;
 			return printRecord;
     end
 );
 
 InstallMethod( ActivateVertex,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 				Error(" The 3D-coordinates of the vertices are not set ");
 			fi;
@@ -362,9 +362,9 @@ InstallMethod( ActivateVertex,
 );
 
 InstallMethod( DeactivateVertex,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.drawVertices) then
 				printRecord.drawVertices := [];
 			fi;
@@ -374,9 +374,9 @@ InstallMethod( DeactivateVertex,
 );
 
 InstallMethod( IsVertexActive,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 					return false;
 				fi;
@@ -394,9 +394,9 @@ InstallMethod( IsVertexActive,
 );
 
 InstallMethod( SetFaceColour,
-    "for an index, a string and a record",
-    [IsCyclotomic, IsString, IsRecord],
-    function(index, colour, printRecord)
+    "for a polygonal complex without edge ramifications, an index, a string and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord],
+    function(surface, index, colour, printRecord)
 				if not IsBound(printRecord.faceColours) then
 					printRecord.faceColours := [];
 				fi;
@@ -406,9 +406,9 @@ InstallMethod( SetFaceColour,
 );
 
 InstallMethod( GetFaceColour,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 				local default;
 				default := "0xFFFF00";
 				if not IsBound(printRecord.faceColours) or (index <= 0) then
@@ -422,18 +422,18 @@ InstallMethod( GetFaceColour,
 );
 
 InstallMethod( SetFaceColours,
-    "for a list and a record",
-    [IsDenseList, IsRecord],
-    function(faceColours, printRecord)
+    "for a polygonal complex without edge ramifications, a list and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsDenseList, IsRecord],
+    function(surface, faceColours, printRecord)
 				printRecord.faceColours := faceColours;
 				return printRecord;
     end
 );
 
 InstallMethod( GetFaceColours,
-    "for a record",
-    [IsRecord],
-    function(printRecord)
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
 				if not IsBound(printRecord.faceColours) then
 					return [];
 				fi;
@@ -442,9 +442,9 @@ InstallMethod( GetFaceColours,
 );
 
 InstallMethod( SetVertexColour,
-    "for an index, a string and a record",
-    [IsCyclotomic, IsString, IsRecord],
-    function(index, colour, printRecord)
+    "for a polygonal complex without edge ramifications, an index, a string and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord],
+    function(surface, index, colour, printRecord)
 				if not IsBound(printRecord.vertexColours) then
 					printRecord.vertexColours := [];
 				fi;
@@ -454,9 +454,9 @@ InstallMethod( SetVertexColour,
 );
 
 InstallMethod( GetVertexColour,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 				local default;
 				default := "0xF58137";
 				if not IsBound(printRecord.vertexColours) or (index <= 0) then
@@ -470,18 +470,18 @@ InstallMethod( GetVertexColour,
 );
 
 InstallMethod( SetVertexColours,
-    "for a list and a record",
-    [IsDenseList, IsRecord],
-    function(vertexColours, printRecord)
+    "for a polygonal complex without edge ramifications, a list and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsDenseList, IsRecord],
+    function(surface, vertexColours, printRecord)
 				printRecord.vertexColours := vertexColours;
 				return printRecord;
     end
 );
 
 InstallMethod( GetVertexColours,
-    "for a record",
-    [IsRecord],
-    function(printRecord)
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
 				if not IsBound(printRecord.vertexColours) then
 					return [];
 				fi;
@@ -490,9 +490,9 @@ InstallMethod( GetVertexColours,
 );
 
 InstallMethod( SetEdgeColour,
-    "for an index, a string and a record",
-    [IsCyclotomic, IsString, IsRecord],
-    function(index, colour, printRecord)
+    "for a polygonal complex without edge ramifications, an index, a string and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord],
+    function(surface, index, colour, printRecord)
 				if not IsBound(printRecord.edgeColours) then
 					printRecord.edgeColours := [];
 				fi;
@@ -502,9 +502,9 @@ InstallMethod( SetEdgeColour,
 );
 
 InstallMethod( GetEdgeColour,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 				local default;
 				default := "0xff0000";
 				if not IsBound(printRecord.edgeColours) or (index <= 0) then
@@ -518,18 +518,18 @@ InstallMethod( GetEdgeColour,
 );
 
 InstallMethod( SetEdgeColours,
-    "for a list and a record",
-    [IsDenseList, IsRecord],
-    function(edgeColours, printRecord)
+    "for a polygonal complex without edge ramifications, a list and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsDenseList, IsRecord],
+    function(surface, edgeColours, printRecord)
 				printRecord.edgeColours := edgeColours;
 				return printRecord;
     end
 );
 
 InstallMethod( GetEdgeColours,
-    "for a record",
-    [IsRecord],
-    function(printRecord)
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
 				if not IsBound(printRecord.EdgeColours) then
 					return [];
 				fi;
@@ -538,9 +538,9 @@ InstallMethod( GetEdgeColours,
 );
 
 InstallMethod( SetCircleColour,
-    "for an index, a string and a record",
-    [IsCyclotomic, IsString, IsRecord],
-    function(index, colour, printRecord)
+    "for a polygonal complex without edge ramifications, an index, a string and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord],
+    function(surface, index, colour, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					printRecord.circleColours := [];
 				fi;
@@ -550,9 +550,9 @@ InstallMethod( SetCircleColour,
 );
 
 InstallMethod( GetCircleColour,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
 				local default;
 				default := "0x000000";
 				if not IsBound(printRecord.circleColours) or (index <= 0) then
@@ -566,18 +566,18 @@ InstallMethod( GetCircleColour,
 );
 
 InstallMethod( SetCircleColours,
-    "for a list and a record",
-    [IsDenseList, IsRecord],
-    function(circleColours, printRecord)
+    "for a polygonal complex without edge ramifications, a list and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsDenseList, IsRecord],
+    function(surface, circleColours, printRecord)
 				printRecord.circleColours := circleColours;
 				return printRecord;
     end
 );
 
 InstallMethod( GetCircleColours,
-    "for a record",
-    [IsRecord],
-    function(printRecord)
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					return [];
 				fi;
@@ -613,14 +613,14 @@ InstallMethod( DrawSurfaceToJavaScript,
 					Error( " invalid coordinate format " );
 				fi;
 				for i in [1..NumberOfVertices(surface)] do
-					coords := GetVertexCoordiantes3DNC(printRecord, i);
+					coords := GetVertexCoordiantes3DNC(i, printRecord);
 					AppendTo(output, "\t\tallpoints.push(new PMPoint(", coords[1], ",", coords[2], ",", coords[3], "));\n");
 				od;
 
         # Add points to scenario
 				for i in [0..(NumberOfVertices(surface)-1)] do
-					if IsVertexActive(i+1, printRecord) then
-						colour := GetVertexColour(i+1, printRecord);
+					if IsVertexActive(surface, i+1, printRecord) then
+						colour := GetVertexColour(surface, i+1, printRecord);
 						AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
 						AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
 						AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
@@ -640,7 +640,7 @@ InstallMethod( DrawSurfaceToJavaScript,
 				AppendTo( output, template );
 				for i in [1..(NumberOfFaces(surface))] do
 					vertOfFace := VerticesOfFaces(surface)[i];
-					colour := GetFaceColour(i, printRecord);
+					colour := GetFaceColour(surface, i, printRecord);
 					AppendTo(output, "\t\tfaces.faces.push(new THREE.Face3(", vertOfFace[1]-1, ",", vertOfFace[2]-1, ",", vertOfFace[3]-1, ",undefined, undefined, 0));\n");
 				od;
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_add_faces.html.template");
@@ -648,9 +648,9 @@ InstallMethod( DrawSurfaceToJavaScript,
 
 				AppendTo(output, "\n\n");
 				for i in [1..(NumberOfFaces(surface))] do
-					if IsInnerCircleActive(i, printRecord) then
+					if IsInnerCircleActive(surface, i, printRecord) then
 						parametersOfCircle := printRecord.innerCircles[i];
-						colour := GetCircleColour(i, printRecord);
+						colour := GetCircleColour(surface, i, printRecord);
 						AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
 							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
 							parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
@@ -666,9 +666,9 @@ InstallMethod( DrawSurfaceToJavaScript,
 					printRecord := CalculateParametersOfEdges(surface, printRecord);
 				fi;
 				for i in [1..(NumberOfEdges(surface))] do
-					if IsEdgeActive(i, printRecord) then
+					if IsEdgeActive(surface, i, printRecord) then
 						parametersOfEdge := printRecord.edges[i];
-						colour := GetEdgeColour(i, printRecord);
+						colour := GetEdgeColour(surface, i, printRecord);
 						AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", ", parametersOfEdge[1][1], ", ",
 							parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
 							parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
