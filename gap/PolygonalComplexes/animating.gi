@@ -161,7 +161,7 @@ InstallMethod( ActivateInnerCircle,
     [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.innerCircles) then
-				Error(" The parameters of the innercircles are not set ");
+				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
 			fi;
 			if not IsBound(printRecord.drawInnerCircles) then
 				printRecord.drawInnerCircles := [];
@@ -278,7 +278,7 @@ InstallMethod( ActivateEdge,
     [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.edges) then
-				Error(" The parameters of the innercircles are not set ");
+				printRecord := CalculateParametersOfEdges(surface, printRecord);
 			fi;
 			if not IsBound(printRecord.drawEdges) then
 				printRecord.drawEdges := [];
