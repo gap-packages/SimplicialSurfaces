@@ -653,7 +653,7 @@ InstallMethod( DrawSurfaceToJavaScript,
     "for a polygonal complex without edge ramifications, a filename and a record",
     [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(surface, fileName, printRecord)
-				local file, output, template, coords, i, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge;
+				local file, output, template, coords, i, j, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge;
 
         # Make the file end with .html
         if not EndsWith( fileName, ".html" ) then
@@ -697,13 +697,8 @@ InstallMethod( DrawSurfaceToJavaScript,
 				od;
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_associate_points_init_faces.html.template");
 				AppendTo( output, template );
-				for i in [0..(NumberOfVertices(surface)-1)] do
-					AppendTo(output, "\t\tfaces.vertices.push(allpoints[", i, "].vector);\n");
-				od;
 
 				# Add Faces to scenario
-				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_faces_material.html.template");
-				AppendTo( output, template );
 				for i in [1..(NumberOfFaces(surface))] do
 					if IsFaceActive(surface, i, printRecord) then
 						vertOfFace := VerticesOfFaces(surface)[i];
@@ -711,11 +706,17 @@ InstallMethod( DrawSurfaceToJavaScript,
 						if not StartsWith(colour, "0x") then
 							colour := Concatenation("\"", colour, "\"");
 						fi;
-						AppendTo(output, "\t\tfaces.faces.push(new THREE.Face3(", vertOfFace[1]-1, ",", vertOfFace[2]-1, ",", vertOfFace[3]-1, ",undefined, undefined, 0));\n");
+						AppendTo(output, "\t\tvar face", i, " = new THREE.Geometry();\n");
+						for j in [1..3] do
+							AppendTo(output, "\t\tface", i, ".vertices.push(allpoints[", vertOfFace[j]-1, "\].vector);\n");
+						od;
+						AppendTo(output, "\t\tcentroids.push(computeCentroid(face", i, "));\n");
+						AppendTo(output, "\t\tvar face", i, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: 1,side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
+						AppendTo(output, "\t\tface", i, ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
+						AppendTo(output, "\t\tvar face", i, "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
+						AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", i, ", face", i, "_material) );\n");
 					fi;
 				od;
-				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_add_faces.html.template");
-				AppendTo( output, template );
 
 				AppendTo(output, "\n\n");
 				for i in [1..(NumberOfFaces(surface))] do

@@ -2,7 +2,4 @@
 		for (index = 0; index < allpoints.length; ++index) {
 			allpoints[index].add(obj);
 		}
-		// new 3D object faces
-		var faces = new THREE.Geometry();
-		<!-- VERTICES -->
-		// add all points to this object
+		<!-- FACES -->
