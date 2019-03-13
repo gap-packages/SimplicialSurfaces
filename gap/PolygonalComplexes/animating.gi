@@ -321,6 +321,69 @@ InstallMethod( IsEdgeActive,
     end
 );
 
+InstallMethod( ActivateFaces,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			printRecord.drawFaces := [];
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateFaces,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			local i;
+			for i in [1..NumberOfFaces(surface)] do
+				printRecord := DeactivateFace(surface, i, printRecord);
+			od;
+			return printRecord;
+    end
+);
+
+InstallMethod( ActivateFace,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
+			if not IsBound(printRecord.drawFaces) then
+				printRecord.drawFaces := [];
+				return printRecord;
+			fi;
+			printRecord.drawFaces[index] := true;
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateFace,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
+			if not IsBound(printRecord.drawFaces) then
+				printRecord.drawFaces := [];
+			fi;
+			printRecord.drawFaces[index] := false;
+			return printRecord;
+    end
+);
+
+InstallMethod( IsFaceActive,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
+				if not IsBound(printRecord.drawFaces) then
+					return true;
+				fi;
+				if (index <= 0) then
+					return false;
+				fi;
+				if not IsBound(printRecord.drawFaces[index]) then
+					return true;
+				fi;
+				return printRecord.drawFaces[index] = true;
+    end
+);
+
 InstallMethod( ActivateVertices,
     "for a polygonal complex without edge ramifications and a record",
     [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
@@ -642,12 +705,14 @@ InstallMethod( DrawSurfaceToJavaScript,
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_faces_material.html.template");
 				AppendTo( output, template );
 				for i in [1..(NumberOfFaces(surface))] do
-					vertOfFace := VerticesOfFaces(surface)[i];
-					colour := GetFaceColour(surface, i, printRecord);
-					if not StartsWith(colour, "0x") then
-						colour := Concatenation("\"", colour, "\"");
+					if IsFaceActive(surface, i, printRecord) then
+						vertOfFace := VerticesOfFaces(surface)[i];
+						colour := GetFaceColour(surface, i, printRecord);
+						if not StartsWith(colour, "0x") then
+							colour := Concatenation("\"", colour, "\"");
+						fi;
+						AppendTo(output, "\t\tfaces.faces.push(new THREE.Face3(", vertOfFace[1]-1, ",", vertOfFace[2]-1, ",", vertOfFace[3]-1, ",undefined, undefined, 0));\n");
 					fi;
-					AppendTo(output, "\t\tfaces.faces.push(new THREE.Face3(", vertOfFace[1]-1, ",", vertOfFace[2]-1, ",", vertOfFace[3]-1, ",undefined, undefined, 0));\n");
 				od;
 				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_add_faces.html.template");
 				AppendTo( output, template );

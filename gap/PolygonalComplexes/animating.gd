@@ -18,6 +18,12 @@ DeclareOperation( "ActivateEdge", [IsPolygonalComplex and IsNotEdgeRamified, IsC
 DeclareOperation( "DeactivateEdge", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 DeclareOperation( "IsEdgeActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 
+DeclareOperation( "ActivateFaces", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateFaces", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateFace", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateFace", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "IsFaceActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+
 DeclareOperation( "ActivateVertices", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
 DeclareOperation( "DeactivateVertices", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
 DeclareOperation( "ActivateVertex", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
