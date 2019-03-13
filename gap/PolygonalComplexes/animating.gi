@@ -51,7 +51,7 @@ InstallMethod( GetVertexCoordiantes3DNC,
     "for an index and a record",
     [IsCyclotomic, IsRecord],
     function(index, printRecord)
-				return printRecord.vertexCoordinates3D[index];
+				return 1.0*printRecord.vertexCoordinates3D[index];
     end
 );
 
@@ -106,9 +106,9 @@ InstallMethod( CalculateParametersOfInnerCircle,
 						Append(res, [[]]);
 						continue;
 					fi;
-					P1 := printRecord.vertexCoordinates3D[vertOfFace[1]];
-					P2 := printRecord.vertexCoordinates3D[vertOfFace[2]];
-					P3 := printRecord.vertexCoordinates3D[vertOfFace[3]];
+					P1 := GetVertexCoordiantes3DNC(vertOfFace[1], printRecord);
+					P2 := GetVertexCoordiantes3DNC(vertOfFace[2], printRecord);
+					P3 := GetVertexCoordiantes3DNC(vertOfFace[3], printRecord);
 					# calculate distances
 					d1 := distance(P2,P3);
 					d2 := distance(P1,P3);
@@ -233,8 +233,8 @@ InstallMethod( CalculateParametersOfEdges,
 				end;
 				res := [];
 				for vertOfEdge in VerticesOfEdges(surface) do
-					P1 := printRecord.vertexCoordinates3D[vertOfEdge[1]];
-					P2 := printRecord.vertexCoordinates3D[vertOfEdge[2]];
+					P1 := GetVertexCoordiantes3DNC(vertOfEdge[1], printRecord);
+					P2 := GetVertexCoordiantes3DNC(vertOfEdge[2], printRecord);
 					# calculate distance
 					d := distance(P1,P2);
 					# calculate coordiantes of mid of edge
