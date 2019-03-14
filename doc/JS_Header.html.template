@@ -184,9 +184,11 @@
 		var camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
 		var renderid;
 
-		camera.position.set(0, 0, 5);
+		camera.position.set(0, 0, 100);
 		camera.lookAt(0, 0, 0);
 		camera.up.set(0, 1, 0);
+		camera.zoom = 20.0;
+		camera.updateProjectionMatrix();
 		// class to allow move points together with labels and spheres
 		var PMPoint = function (x,y,z) {
 			this.vector = new THREE.Vector3(x,y,z);
