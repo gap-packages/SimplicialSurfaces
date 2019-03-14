@@ -11,6 +11,12 @@ DeclareOperation( "ActivateInnerCircle", [IsPolygonalComplex and IsNotEdgeRamifi
 DeclareOperation( "DeactivateInnerCircle", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 DeclareOperation( "IsInnerCircleActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 
+DeclareOperation( "ActivateNormalOfInnerCircles", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateNormalOfInnerCircles", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateNormalOfInnerCircle", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateNormalOfInnerCircle", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "IsNormalOfInnerCircleActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+
 DeclareOperation( "CalculateParametersOfEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
 DeclareOperation( "ActivateEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
 DeclareOperation( "DeactivateEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );

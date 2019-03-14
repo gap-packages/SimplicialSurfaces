@@ -70,8 +70,8 @@ InstallMethod( CalculateParametersOfInnerCircle,
     "for a polygonal complex without edge ramifications and a record",
     [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
     function(surface, printRecord)
-				local norm, distance, normalize, crossProd, Atan2, res, vertOfFace, P1, P2, P3,
-					d1, d2, d3, incenter, s, radius, x, y, z, alpha, beta, gamma;
+				local norm, distance, normalize, crossProd, Atan2, res, vertOfFace, P1, P2, P3, d1, d2, d3, incenter, s,
+					radius, x, y, z, alpha, beta, gamma, normalVector, lengthNormalVector, normalVector_beta, normalVector_gamma;
 				if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
 					Error( " invalid coordinate format " );
 				fi;
@@ -125,7 +125,12 @@ InstallMethod( CalculateParametersOfInnerCircle,
 					alpha := Atan2(-z[2], z[3]);
 					beta := Asin(z[1]);
 					gamma := Atan2(-y[1], x[1]);
-					Append(res, [ [incenter, radius, [ alpha, beta, gamma ] ] ]);
+					# calculat rotation angles and length of normal vector
+					normalVector := crossProd( P1-P2, P1-P3 );
+					lengthNormalVector := 4*radius;
+					normalVector_beta := Atan2(-1.0*normalVector[3], 1.0*normalVector[1]);
+					normalVector_gamma := -Acos(1.0*normalVector[2]/norm(normalVector));
+					Append(res, [ [incenter, radius, [ alpha, beta, gamma ], [ 0., normalVector_beta, normalVector_gamma], lengthNormalVector ] ]);
 				od;
 				printRecord.innerCircles := res;
 				return printRecord;
@@ -197,6 +202,74 @@ InstallMethod( IsInnerCircleActive,
 					return false;
 				fi;
 				return printRecord.drawInnerCircles[index] = true;
+    end
+);
+
+InstallMethod( ActivateNormalOfInnerCircles,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			local i;
+			if not IsBound(printRecord.innerCircles) then
+				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
+			fi;
+			for i in [1..NumberOfFaces(surface)] do
+				printRecord := ActivateNormalOfInnerCircle(surface, i, printRecord);
+			od;
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateNormalOfInnerCircles,
+    "for a polygonal complex without edge ramifications and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsRecord],
+    function(surface, printRecord)
+			printRecord.drawNormalOfInnerCircles := [];
+			return printRecord;
+    end
+);
+
+InstallMethod( ActivateNormalOfInnerCircle,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
+			if not IsBound(printRecord.innerCircles) then
+				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
+			fi;
+			if not IsBound(printRecord.drawNormalOfInnerCircles) then
+				printRecord.drawNormalOfInnerCircles := [];
+			fi;
+			printRecord.drawNormalOfInnerCircles[index] := true;
+			return printRecord;
+    end
+);
+
+InstallMethod( DeactivateNormalOfInnerCircle,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
+			if not IsBound(printRecord.drawNormalOfInnerCircles) then
+				return printRecord;
+			fi;
+			printRecord.drawNormalOfInnerCircles[index] := false;
+			return printRecord;
+    end
+);
+
+InstallMethod( IsNormalOfInnerCircleActive,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
+			if not IsBound(printRecord.innerCircles) then
+					return false;
+				fi;
+				if not IsBound(printRecord.drawNormalOfInnerCircles) or (index <= 0) then
+					return false;
+				fi;
+				if not IsBound(printRecord.drawNormalOfInnerCircles[index]) then
+					return false;
+				fi;
+				return printRecord.drawNormalOfInnerCircles[index] = true;
     end
 );
 
@@ -730,6 +803,21 @@ InstallMethod( DrawSurfaceToJavaScript,
 							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
 							parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
 						AppendTo(output, "\t\tobj.add(circle);\n");
+					fi;
+				od;
+				AppendTo(output, "\n\n");
+
+				for i in [1..(NumberOfFaces(surface))] do
+					if IsNormalOfInnerCircleActive(surface, i, printRecord) then
+						parametersOfCircle := printRecord.innerCircles[i];
+						colour := GetCircleColour(surface, i, printRecord);
+						if not StartsWith(colour, "0x") then
+							colour := Concatenation("\"", colour, "\"");
+						fi;
+						AppendTo(output, "\t\tvar normalVector = Edge(", parametersOfCircle[5], ", ", parametersOfCircle[1][1], ", ",
+							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[4][1], ", ",
+							parametersOfCircle[4][2], ", ", parametersOfCircle[4][3], ", ", colour, ");\n");
+						AppendTo(output, "\t\tobj.add(normalVector);\n");
 					fi;
 				od;
 				AppendTo(output, "\n\n");
