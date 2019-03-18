@@ -13,8 +13,11 @@
 DeclareRepresentation( "PolygonalComplexMorphismRep", 
     IsPolygonalMorphism and IsAttributeStoringRep, [] );
 
-BindGlobal( "PolygonalComplexMorphismType", 
-    NewType( GeneralPolygonalMorphismFamily, PolygonalComplexMorphismRep ) );
+  
+fam := ElementsFamily( FamilyObj( [1,2,3] ) );
+BindGlobal( "PolygonalComplexMorphismType",
+    NewType( GeneralMappingsFamily(fam,fam), IsPolygonalMorphism and PolygonalComplexMorphismRep ) );
+       
 
 
 
@@ -187,8 +190,10 @@ InstallMethod( PolygonalMorphismByListsNC,
     "for two polygonal complexes and three lists",
     [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList],
     function(sourceComplex, rangeComplex, vertexMap, edgeMap, faceMap)
-        local obj;
+        local obj, fam;
 
+#        fam := ElementsFamily( FamilyObj( VEFLabels(sourceComplex) ) );
+#        obj := Objectify( NewType( GeneralMappingsFamily(fam, fam), IsPolygonalMorphism and PolygonalComplexMorphismRep ), rec() );
         obj := Objectify( PolygonalComplexMorphismType, rec() );
         SetSourceComplex(obj, sourceComplex);
         SetRangeComplex(obj, rangeComplex);
@@ -481,6 +486,36 @@ InstallMethod( ImageOfFace,
     end
 );
 
+# Basic operation
+InstallMethod( ImagesElm, "for a polygonal morphism and a positive integer",
+    [IsPolygonalMorphism, IsPosInt],
+    function(polMor, x)
+        local source, range, vertex, edge, face, image;
+
+        source := SourceComplex(polMor);
+        range := RangeComplex(polMor);
+
+        vertex := VertexOfVEFLabel(source, x);
+        if vertex <> fail then
+            image := ImageOfVertexNC(polMor, vertex);
+            return [ VEFLabelOfVertexNC(range, image) ];
+        fi;
+        
+        edge := EdgeOfVEFLabel(source, x);
+        if edge <> fail then
+            image := ImageOfEdgeNC(polMor, edge);
+            return [ VEFLabelOfEdgeNC(range, image) ];
+        fi;
+
+        face := FaceOfVEFLabel(source, x);
+        if face <> fail then
+            image := ImageOfFaceNC(polMor, face);
+            return [ VEFLabelOfFaceNC(range, image) ];
+        fi;
+
+        return fail;
+    end
+);
 
 
 
@@ -534,6 +569,38 @@ InstallMethod( PreImagesOfFace,
     end
 );
 
+# Basic operation
+InstallMethod( PreImagesElm,
+    "for a polygonal morphism and a list",
+    [IsPolygonalMorphism, IsList],
+    function(polMor, x)
+        local source, range, vertex, edge, face, image;
+
+        source := SourceComplex(polMor);
+        range := RangeComplex(polMor);
+
+        vertex := VertexOfVEFLabel(range, x);
+        if vertex <> fail then
+            image := PreImagesOfVertexNC(polMor, vertex);
+            return VEFLabelsOfVertices(source){image};
+        fi;
+        
+        edge := EdgeOfVEFLabel(range, x);
+        if edge <> fail then
+            image := PreImagesOfEdgeNC(polMor, edge);
+            return VEFLabelsOfEdges(source){image};
+        fi;
+
+        face := FaceOfVEFLabel(range, x);
+        if face <> fail then
+            image := PreImagesOfFaceNC(polMor, face);
+            return VEFLabelsOfFaces(source){image};
+        fi;
+
+        return fail;
+    end
+);
+
 
 ##
 ##      End of (pre)Images
@@ -568,6 +635,14 @@ InstallMethod( SourceSurface,
     end
 );
 
+# Basic operation
+InstallMethod( Source, "for a general polygonal morphism", 
+    [IsGeneralPolygonalMorphism],
+    function(polMor)
+        return VEFLabels( SourceComplex(polMor) );
+    end
+);
+
 
 InstallMethod( RangeComplex, 
     "for a general polygonal morphism with RangeSurface",
@@ -588,6 +663,14 @@ InstallMethod( RangeSurface,
         else
             return fail;
         fi;
+    end
+);
+
+# Basic operation
+InstallMethod( Range, "for a general polygonal morphism", 
+    [IsGeneralPolygonalMorphism],
+    function(polMor)
+        return VEFLabels( RangeComplex(polMor) );
     end
 );
 

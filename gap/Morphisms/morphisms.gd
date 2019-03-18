@@ -45,9 +45,6 @@ DeclareSynonym("IsPolygonalMorphism", IsGeneralPolygonalMorphism and IsTotal and
 # TODO are the names good? Or should we be more specific, e.g. IsPolygonalComplexMorphism, IsPolygonalSurfaceMorphism?
 
 
-BindGlobal( "GeneralPolygonalMorphismFamily", 
-    NewFamily( "GeneralPolygonalMorphismFamily", IsGeneralMapping, IsGeneralPolygonalMorphism ) );
-
 
 
 #! @Section Construction of Morphisms
@@ -140,6 +137,10 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #! @BeginExampleSession
 #! gap> tetra := Tetrahedron();;
 #! gap> id := PolygonalIdentityMorphism(tetra);;
+#! gap> SourceComplex(id) = tetra;
+#! true
+#! gap> RangeComplex(id) = tetra;
+#! true
 #! gap> VertexMapAsImageList(id);
 #! [ 1, 2, 3, 4 ]
 #! gap> EdgeMapAsImageList(id);
@@ -154,7 +155,7 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 
 
 #! <ManSection Label="CompositionMapping">
-#!   <Oper Name="CompositionMapping" Arg="map1, map2, ..." 
+#!   <Oper Name="CompositionMapping" Arg="mapLast, mapSecondToLast, ..." 
 #!      Label="for IsPolygonalMorphism, IsPolygonalMorphism, ..."
 #!      Comm="Construct the composite map from the given polygonal morphisms"/>
 #!   <Oper Name="CompositionMapping2" Arg="map2, map1" 
@@ -168,8 +169,8 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #!     <A>map2</A>.
 #!
 #!     The method <K>CompositionMapping</K> can compose an arbitrary number
-#!     of polygonal morphisms. Here, the order of arguments is switched, such
-#!     that <A>map1</A> is used first, then <A>map2</A>, and so on. In
+#!     of polygonal morphisms. Note that the first argument is the last map
+#!     used in the composition. In
 #!     addition, it also respects <K>IsInjective</K> and <K>IsSurjective</K>,
 #!     if applicable.
 #!
@@ -177,7 +178,35 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #!     <M>(i+1)</M>th
 #!     map, an error is raised.
 #!
-#!     TODO example
+#!     We use a map from a six-umbrella to a three-umbrella as illustration.
+#!     <Alt Only="TikZ">
+#!       \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!         \input{Image_PolygonalMorphism_Hexagon.tex}
+#!       \end{tikzpicture}
+#!     </Alt>
+#! @ExampleSession
+#! gap> six := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
+#! >     [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;
+#! gap> three := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,1],,[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,5]]);;
+#! gap> mor_6_to_6 := PolygonalIdentityMorphism(six);;
+#! gap> mor_3_to_3 := PolygonalMorphismByLists(three, three,
+#! >       [2,3,1,,5], [2,3,1,,6,7,5], [2,3,1]);;
+#! gap> mor_6_to_3 := PolygonalMorphismByLists(six, three, 
+#! >    [1,2,3,1,2,3,,5], [1,2,3,1,2,3,,5,6,7,5,6,7], [1,2,3,1,2,3]);;
+#! gap> comp := CompositionMapping2(mor_3_to_3, mor_6_to_3);;
+#! gap> VertexMapAsImageList(comp);
+#! [ 2, 3, 1, 2, 3, 1,, 5 ]
+#! gap> EdgeMapAsImageList(comp);
+#! [ 2, 3, 1, 2, 3, 1,, 6, 7, 5, 6, 7, 5 ]
+#! gap> FaceMapAsImageList(comp);
+#! [ 2, 3, 1, 2, 3, 1 ]
+#! gap> CompositionMapping2(mor_6_to_3, mor_6_to_6) = mor_6_to_3;
+#! true
+#! gap> CompositionMapping(mor_3_to_3, mor_6_to_3, mor_6_to_6) = comp;
+#! true
+#! @EndExampleSession
 #!
 #!   </Description>
 #! </ManSection>
