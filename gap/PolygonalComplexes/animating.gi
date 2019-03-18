@@ -814,7 +814,7 @@ InstallMethod( DrawSurfaceToJavaScript,
 						if not StartsWith(colour, "0x") then
 							colour := Concatenation("\"", colour, "\"");
 						fi;
-						AppendTo(output, "\t\tvar normalVector = Edge(", parametersOfCircle[5], ", ", parametersOfCircle[1][1], ", ",
+						AppendTo(output, "\t\tvar normalVector = Edge(", parametersOfCircle[5], ", 0.002, ", parametersOfCircle[1][1], ", ",
 							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[4][1], ", ",
 							parametersOfCircle[4][2], ", ", parametersOfCircle[4][3], ", ", colour, ");\n");
 						AppendTo(output, "\t\tobj.add(normalVector);\n");
@@ -835,7 +835,7 @@ InstallMethod( DrawSurfaceToJavaScript,
 						if not StartsWith(colour, "0x") then
 							colour := Concatenation("\"", colour, "\"");
 						fi;
-						AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", ", parametersOfEdge[1][1], ", ",
+						AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
 							parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
 							parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
 						AppendTo(output, "\t\tobj.add(edge);\n");

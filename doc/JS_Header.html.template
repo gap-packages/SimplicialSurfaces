@@ -265,9 +265,9 @@
 			return circle;
 		};
 
-		function Edge(length, posX, posY, posZ, rotX, rotY, rotZ, colour) {
+		function Edge(length, thickness, posX, posY, posZ, rotX, rotY, rotZ, colour) {
 			var segments = 360;
-			var cylGeo = new THREE.CylinderGeometry(0.01, 0.01, length, segments, 1, true);
+			var cylGeo = new THREE.CylinderGeometry(thickness, thickness, length, segments, 1, true);
 			var cylRed = new THREE.MeshBasicMaterial( {color: colour} );
 			var cylinder = new THREE.Mesh( cylGeo, cylRed );
 			cylinder.position.x = posX;
