@@ -133,7 +133,20 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #! Given a polygonal complex, return the polygonal morphism that
 #! sends this complex to itself (the identity morphism).
 #!
-#! TODO example
+#! As an example, consider the tetrahedron:
+#! <Alt Only="TikZ">
+#!   \include{_TIKZ_Tetrahedron_constructor}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> id := PolygonalIdentityMorphism(tetra);;
+#! gap> VertexMapAsImageList(id);
+#! [ 1, 2, 3, 4 ]
+#! gap> EdgeMapAsImageList(id);
+#! [ 1, 2, 3, 4, 5, 6 ]
+#! gap> FaceMapAsImageList(id);
+#! [ 1, 2, 3, 4 ]
+#! @EndExampleSession
 #!
 #! @Returns a polygonal mapping
 #! @Arguments complex
