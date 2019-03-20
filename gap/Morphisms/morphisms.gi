@@ -738,7 +738,7 @@ InstallMethod( FaceMapAsImageList,
 
 InstallMethod( VEFLabelMapAsImageList,
     "for a polygonal morphism with SourceComplex, RangeComplex, VertexMapAsImageList, EdgeMapAsImageList and FaceMapAsImageList",
-    [IsPolygonalMorphism and HasSourceSurface and HasRangeComplex and HasVertexMapAsImageList and HasEdgeMapAsImageList and HasFaceMapAsImageList],
+    [IsPolygonalMorphism and HasSourceComplex and HasRangeComplex and HasVertexMapAsImageList and HasEdgeMapAsImageList and HasFaceMapAsImageList],
     function(polMor)
         local vefMap, v, e, f, source, range, im;
 

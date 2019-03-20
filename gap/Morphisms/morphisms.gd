@@ -819,6 +819,23 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #!
 #! This section contains the ingredients within a polygonal morphism.
 #! TODO
+#! We will illustrate them on the following polygonal morphism (on the
+#! sides are the VEF-labels):
+#! <Alt Only="TikZ">
+#!   \input{Image_PolygonalMorphism_Strip.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> source := PolygonalSurfaceByDownwardIncidence( 
+#! >      [[1,2],[2,3],[3,4],,[1,6],,[2,7],[3,7],[4,7],,,[6,7]],
+#! >      [,[1,7,12,5],[2,7,8],[3,8,9]]);;
+#! gap> range := PolygonalSurfaceByDownwardIncidence(
+#! >      [[1,2],[2,3],,[1,5],[2,5],,[3,6],[3,7],,,[5,6],[6,7]],
+#! >      [[1,4,5],[2,5,11,7],[7,8,12]]);;
+#! gap> polMor := PolygonalMorphismByLists(source,range,
+#! >      [5,6,7,6,,2,3], [11,12,12,,5,,7,8,7,,,2], [,2,3,3]);;
+#! @EndExampleSession
+#! 
+#!TODO We need a constructor PolygonalMorphismByVertexImages
 
 
 #! @BeginGroup SourceComplex
@@ -863,7 +880,15 @@ DeclareAttribute( "RangeSurface", IsGeneralPolygonalMorphism );
 #! the polygonal morphism <A>polMor</A>. All other list entries are
 #! not bound.
 #!
-#! TODO example
+#! We illustrate this on the polygonal morphism from the start of
+#! section <Ref Sect="Section_Morphisms_Components"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_PolygonalMorphism_Strip.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> VertexMapAsImageList(polMor);
+#! [ 5, 6, 7, 6,, 2, 3 ]
+#! @EndExampleSession
 #!
 #! @Returns a list
 #! @Arguments polMor
@@ -879,7 +904,15 @@ DeclareAttribute( "VertexMapAsImageList", IsPolygonalMorphism );
 #! the polygonal morphism <A>polMor</A>. All other list entries are
 #! not bound.
 #!
-#! TODO example
+#! We illustrate this on the polygonal morphism from the start of
+#! section <Ref Sect="Section_Morphisms_Components"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_PolygonalMorphism_Strip.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> EdgeMapAsImageList(polMor);
+#! [ 11, 12, 12,, 5,, 7, 8, 7,,, 2 ]
+#! @EndExampleSession
 #!
 #! @Returns a list
 #! @Arguments polMor
@@ -895,7 +928,15 @@ DeclareAttribute( "EdgeMapAsImageList", IsPolygonalMorphism );
 #! the polygonal morphism <A>polMor</A>. All other list entries are
 #! not bound.
 #!
-#! TODO example
+#! We illustrate this on the polygonal morphism from the start of
+#! section <Ref Sect="Section_Morphisms_Components"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_PolygonalMorphism_Strip.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> FaceMapAsImageList(polMor);
+#! [ , 2, 3, 3 ]
+#! @EndExampleSession
 #!
 #! @Returns a list
 #! @Arguments polMor
@@ -911,7 +952,17 @@ DeclareAttribute( "FaceMapAsImageList", IsPolygonalMorphism );
 #! <A>vefMap</A>, such that <A>vefMap[x]</A> is the image of
 #! the VEF-label <A>x</A>. All other list entries are not bound.
 #!
-#! TODO example
+#! We illustrate this on the polygonal morphism from the start of
+#! section <Ref Sect="Section_Morphisms_Components"/> (the VEF-labels
+#! are drawn on the sides).
+#! <Alt Only="TikZ">
+#!   \def\vefOn{1}
+#!   \input{Image_PolygonalMorphism_Strip.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> VEFLabelMapAsImageList(polMor);
+#! [ 5, 6, 7, 6,, 2, 3, 18, 19, 19,, 12,, 14, 15, 14,,, 9,, 21, 22, 22 ]
+#! @EndExampleSession
 #!
 #! @Returns a list
 #! @Arguments polMor
