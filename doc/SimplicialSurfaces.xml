@@ -31,6 +31,7 @@
     <#Include SYSTEM "_Chapter_Paths.xml">
     <#Include SYSTEM "_Chapter_Properties.xml">
     <#Include SYSTEM "_Chapter_Navigation.xml">
+    <#Include SYSTEM "_Chapter_Distances.xml">
     <#Include SYSTEM "_Chapter_Modification.xml">
     <#Include SYSTEM "_Chapter_Library.xml">
     <#Include SYSTEM "_Chapter_Graphs.xml">
