@@ -1,75 +1,33 @@
 
 
 #! @Chapter Distances
+#! @ChapterLabel Distances
 
-#! In this first section we will introduce some methods to compute distances of vertices and faces in polygonal complexes. Although the two concepts are very similar to each other, we will look at them in different sections, to make the explanations more readable and do not let the examples become too long.
+#! This chapter introduces methods to compute distances between vertices () and faces () of a polygonal complex.
+#! Although the two concepts are very similar to each other, they will be treated in different sections, to make the explanations more readable and do not let the examples become too long.
 #! 
-#! First we will have a look at distances between vertices in a polygonal complex. The distance of two vertices is measured by the length of a shortest vertex-edge-path between these vertices. In other words we we can look at polygonal complexes as labeled graphs, where every edge has length one.
+#! In section <Ref Sect="Section_Distances_Vertices"/> distances between vertices in a polygonal complex are defined. A definition for distances between faces can be found in section <Ref Sect="Section_Distances_Faces"/>.
 #! 
-#! Secondly we study the distance concept for faces in a polygonal complexes. Analogously, we define the **distance** of two faces as the length of a shortest face-edge-path between these two faces.
 #! 
-#! Most of our examples are platonic solids. They are already sufficiently complex to illustrate the methods, while remaining conceptually simple to make it easy to follow manipulations on them.
+#! Most of the examples are platonic solids. They are already sufficiently complex to illustrate the methods, while remaining conceptually simple to make it easy to follow manipulations on them.
 
-#! @Section Calculating the distance between vertices 
+#! @Section Calculating the distance between vertices
+#! @SectionLabel Distances_Vertices
 
-#! Before we come to the announced methods for distance-calculations we first look at a method, which is the basis of distance-calculations on polygonal complexes and gives us an idea about what we want to attain within this paper, i.e. constructing **sub-complex** of polygonal complexes, whose vertices/faces have a limited (given) distance to each other.
 
+#! This section contains the methods to compute distances between vertices in a polygonal complex (). It also contains methods building on the distance calculation, for example to construct neighbourhoods of vertices ().
 
-#! @BeginGroup NeighbourVerticesOfVertex
-
-#! @Description
-
-#!The output will be a list of all vertices of the polygonal complex <A>polygonalComplex</A>, which are connected to <A>vertex</A> by an edge, i.e. all neighbour-vertices of the vertex <A>vertex</A>.
-#!
-#! The NC-Version does **not** check whether the vertex <A>vertex</A> is part of the given polygonal complex <A>polygonalComplex</A>. If this is not the case for a call to <K>NeighbourVerticesOfVertex</K>, then an error will be raised.
-#!
-#! @ExampleSession
-#! gap> cube := Cube();;
-#! gap> NeighbourVerticesOfVertex(cube,3);
-#! [ 2, 4, 7 ]
-#! gap> NeighbourVerticesOfVertex(cube,8);
-#! [ 4, 7, 5 ]
-#! gap> NeighbourVerticesOfVertex(cube,9);
-#! Error, The vertex 9 does not lie in the given complex.
-#! @EndExampleSession
-
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Cube_picture.pdf}
-#! \end{center}
-#! </Alt>
-
-#! @ExampleSession
-#! gap> tet:=Tetrahedron();;
-#! gap> NeighbourVerticesOfVertex(tet,1);
-#! [ 2, 3, 4 ]
-#! @EndExampleSession
-#!
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Tetrahedron_picture.pdf}
-#! \end{center}
-#! </Alt>
-#!
-#! @Arguments polygonalComplex, vertex
-#! @Returns a list of positive integers.
-DeclareOperation( "NeighbourVerticesOfVertex", [IsPolygonalComplex, IsPosInt] );
-#!
-#! @Arguments polygonalComplex, vertex
-#! @Returns a list of positive integers.
-DeclareOperation( "NeighbourVerticesOfVertexNC", [IsPolygonalComplex, IsPosInt] );
-#! @EndGroup
 
 
 #! @BeginGroup DistanceOfVertices
 
 #! @Description
-#! The method computes the distance of two vertices in a polygonal complex by determining the length of a minimal vertex-edge-path between the given two vertices ( where every edge is of length 1).
+#! This method computes the distance of two vertices in a polygonal complex by determining the length of a minimal vertex-edge-path <Ref Sect="Section_Paths_VertexEdge"/> between the given two vertices ( The length is the number of edges).
 #! 
-#! If there does not exist any vertex-edge-path between <A>vertex1</A> and <A>vertex2</A>, which means that the vertices are located in different connected components of <A>polygonalComplex</A>, a -1 will be returned.
-#! If the vertices are the same, their distance is defined as 0.
+#! If there does not exist any vertex-edge-path between <A>vertex1</A> and <A>vertex2</A>, which means that the vertices are located in different connected components of <A>polygonalComplex</A>, -1 will be returned.
+#! If the vertices are identical, their distance is defined as 0.
 #! 
-#! The NC-Version <K>DistanceOfVerticesNC</K> does **not** check whether the two given vertices are part of the polygonal complex <A>polygonalComplex</A>. If that is not true for a call to <K>DistanceOfVertices</K>, an error will be raised.
+#! The NC-Version does not check whether <A>vertex1</A> and <A>vertex2</A> are vertices of <A>polygonalComplex</A>.
 #!
 #! @ExampleSession
 #! gap> cube := Cube();;
@@ -94,29 +52,113 @@ DeclareOperation( "NeighbourVerticesOfVertexNC", [IsPolygonalComplex, IsPosInt] 
 #! \end{center}
 #! </Alt>
 #!
-#! @Arguments polygonalComplex, vertex1, vertex2
 #! @Returns a non-negative integer, or -1.
+#! @Arguments polygonalComplex, vertex1, vertex2
 DeclareOperation( "DistanceOfVertices", [ IsPolygonalComplex, IsPosInt, IsPosInt ] );
-#! @Arguments polygonalComplex, vertex1, vertex2
-#! @Returns a non-negative integer, or -1.
 DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt] );
 #! @EndGroup
 
+#! @BeginGroup NeighbourVerticesOfVertex
+
+#! @Description
+
+#! Given a polygonal complex <A>polygonalComplex</A> and a vertex, this method return a list of all vertices of <A>polygonalComplex</A>, which are connected to <A>vertex</A> by an edge, i.e. all neighbour-vertices of <A>vertex</A>.
+#!
+#! The NC-Version does not check whether <A>vertex</A> is a vertex of <A>polygonalComplex</A>.
+#!
+#! @ExampleSession
+#! gap> cube := Cube();;
+#! gap> NeighbourVerticesOfVertex(cube,3);
+#! [ 2, 4, 7 ]
+#! gap> NeighbourVerticesOfVertex(cube,8);
+#! [ 4, 7, 5 ]
+#! gap> NeighbourVerticesOfVertex(cube,9);
+#! Error, The vertex 9 does not lie in the given complex.
+#! @EndExampleSession
+
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{Cube_picture.pdf}
+# \input{_TIKZ_Cube_constructor.tex}
+#! \end{center}
+#! </Alt>
+
+#! @ExampleSession
+#! gap> tet:=Tetrahedron();;
+#! gap> NeighbourVerticesOfVertex(tet,1);
+#! [ 2, 3, 4 ]
+#! @EndExampleSession
+#!
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{Tetrahedron_picture.pdf}
+#! \end{center}
+#! </Alt>
+#!
+#! @Returns a list of positive integers
+#! @Arguments polygonalComplex, vertex
+DeclareOperation( "NeighbourVerticesOfVertex", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments polygonalComplex, vertex
+DeclareOperation( "NeighbourVerticesOfVertexNC", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
 
 #! @Section Calculating the distance between faces
-#! Analogously to section 1.1, we now look at the distance-concept for faces.
-#! 
-#! Therefore we will first consider a method which gives us the immediate neighbour-faces of a face in a polygonal complex.
-#! 
-#! Secondly we will introduce the concept of distances between faces and how to compute them.
+#! @SectionLabel Distances_Faces
 
+#! Analogously to section <Ref Sect="Section_Distances_Vertices"/>, distance-concept for faces will be treated.
+
+#! @BeginGroup DistanceOfFaces
+
+#! @Description
+#! This method computes the distance of two faces in a polygonal complex, by determining the length of a minimal face-edge-path <Ref Sect="Section_Paths_EdgeFace"/> between the given two faces (The length is the number of edges).
+#! If there does not exist any face-edge-path between <A>face1</A> and <A>face2</A>, which means that the faces are located in different connected components of <A>polygonalComplex</A>, -1 will be returned.
+#! If <A>face1</A> and <A>face2</A> are identical, their distance is defined as 0.
+#! 
+#! The NC-Version does not check whether <A>face1</A> and <A>face2</A> are faces of <A>polygonalComplex</A>.
+#!
+#! @ExampleSession
+#! gap> cube := Cube();;
+#! gap> DistanceOfFaces(cube,1,6);
+#! 2
+#! gap> DistanceOfFaces(cube,1,5);
+#! 1
+#! gap> DistanceOfFaces(cube,1,1);
+#! 0
+#! @EndExampleSession
+
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{Cube_picture.pdf}
+#! \end{center}
+#! </Alt>
+
+#! @ExampleSession
+#! gap> TwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],
+#! > [2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;
+#! gap> DistanceOfFaces(TwoDisjointTriangles,1,3);
+#! Error, At least one of the faces 1 and 3 does not lie in the given complex.
+#! gap> DistanceOfFaces(TwoDisjointTriangles,1,2);
+#! -1
+#! @EndExampleSession
+#!
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{TwoDisjointTriangles_picture.pdf}
+#! \end{center}
+#! </Alt>
+#!
+#! @Returns a non-negative integer, or -1.
+#! @Arguments polygonalComplex, face1, face2
+DeclareOperation( "DistanceOfFaces", [ IsPolygonalComplex, IsPosInt, IsPosInt ] );
+DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt] );
+#! @EndGroup
 
 #! @BeginGroup NeighbourFacesOfFace
 
 #! @Description
-#! The method <K>NeighbourFacesOfFace</K> computes the list of all faces of <A>polygonalComplex</A>, which share an edge with the face <A>face</A>. So the function gives us all neighbour-faces of the face <A>face</A>.
+#! This method computes the list of all faces of <A>polygonalComplex</A>, which share an edge with <A>face</A>.
 #! 
-#! The NC-Version does **not** check whether the face <A>face</A> is part of the given polygonal complex <A>polygonalComplex</A>. If this condition does not hold for a call to <K>NeighbourFacesOfFace</K> an error will be raised.
+#! The NC-Version does not check whether <A>face</A> is a face of <A>polygonalComplex</A>.
 
 #!
 #! @ExampleSession
@@ -161,81 +203,29 @@ DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosI
 #! \end{center}
 #! </Alt>
 
-
-#! @Arguments polygonalComplex, face
 #! @Returns a list of positive integers
-DeclareOperation( "NeighbourFacesOfFace", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments polygonalComplex, face
-#! @Returns a list of positive integers.
+
+DeclareOperation( "NeighbourFacesOfFace", [IsPolygonalComplex, IsPosInt] );
 DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 
 #! @EndGroup
 
-
-#! @BeginGroup DistanceOfFaces
-
-#! @Description
-#! This function computes the distance of two faces in a polygonal complex, by determining the length of a minimal face-edge-path between the given two faces. Every edge has length 1.
-#! If there does not exist any face-edge-path between <A>face1</A> and <A>face2</A>, which means that the faces are located in different connected-components of <A>polygonalComplex</A>, a -1 will be returned.
-#! If the faces <A>face1</A> and <A>face2</A> are the same, their distance is defined as 0.
-#! 
-#! The NC-Version <K>DistanceOfFacesNC</K> does **not** check whether the two given faces are part of the polygonal complex <A>polygonalComplex</A>. If they are not, then a call to <K>DistanceOfFaces</K> will lead to an error.
-#!
-#! @ExampleSession
-#! gap> cube := Cube();;
-#! gap> DistanceOfFaces(cube,1,6);
-#! 2
-#! gap> DistanceOfFaces(cube,1,5);
-#! 1
-#! gap> DistanceOfFaces(cube,1,1);
-#! 0
-#! @EndExampleSession
-
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Cube_picture.pdf}
-#! \end{center}
-#! </Alt>
-
-#! @ExampleSession
-#! gap> TwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],
-#! > [2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;
-#! gap> DistanceOfFaces(TwoDisjointTriangles,1,3);
-#! Error, At least one of the faces 1 and 3 does not lie in the given complex.
-#! gap> DistanceOfFaces(TwoDisjointTriangles,1,2);
-#! -1
-#! @EndExampleSession
-#!
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{TwoDisjointTriangles_picture.pdf}
-#! \end{center}
-#! </Alt>
-#!
-#! @Arguments polygonalComplex, face1, face2
-#! @Returns a non-negative integer, or -1.
-DeclareOperation( "DistanceOfFaces", [ IsPolygonalComplex, IsPosInt, IsPosInt ] );
-#! @Arguments polygonalComplex, face1, face2
-#! @Returns a non-negative integer, or -1.
-DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt] );
-
-#! @EndGroup
-
 #! @Section Restricting polygonal complexes
+#! @SectionLabel Restriction_Neighbourhoods
 
-#! In this section we will introduce methods to restrict polygonal complexes to sub-complexes. To be precise, we want to do the following: Given a polygonal complex, a distance, and some given faces (or given vertices) of the polygonal complex, we want to compute a new polygonal complex, where every face (resp. vertex) has distance at most given <A>distance</A> to one of the given faces (resp. given vertices)
+#! In this section introduces methods to restrict polygonal complexes to sub-complexes. It contains the following methods: 
+#! + Given a polygonal complex, a distance, and some faces of the polygonal complex, compute a new polygonal complex, where every face has distance at most given <A>dist</A> to one of the given faces
+#! + Given a polygonal complex, a distance, and some vertices of the polygonal complex, compute a new polygonal complex, where every vertex has distance at most given <A>dist</A> to one of the given vertices.
 #! 
-#! 
-
-#! We begin with the restriction of polygonal complexes to neighbourhoods of faces.
 
 #! @BeginGroup RestrictionToNeighbourhoodOfFaces
 
 
 #! @Description
-#! This method restricts a polygonal complex to a neighbourhood of given faces, i.e. all faces, that have distance of at most given <A>distance</A> to one of the given 'starting-faces'. The distance of two faces is measured as the length of a minimal face-edge-path between these faces.
+#! Given a polygonal complex and a list of faces <A>listOfFaces</A>, this method restricts <A>polygonalComplex</A> to a neighbourhood of these faces, defined by dist. It is constructed from all faces, that have distance at most <A>dist</A> to one of the faces in <A>listOfFaces</A>. The distance of two faces is measured by the length of a minimal face-edge-path between these faces.
 #! 
-#! The NC-Version does **not** check whether the given faces lie in the polygonal complex, and if the given distance <A>distance</A> is a positive integer. If one these conditions does not hold for a call to <K>RestrictionToNeighbourhoodOfFaces</K>, an error will be raised.
+#! The NC-Version does not check whether the given faces lie in the polygonal complex.
 #!
 #! @ExampleSession
 #! gap> cube := Cube();;
@@ -267,7 +257,7 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! \end{center}
 #! </Alt>
 
-#! We can see that **restrSurf** is a cube, where one face (face 6) is missing.
+#! It is easy to see that **restrSurf** is a cube, where one face (face 6) is missing.
 
 #! @ExampleSession
 #! gap> ico := Icosahedron();;
@@ -296,29 +286,25 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! \end{center}
 #! </Alt>
 #!
-#! @Arguments polygonalComplex, distance, listOfFaces
 #! @Returns a polygonal complex
+#! @Arguments polygonalComplex, dist, listOfFaces
+
 DeclareOperation( "RestrictionToNeighbourhoodOfFaces", [ IsPolygonalComplex, IsPosInt, IsList ] );
-#! @Arguments polygonalComplex, distance, listOfFaces
-#! @Returns a polygonal complex
 DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsList ] );
 
 #! @EndGroup
 
 
-
-#! The following method restricts a triangular complex to a sub-complex.
-#! 
 #! @BeginGroup RestrictionToNeighbourhoodOfVertices
 
 #! @Description
 
-#! This method restricts a polygonal complex, whose faces are all of triangular type (i.e. a triangular complex), to a sub-complex. This sub-complex contains of:
-#! * all vertices, that have distance of at most given <A>distance</A> to one of the given vertices (the of two vertices is measured by the length of a minimal vertex-edge-path between these vertices),
-#! * all edges, that connect two included vertices, and
-#! * all faces, for which holds, that all incident edges and vertices are part of the sub-complex.
+#! This method restricts a triangular complex to a sub-complex. This sub-complex consists of:
+#! * all vertices that have distance at most <A>dist</A> to one of the given vertices in <A>listOfVertices</A>, where distance is measured as in DistanceOfVertices () <Ref Section="Sect_Distances_Vertices"/>.
+#! * all edges that connect two included vertices, and
+#! * all faces whose incident edges and vertices are included.
 #! 
-#! The NC-Version does **not** check whether the given vertices lie in the triangular complex, and if the given <A>distance</A> is a positive integer. If one of these conditions does not hold for a call to <K>RestrictionToNeighbourhoodOfVertices</K>, an error will be raised.
+#! The NC-Version does not check whether <A>listOfVertices</A> is a list of vertices of <A>triangularComplex</A>.
 
 #! @ExampleSession
 #! gap> octa := Octahedron();;
@@ -393,18 +379,16 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! true
 #! @EndExampleSession
 
-#! @Arguments triangularComplex, distance, listOfVertices
 #! @Returns a triangular complex
+#! @Arguments triangularComplex, dist, listOfVertices
+
 DeclareOperation( "RestrictionToNeighbourhoodOfVertices", [ IsTriangularComplex, IsPosInt, IsList ] );
-#! @Arguments triangularComplex, distance, listOfVertices
-#! @Returns a triangular complex
 DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComplex, IsPosInt, IsList ] );
 
 #! @EndGroup
 
-#!
-#!
-#! The method <K>RestrictionToNeighbourhoodOfVertices</K> is only defined for triangular complexes. We see the reason easily when looking at a small example: Consider a square.
+
+#! The method <K>RestrictionToNeighbourhoodOfVertices</K> is only defined for triangular complexes. The reason can be seen easily when looking at a small example: Consider a square.
 
 #! @ExampleSession
 #! gap> MySquare := PolygonalSurfaceByDownwardIncidence([[1,2],
@@ -417,12 +401,13 @@ DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComple
 #! \end{center}
 #! </Alt>
 
-#! When we want to restrict the square to a neighbourhood of the vertex 1 with maximal distance 1, the vertices 2 and 4 need to lie in the polygonal complex. Unfortunately, vertex 3 does not lie in the restriction, so face 1 can not be part of the restriction and so the vertices 2 and 4 are not incident to any face in the restricted polygonal complex, which is not possible.
+#! When restricting the square to a neighbourhood of the vertex 1 with maximal distance 1, the vertices 2 and 4 need to lie in the polygonal complex. Unfortunately, vertex 3 does not lie in the restriction, so face 1 can not be part of the restriction and so the vertices 2 and 4 are not incident to any face in the restricted polygonal complex, which is not possible.
 
 #! @Section Application of distance-calculations
+#! @SectionLabel Distance_Vertices_Application
 
 
-#! In this section we will have a look at some application for the method <K>DistanceOfVertices</K> on polygonal complexes. Therefore we can see polygonal complexes as graphs where the vertices are the nodes and the edges are the edges of the graph. We put our attention on the eccentricity of a vertex, the diameter, the radius and the center of a polygonal complex. For our examples we will look at the following polygonal complexes:
+#! This section contains some application for the method <K>DistanceOfVertices</K> on polygonal complexes. Therefore polygonal complexes can be treated as graphs where the vertices are the nodes and the edges are the edges of the graph. The presented methods compute the eccentricity of a vertex, the diameter, the radius and the center of a polygonal complex. In the examples the following polygonal complexes are used:
 
 #! @ExampleSession
 #! gap> Bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],
@@ -445,9 +430,9 @@ DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComple
 
 #! @BeginGroup EccentricityOfVertex
 #! @Description
-#! The method computes the **eccentricity** of a vertex in a polygonal complex. The eccentricity of a vertex is defined by the maximal distance the vertex <A>vertex</A> has to any other vertex in the polygonal complex. If some vertices have infinite distance to each other, then the eccentricity is definded as -1.
+#! This method computes the **eccentricity** of a vertex in a polygonal complex. The eccentricity of a vertex is the maximal distance <A>vertex</A> has to any other vertex in the polygonal complex. If some vertices have infinite distance to each other, then the eccentricity is defined as -1.
 #!
-#!The NC-Version does not check, whether the given vertex lies in the polygonal complex.
+#!The NC-Version does not check whether the given vertex lies in the polygonal complex.
 #! @ExampleSession
 #! gap> Bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],
 #! > [3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],
@@ -461,18 +446,18 @@ DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComple
 #! gap> EccentricityOfVertex(TwoDisjointTriangles,1);
 #! -1
 #! @EndExampleSession
+
+#! @Returns a non-negative integer or -1
 #! @Arguments  polygonalComplex,vertex
-#! @Returns a non negative integer or -1
+
 DeclareOperation( "EccentricityOfVertex", [ IsPolygonalComplex, IsPosInt ] );
-#! @Arguments  polygonalComplex,vertex
-#! @Returns a non negative integer or -1
 DeclareOperation( "EccentricityOfVertexNC", [ IsPolygonalComplex, IsPosInt ] );
 
 #! @EndGroup
 
 #! @Description
-#! The method computes the **diameter** of a polygonal complex. The diameter of a polygonal complex is defined as the maximal distance of any two vertices in the polygonal complex.
-#! If some vertices have infinite distance to each other (that is when the eccentricity of one vertex(and such all vertices) is -1, then the diameter is definded as -1, too.
+#! This method computes the **diameter** of a polygonal complex. The diameter of a polygonal complex is the maximal distance of any two vertices in the polygonal complex.
+#! If some vertices have infinite distance to each other (that is when the eccentricity of one vertex is -1, then the diameter is defined as -1, too.
 #! @ExampleSession
 #! gap> Bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],
 #! > [3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],
@@ -484,13 +469,15 @@ DeclareOperation( "EccentricityOfVertexNC", [ IsPolygonalComplex, IsPosInt ] );
 #! gap> DiameterOfPolygonalComplex(TwoDisjointTriangles);
 #! -1
 #! @EndExampleSession
+
+#! @Returns a non-negative integer or -1
 #! @Arguments  polygonalComplex
-#! @Returns a non negative integer or -1
-DeclareOperation( "DiameterOfPolygonalComplex", [ IsPolygonalComplex ] );
+
+DeclareAttribute( "DiameterOfPolygonalComplex", IsPolygonalComplex );
 
 #! @Description
-#! The method computes the **radius** of a polygonal complex. The radius is defined by the minimal eccentricity of all vertices in the polygonal complex.
-#! If some vertices have infinite distance to each other (that is when the eccentricity of one vertex(and such all vertices) is -1, then the radius is definded as -1, too.
+#! The method computes the **radius** of a polygonal complex. The radius is the minimal eccentricity of all vertices in the polygonal complex.
+#! If some vertices have infinite distance to each other (that is when the eccentricity of one vertex is -1), then the radius is definded as -1, too.
 #! @ExampleSession
 #! gap> Bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],
 #! > [3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],
@@ -502,13 +489,14 @@ DeclareOperation( "DiameterOfPolygonalComplex", [ IsPolygonalComplex ] );
 #! gap> RadiusOfPolygonalComplex(TwoDisjointTriangles);
 #! -1
 #! @EndExampleSession
+
+#! @Returns a non-negative integer or -1
 #! @Arguments  polygonalComplex
-#! @Returns a non negative integer or -1
-DeclareOperation( "RadiusOfPolygonalComplex", [ 
-IsPolygonalComplex ] );
+
+DeclareAttribute( "RadiusOfPolygonalComplex", IsPolygonalComplex );
 
 #! @Description
-#! The method computes the **center** of a polygonal complex. The center of a polygonal complex is definded by the set of all vertices of <A>polygonalComplex</A>, whose eccentricity is equal to the radius of <A>polygonalComplex</A>.
+#! This method computes the **center** of a polygonal complex. The center of a polygonal complex is the set of all vertices of <A>polygonalComplex</A>, whose eccentricity is equal to the radius of <A>polygonalComplex</A>.
 #! If some vertices have infinite distance to each other, then the center is definded as the empty set [ ].
 #!
 #! @ExampleSession
@@ -522,10 +510,10 @@ IsPolygonalComplex ] );
 #! gap> CenterOfPolygonalComplex(TwoDisjointTriangles);
 #! [ ]
 #! @EndExampleSession
-#! @Arguments  polygonalComplex
-#! @Returns a set of positive integers or the empty set
-DeclareOperation( "CenterOfPolygonalComplex", [
-IsPolygonalComplex ] );
 
+#! @Returns a set of positive integers or the empty set
+#! @Arguments  polygonalComplex
+
+DeclareAttribute( "CenterOfPolygonalComplex", IsPolygonalComplex );
 
 
