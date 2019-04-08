@@ -3,7 +3,7 @@
 #! @Chapter Distances
 #! @ChapterLabel Distances
 
-#! This chapter introduces methods to compute distances between vertices () and faces () of a polygonal complex.
+#! This chapter introduces methods to compute distances between vertices <Ref Sect="Section_Access_LabelAccess"/> and faces <Ref Sect="Section_Access_LabelAccess"/> of a polygonal complex.
 #! Although the two concepts are very similar to each other, they will be treated in different sections, to make the explanations more readable and do not let the examples become too long.
 #! 
 #! In section <Ref Sect="Section_Distances_Vertices"/> distances between vertices in a polygonal complex are defined. A definition for distances between faces can be found in section <Ref Sect="Section_Distances_Faces"/>.
@@ -15,7 +15,7 @@
 #! @SectionLabel Distances_Vertices
 
 
-#! This section contains the methods to compute distances between vertices in a polygonal complex (). It also contains methods building on the distance calculation, for example to construct neighbourhoods of vertices ().
+#! This section contains the methods to compute distances between vertices in a polygonal complex <Ref Sect="PolygonalStructures_complex"/>. It also contains methods building on the distance calculation, for example to construct neighbourhoods of vertices <Ref Sect="Section_Restriction_Neighbourhoods"/>.
 
 
 
@@ -38,23 +38,20 @@
 #! gap> tet := Tetrahedron();;
 #! gap> DistanceOfVertices(tet,1,1);
 #! 0
-#! gap> TwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],
+#! gap> twoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],
 #! > [2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;
-#! gap> IsPolygonalComplex(TwoDisjointTriangles);
+#! gap> IsPolygonalComplex(twoDisjointTriangles);
 #! true
-#! gap> DistanceOfVertices(TwoDisjointTriangles,3,4);
+#! gap> DistanceOfVertices(twoDisjointTriangles,3,4);
 #! -1
 #! @EndExampleSession
 #!
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{TwoDisjointTriangles_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_TwoDisjointTriangles
 #!
 #! @Returns a non-negative integer, or -1.
 #! @Arguments polygonalComplex, vertex1, vertex2
 DeclareOperation( "DistanceOfVertices", [ IsPolygonalComplex, IsPosInt, IsPosInt ] );
+#! @Arguments polygonalComplex, vertex1, vertex2
 DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt] );
 #! @EndGroup
 
@@ -76,11 +73,8 @@ DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosI
 #! Error, The vertex 9 does not lie in the given complex.
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Cube_picture.pdf}
-# \input{_TIKZ_Cube_constructor.tex}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Cube_constructor.tex}
 #! </Alt>
 
 #! @ExampleSession
@@ -89,10 +83,8 @@ DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosI
 #! [ 2, 3, 4 ]
 #! @EndExampleSession
 #!
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Tetrahedron_picture.pdf}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Tetrahedron_constructor.tex}
 #! </Alt>
 #!
 #! @Returns a list of positive integers
@@ -126,10 +118,8 @@ DeclareOperation( "NeighbourVerticesOfVertexNC", [IsPolygonalComplex, IsPosInt] 
 #! 0
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Cube_picture.pdf}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Cube_constructor.tex}
 #! </Alt>
 
 #! @ExampleSession
@@ -141,15 +131,12 @@ DeclareOperation( "NeighbourVerticesOfVertexNC", [IsPolygonalComplex, IsPosInt] 
 #! -1
 #! @EndExampleSession
 #!
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{TwoDisjointTriangles_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_TwoDisjointTriangles
 #!
 #! @Returns a non-negative integer, or -1.
 #! @Arguments polygonalComplex, face1, face2
 DeclareOperation( "DistanceOfFaces", [ IsPolygonalComplex, IsPosInt, IsPosInt ] );
+#! @Arguments polygonalComplex, face1, face2
 DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt] );
 #! @EndGroup
 
@@ -169,10 +156,8 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! [ 1, 5, 2, 6 ]
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Cube_picture.pdf}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Cube_constructor.tex}
 #! </Alt>
 
 #! @ExampleSession
@@ -181,10 +166,8 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! [ 2, 4, 3 ]
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Tetrahedron_picture.pdf}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Tetrahedron_constructor.tex}
 #! </Alt>
 
 #! @ExampleSession
@@ -197,16 +180,13 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! @EndExampleSession
 #! 
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Triangle_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_Triangle
 
 #! @Returns a list of positive integers
 #! @Arguments polygonalComplex, face
 
 DeclareOperation( "NeighbourFacesOfFace", [IsPolygonalComplex, IsPosInt] );
+#! @Arguments polygonalComplex, face
 DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 
 #! @EndGroup
@@ -231,10 +211,8 @@ DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! gap> cube := Cube();;
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Cube_picture.pdf}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Cube_constructor.tex}
 #! </Alt>
 
 #! @ExampleSession
@@ -251,11 +229,7 @@ DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! [ 1, 2, 3, 4, 5, 6, 7, 8 ]
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{RestrictedCube_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_RestrSurf
 
 #! It is easy to see that **restrSurf** is a cube, where one face (face 6) is missing.
 
@@ -263,10 +237,8 @@ DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! gap> ico := Icosahedron();;
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Icosahedron_picture.pdf}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Icosahedron_constructor.tex}
 #! </Alt>
 
 #! @ExampleSession
@@ -280,16 +252,13 @@ DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! [ 1, 2, 3, 4, 5, 8, 9, 10, 13, 14 ]
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{NeueReihenfolgeRestrIco_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_RestrIco
 #!
 #! @Returns a polygonal complex
 #! @Arguments polygonalComplex, dist, listOfFaces
 
 DeclareOperation( "RestrictionToNeighbourhoodOfFaces", [ IsPolygonalComplex, IsPosInt, IsList ] );
+#! @Arguments polygonalComplex, dist, listOfFaces
 DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsList ] );
 
 #! @EndGroup
@@ -300,7 +269,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! @Description
 
 #! This method restricts a triangular complex to a sub-complex. This sub-complex consists of:
-#! * all vertices that have distance at most <A>dist</A> to one of the given vertices in <A>listOfVertices</A>, where distance is measured as in DistanceOfVertices () <Ref Section="Sect_Distances_Vertices"/>.
+#! * all vertices that have distance at most <A>dist</A> to one of the given vertices in <A>listOfVertices</A>, where distance is measured as in DistanceOfVertices <Ref Sect="Section_Distances_Vertices"/>.
 #! * all edges that connect two included vertices, and
 #! * all faces whose incident edges and vertices are included.
 #! 
@@ -310,10 +279,8 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! gap> octa := Octahedron();;
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Octahedron_picture.pdf}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Octahedron_constructor.tex}
 #! </Alt>
 
 #! @ExampleSession
@@ -329,20 +296,14 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! 
 #! @EndExampleSession
 #!
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{RestrictedOctahedron_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_RestrOcta
 
 #! @ExampleSession
 #! gap> ico := Icosahedron();;
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Icosahedron_picture.pdf}
-#! \end{center}
+#! <Alt Only = "TikZ">
+#! \input{_TIKZ_Icosahedron_constructor.tex}
 #! </Alt>
 
 #! @ExampleSession
@@ -353,11 +314,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! [ 2, 3, 7, 8, 12 ]
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{RestrictedIcosahedronByVerticesDistOne_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_RestrIcoOne
 
 #! @ExampleSession
 #! gap> restricoTwo := RestrictionToNeighbourhoodOfVertices(ico,2,[4]);;
@@ -367,11 +324,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 16, 17, 18 ]
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{RestrictedIcosahedronByVerticesDistTwo_picture_newordered.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_RestrIcoTwo
 
 #! @ExampleSession
 #! gap> tet := Tetrahedron();;
@@ -383,6 +336,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! @Arguments triangularComplex, dist, listOfVertices
 
 DeclareOperation( "RestrictionToNeighbourhoodOfVertices", [ IsTriangularComplex, IsPosInt, IsList ] );
+#! @Arguments triangularComplex, dist, listOfVertices
 DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComplex, IsPosInt, IsList ] );
 
 #! @EndGroup
@@ -395,11 +349,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComple
 #! > [2,3],[3,4],[4,1]],[[1,2,3,4]]);;
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Square_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_Square
 
 #! When restricting the square to a neighbourhood of the vertex 1 with maximal distance 1, the vertices 2 and 4 need to lie in the polygonal complex. Unfortunately, vertex 3 does not lie in the restriction, so face 1 can not be part of the restriction and so the vertices 2 and 4 are not incident to any face in the restricted polygonal complex, which is not possible.
 
@@ -417,16 +367,9 @@ DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComple
 #! > [2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;
 #! @EndExampleSession
 
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{Bat_picture.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{TwoDisjointTriangles_picture.pdf}
-#! \end{center}
-#! </Alt>
+#! @InsertChunk Example_Bat
+
+#! @InsertChunk Example_TwoDisjointTriangles
 
 #! @BeginGroup EccentricityOfVertex
 #! @Description
@@ -446,11 +389,10 @@ DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComple
 #! gap> EccentricityOfVertex(TwoDisjointTriangles,1);
 #! -1
 #! @EndExampleSession
-
 #! @Returns a non-negative integer or -1
 #! @Arguments  polygonalComplex,vertex
-
 DeclareOperation( "EccentricityOfVertex", [ IsPolygonalComplex, IsPosInt ] );
+#! @Arguments  polygonalComplex,vertex
 DeclareOperation( "EccentricityOfVertexNC", [ IsPolygonalComplex, IsPosInt ] );
 
 #! @EndGroup
@@ -469,10 +411,8 @@ DeclareOperation( "EccentricityOfVertexNC", [ IsPolygonalComplex, IsPosInt ] );
 #! gap> DiameterOfPolygonalComplex(TwoDisjointTriangles);
 #! -1
 #! @EndExampleSession
-
 #! @Returns a non-negative integer or -1
 #! @Arguments  polygonalComplex
-
 DeclareAttribute( "DiameterOfPolygonalComplex", IsPolygonalComplex );
 
 #! @Description
@@ -489,10 +429,8 @@ DeclareAttribute( "DiameterOfPolygonalComplex", IsPolygonalComplex );
 #! gap> RadiusOfPolygonalComplex(TwoDisjointTriangles);
 #! -1
 #! @EndExampleSession
-
 #! @Returns a non-negative integer or -1
 #! @Arguments  polygonalComplex
-
 DeclareAttribute( "RadiusOfPolygonalComplex", IsPolygonalComplex );
 
 #! @Description
@@ -510,10 +448,8 @@ DeclareAttribute( "RadiusOfPolygonalComplex", IsPolygonalComplex );
 #! gap> CenterOfPolygonalComplex(TwoDisjointTriangles);
 #! [ ]
 #! @EndExampleSession
-
 #! @Returns a set of positive integers or the empty set
 #! @Arguments  polygonalComplex
-
 DeclareAttribute( "CenterOfPolygonalComplex", IsPolygonalComplex );
 
 

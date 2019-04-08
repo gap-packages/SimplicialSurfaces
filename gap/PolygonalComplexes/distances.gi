@@ -109,7 +109,7 @@ InstallMethod( NeighbourFacesOfFaceNC,
         listOfNeighbourFaces:=[];
 
         for currentEdge in EdgesOfFaceNC(polygonalComplex,face) do
-            neighbourFaces := NeighbourFacesByEdgeNC(polygonalComplex,face,edge);
+            neighbourFaces := NeighbourFacesByEdgeNC(polygonalComplex,face,currentEdge);
             Append(listOfNeighbourFaces, neighbourFaces);
         od;
         listOfNeighbourFaces:=DuplicateFreeList(listOfNeighbourFaces);
