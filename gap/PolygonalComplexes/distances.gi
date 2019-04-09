@@ -3,7 +3,7 @@
 InstallMethod( NeighbourVerticesOfVertexNC,
     "for a polygonal complex and a positive integer",
     [IsPolygonalComplex,IsPosInt],
-	function(polygonalComplex,vertex)
+    function(polygonalComplex,vertex)
         local listOfNeighbourVertices,edge;
         listOfNeighbourVertices:=[];
         for edge in EdgesOfVertexNC(polygonalComplex,vertex) do
@@ -16,9 +16,9 @@ InstallMethod( NeighbourVerticesOfVertexNC,
 );
 
 InstallMethod( NeighbourVerticesOfVertex,
-	"for a polygonal complex and a positive integer",
-	[IsPolygonalComplex,IsPosInt],
-	function(polygonalComplex,vertex)
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex,IsPosInt],
+    function(polygonalComplex,vertex)
         __SIMPLICIAL_CheckVertex( polygonalComplex, vertex, "NeighbourVerticesOfVertex" );
         return NeighbourVerticesOfVertexNC(polygonalComplex,vertex);
     end
@@ -26,26 +26,22 @@ InstallMethod( NeighbourVerticesOfVertex,
 
 InstallMethod(DistanceOfVerticesNC,
     
-    # The NC-Version of DistanceOfVertices does not check wheter the given
-    # vertices vertex1 and vertex2 are vertices of the polygonal complex.
-    # So it expects its input to be correct ( in the above frame).
-    
     "for a polygonal complex and two positive integers",
-	[IsPolygonalComplex, IsPosInt, IsPosInt],
-	function(polygonalComplex, vertex1, vertex2)
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(polygonalComplex, vertex1, vertex2)
         local vertex,lastDistance,listOfLastAdded,listOfVisitedVertices,
         currentVertex,listOfLastAddedOld;
     
         # The algorithm searches for the vertex2 in circles around vertex1, by
         # pacing of all possible vertex-edge-paths in the polygonal complex.
-	
+        
         if(vertex1=vertex2) then
             return 0;
         fi;
         lastDistance:=0;
-	
+        
         listOfVisitedVertices:=[vertex1];
-	
+        
         listOfLastAdded:=[vertex1];
         
         while(not(listOfLastAdded=[])) do
@@ -81,18 +77,18 @@ InstallMethod(DistanceOfVerticesNC,
             od;
         od;
         return -1;
-	
+        
         # If all vertices, which are reachable with a vertex-edge-path beginning at
         # vertex1, are already visited, and vertex2 is not one of them, then the
         # distance is infinite are the method will return -1.
-	end
+    end
 );
 
 
 InstallMethod( DistanceOfVertices, 
-	"for a polygonal complex and two positive integers",
-	[IsPolygonalComplex, IsPosInt, IsPosInt],
-	function(polygonalComplex, vertex1, vertex2)
+    "for a polygonal complex and two positive integers",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(polygonalComplex, vertex1, vertex2)
         __SIMPLICIAL_CheckVertex( polygonalComplex, vertex1, "DistanceOfVertices" );
         __SIMPLICIAL_CheckVertex( polygonalComplex, vertex2, "DistanceOfVertices" );
         return DistanceOfVerticesNC(polygonalComplex, vertex1, vertex2);
@@ -102,9 +98,9 @@ InstallMethod( DistanceOfVertices,
 ##########################################################################################################################################################
 
 InstallMethod( NeighbourFacesOfFaceNC,
-	"for a polygonal complex and a positive integer",
-	[IsPolygonalComplex,IsPosInt],
-	function(polygonalComplex,face)
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex,IsPosInt],
+    function(polygonalComplex,face)
         local listOfNeighbourFaces,currentEdge,neighbourFaces;
         listOfNeighbourFaces:=[];
 
@@ -119,9 +115,9 @@ InstallMethod( NeighbourFacesOfFaceNC,
 
 
 InstallMethod( NeighbourFacesOfFace,
-	"for a polygonal complex and a positive integer",
-	[IsPolygonalComplex,IsPosInt],
-	function(polygonalComplex,face)
+    "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex,IsPosInt],
+    function(polygonalComplex,face)
          __SIMPLICIAL_CheckFace( polygonalComplex, face, "NeighbourFacesOfFace" );
     
         return NeighbourFacesOfFaceNC(polygonalComplex,face);
@@ -131,27 +127,27 @@ InstallMethod( NeighbourFacesOfFace,
 
 InstallMethod(DistanceOfFacesNC,
     "for a polygonal complex and two positive integers",
-	[IsPolygonalComplex, IsPosInt, IsPosInt],
-	function(polygonalComplex, face1, face2)
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(polygonalComplex, face1, face2)
         local face,lastDistance,listOfLastAdded,listOfVisitedFaces,
         currentFace,listOfLastAddedOld;
         
         # The algorithm searches for the face2 in circles around face1, by
         # pacing of all possible face-edge-paths in the polygonal complex.
-	
+        
         if(face1=face2) then
             return 0;
         fi;
         lastDistance:=0;
         listOfVisitedFaces:=[face1];
-	
+        
         # Because we start the search for face2 at face1, the face1 lies in
         # the middle of the scanned area.
-	
+        
         listOfLastAdded:=[face1];
-	
+        
         while(not(listOfLastAdded=[])) do
-	
+        
             # If there exists a shortest face-edge-path from face1 to face2,
             # this path will be extended by one edge in every step of this loop.
             # That means: If there is an iteration, in which no new edge is
@@ -186,17 +182,17 @@ InstallMethod(DistanceOfFacesNC,
             od;
         od;
         return -1;
-	
+        
         # If all faces, which are reachable with a face-edge-path beginning at
         # face1, are already visited, and face2 is not one of them, then the
         # distance is infinite and the method will return -1.
-	end
+    end
 );
 
 InstallMethod( DistanceOfFaces, 
-	"for a polygonal complex and two positive integers",
-	[IsPolygonalComplex, IsPosInt, IsPosInt],
-	function(polygonalComplex, face1, face2)
+    "for a polygonal complex and two positive integers",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(polygonalComplex, face1, face2)
         __SIMPLICIAL_CheckFace( polygonalComplex, face1, "DistanceOfFaces" );
         __SIMPLICIAL_CheckFace( polygonalComplex, face2, "DistanceOfFaces" );
         return DistanceOfFacesNC(polygonalComplex, face1, face2);
