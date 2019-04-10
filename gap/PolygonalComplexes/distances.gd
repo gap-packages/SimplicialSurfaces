@@ -7,7 +7,6 @@
 #! Although the two concepts are very similar to each other, they will be treated in different sections, to make the explanations more readable and do not let the examples become too long.
 #! 
 #! In section <Ref Sect="Section_Distances_Vertices"/>, distances between vertices in a polygonal complex are defined. A definition for distances between faces can be found in section <Ref Sect="Section_Distances_Faces"/>.
-#! RestrictionToNeighbourhoodOfFaces( cube, 2, [1,2,3])
 #! 
 #! Most of the examples are platonic solids. They are already sufficiently complex to illustrate the methods, while remaining conceptually simple to make it easy to follow manipulations on them.
 
@@ -15,14 +14,14 @@
 #! @SectionLabel Distances_Vertices
 
 
-#! This section contains the methods to compute distances between vertices in a polygonal complex <Ref Sect="PolygonalStructures_complex"/>. It also contains methods building on the distance calculation, for example to construct neighbourhoods of vertices <Ref Sect="Section_Restriction_Neighbourhoods"/>.
+#! This section contains the methods to compute distances between vertices in a polygonal complex <Ref Sect="PolygonalStructures_complex"/>. It also contains methods building on the distance calculation, for example to construct neighbourhoods of vertices (compare <Ref Sect="Section_Restriction_Neighbourhoods"/>).
 
 
 
 #! @BeginGroup DistanceOfVertices
 
 #! @Description
-#! This method computes the distance of two vertices in a polygonal complex by determining the length of a minimal vertex-edge-path <Ref Sect="Section_Paths_VertexEdge"/> between the given two vertices ( The length is the number of edges).
+#! This method computes the distance of two vertices in a polygonal complex (<Ref Sect="PolygonalStructures_complex"/>) by determining the length of a minimal vertex-edge-path (<Ref Sect="Section_Paths_VertexEdge"/>) between the given two vertices ( the length is the number of edges).
 #! 
 #! If there does not exist any vertex-edge-path between <A>vertex1</A> and <A>vertex2</A>, which means that the vertices are located in different connected components of <A>polygonalComplex</A>, -1 will be returned.
 #! If the vertices are identical, their distance is defined as 0.
@@ -107,7 +106,7 @@ DeclareOperation( "NeighbourVerticesOfVertexNC", [IsPolygonalComplex, IsPosInt] 
 #! @BeginGroup DistanceOfFaces
 
 #! @Description
-#! This method computes the distance of two faces in a polygonal complex, by determining the length of a minimal face-edge-path <Ref Sect="Section_Paths_EdgeFace"/> between the given two faces (the length is the number of edges).
+#! This method computes the distance of two faces in a polygonal complex (<Ref Sect="PolygonalStructures_complex"/>), by determining the length of a minimal face-edge-path (<Ref Sect="Section_Paths_EdgeFace"/>) between the given two faces (the length is the number of edges).
 #! If there does not exist any face-edge-path between <A>face1</A> and <A>face2</A>, which means that the faces are located in different connected components of <A>polygonalComplex</A>, -1 will be returned.
 #! If <A>face1</A> and <A>face2</A> are identical, their distance is defined as 0.
 #! 
@@ -273,7 +272,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 
 #! @Description
 
-#! This method restricts a triangular complex to a sub-complex. This sub-complex consists of:
+#! This method restricts a triangular complex <Ref Subsect="IsTriangular"/> to a sub-complex. This sub-complex consists of:
 #! * all vertices that have distance at most <A>dist</A> to one of the given vertices in <A>listOfVertices</A>, where distance is measured as in DistanceOfVertices <Ref Sect="Section_Distances_Vertices"/>.
 #! * all edges that connect two included vertices, and
 #! * all faces whose incident edges and vertices are included.
@@ -356,7 +355,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComple
 #! @SectionLabel Distance_Vertices_Application
 
 
-#! This section contains some application for the method <K>DistanceOfVertices</K> (<Ref Subsect="DistanceOfVertices"/> on polygonal complexes. In the examples the following polygonal complexes are used:
+#! This section contains some application for the method <K>DistanceOfVertices</K> (<Ref Subsect="DistanceOfVertices"/>) on polygonal complexes. In the examples the following polygonal complexes are used:
 
 #! @ExampleSession
 #! gap> bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],
