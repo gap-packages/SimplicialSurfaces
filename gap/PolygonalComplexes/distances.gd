@@ -21,7 +21,7 @@
 #! @BeginGroup DistanceOfVertices
 
 #! @Description
-#! This method computes the distance of two vertices in a polygonal complex (<Ref Sect="PolygonalStructures_complex"/>) by determining the length of a minimal vertex-edge-path (<Ref Sect="Section_Paths_VertexEdge"/>) between the given two vertices ( the length is the number of edges).
+#! This method computes the distance of two vertices in a polygonal complex (<Ref Sect="PolygonalStructures_complex"/>) by determining the length of a minimal vertex-edge-path (<Ref Sect="Section_Paths_VertexEdge"/>) between the given two vertices (the length is the number of edges).
 #! 
 #! If there does not exist any vertex-edge-path between <A>vertex1</A> and <A>vertex2</A>, which means that the vertices are located in different connected components of <A>polygonalComplex</A>, -1 will be returned.
 #! If the vertices are identical, their distance is defined as 0.
@@ -57,6 +57,7 @@ DeclareOperation( "DistanceOfVertices", [ IsPolygonalComplex, IsPosInt, IsPosInt
 #! @Arguments polygonalComplex, vertex1, vertex2
 DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt] );
 #! @EndGroup
+
 
 #! @BeginGroup NeighbourVerticesOfVertex
 
@@ -273,7 +274,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! @Description
 
 #! This method restricts a triangular complex <Ref Subsect="IsTriangular"/> to a sub-complex. This sub-complex consists of:
-#! * all vertices that have distance at most <A>dist</A> to one of the given vertices in <A>listOfVertices</A>, where distance is measured as in DistanceOfVertices <Ref Sect="Section_Distances_Vertices"/>.
+#! * all vertices that have distance at most <A>dist</A> to one of the given vertices in <A>listOfVertices</A>, where distance is measured as in <K>DistanceOfVertices</K> (<Ref Sect="Section_Distances_Vertices"/>).
 #! * all edges that connect two included vertices, and
 #! * all faces whose incident edges and vertices are included.
 #! 
@@ -350,6 +351,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfVerticesNC", [ IsTriangularComple
 #! @InsertChunk Example_Square
 
 #! When restricting the square to a neighbourhood of the vertex 1 with maximal distance 1, the vertices 2 and 4 need to lie in the polygonal complex. Unfortunately, vertex 3 does not lie in the restriction, so face 1 can not be part of the restriction and so the vertices 2 and 4 are not incident to any face in the restricted polygonal complex, which is not possible.
+
 
 #! @Section Application of distance-calculations
 #! @SectionLabel Distance_Vertices_Application
