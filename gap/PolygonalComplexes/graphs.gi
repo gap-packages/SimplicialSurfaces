@@ -917,6 +917,8 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
         return [surf2, [inversefacemap, inverseedgemap, inversevertexmap]];
     end
 );
+RedispatchOnCondition( CanonicalRepresentativeOfPolygonalSurface, true, [IsPolygonalComplex], [IsPolygonalSurface], 0 );
+
 
 InstallMethod( AutomorphismGroupOnLocalFlags,
     "for a bend polygonal complex", [IsBendPolygonalComplex],
