@@ -327,6 +327,8 @@ InstallMethod(RestrictionToNeighbourhoodOfVerticesNC,
         return SubcomplexByFacesNC(triangularComplex,includedFaces);
     end
 );
+RedispatchOnCondition( RestrictionToNeighbourhoodOfVerticesNC, true, 
+    [IsPolygonalComplex,IsPosInt,IsList], [IsTriangularComplex], 0 );
 
 
 InstallMethod(RestrictionToNeighbourhoodOfVertices,
@@ -342,6 +344,8 @@ InstallMethod(RestrictionToNeighbourhoodOfVertices,
         return RestrictionToNeighbourhoodOfVerticesNC(triangularComplex,maxDist,startingVertices);
     end
 );
+RedispatchOnCondition( RestrictionToNeighbourhoodOfVertices, true, 
+    [IsPolygonalComplex,IsPosInt,IsList], [IsTriangularComplex], 0 );
 
 
 InstallMethod(EccentricityOfVertexNC,
