@@ -917,7 +917,10 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
         return [surf2, [inversefacemap, inverseedgemap, inversevertexmap]];
     end
 );
-RedispatchOnCondition( CanonicalRepresentativeOfPolygonalSurface, true, [IsPolygonalComplex], [IsPolygonalSurface], 0 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( CanonicalRepresentativeOfPolygonalSurface, true, 
+        [IsPolygonalComplex], [IsPolygonalSurface], 0 );
+fi;
 
 
 InstallMethod( AutomorphismGroupOnLocalFlags,
