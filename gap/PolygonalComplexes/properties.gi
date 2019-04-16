@@ -25,13 +25,27 @@ InstallMethod( EulerCharacteristic, "for a VEF-complex",
 InstallMethod( IsClosedSurface, "for a polygonal complex without edge ramifications",
     [IsPolygonalComplex and IsNotEdgeRamified],
     function( ramSurf )
-        return ForAll( List( FacesOfEdges(ramSurf), Length ), i -> i=2 );
+        local faces;
+
+        for faces in FacesOfEdges(ramSurf) do
+            if Length(faces) <> 2 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 InstallMethod( IsClosedSurface, "for a bend polygonal complex without edge ramifications",
     [IsBendPolygonalComplex and IsNotEdgeRamified],
     function( ramSurf )
-        return ForAll( List( LocalEdgesOfEdges(ramSurf), Length ), i -> i=2 );
+        local faces;
+
+        for faces in LocalEdgesOfEdges(ramSurf) do
+            if Length(faces) <> 2 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 InstallOtherMethod( IsClosedSurface, "for a VEF-complex",
