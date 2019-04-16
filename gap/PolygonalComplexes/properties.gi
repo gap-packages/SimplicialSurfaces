@@ -100,10 +100,29 @@ InstallMethod( FaceDegreeOfVertex, "for a VEF-complex and a vertex",
 InstallMethod( VertexCounter, "for a VEF-complex",
     [IsVEFComplex],
     function(complex)
-        local faceDegrees;
+        local faceDegrees, faces, deg, counter;
 
-        faceDegrees := List( FacesOfVertices(complex), Length );
-        return Collected( Compacted( faceDegrees ) );
+        faceDegrees := [];
+        for faces in FacesOfVertices(complex) do
+            deg := Length(faces);
+            if IsBound(faceDegrees[deg]) then
+                faceDegrees[deg] := faceDegrees[deg] + 1;
+            else
+                faceDegrees[deg] := 1;
+            fi;
+        od;
+
+        counter := [];
+        for deg in [1..Length(faceDegrees)] do
+            if IsBound(faceDegrees[deg]) then
+                Add(counter, [ deg, faceDegrees[deg] ]);
+            fi;
+        od;
+
+        return counter;
+
+        #faceDegrees := List( FacesOfVertices(complex), Length );
+        #return Collected( Compacted( faceDegrees ) );
     end
 );
 
