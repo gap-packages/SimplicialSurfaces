@@ -141,7 +141,7 @@ InstallMethod( FaceCounter, "for a VEF-complex",
 ##
 ##      Types of vertices
 ##
-InstallMethod( InnerVertices, "for a VEFcomplex",
+InstallMethod( InnerVertices, "for a VEF-complex",
     [IsVEFComplex],
     function(complex)
         local edgeFacePaths, res, v;
@@ -153,6 +153,21 @@ InstallMethod( InnerVertices, "for a VEFcomplex",
                 Add(res, v);
             fi;
         od;
+        return res;
+    end
+);
+InstallMethod( InnerVertices, "for a VEF-surface",
+    [IsVEFSurface],
+    function(surface)
+        local res, v;
+
+        res := [];
+        for v in VerticesAttributeOfVEFComplex(surface) do
+            if Length(EdgesOfVertices(surface)[v]) = Length(FacesOfVertices(surface)[v]) then
+                Add(res, v);
+            fi;
+        od;
+
         return res;
     end
 );
