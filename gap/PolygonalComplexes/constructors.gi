@@ -525,6 +525,32 @@ InstallMethod( Icosahedron, "", [], function()
     end
 );
 
+InstallMethod( SimplicialUmbrella, "for an integer at least 2", [IsPosInt],
+    function(nrFaces)
+        local verticesOfEdges, edgesOfFaces, i;
+
+        if nrFaces = 1 then
+            Error("SimplicialUmbrella: Argument has to be greater than 1.");
+        fi;
+
+        verticesOfEdges := [];
+        edgesOfFaces := [];
+        for i in [1..nrFaces-1] do
+            verticesOfEdges[i] := [i, nrFaces+1];
+            verticesOfEdges[nrFaces+i] := [i,i+1];
+
+            edgesOfFaces[i] := [i,i+1,nrFaces+i];
+        od;
+        verticesOfEdges[nrFaces] := [nrFaces, nrFaces+1];
+        verticesOfEdges[2*nrFaces] := [1, nrFaces];
+
+        edgesOfFaces[nrFaces] := [1,nrFaces, 2*nrFaces];
+
+        return SimplicialSurfaceByDownwardIncidenceNC([1..nrFaces+1], 
+            [1..2*nrFaces], [1..nrFaces], verticesOfEdges, edgesOfFaces);
+    end
+);
+
 
 
 

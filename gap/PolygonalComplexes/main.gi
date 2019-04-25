@@ -270,7 +270,7 @@ InstallMethod( ViewInformation, "for a polygonal complex",
 
         Add( strList, [Concatenation(String(NumberOfVertices(complex)), " vertices"), 1] );
         Add( strList, [", ", 0] );
-        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges "), 2] );
+        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges, "), 2] );
         Add( strList, ["and ", 0] );
         Add( strList, [Concatenation(String(NumberOfFaces(complex)), " faces"), 3] );
         Add( strList, [")", 0] );
