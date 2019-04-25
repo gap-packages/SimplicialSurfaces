@@ -914,7 +914,8 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
         # return the canonical form of the surface and
         # the bijections mapping the new elements to old, by element i in canonical surface
         # maps to inversemap[i] in the old surface.
-        return [surf2, [inversefacemap, inverseedgemap, inversevertexmap]];
+        return [surf2, PolygonalMorphismByListsNC(surf2, surf, 
+                    inversevertexmap, inverseedgemap, inversefacemap)];
     end
 );
 
