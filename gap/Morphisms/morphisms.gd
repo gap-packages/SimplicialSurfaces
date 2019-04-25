@@ -33,10 +33,40 @@
 #! <K>IsBijective</K>.
 #! <!-- The reference can be found at doc/ref/mapping.xml within GAP -->
 #!
-#! TODO: these maps can be represented as lists, or as mappings (in GAP)
-#! TODO: example with constructors for the two
-#!
-#! TODO a lot of introduction
+#! If the edges and faces of the polygonal complexes are uniquely defined
+#! by their vertices (which can be tested by <K>IsAnomalyFree</K>, compare
+#! <Ref Subsect="IsAnomalyFree"/>), the polygonal morphism can be defined
+#! by the vertex map (the more flexible constructor in 
+#! <Ref Subsect="PolygonalMorphismByLists"/> requires all three maps). 
+#! Consider the following example:
+#! @ExampleSession
+#! gap> source := PolygonalSurfaceByDownwardIncidence( 
+#! >      [[1,2],[2,3],[3,4],,[1,6],,[2,7],[3,7],[4,7],,,[6,7]],
+#! >      [,[1,7,12,5],[2,7,8],[3,8,9]]);;
+#! gap> range := PolygonalSurfaceByDownwardIncidence(
+#! >      [[1,2],[2,3],,[1,5],[2,5],,[3,6],[3,7],,,[5,6],[6,7]],
+#! >      [[1,4,5],[2,5,11,7],[7,8,12]]);;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_PolygonalMorphism_Strip.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> polMor := PolygonalMorphismByVertexImages(source,range, [5,6,7,6,,2,3]);
+#! <polygonal morphism>
+#! @EndExampleSession
+#! The most important aspect of a morphism is determining images and
+#! preimages of vertices, edges, and faces.
+#! @ExampleSession
+#! gap> ImageOfEdge(polMor, 12);
+#! 2
+#! gap> ImageOfFace(polMor, 4);
+#! 3
+#! gap> PreImagesOfEdge(polMor, 12);
+#! [ 2, 3 ]
+#! gap> PreImagesOfFace(polMor, 1);
+#! [  ]
+#! @EndExampleSession
+#! 
 
 #idea: polygonal morphisms are maps between sets: vertices+edges+faces, where edges
 # are shifted by MaxVertex and faces are shifted by MaxVertex+MaxEdge
@@ -53,7 +83,7 @@ DeclareSynonym("IsPolygonalMorphism", IsGeneralPolygonalMorphism and IsTotal and
 #! In this section, we give several different ways to construct morphisms
 #! from scratch.
 
-#! @BeginGroup
+#! @BeginGroup PolygonalMorphismByLists
 #! @Description
 #! Construct a polygonal morphism by three lists. The necessary arguments
 #! are
@@ -125,7 +155,7 @@ DeclareOperation( "PolygonalMorphismByListsNC",
     [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList] );
 #! @EndGroup
 
-#! @BeginGroup
+#! @BeginGroup PolygonalMorphismByVertexImages
 #! @Description
 #! Given two vertex-faithful (<Ref Subsect="IsAnomalyFree"/>)
 #! polygonal complexes and a map between their
