@@ -1,0 +1,55 @@
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+
+\newcommand{\setupCoord}{
+    \coordinate (Z) at (0,0);
+    \foreach \i in {1,...,6}{
+        \coordinate (A\i) at (162-72*\i:2.5);
+    }
+}
+
+
+\begin{scope}[shift={(-3.5,0)}]
+    \setupCoord
+
+    \draw[edge,face]
+        (Z) -- (A1) -- node[edgeLabel]{6} (A2) -- cycle
+        (Z) -- node[edgeLabel]{2} (A2) -- node[edgeLabel]{7} (A3) -- cycle
+        (Z) -- node[edgeLabel]{3} (A3) -- node[edgeLabel]{8} (A4) -- cycle
+        (Z) -- node[edgeLabel]{4} (A4) -- node[edgeLabel]{9} (A5) -- cycle
+        (Z) -- node[edgeLabel]{5} (A5) -- node[edgeLabel]{10} (A1) -- node[edgeLabel]{1} (Z);
+
+    \foreach \p/\r/\n in {1/above/2, 2/right/3, 3/below/4, 4/below/5, 5/left/6}{
+        \vertexLabelR{A\p}{\r}{\n}
+    }
+    \vertexLabelR{Z}{below}{1}
+
+    \foreach \i/\j/\n in {1/2/I, 2/3/II, 3/4/III, 4/5/IV, 5/6/V}{
+        \node[faceLabel] at (barycentric cs:A\i=1,A\j=1,Z=1) {$\n$};
+    }
+\end{scope}
+
+
+\node at (0,0) {$\rightarrow$};
+
+
+\begin{scope}[shift={(3.5,0)}]
+    \setupCoord
+
+    \draw[edge,face]
+        (Z) -- (A1) -- node[edgeLabel]{8} (A2) -- cycle
+        (Z) -- node[edgeLabel]{3} (A2) -- node[edgeLabel]{9} (A3) -- cycle
+        (Z) -- node[edgeLabel]{4} (A3) -- node[edgeLabel]{10} (A4) -- cycle
+        (Z) -- node[edgeLabel]{5} (A4) -- node[edgeLabel]{11} (A5) -- cycle
+        (Z) -- node[edgeLabel]{6} (A5) -- node[edgeLabel]{12} (A1) -- node[edgeLabel]{2} (Z);
+
+    \foreach \p/\r/\n in {1/above/3, 2/right/4, 3/below/5, 4/below/6, 5/left/7}{
+        \vertexLabelR{A\p}{\r}{\n}
+    }
+    \vertexLabelR{Z}{below}{1}
+
+    \foreach \i/\j/\n in {1/2/III, 2/3/IV, 3/4/V, 4/5/VI, 5/6/VII}{
+        \node[faceLabel] at (barycentric cs:A\i=1,A\j=1,Z=1) {$\n$};
+    }
+\end{scope}
+
+\end{tikzpicture}

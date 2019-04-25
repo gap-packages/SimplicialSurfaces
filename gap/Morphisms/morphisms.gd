@@ -249,7 +249,32 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #!
 #!     All of the methods throw errors if their requirements are not met.
 #!
-#! TODO example
+#!     To illustrate, we use a relabelling of a five-umbrella.
+#!     <Alt Only="TikZ">
+#!       \input{Image_PolygonalMorphism_FiveUmbrella.tex}
+#!     </Alt>
+#! @ExampleSession
+#! gap> left := SimplicialSurfaceByDownwardIncidence( 
+#! >         [[1,2],[1,3],[1,4],[1,5],[1,6],[2,3],[3,4],[4,5],[5,6],[6,2]],
+#! >         [[1,2,6],[2,3,7],[3,4,8],[4,5,9],[1,5,10]]);;
+#! gap> right := SimplicialSurfaceByDownwardIncidence(
+#! >         [,[1,3],[1,4],[1,5],[1,6],[1,7],,[3,4],[4,5],[5,6],[6,7],[3,7]],
+#! >         [,,[2,3,8],[3,4,9],[4,5,10],[5,6,11],[2,6,12]]);;
+#! gap> morph := PolygonalMorphismByLists(left, right,
+#! >     [1,3,4,5,6,7], [2,3,4,5,6,8,9,10,11,12], [3,4,5,6,7]);;
+#! gap> inv := InversePolygonalMorphism(morph);;
+#! gap> SourceComplex(inv) = right;
+#! true
+#! gap> RangeComplex(inv) = left;
+#! true
+#! gap> VertexMapAsImageList(inv);
+#! [ 1,, 2, 3, 4, 5, 6 ]
+#! gap> EdgeMapAsImageList(inv);
+#! [ , 1, 2, 3, 4, 5,, 6, 7, 8, 9, 10 ]
+#! gap> FaceMapAsImageList(inv);
+#! [,, 1, 2, 3, 4, 5 ]
+#! @EndExampleSession
+#!
 #!   </Description>
 #! </ManSection>
 #
