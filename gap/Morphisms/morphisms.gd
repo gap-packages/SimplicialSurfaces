@@ -905,8 +905,10 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! @Section Components of a morphism
 #! @SectionLabel Morphisms_Components
 #!
-#! This section contains the ingredients within a polygonal morphism.
-#! TODO
+#! This section contains the ingredients within a polygonal morphism, 
+#! i.e. source and range complex, as well as the maps on vertices, edges,
+#! and faces.
+#!
 #! We will illustrate them on the following polygonal morphism (on the
 #! sides are the VEF-labels):
 #! <Alt Only="TikZ">
