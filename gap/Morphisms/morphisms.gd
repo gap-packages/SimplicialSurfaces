@@ -125,6 +125,69 @@ DeclareOperation( "PolygonalMorphismByListsNC",
     [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList] );
 #! @EndGroup
 
+#! @BeginGroup
+#! @Description
+#! Given two vertex-faithful (<Ref Subsect="IsAnomalyFree"/>)
+#! polygonal complexes and a map between their
+#! vertices, construct a polygonal morphism extending the vertex map.
+#! The arguments are:
+#! * <A>sourceComplex</A>: The vertex-faithful 
+#!   polygonal complex that become the source
+#!   of the polygonal morphism.
+#! * <A>rangeComplex</A>: The vertex-faithful 
+#!   polygonal complex that becomes the range
+#!   of the polygonal morphism.
+#! * <A>vertexMap</A>: A list, such that for each vertex <A>v</A> in
+#!   <A>sourceComplex</A>, the element <A>vertexMap[v]</A> is a vertex
+#!   in <A>rangeComplex</A>, representing the image under the polygonal
+#!   morphism.
+#!
+#! As an illustration we define a polygonal morphisms from a 6-umbrella
+#! to a 3--umbrella.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!    \input{Image_PolygonalMorphism_Hexagon.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> six := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
+#! >     [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;
+#! gap> three := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,1],,[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,5]]);;
+#! gap> vertexMap := [1,2,3,1,2,3,,5];
+#! [ 1, 2, 3, 1, 2, 3,, 5 ]
+#! gap> polMor := PolygonalMorphismByVertexImages(six, three, vertexMap);;
+#! gap> SourceComplex(polMor) = six;
+#! true
+#! gap> RangeComplex(polMor) = three;
+#! true
+#! gap> VertexMapAsImageList(polMor) = vertexMap;
+#! true
+#! gap> EdgeMapAsImageList(polMor);
+#! [ 1, 2, 3, 1, 2, 3,, 5, 6, 7, 5, 6, 7 ]
+#! gap> FaceMapAsImageList(polMor);
+#! [ 1, 2, 3, 1, 2, 3 ]
+#! @EndExampleSession
+#!
+#! The NC-version does not check whether:
+#! * The list <A>vertexMap</A> maps every vertex of
+#!   <A>sourceComplex</A> to a vertex of <A>rangeComplex</A>.
+#! * The incidence structure is preserved by the mapping.
+#! * The vertices incident to an edge are mappped to different vertices.
+#! * A polygon is mapped to a polygon with the same number of sides.
+#! * The vertices incident to a face are mapped to different vertices.
+#!
+#! @Returns a polygonal mapping
+#! @Arguments sourceComplex, rangeComplex, vertexMap
+DeclareOperation( "PolygonalMorphismByVertexImages", 
+    [IsPolygonalComplex and IsAnomalyFree, IsPolygonalComplex and IsAnomalyFree, IsList] );
+#! @Arguments sourceComplex, rangeComplex, vertexMap
+DeclareOperation( "PolygonalMorphismByVertexImagesNC", 
+    [IsPolygonalComplex and IsAnomalyFree, IsPolygonalComplex and IsAnomalyFree, IsList] );
+#! @EndGroup
+
+
 
 #! @Description
 #! Given a polygonal complex, return the polygonal morphism that
@@ -860,7 +923,6 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! >      [5,6,7,6,,2,3], [11,12,12,,5,,7,8,7,,,2], [,2,3,3]);;
 #! @EndExampleSession
 #! 
-#!TODO We need a constructor PolygonalMorphismByVertexImages
 
 
 #! @BeginGroup SourceComplex

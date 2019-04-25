@@ -334,6 +334,62 @@ InstallMethod( PolygonalMorphismByLists,
     end
 );
 
+RedispatchOnCondition( PolygonalMorphismByVertexImages, true, 
+    [IsPolygonalComplex, IsPolygonalComplex, IsList], 
+    [IsAnomalyFree, IsAnomalyFree], 0 );
+RedispatchOnCondition( PolygonalMorphismByVertexImagesNC, true, 
+    [IsPolygonalComplex, IsPolygonalComplex, IsList], 
+    [IsAnomalyFree, IsAnomalyFree], 0 );
+BindGlobal("__SIMPLICIAL_EdgeMapFromVertexMap",
+    function(source, range, vertexMap)
+        local edgeMap, edge, verts, newVerts, newEdge;
+
+        edgeMap := [];
+        for edge in Edges(source) do
+            verts := VerticesOfEdges(source)[edge];
+            newVerts := Set(vertexMap{verts});
+            newEdge := Position( VerticesOfEdges(range), newVerts );
+            edgeMap[edge] := newEdge;
+        od;
+
+        return edgeMap;
+    end
+);
+BindGlobal("__SIMPLICIAL_FaceMapFromVertexMap",
+    function(source, range, vertexMap)
+        local faceMap, face, verts, newVerts, newFace;
+
+        faceMap := [];
+        for face in Faces(source) do
+            verts := VerticesOfFaces(source)[face];
+            newVerts := Set(vertexMap{verts});
+            newFace := Position( VerticesOfFaces(range), newVerts );
+            faceMap[face] := newFace;
+        od;
+
+        return faceMap;
+    end
+);
+InstallMethod( PolygonalMorphismByVertexImagesNC, 
+    "for two anomaly-free polygonal complexes and a list",
+    [IsPolygonalComplex and IsAnomalyFree, IsPolygonalComplex and IsAnomalyFree, IsList],
+    function(source, range, vertexMap)
+        return PolygonalMorphismByListsNC(source, range, vertexMap,
+            __SIMPLICIAL_EdgeMapFromVertexMap(source, range, vertexMap),
+            __SIMPLICIAL_FaceMapFromVertexMap(source, range, vertexMap) );
+    end
+);
+InstallMethod( PolygonalMorphismByVertexImages, 
+    "for two anomaly-free polygonal complexes and a list",
+    [IsPolygonalComplex and IsAnomalyFree, IsPolygonalComplex and IsAnomalyFree, IsList],
+    function(source, range, vertexMap)
+        # Strictly speaking, not all tests of PolygonalMorphismByLists are necessary
+        return PolygonalMorphismByLists(source, range, vertexMap,
+            __SIMPLICIAL_EdgeMapFromVertexMap(source, range, vertexMap),
+            __SIMPLICIAL_FaceMapFromVertexMap(source, range, vertexMap) );
+    end
+);
+
 InstallMethod( PolygonalIdentityMorphism, "for a polygonal complex",
     [IsPolygonalComplex],
     function( complex )
