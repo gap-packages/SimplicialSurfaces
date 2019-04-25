@@ -25,13 +25,27 @@ InstallMethod( EulerCharacteristic, "for a VEF-complex",
 InstallMethod( IsClosedSurface, "for a polygonal complex without edge ramifications",
     [IsPolygonalComplex and IsNotEdgeRamified],
     function( ramSurf )
-        return ForAll( List( FacesOfEdges(ramSurf), Length ), i -> i=2 );
+        local faces;
+
+        for faces in FacesOfEdges(ramSurf) do
+            if Length(faces) <> 2 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 InstallMethod( IsClosedSurface, "for a bend polygonal complex without edge ramifications",
     [IsBendPolygonalComplex and IsNotEdgeRamified],
     function( ramSurf )
-        return ForAll( List( LocalEdgesOfEdges(ramSurf), Length ), i -> i=2 );
+        local faces;
+
+        for faces in LocalEdgesOfEdges(ramSurf) do
+            if Length(faces) <> 2 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 InstallOtherMethod( IsClosedSurface, "for a VEF-complex",
@@ -100,10 +114,29 @@ InstallMethod( FaceDegreeOfVertex, "for a VEF-complex and a vertex",
 InstallMethod( VertexCounter, "for a VEF-complex",
     [IsVEFComplex],
     function(complex)
-        local faceDegrees;
+        local faceDegrees, faces, deg, counter;
 
-        faceDegrees := List( FacesOfVertices(complex), Length );
-        return Collected( Compacted( faceDegrees ) );
+        faceDegrees := [];
+        for faces in FacesOfVertices(complex) do
+            deg := Length(faces);
+            if IsBound(faceDegrees[deg]) then
+                faceDegrees[deg] := faceDegrees[deg] + 1;
+            else
+                faceDegrees[deg] := 1;
+            fi;
+        od;
+
+        counter := [];
+        for deg in [1..Length(faceDegrees)] do
+            if IsBound(faceDegrees[deg]) then
+                Add(counter, [ deg, faceDegrees[deg] ]);
+            fi;
+        od;
+
+        return counter;
+
+        #faceDegrees := List( FacesOfVertices(complex), Length );
+        #return Collected( Compacted( faceDegrees ) );
     end
 );
 
@@ -141,7 +174,7 @@ InstallMethod( FaceCounter, "for a VEF-complex",
 ##
 ##      Types of vertices
 ##
-InstallMethod( InnerVertices, "for a VEFcomplex",
+InstallMethod( InnerVertices, "for a VEF-complex",
     [IsVEFComplex],
     function(complex)
         local edgeFacePaths, res, v;
@@ -153,6 +186,21 @@ InstallMethod( InnerVertices, "for a VEFcomplex",
                 Add(res, v);
             fi;
         od;
+        return res;
+    end
+);
+InstallMethod( InnerVertices, "for a VEF-surface",
+    [IsVEFSurface],
+    function(surface)
+        local res, v;
+
+        res := [];
+        for v in VerticesAttributeOfVEFComplex(surface) do
+            if Length(EdgesOfVertices(surface)[v]) = Length(FacesOfVertices(surface)[v]) then
+                Add(res, v);
+            fi;
+        od;
+
         return res;
     end
 );

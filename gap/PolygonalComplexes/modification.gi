@@ -557,7 +557,9 @@ InstallOtherMethod( SubsurfaceByFaces,
         return SubsurfaceByFaces(complex, Set(subfaces));
     end
 );
-RedispatchOnCondition( SubsurfaceByFaces, true, [IsVEFComplex, IsList], [IsVEFSurface], 0 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SubsurfaceByFaces, true, [IsVEFComplex, IsList], [IsVEFSurface], 0 );
+fi;
 InstallOtherMethod( SubsurfaceByFacesNC, 
     "for a VEF-surface and a set of faces",
     [ IsVEFSurface, IsSet ],
@@ -578,7 +580,9 @@ InstallOtherMethod( SubsurfaceByFacesNC,
         return SubsurfaceByFacesNC(complex, Set(subfaces));
     end
 );
-RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsVEFComplex, IsList], [IsVEFSurface], 0 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsVEFComplex, IsList], [IsVEFSurface], 0 );
+fi;
 
 
 
@@ -1221,7 +1225,11 @@ InstallMethod(JoinBoundaries,
         return join;
     end
 );
-RedispatchOnCondition( JoinBoundaries, true, [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList], [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundaries, true, 
+        [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList], 
+        [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+fi;
 InstallMethod(JoinBoundaries,
     "for a polygonal surface and two 2-flags",
     [IsPolygonalSurface, IsList, IsList],
@@ -1325,7 +1333,10 @@ InstallMethod(JoinBoundaries,
         return join;
     end
 );
-RedispatchOnCondition( JoinBoundaries, true, [IsPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundaries, true, 
+        [IsPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+fi;
 
 
 
@@ -1368,9 +1379,11 @@ InstallMethod( ConnectedFaceSum, "for two polygonal surfaces and two flags",
         return JoinBoundaries( rem1, flag1{[1,2]}, rem2, flag2{[1,2]} )[1];
     end
 );
-RedispatchOnCondition( ConnectedFaceSum, true, 
-    [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList], 
-    [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( ConnectedFaceSum, true, 
+        [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList], 
+        [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+fi;
 
 
 InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
@@ -1400,7 +1413,12 @@ InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
         return swapSurf;
     end
 );
-RedispatchOnCondition( SnippOffEars, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SnippOffEars, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
+else
+    # This redispatch will not check whether we have a surface
+    RedispatchOnCondition( SnippOffEars, true, [IsPolygonalComplex], [IsTriangularComplex], 0 );
+fi;
 
 InstallMethod( SplitAllVertices, "for a polygonal complex", 
     [IsPolygonalComplex],

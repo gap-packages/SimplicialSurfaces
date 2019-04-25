@@ -496,12 +496,17 @@ InstallMethod( Display, "for a polygonal complex", [IsPolygonalComplex],
 ##
 BindGlobal("__SIMPLICIAL_LexicographicCounterComparison",
     function(count1, count2)
-        local i, l1, l2;
+        local i, l1, l2, min;
     
         l1 := Length(count1);
         l2 := Length(count2);
+        if l1 < l2 then
+            min := l1;
+        else
+            min := l2;
+        fi;
 
-        for i in [ 1 .. Minimum(l1,l2)] do
+        for i in [ 1 .. min] do
             if count1[i][1] <> count2[i][1] then
                 return count1[i][1] < count2[i][1];
             elif count1[i][2] <> count2[i][2] then

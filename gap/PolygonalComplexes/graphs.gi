@@ -918,6 +918,11 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
                     inversevertexmap, inverseedgemap, inversefacemap)];
     end
 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( CanonicalRepresentativeOfPolygonalSurface, true, 
+        [IsPolygonalComplex], [IsPolygonalSurface], 0 );
+fi;
+
 
 InstallMethod( AutomorphismGroupOnLocalFlags,
     "for a bend polygonal complex", [IsBendPolygonalComplex],

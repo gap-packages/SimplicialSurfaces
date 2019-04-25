@@ -71,7 +71,7 @@
 #! 
 #! All general constructors are structured like [Type]By[Method](args), e.g.
 #! * <K>PolygonalComplexByDownwardIncidence</K>( <A>verticesOfEdges</A>, <A>edgesOfFaces</A> )
-#! * <K>SimplicialSurfaceByUmbrellas</K>( <A>edgeFacePaths</A> )
+# * <K>SimplicialSurfaceByUmbrellas</K>( <A>edgeFacePaths</A> )
 #!
 #! They are mainly distinguished by the different attributes they need to 
 #! construct the incidence structures:
@@ -86,9 +86,9 @@
 #! * <E>VerticesInFaces</E>
 #!   (<Ref Sect="Section_Constructors_VerticesInFaces"/>):
 #!   <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>)
-#! * <E>UmbrellaPaths</E>
-#!   (<Ref Sect="Section_Constructors_Umbrellas"/>):
-#!   <K>UmbrellaPathsOfVertices</K> (<Ref Subsect="UmbrellaPathsOfVertices"/>)
+# * <E>UmbrellaPaths</E>
+#   (<Ref Sect="Section_Constructors_Umbrellas"/>):
+#   <K>UmbrellaPathsOfVertices</K> (<Ref Subsect="UmbrellaPathsOfVertices"/>)
 #!
 
 #TODO explain name of constructor very early
