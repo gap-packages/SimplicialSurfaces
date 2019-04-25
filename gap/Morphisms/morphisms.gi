@@ -822,3 +822,39 @@ InstallMethod( VEFLabelMapAsImageList,
 ##      End of components
 ##
 #######################################
+
+
+#######################################
+##
+##      General methods
+##
+InstallMethod( \=, "for two polygonal morphisms", IsIdenticalObj,
+    [IsPolygonalMorphism, IsPolygonalMorphism],
+    function(mor1, mor2)
+        return SourceComplex(mor1) = SourceComplex(mor2)
+            and RangeComplex(mor1) = RangeComplex(mor2)
+            and VEFLabelMapAsImageList(mor1) = VEFLabelMapAsImageList(mor2);
+    end
+);
+
+InstallMethod( ViewString, "for a polygonal morphism", [IsPolygonalMorphism],
+    function(mor)
+        return "<polygonal morphism>";
+    end
+);
+
+InstallMethod( String, "for a polygonal morphism", [IsPolygonalMorphism],
+    function(mor)
+        return Concatenation( "PolygonalMorphismByListsNC( ",
+            String(SourceComplex(mor)), ", ",
+            String(RangeComplex(mor)), ", ",
+            String(VertexMapAsImageList(mor)), ", ",
+            String(EdgeMapAsImageList(mor)), ", ",
+            String(FaceMapAsImageList(mor)), ");" );
+    end
+);
+InstallMethod( PrintObj, "for a polygonal morphism", [IsPolygonalMorphism],
+    function(mor)
+        Print( String(mor) );
+    end
+);
