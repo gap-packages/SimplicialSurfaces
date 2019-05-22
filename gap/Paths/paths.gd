@@ -448,7 +448,8 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! @SectionLabel Paths_Perimeter
 #!
 #! This section describes <E>perimeter paths</E>, which are special
-#! vertex-edge-paths (with additional information). They are returned by
+#! vertex-edge-paths that additionally store the face which they
+#! encircle. They are returned by
 #! methods like <K>PerimeterPathsOfFaces</K> 
 #! (<Ref Subsect="PerimeterPathsOfFaces"/>) and <K>Orientation</K>
 #! (<Ref Subsect="Orientation"/>).

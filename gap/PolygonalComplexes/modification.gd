@@ -220,7 +220,10 @@ DeclareOperation( "SplitVertexNC", [IsVEFComplex, IsPosInt, IsList] );
 #! by <K>SplitVertex</K> (<Ref Subsect="SplitVertex"/>). If the first and
 #! final vertex of <A>vePath</A> should not be splitted, the method
 #! <K>SplitEdgePath</K> (<Ref Subsect="SplitEdgePath"/>) should be used
-#! instead.
+#! instead. 
+#!
+#! This method will change the labels of all affected vertices and edges.
+#! All other labels remain unchanged.
 #!
 #! The given <A>vePath</A> has to be a duplicate-free 
 #! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
@@ -263,6 +266,9 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsVEFComplex, IsVertexEdgePath] );
 #! final vertex of <A>vePath</A> should also be splitted, the method
 #! <K>SplitVertexEdgePath</K> (<Ref Subsect="SplitVertexEdgePath"/>) should
 #! be used instead.
+#!
+#! This method will change the labels of all affected vertices and edges.
+#! All other labels remain unchanged.
 #!
 #! The given <A>vePath</A> has to be a duplicate-free 
 #! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
@@ -332,9 +338,10 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsVEFSurface, IsSet] );
 
 #! @BeginGroup RemoveFaces
 #! @Description
-#! Remove the given faces from <A>complex</A> and return the result. All
-#! vertices and edges that were incident to just these faces will also be
-#! removed as a result. The labels of the remaining vertices, edges and faces
+#! Remove the given faces from <A>complex</A> and return the result. If this
+#! removal results in vertices or edges that are not incident to any remaining
+#! faces, they will be removed as well.
+#! The labels of all remaining vertices, edges and faces
 #! will remain unaffected.
 #!
 #! TODO example
@@ -807,7 +814,7 @@ DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList]
 #! this methods needs a flag of each complex, i.e. a list of a vertex, an edge
 #! and a face that are all incident.
 #!
-#! TODO example
+#! TODO example (important since otherwise it might seem that this method is not implemented);
 #!
 #! The central part of this can be implemented like this:
 #! @BeginLogSession
