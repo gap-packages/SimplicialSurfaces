@@ -671,7 +671,7 @@ DeclareOperation("JoinEdgesNC", [IsVEFComplex, IsList, IsPosInt]);
 #!     \coordinate (R) at (\len,0);
 #!     \coordinate (U) at (60:\len);
 #!
-#!     \draw[edge,face] (L) -- node[edgeLabel]{2} (R) -- node[edgeLabel]{3} (U) -- node[edgeLabel]{2} cycle;
+#!     \draw[edge,face] (L) -- node[edgeLabel]{1} (R) -- node[edgeLabel]{3} (U) -- node[edgeLabel]{2} cycle;
 #!     \node[faceLabel] at (barycentric cs:L=1,R=1,U=1){I};
 #!     \foreach \p/\r/\n in {L/left/1,R/right/2,U/above/3}{
 #!       \vertexLabelR{\p}{\r}{\n}
