@@ -1,5 +1,5 @@
 #############################################################################
-##
+##  
 ##  SimplicialSurface package
 ##
 ##  Copyright 2012-2018
@@ -424,6 +424,228 @@ DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #! @EndGroup
 
 
+#! @BeginGroup OriginalVertices
+#! @Description
+#! Return the set of all vertices in the corresponding polygonal
+#! complex of <A>flagComp</A>.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalVertices(flagComp);
+#! [ 2, 3, 5, 7, 11 ]
+#! @EndExampleSession
+#!
+#! @Returns a list of positive integer
+#! @Arguments flagcomplex
+DeclareOperation("OriginalVertices",[IsFlagComplex]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalEdges
+#! @Description
+#! Return the set of all edges in the corresponding polygonal complex
+#! of <A>flagComp</A>.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalEdges(flagComp);
+#! [ 6, 8, 9, 10, 12, 13 ]
+#! @EndExampleSession
+#!
+#! @Returns a list of positive integer
+#! @Arguments flagcomplex
+DeclareOperation("OriginalEdges",[IsFlagComplex]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalFaces
+#! @Description
+#! Return the set of all faces in the corresponding polygonal complex
+#! of <A>flagComp</A>.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalVertices(flagComp);
+#! [ 1, 4 ]
+#! @EndExampleSession
+#!
+#! @Returns a list of postive integers
+#! @Arguments flagcomplex
+DeclareOperation("OriginalFaces",[IsFlagComplex]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalOneFlag
+#! @Description
+#! Return a flag of length 1 in the corresponding polygonal complex
+#! of <A>flagComp</A>, i.e a vertex, an edge or a face.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalOneFlag(flagComp,4);
+#! [ 0, 7 ]
+#! @EndExampleSession
+#!
+#! @Returns a wrapped one-flag
+#! @Arguments flagcomplex, positive integer
+DeclareOperation("OriginalOneFlag",[IsFlagComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalTwoFlag
+#! @Description
+#! Return a flag of length 2 in the correponding polygonal complex of
+#! <A>flagComp</A>. Such a flag is a tuple [<A>vertex</A>, <A>edge</A>] of a
+#! vertex and an edge of <A>complex</A> that are incident, a tuple
+#! [<A>vertex</A>, <A>face</A>] of a vertex and a face of <A>complex</A>
+#! that are incident or a tuple [<A>edge</A>, <A>face</A>] of an egde and a
+#! face of <A>complex</A> that are incident.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalTwoFlag(flagComp,5);
+#! [ 1, [ 3, 12 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a wrapped two-flag 
+#! @Arguments flagcomplex, positive integer
+DeclareOperation("OriginalTwoFlag",[IsFlagComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalThreeFlag
+#! @Description
+#! Return a flag of length 3 in the corresponding polygonal complex
+#! of <A>flagComp</A>. Such a flag is a triple
+#! [<A>vertex</A>, <A>edge</A>, <A>face</A>] of a vertex, an edge and a face
+#! of <A>complex</A> that are all incident to each other.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalThreeFlag(flagComp,10);
+#! [ 5, 10, 4 ]
+#! @EndExampleSession
+#! @Returns a wrapped three-flag
+#! @Arguments flagcomplex, positive integer
+DeclareOperation("OriginalThreeFlag",[IsFlagComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup BarycentreOfVertex
+#! @Description
+#! Return the corresponding vertex in the barycentric subdivision
+#! of a vertex in <A>complex</A>.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> BarycentreOfVertex(complex,3);
+#! 2
+#! @EndExampleSession
+#!
+#! @Returns a vertex in flagcomplex
+#! @Arguments complex, positive integer
+DeclareOperation("BarycentreOfVertex",[IsVEFComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup BarycentreOfEdge
+#! @Description
+#! Return the corresponding vertex in the barycentric subdivision of an
+#! edge in  <A>complex</A>.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> BarycentreOfEdge(complex,12); 
+#! 10
+#! @EndExampleSession
+#!
+#! @Returns a edge in flagcomplex
+#! @Arguments complex, positive integer
+DeclareOperation("BarycentreOfEdge",[IsVEFComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup BarycentreOfFace
+#! @Description
+#! Return the corresponding vertex in the barycentric subdivision
+#! of a face in <A>complex</A>.
+#! As an example consider the polygonal surface from 
+#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> BarycentreOfFace(complex,4);
+#! 13
+#! @EndExampleSession
+#!
+#! @Returns a face in flagcomplex
+#! @Arguments complex, positive integer
+DeclareOperation("BarycentreOfFace",[IsVEFComplex,IsPosInt]);
+#! @EndGroup
+
+
 #! @BeginGroup IsomorphicFlagSurface
 #! @Description
 #! Construct a flag surface (<Ref Subsect="FlagComplex"/>) that is
@@ -462,4 +684,4 @@ DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 #! @Returns a record
 #! @Arguments flagSurf, fileName[, printRecord]
 DeclareOperation( "DrawSurfaceToTikz", [IsFlagComplex and IsNotEdgeRamified, IsString, IsRecord] );
-#! @EndGroup
+#! @EndGroup 

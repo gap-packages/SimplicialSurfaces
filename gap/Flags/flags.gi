@@ -381,3 +381,87 @@ RedispatchOnCondition( DrawSurfaceToTikz, true,
 ##      End of flag complexes
 ##
 #######################################
+
+
+#######################################
+##
+## Barycentric subdivision
+##
+
+InstallMethod(OriginalVertices,
+    "for a barycentric subdivision",
+    [IsFlagComplex],
+    function(barySub)
+        return Vertices(OriginalComplex(barySub));
+    end
+);
+
+
+InstallMethod(OriginalEdges,
+    "for a barycentric subdivision",
+    [IsFlagComplex],
+    function(barySub)
+        return Edges(OriginalComplex(barySub));
+    end
+);
+
+InstallMethod(OriginalFaces,
+    "for a barycentric subdivision",
+    [IsFlagComplex],
+    function(barySub)
+        return Faces(OriginalComplex(barySub));
+    end
+);
+
+InstallMethod(OriginalOneFlag,
+    "for a barycentric subdivision and positive integer",
+    [IsFlagComplex,IsPosInt],
+    function(barySub,vertexInBary)
+        return OneFlags(OriginalComplex(barySub))[vertexInBary];
+    end
+);
+
+InstallMethod(OriginalTwoFlag,
+    "for a barycentric subdivision and positive integer",
+    [IsFlagComplex,IsPosInt],
+    function(barySub,edgeInBary)
+        return TwoFlags(OriginalComplex(barySub))[edgeInBary];
+    end
+);
+
+InstallMethod(OriginalThreeFlag,
+    "for a barycentric subdivision and positive integer",
+    [IsFlagComplex,IsPosInt],
+    function(barySub,faceInBary)
+        return ThreeFlags(OriginalComplex(barySub))[faceInBary];
+    end
+);
+
+InstallMethod(BarycentreOfVertex,
+    "for barycentric subdivision and positive integer",
+    [IsVEFComplex,IsPosInt],
+    function(complex,oriVert)
+        return Position(OneFlags(complex),[0,oriVert]);
+    end
+);
+
+InstallMethod(BarycentreOfEdge,
+    "for barycentric subdivision and positive integer",
+    [IsVEFComplex,IsPosInt],
+    function(complex,oriEdge)
+        return Position(OneFlags(complex),[1,oriEdge]);
+    end
+);
+
+InstallMethod(BarycentreOfFace,
+    "for barycentric subdivision and positive integer",
+    [IsVEFComplex,IsPosInt],
+    function(complex,oriFace)
+        return Position(OneFlags(complex),[2,oriFace]);
+    end
+);
+
+##
+##      End of barycentric subdivision
+##
+#######################################
