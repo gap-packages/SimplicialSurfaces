@@ -443,7 +443,7 @@ DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #! @EndExampleSession
 #!
 #! @Returns a list of positive integer
-#! @Arguments flagcomplex
+#! @Arguments flagComp
 DeclareOperation("OriginalVertices",[IsFlagComplex]);
 #! @EndGroup
 
@@ -467,7 +467,7 @@ DeclareOperation("OriginalVertices",[IsFlagComplex]);
 #! @EndExampleSession
 #!
 #! @Returns a list of positive integer
-#! @Arguments flagcomplex
+#! @Arguments flagComp
 DeclareOperation("OriginalEdges",[IsFlagComplex]);
 #! @EndGroup
 
@@ -478,7 +478,6 @@ DeclareOperation("OriginalEdges",[IsFlagComplex]);
 #! of <A>flagComp</A>.
 #! As an example consider the polygonal surface from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
-#! from <Ref Subsect="FlagComplex"/> and it's barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -492,15 +491,16 @@ DeclareOperation("OriginalEdges",[IsFlagComplex]);
 #! @EndExampleSession
 #!
 #! @Returns a list of postive integers
-#! @Arguments flagcomplex
+#! @Arguments flagComp
 DeclareOperation("OriginalFaces",[IsFlagComplex]);
 #! @EndGroup
 
 
 #! @BeginGroup OriginalOneFlag
 #! @Description
-#! Return a flag of length 1 in the corresponding polygonal complex
-#! of <A>flagComp</A>, i.e a vertex, an edge or a face.
+#! Return a one-flag in the corresponding polygonal complex
+#! of <A>flagComp</A> belonging to the vertex <A>vertInBary</A>,
+#! i.e a vertex, an edge or a face.
 #! As an example consider the polygonal surface from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
@@ -516,19 +516,20 @@ DeclareOperation("OriginalFaces",[IsFlagComplex]);
 #! @EndExampleSession
 #!
 #! @Returns a wrapped one-flag
-#! @Arguments flagcomplex, positive integer
+#! @Arguments flagComp, vertInBary
 DeclareOperation("OriginalOneFlag",[IsFlagComplex,IsPosInt]);
 #! @EndGroup
 
 
 #! @BeginGroup OriginalTwoFlag
 #! @Description
-#! Return a flag of length 2 in the correponding polygonal complex of
-#! <A>flagComp</A>. Such a flag is a tuple [<A>vertex</A>, <A>edge</A>] of a
-#! vertex and an edge of <A>complex</A> that are incident, a tuple
-#! [<A>vertex</A>, <A>face</A>] of a vertex and a face of <A>complex</A>
+#! Return a two-flag in the corresponding polygonal complex of
+#! <A>flagComp</A> belonging to the edge <A>edgeInBary</A>. Such a flag is a
+#! tuple [<A>vertex</A>, <A>edge</A>] of a vertex and an edge in
+#! <A>complex</A> that are incident, a tuple
+#! [<A>vertex</A>, <A>face</A>] of a vertex and a face in <A>complex</A>
 #! that are incident or a tuple [<A>edge</A>, <A>face</A>] of an egde and a
-#! face of <A>complex</A> that are incident.
+#! face in <A>complex</A> that are incident.
 #! As an example consider the polygonal surface from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
@@ -544,7 +545,7 @@ DeclareOperation("OriginalOneFlag",[IsFlagComplex,IsPosInt]);
 #! @EndExampleSession
 #!
 #! @Returns a wrapped two-flag 
-#! @Arguments flagcomplex, positive integer
+#! @Arguments flagComp, edgeInBary
 DeclareOperation("OriginalTwoFlag",[IsFlagComplex,IsPosInt]);
 #! @EndGroup
 
@@ -552,9 +553,10 @@ DeclareOperation("OriginalTwoFlag",[IsFlagComplex,IsPosInt]);
 #! @BeginGroup OriginalThreeFlag
 #! @Description
 #! Return a flag of length 3 in the corresponding polygonal complex
-#! of <A>flagComp</A>. Such a flag is a triple
-#! [<A>vertex</A>, <A>edge</A>, <A>face</A>] of a vertex, an edge and a face
-#! of <A>complex</A> that are all incident to each other.
+#! of <A>flagComp</A> belonging to the face <A>faceInBary</A>.
+#! Such a flag is a triple [<A>vertex</A>, <A>edge</A>, <A>face</A>] of a
+#! vertex, an edge and a face of <A>complex</A> that are all incident to each
+#! other.
 #! As an example consider the polygonal surface from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
@@ -569,7 +571,7 @@ DeclareOperation("OriginalTwoFlag",[IsFlagComplex,IsPosInt]);
 #! [ 5, 10, 4 ]
 #! @EndExampleSession
 #! @Returns a wrapped three-flag
-#! @Arguments flagcomplex, positive integer
+#! @Arguments flagComp, faceInBary
 DeclareOperation("OriginalThreeFlag",[IsFlagComplex,IsPosInt]);
 #! @EndGroup
 
@@ -577,7 +579,7 @@ DeclareOperation("OriginalThreeFlag",[IsFlagComplex,IsPosInt]);
 #! @BeginGroup BarycentreOfVertex
 #! @Description
 #! Return the corresponding vertex in the barycentric subdivision
-#! of a vertex in <A>complex</A>.
+#! of the vertex <A>oriVert</A> in <A>complex</A>.
 #! As an example consider the polygonal surface from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
@@ -592,16 +594,16 @@ DeclareOperation("OriginalThreeFlag",[IsFlagComplex,IsPosInt]);
 #! 2
 #! @EndExampleSession
 #!
-#! @Returns a vertex in flagcomplex
-#! @Arguments complex, positive integer
+#! @Returns positive integer
+#! @Arguments complex, oriVert
 DeclareOperation("BarycentreOfVertex",[IsVEFComplex,IsPosInt]);
 #! @EndGroup
 
 
 #! @BeginGroup BarycentreOfEdge
 #! @Description
-#! Return the corresponding vertex in the barycentric subdivision of an
-#! edge in  <A>complex</A>.
+#! Return the corresponding vertex in the barycentric subdivision of the
+#! edge <A>oriEdge</A> in  <A>complex</A>.
 #! As an example consider the polygonal surface from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
@@ -616,8 +618,8 @@ DeclareOperation("BarycentreOfVertex",[IsVEFComplex,IsPosInt]);
 #! 10
 #! @EndExampleSession
 #!
-#! @Returns a edge in flagcomplex
-#! @Arguments complex, positive integer
+#! @Returns a positive integer
+#! @Arguments complex, oriEdge
 DeclareOperation("BarycentreOfEdge",[IsVEFComplex,IsPosInt]);
 #! @EndGroup
 
@@ -625,7 +627,7 @@ DeclareOperation("BarycentreOfEdge",[IsVEFComplex,IsPosInt]);
 #! @BeginGroup BarycentreOfFace
 #! @Description
 #! Return the corresponding vertex in the barycentric subdivision
-#! of a face in <A>complex</A>.
+#! of the face <A>oriFace</A> in <A>complex</A>.
 #! As an example consider the polygonal surface from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
@@ -640,8 +642,8 @@ DeclareOperation("BarycentreOfEdge",[IsVEFComplex,IsPosInt]);
 #! 13
 #! @EndExampleSession
 #!
-#! @Returns a face in flagcomplex
-#! @Arguments complex, positive integer
+#! @Returns a positive integer
+#! @Arguments complex, oriFace
 DeclareOperation("BarycentreOfFace",[IsVEFComplex,IsPosInt]);
 #! @EndGroup
 
