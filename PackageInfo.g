@@ -21,7 +21,7 @@ Persons := [
     IsMaintainer := true,
     FirstNames := "Alice",
     LastName := "Niemeyer",
-    WWWHome := "https://www.mathb.rwth-aachen.de/Mitarbeiter/niemeyer.php",
+    WWWHome := "http://www.math.rwth-aachen.de/~Alice.Niemeyer/",
     Email := "Alice.Niemeyer@Mathb.RWTH-Aachen.De",
     PostalAddress := "Alice Niemeyer\nLehrstuhl B für Mathematik\nRWTH Aachen\nPontdriesch 10/16\n52062 Aachen\nGERMANY\n",
     Place := "Aachen",
@@ -32,7 +32,7 @@ Persons := [
     IsMaintainer := true,
     FirstNames := "Markus",
     LastName := "Baumeister",
-    WWWHome := "https://www.mathb.rwth-aachen.de/Mitarbeiter/baumeister.php",
+    WWWHome := "https://markusbaumeister.github.io/",
     Email := "baumeister@mathb.rwth-aachen.de",
     PostalAddress := "Markus Baumeister\nLehrstuhl B für Mathematik\nRWTH Aachen\nPontdriesch 10/16\n52062 Aachen\nGERMANY\n",
     Place := "Aachen",
@@ -94,7 +94,10 @@ AutoDoc := rec(
         Copyright := Concatenation(
                     "&copyright; 2016-2017 by Alice Niemeyer and Markus Baumeister<P/>\n\n",
                     "This package may be distributed under the terms and conditions of the\n",
-                    "GNU Public License Version 3 (or higher).\n"
+                    "GNU Public License Version 3 (or higher).<P/>",
+                    "The primary sources for much of the covered material are:<P/>",
+                    "The PhD-thesis of Markus Baumeister (unpublished)<P/>",
+                    "The book \"Simplicial Surfaces of Congruent Triangles\" by Alice C. Niemeyer, Wilhelm Plesken, Daniel Robertz, and Ansgar W. Strzelczyk (unpublished)<P/>"
                 ),
     )
 ),
