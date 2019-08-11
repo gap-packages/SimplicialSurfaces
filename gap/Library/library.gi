@@ -10,6 +10,20 @@
 ##
 #############################################################################
 
+# Return all possible locations of the library
+BindGlobal( "__SIMPLICIAL_LibraryLocation",
+    function()
+        local relPath, absPaths;
+
+        relPath := "pkg/simplicial-surfaces/library/";
+        # Find all possible paths where GAP might be and add the relative directory
+        absPaths := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
+        absPaths := Filtered( absPaths, IsDirectoryPath ); # check which ones actually exist
+
+        return absPaths;
+    end
+);
+
 BindGlobal( "__SIMPLICIAL_LoadLibrary",
     function()
         local allSurfs, absPaths, relPath, path, allFiles, file, surfs;
@@ -19,10 +33,7 @@ BindGlobal( "__SIMPLICIAL_LoadLibrary",
 
         allSurfs := [];
 
-        relPath := "pkg/simplicial-surfaces/library/";
-        # Find all possible paths where GAP might be and add the relative directory
-        absPaths := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
-        absPaths := Filtered( absPaths, IsDirectoryPath ); # check which ones actually exist
+        absPaths := __SIMPLICIAL_LibraryLocation();
 
         # try to load surfaces from all root paths
         for path in absPaths do
@@ -62,7 +73,9 @@ BindGlobal( "__SIMPLICIAL_LoadLibrary",
 __SIMPLICIAL_LoadLibrary();
 
 
-BindGlobal( "__SIMPLICIAL_ReadLibraryAccessList", 
+# Given: Argument list from AllSimplicialSurfaces
+# Returns: List of pairs [function, result OR set of possible results]
+BindGlobal( "__SIMPLICIAL_ParseLibraryQuery", 
     function( argList, fctName )
         local trueArg, ind;
 
@@ -79,8 +92,7 @@ BindGlobal( "__SIMPLICIAL_ReadLibraryAccessList",
                     " result of NumberOfFaces, so either a positive integer or",
                     " a list of positive integers."));
             else
-                trueArg[1] := NumberOfFaces;
-                trueArg[2] := argList[1];
+                trueArg[1] := [ NumberOfFaces, argList[1] ];
                 ind := 2;
             fi;
         else
@@ -95,19 +107,110 @@ BindGlobal( "__SIMPLICIAL_ReadLibraryAccessList",
                     " their results. On position ", ind, 
                     " a function was expected but not found."));
             fi;
-            Add(trueArg, argList[ind]);
             if IsBound(argList[ind+1]) and not IsFunction(argList[ind+1]) then
                 # The next position is a result
-                Add(trueArg, argList[ind+1]);
+                Add(trueArg, [argList[ind], argList[ind+1]]);
                 ind := ind+2;
             else
                 # The added function should return true
-                Add(trueArg, true);
+                Add(trueArg, [argLis[ind],true]);
                 ind := ind+1;
             fi;
         od;
 
         return trueArg;
+    end
+);
+
+# Given a polygonal complex and a query (pair [function, result]),
+# check whether the complex satisfies the query
+BindGlobal( "__SIMPLICIAL_CheckQuery",
+    function(complex, query)
+        local checkResult;
+
+        checkResult := query[1](complex);
+        return checkResult = query[2] or ( IsList(query[2]) and checkResult in query[2] );
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_AccessLibraryRecursive",
+    function(folder, queryList)
+        local allFiles, subfolder, subfolders, subfiles, result,
+            subDirName, recogFile, check;
+
+        allFiles := DirectoryContents( folder );
+        subfolders := Filtered(allFiles, f -> IsDirectoryPath(Concatenation(folder, f)) );
+        subfiles := Filtered(allFiles, f -> 
+            not IsDirectoryPath(Concatenation(folder, f)) and 
+            ForAll([".swp","~"], e -> not EndsWith(f, e)) and 
+            not StartsWith(f, "_") );
+        
+        result := [];
+
+        # Check all subfolders
+        for subfolder in subfolders do
+            # Ignore folders whose name starts with "_"
+            if StartsWith(subfolder, "_") then
+                continue;
+            fi;
+
+            # Otherwise we try to figure out whether we need to
+            # check this subdirectory
+            subDirName := Concatenation(folder, subfolder);
+            recogFile := Concatenation( subDirName, "_recog.g");
+            if IsExistingFile(recogFile) and IsReadableFile(recogFile) then
+                check := ReadAsFunction(recogFile);
+                if not check(queryList) then
+                    continue;
+                fi;
+            fi;
+            Append(result, __SIMPLICIAL_AccessLibraryRecursive(subDirName, queryList));
+        od;
+
+
+        # Preselect the subfiles by name
+        selectFile := Concatenation( folder, "_select.g" );
+        if IsExistingFile(selectFile) and IsReadableFile(selectFile) then
+            check := ReadAsFunction(selectFile);
+            validFiles := check(query, subfiles);
+        else
+            validFiles := subfiles;
+        fi;
+
+        # Try to use index files to reduce the number of surfaces that have to be loaded
+        indexUsed := false;
+        restrictedList := [];
+        indexFile := Concatenation(folder, "_index");
+        if IsDirectoryPath(indexFile) then
+            for query in queryList do
+                queryName := NameFunction( query[1] );
+                queryDirectory := Concatenation( indexFile, queryName );
+                if IsDirectoryPath(queryDirectory) and not queryName = "unknown" then
+                    queryResults := __SIMPLICIAL_LibraryIndexConvertQuery(queryName, query[2]);
+                    possFiles := [];
+                    for res in queryResults do
+                        resFile := Concatenation( queryDirectory, res );
+                        # TODO combine all index data into possFiles, then intersect those into restrictedList
+                        # Problem: What do we do with links to other parts of the library? When do we ignore/use them?
+                    od;
+                fi;
+            od;
+        fi;
+
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_AccessLibrary",
+    function(queryList)
+        local libraryPath;
+
+        libraryPath := __SIMPLICIAL_LibraryLocation();
+        if Length(libraryPath) = 0 then
+            Error("Surface library cannot be found.");
+        fi;
+        libraryPath := libraryPath[1]; # Pick just one of them. If this becomes problematic at some point, solve the problem.
+
+        return __SIMPLICIAL_AccessLibraryRecursive(libraryPath, queryList);
     end
 );
 
@@ -134,7 +237,7 @@ InstallGlobalFunction( "AllVEFComplexes",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllVEFComplexes");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllVEFComplexes");
         return __SIMPLICIAL_AccessLibrary(trueArg);
     end
 );
@@ -143,7 +246,7 @@ InstallGlobalFunction( "AllPolygonalComplexes",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllPolygonalComplexes");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllPolygonalComplexes");
         return __SIMPLICIAL_AccessLibrary(
             Concatenation([IsPolygonalComplex, true], trueArg) );
     end
@@ -153,7 +256,7 @@ InstallGlobalFunction( "AllTriangularComplexes",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllTriangularComplexes");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllTriangularComplexes");
         return __SIMPLICIAL_AccessLibrary(
             Concatenation([IsPolygonalComplex, true, IsTriangularComplex, true], trueArg) );
     end
@@ -163,7 +266,7 @@ InstallGlobalFunction( "AllPolygonalSurfaces",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllPolygonalSurfaces");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllPolygonalSurfaces");
         return __SIMPLICIAL_AccessLibrary(
             Concatenation([IsPolygonalSurface, true], trueArg) );
     end
@@ -173,7 +276,7 @@ InstallGlobalFunction( "AllSimplicialSurfaces",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllSimplicialSurfaces");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialSurfaces");
         return __SIMPLICIAL_AccessLibrary(
             Concatenation([IsSimplicialSurface, true], trueArg) );
     end
@@ -185,7 +288,7 @@ InstallGlobalFunction( "AllBendPolygonalComplexes",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ReadLibraryAccessList(arg, "AllBendPolygonalComplexes");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllBendPolygonalComplexes");
         return __SIMPLICIAL_AccessLibrary(
             Concatenation([IsBendPolygonalComplex, true], trueArg) );
     end
