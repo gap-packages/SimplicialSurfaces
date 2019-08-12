@@ -1,7 +1,5 @@
-return [
-    Tetrahedron(),
-    Cube(),
-    Octahedron(),
-    Dodecahedron(),
-    Icosahedron()
-];
+Tetrahedron()
+Cube()
+Octahedron()
+Dodecahedron()
+Icosahedron()
