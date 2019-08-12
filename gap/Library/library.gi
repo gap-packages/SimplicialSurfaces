@@ -38,6 +38,61 @@ BindGlobal( "__SIMPLICIAL_LibraryLocation",
     end
 );
 
+BindGlobal("__SIMPLICIAL_LibrarySubFilesDirectories",
+    function(path)
+        local allFiles, subfolders, subfiles;
+
+        allFiles := Difference( DirectoryContents( path ), [".",".."]);
+        subfolders := Filtered(allFiles, f -> IsDirectoryPath(Concatenation(path, f)) );
+        subfiles := Filtered(allFiles, f -> 
+            not IsDirectoryPath(Concatenation(path, f)) and 
+            ForAll([".bin",".swp","~"], e -> not EndsWith(f, e)) and  # temporary and index files
+            not StartsWith(f, "_") ); # automated files
+
+        return [subfiles, subfolders];
+    end
+);
+
+DeclareGlobalFunction("__SIMPLICIAL_InitializeLibraryCacheRecursive");
+InstallGlobalFunction("__SIMPLICIAL_InitializeLibraryCacheRecursive",
+    function(path, dict)
+        local subs, subfiles, subfolders, file, folder, subDict;
+
+        subs := __SIMPLICIAL_LibrarySubFilesDirectories(path);
+        subfiles := subs[1];
+        subfolders := subs[2];
+
+        # Simple files get initialized by an empty list
+        for file in subfiles do
+            AddDictionary(dict, file, []);
+        od;
+
+        # Subdirectories get initialized by a dictionary filled with empty lists
+        for folder in subfolders do
+            subDict := NewDictionary("string", true);
+            __SIMPLICIAL_InitializeLibraryCacheRecursive(Concatenation(path, folder, "/"), subDict);
+            AddDictionary(dict, folder, subDict);
+        od;
+    end
+);
+
+BindGlobal("SIMPLICIAL_LIBRARY_CACHE", NewDictionary("string", true)); #TODO The caching does not interact well with linking to other parts of the library
+BindGlobal( "__SIMPLICIAL_InitializeLibraryCache",
+    function()
+        local libraryPath, files;
+
+        libraryPath := __SIMPLICIAL_LibraryLocation();
+        if Length(libraryPath) = 0 then
+            return; # don't do anything as long as the user does not want to access the library
+        fi;
+        libraryPath := libraryPath[1];
+
+        __SIMPLICIAL_InitializeLibraryCacheRecursive(libraryPath, SIMPLICIAL_LIBRARY_CACHE);
+    end
+);
+__SIMPLICIAL_InitializeLibraryCache();
+
+
 DeclareGlobalFunction("__SIMPLICIAL_ParseLibraryQuery");
 
 # Given: Argument list from AllSimplicialSurfaces
@@ -128,7 +183,7 @@ InstallGlobalFunction( "__SIMPLICIAL_LibraryParseString",
             # encode different location
             if not StartsWith(split[1], startingDirectory) then
                 # This is the only relevant case - otherwise we will find this surface if we go down another path
-                return __SIMPLICIAL_ReadLine(split[1], Int(split[2]), startingDirectory);
+                return [split[1], __SIMPLICIAL_ReadLine(split[1], Int(split[2]), startingDirectory)];
             else
                 return fail;
             fi;
@@ -136,9 +191,65 @@ InstallGlobalFunction( "__SIMPLICIAL_LibraryParseString",
     end
 );
 
+BindGlobal("__SIMPLICIAL_ReadFile",
+    function(fileIn, queryList, startingDirectory, listCache)
+        local line, pos, result, data, surf, res;
+
+        result := [];
+        pos := 1;
+        line := ReadLine(fileIn);
+        while line <> fail do
+            if IsBound(listCache[pos]) then
+                data := listCache[pos];
+                if IsList(data) then
+                    if not StartsWith(data[1], startingDirectory) and __SIMPLICIAL_CheckQueryList(data[2],queryList) then
+                        Add(result, data[2]);
+                    fi;
+                else
+                    if __SIMPLICIAL_CheckQueryList(data, queryList) then
+                        Add(result, data);
+                    fi;
+                fi;
+            else
+                surf := __SIMPLICIAL_LibraryParseString(line, startingDirectory);
+                if surf <> fail then
+                    if IsList(surf) then
+                        listCache[pos] := surf;
+                        res := surf[2];
+                    else
+                        res := surf;
+                        listCache[pos] := surf;
+                    fi;
+                    if __SIMPLICIAL_CheckQueryList(res, queryList) then
+                        Add(result, res);
+                    fi;
+                fi;
+            fi;
+            pos := pos + 1;
+            line := ReadLine(fileIn);
+        od;
+
+        return result;
+    end
+);
+
 InstallGlobalFunction( "__SIMPLICIAL_ReadLine",
-    function(file, lineNr, startingDirectory)
-        local fileIn, locFileBinary, binIndex, line, split, surf, index;
+    function(file, lineNr, startingDirectory, listCache)
+        local fileIn, locFileBinary, binIndex, line, split, surf, index, data;
+
+        if IsBound(listCache[lineNr]) then
+            data := listCache[lineNr];
+            if IsList(data) then
+                # This refers to a different part of the library
+                if StartsWith(data[1], startingDirectory) then
+                    return fail;
+                else
+                    return data[2];
+                fi;
+            else
+                return data;
+            fi;
+        fi;
 
         fileIn := InputTextFile(file);
         locFileBinary := Concatenation(file, ".bin");
@@ -154,27 +265,33 @@ InstallGlobalFunction( "__SIMPLICIAL_ReadLine",
         fi;
 
         line := ReadLine(fileIn);
-        return __SIMPLICIAL_LibraryParseString(line, startingDirectory);
+        surf := __SIMPLICIAL_LibraryParseString(line, startingDirectory);
+        if surf = fail then
+            return fail;
+        elif IsList(surf) then;
+            listCache[lineNr] := surf;
+            return surf[2];
+        else
+            listCache[lineNr] := surf;
+            return surf;
+        fi;
     end
 );
-
 
 DeclareGlobalFunction("__SIMPLICIAL_AccessLibraryRecursive");
 
 InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
-    function(folder, queryList, startingDirectory)
+    function(folder, queryList, startingDirectory, dictCache)
         local allFiles, subfolder, subfolders, subfiles, result,
             subDirName, recogFile, check, selectFile, validFiles,
             indexFile, indexUsed, restrictedList, pos, query, file,
             queryName, queryDirectory, possFiles, res, fileIn, line, split,
-            queryResults, resFile, location, locFile, surf;
+            queryResults, resFile, location, locFile, surf, subDict,
+            listCache;
 
-        allFiles := Difference( DirectoryContents( folder ), [".",".."]);
-        subfolders := Filtered(allFiles, f -> IsDirectoryPath(Concatenation(folder, f)) );
-        subfiles := Filtered(allFiles, f -> 
-            not IsDirectoryPath(Concatenation(folder, f)) and 
-            ForAll([".bin",".swp","~"], e -> not EndsWith(f, e)) and  # temporary and index files
-            not StartsWith(f, "_") ); # automated files
+        allFiles := __SIMPLICIAL_LibrarySubFilesDirectories(folder);
+        subfolders := allFiles[2];
+        subfiles := allFiles[1];
         
         result := [];
 
@@ -195,7 +312,8 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
                     continue;
                 fi;
             fi;
-            Append(result, __SIMPLICIAL_AccessLibraryRecursive(subDirName, queryList, startingDirectory));
+            subDict := LookupDictionary(dictCache, subfolder);
+            Append(result, __SIMPLICIAL_AccessLibraryRecursive(subDirName, queryList, startingDirectory, subDict));
         od;
 
 
@@ -257,7 +375,8 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
                     Error("LibraryAccess: File ", locFile, " is requested by an index but could not be read.");
                 fi;
                 fileIn := InputTextFile(locFile);
-                surf := __SIMPLICIAL_ReadLine(locFile, location[2], startingDirectory);
+                listCache := LookupDictionary(dictCache, location[1]);
+                surf := __SIMPLICIAL_ReadLine(locFile, location[2], startingDirectory, listCache);
                 if surf <> fail and __SIMPLICIAL_CheckQueryList(surf, queryList) then
                     Add(result, surf);
                 fi;
@@ -266,14 +385,9 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
             # We read in all files
             for file in validFiles do
                 fileIn := InputTextFile(Concatenation(folder,"/",file));
-                line := ReadLine(fileIn);
-                while line <> fail do
-                    surf := __SIMPLICIAL_LibraryParseString(line, startingDirectory);
-                    if surf <> fail and __SIMPLICIAL_CheckQueryList(surf, queryList) then
-                        Add(result, surf);
-                    fi;
-                    line := ReadLine(fileIn);
-                od;
+                listCache := LookupDictionary(dictCache, file);
+
+                Append(result, __SIMPLICIAL_ReadFile(fileIn, queryList, startingDirectory, listCache ));
             od;
         fi;
 
@@ -283,7 +397,7 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
 
 BindGlobal( "__SIMPLICIAL_AccessLibrary",
     function(queryList, startingDirectory)
-        local libraryPath;
+        local libraryPath, split, dict, s;
 
         libraryPath := __SIMPLICIAL_LibraryLocation();
         if Length(libraryPath) = 0 then
@@ -291,7 +405,14 @@ BindGlobal( "__SIMPLICIAL_AccessLibrary",
         fi;
         libraryPath := Concatenation(libraryPath[1], startingDirectory); # Pick just one of them. If this becomes problematic at some point, solve the problem.
 
-        return __SIMPLICIAL_AccessLibraryRecursive(libraryPath, queryList, startingDirectory);
+        # Find the correct subdictionary of the cache
+        split := SplitString(startingDirectory, "/");
+        dict := SIMPLICIAL_LIBRARY_CACHE;
+        for s in split do
+            dict := LookupDictionary(dict, s);
+        od;
+
+        return __SIMPLICIAL_AccessLibraryRecursive(libraryPath, queryList, startingDirectory, dict);
     end
 );
 
