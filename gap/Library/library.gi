@@ -12,14 +12,27 @@
 
 BindGlobal( "__SIMPLICIAL_WriteSurfaceListIntoFile",
     function(file, surfaces)
-        local fileOut, surf, string;
+        local fileOut, surf, string, veString, efString;
 
         fileOut := OutputTextFile(file, false); # Replace old file
+        SetPrintFormattingStatus(fileOut, false);
         for surf in surfaces do
-            string := String(surf);
-            NormalizeWhitespace(string);
-            WriteLine(fileOut, StripLineBreakCharacters(string));
+            if not IsSimplicialSurface(surf) then
+                Error("Should not have called this method. I hope the file was not important..");
+            fi;
+            AppendTo(fileOut, "[SimplicialSurfaceByDownwardIncidenceNC,");
+
+            veString := String(VerticesOfEdges(surf));
+            RemoveCharacters(veString, " \n\t\r"); # Removes all whitespace
+            AppendTo(fileOut, veString);
+            AppendTo(fileOut, ",");
+
+            efString := String(EdgesOfFaces(surf));
+            RemoveCharacters(efString, " \n\t\r"); # Removes all whitespace
+            AppendTo(fileOut, efString);
+            AppendTo(fileOut, "]\n");
         od;
+        CloseStream(fileOut);
     end
 );
 
@@ -167,6 +180,119 @@ BindGlobal( "__SIMPLICIAL_CheckQueryList",
     end
 );
 
+DeclareGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive",);
+InstallGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive",    
+    function(path)
+        local subs, subfiles, subfolders, file, fileIn, posList,
+            pos, line, out;
+
+        subs := __SIMPLICIAL_LibrarySubFilesDirectories(path);
+        subfiles := subs[1];
+        subfolders := subs[2];
+
+        for folder in subfolders do
+            __SIMPLICIAL_LibraryConstructBinaryRecursive(Concatenation(path, folder, "/"));
+        od;
+
+
+        for file in subfiles do
+            fileIn := InputTextFile(Concatenation(path, file));
+            posList := [];
+            pos := 1;
+            line := "";
+            while line <> fail do
+                posList[pos] := PositionStream(fileIn);
+                pos := pos + 1;
+                line := ReadLine(fileIn);
+            od;
+            CloseStream(fileIn);
+
+            out := OutputTextFile(Concatenation(path, file, ".bin"),true);
+            AppendTo(out, "return ");
+            AppendTo(out, String(posList));
+            AppendTo(out, ";");
+            CloseStream(out);
+        od;
+    end
+);
+BindGlobal("__SIMPLICIAL_LibraryConstructBinary",
+    function()
+        local libraryPath;
+
+        libraryPath := __SIMPLICIAL_LibraryLocation();
+        if Length(libraryPath) = 0 then
+            return; # do not construct an index
+        fi;
+
+        __SIMPLICIAL_LibraryConstructBinaryRecursive(libraryPath);
+    end
+);
+__SIMPLICIAL_LibraryConstructBinary();
+
+DeclareGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive");
+InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
+    function(path)
+        local subs, subfiles, subfolders, folder, fct, fctName, file,
+            fileBinary, binIndex, fileIn, i, line, surf, res, out;
+
+        subs := __SIMPLICIAL_LibrarySubFilesDirectories(path);
+        subfiles := subs[1];
+        subfolders := subs[2];
+
+        for folder in subfolders do
+            __SIMPLICIAL_LibraryConstructIndexRecursive(Concatenation(path, folder, "/"));
+        od;
+
+        # Create new directory _index
+        ..
+        for fct in [NumberOfVertices, NumberOfEdges] do
+            # Create new subdirectory defined by the name of fct
+            fctName := NameFunction(fct);
+            ...
+
+            for file in subfiles do
+                # Check all stored surfaces and note down the results
+                fileBinary := Concatenation(file, ".bin");
+                if IsExistingFile(fileBinary) and IsReadableFile(fileBinary) then
+                    binIndex := ReadAsFunction(fileBinary)();
+                    fileIn := InputTextFile(Concatenation(path, file));
+
+                    for i in [1..Length(binIndex)] do
+                        SeekPositionStream(fileIn, binIndex[lineNr]);
+                        line := ReadLine(fileIn);
+                        surf := __SIMPLICIAL_LibraryParseString(line, path);
+
+                        if IsList(surf) then
+                            surf := surf[2];
+                        fi;
+
+                        res := fct(surf);
+                        out := OutputTextFile(String(res), true);#TODO put into correct folder
+                        AppendTo(out, file);
+                        AppendTo(out, " ");
+                        AppendTo(out, String(i));
+                        AppendTo(out, "\n");
+                        CloseStream(out);
+                    od;
+                    CloseStream(fileIn);
+                fi;
+            od;
+        od;
+    end
+);
+BindGlobal("__SIMPLICIAL_LibraryConstructIndex",
+    function()#TODO maybe add some folders to include/exclude?
+        local libraryPath;
+
+        libraryPath := __SIMPLICIAL_LibraryLocation();
+        if Length(libraryPath) = 0 then
+            return; # do not construct an index
+        fi;
+
+        __SIMPLICIAL_LibraryConstructIndexRecursive(libraryPath);
+    end
+);
+
 DeclareGlobalFunction("__SIMPLICIAL_ReadLine");
 DeclareGlobalFunction("__SIMPLICIAL_LibraryParseString");
 
@@ -265,6 +391,7 @@ InstallGlobalFunction( "__SIMPLICIAL_ReadLine",
         fi;
 
         line := ReadLine(fileIn);
+        CloseStream(fileIn);
         surf := __SIMPLICIAL_LibraryParseString(line, startingDirectory);
         if surf = fail then
             return fail;
@@ -356,6 +483,7 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
                                 fi;
                                 line := ReadLine(fileIn);
                             od;
+                            CloseStream(fileIn);
                         fi;
                     od;
                     if not indexUsed then
@@ -380,6 +508,7 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
                 if surf <> fail and __SIMPLICIAL_CheckQueryList(surf, queryList) then
                     Add(result, surf);
                 fi;
+                CloseStream(fileIn);
             od;
         else
             # We read in all files
@@ -388,6 +517,7 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
                 listCache := LookupDictionary(dictCache, file);
 
                 Append(result, __SIMPLICIAL_ReadFile(fileIn, queryList, startingDirectory, listCache ));
+                CloseStream(fileIn);
             od;
         fi;
 
