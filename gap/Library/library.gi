@@ -190,7 +190,7 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
             subDirName := Concatenation(folder, subfolder, "/");
             recogFile := Concatenation( subDirName, "_recog.g");
             if IsExistingFile(recogFile) and IsReadableFile(recogFile) then
-                check := ReadAsFunction(recogFile);
+                check := ReadAsFunction(recogFile)();
                 if not check(queryList) then
                     continue;
                 fi;
@@ -202,8 +202,8 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
         # Preselect the subfiles by name
         selectFile := Concatenation( folder, "_select.g" );
         if IsExistingFile(selectFile) and IsReadableFile(selectFile) then
-            check := ReadAsFunction(selectFile);
-            validFiles := check(query, subfiles);
+            check := ReadAsFunction(selectFile)();
+            validFiles := check(queryList, subfiles);
         else
             validFiles := subfiles;
         fi;
