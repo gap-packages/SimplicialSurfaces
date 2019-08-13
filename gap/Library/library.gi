@@ -237,7 +237,7 @@ DeclareGlobalFunction("__SIMPLICIAL_LibraryParseString");
 
 InstallGlobalFunction( "__SIMPLICIAL_LibraryParseString",
     function(string, startingDirectory)
-        local split, surf;
+        local split, surf, newPath;
     
         split := SplitString(string, "", "|\n");
         if Length(split) = 1 then
@@ -248,7 +248,8 @@ InstallGlobalFunction( "__SIMPLICIAL_LibraryParseString",
             # encode different location
             if not StartsWith(split[1], startingDirectory) then
                 # This is the only relevant case - otherwise we will find this surface if we go down another path
-                return [split[1], __SIMPLICIAL_ReadLine(split[1], Int(split[2]), startingDirectory)];
+                newPath := Concatenation(__SIMPLICIAL_LibraryLocation()[1], split[1]);
+                return [split[1], __SIMPLICIAL_ReadLine(newPath, Int(split[2]), startingDirectory, [])]; # ignore caching here
             else
                 return fail;
             fi;
@@ -429,7 +430,7 @@ InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
                     for i in [1..Length(binIndex)-1] do
                         SeekPositionStream(fileIn, binIndex[i]);
                         line := ReadLine(fileIn);
-                        surf := __SIMPLICIAL_LibraryParseString(line, path);
+                        surf := __SIMPLICIAL_LibraryParseString(line, path); # Giving path forces computation of every surface
 
                         if IsList(surf) then
                             surf := surf[2];

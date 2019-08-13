@@ -1,5 +1,5 @@
-Tetrahedron()
+simplicial spheres/4|1
 Cube()
-Octahedron()
+simplicial spheres/8|1
 Dodecahedron()
-Icosahedron()
+simplicial spheres/20|1
