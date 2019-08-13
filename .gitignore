@@ -25,6 +25,11 @@ flatex/flatex.o
 flatex/install-sh
 flatex/missing
 
+# Automatically generated library stuff
+*.bin
+*/_index/
+*/*/_index/
+
 # intermediate compilation stuff
 *.4ct
 *.4tc

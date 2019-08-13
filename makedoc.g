@@ -398,6 +398,9 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   return r;
 end);
 
+# Create binary and index files for the library
+__SIMPLICIAL_LibraryConstructBinary();
+__SIMPLICIAL_LibraryConstructIndex();
 
 # After all this preparatory work we can finally call the function to create
 # the documentation

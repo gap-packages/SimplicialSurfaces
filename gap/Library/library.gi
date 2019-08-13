@@ -463,12 +463,6 @@ BindGlobal("__SIMPLICIAL_LibraryConstructIndex",
     end
 );
 
-BindGlobal("__SIMPLICIAL_LibraryConstructIndexAndBinary",
-    function()
-        __SIMPLICIAL_LibraryConstructBinary();
-        __SIMPLICIAL_LibraryConstructIndex();
-    end
-);
 
 BindGlobal("__SIMPLICIAL_IndexQueryResults",
     function( queryName, queryResults )
