@@ -344,13 +344,62 @@ InstallGlobalFunction( "__SIMPLICIAL_ReadLine",
     end
 );
 
+# Entries are lists with the following entries:
+# 1. function
+# 2. Given a result, convert it into a string
+# 3. Given a queryResult (either a result or a list of results),
+#    convert it to a list of regular results
+BindGlobal( "SIMPLICIAL_LIBRARY_INDEX",
+    [
+        # VertexCounter
+        [VertexCounter, 
+            function(counter)
+                local str, sub;
+                str := "";
+                for sub in counter do
+                    Append(str, "__");
+                    Append(str, String(sub[1]));
+                    Append(str, "_");
+                    Append(str, String(sub[2]));
+                od;
+                return str;
+            end,
+            function(queryResult)
+                local results, RecogCounter;
+                RecogCounter := function(counter)
+                    local sub;
+                    if not IsList(counter) then
+                        return false;
+                    fi;
+                    for sub in counter do
+                        if not IsList(sub) then
+                            return false;
+                        fi;
+                        if Length(sub) <> 2 then
+                            return false;
+                        fi;
+                        if not IsPosInt(sub[1]) or not IsPosInt(sub[2]) then
+                            return false;
+                        fi;
+                    od;
+                    return true;
+                end;
+                if RecogCounter(queryResult) then
+                    return [queryResult];
+                elif not IsList(queryResult) then
+                    return [];
+                else
+                    return Filtered(queryResult, RecogCounter);
+                fi;
+            end]
+    ]);
 
 DeclareGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive");
 InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
     function(path)
         local subs, subfiles, subfolders, folder, fct, fctName, file,
             fileBinary, binIndex, fileIn, i, line, surf, res, out,
-            indexDirPath, fctFile;
+            indexDirPath, fctFile, tuple;
 
         subs := __SIMPLICIAL_LibrarySubFilesDirectories(path);
         subfiles := subs[1];
@@ -363,7 +412,8 @@ InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
         # Create new directory _index
         indexDirPath := Concatenation(path, "_index/");
         CreateDirIfMissing(indexDirPath);
-        for fct in [NumberOfVertices, NumberOfEdges] do
+        for tuple in SIMPLICIAL_LIBRARY_INDEX do
+            fct := tuple[1];
             # Create new subdirectory defined by the name of fct
             fctName := NameFunction(fct);
             fctFile := Concatenation(indexDirPath, fctName, "/");
@@ -386,7 +436,7 @@ InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
                         fi;
 
                         res := fct(surf);
-                        out := OutputTextFile(Concatenation(fctFile,String(res)), true);
+                        out := OutputTextFile(Concatenation(fctFile,tuple[2](res)), true);
                         AppendTo(out, file);
                         AppendTo(out, " ");
                         AppendTo(out, String(i));
@@ -422,19 +472,14 @@ BindGlobal("__SIMPLICIAL_LibraryConstructIndexAndBinary",
 
 BindGlobal("__SIMPLICIAL_IndexQueryResults",
     function( queryName, queryResults )
-        local result;
+        local result, tuple;
 
-        result := [];
-        if queryName in ["NumberOfVertices", "NumberOfEdges"] then
-            if IsInt(queryResults) then
-                Add(result, String(queryResults));
-            else
-                Append(result, List(queryResults,String));
+        for tuple in SIMPLICIAL_LIBRARY_INDEX do
+            if queryName = NameFunction(tuple[1]) then
+                result := tuple[3](queryResults); 
             fi;
-            return result;
-        fi;
-
-        return fail;
+        od;
+        return List(result, tuple[2]);
     end
 );
 
