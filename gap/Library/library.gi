@@ -640,3 +640,17 @@ InstallGlobalFunction( "AllBendPolygonalComplexes",
         return __SIMPLICIAL_AccessLibrary(trueArg, "");
     end
 );
+
+
+BindGlobal("__SIMPLICIAL_TestLibraryPerformance",
+    function()
+        local start;
+
+        start := Runtime();
+        AllSimplicialSurfaces(NumberOfEdges, 20);
+        AllPolygonalComplexes(NumberOfFaces, [1..20]);
+        AllSimplicialSurfaces(EulerCharacteristic, 2, IsClosedSurface);
+
+        return Runtime() - start;
+    end
+);
