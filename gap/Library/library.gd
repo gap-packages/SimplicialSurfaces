@@ -42,7 +42,13 @@
 #!   presented in section <Ref Sect="Section_Library_Classifications"/>.
 #!
 #!
-#! TODO complete introduction, maybe discuss some of the pre-defined structures?
+#! Section <Ref Sect="Section_Library_Usage"/> explains the main
+#! syntax that is used to access the library. It also contains the 
+#! methods to access the complete collection of complexes.
+#!
+#! Section <Ref Sect="Section_Library_Classifications"/> covers the
+#! specific classes of polygonal complexes that are (fully) contained
+#! in the package.
 
 #! @Section Accessing all stored complexes
 #! @SectionLabel Library_Usage
@@ -227,6 +233,7 @@ DeclareGlobalFunction("AllBendPolygonalComplexes");
 #!   (<Ref Subsect="Library_AllGeodesicSelfDualSurfaces"/>): 
 #!   geodesic self-dual surfaces
 #! 
+#! TODO needs nicer introduction and streamlining
 
 #! @BeginGroup Library_AllPlatonicSurfaces
 #! @Description
