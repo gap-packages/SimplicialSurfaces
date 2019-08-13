@@ -3,23 +3,19 @@
 
 # Here: exclude simplicial spheres
 return function( queryList )
-    local query;
+    local query, pair;
 
     for query in queryList do
-        # Check EulerCharacteristic
-        if query[1] = EulerCharacteristic then
-            if IsInt(query[2]) and query[2] <> 2 then
-                return false;
-            elif IsList(query[2]) and not 2 in query[2] then
-                return false;
-            fi;
-        fi;
-
-        if query[1] = IsTriangularComplex then
-            if query[2] = false then
+        for pair in [
+                [EulerCharacteristic,2], 
+                [IsTriangularComplex,true],
+                [IsClosedSurface,true],
+                [IsConnected, true]
+                ] do
+            if query[1] = pair[1] and not __SIMPLICIAL_LibraryRecogUniqueResult(pair[2],query[2]) then
                 return false;
             fi;
-        fi;
+        od;
     od;
 
     return true;

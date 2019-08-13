@@ -654,3 +654,17 @@ BindGlobal("__SIMPLICIAL_TestLibraryPerformance",
         return Runtime() - start;
     end
 );
+
+
+# Check whether a certain 'goal' is satisfied by a 'queryResult'
+BindGlobal("__SIMPLICIAL_LibraryRecogUniqueResult",
+    function(goal, queryResult)
+        if goal = queryResult then
+            return true;
+        elif IsList(queryResult) and goal in queryResult then
+            return true;
+        else
+            return false;
+        fi;
+    end
+);
