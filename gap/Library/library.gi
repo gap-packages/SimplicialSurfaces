@@ -682,6 +682,38 @@ InstallGlobalFunction( "AllBendPolygonalComplexes",
 );
 
 
+InstallGlobalFunction( "AllPlatonicSurfaces",
+    function(arg)
+        local trueArg;
+
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllPlatonicSurfaces");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "platonic surfaces");
+    end
+);
+
+
+InstallGlobalFunction( "AllSimplicialSpheres",
+    function(arg)
+        local trueArg;
+
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialSpheres");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "simplicial spheres");
+    end
+);
+
+
+InstallGlobalFunction( "AllGeodesicSelfDualSurfaces",
+    function(arg)
+        local trueArg;
+
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllGeodesicSelfDualSurfaces");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "geodesic selfdual surfaces");
+    end
+);
+
+
+
+
 BindGlobal("__SIMPLICIAL_TestLibraryPerformance",
     function()
         local start;

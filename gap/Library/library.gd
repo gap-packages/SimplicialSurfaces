@@ -207,6 +207,109 @@ DeclareGlobalFunction("AllBendPolygonalComplexes");
 #! @SectionLabel Library_Classifications
 #!
 #! In this section, different classifications of polygonal complexes
-#! are described.
+#! are described. In most cases, these are infinite families. The
+#! documentation of each method explains in detail which part of the
+#! classification can be relied upon.
+#!
+#! The general syntax is identical to the one from
+#! <K>AllVEFComplexes</K> or <K>AllSimplicialSurfaces</K>
+#! (<Ref Subsect="Library_AllVEFComplexes"/>).
+#!
+#! Currently, the following classes are contained in the package:
+#! * <K>AllPlatonicSurfaces</K> (<Ref Subsect="Library_AllPlatonicSurfaces"/>):
+#!   all platonic solids
+#! * <K>AllSimplicialSpheres</K> (<Ref Subsect="Library_AllSimplicialSpheres"/>):
+#!   simplicial spheres without 3--waists (i.e. each of their
+#!   vertex-edge-paths (<Ref Sect="Section_Paths_VertexEdge"/>) 
+#!   of length 3 is the perimeter path (<Ref Sect="Section_Paths_Perimeter"/>)
+#!   of a face).
+#! * <K>AllGeodesicSelfDualSurfaces</K>
+#!   (<Ref Subsect="Library_AllGeodesicSelfDualSurfaces"/>): 
+#!   geodesic self-dual surfaces
 #! 
-#! TODO
+
+#! @BeginGroup Library_AllPlatonicSurfaces
+#! @Description
+#! This method has the same syntax as <K>AllVEFComplexes</K> and
+#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! but is restricted to the platonic surfaces:
+#! * Tetrahedron
+#! * Cube
+#! * Octahedron
+#! * Dodecahderon
+#! * Icosahedron
+#!
+#! @BeginExampleSession
+#! gap> AllPlatonicSurfaces();
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+#!   polygonal surface (8 vertices, 12 edges, and 6 faces), 
+#!   simplicial surface (6 vertices, 12 edges, and 8 faces), 
+#!   polygonal surface (20 vertices, 30 edges, and 12 faces), 
+#!   simplicial surface (12 vertices, 30 edges, and 20 faces) ]
+#! @EndExampleSession
+#! 
+#! @Returns a list of polygonal surfaces
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllPlatonicSurfaces");
+#! @EndGroup
+
+#! @BeginGroup Library_AllSimplicialSpheres
+#! @Description
+#! This method has the same syntax as <K>AllVEFComplexes</K> and
+#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! but is restricted to the simplicial spheres without 3--waists, i.e.
+#! * simplicial surfaces
+#! * that are homeomorphic to the sphere
+#! * each of their
+#!   vertex-edge-paths (<Ref Sect="Section_Paths_VertexEdge"/>) 
+#!   of length 3 is the perimeter path (<Ref Sect="Section_Paths_Perimeter"/>)
+#!   of a face
+#!
+#! Since this class is infinite, not all of them can be accessed.
+#! Currently, all of those surfaces with at most 28 faces are
+#! stored.
+#!
+#! @BeginExampleSession
+#! gap> AllSimplicialSpheres([4,8,10]);
+#! [ simplicial surface (7 vertices, 15 edges, and 10 faces), 
+#!   simplicial surface (4 vertices, 6 edges, and 4 faces), 
+#!   simplicial surface (6 vertices, 12 edges, and 8 faces) ]
+#! gap> AllSimplicialSpheres(NumberOfVertices, 8);
+#! [ simplicial surface (8 vertices, 18 edges, and 12 faces), 
+#!   simplicial surface (8 vertices, 18 edges, and 12 faces) ]
+#! @EndExampleSession
+#! 
+#! @Returns a list of simplicial surfaces
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllSimplicialSpheres");
+#! @EndGroup
+
+#! @BeginGroup Library_AllGeodesicSelfDualSurfaces
+#! @Description
+#! This method has the same syntax as <K>AllVEFComplexes</K> and
+#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! but is restricted to the geodesic self-dual surfaces (TODO).
+#!
+#! Since these are (probably) infinite, this method currently only
+#! gives access to the following surfaces:
+#! * The unique geodesic self-dual surface of degree 5
+#! * Both geodesic self-dual surfaces of degree 6
+#! * The two geodesic self-dual surfaces of degree 8 that arise
+#!   from a normal subgroup
+#! * The geodesic self-dual surface of degree 9 that arises
+#!   from the trivial subgroup
+#!
+#! @BeginExampleSession
+#! gap> AllGeodesicSelfDualSurfaces();
+#! [ simplicial surface (6 vertices, 15 edges, and 10 faces), 
+#!   simplicial surface (3 vertices, 9 edges, and 6 faces), 
+#!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
+#!   simplicial surface (21 vertices, 84 edges, and 56 faces), 
+#!   simplicial surface (42 vertices, 168 edges, and 112 faces), 
+#!   simplicial surface (190 vertices, 855 edges, and 570 faces) ]
+#! @EndExampleSession
+#! 
+#! @Returns a list of simplicial surfaces
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
+#! @EndGroup
