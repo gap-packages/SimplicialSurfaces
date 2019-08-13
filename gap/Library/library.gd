@@ -10,40 +10,127 @@
 ##
 #############################################################################
 
-#TODO "Library" can raise erroneous assumptions (like libraries in C).
-# "Using the library" mirrors the language there as well. Maybe rename
-# to "Collection" or similar others? But this conflicts with established
-# names for other libraries in GAP..
+# The name "Library" can be a source of misunderstandings (actually happened
+# to some students), since it shares
+# terminology with "software libraries". Since the term is establishes in
+# GAP, we do not want to unilaterally deviate from it (and create confusion
+# for more regular users of GAP). Still, our terminology (in particular
+# our headings) should try to break with the language of software libraries.
+# If we do this properly, people who only know software libraries will
+# recognize that something is off and decide to investigate it.
 
-#! @Chapter Library of surfaces
+
+# The title includes "predefined" so that even if someone were to 
+# misunderstand "library" as "software library", they will still
+# check out this chapter if they search for surfaces "that are already defined"
+#! @Chapter Library of predefined surfaces
 #! @ChapterLabel Library
 #! 
 #! While chapter <Ref Chap="Chapter_Constructors"/> described how to construct
 #! polygonal complexes from their incidence structure, this chapter describes
 #! how to access the pre-defined surfaces and complexes in this package.
 #!
-#! The main feature is the library access <K>AllVEFComplexes</K>, which
-#! is similar to the group libraries of &GAP;
+#! The library serves two main purposes:
+#! * It is a collection of a large number of polygonal complexes that
+#!   can be used to test theories. This collection will change over
+#!   time when new surfaces are added. The collection can be accessed
+#!   in this way by methods like <K>AllSimplicialSurfaces</K>
+#!   (<Ref Subsect="Library_AllVEFComplexes"/>).
+#! * For certain classes of polygonal complexes (like simplicial spheres)
+#!   it provides a complete classification (within certain bounds). These
+#!   lists are complete and can be the basis for theorems. They are
+#!   presented in section <Ref Sect="Section_Library_Classifications"/>.
+#!
 #!
 #! TODO complete introduction, maybe discuss some of the pre-defined structures?
 
-#! @Section Using the library
+#! @Section Accessing all stored complexes
 #! @SectionLabel Library_Usage
 #!
-#! This section explains the functionality of the library method
-#! <K>AllVEFComplexes</K> (<Ref Subsect="Library_AllVEFComplexes"/>).
+#! This section explains how all polygonal complexes that are stored
+#! in the library can be accessed. This is done by the method
+#! <K>AllVEFComplexes</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! but it can also be restricted further, for example by
+#! <K>AllSimplicialSurfaces</K>.
+#!
+#! The syntax of this call can be a bit confusing at first, since it was
+#! chosen to give the user much flexibility. We will start with a few 
+#! examples. The call
+#! @BeginExampleSession 
+#! gap> AllSimplicialSurfaces( NumberOfFaces, 3 );
+#! [ simplicial surface (3 vertices, 6 edges, and 3 faces)  ]
+#! @EndExampleSession
+#! returns all simplicial surfaces from the library that have 
+#! exactly three faces.
+#!
+#! If we wanted all simplicial surfaces with 6, 8, or 9 edges,
+#! we could use
+#! @BeginExampleSession
+#! gap> AllSimplicialSurfaces( NumberOfEdges, [6,8,9] );
+#! [ simplicial surface (3 vertices, 9 edges, and 6 faces),
+#!   simplicial surface (4 vertices, 6 edges, and 4 faces), 
+#!   simplicial surface (3 vertices, 6 edges, and 3 faces), 
+#!   simplicial surface (3 vertices, 6 edges, and 4 faces) ]
+#! @EndExampleSession
+#!
+#! It is even possible to combine these restrictions. To obtain
+#! all simplicial surfaces with 6 edges and 4 faces, we could use
+#! @BeginExampleSession
+#! gap> AllSimplicialSurfaces(NumberOfEdges, 6, NumberOfFaces, [4]);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+#!   simplicial surface (3 vertices, 6 edges, and 4 faces) ]
+#! @EndExampleSession
+#!
+#! In general, the arguments of <K>AllSimplicialSurfaces</K> alternate
+#! between a function and its result (or list of possible results).
+#! The strength of this syntax derives from its versatility - it
+#! is actually possible to use every <E>conceivable</E> function.
+#! Obviously, we can use functions defined by this package. For example,
+#! the following command returns all predefined tori:
+#! @BeginExampleSession
+#! gap> AllPolygonalComplexes( IsConnected, true, 
+#! >            IsOrientable, true, EulerCharacteristic, 0 );
+#! [ simplicial surface (3 vertices, 9 edges, and 6 faces), 
+#!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
+#!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
+#! @EndExampleSession
+#! Since it is tedious to alway write <K>true</K>, there is a shortcut
+#! implemented that interprets "missing" results as <K>true</K>: 
+#! @BeginExampleSession
+#! gap> AllPolygonalComplexes( IsConnected, IsOrientable, EulerCharacteristic, 0 );
+#! [ simplicial surface (3 vertices, 9 edges, and 6 faces), 
+#!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
+#!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
+#! @EndExampleSession
+#!
+#! If this is not sufficient, any user can define their own functions
+#! to search for specific surfaces. For example, if one was interested
+#! in all non-orientable simplicial surfaces such that one vertex in
+#! incident to every face, we could find them like this:
+#! @BeginExampleSession
+#! gap> HasCentralVertex := function(surface)
+#! >        local intersect;
+#! >        intersect := Intersection(VerticesOfFaces(surface));
+#! >        return Length(intersect) > 0;
+#! > end;
+#! function( surface ) ... end
+#! gap> AllSimplicialSurfaces(IsOrientable, false, HasCentralVertex);
+#! [ simplicial surface (3 vertices, 6 edges, and 3 faces), 
+#!   simplicial surface (3 vertices, 6 edges, and 4 faces), 
+#!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
+#! @EndExampleSession
 #!
 
 #! @BeginGroup Library_AllVEFComplexes
 #! @Description
-#! Return all VEF-complexes of the library with the desired properties.
+#! Return all VEF-complexes that are stored in the library with the desired properties.
 #!
 #! The number of arguments can be arbitrarily long. In general the arguments
 #! have to come in pairs. The first argument in such a pair is a function and
 #! the second argument is either the result of that function or a list of
 #! accepted results. For example
 #! @BeginLog
-#! gap> AllVEFComplexes( NrOfVertices, [10,12], IsOrientable, false );
+#! gap> AllVEFComplexes( NumberOfVertices, [10,12], IsOrientable, false );
 #! @EndLog
 #! returns all non-orientable VEF-complexes with 10 or 12 vertices from
 #! the library.
@@ -94,7 +181,8 @@
 #! To obtain just tetrahedron and octahedron, the number of faces can be
 #! restricted:
 #! @BeginExampleSession
-#! gap> plat := AllPolygonalComplexes( [4,8], EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
+#! gap> plat := AllPolygonalComplexes( [4,8], 
+#! >               EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
 #! gap> Size(plat);
 #! 2
 #! @EndExampleSession
@@ -113,3 +201,12 @@ DeclareGlobalFunction("AllSimplicialSurfaces");
 #! @Arguments fct1, res1, fct2, res2, ...
 DeclareGlobalFunction("AllBendPolygonalComplexes");
 #! @EndGroup
+
+
+#! @Section Accessing the classifications
+#! @SectionLabel Library_Classifications
+#!
+#! In this section, different classifications of polygonal complexes
+#! are described.
+#! 
+#! TODO
