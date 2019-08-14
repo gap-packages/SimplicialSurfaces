@@ -29,6 +29,8 @@ flatex/missing
 *.bin
 */_index/
 */*/_index/
+*/*/*/_index/
+*/*/*/*/_index/
 
 # intermediate compilation stuff
 *.4ct
