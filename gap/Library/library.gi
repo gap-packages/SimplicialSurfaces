@@ -687,7 +687,7 @@ InstallGlobalFunction( "AllPlatonicSurfaces",
         local trueArg;
 
         trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllPlatonicSurfaces");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "platonic surfaces");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "platonic surfaces/");
     end
 );
 
@@ -697,7 +697,7 @@ InstallGlobalFunction( "AllSimplicialSpheres",
         local trueArg;
 
         trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialSpheres");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "simplicial spheres");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "simplicial spheres/");
     end
 );
 
@@ -707,7 +707,7 @@ InstallGlobalFunction( "AllGeodesicSelfDualSurfaces",
         local trueArg;
 
         trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllGeodesicSelfDualSurfaces");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "geodesic selfdual surfaces");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "geodesic selfdual surfaces/");
     end
 );
 
