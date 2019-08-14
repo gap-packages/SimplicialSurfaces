@@ -587,7 +587,7 @@ InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
         else
             # We read in all files
             for file in validFiles do
-                fileIn := InputTextFile(Concatenation(folder,"/",file));
+                fileIn := InputTextFile(Concatenation(folder,file));
                 listCache := LookupDictionary(dictCache, file);
 
                 Append(result, __SIMPLICIAL_ReadFile(fileIn, queryList, startingDirectory, listCache ));
