@@ -400,7 +400,7 @@ InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
     function(path)
         local subs, subfiles, subfolders, folder, fct, fctName, file,
             fileBinary, binIndex, fileIn, i, line, surf, res, out,
-            indexDirPath, fctFile, tuple;
+            indexDirPath, fctFile, tuple, escapedPath;
 
         subs := __SIMPLICIAL_LibrarySubFilesDirectories(path);
         subfiles := subs[1];
@@ -412,6 +412,9 @@ InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
 
         # Create new directory _index
         indexDirPath := Concatenation(path, "_index/");
+        escapedPath := ReplacedString(path, " ", "\\ ");
+        #Print("Try to move to ", escapedPath, "\n");
+        Exec("sh -c \" cd ", escapedPath, "; rm -r _index/;\"");
         CreateDirIfMissing(indexDirPath);
         for tuple in SIMPLICIAL_LIBRARY_INDEX do
             fct := tuple[1];
@@ -711,6 +714,15 @@ InstallGlobalFunction( "AllGeodesicSelfDualSurfaces",
     end
 );
 
+
+InstallGlobalFunction( "AllDiscs",
+    function(arg)
+        local trueArg;
+
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllDiscs");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "discs/");
+    end
+);
 
 
 

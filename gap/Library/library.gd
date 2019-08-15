@@ -320,3 +320,25 @@ DeclareGlobalFunction("AllSimplicialSpheres");
 #! @Arguments fct1, res1, fct2, res2, ...
 DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
 #! @EndGroup
+
+#! @BeginGroup Library_AllDiscs
+#! @Description
+#! This method has the same syntax as <K>AllVEFComplexes</K> and
+#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! but is restricted to simplicial discs. (TODO)
+#!
+#! This list is very incomplete at the moment TODO.
+#!
+#! @BeginExampleSession
+#! gap> discs := AllDiscs();;
+#! gap> Length(discs);
+#! 4
+#! gap> AllDiscs(function(surf) return 7 in FaceDegreesOfVertices(surf); end);
+#! []
+#! gap> List(discs, UmbrellaPathsOfVertices);;
+#! @EndExampleSession
+#! 
+#! @Returns a list of simplicial surfaces
+#! @Arguments fct1, res1, fct2, res2, ...
+DeclareGlobalFunction("AllDiscs");
+#! @EndGroup
