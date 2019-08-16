@@ -228,6 +228,37 @@ DeclareOperation( "FaceDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 
+#! @BeginGroup TotalDefect
+#! @Description
+#! Return the <E>total (inner) defect</E> of the given simplicial surface.
+#! The defect of an inner vertex is <M>6 - faceDegree</M> and the defect of
+#! a boundary vertex is <M>3 - faceDegree</M>.
+#!
+#! The <E>total defect</E> is the sum over all defects.
+#! The <E>total inner defect</E> is the sum over the defects of all inner 
+#! vertices.
+#! As an example, consider the five-star from the start of chapter
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!       \input{Image_FiveTrianglesInCycle.tex}
+#!    \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> TotalDefect( fiveStar );
+#! 6
+#! gap> TotalInnerDefect( fiveStar );
+#! 1
+#! @EndExampleSession
+#!
+#! @Returns an integer
+#! @Arguments surface
+DeclareAttribute( "TotalDefect", IsSimplicialSurface );
+#! @Arguments surface
+DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
+#! @EndGroup
+
+
 
 
 #! @BeginGroup VertexCounter

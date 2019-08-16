@@ -111,6 +111,41 @@ InstallMethod( FaceDegreeOfVertex, "for a VEF-complex and a vertex",
 );
 
 
+InstallMethod( TotalDefect, "for a simplicial surface", [IsSimplicialSurface],
+    function(surf)
+        local res, v, degrees;
+
+        degrees := FaceDegreesOfVertices(surf);
+        res := 0;
+        for v in VerticesAttributeOfVEFComplex(surf) do
+            if IsInnerVertexNC(surf, v) then
+                res := res + 6 - degrees[v];
+            else
+                res := res + 3 - degrees[v];
+            fi;
+        od;
+        return res;
+    end
+);
+RedispatchOnCondition( TotalDefect, true, [IsVEFComplex], [IsSimplicialSurface], 0 );
+
+InstallMethod( TotalInnerDefect, "for a simplicial surface", [IsSimplicialSurface],
+    function(surf)
+        local res, v, degrees;
+
+        degrees := FaceDegreesOfVertices(surf);
+        res := 0;
+        for v in VerticesAttributeOfVEFComplex(surf) do
+            if IsInnerVertexNC(surf, v) then
+                res := res + 6 - degrees[v];
+            fi;
+        od;
+        return res;
+    end
+);
+RedispatchOnCondition( TotalInnerDefect, true, [IsVEFComplex], [IsSimplicialSurface], 0 );
+
+
 InstallMethod( VertexCounter, "for a VEF-complex",
     [IsVEFComplex],
     function(complex)
