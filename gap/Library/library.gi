@@ -685,15 +685,6 @@ InstallGlobalFunction( "AllBendPolygonalComplexes",
 );
 
 
-InstallGlobalFunction( "AllPlatonicSurfaces",
-    function(arg)
-        local trueArg;
-
-        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllPlatonicSurfaces");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "platonic surfaces/");
-    end
-);
-
 
 InstallGlobalFunction( "AllSimplicialSpheres",
     function(arg)
@@ -752,3 +743,103 @@ BindGlobal("__SIMPLICIAL_LibraryRecogUniqueResult",
         fi;
     end
 );
+
+
+#######################################
+##
+##      Platonic surfaces
+##
+
+InstallGlobalFunction( "AllPlatonicSurfaces",
+    function(arg)
+        local trueArg;
+
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllPlatonicSurfaces");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "platonic surfaces/");
+    end
+);
+
+
+InstallMethod( Tetrahedron, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces(4,4,
+            [[1,2,3],[1,2,4],[2,3,4],[1,3,4]] );
+    end
+);
+
+InstallMethod( Cube, "", [], function()
+    return PolygonalSurfaceByDownwardIncidence(8, 12, 6,
+        [[1,2],[2,3],[3,4],[1,4],[2,6],[3,7],[4,8],[1,5],[6,7],[7,8],[5,8],[5,6]],
+        [[1,2,3,4],[1,5,8,12],[2,5,6,9],[4,7,8,11],[3,6,7,10],[9,10,11,12]]);
+    end
+);
+
+InstallMethod( Octahedron, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces(6,8,
+        [ [1,2,3],[2,5,6],[1,2,5],[2,3,6],[1,4,5],[3,4,6],[1,3,4],[4,5,6] ] );
+    end
+);
+
+InstallMethod( Dodecahedron, "", [], function()
+    return PolygonalSurfaceByVerticesInFaces( 20,12,
+        [ [1,2,3,4,5],[1,6,7,8,2],[2,3,10,9,8],[1,6,15,14,5],[3,4,12,11,10],
+        [4,5,14,13,12],[17,9,8,7,16],[6,7,16,20,15],
+        [17,9,10,11,18],[19,13,14,15,20],[11,12,13,19,18],[16,17,18,19,20] ] );
+    end
+);
+
+InstallMethod( Icosahedron, "", [], function()
+    return  SimplicialSurfaceByVerticesInFaces(12,20,
+		[ 	[1,2,3], [1,2,4], [1,4,5], [1,5,6],
+			[1,3,6], [2,3,7], [2,4,8], [4,9,5],
+			[5,6,10], [3,6,11], [2,7,8], [4,8,9],
+			[5,9,10], [6,10,11], [3,11,7], [7,8,12],
+			[8,9,12], [9,10,12], [10,11,12], [7,11,12]
+		] );
+    end
+);
+
+
+##
+##  End platonic surfaces
+##
+#######################################
+
+
+#######################################
+##
+##      Other examples
+##
+
+InstallMethod( JanusHead, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces( 3, 2, 
+            [ [1,2,3], [1,2,3] ] );
+    end
+);
+
+InstallMethod( SimplicialUmbrella, "for an integer at least 2", [IsPosInt],
+    function(nrFaces)
+        local verticesOfEdges, edgesOfFaces, i;
+
+        if nrFaces = 1 then
+            Error("SimplicialUmbrella: Argument has to be greater than 1.");
+        fi;
+
+        verticesOfEdges := [];
+        edgesOfFaces := [];
+        for i in [1..nrFaces-1] do
+            verticesOfEdges[i] := [i, nrFaces+1];
+            verticesOfEdges[nrFaces+i] := [i,i+1];
+
+            edgesOfFaces[i] := [i,i+1,nrFaces+i];
+        od;
+        verticesOfEdges[nrFaces] := [nrFaces, nrFaces+1];
+        verticesOfEdges[2*nrFaces] := [1, nrFaces];
+
+        edgesOfFaces[nrFaces] := [1,nrFaces, 2*nrFaces];
+
+        return SimplicialSurfaceByDownwardIncidenceNC([1..nrFaces+1], 
+            [1..2*nrFaces], [1..nrFaces], verticesOfEdges, edgesOfFaces);
+    end
+);
+
+

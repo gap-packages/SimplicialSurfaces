@@ -257,7 +257,7 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force _TIKZ_*;\"" );
         __SIMPLICIAL_MANUAL_MODE := true;
         Read("gap/PolygonalComplexes/drawing.gd");
-        Read("gap/PolygonalComplexes/constructors_images.gd");
+        Read("gap/Library/library_images.gd");
         Read("gap/PolygonalComplexes/distances_images.gd");
         Read("gap/ColouredComplexes/edgeColouring_images.gd");
         Read("gap/ColouredComplexes/variColouring_images.gd");
