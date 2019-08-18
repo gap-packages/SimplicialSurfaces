@@ -66,9 +66,15 @@ true
             </Item>
             <Item>It can work with edge colourings of simplicial surfaces
                 (in general and for the purpose of an embedding). <!--TODO--></Item>
-            <Item>It can fold and unfold these objects.
-                <!--TODO abstract nature has to be made clear--> </Item>
+            <!--            <Item>It can fold and unfold these objects.-->
+                <!--TODO abstract nature has to be made clear </Item>-->
         </Enum>
+        The remainder of this chapter is a measured introduction into
+        the main data structure of the package and some simple capabilities. 
+        Chapter <Ref Chap="PolygonalStructures"/> contains the formal definitions
+        of these concepts.
+        <!--        Chapter <Ref Chap="ExampleApplications"/> contains some more advanced
+        usage examples.-->
 
     </Section>
 

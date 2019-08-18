@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This chapter showcases the power of the SimplicialSurface-package
+     by giving examples of complicated problems that are solved by
+     using the package. The aim is to show experts what they can expect
+     from the package -->
+
+<Chapter Label="ExampleApplications"><Heading>Example Applications</Heading>
+    This chapter contains examples of several advanced applications
+    for the <K>SimplicialSurface</K>--package. It mainly serves as a
+    guideline that shows which problems can be solved by the package.
+    If it uses many unclear terms, it is recommended to skip this chapter.
+
+    <Section Label="ApplicationModifyDoubleFiveGon">
+        <Heading>Constructing a complicated surface from a simple one</Heading>
+        In this section, we want to construct the following surface:
+        <Enum>
+            <Item>Start with a spherical surface that has 10 faces,
+                two vertices of degree 5 and five vertices of degree 4,
+                such that the two vertices of degree 5 are not adjacent.</Item>
+            <Item>Pick two adjacent faces that are not incident to the
+                same vertex of degree 5 and ``stack'' an octahedron onto them.</Item>
+            <Item>Compute the automorphism group of the resulting surface.</Item>
+            <Item>Remove the unique vertex that is fixed by the 
+                whole automorphism group.</Item>
+        </Enum>
+
+        A tedious way would be to construct this surface by hand, label
+        all vertices, edges, and faces, and use one of the methods
+        from chapter <Ref Chap="Chapter_Constructors"/> to construct the 
+        surface.
+
+        Instead, we can also follow the guidelines to construct the surface.
+        First, we have to obtain the spherical surface. Since the two vertices
+        of degree 5 are not adjacent, the faces incident to them are distinct.
+        We can construct those by the method <K>SimplicialUmbrella</K>
+        (<Ref Subsect="SimplicialUmbrella"/>):
+<Example>
+gap&gt; umb5 := SimplicialUmbrella(5);
+simplicial surface (6 vertices, 10 edges, and 5 faces)
+</Example>
+        Since two of these umbrellas have 10 faces in total, we
+        can construct the surface from two umbrellas. We can do
+        so by identifying their boundaries. This process is known
+        as <E>joining</E> and the relevant methods are documented
+        in section <Ref Sect="Section_Modification_Joining"/>.
+        For our purpose, we need 
+        <K>JoinBoundaries</K> (<Ref Subsect="JoinBoundaries"/>).
+
+        This method requires a vertex and an edge of each umbrella,
+        that lie on the boundary and are incident to each other.
+        The easiest way would be to look up the labelling in
+        the documentation of <K>SimplicialUmbrella</K> 
+        (<Ref Subsect="SimplicialUmbrella"/>), but we can also find
+        one of them ourselves:
+<Example>
+gap&gt; boundaryEdges := BoundaryEdges(umb5);
+[ 6, 7, 8, 9, 10 ]
+gap&gt; verts := VerticesOfEdge(umb5, 6);
+[ 1, 2 ]
+</Example>
+        Therefore, 1 is a boundary vertex incident to the boundary
+        edge 6. This allows us to join the boundaries of two
+        umbrellas.
+<Example>
+gap&gt; join := JoinBoundaries(umb5, [1,6], umb5, [1,6]);
+[ simplicial surface (7 vertices, 15 edges, and 10 faces), 
+    ( v17, E21, v18, E22, v19, E23, v20, E24, v21, E25, v17 )
+    , 10 ]
+gap&gt; doubleFiveGon := join[1];
+simplicial surface (7 vertices, 15 edges, and 10 faces)
+</Example>
+        The second component of <A>join</A> is a vertex-edge-path
+        (compare section <Ref Sect="Section_Paths_VertexEdge"/>)
+        that describes how the old boundary lies in the new surface.
+        In particular, <M>E21</M> tells us that edge 21 was a
+        boundary edge before the joining. Therefore, the two faces
+        adjacent to that edge are not incident to the same vertex
+        of degree 5.
+<Example>
+gap&gt; adjFaces := FacesOfEdge(doubleFiveGon, 21);
+[1, 11]
+</Example>
+        Next, we want to ``stack'' an octahedron onto each of
+        these faces. We can construct an octahedron directly
+        by calling <K>Octahedron</K> (<Ref Subsect="Octahedron"/>),
+        and we can ``stack'' two surfaces by using
+        <K>ConnectedFaceSum</K> (<Ref Subsect="ConnectedFaceSum"/>).
+
+        Unfortunately, this method requires a flag of each surface
+        (it needs to know how exactly we want to combine
+        the surfaces). Since the octahedron is highly symmetric,
+        all possible choices lead to the same surface. For the flag
+        of <A>doubleFiveGon</A> we already have an edge (21) and a
+        face (1 and 11). We only need a vertex incident to the edge.
+<Example>
+gap&gt; VerticesOfEdge(doubleFiveGon, 21);
+[ 17, 18 ]
+</Example>
+        For the octahedron, we can use any flag. We can use
+        <K>Flags</K> (<Ref Subsect="ThreeFlags"/>) to compute all of
+        them.
+<Example>
+gap&gt; octa := Octahedron();
+simplicial surface (6 vertices, 12 edges, and 8 faces)
+gap&gt; octaFlag := Flags(octa)[1];
+[ 1, 1, 1 ]
+</Example>
+        This allows the first combination.
+<Example>
+gap&gt; faceSum1 := ConnectedFaceSum(doubleFiveGon, [17,21,1], octa, [1,1,1]);
+simplicial surface (10 vertices, 24 edges, and 16 faces)
+gap&gt; [ 17, 21, 11 ] in Flags(faceSum1);
+false
+</Example>
+        Such a combination might force a partical relabelling of the 
+        surface and in our case, this has happened: the triple <M>[17,21,11]</M>
+        is no flag of the new surface.
+
+        TODO this is very annoying
+
+    </Section>
+
+
+</Chapter>
+
