@@ -20,7 +20,7 @@ BindGlobal( "__SIMPLICIAL_WriteSurfaceListIntoFile",
             if not IsSimplicialSurface(surf) then
                 Error("Should not have called this method. I hope the file was not important..");
             fi;
-            AppendTo(fileOut, "[SimplicialSurfaceByDownwardIncidenceNC,");
+            AppendTo(fileOut, "SimplicialSurfaceByDownwardIncidenceNC(");
 
             veString := String(VerticesOfEdges(surf));
             RemoveCharacters(veString, " \n\t\r"); # Removes all whitespace
@@ -30,7 +30,7 @@ BindGlobal( "__SIMPLICIAL_WriteSurfaceListIntoFile",
             efString := String(EdgesOfFaces(surf));
             RemoveCharacters(efString, " \n\t\r"); # Removes all whitespace
             AppendTo(fileOut, efString);
-            AppendTo(fileOut, "]\n");
+            AppendTo(fileOut, ")\n");
         od;
         CloseStream(fileOut);
     end
