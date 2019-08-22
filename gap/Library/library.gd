@@ -432,7 +432,7 @@ DeclareOperation( "JanusHead", [] );
 
 
 
-
+#! @BeginGroup SimplicialUmbrella
 #! @Description
 #! Return a simplicial surface consisting of one closed umbrella-path
 #! with <A>nrFaces</A> triangles. The labels are assigned according
@@ -484,3 +484,4 @@ DeclareOperation( "JanusHead", [] );
 #! @Returns a simplicial surface
 #! @Arguments nrFaces
 DeclareOperation( "SimplicialUmbrella", [ IsPosInt ] );
+#! @EndGroup

@@ -24,6 +24,7 @@ doc/manual.six: makedoc.g \
 		doc/PolygonalStructures.xml \
 		doc/PolygonalStructuresDefinitions.xml \
 		doc/ExampleImplementations.xml \
+		doc/ExampleApplications.xml \
 		doc/Image_* \
 		doc/TableOfContents.autodoc\
 		doc/TikZHeader.tex

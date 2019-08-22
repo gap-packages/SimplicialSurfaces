@@ -98,7 +98,7 @@ gap&gt; VerticesOfEdge(doubleFiveGon, 21);
 [ 17, 18 ]
 </Example>
         For the octahedron, we can use any flag. We can use
-        <K>Flags</K> (<Ref Subsect="ThreeFlags"/>) to compute all of
+        <K>Flags</K> (<Ref Subsect="Flags"/>) to compute all of
         them.
 <Example>
 gap&gt; octa := Octahedron();
@@ -115,10 +115,51 @@ false
 </Example>
         Such a combination might force a partical relabelling of the 
         surface and in our case, this has happened: the triple <M>[17,21,11]</M>
-        is no flag of the new surface.
-
-        TODO this is very annoying
-
+        is no flag of the new surface. Fortunately, it is easy to
+        reconstruct: We are searching for a face whose vertices
+        have degrees <M>[5,6,6]</M>. 
+        
+        To localise such subconfigurations,
+        the methods of Section <Ref Sect="Section_Navigation_Subconfigurations"/>
+        can be used. For our purposes, the method
+        <K>FacesWithVertexProperties</K>
+        (<Ref Subsect="FacesWithVertexProperties"/>) is appropriate.
+<Example>
+gap&gt; face := FacesWithVertexProperties(faceSum1, [ 
+&gt;                v -> FaceDegreeOfVertex(faceSum1, v) = 5,
+&gt;                v -> FaceDegreeOfVertex(faceSum1, v) = 6,
+&gt;                v -> FaceDegreeOfVertex(faceSum1, v) = 6]);
+[ 11 ]
+gap&gt; edge := EdgesOfFace(faceSum1, face[1])[1];
+11
+gap&gt; vertex := VerticesOfEdge(faceSum1, edge)[1];
+16
+gap&gt; faceSum2 := ConnectedFaceSum(faceSum1,[vertex, edge, face[1]], octa,[1,1,1]);
+simplicial surface (13 vertices, 33 edges, and 22 faces)
+</Example>
+        To compute the automorphism group, we can use the methods
+        from Section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> .
+        Since we want to compute all fixed vertices, we use
+        <K>AutomorphismGroupOnVertices</K>
+        (<Ref Subsect="AutomorphismGroupOnVertices"/>).
+<Example>
+gap&gt; aut := AutomorphismGroupOnVertices(faceSum2);
+&lt;permutation group with 2 generators&gt;
+gap&gt; fixedVertices := Filtered( Vertices(faceSum2), 
+&gt;                        v -> ForAll(aut, a -> v^a=v) );
+[ 20 ]
+</Example>
+Removing the vertex <M>20</M> means removing all faces
+        incident to that vertex. This can be done by
+        <K>SubsurfaceByFaces</K> (<Ref Subsect="SubcomplexByFaces"/>).
+<Example>
+gap&gt; incFaces := FacesOfVertex(faceSum2, fixedVertices[1]);
+[ 3, 4, 13, 14 ]
+gap&gt; remainingFaces := Difference( Faces(faceSum2), incFaces );
+[ 2, 5, 12, 15, 27, 28, 29, 30, 31, 32, 33, 42, 43, 44, 45, 46, 47, 48 ]
+gap&gt; surf := SubsurfaceByFaces(faceSum2, remainingFaces);
+simplicial surface (12 vertices, 29 edges, and 18 faces)
+</Example>
     </Section>
 
 

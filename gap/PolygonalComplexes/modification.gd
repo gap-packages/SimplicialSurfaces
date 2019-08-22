@@ -803,6 +803,7 @@ DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList]
 #!
 #! 
 
+#! @BeginGroup ConnectedFaceSum
 #! @Description
 #! Compute the <E>connected face-sum</E> of two polygonal surfaces.
 #! The connected face-sum identifies the faces of two polygonal surfaces
@@ -826,6 +827,7 @@ DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList]
 #! @Returns a polygonal surface or <K>fail</K>
 #! @Arguments surface1, flag1, surface2, flag2
 DeclareOperation( "ConnectedFaceSum", [IsVEFSurface, IsList, IsVEFSurface, IsList] );
+#! @EndGroup
 #TODO can this be implemented more generally?
 
 
