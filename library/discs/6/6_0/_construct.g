@@ -1,9 +1,9 @@
 ConstructSixZero := function( verticesOfEdges, edgesOfFaces )
     local maxVert, maxEdge, maxFace, i;
 
-    maxVert := Maximum(Union(verticesOfEdges)) - 6;
     maxEdge := Length(verticesOfEdges);
     maxFace := Length(edgesOfFaces);
+    maxVert := maxEdge - maxFace + 1; # From Euler-characteristic = 1
 
     for i in [1..5] do
         verticesOfEdges[maxEdge+i] := [maxVert+i, maxVert+i+1];
