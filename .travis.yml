@@ -6,7 +6,7 @@ env:
     - GAP_PKGS_TO_BUILD="AttributeScheduler GAPDoc grape AutoDoc simplicial"
     - GAP_PKGS_TO_CLONE="sebasguts/AttributeScheduler.git sebasguts/NautyTracesInterface.git markusbaumeister/simplicial-surfaces"
     - CODECOV_TOKEN="1ec2fabd-42cd-4aed-a479-462f345ae841"
-    - GAP_TESTFILE="maketest.g"
+    - GAP_TESTFILE="@GAPROOT/pkg/simplicial-surfaces/maketest.g"
 
 addons:
   apt_packages:
