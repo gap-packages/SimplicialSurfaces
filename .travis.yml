@@ -6,8 +6,6 @@ env:
     - GAP_PKGS_TO_BUILD="AttributeScheduler NautyTracesInterface GAPDoc grape AutoDoc simplicial"
     - GAP_PKGS_TO_CLONE="sebasguts/AttributeScheduler.git sebasguts/NautyTracesInterface.git markusbaumeister/simplicial-surfaces"
 
-
-
 addons:
   apt_packages:
     - libgmp-dev
@@ -31,6 +29,7 @@ script:
   - scripts/build_pkg.sh
   - cd gap/pkg/simplicial-surfaces
   - gap/bin/gap.sh maketest.g
+
 after_script:
   - bash scripts/gather-coverage.sh
-- bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
