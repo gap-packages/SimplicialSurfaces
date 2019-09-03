@@ -24,10 +24,10 @@ before_script:
   - export GAPROOT="$HOME/gap"
   - git clone https://github.com/gap-system/pkg-ci-scripts.git scripts
   - scripts/build_gap.sh
+  - scripts/build_pkg.sh
   - gap/pkg/NautyTracesInterface/install.sh --gaproot GAPROOT
 
 script:
-  - scripts/build_pkg.sh
   - cd gap/pkg/simplicial-surfaces
   - gap/bin/gap.sh maketest.g
 
