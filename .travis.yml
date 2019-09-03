@@ -25,7 +25,8 @@ before_script:
   - git clone https://github.com/gap-system/pkg-ci-scripts.git scripts
   - scripts/build_gap.sh
   - scripts/build_pkg.sh
-  - gap/pkg/NautyTracesInterface/install.sh --gaproot GAPROOT
+  - ls
+  - GAPROOT/pkg/NautyTracesInterface/install.sh --gaproot GAPROOT
 
 script:
   - cd gap/pkg/simplicial-surfaces
