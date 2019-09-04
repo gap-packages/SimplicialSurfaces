@@ -26,11 +26,11 @@ BindGlobal( "__SIMPLICIAL_Test_EdgeColours", function()
     colComplex := Objectify( EdgeColouredPolygonalComplexType, rec() );
     SetPolygonalComplex(colComplex, complex);
     SetColoursOfEdges(colComplex, coloursOfEdges );
-    Assert(0, EdgesOfColours(colComplex) = edgesOfColours);
+    SIMPLICIAL_TestAssert(EdgesOfColours(colComplex) = edgesOfColours);
 
     # EdgesOfColours -> ColoursOfEdges
     colComplex := Objectify( EdgeColouredPolygonalComplexType, rec() );
     SetPolygonalComplex(colComplex, complex);
     SetEdgesOfColours(colComplex, edgesOfColours );
-    Assert(0, ColoursOfEdges(colComplex) = coloursOfEdges);
+    SIMPLICIAL_TestAssert(ColoursOfEdges(colComplex) = coloursOfEdges);
 end);

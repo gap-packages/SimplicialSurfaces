@@ -45,6 +45,7 @@ ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/colouring_copy_attribu
 ReadPackage( "SimplicialSurfaces", "gap/Flags/flags.gi" );
 
 # Tests (TODO remove later)
+ReadPackage( "SimplicialSurfaces", "unit_tests/test_init.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_BorderCases_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_EdgeColouring.g" );

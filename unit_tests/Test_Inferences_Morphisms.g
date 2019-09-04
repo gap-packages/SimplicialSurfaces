@@ -23,26 +23,26 @@ BindGlobal( "__SIMPLICIAL_Test_SourceRange", function()
     # Source
     mor := Objectify( PolygonalComplexMorphismType, rec() );
     SetSourceSurface(mor, surf);
-    Assert(0, SourceComplex(mor) = surf);
+    SIMPLICIAL_TestAssert(SourceComplex(mor) = surf);
 
     mor := Objectify( PolygonalComplexMorphismType, rec() );
     SetSourceComplex(mor, surf);
-    Assert(0, SourceSurface(mor) = surf);
+    SIMPLICIAL_TestAssert(SourceSurface(mor) = surf);
 
     mor := Objectify( PolygonalComplexMorphismType, rec() );
     SetSourceComplex(mor, cplx);
-    Assert(0, SourceSurface(mor) = fail);
+    SIMPLICIAL_TestAssert(SourceSurface(mor) = fail);
 
     # Range
     mor := Objectify( PolygonalComplexMorphismType, rec() );
     SetRangeSurface(mor, surf);
-    Assert(0, RangeComplex(mor) = surf);
+    SIMPLICIAL_TestAssert(RangeComplex(mor) = surf);
 
     mor := Objectify( PolygonalComplexMorphismType, rec() );
     SetRangeComplex(mor, surf);
-    Assert(0, RangeSurface(mor) = surf);
+    SIMPLICIAL_TestAssert(RangeSurface(mor) = surf);
 
     mor := Objectify( PolygonalComplexMorphismType, rec() );
     SetRangeComplex(mor, cplx);
-    Assert(0, RangeSurface(mor) = fail);
+    SIMPLICIAL_TestAssert(RangeSurface(mor) = fail);
 end);

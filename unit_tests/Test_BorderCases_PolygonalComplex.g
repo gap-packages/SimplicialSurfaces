@@ -17,35 +17,35 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     tet := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
-    Assert(0, IsClosedSurface(tet));
+    SIMPLICIAL_TestAssert(IsClosedSurface(tet));
 
 
     # Test the InnerVertices-method for the general case
     tet := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
-    Assert(0, InnerVertices(tet) = tet_verts);
+    SIMPLICIAL_TestAssert(InnerVertices(tet) = tet_verts);
     
     # Test the InnerVertices-method for the closed surface case
     tet := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
     SetIsClosedSurface(tet, true);
-    Assert(0, InnerVertices(tet) = tet_verts);
+    SIMPLICIAL_TestAssert(InnerVertices(tet) = tet_verts);
 
 
     # Test the BoundaryVertices-method for the general case
     tet := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
-    Assert(0, BoundaryVertices(tet) = []);
+    SIMPLICIAL_TestAssert(BoundaryVertices(tet) = []);
 
     # Test the BoundaryVertices-method for the closed surface case
     tet := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
     SetIsClosedSurface(tet, true);
-    Assert(0, BoundaryVertices(tet) = []);
+    SIMPLICIAL_TestAssert(BoundaryVertices(tet) = []);
 
     #TODO tests for other kinds of vertices and edges, preferably with more
     # complicated examples
@@ -58,39 +58,39 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
         [[6,12,7],[7,9,8],[11,10,7]]);  
 
     # Test Inner Edges
-    Assert(0,IsInnerEdge(paperAirplane,9)=false);
-    Assert(0,IsInnerEdgeNC(paperAirplane,7)=false); 
-    Assert(0,InnerEdges(paperAirplane)=[]);
+    SIMPLICIAL_TestAssert(IsInnerEdge(paperAirplane,9)=false);
+    SIMPLICIAL_TestAssert(IsInnerEdgeNC(paperAirplane,7)=false); 
+    SIMPLICIAL_TestAssert(InnerEdges(paperAirplane)=[]);
 
     # Test Boundary Edges
-    Assert(0,IsBoundaryEdge(paperAirplane,9)=true);
-    Assert(0,IsBoundaryEdge(paperAirplane,7)=false);
-    Assert(0,BoundaryEdges(paperAirplane)=[ 6, 8, 9, 10, 11, 12 ]);
+    SIMPLICIAL_TestAssert(IsBoundaryEdge(paperAirplane,9)=true);
+    SIMPLICIAL_TestAssert(IsBoundaryEdge(paperAirplane,7)=false);
+    SIMPLICIAL_TestAssert(BoundaryEdges(paperAirplane)=[ 6, 8, 9, 10, 11, 12 ]);
 
     # Test Ramified Edges
-    Assert(0,IsRamifiedEdge(paperAirplane,9)=false);
-    Assert(0,IsRamifiedEdgeNC(paperAirplane,7)=true);
-    Assert(0,RamifiedEdges(paperAirplane)=[ 7 ]);
+    SIMPLICIAL_TestAssert(IsRamifiedEdge(paperAirplane,9)=false);
+    SIMPLICIAL_TestAssert(IsRamifiedEdgeNC(paperAirplane,7)=true);
+    SIMPLICIAL_TestAssert(RamifiedEdges(paperAirplane)=[ 7 ]);
 
     # Test Inner Vertex
-    Assert(0,IsInnerVertex(paperAirplane,3)=false);
-    Assert(0,IsInnerVertexNC(paperAirplane,5)=false);
-    Assert(0,InnerVertices(paperAirplane)=[]);
+    SIMPLICIAL_TestAssert(IsInnerVertex(paperAirplane,3)=false);
+    SIMPLICIAL_TestAssert(IsInnerVertexNC(paperAirplane,5)=false);
+    SIMPLICIAL_TestAssert(InnerVertices(paperAirplane)=[]);
 
     # Test Boundary Vertex
-    Assert(0,IsBoundaryVertex(paperAirplane,3)=true);
-    Assert(0,IsBoundaryVertexNC(paperAirplane,5)=false);
-    Assert(0,BoundaryVertices(paperAirplane)=[1,3,4]);
+    SIMPLICIAL_TestAssert(IsBoundaryVertex(paperAirplane,3)=true);
+    SIMPLICIAL_TestAssert(IsBoundaryVertexNC(paperAirplane,5)=false);
+    SIMPLICIAL_TestAssert(BoundaryVertices(paperAirplane)=[1,3,4]);
 
     # Test Ramified Vertex
-    Assert(0,IsRamifiedVertex(paperAirplane,3)=false);
-    Assert(0,IsRamifiedVertexNC(paperAirplane,5)=false);
-    Assert(0,RamifiedVertices(paperAirplane)=[]);
+    SIMPLICIAL_TestAssert(IsRamifiedVertex(paperAirplane,3)=false);
+    SIMPLICIAL_TestAssert(IsRamifiedVertexNC(paperAirplane,5)=false);
+    SIMPLICIAL_TestAssert(RamifiedVertices(paperAirplane)=[]);
 
     # Test Chaotic Vertex
-    Assert(0,IsChaoticVertex(paperAirplane,3)=false);
-    Assert(0,IsChaoticVertexNC(paperAirplane,5)=true);
-    Assert(0,ChaoticVertices(paperAirplane)=[2,5]);
+    SIMPLICIAL_TestAssert(IsChaoticVertex(paperAirplane,3)=false);
+    SIMPLICIAL_TestAssert(IsChaoticVertexNC(paperAirplane,5)=true);
+    SIMPLICIAL_TestAssert(ChaoticVertices(paperAirplane)=[2,5]);
 
     ########################################
  
@@ -100,39 +100,39 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
         [[7,8,9],[10,11,15],[12,13,14]]);
 
     # Test Inner Edges
-    Assert(0,IsInnerEdge(triforce,7)=false);
-    Assert(0,IsInnerEdgeNC(triforce,10)=false); 
-    Assert(0,InnerEdges(triforce)=[]);
+    SIMPLICIAL_TestAssert(IsInnerEdge(triforce,7)=false);
+    SIMPLICIAL_TestAssert(IsInnerEdgeNC(triforce,10)=false); 
+    SIMPLICIAL_TestAssert(InnerEdges(triforce)=[]);
 
     # Test Boundary Edges
-    Assert(0,IsBoundaryEdge(triforce,7)=true);
-    Assert(0,IsBoundaryEdge(triforce,10)=true);
-    Assert(0,BoundaryEdges(triforce)=[ 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+    SIMPLICIAL_TestAssert(IsBoundaryEdge(triforce,7)=true);
+    SIMPLICIAL_TestAssert(IsBoundaryEdge(triforce,10)=true);
+    SIMPLICIAL_TestAssert(BoundaryEdges(triforce)=[ 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
 
     # Test Ramified Edges
-    Assert(0,IsRamifiedEdge(triforce,9)=false);
-    Assert(0,IsRamifiedEdgeNC(triforce,10)=false);
-    Assert(0,RamifiedEdges(triforce)=[]);
+    SIMPLICIAL_TestAssert(IsRamifiedEdge(triforce,9)=false);
+    SIMPLICIAL_TestAssert(IsRamifiedEdgeNC(triforce,10)=false);
+    SIMPLICIAL_TestAssert(RamifiedEdges(triforce)=[]);
 
     # Test Inner Vertex
-    Assert(0,IsInnerVertex(triforce,3)=false);
-    Assert(0,IsInnerVertexNC(triforce,6)=false);
-    Assert(0,InnerVertices(triforce)=[]);
+    SIMPLICIAL_TestAssert(IsInnerVertex(triforce,3)=false);
+    SIMPLICIAL_TestAssert(IsInnerVertexNC(triforce,6)=false);
+    SIMPLICIAL_TestAssert(InnerVertices(triforce)=[]);
 
     # Test Boundary Vertex
-    Assert(0,IsBoundaryVertex(triforce,3)=false);
-    Assert(0,IsBoundaryVertexNC(triforce,6)=true);
-    Assert(0,BoundaryVertices(triforce)=[1,4,6]);
+    SIMPLICIAL_TestAssert(IsBoundaryVertex(triforce,3)=false);
+    SIMPLICIAL_TestAssert(IsBoundaryVertexNC(triforce,6)=true);
+    SIMPLICIAL_TestAssert(BoundaryVertices(triforce)=[1,4,6]);
 
     # Test Ramified Vertex
-    Assert(0,IsRamifiedVertex(triforce,3)=true);
-    Assert(0,IsRamifiedVertexNC(triforce,6)=false);
-    Assert(0,RamifiedVertices(triforce)=[ 2, 3, 5 ]);
+    SIMPLICIAL_TestAssert(IsRamifiedVertex(triforce,3)=true);
+    SIMPLICIAL_TestAssert(IsRamifiedVertexNC(triforce,6)=false);
+    SIMPLICIAL_TestAssert(RamifiedVertices(triforce)=[ 2, 3, 5 ]);
 
     # Test Chaotic Vertex
-    Assert(0,IsChaoticVertex(triforce,3)=false);
-    Assert(0,IsChaoticVertexNC(triforce,6)=false);
-    Assert(0,ChaoticVertices(triforce)=[]);
+    SIMPLICIAL_TestAssert(IsChaoticVertex(triforce,3)=false);
+    SIMPLICIAL_TestAssert(IsChaoticVertexNC(triforce,6)=false);
+    SIMPLICIAL_TestAssert(ChaoticVertices(triforce)=[]);
 
     ########################################
 
@@ -144,40 +144,40 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
           [17,19,18],[14,16,19]]); 
 
     # Test Inner Edges
-    Assert(0,IsInnerEdge(doubleTetrahedron,11)=true);
-    Assert(0,IsInnerEdgeNC(doubleTetrahedron,16)=true); 
-    Assert(0,InnerEdges(doubleTetrahedron)=[ 8, 9, 10, 11, 12, 13, 14, 15,
+    SIMPLICIAL_TestAssert(IsInnerEdge(doubleTetrahedron,11)=true);
+    SIMPLICIAL_TestAssert(IsInnerEdgeNC(doubleTetrahedron,16)=true); 
+    SIMPLICIAL_TestAssert(InnerEdges(doubleTetrahedron)=[ 8, 9, 10, 11, 12, 13, 14, 15,
          16, 17, 18, 19 ]);
 
     # Test Boundary Edges
-    Assert(0,IsBoundaryEdge(doubleTetrahedron,11)=false);
-    Assert(0,IsBoundaryEdge(doubleTetrahedron,16)=false);
-    Assert(0,BoundaryEdges(doubleTetrahedron)=[]);
+    SIMPLICIAL_TestAssert(IsBoundaryEdge(doubleTetrahedron,11)=false);
+    SIMPLICIAL_TestAssert(IsBoundaryEdge(doubleTetrahedron,16)=false);
+    SIMPLICIAL_TestAssert(BoundaryEdges(doubleTetrahedron)=[]);
 
     # Test Ramified Edges
-    Assert(0,IsRamifiedEdge(doubleTetrahedron,11)=false);
-    Assert(0,IsRamifiedEdgeNC(doubleTetrahedron,16)=false);
-    Assert(0,RamifiedEdges(doubleTetrahedron)=[]);
+    SIMPLICIAL_TestAssert(IsRamifiedEdge(doubleTetrahedron,11)=false);
+    SIMPLICIAL_TestAssert(IsRamifiedEdgeNC(doubleTetrahedron,16)=false);
+    SIMPLICIAL_TestAssert(RamifiedEdges(doubleTetrahedron)=[]);
 
     # Test Inner Vertex
-    Assert(0,IsInnerVertex(doubleTetrahedron,2)=false);
-    Assert(0,IsInnerVertexNC(doubleTetrahedron,7)=true);
-    Assert(0,InnerVertices(doubleTetrahedron)=[ 1, 3, 4, 5, 6, 7 ]);
+    SIMPLICIAL_TestAssert(IsInnerVertex(doubleTetrahedron,2)=false);
+    SIMPLICIAL_TestAssert(IsInnerVertexNC(doubleTetrahedron,7)=true);
+    SIMPLICIAL_TestAssert(InnerVertices(doubleTetrahedron)=[ 1, 3, 4, 5, 6, 7 ]);
 
     # Test Boundary Vertex
-    Assert(0,IsBoundaryVertex(doubleTetrahedron,2)=false);
-    Assert(0,IsBoundaryVertexNC(doubleTetrahedron,7)=false);
-    Assert(0,BoundaryVertices(doubleTetrahedron)=[]);
+    SIMPLICIAL_TestAssert(IsBoundaryVertex(doubleTetrahedron,2)=false);
+    SIMPLICIAL_TestAssert(IsBoundaryVertexNC(doubleTetrahedron,7)=false);
+    SIMPLICIAL_TestAssert(BoundaryVertices(doubleTetrahedron)=[]);
 
     # Test Ramified Vertex
-    Assert(0,IsRamifiedVertex(doubleTetrahedron,2)=true);
-    Assert(0,IsRamifiedVertexNC(doubleTetrahedron,7)=false);
-    Assert(0,RamifiedVertices(doubleTetrahedron)=[ 2 ]);
+    SIMPLICIAL_TestAssert(IsRamifiedVertex(doubleTetrahedron,2)=true);
+    SIMPLICIAL_TestAssert(IsRamifiedVertexNC(doubleTetrahedron,7)=false);
+    SIMPLICIAL_TestAssert(RamifiedVertices(doubleTetrahedron)=[ 2 ]);
 
     # Test Chaotic Vertex
-    Assert(0,IsChaoticVertex(doubleTetrahedron,2)=false);
-    Assert(0,IsChaoticVertexNC(doubleTetrahedron,7)=false);
-    Assert(0,ChaoticVertices(doubleTetrahedron)=[]);
+    SIMPLICIAL_TestAssert(IsChaoticVertex(doubleTetrahedron,2)=false);
+    SIMPLICIAL_TestAssert(IsChaoticVertexNC(doubleTetrahedron,7)=false);
+    SIMPLICIAL_TestAssert(ChaoticVertices(doubleTetrahedron)=[]);
 
 
 end);
@@ -187,10 +187,10 @@ BindGlobal( "__SIMPLICIAL_Test_PolygonalHierarchy", function()
     local x;
 
     x := 5;
-    Assert(0, not IsPolygonalComplex(x));
-    Assert(0, not IsTriangularComplex(x));
-    Assert(0, not IsPolygonalSurface(x));
-    Assert(0, not IsSimplicialSurface(x));
+    SIMPLICIAL_TestAssert(not IsPolygonalComplex(x));
+    SIMPLICIAL_TestAssert(not IsTriangularComplex(x));
+    SIMPLICIAL_TestAssert(not IsPolygonalSurface(x));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(x));
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_SplitEdge", function()
@@ -199,36 +199,36 @@ BindGlobal( "__SIMPLICIAL_Test_SplitEdge", function()
     #Test repeated spliting
     oct := Octahedron();
     split := SplitEdge(oct, 1);
-    Assert(0, split[2] = [13, 14]);
-    Assert(0, split = SplitEdgeNC(oct, 1));
+    SIMPLICIAL_TestAssert(split[2] = [13, 14]);
+    SIMPLICIAL_TestAssert(split = SplitEdgeNC(oct, 1));
 
     split2 := SplitEdge(split[1], 2);
-    Assert(0, split2[2] = [15, 16]);
-    Assert(0, split2 = SplitEdgeNC(split[1], 2));
+    SIMPLICIAL_TestAssert(split2[2] = [15, 16]);
+    SIMPLICIAL_TestAssert(split2 = SplitEdgeNC(split[1], 2));
 
     split3 := SplitEdge(split2[1], 5);
-    Assert(0, split3[2] = [17, 18]);
-    Assert(0, split3 = SplitEdgeNC(split2[1], 5));
+    SIMPLICIAL_TestAssert(split3[2] = [17, 18]);
+    SIMPLICIAL_TestAssert(split3 = SplitEdgeNC(split2[1], 5));
 
     #Test if spliting outer edge changes anything
     triangle := SimplicialSurfaceByDownwardIncidence([[1,2], [1,3], [2,3]], [[1,2,3]]);
     split := SplitEdge(triangle, 3);
-    Assert(0, split[2] = [3]);
-    Assert(0, split = SplitEdgeNC(triangle, 3));
+    SIMPLICIAL_TestAssert(split[2] = [3]);
+    SIMPLICIAL_TestAssert(split = SplitEdgeNC(triangle, 3));
 
     #
     eye := PolygonalComplexByDownwardIncidence([[1,2], [2,3], [3,4], [4,1], [1,3], [1,3]], [[1,2,5], [5, 6], [3,4,6]]);
     eye1 := PolygonalComplexByDownwardIncidence([[1,2], [2,3], [3,4], [4,1],, [1,3], [1,3], [1,3]], [[1,2,7], [8, 6], [3,4,6]]);
     eye2 := PolygonalComplexByDownwardIncidence([[1,2], [2,3], [3,4], [4,1],,, [1,3], [1,3], [1,3], [1,3]], [[1,2,7], [8, 9], [3,4,10]]);
-    Assert(0, SplitEdge(eye, 5)[1] = eye1);
-    Assert(0, SplitEdgeNC(eye, 5)[1] = eye1);
-    Assert(0, SplitEdge(eye1, 6)[1] = eye2);
-    Assert(0, SplitEdgeNC(eye1, 6)[1] = eye2);
+    SIMPLICIAL_TestAssert(SplitEdge(eye, 5)[1] = eye1);
+    SIMPLICIAL_TestAssert(SplitEdgeNC(eye, 5)[1] = eye1);
+    SIMPLICIAL_TestAssert(SplitEdge(eye1, 6)[1] = eye2);
+    SIMPLICIAL_TestAssert(SplitEdgeNC(eye1, 6)[1] = eye2);
 
     #
     hourglass := PolygonalComplexByDownwardIncidence([[1,2], [2,3], [1,3], [3,2], [3,1]], [[1,2,3], [4,5,1]]);
     hourglass1 := PolygonalComplexByDownwardIncidence([, [2,3], [1,3], [3,2], [3,1], [1,2], [1,2]], [[6,2,3], [4,5,7]]);
-    Assert(0, SplitEdge(hourglass, 1) = [hourglass1, [6,7]]);
-    Assert(0, SplitEdgeNC(hourglass, 1) = [hourglass1, [6,7]]);
+    SIMPLICIAL_TestAssert(SplitEdge(hourglass, 1) = [hourglass1, [6,7]]);
+    SIMPLICIAL_TestAssert(SplitEdgeNC(hourglass, 1) = [hourglass1, [6,7]]);
 
 end);

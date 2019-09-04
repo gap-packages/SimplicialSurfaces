@@ -32,38 +32,38 @@ BindGlobal("__SIMPLICIAL_Test_ConnectionLabelStarOfStar", function()
     # EdgesOfVertices
     complex := Objectify( PolygonalComplexType, rec() );
     SetEdgesOfVertices( complex, list );
-    Assert(0, Edges(complex)=union);
-    Assert(0, Vertices(complex)=pos);
+    SIMPLICIAL_TestAssert(Edges(complex)=union);
+    SIMPLICIAL_TestAssert(Vertices(complex)=pos);
 
     # FacesOfVertices
     complex := Objectify( PolygonalComplexType, rec() );
     SetFacesOfVertices( complex, list );
-    Assert(0, Faces(complex)=union);
-    Assert(0, Vertices(complex)=pos);
+    SIMPLICIAL_TestAssert(Faces(complex)=union);
+    SIMPLICIAL_TestAssert(Vertices(complex)=pos);
 
     # VerticesOfEdges
     complex := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges( complex, list );
-    Assert(0, Vertices(complex)=union);
-    Assert(0, Edges(complex)=pos);
+    SIMPLICIAL_TestAssert(Vertices(complex)=union);
+    SIMPLICIAL_TestAssert(Edges(complex)=pos);
 
     # FacesOfEdges
     complex := Objectify( PolygonalComplexType, rec() );
     SetFacesOfEdges( complex, list );
-    Assert(0, Faces(complex)=union);
-    Assert(0, Edges(complex)=pos);
+    SIMPLICIAL_TestAssert(Faces(complex)=union);
+    SIMPLICIAL_TestAssert(Edges(complex)=pos);
 
     # VerticesOfFaces
     complex := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfFaces( complex, list );
-    Assert(0, Vertices(complex)=union);
-    Assert(0, Faces(complex)=pos);
+    SIMPLICIAL_TestAssert(Vertices(complex)=union);
+    SIMPLICIAL_TestAssert(Faces(complex)=pos);
 
     # EdgesOfFaces
     complex := Objectify( PolygonalComplexType, rec() );
     SetEdgesOfFaces( complex, list );
-    Assert(0, Edges(complex)=union);
-    Assert(0, Faces(complex)=pos);
+    SIMPLICIAL_TestAssert(Edges(complex)=union);
+    SIMPLICIAL_TestAssert(Faces(complex)=pos);
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_InvertIncidence", function()
@@ -75,32 +75,32 @@ BindGlobal( "__SIMPLICIAL_Test_InvertIncidence", function()
     # EdgesOfVertices
     complex := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges(complex, inc);
-    Assert(0, EdgesOfVertices(complex)=invInc);
+    SIMPLICIAL_TestAssert(EdgesOfVertices(complex)=invInc);
 
     # FacesOfVertices
     complex := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfFaces(complex, inc);
-    Assert(0, FacesOfVertices(complex)=invInc);
+    SIMPLICIAL_TestAssert(FacesOfVertices(complex)=invInc);
 
     # VerticesOfEdges
     complex := Objectify( PolygonalComplexType, rec() );
     SetEdgesOfVertices(complex, inc);
-    Assert(0, VerticesOfEdges(complex)=invInc);
+    SIMPLICIAL_TestAssert(VerticesOfEdges(complex)=invInc);
 
     # FacesOfEdges
     complex := Objectify( PolygonalComplexType, rec() );
     SetEdgesOfFaces(complex, inc);
-    Assert(0, FacesOfEdges(complex)=invInc);
+    SIMPLICIAL_TestAssert(FacesOfEdges(complex)=invInc);
 
     # VerticesOfFaces
     complex := Objectify( PolygonalComplexType, rec() );
     SetFacesOfVertices(complex, inc);
-    Assert(0, VerticesOfFaces(complex)=invInc);
+    SIMPLICIAL_TestAssert(VerticesOfFaces(complex)=invInc);
 
     # EdgesOfFaces
     complex := Objectify( PolygonalComplexType, rec() );
     SetFacesOfEdges(complex, inc);
-    Assert(0, EdgesOfFaces(complex)=invInc);
+    SIMPLICIAL_TestAssert(EdgesOfFaces(complex)=invInc);
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_TransitiveIncidence", function()
@@ -114,13 +114,13 @@ BindGlobal( "__SIMPLICIAL_Test_TransitiveIncidence", function()
     complex := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges( complex, a_of_b );
     SetEdgesOfFaces( complex, b_of_c);
-    Assert(0, VerticesOfFaces(complex)=a_of_c);
+    SIMPLICIAL_TestAssert(VerticesOfFaces(complex)=a_of_c);
 
     # FacesOfVertices
     complex := Objectify( PolygonalComplexType, rec() );
     SetFacesOfEdges( complex, a_of_b );
     SetEdgesOfVertices( complex, b_of_c );
-    Assert(0, FacesOfVertices(complex)=a_of_c);
+    SIMPLICIAL_TestAssert(FacesOfVertices(complex)=a_of_c);
 end);
 
 ##
@@ -157,7 +157,7 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     SetEdgesOfFaces( complex, edgesOfFaces );
     SetVerticesOfEdges( complex, verticesOfEdges );
     SetEdgesOfVertices( complex, edgesOfVertices );
-    Assert(0, perimeter = List(PerimeterPathsOfFaces(complex),PathAsList));
+    SIMPLICIAL_TestAssert(perimeter = List(PerimeterPathsOfFaces(complex),PathAsList));
 
 
     #
@@ -165,18 +165,18 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     #
     complex := Objectify( PolygonalComplexType, rec() );
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
-    Assert(0, VerticesOfFaces(complex)=verticesOfFaces);
+    SIMPLICIAL_TestAssert(VerticesOfFaces(complex)=verticesOfFaces);
 
     complex := Objectify( PolygonalComplexType, rec() );
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
-    Assert(0, EdgesOfFaces(complex)=edgesOfFaces);
+    SIMPLICIAL_TestAssert(EdgesOfFaces(complex)=edgesOfFaces);
 
     #
     # inferences about Faces
     #
     complex := Objectify( PolygonalComplexType, rec() );
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
-    Assert(0, Faces(complex) = faces);
+    SIMPLICIAL_TestAssert(Faces(complex) = faces);
 end);
 
 ##
@@ -198,21 +198,21 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
     SetUmbrellaPathPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
     SetIsNotEdgeRamified(complex, true);
     SetIsNotVertexRamified(complex, true);
-    Assert(0, List(UmbrellaPathsOfVertices(complex),PathAsList)=paths);
+    SIMPLICIAL_TestAssert(List(UmbrellaPathsOfVertices(complex),PathAsList)=paths);
 
     complex := Objectify( PolygonalComplexType, rec() );
     SetUmbrellaPathPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
-    Assert(0, List(UmbrellaPathsOfVertices(complex),PathAsList)=paths);
+    SIMPLICIAL_TestAssert(List(UmbrellaPathsOfVertices(complex),PathAsList)=paths);
 
     # from paths to partitions (first direct test, then check whether type can be inferred)
     complex := Objectify( PolygonalComplexType, rec() );
     SetUmbrellaPathsOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
     SetIsNotEdgeRamified(complex, true);
-    Assert(0, List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
+    SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
     complex := Objectify( PolygonalComplexType, rec() );
     SetUmbrellaPathsOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
-    Assert(0, List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
+    SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
 end);
 
@@ -233,16 +233,16 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaImplications", function()
 
     complex := Objectify( PolygonalComplexType, rec() );
     SetUmbrellaPathPartitionsOfVertices( complex, List(paths,s->List(s, p->EdgeFacePathNC(complex,p) ) ) );
-    Assert(0, Vertices(complex)=vertices);
-    Assert(0, Edges(complex)=edges);
-    Assert(0, Faces(complex)=faces);
-    Assert(0, VerticesOfEdges(complex)=verticesOfEdges);
-    Assert(0, EdgesOfFaces(complex)=edgesOfFaces);
+    SIMPLICIAL_TestAssert(Vertices(complex)=vertices);
+    SIMPLICIAL_TestAssert(Edges(complex)=edges);
+    SIMPLICIAL_TestAssert(Faces(complex)=faces);
+    SIMPLICIAL_TestAssert(VerticesOfEdges(complex)=verticesOfEdges);
+    SIMPLICIAL_TestAssert(EdgesOfFaces(complex)=edgesOfFaces);
 
     complex := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges(complex, verticesOfEdges);
     SetEdgesOfFaces(complex, edgesOfFaces);
-    Assert(0, List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=paths);
+    SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=paths);
 end);
 
 
@@ -255,77 +255,77 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     # If the connected components are known, the connectivity is known
     obj := Objectify( PolygonalComplexType, rec() );
     SetConnectedComponentsAttributeOfVEFComplex( obj, [] );
-    Assert(0, IsConnected(obj));
+    SIMPLICIAL_TestAssert(IsConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetConnectedComponentsAttributeOfVEFComplex( obj, [ 1 ] );
-    Assert(0, IsConnected(obj));
+    SIMPLICIAL_TestAssert(IsConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetConnectedComponentsAttributeOfVEFComplex( obj, [ 1, 2 ] );
-    Assert(0, not IsConnected(obj));
+    SIMPLICIAL_TestAssert(not IsConnected(obj));
 
 
     # If the strongly connected components are known, the strong connectivity is known
     obj := Objectify( PolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [] );
-    Assert(0, IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(IsStronglyConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [ obj ] );
-    Assert(0, IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(IsStronglyConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [ 1, 2 ] );
-    Assert(0, not IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(not IsStronglyConnected(obj));
 
 
     # If there is more than one connected component, the complex is not strongly connected
     obj := Objectify( PolygonalComplexType, rec() );
     SetConnectedComponentsAttributeOfVEFComplex(obj, [1,2]);
-    Assert(0, not IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(not IsStronglyConnected(obj));
 
 
     # If the complex is not connected, it is not strongly connected
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsConnected(obj, false);
-    Assert(0, not IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(not IsStronglyConnected(obj));
 
 
     # If a complex is connected, every face has the same connected component
     obj := Objectify( PolygonalComplexType, rec() );
     SetFaces(obj, [1]);
     SetIsConnected(obj, true);
-    Assert(0, ConnectedComponentOfFace(obj,1) = obj);
+    SIMPLICIAL_TestAssert(ConnectedComponentOfFace(obj,1) = obj);
 
 
     # If a complex is strongly connected, every face has the same strongly connected component
     obj := Objectify( PolygonalComplexType, rec() );
     SetFaces(obj, [1]);
     SetIsStronglyConnected(obj, true);
-    Assert(0, StronglyConnectedComponentOfFace(obj,1) = obj);
+    SIMPLICIAL_TestAssert(StronglyConnectedComponentOfFace(obj,1) = obj);
 
 
     # If a complex is connected, there is only one connected component
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsConnected(obj, true);
-    Assert(0, ConnectedComponentsAttributeOfVEFComplex(obj)=[obj]);
+    SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfVEFComplex(obj)=[obj]);
 
 
     # If a complex is strongly connected, there is only one strongly connected component
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsStronglyConnected(obj, true);
-    Assert(0, StronglyConnectedComponents(obj)=[obj]);
+    SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj)=[obj]);
 
 
     # If there is only one strongly connected component, then the complex is connected
     obj := Objectify( PolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [] );
-    Assert(0, IsConnected(obj));
+    SIMPLICIAL_TestAssert(IsConnected(obj));
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [obj] );
-    Assert(0, IsConnected(obj));
+    SIMPLICIAL_TestAssert(IsConnected(obj));
 
 
     # If we have a polygonal surface, connected = strongly connected
@@ -333,19 +333,19 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
     SetConnectedComponentsAttributeOfVEFComplex(obj, [obj]);
-    Assert(0, StronglyConnectedComponents(obj) = [obj]);
+    SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj) = [obj]);
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
     SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [obj] );
-    Assert(0, ConnectedComponentsAttributeOfVEFComplex(obj) = [obj]);
+    SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfVEFComplex(obj) = [obj]);
 
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
     SetIsConnected(obj, true);
-    Assert(0, StronglyConnectedComponents(obj)=[obj]);
+    SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj)=[obj]);
 end);
 
 
@@ -372,29 +372,29 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     obj := Objectify( PolygonalComplexType, rec() );
     SetVerticesOfEdges( obj, verticesOfEdges );
     SetEdgesOfFaces( obj, edgesOfFaces );
-    Assert(0, vertAsPerm = List(Orientation(obj),VerticesAsPerm));
-    Assert(0, vertAsList = List(Orientation(obj),VerticesAsList));
-    Assert(0, edgeAsPerm = List(Orientation(obj),EdgesAsPerm));
-    Assert(0, edgeAsList = List(Orientation(obj),EdgesAsList));
+    SIMPLICIAL_TestAssert(vertAsPerm = List(Orientation(obj),VerticesAsPerm));
+    SIMPLICIAL_TestAssert(vertAsList = List(Orientation(obj),VerticesAsList));
+    SIMPLICIAL_TestAssert(edgeAsPerm = List(Orientation(obj),EdgesAsPerm));
+    SIMPLICIAL_TestAssert(edgeAsList = List(Orientation(obj),EdgesAsList));
 
    
     # If the surface is not orientable, then we don't have an orientation
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsOrientable(obj, false);
-    Assert(0, fail=Orientation(obj));
+    SIMPLICIAL_TestAssert(fail=Orientation(obj));
     SetFaces(obj, faces);
     SetVerticesOfEdges(obj, verticesOfEdges); # not perfect, but probably ok
     SetEdgesOfFaces( obj, edgesOfFaces );
-    Assert(0, fail=Orientation(obj));
+    SIMPLICIAL_TestAssert(fail=Orientation(obj));
 
     # Check if inference from existence of orientation sets IsOrientable
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, List(perim, p -> VertexEdgePathNC(obj,p) ) );
-    Assert(0, IsOrientable(obj));
+    SIMPLICIAL_TestAssert(IsOrientable(obj));
     obj := Objectify( PolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, fail );
-    Assert(0, not IsOrientable(obj));
+    SIMPLICIAL_TestAssert(not IsOrientable(obj));
 end);
