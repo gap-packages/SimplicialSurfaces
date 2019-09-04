@@ -1,5 +1,5 @@
-if fail = LoadPackage("AutoDoc", "2016.02.16") then
-    Error("AutoDoc version 2016.02.16 or newer is required.");
+if fail = LoadPackage("AutoDoc", "2019.05.20") then
+    Error("AutoDoc version 2019.05.20 or newer is required.");
 fi;
 
 if fail = LoadPackage("GAPDoc", "1.6") then
@@ -406,19 +406,15 @@ __SIMPLICIAL_LibraryConstructIndex();
 # the documentation
 
 AutoDoc( rec( scaffold := rec(
-                    MainPage := false,
-                    gapdoc_latex_options := rec(
-                        LateExtraPreamble := __SIMPLICIAL_TikZHeader)
-                    ), 
+                    MainPage := false), 
               dir := __SIMPLICIAL_DocDirectory,
-              maketest := rec(
-                    commands := ["LoadPackage(\"SimplicialSurfaces\");\n SIMPLICIAL_TestAll();\n SIMPLICIAL_COLOURS_ON := false;\n"]
-              ),
+              extract_examples := true,
 	      autodoc := rec( 
                     files := [ ],
                     scan_dirs := ["doc", "gap", "gap/PolygonalComplexes", "gap/Paths", "gap/Library", "gap/ColouredComplexes", "gap/Flags", "gap/Morphisms"]),
               gapdoc := rec(
-                    files := ["doc/PolygonalStructuresDefinitions.xml", "doc/ExampleImplementations.xml"]
+                    files := ["doc/PolygonalStructuresDefinitions.xml", "doc/ExampleImplementations.xml"],
+                    LaTeXOptions := rec( LateExtraPreamble := __SIMPLICIAL_TikZHeader )
               ))
 );
 

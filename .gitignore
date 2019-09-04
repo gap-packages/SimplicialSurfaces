@@ -8,7 +8,7 @@ doc/_IMAGE*
 doc/_TIKZ*
 doc/manual.pdf
 doc/manual.six
-maketest.g
+tst/*.tst
 
 # flatex-folder
 flatex/.deps/
