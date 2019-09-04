@@ -23,11 +23,11 @@ before_script:
   - export GAPROOT="$HOME/gap"
   - git clone https://github.com/gap-system/pkg-ci-scripts.git scripts
   - scripts/build_gap.sh
-  - cd $GAPROOT/pkg/NautyTracesInterface && $GAPROOT/pkg/NautyTracesInterface/install.sh --gaproot $GAPROOT && cd -
-  - scripts/build_pkg.sh
+  - cd $GAPROOT/pkg/NautyTracesInterface && $GAPROOT/pkg/NautyTracesInterface/install.sh --gaproot $GAPROOT && cd - # Dirty hack to ensure compilation. Linking of the library would be preferable.
+  - scripts/build_pkg.sh # Usually part of the script. In our case, we only need to call 'make', but this is not recogized by the script.
 
 script:
-  - cd $GAPROOT/pkg/simplicial-surfaces && make && cd - && scripts/run_tests.sh
+  - cd $GAPROOT/pkg/simplicial-surfaces && $GAPROOT/bin/gap.sh makedoc.g && cd - && scripts/run_tests.sh
 
 after_script:
   - bash scripts/gather-coverage.sh
