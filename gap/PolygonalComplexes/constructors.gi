@@ -56,15 +56,6 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 setterNC := function( obj )
                     SetIsTriangular(obj, true);
                 end;
-            elif typeString = "RamifiedPolygonalSurface" then
-                setterNC := function( obj )
-                    SetIsNotEdgeRamified(obj, true);
-                end;
-            elif typeString = "RamifiedSimplicialSurface" then
-                setterNC := function( obj )
-                    SetIsNotEdgeRamified(obj, true);
-                    SetIsTriangular(obj, true);
-                end;
             elif typeString = "PolygonalSurface" then
                 setterNC := function( obj )
                     SetIsNotEdgeRamified(obj, true);
