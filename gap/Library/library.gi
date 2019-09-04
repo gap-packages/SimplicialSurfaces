@@ -413,16 +413,13 @@ InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
         # Create new directory _index
         indexDirPath := Concatenation(path, "_index/");
         escapedPath := ReplacedString(path, " ", "\\ ");
-        #Print("Try to move to ", escapedPath, "\n");
         Exec("sh -c \" cd ", escapedPath, "; rm -rf _index/; mkdir _index/\"");
-        ##CreateDirIfMissing(indexDirPath);
         for tuple in SIMPLICIAL_LIBRARY_INDEX do
             fct := tuple[1];
             # Create new subdirectory defined by the name of fct
             fctName := NameFunction(fct);
             fctFile := Concatenation(indexDirPath, fctName, "/");
             Exec("sh -c \" cd ", escapedPath, "; cd _index/; mkdir ", fctName, "\"");
-            #CreateDirIfMissing(fctFile);
 
             for file in subfiles do
                 # Check all stored surfaces and note down the results
