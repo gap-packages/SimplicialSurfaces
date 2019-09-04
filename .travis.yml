@@ -27,7 +27,7 @@ before_script:
   - $GAPROOT/pkg/NautyTracesInterface/install.sh --gaproot $GAPROOT
 
 script:
-  - scripts/build_pkg.sh && scripts/run_tests.sh && $GAPROOT/bin/gap.sh $GAPROOT/pkg/simplicial-surfaces/maketest.g
+  - scripts/build_pkg.sh && scripts/run_tests.sh && $GAPROOT/bin/gap.sh $GAPROOT/pkg/simplicial-surfaces/maketest.g --quitonbreak
 
 after_script:
   - bash scripts/gather-coverage.sh
