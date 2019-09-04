@@ -27,7 +27,7 @@ before_script:
   - scripts/build_pkg.sh # Usually part of the script. In our case, we only need to call 'make', but this is not recogized by the script.
 
 script:
-  - cd $GAPROOT/pkg/simplicial-surfaces && $GAPROOT/bin/gap.sh makedoc.g && cd - && scripts/run_tests.sh
+  - $GAPROOT/bin/gap.sh makedoc.g && scripts/run_tests.sh
 
 after_script:
   - bash scripts/gather-coverage.sh
