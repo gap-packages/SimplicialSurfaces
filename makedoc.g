@@ -1,9 +1,11 @@
 if fail = LoadPackage("AutoDoc", "2019.05.20") then
     Error("AutoDoc version 2019.05.20 or newer is required.");
+    QUIT_GAP(1);
 fi;
 
 if fail = LoadPackage("GAPDoc", "1.6") then
     Error("GAPDoc version 1.6 or newer is required.");
+    QUIT_GAP(1);
 fi;
 
 
