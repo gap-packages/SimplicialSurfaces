@@ -55,6 +55,7 @@
 #! TODO
 #!
 
+#! @BeginGroup EulerCharacteristic
 #! @Description
 #! Return the <E>Euler-characteristic</E> of the given VEF-complex.
 #! The Euler-characteristic is computed as
@@ -82,6 +83,7 @@
 #! @Returns an integer
 #! @Arguments complex
 DeclareAttribute( "EulerCharacteristic", IsVEFComplex );
+#! @EndGroup
 
 
 #! @BeginGroup IsClosedSurface

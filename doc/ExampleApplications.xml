@@ -11,6 +11,125 @@
     guideline that shows which problems can be solved by the package.
     If it uses many unclear terms, it is recommended to skip this chapter.
 
+    <Section Label="Sphere30Construction">
+        <Heading>Constructing a spherical surface with 30 faces and trivial automorphism group</Heading>
+        In this section, we want to construct a simplicial surface
+        with the following properties:
+        <Enum>
+            <Item>It is spherical, i.e. closed, orientable, with
+                Euler-characteristic 2.</Item>
+            <Item>It has exactly 30 faces.</Item>
+            <Item>It has trivial automorphism group.</Item>
+        </Enum>
+        A simple way to construct large surfaces is by stacking together
+        small surfaces with <K>ConnectedFaceSum</K>
+        (<Ref Subsect="ConnectedFaceSum"/>). Combining two spherical
+        surfaces with 16 faces would create a spherical surface with
+        30 faces (since two faces are lost in the construction).
+
+        We can obtain a list of spherical surfaces with 16 faces by
+        accessing the surface-library with <K>AllSimplicialSpheres</K>
+        (<Ref Subsect="AllSimplicialSpheres"/>):
+<Example>
+gap&gt; surf16 := AllSimplicialSpheres(16);;
+gap&gt; Length(surf16);
+10
+</Example>
+        The method <K>ConnectedFaceSum</K> requires flags of the surfaces
+        we want to combine. We can obtain the set of all flags by calling
+        <K>Flags</K>(<Ref Subsect="Flags"/>).
+<Example>
+gap&gt; Flags(surf16[1]);
+[ [ 1, 1, 1 ], [ 1, 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 1 ], [ 1, 3, 3 ], 
+  [ 1, 4, 2 ], [ 1, 4, 4 ], [ 2, 5, 5 ], [ 2, 5, 6 ], [ 2, 6, 7 ], [ 2, 6, 8 ], 
+  [ 2, 7, 5 ], [ 2, 7, 7 ], [ 2, 8, 6 ], [ 2, 8, 8 ], [ 3, 5, 5 ], [ 3, 5, 6 ], 
+  [ 3, 9, 5 ], [ 3, 9, 9 ], [ 3, 10, 6 ], [ 3, 10, 10 ], [ 3, 11, 9 ], 
+  [ 3, 11, 10 ], [ 4, 6, 7 ], [ 4, 6, 8 ], [ 4, 12, 7 ], [ 4, 12, 11 ], 
+  [ 4, 13, 8 ], [ 4, 13, 12 ], [ 4, 14, 11 ], [ 4, 14, 12 ], [ 5, 7, 5 ], 
+  [ 5, 7, 7 ], [ 5, 9, 5 ], [ 5, 9, 9 ], [ 5, 12, 7 ], [ 5, 12, 11 ], 
+  [ 5, 15, 9 ], [ 5, 15, 13 ], [ 5, 16, 11 ], [ 5, 16, 14 ], [ 5, 17, 13 ], 
+  [ 5, 17, 14 ], [ 6, 8, 6 ], [ 6, 8, 8 ], [ 6, 10, 6 ], [ 6, 10, 10 ], 
+  [ 6, 13, 8 ], [ 6, 13, 12 ], [ 6, 18, 10 ], [ 6, 18, 15 ], [ 6, 19, 12 ], 
+  [ 6, 19, 16 ], [ 6, 20, 15 ], [ 6, 20, 16 ], [ 7, 1, 1 ], [ 7, 1, 2 ], 
+  [ 7, 11, 9 ], [ 7, 11, 10 ], [ 7, 15, 9 ], [ 7, 15, 13 ], [ 7, 18, 10 ], 
+  [ 7, 18, 15 ], [ 7, 21, 1 ], [ 7, 21, 13 ], [ 7, 22, 2 ], [ 7, 22, 15 ], 
+  [ 8, 2, 3 ], [ 8, 2, 4 ], [ 8, 14, 11 ], [ 8, 14, 12 ], [ 8, 16, 11 ], 
+  [ 8, 16, 14 ], [ 8, 19, 12 ], [ 8, 19, 16 ], [ 8, 23, 3 ], [ 8, 23, 14 ], 
+  [ 8, 24, 4 ], [ 8, 24, 16 ], [ 9, 3, 1 ], [ 9, 3, 3 ], [ 9, 17, 13 ], 
+  [ 9, 17, 14 ], [ 9, 21, 1 ], [ 9, 21, 13 ], [ 9, 23, 3 ], [ 9, 23, 14 ], 
+  [ 10, 4, 2 ], [ 10, 4, 4 ], [ 10, 20, 15 ], [ 10, 20, 16 ], [ 10, 22, 2 ], 
+  [ 10, 22, 15 ], [ 10, 24, 4 ], [ 10, 24, 16 ] ]
+gap&gt; surfA := surf16[1];;
+gap&gt; surfB := surf16[2];;
+gap&gt; newSurf := ConnectedFaceSum(surfA, Flags(surfA)[1], surfB, Flags(surfB)[1]);
+simplicial surface (17 vertices, 45 edges, and 30 faces)
+</Example>
+        To check whether this new surface has trivial automorphism group,
+        we compute the automorphism group with <K>AutomorphismGroup</K>
+        (<Ref Subsect="AutomorphismGroup"/>).
+<Example>
+gap&gt; autGrp := AutomorphismGroup(newSurf);
+Group(())
+</Example>
+        Since this is the trivial group, we succeeded in our goal.
+    </Section>
+
+    <Section Label="GeneralSurfaceAnalysis">
+        <Heading>Analysing a given surface</Heading>
+        In this section, we present several options to analyse a
+        given surface. As an example, we will use the surface that
+        we constructed in the last section.
+<Example>
+gap&gt; newSurf;
+simplicial surface (17 vertices, 45 edges, and 30 faces)
+</Example>
+        We can already read of the number of vertices, edges, and faces.
+        Some other elementary properties are orientability 
+        (<K>IsOrientable</K>, <Ref Subsect="IsOrientable"/>),
+        connectivity (<K>IsConnected</K>, <Ref Subsect="IsConnected"/>),
+        closedness (<K>IsClosedSurface</K>, <Ref Subsect="IsClosedSurface"/>),
+        and the Euler-characteristic (<K>EulerCharacteristic</K>,
+        <Ref Subsect="EulerCharacteristic"/>).
+<Example>
+gap&gt; IsOrientable(newSurf);
+true
+gap&gt; IsConnected(newSurf);
+true
+gap&gt; IsClosedSurface(newSurf);
+true
+gap&gt; EulerCharacteristic(newSurf);
+2
+</Example>
+        In our case, we can deduce that the surface <A>newSurf</A> can
+        be represented as a triangulation of the sphere. We might want to
+        know how many vertices there are of different degrees. This
+        can be found out by using <K>VertexCounter</K> 
+        (<Ref Subsect="VertexCounter"/>).
+<Example>
+gap&gt; VertexCounter(newSurf);
+[ [ 4, 8 ], [ 5, 2 ], [ 6, 5 ], [ 7, 1 ], [ 11, 1 ] ]
+</Example>
+        This tells us that there are 8 vertices of degree 4, for example.
+        We could be interested in the distance of the two vertices of degree
+        5. For that, we have to find these vertices first. For this, we need
+        to know the degrees of each vertex. This can be calculated by
+        <K>FaceDegreeOfVertex</K> (<Ref Subsect="FaceDegreesOfVertices"/>).
+<Example>
+gap&gt; Filtered( Vertices(newSurf), v -> FaceDegreeOfVertex(newSurf,v) = 5 );
+[ 31, 33 ]
+</Example>
+        The distance between two vertices can be calculated with
+        <K>DistanceOfVertices</K> (<Ref Subsect="DistanceOfVertices"/>).
+<Example>
+gap&gt; DistanceOfVertices(newSurf, 31, 33);
+1
+</Example>
+        Therefore, the two vertices of degree 5 are adjacent.
+    </Section>
+
+
+
+
     <Section Label="ApplicationModifyDoubleFiveGon">
         <Heading>Constructing a complicated surface from a simple one</Heading>
         In this section, we want to construct the following surface:
