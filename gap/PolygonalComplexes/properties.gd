@@ -217,6 +217,8 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! 2
 #! gap> FaceDegreesOfVertices( fiveStar );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
+#! gap> DegreesOfVertices( fiveStar );
+#! [ 5, 2, 2,, 2,, 2,,,, 2 ]
 #! @EndExampleSession
 #!
 #! For convenience, these methods can also be called by the names
