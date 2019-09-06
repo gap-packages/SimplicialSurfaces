@@ -1360,7 +1360,7 @@ DeclareProperty( "IsConnected", IsVEFComplex );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> comp := ConnectedComponentsOfComplex( butterfly );;
+#! gap> comp := ConnectedComponents( butterfly );;
 #! gap> Size(comp);
 #! 1
 #! gap> comp[1] = butterfly;
@@ -1370,7 +1370,7 @@ DeclareProperty( "IsConnected", IsVEFComplex );
 #!
 #! @Returns a list of polygonal complexes
 #! @Arguments complex
-DeclareOperation( "ConnectedComponentsOfComplex", [IsVEFComplex] );
+DeclareOperation( "ConnectedComponents", [IsVEFComplex] );
 #! @Arguments complex
 DeclareAttribute( "ConnectedComponentsAttributeOfVEFComplex", IsVEFComplex );
 #! @Returns a polygonal complex
