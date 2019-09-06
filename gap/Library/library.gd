@@ -524,4 +524,42 @@ DeclareOperation( "SimplicialOpenGeodesic", [ IsPosInt ] );
 DeclareOperation( "SimplicialStrip", [ IsPosInt ] );
 #! @EndGroup
 
+#! @BeginGroup SimplicialClosedGeodesic
+#! @Description
+#! Return a simplicial surface consisting of one closed geodesic-path
+#! with <A>nrFaces</A> triangles (at least 3 faces are needed). 
+#! The labels are assigned according
+#! to the following illustration (for <M>n</M> odd), 
+#! in which <M>n</M> is <A>nrFaces</A>.
+#! <Alt Only="TikZ">
+#!   \input{Image_SimplicialClosedGeodesic.tex}
+#! </Alt>
+#!
+#! @ExampleSession
+#! gap> geo3 := SimplicialClosedGeodesic(3);
+#! simplicial surface (3 vertices, 6 edges, and 3 faces)
+#! gap> VerticesOfEdges(geo3);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
+#! gap> EdgesOfFaces(geo3);
+#! [ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 1, 5, 6 ] ]
+#! gap> VerticesOfFaces(geo3);
+#! [ [ 1, 2, 3 ], [ 1, 2, 3 ], [ 1, 2, 3 ] ]
+#! gap> 
+#! gap> geo6 := SimplicialGeodesic(6);
+#! simplicial surface (6 vertices, 12 edges, and 6 faces)
+#! gap> VerticesOfEdges(geo6);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ],
+#!   [ 4, 6 ], [ 5, 6 ], [ 1, 5 ], [ 1, 6 ], [ 2, 6 ] ]
+#! gap> EdgesOfFaces(geo6);
+#! [ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ], [ 1, 11, 12 ] ]
+#! @EndExampleSession
+#!
+#!
+#! @Returns a simplicial surface
+#! @Arguments nrFaces
+DeclareOperation( "SimplicialClosedGeodesic", [ IsPosInt ] );
+#! @Arguments nrFaces
+DeclareOperation( "SimplicialGeodesic", [ IsPosInt ] );
+#! @EndGroup
+
 

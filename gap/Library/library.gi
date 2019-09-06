@@ -854,3 +854,33 @@ InstallMethod( SimplicialStrip, "for an integer at least 1", [IsPosInt],
         return SimplicialOpenGeodesic(nrFaces);
     end
 );
+
+InstallMethod( SimplicialClosedGeodesic, "for an integer at least 3", [IsPosInt],
+    function(nrFaces)
+        local verticesOfEdges, edgesOfFaces, i;
+
+        if nrFaces = 1 then
+            Error("SimplicialClosedGeodesic: Argument has to be greater than 2.");
+        fi;
+
+        verticesOfEdges := [];
+        for i in [1..nrFaces-1] do
+            verticesOfEdges[2*i-1] := [i, i+1];
+            verticesOfEdges[2*i] := [i, i+2];
+        od;
+        verticesOfEdges[2*nrFaces-2] := [1,nrFaces-1];
+        verticesOfEdges[2*nrFaces-1] := [1,nrFaces];
+        verticesOfEdges[2*nrFaces] := [2,nrFaces];
+
+        edgesOfFaces := List([1..nrFaces-1], i -> [2*i-1,2*i,2*i+1]);
+        edgesOfFaces[nrFaces] := [1,2*nrFaces-1,2*nrFaces];
+
+        return SimplicialSurfaceByDownwardIncidenceNC([1..nrFaces], 
+            [1..2*nrFaces], [1..nrFaces], verticesOfEdges, edgesOfFaces);
+    end
+);
+InstallMethod( SimplicialGeodesic, "for an integer at least 3", [IsPosInt],
+    function(nrFaces)
+        return SimplicialClosedGeodesic(nrFaces);
+    end
+);
