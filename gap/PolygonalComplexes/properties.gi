@@ -110,6 +110,26 @@ InstallMethod( FaceDegreeOfVertex, "for a VEF-complex and a vertex",
     end
 );
 
+InstallMethod( DegreesOfVertices, "for a VEF-complex",
+    [IsVEFComplex],
+    function(complex)
+        return FaceDegreesOfVertices(complex);
+    end
+);
+InstallMethod( DegreeOfVertexNC, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
+    function( complex, vertex )
+        return FaceDegreeOfVertexNC(complex, vertex);
+    end
+);
+InstallMethod( DegreeOfVertex, "for a VEF-complex and a vertex",
+    [IsVEFComplex, IsPosInt],
+    function( complex, vertex )
+        return FaceDegreeOfVertex(complex, vertex);
+    end
+);
+
+
 
 InstallMethod( TotalDefect, "for a simplicial surface", [IsSimplicialSurface],
     function(surf)

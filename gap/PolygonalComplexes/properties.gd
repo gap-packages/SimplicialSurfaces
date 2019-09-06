@@ -219,6 +219,9 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
 #! @EndExampleSession
 #!
+#! For convenience, these methods can also be called by the names
+#! <K>DegreesOfVertices</K> and <K>DegreeOfVertex</K>.
+#!
 #! @Returns a list of positive integers
 #! @Arguments complex
 DeclareAttribute( "FaceDegreesOfVertices", IsVEFComplex );
@@ -227,6 +230,14 @@ DeclareAttribute( "FaceDegreesOfVertices", IsVEFComplex );
 DeclareOperation( "FaceDegreeOfVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
 DeclareOperation( "FaceDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
+#! @Returns a list of positive integers
+#! @Arguments complex
+DeclareAttribute( "DegreesOfVertices", IsVEFComplex );
+#! @Returns a positive integer
+#! @Arguments complex, vertex
+DeclareOperation( "DegreeOfVertex", [IsVEFComplex, IsPosInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "DegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! @EndGroup
 
 

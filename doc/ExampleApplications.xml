@@ -113,9 +113,9 @@ gap&gt; VertexCounter(newSurf);
         We could be interested in the distance of the two vertices of degree
         5. For that, we have to find these vertices first. For this, we need
         to know the degrees of each vertex. This can be calculated by
-        <K>FaceDegreeOfVertex</K> (<Ref Subsect="FaceDegreesOfVertices"/>).
+        <K>DegreeOfVertex</K> (<Ref Subsect="FaceDegreesOfVertices"/>).
 <Example>
-gap&gt; Filtered( Vertices(newSurf), v -> FaceDegreeOfVertex(newSurf,v) = 5 );
+gap&gt; Filtered( Vertices(newSurf), v -> DegreeOfVertex(newSurf,v) = 5 );
 [ 31, 33 ]
 </Example>
         The distance between two vertices can be calculated with
