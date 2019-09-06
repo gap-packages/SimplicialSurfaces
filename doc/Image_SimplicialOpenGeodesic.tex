@@ -1,0 +1,33 @@
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+    \def\len{2.5}
+    \coordinate (A1) at (0,0);
+    \coordinate (A2) at (60:\len);
+    \coordinate (A3) at (\len,0);
+    \coordinate (A4) at ($(A2)+(A3)$);
+    \coordinate (A5) at ($2*(A3)$);
+    \coordinate (A6) at ($(A2)+(A5)$);
+    \coordinate (A7) at ($3*(A3)$);
+    \coordinate (A8) at ($(A2)+(A7)$);
+    \coordinate (A9) at ($4*(A3)$);
+
+    \draw[edge, face]
+        (A1) -- node[edgeLabel]{1} (A2) -- (A3) -- node[edgeLabel]{2} (A1)
+        (A2) -- node[edgeLabel]{4} (A4) -- (A3) -- node[edgeLabel]{3} (A2)
+        (A3) -- node[edgeLabel]{5} (A4) -- node[edgeLabel]{7} (A5) -- node[edgeLabel]{6} (A3)
+        (A7) -- node[edgeLabel]{$2n-1$} (A8) -- node[edgeLabel]{$2n+1$}(A9) -- node[edgeLabel]{$2n$} (A7);
+
+    \foreach \i/\n in {1/1, 2/2, 3/3, 7/$n$}{
+        \pgfmathparse{int(1+\i)};
+        \pgfmathsetmacro{\j}{\pgfmathresult};
+        \pgfmathparse{int(1+\j)};
+        \pgfmathsetmacro{\k}{\pgfmathresult};
+        \node[faceLabel] at (barycentric cs:A\i=1,A\j=1,A\k=1) {\n};
+    }
+
+    \foreach \p/\r/\n in {A1/below/$1$, A2/above/$2$, A3/below/3, A4/above/4, A5/below/5, A7/below/$n$, A8/above/$n+1$, A9/below/$n+2$}{
+        \vertexLabelR{\p}{\r}{\n};
+    }
+
+    \draw[dashed] ($(A5)!0.5!(A6)$) -- ($(A6)!0.5!(A7)$);
+\end{tikzpicture}
+

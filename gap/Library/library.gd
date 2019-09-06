@@ -485,3 +485,43 @@ DeclareOperation( "JanusHead", [] );
 #! @Arguments nrFaces
 DeclareOperation( "SimplicialUmbrella", [ IsPosInt ] );
 #! @EndGroup
+
+#! @BeginGroup SimplicialOpenGeodesic
+#! @Description
+#! Return a simplicial surface consisting of one non-closed geodesic-path
+#! with <A>nrFaces</A> triangles. The labels are assigned according
+#! to the following illustration (for <M>n</M> odd), 
+#! in which <M>n</M> is <A>nrFaces</A>.
+#! <Alt Only="TikZ">
+#!   \input{Image_SimplicialOpenGeodesic.tex}
+#! </Alt>
+#!
+#! @ExampleSession
+#! gap> geo4 := SimplicialOpenGeodesic(4);
+#! simplicial surface (6 vertices, 9 edges, and 4 faces)
+#! gap> VerticesOfEdges(geo4);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ], 
+#!   [ 4, 6 ], [ 5, 6 ] ]
+#! gap> EdgesOfFaces(geo4);
+#! [ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ] ]
+#! gap> VerticesOfFaces(geo4);
+#! [ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], [ 4, 5, 6 ] ]
+#! gap> 
+#! gap> geo5 := SimplicialStrip(5);
+#! simplicial surface (7 vertices, 11 edges, and 5 faces)
+#! gap> VerticesOfEdges(geo5);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ], 
+#!   [ 4, 6 ], [ 5, 6 ], [ 5, 7 ], [ 6, 7 ] ]
+#! gap> EdgesOfFaces(geo5);
+#! [ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ] ]
+#! @EndExampleSession
+#!
+#!
+#! @Returns a simplicial surface
+#! @Arguments nrFaces
+DeclareOperation( "SimplicialOpenGeodesic", [ IsPosInt ] );
+#! @Arguments nrFaces
+DeclareOperation( "SimplicialStrip", [ IsPosInt ] );
+#! @EndGroup
+
+

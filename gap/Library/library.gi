@@ -840,4 +840,17 @@ InstallMethod( SimplicialUmbrella, "for an integer at least 2", [IsPosInt],
     end
 );
 
+InstallMethod( SimplicialOpenGeodesic, "for an integer at least 1", [IsPosInt],
+    function(nrFaces)
+        local verticesOfFaces;
 
+        verticesOfFaces := List([1..nrFaces], i -> [i,i+1,i+2]);
+
+        return SimplicialSurfaceByVerticesInFacesNC([1..nrFaces+2], [1..nrFaces], verticesOfFaces);
+    end
+);
+InstallMethod( SimplicialStrip, "for an integer at least 1", [IsPosInt],
+    function(nrFaces)
+        return SimplicialOpenGeodesic(nrFaces);
+    end
+);
