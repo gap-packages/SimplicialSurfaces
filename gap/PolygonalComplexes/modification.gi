@@ -544,8 +544,9 @@ InstallMethod( SubsurfaceByFaces, "for a VEF-surface and a set of faces",
         local sub;
 
         sub := SubcomplexByFaces(complex, subfaces);
-        SetIsNotVertexRamified(sub, true);
-        SetIsNotEdgeRamified(sub, true);
+        if not IsVEFSurface(sub) then
+            return fail;
+        fi;
 
         return sub;
     end

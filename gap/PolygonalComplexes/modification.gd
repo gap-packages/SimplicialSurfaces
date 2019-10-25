@@ -317,11 +317,15 @@ DeclareOperation( "SplitEdgePathNC", [IsVEFComplex, IsVertexEdgePath and IsDupli
 #! and vertices that are not incident to one of the remaining faces.
 #!
 #! All labels of remaining vertices, edges and faces will remain the same.
+#! The method <K>SubsurfaceByFaces</K> is only applicable to surfaces
+#! and guarantees that the returned subcomplex is a surface. If this
+#! is not possible <K>fail</K> is returned.
 #! 
 #! TODO example
 #!
 #! The NC-version does not check whether the given set of <A>faces</A>
-#! actually consists only of faces in <A>complex</A>.
+#! actually consists only of faces in <A>complex</A>. It also does not
+#! check whether the result of <K>SubsurfaceByFaces</K> is a surface.
 #! 
 #! @Returns a VEF-complex
 #! @Arguments complex, faces
