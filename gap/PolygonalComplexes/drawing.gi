@@ -1,3 +1,14 @@
+# Basic concept:
+# 
+# The drawing method relies on the following separation: First, a complex
+# is divided into its strongly connected components. Then, each of these
+# components is split into several "drawing blocks" (depending on the
+# concrete edge lengths). Each of these drawing blocks is assigned a "drawIndex".
+#
+# The general method starts with one face of a strongly connected
+# component and draws this face.
+
+
 BindGlobal("__SIMPLICIAL_EqualFloats",
     function(x,y, eps)
         return (x-y)^2 < eps;
@@ -86,8 +97,9 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         printRecord!.givenEdgeDrawOrder := givenEdgeDrawOrder;
         printRecord!.edgeDrawOrder := [];
 
-        # Draw components
+        # Draw components and drawing indices
         printRecord.drawComponents := [];
+        printRecord.drawIndices := [];
 
         # edge lengths and angles
         if not IsBound( printRecord!.edgeLengths ) then
@@ -852,7 +864,7 @@ InstallMethod( DrawSurfaceToTikz,
             adFace, vertexData, edgeData, testResults, e, ends, facePath,
             vertexEdgeData, success, j, vertexCoords, vertexPositions, 
             lastOrder, nextFctIndex, oldFace, pos, strongComp, drawComp,
-            drawIndex, ind;
+            drawIndex, ind, drawIndices, strongCompNumber;
 
         # Do something different for the manual
         if __SIMPLICIAL_MANUAL_MODE then
@@ -882,7 +894,7 @@ InstallMethod( DrawSurfaceToTikz,
         # Start the actual method
         unplacedFaces := Faces(surface);
         strongComponents := [];
-        #drawIndex := 0;
+        drawIndex := 0;
         while Length(unplacedFaces) > 0 do
             # Find the starting face
             start := __SIMPLICIAL_PrintRecordStartingFace( printRecord, surface, unplacedFaces );
@@ -890,8 +902,9 @@ InstallMethod( DrawSurfaceToTikz,
             Add( printRecord.edgeDrawOrder,  [] );
 
             comp := [[start]];
-            #drawIndex := drawIndex + 1;
-            drawIndex := 1;
+            drawIndex := drawIndex + 1;
+            drawIndices := [drawIndex];
+            #drawIndex := 1;
             computedFace := __SIMPLICIAL_PrintRecordComputeFirstFace( printRecord, surface, start, drawIndex );
             __SIMPLICIAL_PrintRecordAddFace(printRecord, surface, computedFace[1], computedFace[2], start, drawIndex);
             unplacedFaces := Difference( unplacedFaces, [start] );
@@ -985,6 +998,7 @@ InstallMethod( DrawSurfaceToTikz,
                     # take the first edge instead
                     proposedEdge := firstEdge;
                     drawIndex := drawIndex + 1;
+                    Add(drawIndices, drawIndex);
                     Add( comp, [repeatData[proposedEdge][1]]  );
                     computedFace := __SIMPLICIAL_PrintRecordComputeFirstFace( printRecord, surface, repeatData[proposedEdge][1], drawIndex );
                     __SIMPLICIAL_PrintRecordAddFace(printRecord, surface, computedFace[1], computedFace[2], repeatData[proposedEdge][1], drawIndex);
@@ -1012,6 +1026,7 @@ InstallMethod( DrawSurfaceToTikz,
                 Add(lastOrder, proposedEdge);
             od;
             Add( printRecord.drawComponents, comp );
+            Add( printRecord.drawIndices, drawIndices );
         od;
 
         # Set the strongly connected components (if not already done)
@@ -1035,10 +1050,12 @@ InstallMethod( DrawSurfaceToTikz,
             return Concatenation( "V", String(vertPos[1]), "_", String(vertPos[2]), "" );
         end;
         allVertexCoords := printRecord!.vertexCoordinates;
-        for strongComp in printRecord.drawComponents do
+        for strongCompNumber in [1..Length(printRecord.drawComponents)] do
+            strongComp := printRecord.drawComponents[strongCompNumber];
             for ind in [1..Length(strongComp)] do;
                 drawComp := strongComp[ind];
                 comp := SubcomplexByFacesNC(surface,drawComp);
+                drawIndex := printRecord.drawIndices[strongCompNumber][ind];
 
                 # Start the picture
                 AppendTo( output, "\n\n\\begin{tikzpicture}[", __SIMPLICIAL_PrintRecordTikzOptions(printRecord, comp), "]\n\n" );
@@ -1051,7 +1068,7 @@ InstallMethod( DrawSurfaceToTikz,
                 AppendTo( output, "% Define the coordinates of the vertices\n" );
                 for v in VerticesAttributeOfVEFComplex(comp) do
                     for i in [1..Length(allVertexCoords[v])] do
-                        if allVertexCoords[v][i][3] = ind then
+                        if allVertexCoords[v][i][3] = drawIndex then
                             AppendTo( output, "\\coordinate (", TikzCoordFromVertexPosition([v,i]), ") at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
                         fi;
                     od;
@@ -1061,7 +1078,7 @@ InstallMethod( DrawSurfaceToTikz,
                 # Draw faces
                 AppendTo( output, "% Fill in the faces\n" );
                 for f in Faces(comp) do
-                    vertexPositions := printRecord!.faceVertices[f][ind];
+                    vertexPositions := printRecord!.faceVertices[f][drawIndex];
                     AppendTo( output, __SIMPLICIAL_PrintRecordDrawFace(printRecord, surface, f, 
                         List(vertexPositions, TikzCoordFromVertexPosition), List(vertexPositions, p -> allVertexCoords[p[1]][p[2]])) );
                 od;
@@ -1072,7 +1089,7 @@ InstallMethod( DrawSurfaceToTikz,
                 for e in Edges(comp) do
                     ends := printRecord!.edgeEndpoints[e];
                     for i in [1..Length(ends)] do
-                        if ends[i][3] = ind then
+                        if ends[i][3] = drawIndex then
                             AppendTo( output, __SIMPLICIAL_PrintRecordDrawEdge( printRecord, surface, e,
                                 List( ends[i]{[1,2]}, TikzCoordFromVertexPosition ),
                                 List( ends[i]{[1,2]}, p -> allVertexCoords[p[1]][p[2]] ) ) );
@@ -1086,7 +1103,7 @@ InstallMethod( DrawSurfaceToTikz,
                 for v in VerticesAttributeOfVEFComplex(comp) do
                     positions := allVertexCoords[v];
                     for i in [1..Length(positions)] do
-                        if allVertexCoords[v][i][3] = ind then
+                        if allVertexCoords[v][i][3] = drawIndex then
                             AppendTo( output, __SIMPLICIAL_PrintRecordDrawVertex( printRecord, surface, v, TikzCoordFromVertexPosition([v,i]), allVertexCoords[v][i] ));
                         fi;
                     od;
