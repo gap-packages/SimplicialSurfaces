@@ -470,362 +470,430 @@ DeclareOperation( "TwoAdjacentChambers", [IsTwistedPolygonalComplex, IsPosInt] )
 DeclareOperation( "TwoAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
-
-
-
-#! TODO restructure this chapter after more information about correct access design is obtained
-
-#! @Section Local flags
-#! @SectionLabel AccessBend_LocalFlags
-
-#! The main difference in contrast to a polygonal complex is an additional
-#! structure on the flags of the bend polygonal complex. Since these flags
-#! are different from the flags of the incidence structure, we denote them
-#! as <E>local flags</E>, i.e. flags of the single polygons (before any
-#! identifications took place).
-#!
-#! We will identify the set of local flags with a set of positive integers.
-#! The attribute <K>LocalFlags</K> returns this set. In addition there are
-#! two other structures:
-#! <Enum>
-#!     <Item>The interaction of the local flags with the incidence geometry,
-#!           encoded by the attributes <K>VerticesOfLocalFlags</K> or
-#!           <K>LocalFlagsOfVertices</K>.</Item>
-#!     <Item>The neighbouring relations between the local flags. Generically
-#!           they are given by the attribute <K>LocalFlagVertexPartition</K> 
-#!           but if all classes have at most two elements, 
-#!           <K>LocalFlagVertexInvolution</K> can be used instead.</Item>
-#! </Enum>
-#!
- 
+#! @BeginGroup StarAdjacencyInvolution
 #! @Description
-#! Return the set of local flags of the given bend polygonal complex.
+#! Given a twisted polygonal complex <A>complex</A>, these methods return
+#! the involutions that encode adjacency of chambers. The method
+#! <K>ZeroAdjacencyInvolution</K> returns an involution whose action on
+#! a chamber produces the unique chamber that is 0-adjacent to the first
+#! one. The method <K>OneAdjacencyInvolution</K> does the same for
+#! 1-adjacency.
 #!
-#! @Arguments bendComplex
-#! @Returns A set of positive integers
-DeclareAttribute( "LocalFlags", IsBendPolygonalComplex );
-
-
-#! @BeginGroup
-#! @Description
-#! Return lists mapping a local flag (represented by its position
-#! in <K>LocalFlags</K>(<A>bendComplex</A>)) to the global
-#! vertex/edge/face they belong to.
-#!
-#! @Returns A list of positive integers
-#! @Arguments bendComplex
-DeclareAttribute( "VerticesOfLocalFlags", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "EdgesOfLocalFlags", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "FacesOfLocalFlags", IsBendPolygonalComplex );
-#! @EndGroup
-
-
-#! @BeginGroup
-#! @Description
-#! Return lists mapping a global vertex/edge/face to the set of 
-#! local flags surrounding it.
-#!
-#! @Returns A list of sets of positive integers
-#! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalFlagsOfFaces", IsBendPolygonalComplex );
-#! @EndGroup
-
-
-#! @BeginGroup
-#! @Description
-#! Return the sets of local vertices, local edges, and half-edges.
-#!
-#! @Returns a set of positive integers
-#! @Arguments bendComplex
-DeclareAttribute( "LocalVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "HalfEdges", IsBendPolygonalComplex );
-#! @EndGroup
-
-
-#! @BeginGroup
-#! @Description
-#! Return the set of partitions of the local flags with regard to the
-#! vertex/edge/face-equivalence relation. The local flags are given by
-#! their positions in <K>LocalFlags</K>(<A>bendComplex</A>).
-#!
-#! @Returns A set of sets
-#! @Arguments bendComplex
-DeclareAttribute("LocalFlagsOfLocalVertices", IsBendPolygonalComplex);
-#! @Arguments bendComplex
-DeclareAttribute("LocalFlagsOfLocalEdges", IsBendPolygonalComplex);
-#! @Arguments bendComplex
-DeclareAttribute("LocalFlagsOfHalfEdges", IsBendPolygonalComplex);
-#! @EndGroup
-
-
-#! @BeginGroup
-#! @Description
-#! TODO
-#!
-#! @Returns A list of positive integers
-#! @Arguments bendComplex
-DeclareAttribute( "LocalVerticesOfLocalFlags", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalEdgesOfLocalFlags", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "HalfEdgesOfLocalFlags", IsBendPolygonalComplex );
-#! @EndGroup
-
-
-#! @BeginGroup
-#! @Description
-#!
-#! TODO
-#!
-#! @Returns 
-#! @Arguments bendComplex
-DeclareAttribute( "LocalVerticesOfFaces", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalEdgesOfFaces", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "HalfEdgesOfFaces", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "FacesOfLocalVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "FacesOfLocalEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "FacesOfHalfEdges", IsBendPolygonalComplex );
-
-#! @Arguments bendComplex
-DeclareAttribute( "VerticesOfLocalEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalEdgesOfVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "VerticesOfLocalVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalVerticesOfVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "VerticesOfHalfEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "HalfEdgesOfVertices", IsBendPolygonalComplex );
-
-#! @Arguments bendComplex
-DeclareAttribute( "EdgesOfLocalEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalEdgesOfEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "EdgesOfHalfEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "HalfEdgesOfEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "EdgesOfLocalVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalVerticesOfEdges", IsBendPolygonalComplex );
-
-#! @Arguments bendComplex
-DeclareAttribute( "LocalVerticesOfHalfEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "HalfEdgesOfLocalVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalEdgesOfHalfEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "HalfEdgesOfLocalEdges", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalEdgesOfLocalVertices", IsBendPolygonalComplex );
-#! @Arguments bendComplex
-DeclareAttribute( "LocalVerticesOfLocalEdges", IsBendPolygonalComplex );
-#! @EndGroup
-
-
-#! @BeginGroup
-#! @Description
-#! Return the partitions of the local flags with regard to the
-#! vertex/edge/face-equivalence relation as involutions. 
-#! The local flags are given by
-#! their positions in <K>LocalFlags</K>(<A>bendComplex</A>).
+#! For 2-adjacency, each chamber may have an arbitrary number of 
+#! 2-adjacent chambers. If each chamber has at most one 2-adjacent
+#! chamber (i.e. if <A>complex</A> is a twisted polygonal surface),
+#! <K>TwoAdjacencyInvolution</K> returns the corresponding involution.
+#! Otherwise, it returns <K>fail</K>.
 #! 
-#! If this is not possible, <K>fail</K> is returned instead.
-#!
-#! @Returns An involution or <K>fail</K>
-#! @Arguments bendComplex
-DeclareAttribute("LocalFlagVertexInvolution", IsBendPolygonalComplex);
-#! @Arguments bendComplex
-DeclareAttribute("LocalFlagEdgeInvolution", IsBendPolygonalComplex);
-#! @Arguments bendComplex
-DeclareAttribute("LocalFlagFaceInvolution", IsBendPolygonalComplex);
+#! As an example, consider the twisted polygonal complex from the beginning of Section
+#! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
+#!          \def\chambers{1}
+#!          \input{Image_TwistedMedal.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> ZeroAdjacencyInvolution(complex);
+#! (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26)
+#! gap> OneAdjacencyInvolution(complex);
+#! (1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13)(15,20)(16,17)(18,19)(21,26)(22,23)(24,25)
+#! gap> TwoAdjacencyInvolution(complex);
+#! fail
+#! @EndExampleSession
+#! 
+#! @Returns a positive integer, a list of positive integers, or <K>fail</K>
+#! @Arguments complex
+DeclareAttribute( "ZeroAdjacencyInvolution", IsTwistedPolygonalComplex);
+#! @Arguments complex
+DeclareAttribute( "OneAdjacencyInvolution", IsTwistedPolygonalComplex);
+#! @Arguments complex
+DeclareAttribute( "TwoAdjacencyInvolution", IsTwistedPolygonalComplex);
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup StarAdjacencyClasses
 #! @Description
-#! TODO
+#! Given a twisted polygonal complex <A>complex</A>, these methods return
+#! a set of sets encoding the adjacency of chambers.
+#!
+#! The method <K>ZeroAdjacencyClasses</K> returns a set of pairs, such
+#! that the elements of each pair are 0-adjacent. The method
+#! <K>OneAdjacencyClasses</K> does the same for 1-adjacency.
+#!
+#! The method <K>TwoAdjacencyClasses</K> is similar, but it returns a set
+#! of sets. Every pair of chambers in one of the contained sets
+#! is 2-adjacent.
+#! 
+#! As an example, consider the twisted polygonal complex from the beginning of Section
+#! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
+#!          \def\chambers{1}
+#!          \input{Image_TwistedMedal.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> ZeroAdjacencyClasses(complex);
+#! [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], [ 11, 12 ], [ 13, 14 ], 
+#!   [ 15, 16 ], [ 17, 18 ], [ 19, 20 ], [ 21, 22 ], [ 23, 24 ], [ 25, 26 ] ]
+#! gap> OneAdjacencyClasses(complex);
+#! [ [ 1, 6 ], [ 2, 3 ], [ 4, 5 ], [ 7, 14 ], [ 8, 9 ], [ 10, 11 ], [ 12, 13 ],
+#!   [ 15, 20 ], [ 16, 17 ], [ 18, 19 ], [ 21, 26 ], [ 22, 23 ], [ 24, 25 ]]
+#! gap> TwoAdjacencyClasses(complex);
+#! [ [ 1, 6 ], [ 2, 5 ], [ 3, 8 ], [ 4, 7 ], [ 9 , 14, 22 ], [ 10 ,13 ,21 ],
+#!   [ 11, 16 ], [ 12 , 15 ], [ 17, 20 ], [ 18, 19 ], [ 23 ], [ 24 ], [ 25 ], [ 26 ] ]
+#! @EndExampleSession
+#! 
+#! @Returns a set of sets of positive integers
+#! @Arguments complex
+DeclareAttribute( "ZeroAdjacencyClasses", IsTwistedPolygonalComplex);
+#! @Arguments complex
+DeclareAttribute( "OneAdjacencyClasses", IsTwistedPolygonalComplex);
+#! @Arguments complex
+DeclareAttribute( "TwoAdjacencyClasses", IsTwistedPolygonalComplex);
+#! @EndGroup
+
+
+#! @BeginGroup StarAdjacencyRelation
+#! @Description
+#! Given a twisted polygonal complex <A>complex</A>, these methods return
+#! an equivalence relation encoding the adjacency of chambers.
+#!
+#! The method <K>ZeroAdjacencyRelation</K> returns an equivalence relation
+#! on the set of chambers, such
+#! that two chambers are equivalent if and only if they are 0-adjacent or
+#! identical.
+#!
+#! The methods <K>OneAdjacencyRelation</K> and <K>TwoAdjacencyRelation</K>
+#! do the same for 1-adjacency and 2-adjacency.
+#! 
+#! As an example, consider the twisted polygonal complex from the beginning of Section
+#! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
+#!          \def\chambers{1}
+#!          \input{Image_TwistedMedal.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> e0 := ZeroAdjacencyRelation(complex);
+#! <equivalence relation on <object> >
+#! gap> EquivalenceClasses(e0);
+#! [ {1}, {3}, {5}, {7}, {9}, {11}, {13}, {15}, {17}, {19}, {21}, {23}, {25} ]
+#! gap> e1 := OneAdjacencyRelation(complex);
+#! <equivalence relation on <object> >
+#! gap> EquivalenceClasses(e1);
+#! [ {1}, {2}, {4}, {7}, {8}, {10}, {12}, {15}, {16}, {18}, {21}, {22}, {24} ]
+#! gap> e2 := TwoAdjacencyRelation(complex);
+#! <equivalence relation on <object> >
+#! gap> EquivalenceClasses(e2);
+#! [ {1}, {2}, {3}, {4}, {9}, {10}, {11}, {12}, {17}, {18}, {23}, {24}, {25}, {26} ]
+#! @EndExampleSession
+#! 
+#! @Returns an equivalence relation
+#! @Arguments complex
+DeclareAttribute( "ZeroAdjacencyRelation", IsTwistedPolygonalComplex);
+#! @Arguments complex
+DeclareAttribute( "OneAdjacencyRelation", IsTwistedPolygonalComplex);
+#! @Arguments complex
+DeclareAttribute( "TwoAdjacencyRelation", IsTwistedPolygonalComplex);
+#! @EndGroup
+
+
+#! @Section Constructors
+#! @SectionLabel AccessTwisted_Constructors
+#!
+#! Twisted polygonal complexes can be constructed in several different ways.
+#! This section explores several different possible constructions.
+#! * <K>TwistedPolygonalComplexByChamberRelations</K> 
+#!   (<Ref Subsect="TwistedPolygonalComplexByChamberRelations"/>) constructs
+#!   a twisted polygonal complex from the vertices, edges, and faces that
+#!   are incident to each chamber, together with the three adjacency relations.
+#! * <K>TwistedPolygonalComplexByChamberAdjacencies</K>
+#!   (<Ref Subsect="TwistedPolygonalComplexByChamberAdjacencies"/>) constructs
+#!   a twisted polygonal complex purely from its chamber adjacencies. The vertices,
+#!   edges, and faces are deduced from them.
+#! * <K>TwistedPolygonalSurfaceByChamberInvolutions</K>
+#!   (<Ref Subsect="TwistedPolygonalSurfaceByChamberInvolutions"/>) constructs
+#!   a twisted polygonal surface from its chamber adjacencies, that have to be
+#!   given as involutions.
+#!
+#! To exemplify these methods, all of them construct the twisted polygonal
+#! surface illustrated here:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels,faceStyle=nolabels]
+#!          \def\chambers{1}
+#!          \input{Image_TwistedThreeStrip.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#!
+
+#! @BeginGroup TwistedPolygonalComplexByChamberRelations
+#! @Description
+#! This method constructs a twisted polygonal complex 
+#! (<Ref Sect="PolygonalStructures_twisted"/>). It is based on
+#! the set of chambers, which is represented as a set of positive integers.
+#! The method takes the following
+#! parameters:
+#! * <A>verticesOfChambers</A>: A list that has an entry for each chamber
+#!  (a positive integer). The entry is the unique vertex (a positive integer)
+#!  that is incident to that chamber.
+#! * <A>edgesOfChambers</A>: A list that has an entry for each chamber
+#!  (a positive integer). The entry is the unique edge (a positive integer)
+#!  that is incident to that chamber.
+#! * <A>facesOfChambers</A>: A list that has an entry for each chamber
+#!  (a positive integer). The entry is the unique face (a positive integer)
+#!  that is incident to that chamber.
+#! * <A>zeroAdjacency</A>: This parameter encodes which chambers are
+#!  0-adjacent. It can be given as an involution without fixed points
+#!  or as a list of pairs of chambers.
+#! * <A>oneAdjacency</A>: This parameter encodes which chambers are
+#!  1-adjacent. It can be given as an involution without fixed points
+#!  or as a list of pairs of chambers.
+#! * <A>twoAdjacency</A>: This parameter encodes which chambers are
+#!  1-adjacent. It can be given as an involution (only possible for
+#!  twisted polygonal surfaces)
+#!  or as a list of lists of chambers.
+#!
+#! All of these parameters rely on the set of chambers:
+#! * For <A>verticesOfChambers</A>, <A>edgesOfChambers</A>, and
+#!   <A>facesOfChambers</A>, the set of chambers is the set of
+#!   bound positions.
+#! * If <A>zeroAdjacency</A> or <A>oneAdjacency</A> are given as
+#!   involutions, the set of chambers is the set of moved points.
+#! * If <A>twoAdjacency</A> is given as involution, the set of
+#!   chambers is a superset of the set of moved points.
+#! * If <A>zeroAdjacency</A>, <A>oneAdjacency</A>, or
+#!   <A>twoAdjacency</A> are given as list of lists, they define
+#!   a partition of the set of chambers.
+#! The NC-version does not check the consistency of this information.
+#!
+#! As an example, we construct the following twisted polygonal surface:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!          \def\chambers{1}
+#!          \input{Image_TwistedThreeStrip.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> TwistedPolygonalComplexByChamberRelations(
+#! >    [3,7,7,5,5,3,5,7,7,5,5,5,5,7,7,3,3,5],
+#! >    [4,4,6,6,2,2,6,6,10,10,8,8,10,10,12,12,2,2],
+#! >    [1,1,1,1,1,1,9,9,9,9,9,9,11,11,11,11,11,11],
+#! >    [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18]],
+#! >    (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),
+#! >    [[1],[2],[3,8],[4,7],[5,18],[6,17],[9,14],[10,13],[11],[12],[15],[16]]);
+#! twisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)
+#! @EndExampleSession
+#!
+#! @Returns a twisted polygonal complex
+#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
+#!    zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalComplexByChamberRelations", [IsList, IsList, IsList, IsList, IsList, IsList]);
+#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
+#!    zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalComplexByChamberRelationsNC", [IsList, IsList, IsList, IsList, IsList, IsList]);
+#! @EndGroup
+
+#! @BeginGroup TwistedPolygonalComplexByChamberAdjacencies
+#! @Description
+#! This method constructs a twisted polygonal complex 
+#! (<Ref Sect="PolygonalStructures_twisted"/>). It is based on
+#! the set of chambers, which is represented as a set of positive integers.
+#! The method takes the following
+#! parameters:
+#! * <A>zeroAdjacency</A>: This parameter encodes which chambers are
+#!  0-adjacent. It can be given as an involution without fixed points
+#!  or as a list of pairs of chambers.
+#! * <A>oneAdjacency</A>: This parameter encodes which chambers are
+#!  1-adjacent. It can be given as an involution without fixed points
+#!  or as a list of pairs of chambers.
+#! * <A>twoAdjacency</A>: This parameter encodes which chambers are
+#!  1-adjacent. It can be given as an involution (only possible for
+#!  twisted polygonal surfaces)
+#!  or as a list of lists of chambers.
+#!
+#! Vertices, edges, and faces are constructed automatically.
+#!
+#! All of these parameters rely on the set of chambers:
+#! * If <A>zeroAdjacency</A> or <A>oneAdjacency</A> are given as
+#!   involutions, the set of chambers is the set of moved points.
+#! * If <A>twoAdjacency</A> is given as involution, the set of
+#!   chambers is a superset of the set of moved points.
+#! * If <A>zeroAdjacency</A>, <A>oneAdjacency</A>, or
+#!   <A>twoAdjacency</A> are given as list of lists, they define
+#!   a partition of the set of chambers.
+#! The NC-version does not check the consistency of this information.
+#!
+#! As an example, we construct the following twisted polygonal 
+#! surface (the labels of vertices, edges, and faces are the default ones):
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!          \def\chambers{1}
+#!          \def\default{1}
+#!          \input{Image_TwistedThreeStrip.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> complex := TwistedPolygonalComplexByChamberAdjacencies(
+#! >    [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18]],
+#! >    (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),
+#! >    [[1],[2],[3,8],[4,7],[5,18],[6,17],[9,14],[10,13],[11],[12],[15],[16]]);
+#! twisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)
+#! gap> ChambersOfVertices(complex);
+#! [ [ 1, 6, 16, 17 ], [ 2, 3, 8, 9, 14, 15 ], [ 4, 5, 7, 10, 11, 12, 13, 18 ] ]
+#! gap> ChambersOfEdges(complex);
+#! [ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ], [ 17, 18 ] ]
+#! gap> ChambersOfFaces(complex);
+#! [ [ 1, 2, 3, 4, 5, 6 ], [ 7, 8, 9, 10, 11, 12 ], [ 13, 14, 15, 16, 17, 18 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a twisted polygonal complex
+#! @Arguments zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalComplexByChamberAdjacencies", [IsList, IsList, IsList]);
+#! @Arguments zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalComplexByChamberAdjacenciesNC", [IsList, IsList, IsList]);
+#! @EndGroup
+
+#! @BeginGroup TwistedPolygonalSurfaceByChamberInvolutions
+#! @Description
+#! This method constructs a twisted polygonal surface 
+#! (<Ref Sect="PolygonalStructures_twisted"/>). It is based on
+#! the set of chambers, which is represented as a set of positive integers.
+#! The method takes the following
+#! parameters:
+#! * <A>zeroAdjacency</A>: This parameter encodes which chambers are
+#!  0-adjacent, given as an involution without fixed points.
+#! * <A>oneAdjacency</A>: This parameter encodes which chambers are
+#!  1-adjacent, given as an involution without fixed points.
+#! * <A>twoAdjacency</A>: This parameter encodes which chambers are
+#!  2-adjacent, given as an involution.
+#!
+#! Vertices, edges, and faces are constructed automatically.
+#!
+#! All of these parameters rely on the set of chambers:
+#! * For <A>zeroAdjacency</A> and <A>oneAdjacency</A>, the set of
+#!   moved points is the set of chambers.
+#! * For <A>twoAdjacency</A>, the set of
+#!   chambers is a superset of the set of moved points.
+#! The NC-version does not check the consistency of this information.
+#!
+#! As an example, we construct the following twisted polygonal 
+#! surface (the labels of vertices, edges, and faces are the default ones):
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!          \def\chambers{1}
+#!          \def\default{1}
+#!          \input{Image_TwistedThreeStrip.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> complex := TwistedPolygonalSurfaceByChamberInvolutions(
+#! >    (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18),
+#! >    (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),
+#! >    (3,8)(4,7)(5,18)(6,17)(9,14)(10,13));
+#! twisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)
+#! gap> ChambersOfVertices(complex);
+#! [ [ 1, 6, 16, 17 ], [ 2, 3, 8, 9, 14, 15 ], [ 4, 5, 7, 10, 11, 12, 13, 18 ] ]
+#! gap> ChambersOfEdges(complex);
+#! [ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ], [ 17, 18 ] ]
+#! gap> ChambersOfFaces(complex);
+#! [ [ 1, 2, 3, 4, 5, 6 ], [ 7, 8, 9, 10, 11, 12 ], [ 13, 14, 15, 16, 17, 18 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a twisted polygonal surface
+#! @Arguments zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalSurfaceByChamberInvolutions", [IsPerm, IsPerm, IsPerm]);
+#! @Arguments zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalSurfaceByChamberInvolutionsNC", [IsPerm, IsPerm, IsPerm]);
+#! @EndGroup
+
+
+#! @Section Relation to polygonal complexes
+#! @SectionLabel AccessTwisted_Polygonal
+#!
+#! Every polygonal complex can be interpreted as a twisted polygonal
+#! complex. However, the formalism of polygonal complexes does not
+#! mention chambers at all. Thus, if we construct a polygonal complex
+#! with one of the methods from Chapter 
+#! <Ref Chap="Chapter_Constructors"/>, we do not immediately know
+#! the chambers. Consider the following polygonal complex:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence( 
+#! >    [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], 
+#! >    [[6,8,9], , , [9,10,12,13]]);
+#! polygonal surface (5 vertices, 6 edges, and 2 faces)
+#! @EndExampleSession
+#! It turns out that it already contains information about its
+#! chambers.
+#! @ExampleSession
+#! gap> Chambers(complex);
+#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
+#! gap> VerticesOfChambers(complex);
+#! [ 2, 2, 3, 3, 3, 3, 5, 5, 5, 5, 7, 7, 11, 11 ]
+#! gap> EdgesOfChambers(complex);
+#! [ 6, 8, 8, 9, 9, 12, 6, 9, 9, 10, 12, 13, 10, 13 ]
+#! gap> FacesOfChambers(complex);
+#! [ 1, 1, 1, 1, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4 ]
+#! @EndExampleSession
+#! Thus, the chambers can be illustrated like this:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \def\chambers{1}
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! Although the labels seem random at first, there is a
+#! pattern here. In polygonal complexes, each chamber corresponds
+#! to exactly one flag (a triple of vertex, edge, face, that are
+#! all incident). The flags are given by
+#! @ExampleSession
+#! gap> Flags(complex);
+#! [ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], 
+#!   [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],
+#!   [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]]
+#! @EndExampleSession
+#! Notably, a chamber <A>c</A> corresponds to the flag with position
+#! <A>c</A>.
+#! @ExampleSession
+#! gap> VerticesOfChambers(complex) = List(Flags(complex), f -> f[1]);
+#! true
+#! gap> EdgesOfChambers(complex) = List(Flags(complex), f -> f[2]);
+#! true
+#! gap> FacesOfChambers(complex) = List(Flags(complex), f -> f[3]);
+#! true
+#! @EndExampleSession
+#! Polygonal complexes whose chambers are given in this fashion 
+#! have the property <K>IsDefaultChamberSystem</K>.
+#! @ExampleSession
+#! gap> IsDefaultChamberSystem(complex);
+#! true
+#! @EndExampleSession
+
+
+#! @BeginGroup IsDefaultChamberSystem
+#! @Description
+#! A twisted polygonal complex <A>complex</A> has the property <K>IsDefaultChamberSystem</K>
+#! if it is a polygonal complex and the chambers correspond to the flags,
+#! in the following sense:
+#!
+#! @BeginLog
+#! gap> VertexOfChamber(complex, chamber) = Flags(complex)[chamber][1];
+#! gap> EdgeOfChamber(complex, chamber) = Flags(complex)[chamber][2];
+#! gap> FaceOfChamber(complex, chamber) = Flags(complex)[chamber][3];
+#! @EndLog
+#!
+#! More detail can be found at the start of Section
+#! <Ref Sect="Section_AccessTwisted_Polygonal"/>.
 #!
 #! @Returns true or false
-#! @Arguments bendComplex, flag1, flag2
-DeclareOperation("IsLocalFlagsVertexEquivalent", [IsBendPolygonalComplex, IsPosInt, IsPosInt]);
-#! @Arguments bendComplex, flag1, flag2
-DeclareOperation("IsLocalFlagsEdgeEquivalent", [IsBendPolygonalComplex, IsPosInt, IsPosInt]);
-#! @Arguments bendComplex, flag1, flag2
-DeclareOperation("IsLocalFlagsFaceEquivalent", [IsBendPolygonalComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex
+DeclareProperty( "IsDefaultChamberSystem", IsTwistedPolygonalComplex );
 #! @EndGroup
 
-#! @Description
-#! TODO
-#! @Returns a local flag
-#! @Arguments bendComplex, localVertex, localEdge, face
-DeclareOperation("LocalFlagByLocalVertexLocalEdgeFace", [IsBendPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
-
-
-
-
-#! @Description
-#! Construct a bend polygonal complex from signed face perimeters, i.e.
-#! a list (bound entries indexed by the faces) such that we have a list
-#! of the following form for each face:
-#! * Alternating vertex and edge numbers (the vertex-edge-path of the
-#!   face perimeter) where each edge number might be multiplied with -1
-#!
-#! This is interpreted in the following way:
-#! * The length of this list defines how many vertices the polygon for this
-#!   face will have. (Length 6 = triangle)
-#! * Every two adjacent elements define a flag. The flags of the first face
-#!   are numbered from 1 to the length of the list. This gives all of the
-#!   edges an implicit orientation
-#! * If two edges have the same absolute value, they are identified. If
-#!   their signs agree, they are identified with the same orientation,
-#!   otherwise reversed.
-#!
-#! @Returns a bend polygonal complex
-#! @Arguments signedFacePerimeter
-DeclareOperation( "BendPolygonalComplexBySignedFacePerimeters", [IsList] );
-
-#! @Description
-#! Construct a bend polygonal surface from the coset action of a group.
-#! There are some stipulations the arguments have to fulfill:
-#! * The group <A>G</A> has to have three generators, denoted by <M>a</M>,
-#!   <M>b</M> and <M>c</M>. 
-#! * The index of the subgroup <A>H</A> in <A>G</A>
-#!   has to be finite.
-#! * All three generators have to act like involutions on the cosets.
-#! * The action of <M>a</M> and <M>b</M> can't have fixed points on the 
-#!   cosets.
-#! * The orbits of <M>a</M> and <M>b</M> on the cosets have to have
-#!   at least length 6.
-#!
-#! If these conditions are met, the bend polygonal surface is constructed
-#! as follows:
-#! * The set of flags is the set of moved points
-#! * The orbits of <M>a</M> become the local edges
-#! * The orbits of <M>b</M> become the local vertices
-#! * The orbits of <M>c</M> become the half-edges
-#! * The orbits of <M>a,b</M> become the faces
-#! * The orbits of <M>a,c</M> become the edges
-#! * The orbits of <M>b,c</M> become the vertices
-#!
-#! @Returns a bend polygonal surface
-#! @Arguments G, H
-DeclareOperation( "BendPolygonalSurfaceByCosetAction", [IsGroup, IsGroup] );
-
-#! @Description
-#! Construct a bend polygonal complex by all incidence relations that
-#! start from local flags.
-#!
-#! @Returns a bend polygonal complex
-#! @Arguments localVerticesOfLocalFlags, localEdgesOfLocalFlags, halfEdgesOfLocalFlags, verticesOfLocalFlags, edgesOfLocalFlags, facesOfLocalFlags
-DeclareOperation( "BendPolygonalComplexByLocalFlagsNC", [IsList, IsList, IsList, IsList, IsList, IsList] );
-
-
-#! @Section Bend faces and edges
-#! @SectionLabel AccessBend_BendFacesEdges
-#!
-#! 
-
-
-#! @BeginGroup
-#! @Description
-#! For a given face of a bend polygonal complex, return the polygonal
-#! complex of this single polygon (the local vertices and edges of
-#! <A>bendComplex</A> become the vertices and edges of the returned 
-#! polygonal complex).
-#!
-#! The NC-version does not check whether <A>face</A> is a face of
-#! <A>bendComplex</A>.
-#!
-#! @Returns a polygonal complex
-#! @Arguments bendComplex, face
-DeclareOperation("LocalFace", [IsBendPolygonalComplex, IsPosInt]);
-#! @Arguments bendComplex, face
-DeclareOperation("LocalFaceNC", [IsBendPolygonalComplex, IsPosInt]);
-#! @EndGroup
-
-#! @Description
-#! Return the set of all rigid faces in the given bend polygonal
-#! complex. These are the faces whose vertices are not identified.
-#!
-#! @Returns a set of positive integers
-#! @Arguments bendComplex
-DeclareAttribute("RigidFaces", IsBendPolygonalComplex);
-
-#! @Description
-#! Return the set of all bend faces in the given bend polygonal
-#! complex. These are the faces in which vertices are identified.
-#!
-#! @Returns a set of positive integers
-#! @Arguments bendComplex
-DeclareAttribute("BendFaces", IsBendPolygonalComplex);
-
-#! @Section Constructions
-#! @SectionLabel AccessBend_Constructions
-
-#! @BeginGroup
-#! @Description
-#! Construct a polygonal complex from the given bend polygonal
-#! complex, if possible. Otherwise return <K>fail</K>.
-#!
-#! The labels of vertices, edges and faces are retained.
-#!
-#! @Returns a polygonal complex or <K>fail</K>
-#! @Arguments bendComplex
-DeclareAttribute("PolygonalComplex", IsBendPolygonalComplex);
-#! @Arguments bendComplex
-DeclareAttribute("PolygonalSurface", IsBendPolygonalComplex);
-#! @Arguments bendComplex
-DeclareAttribute("SimplicialSurface", IsBendPolygonalComplex);
-#! @EndGroup
-
-
-#! @Description
-#! Construct a bend polygonal complex from the given polygonal complex.
-#! The additional labels are defined as follows:
-#! * The position of the 3-flags in <K>ThreeFlags</K> defines the labels
-#!   of the local flags.
-#! * The position of the 2-flags in <K>VertexEdgeFlags</K> defines the
-#!   labels of the half-edges.
-#! * The position of the 2-flags in <K>VertexFaceFlags</K> defines the
-#!   labels of the local vertices.
-#! * The position of the 2-flags in <K>EdgeFaceFlags</K> defines the
-#!   labels of the local edges.
-#!
-#! @Returns a bend polygonal complex
-#! @Arguments polyComplex
-DeclareAttribute("BendPolygonalComplex", IsPolygonalComplex);
-
-
-#! @BeginGroup GeodesicDual
-#! @Description
-#! Construct the geodesic dual of the given bend polygonal surface.
-#! If a polygonal surface is given, it is silently converted into
-#! a bend polygonal complex by the previous method.
-#!
-#! TODO
-#! 
-#! @Returns a bend polygonal surface
-#! @Arguments bendSurface
-DeclareAttribute( "GeodesicDual", IsBendPolygonalSurface );
-#! @Arguments polySurface
-DeclareAttribute( "GeodesicDual", IsPolygonalSurface );
-#! @EndGroup
