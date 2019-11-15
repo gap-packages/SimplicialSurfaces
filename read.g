@@ -18,7 +18,7 @@ ReadPackage( "SimplicialSurfaces", "gap/Paths/perimeter.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/polygonal_hierarchy.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_install_method.g" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/incidence_geometry.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/bend_polygonal_complex.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/twisted_polygonal_complex.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );

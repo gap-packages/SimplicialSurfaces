@@ -946,7 +946,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 # no more free vertices
                 
                 # construction of the simplicial surface
-                obj := Objectify( PolygonalComplexType, rec() );
+                obj := Objectify( TwistedPolygonalComplexType, rec() );
                 SetFacesOfEdges(obj, facesOfEdges);
                 SetFaces(obj, faces);
                 SetEdgesOfFaces(obj, edgesOfFaces);
@@ -1515,7 +1515,7 @@ InstallMethod( CommonCover,
             "list of equivalence classes of [new face (as number), old vertex]-pairs";
 
         # Construct the new simplicial surface
-        surface := Objectify( PolygonalComplexType, rec() );
+        surface := Objectify( TwistedPolygonalComplexType, rec() );
         SetFacesOfEdges(surface, simpFacesOfEdges);
         SetVerticesOfEdges(surface, simpVerticesOfEdges);
 

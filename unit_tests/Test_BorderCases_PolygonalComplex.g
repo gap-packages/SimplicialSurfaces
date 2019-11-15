@@ -14,20 +14,20 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     tet_edgesOfFaces := [[1,2,3],[1,4,6],[2,4,5],[3,5,6]];
 
     # Test the IsClosedSurface-method for general polygonal complexes
-    tet := Objectify( PolygonalComplexType, rec() );
+    tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
     SIMPLICIAL_TestAssert(IsClosedSurface(tet));
 
 
     # Test the InnerVertices-method for the general case
-    tet := Objectify( PolygonalComplexType, rec() );
+    tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
     SIMPLICIAL_TestAssert(InnerVertices(tet) = tet_verts);
     
     # Test the InnerVertices-method for the closed surface case
-    tet := Objectify( PolygonalComplexType, rec() );
+    tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
     SetIsClosedSurface(tet, true);
@@ -35,13 +35,13 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
 
 
     # Test the BoundaryVertices-method for the general case
-    tet := Objectify( PolygonalComplexType, rec() );
+    tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
     SIMPLICIAL_TestAssert(BoundaryVertices(tet) = []);
 
     # Test the BoundaryVertices-method for the closed surface case
-    tet := Objectify( PolygonalComplexType, rec() );
+    tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
     SetIsClosedSurface(tet, true);

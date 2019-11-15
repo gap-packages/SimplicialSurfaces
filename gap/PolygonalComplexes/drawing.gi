@@ -119,7 +119,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
 
         # coordinates (always recomputed)
         printRecord!.vertexCoordinates := [];
-        for v in VerticesAttributeOfVEFComplex(surface) do
+        for v in VerticesAttributeOfComplex(surface) do
             printRecord!.vertexCoordinates[v] := [];
         od;
         printRecord!.edgeEndpoints := [];
@@ -138,7 +138,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         # drawing options
         __SIMPLICIAL_PrintRecordInitBool( printRecord, "vertexLabelsActive", true );
         __SIMPLICIAL_PrintRecordInitStringList( printRecord, "vertexLabels", 
-            VerticesAttributeOfVEFComplex(surface) );
+            VerticesAttributeOfComplex(surface) );
 
         __SIMPLICIAL_PrintRecordInitBool( printRecord, "edgeLabelsActive", true );
         __SIMPLICIAL_PrintRecordInitStringList( printRecord, "edgeLabels", Edges(surface) );
@@ -153,7 +153,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
 
         # colours
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "vertexColours", 
-            VerticesAttributeOfVEFComplex(surface));
+            VerticesAttributeOfComplex(surface));
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "edgeColours", Edges(surface));
         __SIMPLICIAL_PrintRecordInitStringList(printRecord, "faceColours", Faces(surface));
         # if the faceColours are custom given, we check for errors
@@ -1030,8 +1030,8 @@ InstallMethod( DrawSurfaceToTikz,
         od;
 
         # Set the strongly connected components (if not already done)
-        if not HasStronglyConnectedComponentsAttributeOfVEFComplex( surface ) then
-            SetStronglyConnectedComponentsAttributeOfVEFComplex( surface, List( printRecord.drawComponents, c -> SubcomplexByFacesNC(surface, Union(c) ) ));
+        if not HasStronglyConnectedComponentsAttributeOfComplex( surface ) then
+            SetStronglyConnectedComponentsAttributeOfComplex( surface, List( printRecord.drawComponents, c -> SubcomplexByFacesNC(surface, Union(c) ) ));
         fi;
 
         # Write this data into the file
@@ -1066,7 +1066,7 @@ InstallMethod( DrawSurfaceToTikz,
 
                 # Define coordinates of vertices
                 AppendTo( output, "% Define the coordinates of the vertices\n" );
-                for v in VerticesAttributeOfVEFComplex(comp) do
+                for v in VerticesAttributeOfComplex(comp) do
                     for i in [1..Length(allVertexCoords[v])] do
                         if allVertexCoords[v][i][3] = drawIndex then
                             AppendTo( output, "\\coordinate (", TikzCoordFromVertexPosition([v,i]), ") at (", allVertexCoords[v][i][1], ", ", allVertexCoords[v][i][2], ");\n" );
@@ -1100,7 +1100,7 @@ InstallMethod( DrawSurfaceToTikz,
                 
                 # Draw vertices
                 AppendTo( output, "% Draw the vertices\n" );
-                for v in VerticesAttributeOfVEFComplex(comp) do
+                for v in VerticesAttributeOfComplex(comp) do
                     positions := allVertexCoords[v];
                     for i in [1..Length(positions)] do
                         if allVertexCoords[v][i][3] = drawIndex then
@@ -1141,7 +1141,7 @@ InstallMethod( DrawSurfaceToTikz,
         return printRecord;
     end
 );
-RedispatchOnCondition( DrawSurfaceToTikz, true, [IsPolygonalComplex,IsString,IsRecord], [IsNotEdgeRamified], 0  );
+RedispatchOnCondition( DrawSurfaceToTikz, true, [IsTwistedPolygonalComplex,IsString,IsRecord], [IsPolygonalComplex and IsNotEdgeRamified], 0  );
 
 InstallOtherMethod( DrawSurfaceToTikz, 
     "for a polygonal complex without edge ramifications and a file name",
@@ -1150,5 +1150,5 @@ InstallOtherMethod( DrawSurfaceToTikz,
         return DrawSurfaceToTikz(surface, file, rec());
     end
 );
-RedispatchOnCondition( DrawSurfaceToTikz, true, [IsPolygonalComplex,IsString], [IsNotEdgeRamified], 0  );
+RedispatchOnCondition( DrawSurfaceToTikz, true, [IsTwistedPolygonalComplex,IsString], [IsPolygonalComplex and IsNotEdgeRamified], 0  );
 

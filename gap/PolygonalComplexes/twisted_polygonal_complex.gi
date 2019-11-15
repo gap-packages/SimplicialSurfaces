@@ -314,7 +314,7 @@ InstallMethod( LocalFaceNC,
     function(bendComplex, face)
         local obj, vertOfEdge, faceOfEdge, e;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesAttributeOfVEFComplex(obj, LocalVerticesOfFaces(bendComplex)[face]);
         SetEdges(obj, LocalEdgesOfFaces(bendComplex)[face]);
         SetFaces(obj, [face]);
@@ -382,7 +382,7 @@ InstallMethod( PolygonalComplex, "for a bend polygonal complex",
             return fail;
         fi;
 
-        obj := Objectify(PolygonalComplexType, rec());
+        obj := Objectify(TwistedPolygonalComplexType, rec());
         SetVerticesAttributeOfVEFComplex(obj, VerticesAttributeOfVEFComplex(bendComplex));
         SetEdges(obj, Edges(bendComplex));
         SetFaces(obj, Faces(bendComplex));

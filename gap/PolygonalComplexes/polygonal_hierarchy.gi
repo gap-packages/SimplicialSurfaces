@@ -11,13 +11,13 @@
 #############################################################################
 
 
-# We define a generic representation for polygonal complexes
-DeclareRepresentation("IsGenericPolygonalComplexRep", 
-    IsPolygonalComplex and IsAttributeStoringRep, []);
+# We define a generic representation for twisted polygonal complexes
+DeclareRepresentation("IsGenericTwistedPolygonalComplexRep", 
+    IsTwistedPolygonalComplex and IsAttributeStoringRep, []);
 
 # Define a generic type
-BindGlobal( "PolygonalComplexType", 
-    NewType( PolygonalComplexFamily, IsGenericPolygonalComplexRep ));
+BindGlobal( "TwistedPolygonalComplexType", 
+    NewType( TwistedPolygonalComplexFamily, IsGenericTwistedPolygonalComplexRep ));
 
 
 # We define a generic representation for polygonal complexes
@@ -68,3 +68,9 @@ InstallOtherMethod( IsPolygonalSurface, "for an object", [IsObject],
 );
 
 
+##
+InstallMethod( IsPolygonalComplex, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
+    function(compl)
+        return true;#REM
+    end
+);

@@ -1,0 +1,46 @@
+    %       P3 ------------ P4
+    %      / |       6      | 
+    %    2/  |              |
+    %    /   |              |
+    %  P1  I |4      IX     |8
+    %    \   |              |
+    %    2\  |              |
+    %      \ |       6      |
+    %       P2 ------------ P5
+
+    \coordinate (P1) at (0,0.5);
+    \coordinate (P2) at (2,-1);
+    \coordinate (P3) at (2,2);
+    \coordinate (P4) at (5,2);
+    \coordinate (P5) at (5,-1);
+
+    \draw[edge,face] (P1) -- (P2) -- (P3) -- cycle
+        (P2) -- (P3) -- (P4) -- (P5) -- cycle;
+
+    \def\off{0.3}
+    \draw[blue,thick,->] ($(P3)+(0,\off)$) -- ($(P4)+(0,\off)$);
+    \draw[blue,thick,->] ($(P2)-(0,\off)$) -- ($(P5)-(0,\off)$);
+    \draw[red, thick,->] ($(P1)+(120:\off)$) -- ($(P3)+(120:\off)$);
+    \draw[red, thick,->] ($(P1)+(-120:\off)$) -- ($(P2)+(-120:\off)$);
+
+    \ifdefined\chambers
+        \coordinate (ZT) at (barycentric cs:P1=1,P2=1,P3=1);
+        \coordinate (ZQ) at (barycentric cs:P2=1,P3=1,P4=1,P5=1);
+        \foreach \x/\y/\z/\n in {P1/P2/ZT/1, P2/P1/ZT/2, P2/P3/ZT/3, P3/P2/ZT/4, P3/P1/ZT/5, P1/P3/ZT/6,
+                P3/P2/ZQ/7, P2/P3/ZQ/8, P2/P5/ZQ/9, P5/P2/ZQ/10, P5/P4/ZQ/11, P4/P5/ZQ/12, P4/P3/ZQ/13, P3/P4/ZQ/14}{
+            \coordinate (mid) at ($(\x)!0.5!(\y)$);
+            \draw[gray] (mid) -- (\z) -- (\x);
+            \node at (barycentric cs:\x=1,mid=1,\z=1) {\n};
+        }
+    \fi
+
+    \foreach \x/\y/\n in {1/2/2, 1/3/2, 2/3/4, 3/4/6, 2/5/6, 4/5/8}{
+        \node[edgeLabel] at ($(P\x)!0.5!(P\y)$) {\n};
+    }
+
+    \foreach \p/\r/\n in {P1/left/3, P2/below/5, P3/above/5, P4/above/7, P5/below/7}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+
+    \node[faceLabel] at (barycentric cs:P1=1,P2=1,P3=1) {I};
+    \node[faceLabel] at (barycentric cs:P2=1,P3=1,P4=1,P5=1) {IX};

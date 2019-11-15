@@ -13,10 +13,8 @@
     in the <K>SimplicialSurfaces</K>-package. More accurately, it presents 
     structures
     that are build from polygons (note that these can be much more general
-    than simplicial surfaces).
-    <Par/>
-    These structures are described as <K>VEFComplex</K>es.
-    To model these structures there are two main options:
+    than simplicial surfaces). We employ two different models for
+    these structures:
     <Enum>
         <Item>Description by incidence geometry. This leads to the concept
             of <K>PolygonalComplex</K> 
@@ -27,10 +25,8 @@
         <Item>If incidence geometry is not sufficient to describe a polygonal
             structure, additional information (a barycentric subdivision of 
             the faces) can be
-            used. This leads to the concept of <K>BendPolygonalComplex</K>
-            (section <Ref Sect="PolygonalStructures_bend"/>). 
-            The weaker properties of the incidence geometry are
-            explained in section <Ref Sect="PolygonalStructures_bendIncidence"/>.
+            used. This leads to the concept of <K>TwistedPolygonalComplex</K>
+            (section <Ref Sect="PolygonalStructures_twisted"/>). 
             </Item>
     </Enum>
     <E>Polygonal Complexes</E> are structures that are build from polygons, 
@@ -42,7 +38,7 @@
     Surfaces are a special case of polygonal complexes and the package 
     provides functionality to determine whether a polygonal complex is
     a surface.
-    <!-- There is no example of a bend polygonal complex here as it seems
+    <!-- There is no example of a twisted polygonal complex here as it seems
          not necessary to burden the reader with it. If someone needs a
          more general structure, we have told him before where he might find
          it. For all others it would be a needless distraction. -->
@@ -205,8 +201,8 @@
     </Section>
 <!-- TODO maybe talk about how to access this information with a link to the appropriate chapter? -->
 
-    <Section Label="PolygonalStructures_bend">
-        <Heading>Bend polygonal complexes and surfaces</Heading>
+    <Section Label="PolygonalStructures_twisted">
+        <Heading>Twisted polygonal complexes and surfaces</Heading>
         While polygonal complexes are quite general, they can't describe all
         possible triangulations of a topological surface. For example, we
         can construct a torus from a single polygon by starting with a 
@@ -244,36 +240,96 @@
                 </Item>
             <Item>Construction of the geodesic dual.</Item>
         </List>
+        <!-- TODO reference to location of these methods-->
 
-        For this reason, the more general <E>bend polygonal complexes</E>
-        are introduced. In comparison to polygonal complexes, they store
-        a lot more information:
-        <Enum>
-            <Item><E>Local vertices</E>: For every polygon there is
-                a local vertex for each corner (or angle).</Item>
-            <Item><E>Local edges</E>: For every polygon there is a 
-                local edge for each side. </Item>
-            <Item><E>Half-edges</E>: A tuple of a vertex and an edge
-                (incident to each other).</Item>
-            <Item><E>Local flags</E>: A triple of a local vertex, a
-                local edge and a face, all of them incident.</Item>
-        </Enum>
+        In these cases, the more general formalism of
+        <E>twisted polygonal complexes</E> is helpful. To interpret the
+        torus as a twisted polygonal complex, we subdivide it barycentrically.
+        <Alt Only="TikZ">
+            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+                \def\off{0.3}
+                \def\len{2.2}
 
-        Every polygon has its own local vertices and local edges (which
-        in turn define its local flags). Then the (global) vertices are 
-        equivalence
-        classes of local vertices. In the example of the square from before,
-        we would have four local vertices and only one (global) vertex.
+                \coordinate (A) at (0,0);
+                \coordinate (B) at (\len,0);
+                \coordinate (D) at (0,\len);
+                \coordinate (C) at ($(B)+(D)$);
+                \coordinate (Z) at (barycentric cs:A=1,B=1,C=1,D=1);
 
+                \draw[edge,face] (A) -- (B) -- (C) -- (D) -- cycle;
 
-        TODO define bend polygonal complexes
+                \foreach \x/\y/\n in {A/B/1, B/A/2, B/C/3, C/B/4, C/D/5, D/C/6, D/A/7, A/D/8}{
+                    \coordinate (mid) at ($(\x)!0.5!(\y)$);
+                    \draw[gray] (\x) -- (Z) -- (mid);
+                    \node at (barycentric cs:\x=1,mid=1,Z=1) {\n};
+                }
+
+                \foreach \p/\r in {A/left, B/right, C/right, D/left}{
+                    \vertexLabelR{\p}{\r}{}
+                }
+
+                \draw[blue,thick,->] ($(A)+(-\off,0)$) -- ($(D)+(-\off,0)$);
+                \draw[blue,thick,->] ($(B)+(\off,0)$) -- ($(C)+(\off,0)$);
+                \draw[red,thick,->] ($(A)+(0,-\off)$) -- ($(B)+(0,-\off)$);
+                \draw[red,thick,->] ($(D)+(0,\off)$) -- ($(C)+(0,\off)$);
+            \end{tikzpicture}
+        </Alt>
+        The small triangles within each face are called <E>chambers</E>.
+        A twisted polygonal complex stores the incidences between vertices,
+        edges, and faces (like a polygonal complex). In addition, it also
+        stores a set of chambers, together with
+        their adjacencies. Each chamber can be adjacent to another
+        chamber along each of its edges.
+        <List>
+            <Item>Along the shortest edge, each chamber is adjacent to exactly
+                one other chamber. We call these chambers <E>0-adjacent</E>.
+                In the torus, the pairs are <M>(1,2)(3,4)(5,6)(7,8)</M>.</Item>
+            <Item>Along the longest edge, each chamber is adjacent to exactly
+                one other chamber. We call these chambers <E>1-adjacent</E>.
+                In the torus, the pairs are <M>(1,8)(2,3)(4,5)(6,7)</M>.</Item>
+            <Item>Along the middle edge, a chamber may be adjacent to
+                any number of other chambers. All of them are 
+                called <E>2-adjacent</E>. In the torus, each chamber
+                is 2-adjacent to exactly one chamber. The pairs are
+                <M>(1,6)(2,5)(3,8)(4,7)</M>.</Item>
+        </List>
+
+        Both 0-adjacency and 1-adjacency can be interpreted as involutions
+        without fixed points (i.e. elements from the symmetric group on
+        the chambers). The 2-adjacency can be represented by an equivalence
+        relation on the chambers. Naturally, we cannot pick any involutions
+        and equivalence relations:
+        <List>
+            <Item>Applying the 0-adjacency-involution does
+                not change the edge and the face of a given chamber.</Item>
+            <Item>Applying the 1-adjacency-involution does
+                not change the vertex and the face of a given chamber.</Item>
+            <Item>If two chambers are 2-adjacent, they have the same
+                vertex and edge. Furthermore, applying the
+                0-adjacency-involution to both produces 2-adjacent chambers.</Item>
+            <Item>If two chambers have the same edge, they are either 2-adjacent
+                or the first chamber is 2-adjacent to the chamber that arises from
+                applying the 0-adjacency-involution to the second chamber.</Item>
+            <Item>If two chambers have the same face, we can obtain the second
+                chamber from the first chamber by repeatedly applying the
+                0-adjacency-involution and 1-adjacency-involution.</Item>
+        </List>
+
         <ManSection>
-            <Prop Name="IsBendPolygonalComplex" Arg="object" 
+            <Prop Name="IsTwistedPolygonalComplex" Arg="object" 
                 Label="for IsObject"
-                Comm="Checks whether the given object is a bend polygonal complex"/>
+                Comm="Checks whether the given object is a twisted polygonal complex"/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
-                Checks whether <A>object</A> is a bend polygonal complex.
+                Checks whether <A>object</A> is a twisted polygonal complex.
+                A twisted polygonal complex can be informally described
+                as a structure that is constructed from polygons, where the
+                polygons may be <E>twisted</E> (e.g. there could be a polygon
+                with one vertex and three edges).
+
+                More formally (for a more extensive explanation see Section
+                <Ref Sect="PolygonalStructures_twisted"/>) a twisted polygonal
+                complex is 
                 
                 TODO
             </Description>
@@ -283,41 +339,6 @@
         TODO explain how to work with it
     </Section>
 
-    <Section Label="PolygonalStructures_bendIncidence">
-        <Heading>Incidence geometry of bend polygonal complexes</Heading>
-        In bend polygonal complexes (section 
-        <Ref Sect="PolygonalStructures_bend"/>) the incidence geometry is 
-        not as 
-        constrained as in polygonal complexes (section
-        <Ref Sect="PolygonalStructures_complex"/>).
-
-        We denote this more liberal incidence geometry by 
-        <E>VEF-complex</E> (VEF stands for vertex-edge-face).
-        <Subsection Label="Def_VEFComplex">
-            <Heading>Definition (VEF-complex)</Heading>
-            A <E>VEF-complex</E> is a two-dimensional incidence geometry
-            consisting of vertices, edges, and faces such that the
-            following conditions hold:
-            <#Include Label="VEFComplex_Properties"/>
-        </Subsection>
-            
-        <ManSection>
-            <Filt Name="IsVEFComplex" Arg="object" Type="category"
-                Comm="Checks whether the given object is a VEF-complex."/>
-            <Returns><K>true</K> or <K>false</K></Returns>
-            <Description>
-                Checks whether <A>object</A> is a VEF-complex. A 
-                <E>VEF-complex</E>
-                is a two-dimensional incidence geometry of vertices, edges, and
-                faces such that the following conditions hold:
-                <#Include Label="VEFComplex_Properties"/>
-            </Description>
-        </ManSection>
-
-       
-
-        <!-- TODO intuition, more information? -->
-    </Section>
 
     <Section Label="PolygonalStructures_surface">
         <Heading>Polygonal and simplicial surfaces</Heading>
@@ -351,18 +372,18 @@
         If only the first condition is fulfilled, we have a <E>polygonal 
         complex without edge ramifications</E>.
          <ManSection Label="IsNotEdgeRamified">
-            <Prop Name="IsNotEdgeRamified" Arg="complex" Label="for VEFComplex"
-                Comm="Checks whether the given VEF-complex has no edge ramifications"/>
+            <Prop Name="IsNotEdgeRamified" Arg="complex" Label="for a TwistedPolygonalComplex"
+                Comm="Checks whether the given twisted polygonal complex has no edge ramifications"/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
-                Checks whether the VEF-complex <A>complex</A> has no edge
+                Checks whether the twisted polygonal complex <A>complex</A> has no edge
                 ramifications.
                 <P/>
                 If <A>complex</A> is a polygonal complex, this means that
                 every edge is incident to at most two faces.
                 <P/>
-                If <A>complex</A> is a bend polygonal complex, this means that
-                every edge is incident to at most two local edges.
+                If <A>complex</A> is a twisted polygonal complex, this means that
+                every chamber is 2-adjacent to at most one other chamber.
             </Description>
         </ManSection>
 
@@ -395,10 +416,10 @@
         
         <ManSection>
             <Prop Name="IsNotVertexRamified" Arg="complex"
-                Comm="Checks whether the given VEF-complex has no vertex ramifications"/>
+                Comm="Checks whether the given twisted polygonal complex has no vertex ramifications"/>
             <Returns><K>true</K> or <K>false</K></Returns>
             <Description>
-                Checks whether the VEF-complex <A>complex</A> has no vertex
+                Checks whether the twisted polygonal complex <A>complex</A> has no vertex
                 ramifications, i.e. that there is exactly one maximal umbrella
                 for every vertex.
             </Description>

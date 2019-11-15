@@ -99,7 +99,7 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
             newFacesOfEdges[newEdgeLabels[i]] := [incFaces[i]];
         od;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVertsOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
         if HasVerticesOfFaces(complex) then
@@ -162,7 +162,7 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStarComponent",
             newEdgesOfVertices[newVertexLabels[i]] := starComp[i][2];
         od;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetEdgesOfVertices(obj, newEdgesOfVertices);
 
         if HasFacesOfEdges(complex) then
@@ -688,7 +688,7 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
             Add(newEdges, e + realShift);
         od;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
         SetEdges(obj, newEdges);
@@ -909,7 +909,7 @@ InstallMethod( JoinVerticesNC,
         Unbind(newEdgesOfVertices[v2]);
         newEdgesOfVertices[newVertexLabel] := newEdges;
 
-        obj := Objectify(PolygonalComplexType, rec());
+        obj := Objectify(TwistedPolygonalComplexType, rec());
         SetEdgesOfVertices(obj, newEdgesOfVertices);
         if HasEdgesOfFaces(complex) then
             SetEdgesOfFaces(obj, EdgesOfFaces(complex));
@@ -1039,7 +1039,7 @@ InstallMethod( JoinEdgesNC,
         Unbind(newFacesOfEdges[e2]);
         newFacesOfEdges[newEdgeLabel] := faces;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
         if HasVerticesOfFaces(complex) then

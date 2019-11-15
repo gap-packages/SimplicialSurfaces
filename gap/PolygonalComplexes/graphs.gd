@@ -38,10 +38,10 @@
 #! 
 #! The structures from chapter <Ref Chap="PolygonalStructures"/>
 #! can be completely described by their incidence structure (in the case of
-#! polygonal complexes) or their local flag structure (for bend polygonal
+#! polygonal complexes) or their chamber structure (for twisted polygonal
 #! complexes). Both of these structures can equivalently be described as
 #! graphs. Therefore the
-#! isomorphism problem for VEF-complexes reduces to the graph isomorphism 
+#! isomorphism problem for these complexes reduces to the graph isomorphism 
 #! problem. This chapter
 #! explains the associated functionality.
 #!
@@ -223,17 +223,11 @@ DeclareAttribute( "LocalIncidenceNautyGraph", IsBendPolygonalComplex );
 
 #! @BeginGroup IsIsomorphic
 #! @Description
-#! Return whether the given VEF-complexes are isomorphic. Here we have
-#! several cases to consider:
-#! * Two polygonal complexes are isomorphic if and only if their incidence
-#!   graphs (compare 
-#!   <Ref Subsect="Section_Graphs_Incidence"/>) are isomorphic.
-#! * Two bend polygonal complexes are isomorphic if and only if their
-#!   local incidence graphs (compare 
-#!   <Ref Subsect="Section_Graphs_LocalIncidence"/>) are isomorphic.
-#! * A polygonal complex is isomorphic to a bend polygonal complex, if and
-#!   only if the bend polygonal complex can be defined as a polygonal complex
-#!   and is isomorphic to the other polygonal complex.
+#! Return whether the given twisted polygonal complexes are isomorphic, i.e.
+#! whether their chamber adjacency graphs (compare <Ref Subsect="Section_Graphs_Adjacency"/>)
+#! are isomorphic. If both twisted polygonal complexes are polygonal complexes,
+#! this can equivalently be described as isomorphism between their incidence
+#! graphs (compare <Ref Subsect="Section_Graphs_Incidence"/>).
 #!
 #! The isomorphism check needs the package <K>NautyTracesInterface</K> or
 #! <K>Digraphs</K> to work.
@@ -246,12 +240,12 @@ DeclareAttribute( "LocalIncidenceNautyGraph", IsBendPolygonalComplex );
 #! @Returns <K>true</K> or <K>false</K>
 #! @Arguments complex1, complex2
 DeclareOperation( "IsIsomorphic", 
-    [IsVEFComplex, IsVEFComplex] );
+    [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex] );
 #! @EndGroup
 
 
 #! @Description
-#! The method <K>IsomorphismRepresentatives</K> takes a list of VEF-complexes 
+#! The method <K>IsomorphismRepresentatives</K> takes a list of twisted polygonal complexes 
 #! and returns a reduced list in which no two entries are 
 #! isomorphic.
 #!
@@ -268,7 +262,7 @@ DeclareOperation( "IsIsomorphic",
 #! true
 #! @EndExampleSession
 #!
-#! @Returns a list of VEF-complexes
+#! @Returns a list of twisted polygonal complexes
 #! @Arguments complexList
 DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 

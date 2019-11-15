@@ -19,35 +19,24 @@ MakeReadWriteGlobal( "__SIMPLICIAL_MANUAL_MODE" );
 
 
 # Methods to add attributes into the attribute scheduler
-BindGlobal( "__SIMPLICIAL_AddVEFAttribute", 
+BindGlobal( "__SIMPLICIAL_AddTwistedAttribute", 
     function( attr )
-        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsVEFComplex, "for a VEF-complex" );
+        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsTwistedPolygonalComplex, "for a twisted polygonal complex" );
     end
 );
 BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute", 
     function( attr )
         AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsPolygonalComplex, "for a polygonal complex" );
 
-        # Add a method that gives an error if executed for bend polygonal complexes
-        InstallOtherMethod( attr, "for a bend polygonal complex",
-            [IsBendPolygonalComplex],
-            function(bendComplex)
-                Error( Concatenation( "The attribute ", NameFunction(attr), 
-                    " can only be computed for polygonal complexes." ) );
-            end
-        );
-    end
-);
-BindGlobal( "__SIMPLICIAL_AddBendPolygonalAttribute", 
-    function( attr )
-        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsBendPolygonalComplex, "for a bend polygonal complex" );
-
-        # Add a method that gives an error if executed for polygonal complexes
-        InstallOtherMethod( attr, "for a polygonal complex",
-            [IsPolygonalComplex],
+        # Add a method that gives an error if executed for twisted polygonal complexes
+        InstallOtherMethod( attr, "for a twisted polygonal complex",
+            [IsTwistedPolygonalComplex],
             function(complex)
-                Error( Concatenation( "The attribute ", NameFunction(attr), 
-                    " can only be computed for bend polygonal complexes." ) );
+                if not IsPolygonalComplex(complex) then
+                    Error( Concatenation( "The attribute ", NameFunction(attr), 
+                        " can only be computed for polygonal complexes." ) );
+                fi;
+                TryNextMethod();
             end
         );
     end
@@ -55,21 +44,21 @@ BindGlobal( "__SIMPLICIAL_AddBendPolygonalAttribute",
 
 BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
     function( attr )
-        InstallMethod(attr, "for a VEF-complex without edge ramifications",
-            [IsVEFComplex and IsNotEdgeRamified],
+        InstallMethod(attr, "for a twisted polygonal complex without edge ramifications",
+            [IsTwistedPolygonalComplex and IsNotEdgeRamified],
             function( ramSurf )
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, ramSurf);
             end);
 
-        InstallOtherMethod(attr, "for a VEF-complex (to check for edge ramifications)",
-            [IsVEFComplex],
+        InstallOtherMethod(attr, "for a twisted polygonal complex (to check for edge ramifications)",
+            [IsTwistedPolygonalComplex],
             function(complex)
                 if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) then
                     TryNextMethod();
                 fi;
                 if not IsNotEdgeRamified(complex) then
-                    Error("Given VEF-complex contains edge ramifications.");
+                    Error("Given twisted polygonal complex contains edge ramifications.");
                 fi;
                 return attr(complex);
             end
@@ -79,22 +68,22 @@ BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
 
 BindGlobal( "__SIMPLICIAL_AddSurfaceAttribute",
     function( attr )
-        InstallMethod(attr, "for a VEF-surface",
-            [IsVEFSurface],
+        InstallMethod(attr, "for a twisted polygonal surface",
+            [IsTwistedPolygonalSurface],
             function( surface )
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, surface);
             end);
 
-        InstallOtherMethod(attr, "for a VEF-complex (to check if surface)",
-            [IsVEFComplex],
+        InstallOtherMethod(attr, "for a twisted polygonal complex (to check if it is a surface)",
+            [IsTwistedPolygonalComplex],
             function(complex)
                 if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) and
                     HasIsNotVertexRamified(complex) and IsNotVertexRamified(complex) then
                     TryNextMethod();
                 fi;
-                if not IsVEFSurface(complex) then
-                    Error("Given VEF-complex is not a VEF-surface.");
+                if not IsTwistedPolygonalSurface(complex) then
+                    Error("Given twisted polygonal complex is not a twisted polygonal surface.");
                 fi;
                 return attr(complex);
             end
@@ -111,7 +100,7 @@ BindGlobal( "__SIMPLICIAL_CheckVertex",
     function( complex, vertex, name )
         local mes;
 
-        if not vertex in VerticesAttributeOfVEFComplex(complex) then
+        if not vertex in VerticesAttributeOfComplex(complex) then
             mes := Concatenation( name, ": Given vertex ", String(vertex), 
                 " does not lie in the given complex." );
             Error(mes);

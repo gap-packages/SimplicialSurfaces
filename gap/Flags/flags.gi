@@ -237,7 +237,7 @@ InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
             facesOfEdges[e] := incFaces;
         od;
 
-        newComp := Objectify(PolygonalComplexType, rec());
+        newComp := Objectify(TwistedPolygonalComplexType, rec());
         SetVerticesOfEdges(newComp, verticesOfEdges);
         SetFacesOfEdges(newComp, facesOfEdges);
 
