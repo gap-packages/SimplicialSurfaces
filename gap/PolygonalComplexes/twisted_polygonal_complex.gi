@@ -11,520 +11,371 @@
 #############################################################################
 
 
-BindGlobal( "__SIMPLICIAL_ComputeLocalFlags", 
-    function( faces, sizesOfFaces )
-        local res, f, i, max;
-
-        res := [];
-        for f in faces do
-            max := sizesOfFaces[f]; 
-            for i in [1..max] do
-                if i = 1 then
-                    Add(res, [i,max]);
-                else
-                    Add(res, [i,i-1]);
-                fi;
-
-                if i = max then
-                    Add(res, [i,1]);
-                else
-                    Add(res, [i,i+1]);
-                fi;
-            od;
-        od;
-
-        return res;
+##############################################################################
+##
+##          Methods for incidence
+##
+InstallMethod( NumberOfChambers, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
+    function(complex)
+        return Length( Chambers(complex) );
     end
 );
 
 
-BindGlobal("__SIMPLICIAL_InvolutionFromPartition",
-    function(partition)
-        local inv, pair;
+## VerticesOfChambers
+InstallMethod(VertexOfChamberNC, 
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, chamber)
+        return VerticesOfChambers(complex)[chamber];
+    end
+);
+InstallMethod(VertexOfChamber,
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, chamber)
+        __SIMPLICIAL_CheckChamber( complex, chamber, "VertexOfChamber" );
+        return VertexOfChamberNC(complex,chamber);
+    end
+);
 
-        inv := ();
-        for pair in partition do
-            if Length(pair) = 2 then
-                inv := inv * (pair[1],pair[2]);
-            elif Length(pair) > 2 then
+## ChambersOfVertices
+InstallMethod(ChambersOfVertexNC, 
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return ChambersOfVertex(complex)[vertex];
+    end
+);
+InstallMethod(ChambersOfVertex,
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        __SIMPLICIAL_CheckVertex( complex, vertex, "ChambersOfVertex" );
+        return ChambersOfVertexNC(complex, vertex);
+    end
+);
+
+## EdgesOfChambers
+InstallMethod(EdgesOfChamberNC, 
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, chamber)
+        return EdgesOfChambers(complex)[chamber];
+    end
+);
+InstallMethod(EdgesOfChamber,
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, chamber)
+        __SIMPLICIAL_CheckChamber( complex, chamber, "EdgesOfChamber" );
+        return EdgesOfChamberNC(complex,chamber);
+    end
+);
+
+## ChambersOfEdges
+InstallMethod(ChambersOfEdgeNC, 
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        return ChambersOfEdges(complex)[edge];
+    end
+);
+InstallMethod(ChambersOfEdge,
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        __SIMPLICIAL_CheckEdge( complex, edge, "ChambersOfEdge" );
+        return ChambersOfEdgeNC(complex, edge);
+    end
+);
+
+## FacesOfChambers
+InstallMethod(FacesOfChamberNC, 
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, chamber)
+        return FacesOfChambers(complex)[chamber];
+    end
+);
+InstallMethod(FacesOfChamber,
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, chamber)
+        __SIMPLICIAL_CheckChamber( complex, chamber, "FacesOfChamber" );
+        return FacesOfChamberNC(complex,chamber);
+    end
+);
+
+## ChambersOfFaces
+InstallMethod(ChambersOfFaceNC, 
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, face)
+        return ChambersOfFaces(complex)[face];
+    end
+);
+InstallMethod(ChambersOfFace,
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, face)
+        __SIMPLICIAL_CheckFace( complex, face, "ChambersOfFace" );
+        return ChambersOfFaceNC(complex, face);
+    end
+);
+
+##
+##          End of methods for incidence
+##
+##############################################################################
+
+
+##############################################################################
+##
+##          Methods for chamber adjacency
+##
+
+__SIMPLICIAL_AddTwistedAttribute(ZeroAdjacencyRelation);
+__SIMPLICIAL_AddTwistedAttribute(OneAdjacencyRelation);
+__SIMPLICIAL_AddTwistedAttribute(TwoAdjacencyRelation);
+__SIMPLICIAL_AddTwistedAttribute(ZeroAdjacencyClasses);
+__SIMPLICIAL_AddTwistedAttribute(OneAdjacencyClasses);
+__SIMPLICIAL_AddTwistedAttribute(TwoAdjacencyClasses);
+__SIMPLICIAL_AddTwistedAttribute(ZeroAdjacencyInvolution);
+__SIMPLICIAL_AddTwistedAttribute(OneAdjacencyInvolution);
+__SIMPLICIAL_AddTwistedAttribute(TwoAdjacencyInvolution);
+
+## from Relation to chambers
+InstallMethod( Chambers,
+    "for a twisted polygonal complex with ZeroAdjacencyRelation",
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyRelation],
+    function(complex)
+        return Set(Source(ZeroAdjacencyRelation(complex)));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["ZeroAdjacencyRelation"] );
+InstallMethod( Chambers,
+    "for a twisted polygonal complex with OneAdjacencyRelation",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyRelation],
+    function(complex)
+        return Set(Source(OneAdjacencyRelation(complex)));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["OneAdjacencyRelation"] );
+InstallMethod( Chambers,
+    "for a twisted polygonal complex with TwoAdjacencyRelation",
+    [IsTwistedPolygonalComplex and HasTwoAdjacencyRelation],
+    function(complex)
+        return Set(Source(TwoAdjacencyRelation(complex)));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["TwoAdjacencyRelation"] );
+
+
+## from Classes to chambers
+InstallMethod( Chambers,
+    "for a twisted polygonal complex with ZeroAdjacencyClasses",
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyClasses],
+    function(complex)
+        return __SIMPLICIAL_UnionSets(ZeroAdjacencyClasses(complex));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["ZeroAdjacencyClasses"] );
+InstallMethod( Chambers,
+    "for a twisted polygonal complex with OneAdjacencyClasses",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyClasses],
+    function(complex)
+        return __SIMPLICIAL_UnionSets(OneAdjacencyClasses(complex));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["OneAdjacencyClasses"] );
+InstallMethod( Chambers,
+    "for a twisted polygonal complex with TwoAdjacencyClasses",
+    [IsTwistedPolygonalComplex and HasTwoAdjacencyClasses],
+    function(complex)
+        return __SIMPLICIAL_UnionSets(TwoAdjacencyClasses(complex));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["TwoAdjacencyClasses"] );
+
+
+
+## from Relation to Classes
+InstallMethod( ZeroAdjacencyClasses, 
+    "for a twisted polygonal complex with ZeroAdjacencyRelation",
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyRelation],
+    function(complex)
+        return EquivalenceRelationPartition( ZeroAdjacencyRelation(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyClasses", ["ZeroAdjacencyRelation"] );
+InstallMethod( OneAdjacencyClasses, 
+    "for a twisted polygonal complex with OneAdjacencyRelation",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyRelation],
+    function(complex)
+        return EquivalenceRelationPartition( OneAdjacencyRelation(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyClasses", ["OneAdjacencyRelation"] );
+InstallMethod( TwoAdjacencyClasses, 
+    "for a twisted polygonal complex with TwoAdjacencyRelation",
+    [IsTwistedPolygonalComplex and HasTwoAdjacencyRelation],
+    function(complex)
+        local classes, el, rel, iter;
+
+        rel := TwoAdjacencyRelation(complex);
+        # This call is insufficient since there might be elements that
+        # are only equivalent to themselves
+        classes := EquivalenceRelationPartition(rel);
+        for el in Source(rel) do
+            iter := Iterator( EquivalenceClassOfElementNC(rel, el) );
+            NextIterator(iter);
+            if IsDoneIterator(iter) then # Singleton
+                Add(classes, [el]);
+            fi;
+        od;
+        Sort(classes);
+        return classes;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyClasses", ["TwoAdjacencyRelation"] );
+
+
+## from Classes to Relation
+InstallMethod( ZeroAdjacencyRelation,
+    "for a twisted polygonal complex with ZeroAdjacencyClasses and Chambers",
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyClasses and HasChambers],
+    function(complex)
+        return EquivalenceRelationByPartitionNC(Domain(Chambers(complex)), ZeroAdjacencyClasses(complex));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyRelation", ["ZeroAdjacencyClasses", "Chambers"] );
+InstallMethod( OneAdjacencyRelation,
+    "for a twisted polygonal complex with OneAdjacencyClasses and Chambers",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyClasses and HasChambers],
+    function(complex)
+        return EquivalenceRelationByPartitionNC(Domain(Chambers(complex)), OneAdjacencyClasses(complex));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyRelation", ["OneAdjacencyClasses", "Chambers"] );
+InstallMethod( TwoAdjacencyRelation,
+    "for a twisted polygonal complex with TwoAdjacencyClasses and Chambers",
+    [IsTwistedPolygonalComplex and HasTwoAdjacencyClasses and HasChambers],
+    function(complex)
+        return EquivalenceRelationByPartitionNC(Domain(Chambers(complex)), TwoAdjacencyClasses(complex));
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyRelation", ["TwoAdjacencyClasses", "Chambers"] );
+
+
+## from Involution to Classes
+InstallMethod( ZeroAdjacencyClasses, 
+    "for a twisted polygonal complex with ZeroAdjacencyInvolution",
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyInvolution],
+    function(complex)
+        return Cycles( ZeroAdjacencyInvolution(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyClasses", ["ZeroAdjacencyInvolution"] );
+InstallMethod( OneAdjacencyClasses, 
+    "for a twisted polygonal complex with OneAdjacencyInvolution",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyInvolution],
+    function(complex)
+        return Cycles( OneAdjacencyInvolution(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyClasses", ["OneAdjacencyInvolution"] );
+InstallMethod( TwoAdjacencyClasses, 
+    "for a twisted polygonal complex without edge ramifications with TwoAdjacencyInvolution and Chambers",
+    [IsTwistedPolygonalComplex and IsNotEdgeRamified and HasTwoAdjacencyInvolution and HasChambers],
+    function(complex)
+        local classes, el;
+
+        classes := Cycles(TwoAdjacencyInvolution(complex));
+        # This call is insufficient since there might be fixed points
+
+        for el in Chambers(complex) do
+            if el^TwoAdjacencyInvolution(complex) = el then
+                Add(classes, [el]);
+            fi;
+        od;
+        Sort(classes);
+        return classes;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyClasses", ["TwoAdjacencyInvolution", "Chambers"], ["IsNotEdgeRamified"] );
+
+
+## from Classes to Involution
+InstallMethod( ZeroAdjacencyInvolution,
+    "for a twisted polygonal complex with ZeroAdjacencyClasses and Chambers",
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyClasses and Chambers],
+    function(complex)
+        local list, cl, maxChamber;
+
+        maxChamber := Maximum(Chambers(complex));
+        list := [1..maxChamber];
+        for cl in ZeroAdjacencyClasses(complex) do
+            list[cl[1]] := cl[2];
+            list[cl[2]] := cl[1];
+        do;
+        return PermList(list);
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyInvolution", ["ZeroAdjacencyClasses", "Chambers"] );
+
+InstallMethod( OneAdjacencyInvolution,
+    "for a twisted polygonal complex with OneAdjacencyClasses and Chambers",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyClasses and Chambers],
+    function(complex)
+        local list, cl, maxChamber;
+
+        maxChamber := Maximum(Chambers(complex));
+        list := [1..maxChamber];
+        for cl in OneAdjacencyClasses(complex) do
+            list[cl[1]] := cl[2];
+            list[cl[2]] := cl[1];
+        do;
+        return PermList(list);
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyInvolution", ["OneAdjacencyClasses", "Chambers"] );
+
+InstallMethod( TwoAdjacencyInvolution,
+    "for a twisted polygonal complex with TwoAdjacencyClasses and Chambers",
+    [IsTwistedPolygonalComplex and HasTwoAdjacencyClasses and Chambers],
+    function(complex)
+        local list, cl, maxChamber;
+
+        maxChamber := Maximum(Chambers(complex));
+        list := [1..maxChamber];
+        for cl in TwoAdjacencyClasses(complex) do
+            if Length(cl) = 2 then
+                list[cl[1]] := cl[2];
+                list[cl[2]] := cl[1];
+            elif Length(cl) > 2 then
                 return fail;
             fi;
-        od;
-        return inv;
+        do;
+        return PermList(list);
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyInvolution", ["TwoAdjacencyClasses", "Chambers"] );
 
-InstallMethod( LocalFlagVertexInvolution, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
-    function(bendComplex)
-        return __SIMPLICIAL_InvolutionFromPartition(
-            LocalFlagsOfLocalVertices(bendComplex) );
-    end
-);
-InstallMethod( LocalFlagEdgeInvolution, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
-    function(bendComplex)
-        return __SIMPLICIAL_InvolutionFromPartition(
-            LocalFlagsOfLocalEdges(bendComplex) );
-    end
-);
-InstallMethod( LocalFlagFaceInvolution, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
-    function(bendComplex)
-        return __SIMPLICIAL_InvolutionFromPartition(
-            LocalFlagsOfHalfEdges(bendComplex) );
-    end
-);
 
+##
+##          End of methods for adjacency
+##
+##############################################################################
 
-#TODO give them checks and NC-versions
-InstallMethod( IsLocalFlagsVertexEquivalent,
-    "for a bend polygonal complex and two local flags",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
-    function(bendComplex, flag1, flag2)
-        return flag1^LocalFlagVertexInvolution(bendComplex) = flag2;
-    end
-);
-InstallMethod( IsLocalFlagsEdgeEquivalent,
-    "for a bend polygonal complex and two local flags",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
-    function(bendComplex, flag1, flag2)
-        return flag1^LocalFlagEdgeInvolution(bendComplex) = flag2;
-    end
-);
-InstallMethod( IsLocalFlagsFaceEquivalent,
-    "for a bend polygonal complex and two local flags",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
-    function(bendComplex, flag1, flag2)
-        local inv, part, bool1, bool2;
 
-        inv := LocalFlagFaceInvolution(bendComplex);
-        if inv = fail then
-            for part in LocalFlagsOfHalfEdges(bendComplex) do
-                bool1 := flag1 in part;
-                bool2 := flag2 in part;
-                if bool1 and bool2 then
-                    return true;
-                fi;
-                if bool1 or bool2 then
-                    return false;
-                fi;
-            od;
-            return false;
-        else
-            return flag1^LocalFlagFaceInvolution(bendComplex) = flag2;
-        fi;
-    end
-);
 
-InstallMethod( LocalFlagByLocalVertexLocalEdgeFace,
-    "for a bend polygonal complex, a local vertex, a local edge and a face",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
-    function(bendComplex, localVertex, localEdge, face)
-        local flags, locVerts, locEdges, faces, i;
+##############################################################################
+##
+##          Start of constructors
+##
 
-        flags := LocalFlags(bendComplex);
-        locVerts := LocalVerticesOfLocalFlags(bendComplex);
-        locEdges := LocalEdgesOfLocalFlags(bendComplex);
-        faces := FacesOfLocalFlags(bendComplex);
-        for i in flags do
-            if locVerts[i] = localVertex and locEdges[i] = localEdge and faces[i] = face then
-                return i;
-            fi;
-        od;
-        return fail;
-    end
-);
-
-InstallMethod( BendPolygonalComplexBySignedFacePerimeters,
-    "for a list of signed face perimeters", [IsList],
-    function(signedFacePerimeter)
-        local currLength, vertexMap, edgeMap, edgeSignMap, faceMap,
-            vertexPart, edgePart, facePart, edgeOfFace, vertexOfEdge,
-            i, size, perimeter, edges, f, edge, verts, found, p, complex;
-
-        currLength := 0;
-
-        vertexMap := []; # VerticesOfLocalFlags
-        edgeMap := [];  # EdgesOfLocalFlags
-        edgeSignMap := [];
-        faceMap := [];  # FacesOfLocalFlags
-
-        vertexPart := []; # LocalFlagsOfLocalVertices
-        edgePart := []; # LocalFlagsOfLocalEdges
-        facePart := []; # LocalFlagsOfHalfEdges
-
-        edgeOfFace := [];
-        vertexOfEdge := [];
-        for i in [1..Length(signedFacePerimeter)] do
-            if IsBound(signedFacePerimeter[i]) then
-                size := Length(signedFacePerimeter[i]);
-                # new flags: currLength+1,...,currLength+size
-                perimeter := signedFacePerimeter[i];
-                Add(perimeter, perimeter[1]);
-
-                edges := [];
-
-                for f in [1..size] do
-                    if IsEvenInt(f) then
-                        vertexMap[currLength+f] := perimeter[f+1];
-                        edgeMap[currLength+f] := AbsoluteValue(perimeter[f]);
-                        edgeSignMap[currLength+f] := SignInt(perimeter[f]);
-                        if f = size then
-                            Add(vertexPart, [currLength+1, currLength+size]);
-                        else
-                            Add(vertexPart, [currLength+f, currLength+f+1]);
-                        fi;
-                    else
-                        vertexMap[currLength+f] := perimeter[f];
-                        edge := AbsoluteValue(perimeter[f+1]);
-                        edgeMap[currLength+f] := edge;
-                        edgeSignMap[currLength+f] := SignInt(perimeter[f+1])*(-1);
-                        Add(edgePart, [currLength+f, currLength+f+1]);
-
-                        Add(edges, edge);
-                        verts := Set([perimeter[f],perimeter[f+2]]);
-                        if IsBound(vertexOfEdge[edge]) then
-                            if vertexOfEdge[edge] <> verts then
-                                Error("Inconsistent data");
-                            fi;
-                        else
-                            vertexOfEdge[edge] := verts;
-                        fi;
-                    fi;
-                    faceMap[currLength+f] := i;
-                od;
-
-                edgeOfFace[i] := Set(edges);
-                currLength := currLength + size;
-            fi;
-        od;
-
-        # Generate the face partition
-        for i in [1..currLength] do
-            found := false;
-            for p in facePart do
-                if edgeMap[i] = edgeMap[p[1]] and edgeSignMap[i] = edgeSignMap[p[1]] then
-                    found := true;
-                    Add(p,i);
-                fi;
-            od;
-            if not found then
-                Add(facePart, [i]);
-            fi;
-        od;
-
-
-        complex := Objectify(BendPolygonalComplexType, rec());
-        SetVerticesOfEdges(complex, vertexOfEdge);
-        SetEdgesOfFaces(complex, edgeOfFace);
-        
-        SetVerticesOfLocalFlags(complex, vertexMap);
-        SetEdgesOfLocalFlags(complex, edgeMap);
-        SetFacesOfLocalFlags(complex, faceMap);
-        
-        SetLocalFlagsOfLocalVertices(complex, vertexPart);
-        SetLocalFlagsOfLocalEdges(complex, edgePart);
-        SetLocalFlagsOfHalfEdges(complex, facePart);
-        return complex;
-    end
-);
-
-InstallMethod( BendPolygonalSurfaceByCosetAction,
-    "for two groups", [IsGroup, IsGroup],
-    function(G, H)
-        local cosetTable, perms, moved, i, abOrbits, aOrbits, bOrbits,
-            cOrbits, acOrbits, bcOrbits, obj;
-
-        # Check if the given arguments are valid
-        if not IsSubgroup(G,H) then
-            Error("BendPolygonalSurfaceByCosetAction: The second argument has to be a subgroup of the first argument.");
-        fi;
-        moved := [1..Index(G,H)];
-        if Length( GeneratorsOfGroup(G) ) <> 3 then
-            Error("BendPolygonalSurfaceByCosetAction: First group has to have three generators.");
-        fi;
-        cosetTable := CosetTableBySubgroup(G,H);
-        perms := List(cosetTable, PermList);
-        for i in [1..3] do
-            if i < 3 then
-                if MovedPoints(perms[2*i-1]) <> moved then
-                    Error("BendPolygonalSurfaceByCosetAction: The first and second generator have to act without fixed points.");
-                fi;
-            fi;
-            if perms[2*i-1] <> perms[2*i] then
-                Error("BendPolygonalSurfaceByCosetAction: All generators have to act like involutions.");
-            fi;
-        od;
-
-        abOrbits := Orbits( Group(perms{[1,3]}) );
-        if ForAny(abOrbits, orb -> Length(orb)<6) then
-            Error("BendPolygonalSurfaceByCosetAction: There can't be an orbit of size less than six for first and second generator.");
-        fi;
-
-        # Construct all orbits
-        aOrbits := Orbits( Group(perms[1]) );
-        bOrbits := Orbits( Group(perms[3]) );
-        cOrbits := Orbits( Group(perms[5]) );
-        acOrbits := Orbits( Group(perms{[1,5]}) );
-        bcOrbits := Orbits( Group(perms{[3,5]}) );
-
-
-        # Construct the surface
-        obj := Objectify( BendPolygonalComplexType, rec() );
-        SetIsNotVertexRamified(obj, true);
-        SetIsNotEdgeRamified(obj, true);
-        SetLocalFlags(obj, moved);
-
-        SetLocalFlagsOfLocalVertices(obj, bOrbits);
-        SetLocalFlagsOfLocalEdges(obj, aOrbits);
-        SetLocalFlagsOfHalfEdges(obj, cOrbits);
-        SetLocalFlagsOfVertices(obj, bcOrbits);
-        SetLocalFlagsOfEdges(obj, acOrbits);
-        SetLocalFlagsOfFaces(obj, abOrbits);
-
-        return obj;
-    end
-);
-
-InstallMethod( BendPolygonalComplexByLocalFlagsNC, 
-    "for six lists",
-    [IsList, IsList, IsList, IsList, IsList, IsList],
-    function(localVerticesOfLocalFlags, localEdgesOfLocalFlags,
-        halfEdgesOfLocalFlags, verticesOfLocalFlags, edgesOfLocalFlags, 
-        facesOfLocalFlags)
-
-        local obj;
-
-        obj := Objectify(BendPolygonalComplexType, rec());
-        SetLocalVerticesOfLocalFlags(obj, localVerticesOfLocalFlags);
-        SetLocalEdgesOfLocalFlags(obj, localEdgesOfLocalFlags);
-        SetHalfEdgesOfLocalFlags(obj, halfEdgesOfLocalFlags);
-        SetVerticesOfLocalFlags(obj, verticesOfLocalFlags);
-        SetEdgesOfLocalFlags(obj, edgesOfLocalFlags);
-        SetFacesOfLocalFlags(obj, facesOfLocalFlags);
-
-        return obj;
-    end
-);
-
-InstallMethod( LocalFaceNC,
-    "for a bend polygonal complex and one face",
-    [IsBendPolygonalComplex, IsPosInt],
-    function(bendComplex, face)
-        local obj, vertOfEdge, faceOfEdge, e;
-
-        obj := Objectify( TwistedPolygonalComplexType, rec() );
-        SetVerticesAttributeOfVEFComplex(obj, LocalVerticesOfFaces(bendComplex)[face]);
-        SetEdges(obj, LocalEdgesOfFaces(bendComplex)[face]);
-        SetFaces(obj, [face]);
-
-        vertOfEdge := [];
-        faceOfEdge := [];
-        for e in Edges(obj) do
-            vertOfEdge[e] := LocalVerticesOfLocalEdges(bendComplex)[e];
-            faceOfEdge[e] := [face];
-        od;
-        SetVerticesOfEdges(obj, vertOfEdge);
-        SetFacesOfEdges(obj, faceOfEdge);
-
-        return obj;
-    end
-);
-
-InstallMethod( LocalFace,
-    "for a bend polygonal complex and one face",
-    [IsBendPolygonalComplex, IsPosInt],
-    function(bendComplex, face)
-        __SIMPLICIAL_CheckFace(bendComplex, face, "LocalFace");
-        return LocalFaceNC(bendComplex, face);
-    end
-);
-InstallMethod( RigidFaces, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
-    function(bendComplex)
-        local rigid, f;
-
-        rigid := [];
-        for f in Faces(bendComplex) do
-            if Length(VerticesOfFaces(bendComplex)[f]) = Length(LocalVerticesOfFaces(bendComplex)[f]) then
-                Add(rigid,f);
-            fi;
-        od;
-
-        return rigid;
-    end
-);
-
-InstallMethod( BendFaces, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
-    function(bendComplex)
-        local bend, f;
-
-        bend := [];
-        for f in Faces(bendComplex) do
-            if Length(VerticesOfFaces(bendComplex)[f]) <> Length(LocalVerticesOfFaces(bendComplex)[f]) then
-                Add(bend,f);
-            fi;
-        od;
-
-        return bend;
-    end
-);
-
-
-InstallMethod( PolygonalComplex, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
-    function(bendComplex)
-        local obj;
-
-        if RigidFaces(bendComplex) <> Faces(bendComplex) then
-            return fail;
-        fi;
-
-        obj := Objectify(TwistedPolygonalComplexType, rec());
-        SetVerticesAttributeOfVEFComplex(obj, VerticesAttributeOfVEFComplex(bendComplex));
-        SetEdges(obj, Edges(bendComplex));
-        SetFaces(obj, Faces(bendComplex));
-        SetVerticesOfEdges(obj, VerticesOfEdges(bendComplex));
-        SetEdgesOfFaces(obj, EdgesOfFaces(bendComplex));
-
-        return obj;
-    end
-);
-InstallMethod( PolygonalSurface, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
-    function(bendComplex)
-        local obj;
-
-        obj := PolygonalComplex(bendComplex);
-        if IsPolygonalSurface(obj) then
-            return obj;
-        else
-            return fail;
-        fi;
-    end
-);
-InstallMethod( SimplicialSurface, "for a bend polygonal complex",
-    [IsBendPolygonalComplex],
-    function(bendComplex)
-        local obj;
-
-        obj := PolygonalComplex(bendComplex);
-        if IsSimplicialSurface(obj) then
-            return obj;
-        else
-            return fail;
-        fi;
-    end
-);
-
-
-InstallMethod( BendPolygonalComplex, "for a polygonal complex", 
-    [IsPolygonalComplex],
-    function(polyComplex)
-        local obj, threeFlags, veFlags, vfFlags, efFlags, vertOfFlag,
-            edgeOfFlag, faceOfFlag, locVertexOfFlag, locEdgeOfFlag, 
-            halfEdgeOfFlag, i, f;
-
-        obj := Objectify( BendPolygonalComplexType, rec() );
-        SetVerticesAttributeOfVEFComplex(obj, VerticesAttributeOfVEFComplex(polyComplex));
-        SetEdges(obj, Edges(polyComplex));
-        SetFaces(obj, Faces(polyComplex));
-        SetVerticesOfEdges(obj, VerticesOfEdges(polyComplex));
-        SetEdgesOfFaces(obj, EdgesOfFaces(polyComplex));
-
-        # local flags
-        threeFlags := ThreeFlags(polyComplex);
-        veFlags := VertexEdgeFlags(polyComplex);
-        vfFlags := VertexFaceFlags(polyComplex);
-        efFlags := EdgeFaceFlags(polyComplex);
-        SetLocalFlags(obj, [1..Length(threeFlags)]);
-        
-        vertOfFlag := [];
-        edgeOfFlag := [];
-        faceOfFlag := [];
-        locVertexOfFlag := [];
-        locEdgeOfFlag := [];
-        halfEdgeOfFlag := [];
-        for i in [1..Length(threeFlags)] do
-            f := threeFlags[i];
-
-            vertOfFlag[i] := f[1];
-            edgeOfFlag[i] := f[2];
-            faceOfFlag[i] := f[3];
-
-            locVertexOfFlag[i] := Position( vfFlags, [ f[1], f[3] ] );
-            locEdgeOfFlag[i] := Position( efFlags, [ f[2], f[3] ] );
-            halfEdgeOfFlag[i] := Position( veFlags, [ f[1], f[2] ] );
-        od;
-        SetVerticesOfLocalFlags(obj, vertOfFlag);
-        SetEdgesOfLocalFlags(obj, edgeOfFlag);
-        SetFacesOfLocalFlags(obj, faceOfFlag);
-        SetLocalVerticesOfLocalFlags(obj, locVertexOfFlag);
-        SetLocalEdgesOfLocalFlags(obj, locEdgeOfFlag);
-        SetHalfEdgesOfLocalFlags(obj, halfEdgeOfFlag);
-
-        return obj;
-    end
-);
-
-
-InstallMethod( GeodesicDual, "for a polygonal surface", [IsPolygonalSurface],
-    function(polySurf)
-        return GeodesicDual( BendPolygonalComplex( polySurf ) );
-    end
-);
-RedispatchOnCondition(GeodesicDual, true, [IsPolygonalComplex], [IsPolygonalSurface], 0);
-InstallMethod( GeodesicDual, "for a bend polygonal surface",
-    [IsBendPolygonalSurface],
-    function(bendSurf)
-        local obj, vertexInv, edgeInv, faceInv, newFaceInv, locFlags,
-            halfEdgeOrb, vertexOrb;
-
-        obj := Objectify( BendPolygonalComplexType, rec() );
-
-        # The polygons stay the same
-        SetLocalFlags(obj, LocalFlags(bendSurf));
-        SetLocalVertices(obj, LocalVertices(bendSurf));
-        SetLocalEdges(obj, LocalEdges(bendSurf));
-        SetFaces(obj, Faces(bendSurf));
-        SetLocalVerticesOfLocalFlags(obj, LocalVerticesOfLocalFlags(bendSurf));
-        SetLocalEdgesOfLocalFlags(obj, LocalEdgesOfLocalFlags(bendSurf));
-        SetFacesOfLocalFlags(obj, FacesOfLocalFlags(bendSurf));
-
-        # Edges stay the same (although twisted)
-        SetEdges(obj, Edges(bendSurf));
-        SetEdgesOfLocalFlags(obj, EdgesOfLocalFlags(bendSurf));
-
-        # Update vertices and half-edges
-        vertexInv := LocalFlagVertexInvolution(bendSurf);
-        edgeInv := LocalFlagEdgeInvolution(bendSurf);
-        faceInv := LocalFlagFaceInvolution(bendSurf);
-
-        newFaceInv := edgeInv * faceInv;
-        locFlags := LocalFlags(obj);
-
-        SetLocalFlagVertexInvolution(obj, vertexInv);
-        SetLocalFlagEdgeInvolution(obj, edgeInv);
-        SetLocalFlagFaceInvolution(obj, newFaceInv);
-
-        # Define half-edges by orbits
-        halfEdgeOrb := Orbits( Group([newFaceInv]), locFlags );
-        SetHalfEdges( obj, [1..Length(halfEdgeOrb)] );
-        SetLocalFlagsOfHalfEdges(obj, halfEdgeOrb);
-
-        # Define vertices by orbits
-        vertexOrb := Orbits( Group([vertexInv,newFaceInv]), locFlags);
-        SetVerticesAttributeOfVEFComplex(obj, [1..Length(vertexOrb)]);
-        SetLocalFlagsOfVertices(obj, vertexOrb);
-
-
-        # This returns a surface
-        SetIsNotEdgeRamified(obj, true);
-        SetIsNotVertexRamified(obj, true);
-
-        return obj;
-    end
-);
-RedispatchOnCondition(GeodesicDual, true, [IsBendPolygonalComplex], [IsBendPolygonalSurface], 0);
+##
+##          End of constructors
+##
+##############################################################################

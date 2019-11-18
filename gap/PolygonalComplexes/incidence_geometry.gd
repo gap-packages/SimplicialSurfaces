@@ -252,7 +252,7 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #! [ 1, 4 ]
 #! @EndExampleSession
 #!
-#! The method <K>VerticesOfFaces</K> tells us, which vertices are incident
+#! The method <K>VerticesOfFaces</K> tells us which vertices are incident
 #! to which faces.
 #! @ExampleSession
 #! gap> VerticesOfFaces(complex);

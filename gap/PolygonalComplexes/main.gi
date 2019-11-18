@@ -129,6 +129,18 @@ BindGlobal( "__SIMPLICIAL_CheckFace",
         fi;
     end
 );
+BindGlobal( "__SIMPLICIAL_CheckChamber", 
+    function( complex, chamber, name )
+        local mes;
+
+        if not chamber in Chambers(complex) then
+            mes := Concatenation( name, ": Given chamber ", String(chamber), 
+                " does not lie in the given complex." );
+            Error(mes);
+        fi;
+    end
+);
+
 BindGlobal( "__SIMPLICIAL_CheckIncidenceVertexEdge",
     function( complex, vertex, edge, name )
         local mes;

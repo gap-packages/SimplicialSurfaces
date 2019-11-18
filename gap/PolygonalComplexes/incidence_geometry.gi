@@ -17,19 +17,19 @@
 ##
 
 # methods to compute number of vertices, edges, faces
-InstallMethod( NumberOfVertices, "for a polygonal complex", [IsTwistedPolygonalComplex],
+InstallMethod( NumberOfVertices, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
             return Length( VerticesAttributeOfComplex(complex) );
     end
 );
 
-InstallMethod( NumberOfEdges, "for a polygonal complex", [IsTwistedPolygonalComplex],
+InstallMethod( NumberOfEdges, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
             return Length( Edges(complex) );
     end
 );
 
-InstallMethod( NumberOfFaces, "for a polygonal complex", [IsTwistedPolygonalComplex],
+InstallMethod( NumberOfFaces, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
             return Length( Faces(complex) );
     end
@@ -54,14 +54,14 @@ InstallMethod( NumberOfFaces, "for a polygonal complex", [IsTwistedPolygonalComp
 
 ## EdgesOfVertices
 InstallMethod(EdgesOfVertexNC, 
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
         return EdgesOfVertices(complex)[vertex];
     end
 );
 InstallMethod(EdgesOfVertex,
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex( complex, vertex, "EdgesOfVertex" );
@@ -71,14 +71,14 @@ InstallMethod(EdgesOfVertex,
 
 ## FacesOfVertices
 InstallMethod(FacesOfVertexNC, 
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
         return FacesOfVertices(complex)[vertex];
     end
 );
 InstallMethod(FacesOfVertex,
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex( complex, vertex, "FacesOfVertex" );
@@ -89,14 +89,14 @@ InstallMethod(FacesOfVertex,
 
 ## VerticesOfEdges
 InstallMethod(VerticesOfEdgeNC, 
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         return VerticesOfEdges(complex)[edge];  
     end
 );
 InstallMethod(VerticesOfEdge,
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         __SIMPLICIAL_CheckEdge( complex, edge, "VerticesOfEdge" );
@@ -107,14 +107,14 @@ InstallMethod(VerticesOfEdge,
 
 ## FacesOfEdges
 InstallMethod(FacesOfEdgeNC, 
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         return FacesOfEdges(complex)[edge]; 
     end
 );
 InstallMethod(FacesOfEdge,
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         __SIMPLICIAL_CheckEdge( complex, edge, "FacesOfEdge" );
@@ -125,14 +125,14 @@ InstallMethod(FacesOfEdge,
 
 ## VerticesOfFaces
 InstallMethod(VerticesOfFaceNC, 
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         return VerticesOfFaces(complex)[face];
     end
 );
 InstallMethod(VerticesOfFace,
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace( complex, face, "VerticesOfFace" );
@@ -143,14 +143,14 @@ InstallMethod(VerticesOfFace,
 
 ## EdgesOfFaces
 InstallMethod(EdgesOfFaceNC, 
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         return EdgesOfFaces(complex)[face];    
     end
 );
 InstallMethod(EdgesOfFace,
-    "for a polygonal complex and a positive integer",
+    "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace( complex, face, "EdgesOfFace" );
