@@ -25,7 +25,7 @@
 #! This chapter describes several different ways to access these
 #! incidence structures. Most of these methods are also applicable
 #! to twisted polygonal complexes. For
-#! mor specific access to twisted polygonal complexes, compare
+#! more specific access to twisted polygonal complexes, compare
 #! chapter <Ref Chap="Chapter_AccessTwistedPolygonalComplex"/>.
 #! <P/>
 

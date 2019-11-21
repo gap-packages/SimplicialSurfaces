@@ -470,6 +470,59 @@ DeclareOperation( "TwoAdjacentChambers", [IsTwistedPolygonalComplex, IsPosInt] )
 DeclareOperation( "TwoAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
+
+#! @BeginGroup IsStarAdjacentChambers
+#! @Description
+#! Given two chambers of a twisted polygonal complex <A>complex</A>, these methods
+#! check whether they are 0-adjacent, 1-adjacent, or 2-adjacent.
+#! 
+#! The NC-version does not check whether <A>chamberA</A> and
+#! <A>chamberB</A> are chambers of
+#! <A>complex</A>. 
+#! 
+#! As an example, consider the twisted polygonal complex from the beginning of Section
+#! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
+#!          \def\chambers{1}
+#!          \input{Image_TwistedMedal.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> IsZeroAdjacentChambers(complex, 4,3);
+#! true
+#! gap> IsZeroAdjacentChambers(complex, 9, 22);
+#! false
+#! gap> IsOneAdjacentChambers(complex, 8, 9);
+#! true
+#! gap> IsOneAdjacentChambers(complex, 11, 20);
+#! false
+#! gap> IsTwoAdjacentChambers(complex, 12, 15);
+#! true
+#! gap> IsTwoAdjacentChambers(complex, 13, 21);
+#! true
+#! gap> IsTwoAdjacentChambers(complex, 1, 5);
+#! false
+#! @EndExampleSession
+#! 
+#! @Returns <K>true</K> or <K>false</K>
+#! @Arguments complex, chamberA, chamberB
+DeclareOperation( "IsZeroAdjacentChambers", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt] );
+#! @Arguments complex, chamberA, chamberB
+DeclareOperation( "IsZeroAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt] );
+#! @Arguments complex, chamberA, chamberB
+DeclareOperation( "IsOneAdjacentChambers", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt] );
+#! @Arguments complex, chamberA, chamberB
+DeclareOperation( "IsOneAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt] );
+#! @Arguments complex, chamberA, chamberB
+DeclareOperation( "IsTwoAdjacentChambers", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt] );
+#! @Arguments complex, chamberA, chamberB
+DeclareOperation( "IsTwoAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt] );
+#! @EndGroup
+
+
+
+
 #! @BeginGroup StarAdjacencyInvolution
 #! @Description
 #! Given a twisted polygonal complex <A>complex</A>, these methods return
@@ -694,6 +747,12 @@ DeclareOperation("TwistedPolygonalComplexByChamberRelations", [IsList, IsList, I
 #! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
 #!    zeroAdjacency, oneAdjacency, twoAdjacency
 DeclareOperation("TwistedPolygonalComplexByChamberRelationsNC", [IsList, IsList, IsList, IsList, IsList, IsList]);
+#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
+#!    zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalSurfaceByChamberRelations", [IsList, IsList, IsList, IsList, IsList, IsList]);
+#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
+#!    zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalSurfaceByChamberRelationsNC", [IsList, IsList, IsList, IsList, IsList, IsList]);
 #! @EndGroup
 
 #! @BeginGroup TwistedPolygonalComplexByChamberAdjacencies
@@ -754,6 +813,10 @@ DeclareOperation("TwistedPolygonalComplexByChamberRelationsNC", [IsList, IsList,
 DeclareOperation("TwistedPolygonalComplexByChamberAdjacencies", [IsList, IsList, IsList]);
 #! @Arguments zeroAdjacency, oneAdjacency, twoAdjacency
 DeclareOperation("TwistedPolygonalComplexByChamberAdjacenciesNC", [IsList, IsList, IsList]);
+#! @Arguments zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalSurfaceByChamberAdjacencies", [IsList, IsList, IsList]);
+#! @Arguments zeroAdjacency, oneAdjacency, twoAdjacency
+DeclareOperation("TwistedPolygonalSurfaceByChamberAdjacenciesNC", [IsList, IsList, IsList]);
 #! @EndGroup
 
 #! @BeginGroup TwistedPolygonalSurfaceByChamberInvolutions
@@ -897,3 +960,4 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberInvolutionsNC", [IsPerm, IsPer
 DeclareProperty( "IsDefaultChamberSystem", IsTwistedPolygonalComplex );
 #! @EndGroup
 
+InstallTrueMethod(IsPolygonalComplex, IsDefaultChamberSystem);
