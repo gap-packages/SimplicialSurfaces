@@ -50,14 +50,14 @@
 #! @Section Invariants
 #! @SectionLabel Properties_Invariants
 #!
-#! This section collects invariants of (bend) polygonal complexes.
+#! This section collects invariants of (twisted) polygonal complexes.
 #!
 #! TODO
 #!
 
 #! @BeginGroup EulerCharacteristic
 #! @Description
-#! Return the <E>Euler-characteristic</E> of the given VEF-complex.
+#! Return the <E>Euler-characteristic</E> of the given twisted polygonal complex.
 #! The Euler-characteristic is computed as
 #! @BeginLogSession
 #! gap> NumberOfVertices(complex) - NumberOfEdges(complex) + NumberOfFaces(complex);
@@ -82,15 +82,15 @@
 #! 
 #! @Returns an integer
 #! @Arguments complex
-DeclareAttribute( "EulerCharacteristic", IsVEFComplex );
+DeclareAttribute( "EulerCharacteristic", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 
 #! @BeginGroup IsClosedSurface
 #! @Description
-#! Check whether the given VEF-complex without edge ramifications is 
+#! Check whether the given twisted polygonal complex without edge ramifications is 
 #! <E>closed</E>.
-#! A VEF-complex without edge ramifications is closed if every edge is 
+#! A twisted polygonal complex without edge ramifications is closed if every edge is 
 #! incident to <E>exactly</E> 
 #! two
 #! faces (whereas the absence of edge ramifications only means that
@@ -125,7 +125,7 @@ DeclareAttribute( "EulerCharacteristic", IsVEFComplex );
 #! @EndExampleSession
 #!
 #! @Arguments ramSurf
-DeclareProperty( "IsClosedSurface", IsVEFComplex and IsNotEdgeRamified );
+DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamified );
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
 
@@ -154,7 +154,7 @@ DeclareProperty( "IsClosedSurface", IsVEFComplex and IsNotEdgeRamified );
 #! @Description
 #! The method <K>EdgeDegreeOfVertex</K>(<A>complex</A>, <A>vertex</A>) 
 #! returns the <E>edge-degree</E> of the given vertex in the given
-#! VEF-complex, i.e. the number of incident edges. The NC-version does
+#! twisted polygonal complex, i.e. the number of incident edges. The NC-version does
 #! not check whether <A>vertex</A> is a vertex of <A>complex</A>.
 #!
 #! The attribute <K>EdgeDegreesOfVertices</K>(<A>complex</A>) collects all of
@@ -181,12 +181,12 @@ DeclareProperty( "IsClosedSurface", IsVEFComplex and IsNotEdgeRamified );
 #!
 #! @Returns a list of positive integers
 #! @Arguments complex
-DeclareAttribute( "EdgeDegreesOfVertices", IsVEFComplex );
+DeclareAttribute( "EdgeDegreesOfVertices", IsTwistedPolygonalComplex );
 #! @Returns a positive integer
 #! @Arguments complex, vertex
-DeclareOperation( "EdgeDegreeOfVertex", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "EdgeDegreeOfVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "EdgeDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "EdgeDegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -194,7 +194,7 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! @Description
 #! The method <K>FaceDegreeOfVertex</K>(<A>complex</A>, <A>vertex</A>) 
 #! returns the <E>face-degree</E> of the given vertex in the given
-#! VEF-complex, i.e. the number of incident faces. The NC-version does
+#! twisted polygonal complex, i.e. the number of incident faces. The NC-version does
 #! not check whether <A>vertex</A> is a vertex of <A>complex</A>.
 #!
 #! The attribute <K>FaceDegreesOfVertices</K>(<A>complex</A>) collects all of
@@ -226,20 +226,20 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! @Returns a list of positive integers
 #! @Arguments complex
-DeclareAttribute( "FaceDegreesOfVertices", IsVEFComplex );
+DeclareAttribute( "FaceDegreesOfVertices", IsTwistedPolygonalComplex );
 #! @Returns a positive integer
 #! @Arguments complex, vertex
-DeclareOperation( "FaceDegreeOfVertex", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "FaceDegreeOfVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "FaceDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "FaceDegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Returns a list of positive integers
 #! @Arguments complex
-DeclareAttribute( "DegreesOfVertices", IsVEFComplex );
+DeclareAttribute( "DegreesOfVertices", IsTwistedPolygonalComplex );
 #! @Returns a positive integer
 #! @Arguments complex, vertex
-DeclareOperation( "DegreeOfVertex", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "DegreeOfVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "DegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "DegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -278,7 +278,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 
 #! @BeginGroup VertexCounter
 #! @Description
-#! Return the <E>vertex counter</E> of the given VEF-complex.
+#! Return the <E>vertex counter</E> of the given twisted polygonal complex.
 #! The vertex counter is a list that counts how many vertices are incident
 #! to how many faces. It is a list of pairs <E>[degree, number]</E>, where
 #! <E>number</E> counts the number of vertices with exactly <E>degree</E>
@@ -300,12 +300,12 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!
 #! @Returns a list of pairs of positive integers
 #! @Arguments complex
-DeclareAttribute( "VertexCounter", IsVEFComplex );
+DeclareAttribute( "VertexCounter", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 
 #! @Description
-#! Return the <E>edge counter</E> of the given VEF-complex.
+#! Return the <E>edge counter</E> of the given twisted polygonal complex.
 #! The edge counter is a list of pairs <E>[degreeList, number]</E>,
 #! where <E>number</E> counts the number of edges whose vertices
 #! are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces,
@@ -326,11 +326,11 @@ DeclareAttribute( "VertexCounter", IsVEFComplex );
 #!
 #! @Returns a list of pairs
 #! @Arguments complex
-DeclareAttribute( "EdgeCounter", IsVEFComplex );
+DeclareAttribute( "EdgeCounter", IsTwistedPolygonalComplex );
 
 
 #! @Description
-#! Return the <E>face counter</E> of the given VEF-complex.
+#! Return the <E>face counter</E> of the given twisted polygonal complex.
 #! The face counter is a list of pairs <E>[degreeList, number]</E>,
 #! where <E>number</E> counts the number of faces whose vertes degrees
 #! match <E>degreeList</E>, i.e. for every vertex there is exactly one
@@ -353,13 +353,13 @@ DeclareAttribute( "EdgeCounter", IsVEFComplex );
 #!
 #! @Returns a list of pairs
 #! @Arguments complex
-DeclareAttribute( "FaceCounter", IsVEFComplex );
+DeclareAttribute( "FaceCounter", IsTwistedPolygonalComplex );
 
 
 #! @Section Types of faces
 #! @SectionLabel Properties_FaceTypes
 #!
-#! The faces in a (bend) polygonal complex are (bend) polygons. In
+#! The faces in a (twisted) polygonal complex are (twisted) polygons. In
 #! particular there can be polygons with different numbers of vertices,
 #! i.e. triangle, quadrangles, and so on.
 #!
@@ -367,25 +367,25 @@ DeclareAttribute( "FaceCounter", IsVEFComplex );
 
 
 #! @Description
-#! Check whether all polygons in this VEF-complex have the same number
+#! Check whether all polygons in this twisted polygonal complex have the same number
 #! of vertices.
 #! @Arguments complex
-DeclareProperty( "IsFaceHomogeneous", IsVEFComplex );
+DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
 
 
 #! @BeginGroup IsTriangular
 #! @Description
-#! Check whether all polygons in this VEF-complex are triangles.
+#! Check whether all polygons in this twisted polygonal complex are triangles.
 #! @Arguments complex
-DeclareProperty( "IsTriangular", IsVEFComplex );
+DeclareProperty( "IsTriangular", IsTwistedPolygonalComplex );
 InstallTrueMethod(IsFaceHomogeneous, IsTriangular);
 #! @EndGroup
 
 
 #! @Description
-#! Check whether all polygons in this VEF-complex are quadrangles.
+#! Check whether all polygons in this twisted polygonal complex are quadrangles.
 #! @Arguments complex
-DeclareProperty( "IsQuadrangular", IsVEFComplex );
+DeclareProperty( "IsQuadrangular", IsTwistedPolygonalComplex );
 InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 
 
@@ -394,7 +394,7 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! @SectionLabel Properties_EdgeTypes
 #!
 #TODO improve
-#! The edges of a VEF-complex (defined in 
+#! The edges of a twisted polygonal complex (defined in 
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
@@ -424,11 +424,11 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 
 #! @BeginGroup InnerEdges
 #! @Description
-#! Return the set of all inner edges of the given VEF-complex.
+#! Return the set of all inner edges of the given twisted polygonal complex.
 #! An <E>inner edge</E> is an edge that is incident to exactly two faces.
 #!
 #! The method <K>IsInnerEdge</K> checks whether the given edge is an inner
-#! edge of the given VEF-complex. The NC-version does not check whether
+#! edge of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
 #! Consider the five-star from the start of chapter 
@@ -449,23 +449,23 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "InnerEdges", IsVEFComplex );
+DeclareAttribute( "InnerEdges", IsTwistedPolygonalComplex );
 #! @Returns true or false
 #! @Arguments complex, edge
-DeclareOperation( "IsInnerEdge", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsInnerEdge", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, edge
-DeclareOperation( "IsInnerEdgeNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! @BeginGroup BoundaryEdges
 #! @Description
-#! Return the set of all boundary edges of the given VEF-complex.
+#! Return the set of all boundary edges of the given twisted polygonal complex.
 #! A <E>boundary edge</E> is an edge that is incident to exactly one face.
 #!
 #! The method <K>IsBoundaryEdge</K> checks whether the given edge is a 
 #! boundary
-#! edge of the given VEF-complex. The NC-version does not check whether
+#! edge of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
 #! Consider the five-star from the start of chapter 
@@ -486,22 +486,22 @@ DeclareOperation( "IsInnerEdgeNC", [IsVEFComplex, IsPosInt] );
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "BoundaryEdges", IsVEFComplex );
+DeclareAttribute( "BoundaryEdges", IsTwistedPolygonalComplex );
 #! @Returns true or false
 #! @Arguments complex, edge
-DeclareOperation( "IsBoundaryEdge", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsBoundaryEdge", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, edge
-DeclareOperation( "IsBoundaryEdgeNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup RamifiedEdges
 #! @Description
-#! Return the set of all ramified edges of the given VEF-complex.
+#! Return the set of all ramified edges of the given twisted polygonal complex.
 #! A <E>ramified edge</E> is an edge that is incident to at least three faces.
 #!
 #! The method <K>IsRamifiedEdge</K> checks whether the given edge is a 
 #! ramified
-#! edge of the given VEF-complex. The NC-version does not check whether
+#! edge of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
 #! We illustrate it on the following triangular complex:
@@ -524,12 +524,12 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsVEFComplex, IsPosInt] );
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "RamifiedEdges", IsVEFComplex );
+DeclareAttribute( "RamifiedEdges", IsTwistedPolygonalComplex );
 #! @Returns true or false
 #! @Arguments complex, edge
-DeclareOperation( "IsRamifiedEdge", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsRamifiedEdge", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, edge
-DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -537,7 +537,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! @SectionLabel Properties_VertexTypes
 #! 
 #TODO improve this description
-#! The vertices of a VEF-complex (defined in 
+#! The vertices of a twisted polygonal complex (defined in 
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
@@ -548,7 +548,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! </Alt>
 #! The vertex 1 is the only vertex that is completely surrounded by faces. It
 #! is called an <E>inner vertex</E> while the other vertices of the five-star
-#! are <E>boundary vertices</E>. This classifies all vertices of a VEF-surface.
+#! are <E>boundary vertices</E>. This classifies all vertices of a twisted polygonal surface.
 #!
 #! In general there are more than these two possibilities. In the case of
 #! vertex ramifications (defined in <Ref Sect="PolygonalStructures_surface"/>)
@@ -583,7 +583,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! umbrella-paths).
 #!
 #! The method <K>IsInnerVertex</K> checks whether the given vertex is an inner
-#! vertex of the given VEF-complex. The NC-version does not check whether
+#! vertex of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #! 
 #! Consider the five-star from the start of chapter
@@ -602,7 +602,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! [ 1 ]
 #! @EndExampleSession
 #! 
-#! For the special case of a VEF-surface the inner vertices have an
+#! For the special case of a twisted polygonal surface the inner vertices have an
 #! easier characterisation: a vertex is
 #! an inner vertex if and only if every incident edge is incident to exactly
 #! two faces (that is, if it only incident to inner edges 
@@ -610,12 +610,12 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsVEFComplex, IsPosInt] );
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "InnerVertices", IsVEFComplex );
+DeclareAttribute( "InnerVertices", IsTwistedPolygonalComplex );
 #! @Returns true or false
 #! @Arguments complex, vertex
-DeclareOperation( "IsInnerVertex", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsInnerVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "IsInnerVertexNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsInnerVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup BoundaryVertices
@@ -629,7 +629,7 @@ DeclareOperation( "IsInnerVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! The method <K>IsBoundaryVertex</K> checks whether the given vertex is a 
 #! boundary
-#! vertex of the given VEF-complex. The NC-version does not check whether
+#! vertex of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
 #! Consider the triforce from the start of section
@@ -648,7 +648,7 @@ DeclareOperation( "IsInnerVertexNC", [IsVEFComplex, IsPosInt] );
 #! [ 1, 4, 6 ]
 #! @EndExampleSession
 #!
-#! For VEF-surfaces the boundary vertices can be described more
+#! For twisted polygonal surfaces the boundary vertices can be described more
 #! easily: a vertex is a boundary vertex if and only if it
 #! is incident to at least one edge that is incident to exactly one face 
 #! (i.e. if it is 
@@ -672,12 +672,12 @@ DeclareOperation( "IsInnerVertexNC", [IsVEFComplex, IsPosInt] );
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "BoundaryVertices", IsVEFComplex );
+DeclareAttribute( "BoundaryVertices", IsTwistedPolygonalComplex );
 #! @Returns true or false
 #! @Arguments complex, vertex
-DeclareOperation( "IsBoundaryVertex", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsBoundaryVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "IsBoundaryVertexNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsBoundaryVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup RamifiedVertices
@@ -691,7 +691,7 @@ DeclareOperation( "IsBoundaryVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! The method <K>IsRamifiedVertex</K> checks whether the given vertex is a
 #! ramified
-#! vertex of the given VEF-complex. The NC-version does not check whether
+#! vertex of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
 #! Consider the triforce from the start of section
@@ -712,12 +712,12 @@ DeclareOperation( "IsBoundaryVertexNC", [IsVEFComplex, IsPosInt] );
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "RamifiedVertices", IsVEFComplex );
+DeclareAttribute( "RamifiedVertices", IsTwistedPolygonalComplex );
 #! @Returns true or false
 #! @Arguments complex, vertex
-DeclareOperation( "IsRamifiedVertex", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsRamifiedVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "IsRamifiedVertexNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsRamifiedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
@@ -732,7 +732,7 @@ DeclareOperation( "IsRamifiedVertexNC", [IsVEFComplex, IsPosInt] );
 #!
 #! The method <K>IsChaoticVertex</K> checks whether the given vertex is a 
 #! chaotic
-#! vertex of the given VEF-complex. The NC-version does not check whether
+#! vertex of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
 #! As an example, we consider the following triangular complex:
@@ -755,11 +755,11 @@ DeclareOperation( "IsRamifiedVertexNC", [IsVEFComplex, IsPosInt] );
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex
-DeclareAttribute( "ChaoticVertices", IsVEFComplex );
+DeclareAttribute( "ChaoticVertices", IsTwistedPolygonalComplex );
 #! @Returns true or false
 #! @Arguments complex, vertex
-DeclareOperation( "IsChaoticVertex", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsChaoticVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, vertex
-DeclareOperation( "IsChaoticVertexNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 

@@ -14,7 +14,7 @@
 #! @ChapterLabel Morphisms
 #!
 #! This chapter is concerned with morphisms between different polygonal
-#! complexes (morphisms between bend polygonal complexes are not implemented
+#! complexes (morphisms between twisted polygonal complexes are not implemented
 #! so far).
 #!
 #! A morphism between two polygonal complexes <M>(V_1,E_1,F_1)</M> and
@@ -629,7 +629,7 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! @Section Consistent labels for vertices, edges, and faces
 #! @SectionLabel VEFLabels
 #!
-#! We have defined VEF-complexes in a way such that the labels for vertices,
+#! We have defined polygonal complexes in a way such that the labels for vertices,
 #! edges, and faces do not have to be distinct. While this is more convenient
 #! for the casual user, it is sometimes practical to enforce distinct labels.
 #! Notably, these cases include morphisms and automorphism groups.
@@ -677,7 +677,7 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 
 #! @BeginGroup VEFLabels
 #! @Description
-#! Return the set of VEF-labels for the given VEF-complex. The
+#! Return the set of VEF-labels for the given polygonal complex. The
 #! VEF-labels are a set of labels that distinguish vertices,
 #! edges, and faces. It is constructed as follows:
 #! * The vertex labels stay the same
@@ -704,7 +704,7 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! @EndExampleSession
 #! @Arguments complex
 #! @Returns a set of positive integers
-DeclareAttribute( "VEFLabels", IsVEFComplex );
+DeclareAttribute( "VEFLabels", IsPolygonalComplex );
 #! @EndGroup
 
 
@@ -738,11 +738,11 @@ DeclareAttribute( "VEFLabels", IsVEFComplex );
 #! 
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments complex
-DeclareAttribute( "VEFLabelsOfVertices", IsVEFComplex );
+DeclareAttribute( "VEFLabelsOfVertices", IsPolygonalComplex );
 #! @Arguments complex, vertex
-DeclareOperation( "VEFLabelOfVertex", [IsVEFComplex, IsPosInt]);
+DeclareOperation( "VEFLabelOfVertex", [IsPolygonalComplex, IsPosInt]);
 #! @Arguments complex, vertex
-DeclareOperation( "VEFLabelOfVertexNC", [IsVEFComplex, IsPosInt]);
+DeclareOperation( "VEFLabelOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -776,11 +776,11 @@ DeclareOperation( "VEFLabelOfVertexNC", [IsVEFComplex, IsPosInt]);
 #! 
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments complex
-DeclareAttribute( "VEFLabelsOfEdges", IsVEFComplex );
+DeclareAttribute( "VEFLabelsOfEdges", IsPolygonalComplex );
 #! @Arguments complex, vertex
-DeclareOperation( "VEFLabelOfEdge", [IsVEFComplex, IsPosInt]);
+DeclareOperation( "VEFLabelOfEdge", [IsPolygonalComplex, IsPosInt]);
 #! @Arguments complex, vertex
-DeclareOperation( "VEFLabelOfEdgeNC", [IsVEFComplex, IsPosInt]);
+DeclareOperation( "VEFLabelOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
@@ -814,17 +814,17 @@ DeclareOperation( "VEFLabelOfEdgeNC", [IsVEFComplex, IsPosInt]);
 #! 
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments complex
-DeclareAttribute( "VEFLabelsOfFaces", IsVEFComplex );
+DeclareAttribute( "VEFLabelsOfFaces", IsPolygonalComplex );
 #! @Arguments complex, vertex
-DeclareOperation( "VEFLabelOfFace", [IsVEFComplex, IsPosInt]);
+DeclareOperation( "VEFLabelOfFace", [IsPolygonalComplex, IsPosInt]);
 #! @Arguments complex, vertex
-DeclareOperation( "VEFLabelOfFaceNC", [IsVEFComplex, IsPosInt]);
+DeclareOperation( "VEFLabelOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
 #! @BeginGroup VertexOfVEFLabel
 #! @Description
-#! Given a VEF-complex <A>complex</A> and a VEF-label <A>label</A>, the
+#! Given a polygonal complex <A>complex</A> and a VEF-label <A>label</A>, the
 #! method <K>VertexOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
 #! the vertex associated to <A>label</A>.
 #!
@@ -851,15 +851,15 @@ DeclareOperation( "VEFLabelOfFaceNC", [IsVEFComplex, IsPosInt]);
 #! is not valid.
 #! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, label
-DeclareOperation( "VertexOfVEFLabel", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "VertexOfVEFLabel", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex, label
-DeclareOperation( "VertexOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "VertexOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! @BeginGroup EdgeOfVEFLabel
 #! @Description
-#! Given a VEF-complex <A>complex</A> and a VEF-label <A>label</A>, the
+#! Given a polygonal complex <A>complex</A> and a VEF-label <A>label</A>, the
 #! method <K>EdgeOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
 #! the edge associated to <A>label</A>.
 #!
@@ -888,15 +888,15 @@ DeclareOperation( "VertexOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! is not valid.
 #! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, label
-DeclareOperation( "EdgeOfVEFLabel", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "EdgeOfVEFLabel", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex, label
-DeclareOperation( "EdgeOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "EdgeOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! @BeginGroup FaceOfVEFLabel
 #! @Description
-#! Given a VEF-complex <A>complex</A> and a VEF-label <A>label</A>, the
+#! Given a polygonal complex <A>complex</A> and a VEF-label <A>label</A>, the
 #! method <K>FaceOfVEFLabel</K>(<A>complex</A>, <A>label</A>) returns
 #! the face associated to <A>label</A>. 
 #!
@@ -925,9 +925,9 @@ DeclareOperation( "EdgeOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
 #! is not valid.
 #! @Returns a positive integer of <K>fail</K>
 #! @Arguments complex, label
-DeclareOperation( "FaceOfVEFLabel", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "FaceOfVEFLabel", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex, label
-DeclareOperation( "FaceOfVEFLabelNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "FaceOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
