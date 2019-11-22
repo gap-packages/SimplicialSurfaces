@@ -15,8 +15,8 @@
 ##
 ##      Moving along edges
 ##
-InstallMethod( IsVerticesAdjacentNC, "for a VEF-complex and two vertices",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( IsVerticesAdjacentNC, "for a twisted polygonal complex and two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, v1, v2)
         if v1 < v2 then
             return [v1,v2] in VerticesOfEdges(complex);
@@ -25,8 +25,8 @@ InstallMethod( IsVerticesAdjacentNC, "for a VEF-complex and two vertices",
         fi;
     end
 );
-InstallMethod( IsVerticesAdjacent, "for a VEF-complex and two vertices",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( IsVerticesAdjacent, "for a twisted polygonal complex and two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, v1, v2)
         local name;
 
@@ -38,8 +38,8 @@ InstallMethod( IsVerticesAdjacent, "for a VEF-complex and two vertices",
     end
 );
 
-InstallMethod( EdgesBetweenVerticesNC, "for a VEF-complex and two vertices",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( EdgesBetweenVerticesNC, "for a twisted polygonal complex and two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, v1, v2)
         local res, e1, e2, e;
 
@@ -55,8 +55,8 @@ InstallMethod( EdgesBetweenVerticesNC, "for a VEF-complex and two vertices",
         return res;
     end
 );
-InstallMethod( EdgesBetweenVertices, "for a VEF-complex and two vertices",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( EdgesBetweenVertices, "for a twisted polygonal complex and two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, v1, v2)
         local name;
 
@@ -68,8 +68,8 @@ InstallMethod( EdgesBetweenVertices, "for a VEF-complex and two vertices",
     end
 );
 
-InstallMethod( EdgeBetweenVerticesNC, "for a VEF-complex and two vertices",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( EdgeBetweenVerticesNC, "for a twisted polygonal complex and two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, v1, v2)
         local edges;
 
@@ -81,8 +81,8 @@ InstallMethod( EdgeBetweenVerticesNC, "for a VEF-complex and two vertices",
         fi;
     end
 );
-InstallMethod( EdgeBetweenVertices, "for a VEF-complex and two vertices",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( EdgeBetweenVertices, "for a twisted polygonal complex and two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, v1, v2)
         local name;
 
@@ -110,8 +110,8 @@ InstallMethod( OtherVertexOfEdgeNC,
     end
 );
 InstallMethod( OtherVertexOfEdgeNC,
-    "for a bend polygonal complex, a vertex, and an edge",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a vertex, and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function( complex, vertex, edge )
         local possVert;
         
@@ -128,8 +128,8 @@ InstallMethod( OtherVertexOfEdgeNC,
     end
 );
 InstallMethod( OtherVertexOfEdge,
-    "for a VEF-complex, a vertex, and an edge",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a vertex, and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function( complex, vertex, edge )
         local name;
         
@@ -147,31 +147,31 @@ InstallMethod( OtherVertexOfEdge,
 ##      Moving within faces
 ##
 InstallMethod( EdgesInFaceByVerticesNC,
-    "for a VEF-complex, a face, and a set of two vertices",
-    [IsVEFComplex, IsPosInt, IsSet],
+    "for a twisted polygonal complex, a face, and a set of two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsSet],
     function( complex, face, vertSet )
         return Filtered( EdgesOfFaces(complex)[face], e ->
             VerticesOfEdges(complex)[e] = vertSet);
     end
 );
 InstallMethod( EdgesInFaceByVerticesNC,
-    "for a VEF-complex, a face, and a list of two vertices",
-    [IsVEFComplex, IsPosInt, IsList],
+    "for a twisted polygonal complex, a face, and a list of two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsList],
     function( complex, face, vertList )
         return EdgesInFaceByVerticesNC(complex, face, Set(vertList));
     end
 );
 InstallMethod( EdgesInFaceByVertices,
-    "for a VEF-complex, a face, and a set of two vertices",
-    [IsVEFComplex, IsPosInt, IsSet],
+    "for a twisted polygonal complex, a face, and a set of two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsSet],
     function( complex, face, vertSet )
         __SIMPLICIAL_CheckFace(complex, face, "EdgesInFaceByVertices");
         return EdgesInFaceByVerticesNC(complex, face, vertSet);
     end
 );
 InstallMethod( EdgesInFaceByVertices,
-    "for a VEF-complex, a face, and a list of two vertices",
-    [IsVEFComplex, IsPosInt, IsList],
+    "for a twisted polygonal complex, a face, and a list of two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsList],
     function( complex, face, vertList )
         return EdgesInFaceByVertices(complex, face, Set(vertList));
     end
@@ -179,8 +179,8 @@ InstallMethod( EdgesInFaceByVertices,
 
 
 InstallMethod( EdgeInFaceByVerticesNC, 
-    "for a VEF-complex, a face, and a set of two vertices",
-    [IsVEFComplex, IsPosInt, IsSet],
+    "for a twisted polygonal complex, a face, and a set of two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsSet],
     function( complex, face, vertSet )
         local possEdges;
 
@@ -192,23 +192,23 @@ InstallMethod( EdgeInFaceByVerticesNC,
     end
 );
 InstallMethod( EdgeInFaceByVerticesNC,
-    "for a VEF-complex, a face, and a list of two vertices",
-    [IsVEFComplex, IsPosInt, IsList],
+    "for a twisted polygonal complex, a face, and a list of two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsList],
     function( complex, face, vertList )
         return EdgeInFaceByVerticesNC(complex, face, Set(vertList));
     end
 );
 InstallMethod( EdgeInFaceByVertices,
-    "for a VEF-complex, a face, and a set of two vertices",
-    [IsVEFComplex, IsPosInt, IsSet],
+    "for a twisted polygonal complex, a face, and a set of two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsSet],
     function( complex, face, vertSet )
         __SIMPLICIAL_CheckFace(complex, face, "EdgeInFaceByVertices");
         return EdgeInFaceByVerticesNC(complex, face, vertSet);
     end
 );
 InstallMethod( EdgeInFaceByVertices,
-    "for a VEF-complex, a face, and a list of two vertices",
-    [IsVEFComplex, IsPosInt, IsList],
+    "for a twisted polygonal complex, a face, and a list of two vertices",
+    [IsTwistedPolygonalComplex, IsPosInt, IsList],
     function( complex, face, vertList )
         return EdgeInFaceByVertices(complex, face, Set(vertList));
     end
@@ -219,8 +219,8 @@ InstallMethod( EdgeInFaceByVertices,
 
 
 InstallMethod( OtherEdgesOfVertexInFaceNC,
-    "for a VEF-complex, a vertex, an edge, and a face",
-    [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a vertex, an edge, and a face",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
     function( complex, vertex, edge, face )
         local possEdges, poss, verts, res;
 
@@ -239,8 +239,8 @@ InstallMethod( OtherEdgesOfVertexInFaceNC,
     end
 );
 InstallMethod( OtherEdgesOfVertexInFace,
-    "for a VEF-complex, a vertex, an edge, and a face",
-    [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a vertex, an edge, and a face",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
     function( complex, vertex, edge, face )
         local name;
 
@@ -276,8 +276,8 @@ InstallMethod( OtherEdgeOfVertexInFaceNC,
     end
 );
 InstallMethod( OtherEdgeOfVertexInFaceNC,
-    "for a bend polygonal complex, a vertex, an edge, and a face",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a vertex, an edge, and a face",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
     function( complex, vertex, edge, face )
         local possEdges;
 
@@ -290,8 +290,8 @@ InstallMethod( OtherEdgeOfVertexInFaceNC,
     end
 );
 InstallMethod( OtherEdgeOfVertexInFace,
-    "for a VEF-complex, a vertex, an edge, and a face",
-    [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a vertex, an edge, and a face",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
     function( complex, vertex, edge, face )
         local name;
 
@@ -389,8 +389,8 @@ InstallMethod( OppositeEdgeOfVertexInTriangle,
 ##
 ##      Moving between faces
 ##
-InstallMethod( IsFacesAdjacentNC, "for a VEF-complex and two faces",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( IsFacesAdjacentNC, "for a twisted polygonal complex and two faces",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, f1, f2)
         if f1 < f2 then
             return [f1,f2] in FacesOfEdges(complex);
@@ -399,8 +399,8 @@ InstallMethod( IsFacesAdjacentNC, "for a VEF-complex and two faces",
         fi;
     end
 );
-InstallMethod( IsFacesAdjacent, "for a VEF-complex and two faces",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( IsFacesAdjacent, "for a twisted polygonal complex and two faces",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, f1, f2)
         local name;
 
@@ -412,8 +412,8 @@ InstallMethod( IsFacesAdjacent, "for a VEF-complex and two faces",
     end
 );
 
-InstallMethod( EdgesBetweenFacesNC, "for a VEF-complex and two faces",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( EdgesBetweenFacesNC, "for a twisted polygonal complex and two faces",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, f1, f2)
         local res, e1, e2, e;
 
@@ -429,8 +429,8 @@ InstallMethod( EdgesBetweenFacesNC, "for a VEF-complex and two faces",
         return res;
     end
 );
-InstallMethod( EdgesBetweenFaces, "for a VEF-complex and two faces",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( EdgesBetweenFaces, "for a twisted polygonal complex and two faces",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, f1, f2)
         local name;
 
@@ -442,8 +442,8 @@ InstallMethod( EdgesBetweenFaces, "for a VEF-complex and two faces",
     end
 );
 
-InstallMethod( EdgeBetweenFacesNC, "for a VEF-complex and two faces",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( EdgeBetweenFacesNC, "for a twisted polygonal complex and two faces",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, f1, f2)
         local edges;
 
@@ -455,8 +455,8 @@ InstallMethod( EdgeBetweenFacesNC, "for a VEF-complex and two faces",
         fi;
     end
 );
-InstallMethod( EdgeBetweenFaces, "for a VEF-complex and two faces",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+InstallMethod( EdgeBetweenFaces, "for a twisted polygonal complex and two faces",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, f1, f2)
         local name;
 
@@ -493,18 +493,17 @@ InstallMethod( NeighbourFacesByEdgeNC,
     end
 );
 InstallMethod( NeighbourFacesByEdgeNC,
-    "for a bend polygonal complex, a face, and an edge",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a face, and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, face, edge)
-        local possFlags, neigh, faces;
+        local possChambers, neigh, faces;
 
-        # Which flags are incident to this face-edge-pair?
-        possFlags := Intersection( LocalFlagsOfFaces(complex)[face], LocalFlagsOfEdges(complex)[edge] );
+        # Which chambers are incident to this face-edge-pair?
+        possChambers := Intersection( ChambersOfFaces(complex)[face], ChambersOfEdges(complex)[edge] );
 
-        neigh := Filtered( LocalFlagsOfHalfEdges(complex), p -> possFlags[1] in p )[1];
-        neigh := Difference( neigh, [possFlags[1]] );
+        neigh := TwoAdjacentChambersNC(complex, possChambers[1]);
 
-        faces := List(neigh, n -> FacesOfLocalFlags(complex)[n]);
+        faces := List(neigh, n -> FacesOfChambers(complex)[n]);
         return Set(faces);
     end
 );
@@ -528,8 +527,8 @@ InstallMethod( NeighbourFaceByEdgeNC,
     end
 );
 InstallMethod( NeighbourFaceByEdgeNC,
-    "for a bend polygonal complex, a face, and an edge",
-    [IsBendPolygonalComplex, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a face, and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, face, edge)
         local poss;
 
@@ -544,8 +543,8 @@ InstallMethod( NeighbourFaceByEdgeNC,
 
 
 InstallMethod( NeighbourFaceByEdge,
-    "for a VEF-complex, a face, and an edge",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a face, and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function( complex, face, edge )
         local name;
         
@@ -558,8 +557,8 @@ InstallMethod( NeighbourFaceByEdge,
     end
 );
 InstallMethod( NeighbourFacesByEdge,
-    "for a VEF-complex, a face, and an edge",
-    [IsVEFComplex, IsPosInt, IsPosInt],
+    "for a twisted polygonal complex, a face, and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function( complex, face, edge )
         local name;
         
@@ -592,7 +591,7 @@ BindGlobal("__SIMPLICIAL_WrapProperty",
 );
 
 InstallMethod( AdjacentVerticesWithProperty, 
-    "for a VEF-complex and a function", [IsVEFComplex, IsFunction],
+    "for a twisted polygonal complex and a function", [IsTwistedPolygonalComplex, IsFunction],
     function( complex, prop )
         local testProp, result, pairs, pair;
 
@@ -617,8 +616,8 @@ InstallMethod( AdjacentVerticesWithProperty,
 );
 
 InstallMethod( AdjacentVerticesWithProperties, 
-    "for a VEF-complex and two functions", 
-    [IsVEFComplex, IsFunction, IsFunction],
+    "for a twisted polygonal complex and two functions", 
+    [IsTwistedPolygonalComplex, IsFunction, IsFunction],
     function( complex, prop1, prop2 )
         local testProp1, testProp2, result, pairs, pair;
 
@@ -650,8 +649,8 @@ InstallMethod( AdjacentVerticesWithProperties,
     end
 );
 InstallMethod( AdjacentVerticesWithProperties,
-    "for a VEF-complex and a list of two functions",
-    [IsVEFComplex, IsList],
+    "for a twisted polygonal complex and a list of two functions",
+    [IsTwistedPolygonalComplex, IsList],
     function( complex, propList )
         local name, prop1, prop2;
 
@@ -677,7 +676,7 @@ InstallMethod( AdjacentVerticesWithProperties,
 
 
 InstallMethod( EdgesWithVertexProperty, 
-    "for a VEF-complex and a function", [IsVEFComplex, IsFunction],
+    "for a twisted polygonal complex and a function", [IsTwistedPolygonalComplex, IsFunction],
     function( complex, prop )
         local testProp, result, pair, e;
 
@@ -700,8 +699,8 @@ InstallMethod( EdgesWithVertexProperty,
 );
 
 InstallMethod( EdgesWithVertexProperties, 
-    "for a VEF-complex and two functions", 
-    [IsVEFComplex, IsFunction, IsFunction],
+    "for a twisted polygonal complex and two functions", 
+    [IsTwistedPolygonalComplex, IsFunction, IsFunction],
     function( complex, prop1, prop2 )
         local testProp1, testProp2, result, pair, e;
 
@@ -732,8 +731,8 @@ InstallMethod( EdgesWithVertexProperties,
     end
 );
 InstallMethod( EdgesWithVertexProperties,
-    "for a VEF-complex and a list of two functions",
-    [IsVEFComplex, IsList],
+    "for a twisted polygonal complex and a list of two functions",
+    [IsTwistedPolygonalComplex, IsList],
     function( complex, propList )
         local name, prop1, prop2;
 
@@ -784,8 +783,8 @@ BindGlobal( "__SIMPLICIAL_WrapPropertyList",
 );
 
 
-InstallMethod( FacesWithVertexProperty, "for a VEF-complex and a function",
-    [IsVEFComplex, IsFunction],
+InstallMethod( FacesWithVertexProperty, "for a twisted polygonal complex and a function",
+    [IsTwistedPolygonalComplex, IsFunction],
     function(complex, prop)
         local testProp, res, f, verts, exclude, v;
 
@@ -814,8 +813,8 @@ InstallMethod( FacesWithVertexProperty, "for a VEF-complex and a function",
 );
 
 InstallMethod( FacesWithVertexProperties, 
-    "for a VEF-complex and a list of functions",
-    [IsVEFComplex, IsList],
+    "for a twisted polygonal complex and a list of functions",
+    [IsTwistedPolygonalComplex, IsList],
     function(complex, propList)
         local name, testList, i, res, f, verts, arr, exclude;
 
@@ -853,8 +852,8 @@ InstallMethod( FacesWithVertexProperties,
 
 
 
-InstallMethod( FacesWithEdgeProperty, "for a VEF-complex and a function",
-    [IsVEFComplex, IsFunction],
+InstallMethod( FacesWithEdgeProperty, "for a twisted polygonal complex and a function",
+    [IsTwistedPolygonalComplex, IsFunction],
     function(complex, prop)
         local testProp, res, f, verts, exclude, v;
 
@@ -883,8 +882,8 @@ InstallMethod( FacesWithEdgeProperty, "for a VEF-complex and a function",
 );
 
 InstallMethod( FacesWithEdgeProperties, 
-    "for a VEF-complex and a list of functions",
-    [IsVEFComplex, IsList],
+    "for a twisted polygonal complex and a list of functions",
+    [IsTwistedPolygonalComplex, IsList],
     function(complex, propList)
         local name, testList, i, res, f, verts, arr, exclude;
 
