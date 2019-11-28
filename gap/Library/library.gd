@@ -307,7 +307,7 @@ DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
 #! @BeginExampleSession
 #! gap> discs := AllDiscs();;
 #! gap> Length(discs);
-#! 60
+#! 65
 #! gap> AllDiscs(function(surf) return 7 in FaceDegreesOfVertices(surf); end);
 #! []
 #! gap> List(discs, UmbrellaPathsOfVertices);;
