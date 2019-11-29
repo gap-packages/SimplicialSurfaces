@@ -30,13 +30,20 @@ if fail = LoadPackage("SimplicialSurfaces") then
     Error("SimplicialSurfaces package has to be available.");
 fi;
 
+Exec( "pwd > foo");   
+manualposition := StringFile("foo");
+Exec("rm foo");
+RemoveCharacters(manualposition, "\n");  
+manualposition := Concatenation(manualposition,"/doc/manual.pdf");
+manualposition := Concatenation("You can find the image in the manual. Most probably it is here: ", manualposition);
+
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
 # For that we define a function that changes one node 
 preProcessTikz := function( node )
     local cont, n1, n2, n3, file, output, name, htmlString, consoleString, 
         path, tmpName, tmpFile, sysDirPath, md5, out, inStream, outStream,
-        hash, tmpImageName, latexString, manualposition;
+        hash, tmpImageName, latexString;
 
     if node.name = "Alt" and IsBound(node.attributes.Only) and 
         node.attributes.Only in ["TikZ","Tikz"] then
@@ -177,12 +184,6 @@ preProcessTikz := function( node )
 
         # Generate the text version
         consoleString := "\n[an image that is not shown in text version. ";
-	Exec( "pwd > foo");   
-	manualposition := StringFile("foo");
-	Exec("rm foo");
-	RemoveCharacters(manualposition, "\n");  
-	manualposition := Concatenation(manualposition,"/doc/manual.pdf");
-	manualposition := Concatenation("You can find the image in the manual. Most probably it is here: ", manualposition);
 	consoleString := Concatenation( consoleString, manualposition);
 	consoleString := Concatenation( consoleString, "]\n");
         n3 := ParseTreeXMLString(consoleString);
