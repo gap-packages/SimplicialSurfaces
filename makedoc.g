@@ -36,7 +36,7 @@ fi;
 preProcessTikz := function( node )
     local cont, n1, n2, n3, file, output, name, htmlString, consoleString, 
         path, tmpName, tmpFile, sysDirPath, md5, out, inStream, outStream,
-        hash, tmpImageName, latexString;
+        hash, tmpImageName, latexString, manualposition;
 
     if node.name = "Alt" and IsBound(node.attributes.Only) and 
         node.attributes.Only in ["TikZ","Tikz"] then
@@ -176,7 +176,15 @@ preProcessTikz := function( node )
 
 
         # Generate the text version
-        consoleString := "\n[an image that is not shown in text version]\n";
+        consoleString := "\n[an image that is not shown in text version. ";
+	Exec( "pwd > foo");   
+	manualposition := StringFile("foo");
+	Exec("rm foo");
+	RemoveCharacters(manualposition, "\n");  
+	manualposition := Concatenation(manualposition,"/doc/manual.pdf");
+	manualposition := Concatenation("You can find the image in the manual. Most probably it is here: ", manualposition);
+	consoleString := Concatenation( consoleString, manualposition);
+	consoleString := Concatenation( consoleString, "]\n");
         n3 := ParseTreeXMLString(consoleString);
         n3.name := "Alt";
         n3.attributes.Only := "Text";

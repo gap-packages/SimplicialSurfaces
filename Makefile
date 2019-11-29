@@ -28,7 +28,7 @@ doc/manual.six: makedoc.g \
 		doc/Image_* \
 		doc/TableOfContents.autodoc\
 		doc/TikZHeader.tex
-	gap makedoc.g
+	gap.sh makedoc.g
 
 flatex/flatex: flatex/flatex.c \
     		flatex/configure.ac \
