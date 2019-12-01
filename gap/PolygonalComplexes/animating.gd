@@ -44,22 +44,28 @@
 #! @SectionLabel IntroductionAnimating
 #!
 #! The philosophy of the code presented in this chapter is the following.
-#! The main function <K>DrawSurfaceToJavaScript</K> (Section <Ref Sect="Section_MainAnimating"/>) animates the surfaces using the configuration saved in the so called  print record, e.g. the 3D-coordinates of the vertices (compare Section <Ref Sect="Section_QuickStartAnimating"/>).
+#! The main function <K>DrawSurfaceToJavaScript</K> (Section <Ref Sect="Section_MainAnimating"/>) animates the surfaces using the configuration saved in the so called  print record, e.g. the 3D-coordinates (3D-coordinates are defined as a list with 3 entries of numbers) of the vertices (compare Section <Ref Sect="Section_QuickStartAnimating"/>). It is necessary that the print record contains the 3D-coordinates of each vertex of the surface which should be animated. Based on the 3D-coordinates of the vertices the surface is placed in the animation.
 #! Therefore a typical workflow to animate a surfaces looks like this:
 #! <Enum>
 #!   <Item>Construct the surface, e.g. the octahedron in Section <Ref Sect="Section_QuickStartAnimating"/>.</Item>
 #!   <Item>Configure your animation using the functions in the Sections <Ref Sect="Section_VerticesAnimating"/> to <Ref Sect="Section_NormalesInnerCirclesAnimating"/>.</Item>
 #!   <Item>Write your animation to a file calling the main function <K>DrawSurfaceToJavaScript</K> (see Section <Ref Sect="Section_MainAnimating"/>).</Item>
 #! </Enum>
+#! The output of the function <K>DrawSurfaceToJavaScript</K> is a html file. The file can be opened with any browser and then the animation is shown directly.
 
 #! @Section Vertices
 #! @SectionLabel VerticesAnimating
 #!
-#! Since all 3D-geometry in this chapter is based on the 3D-coordinates of the vertices, we start editing those.
+#! Since all 3D-geometry in this chapter is based on the 3D-coordinates of the vertices, we start editing those. The following options are implemented for vertices:
+#! <Enum>
+#!   <Item>Set and get 3D-coordinates of vertices of a simplicial surface.</Item>
+#!   <Item>Activate and deactivate vertices. If a vertex is active, then he is shown as a node in the animation. </Item>
+#!   <Item>Set colors of vertices for the animation. </Item>
+#! </Enum>
 #!
 #! @BeginGroup SetVertexCoordinates3D
 #! @Description
-#! Save the given list of 3D-coordinates in the given or the empty print record.
+#! Save the given list of 3D-coordinates in the given or the empty print record. If the format of the 3D-coordinates (3D-coordinates have to be a list of 3 entries of numbers) is not correct, then an error is shown.
 #! The NC-version does not check the coordinate format.
 #! @Returns the updated print record.
 #! @Arguments surface, newCoordinatesList[, printRecord]
@@ -70,7 +76,7 @@ DeclareOperation( "SetVertexCoordiantes3DNC", [IsDenseList, IsRecord] );
 
 #! @BeginGroup GetVertexCoordinates3D
 #! @Description
-#! Extract the 3D-coordinates of the <A>i</A>th vertex from the print record.
+#! Extract the 3D-coordinates of the <A>i</A>th vertex from the print record. If the format of the 3D-coordinates (3D-coordinates have to be a list of 3 entries of numbers) is not correct, then an error is shown. This can happen, if the NC version is used to store the 3D-coordinates.
 #! The NC-version does not check the coordinate format saved in the print record.
 #! @Returns the 3D-coordinates of the <A>i</A>th vertex.
 #! @Arguments surface, i, printRecord
@@ -84,7 +90,7 @@ DeclareOperation( "GetVertexCoordiantes3DNC", [IsCyclotomic, IsRecord] );
 
 #! @BeginGroup ActivateVertices
 #! @Description
-#! Activate all vertices.
+#! Activate all vertices. If a vertex is active, then the vertex is shown in the animation as a node.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "ActivateVertices", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -92,7 +98,7 @@ DeclareOperation( "ActivateVertices", [IsPolygonalComplex and IsNotEdgeRamified,
 
 #! @BeginGroup DeactivateVertices
 #! @Description
-#! Deactivate all vertices.
+#! Deactivate all vertices. If a vertex is active, then the vertex is shown in the animation as a node.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "DeactivateVertices", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -100,7 +106,7 @@ DeclareOperation( "DeactivateVertices", [IsPolygonalComplex and IsNotEdgeRamifie
 
 #! @BeginGroup ActivateVertex
 #! @Description
-#! Activate the <A>i</A>th vertex.
+#! Activate the <A>i</A>th vertex. If a vertex is active, then the vertex is shown in the animation as a node.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateVertex", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -108,7 +114,7 @@ DeclareOperation( "ActivateVertex", [IsPolygonalComplex and IsNotEdgeRamified, I
 
 #! @BeginGroup DeactivateVertex
 #! @Description
-#! Deactivate the <A>i</A>th vertex.
+#! Deactivate the <A>i</A>th vertex. If a vertex is active, then the vertex is shown in the animation as a node.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "DeactivateVertex", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -117,7 +123,7 @@ DeclareOperation( "DeactivateVertex", [IsPolygonalComplex and IsNotEdgeRamified,
 #! @BeginGroup IsVertexActive
 #! @Description
 #! Test whether the <A>i</A>th vertex is active.
-#! @Returns a boolean.
+#! @Returns true or false.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "IsVertexActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 #! @EndGroup
@@ -186,8 +192,14 @@ DeclareOperation( "GetVertexColour", [IsPolygonalComplex and IsNotEdgeRamified, 
 
 # TODO add examples in this sections
 
-#! The mathematical functionality concerning the edges is provided by the following function, that calculates there position.
+#! The mathematical functionality concerning the edges is provided by the function, that calculates their position.
 #! Please remember to rerun this function after redefinding the vertex coordinates, otherwise outdated edge parameters will be used.
+#! The following options are implemented for edges:
+#! <Enum>
+#! <Item>Calculate the parameters of edges by the 3D-coordinates of the vertices. Note that this is necessary for the animation. Therefore the function <K>CalculateParametersOfEdges</K> gets called after using the function <K>DrawSurfaceToJavaScript</K> if no parameters are set for the edges. If parameters are set for the edges and the 3D-coordinates of a vertex has been changed, then you have to call the function <K>CalculateParametersOfEdges</K> manuel again. Otherwise the animation will be not necessarly correct. </Item>
+#!   <Item>Activate and deactivate edges. If an edge is active, then he is shown as a line in the animation. </Item>
+#!   <Item>Set colors of edges for the animation. </Item>
+#! </Enum>
 
 #! @BeginGroup CalculateParametersOfEdges
 #! @Description
@@ -225,7 +237,7 @@ DeclareOperation( "CalculateParametersOfEdges", [IsPolygonalComplex and IsNotEdg
 
 #! @BeginGroup ActivateEdges
 #! @Description
-#! Activate all edges.
+#! Activate all edges. If an edge is active, then the edge is shown in the animation as a line.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "ActivateEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -233,7 +245,7 @@ DeclareOperation( "ActivateEdges", [IsPolygonalComplex and IsNotEdgeRamified, Is
 
 #! @BeginGroup DeactivateEdges
 #! @Description
-#! Deactivate all edges.
+#! Deactivate all edges. If an edge is active, then the edge is shown in the animation as a line.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "DeactivateEdges", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -241,7 +253,7 @@ DeclareOperation( "DeactivateEdges", [IsPolygonalComplex and IsNotEdgeRamified, 
 
 #! @BeginGroup ActivateEdge
 #! @Description
-#! Activate the <A>i</A>th edge.
+#! Activate the <A>i</A>th edge. If an edge is active, then he is shown as a line in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateEdge", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -249,7 +261,7 @@ DeclareOperation( "ActivateEdge", [IsPolygonalComplex and IsNotEdgeRamified, IsC
 
 #! @BeginGroup DeactivateEdge
 #! @Description
-#! Deactivate the <A>i</A>th edge.
+#! Deactivate the <A>i</A>th edge. If an edge is active, then the edge is shown in the animation as a line.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "DeactivateEdge", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -257,8 +269,8 @@ DeclareOperation( "DeactivateEdge", [IsPolygonalComplex and IsNotEdgeRamified, I
 
 #! @BeginGroup IsEdgeActive
 #! @Description
-#! Test whether the <A>i</A>th edge is active.
-#! @Returns a boolean.
+#! Test whether the <A>i</A>th edge is active. If an edge is active, then the edge is shown in the animation as a line.
+#! @Returns True or false.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "IsEdgeActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 #! @EndGroup
@@ -305,10 +317,15 @@ DeclareOperation( "GetEdgeColour", [IsPolygonalComplex and IsNotEdgeRamified, Is
 # TODO add examples in this sections
 
 #! The faces of the surface can be (de-)activated and coloured in the familiar way. By default they are active with colour 0xFFFF00.
+#! The following options are implemented for faces:
+#! <Enum>
+#!   <Item>Activate and deactivate faces. If a face is active, then he is shown as an area in the animation. </Item>
+#!   <Item>Set colors of faces for the animation. </Item>
+#! </Enum>
 
 #! @BeginGroup ActivateFaces
 #! @Description
-#! Activate all faces.
+#! Activate all faces. If a face is active, then the face is shown in the animation as an area.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "ActivateFaces", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -316,7 +333,7 @@ DeclareOperation( "ActivateFaces", [IsPolygonalComplex and IsNotEdgeRamified, Is
 
 #! @BeginGroup DeactivateFaces
 #! @Description
-#! Deactivate all faces.
+#! Deactivate all faces. If a face is active, then the face is shown in the animation as an area.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "DeactivateFaces", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -324,7 +341,7 @@ DeclareOperation( "DeactivateFaces", [IsPolygonalComplex and IsNotEdgeRamified, 
 
 #! @BeginGroup ActivateFace
 #! @Description
-#! Activate the <A>i</A>th face.
+#! Activate the <A>i</A>th face. If a face is active, then the face is shown in the animation as an area.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateFace", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -332,7 +349,7 @@ DeclareOperation( "ActivateFace", [IsPolygonalComplex and IsNotEdgeRamified, IsC
 
 #! @BeginGroup DeactivateFace
 #! @Description
-#! Deactivate the <A>i</A>th face.
+#! Deactivate the <A>i</A>th face. If a face is active, then the face is shown in the animation as an area.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "DeactivateFace", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -340,8 +357,8 @@ DeclareOperation( "DeactivateFace", [IsPolygonalComplex and IsNotEdgeRamified, I
 
 #! @BeginGroup IsFaceActive
 #! @Description
-#! Test whether the <A>i</A>th face is active.
-#! @Returns a boolean.
+#! Test whether the <A>i</A>th face is active. If a face is active, then the face is shown in the animation as an area.
+#! @Returns True or false.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "IsFaceActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 #! @EndGroup
@@ -384,12 +401,18 @@ DeclareOperation( "GetFaceColour", [IsPolygonalComplex and IsNotEdgeRamified, Is
 
 # TODO add examples in this sections
 
-#! The functionality converning the inner circles is completely simular to the functionality converning the edges.
+#! The functionality concerning the inner circles is completely simular to the functionality converning the edges.
 #! By default the inner circles are inactive with colour 0x000000.
+#! The following options are implemented for inner circles:
+#! <Enum>
+#! <Item>Calculate the parameters of inner circles by the 3D-coordinates of the vertices. Note that this is necessary for the animation. Therefore the function <K>CalculateParametersOfInnerCircle</K> gets called after using the function <K>DrawSurfaceToJavaScript</K> if no parameters are set for the inner circles. If parameters are set for the inner circles and the 3D-coordinates of a vertex has been changed, then you have to call the function <K>CalculateParametersOfInnerCircle</K> manuel again. Otherwise the animation will be not necessarly correct. </Item>
+#!   <Item>Activate and deactivate inner circles. If an inner circle is active, then he is shown in the animation. </Item>
+#!   <Item>Set colors of inner circles for the animation. </Item>
+#! </Enum>
 
 #! @BeginGroup CalculateParametersOfInnerCircle
 #! @Description
-#! This function calculates the parameters of the innerer circles (incenter, radius, angles relative to x-y-plane) and there normal vectors (angles relative to x-direction) based on the
+#! This function calculates the parameters of the innerer circles (incenter, radius, angles relative to x-y-plane) and their normal vectors (angles relative to x-direction) based on the
 #! coordinates of the vertices and saves those to the print record.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
@@ -398,7 +421,7 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsPolygonalComplex and Is
 
 #! @BeginGroup ActivateInnerCircles
 #! @Description
-#! Activate all innerer circles.
+#! Activate all innerer circles. If an inner circle is active, then he is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "ActivateInnerCircles", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -406,7 +429,7 @@ DeclareOperation( "ActivateInnerCircles", [IsPolygonalComplex and IsNotEdgeRamif
 
 #! @BeginGroup DeactivateInnerCircles
 #! @Description
-#! Deactivate all innerer circles.
+#! Deactivate all innerer circles. If an inner circle is active, then he is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "DeactivateInnerCircles", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -414,7 +437,7 @@ DeclareOperation( "DeactivateInnerCircles", [IsPolygonalComplex and IsNotEdgeRam
 
 #! @BeginGroup ActivateInnerCircle
 #! @Description
-#! Activate the <A>i</A>th inner circle (following the face numbering).
+#! Activate the <A>i</A>th inner circle (following the face numbering). If an inner circle is active, then he is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateInnerCircle", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -422,7 +445,7 @@ DeclareOperation( "ActivateInnerCircle", [IsPolygonalComplex and IsNotEdgeRamifi
 
 #! @BeginGroup DeactivateInnerCircle
 #! @Description
-#! Deactivate the <A>i</A>th inner circle (following the face numbering).
+#! Deactivate the <A>i</A>th inner circle (following the face numbering). If an inner circle is active, then he is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "DeactivateInnerCircle", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -430,8 +453,8 @@ DeclareOperation( "DeactivateInnerCircle", [IsPolygonalComplex and IsNotEdgeRami
 
 #! @BeginGroup IsInnerCircleActive
 #! @Description
-#! Test whether the <A>i</A>th inner circle is active (following the face numbering).
-#! @Returns a boolean.
+#! Test whether the <A>i</A>th inner circle is active (following the face numbering). If an inner circle is active, then he is shown in the animation.
+#! @Returns True or false.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "IsInnerCircleActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 #! @EndGroup
@@ -479,7 +502,7 @@ DeclareOperation( "GetCircleColour", [IsPolygonalComplex and IsNotEdgeRamified, 
 
 #! @BeginGroup ActivateNormalOfInnerCircles
 #! @Description
-#! Activate all normals innerer circles.
+#! Activate all normals innerer circles. If a normal innerer circle is active, then the normal innerer circle is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "ActivateNormalOfInnerCircles", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -487,7 +510,7 @@ DeclareOperation( "ActivateNormalOfInnerCircles", [IsPolygonalComplex and IsNotE
 
 #! @BeginGroup DeactivateNormalOfInnerCircles
 #! @Description
-#! Deactivate all normals of innerer circles.
+#! Deactivate all normals of innerer circles. If a normal innerer circle is active, then the normal innerer circle is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
 DeclareOperation( "DeactivateNormalOfInnerCircles", [IsPolygonalComplex and IsNotEdgeRamified, IsRecord] );
@@ -495,7 +518,7 @@ DeclareOperation( "DeactivateNormalOfInnerCircles", [IsPolygonalComplex and IsNo
 
 #! @BeginGroup ActivateNormalOfInnerCircle
 #! @Description
-#! Activate the normal of the <A>i</A>th inner circle (following the face numbering).
+#! Activate the normal of the <A>i</A>th inner circle (following the face numbering). If a normal innerer circle is active, then the normal innerer circle is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateNormalOfInnerCircle", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -503,7 +526,7 @@ DeclareOperation( "ActivateNormalOfInnerCircle", [IsPolygonalComplex and IsNotEd
 
 #! @BeginGroup DeactivateNormalOfInnerCircle
 #! @Description
-#! Deactivate the normal of the <A>i</A>th inner circle (following the face numbering).
+#! Deactivate the normal of the <A>i</A>th inner circle (following the face numbering). If a normal innerer circle is active, then the normal innerer circle is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "DeactivateNormalOfInnerCircle", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -511,8 +534,8 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsPolygonalComplex and IsNot
 
 #! @BeginGroup IsNormalOfInnerCircleActive
 #! @Description
-#! Test whether the normal of the <A>i</A>th inner circle is active (following the face numbering).
-#! @Returns a boolean.
+#! Test whether the normal of the <A>i</A>th inner circle is active (following the face numbering). If a normal innerer circle is active, then the normal innerer circle is shown in the animation.
+#! @Returns True or false.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "IsNormalOfInnerCircleActive", [IsPolygonalComplex and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 #! @EndGroup
