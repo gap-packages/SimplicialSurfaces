@@ -21,6 +21,6 @@ verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ]
 printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 DrawSurfaceToJavaScript(oct, "Octahedron_animated.html", printRecord);;
 #! <Alt Only="JavaScript">
-#!     \input{_HTML_Octahedron.tex}
+#! Octahedron_animated.html
 #! </Alt>
 #! @EndChunk

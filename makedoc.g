@@ -199,12 +199,20 @@ preProcessJavaScript := function( node )
 
        		# get the content of the tag
         	cont := GetTextXMLTree(node);
+		cont := ReplacedString( cont, "\n", "" ); 
+		cont := ReplacedString( cont, ".html", "" ); 
 		path := __SIMPLICIAL_DocDirectory;
        		tmpImageName := "_IMAGE_TMP";
         	tmpName := Concatenation( path, tmpImageName,  ".tex");
-		Exec("./doc/phantomjs /doc/Test.js"); #Tes
-		Exec("mv test.png doc");
-		name := "test";
+		PrintTo("doc/Test.js", "var page = require('webpage').create();\n");
+		AppendTo( "doc/Test.js", "page.viewportSize = { width: 1920, height: 1080 };\n");
+		AppendTo( "doc/Test.js", "page.clipRect = { top: 400, left: 750, width: 900, height: 300 };\n");
+		AppendTo( "doc/Test.js", Concatenation("page.open('", cont, ".html', function() {\n") );
+		AppendTo( "doc/Test.js", Concatenation("page.render('doc/", cont, ".png');\n") );
+		AppendTo( "doc/Test.js", "phantom.exit();\n" );
+		AppendTo( "doc/Test.js", "});" );
+		Exec("./doc/phantomjs /doc/Test.js");
+		name := cont;
 
 
 
