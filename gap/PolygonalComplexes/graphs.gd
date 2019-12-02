@@ -36,14 +36,17 @@
 #! @Chapter Graphs and isomorphisms
 #! @ChapterLabel Graphs
 #! 
-#! The structures from chapter <Ref Chap="PolygonalStructures"/>
-#! can be completely described by their incidence structure (in the case of
-#! polygonal complexes) or their chamber structure (for twisted polygonal
-#! complexes). Both of these structures can equivalently be described as
-#! graphs. Therefore the
-#! isomorphism problem for these complexes reduces to the graph isomorphism 
-#! problem. This chapter
-#! explains the associated functionality.
+#! This chapter is concerned with different graphs associated to
+#! (twisted) polygonal complexes, as well as isomorphisms and
+#! automorphisms. 
+#!
+#! A twisted polygonal complex can be completely
+#! described by its chamber adjacencies, which can be encoded
+#! as an edge-coloured graph. A polygonal complex is completely
+#! determined by its incidence structure, which can be encoded
+#! a a vertex-coloured graph. Thus, the isomorphism problem
+#! between (twisted) polygonal complexes reduces to the
+#! graph isomorphism problem.
 #!
 #! Most of the methods in this chapter need access to one of the graph 
 #! packages in &GAP; (check the method descriptions to see whether a
@@ -51,15 +54,13 @@
 #! Currently supported are the packages
 #! @InsertChunk Graphs_Packages
 #! A discussion of their 
-#! individual merits is postponed to section 
+#! individual merits is postponed to Section 
 #! <Ref Sect="Section_Graphs_Discussion"/>.
 #!
-#! In section <Ref Sect="Section_Graphs_Incidence"/> the concept of incidence
-#! graphs is introduced. While this is the backbone of the isomorphism testing
-#! and automorphism group computation, it may be skipped at first.
-#!
-#! In section <Ref Sect="Section_Graphs_LocalIncidence"/> the incidence
-#! of local flags (for bend polygonal complexes) is discussed.
+#! Sections <Ref Sect="Section_Graph_Incidence"/> and <Ref Sect="Section_Graph_Adjacency"/>
+#! introduce the incidence graph and the the chamber adjacency graph. Although
+#! isomorphism testing and automorphism computation relies on them,
+#! these sections are in general not necessary in practice.
 #!
 #! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the isomorphism 
 #! method
@@ -67,9 +68,9 @@
 #! (<Ref Subsect="IsIsomorphic"/>).
 #!
 #! Section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> explains in detail
-#! how to use the automorphism group of polygonal complexes and section
-#! <Ref Sect="Section_Graphs_Automorphisms_Bend"/> does the same for bend polygonal
-#! complexes.
+#! how to use the automorphism group of (twisted) polygonal complexes. Section
+#! <Ref Sect="Section_Graphs_Automorphisms_Paths"/> explores the action of
+#! automorphisms on paths.
 
 #! @Section Incidence graph
 #! @SectionLabel Graphs_Incidence
@@ -128,7 +129,20 @@
 #! to different graph packages: 
 #! @InsertChunk Graphs_Packages
 #!
-#! TODO example
+#! @ExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence(
+#! >        [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ],
+#! >        [[6,8,9], , , [9,10,12,13]]);
+#! polygonal surface (5 vertices, 6 edges, and 2 faces)
+#! gap> digraph := IncidenceDigraphsGraph(complex);
+#! <digraph with 13 vertices, 19 edges>
+#! gap> DigraphVertices(digraph);
+#! [ 1 .. 13 ]
+#! gap> DigraphVertexLabels(digraph);
+#! [ ?? ]
+#! @EndExampleSession
+#! 
+#! TODO find edges of digraph, do the same for grape and NautyTracesInterface
 #!
 #! @Returns a graph as defined in the package <K>Digraphs</K>
 #! @Arguments complex
@@ -142,83 +156,62 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! @EndGroup
 
 
-#! @Section Local incidence graph
-#! @SectionLabel Graphs_LocalIncidence
-#! 
-#! Bend polygonal complexes (explained in section 
-#! <Ref Sect="PolygonalStructures_bend"/>) are not described by their 
-#! incidence structure alone but by their local incidence structure,
-#! consisting of local vertices, local edges and half-edges.
+#! @Section Chamber adjacency graph
+#! @SectionLabel Graphs_Adjacency
 #!
-#! The vertices of the local incidence graph consist of all local vertices 
-#! (colour 0), 
-#! local edges (colour 1) and 
-#! half-edges (colour 2) of the bend polygonal complex. The edges of the
-#! local incidence graph are defined by the local flags: If a local vertex
-#! and a local edge are incident to the same local flag, they will be 
-#! connected by an edge (similar for the other pairs).
-#! 
+#! To describe a twisted polygonal complex (compare Section
+#! <Ref Sect="PolygonalStructures_twisted"/>), it is sufficient
+#! to know its chambers and their adjacencies. These can be encoded
+#! as an edge-coloured graph:
+#! * The vertices are the set of chambers
+#! * If two chambers are <M>k</M>-adjacent, there is an edge
+#!   labelled <M>k</M> between these two chambers.
+#! In this fashion, we obtain an undirected graph whose
+#! edges are coloured with the colours 0, 1, and 2.
 #!
-#! Unfortunately the vertex labels of the graph in &GAP; have to be distinct, 
-#! which is not guaranteed in general.
-#! Therefore the labels have to be shifted.
-#!
-#! The local incidence graph is given as a &GAP;-graph. Currently these packages
-#! are supported:
-#! @InsertChunk Graphs_Packages
-#!
+#! Unfortunately, the  &GAP;-packages <K>GRAPE</K> and <K>Digraphs</K> do
+#! not support edge-coloured graphs. Therefore, only the graphs from the package
+#! <K>NautyTracesInterface</K> are supported.
 
-#! @BeginGroup LocalIncidenceGraph
+#! @BeginGroup ChamberAdjacencyGraph
 #! @Description
-#! Return the local incidence graph (a coloured, undirected graph) of the given 
-#! bend polygonal complex. The local incidence
-#! graph is defined as follows:
+#! Return the chamber adjacency graph (an edge-coloured, undirected graph) of the given 
+#! twisted polygonal complex. It
+#! is defined as follows:
 #! <List>
-#!   <Item>The <E>vertices</E> are the local vertices (colour 0), local edges 
-#!     (colour 1) and 
-#!     half-edges (colour 2) of <A>complex</A>. The labels are shifted in the
-#!     following way:
-#! @InsertChunk Graphs_LabelShiftLocal
-#!     </Item>
-#!   <Item>The <E>edges</E> are pairs of vertices such that the same local
-#!     flag is incident to both elements of the pair (excluding loops).
-#!     </Item>
+#!   <Item>The <E>vertices</E> are the chambers of <A>complex</A>.
+#!   <Item>If two chambers are <M>k</M>-adjacent in <A>complex</A>, there
+#!     is an edge with colour <M>k</M> between the corresponding vertices
+#!     of this graph.
 #! </List>
 #!
-#! The returned graph can be given in three different formats, corresponding
-#! to different graph packages: 
-#! @InsertChunk Graphs_Packages
+#! Since <K>GRAPE</K> and <K>Digraphs</K> currently do not support
+#! edge-coloured graphs, the chamber adjacency graph can only be given
+#! as a graph from <K>NautyTracesInterface</K>.
 #!
-#! TODO example
+#! Note that the vertices of graph from <K>NautyTracesInterface</K> have
+#! to be the integers from 1 to the number of chambers.
 #!
-#! @Returns a graph as defined in the package <K>Digraphs</K>
-#! @Arguments complex
-DeclareAttribute( "LocalIncidenceDigraphsGraph", IsBendPolygonalComplex );
-#! @Returns a graph as defined in the package <K>GRAPE</K>
-#! @Arguments complex
-DeclareAttribute( "LocalIncidenceGrapeGraph", IsBendPolygonalComplex );
+#! TODO example that also shows how we can get any information out of these graphs
+#!
 #! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 #! @Arguments complex
-DeclareAttribute( "LocalIncidenceNautyGraph", IsBendPolygonalComplex );
+DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 
 #! @Section Isomorphism testing
 #! @SectionLabel Graphs_Isomorphism
 #!
-#! The structures from chapter <Ref Chap="PolygonalStructures"/> (polygonal
-#! complex and bend polygonal complexes) can be described by some kind
-#! of incidence structure (compare sections 
-#! <Ref Sect="Section_Graphs_Incidence"/> and
-#! <Ref Sect="Section_Graphs_LocalIncidence"/>). Since these can
-#! be modelled as graphs, the isomorphism problem for (bend) polygonal 
-#! complexes reduces to the graph isomorphism problem.
+#! The twisted polygonal complexes from Chapter <Ref Chap="PolygonalStructures"/>
+#! can be described by their chamber adjacency structure. The chamber
+#! adjacency can be modelled as an undirected, edge-coloured graph
+#! (compare Section <Ref Sect="Section_Graphs_Adjacency"/>). Thus, the
+#! isomorphism problem for twisted polygonal complexes reduces to
+#! the graph isomorphism problem.
 #!
-#! The graph isomorphism problem is solved by <K>Nauty/Bliss</K>, depending
-#! on the available packages. As long as one of the graph packages of &GAP;
-#! is loaded, the isomorphism testing can be executed. The supported packages
-#! are 
-#! @InsertChunk Graphs_Packages 
+#! The graph isomorphism problem is solved by <K>Nauty/Bliss</K>, using the
+#! &GAP;-package <K>NautyTracesInterface</K>.
 
 
 #! @BeginGroup IsIsomorphic
@@ -229,8 +222,7 @@ DeclareAttribute( "LocalIncidenceNautyGraph", IsBendPolygonalComplex );
 #! this can equivalently be described as isomorphism between their incidence
 #! graphs (compare <Ref Subsect="Section_Graphs_Incidence"/>).
 #!
-#! The isomorphism check needs the package <K>NautyTracesInterface</K> or
-#! <K>Digraphs</K> to work.
+#! The isomorphism check needs the package <K>NautyTracesInterface</K> to work.
 #!
 #! @ExampleSession
 #! gap> IsIsomorphic( Cube(), Octahedron() );
@@ -266,7 +258,7 @@ DeclareOperation( "IsIsomorphic",
 #! @Arguments complexList
 DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 
-#! In many cases it is enough to know whether two polygonal complexes are
+#! In many cases it is enough to know whether two twisted polygonal complexes are
 #! isomorphic. In some cases it is useful to know the concrete isomorphism
 #! between them.
 #! TODO can something be done about this? Currently the returned isomorphism does not match the labels (and group actions are hard to define);
@@ -337,6 +329,7 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! @Returns A list containing the canonical form of the surface and a
 #!   polygonal morphism from the canonical surface to the original surface
 DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurface]);
+#TODO extend this to twisted polygonal complexes. This requires CanonicalLabelling for edge coloured graphs and (more importantly) homomorphisms between twisted polygonal complexes
 
 
 #! @Section Automorphism groups of polygonal complexes
