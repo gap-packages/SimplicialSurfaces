@@ -186,6 +186,65 @@ preProcessTikz := function( node )
     fi;
 end;
 
+
+
+# Now we have the XML-tree of the documentation
+# We need to change the <Alt Only="JavaScript">-Tags into proper GAPDoc tags
+# For that we define a function that changes one node 
+preProcessJavaScript := function( node )
+   	 local cont, name, path, n1, n2, n3, consoleString, htmlString, latexString, tmpImageName, tmpName;
+
+   	if node.name = "Alt" and IsBound(node.attributes.Only) and 
+        node.attributes.Only in ["JavaScript","Javascript"] then
+
+       		# get the content of the tag
+        	cont := GetTextXMLTree(node);
+		path := __SIMPLICIAL_DocDirectory;
+       		tmpImageName := "_IMAGE_TMP";
+        	tmpName := Concatenation( path, tmpImageName,  ".tex");
+		Exec("./doc/phantomjs /doc/Test.js"); #Tes
+		Exec("mv test.png doc");
+		name := "test";
+
+
+
+       		Add( __SIMPLICIAL_ImageNames, name);
+
+
+       
+
+        	# Inclusion in the LaTeX-version is centered
+        	latexString := Concatenation( "\n\\begin{center}\n", "\\includegraphics{", name, ".png}\n\\end{center}\n" );
+        	n1 := ParseTreeXMLString(latexString);
+        	n1.name := "Alt";
+        	n1.attributes.Only := "LaTeX";
+
+        	# To include it in the HTML-version we have to use a different node
+        	htmlString := Concatenation(
+            	"<Alt Only=\"HTML\"><![CDATA[",
+            	"<p style=\"text-align:center;\"><img src=\"", name, "-1.png\"",
+            	"alt=\"", name, "\"/></p>]]></Alt>");
+        	n2 := ParseTreeXMLString(htmlString);
+        	n2.name := "Alt";
+        	n2.attributes.Only := "HTML";
+
+
+        	# Generate the text version
+        	consoleString := "\n[an image that is not shown in text version]\n";
+        	n3 := ParseTreeXMLString(consoleString);
+        	n3.name := "Alt";
+        	n3.attributes.Only := "Text";
+
+
+        	# Replace this node by the new nodes
+        	node.content := [n1,n2,n3];
+        	node.attributes.Only := "HTML,LaTeX,Text";
+
+	fi;
+end;
+
+
+
 BindGlobal( "CleanImageDirectory", function(  )
     local allFiles, file;
 
@@ -258,12 +317,14 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         __SIMPLICIAL_MANUAL_MODE := true;
         Read("gap/PolygonalComplexes/drawing.gd");
         Read("gap/PolygonalComplexes/constructors_images.gd");
+        Read("gap/PolygonalComplexes/animating_images.gd");
         Read("gap/ColouredComplexes/edgeColouring_images.gd");
         Read("gap/ColouredComplexes/variColouring_images.gd");
         Read("gap/Flags/flags_images.gd");
         __SIMPLICIAL_MANUAL_MODE := false;
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
+	ApplyToNodesParseTree( r, preProcessJavaScript );
 
         CleanImageDirectory();
 

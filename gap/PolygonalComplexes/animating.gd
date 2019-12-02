@@ -38,6 +38,7 @@
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
 #! @EndExampleSession
 #! Now your working directory should contain a file "octahedron.html".
+#! @InsertChunk Example_OctahedronAnimating
 # TODO missing three.polymake.js
 
 #! @Section Introduction
