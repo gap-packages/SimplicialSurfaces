@@ -206,7 +206,7 @@ preProcessJavaScript := function( node )
         	tmpName := Concatenation( path, tmpImageName,  ".tex");
 		PrintTo("doc/Test.js", "var page = require('webpage').create();\n");
 		AppendTo( "doc/Test.js", "page.viewportSize = { width: 1920, height: 1080 };\n");
-		AppendTo( "doc/Test.js", "page.clipRect = { top: 400, left: 750, width: 900, height: 300 };\n");
+		AppendTo( "doc/Test.js", "page.clipRect = { top: 400, left: 750, width: 375, height: 300 };\n");
 		AppendTo( "doc/Test.js", Concatenation("page.open('", cont, ".html', function() {\n") );
 		AppendTo( "doc/Test.js", Concatenation("page.render('doc/", cont, ".png');\n") );
 		AppendTo( "doc/Test.js", "phantom.exit();\n" );

@@ -62,3 +62,68 @@ DrawSurfaceToJavaScript(oct, "Octahedron_EdgeColors.html", printRecord);;
 #! Octahedron_EdgeColors.html
 #! </Alt>
 #! @EndChunk
+
+
+#! @BeginChunk Example_OctahedronPositionMirrored
+oct := Octahedron();;
+verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
+verticesPositionsMirrored := -verticesPositions;;
+printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := CalculateParametersOfEdges(oct, printRecord);;
+printRecord := SetVertexCoordiantes3D(oct, verticesPositionsMirrored,printRecord);;
+printRecord := CalculateParametersOfEdges(oct, printRecord);;
+DrawSurfaceToJavaScript(oct, "Octahedron_PositionMirrored.html", printRecord);;
+#! <Alt Only="JavaScript">
+#! Octahedron_PositionMirrored.html
+#! </Alt>
+#! @EndChunk
+
+
+#! @BeginChunk Example_OctahedronInnerCircle
+oct := Octahedron();;
+verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
+printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := ActivateInnerCircles(oct,printRecord);
+DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
+#! <Alt Only="JavaScript">
+#! Octahedron_InnerCircle.html
+#! </Alt>
+#! @EndChunk
+
+
+#! @BeginChunk Example_OctahedronInnerCircleWithoutFaces
+oct := Octahedron();;
+verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
+printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := ActivateInnerCircles(oct,printRecord);
+printRecord := DeactivateFaces(oct,printRecord);
+DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircleWithoutFaces.html", printRecord);;
+#! <Alt Only="JavaScript">
+#! Octahedron_InnerCircleWithoutFaces.html
+#! </Alt>
+#! @EndChunk
+
+
+#! @BeginChunk Example_OctahedronNormalesOfInnerCircle
+oct := Octahedron();;
+verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
+printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := ActivateNormalOfInnerCircles(oct,printRecord);
+DrawSurfaceToJavaScript(oct, "Octahedron_NormalesOfInnerCircle.html", printRecord);;
+#! <Alt Only="JavaScript">
+#! Octahedron_NormalesOfInnerCircle.html
+#! </Alt>
+#! @EndChunk
+
+
+#! @BeginChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
+oct := Octahedron();;
+verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
+printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := ActivateNormalOfInnerCircles(oct,printRecord);
+printRecord := DeactivateFaces(oct,printRecord);
+DrawSurfaceToJavaScript(oct, "Octahedron_NormalesOfInnerCircleWithoutFaces.html", printRecord);;
+#! <Alt Only="JavaScript">
+#! Octahedron_NormalesOfInnerCircleWithoutFaces.html
+#! </Alt>
+#! @EndChunk
