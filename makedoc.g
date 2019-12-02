@@ -30,6 +30,13 @@ if fail = LoadPackage("SimplicialSurfaces") then
     Error("SimplicialSurfaces package has to be available.");
 fi;
 
+Exec( "pwd > foo");   
+manualposition := StringFile("foo");
+Exec("rm foo");
+RemoveCharacters(manualposition, "\n");  
+manualposition := Concatenation(manualposition,"/doc/manual.pdf");
+manualposition := Concatenation("You can find the image in the manual. Most probably it is here: ", manualposition);
+
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
 # For that we define a function that changes one node 
@@ -176,7 +183,9 @@ preProcessTikz := function( node )
 
 
         # Generate the text version
-        consoleString := "\n[an image that is not shown in text version]\n";
+        consoleString := "\n[an image that is not shown in text version. ";
+	consoleString := Concatenation( consoleString, manualposition);
+	consoleString := Concatenation( consoleString, "]\n");
         n3 := ParseTreeXMLString(consoleString);
         n3.name := "Alt";
         n3.attributes.Only := "Text";
