@@ -30,9 +30,9 @@ if fail = LoadPackage("SimplicialSurfaces") then
     Error("SimplicialSurfaces package has to be available.");
 fi;
 
-Exec( "pwd > foo");   
-manualposition := StringFile("foo");
-Exec("rm foo");
+Exec( "pwd > _TMP_foo");   
+manualposition := StringFile("_TMP_foo");
+Exec("rm _TMP_foo");
 RemoveCharacters(manualposition, "\n");  
 manualposition := Concatenation(manualposition,"/doc/manual.pdf");
 manualposition := Concatenation("You can find the image in the manual. Most probably it is here: ", manualposition);
