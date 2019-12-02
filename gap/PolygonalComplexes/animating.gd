@@ -63,6 +63,21 @@
 #!   <Item>Activate and deactivate vertices. If a vertex is active, then he is shown as a node in the animation. </Item>
 #!   <Item>Set colors of vertices for the animation. </Item>
 #! </Enum>
+#! The following example shows the animation without vertices.
+#! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> verticesPositions := [
+#! > [ 0, 0, Sqrt(2.) ],
+#! > [ 1, 1, 0 ],
+#! > [ 1, -1, 0 ],
+#! > [ -1, -1, 0 ],
+#! > [ -1, 1, 0 ],
+#! > [ 0, 0, -Sqrt(2.) ] ];;
+#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+# rec( vertexCoordinates3D := [ [ 0, 0, 1.41421 ], [ 1, 1, 0 ], [ 1, -1, 0 ], [ -1, -1, 0 ], [ -1, 1, 0 ], [ 0, 0, -1.41421 ] ] );
+#! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
+#! @EndExampleSession
+#! @InsertChunk Example_OctahedronAnimatingWithoutVertices
 #!
 #! @BeginGroup SetVertexCoordinates3D
 #! @Description
@@ -141,6 +156,7 @@ DeclareOperation( "IsVertexActive", [IsPolygonalComplex and IsNotEdgeRamified, I
 #! [ false, true, true, false, false, false ]
 # gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
 #! @EndExampleSession
+#! @InsertChunk Example_OctahedronAnimatingWithoutSomeVertices
 
 #! Finally we can configure the colours of the vertices.
 #! The default vertex colour is 0xF58137.
@@ -186,6 +202,7 @@ DeclareOperation( "GetVertexColour", [IsPolygonalComplex and IsNotEdgeRamified, 
 #! [ "green", "green", "red", "green", "green", "green" ]
 # gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
 #! @EndExampleSession
+#! @InsertChunk Example_OctahedronEdgeColors
 
 #! @Section Edges
 #! @SectionLabel EdgesAnimating
