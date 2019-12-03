@@ -32,7 +32,7 @@
 #!
 #! This section describes all methods for vertex-edge-paths. Intuitively,
 #! vertex-edge-paths describe all paths that are realized by walking only on
-#! the vertices and edges of a (bend) polygonal complex.
+#! the vertices and edges of a polygonal complex.
 #!
 #! We will illustrate several properties with vertex-edge-paths that are
 #! defined on this simplicial surface:
@@ -431,14 +431,6 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! @Arguments vertexEdgePath
 DeclareProperty( "IsPolygonalComplexPath", IsVertexEdgePath );
 
-#! @Description
-#! Return whether the given vertex-edge-path is defined on a
-#! bend polygonal complex.
-#!
-#! @Arguments vertexEdgePath
-DeclareProperty( "IsBendPolygonalComplexPath", IsVertexEdgePath );
-
-
 
 ##
 ## Coloured output-attributes
@@ -523,10 +515,6 @@ DeclareAttribute( "Face", IsPerimeterPath );
 #! face. If the face is not given, but can be uniquely reconstructed
 #! from the vertex-edge-path, this will be done.
 #!
-#! If some edges of the given face are identified (this might
-#! happen for a bend polygonal complex), the construction 
-#! will fail as well.
-#!
 #! The NC-version does not check whether <A>face</A> is a face of
 #! the underlying complex and whether it matches to the given
 #! <A>vePath</A>. It also does not check whether the vertex-edge-path
@@ -540,44 +528,6 @@ DeclareOperation( "PerimeterPathNC", [IsVertexEdgePath, IsPosInt] );
 #! @Arguments vePath
 DeclareOperation( "PerimeterPath", [IsVertexEdgePath] );
 #! @EndGroup
-
-
-#! @Description
-#! If the perimeter path is defined on a bend polygonal complex 
-#! <K>bendComplex</K>
-#! this method returns the corresponding perimeter path on
-#! the polygonal complex <K>LocalFace(bendComplex)</K>.
-#!
-#! If the underlying polygonal complex is a polygonal complex already,
-#! this method returns <K>fail</K>.
-#!
-#! @Returns a perimeter path or <K>fail</K>
-#! @Arguments perimPath
-DeclareAttribute( "LocalPath", IsPerimeterPath );
-
-
-#! @BeginGroup PerimeterPathByLocalPath
-#! @Description
-#! Construct a perimeter path for a bend polygonal complex from
-#! a perimeter path on <K>LocalFace</K>(<A>bendComplex</A>).
-#!
-#! 
-#! @Returns a perimeter path
-#! @Arguments bendComplex, localPath
-DeclareOperation( "PerimeterPathByLocalPath", [IsBendPolygonalComplex, IsPerimeterPath] );
-#! @Arguments bendComplex, localPath
-DeclareOperation( "PerimeterPathByLocalPathNC", [IsBendPolygonalComplex, IsPerimeterPath] );
-#! @EndGroup
-
-
-#! @Description
-#! A perimeter path of a face on a bend polygonal complex defines a cyclic
-#! orientation of the local flags within the face. This method returns
-#! that cyclic permutation.
-#!
-#! @Returns a permutation
-#! @Arguments perimPath
-DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPath);
 
 
 #! @Section Edge-Face-Paths
@@ -600,24 +550,11 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 #!   positions in the perimeter of the face <M>f_j</M>.
 #! @EndChunk
 
-#! Depending on the type of the underlying polygonal complex, the implementation
-#! of edge-face-paths in the <K>SimplicialSurfaces</K>-package differs:
-#! <Enum>
-#!   <Item>For polygonal complexes, it is sufficient to store the alternating
+#! For polygonal complexes, it is sufficient to store the alternating
 #!      list of edges and faces, i.e <K>PathAsList</K> 
-#!      (<Ref Subsect="VertexEdge_PathAsList"/>). </Item>
-#!   <Item>For bend polygonal complexes, more information is needed (since 
-#!      two edges in the same face may share the same label). In this case,
-#!      the <K>EdgeFacePathElements</K> 
-#!      (<Ref Subsect="EdgeFacePathElements"/>) are crucial. An 
-#!      edge-face-path-element is a tuple 
-#!      <M>[face, [localEdgeIn, localEdgeOut]]</M>, consisting of
-#!      a face and two local edges. The two local edges describe through
-#!      which edges of the perimeter the path enters and leaves the face.
-#!      </Item>
-#! </Enum>
+#!      (<Ref Subsect="VertexEdge_PathAsList"/>).
 
-#! We will illustrate the polygonal case on this simplicial surface:
+#! We illustrate the polygonal case on this simplicial surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
 #!     \input{Image_ThinTorus.tex}
@@ -638,12 +575,6 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 #!   <Oper Name="EdgeFacePathNC" Arg="complex, path" 
 #!      Label="for IsPolygonalComplex and IsDenseList"
 #!      Comm="Construct an edge-face-path from a polygonal complex and a list"/>
-#!   <Oper Name="EdgeFacePath" Arg="bendComplex, path, elements" 
-#!      Label="for IsBendPolygonalComplex and IsDenseList and IsDenseList"
-#!      Comm="Construct an edge-face-path from a bend polygonal complex and two lists"/>
-#!   <Oper Name="EdgeFacePathNC" Arg="bendComplex, path, elements" 
-#!      Label="for IsBendPolygonalComplex and IsDenseList and IsDenseList"
-#!      Comm="Construct an edge-face-path from a bend polygonal complex and two lists"/>
 #!   <Returns>An EdgeFacePath-&GAP;-object</Returns>
 #!   <Filt Name="IsEdgeFacePath" Arg="object" Label="for IsObject" Type="category"
 #!      Comm="Check whether a given object is an EdgeFacePath"/>
@@ -657,14 +588,6 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 #!     The list <A>path</A> is an alternating list of edges and faces of
 #!     the given polygonal complex <A>complex</A> (starting and ending with an 
 #!     edge).
-#!
-#!     The list <A>elements</A> is only relevant if <A>complex</A> is a bend
-#!     polygonal complex. It only has to be given if some edges within the
-#!     same face of <A>complex</A> are identified. It is a list of
-#!     <M>[face, [localEdgeIn, localEdgeOut]]</M>, where <A>face</A> is a
-#!     face of <A>complex</A> and <A>localEdgeIn</A> and <A>localEdgeOut</A>
-#!     are local edges within <A>face</A>. The local edges designate where
-#!     the edge-face-path enters and leaves the face <A>face</A>.
 #!
 #!     We illustrate this with a path on the simplicial surface from the start
 #!     of section
@@ -694,10 +617,6 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 #!     <K>EdgesAsList</K> (<Ref Subsect="EdgeFace_EdgesAsList"/>) and 
 #!     <K>FacesAsList</K> (<Ref Subsect="EdgeFace_FacesAsList"/>).
 #!
-#!     If the associated polygonal complex is a bend polygonal complex, the 
-#!     edge-face-path-elements can be accessed by <K>EdgeFacePathElements</K>
-#!     (<Ref Subsect="EdgeFacePathElements"/>).
-#!
 #!     The NC-version does not check if the
 #!     given <A>path</A> is a list 
 #!     <M>[e_1,f_1,e_2,f_2,\ldots,e_n,f_n,e_{{n+1}}]</M> that fulfills these
@@ -708,8 +627,6 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 # be switched
 DeclareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
-DeclareOperation( "EdgeFacePath", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
-DeclareOperation( "EdgeFacePathNC", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
 
 
 #! @BeginGroup EdgeFace_PathAsList
@@ -765,20 +682,6 @@ DeclareAttribute( "EdgesAsList", IsEdgeFacePath );
 #! @Arguments edgeFacePath
 #! @Returns a list of positive integers
 DeclareAttribute( "FacesAsList", IsEdgeFacePath );
-#! @EndGroup
-
-
-#! @BeginGroup EdgeFacePathElements
-#! @Description
-#! For each face, this gives an element [face,[local edge in, local edge out]]
-#! 
-#! TODO
-#!
-#! Only valid for bend polygonal complexes, otherwise will return <K>fail</K>
-#!
-#! @Returns a list or fail
-#! @Arguments edgeFacePath
-DeclareAttribute( "EdgeFacePathElements", IsEdgeFacePath );
 #! @EndGroup
 
 
@@ -910,21 +813,6 @@ DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
 
 
-#! @Description
-#! Return whether the given edge-face-path is defined on a
-#! (bend) polygonal complex.
-#!
-#! @Arguments vertexEdgePath
-DeclareProperty( "IsPolygonalComplexPath", IsEdgeFacePath );
-
-#! @Description
-#! Return whether the given edge-face-path is defined on a
-#! (bend) polygonal complex.
-#!
-#! @Arguments vertexEdgePath
-DeclareProperty( "IsBendPolygonalComplexPath", IsEdgeFacePath );
-
-
 
 ##
 ## Coloured output-attributes
@@ -985,10 +873,6 @@ DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 #! vertex (except those of the first and last edge) is incident to exactly
 #! three faces of the path.
 #!
-#! If the edge-face-path is defined on a bend polygonal complex, a geodesic
-#! path
-#! is defined by its <K>DefiningLocalFlags</K> (compare 
-#! <Ref Subsect="DefiningFlags"/>).
 #!
 #! TODO give more information
 #! 
@@ -1084,9 +968,6 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesicPath );
 #! <A>flag</A>. The NC-version does not check whether the given <A>flag</A>
 #! is actually a flag of <A>ramSurf</A>.
 #!
-#! For a bend polygonal complex, this works similarly, but instead of
-#! a flag a local flag has to be given.
-#!
 #! As an illustration consider the torus from the start of section
 #! <Ref Sect="Section_Paths_Geodesics"/>:
 #! <Alt Only="TikZ">
@@ -1113,10 +994,6 @@ DeclareAttribute( "MaximalGeodesicPaths", IsPolygonalComplex and IsNotEdgeRamifi
 DeclareOperation( "MaximalGeodesicPathOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @Arguments ramSurf, flag
 DeclareOperation( "MaximalGeodesicPathOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
-#! @Arguments ramSurf, localFlag
-DeclareOperation( "MaximalGeodesicPathOfLocalFlag", [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt] );
-#! @Arguments ramSurf, localFlag
-DeclareOperation( "MaximalGeodesicPathOfLocalFlagNC", [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup IsClosedGeodesicPath
@@ -1167,8 +1044,7 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #! (<Ref Subsect="IsGeodesicPath"/>) as a list.
 #!
 #! If the geodesic path is defined on a polygonal complex, regular
-#! flags are used. If it is defined on a bend polygonal complex,
-#! local flags have to be used (and <K>DefiningLocalFlags</K>).
+#! flags are used. 
 #!
 #! Consider the geodesic path
 #! <M>[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1]</M>.
@@ -1214,9 +1090,6 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #! @Returns a list of flags
 #! @Arguments geodesic
 DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath );
-#! @Returns a list of local flags
-#! @Arguments geodesic
-DeclareAttribute( "DefiningLocalFlags", IsEdgeFacePath and IsBendPolygonalComplexPath and IsGeodesicPath );
 #TODO good name?
 #! @EndGroup
 
@@ -1253,9 +1126,6 @@ DeclareOperation( "MaximalDuplicateFreeGeodesicPathOfFlagNC", [IsPolygonalComple
 #! (<Ref Subsect="Flags"/>). It can also be obtained as one cycle of
 #! the product of the Dress involutions (<Ref Subsect="DressInvolutions"/>),
 #! by first applying the one for vertices, then edges and finally faces.
-#!
-#! If <A>closedGeodesic</A> is defined on a bend polygonal complex, this
-#! is a permutation on the local flags.
 #!
 #! TODO explain properly with picture
 #!
@@ -1483,9 +1353,9 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
 #! @Section Orientability
 #! @SectionLabel Orientability
 #! 
-#! This section contains methods that deal with the orientability of (bend)
+#! This section contains methods that deal with the orientability of
 #! polygonal surfaces without edge ramifications (compare section
-#! <Ref Sect="PolygonalStructures_surface"/>). For (bend) polygonal 
+#! <Ref Sect="PolygonalStructures_surface"/>). For polygonal 
 #! complexes with edge ramifications the concept of orientability is not 
 #! well-defined since there is no
 #! proper way to deal with edges that are incident to more than two faces.

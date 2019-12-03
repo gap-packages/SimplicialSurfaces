@@ -355,7 +355,7 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         # Vertices
         Add( strList, [ Concatenation(
             "    Vertices (", String(NumberOfVertices(complex)), "): ", 
-            String(VerticesAttributeOfVEFComplex(complex)), "\n"), 1 ] );
+            String(VerticesAttributeOfComplex(complex)), "\n"), 1 ] );
         # Edges
         Add( strList, [ Concatenation(
             "    Edges (", String(NumberOfEdges(complex)), "): ", 

@@ -20,7 +20,7 @@ BindGlobal("__SIMPLICIAL_PerimeterPath_PossibleFaces",
     function(vePath)
         local complex, edges;
 
-        complex := AssociatedVEFComplex(vePath);
+        complex := AssociatedPolygonalComplex(vePath);
         edges := EdgesAsList(vePath);
 
         return Intersection( FacesOfEdges(complex){edges} );
@@ -45,7 +45,7 @@ InstallMethod(PerimeterPath, "for a vertex-edge-path", [IsVertexEdgePath],
                 poss, " were found."));
         fi;
 
-        if Set(EdgesAsList(vePath)) <> EdgesOfFaces(AssociatedVEFComplex(vePath))[poss[1]] then
+        if Set(EdgesAsList(vePath)) <> EdgesOfFaces(AssociatedPolygonalComplex(vePath))[poss[1]] then
             Error("PerimeterPath: Not all edges of the reconstructed face are traversed.");
         fi;
 
@@ -61,11 +61,11 @@ InstallMethod(PerimeterPath, "for a vertex-edge-path and a face",
             Error("PerimeterPath: Given vertex-edge-path has to be closed.");
         fi;
 
-        if Set(EdgesAsList(vePath)) <> EdgesOfFaces(AssociatedVEFComplex(vePath))[poss[1]] then
+        if Set(EdgesAsList(vePath)) <> EdgesOfFaces(AssociatedPolygonalComplex(vePath))[poss[1]] then
             Error("PerimeterPath: Not all edges of the given face are traversed.");
         fi;
 
-        __SIMPLICIAL_CheckFace(AssociatedVEFComplex(vePath), face, "PerimeterPath");
+        __SIMPLICIAL_CheckFace(AssociatedPolygonalComplex(vePath), face, "PerimeterPath");
         if not face in __SIMPLICIAL_PerimeterPath_PossibleFaces(vePath) then
             Error("PerimeterPath: Given face is not incident to all edges of the vertex-edge-path");
         fi;
@@ -79,145 +79,25 @@ InstallMethod( PerimeterPathNC, "for a vertex-edge-path and a face",
         local obj, localPath;
 
         obj := Objectify(PerimeterPathType, rec());
-        SetAssociatedVEFComplex(obj, AssociatedVEFComplex(vePath));
+        SetAssociatedPolygonalComplex(obj, AssociatedPolygonalComplex(vePath));
         SetPath(obj, PathAsList(vePath));
         SetFace(obj, face);
 
-        if IsBendPolygonalComplexPath(obj) then
-            localPath := LocalPath(obj);
-            if localPath = fail then
-                Error("PerimeterPathNC: The given vertex-edge-path does not translate to a local path.");
-            fi;
-        fi;
-
         return obj;
     end
 );
 
 
-InstallMethod( LocalPath, "for a perimeter path", [IsPerimeterPath],
-    function(perimPath)
-        local complex, poly, vePath, path, e, poss;
-
-        complex := AssociatedVEFComplex(perimPath);
-        if not IsBendPolygonalComplex(complex) then
-            return fail;
-        fi;
-
-        poly := LocalFace(complex, Face(perimPath));
-        path := [];
-        for e in EdgesAsList(perimPath) do
-            # Assume that every edge has a unique local edge in the face
-            poss := Intersection( Edges(poly), LocalEdgesOfEdges(complex)[e] );
-            if Length(poss) <> 1 then
-                return fail;
-            fi;
-            Append(path, poss);
-        od;
-        vePath := VertexEdgePathByEdgesNC(poly, path);
-        return PerimeterPathNC(vePath, Face(perimPath));
-    end
-);
-
-
-InstallMethod( PerimeterPathByLocalPathNC, 
-    "for a bend polygonal complex and a perimeter path",
-    [IsBendPolygonalComplex, IsPerimeterPath],
-    function(bendComplex, perimPath)
-        local obj, path, locPath, i;
-
-        obj := Objectify(PerimeterPathType, rec());
-        SetLocalPath(obj, perimPath);
-        SetFace(obj, Face(perimPath));
-        SetAssociatedVEFComplex(obj, bendComplex);
-
-        # Construct PathAsList
-        path := [];
-        locPath := PathAsList(perimPath);
-        for i in [1..Length(locPath)] do
-            if IsOddInt(i) then
-                # local vertex
-                Add(path, VerticesOfLocalVertices(bendComplex)[locPath[i]]);
-            else
-                # local edge
-                Add(path, EdgesOfLocalEdges(bendComplex)[locPath[i]]);
-            fi;
-        od;
-        SetPath(obj, path);
-
-        return obj;
-    end
-);
-InstallMethod( PerimeterPathByLocalPath, 
-    "for a bend polygonal complex and a perimeter path",
-    [IsBendPolygonalComplex, IsPerimeterPath],
-    function(bendComplex, perimPath)
-        local locEdges, edges;
-
-        if not Face(perimPath) in Faces(bendComplex) then
-            Error("PerimerterPathByLocalPath: Face of local path does not belong to given bend polygonal complex.");
-        fi;
-
-        if LocalFaceNC(bendComplex, Face(perimPath)) <> AssociatedVEFComplex(perimPath) then
-            Error("PerimeterPathByLocalPath: Associated complex of local path is not a local face.");
-        fi;
-
-        if not IsClosedPath(perimPath) then
-            Error("PerimeterPathByLocalPath: Local path is not closed.");
-        fi;
-
-        locEdges := LocalEdgesOfFaces(bendComplex)[Face(perimPath)];
-        edges := EdgesAsList(perimPath);
-        if locEdges <> Set(edges) then
-            Error("PerimeterPathByLocalPath: Local path is not complete.");
-        fi;
-
-        if Length(locEdges) <> Length(edges) then
-            Error("PerimeterPathByLocalPath: Local path has different length than number of edges in the polygon.");
-        fi;
-
-        #TODO forgot anything?
-
-        return PerimeterPathByLocalPathNC(bendComplex, perimPath);
-    end
-);
 
 InstallMethod( \=, "for two perimeter paths", IsIdenticalObj, 
     [IsPerimeterPath, IsPerimeterPath],
     function(path1, path2)
         return Face(path1) = Face(path2) and 
             Path(path1) = Path(path2) and
-            AssociatedVEFComplex(path1) = AssociatedVEFComplex(path2) and
-            LocalPath(path1) = LocalPath(path2);
+            AssociatedPolygonalComplex(path1) = AssociatedPolygonalComplex(path2);
     end
 );
 
-InstallMethod( LocalFlagCycle, 
-    "for a perimeter path on a bend polygonal complex",
-    [IsPerimeterPath and IsBendPolygonalComplexPath],
-    function(perimPath)
-        local complex, flags, swapVertex, swapEdge, localPath, last,
-            firstLocalVertex, firstLocalEdge, firstFlag, flagList, i;
-
-        complex := AssociatedVEFComplex(perimPath);
-        swapVertex := LocalFlagEdgeInvolution(complex);
-        swapEdge := LocalFlagVertexInvolution(complex);
-
-        localPath := LocalPath(perimPath);
-        firstLocalVertex := Path(localPath)[1];
-        firstLocalEdge := Path(localPath)[2];
-        firstFlag := LocalFlagByLocalVertexLocalEdgeFace(complex, firstLocalVertex, firstLocalEdge, Face(perimPath));
-
-        flagList := [firstFlag, firstFlag^swapVertex];
-        for i in [2..Length(EdgesAsList(localPath))] do
-            last := flagList[Length(flagList)];
-            Append(flagList, [last^swapEdge, (last^swapEdge)^swapVertex]);
-        od;
-
-        return __SIMPLICIAL_ListToCycle(flagList);
-    end
-);
-RedispatchOnCondition(LocalFlagCycle, true, [IsPerimeterPath], [IsBendPolygonalComplexPath], 0);
 
 InstallMethod( Inverse, "for a perimeter path", [IsPerimeterPath],
     function(path)
@@ -225,13 +105,8 @@ InstallMethod( Inverse, "for a perimeter path", [IsPerimeterPath],
 
         obj := Objectify(PerimeterPathType, rec());
         SetPath(obj, Reversed(Path(path)));
-        SetAssociatedVEFComplex(obj, AssociatedVEFComplex(path));
+        SetAssociatedPolygonalComplex(obj, AssociatedPolygonalComplex(path));
         SetFace(obj, Face(path));
-        if LocalPath(path) = fail then
-            SetLocalPath(obj, fail);
-        else
-            SetLocalPath(obj, Inverse(LocalPath(path)));
-        fi;
 
         return obj;
     end
