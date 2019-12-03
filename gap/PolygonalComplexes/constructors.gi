@@ -119,6 +119,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     obj := CallFuncList( objectConst, arg{[off+1..Length(arg)]});
                     postCheck(name, obj);
                     setterNormal(obj);
+                    SetIsDefaultChamberSystem(obj, true);
 
                     return obj;
                 end;
@@ -132,6 +133,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
 
                         obj := CallFuncList(objectConst,arg);
                         setterNC(obj);
+                        SetIsDefaultChamberSystem(obj,true);
                         return obj;
                     end);
             end;

@@ -335,13 +335,13 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! @Section Automorphism groups of polygonal complexes
 #! @SectionLabel Graphs_Automorphisms_Polygonal
 #!
-#! This section explains how to compute automorphism groups of polygonal
-#! complexes. Since the incidence graph is necessary for the computation,
-#! at least one of the following packages has to be available:
-#! @InsertChunk Graphs_Packages
+#! This section explains how to compute automorphism groups of twisted polygonal
+#! complexes. Since this computation relies on the chamber adjacency
+#! graph (compare Section <Ref Sect="Section_Graphs_Adjacency"/>), the package
+#! <K>NautyTracesInterface</K> has to be available.
 #!
 #! Working with the automorphism group of a polygonal complex is complicated
-#! since any automorphism acts on vertices, edges and faces simultaneously.
+#! since any automorphism acts on vertices, edges, and faces simultaneously.
 #! In general it is not possible to define an automorphism by defining it just
 #! on the vertices (or edges, or faces). Whenever this is possible, the situation
 #! becomes much easier. This happens for example with the tetrahedron:
@@ -369,56 +369,44 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> IsAutomorphismDefinedByFaces(janus);
 #! false
 #! @EndExampleSession
-#! Therefore it is necessary to consider the action on vertices, edges and 
-#! faces simultaneously.
+#! Therefore, general automorphisms are not given by their action
+#! on vertices, edges, or faces. However, each automorphism is
+#! determined uniquely by its action on the chambers of a twisted polygonal
+#! complex. Any polygonal complex can be interpreted as a twisted polygonal
+#! complex, as shown in Section <Ref Sect="Section_AccessTwisted_Polygonal"/>.
 #!
-#! Since vertices, edges and faces are represented by numbers and some numbers
-#! are used multiple times (for example, the label 3 appears
-#! as vertex and edge in the janus-head), some numbers have to change to make
-#! the automorphism group a permutation group (which is necessary for efficient
-#! computations). Therefore the following numbers are used:
-#! @InsertChunk Graphs_LabelShift
-#!
-#! For the tetrahedron we get the following numbering:
-#! * The vertex numbers are <M>[1,2,3,4]</M> and stay that way.
-#! * The edge numbers are <M>[1,2,3,4,5,6]</M>. They are shifted upwards by
-#!   the maximal vertex number, i.e. <M>4</M>. Therefore the numbers
-#!   <M>[5,6,7,8,9,10]</M> are representing the edges.
-#! * The face numbers <M>[1,2,3,4]</M> are shifted by both the maximal vertex
-#!   number (4) and the maximal edge number (6), for a total of 10. Then
-#!   the numbers <M>[11,12,13,14]</M> represent the faces.
 #! <Alt Only="TikZ">
-#!      \input{_TIKZ_Tetrahedron_constructor_labelShift.tex}
+#!    \input{Image_TetrahedronChambers.tex}
 #! </Alt>
 #! @ExampleSession
 #! gap> AutomorphismGroup(tetra);
-#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
+#! Group([ ?? ])
 #! gap> Size(last);
 #! 24
 #! gap> AutomorphismGroup(janus);
-#! Group([ (7,8), (2,3)(4,5), (1,2)(5,6) ])
+#! Group([ ?? ])
 #! gap> Size( last );
 #! 12
 #! @EndExampleSession
 #!
-#! Unfortunately this makes it more complicated to understand the 
+#! Unfortunately, this makes it more complicated to understand the 
 #! automorphisms at a glance. To see the individual action on vertices,
 #! edges and faces, the method <K>DisplayAsAutomorphism</K>
 #! (<Ref Subsect="DisplayAsAutomorphism"/>) can be used.
 #!
-#! For example the first generator of the tetrahedron automorphism group
-#! is <M>(3,4)(6,7)(8,9)(11,12)</M>, which can be displayed like this:
+#! For example, the first generator of the tetrahedron automorphism group
+#! is <M>TODO</M>, which can be displayed like this:
 #! @ExampleSession
-#! gap> DisplayAsAutomorphism( tetra, (3,4)(6,7)(8,9)(11,12) );
-#! [ (3,4), (2,3)(4,5), (1,2) ]
+#! gap> DisplayAsAutomorphism( tetra, ?? );
+#! [ ?? ]
 #! @EndExampleSession
 #! The first component describes the action on the vertices, the
 #! second component shows the action on the edges and the final
 #! component represents the action on the faces.
 #! 
 #! Often, it can be avoided to calculate with such a big group
-#! representation since the automorphism are usually defined by
-#! vertices, edges or faces. For example, consider the open bag.
+#! representation since the automorphisms are usually determined by
+#! vertices, edges, or faces. For example, consider the open bag.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
 #!     \input{Image_OpenBag.tex}
@@ -434,7 +422,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> IsAutomorphismDefinedByFaces(openBag);
 #! false
 #! @EndExampleSession
-#! Therefore the automorphism group is best represented by its action on
+#! Therefore, the automorphism group is best represented by its action on
 #! the edges.
 #! @ExampleSession
 #! gap> AutomorphismGroupOnEdges(openBag);
@@ -443,16 +431,11 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 
 #! @BeginGroup AutomorphismGroup
 #! @Description
-#! Compute the automorphism group of the polygonal complex <A>complex</A> as
-#! a permutation group on the vertices, edges and faces of <A>complex</A>. For an 
+#! Compute the automorphism group of the twisted polygonal complex <A>complex</A> as
+#! a permutation group on the chambers of <A>complex</A>. For an 
 #! introduction into the usage and conventions of automorphism groups in
 #! the <K>SimplicialSurface</K>-package, compare the start of section
 #! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
-#! 
-#! As vertices, edges and faces can be denoted by the same numbers in 
-#! <A>complex</A>, they have to be distinguished for the description of
-#! the automorphism group. The automorphisms act on the following numbers:
-#! @InsertChunk Graphs_LabelShift
 #! 
 #! For the tetrahedron this gives the following result:
 #! @BeginExampleSession
@@ -463,14 +446,16 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! [ 1, 2, 3, 4, 5, 6 ]
 #! gap> Faces(tetra);
 #! [ 1, 2, 3, 4 ]
+#! gap> Chambers(tetra);
+#! [ 1 .. 24 ]
 #! gap> aut := AutomorphismGroup(tetra);
-#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
+#! Group([ ?? ])
 #! @EndExampleSession
 #! <Alt Only="TikZ">
-#!   \input{_TIKZ_Tetrahedron_constructor.tex}
+#!    \input{Image_TetrahedronChambers.tex}
 #! </Alt>
 #! 
-#! To see the action on the original labels, use the method 
+#! To see the action on vertices, edges, and faces simultaneously, use the method 
 #! <K>DisplayAsAutomorphism</K> (<Ref Subsect="DisplayAsAutomorphism"/>).
 #! @BeginExampleSession
 #! gap> DisplayAsAutomorphism( tetra, aut.1 );
@@ -511,14 +496,13 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #!
 #! @Arguments complex
 #! @Returns a permutation group
-DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
+DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup DisplayAsAutomorphism
 #! @Description
 #! Display an automorphism of the given <A>complex</A> by its individual
-#! action on vertices, edges and faces. If this is not possible (because
-#! the given permutation is not an automorphism) <K>fail</K> is returned.
+#! action on vertices, edges, and faces.
 #!
 #! An explanation for the necessity of this method is given in section
 #! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
@@ -542,8 +526,8 @@ DeclareAttribute( "AutomorphismGroup", IsPolygonalComplex );
 #! @EndExampleSession
 #! 
 #! @Arguments complex, perm
-#! @Returns A list of three permutations or <K>fail</K>
-DeclareOperation( "DisplayAsAutomorphism", [IsPolygonalComplex, IsPerm] );
+#! @Returns A list of three permutations
+DeclareOperation( "DisplayAsAutomorphism", [IsTwistedPolygonalComplex, IsPerm] );
 #! @EndGroup
 
 #! @BeginGroup AutomorphismGroupOnVertices
@@ -568,9 +552,9 @@ DeclareOperation( "DisplayAsAutomorphism", [IsPolygonalComplex, IsPerm] );
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
-DeclareAttribute( "AutomorphismGroupOnVertices", IsPolygonalComplex );
+DeclareAttribute( "AutomorphismGroupOnVertices", IsTwistedPolygonalComplex );
 #! @Arguments complex
-DeclareProperty( "IsAutomorphismDefinedByVertices", IsPolygonalComplex );
+DeclareProperty( "IsAutomorphismDefinedByVertices", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup AutomorphismGroupOnEdges
@@ -596,9 +580,9 @@ DeclareProperty( "IsAutomorphismDefinedByVertices", IsPolygonalComplex );
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
-DeclareAttribute( "AutomorphismGroupOnEdges", IsPolygonalComplex );
+DeclareAttribute( "AutomorphismGroupOnEdges", IsTwistedPolygonalComplex );
 #! @Arguments complex
-DeclareProperty( "IsAutomorphismDefinedByEdges", IsPolygonalComplex );
+DeclareProperty( "IsAutomorphismDefinedByEdges", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup AutomorphismGroupOnFaces
@@ -623,12 +607,11 @@ DeclareProperty( "IsAutomorphismDefinedByEdges", IsPolygonalComplex );
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
-DeclareAttribute( "AutomorphismGroupOnFaces", IsPolygonalComplex );
+DeclareAttribute( "AutomorphismGroupOnFaces", IsTwistedPolygonalComplex );
 #! @Arguments complex
-DeclareProperty( "IsAutomorphismDefinedByFaces", IsPolygonalComplex );
+DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #! @EndGroup
 
-#TODO AutomorphismGroupOnFlags
 
 #! @Section Action on paths
 #! @SectionLabel Graphs_Automorphisms_PathActions
@@ -755,46 +738,6 @@ DeclareOperation( "OnEdgeFacePaths",
     [ IsEdgeFacePath and IsPolygonalComplexPath, IsPerm ] );
 
 
-
-
-#! @Section Automorphism groups of bend polygonal complexes
-#! @SectionLabel Graphs_Automorphisms_Bend
-#!
-#! Section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> was concerned
-#! with the automorphism groups of polygonal complexes.
-#! For the automorphism group of bend polygonal complexes similar concerns
-#! arise. Since a bend polygonal complex is not uniquely defined by its
-#! vertices, edges, and faces, its automorphisms won't be as well.
-#! Therefore the automorphisms are given as permutations of the 
-#! <E>local flags</E>.
-#!
-#! 
-
-#! @BeginGroup
-#! @Description
-#! Return the automorphism group of the given bend polygonal complex.
-#! This automorphism group is given as a permutation in the local flags
-#! of <A>bendComplex</A>.
-#!
-#! @ExampleSession
-#! gap> bendTet := BendPolygonalComplex( Tetrahedron() );;
-#! gap> aut := AutomorphismGroup(bendTet);;
-#! gap> Size(aut);
-#! 24
-#! gap> aut = AutomorphismGroupOnLocalFlags(bendTet);
-#! true
-#! @EndExampleSession
-#!
-#! @Returns a permutation group
-#! @Arguments bendComplex
-DeclareAttribute("AutomorphismGroup", IsBendPolygonalComplex);
-#! @Arguments bendComplex
-DeclareAttribute("AutomorphismGroupOnLocalFlags", IsBendPolygonalComplex);
-#! @EndGroup
-
-#TODO AutomorphismGroupOn* for the others
-
-
 #! @Section Which graph package should be used?
 #! @SectionLabel Graphs_Discussion
 #! 
@@ -828,8 +771,6 @@ DeclareAttribute("AutomorphismGroupOnLocalFlags", IsBendPolygonalComplex);
 #!   If the installation is working though, it is recommended to use 
 #!   <K>Digraphs</K> instead of <K>GRAPE</K>.</Item>
 #! </List>
-
-
 
 
 #! @Section Other graphs
