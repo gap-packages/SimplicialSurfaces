@@ -435,7 +435,7 @@ InstallMethod( TwoAdjacentChambersNC,
     "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex,c)
-        local class, iter, res;
+        local class, iter, res, el;
 
         class := EquivalenceClassOfElementNC(TwoAdjacencyRelation(complex),c);
         iter := Iterator(class);
@@ -616,7 +616,7 @@ BindGlobal( "__SIMPLICIAL_VerifyAdjacencyClasses",
 );
 BindGlobal( "__SIMPLICIAL_VerifyAdjacencyRelation",
     function(rel, method, number)
-        local iter, next;
+        local iter, next, equiv, counter;
 
         iter := Iterator(Source(rel));
         while not IsDoneIterator(iter) do
@@ -673,7 +673,7 @@ BindGlobal( "__SIMPLICIAL_ExtractChambersFromInvolution",
 BindGlobal( "__SIMPLICIAL_ExtractChambersFromRelation",
     function(rel)
         return Set(Source(rel));
-    end;
+    end
 );
 BindGlobal( "__SIMPLICIAL_ExtractChambersFromClasses",
     function(classes)
@@ -745,8 +745,8 @@ BindGlobal( "__SIMPLICIAL_ConstructorConsistencyAdjacency",
 );
 
 BindGlobal( "__SIMPLICIAL_ConstructorConsistencyIncidence",
-    functor(complex, name)
-        local c, cz, co, i, j, d;
+    function(complex, name)
+        local c, cz, co, i, j, d, grp, tuple;
 
         grp := Group( [ ZeroAdjacencyInvolution(complex), OneAdjacencyInvolution(complex) ] );
         for i in [1..Length(Chambers(complex))] do
@@ -930,7 +930,7 @@ BindGlobal( "__SIMPLICIAL_TwistedTypeOptions",
 );
 BindGlobal( "__SIMPLICIAL_TwistedArgOptions",
     function()
-        local argOptions;
+        local argOptions, tuple;
 
         argOptions := []; # [localTest, filter, string, verify, extract]
         Add(argOptions, ["an involution", IsPerm, "Involution"]);
@@ -938,8 +938,8 @@ BindGlobal( "__SIMPLICIAL_TwistedArgOptions",
         Add(argOptions, ["an equivalence relation", IsEquivalenceRelation, "Relation"]);
         for tuple in argOptions do
             # Complete the lists
-            tuple[4] := ValueGlobal(Concatenation("__SIMPLICIAL_VerifyAdjacency", tuples[3]));
-            tuple[5] := ValueGlobal(Concatenation("__SIMPLICIAL_ExtractChambersFrom", tuples[3]));
+            tuple[4] := ValueGlobal(Concatenation("__SIMPLICIAL_VerifyAdjacency", tuple[3]));
+            tuple[5] := ValueGlobal(Concatenation("__SIMPLICIAL_ExtractChambersFrom", tuple[3]));
         od;
         return argOptions;
     end
@@ -987,7 +987,7 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorRelation",
                                     ValueGlobal( Concatenation( "SetTwoAdjacency", argOptions[3][3]) )(complex, twoAd);
 
                                     type[3](complex);
-                                    return complex
+                                    return complex;
                                 end
                             );
                             # normal version
@@ -999,9 +999,9 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorRelation",
                                     __SIMPLICIAL_VerifyStarOfChambers(vOfC, constName, "verticesOfChambers");
                                     __SIMPLICIAL_VerifyStarOfChambers(eOfC, constName, "edgesOfChambers");
                                     __SIMPLICIAL_VerifyStarOfChambers(fOfC, constName, "facesOfChambers");
-                                    argOptions[1][4](zeroAdd, constName);
-                                    argOptions[2][4](oneAdd, constName);
-                                    argOptions[3][4](twoAdd, constName);
+                                    argOptions[1][4](zeroAd, constName);
+                                    argOptions[2][4](oneAd, constName);
+                                    argOptions[3][4](twoAd, constName);
 
                                     # Verify chamber information
                                     __SIMPLICIAL_ConstructorConsistencyChambers([
@@ -1026,7 +1026,7 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorRelation",
                                     __SIMPLICIAL_ConstructorConsistencyIncidence(complex, constName);
                                     type[2](complex);
 
-                                    return complex
+                                    return complex;
                                 end
                             );
                         end;
