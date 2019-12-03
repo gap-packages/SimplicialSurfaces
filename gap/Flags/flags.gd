@@ -312,10 +312,10 @@ DeclareAttribute( "OneFlags", IsPolygonalComplex );
 #! 
 #! @Returns a list of three involutions
 #! @Arguments complex
-DeclareAttribute( "DressInvolutions", IsVEFComplex and IsNotEdgeRamified );
+DeclareAttribute( "DressInvolutions", IsPolygonalComplex and IsNotEdgeRamified );
 #! @Returns a group
 #! @Arguments complex
-DeclareAttribute( "DressGroup", IsVEFComplex and IsNotEdgeRamified );
+DeclareAttribute( "DressGroup", IsPolygonalComplex and IsNotEdgeRamified );
 
 #! @Section Flag complex / Barycentric subdivision
 #! @SectionLabel Flags_FlagComplex
@@ -356,11 +356,11 @@ DeclareAttribute( "DressGroup", IsVEFComplex and IsNotEdgeRamified );
 #! Check whether the given <A>colComplex</A> is a flag complex. Every flag
 #! complex is also an edge-coloured polygonal complex. Besides access to
 #! the uncoloured flag complex via <K>PolygonalComplex</K>
-#! (<Ref Subsect="EdgeColouring_VEFComplex"/>) it also allows access
+#! (<Ref Subsect="EdgeColouring_TwistedPolygonalComplex"/>) it also allows access
 #! to the original polygonal complex by <K>OriginalComplex</K>
 #! (<Ref Subsect="OriginalComplex"/>).
 #!
-#! This will also return <K>true</K> if the original complex would be a <E>bend</E> complex.
+#! This will also return <K>true</K> if the original complex would just be a <E>twisted</E> complex.
 #!
 #! The additional property check if the underlying polygonal complex
 #! is a polygonal surface.
@@ -368,18 +368,18 @@ DeclareAttribute( "DressGroup", IsVEFComplex and IsNotEdgeRamified );
 #! TODO example?
 #!
 #! @Arguments object
-DeclareCategory( "IsFlagComplex", IsEdgeColouredPolygonalComplex );
+DeclareCategory( "IsFlagComplex", IsEdgeColouredTwistedPolygonalComplex );
 #! @Arguments flagComp
 DeclareProperty( "IsFlagSurface", IsFlagComplex );
 #! @EndGroup
-InstallTrueMethod( IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified, IsFlagSurface );
-InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified and IsFlagComplex );
+InstallTrueMethod( IsEdgeColouredTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified, IsFlagSurface );
+InstallTrueMethod( IsFlagSurface, IsEdgeColouredTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified and IsFlagComplex );
 
 
 #! @BeginGroup FlagComplex
 #! @Description
 #! Return the flag complex of <A>complex</A>. The flag complex is an 
-#! edge-coloured (<Ref Chap="Chapter_EdgeColouring"/>) triangular complex
+#! edge-coloured (<Ref Chap="Chapter_EdgeColouring"/>) twisted triangular complex
 #! (<Ref Subsect="IsTriangular"/>).
 #!
 #! Its vertices are given by the <K>OneFlags</K> (<Ref Subsect="OneFlags"/>),
@@ -388,15 +388,15 @@ InstallTrueMethod( IsFlagSurface, IsEdgeColouredPolygonalComplex and IsNotEdgeRa
 #!
 #! @InsertChunk Example_FlagComplex_Construction
 #!
-#! The more specific command require <A>complex</A> to be
-#! a polygonal surface (<Ref Subsect="IsPolygonalSurface"/>), respectively.
+#! The more specific command requires <A>complex</A> to be
+#! a twisted polygonal surface (<Ref Subsect="IsPolygonalSurface"/>).
 #!
 #! @Returns a flag complex
 #! @Arguments complex
-DeclareAttribute("FlagComplex", IsPolygonalComplex);
+DeclareAttribute("FlagComplex", IsTwistedPolygonalComplex);
 #! @Returns a flag surface
 #! @Arguments surf
-DeclareOperation("FlagSurface", [IsPolygonalSurface]);
+DeclareOperation("FlagSurface", [IsTwistedPolygonalSurface]);
 #! @EndGroup
 
 
@@ -404,21 +404,19 @@ DeclareOperation("FlagSurface", [IsPolygonalSurface]);
 
 #! @BeginGroup OriginalComplex
 #! @Description
-#! Return the original polygonal complex of the given flag complex
+#! Return the original twisted polygonal complex of the given flag complex
 #! <A>flagComp</A>, i.e.
-#! the unique polygonal complex <A>complex</A> such that 
+#! the unique twisted polygonal complex <A>complex</A> such that 
 #! <K>FlagComplex</K>(<A>complex</A>) = <A>flagComp</A>.
 #!
-#! If the returned polygonal complex would be <E>bend</E>, <K>fail</K> is returned.
-#!
-#! The more specific command require the original complex to be
-#! a polygonal surface
+#! The more specific command requires the original complex to be
+#! a twisted polygonal surface
 #! (<Ref Subsect="IsPolygonalSurface"/>).
 #!
-#! @Returns a polygonal complex
+#! @Returns a twisted polygonal complex
 #! @Arguments flagComp
 DeclareAttribute("OriginalComplex", IsFlagComplex);
-#! @Returns a polygonal surface
+#! @Returns a twisted polygonal surface
 #! @Arguments flagSurf
 DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #! @EndGroup
@@ -430,14 +428,12 @@ DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #! isomorphic to the given tame-coloured surface, if possible (the first
 #! colour involution will become the vertex involution, etc.). It returns:
 #! * a flag surface, if successful
-#! * <K>true</K> if the given <A>tameSurface</A> is isomorphic to a flag surface
-#!   but the original surface (<Ref Subsect="OriginalComplex"/>) is bend.
 #! * <K>false</K> if this is not possible
 #! * <K>fail</K> if the given <A>tameSurface</A> is not a MMM-surface.
 #!
 #! TODO example
 #!
-#! @Returns a flag surface, <K>true</K>, <K>false</K> or <K>fail</K>
+#! @Returns a flag surface, <K>false</K> or <K>fail</K>
 #! @Arguments tameSurface
 DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 #! @EndGroup
@@ -445,7 +441,8 @@ DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 
 #! @BeginGroup DrawSurfaceToTikz_FlagComplex
 #! @Description
-#! Draw the net of the given flag complex without edge ramifications 
+#! Draw the net of the given flag complex that is also a polygonal complex
+#! without edge ramifications 
 #! into a tex-file (using 
 #! TikZ). The method for flag complexes is the same as the one for 
 #! edge coloured polygonal complexes without edge ramifications
