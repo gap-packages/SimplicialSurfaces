@@ -281,7 +281,7 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
         # add: The method to add an attribute to this category
         TWIST := rec( name := "IsTwistedPolygonalComplex", add := __SIMPLICIAL_AddTwistedAttribute, string := "twisted polygonal complex", short := "TWIST" );
         POLY := rec( name := "IsPolygonalComplex", add := __SIMPLICIAL_AddPolygonalAttribute, string := "polygonal complex", short := "POLY" );
-        for r in [VEF,BEND,POLY] do
+        for r in [TWIST,POLY] do
             r.cat := VALUE_GLOBAL(r.name);
         od;
 
@@ -305,7 +305,7 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
             rec( sing := "Vertex", plur := "Vertices", name := "VerticesAttributeOfComplex", cat := "TWIST" ),
             rec( sing := "Edge", plur := "Edges", cat := "TWIST" ),
             rec( sing := "Face", plur := "Faces", cat := "TWIST" ),
-            rec( sing := "Chamber", plur := "Chambers", cat := "TWIST", uniqueTo := ["VerticesAttributeOfComplex", "Edges", "Faces"] );
+            rec( sing := "Chamber", plur := "Chambers", cat := "TWIST", uniqueTo := ["VerticesAttributeOfComplex", "Edges", "Faces"] )
         ];
         for attr in attrList do
             if not IsBound(attr.name) then

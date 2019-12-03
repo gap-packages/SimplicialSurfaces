@@ -452,7 +452,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 InstallMethod( RamifiedVertices, 
     "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices",
-    [IsTwistedPolygonalComplex and HasOneAdjacencyRelation and HasTwoAdjacencyRelation and HasVerticesAttributeOfComplex and HasRamifiedEdges and HadEdgesOfVertices and HasChambersOfVertices],
+    [IsTwistedPolygonalComplex and HasOneAdjacencyRelation and HasTwoAdjacencyRelation and HasVerticesAttributeOfComplex and HasRamifiedEdges and HasEdgesOfVertices and HasChambersOfVertices],
     function(complex)
         local res, oneRel, twoRel, vertexRel, chambers, v, c, inner;
         

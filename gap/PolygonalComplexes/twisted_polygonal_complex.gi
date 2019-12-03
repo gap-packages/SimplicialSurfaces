@@ -91,19 +91,19 @@ InstallMethod(ChambersOfEdge,
 );
 
 ## FacesOfChambers
-InstallMethod(FacesOfChamberNC, 
+InstallMethod(FaceOfChamberNC, 
     "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, chamber)
         return FacesOfChambers(complex)[chamber];
     end
 );
-InstallMethod(FacesOfChamber,
+InstallMethod(FaceOfChamber,
     "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, chamber)
-        __SIMPLICIAL_CheckChamber( complex, chamber, "FacesOfChamber" );
-        return FacesOfChamberNC(complex,chamber);
+        __SIMPLICIAL_CheckChamber( complex, chamber, "FaceOfChamber" );
+        return FaceOfChamberNC(complex,chamber);
     end
 );
 
@@ -318,7 +318,7 @@ InstallMethod( ZeroAdjacencyInvolution,
         for cl in ZeroAdjacencyClasses(complex) do
             list[cl[1]] := cl[2];
             list[cl[2]] := cl[1];
-        do;
+        od;
         return PermList(list);
     end
 );
@@ -335,7 +335,7 @@ InstallMethod( OneAdjacencyInvolution,
         for cl in OneAdjacencyClasses(complex) do
             list[cl[1]] := cl[2];
             list[cl[2]] := cl[1];
-        do;
+        od;
         return PermList(list);
     end
 );
@@ -356,7 +356,7 @@ InstallMethod( TwoAdjacencyInvolution,
             elif Length(cl) > 2 then
                 return fail;
             fi;
-        do;
+        od;
         return PermList(list);
     end
 );

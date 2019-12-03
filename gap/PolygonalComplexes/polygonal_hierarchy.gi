@@ -20,13 +20,6 @@ BindGlobal( "TwistedPolygonalComplexType",
     NewType( TwistedPolygonalComplexFamily, IsGenericTwistedPolygonalComplexRep ));
 
 
-# We define a generic representation for polygonal complexes
-DeclareRepresentation("IsGenericBendPolygonalComplexRep", 
-    IsBendPolygonalComplex and IsAttributeStoringRep, []);
-
-# Define a generic type
-BindGlobal( "BendPolygonalComplexType", 
-    NewType( BendPolygonalComplexFamily, IsGenericBendPolygonalComplexRep ));
 
 
 
@@ -38,7 +31,7 @@ BindGlobal( "BendPolygonalComplexType",
 ## should act like categories
 InstallOtherMethod( IsPolygonalComplex, "for an object", [IsObject],
     function(obj)
-        if not IsVEFComplex(obj) then
+        if not IsTwistedPolygonalComplex(obj) then
             return false;
         fi;
         # Since IsPolygonalComplex is a category, the above

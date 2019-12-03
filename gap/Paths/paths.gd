@@ -1139,14 +1139,14 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! @SectionLabel Paths_Connectivity
 #!
 #! This section contains methods that deal with the (strong) connectivity of 
-#! polygonal
+#! twisted polygonal
 #! complexes (which were introduced in chapter 
 #! <Ref Chap="PolygonalStructures"/> as a generalisation of simplicial 
 #! surfaces). More specifically it contains these
 #! capabilities:
-#! * Determine if a polygonal complex is (strongly) connected 
+#! * Determine if a twisted polygonal complex is (strongly) connected 
 #!   (<Ref Subsect="IsConnected"/> and <Ref Subsect="IsStronglyConnected"/>).
-#! * Determine the (strongly) connected components of a polygonal complex 
+#! * Determine the (strongly) connected components of a twisted polygonal complex 
 #!   (<Ref Subsect="ConnectedComponents"/> and 
 #!   <Ref Subsect="StronglyConnectedComponents"/>).
 #!
@@ -1190,7 +1190,8 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 
 #! @BeginGroup IsConnected
 #! @Description
-#! Check whether the given polygonal complex is connected. A polygonal complex
+#! Check whether the given twisted polygonal complex is connected. A twisted
+#! polygonal complex
 #! is connected if and only if its incidence graph (compare section 
 #! <Ref Sect="Section_Graphs_Incidence"/>) is 
 #! connected.
@@ -1208,17 +1209,17 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-DeclareProperty( "IsConnected", IsPolygonalComplex );
+DeclareProperty( "IsConnected", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup ConnectedComponents
 #! @Description
-#! Return a list of the connected components of the given polygonal complex 
+#! Return a list of the connected components of the given twisted polygonal complex 
 #! (as polygonal complexes). They correspond to the connected components
 #! of the incidence graph (compare section 
 #! <Ref Sect="Section_Graphs_Incidence"/>).
 #!
-#! If a face of the polygonal complex is given as an additional argument,
+#! If a face of the twisted polygonal complex is given as an additional argument,
 #! only the connected component containing that face is returned. The 
 #! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
 #!
@@ -1238,22 +1239,23 @@ DeclareProperty( "IsConnected", IsPolygonalComplex );
 #! @EndExampleSession
 #TODO better example..
 #!
-#! @Returns a list of polygonal complexes
+#! @Returns a list of twisted polygonal complexes
 #! @Arguments complex
-DeclareOperation( "ConnectedComponents", [IsPolygonalComplex] );
+DeclareOperation( "ConnectedComponents", [IsTwistedPolygonalComplex] );
 #! @Arguments complex
-DeclareAttribute( "ConnectedComponentsAttributeOfComplex", IsPolygonalComplex );
+DeclareAttribute( "ConnectedComponentsAttributeOfComplex", IsTwistedPolygonalComplex );
 #! @Returns a polygonal complex
 #! @Arguments complex, face
-DeclareOperation( "ConnectedComponentOfFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "ConnectedComponentOfFace", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "ConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "ConnectedComponentOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! @BeginGroup IsStronglyConnected
 #! @Description
-#! Check whether the given polygonal complex is strongly connected. A polygonal 
+#! Check whether the given twisted polygonal complex is strongly connected. 
+#! A twisted polygonal 
 #! complex
 #! is strongly connected if and only if one of the following equivalent 
 #! conditions hold:
@@ -1274,16 +1276,17 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] )
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-DeclareProperty( "IsStronglyConnected", IsPolygonalComplex );
+DeclareProperty( "IsStronglyConnected", IsTwistedPolygonalComplex );
 #! @EndGroup
+
 
 #! @BeginGroup StronglyConnectedComponents
 #! @Description
-#! Return a list of the strongly connected components of the given polygonal 
+#! Return a list of the strongly connected components of the given twisted polygonal 
 #! complex 
 #! (as polygonal complexes).
 #!
-#! If a face of the polygonal complex is given as an additional argument,
+#! If a face of the twisted polygonal complex is given as an additional argument,
 #! only the strongly connected component containing that face is returned. The 
 #! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
 #!
@@ -1308,22 +1311,22 @@ DeclareProperty( "IsStronglyConnected", IsPolygonalComplex );
 #! true
 #! @EndExampleSession
 #!
-#! @Returns a list of polygonal complexes
+#! @Returns a list of twisted polygonal complexes
 #! @Arguments complex
-DeclareOperation( "StronglyConnectedComponents", [IsPolygonalComplex] );
+DeclareOperation( "StronglyConnectedComponents", [IsTwistedPolygonalComplex] );
 #! @Arguments complex
-DeclareAttribute( "StronglyConnectedComponentsAttributeOfComplex", IsPolygonalComplex );
+DeclareAttribute( "StronglyConnectedComponentsAttributeOfComplex", IsTwistedPolygonalComplex );
 #! @Returns a polygonal complex
 #! @Arguments complex, face
-DeclareOperation( "StronglyConnectedComponentOfFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "StronglyConnectedComponentOfFace", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! @BeginGroup NumberOfConnectedComponents
 #! @Description
-#! Return the number of (strongly) connected components of the given polygonal
+#! Return the number of (strongly) connected components of the given twisted polygonal
 #! complex.
 #!
 #! TODO explain definitions
@@ -1344,9 +1347,9 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsPolygonalComplex, IsP
 #!
 #! @Returns a positive integer
 #! @Arguments complex
-DeclareAttribute( "NumberOfConnectedComponents", IsPolygonalComplex );
+DeclareAttribute( "NumberOfConnectedComponents", IsTwistedPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "NumberOfStronglyConnectedComponents", IsPolygonalComplex );
+DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 

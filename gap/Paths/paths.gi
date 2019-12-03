@@ -405,44 +405,6 @@ InstallMethod( EdgeFacePath, "for a polygonal complex and a dense list",
         return EdgeFacePathNC(complex, path);
     end
 );
-BindGlobal( "__SIMPLICIAL_EdgeFacePath_FindLocalEdge",
-    function( path, posE, posF, complex )
-        local face, edge, locEdge, found, res, loc;
-
-        edge := path[posE];
-        face := path[posF];
-        locEdge := LocalEdgesOfFaces(complex)[face];
-        found := false;
-        res := 0;
-        for loc in locEdge do
-            if EdgesOfLocalEdges(complex)[loc] = edge then
-                # We found a match
-                if found then
-                    # This is the second match
-                    Error(Concatenation(
-                        "EdgeFacePath: There are several different local edges for the edge ", 
-                        String(edge), " (position ", String(posE), 
-                        ") of the face ", String(face), "(position ", 
-                        String(posF), ")."));
-                else
-                    found := true;
-                    res := loc;
-                fi;
-            fi;
-        od;
-
-        if not found then
-            # We found no match
-            Error(Concatenation(
-                "EdgeFacePath: There is no local edge for the edge ", 
-                String(edge), " (position ", String(posE), ") of the face ",
-                String(face), "(position ", String(posF), ")."));
-        fi;
-
-        return res;
-    end
-);
-
 
 InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
@@ -516,7 +478,6 @@ InstallMethod( \=, "for two edge-face-paths", IsIdenticalObj,
     [IsEdgeFacePath, IsEdgeFacePath],
     function(path1, path2)
         return PathAsList(path1) = PathAsList(path2) and 
-            EdgeFacePathElements(path1) = EdgeFacePathElements(path2) and
             AssociatedPolygonalComplex(path1) = AssociatedPolygonalComplex(path2);
     end
 );
@@ -634,43 +595,6 @@ InstallMethod( IsGeodesicPath,
     end
 );
 RedispatchOnCondition(IsGeodesicPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
-
-BindGlobal("__SIMPLICIAL_DefiningLocalFlags",
-    function(path)
-        local flagList, complex, el, vert1, vert2, int, flag, oldFlag,
-            vFlag, evFlag, v;
-
-        complex := AssociatedPolygonalComplex(path);
-        for el in EdgeFacePathElements(complex) do
-            vert1 := LocalVerticesOfLocalEdges(complex)[el[2][1]];
-            vert2 := LocalVerticesOfLocalEdges(complex)[el[2][2]];
-            int := Intersection(vert1, vert2);
-            if Length(int) <> 1 then
-                return fail;
-            fi;
-            if int[1] = vert1[1] then
-                v := vert1[2];
-            else
-                v := vert1[1];
-            fi;
-            flag := LocalFlagByLocalVertexLocalEdgeFace(v, el[2][1], el[1]);
-
-            if Length(flagList) > 0 then
-                oldFlag := flagList[Length(flagList)];
-                # Check whether we have a geodesic
-                vFlag := oldFlag^LocalFlagEdgeInvolution(complex);
-                evFlag := vFlag^LocalFlagVertexInvolution(complex);
-                if flag = evFlag or not IsLocalFlagsFaceEquivalent(complex, evFlag, flag) then
-                    return fail;
-                fi;
-            fi;
-            Add(flagList, flag);
-        od;
-
-        return flagList;
-    end
-);
-
 
 
 InstallMethod( VertexEdgePath, "for a geodesic path on a polygonal complex", 

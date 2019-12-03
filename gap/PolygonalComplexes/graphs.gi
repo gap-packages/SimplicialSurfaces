@@ -164,11 +164,11 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( ChamberAdjacencyGraph, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],
         function(complex)
-            local nrNodes, chambersOfLabels, c, edges;
+            local nrNodes, i, chambersOfLabels, c, edges;
 
             nrNodes := NumberOfChambers(complex);
             chambersOfLabels := [];
-            for i in [1..nrNodes] do
+            for i in [1 .. nrNodes] do
                 c := Chambers(complex)[i];
                 chambersOfLabels[c] := i;
             od;
