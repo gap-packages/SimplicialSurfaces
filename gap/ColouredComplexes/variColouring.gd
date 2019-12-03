@@ -13,16 +13,15 @@
 #! @Chapter Edge vari-colourings
 #! @ChapterLabel EdgeVariColouring
 #! 
-#! In chapter <Ref Chap="Chapter_EdgeColouring"/> the concept of edge 
+#! In Chapter <Ref Chap="Chapter_EdgeColouring"/>, the concept of edge 
 #! colourings was introduced in general. This chapter is concerned with
 #! a specific type of edge colourings, where every edge of a given face has to
-#! have a different colour (so it is varicoloured on each face).
+#! have a different colour (so it is <E>varicoloured</E> on each face).
 #!
-#! In section <Ref Sect="Section_EdgeVariColouring_Definition"/> 
+#! In Section <Ref Sect="Section_EdgeVariColouring_Definition"/>,
 #! the concept of the edge vari-colouring is defined. In addition,
 #! some access
 #! functions made possible by the colouring are described.
-#!
 #! Section <Ref Sect="Section_EdgeVariColouring_Permutations"/> represents
 #! the edge vari-colouring of polygonal complexes without edge ramifications 
 #! as permutations, the
