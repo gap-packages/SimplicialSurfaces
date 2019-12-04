@@ -952,7 +952,7 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorRelation",
 
         typeOptions := __SIMPLICIAL_TwistedTypeOptions();
         argOptions := __SIMPLICIAL_TwistedArgOptions();
-        primary := [IsPerm, IsPerm, IsPerm];
+        primary := [IsList, IsList, IsList];
 
         name := "ByChamberRelations";
         for type in typeOptions do
@@ -1043,11 +1043,11 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorAdjacencies",
     function()
         local typeOptions, argOptions, primary, name, type,
             constName, constNameNC, first, second, third, 
-            description, filters, wrapper;
+            description, filters, wrapper, installFct;
 
         typeOptions := __SIMPLICIAL_TwistedTypeOptions();
         argOptions := __SIMPLICIAL_TwistedArgOptions();
-        primary := [IsPerm, IsPerm, IsPerm];
+        primary := [IsList, IsList, IsList];
 
         name := "ByChamberAdjacencies";
         for type in typeOptions do
@@ -1077,7 +1077,7 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorAdjacencies",
 
                                     __SIMPLICIAL_VertexEdgeFaceFromChamberAdjacencies(complex);
                                     type[3](complex);
-                                    return complex
+                                    return complex;
                                 end
                             );
                             # normal version
@@ -1086,9 +1086,9 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorAdjacencies",
                                     local complex;
 
                                     # Verify input validity
-                                    argOptions[1][4](zeroAdd, constName);
-                                    argOptions[2][4](oneAdd, constName);
-                                    argOptions[3][4](twoAdd, constName);
+                                    argOptions[1][4](zeroAd, constName);
+                                    argOptions[2][4](oneAd, constName);
+                                    argOptions[3][4](twoAd, constName);
 
                                     # Verify chamber information
                                     __SIMPLICIAL_ConstructorConsistencyChambers([
@@ -1107,7 +1107,7 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorAdjacencies",
                                     __SIMPLICIAL_VertexEdgeFaceFromChamberAdjacencies(complex);
                                     type[2](complex);
 
-                                    return complex
+                                    return complex;
                                 end
                             );
                         end;
@@ -1200,7 +1200,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "FacesOfChambers", ["IsDef
 
 BindGlobal( "__SIMPLICIAL_FlagAdjacencyClasses",
     function(complex, x,y)
-        local classes, flags, remain, min;
+        local classes, flags, remain, min, class, k;
 
         classes := [];
         flags := ThreeFlags(complex);

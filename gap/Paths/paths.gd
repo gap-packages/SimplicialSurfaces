@@ -1357,8 +1357,8 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! @SectionLabel Orientability
 #! 
 #! This section contains methods that deal with the orientability of
-#! polygonal surfaces without edge ramifications (compare section
-#! <Ref Sect="PolygonalStructures_surface"/>). For polygonal 
+#! twisted polygonal surfaces without edge ramifications (compare section
+#! <Ref Sect="PolygonalStructures_surface"/>). For twisted polygonal 
 #! complexes with edge ramifications the concept of orientability is not 
 #! well-defined since there is no
 #! proper way to deal with edges that are incident to more than two faces.
@@ -1420,12 +1420,20 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! * The orientation of this face is equal to <K>PermeterOfFace</K>
 #!   (<Ref Subsect="PerimeterPathsOfFaces"/>) of this face.
 #!
+#! For a general twisted polygonal surface there is no concept of
+#! perimeter paths. Instead, we can describe orientability
+#! by the existence of a map from the set of chambers to {+1,-1}
+#! such that adjacent chambers have different values.
+
+#TODO better explanation?
 
 #! @BeginGroup IsOrientable
 #! @Description
-#! Return whether the given ramified polygonal surface is orientable.
+#! Return whether the given twisted polygonal complex without edge
+#! ramifications is orientable.
 #!
-#! A ramified polygonal surface is orientable if it is possible to choose a 
+#! A twisted polygonal complex without edge ramifications
+#! is orientable if it is possible to choose a 
 #! direction along the perimeter of each face such that each pair of adjacent
 #! faces defines opposite directions on the shared edge.
 #!
@@ -1442,12 +1450,12 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! @EndExampleSession
 #! TODO other example?
 #! @Arguments ramSurf
-DeclareProperty( "IsOrientable", IsPolygonalComplex and IsNotEdgeRamified );
+DeclareProperty( "IsOrientable", IsTwistedPolygonalComplex and IsNotEdgeRamified );
 #! @EndGroup
 
 #! @BeginGroup Orientation
 #! @Description
-#! Return the orientation of the given ramified polygonal surface, if
+#! Return the orientation of the given polygonal complex without edge ramifications, if
 #! it exists (otherwise return <K>fail</K>). The orientation is given as a list
 #! with the faces of <A>ramSurf</A> as indices.
 #!
@@ -1489,7 +1497,7 @@ DeclareAttribute( "Orientation", IsPolygonalComplex and IsNotEdgeRamified );
 #! Compute the <E>orientation cover</E> of a polygonal complex without edge
 #! ramifications.
 #! It is constructed in the following way:
-#! * For each face in <A>ramSurf</A> the orientation cover has to faces,
+#! * For each face in <A>ramSurf</A> the orientation cover has two faces,
 #!   corresponding to the two possible orientations of this face. These
 #!   orientations are represented as <E>perimeter paths</E> (compare
 #!   section <Ref Sect="Section_Paths_Perimeter"/>).

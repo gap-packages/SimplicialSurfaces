@@ -66,6 +66,35 @@ BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
     end
 );
 
+BindGlobal( "__SIMPLICIAL_AddRamifiedPolygonalAttribute",
+    function( attr )
+        InstallMethod(attr, "for a polygonal complex without edge ramifications",
+            [IsPolygonalComplex and IsNotEdgeRamified],
+            function( ramSurf )
+                return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                    attr, ramSurf);
+            end);
+
+        InstallOtherMethod(attr, "for a twisted polygonal complex (to check for edge ramifications and polygonal complex)",
+            [IsTwistedPolygonalComplex],
+            function(complex)
+                if not IsPolygonalComplex(complex) then
+                    Error( Concatenation( "The attribute ", NameFunction(attr), 
+                        " can only be computed for polygonal complexes without edge ramifications." ) );
+                fi;
+                if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) then
+                    TryNextMethod();
+                fi;
+                if not IsNotEdgeRamified(complex) then
+                    Error( Concatenation( "The attribute ", NameFunction(attr), 
+                        " can only be computed for polygonal complexes without edge ramifications." ) );
+                fi;
+                return attr(complex);
+            end
+        );
+    end
+);
+
 BindGlobal( "__SIMPLICIAL_AddSurfaceAttribute",
     function( attr )
         InstallMethod(attr, "for a twisted polygonal surface",

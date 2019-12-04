@@ -658,7 +658,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
         # transform the colour information into edge coloured surfaces
         edgeColSurfaces := [];
         for info in allColSurfaces do
-            obj := Objectify( EdgeColouredPolygonalComplexType, rec() );
+            obj := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
             if IsEdgeColouredPolygonalComplex(simpSurf) then
                 SetPolygonalComplex(obj, PolygonalComplex(simpSurf));
             else
@@ -954,7 +954,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                     List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
 
                 # construction of the coloured surface
-                colSurf := Objectify( EdgeColouredPolygonalComplexType, rec() );
+                colSurf := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
                 SetColoursOfEdges(colSurf, coloursOfEdges);
                 SetLocalSymmetryOfEdgesAsNumbers(colSurf, partialLocalSym);
                 SetColouredEdgesOfFaces(colSurf, edgesOfFacesByColour);

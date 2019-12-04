@@ -35,15 +35,15 @@ InstallOtherMethod( IsEdgeColouredPolygonalComplex,
 
 
 InstallMethod( IsEdgeColouredSimplicialSurface,
-    "for an edge-coloured twisted polygonal complex",
-    [IsEdgeColouredTwistedPolygonalComplex],
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
     function(colComplex)
         return IsSimplicialSurface( TwistedPolygonalComplex(colComplex) );
     end
 );
 InstallOtherMethod( IsEdgeColouredSimplicialSurface,
     "for an object", [IsObject], function(obj)
-        if IsEdgeColouredTwistedPolygonalComplex(obj) then
+        if IsEdgeColouredTwistedPolygonalComplex(obj) and IsEdgeColouredPolygonalComplex(obj) then
             TryNextMethod();
         else
             return false;

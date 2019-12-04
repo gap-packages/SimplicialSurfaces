@@ -12,17 +12,16 @@
 
 BindGlobal("__SIMPLICIAL_CopyAttributes_Colouring",
     function()
-        local attrList, attr, wrapper, filtList, vefFilt, polyFilt,
-            bendFilt, checkFilt, remFilt, filt, input, baseString,
+        local attrList, attr, wrapper, filtList, twistFilt, polyFilt,
+            checkFilt, remFilt, filt, input, baseString,
             filtStart, firstFilt, i, stringFilt, filters;
 
         attrList := ATTRIBUTES; # List of all attributes
         filtList := FILTERS; # List of all filters
 
-        vefFilt := Position(FILTERS, IsVEFComplex);
+        twistFilt := Position(FILTERS, IsTwistedPolygonalComplex);
         polyFilt := Position(FILTERS, IsPolygonalComplex);
-        bendFilt := Position(FILTERS, IsBendPolygonalComplex);
-        checkFilt := [vefFilt, polyFilt, bendFilt];
+        checkFilt := [twistFilt, polyFilt];
 
         wrapper := function( attrName, stringObj, stringFilt, filt )
             local attr;
@@ -35,7 +34,7 @@ BindGlobal("__SIMPLICIAL_CopyAttributes_Colouring",
                 Concatenation("for an ", stringObj, stringFilt, "."),
                 [filt], 100, # This should be a priority method
                 function(complex)
-                    return attr(VEFComplex(complex));
+                    return attr(TwistedPolygonalComplex(complex));
                 end);
         end;
 
@@ -49,17 +48,12 @@ BindGlobal("__SIMPLICIAL_CopyAttributes_Colouring",
                 # Find all filters that have to be fulfilled for this attribute
                 filters := TRUES_FLAGS(input[1]);
 
-                if polyFilt in filters and bendFilt in filters then
-                    Error("This case is not handled.");
-                elif polyFilt in filters then
+                if polyFilt in filters then
                     filtStart := IsEdgeColouredPolygonalComplex;
                     baseString := "EdgeColouredPolygonalComplex";
-                elif bendFilt in filters then
-                    filtStart := IsEdgeColouredBendPolygonalComplex;
-                    baseString := "EdgeColouredBendPolygonalComplex";
-                elif vefFilt in filters then
-                    filtStart := IsEdgeColouredVEFComplex;
-                    baseString := "EdgeColouredVEFComplex";
+                elif twistFilt in filters then
+                    filtStart := IsEdgeColouredTwistedPolygonalComplex;
+                    baseString := "EdgeColouredTwistedPolygonalComplex";
                 else
                     # Not an attribute to copy
                     continue;

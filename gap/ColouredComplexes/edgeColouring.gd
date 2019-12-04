@@ -71,7 +71,7 @@
 #! @Arguments object
 DeclareCategory( "IsEdgeColouredTwistedPolygonalComplex", IsTwistedPolygonalComplex );
 #! @Arguments object
-DeclareCategory( "IsEdgeColouredPolygonalComplex", IsPolygonalComplex and IsEdgeColouredTwistedPolygonalComplex );
+DeclareProperty( "IsEdgeColouredPolygonalComplex", IsEdgeColouredTwistedPolygonalComplex );
 #! @Arguments colComplex
 DeclareProperty( "IsEdgeColouredSimplicialSurface", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
@@ -114,21 +114,21 @@ BindGlobal( "EdgeColouredPolygonalComplexFamily",
 #! * Does every edge of <A>complex</A> appear?
 #! * Is every purported edge of <A>colouring</A> an edge of <A>complex</A>?
 #!
-#! @Returns an <K>EdgeColouredPolygonalComplex</K>
-#! @Arguments complex, colouring
-DeclareOperation( "EdgeColouredPolygonalComplex", [IsPolygonalComplex, IsList] );
-#! @Arguments complex, colouring
-DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList] );
 #! @Returns an <K>EdgeColouredTwistedPolygonalComplex</K>
 #! @Arguments complex, colouring
 DeclareOperation( "EdgeColouredTwistedPolygonalComplex", [IsTwistedPolygonalComplex, IsList] );
 #! @Arguments complex, colouring
 DeclareOperation( "EdgeColouredTwistedPolygonalComplexNC", [IsTwistedPolygonalComplex, IsList] );
+#! @Returns an <K>EdgeColouredPolygonalComplex</K>
+#! @Arguments complex, colouring
+DeclareOperation( "EdgeColouredPolygonalComplex", [IsTwistedPolygonalComplex, IsList] );
+#! @Arguments complex, colouring
+DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsTwistedPolygonalComplex, IsList] );
 #! @Returns an <K>EdgeColouredSimplicialSurface</K>
 #! @Arguments surface, colouring
-DeclareOperation( "EdgeColouredSimplicialSurface", [IsPolygonalComplex, IsList] );
+DeclareOperation( "EdgeColouredSimplicialSurface", [IsTwistedPolygonalComplex, IsList] );
 #! @Arguments surface, colouring
-DeclareOperation( "EdgeColouredSimplicialSurfaceNC", [IsPolygonalComplex, IsList] );
+DeclareOperation( "EdgeColouredSimplicialSurfaceNC", [IsTwistedPolygonalComplex, IsList] );
 #! @EndGroup
 
 
