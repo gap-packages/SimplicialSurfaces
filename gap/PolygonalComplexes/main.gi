@@ -229,12 +229,12 @@ BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
 
         if big then
             nameList := ["SimplicialSurface", "PolygonalSurface", 
-                "RamifiedSimplicialSurface", "RamifiedPolygonalSurface", 
-                "TriangularComplex", "PolygonalComplex"];
+                "TriangularComplex", "PolygonalComplex",
+                "TwistedPolygonalComplex", "TwistedPolygonalSurface"];
         else
             nameList := ["simplicial surface", "polygonal surface", 
-                "ramified simplicial surface", "ramified polygonal surface", 
-                "triangular complex", "polygonal complex"];
+                "triangular complex", "polygonal complex",
+                "twisted polygonal complex", "twisted polygonal surface"];
         fi;
 
         if IsSimplicialSurface(complex) then
@@ -242,15 +242,19 @@ BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
         elif IsPolygonalSurface(complex) then
             return nameList[2];
         elif IsTriangularComplex(complex) then
-            return nameList[5];
-        else
+            return nameList[3];
+        elif IsPolygonalComplex(complex) then
+            return nameList[4];
+        elif IsTwistedPolygonalSurface(complex) then
             return nameList[6];
+        else
+            return nameList[5];
         fi;
     end
 );
 
 # Print (via String)
-InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( String, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
         local str, out;
 
@@ -258,20 +262,39 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
         out := OutputTextString(str, true);
         # Since EdgeColouredComplexes are derived, we need to handle them
         # as well
-        if IsEdgeColouredPolygonalComplex(complex) then
+        if IsEdgeColouredTwistedPolygonalComplex(complex) then
             PrintTo( out, "EdgeColoured" );
             PrintTo( out, __SIMPLICIAL_PolygonalComplexName( PolygonalComplex(complex), true ) );
             PrintTo( out, "NC( " );
-            PrintTo( out, String(PolygonalComplex(complex)) );
+            PrintTo( out, String(TwistedPolygonalComplex(complex)) );
             PrintTo( out, ", " );
             PrintTo( out, String(ColoursOfEdges(complex)) );
             PrintTo( out, " )" );
         else
             PrintTo(out,  __SIMPLICIAL_PolygonalComplexName(complex, true) );
-            PrintTo( out, "ByDownwardIncidenceNC(" );
-            PrintTo( out, VerticesOfEdges(complex) );
-            PrintTo( out, ", " );
-            PrintTo( out, EdgesOfFaces(complex) );
+            if IsPolygonalComplex(complex) and IsDefaultChamberSystem(complex) then
+                PrintTo( out, "ByDownwardIncidenceNC(" );
+                PrintTo( out, VerticesOfEdges(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, EdgesOfFaces(complex) );
+            else
+                PrintTo( out, "ByChamberRelationsNC(" );
+                PrintTo( out, VerticesOfChambers(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, EdgesOfChambers(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, FacesOfChambers(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, ZeroAdjacencyInvolution(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, OneAdjacencyInvolution(complex) );
+                PrintTo( out, ", " );
+                if IsNotEdgeRamified(complex) then
+                    PrintTo( out, TwoAdjacencyInvolution(complex) );
+                else
+                    PrintTo( out, TwoAdjacencyClasses(complex) );
+                fi;
+            fi;
             PrintTo( out, ")" );
         fi;
 
@@ -285,8 +308,8 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
 
 # To avoid recomputing the view-information every time the colour scheme
 # changes, this method was created
-InstallMethod( ViewInformation, "for a polygonal complex", 
-    [IsPolygonalComplex],
+InstallMethod( ViewInformation, "for a twisted polygonal complex", 
+    [IsTwistedPolygonalComplex],
     function(complex)
         local strList, str, out;
 
@@ -301,17 +324,25 @@ InstallMethod( ViewInformation, "for a polygonal complex",
         Add( strList, [Concatenation(String(NumberOfVertices(complex)), " vertices"), 1] );
         Add( strList, [", ", 0] );
         Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges, "), 2] );
-        Add( strList, ["and ", 0] );
+        if IsPolygonalComplex(complex) then
+            Add( strList, ["and ", 0] );
+        else
+            Add( strList, [" ", 0] );
+        fi;
         Add( strList, [Concatenation(String(NumberOfFaces(complex)), " faces"), 3] );
+        if not IsPolygonalComplex(complex) then
+            Add( strList, [", and "] );
+            Add( strList, [Concatenation(String(NumberOfChambers(complex)), " chambers"), 0] );
+        fi;
         Add( strList, [")", 0] );
 
         return strList;
     end
 );
-InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( ViewString, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
         # We have to distinguish coloured and uncoloured complexes
-        if IsEdgeColouredPolygonalComplex(complex) then
+        if IsEdgeColouredTwistedPolygonalComplex(complex) then
              return __SIMPLICIAL_ColourString( ViewInformationEdgeColoured(complex), 
                 [ SIMPLICIAL_COLOURS_WILD_1_DEFAULT, 
                     SIMPLICIAL_COLOURS_WILD_2_DEFAULT, 
@@ -324,10 +355,10 @@ InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
         fi; 
     end
 );
-InstallMethod( ViewObj, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( ViewObj, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
         # We have to distinguish coloured and uncoloured complexes
-        if IsEdgeColouredPolygonalComplex(complex) then
+        if IsEdgeColouredTwistedPolygonalComplex(complex) then
              if SIMPLICIAL_COLOURS_ON then
                 __SIMPLICIAL_PrintColourString( ViewInformationEdgeColoured(complex), 
                     [ SIMPLICIAL_COLOURS_WILD_1, 
@@ -351,8 +382,8 @@ InstallMethod( ViewObj, "for a polygonal complex", [IsPolygonalComplex],
 
 
 # Display
-InstallMethod( DisplayInformation, "for a polygonal complex", 
-    [IsPolygonalComplex],
+InstallMethod( DisplayInformation, "for a twisted polygonal complex", 
+    [IsTwistedPolygonalComplex],
     function(complex)
         local strList, x, umb, set, str, out, i;
 
@@ -393,6 +424,13 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         Add( strList, [ Concatenation(
             "    Faces (", String(NumberOfFaces(complex)), "): ", 
             String(Faces(complex)), "\n"), 3 ] );
+
+        if not IsPolygonalComplex(complex) then
+            # Chambers
+            Add( strList, [ Concatenation(
+                "    Chambers (", String(NumberOfChambers(complex)), "): ",
+                String(Chambers(complex)), "\n"), 0]);
+        fi;
 
         # VerticesOfEdges
         Add( strList, [ "    Vertices", 1 ] );
@@ -480,6 +518,7 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         return strList;
     end
 );
+#TODO better support for twisted polygonal complexes
 InstallMethod( DisplayString, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         # We have to distinguish coloured and uncoloured complexes
