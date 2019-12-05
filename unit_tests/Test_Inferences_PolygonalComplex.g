@@ -254,35 +254,35 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If the connected components are known, the connectivity is known
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetConnectedComponentsAttributeOfVEFComplex( obj, [] );
+    SetConnectedComponentsAttributeOfComplex( obj, [] );
     SIMPLICIAL_TestAssert(IsConnected(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetConnectedComponentsAttributeOfVEFComplex( obj, [ 1 ] );
+    SetConnectedComponentsAttributeOfComplex( obj, [ 1 ] );
     SIMPLICIAL_TestAssert(IsConnected(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetConnectedComponentsAttributeOfVEFComplex( obj, [ 1, 2 ] );
+    SetConnectedComponentsAttributeOfComplex( obj, [ 1, 2 ] );
     SIMPLICIAL_TestAssert(not IsConnected(obj));
 
 
     # If the strongly connected components are known, the strong connectivity is known
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [] );
+    SetStronglyConnectedComponentsAttributeOfComplex( obj, [] );
     SIMPLICIAL_TestAssert(IsStronglyConnected(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [ obj ] );
+    SetStronglyConnectedComponentsAttributeOfComplex( obj, [ obj ] );
     SIMPLICIAL_TestAssert(IsStronglyConnected(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [ 1, 2 ] );
+    SetStronglyConnectedComponentsAttributeOfComplex( obj, [ 1, 2 ] );
     SIMPLICIAL_TestAssert(not IsStronglyConnected(obj));
 
 
     # If there is more than one connected component, the complex is not strongly connected
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetConnectedComponentsAttributeOfVEFComplex(obj, [1,2]);
+    SetConnectedComponentsAttributeOfComplex(obj, [1,2]);
     SIMPLICIAL_TestAssert(not IsStronglyConnected(obj));
 
 
@@ -309,7 +309,7 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     # If a complex is connected, there is only one connected component
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsConnected(obj, true);
-    SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfVEFComplex(obj)=[obj]);
+    SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfComplex(obj)=[obj]);
 
 
     # If a complex is strongly connected, there is only one strongly connected component
@@ -320,11 +320,11 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If there is only one strongly connected component, then the complex is connected
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [] );
+    SetStronglyConnectedComponentsAttributeOfComplex( obj, [] );
     SIMPLICIAL_TestAssert(IsConnected(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [obj] );
+    SetStronglyConnectedComponentsAttributeOfComplex( obj, [obj] );
     SIMPLICIAL_TestAssert(IsConnected(obj));
 
 
@@ -332,14 +332,14 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
-    SetConnectedComponentsAttributeOfVEFComplex(obj, [obj]);
+    SetConnectedComponentsAttributeOfComplex(obj, [obj]);
     SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj) = [obj]);
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
-    SetStronglyConnectedComponentsAttributeOfVEFComplex( obj, [obj] );
-    SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfVEFComplex(obj) = [obj]);
+    SetStronglyConnectedComponentsAttributeOfComplex( obj, [obj] );
+    SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfComplex(obj) = [obj]);
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);

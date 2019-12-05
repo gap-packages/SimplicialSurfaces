@@ -170,7 +170,7 @@ InstallMethod( DressGroup, "for a polygonal complex without edge ramifications",
 ##      Flag complexes
 ##
 DeclareRepresentation("FlagComplexRep", IsFlagComplex and IsAttributeStoringRep, []);
-BindGlobal("FlagComplexType", NewType(EdgeColouredTwistetdPolygonalComplexFamily, FlagComplexRep));
+BindGlobal("FlagComplexType", NewType(EdgeColouredTwistedPolygonalComplexFamily, FlagComplexRep));
 
 InstallMethod( IsFlagSurface, 
     "for an edge coloured twisted polygonal complex",
@@ -348,7 +348,7 @@ InstallOtherMethod( DrawSurfaceToTikz,
     end
 );
 RedispatchOnCondition( DrawSurfaceToTikz, true, 
-    [IsFlagComplex, IsString, IsRecord], [IsPolygonaComplex and IsNotEdgeRamified], 0 );
+    [IsFlagComplex, IsString, IsRecord], [IsPolygonalComplex and IsNotEdgeRamified], 0 );
 
 ##
 ##      End of flag complexes

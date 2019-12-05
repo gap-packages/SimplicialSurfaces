@@ -6,9 +6,13 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         torus_ve := [[2],[2],,[2]];
         torus_vf := [[2],,[2]];
         torus_ef := [[1,2,4],,[1,2,4]];
-        torus := BendPolygonalComplexBySignedFacePerimeters(
-            [[2,1,2,4,2,2],,[2,-2,2,-1,2,-4]]);
-        __SIMPLICIAL_BendPolygonalComplex_SufficientInformation(torus);
+        torus := TwistedPolygonalComplexByChamberRelations(
+            [2,2,2,2,2,2,,,2,2,2,2,2,2],
+            [4,1,1,2,2,4,,,1,2,2,4,4,1],
+            [1,1,1,1,1,1,,,3,3,3,3,3,3],
+            (1,6)(2,3)(4,5)(9,14)(10,11)(12,13),
+            [[1,2],[3,4],[5,6],[9,10],[11,12],[13,14]],
+            (1,12)(2,9)(3,14)(4,11)(5,10)(6,13) );
         SIMPLICIAL_TestAssert(VerticesOfEdges(torus)=torus_ve);
         SIMPLICIAL_TestAssert(EdgesOfFaces(torus)=torus_ef);
         SIMPLICIAL_TestAssert(VerticesOfFaces(torus)=torus_vf);
@@ -16,9 +20,13 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         ball_ve := [,[1,2],[2],[2,4]];
         ball_vf := [[1,2],,[2,4]];
         ball_ef := [[2,3],,[3,4]];
-        ball := BendPolygonalComplexBySignedFacePerimeters(
-            [[2,3,2,2,1,-2],,[2,3,2,4,4,-4]] );
-        __SIMPLICIAL_BendPolygonalComplex_SufficientInformation(ball);
+        ball := TwistedPolygonalComplexByChamberRelations(
+            [1,1,2,2,2,2,,,2,2,2,2,4,4],
+            [2,2,2,2,3,3,,,3,3,4,4,4,4],
+            [1,1,1,1,1,1,,,3,3,3,3,3,3],
+            [[1,3],[2,4],[5,6],[9,10],[13,11],[14,12]],
+            (1,1)(3,5)(4,6)(9,11)(12,10)(14,13),
+            [[1,2],[3,4],[5,9],[10,6],[12,11],[13,14]] );
         SIMPLICIAL_TestAssert(VerticesOfEdges(ball)=ball_ve);
         SIMPLICIAL_TestAssert(EdgesOfFaces(ball)=ball_ef);
         SIMPLICIAL_TestAssert(VerticesOfFaces(ball)=ball_vf);
