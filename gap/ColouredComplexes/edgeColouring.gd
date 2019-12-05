@@ -342,7 +342,7 @@ DeclareAttribute( "ColourIncidenceNautyGraph", IsEdgeColouredPolygonalComplex );
 #! of the colour labels are explicitly allowed.
 #!
 #! For example the two colourings from 
-#! <Ref Subsect="EdgeColouredPolygonalComplex"/> are not isomorphic.
+#! <Ref Subsect="EdgeColouredTwistedPolygonalComplex"/> are not isomorphic.
 #! @BeginExampleSession
 #! gap> IsIsomorphicEdgeColouredPolygonalComplex(colPyr1, colPyr2);
 #! false

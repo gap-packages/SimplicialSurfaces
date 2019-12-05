@@ -17,7 +17,7 @@
     \draw[edge,face] (P1) -- (P2) -- (P3) -- cycle
         (P2) -- (P3) -- (P4) -- (P5) -- cycle;
 
-    \def\off{0.3}
+    \def\off{0.4}
     \draw[blue,thick,->] ($(P3)+(0,\off)$) -- ($(P4)+(0,\off)$);
     \draw[blue,thick,->] ($(P2)-(0,\off)$) -- ($(P5)-(0,\off)$);
     \draw[red, thick,->] ($(P1)+(120:\off)$) -- ($(P3)+(120:\off)$);
@@ -42,5 +42,5 @@
         \vertexLabelR{\p}{\r}{\n}
     }
 
-    \node[faceLabel] at (barycentric cs:P1=1,P2=1,P3=1) {I};
-    \node[faceLabel] at (barycentric cs:P2=1,P3=1,P4=1,P5=1) {IX};
+    \node[faceLabel, face] at (barycentric cs:P1=1,P2=1,P3=1) {I};
+    \node[faceLabel, face] at (barycentric cs:P2=1,P3=1,P4=1,P5=1) {IX};

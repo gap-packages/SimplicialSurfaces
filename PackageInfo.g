@@ -96,7 +96,7 @@ AutoDoc := rec(
                     "This package may be distributed under the terms and conditions of the\n",
                     "GNU Public License Version 3 (or higher).<P/>",
                     "The primary sources for much of the covered material are:<P/>",
-                    "The PhD-thesis of Markus Baumeister (unpublished)<P/>",
+                    "The PhD-thesis \"Regularity Aspects for Combinatorial Simplicial Surfaces\" of Markus Baumeister<P/>",
                     "The book \"Simplicial Surfaces of Congruent Triangles\" by Alice C. Niemeyer, Wilhelm Plesken, Daniel Robertz, and Ansgar W. Strzelczyk (unpublished)<P/>"
                 ),
     )

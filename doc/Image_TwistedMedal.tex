@@ -1,14 +1,15 @@
+\def\rad{2.5}
 \coordinate (E) at (0,0);
-\coordinate (F) at (2,0);
-\coordinate (B) at (0,2);
+\coordinate (F) at (\rad,0);
+\coordinate (B) at (0,\rad);
 \coordinate (C) at ($(F)+(B)$);
-\coordinate (A) at (150:2);
-\coordinate (G) at (-60:2);
-\coordinate (D) at ($(F)+(60:2)$);
+\coordinate (A) at (150:\rad);
+\coordinate (G) at (-60:\rad);
+\coordinate (D) at ($(F)+(30:\rad)$);
 
 \draw[edge,face]
     (A) -- (B) -- (E) -- cycle
-    (B) -- (C) -- (E) -- (F) -- cycle
+    (B) -- (C) -- (F) -- (E) -- cycle
     (C) -- (D) -- (F) -- cycle
     (E) -- (F) -- (G) -- cycle;
 
@@ -16,7 +17,7 @@
 \draw[thick,blue,->] ($(A)+(120:\off)$) -- ($(B)+(120:\off)$);
 \draw[thick,blue,->] ($(A)+(-120:\off)$) -- ($(E)+(-120:\off)$);
 \draw[thick, red,->] ($(B)+(90:\off)$) -- ($(C)+(90:\off)$);
-\draw[thick, red,->] ($(E)+(90:\off)$) -- ($(F)+(90:\off)$);
+\draw[thick, red,->] ($(E)$) -- ($(F)$);
 \draw[thick, green,->] ($(C)+(30:\off)$) -- ($(D)+(30:\off)$);
 \draw[thick, green,->] ($(F)+(-60:\off)$) -- ($(D)+(-60:\off)$);
 

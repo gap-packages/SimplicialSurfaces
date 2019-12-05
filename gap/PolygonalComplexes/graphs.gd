@@ -57,7 +57,7 @@
 #! individual merits is postponed to Section 
 #! <Ref Sect="Section_Graphs_Discussion"/>.
 #!
-#! Sections <Ref Sect="Section_Graph_Incidence"/> and <Ref Sect="Section_Graph_Adjacency"/>
+#! Sections <Ref Sect="Section_Graphs_Incidence"/> and <Ref Sect="Section_Graphs_Adjacency"/>
 #! introduce the incidence graph and the the chamber adjacency graph. Although
 #! isomorphism testing and automorphism computation relies on them,
 #! these sections are in general not necessary in practice.
@@ -69,7 +69,7 @@
 #!
 #! Section <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/> explains in detail
 #! how to use the automorphism group of (twisted) polygonal complexes. Section
-#! <Ref Sect="Section_Graphs_Automorphisms_Paths"/> explores the action of
+#! <Ref Sect="Section_Graphs_Automorphisms_PathActions"/> explores the action of
 #! automorphisms on paths.
 
 #! @Section Incidence graph
@@ -179,10 +179,10 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! twisted polygonal complex. It
 #! is defined as follows:
 #! <List>
-#!   <Item>The <E>vertices</E> are the chambers of <A>complex</A>.
+#!   <Item>The <E>vertices</E> are the chambers of <A>complex</A>.</Item>
 #!   <Item>If two chambers are <M>k</M>-adjacent in <A>complex</A>, there
 #!     is an edge with colour <M>k</M> between the corresponding vertices
-#!     of this graph.
+#!     of this graph.</Item>
 #! </List>
 #!
 #! Since <K>GRAPE</K> and <K>Digraphs</K> currently do not support

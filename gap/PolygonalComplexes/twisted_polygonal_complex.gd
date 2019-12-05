@@ -30,14 +30,14 @@
 #! Section <Ref Sect="Section_Access_BasicAccess"/>) to chambers.
 #! Section <Ref Sect="Section_AccessTwisted_Adjacency"/> covers the adjacency
 #! structure of those chambers. Finally, Section
-#! <Ref Sect="Section_AccessTwisted_Constrctors"/> presents some methods
+#! <Ref Sect="Section_AccessTwisted_Constructors"/> presents some methods
 #! to construct twisted polygonal complexes. Finally, Section
 #! <Ref Sect="Section_AccessTwisted_Polygonal"/> explores the relation
 #! between polygonal complexes and twisted polygonal complexes.
 #! 
 
-#! Section Chamber incidence
-#! SectionLabel AccessTwisted_Incidence
+#! @Section Chamber incidence
+#! @SectionLabel AccessTwisted_Incidence
 #!
 #! Polygonal complexes only focus on the incidence between
 #! vertices, edges, and faces. In contrast, twisted polygonal
@@ -76,6 +76,7 @@
 #!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
 #!      \def\chambers{1}
 #!      \input{Image_StarOfStarChamberExample.tex}
+#!  \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
 #! gap> Chambers(complex);
@@ -324,8 +325,8 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 
 
 
-#! Section Chamber adjacency
-#! SectionLabel AccessTwisted_Adjacency
+#! @Section Chamber adjacency
+#! @SectionLabel AccessTwisted_Adjacency
 #!
 #! By focussing on chambers, twisted polygonal complexes are
 #! much more expressive than polygonal complexes. Thus,
@@ -392,8 +393,8 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! [ [ 1, 6 ], [ 2, 3 ], [ 4, 5 ], [ 7, 14 ], [ 8, 9 ], [ 10, 11 ], [ 12, 13 ],
 #!   [ 15, 20 ], [ 16, 17 ], [ 18, 19 ], [ 21, 26 ], [ 22, 23 ], [ 24, 25 ]]
 #! gap> TwoAdjacencyClasses(complex);
-#! [ [ 1, 6 ], [ 2, 5 ], [ 3, 8 ], [ 4, 7 ], [ 9 , 14, 22 ], [ 10 ,13 ,21 ],
-#!   [ 11, 16 ], [ 12 , 15 ], [ 17, 20 ], [ 18, 19 ], [ 23 ], [ 24 ], [ 25 ], [ 26 ] ]
+#! [ [ 1, 6 ], [ 2, 5 ], [ 3, 8 ], [ 4, 7 ], [ 9, 14, 22 ], [ 10,13 ,21 ],
+#!   [ 11, 16 ], [ 12, 15 ], [ 17, 20 ], [ 18, 19 ], [ 23 ], [ 24 ], [ 25 ], [ 26 ] ]
 #! @EndExampleSession
 #! * An involution (element of the symmetric group on the chambers). This is
 #!   always possible for 0-adjacency and 1-adjacency. For 2-adjacency, it
