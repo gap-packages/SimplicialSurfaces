@@ -44,7 +44,7 @@ InstallMethod(ChambersOfVertexNC,
     "for a twisted polygonal complex and a positive integer",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
-        return ChambersOfVertex(complex)[vertex];
+        return ChambersOfVertices(complex)[vertex];
     end
 );
 InstallMethod(ChambersOfVertex,
@@ -270,37 +270,26 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyRelation", ["
 
 ## from Involution to Classes
 InstallMethod( ZeroAdjacencyClasses, 
-    "for a twisted polygonal complex with ZeroAdjacencyInvolution",
-    [IsTwistedPolygonalComplex and HasZeroAdjacencyInvolution],
+    "for a twisted polygonal complex with ZeroAdjacencyInvolution and Chambers",
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyInvolution and HasChambers],
     function(complex)
-        return Cycles( ZeroAdjacencyInvolution(complex) );
+        return Cycles( ZeroAdjacencyInvolution(complex), Chambers(complex) );
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyClasses", ["ZeroAdjacencyInvolution"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyClasses", ["Chambers", "ZeroAdjacencyInvolution"] );
 InstallMethod( OneAdjacencyClasses, 
-    "for a twisted polygonal complex with OneAdjacencyInvolution",
-    [IsTwistedPolygonalComplex and HasOneAdjacencyInvolution],
+    "for a twisted polygonal complex with OneAdjacencyInvolution and Chambers",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyInvolution and HasChambers],
     function(complex)
-        return Cycles( OneAdjacencyInvolution(complex) );
+        return Cycles( OneAdjacencyInvolution(complex), Chambers(complex) );
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyClasses", ["OneAdjacencyInvolution"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyClasses", ["OneAdjacencyInvolution","Chambers"] );
 InstallMethod( TwoAdjacencyClasses, 
     "for a twisted polygonal complex without edge ramifications with TwoAdjacencyInvolution and Chambers",
     [IsTwistedPolygonalComplex and IsNotEdgeRamified and HasTwoAdjacencyInvolution and HasChambers],
     function(complex)
-        local classes, el;
-
-        classes := Cycles(TwoAdjacencyInvolution(complex));
-        # This call is insufficient since there might be fixed points
-
-        for el in Chambers(complex) do
-            if el^TwoAdjacencyInvolution(complex) = el then
-                Add(classes, [el]);
-            fi;
-        od;
-        Sort(classes);
-        return classes;
+        return Cycles(TwoAdjacencyInvolution(complex), Chambers(complex));
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyClasses", ["TwoAdjacencyInvolution", "Chambers"], ["IsNotEdgeRamified"] );
@@ -309,7 +298,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyClasses", ["T
 ## from Classes to Involution
 InstallMethod( ZeroAdjacencyInvolution,
     "for a twisted polygonal complex with ZeroAdjacencyClasses and Chambers",
-    [IsTwistedPolygonalComplex and HasZeroAdjacencyClasses and Chambers],
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyClasses and HasChambers],
     function(complex)
         local list, cl, maxChamber;
 
@@ -326,7 +315,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyInvolution",
 
 InstallMethod( OneAdjacencyInvolution,
     "for a twisted polygonal complex with OneAdjacencyClasses and Chambers",
-    [IsTwistedPolygonalComplex and HasOneAdjacencyClasses and Chambers],
+    [IsTwistedPolygonalComplex and HasOneAdjacencyClasses and HasChambers],
     function(complex)
         local list, cl, maxChamber;
 
@@ -343,7 +332,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyInvolution", 
 
 InstallMethod( TwoAdjacencyInvolution,
     "for a twisted polygonal complex with TwoAdjacencyClasses and Chambers",
-    [IsTwistedPolygonalComplex and HasTwoAdjacencyClasses and Chambers],
+    [IsTwistedPolygonalComplex and HasTwoAdjacencyClasses and HasChambers],
     function(complex)
         local list, cl, maxChamber;
 
@@ -999,9 +988,9 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorRelation",
                                     __SIMPLICIAL_VerifyStarOfChambers(vOfC, constName, "verticesOfChambers");
                                     __SIMPLICIAL_VerifyStarOfChambers(eOfC, constName, "edgesOfChambers");
                                     __SIMPLICIAL_VerifyStarOfChambers(fOfC, constName, "facesOfChambers");
-                                    argOptions[1][4](zeroAd, constName);
-                                    argOptions[2][4](oneAd, constName);
-                                    argOptions[3][4](twoAd, constName);
+                                    argOptions[1][4](zeroAd, constName, "Zero");
+                                    argOptions[2][4](oneAd, constName, "One");
+                                    argOptions[3][4](twoAd, constName, "Two");
 
                                     # Verify chamber information
                                     __SIMPLICIAL_ConstructorConsistencyChambers([
@@ -1024,7 +1013,7 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorRelation",
                                     # Test consistency
                                     __SIMPLICIAL_ConstructorConsistencyAdjacency(complex, constName);
                                     __SIMPLICIAL_ConstructorConsistencyIncidence(complex, constName);
-                                    type[2](complex);
+                                    type[2](complex, constName);
 
                                     return complex;
                                 end
@@ -1086,9 +1075,9 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorAdjacencies",
                                     local complex;
 
                                     # Verify input validity
-                                    argOptions[1][4](zeroAd, constName);
-                                    argOptions[2][4](oneAd, constName);
-                                    argOptions[3][4](twoAd, constName);
+                                    argOptions[1][4](zeroAd, constName, "Zero");
+                                    argOptions[2][4](oneAd, constName, "One");
+                                    argOptions[3][4](twoAd, constName, "Two");
 
                                     # Verify chamber information
                                     __SIMPLICIAL_ConstructorConsistencyChambers([
@@ -1136,12 +1125,20 @@ __SIMPLICIAL_AddTwistedAttribute(IsDefaultChamberSystem);
 InstallMethod( IsDefaultChamberSystem, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
-        local flags, vOfC, eOfC, fOfC, k;
-
         if not IsPolygonalComplex(complex) then
             return false;
         fi;
-        flags := ThreeFlags(complex);
+
+        TryNextMethod();
+    end
+);
+InstallMethod( IsDefaultChamberSystem, 
+    "for a polygonal complex with flags, verticesOfChambers, edgesOfChambers, facesOfChambers, and chambers",
+    [IsTwistedPolygonalComplex and HasFlags and HasVerticesOfChambers and HasEdgesOfChambers and HasFacesOfChambers and HasChambers],
+    function(complex)
+        local flags, vOfC, eOfC, fOfC, k;
+
+        flags := Flags(complex);
         vOfC := VerticesOfChambers(complex);
         eOfC := EdgesOfChambers(complex);
         fOfC := FacesOfChambers(complex);
@@ -1163,47 +1160,50 @@ InstallMethod( IsDefaultChamberSystem, "for a twisted polygonal complex",
         return true;
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsDefaultChamberSystem",
+    ["Flags", "VerticesOfChambers", "EdgesOfChambers", "FacesOfChambers", "Chambers"],
+    ["IsPolygonalComplex"]);
 
 
 InstallMethod( Chambers, 
-    "for a twisted polygonal complex with default chamber system", 
-    [IsTwistedPolygonalComplex and IsDefaultChamberSystem],
+    "for a twisted polygonal complex with default chamber system and flags", 
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem and HasFlags],
     function(complex)
-        return [1..Length(ThreeFlags(complex))];
+        return [1..Length(Flags(complex))];
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["IsDefaultChamberSystem"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers",["Flags"], ["IsDefaultChamberSystem"] );
 InstallMethod( VerticesOfChambers,
-    "for a twisted polygonal complex with default chamber system", 
-    [IsTwistedPolygonalComplex and IsDefaultChamberSystem],
+    "for a twisted polygonal complex with default chamber system and flags", 
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem and HasFlags],
     function(complex)
-        return List( ThreeFlags(complex), f -> f[1] );
+        return List( Flags(complex), f -> f[1] );
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "VerticesOfChambers", ["IsDefaultChamberSystem"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "VerticesOfChambers",["Flags"], ["IsDefaultChamberSystem"] );
 InstallMethod( EdgesOfChambers,
-    "for a twisted polygonal complex with default chamber system", 
-    [IsTwistedPolygonalComplex and IsDefaultChamberSystem],
+    "for a twisted polygonal complex with default chamber system and flags", 
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem and HasFlags],
     function(complex)
-        return List( ThreeFlags(complex), f -> f[2] );
+        return List( Flags(complex), f -> f[2] );
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "EdgesOfChambers", ["IsDefaultChamberSystem"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "EdgesOfChambers",["Flags"], ["IsDefaultChamberSystem"] );
 InstallMethod( FacesOfChambers,
-    "for a twisted polygonal complex with default chamber system", 
-    [IsTwistedPolygonalComplex and IsDefaultChamberSystem],
+    "for a twisted polygonal complex with default chamber system and flags", 
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem and HasFlags],
     function(complex)
-        return List( ThreeFlags(complex), f -> f[3] );
+        return List( Flags(complex), f -> f[3] );
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "FacesOfChambers", ["IsDefaultChamberSystem"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "FacesOfChambers",["Flags"], ["IsDefaultChamberSystem"] );
 
 BindGlobal( "__SIMPLICIAL_FlagAdjacencyClasses",
     function(complex, x,y)
         local classes, flags, remain, min, class, k;
 
         classes := [];
-        flags := ThreeFlags(complex);
+        flags := Flags(complex);
         remain := [1..Length(flags)];
         while not IsEmpty(remain) do
             min := remain[1];
@@ -1221,26 +1221,48 @@ BindGlobal( "__SIMPLICIAL_FlagAdjacencyClasses",
     end
 );
 InstallMethod( ZeroAdjacencyClasses,
-    "for a twisted polygonal complex with default chamber system", 
-    [IsTwistedPolygonalComplex and IsDefaultChamberSystem],
+    "for a twisted polygonal complex with default chamber system and flags", 
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem and HasFlags],
     function(complex)
         return __SIMPLICIAL_FlagAdjacencyClasses(complex,2,3);
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyClasses", ["IsDefaultChamberSystem"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyClasses",["Flags"], ["IsDefaultChamberSystem"] );
 InstallMethod( OneAdjacencyClasses,
-    "for a twisted polygonal complex with default chamber system", 
-    [IsTwistedPolygonalComplex and IsDefaultChamberSystem],
+    "for a twisted polygonal complex with default chamber system and flags", 
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem and HasFlags],
     function(complex)
         return __SIMPLICIAL_FlagAdjacencyClasses(complex,1,3);
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyClasses", ["IsDefaultChamberSystem"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyClasses",["Flags"], ["IsDefaultChamberSystem"] );
 InstallMethod( TwoAdjacencyClasses,
-    "for a twisted polygonal complex with default chamber system", 
-    [IsTwistedPolygonalComplex and IsDefaultChamberSystem],
+    "for a twisted polygonal complex with default chamber system and flags", 
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem and HasFlags],
     function(complex)
         return __SIMPLICIAL_FlagAdjacencyClasses(complex,2,1);
     end
 );
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyClasses", ["IsDefaultChamberSystem"] );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyClasses",["Flags"], ["IsDefaultChamberSystem"] );
+
+
+
+InstallMethod( IsPolygonalComplex, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local f, chamb, verts, edges;
+
+        for f in Faces(complex) do
+            chamb := ChambersOfFaces(complex)[f];
+            verts := Set( VerticesOfChambers(complex){chamb} );
+            if 2*Length(verts) <> Length(chamb) then
+                return false;
+            fi;
+            edges := Set( EdgesOfChambers(complex){chamb} );
+            if 2*Length(edges) <> Length(chamb) then
+                return false;
+            fi;
+        od;
+        return true;
+    end
+);

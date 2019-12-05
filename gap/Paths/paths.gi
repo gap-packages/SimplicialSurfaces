@@ -31,7 +31,7 @@ InstallMethod( VertexEdgePathNC, "for a polygonal complex and a list",
         return obj;
     end
 );
-RedispatchOnCondition( VertexEdgePathNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathNC, true, [IsTwistedPolygonalComplex,IsList],[IsPolygonalComplex,IsDenseList],0 );
 InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
     [IsPolygonalComplex, IsDenseList],
     function(complex, path)
@@ -69,7 +69,7 @@ InstallMethod( VertexEdgePath, "for a polygonal complex and a list",
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePath, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePath, true, [IsTwistedPolygonalComplex,IsList],[IsPolygonalComplex,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByVerticesNC, 
     "for a polygonal complex and a list of vertices",
@@ -89,7 +89,7 @@ InstallMethod( VertexEdgePathByVerticesNC,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByVerticesNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByVerticesNC, true, [IsTwistedPolygonalComplex,IsList],[IsPolygonalComplex,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByVertices, 
     "for a polygonal complex and a list of vertices",
@@ -118,7 +118,7 @@ InstallMethod( VertexEdgePathByVertices,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByVertices, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByVertices, true, [IsTwistedPolygonalComplex,IsList],[IsPolygonalComplex,IsDenseList],0 );
 
 
 InstallMethod( VertexEdgePathByEdgesNC, 
@@ -171,7 +171,7 @@ InstallMethod( VertexEdgePathByEdgesNC,
         return VertexEdgePathNC(complex, path);
     end
 );
-RedispatchOnCondition( VertexEdgePathByEdgesNC, true, [IsPolygonalComplex, IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByEdgesNC, true, [IsTwistedPolygonalComplex, IsList],[IsPolygonalComplex,IsDenseList],0 );
 
 InstallMethod( VertexEdgePathByEdges,
     "for a polygonal complex and a list of edges",
@@ -200,7 +200,7 @@ InstallMethod( VertexEdgePathByEdges,
         return VertexEdgePathByEdgesNC(complex, edgeList);
     end
 );
-RedispatchOnCondition( VertexEdgePathByEdges, true, [IsPolygonalComplex, IsList],[,IsDenseList],0 );
+RedispatchOnCondition( VertexEdgePathByEdges, true, [IsTwistedPolygonalComplex, IsList],[IsPolygonalComplex,IsDenseList],0 );
 
 
 InstallMethod( String, "for a vertex-edge-path", [IsVertexEdgePath],
@@ -342,7 +342,7 @@ InstallMethod( EdgeFacePathNC, "for a polygonal complex and a dense list",
         return obj;
     end
 );
-RedispatchOnCondition( EdgeFacePathNC, true, [IsPolygonalComplex,IsList],[,IsDenseList],0 );
+RedispatchOnCondition( EdgeFacePathNC, true, [IsTwistedPolygonalComplex,IsList],[IsPolygonalComplex,IsDenseList],0 );
 
 BindGlobal( "__SIMPLICIAL_EdgeFacePath_EdgeCheck",
     function(position, element, edges)

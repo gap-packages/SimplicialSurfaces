@@ -212,10 +212,22 @@ BindGlobal( "__SIMPLICIAL_CheckIncidenceVertexFace",
 ##
 
 ## Equality test
-InstallMethod( \=, "for two polygonal complexes", IsIdenticalObj,
-    [IsPolygonalComplex, IsPolygonalComplex],
+InstallMethod( \=, "for two twisted polygonal complexes with default chamber systems", IsIdenticalObj,
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem, IsTwistedPolygonalComplex and IsDefaultChamberSystem],
     function(c1, c2)
-        return VerticesOfEdges(c1) = VerticesOfEdges(c2) and EdgesOfFaces(c1) = EdgesOfFaces(c2);
+        return VerticesOfEdges(c1) = VerticesOfEdges(c2) and 
+            EdgesOfFaces(c1) = EdgesOfFaces(c2);
+    end
+);
+InstallMethod( \=, "for two twisted polygonal complexes", IsIdenticalObj,
+    [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
+    function(c1, c2)
+        return VerticesOfChambers(c1) = VerticesOfChambers(c2) and
+            EdgesOfChambers(c1) = EdgesOfChambers(c2) and
+            FacesOfChambers(c1) = FacesOfChambers(c2) and
+            ZeroAdjacencyInvolution(c1) = ZeroAdjacencyInvolution(c2) and
+            OneAdjacencyInvolution(c1) = OneAdjacencyInvolution(c2) and
+            TwoAdjacencyClasses(c1) = TwoAdjacencyClasses(c2);
     end
 );
 

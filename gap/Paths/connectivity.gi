@@ -386,22 +386,22 @@ InstallMethod( StronglyConnectedComponentsAttributeOfComplex,
 ## For surfaces the connected and path-connected components are
 ## identical. 
 InstallMethod( ConnectedComponentsAttributeOfComplex,
-    "for a polygonal surface with strongly connected components",
-    [IsPolygonalSurface and HasStronglyConnectedComponentsAttributeOfComplex ],
+    "for a twisted polygonal surface with strongly connected components",
+    [IsTwistedPolygonalSurface and HasStronglyConnectedComponentsAttributeOfComplex ],
     function(surf)
         return StronglyConnectedComponentsAttributeOfComplex(surf);
     end
 );
 InstallMethod( StronglyConnectedComponentsAttributeOfComplex, 
-    "for a polygonal surface with connected components",
-    [IsPolygonalSurface and 
+    "for a twisted polygonal surface with connected components",
+    [IsTwistedPolygonalSurface and 
         HasConnectedComponentsAttributeOfComplex ],
     function(surf)
         return ConnectedComponentsAttributeOfComplex(surf);
     end
 );
 InstallImmediateMethod( StronglyConnectedComponentsAttributeOfComplex,
-    IsPolygonalSurface and IsConnected, 0, 
+    IsTwistedPolygonalSurface and IsConnected, 0, 
     function(surf)
         return [surf];
     end

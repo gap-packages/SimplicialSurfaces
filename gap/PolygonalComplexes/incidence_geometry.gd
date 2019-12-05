@@ -20,13 +20,13 @@
 # someone does not read the chapters in order).
 ####
 
-#! In section <Ref Sect="PolygonalStructures_complex"/> we introduced 
+#! In Section <Ref Sect="PolygonalStructures_complex"/>, we introduced 
 #! incidence geometries to describe polygonal complexes.
 #! This chapter describes several different ways to access these
 #! incidence structures. Most of these methods are also applicable
 #! to twisted polygonal complexes. For
 #! more specific access to twisted polygonal complexes, compare
-#! chapter <Ref Chap="Chapter_AccessTwistedPolygonalComplex"/>.
+#! Chapter <Ref Chap="Chapter_AccessTwistedPolygonalComplex"/>.
 #! <P/>
 
 ####
@@ -85,11 +85,11 @@
 #    avoided in these sections)
 ####
 
-#! In section <Ref Sect="Section_Access_LabelAccess"/> the labeling
-#! conventions for vertices, edges and faces are explained. The central
-#! incidence relations between them are described in section
+#! In Section <Ref Sect="Section_Access_LabelAccess"/>, the labeling
+#! conventions for vertices, edges, and faces are explained. The central
+#! incidence relations between them are described in Section
 #! <Ref Sect="Section_Access_BasicAccess"/>. Some more specialized
-#! applications for incidence can be found in chapter
+#! applications for incidence can be found in Chapter
 #! <Ref Chap="Chapter_Navigation"/>.
 #! 
 #! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/>,
@@ -104,7 +104,7 @@
 #! @SectionLabel Access_LabelAccess
 #!
 #! In (twisted) polygonal complexes (the most general supported incidence structure,
-#! compare chapter <Ref Chap="PolygonalStructures"/>) all vertices, edges
+#! compare Chapter <Ref Chap="PolygonalStructures"/>) all vertices, edges,
 #! and faces are labelled by positive integers.
 #!
 #! These labels do not have to be consecutive or disjoint, as shown in 
@@ -120,7 +120,7 @@
 #! @EndExampleSession
 #
 #! We can access the sets of
-#! all those labels by <K>Vertices</K>, <K>Edges</K> and <K>Faces</K>.
+#! all those labels by <K>Vertices</K>, <K>Edges</K>, and <K>Faces</K>.
 #! If only the number of vertices is relevant, we can use 
 #! <K>NumberOfVertices</K>
 #! instead (likewise for edges and faces).
@@ -130,7 +130,7 @@
 #! @Description
 #! Return the set/number of vertices.
 #! 
-#! As an example consider the polygonal complex from the beginning of section
+#! As an example consider the polygonal complex from the beginning of Section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
 #! <Alt Only="TikZ">
 #!      \input{Image_LabellingExample.tex}

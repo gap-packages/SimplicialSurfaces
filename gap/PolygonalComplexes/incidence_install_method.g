@@ -276,11 +276,12 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
             attr_1, attr_2, wrapper, transTriple, ok, GetRelation;
             
         ## Define the different categories
-        # name: Name of the category
+        # name: Name of the category 
         # cat: The category
         # add: The method to add an attribute to this category
-        TWIST := rec( name := "IsTwistedPolygonalComplex", add := __SIMPLICIAL_AddTwistedAttribute, string := "twisted polygonal complex", short := "TWIST" );
-        POLY := rec( name := "IsPolygonalComplex", add := __SIMPLICIAL_AddPolygonalAttribute, string := "polygonal complex", short := "POLY" );
+        # req: Determines whether the category is a requirement in the attribute scheduler
+        TWIST := rec( name := "IsTwistedPolygonalComplex", add := __SIMPLICIAL_AddTwistedAttribute, string := "twisted polygonal complex", short := "TWIST", req := false );
+        POLY := rec( name := "IsPolygonalComplex", add := __SIMPLICIAL_AddPolygonalAttribute, string := "polygonal complex", short := "POLY", req := true );
         for r in [TWIST,POLY] do
             r.cat := VALUE_GLOBAL(r.name);
         od;
@@ -408,8 +409,13 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                 fi;
             end;
             wrapper(attr, cat);
-            AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-                attr.attr_content.name, attr.name, [cat.name] );
+            if cat.req then
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    attr.attr_content.name, attr.name, [cat.name] );
+            else
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                    attr.attr_content.name, attr.name);
+            fi;
 
             # Implement implication to the index-side
             wrapper := function(attr, cat)
@@ -421,8 +427,13 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                     end);
             end;
             wrapper(attr, cat);
-            AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-                attr.attr_index.name, attr.name, [cat.name] );
+            if cat.req then
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    attr.attr_index.name, attr.name, [cat.name] );
+            else
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    attr.attr_index.name, attr.name);
+            fi;
 
 
             # Implement inversion
@@ -439,8 +450,14 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                     end);
             end;
             wrapper(invAttr,invFct, attr, cat);
-            AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-                invName, [attr.attr_content.name, attr.name, attr.attr_index.name], [cat.name] );
+            if cat.req then
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    invName, [attr.attr_content.name, attr.name, attr.attr_index.name], [cat.name] );
+            else
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    invName, [attr.attr_content.name, attr.name, attr.attr_index.name] );
+            fi;
+
 
 
             #TODO implement VertexOfFace...
@@ -497,8 +514,13 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                         end);
                 end;
                 wrapper( transAttr, cat, attr_1, attr_2, transFct );
-                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-                    transName, [ attr_1.name, attr_2.name, attr_2.attr_index.name ], [cat.name]);
+                if cat.req then
+                    AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                        transName, [ attr_1.name, attr_2.name, attr_2.attr_index.name ], [cat.name]);
+                else
+                    AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                        transName, [ attr_1.name, attr_2.name, attr_2.attr_index.name ]);
+                fi;
             od;
         od;
 

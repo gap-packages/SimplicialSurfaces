@@ -25,7 +25,7 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
             [2,2,2,2,3,3,,,3,3,4,4,4,4],
             [1,1,1,1,1,1,,,3,3,3,3,3,3],
             [[1,3],[2,4],[5,6],[9,10],[13,11],[14,12]],
-            (1,1)(3,5)(4,6)(9,11)(12,10)(14,13),
+            (1,2)(3,5)(4,6)(9,11)(12,10)(14,13),
             [[1,2],[3,4],[5,9],[10,6],[12,11],[13,14]] );
         SIMPLICIAL_TestAssert(VerticesOfEdges(ball)=ball_ve);
         SIMPLICIAL_TestAssert(EdgesOfFaces(ball)=ball_ef);

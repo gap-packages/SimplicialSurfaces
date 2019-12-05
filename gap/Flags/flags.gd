@@ -26,7 +26,7 @@
 #! (<Ref Subsect="DressInvolutions"/>)
 #! of a polygonal complex without edge ramifications.
 #!
-#! In section <Ref Sect="Section_Flags_FlagComplex"/> defines a triangular
+#! In Section <Ref Sect="Section_Flags_FlagComplex"/> defines a triangular
 #! complex whose faces are given by the flags and describes some special
 #! functionality for these kinds of complexes.
 #!
@@ -34,12 +34,12 @@
 #! @Section Computation
 #! @SectionLabel Flags_Definition
 #!
-#! This section deals with all different types of flags. In general a flag
+#! This section deals with all different types of flags. In general, a flag
 #! is a tuple consisting of incident elements of different dimensions, for
 #! example a vertex-edge-pair, a vertex-face-pair or a 
 #! vertex-edge-face-triple.
 #! 
-#! For example consider the following polygonal surface:
+#! For example, consider the following polygonal surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
 #!       \input{Image_FlagComplexExample.tex}
@@ -51,7 +51,7 @@
 #! >    [[6,8,9], , , [9,10,12,13]]);;
 #! @EndExampleSession
 #!
-#! Most apparent are the flags that consist of a vertex, an edge and a face,
+#! Most apparent are the flags that consist of a vertex, an edge, and a face,
 #! called <E>3-flags</E> or <E>flags</E> for short.
 #! @BeginExampleSession
 #! gap> ThreeFlags(complex);
@@ -73,8 +73,8 @@
 #! consist of two elements. For that reason the command <K>TwoFlags</K>
 #! (<Ref Subsect="TwoFlags"/>) exists.
 #!
-#! Since flags of length 1 are just vertices, edges and faces, the usual
-#! accesss functions of section <Ref Sect="Section_Access_LabelAccess"/> are 
+#! Since flags of length 1 are just vertices, edges, and faces, the usual
+#! accesss functions of Section <Ref Sect="Section_Access_LabelAccess"/> are 
 #! sufficient most of the time. If they are needed in a combined format,
 #! the command <K>OneFlags</K> (<Ref Subsect="OneFlags"/>) is available.
 #!

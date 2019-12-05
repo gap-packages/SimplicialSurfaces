@@ -15,7 +15,10 @@
 ##
 ##      General flags
 ##
-InstallMethod( Flags, "for a polygonal complex", [IsPolygonalComplex],
+__SIMPLICIAL_AddPolygonalAttribute(Flags);
+
+InstallMethod( Flags, "for a polygonal complex with edges, verticesOfEdges, and facesOfEdges", 
+    [IsPolygonalComplex and HasEdges and HasVerticesOfEdges and HasFacesOfEdges],
     function(complex)
         local flags, v, e, f;
 
@@ -31,6 +34,7 @@ InstallMethod( Flags, "for a polygonal complex", [IsPolygonalComplex],
         return Set(flags);
     end
 );
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Flags", ["Edges", "VerticesOfEdges", "FacesOfEdges"], ["IsPolygonalComplex"]);
 InstallMethod( ThreeFlags, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         return Flags(complex);
@@ -240,6 +244,7 @@ InstallMethod( FlagComplex, "for a twisted polygonal complex", [IsTwistedPolygon
         newComp := Objectify(TwistedPolygonalComplexType, rec());
         SetVerticesOfEdges(newComp, verticesOfEdges);
         SetFacesOfEdges(newComp, facesOfEdges);
+        SetIsDefaultChamberSystem(newComp, true);
 
         flagComp := Objectify(FlagComplexType,rec());
         SetOriginalComplex(flagComp, complex);

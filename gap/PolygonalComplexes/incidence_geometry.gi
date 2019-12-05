@@ -181,6 +181,7 @@ InstallMethod( PerimeterPathOfFaceNC,
         return PerimeterPathsOfFaces(complex)[face];
     end
 );
+RedispatchOnCondition( PerimeterPathOfFace, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 InstallMethod( PerimeterPathOfFace,
     "for a polygonal complex and a face (positive integer)",
     [IsPolygonalComplex, IsPosInt],
@@ -189,6 +190,7 @@ InstallMethod( PerimeterPathOfFace,
         return PerimeterPathOfFaceNC(complex, face);
     end
 );
+RedispatchOnCondition( PerimeterPathOfFace, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 
 # main computation method
@@ -229,6 +231,7 @@ InstallMethod( PerimeterPathsOfFaces, "for a polygonal complex",
         return perim;
     end
 );
+RedispatchOnCondition( PerimeterPathsOfFaces, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "PerimeterPathsOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 

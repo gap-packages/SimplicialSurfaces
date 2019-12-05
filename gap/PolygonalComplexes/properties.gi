@@ -259,8 +259,8 @@ InstallMethod( InnerVertices, "for a polygonal surface",
         return res;
     end
 );
-InstallMethod( InnerVertices, "for a closed polygonal complex",
-    [IsPolygonalComplex and IsClosedSurface],
+InstallMethod( InnerVertices, "for a closed twisted polygonal complex",
+    [IsTwistedPolygonalComplex and IsClosedSurface],
     function(complex)
         return VerticesAttributeOfComplex(complex);
     end
@@ -345,8 +345,8 @@ InstallMethod( BoundaryVertices, "for a polygonal complex",
     end
 );
 # Special case closed surface
-InstallMethod( BoundaryVertices, "for a closed polygonal complex",
-    [IsPolygonalComplex and IsClosedSurface],
+InstallMethod( BoundaryVertices, "for a closed twisted polygonal complex",
+    [IsTwistedPolygonalComplex and IsClosedSurface],
     function(complex)
         return [];
     end
@@ -503,7 +503,7 @@ InstallMethod( IsRamifiedVertex, "for a twisted polygonal complex and a vertex",
 __SIMPLICIAL_AddTwistedAttribute( IsNotVertexRamified );
 InstallMethod( IsNotVertexRamified, 
     "for a twisted polygonal complex with IsNotEdgeRamified and RamifiedVerticces", 
-    [IsTwistedPolygonalSurface and HasIsNotEdgeRamified and HasRamifiedVertices],
+    [IsTwistedPolygonalComplex and HasIsNotEdgeRamified and HasRamifiedVertices],
     function(complex)
         return IsNotEdgeRamified(complex) and Length(RamifiedVertices(complex)) = 0;
     end

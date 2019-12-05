@@ -19,6 +19,7 @@ doc/manual.six: makedoc.g \
 		gap/Morphisms/*gi \
 		gap/PolygonalComplexes/*.gd \
 		gap/PolygonalComplexes/*.gi \
+		gap/PolygonalComplexes/*.g \
 		doc/SimplicialSurfaces.xml \
 		doc/Introduction.xml \
 		doc/PolygonalStructures.xml \
