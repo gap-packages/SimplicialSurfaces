@@ -199,13 +199,32 @@ InstallMethod( Chambers,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["TwoAdjacencyClasses"] );
 
 
+## from Involutions to chambers
+InstallMethod( Chambers,
+    "for a twisted polygonal complex with ZeroAdjacencyInvolution",
+    [IsTwistedPolygonalComplex and HasZeroAdjacencyInvolution],
+    function(complex)
+        return MovedPoints( ZeroAdjacencyInvolution(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["ZeroAdjacencyInvolution"] );
+InstallMethod( Chambers,
+    "for a twisted polygonal complex with OneAdjacencyInvolution",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyInvolution],
+    function(complex)
+        return MovedPoints( OneAdjacencyInvolution(complex) );
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Chambers", ["OneAdjacencyInvolution"] );
+
+
 
 ## from Relation to Classes
 InstallMethod( ZeroAdjacencyClasses, 
     "for a twisted polygonal complex with ZeroAdjacencyRelation",
     [IsTwistedPolygonalComplex and HasZeroAdjacencyRelation],
     function(complex)
-        return EquivalenceRelationPartition( ZeroAdjacencyRelation(complex) );
+        return Set( EquivalenceRelationPartition( ZeroAdjacencyRelation(complex) ), Set );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "ZeroAdjacencyClasses", ["ZeroAdjacencyRelation"] );
@@ -213,7 +232,7 @@ InstallMethod( OneAdjacencyClasses,
     "for a twisted polygonal complex with OneAdjacencyRelation",
     [IsTwistedPolygonalComplex and HasOneAdjacencyRelation],
     function(complex)
-        return EquivalenceRelationPartition( OneAdjacencyRelation(complex) );
+        return Set( EquivalenceRelationPartition( OneAdjacencyRelation(complex) ), Set);
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "OneAdjacencyClasses", ["OneAdjacencyRelation"] );
@@ -226,7 +245,7 @@ InstallMethod( TwoAdjacencyClasses,
         rel := TwoAdjacencyRelation(complex);
         # This call is insufficient since there might be elements that
         # are only equivalent to themselves
-        classes := EquivalenceRelationPartition(rel);
+        classes := List( EquivalenceRelationPartition(rel), Set);
         for el in Source(rel) do
             iter := Iterator( EquivalenceClassOfElementNC(rel, el) );
             NextIterator(iter);
@@ -293,6 +312,15 @@ InstallMethod( TwoAdjacencyClasses,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyClasses", ["TwoAdjacencyInvolution", "Chambers"], ["IsNotEdgeRamified"] );
+
+# If the TwoAdjacencyInvolution is not fail, the complex has no edge ramification
+InstallImmediateMethod( IsNotEdgeRamified,
+    IsTwistedPolygonalComplex and HasTwoAdjacencyInvolution, 0,
+    function(complex)
+        return TwoAdjacencyInvolution(complex) <> fail;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "IsNotEdgeRamified", ["TwoAdjacencyInvolution"] );
 
 
 ## from Classes to Involution
@@ -467,6 +495,7 @@ InstallMethod( TwoAdjacentChamber,
                 String(res), 
                 ", so the result is not unique. To obtain this set, please use TwoAdjacentChambers."));
         fi;
+        return res[1];
     end
 );
 
@@ -518,7 +547,7 @@ InstallMethod( IsTwoAdjacentChambersNC,
 );
 InstallMethod( IsTwoAdjacentChambersNC,
     "for a twisted polygonal complex and two positive integers",
-    [IsTwistedPolygonalComplex and IsNotEdgeRamified, IsPosInt, IsPosInt],
+    [IsTwistedPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, c1,c2)
         return c2 in EquivalenceClassOfElementNC(TwoAdjacencyRelation(complex),c1);
     end
@@ -798,10 +827,11 @@ BindGlobal( "__SIMPLICIAL_ConstructorConsistencyIncidence",
 
                 # chambers with the same edge fulfill certain properties
                 if EdgeOfChamberNC(complex, c) = EdgeOfChamberNC(complex, d) then
-                    if not IsTwoAdjacentChambersNC(complex,c,d) and not IsTwoAdjacentChambersNC(complex, c, ZeroAdjacentChamberNC(complex,d)) then
+                    if not IsTwoAdjacentChambersNC(complex,c,d) and not IsZeroAdjacentChambersNC(complex,c,d)
+                        and not IsTwoAdjacentChambersNC(complex, c, ZeroAdjacentChamberNC(complex,d)) then
                         Error(Concatenation(name, ": The chambers ", String(c),
                             " and ", String(d), 
-                            " have the same edge, but are neither 2-adjacent nor is there another chamber that is 2-adjacent to one and 0-adjacent to the other."));
+                            " have the same edge, but are neither 0-adjacent, 2-adjacent nor is there another chamber that is 2-adjacent to one and 0-adjacent to the other."));
                     fi;
                 fi;
 
@@ -830,18 +860,18 @@ BindGlobal( "__SIMPLICIAL_VertexEdgeFaceFromChamberAdjacencies",
         if twoInv <> fail then
             zeroInv := ZeroAdjacencyInvolution(complex);
             oneInv := OneAdjacencyInvolution(complex);
-            chambersOfVertices := Orbits( Group([oneInv,twoInv]), Chambers(complex) );
-            chambersOfEdges := Orbits( Group([zeroInv, twoInv]), Chambers(complex) );
-            chambersOfFaces := Orbits( Group([zeroInv,oneInv]), Chambers(complex) );
+            chambersOfVertices := Set( Orbits( Group([oneInv,twoInv]), Chambers(complex) ), Set);
+            chambersOfEdges := Set( Orbits( Group([zeroInv, twoInv]), Chambers(complex) ), Set);
+            chambersOfFaces := Set( Orbits( Group([zeroInv,oneInv]), Chambers(complex) ), Set);
         else
             vertexEq := JoinEquivalenceRelations( OneAdjacencyRelation(complex), TwoAdjacencyRelation(complex) );
-            chambersOfVertices := EquivalenceRelationPartition(vertexEq);
+            chambersOfVertices := Set( EquivalenceRelationPartition(vertexEq), Set );
 
             edgeEq := JoinEquivalenceRelations( ZeroAdjacencyRelation(complex), TwoAdjacencyRelation(complex) );
-            chambersOfEdges := EquivalenceRelationPartition(edgeEq);
+            chambersOfEdges := Set( EquivalenceRelationPartition(edgeEq), Set);
 
             faceEq := JoinEquivalenceRelations( ZeroAdjacencyRelation(complex), OneAdjacencyRelation(complex) );
-            chambersOfFaces := EquivalenceRelationPartition(faceEq);
+            chambersOfFaces := Set( EquivalenceRelationPartition(faceEq), Set);
         fi;
 
         SetChambersOfVertices(complex, chambersOfVertices);
@@ -1094,7 +1124,7 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorAdjacencies",
                                     # Test consistency
                                     __SIMPLICIAL_ConstructorConsistencyAdjacency(complex, constName);
                                     __SIMPLICIAL_VertexEdgeFaceFromChamberAdjacencies(complex);
-                                    type[2](complex);
+                                    type[2](complex,constName);
 
                                     return complex;
                                 end

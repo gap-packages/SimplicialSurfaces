@@ -58,26 +58,6 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         SIMPLICIAL_TestAssert(NeighbourFacesByEdge(torus,1,2)=[3]);
         SIMPLICIAL_TestAssert(NeighbourFaceByEdge(ball,1,2)=1);
 
-        # PerimetersOfFaces (defined by local vertices/edges)
-        SIMPLICIAL_TestAssert(PathAsList(PerimeterPathOfFace(torus,1))=[2,1,2,2,2,4,2]);
-        SIMPLICIAL_TestAssert(PathAsList(PerimeterPathOfFace(torus,3))=[2,2,2,4,2,1,2]);
-        SIMPLICIAL_TestAssert(PathAsList(PerimeterPathsOfFaces(ball)[1])=[1,2,2,3,2,2,1]);
-        SIMPLICIAL_TestAssert(PathAsList(PerimeterPathsOfFaces(ball)[3])=[2,3,2,4,4,4,2]);
-
-        # UmbrellaPathsOfVertices
-        torus_umb := UmbrellaPathsOfVertices(torus);
-        ball_umb := UmbrellaPathsOfVertices(ball);
-        SIMPLICIAL_TestAssert(torus_umb[2] <> fail);
-        SIMPLICIAL_TestAssert(IsUmbrellaPath(torus_umb[2]));
-        SIMPLICIAL_TestAssert(Length(PathAsList(torus_umb[2]))=13);
-        SIMPLICIAL_TestAssert(fail <> ball_umb[2]);
-        SIMPLICIAL_TestAssert(ForAll(ball_umb, IsUmbrellaPath));
-        SIMPLICIAL_TestAssert(Length(PathAsList(ball_umb[2]))=9);
-
-        # MaximalGeodesicPaths
-        SIMPLICIAL_TestAssert(Length(MaximalGeodesicPaths(torus))=3);
-        SIMPLICIAL_TestAssert(Length(MaximalGeodesicPaths(ball))=1);
-
         # Orientation
         SIMPLICIAL_TestAssert(IsOrientable(torus));
         SIMPLICIAL_TestAssert(IsOrientable(ball));

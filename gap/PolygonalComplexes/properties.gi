@@ -229,6 +229,61 @@ InstallMethod( FaceCounter, "for a twisted polygonal complex",
 ##
 ##      Types of vertices
 ##
+BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
+    function(complex)
+        local inner, boundary, ramified, chaotic, oneRel, twoRel, vertexRel,
+            chambers, v, found, inCheck, c, class;
+
+        inner := [];
+        boundary := [];
+        ramified := [];
+        chaotic := [];
+
+        oneRel := OneAdjacencyRelation(complex);
+        twoRel := TwoAdjacencyRelation(complex);
+        vertexRel := JoinEquivalenceRelations(oneRel,twoRel);
+        chambers := EquivalenceRelationPartition(vertexRel);
+
+        for v in VerticesAttributeOfComplex(complex) do
+            # Check for chaotic
+            if ForAny( EdgesOfVertexNC(complex,v), e -> IsRamifiedEdgeNC(complex,e) ) then
+                Add(chaotic, v);
+                continue;
+            fi;
+            
+            # Check for ramified
+            found := false;
+            for class in chambers do
+                if IsSubset(class, ChambersOfVertexNC(complex, v)) then
+                    found := true;
+                fi;
+            od;
+            if not found then
+                Add(ramified,v);
+                continue;
+            fi;
+
+            # We need to distinguish between inner vertices and boundary vertices
+            inCheck := true;
+            for c in ChambersOfVertexNC(complex,v) do
+                if TwoAdjacentChambersNC(complex,v) = [] then
+                    inCheck := false;
+                    break;
+                fi;
+            od;
+            if inCheck then
+                Add(inner,v);
+            else
+                Add(boundary,v);
+            fi;
+        od;
+
+        SetInnerVertices(complex, inner);
+        SetBoundaryVertices(complex, inner);
+        SetRamifiedVertices(complex, ramified);
+        SetChaoticVertices(complex, chaotic);
+    end
+);
 InstallMethod( InnerVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
@@ -268,34 +323,8 @@ InstallMethod( InnerVertices, "for a closed twisted polygonal complex",
 InstallMethod( InnerVertices, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
-        local res, oneRel, twoRel, vertexRel, chambers, v, c, inner;
-        
-        res := [];
-        oneRel := OneAdjacencyRelation(complex);
-        twoRel := TwoAdjacencyRelation(complex);
-        vertexRel := JoinEquivalenceRelations(oneRel,twoRel);
-        chambers := EquivalenceRelationPartition(vertexRel);
-        for v in VerticesAttributeOfComplex(complex) do
-            if ForAny( EdgesOfVertexNC(complex,v), e -> IsRamifiedEdgeNC(complex,e) ) then
-                continue;
-            fi;
-            if not ChambersOfVertexNC(complex,v) in chambers then
-                continue;
-            fi;
-            # We need to distinguish between inner vertices and boundary vertices
-            inner := true;
-            for c in ChambersOfVertexNC(complex,v) do
-                if TwoAdjacentChambersNC(complex,v) = [] then
-                    inner := false;
-                    break;
-                fi;
-            od;
-            if inner then
-                Add(res,v);
-            fi;
-        od;
-
-        return res;
+        __SIMPLICIAL_TwistedVertexTypes(complex);
+        return InnerVertices(complex);
     end
 );
 InstallMethod( IsInnerVertexNC, "for a twisted polygonal complex and a vertex",
@@ -379,37 +408,10 @@ InstallMethod( BoundaryVertices, "for a polygonal surface",
 InstallMethod( BoundaryVertices, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
-        local res, oneRel, twoRel, vertexRel, chambers, v, c, inner;
-        
-        res := [];
-        oneRel := OneAdjacencyRelation(complex);
-        twoRel := TwoAdjacencyRelation(complex);
-        vertexRel := JoinEquivalenceRelations(oneRel,twoRel);
-        chambers := EquivalenceRelationPartition(vertexRel);
-        for v in VerticesAttributeOfComplex(complex) do
-            if ForAny( EdgesOfVertexNC(complex,v), e -> IsRamifiedEdgeNC(complex,e) ) then
-                continue;
-            fi;
-            if not ChambersOfVertexNC(complex,v) in chambers then
-                continue;
-            fi;
-            # We need to distinguish between inner vertices and boundary vertices
-            inner := true;
-            for c in ChambersOfVertexNC(complex,v) do
-                if TwoAdjacentChambersNC(complex,v) = [] then
-                    inner := false;
-                    break;
-                fi;
-            od;
-            if not inner then
-                Add(res,v);
-            fi;
-        od;
-
-        return res;
+        __SIMPLICIAL_TwistedVertexTypes(complex);
+        return BoundaryVertices(complex);
     end
 );
-
 
 
 InstallMethod( IsBoundaryVertexNC, "for a twisted polygonal complex and a vertex",
@@ -454,24 +456,8 @@ InstallMethod( RamifiedVertices,
     "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices",
     [IsTwistedPolygonalComplex and HasOneAdjacencyRelation and HasTwoAdjacencyRelation and HasVerticesAttributeOfComplex and HasRamifiedEdges and HasEdgesOfVertices and HasChambersOfVertices],
     function(complex)
-        local res, oneRel, twoRel, vertexRel, chambers, v, c, inner;
-        
-        res := [];
-        oneRel := OneAdjacencyRelation(complex);
-        twoRel := TwoAdjacencyRelation(complex);
-        vertexRel := JoinEquivalenceRelations(oneRel,twoRel);
-        chambers := EquivalenceRelationPartition(vertexRel);
-        for v in VerticesAttributeOfComplex(complex) do
-            if ForAny( EdgesOfVertexNC(complex,v), e -> IsRamifiedEdgeNC(complex,e) ) then
-                continue;
-            fi;
-            if not ChambersOfVertexNC(complex,v) in chambers then
-                Add(res,v);
-            fi;
-        od;
-
-        return res;
-        
+        __SIMPLICIAL_TwistedVertexTypes(complex);
+        return RamifiedVertices(complex);
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
@@ -530,8 +516,8 @@ InstallMethod( ChaoticVertices, "for a polygonal complex",
 InstallMethod( ChaoticVertices, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
-        return Filtered( VerticesAttributeOfComplex(complex), v ->
-            ForAny(EdgesOfVertexNC(complex,v), e -> IsRamifiedEdgeNC(complex, e)));
+        __SIMPLICIAL_TwistedVertexTypes(complex);
+        return ChaoticVertices(complex);
     end
 );
 InstallMethod( ChaoticVertices, "for a twisted polygonal complex without edge ramifications",
@@ -788,7 +774,7 @@ InstallMethod( IsFaceHomogeneous, "for a twisted polygonal complex",
     function(complex)
         local nr, f, chambersOfFaces, faces;
 
-        chambersOfFaces := chambersOfFaces(complex);
+        chambersOfFaces := ChambersOfFaces(complex);
         faces := Faces(complex);
         if Length(faces) = 0 then
             return true;

@@ -335,15 +335,15 @@ InstallMethod( ViewInformation, "for a twisted polygonal complex",
 
         Add( strList, [Concatenation(String(NumberOfVertices(complex)), " vertices"), 1] );
         Add( strList, [", ", 0] );
-        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges, "), 2] );
+        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges"), 2] );
         if IsPolygonalComplex(complex) then
-            Add( strList, ["and ", 0] );
+            Add( strList, [", and ", 0] );
         else
-            Add( strList, [" ", 0] );
+            Add( strList, [", ", 0] );
         fi;
         Add( strList, [Concatenation(String(NumberOfFaces(complex)), " faces"), 3] );
         if not IsPolygonalComplex(complex) then
-            Add( strList, [", and "] );
+            Add( strList, [", and ", 0] );
             Add( strList, [Concatenation(String(NumberOfChambers(complex)), " chambers"), 0] );
         fi;
         Add( strList, [")", 0] );

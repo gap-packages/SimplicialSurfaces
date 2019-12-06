@@ -60,9 +60,9 @@
 #! >        [2,2,4,4,2,2,4,4,6,6,8,8,6,6],
 #! >        [1,1,1,1,1,1,9,9,9,9,9,9,9,9],
 #! >        (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14),
-#! >        (1,6)(2,3)(4,5)(7,14),(8,9)(10,11)(12,13),
+#! >        (1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13),
 #! >        [[1,6],[2,5],[3,8],[4,7],[9,14],[10,13],[11],[12]]);
-#! twisted polygonal complex (3 vertices, 4 edges, 2 faces, and 14 chambers)
+#! twisted polygonal surface (3 vertices, 4 edges, 2 faces, and 14 chambers)
 #! @EndExampleSession
 
 #! The chambers are represented by a set of positive integers.
@@ -80,7 +80,7 @@
 #! </Alt>
 #! @ExampleSession
 #! gap> Chambers(complex);
-#! [ 1 .. 14 ]
+#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
 #! gap> NumberOfChambers(complex);
 #! 14
 #! @EndExampleSession
@@ -273,7 +273,7 @@ DeclareOperation( "ChambersOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 1
 #! gap> FaceOfChamber(complex, 12);
 #! 9
-#! gap> VerticesOfChambers(complex);
+#! gap> FacesOfChambers(complex);
 #! [ 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9 ]
 #! @EndExampleSession
 #! 
@@ -311,7 +311,7 @@ DeclareOperation( "FaceOfChamberNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! gap> ChambersOfFace(complex, 9);
 #! [ 7, 8, 9, 10, 11, 12, 13, 14 ]
 #! gap> ChambersOfFaces(complex);
-#! [ [ 1, 2, 3, 4, 5, 6 ],,,,,,, [ 7, 8, 9, 10, 11, 12, 13, 14 ] ]
+#! [ [ 1, 2, 3, 4, 5, 6 ],,,,,,,, [ 7, 8, 9, 10, 11, 12, 13, 14 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
@@ -419,7 +419,7 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! * <K>TwoAdjacentChambers</K>(<A>complex</A>, <A>chamber</A>) returns the
 #!   set of chambers that are 2-adjacent to <A>chamber</A>. If this set contains
 #!   exactly one element, the method <K>TwoAdjacentChamber</K>
-#!   is also applicable (otherwise, it returns <K>fail</K>).
+#!   is also applicable (otherwise, an error is raised).
 #! The NC-version does not check whether <A>chamber</A> is a chamber of
 #! <A>complex</A>. In the case of <K>TwoAdjacentChamberNC</K>, it also
 #! does not check the number of 2-adjacent chambers.
@@ -437,22 +437,18 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 3
 #! gap> OneAdjacentChamber(complex, 4);
 #! 5
-#! gap>
+#! gap> 
 #! gap> TwoAdjacentChamber(complex, 4);
 #! 7
 #! gap> TwoAdjacentChambers(complex, 4);
 #! [ 7 ]
-#! gap> TwoAdjacentChamber(complex, 14);
-#! fail
 #! gap> TwoAdjacentChambers(complex, 14);
 #! [ 9, 22 ]
-#! gap> TwoAdjacentChamber(complex, 23);
-#! fail
 #! gap> TwoAdjacentChambers(complex, 23);
 #! []
 #! @EndExampleSession
 #! 
-#! @Returns a positive integer, a list of positive integers, or <K>fail</K>
+#! @Returns a positive integer or a list of positive integers
 #! @Arguments complex, chamber
 DeclareOperation( "ZeroAdjacentChamber", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, chamber
@@ -742,17 +738,13 @@ DeclareAttribute( "TwoAdjacencyRelation", IsTwistedPolygonalComplex);
 #! @EndExampleSession
 #!
 #! @Returns a twisted polygonal complex
-#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
-#!    zeroAdjacency, oneAdjacency, twoAdjacency
+#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, zeroAdjacency, oneAdjacency, twoAdjacency
 DeclareOperation("TwistedPolygonalComplexByChamberRelations", [IsList, IsList, IsList, IsList, IsList, IsList]);
-#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
-#!    zeroAdjacency, oneAdjacency, twoAdjacency
+#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, zeroAdjacency, oneAdjacency, twoAdjacency
 DeclareOperation("TwistedPolygonalComplexByChamberRelationsNC", [IsList, IsList, IsList, IsList, IsList, IsList]);
-#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
-#!    zeroAdjacency, oneAdjacency, twoAdjacency
+#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, zeroAdjacency, oneAdjacency, twoAdjacency
 DeclareOperation("TwistedPolygonalSurfaceByChamberRelations", [IsList, IsList, IsList, IsList, IsList, IsList]);
-#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, 
-#!    zeroAdjacency, oneAdjacency, twoAdjacency
+#! @Arguments verticesOfChambers, edgesOfChambers, facesOfChambers, zeroAdjacency, oneAdjacency, twoAdjacency
 DeclareOperation("TwistedPolygonalSurfaceByChamberRelationsNC", [IsList, IsList, IsList, IsList, IsList, IsList]);
 #! @EndGroup
 
@@ -804,7 +796,7 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberRelationsNC", [IsList, IsList,
 #! gap> ChambersOfVertices(complex);
 #! [ [ 1, 6, 16, 17 ], [ 2, 3, 8, 9, 14, 15 ], [ 4, 5, 7, 10, 11, 12, 13, 18 ] ]
 #! gap> ChambersOfEdges(complex);
-#! [ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ], [ 17, 18 ] ]
+#! [ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6, 17, 18 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ] ]
 #! gap> ChambersOfFaces(complex);
 #! [ [ 1, 2, 3, 4, 5, 6 ], [ 7, 8, 9, 10, 11, 12 ], [ 13, 14, 15, 16, 17, 18 ] ]
 #! @EndExampleSession
@@ -861,7 +853,7 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberAdjacenciesNC", [IsList, IsLis
 #! gap> ChambersOfVertices(complex);
 #! [ [ 1, 6, 16, 17 ], [ 2, 3, 8, 9, 14, 15 ], [ 4, 5, 7, 10, 11, 12, 13, 18 ] ]
 #! gap> ChambersOfEdges(complex);
-#! [ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ], [ 17, 18 ] ]
+#! [ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6, 17, 18 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ] ]
 #! gap> ChambersOfFaces(complex);
 #! [ [ 1, 2, 3, 4, 5, 6 ], [ 7, 8, 9, 10, 11, 12 ], [ 13, 14, 15, 16, 17, 18 ] ]
 #! @EndExampleSession
@@ -898,7 +890,7 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberInvolutionsNC", [IsPerm, IsPer
 #! chambers.
 #! @ExampleSession
 #! gap> Chambers(complex);
-#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
+#! [ 1 .. 14 ]
 #! gap> VerticesOfChambers(complex);
 #! [ 2, 2, 3, 3, 3, 3, 5, 5, 5, 5, 7, 7, 11, 11 ]
 #! gap> EdgesOfChambers(complex);
