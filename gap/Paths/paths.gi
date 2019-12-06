@@ -488,12 +488,11 @@ InstallMethod( PathAsList, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 InstallMethod( \<, "for two edge-face-paths on polygonal complexes", 
-    [IsEdgeFacePath and IsPolygonalComplexPath, IsEdgeFacePath and IsPolygonalComplexPath],
+    [IsEdgeFacePath, IsEdgeFacePath],
     function(path1, path2)
         return PathAsList(path1) < PathAsList(path2);
     end
 );
-RedispatchOnCondition(\<, true, [IsEdgeFacePath,IsEdgeFacePath], [IsPolygonalComplexPath,IsPolygonalComplexPath], 0);
 
 InstallMethod( EdgesAsList, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
@@ -508,12 +507,11 @@ InstallMethod( FacesAsList, "for an edge-face-path", [IsEdgeFacePath],
 );
 
 InstallMethod( Inverse, "for a edge-face-path on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath],
+    [IsEdgeFacePath],
     function(path)
         return EdgeFacePathNC( AssociatedPolygonalComplex(path), Reversed(Path(path)));
     end
 );
-RedispatchOnCondition(Inverse, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
 
 
 InstallMethod( EdgesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
@@ -532,7 +530,7 @@ InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
 
 
 InstallMethod( IsUmbrellaPath, "for an edge-face-path on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath],
+    [IsEdgeFacePath],
     function(path)
         local complex, commonEdgeVertex, commonFaceVertex, commonVertex;
 
@@ -544,7 +542,6 @@ InstallMethod( IsUmbrellaPath, "for an edge-face-path on a polygonal complex",
         return Length(commonVertex) <> 0;
     end
 );
-RedispatchOnCondition(IsUmbrellaPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
 
 
 
@@ -588,28 +585,27 @@ BindGlobal( "__SIMPLICIAL_ZigZagPath",
 );
 InstallMethod( IsGeodesicPath, 
     "for an edge-face-path on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath],
+    [IsEdgeFacePath],
     function(path)
         __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(path), path );
         return IsGeodesicPath(path);
     end
 );
-RedispatchOnCondition(IsGeodesicPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
 
 
 InstallMethod( VertexEdgePath, "for a geodesic path on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath],
+    [IsEdgeFacePath and IsGeodesicPath],
     function(geo)
         __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(geo), geo );
         return VertexEdgePath(geo);
     end
 );
-RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesicPath], 0);
+RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsGeodesicPath], 0);
 
 
 InstallMethod( IsClosedGeodesicPath, 
     "for an edge-face-path on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath],
+    [IsEdgeFacePath],
     function(path)
         if not IsGeodesicPath(path) then
             return false;
@@ -618,11 +614,10 @@ InstallMethod( IsClosedGeodesicPath,
         return IsClosedPath(path) and IsClosedPath( VertexEdgePath(path) );
     end
 );
-RedispatchOnCondition(IsClosedPath, true, [IsEdgeFacePath], [IsPolygonalComplexPath], 0);
 
 
 InstallMethod( DefiningFlags, "for a geodesic path on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath],
+    [IsEdgeFacePath and IsGeodesicPath],
     function(geo)
         local vePath, efPath, flags, i;
 
@@ -636,7 +631,7 @@ InstallMethod( DefiningFlags, "for a geodesic path on a polygonal complex",
         return flags;
     end
 );
-RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsGeodesicPath], 0 );
+RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsGeodesicPath], 0 );
 
 
 
@@ -763,7 +758,7 @@ RedispatchOnCondition( MaximalDuplicateFreeGeodesicPaths, true,
 
 InstallMethod( GeodesicFlagCycle, 
     "for a closed geodesic path on a polygonal complex", 
-    [IsEdgeFacePath and IsPolygonalComplexPath and IsClosedGeodesicPath],
+    [IsEdgeFacePath and IsClosedGeodesicPath],
     function(closedGeo)
         local vePath, flagPath, i, vertex, edge, face, flagPerm;
 
@@ -784,7 +779,7 @@ InstallMethod( GeodesicFlagCycle,
         return PermList(flagPerm);
     end
 );
-RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsPolygonalComplexPath and IsClosedGeodesicPath], 0 );
+RedispatchOnCondition( GeodesicFlagCycle, true, [IsEdgeFacePath], [IsClosedGeodesicPath], 0 );
 
 
 InstallMethod( MaximalGeodesicPaths, 

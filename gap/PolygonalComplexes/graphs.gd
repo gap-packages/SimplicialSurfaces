@@ -675,7 +675,7 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #! @Arguments vePath, aut
 #! @Returns a vertex-edge-path
 DeclareOperation( "OnVertexEdgePaths", 
-    [ IsVertexEdgePath and IsPolygonalComplexPath, IsPerm ] );
+    [ IsVertexEdgePath , IsPerm ] );
 
 
 #! @Description
@@ -735,7 +735,7 @@ DeclareOperation( "OnVertexEdgePaths",
 #! @Arguments efPath, aut
 #! @Returns an edge-face-path
 DeclareOperation( "OnEdgeFacePaths", 
-    [ IsEdgeFacePath and IsPolygonalComplexPath, IsPerm ] );
+    [ IsEdgeFacePath , IsPerm ] );
 
 
 #! @Section Which graph package should be used?

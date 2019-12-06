@@ -424,14 +424,6 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! @EndGroup
 
 
-#! @Description
-#! Return whether the given vertex-edge-path is defined on a
-#! polygonal complex.
-#!
-#! @Arguments vertexEdgePath
-DeclareProperty( "IsPolygonalComplexPath", IsVertexEdgePath );
-
-
 ##
 ## Coloured output-attributes
 DeclareAttribute( "ViewInformation", IsVertexEdgePath );
@@ -1089,7 +1081,7 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #!
 #! @Returns a list of flags
 #! @Arguments geodesic
-DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath );
+DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesicPath );
 #TODO good name?
 #! @EndGroup
 

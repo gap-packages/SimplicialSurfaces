@@ -572,7 +572,7 @@ InstallMethod( IsAutomorphismDefinedByFaces, "for a polygonal complex",
 
 InstallMethod( OnVertexEdgePaths, 
     "for a vertex-edge-path on a polygonal complex and an automorphism",
-    [IsVertexEdgePath and IsPolygonalComplexPath, IsPerm],
+    [IsVertexEdgePath , IsPerm],
     function( vePath, aut )
         local surf, list, display, verts, edges, i;
 
@@ -595,12 +595,11 @@ InstallMethod( OnVertexEdgePaths,
         return VertexEdgePathNC(surf, list);
     end
 );
-RedispatchOnCondition( OnVertexEdgePaths, true, [IsVertexEdgePath, IsPerm], [IsPolygonalComplexPath], 0 );
 
 
 InstallMethod( OnEdgeFacePaths, 
     "for an edge-face-path on a polygonal complex and an automorphism",
-    [IsEdgeFacePath and IsPolygonalComplexPath, IsPerm],
+    [IsEdgeFacePath , IsPerm],
     function( efPath, aut )
         local surf, list, display, faces, edges, i;
 
@@ -623,5 +622,4 @@ InstallMethod( OnEdgeFacePaths,
         return EdgeFacePathNC(surf, list);
     end
 );
-RedispatchOnCondition( OnEdgeFacePaths, true, [IsEdgeFacePath, IsPerm], [IsPolygonalComplexPath], 0 );
 
