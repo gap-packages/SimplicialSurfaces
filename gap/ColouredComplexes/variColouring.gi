@@ -947,6 +947,8 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 
                 # construction of the simplicial surface
                 obj := Objectify( TwistedPolygonalComplexType, rec() );
+                SetIsPolygonalComplex(obj, true);
+                SetIsDefaultChamberSystem(obj, true);
                 SetFacesOfEdges(obj, facesOfEdges);
                 SetFaces(obj, faces);
                 SetEdgesOfFaces(obj, edgesOfFaces);
@@ -1516,6 +1518,8 @@ InstallMethod( CommonCover,
 
         # Construct the new simplicial surface
         surface := Objectify( TwistedPolygonalComplexType, rec() );
+        SetIsPolygonalComplex(surface, true);
+        SetIsDefaultChamberSystem(surface, true);
         SetFacesOfEdges(surface, simpFacesOfEdges);
         SetVerticesOfEdges(surface, simpVerticesOfEdges);
 
@@ -1694,7 +1698,7 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
         return [wild[1], altNames];
     end
 );
-RedispatchOnCondition( SixFoldCover, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0 );
+RedispatchOnCondition( SixFoldCover, true, [IsTwistedPolygonalComplex, IsList], [IsSimplicialSurface], 0 );
 
 InstallOtherMethod( SixFoldCover, "for a simplicial surface", 
     [IsSimplicialSurface],
@@ -1702,7 +1706,7 @@ InstallOtherMethod( SixFoldCover, "for a simplicial surface",
         return SixFoldCover(simpSurf, [1,1,1]);
     end
 );
-RedispatchOnCondition( SixFoldCover, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
+RedispatchOnCondition( SixFoldCover, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
 
 ##
 ##  End of SixFoldCover

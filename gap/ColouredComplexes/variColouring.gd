@@ -70,7 +70,7 @@
 #! surface this means that there are exactly three colours.
 #!
 #! We illustrate this on the prism that was introduced at the start of
-#! section <Ref Sect="Section_EdgeVariColouring_Definition"/>.
+#! Section <Ref Sect="Section_EdgeVariColouring_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Prism_coloured.tex}
 #! </Alt>
@@ -114,7 +114,7 @@ InstallTrueMethod( IsEdgeVariColouring, IsEdgeExactColouring );
 #! <K>ColouredEdgesOfFace</K>(<A>rbComp</A>, <A>face</A>). All other positions
 #! are unbound.
 #!
-#! Consider the prism example from the start of section 
+#! Consider the prism example from the start of Section 
 #! <Ref Sect="Section_EdgeVariColouring_Definition"/>.
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Prism_coloured.tex}
@@ -148,7 +148,7 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! @Section Permutation description
 #! @SectionLabel EdgeVariColouring_Permutations
 #!
-#! While section <Ref Sect="Section_EdgeVariColouring_Definition"/> dealt
+#! While Section <Ref Sect="Section_EdgeVariColouring_Definition"/> dealt
 #! with general edge vari-colourings, this section is restricted to
 #! edge vari-colourings of polygonal complexes without edge ramifications. 
 #! For those there are

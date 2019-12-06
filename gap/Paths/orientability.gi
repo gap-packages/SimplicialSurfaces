@@ -390,6 +390,8 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
         obj := Objectify(TwistedPolygonalComplexType, rec());
         SetVerticesOfEdges(obj, vertsOfEdges);
         SetFacesOfEdges(obj, facesOfEdges);
+        SetIsPolygonalComplex(obj, true);
+        SetIsDefaultChamberSystem(obj, true);
         return [obj, [vertexMap,edgeMap,faceMap], List(newFaces, i -> i[2])];
     end
 );

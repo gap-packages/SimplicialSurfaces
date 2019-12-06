@@ -135,11 +135,11 @@
 #! >        [[6,8,9], , , [9,10,12,13]]);
 #! polygonal surface (5 vertices, 6 edges, and 2 faces)
 #! gap> digraph := IncidenceDigraphsGraph(complex);
-#! <digraph with 13 vertices, 19 edges>
+#! <digraph with 13 vertices, 38 edges>
 #! gap> DigraphVertices(digraph);
 #! [ 1 .. 13 ]
 #! gap> DigraphVertexLabels(digraph);
-#! [ ?? ]
+#! [ 2, 3, 5, 7, 11, 17, 19, 20, 21, 23, 24, 25, 28 ]
 #! @EndExampleSession
 #! 
 #! TODO find edges of digraph, do the same for grape and NautyTracesInterface
@@ -353,7 +353,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> IsAutomorphismDefinedByFaces(tetra);
 #! true
 #! gap> AutomorphismGroupOnFaces(tetra);
-#! Group( [ (1,2), (3,4), (2,4) ] )
+#! Group([ (1,2), (2,4), (3,4) ])
 #! @EndExampleSession
 #!
 #! For the janus-head this is not possible.
@@ -380,11 +380,15 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! </Alt>
 #! @ExampleSession
 #! gap> AutomorphismGroup(tetra);
-#! Group([ ?? ])
+#! Group([ 
+#!   (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
+#!   (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
+#!   (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
 #! gap> Size(last);
 #! 24
 #! gap> AutomorphismGroup(janus);
-#! Group([ ?? ])
+#! Group([ (1,2)(3,4)(5,6)(7,8)(9,10)(11,12), (1,3)(2,4)(5,9)(6,10)(7,11)(8,12), 
+#!    (1,5)(2,6)(3,7)(4,8)(9,11)(10,12) ])
 #! gap> Size( last );
 #! 12
 #! @EndExampleSession
@@ -397,8 +401,9 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! For example, the first generator of the tetrahedron automorphism group
 #! is <M>TODO</M>, which can be displayed like this:
 #! @ExampleSession
-#! gap> DisplayAsAutomorphism( tetra, ?? );
-#! [ ?? ]
+#! gap> DisplayAsAutomorphism( tetra, 
+#! >  (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24));
+#! [ (3,4), (2,3)(4,5), (1,2) ]
 #! @EndExampleSession
 #! The first component describes the action on the vertices, the
 #! second component shows the action on the edges and the final
@@ -426,7 +431,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! the edges.
 #! @ExampleSession
 #! gap> AutomorphismGroupOnEdges(openBag);
-#! Group( [ (3,4), (1,2) ] )
+#! Group([ (3,4), (1,2) ])
 #! @EndExampleSession
 
 #! @BeginGroup AutomorphismGroup
@@ -449,7 +454,10 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> Chambers(tetra);
 #! [ 1 .. 24 ]
 #! gap> aut := AutomorphismGroup(tetra);
-#! Group([ ?? ])
+#! Group([ 
+#!   (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
+#!   (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
+#!   (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
 #! @EndExampleSession
 #! <Alt Only="TikZ">
 #!    \input{Image_TetrahedronChambers.tex}
@@ -461,9 +469,9 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> DisplayAsAutomorphism( tetra, aut.1 );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
 #! gap> DisplayAsAutomorphism( tetra, aut.2 );
-#! [ (1,2), (2,4)(3,5), (3,4) ]
-#! gap> DisplayAsAutomorphism( tetra, aut.3 );
 #! [ (2,3), (1,2)(5,6), (2,4) ]
+#! gap> DisplayAsAutomorphism( tetra, aut.3 );
+#! [ (1,2), (2,4)(3,5), (3,4) ]
 #! @EndExampleSession
 #!
 #! To compute the action on vertices, edges or faces individually, use
@@ -475,11 +483,11 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! (<Ref Subsect="AutomorphismGroupOnFaces"/>).
 #! @BeginExampleSession
 #! gap> AutomorphismGroupOnVertices(tetra);
-#! Group( [ (3,4), (1,2), (2,3) ] )
+#! Group([ (3,4), (2,3), (1,2) ])
 #! gap> AutomorphismGroupOnEdges(tetra);
-#! Group( [ (2,3)(4,5), (2,4)(3,5), (1,2)(5,6) ] )
+#! Group([ (2,3)(4,5), (1,2)(5,6), (2,4)(3,5) ])
 #! gap> AutomorphismGroupOnFaces(tetra);
-#! Group( [ (1,2), (3,4), (2,4) ] )
+#! Group([ (1,2), (2,4), (3,4) ])
 #! @EndExampleSession
 #!
 #! For example, the automorphism group of an icosahedron 
@@ -514,15 +522,18 @@ DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! @ExampleSession
 #! gap> tetra := Tetrahedron();;
 #! gap> aut := AutomorphismGroup( tetra );
-#! Group([ (3,4)(6,7)(8,9)(11,12), (1,2)(6,8)(7,9)(13,14), (2,3)(5,6)(9,10)(12,14) ])
-#! gap> DisplayAsAutomorphism( tetra, (3,4)(6,7)(8,9)(11,12) );
+#! Group([ 
+#!   (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
+#!   (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
+#!   (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
+#! gap> DisplayAsAutomorphism( tetra, aut.1 );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
-#! gap> DisplayAsAutomorphism( tetra, (1,2)(6,8)(7,9)(13,14) );
-#! [ (1,2), (2,4)(3,5), (3,4) ]
-#! gap> DisplayAsAutomorphism( tetra, (2,3)(5,6)(9,10)(12,14) );
+#! gap> DisplayAsAutomorphism( tetra, aut.2 );
 #! [ (2,3), (1,2)(5,6), (2,4) ]
-#! gap> DisplayAsAutomorphism( tetra, (1,5) );
-#! fail
+#! gap> DisplayAsAutomorphism( tetra, aut.3 );
+#! [ (1,2), (2,4)(3,5), (3,4) ]
+#! gap> DisplayAsAutomorphism( tetra, aut.1 );
+#! [ (3,4), (2,3)(4,5), (1,2) ]
 #! @EndExampleSession
 #! 
 #! @Arguments complex, perm
@@ -547,7 +558,7 @@ DeclareOperation( "DisplayAsAutomorphism", [IsTwistedPolygonalComplex, IsPerm] )
 #! gap> IsAutomorphismDefinedByVertices(cube);
 #! true
 #! gap> AutomorphismGroupOnVertices(cube);
-#! Group( [ (1,2)(3,4)(5,6)(7,8), (3,6)(4,5), (1,2,3,4)(5,6,7,8) ] )
+#! Group([ (3,6)(4,5), (2,4)(6,8), (1,2)(3,4)(5,6)(7,8) ])
 #! @EndExampleSession
 #! 
 #! @Arguments complex
@@ -574,8 +585,8 @@ DeclareProperty( "IsAutomorphismDefinedByVertices", IsTwistedPolygonalComplex );
 #! gap> IsAutomorphismDefinedByEdges(cube);
 #! true
 #! gap> AutomorphismGroupOnEdges(cube);
-#! Group( [ (2,4)(5,8)(6,7)(9,11), (2,5)(3,12)(4,8)(6,9)(7,11), 
-#!             (1,2,3,4)(5,6,7,8)(9,10,11,12) ] )
+#! Group([ (2,5)(3,12)(4,8)(6,9)(7,11), (1,4)(2,3)(5,7)(9,10)(11,12), 
+#!    (2,4)(5,8)(6,7)(9,11) ])
 #! @EndExampleSession
 #! 
 #! @Arguments complex
@@ -602,7 +613,7 @@ DeclareProperty( "IsAutomorphismDefinedByEdges", IsTwistedPolygonalComplex );
 #! gap> IsAutomorphismDefinedByFaces(cube);
 #! true
 #! gap> AutomorphismGroupOnFaces(cube);
-#! Group( [ (3,4), (1,2)(5,6), (2,3,5,4) ] )
+#! Group([ (1,2)(5,6), (2,4)(3,5), (3,4) ])
 #! @EndExampleSession
 #! 
 #! @Arguments complex

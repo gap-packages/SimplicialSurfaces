@@ -32,7 +32,7 @@
 
     % face labels
     \foreach \x/\y/\z/\n in {P1/P2/U/1, P1/P2/D/2, P2/P3/U/3, P1/P0/U/4}{
-        \node[faceLabel] at (barycentric cs:\x=1,\y=1,\z=1) {\n};
+        \node[faceLabel,face] at (barycentric cs:\x=1,\y=1,\z=1) {\n};
     }
 
     % vertex labels

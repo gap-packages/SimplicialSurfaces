@@ -164,7 +164,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( ChamberAdjacencyGraph, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],
         function(complex)
-            local nrNodes, i, chambersOfLabels, c, edges;
+            local nrNodes, i, chambersOfLabels, c, edges, cl, twoEdges;
 
             nrNodes := NumberOfChambers(complex);
             chambersOfLabels := [];
@@ -177,7 +177,13 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             edges := [];
             Add(edges, List(ZeroAdjacencyClasses(complex), cl -> List(cl, c -> chambersOfLabels[c])));
             Add(edges, List(OneAdjacencyClasses(complex), cl -> List(cl, c -> chambersOfLabels[c])));
-            Add(edges, List(TwoAdjacencyClasses(complex), cl -> List(cl, c -> chambersOfLabels[c])));
+            twoEdges := [];
+            for cl in TwoAdjacencyClasses(complex) do
+                if Length(cl) > 1 then
+                    Add(twoEdges, List(cl, c -> chambersOfLabels[c]));
+                fi;
+            od;
+            Add(edges, twoEdges);
 
             return NautyEdgeColoredGraph(edges, nrNodes);
         end
@@ -234,7 +240,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( AutomorphismGroup, "for a twisted polygonal complex", 
         [IsTwistedPolygonalComplex],
         function(complex)
-            return AutomorphismGroup( IncidenceNautyGraph(complex) );
+            return AutomorphismGroup( ChamberAdjacencyGraph(complex) );
         end
     );
 fi;

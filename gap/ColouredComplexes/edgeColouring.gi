@@ -367,8 +367,8 @@ BindGlobal( "__SIMPLICIAL_TameSurfaceType",
 );
 
 InstallMethod( ViewInformationEdgeColoured, 
-    "for an edge coloured polygonal complex",
-    [IsEdgeColouredPolygonalComplex],
+    "for an edge coloured twisted polygonal complex",
+    [IsEdgeColouredTwistedPolygonalComplex],
     function(colComp)
         local strList, str, out;
 
@@ -402,8 +402,13 @@ InstallMethod( ViewInformationEdgeColoured,
         fi;
         PrintTo( out, String( NumberOfFaces( PolygonalComplex(colComp) ) ) );
         PrintTo( out, " faces" );
-        if not IsWildColouredSurface(colComp) then
+        if not IsPolygonalComplex(colComp) then
             PrintTo( out, " and " );
+            PrintTo( out, String(NumberOfChambers( TwistedPolygonalComplex(colComp) )) );
+            PrintTo( out, " chambers" );
+        fi;
+        if not IsWildColouredSurface(colComp) then
+            PrintTo( out, ", with" );
             PrintTo( out, String( Length( Colours(colComp) ) ) );
             PrintTo( out, " colours" );
         fi;
