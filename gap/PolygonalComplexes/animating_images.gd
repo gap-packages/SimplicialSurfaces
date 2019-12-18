@@ -62,16 +62,15 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_EdgeColors.html", printRecord);;
 
 
 #! @BeginChunk Example_OctahedronPositionMirrored
-oct := Octahedron();;
-verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
+tet := Tetrahedron();;
+verticesPositions := [ [ 1, -1/Sqrt(3.), -1/Sqrt(6.) ],[ -1, -1/Sqrt(3.), -1/Sqrt(6.) ],[ 0, 2/Sqrt(3.) , -1/Sqrt(6.) ],[ 0, 0, 3/Sqrt(6.) ]];;
 verticesPositionsMirrored := -verticesPositions;;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
-printRecord := CalculateParametersOfEdges(oct, printRecord);;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositionsMirrored,printRecord);;
-printRecord := CalculateParametersOfEdges(oct, printRecord);;
-DrawSurfaceToJavaScript(oct, "doc/Octahedron_PositionMirrored.html", printRecord);;
+printRecord := SetVertexCoordiantes3D(tet, verticesPositions, rec());;
+printRecord := CalculateParametersOfEdges(tet, printRecord);;
+printRecord := SetVertexCoordiantes3D(tet, verticesPositionsMirrored,printRecord);;
+DrawSurfaceToJavaScript(tet, "doc/Tetrahedron_PositionMirrored.html", printRecord);;
 #! <Alt Only="JavaScript">
-#! Octahedron_PositionMirrored.html
+#! Tetrahedron_PositionMirrored.html
 #! </Alt>
 #! @EndChunk
 
