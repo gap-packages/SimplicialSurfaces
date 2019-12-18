@@ -458,17 +458,3 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 
 
-#######################################
-##
-##  EdgeFacePaths
-##
-
-
-
-##
-##  End edgeFacePaths
-##
-#######################################
-
-
-

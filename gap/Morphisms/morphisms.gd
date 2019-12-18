@@ -21,8 +21,9 @@
 #! <M>(V_2,E_2,F_2)</M> consists of maps <M>V_1 \to V_2</M>, <M>E_1 \to E_2</M>,
 #! and <M>F_1 \to F_2</M>, such that
 #! * incident elements remain incident
-#! * different vertices of an edge are mapped to different vertices
+#! * the two vertices of an edge are mapped to two different vertices
 #! * different vertices/edges of a face are mapped to different vertices/edges
+#!   (for example, a face with six edges cannot be mapped to a face with three edges)
 #!
 #! Since polygonal morphisms are stored as mappings (in the GAP-sense), all
 #! methods available for mappings (in particular those from
@@ -38,7 +39,8 @@
 #! <Ref Subsect="IsAnomalyFree"/>), the polygonal morphism can be defined
 #! by the vertex map (the more flexible constructor in 
 #! <Ref Subsect="PolygonalMorphismByLists"/> requires all three maps). 
-#! Consider the following example:
+#! Consider the following example, in which the face 2 is mapped to the face 2,
+#! and both the faces 3 and 4 are mapped to the face 3:
 #! @ExampleSession
 #! gap> source := PolygonalSurfaceByDownwardIncidence( 
 #! >      [[1,2],[2,3],[3,4],,[1,6],,[2,7],[3,7],[4,7],,,[6,7]],
