@@ -56,8 +56,8 @@
 #!
 #! After seting parameters of the vertices, it is necessary to set parameters of the edges.
 #! We demonstrate the problem of outdated parameters
-#! by an example, that uses the vertex positions from Section <Ref Sect="Section_LabelIntroductionAndQuickStartAnimating"/>
-#! and redefines thoses mirrored at Zero.
+#! by an example, where we set coordinates
+#! and redefine these mirrored at Zero.
 #! @BeginExampleSession
 #! gap> verticesPositions := [
 #! > [ 1, -1/Sqrt(3.), -1/Sqrt(6.) ],
@@ -76,10 +76,12 @@
 #! gap> # coordinates of the edge (1,2) did not change:
 #! > printRecord.edges[EdgeBetweenVertices(tet, 1, 2)][1];
 #! [ 0., -0.57735, -0.408248 ]
-#! gap> DrawSurfaceToJavaScript(tet, "doc/Tetrahedron_PositionMirrored.html",
-#! > printRecord);;
+#! gap> DrawSurfaceToJavaScriptCalculate(tet,
+#! > "doc/Tetrahedron_PositionMirrored.html", printRecord, false);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronPositionMirrored
+#! The function <K>DrawSurfaceToJavaScript</K> always calculates the parameters of the edges depending on the current vertices positions.
+#! If you want to avoid that, you can use the function <K>DrawSurfaceToJavaScriptCalculate</K> and set the last parameter to false. In this case no new parameters are computed except that no parameters were ever set.
 
 #! @BeginGroup SetVertexCoordinates3D
 #! @Description
@@ -94,7 +96,7 @@ DeclareOperation( "SetVertexCoordiantes3DNC", [IsDenseList, IsRecord] );
 
 #! @BeginGroup GetVertexCoordinates3D
 #! @Description
-#! Extract the 3D-coordinates of the <A>i</A>th vertex from the print record. If the format of the 3D-coordinates (3D-coordinates have to be a list of 3 entries of floats) is not correct, then an error is shown. This can happen, if the NC version is used to store the 3D-coordinates.
+#! Extract the 3D-coordinates from the print record of the vertex in position <A>i</A> of <K>Vertices</K> from the corresponding <A>surface</A>. If the format of the 3D-coordinates (3D-coordinates have to be a list of 3 entries of floats) is not correct, then an error is shown. This can happen, if the NC version is used to store the 3D-coordinates.
 #! The NC-version does not check the coordinate format saved in the print record.
 #! @Returns the 3D-coordinates of the <A>i</A>th vertex.
 #! @Arguments surface, i, printRecord
@@ -105,8 +107,8 @@ DeclareOperation( "GetVertexCoordiantes3DNC", [IsCyclotomic, IsRecord] );
 
 #! @BeginGroup DrawSurfaceToJavaScript
 #! @Description
-#! This function animates the <A>surface</A> as a html file <A>filename</A> in JavaScript into the working directory. The animation can be watched and opened with any browser.
-#! An introduction to the use of this method (along with several examples)
+#! These functions animate the <A>surface</A> as a html file <A>filename</A> in JavaScript into the working directory. The animation can be watched and opened with any browser.
+#! An introduction to the use of this method (along with two examples)
 #! can be found at the start of section
 #! <Ref Sect="Section_LabelIntroductionAndQuickStartAnimating"/>.
 #!
@@ -116,15 +118,19 @@ DeclareOperation( "GetVertexCoordiantes3DNC", [IsCyclotomic, IsRecord] );
 #!   If you don't have permission to write in that file, this method will
 #!   throw an error.
 #! * The particulars of the drawing are determined by the
-#!   given <A>printRecord</A>. If this is not given, the default settings are
-#!   used.
+#!   given <A>printRecord</A>.
 #! * The <A>printRecord</A> will be modified and returned by this method.
 #!   It contains the data to recreate the drawing of the surface.
 #!
-#! To use this function it is necessary to set the 3D-coordinates (3D-coordinates are defined as a list with 3 entries of floats) of the vertices of the surface (see <K>SetVertexCoordinates3D</K>).
-#! If, based on the configuration in the print record, calculations are possible and necessary, they will be done. This means that, if there are no parameters set for the edges and the inner circles the corresponding functions <K>CalculateParametersOfEdges</K> and <K>CalculateParametersOfInnerCircle</K> will be called.
+#! To use these functions it is necessary to set the 3D-coordinates (3D-coordinates are defined as a list with 3 entries of floats) of the vertices of the surface (see <K>SetVertexCoordinates3D</K>).
 #!
-#! There are several parameters to change the output of this method.
+#! The function <K>DrawSurfaceToJavaScript</K> always calculates the parameters which are needed corresponding to the current positions of the vertices. Therefore the <A>printRecord</A> will be changed if some parameters are not set to the actual vertice positions.
+#!
+#! The function <K>DrawSurfaceToJavaScriptCalculate</K> has an extra parameter <A>calculate</A> which is a bool (true or false value). If you want to avoid that the parameters are always recalculated you can use the function <K>DrawSurfaceToJavaScriptCalculate</K> and set <A>calculate = false</A>. If, based on the configuration in the print record, calculations are possible and necessary, they will be done. This means that, if there are no parameters set for the edges and the inner circles the corresponding functions <K>CalculateParametersOfEdges</K> and <K>CalculateParametersOfInnerCircle</K> will be called.
+#!
+#! If you use the function <K>DrawSurfaceToJavaScriptCalculate</K> with <A>calculate = true</A> the function works like <K>DrawSurfaceToJavaScript</K>.
+#!
+#! There are two parameters to change the output of this method.
 #! There are the following classes of parameters:
 #! * <E>Visibility</E>
 #!   (<Ref Subsect="Section_LabelVisibility"/>): Change the
@@ -137,6 +143,12 @@ DeclareOperation( "GetVertexCoordiantes3DNC", [IsCyclotomic, IsRecord] );
 #! @Returns the (possibly) updated print record.
 #! @Arguments surface, filename, printRecord
 DeclareOperation( "DrawSurfaceToJavaScript", [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord] );
+#! @Arguments surface, filename, printRecord, calculate
+DeclareOperation( "DrawSurfaceToJavaScriptCalculate", [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord, IsBool] );
+#! @EndGroup
+
+#! @BeginGroup DrawSurfaceToJavaScript
+
 #! @EndGroup
 
 #! @BeginGroup CalculateParametersOfEdges
@@ -172,6 +184,7 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEd
 #! > [ 0, 0, -Sqrt(2.) ] ];;
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 # rec( vertexCoordinates3D := [ [ 0, 0, 1.41421 ], [ 1, 1, 0 ], [ 1, -1, 0 ], [ -1, -1, 0 ], [ -1, 1, 0 ], [ 0, 0, -1.41421 ] ] );
+#! gap> printRecord := DeactivateVertices(oct, printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronAnimatingWithoutVertices
@@ -192,7 +205,7 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEd
 #! gap> printRecord := ActivateVertex(oct, 3, printRecord);;
 #! gap> List([1..NumberOfVertices(oct)], i -> IsVertexActive(oct, i, printRecord));
 #! [ false, true, true, false, false, false ]
-# gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
+#! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronAnimatingWithoutSomeVertices
 
@@ -208,7 +221,7 @@ DeclareOperation( "DeactivateVertices", [IsSimplicialSurface and IsNotEdgeRamifi
 
 #! @BeginGroup ActivateVertex
 #! @Description
-#! Activate the <A>i</A>th vertex. If a vertex is active, then the vertex is shown in the animation as a node. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Activate the vertex in position <A>i</A> of <A>Vertices(surface)</A>. If a vertex is active, then the vertex is shown in the animation as a node. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateVertex", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -230,7 +243,7 @@ DeclareOperation( "DeactivateEdges", [IsSimplicialSurface and IsNotEdgeRamified,
 
 #! @BeginGroup ActivateEdge
 #! @Description
-#! Activate the <A>i</A>th edge. If an edge is active, then he is shown as a line in the animation. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Activate the edge in position <A>i</A> of <A>Edges(surface)</A>. If an edge is active, then he is shown as a line in the animation. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateEdge", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -252,7 +265,7 @@ DeclareOperation( "DeactivateFaces", [IsSimplicialSurface and IsNotEdgeRamified,
 
 #! @BeginGroup ActivateFace
 #! @Description
-#! Activate the <A>i</A>th face. If a face is active, then the face is shown in the animation as an area. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Activate the face in position <A>i</A> of <A>Faces(surface)</A>. If a face is active, then the face is shown in the animation as an area. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateFace", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -273,26 +286,35 @@ DeclareOperation( "IsFaceActive", [IsSimplicialSurface and IsNotEdgeRamified, Is
 #!   <Item>Faces (The default face colour is 0xFFFF00. 0xFFFF00 is an yellow hue.)</Item>
 #! </Enum>
 #! There are also some colours, which can also be respresented by strings.
-#! Below is a list of the strings, which can be used for a colour.
-#! * Green =
-#! * Red =
-#! * Yellow =
-#! * Blue =
-#! * Purple =
-#! * Pink =
-#! * Black =
-#! * Brown =
-#! * White =
-#! * Orange = 
+#! Below is a list of some strings, which can be used for a colour.
+#! * Green = 0x008000
+#! * Red = 0xFF0000
+#! * Yellow = 0xFFFF00
+#! * Blue = 0x0000FF
+#! * Purple = 0x800080
+#! * Pink = 0xFFC0CB
+#! * Black = 0x000000
+#! * Brown = 0xA52A2A
+#! * White = 0xFFFFFF
+#! * Orange = 0xFFA500
 
-#! Now we use the presented code to expand the example from above and colour all vertices green but the third red.
+#! Now we give a brief example to see how the coloring works.
 #! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> verticesPositions := [
+#! > [ 0, 0, Sqrt(2.) ],
+#! > [ 1, 1, 0 ],
+#! > [ 1, -1, 0 ],
+#! > [ -1, -1, 0 ],
+#! > [ -1, 1, 0 ],
+#! > [ 0, 0, -Sqrt(2.) ] ];;
+#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 #! gap> printRecord := SetVertexColours(oct,
 #! > ListWithIdenticalEntries(NumberOfVertices(oct), "green"), printRecord);;
 #! gap> printRecord := SetVertexColour(oct, 3, "red", printRecord);;
 #! gap> List([1..NumberOfVertices(oct)], i -> GetVertexColour(oct, i, printRecord));
 #! [ "green", "green", "red", "green", "green", "green" ]
-# gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
+#! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronEdgeColors
 
@@ -308,7 +330,7 @@ DeclareOperation( "GetVertexColours", [IsSimplicialSurface and IsNotEdgeRamified
 
 #! @BeginGroup SetVertexColour
 #! @Description
-#! Set the <A>colour</A> of the <A>i</A>th vertex. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
+#! Set the <A>colour</A> of the vertex in position <A>i</A> of <A>Vertices(surface)</A>. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, i, colour, printRecord
 DeclareOperation( "SetVertexColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord] );
@@ -328,7 +350,7 @@ DeclareOperation( "GetEdgeColours", [IsSimplicialSurface and IsNotEdgeRamified, 
 
 #! @BeginGroup SetEdgeColour
 #! @Description
-#! Set the <A>colour</A> of the <A>i</A>th edge. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
+#! Set the <A>colour</A> of the edge in position <A>i</A> of <A>Edges(surface)</A>. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, i, colour, printRecord
 DeclareOperation( "SetEdgeColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord] );
@@ -349,7 +371,7 @@ DeclareOperation( "GetFaceColours", [IsSimplicialSurface and IsNotEdgeRamified, 
 
 #! @BeginGroup SetFaceColour
 #! @Description
-#! Set the <A>colour</A> of the <A>i</A>th face. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
+#! Set the <A>colour</A> of the face in position <A>i</A> of <A>Faces(surface)</A>. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, i, colour, printRecord
 DeclareOperation( "SetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord] );
@@ -362,21 +384,45 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #!
 
 #! For an inner circle we need a face with 3 corresponding edges. Then an inner circle is an circle which lie in the face such that the circle touches each edge of the face in exactly one point.
+#!
 #! The functionality concerning the inner circles is completely simular to the functionality converning the edges.
-#! By default the inner circles are inactive with colour 0x000000. (0x000000 is transparent. Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.)
+#!
+#! By default the inner circles are inactive.
+#!
 #! The following options are implemented for inner circles:
 #! <Enum>
-#! <Item>Calculate the parameters of inner circles by the 3D-coordinates of the vertices. Note that this is necessary for the animation. Therefore the function <K>CalculateParametersOfInnerCircle</K> gets called after using the function <K>DrawSurfaceToJavaScript</K> if no parameters are set for the inner circles. If parameters are set for the inner circles and the 3D-coordinates of a vertex has been changed, then you have to call the function <K>CalculateParametersOfInnerCircle</K> manuel again. Otherwise the animation will be not necessarly correct. </Item>
+#! <Item>Calculate the parameters of inner circles by the 3D-coordinates of the vertices. Note that this is necessary for the animation. Therefore the function <K>CalculateParametersOfInnerCircle</K> gets called after using the function <K>DrawSurfaceToJavaScript</K> if no parameters are set for the inner circles. If parameters are set for the inner circles and the 3D-coordinates of a vertex has been changed, then you have to call the function <K>CalculateParametersOfInnerCircle</K> manuel again if you use the function <K>DrawSurfaceToJavaScriptCalculate</K> with <A>calculate = false</A>. Otherwise the animation will be not necessarly correct. If you use the function <K>DrawSurfaceToJavaScript</K> the parameters will be updated automatically. </Item>
 #!   <Item>Activate and deactivate inner circles. If an inner circle is active, then he is shown in the animation. </Item>
 #!   <Item>Set colours of inner circles for the animation.</Item>
 #! </Enum>
 #! @BeginExampleSession
 #! gap> oct := Octahedron();;
+#! gap> verticesPositions := [
+#! > [ 0, 0, Sqrt(2.) ],
+#! > [ 1, 1, 0 ],
+#! > [ 1, -1, 0 ],
+#! > [ -1, -1, 0 ],
+#! > [ -1, 1, 0 ],
+#! > [ 0, 0, -Sqrt(2.) ] ];;
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 #! gap> printRecord := ActivateInnerCircles(oct,printRecord);
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronInnerCircle
+#! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> verticesPositions := [
+#! > [ 0, 0, Sqrt(2.) ],
+#! > [ 1, 1, 0 ],
+#! > [ 1, -1, 0 ],
+#! > [ -1, -1, 0 ],
+#! > [ -1, 1, 0 ],
+#! > [ 0, 0, -Sqrt(2.) ] ];;
+#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := DeactivateFaces(oct,printRecord);;
+#! gap> printRecord := ActivateInnerCircles(oct,printRecord);
+#! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
+#! @EndExampleSession
 #! @InsertChunk Example_OctahedronInnerCircleWithoutFaces
 
 #! @BeginGroup ActivateInnerCircles
@@ -391,7 +437,7 @@ DeclareOperation( "DeactivateInnerCircles", [IsSimplicialSurface and IsNotEdgeRa
 
 #! @BeginGroup ActivateInnerCircle
 #! @Description
-#! For the describtion of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Activate the <A>i</A>th inner circle (following the face numbering). If an inner circle is active, then he is shown in the animation.
+#! For the describtion of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Activate the inner circle corresponding to the face in position <A>i</A> of <A>Faces(surface)</A>. If an inner circle is active, then he is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateInnerCircle", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
@@ -413,7 +459,7 @@ DeclareOperation( "GetCircleColours", [IsSimplicialSurface and IsNotEdgeRamified
 
 #! @BeginGroup SetCircleColour
 #! @Description
-#! For the describtion of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set the <A>colour</A> of the <A>i</A>th inner circle (following the face numbering). (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.)
+#! For the describtion of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set the <A>colour</A> of the inner circle corresponding to the face in position <A>i</A> of <A>Faces(surface)</A>. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.)
 #! @Returns the updated print record.
 #! @Arguments surface, i, colour, printRecord
 DeclareOperation( "SetCircleColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord] );
@@ -434,16 +480,38 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #! @SectionLabel LabelNormalesInnerCirclesAnimating
 #!
 
-#! A normal of an inner circle is a vector (represented as a line) which goes orthogonal through the middle point of the corresponding inner circle. (For the describtion of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>)
+#! A normal of an inner circle is a vector (represented as a line) which goes orthogonal through the middle point of the corresponding inner circle. (For the describtion of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.)
+#!
 #! The normal vectors of inner circles can also be (de-)activated in the familiar way.
 #! If the are active, they have the colour of the corresponding inner circle.
 #! @BeginExampleSession
 #! gap> oct := Octahedron();;
+#! gap> verticesPositions := [
+#! > [ 0, 0, Sqrt(2.) ],
+#! > [ 1, 1, 0 ],
+#! > [ 1, -1, 0 ],
+#! > [ -1, -1, 0 ],
+#! > [ -1, 1, 0 ],
+#! > [ 0, 0, -Sqrt(2.) ] ];;
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 #! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronNormalesOfInnerCircle
+#! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> verticesPositions := [
+#! > [ 0, 0, Sqrt(2.) ],
+#! > [ 1, 1, 0 ],
+#! > [ 1, -1, 0 ],
+#! > [ -1, -1, 0 ],
+#! > [ -1, 1, 0 ],
+#! > [ 0, 0, -Sqrt(2.) ] ];;
+#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := DeactivateFaces(oct,printRecord);;
+#! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);
+#! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
+#! @EndExampleSession
 #! @InsertChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
 
 #! @BeginGroup ActivateNormalOfInnerCircles
@@ -458,7 +526,7 @@ DeclareOperation( "DeactivateNormalOfInnerCircles", [IsSimplicialSurface and IsN
 
 #! @BeginGroup ActivateNormalOfInnerCircle
 #! @Description
-#! For the describtion of normales of inner circles look at <Ref Sect="Section_LabelNormalesInnerCirclesAnimating"/>. Activate the normal of the <A>i</A>th inner circle (following the face numbering). If a normal innerer circle is active, then the normal innerer circle is shown in the animation.
+#! For the describtion of normales of inner circles look at <Ref Sect="Section_LabelNormalesInnerCirclesAnimating"/>. Activate the normal of the face in position <A>i</A> of <A>Faces(surface)</A>. If a normal innerer circle is active, then the normal innerer circle is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "ActivateNormalOfInnerCircle", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );

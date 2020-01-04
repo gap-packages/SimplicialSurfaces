@@ -721,12 +721,13 @@ InstallMethod( GetCircleColours,
     end
 );
 
+
 # general method
-InstallMethod( DrawSurfaceToJavaScript, 
+InstallMethod( DrawSurfaceToJavaScriptCalculate,
     "for a polygonal complex without edge ramifications, a filename and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord],
-    function(surface, fileName, printRecord)
-				local file, output, template, coords, i, j, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge;
+    [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord, IsBool],
+    function(surface, fileName, printRecord, calculate)
+                local file, output, template, coords, i, j, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge;
 
         # Make the file end with .html
         if not EndsWith( fileName, ".html" ) then
@@ -741,111 +742,124 @@ InstallMethod( DrawSurfaceToJavaScript,
         fi;
         SetPrintFormattingStatus( output, false );
 
-				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Header.html.template");
-				AppendTo( output, template );
+                template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Header.html.template");
+                AppendTo( output, template );
 
         # Set coordinates of vertices
         if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
-					Error( " invalid coordinate format " );
-				fi;
-				for i in [1..NumberOfVertices(surface)] do
-					coords := GetVertexCoordiantes3DNC(i, printRecord);
-					AppendTo(output, "\t\tallpoints.push(new PMPoint(", coords[1], ",", coords[2], ",", coords[3], "));\n");
-				od;
+                    Error( " invalid coordinate format " );
+                fi;
+                for i in [1..NumberOfVertices(surface)] do
+                    coords := GetVertexCoordiantes3DNC(i, printRecord);
+                    AppendTo(output, "\t\tallpoints.push(new PMPoint(", coords[1], ",", coords[2], ",", coords[3], "));\n");
+                od;
 
         # Add points to scenario
-				for i in [0..(NumberOfVertices(surface)-1)] do
-					if IsVertexActive(surface, i+1, printRecord) then
-						colour := GetVertexColour(surface, i+1, printRecord);
-						if not StartsWith(colour, "0x") then
-							colour := Concatenation("\"", colour, "\"");
-						fi;
-						AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
-						AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
-						AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
-						AppendTo(output, "\t\t// draw a node as a sphere of radius 0.05\n");
-						AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material", i, ");\n");
-						AppendTo(output, "\t\tallpoints[", i, "].makelabel(", i+1, ");\n");
-					fi;
-				od;
-				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_associate_points_init_faces.html.template");
-				AppendTo( output, template );
+                for i in [0..(NumberOfVertices(surface)-1)] do
+                    if IsVertexActive(surface, i+1, printRecord) then
+                        colour := GetVertexColour(surface, i+1, printRecord);
+                        if not StartsWith(colour, "0x") then
+                            colour := Concatenation("\"", colour, "\"");
+                        fi;
+                        AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
+                        AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
+                        AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
+                        AppendTo(output, "\t\t// draw a node as a sphere of radius 0.05\n");
+                        AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material", i, ");\n");
+                        AppendTo(output, "\t\tallpoints[", i, "].makelabel(", i+1, ");\n");
+                    fi;
+                od;
+                template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_associate_points_init_faces.html.template");
+                AppendTo( output, template );
 
-				# Add Faces to scenario
-				for i in [1..(NumberOfFaces(surface))] do
-					if IsFaceActive(surface, i, printRecord) then
-						vertOfFace := VerticesOfFaces(surface)[i];
-						colour := GetFaceColour(surface, i, printRecord);
-						if not StartsWith(colour, "0x") then
-							colour := Concatenation("\"", colour, "\"");
-						fi;
-						AppendTo(output, "\t\tvar face", i, " = new THREE.Geometry();\n");
-						for j in [1..3] do
-							AppendTo(output, "\t\tface", i, ".vertices.push(allpoints[", vertOfFace[j]-1, "\].vector);\n");
-						od;
-						AppendTo(output, "\t\tcentroids.push(computeCentroid(face", i, "));\n");
-						AppendTo(output, "\t\tvar face", i, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: 1,side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
-						AppendTo(output, "\t\tface", i, ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
-						AppendTo(output, "\t\tvar face", i, "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
-						AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", i, ", face", i, "_material) );\n");
-					fi;
-				od;
+                # Add Faces to scenario
+                for i in [1..(NumberOfFaces(surface))] do
+                    if IsFaceActive(surface, i, printRecord) then
+                        vertOfFace := VerticesOfFaces(surface)[i];
+                        colour := GetFaceColour(surface, i, printRecord);
+                        if not StartsWith(colour, "0x") then
+                            colour := Concatenation("\"", colour, "\"");
+                        fi;
+                        AppendTo(output, "\t\tvar face", i, " = new THREE.Geometry();\n");
+                        for j in [1..3] do
+                            AppendTo(output, "\t\tface", i, ".vertices.push(allpoints[", vertOfFace[j]-1, "\].vector);\n");
+                        od;
+                        AppendTo(output, "\t\tcentroids.push(computeCentroid(face", i, "));\n");
+                        AppendTo(output, "\t\tvar face", i, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: 1,side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
+                        AppendTo(output, "\t\tface", i, ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
+                        AppendTo(output, "\t\tvar face", i, "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
+                        AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", i, ", face", i, "_material) );\n");
+                    fi;
+                od;
 
-				AppendTo(output, "\n\n");
-				for i in [1..(NumberOfFaces(surface))] do
-					if IsInnerCircleActive(surface, i, printRecord) then
-						parametersOfCircle := printRecord.innerCircles[i];
-						colour := GetCircleColour(surface, i, printRecord);
-						if not StartsWith(colour, "0x") then
-							colour := Concatenation("\"", colour, "\"");
-						fi;
-						AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
-							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
-							parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
-						AppendTo(output, "\t\tobj.add(circle);\n");
-					fi;
-				od;
-				AppendTo(output, "\n\n");
+                AppendTo(output, "\n\n");
+                for i in [1..(NumberOfFaces(surface))] do
+                    if IsInnerCircleActive(surface, i, printRecord) then
+                        parametersOfCircle := printRecord.innerCircles[i];
+                        colour := GetCircleColour(surface, i, printRecord);
+                        if not StartsWith(colour, "0x") then
+                            colour := Concatenation("\"", colour, "\"");
+                        fi;
+                        AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
+                            parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
+                            parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
+                        AppendTo(output, "\t\tobj.add(circle);\n");
+                    fi;
+                od;
+                AppendTo(output, "\n\n");
 
-				for i in [1..(NumberOfFaces(surface))] do
-					if IsNormalOfInnerCircleActive(surface, i, printRecord) then
-						parametersOfCircle := printRecord.innerCircles[i];
-						colour := GetCircleColour(surface, i, printRecord);
-						if not StartsWith(colour, "0x") then
-							colour := Concatenation("\"", colour, "\"");
-						fi;
-						AppendTo(output, "\t\tvar normalVector = Edge(", parametersOfCircle[5], ", 0.002, ", parametersOfCircle[1][1], ", ",
-							parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[4][1], ", ",
-							parametersOfCircle[4][2], ", ", parametersOfCircle[4][3], ", ", colour, ");\n");
-						AppendTo(output, "\t\tobj.add(normalVector);\n");
-					fi;
-				od;
-				AppendTo(output, "\n\n");
+                for i in [1..(NumberOfFaces(surface))] do
+                    if IsNormalOfInnerCircleActive(surface, i, printRecord) then
+                        parametersOfCircle := printRecord.innerCircles[i];
+                        colour := GetCircleColour(surface, i, printRecord);
+                        if not StartsWith(colour, "0x") then
+                            colour := Concatenation("\"", colour, "\"");
+                        fi;
+                        AppendTo(output, "\t\tvar normalVector = Edge(", parametersOfCircle[5], ", 0.002, ", parametersOfCircle[1][1], ", ",
+                            parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[4][1], ", ",
+                            parametersOfCircle[4][2], ", ", parametersOfCircle[4][3], ", ", colour, ");\n");
+                        AppendTo(output, "\t\tobj.add(normalVector);\n");
+                    fi;
+                od;
+                AppendTo(output, "\n\n");
 
-				# Add Edges to scenario
-				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_init_edges.html.template");
-				AppendTo( output, template );
-				if not IsBound(printRecord.edges) then
-					printRecord := CalculateParametersOfEdges(surface, printRecord);
-				fi;
-				for i in [1..(NumberOfEdges(surface))] do
-					if IsEdgeActive(surface, i, printRecord) then
-						parametersOfEdge := printRecord.edges[i];
-						colour := GetEdgeColour(surface, i, printRecord);
-						if not StartsWith(colour, "0x") then
-							colour := Concatenation("\"", colour, "\"");
-						fi;
-						AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
-							parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-							parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
-						AppendTo(output, "\t\tobj.add(edge);\n");
-					fi;
-				od;
+                # Add Edges to scenario
+                template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_init_edges.html.template");
+                AppendTo( output, template );
+                if not IsBound(printRecord.edges) then
+                    printRecord := CalculateParametersOfEdges(surface, printRecord);
+                fi;
+                if calculate then
+                    printRecord := CalculateParametersOfEdges(surface, printRecord);
+                fi;
+                for i in [1..(NumberOfEdges(surface))] do
+                    if IsEdgeActive(surface, i, printRecord) then
+                        parametersOfEdge := printRecord.edges[i];
+                        colour := GetEdgeColour(surface, i, printRecord);
+                        if not StartsWith(colour, "0x") then
+                            colour := Concatenation("\"", colour, "\"");
+                        fi;
+                        AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
+                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
+                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
+                        AppendTo(output, "\t\tobj.add(edge);\n");
+                    fi;
+                od;
 
-				template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Footer.html.template");
-				AppendTo( output, template );
+                template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Footer.html.template");
+                AppendTo( output, template );
 
-				CloseStream(output);
+                CloseStream(output);
         return printRecord;
+    end
+);
+
+
+
+InstallMethod( DrawSurfaceToJavaScript,
+    "for a polygonal complex without edge ramifications, a filename and a record",
+    [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord],
+    function(surface, fileName, printRecord)
+        return DrawSurfaceToJavaScriptCalculate(surface,fileName,printRecord,true);
     end
 );

@@ -68,7 +68,7 @@ verticesPositionsMirrored := -verticesPositions;;
 printRecord := SetVertexCoordiantes3D(tet, verticesPositions, rec());;
 printRecord := CalculateParametersOfEdges(tet, printRecord);;
 printRecord := SetVertexCoordiantes3D(tet, verticesPositionsMirrored,printRecord);;
-DrawSurfaceToJavaScript(tet, "doc/Tetrahedron_PositionMirrored.html", printRecord);;
+DrawSurfaceToJavaScriptCalculate(tet, "doc/Tetrahedron_PositionMirrored.html", printRecord, false);;
 #! <Alt Only="JavaScript">
 #! Tetrahedron_PositionMirrored.html
 #! </Alt>
