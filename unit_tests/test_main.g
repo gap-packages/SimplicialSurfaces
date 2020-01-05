@@ -26,6 +26,8 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_Properties();
     __SIMPLICIAL_Test_PolygonalHierarchy();
     __SIMPLICIAL_Test_SplitEdge();
+    __SIMPLICIAL_Test_JoinEdges();
+    __SIMPLICIAL_Test_JoinVertices();
 
     # VEF-complex
     __SIMPLICIAL_Test_VEF_SpecialisedIncidence();
