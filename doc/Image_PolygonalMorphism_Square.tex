@@ -1,0 +1,51 @@
+
+\newcommand{\setupCoord}{
+    \foreach \i in {0,1,2,3}{
+        \foreach \j in {0,1,2}{
+            \coordinate (A\i\j) at (2*\i,2*\j);
+        }
+    }
+}
+
+
+\begin{scope}[shift={(-7,0)}]
+    \setupCoord
+
+    \draw[edge,face]
+        (A11) -- node[edgeLabel]{1} (A01) -- node[edgeLabel]{14} (A10) -- cycle
+        (A21) -- node[edgeLabel]{3} (A11) -- node[edgeLabel]{15} (A10) -- node[edgeLabel]{12} (A20) -- cycle
+        (A21) -- node[edgeLabel]{16} (A20) -- node[edgeLabel]{10} (A30) -- node[edgeLabel]{8} (A31) -- cycle
+        (A21) -- node[edgeLabel]{17} (A31) -- node[edgeLabel]{6} (A32) -- node[edgeLabel]{5} (A21);
+
+    \foreach \p/\r/\n in {01/left/1, 11/above/2, 21/above/4, 32/right/5, 31/right/6, 30/below right/8, 20/below/10, 10/below/12}{
+        \vertexLabelR{A\p}{\r}{\n}
+    }
+
+    \node[faceLabel] at (barycentric cs:A01=1,A11=1,A10=1) {$I$};
+    \node[faceLabel] at (barycentric cs:A11=1,A10=1,A20=1,A21=1) {$II$};
+    \node[faceLabel] at (barycentric cs:A21=1,A20=1,A30=1,A31=1) {$IV$};
+    \node[faceLabel] at (barycentric cs:A21=1,A31=1,A32=1) {$V$};
+\end{scope}
+
+
+\node at (0,2) {$\rightarrow$};
+
+
+\begin{scope}[shift={(1,0)}]
+    \setupCoord
+
+    \draw[edge,face]
+        (A11) -- node[edgeLabel]{1} (A01) -- node[edgeLabel]{9} (A10) -- cycle
+        (A21) -- node[edgeLabel]{3} (A12) -- node[edgeLabel]{2} (A11) -- cycle
+        (A21) -- node[edgeLabel]{11} (A11) -- node[edgeLabel]{10} (A10) -- node[edgeLabel]{7} (A20) -- cycle
+        (A30) -- node[edgeLabel]{4} (A21) -- node[edgeLabel]{12} (A20) -- node[edgeLabel]{5} (A30);
+
+    \foreach \p/\r/\n in {01/left/1, 11/above left/2, 12/above/3, 21/above right/4, 30/below/5, 20/below/6, 10/below/8}{
+        \vertexLabelR{A\p}{\r}{\n}
+    }
+
+    \node[faceLabel] at (barycentric cs:A01=1,A11=1,A10=1) {$I$};
+    \node[faceLabel] at (barycentric cs:A11=1,A10=1,A20=1,A21=1) {$IV$};
+    \node[faceLabel] at (barycentric cs:A11=1,A21=1,A12=1) {$II$};
+    \node[faceLabel] at (barycentric cs:A21=1,A30=1,A20=1) {$V$};
+\end{scope}

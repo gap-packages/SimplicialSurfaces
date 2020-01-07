@@ -900,4 +900,6 @@ InstallMethod( PerimeterOfHoles, "for a VEF-surface",
         return Set(res);
     end
 );
-RedispatchOnCondition( PerimeterOfHoles, true, [IsVEFComplex], [IsVEFSurface], 0 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( PerimeterOfHoles, true, [IsVEFComplex], [IsVEFSurface], 0 );
+fi;

@@ -83,3 +83,11 @@ DeclareCategory( "IsEdgeColouredEdgeFacePath", IsEdgeFacePath );
 BindGlobal( "EdgeColouredEdgeFacePathFamily",
     NewFamily("EdgeColouredEdgeFacePathFamily", IsObject, IsEdgeColouredEdgeFacePath));
 
+
+#######################################
+##
+##      Global variables
+##
+DeclareGlobalVariable( "SIMPLICIAL_ENABLE_SURFACE_REDISPATCH" );
+MakeReadWriteGlobal("SIMPLICIAL_ENABLE_SURFACE_REDISPATCH");
+SIMPLICIAL_ENABLE_SURFACE_REDISPATCH := true; # true is default, false should only be used for debugging/profiling

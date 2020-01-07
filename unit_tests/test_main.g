@@ -12,7 +12,10 @@
 
 # This is the document that manages all other tests
 
+
 BindGlobal( "SIMPLICIAL_TestAll", function()
+    __SIMPLICIAL_TestFailure := false;
+
     # Polygonal complex
     __SIMPLICIAL_Test_ConnectionLabelStarOfStar();
     __SIMPLICIAL_Test_InvertIncidence();
@@ -26,10 +29,20 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_Properties();
     __SIMPLICIAL_Test_PolygonalHierarchy();
     __SIMPLICIAL_Test_SplitEdge();
+    __SIMPLICIAL_Test_JoinEdges();
+    __SIMPLICIAL_Test_JoinVertices();
 
     # VEF-complex
     __SIMPLICIAL_Test_VEF_SpecialisedIncidence();
 
     # Edge coloured polygonal complex
     __SIMPLICIAL_Test_EdgeColours();
+
+    # Polygonal morphisms
+    __SIMPLICIAL_Test_SourceRange();
+
+    if __SIMPLICIAL_TestFailure then
+        QUIT_GAP(1);
+    fi;
 end);
+

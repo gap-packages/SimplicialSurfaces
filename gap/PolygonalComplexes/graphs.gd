@@ -286,8 +286,9 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! * For any isomorphic surface, the same unique representative is 
 #!   returned in each case.
 #! 
-#! Also provides a map between the elements of the original surface and the 
-#! canonical surface.
+#! Also provides a polygonal morphism (compare chapter 
+#! <Ref Chap="Chapter_Morphisms"/>) from the canonical surface to the
+#! original surface.
 
 #! The following example illustrates the use of the 
 #! <K>CanonicalRepresentativeOfPolygonalSurface</K>
@@ -317,8 +318,6 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! >        verticesOfEdges, edgesOfFaces);;
 #! gap> canonicalCube:=CanonicalRepresentativeOfPolygonalSurface(cube);;
 #! gap> canon:=canonicalCube[1];;
-#! gap> preimage:=MappingOfSurfaces(canon, canonicalCube[2][1], canonicalCube[2][2], 
-#! >        canonicalCube[2][3]);;
 #! gap> Faces(canon);
 #! [ 1, 2, 3, 4, 5, 6 ]
 #! gap> Edges(canon);
@@ -335,13 +334,14 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! false
 #! gap> IsIsomorphic(cube, canon);
 #! true
-#! gap> preimage=cube;
+#! gap> original := RangeSurface(canonicalCube[2]);;
+#! gap> original=cube;
 #! true
 #! @EndExampleSession
 
-#!	@Arguments surface
-#!	@Returns A list containing the canonical form of the surface and maps from the new
-#!	face, edge and vertex set respectively, to the old face, edge and vertex set.
+#! @Arguments surface
+#! @Returns A list containing the canonical form of the surface and a
+#!   polygonal morphism from the canonical surface to the original surface
 DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurface]);
 
 

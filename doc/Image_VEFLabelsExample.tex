@@ -1,0 +1,25 @@
+    % Relevant parameter: \veflabels
+
+
+    \coordinate (P1) at (0,0);
+    \foreach \i in {3,4,5,6,7}{
+        \coordinate (P\i) at (210-60*\i:2.5);
+    }
+
+    \draw[edge, face]
+        (P1) -- node[edgeLabel]{\ifdefined\veflabels 8 \else 1 \fi} (P3)
+            -- node[edgeLabel]{\ifdefined\veflabels 14 \else 7 \fi} (P4) -- cycle
+        (P1) -- node[edgeLabel]{\ifdefined\veflabels 9 \else 2 \fi} (P4)
+            -- node[edgeLabel]{\ifdefined\veflabels 15 \else 8 \fi} (P5)
+            -- node[edgeLabel]{\ifdefined\veflabels 16 \else 9 \fi} (P6) -- cycle
+        (P1) -- node[edgeLabel]{\ifdefined\veflabels 11 \else 4 \fi} (P6)
+            -- node[edgeLabel]{\ifdefined\veflabels 17 \else 10 \fi} (P7)
+            -- node[edgeLabel]{\ifdefined\veflabels 12 \else 5 \fi} (P1);
+
+    \foreach \p/\r/\n in {P1/above/1, P3/right/3, P4/right/4, P5/below/5, P6/left/6, P7/left/7}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+
+    \node[faceLabel] at (barycentric cs:P1=1,P3=1,P4=1) {\ifdefined\veflabels 18 \else 1\fi};
+    \node[faceLabel] at (barycentric cs:P1=1,P4=1,P5=1,P6=1) {\ifdefined\veflabels 19 \else 2\fi};
+    \node[faceLabel] at (barycentric cs:P1=1,P6=1,P7=1) {\ifdefined\veflabels 21 \else 4\fi};

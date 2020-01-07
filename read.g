@@ -23,9 +23,12 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/navigation.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/distances.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/animating.gi" );
+
+ReadPackage( "SimplicialSurfaces", "gap/Morphisms/morphisms.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Paths/paths.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/connectivity.gi" );
@@ -43,8 +46,10 @@ ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/colouring_copy_attribu
 ReadPackage( "SimplicialSurfaces", "gap/Flags/flags.gi" );
 
 # Tests (TODO remove later)
+ReadPackage( "SimplicialSurfaces", "unit_tests/test_init.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_BorderCases_PolygonalComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_EdgeColouring.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_VEFComplex.g" );
+ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_Morphisms.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );

@@ -55,6 +55,7 @@
 #! TODO
 #!
 
+#! @BeginGroup EulerCharacteristic
 #! @Description
 #! Return the <E>Euler-characteristic</E> of the given VEF-complex.
 #! The Euler-characteristic is computed as
@@ -82,6 +83,7 @@
 #! @Returns an integer
 #! @Arguments complex
 DeclareAttribute( "EulerCharacteristic", IsVEFComplex );
+#! @EndGroup
 
 
 #! @BeginGroup IsClosedSurface
@@ -215,7 +217,12 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
 #! 2
 #! gap> FaceDegreesOfVertices( fiveStar );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
+#! gap> DegreesOfVertices( fiveStar );
+#! [ 5, 2, 2,, 2,, 2,,,, 2 ]
 #! @EndExampleSession
+#!
+#! For convenience, these methods can also be called by the names
+#! <K>DegreesOfVertices</K> and <K>DegreeOfVertex</K>.
 #!
 #! @Returns a list of positive integers
 #! @Arguments complex
@@ -225,6 +232,45 @@ DeclareAttribute( "FaceDegreesOfVertices", IsVEFComplex );
 DeclareOperation( "FaceDegreeOfVertex", [IsVEFComplex, IsPosInt] );
 #! @Arguments complex, vertex
 DeclareOperation( "FaceDegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
+#! @Returns a list of positive integers
+#! @Arguments complex
+DeclareAttribute( "DegreesOfVertices", IsVEFComplex );
+#! @Returns a positive integer
+#! @Arguments complex, vertex
+DeclareOperation( "DegreeOfVertex", [IsVEFComplex, IsPosInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "DegreeOfVertexNC", [IsVEFComplex, IsPosInt] );
+#! @EndGroup
+
+
+#! @BeginGroup TotalDefect
+#! @Description
+#! Return the <E>total (inner) defect</E> of the given simplicial surface.
+#! The defect of an inner vertex is <M>6 - faceDegree</M> and the defect of
+#! a boundary vertex is <M>3 - faceDegree</M>.
+#!
+#! The <E>total defect</E> is the sum over all defects.
+#! The <E>total inner defect</E> is the sum over the defects of all inner 
+#! vertices.
+#! As an example, consider the five-star from the start of chapter
+#! <Ref Chap="Chapter_Properties"/>:
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!       \input{Image_FiveTrianglesInCycle.tex}
+#!    \end{tikzpicture}
+#! </Alt>
+#! @ExampleSession
+#! gap> TotalDefect( fiveStar );
+#! 6
+#! gap> TotalInnerDefect( fiveStar );
+#! 1
+#! @EndExampleSession
+#!
+#! @Returns an integer
+#! @Arguments surface
+DeclareAttribute( "TotalDefect", IsSimplicialSurface );
+#! @Arguments surface
+DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! @EndGroup
 
 

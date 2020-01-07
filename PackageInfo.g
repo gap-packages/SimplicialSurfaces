@@ -11,7 +11,7 @@ SetPackageInfo( rec(
 PackageName := "SimplicialSurfaces",
 Subtitle := "Computing with simplicial surfaces and folding processes.",
 Version := "0.5",
-Date := "13/08/2018", # dd/mm/yyyy format
+Date := "02/12/2019", # dd/mm/yyyy format
 ArchiveURL := "TODO",
 ArchiveFormats := "TODO",
 
@@ -21,7 +21,7 @@ Persons := [
     IsMaintainer := true,
     FirstNames := "Alice",
     LastName := "Niemeyer",
-    WWWHome := "https://www.mathb.rwth-aachen.de/Mitarbeiter/niemeyer.php",
+    WWWHome := "http://www.math.rwth-aachen.de/~Alice.Niemeyer/",
     Email := "Alice.Niemeyer@Mathb.RWTH-Aachen.De",
     PostalAddress := "Alice Niemeyer\nLehrstuhl B für Mathematik\nRWTH Aachen\nPontdriesch 10/16\n52062 Aachen\nGERMANY\n",
     Place := "Aachen",
@@ -32,7 +32,7 @@ Persons := [
     IsMaintainer := true,
     FirstNames := "Markus",
     LastName := "Baumeister",
-    WWWHome := "https://www.mathb.rwth-aachen.de/Mitarbeiter/baumeister.php",
+    WWWHome := "https://markusbaumeister.github.io/",
     Email := "baumeister@mathb.rwth-aachen.de",
     PostalAddress := "Markus Baumeister\nLehrstuhl B für Mathematik\nRWTH Aachen\nPontdriesch 10/16\n52062 Aachen\nGERMANY\n",
     Place := "Aachen",
@@ -44,7 +44,7 @@ Persons := [
 #IssueTrackerURL := "TODO",
 #SupportEmail := "TODO",
 
-PackageWWWHome := "https://TODO/",
+PackageWWWHome := "https://github.com/markusbaumeister/simplicial-surfaces",
 
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
@@ -75,9 +75,9 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">= 4.9",
-  NeededOtherPackages := [ [ "Grape", ">=4.7" ], [ "AttributeScheduler", ">=2018.08.03" ]],
-  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2018.08.03"], [ "IO", ">=2.2" ], [ "NautyTracesInterface", ">0.1" ] ],
+  GAP := ">= 4.10",
+  NeededOtherPackages := [ [ "Grape", ">=4.8.2" ], [ "AttributeScheduler", ">=2018.08.03" ]],
+  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2019.05.20"], [ "IO", ">=2.2" ], [ "NautyTracesInterface", ">0.1" ] ],
   ExternalConditions := [ ],
 ),
 
@@ -92,9 +92,12 @@ Keywords := [ "Simplicial" ],
 AutoDoc := rec(
     TitlePage := rec(
         Copyright := Concatenation(
-                    "&copyright; 2016-2017 by Alice Niemeyer and Markus Baumeister<P/>\n\n",
+                    "&copyright; 2016-2020 by Alice Niemeyer and Markus Baumeister<P/>\n\n",
                     "This package may be distributed under the terms and conditions of the\n",
-                    "GNU Public License Version 3 (or higher).\n"
+                    "GNU Public License Version 3 (or higher).<P/>",
+                    "The primary sources for much of the covered material are:<P/>",
+                    "The PhD-thesis of Markus Baumeister (unpublished)<P/>",
+                    "The book \"Simplicial Surfaces of Congruent Triangles\" by Alice C. Niemeyer, Wilhelm Plesken, Daniel Robertz, and Ansgar W. Strzelczyk (unpublished)<P/>"
                 ),
     )
 ),

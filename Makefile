@@ -15,6 +15,8 @@ doc/manual.six: makedoc.g \
 		gap/Library/*gi \
 		gap/Paths/*gd \
 		gap/Paths/*gi \
+		gap/Morphisms/*gd \
+		gap/Morphisms/*gi \
 		gap/PolygonalComplexes/*.gd \
 		gap/PolygonalComplexes/*.gi \
 		doc/SimplicialSurfaces.xml \
@@ -22,6 +24,7 @@ doc/manual.six: makedoc.g \
 		doc/PolygonalStructures.xml \
 		doc/PolygonalStructuresDefinitions.xml \
 		doc/ExampleImplementations.xml \
+		doc/ExampleApplications.xml \
 		doc/Image_* \
 		doc/TableOfContents.autodoc\
 		doc/TikZHeader.tex

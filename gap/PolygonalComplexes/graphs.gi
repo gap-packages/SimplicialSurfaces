@@ -914,9 +914,15 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
         # return the canonical form of the surface and
         # the bijections mapping the new elements to old, by element i in canonical surface
         # maps to inversemap[i] in the old surface.
-        return [surf2, [inversefacemap, inverseedgemap, inversevertexmap]];
+        return [surf2, PolygonalMorphismByListsNC(surf2, surf, 
+                    inversevertexmap, inverseedgemap, inversefacemap)];
     end
 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( CanonicalRepresentativeOfPolygonalSurface, true, 
+        [IsPolygonalComplex], [IsPolygonalSurface], 0 );
+fi;
+
 
 InstallMethod( AutomorphismGroupOnLocalFlags,
     "for a bend polygonal complex", [IsBendPolygonalComplex],

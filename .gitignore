@@ -8,7 +8,7 @@ doc/_IMAGE*
 doc/_TIKZ*
 doc/manual.pdf
 doc/manual.six
-maketest.g
+tst/*.tst
 
 # flatex-folder
 flatex/.deps/
@@ -24,6 +24,13 @@ flatex/flatex
 flatex/flatex.o
 flatex/install-sh
 flatex/missing
+
+# Automatically generated library stuff
+*.bin
+*/_index/
+*/*/_index/
+*/*/*/_index/
+*/*/*/*/_index/
 
 # intermediate compilation stuff
 *.4ct

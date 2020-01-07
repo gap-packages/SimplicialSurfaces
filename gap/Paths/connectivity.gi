@@ -16,7 +16,7 @@
 ##      Connectivity
 ##
 
-InstallMethod( ConnectedComponentsOfComplex, "for a VEF-complex",
+InstallMethod( ConnectedComponents, "for a VEF-complex",
     [IsVEFComplex],
     function(complex)
         return ConnectedComponentsAttributeOfVEFComplex(complex);

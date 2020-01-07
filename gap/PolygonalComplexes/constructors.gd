@@ -56,22 +56,16 @@
 
 #! This package offers three different ways to construct a polygonal complex
 #! "from scratch":
-#! * Choose from a few standard example (like platonic solids) in section
-#!   <Ref Sect="Section_Constructors_Examples"/>.
+#! * Choose from a few standard example (like platonic solids). This is covered
+#!   in the later sections of chapter <Ref Chap="Chapter_Library"/>.
 #! * Define it directly by its incidence structure (this will be the main
 #!   content of this chapter).
 #! * Use the surface database to find appropriate complexes. This will be 
-#!   handled in chapter <Ref Chap="Chapter_Library"/>.
+#!   handled in the first section of chapter <Ref Chap="Chapter_Library"/>.
 #!
-#! As the list of some small standard examples in section
-#! <Ref Sect="Section_Constructors_Examples"/>
-#! does not warrant much 
-#! explanation (except noting that all platonic solids are implemented), we will
-#! now explain the structure of the more general constructors.
-#! 
 #! All general constructors are structured like [Type]By[Method](args), e.g.
 #! * <K>PolygonalComplexByDownwardIncidence</K>( <A>verticesOfEdges</A>, <A>edgesOfFaces</A> )
-#! * <K>SimplicialSurfaceByUmbrellas</K>( <A>edgeFacePaths</A> )
+# * <K>SimplicialSurfaceByUmbrellas</K>( <A>edgeFacePaths</A> )
 #!
 #! They are mainly distinguished by the different attributes they need to 
 #! construct the incidence structures:
@@ -86,9 +80,9 @@
 #! * <E>VerticesInFaces</E>
 #!   (<Ref Sect="Section_Constructors_VerticesInFaces"/>):
 #!   <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>)
-#! * <E>UmbrellaPaths</E>
-#!   (<Ref Sect="Section_Constructors_Umbrellas"/>):
-#!   <K>UmbrellaPathsOfVertices</K> (<Ref Subsect="UmbrellaPathsOfVertices"/>)
+# * <E>UmbrellaPaths</E>
+#   (<Ref Sect="Section_Constructors_Umbrellas"/>):
+#   <K>UmbrellaPathsOfVertices</K> (<Ref Subsect="UmbrellaPathsOfVertices"/>)
 #!
 
 #TODO explain name of constructor very early
@@ -879,76 +873,3 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsList] );
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
-
-##TODO better name for this section
-#! @Section Pre-defined structures
-#! @SectionLabel Constructors_Examples
-#! 
-#! The previous sections explained how polygonal structures can be constructed
-#! in general. As the usage of these methods is a bit inconvenient (they need
-#! a lot of data) this section offers shortcuts for some common structures,
-#! e.g. platonic solids.
-#!
-#! The example structures are ordered by their number of faces. Since it might
-#! be useful to see the incidence structure at a glance, every one of those 
-#! methods will
-#! feature a net of the constructed polygonal structure (if possible). Those
-#! nets are constructed by the method <K>DrawSurfaceToTikz</K> 
-#! (<Ref Subsect="DrawSurfaceToTikz"/>).
-
-#TODO should we do something more with the surfaces in the examples? Give some
-# incidence relations?
-#! @Description
-#! Return a <E>Janus-Head</E> as a simplicial surface. A Janus-Head consists
-#! of two triangular faces that share three edges.
-#! 
-#! @InsertChunk Example_JanusHead
-#! 
-#! @Returns a simplicial surface
-DeclareOperation( "JanusHead", [] );
-
-#! @Description
-#! Return a <E>tetrahedron</E> as a simplicial surface. A tetrahedron is the
-#! platonic solid with four triangular faces. 
-#! 
-#! @InsertChunk Example_Tetrahedron
-#!
-#! @Returns a simplicial surface
-DeclareOperation( "Tetrahedron", [] );
-
-#! @Description
-#! Return a <E>cube</E> as a polygonal surface. A cube is the platonic
-#! solid with six square faces.
-#!
-#! @InsertChunk Example_Cube
-#! 
-#! @Returns a polygonal surface
-DeclareOperation( "Cube", [] );
-
-#! @Description
-#! Return an <E>octahedron</E> as a simplicial surface. An octahedron is the
-#! platonic solid with eight triangular faces.
-#! 
-#! @InsertChunk Example_Octahedron
-#!
-#! @Returns a simplicial surface
-DeclareOperation( "Octahedron", [] );
-
-
-#! @Description
-#! Return a <E>dodecahedron</E> as a polygonal surface. A dodecahedron ist the
-#! platonic solid with 12 pentagon faces.
-#! 
-#! @InsertChunk Example_Dodecahedron
-#!
-#! @Returns a polygonal surface
-DeclareOperation( "Dodecahedron", [] );
-
-#! @Description
-#! Return an <E>icosahedron</E> as a simplicial surface. An icosahedron is the
-#! platonic solid with 20 triangular faces.
-#! 
-#! @InsertChunk Example_Icosahedron
-#! 
-#! @Returns a simplicial surface
-DeclareOperation( "Icosahedron", [] );

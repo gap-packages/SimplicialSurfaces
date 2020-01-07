@@ -67,7 +67,7 @@
 #!
 
 
-#! <ManSection> 
+#! <ManSection Label="IsAnomalyFree"> 
 #!   <Prop Name="IsAnomalyFree" Arg="complex" Label="for IsPolygonalComplex"
 #!      Comm="Checks whether a given polygonal complex contains anomalies"/>
 #!   <Filt Name="IsVertexFaithful" Arg="complex" Type="property"

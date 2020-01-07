@@ -220,7 +220,10 @@ DeclareOperation( "SplitVertexNC", [IsVEFComplex, IsPosInt, IsList] );
 #! by <K>SplitVertex</K> (<Ref Subsect="SplitVertex"/>). If the first and
 #! final vertex of <A>vePath</A> should not be splitted, the method
 #! <K>SplitEdgePath</K> (<Ref Subsect="SplitEdgePath"/>) should be used
-#! instead.
+#! instead. 
+#!
+#! This method will change the labels of all affected vertices and edges.
+#! All other labels remain unchanged.
 #!
 #! The given <A>vePath</A> has to be a duplicate-free 
 #! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
@@ -263,6 +266,9 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsVEFComplex, IsVertexEdgePath] );
 #! final vertex of <A>vePath</A> should also be splitted, the method
 #! <K>SplitVertexEdgePath</K> (<Ref Subsect="SplitVertexEdgePath"/>) should
 #! be used instead.
+#!
+#! This method will change the labels of all affected vertices and edges.
+#! All other labels remain unchanged.
 #!
 #! The given <A>vePath</A> has to be a duplicate-free 
 #! (<Ref Subsect="VertexEdge_IsDuplicateFree"/>) vertex-edge-path
@@ -311,11 +317,15 @@ DeclareOperation( "SplitEdgePathNC", [IsVEFComplex, IsVertexEdgePath and IsDupli
 #! and vertices that are not incident to one of the remaining faces.
 #!
 #! All labels of remaining vertices, edges and faces will remain the same.
+#! The method <K>SubsurfaceByFaces</K> is only applicable to surfaces
+#! and guarantees that the returned subcomplex is a surface. If this
+#! is not possible <K>fail</K> is returned.
 #! 
 #! TODO example
 #!
 #! The NC-version does not check whether the given set of <A>faces</A>
-#! actually consists only of faces in <A>complex</A>.
+#! actually consists only of faces in <A>complex</A>. It also does not
+#! check whether the result of <K>SubsurfaceByFaces</K> is a surface.
 #! 
 #! @Returns a VEF-complex
 #! @Arguments complex, faces
@@ -332,9 +342,10 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsVEFSurface, IsSet] );
 
 #! @BeginGroup RemoveFaces
 #! @Description
-#! Remove the given faces from <A>complex</A> and return the result. All
-#! vertices and edges that were incident to just these faces will also be
-#! removed as a result. The labels of the remaining vertices, edges and faces
+#! Remove the given faces from <A>complex</A> and return the result. If this
+#! removal results in vertices or edges that are not incident to any remaining
+#! faces, they will be removed as well.
+#! The labels of all remaining vertices, edges and faces
 #! will remain unaffected.
 #!
 #! TODO example
@@ -671,7 +682,7 @@ DeclareOperation("JoinEdgesNC", [IsVEFComplex, IsList, IsPosInt]);
 #!     \coordinate (R) at (\len,0);
 #!     \coordinate (U) at (60:\len);
 #!
-#!     \draw[edge,face] (L) -- node[edgeLabel]{2} (R) -- node[edgeLabel]{3} (U) -- node[edgeLabel]{2} cycle;
+#!     \draw[edge,face] (L) -- node[edgeLabel]{1} (R) -- node[edgeLabel]{3} (U) -- node[edgeLabel]{2} cycle;
 #!     \node[faceLabel] at (barycentric cs:L=1,R=1,U=1){I};
 #!     \foreach \p/\r/\n in {L/left/1,R/right/2,U/above/3}{
 #!       \vertexLabelR{\p}{\r}{\n}
@@ -796,6 +807,7 @@ DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList]
 #!
 #! 
 
+#! @BeginGroup ConnectedFaceSum
 #! @Description
 #! Compute the <E>connected face-sum</E> of two polygonal surfaces.
 #! The connected face-sum identifies the faces of two polygonal surfaces
@@ -807,7 +819,7 @@ DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList]
 #! this methods needs a flag of each complex, i.e. a list of a vertex, an edge
 #! and a face that are all incident.
 #!
-#! TODO example
+#! TODO example (important since otherwise it might seem that this method is not implemented);
 #!
 #! The central part of this can be implemented like this:
 #! @BeginLogSession
@@ -819,6 +831,7 @@ DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList]
 #! @Returns a polygonal surface or <K>fail</K>
 #! @Arguments surface1, flag1, surface2, flag2
 DeclareOperation( "ConnectedFaceSum", [IsVEFSurface, IsList, IsVEFSurface, IsList] );
+#! @EndGroup
 #TODO can this be implemented more generally?
 
 
@@ -1200,21 +1213,6 @@ DeclareOperation( "SplitMend", [IsPolygonalComplex, IsList] );
 DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
 #! @EndGroup
 
-#TODO this section is only here for a short time. As soon as it is more
-# developed, it should get its own chapter
-#! @Section Maps between polygonal surfaces
-#! This section is under construction and currently only contains a minimal
-#! implementation.
- 
-#!	@Description
-#!	Takes a surface and maps from the faces, edges and vertices, and returns the surface
-#!	under the mapping. The maps are given as lists, with the position of the list indexed by
-#!	the input of the map (that is, the face/edge/vertex of the given surface) and the value at
-#!	that position is the image under the map.
-#!	@Arguments surface, facemap, edgemap, vertexmap
-#!	@Returns a simplicial surface
-DeclareOperation( "MappingOfSurfaces", [IsPolygonalSurface, IsList, IsList, IsList]);
-# This is currently implemented in main.gi
 
 # These do not fit the above pattern:
 # CommonCover       -> does not fit here at all -> chapter Coverings (or only as a section in chapter "Associated Complexes" that also includes DualSurface?)

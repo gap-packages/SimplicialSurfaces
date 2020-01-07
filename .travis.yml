@@ -1,0 +1,34 @@
+language: c
+env:
+  global:
+    - GAP_PKGS_TO_BUILD="io profiling AttributeScheduler grape simplicial"
+    - GAP_PKGS_TO_CLONE="sebasguts/AttributeScheduler.git sebasguts/NautyTracesInterface.git markusbaumeister/simplicial-surfaces.git"
+
+addons:
+  apt_packages:
+    - libgmp-dev
+    - libreadline-dev
+    - zlib1g-dev
+
+matrix:
+  include:
+    - env: GAPBRANCH=master
+    - env: GAPBRANCH=stable-4.10
+
+branches:
+  only:
+    - master
+
+before_script:
+  - export GAPROOT="$HOME/gap"
+  - git clone https://github.com/gap-system/pkg-ci-scripts.git scripts
+  - scripts/build_gap.sh
+  - cd $GAPROOT/pkg/NautyTracesInterface && $GAPROOT/pkg/NautyTracesInterface/install.sh --gaproot $GAPROOT && cd - # Dirty hack to ensure compilation. Linking of the library would be preferable.
+  - scripts/build_pkg.sh # Usually part of the script. In our case, we only need to call 'make', but this is not recogized by the script.
+
+script:
+  - $GAPROOT/bin/gap.sh makedoc.g && scripts/run_tests.sh
+
+after_script:
+  - bash scripts/gather-coverage.sh
+  - bash <(curl -s https://codecov.io/bash)

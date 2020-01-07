@@ -1,7 +1,0 @@
-return [
-    Tetrahedron(),
-    Cube(),
-    Octahedron(),
-    Dodecahedron(),
-    Icosahedron()
-];

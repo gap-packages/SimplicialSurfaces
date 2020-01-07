@@ -1,9 +1,11 @@
-if fail = LoadPackage("AutoDoc", "2016.02.16") then
-    Error("AutoDoc version 2016.02.16 or newer is required.");
+if fail = LoadPackage("AutoDoc", "2019.05.20") then
+    Error("AutoDoc version 2019.05.20 or newer is required.");
+    QUIT_GAP(1);
 fi;
 
 if fail = LoadPackage("GAPDoc", "1.6") then
     Error("GAPDoc version 1.6 or newer is required.");
+    QUIT_GAP(1);
 fi;
 
 
@@ -27,6 +29,13 @@ BindGlobal("__SIMPLICIAL_TikZHeader", "\\input{TikZHeader.tex}\n\n" );
 if fail = LoadPackage("SimplicialSurfaces") then
     Error("SimplicialSurfaces package has to be available.");
 fi;
+
+Exec( "pwd > _TMP_foo");   
+manualposition := StringFile("_TMP_foo");
+Exec("rm _TMP_foo");
+RemoveCharacters(manualposition, "\n");  
+manualposition := Concatenation(manualposition,"/doc/manual.pdf");
+manualposition := Concatenation("You can find the image in the manual. Most probably it is here: ", manualposition);
 
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
@@ -174,7 +183,9 @@ preProcessTikz := function( node )
 
 
         # Generate the text version
-        consoleString := "\n[an image that is not shown in text version]\n";
+        consoleString := "\n[an image that is not shown in text version. ";
+	consoleString := Concatenation( consoleString, manualposition);
+	consoleString := Concatenation( consoleString, "]\n");
         n3 := ParseTreeXMLString(consoleString);
         n3.name := "Alt";
         n3.attributes.Only := "Text";
@@ -324,8 +335,8 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force _TIKZ_*;\"" );
         __SIMPLICIAL_MANUAL_MODE := true;
         Read("gap/PolygonalComplexes/drawing.gd");
-        Read("gap/PolygonalComplexes/constructors_images.gd");
-        Read("gap/PolygonalComplexes/animating_images.gd");
+        Read("gap/Library/library_images.gd");
+        Read("gap/PolygonalComplexes/distances_images.gd");
         Read("gap/ColouredComplexes/edgeColouring_images.gd");
         Read("gap/ColouredComplexes/variColouring_images.gd");
         Read("gap/Flags/flags_images.gd");
@@ -466,24 +477,23 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   return r;
 end);
 
+# Create binary and index files for the library
+__SIMPLICIAL_LibraryConstructBinary();
+__SIMPLICIAL_LibraryConstructIndex();
 
 # After all this preparatory work we can finally call the function to create
 # the documentation
 
 AutoDoc( rec( scaffold := rec(
-                    MainPage := false,
-                    gapdoc_latex_options := rec(
-                        LateExtraPreamble := __SIMPLICIAL_TikZHeader)
-                    ), 
+                    MainPage := false), 
               dir := __SIMPLICIAL_DocDirectory,
-              maketest := rec(
-                    commands := ["LoadPackage(\"SimplicialSurfaces\");\n SIMPLICIAL_TestAll();\n SIMPLICIAL_COLOURS_ON := false;\n"]
-              ),
+              extract_examples := true,
 	      autodoc := rec( 
                     files := [ ],
-                    scan_dirs := ["doc", "gap", "gap/PolygonalComplexes", "gap/Paths", "gap/Library", "gap/ColouredComplexes", "gap/Flags"]),
+                    scan_dirs := ["doc", "gap", "gap/PolygonalComplexes", "gap/Paths", "gap/Library", "gap/ColouredComplexes", "gap/Flags", "gap/Morphisms"]),
               gapdoc := rec(
-                    files := ["doc/PolygonalStructuresDefinitions.xml", "doc/ExampleImplementations.xml"]
+                    files := ["doc/PolygonalStructuresDefinitions.xml", "doc/ExampleImplementations.xml"],
+                    LaTeXOptions := rec( LateExtraPreamble := __SIMPLICIAL_TikZHeader )
               ))
 );
 

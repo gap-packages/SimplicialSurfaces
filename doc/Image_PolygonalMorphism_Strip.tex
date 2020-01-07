@@ -1,0 +1,72 @@
+% global parameter \vefOn
+
+\newcommand{\setupCoord}{
+    \foreach \i in {0,1}{
+        \foreach \j in {0,1,2,3}{
+            \coordinate (A\i\j) at (2*\i,2*\j);
+        }
+    }
+}
+
+% Parameter \vef
+\newcommand{\sourceComplex}{
+    \setupCoord
+    \draw[edge,face]
+        (A10) -- node[edgeLabel]{\ifdefined\vef 8\else 1\fi} (A11) -- (A02) -- node[edgeLabel]{\ifdefined\vef 19\else 12\fi} (A01) -- node[edgeLabel]{\ifdefined\vef 12\else 5\fi} (A10)
+        (A02) -- node[edgeLabel]{\ifdefined\vef 14\else 7\fi} (A11) -- node[edgeLabel]{\ifdefined\vef 9\else 2\fi} (A12) -- cycle
+        (A02) -- node[edgeLabel]{\ifdefined\vef 15\else 8\fi} (A12) -- node[edgeLabel]{\ifdefined\vef 10\else 3\fi} (A13) -- node[edgeLabel]{\ifdefined\vef 16\else 9\fi} (A02);
+
+    \foreach \p/\r/\n in {10/right/1, 11/right/2, 12/right/3, 13/right/4, 01/left/6, 02/left/7}{
+        \vertexLabelR{A\p}{\r}{\n}
+    }
+
+    \node[faceLabel] at (barycentric cs:A10=1,A11=1,A01=1,A02=1) {\ifdefined\vef 21\else 2\fi};
+    \node[faceLabel] at (barycentric cs:A12=1,A11=1,A02=1) {\ifdefined\vef 22\else 3\fi};
+    \node[faceLabel] at (barycentric cs:A13=1,A12=1,A02=1) {\ifdefined\vef 23\else 4\fi};
+}
+
+% Parameter \vef
+\newcommand{\rangeComplex}{
+    \setupCoord
+    \draw[edge,face]
+        (A00) -- node[edgeLabel]{\ifdefined\vef 11\else 4\fi} (A10) -- (A01) -- node[edgeLabel]{\ifdefined\vef 8\else 1\fi} (A00)
+        (A10) -- node[edgeLabel]{\ifdefined\vef 18\else 11\fi} (A11) -- (A02) -- node[edgeLabel]{\ifdefined\vef 9\else 2\fi} (A01) -- node[edgeLabel]{\ifdefined\vef 12\else 5\fi} (A10)
+        (A02) -- node[edgeLabel]{\ifdefined\vef 15\else 8\fi} (A12) -- node[edgeLabel]{\ifdefined\vef 19\else 12\fi} (A11) -- node[edgeLabel]{\ifdefined\vef 14\else 7\fi} (A02);
+
+    \foreach \p/\r/\n in {10/right/5, 11/right/6, 12/right/7, 00/left/1, 01/left/2, 02/left/3}{
+        \vertexLabelR{A\p}{\r}{\n}
+    }
+
+    \node[faceLabel] at (barycentric cs:A10=1,A11=1,A01=1,A02=1) {\ifdefined\vef 21\else 2\fi};
+    \node[faceLabel] at (barycentric cs:A12=1,A11=1,A02=1) {\ifdefined\vef 22\else 3\fi};
+    \node[faceLabel] at (barycentric cs:A00=1,A10=1,A01=1) {\ifdefined\vef 20\else 1\fi};
+}
+
+
+\begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+    \ifdefined\vefOn
+        \begin{scope}[shift={(-7,0)}]
+            \def\vef{1}
+            \sourceComplex
+        \end{scope}
+    \fi
+
+    \begin{scope}[shift={(-3,0)}]
+        \sourceComplex
+    \end{scope}
+
+    \node at (0,2) {$\rightarrow$};
+
+    \begin{scope}[shift={(1,0)}]
+        \rangeComplex
+    \end{scope}
+
+    \ifdefined\vefOn
+        \begin{scope}[shift={(5,0)}]
+            \def\vef{1}
+            \rangeComplex
+        \end{scope}
+    \fi
+\end{tikzpicture}
+
+

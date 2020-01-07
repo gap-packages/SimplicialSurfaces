@@ -448,7 +448,8 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! @SectionLabel Paths_Perimeter
 #!
 #! This section describes <E>perimeter paths</E>, which are special
-#! vertex-edge-paths (with additional information). They are returned by
+#! vertex-edge-paths that additionally store the face which they
+#! encircle. They are returned by
 #! methods like <K>PerimeterPathsOfFaces</K> 
 #! (<Ref Subsect="PerimeterPathsOfFaces"/>) and <K>Orientation</K>
 #! (<Ref Subsect="Orientation"/>).
@@ -1359,7 +1360,7 @@ DeclareProperty( "IsConnected", IsVEFComplex );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> comp := ConnectedComponentsOfComplex( butterfly );;
+#! gap> comp := ConnectedComponents( butterfly );;
 #! gap> Size(comp);
 #! 1
 #! gap> comp[1] = butterfly;
@@ -1369,7 +1370,7 @@ DeclareProperty( "IsConnected", IsVEFComplex );
 #!
 #! @Returns a list of polygonal complexes
 #! @Arguments complex
-DeclareOperation( "ConnectedComponentsOfComplex", [IsVEFComplex] );
+DeclareOperation( "ConnectedComponents", [IsVEFComplex] );
 #! @Arguments complex
 DeclareAttribute( "ConnectedComponentsAttributeOfVEFComplex", IsVEFComplex );
 #! @Returns a polygonal complex

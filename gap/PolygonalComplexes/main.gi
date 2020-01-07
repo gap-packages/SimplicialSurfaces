@@ -270,7 +270,7 @@ InstallMethod( ViewInformation, "for a polygonal complex",
 
         Add( strList, [Concatenation(String(NumberOfVertices(complex)), " vertices"), 1] );
         Add( strList, [", ", 0] );
-        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges "), 2] );
+        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges, "), 2] );
         Add( strList, ["and ", 0] );
         Add( strList, [Concatenation(String(NumberOfFaces(complex)), " faces"), 3] );
         Add( strList, [")", 0] );
@@ -496,12 +496,17 @@ InstallMethod( Display, "for a polygonal complex", [IsPolygonalComplex],
 ##
 BindGlobal("__SIMPLICIAL_LexicographicCounterComparison",
     function(count1, count2)
-        local i, l1, l2;
+        local i, l1, l2, min;
     
         l1 := Length(count1);
         l2 := Length(count2);
+        if l1 < l2 then
+            min := l1;
+        else
+            min := l2;
+        fi;
 
-        for i in [ 1 .. Minimum(l1,l2)] do
+        for i in [ 1 .. min] do
             if count1[i][1] <> count2[i][1] then
                 return count1[i][1] < count2[i][1];
             elif count1[i][2] <> count2[i][2] then
@@ -552,30 +557,3 @@ InstallMethod( \<, "for two polygonal complexes",
 
 
 
-
-InstallMethod( MappingOfSurfaces, 
-    "for a surface and three lists", [IsPolygonalSurface, IsList, IsList, IsList],
-    function(surf, mapfaces, mapedges, mapvertices)
-        local edgesoffaces, face, f2, edgesofface, newedgesofface, verticesofedge, verticesofedges,
-        e2, newverticesofedge, newfaces, newedges, newvertices, edge;
-        edgesoffaces:=[];
-        for face in Faces(surf) do
-            f2 := mapfaces[face];
-            edgesofface:=EdgesOfFace(surf, face);
-            newedgesofface := List(edgesofface, t -> mapedges[t]);
-            edgesoffaces[f2]:= Set(newedgesofface);
-        od;
-
-        verticesofedges:=[];
-        for edge in Edges(surf) do
-            e2 := mapedges[edge];
-            verticesofedge:=VerticesOfEdge(surf, edge);
-            newverticesofedge := List(verticesofedge, t -> mapvertices[t]);
-            verticesofedges[e2]:= Set(newverticesofedge);
-        od;
-        newfaces:=Set(Faces(surf), t -> mapfaces[t]);
-        newedges := Set(Edges(surf), t -> mapedges[t]);
-        newvertices:=Set(Vertices(surf), t -> mapvertices[t]);
-        return PolygonalSurfaceByDownwardIncidence(newvertices, newedges, newfaces, verticesofedges, edgesoffaces);
-    end
-);
