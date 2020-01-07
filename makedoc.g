@@ -337,6 +337,7 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         Read("gap/PolygonalComplexes/drawing.gd");
         Read("gap/Library/library_images.gd");
         Read("gap/PolygonalComplexes/distances_images.gd");
+	Read("gap/PolygonalComplexes/animating_images.gd");
         Read("gap/ColouredComplexes/edgeColouring_images.gd");
         Read("gap/ColouredComplexes/variColouring_images.gd");
         Read("gap/Flags/flags_images.gd");

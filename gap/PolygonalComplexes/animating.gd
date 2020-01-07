@@ -79,7 +79,7 @@
 #! gap> DrawSurfaceToJavaScriptCalculate(tet,
 #! > "Tetrahedron_PositionMirrored.html", printRecord, false);;
 #! @EndExampleSession
-#! @InsertChunk Example_OctahedronPositionMirrored
+#! @InsertChunk Example_Tetrahedron_PositionMirrored
 #! The function <K>DrawSurfaceToJavaScript</K> always calculates the parameters of the edges depending on the current vertices positions.
 #! If you want to avoid that, you can use the function <K>DrawSurfaceToJavaScriptCalculate</K> and set the last parameter to false. In this case no new parameters are computed except that no parameters were ever set.
 
