@@ -77,7 +77,7 @@
 #! > printRecord.edges[EdgeBetweenVertices(tet, 1, 2)][1];
 #! [ 0., -0.57735, -0.408248 ]
 #! gap> DrawSurfaceToJavaScriptCalculate(tet,
-#! > "doc/Tetrahedron_PositionMirrored.html", printRecord, false);;
+#! > "Tetrahedron_PositionMirrored.html", printRecord, false);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronPositionMirrored
 #! The function <K>DrawSurfaceToJavaScript</K> always calculates the parameters of the edges depending on the current vertices positions.
@@ -405,7 +405,7 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
-#! gap> printRecord := ActivateInnerCircles(oct,printRecord);
+#! gap> printRecord := ActivateInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronInnerCircle
@@ -420,7 +420,7 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #! > [ 0, 0, -Sqrt(2.) ] ];;
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 #! gap> printRecord := DeactivateFaces(oct,printRecord);;
-#! gap> printRecord := ActivateInnerCircles(oct,printRecord);
+#! gap> printRecord := ActivateInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronInnerCircleWithoutFaces
@@ -494,7 +494,7 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
-#! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);
+#! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronNormalesOfInnerCircle
@@ -509,7 +509,7 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #! > [ 0, 0, -Sqrt(2.) ] ];;
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 #! gap> printRecord := DeactivateFaces(oct,printRecord);;
-#! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);
+#! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
 #! @InsertChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
