@@ -37,6 +37,7 @@
     <#Include SYSTEM "_Chapter_Library.xml">
     <#Include SYSTEM "_Chapter_Graphs.xml">
     <#Include SYSTEM "_Chapter_Embeddings.xml">
+    <#Include SYSTEM "_Chapter_AnimationJavaScript.xml">
     <#Include SYSTEM "_Chapter_EdgeColouring.xml">
     <#Include SYSTEM "_Chapter_EdgeVariColouring.xml">
     <#Include SYSTEM "_Chapter_Flags.xml">

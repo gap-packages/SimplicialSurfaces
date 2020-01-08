@@ -1,0 +1,5 @@
+		// associate points to the 3D object
+		for (index = 0; index < allpoints.length; ++index) {
+			allpoints[index].add(obj);
+		}
+		<!-- FACES -->
