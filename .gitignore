@@ -6,6 +6,7 @@ doc/SimplicialSurfaces.tex
 doc/_AutoDocMainFile.xml
 doc/_IMAGE*
 doc/_TIKZ*
+doc/*.png
 doc/manual.pdf
 doc/manual.six
 tst/*.tst
