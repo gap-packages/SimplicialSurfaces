@@ -1,0 +1,63 @@
+
+		scene.add(obj);
+		all_objects.push(obj);
+
+		// COMMON_CODE_BLOCK_BEGIN
+		var xRotationEnabled = false;
+		var yRotationEnabled = false;
+		var zRotationEnabled = false;
+		var rotationSpeedFactor = 1;
+		var settingsShown = false;
+		var labelsShown = true;
+		var intervals = [];
+		var timeouts = [];
+		var explodingSpeed = 0.05;
+		var explodeScale = 0;
+		var XMLS = new XMLSerializer();
+		var svgElement;
+		var renderId;
+
+		var render = function () {
+			renderId = requestAnimationFrame(render);
+			// comment in for automatic explosion
+			//explode(updateFactor());
+			var phi = 0.02 * rotationSpeedFactor;
+			if (xRotationEnabled){
+				scene.rotation.x += phi;
+			}
+			if(yRotationEnabled){
+				scene.rotation.y += phi;
+			}
+			if(zRotationEnabled){
+				scene.rotation.z += phi;
+			}
+			controls.update();
+			renderer.render(scene, camera);
+		};
+
+		render();
+
+		function computeCentroid(geom) {
+			centroid = new THREE.Vector3();
+			geom.vertices.forEach(function(v) {
+				centroid.add(v);			
+			});
+			centroid.divideScalar(geom.vertices.length);
+			return centroid;
+		}
+
+		function changeTransparency(event){
+			var opacity = 1-Number(event.currentTarget.value);
+			for (var i=0; i<all_objects.length; i++){
+				for (var j=0; j<all_objects[i].children.length; j++){
+					if (all_objects[i].children[j].material.type == "MultiMaterial") {
+						for (var k=0; k<all_objects[i].children[j].material.materials.length; k++){
+							all_objects[i].children[j].material.materials[k].opacity = opacity;
+						}
+					} else if (all_objects[i].children[j].material.transparent &&
+						all_objects[i].children[j].material.type == "MeshBasicMaterial" &&
+						all_objects[i].children[j].geometry.type == "Geometry"){
+						all_objects[i].children[j].material.opacity = opacity;
+					}
+				}
+			}
