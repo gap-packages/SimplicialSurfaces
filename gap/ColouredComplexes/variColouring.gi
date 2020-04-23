@@ -678,8 +678,8 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
 
             Add( edgeColSurfaces, obj );
         od;
-    
-        return edgeColSurfaces;
+
+    return  EdgeColouredPolygonalComplexIsomorphismRepresentatives(edgeColSurfaces);
     end
 );
 

@@ -42,7 +42,7 @@ InstallMethod( IsIsoscelesColouredSurface,
 );
 
 InstallMethod( IsIsoscelesColouredSurface,
-    "for an edge coloured polygonal complex",
+    "for a  polygonal complex",
     [IsVEFComplex and IsPolygonalComplex],
     function(colComp)
 
@@ -141,6 +141,7 @@ InstallMethod( BaseEdgeOfFace,
     fi;
 end
 );
+
 
 
 __SIMPLICIAL_Legfaces := function( surf, e)
@@ -621,8 +622,8 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
         od;
 
 
-
-        return isoscelesColSurfaces;
+    return  EdgeColouredPolygonalComplexIsomorphismRepresentatives(
+            isoscelesColSurfaces);
 end
 );
 
@@ -630,7 +631,7 @@ end
 
 ## pr.edgeColourClassLengths := [5/3,6/3];
 
-##
+
 ##      End of AllIsosceles ...
 ##
 #######################################
@@ -730,3 +731,40 @@ WildColouredSurfaceOfIsoscelesColouredSurface := function ( surf)
         return  colSurf;
     
 end;
+
+
+#############################################################################
+##
+##  Analysing Wild or Isosceles coloured surfaces
+
+
+#############################################################################
+##
+##  VertexCounterByAngle ( <surf> ) . . . . for a coloured simplicial surface
+##
+
+
+InstallMethod( VertexCounterByAngle,
+    "refined vertex counter for an edge coloured surface",
+    [IsEdgeColouredSimplicialSurface],
+     function (surf)
+        local faceDegrees, vertex, face, faces, thisvertex, e, counter;
+
+        counter := [];
+        for vertex in Vertices(surf) do
+            faces := FacesOfVertex(surf,vertex);
+            thisvertex := [];
+            for face in faces do
+                e := OppositeEdgeOfVertexInTriangle(surf,vertex,face);
+                Add(thisvertex, ColourOfEdge(surf,e));
+             od;
+             Add(counter, Collected(thisvertex));
+        od;
+
+        return Collected(counter);
+
+        #faceDegrees := List( FacesOfVertices(surf), Length );
+        #return Collected( Compacted( faceDegrees ) );
+    end)
+;
+

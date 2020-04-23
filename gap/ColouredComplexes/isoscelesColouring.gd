@@ -339,8 +339,9 @@ DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsIsoscelesColouredSurface );
 
 #! @BeginGroup AllIsoscelesColouredSurfaces
 #! @Description
-#! This method computes all wild-coloured surfaces based on the given
-#! information. The information can be given in one of two forms:
+#! This method computes all isosceles-coloured surfaces up to isomorphism
+#! based on the given information. The information can be given in one of
+#! two forms:
 #! <Enum>
 #!   <Item>A simplicial surface (<Ref Subsect="IsSimplicialSurface"/>).
 #!      The optional argument <A>localSymmetry</A> is a list that encodes
@@ -384,7 +385,7 @@ DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsIsoscelesColouredSurface );
 #!
 #! @BeginExampleSession
 #! gap> tetIsosceles := AllIsoscelesColouredSurfaces(Tetrahedron());;
-#! gap> Size(tetWild);
+#! gap> Size(tetIsosceles);
 #! 1
 #! @EndExampleSession
 #! TODO examples that use local symmetries -> what is interesting (but small)?
@@ -397,4 +398,17 @@ DeclareOperation( "AllIsoscelesColouredSurfaces", [IsList, IsList] );
 #! @Arguments invList[, localSymmetry]
 #! @EndGroup
 
-
+#! @BeginGroup VertexCounterByAngle
+#! @Description
+#!  The function VertexCounterByAngle is a refinement of the function
+#!  VertexCounter: For an edge coloured simplicial surface it determines
+#!  for every vertex how many faces are incident to that vertex at a given
+#!  angle.
+#!  Note that each angle in a face of a wild or isosceles coloured simplicial
+#!  surface is determined by the colour of the edge opposite to this angle.
+#! @Returns a list 
+#! @Arguments colSimSurf
+#! @EndGroup
+##
+DeclareOperation( "VertexCounterByAngle",
+    [IsEdgeColouredSimplicialSurface]);
