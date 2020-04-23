@@ -229,6 +229,7 @@ DeclareAttribute("ColourInvolutions", IsEdgeColouredPolygonalComplex);
 #! TODO example
 #!
 #! @Arguments colSurf 
+DeclareProperty( "IsIsoscelesColouredSurface", IsPolygonalComplex );
 DeclareProperty( "IsIsoscelesColouredSurface", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
 InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsIsoscelesColouredSurface );
