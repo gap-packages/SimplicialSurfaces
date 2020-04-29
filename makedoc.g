@@ -208,8 +208,9 @@ preProcessJavaScript := function( node )
    	if node.name = "Alt" and IsBound(node.attributes.Only) and 
         node.attributes.Only in ["JavaScript","Javascript"] then
 
-       		# get the content of the tag
+       		# get the content of the tag (we need to remove whitespaces)
         	cont := GetTextXMLTree(node);
+		cont := ReplacedString( cont, " ", "" ); 
 		cont := ReplacedString( cont, "\n", "" ); 
 		cont := ReplacedString( cont, ".html", "" ); 
 		path := __SIMPLICIAL_DocDirectory;
