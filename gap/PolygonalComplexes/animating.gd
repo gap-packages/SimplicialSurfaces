@@ -276,6 +276,30 @@ DeclareOperation( "DeactivateFace", [IsSimplicialSurface and IsNotEdgeRamified, 
 DeclareOperation( "IsFaceActive", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
 #! @EndGroup
 
+#! @BeginGroup SetTransparency
+#! @Description
+#! Set the transparency of the face <A>i</A>. The value has to be between 0 and 1. 0 means that the face is invisible and 1 means that the face is opaque. The face will not change its transparency by using the transparency controller. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! @Returns the updated print record.
+#! @Arguments surface, i, value, printRecord
+DeclareOperation( "SetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsFloat, IsRecord] );
+#! @EndGroup
+
+#! @BeginGroup RemoveTransparency
+#! @Description
+#! Remove the transparency of the face <A>i</A>. After this the face act as a normal face without a strict transparency value. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! @Returns the updated print record.
+#! @Arguments surface, i, printRecord
+DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+#! @EndGroup
+
+#! @BeginGroup GetTransparency
+#! @Description
+#! Get the transparency of the face <A>i</A>. If no transparency is set, the function returns 1. Otherwise the function returns the transparency value of the face <A>i</A>. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! @Returns the updated print record.
+#! @Arguments surface, i, printRecord
+DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+#! @EndGroup
+
 #! @Section Colouring
 #! @SectionLabel LabelColouring
 
