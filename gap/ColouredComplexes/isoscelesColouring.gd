@@ -58,7 +58,7 @@
 #! @SectionLabel EdgeTwoColouring_Definition
 #! This section defines the concept of edge two-colourings
 #! (<Ref Subsect="IsEdgeTwoColouring"/>) and introduces
-#! the ckoloured version of this method:
+#! the coloured version of this method:
 #! * <K>ColouredEdgesOfFaces</K> (<Ref Subsect="ColouredEdgesOfFaces"/>) 
 #!   extends <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>).
 #! 
@@ -158,7 +158,8 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! edges. For every leg coloured edge (<Ref Subsect="InnerEdges"/>) there are two
 #! possible colourings of the adjacent faces, which can be described by a 
 #! symmetry with respect to the edge between them. The colours can either be
-#! mirrored or rotated into each other.
+#! mirrored or rotated into each other. For every base coloured edge, the
+#! local symmetry is mirrored.
 #! <Alt Only="TikZ">
 #!   \input{Image_LocalLegSymmetry.tex}
 #! </Alt>
@@ -167,22 +168,19 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>LocalSymmetryOfEdges</K>
 #! (<Ref Subsect="LocalSymmetryOfEdges"/>).
 #!
-#! Together with the edge colouring, the local symmetry determines the underlying
-#! simplicial surface.
 
 #! @BeginGroup IsIsoscelesColouredSurface
 #! @Description
 #! Check if an edge-coloured polygonal complex is an
 #! <E>isosceles-coloured surface</E>, i.e.
 #! * It is a simplicial surface (<Ref Subsect="IsSimplicialSurface"/>)
-#! * It has an edge-two colouring (<Ref Subsect="IsEdgeIsoscelesColouring"/>), 
-#!   i.e. the edges are coloured by three colours and the edges of every
-#!   face have different colours.
-#!
+#! * It has an edge-two colouring (<Ref Subsect="IsEdgeTwoColouring"/>),
+#!   i.e. the edges are coloured by two colours
+#! * if one face has two edges of a particular colour,  then so do all faces
+
 #! TODO example
 #!
-#! @Arguments colSurf 
-DeclareProperty( "IsIsoscelesColouredSurface", IsPolygonalComplex );
+#! @Arguments colSurf
 DeclareProperty( "IsIsoscelesColouredSurface", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
 InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsIsoscelesColouredSurface );

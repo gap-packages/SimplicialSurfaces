@@ -37,6 +37,7 @@ InstallMethod( IsIsoscelesColouredSurface,
     local edges, colours, c, i;
                
     if not IsSimplicialSurface(colComp) then return false; fi;
+    if not IsEdgeColouredPolygonalComplex(colComp) then return false; fi;
  
     edges := EdgesOfFaces( PolygonalComplex(colComp) );
     colours := List(edges, edg -> List(edg, e -> ColoursOfEdges(colComp)[e]));
