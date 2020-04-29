@@ -17,66 +17,72 @@
 #! colourings was introduced in general. This chapter is concerned with
 #! a specific type of edge colourings, namely isosceles colourings.
 #! For an isosceles colouring we colour the edges of a surface in
-#! two colours, one which we call the <i>leg</i> colour and one we
-#! call the <i>base</i> colour. The edges of every face are coloured 
+#! two colours, one which we call the <E>leg</E> colour and one we
+#! call the <E>base</E> colour. The edges of every face are coloured 
 #! such that two edges are coloured in the leg colour and one
 #! in the base colour.
 #!
-#! In section <Ref Sect="Section_EdgeIsoscelesColouring_Definition"/> 
-#! the concept of the edge isosceles-colouring is defined. In addition,
-#! some access
-#! functions made possible by the colouring are described.
+#! In section <Ref Sect="Section_EdgeTwoColouring_Definition"/> 
+#! the concept of an edge two-colouring is defined. In addition,
+#! functions to give access to information on the colours of edges
+#! are described.
 #!
-#! Section <Ref Sect="Section_EdgeIsoscelesColouring_Permutations"/> represents
-#! the edge isosceles-colouring of simplicial surfaces
-#! as permutations, the
-#! <K>ColourInvolutions</K> (<Ref Subsect="ColourInvolutions"/>).
 #!
 #! After these general properties, section 
 #! <Ref Sect="Section_EdgeIsoscelesColouring_Wild"/> deals with a special
-#! subclass of a vari-colouring: <E>edge two-colourings</E>, in
-#! which the number of colours is minimal (for example, in a simplicial 
-#! surface there can only be three colours). It describes a method to
+#! subclass of a two-colouring for simplicial surfaces:
+#! <E>edge isosceles-colourings</E>. An edge isosceles coloured simplicial
+#! surface is a two-coloured simplicial surface such that one of these
+#! two colours is the colour of two edges of each face.
+#! It describes a method to
 #! uniquely reconstruct an exact-coloured surface from its permutation (by 
 #! introducing the <E>local symmetries</E> 
 #! (<Ref Subsect="LocalSymmetryOfEdges"/>)).
 #!
+#! Section <Ref Sect="Section_EdgeIsoscelesColouring_Permutations"/> represents
+#! the edge isosceles-colouring of simplicial surfaces
+#! as permutations, the
+#! <K>ColourInvolutions</K> (<Ref Subsect="ColourInvolutions"/>) of
+#! the wild coloured surface obtained by subdividing each face into two
+#! such that the two leg coloured edges lie in different faces.
+#!
+#!
 #! Section <Ref Sect="Section_EdgeIsoscelesColouring_Wild"/> also
-#! describes some methods to construct vari-coloured
-#! and exact-coloured
-#! surfaces.
+#! describes some methods to construct isosceles-coloured
+#! simplicial surfaces.
 #!
 
 #TODO maybe add example of a simplicial surface without a vari-colouring
 
 #! @Section Definition and elementary properties
-#! @SectionLabel EdgeIsoscelesColouring_Definition
+#! @SectionLabel EdgeTwoColouring_Definition
 #! This section defines the concept of edge two-colourings
 #! (<Ref Subsect="IsEdgeTwoColouring"/>) and introduces
-#! the coloured version of this method:
+#! the ckoloured version of this method:
 #! * <K>ColouredEdgesOfFaces</K> (<Ref Subsect="ColouredEdgesOfFaces"/>) 
 #!   extends <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>).
 #! 
-#! @InsertChunk Example_ColouredPrism
+#! @InsertChunk Example_ColouredCube
 
 
 #! @BeginGroup IsEdgeTwoColouring
 #! @Description
-#! The property <K>IsEdgeTwoColouring</K> checks if the edges of each
-#! face are two-coloured by the given edge colouring.
+#! The property <K>IsEdgeTwoColouring</K> applies to edge-coloured polygonal
+#! complexes. It checks if the edges of each face are two-coloured by the
+#! given edge colouring.
 #! This is the case if and only if there are two colours such that
 #! all edges of each face have one of these two colours and both colours
 #! occur among the edges of each face.
 #!
 #! We illustrate this on the prism that was introduced at the start of
-#! section <Ref Sect="Section_EdgeIsoscelesColouring_Definition"/>.
+#! section <Ref Sect="Section_EdgeTwoColouring_Definition"/>.
 #! <Alt Only="TikZ">
-#!   \input{_TIKZ_Prism_coloured.tex}
+#!   \input{_TIKZ_Cube_twocoloured.tex}
 #! </Alt>
-#! The given edge colouring is a vari-colouring but not an exact-colouring.
+#! The given edge colouring is a two-colouring.
 #! @BeginExampleSession
-#! gap> EdgesOfColours( colPrism );
-#! [ [ 1, 4 ], [ 3, 6 ], [ 9 ], [ 2, 7 ], [ 5, 8 ] ]
+#! gap> EdgesOfColours( colCube );
+#! [ [ 1, 5, 6, 7, 8, 10 ], [ 2, 3, 4, 9, 11, 12 ] ]
 #! gap> IsEdgeTwoColouring( colPrism );
 #! true
 #! @EndExampleSession
@@ -85,8 +91,6 @@
 #!
 #! @Arguments colComplex
 DeclareProperty("IsEdgeTwoColouring", IsEdgeColouredPolygonalComplex);
-#! @Arguments colComplex
-#NNDeclareProperty("IsEdgeExactColouring", IsEdgeColouredPolygonalComplex);
 #! @EndGroup
 
 
@@ -104,20 +108,21 @@ DeclareProperty("IsEdgeTwoColouring", IsEdgeColouredPolygonalComplex);
 #! <K>ColouredEdgesOfFace</K>(<A>rbComp</A>, <A>face</A>). All other positions
 #! are unbound.
 #!
-#! Consider the prism example from the start of section 
-#! <Ref Sect="Section_EdgeIsoscelesColouring_Definition"/>.
+#! Consider the cube example from the start of section 
+#! <Ref Sect="Section_EdgeTwoColouring_Definition"/>.
 #! <Alt Only="TikZ">
-#!   \input{_TIKZ_Prism_coloured.tex}
+#!   \input{_TIKZ_Cube_twocoloured.tex}
 #! </Alt>
 #! @BeginExampleSession
-#! gap> ColoursOfEdges(colPrism);
-#! [ 1, 4, 2, 1, 5, 2, 4, 5, 3 ]
-#! gap> ColouredEdgesOfFace(colPrism, 1);
-#! [ 1, 3,, 2 ]
-#! gap> ColouredEdgesOfFace(colPrism, 4);
-#! [ 1, 6,, 7, 5 ]
-#! gap> ColouredEdgesOfFaces(colPrism);
-#! [ [ 1, 3,, 2 ],, [ 4, 3, 9,, 5 ], [ 1, 6,, 7, 5 ], [ 4, 6,, 2, 8 ],, [ ,, 9, 7, 8 ] ]
+#! gap> ColoursOfEdges(colCube);
+#! [ 1, 2, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2 ]
+#! gap> ColouredEdgesOfFace(colCube, 1);
+#! [ [ 1 ], [ 2, 3, 4 ] ]
+#! gap> ColouredEdgesOfFace(colCube, 4);
+#! [ [ 7, 8 ], [ 4, 11 ] ]
+#! gap> ColouredEdgesOfFaces(colCube);
+#! [ [ [ 1 ], [ 2, 3, 4 ] ], [ [ 1, 5, 8 ], [ 12 ] ], [ [ 5, 6 ], [ 2, 9 ] ],
+#! [ [ 7, 8 ], [ 4, 11 ] ],   [ [ 6, 7, 10 ], [ 3 ] ], [ [ 10 ], [ 9, 11, 12 ] ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of (lists of) positive integers
@@ -133,81 +138,29 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! @EndGroup
 
 
-#! @Section Permutation description
-#! @SectionLabel EdgeIsoscelesColouring_Permutations
-#!
-#! While section <Ref Sect="Section_EdgeIsoscelesColouring_Definition"/> dealt
-#! with general edge two-colourings, this section is restricted to
-#! edge two-colourings of polygonal complexes without edge ramifications. 
-#! For those there are
-#! at most two faces incident to an edge.
-#!
-#! Therefore every colour can be interpreted as an involution on the set of 
-#! faces
-#! (which swaps two faces that are connected by an edge of that colour).
-#!
-#! @InsertChunk Example_ColouredDisk
-
-#! @BeginGroup ColourInvolutions
-#! @Description
-#! For an edge isosceles-coloured simplicial surface
-#! (<Ref Subsect="IsIsoscelesColouredSurface"/>) 
-#! return the colour involutions of the edge-isosceles-coloured surface
-#! obtained by subdividing each triangle by an edge through the apex
-#! and the midpoint of the base.
-#!
-#! The attribute <K>ColourInvolutions</K>(<A>rcRamSurf</A>) returns a list
-#! of three involutions. These involutions are the colour involutions of
-#! a wild-coloured simplicial surface obtained as follows.
-#! Let <i>m</i> denote the maximum value of a face of <A>rcRamSurf</A>.
-#! A new edge passes from the apex of <i>F</i> to the mid point of the
-#! base edge of <i>F</i> and thus each face <i>F</i> of <A>rcRamSurf</A>
-#! is subdivided into two faces, namely <i> F</i> and <i> m + F</i>.
-#! We use the convention that <i>F</i> is incident to the smaller vertex
-#! of the base edge and <i>m+F</i> is incident to the larger vertex
-#! of the base edge. With this subdivision, the isosceles coloured surface
-#! becomes a wild-coloured surface with twice as many faces. The three
-#! colours arise by colouring the subdivided base edges in one colour, the
-#! leg edges in the second colour and the new edges introduced by the
-#! subdivision in the third colour. The
-#! colour involutions of this latter wild coloured surface are the
-#! colour involutions associated to <A>rcRamSurf</A>. The involutions are
-#! arranged in such a way that the first involution corresponds to the
-#! involution of the subdivided base edges, the secold corresponds to
-#! the involution of the leg edges, and the third corresponds to the
-#! new edges introduced by the subdivision. Thereby, as in the case of
-#! wild coloured surfaces, 
-#! For a given colour <A>col</A> the colour involution encodes the 
-#! neighbouring relation
-#! of the faces that is induced by the edges of the colour <A>col</A>. A 
-#! boundary edge induces a fixed point.
-#! 
-#! @InsertChunk Example_ColouredDisk_ColourInvolutions
-#! @Returns a list of involutions
-#! @Arguments rcRamSurf
-DeclareAttribute("ColourInvolutions", IsEdgeColouredPolygonalComplex);
-#! @EndGroup
-
-#TODO Is this relabelling ok?
-
 #! @Section Isosceles coloured surfaces
 #! @SectionLabel EdgeIsoscelesColouring_Wild
 #!
-#! While the previous sections dealt with general edge vari-colourings,
-#! this section focuses exclusively on edge exact-coloured
-#! simplicial surfaces, i.,e. simplicial surfaces whose edges are coloured
-#! with two colours.
+#! While the previous sections dealt with general edge two-colourings,
+#! this section focuses exclusively on edge two-coloured
+#! simplicial surfaces. Moreover, we require that the simplicial surfaces
+#! are <E>isosceles-coloured</E>.
+#! For an isosceles colouring we colour the edges of a surface in
+#! two colours, one which we call the <E>leg</E> colour and one we
+#! call the <E>base</E> colour. The edges of every face are coloured 
+#! such that two edges are coloured in the leg colour and one
+#! in the base colour.
 
 #! Since these are quite important structures, we will denote them by
 #! <E>isosceles-coloured surfaces</E> (<Ref Subsect="IsIsoscelesColouredSurface"/>).
 #!
 #! In this situation there is an additional local symmetry structure on the
-#! edges. For every inner edge (<Ref Subsect="InnerEdges"/>) there are two
+#! edges. For every leg coloured edge (<Ref Subsect="InnerEdges"/>) there are two
 #! possible colourings of the adjacent faces, which can be described by a 
 #! symmetry with respect to the edge between them. The colours can either be
 #! mirrored or rotated into each other.
 #! <Alt Only="TikZ">
-#!   \input{Image_LocalSymmetry.tex}
+#!   \input{Image_LocalLegSymmetry.tex}
 #! </Alt>
 #! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
 #! Together with the <E>boundary</E>-type for the boundary edges
@@ -219,10 +172,10 @@ DeclareAttribute("ColourInvolutions", IsEdgeColouredPolygonalComplex);
 
 #! @BeginGroup IsIsoscelesColouredSurface
 #! @Description
-#! Check if an edge-coloured polygonal complex is a 
-#! <E>wild-coloured surface</E>, i.e.
+#! Check if an edge-coloured polygonal complex is an
+#! <E>isosceles-coloured surface</E>, i.e.
 #! * It is a simplicial surface (<Ref Subsect="IsSimplicialSurface"/>)
-#! * It has an edge-exact colouring (<Ref Subsect="IsEdgeIsoscelesColouring"/>), 
+#! * It has an edge-two colouring (<Ref Subsect="IsEdgeIsoscelesColouring"/>), 
 #!   i.e. the edges are coloured by three colours and the edges of every
 #!   face have different colours.
 #!
@@ -291,6 +244,61 @@ DeclareOperation( "ColouredUmbrellaOfVertex", [IsIsoscelesColouredSurface, IsPos
 DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsIsoscelesColouredSurface, IsPosInt] );
 #! @EndGroup
 
+
+#! @Section Permutation description
+#! @SectionLabel EdgeIsoscelesColouring_Permutations
+#!
+#! While section <Ref Sect="Section_EdgeTwoColouring_Definition"/> dealt
+#! with general edge two-colourings, this section is restricted to
+#! edge two-colourings of polygonal complexes without edge ramifications. 
+#! For those there are
+#! at most two faces incident to an edge.
+#!
+#! Therefore every colour can be interpreted as an involution on the set of 
+#! faces
+#! (which swaps two faces that are connected by an edge of that colour).
+#!
+#! @InsertChunk Example_ColouredDisk
+
+#! @BeginGroup ColourInvolutions
+#! @Description
+#! For an edge isosceles-coloured simplicial surface
+#! (<Ref Subsect="IsIsoscelesColouredSurface"/>) 
+#! return the colour involutions of the edge-isosceles-coloured surface
+#! obtained by subdividing each triangle by an edge through the apex
+#! and the midpoint of the base.
+#!
+#! The attribute <K>ColourInvolutions</K>(<A>isosSurf</A>) returns a list
+#! of three involutions. These involutions are the colour involutions of
+#! a wild-coloured simplicial surface obtained as follows:
+#! Let <E>m</E> denote the maximum value of a face-name in <A>isosSurf</A>.
+#! A new edge passes from the apex of a face <E>F</E> to the mid point of the
+#! base edge of <E>F</E> and thus each face <E>F</E> of <A>isosSurf</A>
+#! is subdivided into two faces, namely <E> F</E> and <E> m + F</E>.
+#! We use the convention that <E>F</E> is incident to the smaller vertex
+#! of the base edge and <E>m+F</E> is incident to the larger vertex
+#! of the base edge. With this subdivision, the isosceles coloured surface
+#! becomes a wild-coloured surface with twice as many faces. The three
+#! colours arise by colouring the subdivided base edges in the colour of the
+#! original base edges, the leg edges in the colour of the original leg
+#! edges and the new edges introduced by the subdivision in a third colour. The
+#! colour involutions of this latter wild coloured surface are the
+#! colour involutions associated to <A>isosSurf</A>. The involutions are
+#! arranged in such a way that the first involution corresponds to the
+#! involution of the subdivided base edges, the secold corresponds to
+#! the involution of the leg edges, and the third corresponds to the
+#! new edges introduced by the subdivision. Thereby, as in the case of
+#! wild coloured surfaces, 
+#! For a given colour <A>col</A> the colour involution encodes the 
+#! neighbouring relation
+#! of the faces that is induced by the edges of the colour <A>col</A>. A 
+#! boundary edge induces a fixed point.
+#! 
+#! @InsertChunk Example_ColouredDisk_ColourInvolutions
+#! @Returns a list of involutions
+#! @Arguments isosSurf
+DeclareAttribute("ColourInvolutions", IsEdgeColouredPolygonalComplex);
+#! @EndGroup
 
 #! @BeginGroup LocalSymmetryOfEdges
 #! @Description

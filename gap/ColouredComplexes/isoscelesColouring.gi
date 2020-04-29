@@ -20,10 +20,9 @@ InstallMethod( IsEdgeTwoColouring,
         colours := List(edges, edg -> List(edg, e -> ColoursOfEdges(colComp)[e]));
         # check that each face has edges of 2 colours and that
         # these are the same for all faces
-        for c in colours do Sort(c); od;
-	c := __SIMPLICIAL_BoundPositions(colours);
+ 	c := __SIMPLICIAL_BoundPositions(colours);
         for i in c do
-            if colours[i] <> colours[c[1]] then return false; fi;
+            if Set(colours[i]) <> Set(colours[c[1]]) then return false; fi;
         od;
         if Size(Set(colours[c[1]]))<> 2 then return false; fi;
         return true; 
@@ -35,8 +34,19 @@ InstallMethod( IsIsoscelesColouredSurface,
     [IsEdgeColouredPolygonalComplex],
     function(colComp)
 
+    local edges, colours, c, i;
+               
     if not IsSimplicialSurface(colComp) then return false; fi;
-    if not IsEdgeTwoColouring( colComp) then return false; fi;
+ 
+    edges := EdgesOfFaces( PolygonalComplex(colComp) );
+    colours := List(edges, edg -> List(edg, e -> ColoursOfEdges(colComp)[e]));
+        # check that each face has edges of 2 colours and that
+        # these are the same for all faces
+    for c in colours do Sort(c); od;
+    c := __SIMPLICIAL_BoundPositions(colours);
+    for i in c do
+        if colours[i] <> colours[c[1]] then return false; fi;
+    od;               
     return true;
     end
 );
