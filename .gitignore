@@ -1,6 +1,7 @@
 # Documentation and automatically generated files
 doc/chap*
 doc/_Chapter*
+doc/_Chunks.xml
 doc/title.xml
 doc/SimplicialSurfaces.tex
 doc/_AutoDocMainFile.xml

@@ -457,6 +457,47 @@ InstallMethod( IsFaceActive,
     end
 );
 
+InstallMethod( SetTransparencyJava,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsFloat, IsRecord],
+    function(surface, index, value, printRecord)
+            if not IsBound(printRecord.FaceTransparency) then
+                printRecord.FaceTransparency := [];
+            fi;
+            printRecord.FaceTransparency[index] := value;
+            return printRecord;
+    end
+);
+
+InstallMethod( RemoveTransparencyJava,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
+            if IsBound(printRecord.FaceTransparency[index]) then
+                Unbind(printRecord.FaceTransparency[index]);
+                return printRecord;
+            fi;
+            return printRecord;
+    end
+);
+
+InstallMethod( GetTransparencyJava,
+    "for a polygonal complex without edge ramifications, an index and a record",
+    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    function(surface, index, printRecord)
+                if not IsBound(printRecord.FaceTransparency) then
+                    return 1;
+                fi;
+                if (index <= 0) then
+                    return 0;
+                fi;
+                if not IsBound(printRecord.FaceTransparency[index]) then
+                    return 1;
+                fi;
+                return printRecord.FaceTransparency[index];
+    end
+);
+
 InstallMethod( ActivateVertices,
     "for a polygonal complex without edge ramifications and a record",
     [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
@@ -727,7 +768,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
     "for a polygonal complex without edge ramifications, a filename and a record",
     [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord, IsBool],
     function(surface, fileName, printRecord, calculate)
-                local file, output, template, coords, i, j, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge;
+                local file, output, template, coords, i, j, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge, temp;
 
         # Make the file end with .html
         if not EndsWith( fileName, ".html" ) then
@@ -785,7 +826,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                             AppendTo(output, "\t\tface", i, ".vertices.push(allpoints[", vertOfFace[j]-1, "\].vector);\n");
                         od;
                         AppendTo(output, "\t\tcentroids.push(computeCentroid(face", i, "));\n");
-                        AppendTo(output, "\t\tvar face", i, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: 1,side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
+                        AppendTo(output, "\t\tvar face", i, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(surface, i, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
                         AppendTo(output, "\t\tface", i, ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
                         AppendTo(output, "\t\tvar face", i, "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
                         AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", i, ", face", i, "_material) );\n");
@@ -846,8 +887,21 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                     fi;
                 od;
 
-                template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Footer.html.template");
-                AppendTo( output, template );
+                if IsBound(printRecord.FaceTransparency) then
+                    template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_FooterFirst.html.template");
+                    AppendTo( output, template );
+                    for i in [1..(NumberOfFaces(surface))] do
+                        if IsBound(printRecord.FaceTransparency[i]) then
+                            #face1_material.opacity = 0;
+                            AppendTo(output, "\t\t\tface", i , "_material.opacity = ", printRecord.FaceTransparency[i], ";\n");
+                        fi;
+                    od;
+                    template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_FooterSecond.html.template");
+                    AppendTo( output, template );
+                else
+                    template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Footer.html.template");
+                    AppendTo( output, template );
+                fi;
 
                 CloseStream(output);
         return printRecord;
