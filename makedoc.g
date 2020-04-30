@@ -341,6 +341,7 @@ BindGlobal("MakeGAPDocDoc", function(arg)
 	Read("gap/PolygonalComplexes/animating_images.gd");
         Read("gap/ColouredComplexes/edgeColouring_images.gd");
         Read("gap/ColouredComplexes/variColouring_images.gd");
+        Read("gap/ColouredComplexes/isoscelesColouring_images.gd");
         Read("gap/Flags/flags_images.gd");
         __SIMPLICIAL_MANUAL_MODE := false;
         # Fortunately there already is a method to apply this function to all nodes of the tree
