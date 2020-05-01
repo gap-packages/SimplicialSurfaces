@@ -30,15 +30,12 @@ InstallMethod( IsEdgeTwoColouring,
 );
 
 InstallMethod( IsIsoscelesColouredSurface,
-    "for an edge coloured polygonal complex",
-    [IsEdgeColouredPolygonalComplex],
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredSimplicialSurface],
     function(colComp)
 
     local edges, colours, c, i;
                
-    if not IsSimplicialSurface(colComp) then return false; fi;
-    if not IsEdgeColouredPolygonalComplex(colComp) then return false; fi;
- 
     edges := EdgesOfFaces( PolygonalComplex(colComp) );
     colours := List(edges, edg -> List(edg, e -> ColoursOfEdges(colComp)[e]));
         # check that each face has edges of 2 colours and that
@@ -52,13 +49,14 @@ InstallMethod( IsIsoscelesColouredSurface,
     end
 );
 
-InstallMethod( IsIsoscelesColouredSurface,
-    "for a  polygonal complex",
-    [IsVEFComplex and IsPolygonalComplex],
-    function(colComp)
 
-    if not IsEdgeColouredPolygonalComplex(colComp) then return false; fi;
-    return IsIsoscelesColouredSurface(colComp);
+InstallOtherMethod( IsIsoscelesColouredSurface,
+    "for an object", [IsObject], function(obj)
+        if IsEdgeColouredPolygonalComplex(obj) then
+            TryNextMethod();
+        else
+            return false;
+        fi;
     end
 );
 #######################################
@@ -113,20 +111,20 @@ InstallMethod( ColouredEdgesOfFaces,
 
 
 
-InstallMethod( ApexOfFace,
+InstallMethod( ApexVertexOfFace,
     [IsIsoscelesColouredSurface, IsPosInt],
     function(surf, face)
 
      local coledges, v;
                
 
-     __SIMPLICIAL_CheckFace(surf, face, "ApexOfFace");
+     __SIMPLICIAL_CheckFace(surf, face, "ApexVertexOfFace");
      coledges := ColouredEdgesOfFace( surf, face);
      if Length(coledges[1]) = 2 then
         coledges := coledges[1];
      elif Length(coledges[2]) = 2 then
         coledges := coledges[2];
-    else Error("ApexOfFace: Not a 2-coloured face");
+    else Error("ApexVertexOfFace: Not an isosceles-coloured face");
     fi;
     v := Intersection( VerticesOfEdge(surf, coledges[1]),
                        VerticesOfEdge(surf, coledges[2]));
@@ -269,6 +267,107 @@ InstallMethod( ColourInvolutions,
         [IsEdgeTwoColouring and IsNotEdgeRamified], 0 );
 
 
+#############################################################################
+##
+##  WildColouredSurfaceOfIsoscelesColouredSurface
+##
+##  Assosciated to an isosceles coloured surf is a wild coloured surface
+##  whose colour involutions are the colour involutions of the isosceles
+##  coloured surface.
+##
+
+InstallMethod( WildColouredSurfaceOfIsoscelesColouredSurface,
+    "for an isosceles coloured surface",
+    [IsIsoscelesColouredSurface],
+    function ( surf)
+
+    local cols, edges, legs, base, v, vertInFaces, vertInLegs,
+           vertInBase, vertInNew, e, faces, origfaces, b, j, obj,
+           coloursOfEdges, colSurf, verts;
+	   
+        cols := EdgesOfColours(surf);
+        edges := Edges(surf);
+        # set the base edges and the leg edges
+        if Length(cols[1])>Length(cols[2]) then
+               legs  := cols[1]; #ColoursOfEdge(surf,cols[1][1]);
+               base  := cols[2];
+        else   legs  := cols[2];
+               base  := cols[1];
+        fi;
+
+                  
+        v := Length(Vertices(surf));
+
+        vertInFaces := [];
+	vertInLegs  := [];
+	vertInBase  := [];
+	vertInNew   := [];
+        for e in legs do
+            # record the vertices of e
+	    Add(vertInLegs,VerticesOfEdge(surf,e));
+            faces :=  __SIMPLICIAL_Legfaces(surf,e);
+            origfaces := FacesOfEdge(surf,e);
+            # note that origfaces[1] corresponds to faces[1]
+            b := BaseEdgeOfFace( surf, origfaces[1] );
+            vertInFaces[faces[1]] := ShallowCopy(VerticesOfEdge(surf,e));
+	    ## The base edge splits in two
+            Add( vertInFaces[faces[1]],  v + Position(base,b));
+            # record the vertices of the two new base edges
+	    for j in VerticesOfEdge(surf,b) do
+  	        Add( vertInBase, Set([v+ Position(base,b),j]));
+	    od;
+	    # The new edge has vertices, one is the new base
+            # vertex, the other the apex of the face 
+	    Add(vertInNew,Set([v+Position(base,b),
+                               ApexVertexOfFace(surf,origfaces[1])]));
+            if Length(faces) = 2 then
+                b := BaseEdgeOfFace( surf, origfaces[2] );
+                vertInFaces[faces[2]]:=ShallowCopy(VerticesOfEdge(surf,e));
+                Add( vertInFaces[faces[2]],  v + Position(base,b));
+                # record the vertices of the two new base edges
+    	        for j in VerticesOfEdge(surf,b) do
+  	            Add( vertInBase, Set([v+ Position(base,b),j]));
+	        od;
+	        # The new edge has vertices, one is the new base
+                # vertex, the other the apex of the face 
+	        Add(vertInNew,Set([v+Position(base,b),
+                                   ApexVertexOfFace(surf,origfaces[2])]));
+            fi;
+        od;
+
+        # construction of the simplicial surface
+        obj := SimplicialSurfaceByVerticesInFaces(vertInFaces);
+	edges := Edges(obj);
+        coloursOfEdges := [];
+
+        
+	# 1 is the leg colour, 2 the base colour, 3 the new colour
+	for j in [ 1 .. Length(edges) ] do
+	    verts := VerticesOfEdge(obj,edges[j]);
+            if verts in vertInLegs then	    
+  	        coloursOfEdges[j] := 1;
+            elif verts in vertInBase then
+  	        coloursOfEdges[j] := 2;
+	    elif verts in vertInNew then
+  	        coloursOfEdges[j] := 3;
+            else Error("Unknown edge");
+	    fi;
+	od;
+	
+
+        # construction of the wild coloured surface
+        colSurf := Objectify( EdgeColouredPolygonalComplexType, rec() );
+        SetColoursOfEdges(colSurf, coloursOfEdges);
+#        SetLocalSymmetryOfEdgesAsNumbers(colSurf, partialLocalSym);
+#        SetColouredEdgesOfFaces(colSurf, edgesOfFacesByColour);
+        SetPolygonalComplex(colSurf, obj);
+
+        return  colSurf;
+    
+end
+);
+
+
 #######################################
 ##
 ##      ColouredUmbrellasOfVertices
@@ -323,16 +422,6 @@ RedispatchOnCondition( ColouredUmbrellasOfVertices, true,
 ##
 ##      LocalSymmetryOfEdges
 ##
-
-InstallMethod( IsIsoscelesColouredSurface, 
-    "for an edge-coloured polygonal complex",
-    [IsEdgeColouredPolygonalComplex],
-    function(colComp)
-        
-        return IsEdgeColouredSimplicialSurface(colComp) and
-               IsEdgeTwoColouring(colComp);
-    end
-);
 
 
 InstallMethod( LocalSymmetryOfEdgesAsNumbers, 
@@ -411,7 +500,7 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
 ##
 
 InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
-    [IsSimplicialSurface, IsList],
+    [IsSimplicialSurface,IsList],
             function( surf, li )
 
             local     umb, edges, faces, u, norepeatings, vertices,  info,
@@ -638,110 +727,10 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
 end
 );
 
-## pr.edgeColourClassColours := [ "red", "blue"];
-
-## pr.edgeColourClassLengths := [5/3,6/3];
-
 
 ##      End of AllIsosceles ...
 ##
 #######################################
-
-#############################################################################
-##
-##  WildColouredSurfaceOfIsoscelesColouredSurface
-##
-##  Assosciated to an isosceles coloured surf is a wild coloured surface
-##  whose colour involutions are the colour involutions of the isosceles
-##  coloured surface.
-##
-
-WildColouredSurfaceOfIsoscelesColouredSurface := function ( surf)
-
-    local cols, edges, legs, base, v, vertInFaces, vertInLegs,
-           vertInBase, vertInNew, e, faces, origfaces, b, j, obj,
-           coloursOfEdges, colSurf, verts;
-	   
-        cols := EdgesOfColours(surf);
-        edges := Edges(surf);
-        # set the base edges and the leg edges
-        if Length(cols[1])>Length(cols[2]) then
-               legs  := cols[1]; #ColoursOfEdge(surf,cols[1][1]);
-               base  := cols[2];
-        else   legs  := cols[2];
-               base  := cols[1];
-        fi;
-
-                  
-        v := Length(Vertices(surf));
-
-        vertInFaces := [];
-	vertInLegs  := [];
-	vertInBase  := [];
-	vertInNew   := [];
-        for e in legs do
-            # record the vertices of e
-	    Add(vertInLegs,VerticesOfEdge(surf,e));
-            faces :=  __SIMPLICIAL_Legfaces(surf,e);
-            origfaces := FacesOfEdge(surf,e);
-            # note that origfaces[1] corresponds to faces[1]
-            b := BaseEdgeOfFace( surf, origfaces[1] );
-            vertInFaces[faces[1]] := ShallowCopy(VerticesOfEdge(surf,e));
-	    ## The base edge splits in two
-            Add( vertInFaces[faces[1]],  v + Position(base,b));
-            # record the vertices of the two new base edges
-	    for j in VerticesOfEdge(surf,b) do
-  	        Add( vertInBase, Set([v+ Position(base,b),j]));
-	    od;
-	    # The new edge has vertices, one is the new base
-            # vertex, the other the apex of the face 
-	    Add(vertInNew,Set([v+Position(base,b),
-                               ApexOfFace(surf,origfaces[1])]));
-            if Length(faces) = 2 then
-                b := BaseEdgeOfFace( surf, origfaces[2] );
-                vertInFaces[faces[2]]:=ShallowCopy(VerticesOfEdge(surf,e));
-                Add( vertInFaces[faces[2]],  v + Position(base,b));
-                # record the vertices of the two new base edges
-    	        for j in VerticesOfEdge(surf,b) do
-  	            Add( vertInBase, Set([v+ Position(base,b),j]));
-	        od;
-	        # The new edge has vertices, one is the new base
-                # vertex, the other the apex of the face 
-	        Add(vertInNew,Set([v+Position(base,b),
-                                   ApexOfFace(surf,origfaces[2])]));
-            fi;
-        od;
-
-        # construction of the simplicial surface
-        obj := SimplicialSurfaceByVerticesInFaces(vertInFaces);
-	edges := Edges(obj);
-        coloursOfEdges := [];
-
-        
-	# 1 is the leg colour, 2 the base colour, 3 the new colour
-	for j in [ 1 .. Length(edges) ] do
-	    verts := VerticesOfEdge(obj,edges[j]);
-            if verts in vertInLegs then	    
-  	        coloursOfEdges[j] := 1;
-            elif verts in vertInBase then
-  	        coloursOfEdges[j] := 2;
-	    elif verts in vertInNew then
-  	        coloursOfEdges[j] := 3;
-            else Error("Unknown edge");
-	    fi;
-	od;
-	
-
-        # construction of the wild coloured surface
-        colSurf := Objectify( EdgeColouredPolygonalComplexType, rec() );
-        SetColoursOfEdges(colSurf, coloursOfEdges);
-#        SetLocalSymmetryOfEdgesAsNumbers(colSurf, partialLocalSym);
-#        SetColouredEdgesOfFaces(colSurf, edgesOfFacesByColour);
-        SetPolygonalComplex(colSurf, obj);
-
-        return  colSurf;
-    
-end;
 
 
 #############################################################################
@@ -774,8 +763,6 @@ InstallMethod( VertexCounterByAngle,
 
         return Collected(counter);
 
-        #faceDegrees := List( FacesOfVertices(surf), Length );
-        #return Collected( Compacted( faceDegrees ) );
     end)
 ;
 
