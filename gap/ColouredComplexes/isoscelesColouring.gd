@@ -83,7 +83,7 @@
 #! @BeginExampleSession
 #! gap> EdgesOfColours( colCube );
 #! [ [ 1, 5, 6, 7, 8, 10 ], [ 2, 3, 4, 9, 11, 12 ] ]
-#! gap> IsEdgeTwoColouring( colPrism );
+#! gap> IsEdgeTwoColouring( colCube );
 #! true
 #! @EndExampleSession
 #! 
@@ -208,6 +208,8 @@ DeclareOperation( "ApexVertexOfFace", [IsIsoscelesColouredSurface, IsPosInt] );
 #! @EndGroup
 #! Consider the example of the isosceles coloured octahedron from the start of section 
 #! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
 #! gap> ApexVertexOfFace( colOct, 4 ); 
 #! 6
 #! @EndExampleSession
@@ -226,6 +228,8 @@ DeclareOperation( "BaseEdgeOfFace", [IsIsoscelesColouredSurface, IsPosInt] );
 #! @EndGroup
 #! Consider the example of the isosceles coloured octahedron from the start of section 
 #! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
 #! gap> BaseEdgeOfFace( colOct, 4 ); 
 #! 5
 #! @EndExampleSession
@@ -263,11 +267,17 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsIsoscelesColouredSurface, IsP
 #! @EndGroup
 #! Consider the example of the isosceles coloured octahedron from the start of section 
 #! @BeginExampleSession
-#! gap> ColouredUmbrellasOfVertices( colOct ); 
-#![ ( {\colour{red}e1}, F1, e2, F7, e3, F5, e4, F3, e1 ), ( e1, F1, e5, F4, e7, F2, e6, F3, e1 )
-#!    , ( e2, F1, e5, F4, e9, F6, e8, F7, e2 ), ( e3, F5, e10, F8, e11, F6, e8, F7, e3 )
-#!    , ( e4, F3, e6, F2, e12, F8, e10, F5, e4 ), 
-#!  ( e7, F2, e12, F8, e11, F6, e9, F4, e7 ) ]
+#! gap> oct := Octahedron();;
+#! gap> colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
+#! gap> ColouredUmbrellasOfVertices( colOct );
+#! [ ( e1, F1, e2, F7, e3, F5, e4, F3, e1 )
+#!     , ( e1, F1, e5, F4, e7, F2, e6, F3, e1 )
+#!     , ( e2, F1, e5, F4, e9, F6, e8, F7, e2 )
+#!     , ( e3, F5, e10, F8, e11, F6, e8, F7, e3 )
+#!     , ( e4, F3, e6, F2, e12, F8, e10, F5, e4 )
+#!     , 
+#!   ( e7, F2, e12, F8, e11, F6, e9, F4, e7 ) 
+#!  ]
 #! @EndExampleSession
 #! QUESTION: HOW DO W GET THE COLOURS DISPLAYED?
 

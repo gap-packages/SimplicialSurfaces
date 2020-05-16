@@ -132,6 +132,10 @@ InstallMethod( ApexVertexOfFace,
 end
 );               
 
+RedispatchOnCondition( ApexVertexOfFace, true, 
+        [IsEdgeColouredPolygonalComplex,IsPosInt],
+    [IsIsoscelesColouredSurface],	0 );
+
 
 InstallMethod( BaseEdgeOfFace,
     [IsIsoscelesColouredSurface, IsPosInt],
@@ -151,6 +155,10 @@ InstallMethod( BaseEdgeOfFace,
 end
 );
 
+
+RedispatchOnCondition( BaseEdgeOfFace, true, 
+        [IsEdgeColouredPolygonalComplex,IsPosInt],
+    [IsIsoscelesColouredSurface],	0 );
 
 
 __SIMPLICIAL_Legfaces := function( surf, e)
@@ -727,6 +735,7 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
 end
 );
 
+# TODO: Make a version without Isomorphism testing
 
 ##      End of AllIsosceles ...
 ##
