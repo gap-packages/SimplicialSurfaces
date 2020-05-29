@@ -30,11 +30,12 @@ DrawSurfaceToTikz(colCube, "Cube_twocoloured", pr );;
 
 
 #! @BeginChunk Example_IsoscelesOctahedron
-#! @BeginLog
+#! @BeginExample
 oct := Octahedron();;
 colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
 IsIsoscelesColouredSurface(colOct);
-#! @EndLog
+#! true
+#! @EndExample
 #! This can be drawn by <K>DrawSurfaceToTikz</K> 
 #! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).
 #! @BeginLog
@@ -47,19 +48,6 @@ DrawSurfaceToTikz(colOct, "Oct_isosccoloured", pr );;
 #! </Alt>
 #! @EndChunk
 
-
-
-#! @BeginChunk Example_Isosceles_ColourInvolutions
-#! We consider again the isosceles coloured octahedron from the start of the section.
-#! @BeginLog
-ColourInvolutions( colOct );
-#! @EndLog
-#! The involutions correspond to a wild coloured surface on twice as many faces.
-#! Note that the first involution encodes the base coloured edges of this wild coloured surface,
-#! the second involution encodes the leg coloured edges and the 
-#! the third involution encodes the edges coloured in a third colour. These edges subdivide
-#! the original faces.
-#! @EndChunk
 
 #! @BeginChunk Example_WildIsosceles
 #! We consider again the isosceles coloured octahedron from the start of the section.
@@ -86,19 +74,47 @@ DrawSurfaceToTikz(wildOct, "Octahedron_WildIsosceles", pr );;
 #! @EndChunk
 
 
+#! @BeginChunk Example_Isosceles_ColourInvolutions
+#! We consider again the isosceles coloured octahedron from the start of the section.
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Oct_isosccoloured.tex}
+#! </Alt>
+#! @BeginExample
+ColourInvolutions( colOct );
+#! [ (1,4)(2,3)(5,8)(6,7)(9,12)(10,11)(13,16)(14,15), 
+#!  (1,3)(2,4)(5,15)(6,12)(7,9)(8,14)(10,16)(11,13), 
+#!  (1,9)(2,10)(3,11)(4,12)(5,13)(6,14)(7,15)(8,16) ]
+#! @EndExample
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Octahedron_WildIsosceles.tex}
+#! </Alt>
+#! The involutions correspond to a wild coloured surface on twice as many faces.
+#! Note that the first involution encodes the base coloured edges of this wild coloured surface,
+#! the second involution encodes the leg coloured edges and the 
+#! the third involution encodes the edges coloured in a third colour. These edges subdivide
+#! the original faces.
+#! @EndChunk
+
+
+
 #! @BeginChunk Example_All_Isosceles 
 #! We determine all possible isosceles colourings of a surface with 10 faces
-#! @BeginLog
+#! @BeginExample
 surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 4, 5 ], [ 1, 4, 6 ], [ 1, 5, 7 ],
-[ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], [ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );
-isosceles := AllIsoscelesColouredSurfaces(surf);
-#! @EndLog
+[ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], [ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );;
+isosceles := AllIsoscelesColouredSurfaces(surf);;
+Size(isosceles);
+#! 3
+#! @EndExample
 #! We now see that not all of these arise from wild colourings. For this we also
 #! determine the wild colourings and compare them
-#! @BeginLog
-wilds := AllWildColouredSurfaces(surf);
+#! @BeginExample
+wilds := AllWildColouredSurfaces(surf);;
+Size(wilds);
+#! 5
 wild := wilds[1];
-#! @EndLog
+#! wild coloured surface (7 vertices, 15 edges and 10 faces)
+#! @EndExample
 #! To see why there is only one wild colouring, we draw the surfaces
 #! @BeginLog
 pr := rec( edgeColourClassColours := ["red", "blue"],
