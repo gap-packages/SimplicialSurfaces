@@ -98,24 +98,31 @@ ColourInvolutions( colOct );
 
 
 #! @BeginChunk Example_All_Isosceles 
-#! We determine all possible isosceles colourings of a surface with 10 faces
+#! We determine up to isomorphism all possible isosceles colourings of a surface with 
+#! 10 faces.
 #! @BeginExample
-surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 4, 5 ], [ 1, 4, 6 ], [ 1, 5, 7 ],
-[ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], [ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );;
+surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 4, 5 ], 
+[ 1, 4, 6 ], [ 1, 5, 7 ], [ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], 
+[ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );;
 isosceles := AllIsoscelesColouredSurfaces(surf);;
+isosceles := EdgeColouredPolygonalComplexIsomorphismRepresentatives(isosceles);
 Size(isosceles);
 #! 3
 #! @EndExample
-#! We now see that not all of these arise from wild colourings. For this we also
-#! determine the wild colourings and compare them
+#! Given a wild coloured surface, one can find an isosceles coloured surface by
+#! identifying two of the three colours. However, not every isosceles coloured
+#! surface arises in this way from a wild coloured surface. 
+#! For this we also determine the wild colourings and compare them.
 #! @BeginExample
 wilds := AllWildColouredSurfaces(surf);;
+wilds := EdgeColouredPolygonalComplexIsomorphismRepresentatives(wilds);
 Size(wilds);
-#! 5
+#! 1
 wild := wilds[1];
 #! wild coloured surface (7 vertices, 15 edges and 10 faces)
 #! @EndExample
-#! To see why there is only one wild colouring, we draw the surfaces
+#! To see why there is only one wild colouring, but three isosceles colourings, 
+#! we draw the surfaces:
 #! @BeginLog
 pr := rec( edgeColourClassColours := ["red", "blue"],
  edgeColourClassLengths := [1.2,0.8] );;
@@ -137,13 +144,38 @@ pr := DrawSurfaceToTikz( wild, "Surf10_Wild", pr );;
 #!   \input{_TIKZ_Surf10_Isosc3.tex}
 #!   \input{_TIKZ_Surf10_Wild.tex}
 #! </Alt>
-#! It can easily be seen that the third isosceles coloured surface cannot arise
-#! from identifying two colours of a wild coloured surface: Note that vertex 5 has
+#! It can easily be seen that the first and third isosceles coloured surface cannot arise
+#! from identifying two colours of a wild coloured surface: Note that each has a vertex of 
 #! degree 5 and all edges of this vertex are coloured red. If this isosceles colouring had
 #! arisen from a wild colouring, then two of the wild colours would have had to be
 #! identified to become the red colour. However, there is no assignment of
 #! two colours to a vertex of degree 5 that arises from a wild colouring, as in a
 #! wild colouring the two colours have to alternate.
+#! @EndChunk
+
+
+#! @BeginChunk Example_IsoscelesIcosahedron
+#! @BeginExample
+ico := Icosahedron();;
+colIco := AllIsoscelesColouredSurfaces(ico)[1]; 
+VertexCounterByAngle( colIco );
+#! @EndExample
+#! This can be drawn by <K>DrawSurfaceToTikz</K> 
+#! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).
+#! @BeginLog
+pr := rec( edgeColourClassColours := ["red", "blue"],
+edgeColourClassLengths := [1.2,0.8] );;
+DrawSurfaceToTikz(colIco, "Ico_isosccoloured", pr );;
+#! @EndLog
+#!  The example shows that there are two types of vertices in the given colouring
+#! of the icosahedron. Vertices of the first type contain 4 angles between
+#! edges whose opposite edge has colour "1" (red) and one angle whose opposite
+#! edge has colour "2" (blue).  Vertex 2 is an example of such a vertex.
+#! The vertices of the second type contain five equal angles and the opposite edges 
+#! have colour "2" (blue). Vertex 1 is an example of such a vertex.
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Ico_isosccoloured.tex}
+#! </Alt>
 #! @EndChunk
 
 

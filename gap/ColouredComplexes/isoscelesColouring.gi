@@ -122,9 +122,8 @@ InstallMethod( ApexVertexOfFace,
      coledges := ColouredEdgesOfFace( surf, face);
      if Length(coledges[1]) = 2 then
         coledges := coledges[1];
-     elif Length(coledges[2]) = 2 then
+     else 
         coledges := coledges[2];
-    else Error("ApexVertexOfFace: Not an isosceles-coloured face");
     fi;
     v := Intersection( VerticesOfEdge(surf, coledges[1]),
                        VerticesOfEdge(surf, coledges[2]));
@@ -148,9 +147,8 @@ InstallMethod( BaseEdgeOfFace,
      coledges := ColouredEdgesOfFace( surf, face);
      if Length(coledges[1]) = 1 then
         return coledges[1][1];
-     elif Length(coledges[2]) = 1 then
+     else 
         return coledges[2][1];
-    else Error("BaseEdgeOfFace: Not a 2-coloured face");
     fi;
 end
 );
@@ -433,7 +431,7 @@ RedispatchOnCondition( ColouredUmbrellasOfVertices, true,
 
 
 InstallMethod( LocalSymmetryOfEdgesAsNumbers, 
-    "for an edge exact-coloured simplicial surface",
+    "for an isosceles coloured simplicial surface",
     [IsIsoscelesColouredSurface],
     function(colSurf)
         local mr, surf, r, verts, faces, e1, e2, e;
@@ -530,7 +528,7 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
 
                n := Length(tup);
                if n <= 1 then Error("norepeatings: mistake in surface"); fi;
-               if tup[1]=tup[n] and tup [1]="s" then return false; fi;
+#               if tup[1]=tup[n] and tup [1]="s" then return false; fi;
 
                for i in [ 2 .. n ] do
                    if tup[i]=tup[i-1] and tup[i]="s" then return false; fi;
@@ -622,7 +620,7 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
         # to an assignment including the umbrella around vertex u
         TestAssign := function(edgeassign, umb, u)
              local edges, allassign, setedges, assign, j, f, e, i, 
-                   origedgeassign, speichen, v;
+                   origedgeassign, speichen, v, filt;
 
             if u = 1 then
                 edgeassign := [];
@@ -648,8 +646,18 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
             # find the list of  all possible edge assignments of a vertex
             # of degree EdgeDegreeOfVertex(v)
             allassign := degreeassign[Position(degs,EdgeDegreeOfVertex(surf,v))];
-#Error("a");
-            # only consider compatible ones
+	    filt := function( tup )
+	        if tup[1] = "l" then return true; fi;
+		return tup[1]<>tup[Length(tup)];
+            end;
+
+            # for inner vertices, we have to remove assignments
+	    # where the first and last edge are "s" as they are
+	    # next to each other.
+	    if IsInnerVertex(surf,v) then
+	        allassign := Filtered( allassign, filt );
+	    fi;
+            # only consider compatible onesp
             setedges := Filtered( edges, e-> edgeassign[e] <> 0 );
             allassign := Filtered(allassign,
                              i->assignagree(edgeassign, edges, setedges,i)) ;
@@ -674,7 +682,6 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
                     continue;
                 fi;
 
-#Error("b");
                 TestAssign( edgeassign, umb, u+1 );
             od; # for all assign
 

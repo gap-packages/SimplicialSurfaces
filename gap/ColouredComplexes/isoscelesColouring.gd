@@ -360,10 +360,42 @@ DeclareAttribute("ColourInvolutions", IsIsoscelesColouredSurface);
 #! Return the local symmetry of the edges in <A>colSurf</A>, i.e. whether the 
 #! colours in the adjacent faces of a given inner edge are mirrored or rotated.
 #!
-#! TODO explanation
+#! The edges of the isosceles coloured surface <A>colSurf</A> have a local 
+#! symmetry. For every inner leg coloured edge (<Ref Subsect="InnerEdges"/>) there are two
+#! possible colourings of the adjacent faces, which can be described by a 
+#! symmetry with respect to the edge between them. The colours can either be
+#! mirrored or rotated into each other. For every inner base coloured edge, the
+#! local symmetry is mirrored.
+#! <Alt Only="TikZ">
+#!   \input{Image_LocalLegSymmetry.tex}
+#! </Alt>
+#! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
+#! Together with the <E>boundary</E>-type for the boundary edges
+#! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>LocalSymmetryOfEdges</K>.
+#! 
+#! This function returns a list whose <E>i</E>th entry is "mirror" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a mirror edge,  or "rotation" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a rotation edge, or "boundary" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a boundary edge. 
+#! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> oct := AllIsoscelesColouredSurfaces(oct);;
+#! gap> LocalSymmetryOfEdges(oct[2]);
+#!  [ "rotation", "mirror", "rotation", "mirror", "mirror", "mirror",
+#!  "rotation", "mirror", 
+#!    "mirror", "mirror", "rotation", "mirror" ]
+#! @EndExampleSession
 #!
-#! TODO tests
-#!
+#! Here is an example of a surface with boundary:
+#! @BeginExampleSession
+#! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
+#! [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],
+#! [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
+#! gap> fiw := AllIsoscelesColouredSurfaces(fourGon);
+#! LocalSymmetryOfEdges( fiw[1] );
+#! [ "mirror", "mirror", "mirror", "mirror", "boundary", "boundary", "boundary", "boundary" 
+#!  ]
+#! @EndExampleSession
 #! @Returns a list of strings
 #! @Arguments colSurf
 DeclareAttribute( "LocalSymmetryOfEdges", IsIsoscelesColouredSurface );
@@ -393,14 +425,16 @@ DeclareOperation( "AllIsoscelesColouredSurfaces", [IsSimplicialSurface, IsList] 
 #! for every vertex how many faces are incident to that vertex at a given
 #! angle. In both cases, the angle of a face at a particular vertex is determined by
 #! the colour of the opposite edge. The function VertexCounterByAngle returns a
-#! list. The entries of this lists are lists of the form [ s, i], where <A>i</i> is a
-#! number counting how often the vertex angle described by the list <A>s</A> is encountered.
+#! list. The entries of this lists are lists of the form <A>[s,i]</A>, where 
+#! <A>i</A> is a number counting how often the vertex angle described by the 
+#! list <A>s</A> is encountered.
 #! The entry <A>s</A> is itself a list which describes the angles around a vertex by
-#! recording pairs [a,j], where a is the colour of an edge opposite the vertex and
-#! j counts how many times this angle was counted.
-#! @Arguments colSimSurf
+#! recording pairs <A>[a,j],</A> where <A>a</A> is the colour of an edge opposite 
+#! the vertex and
+#! <A>j</A> counts how many times this angle was counted.
 #! @Returns a list 
+#! @Arguments colSimSurf
+DeclareOperation( "VertexCounterByAngle", [IsEdgeColouredSimplicialSurface]);
 #! @EndGroup
+#! @InsertChunk Example_IsoscelesIcosahedron
 ##
-DeclareOperation( "VertexCounterByAngle",
-    [IsEdgeColouredSimplicialSurface]);
