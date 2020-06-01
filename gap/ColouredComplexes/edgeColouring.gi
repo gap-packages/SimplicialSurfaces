@@ -455,6 +455,8 @@ InstallMethod( ViewInformationEdgeColoured,
             else
                 Add(strList, ["wild coloured surface (", 0]);
             fi;
+        elif IsIsoscelesColouredSurface(colComp) then
+                Add(strList, ["isosceles coloured surface (", 0]);
         else
             PrintTo( out, "edge coloured " );
             PrintTo( out, __SIMPLICIAL_PolygonalComplexName( PolygonalComplex(colComp), false ) );
@@ -467,14 +469,16 @@ InstallMethod( ViewInformationEdgeColoured,
         PrintTo( out, " vertices, " );
         PrintTo( out, String( NumberOfEdges( PolygonalComplex(colComp) ) ) );
         PrintTo( out, " edges" );
-        if IsWildColouredSurface(colComp) then
+        if IsWildColouredSurface(colComp) or
+           IsIsoscelesColouredSurface(colComp) then
             PrintTo( out, " and " );
         else
             PrintTo( out, ", " );
         fi;
         PrintTo( out, String( NumberOfFaces( PolygonalComplex(colComp) ) ) );
         PrintTo( out, " faces" );
-        if not IsWildColouredSurface(colComp) then
+        if not IsWildColouredSurface(colComp)  and
+           not IsIsoscelesColouredSurface(colComp) then
             PrintTo( out, " and " );
             PrintTo( out, String( Length( Colours(colComp) ) ) );
             PrintTo( out, " colours" );
@@ -508,6 +512,10 @@ InstallMethod( DisplayInformationEdgeColoured,
             for i in [1,2,3] do
                 posOfColour[Colours(colComp)[i]] := i;
             od;
+        elif IsIsoscelesColouredSurface(colComp) then
+            for i in [1,2] do
+                posOfColour[Colours(colComp)[i]] := i;
+            od;
         else
             for c in Colours(colComp) do
                 posOfColour[c] := 0;
@@ -524,6 +532,8 @@ InstallMethod( DisplayInformationEdgeColoured,
             else
                 Add(strList, ["Wild coloured surface (", 0]);
             fi;
+        elif IsIsoscelesColouredSurface(colComp) then
+                Add(strList, ["Isosceles coloured surface (", 0]);
         else
             PrintTo( out, "Edge coloured " );
             PrintTo( out, __SIMPLICIAL_PolygonalComplexName( PolygonalComplex(colComp), false ) );
@@ -565,6 +575,14 @@ InstallMethod( DisplayInformationEdgeColoured,
 
         # Edges
         if IsWildColouredSurface(colComp) then
+            Add( strList, [ Concatenation( "    Edges (", String(NumberOfEdges(complex)), "): [ " ), 0 ] );
+            for x in Edges(complex) do
+                Add( strList, [ String(x), posOfColour[ColoursOfEdges(colComp)[x]] ] );
+                Add( strList, [ ", ", 0 ] );
+            od;
+            Remove(strList);
+            Add(strList, [" ]\n", 0]);
+        elif IsIsoscelesColouredSurface(colComp) then
             Add( strList, [ Concatenation( "    Edges (", String(NumberOfEdges(complex)), "): [ " ), 0 ] );
             for x in Edges(complex) do
                 Add( strList, [ String(x), posOfColour[ColoursOfEdges(colComp)[x]] ] );
@@ -625,7 +643,8 @@ InstallMethod( DisplayInformationEdgeColoured,
 
         # UmbrellaPathsOfVertices
         Add( strList, [ "    Umbrella-paths: [ ", 0 ] );
-        if IsWildColouredSurface(colComp) then
+        if IsWildColouredSurface(colComp) or
+           IsIsoscelesColouredSurface(colComp) then
             for i in [1..Length(ColouredUmbrellasOfVertices(colComp))] do
                 if IsBound(ColouredUmbrellasOfVertices(colComp)[i]) then
                     umb := ColouredUmbrellasOfVertices(colComp)[i];
@@ -673,7 +692,7 @@ InstallMethod( DisplayInformationEdgeColoured,
 
 
         # LocalSymmetry
-        if IsWildColouredSurface(colComp) then
+        if IsWildColouredSurface(colComp) or IsIsoscelesColouredSurface(colComp) then
             Add(strList, ["    LocalSymmetry: [ ", 0]);
             for i in [1..Length(LocalSymmetryOfEdges(colComp))] do
                 if IsBound(LocalSymmetryOfEdges(colComp)[i]) then
