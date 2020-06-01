@@ -105,7 +105,7 @@ surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 4, 5 ],
 [ 1, 4, 6 ], [ 1, 5, 7 ], [ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], 
 [ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );;
 isosceles := AllIsoscelesColouredSurfaces(surf);;
-isosceles := EdgeColouredPolygonalComplexIsomorphismRepresentatives(isosceles);
+isosceles := EdgeColouredPolygonalComplexIsomorphismRepresentatives(isosceles);;
 Size(isosceles);
 #! 3
 #! @EndExample
@@ -115,7 +115,7 @@ Size(isosceles);
 #! For this we also determine the wild colourings and compare them.
 #! @BeginExample
 wilds := AllWildColouredSurfaces(surf);;
-wilds := EdgeColouredPolygonalComplexIsomorphismRepresentatives(wilds);
+wilds := EdgeColouredPolygonalComplexIsomorphismRepresentatives(wilds);;
 Size(wilds);
 #! 1
 wild := wilds[1];
@@ -157,8 +157,9 @@ pr := DrawSurfaceToTikz( wild, "Surf10_Wild", pr );;
 #! @BeginChunk Example_IsoscelesIcosahedron
 #! @BeginExample
 ico := Icosahedron();;
-colIco := AllIsoscelesColouredSurfaces(ico)[1]; 
+colIco := AllIsoscelesColouredSurfaces(ico)[1];;
 VertexCounterByAngle( colIco );
+#! [ [ [ [ 1, 4 ], [ 2, 1 ] ], 10 ], [ [ [ 2, 5 ] ], 2 ] ]
 #! @EndExample
 #! This can be drawn by <K>DrawSurfaceToTikz</K> 
 #! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).

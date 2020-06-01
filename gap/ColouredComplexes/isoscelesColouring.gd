@@ -389,10 +389,10 @@ DeclareAttribute("ColourInvolutions", IsIsoscelesColouredSurface);
 #! Here is an example of a surface with boundary:
 #! @BeginExampleSession
 #! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
-#! [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],
-#! [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
-#! gap> fiw := AllIsoscelesColouredSurfaces(fourGon);
-#! LocalSymmetryOfEdges( fiw[1] );
+#! >        [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]], 
+#! >         [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
+#! gap> fiw := AllIsoscelesColouredSurfaces(fourGon);;
+#! gap> LocalSymmetryOfEdges( fiw[1] );
 #! [ "mirror", "mirror", "mirror", "mirror", "boundary", "boundary", "boundary", "boundary" 
 #!  ]
 #! @EndExampleSession
