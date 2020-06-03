@@ -50,6 +50,18 @@ InstallMethod( IsIsoscelesColouredSurface,
 );
 
 
+InstallMethod(  IsIsoscelesColouredSurface,
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComp)
+        if IsEdgeColouredSimplicialSurface(colComp) then
+            TryNextMethod();
+        else
+            return false;
+        fi;  
+    end
+);
+
 InstallOtherMethod( IsIsoscelesColouredSurface,
     "for an object", [IsObject], function(obj)
         if IsEdgeColouredPolygonalComplex(obj) then

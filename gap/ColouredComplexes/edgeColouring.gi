@@ -654,7 +654,9 @@ InstallMethod( DisplayInformationEdgeColoured,
             od;
         else
             for i in [1..Length(UmbrellaPathsOfVertices(complex))] do
-                if IsBound(UmbrellaPathsOfVertices(complex)[i]) then
+                if IsBound(UmbrellaPathsOfVertices(complex)[i])
+                    and UmbrellaPathsOfVertices(complex)[i] <> fail then
+		    # in case the complex is e.g. a pre-surface
                     umb := UmbrellaPathsOfVertices(complex)[i];
                     Add(strList, [__SIMPLICIAL_UncolouredString(ViewInformation(umb)), 0]);
                 fi;

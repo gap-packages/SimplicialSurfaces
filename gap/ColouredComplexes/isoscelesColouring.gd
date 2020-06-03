@@ -179,7 +179,8 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 
 #!
 #! @Arguments colSurf
-DeclareProperty( "IsIsoscelesColouredSurface", IsEdgeColouredSimplicialSurface);
+#! DeclareProperty( "IsIsoscelesColouredSurface", IsEdgeColouredSimplicialSurface);
+ DeclareProperty( "IsIsoscelesColouredSurface", IsEdgeColouredPolygonalComplex );
 #! @Arguments object
 #! @EndGroup
 InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsIsoscelesColouredSurface );

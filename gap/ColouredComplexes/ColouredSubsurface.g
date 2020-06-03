@@ -1,7 +1,16 @@
+#! Let colSurf be an edge coloured simplicial surface. If the subcomplex
+#! of colSurf induced by the faces in faceList is not a simplicial surface,
+#! the function returns an uncoloured triangluar complex. If however the
+#! list of faces induces a simplicial surface, then
+#! ColouredSubsurface( colSurf, faceList) returns the subsurface of
+#! colSurf whose faces are in the list faceList as an edge coloured
+#! simplicial surface.
+#!
 ColouredSubsurface := function(colSurf, faceList)
     local subsurf, i, edgeCol, newEdgeCol, edges;
 
     subsurf := SubcomplexByFaces(colSurf, faceList);
+
     edgeCol := ColoursOfEdges(colSurf);
     edges   := Edges(colSurf);
     newEdgeCol := ShallowCopy(edgeCol);
@@ -20,8 +29,9 @@ ColouredSubsurface := function(colSurf, faceList)
     return EdgeColouredPolygonalComplex(subsurf, newEdgeCol);
 end;
 
-#! FreeSimplexRing( degreeSeq ) returns a closed simplicial surface.
-#! The surface has two boundaries (which may be a single vertex(
+#! FreeSimplexRing( degreeSeq ) returns a  simplicial surface which is
+#! a closed ring.
+#! The surface has two boundaries (which may be a single vertex)
 #! The degree sequence lists the degrees of the vertices along one
 #! of the boundary edges.        
 FreeSimplexRing := function( degreeSeq )
@@ -30,7 +40,7 @@ FreeSimplexRing := function( degreeSeq )
         boundary, e, inner, lastEdge, nextEdge, inEdgesOfFaces, f;
 
     if ForAny( degreeSeq, x -> not IsPosInt(x) or x < 2 ) then
-        Error("SimplexRing: Wrong input.");
+        Error("FreeSimplexRing: degrees have to be at least 2.");
     fi;
 
     vertsInFaces := [];
@@ -113,10 +123,12 @@ end;
 ##  BaseGraph(surf) . . . the graph of the base edges
 ##
 
-# For an IsEdgeColouredSurface
+#! For an IsEdgeColouredSurface it determines the base graph.
+#! For a WildColouredSurface it determines the graph determined
+#! by the colour given as the second argument 
 BaseGraph := function (arg)
 
-        local surf, baseedges, cols, edges, e;
+        local surf, baseedges, cols, edges, e, i, j, vs;
 
         
         surf := arg[1];
@@ -133,28 +145,47 @@ BaseGraph := function (arg)
             Error("cannot determine base colour");
         fi;
 
-        edges := [];
+        vertices := Set([]);
         for e in baseedges do
-            Add( edges, VerticesOfEdge( surf, e) );
-            Add( edges, Reversed(VerticesOfEdge( surf, e) ));
+            vertices := Union(vertices,VerticesOfEdge( surf, e) );
         od;
 
-        return DigraphByEdges( edges );
+        edges := List( vertices, v->[] );
+        for e in baseedges do
+            vs := VerticesOfEdge( surf, e);
+            Add(edges[Position(vertices,vs[1])], Position(vertices,vs[2]));
+            Add(edges[Position(vertices,vs[2])], Position(vertices,vs[1]));
+        od;
+       
+        dig := Digraph( edges );
+        for i in [ 1..Length(vertices) ] do
+            SetDigraphVertexLabel(dig, i, vertices[i]);
+        od;
+        for e in baseedges do
+            vs := VerticesOfEdge( surf, e);
+            i := Position(vertices,vs[1]);
+            j := Position(vertices,vs[2]);
+            SetDigraphEdgeLabel(dig, i, j, e);
+            SetDigraphEdgeLabel(dig, j, i, e);
+        od;
+
+        return dig;
+
 end;
 
 
-DrawBaseGraph := function (surf)
+DrawBaseGraph := function (surf, fn)
 
 
-local pr;
+        local pr;
 
         pr := rec();
- pr.faceColours :=  List( Faces(surf), f->"white");
-pr.edgeColourClassColours := [ "white", "blue"];
- pr.faceLabelsActive := false;
-# pr.edgeLabelsActive := false;
+        pr.faceColours :=  List( Faces(surf), f->"white");
+        pr.edgeColourClassColours := [ "white", "blue"];
+        pr.faceLabelsActive := false;
+        # pr.edgeLabelsActive := false;
 
- pr := DrawSurfaceToTikz( surf, "ici", pr);;
+        pr := DrawSurfaceToTikz( surf, fn, pr);;
 
 end;
 
