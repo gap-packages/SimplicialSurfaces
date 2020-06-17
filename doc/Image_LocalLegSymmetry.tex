@@ -1,0 +1,45 @@
+% This is an image of two adjacent triangles, in two different colour configurations
+
+\begin{tikzpicture}[vertexPlain=nolabels, edgeDouble=nolabels, faceStyle=nolabels]
+    \def\colA{red}
+    \def\colB{blue}
+    \def\colC{red}
+
+    \def\dist{3}
+    \begin{scope}
+        \coordinate (Z) at (0,0);
+        \coordinate (A) at (30:\dist);
+        \coordinate (B) at (90:\dist);
+        \coordinate (C) at (150:\dist);
+
+        \draw[face] (Z) -- (A) -- (B) -- cycle (Z) -- (B) -- (C) -- cycle;
+        \draw[edge=\colC] (Z) -- (B);
+        \draw[edge=\colA] (A) -- (B) -- (C);
+        \draw[edge=\colB] (A) -- (Z) -- (C);
+
+        \foreach \p/\r/\n in {Z/below/1, A/right/2, B/above/3, C/left/4}{
+            \vertexLabelR{\p}{\r}{\n}
+        }
+
+        \def\abs{0.5}
+        \draw[dashed, thick] ($(Z)+(0,-\abs)$) -- ($(B)+(0,\abs)$); 
+    \end{scope}
+    \begin{scope}[xshift=7cm]
+        \coordinate (Z) at (0,0);
+        \coordinate (A) at (30:\dist);
+        \coordinate (B) at (90:\dist);
+        \coordinate (C) at (150:\dist);
+
+        \draw[face] (Z) -- (A) -- (B) -- cycle (Z) -- (B) -- (C) -- cycle;
+        \draw[edge=\colC] (Z) -- (B);
+        \draw[edge=\colA] (A) -- (Z) (B) -- (C);
+        \draw[edge=\colB] (A) -- (B) (Z) -- (C);
+
+        \foreach \p/\r/\n in {Z/below/1, A/right/2, B/above/3, C/left/4}{
+            \vertexLabelR{\p}{\r}{\n}
+        }
+
+        \fill[black] ($(Z)!0.5!(B)$) circle (2pt);
+        \node[scale=2] at ($(Z)!0.5!(B)$) {$\circlearrowleft$};
+    \end{scope}
+\end{tikzpicture}

@@ -264,7 +264,29 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! Return the local symmetry of the edges in <A>colSurf</A>, i.e. whether the 
 #! colours in the adjacent faces of a given inner edge are mirrored or rotated.
 #!
-#! TODO explanation
+#! The edges of the edge coloured surface <A>colSurf</A> have a local 
+#! symmetry. For every inner coloured edge (<Ref Subsect="InnerEdges"/>)
+#! there are two  possible colourings of the adjacent faces, which can be
+#! described by a symmetry with respect to the edge between them.
+#! The colours can either be  mirrored or rotated into each other.
+#! <Alt Only="TikZ">
+#!   \input{Image_LocalSymmetry.tex}
+#! </Alt>
+#! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
+#! Together with the <E>boundary</E>-type for the boundary edges
+#! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>LocalSymmetryOfEdges</K>.
+#! 
+#! This function returns a list whose <E>i</E>th entry is "mirror" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a mirror edge,  or "rotation" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a rotation edge, or "boundary" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a boundary edge. 
+#! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> oct := AllWildColouredSurfaces(oct);;
+#! gap> LocalSymmetryOfEdges(oct[2]);
+#! [ "mirror", "rotation", "mirror", "rotation", "mirror", "mirror", "mirror", "mirror", 
+#!  "rotation", "mirror", "mirror", "rotation" ]
+#! @EndExampleSession
 #!
 #! TODO tests
 #!

@@ -893,11 +893,12 @@ BindGlobal("EdgeColouredEdgeFacePathType",
 InstallMethod( ViewInformation, "for an edge-coloured edge-face-path", 
     [IsEdgeColouredEdgeFacePath],
     function(path)
-        local strList, i, posOfColour, col, edge;
+        local strList, i, posOfColour, col, edge, compl;
         
+        compl := AssociatedEdgeColouredPolygonalComplex(path);
         posOfColour := [];
-        for i in [1,2,3] do
-            posOfColour[Colours(AssociatedEdgeColouredPolygonalComplex(path))[i]] := i;
+        for i in [1..Length(Colours(compl)) ] do
+            posOfColour[Colours(compl)[i]] := i;
         od;
 
         strList := [];

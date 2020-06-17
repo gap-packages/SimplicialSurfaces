@@ -34,5 +34,6 @@ ReadPackage( "SimplicialSurfaces", "gap/Library/library.gd" );
 
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/edgeColouring.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/variColouring.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/ColouredComplexes/isoscelesColouring.gd" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Flags/flags.gd" );
