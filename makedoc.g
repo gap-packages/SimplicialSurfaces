@@ -30,6 +30,13 @@ if fail = LoadPackage("SimplicialSurfaces") then
     Error("SimplicialSurfaces package has to be available.");
 fi;
 
+Exec( "pwd > _TMP_foo");   
+manualposition := StringFile("_TMP_foo");
+Exec("rm _TMP_foo");
+RemoveCharacters(manualposition, "\n");  
+manualposition := Concatenation(manualposition,"/doc/manual.pdf");
+manualposition := Concatenation("You can find the image in the manual. Most probably it is here: ", manualposition);
+
 # Now we have the XML-tree of the documentation
 # We need to change the <Alt Only="TikZ">-Tags into proper GAPDoc tags
 # For that we define a function that changes one node 
@@ -176,7 +183,9 @@ preProcessTikz := function( node )
 
 
         # Generate the text version
-        consoleString := "\n[an image that is not shown in text version]\n";
+        consoleString := "\n[an image that is not shown in text version. ";
+	consoleString := Concatenation( consoleString, manualposition);
+	consoleString := Concatenation( consoleString, "]\n");
         n3 := ParseTreeXMLString(consoleString);
         n3.name := "Alt";
         n3.attributes.Only := "Text";
@@ -187,6 +196,74 @@ preProcessTikz := function( node )
         node.attributes.Only := "HTML,LaTeX,Text";
     fi;
 end;
+
+
+
+# Now we have the XML-tree of the documentation
+# We need to change the <Alt Only="JavaScript">-Tags into proper GAPDoc tags
+# For that we define a function that changes one node 
+preProcessJavaScript := function( node )
+   	 local cont, name, path, n1, n2, n3, consoleString, htmlString, latexString, tmpImageName, tmpName;
+
+   	if node.name = "Alt" and IsBound(node.attributes.Only) and 
+        node.attributes.Only in ["JavaScript","Javascript"] then
+
+       		# get the content of the tag (we need to remove whitespaces)
+        	cont := GetTextXMLTree(node);
+		cont := ReplacedString( cont, " ", "" ); 
+		cont := ReplacedString( cont, "\n", "" ); 
+		cont := ReplacedString( cont, ".html", "" ); 
+		path := __SIMPLICIAL_DocDirectory;
+       		tmpImageName := "_IMAGE_TMP";
+        	tmpName := Concatenation( path, tmpImageName,  ".tex");
+		PrintTo("doc/Test.js", "var page = require('webpage').create();\n");
+		AppendTo( "doc/Test.js", "page.viewportSize = { width: 1920, height: 1080 };\n");
+		AppendTo( "doc/Test.js", "page.clipRect = { top: 400, left: 750, width: 375, height: 300 };\n");
+		AppendTo( "doc/Test.js", Concatenation("page.open('doc/", cont, ".html', function() {\n") );
+		AppendTo( "doc/Test.js", Concatenation("page.render('doc/", cont, ".png');\n") );
+		AppendTo( "doc/Test.js", "phantom.exit();\n" );
+		AppendTo( "doc/Test.js", "});" );
+		Exec("./doc/phantomjs /doc/Test.js");
+		name := cont;
+
+
+
+       		Add( __SIMPLICIAL_ImageNames, name);
+
+
+       
+
+        	# Inclusion in the LaTeX-version is centered
+        	latexString := Concatenation( "\n\\begin{center}\n", "\\includegraphics{", name, ".png}\n\\end{center}\n" );
+        	n1 := ParseTreeXMLString(latexString);
+        	n1.name := "Alt";
+        	n1.attributes.Only := "LaTeX";
+
+        	# To include it in the HTML-version we have to use a different node
+        	htmlString := Concatenation(
+            	"<Alt Only=\"HTML\"><![CDATA[",
+            	"<p style=\"text-align:center;\"><img src=\"", name, "-1.png\"",
+            	"alt=\"", name, "\"/></p>]]></Alt>");
+        	n2 := ParseTreeXMLString(htmlString);
+        	n2.name := "Alt";
+        	n2.attributes.Only := "HTML";
+
+
+        	# Generate the text version
+        	consoleString := "\n[an image that is not shown in text version]\n";
+        	n3 := ParseTreeXMLString(consoleString);
+        	n3.name := "Alt";
+        	n3.attributes.Only := "Text";
+
+
+        	# Replace this node by the new nodes
+        	node.content := [n1,n2,n3];
+        	node.attributes.Only := "HTML,LaTeX,Text";
+
+	fi;
+end;
+
+
 
 BindGlobal( "CleanImageDirectory", function(  )
     local allFiles, file;
@@ -261,12 +338,14 @@ BindGlobal("MakeGAPDocDoc", function(arg)
         Read("gap/PolygonalComplexes/drawing.gd");
         Read("gap/Library/library_images.gd");
         Read("gap/PolygonalComplexes/distances_images.gd");
+	Read("gap/PolygonalComplexes/animating_images.gd");
         Read("gap/ColouredComplexes/edgeColouring_images.gd");
         Read("gap/ColouredComplexes/variColouring_images.gd");
         Read("gap/Flags/flags_images.gd");
         __SIMPLICIAL_MANUAL_MODE := false;
         # Fortunately there already is a method to apply this function to all nodes of the tree
         ApplyToNodesParseTree( r, preProcessTikz );
+	ApplyToNodesParseTree( r, preProcessJavaScript );
 
         CleanImageDirectory();
 

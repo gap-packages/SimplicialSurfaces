@@ -1,11 +1,13 @@
 # Documentation and automatically generated files
 doc/chap*
 doc/_Chapter*
+doc/_Chunks.xml
 doc/title.xml
 doc/SimplicialSurfaces.tex
 doc/_AutoDocMainFile.xml
 doc/_IMAGE*
 doc/_TIKZ*
+doc/*.png
 doc/manual.pdf
 doc/manual.six
 tst/*.tst

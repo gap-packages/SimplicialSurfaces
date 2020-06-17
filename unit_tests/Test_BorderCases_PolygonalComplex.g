@@ -235,3 +235,80 @@ BindGlobal( "__SIMPLICIAL_Test_SplitEdge", function()
     SIMPLICIAL_TestAssert(SplitEdgeNC(hourglass, 1) = [hourglass1, [6,7]]);
 
 end);
+
+BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
+     local eye,closeEye, triple, tripleTogether, tripleDoubleTogether, 
+           falseTriforce, fT1, fT2, fT3, fT4, fT5, fT6;
+
+     #Test Close Eye
+
+      eye := PolygonalComplexByDownwardIncidence(
+              [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]],
+              [[1,2,3],[4,5,6]]);;
+
+      closeEye := JoinEdges( eye, 2, 6 );;
+      Assert(0,InnerEdges(closeEye[1])=[7]);
+
+      #Test Triple
+
+      triple := PolygonalComplexByDownwardIncidence(
+              [[1,2],[2,3],[3,1],[1,3],[3,4],[4,1],[1,3],[3,5],[5,1]],
+              [[1,2,3],[4,5,6],[7,8,9]]);
+
+      tripleTogether := JoinEdges(triple, [3,4])[1];
+      tripleDoubleTogether:=JoinEdges(tripleTogether,[7,10])[1];
+
+      Assert(0,InnerEdges(tripleTogether)=[10]);
+      Assert(0,InnerEdges(tripleDoubleTogether)=[]);
+      Assert(0,RamifiedEdges(tripleDoubleTogether)=[11]);
+
+      # Test False Triforce
+
+      falseTriforce := PolygonalComplexByDownwardIncidence(
+               [[1,2],[2,3],[3,1],[3,4],[4,1],[1,3],[4,2],[2,1],[1,4],[2,3],
+               [3,4],[4,2]],
+              [[1,2,3],[4,5,6],[7,8,9],[10,11,12]]);
+
+      fT1 := JoinEdgesNC(falseTriforce,[2,10])[1];
+      fT2 := JoinEdgesNC(fT1,4,11)[1];
+      fT3 := JoinEdges(fT2,[7,12])[1];
+      fT4 := JoinEdges(fT3,1,8)[1];
+      fT5 := JoinEdges(fT4,[3,6],99)[1];
+      fT6 := JoinEdges(fT5,5,9,100)[1];
+
+      Assert(0,InnerEdges(fT1) = [13]);
+      Assert(0,EdgesOfFace(fT3,4) = [ 13, 14, 15 ]);
+      Assert(0,InnerEdges(fT6)=[ 13, 14, 15, 16, 99, 100]);
+ end);
+
+ BindGlobal( "__SIMPLICIAL_Test_JoinVertices", function()
+     local doubleTriangle, openDoubleTriangle, isomorph, doubleSquare, 
+ 	doubleSquare1, doubleSquare2, doubleSquare3;
+
+     #Test Double Triangle
+
+     doubleTriangle := PolygonalComplexByDownwardIncidence(
+ 	[[1,2],[2,3],[3,4],[4,1],[4,2]],
+ 	[[1,4,5],[2,3,5]]); 
+
+     openDoubleTriangle := JoinVertices(doubleTriangle,1,3)[1];
+
+     Assert(0,BoundaryVertices(openDoubleTriangle) = [2,4]);
+     Assert(0,RamifiedVertices(openDoubleTriangle) = [5]);
+
+     #Test Moebius Band
+
+     doubleSquare := PolygonalComplexByDownwardIncidence(
+ 	[[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],[2,5]],
+ 	[[2,3,4,7],[1,5,6,7]]);
+     doubleSquare1 := JoinVerticesNC(doubleSquare,[1,4])[1];
+     doubleSquare2 := JoinVertices(doubleSquare1,[3,6])[1];
+     doubleSquare3 := JoinEdges(doubleSquare2, 3,6)[1];    
+
+     isomorph := PolygonalComplexByDownwardIncidence(
+ 	[[1,2],[2,4],[3,4],[3,1],[1,4],[2,3]],
+ 	[[1,2,3,4],[1,3,5,6]]);    
+
+    Assert(0,IsIsomorphic(isomorph,doubleSquare3)=true);
+
+ end);

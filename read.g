@@ -26,6 +26,7 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/navigation.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/distances.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/animating.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Morphisms/morphisms.gi" );
 
