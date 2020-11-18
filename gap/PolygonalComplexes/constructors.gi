@@ -375,8 +375,8 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         __SIMPLICIAL_AtLeastTwoPerFace(name, EdgesOfFaces(obj), "edges");
         __SIMPLICIAL_CheckPolygons(name, obj);
     end,
-    ["vertices", "edges", "faces"],
-    ["verticesOfEdges", "edgesOfFaces"]);
+    function( edgesOfVertices, facesOfEdges )
+    ["edgesOfVertices", "facesOfEdges"]);
 
 ##
 ##  End updward incidence
