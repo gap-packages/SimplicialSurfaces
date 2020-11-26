@@ -463,3 +463,10 @@ DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 #! @Arguments flagSurf, fileName[, printRecord]
 DeclareOperation( "DrawSurfaceToTikz", [IsFlagComplex and IsNotEdgeRamified, IsString, IsRecord] );
 #! @EndGroup
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{try.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+
