@@ -135,7 +135,7 @@
 #! >        [[6,8,9], , , [9,10,12,13]]);
 #! polygonal surface (5 vertices, 6 edges, and 2 faces)
 #! gap> digraph := IncidenceDigraphsGraph(complex);
-#! <digraph with 13 vertices, 38 edges>
+#! <immutable digraph with 13 vertices, 38 edges>
 #! gap> DigraphVertices(digraph);
 #! [ 1 .. 13 ]
 #! gap> DigraphVertexLabels(digraph);

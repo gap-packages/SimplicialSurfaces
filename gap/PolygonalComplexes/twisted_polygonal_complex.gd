@@ -371,16 +371,13 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! three different options are supported:
 #! * An equivalence relation on the set of chambers
 #! @BeginExampleSession
-#! gap> e0 := ZeroAdjacencyRelation(complex);
-#! <equivalence relation on <object> >
+#! gap> e0 := ZeroAdjacencyRelation(complex);;
 #! gap> EquivalenceClasses(e0);
 #! [ {1}, {3}, {5}, {7}, {9}, {11}, {13}, {15}, {17}, {19}, {21}, {23}, {25} ]
-#! gap> e1 := OneAdjacencyRelation(complex);
-#! <equivalence relation on <object> >
+#! gap> e1 := OneAdjacencyRelation(complex);;
 #! gap> EquivalenceClasses(e1);
 #! [ {1}, {2}, {4}, {7}, {8}, {10}, {12}, {15}, {16}, {18}, {21}, {22}, {24} ]
-#! gap> e2 := TwoAdjacencyRelation(complex);
-#! <equivalence relation on <object> >
+#! gap> e2 := TwoAdjacencyRelation(complex);;
 #! gap> EquivalenceClasses(e2);
 #! [ {1}, {2}, {3}, {4}, {9}, {10}, {11}, {12}, {17}, {18}, {23}, {24}, {25}, {26} ]
 #! @EndExampleSession
@@ -627,16 +624,13 @@ DeclareAttribute( "TwoAdjacencyClasses", IsTwistedPolygonalComplex);
 #!      \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> e0 := ZeroAdjacencyRelation(complex);
-#! <equivalence relation on <object> >
+#! gap> e0 := ZeroAdjacencyRelation(complex);;
 #! gap> EquivalenceClasses(e0);
 #! [ {1}, {3}, {5}, {7}, {9}, {11}, {13}, {15}, {17}, {19}, {21}, {23}, {25} ]
-#! gap> e1 := OneAdjacencyRelation(complex);
-#! <equivalence relation on <object> >
+#! gap> e1 := OneAdjacencyRelation(complex);;
 #! gap> EquivalenceClasses(e1);
 #! [ {1}, {2}, {4}, {7}, {8}, {10}, {12}, {15}, {16}, {18}, {21}, {22}, {24} ]
-#! gap> e2 := TwoAdjacencyRelation(complex);
-#! <equivalence relation on <object> >
+#! gap> e2 := TwoAdjacencyRelation(complex);;
 #! gap> EquivalenceClasses(e2);
 #! [ {1}, {2}, {3}, {4}, {9}, {10}, {11}, {12}, {17}, {18}, {23}, {24}, {25}, {26} ]
 #! @EndExampleSession
