@@ -1,7 +1,7 @@
 language: c
 env:
   global:
-    - GAP_PKGS_TO_BUILD="io profiling AttributeScheduler grape simplicial"
+    - GAP_PKGS_TO_BUILD="io profiling AttributeScheduler grape digraphs simplicial"
     - GAP_PKGS_TO_CLONE="sebasguts/AttributeScheduler.git gap-packages/NautyTracesInterface.git markusbaumeister/simplicial-surfaces.git"
 
 addons:
@@ -14,7 +14,6 @@ matrix:
   include:
     - env: GAPBRANCH=master
     - env: GAPBRANCH=stable-4.11
-    - env: GAPBRANCH=stable-4.10
 
 branches:
   only:
