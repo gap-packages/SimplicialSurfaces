@@ -32,6 +32,8 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_JoinEdges();
     __SIMPLICIAL_Test_JoinVertices();
 
+    __SIMPLICIAL_Test_UmbrellaDescriptor();
+
     # VEF-complex
     __SIMPLICIAL_Test_VEF_SpecialisedIncidence();
 
