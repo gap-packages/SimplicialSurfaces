@@ -2,7 +2,7 @@ language: c
 env:
   global:
     - GAP_PKGS_TO_BUILD="io profiling AttributeScheduler grape simplicial"
-    - GAP_PKGS_TO_CLONE="sebasguts/AttributeScheduler.git sebasguts/NautyTracesInterface.git markusbaumeister/simplicial-surfaces.git"
+    - GAP_PKGS_TO_CLONE="sebasguts/AttributeScheduler.git gap-packages/NautyTracesInterface.git markusbaumeister/simplicial-surfaces.git"
 
 addons:
   apt_packages:
