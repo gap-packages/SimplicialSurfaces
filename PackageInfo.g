@@ -75,9 +75,9 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">= 4.10",
+  GAP := ">= 4.11",
   NeededOtherPackages := [ [ "Grape", ">=4.8.2" ], [ "AttributeScheduler", ">=2018.08.03" ]],
-  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2019.05.20"], [ "IO", ">=2.2" ], [ "NautyTracesInterface", ">0.1" ] ],
+  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2019.05.20"], [ "IO", ">=2.2" ], [ "NautyTracesInterface", ">=0.2" ] ],
   ExternalConditions := [ ],
 ),
 
@@ -92,7 +92,7 @@ Keywords := [ "Simplicial" ],
 AutoDoc := rec(
     TitlePage := rec(
         Copyright := Concatenation(
-                    "&copyright; 2016-2020 by Alice Niemeyer and Markus Baumeister<P/>\n\n",
+                    "&copyright; 2016-2021 by Alice Niemeyer and Markus Baumeister<P/>\n\n",
                     "This package may be distributed under the terms and conditions of the\n",
                     "GNU Public License Version 3 (or higher).<P/>",
                     "The primary sources for much of the covered material are:<P/>",
