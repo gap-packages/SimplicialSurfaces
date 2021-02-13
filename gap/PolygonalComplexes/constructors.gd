@@ -49,7 +49,7 @@
 ## unnoticed here (which they will be as most readers will be inclined to
 ## skim this chapter).
 ##
-## To keep a skimming readers attention we will do a different surface example
+## To keep a skimming reader's attention we will do a different surface example
 ## for each documentation group. Ideally they will epitomize different types
 ## of structures that might appear.
 #######
@@ -660,7 +660,7 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #!
 #! The <E>VerticesInFaces</E>-constructors are based on
 #! the attribute <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>)
-#! for triangular faces and an oriented version of it for non-triagular 
+#! for triangular faces and an oriented version of it for non-triangular 
 #! ones.
 #! 
 #! To use the constructor we need to know the incidence relation between 
@@ -732,10 +732,45 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! 
 
 #! @BeginChunk Documentation_VerticesInFaces
-#! TODO
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
+#! <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>) and 
+#! requires that the edges be uniquely defined by their incident vertices.
+#! It takes the following arguments:
+#! <Enum>
+#!   <Item>OPTIONAL: Each of the optional arguments <A>vertices</A>, 
+#!          <A>edges</A> and <A>faces</A> is either a set of positive
+#!          integers or a positive integer. In the latter case, an integer
+#!          <M>n</M> represents the set <M>[1,...,n]</M>.
+#!          
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>verticesInFaces</K>: A list that has an entry for each positive
+#!          integer corresponding to a face. This entry is a list of positive
+#!          integers <M>[v_1, v_2 , ..., v_k ]</M>, each corresponding to
+#!          a vertex incident to the face. Moreover, two consecutive vertices
+#!          in this list are the vertices of an edge incident to the face  
+#!          (here the first and last vertex count as consecutive). 
+#!   </Item>
+#! </Enum>
+#!
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be performed by the NC-version.
+#! * Are the optional arguments <A>vertices</A>, <A>edges</A> and <A>faces</A>
+#!   either positive integers or sets of positive integers?
+#! * Is <A>verticesInFaces</A> a list whose entries are lists of pairwise
+#!   different positive integers?
+#! * Does every bound entry of <A>verticesInFaces</A> contain at least two 
+#!   elements?
+#! * If <A>vertices</A> is given, is 
+#!   <K>Union</K>(<A>verticesInFaces</A>) = <A>vertices</A>?
+#! * If <A>faces</A> is given, is it equal to the bound positions of 
+#!   <A>verticesInFaces</A>?
 #! @EndChunk
 
-#TODO explain how the edge numbers are choosen (such that VerticesOfEdges is a set);
+#TODO explain how the edge numbers are chosen (such that VerticesOfEdges is a set);
 
 
 #! @BeginGroup
@@ -804,7 +839,7 @@ DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 
 #! @BeginGroup
 #! @Description
-#! This method constructs a triagonal complex 
+#! This method constructs a triangular complex 
 #! (<Ref Sect="PolygonalStructures_complex"/>)
 #! @InsertChunk Documentation_VerticesInFaces
 #!
@@ -873,3 +908,100 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsList] );
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
+#! @Section UmbrellaDescriptor 
+#! @SectionLabel UmbrellaDescriptor
+#!
+#! @BeginChunk Documentation_UmbrellaDescriptor
+#! an umbrella descriptor of a simplicial surface a list <A>umbdesc</A>, 
+#! describing the vertices of the surface such that the vertices are the 
+#! positive integers corresponding to the bound positions of <A>umbdesc</A>.
+#! If position <M>i</M> of <A>umbdesc</A> is bound, then the 
+#! <M>i</M>-th entry represents the vertex <M>i</M>. 
+#! If vertex <M>i</M> is inner,  then the <M>i</M>-th entry in <A>umbdesc</A> 
+#! is a cyclic permutation of the faces in the umbrella path around the 
+#! vertex, mapping a face to an adjacent face.  The order of the permutation
+#!  is equal to the degree of the vertex. If vertex <M>i</M> is a 
+#! boundary vertex, then the <M>i</M>-th entry in <A>umbdesc</A> is a list 
+#! consisting of the faces in the umbrella path of the vertex such that 
+#! adjacent faces are consecutive and the two faces with boundary edges 
+#! are the first and the  last entry of the list. The length of the list is 
+#! equal to the degree of the vertex.
+#! @EndChunk 
+#!
+#! @BeginGroup
+#! @Description
+#!  Let <A>surf</A> be a simplicial surface. This method returns a list 
+#!  <A>umbdesc</A> of length equal to the number of vertices of <A>surf</A>. 
+#!  The list <A>umbdesc</A> is an umbrella descriptor of <A>surf</A>, where
+#! @InsertChunk Documentation_UmbrellaDescriptor
+#!
+#! As an example consider the following net of a simplicial surface.
+#! Note that the surface has boundary edges. Moreover, the vertices 
+#! 1,2,3, and 4 are inner vertices, while 5,6,7,8,9, and 10 are not.
+#! Accordingly, the umbrella descriptor of the surface will consist of
+#! cyclic permutations for the vertices 1,2,3, and 4 and of lists for
+#! the remaining vertices.
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond,scale=1.5]
+#!          \input{Image_Constructor_Umbrella.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 2, 5 ], [ 1, 3, 5 ],
+#! >      [ 1, 3, 6 ], [ 1, 4, 6 ], [ 1, 4, 7 ], [ 1, 2, 7 ], [ 2, 7, 8 ], 
+#! >      [ 2, 5, 8 ], [ 3, 5, 9 ], [ 3, 6, 9 ], [ 4, 6, 10 ], [ 4, 7, 10 ] ]);;
+#! gap> UmbrellaDescriptorOfSurface(surf);
+#! [ (1,2,3,4,5,6), (1,8,7,6), (2,9,10,3), (4,11,12,5), [ 8, 1, 2, 9 ],
+#!  [ 10, 3, 4, 11 ], [ 7, 6, 5, 12 ], [ 8, 7 ], [ 9, 10 ], [ 11, 12 ] ]
+#! @EndExampleSession
+#! @Returns a list 
+#! @Arguments surface 
+DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
+#! @EndGroup
+#
+#! @BeginGroup
+#! @Description
+#! This method takes as input a list <A>umbdesc</A>, which is an
+#! umbrella descriptor of a simplicial surface, where
+#! @InsertChunk Documentation_UmbrellaDescriptor
+#! If the list  <A>umbdesc</A> is the umbrella descriptor of a surface 
+#! <A>surf</A>, the method returns <A>surf</A>. Otherwise it returns 
+#! <A>false</A>.
+#!  
+#!
+#!
+#! As an example consider the following net of a simplicial surface.
+#! Note that the surface has boundary edges. Moreover, the vertices 
+#! 1,2,3, and 4 are inner vertices, while 5,6,7,8,9, and 10 are not.
+#! Accordingly, the umbrella descriptor of the surface will consist of
+#! cyclic permutations for the vertices 1,2,3, and 4 and of lists for
+#! the remaining vertices, namely the umbrella descriptor is:
+#! [ (1,2,3,4,5,6), (1,8,7,6), (2,9,10,3), (4,11,12,5), [8,1,2,9],
+#! [10,3,4,11], [7,6,5,12], [8,7], [9,10], [11,12] ].
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond,scale=1.5]
+#!          \input{Image_Constructor_Umbrella.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := SimplicialSurfaceByUmbrellaDescriptor( 
+#! > [ (1,2,3,4,5,6), (1,8,7,6), (2,9,10,3), (4,11,12,5), [ 8, 1, 2, 9 ],
+#! >  [ 10, 3, 4, 11 ], [ 7, 6, 5, 12 ], [ 8, 7 ], [ 9, 10 ], [ 11, 12 ] ]);
+#! simplicial surface (10 vertices, 21 edges, and 12 faces)
+#! gap> NumberOfFaces(surf);
+#! 12
+#! gap>  Vertices(surf);
+#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+#! gap> NumberOfEdges(surf);
+#! 21
+#! gap> Faces(surf);
+#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+#! gap> EulerCharacteristic(surf);
+#! 1
+#! gap> IsClosedSurface(surf);
+#! false
+#! @EndExampleSession
+#! @Returns a simplicial surface
+#! @Arguments surface 
+DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
+#! @EndGroup

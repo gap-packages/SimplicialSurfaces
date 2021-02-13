@@ -380,7 +380,8 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         __SIMPLICIAL_CheckPolygons(name, obj);
     end,
     ["vertices", "edges", "faces"],
-    ["verticesOfEdges", "edgesOfFaces"]);
+    ["edgesOfVertices", "facesOfEdges"]);
+
 
 ##
 ##  End updward incidence
@@ -457,4 +458,491 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 
 
+#######################################
+##
+##  EdgeFacePaths
+##
+
+
+#############################################################################
+##
+#F  UmbrellaDescriptorOfSurface . . . . . compute the umbrella descriptor
+##
+##
+InstallMethod( UmbrellaDescriptorOfSurface, 
+    "for a simplicial surface", [IsSimplicialSurface], 
+    function( surf) 
+        local umb, umbdesc, j;
+
+        umbdesc := [];
+        umb := UmbrellaPathsOfVertices(surf);
+        for j in [1..Length(umb)] do
+          if IsBound(umb[j]) then
+            if IsClosedPath(umb[j]) then
+                # um[j] is a closed umbrella around a vertex
+                # turn it into a cycle
+                umbdesc[j] := CycleFromList(FacesAsList(umb[j]));
+            else
+                # um[j] is not a closed umbrella
+                # store it as a list
+                umbdesc[j] := FacesAsList(umb[j]);
+            fi;
+          fi;
+        od;
+
+        return umbdesc;
+end);
+
+
+#############################################################################
+##
+#F  SimplicalSurfaceByUmbrellaDescriptor . . . surface by umbrella descriptor
+##
+##
+##  <udesc> is a list as returned by the function UmbrellaDescriptorOfSurface.
+##
+InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
+    "for a list",  [IsList], function(udesc) 
+
+	local     vertices, edges, faces,  j, f, eofv, e, v,  
+              neigh,  res, edgesOfVertices, facesOfEdges, 
+              # local functions
+              verticesInFace,
+              adjacentFaces, 
+              ListFromCycle,  
+              IsCorrectFaceWithVertexOfDegreeOne,
+              IsCorrectFaceWithBoundary,
+              IsCorrectFaceOfDegreeTwo;
+
+        ListFromCycle := function (c)
+  	    local l, p, s;
+
+            if IsOne(c) then return []; fi;
+            s := Minimum( MovedPoints(c) );
+            l := [s]; p := s^c;
+            while p <> s do
+                Add(l,p);
+                p := p^c;
+            od;
+            return l;
+        end;
+                
+        # given one umbrella <umb> and a face <f> return its neighbours
+        # in <umb> as a set
+        adjacentFaces := function( umb, f )
+
+            local i, neigh;
+
+            if IsPerm(umb) then
+                neigh := [];
+                i := f^umb;
+                if i <> f then
+                    Add(neigh, i);
+                fi;
+                i  := f^(umb^-1);
+                if i <> f then
+                    Add(neigh, i);
+                fi;
+                return Set(neigh);
+            else
+
+                i := Positions( umb, f);
+                if Length(i) <> 1 then return Set([]); fi;
+                # if f is the only face there are no neighbours
+                if Length(umb)=1 then return Set([]); fi;
+                i := i[1]; 
+
+                # if f is a boundary face there is exactly one neighbour
+                if i = 1 then return Set([umb[2]]); fi;
+                if i = Length(umb) then return Set([umb[Length(umb)-1]]); fi;
+
+                # if f is not a boundary face there is are two neighbours
+                return Set([umb[i-1],umb[i+1]]);
+             fi;
+
+        end;
+
+
+
+        # determine the vertices of f. This equals the indices of the
+        # umbrellas containing f. Note that if there are not exactly
+        # 3 umbrellas containing f, this is not a surface. 
+        # We also allow only one vertex of f to have degree 2.
+        verticesInFace := function( udesc, f)
+
+            local umb, vtx, j;
+ 
+            vtx := [];
+            for j in [ 1.. Length(udesc)] do
+                if not IsBound(udesc[j]) then continue; fi;
+                umb := udesc[j];
+                if IsList(umb) and f in umb then
+                    # Half-umbrella
+                    Add(vtx,j);
+                 elif  IsPerm(umb) and f^umb <> f then
+                    Add(vtx,j);
+                fi;
+            od;
+            if Length(vtx)<>3 then
+                Error("Face ", f ," should have 3 vertices");
+                return false;
+            fi;
+            return vtx;
+        end;
+
+        # first we deal with the case that there is a vertex of degree 1
+        # this is condition 2a)
+        # <v> is a list of the positions of the 
+        # three umbrellas containing <f>
+        IsCorrectFaceWithVertexOfDegreeOne := function(f,v)
+
+            local deg1, vtx, others, i, j, neighs;
+
+            deg1 := [];
+            for j in v do
+                if udesc[j]=[f] then Add(deg1,j); fi;
+            od;
+
+            if Length(deg1) = 0 then
+                # f does not have degree 1
+                return "not applicable";
+            fi;
+            if Length(deg1) = 3 then
+                # this means f is a connected component consisting of a
+                # single face
+#                Info(InfoSimplicialSurface,5,"#I found One-face component" );
+                edgesOfVertices[deg1[1]] := [[1,f],[2,f]];
+                edgesOfVertices[deg1[2]] := [[2,f],[3,f]];
+                edgesOfVertices[deg1[3]] := [[3,f],[1,f]];
+                AddSet(edges, [1,f]);
+                AddSet(edges, [2,f]);
+                AddSet(edges, [3,f]);
+                return true;
+            fi;
+            if Length(deg1) = 2 then
+                Error("Found face with two vertices of degree 1");
+                return false;
+            fi;
+
+#            Info(InfoSimplicialSurface,5,"#I face with vertex of degree 1" );
+            # now we know f has 1 vertex of degree 1
+            # store in others the indices of the other umbrellas
+            others := [];
+            for i in [1 .. Length(v)] do
+                if v[i] <> deg1[1] then
+                    Add(others, v[i] );
+                fi;
+            od;
+
+            # the neighbours of m in others must be the same
+            neighs := List(others, j->adjacentFaces(udesc[j], f));
+            if Length(neighs[1]) <> 1 or Length(neighs[2]) <> 1 or
+               Length(Intersection(neighs[1],neighs[2])) <> 1 then
+               Error("Found face with  vertex of degree 1 but no neighbours");
+               return false;
+            fi;
+            # neighs contains the unique neibouring face
+            neighs := neighs[1][1];
+            # two boundary edges
+            AddSet(edgesOfVertices[deg1[1]], [1,f]);
+            AddSet(edgesOfVertices[deg1[1]], [2,f]);
+            AddSet(edges, [1,f] );
+            AddSet(edges, [2,f] );
+            # the inner edge
+            AddSet(edges, [1,Set([f,neighs])] );
+            AddSet(edgesOfVertices[others[1]],[1,f]);
+            AddSet(edgesOfVertices[others[1]],[1,Set([f,neighs])]);
+            AddSet(edgesOfVertices[others[2]],[2,f]);
+            AddSet(edgesOfVertices[others[2]],[1,Set([f,neighs])]);
+            return true;
+        end;
+
+        # Now we deal with the case that f does not have degree 1 vertex
+        # and f is a boundary face. This is condition 2b)
+        IsCorrectFaceWithBoundary := function(f,v)
+
+            local vtx, umb, others, j, cycs, neighs, n1, n2;
+
+            vtx :=[];
+            for j in v do
+                if IsList( udesc[j] ) then
+                    umb := udesc[j];
+                    if umb[1]=f or umb[Length(umb)]=f then
+                        Add(vtx,j);
+                    fi;
+                fi;
+            od;
+            # vtx contains the positions of the half-cycles with boundary f
+
+            if Length(vtx) = 0 then
+                # f is not a boundary face;
+                return "not applicable";
+            fi;
+
+            # there is a half umbrella with boundary ... 
+            if Length(vtx) <> 2  then 
+               # ... but there should then be two 
+               Error("Found boundary face which is incorrect ");
+               return false;
+            fi;
+
+            # now we check whether the neighbours of f in the two
+            # half-cycles occur also in the other vertex 
+            neighs := [adjacentFaces(udesc[vtx[1]],f),
+                       adjacentFaces(udesc[vtx[2]],f)];
+            for j in neighs do
+                if Length(j) <> 1 then
+                    Error("Found boundary face which is incorrect ");
+                    return false;
+                fi;
+            od;
+            # the two neighbours
+            n1 := neighs[1][1]; n2 := neighs[2][1];
+            # Set j to the position of the third vertex
+            j := Difference(v,vtx)[1];
+            if n1 <> n2 then
+                # the neighbours of f in the two halfcycles differ
+                # Add the edges: one boundary and two inner edges
+                AddSet( edges, [1,f] );
+                AddSet( edges, [1,Set([f,n1])]); 
+                AddSet( edges, [1,Set([f,n2])]); 
+                # Add the edges of the vertices
+                AddSet(edgesOfVertices[vtx[1]],[1,f] );
+                AddSet(edgesOfVertices[vtx[2]],[1,f] );
+                AddSet(edgesOfVertices[vtx[1]],[1,Set([f,n1])]); 
+                AddSet(edgesOfVertices[vtx[2]],[1,Set([f,n2])]); 
+                # th vertex at j is incident to the two inner edges.
+                AddSet(edgesOfVertices[j],[1,Set([f,n1])]); 
+                AddSet(edgesOfVertices[j],[1,Set([f,n2])]); 
+#                Info(InfoSimplicialSurface,5,"#I Surface with boundary face" );
+                
+            else
+                # the neighbours of f are identical  
+                # this means we have an ear
+                # and the umberella at j has to be a 2-cycle
+                cycs := udesc[j]; 
+                if cycs = false or cycs <> (f,n1) then
+                     # the dihedral cycle should contain f and the neighbour 
+                     Error("Found boundary face which is incorrect ");
+                     return false;
+                fi;
+#                Info(InfoSimplicialSurface,5,"#I Surface with boundary ear" );
+                AddSet( edges, [1,f] );
+                # there are two inner edges between f and n1
+                AddSet( edges, [1,Set([f,n1])]); 
+                AddSet( edges, [2,Set([f,n1])]); 
+                # Add the edges of the vertices
+                AddSet(edgesOfVertices[vtx[1]],[1,f] );
+                AddSet(edgesOfVertices[vtx[2]],[1,f] );
+                AddSet(edgesOfVertices[vtx[1]],[1,Set([f,n1])]); 
+                AddSet(edgesOfVertices[vtx[2]],[2,Set([f,n1])]); 
+                # the vertex at j is incident to the two inner edges.
+                AddSet(edgesOfVertices[j],[1,Set([f,n1])]); 
+                AddSet(edgesOfVertices[j],[2,Set([f,n1])]); 
+            fi;
+    
+            return true;
+
+        end;
+
+
+        # test whether f has a vertex of degree 2 but no boundary edge
+        IsCorrectFaceOfDegreeTwo := function (f,v)
+
+            local vtx, cycs, neigh, umb, other, j, common;
+
+            cycs := []; 
+            for j in v do
+                if not IsPerm(udesc[j]) then
+                    # face has a boundary and has been treated
+                    return "not applicable";
+                elif Order(udesc[j]) = 2 then
+                    Add(cycs,j);
+                fi;
+            od;
+           
+
+            if Length(cycs) = 0 then
+                return "not applicable";
+            fi;
+            # now we know f has a vertex of degree 2
+            if Length(cycs) = 2 then
+               Error("Found face with two vertices of degree 2");
+               return false;
+            fi;
+            # if we have 3 verties of degree 2, we should have a Janus head
+            if Length(cycs) = 3 then
+                umb := udesc[cycs[1]];
+                if umb <> udesc[cycs[2]] or umb <> udesc[cycs[3]] then
+                    Error("Found face with 3 different vertices of degree 2");
+                    return false;
+                fi;
+#                Info(InfoSimplicialSurface,5,"#I Janus Head component\n");
+                AddSet( edges, [1,Set(MovedPoints(umb))]);
+                AddSet( edges, [2,Set(MovedPoints(umb))]);
+                AddSet( edges, [3,Set(MovedPoints(umb))]);
+                AddSet(edgesOfVertices[v[1]],[2,Set(MovedPoints(umb))]);
+                AddSet(edgesOfVertices[v[1]],[3,Set(MovedPoints(umb))]);
+                AddSet(edgesOfVertices[v[2]],[1,Set(MovedPoints(umb))]);
+                AddSet(edgesOfVertices[v[2]],[3,Set(MovedPoints(umb))]);
+                AddSet(edgesOfVertices[v[3]],[1,Set(MovedPoints(umb))]);
+                AddSet(edgesOfVertices[v[3]],[2,Set(MovedPoints(umb))]);
+                return true;
+            fi;
+
+#            Info(InfoSimplicialSurface,5,"#I Surface with inner ear" );
+            # now we know that f is an ear and that f is not a boundary
+            # face, so the other umbrellas are cycles.
+            vtx := Difference(v,cycs);
+            common := [adjacentFaces(udesc[vtx[1]],f),
+                       adjacentFaces(udesc[vtx[2]],f)];
+            # f has two neighbours that are incidet to vtx[1] and vtx[2],
+            # namely the other face in the 2-cycle and some other face
+            
+            # the other umbrellas also have to contain neigh as a neighbour
+            if  Set(common[1]) <> Set(common[2]) then
+                    Error("Found face with incorrect vertex of degree 2");
+                    return false;
+            fi;
+            # but there should be another common neighbour 
+            umb := Set(MovedPoints(udesc[cycs[1]]));
+            other := Difference( common[1], umb );
+            if Length(other) <> 1 then
+                    Error("Found face with incorrect vertex of degree 2");
+                    return false;
+            fi;
+            # this is the other face that is not involved in the ear
+            neigh := other[1];
+
+            # there are two inner edges at the vertex of degree 2 
+            AddSet( edges, [1,umb]);
+            AddSet( edges, [2,umb]);
+            # there is one inner edges between f and neigh
+            AddSet( edges, [1,Set([f,neigh])]);
+
+            # Add the edges of the vertices
+            # the vertex of degree 2 
+            AddSet(edgesOfVertices[cycs[1]],[1,umb] );
+            AddSet(edgesOfVertices[cycs[1]],[2,umb] );
+
+            # the other vertices
+            vtx := Difference(v,cycs);
+            AddSet(edgesOfVertices[vtx[1]],[1,umb] );
+            AddSet(edgesOfVertices[vtx[2]],[2,umb] );
+
+            AddSet(edgesOfVertices[vtx[1]],[1,Set([f,neigh])]); 
+            AddSet(edgesOfVertices[vtx[2]],[1,Set([f,neigh])]); 
+
+            return true;
+
+        end;
+
+
+        faces := Set([]);
+        # the entries in the lists in <udesc> are the faces
+        # test that the umbrella descriptors are either single
+        # cycles or lists of length > 0 of pairwise different entries
+        # and find all faces
+        for v in udesc do
+            if IsPerm(v) then 
+                if Length(CycleLengths(v,MovedPoints(v)))<>1 then 
+                    # Umbrella descriptors consist of single cycles ...
+                    Error("Input is not an umbrella descriptor of a surface");
+                    return false;
+                fi;
+                faces := Union(faces,Set(ListFromCycle(v)));
+            elif  IsList(v) and Length(v)<> 0  and 
+                # .. or non-empty lists of pairwise different elements. 
+                Length(v) = Length(Set(v)) then
+                faces := Union(faces,Set(v));
+            else
+                Error("Input is not an umbrella descriptor of a surface");
+                return false;
+            fi;
+        od;
+
+        # the vertices correspond to the umbrellas
+        vertices := []; v := 1;
+        for j in [1..Length(udesc)] do
+            if IsBound(udesc[j]) then
+                vertices[j] := v;
+                v := v + 1;
+            fi;
+        od;
+
+        edgesOfVertices := List(vertices,i->Set([]));
+
+        # the edges we have to find now
+        edges := Set([]);
+
+        for f in faces do
+            v := verticesInFace(udesc,f);
+            if v = false then 
+                Error( "Input is not an umbrella descriptor of a surface");
+                    return false;
+            fi;
+
+            # Now we know f appears in the 3 vertices stored in v
+            res := IsCorrectFaceWithVertexOfDegreeOne(f,v);
+            if res = false then return false;
+            elif res = true then continue; fi;
+
+            res :=  IsCorrectFaceWithBoundary(f,v);
+            if res = false then return false;
+            elif res = true then continue; fi;
+
+            # now we know that f is not a boundary face.
+            res :=  IsCorrectFaceOfDegreeTwo(f,v);
+            if res = false then return false;
+            elif res = true then continue; fi;
+
+            # Now we check the condition d)
+            for j in v do
+                # add the neighbours of f at vertex v
+                neigh := adjacentFaces(udesc[j],f);
+                AddSet(edges,[1,Set([f, neigh[1]])]);
+                AddSet(edges,[1,Set([f, neigh[2]])]);
+                AddSet(edgesOfVertices[j],[1,Set([f, neigh[1]])]);
+                AddSet(edgesOfVertices[j],[1,Set([f, neigh[2]])]);
+            od;
+                                    
+            
+        od;
+
+        eofv := []; 
+        # now we have to turn the edgesOfVertices into position lists
+        for j in [1..Length(udesc)] do
+            if IsBound(udesc[j]) then
+                eofv[j] := [];
+                for e in edgesOfVertices[j] do
+                    AddSet(eofv[j], Position(edges,e));
+                od;
+            fi;
+        od;
+
+        facesOfEdges := [];
+        for j in [1..Length(edges)] do
+            e := edges[j];
+            if IsSet(e[2]) then
+                    # inner edges
+		    facesOfEdges[j] := e[2];
+            else
+                    # boundary edges
+		    facesOfEdges[j] := [e[2]];
+            fi;
+        od;
+
+        # now we know that each face occurs in exactly three umbrellas
+        # and for each face we have stored its vertices
+        # so we can call SimplicialSurfaceByUpwardIncidence
+        return SimplicialSurfaceByUpwardIncidence(  eofv, facesOfEdges );
+
+end);
+        
+
+
+##
+##  End edgeFacePaths
+##
+#######################################
 

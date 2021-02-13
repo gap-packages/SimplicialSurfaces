@@ -720,6 +720,7 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
 
             colEdgePos := [];
             for i in [1..Length(info)] do
+                if not IsBound(info[i]) then continue; fi;
                 if info[i] = "l" then colEdgePos[i] := 1;
                 elif info[i] = "s" then colEdgePos[i] := 2;
                 else Error("unknown colour");
@@ -727,7 +728,7 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
             od;
             coloursOfEdges := [];
             for i in [1..Length(Edges(surf))] do
-                coloursOfEdges[Edges(surf)[i]] := colEdgePos[i];
+                coloursOfEdges[Edges(surf)[i]] := colEdgePos[Edges(surf)[i]];
             od;
             SetColoursOfEdges(obj, coloursOfEdges);
 

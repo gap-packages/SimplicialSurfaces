@@ -15,7 +15,7 @@ You also need the following package:
 It is suggested that you also use the NautyTracesInterface for faster 
 isomorphism checks:
 
-    git clone https://github.com/sebasguts/NautyTracesInterface.git
+    git clone https://github.com/gap-packages/NautyTracesInterface.git
 
 To initialize it, perform the steps in the README of that package (this needs
 automake and libtools and probably something else that I do not know)
