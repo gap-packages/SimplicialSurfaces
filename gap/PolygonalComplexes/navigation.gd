@@ -1054,7 +1054,7 @@ DeclareOperation("FacesWithVertexProperty", [IsVEFComplex, IsFunction]);
 #! gap> FacesWithEdgeProperty( complex, InnerEdgeOrRamifiedVertex );
 #! [ 1, 4, 5 ]
 #! gap> 
-#! gap> FacesWithEdgeProperties(complex, [ 
+#! gap> FacesWithEdgeProperties(complex, [ 
 #! >      e -> IsInnerEdge(complex, e),
 #! >      InnerEdgeOrRamifiedVertex,
 #! >      e -> IsBoundaryEdge(complex, e)]);
