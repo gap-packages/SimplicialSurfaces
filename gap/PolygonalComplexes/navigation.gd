@@ -1082,8 +1082,8 @@ DeclareOperation("FacesWithEdgeProperties", [IsVEFComplex, IsList] );
 DeclareOperation("FacesWithEdgeProperty", [IsVEFComplex, IsFunction]);
 #! @EndGroup
 
-#! @Section Common Methods
-#! @SectionLabel Common_Methods
+#! @Section Determination of common elements
+#! @SectionLabel Determination_of_common_elements
 
 #! @BeginGroup CommonVerticesOfEdges
 #! @Description
@@ -1095,18 +1095,18 @@ DeclareOperation("FacesWithEdgeProperty", [IsVEFComplex, IsFunction]);
 #! set of all vertices that are incident to all the edges in <A>edgeList</A>. The NC-version does
 #! not check whether the given edges in <A>edgeList</A> are an edge of <A>complex</A>.
 #! 
-#! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
-#!       \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+#!   \input{Image_EyeStone.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> CommonVerticesOfEdges(complex, 8, 9);
-#! [ 3 ]
-#! gap> CommonVerticesOfEdges(complex, [ 8, 9 , 12]);
-#! [ 3 ]
+#! gap> CommonVerticesOfEdges(complex,8,9);
+#! [  ]
+#! gap> CommonVerticesOfEdges(complex,8,6);
+#! [ 6 ]
+#! gap> CommonVerticesOfEdges(complex,[8,6,5]);
+#! [ 6 ]
 #! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
@@ -1130,18 +1130,16 @@ DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsList]);
 #! set of all edges that are incident to all the faces in <A>faceList</A>. The NC-version does
 #! not check whether the given faces in <A>faceList</A> are a face of <A>complex</A>.
 #! 
-#! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+#!   \input{Image_EyeStone.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> CommonEdgesOfFaces(complex,[1,4]);
-#! [ 9 ]
+#! gap> CommonEdgesOfFaces(complex,[6,4]);
+#! [ 9, 11 ]
 #! @EndExampleSession
-#! 
+#!
 #! @Returns a set of positive integers
 #! @Arguments complex, face1, face2
 DeclareOperation( "CommonEdgesOfFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
@@ -1163,16 +1161,16 @@ DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsList]);
 #! set of all vertices that are incident to all the faces in <A>faceList</A>. The NC-version does
 #! not check whether the given faces in <A>faceList</A> are a face of <A>complex</A>.
 #! 
-#! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+#!   \input{Image_EyeStone.tex}
 #! </Alt>
 #! @ExampleSession
 #! gap> CommonVerticesOfFaces(complex,1,4);
-#! [ 3, 5 ]
+#! [ 6 ]
+#! gap> CommonVerticesOfFaces(complex,6,4);
+#! [ 5, 8, 9 ]
 #! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
@@ -1196,16 +1194,14 @@ DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsList]);
 #! set of all edges that are incident to all the vertices in <A>vertexList</A>. The NC-version does
 #! not check whether the given vertices in <A>vertexList</A> are a vertex of <A>complex</A>.
 #! 
-#! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
-#!       \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+#!   \input{Image_EyeStone.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> CommonEdgesOfVertices(complex,3,5);
-#! [ 9 ]
+#! gap>  CommonEdgesOfVertices(complex,6,2);
+#! [ 3, 4 ]
 #! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
@@ -1229,18 +1225,16 @@ DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsList]);
 #! set of all faces that are incident to all the edges in <A>edgeList</A>. The NC-version does
 #! not check whether the given edges in <A>edgeList</A> are an edge of <A>complex</A>.
 #! 
-#! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle=]
-#!       \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+#!   \input{Image_EyeStone.tex}
 #! </Alt>
 #! @ExampleSession
 #! gap> CommonFacesOfEdges(complex,9,12);
-#! [ 4 ]
-#! gap> CommonFacesOfEdges(complex,[9,10,12,13]);
-#! [ 4 ]
+#! [ 6 ]
+#! gap> CommonFacesOfEdges(complex,[9,11]);
+#! [ 4, 6 ]
 #! @EndExampleSession
 #! 
 #! @Returns a set of positive integers
@@ -1264,18 +1258,16 @@ DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsList]);
 #! set of all faces that are incident to all the vertices in <A>vertexList</A>. The NC-version does
 #! not check whether the given vertices in <A>vertexList</A> are a vertex of <A>complex</A>.
 #! 
-#! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
 #! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+#!   \input{Image_EyeStone.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> CommonFacesOfVertices(complex,3,5);
-#! [ 1, 4 ]
-#! gap> CommonFacesOfVertices(complex,[3,5,7,11]);
-#! [ 4 ]
+#! gap> CommonFacesOfVertices(complex,9,5);
+#! [ 4, 6 ]
+#! gap> CommonFacesOfVertices(complex,[6,8]);
+#! [ 2, 4 ]
 #! @EndExampleSession
 #! 
 #! @Returns a set of positive integers

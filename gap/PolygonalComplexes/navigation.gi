@@ -948,16 +948,12 @@ InstallMethod(CommonVerticesOfEdgesNC,
 	[IsVEFComplex,IsList],
 	function(complex,edgeList)
 		local vertices,e,comb,vertex;
-		if Length(edgeList)>1 then
-			vertices:=[];
-			comb:=Combinations(edgeList,2);
-			vertices:=CommonVerticesOfEdgesNC(complex,comb[1][1],comb[1][2]);
-			for e in [2..Length(comb)] do
-				vertices:=Intersection(vertices,CommonVerticesOfEdgesNC(complex,comb[e][1],comb[e][2]));
+		if Length(edgeList)>0 then
+			vertices:=VerticesOfEdgeNC(complex,edgeList[1]);
+			for e in [2..Length(edgeList)] do
+				vertices:=Intersection(vertices,VerticesOfEdgeNC(complex,edgeList[e]));
 			od;
 			return vertices;
-		elif List(edgeList)=1 then
-			return VerticesOfEdge(complex,edgeList[1]);
 		else
 			return [];
 		fi;
@@ -999,20 +995,13 @@ InstallMethod(CommonEdgesOfFacesNC,
 	"for a polygonal complex and a list",
 	[IsVEFComplex,IsList],
 	function(complex,faceList)
-		local edges,comb,e;
-		if Length(faceList)>1 then
-			edges:=[];
-			comb:=Combinations(faceList,2);
-			for e in [1..Length(comb)] do
-				if e>1 then
-					edges:=Intersection(edges,CommonEdgesOfFaces(complex,comb[e][1],comb[e][2]));
-				else
-					edges:=CommonEdgesOfFaces(complex,comb[e][1],comb[e][2]);
-				fi;
+		local edges,comb,f;
+		if Length(faceList)>0 then
+			edges:=EdgesOfFaceNC(complex,faceList[1]);
+			for f in [2..Length(faceList)] do
+				edges:=Intersection(edges,EdgesOfFaceNC(complex,faceList[f]));
 			od;
 			return edges;
-		elif List(faceList)=1 then
-			return EdgesOfFace(complex,faceList[1]);
 		else
 			return [];
 		fi;
@@ -1054,19 +1043,12 @@ InstallMethod(CommonVerticesOfFacesNC,
 	[IsVEFComplex,IsList],
 	function(complex,faceList)
 		local vertices,comb,f;
-		if Length(faceList)>1 then
-			vertices:=[];
-			comb:=Combinations(faceList,2);
-			for f in [1..Length(comb)] do
-				if f>1 then
-					vertices:=Intersection(vertices,CommonVerticesOfFacesNC(complex,comb[f][1],comb[f][2]));
-				else
-					vertices:=CommonVerticesOfFacesNC(complex,comb[f][1],comb[f][2]);
-				fi;
+		if Length(faceList)>0 then
+			vertices:=VerticesOfFaceNC(complex,faceList[1]);
+			for f in [1..Length(faceList)] do
+				vertices:=Intersection(vertices,VerticesOfFaceNC(complex,faceList[f]));
 			od;
 			return vertices;
-		elif Length(faceList)=1 then	
-			return VerticesOfFace(complex,faceList[1]);
 		else
 			return [];
 		fi;
@@ -1127,20 +1109,13 @@ InstallMethod(CommonFacesOfEdgesNC,
 	"for a polygonal complex and a list",
 	[IsVEFComplex,IsList],
 	function(complex,edgeList)
-			local faces,comb,f;
-		if Length(edgeList)>1 then
-			faces:=[];
-			comb:=Combinations(edgeList,2);
-			for f in [1..Length(comb)] do
-				if f>1 then
-					faces:=Intersection(faces,CommonFacesOfEdges(complex,comb[f][1],comb[f][2]));
-				else
-					faces:=CommonFacesOfEdges(complex,comb[f][1],comb[f][2]);
-				fi;
+		local faces,comb,e;
+		if Length(edgeList)>0 then
+			faces:=FacesOfEdgeNC(complex,edgeList[1]);
+			for e in [2..Length(edgeList)] do
+				faces:=Intersection(faces,FacesOfEdgeNC(complex,edgeList[e]));
 			od;
 			return faces;
-		elif List(edgeList)=1 then
-			return FacesOfEdge(complex,edgeList[1]);
 		else
 			return [];
 		fi;
@@ -1181,20 +1156,13 @@ InstallMethod(CommonFacesOfVerticesNC,
 	"for a polygonal complex and a list",
 	[IsVEFComplex,IsList],
 	function(complex,vertexList)
-		local faces,comb,f;
-		if Length(vertexList)>1 then
-			faces:=[];
-			comb:=Combinations(vertexList,2);
-			for f in [1..Length(comb)] do
-				if f>1 then
-					faces:=Intersection(faces,CommonFacesOfVerticesNC(complex,comb[f][1],comb[f][2]));
-				else
-					faces:=CommonFacesOfVerticesNC(complex,comb[f][1],comb[f][2]);
-				fi;
+		local faces,comb,v;
+		if Length(vertexList)>0 then
+			faces:=FacesOfVertexNC(complex,vertexList[1]);
+			for v in [2..Length(vertexList)] do
+				faces:=Intersection(faces,FacesOfVertexNC(complex,vertexList[v]));
 			od;
 			return faces;
-		elif List(vertexList)=1 then
-			return FacesOfVertex(complex,vertexList[1]);
 		else
 			return [];
 		fi;
