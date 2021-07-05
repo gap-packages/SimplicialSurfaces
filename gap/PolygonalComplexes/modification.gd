@@ -1073,25 +1073,7 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! true
 #! @EndExampleSession
 #! <Alt Only="TikZ">
-#!        \begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2]
-#!		\coordinate (V1_1) at (0, 0);
-#!		\coordinate (V2_1) at (-0.5, -0.866);
-#!		\coordinate (V3_1) at (-1, 0);
-#!		\coordinate (V4_1) at (-0.5, 0.866);
-#!		\fill[face]  (V2_1) -- (V3_1) -- (V1_1) -- cycle;
-#!		\fill[face]  (V4_1) -- (V3_1) -- (V1_1) -- cycle;
-#!		\node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V1_1=1) {$1$};
-#!		\node[faceLabel] at (barycentric cs:V4_1=1,V3_1=1,V1_1=1) {$2$};
-#!		\draw[edge] (V2_1) -- node[edgeLabel] {$1$} (V1_1);
-#!		\draw[edge] (V3_1) -- node[edgeLabel] {$3$} (V2_1);
-#!		\draw[edge] (V1_1) -- node[edgeLabel] {$2$} (V3_1);
-#!		\draw[edge] (V1_1) -- node[edgeLabel] {$5$} (V4_1);
-#!		\draw[edge] (V3_1) -- node[edgeLabel] {$4$} (V4_1);
-#!		\vertexLabelR{V1_1}{left}{$1$}
-#!		\vertexLabelR{V2_1}{left}{$2$}
-#!		\vertexLabelR{V3_1}{left}{$3$}
-#!		\vertexLabelR{V4_1}{left}{$4$}
-#!	\end{tikzpicture}
+#!	\input{Image_Butterfly.tex}
 #! </Alt>
 #!
 #! This could be implemented like this:
@@ -1142,25 +1124,7 @@ DeclareAttribute( "RipCuttableEdges", IsPolygonalComplex );
 #!
 #! For example, consider the butterfly:
 #! <Alt Only="TikZ">
-#!        \begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2]
-#!              \coordinate (V1_1) at (0, 0);
-#!              \coordinate (V2_1) at (-0.5, -0.866);
-#!              \coordinate (V3_1) at (-1, 0);
-#!              \coordinate (V4_1) at (-0.5, 0.866);
-#!              \fill[face]  (V2_1) -- (V3_1) -- (V1_1) -- cycle;
-#!              \fill[face]  (V4_1) -- (V3_1) -- (V1_1) -- cycle;
-#!              \node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V1_1=1) {$1$};
-#!              \node[faceLabel] at (barycentric cs:V4_1=1,V3_1=1,V1_1=1) {$2$};
-#!              \draw[edge] (V2_1) -- node[edgeLabel] {$1$} (V1_1);
-#!              \draw[edge] (V3_1) -- node[edgeLabel] {$3$} (V2_1);
-#!              \draw[edge] (V1_1) -- node[edgeLabel] {$2$} (V3_1);
-#!              \draw[edge] (V1_1) -- node[edgeLabel] {$5$} (V4_1);
-#!              \draw[edge] (V3_1) -- node[edgeLabel] {$4$} (V4_1);
-#!              \vertexLabelR{V1_1}{left}{$1$}
-#!              \vertexLabelR{V2_1}{left}{$2$}
-#!              \vertexLabelR{V3_1}{left}{$3$}
-#!              \vertexLabelR{V4_1}{left}{$4$}
-#!      \end{tikzpicture}
+#!       \input{Image_Butterfly.tex}
 #! </Alt>
 #! @BeginExampleSession
 #! gap> butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);
@@ -1243,25 +1207,7 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #!
 #! For example, consider the butterfly:
 #! <Alt Only="TikZ">
-#!        \begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2]
-#!              \coordinate (V1_1) at (0, 0);
-#!              \coordinate (V2_1) at (-0.5, -0.866);
-#!              \coordinate (V3_1) at (-1, 0);
-#!              \coordinate (V4_1) at (-0.5, 0.866);
-#!              \fill[face]  (V2_1) -- (V3_1) -- (V1_1) -- cycle;
-#!              \fill[face]  (V4_1) -- (V3_1) -- (V1_1) -- cycle;
-#!              \node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V1_1=1) {$1$};
-#!              \node[faceLabel] at (barycentric cs:V4_1=1,V3_1=1,V1_1=1) {$2$};
-#!              \draw[edge] (V2_1) -- node[edgeLabel] {$1$} (V1_1);
-#!              \draw[edge] (V3_1) -- node[edgeLabel] {$3$} (V2_1);
-#!              \draw[edge] (V1_1) -- node[edgeLabel] {$2$} (V3_1);
-#!              \draw[edge] (V1_1) -- node[edgeLabel] {$5$} (V4_1);
-#!              \draw[edge] (V3_1) -- node[edgeLabel] {$4$} (V4_1);
-#!              \vertexLabelR{V1_1}{left}{$1$}
-#!              \vertexLabelR{V2_1}{left}{$2$}
-#!              \vertexLabelR{V3_1}{left}{$3$}
-#!              \vertexLabelR{V4_1}{left}{$4$}
-#!      \end{tikzpicture}
+#!        \input{Image_Butterfly.tex}
 #! </Alt>
 #! @BeginExampleSession
 #! gap> butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);
@@ -1281,7 +1227,7 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! true
 #! @EndExampleSession
 #! <Alt Only="TikZ">
-#!   \input{_TIKZ_theTwoDisjointTriangles.tex}
+#!   \input{Image_TwoDisjointOneFaces.tex}
 #! </Alt>
 #!
 #! This could be implemented like this:
@@ -1325,7 +1271,7 @@ DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
 #!
 #! For example, consider the disjoint union of two one-faces:
 #! <Alt Only="TikZ">
-#!   \input{_TIKZ_theTwoDisjointTriangles.tex}
+#!   \input{Image_TwoDisjointOneFaces.tex}
 #! </Alt>
 #! @BeginExampleSession
 #! gap> twoOneFaces:=DisjointUnion(oneFace,oneFace)[1];
@@ -1354,25 +1300,7 @@ DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
 #! true
 #! @EndExampleSession
 #! <Alt Only="TikZ">
-#!        \begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2]
-#!              \coordinate (V1_1) at (0, 0);
-#!              \coordinate (V2_1) at (-0.5, -0.866);
-#!              \coordinate (V3_1) at (-1, 0);
-#!              \coordinate (V4_1) at (-0.5, 0.866);
-#!              \fill[face]  (V2_1) -- (V3_1) -- (V1_1) -- cycle;
-#!              \fill[face]  (V4_1) -- (V3_1) -- (V1_1) -- cycle;
-#!              \node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V1_1=1) {$1$};
-#!              \node[faceLabel] at (barycentric cs:V4_1=1,V3_1=1,V1_1=1) {$2$};
-#!              \draw[edge] (V2_1) -- node[edgeLabel] {$1$} (V1_1);
-#!              \draw[edge] (V3_1) -- node[edgeLabel] {$3$} (V2_1);
-#!              \draw[edge] (V1_1) -- node[edgeLabel] {$2$} (V3_1);
-#!              \draw[edge] (V1_1) -- node[edgeLabel] {$5$} (V4_1);
-#!              \draw[edge] (V3_1) -- node[edgeLabel] {$4$} (V4_1);
-#!              \vertexLabelR{V1_1}{left}{$1$}
-#!              \vertexLabelR{V2_1}{left}{$2$}
-#!              \vertexLabelR{V3_1}{left}{$3$}
-#!              \vertexLabelR{V4_1}{left}{$4$}
-#!      \end{tikzpicture}
+#!        \input{Image_Butterfly.tex}
 #! </Alt>
 #!
 #! This could be implemented like this:
