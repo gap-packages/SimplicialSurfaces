@@ -933,53 +933,59 @@ InstallMethod( JoinVerticesNC,
 
 
 ## Edges
-InstallOtherMethod( JoinEdges, 
-    "for a polygonal complex and a list of two edges",
-    [IsPolygonalComplex, IsList],
-    function(complex, edgeList)
-        return JoinEdges(complex, edgeList, Edges(complex)[NumberOfEdges(complex)] +1);
-    end
+InstallOtherMethod(JoinEdges,
+	"for a polygonal complex and a list",
+	[IsPolygonalComplex,IsList],
+	function(complex,edgeList)
+		return JoinEdges(complex,edgeList,Last(Edges(complex))+1);
+	end
 );
-InstallOtherMethod( JoinEdgesNC, 
-    "for a polygonal complex and a list of two edges",
-    [IsPolygonalComplex, IsList],
-    function(complex, edgeList)
-        return JoinEdgesNC(complex, edgeList, Edges(complex)[NumberOfEdges(complex)] + 1);
-    end
-);
-InstallMethod( JoinEdges,
-    "for a polygonal complex, a list of two edges and a new edge label",
-    [IsPolygonalComplex, IsList, IsPosInt],
-    function(complex, edgeList, newEdgeLabel)
-         local edgeSet;
 
-        edgeSet := Set(edgeList);
-        if Length(edgeSet) <> 2 then
-            Error(Concatenation("JoinEdges: Given edge list ", String(edgeList), 
-                " contains more than two different elements."));
-        fi;
-        if not IsSubset(Edges(complex), edgeSet) then
-            Error(Concatenation("JoinEdges: Given edge list ", String(edgeList),
-                " is not a subset of the edges of the given complex: ",
-                String(Edges(complex)), "."));
-        fi;
-        if not newEdgeLabel in edgeSet and newEdgeLabel in Edges(complex) then
-            Error(Concatenation("JoinEdges: Given new edge label ", 
-                String(newEdgeLabel), " conflicts with existing edges: ", 
-                String(Edges(complex)), "."));
-        fi;
-
-        return JoinEdges(complex, edgeSet[1], edgeSet[2], newEdgeLabel);
-    end
+InstallOtherMethod(JoinEdgesNC,
+	"for a polygonal complex and a list",
+	[IsPolygonalComplex,IsList],
+	function(complex,edgeList)
+		return JoinEdgesNC(complex,edgeList,Last(Edges(complex))+1);
+	end
 );
-InstallMethod( JoinEdgesNC,
-    "for a polygonal complex, a list of two edges and a new edge label",
-    [IsPolygonalComplex, IsList, IsPosInt],
-    function(complex, edgeList, newEdgeLabel)
-        local edgeSet;
-	edgeSet := Set(edgeList);
-        return JoinEdgesNC(complex, edgeSet[1], edgeSet[2], newEdgeLabel);
-    end
+
+InstallMethod(JoinEdges,
+	"for a polygonal complex, a list and a new edge label",
+	[IsPolygonalComplex,IsList,IsPosInt],
+	function(complex,edgeList,newEdgeLabel)
+		local edgeSet,newEdge,newComplex,e,res;
+		edgeSet := Set(edgeList);
+	
+		if not IsSubset(Edges(complex), edgeSet) then
+            		Error(Concatenation("JoinEdges: Given edge list ", 
+			String(edgeList)," is not a subset of the edges of the given complex: ",
+                	String(Edges(complex)), "."));
+		fi;
+	
+		if not newEdgeLabel in edgeSet and newEdgeLabel in Edges(complex) then
+            		Error(Concatenation("JoinEdges: Given new edge label ", 
+                	String(newEdgeLabel), " conflicts with existing edges: ", 
+                	String(Edges(complex)), "."));
+		fi;
+	
+		return JoinEdgesNC(complex,edgeList,newEdgeLabel);
+		
+	end
+);
+
+InstallMethod(JoinEdgesNC,
+	"for a polygonal complex, a list and a new edge label",
+	[IsPolygonalComplex,IsList,IsPosInt],
+	function(complex,edgeList,newEdgeLabel)
+		local edgeSet,newEdge,newComplex,e,res;
+		newEdge:=edgeList[1];
+		newComplex:=complex;
+		for e in [2..Length(edgeList)-1] do
+			res:=JoinEdgesNC(newComplex,newEdge,edgeList[e],newEdge);
+			newComplex:=res[1];
+		od;
+		return JoinEdgesNC(newComplex,newEdge,Last(edgeList),newEdgeLabel);
+	end
 );
 
 InstallOtherMethod( JoinEdges, "for a polygonal complex and two edges",
