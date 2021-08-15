@@ -235,7 +235,7 @@ end);
 
 BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
      local eye,closeEye, triple, tripleTogether, tripleDoubleTogether, 
-           falseTriforce, fT1, fT2, fT3, fT4, fT5, fT6;
+           falseTriforce, fT1, fT2, fT3, fT4, fT5, fT6, s, s1;
 
      #Test Close Eye
 
@@ -276,6 +276,41 @@ BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
       Assert(0,InnerEdges(fT1) = [13]);
       Assert(0,EdgesOfFace(fT3,4) = [ 13, 14, 15 ]);
       Assert(0,InnerEdges(fT6)=[ 13, 14, 15, 16, 99, 100]);
+
+      s:=PolygonalComplexByDownwardIncidence([[1,2],[1,3],[2,3],[1,2],[2,4],[1,4],[1,2],[2,5],[1,5]],[[1,2,3],[4,5,6],[7,8,9]]);
+      s1:=JoinEdges(s,[1,4,7]);
+      Assert(0,FacesOfEdge(s1[1],10)=[1,2,3]);
+ end);
+
+BindGlobal( "__SIMPLICIAL_Test_SplitVertex", function()
+    local ramSurf,split1,hex,edgeSplit,vertSplit,triangle,split2,fiveGon,split3;
+
+    #two umbrella partitions
+    ramSurf := PolygonalComplexByDownwardIncidence([ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],[1,8],[1,10],[1,12],[8,10],[10,12]],
+		[,[14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23]]);
+    split1 := SplitVertex(ramSurf, 1);
+    SIMPLICIAL_TestAssert(split1[2] = [13, 14]);
+    SIMPLICIAL_TestAssert(split1 = SplitVertexNC(ramSurf, 1));
+
+    hex := SimplicialSurfaceByDownwardIncidence([ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],
+		[ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);
+    edgeSplit := SplitEdge(hex, 1);
+    vertSplit := SplitVertex( edgeSplit[1], 1 );
+    SIMPLICIAL_TestAssert(vertSplit[2] = [8,9]);
+    SIMPLICIAL_TestAssert(vertSplit = SplitVertexNC(edgeSplit[1], 1));
+
+    #Test if spliting outer vertices changes anything
+    triangle := SimplicialSurfaceByDownwardIncidence([[1,2], [1,3], [2,3]], [[1,2,3]]);
+    split2 := SplitVertex(triangle, 3);
+    SIMPLICIAL_TestAssert(split2[2] = [3]);
+    SIMPLICIAL_TestAssert(split2 = SplitVertexNC(triangle, 3));
+
+    #Test if spliting vertices with one umbrella partition changes anything
+    fiveGon:=SimplicialSurfaceByDownwardIncidence([[2,6], [2,3], [3,4], [4,5], [5,6], [1,2], [1,6], [1,3], [1,4], [1,5]],
+		[[1,6,7], [2,6,8], [3,8,9], [4,9,10], [5,7,10]]);
+    split3 := SplitVertex(fiveGon, 1);
+    SIMPLICIAL_TestAssert(split3[2] = [1]);
+    SIMPLICIAL_TestAssert(split3 = SplitEdgeNC(fiveGon, 1));
  end);
 
  BindGlobal( "__SIMPLICIAL_Test_JoinVertices", function()
@@ -309,3 +344,67 @@ BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
     Assert(0,IsIsomorphic(isomorph,doubleSquare3)=true);
 
  end);
+
+
+BindGlobal( "__SIMPLICIAL_Test_JoinVertexEdgePaths", function()
+    local triangle,path1,join1,tripleJoin,butterfly,path2,path3,join2,path4,path5,join3;
+
+	triangle := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,3],[2,3]],[[1,2,3]] );
+	path1 := VertexEdgePathByVertices(triangle, [1,2]);
+	join1 := JoinVertexEdgePaths(triangle, path1, triangle, path1);
+	SIMPLICIAL_TestAssert(join1[2] = VertexEdgePathByVertices(join1[1], [7,8]));
+	SIMPLICIAL_TestAssert(join1 = JoinVertexEdgePathsNC(triangle, path1, triangle, path1));
+	
+	tripleJoin := JoinVertexEdgePaths(join1[1],join1[2],triangle,path1);
+	SIMPLICIAL_TestAssert(tripleJoin[2] = VertexEdgePathByVertices(tripleJoin[1], [12,13]));
+	SIMPLICIAL_TestAssert(tripleJoin = JoinVertexEdgePathsNC(join1[1],join1[2],triangle,path1));
+	
+	
+	butterfly:=SimplicialSurfaceByDownwardIncidence([[1,3],[1,4],[3,4],[2,3],[2,4]],[[1,2,3],[3,4,5]]);
+	path2:=VertexEdgePathByVertices(butterfly,[3,1,4]);
+	path3:=VertexEdgePathByVertices(butterfly,[3,2,4]);
+	join2:=JoinVertexEdgePaths(butterfly,path2,path3);
+	SIMPLICIAL_TestAssert(IsIsomorphic(join2[1],JanusHead()));
+	SIMPLICIAL_TestAssert(join2[2] = VertexEdgePathByVertices(join2[1], [3,6,4]));
+
+	path4:=VertexEdgePathByVertices(butterfly,[1,3,2]);
+	path5:=VertexEdgePathByVertices(butterfly,[1,4,2]);
+	join3:=JoinVertexEdgePaths(butterfly,path4,path5);
+	SIMPLICIAL_TestAssert(join3 = fail);
+end);
+
+BindGlobal( "__SIMPLICIAL_Test_SplitVertexEdgePath", function()
+    local hex,cutPath1,hexCut,triangle,butterfly,cutPath2,split;
+
+	hex := SimplicialSurfaceByDownwardIncidence([ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],
+			[ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);
+	cutPath1 := VertexEdgePath(hex, [4,4,7,1,1]);
+	hexCut := SplitVertexEdgePath( hex, cutPath1 );
+	SIMPLICIAL_TestAssert(NumberOfConnectedComponents(hexCut[1])=2);
+	SIMPLICIAL_TestAssert(hexCut = SplitVertexEdgePathNC( hex, cutPath1 ));
+	
+	triangle := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,3],[2,3]],[[1,2,3]] );
+	butterfly:=SimplicialSurfaceByDownwardIncidence([[1,3],[1,4],[3,4],[2,3],[2,4]],[[1,2,3],[3,4,5]]);
+	cutPath2:=VertexEdgePathByVertices(butterfly,[3,4]);
+	split:=SplitVertexEdgePath(butterfly,cutPath2);
+	SIMPLICIAL_TestAssert(IsIsomorphic(split[1],DisjointUnion(triangle,triangle)[1]));
+	SIMPLICIAL_TestAssert(split[2] = [[VertexEdgePathByVertices(split[1], [5,7]),cutPath2],
+	[VertexEdgePathByVertices(split[1], [6,8]),cutPath2]]);
+end);
+
+BindGlobal( "__SIMPLICIAL_Test_SplitEdgePath", function()
+    local hex,cutPath1,hexOpen,butterfly,cutPath2,split;
+
+	hex := SimplicialSurfaceByDownwardIncidence([ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],
+			[ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);
+	cutPath1 := VertexEdgePath(hex, [4,4,7,1,1]);
+	hexOpen := SplitEdgePath( hex, cutPath1 );;
+	SIMPLICIAL_TestAssert(NumberOfConnectedComponents(hexOpen[1])=1);
+	SIMPLICIAL_TestAssert(hexOpen = SplitEdgePathNC( hex, cutPath1 ));
+	
+	butterfly:=SimplicialSurfaceByDownwardIncidence([[1,3],[1,4],[3,4],[2,3],[2,4]],[[1,2,3],[3,4,5]]);
+	cutPath2:=VertexEdgePathByVertices(butterfly,[3,4]);
+	split:=SplitEdgePath(butterfly,cutPath2);
+	SIMPLICIAL_TestAssert(NumberOfConnectedComponents(split[1])=1);
+	SIMPLICIAL_TestAssert(split = SplitEdgePathNC( butterfly, cutPath2 ));
+end);
