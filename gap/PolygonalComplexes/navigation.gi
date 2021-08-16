@@ -926,7 +926,7 @@ InstallMethod( FacesWithEdgeProperties,
 ###
 InstallMethod(CommonVerticesOfEdgesNC,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,edge1,edge2)
 		return Intersection(VerticesOfEdge(complex,edge1),VerticesOfEdge(complex,edge2));
 	end
@@ -934,7 +934,7 @@ InstallMethod(CommonVerticesOfEdgesNC,
 
 InstallMethod(CommonVerticesOfEdges,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,edge1,edge2)
 		__SIMPLICIAL_CheckEdge( complex, edge1, "CommonVerticesOfEdges" );
 		__SIMPLICIAL_CheckEdge( complex, edge2, "CommonVerticesOfEdges" );
@@ -944,7 +944,7 @@ InstallMethod(CommonVerticesOfEdges,
 
 InstallMethod(CommonVerticesOfEdgesNC,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,edgeList)
 		local vertices,e,comb,vertex;
 		if Length(edgeList)>0 then
@@ -961,7 +961,7 @@ InstallMethod(CommonVerticesOfEdgesNC,
 
 InstallMethod(CommonVerticesOfEdges,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,edgeList)
 		local e;
 		for e in edgeList do
@@ -973,7 +973,7 @@ InstallMethod(CommonVerticesOfEdges,
 
 InstallMethod(CommonEdgesOfFacesNC,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,face1,face2)
 		return Intersection(EdgesOfFace(complex,face1),EdgesOfFace(complex,face2));
 	end
@@ -981,7 +981,7 @@ InstallMethod(CommonEdgesOfFacesNC,
 
 InstallMethod(CommonEdgesOfFaces,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,face1,face2)
 		__SIMPLICIAL_CheckFace( complex, face1, "CommonEdgesOfFaces" );
 		__SIMPLICIAL_CheckFace( complex, face2, "CommonEdgesOfFaces" );
@@ -992,7 +992,7 @@ InstallMethod(CommonEdgesOfFaces,
 
 InstallMethod(CommonEdgesOfFacesNC,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,faceList)
 		local edges,comb,f;
 		if Length(faceList)>0 then
@@ -1009,7 +1009,7 @@ InstallMethod(CommonEdgesOfFacesNC,
 
 InstallMethod(CommonEdgesOfFaces,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,faceList)
 		local f;
 		for f in faceList do
@@ -1021,7 +1021,7 @@ InstallMethod(CommonEdgesOfFaces,
 
 InstallMethod(CommonVerticesOfFacesNC,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,face1,face2)
 		return Intersection(VerticesOfFace(complex,face1),VerticesOfFace(complex,face2));
 	end
@@ -1029,7 +1029,7 @@ InstallMethod(CommonVerticesOfFacesNC,
 
 InstallMethod(CommonVerticesOfFaces,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,face1,face2)
 		__SIMPLICIAL_CheckFace( complex, face1, "CommonVerticesOfFaces" );
 		__SIMPLICIAL_CheckFace( complex, face2, "CommonVerticesOfFaces" );
@@ -1039,7 +1039,7 @@ InstallMethod(CommonVerticesOfFaces,
 
 InstallMethod(CommonVerticesOfFacesNC,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,faceList)
 		local vertices,comb,f;
 		if Length(faceList)>0 then
@@ -1056,7 +1056,7 @@ InstallMethod(CommonVerticesOfFacesNC,
 
 InstallMethod(CommonVerticesOfFaces,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,faceList)
 		local f;
 		for f in faceList do
@@ -1069,7 +1069,7 @@ InstallMethod(CommonVerticesOfFaces,
 
 InstallMethod(CommonEdgesOfVerticesNC,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,vertex1,vertex2)
 		return Intersection(EdgesOfVertex(complex,vertex1),EdgesOfVertex(complex,vertex2));
 	end
@@ -1077,7 +1077,7 @@ InstallMethod(CommonEdgesOfVerticesNC,
 
 InstallMethod(CommonEdgesOfVertices,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,vertex1,vertex2)
 		__SIMPLICIAL_CheckVertex( complex, vertex1, "CommonEdgesOfVertices" );
 		__SIMPLICIAL_CheckVertex( complex, vertex2, "CommonEdgesOfVertices" );
@@ -1088,7 +1088,7 @@ InstallMethod(CommonEdgesOfVertices,
 
 InstallMethod(CommonFacesOfEdgesNC,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,edge1,edge2)
 		return Intersection(FacesOfEdge(complex,edge1),FacesOfEdge(complex,edge2));
 	end
@@ -1096,7 +1096,7 @@ InstallMethod(CommonFacesOfEdgesNC,
 
 InstallMethod(CommonFacesOfEdges,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,edge1,edge2)
 		__SIMPLICIAL_CheckEdge( complex, edge1, "CommonFacesOfEdges" );
 		__SIMPLICIAL_CheckEdge( complex, edge2, "CommonFacesOfEdges" );
@@ -1106,7 +1106,7 @@ InstallMethod(CommonFacesOfEdges,
 
 InstallMethod(CommonFacesOfEdgesNC,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,edgeList)
 		local faces,comb,e;
 		if Length(edgeList)>0 then
@@ -1123,7 +1123,7 @@ InstallMethod(CommonFacesOfEdgesNC,
 
 InstallMethod(CommonFacesOfEdges,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,edgeList)
 		local e;
 		for e in edgeList do
@@ -1135,7 +1135,7 @@ InstallMethod(CommonFacesOfEdges,
 
 InstallMethod(CommonFacesOfVerticesNC,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,vertex1,vertex2)
 		return Intersection(FacesOfVertex(complex,vertex1),FacesOfVertex(complex,vertex2));
 	end
@@ -1143,7 +1143,7 @@ InstallMethod(CommonFacesOfVerticesNC,
 
 InstallMethod(CommonFacesOfVertices,
 	"for a polygonal complex and two positive integers",
-	[IsVEFComplex,IsPosInt,IsPosInt],
+	[IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
 	function(complex,vertex1,vertex2)
 		__SIMPLICIAL_CheckVertex( complex, vertex1, "CommonFacesOfVertices" );
 		__SIMPLICIAL_CheckVertex( complex, vertex2, "CommonFacesOfVertices" );
@@ -1153,7 +1153,7 @@ InstallMethod(CommonFacesOfVertices,
 
 InstallMethod(CommonFacesOfVerticesNC,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,vertexList)
 		local faces,comb,v;
 		if Length(vertexList)>0 then
@@ -1170,7 +1170,7 @@ InstallMethod(CommonFacesOfVerticesNC,
 
 InstallMethod(CommonFacesOfVertices,
 	"for a polygonal complex and a list",
-	[IsVEFComplex,IsList],
+	[IsTwistedPolygonalComplex,IsList],
 	function(complex,vertexList)
 		local v;
 		for v in vertexList do

@@ -1111,13 +1111,13 @@ DeclareOperation("FacesWithEdgeProperty", [IsTwistedPolygonalComplex, IsFunction
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, edge1, edge2
-DeclareOperation( "CommonVerticesOfEdges", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonVerticesOfEdges", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList
-DeclareOperation( "CommonVerticesOfEdges", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonVerticesOfEdges", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, edge1, edge2
-DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonVerticesOfEdgesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList
-DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonVerticesOfEdgesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonEdgesOfFaces
@@ -1142,13 +1142,13 @@ DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsList]);
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex, face1, face2
-DeclareOperation( "CommonEdgesOfFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonEdgesOfFaces", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, faceList
-DeclareOperation( "CommonEdgesOfFaces", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonEdgesOfFaces", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, face1, face2
-DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonEdgesOfFacesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, faceList
-DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonEdgesOfFacesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonVerticesOfFaces
@@ -1175,13 +1175,13 @@ DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsList]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, face1, face2
-DeclareOperation( "CommonVerticesOfFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonVerticesOfFaces", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, faceList
-DeclareOperation( "CommonVerticesOfFaces", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonVerticesOfFaces", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, face1, face2
-DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonVerticesOfFacesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, faceList
-DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonVerticesOfFacesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonEdgesOfVertices
@@ -1206,13 +1206,13 @@ DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsList]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, vertex1, vertex2
-DeclareOperation( "CommonEdgesOfVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonEdgesOfVertices", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertexList
-DeclareOperation( "CommonEdgesOfVertices", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonEdgesOfVertices", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, vertex1, vertex2
-DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonEdgesOfVerticesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertexList
-DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonEdgesOfVerticesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonFacesOfEdges
@@ -1239,13 +1239,13 @@ DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsList]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, edge1, edge2
-DeclareOperation( "CommonFacesOfEdges", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonFacesOfEdges", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList
-DeclareOperation( "CommonFacesOfEdges", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonFacesOfEdges", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, edge1, edge2
-DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonFacesOfEdgesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList
-DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonFacesOfEdgesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonFacesOfVertices
@@ -1272,12 +1272,12 @@ DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsList]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, vertex1, vertex2
-DeclareOperation( "CommonFacesOfVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonFacesOfVertices", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertexList
-DeclareOperation( "CommonFacesOfVertices", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonFacesOfVertices", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, vertex1, vertex2
-DeclareOperation( "CommonFacesOfVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonFacesOfVerticesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertexList
-DeclareOperation( "CommonFacesOfVerticesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonFacesOfVerticesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
