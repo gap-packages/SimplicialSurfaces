@@ -1082,4 +1082,202 @@ DeclareOperation("FacesWithEdgeProperties", [IsTwistedPolygonalComplex, IsList] 
 DeclareOperation("FacesWithEdgeProperty", [IsTwistedPolygonalComplex, IsFunction]);
 #! @EndGroup
 
+#! @Section Determination of common elements
+#! @SectionLabel Determination_of_common_elements
+
+#! @BeginGroup CommonVerticesOfEdges
+#! @Description
+#! The method <K>CommonVerticesOfEdges</K>(<A>complex</A>, <A>edge1</A>, <A>edge2</A>) returns the
+#! set of all vertices that are incident to <A>edge1</A> and <A>edge2</A>. The NC-version does
+#! not check whether the given <A>edge1</A> and <A>edge2</A> is an edge of <A>complex</A>.
+#! 
+#! The method <K>CommonVerticesOfEdges</K>(<A>complex</A>, <A>edgeList</A>) returns the
+#! set of all vertices that are incident to all the edges in <A>edgeList</A>. The NC-version does
+#! not check whether the given edges in <A>edgeList</A> are an edge of <A>complex</A>.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> CommonVerticesOfEdges(complex,8,9);
+#! [  ]
+#! gap> CommonVerticesOfEdges(complex,8,6);
+#! [ 6 ]
+#! gap> CommonVerticesOfEdges(complex,[8,6,5]);
+#! [ 6 ]
+#! @EndExampleSession
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex, edge1, edge2
+DeclareOperation( "CommonVerticesOfEdges", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, edgeList
+DeclareOperation( "CommonVerticesOfEdges", [IsVEFComplex, IsList]);
+#! @Arguments complex, edge1, edge2
+DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, edgeList
+DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsList]);
+#! @EndGroup
+
+#! @BeginGroup CommonEdgesOfFaces
+#! @Description
+#! The method <K>CommonEdgesOfFaces</K>(<A>complex</A>, <A>face1</A>, <A>face2</A>) returns the
+#! set of all edges that are incident to <A>face1</A> and <A>face2</A>. The NC-version does
+#! not check whether the given <A>face1</A> and <A>face2</A> is a face of <A>complex</A>.
+#! 
+#! The method <K>CommonEdgesOfFaces</K>(<A>complex</A>, <A>faceList</A>) returns the
+#! set of all edges that are incident to all the faces in <A>faceList</A>. The NC-version does
+#! not check whether the given faces in <A>faceList</A> are a face of <A>complex</A>.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> CommonEdgesOfFaces(complex,[6,4]);
+#! [ 9, 11 ]
+#! @EndExampleSession
+#!
+#! @Returns a set of positive integers
+#! @Arguments complex, face1, face2
+DeclareOperation( "CommonEdgesOfFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, faceList
+DeclareOperation( "CommonEdgesOfFaces", [IsVEFComplex, IsList]);
+#! @Arguments complex, face1, face2
+DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, faceList
+DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsList]);
+#! @EndGroup
+
+#! @BeginGroup CommonVerticesOfFaces
+#! @Description
+#! The method <K>CommonVerticesOfFaces</K>(<A>complex</A>, <A>face1</A>, <A>face2</A>) returns the
+#! set of all vertices that are incident to <A>face1</A> and <A>face2</A>. The NC-version does
+#! not check whether the given <A>face1</A> and <A>face2</A> is a face of <A>complex</A>.
+#! 
+#! The method <K>CommonEdgesOfFaces</K>(<A>complex</A>, <A>faceList</A>) returns the
+#! set of all vertices that are incident to all the faces in <A>faceList</A>. The NC-version does
+#! not check whether the given faces in <A>faceList</A> are a face of <A>complex</A>.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> CommonVerticesOfFaces(complex,1,4);
+#! [ 6 ]
+#! gap> CommonVerticesOfFaces(complex,6,4);
+#! [ 5, 8, 9 ]
+#! @EndExampleSession
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex, face1, face2
+DeclareOperation( "CommonVerticesOfFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, faceList
+DeclareOperation( "CommonVerticesOfFaces", [IsVEFComplex, IsList]);
+#! @Arguments complex, face1, face2
+DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, faceList
+DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsList]);
+#! @EndGroup
+
+#! @BeginGroup CommonEdgesOfVertices
+#! @Description
+#! The method <K>CommonEdgesOfVertices</K>(<A>complex</A>, <A>vertex1</A>, <A>vertex2</A>) returns the
+#! set of all edges that are incident to <A>vertex1</A> and <A>vertex2</A>. The NC-version does
+#! not check whether the given <A>vertex1</A> and <A>vertex2</A> is a vertex of <A>complex</A>.
+#! 
+#! The method <K>CommonEdgesOfVertices</K>(<A>complex</A>, <A>vertexList</A>) returns the
+#! set of all edges that are incident to all the vertices in <A>vertexList</A>. The NC-version does
+#! not check whether the given vertices in <A>vertexList</A> are a vertex of <A>complex</A>.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap>  CommonEdgesOfVertices(complex,6,2);
+#! [ 3, 4 ]
+#! @EndExampleSession
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex, vertex1, vertex2
+DeclareOperation( "CommonEdgesOfVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertexList
+DeclareOperation( "CommonEdgesOfVertices", [IsVEFComplex, IsList]);
+#! @Arguments complex, vertex1, vertex2
+DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertexList
+DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsList]);
+#! @EndGroup
+
+#! @BeginGroup CommonFacesOfEdges
+#! @Description
+#! The method <K>CommonFacesOfEdges</K>(<A>complex</A>, <A>edge1</A>, <A>edge2</A>) returns the
+#! set of all faces that are incident to <A>edge1</A> and <A>edge2</A>. The NC-version does
+#! not check whether the given <A>edge1</A> and <A>edge2</A> is an edge of <A>complex</A>.
+#! 
+#! The method <K>CommonFacesOfEdges</K>(<A>complex</A>, <A>edgeList</A>) returns the
+#! set of all faces that are incident to all the edges in <A>edgeList</A>. The NC-version does
+#! not check whether the given edges in <A>edgeList</A> are an edge of <A>complex</A>.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> CommonFacesOfEdges(complex,9,12);
+#! [ 6 ]
+#! gap> CommonFacesOfEdges(complex,[9,11]);
+#! [ 4, 6 ]
+#! @EndExampleSession
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex, edge1, edge2
+DeclareOperation( "CommonFacesOfEdges", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, edgeList
+DeclareOperation( "CommonFacesOfEdges", [IsVEFComplex, IsList]);
+#! @Arguments complex, edge1, edge2
+DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, edgeList
+DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsList]);
+#! @EndGroup
+
+#! @BeginGroup CommonFacesOfVertices
+#! @Description
+#! The method <K>CommonFacesOfVertices</K>(<A>complex</A>, <A>vertex1</A>, <A>vertex2</A>) returns the
+#! set of all faces that are incident to <A>vertex1</A> and <A>vertex2</A>. The NC-version does
+#! not check whether the given <A>vertex1</A> and <A>vertex2</A> is a vertex of <A>complex</A>.
+#! 
+#! The method <K>CommonFacesOfVertices</K>(<A>complex</A>, <A>vertexList</A>) returns the
+#! set of all faces that are incident to all the vertices in <A>vertexList</A>. The NC-version does
+#! not check whether the given vertices in <A>vertexList</A> are a vertex of <A>complex</A>.
+#! 
+#! As an example consider the polygonal complex from the start of chapter
+#! <Ref Chap="Chapter_Navigation"/>:
+#! <Alt Only="TikZ">
+#!   \input{Image_EyeStone.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> CommonFacesOfVertices(complex,9,5);
+#! [ 4, 6 ]
+#! gap> CommonFacesOfVertices(complex,[6,8]);
+#! [ 2, 4 ]
+#! @EndExampleSession
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex, vertex1, vertex2
+DeclareOperation( "CommonFacesOfVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertexList
+DeclareOperation( "CommonFacesOfVertices", [IsVEFComplex, IsList]);
+#! @Arguments complex, vertex1, vertex2
+DeclareOperation( "CommonFacesOfVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+#! @Arguments complex, vertexList
+DeclareOperation( "CommonFacesOfVerticesNC", [IsVEFComplex, IsList]);
+#! @EndGroup
 

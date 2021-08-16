@@ -30,7 +30,11 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_PolygonalHierarchy();
     __SIMPLICIAL_Test_SplitEdge();
     __SIMPLICIAL_Test_JoinEdges();
+    __SIMPLICIAL_Test_SplitVertex();
     __SIMPLICIAL_Test_JoinVertices();
+    __SIMPLICIAL_Test_JoinVertexEdgePaths();
+    __SIMPLICIAL_Test_SplitVertexEdgePath();
+    __SIMPLICIAL_Test_SplitEdgePath();
 
     __SIMPLICIAL_Test_UmbrellaDescriptor();
 

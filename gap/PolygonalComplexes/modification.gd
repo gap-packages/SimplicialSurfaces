@@ -931,7 +931,26 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! <K>CraterCuttableEdges</K>(<A>complex</A>) returns the set of all 
 #! edges that fulfill these conditions.
 #!
-#! TODO example
+#! For example, consider the Janus-head:
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Janus_constructor.tex}
+#! </Alt>
+#! Applying a crater cut to the Janus-head yields the open bag:
+#! @BeginExampleSession
+#! gap> CraterCuttableEdges(JanusHead());
+#! [ 1, 2, 3 ]
+#! gap> janusCrater:=CraterCut(JanusHead(),3);
+#! simplicial surface (3 vertices, 4 edges, and 2 faces)
+#! gap> openBag := SimplicialSurfaceByDownwardIncidence(
+#! > [[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;
+#! gap> IsIsomorphic(openBag,janusCrater);
+#! true
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_OpenBag.tex}
+#!   \end{tikzpicture}
+#! </Alt>
 #!
 #! This could be implemented like this:
 #! @BeginExampleSession
@@ -968,7 +987,28 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! <K>CraterMendableEdgePairs</K>(<A>complex</A>) returns the set of all
 #! edge pairs that fulfill these conditions.
 #!
-#! TODO example
+#! For example, consider the open bag:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_OpenBag.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> openBag := SimplicialSurfaceByDownwardIncidence(
+#! > [[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;
+#! @EndExampleSession
+#! Applying a crater mend to the open bag yields to the Janus-head:
+#! @BeginExampleSession
+#! gap> CraterMendableEdgePairs(openBag);
+#! [ [  ], [ 3, 4 ] ]
+#! gap> CraterMend(openBag,[3,4]);
+#! simplicial surface (3 vertices, 3 edges, and 2 faces)
+#! gap> IsIsomorphic(last,JanusHead());
+#! true
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Janus_constructor.tex}
+#! </Alt>
 #!
 #! This could be implemented like this:
 #! @BeginExampleSession
@@ -1011,7 +1051,30 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! The attribute <K>RipCuttableEdges</K>(<A>complex</A>) returns a set of all
 #! edges with these properties.
 #!
-#! TODO example
+#! For example, consider the open bag:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_OpenBag.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> openBag := SimplicialSurfaceByDownwardIncidence(
+#! > [[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;
+#! @EndExampleSession
+#! Applying a rip cut to the open bag yields the butterfly:
+#! @BeginExampleSession
+#! gap> RipCuttableEdges(openBag);
+#! [ 1, 2 ]
+#! gap> openBagRip:=RipCut(openBag,1);
+#! simplicial surface (4 vertices, 5 edges, and 2 faces)
+#! gap> butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);
+#! simplicial surface (4 vertices, 5 edges, and 2 faces)
+#! gap> IsIsomorphic(openBagRip,butterfly);
+#! true
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!	\input{Image_Butterfly.tex}
+#! </Alt>
 #!
 #! This could be implemented like this:
 #! @BeginExampleSession
@@ -1059,7 +1122,30 @@ DeclareAttribute( "RipCuttableEdges", IsPolygonalComplex );
 #! If the joined vertices are connected by an edge, the mend can not be
 #! performed and <K>fail</K> will be returned.
 #!
-#! TODO examples
+#! For example, consider the butterfly:
+#! <Alt Only="TikZ">
+#!       \input{Image_Butterfly.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);
+#! simplicial surface (4 vertices, 5 edges, and 2 faces)
+#! @EndExampleSession
+#! Applying a rip mend to the butterfly yields to the open bag:
+#! @BeginExampleSession
+#! gap> openBag := SimplicialSurfaceByDownwardIncidence(
+#! > [[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;
+#! gap> RipMendableEdgePairs(butterfly);
+#! [ [ 1, 2 ], [ 1, 4 ], [ 2, 5 ], [ 4, 5 ] ]
+#! gap> RipMend(butterfly,[1,2]);
+#! simplicial surface (3 vertices, 4 edges, and 2 faces)
+#! gap> IsIsomorphic(last,openBag);
+#! true
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!     \input{Image_OpenBag.tex}
+#!   \end{tikzpicture}
+#! </Alt>
 #!
 #! This could be implemented like this:
 #! @BeginExampleSession
@@ -1119,7 +1205,30 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! <K>SplitCuttableEdges</K>(<A>complex</A>) returns the set of all edges
 #! satisfying this property.
 #!
-#! TODO example
+#! For example, consider the butterfly:
+#! <Alt Only="TikZ">
+#!        \input{Image_Butterfly.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);
+#! simplicial surface (4 vertices, 5 edges, and 2 faces)
+#! @EndExampleSession
+#! Applying a split cut to the butterfly yields to a disjoint union of two one-faces:
+#! @BeginExampleSession
+#! gap> SplitCuttableEdges(butterfly);
+#! [ 3 ]
+#! gap> butterflySplit:=SplitCut(butterfly,3);
+#! simplicial surface (6 vertices, 6 edges, and 2 faces)
+#! gap> oneFace:=SimplicialSurfaceByUmbrellaDescriptor([[1],[1],[1]]);
+#! simplicial surface (3 vertices, 3 edges, and 1 faces)
+#! gap> twoOneFaces:=DisjointUnion(oneFace,oneFace)[1];
+#! simplicial surface (6 vertices, 6 edges, and 2 faces)
+#! gap> IsIsomorphic(butterflySplit,twoOneFaces);
+#! true
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_TwoDisjointOneFaces.tex}
+#! </Alt>
 #!
 #! This could be implemented like this:
 #! @BeginExampleSession
@@ -1160,7 +1269,39 @@ DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
 #! If two given flags can't be joined (because two vertices that should
 #! be joined are connected by an edge), <K>fail</K> is returned.
 #!
-#! TODO examples
+#! For example, consider the disjoint union of two one-faces:
+#! <Alt Only="TikZ">
+#!   \input{Image_TwoDisjointOneFaces.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> twoOneFaces:=DisjointUnion(oneFace,oneFace)[1];
+#! simplicial surface (6 vertices, 6 edges, and 2 faces)
+#! @EndExampleSession
+#! Applying a split mend to the disjoint union of two one-faces yields to the butterfly:
+#! @BeginExampleSession
+#! gap> butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);
+#! simplicial surface (4 vertices, 5 edges, and 2 faces)
+#! gap> SplitMendableFlagPairs(twoOneFaces);
+#! [ [ [ 1, 1 ], [ 4, 4 ] ], [ [ 1, 1 ], [ 4, 5 ] ], [ [ 1, 1 ], [ 5, 5 ] ], 
+#!   [ [ 1, 1 ], [ 5, 6 ] ], [ [ 1, 1 ], [ 6, 4 ] ], [ [ 1, 1 ], [ 6, 6 ] ],
+#!   [ [ 1, 2 ], [ 4, 4 ] ], [ [ 1, 2 ], [ 4, 5 ] ], [ [ 1, 2 ], [ 5, 5 ] ], 
+#!   [ [ 1, 2 ], [ 5, 6 ] ], [ [ 1, 2 ], [ 6, 4 ] ], [ [ 1, 2 ], [ 6, 6 ] ], 
+#!   [ [ 2, 2 ], [ 4, 4 ] ], [ [ 2, 2 ], [ 4, 5 ] ], [ [ 2, 2 ], [ 5, 5 ] ],
+#!   [ [ 2, 2 ], [ 5, 6 ] ], [ [ 2, 2 ], [ 6, 4 ] ], [ [ 2, 2 ], [ 6, 6 ] ], 
+#!   [ [ 2, 3 ], [ 4, 4 ] ], [ [ 2, 3 ], [ 4, 5 ] ], [ [ 2, 3 ], [ 5, 5 ] ],
+#!   [ [ 2, 3 ], [ 5, 6 ] ], [ [ 2, 3 ], [ 6, 4 ] ], [ [ 2, 3 ], [ 6, 6 ] ],
+#!   [ [ 3, 1 ], [ 4, 4 ] ], [ [ 3, 1 ], [ 4, 5 ] ], [ [ 3, 1 ], [ 5, 5 ] ],
+#!   [ [ 3, 1 ], [ 5, 6 ] ], [ [ 3, 1 ], [ 6, 4 ] ], [ [ 3, 1 ], [ 6, 6 ] ],
+#!   [ [ 3, 3 ], [ 4, 4 ] ], [ [ 3, 3 ], [ 4, 5 ] ], [ [ 3, 3 ], [ 5, 5 ] ],
+#!   [ [ 3, 3 ], [ 5, 6 ] ], [ [ 3, 3 ], [ 6, 4 ] ], [ [ 3, 3 ], [ 6, 6 ] ] ]
+#! gap> SplitMend(twoOneFaces,[[1,1],[4,4]]);
+#! simplicial surface (4 vertices, 5 edges, and 2 faces)
+#! gap> IsIsomorphic(last,butterfly);
+#! true
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!        \input{Image_Butterfly.tex}
+#! </Alt>
 #!
 #! This could be implemented like this:
 #! @BeginExampleSession
