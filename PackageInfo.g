@@ -11,7 +11,7 @@ SetPackageInfo( rec(
 PackageName := "SimplicialSurfaces",
 Subtitle := "Computing with simplicial surfaces and folding processes.",
 Version := "0.6",
-Date := "12/12/2020", # dd/mm/yyyy format
+Date := "16/08/2021", # dd/mm/yyyy format
 ArchiveURL := "TODO",
 ArchiveFormats := "TODO",
 
@@ -34,9 +34,9 @@ Persons := [
     LastName := "Baumeister",
     WWWHome := "https://markusbaumeister.github.io/",
     Email := "baumeister@mathb.rwth-aachen.de",
-    PostalAddress := "Markus Baumeister\nLehrstuhl B für Mathematik\nRWTH Aachen\nPontdriesch 10/16\n52062 Aachen\nGERMANY\n",
+    PostalAddress := "",
     Place := "Aachen",
-    Institution := "Lehrstuhl B für Mathematik, RWTH Aachen",
+    Institution := "",
   ),
 ],
 
