@@ -731,7 +731,6 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! @EndGroup
 
 
-#TODO allow more options here, NC-versions
 #! @BeginGroup JoinBoundaries
 #! @Description
 #! Combine two boundaries into one. This method takes the starts of two
@@ -739,7 +738,7 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! into vertex-edge-paths along the boundary of the given polygonal surfaces.
 #! Then the method <K>JoinVertexEdgePaths</K> 
 #! (<Ref Subsect="JoinVertexEdgePaths"/>) will be called on these 
-#! vertex-edge-paths.
+#! vertex-edge-paths or if a length is given it will be called for possibly truncated vertex-edge-paths.
 #!
 #! If two surfaces should be combined, <K>DisjointUnion</K> 
 #! (<Ref Subsect="DisjointUnion"/>) will be
@@ -783,15 +782,22 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! gap> oct := JoinBoundaries(fourGon, [3,6], fourGon, [4,7]);;
 #! gap> IsIsomorphic(oct[1], Octahedron());
 #! true
+#! gap> octLength := JoinBoundaries(fourGon, [3,6], fourGon, [4,7], 4);;
+#! gap> IsIsomorphic(octLength[1], Octahedron());
+#! true
 #! @EndExampleSession
 #!
 #! @Returns a list, where the first entry is a polygonal surface, the
 #!   second one is a vertex-edge-path and the third one is the label
 #!   shift of <A>complex2</A> (if applicable).
-#! @Arguments surface, veList1, veList2
-DeclareOperation( "JoinBoundaries", [IsPolygonalComplex, IsList, IsList] );
-#! @Arguments surface1, veList1, surface2, veList2
-DeclareOperation( "JoinBoundaries", [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList] );
+#! @Arguments surface, veList1, veList2, [length]
+   DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsList, IsInt] );
+#! @Arguments surface, veList1, veList2, [length]
+   DeclareOperation( "JoinBoundariesNC", [IsVEFSurface, IsList, IsList, IsInt] );
+#! @Arguments surface1, veList1, surface2, veList2, [length]
+   DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList, IsInt] );
+#! @Arguments surface1, veList1, surface2, veList2, [length]
+   DeclareOperation( "JoinBoundariesNC", [IsVEFSurface, IsList, IsVEFSurface, IsList, IsInt] );
 #! @EndGroup
 
 
