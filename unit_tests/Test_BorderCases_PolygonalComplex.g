@@ -408,3 +408,31 @@ BindGlobal( "__SIMPLICIAL_Test_SplitEdgePath", function()
 	SIMPLICIAL_TestAssert(NumberOfConnectedComponents(split[1])=1);
 	SIMPLICIAL_TestAssert(split = SplitEdgePathNC( butterfly, cutPath2 ));
 end);
+
+BindGlobal( "__SIMPLICIAL_Test_Smaller", function()
+    local butterfly, geodesic, s, triangle1, triangle2, triangle3;
+
+	#different number of faces
+	SIMPLICIAL_TestAssert((JanusHead()<Tetrahedron())=true);
+	
+	#same number of faces, different number of vertices
+	butterfly:=SimplicialSurfaceByDownwardIncidence([[1,3],[1,4],[3,4],[2,3],[2,4]],[[1,2,3],[3,4,5]]);
+	SIMPLICIAL_TestAssert((JanusHead()<butterfly)=true);
+	
+	#same number of faces and same number of vertices but different vertex counters
+	geodesic:=SimplicialSurfaceByDownwardIncidence([[1,2],[2,4],[1,4],[1,3],[3,4],[2,3],[2,4],[1,3]],[[1,2,3],[3,4,5],[5,6,7],[1,6,8]]);
+	s:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[1,3],[3,4],[1,4],[1,3]],[[1,2,3],[3,4,1],[4,5,6],[5,6,7]]);
+	SIMPLICIAL_TestAssert((s<geodesic)=true);
+
+	#same isomorphism class
+
+	#different EdgesOfFaces
+	triangle1 := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,3],[2,3]],[[1,2,3]] );
+	triangle2 := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,3],,[2,3]],[[1,2,4]] );
+	SIMPLICIAL_TestAssert((triangle1<triangle2)=true);
+
+	#different VerticesOfEdges
+	triangle3 := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,4],[2,4]],[[1,2,3]] );
+	SIMPLICIAL_TestAssert((triangle1<triangle3)=true);
+	
+end);
