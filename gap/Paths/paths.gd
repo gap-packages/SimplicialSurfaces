@@ -412,6 +412,27 @@ DeclareAttribute( "VerticesAsPerm", IsVertexEdgePath );
 DeclareAttribute( "EdgesAsPerm", IsVertexEdgePath );
 #! @EndGroup
 
+#! @BeginGroup VertexEdge_ConcatenationOfPaths
+#! @Description
+#! Return the concatenation of two VertexEdgePath where the last vertex of the first path is the first vertex of the second path.
+#! We illustrate this with
+#! the circle path from <K>VertexEdgePath</K>
+#! (<Ref Sect="VertexEdgePath"/>).
+#! @BeginExampleSession
+#! gap> path1:=VertexEdgePathByVertices(hex,[1,2,3,4]);
+#! | v1, E7, v2, E8, v3, E9, v4 |
+#! gap> path2:=VertexEdgePathByVertices(hex,[4,5,6,1]);
+#! | v4, E10, v5, E11, v6, E12, v1 |
+#! gap> concat:=ConcatenationOfPaths(hex,path1,path2);
+#! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+#! gap> concat=circlePath;
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a vertex-edge-path
+#! @Arguments complex, vertexEdgePath, vertexEdgePath
+DeclareOperation( "ConcatenationOfPaths", [IsVEFComplex, IsVertexEdgePath, IsVertexEdgePath] );
+#! @EndGroup
 
 #! @BeginGroup
 #! @Description
@@ -796,6 +817,27 @@ DeclareAttribute( "EdgesAsPerm", IsEdgeFacePath );
 DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 #! @EndGroup
 
+#! @BeginGroup EdgeFace_ConcatenationOfPaths
+#! @Description
+#! Return the concatenation of two EdgeFacePath where the last edge of the first path is the first edge of the second path.
+#! For the examples from <K>EdgeFacePath</K>
+#! (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the
+#! start of section <Ref Sect="Section_Paths_EdgeFace"/>:
+#! @BeginExampleSession
+#! gap> path1:=EdgeFacePath(thinTorus,[13,7,14,8,15,9,11]);
+#! | e13, F7, e14, F8, e15, F9, e11 |
+#! gap> path2:=EdgeFacePath(thinTorus,[11,3,7,4,8,5,9]);
+#! | e11, F3, e7, F4, e8, F5, e9 |
+#! gap> concat:=ConcatenationOfPaths(thinTorus,path1,path2);
+#! | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+#! gap> concat=edgeFacePath;
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a edge-face-path
+#! @Arguments complex, edgeFacePath, edgeFacePath
+DeclareOperation( "ConcatenationOfPaths", [IsVEFComplex, IsEdgeFacePath, IsEdgeFacePath] );
+#! @EndGroup
 
 #! @Description
 #! Return the polygonal complex for which the given edge-face-path is
