@@ -1,0 +1,9 @@
+This document is written as a guide to the internal code of this package.
+It assumes basic knowledge of GAP.
+
+Categories and families are defined in gap/categories_families.gd
+    - The primary category is IsTwistedPolygonalComplex
+    - The IsPolygonalComplex is a particular property
+
+Constructors for polygonal complexes are constructed automatically
+in gap/PolygonalComplexes/constructors.gi

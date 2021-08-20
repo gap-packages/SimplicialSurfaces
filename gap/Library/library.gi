@@ -621,11 +621,11 @@ BindGlobal( "__SIMPLICIAL_AccessLibrary",
     end
 );
 
-InstallGlobalFunction( "AllVEFComplexes",
+InstallGlobalFunction( "AllTwistedPolygonalComplexes",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllVEFComplexes");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllTwistedPolygonalComplexes");
         return __SIMPLICIAL_AccessLibrary(trueArg, "");
     end
 );
@@ -671,16 +671,6 @@ InstallGlobalFunction( "AllSimplicialSurfaces",
 );
 
 
-
-InstallGlobalFunction( "AllBendPolygonalComplexes",
-    function(arg)
-        local trueArg;
-
-        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllBendPolygonalComplexes");
-        trueArg := Concatenation( [[IsBendPolygonalComplex,true]], trueArg );
-        return __SIMPLICIAL_AccessLibrary(trueArg, "");
-    end
-);
 
 
 

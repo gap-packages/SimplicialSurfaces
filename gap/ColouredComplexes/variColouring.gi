@@ -163,10 +163,10 @@ InstallMethod( ColouredUmbrellasOfVertices,
         complex := PolygonalComplex(wildSurf);
         umb := UmbrellaPathsOfVertices( complex );
         colUmbs := [];
-        for v in VerticesAttributeOfVEFComplex(complex) do
+        for v in VerticesAttributeOfComplex(complex) do
             colUmb := Objectify( EdgeColouredEdgeFacePathType, rec() );
             SetPath( colUmb, Path(umb[v]) );
-            SetAssociatedVEFComplex( colUmb, complex);
+            SetAssociatedPolygonalComplex( colUmb, complex);
             SetAssociatedEdgeColouredPolygonalComplex(colUmb, wildSurf);
             colUmbs[v] := colUmb;
         od;
@@ -658,7 +658,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
         # transform the colour information into edge coloured surfaces
         edgeColSurfaces := [];
         for info in allColSurfaces do
-            obj := Objectify( EdgeColouredPolygonalComplexType, rec() );
+            obj := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
             if IsEdgeColouredPolygonalComplex(simpSurf) then
                 SetPolygonalComplex(obj, PolygonalComplex(simpSurf));
             else
@@ -949,7 +949,9 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 # no more free vertices
                 
                 # construction of the simplicial surface
-                obj := Objectify( PolygonalComplexType, rec() );
+                obj := Objectify( TwistedPolygonalComplexType, rec() );
+                SetIsPolygonalComplex(obj, true);
+                SetIsDefaultChamberSystem(obj, true);
                 SetFacesOfEdges(obj, facesOfEdges);
                 SetFaces(obj, faces);
                 SetEdgesOfFaces(obj, edgesOfFaces);
@@ -957,7 +959,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                     List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
 
                 # construction of the coloured surface
-                colSurf := Objectify( EdgeColouredPolygonalComplexType, rec() );
+                colSurf := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
                 SetColoursOfEdges(colSurf, coloursOfEdges);
                 SetLocalSymmetryOfEdgesAsNumbers(colSurf, partialLocalSym);
                 SetColouredEdgesOfFaces(colSurf, edgesOfFacesByColour);
@@ -1518,7 +1520,9 @@ InstallMethod( CommonCover,
             "list of equivalence classes of [new face (as number), old vertex]-pairs";
 
         # Construct the new simplicial surface
-        surface := Objectify( PolygonalComplexType, rec() );
+        surface := Objectify( TwistedPolygonalComplexType, rec() );
+        SetIsPolygonalComplex(surface, true);
+        SetIsDefaultChamberSystem(surface, true);
         SetFacesOfEdges(surface, simpFacesOfEdges);
         SetVerticesOfEdges(surface, simpVerticesOfEdges);
 
@@ -1697,7 +1701,7 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
         return [wild[1], altNames];
     end
 );
-RedispatchOnCondition( SixFoldCover, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0 );
+RedispatchOnCondition( SixFoldCover, true, [IsTwistedPolygonalComplex, IsList], [IsSimplicialSurface], 0 );
 
 InstallOtherMethod( SixFoldCover, "for a simplicial surface", 
     [IsSimplicialSurface],
@@ -1705,7 +1709,7 @@ InstallOtherMethod( SixFoldCover, "for a simplicial surface",
         return SixFoldCover(simpSurf, [1,1,1]);
     end
 );
-RedispatchOnCondition( SixFoldCover, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
+RedispatchOnCondition( SixFoldCover, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
 
 ##
 ##  End of SixFoldCover

@@ -35,7 +35,7 @@
 #!   can be used to test theories. This collection will change over
 #!   time when new surfaces are added. The collection can be accessed
 #!   in this way by methods like <K>AllSimplicialSurfaces</K>
-#!   (<Ref Subsect="Library_AllVEFComplexes"/>).
+#!   (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>).
 #! * For certain classes of polygonal complexes (like simplicial spheres)
 #!   it provides a complete classification (within certain bounds). These
 #!   lists are complete and can be the basis for theorems. They are
@@ -55,7 +55,7 @@
 #!
 #! This section explains how all polygonal complexes that are stored
 #! in the library can be accessed. This is done by the method
-#! <K>AllVEFComplexes</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! <K>AllTwistedPolygonalComplexes</K> (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>),
 #! but it can also be restricted further, for example by
 #! <K>AllSimplicialSurfaces</K>.
 #!
@@ -127,18 +127,18 @@
 #! @EndExampleSession
 #!
 
-#! @BeginGroup Library_AllVEFComplexes
+#! @BeginGroup Library_AllTwistedPolygonalComplexes
 #! @Description
-#! Return all VEF-complexes that are stored in the library with the desired properties.
+#! Return all twisted polygonal complexes that are stored in the library with the desired properties.
 #!
 #! The number of arguments can be arbitrarily long. In general the arguments
 #! have to come in pairs. The first argument in such a pair is a function and
 #! the second argument is either the result of that function or a list of
 #! accepted results. For example
 #! @BeginLog
-#! gap> AllVEFComplexes( NumberOfVertices, [10,12], IsOrientable, false );
+#! gap> AllTwistedPolygonalComplexes( NumberOfVertices, [10,12], IsOrientable, false );
 #! @EndLog
-#! returns all non-orientable VEF-complexes with 10 or 12 vertices from
+#! returns all non-orientable twisted polygonal complexes with 10 or 12 vertices from
 #! the library.
 #!
 #! To obtain the platonic solids a custom function has to be written:
@@ -195,7 +195,7 @@
 #!
 #! @Returns a list of polygonal complexes
 #! @Arguments fct1, res1, fct2, res2, ...
-DeclareGlobalFunction("AllVEFComplexes");
+DeclareGlobalFunction("AllTwistedPolygonalComplexes");
 #! @Arguments fct1, res1, fct2, res2, ...
 DeclareGlobalFunction("AllPolygonalComplexes");
 #! @Arguments fct1, res1, fct2, res2, ...
@@ -204,8 +204,6 @@ DeclareGlobalFunction("AllTriangularComplexes");
 DeclareGlobalFunction("AllPolygonalSurfaces");
 #! @Arguments fct1, res1, fct2, res2, ...
 DeclareGlobalFunction("AllSimplicialSurfaces");
-#! @Arguments fct1, res1, fct2, res2, ...
-DeclareGlobalFunction("AllBendPolygonalComplexes");
 #! @EndGroup
 
 
@@ -218,8 +216,8 @@ DeclareGlobalFunction("AllBendPolygonalComplexes");
 #! classification can be relied upon.
 #!
 #! The general syntax is identical to the one from
-#! <K>AllVEFComplexes</K> or <K>AllSimplicialSurfaces</K>
-#! (<Ref Subsect="Library_AllVEFComplexes"/>).
+#! <K>AllTwistedPolygonalComplexes</K> or <K>AllSimplicialSurfaces</K>
+#! (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>).
 #!
 #! Currently, the following classes are contained in the package:
 #! * <K>AllPlatonicSurfaces</K> (<Ref Subsect="Library_AllPlatonicSurfaces"/>):
@@ -237,8 +235,8 @@ DeclareGlobalFunction("AllBendPolygonalComplexes");
 
 #! @BeginGroup Library_AllSimplicialSpheres
 #! @Description
-#! This method has the same syntax as <K>AllVEFComplexes</K> and
-#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! This method has the same syntax as <K>AllTwistedPolygonalComplexes</K> and
+#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>),
 #! but is restricted to the simplicial spheres without 3--waists, i.e.
 #! * simplicial surfaces
 #! * that are homeomorphic to the sphere
@@ -268,8 +266,8 @@ DeclareGlobalFunction("AllSimplicialSpheres");
 
 #! @BeginGroup Library_AllGeodesicSelfDualSurfaces
 #! @Description
-#! This method has the same syntax as <K>AllVEFComplexes</K> and
-#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! This method has the same syntax as <K>AllTwistedPolygonalComplexes</K> and
+#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>),
 #! but is restricted to the geodesic self-dual surfaces (TODO).
 #!
 #! Since these are (probably) infinite, this method currently only
@@ -298,8 +296,8 @@ DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
 
 #! @BeginGroup Library_AllDiscs
 #! @Description
-#! This method has the same syntax as <K>AllVEFComplexes</K> and
-#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! This method has the same syntax as <K>AllTwistedPolygonalComplexes</K> and
+#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>),
 #! but is restricted to simplicial discs. (TODO)
 #!
 #! This list is very incomplete at the moment TODO.
@@ -342,8 +340,8 @@ DeclareGlobalFunction("AllDiscs");
 
 #! @BeginGroup Library_AllPlatonicSurfaces
 #! @Description
-#! This method has the same syntax as <K>AllVEFComplexes</K> and
-#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllVEFComplexes"/>),
+#! This method has the same syntax as <K>AllTwistedPolygonalComplexes</K> and
+#! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>),
 #! but is restricted to the platonic surfaces:
 #! * Tetrahedron
 #! * Cube

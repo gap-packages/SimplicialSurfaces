@@ -1,0 +1,42 @@
+\begin{tikzpicture}[vertexBall,edgeDouble,faceStyle]
+    \def\len{2.5}
+
+    \coordinate (U) at (0,0); % This becomes zop middle
+    \foreach \i in {0,1,2,3}{
+        \coordinate (P\i) at (180+60*\i:\len);
+    }
+    \coordinate (D) at ($(P1)+(P2)$); % This becomes bottom
+
+    % draw faces
+    \foreach \x/\y/\z in {P0/P1/U, P1/P2/U, P2/P3/U, P1/P2/D}{
+        \draw[edge,face] (\x) -- (\y) -- (\z) -- (\x);
+    }
+        
+    % draw chambers
+    \foreach \x/\y/\z/\n in {P1/P2/U/1, P1/P2/D/2, P1/U/P2/3, P1/U/P0/4,
+        P1/D/P2/5, P1/P0/U/6, P2/P1/U/7, P2/P1/D/8, P2/U/P1/9, P2/U/P3/10,
+        P2/D/P1/11, P2/P3/U/12, U/P1/P2/13, U/P1/P0/14, U/P2/P1/15,
+        U/P2/P3/16, U/P3/P2/17, U/P0/P1/18, D/P1/P2/19, P0/P1/U/20,
+        D/P2/P1/21, P3/P2/U/22, P3/U/P2/23, P0/U/P1/24}{
+            \coordinate (mid) at (barycentric cs:\x=1,\y=1);
+            \coordinate (zen) at (barycentric cs:\x=1,\y=1,\z=1);
+            \draw[gray] (\x) -- (zen) -- (mid);
+            \node at (barycentric cs:\x=1,mid=1,zen=1) {\n};
+        }
+
+    % edge labels
+    \foreach \x/\y/\n in {P1/P2/1, P1/U/2, P1/P0/3, P1/D/3, P2/U/4,
+        P2/D/5, P2/P3/5, U/P0/6, U/P3/6}{
+            \node[edgeLabel] at (barycentric cs:\x=1,\y=1) {\n};
+        }
+
+    % face labels
+    \foreach \x/\y/\z/\n in {P1/P2/U/1, P1/P2/D/2, P2/P3/U/3, P1/P0/U/4}{
+        \node[faceLabel,face] at (barycentric cs:\x=1,\y=1,\z=1) {\n};
+    }
+
+    % vertex labels
+    \foreach \x/\n in {P0/4, P1/1, P2/2, P3/4, U/3, D/4}{
+        \vertexLabelR{\x}{above}{\n}
+    }
+\end{tikzpicture}

@@ -16,18 +16,28 @@
     \coordinate (P3) at ($(P4)+(P2)$);
     \coordinate (P1) at ($(P2)+(60:\dist)$);
     
+    \draw[edge,face] (P1) -- (P2) -- (P3) -- cycle
+        (P2) -- (P3) -- (P4) -- (P5) -- cycle;
 
-    \draw[edge, face]
-        (P1) -- node[edgeLabel]{\ifdefined\shiftLabels 17 \else 6\fi} (P2) -- (P3) 
-            -- node[edgeLabel]{\ifdefined\shiftLabels 19 \else 8 \fi} cycle
-        (P2) -- node[edgeLabel]{\ifdefined\shiftLabels 20 \else 9\fi} (P3) 
-            -- node[edgeLabel]{\ifdefined\shiftLabels 23 \else 12\fi} (P4) 
-            -- node[edgeLabel]{\ifdefined\shiftLabels 24 \else 13\fi} (P5) 
-            -- node[edgeLabel]{\ifdefined\shiftLabels 21 \else 10\fi} cycle;
+    \ifdefined\chambers
+        \coordinate (ZT) at (barycentric cs:P1=1,P2=1,P3=1);
+        \coordinate (ZQ) at (barycentric cs:P2=1,P3=1,P4=1,P5=1);
+        \foreach \x/\y/\z/\n in {P1/P2/ZT/1, P2/P1/ZT/7, P2/P3/ZT/8, P3/P2/ZT/4, P3/P1/ZT/3, P1/P3/ZT/2,
+                P3/P2/ZQ/5, P2/P3/ZQ/9, P2/P5/ZQ/10, P5/P2/ZQ/13, P5/P4/ZQ/14, P4/P5/ZQ/12, P4/P3/ZQ/11, P3/P4/ZQ/6}{
+            \coordinate (mid) at ($(\x)!0.5!(\y)$);
+            \draw[gray] (mid) -- (\z) -- (\x);
+            \node at (barycentric cs:\x=1,mid=1,\z=1) {\n};
+        }
+    \fi
+
+    \foreach \x/\y/\s/\n in {1/2/17/6, 1/3/19/8, 2/3/20/9, 3/4/23/12, 2/5/21/10, 4/5/24/13}{
+        \node[edgeLabel] at ($(P\x)!0.5!(P\y)$) {\ifdefined\shiftLabels\s\else\n\fi};
+    }
+
 
     \foreach \p/\r/\n in {P1/above/2, P2/left/5, P3/right/3, P4/right/7, P5/left/11}{
         \vertexLabelR{\p}{\r}{\n}
     }
 
-    \node[faceLabel] at (barycentric cs:P1=1,P2=1,P3=1) {\ifdefined\shiftLabels 25 \else I\fi};
-    \node[faceLabel] at (barycentric cs:P2=1,P3=1,P4=1,P5=1) {\ifdefined\shiftLabels 28 \else IV\fi};
+    \node[faceLabel,face] at (barycentric cs:P1=1,P2=1,P3=1) {\ifdefined\shiftLabels 25 \else I\fi};
+    \node[faceLabel,face] at (barycentric cs:P2=1,P3=1,P4=1,P5=1) {\ifdefined\shiftLabels 28 \else IV\fi};

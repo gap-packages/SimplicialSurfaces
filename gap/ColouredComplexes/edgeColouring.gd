@@ -13,7 +13,7 @@
 #! @Chapter Edge colourings
 #! @ChapterLabel EdgeColouring
 #! 
-#! This chapter is concerned with edge-coloured VEF-complexes and in
+#! This chapter is concerned with edge-coloured (twisted) polygonal complexes and in
 #! particular simplicial surfaces. The first section 
 #! (<Ref Sect="Section_EdgeColouring_Definition"/>) deals with the definition
 #! of arbitrary edge-colourings and the methods to access its colouring.
@@ -34,16 +34,16 @@
 #! This section describes how an edge-colouring is implemented in the
 #! <K>SimplicialSurfaces</K>-package.
 #!
-#! An <K>EdgeColouredVEFComplex</K> 
-#! (<Ref Subsect="EdgeColouredPolygonalComplex"/>) consists of:
-#! * a VEF-complex, accessible by <K>VEFComplex</K> 
-#!   (<Ref Subsect="EdgeColouring_VEFComplex"/>)
+#! An <K>EdgeColouredTwistedPolygonalComplex</K> 
+#! (<Ref Subsect="EdgeColouredTwistedPolygonalComplex"/>) consists of:
+#! * a twisted polygonal complex, accessible by <K>TwistedPolygonalComplex</K> 
+#!   (<Ref Subsect="EdgeColouring_TwistedPolygonalComplex"/>)
 #! * an edge colouring, which can be accessed by 
 #!   <K>ColoursOfEdges</K> (<Ref Subsect="ColoursOfEdges"/>) and
 #!   <K>EdgesOfColours</K> (<Ref Subsect="EdgesOfColours"/>)
 #!
-#! The specialisations <K>EdgeColouredPolygonalComplex</K> and
-#! <K>EdgeColouredBendPolygonalComplex</K> exist as well and behave
+#! Specialisations like <K>EdgeColouredPolygonalComplex</K> and
+#! <K>EdgeColouredSimplicialSurface</K> exist as well and behave
 #! in the expected way.
 #!
 #! @InsertChunk Example_Coloured_Pyramid
@@ -53,44 +53,42 @@
 
 #TODO mention that attributes are copied over
 
-#! @BeginGroup IsEdgeColouredVEFComplex
+#! @BeginGroup IsEdgeColouredTwistedPolygonalComplex
 #! @Description
-#! Check if a given object is an <K>IsEdgeColouredVEFComplex</K>. This
-#! is the case if it consists of a VEF-complex and an edge colouring,
-#! accessible by <K>VEFComplex</K> 
-#! (<Ref Subsect="EdgeColouring_VEFComplex"/>) and <K>ColoursOfEdges</K> 
+#! Check if a given object is an <K>IsEdgeColouredTwistedPolygonalComplex</K>. This
+#! is the case if it consists of a twisted polygonal complex and an edge colouring,
+#! accessible by <K>TwistedPolygonalComplex</K> 
+#! (<Ref Subsect="EdgeColouring_TwistedPolygonalComplex"/>) and <K>ColoursOfEdges</K> 
 #! (<Ref Subsect="ColoursOfEdges"/>)
 #! respectively.
 #!
 #! In addition there are some properties of the type 
 #! <K>IsEdgeColoured</K><E>Thing</E> which check if
-#! the underlying VEF-complex fulfills <E>Thing</E>. For example
+#! the underlying twisted polygonal complex fulfills <E>Thing</E>. For example
 #! <K>IsEdgeColouredSimplicialSurface</K> checks if the underlying
 #! polygonal complex is a simplicial surface.
 #! 
 #! @Arguments object
-DeclareCategory( "IsEdgeColouredVEFComplex", IsVEFComplex );
+DeclareCategory( "IsEdgeColouredTwistedPolygonalComplex", IsTwistedPolygonalComplex );
 #! @Arguments object
-DeclareCategory( "IsEdgeColouredPolygonalComplex", IsPolygonalComplex and IsEdgeColouredVEFComplex );
-#! @Arguments object
-DeclareCategory( "IsEdgeColouredBendPolygonalComplex", IsBendPolygonalComplex and IsEdgeColouredVEFComplex );
+DeclareProperty( "IsEdgeColouredPolygonalComplex", IsEdgeColouredTwistedPolygonalComplex );
 #! @Arguments colComplex
 DeclareProperty( "IsEdgeColouredSimplicialSurface", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
 
-BindGlobal( "EdgeColouredVEFComplexFamily",
-    NewFamily("EdgeColouredVEFComplexFamily", IsObject, 
-        IsEdgeColouredPolygonalComplex) );
+InstallTrueMethod( IsPolygonalComplex, IsEdgeColouredPolygonalComplex );
+InstallTrueMethod( IsSimplicialSurface, IsEdgeColouredSimplicialSurface );
+
+BindGlobal( "EdgeColouredTwistedPolygonalComplexFamily",
+    NewFamily("EdgeColouredTwistedPolygonalComplexFamily", IsObject, 
+        IsEdgeColouredTwistedPolygonalComplex) );
 BindGlobal( "EdgeColouredPolygonalComplexFamily",
     NewFamily("EdgeColouredPolygonalComplexFamily", IsObject, 
         IsEdgeColouredPolygonalComplex) );
-BindGlobal( "EdgeColouredBendPolygonalComplexFamily",
-    NewFamily("EdgeColouredBendPolygonalComplexFamily", IsObject, 
-        IsEdgeColouredPolygonalComplex) );
 
-#! @BeginGroup EdgeColouredPolygonalComplex
+#! @BeginGroup EdgeColouredTwistedPolygonalComplex
 #! @Description
-#! Construct an edge coloured (bend) polygonal complex. The edge colouring can be
+#! Construct an edge coloured (twisted) polygonal complex. The edge colouring can be
 #! given in one of two ways:
 #! <Enum>
 #!   <Item>As a list <A>colouring</A> of positive integers. For every edge
@@ -119,47 +117,45 @@ BindGlobal( "EdgeColouredBendPolygonalComplexFamily",
 #! * Does every edge of <A>complex</A> appear?
 #! * Is every purported edge of <A>colouring</A> an edge of <A>complex</A>?
 #!
+#! @Returns an <K>EdgeColouredTwistedPolygonalComplex</K>
+#! @Arguments complex, colouring
+DeclareOperation( "EdgeColouredTwistedPolygonalComplex", [IsTwistedPolygonalComplex, IsList] );
+#! @Arguments complex, colouring
+DeclareOperation( "EdgeColouredTwistedPolygonalComplexNC", [IsTwistedPolygonalComplex, IsList] );
 #! @Returns an <K>EdgeColouredPolygonalComplex</K>
 #! @Arguments complex, colouring
-DeclareOperation( "EdgeColouredPolygonalComplex", [IsPolygonalComplex, IsList] );
+DeclareOperation( "EdgeColouredPolygonalComplex", [IsTwistedPolygonalComplex, IsList] );
 #! @Arguments complex, colouring
-DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsPolygonalComplex, IsList] );
-#! @Returns an <K>EdgeColouredBendPolygonalComplex</K>
-#! @Arguments complex, colouring
-DeclareOperation( "EdgeColouredBendPolygonalComplex", [IsBendPolygonalComplex, IsList] );
-#! @Arguments complex, colouring
-DeclareOperation( "EdgeColouredBendPolygonalComplexNC", [IsBendPolygonalComplex, IsList] );
+DeclareOperation( "EdgeColouredPolygonalComplexNC", [IsTwistedPolygonalComplex, IsList] );
 #! @Returns an <K>EdgeColouredSimplicialSurface</K>
 #! @Arguments surface, colouring
-DeclareOperation( "EdgeColouredSimplicialSurface", [IsPolygonalComplex, IsList] );
+DeclareOperation( "EdgeColouredSimplicialSurface", [IsTwistedPolygonalComplex, IsList] );
 #! @Arguments surface, colouring
-DeclareOperation( "EdgeColouredSimplicialSurfaceNC", [IsPolygonalComplex, IsList] );
+DeclareOperation( "EdgeColouredSimplicialSurfaceNC", [IsTwistedPolygonalComplex, IsList] );
 #! @EndGroup
 
 
-#! @BeginGroup EdgeColouring_VEFComplex
+#! @BeginGroup EdgeColouring_TwistedPolygonalComplex
 #! @Description
-#! Return the underlying VEF-complex of an edge coloured VEF-complex. 
+#! Return the underlying twisted polygonal complex of an edge coloured 
+#! twisted polygonal complex. 
 #! The other variants return the same object but will
 #! guarantee the more specific type.
 #!
 #! For example both edge coloured pyramids from 
-#! <Ref Subsect="EdgeColouredPolygonalComplex"/> have the same underlying
+#! <Ref Subsect="EdgeColouredTwistedPolygonalComplex"/> have the same underlying
 #! polygonal complex.
 #! @BeginExampleSession
 #! gap> PolygonalComplex(colPyr1) = PolygonalComplex(colPyr2);
 #! true
 #! @EndExampleSession
 #!
-#! @Returns a VEF-complex
+#! @Returns a twisted polygonal complex
 #! @Arguments colComplex
-DeclareAttribute( "VEFComplex", IsEdgeColouredVEFComplex );
+DeclareAttribute( "TwistedPolygonalComplex", IsEdgeColouredTwistedPolygonalComplex );
 #! @Returns a polygonal complex
 #! @Arguments colComplex
 DeclareAttribute( "PolygonalComplex", IsEdgeColouredPolygonalComplex );
-#! @Returns a bend polygonal complex
-#! @Arguments colComplex
-DeclareAttribute( "BendPolygonalComplex", IsEdgeColouredBendPolygonalComplex );
 #! @Returns a simplicial surface
 #! @Arguments colComplex
 DeclareAttribute( "SimplicialSurface", IsEdgeColouredSimplicialSurface );
@@ -171,7 +167,7 @@ DeclareAttribute( "SimplicialSurface", IsEdgeColouredSimplicialSurface );
 #! The method <K>ColourOfEdge</K>(<A>colComplex</A>, <A>edge</A>) returns the
 #! colour of <A>edge</A>, represented by a positive integer. The NC-version
 #! does not check whether the given <A>edge</A> is an edge of the underlying
-#! VEF-complex.
+#! twisted polygonal complex.
 #!
 #! The attribute <K>ColoursOfEdges</K>(<A>colComplex</A>) collects all of
 #! those colours in a list that is indexed by the edge labels, i.e.
@@ -183,18 +179,18 @@ DeclareAttribute( "SimplicialSurface", IsEdgeColouredSimplicialSurface );
 #!
 #! @Returns a list of positive integers / a positive integer
 #! @Arguments colComplex
-DeclareAttribute( "ColoursOfEdges", IsEdgeColouredVEFComplex );
+DeclareAttribute( "ColoursOfEdges", IsEdgeColouredTwistedPolygonalComplex );
 #! @Arguments colComplex, edge
-DeclareOperation( "ColourOfEdge", [IsEdgeColouredVEFComplex, IsPosInt] );
+DeclareOperation( "ColourOfEdge", [IsEdgeColouredTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments colComplex, edge
-DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredVEFComplex, IsPosInt] );
+DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup EdgesOfColours
 #! @Description
 #! The method <K>EdgesOfColour</K>(<A>colComplex</A>, <A>colour</A>) returns 
 #! the set of all edges with colour <A>colour</A>. If a colour is not used
-#! in the given edge coloured VEF-complex, the empty set is returned.
+#! in the given edge coloured twisted polygonal complex, the empty set is returned.
 #!
 #! The attribute <K>EdgesOfColours</K>(<A>colComplex</A>) collects all of
 #! these sets in a list that is indexed by the colours (given as positive
@@ -206,27 +202,27 @@ DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredVEFComplex, IsPosInt] );
 #! 
 #! @Returns a list of sets of positive integers / a set of positive integers
 #! @Arguments colComplex
-DeclareAttribute( "EdgesOfColours", IsEdgeColouredVEFComplex );
+DeclareAttribute( "EdgesOfColours", IsEdgeColouredTwistedPolygonalComplex );
 #! @Arguments colComplex, colour
-DeclareOperation( "EdgesOfColour", [IsEdgeColouredVEFComplex, IsPosInt] );
+DeclareOperation( "EdgesOfColour", [IsEdgeColouredTwistedPolygonalComplex, IsPosInt] );
 #TODO is this the right way or should the wrong colour lead to an error?
 #! @EndGroup
 
 
 #! @Description
 #! Return the set of all edge colours that are used in the given edge
-#! coloured VEF-complex.
+#! coloured twisted polygonal complex.
 #!
 #! @Returns a set of positive integers
 #! @Arguments colComplex
-DeclareAttribute( "Colours", IsEdgeColouredVEFComplex );
+DeclareAttribute( "Colours", IsEdgeColouredTwistedPolygonalComplex );
 
 
 
 ##
 ## View and Display
-DeclareAttribute( "ViewInformationEdgeColoured", IsEdgeColouredVEFComplex );
-DeclareAttribute( "DisplayInformationEdgeColoured", IsEdgeColouredVEFComplex );
+DeclareAttribute( "ViewInformationEdgeColoured", IsEdgeColouredTwistedPolygonalComplex );
+DeclareAttribute( "DisplayInformationEdgeColoured", IsEdgeColouredTwistedPolygonalComplex );
 
 
 #! @Section Drawing edge coloured surfaces
@@ -346,7 +342,7 @@ DeclareAttribute( "ColourIncidenceNautyGraph", IsEdgeColouredPolygonalComplex );
 #! of the colour labels are explicitly allowed.
 #!
 #! For example the two colourings from 
-#! <Ref Subsect="EdgeColouredPolygonalComplex"/> are not isomorphic.
+#! <Ref Subsect="EdgeColouredTwistedPolygonalComplex"/> are not isomorphic.
 #! @BeginExampleSession
 #! gap> IsIsomorphicEdgeColouredPolygonalComplex(colPyr1, colPyr2);
 #! false

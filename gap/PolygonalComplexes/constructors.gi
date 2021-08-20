@@ -119,6 +119,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     obj := CallFuncList( objectConst, arg{[off+1..Length(arg)]});
                     postCheck(name, obj);
                     setterNormal(obj);
+                    SetIsDefaultChamberSystem(obj, true);
 
                     return obj;
                 end;
@@ -132,6 +133,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
 
                         obj := CallFuncList(objectConst,arg);
                         setterNC(obj);
+                        SetIsDefaultChamberSystem(obj,true);
                         return obj;
                     end);
             end;
@@ -287,7 +289,8 @@ BindGlobal( "__SIMPLICIAL_CheckPolygons",
 __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
     function( verticesOfEdges, edgesOfFaces )
         local obj;
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
+        SetIsPolygonalComplex(obj, true);
         SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
         return obj;
@@ -340,7 +343,8 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
 __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes, 
     function( edgesOfVertices, facesOfEdges )
         local obj;
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
+        SetIsPolygonalComplex(obj, true);
         SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
         SetFacesOfEdges(obj, List(facesOfEdges, Set) );
         return obj;
@@ -412,7 +416,8 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
         edgesOfFaces := List( vertexPairs, l -> List( l, p -> Position(allEdges,p) ) );
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
+        SetIsPolygonalComplex(obj, true);
         SetVerticesOfEdges(obj, allEdges);
         SetVerticesOfFaces(obj, List(verticesInFaces,Set));
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set));
@@ -450,7 +455,6 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 ##  End verticesInFaces
 ##
 #######################################
-
 
 
 
@@ -941,6 +945,4 @@ end);
 ##  End edgeFacePaths
 ##
 #######################################
-
-
 

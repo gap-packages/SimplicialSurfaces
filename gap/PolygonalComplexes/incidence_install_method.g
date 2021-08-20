@@ -16,8 +16,7 @@
 ##
 ## We have:
 ## 1) Vertices, Edges, Faces
-## 2) LocalFlags
-## 3) LocalVertices, LocalEdges, HalfEdges
+## 2) Chambers
 ##
 ## The incidence relations fall in three classes:
 ## 1) many-of-many: For each element of one, there is a set of the other
@@ -271,33 +270,27 @@ BindGlobal( "__SIMPLICIAL_TransitiveIncidence_PartitionOfUnique_UniqueOfPartitio
 
 BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
     function()
-        local attrList, relationList, VEF, BEND, POLY, Find_category, attr, r,
+        local attrList, relationList, TWIST, POLY, Find_category, attr, r,
             i, j, attr_A, attr_B, name, type, cat, invName, invAttr,
             invFctName, invFct, transAttr, transName, transFctName, transFct,
             attr_1, attr_2, wrapper, transTriple, ok, GetRelation;
             
         ## Define the different categories
-        # name: Name of the category
+        # name: Name of the category 
         # cat: The category
         # add: The method to add an attribute to this category
-        VEF := rec( name := "IsVEFComplex", add := __SIMPLICIAL_AddVEFAttribute, string := "VEF-complex", short := "VEF" );
-        POLY := rec( name := "IsPolygonalComplex", add := __SIMPLICIAL_AddPolygonalAttribute, string := "polygonal complex", short := "POLY" );
-        BEND := rec( name := "IsBendPolygonalComplex", add := __SIMPLICIAL_AddBendPolygonalAttribute, string := "bend polygonal complex", short := "BEND" );
-        for r in [VEF,BEND,POLY] do
+        # req: Determines whether the category is a requirement in the attribute scheduler
+        TWIST := rec( name := "IsTwistedPolygonalComplex", add := __SIMPLICIAL_AddTwistedAttribute, string := "twisted polygonal complex", short := "TWIST", req := false );
+        POLY := rec( name := "IsPolygonalComplex", add := __SIMPLICIAL_AddPolygonalAttribute, string := "polygonal complex", short := "POLY", req := true );
+        for r in [TWIST,POLY] do
             r.cat := VALUE_GLOBAL(r.name);
         od;
 
         Find_category := function( lst )
-            if "BEND" in lst and "POLY" in lst then
-                return fail;
-            fi;
-            if "BEND" in lst then
-                return BEND;
-            fi;
             if "POLY" in lst then
                 return POLY;
             fi;
-            return VEF;
+            return TWIST;
         end;
 
 
@@ -310,13 +303,10 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
         # uniqueTo: List of all attribute names such that the map from this attribute to the others is unique
         # tester: HasAttribute
         attrList := [
-            rec( sing := "Vertex", plur := "Vertices", name := "VerticesAttributeOfVEFComplex", cat := "VEF" ),
-            rec( sing := "Edge", plur := "Edges", cat := "VEF" ),
-            rec( sing := "Face", plur := "Faces", cat := "VEF" ),
-            rec( sing := "LocalFlag", plur := "LocalFlags", cat := "BEND", uniqueTo := "ALL" ),
-            rec( sing := "LocalVertex", plur := "LocalVertices", cat := "BEND", uniqueTo := ["VerticesAttributeOfVEFComplex", "Faces"] ),
-            rec( sing := "LocalEdge", plur := "LocalEdges", cat := "BEND", uniqueTo := ["Edges", "Faces"] ),
-            rec( sing := "HalfEdge", plur := "HalfEdges", cat := "BEND", uniqueTo := ["VerticesAttributeOfVEFComplex", "Edges"] )
+            rec( sing := "Vertex", plur := "Vertices", name := "VerticesAttributeOfComplex", cat := "TWIST" ),
+            rec( sing := "Edge", plur := "Edges", cat := "TWIST" ),
+            rec( sing := "Face", plur := "Faces", cat := "TWIST" ),
+            rec( sing := "Chamber", plur := "Chambers", cat := "TWIST", uniqueTo := ["VerticesAttributeOfComplex", "Edges", "Faces"] )
         ];
         for attr in attrList do
             if not IsBound(attr.name) then
@@ -419,8 +409,13 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                 fi;
             end;
             wrapper(attr, cat);
-            AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-                attr.attr_content.name, attr.name, [cat.name] );
+            if cat.req then
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    attr.attr_content.name, attr.name, [cat.name] );
+            else
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                    attr.attr_content.name, attr.name);
+            fi;
 
             # Implement implication to the index-side
             wrapper := function(attr, cat)
@@ -432,8 +427,13 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                     end);
             end;
             wrapper(attr, cat);
-            AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-                attr.attr_index.name, attr.name, [cat.name] );
+            if cat.req then
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    attr.attr_index.name, attr.name, [cat.name] );
+            else
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    attr.attr_index.name, attr.name);
+            fi;
 
 
             # Implement inversion
@@ -450,8 +450,14 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                     end);
             end;
             wrapper(invAttr,invFct, attr, cat);
-            AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-                invName, [attr.attr_content.name, attr.name, attr.attr_index.name], [cat.name] );
+            if cat.req then
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    invName, [attr.attr_content.name, attr.name, attr.attr_index.name], [cat.name] );
+            else
+                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
+                    invName, [attr.attr_content.name, attr.name, attr.attr_index.name] );
+            fi;
+
 
 
             #TODO implement VertexOfFace...
@@ -459,31 +465,6 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
 
         transTriple := [
             ["Vertices", "Edges", "Faces"],
-            #["Vertices", "LocalVertices", "Faces"], # Redundant by "uniqueTo"-condition
-            ["Vertices", "LocalVertices", "Edges"],
-            #["Edges", "LocalEdges", "Faces"], # Redundant by "uniqueTo"-condition
-            ["Vertices", "LocalEdges", "Faces"],
-            ["Vertices", "LocalEdges", "Edges"], #TODO LocalEdgesOfVertices are all local edges belonging to EdgesOfVertices
-            ["Vertices", "Edges", "LocalEdges"],
-            ["Edges", "HalfEdges", "Faces"],
-            ["HalfEdges", "Edges", "Faces"],
-            ["Vertices", "HalfEdges", "Faces"],
-            #["Vertices", "HalfEdges", "Edges"], # Redundant by "uniqueTo"-condition
-            ["Vertices", "LocalVertices", "LocalEdges"],
-            ["Vertices", "LocalVertices", "HalfEdges"],
-            ["Vertices", "HalfEdges", "LocalVertices"],
-            ["Vertices", "HalfEdges", "LocalEdges"],
-            ["LocalVertices", "LocalEdges", "Edges"], #TODO LocalVerticesOfEdge are only those bordering the edge
-            ["LocalVertices", "HalfEdges", "Edges"],
-
-            ["Edges", "LocalEdges", "HalfEdges"],
-            ["HalfEdges", "Edges", "LocalEdges"],
-            ["LocalEdges", "HalfEdges", "Edges"],
-
-            ["LocalVertices", "LocalEdges", "Faces"],
-            ["LocalEdges", "LocalVertices", "Faces"],
-            ["HalfEdges", "LocalVertices", "Faces"],
-            ["HalfEdges", "LocalEdges", "Faces"]
         ];
         Append(transTriple, List(transTriple, Reversed) );
 
@@ -533,8 +514,13 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                         end);
                 end;
                 wrapper( transAttr, cat, attr_1, attr_2, transFct );
-                AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-                    transName, [ attr_1.name, attr_2.name, attr_2.attr_index.name ], [cat.name]);
+                if cat.req then
+                    AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                        transName, [ attr_1.name, attr_2.name, attr_2.attr_index.name ], [cat.name]);
+                else
+                    AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                        transName, [ attr_1.name, attr_2.name, attr_2.attr_index.name ]);
+                fi;
             od;
         od;
 
@@ -544,13 +530,3 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
 __SIMPLICIAL_InstallIncidenceMethods();
 
 
-BindGlobal( "__SIMPLICIAL_BendPolygonalComplex_SufficientInformation",
-    function(complex)
-        VerticesOfLocalFlags(complex);
-        EdgesOfLocalFlags(complex);
-        FacesOfLocalFlags(complex);
-        LocalVerticesOfLocalFlags(complex);
-        LocalEdgesOfLocalFlags(complex);
-        HalfEdgesOfLocalFlags(complex);
-    end
-);

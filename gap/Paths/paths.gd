@@ -32,7 +32,7 @@
 #!
 #! This section describes all methods for vertex-edge-paths. Intuitively,
 #! vertex-edge-paths describe all paths that are realized by walking only on
-#! the vertices and edges of a (bend) polygonal complex.
+#! the vertices and edges of a polygonal complex.
 #!
 #! We will illustrate several properties with vertex-edge-paths that are
 #! defined on this simplicial surface:
@@ -48,7 +48,7 @@
 #! @EndExampleSession
 
 #! @BeginChunk Definition_VertexEdgePath
-#! A <E>vertex-edge-path</E> in a VEF-complex is a tuple
+#! A <E>vertex-edge-path</E> in a polygonal complex is a tuple
 #! <M>(v_1, e_1, v_2, e_2, \ldots ,v_n, e_n, v_{{n+1}})</M> such that
 #! * The <M>v_i</M> are vertices of the polygonal complex
 #! * The <M>e_j</M> are edges of the polygonal complex
@@ -57,18 +57,18 @@
 
 #! <ManSection Label="VertexEdgePath">
 #!   <Oper Name="VertexEdgePath" Arg="complex, path" 
-#!      Label="for IsVEFComplex and IsDenseList"
-#!      Comm="Construct a vertex-edge-path from a VEF-complex and a list"/>
+#!      Label="for IsPolygonalComplex and IsDenseList"
+#!      Comm="Construct a vertex-edge-path from a polygonal complex and a list"/>
 #!   <Oper Name="VertexEdgePathNC" Arg="complex, path" 
-#!      Label="for IsVEFComplex and IsDenseList"
-#!      Comm="Construct a vertex-edge-path from a VEF-complex and a list"/>
+#!      Label="for IsPolygonalComplex and IsDenseList"
+#!      Comm="Construct a vertex-edge-path from a polygonal complex and a list"/>
 #!   <Returns>A VertexEdgePath-&GAP;-object</Returns>
 #!   <Filt Name="IsVertexEdgePath" Arg="object" Label="for IsObject" Type="category"
 #!      Comm="Check whether a given object is a VertexEdgePath"/>
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     The method <K>VertexEdgePath</K> constructs a new vertex-edge-path from
-#!     a VEF-complex and a dense list of positive integers (alternating
+#!     a polygonal complex and a dense list of positive integers (alternating
 #!     vertices and edges). The
 #!     method <K>IsVertexEdgePath</K> checks if a given &GAP;-object
 #!     represents such a path.
@@ -116,14 +116,14 @@
 #! </ManSection>
 # No AutoDoc-documentation since the order of the next two entries should
 # be switched
-DeclareOperation( "VertexEdgePath", [IsVEFComplex, IsDenseList] );
-DeclareOperation( "VertexEdgePathNC", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePath", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 
 
 #! @BeginGroup VertexEdgePathByVertices
 #! @Description
 #! Construct a new vertex-edge-path (<Ref Subsect="VertexEdgePath"/>) from a
-#! VEF-complex and a dense list of vertices. Every two adjacent vertices
+#! polygonal complex and a dense list of vertices. Every two adjacent vertices
 #! have to be connected by an edge. If there are multiple such edges, the one
 #! with the smallest label is used. If the given <A>vertexList</A> is empty,
 #! <K>fail</K> is returned.
@@ -166,16 +166,16 @@ DeclareOperation( "VertexEdgePathNC", [IsVEFComplex, IsDenseList] );
 #!
 #! @Returns a vertex-edge-path or <K>fail</K>
 #! @Arguments complex, vertexList
-DeclareOperation( "VertexEdgePathByVertices", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathByVertices", [IsPolygonalComplex, IsDenseList] );
 #! @Arguments complex, vertexList
-DeclareOperation( "VertexEdgePathByVerticesNC", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathByVerticesNC", [IsPolygonalComplex, IsDenseList] );
 #! @EndGroup
 
 
 #! @BeginGroup VertexEdgePathByEdges
 #! @Description
 #! Construct a new vertex-edge-path (<Ref Subsect="VertexEdgePath"/>) from a
-#! VEF-complex and a dense list of edges. Every two adjacent edges
+#! polygonal complex and a dense list of edges. Every two adjacent edges
 #! have to be connected by a vertex. If any vertex position is ambigous (for
 #! example if only one edge is given), the smallest possible vertex is chosen
 #! to be traversed first.
@@ -217,9 +217,9 @@ DeclareOperation( "VertexEdgePathByVerticesNC", [IsVEFComplex, IsDenseList] );
 #!
 #! @Returns a vertex-edge-path
 #! @Arguments complex, edgeList
-DeclareOperation( "VertexEdgePathByEdges", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathByEdges", [IsPolygonalComplex, IsDenseList] );
 #! @Arguments complex, edgeList
-DeclareOperation( "VertexEdgePathByEdgesNC", [IsVEFComplex, IsDenseList] );
+DeclareOperation( "VertexEdgePathByEdgesNC", [IsPolygonalComplex, IsDenseList] );
 #! @EndGroup
 
 
@@ -415,29 +415,13 @@ DeclareAttribute( "EdgesAsPerm", IsVertexEdgePath );
 
 #! @BeginGroup
 #! @Description
-#! Return the VEF-complex for which the given vertex-edge-path is
+#! Return the polygonal complex for which the given vertex-edge-path is
 #! defined.
 #!
-#! @Returns a VEF-complex
+#! @Returns a polygonal complex
 #! @Arguments vertexEdgePath
-DeclareAttribute( "AssociatedVEFComplex", IsVertexEdgePath );
+DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! @EndGroup
-
-
-#! @Description
-#! Return whether the given vertex-edge-path is defined on a
-#! polygonal complex.
-#!
-#! @Arguments vertexEdgePath
-DeclareProperty( "IsPolygonalComplexPath", IsVertexEdgePath );
-
-#! @Description
-#! Return whether the given vertex-edge-path is defined on a
-#! bend polygonal complex.
-#!
-#! @Arguments vertexEdgePath
-DeclareProperty( "IsBendPolygonalComplexPath", IsVertexEdgePath );
-
 
 
 ##
@@ -523,10 +507,6 @@ DeclareAttribute( "Face", IsPerimeterPath );
 #! face. If the face is not given, but can be uniquely reconstructed
 #! from the vertex-edge-path, this will be done.
 #!
-#! If some edges of the given face are identified (this might
-#! happen for a bend polygonal complex), the construction 
-#! will fail as well.
-#!
 #! The NC-version does not check whether <A>face</A> is a face of
 #! the underlying complex and whether it matches to the given
 #! <A>vePath</A>. It also does not check whether the vertex-edge-path
@@ -542,44 +522,6 @@ DeclareOperation( "PerimeterPath", [IsVertexEdgePath] );
 #! @EndGroup
 
 
-#! @Description
-#! If the perimeter path is defined on a bend polygonal complex 
-#! <K>bendComplex</K>
-#! this method returns the corresponding perimeter path on
-#! the polygonal complex <K>LocalFace(bendComplex)</K>.
-#!
-#! If the underlying VEF-complex is a polygonal complex already,
-#! this method returns <K>fail</K>.
-#!
-#! @Returns a perimeter path or <K>fail</K>
-#! @Arguments perimPath
-DeclareAttribute( "LocalPath", IsPerimeterPath );
-
-
-#! @BeginGroup PerimeterPathByLocalPath
-#! @Description
-#! Construct a perimeter path for a bend polygonal complex from
-#! a perimeter path on <K>LocalFace</K>(<A>bendComplex</A>).
-#!
-#! 
-#! @Returns a perimeter path
-#! @Arguments bendComplex, localPath
-DeclareOperation( "PerimeterPathByLocalPath", [IsBendPolygonalComplex, IsPerimeterPath] );
-#! @Arguments bendComplex, localPath
-DeclareOperation( "PerimeterPathByLocalPathNC", [IsBendPolygonalComplex, IsPerimeterPath] );
-#! @EndGroup
-
-
-#! @Description
-#! A perimeter path of a face on a bend polygonal complex defines a cyclic
-#! orientation of the local flags within the face. This method returns
-#! that cyclic permutation.
-#!
-#! @Returns a permutation
-#! @Arguments perimPath
-DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPath);
-
-
 #! @Section Edge-Face-Paths
 #! @SectionLabel Paths_EdgeFace
 #!
@@ -592,7 +534,7 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 
 #TODO replace old definition by this
 #! @BeginChunk Definition_EdgeFacePath
-#! An <E>edge-face-path</E> in a VEF-complex is a tuple
+#! An <E>edge-face-path</E> in a polygonal complex is a tuple
 #! <M>(e_1, f_1, e_2, f_2, \ldots ,e_n, f_n, e_{{n+1}})</M> such that
 #! * The <M>e_i</M> are edges of the polygonal complex
 #! * The <M>f_j</M> are faces of the polygonal complex
@@ -600,24 +542,11 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 #!   positions in the perimeter of the face <M>f_j</M>.
 #! @EndChunk
 
-#! Depending on the type of the underlying VEF-complex, the implementation
-#! of edge-face-paths in the <K>SimplicialSurfaces</K>-package differs:
-#! <Enum>
-#!   <Item>For polygonal complexes, it is sufficient to store the alternating
+#! For polygonal complexes, it is sufficient to store the alternating
 #!      list of edges and faces, i.e <K>PathAsList</K> 
-#!      (<Ref Subsect="VertexEdge_PathAsList"/>). </Item>
-#!   <Item>For bend polygonal complexes, more information is needed (since 
-#!      two edges in the same face may share the same label). In this case,
-#!      the <K>EdgeFacePathElements</K> 
-#!      (<Ref Subsect="EdgeFacePathElements"/>) are crucial. An 
-#!      edge-face-path-element is a tuple 
-#!      <M>[face, [localEdgeIn, localEdgeOut]]</M>, consisting of
-#!      a face and two local edges. The two local edges describe through
-#!      which edges of the perimeter the path enters and leaves the face.
-#!      </Item>
-#! </Enum>
+#!      (<Ref Subsect="VertexEdge_PathAsList"/>).
 
-#! We will illustrate the polygonal case on this simplicial surface:
+#! We illustrate the polygonal case on this simplicial surface:
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
 #!     \input{Image_ThinTorus.tex}
@@ -633,38 +562,24 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 
 #! <ManSection Label="EdgeFacePath">
 #!   <Oper Name="EdgeFacePath" Arg="complex, path" 
-#!      Label="for IsVEFComplex and IsDenseList"
-#!      Comm="Construct an edge-face-path from a VEF-complex and a list"/>
+#!      Label="for IsPolygonalComplex and IsDenseList"
+#!      Comm="Construct an edge-face-path from a polygonal complex and a list"/>
 #!   <Oper Name="EdgeFacePathNC" Arg="complex, path" 
-#!      Label="for IsVEFComplex and IsDenseList"
-#!      Comm="Construct an edge-face-path from a VEF-complex and a list"/>
-#!   <Oper Name="EdgeFacePath" Arg="bendComplex, path, elements" 
-#!      Label="for IsBendPolygonalComplex and IsDenseList and IsDenseList"
-#!      Comm="Construct an edge-face-path from a bend polygonal complex and two lists"/>
-#!   <Oper Name="EdgeFacePathNC" Arg="bendComplex, path, elements" 
-#!      Label="for IsBendPolygonalComplex and IsDenseList and IsDenseList"
-#!      Comm="Construct an edge-face-path from a bend polygonal complex and two lists"/>
+#!      Label="for IsPolygonalComplex and IsDenseList"
+#!      Comm="Construct an edge-face-path from a polygonal complex and a list"/>
 #!   <Returns>An EdgeFacePath-&GAP;-object</Returns>
 #!   <Filt Name="IsEdgeFacePath" Arg="object" Label="for IsObject" Type="category"
 #!      Comm="Check whether a given object is an EdgeFacePath"/>
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
 #!     The method <K>EdgeFacePath</K> constructs a new edge-face-path from
-#!     a VEF-complex and one (or two) dense list of positive integers. The
+#!     a polygonal complex and one (or two) dense list of positive integers. The
 #!     method <K>IsEdgeFacePath</K> checks if a given &GAP;-object
 #!     represents such a path.
 #!
 #!     The list <A>path</A> is an alternating list of edges and faces of
-#!     the given VEF-complex <A>complex</A> (starting and ending with an 
+#!     the given polygonal complex <A>complex</A> (starting and ending with an 
 #!     edge).
-#!
-#!     The list <A>elements</A> is only relevant if <A>complex</A> is a bend
-#!     polygonal complex. It only has to be given if some edges within the
-#!     same face of <A>complex</A> are identified. It is a list of
-#!     <M>[face, [localEdgeIn, localEdgeOut]]</M>, where <A>face</A> is a
-#!     face of <A>complex</A> and <A>localEdgeIn</A> and <A>localEdgeOut</A>
-#!     are local edges within <A>face</A>. The local edges designate where
-#!     the edge-face-path enters and leaves the face <A>face</A>.
 #!
 #!     We illustrate this with a path on the simplicial surface from the start
 #!     of section
@@ -694,10 +609,6 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 #!     <K>EdgesAsList</K> (<Ref Subsect="EdgeFace_EdgesAsList"/>) and 
 #!     <K>FacesAsList</K> (<Ref Subsect="EdgeFace_FacesAsList"/>).
 #!
-#!     If the associated VEF-complex is a bend polygonal complex, the 
-#!     edge-face-path-elements can be accessed by <K>EdgeFacePathElements</K>
-#!     (<Ref Subsect="EdgeFacePathElements"/>).
-#!
 #!     The NC-version does not check if the
 #!     given <A>path</A> is a list 
 #!     <M>[e_1,f_1,e_2,f_2,\ldots,e_n,f_n,e_{{n+1}}]</M> that fulfills these
@@ -706,10 +617,8 @@ DeclareAttribute( "LocalFlagCycle", IsPerimeterPath and IsBendPolygonalComplexPa
 #! </ManSection>
 # No AutoDoc-documentation since the order of the next two entries should
 # be switched
-DeclareOperation( "EdgeFacePath", [IsVEFComplex, IsDenseList] );
-DeclareOperation( "EdgeFacePathNC", [IsVEFComplex, IsDenseList] );
-DeclareOperation( "EdgeFacePath", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
-DeclareOperation( "EdgeFacePathNC", [IsBendPolygonalComplex, IsDenseList, IsDenseList] );
+DeclareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
+DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
 
 
 #! @BeginGroup EdgeFace_PathAsList
@@ -765,20 +674,6 @@ DeclareAttribute( "EdgesAsList", IsEdgeFacePath );
 #! @Arguments edgeFacePath
 #! @Returns a list of positive integers
 DeclareAttribute( "FacesAsList", IsEdgeFacePath );
-#! @EndGroup
-
-
-#! @BeginGroup EdgeFacePathElements
-#! @Description
-#! For each face, this gives an element [face,[local edge in, local edge out]]
-#! 
-#! TODO
-#!
-#! Only valid for bend polygonal complexes, otherwise will return <K>fail</K>
-#!
-#! @Returns a list or fail
-#! @Arguments edgeFacePath
-DeclareAttribute( "EdgeFacePathElements", IsEdgeFacePath );
 #! @EndGroup
 
 
@@ -903,26 +798,11 @@ DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 
 
 #! @Description
-#! Return the VEF-complex for which the given edge-face-path is
+#! Return the polygonal complex for which the given edge-face-path is
 #! defined.
 #! @Arguments edgeFacePath
-#! @Returns a VEF-complex
-DeclareAttribute( "AssociatedVEFComplex", IsEdgeFacePath );
-
-
-#! @Description
-#! Return whether the given edge-face-path is defined on a
-#! (bend) polygonal complex.
-#!
-#! @Arguments vertexEdgePath
-DeclareProperty( "IsPolygonalComplexPath", IsEdgeFacePath );
-
-#! @Description
-#! Return whether the given edge-face-path is defined on a
-#! (bend) polygonal complex.
-#!
-#! @Arguments vertexEdgePath
-DeclareProperty( "IsBendPolygonalComplexPath", IsEdgeFacePath );
+#! @Returns a polygonal complex
+DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
 
 
 
@@ -985,10 +865,6 @@ DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 #! vertex (except those of the first and last edge) is incident to exactly
 #! three faces of the path.
 #!
-#! If the edge-face-path is defined on a bend polygonal complex, a geodesic
-#! path
-#! is defined by its <K>DefiningLocalFlags</K> (compare 
-#! <Ref Subsect="DefiningFlags"/>).
 #!
 #! TODO give more information
 #! 
@@ -1084,9 +960,6 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesicPath );
 #! <A>flag</A>. The NC-version does not check whether the given <A>flag</A>
 #! is actually a flag of <A>ramSurf</A>.
 #!
-#! For a bend polygonal complex, this works similarly, but instead of
-#! a flag a local flag has to be given.
-#!
 #! As an illustration consider the torus from the start of section
 #! <Ref Sect="Section_Paths_Geodesics"/>:
 #! <Alt Only="TikZ">
@@ -1107,16 +980,12 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesicPath );
 #!
 #! @Returns a set of edge-face-paths
 #! @Arguments ramSurf
-DeclareAttribute( "MaximalGeodesicPaths", IsVEFComplex and IsNotEdgeRamified );
+DeclareAttribute( "MaximalGeodesicPaths", IsPolygonalComplex and IsNotEdgeRamified );
 #! @Returns an edge-face-path
 #! @Arguments ramSurf, flag
 DeclareOperation( "MaximalGeodesicPathOfFlag", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
 #! @Arguments ramSurf, flag
 DeclareOperation( "MaximalGeodesicPathOfFlagNC", [IsPolygonalComplex and IsNotEdgeRamified, IsList] );
-#! @Arguments ramSurf, localFlag
-DeclareOperation( "MaximalGeodesicPathOfLocalFlag", [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt] );
-#! @Arguments ramSurf, localFlag
-DeclareOperation( "MaximalGeodesicPathOfLocalFlagNC", [IsBendPolygonalComplex and IsNotEdgeRamified, IsPosInt] );
 #! @EndGroup
 
 #! @BeginGroup IsClosedGeodesicPath
@@ -1167,8 +1036,7 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #! (<Ref Subsect="IsGeodesicPath"/>) as a list.
 #!
 #! If the geodesic path is defined on a polygonal complex, regular
-#! flags are used. If it is defined on a bend polygonal complex,
-#! local flags have to be used (and <K>DefiningLocalFlags</K>).
+#! flags are used. 
 #!
 #! Consider the geodesic path
 #! <M>[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1]</M>.
@@ -1213,10 +1081,7 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #!
 #! @Returns a list of flags
 #! @Arguments geodesic
-DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsPolygonalComplexPath and IsGeodesicPath );
-#! @Returns a list of local flags
-#! @Arguments geodesic
-DeclareAttribute( "DefiningLocalFlags", IsEdgeFacePath and IsBendPolygonalComplexPath and IsGeodesicPath );
+DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesicPath );
 #TODO good name?
 #! @EndGroup
 
@@ -1254,9 +1119,6 @@ DeclareOperation( "MaximalDuplicateFreeGeodesicPathOfFlagNC", [IsPolygonalComple
 #! the product of the Dress involutions (<Ref Subsect="DressInvolutions"/>),
 #! by first applying the one for vertices, then edges and finally faces.
 #!
-#! If <A>closedGeodesic</A> is defined on a bend polygonal complex, this
-#! is a permutation on the local flags.
-#!
 #! TODO explain properly with picture
 #!
 #! @Returns a permutation
@@ -1269,14 +1131,14 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! @SectionLabel Paths_Connectivity
 #!
 #! This section contains methods that deal with the (strong) connectivity of 
-#! polygonal
+#! twisted polygonal
 #! complexes (which were introduced in chapter 
 #! <Ref Chap="PolygonalStructures"/> as a generalisation of simplicial 
 #! surfaces). More specifically it contains these
 #! capabilities:
-#! * Determine if a polygonal complex is (strongly) connected 
+#! * Determine if a twisted polygonal complex is (strongly) connected 
 #!   (<Ref Subsect="IsConnected"/> and <Ref Subsect="IsStronglyConnected"/>).
-#! * Determine the (strongly) connected components of a polygonal complex 
+#! * Determine the (strongly) connected components of a twisted polygonal complex 
 #!   (<Ref Subsect="ConnectedComponents"/> and 
 #!   <Ref Subsect="StronglyConnectedComponents"/>).
 #!
@@ -1320,7 +1182,8 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 
 #! @BeginGroup IsConnected
 #! @Description
-#! Check whether the given polygonal complex is connected. A polygonal complex
+#! Check whether the given twisted polygonal complex is connected. A twisted
+#! polygonal complex
 #! is connected if and only if its incidence graph (compare section 
 #! <Ref Sect="Section_Graphs_Incidence"/>) is 
 #! connected.
@@ -1338,17 +1201,17 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-DeclareProperty( "IsConnected", IsVEFComplex );
+DeclareProperty( "IsConnected", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup ConnectedComponents
 #! @Description
-#! Return a list of the connected components of the given polygonal complex 
+#! Return a list of the connected components of the given twisted polygonal complex 
 #! (as polygonal complexes). They correspond to the connected components
 #! of the incidence graph (compare section 
 #! <Ref Sect="Section_Graphs_Incidence"/>).
 #!
-#! If a face of the polygonal complex is given as an additional argument,
+#! If a face of the twisted polygonal complex is given as an additional argument,
 #! only the connected component containing that face is returned. The 
 #! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
 #!
@@ -1368,22 +1231,23 @@ DeclareProperty( "IsConnected", IsVEFComplex );
 #! @EndExampleSession
 #TODO better example..
 #!
-#! @Returns a list of polygonal complexes
+#! @Returns a list of twisted polygonal complexes
 #! @Arguments complex
-DeclareOperation( "ConnectedComponents", [IsVEFComplex] );
+DeclareOperation( "ConnectedComponents", [IsTwistedPolygonalComplex] );
 #! @Arguments complex
-DeclareAttribute( "ConnectedComponentsAttributeOfVEFComplex", IsVEFComplex );
+DeclareAttribute( "ConnectedComponentsAttributeOfComplex", IsTwistedPolygonalComplex );
 #! @Returns a polygonal complex
 #! @Arguments complex, face
-DeclareOperation( "ConnectedComponentOfFace", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "ConnectedComponentOfFace", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "ConnectedComponentOfFaceNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "ConnectedComponentOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! @BeginGroup IsStronglyConnected
 #! @Description
-#! Check whether the given polygonal complex is strongly connected. A polygonal 
+#! Check whether the given twisted polygonal complex is strongly connected. 
+#! A twisted polygonal 
 #! complex
 #! is strongly connected if and only if one of the following equivalent 
 #! conditions hold:
@@ -1404,16 +1268,17 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsVEFComplex, IsPosInt] );
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-DeclareProperty( "IsStronglyConnected", IsVEFComplex );
+DeclareProperty( "IsStronglyConnected", IsTwistedPolygonalComplex );
 #! @EndGroup
+
 
 #! @BeginGroup StronglyConnectedComponents
 #! @Description
-#! Return a list of the strongly connected components of the given polygonal 
+#! Return a list of the strongly connected components of the given twisted polygonal 
 #! complex 
 #! (as polygonal complexes).
 #!
-#! If a face of the polygonal complex is given as an additional argument,
+#! If a face of the twisted polygonal complex is given as an additional argument,
 #! only the strongly connected component containing that face is returned. The 
 #! NC-version does not check if <A>face</A> is a face of <A>complex</A>.
 #!
@@ -1438,22 +1303,22 @@ DeclareProperty( "IsStronglyConnected", IsVEFComplex );
 #! true
 #! @EndExampleSession
 #!
-#! @Returns a list of polygonal complexes
+#! @Returns a list of twisted polygonal complexes
 #! @Arguments complex
-DeclareOperation( "StronglyConnectedComponents", [IsVEFComplex] );
+DeclareOperation( "StronglyConnectedComponents", [IsTwistedPolygonalComplex] );
 #! @Arguments complex
-DeclareAttribute( "StronglyConnectedComponentsAttributeOfVEFComplex", IsVEFComplex );
+DeclareAttribute( "StronglyConnectedComponentsAttributeOfComplex", IsTwistedPolygonalComplex );
 #! @Returns a polygonal complex
 #! @Arguments complex, face
-DeclareOperation( "StronglyConnectedComponentOfFace", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "StronglyConnectedComponentOfFace", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsVEFComplex, IsPosInt] );
+DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
 #! @BeginGroup NumberOfConnectedComponents
 #! @Description
-#! Return the number of (strongly) connected components of the given polygonal
+#! Return the number of (strongly) connected components of the given twisted polygonal
 #! complex.
 #!
 #! TODO explain definitions
@@ -1474,18 +1339,18 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsVEFComplex, IsPosInt]
 #!
 #! @Returns a positive integer
 #! @Arguments complex
-DeclareAttribute( "NumberOfConnectedComponents", IsVEFComplex );
+DeclareAttribute( "NumberOfConnectedComponents", IsTwistedPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
+DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 
 #! @Section Orientability
 #! @SectionLabel Orientability
 #! 
-#! This section contains methods that deal with the orientability of (bend)
-#! polygonal surfaces without edge ramifications (compare section
-#! <Ref Sect="PolygonalStructures_surface"/>). For (bend) polygonal 
+#! This section contains methods that deal with the orientability of
+#! twisted polygonal surfaces without edge ramifications (compare section
+#! <Ref Sect="PolygonalStructures_surface"/>). For twisted polygonal 
 #! complexes with edge ramifications the concept of orientability is not 
 #! well-defined since there is no
 #! proper way to deal with edges that are incident to more than two faces.
@@ -1502,10 +1367,10 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
 #!     \input{Image_ConstructorExample.tex}
 #!   \end{tikzpicture}
 #! </Alt>
-#! A VEF-complex without edge ramifications is <E>orientable</E> if such a choice of
+#! A polygonal complex without edge ramifications is <E>orientable</E> if such a choice of
 #! directions is possible.
 #!
-#! For a given VEF-complex this orientation can be computed.
+#! For a given polygonal complex this orientation can be computed.
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexPlain, edgePlain, faceStyle]
 #!      \input{Image_ConstructorExample.tex}
@@ -1547,12 +1412,20 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
 #! * The orientation of this face is equal to <K>PermeterOfFace</K>
 #!   (<Ref Subsect="PerimeterPathsOfFaces"/>) of this face.
 #!
+#! For a general twisted polygonal surface there is no concept of
+#! perimeter paths. Instead, we can describe orientability
+#! by the existence of a map from the set of chambers to {+1,-1}
+#! such that adjacent chambers have different values.
+
+#TODO better explanation?
 
 #! @BeginGroup IsOrientable
 #! @Description
-#! Return whether the given ramified polygonal surface is orientable.
+#! Return whether the given twisted polygonal complex without edge
+#! ramifications is orientable.
 #!
-#! A ramified polygonal surface is orientable if it is possible to choose a 
+#! A twisted polygonal complex without edge ramifications
+#! is orientable if it is possible to choose a 
 #! direction along the perimeter of each face such that each pair of adjacent
 #! faces defines opposite directions on the shared edge.
 #!
@@ -1569,12 +1442,12 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsVEFComplex );
 #! @EndExampleSession
 #! TODO other example?
 #! @Arguments ramSurf
-DeclareProperty( "IsOrientable", IsVEFComplex and IsNotEdgeRamified );
+DeclareProperty( "IsOrientable", IsTwistedPolygonalComplex and IsNotEdgeRamified );
 #! @EndGroup
 
 #! @BeginGroup Orientation
 #! @Description
-#! Return the orientation of the given ramified polygonal surface, if
+#! Return the orientation of the given polygonal complex without edge ramifications, if
 #! it exists (otherwise return <K>fail</K>). The orientation is given as a list
 #! with the faces of <A>ramSurf</A> as indices.
 #!
@@ -1608,7 +1481,7 @@ DeclareProperty( "IsOrientable", IsVEFComplex and IsNotEdgeRamified );
 #! 
 #! @Returns a list of vertex-edge-paths
 #! @Arguments ramSurf
-DeclareAttribute( "Orientation", IsVEFComplex and IsNotEdgeRamified );
+DeclareAttribute( "Orientation", IsPolygonalComplex and IsNotEdgeRamified );
 #! @EndGroup
 
 
@@ -1616,7 +1489,7 @@ DeclareAttribute( "Orientation", IsVEFComplex and IsNotEdgeRamified );
 #! Compute the <E>orientation cover</E> of a polygonal complex without edge
 #! ramifications.
 #! It is constructed in the following way:
-#! * For each face in <A>ramSurf</A> the orientation cover has to faces,
+#! * For each face in <A>ramSurf</A> the orientation cover has two faces,
 #!   corresponding to the two possible orientations of this face. These
 #!   orientations are represented as <E>perimeter paths</E> (compare
 #!   section <Ref Sect="Section_Paths_Perimeter"/>).

@@ -14,7 +14,7 @@
 #! @ChapterLabel Embeddings
 #!
 #! One of the central questions about polygonal complexes and simplicial
-#! surfaces (for the detailed definitions see chapter 
+#! surfaces (for the detailed definitions see Chapter 
 #! <Ref Chap="PolygonalStructures"/>) is whether they can be embedded into
 #! <M>&RR;^3</M>. This is a very hard question and can
 #! currently only be solved for small examples.

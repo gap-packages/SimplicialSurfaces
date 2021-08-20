@@ -93,12 +93,12 @@
 #! @BeginGroup IsVerticesAdjacent
 #! @Description
 #! The method <K>IsVerticesAdjacent</K> checks whether two given vertices
-#! of a VEF-complex are adjacent, i.e. whether they are connected by an
+#! of a twisted polygonal complex are adjacent, i.e. whether they are connected by an
 #! edge.
 #! 
 #! The NC-version does not check whether <A>v1</A> and <A>v2</A> are vertices
 #! of the given
-#! VEF-complex.
+#! twisted polygonal complex.
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
@@ -124,9 +124,9 @@
 #!
 #! @Returns <K>true</K> or <K>false</K>
 #! @Arguments complex, v1, v2
-DeclareOperation("IsVerticesAdjacent", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("IsVerticesAdjacent", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, v1, v2
-DeclareOperation("IsVerticesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("IsVerticesAdjacentNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
@@ -135,13 +135,13 @@ DeclareOperation("IsVerticesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @Description
 #! The method <K>EdgesBetweenVertices</K> returns the set of all edges that
 #! are incident to both given vertices
-#! of a VEF-complex. If there is exactly one edge incident to both vertices,
+#! of a twisted polygonal complex. If there is exactly one edge incident to both vertices,
 #! <K>EdgeBetweenVertices</K> directly returns this edge (or <K>fail</K> if
 #! this is not the case).
 #! 
 #! The NC-versions do not check whether <A>v1</A> and <A>v2</A> are vertices
 #! of the given
-#! VEF-complex.
+#! twisted polygonal complex.
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
@@ -172,27 +172,27 @@ DeclareOperation("IsVerticesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #!
 #! @Returns A set of edges
 #! @Arguments complex, v1, v2
-DeclareOperation("EdgesBetweenVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("EdgesBetweenVertices", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, v1, v2
-DeclareOperation("EdgesBetweenVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("EdgesBetweenVerticesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Returns An edge or <K>fail</K>
 #! @Arguments complex, v1, v2
-DeclareOperation("EdgeBetweenVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("EdgeBetweenVertices", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, v1, v2
-DeclareOperation("EdgeBetweenVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("EdgeBetweenVerticesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
 #! @BeginGroup OtherVertexOfEdge
 #! @Description
 #! Every edge in a polygonal complex is incident to exactly two vertices.
-#! Given one of them, this method returns the other one. For a bend 
+#! Given one of them, this method returns the other one. For a twisted 
 #! polygonal complex, an edge might only be incident to one vertex. This
 #! method will return the same vertex if it is given.
 #! 
 #! The NC-version does not check whether the given <A>edge</A> is an edge of 
 #! the
-#! VEF-complex and whether the given <A>vertex</A> is incident to it.
+#! twisted polygonal complex and whether the given <A>vertex</A> is incident to it.
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter
@@ -213,7 +213,7 @@ DeclareOperation("EdgeBetweenVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! methods from chapter
 #! <Ref Chap="Chapter_AccessIncidenceGeometry"/>. We only give the
 #! implementation for polygonal complexes, since the implementation 
-#! for bend polygonal complexes only includes an additional case
+#! for twisted polygonal complexes only includes an additional case
 #! distinction.
 #! @LogSession
 #! gap> Difference( VerticesOfEdge(complex, edge), [ vertex ] )[1];
@@ -221,10 +221,10 @@ DeclareOperation("EdgeBetweenVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #!
 #! @Returns a positive integer
 #! @Arguments complex, vertex, edge
-DeclareOperation("OtherVertexOfEdge", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("OtherVertexOfEdge", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge
 DeclareOperation("OtherVertexOfEdgeNC", 
-        [IsVEFComplex, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
@@ -281,13 +281,13 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! @BeginGroup EdgeInFaceByVertices
 #! @Description
 #! If the method <K>EdgeInFaceByVertices</K> is given a face and a list of 
-#! two vertices of a VEF-complex, it returns the 
+#! two vertices of a twisted polygonal complex, it returns the 
 #! edge that
 #! lies in the given face and is incident to the given vertices, if possible.
 #! 
 #! If there is no such edge (because the given vertices are not incident to
 #! the given face or because they are not connected by an edge of the face),
-#! or if there are several of these edges (this might happen for bend polygonal
+#! or if there are several of these edges (this might happen for twisted polygonal
 #! complexes)
 #! it returns <K>fail</K>.
 #!
@@ -295,7 +295,7 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! returns the set of all edges fulfilling this specification.
 #! 
 #! The NC-versions do not check if <A>face</A> is a face of the given
-#! VEF-complex.
+#! twisted polygonal complex.
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
@@ -324,26 +324,26 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #!
 #! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, face, verts
-DeclareOperation("EdgeInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
+DeclareOperation("EdgeInFaceByVertices", [IsTwistedPolygonalComplex, IsPosInt, IsList]);
 #! @Arguments complex, face, verts
 DeclareOperation("EdgeInFaceByVerticesNC", 
-        [IsVEFComplex, IsPosInt, IsList]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsList]);
 #! @Returns a set of positive integers
 #! @Arguments complex, face, verts
-DeclareOperation("EdgesInFaceByVertices", [IsVEFComplex, IsPosInt, IsList]);
+DeclareOperation("EdgesInFaceByVertices", [IsTwistedPolygonalComplex, IsPosInt, IsList]);
 #! @Arguments complex, face, verts
 DeclareOperation("EdgesInFaceByVerticesNC", 
-        [IsVEFComplex, IsPosInt, IsList]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsList]);
 #! @EndGroup
 
 
 #! @BeginGroup OtherEdgeOfVertexInFace
 #! @Description
 #! If the method <K>OtherEdgeOfVertexInFace</K> is given a vertex, an edge,
-#! and a face of a VEF-complex, it returns the other edge incident to the
+#! and a face of a twisted polygonal complex, it returns the other edge incident to the
 #! vertex and the face, if possible.
 #!
-#! For a bend polygonal complex it might happen that only one or more than 
+#! For a twisted polygonal complex it might happen that only one or more than 
 #! two edges are
 #! incident to both vertex and face. In this case <K>fail</K> is returned.
 #! 
@@ -379,17 +379,17 @@ DeclareOperation("EdgesInFaceByVerticesNC",
 #! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgeOfVertexInFace", 
-        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgeOfVertexInFaceNC",
-        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @Returns a set of positive integers
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgesOfVertexInFace", 
-        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertex, edge, face
 DeclareOperation("OtherEdgesOfVertexInFaceNC",
-        [IsVEFComplex, IsPosInt, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
@@ -542,12 +542,12 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 #! @BeginGroup IsFacesAdjacent
 #! @Description
 #! The method <K>IsFacesAdjacent</K> checks whether two given faces
-#! of a VEF-complex are adjacent, i.e. whether they are connected by an
+#! of a twisted polygonal complex are adjacent, i.e. whether they are connected by an
 #! edge.
 #! 
 #! The NC-version does not check whether <A>f1</A> and <A>f2</A> are faces
 #! of the given
-#! VEF-complex.
+#! twisted polygonal complex.
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
@@ -573,9 +573,9 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 #!
 #! @Returns <K>true</K> or <K>false</K>
 #! @Arguments complex, f1, f2
-DeclareOperation("IsFacesAdjacent", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("IsFacesAdjacent", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, f1, f2
-DeclareOperation("IsFacesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("IsFacesAdjacentNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
@@ -584,13 +584,13 @@ DeclareOperation("IsFacesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @Description
 #! The method <K>EdgesBetweenFaces</K> returns the set of all edges that
 #! are incident to both given faces
-#! of a VEF-complex. If there is exactly one edge incident to both faces,
+#! of a twisted polygonal complex. If there is exactly one edge incident to both faces,
 #! <K>EdgeBetweenFaces</K> directly returns this edge (or <K>fail</K> if
 #! this is not the case).
 #! 
 #! The NC-versions do not check whether <A>f1</A> and <A>f2</A> are faces
 #! of the given
-#! VEF-complex.
+#! twisted polygonal complex.
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
@@ -621,14 +621,14 @@ DeclareOperation("IsFacesAdjacentNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #!
 #! @Returns A set of edges
 #! @Arguments complex, f1, f2
-DeclareOperation("EdgesBetweenFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("EdgesBetweenFaces", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, f1, f2
-DeclareOperation("EdgesBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("EdgesBetweenFacesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Returns An edge or <K>fail</K>
 #! @Arguments complex, f1, f2
-DeclareOperation("EdgeBetweenFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("EdgeBetweenFaces", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, f1, f2
-DeclareOperation("EdgeBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation("EdgeBetweenFacesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
@@ -637,7 +637,7 @@ DeclareOperation("EdgeBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! If the method <K>NeighbourFacesByEdge</K> is given a face and an edge, it
 #! returns the set of all faces that are also incident to this edge. In a
 #! polygonal complex, these have to be different from the given face. In a
-#! bend polygonal complex, this might not be the case.
+#! twisted polygonal complex, this might not be the case.
 #! 
 #! If the set of these neighbours contains exactly one face, this face
 #! is returned by <K>NeighbourFaceByEdge</K>. Otherwise, this method
@@ -670,7 +670,7 @@ DeclareOperation("EdgeBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! methods from chapter
 #! <Ref Chap="Chapter_AccessIncidenceGeometry"/>. We only give the
 #! implementation for polygonal complexes, since the implementation 
-#! for bend polygonal complexes only includes an additional case
+#! for twisted polygonal complexes only includes an additional case
 #! distinction.
 #! @LogSession
 #! gap> Difference( FacesOfEdge(complex, edge), [ face ] )[1];
@@ -680,17 +680,17 @@ DeclareOperation("EdgeBetweenFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
 #! @Returns a positive integer or <K>fail</K>
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFaceByEdge", 
-        [IsVEFComplex, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFaceByEdgeNC",
-        [IsVEFComplex, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Returns a set of positive integers
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFacesByEdge", 
-        [IsVEFComplex, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, face, edge
 DeclareOperation("NeighbourFacesByEdgeNC",
-        [IsVEFComplex, IsPosInt, IsPosInt]);
+        [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 
@@ -776,7 +776,7 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 
 #! @BeginGroup AdjacentVerticesWithProperties
 #! @Description
-#! For a given VEF-complex <A>complex</A> the method 
+#! For a given twisted polygonal complex <A>complex</A> the method 
 #! <K>AdjacentVerticesWithProperties</K>(<A>complex</A>, <A>prop1</A>, <A>prop2</A>)
 #! returns all pairs of vertices <M>[v_1,v_2]</M> such that <M>v_1</M>
 #! fulfills property <A>prop1</A> and <M>v_2</M> fulfills property
@@ -842,20 +842,20 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! @Returns a set of tuples of positive integers
 #! @Arguments complex, prop1, prop2
 DeclareOperation("AdjacentVerticesWithProperties", 
-        [IsVEFComplex, IsFunction, IsFunction]);
+        [IsTwistedPolygonalComplex, IsFunction, IsFunction]);
 #! @Arguments complex, propList
 DeclareOperation("AdjacentVerticesWithProperties", 
-        [IsVEFComplex, IsList]);
+        [IsTwistedPolygonalComplex, IsList]);
 #! @Returns a set of ordered tuples of positive integers
 #! @Arguments complex, prop
 DeclareOperation("AdjacentVerticesWithProperty", 
-        [IsVEFComplex, IsFunction]);
+        [IsTwistedPolygonalComplex, IsFunction]);
 #! @EndGroup
 
 
 #! @BeginGroup EdgesWithVertexProperties
 #! @Description
-#! For a given VEF-complex <A>complex</A> the method 
+#! For a given twisted polygonal complex <A>complex</A> the method 
 #! <K>EdgesWithVertexProperty</K>(<A>complex</A>, <A>prop</A>) returns
 #! the set of all edges such that both of its vertices fulfill property 
 #! <A>prop</A>.
@@ -919,17 +919,17 @@ DeclareOperation("AdjacentVerticesWithProperty",
 #! @Returns a set of positive integers
 #! @Arguments complex, prop1, prop2
 DeclareOperation("EdgesWithVertexProperties", 
-        [IsVEFComplex, IsFunction, IsFunction]);
+        [IsTwistedPolygonalComplex, IsFunction, IsFunction]);
 #! @Arguments complex, propList
-DeclareOperation("EdgesWithVertexProperties", [IsVEFComplex, IsList] );
+DeclareOperation("EdgesWithVertexProperties", [IsTwistedPolygonalComplex, IsList] );
 #! @Arguments complex, prop
-DeclareOperation("EdgesWithVertexProperty", [IsVEFComplex, IsFunction]);
+DeclareOperation("EdgesWithVertexProperty", [IsTwistedPolygonalComplex, IsFunction]);
 #! @EndGroup
 
 
 #! @BeginGroup FacesWithVertexProperties
 #! @Description
-#! For a given VEF-complex <A>complex</A> the method 
+#! For a given twisted polygonal complex <A>complex</A> the method 
 #! <K>FacesWithVertexProperty</K>(<A>complex</A>, <A>prop</A>) returns
 #! the set of all faces such that all of its incident vertices fulfill 
 #! property 
@@ -999,15 +999,15 @@ DeclareOperation("EdgesWithVertexProperty", [IsVEFComplex, IsFunction]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, propList
-DeclareOperation("FacesWithVertexProperties", [IsVEFComplex, IsList] );
+DeclareOperation("FacesWithVertexProperties", [IsTwistedPolygonalComplex, IsList] );
 #! @Arguments complex, prop
-DeclareOperation("FacesWithVertexProperty", [IsVEFComplex, IsFunction]);
+DeclareOperation("FacesWithVertexProperty", [IsTwistedPolygonalComplex, IsFunction]);
 #! @EndGroup
 
  
 #! @BeginGroup FacesWithEdgeProperties
 #! @Description
-#! For a given VEF-complex <A>complex</A> the method 
+#! For a given twisted polygonal complex <A>complex</A> the method 
 #! <K>FacesWithEdgeProperty</K>(<A>complex</A>, <A>prop</A>) returns
 #! the set of all faces such that all of its incident edges fulfill 
 #! property 
@@ -1077,9 +1077,9 @@ DeclareOperation("FacesWithVertexProperty", [IsVEFComplex, IsFunction]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, propList
-DeclareOperation("FacesWithEdgeProperties", [IsVEFComplex, IsList] );
+DeclareOperation("FacesWithEdgeProperties", [IsTwistedPolygonalComplex, IsList] );
 #! @Arguments complex, prop
-DeclareOperation("FacesWithEdgeProperty", [IsVEFComplex, IsFunction]);
+DeclareOperation("FacesWithEdgeProperty", [IsTwistedPolygonalComplex, IsFunction]);
 #! @EndGroup
 
 #! @Section Determination of common elements
@@ -1111,13 +1111,13 @@ DeclareOperation("FacesWithEdgeProperty", [IsVEFComplex, IsFunction]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, edge1, edge2
-DeclareOperation( "CommonVerticesOfEdges", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonVerticesOfEdges", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList
-DeclareOperation( "CommonVerticesOfEdges", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonVerticesOfEdges", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, edge1, edge2
-DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonVerticesOfEdgesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList
-DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonVerticesOfEdgesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonEdgesOfFaces
@@ -1142,13 +1142,13 @@ DeclareOperation( "CommonVerticesOfEdgesNC", [IsVEFComplex, IsList]);
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex, face1, face2
-DeclareOperation( "CommonEdgesOfFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonEdgesOfFaces", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, faceList
-DeclareOperation( "CommonEdgesOfFaces", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonEdgesOfFaces", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, face1, face2
-DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonEdgesOfFacesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, faceList
-DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonEdgesOfFacesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonVerticesOfFaces
@@ -1175,13 +1175,13 @@ DeclareOperation( "CommonEdgesOfFacesNC", [IsVEFComplex, IsList]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, face1, face2
-DeclareOperation( "CommonVerticesOfFaces", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonVerticesOfFaces", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, faceList
-DeclareOperation( "CommonVerticesOfFaces", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonVerticesOfFaces", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, face1, face2
-DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonVerticesOfFacesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, faceList
-DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonVerticesOfFacesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonEdgesOfVertices
@@ -1206,13 +1206,13 @@ DeclareOperation( "CommonVerticesOfFacesNC", [IsVEFComplex, IsList]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, vertex1, vertex2
-DeclareOperation( "CommonEdgesOfVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonEdgesOfVertices", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertexList
-DeclareOperation( "CommonEdgesOfVertices", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonEdgesOfVertices", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, vertex1, vertex2
-DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonEdgesOfVerticesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertexList
-DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonEdgesOfVerticesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonFacesOfEdges
@@ -1239,13 +1239,13 @@ DeclareOperation( "CommonEdgesOfVerticesNC", [IsVEFComplex, IsList]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, edge1, edge2
-DeclareOperation( "CommonFacesOfEdges", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonFacesOfEdges", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList
-DeclareOperation( "CommonFacesOfEdges", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonFacesOfEdges", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, edge1, edge2
-DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonFacesOfEdgesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, edgeList
-DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonFacesOfEdgesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 
 #! @BeginGroup CommonFacesOfVertices
@@ -1272,12 +1272,12 @@ DeclareOperation( "CommonFacesOfEdgesNC", [IsVEFComplex, IsList]);
 #! 
 #! @Returns a set of positive integers
 #! @Arguments complex, vertex1, vertex2
-DeclareOperation( "CommonFacesOfVertices", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonFacesOfVertices", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertexList
-DeclareOperation( "CommonFacesOfVertices", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonFacesOfVertices", [IsTwistedPolygonalComplex, IsList]);
 #! @Arguments complex, vertex1, vertex2
-DeclareOperation( "CommonFacesOfVerticesNC", [IsVEFComplex, IsPosInt, IsPosInt]);
+DeclareOperation( "CommonFacesOfVerticesNC", [IsTwistedPolygonalComplex, IsPosInt, IsPosInt]);
 #! @Arguments complex, vertexList
-DeclareOperation( "CommonFacesOfVerticesNC", [IsVEFComplex, IsList]);
+DeclareOperation( "CommonFacesOfVerticesNC", [IsTwistedPolygonalComplex, IsList]);
 #! @EndGroup
 

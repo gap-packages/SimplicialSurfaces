@@ -27,14 +27,14 @@ BindGlobal( "PolygonalComplexMorphismType",
 ##      VEF-labels
 ##
 
-InstallMethod( VEFLabels, "for a VEF-complex", [IsVEFComplex],
+InstallMethod( VEFLabels, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         local res, vMax, eMax;
 
-        vMax := Maximum( VerticesAttributeOfVEFComplex(complex) );
+        vMax := Maximum( VerticesAttributeOfComplex(complex) );
         eMax := Maximum( Edges(complex) );
     
-        res := ShallowCopy( VerticesAttributeOfVEFComplex(complex) );
+        res := ShallowCopy( VerticesAttributeOfComplex(complex) );
         Append(res, Edges(complex) + vMax );
         Append(res, Faces(complex) + vMax + eMax );
 
@@ -43,22 +43,22 @@ InstallMethod( VEFLabels, "for a VEF-complex", [IsVEFComplex],
 );
 
 
-InstallMethod( VEFLabelsOfVertices, "for a VEF-complex", [IsVEFComplex],
+InstallMethod( VEFLabelsOfVertices, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         local res, v;
 
         res := [];
-        for v in VerticesAttributeOfVEFComplex(complex) do
+        for v in VerticesAttributeOfComplex(complex) do
             res[v] := v;
         od;
         return res;
     end
 );
-InstallMethod( VEFLabelsOfEdges, "for a VEF-complex", [IsVEFComplex],
+InstallMethod( VEFLabelsOfEdges, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         local res, e, shift;
 
-        shift := Maximum(VerticesAttributeOfVEFComplex(complex));
+        shift := Maximum(VerticesAttributeOfComplex(complex));
         res := [];
         for e in Edges(complex) do
             res[e] := e + shift;
@@ -66,11 +66,11 @@ InstallMethod( VEFLabelsOfEdges, "for a VEF-complex", [IsVEFComplex],
         return res;
     end
 );
-InstallMethod( VEFLabelsOfFaces, "for a VEF-complex", [IsVEFComplex],
+InstallMethod( VEFLabelsOfFaces, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         local res, f, shift;
         
-        shift := Maximum(VerticesAttributeOfVEFComplex(complex)) + Maximum(Edges(complex));
+        shift := Maximum(VerticesAttributeOfComplex(complex)) + Maximum(Edges(complex));
         res := [];
         for f in Faces(complex) do
             res[f] := f + shift;
@@ -90,15 +90,15 @@ BindGlobal( "__SIMPLICIAL_ImplementVEFLabel",
         checkName := Concatenation( "__SIMPLICIAL_Check", pairs[1] );
         checkFct := ValueGlobal( checkName );
         InstallMethod( ValueGlobal(nameNC), 
-            "for a VEF-complex and a positive integer",
-            [ IsVEFComplex, IsPosInt ],
+            "for a polygonal complex and a positive integer",
+            [ IsPolygonalComplex, IsPosInt ],
             function(complex, el)
                 return baseFct(complex)[el];
             end
         );
         InstallMethod( ValueGlobal(name),
-            "for a VEF-complex and a positive integer",
-            [IsVEFComplex, IsPosInt],
+            "for a polygonal complex and a positive integer",
+            [IsPolygonalComplex, IsPosInt],
             function(complex, el)
                 checkFct(complex, el, name);
                 return baseFct(complex)[el];
@@ -112,19 +112,19 @@ for pairs in [ ["Vertex", "Vertices"], ["Edge", "Edges"], ["Face", "Faces"] ] do
 od;
 
 
-InstallMethod( VertexOfVEFLabelNC, "for a VEF-complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( VertexOfVEFLabelNC, "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, label)
         return label;
     end
 );
-InstallMethod( VertexOfVEFLabel, "for a VEF-complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( VertexOfVEFLabel, "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, label)
         local res;
 
         res := VertexOfVEFLabelNC(complex, label);
-        if res in VerticesAttributeOfVEFComplex(complex) then
+        if res in VerticesAttributeOfComplex(complex) then
             return res;
         else
             return fail;
@@ -132,14 +132,14 @@ InstallMethod( VertexOfVEFLabel, "for a VEF-complex and a positive integer",
     end
 );
 
-InstallMethod( EdgeOfVEFLabelNC, "for a VEF-complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( EdgeOfVEFLabelNC, "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, label)
-        return label - Maximum(VerticesAttributeOfVEFComplex(complex));
+        return label - Maximum(VerticesAttributeOfComplex(complex));
     end
 );
-InstallMethod( EdgeOfVEFLabel, "for a VEF-complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( EdgeOfVEFLabel, "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, label)
         local res;
 
@@ -152,14 +152,14 @@ InstallMethod( EdgeOfVEFLabel, "for a VEF-complex and a positive integer",
     end
 );
 
-InstallMethod( FaceOfVEFLabelNC, "for a VEF-complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( FaceOfVEFLabelNC, "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, label)
-        return label - Maximum(VerticesAttributeOfVEFComplex(complex)) - Maximum(Edges(complex));
+        return label - Maximum(VerticesAttributeOfComplex(complex)) - Maximum(Edges(complex));
     end
 );
-InstallMethod( FaceOfVEFLabel, "for a VEF-complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( FaceOfVEFLabel, "for a polygonal complex and a positive integer",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, label)
         local res;
 
@@ -212,15 +212,15 @@ InstallMethod( PolygonalMorphismByLists,
             imEdges, rngEdges, srcVertices, imVertices, v1, v2;
 
         # Check vertex map
-        for v in VerticesAttributeOfVEFComplex(sourceComplex) do
+        for v in VerticesAttributeOfComplex(sourceComplex) do
             if not IsBound(vertexMap[v]) then
                 Error(Concatenation("PolygonalMorphismByLists: Vertex ", String(v), " has no image.\n"));
             fi;
-            if not vertexMap[v] in VerticesAttributeOfVEFComplex(rangeComplex) then
+            if not vertexMap[v] in VerticesAttributeOfComplex(rangeComplex) then
                 Error(Concatenation("PolygonalMorphismByLists: Vertex ", String(v), " is not mapped to a vertex of the range complex, but to ", String(vertexMap[v]), ".\n"));
             fi;
         od;
-        for v in Difference( [1..Length(vertexMap)], VerticesAttributeOfVEFComplex(sourceComplex) ) do
+        for v in Difference( [1..Length(vertexMap)], VerticesAttributeOfComplex(sourceComplex) ) do
             if IsBound(vertexMap[v]) then
                 Error(Concatenation("PolygonalMorphismByLists: Index ", String(v), " is not a vertex of the source complex, but is mapped to ", String(vertexMap[v]), ".\n"));
             fi;
@@ -396,7 +396,7 @@ InstallMethod( PolygonalIdentityMorphism, "for a polygonal complex",
         local vMap, eMap, fMap, v, e, f;
 
         vMap := [];
-        for v in VerticesAttributeOfVEFComplex(complex) do
+        for v in VerticesAttributeOfComplex(complex) do
             vMap[v] := v;
         od;
         eMap := [];
@@ -424,7 +424,7 @@ InstallMethod( CompositionMapping2, "for two polygonal morphisms",
 
         source := SourceComplex( first );
         vMap := [];
-        for v in VerticesAttributeOfVEFComplex(source) do
+        for v in VerticesAttributeOfComplex(source) do
             vMap[v] := VertexMapAsImageList(second)[VertexMapAsImageList(first)[v]];
         od;
         eMap := [];
@@ -450,7 +450,7 @@ InstallMethod( InversePolygonalMorphism, "for a bijective polygonal morphism",
         newRange := SourceComplex(isoMor);
 
         newVertexMap := [];
-        for v in VerticesAttributeOfVEFComplex(newRange) do
+        for v in VerticesAttributeOfComplex(newRange) do
             newVertexMap[ VertexMapAsImageList(isoMor)[v] ] := v;
         od;
 
@@ -740,7 +740,7 @@ InstallMethod( VertexMapAsImageList,
         vMap := [];
         source := SourceComplex(polMor);
         range := RangeComplex(polMor);
-        for v in VerticesAttributeOfVEFComplex( source ) do
+        for v in VerticesAttributeOfComplex( source ) do
             vefLabel := VEFLabelsOfVertices(source)[v];
             vefImage := VEFLabelMapAsImageList(polMor)[vefLabel];
             vIm := VertexOfVEFLabel(range, vefImage);
@@ -801,7 +801,7 @@ InstallMethod( VEFLabelMapAsImageList,
         vefMap := [];
         source := SourceComplex(polMor);
         range := RangeComplex(polMor);
-        for v in VerticesAttributeOfVEFComplex(source) do
+        for v in VerticesAttributeOfComplex(source) do
             im := VertexMapAsImageList(polMor)[v];
             vefMap[ VEFLabelsOfVertices(source)[v] ] := VEFLabelsOfVertices(range)[im];
         od;

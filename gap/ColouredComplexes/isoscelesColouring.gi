@@ -71,7 +71,7 @@ InstallMethod( ColouredEdgesOfFaceNC,
     end
 );
     RedispatchOnCondition( ColouredEdgesOfFaceNC, true, 
-        [IsEdgeColouredPolygonalComplex, IsPosInt], 
+        [IsEdgeColouredTwistedPolygonalComplex, IsPosInt], 
         [IsEdgeTwoColouring,], 0 );
 
 InstallMethod( ColouredEdgesOfFace,
@@ -83,7 +83,7 @@ InstallMethod( ColouredEdgesOfFace,
     end
 );
     RedispatchOnCondition( ColouredEdgesOfFace, true, 
-        [IsEdgeColouredPolygonalComplex,IsPosInt], 
+        [IsEdgeColouredTwistedPolygonalComplex,IsPosInt], 
         [IsEdgeTwoColouring,], 0 );
 
 InstallMethod( ColouredEdgesOfFaces,
@@ -106,7 +106,7 @@ InstallMethod( ColouredEdgesOfFaces,
     end
 );
     RedispatchOnCondition( ColouredEdgesOfFaces, true, 
-        [IsEdgeColouredPolygonalComplex], 
+        [IsEdgeColouredTwistedPolygonalComplex], 
         [IsEdgeTwoColouring], 0 );
 
 
@@ -132,7 +132,7 @@ end
 );               
 
 RedispatchOnCondition( ApexVertexOfFace, true, 
-        [IsEdgeColouredPolygonalComplex,IsPosInt],
+        [IsEdgeColouredTwistedPolygonalComplex,IsPosInt],
     [IsIsoscelesColouredSurface],	0 );
 
 
@@ -155,7 +155,7 @@ end
 
 
 RedispatchOnCondition( BaseEdgeOfFace, true, 
-        [IsEdgeColouredPolygonalComplex,IsPosInt],
+        [IsEdgeColouredTwistedPolygonalComplex,IsPosInt],
     [IsIsoscelesColouredSurface],	0 );
 
 
@@ -269,7 +269,7 @@ InstallMethod( ColourInvolutions,
     end
 );
     RedispatchOnCondition( ColourInvolutions, true, 
-        [IsEdgeColouredPolygonalComplex], 
+        [IsEdgeColouredTwistedPolygonalComplex], 
         [IsEdgeTwoColouring and IsNotEdgeRamified], 0 );
 
 
@@ -362,7 +362,7 @@ InstallMethod( WildColouredSurfaceOfIsoscelesColouredSurface,
 	
 
         # construction of the wild coloured surface
-        colSurf := Objectify( EdgeColouredPolygonalComplexType, rec() );
+        colSurf := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
         SetColoursOfEdges(colSurf, coloursOfEdges);
 #        SetLocalSymmetryOfEdgesAsNumbers(colSurf, partialLocalSym);
 #        SetColouredEdgesOfFaces(colSurf, edgesOfFacesByColour);
@@ -386,7 +386,7 @@ InstallMethod( ColouredUmbrellaOfVertexNC,
     end
 );
     RedispatchOnCondition( ColouredUmbrellaOfVertexNC, true, 
-        [IsEdgeColouredPolygonalComplex, IsPosInt], 
+        [IsEdgeColouredTwistedPolygonalComplex, IsPosInt], 
         [IsIsoscelesColouredSurface], 0 );
 
 InstallMethod( ColouredUmbrellaOfVertex,
@@ -398,7 +398,7 @@ InstallMethod( ColouredUmbrellaOfVertex,
     end
 );
     RedispatchOnCondition( ColouredUmbrellaOfVertex, true, 
-        [IsEdgeColouredPolygonalComplex,IsPosInt], 
+        [IsEdgeColouredTwistedPolygonalComplex,IsPosInt], 
         [IsIsoscelesColouredSurface], 0 );
 
 InstallMethod( ColouredUmbrellasOfVertices,
@@ -410,10 +410,10 @@ InstallMethod( ColouredUmbrellasOfVertices,
         complex := PolygonalComplex(isoscelesSurf);
         umb := UmbrellaPathsOfVertices( complex );
         colUmbs := [];
-        for v in VerticesAttributeOfVEFComplex(complex) do
+        for v in VerticesAttributeOfComplex(complex) do
             colUmb := Objectify( EdgeColouredEdgeFacePathType, rec() );
             SetPath( colUmb, Path(umb[v]) );
-            SetAssociatedVEFComplex( colUmb, complex);
+            SetAssociatedPolygonalComplex( colUmb, complex);
             SetAssociatedEdgeColouredPolygonalComplex(colUmb, isoscelesSurf);
             colUmbs[v] := colUmb;
         od;
@@ -421,7 +421,7 @@ InstallMethod( ColouredUmbrellasOfVertices,
     end
 );
 RedispatchOnCondition( ColouredUmbrellasOfVertices, true,
-    [IsEdgeColouredPolygonalComplex], [IsIsoscelesColouredSurface], 0);
+    [IsEdgeColouredTwistedPolygonalComplex], [IsIsoscelesColouredSurface], 0);
 
 
 #######################################
@@ -459,7 +459,7 @@ InstallMethod( LocalSymmetryOfEdgesAsNumbers,
     end
 );
     RedispatchOnCondition( LocalSymmetryOfEdgesAsNumbers, true, 
-        [IsEdgeColouredPolygonalComplex], 
+        [IsEdgeColouredTwistedPolygonalComplex], 
         [IsIsoscelesColouredSurface], 0 );
 
 
@@ -474,7 +474,7 @@ InstallMethod( LocalSymmetryOfEdges,
     end
 );
     RedispatchOnCondition( LocalSymmetryOfEdges, true, 
-        [IsEdgeColouredPolygonalComplex], 
+        [IsEdgeColouredTwistedPolygonalComplex], 
         [IsIsoscelesColouredSurface], 0 );
 
 
@@ -709,7 +709,7 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
         # alledgeassignments into GAP objects
         isoscelesColSurfaces := [];
         for info in alledgeassignments do
-            obj := Objectify( EdgeColouredPolygonalComplexType, rec() );
+            obj := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
             if IsEdgeColouredPolygonalComplex(surf) then
                 SetPolygonalComplex(obj, PolygonalComplex(surf));
             else

@@ -11,20 +11,9 @@
 #############################################################################
 
 
-
 #######################################
 ##
-##      Incidence geometry part
-##
-
-# This filter captures the "surface"-qualities of PolygonalComplex and BendPolygonalComplex
-DeclareFilter( "IsVEFComplex", IsObject );
-
-
-
-#######################################
-##
-##      PolygonalComplex-part
+##      TwistedPolygonalComplex-part
 ##
 ## All documentation is done in doc/PolygonalStructures.xml
 
@@ -32,29 +21,26 @@ DeclareFilter( "IsVEFComplex", IsObject );
 # Define the main category
 # [Categories are used to determine which operations can be used]
 # [For two object to be equal, they have to lie in the same family]
-DeclareCategory( "IsPolygonalComplex", IsVEFComplex );
-BindGlobal( "PolygonalComplexFamily",
-    NewFamily("PolygonalComplexFamily", IsObject, IsPolygonalComplex));
+DeclareFilter( "IsTwistedPolygonalComplex", IsObject );
+BindGlobal( "TwistedPolygonalComplexFamily",
+    NewFamily("TwistedPolygonalComplexFamily", IsObject, IsTwistedPolygonalComplex));
 
-DeclareCategory( "IsBendPolygonalComplex", IsVEFComplex );
-BindGlobal( "BendPolygonalComplexFamily",
-    NewFamily("BendPolygonalComplexFamily", IsObject, IsBendPolygonalComplex));
+DeclareProperty("IsPolygonalComplex", IsTwistedPolygonalComplex);
 
 ## Define all secondary categories
 
 
 # Ramifications
-DeclareProperty( "IsNotEdgeRamified", IsVEFComplex );
-DeclareProperty( "IsNotVertexRamified", IsVEFComplex );
+DeclareProperty( "IsNotEdgeRamified", IsTwistedPolygonalComplex );
+DeclareProperty( "IsNotVertexRamified", IsTwistedPolygonalComplex );
 InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);
 
 
-DeclareSynonym( "IsVEFSurface", IsVEFComplex and IsNotEdgeRamified and IsNotVertexRamified );
-DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsVEFSurface );
-DeclareSynonym( "IsBendPolygonalSurface", IsBendPolygonalComplex and IsVEFSurface );
+DeclareSynonym( "IsTwistedPolygonalSurface", IsTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified );
+DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsTwistedPolygonalSurface );
 
 
-DeclareProperty( "IsTriangular", IsVEFComplex );    #TODO this is currently twice declared (also in properties.gd)
+DeclareProperty( "IsTriangular", IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
 DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
 DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
 

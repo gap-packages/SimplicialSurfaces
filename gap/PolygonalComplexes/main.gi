@@ -19,35 +19,24 @@ MakeReadWriteGlobal( "__SIMPLICIAL_MANUAL_MODE" );
 
 
 # Methods to add attributes into the attribute scheduler
-BindGlobal( "__SIMPLICIAL_AddVEFAttribute", 
+BindGlobal( "__SIMPLICIAL_AddTwistedAttribute", 
     function( attr )
-        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsVEFComplex, "for a VEF-complex" );
+        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsTwistedPolygonalComplex, "for a twisted polygonal complex" );
     end
 );
 BindGlobal( "__SIMPLICIAL_AddPolygonalAttribute", 
     function( attr )
         AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsPolygonalComplex, "for a polygonal complex" );
 
-        # Add a method that gives an error if executed for bend polygonal complexes
-        InstallOtherMethod( attr, "for a bend polygonal complex",
-            [IsBendPolygonalComplex],
-            function(bendComplex)
-                Error( Concatenation( "The attribute ", NameFunction(attr), 
-                    " can only be computed for polygonal complexes." ) );
-            end
-        );
-    end
-);
-BindGlobal( "__SIMPLICIAL_AddBendPolygonalAttribute", 
-    function( attr )
-        AddAttribute( SIMPLICIAL_ATTRIBUTE_SCHEDULER, attr, IsBendPolygonalComplex, "for a bend polygonal complex" );
-
-        # Add a method that gives an error if executed for polygonal complexes
-        InstallOtherMethod( attr, "for a polygonal complex",
-            [IsPolygonalComplex],
+        # Add a method that gives an error if executed for twisted polygonal complexes
+        InstallOtherMethod( attr, "for a twisted polygonal complex",
+            [IsTwistedPolygonalComplex],
             function(complex)
-                Error( Concatenation( "The attribute ", NameFunction(attr), 
-                    " can only be computed for bend polygonal complexes." ) );
+                if not IsPolygonalComplex(complex) then
+                    Error( Concatenation( "The attribute ", NameFunction(attr), 
+                        " can only be computed for polygonal complexes." ) );
+                fi;
+                TryNextMethod();
             end
         );
     end
@@ -55,21 +44,50 @@ BindGlobal( "__SIMPLICIAL_AddBendPolygonalAttribute",
 
 BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
     function( attr )
-        InstallMethod(attr, "for a VEF-complex without edge ramifications",
-            [IsVEFComplex and IsNotEdgeRamified],
+        InstallMethod(attr, "for a twisted polygonal complex without edge ramifications",
+            [IsTwistedPolygonalComplex and IsNotEdgeRamified],
             function( ramSurf )
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, ramSurf);
             end);
 
-        InstallOtherMethod(attr, "for a VEF-complex (to check for edge ramifications)",
-            [IsVEFComplex],
+        InstallOtherMethod(attr, "for a twisted polygonal complex (to check for edge ramifications)",
+            [IsTwistedPolygonalComplex],
             function(complex)
                 if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) then
                     TryNextMethod();
                 fi;
                 if not IsNotEdgeRamified(complex) then
-                    Error("Given VEF-complex contains edge ramifications.");
+                    Error("Given twisted polygonal complex contains edge ramifications.");
+                fi;
+                return attr(complex);
+            end
+        );
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_AddRamifiedPolygonalAttribute",
+    function( attr )
+        InstallMethod(attr, "for a polygonal complex without edge ramifications",
+            [IsPolygonalComplex and IsNotEdgeRamified],
+            function( ramSurf )
+                return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+                    attr, ramSurf);
+            end);
+
+        InstallOtherMethod(attr, "for a twisted polygonal complex (to check for edge ramifications and polygonal complex)",
+            [IsTwistedPolygonalComplex],
+            function(complex)
+                if not IsPolygonalComplex(complex) then
+                    Error( Concatenation( "The attribute ", NameFunction(attr), 
+                        " can only be computed for polygonal complexes without edge ramifications." ) );
+                fi;
+                if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) then
+                    TryNextMethod();
+                fi;
+                if not IsNotEdgeRamified(complex) then
+                    Error( Concatenation( "The attribute ", NameFunction(attr), 
+                        " can only be computed for polygonal complexes without edge ramifications." ) );
                 fi;
                 return attr(complex);
             end
@@ -79,22 +97,22 @@ BindGlobal( "__SIMPLICIAL_AddRamifiedAttribute",
 
 BindGlobal( "__SIMPLICIAL_AddSurfaceAttribute",
     function( attr )
-        InstallMethod(attr, "for a VEF-surface",
-            [IsVEFSurface],
+        InstallMethod(attr, "for a twisted polygonal surface",
+            [IsTwistedPolygonalSurface],
             function( surface )
                 return ComputeProperty(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
                     attr, surface);
             end);
 
-        InstallOtherMethod(attr, "for a VEF-complex (to check if surface)",
-            [IsVEFComplex],
+        InstallOtherMethod(attr, "for a twisted polygonal complex (to check if it is a surface)",
+            [IsTwistedPolygonalComplex],
             function(complex)
                 if HasIsNotEdgeRamified(complex) and IsNotEdgeRamified(complex) and
                     HasIsNotVertexRamified(complex) and IsNotVertexRamified(complex) then
                     TryNextMethod();
                 fi;
-                if not IsVEFSurface(complex) then
-                    Error("Given VEF-complex is not a VEF-surface.");
+                if not IsTwistedPolygonalSurface(complex) then
+                    Error("Given twisted polygonal complex is not a twisted polygonal surface.");
                 fi;
                 return attr(complex);
             end
@@ -111,7 +129,7 @@ BindGlobal( "__SIMPLICIAL_CheckVertex",
     function( complex, vertex, name )
         local mes;
 
-        if not vertex in VerticesAttributeOfVEFComplex(complex) then
+        if not vertex in VerticesAttributeOfComplex(complex) then
             mes := Concatenation( name, ": Given vertex ", String(vertex), 
                 " does not lie in the given complex." );
             Error(mes);
@@ -140,6 +158,18 @@ BindGlobal( "__SIMPLICIAL_CheckFace",
         fi;
     end
 );
+BindGlobal( "__SIMPLICIAL_CheckChamber", 
+    function( complex, chamber, name )
+        local mes;
+
+        if not chamber in Chambers(complex) then
+            mes := Concatenation( name, ": Given chamber ", String(chamber), 
+                " does not lie in the given complex." );
+            Error(mes);
+        fi;
+    end
+);
+
 BindGlobal( "__SIMPLICIAL_CheckIncidenceVertexEdge",
     function( complex, vertex, edge, name )
         local mes;
@@ -182,10 +212,22 @@ BindGlobal( "__SIMPLICIAL_CheckIncidenceVertexFace",
 ##
 
 ## Equality test
-InstallMethod( \=, "for two polygonal complexes", IsIdenticalObj,
-    [IsPolygonalComplex, IsPolygonalComplex],
+InstallMethod( \=, "for two twisted polygonal complexes with default chamber systems", IsIdenticalObj,
+    [IsTwistedPolygonalComplex and IsDefaultChamberSystem, IsTwistedPolygonalComplex and IsDefaultChamberSystem],
     function(c1, c2)
-        return VerticesOfEdges(c1) = VerticesOfEdges(c2) and EdgesOfFaces(c1) = EdgesOfFaces(c2);
+        return VerticesOfEdges(c1) = VerticesOfEdges(c2) and 
+            EdgesOfFaces(c1) = EdgesOfFaces(c2);
+    end
+);
+InstallMethod( \=, "for two twisted polygonal complexes", IsIdenticalObj,
+    [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
+    function(c1, c2)
+        return VerticesOfChambers(c1) = VerticesOfChambers(c2) and
+            EdgesOfChambers(c1) = EdgesOfChambers(c2) and
+            FacesOfChambers(c1) = FacesOfChambers(c2) and
+            ZeroAdjacencyInvolution(c1) = ZeroAdjacencyInvolution(c2) and
+            OneAdjacencyInvolution(c1) = OneAdjacencyInvolution(c2) and
+            TwoAdjacencyClasses(c1) = TwoAdjacencyClasses(c2);
     end
 );
 
@@ -199,12 +241,12 @@ BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
 
         if big then
             nameList := ["SimplicialSurface", "PolygonalSurface", 
-                "RamifiedSimplicialSurface", "RamifiedPolygonalSurface", 
-                "TriangularComplex", "PolygonalComplex"];
+                "TriangularComplex", "PolygonalComplex",
+                "TwistedPolygonalComplex", "TwistedPolygonalSurface"];
         else
             nameList := ["simplicial surface", "polygonal surface", 
-                "ramified simplicial surface", "ramified polygonal surface", 
-                "triangular complex", "polygonal complex"];
+                "triangular complex", "polygonal complex",
+                "twisted polygonal complex", "twisted polygonal surface"];
         fi;
 
         if IsSimplicialSurface(complex) then
@@ -212,15 +254,19 @@ BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
         elif IsPolygonalSurface(complex) then
             return nameList[2];
         elif IsTriangularComplex(complex) then
-            return nameList[5];
-        else
+            return nameList[3];
+        elif IsPolygonalComplex(complex) then
+            return nameList[4];
+        elif IsTwistedPolygonalSurface(complex) then
             return nameList[6];
+        else
+            return nameList[5];
         fi;
     end
 );
 
 # Print (via String)
-InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( String, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
         local str, out;
 
@@ -228,20 +274,39 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
         out := OutputTextString(str, true);
         # Since EdgeColouredComplexes are derived, we need to handle them
         # as well
-        if IsEdgeColouredPolygonalComplex(complex) then
+        if IsEdgeColouredTwistedPolygonalComplex(complex) then
             PrintTo( out, "EdgeColoured" );
             PrintTo( out, __SIMPLICIAL_PolygonalComplexName( PolygonalComplex(complex), true ) );
             PrintTo( out, "NC( " );
-            PrintTo( out, String(PolygonalComplex(complex)) );
+            PrintTo( out, String(TwistedPolygonalComplex(complex)) );
             PrintTo( out, ", " );
             PrintTo( out, String(ColoursOfEdges(complex)) );
             PrintTo( out, " )" );
         else
             PrintTo(out,  __SIMPLICIAL_PolygonalComplexName(complex, true) );
-            PrintTo( out, "ByDownwardIncidenceNC(" );
-            PrintTo( out, VerticesOfEdges(complex) );
-            PrintTo( out, ", " );
-            PrintTo( out, EdgesOfFaces(complex) );
+            if IsPolygonalComplex(complex) and IsDefaultChamberSystem(complex) then
+                PrintTo( out, "ByDownwardIncidenceNC(" );
+                PrintTo( out, VerticesOfEdges(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, EdgesOfFaces(complex) );
+            else
+                PrintTo( out, "ByChamberRelationsNC(" );
+                PrintTo( out, VerticesOfChambers(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, EdgesOfChambers(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, FacesOfChambers(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, ZeroAdjacencyInvolution(complex) );
+                PrintTo( out, ", " );
+                PrintTo( out, OneAdjacencyInvolution(complex) );
+                PrintTo( out, ", " );
+                if IsNotEdgeRamified(complex) then
+                    PrintTo( out, TwoAdjacencyInvolution(complex) );
+                else
+                    PrintTo( out, TwoAdjacencyClasses(complex) );
+                fi;
+            fi;
             PrintTo( out, ")" );
         fi;
 
@@ -255,8 +320,8 @@ InstallMethod( String, "for a polygonal complex", [IsPolygonalComplex],
 
 # To avoid recomputing the view-information every time the colour scheme
 # changes, this method was created
-InstallMethod( ViewInformation, "for a polygonal complex", 
-    [IsPolygonalComplex],
+InstallMethod( ViewInformation, "for a twisted polygonal complex", 
+    [IsTwistedPolygonalComplex],
     function(complex)
         local strList, str, out;
 
@@ -270,18 +335,26 @@ InstallMethod( ViewInformation, "for a polygonal complex",
 
         Add( strList, [Concatenation(String(NumberOfVertices(complex)), " vertices"), 1] );
         Add( strList, [", ", 0] );
-        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges, "), 2] );
-        Add( strList, ["and ", 0] );
+        Add( strList, [Concatenation(String(NumberOfEdges(complex)), " edges"), 2] );
+        if IsPolygonalComplex(complex) then
+            Add( strList, [", and ", 0] );
+        else
+            Add( strList, [", ", 0] );
+        fi;
         Add( strList, [Concatenation(String(NumberOfFaces(complex)), " faces"), 3] );
+        if not IsPolygonalComplex(complex) then
+            Add( strList, [", and ", 0] );
+            Add( strList, [Concatenation(String(NumberOfChambers(complex)), " chambers"), 0] );
+        fi;
         Add( strList, [")", 0] );
 
         return strList;
     end
 );
-InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( ViewString, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
         # We have to distinguish coloured and uncoloured complexes
-        if IsEdgeColouredPolygonalComplex(complex) then
+        if IsEdgeColouredTwistedPolygonalComplex(complex) then
              return __SIMPLICIAL_ColourString( ViewInformationEdgeColoured(complex), 
                 [ SIMPLICIAL_COLOURS_WILD_1_DEFAULT, 
                     SIMPLICIAL_COLOURS_WILD_2_DEFAULT, 
@@ -294,10 +367,10 @@ InstallMethod( ViewString, "for a polygonal complex", [IsPolygonalComplex],
         fi; 
     end
 );
-InstallMethod( ViewObj, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( ViewObj, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
         # We have to distinguish coloured and uncoloured complexes
-        if IsEdgeColouredPolygonalComplex(complex) then
+        if IsEdgeColouredTwistedPolygonalComplex(complex) then
              if SIMPLICIAL_COLOURS_ON then
                 __SIMPLICIAL_PrintColourString( ViewInformationEdgeColoured(complex), 
                     [ SIMPLICIAL_COLOURS_WILD_1, 
@@ -321,8 +394,8 @@ InstallMethod( ViewObj, "for a polygonal complex", [IsPolygonalComplex],
 
 
 # Display
-InstallMethod( DisplayInformation, "for a polygonal complex", 
-    [IsPolygonalComplex],
+InstallMethod( DisplayInformation, "for a twisted polygonal complex", 
+    [IsTwistedPolygonalComplex],
     function(complex)
         local strList, x, umb, set, str, out, i;
 
@@ -354,7 +427,7 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         # Vertices
         Add( strList, [ Concatenation(
             "    Vertices (", String(NumberOfVertices(complex)), "): ", 
-            String(VerticesAttributeOfVEFComplex(complex)), "\n"), 1 ] );
+            String(VerticesAttributeOfComplex(complex)), "\n"), 1 ] );
         # Edges
         Add( strList, [ Concatenation(
             "    Edges (", String(NumberOfEdges(complex)), "): ", 
@@ -363,6 +436,13 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         Add( strList, [ Concatenation(
             "    Faces (", String(NumberOfFaces(complex)), "): ", 
             String(Faces(complex)), "\n"), 3 ] );
+
+        if not IsPolygonalComplex(complex) then
+            # Chambers
+            Add( strList, [ Concatenation(
+                "    Chambers (", String(NumberOfChambers(complex)), "): ",
+                String(Chambers(complex)), "\n"), 0]);
+        fi;
 
         # VerticesOfEdges
         Add( strList, [ "    Vertices", 1 ] );
@@ -450,6 +530,7 @@ InstallMethod( DisplayInformation, "for a polygonal complex",
         return strList;
     end
 );
+#TODO better support for twisted polygonal complexes
 InstallMethod( DisplayString, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         # We have to distinguish coloured and uncoloured complexes

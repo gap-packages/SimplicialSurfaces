@@ -16,7 +16,7 @@
 ##
 ## Write all other functions
 ##
-__SIMPLICIAL_AddRamifiedAttribute( Orientation );
+__SIMPLICIAL_AddRamifiedPolygonalAttribute( Orientation );
 
 
 ##############################
@@ -160,183 +160,13 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     ["IsPolygonalComplex"]);
 
 
-InstallMethod( Orientation, 
-    "for a bend polygonal complex without edge ramifications with PerimeterPathsOfFaces, LocalFlagsOfLocalVertices, LocalFlagsOfLocalEdges, LocalFlagsOfHalfEdges, FacesOfLocalEdges, LocalEdgesOfEdges",
-    [ IsBendPolygonalComplex and IsNotEdgeRamified and 
-        HasPerimeterPathsOfFaces and
-        HasLocalFlagsOfLocalVertices and HasLocalFlagsOfLocalEdges and
-        HasLocalFlagsOfHalfEdges and HasFacesOfLocalEdges and 
-        HasLocalEdgesOfEdges],
-    function( surf )
-        local AsInt, orientable, orientList, checkedFaces, facesToCheck,
-            correctOr, face, neighFace, matchOrient, orientOrig,
-            orientNeigh, flagsEdgeOrig, flagsEdgeNeigh, flagsEdge1, 
-            flagsEdge2, randomCycle, flagCycle, origEdge, neighEdge,
-            adFaces, orient1, orient2, locEdges, hole, edge;
-
-        if NumberOfFaces(surf) = 0 then
-            return [];
-        fi;
-
-	# This method tries to find an orientation for the surface. 
-        # It does so by constructing
-	# PerimeterPathsOfFaces we can distinguish "up" and "down" for each
-	# individual face. If we now define a map from the faces to {+1,-1}
-	# then this defines a set of orientations for all faces (+1 means "up",
-	# -1 means "down"). Two adjacent faces have a compatible orientation
-	# if they induce opposite orientations on the edge between them (you
-	# can see this quite easily if you draw a picture). In this method we
-	# use this fact to construct an orientation for the complete surface.
-
-
-	AsInt := function( bool )
-            if bool then
-                return 1;
-            else
-                return -1;
-            fi;
-	end;
-
-	# The variable orientList contains our constructed orientation. We have
-	# to be careful since this list might contain holes. Therefore we have
-	# to use Number instead of Length to only count the bound entries.
-	orientable := true;
-	orientList := [];
-	while Number(orientList) < NumberOfFaces(surf) and orientable do
-	    # We proceed individually in each strongly connected component. 
-            # This loop
-	    # is called once per strongly connected component. We start by 
-            # finding a
-	    # face that was not already included, define the minimal 
-            # orientation for it
-	    # and then derive how all other orientations have to look
-	    # like (and maybe find a contradiction).
-	
-	    # Find the first face that has no defined orientation
-	    hole := 0;
-	    for face in Faces(surf) do
-		if not IsBound( orientList[face] ) then
-		    hole := face;
-		    break;
-		fi;
-	    od;
-	
-	    # Define the standard orientation of this face
-	    orientList[hole] := PerimeterPathOfFaceNC(surf,hole);
-	    facesToCheck := [hole];		# Save the faces that have to be checked
-	    checkedFaces := [];			# Save the faces that are "clear"
-
-	    # The next loop is responsible for iterating through the strongly 
-            # connected
-	    # component of the face 'hole'. This has to be done step by step
-	    # since we can only transform the orientation of one face into the
-	    # orientation of an adjacent face.
-	    while facesToCheck <> [] and orientable do
-		face := facesToCheck[1];
-
-		# For each face we check the transitions over all edges
-                for edge in EdgesOfFaces(surf)[face] do
-                    locEdges := LocalEdgesOfEdges(surf)[edge];
-                    if Length(locEdges) = 1 then
-                        # boundary edge
-                        continue;
-                    fi;
-
-                    adFaces := FacesOfLocalEdges(surf){locEdges};
-                    if adFaces[1] = adFaces[2] then
-                        # two edges in the same face are identified
-                        flagCycle := LocalFlagCycle(orientList[face]);
-                        flagsEdge1 := LocalFlagsOfLocalEdges(surf)[locEdges[1]];
-                        flagsEdge2 := LocalFlagsOfLocalEdges(surf)[locEdges[2]];
-
-                        # The order of the flags in flagsEdge* gives an
-                        # orientation to the local edges. We check if this
-                        # is the same orientation as the flagCycle defines
-                        orient1 := AsInt(flagsEdge1[1]^flagCycle = flagsEdge1[2]);
-                        orient2 := AsInt(flagsEdge2[1]^flagCycle = flagsEdge2[2]);
-
-                        # We have to check whether the identification of the
-                        # local edges inverts their orientations
-                        matchOrient := AsInt(flagsEdge1[1]^LocalFlagFaceInvolution(surf) = flagsEdge2[1]);
-
-                        if orient1 * orient2 * matchOrient = 1 then
-                            # The orientations don't match
-                            orientable := false;
-                            break;
-                        else
-                            # The orientations match
-                            continue;
-                        fi;
-                    else
-                        # We have to choose the neighbouring face
-                        if adFaces[1] = face then
-                            neighFace := adFaces[2];
-                            origEdge := locEdges[1];
-                            neighEdge := locEdges[2];
-                        else
-                            neighFace := adFaces[1];
-                            origEdge := locEdges[2];
-                            neighEdge := locEdges[1];
-                        fi;
-
-                        # Start with a random orientation for the nieghbour
-                        flagCycle := LocalFlagCycle(orientList[face]);
-                        randomCycle := LocalFlagCycle(PerimeterPathOfFaceNC(surf, neighFace));
-
-                        flagsEdgeOrig := LocalFlagsOfLocalEdges(surf)[origEdge];
-                        flagsEdgeNeigh := LocalFlagsOfLocalEdges(surf)[neighEdge];
-
-                        orientOrig := AsInt(flagsEdgeOrig[1]^flagCycle = flagsEdgeOrig[2]);
-                        orientNeigh := AsInt(flagsEdgeNeigh[1]^randomCycle = flagsEdgeNeigh[2]);
-                        matchOrient := AsInt(flagsEdgeOrig[1]^LocalFlagFaceInvolution(surf) = flagsEdgeNeigh[1]);
-                            
-                        if orientOrig * orientNeigh * matchOrient = 1 then
-                            # wrong orientation
-                            correctOr := Inverse(PerimeterPathOfFaceNC(surf, neighFace));
-                        else
-                            correctOr := PerimeterPathOfFaceNC(surf, neighFace);
-                        fi;
-
-                        if IsBound(orientList[neighFace]) and correctOr <> orientList[neighFace] then
-                            # not orientable
-                            orientable := false;
-                            break;
-                        else
-                            orientList[neighFace] := correctOr;
-                        fi;
-
-		        if not neighFace in checkedFaces then
-			    facesToCheck := Union( facesToCheck, [neighFace] );
-		        fi;
-                    fi;
-	
-		od;
-	        facesToCheck := Difference( facesToCheck, [face] );
-		checkedFaces := Union( checkedFaces, [face] );
-	    od;
-	od;
-
-        if orientable then
-            return orientList;
-        fi;
-        return fail;
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "Orientation",
-    ["PerimeterPathsOfFaces", "LocalFlagsOfLocalVertices", 
-        "LocalFlagsOfLocalEdges", "LocalFlagsOfHalfEdges", 
-        "FacesOfLocalEdges", "LocalEdgesOfEdges"],
-    ["IsBendPolygonalComplex"]);
-
-
 
 ##
 ## Special case if the orientability is known
 ##
 InstallImmediateMethod( Orientation, 
-    "for a VEF-complex without edge ramifications with known orientation",
-    IsVEFComplex and IsNotEdgeRamified and HasIsOrientable, 0,
+    "for a polygonal complex without edge ramifications with known orientation",
+    IsPolygonalComplex and IsNotEdgeRamified and HasIsOrientable, 0,
     function(ramSurf)
         if not IsOrientable(ramSurf) then
             return fail;
@@ -349,8 +179,8 @@ InstallImmediateMethod( Orientation,
 ##  Now we write the method to only check if an orientation exists
 ##
 InstallImmediateMethod( IsOrientable,
-    "for a VEF-complex without edge ramifications with Orientation",
-    IsVEFComplex and IsNotEdgeRamified and HasOrientation, 0,
+    "for a polygonal complex without edge ramifications with Orientation",
+    IsPolygonalComplex and IsNotEdgeRamified and HasOrientation, 0,
     function(ramSurf)
         return Orientation(ramSurf) <> fail;
     end
@@ -359,8 +189,8 @@ InstallImmediateMethod( IsOrientable,
 ## If we can't compute IsOrientable any other way, we try computing a global
 ## orientation first
 InstallMethod( IsOrientable,
-    "for a VEF-complex without edge ramifications",
-    [IsVEFComplex and IsNotEdgeRamified],
+    "for a polygonal complex without edge ramifications",
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
         if HasOrientation(ramSurf) then
             TryNextMethod();
@@ -370,6 +200,69 @@ InstallMethod( IsOrientable,
     end
 );
 
+## global orientation computation for twisted polygonal complexes
+InstallMethod( IsOrientable,
+    "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex and IsNotEdgeRamified],
+    function(complex)
+        local chamberValues, done, todo, check, zeroInv, oneInv, twoInv, c,
+            zeroAd, oneAd, twoAd;
+
+        zeroInv := ZeroAdjacencyInvolution(complex);
+        oneInv := OneAdjacencyInvolution(complex);
+        twoInv := TwoAdjacencyInvolution(complex);
+
+        chamberValues := [];
+        done := [];
+        todo := Chambers(complex);
+        while not IsEmpty(todo) do # for each strongly connected component
+            chamberValues[todo[1]] := 1;
+            check := [todo[1]];
+            todo := todo{[2..Length(todo)]};
+            while not IsEmpty(check) do
+                c := check[1];
+                check := check{[2..Length(check)]};
+
+                # Zero Adjacency
+                zeroAd := c^zeroInv;
+                if zeroAd in todo then
+                    chamberValues[zeroAd] := -1 * chamberValues[c];
+                    Add(check, zeroAd);
+                    todo := Difference(todo, [zeroAd]);
+                else
+                    if chamberValues[c]*chamberValues[zeroAd] = 1 then
+                        return false;
+                    fi;
+                fi;
+
+                # One Adjacency
+                oneAd := c^oneInv;
+                if oneAd in todo then
+                    chamberValues[oneAd] := -1 * chamberValues[c];
+                    Add(check, oneAd);
+                    todo := Difference(todo, [oneAd]);
+                else
+                    if chamberValues[c]*chamberValues[oneAd] = 1 then
+                        return false;
+                    fi;
+                fi;
+
+                # Two Adjacency
+                twoAd := c^twoInv;
+                if twoAd in todo then
+                    chamberValues[twoAd] := -1 * chamberValues[c];
+                    Add(check, twoAd);
+                    todo := Difference(todo, [twoAd]);
+                else
+                    if c <> twoAd and chamberValues[c]*chamberValues[twoAd] = 1 then
+                        return false;
+                    fi;
+                fi;
+            od;
+        od;
+        return true;
+    end
+);
 
 ## OrientationCover 
 ##TODO maybe reorganise -> This might not be the best spot
@@ -431,7 +324,7 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
 
         newVertices := [];
         vertexMap := [];
-        for v in VerticesAttributeOfVEFComplex(splitSurf) do
+        for v in VerticesAttributeOfComplex(splitSurf) do
             umb := UmbrellaPathsOfVertices(splitSurf)[v];
             if IsClosedPath(umb) then
                 sideA := [];
@@ -494,11 +387,14 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
             facesOfEdges[i] := faces;
         od;
 
-        obj := Objectify(PolygonalComplexType, rec());
+        obj := Objectify(TwistedPolygonalComplexType, rec());
         SetVerticesOfEdges(obj, vertsOfEdges);
         SetFacesOfEdges(obj, facesOfEdges);
+        SetIsPolygonalComplex(obj, true);
+        SetIsDefaultChamberSystem(obj, true);
         return [obj, [vertexMap,edgeMap,faceMap], List(newFaces, i -> i[2])];
     end
 );
 RedispatchOnCondition( OrientationCover, true, [IsPolygonalComplex], [IsNotEdgeRamified], 0 );
 #TODO this can be improved with a wild colouring. Can that be implemented in some way?
+#TODO: return a homomorphism. How to deal with the map newFaces->oldPerimeters?

@@ -11,22 +11,15 @@
 #############################################################################
 
 
-# We define a generic representation for polygonal complexes
-DeclareRepresentation("IsGenericPolygonalComplexRep", 
-    IsPolygonalComplex and IsAttributeStoringRep, []);
+# We define a generic representation for twisted polygonal complexes
+DeclareRepresentation("IsGenericTwistedPolygonalComplexRep", 
+    IsTwistedPolygonalComplex and IsAttributeStoringRep, []);
 
 # Define a generic type
-BindGlobal( "PolygonalComplexType", 
-    NewType( PolygonalComplexFamily, IsGenericPolygonalComplexRep ));
+BindGlobal( "TwistedPolygonalComplexType", 
+    NewType( TwistedPolygonalComplexFamily, IsGenericTwistedPolygonalComplexRep ));
 
 
-# We define a generic representation for polygonal complexes
-DeclareRepresentation("IsGenericBendPolygonalComplexRep", 
-    IsBendPolygonalComplex and IsAttributeStoringRep, []);
-
-# Define a generic type
-BindGlobal( "BendPolygonalComplexType", 
-    NewType( BendPolygonalComplexFamily, IsGenericBendPolygonalComplexRep ));
 
 
 
@@ -38,7 +31,7 @@ BindGlobal( "BendPolygonalComplexType",
 ## should act like categories
 InstallOtherMethod( IsPolygonalComplex, "for an object", [IsObject],
     function(obj)
-        if not IsVEFComplex(obj) then
+        if not IsTwistedPolygonalComplex(obj) then
             return false;
         fi;
         # Since IsPolygonalComplex is a category, the above
@@ -68,3 +61,9 @@ InstallOtherMethod( IsPolygonalSurface, "for an object", [IsObject],
 );
 
 
+##
+InstallMethod( IsPolygonalComplex, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
+    function(compl)
+        return true;#REM
+    end
+);

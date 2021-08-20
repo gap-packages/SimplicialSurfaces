@@ -17,19 +17,19 @@
 ##
 
 # methods to compute number of vertices, edges, faces
-InstallMethod( NumberOfVertices, "for a polygonal complex", [IsVEFComplex],
+InstallMethod( NumberOfVertices, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
-            return Length( VerticesAttributeOfVEFComplex(complex) );
+            return Length( VerticesAttributeOfComplex(complex) );
     end
 );
 
-InstallMethod( NumberOfEdges, "for a polygonal complex", [IsVEFComplex],
+InstallMethod( NumberOfEdges, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
             return Length( Edges(complex) );
     end
 );
 
-InstallMethod( NumberOfFaces, "for a polygonal complex", [IsVEFComplex],
+InstallMethod( NumberOfFaces, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
             return Length( Faces(complex) );
     end
@@ -54,15 +54,15 @@ InstallMethod( NumberOfFaces, "for a polygonal complex", [IsVEFComplex],
 
 ## EdgesOfVertices
 InstallMethod(EdgesOfVertexNC, 
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
         return EdgesOfVertices(complex)[vertex];
     end
 );
 InstallMethod(EdgesOfVertex,
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex( complex, vertex, "EdgesOfVertex" );
         return EdgesOfVertexNC(complex,vertex);
@@ -71,15 +71,15 @@ InstallMethod(EdgesOfVertex,
 
 ## FacesOfVertices
 InstallMethod(FacesOfVertexNC, 
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
         return FacesOfVertices(complex)[vertex];
     end
 );
 InstallMethod(FacesOfVertex,
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, vertex)
         __SIMPLICIAL_CheckVertex( complex, vertex, "FacesOfVertex" );
         return FacesOfVertexNC(complex,vertex);
@@ -89,15 +89,15 @@ InstallMethod(FacesOfVertex,
 
 ## VerticesOfEdges
 InstallMethod(VerticesOfEdgeNC, 
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         return VerticesOfEdges(complex)[edge];  
     end
 );
 InstallMethod(VerticesOfEdge,
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         __SIMPLICIAL_CheckEdge( complex, edge, "VerticesOfEdge" );
         return VerticesOfEdgeNC(complex,edge);
@@ -107,15 +107,15 @@ InstallMethod(VerticesOfEdge,
 
 ## FacesOfEdges
 InstallMethod(FacesOfEdgeNC, 
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         return FacesOfEdges(complex)[edge]; 
     end
 );
 InstallMethod(FacesOfEdge,
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         __SIMPLICIAL_CheckEdge( complex, edge, "FacesOfEdge" );
         return FacesOfEdgeNC(complex,edge);
@@ -125,15 +125,15 @@ InstallMethod(FacesOfEdge,
 
 ## VerticesOfFaces
 InstallMethod(VerticesOfFaceNC, 
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         return VerticesOfFaces(complex)[face];
     end
 );
 InstallMethod(VerticesOfFace,
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace( complex, face, "VerticesOfFace" );
         return VerticesOfFaceNC(complex,face);
@@ -143,15 +143,15 @@ InstallMethod(VerticesOfFace,
 
 ## EdgesOfFaces
 InstallMethod(EdgesOfFaceNC, 
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         return EdgesOfFaces(complex)[face];    
     end
 );
 InstallMethod(EdgesOfFace,
-    "for a polygonal complex and a positive integer",
-    [IsVEFComplex, IsPosInt],
+    "for a twisted polygonal complex and a positive integer",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace( complex, face, "EdgesOfFace" );
         return EdgesOfFaceNC(complex,face);
@@ -170,25 +170,27 @@ InstallMethod(EdgesOfFace,
 ##
 ##          Face-induced order of vertices/edges
 ##
-__SIMPLICIAL_AddVEFAttribute(PerimeterPathsOfFaces);
+__SIMPLICIAL_AddPolygonalAttribute(PerimeterPathsOfFaces);
 
 
 # the wrappers
 InstallMethod( PerimeterPathOfFaceNC, 
-    "for a VEF-complex and a face (positive integer)",
-    [IsVEFComplex, IsPosInt],
+    "for a polygonal complex and a face (positive integer)",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, face)
         return PerimeterPathsOfFaces(complex)[face];
     end
 );
+RedispatchOnCondition( PerimeterPathOfFace, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 InstallMethod( PerimeterPathOfFace,
-    "for a VEF-complex and a face (positive integer)",
-    [IsVEFComplex, IsPosInt],
+    "for a polygonal complex and a face (positive integer)",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace(complex, face, "PerimeterPathOfFace");
         return PerimeterPathOfFaceNC(complex, face);
     end
 );
+RedispatchOnCondition( PerimeterPathOfFace, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 
 # main computation method
@@ -229,124 +231,46 @@ InstallMethod( PerimeterPathsOfFaces, "for a polygonal complex",
         return perim;
     end
 );
+RedispatchOnCondition( PerimeterPathsOfFaces, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "PerimeterPathsOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
         "VerticesOfEdges", "EdgesOfVertices"], ["IsPolygonalComplex"]);
 
-# TODO document ordering
-InstallMethod( PerimeterPathsOfFaces,
-    "for a bend polygonal complex with Faces, VerticesOfFaces, LocalVerticesOfVertices, LocalVerticesOfFaces, EdgesOfLocalEdges, VerticesOfLocalVertices",
-    [IsBendPolygonalComplex and HasFaces and HasVerticesOfFaces and 
-        HasLocalVerticesOfVertices and HasLocalVerticesOfFaces and
-        HasEdgesOfLocalEdges and HasVerticesOfLocalVertices],
-    function(bendComplex)
-        local perim, f, localFace, verts, startVert, locVerts, startLoc, obj,
-            locEdges, edges, localPath, path, i, len, localVE, localPerim;
-
-        perim := [];
-        for f in Faces(bendComplex) do
-            localFace := LocalFace(bendComplex, f);
-
-            # Find the starting vertex
-            verts := VerticesOfFaces(bendComplex)[f];
-            startVert := Minimum(verts);
-            locVerts := Intersection( 
-                LocalVerticesOfVertices(bendComplex)[startVert],
-                LocalVerticesOfFaces(bendComplex)[f] );
-            startLoc := Minimum(locVerts);
-
-            # Find the next edge
-            locEdges := EdgesOfVertices(localFace)[startLoc];
-            edges := EdgesOfLocalEdges(bendComplex){locEdges};
-
-            if edges[1] = edges[2] then
-                # tie-breaker by local edges
-                if locEdges[1] < locEdges[2] then
-                    localPath := [ startLoc, locEdges[1] ];
-                    path := [ startVert, edges[1] ];
-                else
-                    localPath := [ startLoc, locEdges[2] ];
-                    path := [ startVert, edges[2] ];
-                fi;
-            elif edges[1] < edges[2] then
-                localPath := [ startLoc, locEdges[1] ];
-                path := [ startVert, edges[1] ];
-            else
-                localPath := [ startLoc, locEdges[1] ];
-                path := [ startVert, edges[1] ];
-            fi;
-            Add(localPath, OtherVertexOfEdgeNC(localFace, localPath[1], localPath[2]));
-            Add(path, VerticesOfLocalVertices(bendComplex)[localPath[3]]);
-
-
-            for i in [2..NumberOfEdges(localFace)] do # How long will the path be?
-                len := Length(localPath);
-
-                Add( localPath, OtherEdgeOfVertexInFaceNC(localFace, 
-                    localPath[len], localPath[len-1],f) );
-                Add( localPath, OtherVertexOfEdgeNC(localFace, 
-                    localPath[len], localPath[len+1]) );
-
-                Add( path, EdgesOfLocalEdges(bendComplex)[localPath[len+1]] );
-                Add( path, VerticesOfLocalVertices(bendComplex)[localPath[len+2]] );
-            od;
-            Assert(1, localPath[1] = localPath[Length(localPath)]);
-
-            localVE := VertexEdgePathNC(localFace, localPath);
-            localPerim := PerimeterPathNC(localVE, f);
-
-            obj := Objectify( PerimeterPathType, rec() );
-            SetPath(obj, path);
-            SetLocalPath( obj, localPerim );
-            SetAssociatedVEFComplex(obj, bendComplex);
-            SetFace(obj, f);
-
-            perim[f] := obj;
-        od;
-
-        return perim;
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "PerimeterPathsOfFaces", 
-    ["Faces", "VerticesOfFaces", "LocalVerticesOfVertices", 
-        "LocalVerticesOfFaces", "EdgesOfLocalEdges", 
-        "VerticesOfLocalVertices"],
-    ["IsBendPolygonalComplex"]);
 
 
 # inferences from the perimeter path
 InstallMethod( VerticesOfFaces, 
-    "for a VEF-complex with PerimeterPathsOfFaces",
-    [IsVEFComplex and HasPerimeterPathsOfFaces],
+    "for a polygonal complex with PerimeterPathsOfFaces",
+    [IsPolygonalComplex and HasPerimeterPathsOfFaces],
     function(complex)
         return List( PerimeterPathsOfFaces(complex), p -> Set(VerticesAsList(p)) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "VerticesOfFaces", ["PerimeterPathsOfFaces"] );
+    "VerticesOfFaces", ["PerimeterPathsOfFaces"], ["IsPolygonalComplex"] );
 
 
 InstallMethod( EdgesOfFaces, 
-    "for a VEF-complex with PerimeterPathsOfFaces",
-    [IsVEFComplex and HasPerimeterPathsOfFaces],
+    "for a polygonal complex with PerimeterPathsOfFaces",
+    [IsPolygonalComplex and HasPerimeterPathsOfFaces],
     function(complex)
         return List( PerimeterPathsOfFaces(complex), p -> Set(EdgesAsList(p)) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "EdgesOfFaces", ["PerimeterPathsOfFaces"] );
+    "EdgesOfFaces", ["PerimeterPathsOfFaces"], ["IsPolygonalComplex"] );
 
 
 InstallMethod( Faces,
-    "for a VEF-complex that has PerimeterPathsOfFaces",
-    [IsVEFComplex and HasPerimeterPathsOfFaces],
+    "for a polygonal complex that has PerimeterPathsOfFaces",
+    [IsPolygonalComplex and HasPerimeterPathsOfFaces],
     function(complex)
         return __SIMPLICIAL_BoundPositions( PerimeterPathsOfFaces(complex) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "Faces", "PerimeterPathsOfFaces");
+    "Faces", "PerimeterPathsOfFaces", ["IsPolygonalComplex"]);
 
 ##
 ##          End of face-induced order
@@ -360,31 +284,31 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 ##      Umbrella-paths around vertices
 ##
-__SIMPLICIAL_AddVEFAttribute(UmbrellaPathPartitionsOfVertices);
-__SIMPLICIAL_AddVEFAttribute(UmbrellaPathsOfVertices);
+__SIMPLICIAL_AddPolygonalAttribute(UmbrellaPathPartitionsOfVertices);
+__SIMPLICIAL_AddPolygonalAttribute(UmbrellaPathsOfVertices);
 
 ##
 ## Implement the immediate methods for inferences about the complex
 ##
 InstallImmediateMethod( IsNotVertexRamified, 
-    "for a VEF-complex that has UmbrellaPathsOfVertices",
-    IsVEFComplex and HasUmbrellaPathsOfVertices, 0,
+    "for a polygonal complex that has UmbrellaPathsOfVertices",
+    IsPolygonalComplex and HasUmbrellaPathsOfVertices, 0,
     function(complex)
         return not fail in UmbrellaPathsOfVertices(complex);
     end
 );
 AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "IsNotVertexRamified", "UmbrellaPathsOfVertices");
+    "IsNotVertexRamified", "UmbrellaPathsOfVertices", ["IsPolygonalComplex"]);
 
 InstallImmediateMethod( IsNotEdgeRamified,
-    "for a VEF-complex that has UmbrellaPathPartitionsOfVertices",
-    IsVEFComplex and HasUmbrellaPathPartitionsOfVertices, 0,
+    "for a polygonal complex that has UmbrellaPathPartitionsOfVertices",
+    IsPolygonalComplex and HasUmbrellaPathPartitionsOfVertices, 0,
     function(complex)
         return not fail in UmbrellaPathPartitionsOfVertices(complex);
     end
 );
 AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "IsNotEdgeRamified", "UmbrellaPathPartitionsOfVertices");
+    "IsNotEdgeRamified", "UmbrellaPathPartitionsOfVertices", ["IsPolygonalComplex"]);
 
 ##
 ## We will implement the connections between singular paths and partitions
@@ -392,14 +316,14 @@ AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 
 InstallMethod( UmbrellaPathsOfVertices,
-    "for a VEF-surface that has UmbrellaPathPartitionsOfVertices",
-    [IsVEFSurface and HasUmbrellaPathPartitionsOfVertices],
+    "for a polygonal surface that has UmbrellaPathPartitionsOfVertices",
+    [IsPolygonalSurface and HasUmbrellaPathPartitionsOfVertices],
     function( surface )
         local umbPart, v, res;
 
         res := [];
         umbPart := UmbrellaPathPartitionsOfVertices(surface);
-        for v in VerticesAttributeOfVEFComplex(surface) do
+        for v in VerticesAttributeOfComplex(surface) do
             res[v] := umbPart[v][1];
         od;
         return res;
@@ -407,8 +331,8 @@ InstallMethod( UmbrellaPathsOfVertices,
 );
 
 InstallMethod( UmbrellaPathsOfVertices,
-    "for a VEF-complex that has UmbrellaPathPartitionsOfVertices",
-    [IsVEFComplex and HasUmbrellaPathPartitionsOfVertices],
+    "for a polygonal complex that has UmbrellaPathPartitionsOfVertices",
+    [IsPolygonalComplex and HasUmbrellaPathPartitionsOfVertices],
     function(ramSurf)
         local FirstOrFail;
 
@@ -427,13 +351,13 @@ InstallMethod( UmbrellaPathsOfVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
     "UmbrellaPathsOfVertices", 
-    ["UmbrellaPathPartitionsOfVertices"]);
+    ["UmbrellaPathPartitionsOfVertices"], ["IsPolygonalComplex"]);
 
 
 
 InstallImmediateMethod( UmbrellaPathPartitionsOfVertices,
-    "for a VEF-complex without edge ramifications that has UmbrellaPathsOfVertices",
-    IsVEFComplex and IsNotEdgeRamified and HasUmbrellaPathsOfVertices, 0,
+    "for a polygonal complex without edge ramifications that has UmbrellaPathsOfVertices",
+    IsPolygonalComplex and IsNotEdgeRamified and HasUmbrellaPathsOfVertices, 0,
     function( ramSurf )
         return List( UmbrellaPathsOfVertices(ramSurf), p -> [p] );
     end
@@ -441,14 +365,14 @@ InstallImmediateMethod( UmbrellaPathPartitionsOfVertices,
 
 
 ## Methods for one single vertex
-InstallMethod( UmbrellaPathOfVertexNC, "for a VEF-complex and a vertex",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( UmbrellaPathOfVertexNC, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
     function( surface, vertex )
         return UmbrellaPathsOfVertices(surface)[vertex];
     end
 );
-InstallMethod( UmbrellaPathOfVertex, "for a VEF-complex and a vertex",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( UmbrellaPathOfVertex, "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
     function( surface, vertex )
         __SIMPLICIAL_CheckVertex(surface,vertex, "UmbrellaPathOfVertex");
         return UmbrellaPathOfVertexNC(surface, vertex);
@@ -456,15 +380,15 @@ InstallMethod( UmbrellaPathOfVertex, "for a VEF-complex and a vertex",
 );
 
 InstallMethod( UmbrellaPathPartitionOfVertexNC,
-    "for a VEF-complex and a vertex",
-    [IsVEFComplex, IsPosInt],
+    "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
     function( ramSurf, vertex )
         return UmbrellaPathPartitionsOfVertices(ramSurf)[vertex];
     end
 );
 InstallMethod( UmbrellaPathPartitionOfVertex,
-    "for a VEF-complex and a vertex",
-    [IsVEFComplex, IsPosInt],
+    "for a polygonal complex and a vertex",
+    [IsPolygonalComplex, IsPosInt],
     function( ramSurf, vertex )
         __SIMPLICIAL_CheckVertex(ramSurf, vertex, "UmbrellaPathPartitionOfVertex");
         return UmbrellaPathPartitionOfVertexNC(ramSurf, vertex);
@@ -478,8 +402,8 @@ InstallMethod( UmbrellaPathPartitionOfVertex,
 
 #TODO It might be useful to compute IsNotEdgeRamified for the possibility of simplifying the calculations
 InstallMethod( EdgesOfVertices, 
-    "for a VEF-complex without edge ramifications that has UmbrellaPathPartitionsOfVertices", 
-    [IsVEFComplex and IsNotEdgeRamified and HasUmbrellaPathPartitionsOfVertices],
+    "for a polygonal complex without edge ramifications that has UmbrellaPathPartitionsOfVertices", 
+    [IsPolygonalComplex and IsNotEdgeRamified and HasUmbrellaPathPartitionsOfVertices],
     function(complex)
         return List( UmbrellaPathPartitionsOfVertices(complex), part ->
             __SIMPLICIAL_UnionSets( List( part, EdgesAsList ) ));
@@ -487,11 +411,11 @@ InstallMethod( EdgesOfVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "EdgesOfVertices", 
-    ["UmbrellaPathPartitionsOfVertices"], ["IsNotEdgeRamified"]);
+    ["UmbrellaPathPartitionsOfVertices"], ["IsNotEdgeRamified", "IsPolygonalComplex"]);
 
 InstallMethod( FacesOfVertices,
-    "for a VEF-complex without edge ramifications that has UmbrellaPathPartitionsOfVertices",
-    [IsVEFComplex and IsNotEdgeRamified and HasUmbrellaPathPartitionsOfVertices],
+    "for a polygonal complex without edge ramifications that has UmbrellaPathPartitionsOfVertices",
+    [IsPolygonalComplex and IsNotEdgeRamified and HasUmbrellaPathPartitionsOfVertices],
     function(complex)
         return List( UmbrellaPathPartitionsOfVertices(complex), part ->
             __SIMPLICIAL_UnionSets( List( part, FacesAsList ) ));
@@ -499,18 +423,18 @@ InstallMethod( FacesOfVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "FacesOfVertices", 
-    ["UmbrellaPathPartitionsOfVertices"], ["IsNotEdgeRamified"]);
+    ["UmbrellaPathPartitionsOfVertices"], ["IsNotEdgeRamified", "IsPolygonalComplex"]);
 
 InstallMethod( FacesOfEdges,
-    "for a VEF-complex without edge ramifications that has UmbrellaPathPartitionsOfVertices and VerticesAttributeOfVEFComplex",
-    [IsVEFComplex and IsNotEdgeRamified and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfVEFComplex],
+    "for a polygonal complex without edge ramifications that has UmbrellaPathPartitionsOfVertices and VerticesAttributeOfComplex",
+    [IsPolygonalComplex and IsNotEdgeRamified and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex],
     function(complex)
         local facesOfEdges, parts, v, p, even, ind, i, edge, incFaces, path;
 
         parts := UmbrellaPathPartitionsOfVertices(complex);
 
         facesOfEdges := [];
-        for v in VerticesAttributeOfVEFComplex(complex) do
+        for v in VerticesAttributeOfComplex(complex) do
             for p in parts[v] do
                 path := PathAsList(p);
 
@@ -539,13 +463,13 @@ InstallMethod( FacesOfEdges,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "FacesOfEdges", 
-    ["UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfVEFComplex"], 
-    ["IsNotEdgeRamified"]);
+    ["UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex"], 
+    ["IsNotEdgeRamified", "IsPolygonalComplex"]);
 
 
 InstallMethod( UmbrellaPathPartitionsOfVertices, 
-    "for a polygonal complex that has VerticesAttributeOfVEFComplex, EdgesOfVertices, EdgesOfFaces, FacesOfEdges, VerticesOfEdges and RamifiedEdges",
-    [IsPolygonalComplex and HasVerticesAttributeOfVEFComplex and 
+    "for a polygonal complex that has VerticesAttributeOfComplex, EdgesOfVertices, EdgesOfFaces, FacesOfEdges, VerticesOfEdges and RamifiedEdges",
+    [IsPolygonalComplex and HasVerticesAttributeOfComplex and 
         HasEdgesOfVertices and HasEdgesOfFaces and HasFacesOfEdges and 
         HasVerticesOfEdges and HasRamifiedEdges],
     function(ramSurf)
@@ -555,7 +479,7 @@ InstallMethod( UmbrellaPathPartitionsOfVertices,
 
         faceEdgePathPart := [];
 
-        for vertex in VerticesAttributeOfVEFComplex(ramSurf) do
+        for vertex in VerticesAttributeOfComplex(ramSurf) do
             incidentEdges := EdgesOfVertices(ramSurf)[vertex];
             paths := [];
 
@@ -659,172 +583,9 @@ InstallMethod( UmbrellaPathPartitionsOfVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
     "UmbrellaPathPartitionsOfVertices", 
-    ["VerticesAttributeOfVEFComplex", "EdgesOfVertices", "EdgesOfFaces", 
+    ["VerticesAttributeOfComplex", "EdgesOfVertices", "EdgesOfFaces", 
         "FacesOfEdges", "VerticesOfEdges", "RamifiedEdges"], ["IsPolygonalComplex"]);
 
-#TODO compute properly
-BindGlobal("__SIMPLICIAL_ConstructUmbrellaBend",
-    function(bendComplex, vertex, halfEdge, flag, face)
-        local usedHalfEdges, efPath, pathElements, vertexInv, flagList, fin,
-            lastHalfEdge, locFlags, lastFlag, nextFlag, furtherFlag, 
-            nextHalfEdge, obj;
-
-        vertexInv := LocalFlagVertexInvolution(bendComplex);
-        flagList := [ [flag, flag^vertexInv] ];
-        usedHalfEdges := [ halfEdge, HalfEdgesOfLocalFlags(bendComplex)[flagList[1][2]] ];
-        efPath := [ EdgesOfHalfEdges(bendComplex)[usedHalfEdges[1]], face, EdgesOfHalfEdges(bendComplex)[usedHalfEdges[2]] ];
-        pathElements := [ [ face, LocalEdgesOfLocalFlags(bendComplex){flagList[1]}] ];
-
-        fin := false;
-        while not fin do
-            lastHalfEdge := usedHalfEdges[Length(usedHalfEdges)];
-            locFlags := LocalFlagsOfHalfEdges(bendComplex)[lastHalfEdge];
-            if lastHalfEdge = usedHalfEdges[1] or Length(locFlags) = 1 then
-                fin := true;
-                break;
-            fi;
-
-            # Continue path
-            lastFlag := flagList[Length(flagList)][2];
-            if lastFlag = locFlags[1] then
-                nextFlag := locFlags[2];
-            else
-                nextFlag := locFlags[1];
-            fi;
-            furtherFlag := nextFlag^vertexInv;
-
-            Add(flagList, [nextFlag, furtherFlag]);
-            nextHalfEdge := HalfEdgesOfLocalFlags(bendComplex)[furtherFlag];
-            Add(usedHalfEdges, nextHalfEdge);
-            face := FacesOfLocalFlags(bendComplex)[nextFlag];
-            Add(efPath, face);
-            Add(efPath, EdgesOfLocalFlags(bendComplex)[furtherFlag]);
-            Add(pathElements, [ face, LocalEdgesOfLocalFlags(bendComplex){[nextFlag,furtherFlag]}  ]);
-        od;
-
-        # path lists are written, path object has to be constructed
-        obj := EdgeFacePathNC(bendComplex, efPath, pathElements);
-
-        return [obj, usedHalfEdges];
-    end
-);
-
-InstallMethod( UmbrellaPathPartitionsOfVertices, 
-    Concatenation("for a bend polygonal complex that has ",
-        "VerticesAttributeOfVEFComplex and HalfEdgesOfVertices and ",
-        "LocalEdgesOfHalfEdges and EdgesOfHalfEdges and FacesOfEdges and ",
-        "LocalFlagsOfHalfEdges and LocalEdgesOfLocalFlags and ",
-        "FacesOfLocalFlags and EdgesOfLocalFlags and HalfEdgesOfLocalFlags",
-        " and LocalFlagsOfLocalVertices"),
-    [IsBendPolygonalComplex and HasVerticesAttributeOfVEFComplex and 
-        HasHalfEdgesOfVertices and HasLocalEdgesOfHalfEdges and
-        HasEdgesOfHalfEdges and HasFacesOfEdges and HasLocalFlagsOfHalfEdges
-        and HasLocalEdgesOfLocalFlags and HasFacesOfLocalFlags and
-        HasEdgesOfLocalFlags and HasHalfEdgesOfLocalFlags and 
-        HasLocalFlagsOfLocalVertices],
-    function(bendComplex)
-        local umbrellaPart, v, umbs, umb, halfEdges, innerEdge, boundaryEdge,
-            e, locEdge, halfEdge, edge, ed, face, flag, usedHE, locFlags,
-            locEdges, faces, i;
-
-        umbrellaPart := [];
-        for v in VerticesAttributeOfVEFComplex(bendComplex) do
-            umbs := [];
-
-            # Find out which edges are inner and which are boundary
-            halfEdges := HalfEdgesOfVertices(bendComplex)[v];
-            innerEdge := [];
-            boundaryEdge := [];
-            for e in halfEdges do #TODO write internal method to compute all types of edges if one of them is asked for
-                locEdge := LocalEdgesOfHalfEdges(bendComplex)[e];
-                if Length(locEdge) = 2 then
-                    Add(innerEdge, e);
-                elif Length(locEdge) = 1 then
-                    Add(boundaryEdge, e);
-                else
-                    umbrellaPart[v] := fail;
-                    break;
-                fi;
-            od;
-            if IsBound(umbrellaPart[v]) then
-                # was set to fail
-                continue;
-            fi;
-
-            # Start by extending the boundary edges
-            while Length(boundaryEdge) > 0 do
-                # Find smallest edge here
-                halfEdge := 0;
-                edge := 0;
-                for e in boundaryEdge do
-                    ed := EdgesOfHalfEdges(bendComplex)[e];
-                    if edge = 0 or ed < edge then
-                        halfEdge := e;
-                        edge := ed;
-                    fi;
-                od;
-                Assert(1, edge <> 0);
-
-                # Initialise start of umbrella path
-                face := FacesOfEdges(bendComplex)[edge][1];
-                flag := LocalFlagsOfHalfEdges(bendComplex)[halfEdge][1];
-                umb := __SIMPLICIAL_ConstructUmbrellaBend(bendComplex, v, halfEdge, face);
-                Add(umbs, umb[1]);
-                usedHE := umb[2];
-                boundaryEdge := Difference(boundaryEdge, [usedHE[1], usedHE[Length(usedHE)]]);
-                innerEdge := Difference(innerEdge, usedHE{[2..Length(usedHE)-1]});
-            od;
-
-            # Continue with the inner edges
-            while Length(innerEdge) > 0 do
-                # Find smallest edge
-                halfEdge := 0;
-                edge := 0;
-                for e in innerEdge do
-                    ed := EdgesOfHalfEdges(bendComplex)[e];
-                    if edge = 0 or ed < edge then
-                        halfEdge := e;
-                        edge := ed;
-                    fi;
-                od;
-                Assert(1, edge <> 0);
-
-                # Initialise start of umbrella-path
-                locFlags := LocalFlagsOfHalfEdges(bendComplex)[halfEdge];
-                locEdges := LocalEdgesOfLocalFlags(bendComplex){locFlags};
-                faces := FacesOfLocalFlags(bendComplex){locFlags};
-                if faces[1] < faces[2] then
-                    i := 1;
-                elif faces[1] > faces[2] then
-                    i := 2;
-                else
-                    # Tiebreaker by local edges
-                    if locEdges[1] < locEdges[2] then
-                        i := 1;
-                    else
-                        i := 2;
-                    fi;
-                fi;
-
-                umb := __SIMPLICIAL_ConstructUmbrellaBend(bendComplex, v, halfEdge, locFlags[i], faces[i]);
-                Add(umbs, umb[1]);
-                innerEdge := Difference( innerEdge, umb[2] );
-            od;
-
-            umbrellaPart[v] := Set(umbs);
-        od;
-
-        return umbrellaPart;
-    end
-);
-AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, 
-    "UmbrellaPathPartitionsOfVertices", 
-    ["VerticesAttributeOfVEFComplex", "HalfEdgesOfVertices", 
-        "LocalEdgesOfHalfEdges", "EdgesOfHalfEdges", "FacesOfEdges",
-        "LocalFlagsOfHalfEdges", "LocalEdgesOfLocalFlags",
-        "FacesOfLocalFlags", "EdgesOfLocalFlags", "HalfEdgesOfLocalFlags",
-        "LocalFlagsOfLocalVertices"], ["IsBendPolygonalComplex"]);
-#
 ##
 ##          End of edge-face-paths
 ##
@@ -835,8 +596,8 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 ##          Start of HolePerimeter
 ##
-InstallMethod( PerimeterOfHoles, "for a VEF-surface",
-    [IsVEFSurface], 
+InstallMethod( PerimeterOfHoles, "for a twisted polygonal surface",
+    [IsTwistedPolygonalSurface], 
     function(surface)
         local boundVerts, boundEdges, res, transVert, e, incVert,
             transEdge, v, umb, path, incEdges, adVertex, i, lastEdge,
@@ -901,5 +662,5 @@ InstallMethod( PerimeterOfHoles, "for a VEF-surface",
     end
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( PerimeterOfHoles, true, [IsVEFComplex], [IsVEFSurface], 0 );
+    RedispatchOnCondition( PerimeterOfHoles, true, [IsTwistedPolygonalComplex], [IsTwistedPolygonalSurface], 0 );
 fi;

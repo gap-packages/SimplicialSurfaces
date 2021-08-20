@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "SimplicialSurfaces",
 Subtitle := "Computing with simplicial surfaces and folding processes.",
-Version := "0.5",
-Date := "02/12/2019", # dd/mm/yyyy format
+Version := "0.6",
+Date := "16/08/2021", # dd/mm/yyyy format
 ArchiveURL := "TODO",
 ArchiveFormats := "TODO",
 
@@ -34,9 +34,9 @@ Persons := [
     LastName := "Baumeister",
     WWWHome := "https://markusbaumeister.github.io/",
     Email := "baumeister@mathb.rwth-aachen.de",
-    PostalAddress := "Markus Baumeister\nLehrstuhl B für Mathematik\nRWTH Aachen\nPontdriesch 10/16\n52062 Aachen\nGERMANY\n",
+    PostalAddress := "",
     Place := "Aachen",
-    Institution := "Lehrstuhl B für Mathematik, RWTH Aachen",
+    Institution := "",
   ),
 ],
 
@@ -77,7 +77,7 @@ PackageDoc := rec(
 Dependencies := rec(
   GAP := ">= 4.11",
   NeededOtherPackages := [ [ "Grape", ">=4.8.2" ], [ "AttributeScheduler", ">=2018.08.03" ]],
-  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2019.05.20"], [ "IO", ">=2.2" ], [ "NautyTracesInterface", ">=0.2" ] ],
+  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2019.05.20"], [ "IO", ">=2.2" ], [ "NautyTracesInterface", ">=0.2" ], ["Digraphs", ">=1.1.1"] ],
   ExternalConditions := [ ],
 ),
 
@@ -96,7 +96,7 @@ AutoDoc := rec(
                     "This package may be distributed under the terms and conditions of the\n",
                     "GNU Public License Version 3 (or higher).<P/>",
                     "The primary sources for much of the covered material are:<P/>",
-                    "The PhD-thesis of Markus Baumeister (unpublished)<P/>",
+                    "The PhD-thesis \"Regularity Aspects for Combinatorial Simplicial Surfaces\" of Markus Baumeister<P/>",
                     "The book \"Simplicial Surfaces of Congruent Triangles\" by Alice C. Niemeyer, Wilhelm Plesken, Daniel Robertz, and Ansgar W. Strzelczyk (unpublished)<P/>"
                 ),
     )

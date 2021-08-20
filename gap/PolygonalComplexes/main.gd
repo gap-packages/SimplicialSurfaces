@@ -18,8 +18,8 @@ DeclareInfoClass( "InfoSimplicial" );
 
 
 # Attribute for colour information
-DeclareAttribute( "ViewInformation", IsPolygonalComplex );
-DeclareAttribute( "DisplayInformation", IsPolygonalComplex );
+DeclareAttribute( "ViewInformation", IsTwistedPolygonalComplex );
+DeclareAttribute( "DisplayInformation", IsTwistedPolygonalComplex );
 
 
 

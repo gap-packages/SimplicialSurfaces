@@ -10,33 +10,22 @@
 ##
 #############################################################################
 
-DeclareRepresentation( "EdgeColouredVEFComplexRep", 
-    IsEdgeColouredVEFComplex and IsAttributeStoringRep, [] );
-BindGlobal("EdgeColouredVEFComplexType", 
-    NewType(EdgeColouredVEFComplexFamily, EdgeColouredVEFComplexRep));
-
-DeclareRepresentation( "EdgeColouredPolygonalComplexRep", 
-    IsEdgeColouredPolygonalComplex and IsAttributeStoringRep, [] );
-BindGlobal("EdgeColouredPolygonalComplexType", 
-    NewType(EdgeColouredPolygonalComplexFamily, EdgeColouredPolygonalComplexRep));
-
-DeclareRepresentation( "EdgeColouredBendPolygonalComplexRep", 
-    IsEdgeColouredBendPolygonalComplex and IsAttributeStoringRep, [] );
-BindGlobal("EdgeColouredBendPolygonalComplexType", 
-    NewType(EdgeColouredBendPolygonalComplexFamily, EdgeColouredBendPolygonalComplexRep));
+DeclareRepresentation( "EdgeColouredTwistedPolygonalComplexRep", 
+    IsEdgeColouredTwistedPolygonalComplex and IsAttributeStoringRep, [] );
+BindGlobal("EdgeColouredTwistedPolygonalComplexType", 
+    NewType(EdgeColouredTwistedPolygonalComplexFamily, EdgeColouredTwistedPolygonalComplexRep));
 
 
-
-InstallMethod( IsEdgeColouredSimplicialSurface,
-    "for an edge-coloured polygonal complex",
-    [IsEdgeColouredPolygonalComplex],
+InstallMethod( IsEdgeColouredPolygonalComplex,
+    "for an edge-coloured twisted polygonal complex",
+    [IsEdgeColouredTwistedPolygonalComplex],
     function(colComplex)
-        return IsSimplicialSurface( PolygonalComplex(colComplex) );
+        return IsPolygonalComplex( TwistedPolygonalComplex(colComplex) );
     end
 );
-InstallOtherMethod( IsEdgeColouredSimplicialSurface,
+InstallOtherMethod( IsEdgeColouredPolygonalComplex,
     "for an object", [IsObject], function(obj)
-        if IsEdgeColouredPolygonalComplex(obj) then
+        if IsEdgeColouredTwistedPolygonalComplex(obj) then
             TryNextMethod();
         else
             return false;
@@ -45,17 +34,35 @@ InstallOtherMethod( IsEdgeColouredSimplicialSurface,
 );
 
 
-InstallMethod( EdgeColouredPolygonalComplexNC, 
-    "for a polygonal complex and a list of positive integers",
-    [IsPolygonalComplex, IsList],
+InstallMethod( IsEdgeColouredSimplicialSurface,
+    "for an edge-coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function(colComplex)
+        return IsSimplicialSurface( TwistedPolygonalComplex(colComplex) );
+    end
+);
+InstallOtherMethod( IsEdgeColouredSimplicialSurface,
+    "for an object", [IsObject], function(obj)
+        if IsEdgeColouredTwistedPolygonalComplex(obj) and IsEdgeColouredPolygonalComplex(obj) then
+            TryNextMethod();
+        else
+            return false;
+        fi;
+    end
+);
+
+# twisted polygonal complex
+InstallMethod( EdgeColouredTwistedPolygonalComplexNC, 
+    "for a twisted polygonal complex and a list of positive integers",
+    [IsTwistedPolygonalComplex, IsList],
     function(complex, colouring)
         local obj;
 
-        obj := Objectify( EdgeColouredPolygonalComplexType, rec() );
-        if IsEdgeColouredPolygonalComplex(complex) then
-            SetVEFComplex(obj, PolygonalComplex(complex));
+        obj := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
+        if IsEdgeColouredTwistedPolygonalComplex(complex) then
+            SetTwistedPolygonalComplex(obj, TwistedPolygonalComplex(complex));
         else
-            SetVEFComplex(obj, complex);
+            SetTwistedPolygonalComplex(obj, complex);
         fi;
 
         if ForAll(colouring, IsPosInt) then
@@ -67,9 +74,9 @@ InstallMethod( EdgeColouredPolygonalComplexNC,
         return obj;
     end
 );
-InstallMethod( EdgeColouredPolygonalComplex,
-    "for a polygonal complex and a list of positive integers",
-    [IsPolygonalComplex, IsList],
+InstallMethod( EdgeColouredTwistedPolygonalComplex,
+    "for a twisted polygonal complex and a list of positive integers",
+    [IsTwistedPolygonalComplex, IsList],
     function(complex, colouring)
         local edges, bound, diff, nonPos, i, j, inter, foundEdges;
 
@@ -81,14 +88,14 @@ InstallMethod( EdgeColouredPolygonalComplex,
             diff := Difference(edges, bound);
             if Length( diff ) > 0 then
                 Error(Concatenation( 
-                    "EdgeColouredPolygonalComplex: There are no colours for the edges in ", 
+                    "EdgeColouredTwistedPolygonalComplex: There are no colours for the edges in ", 
                     String(diff), "." ));
             fi;
 
             diff := Difference(bound, edges);
             if Length( diff ) > 0 then
                 Error(Concatenation( 
-                    "EdgeColouredPolygonalComplex: The positions in ", 
+                    "EdgeColouredTwistedPolygonalComplex: The positions in ", 
                     String(diff), " do not correspond to any edge." ));
             fi;
         elif ForAll(colouring, IsList) then
@@ -99,14 +106,14 @@ InstallMethod( EdgeColouredPolygonalComplex,
             diff := Difference(edges, foundEdges);
             if Length(diff) > 0 then
                 Error(Concatenation(
-                    "EdgeColouredPolygonalComplex: The edges in ", String(diff), 
+                    "EdgeColouredTwistedPolygonalComplex: The edges in ", String(diff), 
                     " do not appear in any colour class."));
             fi;
 
             diff := Difference(foundEdges, edges);
             if Length(diff) > 0 then
                 Error(Concatenation(
-                    "EdgeColouredPolygonalComplex: The numbers in ", String(diff), 
+                    "EdgeColouredTwistedPolygonalComplex: The numbers in ", String(diff), 
                     " appear in colour classes but don't correspond to edges."));
             fi;
 
@@ -117,159 +124,72 @@ InstallMethod( EdgeColouredPolygonalComplex,
                         colouring[bound[i]], colouring[bound[j]] );
                     if Length(inter) > 0 then
                         Error(Concatenation(
-                            "EdgeColouredPolygonalComplex: The colour classes at positions ",
+                            "EdgeColouredTwistedPolygonalComplex: The colour classes at positions ",
                             String(bound[i]), " and ", String(bound[j]), " are not disjoint."));
                     fi;
                 od;
             od;
         else
             # This should not have happened
-            Error("EdgeColouredPolygonalComplex: The edge colouring should be either a list of positive integers or a list of sets of positive integers.");
+            Error("EdgeColouredTwistedPolygonalComplex: The edge colouring should be either a list of positive integers or a list of sets of positive integers.");
         fi;
 
-        return EdgeColouredPolygonalComplexNC(complex, colouring);
+        return EdgeColouredTwistedPolygonalComplexNC(complex, colouring);
+    end
+);
+
+# polygonal complex
+InstallMethod( EdgeColouredPolygonalComplexNC, 
+    "for a twisted polygonal complex and a list of positive integers",
+    [IsTwistedPolygonalComplex, IsList],
+    function(complex, colouring)
+        SetIsPolygonalComplex(complex, true);
+        return EdgeColouredTwistedPolygonalComplexNC(complex, colouring);
+    end
+);
+InstallMethod( EdgeColouredPolygonalComplex,
+    "for a twisted polygonal complex and a list of positive integers",
+    [IsTwistedPolygonalComplex, IsList],
+    function(complex, colouring)
+        if not IsPolygonalComplex(complex) then
+            Error("EdgeColouredPolygonalComplex: Given complex is not a polygonal complex.");
+        fi;
+        return EdgeColouredTwistedPolygonalComplex(complex, colouring);
     end
 );
 # simplicial surface
 InstallMethod( EdgeColouredSimplicialSurfaceNC, 
-    "for a polygonal complex and a list of positive integers",
-    [IsPolygonalComplex, IsList],
+    "for a twisted polygonal complex and a list of positive integers",
+    [IsTwistedPolygonalComplex, IsList],
     function(complex, colouring)
+        SetIsPolygonalComplex(complex, true);
         SetIsTriangular( complex, true );
         SetIsNotEdgeRamified( complex, true );
         SetIsNotVertexRamified( complex, true );
-        return EdgeColouredPolygonalComplexNC(complex, colouring);
+        return EdgeColouredTwistedPolygonalComplexNC(complex, colouring);
     end
 );
 InstallMethod( EdgeColouredSimplicialSurface,
-    "for a polygonal complex and a list of positive integers",
-    [IsPolygonalComplex, IsList],
+    "for a twisted polygonal complex and a list of positive integers",
+    [IsTwistedPolygonalComplex, IsList],
     function(complex, colouring)
         if not IsSimplicialSurface(complex) then
             Error("EdgeColouredSimplicialSurface: Given complex is not a simplicial surface.");
         fi;
-        return EdgeColouredPolygonalComplex(complex, colouring);
-    end
-);
-
-# bend polygonal complex
-InstallMethod( EdgeColouredBendPolygonalComplexNC, 
-    "for a bend polygonal complex and a list of positive integers",
-    [IsBendPolygonalComplex, IsList],
-    function(complex, colouring)
-        local obj;
-
-        obj := Objectify( EdgeColouredBendPolygonalComplexType, rec() );
-        if IsEdgeColouredBendPolygonalComplex(complex) then
-            SetVEFComplex(obj, BendPolygonalComplex(complex));
-        else
-            SetVEFComplex(obj, complex);
-        fi;
-
-        if ForAll(colouring, IsPosInt) then
-            SetColoursOfEdges(obj, colouring);
-        else
-            SetEdgesOfColours(obj, List(colouring, Set));
-        fi;
-
-        return obj;
-    end
-);
-InstallMethod( EdgeColouredBendPolygonalComplex,
-    "for a bend polygonal complex and a list of positive integers",
-    [IsBendPolygonalComplex, IsList],
-    function(complex, colouring)
-        local edges, bound, diff, nonPos, i, j, inter, foundEdges;
-
-        edges := Edges(complex);
-        bound := BoundPositions(colouring);
-        if ForAll(colouring, IsPosInt) then
-            # We should have a list edge->colour
-
-            diff := Difference(edges, bound);
-            if Length( diff ) > 0 then
-                Error(Concatenation( 
-                    "EdgeColouredBendPolygonalComplex: There are no colours for the edges in ", 
-                    String(diff), "." ));
-            fi;
-
-            diff := Difference(bound, edges);
-            if Length( diff ) > 0 then
-                Error(Concatenation( 
-                    "EdgeColouredBendPolygonalComplex: The positions in ", 
-                    String(diff), " do not correspond to any edge." ));
-            fi;
-        elif ForAll(colouring, IsList) then
-            # The entries should be lists of positive integers
-            foundEdges := Union(colouring);
-
-            # Check equality of edges
-            diff := Difference(edges, foundEdges);
-            if Length(diff) > 0 then
-                Error(Concatenation(
-                    "EdgeColouredBendPolygonalComplex: The edges in ", String(diff), 
-                    " do not appear in any colour class."));
-            fi;
-
-            diff := Difference(foundEdges, edges);
-            if Length(diff) > 0 then
-                Error(Concatenation(
-                    "EdgeColouredBendPolygonalComplex: The numbers in ", String(diff), 
-                    " appear in colour classes but don't correspond to edges."));
-            fi;
-
-            # Check if the classes are disjoint
-            for i in [1..Length(bound)] do
-                for j in [i+1..Length(bound)] do
-                    inter := Intersection( 
-                        colouring[bound[i]], colouring[bound[j]] );
-                    if Length(inter) > 0 then
-                        Error(Concatenation(
-                            "EdgeColouredBendPolygonalComplex: The colour classes at positions ",
-                            String(bound[i]), " and ", String(bound[j]), " are not disjoint."));
-                    fi;
-                od;
-            od;
-        else
-            # This should not have happened
-            Error("EdgeColouredBendPolygonalComplex: The edge colouring should be either a list of positive integers or a list of sets of positive integers.");
-        fi;
-
-        return EdgeColouredBendPolygonalComplexNC(complex, colouring);
+        return EdgeColouredTwistedPolygonalComplex(complex, colouring);
     end
 );
 
 
-InstallMethod( VEFComplex, 
-    "for an edge coloured polygonal complex with PolygonalComplex",
-    [IsEdgeColouredPolygonalComplex and HasPolygonalComplex],
-    function(colComplex)
-        return PolygonalComplex(colComplex);
-    end
-);
-InstallMethod( VEFComplex, 
-    "for an edge coloured bend polygonal complex with BendPolygonalComplex",
-    [IsEdgeColouredBendPolygonalComplex and HasBendPolygonalComplex],
-    function(colComplex)
-        return BendPolygonalComplex(colComplex);
-    end
-);
 
 InstallMethod( PolygonalComplex,
-    "for an edge coloured polygonal complex with VEFComplex",
-    [IsEdgeColouredPolygonalComplex and HasVEFComplex],
+    "for an edge coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
     function(colComplex)
-        return VEFComplex(colComplex);
+        return TwistedPolygonalComplex(colComplex);
     end
 );
-
-InstallMethod( BendPolygonalComplex,
-    "for an edge coloured bend polygonal complex with VEFComplex",
-    [IsEdgeColouredBendPolygonalComplex and HasVEFComplex],
-    function(colComplex)
-        return VEFComplex(colComplex);
-    end
-);
+RedispatchOnCondition( PolygonalComplex, true, [IsEdgeColouredTwistedPolygonalComplex], [IsEdgeColouredPolygonalComplex], 0 );
 
 InstallMethod( SimplicialSurface, "for an edge coloured simplicial surface",
     [IsEdgeColouredSimplicialSurface],
@@ -277,17 +197,25 @@ InstallMethod( SimplicialSurface, "for an edge coloured simplicial surface",
         return PolygonalComplex(colComplex);
     end
 );
-RedispatchOnCondition( SimplicialSurface, true, [IsEdgeColouredPolygonalComplex], [IsEdgeColouredSimplicialSurface], 0 );
-InstallMethod( PolygonalComplex,
-    "for an edge coloured polygonal complex with SimplicialSurface",
-    [IsEdgeColouredPolygonalComplex and HasSimplicialSurface],
+RedispatchOnCondition( SimplicialSurface, true, [IsEdgeColouredTwistedPolygonalComplex], [IsEdgeColouredSimplicialSurface], 0 );
+
+InstallMethod( TwistedPolygonalComplex,
+    "for an edge coloured twisted polygonal complex with SimplicialSurface",
+    [IsEdgeColouredTwistedPolygonalComplex and HasSimplicialSurface],
     function(colComplex)
         return SimplicialSurface(colComplex);
     end
 );
-InstallMethod( VEFComplex,
-    "for an edge coloured polygonal complex with SimplicialSurface",
-    [IsEdgeColouredPolygonalComplex and HasSimplicialSurface],
+InstallMethod( TwistedPolygonalComplex,
+    "for an edge coloured twisted polygonal complex with PolygonalComplex",
+    [IsEdgeColouredTwistedPolygonalComplex and HasPolygonalComplex],
+    function(colComplex)
+        return PolygonalComplex(colComplex);
+    end
+);
+InstallMethod( PolygonalComplex,
+    "for an edge coloured twisted polygonal complex with SimplicialSurface",
+    [IsEdgeColouredTwistedPolygonalComplex and HasSimplicialSurface],
     function(colComplex)
         return SimplicialSurface(colComplex);
     end
@@ -299,17 +227,17 @@ InstallMethod( VEFComplex,
 ##
 
 InstallMethod( ColourOfEdgeNC, 
-    "for an edge coloured VEF-complex and an edge",
-    [IsEdgeColouredVEFComplex, IsPosInt],
+    "for an edge coloured twisted polygonal complex and an edge",
+    [IsEdgeColouredTwistedPolygonalComplex, IsPosInt],
     function(colComplex, edge)
         return ColoursOfEdges(colComplex)[edge];
     end
 );
 InstallMethod( ColourOfEdge,
-    "for an edge coloured VEF-complex and an edge",
-    [IsEdgeColouredVEFComplex, IsPosInt],
+    "for an edge coloured twisted polygonal complex and an edge",
+    [IsEdgeColouredTwistedPolygonalComplex, IsPosInt],
     function(colComplex, edge)
-        __SIMPLICIAL_CheckEdge( VEFComplex(colComplex), edge, "ColourOfEdge" );
+        __SIMPLICIAL_CheckEdge( TwistedPolygonalComplex(colComplex), edge, "ColourOfEdge" );
         return ColourOfEdgeNC(colComplex, edge);
     end
 );
@@ -318,8 +246,8 @@ InstallMethod( ColourOfEdge,
 
 
 InstallMethod( EdgesOfColour,
-    "for an edge coloured VEF-complex and a colour",
-    [IsEdgeColouredVEFComplex, IsPosInt],
+    "for an edge coloured twisted polygonal complex and a colour",
+    [IsEdgeColouredTwistedPolygonalComplex, IsPosInt],
     function(colComplex, colour)
         local edges;
         
@@ -336,8 +264,8 @@ InstallMethod( EdgesOfColour,
 # Since we only have two attributes, the usage of the AttributeScheduler is
 # not necessary
 InstallMethod( ColoursOfEdges,
-    "for an edge coloured VEF-complex that has EdgesOfColours",
-    [IsEdgeColouredVEFComplex and HasEdgesOfColours],
+    "for an edge coloured twisted polygonal complex that has EdgesOfColours",
+    [IsEdgeColouredTwistedPolygonalComplex and HasEdgesOfColours],
     function(colComplex)
         local colEdge, edgeCol, col, edge;
 
@@ -354,15 +282,15 @@ InstallMethod( ColoursOfEdges,
 );
 
 InstallMethod( EdgesOfColours,
-    "for an edge coloured VEF-complex that has ColoursOfEdges",
-    [IsEdgeColouredVEFComplex and HasColoursOfEdges],
+    "for an edge coloured twisted polygonal complex that has ColoursOfEdges",
+    [IsEdgeColouredTwistedPolygonalComplex and HasColoursOfEdges],
     function(colComplex)
         local colEdge, edgeCol, col;
 
         colEdge := ColoursOfEdges(colComplex);
         edgeCol := [];
         for col in Set(colEdge) do
-            edgeCol[col] := Filtered( Edges(VEFComplex(colComplex)), e -> colEdge[e] = col );
+            edgeCol[col] := Filtered( Edges(TwistedPolygonalComplex(colComplex)), e -> colEdge[e] = col );
         od;
 
         return edgeCol;
@@ -370,8 +298,8 @@ InstallMethod( EdgesOfColours,
 );
 
 
-InstallMethod( Colours, "for an edge coloured VEF-complex",
-    [IsEdgeColouredVEFComplex],
+InstallMethod( Colours, "for an edge coloured twisted polygonal complex",
+    [IsEdgeColouredTwistedPolygonalComplex],
     function(colComplex)
         return Set(ColoursOfEdges(colComplex));
     end
@@ -382,12 +310,12 @@ InstallMethod( Colours, "for an edge coloured VEF-complex",
 ##
 #######################################
 
-InstallMethod( \=, "for two edge coloured VEF-complexes", 
+InstallMethod( \=, "for two edge coloured twisted polygonal complexes", 
     IsIdenticalObj, 
-    [IsEdgeColouredVEFComplex, IsEdgeColouredVEFComplex],
+    [IsEdgeColouredTwistedPolygonalComplex, IsEdgeColouredTwistedPolygonalComplex],
     function(ec1, ec2)
         return ColoursOfEdges(ec1) = ColoursOfEdges(ec2) and 
-            VEFComplex(ec1) = VEFComplex(ec2);
+            TwistedPolygonalComplex(ec1) = TwistedPolygonalComplex(ec2);
     end
 );
 
@@ -439,8 +367,8 @@ BindGlobal( "__SIMPLICIAL_TameSurfaceType",
 );
 
 InstallMethod( ViewInformationEdgeColoured, 
-    "for an edge coloured polygonal complex",
-    [IsEdgeColouredPolygonalComplex],
+    "for an edge coloured twisted polygonal complex",
+    [IsEdgeColouredTwistedPolygonalComplex],
     function(colComp)
         local strList, str, out;
 
@@ -477,9 +405,14 @@ InstallMethod( ViewInformationEdgeColoured,
         fi;
         PrintTo( out, String( NumberOfFaces( PolygonalComplex(colComp) ) ) );
         PrintTo( out, " faces" );
-        if not IsWildColouredSurface(colComp)  and
-           not IsIsoscelesColouredSurface(colComp) then
+        if not IsPolygonalComplex(colComp) then
             PrintTo( out, " and " );
+            PrintTo( out, String(NumberOfChambers( TwistedPolygonalComplex(colComp) )) );
+            PrintTo( out, " chambers" );
+        fi;
+        if not IsWildColouredSurface(colComp) and 
+            not IsIsoscelesColouredSurface(colComp) then
+            PrintTo( out, ", with" );
             PrintTo( out, String( Length( Colours(colComp) ) ) );
             PrintTo( out, " colours" );
         fi;
@@ -571,7 +504,7 @@ InstallMethod( DisplayInformationEdgeColoured,
         Add( strList, [
             Concatenation( "    Vertices (", 
                 String(NumberOfVertices(complex)), "): ", 
-                String(VerticesAttributeOfVEFComplex(complex)), "\n" ), 0 ] );
+                String(VerticesAttributeOfComplex(complex)), "\n" ), 0 ] );
 
         # Edges
         if IsWildColouredSurface(colComp) then
@@ -823,10 +756,10 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 
             complex := PolygonalComplex(colComplex);
 
-            maxVert := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
+            maxVert := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)];
             maxEdge := Edges(complex)[NumberOfEdges(complex)];
             maxFace := Faces(complex)[NumberOfFaces(complex)];
-            vertices := ShallowCopy( VerticesAttributeOfVEFComplex(complex) );
+            vertices := ShallowCopy( VerticesAttributeOfComplex(complex) );
             edges := List( Edges(complex), e -> e + maxVert );
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
             cols := List( Colours(colComplex), c -> c + maxVert + maxEdge + maxFace );
@@ -873,11 +806,11 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
             complex := PolygonalComplex(colComplex);
 
-            maxVertex := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
+            maxVertex := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)];
             maxEdge := Edges(complex)[NumberOfEdges(complex)];
             maxFace := Faces(complex)[NumberOfFaces(complex)];
 
-            vertexList := ShallowCopy( VerticesAttributeOfVEFComplex(complex) );
+            vertexList := ShallowCopy( VerticesAttributeOfComplex(complex) );
             edgeList := [];
             colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
 

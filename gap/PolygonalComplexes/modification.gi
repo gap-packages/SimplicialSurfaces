@@ -29,6 +29,7 @@ InstallOtherMethod( SplitEdge, "for a polygonal complex and an edge",
         return SplitEdgeNC(complex, edge);
     end
 );
+RedispatchOnCondition( SplitEdge, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 InstallOtherMethod( SplitEdgeNC, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -43,6 +44,7 @@ InstallOtherMethod( SplitEdgeNC, "for a polygonal complex and an edge",
         fi;
     end
 );
+RedispatchOnCondition( SplitEdgeNC, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 InstallMethod( SplitEdge, "for a polygonal complex, an edge and a list",
     [IsPolygonalComplex, IsPosInt, IsList],
@@ -78,6 +80,7 @@ InstallMethod( SplitEdge, "for a polygonal complex, an edge and a list",
         fi;
     end
 );
+RedispatchOnCondition( SplitEdge, true, [IsTwistedPolygonalComplex,IsPosInt,IsList], [IsPolygonalComplex], 0 );
 InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
     [IsPolygonalComplex, IsPosInt, IsList],
     function(complex, edge, newEdgeLabels)
@@ -99,18 +102,20 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
             newFacesOfEdges[newEdgeLabels[i]] := [incFaces[i]];
         od;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVertsOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
+        SetIsPolygonalComplex(obj, true);
+        SetIsDefaultChamberSystem(obj, true);
         if HasVerticesOfFaces(complex) then
             SetVerticesOfFaces(obj, VerticesOfFaces(complex));
         fi;
         if HasFacesOfVertices(complex) then
             SetFacesOfVertices(obj, FacesOfVertices(complex));
         fi;
-        if HasVerticesAttributeOfVEFComplex(complex) then
-            SetVerticesAttributeOfVEFComplex(obj, 
-                VerticesAttributeOfVEFComplex(complex));
+        if HasVerticesAttributeOfComplex(complex) then
+            SetVerticesAttributeOfComplex(obj, 
+                VerticesAttributeOfComplex(complex));
         fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
@@ -122,6 +127,7 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
         return [obj, newEdgeLabels];
     end
 );
+RedispatchOnCondition( SplitEdgeNC, true, [IsTwistedPolygonalComplex,IsPosInt,IsList], [IsPolygonalComplex], 0 );
 
 
 ## Splitting vertices
@@ -130,7 +136,7 @@ BindGlobal( "__SIMPLICIAL_ConnectedStarComponents",
         local faces, edges, edgeOfFaces, f, comp, conn;
 
         # Compute some data in advance to avoid attribute scheduling
-        VerticesAttributeOfVEFComplex(complex);
+        VerticesAttributeOfComplex(complex);
         Edges(complex);
         Faces(complex);
 
@@ -162,8 +168,10 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStarComponent",
             newEdgesOfVertices[newVertexLabels[i]] := starComp[i][2];
         od;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetEdgesOfVertices(obj, newEdgesOfVertices);
+        SetIsPolygonalComplex(obj, true);
+        SetIsDefaultChamberSystem(obj, true);
 
         if HasFacesOfEdges(complex) then
             SetFacesOfEdges(obj, FacesOfEdges(complex));
@@ -189,7 +197,7 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStar",
         if Length(starComp) = 1 then
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [vertex], starComp);
         else
-            max := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)];
+            max := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)];
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [1..Length(starComp)]+max, starComp);
         fi;
     end
@@ -197,7 +205,7 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStar",
 InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
-        if not vertex in VerticesAttributeOfVEFComplex(complex) then
+        if not vertex in VerticesAttributeOfComplex(complex) then
             Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
                 " is not one of the vertices ", String(Vertices(complex)), 
                 " of the given polygonal complex." ) );
@@ -205,6 +213,7 @@ InstallOtherMethod( SplitVertex, "for a polygonal complex and a vertex",
         return SplitVertexNC(complex, vertex);
     end
 );
+RedispatchOnCondition( SplitVertex, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
     [IsPolygonalComplex, IsPosInt],
     function(complex, vertex)
@@ -215,18 +224,19 @@ InstallOtherMethod( SplitVertexNC, "for a polygonal complex and a vertex",
         if nrIncStars = 1 then
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [vertex], starComp);
         else
-            max := VerticesAttributeOfVEFComplex(complex)[ NumberOfVertices(complex) ];
+            max := VerticesAttributeOfComplex(complex)[ NumberOfVertices(complex) ];
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, [1..nrIncStars]+max, starComp);
         fi;
     end
 );
+RedispatchOnCondition( SplitVertexNC, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
     [IsPolygonalComplex, IsPosInt, IsList],
     function(complex, vertex, newVertexLabels)
         local intersect, starComp;
 
-        if not vertex in VerticesAttributeOfVEFComplex(complex) then
+        if not vertex in VerticesAttributeOfComplex(complex) then
             Error(Concatenation("SplitVertex: Given vertex ", String(vertex), 
                 " is not one of the vertices ", String(Vertices(complex)), 
                 " of the given polygonal complex." ) );
@@ -245,7 +255,7 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
             ));
         fi;
 
-        intersect := Intersection( VerticesAttributeOfVEFComplex(complex), 
+        intersect := Intersection( VerticesAttributeOfComplex(complex), 
             newVertexLabels );
         if Length(intersect) = 0 or (Length(intersect)=1 and intersect[1] = vertex) then
             return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, newVertexLabels, starComp);
@@ -257,6 +267,7 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
         fi;
     end
 );
+RedispatchOnCondition( SplitVertex, true, [IsTwistedPolygonalComplex,IsPosInt,IsList], [IsPolygonalComplex], 0 );
 InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
     [IsPolygonalComplex, IsPosInt, IsList],
     function(complex, vertex, newVertexLabels)
@@ -267,6 +278,7 @@ InstallMethod( SplitVertexNC, "for a polygonal complex, a vertex and a list",
         return __SIMPLICIAL_SplitVertexWithStarComponent(complex, vertex, newVertexLabels, starComp);
     end
 );
+RedispatchOnCondition( SplitVertexNC, true, [IsTwistedPolygonalComplex,IsPosInt,IsList], [IsPolygonalComplex], 0 );
 
 ## Splitting vertex-edge-paths
 BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
@@ -274,7 +286,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
         local partialPaths, i, newPaths, p, pNew, pOld, newEdge, used, 
             newVertex, resPaths, extNew, extOld;
 
-        VerticesAttributeOfVEFComplex(newComplex); # Compute this once to avoid scheduling
+        VerticesAttributeOfComplex(newComplex); # Compute this once to avoid scheduling
 
         partialPaths := [ [[],[]] ];
         for i in [1..Length(labelList)] do
@@ -339,14 +351,14 @@ InstallMethod( SplitVertexEdgePath,
     "for a polygonal complex and a duplicate-free vertex-edge-path",
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath)
-        if not complex = AssociatedVEFComplex(vePath) then
+        if not complex = AssociatedPolygonalComplex(vePath) then
             Error("SplitVertexEdgePath: Given vertex-edge-path has to match the given polygonal complex.");
         fi;
         return SplitVertexEdgePathNC(complex, vePath);
     end
 );
 RedispatchOnCondition( SplitVertexEdgePath, true, 
-    [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
+    [IsTwistedPolygonalComplex, IsVertexEdgePath], [IsPolygonalComplex,IsDuplicateFree], 0 );
 
 InstallMethod( SplitVertexEdgePathNC,
     "for a polygonal complex and a duplicate-free vertex-edge-path",
@@ -385,7 +397,7 @@ InstallMethod( SplitVertexEdgePathNC,
     end
 );
 RedispatchOnCondition( SplitVertexEdgePathNC, true, 
-    [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
+    [IsTwistedPolygonalComplex, IsVertexEdgePath], [IsPolygonalComplex,IsDuplicateFree], 0 );
 
 
 #####
@@ -395,14 +407,14 @@ InstallMethod( SplitEdgePath,
     "for a polygonal complex and a duplicate-free vertex-edge-path",
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath)
-        if not complex = AssociatedVEFComplex(vePath) then
+        if not complex = AssociatedPolygonalComplex(vePath) then
             Error("SplitEdgePath: Given vertex-edge-path has to match the given polygonal complex.");
         fi;
         return SplitEdgePathNC(complex, vePath);
     end
 );
 RedispatchOnCondition( SplitEdgePath, true, 
-    [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
+    [IsTwistedPolygonalComplex, IsVertexEdgePath], [IsPolygonalComplex,IsDuplicateFree], 0 );
 
 InstallMethod( SplitEdgePathNC, "for a polygonal complex and a duplicate-free vertex-edge-path",
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
@@ -437,7 +449,7 @@ InstallMethod( SplitEdgePathNC, "for a polygonal complex and a duplicate-free ve
     end
 );
 RedispatchOnCondition( SplitEdgePathNC, true, 
-    [IsPolygonalComplex, IsVertexEdgePath], [,IsDuplicateFree], 0 );
+    [IsTwistedPolygonalComplex, IsVertexEdgePath], [IsPolygonalComplex,IsDuplicateFree], 0 );
 
 
 ##
@@ -450,8 +462,8 @@ RedispatchOnCondition( SplitEdgePathNC, true,
 ##
 ##      Face removal
 ##
-InstallMethod( SubcomplexByFaces, "for a VEF-complex and a set of faces",
-    [IsVEFComplex, IsSet],
+InstallMethod( SubcomplexByFaces, "for a twisted polygonal complex and a set of faces",
+    [IsTwistedPolygonalComplex, IsSet],
     function(complex, subfaces)
 	if not IsSubset( Faces(complex), subfaces ) then
 	    Error("SubcomplexByFaces: there are not only faces given.");
@@ -461,8 +473,8 @@ InstallMethod( SubcomplexByFaces, "for a VEF-complex and a set of faces",
     end
 );
 InstallOtherMethod( SubcomplexByFaces, 
-    "for a VEF-complex and a list of faces",
-    [ IsVEFComplex, IsList ],
+    "for a twisted polygonal complex and a list of faces",
+    [ IsTwistedPolygonalComplex, IsList ],
     function(complex, subfaces)
         return SubcomplexByFaces(complex, Set(subfaces));
     end
@@ -491,60 +503,46 @@ InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces"
     end
 );
 InstallMethod( SubcomplexByFacesNC, 
-    "for a bend polygonal complex and a set of faces",
-    [IsBendPolygonalComplex, IsSet],
+    "for a twisted polygonal complex and a set of faces",
+    [IsTwistedPolygonalComplex, IsSet],
     function(complex, subfaces)
-        local flags, f, verts, edges, faces, locVerts, locEdges, halfEdges, 
-            sub;
+        local remChambers, vofC, eofC, fofC, c, zeroClass, oneClass,
+            twoClass, cl;
 
-        flags := [];
-        for f in subfaces do
-            Append(flags, LocalFlagsOfFaces(complex)[f]);
+        remChambers := Union( ChambersOfFaces(complex){subfaces} );
+        vofC := [];
+        eofC := [];
+        fofC := [];
+        for c in remChambers do
+            vofC[c] := VerticesOfChambers(complex)[c];
+            eofC[c] := EdgesOfChambers(complex)[c];
+            fofC[c] := FacesOfChambers(complex)[c];
         od;
 
-        verts := [];
-        edges := [];
-        faces := [];
-        locVerts := [];
-        locEdges := [];
-        halfEdges := [];
-        for f in flags do
-            verts[f] := VerticesOfLocalFlags(complex)[f];
-            edges[f] := EdgesOfLocalFlags(complex)[f];
-            faces[f] := FacesOfLocalFlags(complex)[f];
-            locVerts[f] := LocalVerticesOfLocalFlags(complex)[f];
-            locEdges[f] := LocalEdgesOfLocalFlags(complex)[f];
-            halfEdges[f] := HalfEdgesOfLocalFlags(complex)[f];
-        od;
-
-        sub := Objectify( BendPolygonalComplexType, rec() );
-        SetVerticesOfLocalFlags(sub, verts);
-        SetEdgesOfLocalFlags(sub, edges);
-        SetFacesOfLocalFlags(sub, faces);
-        SetLocalVerticesOfLocalFlags(sub, locVerts);
-        SetLocalEdgesOfLocalFlags(sub, locEdges);
-        SetHalfEdgesOfLocalFlags(sub, halfEdges);
-
-        #TODO transfer some surface properties (like NoEdgeRamifications) if possible
-
-        return sub;
+        zeroClass := Filtered( ZeroAdjacencyClasses(complex), cl -> IsSubset(remChambers, cl) );
+        oneClass := Filtered( OneAdjacencyClasses(complex), cl -> IsSubset(remChambers, cl) );
+        twoClass := List( TwoAdjacencyClasses(complex), cl -> Intersection(cl, remChambers) );
+        twoClass := Set(twoClass);
+        twoClass := Difference(twoClass, [[]]);
+        
+        return TwistedPolygonalComplexByChamberRelationsNC( vofC, eofC, fofC, zeroClass, oneClass, twoClass );
     end
 );
 InstallOtherMethod( SubcomplexByFacesNC, 
-    "for a VEF-complex and a list of faces",
-    [ IsVEFComplex, IsList ],
+    "for a twisted polygonal complex and a list of faces",
+    [ IsTwistedPolygonalComplex, IsList ],
     function(complex, subfaces)
         return SubcomplexByFacesNC(complex, Set(subfaces));
     end
 );
 
-InstallMethod( SubsurfaceByFaces, "for a VEF-surface and a set of faces",
-    [IsVEFSurface, IsSet],
+InstallMethod( SubsurfaceByFaces, "for a twisted polygonal surface and a set of faces",
+    [IsTwistedPolygonalSurface, IsSet],
     function(complex, subfaces)
         local sub;
 
         sub := SubcomplexByFaces(complex, subfaces);
-        if not IsVEFSurface(sub) then
+        if not IsTwistedPolygonalSurface(sub) then
             return fail;
         fi;
 
@@ -552,18 +550,18 @@ InstallMethod( SubsurfaceByFaces, "for a VEF-surface and a set of faces",
     end
 );
 InstallOtherMethod( SubsurfaceByFaces, 
-    "for a VEF-surface and a list of faces",
-    [ IsVEFSurface, IsList ],
+    "for a twisted polygonal surface and a list of faces",
+    [ IsTwistedPolygonalSurface, IsList ],
     function(complex, subfaces)
         return SubsurfaceByFaces(complex, Set(subfaces));
     end
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( SubsurfaceByFaces, true, [IsVEFComplex, IsList], [IsVEFSurface], 0 );
+    RedispatchOnCondition( SubsurfaceByFaces, true, [IsTwistedPolygonalComplex, IsList], [IsTwistedPolygonalSurface], 0 );
 fi;
 InstallOtherMethod( SubsurfaceByFacesNC, 
-    "for a VEF-surface and a set of faces",
-    [ IsVEFSurface, IsSet ],
+    "for a twisted polygonal surface and a set of faces",
+    [ IsTwistedPolygonalSurface, IsSet ],
     function(complex, subfaces)
         local sub;
 
@@ -575,22 +573,22 @@ InstallOtherMethod( SubsurfaceByFacesNC,
     end
 );
 InstallOtherMethod( SubsurfaceByFacesNC, 
-    "for a VEF-surface and a list of faces",
-    [ IsVEFSurface, IsList ],
+    "for a twisted polygonal surface and a list of faces",
+    [ IsTwistedPolygonalSurface, IsList ],
     function(complex, subfaces)
         return SubsurfaceByFacesNC(complex, Set(subfaces));
     end
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsVEFComplex, IsList], [IsVEFSurface], 0 );
+    RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsTwistedPolygonalComplex, IsList], [IsTwistedPolygonalSurface], 0 );
 fi;
 
 
 
 ####
 
-InstallMethod( RemoveFaces, "for a VEF-complex and a set of faces",
-    [IsVEFComplex, IsSet],
+InstallMethod( RemoveFaces, "for a twisted polygonal complex and a set of faces",
+    [IsTwistedPolygonalComplex, IsSet],
     function(complex, subfaces)
 	if not IsSubset( Faces(complex), subfaces ) then
 	    Error("RemoveFaces: there are not only faces given.");
@@ -600,28 +598,28 @@ InstallMethod( RemoveFaces, "for a VEF-complex and a set of faces",
     end
 );
 InstallOtherMethod( RemoveFaces, 
-    "for a VEF-complex and a list of faces",
-    [ IsVEFComplex, IsList ],
+    "for a twisted polygonal complex and a list of faces",
+    [ IsTwistedPolygonalComplex, IsList ],
     function(complex, subfaces)
         return RemoveFaces(complex, Set(subfaces));
     end
 );
-InstallMethod( RemoveFacesNC, "for a VEF-complex and a set of faces",
-    [IsVEFComplex, IsSet],
+InstallMethod( RemoveFacesNC, "for a twisted polygonal complex and a set of faces",
+    [IsTwistedPolygonalComplex, IsSet],
     function(complex, subfaces)
         return SubcomplexByFacesNC(complex, Difference(Faces(complex), subfaces));
     end
 );
 InstallOtherMethod( RemoveFacesNC, 
-    "for a VEF-complex and a list of faces",
-    [ IsVEFComplex, IsList ],
+    "for a twisted polygonal complex and a list of faces",
+    [ IsTwistedPolygonalComplex, IsList ],
     function(complex, subfaces)
         return RemoveFacesNC(complex, Set(subfaces));
     end
 );
 
-InstallMethod( RemoveFace, "for a VEF-complex and a face",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( RemoveFace, "for a twisted polygonal complex and a face",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         if not face in Faces(complex) then
             Error(Concatenation("RemoveFace: The given face ", String(face), 
@@ -631,8 +629,8 @@ InstallMethod( RemoveFace, "for a VEF-complex and a face",
         return RemoveFaceNC(complex, face);
     end
 );
-InstallMethod( RemoveFaceNC, "for a VEF-complex and a face",
-    [IsVEFComplex, IsPosInt],
+InstallMethod( RemoveFaceNC, "for a twisted polygonal complex and a face",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         return RemoveFaces(complex,[face]);
     end
@@ -656,6 +654,7 @@ InstallOtherMethod(DisjointUnion, "for two polygonal complexes",
         return DisjointUnion(complex1, complex2, 0);
     end
 );
+RedispatchOnCondition( DisjointUnion, true, [IsTwistedPolygonalComplex,IsTwistedPolygonalComplex], [IsPolygonalComplex,IsPolygonalComplex], 0 );
 InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
     [IsPolygonalComplex, IsPolygonalComplex, IsInt],
     function(complex1, complex2, shift)
@@ -663,13 +662,13 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
             newEdges, vMax, eMax, fMax;
 
         if Length( Intersection(
-                    VerticesAttributeOfVEFComplex(complex1), 
-                    VerticesAttributeOfVEFComplex(complex2)) ) = 0 and
+                    VerticesAttributeOfComplex(complex1), 
+                    VerticesAttributeOfComplex(complex2)) ) = 0 and
             Length( Intersection(Edges(complex1), Edges(complex2)) ) = 0 and
             Length( Intersection(Faces(complex1), Faces(complex2)) ) = 0 then
                 realShift := 0;
         else
-            vMax := VerticesAttributeOfVEFComplex(complex1)[ NumberOfVertices(complex1) ];
+            vMax := VerticesAttributeOfComplex(complex1)[ NumberOfVertices(complex1) ];
             eMax := Edges(complex1)[NumberOfEdges(complex1)];
             fMax := Faces(complex1)[NumberOfFaces(complex1)];
             realShift := Maximum( [vMax, eMax, fMax] );
@@ -688,10 +687,12 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
             Add(newEdges, e + realShift);
         od;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
         SetEdges(obj, newEdges);
+        SetIsPolygonalComplex(obj, true);
+        SetIsDefaultChamberSystem(obj, true);
 
         if HasIsTriangular(complex1) and HasIsTriangular(complex2) then
             SetIsTriangular(obj, IsTriangular(complex1) and IsTriangular(complex2));
@@ -708,6 +709,7 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
         return [obj, realShift];
     end
 );
+RedispatchOnCondition( DisjointUnion, true, [IsTwistedPolygonalComplex,IsTwistedPolygonalComplex,IsInt], [IsPolygonalComplex,IsPolygonalComplex], 0 );
 
 
 ##
@@ -726,12 +728,12 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
 InstallMethod( JoinVertices, "for two polygonal complexes and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt],
     function(complex1, v1, complex2, v2)
-        if not v1 in VerticesAttributeOfVEFComplex(complex1) then
+        if not v1 in VerticesAttributeOfComplex(complex1) then
             Error(Concatenation("JoinVertices: The first vertex ", String(v1), 
                 " is not one of the vertices in the first polygonal complex: ", 
                 String(Vertices(complex1)), "."));
         fi;
-        if not v2 in VerticesAttributeOfVEFComplex(complex2) then
+        if not v2 in VerticesAttributeOfComplex(complex2) then
             Error(Concatenation("JoinVertices: The second vertex ", String(v2), 
                 " is not one of the vertices in the second polygonal complex: ", 
                 String(Vertices(complex2)), "."));
@@ -739,6 +741,9 @@ InstallMethod( JoinVertices, "for two polygonal complexes and two vertices",
         return JoinVerticesNC(complex1,v1,complex2,v2);
     end
 );
+RedispatchOnCondition( JoinVertices, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsTwistedPolygonalComplex,IsPosInt], 
+    [IsPolygonalComplex,,IsPolygonalComplex], 0 );
 InstallMethod( JoinVerticesNC, "for two polygonal complexes and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt],
     function(complex1, v1, complex2, v2)
@@ -753,6 +758,9 @@ InstallMethod( JoinVerticesNC, "for two polygonal complexes and two vertices",
         return join;
     end
 );
+RedispatchOnCondition( JoinVerticesNC, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsTwistedPolygonalComplex,IsPosInt], 
+    [IsPolygonalComplex,,IsPolygonalComplex], 0 );
 
 InstallOtherMethod( JoinVertices, 
     "for a polygonal complex and a list of two vertices",
@@ -764,11 +772,14 @@ InstallOtherMethod( JoinVertices,
         if Length(vertSet) = 1 then
             label := vertSet[1];
         else
-            label := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)] + 1;
+            label := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)] + 1;
         fi;
         return JoinVertices(complex, vertSet, label);
     end
 );
+RedispatchOnCondition( JoinVertices, true, 
+    [IsTwistedPolygonalComplex,IsList],
+    [IsPolygonalComplex], 0 );
 InstallOtherMethod( JoinVerticesNC,
     "for a polygonal complex and a list of two vertices",
     [IsPolygonalComplex, IsList],
@@ -779,11 +790,14 @@ InstallOtherMethod( JoinVerticesNC,
         if Length(vertSet) = 1 then
             label := vertSet[1];
         else
-            label := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)] + 1;
+            label := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)] + 1;
         fi;
         return JoinVerticesNC(complex, vertSet, label);
     end
 );
+RedispatchOnCondition( JoinVerticesNC, true, 
+    [IsTwistedPolygonalComplex,IsList],
+    [IsPolygonalComplex], 0 );
 
 InstallMethod( JoinVertices, 
     "for a polygonal complex, a list of two vertices and a new vertex label",
@@ -796,13 +810,13 @@ InstallMethod( JoinVertices,
             Error(Concatenation("JoinVertices: Given vertex list ", String(vertList), 
                 " contains more than two different elements."));
         fi;
-        if not IsSubset(VerticesAttributeOfVEFComplex(complex), vertSet) then
+        if not IsSubset(VerticesAttributeOfComplex(complex), vertSet) then
             Error(Concatenation("JoinVertices: Given vertex list ", String(vertList),
                 " is not a subset of the vertices of the given complex: ",
                 String(Vertices(complex)), "."));
         fi;
         if not newVertexLabel in vertSet and 
-                newVertexLabel in VerticesAttributeOfVEFComplex(complex) then
+                newVertexLabel in VerticesAttributeOfComplex(complex) then
             Error(Concatenation("JoinVertices: Given new vertex label ", 
                 String(newVertexLabel), " conflicts with existing vertices: ", 
                 String(Vertices(complex)), "."));
@@ -815,6 +829,9 @@ InstallMethod( JoinVertices,
         fi;
     end
 );
+RedispatchOnCondition( JoinVertices, true, 
+    [IsTwistedPolygonalComplex,IsList,IsPosInt],
+    [IsPolygonalComplex], 0 );
 InstallMethod( JoinVerticesNC,
     "for a polygonal complex, a list of two vertices and a new vertex label",
     [IsPolygonalComplex, IsList, IsPosInt],
@@ -829,6 +846,9 @@ InstallMethod( JoinVerticesNC,
         fi;
     end
 );
+RedispatchOnCondition( JoinVerticesNC, true, 
+    [IsTwistedPolygonalComplex,IsList,IsPosInt],
+    [IsPolygonalComplex], 0 );
 
 InstallOtherMethod( JoinVertices,
     "for a polygonal complex and two vertices",
@@ -839,11 +859,14 @@ InstallOtherMethod( JoinVertices,
         if v1 = v2 then
             label := v1;
         else
-            label := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)]+1;
+            label := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)]+1;
         fi;
         return JoinVertices(complex, v1, v2, label);
     end
 );
+RedispatchOnCondition( JoinVertices, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
 InstallOtherMethod( JoinVerticesNC,
     "for a polygonal complex and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
@@ -853,11 +876,14 @@ InstallOtherMethod( JoinVerticesNC,
         if v1 = v2 then
             label := v1;
         else
-            label := VerticesAttributeOfVEFComplex(complex)[NumberOfVertices(complex)]+1;
+            label := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)]+1;
         fi;
         return JoinVerticesNC(complex, v1, v2, label);
     end
 );
+RedispatchOnCondition( JoinVerticesNC, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
 
 InstallMethod( JoinVertices,
     "for a polygonal complex, two vertices and a new vertex label",
@@ -866,7 +892,7 @@ InstallMethod( JoinVertices,
         __SIMPLICIAL_CheckVertex(complex, v1, "JoinVertices");
         __SIMPLICIAL_CheckVertex(complex, v2, "JoinVertices");
         if newVertexLabel <> v1 and newVertexLabel <> v2 and 
-                newVertexLabel in VerticesAttributeOfVEFComplex(complex) then
+                newVertexLabel in VerticesAttributeOfComplex(complex) then
             Error(Concatenation("JoinVertices: Given new vertex label ", 
                 String(newVertexLabel), " conflicts with existing vertices: ", 
                 String(Vertices(complex)), "."));
@@ -875,6 +901,9 @@ InstallMethod( JoinVertices,
         return JoinVerticesNC(complex, v1, v2, newVertexLabel);
     end
 );
+RedispatchOnCondition( JoinVertices, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
 InstallMethod( JoinVerticesNC,
     "for a polygonal complex, two vertices and a new vertex label",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
@@ -909,8 +938,10 @@ InstallMethod( JoinVerticesNC,
         Unbind(newEdgesOfVertices[v2]);
         newEdgesOfVertices[newVertexLabel] := newEdges;
 
-        obj := Objectify(PolygonalComplexType, rec());
+        obj := Objectify(TwistedPolygonalComplexType, rec());
         SetEdgesOfVertices(obj, newEdgesOfVertices);
+        SetIsPolygonalComplex(obj, true);
+        SetIsDefaultChamberSystem(obj, true);
         if HasEdgesOfFaces(complex) then
             SetEdgesOfFaces(obj, EdgesOfFaces(complex));
         else
@@ -929,6 +960,9 @@ InstallMethod( JoinVerticesNC,
         return [obj, newVertexLabel];
     end
 );
+RedispatchOnCondition( JoinVerticesNC, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
 
 
 
@@ -939,12 +973,18 @@ InstallOtherMethod( JoinEdges, "for a polygonal complex and two edges",
         return JoinEdges(complex, e1, e2, Edges(complex)[NumberOfEdges(complex)]+1);
     end
 );
+RedispatchOnCondition( JoinEdges, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
 InstallOtherMethod( JoinEdgesNC, "for a polygonal complex and two edges",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, e1, e2)
         return JoinEdgesNC(complex, e1, e2, Edges(complex)[NumberOfEdges(complex)]+1);
     end
 );
+RedispatchOnCondition( JoinEdgesNC, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
 
 InstallMethod( JoinEdges, 
     "for a polygonal complex, two edges and a new edge label",
@@ -970,6 +1010,9 @@ InstallMethod( JoinEdges,
         return JoinEdgesNC(complex, e1, e2, newEdgeLabel);
     end
 );
+RedispatchOnCondition( JoinEdges, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
 InstallMethod( JoinEdgesNC,
     "for a polygonal complex, two edges and a new edge label",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
@@ -989,18 +1032,20 @@ InstallMethod( JoinEdgesNC,
         Unbind(newFacesOfEdges[e2]);
         newFacesOfEdges[newEdgeLabel] := faces;
 
-        obj := Objectify( PolygonalComplexType, rec() );
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
+        SetIsPolygonalComplex(obj, true);
+        SetIsDefaultChamberSystem(obj, true);
         if HasVerticesOfFaces(complex) then
             SetVerticesOfFaces(obj, VerticesOfFaces(complex));
         fi;
         if HasFacesOfVertices(complex) then
             SetFacesOfVertices(obj, FacesOfVertices(complex));
         fi;
-        if HasVerticesAttributeOfVEFComplex(complex) then
-            SetVerticesAttributeOfVEFComplex(obj, 
-                VerticesAttributeOfVEFComplex(complex));
+        if HasVerticesAttributeOfComplex(complex) then
+            SetVerticesAttributeOfComplex(obj, 
+                VerticesAttributeOfComplex(complex));
         fi;
         if HasFaces(complex) then
             SetFaces(obj, Faces(complex));
@@ -1011,6 +1056,9 @@ InstallMethod( JoinEdgesNC,
         return [obj, newEdgeLabel];
     end
 );
+RedispatchOnCondition( JoinEdgesNC, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
 
 InstallOtherMethod(JoinEdges,
 	"for a polygonal complex and a list",
@@ -1019,6 +1067,9 @@ InstallOtherMethod(JoinEdges,
 		return JoinEdges(complex,edgeList,Last(Edges(complex))+1);
 	end
 );
+RedispatchOnCondition( JoinEdges, true, 
+    [IsTwistedPolygonalComplex,IsList],
+    [IsPolygonalComplex], 0 );
 
 InstallOtherMethod(JoinEdgesNC,
 	"for a polygonal complex and a list",
@@ -1027,6 +1078,9 @@ InstallOtherMethod(JoinEdgesNC,
 		return JoinEdgesNC(complex,edgeList,Last(Edges(complex))+1);
 	end
 );
+RedispatchOnCondition( JoinEdgesNC, true, 
+    [IsTwistedPolygonalComplex,IsList],
+    [IsPolygonalComplex], 0 );
 
 InstallMethod(JoinEdges,
 	"for a polygonal complex, a list and a new edge label",
@@ -1051,6 +1105,9 @@ InstallMethod(JoinEdges,
 		
 	end
 );
+RedispatchOnCondition( JoinEdges, true, 
+    [IsTwistedPolygonalComplex,IsList,IsPosInt],
+    [IsPolygonalComplex], 0 );
 
 InstallMethod(JoinEdgesNC,
 	"for a polygonal complex, a list and a new edge label",
@@ -1066,6 +1123,9 @@ InstallMethod(JoinEdgesNC,
 		return JoinEdgesNC(newComplex,newEdge,Last(edgeList),newEdgeLabel);
 	end
 );
+RedispatchOnCondition( JoinEdgesNC, true, 
+    [IsTwistedPolygonalComplex,IsList,IsPosInt],
+    [IsPolygonalComplex], 0 );
 
 
 ## VertexEdgePaths
@@ -1074,11 +1134,11 @@ InstallMethod( JoinVertexEdgePaths,
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
         IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree],
     function(complex1, vePath1, complex2, vePath2)
-        if complex1 <> AssociatedVEFComplex(vePath1) then
+        if complex1 <> AssociatedPolygonalComplex(vePath1) then
             Error(Concatenation("JoinVertexEdgePaths: The first path ", 
                 String(vePath1), " does not belong to the first polygonal complex."));
         fi;
-        if complex2 <> AssociatedVEFComplex(vePath2) then
+        if complex2 <> AssociatedPolygonalComplex(vePath2) then
             Error(Concatenation("JoinVertexEdgePaths: The second path ", 
                 String(vePath2), " does not belong to the first polygonal complex."));
         fi;
@@ -1092,8 +1152,8 @@ InstallMethod( JoinVertexEdgePaths,
     end
 );
 RedispatchOnCondition( JoinVertexEdgePaths, true, 
-    [IsPolygonalComplex, IsVertexEdgePath, IsPolygonalComplex, IsVertexEdgePath],
-    [,IsDuplicateFree,,IsDuplicateFree], 0);
+    [IsTwistedPolygonalComplex, IsVertexEdgePath, IsTwistedPolygonalComplex, IsVertexEdgePath],
+    [IsPolygonalComplex,IsDuplicateFree,IsPolygonalComplex,IsDuplicateFree], 0);
 
 InstallMethod( JoinVertexEdgePathsNC, 
     "for two polygonal complexes and two duplicate-free vertex-edge-paths",
@@ -1114,19 +1174,19 @@ InstallMethod( JoinVertexEdgePathsNC,
     end
 );
 RedispatchOnCondition( JoinVertexEdgePathsNC, true, 
-    [IsPolygonalComplex, IsVertexEdgePath, IsPolygonalComplex, IsVertexEdgePath],
-    [,IsDuplicateFree,,IsDuplicateFree], 0);
+    [IsTwistedPolygonalComplex, IsVertexEdgePath, IsTwistedPolygonalComplex, IsVertexEdgePath],
+    [IsPolygonalComplex,IsDuplicateFree,IsPolygonalComplex,IsDuplicateFree], 0);
 
 InstallMethod( JoinVertexEdgePaths, 
     "for a polygonal complexes and two duplicate-free vertex-edge-paths",
     [IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree, 
         IsVertexEdgePath and IsDuplicateFree],
     function(complex, vePath1, vePath2)
-        if complex <> AssociatedVEFComplex(vePath1) then
+        if complex <> AssociatedPolygonalComplex(vePath1) then
             Error(Concatenation("JoinVertexEdgePaths: The first path ", 
                 String(vePath1), " does not belong to the polygonal complex."));
         fi;
-        if complex <> AssociatedVEFComplex(vePath2) then
+        if complex <> AssociatedPolygonalComplex(vePath2) then
             Error(Concatenation("JoinVertexEdgePaths: The second path ", 
                 String(vePath2), " does not belong to the polygonal complex."));
         fi;
@@ -1140,8 +1200,8 @@ InstallMethod( JoinVertexEdgePaths,
     end
 );
 RedispatchOnCondition( JoinVertexEdgePaths, true, 
-    [IsPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
-    [,IsDuplicateFree,IsDuplicateFree], 0);
+    [IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
+    [IsPolygonalComplex,IsDuplicateFree,IsDuplicateFree], 0);
 
 InstallMethod( JoinVertexEdgePathsNC, 
     "for a polygonal complexes and two duplicate-free vertex-edge-paths",
@@ -1154,7 +1214,7 @@ InstallMethod( JoinVertexEdgePathsNC,
         labelList := [];
 
         # Identify vertices
-        maxVert := VerticesAttributeOfVEFComplex(swapComplex)[NumberOfVertices(swapComplex)];
+        maxVert := VerticesAttributeOfComplex(swapComplex)[NumberOfVertices(swapComplex)];
         for i in [1..Length(VerticesAsList(vePath1))-1] do;
             v1 := VerticesAsList(vePath1)[i];
             v2 := VerticesAsList(vePath2)[i];
@@ -1209,8 +1269,8 @@ InstallMethod( JoinVertexEdgePathsNC,
     end
 );
 RedispatchOnCondition( JoinVertexEdgePathsNC, true, 
-    [IsPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
-    [,IsDuplicateFree,IsDuplicateFree], 0);
+    [IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
+    [IsPolygonalComplex,IsDuplicateFree,IsDuplicateFree], 0);
 
 
 ## Boundaries
@@ -1231,7 +1291,7 @@ InstallMethod(JoinBoundaries,
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundaries, true, 
-        [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList], 
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList], 
         [IsPolygonalSurface,,IsPolygonalSurface], 0 );
 fi;
 InstallMethod(JoinBoundaries,
@@ -1339,7 +1399,7 @@ InstallMethod(JoinBoundaries,
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundaries, true, 
-        [IsPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+        [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
 fi;
 
 
@@ -1385,7 +1445,7 @@ InstallMethod( ConnectedFaceSum, "for two polygonal surfaces and two flags",
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( ConnectedFaceSum, true, 
-        [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList], 
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList], 
         [IsPolygonalSurface,,IsPolygonalSurface], 0 );
 fi;
 
@@ -1418,10 +1478,10 @@ InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
     end
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( SnippOffEars, true, [IsPolygonalComplex], [IsSimplicialSurface], 0 );
+    RedispatchOnCondition( SnippOffEars, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
 else
     # This redispatch will not check whether we have a surface
-    RedispatchOnCondition( SnippOffEars, true, [IsPolygonalComplex], [IsTriangularComplex], 0 );
+    RedispatchOnCondition( SnippOffEars, true, [IsTwistedPolygonalComplex], [IsTriangularComplex], 0 );
 fi;
 
 InstallMethod( SplitAllVertices, "for a polygonal complex", 
@@ -1430,13 +1490,14 @@ InstallMethod( SplitAllVertices, "for a polygonal complex",
         local swapComplex, v;
 
         swapComplex := complex;
-        for v in VerticesAttributeOfVEFComplex(complex) do
+        for v in VerticesAttributeOfComplex(complex) do
             swapComplex := SplitVertexNC(swapComplex, v)[1];
         od;
 
         return swapComplex;
     end
 );
+RedispatchOnCondition( SplitAllVertices, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 
 ##
 ##      End Applications
@@ -1460,6 +1521,7 @@ InstallMethod( CraterCuttableEdges, "for a polygonal complex",
         return Filtered(innerEdges, e -> ForAll( VerticesOfEdges(complex)[e], v -> IsInnerVertexNC(complex, v) ));
     end
 );
+RedispatchOnCondition( CraterCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 InstallMethod( CraterCut, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -1471,6 +1533,7 @@ InstallMethod( CraterCut, "for a polygonal complex and an edge",
         return SplitEdgeNC(complex, edge)[1];
     end
 );
+RedispatchOnCondition( CraterCut, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 InstallMethod( CraterMendableEdgePairs, "for a polygonal complex",
     [IsPolygonalComplex],
@@ -1486,6 +1549,7 @@ InstallMethod( CraterMendableEdgePairs, "for a polygonal complex",
         return Union(edgePairs);
     end
 );
+RedispatchOnCondition( CraterMendableEdgePairs, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 InstallMethod( CraterMend, "for a polygonal complex and a pair of edges",
     [IsPolygonalComplex, IsList],
     function(complex, edgePair)
@@ -1497,6 +1561,7 @@ InstallMethod( CraterMend, "for a polygonal complex and a pair of edges",
         return JoinEdgesNC(complex, edgePair)[1];
     end
 );
+RedispatchOnCondition( CraterMend, true, [IsTwistedPolygonalComplex,IsList], [IsPolygonalComplex], 0 );
 
 InstallMethod( RipCuttableEdges, "for a polygonal complex", 
     [IsPolygonalComplex],
@@ -1515,6 +1580,7 @@ InstallMethod( RipCuttableEdges, "for a polygonal complex",
         return Filtered(InnerEdges(complex), CheckInnerBound );
     end
 );
+RedispatchOnCondition( RipCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 InstallMethod( RipCut, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -1525,6 +1591,7 @@ InstallMethod( RipCut, "for a polygonal complex and an edge",
         return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
     end
 );
+RedispatchOnCondition( RipCut, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 InstallMethod( RipMendableEdgePairs, "for a polygonal complex",
     [IsPolygonalComplex],
@@ -1544,6 +1611,7 @@ InstallMethod( RipMendableEdgePairs, "for a polygonal complex",
         return Set(pairs);
     end
 );
+RedispatchOnCondition( RipMendableEdgePairs, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 InstallMethod( RipMend, "for a polygonal complex and a pair of edges",
     [IsPolygonalComplex, IsList],
     function(complex, edgePair)
@@ -1570,6 +1638,7 @@ InstallMethod( RipMend, "for a polygonal complex and a pair of edges",
         fi;
     end
 );
+RedispatchOnCondition( RipMend, true, [IsTwistedPolygonalComplex,IsList], [IsPolygonalComplex], 0 );
 
 
 InstallMethod( SplitCuttableEdges, "for a polygonal complex", 
@@ -1580,6 +1649,7 @@ InstallMethod( SplitCuttableEdges, "for a polygonal complex",
                 v -> IsBoundaryVertexNC(complex, v)));
     end
 );
+RedispatchOnCondition( SplitCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 InstallMethod( SplitCut, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -1591,6 +1661,7 @@ InstallMethod( SplitCut, "for a polygonal complex and an edge",
         return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
     end
 );
+RedispatchOnCondition( SplitCut, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 
 InstallMethod( SplitMendableFlagPairs, "for a polygonal complex",
@@ -1615,6 +1686,7 @@ InstallMethod( SplitMendableFlagPairs, "for a polygonal complex",
         return Set(flagPairs);
     end
 );
+RedispatchOnCondition( SplitMendableFlagPairs, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 InstallMethod( SplitMend, 
     "for a polygonal complex and a pair of vertex-edge-flags",
     [IsPolygonalComplex, IsList],
@@ -1639,6 +1711,7 @@ InstallMethod( SplitMend,
         fi;
     end
 );
+RedispatchOnCondition( SplitMend, true, [IsTwistedPolygonalComplex,IsList], [IsPolygonalComplex], 0 );
 
 
 ##

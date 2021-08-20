@@ -15,7 +15,10 @@
 ##
 ##      General flags
 ##
-InstallMethod( Flags, "for a polygonal complex", [IsPolygonalComplex],
+__SIMPLICIAL_AddPolygonalAttribute(Flags);
+
+InstallMethod( Flags, "for a polygonal complex with edges, verticesOfEdges, and facesOfEdges", 
+    [IsPolygonalComplex and HasEdges and HasVerticesOfEdges and HasFacesOfEdges],
     function(complex)
         local flags, v, e, f;
 
@@ -31,6 +34,7 @@ InstallMethod( Flags, "for a polygonal complex", [IsPolygonalComplex],
         return Set(flags);
     end
 );
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER, "Flags", ["Edges", "VerticesOfEdges", "FacesOfEdges"], ["IsPolygonalComplex"]);
 InstallMethod( ThreeFlags, "for a polygonal complex", [IsPolygonalComplex],
     function(complex)
         return Flags(complex);
@@ -56,7 +60,7 @@ InstallMethod( VertexFaceFlags, "for a polygonal complex", [IsPolygonalComplex],
         local flags, v, f;
         
         flags := [];
-        for v in VerticesAttributeOfVEFComplex(complex) do
+        for v in VerticesAttributeOfComplex(complex) do
             for f in FacesOfVertices(complex)[v] do
                 Add(flags,[v,f]);
             od;
@@ -102,7 +106,7 @@ InstallMethod( OneFlags, "for a polygonal complex", [IsPolygonalComplex],
         local flags;
 
         flags := [];
-        Append(flags, List(VerticesAttributeOfVEFComplex(complex), v -> [0,v]));
+        Append(flags, List(VerticesAttributeOfComplex(complex), v -> [0,v]));
         Append(flags, List(Edges(complex), e -> [1,e]));
         Append(flags, List(Faces(complex), f -> [2,f]));
 
@@ -152,8 +156,8 @@ InstallMethod( DressInvolutions,
     end
 );
 
-InstallMethod( DressGroup, "for a VEF-complex without edge ramifications",
-    [IsVEFComplex and IsNotEdgeRamified],
+InstallMethod( DressGroup, "for a polygonal complex without edge ramifications",
+    [IsPolygonalComplex and IsNotEdgeRamified],
     function(complex)
         return Group( DressInvolutions(complex) );
     end
@@ -170,19 +174,19 @@ InstallMethod( DressGroup, "for a VEF-complex without edge ramifications",
 ##      Flag complexes
 ##
 DeclareRepresentation("FlagComplexRep", IsFlagComplex and IsAttributeStoringRep, []);
-BindGlobal("FlagComplexType", NewType(EdgeColouredPolygonalComplexFamily, FlagComplexRep));
+BindGlobal("FlagComplexType", NewType(EdgeColouredTwistedPolygonalComplexFamily, FlagComplexRep));
 
 InstallMethod( IsFlagSurface, 
-    "for an edge coloured polygonal complex",
+    "for an edge coloured twisted polygonal complex",
     [IsFlagComplex],
     function(colComp)
-        return IsEdgeColouredPolygonalComplex(colComp) and IsNotEdgeRamified(colComp) and IsNotVertexRamified(colComp) and IsFlagComplex(colComp);
+        return IsEdgeColouredTwistedPolygonalComplex(colComp) and IsNotEdgeRamified(colComp) and IsNotVertexRamified(colComp) and IsFlagComplex(colComp);
     end
 );
 
 
 
-InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( FlagComplex, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
         local oneFlags, twoFlags, threeFlags, verticesOfEdges, facesOfEdges,
             cols, e, incVert, v, f, incFaces, newComp, flagComp;
@@ -237,13 +241,14 @@ InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
             facesOfEdges[e] := incFaces;
         od;
 
-        newComp := Objectify(PolygonalComplexType, rec());
+        newComp := Objectify(TwistedPolygonalComplexType, rec());
         SetVerticesOfEdges(newComp, verticesOfEdges);
         SetFacesOfEdges(newComp, facesOfEdges);
+        SetIsDefaultChamberSystem(newComp, true);
 
         flagComp := Objectify(FlagComplexType,rec());
         SetOriginalComplex(flagComp, complex);
-        SetPolygonalComplex(flagComp, newComp);
+        SetTwistedPolygonalComplex(flagComp, newComp);
         SetColoursOfEdges(flagComp, cols);
 
         return flagComp;
@@ -251,20 +256,20 @@ InstallMethod( FlagComplex, "for a polygonal complex", [IsPolygonalComplex],
 );
 
 InstallMethod( FlagSurface,
-    "for a polygonal surface", [IsPolygonalSurface],
+    "for a twisted polygonal surface", [IsTwistedPolygonalSurface],
     function(surf)
         return FlagComplex(surf);
     end
 );
-RedispatchOnCondition( FlagSurface, true, [IsPolygonalComplex],
-    [IsPolygonalSurface], 0);
+RedispatchOnCondition( FlagSurface, true, [IsTwistedPolygonalComplex],
+    [IsTwistedPolygonalSurface], 0);
 
 
 
 # Assume that this attribute is set if it is known that the complex
 # is a flag complex
 RedispatchOnCondition( OriginalComplex, true, 
-    [IsEdgeColouredPolygonalComplex], [IsFlagComplex], 0 );
+    [IsEdgeColouredTwistedPolygonalComplex], [IsFlagComplex], 0 );
 
 InstallMethod( OriginalSurface, "for a flag surface", 
     [IsFlagSurface],
@@ -279,8 +284,7 @@ RedispatchOnCondition( OriginalSurface, true, [IsFlagComplex],
 InstallMethod( IsomorphicFlagSurface, "for a tame coloured surface", 
     [IsTameColouredSurface],
     function(tameSurf)
-        local perms, bound, i, origVerts, origEdges, origFaces, verticesOfEdges,
-            edgesOfFaces, flags, m, vert, edge, face, surf;
+        local perms, bound, i, twisted;
 
         if 2 in LocalSymmetryOfColours(tameSurf) then
             return fail; # has to be MMM-surface
@@ -300,42 +304,16 @@ InstallMethod( IsomorphicFlagSurface, "for a tame coloured surface",
             return false;
         fi;
 
-
-        # Reconstruct the flags of the original surface
-        origFaces := Orbits( Group( perms[1], perms[2] ), Faces(PolygonalComplex(tameSurf)) );
-        origEdges := Orbits( Group( perms[1], perms[3] ), Faces(PolygonalComplex(tameSurf)) );
-        origVerts := Orbits( Group( perms[2], perms[3] ), Faces(PolygonalComplex(tameSurf)) );
-
-        verticesOfEdges := List( [1..Length(origEdges)], i->[] );
-        edgesOfFaces := List( [1..Length(origFaces)], i -> [] );
-
-        flags := [];
-        for m in Faces(PolygonalComplex(tameSurf)) do
-            vert := PositionProperty( origVerts, v -> m in v );
-            edge := PositionProperty( origEdges, e -> m in e );
-            face := PositionProperty( origFaces, f -> m in f );
-            flags[m] := [vert,edge,face];
-            verticesOfEdges[edge] := Union( verticesOfEdges[edge], [vert] );
-            edgesOfFaces[face] := Union( edgesOfFaces[face], [edge] );
-        od;
-        
-        # Check if the flags belong to a simplicial surface (there might be a problem if two edges of the same face are identified).
-        if Length( Set(flags) ) < Number(flags) then
-            # There is a problem
-            return true;
-        fi;
-
-        surf := SimplicialSurfaceByDownwardIncidenceNC( Length(origVerts), Length(origEdges), Length(origFaces),
-            verticesOfEdges, edgesOfFaces); #TODO constructor by flags
-        return FlagSurface(surf);
+        twisted := TwistedPolygonalComplexByChamberAdjacenciesNC( perms[1], perms[2], perms[3] );
+        return FlagComplex(twisted);
     end
 );
-RedispatchOnCondition(IsomorphicFlagSurface, true, [IsEdgeColouredPolygonalComplex], [IsTameColouredSurface], 0);
+RedispatchOnCondition(IsomorphicFlagSurface, true, [IsEdgeColouredTwistedPolygonalComplex], [IsTameColouredSurface], 0);
 
 
 InstallOtherMethod( DrawSurfaceToTikz, 
-    "for a flag complex without edge ramifications, a file name and a print record",
-    [IsFlagComplex and IsNotEdgeRamified, IsString, IsRecord],
+    "for a flag complex that is a polygonal complex without edge ramifications, a file name and a print record",
+    [IsFlagComplex and IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(flagSurf, file, printRecord)
         local complex, faceSizes, twoFlag, n, e;
 
@@ -375,7 +353,7 @@ InstallOtherMethod( DrawSurfaceToTikz,
     end
 );
 RedispatchOnCondition( DrawSurfaceToTikz, true, 
-    [IsFlagComplex, IsString, IsRecord], [IsNotEdgeRamified], 0 );
+    [IsFlagComplex, IsString, IsRecord], [IsPolygonalComplex and IsNotEdgeRamified], 0 );
 
 ##
 ##      End of flag complexes
