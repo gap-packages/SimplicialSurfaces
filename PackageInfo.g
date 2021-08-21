@@ -34,7 +34,7 @@ Persons := [
     LastName := "Baumeister",
     WWWHome := "https://markusbaumeister.github.io/",
     Email := "baumeister@mathb.rwth-aachen.de",
-    PostalAddress := "",
+    PostalAddress := "--",
     Place := "Aachen",
     Institution := "",
   ),
