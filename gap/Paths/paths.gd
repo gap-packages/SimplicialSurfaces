@@ -431,7 +431,7 @@ DeclareAttribute( "EdgesAsPerm", IsVertexEdgePath );
 #!
 #! @Returns a vertex-edge-path
 #! @Arguments complex, vertexEdgePath, vertexEdgePath
-DeclareOperation( "ConcatenationOfPaths", [IsVEFComplex, IsVertexEdgePath, IsVertexEdgePath] );
+DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath] );
 #! @EndGroup
 
 #! @BeginGroup
@@ -836,7 +836,7 @@ DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 #!
 #! @Returns a edge-face-path
 #! @Arguments complex, edgeFacePath, edgeFacePath
-DeclareOperation( "ConcatenationOfPaths", [IsVEFComplex, IsEdgeFacePath, IsEdgeFacePath] );
+DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsEdgeFacePath, IsEdgeFacePath] );
 #! @EndGroup
 
 #! @Description

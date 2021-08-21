@@ -322,8 +322,8 @@ InstallMethod( EdgesAsPerm, "for a vertex-edge-path", [IsVertexEdgePath],
     end
 );
 
-InstallMethod(ConcatenationOfPaths, "for a VEF-complex and two vertex-edge paths", 
-    [IsVEFComplex, IsVertexEdgePath, IsVertexEdgePath],
+InstallMethod(ConcatenationOfPaths, "for a twisted polygonal complex and two vertex-edge paths", 
+    [IsTwistedPolyonalComplex, IsVertexEdgePath, IsVertexEdgePath],
     function(surface, path1, path2)
 	local edges;
 	if Last(VerticesAsList(path1))<>VerticesAsList(path2)[1] then
@@ -537,7 +537,8 @@ InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
-InstallMethod(ConcatenationOfPaths, "for a VEF-complex and two edge-face paths", [IsVEFComplex, IsEdgeFacePath, IsEdgeFacePath],
+InstallMethod(ConcatenationOfPaths, "for a twisted polygonal complex and two edge-face paths", 
+	[IsTwistedPolygonalComplex, IsEdgeFacePath, IsEdgeFacePath],
 	function(surface, path1, path2)
 		local pathL1, pathL2;
 		if Last(EdgesAsList(path1))<>EdgesAsList(path2)[1] then
