@@ -322,6 +322,17 @@ InstallMethod( EdgesAsPerm, "for a vertex-edge-path", [IsVertexEdgePath],
     end
 );
 
+InstallMethod(ConcatenationOfPaths, "for a twisted polygonal complex and two vertex-edge paths", 
+    [IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
+    function(surface, path1, path2)
+	local edges;
+	if Last(VerticesAsList(path1))<>VerticesAsList(path2)[1] then
+		Error("ConcatenationOfPaths: The last vertex of the first path has to be the first vertex of the second path");
+	fi;
+	edges:=Union(EdgesAsList(path1), EdgesAsList(path2));
+	return VertexEdgePathByEdges(surface, edges);
+	end
+);
 
 #######################################
 ##
@@ -526,7 +537,20 @@ InstallMethod( FacesAsPerm, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
-
+InstallMethod(ConcatenationOfPaths, "for a twisted polygonal complex and two edge-face paths", 
+	[IsTwistedPolygonalComplex, IsEdgeFacePath, IsEdgeFacePath],
+	function(surface, path1, path2)
+		local pathL1, pathL2;
+		if Last(EdgesAsList(path1))<>EdgesAsList(path2)[1] then
+			Error("ConcatenationOfPaths: The last edge of the first path has to be the first edge of the second path");
+		fi;
+		pathL1:=ShallowCopy(PathAsList(path1));
+		Remove(pathL1);
+		pathL2:=PathAsList(path2);
+		Append(pathL1,pathL2);	
+		return EdgeFacePath(surface, pathL1);
+	end
+);
 
 
 InstallMethod( IsUmbrellaPath, "for an edge-face-path on a polygonal complex", 
