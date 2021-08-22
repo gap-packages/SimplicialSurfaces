@@ -791,13 +791,13 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #!   second one is a vertex-edge-path and the third one is the label
 #!   shift of <A>complex2</A> (if applicable).
 #! @Arguments surface, veList1, veList2, [length]
-   DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsList, IsInt] );
+   DeclareOperation( "JoinBoundaries", [IsPolygonalComplex, IsList, IsList, IsInt] );
 #! @Arguments surface, veList1, veList2, [length]
-   DeclareOperation( "JoinBoundariesNC", [IsVEFSurface, IsList, IsList, IsInt] );
+   DeclareOperation( "JoinBoundariesNC", [IsPolygonalComplex, IsList, IsList, IsInt] );
 #! @Arguments surface1, veList1, surface2, veList2, [length]
-   DeclareOperation( "JoinBoundaries", [IsVEFSurface, IsList, IsVEFSurface, IsList, IsInt] );
+   DeclareOperation( "JoinBoundaries", [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt] );
 #! @Arguments surface1, veList1, surface2, veList2, [length]
-   DeclareOperation( "JoinBoundariesNC", [IsVEFSurface, IsList, IsVEFSurface, IsList, IsInt] );
+   DeclareOperation( "JoinBoundariesNC", [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt] );
 #! @EndGroup
 
 

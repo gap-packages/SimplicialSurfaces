@@ -1313,7 +1313,7 @@ InstallOtherMethod(JoinBoundariesNC,
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundariesNC, true,
-        [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList],
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList],
         [IsPolygonalSurface,,IsPolygonalSurface], 0 );
 fi;
 
@@ -1334,7 +1334,7 @@ InstallMethod(JoinBoundaries,
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundaries, true,
-        [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt],
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList, IsInt],
         [IsPolygonalSurface,,IsPolygonalSurface], 0 );
 fi;
 
@@ -1355,7 +1355,7 @@ InstallMethod(JoinBoundariesNC,
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundariesNC, true,
-        [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt],
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList, IsInt],
         [IsPolygonalSurface,,IsPolygonalSurface], 0 );
 fi;
 
@@ -1396,7 +1396,7 @@ InstallMethod(JoinBoundaries,
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundaries, true,
-        [IsPolygonalComplex, IsList, IsList, IsInt], [IsPolygonalSurface], 0 );
+        [IsTwistedPolygonalComplex, IsList, IsList, IsInt], [IsPolygonalSurface], 0 );
 fi;
 	
 InstallMethod(JoinBoundariesNC,
@@ -1499,7 +1499,7 @@ InstallMethod(JoinBoundariesNC,
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundariesNC, true,
-        [IsPolygonalComplex, IsList, IsList, IsInt], [IsPolygonalSurface], 0 );
+        [IsTwistedPolygonalComplex, IsList, IsList, IsInt], [IsPolygonalSurface], 0 );
 fi;
 
 InstallOtherMethod(JoinBoundaries,
@@ -1541,7 +1541,7 @@ InstallOtherMethod(JoinBoundariesNC,
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundariesNC, true,
-        [IsPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+        [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
 fi;
 
 
