@@ -323,7 +323,7 @@ InstallMethod( EdgesAsPerm, "for a vertex-edge-path", [IsVertexEdgePath],
 );
 
 InstallMethod(ConcatenationOfPaths, "for a twisted polygonal complex and two vertex-edge paths", 
-    [IsTwistedPolyonalComplex, IsVertexEdgePath, IsVertexEdgePath],
+    [IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
     function(surface, path1, path2)
 	local edges;
 	if Last(VerticesAsList(path1))<>VerticesAsList(path2)[1] then
