@@ -48,12 +48,11 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     # Polygonal morphisms
     __SIMPLICIAL_Test_SourceRange();
 
+    # Graphs
     __SIMPLICIAL_Test_IncidenceDigraphsGraph();
     __SIMPLICIAL_Test_IncidenceGrapeGraph();
-    __SIMPLICIAL_Test_IncidenceNautyGraph();
     __SIMPLICIAL_Test_EdgeDigraphsGraph();
     __SIMPLICIAL_Test_EdgeGrapeGraph();
-    __SIMPLICIAL_Test_EdgeNautyGraph();
 
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);
