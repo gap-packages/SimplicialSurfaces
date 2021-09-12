@@ -641,6 +641,68 @@ DeclareOperation( "PerimeterPath", [IsVertexEdgePath] );
 DeclareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
 DeclareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
 
+#! @BeginGroup EdgeFacePathByEdges
+#! @Description
+#! Construct a new edge-face-path (<Ref Subsect="EdgeFacePath"/>) from a
+#! polygonal complex and a dense list of edges. Every two adjacent edges
+#! have to be connected by a face. If there are multiple such faces, the one
+#! with the smallest label is used. If the given <A>edgeList</A> is empty,
+#! <K>fail</K> is returned.
+#!
+#! With this the paths from <Ref Subsect="EdgeFacePath"/> can be defined
+#! more compactly:
+#! @BeginExampleSession
+#! gap> edgeFacePath:=EdgeFacePathByEdges(thinTorus,[13,14,15,11,7,8,9]);
+#! | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+#! gap> IsEdgeFacePath(edgeFacePath);
+#! true
+#! @EndExampleSession
+#!
+#! The NC-version does not check whether the given <A>edgeList</A> consists
+#! of edges in <A>complex</A> and whether every two adjacent edges are
+#! connected by an face.
+#!
+#! @Returns a edge-face-path or <K>fail</K>
+#! @Arguments complex, vertexList
+DeclareOperation( "EdgeFacePathByEdges", [IsPolygonalComplex, IsDenseList] );
+#! @Arguments complex, edgeList
+DeclareOperation( "EdgeFacePathByEdgesNC", [IsPolygonalComplex, IsDenseList] );
+#! @EndGroup
+
+
+#! @BeginGroup EdgeFacePathByFaces
+#! @Description
+#! Construct a new edge-face-path (<Ref Subsect="EdgeFacePath"/>) from a
+#! polygonal complex and a dense list of faces. Every two adjacent faces
+#! have to be connected by an edge.
+#! The first and the last edge are not clearly given by the faces. 
+#! So by default they are an edge which is not between the first and the 
+#! second face and not between the penultimate and the last edge. 
+#! If different edges are available inner edges are preferred and the 
+#! smallest possible edge is chosen.
+#!
+#! With this the paths from <Ref Subsect="EdgeFacePath"/> can be defined
+#! more compactly:
+#! @BeginExampleSession
+#! gap> edgeFacePath1:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5],10,8);
+#! | e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e8 |
+#! gap> IsEdgeFacePath(edgeFacePath1);
+#! true
+#! gap> edgeFacePath2:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5]);
+#! | e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e8 |
+#! gap> edgeFacePath1=edgeFacePath2;
+#! true
+#! @EndExampleSession
+#!
+#! The NC-version does not check whether the given <A>faceList</A> consists
+#! of faces in <A>complex</A>.
+#!
+#! @Returns a edge-face-path
+#! @Arguments complex, faceList[, firstEdge, lastEdge]
+DeclareOperation( "EdgeFacePathByFaces", [IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt] );
+#! @Arguments complex, faceList[, firstEdge, lastEdge]
+DeclareOperation( "EdgeFacePathByFacesNC", [IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt] );
+#! @EndGroup
 
 #! @BeginGroup EdgeFace_PathAsList
 #! @Description

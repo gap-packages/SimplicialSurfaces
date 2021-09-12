@@ -417,6 +417,221 @@ InstallMethod( EdgeFacePath, "for a polygonal complex and a dense list",
     end
 );
 
+
+InstallMethod( EdgeFacePathByEdgesNC, 
+    "for a polygonal complex and a list of edges",
+    [IsPolygonalComplex, IsDenseList],
+    function(complex, edgeList)
+        local path, i;
+
+        if edgeList = [] then
+            return fail;
+        fi;
+        path := [ edgeList[1] ];
+        for i in [2..Length(edgeList)] do
+            path[2*i-2] := Intersection(FacesOfEdge(complex,edgeList[i-1]),FacesOfEdge(complex,edgeList[i]))[1];
+            path[2*i-1] := edgeList[i];
+        od;
+
+        return EdgeFacePathNC(complex, path);
+    end
+);
+RedispatchOnCondition( EdgeFacePathByEdgesNC, true, [IsTwistedPolygonalComplex,IsList],[IsPolygonalComplex,IsDenseList],0 );
+
+InstallMethod( EdgeFacePathByEdges, 
+    "for a polygonal complex and a list of edges",
+    [IsPolygonalComplex, IsDenseList],
+    function(complex, edgeList)
+        local path, i, pos;
+
+        if edgeList = [] then
+            return fail;
+        fi;
+        __SIMPLICIAL_CheckEdge(complex, edgeList[1], "EdgeFacePathByEdges");
+        path := [ edgeList[1] ];
+        for i in [2..Length(edgeList)] do
+            __SIMPLICIAL_CheckEdge(complex, edgeList[i], "EdgeFacePathByEdges");
+            pos := Intersection(FacesOfEdge(complex,edgeList[i-1]),FacesOfEdge(complex,edgeList[i]))[1];
+            if pos = fail then
+                Error(Concatenation("EdgeFacePathByEdges: The edges ", 
+                    String(edgeList[i-1]), " (position ", String(i-1), ") and ", 
+                    String(edgeList[i]), " (position ", String(i), 
+                    ") are not connected by an face in the given polygonal complex."));
+            fi;
+            path[2*i-2] := pos;
+            path[2*i-1] := edgeList[i];
+        od;
+
+        return EdgeFacePathNC(complex, path); 
+	#nur Tests und dann Aufruf von EdgeFacePathByEdgesNC
+	    end
+);
+RedispatchOnCondition( EdgeFacePathByEdges, true, [IsTwistedPolygonalComplex,IsList],[IsPolygonalComplex,IsDenseList],0 );
+
+
+InstallMethod( EdgeFacePathByFacesNC, 
+    "for a polygonal complex, a list of faces, the frist edge and the last edge",
+    [IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt],
+    function(complex, faceList, firstEdge, lastEdge)
+        local path, firstDefinedPos, i, edges;
+         
+        if faceList = [] then
+            return fail;
+        fi;
+
+        firstDefinedPos := 0;
+        for i in [2..Length(faceList)] do
+            if EdgesOfFaces(complex)[faceList[i-1]] <> EdgesOfFaces(complex)[faceList[i]] then
+                firstDefinedPos := i;
+                break;
+            fi;
+        od;
+
+        if firstDefinedPos = 0 then
+            # all faces have the same edgesedges := EdgesOfFaces(complex)[faceList[1]];
+            edges := EdgesOfFaces(complex)[faceList[1]];
+            path := [edges[1]];
+            for i in [1..Length(faceList)] do
+                path[2*i] := faceList[i];
+                if IsEvenInt(i) then
+                    path[2*i+1] := edges[1];
+                else
+                    path[2*i+1] := edges[2];
+                fi;
+            od;
+            return EdgeFacePathNC(complex, path);
+        fi;
+
+        # the edge between first-1 and first is unique
+        path := [];
+        path[2*firstDefinedPos-1] := Intersection( 
+            EdgesOfFaces(complex)[faceList[firstDefinedPos-1]],
+            EdgesOfFaces(complex)[faceList[firstDefinedPos]])[1];
+        for i in [firstDefinedPos, firstDefinedPos+1..Length(faceList)-1] do
+            path[2*i] := faceList[i];
+            path[2*i+1] := Intersection( 
+            EdgesOfFaces(complex)[faceList[i]],
+            EdgesOfFaces(complex)[faceList[i+1]])[1];
+        od;
+	path[2*Length(faceList)] := Last(faceList);
+	path[2*Length(faceList)+1] := lastEdge;
+        for i in [firstDefinedPos-1, firstDefinedPos-2..2] do
+            path[2*i] := faceList[i];
+            path[2*i-1] := Intersection( 
+            EdgesOfFaces(complex)[faceList[i]],
+            EdgesOfFaces(complex)[faceList[i-1]])[1];
+        od;
+	path[1] := firstEdge;
+	path[2] := First(faceList);
+		
+        return EdgeFacePathNC(complex, path);
+    end
+);
+RedispatchOnCondition( EdgeFacePathByFacesNC, true, [IsTwistedPolygonalComplex, IsList],[IsPolygonalComplex,IsDenseList],0 );
+
+InstallMethod( EdgeFacePathByFaces,
+    "for a polygonal complex, a list of faces, the first edge and the last edge",
+    [IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt],
+    function(complex, faceList, firstEdge, lastEdge)
+        local i;
+
+        if Length(faceList) > 0 then
+            __SIMPLICIAL_CheckFace(complex, faceList[1], "EdgeFacePathByFaces");
+            for i in [2..Length(faceList)] do
+                __SIMPLICIAL_CheckFace(complex, faceList[i], "EdgeFacePathByFaces");
+                if Length( Intersection(
+                    EdgesOfFaces(complex)[faceList[i-1]], 
+                    EdgesOfFaces(complex)[faceList[i]]) ) = 0 then
+                        Error(Concatenation(
+                            "EdgeFacePathByFaces: The faces ",
+                            String(faceList[i-1]), " (position ",
+                            String(i-1), ") and ",
+                            String(faceList[i]), " (position ",
+                            String(i), 
+                            ") do not share an edge in the given polygonal complex."));
+                fi;
+            od;
+        fi;
+
+        return EdgeFacePathByFacesNC(complex, faceList, firstEdge, lastEdge);
+    end
+);
+RedispatchOnCondition( EdgeFacePathByFaces, true, [IsTwistedPolygonalComplex, IsList],[IsPolygonalComplex,IsDenseList],0 );
+
+InstallOtherMethod( EdgeFacePathByFacesNC, 
+    "for a polygonal complex and a list of faces",
+    [IsPolygonalComplex, IsDenseList],
+    function(complex, faceList)
+        local edges1, edges1Inner, firstEdge, lastEdge, edges2Inner, edges2;
+         
+		edges1:=Intersection(EdgesOfFace(complex,faceList[1]),EdgesOfFace(complex,faceList[2]));
+		if Length(edges1)<>3 then
+			edges1Inner:=Filtered(Difference(EdgesOfFace(complex,faceList[1]),edges1),e->IsInnerEdge(complex,e));
+			if edges1Inner<>[] then
+				firstEdge:=edges1Inner[1];
+			else
+				firstEdge:=Difference(EdgesOfFace(complex,faceList[1]),edges1)[1];
+			fi;
+		else
+			edges1Inner:=Filtered(EdgesOfFace(complex,faceList[1]),e->IsInnerEdge(complex,e));
+			if edges1Inner<>[] then
+				firstEdge:=edges1Inner[1];
+			else
+				firstEdge:=EdgesOfFace(complex,faceList[1])[1];
+			fi;
+		fi;
+		
+		edges2:=Intersection(EdgesOfFace(complex,faceList[Length(faceList)-1]),EdgesOfFace(complex,Last(faceList)));
+		if Length(edges2)<>3 then
+			edges2Inner:=Filtered(Difference(EdgesOfFace(complex,Last(faceList)),edges1),e->IsInnerEdge(complex,e));
+			if edges2Inner<>[] then
+				lastEdge:=edges2Inner[1];
+			else
+				lastEdge:=Difference(EdgesOfFace(complex,Last(faceList)),edges2)[1];
+			fi;
+		else
+			edges2Inner:=Filtered(EdgesOfFace(complex,Last(faceList)),e->IsInnerEdge(complex,e));
+			if edges2Inner<>[] then
+				lastEdge:=edges2Inner[1];
+			else
+				lastEdge:=EdgesOfFace(complex,Last(faceList))[1];
+			fi;
+		fi;
+		
+        return EdgeFacePathByFacesNC(complex, faceList, firstEdge, lastEdge);
+    end
+);
+RedispatchOnCondition( EdgeFacePathByFacesNC, true, [IsTwistedPolygonalComplex, IsList],[IsPolygonalComplex,IsDenseList],0 );
+
+InstallOtherMethod( EdgeFacePathByFaces,
+    "for a polygonal complex and a list of faces",
+    [IsPolygonalComplex, IsDenseList],
+    function(complex, faceList)
+        local i, firstEdge, lastEdge;
+
+        if Length(faceList) > 0 then
+            __SIMPLICIAL_CheckFace(complex, faceList[1], "EdgeFacePathByFaces");
+            for i in [2..Length(faceList)] do
+                __SIMPLICIAL_CheckFace(complex, faceList[i], "EdgeFacePathByFaces");
+                if Length( Intersection(
+                    EdgesOfFaces(complex)[faceList[i-1]], 
+                    EdgesOfFaces(complex)[faceList[i]]) ) = 0 then
+                        Error(Concatenation(
+                            "EdgeFacePathByFaces: The faces ",
+                            String(faceList[i-1]), " (position ",
+                            String(i-1), ") and ",
+                            String(faceList[i]), " (position ",
+                            String(i), 
+                            ") do not share an edge in the given polygonal complex."));
+                fi;
+            od;
+        fi;
+
+        return EdgeFacePathByFacesNC(complex, faceList);
+    end
+);
+RedispatchOnCondition( EdgeFacePathByFaces, true, [IsTwistedPolygonalComplex, IsList],[IsPolygonalComplex,IsDenseList],0 );
+
 InstallMethod( String, "for an edge-face-path", [IsEdgeFacePath],
     function(path)
         local str, out;
