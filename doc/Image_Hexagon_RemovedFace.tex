@@ -1,0 +1,53 @@
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle,scale=2.5]
+
+
+\coordinate (V5_1) at (0.5000000000000002, -0.8660254037844387);
+\coordinate (V4_1) at (0., 0.);
+\coordinate (V3_1) at (0.4999999999999999, 0.8660254037844386);
+\coordinate (V2_1) at (1.5, 0.8660254037844388);
+\coordinate (V1_1) at (2., 0.);
+\coordinate (V6_1) at (1.5, -0.8660254037844386);
+\coordinate (V7_1) at (1., 0.);
+
+
+\fill[face]  (V7_1) -- (V3_1) -- (V2_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_1=1,V3_1=1,V2_1=1) {$II$};
+\fill[face]  (V7_1) -- (V6_1) -- (V5_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_1=1,V6_1=1,V5_1=1) {$V$};
+
+\ifdefined\removeFace
+	\fill[face]  (V7_1) -- (V4_1) -- (V3_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V7_1=1,V4_1=1,V3_1=1) {$III$};
+	\fill[face]  (V7_1) -- (V5_1) -- (V4_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V7_1=1,V5_1=1,V4_1=1) {$IV$};
+	\fill[face]  (V7_1) -- (V1_1) -- (V6_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V7_1=1,V1_1=1,V6_1=1) {$VI$};
+\fi
+
+\draw[edge] (V7_1) -- node[edgeLabel] {$2$} (V2_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$3$} (V7_1);
+\draw[edge] (V5_1) -- node[edgeLabel] {$5$} (V7_1);
+\draw[edge] (V6_1) -- node[edgeLabel] {$6$} (V7_1);
+\draw[edge] (V2_1) -- node[edgeLabel] {$8$} (V3_1);
+\draw[edge] (V5_1) -- node[edgeLabel] {$11$} (V6_1);
+
+\ifdefined\removeFace
+	\draw[edge] (V4_1) -- node[edgeLabel] {$4$} (V7_1);
+	\draw[edge] (V3_1) -- node[edgeLabel] {$9$} (V4_1);
+	\draw[edge] (V4_1) -- node[edgeLabel] {$10$} (V5_1);
+	\draw[edge] (V1_1) -- node[edgeLabel] {$1$} (V7_1);
+	\draw[edge] (V6_1) -- node[edgeLabel] {$12$} (V1_1);
+\fi
+
+\vertexLabelR{V2_1}{above}{$2$}
+\vertexLabelR{V3_1}{above}{$3$}
+\vertexLabelR{V7_1}{below}{$7$}
+\vertexLabelR{V5_1}{below}{$5$}
+\vertexLabelR{V6_1}{below}{$6$}
+
+\ifdefined\removeFace
+	\vertexLabelR{V1_1}{right}{$1$}
+	\vertexLabelR{V4_1}{left}{$4$}
+\fi
+
+\end{tikzpicture}

@@ -167,7 +167,21 @@
 #! replaced by the appropriate number of new labels. The new labels can be
 #! defined by the optional argument <A>newEdgeLabels</A>.
 #!
-#! TODO examples
+#! For example consider the following triangular complex:
+#! <Alt Only="TikZ">
+#!	\input{Image_Butterfly.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> closeEye:=SimplicialSurfaceByDownwardIncidence(
+#! >            [[1,2],[1,3],[2,3],[3,4],[1,4]],[[1,2,3],[2,4,5]]);
+#! simplicial surface (4 vertices, 5 edges, and 2 faces)
+#! gap> eye:=SplitEdge(closeEye,2);
+#! [ triangular complex (4 vertices, 6 edges, and 2 faces), [ 6, 7 ] ] 
+#! @EndExampleSession
+#! 
+#! <Alt Only="TikZ">
+#!      \input{Image_Eye_Open.tex}
+#! </Alt>
 #!
 #! The NC-version does not check whether <A>edge</A> is an actual edge of
 #! <A>complex</A> and whether the new edge labels are actually available.
@@ -198,7 +212,23 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! replaced by new labels. The new labels can be defined by the optional
 #! argument <A>newVertexLabels</A>.
 #!
-#! TODO examples
+#! For example consider the following triangular complex:
+#! <Alt Only="TikZ">
+#!   \input{Image_EdgeFacePath_ramified.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> ramSurf := PolygonalComplexByDownwardIncidence(
+#! > [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],
+#! > [1,8],[1,10],[1,12],[8,10],[10,12] ],
+#! > [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;
+#! gap> splittedComplex:=SplitVertex(ramSurf,1);
+#! [ simplicial surface (8 vertices, 11 edges, and 5 faces), [ 13, 14 ] ]
+#! @EndExampleSession
+#! Splitting the vertex 1 in the complex divides the complex into two components:
+#! @BeginExampleSession
+#! gap> NumberOfConnectedComponents(splittedComplex[1]);
+#! 2
+#! @EndExampleSession
 #!
 #! The NC-version does not check whether <A>vertex</A> is an actual vertex of
 #! <A>complex</A> and whether the new vertex labels are actually available.
@@ -241,8 +271,23 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! same position in <A>oldPath</A>.
 #!
 #! TODO explain better
-#!
-#! TODO many, many examples
+#! 
+#! For example consider the octahedron:
+#! @BeginExampleSession
+#! gap> path:=VertexEdgePath(Octahedron(),[5,10,4,8,3,5,2,6,5]);
+#! ( v5, E10, v4, E8, v3, E5, v2, E6, v5 )
+#! gap> splitted:=SplitVertexEdgePath(Octahedron(),path);
+#! [ simplicial surface (10 vertices, 16 edges, and 8 faces), 
+#!	[ [ ( v7, E14, v10, E15, v12, E18, v14, E19, v7 ),
+#!	    ( v5, E10, v4, E8, v3, E5, v2, E6, v5 ) ], 
+#! 	  [ ( v8, E13, v9, E16, v11, E17, v13, E20, v8 ),
+#!	    ( v5, E10, v4, E8, v3, E5, v2, E6, v5 ) ] ] ]
+#! @EndExampleSession
+#! Splitting the ocathedron along a closed path of length four divides the octahedron into two 4-gons:
+#! @BeginExampleSession
+#! gap> NumberOfConnectedComponents(splitted[1]);
+#! 2
+#! @EndExampleSession
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
@@ -287,7 +332,18 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #!
 #! TODO explain better
 #!
-#! TODO many, many examples
+#! For example consider the Janushead. Splitting the surface along a vertex-edge-path of two edges 
+#! leads to the closeEye from chapter <Ref Chap="SplitEdge"/>.
+#! @BeginExampleSession
+#! gap> path:=VertexEdgePath(JanusHead(),[2,1,1,2,3]);
+#! | v2, E1, v1, E2, v3 | 
+#! gap> splittedJanusHead:= SplitEdgePath(JanusHead(), path);
+#! [ simplicial surface (4 vertices, 5 edges, and 2 faces),
+#! [ [ | v2, E4, v4, E6, v3 |, | v2, E1, v1, E2, v3 | ], 
+#!   [ | v2, E5, v5, E7, v3 |, | v2, E1, v1, E2, v3 | ] ] ]
+#! gap> IsIsomorphic(splittedJanusHead[1], closeEye);
+#! true
+#! @EndExampleSession
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
@@ -308,7 +364,34 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! * remove faces of a polygonal complex
 #! * restrict a polygonal complex to a subset of faces
 #!
-#! TODO nice intro example
+#! The functions will be illustrated on a hexagon.
+#! <Alt Only="TikZ">
+#!   \input{Image_SplitExample.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> hex := SimplicialSurfaceByDownwardIncidence(
+#! > [ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],
+#! > [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;
+#! @EndExampleSession
+#! For example it is possible to remove the face 1.
+#! @BeginExampleSession
+#! gap> removedHex := RemoveFace(hex,1);
+#! simplicial surface (7 vertices, 11 edges, and 5 faces) 
+#! @EndExampleSession
+#! It is also possible to restrict the hexagon to the faces 2 to 6.
+#! @BeginExampleSession
+#! gap> restrictedHex := SubcomplexByFaces(hex,[2,3,4,5,6]);
+#! simplicial surface (7 vertices, 11 edges, and 5 faces)
+#! @EndExampleSession
+#! These two surfaces are isomorphic.
+#! @BeginExampleSession
+#! gap> IsIsomorphic(removedHex,restrictedHex);
+#! true
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \def\removeFace{1}
+#!   \input{Image_Hexagon_RemovedFace.tex}
+#! </Alt>
 
 #! @BeginGroup SubcomplexByFaces
 #! @Description
@@ -321,7 +404,14 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! and guarantees that the returned subcomplex is a surface. If this
 #! is not possible <K>fail</K> is returned.
 #! 
-#! TODO example
+#! For example consider the hexagon from the start of this chapter:
+#! @BeginExampleSession
+#! gap> SubcomplexByFaces(hex,[2,5]);
+#! triangular complex (5 vertices, 6 edges, and 2 faces)
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_Hexagon_RemovedFace.tex}
+#! </Alt>
 #!
 #! The NC-version does not check whether the given set of <A>faces</A>
 #! actually consists only of faces in <A>complex</A>. It also does not
@@ -348,7 +438,16 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsTwistedPolygonalComplex, IsSet] );
 #! The labels of all remaining vertices, edges and faces
 #! will remain unaffected.
 #!
-#! TODO example
+#! For example consider the Tetrahedron and remove one face:
+#! @BeginExampleSession
+#! gap> tetraRemoved:=RemoveFace(Tetrahedron(),1);
+#! simplicial surface (4 vertices, 6 edges, and 3 faces)
+#! gap> IsClosedSurface(tetraRemoved);
+#! false
+#! @EndExampleSession
+#!  <Alt Only="TikZ">
+#!   \input{Image_Tetra_RemovedFace.tex}
+#! </Alt>
 #!
 #! The NC-version does not check whether the given set of <A>faces</A> 
 #! actually consists only of faces in <A>complex</A>.
@@ -453,7 +552,12 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! even if it would not be necessary to shift all of them that much to make
 #! the labels disjoint.
 #!       
-#! TODO example different from the one before?
+#! For example also the disjoint union of two different complexes can be build:
+#! @BeginExampleSession
+#! gap> oneFace:=SimplicialSurfaceByDownwardIncidence([[1,2],[2,3],[1,3]],[[1,2,3]]);;
+#! gap> DisjointUnion(oneFace, JanusHead());
+#! [ simplicial surface (6 vertices, 6 edges, and 3 faces), 3 ]
+#! @EndExampleSession
 #!
 #! @Returns a pair, where the first entry is a polygonal complex and the
 #!   second entry is the used shift
@@ -478,7 +582,78 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #!   (<Ref Subsect="JoinBoundaries"/>)
 #!
 #! 
-#! TODO examples + Tests
+#! For example conisder the following complex:
+#! @BeginExampleSession
+#! gap> complex:=SimplicialSurfaceByDownwardIncidence(
+#! >            [,[2,7],[3,7],[4,7],[5,7],[6,7],[2,8],[2,3],[3,4],
+#! >            [4,5],[5,6],[6,9],[7,8],[7,9]],
+#! >            [[2,7,13],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[6,12,14]]);;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\splitBoundaryRight{1}
+#!     \input{Image_SplitExample.tex}
+#!   }
+#! </Alt>
+#! It is possible to join the vertices 8 and 9 and the new vertex will get the label 1.
+#! @BeginExampleSession
+#! gap> vertJoin:=JoinVertices(complex,[8,9],1);;
+#! gap> vertJoin[2];
+#! 1
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\splitEdge{1}
+#!     \input{Image_SplitExample.tex}
+#!   }
+#! </Alt>
+#! After this vertex join the edges 13 and 14 can be join to a new edge with label 1.
+#! @BeginExampleSession
+#! gap> edgeJoin:=JoinEdges(vertJoin[1],13,14,1);;
+#! gap> edgeJoin[2];
+#! 1
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_SplitExample.tex}
+#! </Alt>
+#! These two joining operations can also be combined by using a vertex-edge-path 
+#! (introduced in section  <Ref Sect="Section_Paths_VertexEdge"/>).
+#! Consider the following complex:
+#! @BeginExampleSession
+#! gap> hexOpen:=SimplicialSurfaceByDownwardIncidence(
+#! >            [,[2,12],[3,12],,[5,13],[6,13],[2,8],[2,3],[3,10],[5,11],
+#! >            [5,6],[6,9],[8,12],[9,13],[10,12],[11,13]],
+#! >            [[2,7,13],[2,3,8],[3,9,15],[5,10,16],[5,6,11],[6,12,14]]);;
+#! @EndExampleSession 
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\splitCenter{1}
+#!     \def\splitBoundaryLeft{1}
+#!     \def\splitBoundaryRight{1}
+#!     \input{Image_SplitExample.tex}
+#!   }
+#! </Alt>
+#! The two joining paths can be given in multiple ways: via vertices, via edges or by giving an alternating list of both.
+#! @BeginExampleSession
+#! gap> path1:=VertexEdgePath(hexOpen,[10,15,12,13,8]);
+#! | v10, E15, v12, E13, v8 |
+#! gap> VertexEdgePathByVertices(hexOpen,[10,12,8]);
+#! | v10, E15, v12, E13, v8 |
+#! gap> VertexEdgePathByEdges(hexOpen,[15,13]);
+#! | v10, E15, v12, E13, v8 |
+#! gap> path2:=VertexEdgePath(hexOpen,[11,16,13,14,9]);
+#! | v11, E16, v13, E14, v9 |
+#! gap> VertexEdgePathByVertices(hexOpen,[11,13,9]);
+#! | v11, E16, v13, E14, v9 |
+#! gap> VertexEdgePathByEdges(hexOpen,[16,14]);
+#! | v11, E16, v13, E14, v9 |
+#! gap> hex:=JoinVertexEdgePaths(hexOpen,path1,path2);;
+#! gap> NumberOfConnectedComponents(hex[1]);
+#! 1
+#! @EndExampleSession
+#!  <Alt Only="TikZ">
+#!   \input{Image_SplitExample.tex}
+#! </Alt>
 
 #! @BeginGroup JoinVertices
 #! @Description
@@ -825,7 +1000,15 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! this methods needs a flag of each complex, i.e. a list of a vertex, an edge
 #! and a face that are all incident.
 #!
-#! TODO example (important since otherwise it might seem that this method is not implemented);
+#! For example consider the tetrahedron:
+#! @BeginExampleSession
+#! gap> doubleTetra:=ConnectedFaceSum(Tetrahedron(),[1,1,1],Tetrahedron(),[1,1,1]);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> IsClosedSurface(doubleTetra);
+#! true
+#! gap> NumberOfConnectedComponents(doubleTetra);
+#! 1
+#! @EndExampleSession
 #!
 #! The central part of this can be implemented like this:
 #! @BeginLogSession
@@ -846,7 +1029,30 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalComplex, IsList, IsPolygonalCo
 #! that share two edges. The resulting edge anomaly is also fixed by
 #! identifying the edges.
 #!
-#! TODO example
+#! For example consider the following complex:
+#! <Alt Only="TikZ">
+#!   {
+#!     \def\withEar{1}
+#!     \input{Image_ComplexWithEar.tex}
+#!   }
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex:=SimplicialSurfaceByDownwardIncidence(
+#! >             [[1,2],[2,3],[1,3],[1,3],[3,4],[1,4],[4,5],[1,5],[3,5]],
+#! >             [[1,2,3],[1,2,4],[3,5,6],[6,7,8],[4,8,9]]);;
+#! @EndExampleSession
+#! Face 1 and 2 share two edges, that means, they form an ear of the given simplicial surface.
+#! @BeginExampleSession
+#! gap> complexWithoutEars:=SnippOffEars(complex);
+#! simplicial surface (4 vertices, 6 edges, and 3 faces)
+#! gap> EdgesOfFaces(complexWithoutEars);
+#! [ ,, [ 5, 6, 10 ], [ 6, 7, 8 ], [ 8, 9, 10 ] ]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   {
+#!     \input{Image_ComplexWithEar.tex}
+#!   }
+#! </Alt>
 #!
 #! For a given face-anomaly [<A>face1</A>, <A>face2</A>] this could be
 #! implemented like this:
@@ -872,7 +1078,23 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 #! splitting all ramified vertices (<Ref Subsect="RamifiedVertices"/>). In
 #! this case a polygonal surface will be returned.
 #!
-#! TODO example
+#! For example consider the following complex:
+#! @BeginExampleSession
+#! gap> triforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_Triforce.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! 
+#! @BeginExampleSession
+#! gap> vertSplit:=SplitAllVertices(triforce);
+#! simplicial surface (9 vertices, 9 edges, and 3 faces)
+#! gap> NumberOfConnectedComponents(vertSplit);
+#! 3
+#! @EndExampleSession
+#! After splitting all ramified vertices the complex is the disjoint union of three one-faces.
 #!
 #! @Returns a polygonal complex
 #! @Arguments complex
