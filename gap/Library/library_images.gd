@@ -10,6 +10,14 @@
 ##
 #############################################################################
 
+##
+## WARNING: This file should NOT be read if the package is loaded.
+## It contains examples for the manual and should only be used then.
+##
+if not __SIMPLICIAL_MANUAL_MODE then
+    Error("The file 'library_images.gd' should only be read to generate the manual.");
+fi;
+
 # The examples consist of a picture in 3D (if advisable), the GAP-code to 
 # create the surface and the image of the net.
 
