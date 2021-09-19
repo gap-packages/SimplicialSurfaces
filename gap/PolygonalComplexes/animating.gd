@@ -537,7 +537,8 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
-#! @InsertChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
+#TODO activate the next line again
+# @InsertChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
 
 #! @BeginGroup ActivateNormalOfInnerCircles
 #! @Description
