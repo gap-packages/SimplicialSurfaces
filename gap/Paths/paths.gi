@@ -334,20 +334,12 @@ InstallMethod(ConcatenationOfPaths, "for a twisted polygonal complex and two ver
 	end
 );
 
-InstallMethod(ShiftCyclicPath,
+InstallMethod(ShiftCyclicPathNC,
 	"for a vertex-edge path, a vertex and an edge",
 	[IsVertexEdgePath,IsPosInt,IsPosInt],
 	function(path,vertex,edge)
             local vPos, ePos, i, complex;
             
-	    if not IsClosedPath(path) then
-		Error(Concatenation("ShiftCyclicPath: Given vertex-edge-path ",String(path)," is not closed."));
-	    fi;
-			
-	    if not IsDuplicateFree(path) then
-		Error(Concatenation("ShiftCyclicPath: Given vertex-edge-path ",String(path)," is not duplicate free."));
-	    fi;
-		
             complex:=AssociatedPolygonalComplex(path);
 	    path:=PathAsList(path);
 			
@@ -382,6 +374,21 @@ InstallMethod(ShiftCyclicPath,
             fi;
             Error("ShiftCyclicPath: Internal Error");
 	end
+);
+
+InstallMethod(ShiftCyclicPath,
+        "for a vertex-edge path, a vertex and an edge",
+        [IsVertexEdgePath,IsPosInt,IsPosInt],
+        function(path,vertex,edge)
+            if not IsClosedPath(path) then
+                Error(Concatenation("ShiftCyclicPath: Given vertex-edge-path ",String(path)," is not closed."));
+            fi;
+
+            if not IsDuplicateFree(path) then
+                Error(Concatenation("ShiftCyclicPath: Given vertex-edge-path ",String(path)," is not duplicate free."));
+            fi;
+        return ShiftCyclicPathNC(path,vertex,edge);
+        end
 );
 
 #######################################
@@ -602,29 +609,21 @@ InstallMethod(ConcatenationOfPaths, "for a twisted polygonal complex and two edg
 	end
 );
 
-InstallMethod(ShiftCyclicPath,
+InstallMethod(ShiftCyclicPathNC,
 	"for an edge-face path, an edge and a face",
 	[IsEdgeFacePath,IsPosInt,IsPosInt],
 	function(path,edge,face)
             local ePos, fPos, i, complex;
 
-	    if not IsClosedPath(path) then
-		Error(Concatenation("ShiftCyclicPath: Given edge-face-path ",String(path)," is not closed."));
-	    fi;
-			
-	    if not IsDuplicateFree(path) then
-		Error(Concatenation("ShiftCyclicPath: Given edge-face-path ",String(path)," is not duplicate free."));
-	    fi;
-
 	    complex:=AssociatedPolygonalComplex(path);
 	    path:=PathAsList(path);
 
             if path[1] = edge and path[2] = face then
-                return path;
+                return EdgeFacePath(complex,path);
             fi;
 			
             if path[Length(path)] = edge and path[Length(path)-1] = face then
-                return Reversed(path);
+                return EdgeFacePath(complex,Reversed(path));
             fi;
 
             ePos := 0;
@@ -650,6 +649,23 @@ InstallMethod(ShiftCyclicPath,
             fi;
             Error("ShiftCyclicPath: Internal Error");
 	end
+);
+
+InstallMethod(ShiftCyclicPath,
+        "for an edge-face path, an edge and a face",
+        [IsEdgeFacePath,IsPosInt,IsPosInt],
+        function(path,edge,face)
+            local ePos, fPos, i, complex;
+
+            if not IsClosedPath(path) then
+                Error(Concatenation("ShiftCyclicPath: Given edge-face-path ",String(path)," is not closed."));
+            fi;
+
+            if not IsDuplicateFree(path) then
+                Error(Concatenation("ShiftCyclicPath: Given edge-face-path ",String(path)," is not duplicate free."));
+            fi;
+	    return ShiftCyclicPathNC(path,edge,face);
+        end
 );
 
 

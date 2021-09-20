@@ -451,6 +451,8 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsVertexEd
 #! >    [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
 #! gap> path:=VertexEdgePathByEdges(fourGon,[5,6,7,8]);
 #! ( v2, E5, v3, E6, v4, E7, v5, E8, v2 )
+#! gap> ShiftCyclicPath(path,2,5);
+#! ( v2, E5, v3, E6, v4, E7, v5, E8, v2 )
 #! gap> ShiftCyclicPath(path,4,6);
 #! ( v4, E6, v3, E5, v2, E8, v5, E7, v4 )
 #! @EndExampleSession
@@ -458,6 +460,8 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsVertexEd
 #! @Returns a vertex-edge-path
 #! @Arguments path, vertex, edge
 DeclareOperation("ShiftCyclicPath", [IsVertexEdgePath, IsPosInt, IsPosInt]);
+#! @Arguments path, vertex, edge
+DeclareOperation("ShiftCyclicPathNC", [IsVertexEdgePath, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 #! @BeginGroup
@@ -884,11 +888,15 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsEdgeFace
 #! ( e1, F1, e2, F2, e3, F3, e4, F4, e1 )
 #! gap> ShiftCyclicPath(path,3,3);
 #! ( e3, F3, e4, F4, e1, F1, e2, F2, e3 )
+#! gap> ShiftCyclicPath(path,3,2);
+#! ( e3, F2, e2, F1, e1, F4, e4, F3, e3 )
 #! @EndExampleSession
 #!
 #! @Returns a edge-face-path
 #! @Arguments path, edge, face
 DeclareOperation("ShiftCyclicPath", [IsEdgeFacePath, IsPosInt, IsPosInt]);
+#! @Arguments path, vertex, edge
+DeclareOperation("ShiftCyclicPathNC", [IsEdgeFacePath, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 #! @Description
