@@ -21,7 +21,7 @@
 # Define the main category
 # [Categories are used to determine which operations can be used]
 # [For two object to be equal, they have to lie in the same family]
-DeclareFilter( "IsTwistedPolygonalComplex", IsObject );
+DeclareCategory( "IsTwistedPolygonalComplex", IsObject );
 BindGlobal( "TwistedPolygonalComplexFamily",
     NewFamily("TwistedPolygonalComplexFamily", IsObject, IsTwistedPolygonalComplex));
 
