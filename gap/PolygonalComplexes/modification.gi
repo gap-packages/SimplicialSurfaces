@@ -1274,7 +1274,7 @@ RedispatchOnCondition( JoinVertexEdgePathsNC, true,
 
 
 ## Boundaries
-InstallMethod(JoinBoundaries,
+InstallOtherMethod(JoinBoundaries,
     "for two polygonal surfaces and two 2-flags",
     [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList],
     function(surface1, flag1, surface2, flag2)
@@ -1294,11 +1294,77 @@ if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
         [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList], 
         [IsPolygonalSurface,,IsPolygonalSurface], 0 );
 fi;
+
+
+InstallOtherMethod(JoinBoundariesNC,
+    "for two polygonal surfaces and two 2-flags",
+    [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList],
+    function(surface1, flag1, surface2, flag2)
+        local disjoint, join;
+
+        disjoint := DisjointUnion(surface1, surface2);
+        join := JoinBoundariesNC( disjoint[1], flag1, flag2 + disjoint[2] );
+        if join = fail then
+            return fail;
+        fi;
+        Add(join, disjoint[2]);
+        return join;
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundariesNC, true,
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList],
+        [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+fi;
+
 InstallMethod(JoinBoundaries,
-    "for a polygonal surface and two 2-flags",
-    [IsPolygonalSurface, IsList, IsList],
-    function(surface, flag1, flag2)
-        local perims, perim1, perim2, bound1, bound2, Reorient, p, join;
+    "for two polygonal surfaces, two 2-flags and an integer",
+    [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList, IsInt],
+    function(surface1, flag1, surface2, flag2, length)
+        local disjoint, join;
+
+        disjoint := DisjointUnion(surface1, surface2);
+        join := JoinBoundaries( disjoint[1], flag1, flag2 + disjoint[2], length);
+        if join = fail then
+            return fail;
+        fi;
+        Add(join, disjoint[2]);
+        return join;
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundaries, true,
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList, IsInt],
+        [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+fi;
+
+InstallMethod(JoinBoundariesNC,
+    "for two polygonal surfaces, two 2-flags and an integer",
+    [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList, IsInt],
+    function(surface1, flag1, surface2, flag2, length)
+        local disjoint, join;
+
+        disjoint := DisjointUnion(surface1, surface2);
+        join := JoinBoundariesNC( disjoint[1], flag1, flag2 + disjoint[2], length);
+        if join = fail then
+            return fail;
+        fi;
+        Add(join, disjoint[2]);
+        return join;
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundariesNC, true,
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList, IsInt],
+        [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+fi;
+
+
+InstallMethod(JoinBoundaries,
+    "for a polygonal surface, two 2-flags and an integer",
+    [IsPolygonalSurface, IsList, IsList, IsInt],
+    function(surface, flag1, flag2, length)
+        local perims, perim1, perim2, bound1, bound2, Reorient, p, join, i;
 
         if Length(flag1) < 2 then
             Error(Concatenation("JoinBoundaries: First 2-flag should contain two elements, but actually has ", String(Length(flag1)),"."));
@@ -1325,27 +1391,41 @@ InstallMethod(JoinBoundaries,
             Error(Concatenation("JoinBoundaries: Second list ", String(flag2), " should be a flag of a vertex and an edge."));
         fi;
 
+        return JoinBoundariesNC(surface, flag1, flag2, length);
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundaries, true,
+        [IsTwistedPolygonalComplex, IsList, IsList, IsInt], [IsPolygonalSurface], 0 );
+fi;
+	
+InstallMethod(JoinBoundariesNC,
+    "for a polygonal surface, two 2-flags and an integer",
+    [IsPolygonalSurface, IsList, IsList, IsInt],
+    function(surface, flag1, flag2, length)
+        local perims, perim1, perim2, bound1, bound2, Reorient, p, join, i;
+
         perims := PerimeterOfHoles(surface);
         # Each edge can be in only one boundary path
-        #TODO could this become another VertexEdgePath-Constructor?
+        # TODO could this become another VertexEdgePath-Constructor?
         perim1 := [];
         perim2 := [];
         for p in perims do
-            if flag1[2] in EdgesAsList(p) then
-                Add(perim1, p);
-            fi;
-            if flag2[2] in EdgesAsList(p) then
-                Add(perim2, p);
-            fi;
+        	if flag1[2] in EdgesAsList(p) then
+        		Add(perim1, p);
+        	fi;
+        	if flag2[2] in EdgesAsList(p) then
+        		Add(perim2, p);
+        	fi;
         od;
         Assert(0, Length(perim1) = 1);
         Assert(0, Length(perim2) = 1);
         perim1 := perim1[1];
         perim2 := perim2[1];
-
+        
         # We have to reorient the paths correctly
         # TODO this could be a separate method
-        Reorient := function( path, vertex, edge )
+	Reorient := function( path, vertex, edge )
             local vPos, ePos, i;
 
             if path[1] = vertex and path[2] = edge then
@@ -1379,15 +1459,35 @@ InstallMethod(JoinBoundaries,
                 return Reversed( Concatenation( path{[vPos..Length(path)]}, path{[2..vPos]} ) );
             fi;
             Error("JoinBoundaries: Internal Error");
-        end;
+	end;
+            
+	perim1:=Reorient( PathAsList(perim1), flag1[1], flag1[2] );
+        perim2:=Reorient( PathAsList(perim2), flag2[1], flag2[2] );
+                
+        perim1:=ShallowCopy(EdgesAsList(VertexEdgePathNC(surface,perim1)));
+        perim2:=ShallowCopy(EdgesAsList(VertexEdgePathNC(surface,perim2)));
+                
+        if length<Length(perim1) or length<Length(perim2) then
+        	Error("JoinBoundaries: length has to be smaller then the boundary");
+        fi;
+          
+        for i in [length+1..Length(perim1)] do
+                Remove(perim1);
+        od;
 
-        bound1 := VertexEdgePathNC( surface, Reorient( PathAsList(perim1), flag1[1], flag1[2] ) );
-        bound2 := VertexEdgePathNC( surface, Reorient( PathAsList(perim2), flag2[1], flag2[2] ) );
-        #return JoinVertexEdgePathsNC(surface, bound1, bound2);
+	for i in [length+1..Length(perim2)] do
+                Remove(perim2);
+        od;
+
+
+        bound1:=VertexEdgePathByEdgesNC(surface,perim1);
+        bound2:=VertexEdgePathByEdgesNC(surface,perim2);
+
         join := JoinVertexEdgePathsNC(surface, bound1, bound2);
         if join = fail then
             return fail;
         fi;
+
         # Joining boundaries always produces polygonal surfaces
         SetIsNotEdgeRamified( join[1], true );
         SetIsNotVertexRamified( join[1], true );
@@ -1398,10 +1498,51 @@ InstallMethod(JoinBoundaries,
     end
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundariesNC, true,
+        [IsTwistedPolygonalComplex, IsList, IsList, IsInt], [IsPolygonalSurface], 0 );
+fi;
+
+InstallOtherMethod(JoinBoundaries,
+    "for a polygonal surface and two 2-flags",
+    [IsPolygonalSurface, IsList, IsList],
+    function(surface, flag1, flag2)
+	local perims, perim, p;
+	perims := PerimeterOfHoles(surface);
+        perim := [];
+        for p in perims do
+          	if flag1[2] in EdgesAsList(p) then
+                	Add(perim, p);
+            	fi;
+        od;
+        Assert(0, Length(perim) = 1);
+	return JoinBoundaries(surface,flag1,flag2,Length(EdgesAsList(perim[1])));
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundaries, true, 
         [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
 fi;
 
+InstallOtherMethod(JoinBoundariesNC,
+    "for a polygonal surface and two 2-flags",
+    [IsPolygonalSurface, IsList, IsList],
+    function(surface, flag1, flag2)
+        local perims, perim, p;
+        perims := PerimeterOfHoles(surface);
+        perim := [];
+        for p in perims do
+                if flag1[2] in EdgesAsList(p) then
+                        Add(perim, p);
+                fi;
+        od;
+        Assert(0, Length(perim) = 1);
+        return JoinBoundariesNC(surface,flag1,flag2,Length(EdgesAsList(perim[1])));
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundariesNC, true,
+        [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+fi;
 
 
 ##

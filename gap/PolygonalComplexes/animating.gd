@@ -31,7 +31,7 @@
 #! > [ -1, -1, 0 ],
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 # rec( vertexCoordinates3D := [ [ 0, 0, 1.41421 ], [ 1, 1, 0 ], [ 1, -1, 0 ], [ -1, -1, 0 ], [ -1, 1, 0 ], [ 0, 0, -1.41421 ] ] )
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
 #! @EndExampleSession
@@ -67,12 +67,12 @@
 #! > [ 0, 0, 3/Sqrt(6.) ] ];;
 #! gap> verticesPositionsMirrored := -verticesPositions;;
 #! gap> tet := Tetrahedron();;
-#! gap> printRecord := SetVertexCoordiantes3D(tet, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(tet, verticesPositions, rec());;
 #! gap> printRecord := CalculateParametersOfEdges(tet, printRecord);;
 #! gap> # coordinates of the center of the edge (1,2):
 #! > printRecord.edges[EdgeBetweenVertices(tet, 1, 2)][1];
 #! [ 0., -0.57735, -0.408248 ]
-#! gap> printRecord := SetVertexCoordiantes3D(tet, verticesPositionsMirrored,
+#! gap> printRecord := SetVertexCoordinates3D(tet, verticesPositionsMirrored,
 #! > printRecord);;
 #! gap> # coordinates of the edge (1,2) did not change:
 #! > printRecord.edges[EdgeBetweenVertices(tet, 1, 2)][1];
@@ -90,9 +90,9 @@
 #! The NC-version does not check the coordinate format.
 #! @Returns the updated print record.
 #! @Arguments surface, newCoordinatesList[, printRecord]
-DeclareOperation( "SetVertexCoordiantes3D", [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord] );
+DeclareOperation( "SetVertexCoordinates3D", [IsSimplicialSurface, IsDenseList, IsRecord] );
 #! @Arguments newCoordinatesList[, printRecord]
-DeclareOperation( "SetVertexCoordiantes3DNC", [IsDenseList, IsRecord] );
+DeclareOperation( "SetVertexCoordinates3DNC", [IsDenseList, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetVertexCoordinates3D
@@ -101,9 +101,9 @@ DeclareOperation( "SetVertexCoordiantes3DNC", [IsDenseList, IsRecord] );
 #! The NC-version does not check the coordinate format saved in the print record.
 #! @Returns the 3D-coordinates from the print record of the vertex i from surface.
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetVertexCoordiantes3D", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "GetVertexCoordinates3D", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments i, printRecord
-DeclareOperation( "GetVertexCoordiantes3DNC", [IsCyclotomic, IsRecord] );
+DeclareOperation( "GetVertexCoordinates3DNC", [IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup DrawSurfaceToJavaScript
@@ -143,9 +143,9 @@ DeclareOperation( "GetVertexCoordiantes3DNC", [IsCyclotomic, IsRecord] );
 #! There are also options for inner circles (<Ref Subsect="Section_LabelInnerCirclesAnimating"/>) and normales of inner circles (<Ref Subsect="Section_LabelNormalesInnerCirclesAnimating"/>).
 #! @Returns the (possibly) updated print record.
 #! @Arguments surface, filename, printRecord
-DeclareOperation( "DrawSurfaceToJavaScript", [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord] );
+DeclareOperation( "DrawSurfaceToJavaScript", [IsSimplicialSurface, IsString, IsRecord] );
 #! @Arguments surface, filename, printRecord, calculate
-DeclareOperation( "DrawSurfaceToJavaScriptCalculate", [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord, IsBool] );
+DeclareOperation( "DrawSurfaceToJavaScriptCalculate", [IsSimplicialSurface, IsString, IsRecord, IsBool] );
 #! @EndGroup
 
 #! @BeginGroup DrawSurfaceToJavaScript
@@ -158,7 +158,7 @@ DeclareOperation( "DrawSurfaceToJavaScriptCalculate", [IsSimplicialSurface and I
 #! coordinates of the vertices and saves those to the print record.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
-DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @Section Visibility
@@ -183,7 +183,7 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEd
 #! > [ -1, -1, 0 ],
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 # rec( vertexCoordinates3D := [ [ 0, 0, 1.41421 ], [ 1, 1, 0 ], [ 1, -1, 0 ], [ -1, -1, 0 ], [ -1, 1, 0 ], [ 0, 0, -1.41421 ] ] );
 #! gap> printRecord := DeactivateVertices(oct, printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
@@ -200,7 +200,7 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEd
 #! > [ -1, -1, 0 ],
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 #! gap> printRecord := DeactivateVertices(oct, printRecord);;
 #! gap> printRecord := ActivateVertex(oct, 2, printRecord);;
 #! gap> printRecord := ActivateVertex(oct, 3, printRecord);;
@@ -215,9 +215,9 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEd
 #! Activate all vertices. If a vertex is active, then the vertex is shown in the animation as a node. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateVertices", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateVertices", [IsSimplicialSurface, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateVertices", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateVertices", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup ActivateVertex
@@ -225,11 +225,11 @@ DeclareOperation( "DeactivateVertices", [IsSimplicialSurface and IsNotEdgeRamifi
 #! Activate the vertex <A>i</A>. If a vertex is active, then the vertex is shown in the animation as a node. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateVertex", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "ActivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateVertex", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsVertexActive", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "IsVertexActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup ActivateEdges
@@ -237,9 +237,9 @@ DeclareOperation( "IsVertexActive", [IsSimplicialSurface and IsNotEdgeRamified, 
 #! Activate all edges. If an edge is active, then the edge is shown in the animation as a line. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateEdges", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateEdges", [IsSimplicialSurface, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateEdges", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateEdges", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup ActivateEdge
@@ -247,11 +247,11 @@ DeclareOperation( "DeactivateEdges", [IsSimplicialSurface and IsNotEdgeRamified,
 #! Activate the edge <A>i</A>. If an edge is active, then he is shown as a line in the animation. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateEdge", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "ActivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateEdge", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsEdgeActive", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "IsEdgeActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup ActivateFaces
@@ -259,9 +259,9 @@ DeclareOperation( "IsEdgeActive", [IsSimplicialSurface and IsNotEdgeRamified, Is
 #! Activate all faces. If a face is active, then the face is shown in the animation as an area. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateFaces", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateFaces", [IsSimplicialSurface, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateFaces", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateFaces", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup ActivateFace
@@ -269,11 +269,11 @@ DeclareOperation( "DeactivateFaces", [IsSimplicialSurface and IsNotEdgeRamified,
 #! Activate the face <A>i</A>. If a face is active, then the face is shown in the animation as an area. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateFace", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "ActivateFace", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateFace", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateFace", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsFaceActive", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "IsFaceActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetTransparency
@@ -281,7 +281,7 @@ DeclareOperation( "IsFaceActive", [IsSimplicialSurface and IsNotEdgeRamified, Is
 #! Set the transparency of the face <A>i</A>. The value has to be between 0 and 1. 0 means that the face is invisible and 1 means that the face is opaque. The face will not change its transparency by using the transparency controller. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, value, printRecord
-DeclareOperation( "SetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsFloat, IsRecord] );
+DeclareOperation( "SetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup RemoveTransparency
@@ -289,7 +289,7 @@ DeclareOperation( "SetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamif
 #! Remove the transparency of the face <A>i</A>. After this the face act as a normal face without a strict transparency value. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
-DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetTransparency
@@ -297,7 +297,7 @@ DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface and IsNotEdgeRa
 #! Get the transparency of the face <A>i</A>. If no transparency is set, the function returns 1. Otherwise the function returns the transparency value of the face <A>i</A>. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @Section Colouring
@@ -331,7 +331,7 @@ DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamif
 #! > [ -1, -1, 0 ],
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 #! gap> printRecord := SetVertexColours(oct,
 #! > ListWithIdenticalEntries(NumberOfVertices(oct), "green"), printRecord);;
 #! gap> printRecord := SetVertexColour(oct, 3, "red", printRecord);;
@@ -346,9 +346,9 @@ DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamif
 #! Set colours for all vertices. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetVertexColours", [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord] );
+DeclareOperation( "SetVertexColours", [IsSimplicialSurface, IsDenseList, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "GetVertexColours", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "GetVertexColours", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetVertexColour
@@ -356,9 +356,9 @@ DeclareOperation( "GetVertexColours", [IsSimplicialSurface and IsNotEdgeRamified
 #! Set the <A>colour</A> of the vertex <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetVertexColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord] );
+DeclareOperation( "SetVertexColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetVertexColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "GetVertexColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetEdgeColours
@@ -366,9 +366,9 @@ DeclareOperation( "GetVertexColour", [IsSimplicialSurface and IsNotEdgeRamified,
 #! Set colours for all edges. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetEdgeColours", [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord] );
+DeclareOperation( "SetEdgeColours", [IsSimplicialSurface, IsDenseList, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "GetEdgeColours", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "GetEdgeColours", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetEdgeColour
@@ -376,9 +376,9 @@ DeclareOperation( "GetEdgeColours", [IsSimplicialSurface and IsNotEdgeRamified, 
 #! Set the <A>colour</A> of the edge <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetEdgeColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord] );
+DeclareOperation( "SetEdgeColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetEdgeColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 
@@ -387,9 +387,9 @@ DeclareOperation( "GetEdgeColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #! Set colours for all faces. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetFaceColours", [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord] );
+DeclareOperation( "SetFaceColours", [IsSimplicialSurface, IsDenseList, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "GetFaceColours", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "GetFaceColours", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetFaceColour
@@ -397,9 +397,9 @@ DeclareOperation( "GetFaceColours", [IsSimplicialSurface and IsNotEdgeRamified, 
 #! Set the <A>colour</A> of the face <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord] );
+DeclareOperation( "SetFaceColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "GetFaceColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @Section Inner Circles
@@ -427,7 +427,7 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #! > [ -1, -1, 0 ],
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 #! gap> printRecord := ActivateInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
@@ -441,7 +441,7 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #! > [ -1, -1, 0 ],
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 #! gap> printRecord := DeactivateFaces(oct,printRecord);;
 #! gap> printRecord := ActivateInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
@@ -453,9 +453,9 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Activate all inner circles. If an inner circle is active, then it is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateInnerCircles", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateInnerCircles", [IsSimplicialSurface, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateInnerCircles", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateInnerCircles", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup ActivateInnerCircle
@@ -463,11 +463,11 @@ DeclareOperation( "DeactivateInnerCircles", [IsSimplicialSurface and IsNotEdgeRa
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Activate the inner circle corresponding to the face <A>i</A> from surface. If an inner circle is active, then it is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateInnerCircle", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "ActivateInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateInnerCircle", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetCircleColours
@@ -475,9 +475,9 @@ DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface and IsNotEdgeRamif
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set colours for all inner circles. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. Compare Section <Ref Sect="Section_LabelColouring"/> for a list of default colours.)
 #! @Returns the updated print record.
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetCircleColours", [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord] );
+DeclareOperation( "SetCircleColours", [IsSimplicialSurface, IsDenseList, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "GetCircleColours", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "GetCircleColours", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetCircleColour
@@ -485,9 +485,9 @@ DeclareOperation( "GetCircleColours", [IsSimplicialSurface and IsNotEdgeRamified
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set the <A>colour</A> of the inner circle corresponding to the face <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. Compare Section <Ref Sect="Section_LabelColouring"/> for a list of default colours.)
 #! @Returns the updated print record.
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetCircleColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord] );
+DeclareOperation( "SetCircleColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetCircleColour", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "GetCircleColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup CalculateParametersOfInnerCircle
@@ -498,7 +498,7 @@ DeclareOperation( "GetCircleColour", [IsSimplicialSurface and IsNotEdgeRamified,
 #! Note that this is necessary for the animation. Therefore, the method <K>CalculateParametersOfInnerCircle</K> gets called after using the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) if no locations are calculated for the inner circles. If parameters are set for the inner circles and the 3D-coordinates of a vertex has been changed, then you have to call the method <K>CalculateParametersOfInnerCircle</K> manuel again if you use the method <K>DrawSurfaceToJavaScriptCalculate</K> with <A>calculate = false</A>. Otherwise the animation will be not necessarly correct. If you use the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) the parameters will be updated automatically.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
-DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @Section Normales of Inner Circles
@@ -518,7 +518,7 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #! > [ -1, -1, 0 ],
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 #! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
@@ -532,21 +532,22 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #! > [ -1, -1, 0 ],
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 #! gap> printRecord := DeactivateFaces(oct,printRecord);;
 #! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndExampleSession
-#! @InsertChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
+#TODO activate the next line again
+# @InsertChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
 
 #! @BeginGroup ActivateNormalOfInnerCircles
 #! @Description
 #! For the description of normales of inner circles look at <Ref Sect="Section_LabelNormalesInnerCirclesAnimating"/>. Activate all normals innerer circles. If a normal is active, the normal is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateNormalOfInnerCircles", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "ActivateNormalOfInnerCircles", [IsSimplicialSurface, IsRecord] );
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateNormalOfInnerCircles", [IsSimplicialSurface and IsNotEdgeRamified, IsRecord] );
+DeclareOperation( "DeactivateNormalOfInnerCircles", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup ActivateNormalOfInnerCircle
@@ -554,9 +555,9 @@ DeclareOperation( "DeactivateNormalOfInnerCircles", [IsSimplicialSurface and IsN
 #! For the description of normales of inner circles look at <Ref Sect="Section_LabelNormalesInnerCirclesAnimating"/>. Activate the normal of the face <A>i</A> from surface. If a normal is active, the normal is shown in the animation.
 #! @Returns the updated print record.
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateNormalOfInnerCircle", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "ActivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateNormalOfInnerCircle", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "DeactivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord] );
+DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
