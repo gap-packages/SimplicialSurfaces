@@ -918,4 +918,44 @@ InstallMethod( IsQuadrangular,
 ##
 #######################################
 
+#######################################
+##
+##      Face colouring
+##
+
+InstallMethod( FaceTwoColouring, 
+    "for a polygonal complex",
+	[IsPolygonalComplex],
+	function(complex)
+		local faces,red,blue,f,remfaces,tempfaces,neighbours;
+		if 1 in List(FaceDegreesOfVertices(complex),g->g mod 2) then 
+			Error("Two Colouring does not exist");
+		fi;
+		blue:=[Faces(complex)[1]];
+		red:=[];
+		remfaces:=Difference(Faces(complex),blue);
+		while remfaces <> [] do 
+			tempfaces:=Difference(Faces(complex),Union(blue,red));
+			tempfaces:=Filtered(tempfaces,f->Intersection(NeighbourFacesOfFace(complex,f),Union(blue,red))<>[]);
+			for f in tempfaces do 
+				neighbours:=NeighbourFacesOfFace(complex,f);
+				if Intersection(neighbours,blue)=[] then
+					Add(blue,f);
+				elif Intersection(neighbours,red)=[] then 
+					Add(red,f);
+				else
+					Error("Two colouring does not exist");
+				fi;
+			od;
+			remfaces:=Difference(remfaces,Union(blue,red));
+		od;
+		return [blue,red];
+	end
+);
+
+##
+##      End of face colouring
+##
+#######################################
+
 
