@@ -1,4 +1,3 @@
-
 InstallMethod( SetVertexCoordinates3DNC,
     "for a list of coordinates and a record",
     [IsDenseList, IsRecord],
@@ -13,6 +12,13 @@ InstallOtherMethod( SetVertexCoordinates3DNC,
     function(surface ,coordinates, printRecord)
 	printRecord.vertexCoordinates3D := coordinates;
         return printRecord;
+    end
+);
+InstallOtherMethod( SetVertexCoordinates3DNC,
+    "for a simplicial surface and for a list of coordinates",
+    [IsSimplicialSurface, IsDenseList],
+    function(surface ,coordinates)
+		return SetVertexCoordinates3DNC(coordinates, rec());
     end
 );
 
