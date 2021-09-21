@@ -929,14 +929,13 @@ InstallMethod( FaceTwoColouring,
 	function(complex)
 		local faces,red,blue,f,remfaces,tempfaces,neighbours;
 		if 1 in List(FaceDegreesOfVertices(complex),g->g mod 2) then 
-			Error("Two Colouring does not exist");
+			return fail;
 		fi;
 		blue:=[Faces(complex)[1]];
 		red:=[];
 		remfaces:=Difference(Faces(complex),blue);
 		while remfaces <> [] do 
-			tempfaces:=Difference(Faces(complex),Union(blue,red));
-			tempfaces:=Filtered(tempfaces,f->Intersection(NeighbourFacesOfFace(complex,f),Union(blue,red))<>[]);
+			tempfaces:=Filtered(remfaces,f->Intersection(NeighbourFacesOfFace(complex,f),Union(blue,red))<>[]);
 			for f in tempfaces do 
 				neighbours:=NeighbourFacesOfFace(complex,f);
 				if Intersection(neighbours,blue)=[] then
@@ -944,7 +943,7 @@ InstallMethod( FaceTwoColouring,
 				elif Intersection(neighbours,red)=[] then 
 					Add(red,f);
 				else
-					Error("Two colouring does not exist");
+					return fail;
 				fi;
 			od;
 			remfaces:=Difference(remfaces,Union(blue,red));
