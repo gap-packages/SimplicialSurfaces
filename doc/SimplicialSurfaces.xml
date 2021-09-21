@@ -28,6 +28,7 @@
     <#Include SYSTEM "_Chapter_AccessIncidenceGeometry.xml">
     <#Include SYSTEM "_Chapter_Constructors.xml">
     <#Include SYSTEM "_Chapter_AccessTwistedPolygonalComplex.xml">
+    <#Include SYSTEM "ExampleApplications.xml">
     <#Include SYSTEM "_Chapter_Morphisms.xml">
     <#Include SYSTEM "_Chapter_Paths.xml">
     <#Include SYSTEM "_Chapter_Properties.xml">
@@ -43,7 +44,6 @@
     <#Include SYSTEM "_Chapter_EdgeIsoscelesColouring.xml">
     <#Include SYSTEM "_Chapter_Flags.xml">
     <#Include SYSTEM "ExampleImplementations.xml">
-    <#Include SYSTEM "ExampleApplications.xml">
 </Body>
 <TheIndex/>
 </Book>
