@@ -9,8 +9,8 @@ InstallMethod( SetVertexCoordinates3DNC,
 );
 InstallOtherMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface, for a list of coordinates and a record",
-    [IsDenseList, IsRecord],
-    function(coordinates, printRecord)
+    [IsSimplicialSurface, IsDenseList, IsRecord],
+    function(surface ,coordinates, printRecord)
 	printRecord.vertexCoordinates3D := coordinates;
         return printRecord;
     end
