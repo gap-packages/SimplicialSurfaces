@@ -769,7 +769,7 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @BeginGroup FaceTwoColouring
 #! @Description
 #! The method returns a 2-face-colouring of a given polygonal complex if it exists
-#! or fail if it doesn't.
+#! or <K>fail</K> if it doesn't.
 #!
 #! A 2-face-colouring of a polygonal complex is a colouring of the faces with exactly
 #! two colours, whereby two neighbouring faces have to be coloured different. 
@@ -783,7 +783,7 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! <Alt Only="TikZ">
 #!      \input{Image_TwoColouredOctahedron.tex}
 #! </Alt>
-#! @Returns a pair where the first and second entry are sets of faces or fail
+#! @Returns a pair where the first and second entry are sets of faces or <K>fail</K>
 #! @Arguments complex
 DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndGroup

@@ -927,28 +927,34 @@ InstallMethod( FaceTwoColouring,
     "for a polygonal complex",
 	[IsPolygonalComplex],
 	function(complex)
-		local faces,red,blue,f,remfaces,tempfaces,neighbours;
-		if 1 in List(FaceDegreesOfVertices(complex),g->g mod 2) then 
+		local faces,red,blue,tempfacdeg,f,remfaces,comp,Listcomp,
+		tempfaces,neighbours;
+		tempfacdeg:=Filtered(FaceDegreesOfVertices(complex),g->g<>1);
+		if 1 in List(tempfacdeg,g->g mod 2) then 
 			return fail;
 		fi;
-		blue:=[Faces(complex)[1]];
+		blue:=[];
 		red:=[];
-		remfaces:=Difference(Faces(complex),blue);
-		while remfaces <> [] do 
-			tempfaces:=Filtered(remfaces,f->Intersection(NeighbourFacesOfFace(complex,f),Union(blue,red))<>[]);
-			for f in tempfaces do 
-				neighbours:=NeighbourFacesOfFace(complex,f);
-				if Intersection(neighbours,blue)=[] then
-					Add(blue,f);
-				elif Intersection(neighbours,red)=[] then 
-					Add(red,f);
-				else
-					return fail;
-				fi;
+		Listcomp:=ConnectedComponents(complex);
+		for comp in Listcomp do
+			Add(blue,Faces(comp)[1]);
+			remfaces:=Difference(Faces(comp),blue);
+			while remfaces <> [] do 
+				tempfaces:=Filtered(remfaces,f->Intersection(NeighbourFacesOfFace(comp,f),Union(blue,red))<>[]);
+				for f in tempfaces do 
+					neighbours:=NeighbourFacesOfFace(comp,f);
+					if Intersection(neighbours,blue)=[] then
+						Add(blue,f);
+					elif Intersection(neighbours,red)=[] then 
+						Add(red,f);
+					else
+						return fail;
+					fi;
+				od;
+				remfaces:=Difference(remfaces,Union(blue,red));
 			od;
-			remfaces:=Difference(remfaces,Union(blue,red));
 		od;
-		return [blue,red];
+		return [Set(blue),Set(red)];
 	end
 );
 
