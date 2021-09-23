@@ -749,27 +749,7 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #!
 #! For example, consider the following simplicial surface:
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
-#!      \def\len{2.5}
-#!      \coordinate (Z) at (0,0);
-#!      \foreach \i in {0,1,2,3}{
-#!          \coordinate (P\i) at (45+90*\i:\len);
-#!      }
-#!
-#!      \draw[edge,face]
-#!          (Z) -- (P0) -- node[edgeLabel]{5} (P1) -- cycle
-#!          (Z) -- node[edgeLabel]{2} (P1) -- node[edgeLabel]{6} (P2) -- cycle
-#!          (Z) -- node[edgeLabel]{3} (P2) -- node[edgeLabel]{7} (P3) -- cycle
-#!          (Z) -- node[edgeLabel]{4} (P3) -- node[edgeLabel]{8} (P0) -- node[edgeLabel]{1} cycle;
-#!
-#!      \foreach \p/\q/\n in {0/1/I, 1/2/II, 2/3/III, 3/0/IV}{
-#!          \node[faceLabel] at (barycentric cs:Z=1,P\p=1,P\q=1) {\n};
-#!      }
-#!  
-#!      \foreach \p/\r/\n in {Z/right/1, P0/right/2, P1/above/3, P2/left/4, P3/below/5}{
-#!          \vertexLabelR{\p}{\r}{\n}
-#!      }
-#!  \end{tikzpicture}
+#!  \input{Image_FourGon.tex}
 #! </Alt>
 #! @BeginExampleSession
 #! gap> fourGon := SimplicialSurfaceByDownwardIncidence(

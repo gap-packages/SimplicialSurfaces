@@ -1420,52 +1420,12 @@ InstallMethod(JoinBoundariesNC,
         od;
         Assert(0, Length(perim1) = 1);
         Assert(0, Length(perim2) = 1);
-        perim1 := perim1[1];
-        perim2 := perim2[1];
         
-        # We have to reorient the paths correctly
-        # TODO this could be a separate method
-	Reorient := function( path, vertex, edge )
-            local vPos, ePos, i;
-
-            if path[1] = vertex and path[2] = edge then
-                return path;
-            fi;
-            if path[Length(path)] = vertex and path[Length(path)-1] = edge then
-                return Reversed(path);
-            fi;
-
-            vPos := 0;
-            for i in [3,5..Length(path)-2] do
-                if path[i] = vertex then
-                    vPos := i;
-                fi;
-            od;
-            Assert(0, vPos > 0);
-
-            ePos := 0;
-            for i in [2,4..Length(path)-1] do
-                if path[i] = edge then
-                    ePos := i;
-                fi;
-            od;
-            Assert(0, ePos > 0);
-
-            if vPos + 1 = ePos then
-                # right direction
-                return Concatenation( path{[vPos..Length(path)-1]}, path{[1..vPos]} );
-            elif ePos + 1 = vPos then
-                # wrong direction
-                return Reversed( Concatenation( path{[vPos..Length(path)]}, path{[2..vPos]} ) );
-            fi;
-            Error("JoinBoundaries: Internal Error");
-	end;
-            
-	perim1:=Reorient( PathAsList(perim1), flag1[1], flag1[2] );
-        perim2:=Reorient( PathAsList(perim2), flag2[1], flag2[2] );
-                
-        perim1:=ShallowCopy(EdgesAsList(VertexEdgePathNC(surface,perim1)));
-        perim2:=ShallowCopy(EdgesAsList(VertexEdgePathNC(surface,perim2)));
+	perim1:=ShiftCyclicPath(perim1[1],flag1[1],flag1[2]);
+        perim2:=ShiftCyclicPath(perim2[1], flag2[1], flag2[2]);
+ 
+	perim1:=ShallowCopy(EdgesAsList(perim1));
+        perim2:=ShallowCopy(EdgesAsList(perim2));
                 
         if length<Length(perim1) or length<Length(perim2) then
         	Error("JoinBoundaries: length has to be smaller then the boundary");
