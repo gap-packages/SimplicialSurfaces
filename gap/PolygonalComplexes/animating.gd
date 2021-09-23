@@ -89,10 +89,10 @@
 #! Save the given list of 3D-coordinates in the given or an empty print record. If the format of the 3D-coordinates (3D-coordinates have to be a list of 3 entries of floats) is not correct, then an error is shown.
 #! The NC-version does not check the coordinate format.
 #! @Returns the updated print record.
-#! @Arguments surface, newCoordinatesList[, printRecord]
+#! @Arguments surface, coordinates[, printRecord]
 DeclareOperation( "SetVertexCoordinates3D", [IsSimplicialSurface, IsDenseList, IsRecord] );
-#! @Arguments newCoordinatesList[, printRecord]
-DeclareOperation( "SetVertexCoordinates3DNC", [IsDenseList, IsRecord] );
+#! @Arguments surface, coordinates[, printRecord]
+DeclareOperation( "SetVertexCoordinates3DNC", [IsSimplicialSurface, IsDenseList, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetVertexCoordinates3D
@@ -102,8 +102,8 @@ DeclareOperation( "SetVertexCoordinates3DNC", [IsDenseList, IsRecord] );
 #! @Returns the 3D-coordinates from the print record of the vertex i from surface.
 #! @Arguments surface, i, printRecord
 DeclareOperation( "GetVertexCoordinates3D", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments i, printRecord
-DeclareOperation( "GetVertexCoordinates3DNC", [IsPosInt, IsRecord] );
+#! @Arguments surface, i, printRecord
+DeclareOperation( "GetVertexCoordinates3DNC", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup DrawSurfaceToJavaScript

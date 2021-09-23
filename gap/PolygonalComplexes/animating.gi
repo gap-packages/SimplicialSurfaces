@@ -1,28 +1,3 @@
-InstallMethod( SetVertexCoordinates3DNC,
-    "for a list of coordinates and a record",
-    [IsDenseList, IsRecord],
-    function(coordinates, printRecord)
-	printRecord.vertexCoordinates3D := coordinates;
-        return printRecord;
-    end
-);
-InstallOtherMethod( SetVertexCoordinates3DNC,
-    "for a simplicial surface, for a list of coordinates and a record",
-    [IsSimplicialSurface, IsDenseList, IsRecord],
-    function(surface ,coordinates, printRecord)
-	printRecord.vertexCoordinates3D := coordinates;
-        return printRecord;
-    end
-);
-InstallOtherMethod( SetVertexCoordinates3DNC,
-    "for a simplicial surface and for a list of coordinates",
-    [IsSimplicialSurface, IsDenseList],
-    function(surface ,coordinates)
-		return SetVertexCoordinates3DNC(coordinates, rec());
-    end
-);
-
-
 BindGlobal( "__SIMPLICIAL_IsCoordinates3D",
     function(surface, coordinates)
         local coord;
@@ -53,21 +28,12 @@ InstallMethod( SetVertexCoordinates3D,
 	if not __SIMPLICIAL_IsCoordinates3D(surface, coordinates) then
 	    Error( " invalid coordinate format " );
 	fi;
-	return SetVertexCoordinates3DNC(coordinates, printRecord);
+	return SetVertexCoordinates3DNC(surface, coordinates, printRecord);
     end
 );
 RedispatchOnCondition( SetVertexCoordinates3D, true, 
     [IsTwistedPolygonalComplex,IsList,IsRecord], 
     [IsSimplicialSurface, IsDenseList], 0 );
-
-
-InstallOtherMethod( SetVertexCoordinates3DNC,
-    "for a list of coordinates",
-    [IsDenseList],
-    function(coordinates)
-	return SetVertexCoordinates3DNC(coordinates, rec());
-    end
-);
 
 InstallOtherMethod( SetVertexCoordinates3D,
     "for a simplicial surface and a list of coordinates",
@@ -80,22 +46,27 @@ RedispatchOnCondition( SetVertexCoordinates3D, true,
     [IsTwistedPolygonalComplex,IsList], 
     [IsSimplicialSurface, IsDenseList], 0 );
 
-
-InstallMethod( GetVertexCoordinates3DNC,
-    "for an index and a record",
-    [IsPosInt, IsRecord],
-    function(index, printRecord)
-	return 1.0*printRecord.vertexCoordinates3D[index];
+InstallMethod( SetVertexCoordinates3DNC,
+    "for a simplicial surface, a list of coordinates and a record",
+    [IsSimplicialSurface, IsDenseList, IsRecord],
+    function(surface, coordinates, printRecord)
+	printRecord.vertexCoordinates3D := coordinates;
+        return printRecord;
     end
 );
-
-InstallMethod( GetVertexCoordinates3DNC,
-    "for an index and a record",
-    [IsPosInt, IsRecord],
-    function(index, printRecord)
-	return 1.0*printRecord.vertexCoordinates3D[index];
+RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
+    [IsTwistedPolygonalComplex,IsList,IsRecord], 
+    [IsSimplicialSurface, IsDenseList], 0 );
+InstallOtherMethod( SetVertexCoordinates3DNC,
+    "for a simplicial surface and a list of coordinates",
+    [IsSimplicialSurface, IsDenseList],
+    function(surface, coordinates)
+	return SetVertexCoordinates3DNC(coordinates, rec());
     end
 );
+RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
+    [IsTwistedPolygonalComplex,IsList], 
+    [IsSimplicialSurface, IsDenseList], 0 );
 
 InstallMethod( GetVertexCoordinates3D,
     "for a simplicial surface, an index and a record",
@@ -104,10 +75,20 @@ InstallMethod( GetVertexCoordinates3D,
 	if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
 	    Error( " invalid coordinate format " );
         fi;
-	return GetVertexCoordinates3DNC(index, printRecord);
+	return GetVertexCoordinates3DNC(surface, index, printRecord);
     end
 );
 RedispatchOnCondition(GetVertexCoordinates3D, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
+    [IsSimplicialSurface], 0);
+
+InstallMethod( GetVertexCoordinates3DNC,
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
+    function(surface, index, printRecord)
+	return 1.0*printRecord.vertexCoordinates3D[index];
+    end
+);
+RedispatchOnCondition(GetVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
     [IsSimplicialSurface], 0);
 
 
@@ -151,9 +132,9 @@ InstallMethod( CalculateParametersOfInnerCircle,
 						Append(res, [[]]);
 						continue;
 					fi;
-					P1 := GetVertexCoordinates3DNC(vertOfFace[1], printRecord);
-					P2 := GetVertexCoordinates3DNC(vertOfFace[2], printRecord);
-					P3 := GetVertexCoordinates3DNC(vertOfFace[3], printRecord);
+					P1 := GetVertexCoordinates3DNC(surface, vertOfFace[1], printRecord);
+					P2 := GetVertexCoordinates3DNC(surface, vertOfFace[2], printRecord);
+					P3 := GetVertexCoordinates3DNC(surface, vertOfFace[3], printRecord);
 					# calculate distances
 					d1 := distance(P2,P3);
 					d2 := distance(P1,P3);
@@ -361,8 +342,8 @@ InstallMethod( CalculateParametersOfEdges,
 				end;
 				res := [];
 				for vertOfEdge in VerticesOfEdges(surface) do
-					P1 := GetVertexCoordinates3DNC(vertOfEdge[1], printRecord);
-					P2 := GetVertexCoordinates3DNC(vertOfEdge[2], printRecord);
+					P1 := GetVertexCoordinates3DNC(surface, vertOfEdge[1], printRecord);
+					P2 := GetVertexCoordinates3DNC(surface, vertOfEdge[2], printRecord);
 					# calculate distance
 					d := distance(P1,P2);
 					# calculate coordinates of mid of edge
@@ -846,7 +827,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                     Error( " invalid coordinate format " );
                 fi;
                 for i in [1..NumberOfVertices(surface)] do
-                    coords := GetVertexCoordinates3DNC(i, printRecord);
+                    coords := GetVertexCoordinates3DNC(surface, i, printRecord);
                     AppendTo(output, "\t\tallpoints.push(new PMPoint(", coords[1], ",", coords[2], ",", coords[3], "));\n");
                 od;
 
