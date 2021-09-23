@@ -291,7 +291,7 @@ InstallMethod( IsomorphicFlagSurface, "for a tame coloured surface",
         fi;
 
         perms := [];
-        bound := __SIMPLICIAL_BoundPositions(ColourInvolutions(tameSurf));
+        bound := PositionsBound(ColourInvolutions(tameSurf));
         for i in [1..Length(bound)] do
             perms[i] := ColourInvolutions(tameSurf)[bound[i]];
         od;

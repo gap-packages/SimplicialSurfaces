@@ -392,7 +392,7 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! gap> Edges(tetra);
 #! [ 1, 2, 3, 4, 5, 6 ]
 #! gap> Faces(tetra);
-#! [ 1, 2, 3, 4 ]
+#! [ 1 .. 4 ]
 #! @EndExampleSession
 #! A disjoint union can't just combine these labels because it would not be
 #! clear to which component the vertex 2 is belonging. This conflict of labels
