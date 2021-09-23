@@ -764,12 +764,13 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 #! @Section Face-colouring 
-#! @SectionLabel Properties_FaceColouring 
+#! @SectionLabel Properties_FaceColouring
 #!
 #! @BeginGroup FaceTwoColouring
 #! @Description
 #! The method returns a 2-face-colouring of a given polygonal complex if it exists
-#! or <K>fail</K> if it doesn't.
+#! and <K>fail</K> otherwise. In the case that such a colouring exists,
+#! the first set of the returned pair contains the face with the smallest label. 
 #!
 #! A 2-face-colouring of a polygonal complex is a colouring of the faces with exactly
 #! two colours, whereby two neighbouring faces have to be coloured different. 
