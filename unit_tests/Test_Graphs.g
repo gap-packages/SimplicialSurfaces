@@ -37,7 +37,7 @@ fi;
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	BindGlobal( "__SIMPLICIAL_Test_IncidenceGrapeGraph", function()
 		local grapeTetra, grapeTetraEdges, vertex, edges, edge, faces;
-		grapeTetra:=IncidenceGrapeGraph(Tetrahedron());
+		grapeTetra:=IncidenceGrapeGraph(Tetrahedron()).graph;
 		grapeTetraEdges:=DirectedEdges(grapeTetra);
 		Assert(0,Length(grapeTetraEdges)=48);
 		for vertex in [1..Length(EdgesOfVertices(Tetrahedron()))] do
