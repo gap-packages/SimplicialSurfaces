@@ -11,7 +11,7 @@ SetPackageInfo( rec(
 PackageName := "SimplicialSurfaces",
 Subtitle := "Computing with simplicial surfaces and folding processes.",
 Version := "0.6",
-Date := "16/08/2021", # dd/mm/yyyy format
+Date := "23/09/2021", # dd/mm/yyyy format
 ArchiveURL := "TODO",
 ArchiveFormats := "TODO",
 
@@ -63,7 +63,7 @@ ArchiveFormats := ".tar.gz",
 ##
 Status := "dev",
 
-AbstractHTML   :=  "The <span class='pkgname'>SimplicialSurfaces</span> package provides functionality for working with simplicial surfaces",
+AbstractHTML   :=  "The <span class='pkgname'>SimplicialSurfaces</span> package provides functionality for working with simplicial surfaces and generalisations",
 
 PackageDoc := rec(
   BookName  := "SimplicialSurfaces",
