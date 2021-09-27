@@ -1024,9 +1024,9 @@ BindGlobal( "__SIMPLICIAL_WriteTwistedConstructorRelation",
 
                                     # Verify chamber information
                                     __SIMPLICIAL_ConstructorConsistencyChambers([
-                                        [__SIMPLICIAL_BoundPositions, vOfC, 1, "verticesOfChambers"],
-                                        [__SIMPLICIAL_BoundPositions, eOfC, 1, "edgesOfChambers"],
-                                        [__SIMPLICIAL_BoundPositions, fOfC, 1, "facesOfChambers"],
+                                        [PositionsBound, vOfC, 1, "verticesOfChambers"],
+                                        [PositionsBound, eOfC, 1, "edgesOfChambers"],
+                                        [PositionsBound, fOfC, 1, "facesOfChambers"],
                                         [argOptions[1][5], zeroAd, 1, "zeroAdjacency"],
                                         [argOptions[2][5], oneAd, 1, "zeroAdjacency"],
                                         [argOptions[3][5], twoAd, 1, "zeroAdjacency"]], constName);

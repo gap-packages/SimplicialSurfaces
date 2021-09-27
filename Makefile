@@ -6,7 +6,7 @@ doc/manual.six: makedoc.g \
     		PackageInfo.g \
 		init.g \
 		read.g \
-		gap/*.gd gap/*.gi \
+		gap/*.gd \
 		gap/ColouredComplexes/*gd \
 		gap/ColouredComplexes/*gi \
 		gap/Flags/*.gd \

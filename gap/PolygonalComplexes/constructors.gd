@@ -991,7 +991,7 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! gap> NumberOfFaces(surf);
 #! 12
 #! gap>  Vertices(surf);
-#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+#! [ 1 .. 10 ]
 #! gap> NumberOfEdges(surf);
 #! 21
 #! gap> Faces(surf);
