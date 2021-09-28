@@ -392,7 +392,7 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! gap> Edges(tetra);
 #! [ 1, 2, 3, 4, 5, 6 ]
 #! gap> Faces(tetra);
-#! [ 1, 2, 3, 4 ]
+#! [ 1 .. 4 ]
 #! @EndExampleSession
 #! A disjoint union can't just combine these labels because it would not be
 #! clear to which component the vertex 2 is belonging. This conflict of labels
@@ -651,6 +651,38 @@ DeclareOperation("JoinEdges", [IsPolygonalComplex, IsList, IsPosInt]);
 DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! @EndGroup
 
+#! @BeginGroup JoinFaces
+#! @Description
+#! Combine two faces <A>F1</A> and <A>F2</A> of a polygonal complex into one
+#! face, whose new label can be given by the optional argument 
+#! <A>newFaceLabel</A> (otherwise a default label is chosen). The faces have 
+#! to have had the same incident edges.
+#! 
+#! This method returns a pair, where the first entry is the modified polygonal
+#! complex and the second entry is the label of the new face.
+#!
+#! For example consider the Janus-head. The two faces have equal incident edges so they can be joined:
+#! @BeginExampleSession
+#! gap> JoinFaces(JanusHead(),1,2);
+#! [ simplicial surface (3 vertices, 3 edges, and 1 faces), 3 ]
+#! @EndExampleSession
+#! The resulting surface is the one-face.
+#!
+#! The NC-versions do not check whether the given faces are distinct faces
+#! with the same incident edges of <A>complex</A> and whether the new face label is
+#! actually valid.
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the
+#!    second one is the new face label
+#! @Arguments complex, F1, F2[, newFaceLabel]
+DeclareOperation("JoinFaces", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, F1, F2[, newFaceLabel]
+DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt]);
+#! @Arguments complex, faceList[, newFaceLabel]
+DeclareOperation("JoinFaces", [IsPolygonalComplex, IsList, IsPosInt]);
+#! @Arguments complex, faceList[, newFaceLabel]
+DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
+#! @EndGroup
 
 #! @BeginGroup JoinVertexEdgePaths
 #! @Description
@@ -749,27 +781,7 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #!
 #! For example, consider the following simplicial surface:
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
-#!      \def\len{2.5}
-#!      \coordinate (Z) at (0,0);
-#!      \foreach \i in {0,1,2,3}{
-#!          \coordinate (P\i) at (45+90*\i:\len);
-#!      }
-#!
-#!      \draw[edge,face]
-#!          (Z) -- (P0) -- node[edgeLabel]{5} (P1) -- cycle
-#!          (Z) -- node[edgeLabel]{2} (P1) -- node[edgeLabel]{6} (P2) -- cycle
-#!          (Z) -- node[edgeLabel]{3} (P2) -- node[edgeLabel]{7} (P3) -- cycle
-#!          (Z) -- node[edgeLabel]{4} (P3) -- node[edgeLabel]{8} (P0) -- node[edgeLabel]{1} cycle;
-#!
-#!      \foreach \p/\q/\n in {0/1/I, 1/2/II, 2/3/III, 3/0/IV}{
-#!          \node[faceLabel] at (barycentric cs:Z=1,P\p=1,P\q=1) {\n};
-#!      }
-#!  
-#!      \foreach \p/\r/\n in {Z/right/1, P0/right/2, P1/above/3, P2/left/4, P3/below/5}{
-#!          \vertexLabelR{\p}{\r}{\n}
-#!      }
-#!  \end{tikzpicture}
+#!  \input{Image_FourGon.tex}
 #! </Alt>
 #! @BeginExampleSession
 #! gap> fourGon := SimplicialSurfaceByDownwardIncidence(

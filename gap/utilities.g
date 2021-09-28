@@ -11,20 +11,6 @@
 #############################################################################
 
 
-BindGlobal( "__SIMPLICIAL_BoundPositions",
-    function( list )
-        local res, i;
-
-        res := [];
-        for i in [1..Length(list)] do
-            if IsBound(list[i]) then
-                Add(res, i);
-            fi;
-        od;
-        return res;
-    end
-);
-
 # This custom command is slightly faster than the regular Union if
 # called for lists of sets
 BindGlobal( "__SIMPLICIAL_UnionSets",
