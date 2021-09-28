@@ -768,12 +768,13 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!
 #! @BeginGroup FaceTwoColouring
 #! @Description
-#! The method returns a 2-face-colouring of a given polygonal complex if it exists
-#! and <K>fail</K> otherwise. In the case that such a colouring exists,
-#! the first set of the returned pair contains the face with the smallest label. 
-#!
+#! If the method is given a polygonal complex, it returns a pair of #! two sets of 
+#! faces, which represents a 2-face-coloring,if possible. 
 #! A 2-face-colouring of a polygonal complex is a colouring of the faces with exactly
-#! two colours, whereby two neighbouring faces have to be coloured different. 
+#! two colours, whereby two neighbouring faces have to be coloured different.
+#! If no such coloring exists, the method returns <K>fail</K>.
+#! In the case that such a colouring exists,
+#! the first set of the returned pair contains the face with the smallest label.  
 #!
 #! As an example, consider the octahedron.
 #!
@@ -784,7 +785,7 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! <Alt Only="TikZ">
 #!      \input{Image_TwoColouredOctahedron.tex}
 #! </Alt>
-#! @Returns a pair where the first and second entry are sets of faces or <K>fail</K>
+#! @Returns a pair where the first and second entry are sets of positive integers or <K>fail</K>
 #! @Arguments complex
 DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndGroup

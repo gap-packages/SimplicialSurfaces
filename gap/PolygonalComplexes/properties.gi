@@ -929,16 +929,12 @@ InstallMethod( FaceTwoColouring,
 	function(complex)
 		local faces,red,blue,tempfacdeg,f,remfaces,comp,Listcomp,
 		tempfaces,neighbours;
-		tempfacdeg:=Filtered(FaceDegreesOfVertices(complex),g->g<>1);
-		if 1 in List(tempfacdeg,g->g mod 2) then 
-			return fail;
-		fi;
 		blue:=[];
 		red:=[];
 		Listcomp:=ConnectedComponents(complex);
 		for comp in Listcomp do
 			Add(blue,Faces(comp)[1]);
-			remfaces:=Difference(Faces(comp),blue);
+			remfaces := Faces(comp){[2 .. NumberOfFaces(comp)]};
 			while remfaces <> [] do 
 				tempfaces:=Filtered(remfaces,f->Intersection(NeighbourFacesOfFace(comp,f),Union(blue,red))<>[]);
 				for f in tempfaces do 
