@@ -25,8 +25,8 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
     InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function( complex )
-            return Digraph( IncidenceGrapeGraph(complex) );
-            #TODO is there a better way?
+            return Digraph( IncidenceGrapeGraph(complex).graph );
+            #TODO is there a better way? This ignores the colouring
         end
     );
 
@@ -60,7 +60,7 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
         [IsPolygonalComplex],
         function(complex)
  	    local graph, vertices, edges, faces, names, colours, incidence, 
-	        trivialAction, maxVert, maxEdge;
+	        trivialAction, maxVert, maxEdge, colourClasses;
 
             maxVert := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)];
             maxEdge := Edges(complex)[NumberOfEdges(complex)];
@@ -69,7 +69,7 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
 
             names := Union( vertices, edges, faces);
-	    colours := [vertices,edges, faces];
+	    colours := [vertices,edges, faces]; # This gives the actual names
 	    incidence := function(x,y)
                 if x in vertices and y in edges then
                     return x in VerticesOfEdges(complex)[y-maxVert];
@@ -89,9 +89,15 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	    end;
 
 	    graph := Graph( Group( () ), names, trivialAction, incidence );
-	    graph!.colourClasses := colours;
+            # Since a grape colouring refers to the graph vertices instead of the names, 
+            # we need to redefine the colour classes
+            colourClasses := [
+                [1 .. Length(vertices)],
+                Length(vertices) + [1 .. Length(edges)],
+                Length(vertices) + Length(edges) + [1 .. Length(faces)]
+            ];
 
-	    return graph;   
+	    return rec( graph := graph, colourClasses := colourClasses );   
         end
     );
     InstallMethod( EdgeGrapeGraph, "for a polygonal complex",
@@ -219,12 +225,42 @@ InstallMethod( IsIsomorphic, "for two twisted polygonal complexes",
         Error("IsIsomorphic: The package NautyTracesInterface has to be available.");
     end
 );
+InstallOtherMethod( IsIsomorphic, "for two polygonal complexes",
+    [IsPolygonalComplex, IsPolygonalComplex],
+    function(complex1, complex2)
+        Error("IsIsomorphic for polygonal complexes: One of the packages NautyTracesInterface or GRAPE have to be available.");
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( IsIsomorphic, true, 
+        [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
+        [IsPolygonalComplex, IsPolygonalComplex], 0);
+fi;
+
 InstallMethod( AutomorphismGroup, "for a twisted polygonal complex", 
     [IsTwistedPolygonalComplex],
     function(complex)
         Error("AutomorphismGroup: The package NautyTracesInterface has to be available.");
     end
 );
+if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
+    InstallOtherMethod( IsIsomorphic,
+        "for two polygonal complexes",
+        [IsPolygonalComplex, IsPolygonalComplex],
+        function(complex1, complex2)
+            local inc1, inc2;
+
+            inc1 := IncidenceGrapeGraph(complex1);
+            inc2 := IncidenceGrapeGraph(complex2);
+            # We copy the structure fully, so that all components stay mutable
+            # (this is necessary for GRAPE to function)
+            return IsIsomorphicGraph(
+                rec( graph := ShallowCopy(inc1.graph), colourClasses := ShallowCopy(inc1.colourClasses) ),
+                rec( graph := ShallowCopy(inc2.graph), colourClasses := ShallowCopy(inc2.colourClasses) )
+            );
+        end
+    );
+fi;
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( IsIsomorphic, 

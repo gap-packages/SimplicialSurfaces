@@ -11,17 +11,17 @@ Coloured output:
 Better inclusion of covers:
     -> maybe by map cover->surface ?
     -> where are vertices, edges, faces represented?
+    -> could become its own chapter (or just its own section in the homomorphism-chapter?)
 
 Modification (mid-term):
     AddVertexIntoEdge etc.
 
+Drawing:
+    maybe Coloured labels in drawing method?? LabelColour?
 
-evtl. Coloured labels in drawing method?? LabelColour?
+Properties:
+    -> in long term remove face-colouring from here (needs more method for its own chapter)
 
-
-Set up Travis/Codecov as soon as the repository turns public
-    -> codecov.yml from other packages
-    -> Together with directory "scripts"
 
 Set up package website with GitHubPagesForGAP (script setup.sh)
     https://github.com/gap-system/GitHubPagesForGAP

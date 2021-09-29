@@ -146,7 +146,7 @@ preProcessTikz := function( node )
             # We will modify
             # - subscripts, since baseline-shift is not supported in Firefox
             #   (see https://stackoverflow.com/questions/12332448/subscripts-and-superscripts-in-svg)
-            #   As this bug was recognized 12 years ago it is unlikely to 
+            #   As this bug was recognized 16 years ago it is unlikely to 
             #   change in the near future. We therefore apply the suggested
             #   fix in the stackoverflow-answer.
             #   WARNING: I am just messing around on the assumption that all

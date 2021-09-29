@@ -1127,6 +1127,164 @@ RedispatchOnCondition( JoinEdgesNC, true,
     [IsTwistedPolygonalComplex,IsList,IsPosInt],
     [IsPolygonalComplex], 0 );
 
+## Faces
+InstallOtherMethod( JoinFaces, "for a polygonal complex and two faces",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, F1, F2)
+        return JoinFaces(complex, F1, F2, Faces(complex)[NumberOfFaces(complex)]+1);
+    end
+);
+RedispatchOnCondition( JoinFaces, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
+	
+InstallOtherMethod( JoinFacesNC, "for a polygonal complex and two faces",
+    [IsPolygonalComplex, IsPosInt, IsPosInt],
+    function(complex, F1, F2)
+        return JoinFacesNC(complex, F1, F2, Faces(complex)[NumberOfFaces(complex)]+1);
+    end
+);
+RedispatchOnCondition( JoinFacesNC, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
+
+InstallMethod( JoinFaces, 
+    "for a polygonal complex, two faces and a new face label",
+    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+	function(complex, F1, F2, newFaceLabel)
+			__SIMPLICIAL_CheckFace(complex, F1, "JoinFaces");
+			__SIMPLICIAL_CheckFace(complex, F2, "JoinFaces");
+			if F1 = F2 then
+				Error(Concatenation("JoinFaces: Given faces are identical: ", String(F1), "."));
+			fi;
+			if newFaceLabel <> F1 and newFaceLabel <> F2 and newFaceLabel in Faces(complex) then
+				Error(Concatenation("JoinFaces: Given new face label ", 
+					String(newFaceLabel), " conflicts with existing faces: ", 
+					String(Faces(complex)), "."));
+			fi;
+			if EdgesOfFaces(complex)[F1] <> EdgesOfFaces(complex)[F2] then
+				Error(Concatenation(
+					"JoinFaces: The two given faces are incident to different edges, namely ",
+					String(EdgesOfFaces(complex)[F1]), " and ",
+					String(EdgesOfFaces(complex)[F2]), "."));
+			fi;
+
+			return JoinFacesNC(complex, F1, F2, newFaceLabel);
+	end
+);
+RedispatchOnCondition( JoinFaces, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
+
+InstallMethod( JoinFacesNC,
+    "for a polygonal complex, two faces and a new face label",
+    [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
+	function(complex, F1, F2, newFaceLabel)
+		local newEdgesOfFaces, newVerticesOfFaces, verts, edges, obj;
+		newVerticesOfFaces:=ShallowCopy(VerticesOfFaces(complex));
+		newEdgesOfFaces:=ShallowCopy(EdgesOfFaces(complex));
+		
+		verts:=newVerticesOfFaces[F1];
+		Unbind(newVerticesOfFaces[F1]);
+		Unbind(newVerticesOfFaces[F2]);
+		newVerticesOfFaces[newFaceLabel] := verts;
+		
+		edges := __SIMPLICIAL_UnionSets( newEdgesOfFaces{[F1,F2]} );
+		Unbind(newEdgesOfFaces[F1]);
+		Unbind(newEdgesOfFaces[F2]);
+		newEdgesOfFaces[newFaceLabel] := edges;
+		
+		obj := Objectify( TwistedPolygonalComplexType, rec() );
+		SetVerticesOfFaces(obj, newVerticesOfFaces);
+		SetEdgesOfFaces(obj, newEdgesOfFaces);
+		SetIsPolygonalComplex(obj, true);
+		SetIsDefaultChamberSystem(obj, true);
+		if HasVerticesOfEdges(complex) then
+			SetVerticesOfEdges(obj, VerticesOfEdges(complex));
+		fi;
+		if HasVerticesAttributeOfComplex(complex) then
+			SetVerticesAttributeOfComplex(obj, 
+				VerticesAttributeOfComplex(complex));
+		fi;
+		if HasEdges(complex) then
+			SetEdges(obj, Edges(complex));
+		fi;
+		if HasIsTriangular(complex) then
+			SetIsTriangular(obj, IsTriangular(complex));
+		fi;
+		return [obj, newFaceLabel];
+	end
+);
+RedispatchOnCondition( JoinFacesNC, true, 
+    [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
+    [IsPolygonalComplex], 0 );
+
+InstallOtherMethod(JoinFaces,
+	"for a polygonal complex and a list",
+	[IsPolygonalComplex,IsList],
+	function(complex,faceList)
+		return JoinFaces(complex,faceList,Last(Faces(complex))+1);
+	end
+);
+RedispatchOnCondition( JoinFaces, true, 
+    [IsTwistedPolygonalComplex,IsList],
+    [IsPolygonalComplex], 0 );
+
+InstallOtherMethod(JoinFacesNC,
+	"for a polygonal complex and a list",
+	[IsPolygonalComplex,IsList],
+	function(complex,faceList)
+		return JoinFacesNC(complex,faceList,Last(Faces(complex))+1);
+	end
+);
+RedispatchOnCondition( JoinFacesNC, true, 
+    [IsTwistedPolygonalComplex,IsList],
+    [IsPolygonalComplex], 0 );
+
+InstallMethod(JoinFaces,
+	"for a polygonal complex, a list and a new face label",
+	[IsPolygonalComplex,IsList,IsPosInt],
+	function(complex,faceList,newFaceLabel)
+		local faceSet;
+		faceSet := Set(faceList);
+	
+		if not IsSubset(Faces(complex), faceSet) then
+			Error(Concatenation("JoinFaces: Given face list ", 
+			String(faceList)," is not a subset of the faces of the given complex: ",
+                	String(Faces(complex)), "."));
+		fi;
+	
+		if not newFaceLabel in faceSet and newFaceLabel in Faces(complex) then
+            		Error(Concatenation("JoinFaces: Given new face label ", 
+			String(newFaceLabel), " conflicts with existing faces: ", 
+			String(Faces(complex)), "."));
+		fi;
+	
+		return JoinFacesNC(complex,faceList,newFaceLabel);
+		
+	end
+);
+RedispatchOnCondition( JoinFaces, true, 
+    [IsTwistedPolygonalComplex,IsList,IsPosInt],
+    [IsPolygonalComplex], 0 );
+
+InstallMethod(JoinFacesNC,
+	"for a polygonal complex, a list and a new face label",
+	[IsPolygonalComplex,IsList,IsPosInt],
+	function(complex,faceList,newFaceLabel)
+		local faceSet,newFace,newComplex,F,res;
+		newFace:=faceList[1];
+		newComplex:=complex;
+		for F in [2..Length(faceList)-1] do
+			res:=JoinFacesNC(newComplex,newFace,faceList[F],newFace);
+			newComplex:=res[1];
+		od;
+		return JoinFacesNC(newComplex,newFace,Last(faceList),newFaceLabel);
+	end
+);
+RedispatchOnCondition( JoinFacesNC, true, 
+    [IsTwistedPolygonalComplex,IsList,IsPosInt],
+    [IsPolygonalComplex], 0 );
 
 ## VertexEdgePaths
 InstallMethod( JoinVertexEdgePaths, 
@@ -1420,52 +1578,12 @@ InstallMethod(JoinBoundariesNC,
         od;
         Assert(0, Length(perim1) = 1);
         Assert(0, Length(perim2) = 1);
-        perim1 := perim1[1];
-        perim2 := perim2[1];
         
-        # We have to reorient the paths correctly
-        # TODO this could be a separate method
-	Reorient := function( path, vertex, edge )
-            local vPos, ePos, i;
-
-            if path[1] = vertex and path[2] = edge then
-                return path;
-            fi;
-            if path[Length(path)] = vertex and path[Length(path)-1] = edge then
-                return Reversed(path);
-            fi;
-
-            vPos := 0;
-            for i in [3,5..Length(path)-2] do
-                if path[i] = vertex then
-                    vPos := i;
-                fi;
-            od;
-            Assert(0, vPos > 0);
-
-            ePos := 0;
-            for i in [2,4..Length(path)-1] do
-                if path[i] = edge then
-                    ePos := i;
-                fi;
-            od;
-            Assert(0, ePos > 0);
-
-            if vPos + 1 = ePos then
-                # right direction
-                return Concatenation( path{[vPos..Length(path)-1]}, path{[1..vPos]} );
-            elif ePos + 1 = vPos then
-                # wrong direction
-                return Reversed( Concatenation( path{[vPos..Length(path)]}, path{[2..vPos]} ) );
-            fi;
-            Error("JoinBoundaries: Internal Error");
-	end;
-            
-	perim1:=Reorient( PathAsList(perim1), flag1[1], flag1[2] );
-        perim2:=Reorient( PathAsList(perim2), flag2[1], flag2[2] );
-                
-        perim1:=ShallowCopy(EdgesAsList(VertexEdgePathNC(surface,perim1)));
-        perim2:=ShallowCopy(EdgesAsList(VertexEdgePathNC(surface,perim2)));
+	perim1:=ShiftCyclicPath(perim1[1],flag1[1],flag1[2]);
+        perim2:=ShiftCyclicPath(perim2[1], flag2[1], flag2[2]);
+ 
+	perim1:=ShallowCopy(EdgesAsList(perim1));
+        perim2:=ShallowCopy(EdgesAsList(perim2));
                 
         if length<Length(perim1) or length<Length(perim2) then
         	Error("JoinBoundaries: length has to be smaller then the boundary");
