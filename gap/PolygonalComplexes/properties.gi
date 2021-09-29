@@ -931,7 +931,7 @@ InstallMethod( FaceTwoColouring,
 		tempfaces,neighbours;
 		blue:=[];
 		red:=[];
-		Listcomp:=ConnectedComponents(complex);
+		Listcomp:=StronglyConnectedComponents(complex);
 		for comp in Listcomp do
 			Add(blue,Faces(comp)[1]);
 			remfaces := Faces(comp){[2 .. NumberOfFaces(comp)]};

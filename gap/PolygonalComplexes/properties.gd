@@ -768,8 +768,8 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!
 #! @BeginGroup FaceTwoColouring
 #! @Description
-#! If the method is given a polygonal complex, it returns a pair of #! two sets of 
-#! faces, which represents a 2-face-coloring,if possible. 
+#! If the method is given a polygonal complex, it returns a pair of two sets of 
+#! faces, which represents a face-2-coloring, if possible. 
 #! A 2-face-colouring of a polygonal complex is a colouring of the faces with exactly
 #! two colours, whereby two neighbouring faces have to be coloured different.
 #! If no such coloring exists, the method returns <K>fail</K>.
