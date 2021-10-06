@@ -81,7 +81,7 @@ InstallMethod( EdgeColouredTwistedPolygonalComplex,
         local edges, bound, diff, nonPos, i, j, inter, foundEdges;
 
         edges := Edges(complex);
-        bound := BoundPositions(colouring);
+        bound := PositionsBound(colouring);
         if ForAll(colouring, IsPosInt) then
             # We should have a list edge->colour
 
@@ -271,7 +271,7 @@ InstallMethod( ColoursOfEdges,
 
         edgeCol := EdgesOfColours(colComplex);
         colEdge := [];
-        for col in BoundPositions(edgeCol) do
+        for col in PositionsBound(edgeCol) do
             for edge in edgeCol[col] do
                 colEdge[edge] := col;
             od;
@@ -683,7 +683,7 @@ InstallMethod( DrawSurfaceToTikz,
                 else
                     # We require that all colours are given
                     #TODO change that and allow partial information
-                    if not BoundPositions(classLen) = Set(ColoursOfEdges(colComp)) then
+                    if not PositionsBound(classLen) = Set(ColoursOfEdges(colComp)) then
                         Error("DrawSurfaceToTikz: In edgeColourClassLengths there has to be a length for every colour (and only for the appearing colours).");
                     fi;
                     edgeLen := [];
@@ -704,7 +704,7 @@ InstallMethod( DrawSurfaceToTikz,
                 else
                     # We require that all colours are given
                     #TODO change that and allow partial information
-                    if not BoundPositions(classCol) = Set(ColoursOfEdges(colComp)) then
+                    if not PositionsBound(classCol) = Set(ColoursOfEdges(colComp)) then
                         Error("DrawSurfaceToTikz: In edgeColourClassColours there has to be a colour for every colour (and only for the appearing colours).");
                     fi;
                     edgeCol := [];

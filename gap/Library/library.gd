@@ -286,7 +286,11 @@ DeclareGlobalFunction("AllSimplicialSpheres");
 #!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
 #!   simplicial surface (21 vertices, 84 edges, and 56 faces), 
 #!   simplicial surface (42 vertices, 168 edges, and 112 faces), 
-#!   simplicial surface (190 vertices, 855 edges, and 570 faces) ]
+#!   twisted polygonal surface (6 vertices, 24 edges, 16 faces, and 96 chambers),
+#!   twisted polygonal surface (3 vertices, 12 edges, 8 faces, and 48 chambers), 
+#!   simplicial surface (190 vertices, 855 edges, and 570 faces), 
+#!   twisted polygonal surface (38 vertices, 171 edges, 114 faces, and 684 chambers),
+#!   simplicial surface (10 vertices, 45 edges, and 30 faces) ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of simplicial surfaces

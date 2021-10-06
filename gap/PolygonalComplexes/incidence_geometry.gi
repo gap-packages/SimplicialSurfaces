@@ -266,7 +266,7 @@ InstallMethod( Faces,
     "for a polygonal complex that has PerimeterPathsOfFaces",
     [IsPolygonalComplex and HasPerimeterPathsOfFaces],
     function(complex)
-        return __SIMPLICIAL_BoundPositions( PerimeterPathsOfFaces(complex) );
+        return PositionsBound( PerimeterPathsOfFaces(complex) );
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
