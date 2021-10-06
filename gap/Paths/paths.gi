@@ -520,14 +520,13 @@ InstallMethod( EdgeFacePathByEdges,
         od;
 
         return EdgeFacePathNC(complex, path); 
-	#nur Tests und dann Aufruf von EdgeFacePathByEdgesNC
-	    end
+    end
 );
 RedispatchOnCondition( EdgeFacePathByEdges, true, [IsTwistedPolygonalComplex,IsList],[IsPolygonalComplex,IsDenseList],0 );
 
 
 InstallMethod( EdgeFacePathByFacesNC, 
-    "for a polygonal complex, a list of faces, the frist edge and the last edge",
+    "for a polygonal complex, a list of faces, the first edge and the last edge",
     [IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt],
     function(complex, faceList, firstEdge, lastEdge)
         local path, firstDefinedPos, i, edges;
@@ -545,7 +544,7 @@ InstallMethod( EdgeFacePathByFacesNC,
         od;
 
         if firstDefinedPos = 0 then
-            # all faces have the same edgesedges := EdgesOfFaces(complex)[faceList[1]];
+            # all faces have the same edges
             edges := EdgesOfFaces(complex)[faceList[1]];
             path := [edges[1]];
             for i in [1..Length(faceList)] do
@@ -592,6 +591,8 @@ InstallMethod( EdgeFacePathByFaces,
     function(complex, faceList, firstEdge, lastEdge)
         local i;
 
+	 __SIMPLICIAL_CheckEdge(complex, firstEdge, "EdgeFacePathByFaces");
+	 __SIMPLICIAL_CheckFace(complex, lastEdge, "EdgeFacePathByFaces");
         if Length(faceList) > 0 then
             __SIMPLICIAL_CheckFace(complex, faceList[1], "EdgeFacePathByFaces");
             for i in [2..Length(faceList)] do
@@ -619,37 +620,37 @@ InstallOtherMethod( EdgeFacePathByFacesNC,
     "for a polygonal complex and a list of faces",
     [IsPolygonalComplex, IsDenseList],
     function(complex, faceList)
-        local edges1, edges1Inner, firstEdge, lastEdge, edges2Inner, edges2;
+        local firstEdges, firstEdgesInner, firstEdge, lastEdges, lastEdgesInner, lastEdge;
          
-		edges1:=Intersection(EdgesOfFace(complex,faceList[1]),EdgesOfFace(complex,faceList[2]));
-		if Length(edges1)<>3 then
-			edges1Inner:=Filtered(Difference(EdgesOfFace(complex,faceList[1]),edges1),e->IsInnerEdge(complex,e));
-			if edges1Inner<>[] then
-				firstEdge:=edges1Inner[1];
+		firstEdges:=Intersection(EdgesOfFace(complex,faceList[1]),EdgesOfFace(complex,faceList[2]));
+		if Length(firstEdges)<>3 then
+			firstEdgesInner:=Filtered(Difference(EdgesOfFace(complex,faceList[1]),firstEdges),e->IsInnerEdge(complex,e));
+			if firstEdgesInner<>[] then
+				firstEdge:=firstEdgesInner[1];
 			else
-				firstEdge:=Difference(EdgesOfFace(complex,faceList[1]),edges1)[1];
+				firstEdge:=Difference(EdgesOfFace(complex,faceList[1]),firstEdges)[1];
 			fi;
 		else
-			edges1Inner:=Filtered(EdgesOfFace(complex,faceList[1]),e->IsInnerEdge(complex,e));
-			if edges1Inner<>[] then
-				firstEdge:=edges1Inner[1];
+			firstEdgesInner:=Filtered(firstEdges,e->IsInnerEdge(complex,e));
+			if firstEdgesInner<>[] then
+				firstEdge:=firstEdgesInner[1];
 			else
 				firstEdge:=EdgesOfFace(complex,faceList[1])[1];
 			fi;
 		fi;
 		
-		edges2:=Intersection(EdgesOfFace(complex,faceList[Length(faceList)-1]),EdgesOfFace(complex,Last(faceList)));
-		if Length(edges2)<>3 then
-			edges2Inner:=Filtered(Difference(EdgesOfFace(complex,Last(faceList)),edges1),e->IsInnerEdge(complex,e));
-			if edges2Inner<>[] then
-				lastEdge:=edges2Inner[1];
+		lastEdges:=Intersection(EdgesOfFace(complex,faceList[Length(faceList)-1]),EdgesOfFace(complex,Last(faceList)));
+		if Length(lastEdges)<>3 then
+			lastEdgesInner:=Filtered(Difference(EdgesOfFace(complex,Last(faceList)),lastEdges),e->IsInnerEdge(complex,e));
+			if lastEdgesInner<>[] then
+				lastEdge:=lastEdgesInner[1];
 			else
-				lastEdge:=Difference(EdgesOfFace(complex,Last(faceList)),edges2)[1];
+				lastEdge:=Difference(EdgesOfFace(complex,Last(faceList)),lastEdges)[1];
 			fi;
 		else
-			edges2Inner:=Filtered(EdgesOfFace(complex,Last(faceList)),e->IsInnerEdge(complex,e));
-			if edges2Inner<>[] then
-				lastEdge:=edges2Inner[1];
+			lastEdgesInner:=Filtered(lastEdges,e->IsInnerEdge(complex,e));
+			if lastEdgesInner<>[] then
+				lastEdge:=lastEdgesInner[1];
 			else
 				lastEdge:=EdgesOfFace(complex,Last(faceList))[1];
 			fi;

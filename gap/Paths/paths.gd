@@ -714,13 +714,13 @@ DeclareOperation( "EdgeFacePathByEdgesNC", [IsPolygonalComplex, IsDenseList] );
 #! With this the paths from <Ref Subsect="EdgeFacePath"/> can be defined
 #! more compactly:
 #! @BeginExampleSession
-#! gap> edgeFacePath1:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5],10,8);
-#! | e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e8 |
+#! gap> edgeFacePath1:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5],10,9);
+#! | e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
 #! gap> IsEdgeFacePath(edgeFacePath1);
 #! true
 #! gap> edgeFacePath2:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5]);
-#! | e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e8 |
-#! gap> edgeFacePath1=edgeFacePath2;
+#! | e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+#! gap> IsEdgeFacePath(edgeFacePath2);
 #! true
 #! @EndExampleSession
 #!
