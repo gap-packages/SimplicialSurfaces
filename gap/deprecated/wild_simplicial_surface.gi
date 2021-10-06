@@ -476,7 +476,7 @@ BindGlobal("__SIMPLICIAL_TestGens", function(gens, paths)
             # vertex, etc,
             colouredPaths := List(cart,l->List([1..Length(l)],i->allvertices[i][l[i]]));
 
-            boundedPositions := BoundPositions(paths);
+            boundedPositions := PositionsBound(paths);
 
 
             MakeHoles := function( path )

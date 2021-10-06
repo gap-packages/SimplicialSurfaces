@@ -10,6 +10,16 @@
 ##
 #############################################################################
 
+
+##
+## WARNING: This file should NOT be read if the package is loaded.
+## It contains examples for the manual and should only be used then.
+##
+if not __SIMPLICIAL_MANUAL_MODE then
+    Error("The file 'flags_images.gd' should only be read to generate the manual.");
+fi;
+
+
 complex := PolygonalComplexByDownwardIncidence( 
  [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], 
  [[6,8,9], , , [9,10,12,13]]);;

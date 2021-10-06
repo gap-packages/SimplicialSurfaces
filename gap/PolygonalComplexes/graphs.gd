@@ -305,7 +305,7 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! gap> canonicalCube:=CanonicalRepresentativeOfPolygonalSurface(cube);;
 #! gap> canon:=canonicalCube[1];;
 #! gap> Faces(canon);
-#! [ 1, 2, 3, 4, 5, 6 ]
+#! [ 1 .. 6 ]
 #! gap> Edges(canon);
 #! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
 #! gap> Vertices(canon);
@@ -450,7 +450,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> Edges(tetra);
 #! [ 1, 2, 3, 4, 5, 6 ]
 #! gap> Faces(tetra);
-#! [ 1, 2, 3, 4 ]
+#! [ 1 .. 4 ]
 #! gap> Chambers(tetra);
 #! [ 1 .. 24 ]
 #! gap> aut := AutomorphismGroup(tetra);
