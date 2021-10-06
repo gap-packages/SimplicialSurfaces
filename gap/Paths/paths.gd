@@ -434,6 +434,36 @@ DeclareAttribute( "EdgesAsPerm", IsVertexEdgePath );
 DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath] );
 #! @EndGroup
 
+#! @BeginGroup VertexEdge_ShiftCyclicPath
+#! @Description
+#! Shift the vertex-edge-path <A>path</A> such that the given vertex is the start vertex and the given edge is the first edge.
+#! The path has to be closed and duplicate-free.
+#! 
+#! This method returns a vertex-edge-path.
+#!
+#! For example, consider the following simplicial surface:
+#! <Alt Only="TikZ">
+#!  \input{Image_FourGon.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
+#! >    [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],
+#! >    [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
+#! gap> path:=VertexEdgePathByEdges(fourGon,[5,6,7,8]);
+#! ( v2, E5, v3, E6, v4, E7, v5, E8, v2 )
+#! gap> ShiftCyclicPath(path,2,5);
+#! ( v2, E5, v3, E6, v4, E7, v5, E8, v2 )
+#! gap> ShiftCyclicPath(path,4,6);
+#! ( v4, E6, v3, E5, v2, E8, v5, E7, v4 )
+#! @EndExampleSession
+#!
+#! @Returns a vertex-edge-path
+#! @Arguments path, vertex, edge
+DeclareOperation("ShiftCyclicPath", [IsVertexEdgePath, IsPosInt, IsPosInt]);
+#! @Arguments path, vertex, edge
+DeclareOperation("ShiftCyclicPathNC", [IsVertexEdgePath, IsPosInt, IsPosInt]);
+#! @EndGroup
+
 #! @BeginGroup
 #! @Description
 #! Return the polygonal complex for which the given vertex-edge-path is
@@ -899,6 +929,36 @@ DeclareAttribute( "FacesAsPerm", IsEdgeFacePath );
 #! @Returns a edge-face-path
 #! @Arguments complex, edgeFacePath, edgeFacePath
 DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsEdgeFacePath, IsEdgeFacePath] );
+#! @EndGroup
+
+#! @BeginGroup EdgeFace_ShiftCyclicPath
+#! @Description
+#! Shift the edge-face-path <A>path</A> such that the given edge is the start edge and the given face is the first face.
+#! The path has to be closed and duplicate-free.
+#! 
+#! This method returns a edge-face-path.
+#!
+#! For example, consider the following simplicial surface:
+#! <Alt Only="TikZ">
+#!  \input{Image_FourGon.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
+#! >    [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],
+#! >    [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
+#! gap> path:=EdgeFacePath(fourGon,[1,1,2,2,3,3,4,4,1]);
+#! ( e1, F1, e2, F2, e3, F3, e4, F4, e1 )
+#! gap> ShiftCyclicPath(path,3,3);
+#! ( e3, F3, e4, F4, e1, F1, e2, F2, e3 )
+#! gap> ShiftCyclicPath(path,3,2);
+#! ( e3, F2, e2, F1, e1, F4, e4, F3, e3 )
+#! @EndExampleSession
+#!
+#! @Returns a edge-face-path
+#! @Arguments path, edge, face
+DeclareOperation("ShiftCyclicPath", [IsEdgeFacePath, IsPosInt, IsPosInt]);
+#! @Arguments path, vertex, edge
+DeclareOperation("ShiftCyclicPathNC", [IsEdgeFacePath, IsPosInt, IsPosInt]);
 #! @EndGroup
 
 #! @Description

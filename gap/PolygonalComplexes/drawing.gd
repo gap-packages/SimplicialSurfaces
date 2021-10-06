@@ -11,7 +11,7 @@
 #############################################################################
 
 ##
-## WARNING: This package should NOT be read if the package is loaded.
+## WARNING: This file should NOT be read if the package is loaded.
 ## It contains examples for the manual and should only be used then.
 ##
 if not __SIMPLICIAL_MANUAL_MODE then

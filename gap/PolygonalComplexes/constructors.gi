@@ -309,8 +309,8 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         fi;
 
         verticesDed := Union( verticesOfEdges ); #TODO this still can throw an error!
-        edgesDed := __SIMPLICIAL_BoundPositions(verticesOfEdges); # from incidence_geometry.gi
-        facesDed := __SIMPLICIAL_BoundPositions(edgesOfFaces);
+        edgesDed := PositionsBound(verticesOfEdges); # from incidence_geometry.gi
+        facesDed := PositionsBound(edgesOfFaces);
         
         # Compare the vertex, edge and face data
         if Length(arg) = 6 then
@@ -361,8 +361,8 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
             facesOfEdges := arg[6];
         fi;
         facesDed := Union( facesOfEdges );
-        edgesDed := __SIMPLICIAL_BoundPositions(facesOfEdges);
-        verticesDed := __SIMPLICIAL_BoundPositions(edgesOfVertices);
+        edgesDed := PositionsBound(facesOfEdges);
+        verticesDed := PositionsBound(edgesOfVertices);
         
         # Compare the vertex, edge and face data
         if Length(arg) = 6 then
@@ -434,7 +434,7 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
             verticesInFaces := arg[4];
         fi;
         verticesDed := Union( verticesInFaces );
-        facesDed := __SIMPLICIAL_BoundPositions(verticesInFaces);
+        facesDed := PositionsBound(verticesInFaces);
         
         # Compare the vertex and face data
         if Length(arg) = 4 then

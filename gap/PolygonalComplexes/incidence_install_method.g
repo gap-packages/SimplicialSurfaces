@@ -423,7 +423,7 @@ BindGlobal( "__SIMPLICIAL_InstallIncidenceMethods",
                     Concatenation("for a ", cat.string, " with ", attr.name),
                     [ cat.cat and attr.tester ],
                     function(complex)
-                        return __SIMPLICIAL_BoundPositions( attr.attr(complex) );
+                        return PositionsBound( attr.attr(complex) );
                     end);
             end;
             wrapper(attr, cat);
