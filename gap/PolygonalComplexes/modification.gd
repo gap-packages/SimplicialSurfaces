@@ -272,21 +272,23 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #!
 #! TODO explain better
 #! 
-#! For example consider the octahedron:
+#! For example consider the following polygonal complex:
 #! @BeginExampleSession
-#! gap> path:=VertexEdgePath(Octahedron(),[5,10,4,8,3,5,2,6,5]);
-#! ( v5, E10, v4, E8, v3, E5, v2, E6, v5 )
-#! gap> splitted:=SplitVertexEdgePath(Octahedron(),path);
-#! [ simplicial surface (10 vertices, 16 edges, and 8 faces), 
-#!	[ [ ( v7, E14, v10, E15, v12, E18, v14, E19, v7 ),
-#!	    ( v5, E10, v4, E8, v3, E5, v2, E6, v5 ) ], 
-#! 	  [ ( v8, E13, v9, E16, v11, E17, v13, E20, v8 ),
-#!	    ( v5, E10, v4, E8, v3, E5, v2, E6, v5 ) ] ] ]
+#! gap> complex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],
+#! > [3,4],[3,5],[5,6],[3,6],[3,7],[6,7]],[[1,2,3],[3,4,5],[6,7,8],[8,9,10]]);;
 #! @EndExampleSession
-#! Splitting the ocathedron along a closed path of length four divides the octahedron into two 4-gons:
+#! <Alt Only="TikZ">
+#!   \input{Image_SplitEdgePath.tex}
+#! </Alt>
 #! @BeginExampleSession
+#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);
+#! | v1, E3, v3, E8, v6 |
+#! @EndExampleSession
+#! Splitting the complex along this path leads to four one faces:
+#! @BeginExampleSession
+#! gap> splitted:=SplitVertexEdgePath(complex,path);;
 #! gap> NumberOfConnectedComponents(splitted[1]);
-#! 2
+#! 4
 #! @EndExampleSession
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
@@ -332,17 +334,24 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #!
 #! TODO explain better
 #!
-#! For example consider the Janushead. Splitting the surface along a vertex-edge-path of two edges 
-#! leads to the closeEye from chapter <Ref Chap="SplitEdge"/>.
+#! For example consider the following polygonal complex:
 #! @BeginExampleSession
-#! gap> path:=VertexEdgePath(JanusHead(),[2,1,1,2,3]);
-#! | v2, E1, v1, E2, v3 | 
-#! gap> splittedJanusHead:= SplitEdgePath(JanusHead(), path);
-#! [ simplicial surface (4 vertices, 5 edges, and 2 faces),
-#! [ [ | v2, E4, v4, E6, v3 |, | v2, E1, v1, E2, v3 | ], 
-#!   [ | v2, E5, v5, E7, v3 |, | v2, E1, v1, E2, v3 | ] ] ]
-#! gap> IsIsomorphic(splittedJanusHead[1], closeEye);
-#! true
+#! gap> complex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],
+#! > [3,4],[3,5],[5,6],[3,6],[3,7],[6,7]],[[1,2,3],[3,4,5],[6,7,8],[8,9,10]]);;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_SplitEdgePath.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);
+#! | v1, E3, v3, E8, v6 |
+#! @EndExampleSession
+#! Splitting the complex along this path without the first and the last vertex leads
+#! to two components:
+#! @BeginExampleSession
+#! gap> splitted:=SplitEdgePath(complex,path);;
+#! gap> NumberOfConnectedComponents(splitted[1]);
+#! 2
 #! @EndExampleSession
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
@@ -554,7 +563,8 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!       
 #! For example also the disjoint union of two different complexes can be build:
 #! @BeginExampleSession
-#! gap> oneFace:=SimplicialSurfaceByDownwardIncidence([[1,2],[2,3],[1,3]],[[1,2,3]]);;
+#! gap> oneFace:=SimplicialSurfaceByDownwardIncidence(
+#! > [[1,2],[2,3],[1,3]],[[1,2,3]]);;
 #! gap> DisjointUnion(oneFace, JanusHead());
 #! [ simplicial surface (6 vertices, 6 edges, and 3 faces), 3 ]
 #! @EndExampleSession
