@@ -723,6 +723,11 @@ DeclareOperation( "EdgeFacePathByEdgesNC", [IsPolygonalComplex, IsDenseList] );
 #! gap> IsEdgeFacePath(edgeFacePath2);
 #! true
 #! @EndExampleSession
+#! Also for faces with the same edges you can build the edge-face-path by faces:
+#! @BeginExampleSession
+#! gap> EdgeFacePathByFaces(JanusHead(),[1,2]);
+#! ( e1, F1, e2, F2, e1 )
+#! @EndExampleSession 
 #!
 #! The NC-version does not check whether the given <A>faceList</A> consists
 #! of faces in <A>complex</A>.
