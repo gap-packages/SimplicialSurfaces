@@ -22,7 +22,7 @@
 
 #! This section contains a minimal example by animating an octahedron and showcases the general animation workflow.
 #! To construct an octahedron, we only need to specify the 3D-coordinates of the vertices.
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> oct := Octahedron();;
 #! gap> verticesPositions := [
 #! > [ 0, 0, Sqrt(2.) ],
@@ -34,7 +34,7 @@
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 # rec( vertexCoordinates3D := [ [ 0, 0, 1.41421 ], [ 1, 1, 0 ], [ 1, -1, 0 ], [ -1, -1, 0 ], [ -1, 1, 0 ], [ 0, 0, -1.41421 ] ] )
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
-#! @EndExampleSession
+#! @EndLog
 #! Now, your working directory should contain a file "octahedron.html". Below is shown an image of the animation.
 #!
 #! An image of the animation is shown below.
@@ -78,7 +78,7 @@
 #! > printRecord.edges[EdgeBetweenVertices(tet, 1, 2)][1];
 #! [ 0., -0.57735, -0.408248 ]
 #! gap> DrawSurfaceToJavaScriptCalculate(tet,
-#! > "Tetrahedron_PositionMirrored.html", printRecord, false);;
+#! > "doc/Tetrahedron_PositionMirrored.html", printRecord, false);;
 #! @EndExampleSession
 #! @InsertChunk Example_Tetrahedron_PositionMirrored
 #! By default, the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) always calculates the edge locations depending on the current vertices positions.
@@ -174,7 +174,7 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEd
 #! By default, all vertices, edges, and faces are visible.
 
 #! The following example shows the animation without vertices.
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> oct := Octahedron();;
 #! gap> verticesPositions := [
 #! > [ 0, 0, Sqrt(2.) ],
@@ -187,11 +187,11 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEd
 # rec( vertexCoordinates3D := [ [ 0, 0, 1.41421 ], [ 1, 1, 0 ], [ 1, -1, 0 ], [ -1, -1, 0 ], [ -1, 1, 0 ], [ 0, 0, -1.41421 ] ] );
 #! gap> printRecord := DeactivateVertices(oct, printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
-#! @EndExampleSession
+#! @EndLog
 #! @InsertChunk Example_OctahedronAnimatingWithoutVertices
 
 #! We illustrade this functionality by animating an octahedron with none but the vertices 2 and 3 visible.
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> oct := Octahedron();;
 #! gap> verticesPositions := [
 #! > [ 0, 0, Sqrt(2.) ],
@@ -207,7 +207,7 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface and IsNotEd
 #! gap> List([1..NumberOfVertices(oct)], i -> IsVertexActive(oct, i, printRecord));
 #! [ false, true, true, false, false, false ]
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
-#! @EndExampleSession
+#! @EndLog
 #! @InsertChunk Example_OctahedronAnimatingWithoutSomeVertices
 
 #! @BeginGroup ActivateVertices
@@ -322,7 +322,7 @@ DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamif
 #! * Yellow = 0xFFFF00
 
 #! Here is a brief colouring example:
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> oct := Octahedron();;
 #! gap> verticesPositions := [
 #! > [ 0, 0, Sqrt(2.) ],
@@ -338,7 +338,7 @@ DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface and IsNotEdgeRamif
 #! gap> List([1..NumberOfVertices(oct)], i -> GetVertexColour(oct, i, printRecord));
 #! [ "green", "green", "red", "green", "green", "green" ]
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
-#! @EndExampleSession
+#! @EndLog
 #! @InsertChunk Example_OctahedronEdgeColors
 
 #! @BeginGroup SetVertexColours
@@ -418,7 +418,7 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #!   <Item>Set colours of inner circles for the animation. (See <Ref Subsect="SetCircleColours"/>)</Item>
 #!   <Item> If the manual-calculation mode from Section <Ref Subsect="DrawSurfaceToJavaScript"/> is used, inner circles (like edges) have to be manually recomputed. The method is <K>CalculateParametersOfInnerCircle</K> (see <Ref Subsect="CalculateParametersOfInnerCircle"/>). Compare the description in Section <Ref Subsect="DrawSurfaceToJavaScript"/> for more details on this mode. </Item>
 #! </Enum>
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> oct := Octahedron();;
 #! gap> verticesPositions := [
 #! > [ 0, 0, Sqrt(2.) ],
@@ -430,9 +430,9 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 #! gap> printRecord := ActivateInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
-#! @EndExampleSession
+#! @EndLog
 #! @InsertChunk Example_OctahedronInnerCircle
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> oct := Octahedron();;
 #! gap> verticesPositions := [
 #! > [ 0, 0, Sqrt(2.) ],
@@ -445,7 +445,7 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface and IsNotEdgeRamified, I
 #! gap> printRecord := DeactivateFaces(oct,printRecord);;
 #! gap> printRecord := ActivateInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
-#! @EndExampleSession
+#! @EndLog
 #! @InsertChunk Example_OctahedronInnerCircleWithoutFaces
 
 #! @BeginGroup ActivateInnerCircles
@@ -509,7 +509,7 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #!
 #! The normal vectors of inner circles can be (de-)activated like vertices, edges, and faces.
 #! If the are active, they have the colour of the corresponding inner circle.
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> oct := Octahedron();;
 #! gap> verticesPositions := [
 #! > [ 0, 0, Sqrt(2.) ],
@@ -521,9 +521,9 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #! gap> printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
 #! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
-#! @EndExampleSession
+#! @EndLog
 #! @InsertChunk Example_OctahedronNormalesOfInnerCircle
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> oct := Octahedron();;
 #! gap> verticesPositions := [
 #! > [ 0, 0, Sqrt(2.) ],
@@ -536,7 +536,7 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface and I
 #! gap> printRecord := DeactivateFaces(oct,printRecord);;
 #! gap> printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
-#! @EndExampleSession
+#! @EndLog
 #TODO activate the next line again
 # @InsertChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
 
