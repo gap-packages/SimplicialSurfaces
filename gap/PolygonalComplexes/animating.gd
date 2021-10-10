@@ -59,7 +59,7 @@
 #! After setting the vertex coordinates, the location of the edges in <M>\mathbb{R}^3</M> has to be derived.
 #! If this is not done, the animation becomes inconsistent, as the following example shows.
 #! We animate a tetrahedron, but then we replace all vertex coordinates with their negatives (without recomputing the edge locations).
-#! @BeginExampleSession
+#! @BeginLog
 #! gap> verticesPositions := [
 #! > [ 1, -1/Sqrt(3.), -1/Sqrt(6.) ],
 #! > [ -1, -1/Sqrt(3.), -1/Sqrt(6.) ],
@@ -78,8 +78,8 @@
 #! > printRecord.edges[EdgeBetweenVertices(tet, 1, 2)][1];
 #! [ 0., -0.57735, -0.408248 ]
 #! gap> DrawSurfaceToJavaScriptCalculate(tet,
-#! > "doc/Tetrahedron_PositionMirrored.html", printRecord, false);;
-#! @EndExampleSession
+#! > "Tetrahedron_PositionMirrored.html", printRecord, false);;
+#! @EndLog
 #! @InsertChunk Example_Tetrahedron_PositionMirrored
 #! By default, the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) always calculates the edge locations depending on the current vertices positions.
 #! If you want to avoid that, you can use the method <K>DrawSurfaceToJavaScriptCalculate</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) and set the last parameter to false. In this case, only the first call of the method computes the edge locations.
