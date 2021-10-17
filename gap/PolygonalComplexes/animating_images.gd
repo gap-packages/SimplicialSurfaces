@@ -25,7 +25,7 @@ fi;
 
 #! @BeginChunk Example_OctahedronAnimating
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 DrawSurfaceToJavaScript(oct, "doc/Octahedron_animated.html", printRecord);;
 #! <Alt Only="JavaScript">
 #! Octahedron_animated.html
@@ -36,7 +36,7 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_animated.html", printRecord);;
 
 #! @BeginChunk Example_OctahedronAnimatingWithoutVertices
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 printRecord := DeactivateVertices(oct, printRecord);;
 DrawSurfaceToJavaScript(oct, "doc/Octahedron_animatedWithoutVertices.html", printRecord);;
 #! <Alt Only="JavaScript">
@@ -47,7 +47,7 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_animatedWithoutVertices.html", prin
 
 #! @BeginChunk Example_OctahedronAnimatingWithoutSomeVertices
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 printRecord := DeactivateVertices(oct, printRecord);;
 printRecord := ActivateVertex(oct, 2, printRecord);;
 printRecord := ActivateVertex(oct, 3, printRecord);;
@@ -61,7 +61,7 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_animatedWithoutSomeVertices.html", 
 #! @BeginChunk Example_OctahedronEdgeColors
 oct := Octahedron();;
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 printRecord := SetVertexColours(oct,ListWithIdenticalEntries(NumberOfVertices(oct), "green"), printRecord);;
 printRecord := SetVertexColour(oct, 3, "red", printRecord);;
 DrawSurfaceToJavaScript(oct, "doc/Octahedron_EdgeColors.html", printRecord);;
@@ -75,9 +75,9 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_EdgeColors.html", printRecord);;
 tet := Tetrahedron();;
 verticesPositions := [ [ 1, -1/Sqrt(3.), -1/Sqrt(6.) ],[ -1, -1/Sqrt(3.), -1/Sqrt(6.) ],[ 0, 2/Sqrt(3.) , -1/Sqrt(6.) ],[ 0, 0, 3/Sqrt(6.) ]];;
 verticesPositionsMirrored := -verticesPositions;;
-printRecord := SetVertexCoordiantes3D(tet, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(tet, verticesPositions, rec());;
 printRecord := CalculateParametersOfEdges(tet, printRecord);;
-printRecord := SetVertexCoordiantes3D(tet, verticesPositionsMirrored,printRecord);;
+printRecord := SetVertexCoordinates3D(tet, verticesPositionsMirrored,printRecord);;
 DrawSurfaceToJavaScriptCalculate(tet, "doc/Tetrahedron_PositionMirrored.html", printRecord, false);;
 #! <Alt Only="JavaScript">
 #! Tetrahedron_PositionMirrored.html
@@ -88,7 +88,7 @@ DrawSurfaceToJavaScriptCalculate(tet, "doc/Tetrahedron_PositionMirrored.html", p
 #! @BeginChunk Example_OctahedronInnerCircle
 oct := Octahedron();;
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 printRecord := ActivateInnerCircles(oct,printRecord);;
 DrawSurfaceToJavaScript(oct, "doc/Octahedron_InnerCircle.html", printRecord);;
 #! <Alt Only="JavaScript">
@@ -100,7 +100,7 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_InnerCircle.html", printRecord);;
 #! @BeginChunk Example_OctahedronInnerCircleWithoutFaces
 oct := Octahedron();;
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 printRecord := ActivateInnerCircles(oct,printRecord);;
 printRecord := DeactivateFaces(oct,printRecord);;
 DrawSurfaceToJavaScript(oct, "doc/Octahedron_InnerCircleWithoutFaces.html", printRecord);;
@@ -113,7 +113,7 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_InnerCircleWithoutFaces.html", prin
 #! @BeginChunk Example_OctahedronNormalesOfInnerCircle
 oct := Octahedron();;
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 DrawSurfaceToJavaScript(oct, "doc/Octahedron_NormalesOfInnerCircle.html", printRecord);;
 #! <Alt Only="JavaScript">
@@ -125,7 +125,7 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_NormalesOfInnerCircle.html", printR
 #! @BeginChunk Example_OctahedronNormalesOfInnerCircleWithoutFaces
 oct := Octahedron();;
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
-printRecord := SetVertexCoordiantes3D(oct, verticesPositions, rec());;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
 printRecord := ActivateNormalOfInnerCircles(oct,printRecord);;
 printRecord := DeactivateFaces(oct,printRecord);;
 DrawSurfaceToJavaScript(oct, "doc/Octahedron_NormalesOfInnerCircleWithoutFaces.html", printRecord);;
