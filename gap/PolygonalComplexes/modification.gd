@@ -169,7 +169,8 @@
 #!
 #! For example consider the following triangular complex:
 #! <Alt Only="TikZ">
-#!	\input{Image_Butterfly.tex}
+#! 	\def\closed{1}	
+#!	\input{Image_Eye_Open.tex}
 #! </Alt>
 #! @BeginExampleSession
 #! gap> closeEye:=SimplicialSurfaceByDownwardIncidence(

@@ -4,10 +4,15 @@
     \coordinate (U) at (30:\len);
     \coordinate (D) at (-30:\len);
     \coordinate (R) at ($(U)+(D)$);
-
-	\draw[edge,face]
-		(L) -- node[edgeLabel]{3} (D) to[bend left] node[edgeLabel]{6} (U) -- node[edgeLabel]{1} cycle
-		(R) -- node[edgeLabel]{4} (D) to[bend right] node[edgeLabel]{7} (U) -- node[edgeLabel]{5} cycle;
+	\ifdefined\closed
+		 \draw[edge,face]
+		 	(L) -- node[edgeLabel]{3} (D) -- node[edgeLabel]{2} (U) -- node[edgeLabel]{1} cycle
+			(R) -- node[edgeLabel]{4} (D) -- node[edgeLabel]{2} (U) -- node[edgeLabel]{5} cycle;
+	\else
+		\draw[edge,face]
+			(L) -- node[edgeLabel]{3} (D) to[bend left] node[edgeLabel]{6} (U) -- node[edgeLabel]{1} cycle
+			(R) -- node[edgeLabel]{4} (D) to[bend right] node[edgeLabel]{7} (U) -- node[edgeLabel]{5} cycle;
+	\fi
 
     \node[faceLabel] at (barycentric cs:L=1,U=1,D=1) {I};
     \node[faceLabel] at (barycentric cs:R=1,U=1,D=1) {II};
