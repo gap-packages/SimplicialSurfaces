@@ -72,3 +72,34 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 		Assert(0, DirectedEdges(grapeEye)=Union(VerticesOfEdges(eye),reversedEye));
 	end);
 fi;
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
+	BindGlobal( "__SIMPLICIAL_Test_IncidenceNautyGraph", function()
+		local nautyTetra, nautyTetraEdges, vertex, edges, edge, faces;
+		nautyTetra:=UnderlyingNautyGraph(IncidenceNautyGraph(Tetrahedron()));
+		nautyTetraEdges:=nautyTetra!.edges;
+		Assert(0,Length(nautyTetraEdges)=24);
+		
+		for vertex in [1..Length(EdgesOfVertices(Tetrahedron()))] do
+			for edges in EdgesOfVertices(Tetrahedron())[vertex] do
+				Assert(0,[vertex,edges+NumberOfVertices(Tetrahedron())] in nautyTetraEdges);
+			od;
+		od;
+		
+		for edge in [1..Length(FacesOfEdges(Tetrahedron()))] do
+			for faces in FacesOfEdges(Tetrahedron())[edge] do
+				Assert(0,[edge+NumberOfVertices(Tetrahedron()),faces+NumberOfVertices(Tetrahedron())+NumberOfEdges(Tetrahedron())] in nautyTetraEdges);
+			od;
+		od;
+	end);
+	
+	BindGlobal( "__SIMPLICIAL_Test_EdgeNautyGraph", function()
+		local nautyTetra, eye, nautyEye;
+		nautyTetra:=UnderlyingNautyGraph(EdgeNautyGraph(Tetrahedron()));
+		Assert(0, nautyTetra!.edges=VerticesOfEdges(Tetrahedron()));
+
+		eye := PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]],[[1,2,3],[4,5,6]]);
+		nautyEye:=UnderlyingNautyGraph(EdgeNautyGraph(eye));
+		Assert(0, nautyEye!.edges=VerticesOfEdges(eye));
+	end);
+fi;
