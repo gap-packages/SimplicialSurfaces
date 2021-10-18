@@ -1,78 +1,104 @@
-
-InstallMethod( SetVertexCoordiantes3DNC,
-    "for a list of coordinates and a record",
-    [IsDenseList, IsRecord],
-    function(coordinates, printRecord)
-				printRecord.vertexCoordinates3D := coordinates;
-				return printRecord;
-    end
-);
-
-BindGlobal( "__SIMPLICIAL_TestCoordinatesFormat",
+BindGlobal( "__SIMPLICIAL_IsCoordinates3D",
     function(surface, coordinates)
+        local coord;
+
+        if not IsDenseList(coordinates) then
+            return false;
+        fi;
         if Length(coordinates) <> NumberOfVertices(surface) then
-          return false;
-				fi;
- 			if not ForAll(coordinates, IsDenseList) then
-          return false;
-				fi;
-				return AsSet( List(coordinates, c -> Length(c))) = AsSet( [3] );
+            return false;
+	fi;
+        # Check whether all coordinates are 3D-coordinates
+        for coord in coordinates do
+            if not IsDenseList(coord) then
+                return false;
+            fi;
+            if Length(coord) <> 3 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 
-InstallMethod( SetVertexCoordiantes3D,
-    "for a polygonal complex without edge ramifications, a list of coordinates and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord],
+InstallMethod( SetVertexCoordinates3D,
+    "for a simplicial surface, a list of coordinates and a record",
+    [IsSimplicialSurface, IsDenseList, IsRecord],
     function(surface, coordinates, printRecord)
-				if not __SIMPLICIAL_TestCoordinatesFormat(surface, coordinates) then
-					Error( " invalid coordinate format " );
-				fi;
-				return SetVertexCoordiantes3DNC(coordinates, printRecord);
+	if not __SIMPLICIAL_IsCoordinates3D(surface, coordinates) then
+	    Error( " invalid coordinate format " );
+	fi;
+	return SetVertexCoordinates3DNC(surface, coordinates, printRecord);
     end
 );
+RedispatchOnCondition( SetVertexCoordinates3D, true, 
+    [IsTwistedPolygonalComplex,IsList,IsRecord], 
+    [IsSimplicialSurface, IsDenseList], 0 );
 
-InstallOtherMethod( SetVertexCoordiantes3DNC,
-    "for a list of coordinates",
-    [IsDenseList],
-    function(coordinates)
-				return SetVertexCoordiantes3DNC(coordinates, rec());
-    end
-);
-
-InstallOtherMethod( SetVertexCoordiantes3D,
-    "for a polygonal complex without edge ramifications and a list of coordinates",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList],
+InstallOtherMethod( SetVertexCoordinates3D,
+    "for a simplicial surface and a list of coordinates",
+    [IsSimplicialSurface, IsDenseList],
     function(surface, coordinates)
-				return SetVertexCoordiantes3D(surface, coordinates, rec());
+	return SetVertexCoordinates3D(surface, coordinates, rec());
     end
 );
+RedispatchOnCondition( SetVertexCoordinates3D, true, 
+    [IsTwistedPolygonalComplex,IsList], 
+    [IsSimplicialSurface, IsDenseList], 0 );
 
-InstallMethod( GetVertexCoordiantes3DNC,
-    "for an index and a record",
-    [IsCyclotomic, IsRecord],
-    function(index, printRecord)
-				return 1.0*printRecord.vertexCoordinates3D[index];
+InstallMethod( SetVertexCoordinates3DNC,
+    "for a simplicial surface, a list of coordinates and a record",
+    [IsSimplicialSurface, IsDenseList, IsRecord],
+    function(surface, coordinates, printRecord)
+	printRecord.vertexCoordinates3D := coordinates;
+        return printRecord;
     end
 );
+RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
+    [IsTwistedPolygonalComplex,IsList,IsRecord], 
+    [IsSimplicialSurface, IsDenseList], 0 );
+InstallOtherMethod( SetVertexCoordinates3DNC,
+    "for a simplicial surface and a list of coordinates",
+    [IsSimplicialSurface, IsDenseList],
+    function(surface, coordinates)
+	return SetVertexCoordinates3DNC(coordinates, rec());
+    end
+);
+RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
+    [IsTwistedPolygonalComplex,IsList], 
+    [IsSimplicialSurface, IsDenseList], 0 );
 
-InstallMethod( GetVertexCoordiantes3D,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+InstallMethod( GetVertexCoordinates3D,
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
-				if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
-					Error( " invalid coordinate format " );
-				fi;
-				return GetVertexCoordiantes3DNC(index, printRecord);
+	if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
+	    Error( " invalid coordinate format " );
+        fi;
+	return GetVertexCoordinates3DNC(surface, index, printRecord);
     end
 );
+RedispatchOnCondition(GetVertexCoordinates3D, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
+    [IsSimplicialSurface], 0);
+
+InstallMethod( GetVertexCoordinates3DNC,
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
+    function(surface, index, printRecord)
+	return 1.0*printRecord.vertexCoordinates3D[index];
+    end
+);
+RedispatchOnCondition(GetVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
+    [IsSimplicialSurface], 0);
+
 
 InstallMethod( CalculateParametersOfInnerCircle,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 				local norm, distance, normalize, crossProd, Atan2, res, vertOfFace, P1, P2, P3, d1, d2, d3, incenter, s,
 					radius, x, y, z, alpha, beta, gamma, normalVector, lengthNormalVector, normalVector_beta, normalVector_gamma;
-				if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
+				if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
 					Error( " invalid coordinate format " );
 				fi;
 				norm:=function(v) return Sqrt( v[1]*v[1] + v[2]*v[2] + v[3]*v[3] ); end;
@@ -106,14 +132,14 @@ InstallMethod( CalculateParametersOfInnerCircle,
 						Append(res, [[]]);
 						continue;
 					fi;
-					P1 := GetVertexCoordiantes3DNC(vertOfFace[1], printRecord);
-					P2 := GetVertexCoordiantes3DNC(vertOfFace[2], printRecord);
-					P3 := GetVertexCoordiantes3DNC(vertOfFace[3], printRecord);
+					P1 := GetVertexCoordinates3DNC(surface, vertOfFace[1], printRecord);
+					P2 := GetVertexCoordinates3DNC(surface, vertOfFace[2], printRecord);
+					P3 := GetVertexCoordinates3DNC(surface, vertOfFace[3], printRecord);
 					# calculate distances
 					d1 := distance(P2,P3);
 					d2 := distance(P1,P3);
 					d3 := distance(P1,P2);
-					# calculate coordiantes of incenter
+					# calculate coordinates of incenter
 					incenter := ( d1*P1 + d2*P2 + d3*P3 ) / ( d1 + d2 + d3 );
 					# calculate radius
 					s := ( d1 + d2 + d3 ) / 2;
@@ -136,25 +162,35 @@ InstallMethod( CalculateParametersOfInnerCircle,
 				return printRecord;
     end
 );
+RedispatchOnCondition(CalculateParametersOfInnerCircle, true, 
+    [IsTwistedPolygonalComplex, IsRecord],
+    [IsSimplicialSurface], 0);
+
+	
 
 InstallMethod( ActivateInnerCircles,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-			local i;
-			if not IsBound(printRecord.innerCircles) then
-				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
-			fi;
-			for i in [1..NumberOfFaces(surface)] do
-				printRecord := ActivateInnerCircle(surface, i, printRecord);
-			od;
-			return printRecord;
+	local i;
+	if not IsBound(printRecord.innerCircles) then
+	    printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
+	fi;
+	for i in [1..NumberOfFaces(surface)] do
+	    printRecord := ActivateInnerCircle(surface, i, printRecord);
+	od;
+        return printRecord;
     end
 );
+RedispatchOnCondition( ActivateInnerCircles, true, 
+    [IsTwistedPolygonalComplex, IsRecord],
+    [IsSimplicialSurface], 0);
+
+
 
 InstallMethod( DeactivateInnerCircles,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			printRecord.drawInnerCircles := [];
 			return printRecord;
@@ -162,8 +198,8 @@ InstallMethod( DeactivateInnerCircles,
 );
 
 InstallMethod( ActivateInnerCircle,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
@@ -177,8 +213,8 @@ InstallMethod( ActivateInnerCircle,
 );
 
 InstallMethod( DeactivateInnerCircle,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.drawInnerCircles) then
 				return printRecord;
@@ -189,8 +225,8 @@ InstallMethod( DeactivateInnerCircle,
 );
 
 InstallMethod( IsInnerCircleActive,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
@@ -206,8 +242,8 @@ InstallMethod( IsInnerCircleActive,
 );
 
 InstallMethod( ActivateNormalOfInnerCircles,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			local i;
 			if not IsBound(printRecord.innerCircles) then
@@ -221,8 +257,8 @@ InstallMethod( ActivateNormalOfInnerCircles,
 );
 
 InstallMethod( DeactivateNormalOfInnerCircles,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			printRecord.drawNormalOfInnerCircles := [];
 			return printRecord;
@@ -230,8 +266,8 @@ InstallMethod( DeactivateNormalOfInnerCircles,
 );
 
 InstallMethod( ActivateNormalOfInnerCircle,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
@@ -245,8 +281,8 @@ InstallMethod( ActivateNormalOfInnerCircle,
 );
 
 InstallMethod( DeactivateNormalOfInnerCircle,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.drawNormalOfInnerCircles) then
 				return printRecord;
@@ -257,8 +293,8 @@ InstallMethod( DeactivateNormalOfInnerCircle,
 );
 
 InstallMethod( IsNormalOfInnerCircleActive,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
@@ -274,11 +310,11 @@ InstallMethod( IsNormalOfInnerCircleActive,
 );
 
 InstallMethod( CalculateParametersOfEdges,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 				local norm, distance, Atan2, res, vertOfEdge, P1, P2, d, mid, beta, gamma;
-				if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
+				if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
 					Error( " invalid coordinate format " );
 				fi;
 				norm:=function(v) return Sqrt( v[1]*v[1] + v[2]*v[2] + v[3]*v[3] ); end;
@@ -306,11 +342,11 @@ InstallMethod( CalculateParametersOfEdges,
 				end;
 				res := [];
 				for vertOfEdge in VerticesOfEdges(surface) do
-					P1 := GetVertexCoordiantes3DNC(vertOfEdge[1], printRecord);
-					P2 := GetVertexCoordiantes3DNC(vertOfEdge[2], printRecord);
+					P1 := GetVertexCoordinates3DNC(surface, vertOfEdge[1], printRecord);
+					P2 := GetVertexCoordinates3DNC(surface, vertOfEdge[2], printRecord);
 					# calculate distance
 					d := distance(P1,P2);
-					# calculate coordiantes of mid of edge
+					# calculate coordinates of mid of edge
 					mid := ( P1 + P2 ) / 2;
 					# calculate rotation angles (from y-direction)
 					beta := Atan2(-1.0*(P2[3]-P1[3]), 1.0*(P2[1]-P1[1]));
@@ -323,8 +359,8 @@ InstallMethod( CalculateParametersOfEdges,
 );
 
 InstallMethod( ActivateEdges,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			if not IsBound(printRecord.edges) then
 				printRecord := CalculateParametersOfEdges(surface, printRecord);
@@ -335,8 +371,8 @@ InstallMethod( ActivateEdges,
 );
 
 InstallMethod( DeactivateEdges,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			local i;
 			for i in [1..NumberOfEdges(surface)] do
@@ -347,8 +383,8 @@ InstallMethod( DeactivateEdges,
 );
 
 InstallMethod( ActivateEdge,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.edges) then
 				printRecord := CalculateParametersOfEdges(surface, printRecord);
@@ -363,8 +399,8 @@ InstallMethod( ActivateEdge,
 );
 
 InstallMethod( DeactivateEdge,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.drawEdges) then
 				printRecord.drawEdges := [];
@@ -375,8 +411,8 @@ InstallMethod( DeactivateEdge,
 );
 
 InstallMethod( IsEdgeActive,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.edges) then
 					return false;
@@ -395,8 +431,8 @@ InstallMethod( IsEdgeActive,
 );
 
 InstallMethod( ActivateFaces,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			printRecord.drawFaces := [];
 			return printRecord;
@@ -404,8 +440,8 @@ InstallMethod( ActivateFaces,
 );
 
 InstallMethod( DeactivateFaces,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			local i;
 			for i in [1..NumberOfFaces(surface)] do
@@ -416,8 +452,8 @@ InstallMethod( DeactivateFaces,
 );
 
 InstallMethod( ActivateFace,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.drawFaces) then
 				printRecord.drawFaces := [];
@@ -429,8 +465,8 @@ InstallMethod( ActivateFace,
 );
 
 InstallMethod( DeactivateFace,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.drawFaces) then
 				printRecord.drawFaces := [];
@@ -441,8 +477,8 @@ InstallMethod( DeactivateFace,
 );
 
 InstallMethod( IsFaceActive,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 				if not IsBound(printRecord.drawFaces) then
 					return true;
@@ -458,8 +494,8 @@ InstallMethod( IsFaceActive,
 );
 
 InstallMethod( SetTransparencyJava,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsFloat, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord],
     function(surface, index, value, printRecord)
             if not IsBound(printRecord.FaceTransparency) then
                 printRecord.FaceTransparency := [];
@@ -470,8 +506,8 @@ InstallMethod( SetTransparencyJava,
 );
 
 InstallMethod( RemoveTransparencyJava,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
             if IsBound(printRecord.FaceTransparency[index]) then
                 Unbind(printRecord.FaceTransparency[index]);
@@ -482,8 +518,8 @@ InstallMethod( RemoveTransparencyJava,
 );
 
 InstallMethod( GetTransparencyJava,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
                 if not IsBound(printRecord.FaceTransparency) then
                     return 1;
@@ -499,8 +535,8 @@ InstallMethod( GetTransparencyJava,
 );
 
 InstallMethod( ActivateVertices,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 				Error(" The 3D-coordinates of the vertices are not set ");
@@ -511,8 +547,8 @@ InstallMethod( ActivateVertices,
 );
 
 InstallMethod( DeactivateVertices,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 			local i;
 			for i in [1..NumberOfVertices(surface)] do
@@ -523,8 +559,8 @@ InstallMethod( DeactivateVertices,
 );
 
 InstallMethod( ActivateVertex,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 				Error(" The 3D-coordinates of the vertices are not set ");
@@ -539,8 +575,8 @@ InstallMethod( ActivateVertex,
 );
 
 InstallMethod( DeactivateVertex,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.drawVertices) then
 				printRecord.drawVertices := [];
@@ -551,8 +587,8 @@ InstallMethod( DeactivateVertex,
 );
 
 InstallMethod( IsVertexActive,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 					return false;
@@ -571,8 +607,8 @@ InstallMethod( IsVertexActive,
 );
 
 InstallMethod( SetFaceColour,
-    "for a polygonal complex without edge ramifications, an index, a string and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord],
+    "for a simplicial surface, an index, a string and a record",
+    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
     function(surface, index, colour, printRecord)
 				if not IsBound(printRecord.faceColours) then
 					printRecord.faceColours := [];
@@ -583,8 +619,8 @@ InstallMethod( SetFaceColour,
 );
 
 InstallMethod( GetFaceColour,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 				local default;
 				default := "0xFFFF00";
@@ -599,8 +635,8 @@ InstallMethod( GetFaceColour,
 );
 
 InstallMethod( SetFaceColours,
-    "for a polygonal complex without edge ramifications, a list and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord],
+    "for a simplicial surface, a list and a record",
+    [IsSimplicialSurface, IsDenseList, IsRecord],
     function(surface, faceColours, printRecord)
 				printRecord.faceColours := faceColours;
 				return printRecord;
@@ -608,8 +644,8 @@ InstallMethod( SetFaceColours,
 );
 
 InstallMethod( GetFaceColours,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 				if not IsBound(printRecord.faceColours) then
 					return [];
@@ -619,8 +655,8 @@ InstallMethod( GetFaceColours,
 );
 
 InstallMethod( SetVertexColour,
-    "for a polygonal complex without edge ramifications, an index, a string and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord],
+    "for a simplicial surface, an index, a string and a record",
+    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
     function(surface, index, colour, printRecord)
 				if not IsBound(printRecord.vertexColours) then
 					printRecord.vertexColours := [];
@@ -631,8 +667,8 @@ InstallMethod( SetVertexColour,
 );
 
 InstallMethod( GetVertexColour,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 				local default;
 				default := "0xF58137";
@@ -647,8 +683,8 @@ InstallMethod( GetVertexColour,
 );
 
 InstallMethod( SetVertexColours,
-    "for a polygonal complex without edge ramifications, a list and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord],
+    "for a simplicial surface, a list and a record",
+    [IsSimplicialSurface, IsDenseList, IsRecord],
     function(surface, vertexColours, printRecord)
 				printRecord.vertexColours := vertexColours;
 				return printRecord;
@@ -656,8 +692,8 @@ InstallMethod( SetVertexColours,
 );
 
 InstallMethod( GetVertexColours,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 				if not IsBound(printRecord.vertexColours) then
 					return [];
@@ -667,8 +703,8 @@ InstallMethod( GetVertexColours,
 );
 
 InstallMethod( SetEdgeColour,
-    "for a polygonal complex without edge ramifications, an index, a string and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord],
+    "for a simplicial surface, an index, a string and a record",
+    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
     function(surface, index, colour, printRecord)
 				if not IsBound(printRecord.edgeColours) then
 					printRecord.edgeColours := [];
@@ -679,8 +715,8 @@ InstallMethod( SetEdgeColour,
 );
 
 InstallMethod( GetEdgeColour,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 				local default;
 				default := "0xff0000";
@@ -695,8 +731,8 @@ InstallMethod( GetEdgeColour,
 );
 
 InstallMethod( SetEdgeColours,
-    "for a polygonal complex without edge ramifications, a list and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord],
+    "for a simplicial surface, a list and a record",
+    [IsSimplicialSurface, IsDenseList, IsRecord],
     function(surface, edgeColours, printRecord)
 				printRecord.edgeColours := edgeColours;
 				return printRecord;
@@ -704,8 +740,8 @@ InstallMethod( SetEdgeColours,
 );
 
 InstallMethod( GetEdgeColours,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 				if not IsBound(printRecord.EdgeColours) then
 					return [];
@@ -715,8 +751,8 @@ InstallMethod( GetEdgeColours,
 );
 
 InstallMethod( SetCircleColour,
-    "for a polygonal complex without edge ramifications, an index, a string and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsString, IsRecord],
+    "for a simplicial surface, an index, a string and a record",
+    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
     function(surface, index, colour, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					printRecord.circleColours := [];
@@ -727,8 +763,8 @@ InstallMethod( SetCircleColour,
 );
 
 InstallMethod( GetCircleColour,
-    "for a polygonal complex without edge ramifications, an index and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsCyclotomic, IsRecord],
+    "for a simplicial surface, an index and a record",
+    [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, index, printRecord)
 				local default;
 				default := "0x000000";
@@ -743,8 +779,8 @@ InstallMethod( GetCircleColour,
 );
 
 InstallMethod( SetCircleColours,
-    "for a polygonal complex without edge ramifications, a list and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsDenseList, IsRecord],
+    "for a simplicial surface, a list and a record",
+    [IsSimplicialSurface, IsDenseList, IsRecord],
     function(surface, circleColours, printRecord)
 				printRecord.circleColours := circleColours;
 				return printRecord;
@@ -752,8 +788,8 @@ InstallMethod( SetCircleColours,
 );
 
 InstallMethod( GetCircleColours,
-    "for a polygonal complex without edge ramifications and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsRecord],
+    "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					return [];
@@ -765,8 +801,8 @@ InstallMethod( GetCircleColours,
 
 # general method
 InstallMethod( DrawSurfaceToJavaScriptCalculate,
-    "for a polygonal complex without edge ramifications, a filename and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord, IsBool],
+    "for a simplicial surface, a filename and a record",
+    [IsSimplicialSurface, IsString, IsRecord, IsBool],
     function(surface, fileName, printRecord, calculate)
                 local file, output, template, coords, i, j, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge, temp;
 
@@ -787,11 +823,11 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 AppendTo( output, template );
 
         # Set coordinates of vertices
-        if not __SIMPLICIAL_TestCoordinatesFormat(surface, printRecord.vertexCoordinates3D) then
+        if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
                     Error( " invalid coordinate format " );
                 fi;
                 for i in [1..NumberOfVertices(surface)] do
-                    coords := GetVertexCoordiantes3DNC(i, printRecord);
+                    coords := GetVertexCoordinates3DNC(surface, i, printRecord);
                     AppendTo(output, "\t\tallpoints.push(new PMPoint(", coords[1], ",", coords[2], ",", coords[3], "));\n");
                 od;
 
@@ -911,8 +947,8 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
 
 InstallMethod( DrawSurfaceToJavaScript,
-    "for a polygonal complex without edge ramifications, a filename and a record",
-    [IsSimplicialSurface and IsNotEdgeRamified, IsString, IsRecord],
+    "for a simplicial surface, a filename and a record",
+    [IsSimplicialSurface, IsString, IsRecord],
     function(surface, fileName, printRecord)
         return DrawSurfaceToJavaScriptCalculate(surface,fileName,printRecord,true);
     end
