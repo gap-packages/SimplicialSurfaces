@@ -412,3 +412,37 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     SetOrientation( obj, fail );
     SIMPLICIAL_TestAssert(not IsOrientable(obj));
 end);
+
+#################################################################################
+##
+## Test whether the face-2-coloring works
+##
+BindGlobal( "__SIMPLICIAL_Test_FaceTwoColouring", function()
+    # Example from the manual
+    local s,p;
+
+    ## compute face-2-colouring of a sphere
+    s:=Octahedron();
+    SIMPLICIAL_TestAssert(FaceTwoColouring(s)=[[1,2,5,6],[3,4,7,8]]);
+
+    ## compute face-2-colouring of not closed surface
+    s:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],[1,5,6],[1,6,7],[1,2,7]]);;
+    SIMPLICIAL_TestAssert(FaceTwoColouring(s)=[[1,3,5],[2,4,6]]);
+
+
+    ##compute Face-2-Colouring of surface with vertex ramifications  
+    p:=PolygonalComplexByVerticesInFaces([[1,2,3],[1,4,5],[1,6,7]]);;
+    SIMPLICIAL_TestAssert(FaceTwoColouring(p)=[[1,2,3],[]]);
+
+
+    ## compute Face-2-colouring of surface with edge ramifications
+    p:=PolygonalComplexByVerticesInFaces([[1,2,3,4],[1,2,5,6],[1,2,7,8]]);;
+    SIMPLICIAL_TestAssert(FaceTwoColouring(p)=fail);
+
+    ## compute face-2-colouring of not strongly connected suface
+    s:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4]]);;
+    s:=DisjointUnion(s,JanusHead())[1];;
+    s:=DisjointUnion(s,PolygonalComplexByVerticesInFaces([[1,2,3,4,5]]))[1];;
+    SIMPLICIAL_TestAssert(FaceTwoColouring(s)=[[1,6,9],[2,7]]);
+
+end);
