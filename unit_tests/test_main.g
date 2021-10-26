@@ -53,6 +53,8 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_IncidenceGrapeGraph();
     __SIMPLICIAL_Test_EdgeDigraphsGraph();
     __SIMPLICIAL_Test_EdgeGrapeGraph();
+    __SIMPLICIAL_Test_FaceDigraphsGraph();
+    __SIMPLICIAL_Test_FaceNautyGraph();
     __SIMPLICIAL_Test_FaceTwoColouring();
 
     if __SIMPLICIAL_TestFailure then

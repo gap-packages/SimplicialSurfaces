@@ -812,6 +812,43 @@ DeclareAttribute( "EdgeGrapeGraph", IsPolygonalComplex );
 DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup
+#! @Description
+#! Return the face graph of a given polygonal surface. The vertices of the
+#! face graph are the faces of <A>surface</A> and for every edge in
+#! <A>surface</A> there is a corresponding edge in the face graph.
+#!
+#! The returned graph can be given in two different formats, corresponding
+#! to different graph packages:
+#! <K>Digraphs</K> and <K>NautyTracesInterface</K>
+#!
+#! The returned graph cannot be given as a grape graph because the <K>GRAPE</K> 
+#! package does not allow multiple edges.
+#! 
+#! Since the edges in <K>Digraphs</K> are directed but in the face graph they are not, 
+#! the method return for one undirected edge in the face graph two directed edges in the <K>Digraphs</K> package. 
+#!
+#! For example consider the face graph of the tetrahedron:
+#! @BeginExampleSession
+#! gap> digraph:=FaceDigraphsGraph(Tetrahedron());
+#! <immutable digraph with 4 vertices, 12 edges>
+#! gap> digraphEdges:=DigraphEdges(digraph);
+#! [ [ 1, 2 ], [ 2, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 4 ], [ 4, 2 ], [ 1, 3 ], [ 3, 1 ],
+#! [ 2, 3 ], [ 3, 2 ], [ 3, 4 ], [ 4, 3 ] ]
+#! @EndExampleSession
+#!
+#! This is the face graph of the tetrahedron with undirected edges:
+#! <Alt Only="TikZ">
+#!    \input{Image_FaceGraphTetra.tex}
+#! </Alt>
+#!
+#! @Arguments surface
+#! @Returns a graph as defined in the package <K>Digraphs</K>
+DeclareAttribute( "FaceDigraphsGraph", IsPolygonalSurface );
+#! @Arguments surface
+#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
+DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
+#! @EndGroup
 
 
 
