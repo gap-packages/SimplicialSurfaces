@@ -825,10 +825,10 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! The returned graph cannot be given as a grape graph because the <K>GRAPE</K> 
 #! package does not allow multiple edges.
 #! 
-#! Since the edges in <K>Digraphs</K> are directed but in the face graph they are not, 
-#! the method return for one undirected edge in the face graph two directed edges in the <K>Digraphs</K> package. 
+#! Since the edges in Digraphs are directed but the face graph is undirected, 
+#! each edge of the face graph is represented by two directed edges in the <K>Digraphs</K> package. 
 #!
-#! For example consider the face graph of the tetrahedron:
+#! For example, consider the face graph of the tetrahedron:
 #! @BeginExampleSession
 #! gap> digraph:=FaceDigraphsGraph(Tetrahedron());
 #! <immutable digraph with 4 vertices, 12 edges>
