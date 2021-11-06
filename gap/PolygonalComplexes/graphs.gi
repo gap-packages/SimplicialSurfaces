@@ -42,6 +42,26 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
                 VerticesAttributeOfComplex(complex) );
         end
     );
+
+    InstallMethod(FaceDigraphsGraph, "for a polygonal surface",[IsPolygonalSurface],
+	function(surface)
+		local i, diedges, arcs, loops;
+		
+		arcs := [];
+		diedges := Filtered( FacesOfEdges(surface), i->Length(i)=2);
+		for i in [1..Length(diedges)] do
+			arcs[2*i-1] := diedges[i];
+			arcs[2*i] := Reversed(diedges[i]);
+		od;
+		
+		loops:=Filtered( FacesOfEdges(surface), i->Length(i)=1);
+		for i in [1..Length(loops)] do
+			Add(arcs,[loops[i][1],loops[i][1]]);
+		od;
+		
+		return DigraphByEdges(arcs);
+	end
+);
 fi;
 ##
 ##      End Digraphs
@@ -201,6 +221,19 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             return NautyGraphWithNodeLabels( VerticesOfEdges(complex), 
                 VerticesAttributeOfComplex(complex) );
         end
+    );
+
+    InstallMethod(FaceNautyGraph, "for a polygonal surface",[IsPolygonalSurface],
+	function(surface)
+		local i, diedges, loops;
+			
+		diedges:=Filtered(FacesOfEdges(surface),i->Length(i)=2);	
+		loops:=Filtered(FacesOfEdges(surface),i->Length(i)=1);
+		loops:=List(loops,i->[i[1],i[1]]);
+			
+		return NautyGraphWithNodeLabels( Concatenation(diedges,loops), 
+                Faces(surface) );
+	end
     );
 fi;
 ##

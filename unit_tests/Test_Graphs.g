@@ -32,6 +32,28 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 		Assert(0, DigraphEdges(digEye)=VerticesOfEdges(eye));
 	end);
 
+	BindGlobal( "__SIMPLICIAL_Test_FaceDigraphsGraph", function()
+		local digTetra, butterfly, digButterfly, reversedTetra, reversedButterfly, faces;
+		digTetra:=FaceDigraphsGraph(Tetrahedron());
+		reversedTetra:=[];
+		for faces in FacesOfEdges(Tetrahedron()) do
+			Add(reversedTetra,Reversed(faces));
+		od;
+		Assert(0, Set(DigraphEdges(digTetra))=Set(Union(FacesOfEdges(Tetrahedron()),reversedTetra)));
+		
+		butterfly := SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4]],[[1,2,3],[3,4,5]]);
+		digButterfly:=FaceDigraphsGraph(butterfly);
+		reversedButterfly:=[];
+		for faces in FacesOfEdges(butterfly) do
+			if Length(faces)=2 then 
+				Add(reversedButterfly,Reversed(faces));
+			else
+				Add(reversedButterfly,[faces[1],faces[1]]);
+			fi;
+		od;
+		Assert(0, Set(DigraphEdges(digButterfly))=Set(Filtered(Union(FacesOfEdges(butterfly),reversedButterfly),i->Length(i)=2)));
+	end);
+
 fi;
 
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
@@ -101,5 +123,22 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 		eye := PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]],[[1,2,3],[4,5,6]]);
 		nautyEye:=UnderlyingNautyGraph(EdgeNautyGraph(eye));
 		Assert(0, nautyEye!.edges=VerticesOfEdges(eye));
+	end);
+
+	BindGlobal( "__SIMPLICIAL_Test_FaceNautyGraph", function()
+		local nautyTetra, butterfly, nautyButterfly, edges, faces;
+		nautyTetra:=UnderlyingNautyGraph(FaceNautyGraph(Tetrahedron()));
+		
+		Assert(0, Set(nautyTetra!.edges)=Set(FacesOfEdges(Tetrahedron())));
+		
+		butterfly := SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4]],[[1,2,3],[3,4,5]]);
+		nautyButterfly:=UnderlyingNautyGraph(FaceNautyGraph(butterfly));
+		edges:=ShallowCopy(FacesOfEdges(butterfly));
+		for faces in FacesOfEdges(butterfly) do
+			if Length(faces)=1 then 
+				Add(edges,[faces[1],faces[1]]);
+			fi;
+		od;
+		Assert(0, Set(nautyButterfly!.edges)=Set(Filtered(edges,i->Length(i)=2)));
 	end);
 fi;
