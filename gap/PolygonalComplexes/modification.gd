@@ -1605,6 +1605,40 @@ DeclareOperation( "SplitMend", [IsPolygonalComplex, IsList] );
 DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup EdgeTurn
+#! @Description
+#! Given a simplicial surface and an inner edge contained in the surface, one
+#! can construct a new surface by manipulating the inner edge.
+#! If the inner edge <K>e</K> gives rise to a butterfly (e.g. if the surface is
+#! vertex faithful), a new surface can be created by turning the edge <K>e</K>.
+#! This results in replacing <K>e</K> by a new edge <K>e’</K> connecting the other two
+#! vertices of the butterfly. So it has the same number of faces, edges and
+#! vertices, but the vertex degrees in four positions will change by +-1 i.e.
+#! the vertex degrees of the vertices incidient to <K>e</K> decrease and the degrees
+#! of the vertices incident to <K>e’</K> increase by 1.
+#! For example, consider the octahedron:
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#! Turning the edge 1 results in
+#! @BeginExampleSession
+#! gap> surf:=EdgeTurn(Octahedron(),1);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> VerticesOfEdges(surf);
+#! [ [ 3, 5 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 5 ], [ 2, 6 ], [ 3, 4 ],
+#! [ 3, 6 ], [ 4, 5 ], [ 4, 6 ], [ 5, 6 ] ]
+#! gap> EdgesOfFaces(surf);
+#! [ [ 1, 2, 4 ], [ 6, 7, 12 ], [ 1, 5, 6 ], [ 5, 7, 9 ], [ 3, 4, 10 ], [ 8, 9, 11 ],
+#! [ 2, 3, 8 ], [ 10, 11, 12 ] ]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_EdgeTurnOctahedron.tex}
+#! </Alt>
+#! @Returns a simplicial surface or <K>fail</K>
+#! @Arguments surface,
+DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
+
 
 # These do not fit the above pattern:
 # CommonCover       -> does not fit here at all -> chapter Coverings (or only as a section in chapter "Associated Complexes" that also includes DualSurface?)
