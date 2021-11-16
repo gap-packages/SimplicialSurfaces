@@ -360,16 +360,20 @@ DeclareAttribute( "FaceCounter", IsTwistedPolygonalComplex );
 #! @BeginGroup ButterflyCounter
 #! @Description
 #! Return the <E>butterfly counter</E> of the given simplicial surface.
-#! The butterfly counter is a list of pairs <E>[degreeLlist, number]</E>,
-#! where <E>list</E> has two lists as entries. Given an inner edge <E>e</E>,
-#! the first list contains the vertex degrees of the vertices incident
-#! to <E>e</E>. Since an inner edge gives rise to a butterfly the
-#! second list contains the vertex degrees of the remaining two vertices
-#! of the butterfly. The integer <E>number</E> counts the number of
-#! butterflies whose vertex degrees match <E>list</E>.
+#! The butterfly counter is a list of pairs
+#! <E>[[degList1,degList2],number]</E>, where <E>number</E> counts the
+#! number of butterflies whose vertex degrees match
+#! <E>[degList1,degList2]</E>, whereby <E>degList1</E> denotes the
+#! vertex degree of the vertices that are incident to the edge
+#! inducing the corresponding butterfly and <E>degList2</E> contains
+#! the vertex degrees of the two remaining vertices of the butterfly.
 #!
-#! The different lists in <E>degreeList</E> are always sorted but may
-#! contain duplicates.
+### ! . Given an inner edge <E>e</E>,
+### ! the first list contains the vertex degrees of the vertices incident
+### ! to <E>e</E>. Since an inner edge gives rise to a butterfly the
+### ! second list contains the vertex degrees of the remaining two vertices
+### ! of the butterfly. The integer <E>number</E> counts the number of
+### ! butterflies whose vertex degrees match <E>list</E>.
 #!
 #! As an example, consider the double-5-gon:
 #! <Alt Only="TikZ">
