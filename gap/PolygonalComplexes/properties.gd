@@ -443,8 +443,8 @@ DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface);
 #! @ExampleSession
 #! gap> s:=AllSimplicialSpheres(12)[1];
 #! simplicial surface (8 vertices, 18 edges, and 12 faces)
-#! gap> UmbrellaCounter(s);
-#! [ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
+#! gap> ThreeFaceCounter(s);
+#! [ [ [ 4, [ 4, 6 ], [ 6, 4 ] ], 24 ], [ [ 6, [ 4, 4 ], [ 4, 4 ] ], 12 ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of pairs
