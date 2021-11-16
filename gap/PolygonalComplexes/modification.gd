@@ -1632,7 +1632,7 @@ DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
 #! [ 2, 3, 8 ], [ 10, 11, 12 ] ]
 #! @EndExampleSession
 #! <Alt Only="TikZ">
-#!   \input{Image_EdgeTurnOctahedron.tex}
+#!   \input{Image_ETOctahedron.tex}
 #! </Alt>
 #! @Returns a simplicial surface or <K>fail</K>
 #! @Arguments surface,
