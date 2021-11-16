@@ -218,6 +218,150 @@ InstallMethod( FaceCounter, "for a twisted polygonal complex",
         return Collected( Compacted( faceDegrees ) );
     end
 );
+
+InstallMethod( ButterflyCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+	local e,temp1,temp2,counter,g,VerticesOfOrthogonalEdge;
+
+        VerticesOfOrthogonalEdge:=function(S,e)
+            local temp;
+            temp:=FacesOfEdge(S,e);
+            temp:=Union(VerticesOfFace(S,temp[1]),VerticesOfFace(S,temp[2]));
+            return Difference(temp, VerticesOfEdge(S,e));
+	end;
+	counter:=[];
+	for e in InnerEdges(surface) do 
+		temp1:=VerticesOfEdge(surface,e);
+		temp1:=SortedList(List(temp1,g->FaceDegreeOfVertex(surface,g)));
+		if not 2 in temp1 then 
+			temp2:=VerticesOfOrthogonalEdge(surface,e);
+			temp2:=SortedList(List(temp2,g->FaceDegreeOfVertex(surface,g)));
+		else
+			temp2:=FacesOfEdge(surface,e)[1];
+			temp2:=VerticesOfFace(surface,temp2);
+			temp2:=Filtered(temp2,g-> not g in VerticesOfEdge(surface,g));
+			temp2:=SortedList(List(temp2,g->FaceDegreeOfVertex(surface,g)));
+		fi;			
+		Add(counter,[temp1,temp2]);
+	od;
+	return Set(Collected(counter));
+end
+);
+
+
+InstallMethod( UmbrellaCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,temp1,rightumb,bub;
+	tempcounter:=[];
+	rightumb:=function(L)
+		local m,temp,i,t;
+		temp:=orb;		
+		n:=Length(temp[1]);
+		i:=2;
+		m:=Minimum(temp[1]);
+		temp:=Filtered(temp,g->g[1]=m);
+		while temp <>[] and i<=n do 
+			m:=Minimum(List(temp,g->g[i]));
+			temp:=Filtered(temp,g->g[i]=m);
+			i:=i+1;
+			if Length(temp)=1 then
+				return temp[1];
+			fi; 
+				
+		od;
+		return temp[1];
+	end;
+
+	OrbitOnList:=function(G,L)
+		local g,orb,temp,temp1,i,l,n;
+		orb:=[];
+		n:=Length(L);
+		l:=[1..n];
+		temp1:=[];
+		for g in G do
+			temp:=[]; 
+			for i in [1..n] do
+				temp[i]:=L[i^g];
+			od;
+			Add(temp1,temp);
+		od;
+		return temp1;
+	end;
+	bub:=function(list)
+		local g,tempm,tempL,m;
+		tempL:=[];
+		tempm:=List(list,g->Length(g));
+		for m in Set(tempm) do
+			temp:=Filtered(list,g->Length(g)=m);
+			Append(tempL,temp);
+		od; 
+		return tempL;
+	end;
+	for v in Vertices(surface) do
+		temp:=UmbrellaPathOfVertex(surface,v);
+		temp:=EdgesAsList(temp);
+		temp:=List([1..Length(temp)-1],g->temp[g]);
+		temp:=List(temp,g->Difference(VerticesOfEdge(surface,g),[v])[1]);
+		temp:=List(temp,g->FaceDegreeOfVertex(surface,g));
+		Add(tempcounter,temp);
+	od;
+	counter:=[];
+	
+	while tempcounter <> [] do 
+		tup:=tempcounter[1];
+		n:=Length(tup);
+		G:=DihedralGroup(IsPermGroup,2*n);
+		orb:=OrbitOnList(G,tup);
+		temp:=Filtered(tempcounter,g-> g in orb);
+		Add(counter,[rightumb(orb),Length(temp)]);		
+		tempcounter:=Filtered(tempcounter,g-> not g in temp);
+		
+	od; 
+	temp:=bub(List(counter,g->g[1]));
+	return List(temp,g->Filtered(counter,h->h[1]=g)[1]);
+end
+);
+
+InstallMethod( ThreeFaceCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+	local g,tempcounter,v,f,face,vert,vof,vof2,counter,i,temp,tup;
+	tempcounter:=[];
+	for v in Vertices(surface) do
+		for f in FacesOfVertex(surface,v) do
+			vof:=Filtered(VerticesOfFace(surface,f),g->g<>v);
+			if FaceDegreeOfVertex(surface,vof[1])>=FaceDegreeOfVertex(surface,vof[2]) then 
+				temp:=vof[1];
+				vof[1]:=vof[2];
+				vof[2]:=temp;
+			fi;
+			vof2:=[];
+			for i in [1,2] do 
+				face:=Filtered(Faces(surface),g->IsSubset(VerticesOfFace(surface,g),[v,vof[i]]) and g <>f)[1];
+				vert:=Difference(VerticesOfFace(surface,face),[vof[i],v])[1];
+				Add(vof2,vert);
+			od;
+			vof:=List(vof,g->FaceDegreeOfVertex(surface,g));
+			vof2:=List(vof2,g->FaceDegreeOfVertex(surface,g));
+			Add(tempcounter,[FaceDegreeOfVertex(surface,v),vof,vof2]);
+		od;
+	od;
+	counter:=[];
+	while tempcounter <> [] do 
+		tup:=tempcounter[1];
+		temp:=Filtered(tempcounter,g->g=tup or 
+		(g[1]=tup[1] and g[2][1]=tup[2][2] and g[2][2]=tup[2][1] and g[3][1]=tup[3][2] and g[3][2]=tup[3][1]));
+		Add(counter,[temp[1],Length(temp)]);
+		tempcounter:=Filtered(tempcounter,g-> not g in temp);
+	od; 
+	return SortedList(counter);
+
+end
+);
+
+
 ##
 ##      End of degrees
 ##

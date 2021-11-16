@@ -303,7 +303,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 DeclareAttribute( "VertexCounter", IsTwistedPolygonalComplex );
 #! @EndGroup
 
-
+#! @BeginGroup EdgeCounter
 #! @Description
 #! Return the <E>edge counter</E> of the given twisted polygonal complex.
 #! The edge counter is a list of pairs <E>[degreeList, number]</E>,
@@ -327,12 +327,13 @@ DeclareAttribute( "VertexCounter", IsTwistedPolygonalComplex );
 #! @Returns a list of pairs
 #! @Arguments complex
 DeclareAttribute( "EdgeCounter", IsTwistedPolygonalComplex );
+#! @EndGroup
 
-
+#! @BeginGroup FaceCounter
 #! @Description
 #! Return the <E>face counter</E> of the given twisted polygonal complex.
 #! The face counter is a list of pairs <E>[degreeList, number]</E>,
-#! where <E>number</E> counts the number of faces whose vertes degrees
+#! where <E>number</E> counts the number of faces whose vertex degrees
 #! match <E>degreeList</E>, i.e. for every vertex there is exactly one
 #! entry of <E>degreeList</E> such that the vertex is incident this 
 #! number of faces.
@@ -352,9 +353,104 @@ DeclareAttribute( "EdgeCounter", IsTwistedPolygonalComplex );
 #! @EndExampleSession
 #!
 #! @Returns a list of pairs
-#! @Arguments complex
+#! @Arguments surface
 DeclareAttribute( "FaceCounter", IsTwistedPolygonalComplex );
+#! @EndGroup
 
+#! @BeginGroup ButterflyCounter
+#! @Description
+#! Return the <E>butterfly counter</E> of the given simplicial surface.
+#! The butterfly counter is a list of pairs <E>[degreeLlist, number]</E>,
+#! where <E>list</E> has two lists as entries. Given an inner edge <E>e</E>,
+#! the first list contains the vertex degrees of the vertices incident
+#! to <E>e</E>. Since an inner edge gives rise to a butterfly the
+#! second list contains the vertex degrees of the remaining two vertices
+#! of the butterfly. The integer <E>number</E> counts the number of
+#! butterflies whose vertex degrees match <E>list</E>.
+#!
+#! The different lists in <E>degreeList</E> are always sorted but may
+#! contain duplicates.
+#!
+#! As an example, consider the double-5-gon:
+#! <Alt Only="TikZ">
+#!      \input{Image_Double5gon.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> s:=AllSimplicialSpheres(10)[1];
+#! simplicial surface (7 vertices, 15 edges, and 10 faces)
+#! gap> ButterflyCounter(s);
+#! [ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list of pairs
+#! @Arguments surface
+DeclareAttribute( "ButterflyCounter", IsSimplicialSurface);
+#! @EndGroup
+
+#! @BeginGroup UmbrellaCounter
+#! @Description
+#! Return the <E>umbrella counter</E> of the given simplicial surface.
+#! The umbrella counter is a list of pairs <E>[degreeLlist, number]</E>,
+#! where <E>number</E> counts the number of umbrellas whose vertex degrees
+#! of vertices contained at the boundary of the umbrella match
+#! <E>degreeList</E>, i.e. for every vertex contained in the boundary
+#! of an umbrella there is exactly one entry of <E>degreeList</E> such that
+#! the vertex is incident to this number of faces.
+
+#! The different lists in <E>degreeList</E> are always sorted but may
+#! contain duplicates.
+#!
+#! As an example, consider the double-6-gon:
+#! <Alt Only="TikZ">
+#!      \input{Image_Double6gon.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> s:=AllSimplicialSpheres(12)[1];
+#! simplicial surface (8 vertices, 18 edges, and 12 faces)
+#! gap> UmbrellaCounter(s);
+#! [ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list of pairs
+#! @Arguments surface
+DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface);
+#! @EndGroup
+
+#! @BeginGroup ThreeFaceCounter
+#! @Description
+#! Return the <E>three-face counter</E> of the given simplicial surface.
+#! The three-face counter is a list of pairs <E>[degreeLlist, number]</E>,
+#! <E>degreeList</E> is a list of pairs <E>[deg,degreeList1,degreeList2]</E>.
+#! Assume that the vertices <E>v1,v2,v3</E> are all incident to the same
+#! face and there exist exactly two vertices <E>v4,v5</E> so that <E>v4</E>
+#! resp. <E>v5</E> is the remaining vertex of the butterfly induced by
+#! the edge incident to the vertices <E>v1</E> and <E>v2</E> resp.<E>v1</E>
+#! and <E>v3</E>. 
+#! So <E>deg</E> denotes the vertex degree of the vertex <E>v1</E>. The
+#! first resp. second entry of <E>degreeList1</E> is the vertex degree of
+#! <E>v2</E> resp <E>v3</E>. And the first resp. second 
+#! entry of <E>degreeList2</E> is the vertex degree of <E>v4</E> resp.
+#! <E>v5</E>. The integer <E>number</E> counts the number of adjacent
+#! three-faces whose vertex degrees match <E>degreeList</E>.
+
+#! The different lists in <E>degreeList</E> are not sorted but may
+#! contain duplicates.
+#!
+#! As an example, consider the double-6-gon:
+#! <Alt Only="TikZ">                                            
+#!      \input{Image_Double6gon.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> s:=AllSimplicialSpheres(12)[1];
+#! simplicial surface (8 vertices, 18 edges, and 12 faces)
+#! gap> UmbrellaCounter(s);
+#! [ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list of pairs
+#! @Arguments surface
+DeclareAttribute( "ThreeFaceCounter", IsSimplicialSurface);
+#! @EndGroup
 
 #! @Section Types of faces
 #! @SectionLabel Properties_FaceTypes
