@@ -353,7 +353,7 @@ DeclareAttribute( "EdgeCounter", IsTwistedPolygonalComplex );
 #! @EndExampleSession
 #!
 #! @Returns a list of pairs
-#! @Arguments surface
+#! @Arguments complex
 DeclareAttribute( "FaceCounter", IsTwistedPolygonalComplex );
 #! @EndGroup
 
