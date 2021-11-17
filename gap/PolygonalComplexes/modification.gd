@@ -1124,6 +1124,51 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 
 
+#! @BeginGroup EdgeTurn
+#! @Description
+#! Given a simplicial surface and an inner edge contained in the surface, one
+#! can construct a new surface by manipulating the inner edge. If <K>edge</K>
+#! is an inner edge, it gives rise to a butterfly (e.g. if the surface is
+#! vertex faithful) and thus a new surface can be created by turning
+#! <K>edge</K>. This results in replacing <K>edge</K> by the edge
+#! <K>newedge</K> which is connecting the other two vertices of the butterfly.
+#! So it has the same number of faces, edges and vertices, but the vertex
+#! degrees in four positions will change by +-1 i.e. the vertex degrees of
+#! the vertices incident to <K>edge</K> decrease and the degrees of the
+#! vertices incident to <K>newedge</K> increase by 1.
+#! For example, consider the octahedron:
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#! Turning the edge 1 results in
+#! @BeginExampleSession
+#! gap> surf:=EdgeTurn(Octahedron(),1);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> VerticesOfEdges(surf);
+#! [ [ 3, 5 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 5 ], [ 2, 6 ], [ 3, 4 ],
+#! [ 3, 6 ], [ 4, 5 ], [ 4, 6 ], [ 5, 6 ] ]
+#! gap> EdgesOfFaces(surf);
+#! [ [ 1, 2, 4 ], [ 6, 7, 12 ], [ 1, 5, 6 ], [ 5, 7, 9 ], [ 3, 4, 10 ], [ 8, 9, 11 ],
+#! [ 2, 3, 8 ], [ 10, 11, 12 ] ]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_ETOctahedron.tex}
+#! </Alt>
+#!
+#! The same process can also be done by relabelling the turned edge.
+#! @BeginExampleSession
+#! gap> EdgeTurn(Octahedron(),1,15);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> Edges(last);
+#! [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15 ]
+#! @EndExampleSession
+
+#! @Returns a simplicial surface or <K>fail</K>
+#! @Arguments surface,edge [,newedge]
+DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt,IsPosInt] );
+#! @EndGroup
+
+
 #TODO maybe move into chapter ExampleApplications?
 #! @Section Example: Cut and Mend
 #! @SectionLabel Modification_CutMend
@@ -1603,40 +1648,6 @@ DeclareOperation( "SplitMend", [IsPolygonalComplex, IsList] );
 #! @Returns a set of vertex-edge-flag pairs
 #! @Arguments complex
 DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
-#! @EndGroup
-
-#! @BeginGroup EdgeTurn
-#! @Description
-#! Given a simplicial surface and an inner edge contained in the surface, one
-#! can construct a new surface by manipulating the inner edge.
-#! If the inner edge <K>e</K> gives rise to a butterfly (e.g. if the surface is
-#! vertex faithful), a new surface can be created by turning the edge <K>e</K>.
-#! This results in replacing <K>e</K> by a new edge <K>e’</K> connecting the other two
-#! vertices of the butterfly. So it has the same number of faces, edges and
-#! vertices, but the vertex degrees in four positions will change by +-1 i.e.
-#! the vertex degrees of the vertices incidient to <K>e</K> decrease and the degrees
-#! of the vertices incident to <K>e’</K> increase by 1.
-#! For example, consider the octahedron:
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Octahedron_constructor.tex}
-#! </Alt>
-#! Turning the edge 1 results in
-#! @BeginExampleSession
-#! gap> surf:=EdgeTurn(Octahedron(),1);
-#! simplicial surface (6 vertices, 12 edges, and 8 faces)
-#! gap> VerticesOfEdges(surf);
-#! [ [ 3, 5 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 5 ], [ 2, 6 ], [ 3, 4 ],
-#! [ 3, 6 ], [ 4, 5 ], [ 4, 6 ], [ 5, 6 ] ]
-#! gap> EdgesOfFaces(surf);
-#! [ [ 1, 2, 4 ], [ 6, 7, 12 ], [ 1, 5, 6 ], [ 5, 7, 9 ], [ 3, 4, 10 ], [ 8, 9, 11 ],
-#! [ 2, 3, 8 ], [ 10, 11, 12 ] ]
-#! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_ETOctahedron.tex}
-#! </Alt>
-#! @Returns a simplicial surface or <K>fail</K>
-#! @Arguments surface,
-DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 
 
