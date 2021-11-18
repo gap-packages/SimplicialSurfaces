@@ -381,7 +381,7 @@ DeclareAttribute( "FaceCounter", IsTwistedPolygonalComplex );
 #! </Alt>
 #! @ExampleSession
 #! gap> [[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],
-#! > [2,4,6],[3,5,7],[3,6,7]];
+#! > [2,4,6],[3,5,7],[3,6,7]];;
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(last);
 #! simplicial surface (7 vertices, 15 edges, and 10 faces)
 #! gap> ButterflyCounter(s);
@@ -411,7 +411,7 @@ DeclareAttribute( "ButterflyCounter", IsSimplicialSurface);
 #! </Alt>
 #! @ExampleSession
 #! gap> [[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
-#! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];
+#! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(last);
 #! simplicial surface (8 vertices, 18 edges, and 12 faces)
 #! gap> UmbrellaCounter(s);
@@ -453,7 +453,7 @@ DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface);
 #! </Alt>
 #! @ExampleSession
 #! gap> [[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
-#! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];
+#! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(last);
 #! simplicial surface (8 vertices, 18 edges, and 12 faces)
 #! gap> ThreeFaceCounter(s);
