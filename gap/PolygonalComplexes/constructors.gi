@@ -1024,7 +1024,7 @@ end);
 
 #############################################################################
 ##
-#F  NormedUmbrellaDescriptor . . . normed umbrella descriptor of a surface
+#F  NormedUmbrellaDescriptorOfSurface . . . normed umbrella descriptor of a surface
 ##
 ##
 ##  <udesc> is a list as returned by the function UmbrellaDescriptorOfSurface.
