@@ -222,7 +222,7 @@ InstallMethod( FaceCounter, "for a twisted polygonal complex",
 InstallMethod( ButterflyCounter, "for a simplicial surface",
     [IsSimplicialSurface],
     function(surface)
-	local e,temp1,temp2,counter,g,VerticesOfOrthogonalEdge;
+	local e,temp2,counter,g,VerticesOfOrthogonalEdge,voe1,voe2,degOfVert1,degOfVert2;
 
         VerticesOfOrthogonalEdge:=function(S,e)
             local temp;
@@ -232,18 +232,11 @@ InstallMethod( ButterflyCounter, "for a simplicial surface",
 	end;
 	counter:=[];
 	for e in InnerEdges(surface) do 
-		temp1:=VerticesOfEdge(surface,e);
-		temp1:=SortedList(List(temp1,g->FaceDegreeOfVertex(surface,g)));
-		if not 2 in temp1 then 
-			temp2:=VerticesOfOrthogonalEdge(surface,e);
-			temp2:=SortedList(List(temp2,g->FaceDegreeOfVertex(surface,g)));
-		else
-			temp2:=FacesOfEdge(surface,e)[1];
-			temp2:=VerticesOfFace(surface,temp2);
-			temp2:=Filtered(temp2,g-> not g in VerticesOfEdge(surface,g));
-			temp2:=SortedList(List(temp2,g->FaceDegreeOfVertex(surface,g)));
-		fi;			
-		Add(counter,[temp1,temp2]);
+		voe1:=VerticesOfEdge(surface,e);
+		degOfVert1:=SortedList(List(voe1,g->FaceDegreeOfVertex(surface,g)));
+		voe2:=VerticesOfOrthogonalEdge(surface,e);
+		degOfVert2:=SortedList(List(voe2,g->FaceDegreeOfVertex(surface,g)));
+		Add(counter,[degOfVert1,degOfVert2]);
 	od;
 	return Set(Collected(counter));
 end
