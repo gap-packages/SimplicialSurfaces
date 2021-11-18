@@ -460,7 +460,7 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 #######################################
 ##
-##  EdgeFacePaths
+## UmbreallaDescriptors 
 ##
 
 
@@ -493,6 +493,108 @@ InstallMethod( UmbrellaDescriptorOfSurface,
         return umbdesc;
 end);
 
+
+###
+###
+## Code for umbrealls
+##
+## given one umbrella <umbrella> and a face <face> return the neighbours 
+## of <face> in <umbrella> as a set
+##
+BindGlobal( "__SIMPLICIAL_UmbrellaAdjacentFaces",
+    function( umbrella, face )
+            local i, neigh;
+
+            if IsPerm(umbrella) then
+                neigh := [];
+                i := face^umbrella;
+                if i <> face then
+                    Add(neigh, i);
+                fi;
+                i  := face^(umbrella^-1);
+                if i <> face then
+                    Add(neigh, i);
+                fi;
+                return Set(neigh);
+            else
+
+                i := Positions( umbrella, face);
+                # <face> is only allowed to occur once
+                if Length(i) > 1 then Error(" face occurs too often in umbrella"); return false; fi;
+                # <face> is not in the umbrella
+                if Length(i) = 0 then return Set([]); fi;
+                # if <face> is the only face there are no neighbours
+                if Length(umbrella)=1 then return Set([]); fi;
+                i := i[1]; # is the position of <face> in umbrella 
+
+                # if <face> is a boundary face there is exactly one neighbour
+                if i = 1 then return Set([umbrella[2]]); fi;
+                if i = Length(umbrella) then return Set([umbrella[Length(umbrella)-1]]); fi;
+
+                # if <face> is not a boundary face there is are two neighbours
+                return Set([umbrella[i-1],umbrella[i+1]]);
+             fi;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_FacesOfUmbrellaDescriptor",
+    function( udesc )
+        local faces, v;
+
+        faces := Set([]);
+        # the entries in the lists in <udesc> are the faces
+        # test that the umbrella descriptors are either single
+        # cycles or lists of length > 0 of pairwise different entries
+        # and find all faces
+        for v in udesc do
+            if IsPerm(v) then
+                if Length(CycleLengths(v,MovedPoints(v)))<>1 then
+                    # Umbrella descriptors consist of single cycles ...
+                    Error("Input is not an umbrella descriptor of a surface");
+                    return false;
+                fi;
+                faces := Union(faces,MovedPoints(v));
+            elif  IsList(v) and Length(v)<> 0  and
+                # .. or non-empty lists of pairwise different elements. 
+                Length(v) = Length(Set(v)) then
+                faces := Union(faces,Set(v));
+            else
+                Error("Input is not an umbrella descriptor of a surface");
+                return false;
+            fi;
+        od;
+ 
+       return faces;	
+
+   end
+);
+
+##
+## A test whether an umbrella descriptor is valid. It checks that
+## each face occurs at most once in a single umbrella and that 
+## it has at most 3 neighbours in the umbrella descriptor
+##
+BindGlobal( "__SIMPLICIAL_IsValidUmbrellaDescriptor",
+    function( udesc )
+        local f, u, faces, neighs, newn;
+
+	faces := __SIMPLICIAL_FacesOfUmbrellaDescriptor(udesc);
+	if faces = false then return false; fi;
+
+	for f in faces do
+            neighs := Set([]);
+            for u in udesc do
+                newn := __SIMPLICIAL_UmbrellaAdjacentFaces(u,f);
+                if newn = false then return false; fi;
+                neighs := Union(neighs, newn );
+	    od;
+            if Length(neighs) > 3 then return false; fi;
+        od;
+	
+        return true;
+
+    end
+);
 
 #############################################################################
 ##
@@ -837,29 +939,8 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
 
         end;
 
-
-        faces := Set([]);
-        # the entries in the lists in <udesc> are the faces
-        # test that the umbrella descriptors are either single
-        # cycles or lists of length > 0 of pairwise different entries
-        # and find all faces
-        for v in udesc do
-            if IsPerm(v) then 
-                if Length(CycleLengths(v,MovedPoints(v)))<>1 then 
-                    # Umbrella descriptors consist of single cycles ...
-                    Error("Input is not an umbrella descriptor of a surface");
-                    return false;
-                fi;
-                faces := Union(faces,Set(ListFromCycle(v)));
-            elif  IsList(v) and Length(v)<> 0  and 
-                # .. or non-empty lists of pairwise different elements. 
-                Length(v) = Length(Set(v)) then
-                faces := Union(faces,Set(v));
-            else
-                Error("Input is not an umbrella descriptor of a surface");
-                return false;
-            fi;
-        od;
+        faces := __SIMPLICIAL_FacesOfUmbrellaDescriptor(udesc);
+        if faces = false then return false; fi;
 
         # the vertices correspond to the umbrellas
         vertices := []; v := 1;
@@ -941,8 +1022,261 @@ end);
         
 
 
+#############################################################################
 ##
-##  End edgeFacePaths
+#F  NormedUmbrellaDescriptor . . . normed umbrella descriptor of a surface
+##
+##
+##  <udesc> is a list as returned by the function UmbrellaDescriptorOfSurface.
+##  <face> is a face in the surface, the optional third argument <neighs> are
+##  neighbouring faces of <face>.
+##
+__SIMPLICIAL_NormedUmbrellaDescriptor := function( ud, face, neigh)
+
+        local faces, pos, newud, neighs, udlist, onface, orign,
+              i, j, k, UDContainingF, pt, u, AddN, fn, l, o;
+
+        fn := "NormedUmbrellaDescriptor";
+    
+        # Data structures: 
+        #
+        # a) A list <pos> with the new ordering of the faces, that
+        #    is the face in pos[i] has new number i. Initially:
+        #    pos := [face, neigh[1], neigh[2], neigh[3]];
+        # b) udlist is a list of umbrella descriptors in the old
+        #    numbering that still need to be renumbered
+        # c) newud a list of already renumbered umbrellas
+
+
+
+        # add a neighbour pair in a sorted manner
+        # l is a list of length 2
+        AddN := function(neighs,l)
+                if Position(pos,l[1]) < Position(pos,l[2]) then
+		            Add(neighs, l );
+                else 
+		            Add(neighs,[l[2],l[1]]);
+                fi;
+        end;
+
+        # Find all umbrellas in udlist on face <face>
+        # organise the umbrellas in such a way that the
+        # neighbour pairs of faces are increasing
+        UDContainingF := function( udlist, face)
+		    local newud, u, neighs, cmp, perm, l;
+
+                # we can compare two neighbour pairs 
+                # by replacing them with their new numbers
+                # and comparing these lexicographically
+                cmp := function( n1, n2 )
+
+                    # this should also work with entries fail
+                    n1 := Set([ Position(pos,n1[1]), Position(pos,n1[2])]);
+                    n2 := Set([ Position(pos,n2[1]), Position(pos,n2[2])]);
+			        return n1 < n2;
+                end;
+                        
+            newud := [];
+            neighs := []; # A list of neighbour pairs
+		    for u in udlist do
+		        if IsPerm(u) and face^u <> face then
+		            Add(newud, u);
+                    AddN(neighs, [face^u, face^(u^-1)]);
+                elif IsList(u) and face in u then
+			        Add(newud, u);
+                    l := Length(u);
+                    if l = 1 then
+                        # <face> has no neighbours
+                        Add(neighs, [-1,-1]);
+                    elif u[1] = face then
+                        # <face> has only one neighbour
+                        Add(neighs, [u[2],-1]);
+                    elif u[l] = face then
+                        # <face> has only one neighbour
+                        Add(neighs, [u[l-1],-1]);
+                    else
+                        # <face> has two neighbours
+                        i := Position(u,face);
+                        AddN(neighs, [u[i-1],u[i]]);
+                    fi;
+                fi;
+            od;
+
+            if Length(newud) <= 1 then
+			    return [newud,neighs];
+            fi;
+
+            # sort the list newud (which has length 3), so that the 
+            # umbrella descriptor stored in position i corresponds 
+            # to the one containing the i-th neighbour pair in neighs.
+		    perm := Sortex(neighs,cmp)^-1;
+            newud := List([1..Length(newud)], i-> newud[i^perm]);
+		    return [newud,neighs];	
+        end;
+
+
+        # the faces of the surface are the moved points of <ud>
+        faces := Set([]);
+        for u in ud do
+            if IsPerm(u) then
+                faces := Union(faces, MovedPoints(u) );
+            else
+                faces := Union(faces,u);
+            fi;
+        od;
+
+        # check if the input is valid. 
+        if not __SIMPLICIAL_IsValidUmbrellaDescriptor(ud) then
+            ErrorNoReturn(fn, " umbrella descriptor not a valid descriptor" );
+        fi;
+        # <face> must be one of the faces and the entries in <neigh>
+        # as well and they must be  neighbours of <face>
+        if not face in faces then
+	        ErrorNoReturn(fn, ": face must be a face in the descriptor");
+        fi;
+        # the face in pos[i] has new number i
+        pos := [face];
+        onface :=UDContainingF(ud, face);
+        orign := Set([]);
+        for u in onface[1] do
+            orign := Union(orign,__SIMPLICIAL_UmbrellaAdjacentFaces(u,face));
+        od;
+        if Length(neigh) > 3 then 
+          ErrorNoReturn(fn," ",neigh," more than 3 neighbours of ", face);
+        fi;
+        for i in [ 1..Length(neigh) ] do 
+            if not neigh[i] in faces or not neigh[i] in orign then
+		        ErrorNoReturn(fn," ",neigh[i]," must be a neighbour of ",face);
+		    fi;
+            pos[i+1] := neigh[i];
+        od;
+        
+        newud := [];
+
+        # udlist stores all the umbrella descriptors
+        # still to renumber
+        udlist := ShallowCopy(ud);
+
+        # Deal with the face in position i
+        i := 1;
+        while i <= Length(pos) do
+            face := pos[i];
+	        onface := UDContainingF(udlist, face);
+            # onface[1] are up to  three umbrella descriptors containing 
+            # <face> in increasing order and
+            # onface[2] is a list containing at most three neighbour pairs
+            # remove the three descriptors on <face> from the list
+            # of descriptors still to be renumbered
+            udlist := Difference(udlist, onface[1]);
+            for j in [1..Length(onface[1])] do
+                # deal with the j-th ud 
+                u := onface[1][j];
+                neighs := onface[2][j];
+                if IsPerm(u) then
+                    # ensure we walk around the correct way.
+                    # (1,2, ..., 3)
+                    if face^u in pos and face^(u^-1) in pos and
+                        Position(pos,face^(u^-1))<Position(pos,face^u) then
+                        # e.g. u=(1,3,....,2) for pos=[1,2,3] and face=1
+                        u := u^-1;
+                    elif not face^u  in pos and face^(u^-1) in pos then
+                        # e.g. u=(1,6,....,2) for pos=[1,2,3] and face=1
+                        u := u^-1; 
+                    fi;
+                    pt := face^u;
+                    # skip over points already numbered
+                    k := 1; o := Order(u);
+                    while k <= o and pt in pos do 
+                        pt := pt^u; 
+                        k := k + 1;
+                    od;
+
+                    # now rename the points in this cycle.
+                    while not pt in pos do
+                        Add(pos,pt);
+                        pt := pt^u;
+                    od;
+                    Add(newud, u);
+                elif IsList(u) then
+                    k := Position(u,face);
+                    l := Length(u);
+                    if k > 1 and k < l then
+                        if Position(pos,u[k-1]) > Position(pos,u[k+1]) then
+                           # left neighbour is bigger than right neighbour
+                           # so we have to reverse the entries in u
+                           u := Reversed(u);
+                        fi;
+                    elif k = l then
+                        u := Reversed(u);
+                    fi;
+                    if k < l then
+                       pt := face;
+                       # skip over points already numbered
+                       while k < l and pt in pos do 
+                           k := k + 1;
+                           pt := u[k]; 
+                       od;
+                       # now rename the points in this cycle.
+                       while k < l  and not pt in pos do
+                           Add(pos,pt);
+                           k := k + 1;
+                           pt := u[k]; 
+                       od;
+                    fi;
+                    Add(newud, u);
+                fi; # IsList(u)
+                 
+            od; # for-loop
+            
+            i := i + 1;
+        od;
+
+        # fill up pos
+        for face in [1..Maximum(faces)] do
+            if not face in pos then
+                Add(pos,face);
+            fi;
+        od;
+        pos := PermList(pos);
+        if pos = fail then
+            ErrorNoReturn(fn,": Not a valid umbrella descriptor");
+        fi;
+        pos := pos^-1;
+
+        # now apply the permutation  pos to newud
+        ud := newud;
+        newud := [];
+        for i in [ 1 .. Length(ud) ] do
+            if not IsBound(ud[i]) then continue; fi;
+            if IsPerm(ud[i]) then
+               newud[i] := ud[i]^pos;
+            elif IsList(ud[i]) then
+               newud[i] := List( ud[i], j-> j^pos );
+            else
+                ErrorNoReturn(fn,": Not a valid umbrella descriptor");
+            fi; 
+        od;
+
+        return newud;
+end;
+
+
+InstallMethod( NormedUmbrellaDescriptor,
+    "for a list, a positive integer and a list",  [IsList,IsPosInt,IsList], function(ud,face,neigh) 
+    return __SIMPLICIAL_NormedUmbrellaDescriptor(ud, face, neigh);
+end
+);
+
+
+
+InstallMethod( NormedUmbrellaDescriptor,
+    "for a list, a positive integer",  [IsList,IsPosInt], function(ud,face) 
+    return __SIMPLICIAL_NormedUmbrellaDescriptor(ud, face, []);
+end
+);
+
+##
+##  End UmbrellaDescriptors
 ##
 #######################################
 

@@ -1005,3 +1005,53 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! @Arguments surface 
 DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #! @EndGroup
+#!
+#!
+#! @BeginChunk Documentation_NormedUmbrellaDescriptor
+#!  A normed umbrella descriptor is a special umbrella descriptor of a
+#!  surface. A starting face and its  neighbours are numbered consecutively
+#!  starting from 1, 2, .. and then other faces are numbered in such a
+#!  way that numbers are as consecutive as possibe.
+#!  This function takes as input an umbrella descriptor of a surface, a
+#!  face of the surface and a list <neigh> of the three neighbours of
+#!  <face>. It returns an umbrella descripter of an isomorphic surface
+#!  by relabelling of the faces of the original surface  such that the
+#!  face with number 1 is <face> and the faces 2, 3, and 4 are the three
+#!  neighbours in <neigh> in that order. It also returns a permutation
+#!  of the faces which achieves this reordering.
+#! @EndChunk 
+#!
+#! @BeginGroup
+#! @Description
+#!  Let <A>surf</A> be a simplicial surface. This method returns a list 
+#!  <A>umbdesc</A> of length equal to the number of vertices of <A>surf</A>. 
+#!  The list <A>umbdesc</A> is an umbrella descriptor of <A>surf</A>, where
+#! @InsertChunk Documentation_UmbrellaDescriptor
+#!
+#! As an example consider the following net of a simplicial surface.
+#! Note that the surface has boundary edges. Moreover, the vertices 
+#! 1,2,3, and 4 are inner vertices, while 5,6,7,8,9, and 10 are not.
+#! Accordingly, the umbrella descriptor of the surface will consist of
+#! cyclic permutations for the vertices 1,2,3, and 4 and of lists for
+#! the remaining vertices.
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond,scale=1.5]
+#!          \input{Image_Constructor_Umbrella.tex}
+#!      \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 2, 5 ], [ 1, 3, 5 ],
+#! >      [ 1, 3, 6 ], [ 1, 4, 6 ], [ 1, 4, 7 ], [ 1, 2, 7 ], [ 2, 7, 8 ], 
+#! >      [ 2, 5, 8 ], [ 3, 5, 9 ], [ 3, 6, 9 ], [ 4, 6, 10 ], [ 4, 7, 10 ] ]);;
+#! gap> UmbrellaDescriptorOfSurface(surf);
+#! [ (1,2,3,4,5,6), (1,8,7,6), (2,9,10,3), (4,11,12,5), [ 8, 1, 2, 9 ],
+#!  [ 10, 3, 4, 11 ], [ 7, 6, 5, 12 ], [ 8, 7 ], [ 9, 10 ], [ 11, 12 ] ]
+#! @EndExampleSession
+#! @Returns a list 
+#! @Arguments umbrelladescriptor, face 
+DeclareOperation( "NormedUmbrellaDescriptorOfSurface",[IsList,IsPosInt]);
+#! @Arguments umbrelladescriptor, face, neighbours
+DeclareOperation( "NormedUmbrellaDescriptorOfSurface",[IsList,IsPosInt,IsList]);
+#! @EndGroup
+
+
