@@ -1135,7 +1135,11 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! So it has the same number of faces, edges and vertices, but the vertex
 #! degrees in four positions will change by +-1 i.e. the vertex degrees of
 #! the vertices incident to <K>edge</K> decrease and the degrees of the
-#! vertices incident to <K>newedge</K> increase by 1.
+#! vertices incident to <K>newedge</K> increase by 1. 
+#! If the function is called without the argument <K>newedge</K>, the
+#! function simply manipulates the incidence structure of <K>edge</K> 
+#! without relabelling this edge. So after this modification on the simplicial
+#! surface <K>surface</K> the set of edges remains the same.
 #! For example, consider the octahedron:
 #! <Alt Only="TikZ">
 #!   \input{_TIKZ_Octahedron_constructor.tex}
