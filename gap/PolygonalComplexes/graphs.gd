@@ -812,8 +812,9 @@ DeclareAttribute( "EdgeGrapeGraph", IsPolygonalComplex );
 DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! @EndGroup
 
-#! @BeginGroup
+#! @BeginGroup FaceGraph
 #! @Description
+# TODO As soon as there are more methods to face graph, it will be useful to have an own chapter for facegraphs
 #! Return the face graph of a given polygonal surface. The vertices of the
 #! face graph are the faces of <A>surface</A> and for every edge in
 #! <A>surface</A> there is a corresponding edge in the face graph.
@@ -850,5 +851,49 @@ DeclareAttribute( "FaceDigraphsGraph", IsPolygonalSurface );
 DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! @EndGroup
 
-
-
+# TODO If there are more methods which construct surfaces with a given property, it is useful to have a method AllSimplicialSurfacesByFacesOfEdges which use this method.
+#! @BeginGroup AllSimplicialSurfacesOfGraph 
+#! @Description 
+#! Return all (vertex-faithful) simplicial surfaces, that have <K>digraph</K> as face graph. 
+#! If <K>digraph</K> is not a face graph of a (vertex-faithful) simplicial surface, the empty list is returned.
+#! The parameter <K>vertexfaithful</K> indicates whether only vertex-faithful simplicial surfaces are searched. 
+#! The parameter <K>vertexfaithful</K> is by default false.
+#! <K>digraph</K> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial 
+#! surface are certain cycles in the face graph. The method search possible combinations of cycles, 
+#! with the cycles forming the corners of a simplicial surface.
+#!
+#!
+#! For example, consider the complete graph on four nodes:
+#! <Alt Only="TikZ">
+#!    \input{Image_FaceGraphTetra.tex}
+#! </Alt>
+#!
+#! @BeginExampleSession
+#! gap> digraph:=CompleteDigraph(4);;
+#! gap> tet1 := AllSimplicialSurfacesOfGraph(digraph,true);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+#! gap> IsIsomorphic(tet1[1],Tetrahedron());
+#! true
+#! @EndExampleSession
+#!
+#! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
+#! But there is another simplicial surface, which is not vertex-faithful:
+#! @BeginExampleSession
+#! gap> list := AllSimplicialSurfacesOfGraph(digraph,false);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+#! simplicial surface (3 vertices, 6 edges, and 4 faces)]
+#! gap> tet2 := Filtered(list,IsVertexFaithful);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+#! gap> IsIsomorphic(tet2[1],Tetrahedron());
+#! true
+#! @EndExampleSession
+#!
+#! Since the method takes a long time for a graph with many cycles, you should only call the method
+#! for digraphs with twenty-two or less nodes for <K>vertexfaithful</K> true. 
+#! For <K>vertexfaithful</K> false you should only call the function for twelve or less nodes. 
+#! In general, it is much faster to only look for vertex-faithful simplicial surfaces.
+#! 
+#! @Arguments digraph[, vertexfaithful]
+#! @Returns a list
+DeclareOperation( "AllSimplicialSurfacesOfGraph", [IsDigraph, IsBool]);
+#! @EndGroup
