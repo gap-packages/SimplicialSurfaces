@@ -57,6 +57,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_EdgeNautyGraph();
     __SIMPLICIAL_Test_FaceDigraphsGraph();
     __SIMPLICIAL_Test_FaceNautyGraph();
+    __SIMPLICIAL_Test_AllSimplicialSurfacesOfGraph();
 
     __SIMPLICIAL_Test_FaceTwoColouring();
 

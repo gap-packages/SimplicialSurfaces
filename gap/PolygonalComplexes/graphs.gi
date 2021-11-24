@@ -720,22 +720,8 @@ end);
 BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 	function(digraph)
 
-	local ListFromCycle,AdjacencyMatrixFromList,CycleOnEdge,CycleBasisOfFaceGraph,IsAdjacencyMatrixOfCycle, NodesOfCycle,
+	local AdjacencyMatrixFromList,CycleOnEdge,CycleBasisOfFaceGraph, NodesOfCycle,
 	XORAdjacencyMatrices,MultipleCyclesInMatrix,cyclebasis, allcycles, nullmat, mat, i, k, pos, neighs,c,cycle;
-
-	ListFromCycle := function (c)
-			local l, p, s;
-
-			if IsOne(c) then return []; fi;
-			s := Minimum( MovedPoints(c) );
-			l := [s]; p := s^c;
-			while p <> s do
-				Add(l,p);
-				p := p^c;
-			od;
-			return l;
-	end;;
-
 
 
 	# We want to store graphs as adjacency matrices. This function
@@ -821,38 +807,6 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 		
 
 		return base;
-	end;;
-
-
-	# We assume that neighs is a list containing in position i
-	# all neighbours of i in the digraph 
-	IsAdjacencyMatrixOfCycle := function(mat, neighs)
-
-		local verts, done, prev, next, i, j, k;
-
-		verts := Set([]);
-		for j in [1..Length(mat)] do 
-		if SizeBlist(mat[j])>0 then
-			AddSet(verts,j);
-			verts := Union(verts,ListBlist([1..j],mat[j]));
-		fi;
-		od;
-		done := List(verts,i->false);
-		j := 1; done[1] := true;
-		prev := Set([]);
-		for k in [ 1 .. Length(verts) ] do
-			next := Intersection( neighs[verts[j]], verts );
-			next := Difference(next,prev);
-			if Size(next)=0 then return false; fi; 
-			i := j;
-			j := Position(verts,next[1]);
-			Print( verts[i], "->", verts[j], "\n");
-			done[j] := true;
-			prev := Set([verts[i]]);
-		 od;
-		 if false in done then return false; fi;
-
-		 return true;
 	end;;
 
 	  
@@ -1157,7 +1111,6 @@ InstallMethod(AllSimplicialSurfacesOfGraph,"for a digraph and a Boolean",
 						if cyclesToUse[j[1]] and cyclesToUse[j[2]] and (not vertexFaithful or Possible(j[1],
 							ListBlist([1..Length(allCycles)],vertexCycleComb)) and Possible(j[2],ListBlist([1..Length(allCycles)],
 							vertexCycleComb))) then
-
 							edgesOfCycle:=Union(edgesOfCycles[j[1]],edgesOfCycles[j[2]]);						
 
 							# permissible stores if the current vertexCycleComb together with the new cycle is admissible. 

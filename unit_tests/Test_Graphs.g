@@ -54,6 +54,19 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 		Assert(0, Set(DigraphEdges(digButterfly))=Set(Filtered(Union(FacesOfEdges(butterfly),reversedButterfly),i->Length(i)=2)));
 	end);
 
+	BindGlobal( "__SIMPLICIAL_Test_AllSimplicialSurfacesOfGraph", function()
+		local dig, surface, list1, list2;
+		surface:=SimplicialSurfaceByVerticesInFaces([[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],[2,4,6],[3,5,7],[3,6,7]]);
+		dig:=FaceDigraphsGraph(surface);
+		list1:=AllSimplicialSurfacesOfGraph(dig,true);
+		Assert(0,Length(list1)=1);
+		Assert(0,IsIsomorphic(list1[1],surface));
+		
+		list2:=AllSimplicialSurfacesOfGraph(dig);
+		Assert(0, Filtered(list2,IsVertexFaithful)=list1);
+		Assert(0,Length(list2)=11);
+	end);
+
 fi;
 
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
