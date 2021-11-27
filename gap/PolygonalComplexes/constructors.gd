@@ -1016,33 +1016,46 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #!  A normed umbrella descriptor is a special umbrella descriptor of a
 #!  surface. An
 #! @InsertChunk Documentation_UmbrellaDescriptor
-#!  The normed umbrella descriptor of a given umbrella descriptor <A>udesc</A>
-#!  for the face <A>face</A> and list of neighbours <A>neigh</A> of <A>face</A>
-#!  is an umbrella descriptor <A>normedudesc</A> whose faces are renumbered
-#!  from the faces of <A>udesc</A> such that the face <A>face</A> has number 1,
-#!  the neigbours <A>neigh</A> of <A>face</A> have numbers 2, 3, .. and the  other 
-#!  faces are numbered in such a way that numbers are as consecutive as possibe.
-#!
-#!  This function takes as input an umbrella descriptor of a surface, a
-#!  face of the surface and a list <A>neigh</A> of the three neighbours of
-#!  <A>face</A>. It returns an umbrella descripter of an isomorphic surface
-#!  by relabelling of the faces of the original surface  such that the
-#!  face with number 1 is <A>face</A> and the faces 2, 3, and 4 are the three
-#!  neighbours in <A>neigh</A> in that order. It also returns a permutation
-#!  of the faces which achieves this reordering.
+#!  The normed umbrella descriptor of a given umbrella descriptor <A>umdesc</A>
+#!  for the face <A>face</A> and an optional list of neighbours <A>neigh</A> 
+#!  of <A>face</A>  is an umbrella descriptor <A>normedumdesc</A> for an 
+#!  isomorphic surface. This new surface is obtained from the original surface
+#!  described by <A>umdesc</A> by a renumbering <A>f</A> of the faces, where
+#!  <A>f</A> is a bijection from the faces of the original surface  to
+#!  [1,..,n], where <A>n</A> is the number of faces. This renumbering
+#!  is initialised follows:   <A>f(face) = 1</A>. The neighbours 
+#!  of <A>face</A> are assigned the numbers 2, 3, ... If the optional 
+#!  argument <A>neigh</A>  is present, it must be a subset of the neighbours
+#!  of <A>face</A>  and <A>f(neigh[i]) = i+1</A>  and <A>f(F)=infty</A> for
+#!  all other faces <A>F</A>. Next the umbrellas of the original surface 
+#!  are sorted  lexicographically, that is umbrella <A>u</A> is
+#!  less than umbrella <A>v</A> if image <A>f(u)</A>  lexicographically 
+#!  less that <A>f(v)</A>  as dihedral sequences. Each step takes the
+#!  lexicographically least umbrella <A>u</A> still containing a face <A>F</A>
+#!  for which <A>f(F)=infty</A> and renumbers each  such face in the umbrella
+#!  consecutively in the order in which they occur in  <A>u</A> with
+#!  numbers in [1,..,n] not yet used, that is <A>f(F)=j</A> for some <A>j</A> 
+#!  in [1,..,n]. 
 #!
 #!   Consider the surface on 10 faces consisting of exactly two inner vertices
 #!   of degree 5 and having vertex counter $v_2^6v_3^2v_5^2.$ Its umbrella
 #!   descripter is given in the example below. 
-#!   We rename the faces such that face 3 becomes face 1 and the
-#!   neighbours of 3, namely 2, 4, and 11 become faces 2, 3, and 4. The remaining
-#!   faces will be renumbered such that the umbrella path starting at new face 1
-#!   and traversing via the new face 2 to new face 3 traverses the faces consecutively in
-#!   increasing order. To achieve this, we rename faces 8, 6 and 10 on this
-#!   path to 5, 6, and 7. Next we renumber the faces in the umbrella path starting in
-#!   the new face 1, transversing via the new face 2 and ending in the new face 4 in
-#!   consecutively in increasing order. Thus we rename the faces 5, 11, and 7 to
-#!   8, 9, 10. This yields the normed umbrella descriptor.
+#!   We initialise renumbering of the faces such that <A>f(3)=1</A>  and the
+#!   neighbours of 3, namely 2, 4, and 11  such that <A>f(2)=2</A>,
+#!   <A>f(4)=3</A>  and <A>f(11)=4,</A> and <A>f(F) = infty</A> for the
+#!   faces <A>F</A> in [1,5,6,7,8,10]. The 
+#!   lexicographically least umbrella is the umbrella containing the faces
+#!   with new numbers 1, 2, and 3. This is the umbrella 
+#!   <A>u=(2,3,4,10,6,8)=(3,4,10,6,8,2)</A> as 
+#!   <A>f(u) = (1,2,infty,infty,infty,3)</A>. We rename the three face numbers
+#!   10, 6, 8 mapped to infty with the smallest consecutive numbers in 
+#!   [1..10] not yet used. Thus we set <A>f(10)=5</A>, <A>f(6)=6</A>, 
+#!   <A>f(8)=7</A>, that is we rename faces 8, 6 and 10 in this umbrella to 
+#!   5, 6, and 7. The lexicographically least umbrella whose image under 
+#!   <A>f</A> contains infty is <A>v = (1,5,2,3,11,7) = (3,2,5,1,7,11)</A> as
+#!   <A>f(v) = (1,2,infty,infty,infty,4)</A>.  Thus we renumber the faces 
+#!   5, 1, and 7 to  8, 9, 10. This defines <A>f</A> on all faces and  yields 
+#!   the normed umbrella descriptor:
 #!
 #! @BeginExampleSession
 #! gap>  ud := [ (1,5,2,3,11,7), (2,3,4,10,6,8),
