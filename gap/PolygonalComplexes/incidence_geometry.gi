@@ -586,8 +586,69 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     ["VerticesAttributeOfComplex", "EdgesOfVertices", "EdgesOfFaces", 
         "FacesOfEdges", "VerticesOfEdges", "RamifiedEdges"], ["IsPolygonalComplex"]);
 
+
+InstallMethod(StarNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+	function(surface, vertex)
+	
+		return Star(surface)[vertex];
+	
+end);
+
+InstallMethod(Star, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+	function(surface, vertex)
+	
+		__SIMPLICIAL_CheckVertex(surface,vertex, "Star");
+		return StarNC(surface,vertex);
+	
+end);
+
+InstallOtherMethod(Star, "for a polygonal surface", [IsPolygonalSurface],
+	function(surface)
+	
+		local vertex, list, faces;
+		list:=[];
+		for vertex in Vertices(surface) do
+			faces:=FacesOfVertex(surface,vertex);
+			Add(list, SubsurfaceByFaces(surface,faces));
+		od;
+		return list;
+	
+end);
+
+InstallMethod(LinkNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+	function(surface, vertex)
+	
+		return Link(surface)[vertex];
+	
+end);
+
+InstallMethod(Link, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+	function(surface, vertex)
+	
+		__SIMPLICIAL_CheckVertex(surface,vertex, "Link");
+		return LinkNC(surface,vertex);
+	
+end);
+
+InstallOtherMethod(Link, "for a polygonal surface", [IsPolygonalSurface],
+	function(surface)
+	
+		local vertex, list, path, faces, edges, face;
+		list:=[];
+		for vertex in Vertices(surface) do
+			path:=UmbrellaPathOfVertex(surface, vertex);
+			faces:=FacesAsList(path);
+			edges:=[];
+			for face in faces do
+				Add(edges,OppositeEdgeOfVertexInTriangle(surface, vertex, face));
+			od;
+			Add(list, VertexEdgePathByEdges(surface,edges));
+		od;
+		return list;
+	
+end);
 ##
-##          End of edge-face-paths
+##          End of Umbrella-paths around vertices 
 ##
 ##############################################################################
 

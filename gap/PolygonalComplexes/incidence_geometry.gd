@@ -646,7 +646,7 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
-#! @Section Circular path of edges and faces around a vertex
+#! @Section Circular path around a vertex
 #! @SectionLabel Access_OrderedVertexAccess
 #!
 ##
@@ -671,7 +671,7 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! <K>FacesOfVertex</K> (<Ref Subsect="FacesOfVertices"/>) were introduced. 
 #! They
 #! allow access to the edges and faces incident to a vertex but they don't
-#! give any information about the relationship between them
+#! give any information about the relationship between them.
 #!
 #!         For polygonal surfaces (described in section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
@@ -899,6 +899,78 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
         [ IsPolygonalComplex, IsPosInt ]);
 #! @EndGroup
 
+#! @BeginGroup Star
+#! @Description
+#! The method <K>Star</K>(<A>surface</A>, <A>vertex</A>) returns for <A>vertex</A> the subcomplex
+#! which is determined by the faces around <A>vertex</A>.
+#! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>surface</A>.
+#!
+#! The attribute <K>Star</K>(<A>surface</A>) collects all of those
+#! subcomplexes in a list that is indexed by the edge labels, i.e.
+#! <K>Star</K>(<A>surface</A>)[<A>vertex</A>] =
+#! <K>Star</K>(<A>surface</A>, <A>vertex</A>).
+#! All other positions of this list are not bound.
+#! 
+#! For example, consider the hexagon:
+#! <Alt Only="TikZ">
+#!   \input{Image_SplitExample.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> hex := SimplicialSurfaceByDownwardIncidence( 
+#! >    [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ], 
+#! >    [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;
+#! gap> star:=Star(hex,7);
+#! simplicial surface (7 vertices, 12 edges, and 6 faces)
+#! gap> IsIsomorphic(star,hex);
+#! true
+#! @EndExampleSession
+#! The star of vertex 7 is the same as the hexagon.
+#! 
+#! @Returns a list of subsurfaces
+#! @Arguments surface
+DeclareAttribute("Star", IsPolygonalSurface);
+#! @Returns a subsurface
+#! @Arguments surface, vertex
+DeclareOperation("Star",[IsPolygonalSurface,IsInt]);
+#! @Arguments surface, vertex
+DeclareOperation("StarNC",[IsPolygonalSurface,IsInt]);
+#! @EndGroup
+
+#! @BeginGroup Link
+#! @Description
+#! The method <K>Link</K>(<A>surface</A>, <A>vertex</A>) returns for <A>vertex</A> the vertex-edge-path 
+#! around the vertex which contains the edges not incident to <A>vertex</A>. 
+#! That means the vertex-edge-path is the boundary of the umbrella of <A>vertex</A>.
+#! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>surface</A>.
+#!
+#! The attribute <K>Link</K>(<A>surface</A>) collects all of those
+#! paths in a list that is indexed by the edge labels, i.e.
+#! <K>Link</K>(<A>surface</A>)[<A>vertex</A>] = 
+#! <K>Link</K>(<A>surface</A>, <A>vertex</A>).
+#! All other positions of this list are not bound.
+#!
+#! For example, consider the hexagon:
+#! <Alt Only="TikZ">
+#!   \input{Image_SplitExample.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> hex := SimplicialSurfaceByDownwardIncidence(
+#! >    [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ],
+#! >    [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;
+#! gap> Link(hex,7);
+#! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+#! @EndExampleSession
+#! The link of vertex 7 is the same as the boundary of the hexagon.
+#!
+#! @Returns a list of subsurfaces
+#! @Arguments surface
+DeclareAttribute("Link", IsPolygonalSurface);
+#! @Returns a subsurface
+#! @Arguments surface, vertex
+DeclareOperation("Link",[IsPolygonalSurface,IsInt]);
+#! @Arguments surface, vertex
+DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
+#! @EndGroup
 
 #! @Section Perimeter around holes in surfaces
 #! @SectionLabel Access_OrderedHoleAccess
