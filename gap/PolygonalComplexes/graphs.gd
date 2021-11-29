@@ -799,20 +799,32 @@ DeclareOperation( "OnEdgeFacePaths",
 #! edge graph are the vertices of <A>complex</A> and for every edge in
 #! <A>complex</A> there is a corresponding edge in the edge graph.
 #!
-#! TODO example
+#! Since the edges in Digraphs are directed but the face graph is undirected,
+#! each edge of the face graph is represented by two directed edges in the <K>Digraphs</K> package.
+#! 
+#! For example, consider the edge graph of the tetrahedron:
+#! @BeginExampleSession
+#! gap> digraph:=EdgeDigraphsGraph(Tetrahedron());
+#! <immutable digraph with 4 vertices, 12 edges>
+#! gap> DigraphEdges(digraph);
+#! [ [ 1, 2 ], [ 2, 1 ], [ 1, 3 ], [ 3, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 3 ], [ 3, 2 ], 
+#! [ 2, 4 ], [ 4, 2 ], [ 3, 4 ], [ 4, 3 ] ] 
+#! @EndExampleSession
+#! This is the edge graph of the tetrahedron with undirected edges:
+#! <Alt Only="TikZ">
+#!    \input{Image_FaceGraphTetra.tex}
+#! </Alt>
 #!
 #! @Arguments complex
-#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Returns a graph as defined in the package <K>Digraphs</K>/<K>GRAPE</K>/<K>NautyTracesInterface</K>
 DeclareAttribute( "EdgeDigraphsGraph", IsPolygonalComplex );
 #! @Arguments complex
-#! @Returns a graph as defined in the package <K>GRAPE</K>
 DeclareAttribute( "EdgeGrapeGraph", IsPolygonalComplex );
 #! @Arguments complex
-#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! @EndGroup
 
-#! @BeginGroup
+#! @BeginGroup FaceGraph
 #! @Description
 #! Return the face graph of a given polygonal surface. The vertices of the
 #! face graph are the faces of <A>surface</A> and for every edge in
@@ -843,10 +855,9 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! </Alt>
 #!
 #! @Arguments surface
-#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Returns a graph as defined in the package <K>Digraphs</K>/<K>NautyTracesInterface</K>
 DeclareAttribute( "FaceDigraphsGraph", IsPolygonalSurface );
 #! @Arguments surface
-#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! @EndGroup
 
