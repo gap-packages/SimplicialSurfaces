@@ -1116,3 +1116,40 @@ DeclareOperation( "NormedUmbrellaDescriptor",[IsList,IsPosInt,IsList]);
 #! @EndGroup
 
 
+#! @BeginGroup
+#! @Description
+#!  An
+#! @InsertChunk Documentation_UmbrellaDescriptor
+#!  Suppose that <A>umdesc</A> is a valid umbrella descriptor of a surface
+#!  <M>S</M>.  The degree sequence of <A>umdesc</A>
+#!  is a list <E>degseq</E>. If the <M>i</M>-th entry of <A>umdesc</A> is
+#!  bound, then this entry corresponds to a vertex of <M>S</M>  and 
+#!  the <M>i</M>-th entry of <A>degseq</A> is a list <M>[d,b]</M>, where
+#!  <M>d</M>  is the degree of the <M>i</M>-th vertex,  and the boolean
+#!  <M>b</M> is  true, if the <M>i</M>-th vertex is inner and false else.
+#!
+#! @BeginExampleSession
+#! gap> vf := [ [ 1, 3, 4 ], [ 1, 2, 4 ], [ 2, 4, 5 ], [ 2, 5, 6 ],
+#!> [ 1, 2, 6 ], [ 1, 6, 7 ], [ 1, 7, 8 ], [ 1, 3, 8 ], [ 3, 4, 9 ],
+#!> [ 4, 9, 10 ], [ 4, 5, 10 ], [ 5, 10, 11 ], [ 5, 6, 11 ], [ 6, 11, 12 ],
+#!> [ 6, 7, 12 ], [ 7, 12, 13 ], [ 7, 8, 13 ], [ 8, 13, 14 ], [ 3, 8, 14 ],
+#!> [ 3, 9, 14 ] ];;
+#! gap> surf := SimplicialSurfaceByVerticesInFaces(vf);
+#! simplicial surface (14 vertices, 33 edges, and 20 faces)
+#! gap> ud := UmbrellaDescriptorOfSurface(surf);
+#! [ (1,8,7,6,5,2), (2,3,4,5), (1,9,20,19,8), (1,9,10,11,3,2), (3,11,12,13,4), 
+#!   (4,13,14,15,6,5), (6,15,16,17,7), (7,17,18,19,8), [ 10, 9, 20 ], 
+#!   [ 10, 11, 12 ], [ 12, 13, 14 ], [ 14, 15, 16 ], [ 16, 17, 18 ], 
+#!   [ 20, 19, 18 ] ]
+#! gap> DegreeSequenceOfUmbrellaDescriptor(ud);
+#! [ [ 6, true ], [ 4, true ], [ 5, true ], [ 6, true ], [ 5, true ], 
+#!   [ 6, true ], [ 5, true ], [ 5, true ], [ 3, false ], [ 3, false ], 
+#!   [ 3, false ], [ 3, false ], [ 3, false ], [ 3, false ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list 
+#! @Arguments umbdesc
+DeclareOperation( "DegreeSequenceOfUmbrellaDescriptor",[IsList]);
+#! @EndGroup
+
+

@@ -496,7 +496,7 @@ end);
 
 ###
 ###
-## Code for umbrealls
+## Local Code for umbrealls
 ##
 ## given one umbrella <umbrella> and a face <face> return the neighbours 
 ## of <face> in <umbrella> as a set
@@ -516,11 +516,13 @@ BindGlobal( "__SIMPLICIAL_UmbrellaAdjacentFaces",
                     Add(neigh, i);
                 fi;
                 return Set(neigh);
-            else
 
+            elif IsList(umbrella) then
                 i := Positions( umbrella, face);
                 # <face> is only allowed to occur once
-                if Length(i) > 1 then Error(" face occurs too often in umbrella"); return false; fi;
+                if Length(i) > 1 then
+		    ErrorNoReturn(" face occurs too often in umbrella");
+		fi;
                 # <face> is not in the umbrella
                 if Length(i) = 0 then return Set([]); fi;
                 # if <face> is the only face there are no neighbours
@@ -529,14 +531,21 @@ BindGlobal( "__SIMPLICIAL_UmbrellaAdjacentFaces",
 
                 # if <face> is a boundary face there is exactly one neighbour
                 if i = 1 then return Set([umbrella[2]]); fi;
-                if i = Length(umbrella) then return Set([umbrella[Length(umbrella)-1]]); fi;
-
+                if i = Length(umbrella) then
+		    return Set([umbrella[Length(umbrella)-1]]);
+		fi;
                 # if <face> is not a boundary face there is are two neighbours
                 return Set([umbrella[i-1],umbrella[i+1]]);
-             fi;
+            else
+	        # some umbrella is neither a permutation nor a list
+	        return false;
+            fi;
     end
 );
 
+##
+## find all the faces of the surface described by the umbrella descriptor
+## 
 BindGlobal( "__SIMPLICIAL_FacesOfUmbrellaDescriptor",
     function( udesc )
         local faces, v;
@@ -549,9 +558,8 @@ BindGlobal( "__SIMPLICIAL_FacesOfUmbrellaDescriptor",
         for v in udesc do
             if IsPerm(v) then
                 if Length(CycleLengths(v,MovedPoints(v)))<>1 then
-                    # Umbrella descriptors consist of single cycles ...
-                    Error("Input is not an umbrella descriptor of a surface");
-                    return false;
+                  # Umbrella descriptors consist of single cycles ...
+                   return false;
                 fi;
                 faces := Union(faces,MovedPoints(v));
             elif  IsList(v) and Length(v)<> 0  and
@@ -559,8 +567,7 @@ BindGlobal( "__SIMPLICIAL_FacesOfUmbrellaDescriptor",
                 Length(v) = Length(Set(v)) then
                 faces := Union(faces,Set(v));
             else
-                Error("Input is not an umbrella descriptor of a surface");
-                return false;
+               return false;
             fi;
         od;
  
@@ -722,8 +729,7 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
                 return true;
             fi;
             if Length(deg1) = 2 then
-                Error("Found face with two vertices of degree 1");
-                return false;
+                ErrorNoReturn("Found face with two vertices of degree 1");
             fi;
 
 #            Info(InfoSimplicialSurface,5,"#I face with vertex of degree 1" );
@@ -784,8 +790,7 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
             # there is a half umbrella with boundary ... 
             if Length(vtx) <> 2  then 
                # ... but there should then be two 
-               Error("Found boundary face which is incorrect ");
-               return false;
+               ErrorNoReturn("Found boundary face which is incorrect ");
             fi;
 
             # now we check whether the neighbours of f in the two
@@ -825,8 +830,7 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
                 cycs := udesc[j]; 
                 if cycs = false or cycs <> (f,n1) then
                      # the dihedral cycle should contain f and the neighbour 
-                     Error("Found boundary face which is incorrect ");
-                     return false;
+                     ErrorNoReturn("Found boundary face which is incorrect ");
                 fi;
 #                Info(InfoSimplicialSurface,5,"#I Surface with boundary ear" );
                 AddSet( edges, [1,f] );
@@ -903,15 +907,13 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
             
             # the other umbrellas also have to contain neigh as a neighbour
             if  Set(common[1]) <> Set(common[2]) then
-                    Error("Found face with incorrect vertex of degree 2");
-                    return false;
+                ErrorNoReturn("Found face with incorrect vertex of degree 2");
             fi;
             # but there should be another common neighbour 
             umb := Set(MovedPoints(udesc[cycs[1]]));
             other := Difference( common[1], umb );
             if Length(other) <> 1 then
-                    Error("Found face with incorrect vertex of degree 2");
-                    return false;
+                ErrorNoReturn("Found face with incorrect vertex of degree 2");
             fi;
             # this is the other face that is not involved in the ear
             neigh := other[1];
@@ -940,7 +942,10 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
         end;
 
         faces := __SIMPLICIAL_FacesOfUmbrellaDescriptor(udesc);
-        if faces = false then return false; fi;
+        if faces = false then
+           Info(InfoSimplicial,5,"#I Not a valid umbrella descriptor\n");
+           return false;
+	fi;
 
         # the vertices correspond to the umbrellas
         vertices := []; v := 1;
@@ -1272,6 +1277,38 @@ end
 InstallMethod( NormedUmbrellaDescriptor,
     "for a list, a positive integer",  [IsList,IsPosInt], function(ud,face) 
     return __SIMPLICIAL_NormedUmbrellaDescriptor(ud, face, []);
+end
+);
+
+#############################################################################
+##
+##  compute the degree sequence of a normed umbrella descriptor
+##
+InstallMethod( DegreeSequenceOfUmbrellaDescriptor,
+    "for a list",  [IsList], function(ud) 
+
+        local i, l;
+
+        # check if the input is valid. 
+        if not __SIMPLICIAL_IsValidUmbrellaDescriptor(ud) then
+            ErrorNoReturn(" umbrella descriptor not a valid descriptor" );
+        fi;
+
+	# as we have already checked that the umbrella descriptor
+	# <ud> is valid, we know that every bound entry is either a
+	# single cycle or a list.
+        l := [];
+        for i in [1..Length(ud)] do
+            if IsBound(ud[i]) then
+                if IsPerm(ud[i]) then
+                    l[i] := [Order(ud[i]),true];
+                else
+                    l[i] := [Length(ud[i]),false];
+                fi;
+            fi;
+        od;
+
+        return l;
 end
 );
 
