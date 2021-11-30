@@ -368,21 +368,14 @@ DeclareAttribute( "FaceCounter", IsTwistedPolygonalComplex );
 #! inducing the corresponding butterfly and <E>degList2</E> contains
 #! the vertex degrees of the two remaining vertices of the butterfly.
 #!
-### ! . Given an inner edge <E>e</E>,
-### ! the first list contains the vertex degrees of the vertices incident
-### ! to <E>e</E>. Since an inner edge gives rise to a butterfly the
-### ! second list contains the vertex degrees of the remaining two vertices
-### ! of the butterfly. The integer <E>number</E> counts the number of
-### ! butterflies whose vertex degrees match <E>list</E>.
-#!
 #! As an example, consider the double-5-gon:
 #! <Alt Only="TikZ">
 #!      \input{Image_Double5gon.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> [[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],
+#! gap> vof:=[[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(last);
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
 #! simplicial surface (7 vertices, 15 edges, and 10 faces)
 #! gap> ButterflyCounter(s);
 #! [ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ]
@@ -410,9 +403,9 @@ DeclareAttribute( "ButterflyCounter", IsSimplicialSurface);
 #!      \input{Image_Double6gon.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> [[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
+#! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(last);
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
 #! simplicial surface (8 vertices, 18 edges, and 12 faces)
 #! gap> UmbrellaCounter(s);
 #! [ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
@@ -427,7 +420,7 @@ DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface);
 #! @Description
 #! Return the <E>three-face counter</E> of the given simplicial surface.
 #! The three-face counter is a list of pairs 
-#! <E>[[deg,degreeList1,degreeListt2], number]</E>, whereby
+#! <E>[[deg,degreeList1,degreeList2], number]</E>, whereby
 #! <E>[deg,degreeList1,degreeList2]</E> satisfies the following property:
 #! Assume that the vertices <E>v1,v2,v3</E> are all incident to the same
 #! face and there exist exactly two vertices <E>v4,v5</E> so that <E>v4</E>
@@ -452,9 +445,9 @@ DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface);
 #!      \input{Image_Double6gon.tex}
 #! </Alt>
 #! @ExampleSession
-#! gap> [[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
+#! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(last);
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
 #! simplicial surface (8 vertices, 18 edges, and 12 faces)
 #! gap> ThreeFaceCounter(s);
 #! [ [ [ 4, [ 4, 6 ], [ 6, 4 ] ], 24 ], [ [ 6, [ 4, 4 ], [ 4, 4 ] ], 12 ] ]

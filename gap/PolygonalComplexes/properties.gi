@@ -248,6 +248,9 @@ InstallMethod( UmbrellaCounter, "for a simplicial surface",
     function(surface)
 	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,temp1,rightumb,bub;
 	tempcounter:=[];
+	if not IsClosedSurface(surface) then 
+		return fail;
+	fi;
 	rightumb:=function(L)
 		local m,temp,i,t;
 		temp:=orb;		
@@ -261,8 +264,7 @@ InstallMethod( UmbrellaCounter, "for a simplicial surface",
 			i:=i+1;
 			if Length(temp)=1 then
 				return temp[1];
-			fi; 
-				
+			fi; 	
 		od;
 		return temp[1];
 	end;
@@ -309,8 +311,7 @@ InstallMethod( UmbrellaCounter, "for a simplicial surface",
 		orb:=OrbitOnList(G,tup);
 		temp:=Filtered(tempcounter,g-> g in orb);
 		Add(counter,[rightumb(orb),Length(temp)]);		
-		tempcounter:=Filtered(tempcounter,g-> not g in temp);
-		
+		tempcounter:=Filtered(tempcounter,g-> not g in temp);		
 	od; 
 	temp:=bub(List(counter,g->g[1]));
 	return List(temp,g->Filtered(counter,h->h[1]=g)[1]);
@@ -324,33 +325,30 @@ InstallMethod( ThreeFaceCounter, "for a simplicial surface",
 	tempcounter:=[];
 	for v in Vertices(surface) do
 		for f in FacesOfVertex(surface,v) do
-			vof:=Filtered(VerticesOfFace(surface,f),g->g<>v);
-			if FaceDegreeOfVertex(surface,vof[1])>=FaceDegreeOfVertex(surface,vof[2]) then 
-				temp:=vof[1];
-				vof[1]:=vof[2];
-				vof[2]:=temp;
+			if Length(Filtered(NeighbourFacesOfFace(surface,f),g->v in VerticesOfFace(surface,g)))>=2 then 
+				vof:=Filtered(VerticesOfFace(surface,f),g->g<>v);
+				if FaceDegreeOfVertex(surface,vof[1])>=FaceDegreeOfVertex(surface,vof[2]) then 
+					temp:=vof[1];
+					vof[1]:=vof[2];
+					vof[2]:=temp;
+				fi;
+				vof2:=[];
+				for i in [1,2] do 
+					face:=Filtered(Faces(surface),g->IsSubset(VerticesOfFace(surface,g),[v,vof[i]]) and g <>f)[1];
+					vert:=Difference(VerticesOfFace(surface,face),[vof[i],v])[1];
+					Add(vof2,vert);
+				od;
+				vof:=List(vof,g->FaceDegreeOfVertex(surface,g));
+				vof2:=List(vof2,g->FaceDegreeOfVertex(surface,g));
+				if vof[1]<=vof[2] then
+					Add(tempcounter,[FaceDegreeOfVertex(surface,v),vof,vof2]);
+				else
+                                        Add(tempcounter,[FaceDegreeOfVertex(surface,v),[vof[2],vof[1]],[vof2[2],vof2[1]]]);
+				fi;
 			fi;
-			vof2:=[];
-			for i in [1,2] do 
-				face:=Filtered(Faces(surface),g->IsSubset(VerticesOfFace(surface,g),[v,vof[i]]) and g <>f)[1];
-				vert:=Difference(VerticesOfFace(surface,face),[vof[i],v])[1];
-				Add(vof2,vert);
-			od;
-			vof:=List(vof,g->FaceDegreeOfVertex(surface,g));
-			vof2:=List(vof2,g->FaceDegreeOfVertex(surface,g));
-			Add(tempcounter,[FaceDegreeOfVertex(surface,v),vof,vof2]);
 		od;
 	od;
-	counter:=[];
-	while tempcounter <> [] do 
-		tup:=tempcounter[1];
-		temp:=Filtered(tempcounter,g->g=tup or 
-		(g[1]=tup[1] and g[2][1]=tup[2][2] and g[2][2]=tup[2][1] and g[3][1]=tup[3][2] and g[3][2]=tup[3][1]));
-		Add(counter,[temp[1],Length(temp)]);
-		tempcounter:=Filtered(tempcounter,g-> not g in temp);
-	od; 
-	return SortedList(counter);
-
+	return Collected(tempcounter);
 end
 );
 
