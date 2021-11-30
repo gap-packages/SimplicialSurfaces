@@ -1978,3 +1978,47 @@ RedispatchOnCondition( SplitMend, true, [IsTwistedPolygonalComplex,IsList], [IsP
 ##
 #######################################
 
+
+
+#######################################
+##
+##      TetrahedralExtension
+##
+InstallMethod( TetrahedralExtension,
+    "for a simplicial surface and a face",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, face)
+	local voe,eof,nE,nV,g,L,M,VOE,EOF,edges,e,vof,rem;
+	rem:=function(L,g)
+	    local temp,i;
+	    temp:=[];
+	    for i in Difference([1..Length(L)],[g]) do
+		temp[i]:=L[i];
+	    od;
+	    return temp;
+	end;
+	VOE:=ShallowCopy(VerticesOfEdges(surface));
+	EOF:=ShallowCopy(EdgesOfFaces(surface));
+	nE:=Length(VOE);
+	nV:=Length(Vertices(surface));
+	vof:=VerticesOfFace(surface,face);
+	Add(VOE,[vof[1],nV+1]);
+        Add(VOE,[vof[2],nV+1]);
+        Add(VOE,[vof[3],nV+1]);
+	eof:=EOF[face];
+	EOF:=rem(EOF,face);
+	for e in eof do 
+		voe:=VerticesOfEdge(surface,e);
+		edges:=Filtered([nE+1,nE+2,nE+3],g->
+		Intersection(VOE[g],VerticesOfEdge(surface,e))<>[]);
+		Add(EOF,[e,edges[1],edges[2]]);
+	od;
+	return SimplicialSurfaceByDownwardIncidence(VOE,EOF);
+end
+);
+
+##
+##      End of TetrahedralExtension
+##
+#######################################
+
