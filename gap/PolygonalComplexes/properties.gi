@@ -612,6 +612,8 @@ InstallMethod( IsInnerEdge, "for a twisted polygonal complex and an edge",
         return IsInnerEdgeNC(complex, edge);
     end
 );
+#TODO Implication to IsClosedSurface
+
 
 InstallMethod(IsTurnableEdge,"for a Polygonal complex and an edge",
     [IsPolygonalComplex,IsPosInt],
@@ -621,15 +623,9 @@ InstallMethod(IsTurnableEdge,"for a Polygonal complex and an edge",
 	foe:=FacesOfEdge(surface,edge);
 	voe2:=Union(VerticesOfFaces(surface){foe});
 	voe2:=Difference(voe2,voe1);
-	if voe2 in VerticesOfEdges(surface) then 
-		return false;
-	else	
-		return true;
-	fi;
+	return not voe2 in VerticesOfEdges(surface) and IsInnerEdge(surface,edge);
     end
 );
-#TODO Implication to IsClosedSurface
-
 
 InstallMethod( BoundaryEdges, "for a polygonal complex",
     [IsPolygonalComplex],
