@@ -1978,3 +1978,55 @@ RedispatchOnCondition( SplitMend, true, [IsTwistedPolygonalComplex,IsList], [IsP
 ##
 #######################################
 
+
+
+
+
+#######################################
+##
+##      Edgeturn
+##
+
+InstallOtherMethod(EdgeTurn, "for a simplicial surface and an inner edge",
+    [IsSimplicialSurface,IsPosInt],
+    function(surface,edge)
+        return EdgeTurn(surface,edge,edge);
+    end
+);
+InstallMethod( EdgeTurn, "for a simplicial surface and an edge",
+    [IsSimplicialSurface,IsPosInt,IsPosInt],
+    function(surface,edge,newedge)
+	local eof,voe,edges1,edges2,foe,vof, g;
+	if newedge in Edges(surface) and newedge<>edge then 
+		return fail;
+	fi;
+	foe:=FacesOfEdge(surface,edge);
+	if Length( Union(VerticesOfFace(surface,foe[1]),VerticesOfFace(surface,foe[2])))=4 then	
+		edges1:=Filtered(EdgesOfFace(surface,foe[1]),g->not(g=edge));
+		edges2:=Filtered(EdgesOfFace(surface,foe[2]),g->not(g=edge));
+		vof:=Union(VerticesOfFace(surface,foe[1]),VerticesOfFace(surface,foe[2]));
+		voe:=[];
+		for g in Difference(Edges(surface),[edge]) do
+			voe[g]:=VerticesOfEdge(surface,g);
+		od;
+		voe[newedge]:=Filtered(vof,g-> not(g in VerticesOfEdge(surface,edge)));
+		eof:=ShallowCopy(EdgesOfFaces(surface));
+		if Length(Intersection(VerticesOfEdge(surface,edges1[1]),VerticesOfEdge(surface,edges2[1])))>0 and 
+		IsSubsetSet(VerticesOfEdge(surface,edge),Intersection(VerticesOfEdge(surface,edges1[1]),VerticesOfEdge(surface,edges2[1]))) then
+			eof[foe[1]]:=[newedge,edges1[1],edges2[1]];
+			eof[foe[2]]:=[newedge,edges1[2],edges2[2]];
+		else
+			eof[foe[1]]:=[newedge,edges1[2],edges2[1]];
+			eof[foe[2]]:=[newedge,edges1[1],edges2[2]];
+		fi;
+		return SimplicialSurfaceByDownwardIncidence(voe,eof);
+	else
+		return fail;
+	fi;
+end
+);
+##
+##      End of Edgeturn
+##
+#######################################
+
