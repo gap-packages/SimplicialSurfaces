@@ -923,6 +923,8 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! simplicial surface (7 vertices, 12 edges, and 6 faces)
 #! gap> IsIsomorphic(star,hex);
 #! true
+#! gap> Star(hex)[7]=star;
+#! true
 #! @EndExampleSession
 #! The star of vertex 7 is the same as the hexagon.
 #! 
@@ -958,8 +960,10 @@ DeclareOperation("StarNC",[IsPolygonalSurface,IsInt]);
 #! gap> hex := SimplicialSurfaceByDownwardIncidence(
 #! >    [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ],
 #! >    [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;
-#! gap> Link(hex,7);
+#! gap> link:=Link(hex,7);
 #! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+#! gap> Link(hex)[7]=link;
+#! true
 #! @EndExampleSession
 #! The link of vertex 7 is the same as the boundary of the hexagon.
 #!
