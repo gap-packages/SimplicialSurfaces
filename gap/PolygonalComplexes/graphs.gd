@@ -799,8 +799,8 @@ DeclareOperation( "OnEdgeFacePaths",
 #! edge graph are the vertices of <A>complex</A> and for every edge in
 #! <A>complex</A> there is a corresponding edge in the edge graph.
 #!
-#! Since the edges in Digraphs are directed but the face graph is undirected,
-#! each edge of the face graph is represented by two directed edges in the <K>Digraphs</K> package.
+#! Since the edges in Digraphs are directed but the edge graph is undirected,
+#! each edge of the edge graph is represented by two directed edges in the <K>Digraphs</K> package.
 #! 
 #! For example, consider the edge graph of the tetrahedron:
 #! @BeginExampleSession
