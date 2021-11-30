@@ -906,7 +906,7 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>surface</A>.
 #!
 #! The attribute <K>Star</K>(<A>surface</A>) collects all of those
-#! subcomplexes in a list that is indexed by the edge labels, i.e.
+#! subcomplexes in a list that is indexed by the vertex labels, i.e.
 #! <K>Star</K>(<A>surface</A>)[<A>vertex</A>] =
 #! <K>Star</K>(<A>surface</A>, <A>vertex</A>).
 #! All other positions of this list are not bound.
@@ -940,7 +940,8 @@ DeclareOperation("StarNC",[IsPolygonalSurface,IsInt]);
 #! @Description
 #! The method <K>Link</K>(<A>surface</A>, <A>vertex</A>) returns for <A>vertex</A> the vertex-edge-path 
 #! around the vertex which contains the edges not incident to <A>vertex</A>. 
-#! That means the vertex-edge-path is the boundary of the umbrella of <A>vertex</A>.
+#! That means the vertex-edge-path is the boundary of the umbrella of <A>vertex</A> respectively 
+#! the boundary of <K>Star</K>(<A>surface</A>, <A>vertex</A>).
 #! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>surface</A>.
 #!
 #! The attribute <K>Link</K>(<A>surface</A>) collects all of those

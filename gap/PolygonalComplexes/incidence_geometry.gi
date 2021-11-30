@@ -590,9 +590,13 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 InstallMethod(StarNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
 	function(surface, vertex)
 	
-		return Star(surface)[vertex];
+		local faces;
+		
+		faces:=FacesOfVertex(surface,vertex);
+		return SubsurfaceByFaces(surface,faces);
 	
-end);
+	end
+);
 
 InstallMethod(Star, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
 	function(surface, vertex)
@@ -600,27 +604,37 @@ InstallMethod(Star, "for a polygonal surface and an integer", [IsPolygonalSurfac
 		__SIMPLICIAL_CheckVertex(surface,vertex, "Star");
 		return StarNC(surface,vertex);
 	
-end);
+	end
+);
 
 InstallOtherMethod(Star, "for a polygonal surface", [IsPolygonalSurface],
 	function(surface)
 	
-		local vertex, list, faces;
+		local vertex, list;
 		list:=[];
 		for vertex in Vertices(surface) do
-			faces:=FacesOfVertex(surface,vertex);
-			Add(list, SubsurfaceByFaces(surface,faces));
+			Add(list, Star(surface,vertex));
 		od;
 		return list;
 	
-end);
+	end
+);
 
 InstallMethod(LinkNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
 	function(surface, vertex)
 	
-		return Link(surface)[vertex];
+		local path, faces, edges, face;
 	
-end);
+		path:=UmbrellaPathOfVertex(surface, vertex);
+		faces:=FacesAsList(path);
+		edges:=[];
+		for face in faces do
+			Add(edges,OppositeEdgeOfVertexInTriangle(surface, vertex, face));
+		od;
+		return VertexEdgePathByEdges(surface,edges);
+	
+	end
+);
 
 InstallMethod(Link, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
 	function(surface, vertex)
@@ -628,25 +642,21 @@ InstallMethod(Link, "for a polygonal surface and an integer", [IsPolygonalSurfac
 		__SIMPLICIAL_CheckVertex(surface,vertex, "Link");
 		return LinkNC(surface,vertex);
 	
-end);
+	end
+);
 
 InstallOtherMethod(Link, "for a polygonal surface", [IsPolygonalSurface],
 	function(surface)
 	
-		local vertex, list, path, faces, edges, face;
+		local vertex, list;
 		list:=[];
 		for vertex in Vertices(surface) do
-			path:=UmbrellaPathOfVertex(surface, vertex);
-			faces:=FacesAsList(path);
-			edges:=[];
-			for face in faces do
-				Add(edges,OppositeEdgeOfVertexInTriangle(surface, vertex, face));
-			od;
-			Add(list, VertexEdgePathByEdges(surface,edges));
+			Add(list, Link(surface,vertex));
 		od;
 		return list;
 	
-end);
+	end
+);
 ##
 ##          End of Umbrella-paths around vertices 
 ##
