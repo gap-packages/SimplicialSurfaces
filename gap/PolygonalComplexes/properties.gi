@@ -612,6 +612,22 @@ InstallMethod( IsInnerEdge, "for a twisted polygonal complex and an edge",
         return IsInnerEdgeNC(complex, edge);
     end
 );
+
+InstallMethod(IsTurnableEdge,"for a Polygonal complex and an edge",
+    [IsPolygonalComplex,IsPosInt],
+    function(surface,edge)
+	local g,voe1,voe2,foe;
+	voe1:=VerticesOfEdge(surface,edge);
+	foe:=FacesOfEdge(surface,edge);
+	voe2:=Union(VerticesOfFaces(surface){foe});
+	voe2:=Difference(voe2,voe1);
+	if voe2 in VerticesOfEdges(surface) then 
+		return false;
+	else	
+		return true;
+	fi;
+    end
+);
 #TODO Implication to IsClosedSurface
 
 

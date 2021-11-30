@@ -457,6 +457,27 @@ DeclareOperation( "IsInnerEdge", [IsTwistedPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
+#! @BeginGroup IsTurnableEdge
+#! @Description
+#! Checks whether an edge turn can be performed with a given edge a
+#! simplicial surface. The function returns <A>false</A> if there exists an
+#! edge that is incident to the wing tips of the butterfly induced by
+#! <A>edge</A>, otherwise it returns <A>true</A>. The wing tips of a
+#! butterfly induced by an edge are the vertices of the butterfly which
+#! are not incident to the inducing edge.
+#!
+#! @BeginExampleSession
+#! gap> IsTurnableEdge(Tetrahedron(),1);
+#! false
+#! gap> IsTurnableEdge(Octahedron(),2);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns true or false
+#! @Arguments surface,edge
+DeclareOperation( "IsTurnableEdge", [IsPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
 
 #! @BeginGroup BoundaryEdges
 #! @Description
