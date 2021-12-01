@@ -1123,7 +1123,6 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 #! @Arguments complex
 DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 
-
 #! @BeginGroup TetrahedralExtension
 #! @Description
 #! Given a simplicial surface a new surface can be constructed by attaching a
@@ -1157,6 +1156,54 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! @Returns a surface
 #! @Arguments surface, face
 DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup EdgeTurn
+#! @Description
+#! Given a simplicial surface and an inner edge contained in the surface, one
+#! can construct a new surface by manipulating the inner edge. If <K>edge</K>
+#! is an inner edge, it gives rise to a butterfly (e.g. if the surface is
+#! vertex faithful) and thus a new surface can be created by turning
+#! <K>edge</K>. This results in replacing <K>edge</K> by the edge
+#! <K>newedge</K> which is connecting the other two vertices of the butterfly.
+#! So it has the same number of faces, edges and vertices, but the vertex
+#! degrees in four positions will change by +-1 i.e. the vertex degrees of
+#! the vertices incident to <K>edge</K> decrease and the degrees of the
+#! vertices incident to <K>newedge</K> increase by 1. 
+#! If the function is called without the argument <K>newedge</K>, the
+#! function simply manipulates the incidence structure of <K>edge</K> 
+#! without relabelling this edge. So after this modification on the simplicial
+#! surface <K>surface</K> the set of edges remains the same.
+#! For example, consider the octahedron:
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#! Turning the edge 1 results in
+#! @BeginExampleSession
+#! gap> surf:=EdgeTurn(Octahedron(),1);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> VerticesOfEdges(surf);
+#! [ [ 3, 5 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 5 ], [ 2, 6 ], [ 3, 4 ],
+#! [ 3, 6 ], [ 4, 5 ], [ 4, 6 ], [ 5, 6 ] ]
+#! gap> EdgesOfFaces(surf);
+#! [ [ 1, 2, 4 ], [ 6, 7, 12 ], [ 1, 5, 6 ], [ 5, 7, 9 ], [ 3, 4, 10 ], [ 8, 9, 11 ],
+#! [ 2, 3, 8 ], [ 10, 11, 12 ] ]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_ETOctahedron.tex}
+#! </Alt>
+#!
+#! The same process can also be done by relabelling the turned edge.
+#! @BeginExampleSession
+#! gap> EdgeTurn(Octahedron(),1,15);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> Edges(last);
+#! [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15 ]
+#! @EndExampleSession
+
+#! @Returns a simplicial surface or <K>fail</K>
+#! @Arguments surface,edge [,newedge]
+DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt,IsPosInt] );
 #! @EndGroup
 
 #TODO maybe move into chapter ExampleApplications?
