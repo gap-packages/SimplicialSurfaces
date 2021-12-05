@@ -716,7 +716,11 @@ BindGlobal( "__SIMPLICIAL_EdgesFromAdjacencyMat",
 end);
 
 
-# The following functions computes all cycles of a face graph <dig>
+# The following function computes all cycles of a face graph <dig> by:
+# 1. Calculation of a cycle base (CyclesBasisOfFaceGraph) by first computing a spanning tree and then adding each edge 
+#    which is not in the tree. Each edge gives a different cycle named base cycles.
+# 2. Iterate through all possible combinations of base cycles and combine them by apply XOR to the adjacency matrices.
+# In this way you get all cycles of the graph.
 BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 	function(digraph)
 

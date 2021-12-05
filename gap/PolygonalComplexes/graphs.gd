@@ -814,7 +814,6 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 
 #! @BeginGroup FaceGraph
 #! @Description
-# TODO As soon as there are more methods to face graph, it will be useful to have an own chapter for facegraphs
 #! Return the face graph of a given polygonal surface. The vertices of the
 #! face graph are the faces of <A>surface</A> and for every edge in
 #! <A>surface</A> there is a corresponding edge in the face graph.
@@ -851,7 +850,6 @@ DeclareAttribute( "FaceDigraphsGraph", IsPolygonalSurface );
 DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! @EndGroup
 
-# TODO If there are more methods which construct surfaces with a given property, it is useful to have a method AllSimplicialSurfacesByFacesOfEdges which use this method.
 #! @BeginGroup AllSimplicialSurfacesOfGraph 
 #! @Description 
 #! Return all (vertex-faithful) simplicial surfaces, that have <K>digraph</K> as face graph. 
@@ -859,8 +857,8 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! The parameter <K>vertexfaithful</K> indicates whether only vertex-faithful simplicial surfaces are searched. 
 #! The parameter <K>vertexfaithful</K> is by default false.
 #! <K>digraph</K> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial 
-#! surface are certain cycles in the face graph. The method search possible combinations of cycles, 
-#! with the cycles forming the corners of a simplicial surface.
+#! surface are certain cycles in the face graph. This method searches possible combinations of cycles, 
+#! with the cycles corresponding to the vertices of a simplicial surface.
 #!
 #!
 #! For example, consider the complete graph on four nodes:
