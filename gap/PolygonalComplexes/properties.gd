@@ -460,11 +460,14 @@ DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @BeginGroup IsTurnableEdge
 #! @Description
 #! Checks whether an edge turn can be performed with a given inner edge of a
-#! simplicial surface. The function returns <A>false</A> if there exists an
-#! edge which incident vertices are exactly the wing tips of the butterfly
-#! induced by <A>edge</A>, otherwise it returns <A>true</A>. The wing tips of
-#! a butterfly induced by an edge are the vertices of the butterfly which
-#! are not incident to the inducing edge.
+#! simplicial surface. Let <A>v1,v2</A> be the vertices of the subsurface
+#! induced by <A>edge</A> which are not incident to <A>edge</A>.
+#! <Alt Only="TikZ">
+#!     \input{Image_ButIndEdg.tex}
+#! </Alt>
+#! The function returns <A>false</A> if <A>v1</A> is equal to <A>v2</A> or
+#! there exists an edge which incident vertices are exactly <A>v1</A> and
+#! <A>v2</A>, otherwise it returns <A>true</A>.
 #!
 #! @BeginExampleSession
 #! gap> IsTurnableEdge(Tetrahedron(),1);

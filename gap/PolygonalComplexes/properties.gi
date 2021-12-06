@@ -623,7 +623,7 @@ InstallMethod(IsTurnableEdge,"for a Polygonal complex and an edge",
 	foe:=FacesOfEdge(surface,edge);
 	voe2:=Union(VerticesOfFaces(surface){foe});
 	voe2:=Difference(voe2,voe1);
-	return not voe2 in VerticesOfEdges(surface) and IsInnerEdge(surface,edge);
+	return Length(voe2)=2 and not voe2 in VerticesOfEdges(surface);
     end
 );
 
