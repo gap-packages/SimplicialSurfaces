@@ -703,16 +703,17 @@ InstallMethod( OnEdgeFacePaths,
 ##      All Surfaces Of A Graph
 ##
 
+#Calculate for a adjacency matrix the corresponding edges
 BindGlobal( "__SIMPLICIAL_EdgesFromAdjacencyMat",
-	function(mat)
-		local edges, i, j;
+     function(mat)
+          local edges, i, j;
 
-        edges := Set([]);
-        for j in [1 .. Length(mat)] do
-			edges := Union(edges, List(ListBlist([1..j],mat[j]), i-> [j,i] ));
-        od;
+       	  edges := Set([]);
+          for j in [1 .. Length(mat)] do
+		edges := Union(edges, List(ListBlist([1..j],mat[j]), i-> [j,i] ));
+          od;
 
-		return edges;
+	  return edges;
 end);
 
 
@@ -729,7 +730,7 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 
 
 	# We want to store graphs as adjacency matrices. This function
-	# turns a cycle into a boolean lower triangular matrix
+	# turns a cycle into a boolean lower triangular matrix.
 	AdjacencyMatrixFromList := function(cycle, n)
 		local mat, i, j, k;
 
@@ -813,7 +814,7 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 		return base;
 	end;;
 
-	  
+	# This method combines two adjacency matrices with the operator XOR.
 	XORAdjacencyMatrices := function( mat1, mat2 )
 
 		local j, res, nd;
@@ -828,27 +829,36 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 			return res;
 	end;;
 	
+	# The function converts a boolean list describing one or more cycles 
+	# into lists of nodes of the cycles.
 	NodesOfCycle:=function(cycle)
-		local edges,firstNod,actualNod,nodes,e,cycles;
+		local edges,firstNod,actualNod,nodes,found,e,cycles;
 
 		edges:=__SIMPLICIAL_EdgesFromAdjacencyMat(cycle);
 		cycles:=[];
+		# We have to use each edge exactly one time
 		while edges<>[] do
 			firstNod:=(edges[1])[1];
 			actualNod:=(edges[1])[2];
 			Remove(edges,1);
 			nodes:=[actualNod];
+			# Walk along the cycle
 			while actualNod<>firstNod do
+				found:=false;
 				for e in edges do
-					if e[1]=actualNod then
-						actualNod:=e[2];
-						Add(nodes,actualNod);
-						Remove(edges,Position(edges,e)); 
-					elif e[2]=actualNod then
-						actualNod:=e[1];
-						Add(nodes,actualNod);
-						Remove(edges,Position(edges,e));
-					fi; 
+					if found=false then
+						if e[1]=actualNod then
+							actualNod:=e[2];
+							Add(nodes,actualNod);
+							Remove(edges,Position(edges,e));
+							found:=true; 
+						elif e[2]=actualNod then
+							actualNod:=e[1];
+							Add(nodes,actualNod);
+							Remove(edges,Position(edges,e));
+							found:=true;
+						fi;
+					fi;
 				od;
 			od;
 			Add(cycles,nodes);
@@ -861,6 +871,7 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 	if cyclebasis=[] then
 		return [];
 	fi;
+
 	neighs := OutNeighbours(digraph);
 	allcycles := [];
 	
