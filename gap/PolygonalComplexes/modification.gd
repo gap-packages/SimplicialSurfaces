@@ -1123,6 +1123,40 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 #! @Arguments complex
 DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 
+#! @BeginGroup TetrahedralExtension
+#! @Description
+#! Given a simplicial surface a new surface can be constructed by attaching a
+#! tetrahedron on the given face. This can be seen as a subdivision of the 
+#! given surface which arises by subdividing a face into three
+#! new faces.
+#! <Alt Only="TikZ">
+#!      \input{Image_TetraExt.tex}
+#! </Alt>
+#! So, this modification results in increasing the number of
+#! vertices by 1, the number of edges by 3 and the number of faces by 2.
+#! As an example consider the tetrahedron:
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!      \input{Image_Tetrahedron_Net.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#!
+#! Subdividing face 1 of the tetrahedron results in the double tetrahedron:
+#! @BeginExampleSession
+#! gap> s:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> Faces(s);
+#! [ 2, 3, 4, 5, 6, 7 ]
+#! @EndExampleSession
+#!
+#! <Alt Only="TikZ">
+#!      \input{Image_TetrahedralExtension.tex}
+#! </Alt>
+#! @Returns a surface
+#! @Arguments surface, face
+DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
 
 #! @BeginGroup EdgeTurn
 #! @Description
@@ -1171,7 +1205,6 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! @Arguments surface,edge [,newedge]
 DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt,IsPosInt] );
 #! @EndGroup
-
 
 #TODO maybe move into chapter ExampleApplications?
 #! @Section Example: Cut and Mend
