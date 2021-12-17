@@ -857,7 +857,7 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! The parameter <K>vertexfaithful</K> indicates whether only vertex-faithful simplicial surfaces are searched. 
 #! The parameter <K>vertexfaithful</K> is by default false.
 #! <K>digraph</K> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial 
-#! surface are certain cycles in the face graph. This method searches possible combinations of cycles, 
+#! surface can be identified with certain cycles in the face graph. This method searches possible combinations of cycles, 
 #! with the cycles corresponding to the vertices of a simplicial surface.
 #!
 #!

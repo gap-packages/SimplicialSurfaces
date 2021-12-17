@@ -703,7 +703,7 @@ InstallMethod( OnEdgeFacePaths,
 ##      All Surfaces Of A Graph
 ##
 
-#Calculate for a adjacency matrix the corresponding edges
+# Calculate from a adjacency matrix the corresponding edges
 BindGlobal( "__SIMPLICIAL_EdgesFromAdjacencyMat",
      function(mat)
           local edges, i, j;
@@ -720,7 +720,7 @@ end);
 # The following function computes all cycles of a face graph <dig> by:
 # 1. Calculation of a cycle base (CyclesBasisOfFaceGraph) by first computing a spanning tree and then adding each edge 
 #    which is not in the tree. Each edge gives a different cycle named base cycles.
-# 2. Iterate through all possible combinations of base cycles and combine them by apply XOR to the adjacency matrices.
+# 2. Iterate through all possible combinations of base cycles and combine them by applying XOR to the adjacency matrices.
 # In this way you get all cycles of the graph.
 BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 	function(digraph)
@@ -1054,8 +1054,8 @@ InstallMethod(AllSimplicialSurfacesOfGraph,"for a digraph and a Boolean",
 			od;
 		end;;
 
-		# This is a recursive function that search a admissible cycle combination.  
-		# usedEdges stores how often the each edge is used.
+		# This is a recursive function that searches an admissible cycle combination.  
+		# usedEdges stores how often each edge is used.
 		# We assume that usedEdges is permissible, that mean each entry is at most two and the cycles overlap at most in one edge 
 		# if we search vertex-faithful surfaces.
 		# vertexCycleComb is a Boolean list which stores all cycles we used so far.
