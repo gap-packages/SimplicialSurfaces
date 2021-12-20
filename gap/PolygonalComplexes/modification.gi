@@ -1662,7 +1662,45 @@ if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
         [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
 fi;
 
+InstallMethod(JoinBoundary, "for a polygonal surface and a vertex", [IsPolygonalSurface, IsPosInt],
+	function(complex, vertex)
+		local path, boundaryPath, path1, path2,n;
+		if not IsBoundaryVertex(complex,vertex) then
+			Error(Concatenation("JoinBoundary: Vertex ", String(vertex), " is not a boundary vertex."));
+		fi;
+		for path in PerimeterOfHoles(complex) do
+			if vertex in VerticesAsList(path) then
+				boundaryPath:=EdgesAsList(path);
+			fi;
+		od;
+		n:=Length(boundaryPath);
+		if IsOddInt(n) then
+			Error(Concatenation("JoinBoundary: The boundary path with edges ", String(boundaryPath), " has not even length."));
+		fi;
+		return JoinBoundaryNC(complex, vertex);
+end);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundary, true,
+        [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+fi;
 
+InstallMethod(JoinBoundaryNC, "for a polygonal surface and a vertex", [IsPolygonalSurface, IsPosInt],
+	function(complex, vertex)
+		local path, boundaryPath, path1, path2, n;
+		for path in PerimeterOfHoles(complex) do
+			if vertex in VerticesAsList(path) then
+				boundaryPath:=EdgesAsList(path);
+			fi;
+		od;
+		n:=Length(boundaryPath);
+		path1:=VertexEdgePathByEdges(complex,boundaryPath{[1..n/2]});
+		path2:=VertexEdgePathByEdges(complex,Reversed(boundaryPath{[n/2+1..n]}));
+		return JoinVertexEdgePaths(complex,path1,path2);
+end);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundaryNC, true,
+        [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+fi;
 ##
 ##      End of joining
 ##
