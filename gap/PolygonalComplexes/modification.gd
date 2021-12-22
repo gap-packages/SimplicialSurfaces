@@ -1206,9 +1206,7 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> CraterCuttableEdges_custom := function(complex)
-#! >      return Filtered( InnerEdges(complex),
-#! >         e -> ForAll( VerticesOfEdges(complex)[e], 
-#! >            v -> IsInnerVertexNC(complex,v) ) );
+#! >      return EdgesWithVertexProperty(complex, v -> IsInnerVertexNC(complex, v));
 #! >    end;
 #! function( complex ) ... end
 #! gap> CraterCut_custom := function(complex, edge)
@@ -1251,7 +1249,7 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! Applying a crater mend to the open bag yields to the Janus-head:
 #! @BeginExampleSession
 #! gap> CraterMendableEdgePairs(openBag);
-#! [ [  ], [ 3, 4 ] ]
+#! [ [ 3, 4 ] ]
 #! gap> CraterMend(openBag,[3,4]);
 #! simplicial surface (3 vertices, 3 edges, and 2 faces)
 #! gap> IsIsomorphic(last,JanusHead());
@@ -1267,11 +1265,9 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! >        local edgeAnom, edgePairs;
 #! > 
 #! >        edgeAnom := List( EdgeAnomalyClasses(complex), 
-#! >            cl -> Filtered( cl, 
-#! >                e -> IsBoundaryEdgeNC(complex, e) and 
-#! >                    ForAll( VerticesOfEdges(complex)[e], 
-#! >                        v -> IsBoundaryVertexNC(complex, v) ) ) );
-#! >        edgePairs := Combinations(edgeAnom, 2);
+#! >             cl -> Filtered( cl, 
+#! >                   e -> IsBoundaryEdgeNC(complex, e) ) );
+#! > 	    edgePairs:=List(edgeAnom,cl->Combinations(cl, 2) );
 #! >        return Union(edgePairs);
 #! >    end;
 #! function( complex ) ... end
@@ -1330,25 +1326,16 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> RipCuttableEdges_custom := function(complex)
-#! >        local CheckInnerBound;
-#! >    
-#! >        CheckInnerBound := function(e)
-#! >            local verts;
-#! >    
-#! >            verts := VerticesOfEdges(complex)[e];
-#! >            return ( IsInnerVertexNC(complex, verts[1]) and 
-#! >                        IsBoundaryVertexNC(complex, verts[2]) ) 
-#! >                or ( IsInnerVertexNC(complex, verts[2]) and 
-#! >                        IsBoundaryVertexNC(complex, verts[1]) );
-#! >        end;
-#! >        return Filtered(InnerEdges(complex), CheckInnerBound );
+#! >        return EdgesWithVertexProperties(complex,
+#! >              v->IsInnerVertexNC(complex,v), v->IsBoundaryVertexNC(complex,v));
 #! >    end;
 #! function( complex ) ... end
 #! gap> RipCut_custom := function(complex, edge)
 #! >        if not edge in RipCuttableEdges_custom(complex) then
 #! >            Error("Given edge has to be rip-cuttable.");
 #! >        fi;
-#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
+#! >        return SplitVertexEdgePathNC(complex, 
+#! >              VertexEdgePathByEdgesNC(complex, [edge]))[1];
 #! >    end;
 #! function( complex, edge ) ... end
 #! @EndExampleSession
@@ -1484,16 +1471,17 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> SplitCuttableEdges_custom := function(complex)
-#! >        return Filtered(InnerEdges(complex), 
-#! >            e -> ForAll(VerticesOfEdges(complex)[e], 
-#! >                v -> IsBoundaryVertexNC(complex, v)));
+#! >         return Intersection(InnerEdges(complex), 
+#! >               EdgesWithVertexProperty(complex, 
+#! >                     v -> IsBoundaryVertexNC(complex, v)));
 #! >    end;
 #! function( complex ) ... end
 #! gap> SplitCut_custom := function(complex, edge)
 #! >        if not edge in SplitCuttableEdges_custom(complex) then
 #! >            Error("Given edge has to be split-cuttable.");
 #! >        fi;
-#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
+#! >        return SplitVertexEdgePathNC(complex, 
+#! >              VertexEdgePathByEdgesNC(complex, [edge]))[1];
 #! >    end;
 #! function( complex, edge ) ... end
 #! @EndExampleSession
