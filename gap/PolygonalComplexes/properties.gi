@@ -246,74 +246,92 @@ end
 InstallMethod( UmbrellaCounter, "for a simplicial surface",
     [IsSimplicialSurface],
     function(surface)
-	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,temp1,rightumb,bub;
-	tempcounter:=[];
+	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,
+	verticesOfUmb,edgesOfUmb,facdegOfVert,temp1,EquivalentLists,
+	ComputeSmallestRepresentative,bub,equi,help_SortCounter;
+
 	if not IsClosedSurface(surface) then 
 		return fail;
 	fi;
-	rightumb:=function(L)
-		local m,temp,i,t;
-		temp:=orb;		
-		n:=Length(temp[1]);
+        #facdegList is a list of positive integers describing the face degrees
+        #of the boundary vertices of a closed umbrella, whereby the degrees
+        #of two neighbouring vertices of the umbrella stand next to each
+	#other in the given list. Since there are different lists with the
+	#same property describing the same closed umbrella, this function
+	#returns all those lists. 
+        EquivalentLists:=function(G,facdegList)
+                local g,temp,i,EquivFacDegLists;
+                EquivFacDegLists:=[];
+                for g in G do
+                        temp:=[];
+                        for i in [1..Length(facdegList)] do
+                                temp[i]:=facdegList[i^g];
+                        od;
+                        Add(EquivFacDegLists,temp);
+                od;
+                return EquivFacDegLists;
+        end;
+
+
+
+	#As mentioned before, there are different lists of integers describing
+	#the same closed umbrella. This functions returns the lexicographically
+	#smallest list of all the possibilities.
+	ComputeSmallestRepresentative:=function(L)
+		local min,tempL,i;
+		tempL:=L;		
 		i:=2;
-		m:=Minimum(temp[1]);
-		temp:=Filtered(temp,g->g[1]=m);
-		while temp <>[] and i<=n do 
-			m:=Minimum(List(temp,g->g[i]));
-			temp:=Filtered(temp,g->g[i]=m);
+		min:=Minimum(tempL[1]);
+		tempL:=Filtered(tempL,g->g[1]=min);
+		while tempL <>[] and i<=Length(tempL[1]) do 
+			min:=Minimum(List(tempL,g->g[i]));
+			tempL:=Filtered(tempL,g->g[i]=min);
 			i:=i+1;
-			if Length(temp)=1 then
-				return temp[1];
-			fi; 	
+			if Length(tempL)=1 then
+				return tempL[1];
+			fi; 
 		od;
-		return temp[1];
+		return tempL[1];
 	end;
 
-	OrbitOnList:=function(G,L)
-		local g,orb,temp,temp1,i,l,n;
-		orb:=[];
-		n:=Length(L);
-		l:=[1..n];
-		temp1:=[];
-		for g in G do
-			temp:=[]; 
-			for i in [1..n] do
-				temp[i]:=L[i^g];
-			od;
-			Add(temp1,temp);
-		od;
-		return temp1;
-	end;
-	bub:=function(list)
-		local g,tempm,tempL,m;
-		tempL:=[];
-		tempm:=List(list,g->Length(g));
-		for m in Set(tempm) do
-			temp:=Filtered(list,g->Length(g)=m);
-			Append(tempL,temp);
+
+	#The list tcounter consists of lists [list1,n] where list1 is a list of 
+	#positive integers and n is a positve integer. This function sorts
+	#the list tcounter lexicographically with respect to the lists
+	#contained in the first component. 
+	help_SortCounter:=function(tcounter)
+		local g,lengths,sortedCounter,l;
+		sortedCounter:=[];
+		lengths:=List(tcounter,g->Length(g));
+		for l in Set(lengths) do
+			temp:=Filtered(tcounter,g->Length(g)=l);
+			Append(sortedCounter,Set(temp));
 		od; 
-		return tempL;
+		return sortedCounter;
 	end;
+	tempcounter:=[];
 	for v in Vertices(surface) do
-		temp:=UmbrellaPathOfVertex(surface,v);
-		temp:=EdgesAsList(temp);
-		temp:=List([1..Length(temp)-1],g->temp[g]);
-		temp:=List(temp,g->Difference(VerticesOfEdge(surface,g),[v])[1]);
-		temp:=List(temp,g->FaceDegreeOfVertex(surface,g));
-		Add(tempcounter,temp);
+		edgesOfUmb:=EdgesAsList(UmbrellaPathOfVertex(surface,v));
+		edgesOfUmb:=edgesOfUmb{[1..Length(edgesOfUmb)-1]};
+		verticesOfUmb:=List(edgesOfUmb,g->Difference(VerticesOfEdge(surface,g),[v])[1]);
+		facdegOfVert:=List(verticesOfUmb,g->FaceDegreeOfVertex(surface,g));
+		Add(tempcounter,facdegOfVert);
 	od;
+
+	#tempcounter may still contain lists describing the same sequence of face
+	#degrees. So the different lists have to be collected and replaced by 
+	#the lexicographically smallest representative in the counter 
 	counter:=[];
-	
 	while tempcounter <> [] do 
-		tup:=tempcounter[1];
-		n:=Length(tup);
+		facdegOfVert:=tempcounter[1];
+		n:=Length(facdegOfVert);
 		G:=DihedralGroup(IsPermGroup,2*n);
-		orb:=OrbitOnList(G,tup);
-		temp:=Filtered(tempcounter,g-> g in orb);
-		Add(counter,[rightumb(orb),Length(temp)]);		
+		equi:=EquivalentLists(G,facdegOfVert);
+		temp:=Filtered(tempcounter,g->g in equi);
+		Add(counter,[ComputeSmallestRepresentative(equi),Length(temp)]);
 		tempcounter:=Filtered(tempcounter,g-> not g in temp);		
 	od; 
-	temp:=bub(List(counter,g->g[1]));
+	temp:=help_SortCounter(List(counter,g->g[1]));
 	return List(temp,g->Filtered(counter,h->h[1]=g)[1]);
 end
 );

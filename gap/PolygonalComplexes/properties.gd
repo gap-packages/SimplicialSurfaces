@@ -388,7 +388,7 @@ DeclareAttribute( "ButterflyCounter", IsSimplicialSurface);
 
 #! @BeginGroup UmbrellaCounter
 #! @Description
-#! Return the <E>umbrella counter</E> of the given simplicial surface.
+#! Return the <E>umbrella counter</E> of the given closed simplicial surface.
 #! The umbrella counter is a list of pairs <E>[degreeList, number]</E>,
 #! where <E>number</E> counts the number of umbrellas whose vertex degrees
 #! of vertices contained at the boundary of the umbrella match
