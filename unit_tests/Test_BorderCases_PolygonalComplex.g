@@ -237,7 +237,7 @@ BindGlobal( "__SIMPLICIAL_Test_SplitEdge", function()
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
-     local eye,closeEye, triple, tripleTogether, tripleDoubleTogether, 
+     local eye, closeEye, closeEye1, closeEye2, triple, tripleTogether, tripleDoubleTogether, 
            falseTriforce, fT1, fT2, fT3, fT4, fT5, fT6, s, s1;
 
      #Test Close Eye
@@ -248,6 +248,15 @@ BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
 
       closeEye := JoinEdges( eye, 2, 6 );;
       Assert(0,InnerEdges(closeEye[1])=[7]);
+      
+      closeEye := closeEye[1];
+      closeEye1 := JoinEdges(closeEye,7,7);
+      Assert(0,closeEye1[2]=7);
+      Assert(0,IsIsomorphic(closeEye1[1],closeEye));
+
+      closeEye2 := JoinEdges(closeEye,[7]);
+      Assert(0,closeEye2[2]=7);
+      Assert(0,IsIsomorphic(closeEye2[1],closeEye));
 
       #Test Triple
 
@@ -284,6 +293,22 @@ BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
       s1:=JoinEdges(s,[1,4,7]);
       Assert(0,FacesOfEdge(s1[1],10)=[1,2,3]);
  end);
+
+BindGlobal( "__SIMPLICIAL_Test_JoinFaces", function()
+     local oneFace;
+
+     oneFace := JoinFaces(JanusHead(),[1,2]);
+     Assert(0,Length(Faces(oneFace[1]))=1);
+
+     oneFace := JoinFaces(JanusHead(),[1]);
+     Assert(0,oneFace[2]=1);
+
+     oneFace := JoinFaces(JanusHead(),1,1);
+     Assert(0,oneFace[2]=1);
+
+     oneFace := JoinFaces(JanusHead(),1,1,10);
+     Assert(0,oneFace[2]=10);
+end);
 
 BindGlobal( "__SIMPLICIAL_Test_SplitVertex", function()
     local ramSurf,split1,hex,edgeSplit,vertSplit,triangle,split2,fiveGon,split3;
