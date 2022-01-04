@@ -243,7 +243,7 @@ end
 );
 
 
-InstallMethod( UmbrellaCounter, "for a simplicial surface",
+InstallMethod( UmbrellaCounter, "for a closed simplicial surface",
     [IsSimplicialSurface],
     function(surface)
 	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,
