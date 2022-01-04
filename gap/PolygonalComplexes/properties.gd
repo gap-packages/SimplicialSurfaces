@@ -457,19 +457,26 @@ DeclareOperation( "IsInnerEdge", [IsTwistedPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
-#! @BeginGroup IsTurnableEdge
+#! @BeginGroup TurnableEdges
 #! @Description
-#! Checks whether an edge turn can be performed with a given inner edge of a
-#! simplicial surface. Let <A>v1,v2</A> be the vertices of the subsurface
-#! induced by <A>edge</A> which are not incident to <A>edge</A>.
+#! Return the set of all turnable edges of the given simplicial surface.
+#! Let <A>v1,v2</A> be the vertices of the subsurface
+#! induced by a given edge which are not incident this edge.
 #! <Alt Only="TikZ">
 #!     \input{Image_ButIndEdg.tex}
 #! </Alt>
-#! The function returns <A>false</A> if <A>v1</A> is equal to <A>v2</A> or
-#! there exists an edge which incident vertices are exactly <A>v1</A> and
-#! <A>v2</A>, otherwise it returns <A>true</A>.
+#! The given edge is a turnable edge, if and only if <A>v1</A> is not equal to
+#! <A>v2</A> and there exist no edge whose incident vertices are exactly
+#! <A>v1</A> and <A>v2</A>.
+#! The method IsTurnableEdge checks whether the given edge is a turnable edge
+#! of the given simplicial surface. The NC-version does not check whether
+#! <A>edge</A> is an edge of <A>surface</A>.
 #!
 #! @BeginExampleSession
+#! gap> TurnableEdges(Tetrahedron());
+#! [  ]
+#! gap> TurnableEdges(Octahedron());
+#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
 #! gap> IsTurnableEdge(Tetrahedron(),1);
 #! false
 #! gap> IsTurnableEdge(Octahedron(),2);
@@ -488,9 +495,14 @@ DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! [ [ 1, 2, 4 ], [ 1, 3, 5 ] ]
 #! @EndExampleSession
 #!
+#! @Returns a set of positive integers
+#! @Arguments surface
+DeclareAttribute( "TurnableEdges", IsSimplicialSurface);
 #! @Returns true or false
 #! @Arguments surface,edge
-DeclareOperation( "IsTurnableEdge", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "IsTurnableEdge", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments surface, edge
+DeclareOperation( "IsTurnableEdgeNC", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 
 
