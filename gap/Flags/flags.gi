@@ -366,7 +366,7 @@ RedispatchOnCondition( DrawSurfaceToTikz, true,
 ##
 
 InstallMethod(OriginalVertices,
-    "for a barycentric subdivision",
+    "for a flag complex",
     [IsFlagComplex],
     function(flagComp)
         return Vertices(OriginalComplex(flagComp));
@@ -375,7 +375,7 @@ InstallMethod(OriginalVertices,
 
 
 InstallMethod(OriginalEdges,
-    "for a barycentric subdivision",
+    "for a flag complex",
     [IsFlagComplex],
     function(flagComp)
         return Edges(OriginalComplex(flagComp));
@@ -383,7 +383,7 @@ InstallMethod(OriginalEdges,
 );
 
 InstallMethod(OriginalFaces,
-    "for a barycentric subdivision",
+    "for a flag complex",
     [IsFlagComplex],
     function(flagComp)
         return Faces(OriginalComplex(flagComp));
@@ -391,7 +391,7 @@ InstallMethod(OriginalFaces,
 );
 
 InstallMethod(OriginalOneFlag,
-    "for a barycentric subdivision and positive integer",
+    "for a flag complex and positive integer",
     [IsFlagComplex,IsPosInt],
     function(flagComp,vertex)
         return OneFlags(OriginalComplex(flagComp))[vertex];
@@ -399,7 +399,7 @@ InstallMethod(OriginalOneFlag,
 );
 
 InstallMethod(OriginalTwoFlag,
-    "for a barycentric subdivision and positive integer",
+    "for a flag complex and positive integer",
     [IsFlagComplex,IsPosInt],
     function(flagComp,edge)
         return TwoFlags(OriginalComplex(flagComp))[edge];
@@ -407,7 +407,7 @@ InstallMethod(OriginalTwoFlag,
 );
 
 InstallMethod(OriginalThreeFlag,
-    "for a barycentric subdivision and positive integer",
+    "for a flag complex and positive integer",
     [IsFlagComplex,IsPosInt],
     function(flagComp,face)
         return ThreeFlags(OriginalComplex(flagComp))[face];
@@ -415,7 +415,7 @@ InstallMethod(OriginalThreeFlag,
 );
 
 InstallMethod(BarycentreOfVertex,
-    "for barycentric subdivision and positive integer",
+    "for flag complex and positive integer",
     [IsTwistedPolygonalComplex,IsPosInt],
     function(complex,vertex)
         return Position(OneFlags(complex),[0,vertex]);
@@ -423,7 +423,7 @@ InstallMethod(BarycentreOfVertex,
 );
 
 InstallMethod(BarycentreOfEdge,
-    "for barycentric subdivision and positive integer",
+    "for flag complex and positive integer",
     [IsTwistedPolygonalComplex,IsPosInt],
     function(complex,edge)
         return Position(OneFlags(complex),[1,edge]);
@@ -431,7 +431,7 @@ InstallMethod(BarycentreOfEdge,
 );
 
 InstallMethod(BarycentreOfFace,
-    "for barycentric subdivision and positive integer",
+    "for flag complex and positive integer",
     [IsTwistedPolygonalComplex,IsPosInt],
     function(complex,face)
         return Position(OneFlags(complex),[2,face]);

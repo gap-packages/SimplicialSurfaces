@@ -604,9 +604,8 @@ DeclareOperation("OriginalThreeFlag",[IsFlagComplex,IsPosInt]);
 #! @Description
 #! Return the vertex of the flag complex of <A>complex</A> which corresponds
 #! to the flag [0,<A>vertex</A>] of the given twisted polygonal complex, i.e.
-#! the vertex <A>v</A> of the flag complex
-#! <A>flagComp</A> satisfying <K>OneFlags</K>(<A>complex</A>)[<K>v</K>] =
-#! [0,<A>vertex</A>].
+#! the vertex <A>v</A> of the flag complex <A>flagComp</A> satisfying
+#! <K>OneFlags</K>(<A>complex</A>)[<K>v</K>] = [0,<A>vertex</A>].
 
 #! As an example consider the polygonal complex from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
@@ -635,9 +634,8 @@ DeclareOperation("BarycentreOfVertex",[IsTwistedPolygonalComplex,IsPosInt]);
 #! @Description
 #! Return the edge of the flag complex of <A>complex</A> which corresponds
 #! to the flag [1,<A>edge</A>] of the given twisted polygonal complex, i.e.
-#! the edge <A>e</A> of the flag complex
-#! <A>flagComp</A> satisfying <K>OneFlags</K>(<A>complex</A>)[<K>e</K>] =
-#! [1,<A>edge</A>].
+#! the edge <A>e</A> of the flag complex <A>flagComp</A> satisfying
+#! <K>OneFlags</K>(<A>complex</A>)[<K>e</K>] = [1,<A>edge</A>].
 #! As an example consider the polygonal complex from 
 #! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
@@ -686,7 +684,7 @@ DeclareOperation("BarycentreOfEdge",[IsTwistedPolygonalComplex,IsPosInt]);
 #! @EndExampleSession
 #!
 #! @Returns a positive integer
-#! @Arguments complex, oriFace
+#! @Arguments complex, face
 DeclareOperation("BarycentreOfFace",[IsTwistedPolygonalComplex,IsPosInt]);
 #! @EndGroup
 
