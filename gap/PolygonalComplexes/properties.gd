@@ -461,15 +461,15 @@ DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Description
 #! Return the set of all turnable edges of the given simplicial surface.
 #! Let <A>v1,v2</A> be the vertices of the subsurface
-#! induced by a given edge which are not incident this edge.
+#! induced by a given edge which are not incident to this edge.
 #! <Alt Only="TikZ">
 #!     \input{Image_ButIndEdg.tex}
 #! </Alt>
 #! The given edge is a turnable edge, if and only if <A>v1</A> is not equal to
 #! <A>v2</A> and there exist no edge whose incident vertices are exactly
 #! <A>v1</A> and <A>v2</A>.
-#! The method IsTurnableEdge checks whether the given edge is a turnable edge
-#! of the given simplicial surface. The NC-version does not check whether
+#! The method <A>IsTurnableEdge</A> checks whether the given edge is a turnable
+#! edge of the given simplicial surface. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>surface</A>.
 #!
 #! @BeginExampleSession
