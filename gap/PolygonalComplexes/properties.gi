@@ -244,7 +244,7 @@ end
 
 
 InstallMethod( UmbrellaCounter, "for a simplicial surface",
-    [IsSimplicialSurface],
+    [IsSimplicialSurface and IsClosedSurface],
     function(surface)
 	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,
 	verticesOfUmb,edgesOfUmb,facdegOfVert,temp1,EquivalentLists,
@@ -295,10 +295,9 @@ InstallMethod( UmbrellaCounter, "for a simplicial surface",
 	end;
 
 
-	#The list tcounter consists of lists [list1,n] where list1 is a list of 
-	#positive integers and n is a positve integer. This function sorts
-	#the list tcounter lexicographically with respect to the lists
-	#contained in the first component. 
+	#The list tcounter consists of lists of positive integers.
+	#This function sorts the list tcounter with respect to
+	#the length of the lists and lexicography. 
 	help_SortCounter:=function(tcounter)
 		local g,lengths,sortedCounter,l;
 		sortedCounter:=[];

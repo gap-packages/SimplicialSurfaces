@@ -413,7 +413,7 @@ DeclareAttribute( "ButterflyCounter", IsSimplicialSurface);
 #!
 #! @Returns a list of pairs
 #! @Arguments surface
-DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface);
+DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface and IsClosedSurface);
 #! @EndGroup
 
 #! @BeginGroup ThreeFaceCounter
