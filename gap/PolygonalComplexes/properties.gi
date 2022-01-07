@@ -57,7 +57,36 @@ InstallOtherMethod( IsClosedSurface, "for a twisted polygonal complex",
         return IsClosedSurface(complex); # Call the function above
     end
 );
+InstallMethod( IsMultiTetrahedralSphere, "for a simplicial surface and an edge",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local waists;
+        if not (IsSimplicialSurface(complex) and IsClosedSurface(complex) and
+                EulerCharacteristic(complex)=2 and IsVertexFaithful(complex)) then
+                return false;
+        fi;
+	waists:=AllThreeWaistsOfComplex(complex);
+        if Length(waists)=NumberOfFaces(complex)/2-2 then
+                return true;
+        else
+                return false;
+        fi;
+end
+);
 
+InstallMethod( BlockType, "for a simplicial surface", 
+    [IsSimplicialSurface],
+    function( surface )
+	local bblocks,numOfFaces,s;
+	if not (EulerCharacteristic(surface)=2 and IsVertexFaithful(surface)
+	and IsClosedSurface(surface)) then
+		return fail;
+	fi;
+	bblocks:=BuildingBlocks(surface);
+	numOfFaces:=List(bblocks,s->NumberOfFaces(s));
+	return Collected(numOfFaces);
+end
+);
 ##
 ##      End of invariants
 ##

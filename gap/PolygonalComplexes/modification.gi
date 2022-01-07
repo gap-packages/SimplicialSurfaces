@@ -1993,7 +1993,9 @@ InstallMethod( TetrahedralExtension,
 	    local temp,i;
 	    temp:=[];
 	    for i in Difference([1..Length(L)],[g]) do
-		temp[i]:=L[i];
+		if IsBound(L[i]) then
+			temp[i]:=L[i];
+		fi;
 	    od;
 	    return temp;
 	end;
@@ -2016,6 +2018,49 @@ InstallMethod( TetrahedralExtension,
 	return SimplicialSurfaceByDownwardIncidence(VOE,EOF);
 end
 );
+
+InstallMethod( TetrahedralReduction,
+    "for a simplicial surface and a vertex",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, vertex)
+	local f,eof,voe,i,L,ind,faces,remElm,edges,verts,g;
+	remElm:=function(L,ind)
+		local i,res;
+		res:=[];
+		for i in [1..Length(L)] do
+			if IsBound(L[i]) and i <> ind then 
+				res[i]:=L[i];
+			fi;
+		od; 
+		return res;
+	end;
+
+	eof:=ShallowCopy(EdgesOfFaces(surface));
+	voe:=ShallowCopy(VerticesOfEdges(surface));
+	faces:=FacesOfVertex(surface,vertex);
+	if Length(faces)=3 and IsInnerVertex(surface,vertex) then
+		for f in faces do
+			eof:=remElm(eof,f);
+		od;
+                verts:=Union(VerticesOfFace(surface,faces[1]),VerticesOfFace(surface,faces[2]));
+                verts:=Difference(verts,[vertex]);
+		edges:=[];
+		for i in [1,2,3] do
+			edges[i]:=Filtered(EdgesOfFace(surface,faces[i]),
+				g->VerticesOfEdge(surface,g) in Combinations(verts,2))[1];
+		od;
+                eof[Maximum(Faces(surface))+1]:=Set(edges);
+		for g in EdgesOfVertex(surface,vertex) do
+			voe:=remElm(voe,g);
+		od;
+	else
+		return fail;
+	fi;
+	
+	return SimplicialSurfaceByDownwardIncidence(voe,eof);
+end
+);
+
 ##
 ##      End of TetrahedralExtension
 ##
@@ -2068,4 +2113,30 @@ end
 ##      End of Edgeturn
 ##
 #######################################
+
+InstallMethod( BuildingBlocks, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function( surface )
+        local w,bound,surf,vof1,vof2,waists,v;
+        if not (IsClosedSurface(surface) and EulerCharacteristic(surface)=2 
+		and IsVertexFaithful(surface)) then
+                return false;
+        fi;
+        surf:=surface;
+        waists:=AllThreeWaistsOfComplex(surface);
+        while waists<>[] do
+                w:=EdgesAsList(waists[1]);
+                surf:=CraterCut(surf,w[1]);
+                surf:=RipCut(surf,w[2]);
+                surf:=SplitCut(surf,w[3]);
+                bound:=BoundaryVertices(surf);
+                vof1:=Intersection(bound,NeighbourVerticesOfVertex(surf,bound[1]));
+                vof1:=Union([bound[1]],vof1);
+                vof2:=Difference(bound,vof1);
+                surf:=SimplicialSurfaceByVerticesInFaces(Union(VerticesOfFaces(surf),[vof1,vof2]));
+                waists:=AllThreeWaistsOfComplex(surf);
+        od;
+        return ConnectedComponents(surf);
+end
+);
 

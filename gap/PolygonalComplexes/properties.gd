@@ -129,6 +129,39 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
 
+#! @BeginGroup IsMultiTetrahedralSphere
+#! @Description
+#! Check whether the given twisted polygonal complex is a multitetrahedral sphere. A
+#! multitetrahedral sphere can be obtained by starting with the tetrahedron and 
+#! performing a finite number of tetrahedral extensions. So multi-tetrahedral spheres
+#! are closed simplicial surfaces with euler-characteristic 2. Up to isomorphism 
+#! there is exactly one multi-tetrahedral sphere with 4 faces, namely the tetradron.
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      \input{Image_Tetrahedron_Net.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! And there is exactly one multi-tetrahedral sphere with 6 faces namely the double
+#! tetraedron which can be obtained by performing exactly one tetrahedral extension
+#! to the tetradron.
+#! <Alt Only="TikZ">
+#!      \input{Image_DoubleTetrahedron.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> IsMultiTetrahedralSphere(Tetrahedron());
+#! true
+#! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> IsMultiTetrahedralSphere(s);
+#! true
+#! gap> IsMultiTetrahedralSphere(Octahedron());
+#! false
+#! @EndExampleSession
+#! @Returns true or false
+#! @Arguments complex
+DeclareProperty( "IsMultiTetrahedralSphere", IsTwistedPolygonalComplex );
+#! @EndGroup 
 
 #! @Section Degree-based properties and invariants
 #! @SectionLabel Properties_Degrees
@@ -790,3 +823,42 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndGroup
 
+#! @Section Block type
+#! @SectionLabel blocktype
+
+#! @BeginGroup BlockType
+#! @Description
+#! Return the block type of a vertex-faithful simplicial sphere.
+#! The block type is a list of pairs <K>[num,numOfFaces]</K> where <K>num</K> counts
+#! the building blocks(<Ref Subsect="BuildingBlocks"/>) of <K>surface</K> whose number 
+#! of faces match <K>numOfFaces</K>.
+#! Since building blocks only exist for vertex-faithful spheres the function returns
+#! <K>fail</K>, if <K>surface</K> does not satisfy this property.  
+#! @BeginExampleSession
+#! gap> BlockType(Tetrahedron());
+#! [ [ 4, 1 ] ]
+#! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> BlockType(s);
+#! [ [ 4, 2 ] ]
+#! gap> vof2:=[ [ 1, 4, 6 ], [ 1, 4, 9 ], [ 1, 5, 7 ], [ 1, 5, 8 ], [ 1, 6, 7 ],
+#! >   [ 1, 8, 9 ], [ 2, 3, 5 ], [ 2, 3, 6 ], [ 2, 4, 5 ], [ 2, 4, 6 ],
+#! >   [ 3, 5, 7 ], [ 3, 6, 7 ], [ 4, 5, 10 ], [ 4, 9, 10 ], [ 5, 8, 10 ],
+#! >   [ 8, 9, 11 ], [ 8, 10, 13 ], [ 8, 11, 13 ], [ 9, 10, 14 ], [ 9, 11, 12 ],
+#! >   [ 9, 12, 14 ], [ 10, 13, 14 ], [ 11, 12, 13 ], [ 12, 13, 14 ] ];;
+#! gap> ss:=SimplicialSurfaceByVerticesInFaces(vof2);
+#! simplicial surface (14 vertices, 36 edges, and 24 faces)
+#! gap> BuildingBlocks(ss);
+#! [ simplicial surface (7 vertices, 15 edges, and 10 faces)
+#!    , simplicial surface (7 vertices, 15 edges, and 10 faces)
+#!    , 
+#!  simplicial surface (6 vertices, 12 edges, and 8 faces) 
+#!  ]
+#! gap> BlockType(ss);
+#! [ [ 8, 1 ], [ 10, 2 ] ]
+#! @EndExampleSession
+#! @Returns list of pairs
+#! @Arguments surface
+DeclareAttribute( "BlockType",IsSimplicialSurface);
+#! @EndGroup

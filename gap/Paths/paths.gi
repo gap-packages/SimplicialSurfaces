@@ -1302,3 +1302,46 @@ InstallMethod( ViewObj, "for an edge-coloured edge-face-path",
         fi;
     end
 );
+
+
+#######################################
+##
+##      Waists
+##
+
+InstallMethod( AllTwoWaistsOfComplex, "for a simplicial surface",
+    [IsTwistedPolygonalComplex],
+    function( surface )
+	local waists,i,j,edges,voe1,voe2;
+	waists:=[];
+	edges:=Edges(surface);
+	for i in [1..NumberOfEdges(surface)] do
+		for j in [i+1..NumberOfEdges(surface)] do 
+			voe1:=VerticesOfEdge(surface,edges[i]);
+			voe2:=VerticesOfEdge(surface,edges[j]);
+			if voe1=voe2 then
+				Add(waists,VertexEdgePathByEdges(surface,edges{[i,j]}));
+			fi;
+		od;
+	od;
+	return waists;
+end
+);
+
+InstallMethod( AllThreeWaistsOfComplex, "for a simplicial surface",
+    [IsTwistedPolygonalComplex],
+    function( surface )
+        local w,eof,waists;
+        waists:=Combinations(Edges(surface),3);
+        waists:=Filtered(waists,w->Length(Union(VerticesOfEdges(surface){w}))=3);
+        waists:=Filtered(waists,w->Filtered(EdgesOfFaces(surface),
+        eof->Length(Intersection(w,eof))>=2)=[]);
+        return List(waists,w->VertexEdgePathByEdges(surface,w));
+end
+);
+
+##
+##      End of waists
+##
+#######################################
+
