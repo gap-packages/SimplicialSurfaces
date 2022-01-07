@@ -429,7 +429,7 @@ DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #! <K>FlagComplex</K>(<A>complex</A>) = <A>flagComp</A>.
 
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -456,7 +456,7 @@ DeclareOperation("OriginalVertices",[IsFlagComplex]);
 #! <K>FlagComplex</K>(<A>complex</A>) = <A>flagComp</A>.
 
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -483,7 +483,7 @@ DeclareOperation("OriginalEdges",[IsFlagComplex]);
 #! <K>FlagComplex</K>(<A>complex</A>) = <A>flagComp</A>.
 
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -511,7 +511,7 @@ DeclareOperation("OriginalFaces",[IsFlagComplex]);
 #! <A>oneflag</A>.
 
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -542,7 +542,7 @@ DeclareOperation("OriginalOneFlag",[IsFlagComplex,IsPosInt]);
 #! <A>twoflag</A>.
 
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -578,7 +578,7 @@ DeclareOperation("OriginalTwoFlag",[IsFlagComplex,IsPosInt]);
 #! <A>threeflag</A>.
 
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -608,7 +608,7 @@ DeclareOperation("OriginalThreeFlag",[IsFlagComplex,IsPosInt]);
 #! <K>OneFlags</K>(<A>complex</A>)[<K>v</K>] = [0,<A>vertex</A>].
 
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -637,7 +637,7 @@ DeclareOperation("BarycentreOfVertex",[IsTwistedPolygonalComplex,IsPosInt]);
 #! the edge <A>e</A> of the flag complex <A>flagComp</A> satisfying
 #! <K>OneFlags</K>(<A>complex</A>)[<K>e</K>] = [1,<A>edge</A>].
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
@@ -667,7 +667,7 @@ DeclareOperation("BarycentreOfEdge",[IsTwistedPolygonalComplex,IsPosInt]);
 #! <K>OneFlags</K>(<A>complex</A>)[<K>f</K>] = [2,<A>face</A>].
 
 #! As an example consider the polygonal complex from 
-#! <Ref Sect="Section_Flags_Definition"/> and it's barycentric subdivision
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
 #! <Alt Only="TikZ">
