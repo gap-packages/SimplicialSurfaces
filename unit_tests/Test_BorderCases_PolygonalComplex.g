@@ -295,19 +295,26 @@ BindGlobal( "__SIMPLICIAL_Test_JoinEdges", function()
  end);
 
 BindGlobal( "__SIMPLICIAL_Test_JoinFaces", function()
-     local oneFace;
+     local s, oneFace;
 
-     oneFace := JoinFaces(JanusHead(),[1,2]);
-     Assert(0,Length(Faces(oneFace[1]))=1);
+     s := JoinFaces(JanusHead(),[1,2]);
+     Assert(0,Length(Faces(s[1]))=1);
 
-     oneFace := JoinFaces(JanusHead(),[1]);
-     Assert(0,oneFace[2]=1);
+     s := JoinFaces(JanusHead(),[1]);
+     Assert(0,s[2]=1);
 
-     oneFace := JoinFaces(JanusHead(),1,1);
-     Assert(0,oneFace[2]=1);
+     s := JoinFaces(JanusHead(),1,1);
+     Assert(0,s[2]=1);
 
-     oneFace := JoinFaces(JanusHead(),1,1,10);
-     Assert(0,oneFace[2]=10);
+     s := JoinFaces(JanusHead(),1,1,10);
+     Assert(0,s[2]=10);
+
+      oneFace:=SimplicialSurfaceByVerticesInFaces([[1,2,3]]);
+      s:=JoinFacesNC(JanusHead(),1,2)[1];
+      Assert(0,IsIsomorphic(oneFace,s));
+
+      s:=JoinFacesNC(JanusHead(),[1,2])[1];
+      Assert(0,IsIsomorphic(oneFace,s));
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_SplitVertex", function()
