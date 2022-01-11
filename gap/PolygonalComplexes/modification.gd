@@ -1160,9 +1160,9 @@ DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
 
 #! @BeginGroup TetrahedralReduction
 #! @Description
-#! Given a simplicial surface and a vertex of face degree 3 a new surface can be 
-#! constructed by removing the faces incident to <K>vertex</K> in <K>surface</K>.
-#! and attaching a new face to the resulting boundary edges.
+#! Given a simplicial surface and a vertex of face degree 3 a new surface can
+#! be constructed by removing the faces incident to <K>vertex</K> in
+#! <K>surface</K> and attaching a new face to the resulting boundary edges.
 #! <Alt Only="TikZ">
 #!      \input{Image_TetraRed.tex}
 #! </Alt>
@@ -1174,10 +1174,12 @@ DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
 #! </Alt>
 #! @BeginExampleSession
 #! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);
 #! simplicial surface (5 vertices, 9 edges, and 6 faces)
-#! gap> TetrahedralReduction(s,4);
+#! gap> tet:=TetrahedralReduction(doubleTetra,4);
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> IsIsomorphic(tet,Tetrahedron());
+#! true
 #! @EndExampleSession
 
 #! So performing the tetrahedral reduction with the double tetrahedron gives rise
@@ -1243,41 +1245,35 @@ DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt,IsPosInt] );
 #! can be constructed by computing the connected-face sum 
 #! (<Ref Subsect="ConnectedFaceSum"/>) of this surfaces.
 #! This gives rise to a waist of length 3 in the resulting surface.
-#! Applying this procedure for example to two tetradron with any two faces 
-#! gives rise to the double tetrahedron.
  
 #! Given a vertex-faithful simplicial sphere there exists a finite number of 
 #! simplicial spheres without waists of length 3, so that iteratively computing the 
 #! connected-face-sum of those surfaces gives rise to <K>surface</K>, up to 
 #! isomorphism. This surfaces which are unique up to isomorphism are called the 
-#! building blocks of the simplicial sphere <K>surface</K>. So the double tetrahedron
-#! has two building blocks, namely two tetrahedron.
+#! building blocks of the simplicial sphere <K>surface</K>. 
 #! Since building blocks only exist for vertex-faithful spheres the function returns
 #! <K>fail</K>, if <K>surface</K> does not satisfy this property. 
+#! As an example, consider the octahedron.
 #! @BeginExampleSession
 #! gap> BuildingBlocks(Octahedron());
 #! [ simplicial surface (6 vertices, 12 edges, and 8 faces)]
+#! @EndExampleSession
+#!
+#! As another example consider the double tetrahedron.
+#! Applying the connected sum to two tetrahedron with any two faces 
+#! gives rise to the double tetrahedron. So the double tetrahedron
+#! has two building blocks, namely two tetrahedron.
+#! @BeginExampleSession
 #! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);
 #! simplicial surface (5 vertices, 9 edges, and 6 faces)
-#! gap> bb:=BuildingBlocks(s);
+#! gap> buildingBlocks:=BuildingBlocks(doubleTetra);
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces)
 #!     , 
 #!   simplicial surface (4 vertices, 6 edges, and 4 faces) 
 #!  ]
-#! gap> List(bb,g->IsIsomorphic(g,Tetrahedron()));
+#! gap> List(buildingBlocks,g->IsIsomorphic(g,Tetrahedron()));
 #! [ true, true ]
-#! gap> vof2:=[[1,4,6],[1,4,9],[1,5,7],[1,5,8],[1,6,7],[1,8,9],
-#! > [2,3,5],[2,3,6],[2,4,5],[2,4,6],[3,5,7],[3,6,7],[4,5,10],
-#! > [4,9,10],[5,8,10],[8,9,11],[8,10,13],[8,11,13],[9,10,14],
-#! > [9,11,12],[9,12,14],[10,13,14],[11,12,13],[12,13,14]];;
-#! gap> ss:=SimplicialSurfaceByVerticesInFaces(vof2);
-#! simplicial surface (14 vertices, 36 edges, and 24 faces)
-#! gap> BuildingBlocks(ss);
-#! [ simplicial surface (7 vertices, 15 edges, and 10 faces)
-#!    , simplicial surface (7 vertices, 15 edges, and 10 faces)
-#!    , 
-#!  simplicial surface (6 vertices, 12 edges, and 8 faces) ]
 #! @EndExampleSession
 #! @Returns a set of simplicial surfaces
 #! @Arguments surface

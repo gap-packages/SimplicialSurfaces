@@ -2126,9 +2126,7 @@ InstallMethod( BuildingBlocks, "for a simplicial surface",
         waists:=AllThreeWaistsOfComplex(surface);
         while waists<>[] do
                 w:=EdgesAsList(waists[1]);
-                surf:=CraterCut(surf,w[1]);
-                surf:=RipCut(surf,w[2]);
-                surf:=SplitCut(surf,w[3]);
+		surf:=SplitVertexEdgePath(surface,waists[1])[1];
                 bound:=BoundaryVertices(surf);
                 vof1:=Intersection(bound,NeighbourVerticesOfVertex(surf,bound[1]));
                 vof1:=Union([bound[1]],vof1);

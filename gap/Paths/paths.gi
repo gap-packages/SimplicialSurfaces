@@ -1309,7 +1309,7 @@ InstallMethod( ViewObj, "for an edge-coloured edge-face-path",
 ##      Waists
 ##
 
-InstallMethod( AllTwoWaistsOfComplex, "for a simplicial surface",
+InstallMethod( AllTwoWaistsOfComplex, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function( surface )
 	local waists,i,j,edges,voe1,voe2;
@@ -1328,7 +1328,7 @@ InstallMethod( AllTwoWaistsOfComplex, "for a simplicial surface",
 end
 );
 
-InstallMethod( AllThreeWaistsOfComplex, "for a simplicial surface",
+InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function( surface )
         local w,eof,waists;

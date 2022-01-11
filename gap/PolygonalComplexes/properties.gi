@@ -57,7 +57,7 @@ InstallOtherMethod( IsClosedSurface, "for a twisted polygonal complex",
         return IsClosedSurface(complex); # Call the function above
     end
 );
-InstallMethod( IsMultiTetrahedralSphere, "for a simplicial surface and an edge",
+InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
         local waists;
