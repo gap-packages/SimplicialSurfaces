@@ -171,6 +171,63 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 DeclareProperty( "IsMultiTetrahedralSphere", IsTwistedPolygonalComplex );
 #! @EndGroup 
 
+#! @BeginGroup TetrahedralNumber
+#! @Description
+#! Return the number of tetrahedra that are used to construct the given 
+#! twisted polygonal complex. If <K>complex</K> is a multi-tetrahedral sphere,
+#! this number is 1 greater than the number of tetrahedral extensions that 
+#! have to be applied to the tetrahedron to obtain <K>complex</K>.
+#! If <K>complex</K> is not a multi-tetrahedral sphere, the function returns
+#! fail.
+#! As example, consider the tetrahedron, the double tetrahedron and 
+#! the multi-tetrahedral sphere which can be obtained by
+#! applying exactly two tetrahedral extensions to the tetrahedron.  
+#! @BeginExampleSession
+#! gap> doubleTetra:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> multiTetra:=TetrahedralExtension(doubleTetra,2);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> TetrahedralNumber(Tetrahedron());
+#! 1
+#! gap> TetrahedralNumber(doubleTetra);
+#! 2
+#! gap> TetrahedralNumber(multiTetra);
+#! 3
+#! @EndExampleSession
+DeclareAttribute( "TetrahedralNumber", IsTwistedPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup TetrahedralType
+#! @Description
+#! Return the tetrahedral type of a given twisted polygonal complex or
+#! <K>fail</K>, if <K>complex</K> is not a multi tetrahedral sphere. 
+#! The tetrahedral type of multi tetrahedral sphere is a tuple
+#! <K>[a0,...,ak]</K> satisfying the following property.
+#! <K>X</K> is a list of multi tetrahedral spheres of length <K>k</K> so that
+#! <K>X[1]=complex</K> and <K>X[k]</K> is either isomorphic to the tetrahedron 
+#! or the double tetrahedron. Furthermore <K>X[K]</K> is obtained by applying 
+#! tetrahedral reductions to all vertices with face degree 3 in <K>X[k-1]</K>.
+#! So <K>ak</K> is the number of vertices with face degree 3 in <K>X[k]</K>,
+#! if <K>X[k]</K> is isomorphic to the tetrahedron, the number <K>ak</K> is
+#! redefined as 1.
+#! As example, consider the tetrahedron, the double tetrahedron and 
+#! the multi-tetrahedral sphere which can be obtained by
+#! applying exactly two tetrahedral extensions to the tetrahedron.  
+#! @BeginExampleSession
+#! gap> doubleTetra:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> multiTetra:=TetrahedralExtension(doubleTetra,2);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> TetrahedralType(Tetrahedron());
+#! [ 1 ]
+#! gap> TetrahedralType(doubleTetra);
+#! [ 2 ]
+#! gap> TetrahedralType(multiTetra);
+#! [ 2, 1 ]
+#! @EndExampleSession
+DeclareAttribute( "TetrahedralType", IsTwistedPolygonalComplex );
+#! @EndGroup TetrahedralType
+
 #! @Section Degree-based properties and invariants
 #! @SectionLabel Properties_Degrees
 

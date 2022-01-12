@@ -1189,6 +1189,31 @@ DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
 DeclareOperation( "TetrahedralReduction", [IsSimplicialSurface,IsPosInt] );
 #! @EndGroup
 
+#! @BeginGroup InnerMultiTetrahedralSphere
+#! @Description
+#! Return the inner multitetrahedral sphere of a given twisted polygonal
+#! complex. If <K>complex</K> is a multi tetrahedral sphere, a new multi
+#! tetrahedral sphere can be obtained by applying 
+#! As an example, consider the multi tetrahedral sphere obtained by applying 
+#! exactly two tetrahdral extensions to the tetrahedron with any two faces.
+#! Since this surface has exactly two vertices with face degree 2, removing 
+#! the attached tetrahedron gives rise to the tetrahedron.
+#! @BeginExampleSession
+#! gap> doubleTetra:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> multiTetra:=TetrahedralExtension(doubleTetra,2);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> TetrahedralType(Tetrahedron());
+#! gap> InnerMultiTetrahedralSphere(multiTetra);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! @EndExampleSession
+DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
+#! @EndGroup InnerMultiTetrahedralSphere
+
+#! @BeginGroup MultiTetrahedralSphereByTetrahedralSymbol
+DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
+#! @EndExampleSession
+
 #! @BeginGroup EdgeTurn
 #! @Description
 #! Given a simplicial surface and an inner edge contained in the surface, one

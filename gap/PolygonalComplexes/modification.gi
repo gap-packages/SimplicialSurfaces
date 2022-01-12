@@ -2061,6 +2061,75 @@ InstallMethod( TetrahedralReduction,
 end
 );
 
+InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local v,vert,comp;
+	comp:=complex;
+        vert:=Filtered(Vertices(comp),v->FaceDegreeOfVertex(comp,v)=3);
+        if IsMultiTetrahedralSphere(comp) then
+                if not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] then
+                        for v in vert do
+                               comp:=TetrahedralReduction(comp,v);
+                        od;
+                fi;
+        fi;
+        return comp;
+end
+);
+
+InstallMethod( MultiTetrahedralSphereByTetrahedralSymbol, 
+    "for a dense list",
+    [IsDenseList],
+    function(symbol)
+	local idenFaces,idenVertices,temp,
+	helpNameFacesAndVertices,tup,face,surf;
+######################
+	helpNameFacesAndVertices:=function(surf,idFOT,idVOT)
+		local idf,f,temp,newV,oldF,vertexIDs,faceIDs,idOfOldFace,idOfnewV,
+		newFaceIDs,idOfNeighVert,newVertIDs;
+
+		temp:=List(Union(idVOT),tup->tup[2]);
+		newV:=Difference(Vertices(surf),temp)[1];
+                temp:=List(Union(idFOT),tup->tup[2]);
+                oldF:=Difference(temp,Faces(surf))[1];
+
+		vertexIDs:=Union(idVOT);
+		faceIDs:=Union(idFOT);
+
+		idOfNeighVert:=Filtered(vertexIDs,id->id[2] in 
+			NeighbourVerticesOfVertex(surf,newV));
+		idOfOldFace:=Filtered(faceIDs,id->id[2]=oldF)[1];
+		idOfnewV:=[idOfOldFace[1],newV];
+		newVertIDs:=Union([idOfnewV],idOfNeighVert);
+		Add(idVOT,Union([idOfnewV],newVertIDs));
+		
+		newFaceIDs:=[];
+		for f in FacesOfVertex(surf,newV) do 
+			idf:=Filtered(newVertIDs,id->not id[2] in
+			VerticesOfFace(surf,f))[1][1];
+			Add(newFaceIDs,[idf,f]);
+		od;
+		Add(idFOT,Union(newFaceIDs,[idOfOldFace]));
+		return [idFOT,idVOT];
+	end;
+#################
+	surf:=SimplicialSurfaceByVerticesInFaces([[2,3,4],[1,3,4],
+						[1,2,4],[1,2,3]]);
+	idenVertices:=[[[1,1],[2,2],[3,3],[4,4]]];
+	idenFaces:=[[[1,1],[2,2],[3,3],[4,4]]];
+
+	for tup in symbol do
+		face:=Filtered(idenFaces[tup[1]], id->id[1]=tup[2])[1][1];
+		surf:=TetrahedralExtension(surf,face);
+		temp:=helpNameFacesAndVertices(surf,idenFaces,idenVertices);
+		idenFaces:=temp[1];
+		idenVertices:=temp[2];
+	od;
+	return surf;
+    end
+);
+
 ##
 ##      End of TetrahedralExtension
 ##

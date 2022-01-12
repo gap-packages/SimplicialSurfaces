@@ -57,6 +57,7 @@ InstallOtherMethod( IsClosedSurface, "for a twisted polygonal complex",
         return IsClosedSurface(complex); # Call the function above
     end
 );
+
 InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
@@ -71,6 +72,41 @@ InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
         else
                 return false;
         fi;
+end
+);
+
+InstallMethod( TetrahedralNumber, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+	if IsMultiTetrahedralSphere(complex) then
+			return NumberOfFaces(complex)/2-1;
+	else
+		return fail;
+	fi; 
+    end
+);
+InstallMethod( TetrahedralType, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+	local comp,v,tetraNumber;
+	comp:=complex;
+	tetraNumber:=[];
+	if IsMultiTetrahedralSphere(complex) then
+		while not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] do
+			Add(tetraNumber,Length(Filtered(Vertices(comp),
+				v->FaceDegreeOfVertex(comp,v)=3)));
+			comp:=InnerMultiTetrahedralSphere(comp);
+		od;
+		if VertexCounter(comp)=[[3,4]] then 
+			Add(tetraNumber,1);
+		fi;
+		if VertexCounter(comp)=[[3,2],[4,3]] then
+			Add(tetraNumber,2);
+		fi;
+	else
+		return fail;
+	fi;
+	return tetraNumber;
 end
 );
 
