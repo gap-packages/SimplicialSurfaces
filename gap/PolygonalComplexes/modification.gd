@@ -1191,28 +1191,49 @@ DeclareOperation( "TetrahedralReduction", [IsSimplicialSurface,IsPosInt] );
 
 #! @BeginGroup InnerMultiTetrahedralSphere
 #! @Description
-#! Return the inner multitetrahedral sphere of a given twisted polygonal
+#! Return the inner multi tetrahedral sphere of a given twisted polygonal
 #! complex. If <K>complex</K> is a multi tetrahedral sphere, a new multi
-#! tetrahedral sphere can be obtained by applying 
+#! tetrahedral sphere can be obtained by applying a tetrahedral reduction
+#! to every vertex in <K>complex</K> with face degree 3. If <K>complex</K>
+#! is not a multi tetrahedral sphere, the function returns <K>fail</K>.
+#!
 #! As an example, consider the multi tetrahedral sphere obtained by applying 
 #! exactly two tetrahdral extensions to the tetrahedron with any two faces.
-#! Since this surface has exactly two vertices with face degree 2, removing 
+#! Since this surface has exactly two vertices with face degree 3, removing 
 #! the attached tetrahedron gives rise to the tetrahedron.
 #! @BeginExampleSession
 #! gap> doubleTetra:=TetrahedralExtension(Tetrahedron(),1);
 #! simplicial surface (5 vertices, 9 edges, and 6 faces)
 #! gap> multiTetra:=TetrahedralExtension(doubleTetra,2);
 #! simplicial surface (6 vertices, 12 edges, and 8 faces)
-#! gap> TetrahedralType(Tetrahedron());
-#! gap> InnerMultiTetrahedralSphere(multiTetra);
+#! gap> tetra:=InnerMultiTetrahedralSphere(multiTetra);
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> IsIsomorphic(tetra,Tetrahedron());
+#! true
 #! @EndExampleSession
+#! @Returns a complex
+#! @Arguments complex 
 DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
-#! @EndGroup InnerMultiTetrahedralSphere
+## ! @EndGroup 
 
 #! @BeginGroup MultiTetrahedralSphereByTetrahedralSymbol
-DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
+#! @Description
+#! Returns a multi tetrahedral sphere with the given multi tetrahedral symbol.
+#! As examples, consider the following two multi tetrahedral symbols.
+#! @BeginExampleSession
+#! gap> tetra:=MultiTetrahedralSphereByTetrahedralSymbol([]);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> VertexCounter(tetra);
+#! [ [ 3, 4 ] ]
+#! gap> doubleTet:=MultiTetrahedralSphereByTetrahedralSymbol([[1,1]]);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> VertexCounter(doubleTet);
+#! [ [ 3, 2 ], [ 4, 3 ] ]
 #! @EndExampleSession
+#! @Returns a simplicial surface
+#! @Arguments symbol
+DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
+#! @EndGroup
 
 #! @BeginGroup EdgeTurn
 #! @Description

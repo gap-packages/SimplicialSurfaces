@@ -2008,13 +2008,13 @@ InstallMethod( TetrahedralExtension,
         Add(VOE,[vof[2],nV+1]);
         Add(VOE,[vof[3],nV+1]);
 	eof:=EOF[face];
-	EOF:=rem(EOF,face);
 	for e in eof do 
 		voe:=VerticesOfEdge(surface,e);
 		edges:=Filtered([nE+1,nE+2,nE+3],g->
 		Intersection(VOE[g],VerticesOfEdge(surface,e))<>[]);
 		Add(EOF,[e,edges[1],edges[2]]);
 	od;
+        EOF:=rem(EOF,face);
 	return SimplicialSurfaceByDownwardIncidence(VOE,EOF);
 end
 );
@@ -2084,7 +2084,6 @@ InstallMethod( MultiTetrahedralSphereByTetrahedralSymbol,
     function(symbol)
 	local idenFaces,idenVertices,temp,
 	helpNameFacesAndVertices,tup,face,surf;
-######################
 	helpNameFacesAndVertices:=function(surf,idFOT,idVOT)
 		local idf,f,temp,newV,oldF,vertexIDs,faceIDs,idOfOldFace,idOfnewV,
 		newFaceIDs,idOfNeighVert,newVertIDs;
@@ -2113,14 +2112,13 @@ InstallMethod( MultiTetrahedralSphereByTetrahedralSymbol,
 		Add(idFOT,Union(newFaceIDs,[idOfOldFace]));
 		return [idFOT,idVOT];
 	end;
-#################
 	surf:=SimplicialSurfaceByVerticesInFaces([[2,3,4],[1,3,4],
 						[1,2,4],[1,2,3]]);
 	idenVertices:=[[[1,1],[2,2],[3,3],[4,4]]];
 	idenFaces:=[[[1,1],[2,2],[3,3],[4,4]]];
 
 	for tup in symbol do
-		face:=Filtered(idenFaces[tup[1]], id->id[1]=tup[2])[1][1];
+		face:=idenFaces[tup[1]][tup[2]][2];
 		surf:=TetrahedralExtension(surf,face);
 		temp:=helpNameFacesAndVertices(surf,idenFaces,idenVertices);
 		idenFaces:=temp[1];
