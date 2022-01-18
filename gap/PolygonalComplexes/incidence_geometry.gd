@@ -903,13 +903,9 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! @Description
 #! The method <K>Star</K>(<A>surface</A>, <A>vertex</A>) returns for <A>vertex</A> the subcomplex
 #! which is determined by the faces around <A>vertex</A>.
+#! The method <K>Star</K>(<A>surface</A>, <A>vertices</A>) returns the subcomplex
+#! which is determined by the faces around all the vertices in <A>vertices</A>.
 #! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>surface</A>.
-#!
-#! The attribute <K>Star</K>(<A>surface</A>) collects all of those
-#! subcomplexes in a list that is indexed by the vertex labels, i.e.
-#! <K>Star</K>(<A>surface</A>)[<A>vertex</A>] =
-#! <K>Star</K>(<A>surface</A>, <A>vertex</A>).
-#! All other positions of this list are not bound.
 #! 
 #! For example, consider the hexagon:
 #! <Alt Only="TikZ">
@@ -919,23 +915,26 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! gap> hex := SimplicialSurfaceByDownwardIncidence( 
 #! >    [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ], 
 #! >    [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;
-#! gap> star:=Star(hex,7);
+#! gap> star1:=Star(hex,7);
 #! simplicial surface (7 vertices, 12 edges, and 6 faces)
-#! gap> IsIsomorphic(star,hex);
+#! gap> IsIsomorphic(star1,hex);
 #! true
-#! gap> Star(hex)[7]=star;
+#! gap> star2:=Star(hex,[1,7]);
+#! simplicial surface (7 vertices, 12 edges, and 6 faces)
+#! gap> IsIsomorphic(star2,hex);
 #! true
 #! @EndExampleSession
-#! The star of vertex 7 is the same as the hexagon.
+#! The star of vertex 7 and the star of vertex 1 and 7 is the same as the hexagon.
 #! 
-#! @Returns a list of subsurfaces
-#! @Arguments surface
-DeclareAttribute("Star", IsPolygonalSurface);
 #! @Returns a subsurface
 #! @Arguments surface, vertex
 DeclareOperation("Star",[IsPolygonalSurface,IsInt]);
 #! @Arguments surface, vertex
 DeclareOperation("StarNC",[IsPolygonalSurface,IsInt]);
+#! @Arguments surface, vertices
+DeclareOperation("Star",[IsPolygonalSurface,IsList]);
+#! @Arguments surface, vertices
+DeclareOperation("StarNC",[IsPolygonalSurface,IsList]);
 #! @EndGroup
 
 #! @BeginGroup Link
@@ -967,10 +966,10 @@ DeclareOperation("StarNC",[IsPolygonalSurface,IsInt]);
 #! @EndExampleSession
 #! The link of vertex 7 is the same as the boundary of the hexagon.
 #!
-#! @Returns a list of subsurfaces
+#! @Returns a list of vertex-edge-paths
 #! @Arguments surface
 DeclareAttribute("Link", IsPolygonalSurface);
-#! @Returns a subsurface
+#! @Returns a path
 #! @Arguments surface, vertex
 DeclareOperation("Link",[IsPolygonalSurface,IsInt]);
 #! @Arguments surface, vertex

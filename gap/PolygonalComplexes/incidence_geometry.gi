@@ -593,7 +593,7 @@ InstallMethod(StarNC, "for a polygonal surface and an integer", [IsPolygonalSurf
 		local faces;
 		
 		faces:=FacesOfVertex(surface,vertex);
-		return SubsurfaceByFaces(surface,faces);
+		return SubcomplexByFaces(surface,faces);
 	
 	end
 );
@@ -607,17 +607,30 @@ InstallMethod(Star, "for a polygonal surface and an integer", [IsPolygonalSurfac
 	end
 );
 
-InstallOtherMethod(Star, "for a polygonal surface", [IsPolygonalSurface],
-	function(surface)
-	
-		local vertex, list;
-		list:=[];
-		for vertex in Vertices(surface) do
-			Add(list, Star(surface,vertex));
+InstallMethod(StarNC, "for a polygonal surface and a list", [IsPolygonalSurface, IsList],
+        function(surface, vertices)
+
+                local faces, v;
+		faces:=[];
+		for v in vertices do
+                	Append(faces,FacesOfVertex(surface,v));
 		od;
-		return list;
-	
-	end
+                return SubcomplexByFaces(surface,faces);
+
+        end
+);
+
+InstallMethod(Star, "for a polygonal surface and a list", [IsPolygonalSurface, IsList],
+        function(surface, vertices)
+		
+		local v;
+
+		for v in vertices do
+                	__SIMPLICIAL_CheckVertex(surface,v, "Star");
+		od;
+                return StarNC(surface,vertices);
+
+        end
 );
 
 InstallMethod(LinkNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
