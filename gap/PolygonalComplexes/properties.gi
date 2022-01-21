@@ -764,8 +764,39 @@ InstallMethod( IsInnerEdge, "for a twisted polygonal complex and an edge",
         return IsInnerEdgeNC(complex, edge);
     end
 );
-#TODO Implication to IsClosedSurface
 
+InstallMethod( IsTurnableEdge, "for a simplicial surface and an edge",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, edge)
+        __SIMPLICIAL_CheckEdge(surface, edge, "IsTurnableEdge");
+        return IsTurnableEdgeNC(surface, edge);
+    end
+);
+
+InstallMethod(TurnableEdges,"for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+	local res,voe1,voe2,foe,edge;
+	res:=[];
+	for edge in Edges(surface) do 
+		voe1:=VerticesOfEdge(surface,edge);
+		foe:=FacesOfEdge(surface,edge);
+		voe2:=Union(VerticesOfFaces(surface){foe});
+		voe2:=Difference(voe2,voe1);
+		if Length(voe2)>=2 and not voe2 in VerticesOfEdges(surface) then
+			Add(res,edge);
+		fi;
+	od;
+	return res;
+    end
+);
+
+InstallMethod( IsTurnableEdgeNC, "for a simplicial surface and an edge",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, edge)
+        return edge in TurnableEdges(surface);
+    end
+);
 
 InstallMethod( BoundaryEdges, "for a polygonal complex",
     [IsPolygonalComplex],

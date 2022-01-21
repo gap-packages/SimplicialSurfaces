@@ -559,6 +559,54 @@ DeclareOperation( "IsInnerEdge", [IsTwistedPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
+#! @BeginGroup TurnableEdges
+#! @Description
+#! Return the set of all turnable edges of the given simplicial surface.
+#! Let <A>v1,v2</A> be the vertices of the subsurface
+#! induced by a given edge which are not incident to this edge.
+#! <Alt Only="TikZ">
+#!     \input{Image_ButIndEdg.tex}
+#! </Alt>
+#! The given edge is a turnable edge, if and only if <A>v1</A> is not equal to
+#! <A>v2</A> and there exist no edge whose incident vertices are exactly
+#! <A>v1</A> and <A>v2</A>.
+#! The method <A>IsTurnableEdge</A> checks whether the given edge is a turnable
+#! edge of the given simplicial surface. The NC-version does not check whether
+#! <A>edge</A> is an edge of <A>surface</A>.
+#!
+#! @BeginExampleSession
+#! gap> TurnableEdges(Tetrahedron());
+#! [  ]
+#! gap> TurnableEdges(Octahedron());
+#! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+#! gap> IsTurnableEdge(Tetrahedron(),1);
+#! false
+#! gap> IsTurnableEdge(Octahedron(),2);
+#! true
+#! @EndExampleSession
+#! 
+#! As another example surfaces with boundary edges can be considered.
+#! @BeginExampleSession
+#! gap> s:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4]]);
+#! simplicial surface (4 vertices, 5 edges, and 2 faces)
+#! gap> IsTurnableEdge(s,1);
+#! true
+#! gap> IsTurnableEdge(s,2);
+#! false
+#! gap> EdgesOfFaces(s);
+#! [ [ 1, 2, 4 ], [ 1, 3, 5 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a set of positive integers
+#! @Arguments surface
+DeclareAttribute( "TurnableEdges", IsSimplicialSurface);
+#! @Returns true or false
+#! @Arguments surface,edge
+DeclareOperation( "IsTurnableEdge", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments surface, edge
+DeclareOperation( "IsTurnableEdgeNC", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
+
 
 #! @BeginGroup BoundaryEdges
 #! @Description
