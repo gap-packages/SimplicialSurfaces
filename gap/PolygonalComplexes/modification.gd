@@ -1002,7 +1002,7 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! @Description
 #! This method takes a boundary vertex <A>v</A> and joins the vertex-edge-path of the 
 #! boundary where <A>v</A> lies on if the path has even length. 
-#! That means, the method split the vertex-edge-path of the boundary in two parts. 
+#! This means, the method splits the vertex-edge-path of the boundary in two parts. 
 #! Then the method <K>JoinVertexEdgePaths</K> (<Ref Subsect="JoinVertexEdgePaths"/>) will be called on these 
 #! two vertex-edge-paths.
 #!
