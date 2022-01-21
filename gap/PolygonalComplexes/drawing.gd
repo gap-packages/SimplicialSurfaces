@@ -156,7 +156,8 @@ DrawSurfaceToTikz(cube, "Cube_example");;
 #!     It is possible to leave some vertex colours unbound - those will be coloured with the
 #!     default vertex colour (orange).
 #! @BeginLog
-pr := rec( vertexColours := ["red", "blue", "green",, "pink", "black!20!yellow"] );;
+pr := rec( vertexColours :=
+   ["red", "blue", "green",, "pink", "black!20!yellow"] );;
 DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
@@ -183,7 +184,8 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #!     Is is possible to leave some edge colours unbound - those will be coloured with the
 #!     default edge colour (gray).
 #! @BeginLog
-pr := rec( edgeColours := [,,,,"red", "purple", "blue", "green!80!black"] );;
+pr := rec( edgeColours :=
+   [,,,,"red", "purple", "blue", "green!80!black"] );;
 DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;
 #! @EndLog
 #! <Alt Only="TikZ">
@@ -461,7 +463,7 @@ DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
 #! 
 #! We will exemplify these parameters on different examples.
 #! <List>
-#! <Item><E>startingFaces</E>: After drawing this list contains the first faces that were drawn from
+#! <Item><E>startingFaces</E>: After drawing, this list contains the first faces that were drawn from
 #!   each strongly connected component. These can be changed with this parameter.
 #!
 #! For example, consider the butterfly with two strongly connected components.
