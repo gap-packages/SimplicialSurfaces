@@ -1774,10 +1774,7 @@ RedispatchOnCondition( SplitAllVertices, true, [IsTwistedPolygonalComplex], [IsP
 InstallMethod( CraterCuttableEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local innerEdges;
-
-        innerEdges := InnerEdges(complex);
-        return Filtered(innerEdges, e -> ForAll( VerticesOfEdges(complex)[e], v -> IsInnerVertexNC(complex, v) ));
+        return EdgesWithVertexProperty(complex, v -> IsInnerVertexNC(complex, v));
     end
 );
 RedispatchOnCondition( CraterCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
@@ -1800,11 +1797,8 @@ InstallMethod( CraterMendableEdgePairs, "for a polygonal complex",
         local edgeAnom, edgePairs;
 
         edgeAnom := List( EdgeAnomalyClasses(complex), 
-            cl -> Filtered( cl, 
-                e -> IsBoundaryEdgeNC(complex, e) and 
-                    ForAll( VerticesOfEdges(complex)[e], 
-                        v -> IsBoundaryVertexNC(complex, v) ) ) );
-        edgePairs := Combinations(edgeAnom, 2);
+		cl -> Filtered( cl, e -> IsBoundaryEdgeNC(complex, e)));
+ 	edgePairs:=List(edgeAnom,cl->Combinations(cl, 2));
         return Union(edgePairs);
     end
 );
@@ -1825,18 +1819,7 @@ RedispatchOnCondition( CraterMend, true, [IsTwistedPolygonalComplex,IsList], [Is
 InstallMethod( RipCuttableEdges, "for a polygonal complex", 
     [IsPolygonalComplex],
     function(complex)
-        local CheckInnerBound;
-
-        CheckInnerBound := function(e)
-            local verts;
-
-            verts := VerticesOfEdges(complex)[e];
-            return ( IsInnerVertexNC(complex, verts[1]) and 
-                        IsBoundaryVertexNC(complex, verts[2]) ) 
-                or ( IsInnerVertexNC(complex, verts[2]) and 
-                        IsBoundaryVertexNC(complex, verts[1]) );
-        end;
-        return Filtered(InnerEdges(complex), CheckInnerBound );
+        return EdgesWithVertexProperties(complex,v->IsInnerVertexNC(complex,v), v->IsBoundaryVertexNC(complex,v));
     end
 );
 RedispatchOnCondition( RipCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
@@ -1903,9 +1886,7 @@ RedispatchOnCondition( RipMend, true, [IsTwistedPolygonalComplex,IsList], [IsPol
 InstallMethod( SplitCuttableEdges, "for a polygonal complex", 
     [IsPolygonalComplex],
     function(complex)
-        return Filtered(InnerEdges(complex), 
-            e -> ForAll(VerticesOfEdges(complex)[e], 
-                v -> IsBoundaryVertexNC(complex, v)));
+        return Intersection(InnerEdges(complex), EdgesWithVertexProperty(complex, v -> IsBoundaryVertexNC(complex, v)));
     end
 );
 RedispatchOnCondition( SplitCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
