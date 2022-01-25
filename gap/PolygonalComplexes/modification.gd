@@ -998,6 +998,42 @@ DeclareOperation("JoinVertexEdgePathsNC",
    DeclareOperation( "JoinBoundariesNC", [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt] );
 #! @EndGroup
 
+#! @BeginGroup JoinBoundary
+#! @Description
+#! This method takes a boundary vertex <A>v</A> and joins the vertex-edge-path of the 
+#! boundary where <A>v</A> lies on if the path has even length. 
+#! This means, the method splits the vertex-edge-path of the boundary in two parts. 
+#! Then the method <K>JoinVertexEdgePaths</K> (<Ref Subsect="JoinVertexEdgePaths"/>) will be called on these 
+#! two vertex-edge-paths.
+#!
+#! For example, consider the following simplicial surface:
+#! <Alt Only="TikZ">
+#!  \input{Image_FourGon.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
+#! >        [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],
+#! >         [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
+#! @EndExampleSession
+#! Joining the boundary together of this surface gives a closed surface.
+#! @BeginExampleSession
+#! gap> joined:=JoinBoundary(fourGon,2);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces),
+#! | v2, E9, v7, E10, v4 | ]
+#! gap> IsClosedSurface(joined[1]);
+#! true
+#! gap> IsIsomorphic(joined[1],JoinBoundary(fourGon,3)[1]);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the second entry 
+#! is a vertex-edge-path.
+#! @Arguments complex, vertex
+DeclareOperation( "JoinBoundary", [IsPolygonalComplex, IsInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
+#! @EndGroup
+
 
 #! @Section Specific modifications
 #! @SectionLabel Modification_Applications
