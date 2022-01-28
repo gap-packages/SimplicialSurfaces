@@ -1083,9 +1083,9 @@ __SIMPLICIAL_NormedUmbrellaDescriptor := function( ud, face, neigh)
                         
             newud := [];
             neighs := []; # A list of neighbour pairs
-		    for u in udlist do
-		        if IsPerm(u) and face^u <> face then
-		            Add(newud, u);
+            for u in udlist do
+		if IsPerm(u) and face^u <> face then
+		    Add(newud, u);
                     AddN(neighs, [face^u, face^(u^-1)]);
                 elif IsList(u) and face in u then
 			        Add(newud, u);
@@ -1146,15 +1146,17 @@ __SIMPLICIAL_NormedUmbrellaDescriptor := function( ud, face, neigh)
         for u in onface[1] do
             orign := Union(orign,__SIMPLICIAL_UmbrellaAdjacentFaces(u,face));
         od;
+	Append(neigh, Difference(orign,neigh));
         if Length(neigh) > 3 then 
           ErrorNoReturn(fn," ",neigh," more than 3 neighbours of ", face);
         fi;
         for i in [ 1..Length(neigh) ] do 
             if not neigh[i] in faces or not neigh[i] in orign then
-		        ErrorNoReturn(fn," ",neigh[i]," must be a neighbour of ",face);
-		    fi;
+	        ErrorNoReturn(fn," ",neigh[i]," must be a neighbour of ",face);
+	    fi;
             pos[i+1] := neigh[i];
         od;
+
         
         newud := [];
 
@@ -1166,7 +1168,7 @@ __SIMPLICIAL_NormedUmbrellaDescriptor := function( ud, face, neigh)
         i := 1;
         while i <= Length(pos) do
             face := pos[i];
-	        onface := UDContainingF(udlist, face);
+            onface := UDContainingF(udlist, face);
             # onface[1] are up to  three umbrella descriptors containing 
             # <face> in increasing order and
             # onface[2] is a list containing at most three neighbour pairs
@@ -1191,15 +1193,14 @@ __SIMPLICIAL_NormedUmbrellaDescriptor := function( ud, face, neigh)
                     pt := face^u;
                     # skip over points already numbered
                     k := 1; o := Order(u);
-                    while k <= o and pt in pos do 
+
+                    # check the points in the cycle and rename any new ones
+                    while k <= o do
+                        if not  pt in pos then 
+                            Add(pos,pt);
+                        fi;
                         pt := pt^u; 
                         k := k + 1;
-                    od;
-
-                    # now rename the points in this cycle.
-                    while not pt in pos do
-                        Add(pos,pt);
-                        pt := pt^u;
                     od;
                     Add(newud, u);
                 elif IsList(u) then
@@ -1216,14 +1217,11 @@ __SIMPLICIAL_NormedUmbrellaDescriptor := function( ud, face, neigh)
                     fi;
                     if k < l then
                        pt := face;
-                       # skip over points already numbered
-                       while k < l and pt in pos do 
-                           k := k + 1;
-                           pt := u[k]; 
-                       od;
-                       # now rename the points in this cycle.
-                       while k < l  and not pt in pos do
-                           Add(pos,pt);
+                       # now rename the new points in this cycle.
+                       while k < l  do
+		           if not pt in pos then
+		               Add(pos,pt);
+			   fi;
                            k := k + 1;
                            pt := u[k]; 
                        od;
