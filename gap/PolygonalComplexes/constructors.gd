@@ -1029,7 +1029,7 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #!  of <A>face</A>  and <A>f(neigh[i]) = i+1</A>  and <A>f(F)=infty</A> for
 #!  all other faces <A>F</A>. Next the umbrellas of the original surface 
 #!  are sorted  lexicographically, that is umbrella <A>u</A> is
-#!  less than umbrella <A>v</A> if image <A>f(u)</A>  lexicographically 
+#!  less than umbrella <A>v</A> if the image <A>f(u)</A>  is lexicographically 
 #!  less that <A>f(v)</A>  as dihedral sequences. Each step takes the
 #!  lexicographically least umbrella <A>u</A> still containing a face <A>F</A>
 #!  for which <A>f(F)=infty</A> and renumbers each  such face in the umbrella
@@ -1150,6 +1150,43 @@ DeclareOperation( "NormedUmbrellaDescriptor",[IsList,IsPosInt,IsList]);
 #! @Returns a list 
 #! @Arguments umbdesc
 DeclareOperation( "DegreeSequenceOfUmbrellaDescriptor",[IsList]);
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#!  Given a DegreeSequence of a normed UmbrellaDescriptor for a closed
+#!  simplicial surface which has no vertices of degree 2, this function
+#!  returns the umbrella descriptors of all simplicial surfaces which
+#!  have a normed umbrella descriptor  matching this degree sequence.
+
+#!
+#! @BeginExampleSession
+#! gap> ud :=
+#! > [ (1,6,16,5), (1,6,15,4), (2,21,22,3), (9,11,12,10), (11,17,18,12), 
+#! >  (7,9,10,8), (7,13,14,8), (1,4,2,3,5), (17,23,21,22,24,18), 
+#! >  (3,22,24,20,16,5), (2,21,23,19,15,4), (6,16,20,14,13,19,15), 
+#! >  (7,13,19,23,17,11,9), (8,14,20,24,18,12,10) ];;
+#! gap> surf := SimplicialSurfaceByUmbrellaDescriptor( ud );
+#! simplicial surface (14 vertices, 36 edges, and 24 faces)
+#! gap> nud := NormedUmbrellaDescriptor(ud, 1 );
+#! [ (1,2,5,6,3), (1,2,7,4), (1,3,8,4), (2,5,9,10,11,7), (3,6,12,13,14,8), 
+#!   (4,7,11,15,16,14,8), (5,6,12,9), (9,10,17,18,13,12), 
+#!   (10,11,15,19,20,21,17), (13,14,16,22,23,24,18), (15,16,22,19), 
+#!   (17,18,24,21), (19,20,23,22), (20,21,24,23) ]
+#! gap> ds := DegreeSequenceOfUmbrellaDescriptor(nud);
+#! [ [ 5, true ], [ 4, true ], [ 4, true ], [ 6, true ], [ 6, true ], 
+#!   [ 7, true ], [ 4, true ], [ 6, true ], [ 7, true ], [ 7, true ], 
+#!   [ 4, true ], [ 4, true ], [ 4, true ], [ 4, true ] ]
+#! gap> AllUmbrellaDescriptorsDegreeSequence( ds );
+#! [ [ (1,2,5,6,3), (1,2,7,4), (1,3,8,4), (2,5,9,10,11,7), (3,6,12,13,14,8), 
+#!       (4,7,11,15,16,14,8), (5,6,12,9), (9,10,17,18,13,12), 
+#!       (10,11,15,19,20,21,17), (13,14,16,22,23,24,18), (15,16,22,19), 
+#!       (17,18,24,21), (19,20,23,22), (20,21,24,23) ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list 
+#! @Arguments degreeseq
+DeclareOperation( "AllUmbrellaDescriptorsDegreeSequence",[IsList]);
 #! @EndGroup
 
 

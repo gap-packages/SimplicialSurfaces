@@ -1310,6 +1310,365 @@ InstallMethod( DegreeSequenceOfUmbrellaDescriptor,
 end
 );
 
+
+# cannot deal with umbrellas of length 2 yet
+# ucode is a list of of lists. The first entry of each of these is
+# a number, giving the length of the umbrella descriptor, the second
+# is true if the descriptor is a cycle and false if it is a half-cycle
+# for closed surfaces ucode can just be a list of numbers and that
+# corresponds to the same list of numbers with the second entries always
+# being set true
+
+InstallMethod( AllUmbrellaDescriptorsDegreeSequence,
+    "for a list",  [IsList],
+      function( ucode )
+
+        local ud, c, i, F, F1, F2, N, n, C, nrfaces, u, neighs, oncycles,
+             isValid, findNeighs, CyclesOfUD, nucode, Pos, FindAllNeighs,
+             nextStep, done, AllUmbrellaDescriptors, p, val, id, nextF,
+             isClosedSurf;
+
+
+        # Data structures:
+        #
+        # a) neighs is a list of list which contains in position F
+        #    the list of neighbours of the face F
+        # b) ud is the list of new umbrella descriptors (working matrix)
+        # c) oncycles stores in position F in how many descriptors F is
+        # d) done, a boolean list to say which ud are completed
+        # e) AllUmbrellaDescriptors global list containing all such
+
+
+        # find the position of F in u before or in position l
+        Pos := function( u, l, F)
+            local i;
+
+            for i in [1 .. l] do
+                if u[i]=F then return i; fi;
+            od;
+
+            return false;
+        end;
+
+        # Turn umbrella descriptor matrix ucode into cycles or lists
+        # each row of ucode is either an umbrella of an inner vertex and
+        # thus should be stored as a cycle, or a list from one boundary
+        # face to another. In either case, the matrix can have trailing
+        # 0s in each row that need to be removed
+        CyclesOfUD := function( ud )
+
+            local cud, i, perm, u;
+
+            cud := [];
+            for i in [ 1 .. Length(ucode) ] do
+                # we have to remove the 0s
+                u := ud[i];
+                # if the vertex is inner, it is a permutation
+                if ucode[i][2]=true then
+                    # turn the umbrella into a cycle
+                    perm := CycleFromList(u{[1..ucode[i][1]]});
+                    if perm = fail then
+                        ErrorNoReturn("invalid umbrella descriptor");
+                    fi;
+                    Add( cud, perm);
+                else Add( cud, u{[1..ucode[i][1]]});
+                fi;
+            od;
+            return cud;
+        end;
+
+        # This function finds all neigbours of the face F
+        # in ud up to position [c,p]
+        # This function assumes ud[c][p] is valid and filled
+        FindAllNeighs := function( ud, c, p, F )
+
+            local neighs, i, r;
+
+            neighs := [];
+            for r in [ 1 .. c-1] do
+                Append( neighs, findNeighs(ud[r],ucode[r][1],F,ucode[r][2]) );
+            od;
+            for i in [ 1 .. p ] do
+                if ud[c][i] = F then
+                    if i = 1 and 2<=p then
+                        Add(neighs,ud[c][2]);
+                    elif i = p and i > 1 then
+                        Add(neighs,ud[c][i-1]);
+                    else
+                        Add(neighs,ud[c][i-1]);
+                        Add(neighs,ud[c][i+1]);
+                    fi;
+                fi;
+            od;
+
+            return neighs;
+        end;
+
+
+        # Find the neighbours of face F in a given umbrella u
+        # this is assuming F is in u and u has length l
+        # if the last argument is true, it is a cycle and thus
+        # it cycles around the end, otherwise it is not a cycle
+        findNeighs := function( u, l, F, iscyc )
+
+            local i, neighs;
+
+            i := Pos(u,l,F);
+
+            if i = false then return []; fi;
+            # if u has length 1 then F has no neighbours
+            if l = 1 then return []; fi;
+
+            if i = 1 and iscyc then
+                # u starts with F
+                return Difference([u[2],u[l] ],[0]);
+            elif i = 1 and not iscyc then
+                # u starts with F
+                return Difference([u[2]],[0]);
+            elif i = l and iscyc then
+                # u ends with F
+                return Difference([u[1],u[l-1] ],[0]);
+            elif i = l and not iscyc then
+                # u ends with F
+                return Difference([u[l-1] ],[0]);
+            else 
+                return Difference([u[i-1],u[i+1]],[0]);
+            fi;
+        end;
+
+        # test if we can use F in the umbrella descriptor in position c
+        # F has to satisfy the following two tests:
+        # a) it can only appear in 3 descriptors
+        # b) it can only have 3 neighbours
+        # c) each neighbour pair can only be in 2 umbrellas
+
+        # This function tests if the umbrella descriptor ud
+        # is valid until row c and position p if face F
+        # were to be inserted there. It assumes it is valid until then
+        isValid := function(ud, c, F, p )
+            local u, r, l, nbs, i, G, neighs, neighsG, j, oncyc, alln;
+
+            u := ud[c]; l := ucode[c][1];
+
+            # if F already occurs in u then we cannot add it again
+            if Pos(u,l,F)  <> false then
+#                Print("face ", F, " already present\n");
+                return false;
+            fi;
+
+            # if we add F to any new descriptor and it will be in
+            # too many cycles then we return false
+            oncyc := []; neighs := Set([]);
+            for r in [1 .. c-1] do
+                j := Pos(ud[r],ucode[r][1],F);
+                if j <> false then
+                  Add( oncyc, [r,j] );
+                  # Find the existing neighbours of F
+                  Append(neighs, findNeighs(ud[r],ucode[r][1],F,ucode[r][2]));
+                fi;
+            od;
+            neighs := Set(neighs);
+
+            if Length(oncyc) >= 3 then
+#                Print("face ", F, " is already in 3 cycles\n");
+                return false;
+            fi;
+                
+            # now we know we can fill position p
+            # nbs the putative neighbours of F in row c
+            nbs := Set([]);
+
+            if p = 1 then
+                if u[2] <> 0 then Add(nbs,u[2]); fi;
+                if u[l] <> 0 then Add(nbs,u[l]); fi;
+            elif p=ucode[c][1] then
+                if u[1] <> 0 then Add(nbs,u[1]); fi;
+                if u[l-1]<>0 then Add(nbs,u[l-1]); fi;
+            else
+                if u[p-1] <> 0 then Add(nbs, u[p-1]); fi; 
+                if u[p+1] <> 0 then Add(nbs, u[p+1]); fi;
+            fi;
+
+            # new neighbours of face F are nbs 
+            # in total, F may only have 3 neighbours
+            if Size( Union( neighs, nbs ) ) > 3 then return false; fi;
+
+            ud[c][p]:= F;
+            Add( oncyc, [c,p] );
+
+            # now we need to check that by adding F we do not create
+            # problems for its new neighbours
+            for G in nbs do
+                alln := FindAllNeighs(ud,c,p,G);
+                if Size( Union(alln,[F]) ) > 3 then
+                    return false;
+                fi;
+                alln := Filtered(alln, i-> i > G );
+                if isClosedSurf and  p = 2 and u[1] = G and
+                    F <> Minimum(alln) then
+                    # ensure lexicographically least sequence
+                    return false;
+                fi;
+          
+                # Find the neighbour pairs of the faces G
+                # which are the neighbours of F
+                # neighsG := [];
+                # G must have 3 different  neighbour pairs
+                i := 0;
+                for j in [1..Length(oncyc)] do
+                    r := oncyc[j][1]; # F occurs in row r
+                    if Pos(ud[r],ucode[r][1],G) <> false then
+                        # G also occurs in row r 
+                        # add neigbour pair of G
+                        neighsG := findNeighs(ud[r],ucode[r][1],G,ucode[r][2]);
+                        # the neighbour pairs of G in row r
+                        if F in neighsG then i := i + 1; fi;
+                        if i>= 3 then
+                            # We are only allowed to have F and G
+                            # as neigbour pair twice
+                            return false;
+                        fi;
+                    fi;
+                od;
+
+            od;
+
+            return true;
+      end;
+
+        # check the validity of the input
+        if not IsList(ucode) then
+            Error("UmbrellaDescriptorsDegreeSequence: Input must be a list");
+            return false;
+        fi;
+        nucode := [];
+        for i in ucode do
+            if IsInt(i) and i > 0 then
+                Add(nucode,[i,true]);
+            elif IsList(i) and IsInt(i[1]) and i[1]>0 and IsBool(i[2]) then
+                    Add(nucode,i);
+                    if i[2] = false then
+                        ErrorNoReturn("UmbrellaDescriptorsDegreeSequence: not yet implemented");
+                    fi;
+            else
+                   Error("AllUmbrellaDescriptorsDegreeSequence: Input wrong");
+                   return false;
+            fi;
+        od;
+        ucode := nucode;
+
+        ud := [];
+        ud := NullMat(Length(ucode),Maximum(List(ucode,i->i[1]))); 
+        # store all valid umbrella descriptors here
+        AllUmbrellaDescriptors := [];
+        for i in [1 .. Length(ucode)] do
+            if ucode[i][1] < 3 then
+                Error("not yet implemented");
+                return false;
+            fi;
+        od;
+        F := 1; # F is the number of the face we are working on
+        nrfaces := Sum( List( ucode, i-> i[1] ));
+        if  nrfaces mod 3 <> 0 then 
+            Error("UmbrellaDescriptorUmbrellaCode: Invalid number of faces");
+        fi;
+        nrfaces := nrfaces/3;
+        oncycles :=  NullMat(nrfaces,3);
+        id := IdentityMat(Maximum(List(ucode,i->i[1])), 
+                           Maximum(List(ucode,i->i[1]))); 
+
+
+    # Next free face number we use is N
+    nextStep := function(ud, c, N)
+
+            local u, p, n, id, newneighs, copyneighs, copycycs, F;
+
+
+            id := IdentityMat(Maximum(List(ucode,i->i[1])), 
+                              Maximum(List(ucode,i->i[1]))); 
+
+            while c <= Length(ucode) do
+                # if there is a 0, it is incomplete
+                p := Pos(ud[c],ucode[c][1],0);
+                if p = false then
+                    # the umbrella u is complete
+                    c := c + 1;
+                else break;
+                fi;
+            od;
+            # in position c there is an incomplete descriptor
+            # note, this umbrella could be empty
+
+            # if all umbrellas of ud are done, then we add ud to results
+            if c > Length(ucode) then
+                # we are completely finished
+                Add(AllUmbrellaDescriptors,CyclesOfUD(ud)); 
+                return;
+            fi;
+ 
+            # now we know that ud[c] is incomplete and position p is free
+           
+            F := 1;
+            while F <= N do
+                # if F cannot be put into ud[c][p] we continue
+                if isValid(ud,c,F,p) = false then
+                    F := F + 1;
+                    continue;
+                fi;
+   
+                # we now try F in u
+                ud[c][p] := F;
+
+                # recurse
+                if F = N and N+1 <= nrfaces then
+                    nextStep (ud*id, c, N+1);
+                else
+                    nextStep (ud*id, c,  N);
+                fi;
+ 
+                F := F + 1;
+                ud[c][p] := 0;
+                # only try the smallest valid face in position 1
+                if p = 1 then F := N+1; fi;
+            od;
+        end;
+
+        # we test whether the surface is closed or not
+        # closed surfaces are more efficient, as we can
+        # make more assumptions on choosing lexicographically
+        # least faces
+        isClosedSurf := true;
+        for C in [1..Length(ucode)] do
+            if ucode[C][2] = false then
+                isClosedSurf := false;
+            fi;
+        od;
+        
+
+        # Deal with the first cycle [1,2,...,3]
+        if isClosedSurf then
+            if ucode[1][1] > 2 and ucode[1][2] = true then
+                ud[1][1] := 1; ud[1][2] := 2; ud[1][ucode[1][1]] := 3;
+                ud[2][1] := 1; ud[2][2] := 2; ud[2][ucode[2][1]] := 4;
+                ud[3][1] := 1; ud[3][2] := 3; ud[3][ucode[3][1]] := 4;
+                C := 1; nextF := 5;
+            elif ucode[1][1] = 2 and ucode[1][2] = true then
+                ud[1][1] := 1; ud[1][2] := 2;
+                ud[2][1] := 1; ud[2][2] := 2; ud[2][ucode[2][1]] := 3;
+                ud[3][1] := 1; ud[3][2] := 2; ud[3][ucode[3][1]] := 3;
+                 C := 2; nextF := 4;
+            fi;
+        else
+            ud[1][1] := 1; C  := 1; nextF := 2;
+         fi;
+
+        nextStep (ud, C, Minimum(nrfaces,nextF));
+
+        return AllUmbrellaDescriptors;
+
+end);
+
+
 ##
 ##  End UmbrellaDescriptors
 ##
