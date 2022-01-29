@@ -998,6 +998,42 @@ DeclareOperation("JoinVertexEdgePathsNC",
    DeclareOperation( "JoinBoundariesNC", [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt] );
 #! @EndGroup
 
+#! @BeginGroup JoinBoundary
+#! @Description
+#! This method takes a boundary vertex <A>v</A> and joins the vertex-edge-path of the 
+#! boundary where <A>v</A> lies on if the path has even length. 
+#! This means, the method splits the vertex-edge-path of the boundary in two parts. 
+#! Then the method <K>JoinVertexEdgePaths</K> (<Ref Subsect="JoinVertexEdgePaths"/>) will be called on these 
+#! two vertex-edge-paths.
+#!
+#! For example, consider the following simplicial surface:
+#! <Alt Only="TikZ">
+#!  \input{Image_FourGon.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
+#! >        [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],
+#! >         [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
+#! @EndExampleSession
+#! Joining the boundary together of this surface gives a closed surface.
+#! @BeginExampleSession
+#! gap> joined:=JoinBoundary(fourGon,2);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces),
+#! | v2, E9, v7, E10, v4 | ]
+#! gap> IsClosedSurface(joined[1]);
+#! true
+#! gap> IsIsomorphic(joined[1],JoinBoundary(fourGon,3)[1]);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the second entry 
+#! is a vertex-edge-path.
+#! @Arguments complex, vertex
+DeclareOperation( "JoinBoundary", [IsPolygonalComplex, IsInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
+#! @EndGroup
+
 
 #! @Section Specific modifications
 #! @SectionLabel Modification_Applications
@@ -1123,6 +1159,88 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 #! @Arguments complex
 DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 
+#! @BeginGroup TetrahedralExtension
+#! @Description
+#! Given a simplicial surface a new surface can be constructed by attaching a
+#! tetrahedron on the given face. This can be seen as a subdivision of the 
+#! given surface which arises by subdividing a face into three
+#! new faces.
+#! <Alt Only="TikZ">
+#!      \input{Image_TetraExt.tex}
+#! </Alt>
+#! So, this modification results in increasing the number of
+#! vertices by 1, the number of edges by 3 and the number of faces by 2.
+#! As an example consider the tetrahedron:
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!      \input{Image_Tetrahedron_Net.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#!
+#! Subdividing face 1 of the tetrahedron results in the double tetrahedron:
+#! @BeginExampleSession
+#! gap> s:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> Faces(s);
+#! [ 2, 3, 4, 5, 6, 7 ]
+#! @EndExampleSession
+#!
+#! <Alt Only="TikZ">
+#!      \input{Image_TetrahedralExtension.tex}
+#! </Alt>
+#! @Returns a surface
+#! @Arguments surface, face
+DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup EdgeTurn
+#! @Description
+#! Given a simplicial surface and an inner edge contained in the surface, one
+#! can construct a new surface by manipulating the inner edge. If <K>edge</K>
+#! is an inner edge, it gives rise to a butterfly (e.g. if the surface is
+#! vertex faithful) and thus a new surface can be created by turning
+#! <K>edge</K>. This results in replacing <K>edge</K> by the edge
+#! <K>newedge</K> which is connecting the other two vertices of the butterfly.
+#! So it has the same number of faces, edges and vertices, but the vertex
+#! degrees in four positions will change by +-1 i.e. the vertex degrees of
+#! the vertices incident to <K>edge</K> decrease and the degrees of the
+#! vertices incident to <K>newedge</K> increase by 1. 
+#! If the function is called without the argument <K>newedge</K>, the
+#! function simply manipulates the incidence structure of <K>edge</K> 
+#! without relabelling this edge. So after this modification on the simplicial
+#! surface <K>surface</K> the set of edges remains the same.
+#! For example, consider the octahedron:
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#! Turning the edge 1 results in
+#! @BeginExampleSession
+#! gap> surf:=EdgeTurn(Octahedron(),1);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> VerticesOfEdges(surf);
+#! [ [ 3, 5 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 5 ], [ 2, 6 ], [ 3, 4 ],
+#! [ 3, 6 ], [ 4, 5 ], [ 4, 6 ], [ 5, 6 ] ]
+#! gap> EdgesOfFaces(surf);
+#! [ [ 1, 2, 4 ], [ 6, 7, 12 ], [ 1, 5, 6 ], [ 5, 7, 9 ], [ 3, 4, 10 ], [ 8, 9, 11 ],
+#! [ 2, 3, 8 ], [ 10, 11, 12 ] ]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \input{Image_ETOctahedron.tex}
+#! </Alt>
+#!
+#! The same process can also be done by relabelling the turned edge.
+#! @BeginExampleSession
+#! gap> EdgeTurn(Octahedron(),1,15);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> Edges(last);
+#! [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15 ]
+#! @EndExampleSession
+
+#! @Returns a simplicial surface or <K>fail</K>
+#! @Arguments surface,edge [,newedge]
+DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt,IsPosInt] );
+#! @EndGroup
 
 #TODO maybe move into chapter ExampleApplications?
 #! @Section Example: Cut and Mend
@@ -1206,9 +1324,7 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> CraterCuttableEdges_custom := function(complex)
-#! >      return Filtered( InnerEdges(complex),
-#! >         e -> ForAll( VerticesOfEdges(complex)[e], 
-#! >            v -> IsInnerVertexNC(complex,v) ) );
+#! >      return EdgesWithVertexProperty(complex, v -> IsInnerVertexNC(complex, v));
 #! >    end;
 #! function( complex ) ... end
 #! gap> CraterCut_custom := function(complex, edge)
@@ -1251,7 +1367,7 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! Applying a crater mend to the open bag yields to the Janus-head:
 #! @BeginExampleSession
 #! gap> CraterMendableEdgePairs(openBag);
-#! [ [  ], [ 3, 4 ] ]
+#! [ [ 3, 4 ] ]
 #! gap> CraterMend(openBag,[3,4]);
 #! simplicial surface (3 vertices, 3 edges, and 2 faces)
 #! gap> IsIsomorphic(last,JanusHead());
@@ -1267,11 +1383,9 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! >        local edgeAnom, edgePairs;
 #! > 
 #! >        edgeAnom := List( EdgeAnomalyClasses(complex), 
-#! >            cl -> Filtered( cl, 
-#! >                e -> IsBoundaryEdgeNC(complex, e) and 
-#! >                    ForAll( VerticesOfEdges(complex)[e], 
-#! >                        v -> IsBoundaryVertexNC(complex, v) ) ) );
-#! >        edgePairs := Combinations(edgeAnom, 2);
+#! >             cl -> Filtered( cl, 
+#! >                   e -> IsBoundaryEdgeNC(complex, e) ) );
+#! > 	    edgePairs:=List(edgeAnom,cl->Combinations(cl, 2) );
 #! >        return Union(edgePairs);
 #! >    end;
 #! function( complex ) ... end
@@ -1330,25 +1444,16 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> RipCuttableEdges_custom := function(complex)
-#! >        local CheckInnerBound;
-#! >    
-#! >        CheckInnerBound := function(e)
-#! >            local verts;
-#! >    
-#! >            verts := VerticesOfEdges(complex)[e];
-#! >            return ( IsInnerVertexNC(complex, verts[1]) and 
-#! >                        IsBoundaryVertexNC(complex, verts[2]) ) 
-#! >                or ( IsInnerVertexNC(complex, verts[2]) and 
-#! >                        IsBoundaryVertexNC(complex, verts[1]) );
-#! >        end;
-#! >        return Filtered(InnerEdges(complex), CheckInnerBound );
+#! >        return EdgesWithVertexProperties(complex,
+#! >              v->IsInnerVertexNC(complex,v), v->IsBoundaryVertexNC(complex,v));
 #! >    end;
 #! function( complex ) ... end
 #! gap> RipCut_custom := function(complex, edge)
 #! >        if not edge in RipCuttableEdges_custom(complex) then
 #! >            Error("Given edge has to be rip-cuttable.");
 #! >        fi;
-#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
+#! >        return SplitVertexEdgePathNC(complex, 
+#! >              VertexEdgePathByEdgesNC(complex, [edge]))[1];
 #! >    end;
 #! function( complex, edge ) ... end
 #! @EndExampleSession
@@ -1484,16 +1589,17 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> SplitCuttableEdges_custom := function(complex)
-#! >        return Filtered(InnerEdges(complex), 
-#! >            e -> ForAll(VerticesOfEdges(complex)[e], 
-#! >                v -> IsBoundaryVertexNC(complex, v)));
+#! >         return Intersection(InnerEdges(complex), 
+#! >               EdgesWithVertexProperty(complex, 
+#! >                     v -> IsBoundaryVertexNC(complex, v)));
 #! >    end;
 #! function( complex ) ... end
 #! gap> SplitCut_custom := function(complex, edge)
 #! >        if not edge in SplitCuttableEdges_custom(complex) then
 #! >            Error("Given edge has to be split-cuttable.");
 #! >        fi;
-#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
+#! >        return SplitVertexEdgePathNC(complex, 
+#! >              VertexEdgePathByEdgesNC(complex, [edge]))[1];
 #! >    end;
 #! function( complex, edge ) ... end
 #! @EndExampleSession

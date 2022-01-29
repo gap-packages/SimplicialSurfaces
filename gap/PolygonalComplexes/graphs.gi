@@ -33,11 +33,17 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
     InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
-            local graph;
-
+            local arcs, diedges, i, graph;
+		
+	    arcs := [];
+	    diedges := Compacted(VerticesOfEdges(complex));
+	    for i in [1..Length(diedges)] do
+		arcs[2*i-1] := diedges[i];
+		arcs[2*i] := Reversed(diedges[i]);
+	    od;
             # Digraphs can only create graphs with vertices [1..n]
             # Therefore we have to take a subgraph of this graph
-            graph := DigraphByEdges( Compacted( VerticesOfEdges(complex) ) );
+            graph := DigraphByEdges( arcs );
             return InducedSubdigraph( graph, 
                 VerticesAttributeOfComplex(complex) );
         end
@@ -45,7 +51,7 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 
     InstallMethod(FaceDigraphsGraph, "for a polygonal surface",[IsPolygonalSurface],
 	function(surface)
-		local i, diedges, arcs, loops;
+		local i, diedges, arcs, loops, graph;
 		
 		arcs := [];
 		diedges := Filtered( FacesOfEdges(surface), i->Length(i)=2);
@@ -59,7 +65,10 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 			Add(arcs,[loops[i][1],loops[i][1]]);
 		od;
 		
-		return DigraphByEdges(arcs);
+		# Digraphs can only create graphs with vertices [1..n]
+		# Therefore we have to take a subgraph of this graph
+		graph:=DigraphByEdges(arcs);
+		return InducedSubdigraph( graph,Faces(surface) );
 	end
 );
 fi;

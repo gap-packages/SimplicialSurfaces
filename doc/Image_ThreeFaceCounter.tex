@@ -1,0 +1,37 @@
+
+\begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2]
+
+% Define the coordinates of the vertices
+\coordinate (V4_1) at (0., 0.);
+\coordinate (V1_1) at (1,0);
+\coordinate (V2_1) at (0.5,0.866);
+\coordinate (V3_1) at (1.5,0.866);
+\coordinate (V5_1) at (2.,0.);
+
+% Fill in the faces
+\fill[face]  (V1_1) -- (V2_1) -- (V3_1) -- cycle;
+%\node[faceLabel] at (barycentric cs:V1_1=1,V2_1=1,V3_1=1) {$1$};
+\fill[face]  (V1_1) -- (V2_1) -- (V4_1) -- cycle;
+%\node[faceLabel] at (barycentric cs:V1_1=1,V2_1=1,V4_1=1) {$2$};
+\fill[face]  (V5_1) -- (V3_1) -- (V1_1) -- cycle;
+%\node[faceLabel] at (barycentric cs:V5_1=1,V3_1=1,V1_1=1) {$3$};
+\draw[edge] (V2_1) -- (V4_1);
+\draw[edge] (V5_1) -- (V1_1);
+\draw[edge] (V1_1) -- (V4_1);
+\draw[edge] (V3_1) -- (V2_1);
+\draw[edge] (V5_1) -- (V3_1);
+\draw[edge] (V3_1) -- (V1_1);
+\draw[edge] (V2_1) -- (V1_1);
+
+
+% Draw the vertices
+\vertexLabelR{V1_1}{left}{$v1$}
+\vertexLabelR{V2_1}{left}{$v2$}
+\vertexLabelR{V3_1}{left}{$v3$}
+\vertexLabelR{V4_1}{left}{$v4$}
+\vertexLabelR{V5_1}{left}{$v5$}
+
+\end{tikzpicture}
+
+
+

@@ -23,13 +23,21 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 	end);
 	
 	BindGlobal( "__SIMPLICIAL_Test_EdgeDigraphsGraph", function()
-		local digTetra, eye, digEye;
+		local digTetra, reversedTetra, vertices, eye, digEye, reversedEye;
 		digTetra:=EdgeDigraphsGraph(Tetrahedron());
-		Assert(0, DigraphEdges(digTetra)=VerticesOfEdges(Tetrahedron()));
+		reversedTetra:=[];
+                for vertices in VerticesOfEdges(Tetrahedron()) do
+                        Add(reversedTetra,Reversed(vertices));
+                od;
+		Assert(0, Set(DigraphEdges(digTetra))=Set(Union(VerticesOfEdges(Tetrahedron()),reversedTetra)));
 		
 		eye := PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]],[[1,2,3],[4,5,6]]);
 		digEye:=EdgeDigraphsGraph(eye);
-		Assert(0, DigraphEdges(digEye)=VerticesOfEdges(eye));
+		reversedEye:=[];
+                for vertices in VerticesOfEdges(eye) do
+                        Add(reversedEye,Reversed(vertices));
+                od;
+                Assert(0, Set(DigraphEdges(digEye))=Set(Union(VerticesOfEdges(eye),reversedEye)));
 	end);
 
 	BindGlobal( "__SIMPLICIAL_Test_FaceDigraphsGraph", function()
