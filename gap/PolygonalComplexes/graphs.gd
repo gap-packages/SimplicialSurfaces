@@ -850,7 +850,7 @@ DeclareAttribute( "FaceDigraphsGraph", IsPolygonalSurface );
 DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! @EndGroup
 
-#! @BeginGroup AllSimplicialSurfacesOfGraph 
+#! @BeginGroup AllSimplicialSurfacesOfDigraph 
 #! @Description 
 #! Return all (vertex-faithful) simplicial surfaces, that have <K>digraph</K> as face graph. 
 #! If <K>digraph</K> is not a face graph of a (vertex-faithful) simplicial surface, the empty list is returned.
@@ -868,7 +868,7 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #!
 #! @BeginExampleSession
 #! gap> digraph:=CompleteDigraph(4);;
-#! gap> tet1 := AllSimplicialSurfacesOfGraph(digraph,true);
+#! gap> tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
 #! gap> IsIsomorphic(tet1[1],Tetrahedron());
 #! true
@@ -877,7 +877,7 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
 #! But there is another simplicial surface, which is not vertex-faithful:
 #! @BeginExampleSession
-#! gap> list := AllSimplicialSurfacesOfGraph(digraph,false);
+#! gap> list := AllSimplicialSurfacesOfDigraph(digraph,false);
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
 #! simplicial surface (3 vertices, 6 edges, and 4 faces)]
 #! gap> tet2 := Filtered(list,IsVertexFaithful);
@@ -893,5 +893,5 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! 
 #! @Arguments digraph[, vertexfaithful]
 #! @Returns a list
-DeclareOperation( "AllSimplicialSurfacesOfGraph", [IsDigraph, IsBool]);
+DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
 #! @EndGroup

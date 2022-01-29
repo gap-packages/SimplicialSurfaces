@@ -905,14 +905,14 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 
 
 
-InstallOtherMethod(AllSimplicialSurfacesOfGraph,"for a digraph",
+InstallOtherMethod(AllSimplicialSurfacesOfDigraph,"for a digraph",
 	[IsDigraph],
 	function(digraph)
-		return AllSimplicialSurfacesOfGraph(digraph,false);
+		return AllSimplicialSurfacesOfDigraph(digraph,false);
 	end
 );
 
-InstallMethod(AllSimplicialSurfacesOfGraph,"for a digraph and a Boolean",
+InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 	[IsDigraph,IsBool],
 	function(digraph,vertexFaithful)
 		
@@ -1188,4 +1188,3 @@ InstallMethod(AllSimplicialSurfacesOfGraph,"for a digraph and a Boolean",
 		
 		end
 );
-
