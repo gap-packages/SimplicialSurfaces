@@ -26,13 +26,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: markusbaumeister/simplicial-surfaces/tree/fixActions/.github/workflows/setup
+      - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
           GAP_PKGS_TO_CLONE: "sebasguts/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
           GAPBRANCH: ${{ matrix.gap-branch }}
           ABI: ${{ matrix.ABI }}
       - uses: gap-actions/build-pkg@v1
+      - uses: gap-actions/build-pkg-docs@v1
       - run: /home/runner/gap/bin/gap.sh -l '/home/runner/work/simplicial-surfaces/simplicial-surfaces/gaproot;' --quitonbreak makedoc.g
       - uses: gap-actions/run-pkg-tests@v2
       - uses: gap-actions/process-coverage@v2
