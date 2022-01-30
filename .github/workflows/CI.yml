@@ -68,8 +68,8 @@ jobs:
       - uses: gap-actions/build-pkg@v1
       - run: cd flatex && ./autogen.sh && ./configure && make && cd -
       - uses: gap-actions/build-pkg-docs@v1
-          with:
-            use-latex: 'true'
+        with:
+          use-latex: 'true'
       - name: 'Upload documentation'
         uses: actions/upload-artifact@v2
         with:
