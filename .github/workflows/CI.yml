@@ -47,8 +47,10 @@ jobs:
     if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install sed texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-extra-utils texlive-fonts-recommended texlive-fonts-extra tex4ht 
       - uses: actions/checkout@v2
-      - uses: gap-actions/setup-gap@v2
+      - uses: gap-actions/setup-gap@v1
         with:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
           GAP_PKGS_TO_CLONE: "sebasguts/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
@@ -56,8 +58,6 @@ jobs:
           ABI: ${{ matrix.ABI }}
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v1
-      - run: sudo apt-get update
-      - run: sudo apt-get install sed texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-extra-utils texlive-fonts-recommended texlive-fonts-extra tex4ht 
       - run: cd flatex && ./autogen.sh && ./configure && make && cd -
       - run: /home/runner/gap/bin/gap.sh -l '/home/runner/work/simplicial-surfaces/simplicial-surfaces/gaproot;' --quitonbreak makedoc.g
       - name: 'Upload documentation'
