@@ -58,7 +58,6 @@ jobs:
     steps:
       - run: sudo apt-get update
       - run: sudo apt-get install sed texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-extra-utils texlive-fonts-recommended texlive-fonts-extra tex4ht 
-      - run: cd flatex && ./autogen.sh && ./configure && make && cd -
       - uses: actions/checkout@v2
       - uses: gap-actions/setup-gap@v2
         with:
@@ -67,7 +66,10 @@ jobs:
           GAPBRANCH: ${{ matrix.gap-branch }}
           ABI: ${{ matrix.ABI }}
       - uses: gap-actions/build-pkg@v1
+      - run: cd flatex && ./autogen.sh && ./configure && make && cd -
       - uses: gap-actions/build-pkg-docs@v1
+          with:
+            use-latex: 'true'
       - name: 'Upload documentation'
         uses: actions/upload-artifact@v2
         with:
