@@ -566,8 +566,8 @@ DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface, IsPosInt,
 #! @SectionLabel AdditionalParameters
 #!
 
-The printRecord can have optional parameters to modify the output in the html file.
+#!The printRecord can have optional parameters to modify the output in the html file.
 
-In large examples it can be a little bit hard to recognize all the edges. For this, one could change the parameter <A>edgeThickness</A>. The default value is set to $0.01$. We recommend choosing a value in the range $0.01-0.05$.
+#!In large examples it can be a little bit hard to recognize all the edges. For this, one could change the parameter <A>edgeThickness</A>. The default value is set to $0.01$. We recommend choosing a value in the range $0.01-0.05$.
 
 
