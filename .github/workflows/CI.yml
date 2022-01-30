@@ -28,6 +28,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/setup
         with:
+          branch: fixActions
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
           GAP_PKGS_TO_CLONE: "sebasguts/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
           GAPBRANCH: ${{ matrix.gap-branch }}
