@@ -34,7 +34,6 @@ jobs:
           ABI: ${{ matrix.ABI }}
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v1
-      - run: /home/runner/gap/bin/gap.sh -l '/home/runner/work/simplicial-surfaces/simplicial-surfaces/gaproot;' --quitonbreak makedoc.g
       - uses: gap-actions/run-pkg-tests@v2
       - uses: gap-actions/process-coverage@v2
       - uses: codecov/codecov-action@v1
@@ -59,6 +58,7 @@ jobs:
     steps:
       - run: sudo apt-get update
       - run: sudo apt-get install sed texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-extra-utils texlive-fonts-recommended texlive-fonts-extra tex4ht 
+      - run: cd flatex && ./autogen.sh && ./configure && make && cd -
       - uses: actions/checkout@v2
       - uses: gap-actions/setup-gap@v2
         with:
@@ -68,8 +68,6 @@ jobs:
           ABI: ${{ matrix.ABI }}
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v1
-      - run: cd flatex && ./autogen.sh && ./configure && make && cd -
-      - run: /home/runner/gap/bin/gap.sh -l '/home/runner/work/simplicial-surfaces/simplicial-surfaces/gaproot;' --quitonbreak makedoc.g
       - name: 'Upload documentation'
         uses: actions/upload-artifact@v2
         with:
