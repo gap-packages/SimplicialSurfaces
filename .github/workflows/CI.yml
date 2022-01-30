@@ -67,6 +67,7 @@ jobs:
           GAPBRANCH: ${{ matrix.gap-branch }}
           ABI: ${{ matrix.ABI }}
       - uses: gap-actions/build-pkg@v1
+      - uses: gap-actions/build-pkg-docs@v1
       - run: cd flatex && ./autogen.sh && ./configure && make && cd -
       - run: /home/runner/gap/bin/gap.sh -l '/home/runner/work/simplicial-surfaces/simplicial-surfaces/gaproot;' --quitonbreak makedoc.g
       - name: 'Upload documentation'
