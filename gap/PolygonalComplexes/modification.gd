@@ -998,6 +998,42 @@ DeclareOperation("JoinVertexEdgePathsNC",
    DeclareOperation( "JoinBoundariesNC", [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt] );
 #! @EndGroup
 
+#! @BeginGroup JoinBoundary
+#! @Description
+#! This method takes a boundary vertex <A>v</A> and joins the vertex-edge-path of the 
+#! boundary where <A>v</A> lies on if the path has even length. 
+#! This means, the method splits the vertex-edge-path of the boundary in two parts. 
+#! Then the method <K>JoinVertexEdgePaths</K> (<Ref Subsect="JoinVertexEdgePaths"/>) will be called on these 
+#! two vertex-edge-paths.
+#!
+#! For example, consider the following simplicial surface:
+#! <Alt Only="TikZ">
+#!  \input{Image_FourGon.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
+#! >        [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],
+#! >         [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
+#! @EndExampleSession
+#! Joining the boundary together of this surface gives a closed surface.
+#! @BeginExampleSession
+#! gap> joined:=JoinBoundary(fourGon,2);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces),
+#! | v2, E9, v7, E10, v4 | ]
+#! gap> IsClosedSurface(joined[1]);
+#! true
+#! gap> IsIsomorphic(joined[1],JoinBoundary(fourGon,3)[1]);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a pair, where the first entry is a polygonal complex and the second entry 
+#! is a vertex-edge-path.
+#! @Arguments complex, vertex
+DeclareOperation( "JoinBoundary", [IsPolygonalComplex, IsInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
+#! @EndGroup
+
 
 #! @Section Specific modifications
 #! @SectionLabel Modification_Applications
@@ -1483,9 +1519,7 @@ DeclareAttribute( "BuildingBlocks", IsSimplicialSurface);
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> CraterCuttableEdges_custom := function(complex)
-#! >      return Filtered( InnerEdges(complex),
-#! >         e -> ForAll( VerticesOfEdges(complex)[e], 
-#! >            v -> IsInnerVertexNC(complex,v) ) );
+#! >      return EdgesWithVertexProperty(complex, v -> IsInnerVertexNC(complex, v));
 #! >    end;
 #! function( complex ) ... end
 #! gap> CraterCut_custom := function(complex, edge)
@@ -1528,7 +1562,7 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! Applying a crater mend to the open bag yields to the Janus-head:
 #! @BeginExampleSession
 #! gap> CraterMendableEdgePairs(openBag);
-#! [ [  ], [ 3, 4 ] ]
+#! [ [ 3, 4 ] ]
 #! gap> CraterMend(openBag,[3,4]);
 #! simplicial surface (3 vertices, 3 edges, and 2 faces)
 #! gap> IsIsomorphic(last,JanusHead());
@@ -1544,11 +1578,9 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! >        local edgeAnom, edgePairs;
 #! > 
 #! >        edgeAnom := List( EdgeAnomalyClasses(complex), 
-#! >            cl -> Filtered( cl, 
-#! >                e -> IsBoundaryEdgeNC(complex, e) and 
-#! >                    ForAll( VerticesOfEdges(complex)[e], 
-#! >                        v -> IsBoundaryVertexNC(complex, v) ) ) );
-#! >        edgePairs := Combinations(edgeAnom, 2);
+#! >             cl -> Filtered( cl, 
+#! >                   e -> IsBoundaryEdgeNC(complex, e) ) );
+#! > 	    edgePairs:=List(edgeAnom,cl->Combinations(cl, 2) );
 #! >        return Union(edgePairs);
 #! >    end;
 #! function( complex ) ... end
@@ -1607,25 +1639,16 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> RipCuttableEdges_custom := function(complex)
-#! >        local CheckInnerBound;
-#! >    
-#! >        CheckInnerBound := function(e)
-#! >            local verts;
-#! >    
-#! >            verts := VerticesOfEdges(complex)[e];
-#! >            return ( IsInnerVertexNC(complex, verts[1]) and 
-#! >                        IsBoundaryVertexNC(complex, verts[2]) ) 
-#! >                or ( IsInnerVertexNC(complex, verts[2]) and 
-#! >                        IsBoundaryVertexNC(complex, verts[1]) );
-#! >        end;
-#! >        return Filtered(InnerEdges(complex), CheckInnerBound );
+#! >        return EdgesWithVertexProperties(complex,
+#! >              v->IsInnerVertexNC(complex,v), v->IsBoundaryVertexNC(complex,v));
 #! >    end;
 #! function( complex ) ... end
 #! gap> RipCut_custom := function(complex, edge)
 #! >        if not edge in RipCuttableEdges_custom(complex) then
 #! >            Error("Given edge has to be rip-cuttable.");
 #! >        fi;
-#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
+#! >        return SplitVertexEdgePathNC(complex, 
+#! >              VertexEdgePathByEdgesNC(complex, [edge]))[1];
 #! >    end;
 #! function( complex, edge ) ... end
 #! @EndExampleSession
@@ -1761,16 +1784,17 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! This could be implemented like this:
 #! @BeginExampleSession
 #! gap> SplitCuttableEdges_custom := function(complex)
-#! >        return Filtered(InnerEdges(complex), 
-#! >            e -> ForAll(VerticesOfEdges(complex)[e], 
-#! >                v -> IsBoundaryVertexNC(complex, v)));
+#! >         return Intersection(InnerEdges(complex), 
+#! >               EdgesWithVertexProperty(complex, 
+#! >                     v -> IsBoundaryVertexNC(complex, v)));
 #! >    end;
 #! function( complex ) ... end
 #! gap> SplitCut_custom := function(complex, edge)
 #! >        if not edge in SplitCuttableEdges_custom(complex) then
 #! >            Error("Given edge has to be split-cuttable.");
 #! >        fi;
-#! >        return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
+#! >        return SplitVertexEdgePathNC(complex, 
+#! >              VertexEdgePathByEdgesNC(complex, [edge]))[1];
 #! >    end;
 #! function( complex, edge ) ... end
 #! @EndExampleSession

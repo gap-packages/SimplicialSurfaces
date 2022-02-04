@@ -421,6 +421,272 @@ DeclareAttribute("OriginalComplex", IsFlagComplex);
 DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #! @EndGroup
 
+#! @BeginGroup OriginalVertices
+#! @Description
+#! Return the set of all vertices contained in the original twisted polygonal
+#! complex of the given flag complex <A>flagComp</A>, i.e. the vertices
+#! of the unique twisted polygonal complex <A>complex</A> satisfying 
+#! <K>FlagComplex</K>(<A>complex</A>) = <A>flagComp</A>.
+
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalVertices(flagComp);
+#! [ 2, 3, 5, 7, 11 ]
+#! @EndExampleSession
+#!
+#! @Returns a set of positive integers
+#! @Arguments flagComp
+DeclareOperation("OriginalVertices",[IsFlagComplex]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalEdges
+#! @Description
+#! Return the set of all edges contained in the original twisted polygonal
+#! complex of the given flag complex <A>flagComp</A>, i.e. the edges
+#! of the unique twisted polygonal complex <A>complex</A> satisfying 
+#! <K>FlagComplex</K>(<A>complex</A>) = <A>flagComp</A>.
+
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalEdges(flagComp);
+#! [ 6, 8, 9, 10, 12, 13 ]
+#! @EndExampleSession
+#!
+#! @Returns a set of positive integers
+#! @Arguments flagComp
+DeclareOperation("OriginalEdges",[IsFlagComplex]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalFaces
+#! @Description
+#! Return the set of all faces contained in the original twisted polygonal
+#! complex of the given flag complex <A>flagComp</A>, i.e. the faces
+#! of the unique twisted polygonal complex <A>complex</A> satisfying 
+#! <K>FlagComplex</K>(<A>complex</A>) = <A>flagComp</A>.
+
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OriginalFaces(flagComp);
+#! [ 1, 4 ]
+#! @EndExampleSession
+#!
+#! @Returns a set of postive integers
+#! @Arguments flagComp
+DeclareOperation("OriginalFaces",[IsFlagComplex]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalOneFlag
+#! @Description
+#! Return a flag of length 1 of the original twisted polygonal complex of the
+#! given flag complex which corresponds to <A>vertex</A> in <A>flagComp</A>,
+#! i.e. the flag <A>oneflag</A> of the unique twisted polygonal complex
+#! <A>complex</A> satisfying <K>OneFlags</K>(<A>complex</A>)[<K>vertex</K>] =
+#! <A>oneflag</A>.
+
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OneFlags(complex);
+#! [ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+#!   [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+#! gap> OriginalOneFlag(flagComp,4);
+#! [ 0, 7 ]
+#! @EndExampleSession
+#!
+#! @Returns a wrapped one-flag
+#! @Arguments flagComp, vertex
+DeclareOperation("OriginalOneFlag",[IsFlagComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalTwoFlag
+#! @Description
+#! Return a flag of length 2 of the original twisted polygonal complex of
+#! the given flag complex which corresponds to <A>edge</A> in <A>flagComp</A>
+#! i.e. the flag <A>twoflag</A> of the unique twisted polygonal complex
+#! <A>complex</A> satisfying <K>TwoFlags</K>(<A>complex</A>)[<K>edge</K>] =
+#! <A>twoflag</A>.
+
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> TwoFlags(complex);
+#! [ [ 1, [ 2, 6 ] ], [ 1, [ 2, 8 ] ], [ 1, [ 3, 8 ] ], [ 1, [ 3, 9 ] ], 
+#!   [ 1, [ 3, 12  ] ], [ 1, [ 5, 6 ] ], [ 1, [ 5, 9 ] ], [ 1, [ 5, 10  ] ], 
+#!   [ 1, [ 7, 12 ] ], [ 1, [ 7, 13 ] ], [ 1, [ 11, 10 ] ], [ 1, [ 11, 13 ] ],
+#!   [ 2, [ 2, 1 ] ], [ 2, [ 3, 1 ] ], [ 2, [ 3, 4 ] ], [ 2, [ 5, 1 ] ], 
+#!   [ 2, [ 5, 4 ] ], [ 2, [ 7, 4 ] ], [ 2, [ 11, 4 ] ], [ 3, [ 6, 1 ] ], 
+#!   [ 3, [ 8, 1 ] ], [ 3, [ 9, 1 ] ], [ 3, [ 9, 4 ] ], [ 3, [ 10, 4 ] ], 
+#!   [ 3, [ 12, 4 ] ], [ 3, [ 13, 4 ] ] ]
+#! gap> OriginalTwoFlag(flagComp,5);
+#! [ 1, [ 3, 12 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a wrapped two-flag 
+#! @Arguments flagComp, edge
+DeclareOperation("OriginalTwoFlag",[IsFlagComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup OriginalThreeFlag
+#! @Description
+#! Return a flag of length 3 of the original twisted polygonal complex of the 
+#! given flag complex which corresponds to <A>face</A> in <A>flagComp</A>
+#! i.e. the flag <A>threeflag</A> of the unique twisted polygonal complex
+#! <A>complex</A> satisfying <K>ThreeFlags</K>(<A>complex</A>)[<K>face</K>] =
+#! <A>threeflag</A>.
+
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> ThreeFlags(complex);
+#! [ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], 
+#!   [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],
+#!   [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]]
+#! gap> OriginalThreeFlag(flagComp,10);
+#! [ 5, 10, 4 ]
+#! @EndExampleSession
+#! @Returns a wrapped three-flag
+#! @Arguments flagComp, face
+DeclareOperation("OriginalThreeFlag",[IsFlagComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup BarycentreOfVertex
+#! @Description
+#! Return the vertex of the flag complex of <A>complex</A> which corresponds
+#! to the flag [0,<A>vertex</A>] of the given twisted polygonal complex, i.e.
+#! the vertex <A>v</A> of the flag complex <A>flagComp</A> satisfying
+#! <K>OneFlags</K>(<A>complex</A>)[<K>v</K>] = [0,<A>vertex</A>].
+
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OneFlags(complex);
+#! [ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+#!   [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+#! gap> BarycentreOfVertex(complex,3);
+#! 2
+#! @EndExampleSession
+#!
+#! @Returns positive integer
+#! @Arguments complex, vertex
+DeclareOperation("BarycentreOfVertex",[IsTwistedPolygonalComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup BarycentreOfEdge
+#! @Description
+#! Return the edge of the flag complex of <A>complex</A> which corresponds
+#! to the flag [1,<A>edge</A>] of the given twisted polygonal complex, i.e.
+#! the edge <A>e</A> of the flag complex <A>flagComp</A> satisfying
+#! <K>OneFlags</K>(<A>complex</A>)[<K>e</K>] = [1,<A>edge</A>].
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OneFlags(complex);
+#! [ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+#!   [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+#! gap> BarycentreOfEdge(complex,12); 
+#! 10
+#! @EndExampleSession
+#!
+#! @Returns a positive integer
+#! @Arguments complex, edge
+DeclareOperation("BarycentreOfEdge",[IsTwistedPolygonalComplex,IsPosInt]);
+#! @EndGroup
+
+
+#! @BeginGroup BarycentreOfFace
+#! @Description
+#! Return the face of the flag complex of <A>complex</A> which corresponds
+#! to the flag [2,<A>face</A>] of the given twisted polygonal complex, i.e.
+#! the face <A>f</A> of the flag complex <A>flagComp</A> satisfying
+#! <K>OneFlags</K>(<A>complex</A>)[<K>f</K>] = [2,<A>face</A>].
+
+#! As an example consider the polygonal complex from 
+#! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
+#! from <Ref Subsect="FlagComplex"/>.
+#!
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> OneFlags(complex);
+#! [ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+#!   [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+#! gap> BarycentreOfFace(complex,4);
+#! 13
+#! @EndExampleSession
+#!
+#! @Returns a positive integer
+#! @Arguments complex, face
+DeclareOperation("BarycentreOfFace",[IsTwistedPolygonalComplex,IsPosInt]);
+#! @EndGroup
 
 #! @BeginGroup IsomorphicFlagSurface
 #! @Description

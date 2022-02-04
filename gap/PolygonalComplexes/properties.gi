@@ -283,6 +283,158 @@ InstallMethod( FaceCounter, "for a twisted polygonal complex",
         return Collected( Compacted( faceDegrees ) );
     end
 );
+
+InstallMethod( ButterflyCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+	local e,temp2,counter,g,VerticesOfOrthogonalEdge,voe1,voe2,degOfVert1,degOfVert2;
+
+        VerticesOfOrthogonalEdge:=function(S,e)
+            local temp;
+            temp:=FacesOfEdge(S,e);
+            temp:=Union(VerticesOfFace(S,temp[1]),VerticesOfFace(S,temp[2]));
+            return Difference(temp, VerticesOfEdge(S,e));
+	end;
+	counter:=[];
+	for e in InnerEdges(surface) do 
+		voe1:=VerticesOfEdge(surface,e);
+		degOfVert1:=SortedList(List(voe1,g->FaceDegreeOfVertex(surface,g)));
+		voe2:=VerticesOfOrthogonalEdge(surface,e);
+		degOfVert2:=SortedList(List(voe2,g->FaceDegreeOfVertex(surface,g)));
+		Add(counter,[degOfVert1,degOfVert2]);
+	od;
+	return Set(Collected(counter));
+end
+);
+
+
+InstallMethod( UmbrellaCounter, "for a closed simplicial surface",
+    [IsSimplicialSurface and IsClosedSurface],
+    function(surface)
+	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,
+	verticesOfUmb,edgesOfUmb,facdegOfVert,temp1,EquivalentLists,
+	ComputeSmallestRepresentative,bub,equi,help_SortCounter;
+
+	if not IsClosedSurface(surface) then 
+		return fail;
+	fi;
+        #facdegList is a list of positive integers describing the face degrees
+        #of the boundary vertices of a closed umbrella, whereby the degrees
+        #of two neighbouring vertices of the umbrella stand next to each
+	#other in the given list. Since there are different lists with the
+	#same property describing the same closed umbrella, this function
+	#returns all those lists. 
+        EquivalentLists:=function(G,facdegList)
+                local g,temp,i,EquivFacDegLists;
+                EquivFacDegLists:=[];
+                for g in G do
+                        temp:=[];
+                        for i in [1..Length(facdegList)] do
+                                temp[i]:=facdegList[i^g];
+                        od;
+                        Add(EquivFacDegLists,temp);
+                od;
+                return EquivFacDegLists;
+        end;
+
+
+
+	#As mentioned before, there are different lists of integers describing
+	#the same closed umbrella. This functions returns the lexicographically
+	#smallest list of all the possibilities.
+	ComputeSmallestRepresentative:=function(L)
+		local min,tempL,i;
+		tempL:=L;		
+		i:=2;
+		min:=Minimum(tempL[1]);
+		tempL:=Filtered(tempL,g->g[1]=min);
+		while tempL <>[] and i<=Length(tempL[1]) do 
+			min:=Minimum(List(tempL,g->g[i]));
+			tempL:=Filtered(tempL,g->g[i]=min);
+			i:=i+1;
+			if Length(tempL)=1 then
+				return tempL[1];
+			fi; 
+		od;
+		return tempL[1];
+	end;
+
+
+	#The list tcounter consists of lists of positive integers.
+	#This function sorts the list tcounter with respect to
+	#the length of the lists and lexicography. 
+	help_SortCounter:=function(tcounter)
+		local g,lengths,sortedCounter,l;
+		sortedCounter:=[];
+		lengths:=List(tcounter,g->Length(g));
+		for l in Set(lengths) do
+			temp:=Filtered(tcounter,g->Length(g)=l);
+			Append(sortedCounter,Set(temp));
+		od; 
+		return sortedCounter;
+	end;
+	tempcounter:=[];
+	for v in Vertices(surface) do
+		edgesOfUmb:=EdgesAsList(UmbrellaPathOfVertex(surface,v));
+		edgesOfUmb:=edgesOfUmb{[1..Length(edgesOfUmb)-1]};
+		verticesOfUmb:=List(edgesOfUmb,g->Difference(VerticesOfEdge(surface,g),[v])[1]);
+		facdegOfVert:=List(verticesOfUmb,g->FaceDegreeOfVertex(surface,g));
+		Add(tempcounter,facdegOfVert);
+	od;
+
+	#tempcounter may still contain lists describing the same sequence of face
+	#degrees. So the different lists have to be collected and replaced by 
+	#the lexicographically smallest representative in the counter 
+	counter:=[];
+	while tempcounter <> [] do 
+		facdegOfVert:=tempcounter[1];
+		n:=Length(facdegOfVert);
+		G:=DihedralGroup(IsPermGroup,2*n);
+		equi:=EquivalentLists(G,facdegOfVert);
+		temp:=Filtered(tempcounter,g->g in equi);
+		Add(counter,[ComputeSmallestRepresentative(equi),Length(temp)]);
+		tempcounter:=Filtered(tempcounter,g-> not g in temp);		
+	od; 
+	temp:=help_SortCounter(List(counter,g->g[1]));
+	return List(temp,g->Filtered(counter,h->h[1]=g)[1]);
+end
+);
+
+InstallMethod( ThreeFaceCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+	local g,tempcounter,v,f,face,vert,vof,vof2,counter,i,temp,tup;
+	tempcounter:=[];
+	for v in Vertices(surface) do
+		for f in FacesOfVertex(surface,v) do
+			if Length(Filtered(NeighbourFacesOfFace(surface,f),g->v in VerticesOfFace(surface,g)))>=2 then 
+				vof:=Filtered(VerticesOfFace(surface,f),g->g<>v);
+				if FaceDegreeOfVertex(surface,vof[1])>=FaceDegreeOfVertex(surface,vof[2]) then 
+					temp:=vof[1];
+					vof[1]:=vof[2];
+					vof[2]:=temp;
+				fi;
+				vof2:=[];
+				for i in [1,2] do 
+					face:=Filtered(Faces(surface),g->IsSubset(VerticesOfFace(surface,g),[v,vof[i]]) and g <>f)[1];
+					vert:=Difference(VerticesOfFace(surface,face),[vof[i],v])[1];
+					Add(vof2,vert);
+				od;
+				vof:=List(vof,g->FaceDegreeOfVertex(surface,g));
+				vof2:=List(vof2,g->FaceDegreeOfVertex(surface,g));
+				if vof[1]<=vof[2] then
+					Add(tempcounter,[FaceDegreeOfVertex(surface,v),vof,vof2]);
+				else
+                                        Add(tempcounter,[FaceDegreeOfVertex(surface,v),[vof[2],vof[1]],[vof2[2],vof2[1]]]);
+				fi;
+			fi;
+		od;
+	od;
+	return Collected(tempcounter);
+end
+);
+
+
 ##
 ##      End of degrees
 ##
@@ -677,8 +829,39 @@ InstallMethod( IsInnerEdge, "for a twisted polygonal complex and an edge",
         return IsInnerEdgeNC(complex, edge);
     end
 );
-#TODO Implication to IsClosedSurface
 
+InstallMethod( IsTurnableEdge, "for a simplicial surface and an edge",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, edge)
+        __SIMPLICIAL_CheckEdge(surface, edge, "IsTurnableEdge");
+        return IsTurnableEdgeNC(surface, edge);
+    end
+);
+
+InstallMethod(TurnableEdges,"for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+	local res,voe1,voe2,foe,edge;
+	res:=[];
+	for edge in Edges(surface) do 
+		voe1:=VerticesOfEdge(surface,edge);
+		foe:=FacesOfEdge(surface,edge);
+		voe2:=Union(VerticesOfFaces(surface){foe});
+		voe2:=Difference(voe2,voe1);
+		if Length(voe2)>=2 and not voe2 in VerticesOfEdges(surface) then
+			Add(res,edge);
+		fi;
+	od;
+	return res;
+    end
+);
+
+InstallMethod( IsTurnableEdgeNC, "for a simplicial surface and an edge",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, edge)
+        return edge in TurnableEdges(surface);
+    end
+);
 
 InstallMethod( BoundaryEdges, "for a polygonal complex",
     [IsPolygonalComplex],
