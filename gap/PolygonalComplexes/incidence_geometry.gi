@@ -586,8 +586,92 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     ["VerticesAttributeOfComplex", "EdgesOfVertices", "EdgesOfFaces", 
         "FacesOfEdges", "VerticesOfEdges", "RamifiedEdges"], ["IsPolygonalComplex"]);
 
+
+InstallMethod(StarNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+	function(surface, vertex)
+	
+		local faces;
+		
+		faces:=FacesOfVertex(surface,vertex);
+		return SubcomplexByFaces(surface,faces);
+	
+	end
+);
+
+InstallMethod(Star, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+	function(surface, vertex)
+	
+		__SIMPLICIAL_CheckVertex(surface,vertex, "Star");
+		return StarNC(surface,vertex);
+	
+	end
+);
+
+InstallMethod(StarNC, "for a polygonal surface and a list", [IsPolygonalSurface, IsList],
+        function(surface, vertices)
+
+                local faces, v;
+		faces:=[];
+		for v in vertices do
+                	Append(faces,FacesOfVertex(surface,v));
+		od;
+                return SubcomplexByFaces(surface,faces);
+
+        end
+);
+
+InstallMethod(Star, "for a polygonal surface and a list", [IsPolygonalSurface, IsList],
+        function(surface, vertices)
+		
+		local v;
+
+		for v in vertices do
+                	__SIMPLICIAL_CheckVertex(surface,v, "Star");
+		od;
+                return StarNC(surface,vertices);
+
+        end
+);
+
+InstallMethod(LinkNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+	function(surface, vertex)
+	
+		local path, faces, edges, face;
+	
+		path:=UmbrellaPathOfVertex(surface, vertex);
+		faces:=FacesAsList(path);
+		edges:=[];
+		for face in faces do
+			Add(edges,OppositeEdgeOfVertexInTriangle(surface, vertex, face));
+		od;
+		return VertexEdgePathByEdges(surface,edges);
+	
+	end
+);
+
+InstallMethod(Link, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+	function(surface, vertex)
+	
+		__SIMPLICIAL_CheckVertex(surface,vertex, "Link");
+		return LinkNC(surface,vertex);
+	
+	end
+);
+
+InstallOtherMethod(Link, "for a polygonal surface", [IsPolygonalSurface],
+	function(surface)
+	
+		local vertex, list;
+		list:=[];
+		for vertex in Vertices(surface) do
+			Add(list, Link(surface,vertex));
+		od;
+		return list;
+	
+	end
+);
 ##
-##          End of edge-face-paths
+##          End of Umbrella-paths around vertices 
 ##
 ##############################################################################
 
