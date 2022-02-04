@@ -140,7 +140,7 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 #! isomorphism there is exactly one multi-tetrahedral sphere with 4
 #! faces, namely the tetradron.
 #! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#! \begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=1]
 #!      \input{Image_Tetrahedron_Net.tex}
 #!  \end{tikzpicture}
 #! </Alt>
