@@ -33,7 +33,7 @@ jobs:
           GAPBRANCH: ${{ matrix.gap-branch }}
           ABI: ${{ matrix.ABI }}
       - uses: gap-actions/build-pkg@v1
-      - run: /home/runner/gap/bin/gap.sh -l '/home/runner/work/simplicial-surfaces/simplicial-surfaces/gaproot;' --quitonbreak makedoc.g
+      - uses: gap-actions/build-pkg-docs@v1
       - uses: gap-actions/run-pkg-tests@v2
       - uses: gap-actions/process-coverage@v2
       - uses: codecov/codecov-action@v1
@@ -44,6 +44,15 @@ jobs:
     runs-on: ubuntu-latest
     # Don't run this twice on PRs for branches pushed to the same repository
     if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    strategy:
+      fail-fast: false
+      matrix:
+        gap-branch:
+          - master
+        ABI: ['']
+        include:
+          - gap-branch: master
+            ABI: 
 
     steps:
       - run: sudo apt-get update
@@ -57,7 +66,9 @@ jobs:
           ABI: ${{ matrix.ABI }}
       - uses: gap-actions/build-pkg@v1
       - run: cd flatex && ./autogen.sh && ./configure && make && cd -
-      - run: /home/runner/gap/bin/gap.sh -l '/home/runner/work/simplicial-surfaces/simplicial-surfaces/gaproot;' --quitonbreak makedoc.g
+      - uses: gap-actions/build-pkg-docs@v1
+        with:
+          use-latex: 'true'
       - name: 'Upload documentation'
         uses: actions/upload-artifact@v2
         with:
