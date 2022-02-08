@@ -1662,7 +1662,45 @@ if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
         [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
 fi;
 
+InstallMethod(JoinBoundary, "for a polygonal surface and a vertex", [IsPolygonalSurface, IsPosInt],
+	function(complex, vertex)
+		local path, boundaryPath, path1, path2,n;
+		if not IsBoundaryVertex(complex,vertex) then
+			Error(Concatenation("JoinBoundary: Vertex ", String(vertex), " is not a boundary vertex."));
+		fi;
+		for path in PerimeterOfHoles(complex) do
+			if vertex in VerticesAsList(path) then
+				boundaryPath:=EdgesAsList(path);
+			fi;
+		od;
+		n:=Length(boundaryPath);
+		if IsOddInt(n) then
+			Error(Concatenation("JoinBoundary: The boundary path with edges ", String(boundaryPath), " has not even length."));
+		fi;
+		return JoinBoundaryNC(complex, vertex);
+end);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundary, true,
+        [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+fi;
 
+InstallMethod(JoinBoundaryNC, "for a polygonal surface and a vertex", [IsPolygonalSurface, IsPosInt],
+	function(complex, vertex)
+		local path, boundaryPath, path1, path2, n;
+		for path in PerimeterOfHoles(complex) do
+			if vertex in VerticesAsList(path) then
+				boundaryPath:=EdgesAsList(path);
+			fi;
+		od;
+		n:=Length(boundaryPath);
+		path1:=VertexEdgePathByEdges(complex,boundaryPath{[1..n/2]});
+		path2:=VertexEdgePathByEdges(complex,Reversed(boundaryPath{[n/2+1..n]}));
+		return JoinVertexEdgePaths(complex,path1,path2);
+end);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( JoinBoundaryNC, true,
+        [IsTwistedPolygonalComplex, IsList, IsList], [IsPolygonalSurface], 0 );
+fi;
 ##
 ##      End of joining
 ##
@@ -1774,10 +1812,7 @@ RedispatchOnCondition( SplitAllVertices, true, [IsTwistedPolygonalComplex], [IsP
 InstallMethod( CraterCuttableEdges, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local innerEdges;
-
-        innerEdges := InnerEdges(complex);
-        return Filtered(innerEdges, e -> ForAll( VerticesOfEdges(complex)[e], v -> IsInnerVertexNC(complex, v) ));
+        return EdgesWithVertexProperty(complex, v -> IsInnerVertexNC(complex, v));
     end
 );
 RedispatchOnCondition( CraterCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
@@ -1800,11 +1835,8 @@ InstallMethod( CraterMendableEdgePairs, "for a polygonal complex",
         local edgeAnom, edgePairs;
 
         edgeAnom := List( EdgeAnomalyClasses(complex), 
-            cl -> Filtered( cl, 
-                e -> IsBoundaryEdgeNC(complex, e) and 
-                    ForAll( VerticesOfEdges(complex)[e], 
-                        v -> IsBoundaryVertexNC(complex, v) ) ) );
-        edgePairs := Combinations(edgeAnom, 2);
+		cl -> Filtered( cl, e -> IsBoundaryEdgeNC(complex, e)));
+ 	edgePairs:=List(edgeAnom,cl->Combinations(cl, 2));
         return Union(edgePairs);
     end
 );
@@ -1825,18 +1857,7 @@ RedispatchOnCondition( CraterMend, true, [IsTwistedPolygonalComplex,IsList], [Is
 InstallMethod( RipCuttableEdges, "for a polygonal complex", 
     [IsPolygonalComplex],
     function(complex)
-        local CheckInnerBound;
-
-        CheckInnerBound := function(e)
-            local verts;
-
-            verts := VerticesOfEdges(complex)[e];
-            return ( IsInnerVertexNC(complex, verts[1]) and 
-                        IsBoundaryVertexNC(complex, verts[2]) ) 
-                or ( IsInnerVertexNC(complex, verts[2]) and 
-                        IsBoundaryVertexNC(complex, verts[1]) );
-        end;
-        return Filtered(InnerEdges(complex), CheckInnerBound );
+        return EdgesWithVertexProperties(complex,v->IsInnerVertexNC(complex,v), v->IsBoundaryVertexNC(complex,v));
     end
 );
 RedispatchOnCondition( RipCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
@@ -1903,9 +1924,7 @@ RedispatchOnCondition( RipMend, true, [IsTwistedPolygonalComplex,IsList], [IsPol
 InstallMethod( SplitCuttableEdges, "for a polygonal complex", 
     [IsPolygonalComplex],
     function(complex)
-        return Filtered(InnerEdges(complex), 
-            e -> ForAll(VerticesOfEdges(complex)[e], 
-                v -> IsBoundaryVertexNC(complex, v)));
+        return Intersection(InnerEdges(complex), EdgesWithVertexProperty(complex, v -> IsBoundaryVertexNC(complex, v)));
     end
 );
 RedispatchOnCondition( SplitCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
@@ -1975,6 +1994,97 @@ RedispatchOnCondition( SplitMend, true, [IsTwistedPolygonalComplex,IsList], [IsP
 
 ##
 ##      End of Cut/Mend
+##
+#######################################
+
+
+
+#######################################
+##
+##      TetrahedralExtension
+##
+InstallMethod( TetrahedralExtension,
+    "for a simplicial surface and a face",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, face)
+	local voe,eof,nE,nV,g,L,M,VOE,EOF,edges,e,vof,rem;
+	rem:=function(L,g)
+	    local temp,i;
+	    temp:=[];
+	    for i in Difference([1..Length(L)],[g]) do
+		temp[i]:=L[i];
+	    od;
+	    return temp;
+	end;
+	VOE:=ShallowCopy(VerticesOfEdges(surface));
+	EOF:=ShallowCopy(EdgesOfFaces(surface));
+	nE:=Length(VOE);
+	nV:=Length(Vertices(surface));
+	vof:=VerticesOfFace(surface,face);
+	Add(VOE,[vof[1],nV+1]);
+        Add(VOE,[vof[2],nV+1]);
+        Add(VOE,[vof[3],nV+1]);
+	eof:=EOF[face];
+	EOF:=rem(EOF,face);
+	for e in eof do 
+		voe:=VerticesOfEdge(surface,e);
+		edges:=Filtered([nE+1,nE+2,nE+3],g->
+		Intersection(VOE[g],VerticesOfEdge(surface,e))<>[]);
+		Add(EOF,[e,edges[1],edges[2]]);
+	od;
+	return SimplicialSurfaceByDownwardIncidence(VOE,EOF);
+end
+);
+##
+##      End of TetrahedralExtension
+##
+#######################################
+
+#######################################
+##
+##      Edgeturn
+##
+
+InstallOtherMethod(EdgeTurn, "for a simplicial surface and an inner edge",
+    [IsSimplicialSurface,IsPosInt],
+    function(surface,edge)
+        return EdgeTurn(surface,edge,edge);
+    end
+);
+InstallMethod( EdgeTurn, "for a simplicial surface and an edge",
+    [IsSimplicialSurface,IsPosInt,IsPosInt],
+    function(surface,edge,newedge)
+	local eof,voe,edges1,edges2,foe,vof, g;
+	if newedge in Edges(surface) and newedge<>edge then 
+		return fail;
+	fi;
+	foe:=FacesOfEdge(surface,edge);
+	if Length( Union(VerticesOfFace(surface,foe[1]),VerticesOfFace(surface,foe[2])))=4 then	
+		edges1:=Filtered(EdgesOfFace(surface,foe[1]),g->not(g=edge));
+		edges2:=Filtered(EdgesOfFace(surface,foe[2]),g->not(g=edge));
+		vof:=Union(VerticesOfFace(surface,foe[1]),VerticesOfFace(surface,foe[2]));
+		voe:=[];
+		for g in Difference(Edges(surface),[edge]) do
+			voe[g]:=VerticesOfEdge(surface,g);
+		od;
+		voe[newedge]:=Filtered(vof,g-> not(g in VerticesOfEdge(surface,edge)));
+		eof:=ShallowCopy(EdgesOfFaces(surface));
+		if Length(Intersection(VerticesOfEdge(surface,edges1[1]),VerticesOfEdge(surface,edges2[1])))>0 and 
+		IsSubsetSet(VerticesOfEdge(surface,edge),Intersection(VerticesOfEdge(surface,edges1[1]),VerticesOfEdge(surface,edges2[1]))) then
+			eof[foe[1]]:=[newedge,edges1[1],edges2[1]];
+			eof[foe[2]]:=[newedge,edges1[2],edges2[2]];
+		else
+			eof[foe[1]]:=[newedge,edges1[2],edges2[1]];
+			eof[foe[2]]:=[newedge,edges1[1],edges2[2]];
+		fi;
+		return SimplicialSurfaceByDownwardIncidence(voe,eof);
+	else
+		return fail;
+	fi;
+end
+);
+##
+##      End of Edgeturn
 ##
 #######################################
 
