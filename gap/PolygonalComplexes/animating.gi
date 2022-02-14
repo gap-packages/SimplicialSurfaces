@@ -1,3 +1,4 @@
+
 BindGlobal( "__SIMPLICIAL_IsCoordinates3D",
     function(surface, coordinates)
         local coord;
