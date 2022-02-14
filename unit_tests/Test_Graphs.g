@@ -62,6 +62,35 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 		Assert(0, Set(DigraphEdges(digButterfly))=Set(Filtered(Union(FacesOfEdges(butterfly),reversedButterfly),i->Length(i)=2)));
 	end);
 
+	BindGlobal( "__SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph", function()
+		local dig, surface, list1, list2;
+		surface:=SimplicialSurfaceByVerticesInFaces([[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],[2,4,6],[3,5,7],[3,6,7]]);
+		dig:=FaceDigraphsGraph(surface);
+		list1:=AllSimplicialSurfacesOfDigraph(dig,true);
+		Assert(0,Length(list1)=1);
+		Assert(0,IsIsomorphic(list1[1],surface));
+		
+		list2:=AllSimplicialSurfacesOfDigraph(dig);
+		Assert(0, Filtered(list2,IsVertexFaithful)=list1);
+		Assert(0,Length(list2)=11);
+
+		dig:=DigraphByEdges([ [ 1, 2 ], [ 1, 4 ], [ 1, 5 ], [ 2, 1 ], [ 2, 3 ], [ 2, 6 ], [ 3, 2 ], [ 3, 4 ], [ 3, 5 ], [ 4, 1 ], [ 4, 3 ], 
+					[ 4, 6 ], [ 5, 1 ],[ 5, 3 ], [ 5, 6 ], [ 6, 2 ], [ 6, 4 ], [ 6, 5 ] ]);
+		list1:=AllSimplicialSurfacesOfDigraph(dig,true);
+		list2:=AllSimplicialSurfacesOfDigraph(dig,false);
+		Assert(0,Length(list1)=0);
+		Assert(0,Length(list2)=2);
+
+		#One of the smallest face graph with more than one vertex-faithful surface
+		dig:=DigraphByEdges([ [ 1, 9 ], [ 9, 1 ], [ 1, 13 ], [ 13, 1 ], [ 1, 14 ], [ 14, 1 ], [ 2, 6 ], [ 6, 2 ], [ 2, 7 ], [ 7, 2 ], [ 2, 10 ], 
+					[ 10, 2 ], [ 3, 10 ],[ 10, 3 ], [ 3, 15 ], [ 15, 3 ], [ 3, 16 ], [ 16, 3 ], [ 4, 6 ], [ 6, 4 ], [ 4, 8 ], [ 8, 4 ], 
+					[ 4, 9 ], [ 9, 4 ], [ 5, 6 ], [ 6, 5 ], [ 5, 12 ], [ 12, 5 ],[ 5, 14 ], [ 14, 5 ], [ 7, 8 ], [ 8, 7 ], [ 7, 13 ], [ 13, 7 ], 
+					[ 8, 11 ], [ 11, 8 ], [ 9, 10 ], [ 10, 9 ], [ 11, 12 ], [ 12, 11 ], [ 11, 15 ], [ 15, 11 ], [ 12, 16 ], [ 16, 12 ], 
+					[ 13, 14 ], [ 14, 13 ], [ 15, 16 ], [ 16, 15 ] ]);
+		list1:=AllSimplicialSurfacesOfDigraph(dig,true);
+		Assert(0,Length(list1)=2);
+	end);
+
 fi;
 
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
