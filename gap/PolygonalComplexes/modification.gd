@@ -1312,11 +1312,11 @@ DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
 #! @BeginExampleSession
 #! gap> multiTet:=Tetrahedron();;
 #! gap> for f in Faces(multiTet) do
-#! > surface:=TetrahedralExtension(multiTet,f);
+#! > multiTet:=TetrahedralExtension(multiTet,f);
 #! > od;
 #! gap> FaceDegreesOfVertices(multiTet);
 #! [ 6, 6, 6, 6, 3, 3, 3, 3 ]
-#! gap> MultiTetrahedralSymbolOfComplex(surface);
+#! gap> MultiTetrahedralSymbolOfComplex(multiTet);
 #! [ [ 1, 4 ], [ 2, 1 ], [ 2, 3 ], [ 2, 2 ] ]
 #! @EndExampleSession
 #! Note different symbols can give rise to isomorphic multi tetrahedral spheres.

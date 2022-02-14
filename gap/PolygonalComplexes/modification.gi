@@ -2101,8 +2101,10 @@ InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
                                comp:=TetrahedralReduction(comp,v);
                         od;
                 fi;
-        fi;
-        return fail;
+		return comp;
+	else
+	        return fail;
+	fi;
 end
 );
 
@@ -2156,7 +2158,7 @@ InstallMethod( MultiTetrahedralSphereByTetrahedralSymbol,
     end
 );
 
-##Error
+
 InstallMethod( MultiTetrahedralSymbolOfComplex,
     "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
@@ -2213,7 +2215,7 @@ InstallMethod( MultiTetrahedralSymbolOfComplex,
 							  [v,neigh[2],neigh[3]],
 							  [neigh[1],neigh[2],neigh[3]]]);
 		idenVertices:=[[[1,vertices[4]],[2,vertices[3]],[3,vertices[2]],[4,vertices[1]]]];
-		surf1:=surf;
+#		surf1:=surf;
 		idenFaces:=[[[1,1],[2,2],[3,3],[4,4]]];
 		while not IsIsomorphic(complex,surf) do
 			temp:=helpNextVertex(complex,Vertices(surf));
