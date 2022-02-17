@@ -970,7 +970,14 @@ RedispatchOnCondition( JoinVerticesNC, true,
 InstallOtherMethod( JoinEdges, "for a polygonal complex and two edges",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, e1, e2)
-        return JoinEdges(complex, e1, e2, Edges(complex)[NumberOfEdges(complex)]+1);
+        local label;
+		
+	if e1 = e2 then
+		label := e1;
+	else
+		label := Last(Edges(complex))+1;
+	fi;
+        return JoinEdges(complex, e1, e2, label);
     end
 );
 RedispatchOnCondition( JoinEdges, true, 
@@ -979,7 +986,14 @@ RedispatchOnCondition( JoinEdges, true,
 InstallOtherMethod( JoinEdgesNC, "for a polygonal complex and two edges",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, e1, e2)
-        return JoinEdgesNC(complex, e1, e2, Edges(complex)[NumberOfEdges(complex)]+1);
+        local label;
+		
+	if e1 = e2 then
+		label := e1;
+	else
+		label := Last(Edges(complex))+1;
+	fi;
+        return JoinEdgesNC(complex, e1, e2, label);
     end
 );
 RedispatchOnCondition( JoinEdgesNC, true, 
@@ -992,8 +1006,8 @@ InstallMethod( JoinEdges,
     function(complex, e1, e2, newEdgeLabel)
         __SIMPLICIAL_CheckEdge(complex, e1, "JoinEdges");
         __SIMPLICIAL_CheckEdge(complex, e2, "JoinEdges");
-        if e1 = e2 then
-            Error(Concatenation("JoinEdges: Given edges are identical: ", String(e1), "."));
+        if e1 = e2 and e1 = newEdgeLabel then
+            return [complex, newEdgeLabel];
         fi;
         if newEdgeLabel <> e1 and newEdgeLabel <> e2 and newEdgeLabel in Edges(complex) then
             Error(Concatenation("JoinEdges: Given new edge label ", 
@@ -1064,7 +1078,15 @@ InstallOtherMethod(JoinEdges,
 	"for a polygonal complex and a list",
 	[IsPolygonalComplex,IsList],
 	function(complex,edgeList)
-		return JoinEdges(complex,edgeList,Last(Edges(complex))+1);
+		local edgeSet, label;
+		
+		edgeSet := Set(edgeList);
+		if Length(edgeSet) = 1 then
+			label := edgeSet[1];
+		else
+			label := Last(Edges(complex))+1;
+		fi;
+		return JoinEdges(complex,edgeList,label);
 	end
 );
 RedispatchOnCondition( JoinEdges, true, 
@@ -1075,7 +1097,15 @@ InstallOtherMethod(JoinEdgesNC,
 	"for a polygonal complex and a list",
 	[IsPolygonalComplex,IsList],
 	function(complex,edgeList)
-		return JoinEdgesNC(complex,edgeList,Last(Edges(complex))+1);
+		local edgeSet, label;
+		
+		edgeSet := Set(edgeList);
+		if Length(edgeSet) = 1 then
+			label := edgeSet[1];
+		else
+			label := Last(Edges(complex))+1;
+		fi;
+		return JoinEdgesNC(complex,edgeList,label);
 	end
 );
 RedispatchOnCondition( JoinEdgesNC, true, 
@@ -1131,7 +1161,14 @@ RedispatchOnCondition( JoinEdgesNC, true,
 InstallOtherMethod( JoinFaces, "for a polygonal complex and two faces",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, F1, F2)
-        return JoinFaces(complex, F1, F2, Faces(complex)[NumberOfFaces(complex)]+1);
+	local label;
+		
+	if F1 = F2 then
+		label := F1;
+	else
+		label := Last(Faces(complex))+1;
+	fi;
+        return JoinFaces(complex, F1, F2, label);
     end
 );
 RedispatchOnCondition( JoinFaces, true, 
@@ -1141,7 +1178,14 @@ RedispatchOnCondition( JoinFaces, true,
 InstallOtherMethod( JoinFacesNC, "for a polygonal complex and two faces",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, F1, F2)
-        return JoinFacesNC(complex, F1, F2, Faces(complex)[NumberOfFaces(complex)]+1);
+	local label;
+
+        if F1 = F2 then
+                label := F1;
+        else
+                label := Last(Faces(complex))+1;
+        fi;
+        return JoinFacesNC(complex, F1, F2, label);
     end
 );
 RedispatchOnCondition( JoinFacesNC, true, 
@@ -1152,24 +1196,24 @@ InstallMethod( JoinFaces,
     "for a polygonal complex, two faces and a new face label",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
 	function(complex, F1, F2, newFaceLabel)
-			__SIMPLICIAL_CheckFace(complex, F1, "JoinFaces");
-			__SIMPLICIAL_CheckFace(complex, F2, "JoinFaces");
-			if F1 = F2 then
-				Error(Concatenation("JoinFaces: Given faces are identical: ", String(F1), "."));
-			fi;
-			if newFaceLabel <> F1 and newFaceLabel <> F2 and newFaceLabel in Faces(complex) then
-				Error(Concatenation("JoinFaces: Given new face label ", 
-					String(newFaceLabel), " conflicts with existing faces: ", 
-					String(Faces(complex)), "."));
-			fi;
-			if EdgesOfFaces(complex)[F1] <> EdgesOfFaces(complex)[F2] then
-				Error(Concatenation(
-					"JoinFaces: The two given faces are incident to different edges, namely ",
-					String(EdgesOfFaces(complex)[F1]), " and ",
-					String(EdgesOfFaces(complex)[F2]), "."));
-			fi;
+		__SIMPLICIAL_CheckFace(complex, F1, "JoinFaces");
+		__SIMPLICIAL_CheckFace(complex, F2, "JoinFaces");
+		if F1 = F2 and F1 = newFaceLabel then
+			return [complex, newFaceLabel];
+		fi;
+		if newFaceLabel <> F1 and newFaceLabel <> F2 and newFaceLabel in Faces(complex) then
+			Error(Concatenation("JoinFaces: Given new face label ", 
+				String(newFaceLabel), " conflicts with existing faces: ", 
+				String(Faces(complex)), "."));
+		fi;
+		if EdgesOfFaces(complex)[F1] <> EdgesOfFaces(complex)[F2] then
+			Error(Concatenation(
+				"JoinFaces: The two given faces are incident to different edges, namely ",
+				String(EdgesOfFaces(complex)[F1]), " and ",
+				String(EdgesOfFaces(complex)[F2]), "."));
+		fi;
 
-			return JoinFacesNC(complex, F1, F2, newFaceLabel);
+		return JoinFacesNC(complex, F1, F2, newFaceLabel);
 	end
 );
 RedispatchOnCondition( JoinFaces, true, 
@@ -1223,7 +1267,15 @@ InstallOtherMethod(JoinFaces,
 	"for a polygonal complex and a list",
 	[IsPolygonalComplex,IsList],
 	function(complex,faceList)
-		return JoinFaces(complex,faceList,Last(Faces(complex))+1);
+		local faceSet, label;
+		
+		faceSet := Set(faceList);
+		if Length(faceSet) = 1 then
+			label := faceSet[1];
+		else
+			label := Last(Faces(complex))+1;
+		fi;
+		return JoinFaces(complex,faceList,label);
 	end
 );
 RedispatchOnCondition( JoinFaces, true, 
@@ -1234,7 +1286,15 @@ InstallOtherMethod(JoinFacesNC,
 	"for a polygonal complex and a list",
 	[IsPolygonalComplex,IsList],
 	function(complex,faceList)
-		return JoinFacesNC(complex,faceList,Last(Faces(complex))+1);
+		local faceSet, label;
+
+                faceSet := Set(faceList);
+                if Length(faceSet) = 1 then
+                        label := faceSet[1];
+                else
+                        label := Last(Faces(complex))+1;
+                fi;
+                return JoinFacesNC(complex,faceList,label);
 	end
 );
 RedispatchOnCondition( JoinFacesNC, true, 
