@@ -494,7 +494,6 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! @EndGroup
 
 
-##
 ## Coloured output-attributes
 DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 
