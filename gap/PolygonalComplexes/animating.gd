@@ -321,7 +321,7 @@ DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRe
 
 #! @BeginGroup GetTransparency
 #! @Description
-#! Get the transparency of the face <A>face</A>. If no transparency is set, the function returns 1. Otherwise the function returns the transparency value of the face <A>i</A>. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Get the transparency of the face <A>face</A>. If no transparency is set, the function returns 1. Otherwise the function returns the transparency value of the face <A>face</A>. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
 #! @Arguments surface, face, printRecord
 DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
@@ -384,7 +384,7 @@ DeclareOperation( "GetVertexColours", [IsSimplicialSurface, IsRecord] );
 #! @Returns the updated print record.
 #! @Arguments surface, vertex, colour, printRecord
 DeclareOperation( "SetVertexColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, vertex, printRecord
 DeclareOperation( "GetVertexColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -509,7 +509,7 @@ DeclareOperation( "GetCircleColours", [IsSimplicialSurface, IsRecord] );
 
 #! @BeginGroup SetCircleColour
 #! @Description
-#! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set the <A>colour</A> of the inner circle corresponding to the face <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. Compare Section <Ref Sect="Section_LabelColouring"/> for a list of default colours.)
+#! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set the <A>colour</A> of the inner circle corresponding to the face <A>face</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. Compare Section <Ref Sect="Section_LabelColouring"/> for a list of default colours.)
 #! @Returns the updated print record.
 #! @Arguments surface, face, colour, printRecord
 DeclareOperation( "SetCircleColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );

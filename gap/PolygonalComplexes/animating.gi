@@ -705,11 +705,11 @@ InstallMethod( GetVertexColours,
 InstallMethod( SetEdgeColour,
     "for a simplicial surface, an edge, a string and a record",
     [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
-    function(surface, index, colour, printRecord)
+    function(surface, edge, colour, printRecord)
 				if not IsBound(printRecord.edgeColours) then
 					printRecord.edgeColours := [];
 				fi;
-				printRecord.edgeColours[index] := colour;
+				printRecord.edgeColours[edge] := colour;
 				return printRecord;
     end
 );
@@ -717,16 +717,16 @@ InstallMethod( SetEdgeColour,
 InstallMethod( GetEdgeColour,
     "for a simplicial surface, an edge and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, edge, printRecord)
 				local default;
 				default := "0xff0000";
-				if not IsBound(printRecord.edgeColours) or (index <= 0) then
+				if not IsBound(printRecord.edgeColours) or (edge <= 0) then
 					return default;
 				fi;
-				if not IsBound(printRecord.edgeColours[index]) then
+				if not IsBound(printRecord.edgeColours[edge]) then
 					return default;
 				fi;
-				return printRecord.edgeColours[index];
+				return printRecord.edgeColours[edge];
     end
 );
 
@@ -753,11 +753,11 @@ InstallMethod( GetEdgeColours,
 InstallMethod( SetCircleColour,
     "for a simplicial surface, a face, a string and a record",
     [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
-    function(surface, index, colour, printRecord)
+    function(surface, face, colour, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					printRecord.circleColours := [];
 				fi;
-				printRecord.circleColours[index] := colour;
+				printRecord.circleColours[face] := colour;
 				return printRecord;
     end
 );
@@ -765,16 +765,16 @@ InstallMethod( SetCircleColour,
 InstallMethod( GetCircleColour,
     "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 				local default;
 				default := "0x000000";
-				if not IsBound(printRecord.circleColours) or (index <= 0) then
+				if not IsBound(printRecord.circleColours) or (face <= 0) then
 					return default;
 				fi;
-				if not IsBound(printRecord.circleColours[index]) then
+				if not IsBound(printRecord.circleColours[face]) then
 					return default;
 				fi;
-				return printRecord.circleColours[index];
+				return printRecord.circleColours[face];
     end
 );
 
