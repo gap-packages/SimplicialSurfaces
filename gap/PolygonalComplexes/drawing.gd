@@ -133,9 +133,13 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #! * <E>faceColours</E>: Modify the colours of the face (the default
 #!   colour is a darker shade of yellow).
 #!
-#! We will exemplify them with the example of a cube:
+#! We will exemplify them with the example of a cube. Here the cube has holes in the 
+#! vertex, edge and face sets to make it more clear how the parameters work:
 #! @BeginLog
-cube := Cube();;
+cube := PolygonalComplexByDownwardIncidence([ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], 
+[ 1, 4 ], [ 2, 7 ], , [ 3, 8 ], [ 4, 9 ], [ 1, 6 ], [ 7, 8 ] ,[ 8, 9 ],
+[ 6, 9 ], [ 6, 7 ] ],[ [ 1, 2, 3, 4 ], ,[ 1, 5, 9, 13 ], [ 2, 5, 7, 10 ], 
+[ 4, 8, 9, 12 ], [ 3, 7, 8, 11 ], [ 10, 11, 12, 13 ] ]);;
 DrawSurfaceToTikz(cube, "Cube_example");;
 #! @EndLog
 #! <Alt Only="TikZ">
@@ -145,13 +149,15 @@ DrawSurfaceToTikz(cube, "Cube_example");;
 #!   <Item><E>vertexColours</E>: Modifies the colours of the vertices. The 
 #!     colours
 #!     are given in a list <A>colours</A> such that <A>colours[v]</A> is the
-#!     colour of the vertex <A>v</A>. The colours are strings that are 
+#!     colour of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface, 
+#!     the colour is skipped. The colours are strings that are 
 #!     recognizable by &LaTeX;.
 #!
 #!     It is possible to leave some vertex colours unbound - those will be coloured with the
 #!     default vertex colour (orange).
 #! @BeginLog
-pr := rec( vertexColours := ["red", "blue", "green",, "black!20!yellow"] );;
+pr := rec( vertexColours :=
+   ["red", "blue", "green",, "pink", "black!20!yellow"] );;
 DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
@@ -171,13 +177,15 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #!
 #!   <Item><E>edgeColours</E>: Modifies the colours of the edges. The
 #!     colours are given in a list <A>colours</A> such that <A>colours[e]</A>
-#!     is the colour of the edge <A>e</A>. The colours are strings that are
+#!     is the colour of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
+#!     the colour is skipped. The colours are strings that are
 #!     recognizable by &LaTeX;.
 #!
 #!     Is is possible to leave some edge colours unbound - those will be coloured with the
 #!     default edge colour (gray).
 #! @BeginLog
-pr := rec( edgeColours := [,,,,"red", "blue", "purple", "green!80!black"] );;
+pr := rec( edgeColours :=
+   [,,,,"red", "purple", "blue", "green!80!black"] );;
 DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;
 #! @EndLog
 #! <Alt Only="TikZ">
@@ -197,7 +205,8 @@ DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;
 #!
 #!   <Item><E>faceColours</E>: Modifies the colours of the faces. The
 #!     colours are given in a list <A>colours</A> such that <A>colours[f]</A>
-#!     is the colour of the face <A>f</A>. It is possible to leave some
+#!     is the colour of the face <A>f</A>. If face <A>f</A> is not in the surface,
+#!     the colour is skipped. It is possible to leave some
 #!     face colours unbound - those will be coloured with the default face colour (a darker
 #!     shape of yellow, the custom colour <E>\\faceColorY</E>).
 #!
@@ -242,9 +251,12 @@ DrawSurfaceToTikz( cube, "Cube_faceColouredGlobal", pr );;
 #! * <E>faceLabels</E>: Modify the face labels (by default they are 
 #!   labelled by their number).
 #! 
-#! We will exemplify these parameters on the example of a tetrahedron:
+#! We will exemplify these parameters on the example of a tetrahedron. Here the tetrahedron has holes in the
+#! vertex, edge and face sets to make it more clear how the parameters work:
 #! @BeginLog
-tetra := Tetrahedron();;
+tetra := SimplicialSurfaceByDownwardIncidence([ [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], 
+[ 3, 4 ], ,[ 3, 5 ], [ 4, 5 ] ], [ [ 1, 2, 4 ], [ 1, 3, 6 ], ,
+[ 4, 6, 7 ], [ 2, 3, 7 ] ]);;
 DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
 #! @EndLog
 #! <Alt Only="TikZ">
@@ -266,10 +278,11 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabelsOff", pr);;
 #!   turn off the labels, use <E>vertexLabelsActive</E> instead).
 #! 
 #!   The labels are given as a list <A>labels</A> such that <A>labels[v]</A>
-#!   is the label of the vertex <A>v</A>. It is possible to leave some 
+#!   is the label of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface,
+#!   the label is skipped. It is possible to leave some 
 #!   vertex labels unbound - those will be labelled with their default label.
 #! @BeginLog
-pr := rec( vertexLabels := ["V_1", , "X", "++"] );;
+pr := rec( vertexLabels := ["V_1", "X", , "++"] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabels", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
@@ -292,7 +305,8 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabelsOff", pr);;
 #!   turn off the labels, use <E>edgeLabelsActive</E> instead).
 #! 
 #!   The labels are given as a list <A>labels</A> such that <A>labels[e]</A>
-#!   is the label of the edge <A>e</A>. It is possible to leave some 
+#!   is the label of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
+#!   the label is skipped. It is possible to leave some 
 #!   edge labels unbound - those will be labelled with their default label.
 #! @BeginLog
 pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
@@ -318,10 +332,11 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabelsOff", pr);;
 #!   turn off the labels, use <E>faceLabelsActive</E> instead).
 #! 
 #!   The labels are given as a list <A>labels</A> such that <A>labels[f]</A>
-#!   is the label of the face <A>f</A>. It is possible to leave some 
+#!   is the label of the face <A>f</A>. If face <A>f</A> is not in the surface,
+#!   the label is skipped. It is possible to leave some 
 #!   face labels unbound - those will be labelled with their default label.
 #! @BeginLog
-pr := rec( faceLabels := ["I", "f_2", , "42"] );;
+pr := rec( faceLabels := ["I", "f_2", "42", ,] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
@@ -344,8 +359,8 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! * <E>angles</E>: This parameter controls the inner angles of the faces.
 #!   The angles are stored as a list <A>angles</A> such that
 #!   <A>angles[f][v]</A> represents the angle in face <A>f</A> at vertex
-#!   <A>v</A>. The angle is represented as a list <A>[cos,sin]</A> with
-#!   the cosine and sine of the angle.
+#!   <A>v</A>. The angle is represented as a list <A>[sin,cos]</A> with
+#!   the sine and cosine of the angle.
 #! * <E>floatAccuracy</E>: Internal parameter to decide when two floats are
 #!   regarded as equal. The default is 0.001. Usually it should not be 
 #!   necessary to modify this value.
@@ -353,11 +368,72 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! By default, all faces are drawn as regular polygons. To choose different
 #! polygons their edge lengths and inner angles have to be defined (exception:
 #! for triangles it is sufficient to define the edge lengths, as long as the
-#! angles are not set). An example can be seen at the start of this section
-#! (<Ref Sect="Section_Embeddings_DrawTikz"/>).
+#! angles are not set).
 #!
 #! If the given information is inconsistent an error is thrown.
-#TODO example?
+#!
+#! We will exemplify the first two parameters on the example of a tetrahedron. Here the tetrahedron has holes in the
+#! vertex, edge and face sets to make it more clear how the parameters work:
+#! @BeginLog
+tetra := SimplicialSurfaceByDownwardIncidence([ [ 1, 3 ], [ 1, 4 ], [ 1, 5 ],
+[ 3, 4 ], ,[ 3, 5 ], [ 4, 5 ] ], [ [ 1, 2, 4 ], [ 1, 3, 6 ], ,
+[ 4, 6, 7 ], [ 2, 3, 7 ] ]);;
+DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Tetrahedron_example.tex}
+#! </Alt>
+#! <List>
+#!   <Item><E>scale</E>: By default the scale is 2. This can be changed with this parameter.
+#! @BeginLog
+pr := rec( scale := 1.5 );;
+DrawSurfaceToTikz( tetra, "Tetrahedron_rescaled", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Tetrahedron_rescaled.tex}
+#! </Alt>
+#! </Item>
+#! <Item><E>edgeLengths</E>: By default each edge has length 1. This can be changed with this parameter. 
+#!
+#!   The lengths are given as a list <A>edgeLengths</A> such that <A>edgeLengths[e]</A>
+#!   is the length of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
+#!   the length is skipped. It is possible to leave some
+#!   edge lengths unbound - those will have length 1.
+#! @BeginLog
+pr := rec( edgeLengths := [1.5, 1.5, 1, 1.5, 2, 1, 1] );;
+DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLengths", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Tetrahedron_edgeLengths.tex}
+#! </Alt>
+#! </Item>
+#! <Item><E>angles</E>: The angles can be changed with this parameter.
+#!
+#!   The angles are given as a list <A>angles</A> such that <A>angles[f][v]</A>
+#!   is the inner angle of vertex <A>v</A> in face <A>f</A>. The angle is represented as a 
+#!   list <A>[sin,cos]</A> with the sine and cosine of the angle.
+#!   In the case of a triangle, it is not possible to change the angles without 
+#!   specifiying the edge lengths, as the angles do not describe a unique triangle.
+#!
+#! We will exemplify this parameter on the example of a rectangle example. 
+#! In the case of a rectangle, changing the angles does not change the edge lengths.
+#! @BeginLog
+rectangle:=PolygonalSurfaceByVerticesInFaces([[1,2,3,4]]);;
+pr:=DrawSurfaceToTikz( rectangle, "Rectangle_example" );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Rectangle_example.tex}
+#! </Alt>
+#! @BeginLog
+pr.angles:=[[[ 0.866025, 0.5 ],[ 0.866025, -0.5 ],[ 0.866025, 0.5 ],
+[ 0.866025, -0.5 ]]];;
+DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Rectangle_angles.tex}
+#! </Alt>
+#! </Item>
+#! </List>
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_DrawOrder
@@ -371,18 +447,68 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #!   the avoidance will prevail!
 #! * <E>startingFaces</E>: After drawing this list contains one face from
 #!   each strongly connected component. These are the first faces that were
-#!   drawn from these components. By giving this list manually the first
+#!   drawn from these components. That means that the vertex coordinates of 
+#!   these faces are the first to be calculated. By giving this list manually the first
 #!   drawn faces can be customized. The function will auto-correct the 
 #!   spelling <E>startingFace</E> into <E>startingFaces</E> if there is
 #!   no entry for <E>startingFaces</E>.
 #! * <E>edgeDrawOrder</E>: After drawing this list contains a list of edges
 #!   for each strongly connected component. For each component, this list
 #!   explains the order in which these edges were completed (an edge is 
-#!   completed if both adjacent faces are drawn). This can be customized and
+#!   completed if both adjacent faces are drawn). This means that this parameter 
+#!   controls which edges are drawn once and which edges need to be drawn twice because 
+#!   they cannot be completed. This can be customized and
 #!   <K>DrawSurfaceToTikz</K> will try to follow it as closely as possible
 #!   while avoiding intersections (if <E>avoidIntersections</E> is set).
 #! 
-#! To see this in action, we consider TODO
+#! We will exemplify these parameters on different examples.
+#! <List>
+#! <Item><E>startingFaces</E>: After drawing, this list contains the first faces that were drawn from
+#!   each strongly connected component. These can be changed with this parameter.
+#!
+#! For example, consider the butterfly with two strongly connected components.
+#! @BeginLog
+butterfly := TriangularComplexByVerticesInFaces( 7, 4, [ [1,2,3], 
+[1,6,7], [1,3,4], [1,5,6] ]);;
+pr := DrawSurfaceToTikz(butterfly,"Butterfly");;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Butterfly.tex}
+#! </Alt>
+#! Changing the faces results in a different picture:
+#! @BeginLog
+pr := rec( startingFaces := [3,4] );;
+DrawSurfaceToTikz( butterfly, "Butterfly_startingFaces", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Butterfly_startingFaces.tex}
+#! </Alt>
+#! </Item>
+#! <Item><E>edgeDrawOrder</E>: After drawing this list contains a list of edges for each 
+#! strongly connected component. For each component, this list explains the order in which 
+#! these edges were completed (an edge is completed if both adjacent faces are drawn).
+#! This order can be changed with this parameter.
+#!
+#! For example, consider this simplicial surface:
+#! @BeginLog 
+doubleSixGon:=SimplicialSurfaceByUmbrellaDescriptor([(1,2,3,4,5,6),
+(7,8,9,10,11,12),(1,2,8,7),(2,3,9,8),(3,4,10,9),(4,5,11,10),(5,6,12,11),
+(6,1,7,12)]);;
+pr:=DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon");;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_DoubleSixGon.tex}
+#! </Alt>
+#! Changing the edge draw order results in a different picture:
+#! @BeginLog
+pr!.edgeDrawOrder:=[[1,2,10,8,6,4,7,15,13,14,18,17,16]];;
+DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_DoubleSixGon_edgeDraw.tex}
+#! </Alt>
+#! </Item>
+#! </List>
 #!
 #! @EndChunk
 
@@ -409,10 +535,26 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_Data
-#! TODO
-#vertexCoordinates
-#edgeEndpoints
-#faceVertices
+#! This subsection contains miscellaneous parameters which cannot be influenced by the 
+#! user and contain information to recreate the drawing of <K>DrawSurfaceToTikz</K> (<Ref Subsect="DrawSurfaceToTikz"/>). 
+#! These parameters are: <E>vertexCoordinates</E>, <E>edgeEndPoint</E> and <E>faceVertices</E>.
+#!
+#! For each vertex <A>v</A> and each edge <A>e</A> the components that contain <A>v</A> respectively <A>e</A>
+#! are sorted in the order in which <A>v</A> respectively <A>e</A> were drawn.
+#! The variable <A>index</A> will play an essential role in describing the parameters.
+#! <A>index(v)</A> specifies the index of the component in the order 
+#! described above in which the drawn node is located (analogously for <A>e</A>).
+#! Consider the parameters in detail:
+#!  * <E>vertexCoordinates</E>: After drawing this list contains a list for each vertex.
+#!    For each vertex the list stores the coordinates each time the vertex is drawn. 
+#!    The coordinates are represented as a list <A>[x,y, index]</A>.
+#!  * <E>edgeEndPoint</E>: After drawing this list contains a list for each edge <A>e</A>. 
+#!    For each edge the list stores the end vertices of <A>e</A> for each drawn time.
+#!    Each entry is represented as <A>[v1,v2,index(e)]</A>, with the vertices <A>v1</A> and <A>v2</A> 
+#!    are represented as a list <A>[vi, index(vi)]</A>.
+#!  * <E>faceVertices</E>: After drawing this list contains a list for each face. 
+#!    For each face the list contains in each entry a list of triples, with each entry in the list describing a vertex. 
+#!    The vertices are represented as <A>[v, index(v)]</A>.
 #! @EndChunk
 
 

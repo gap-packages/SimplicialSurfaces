@@ -166,6 +166,9 @@
 #! changed. Otherwise the old edge label is no longer used and will be
 #! replaced by the appropriate number of new labels. The new labels can be
 #! defined by the optional argument <A>newEdgeLabels</A>.
+#! Let <A>numFaces</A> be the number of incident faces from <A>edge</A>, i.e. the number of new edges.
+#! By default, the list <A>newEdgeLabels</A> is the list <A>[1..numFaces]</A>,
+#! which is shifted by the maximal edge label in each entry.
 #!
 #! For example consider the following triangular complex:
 #! <Alt Only="TikZ">
@@ -178,8 +181,10 @@
 #! simplicial surface (4 vertices, 5 edges, and 2 faces)
 #! gap> eye:=SplitEdge(closeEye,2);
 #! [ triangular complex (4 vertices, 6 edges, and 2 faces), [ 6, 7 ] ] 
-#! @EndExampleSession
-#! 
+#! @EndExampleSession 
+#! [ 6, 7 ] are the new edge labels, because the new edge labels are not given and 
+#! edge 2 is incident to two faces and the maximal edge label is 5.
+#!
 #! <Alt Only="TikZ">
 #!      \input{Image_Eye_Open.tex}
 #! </Alt>
@@ -212,6 +217,9 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! label will stay the same. Otherwise the old label will be removed and
 #! replaced by new labels. The new labels can be defined by the optional
 #! argument <A>newVertexLabels</A>.
+#! Let <A>numVert</A> be the number of new vertices that are necessary to split <A>vertex</A>.
+#! By default, the list <A>newEdgeLabels</A> is the list <A>[1..numVert]</A>, 
+#! which is shifted by the maximal vertex label in each entry.
 #!
 #! For example consider the following triangular complex:
 #! <Alt Only="TikZ">
@@ -225,6 +233,8 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! gap> splittedComplex:=SplitVertex(ramSurf,1);
 #! [ simplicial surface (8 vertices, 11 edges, and 5 faces), [ 13, 14 ] ]
 #! @EndExampleSession
+#! [ 13, 14 ] are the new vertex labels, because new vertex labels are not given 
+#! and vertex 1 has two elements in the umbrella partition and the maximal vertex label is 12.
 #! Splitting the vertex 1 in the complex divides the complex into two components:
 #! @BeginExampleSession
 #! gap> NumberOfConnectedComponents(splittedComplex[1]);
@@ -282,15 +292,18 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #!   \input{Image_SplitEdgePath.tex}
 #! </Alt>
 #! @BeginExampleSession
-#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);
-#! | v1, E3, v3, E8, v6 |
+#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);;
 #! @EndExampleSession
 #! Splitting the complex along this path leads to four one faces:
 #! @BeginExampleSession
-#! gap> splitted:=SplitVertexEdgePath(complex,path);;
+#! gap> splitted:=SplitVertexEdgePath(complex,path);
+#! [ simplicial surface (12 vertices, 12 edges, and 4 faces),
+#!   [ [ | v12, E13, v14 |, | v3, E8, v6 | ],
+#!     [ | v13, E14, v15 |, | v3, E8, v6 | ] ] ]
 #! gap> NumberOfConnectedComponents(splitted[1]);
 #! 4
 #! @EndExampleSession
+#! The second output shows in which two path the original path was splitted.
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
@@ -344,16 +357,19 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #!   \input{Image_SplitEdgePath.tex}
 #! </Alt>
 #! @BeginExampleSession
-#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);
-#! | v1, E3, v3, E8, v6 |
+#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);;
 #! @EndExampleSession
 #! Splitting the complex along this path without the first and the last vertex leads
 #! to two components:
 #! @BeginExampleSession
-#! gap> splitted:=SplitEdgePath(complex,path);;
+#! gap> splitted:=SplitEdgePath(complex,path);
+#! [ triangular complex (10 vertices, 12 edges, and 4 faces),
+#!  [ [ | v10, E13, v6 |, | v3, E8, v6 | ],
+#!    [ | v11, E14, v6 |, | v3, E8, v6 | ] ] ]
 #! gap> NumberOfConnectedComponents(splitted[1]);
 #! 2
 #! @EndExampleSession
+#! The second output shows in which two path the original path was splitted.
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
@@ -675,8 +691,10 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #!      <K>fail</K> if the vertices are incident to a common face.
 #!
 #!      The optional argument <A>newVertexLabel</A> allows to set the
-#!      label of the new vertex. By default, an unused label will be
-#!      chosen.</Item>
+#!      label of the new vertex. By default, <A>newVertexLabel</A> is one 
+#!      higher than the maximal vertex label unless the vertices to be joined 
+#!      are equal or the length of <A>vertexList</A> is one. In these cases
+#!      the label does not change.</Item>
 #!   <Item>Combine two vertices <A>v1</A> and <A>v2</A> of two distinct
 #!      polygonal complexes <A>complex1</A> and <A>complex2</A>. This will
 #!      perform <K>DisjointUnion</K> (<Ref Subsect="DisjointUnion"/>) on
@@ -701,7 +719,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! gap> octJoin = fail;
 #! false
 #! @EndExampleSession
-#! This combines the vertices 1 and 6 into a new one, which becomes a 
+#! This combines the vertices 1 and 6 into a new vertex with label 7, which becomes a 
 #! ramified vertex (<Ref Subsect="RamifiedVertices"/>).
 #! @BeginExampleSession
 #! gap> octJoin[2];
@@ -782,7 +800,10 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! @Description
 #! Combine two edges <A>e1</A> and <A>e2</A> of a polygonal complex into one
 #! edge, whose new label can be given by the optional argument 
-#! <A>newEdgeLabel</A> (otherwise a default label is chosen). The edges have 
+#! <A>newEdgeLabel</A>. By default, <A>newEdgeLabel</A> is one higher 
+#! than the maximal edge label unless the edges to be joined
+#! are equal or the length of <A>edgeList</A> is one. In these cases
+#! the label does not change. The edges have 
 #! to have had the same incident vertices.
 #! 
 #! This method returns a pair, where the first entry is the modified polygonal
@@ -813,6 +834,7 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! gap> closeEye[2];
 #! 7
 #! @EndExampleSession
+#! Since 6 is the maximal edge label, 7 is the label of the new edge.
 #! <Alt Only="TikZ">
 #!     \input{Image_Eye_OpenClosed.tex}
 #! </Alt>
@@ -841,7 +863,10 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! @Description
 #! Combine two faces <A>F1</A> and <A>F2</A> of a polygonal complex into one
 #! face, whose new label can be given by the optional argument 
-#! <A>newFaceLabel</A> (otherwise a default label is chosen). The faces have 
+#! <A>newFaceLabel</A>. By default, <A>newFaceLabel</A> is one higher
+#! than the maximal face label unless the faces to be joined
+#! are equal or the length of <A>faceList</A> is one. In these cases
+#! the label does not change. The faces have 
 #! to have had the same incident edges.
 #! 
 #! This method returns a pair, where the first entry is the modified polygonal
@@ -852,7 +877,8 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! gap> JoinFaces(JanusHead(),1,2);
 #! [ simplicial surface (3 vertices, 3 edges, and 1 faces), 3 ]
 #! @EndExampleSession
-#! The resulting surface is the one-face.
+#! The resulting surface is the one-face. Since 2 is the maximal face label,
+#! 3 is the label of the new face.
 #!
 #! The NC-versions do not check whether the given faces are distinct faces
 #! with the same incident edges of <A>complex</A> and whether the new face label is
