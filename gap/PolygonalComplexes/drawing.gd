@@ -561,3 +561,120 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #TODO modify boundaries of page (to center picture for printing)
 #TODO for triangles, the length information should overwrite the angle information
 #TODO for >triangles can we define a notion of "this was probably meant" by minimum distance or so?
+
+#! @BeginChunk DrawFacegraphToTikz_Tutorial
+#! The face graph of a simplicial surface is a graph whereby the vertices of
+#! the graph are given by the faces of the surface and the edges are given by
+#! the edges of the graph. We can compute a straight-line embedding by assigning
+#! 2D-coordinates to the faces.
+#!  
+#! For example the face graph of an octahedron can be drawn like this:
+#! @BeginLog
+oct := Octahedron();;
+DrawFacegraphToTikz( oct, "facephgraph_oct_example" );;
+#! @EndLog
+#!
+#! This will write a file <E>facegraph_oct_example.tex</E> that contains the
+#! face graph of the octahedron, written in <K>TikZ</K>:
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct.tex}
+#! </Alt>
+#!
+#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! Each call of the drawing method creates one of those:
+#! @BeginLog
+pr := DrawFacegraphToTikz( oct, "facegraph_oct_example" );;
+#! @EndLog
+#!
+#! Maybe the edges should be labelled. Then they can be turned on:
+#! @BeginLog
+pr.edgeLabelsActive := true;;
+#! @EndLog
+#!
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct_edgelabels.tex}
+#! </Alt>
+#!
+#! The labels of the vertices can be turnes on with 
+#! @BeginLog
+pr.vertexLabelsActive := true;;
+#! @EndLog
+#!
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct_vertexLabels.tex}
+#! </Alt>
+#!
+#! The colours can also be changed very easily (especially if all colours
+#! should be changed at once). For example, let's make all edges green:
+#! @BeginLog
+pr.edgeColours := "green";;
+#! @EndLog
+
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct_greenEdges.tex}
+#! </Alt>
+#!
+#! We can even compute an embedding of the face graph with the corresponding 
+#! geodesics of the simplicial surface
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_octGeodesics.tex}
+#! </Alt>
+#!
+#! If we are not happy with the position of a face node, we can change it  
+#! by adjusting the 2D-coordinate of the face.
+#!
+#! @BeginLog
+pr.faceCoordinates2D[1]:=[-2.,4.];;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct2.tex}
+#! </Alt>
+#!
+#! It is even possible to compute an embedding of the face graph of a given
+#! simplicial surface by manipulating all face coordinates. For example we
+#! can compute an embedding so that it is clear to see that the face graph
+#! of the tetrahedron is bipartite.
+#!
+#! @BeginLog
+pr.faceCoordinates2D[1]:=[0.,0.];;pr.faceCoordinates2D[4]:=[4.,0.];;
+pr.faceCoordinates2D[3]:=[4.,1.];;pr.faceCoordinates2D[7]:=[4.,2.];;
+pr.faceCoordinates2D[2]:=[0.,1.];;pr.faceCoordinates2D[6]:=[0.,2.];;
+pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct3.tex}
+#! </Alt>
+
+#! @EndChunk
+
+
+#! @BeginChunk ColorsFG
+
+#! This subsection covers how to change the colours of vertices, edges and 
+#! faces in the drawings 
+#! from <K>FacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>).
+#! It covers the following parameters:
+#! * <E>edgeColours</E>: Modify the colours of the edges (the default
+#!   colour is gray).
+#! * <E>faceColours</E>: Modify the colours of the face (the default
+#!   colour is a darker shade of yellow).
+#!
+#! We will exemplify them with the example of a tetrahedron. Here the cube has $
+#! vertex, edge and face sets to make it more clear how the parameters work:
+#! @BeginLog
+tetra:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],[1,3,4],[2,3,4]]);
+DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Cube_example.tex}
+#! </Alt>
+
+#! <List>
+#!   <Item><E>vertexColours</E>: Modifies the colours of the vertices. The 
+#!     colours
+#!     are given in a list <A>colours</A> such that <A>colours[v]</A> is the
+#!     colour of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface,
+#!     the colour is skipped. The colours are strings that are 
+#!     recognizable by &LaTeX;.
+#!
+

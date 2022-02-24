@@ -250,3 +250,102 @@ DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalComplex and IsNotEdgeRamified
 #! @InsertChunk DrawSurfaceToTikz_Data
 
 
+#! @BeginGroup SetFaceCoordinates2D
+#! @Description
+#! Save the given list of 2D-coordinates in the given or an empty print record.
+#! If the format of the 2D-coordinates (2D-coordinates have to be a list
+#! of 2 entries of floats) is not correct, then an error is shown.
+#! The NC-version does not check the coordinate format.
+#!
+#! For an example consider the tetrahedron.
+#! @BeginExampleSession
+#! gap> printRecord:=rec();;
+#! gap> SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]]);
+#! rec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )
+#! gap> SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]],printRecord);;
+#! gap> printRecord;
+#! rec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )
+#! @EndExampleSession
+#! @Returns the updated print record
+#! @Arguments surface, coordinates[, printRecord]
+DeclareOperation("SetFaceCoordinates2D", [IsSimplicialSurface,IsList,IsRecord]);
+#! @Arguments surface, coordinates[, printRecord]
+DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord]);
+#! @EndGroup
+
+
+#! @Section Drawinig the face graph
+#! @SectionLabel DrawFrGrTikz
+#!
+#! @InsertChunk DrawFacegraphToTikz_Tutorial
+#!
+#! @BeginGroup DrawFacegraphToTikz
+#! @Description
+#! Draw the face graph of the given <A>surface</A> into a tex-file (using TikZ).
+#! An introduction to the use of this method (along with several examples) 
+#! can be found at the start of section <Ref Sect="Section_DrawFrGrTikz"/>.
+#! If <K>surface</K> is a simplicial sphere and the function is used without the 
+#! argument <K>printRecord</K>, then the embedding printed into
+#! <K>fileName</K> is the tutte embedding of the face graph of <K>surface</K>. 
+#! Trying to use the function without specifying <K>printRecord</K> for a surface
+#! that is not a sphere results in an error. 
+#!
+#! * If the given <A>fileName</A> does not end in <E>.tex</E> the ending 
+#!   <E>.tex</E> will be added to it. 
+#! * The given file will be overwritten without asking if it already exists.
+#!   If you don't have permission to write in that file, this method will
+#!   throw an error.
+#! * The particulars of the drawing are determined by the 
+#!   given <A>printRecord</A>. If this is not given and <A>surface</A> is a
+#!   simplicial sphere, the default settings are used. 
+#! * The <A>printRecord</A> will be modified and returned by this method.
+#!   It contains the data to recreate the drawing of the surface.
+#! 
+#! 
+#! There are several parameters to change the output of this method, from 
+#! cosmetic changes to exactly controlling in which order the faces are drawn.
+#! Since the design of the parameters is similar to the design of the parameters
+#! of <K>DrawSurfaceToTikz</K>, one can refer to the corresponding sub section
+#! for a better understanding.
+#! To use these methods for not spherical surfaces it is necessary to set the
+#! 2D-coordinates (2D-coordinates are defined as a list with 2 entries of
+#! floats) of the vertices of the surface (see <Ref Subsect="SetFaceCoordinates2D"/>).
+#! There are the following classes of parameters:
+#! * <E>Colours</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Colours"/>): Change the 
+#!   colours of edges and faces represented as vertices.
+#! * <E>Labels</E>
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Labels"/>): Modify the labels
+#!   of vertices, edges and faces.
+#! * <E>Geodesics</E>
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Geodesics"/>): Draw the 
+#!   geodesics of the simplicial surface into the face graph
+#! * <E>Face coordinates</E>
+#!   Modify the 2D-coordinates of the faces.
+#!
+#! @Returns a record
+#! @Arguments surface, file[, printRecord]
+DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface,IsString,IsRecord]);
+#! @EndGroup
+
+#! @Subsection Colours
+#! We will exemplify them with the example of a tetrahedron. Here the cube has holes i$
+#! vertex, edge and face sets to make it more clear how the parameters work:
+## ! @BeginLog
+# tetra:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],[1,3,4],[2,3,4]]);
+# DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
+## ! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Cube_example.tex}
+#! </Alt>
+#! <List>
+#!   <Item><E>vertexColours</E>: Modifies the colours of the vertices. The 
+#!     colours
+#!     are given in a list <A>colours</A> such that <A>colours[v]</A> is the
+#!     colour of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface,
+#!     the colour is skipped. The colours are strings that are 
+#!     recognizable by &LaTeX;.
+#!
+#!     It is possible to leave some vertex colours unbound - those will be colo$
+#!     default vertex colour (orange).
+

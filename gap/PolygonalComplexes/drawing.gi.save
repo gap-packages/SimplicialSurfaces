@@ -1160,43 +1160,22 @@ InstallOtherMethod( DrawSurfaceToTikz,
 RedispatchOnCondition( DrawSurfaceToTikz, true, [IsTwistedPolygonalComplex,IsString], [IsPolygonalComplex and IsNotEdgeRamified], 0  );
 
 
-InstallMethod( SetFaceCoordinates2D,
-    "for a simplicial surface, a list of face coordinates and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
-    function(surface, faceCoordinates, printRecord)
-	local i,temp;
-	temp:=Filtered([1..Length(faceCoordinates)], i-> IsBound(faceCoordinates[i]));
-	if Filtered(temp,i->Length(faceCoordinates[i])=2)<>Faces(surface) then 
-	    Error( " invalid coordinate format " );
-        fi;
-	return SetFaceCoordinates2DNC(surface,faceCoordinates,printRecord);
-    end
-);
-
 InstallOtherMethod( SetFaceCoordinates2D,
-    "for a simplicial surface and a list of coordinates",
-    [IsSimplicialSurface, IsList],
-    function(surface, faceCoordinates)
-        return SetFaceCoordinates2D(surface, faceCoordinates, rec());
-    end
+    "for a simplicial surface and a list of face coordinates",
+    [IsSimplicialSurface, IsString],
+    function(surface,facePositions)
+	local i,printRecord,temp;
+	temp:=Filtered([1..Length(facePositions)],i->IsBound(facePositions[i]));
+	if Filtered(temp,i->Length(facePositions[i])=2)<>Faces(surface) then 
+	    Error();
+	fi;
+printRecord.faceCoordinates:=facePositions;
+        
+	return printRecord;
+end
 );
 
-InstallMethod( SetFaceCoordinates2DNC,
-    "for a simplicial surface, a list of coordinates and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
-    function(surface, faceCoordinates, printRecord)
-        printRecord.faceCoordinates2D := faceCoordinates;
-        return printRecord;
-    end
-);
-
-InstallOtherMethod( SetFaceCoordinates2DNC,
-    "for a simplicial surface, a list of coordinates and a record",
-    [IsSimplicialSurface, IsList],
-    function(surface, faceCoordinates)
-        return rec(faceCoordinates2D := faceCoordinates);
-    end
-);
+ of 3 entries of floats) is not correct, then an error is shown.
 
    #this function prints the tutte embedding of a face graph of a 
    #simplicial surface into a .tex file
@@ -1503,73 +1482,34 @@ InstallMethod( DrawFacegraphToTikz,
     ## this functions manipulates the printRecord so that functionalities of 
     ## DrawSurfaceToTikZ can be used 
     helpInitializePrintRecord:=function(printRecord)
-	local g,colour;
-	if not IsBound(printRecord.vertexLabelsActive) then
-	    printRecord.vertexLabelsActive := false;
+	local g;
+	if not IsBound(printRecord.vertexLAbelsActive) then
+	    printRecord.vertexLabelsActive := true;
 	fi;
 	if not IsBound(printRecord.latexDocumentclass) then
 	    printRecord.latexDocumentclass := "article";
 	fi;
 	if not IsBound(printRecord.edgeLabelsActive) then
-	    printRecord.edgeLabelsActive := false; 
+	    printRecord.edgeLabelsActive := false;
 	fi;
-	
 	if not IsBound(printRecord.faceLabelsActive) then
 	    printRecord.faceLabelsActive := true;
 	fi;
 	if not IsBound(printRecord.scale) then
 	    printRecord.scale :=2;
 	fi;
-	if IsBound(printRecord.edgeColours) then
-	    if IsString(printRecord.edgeColours) then
-		colour:=printRecord.edgeColours; 
-		printRecord.edgeColours:=[];
-		for e in Edges(surface) do
-		    printRecord.edgeColours[e]:=colour;
-		od;
-	    fi;
-	else
-		printRecord.edgeColours:=[];
+	if not IsBound(printRecord.edgeColours) then
+	    printRecord.edgeColours := [];
 	fi;	
 	if not IsBound(printRecord.edgeLabels) then
 	    printRecord.edgeLabels := [];
 	fi;
-        if not IsBound(printRecord.faceLabels) then
-            printRecord.faceLabels := [];
-        fi;
-        if not IsBound(printRecord.vertexLabels) then
-            printRecord.vertexLabels := [];
-        fi;
-
 	if not IsBound(printRecord.drawGeodesics) then
 	    printRecord.drawGeodesics:= false;
 	fi;	
-	if not IsBound(printRecord.faceCoordinates2D) then
-	    if IsClosedSurface(surface) and IsVertexFaithful(surface) and EulerCharacteristic(surface)=2 then
-		printRecord.faceCoordinates2D := helpSetFaceCoordinates(surface);
-	    else 
-		printRecord.faceCoordinates2D:=[];
-	   fi;
+	if not IsBound(printRecord.faceCoordinates) then
+	    printRecord.faceCoordinates := helpSetFaceCoordinates(surface);
 	fi;	
-	if printRecord.edgeLabelsActive and printRecord.edgeLabels=[] then
-	    for e in Edges(surface) do
-		printRecord.edgeLabels[e]:=String(e);
-
-	    od;
-	fi;
-        if printRecord.faceLabelsActive and printRecord.faceLabels=[] then
-            for f in Faces(surface) do
-                printRecord.faceLabels[f]:=String(f);
-
-            od;
-        fi;
-        if printRecord.vertexLabelsActive and printRecord.vertexLabels=[] then
-            for v in Vertices(surface) do
-                printRecord.vertexLabels[v]:=String(v);
-
-            od;
-        fi;
-
 	return printRecord;
     end;
 
@@ -1591,7 +1531,7 @@ InstallMethod( DrawFacegraphToTikz,
 	maxY:=Maximum(yCoordinates);
 
 	posMinX:=Filtered(facePositions,g->g[1]=minX);
-	while posMinX <> [] do
+	while posMinX <> [] do 	
 		min:=Minimum(List(posMinX,g->g[2]));
 		minFace:=Position(facePositions,Filtered(posMinX,g->g[2]=min)[1]);
 		if Length(Filtered(Umbrellas,g->minFace in g))=2 then
@@ -1601,7 +1541,7 @@ InstallMethod( DrawFacegraphToTikz,
 	od;
 
 	posMaxY:=Filtered(facePositions,g->g[2]=maxY and g[1]<>minX);
-	while posMaxY <> [] do
+	while posMaxY <> [] do 	
 		min:=Minimum(List(posMaxY,g->g[1]));
 		minFace:=Position(facePositions,Filtered(posMaxY,g->g[1]=min)[1]);
 		if Length(Filtered(Umbrellas,g->minFace in g))=2 then
@@ -1611,7 +1551,7 @@ InstallMethod( DrawFacegraphToTikz,
 	od;
 
 	posMaxX:=Filtered(facePositions,g->g[1]=maxX and g[2]<>maxY);
-	while posMaxX <> [] do
+	while posMaxX <> [] do 	
 		max:=Maximum(List(posMaxX,g->g[2]));
 		maxFace:=Position(facePositions,Filtered(posMaxX,g->g[2]=max)[1]);
 		if Length(Filtered(Umbrellas,g->maxFace in g))=2 then
@@ -1621,7 +1561,7 @@ InstallMethod( DrawFacegraphToTikz,
 	od;
 
 	posMinY:=Filtered(facePositions,g->g[2]=minY and not(g[1] in [minX,maxX]) );
-	while posMinY <> [] do
+	while posMinY <> [] do 	
 		max:=Maximum(List(posMinY,g->g[1]));
 		maxFace:=Position(facePositions,Filtered(posMinY,g->g[1]=max)[1]);
 		if Length(Filtered(Umbrellas,g->maxFace in g))=2 then
@@ -1713,29 +1653,17 @@ InstallMethod( DrawFacegraphToTikz,
     f := Filename( DirectoryCurrent(), file );
     output := OutputTextFile( f, false );
     if output = fail then
-        Error(Concatenation("File ", String(file), " can't be opened.") );
+	Error(Concatenation("File ", String(file), " can't be opened.") );
     fi;
     printRecord:=helpInitializePrintRecord(printRecord);
     SetPrintFormattingStatus( output, false );
 
     # Add Header to .tex file 
-    temp:=ShallowCopy(printRecord);
-    temp.faceLabelsActive:= printRecord.vertexLabelsActive;
-    temp.vertexLabelsActive:= printRecord.faceLabelsActive;
-    temp.vertexLabels:=printRecord.faceLabels;
-    temp.faceLabels:=printRecord.vertexLabels;
-    AppendTo( output,__SIMPLICIAL_PrintRecordGeneralHeader(temp));
-    AppendTo( output,__SIMPLICIAL_PrintRecordTikzHeader(temp));
+    AppendTo( output,__SIMPLICIAL_PrintRecordGeneralHeader(printRecord));
+    AppendTo( output,__SIMPLICIAL_PrintRecordTikzHeader(printRecord));
     AppendTo( output, "\n\n\\begin{document}\n");
     AppendTo( output, "\n\n\\begin{tikzpicture}[",
-    __SIMPLICIAL_PrintRecordTikzOptions(temp, surface), "]\n\n" );
-
-    # check whether face coordinates are in the right format
-    temp:=Filtered([1..Length(printRecord.faceCoordinates2D)],i->IsBound(printRecord.faceCoordinates2D[i]));
-    if Filtered(temp,i->Length(printRecord.faceCoordinates2D[i])=2)<>Faces(surface) then
-	Error();
-    fi;
-
+    __SIMPLICIAL_PrintRecordTikzOptions(printRecord, surface), "]\n\n" );
     
     faceCoordTikZ:=[];
     for f in Faces(surface) do
@@ -1744,14 +1672,14 @@ InstallMethod( DrawFacegraphToTikz,
     ##define face coordinates
     for f in Faces(surface) do
 	AppendTo(output	,"\\coordinate (",faceCoordTikZ[f],") at (",
-	printRecord.faceCoordinates2D[f][1]," , ",printRecord.faceCoordinates2D[f][2],");\n");
+	printRecord.faceCoordinates[f][1]," , ",printRecord.faceCoordinates[f][2],");\n");
     od;
 
     ##draw edges
     for e in Edges(surface) do 
 	foe:=FacesOfEdge(surface,e);
         AppendTo(output,__SIMPLICIAL_PrintRecordDrawEdge(printRecord,surface,e,
-	faceCoordTikZ{foe},printRecord.faceCoordinates2D{foe}));
+	faceCoordTikZ{foe},printRecord.faceCoordinates{foe}));
     od;
     ##draw faces as nodes
     for f in Faces(surface) do
@@ -1763,20 +1691,20 @@ InstallMethod( DrawFacegraphToTikz,
     currUmb:=Filtered(umbrellas,umb->Length(umb)=Maximum(FaceDegreesOfVertices(surface)))[1];
 
     ## draw vertex labels
-    if IsBound(printRecord.vertexLabelsActive) then 
-	if printRecord.vertexLabelsActive then
+    if IsBound(pr.drawVertexLabels) then 
+	if printRecord.drawVertexLabels then
 	    v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(currUmb))[1];
 	    umbrellas:=Difference(umbrellas,[currUmb]);
-	    coordinates:=List(currUmb,f->printRecord.faceCoordinates2D[f]);
+	    coordinates:=List(currUmb,f->printRecord.faceCoordinates[f]);
 	    maxX:=Maximum(List(coordinates,g->g[1]));
 	    maxY:=Maximum(List(coordinates,g->g[2]));
 	    minY:=Minimum(List(coordinates,g->g[2]));
-	    AppendTo(output,"\\node[faceLabel,scale=1.5] at (",maxX+1.,",",minY+1/2*(maxY-minY),") {$",v,"$};\n");
+	    AppendTo(output,"\\node[faceLabel,scale=1.5] at (",maxX+1.,",",minY+1/2*(maxY-minY),") {$",v,"$};");
 	    for umb in umbrellas do
 		v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(umb))[1];
-		coordinates:=List(umb,f->printRecord.faceCoordinates2D[f]);
+		coordinates:=List(umb,f->printRecord.faceCoordinates[f]);
 		temp:=sum(coordinates);
-		AppendTo(output,"\\node[faceLabel,scale=1.5] at (",temp[1],",",temp[2],") {$", v,"$};\n");
+		AppendTo(output,"\\node[faceLabel,scale=1.5] at (",coordinates[1],",",coordinates[2],") {$", v,"$};\n");
 	    od; 
 	fi;
     fi;
@@ -1788,31 +1716,31 @@ InstallMethod( DrawFacegraphToTikz,
 	    coordinates:=List(Vertices(surface),v->[]);
 	    for umb in umbrellas do
 		v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(umb))[1];
-		temp:=List(umb,f->printRecord.faceCoordinates2D[f]);
+		temp:=List(umb,f->printRecord.faceCoordinates[f]);
 		for f in umb do 
-		    coordinates[v][f]:=printRecord.faceCoordinates2D[f]+0.1*(sum(temp)-printRecord.faceCoordinates2D[f]);
+		    coordinates[v][f]:=printRecord.faceCoordinates[f]+0.1*(sum(temp)-printRecord.faceCoordinates[f]);
 		od;
 	    od;
 	    v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(currUmb))[1];
-	    temp:=sum(List(currUmb,f->printRecord.faceCoordinates2D[f]));
-	    maxX:=Maximum(List(currUmb,f->printRecord.faceCoordinates2D[f][1]));
-	    maxY:=Maximum(List(currUmb,f->printRecord.faceCoordinates2D[f][2]));
-	    minX:=Minimum(List(currUmb,f->printRecord.faceCoordinates2D[f][1]));
-	    minY:=Minimum(List(currUmb,f->printRecord.faceCoordinates2D[f][2]));
+	    temp:=sum(List(currUmb,f->printRecord.faceCoordinates[f]));
+	    maxX:=Maximum(List(currUmb,f->printRecord.faceCoordinates[f][1]));
+	    maxY:=Maximum(List(currUmb,f->printRecord.faceCoordinates[f][2]));
+	    minX:=Minimum(List(currUmb,f->printRecord.faceCoordinates[f][1]));
+	    minY:=Minimum(List(currUmb,f->printRecord.faceCoordinates[f][2]));
 	    mX:=maxX-minX;
 	    mY:=maxY-minY;
 	    for f in currUmb do 
-		coordinates[v][f]:=printRecord.faceCoordinates2D[f];
-		if printRecord.faceCoordinates2D[f][1]=minX then 
+		coordinates[v][f]:=printRecord.faceCoordinates[f];
+		if printRecord.faceCoordinates[f][1]=minX then 
 		    coordinates[v][f]:=coordinates[v][f]-[0.05*mX,0.];
 		fi;
-		if printRecord.faceCoordinates2D[f][2]=minY then 
+		if printRecord.faceCoordinates[f][2]=minY then 
 		    coordinates[v][f]:=coordinates[v][f]-[0.,0.05*mY];
 		fi;
-		if printRecord.faceCoordinates2D[f][1]=maxX then 
+		if printRecord.faceCoordinates[f][1]=maxX then 
 		    coordinates[v][f]:=coordinates[v][f]+[0.05*mX,0.];
 		fi;
-		if printRecord.faceCoordinates2D[f][2]=maxY then 
+		if printRecord.faceCoordinates[f][2]=maxY then 
 		    coordinates[v][f]:=coordinates[v][f]+[0.,0.05*mY];
 		fi;
 	    od;
