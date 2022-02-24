@@ -547,10 +547,10 @@ BindGlobal( "__SIMPLICIAL_RestrictToVertices",
 );
 BindGlobal( "__SIMPLICIAL_RestrictToEdges",
     function(complex,  g)
-        local maxVert, permList, c, eOfC;
+        local maxEdge, permList, c, eOfC;
 
-        maxVert := Maximum(Vertices(complex));
-        permList := [1..maxVert];
+        maxEdge := Maximum(Edges(complex));
+        permList := [1..maxEdge];
         eOfC := EdgesOfChambers(complex);
         for c in Chambers(complex) do
             permList[eOfC[c]] := eOfC[c^g];
@@ -561,10 +561,10 @@ BindGlobal( "__SIMPLICIAL_RestrictToEdges",
 
 BindGlobal( "__SIMPLICIAL_RestrictToFaces",
     function(complex, g)
-        local maxVert, permList, c, fOfC;
+        local maxFace, permList, c, fOfC;
 
-        maxVert := Maximum(Vertices(complex));
-        permList := [1..maxVert];
+        maxVert := Maximum(Faces(complex));
+        permList := [1..maxFace];
         fOfC := FacesOfChambers(complex);
         for c in Chambers(complex) do
             permList[fOfC[c]] := fOfC[c^g];
