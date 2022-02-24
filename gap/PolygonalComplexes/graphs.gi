@@ -563,7 +563,7 @@ BindGlobal( "__SIMPLICIAL_RestrictToFaces",
     function(complex, g)
         local maxFace, permList, c, fOfC;
 
-        maxVert := Maximum(Faces(complex));
+        maxFace := Maximum(Faces(complex));
         permList := [1..maxFace];
         fOfC := FacesOfChambers(complex);
         for c in Chambers(complex) do
