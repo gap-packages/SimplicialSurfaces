@@ -284,11 +284,11 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! Draw the face graph of the given <A>surface</A> into a tex-file (using TikZ).
 #! An introduction to the use of this method (along with several examples) 
 #! can be found at the start of section <Ref Sect="Section_DrawFrGrTikz"/>.
-#! If <K>surface</K> is a simplicial sphere and the function is used without the 
-#! argument <K>printRecord</K>, then the embedding printed into
+#! If <K>surface</K> is a simplicial sphere and the function is used without
+#! the  argument <K>printRecord</K>, then the embedding printed into
 #! <K>fileName</K> is the tutte embedding of the face graph of <K>surface</K>. 
-#! Trying to use the function without specifying <K>printRecord</K> for a surface
-#! that is not a sphere results in an error. 
+#! Trying to use the function without specifying <K>printRecord</K> for a
+#! surface that is not a sphere results in an error. 
 #!
 #! * If the given <A>fileName</A> does not end in <E>.tex</E> the ending 
 #!   <E>.tex</E> will be added to it. 
@@ -327,25 +327,12 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! @Arguments surface, file[, printRecord]
 DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface,IsString,IsRecord]);
 #! @EndGroup
-
+   
 #! @Subsection Colours
-#! We will exemplify them with the example of a tetrahedron. Here the cube has holes i$
-#! vertex, edge and face sets to make it more clear how the parameters work:
-## ! @BeginLog
-# tetra:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],[1,3,4],[2,3,4]]);
-# DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
-## ! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Cube_example.tex}
-#! </Alt>
-#! <List>
-#!   <Item><E>vertexColours</E>: Modifies the colours of the vertices. The 
-#!     colours
-#!     are given in a list <A>colours</A> such that <A>colours[v]</A> is the
-#!     colour of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface,
-#!     the colour is skipped. The colours are strings that are 
-#!     recognizable by &LaTeX;.
-#!
-#!     It is possible to leave some vertex colours unbound - those will be colo$
-#!     default vertex colour (orange).
+#! @SubsectionLabel DrawFacegraphToTikz_Colours
+#! @InsertChunk DrawFacegraphToTikz_Colours
+
+#! @Subsection Labels
+#! @SubsectionLabel DrawFacegraphToTikz_Labels
+#! @InsertChunk DrawFacegraphToTikz_Labels
 

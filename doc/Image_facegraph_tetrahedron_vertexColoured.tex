@@ -1,0 +1,19 @@
+\begin{tikzpicture}[vertexBall, edgeDouble=nolabels, faceStyle=nolabels, scale=2]
+
+\coordinate (V1) at (0. , 4.);
+\coordinate (V2) at (4. , 0.);
+\coordinate (V3) at (4. , 4.);
+\coordinate (V4) at (3. , 2.);
+\draw[edge] (V1) -- node[edgeLabel] {$1$} (V2);
+\draw[edge] (V1) -- node[edgeLabel] {$2$} (V3);
+\draw[edge] (V2) -- node[edgeLabel] {$3$} (V3);
+\draw[edge] (V1) -- node[edgeLabel] {$4$} (V4);
+\draw[edge] (V2) -- node[edgeLabel] {$5$} (V4);
+\draw[edge] (V3) -- node[edgeLabel] {$6$} (V4);
+
+\vertexLabelR[blue]{V1}{left}{$1$}
+\vertexLabelR[green]{V2}{left}{$2$}
+\vertexLabelR{V3}{left}{$3$}
+\vertexLabelR[black!20!yellow]{V4}{left}{$4$}
+
+\end{tikzpicture}

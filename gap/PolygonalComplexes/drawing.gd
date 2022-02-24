@@ -648,33 +648,82 @@ pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
 #! @EndChunk
 
 
-#! @BeginChunk ColorsFG
-
-#! This subsection covers how to change the colours of vertices, edges and 
-#! faces in the drawings 
-#! from <K>FacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>).
+#! @BeginChunk DrawFacegraphToTikz_Colours
+#! This subsection covers how to change the colours of nodes of the faces and 
+#! edges in the drawings from <K>FacegraphToTikz</K>
+#! (<Ref Subsect="DrawFacegraphToTikz"/>).
 #! It covers the following parameters:
 #! * <E>edgeColours</E>: Modify the colours of the edges (the default
 #!   colour is gray).
-#! * <E>faceColours</E>: Modify the colours of the face (the default
-#!   colour is a darker shade of yellow).
+#! * <E>faceColours</E>: Modify the colours of the faces (the default
+#!   colour is a gray).
 #!
-#! We will exemplify them with the example of a tetrahedron. Here the cube has $
-#! vertex, edge and face sets to make it more clear how the parameters work:
+#! We will exemplify them with the example of a tetrahedron. 
 #! @BeginLog
 tetra:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],[1,3,4],[2,3,4]]);
 DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{_TIKZ_Cube_example.tex}
+#!     \input{Image_facegraph_tetrahedron.tex}
 #! </Alt>
 
 #! <List>
-#!   <Item><E>vertexColours</E>: Modifies the colours of the vertices. The 
-#!     colours
-#!     are given in a list <A>colours</A> such that <A>colours[v]</A> is the
-#!     colour of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface,
-#!     the colour is skipped. The colours are strings that are 
+#!   <Item><E>faceColours</E>: Modifies the colours of the vertices representing
+#!     the faces of the given simpliciaal surface. The colours
+#!     are given in a list <A>colours</A> such that <A>colours[f]</A> is the
+#!     colour of the vertex representing the face <A>f</A>. If vertex <A>v</A>
+#!     is not in the surface, the colour is skipped. The colours are strings
+#!     that are recognizable by &LaTeX;.
+#!
+#!     It is possible to leave some vertex colours unbound - those will be colo
+#!     default vertex colour (orange).
+#!   </Item>
+#! @BeginLog
+pr := rec( faceColours :=
+   ["blue", "green",, "black!20!yellow"] );;
+DrawSurfaceToTikz(cube, "tetrahedron_facegraph_vertexColouredLocal", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_tetrahedron_vertexColoured.tex}
+#! </Alt>
+#!   Instead of giving an entire list it is also possible to give just one
+#!   string defining a new colour for all vertices. It will be internally
+#!   converted into a list.
+#! @BeginLog
+pr := rec( vertexColours := "blue!60!white" );;
+DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_Cube_vertexColouredGlobal.tex}
+#! </Alt>
+#!
+#!   <Item><E>edgeColours</E>: Modifies the colours of the edges. The
+#!     colours are given in a list <A>colours</A> such that <A>colours[e]</A>
+#!      is the colour of the edge <A>e</A>. If edge <A>e</A> is not in the 
+#!     surface
+#!     the colour is skipped. The colours are strings that are
 #!     recognizable by &LaTeX;.
 #!
-
+#!     Is is possible to leave some edge colours unbound - those will be colour
+#!     default edge colour (gray).
+#!   </Item>
+#! @BeginLog
+pr := rec( edgeColours :=
+    [,,,,"red", "purple", "blue", "green!80!black"] );;
+DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Cube_edgeColouredLocal.tex}
+#! </Alt>
+#!     Instead of giving an entire list it is also possible to give just one
+#!     string defining a new colour for all edges. It will be internally 
+#!     converted into a list.
+#! @BeginLog
+pr := rec( edgeColours := "red" );;
+DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Cube_edgeColouredGlobal.tex}
+#! </Alt>
+#! </List>
+#!  @EndChunk

@@ -729,6 +729,29 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
 				return __SIMPLICIAL_ReadTemplateFromFile(relPath);
     end
 );
+BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertexFG",
+    function( printRecord, surface, face, faceTikzCoord, faceCoord )
+        local res;
+
+        res := "\\vertexLabelR";
+        if IsBound( printRecord!.faceColours[face] ) then
+            res := Concatenation(res, "[", printRecord!.faceColours[face],"]");
+
+        fi;
+        res := Concatenation( res, "{", faceTikzCoord, "}{left}{$");
+        if IsBound(printRecord!.faceLabels[face]) then
+            Append(res, printRecord!.faceLabels[face]);
+        else
+            #Append( res, "v_{" );
+            Append( res, String(face) );
+            #Append( res, "}" );
+        fi;
+        Append(res,"$}\n" );
+
+        return res;
+    end
+);
+
 
 BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertex",
     function( printRecord, surface, vertex, vertexTikzCoord, vertexCoord )
@@ -1208,7 +1231,8 @@ InstallMethod( DrawFacegraphToTikz,
     local e,e1,e2,f,f1,f2,f3,v,v1,v2,faceCoordTikZ,foe,helpStartPositions,
     helpUmbrellaAsList,helpInitializePrintRecord,output,helpSetFaceCoordinates,
     helpOrderFaces,helpActiveFaces,helpNewFaceCoordinates,umb,maxX,maxY,sum,newCoor,
-    minX,minY,mX,mY,geodesic,i,j,currUmb,coordinates,temp,newFaces,umbrellas,color;
+    minX,minY,mX,mY,geodesic,i,j,currUmb,coordinates,temp,newFaces,umbrellas,color,
+    tempRec;
 
     sum:=function(L)
 	local g,s,n;
@@ -1569,6 +1593,30 @@ InstallMethod( DrawFacegraphToTikz,
 
             od;
         fi;
+        if IsBound(printRecord.faceColours) then
+            if IsString(printRecord.faceColours) then
+                colour:=printRecord.faceColours;
+                printRecord.faceColours:=[];
+                for f in Faces(surface) do
+                    printRecord.faceColours[f]:=colour;
+                od;
+            fi;
+        else
+                printRecord.faceColours:=[];
+        fi;
+
+        if IsBound(printRecord.vertexColours) then
+            if IsString(printRecord.vertexColours) then
+                colour:=printRecord.vertexColours;
+                printRecord.vertexColours:=[];
+                for v in Vertices(surface) do
+                    printRecord.vertexColours[v]:=colour;
+                od;
+            fi;
+        else
+                printRecord.vertexColours:=[];
+        fi;
+
 
 	return printRecord;
     end;
@@ -1719,16 +1767,19 @@ InstallMethod( DrawFacegraphToTikz,
     SetPrintFormattingStatus( output, false );
 
     # Add Header to .tex file 
-    temp:=ShallowCopy(printRecord);
-    temp.faceLabelsActive:= printRecord.vertexLabelsActive;
-    temp.vertexLabelsActive:= printRecord.faceLabelsActive;
-    temp.vertexLabels:=printRecord.faceLabels;
-    temp.faceLabels:=printRecord.vertexLabels;
-    AppendTo( output,__SIMPLICIAL_PrintRecordGeneralHeader(temp));
-    AppendTo( output,__SIMPLICIAL_PrintRecordTikzHeader(temp));
+    tempRec:=ShallowCopy(printRecord);
+    tempRec.faceLabelsActive:= printRecord.vertexLabelsActive;
+    tempRec.vertexLabelsActive:= printRecord.faceLabelsActive;
+    tempRec.vertexLabels:=printRecord.faceLabels;
+    tempRec.faceLabels:=printRecord.vertexLabels;
+    tempRec.vertexColours:=printRecord.faceColours;
+    tempRec.faceColours:=printRecord.vertexColours;
+
+    AppendTo( output,__SIMPLICIAL_PrintRecordGeneralHeader(tempRec));
+    AppendTo( output,__SIMPLICIAL_PrintRecordTikzHeader(tempRec));
     AppendTo( output, "\n\n\\begin{document}\n");
     AppendTo( output, "\n\n\\begin{tikzpicture}[",
-    __SIMPLICIAL_PrintRecordTikzOptions(temp, surface), "]\n\n" );
+    __SIMPLICIAL_PrintRecordTikzOptions(tempRec, surface), "]\n\n" );
 
     # check whether face coordinates are in the right format
     temp:=Filtered([1..Length(printRecord.faceCoordinates2D)],i->IsBound(printRecord.faceCoordinates2D[i]));
@@ -1754,8 +1805,13 @@ InstallMethod( DrawFacegraphToTikz,
 	faceCoordTikZ{foe},printRecord.faceCoordinates2D{foe}));
     od;
     ##draw faces as nodes
+#    for f in Faces(surface) do
+#	AppendTo(output,"\\vertexLabelR{",faceCoordTikZ[f],"}{left}{$",f,"$}\n");
+#   od;
+
+    AppendTo( output, "% Draw the vertices\n" );
     for f in Faces(surface) do
-	AppendTo(output,"\\vertexLabelR{",faceCoordTikZ[f],"}{left}{$",f,"$}\n");
+	AppendTo( output, __SIMPLICIAL_PrintRecordDrawVertexFG( tempRec, surface, f, faceCoordTikZ[f], tempRec.faceCoordinates2D[f] ));
     od;
 
     umbrellas:=UmbrellaDescriptorOfSurface(surface);
