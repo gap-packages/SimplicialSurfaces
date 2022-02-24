@@ -542,6 +542,7 @@ BindGlobal( "__SIMPLICIAL_RestrictToVertices",
         for c in Chambers(complex) do
             permList[vOfC[c]] := vOfC[c^g];
         od;
+	Print(permList,"\n");
         return PermList(permList);
     end
 );
