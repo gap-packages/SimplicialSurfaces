@@ -617,7 +617,6 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
               neigh,  res, edgesOfVertices, facesOfEdges, 
               # local functions
               verticesInFace,
-              adjacentFaces, 
               ListFromCycle,  
               IsCorrectFaceWithVertexOfDegreeOne,
               IsCorrectFaceWithBoundary,
@@ -636,42 +635,6 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
             return l;
         end;
                 
-        # given one umbrella <umb> and a face <f> return its neighbours
-        # in <umb> as a set
-        adjacentFaces := function( umb, f )
-
-            local i, neigh;
-
-            if IsPerm(umb) then
-                neigh := [];
-                i := f^umb;
-                if i <> f then
-                    Add(neigh, i);
-                fi;
-                i  := f^(umb^-1);
-                if i <> f then
-                    Add(neigh, i);
-                fi;
-                return Set(neigh);
-            else
-
-                i := Positions( umb, f);
-                if Length(i) <> 1 then return Set([]); fi;
-                # if f is the only face there are no neighbours
-                if Length(umb)=1 then return Set([]); fi;
-                i := i[1]; 
-
-                # if f is a boundary face there is exactly one neighbour
-                if i = 1 then return Set([umb[2]]); fi;
-                if i = Length(umb) then return Set([umb[Length(umb)-1]]); fi;
-
-                # if f is not a boundary face there is are two neighbours
-                return Set([umb[i-1],umb[i+1]]);
-             fi;
-
-        end;
-
-
 
         # determine the vertices of f. This equals the indices of the
         # umbrellas containing f. Note that if there are not exactly
@@ -743,7 +706,8 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
             od;
 
             # the neighbours of m in others must be the same
-            neighs := List(others, j->adjacentFaces(udesc[j], f));
+            neighs := List(others,
+	         j->__SIMPLICIAL_UmbrellaAdjacentFaces(udesc[j], f));
             if Length(neighs[1]) <> 1 or Length(neighs[2]) <> 1 or
                Length(Intersection(neighs[1],neighs[2])) <> 1 then
                Error("Found face with  vertex of degree 1 but no neighbours");
@@ -794,9 +758,9 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
             fi;
 
             # now we check whether the neighbours of f in the two
-            # half-cycles occur also in the other vertex 
-            neighs := [adjacentFaces(udesc[vtx[1]],f),
-                       adjacentFaces(udesc[vtx[2]],f)];
+            # half-cycles occur also in the other vertex
+            neighs := [__SIMPLICIAL_UmbrellaAdjacentFaces(udesc[vtx[1]],f),
+                       __SIMPLICIAL_UmbrellaAdjacentFaces(udesc[vtx[2]],f)];
             for j in neighs do
                 if Length(j) <> 1 then
                     Error("Found boundary face which is incorrect ");
@@ -900,8 +864,8 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
             # now we know that f is an ear and that f is not a boundary
             # face, so the other umbrellas are cycles.
             vtx := Difference(v,cycs);
-            common := [adjacentFaces(udesc[vtx[1]],f),
-                       adjacentFaces(udesc[vtx[2]],f)];
+            common := [__SIMPLICIAL_UmbrellaAdjacentFaces(udesc[vtx[1]],f),
+                       __SIMPLICIAL_UmbrellaAdjacentFaces(udesc[vtx[2]],f)];
             # f has two neighbours that are incidet to vtx[1] and vtx[2],
             # namely the other face in the 2-cycle and some other face
             
@@ -985,7 +949,7 @@ InstallMethod( SimplicialSurfaceByUmbrellaDescriptor,
             # Now we check the condition d)
             for j in v do
                 # add the neighbours of f at vertex v
-                neigh := adjacentFaces(udesc[j],f);
+                neigh := __SIMPLICIAL_UmbrellaAdjacentFaces(udesc[j],f);
                 AddSet(edges,[1,Set([f, neigh[1]])]);
                 AddSet(edges,[1,Set([f, neigh[2]])]);
                 AddSet(edgesOfVertices[j],[1,Set([f, neigh[1]])]);
@@ -1452,7 +1416,6 @@ InstallMethod( AllUmbrellaDescriptorsOfDegreeSequence,
 
             # if F already occurs in u then we cannot add it again
             if Pos(u,l,F)  <> false then
-#                Print("face ", F, " already present\n");
                 return false;
             fi;
 
@@ -1470,7 +1433,6 @@ InstallMethod( AllUmbrellaDescriptorsOfDegreeSequence,
             neighs := Set(neighs);
 
             if Length(oncyc) >= 3 then
-#                Print("face ", F, " is already in 3 cycles\n");
                 return false;
             fi;
                 

@@ -133,7 +133,13 @@
 #! The <E>DownwardIncidence</E>-constructors also allow the optional arguments 
 #! <A>vertices</A>,
 #! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
-#! information is checked for compatibility with them. This is not strictly 
+#! information is checked for compatibility with them, that is 
+#! (1) the integers in <A>faces</A> correspond to the bound positions of 
+#! <A>edgesOfFaces</A>, (2) the integers in <A>edges</A> are those occuring 
+#! in the entries of <A>edgesOfFaces</A> and also correspond to the bound 
+#! entries of <A>verticesOfEdges</A> and 
+#! (3) the integers in <A>verties</A> are those occuring
+#! in the entries of <A>verticesOfEdges</A>. This is not strictly 
 #! necessary since this information can be deduced from the lists
 #! <A>verticesOfEdges</A> and <A>edgesOfFaces</A>.
 #!
@@ -917,7 +923,7 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! each vertex. Formally, 
 #! @InsertChunk Documentation_UmbrellaDescriptor
 #!
-#! @SectionLabel Section_Constructors_Umbrellas
+#! @SectionLabel Constructors_Umbrellas
 #!
 #! @BeginChunk Documentation_UmbrellaDescriptor
 #! an umbrella descriptor of a simplicial surface is a list <A>umbdesc</A>, 
@@ -975,8 +981,8 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! @BeginGroup
 #! @Description
 #! This method takes as input a list <A>umbdesc</A>, which is an
-#! umbrella descriptor of a simplicial surface, where
-#! @InsertChunk Documentation_UmbrellaDescriptor
+#! umbrella descriptor of a simplicial surface, see
+#! (<Ref Sect="Section_Constructors_Umbrellas"/>).
 #! If the list  <A>umbdesc</A> is the umbrella descriptor of a surface 
 #! <A>surf</A>, the method returns <A>surf</A>. Otherwise it returns 
 #! <A>false</A>.
@@ -1023,15 +1029,15 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #! @BeginGroup
 #! @Description
 #!  A normed umbrella descriptor is a special umbrella descriptor of a
-#!  surface. An
-#! @InsertChunk Documentation_UmbrellaDescriptor
+#!  surface, where an umbrella descriptor is described in 
+#! (<Ref Sect="Section_Constructors_Umbrellas"/>).
 #!  The normed umbrella descriptor of a given umbrella descriptor <A>umdesc</A>
 #!  for the face <A>face</A> and an optional list of neighbours <A>neigh</A> 
 #!  of <A>face</A>  is an umbrella descriptor <A>normedumdesc</A> for an 
 #!  isomorphic surface. This new surface is obtained from the original surface
 #!  described by <A>umdesc</A> by a renumbering <A>f</A> of the faces, where
 #!  <A>f</A> is a bijection from the faces of the original surface  to
-#!  [1,..,n], where <A>n</A> is the number of faces. This renumbering
+#!  [1,..,<M>n</M>], where <M>n</M> is the number of faces. This renumbering
 #!  is initialised follows:   <A>f(face) = 1</A>. The neighbours 
 #!  of <A>face</A> are assigned the numbers 2, 3, ... If the optional 
 #!  argument <A>neigh</A>  is present, it must be a subset of the neighbours
@@ -1043,8 +1049,8 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #!  lexicographically least umbrella <A>u</A> still containing a face <A>F</A>
 #!  for which <A>f(F)=infty</A> and renumbers each  such face in the umbrella
 #!  consecutively in the order in which they occur in  <A>u</A> with
-#!  numbers in [1,..,n] not yet used, that is <A>f(F)=j</A> for some <A>j</A> 
-#!  in [1,..,n]. 
+#!  numbers in [1,..,<M>n</M>] not yet used, that is <A>f(F)=j</A> for some <A>j</A> 
+#!  in [1,..,<M>n</M>]. 
 #!
 #!   Consider the surface on 10 faces consisting of exactly two inner vertices
 #!   of degree 5 and having vertex counter $v_2^6v_3^2v_5^2.$ Its umbrella
@@ -1127,10 +1133,9 @@ DeclareOperation( "NormedUmbrellaDescriptor",[IsList,IsPosInt,IsList]);
 
 #! @BeginGroup
 #! @Description
-#!  An
-#! @InsertChunk Documentation_UmbrellaDescriptor
 #!  Suppose that <A>umdesc</A> is a valid umbrella descriptor of a surface
-#!  <M>S</M>.  The degree sequence of <A>umdesc</A>
+#!  <M>S</M>, see (<Ref Sect="Section_Constructors_Umbrellas"/>).
+#!   The degree sequence of <A>umdesc</A>
 #!  is a list <E>degseq</E>. If the <M>i</M>-th entry of <A>umdesc</A> is
 #!  bound, then this entry corresponds to a vertex of <M>S</M>  and 
 #!  the <M>i</M>-th entry of <A>degseq</A> is a list <M>[d,b]</M>, where
