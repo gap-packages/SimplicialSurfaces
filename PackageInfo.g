@@ -12,8 +12,7 @@ PackageName := "SimplicialSurfaces",
 Subtitle := "Computing with simplicial surfaces and folding processes.",
 Version := "0.6",
 Date := "23/09/2021", # dd/mm/yyyy format
-ArchiveURL := "TODO",
-ArchiveFormats := "TODO",
+License := "GPL-3.0-or-later",
 
 Persons := [
   rec(
