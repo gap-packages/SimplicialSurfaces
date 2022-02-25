@@ -262,7 +262,8 @@ DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalComplex and IsNotEdgeRamified
 #! gap> printRecord:=rec();;
 #! gap> SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]]);
 #! rec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )
-#! gap> SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]],printRecord);;
+#! gap> SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]],
+#! > printRecord);;
 #! gap> printRecord;
 #! rec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )
 #! @EndExampleSession
@@ -320,12 +321,18 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! * <E>Geodesics</E>
 #!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Geodesics"/>): Draw the 
 #!   geodesics of the simplicial surface into the face graph
-#! * <E>Face coordinates</E>
+#! * <E>faceCoordinates2D</E>
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_FaceCoordinates"/>):
 #!   Modify the 2D-coordinates of the faces.
+#!
+#! If <K>surface</K> is a simplicial sphere without 2-waists or 3-Waists, the 
+#! function can be called without specifying the parameter <K>faceCoordinates2D</K>.
+#! and if <K>surface</K> does not satisfy this property the function returns an 
+#! error.
 #!
 #! @Returns a record
 #! @Arguments surface, file[, printRecord]
-DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface,IsString,IsRecord]);
+DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface and IsClosedSurface ,IsString,IsRecord]);
 #! @EndGroup
    
 #! @Subsection Colours
@@ -335,4 +342,16 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface,IsString,IsRecord]
 #! @Subsection Labels
 #! @SubsectionLabel DrawFacegraphToTikz_Labels
 #! @InsertChunk DrawFacegraphToTikz_Labels
+
+#! @Subsection Scaling
+#! @SubsectionLabel DrawFacegraphToTikz_Scaling
+#! @InsertChunk DrawFacegraphToTikz_Scaling
+
+#! @Subsection Face coordinates
+#! @SubsectionLabel DrawFacegraphToTikz_FaceCoordinates
+#! @InsertChunk DrawFacegraphToTikz_FaceCoordinates
+ 
+#! @Subsection Geodesics
+#! @SubsectionLabel DrawFacegraphToTikz_Geodesics
+#! @InsertChunk DrawFacegraphToTikz_Geodesics
 

@@ -729,28 +729,6 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
 				return __SIMPLICIAL_ReadTemplateFromFile(relPath);
     end
 );
-BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertexFG",
-    function( printRecord, surface, face, faceTikzCoord, faceCoord )
-        local res;
-
-        res := "\\vertexLabelR";
-        if IsBound( printRecord!.faceColours[face] ) then
-            res := Concatenation(res, "[", printRecord!.faceColours[face],"]");
-
-        fi;
-        res := Concatenation( res, "{", faceTikzCoord, "}{left}{$");
-        if IsBound(printRecord!.faceLabels[face]) then
-            Append(res, printRecord!.faceLabels[face]);
-        else
-            #Append( res, "v_{" );
-            Append( res, String(face) );
-            #Append( res, "}" );
-        fi;
-        Append(res,"$}\n" );
-
-        return res;
-    end
-);
 
 
 BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertex",
@@ -1182,6 +1160,49 @@ InstallOtherMethod( DrawSurfaceToTikz,
 );
 RedispatchOnCondition( DrawSurfaceToTikz, true, [IsTwistedPolygonalComplex,IsString], [IsPolygonalComplex and IsNotEdgeRamified], 0  );
 
+############################################################
+
+BindGlobal( "__SIMPLICIAL_PrintRecordDrawFaceFG",
+    function( printRecord, surface, face, faceTikzCoord)
+        local res;
+
+        res := "\\vertexLabelR";
+        if IsBound( printRecord!.faceColours[face] ) then
+            res := Concatenation(res, "[", printRecord!.faceColours[face],"]");
+        fi;
+
+        res := Concatenation( res, "{", faceTikzCoord, "}{left}{$");
+        if IsBound(printRecord!.faceLabels[face]) then
+            Append(res, printRecord!.faceLabels[face]);
+        else
+            Append( res, String(face) );
+        fi;
+        Append(res,"$}\n" );
+
+        return res;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertexFG",
+    function( printRecord, surface, vertex,vertexCoord )
+        local res, i, coord;
+
+        res := "";
+        Append(res, "\\node[faceLabel] at (");
+	Append(res,String(vertexCoord[1]));
+	Append(res,",");
+	Append(res,String(vertexCoord[2]));
+        Append(res, ") {$");
+        if IsBound( printRecord!.vertexLabels[vertex] ) then
+            Append(res, printRecord!.vertexLabels[vertex]);
+        else
+            Append(res, String(vertex));
+        fi;
+        Append(res, "$};\n" );
+
+        return res;
+    end
+);
 
 InstallMethod( SetFaceCoordinates2D,
     "for a simplicial surface, a list of face coordinates and a record",
@@ -1221,33 +1242,36 @@ InstallOtherMethod( SetFaceCoordinates2DNC,
     end
 );
 
-   #this function prints the tutte embedding of a face graph of a 
-   #simplicial surface into a .tex file
-InstallMethod( DrawFacegraphToTikz,
-    "for a simplicial surface, a file and a record",
-    [IsSimplicialSurface, IsString, IsRecord],
-    function(surface, file,printRecord)
+BindGlobal( "__SIMPLICIAL_IsCoordinates2D",
+    function(surface, coordinates)
+        local coord;
+        if not IsList(coordinates) then
+            return false;
+        fi;
+        if Filtered([1..Length(coordinates)],i->IsBound(coordinates[i])) <> Faces(surface) then
+            return false;
+	fi;
+        # Check whether all coordinates are 2D-coordinates
+        for coord in coordinates do
+            if not IsDenseList(coord) then
+                return false;
+            fi;
+            if Length(coord) <> 2 then
+                return false;
+            fi;
+        od;
+        return true;
+    end
+);
 
-    local e,e1,e2,f,f1,f2,f3,v,v1,v2,faceCoordTikZ,foe,helpStartPositions,
-    helpUmbrellaAsList,helpInitializePrintRecord,output,helpSetFaceCoordinates,
-    helpOrderFaces,helpActiveFaces,helpNewFaceCoordinates,umb,maxX,maxY,sum,newCoor,
-    minX,minY,mX,mY,geodesic,i,j,currUmb,coordinates,temp,newFaces,umbrellas,color,
-    tempRec;
 
-    sum:=function(L)
-	local g,s,n;
-	s:=[0.,0.];
-	n:=Length(L);
-	for g in L do
-	    s:=1./n*g+s;
-	od;
-	return s;
-    end;
+#######################################
 
     ## this help function takes a positive integer as input and returns a list of 2D-
     ## coordinates, situated on a square with the vertices [0,0],[n,0],[n,n],[0,n]
     ##so that each side has exactly n/4 or n/4+1 vertices
-    helpStartPositions:=function(n)
+BindGlobal( "__SIMPLICIAL_StartPositions",
+    function(n)
 	local k,startPositions;
 	startPositions:=[];
 	if n=1 then 
@@ -1282,7 +1306,92 @@ InstallMethod( DrawFacegraphToTikz,
 	    Append(startPositions,List([0..k-1],i->[0,i*(n-3)/4]));
 	fi;
 	return startPositions*1.0;
-    end;
+    end
+);
+
+    # this function returns the face sequence of faces contained in the umbrella
+    # and not contained in visitedFaces
+BindGlobal( "__SIMPLICIAL_OrderFaces",
+    function(face1,face2,currUmb,visitedFaces)
+	local f,cyc,orderedFaces;
+	orderedFaces:=[];
+	cyc:=CycleFromList(currUmb);
+	if face1^cyc in visitedFaces then
+	    cyc:=cyc^(-1);	
+	fi;
+	f:=face1^cyc; 
+	while f<>face2 do 
+	    if not f in visitedFaces then 
+	        Add(orderedFaces,f);
+	        f:=f^(cyc);
+	    else 
+	        f:=f^(cyc);
+	    fi;
+	od;
+	return orderedFaces;
+    end
+);
+
+    ## given the face positions of some faces and the set of Umbrellas of a 
+    ## simplicial surface this function returns the list of faces that are incident to 
+    ## exactly two of the faces with a given coordinate in facePositions.
+    ## The returned list activeFaces is ordered in the sense that there exists 
+    ## a umbrella containing the faces activefaces[i], activeFaces[i+1] and 
+    ## containg faces whose coordinate has not been calculated yet
+BindGlobal( "__SIMPLICIAL_ActiveFaces",
+    function(facePositions,Umbrellas)
+	local g,activeFaces,minFace,maxFace,minX,maxX,minY,maxY,min,max,i,
+	xCoordinates,yCoordinates,posMinY,posMinX,posMaxY,posMaxX;
+	activeFaces:=[];
+	xCoordinates:=List(facePositions,g->g[1]);
+	minX:=Minimum(xCoordinates);	
+	maxX:=Maximum(xCoordinates);
+	yCoordinates:=List(facePositions,g->g[2]);
+	minY:=Minimum(yCoordinates);	
+	maxY:=Maximum(yCoordinates);
+
+	posMinX:=Filtered(facePositions,g->g[1]=minX);
+	while posMinX <> [] do
+		min:=Minimum(List(posMinX,g->g[2]));
+		minFace:=Position(facePositions,Filtered(posMinX,g->g[2]=min)[1]);
+		if Length(Filtered(Umbrellas,g->minFace in g))=2 then
+			Add(activeFaces,minFace);
+		fi;
+		posMinX:=Filtered(posMinX,g->g[2]<>min);
+	od;
+
+	posMaxY:=Filtered(facePositions,g->g[2]=maxY and g[1]<>minX);
+	while posMaxY <> [] do
+		min:=Minimum(List(posMaxY,g->g[1]));
+		minFace:=Position(facePositions,Filtered(posMaxY,g->g[1]=min)[1]);
+		if Length(Filtered(Umbrellas,g->minFace in g))=2 then
+			Add(activeFaces,minFace);
+		fi;
+		posMaxY:=Filtered(posMaxY,g->g[1]<>min);
+	od;
+
+	posMaxX:=Filtered(facePositions,g->g[1]=maxX and g[2]<>maxY);
+	while posMaxX <> [] do
+		max:=Maximum(List(posMaxX,g->g[2]));
+		maxFace:=Position(facePositions,Filtered(posMaxX,g->g[2]=max)[1]);
+		if Length(Filtered(Umbrellas,g->maxFace in g))=2 then
+			Add(activeFaces,maxFace);
+		fi;
+		posMaxX:=Filtered(posMaxX,g->g[2]<>max);
+	od;
+
+	posMinY:=Filtered(facePositions,g->g[2]=minY and not(g[1] in [minX,maxX]) );
+	while posMinY <> [] do
+		max:=Maximum(List(posMinY,g->g[1]));
+		maxFace:=Position(facePositions,Filtered(posMinY,g->g[1]=max)[1]);
+		if Length(Filtered(Umbrellas,g->maxFace in g))=2 then
+			Add(activeFaces,maxFace);
+		fi;
+		posMinY:=Filtered(posMinY,g->g[1]<>max);
+	od;
+	return activeFaces;
+    end
+);
 
     ## this functions works as a heuristic to place new face coordinates 
     ## the list acitveFaces is a list of faces that are incident to a face 
@@ -1292,7 +1401,8 @@ InstallMethod( DrawFacegraphToTikz,
     ## face coordinate are given in nextFaces[i]
     ## This method tries to apply coordinates to the faces in nextFaces[i] so the 
     ## the embedding is still planar
-    helpNewFaceCoordinates:=function(activeFaces,nextFaces,Umbrellas,facePositions)
+BindGlobal( "__SIMPLICIAL_NewFaceCoordinates",
+    function(activeFaces,nextFaces,Umbrellas,facePositions)
 	local g,l,numNewCoor,maxX,maxY,minX,minY,newPositions,face1,face2,t,
 	nextFacesSubDiv,i,xCoordinates,yCoordinates,pos;
 	xCoordinates:=List(facePositions,pos->pos[1]);
@@ -1512,22 +1622,85 @@ InstallMethod( DrawFacegraphToTikz,
 	    fi;
 	fi;
 	return newPositions;
-    end;
+    end
+);
 
     ## this function returns the face sequence of an umbrella as a list
-    helpUmbrellaAsList:=function(cyc)
+BindGlobal( "__SIMPLICIAL_UmbrellaAsList",
+    function(cyc)
 	local i,f;
 	f:=1;	
 	while f^cyc=f do 
 	    f:=f+1;
 	od;
 	return List([0..Order(cyc)-1],i->f^(cyc^i));
-    end;
+    end
+);
+
+
+    # compute the tutte embedding of a face graph of a simplicial sphere
+
+BindGlobal( "__SIMPLICIAL_SetFaceCoordinates",
+    function(surface)
+	local activeFaces,face1,face2,f,facePositions,g,newCoor,Listact,output,temp,
+	visited,tempFacPos,currUmb,Umbrellas,i,startPositions,umb,coor,newFaces;
+	Umbrellas:=UmbrellaDescriptorOfSurface(surface);
+	Umbrellas:=List(Umbrellas,umb->__SIMPLICIAL_UmbrellaAsList(umb));
+	currUmb:=Filtered(Umbrellas,umb->Length(umb)= 
+					Maximum(FaceDegreesOfVertices(surface)))[1];
+	startPositions:=__SIMPLICIAL_StartPositions(Length(currUmb));
+	facePositions:=[];
+	for i in [1..Length(currUmb)] do 
+	    facePositions[currUmb[i]]:=startPositions[i];
+	od;
+	Umbrellas:=Difference(Umbrellas,[currUmb]);
+	visited:=currUmb;	
+	tempFacPos:=ShallowCopy(facePositions);
+	while Umbrellas <> [] do 
+	    activeFaces:=__SIMPLICIAL_ActiveFaces(tempFacPos,Umbrellas);
+	    Add(activeFaces,activeFaces[1]);
+	    Listact:=[];
+	    for i in [1..Length(activeFaces)-1] do
+	        face1:=activeFaces[i];
+	        face2:=activeFaces[i+1];
+	        currUmb:=Filtered(Umbrellas,umb->face1 in umb and face2 in umb and 
+							Intersection(umb,visited)<>[]);
+	        if currUmb<> [] then 
+		    currUmb:=currUmb[1];
+		    Add(Listact,__SIMPLICIAL_OrderFaces(face1,face2,currUmb,visited));
+		    Umbrellas:=Difference(Umbrellas,[currUmb]);
+	        else 
+		    Add(Listact,[]);
+	        fi;
+	    od;
+	    newCoor:=__SIMPLICIAL_NewFaceCoordinates(activeFaces,Listact,Umbrellas,tempFacPos);
+	    for coor in newCoor do
+	        tempFacPos[Position(newCoor,coor)]:=coor;
+	    od;
+	    newFaces:=List(newCoor,g->Position(newCoor,g));
+	    visited:=Union(visited,newFaces);
+	    Umbrellas:=Filtered(Umbrellas,g->not IsSubset(visited,g));
+	    temp:=[];
+	    for g in tempFacPos do
+	        if  Position(tempFacPos,g) in Union(Umbrellas) then 
+		    temp[Position(tempFacPos,g)]:=g;
+	        fi;
+	        facePositions[Position(tempFacPos,g)]:=g;
+	    od;
+	    tempFacPos:=temp;
+        od;
+        return facePositions;
+    end
+);
+
+
 
     ## this functions manipulates the printRecord so that functionalities of 
     ## DrawSurfaceToTikZ can be used 
-    helpInitializePrintRecord:=function(printRecord)
-	local g,colour;
+
+BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
+    function(surface,printRecord)
+	local g,colour,e,f,v;
 	if not IsBound(printRecord.vertexLabelsActive) then
 	    printRecord.vertexLabelsActive := false;
 	fi;
@@ -1565,32 +1738,33 @@ InstallMethod( DrawFacegraphToTikz,
             printRecord.vertexLabels := [];
         fi;
 
-	if not IsBound(printRecord.drawGeodesics) then
-	    printRecord.drawGeodesics:= false;
+	if not IsBound(printRecord.geodesicActive) then
+	    printRecord.geodesicActive:= false;
 	fi;	
 	if not IsBound(printRecord.faceCoordinates2D) then
 	    if IsClosedSurface(surface) and IsVertexFaithful(surface) and EulerCharacteristic(surface)=2 then
-		printRecord.faceCoordinates2D := helpSetFaceCoordinates(surface);
+		printRecord.faceCoordinates2D:= __SIMPLICIAL_SetFaceCoordinates(surface);
 	    else 
-		printRecord.faceCoordinates2D:=[];
+		Error("face coordinates have to be specified");
 	   fi;
+	else 
+	    if not __SIMPLICIAL_IsCoordinates2D(surface,printRecord.faceCoordinates2D) then
+	        Error("face coordinates have to be in the correct format");
+	    fi;
 	fi;	
 	if printRecord.edgeLabelsActive and printRecord.edgeLabels=[] then
 	    for e in Edges(surface) do
 		printRecord.edgeLabels[e]:=String(e);
-
 	    od;
 	fi;
         if printRecord.faceLabelsActive and printRecord.faceLabels=[] then
             for f in Faces(surface) do
                 printRecord.faceLabels[f]:=String(f);
-
             od;
         fi;
         if printRecord.vertexLabelsActive and printRecord.vertexLabels=[] then
             for v in Vertices(surface) do
                 printRecord.vertexLabels[v]:=String(v);
-
             od;
         fi;
         if IsBound(printRecord.faceColours) then
@@ -1616,143 +1790,37 @@ InstallMethod( DrawFacegraphToTikz,
         else
                 printRecord.vertexColours:=[];
         fi;
-
-
 	return printRecord;
+    end
+);
+
+
+
+
+
+
+   #this function prints the tutte embedding of a face graph of a 
+   #simplicial surface into a .tex file
+InstallMethod( DrawFacegraphToTikz,
+    "for a closed simplicial surface, a file and a record",
+    [IsSimplicialSurface and IsClosedSurface, IsString, IsRecord],
+    function(surface, file,printRecord)
+
+    local e,e1,e2,f,f1,f2,f3,v,v1,v2,faceCoordTikZ,foe,
+    helpInitializePrintRecord,output,umb,maxX,maxY,sum,newCoor,
+    minX,minY,mX,mY,geodesic,i,j,currUmb,coordinates,temp,umbrellas,color,
+    tempRec;
+
+
+    sum:=function(L)
+	local g,s,n;
+	s:=[0.,0.];
+	n:=Length(L);
+	for g in L do
+	    s:=1./n*g+s;
+	od;
+	return s;
     end;
-
-    ## given the face positions of some faces and the set of Umbrellas of a 
-    ## simplicial surface this function returns the list of faces that are incident to 
-    ## exactly two of the faces with a given coordinate in facePositions.
-    ## The returned list activeFaces is ordered in the sense that there exists 
-    ## a umbrella containing the faces activefaces[i], activeFaces[i+1] and 
-    ## containg faces whose coordinate has not been calculated yet
-    helpActiveFaces:=function(facePositions,Umbrellas)
-	local g,activeFaces,minFace,maxFace,minX,maxX,minY,maxY,min,max,i,
-	xCoordinates,yCoordinates,posMinY,posMinX,posMaxY,posMaxX;
-	activeFaces:=[];
-	xCoordinates:=List(facePositions,g->g[1]);
-	minX:=Minimum(xCoordinates);	
-	maxX:=Maximum(xCoordinates);
-	yCoordinates:=List(facePositions,g->g[2]);
-	minY:=Minimum(yCoordinates);	
-	maxY:=Maximum(yCoordinates);
-
-	posMinX:=Filtered(facePositions,g->g[1]=minX);
-	while posMinX <> [] do
-		min:=Minimum(List(posMinX,g->g[2]));
-		minFace:=Position(facePositions,Filtered(posMinX,g->g[2]=min)[1]);
-		if Length(Filtered(Umbrellas,g->minFace in g))=2 then
-			Add(activeFaces,minFace);
-		fi;
-		posMinX:=Filtered(posMinX,g->g[2]<>min);
-	od;
-
-	posMaxY:=Filtered(facePositions,g->g[2]=maxY and g[1]<>minX);
-	while posMaxY <> [] do
-		min:=Minimum(List(posMaxY,g->g[1]));
-		minFace:=Position(facePositions,Filtered(posMaxY,g->g[1]=min)[1]);
-		if Length(Filtered(Umbrellas,g->minFace in g))=2 then
-			Add(activeFaces,minFace);
-		fi;
-		posMaxY:=Filtered(posMaxY,g->g[1]<>min);
-	od;
-
-	posMaxX:=Filtered(facePositions,g->g[1]=maxX and g[2]<>maxY);
-	while posMaxX <> [] do
-		max:=Maximum(List(posMaxX,g->g[2]));
-		maxFace:=Position(facePositions,Filtered(posMaxX,g->g[2]=max)[1]);
-		if Length(Filtered(Umbrellas,g->maxFace in g))=2 then
-			Add(activeFaces,maxFace);
-		fi;
-		posMaxX:=Filtered(posMaxX,g->g[2]<>max);
-	od;
-
-	posMinY:=Filtered(facePositions,g->g[2]=minY and not(g[1] in [minX,maxX]) );
-	while posMinY <> [] do
-		max:=Maximum(List(posMinY,g->g[1]));
-		maxFace:=Position(facePositions,Filtered(posMinY,g->g[1]=max)[1]);
-		if Length(Filtered(Umbrellas,g->maxFace in g))=2 then
-			Add(activeFaces,maxFace);
-		fi;
-		posMinY:=Filtered(posMinY,g->g[1]<>max);
-	od;
-	return activeFaces;
-    end;
-
-    # this function returns the face sequence of faces contained in the umbrella
-    # and not contained in visitedFaces
-    helpOrderFaces:=function(face1,face2,currUmb,visitedFaces)
-	local f,cyc,orderedFaces;
-	orderedFaces:=[];
-	cyc:=CycleFromList(currUmb);
-	if face1^cyc in visitedFaces then
-	    cyc:=cyc^(-1);	
-	fi;
-	f:=face1^cyc; 
-	while f<>face2 do 
-	    if not f in visitedFaces then 
-	        Add(orderedFaces,f);
-	        f:=f^(cyc);
-	    else 
-	        f:=f^(cyc);
-	    fi;
-	od;
-	return orderedFaces;
-    end;
-
-    # compute the tutte embedding of a face graph of a simplicial sphere
-    helpSetFaceCoordinates:=function(surface)
-	local activeFaces,face1,face2,f,facePositions,g,newCoor,Listact,output,temp,
-	visited,tempFacPos,currUmb,Umbrellas,i,startPositions,umb,coor;
-	Umbrellas:=UmbrellaDescriptorOfSurface(surface);
-	Umbrellas:=List(Umbrellas,umb->helpUmbrellaAsList(umb));
-	currUmb:=Filtered(Umbrellas,umb->Length(umb)= 
-					Maximum(FaceDegreesOfVertices(surface)))[1];
-	startPositions:=helpStartPositions(Length(currUmb));
-	facePositions:=[];
-	for i in [1..Length(currUmb)] do 
-	    facePositions[currUmb[i]]:=startPositions[i];
-	od;
-	Umbrellas:=Difference(Umbrellas,[currUmb]);
-	visited:=currUmb;	
-	tempFacPos:=ShallowCopy(facePositions);
-	while Umbrellas <> [] do 
-	    activeFaces:=helpActiveFaces(tempFacPos,Umbrellas);
-	    Add(activeFaces,activeFaces[1]);
-	    Listact:=[];
-	    for i in [1..Length(activeFaces)-1] do
-	        face1:=activeFaces[i];
-	        face2:=activeFaces[i+1];
-	        currUmb:=Filtered(Umbrellas,umb->face1 in umb and face2 in umb and 
-							Intersection(umb,visited)<>[]);
-	        if currUmb<> [] then 
-		    currUmb:=currUmb[1];
-		    Add(Listact,helpOrderFaces(face1,face2,currUmb,visited));
-		    Umbrellas:=Difference(Umbrellas,[currUmb]);
-	        else 
-		    Add(Listact,[]);
-	        fi;
-	    od;
-	    newCoor:=helpNewFaceCoordinates(activeFaces,Listact,Umbrellas,tempFacPos);
-	    for coor in newCoor do
-	        tempFacPos[Position(newCoor,coor)]:=coor;
-	    od;
-	    newFaces:=List(newCoor,g->Position(newCoor,g));
-	    visited:=Union(visited,newFaces);
-	    Umbrellas:=Filtered(Umbrellas,g->not IsSubset(visited,g));
-	    temp:=[];
-	    for g in tempFacPos do
-	        if  Position(tempFacPos,g) in Union(Umbrellas) then 
-		    temp[Position(tempFacPos,g)]:=g;
-	        fi;
-	        facePositions[Position(tempFacPos,g)]:=g;
-	    od;
-	    tempFacPos:=temp;
-        od;
-        return facePositions;
-    end;
-
     # Make the file end with .tex
     if not EndsWith( file, ".tex" ) then
         file := Concatenation( file, ".tex" );
@@ -1763,7 +1831,7 @@ InstallMethod( DrawFacegraphToTikz,
     if output = fail then
         Error(Concatenation("File ", String(file), " can't be opened.") );
     fi;
-    printRecord:=helpInitializePrintRecord(printRecord);
+    printRecord:=__SIMPLICIAL_InitializePrintRecord(surface,printRecord);
     SetPrintFormattingStatus( output, false );
 
     # Add Header to .tex file 
@@ -1782,10 +1850,10 @@ InstallMethod( DrawFacegraphToTikz,
     __SIMPLICIAL_PrintRecordTikzOptions(tempRec, surface), "]\n\n" );
 
     # check whether face coordinates are in the right format
-    temp:=Filtered([1..Length(printRecord.faceCoordinates2D)],i->IsBound(printRecord.faceCoordinates2D[i]));
-    if Filtered(temp,i->Length(printRecord.faceCoordinates2D[i])=2)<>Faces(surface) then
-	Error();
-    fi;
+#    temp:=Filtered([1..Length(printRecord.faceCoordinates2D)],i->IsBound(printRecord.faceCoordinates2D[i]));
+#    if Filtered(temp,i->Length(printRecord.faceCoordinates2D[i])=2)<>Faces(surface) then
+#	Error();
+ #   fi;
 
     
     faceCoordTikZ:=[];
@@ -1796,10 +1864,11 @@ InstallMethod( DrawFacegraphToTikz,
     for f in Faces(surface) do
 	AppendTo(output	,"\\coordinate (",faceCoordTikZ[f],") at (",
 	printRecord.faceCoordinates2D[f][1]," , ",printRecord.faceCoordinates2D[f][2],");\n");
-    od;
+#AppendTo(output,__SIMPLICIAL_PrintRecordDrawFaceFG(printRecord, surface, face, faceTikzCoord));
+   od;
 
     ##draw edges
-    for e in Edges(surface) do 
+    for e in InnerEdges(surface) do 
 	foe:=FacesOfEdge(surface,e);
         AppendTo(output,__SIMPLICIAL_PrintRecordDrawEdge(printRecord,surface,e,
 	faceCoordTikZ{foe},printRecord.faceCoordinates2D{foe}));
@@ -1809,37 +1878,41 @@ InstallMethod( DrawFacegraphToTikz,
 #	AppendTo(output,"\\vertexLabelR{",faceCoordTikZ[f],"}{left}{$",f,"$}\n");
 #   od;
 
-    AppendTo( output, "% Draw the vertices\n" );
+    AppendTo( output, "% Draw the faces\n" );
     for f in Faces(surface) do
-	AppendTo( output, __SIMPLICIAL_PrintRecordDrawVertexFG( tempRec, surface, f, faceCoordTikZ[f], tempRec.faceCoordinates2D[f] ));
+	AppendTo( output, __SIMPLICIAL_PrintRecordDrawFaceFG( printRecord, surface, f, faceCoordTikZ[f]));
     od;
 
     umbrellas:=UmbrellaDescriptorOfSurface(surface);
-    umbrellas:=List(umbrellas,umb->helpUmbrellaAsList(umb));
+    umbrellas:=List(umbrellas,umb->__SIMPLICIAL_UmbrellaAsList(umb));
     currUmb:=Filtered(umbrellas,umb->Length(umb)=Maximum(FaceDegreesOfVertices(surface)))[1];
 
     ## draw vertex labels
     if IsBound(printRecord.vertexLabelsActive) then 
 	if printRecord.vertexLabelsActive then
+	   # at first draw vertex label of the outer umbrella
 	    v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(currUmb))[1];
 	    umbrellas:=Difference(umbrellas,[currUmb]);
 	    coordinates:=List(currUmb,f->printRecord.faceCoordinates2D[f]);
 	    maxX:=Maximum(List(coordinates,g->g[1]));
 	    maxY:=Maximum(List(coordinates,g->g[2]));
 	    minY:=Minimum(List(coordinates,g->g[2]));
-	    AppendTo(output,"\\node[faceLabel,scale=1.5] at (",maxX+1.,",",minY+1/2*(maxY-minY),") {$",v,"$};\n");
+#	    AppendTo(output,"\\node[faceLabel,scale=1.5] at (",maxX+1.,",",minY+1/2*(maxY-minY),") {$",v,"$};\n");
+	    AppendTo(output,__SIMPLICIAL_PrintRecordDrawVertexFG(printRecord, surface, v,[maxX+1.,minY+1/2*(maxY-minY)]) ); 
+           ## now the other labels 
 	    for umb in umbrellas do
 		v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(umb))[1];
 		coordinates:=List(umb,f->printRecord.faceCoordinates2D[f]);
 		temp:=sum(coordinates);
-		AppendTo(output,"\\node[faceLabel,scale=1.5] at (",temp[1],",",temp[2],") {$", v,"$};\n");
+#		AppendTo(output,"\\node[faceLabel,scale=1.5] at (",temp[1],",",temp[2],") {$", v,"$};\n");
+		AppendTo(output,__SIMPLICIAL_PrintRecordDrawVertexFG(printRecord,surface,v,temp));
 	    od; 
 	fi;
     fi;
 
     # draw geodesics 
-    if IsBound(printRecord.drawGeodesics) then 
-	if printRecord.drawGeodesics then
+    if IsBound(printRecord.geodesicActive) then 
+	if printRecord.geodesicActive and EulerCharacteristic(surface)=2 then
 	    coordinates:=[]; 
 	    coordinates:=List(Vertices(surface),v->[]);
 	    for umb in umbrellas do
@@ -1904,8 +1977,12 @@ end
 
 InstallOtherMethod( DrawFacegraphToTikz,
     "for a simplicial surface and a file name",
-    [IsSimplicialSurface, IsString],
-    function(surface, file)
-	return DrawFacegraphToTikz(surface,file,rec());
+    [IsSimplicialSurface and IsClosedSurface,IsString],
+    function(surface,file)
+	if EulerCharacteristic(surface)=2 and IsClosedSurface(surface) then
+	    return DrawFacegraphToTikz(surface,file,rec());
+	else 
+	    return Error("surface must be spherical simplicial surface");
+	fi;
     end
 );
