@@ -799,20 +799,32 @@ DeclareOperation( "OnEdgeFacePaths",
 #! edge graph are the vertices of <A>complex</A> and for every edge in
 #! <A>complex</A> there is a corresponding edge in the edge graph.
 #!
-#! TODO example
+#! Since the edges in Digraphs are directed but the edge graph is undirected,
+#! each edge of the edge graph is represented by two directed edges in the <K>Digraphs</K> package.
+#! 
+#! For example, consider the edge graph of the tetrahedron:
+#! @BeginExampleSession
+#! gap> digraph:=EdgeDigraphsGraph(Tetrahedron());
+#! <immutable digraph with 4 vertices, 12 edges>
+#! gap> DigraphEdges(digraph);
+#! [ [ 1, 2 ], [ 2, 1 ], [ 1, 3 ], [ 3, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 3 ], [ 3, 2 ], 
+#! [ 2, 4 ], [ 4, 2 ], [ 3, 4 ], [ 4, 3 ] ] 
+#! @EndExampleSession
+#! This is the edge graph of the tetrahedron with undirected edges:
+#! <Alt Only="TikZ">
+#!    \input{Image_FaceGraphTetra.tex}
+#! </Alt>
 #!
 #! @Arguments complex
-#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Returns a graph as defined in the package <K>Digraphs</K>/<K>GRAPE</K>/<K>NautyTracesInterface</K>
 DeclareAttribute( "EdgeDigraphsGraph", IsPolygonalComplex );
 #! @Arguments complex
-#! @Returns a graph as defined in the package <K>GRAPE</K>
 DeclareAttribute( "EdgeGrapeGraph", IsPolygonalComplex );
 #! @Arguments complex
-#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! @EndGroup
 
-#! @BeginGroup
+#! @BeginGroup FaceGraph
 #! @Description
 #! Return the face graph of a given polygonal surface. The vertices of the
 #! face graph are the faces of <A>surface</A> and for every edge in
@@ -843,12 +855,54 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! </Alt>
 #!
 #! @Arguments surface
-#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Returns a graph as defined in the package <K>Digraphs</K>/<K>NautyTracesInterface</K>
 DeclareAttribute( "FaceDigraphsGraph", IsPolygonalSurface );
 #! @Arguments surface
-#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
 #! @EndGroup
 
-
-
+#! @BeginGroup AllSimplicialSurfacesOfDigraph 
+#! @Description 
+#! Return all (vertex-faithful) simplicial surfaces, that have <K>digraph</K> as face graph. 
+#! If <K>digraph</K> is not a face graph of a (vertex-faithful) simplicial surface, the empty list is returned.
+#! The parameter <K>vertexfaithful</K> indicates whether only vertex-faithful simplicial surfaces are searched. 
+#! The parameter <K>vertexfaithful</K> is by default false.
+#! <K>digraph</K> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial 
+#! surface can be identified with certain cycles in the face graph. This method searches possible combinations of cycles, 
+#! with the cycles corresponding to the vertices of a simplicial surface.
+#!
+#!
+#! For example, consider the complete graph on four nodes:
+#! <Alt Only="TikZ">
+#!    \input{Image_FaceGraphTetra.tex}
+#! </Alt>
+#!
+#! @BeginExampleSession
+#! gap> digraph:=CompleteDigraph(4);;
+#! gap> tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+#! gap> IsIsomorphic(tet1[1],Tetrahedron());
+#! true
+#! @EndExampleSession
+#!
+#! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
+#! But there is another simplicial surface, which is not vertex-faithful:
+#! @BeginExampleSession
+#! gap> list := AllSimplicialSurfacesOfDigraph(digraph,false);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+#! simplicial surface (3 vertices, 6 edges, and 4 faces)]
+#! gap> tet2 := Filtered(list,IsVertexFaithful);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+#! gap> IsIsomorphic(tet2[1],Tetrahedron());
+#! true
+#! @EndExampleSession
+#!
+#! Since the method takes a long time for a graph with many cycles, you should only call the method
+#! for digraphs with twenty-two or less nodes for <K>vertexfaithful</K> true. 
+#! For <K>vertexfaithful</K> false you should only call the function for twelve or less nodes. 
+#! In general, it is much faster to only look for vertex-faithful simplicial surfaces.
+#! 
+#! @Arguments digraph[, vertexfaithful]
+#! @Returns a list
+DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
+#! @EndGroup

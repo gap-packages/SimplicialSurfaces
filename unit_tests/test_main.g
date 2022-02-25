@@ -32,6 +32,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_JoinEdges();
     __SIMPLICIAL_Test_SplitVertex();
     __SIMPLICIAL_Test_JoinVertices();
+    __SIMPLICIAL_Test_JoinFaces();
     __SIMPLICIAL_Test_JoinVertexEdgePaths();
     __SIMPLICIAL_Test_SplitVertexEdgePath();
     __SIMPLICIAL_Test_SplitEdgePath();
@@ -57,6 +58,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_EdgeNautyGraph();
     __SIMPLICIAL_Test_FaceDigraphsGraph();
     __SIMPLICIAL_Test_FaceNautyGraph();
+    __SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph();
 
     __SIMPLICIAL_Test_FaceTwoColouring();
 
