@@ -63,9 +63,12 @@
 #! * Use the surface database to find appropriate complexes. This will be 
 #!   handled in the first section of chapter <Ref Chap="Chapter_Library"/>.
 #!
-#! All general constructors are structured like [Type]By[Method](args), e.g.
+#! For simplicial surfaces another and more convenient constructor is
+#! the constructor
+#! * <K>SimplicialSurfaceByUmbrellaDescriptor</K>( <A>edgeFacePaths</A> ).
+#! All other constructures which work for general polygonal complexes
+#! are structured like [Type]By[Method](args), e.g.
 #! * <K>PolygonalComplexByDownwardIncidence</K>( <A>verticesOfEdges</A>, <A>edgesOfFaces</A> )
-# * <K>SimplicialSurfaceByUmbrellaDescriptor</K>( <A>edgeFacePaths</A> )
 #!
 #! They are mainly distinguished by the different attributes they need to 
 #! construct the incidence structures:
@@ -918,14 +921,20 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #!
 #! @BeginChunk Documentation_UmbrellaDescriptor
 #! an umbrella descriptor of a simplicial surface is a list <A>umbdesc</A>, 
-#! describing the vertices of the surface such that the vertices are the 
-#! positive integers corresponding to the bound positions of <A>umbdesc</A>.
+#! describing a simplicial surface.  The bound entries in <A>umbdesc</A> are
+#! cyclic permutations or lists of integers. The set of faces of the surface
+#! is the set of points which either are moved by a cyclic permutation or 
+#! occurs in a list in <A>umbdesc</A>. The edges of the surface correspond to
+#! pairs of faces <M>(i,j)</M>, where either some cycle in <A>umbdesc</A> maps
+#! <M>i</M> to  <M>j</M> or <M>i</M> and <M>j</M> occur as neighbours in a 
+#! list. The vertices of the surface are the positive integers
+#! corresponding to the bound positions of <A>umbdesc</A>.
 #! If position <M>i</M> of <A>umbdesc</A> is bound, then the 
-#! <M>i</M>-th entry represents the vertex <M>i</M>. 
-#! If vertex <M>i</M> is inner,  then the <M>i</M>-th entry in <A>umbdesc</A> 
+#! <M>i</M>-th entry represents the vertex with name <M>i</M>.  If the vertex 
+#! named <M>i</M> is inner,  then the <M>i</M>-th entry in <A>umbdesc</A> 
 #! is a cyclic permutation of the faces in the umbrella path around the 
 #! vertex, mapping a face to an adjacent face.  The order of the permutation
-#!  is equal to the degree of the vertex. If vertex <M>i</M> is a 
+#! is equal to the degree of the vertex. If the vertex named <M>i</M> is a 
 #! boundary vertex, then the <M>i</M>-th entry in <A>umbdesc</A> is a list 
 #! consisting of the faces in the umbrella path of the vertex such that 
 #! adjacent faces are consecutive and the two faces with boundary edges 
@@ -1177,7 +1186,7 @@ DeclareOperation( "DegreeSequenceOfUmbrellaDescriptor",[IsList]);
 #! [ [ 5, true ], [ 4, true ], [ 4, true ], [ 6, true ], [ 6, true ], 
 #!   [ 7, true ], [ 4, true ], [ 6, true ], [ 7, true ], [ 7, true ], 
 #!   [ 4, true ], [ 4, true ], [ 4, true ], [ 4, true ] ]
-#! gap> AllUmbrellaDescriptorsDegreeSequence( ds );
+#! gap> AllUmbrellaDescriptorsOfDegreeSequence( ds );
 #! [ [ (1,2,5,6,3), (1,2,7,4), (1,3,8,4), (2,5,9,10,11,7), (3,6,12,13,14,8), 
 #!       (4,7,11,15,16,14,8), (5,6,12,9), (9,10,17,18,13,12), 
 #!       (10,11,15,19,20,21,17), (13,14,16,22,23,24,18), (15,16,22,19), 
@@ -1186,7 +1195,7 @@ DeclareOperation( "DegreeSequenceOfUmbrellaDescriptor",[IsList]);
 #!
 #! @Returns a list 
 #! @Arguments degreeseq
-DeclareOperation( "AllUmbrellaDescriptorsDegreeSequence",[IsList]);
+DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! @EndGroup
 
 

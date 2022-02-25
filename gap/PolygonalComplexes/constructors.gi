@@ -1319,7 +1319,7 @@ end
 # corresponds to the same list of numbers with the second entries always
 # being set true
 
-InstallMethod( AllUmbrellaDescriptorsDegreeSequence,
+InstallMethod( AllUmbrellaDescriptorsOfDegreeSequence,
     "for a list",  [IsList],
       function( ucode )
 
