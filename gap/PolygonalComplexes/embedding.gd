@@ -285,13 +285,14 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! Draw the face graph of the given <A>surface</A> into a tex-file (using TikZ).
 #! An introduction to the use of this method (along with several examples) 
 #! can be found at the start of section <Ref Sect="Section_DrawFrGrTikz"/>.
-#! If <K>surface</K> is a simplicial sphere and the function is used without
-#! the  argument <K>printRecord</K>, then the embedding printed into
-#! <K>fileName</K> is the tutte embedding of the face graph of <K>surface</K>. 
-#! Trying to use the function without specifying <K>printRecord</K> for a
-#! surface that is not a sphere results in an error. 
+#! If <K>surface</K> is a simplicial vertex faithful sphere and the function
+#! is used without the argument <K>printRecord</K>, then the drawing printed
+#! into <K>file</K> is a planar embedding of the face graph of <K>surface</K>,
+#! where the vertices of the surface are identified by the faces of the
+#! embedding. Trying to use the function for a surface that is not a 
+#! vertex-faithful sphere results in returning <K>fail</K>.
 #!
-#! * If the given <A>fileName</A> does not end in <E>.tex</E> the ending 
+#! * If the given <A>file</A> does not end in <E>.tex</E> the ending 
 #!   <E>.tex</E> will be added to it. 
 #! * The given file will be overwritten without asking if it already exists.
 #!   If you don't have permission to write in that file, this method will
@@ -303,14 +304,11 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #!   It contains the data to recreate the drawing of the surface.
 #! 
 #! 
-#! There are several parameters to change the output of this method, from 
-#! cosmetic changes to exactly controlling in which order the faces are drawn.
+#! There are several parameters to change the output of this method. 
 #! Since the design of the parameters is similar to the design of the parameters
-#! of <K>DrawSurfaceToTikz</K>, one can refer to the corresponding sub section
-#! for a better understanding.
-#! To use these methods for not spherical surfaces it is necessary to set the
-#! 2D-coordinates (2D-coordinates are defined as a list with 2 entries of
-#! floats) of the vertices of the surface (see <Ref Subsect="SetFaceCoordinates2D"/>).
+#! of <K>DrawSurfaceToTikz</K>(<Ref Subsect="DrawSurfaceToTikz"/>),
+#! one can also refer to the corresponding subsections for a better 
+#! understanding.
 #! There are the following classes of parameters:
 #! * <E>Colours</E> 
 #!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Colours"/>): Change the 
@@ -318,21 +316,24 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! * <E>Labels</E>
 #!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Labels"/>): Modify the labels
 #!   of vertices, edges and faces.
-#! * <E>Geodesics</E>
-#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Geodesics"/>): Draw the 
-#!   geodesics of the simplicial surface into the face graph
+#! * <E>Scale</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Scaling"/>): These
+#!   parameters control the size of the drawing.
 #! * <E>faceCoordinates2D</E>
 #!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_FaceCoordinates"/>):
 #!   Modify the 2D-coordinates of the faces.
+#! * <E>Geodesics</E>
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Geodesics"/>): Draw the 
+#!   geodesics of the simplicial surface into the file.
 #!
-#! If <K>surface</K> is a simplicial sphere without 2-waists or 3-Waists, the 
-#! function can be called without specifying the parameter <K>faceCoordinates2D</K>.
-#! and if <K>surface</K> does not satisfy this property the function returns an 
-#! error.
+#! If <K>surface</K> is a simplicial sphere without 2-waists, the function can
+#! be called without specifying the parameter <K>faceCoordinates2D</K>.
+#! In this case the implementation computes coordinates for the faces represented
+#! by vertices so that the embedded facegraph is planar.
 #!
 #! @Returns a record
 #! @Arguments surface, file[, printRecord]
-DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface and IsClosedSurface ,IsString,IsRecord]);
+DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord]);
 #! @EndGroup
    
 #! @Subsection Colours

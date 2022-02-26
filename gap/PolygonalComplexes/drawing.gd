@@ -565,9 +565,11 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 
 #! @BeginChunk DrawFacegraphToTikz_Tutorial
 #! The face graph of a simplicial surface is a graph whereby the vertices of
-#! the graph are given by the faces of the surface and the edges are given by
-#! the edges of the graph. We can compute a straight-line embedding by assigning
-#! 2D-coordinates to the faces.
+#! the graph are given by the faces and the edges of the graph are given by
+#! the edges of the given simplicial surface. We can compute a straight-line
+#! embedding of the face graph by assigning 2D-coordinates to the faces.
+#! Note, <K>DrawFacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>) 
+#! only computes face graphs of spherical vertex faithful surfaces.
 #!  
 #! For example the face graph of an octahedron can be drawn like this:
 #! @BeginLog
@@ -596,7 +598,7 @@ pr.edgeLabelsActive := true;;
 #!     \input{Image_facegraph_oct_edgelabels.tex}
 #! </Alt>
 #!
-#! The labels of the vertices can be turnes on with 
+#! The labels of the vertices can be turned on with 
 #! @BeginLog
 pr.vertexLabelsActive := true;;
 #! @EndLog
@@ -605,8 +607,9 @@ pr.vertexLabelsActive := true;;
 #!     \input{Image_facegraph_oct_vertexLabels.tex}
 #! </Alt>
 #!
-#! The colours can also be changed very easily (especially if all colours
-#! should be changed at once). For example, let's make all edges green:
+#! The colours of the edges and vertices can also be changed very easily 
+#! (especially if all colours should be changed at once). For example,
+#! let's make all edges green:
 #! @BeginLog
 pr.edgeColours := "green";;
 #! @EndLog
@@ -616,7 +619,7 @@ pr.edgeColours := "green";;
 #! </Alt>
 #!
 #! We can even compute an embedding of the face graph with the corresponding 
-#! geodesics of the simplicial surface
+#! geodesics of the simplicial surface.
 #! <Alt Only="TikZ">
 #!     \input{Image_facegraph_octGeodesics.tex}
 #! </Alt>
@@ -634,7 +637,7 @@ pr.faceCoordinates2D[1]:=[-2.,4.];;
 #! It is even possible to compute an embedding of the face graph of a given
 #! simplicial surface by manipulating all face coordinates. For example we
 #! can compute an embedding so that it is clear to see that the face graph
-#! of the tetrahedron is bipartite.
+#! of the octahedron is bipartite.
 #!
 #! @BeginLog
 pr.faceCoordinates2D[1]:=[0.,0.];;pr.faceCoordinates2D[4]:=[4.,0.];;
@@ -651,14 +654,14 @@ pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
 
 
 #! @BeginChunk DrawFacegraphToTikz_Colours
-#! This subsection covers how to change the colours of vertices, edges and 
-#! faces in the drawings 
+#! This subsection covers how to change the colours of edges and faces  
+#! represented as vertices in the drawings 
 #! from <K>DrawFacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>).
 #! It covers the following parameters:
+#! * <E>faceColours</E>: Modify the colours of the vertices representing 
+#!   the faces (the default colour is gray).
 #! * <E>edgeColours</E>: Modify the colours of the edges (the default
 #!   colour is gray).
-#! * <E>faceColours</E>: Modify the colours of the vertices representing 
-#!   the face (the default colour is gray).
 #!
 #! We will exemplify them with the tetrahedron to make clear how the parameters 
 #! work:
@@ -739,11 +742,11 @@ DrawFacegraphToTikz( tetra,
 #! edges and faces in the drawings of <K>DrawFacegraphToTikz</K>
 #! (<Ref Subsect="DrawFacegraphToTikz"/>).
 #! * <E>vertexLabelsActive</E>: Turn the vertex labels on or off (by default
-#!   they are turned on).
+#!   they are turned off).
 #! * <E>vertexLabels</E>: Modify the vertex labels (by default they are 
 #!   labelled by their number).
 #! * <E>edgeLabelsActive</E>: Turn the edge labels on or off (by default
-#!   they are turned on).
+#!   they are turned off).
 #! * <E>edgeLabels</E>: Modify the edge labels (by default they are 
 #!   labelled by their number).
 #! * <E>faceLabelsActive</E>: Turn the face labels on or off (by default
@@ -751,7 +754,8 @@ DrawFacegraphToTikz( tetra,
 #! * <E>faceLabels</E>: Modify the face labels (by default they are 
 #!   labelled by their number).
 #! 
-#! We will exemplify these parameters on the example of a double-6-gon. Here the tetrahedron to make it more clear how the parameters work:
+#! We will exemplify these parameters on the example of a double-6-gon to 
+#! make clear how the parameters work:
 #! @BeginLog
 double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
 [1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;
@@ -769,7 +773,9 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6gon.tex" );;
 #! </Alt>
 #! <List>
 #!   <Item><E>vertexLabelsActive</E>: By default all vertices are not labelled. If they
-#!     should be labelled, this parameter can be set to <K>true</K>.
+#!     should be labelled, this parameter can be set to <K>true</K>. Note,
+#!     the vertices of the simplicial surface can be identified by the faces of 
+#!     the facegraph.
 #! @BeginLog
 pr := rec( vertexLabelsActive := true);;
 DrawFacegraphToTikz( double6Gon,
@@ -887,8 +893,8 @@ DrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;
  
 #! @BeginChunk DrawFacegraphToTikz_FaceCoordinates
 #! This subsection covers how to change the position of the faces in the drawing
-#! from <K>DrawFacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>).
-#! It covers the following parameters:
+#! computed by <K>DrawFacegraphToTikz</K> 
+#! (<Ref Subsect="DrawFacegraphToTikz"/>). It covers the following parameters:
 #! * <E>faceCoordinates2D</E>: Modify the coordinates of the faces which are
 #!   represented as vertices in the embedding.
 #!
@@ -905,11 +911,12 @@ DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #!     \input{Image_facegraph_tetrahedron.tex}
 #! </Alt>
 #! <List>
-#!   <Item><E>faceCoordinates2D</E>: Modifies the position of the vertices representing 
-#!     the faces. The coordinates are given in a list <A>faceCoordinates2D</A> such 
-#!     that <A>faceCoordinates2D[f]</A> is the 2D-coordinate of the vertex representing
-#!     face <A>f</A>. The list of bounded positions in <E>faceCoordinates2D</E> has to
-#!     be equal to the set of faces og the given surface, otherwise the function returns
+#!   <Item><E>faceCoordinates2D</E>: Modifies the position of the vertices
+#!     representing the faces. The coordinates are given in a list
+#!     <A>faceCoordinates2D</A> such that <A>faceCoordinates2D[f]</A> is the
+#!     2D-coordinate of the vertex representing face <A>f</A>. The list of
+#!     bounded positions in <E>faceCoordinates2D</E> has to be equal to the
+#!     set of faces of the given surface, otherwise the function returns
 #!     an error.
 #!
 #! @BeginLog
@@ -927,13 +934,11 @@ DrawFacegraphToTikz(tetra,
 
 
 #! @BeginChunk DrawFacegraphToTikz_Geodesics
-#! This subsection covers the parameter that adds geodesics into 
+#! This subsection covers the  usage of the parameter that adds geodesics into 
 #! the drawings of <K>DrawFacegraphToTikz</K>
-#! (<Ref Subsect="DrawFacegraphToTikz"/>). This parameter is designed 
-#! simplicial spheres without 2- or 3-waists whose face graphs are embedded 
-#! with the help of the coordinates
-#! computed in the implementations. If <K>surface</K> is not a sphere, this parameter
-#! is ignored in the drawing.
+#! (<Ref Subsect="DrawFacegraphToTikz"/>). This parameter is designed for 
+#! simplicial surfaces whose face graphs are embedded with the help of the 
+#! coordinates computed in the implementations. 
 #!
 #! It covers the following parameters:
 #! * <E>geodesicsActice</E>: Turn the drawing of the geodesics on or off (by default
@@ -943,7 +948,7 @@ DrawFacegraphToTikz(tetra,
 #!   if and only if the corresponding edge of the simplicial surface lies on the 
 #!   defining face-edge-path. 
 #! 
-#! We will exemplify these parameter on the example of a double tetrahedron
+#! We will exemplify these parameter on the example of a octahedron
 #! to make it more clear how the parameters work:
 #! @BeginLog
 oct:=Octahedron();
@@ -954,8 +959,11 @@ DrawFacegraphToTikz( oct, "facegraph_DoubleTetrahedron.tex" );;
 #!    \input{Image_facegraph_oct_Rescaled.tex }
 #! </Alt>
 #! <List>
-#!   <Item><E>geodesicsActive</E>: By default the geodics are not painted into the .tex 
-#!     file. If they should be shown, this parameter can be set to <K>true</K>.
+#!   <Item><E>geodesicsActive</E>: By default the geodics are not painted into
+#!   the .tex file. If they should be shown, this parameter can be set to
+#!   <K>true</K>. Note the octahedron has four geodesics which are all
+#!   represented in the drawing by polygons coloured in red, green, 
+#!   blue and yellow.
 #! @BeginLog
 pr := rec( geodesicActive := true);;
 DrawFacegraphToTikz( oct,

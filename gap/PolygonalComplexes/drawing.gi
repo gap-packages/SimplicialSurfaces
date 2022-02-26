@@ -1269,7 +1269,7 @@ BindGlobal( "__SIMPLICIAL_IsCoordinates2D",
 
     ## this help function takes a positive integer as input and returns a list of 2D-
     ## coordinates, situated on a square with the vertices [0,0],[n,0],[n,n],[0,n]
-    ##so that each side has exactly n/4 or n/4+1 vertices
+    ## so that each side has exactly n/4 or n/4+1 vertices
 BindGlobal( "__SIMPLICIAL_StartPositions",
     function(n)
 	local k,startPositions;
@@ -1277,9 +1277,9 @@ BindGlobal( "__SIMPLICIAL_StartPositions",
 	if n=1 then 
 	    return [[1.,1.]];
 	elif n=2 then
-	    return [[0.,4.],[4.,4.]];
+	    return [[0.,2.],[2.,2.]];
 	elif n=3 then 
-	    return [[0.,4.],[4.,4.],[4.,0.]];	
+	    return [[0.,3.],[3.,3.],[3.,0.]];	
 	elif n mod 4=0 then
 	    k:=n/4;
 	    Append(startPositions,List([0..k-1],i->[i*4,n]));
@@ -1337,7 +1337,7 @@ BindGlobal( "__SIMPLICIAL_OrderFaces",
     ## exactly two of the faces with a given coordinate in facePositions.
     ## The returned list activeFaces is ordered in the sense that there exists 
     ## a umbrella containing the faces activefaces[i], activeFaces[i+1] and 
-    ## containg faces whose coordinate has not been calculated yet
+    ## faces whose coordinate has not been calculated yet
 BindGlobal( "__SIMPLICIAL_ActiveFaces",
     function(facePositions,Umbrellas)
 	local g,activeFaces,minFace,maxFace,minX,maxX,minY,maxY,min,max,i,
@@ -1394,13 +1394,14 @@ BindGlobal( "__SIMPLICIAL_ActiveFaces",
 );
 
     ## this functions works as a heuristic to place new face coordinates 
-    ## the list acitveFaces is a list of faces that are incident to a face 
+    ## the list activeFaces is a list of faces that are incident to a face 
     ## whose coordinate hasn't been calculated yet.
     ## so there exist a umbrella containing activeFaces[i],activeFaces[i+1] and a
     ## face with no face coordinate. The faces in this umbrella which don't have a
     ## face coordinate are given in nextFaces[i]
     ## This method tries to apply coordinates to the faces in nextFaces[i] so the 
-    ## the embedding is still planar
+    ## the embedding is still planar and vertices of the surface can be
+    ## identified as faces of the resulting face graph
 BindGlobal( "__SIMPLICIAL_NewFaceCoordinates",
     function(activeFaces,nextFaces,Umbrellas,facePositions)
 	local g,l,numNewCoor,maxX,maxY,minX,minY,newPositions,face1,face2,t,
@@ -1638,7 +1639,8 @@ BindGlobal( "__SIMPLICIAL_UmbrellaAsList",
 );
 
 
-    # compute the tutte embedding of a face graph of a simplicial sphere
+    # compute the embedding of a face graph of a simplicial sphere
+    # by assigning 2D-coordinates to the faces
 
 BindGlobal( "__SIMPLICIAL_SetFaceCoordinates",
     function(surface)
@@ -1799,18 +1801,19 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
 
 
 
-   #this function prints the tutte embedding of a face graph of a 
+   #this function prints the embedding of the face graph of a 
    #simplicial surface into a .tex file
 InstallMethod( DrawFacegraphToTikz,
     "for a closed simplicial surface, a file and a record",
-    [IsSimplicialSurface and IsClosedSurface, IsString, IsRecord],
+    [IsSimplicialSurface, IsString, IsRecord],
     function(surface, file,printRecord)
+    local e,e1,e2,f,f1,f2,f3,v,v1,v2,faceCoordTikZ,foe,output,umb,maxX,maxY,
+    sum,newCoor,minX,minY,mX,mY,geodesic,i,j,currUmb,coordinates,temp,
+    umbrellas,color,tempRec;
 
-    local e,e1,e2,f,f1,f2,f3,v,v1,v2,faceCoordTikZ,foe,
-    helpInitializePrintRecord,output,umb,maxX,maxY,sum,newCoor,
-    minX,minY,mX,mY,geodesic,i,j,currUmb,coordinates,temp,umbrellas,color,
-    tempRec;
-
+    if not( IsClosedSurface(surface) and IsVertexFaithful(surface) and EulerCharacteristic(surface)=2) then 
+	return fail;
+    fi;
 
     sum:=function(L)
 	local g,s,n;
@@ -1849,13 +1852,6 @@ InstallMethod( DrawFacegraphToTikz,
     AppendTo( output, "\n\n\\begin{tikzpicture}[",
     __SIMPLICIAL_PrintRecordTikzOptions(tempRec, surface), "]\n\n" );
 
-    # check whether face coordinates are in the right format
-#    temp:=Filtered([1..Length(printRecord.faceCoordinates2D)],i->IsBound(printRecord.faceCoordinates2D[i]));
-#    if Filtered(temp,i->Length(printRecord.faceCoordinates2D[i])=2)<>Faces(surface) then
-#	Error();
- #   fi;
-
-    
     faceCoordTikZ:=[];
     for f in Faces(surface) do
         faceCoordTikZ[f]:=Concatenation("V",String(f));
@@ -1864,7 +1860,7 @@ InstallMethod( DrawFacegraphToTikz,
     for f in Faces(surface) do
 	AppendTo(output	,"\\coordinate (",faceCoordTikZ[f],") at (",
 	printRecord.faceCoordinates2D[f][1]," , ",printRecord.faceCoordinates2D[f][2],");\n");
-#AppendTo(output,__SIMPLICIAL_PrintRecordDrawFaceFG(printRecord, surface, face, faceTikzCoord));
+	#AppendTo(output,__SIMPLICIAL_PrintRecordDrawFaceFG(printRecord, surface, face, faceTikzCoord));
    od;
 
     ##draw edges
@@ -1904,7 +1900,6 @@ InstallMethod( DrawFacegraphToTikz,
 		v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(umb))[1];
 		coordinates:=List(umb,f->printRecord.faceCoordinates2D[f]);
 		temp:=sum(coordinates);
-#		AppendTo(output,"\\node[faceLabel,scale=1.5] at (",temp[1],",",temp[2],") {$", v,"$};\n");
 		AppendTo(output,__SIMPLICIAL_PrintRecordDrawVertexFG(printRecord,surface,v,temp));
 	    od; 
 	fi;
@@ -1977,12 +1972,8 @@ end
 
 InstallOtherMethod( DrawFacegraphToTikz,
     "for a simplicial surface and a file name",
-    [IsSimplicialSurface and IsClosedSurface,IsString],
+    [IsSimplicialSurface,IsString],
     function(surface,file)
-	if EulerCharacteristic(surface)=2 and IsClosedSurface(surface) then
 	    return DrawFacegraphToTikz(surface,file,rec());
-	else 
-	    return Error("surface must be spherical simplicial surface");
-	fi;
     end
 );
