@@ -1,6 +1,6 @@
 BindGlobal( "__SIMPLICIAL_IsCoordinates3D",
     function(surface, coordinates)
-        local coord;
+        local coord,i;
         if Filtered([1..Length(coordinates)],i->IsBound(coordinates[i])) <> Vertices(surface) then
             return false;
 	fi;
