@@ -387,8 +387,92 @@ InstallMethod(ShiftCyclicPath,
             if not IsDuplicateFree(path) then
                 Error(Concatenation("ShiftCyclicPath: Given vertex-edge-path ",String(path)," is not duplicate free."));
             fi;
-        return ShiftCyclicPathNC(path,vertex,edge);
+            return ShiftCyclicPathNC(path,vertex,edge);
         end
+);
+
+InstallMethod(IsWaist, "for a complex and a vertex-edge path",
+	[IsTwistedPolygonalComplex, IsVertexEdgePath],
+	function(complex,path)
+		local edges, incidentFaces, e, foe;
+		edges:=EdgesAsList(path);
+
+		incidentFaces:=[];
+		if ForAll(edges, e->IsInnerEdge(complex,e)) and IsClosedPath(path) then
+			# check if the edges are not incident to the same faces
+			for e in edges do
+				foe:=FacesOfEdge(complex,e);
+				if not foe[1] in incidentFaces and not foe[2] in incidentFaces then
+					Append(incidentFaces,FacesOfEdge(complex,e));
+				else
+					return false;
+				fi;
+			od;
+		else
+			return false;
+		fi;
+		return true;
+	end
+);
+
+InstallMethod(AllClosedVertexEdgePaths, "for a complex",
+	[IsTwistedPolygonalComplex],
+	function(complex)
+		local graph, cycles, newCycles, c, nodesOfCycle, edgeList, edges, newEdgeList, new, i, e, list;
+	
+		# First calculate all cycles of the edge graph.
+		# These cycles result in all closed vertex edge path of the complex except cycles of length two.
+		graph:=EdgeDigraphsGraph(complex);
+		cycles:=__SIMPLICIAL_AllCyclesOfGraph(graph);
+		newCycles:=[];
+		
+		# Compute for all cycles the corresponding edges in the complex.
+		for c in cycles do
+			nodesOfCycle:=Flat(__SIMPLICIAL_NodesOfCycle(c));
+			
+			# CommonEdgesOfVertices returns all edges that are possible between two vertices.
+			edgeList:=[];
+			for e in CommonEdgesOfVertices(complex, Last(nodesOfCycle),nodesOfCycle[1]) do
+				Add(edgeList,[e]);
+			od; 
+			for i in [1..Length(nodesOfCycle)-1] do
+				edges:=CommonEdgesOfVertices(complex, nodesOfCycle[i],nodesOfCycle[i+1]);
+				newEdgeList:=[];
+				
+				# Add the possibilities for the next edge to each edge list computed so far.
+				for e in edges do
+					for list in edgeList do
+						new:=ShallowCopy(list);
+						Add(new,e);
+						Add(newEdgeList,new);
+					od;
+				od;
+				edgeList:=newEdgeList;
+			od;
+		
+			for edges in edgeList do
+				Add(newCycles,VertexEdgePathByEdges(complex,edges));
+			od;
+		od;
+		return newCycles; #2-waists müssen noch hinzugefügt werden
+	end
+);
+
+InstallMethod(AllWaists, "for a twisted polygonal complex",
+	[IsTwistedPolygonalComplex],
+	function(complex)
+		local cycles, waists, c, edges, incident, incidentFaces, e, foe;
+	
+		cycles:=AllClosedVertexEdgePaths(complex);
+		waists:=[];
+		
+		for c in cycles do
+			if IsWaist(complex,c) then
+				Add(waists,c);
+			fi;
+		od;
+		return waists;
+	end
 );
 
 #######################################

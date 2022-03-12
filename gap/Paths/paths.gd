@@ -474,6 +474,72 @@ DeclareOperation("ShiftCyclicPathNC", [IsVertexEdgePath, IsPosInt, IsPosInt]);
 DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! @EndGroup
 
+#! @BeginGroup
+#! @Description
+#! Return if the given path <A>vertexEdgePath</A> is a waist in <A>complex</A>. 
+#! A waist is a closed vertex-edge path such that all edges are inner and no two are incident to the same face.
+#!
+#! For example, consider the double tetrahedron:
+#! @BeginExampleSession
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ],
+#! > [ 1, 3, 4 ], [ 1, 2, 4 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 2, 4, 5] ] );;
+#! @EndExampleSession
+#! The path around a face is not a waist:
+#! @BeginExampleSession
+#! gap> path:=VertexEdgePathByEdges(doubleTetra,[1,2,3]);;
+#! gap> IsWaist(doubleTetra, path);
+#! false
+#! @EndExampleSession
+#! The path of length three, where the edges are pairwise incident to two different faces, is a waist:
+#! @BeginExampleSession
+#! gap> waist:=VertexEdgePathByEdges(doubleTetra,[4,5,7]);;
+#! gap> IsWaist(doubleTetra, waist);
+#! true
+#! @EndExampleSession
+#! 
+#! @Returns true or false
+#! @Arguments complex, vertexEdgePath
+DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
+#! @EndGroup
+
+#! @BeginGroup AllClosedVertexEdgePaths
+#! @Description
+#! Compute for the given polygonal complex <A>complex</A> all closed vertex-edge-path of the complex, which was introduced in section 
+#! <Ref Sect="Section_Paths_VertexEdge"/>).
+#!
+#! For example consider the following triangular complex:
+#! <Alt Only="TikZ">
+#!  \input{Image_Butterfly.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
+#! gap> AllClosedVertexEdgePaths(butterfly);
+#! [ ( v2, E1, v1, E2, v3, E3, v2 ), ( v3, E3, v2, E4, v4, E5, v3 ),
+#!   ( v2, E1, v1, E2, v3, E5, v4, E4, v2 )]
+#! @EndExampleSession
+#! @Returns a list of vertex-edge-paths
+#! @Arguments complex
+DeclareOperation( "AllClosedVertexEdgePaths", [IsTwistedPolygonalComplex] );
+#! @EndGroup
+
+#! @BeginGroup AllWaists
+#! @Description
+#! Compute for the given polygonal complex <A>complex</A> all closed waists of the complex. 
+#! That means closed vertex-edge-path where the edges are not incident to the same faces. (Genauere Definition?)
+#!
+#! For example consider the double tetrahedron:
+#! @BeginExampleSession
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ],
+#! > [ 1, 3, 4 ], [ 1, 2, 4 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 2, 4, 5] ] );;
+#! gap> AllWaists(doubleTetra);
+#! [ ( v3, E4, v2, E5, v4, E7, v3 ) ]
+#! @EndExampleSession
+#!
+#! @Returns a list of vertex-edge-paths
+#! @Arguments complex
+DeclareOperation( "AllWaists", [IsTwistedPolygonalComplex] );
+#! @EndGroup
+
 
 ##
 ## Coloured output-attributes

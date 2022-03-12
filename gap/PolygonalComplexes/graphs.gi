@@ -2,9 +2,10 @@
 ##
 ##  SimplicialSurface package
 ##
-##  Copyright 2012-2018
+##  Copyright 2012-2022
 ##    Markus Baumeister, RWTH Aachen University
 ##    Alice Niemeyer, RWTH Aachen University 
+##    Meike Weiß, RWTH Aachen University
 ##
 ## Licensed under the GPL 3 or later.
 ##
@@ -725,17 +726,55 @@ BindGlobal( "__SIMPLICIAL_EdgesFromAdjacencyMat",
 	  return edges;
 end);
 
+# The function converts a boolean list describing one or more cycles 
+# into lists of nodes of the cycles.
+BindGlobal("__SIMPLICIAL_NodesOfCycle",
+    function(cycle)
+	local edges,firstNod,actualNod,nodes,found,e,cycles;
 
-# The following function computes all cycles of a face graph <dig> by:
-# 1. Calculation of a cycle base (CyclesBasisOfFaceGraph) by first computing a spanning tree and then adding each edge 
+	edges:=__SIMPLICIAL_EdgesFromAdjacencyMat(cycle);
+	cycles:=[];
+	# We have to use each edge exactly one time
+	while edges<>[] do
+		firstNod:=(edges[1])[1];
+		actualNod:=(edges[1])[2];
+		Remove(edges,1);
+		nodes:=[actualNod];
+		# Walk along the cycle
+		while actualNod<>firstNod do
+			found:=false;
+			for e in edges do
+				if found=false then
+					if e[1]=actualNod then
+						actualNod:=e[2];
+						Add(nodes,actualNod);
+						Remove(edges,Position(edges,e));
+						found:=true; 
+					elif e[2]=actualNod then
+						actualNod:=e[1];
+						Add(nodes,actualNod);
+						Remove(edges,Position(edges,e));
+						found:=true;
+					fi;
+				fi;
+			od;
+		od;
+		Add(cycles,nodes);
+	od;
+	return cycles;
+end);	
+
+
+# The following function computes all cycles of a graph <dig> by:
+# 1. Calculation of a cycle base (CyclesBasisOfGraph) by first computing a spanning tree and then adding each edge 
 #    which is not in the tree. Each edge gives a different cycle named base cycles.
 # 2. Iterate through all possible combinations of base cycles and combine them by applying XOR to the adjacency matrices.
 # In this way you get all cycles of the graph.
-BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
+BindGlobal("__SIMPLICIAL_AllCyclesOfGraph",
 	function(digraph)
 
-	local AdjacencyMatrixFromList,CycleOnEdge,CycleBasisOfFaceGraph, NodesOfCycle,
-	XORAdjacencyMatrices,MultipleCyclesInMatrix,cyclebasis, allcycles, nullmat, mat, i, k, pos, neighs,c,cycle;
+	local AdjacencyMatrixFromList,CycleOnEdge,CycleBasisOfGraph,XORAdjacencyMatrices,
+	MultipleCyclesInMatrix,cyclebasis, allcycles, nullmat, mat, i, k, pos, neighs,c,cycle;
 
 
 	# We want to store graphs as adjacency matrices. This function
@@ -799,7 +838,7 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 	# dig, which is assumed to be a symmetric digraph.
 	# The cycle Basis consists of lower triangular matrices whose
 	# entries are boolean lists.
-	CycleBasisOfFaceGraph := function( dig )
+	CycleBasisOfGraph := function( dig )
 
 		local tree, dige, base, root, e;
 
@@ -836,46 +875,9 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 			od;
 
 			return res;
-	end;;
-	
-	# The function converts a boolean list describing one or more cycles 
-	# into lists of nodes of the cycles.
-	NodesOfCycle:=function(cycle)
-		local edges,firstNod,actualNod,nodes,found,e,cycles;
-
-		edges:=__SIMPLICIAL_EdgesFromAdjacencyMat(cycle);
-		cycles:=[];
-		# We have to use each edge exactly one time
-		while edges<>[] do
-			firstNod:=(edges[1])[1];
-			actualNod:=(edges[1])[2];
-			Remove(edges,1);
-			nodes:=[actualNod];
-			# Walk along the cycle
-			while actualNod<>firstNod do
-				found:=false;
-				for e in edges do
-					if found=false then
-						if e[1]=actualNod then
-							actualNod:=e[2];
-							Add(nodes,actualNod);
-							Remove(edges,Position(edges,e));
-							found:=true; 
-						elif e[2]=actualNod then
-							actualNod:=e[1];
-							Add(nodes,actualNod);
-							Remove(edges,Position(edges,e));
-							found:=true;
-						fi;
-					fi;
-				od;
-			od;
-			Add(cycles,nodes);
-		od;
-		return cycles;
 	end;;	
 
-	cyclebasis := CycleBasisOfFaceGraph( digraph );
+	cyclebasis := CycleBasisOfGraph( digraph );
 	
 	if cyclebasis=[] then
 		return [];
@@ -899,7 +901,7 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfFaceGraph",
 		od;
 
 		if SizeBlist(Flat(mat))<>0 then
-			for c in NodesOfCycle(mat) do
+			for c in __SIMPLICIAL_NodesOfCycle(mat) do
 				cycle:=AdjacencyMatrixFromList(c,Length(mat));
 				if not cycle in allcycles then
 					Add(allcycles,cycle);
@@ -929,10 +931,10 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		NodesOfCycle,cycle,cyclePair,IsPartOf,possibleCyclesPairs,commonEdges,Possible,e;
 
 		if IsMultiDigraph(digraph) or DigraphHasLoops(digraph) or not IsSymmetricDigraph(digraph) or not IsConnectedDigraph(digraph) then
-                        Error("SimplicialSurfaceOfFaceGraph: Given digraph has to be simple, symmetric and connected");
+                        Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
                 fi;
 
-		allCycles:=__SIMPLICIAL_AllCyclesOfFaceGraph(digraph);
+		allCycles:=__SIMPLICIAL_AllCyclesOfGraph(digraph);
 
 		edgesOfGraph:=Filtered(DigraphEdges(digraph),e->not IsSortedList(e));
 
