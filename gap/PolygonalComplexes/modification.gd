@@ -9,7 +9,7 @@
 ## Licensed under the GPL 3 or later.
 ##
 #############################################################################
-
+ 
 #! @Chapter Modification of polygonal complexes
 #! @ChapterLabel Modification
 #!
