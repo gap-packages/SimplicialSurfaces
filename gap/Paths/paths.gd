@@ -456,7 +456,7 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsVertexEd
 #! @BeginGroup VertexEdge_ShiftCyclicPath
 #! @Description
 #! Shift the vertex-edge-path <A>path</A> such that the given vertex is the start vertex and the given edge is the first edge.
-#! The path has to be closed and duplicate-free.
+#! The path has to be closed and duplicate-free. 
 #! 
 #! This method returns a vertex-edge-path.
 #!
