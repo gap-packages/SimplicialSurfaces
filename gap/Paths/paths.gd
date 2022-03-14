@@ -1182,6 +1182,8 @@ DeclareAttribute( "VertexEdgePathOfGeodesic", IsEdgeFacePath and IsGeodesicPath 
 #!   | e5, F3, e4, F2, e6, F5, e7 |, | e5, F3, e8, F4, e9, F7, e14, F8, e15 |,
 #!   | e7, F5, e11, F6, e10, F7, e14, F8, e13 |,
 #!   | e12, F4, e9, F7, e10, F6, e16 |, | e13, F8, e15 | ]
+#! gap> MaximalGeodesicPathOfFlag(torus,[1,1,1]);
+#! ( e1, F1, e4, F2, e7, F5, e10, F6, e1 )
 #! @EndExampleSession
 #!
 #! TODO If there are multiple ways to write a geodesic, which is picked?
@@ -1303,7 +1305,13 @@ DeclareAttribute( "FlagsOfGeodesic", IsEdgeFacePath and IsGeodesicPath );
 #! The method <K>MaximalDuplicateFreeGeodesicPaths</K>(<A>ramSurf</A>) returns
 #! the set of all those geodesics.
 #!
-#! TODO examples
+#! For example, consider the torus.
+#! @BeginExampleSession
+#! gap> geo:=MaximalDuplicateFreeGeodesicPathOfFlag(torus,[1,1,1]);
+#! ( e1, F1, e4, F2, e7, F5, e10, F6, e1 )
+#! gap> geo in MaximalDuplicateFreeGeodesicPaths(torus);
+#! true
+#! @EndExampleSession
 #!
 #! @Returns a set of duplicate-free geodesic paths
 #! @Arguments ramSurf
@@ -1326,6 +1334,11 @@ DeclareOperation( "MaximalDuplicateFreeGeodesicPathOfFlagNC", [IsPolygonalComple
 #! the product of the Dress involutions (<Ref Subsect="DressInvolutions"/>),
 #! by first applying the one for vertices, then edges and finally faces.
 #!
+#! For example, consider the torus and the closed geodesic from <Ref Subsect="MaximalDuplicateFreeGeodesicPaths"/>.
+#! @BeginExampleSession
+#! gap> GeodesicFlagCycle(geo);
+#! (1,18,30,46)
+#! @EndExampleSession
 #! TODO explain properly with picture
 #!
 #! @Returns a permutation
