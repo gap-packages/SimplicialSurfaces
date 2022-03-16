@@ -128,7 +128,6 @@
 #! gap> NumberOfConnectedComponents(hexCut[1]);
 #! 2
 #! @EndExampleSession
-#TODO check second output
 #! <Alt Only="TikZ">
 #!   {
 #!     \def\splitCenter{1}
@@ -146,7 +145,6 @@
 #! gap> NumberOfConnectedComponents(hexOpen[1]);
 #! 1
 #! @EndExampleSession
-#TODO check second output
 #! <Alt Only="TikZ">
 #!   {
 #!     \def\splitCenter{1}
@@ -240,6 +238,10 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! gap> NumberOfConnectedComponents(splittedComplex[1]);
 #! 2
 #! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \def\splitted{1}
+#!   \input{Image_EdgeFacePath_ramified.tex}
+#! </Alt>
 #!
 #! The NC-version does not check whether <A>vertex</A> is an actual vertex of
 #! <A>complex</A> and whether the new vertex labels are actually available.
@@ -280,8 +282,6 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! <A>oldPath</A> is the unique subpath of the original <A>vePath</A>, such
 #! that each element of <A>newPath</A> was obtained from the element at the
 #! same position in <A>oldPath</A>.
-#!
-#! TODO explain better
 #! 
 #! For example consider the following polygonal complex:
 #! @BeginExampleSession
@@ -298,12 +298,17 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! @BeginExampleSession
 #! gap> splitted:=SplitVertexEdgePath(complex,path);
 #! [ simplicial surface (12 vertices, 12 edges, and 4 faces),
-#!   [ [ | v12, E13, v14 |, | v3, E8, v6 | ],
-#!     [ | v13, E14, v15 |, | v3, E8, v6 | ] ] ]
+#! [ [ | v12, E13, v14 |, | v3, E8, v6 | ],
+#!   [ | v13, E14, v15 |, | v3, E8, v6 | ],
+#!   [ | v8, E11, v10 |, | v1, E3, v3 | ],
+#!   [ | v9, E12, v11 |, | v1, E3, v3 | ] ] ]
 #! gap> NumberOfConnectedComponents(splitted[1]);
 #! 4
 #! @EndExampleSession
 #! The second output shows in which two path the original path was splitted.
+#! <Alt Only="TikZ">	
+#!   \input{Image_SplittedVertexEdgePath.tex}
+#! </Alt>
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
@@ -346,8 +351,6 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! that each element of <A>newPath</A> was obtained from the element at the
 #! same position in <A>oldPath</A>.
 #!
-#! TODO explain better
-#!
 #! For example consider the following polygonal complex:
 #! @BeginExampleSession
 #! gap> complex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],
@@ -364,12 +367,17 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! @BeginExampleSession
 #! gap> splitted:=SplitEdgePath(complex,path);
 #! [ triangular complex (10 vertices, 12 edges, and 4 faces),
-#!  [ [ | v10, E13, v6 |, | v3, E8, v6 | ],
-#!    [ | v11, E14, v6 |, | v3, E8, v6 | ] ] ]
+#! [ [ | v10, E13, v6 |, | v3, E8, v6 | ],
+#!   [ | v11, E14, v6 |, | v3, E8, v6 | ],
+#!   [ | v1, E11, v8 |, | v1, E3, v3 | ],
+#!   [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ]
 #! gap> NumberOfConnectedComponents(splitted[1]);
 #! 2
 #! @EndExampleSession
 #! The second output shows in which two path the original path was splitted.
+#! <Alt Only="TikZ">
+#!   \input{Image_SplittedEdgePath.tex}
+#! </Alt>
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
@@ -465,6 +473,11 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsTwistedPolygonalComplex, IsSet] );
 #! will remain unaffected.
 #!
 #! For example consider the Tetrahedron and remove one face:
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!    \input{Image_Tetrahedron_Net.tex}
+#!  \end{tikzpicture}
+#! </Alt>
 #! @BeginExampleSession
 #! gap> tetraRemoved:=RemoveFace(Tetrahedron(),1);
 #! simplicial surface (4 vertices, 6 edges, and 3 faces)
@@ -873,12 +886,18 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! complex and the second entry is the label of the new face.
 #!
 #! For example consider the Janus-head. The two faces have equal incident edges so they can be joined:
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Janus_constructor.tex}
+#! </Alt>
 #! @BeginExampleSession
-#! gap> JoinFaces(JanusHead(),1,2);
-#! [ simplicial surface (3 vertices, 3 edges, and 1 faces), 3 ]
+#! gap> JoinFaces(JanusHead(),1,2,1);
+#! [ simplicial surface (3 vertices, 3 edges, and 1 faces), 1 ]
 #! @EndExampleSession
-#! The resulting surface is the one-face. Since 2 is the maximal face label,
-#! 3 is the label of the new face.
+#! The resulting surface is the one-face. Since 1 is the optional argument
+#! <A>newFaceLabel</A>, 1 is the label of the new face.
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_theTriangle.tex}
+#! </Alt>
 #!
 #! The NC-versions do not check whether the given faces are distinct faces
 #! with the same incident edges of <A>complex</A> and whether the new face label is
@@ -917,7 +936,8 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! One thing that can be done is the construction of a ramified edge. 
 #! Consider just one triangle:
 #! @BeginExampleSession
-#! gap> triangle := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,3],[2,3]],[[1,2,3]] );;
+#! gap> triangle := SimplicialSurfaceByDownwardIncidence(
+#! >  [[1,2],[1,3],[2,3]],[[1,2,3]] );;
 #! @EndExampleSession
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
@@ -933,7 +953,7 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #!     }
 #!   \end{tikzpicture}
 #! </Alt>
-#! First we combine two of them:
+#! First we combine two of them, which leads to a butterfly:
 #! @BeginExampleSession
 #! gap> joinPath := VertexEdgePathByVertices(triangle, [1,2]);
 #! | v1, E1, v2 |
@@ -941,6 +961,11 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! gap> join[2];
 #! | v7, E7, v8 |
 #! @EndExampleSession
+#! <Alt Only="TikZ">
+#! 	\def\join{1}
+#!	 \input{Image_Butterfly.tex}
+#! </Alt>
+#! 
 #! Along this vertex-edge-path another of the triangles can be added:
 #! @BeginExampleSession
 #! gap> tripleJoin := JoinVertexEdgePaths(join[1],join[2],triangle,joinPath);;
@@ -949,7 +974,14 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! gap> RamifiedEdges(tripleJoin[1]);
 #! [ 12 ]
 #! @EndExampleSession
-#! 
+#! The resulting surface is:
+#! <Alt Only="TikZ">
+#! 	\begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#! 		\begin{scope}[xshift=10cm]
+#! 			\input{Image_ThreeBranchingTriangles.tex}
+#! 		\end{scope}
+#! 	\end{tikzpicture}
+#! </Alt>
 #! The NC-versions do not check whether the given vertex-edge-paths are
 #! actually vertex-edge-paths of the polygonal complexes.
 #! 
@@ -1042,6 +1074,10 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! >         [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
 #! @EndExampleSession
 #! Joining the boundary together of this surface gives a closed surface.
+#! <Alt Only="TikZ">
+#!  \def\joined{1}	
+#!  \input{Image_FourGon.tex}
+#! </Alt>
 #! @BeginExampleSession
 #! gap> joined:=JoinBoundary(fourGon,2);
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces),

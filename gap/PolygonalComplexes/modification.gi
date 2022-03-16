@@ -251,7 +251,7 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
         starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
         if Length( Set(newVertexLabels) ) <> Length(starComp) then
             Error(Concatenation(
-                "SplitVertex: The number of new vertex labels has to be equal to the number of incident stars.TODO"
+                "SplitVertex: The number of new vertex labels has to be equal to the length of the umbrella partition."
             ));
         fi;
 
@@ -284,9 +284,11 @@ RedispatchOnCondition( SplitVertexNC, true, [IsTwistedPolygonalComplex,IsPosInt,
 BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
     function(oldComplex, vePath, newComplex, labelList)
         local partialPaths, i, newPaths, p, pNew, pOld, newEdge, used, 
-            newVertex, resPaths, extNew, extOld;
+            newVertex, resPaths, extNew, extOld, finishedParts,new;
 
         VerticesAttributeOfComplex(newComplex); # Compute this once to avoid scheduling
+	finishedParts:=[];
+	new:=0;
 
         partialPaths := [ [[],[]] ];
         for i in [1..Length(labelList)] do
@@ -295,6 +297,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                 # We have to add an edge => paths can't start here
                 newPaths := [];
                 for p in partialPaths do
+		    used := false;
                     pNew := p[1];
                     pOld := p[2];
                     for newEdge in labelList[i] do
@@ -306,13 +309,20 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                             Add(extOld, PathAsList(vePath)[i]);
 
                             Add(newPaths, [ extNew, extOld ]);
+			
+			    used:=true;
                         fi;
                     od;
+		    if new>=Position(partialPaths,p) and not used then
+			Add(finishedParts,p);
+		    fi;
                 od;
-                partialPaths := newPaths;
+		new:=0;
+		partialPaths := newPaths;
             else
                 # We have to add a vertex => paths can start here
                 newPaths := [];
+		
                 for newVertex in labelList[i] do
                     used := false;
                     for p in partialPaths do
@@ -330,13 +340,20 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                         fi;
                     od;
                     if not used then
+			# If there is no way to add the new vertex to the partial paths,
+			# a new path will start at the vertex 
+			if i>1 then
+                             new:=Length(partialPaths);
+                        fi;
                         Add(newPaths, 
                             [ [newVertex], [PathAsList(vePath)[i]] ]);
-                    fi;
+		    fi;
                 od;
                 partialPaths := newPaths;
             fi;
+	    
         od;
+	Append(newPaths,finishedParts);
 
         resPaths := [];
         for i in [1..Length(newPaths)] do
@@ -391,7 +408,6 @@ InstallMethod( SplitVertexEdgePathNC,
             newLabelList[2*size-1] := vertexSplit[2];
         fi;
         newComplex := swapComplex;
-
         return [newComplex, __SIMPLICIAL_ComputeNewVertexEdgePaths(
                     complex,vePath, newComplex, newLabelList)];
     end
@@ -1621,26 +1637,13 @@ InstallMethod(JoinBoundariesNC,
     "for a polygonal surface, two 2-flags and an integer",
     [IsPolygonalSurface, IsList, IsList, IsInt],
     function(surface, flag1, flag2, length)
-        local perims, perim1, perim2, bound1, bound2, Reorient, p, join, i;
+        local perim1, perim2, bound1, bound2, Reorient, p, join, i;
 
-        perims := PerimeterOfHoles(surface);
-        # Each edge can be in only one boundary path
-        # TODO could this become another VertexEdgePath-Constructor?
-        perim1 := [];
-        perim2 := [];
-        for p in perims do
-        	if flag1[2] in EdgesAsList(p) then
-        		Add(perim1, p);
-        	fi;
-        	if flag2[2] in EdgesAsList(p) then
-        		Add(perim2, p);
-        	fi;
-        od;
-        Assert(0, Length(perim1) = 1);
-        Assert(0, Length(perim2) = 1);
+        perim1 := PerimeterOfHoles(surface,flag1[2]);
+        perim2 := PerimeterOfHoles(surface,flag2[2]);
         
-	perim1:=ShiftCyclicPath(perim1[1],flag1[1],flag1[2]);
-        perim2:=ShiftCyclicPath(perim2[1], flag2[1], flag2[2]);
+	perim1:=ShiftCyclicPath(perim1,flag1[1],flag1[2]);
+        perim2:=ShiftCyclicPath(perim2, flag2[1], flag2[2]);
  
 	perim1:=ShallowCopy(EdgesAsList(perim1));
         perim2:=ShallowCopy(EdgesAsList(perim2));
