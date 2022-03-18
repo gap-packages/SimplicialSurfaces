@@ -331,7 +331,7 @@ DeclareAttribute( "OneFlags", IsPolygonalComplex );
 #! gap> Flags(complex)[7];
 #! [5,6,1]
 #! @EndExampleSession
-#! This means, for example, that the first dress involution maps the flag <M>[1,1,1]</M> to the flag <M>[2,1,1]</M>.
+#! This means, for example, that the first dress involution maps the flag <M>[2,6,1]</M> to the flag <M>[5,6,1]</M>.
 #! The dress involutions are equal to the adjacency involution acting on the chamber:
 #! @BeginExampleSession
 #! gap> dressInv[1]=ZeroAdjacencyInvolution(complex);
@@ -731,7 +731,7 @@ DeclareOperation("BarycentreOfFace",[IsTwistedPolygonalComplex,IsPosInt]);
 #! * <K>false</K> if this is not possible
 #! * <K>fail</K> if the given <A>tameSurface</A> is not a MMM-surface.
 #!
-#! For an example, consider the one face and the corresponding flag surface:
+#! For example, consider the one face and the corresponding flag surface:
 #! @BeginExampleSession
 #! gap> oneFace:=SimplicialSurfaceByVerticesInFaces([[1,2,3]]);;
 #! gap> flagSurf:=FlagComplex(oneFace);;
