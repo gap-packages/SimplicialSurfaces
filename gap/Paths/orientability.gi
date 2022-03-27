@@ -130,7 +130,7 @@ InstallMethod( Orientation,
                     if relOrient = 1 then
                         correctOr := PerimeterPathOfFaceNC(surf,next);
                     else
-                        correctOr := Inverse( PerimeterPathOfFaceNC(surf,next) );
+                        correctOr := ReversedPath( PerimeterPathOfFaceNC(surf,next) );
                     fi;
                     if IsBound( orientList[next]) and orientList[next] <> correctOr  then
                         orientable := false;
@@ -284,7 +284,7 @@ InstallMethod( OrientationCover, "for a polygonal complex without edge ramificat
         faceMap := [];
         for f in Faces(splitSurf) do
             perimeter := PerimeterPathsOfFaces(splitSurf)[f];
-            newFaces[f] := [[f,perimeter], [f,Inverse(perimeter)]];
+            newFaces[f] := [[f,perimeter], [f,ReversedPath(perimeter)]];
             Append(faceMap, [f,f]);
         od;
 
