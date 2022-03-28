@@ -665,7 +665,7 @@ RedispatchOnCondition( DrawSurfaceToTikz, true,
     [IsEdgeColouredPolygonalComplex, IsString], 
     [IsNotEdgeRamified], 0 );
 
-InstallMethod( DrawSurfaceToTikz,
+InstallOtherMethod( DrawSurfaceToTikz,
     "for an edge coloured polygonal complex without edge ramifications, a file name and a print record",
     [IsEdgeColouredPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(colComp,file,printRecord)

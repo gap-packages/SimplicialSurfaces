@@ -29,6 +29,23 @@
         (D) -- node[edgeLabel]{8} (C2) -- (B2) -- node[edgeLabel]{11} cycle;
     \draw[edge,\ifdefined\pathEight customFace\else face\fi]
         (C2) -- node[edgeLabel]{7} (A4) -- node[edgeLabel]{2} (B2) -- node[edgeLabel]{12} cycle;
+	
+    \tikzset{path/.style={double=red,double distance=1.3pt}}
+    \tikzset{edgeSpec/.style={edgeLabel}}
+
+   \draw[edge,\ifdefined\vertexEdge path\fi]
+	(B1) -- node[edgeSpec] {5} (D);
+
+    \draw[edge,\ifdefined\vertexEdgeOne path\fi] 
+    	(A1) -- node[edgeSpec] {3} (C1)
+    	(C1) -- node[edgeSpec] {4} (B1)
+    	(D)  -- node[edgeSpec] {6} (A2)
+	(A2)  -- node[edgeSpec] {3} (C2);
+
+    \draw[edge,\ifdefined\vertexEdgeTwo path\fi]
+        (A3) -- node[edgeSpec] {9} (C1)
+        (C1) -- node[edgeSpec] {7} (D)
+        (B1)  -- node[edgeSpec] {2} (A2);
 
 
     \foreach \a/\b/\c/\n in {A1/B1/C1/I, B1/D/C1/II, B1/A2/D/III, A2/C2/D/IV, C1/D/A3/V, D/B2/A3/VI, D/C2/B2/VII, C2/A4/B2/VIII}{
