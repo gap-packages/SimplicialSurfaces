@@ -412,7 +412,7 @@ InstallMethod( ViewInformationEdgeColoured,
         fi;
         if not IsWildColouredSurface(colComp) and 
             not IsIsoscelesColouredSurface(colComp) then
-            PrintTo( out, ", with" );
+            PrintTo( out, ", with " );
             PrintTo( out, String( Length( Colours(colComp) ) ) );
             PrintTo( out, " colours" );
         fi;
@@ -670,7 +670,7 @@ InstallMethod( DrawSurfaceToTikz,
     [IsEdgeColouredPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(colComp,file,printRecord)
         local classLen, classCol, e, edgeLen, edgeCol;
-
+	
         if not IsBound(printRecord.edgeColourClassActive) then
             printRecord.edgeColourClassActive := true;
         fi;
@@ -863,7 +863,6 @@ if IsPackageMarkedForLoading("GRAPE", ">=0") then
 fi;
 
 if IsPackageMarkedForLoading("Digraphs", ">=0") and not ARCH_IS_WINDOWS() then
-
 #TODO install the digraphs function as soon as it is available
 fi;
 

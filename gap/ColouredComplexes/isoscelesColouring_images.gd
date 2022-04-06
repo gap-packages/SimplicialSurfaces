@@ -115,8 +115,12 @@ surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 4, 5 ],
 [ 1, 4, 6 ], [ 1, 5, 7 ], [ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], 
 [ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );;
 isosceles := AllIsoscelesColouredSurfaces(surf);;
-isosceles := EdgeColouredPolygonalComplexIsomorphismRepresentatives(isosceles);;
 Size(isosceles);
+#! 3
+isoscelesAll:=AllIsoscelesColouredSurfaces(surf, false);;
+Size(isoscelesAll);
+#! 11
+Size(EdgeColouredPolygonalComplexIsomorphismRepresentatives(isoscelesAll));
 #! 3
 #! @EndExample
 #! Given a wild coloured surface, one can find an isosceles coloured surface by
