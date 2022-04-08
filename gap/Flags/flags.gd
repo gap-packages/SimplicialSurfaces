@@ -17,6 +17,8 @@
 #! A flag is a triple <M>(V,E,F)</M> of vertex <M>V</M>, an edge <M>E</M>,
 #! and a face <M>F</M> that are incident to each other. They can be computed
 #! with the command <K>Flags</K> (<Ref Subsect="Flags"/>).
+#! The chambers (<Ref Sect="Section_AccessTwisted_Adjacency"/>) for a polygonal complex are equivalent
+#! to the flags of the polygonal complex
 #!
 #! The elementary flag access functions are described in section
 #! <Ref Sect="Section_Flags_Definition"/>.
@@ -308,7 +310,37 @@ DeclareAttribute( "OneFlags", IsPolygonalComplex );
 #! If <K>DressGroup</K> is called, its generators <M>G.1</M>, <M>G.2</M>
 #! and <M>G.3</M> are the Dress involutions.
 #!
-#! TODO example
+#! As an example consider the following polygonal surface:
+#! @BeginExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence(
+#! >    [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ],
+#! >    [[6,8,9], , , [9,10,12,13]]);;
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> dressInv:=DressInvolutions(complex);
+#! [ (1,7)(2,3)(4,8)(5,9)(6,11)(10,13)(12,14),
+#!   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14),
+#!   (4,5)(8,9) ]
+#! gap> Flags(complex)[1];
+#! [2,6,1]
+#! gap> Flags(complex)[7];
+#! [5,6,1]
+#! @EndExampleSession
+#! This means, for example, that the first dress involution maps the flag <M>[2,6,1]</M> to the flag <M>[5,6,1]</M>.
+#! The dress involutions are equal to the adjacency involution acting on the chamber:
+#! @BeginExampleSession
+#! gap> dressInv[1]=ZeroAdjacencyInvolution(complex);
+#! true
+#! gap> dressInv[2]=OneAdjacencyInvolution(complex);
+#! true
+#! gap> dressInv[3]=TwoAdjacencyInvolution(complex);
+#! true
+#! @EndExampleSession
 #! 
 #! @Returns a list of three involutions
 #! @Arguments complex
@@ -351,34 +383,9 @@ DeclareAttribute( "DressGroup", IsPolygonalComplex and IsNotEdgeRamified );
 #! (<Ref Subsect="DressInvolutions"/>) are the colour involutions for the
 #! colouring (compare <Ref Subsect="ColourInvolutions"/>).
 
-#! @BeginGroup IsFlagComplex
-#! @Description
-#! Check whether the given <A>colComplex</A> is a flag complex. Every flag
-#! complex is also an edge-coloured polygonal complex. Besides access to
-#! the uncoloured flag complex via <K>PolygonalComplex</K>
-#! (<Ref Subsect="EdgeColouring_TwistedPolygonalComplex"/>) it also allows access
-#! to the original polygonal complex by <K>OriginalComplex</K>
-#! (<Ref Subsect="OriginalComplex"/>).
-#!
-#! This will also return <K>true</K> if the original complex would just be a <E>twisted</E> complex.
-#!
-#! The additional property check if the underlying polygonal complex
-#! is a polygonal surface.
-#!
-#! TODO example?
-#!
-#! @Arguments object
-DeclareCategory( "IsFlagComplex", IsEdgeColouredTwistedPolygonalComplex );
-#! @Arguments flagComp
-DeclareProperty( "IsFlagSurface", IsFlagComplex );
-#! @EndGroup
-InstallTrueMethod( IsEdgeColouredTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified, IsFlagSurface );
-InstallTrueMethod( IsFlagSurface, IsEdgeColouredTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified and IsFlagComplex );
-
-
 #! @BeginGroup FlagComplex
 #! @Description
-#! Return the flag complex of <A>complex</A>. The flag complex is an 
+#! Return the flag complex of <A>complex</A>. The flag complex is an
 #! edge-coloured (<Ref Chap="Chapter_EdgeColouring"/>) twisted triangular complex
 #! (<Ref Subsect="IsTriangular"/>).
 #!
@@ -399,8 +406,35 @@ DeclareAttribute("FlagComplex", IsTwistedPolygonalComplex);
 DeclareOperation("FlagSurface", [IsTwistedPolygonalSurface]);
 #! @EndGroup
 
-
-
+#! @BeginGroup IsFlagComplex
+#! @Description
+#! Check whether the given <A>complex</A> is a flag complex. Every flag
+#! complex is also an edge-coloured polygonal complex. Besides access to
+#! the uncoloured flag complex via <K>PolygonalComplex</K>
+#! (<Ref Subsect="EdgeColouring_TwistedPolygonalComplex"/>) it also allows access
+#! to the original polygonal complex by <K>OriginalComplex</K>
+#! (<Ref Subsect="OriginalComplex"/>).
+#!
+#! This will also return <K>true</K> if the original complex would just be a <E>twisted</E> complex.
+#!
+#! The additional property check if the underlying polygonal complex
+#! is a polygonal surface.
+#!
+#! For example, consider the complex from the start of this section (<Ref Sect="Section_Flags_FlagComplex"/>).
+#! @BeginExampleSession
+#! gap> IsFlagComplex(flagComp);
+#! true
+#! gap> IsFlagComplex(complex);
+#! false
+#! @EndExampleSession
+#!
+#! @Arguments object
+DeclareCategory( "IsFlagComplex", IsEdgeColouredTwistedPolygonalComplex );
+#! @Arguments flagComp
+DeclareProperty( "IsFlagSurface", IsFlagComplex );
+#! @EndGroup
+InstallTrueMethod( IsEdgeColouredTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified, IsFlagSurface );
+InstallTrueMethod( IsFlagSurface, IsEdgeColouredTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified and IsFlagComplex );
 
 #! @BeginGroup OriginalComplex
 #! @Description
@@ -697,7 +731,13 @@ DeclareOperation("BarycentreOfFace",[IsTwistedPolygonalComplex,IsPosInt]);
 #! * <K>false</K> if this is not possible
 #! * <K>fail</K> if the given <A>tameSurface</A> is not a MMM-surface.
 #!
-#! TODO example
+#! For example, consider the one face and the corresponding flag surface:
+#! @BeginExampleSession
+#! gap> oneFace:=SimplicialSurfaceByVerticesInFaces([[1,2,3]]);;
+#! gap> flagSurf:=FlagComplex(oneFace);;
+#! gap> IsIsomorphic(IsomorphicFlagSurface(flagSurf),flagSurf);
+#! true
+#! @EndExampleSession
 #!
 #! @Returns a flag surface, <K>false</K> or <K>fail</K>
 #! @Arguments tameSurface
@@ -720,7 +760,7 @@ DeclareAttribute("IsomorphicFlagSurface", IsTameColouredSurface);
 #!   lengths will not be colour invariant. In this case the value
 #!   <E>edgeColourClassActive</E> will be set to <K>false</K>.
 #! 
-#! TODO example
+#! An example is given at the beginning of this section (<Ref Sect="Section_Flags_FlagComplex"/>).
 #!
 #! @Returns a record
 #! @Arguments flagSurf, fileName[, printRecord]
