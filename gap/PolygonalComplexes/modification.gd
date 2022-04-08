@@ -1314,7 +1314,7 @@ DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
 #!
 #! And the symbol <M>1_32_4</M> describes the multi tetrahedral sphere 
 #! computed by the following steps:
-#! At first a tetrahdron is attched to the third face of the first tetrahedron. 
+#! At first a tetrahdron is attached to the third face of the first tetrahedron. 
 #! This results in the double tetrahedron, whereby the faces of both tetrahedra putting this
 #! double tetrahedron together are identified with 1,2,4.
 #! So now we attach a third tetrahedron to the fourth face of the second

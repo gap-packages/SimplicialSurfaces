@@ -2089,7 +2089,7 @@ InstallMethod( TetrahedralExtension,
 	VOE:=ShallowCopy(VerticesOfEdges(surface));
 	EOF:=ShallowCopy(EdgesOfFaces(surface));
 	nE:=Length(VOE);
-#	nV:=Length(Vertices(surface)); #old 
+
 	nV:=vertex-1;
 	vof:=VerticesOfFace(surface,face);
 	Add(VOE,[vof[1],nV+1]);
@@ -2126,6 +2126,7 @@ InstallMethod( TetrahedralReduction,
 	eof:=ShallowCopy(EdgesOfFaces(surface));
 	voe:=ShallowCopy(VerticesOfEdges(surface));
 	faces:=FacesOfVertex(surface,vertex);
+	## remove faces and replace the resulting 3-waist with a face
 	if Length(faces)=3 and IsInnerVertex(surface,vertex) then
 		for f in faces do
 			eof:=remElm(eof,f);
@@ -2168,40 +2169,44 @@ InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
 end
 );
 
+BindGlobal("__SIMPLICIAL_helpNameFacesAndVertices",
+    function(surf,idFOT,idVOT)
+	local idf,f,temp,newV,oldF,vertexIDs,faceIDs,idOfOldFace,idOfnewV,
+	newFaceIDs,idOfNeighVert,newVertIDs;
+## idFOT is list [t1,t2,t3,...] where ti is a tetrahedron represented by
+## the list. [[id1,f1],[id2,f2],[id3,f3],[id4,f4]] so that idj=1,2,3,4 is the
+## identification of face fj of surf idVOT is list [t1,t2,t3,...] where ti is
+## a tetrahedron represented by the list [[id1,v1],[id2,v2],[id3,v3],[id4,v4]]
+## so that idj=1,2,3,4 is the identification of vertex vj of surf
+	temp:=List(Union(idVOT),tup->tup[2]); 
+	newV:=Difference(Vertices(surf),temp)[1];
+	temp:=List(Union(idFOT),tup->tup[2]);
+	oldF:=Difference(temp,Faces(surf))[1];
+
+	vertexIDs:=Union(idVOT);
+	faceIDs:=Union(idFOT);
+	idOfNeighVert:=Filtered(vertexIDs,id->id[2] in NeighbourVerticesOfVertex(surf,newV));
+	idOfOldFace:=Filtered(faceIDs,id->id[2]=oldF)[1];
+	idOfnewV:=[idOfOldFace[1],newV];
+	newVertIDs:=Union([idOfnewV],idOfNeighVert);
+	Add(idVOT,Union([idOfnewV],newVertIDs));
+
+	newFaceIDs:=[];
+	for f in FacesOfVertex(surf,newV) do
+	    idf:=Filtered(newVertIDs,id->not id[2] in VerticesOfFace(surf,f))[1][1];
+	    Add(newFaceIDs,[idf,f]);
+	od;
+	Add(idFOT,Union(newFaceIDs,[idOfOldFace]));
+	return [idFOT,idVOT];
+    end
+);
+
 InstallMethod( MultiTetrahedralSphereByTetrahedralSymbol, 
     "for a dense list",
     [IsDenseList],
     function(symbol)
-	local idenFaces,idenVertices,temp,
-	helpNameFacesAndVertices,tup,face,surf;
-	helpNameFacesAndVertices:=function(surf,idFOT,idVOT)
-		local idf,f,temp,newV,oldF,vertexIDs,faceIDs,idOfOldFace,idOfnewV,
-		newFaceIDs,idOfNeighVert,newVertIDs;
+	local idenFaces,idenVertices,temp,tup,face,surf;
 
-		temp:=List(Union(idVOT),tup->tup[2]);
-		newV:=Difference(Vertices(surf),temp)[1];
-                temp:=List(Union(idFOT),tup->tup[2]);
-                oldF:=Difference(temp,Faces(surf))[1];
-
-		vertexIDs:=Union(idVOT);
-		faceIDs:=Union(idFOT);
-
-		idOfNeighVert:=Filtered(vertexIDs,id->id[2] in 
-			NeighbourVerticesOfVertex(surf,newV));
-		idOfOldFace:=Filtered(faceIDs,id->id[2]=oldF)[1];
-		idOfnewV:=[idOfOldFace[1],newV];
-		newVertIDs:=Union([idOfnewV],idOfNeighVert);
-		Add(idVOT,Union([idOfnewV],newVertIDs));
-		
-		newFaceIDs:=[];
-		for f in FacesOfVertex(surf,newV) do 
-			idf:=Filtered(newVertIDs,id->not id[2] in
-			VerticesOfFace(surf,f))[1][1];
-			Add(newFaceIDs,[idf,f]);
-		od;
-		Add(idFOT,Union(newFaceIDs,[idOfOldFace]));
-		return [idFOT,idVOT];
-	end;
 	surf:=SimplicialSurfaceByVerticesInFaces([[2,3,4],[1,3,4],
 						[1,2,4],[1,2,3]]);
 	idenVertices:=[[[1,1],[2,2],[3,3],[4,4]]];
@@ -2210,7 +2215,7 @@ InstallMethod( MultiTetrahedralSphereByTetrahedralSymbol,
 	for tup in symbol do
 		face:=idenFaces[tup[1]][tup[2]][2];
 		surf:=TetrahedralExtension(surf,face);
-		temp:=helpNameFacesAndVertices(surf,idenFaces,idenVertices);
+		temp:=__SIMPLICIAL_helpNameFacesAndVertices(surf,idenFaces,idenVertices);
 		idenFaces:=temp[1];
 		idenVertices:=temp[2];
 	od;
@@ -2223,35 +2228,8 @@ InstallMethod( MultiTetrahedralSymbolOfComplex,
     "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
-	local helpNameFacesAndVertices,helpNextVertex,v,i,f,symbol,temp,idenVertices,
-	idenFaces,surf,vertices,neigh;
-        helpNameFacesAndVertices:=function(surf,idFOT,idVOT)
-                local idf,f,temp,newV,oldF,vertexIDs,faceIDs,idOfOldFace,idOfnewV,
-		newFaceIDs,idOfNeighVert,newVertIDs;
+	local helpNextVertex,v,i,f,symbol,temp,idenVertices,idenFaces,surf,vertices,neigh;
 
-                temp:=List(Union(idVOT),tup->tup[2]);
-                newV:=Difference(Vertices(surf),temp)[1];
-                temp:=List(Union(idFOT),tup->tup[2]);
-                oldF:=Difference(temp,Faces(surf))[1];
-                vertexIDs:=Union(idVOT);
-                faceIDs:=Union(idFOT);
-
-                idOfNeighVert:=Filtered(vertexIDs,id->id[2] in
-                        NeighbourVerticesOfVertex(surf,newV));
-                idOfOldFace:=Filtered(faceIDs,id->id[2]=oldF)[1];
-                idOfnewV:=[idOfOldFace[1],newV];
-                newVertIDs:=Union([idOfnewV],idOfNeighVert);
-                Add(idVOT,Union([idOfnewV],newVertIDs));
-
-                newFaceIDs:=[];
-                for f in FacesOfVertex(surf,newV) do
-                        idf:=Filtered(newVertIDs,id->not id[2] in
-                        VerticesOfFace(surf,f))[1][1];
-                        Add(newFaceIDs,[idf,f]);
-                od;
-                Add(idFOT,Union(newFaceIDs,[idOfOldFace]));
-                return [idFOT,idVOT];
-        end;
 	## surf is the bigger surface and vert the remaining vertices which are not yet
 	##identified
 	helpNextVertex:=function(surf,visitedVert)
@@ -2275,8 +2253,10 @@ InstallMethod( MultiTetrahedralSymbolOfComplex,
 							  [v,neigh[2],neigh[3]],
 							  [neigh[1],neigh[2],neigh[3]]]);
 		idenVertices:=[[[1,vertices[4]],[2,vertices[3]],[3,vertices[2]],[4,vertices[1]]]];
-#		surf1:=surf;
+
 		idenFaces:=[[[1,1],[2,2],[3,3],[4,4]]];
+	## construct the sphere by attaching the tetrahedra with respect to the
+	## identified faces and vertices
 		while not IsIsomorphic(complex,surf) do
 			temp:=helpNextVertex(complex,Vertices(surf));
 			f:=Position(VerticesOfFaces(surf),temp[2]);
@@ -2288,7 +2268,7 @@ InstallMethod( MultiTetrahedralSymbolOfComplex,
 				fi;
 			od;
 			surf:=TetrahedralExtension(surf,f,v);
-			temp:=helpNameFacesAndVertices(surf,idenFaces,idenVertices);
+			temp:=__SIMPLICIAL_helpNameFacesAndVertices(surf,idenFaces,idenVertices);
 			idenFaces:=temp[1];
 			idenVertices:=temp[2];
 		od;
