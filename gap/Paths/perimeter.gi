@@ -99,7 +99,7 @@ InstallMethod( \=, "for two perimeter paths", IsIdenticalObj,
 );
 
 
-InstallMethod( Inverse, "for a perimeter path", [IsPerimeterPath],
+InstallMethod( ReversedPath, "for a perimeter path", [IsPerimeterPath],
     function(path)
         local obj;
 

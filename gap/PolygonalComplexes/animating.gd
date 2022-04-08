@@ -588,3 +588,29 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosIn
 #! @Arguments surface, face, printRecord
 DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
+
+#! @Section Additional Parameters
+#! @SectionLabel AdditionalParameters
+#!
+
+#!The printRecord can have optional parameters to modify the output in the html file.
+
+#!In large examples it can be a little bit hard to recognize all the edges. For this, one could change the parameter <A>edgeThickness</A>. The default value is set to $0.01$. We recommend choosing a value in the range $0.01-0.05$.
+
+#! An image of an octahedron with thicker edges which is produced by the following code is shown below.
+#! @BeginLog
+#! gap> oct := Octahedron();;
+#! gap> verticesPositions := [
+#! > [ 0, 0, Sqrt(2.) ],
+#! > [ 1, 1, 0 ],
+#! > [ 1, -1, 0 ],
+#! > [ -1, -1, 0 ],
+#! > [ -1, 1, 0 ],
+#! > [ 0, 0, -Sqrt(2.) ] ];;
+#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
+#! gap> printRecord.edgeThickness:=0.03;
+#! gap> DrawSurfaceToJavaScript(oct, "doc/Octahedron_ThickEdges.html", printRecord);;
+#! @EndLog
+#! @InsertChunk Example_OctahedronThickEdges
+
+

@@ -921,10 +921,17 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                         if not StartsWith(colour, "0x") then
                             colour := Concatenation("\"", colour, "\"");
                         fi;
-                        AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
-                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
-                        AppendTo(output, "\t\tobj.add(edge);\n");
+                        if IsBound(printRecord.edgeThickness) then
+	                        AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ",", printRecord.edgeThickness,",", parametersOfEdge[1][1], ", ",
+	                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
+	                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
+	                        AppendTo(output, "\t\tobj.add(edge);\n");
+	                    else
+	                    	AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
+	                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
+	                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
+	                        AppendTo(output, "\t\tobj.add(edge);\n");
+	                    fi;
                     fi;
                 od;
 

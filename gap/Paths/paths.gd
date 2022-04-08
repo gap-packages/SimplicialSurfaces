@@ -228,20 +228,27 @@ DeclareOperation( "VertexEdgePathByEdgesNC", [IsPolygonalComplex, IsDenseList] )
 #!   Return the complete vertex-edge-path as a list (with vertices and
 #!   edges alternating), starting with a vertex.
 #!   
-#!   For the examples from <K>VertexEdgePath</K> 
+#!   For some examples from <K>VertexEdgePath</K> 
 #!   (<Ref Subsect="VertexEdgePath"/>) in the simplicial surface from the 
 #!   start of section <Ref Sect="Section_Paths_VertexEdge"/>:
 #!   @ExampleSession
+#! gap> alphaPath;
+#! | v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
 #! gap> PathAsList( alphaPath );
 #! [ 2, 2, 7, 5, 5, 10, 4, 9, 3, 3, 7, 6, 6 ]
+#! gap> omegaPath;
+#! | v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |
 #! gap> PathAsList( omegaPath );
 #! [ 3, 9, 4, 10, 5, 5, 7, 6, 6, 12, 1, 7, 2 ]
+#! gap> circlePath;
+#! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
 #! gap> PathAsList( circlePath );
 #! [ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+#! gap> cloverPath;
+#! ( v1, E7, v2, E2, v7, E5, v5, E11, v6, E6, v7, E3, v3, E9, v4, E4, v7, E1, v1 )
 #! gap> PathAsList( cloverPath );
 #! [ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ]
 #!   @EndExampleSession
-#TODO should we execute the original paths again?
 #! @Arguments vertexEdgePath
 #! @Returns a list of positive integers
 DeclareAttribute( "PathAsList", IsVertexEdgePath );
@@ -322,13 +329,25 @@ DeclareAttribute( "EdgesAsList", IsVertexEdgePath );
 # This is documentation for a declaration in dual_path.gd
 
 #! @Description
-#! Return the inverse vertex-edge-path to the given path.
+#! Return the reversed vertex-edge-path to the given path.
 #!
-#! TODO example
+#! For the examples from <K>VertexEdgePath</K>
+#! (<Ref Subsect="VertexEdgePath"/>) in the simplicial surface from the
+#! start of section <Ref Sect="Section_Paths_VertexEdge"/>:
+#! @BeginExampleSession
+#! gap> ReversedPath(alphaPath);
+#! | v6, E6, v7, E3, v3, E9, v4, E10, v5, E5, v7, E2, v2 |
+#! gap> ReversedPath(omegaPath);
+#! | v2, E7, v1, E12, v6, E6, v7, E5, v5, E10, v4, E9, v3 |
+#! gap> ReversedPath(circlePath);
+#! ( v1, E12, v6, E11, v5, E10, v4, E9, v3, E8, v2, E7, v1 )
+#! gap> ReversedPath(cloverPath);
+#! ( v1, E1, v7, E4, v4, E9, v3, E3, v7, E6, v6, E11, v5, E5, v7, E2, v2, E7, v1 ) 
+#! @EndExampleSession
 #!
 #! @Arguments vertexEdgePath
 #! @Returns a vertex-edge-path
-DeclareAttribute( "Inverse", IsVertexEdgePath );
+DeclareAttribute( "ReversedPath", IsVertexEdgePath );
 
 
 #! <ManSection Label="VertexEdge_IsDuplicateFree">
@@ -437,7 +456,7 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsVertexEd
 #! @BeginGroup VertexEdge_ShiftCyclicPath
 #! @Description
 #! Shift the vertex-edge-path <A>path</A> such that the given vertex is the start vertex and the given edge is the first edge.
-#! The path has to be closed and duplicate-free.
+#! The path has to be closed and duplicate-free. 
 #! 
 #! This method returns a vertex-edge-path.
 #!
@@ -475,7 +494,6 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! @EndGroup
 
 
-##
 ## Coloured output-attributes
 DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 
@@ -537,7 +555,8 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #!     Comm="Return whether the given object is a perimeter path"/>
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
-#!      TODO
+#!      The method <K>IsPerimeterPath</K> checks whether the given object
+#!      is a closed vertex-edge-path that encircles a face.
 #!   </Description>
 #! </ManSection>
 
@@ -827,13 +846,22 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 
 
 #! @Description
-#! Return the inverse edge-face-path to the given path.
+#! Return the reversed edge-face-path to the given path.
 #!
-#! TODO example
+#! For the examples from <K>EdgeFacePath</K>
+#!   (<Ref Subsect="EdgeFacePath"/>) and the longer one from
+#!   <K>IsClosedPath</K> (<Ref Subsect="EdgeFace_IsClosedPath"/>) in the simplicial surface from the
+#!   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
+#! @BeginExampleSession
+#! gap> ReversedPath(edgeFacePath);
+#! | e9, F5, e8, F4, e7, F3, e11, F9, e15, F8, e14, F7, e13 |
+#! gap> ReversedPath(longPath);
+#! ( e13, F12, e18, F11, e12, F5, e8, F4, e7, F3, e11, F9, e15, F8, e14, F7, e13 )
+#! @EndExampleSession
 #!
 #! @Arguments edgeFacePath
 #! @Returns a edge-face-path
-DeclareAttribute( "Inverse", IsEdgeFacePath );
+DeclareAttribute( "ReversedPath", IsEdgeFacePath );
 
 
 
@@ -859,9 +887,16 @@ DeclareAttribute( "Inverse", IsEdgeFacePath );
 #! true
 #! gap> IsDuplicateFree( longPath );
 #! true
-#!     @EndExampleSession
-#! 
-#! TODO example where non-central edges are double. Execute other paths again?
+#! @EndExampleSession
+#! But there are paths in the simplicial surface from the start of section
+#! <Ref Sect="Section_Paths_EdgeFace"/> which are not duplicate-free:
+#! @BeginExampleSession
+#! gap> path:=EdgeFacePath(thinTorus,
+#! > [15,9,11,3,7,4,8,5,12,11,18,12,3,6,9,5,8]);
+#! | e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e3, F6, e9, F5, e8 |
+#! gap> IsDuplicateFree(path);
+#! false
+#! @EndExampleSession
 #!   </Description>
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
@@ -962,7 +997,7 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsEdgeFace
 #! @Returns a edge-face-path
 #! @Arguments path, edge, face
 DeclareOperation("ShiftCyclicPath", [IsEdgeFacePath, IsPosInt, IsPosInt]);
-#! @Arguments path, vertex, edge
+#! @Arguments path, edge, face
 DeclareOperation("ShiftCyclicPathNC", [IsEdgeFacePath, IsPosInt, IsPosInt]);
 #! @EndGroup
 
@@ -1029,13 +1064,11 @@ DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 #! Check whether the given edge-face-path is a geodesic path.
 #!
 #! If the edge-face-path is defined on a polygonal complex, this is
-#! equivalent to asking, whether 
-#! each
-#! vertex (except those of the first and last edge) is incident to exactly
-#! three faces of the path.
+#! equivalent to asking, whether each vertex of the path 
+#! (except those of the first and last edge) is incident to exactly
+#! three faces of the path. The vertices of the first and the last edge 
+#! are allowed to be incident to less than three faces of the path.
 #!
-#!
-#! TODO give more information
 #! 
 #! As an illustration consider the torus from the start of section
 #! <Ref Sect="Section_Paths_Geodesics"/>:
@@ -1076,52 +1109,44 @@ DeclareProperty( "IsGeodesicPath", IsEdgeFacePath );
 
 #! @Description
 #! For every geodesic path (<Ref Subsect="IsGeodesicPath"/>) there is an 
-#! interwoven
-#! vertex-edge-path with the same edges. All vertices of the geodesic path 
-#! appear
-#! in this vertex-edge-path.
-#!
-#! TODO explain, draw picture of this zig-zagging vertex-edge-path
+#! interwoven vertex-edge-path with the same edges as the edge-face-path.
+#! All vertices of the geodesic path appear in this vertex-edge-path.
 #!
 #! As an illustration consider the two geodesic paths from 
 #! <Ref Subsect="IsGeodesicPath"/>:
 #! <Alt Only="TikZ">
 #!  {
-#!      \def\pathOne{1}
-#!      \def\pathTwo{1}
-#!      \def\pathThree{1}
-#!      \def\pathFour{1}
+#! 	\def\vertexEdge{1}
+#! 	\def\vertexEdgeOne{1}	
 #!      \input{Image_Geodesics.tex}
 #!  }
 #! </Alt>
 #! @BeginExampleSession
-#! gap> VertexEdgePath(closedGeo);
+#! gap> VertexEdgePathOfGeodesic(closedGeo);
 #! ( v1, E3, v3, E4, v2, E5, v4, E6, v1 )
 #! @EndExampleSession
 #! <Alt Only="TikZ">
 #!  {
-#!      \def\pathFive{1}
-#!      \def\pathTwo{1}
-#!      \def\pathThree{1}
+#!	\def\vertexEdge{1}	
+#!      \def\vertexEdgeTwo{1}
 #!      \input{Image_Geodesics.tex}
 #!  }
 #! </Alt>
 #! @BeginExampleSession
-#! gap> VertexEdgePath(openGeo);
+#! gap> VertexEdgePathOfGeodesic(openGeo);
 #! ( v1, E9, v3, E7, v4, E5, v2, E2, v1 )
 #! @EndExampleSession
 #! 
 #!
 #! @Returns a vertex-edge-path
 #! @Arguments geodesic
-DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesicPath );
-#TODO is this a good name?
+DeclareAttribute( "VertexEdgePathOfGeodesic", IsEdgeFacePath and IsGeodesicPath );
 
 
 #! @BeginGroup MaximalGeodesicPaths
 #! @Description
 #! Compute the set of all maximal geodesic paths of <A>ramSurf</A>, i.e. the
-#! set of all geodesic paths that can not be extended further.
+#! set of all geodesic paths that can not be extended further to a larger geodesic path..
 #!
 #! For a polygonal complex, the operation 
 #! <K>MaximalGeodesicPathOfFlag</K>(<A>ramSurf</A>, <A>flag</A>)
@@ -1143,7 +1168,23 @@ DeclareAttribute( "VertexEdgePath", IsEdgeFacePath and IsGeodesicPath );
 #!  ( e3, F1, e4, F2, e5, F3, e6, F4, e3 ), 
 #!  ( e9, F8, e12, F7, e11, F6, e10, F5, e9 ) ]
 #! @EndExampleSession
-#! TODO more explanation and example with boundaries?
+#! Furthermore, consider an example of an surface with a boundary:
+#! <Alt Only="TikZ">
+#!      \input{Image_OpenGeodesics.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> openSurface:=SimplicialSurfaceByVerticesInFaces(
+#! > [[1,2,3],[2,3,4],[2,4,5],[4,5,6],[3,4,9],[4,8,9],[4,6,8],[6,7,8]]);
+#! simplicial surface (9 vertices, 16 edges, and 8 faces)
+#! gap> MaximalGeodesicPaths(openSurface);
+#! [ | e1, F1, e2 |, | e1, F1, e3, F2, e6, F5, e11, F6, e16 |,
+#!   | e2, F1, e3, F2, e4, F3, e8, F4, e12 |,
+#!   | e5, F3, e4, F2, e6, F5, e7 |, | e5, F3, e8, F4, e9, F7, e14, F8, e15 |,
+#!   | e7, F5, e11, F6, e10, F7, e14, F8, e13 |,
+#!   | e12, F4, e9, F7, e10, F6, e16 |, | e13, F8, e15 | ]
+#! gap> MaximalGeodesicPathOfFlag(torus,[1,1,1]);
+#! ( e1, F1, e4, F2, e7, F5, e10, F6, e1 )
+#! @EndExampleSession
 #!
 #! TODO If there are multiple ways to write a geodesic, which is picked?
 #!
@@ -1161,7 +1202,7 @@ DeclareOperation( "MaximalGeodesicPathOfFlagNC", [IsPolygonalComplex and IsNotEd
 #! @Description
 #! Check whether the given edge-face-path is a closed geodesic path, i.e. 
 #! whether
-#! is is a geodesic path (<Ref Subsect="IsGeodesicPath"/>) where first and 
+#! it is a geodesic path (<Ref Subsect="IsGeodesicPath"/>) where first and 
 #! last edge
 #! coincide, such that all vertices are incident to exactly three faces of
 #! the path.
@@ -1199,9 +1240,9 @@ DeclareProperty( "IsClosedGeodesicPath", IsEdgeFacePath );
 #! @EndGroup
 InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 
-#! @BeginGroup DefiningFlags
+#! @BeginGroup FlagsOfGeodesic
 #! @Description
-#! Return the defining flags of the given geodesic path
+#! Return the flags of the given geodesic path
 #! (<Ref Subsect="IsGeodesicPath"/>) as a list.
 #!
 #! If the geodesic path is defined on a polygonal complex, regular
@@ -1210,13 +1251,13 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #! Consider the geodesic path
 #! <M>[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1]</M>.
 #! <Alt Only="TikZ">
-#!      \input{Image_DefiningFlags.tex}
+#!      \input{Image_FlagsOfGeodesic.tex}
 #! </Alt>
-#! The defining flags can be illustrated as follows:
+#! The flags can be illustrated as follows:
 #! <Alt Only="TikZ">
 #!  {
 #!      \def\normal{1}
-#!      \input{Image_DefiningFlags.tex}
+#!      \input{Image_FlagsOfGeodesic.tex}
 #!  }
 #! </Alt>
 #! 
@@ -1232,7 +1273,7 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #!  }
 #! </Alt>
 #! @BeginExampleSession
-#! gap> DefiningFlags(closedGeo);
+#! gap> FlagsOfGeodesic(closedGeo);
 #! [ [ 1, 3, 1 ], [ 3, 4, 2 ], [ 2, 5, 3 ], [ 4, 6, 4 ] ]
 #! @EndExampleSession
 #! <Alt Only="TikZ">
@@ -1244,14 +1285,13 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #!  }
 #! </Alt>
 #! @BeginExampleSession
-#! gap> DefiningFlags(openGeo);
+#! gap> FlagsOfGeodesic(openGeo);
 #! [ [ 1, 9, 5 ], [ 3, 7, 2 ], [ 4, 5, 3 ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of flags
 #! @Arguments geodesic
-DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesicPath );
-#TODO good name?
+DeclareAttribute( "FlagsOfGeodesic", IsEdgeFacePath and IsGeodesicPath );
 #! @EndGroup
 
 
@@ -1265,7 +1305,13 @@ DeclareAttribute( "DefiningFlags", IsEdgeFacePath and IsGeodesicPath );
 #! The method <K>MaximalDuplicateFreeGeodesicPaths</K>(<A>ramSurf</A>) returns
 #! the set of all those geodesics.
 #!
-#! TODO examples
+#! For example, consider the torus.
+#! @BeginExampleSession
+#! gap> geo:=MaximalDuplicateFreeGeodesicPathOfFlag(torus,[1,1,1]);
+#! ( e1, F1, e4, F2, e7, F5, e10, F6, e1 )
+#! gap> geo in MaximalDuplicateFreeGeodesicPaths(torus);
+#! true
+#! @EndExampleSession
 #!
 #! @Returns a set of duplicate-free geodesic paths
 #! @Arguments ramSurf
@@ -1288,6 +1334,11 @@ DeclareOperation( "MaximalDuplicateFreeGeodesicPathOfFlagNC", [IsPolygonalComple
 #! the product of the Dress involutions (<Ref Subsect="DressInvolutions"/>),
 #! by first applying the one for vertices, then edges and finally faces.
 #!
+#! For example, consider the torus and the closed geodesic from <Ref Subsect="MaximalDuplicateFreeGeodesicPaths"/>.
+#! @BeginExampleSession
+#! gap> GeodesicFlagCycle(geo);
+#! (1,18,30,46)
+#! @EndExampleSession
 #! TODO explain properly with picture
 #!
 #! @Returns a permutation
@@ -1343,6 +1394,8 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! A polygonal complex is strongly connected if and only if the polygonal 
 #! complex without
 #! its vertices is connected.
+#! For a polygonal surface <E>strong connectivity</E> is equivalent to
+#! <E>connectivity</E> since there are no ramified vertices.
 #! @ExampleSession
 #! gap> IsStronglyConnected( butterfly );
 #! false
@@ -1398,7 +1451,14 @@ DeclareProperty( "IsConnected", IsTwistedPolygonalComplex );
 #! gap> comp[1] = butterfly;
 #! true
 #! @EndExampleSession
-#TODO better example..
+#! Splitting vertex 1 into two vertices leads to a surface which has 
+#! more than one connected component, more precisely two disjoint butterflies:
+#! @BeginExampleSession
+#! gap> twoButterflies:=SplitVertex(butterfly,1)[1];;
+#! gap> ConnectedComponents(twoButterflies);
+#! [ simplicial surface (4 vertices, 5 edges, and 2 faces),
+#!   simplicial surface (4 vertices, 5 edges, and 2 faces) ] 
+#! @EndExampleSession
 #!
 #! @Returns a list of twisted polygonal complexes
 #! @Arguments complex
@@ -1488,9 +1548,8 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsTwistedPolygonalCompl
 #! @BeginGroup NumberOfConnectedComponents
 #! @Description
 #! Return the number of (strongly) connected components of the given twisted polygonal
-#! complex.
-#!
-#! TODO explain definitions
+#! complex. For the definition of connected compontents see <Ref Subsect="ConnectedComponents"/>
+#! and for strongly connected components see <Ref Subsect="StronglyConnectedComponents"/>
 #!
 #! For example consider the ramified simplicial surface from the start of
 #! section <Ref Sect="Section_Paths_Connectivity"/>:
@@ -1523,7 +1582,6 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! complexes with edge ramifications the concept of orientability is not 
 #! well-defined since there is no
 #! proper way to deal with edges that are incident to more than two faces.
-#TODO more explanation needed?
 #!
 #! A polygonal orientation is defined by choosing a direction along the 
 #! perimeter of each polygon such that for each edge with exactly two 
@@ -1561,7 +1619,8 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #!
 #! @ExampleSession
 #! gap> orient := Orientation( surface );
-#! [ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,, (v7,E14,v13,E15,v11,E10,v7) ]
+#! [ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,,
+#! (v7,E14,v13,E15,v11,E10,v7) ]
 #! gap> List(orient, VerticesAsPerm);
 #! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
 #! gap> List(orient, VerticesAsList);
@@ -1578,15 +1637,14 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! for returning an orientation is as follows:
 #! * For each strongly connected component there is a face with 
 #!   minimal number.
-#! * The orientation of this face is equal to <K>PermeterOfFace</K>
+#! * The orientation of this face is equal to <K>PerimeterOfFace</K>
 #!   (<Ref Subsect="PerimeterPathsOfFaces"/>) of this face.
 #!
 #! For a general twisted polygonal surface there is no concept of
 #! perimeter paths. Instead, we can describe orientability
 #! by the existence of a map from the set of chambers to {+1,-1}
-#! such that adjacent chambers have different values.
-
-#TODO better explanation?
+#! such that adjacent chambers have different values. 
+#! But we do not consider this case here.
 
 #! @BeginGroup IsOrientable
 #! @Description
@@ -1609,7 +1667,13 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! gap> IsOrientable( surface );
 #! true
 #! @EndExampleSession
-#! TODO other example?
+#! An example for a non orientable surface is the Möbius-strip:
+#! @BeginExampleSession
+#! gap> moebius := SimplicialSurfaceByVerticesInFaces( 
+#! > [[1,2,3],[2,3,4],[3, 4,5],[4,5,1],[5,2,1] ]);;
+#! gap> IsOrientable(moebius); 
+#! false
+#! @EndExampleSession
 #! @Arguments ramSurf
 DeclareProperty( "IsOrientable", IsTwistedPolygonalComplex and IsNotEdgeRamified );
 #! @EndGroup
@@ -1625,8 +1689,8 @@ DeclareProperty( "IsOrientable", IsTwistedPolygonalComplex and IsNotEdgeRamified
 #! To access perimeter-paths the methods of sections
 #! <Ref Sect="Section_Paths_VertexEdge"/> and
 #! <Ref Sect="Section_Paths_Perimeter"/> can be used.
-#! 
-#! TODO describe properly
+#! The perimeter-path describes a direction for each edge of the face.
+#! For an edge, each pair of adjacent faces has to define opposite directions on this edge.
 #!
 #! For example, consider the polygonal surface from the start of section
 #! <Ref Sect="Section_Orientability"/>:
@@ -1637,7 +1701,8 @@ DeclareProperty( "IsOrientable", IsTwistedPolygonalComplex and IsNotEdgeRamified
 #! </Alt>
 #! @ExampleSession
 #! gap> orient := Orientation( surface );
-#! [ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,, (v7,E14,v13,E15,v11,E10,v7) ]
+#! [ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,, 
+#! (v7,E14,v13,E15,v11,E10,v7) ]
 #! gap> List(orient, VerticesAsPerm);
 #! [ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
 #! gap> List(orient, VerticesAsList);
@@ -1682,6 +1747,7 @@ DeclareAttribute( "Orientation", IsPolygonalComplex and IsNotEdgeRamified );
 #! (<Ref Subsect="IsOrientable"/>). If the original <A>ramSurf</A> was
 #! orientable, it has two connected components, otherwise just one.
 #!
+#! For example, consider the tetrahedron:
 #! @BeginExampleSession
 #! gap> tetCov := OrientationCover(Tetrahedron())[1];;
 #! gap> NumberOfVertices(tetCov);
@@ -1691,10 +1757,31 @@ DeclareAttribute( "Orientation", IsPolygonalComplex and IsNotEdgeRamified );
 #! gap> NumberOfFaces(tetCov);
 #! 8
 #! gap> NumberOfConnectedComponents(tetCov);
-#! 2
-#! gap> 
+#! 2 
+#! gap> IsIsomorphic(ConnectedComponents(tetCov)[1],Tetrahedron());
+#! true
 #! @EndExampleSession
-#! TODO more varied examples
+#! Since the tetrahedron is orientable, the covering surface has two connected components
+#! both isomorphic to the tetrahedron.
+#! Consider a non orientable surface on four faces:
+#! <Alt Only="TikZ">
+#!      \input{Image_ProjectivePlane.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> projPlane := SimplicialSurfaceByDownwardIncidence(
+#! > [ [ 2, 3 ], [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ] ],
+#! > [ [ 1, 2, 3 ], [ 2, 4, 5 ], [ 3, 4, 6 ], [ 1, 5, 6 ] ]);;
+#! gap> projCov := OrientationCover(projPlane)[1];;
+#! gap> NumberOfVertices(tetCov);
+#! 8
+#! gap> NumberOfEdges(tetCov);
+#! 12
+#! gap> NumberOfFaces(tetCov);
+#! 8
+#! gap> NumberOfConnectedComponents(projCov);
+#! 1
+#! @EndExampleSession
+#! Since <A>ramSurf</A> was not orientable, the covering surface has only one connected component.
 #! 
 #! @Returns a list, where the first entry is a polygonal surface and the
 #! subsequent entries are its vertices, edges and faces
