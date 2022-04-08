@@ -1712,7 +1712,6 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
 	if not IsBound(printRecord.edgeLabelsActive) then
 	    printRecord.edgeLabelsActive := false; 
 	fi;
-	
 	if not IsBound(printRecord.faceLabelsActive) then
 	    printRecord.faceLabelsActive := true;
 	fi;
@@ -1739,7 +1738,6 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
         if not IsBound(printRecord.vertexLabels) then
             printRecord.vertexLabels := [];
         fi;
-
 	if not IsBound(printRecord.geodesicActive) then
 	    printRecord.geodesicActive:= false;
 	fi;	
@@ -1811,7 +1809,7 @@ InstallMethod( DrawFacegraphToTikz,
     sum,newCoor,minX,minY,mX,mY,geodesic,i,j,currUmb,coordinates,temp,
     umbrellas,color,tempRec;
 
-    if not( IsClosedSurface(surface) and IsVertexFaithful(surface) and EulerCharacteristic(surface)=2) then 
+    if not( IsClosedSurface(surface) and IsVertexFaithful(surface) and EulerCharacteristic(surface)=2) and not IsBound(printRecord.faceCoordinates2D) then 
 	return fail;
     fi;
 
@@ -1977,3 +1975,5 @@ InstallOtherMethod( DrawFacegraphToTikz,
 	    return DrawFacegraphToTikz(surface,file,rec());
     end
 );
+
+
