@@ -133,3 +133,14 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_NormalesOfInnerCircleWithoutFaces.h
 #! Octahedron_NormalesOfInnerCircleWithoutFaces.html
 #! </Alt>
 #! @EndChunk
+
+#! @BeginChunk Example_OctahedronThickEdges
+oct := Octahedron();;
+verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
+printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
+printRecord.edgeThickness:=0.03;
+DrawSurfaceToJavaScript(oct, "doc/Octahedron_ThickEdges.html", printRecord);;
+#! <Alt Only="JavaScript">
+#! Octahedron_ThickEdges.html
+#! </Alt>
+#! @EndChunk
