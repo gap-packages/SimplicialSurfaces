@@ -134,6 +134,18 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_NormalesOfInnerCircleWithoutFaces.h
 #! </Alt>
 #! @EndChunk
 
+#! @BeginChunk Example_OneFaceAnimating
+oneFace:=SimplicialSurfaceByDownwardIncidence([,[3,7],,[7,10],,[3,10]],
+[,,[2,4,6]]);;
+verticesPositions := [,,[0,0,0],,,,[ 0,0,1],,,[0,1,0]];;
+printRecord := SetVertexCoordinates3D(oneFace, verticesPositions, rec());;
+DrawSurfaceToJavaScript(oneFace, "doc/OneFace_animated.html", printRecord);;
+#! <Alt Only="JavaScript">
+#! OneFace_animated.html
+#! </Alt>
+#! @EndChunk
+
+
 #! @BeginChunk Example_OctahedronThickEdges
 oct := Octahedron();;
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
@@ -144,3 +156,4 @@ DrawSurfaceToJavaScript(oct, "doc/Octahedron_ThickEdges.html", printRecord);;
 #! Octahedron_ThickEdges.html
 #! </Alt>
 #! @EndChunk
+

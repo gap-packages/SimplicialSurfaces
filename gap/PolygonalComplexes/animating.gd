@@ -32,7 +32,6 @@
 #! > [ -1, 1, 0 ],
 #! > [ 0, 0, -Sqrt(2.) ] ];;
 #! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
-# rec( vertexCoordinates3D := [ [ 0, 0, 1.41421 ], [ 1, 1, 0 ], [ 1, -1, 0 ], [ -1, -1, 0 ], [ -1, 1, 0 ], [ 0, 0, -1.41421 ] ] )
 #! gap> DrawSurfaceToJavaScript(oct, "octahedron.html", printRecord);;
 #! @EndLog
 #! Now, your working directory should contain a file "octahedron.html". Below is shown an image of the animation.
@@ -81,6 +80,34 @@
 #! > "Tetrahedron_PositionMirrored.html", printRecord, false);;
 #! @EndLog
 #! @InsertChunk Example_Tetrahedron_PositionMirrored
+#! 
+#! Note, it is also possible to animate simplicial surfaces whose vertices,
+#! edges and faces are not given by a dense list <K>[1..n]</K>.
+#! For example the function <K>SetVertexCoordinates3D</K> allows a list of
+#! 3D-coordinates as input that is not dense. But this only works in the case 
+#! that the 3D-coordinate of vertex <K>i</K> is stored in the <K>i</K>-th
+#! position of the given list.
+#!
+#! @BeginExampleSession
+#! gap> oneFace:=SimplicialSurfaceByDownwardIncidence([,[3,7],,[7,10],,[3,10]],
+#! > [,,[2,4,6]]);
+#! simplicial surface (3 vertices, 3 edges, and 1 faces)
+#! gap> Vertices(oneFace);
+#! [ 3, 7, 10 ]
+#! gap> coor:=[];;
+#! gap> coor[3]:=[1,0,0];;coor[7]:=[0,1,0];;coor[10]:=[0,0,1];;
+#! gap> printRecord:=SetVertexCoordinates3D(oneFace,coor,rec());
+#! rec( vertexCoordinates3D := [ ,, [ 1, 0, 0 ],,,, [ 0, 1, 0 ],,, [ 0, 0, 1 ] ] 
+#! )
+#! gap> DrawSurfaceToJavaScript(oneFace,"OneFace_animating",printRecord);
+#! rec( edges := [ , [ [ 0.5, 0.5, 0. ], 1.41421, [ 0., 3.14159, -0.785398 ] ],, 
+#!      [ [ 0., 0.5, 0.5 ], 1.41421, [ 0., -1.5708, -2.35619 ] ],, 
+#!      [ [ 0.5, 0., 0.5 ], 1.41421, [ 0., -2.35619, -1.5708 ] ] ], 
+#!  vertexCoordinates3D := [ ,, [ 1, 0, 0 ],,,, [ 0, 1, 0 ],,, [ 0, 0, 1 ] ] )  
+#! @EndExampleSession
+#!
+#! @InsertChunk Example_OneFaceAnimating
+#!
 #! By default, the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) always calculates the edge locations depending on the current vertices positions.
 #! If you want to avoid that, you can use the method <K>DrawSurfaceToJavaScriptCalculate</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) and set the last parameter to false. In this case, only the first call of the method computes the edge locations.
 
@@ -90,9 +117,9 @@
 #! The NC-version does not check the coordinate format.
 #! @Returns the updated print record.
 #! @Arguments surface, coordinates[, printRecord]
-DeclareOperation( "SetVertexCoordinates3D", [IsSimplicialSurface, IsDenseList, IsRecord] );
+DeclareOperation( "SetVertexCoordinates3D", [IsSimplicialSurface, IsList, IsRecord] );
 #! @Arguments surface, coordinates[, printRecord]
-DeclareOperation( "SetVertexCoordinates3DNC", [IsSimplicialSurface, IsDenseList, IsRecord] );
+DeclareOperation( "SetVertexCoordinates3DNC", [IsSimplicialSurface, IsList, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetVertexCoordinates3D
@@ -100,9 +127,9 @@ DeclareOperation( "SetVertexCoordinates3DNC", [IsSimplicialSurface, IsDenseList,
 #! Extract the 3D-coordinates from the print record of the vertex i from surface. If the format of the 3D-coordinates (3D-coordinates have to be a list of 3 entries of floats) is not correct, then an error is shown. This can happen, if the NC version is used to store the 3D-coordinates.
 #! The NC-version does not check the coordinate format saved in the print record.
 #! @Returns the 3D-coordinates from the print record of the vertex i from surface.
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, vertex, printRecord
 DeclareOperation( "GetVertexCoordinates3D", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, vertex, printRecord
 DeclareOperation( "GetVertexCoordinates3DNC", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -222,13 +249,13 @@ DeclareOperation( "DeactivateVertices", [IsSimplicialSurface, IsRecord] );
 
 #! @BeginGroup ActivateVertex
 #! @Description
-#! Activate the vertex <A>i</A>. If a vertex is active, then the vertex is shown in the animation as a node. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Activate the vertex <A>vertex</A>. If a vertex is active, then the vertex is shown in the animation as a node. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, vertex, printRecord
 DeclareOperation( "ActivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, vertex, printRecord
 DeclareOperation( "DeactivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, vertex, printRecord
 DeclareOperation( "IsVertexActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -244,13 +271,13 @@ DeclareOperation( "DeactivateEdges", [IsSimplicialSurface, IsRecord] );
 
 #! @BeginGroup ActivateEdge
 #! @Description
-#! Activate the edge <A>i</A>. If an edge is active, then he is shown as a line in the animation. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Activate the edge <A>edge</A>. If an edge is active, then he is shown as a line in the animation. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, edge, printRecord
 DeclareOperation( "ActivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, edge, printRecord
 DeclareOperation( "DeactivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, edge, printRecord
 DeclareOperation( "IsEdgeActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -266,37 +293,37 @@ DeclareOperation( "DeactivateFaces", [IsSimplicialSurface, IsRecord] );
 
 #! @BeginGroup ActivateFace
 #! @Description
-#! Activate the face <A>i</A>. If a face is active, then the face is shown in the animation as an area. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Activate the face <A>face</A>. If a face is active, then the face is shown in the animation as an area. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "ActivateFace", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "DeactivateFace", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "IsFaceActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetTransparency
 #! @Description
-#! Set the transparency of the face <A>i</A>. The value has to be between 0 and 1. 0 means that the face is invisible and 1 means that the face is opaque. The face will not change its transparency by using the transparency controller. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Set the transparency of the face <A>face</A>. The value has to be between 0 and 1. 0 means that the face is invisible and 1 means that the face is opaque. The face will not change its transparency by using the transparency controller. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
-#! @Arguments surface, i, value, printRecord
+#! @Arguments surface, face, value, printRecord
 DeclareOperation( "SetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup RemoveTransparency
 #! @Description
-#! Remove the transparency of the face <A>i</A>. After this the face act as a normal face without a strict transparency value. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Remove the transparency of the face <A>face</A>. After this the face act as a normal face without a strict transparency value. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetTransparency
 #! @Description
-#! Get the transparency of the face <A>i</A>. If no transparency is set, the function returns 1. Otherwise the function returns the transparency value of the face <A>i</A>. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
+#! Get the transparency of the face <A>face</A>. If no transparency is set, the function returns 1. Otherwise the function returns the transparency value of the face <A>face</A>. (For more information look at the start of the section <Ref Subsect="Section_LabelVisibility"/>)
 #! @Returns the updated print record.
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -346,18 +373,18 @@ DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecor
 #! Set colours for all vertices. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetVertexColours", [IsSimplicialSurface, IsDenseList, IsRecord] );
+DeclareOperation( "SetVertexColours", [IsSimplicialSurface, IsList, IsRecord] );
 #! @Arguments surface, printRecord
 DeclareOperation( "GetVertexColours", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetVertexColour
 #! @Description
-#! Set the <A>colour</A> of the vertex <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
+#! Set the <A>colour</A> of the vertex <A>vertex</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
-#! @Arguments surface, i, colour, printRecord
+#! @Arguments surface, vertex, colour, printRecord
 DeclareOperation( "SetVertexColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, vertex, printRecord
 DeclareOperation( "GetVertexColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -366,18 +393,18 @@ DeclareOperation( "GetVertexColour", [IsSimplicialSurface, IsPosInt, IsRecord] )
 #! Set colours for all edges. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetEdgeColours", [IsSimplicialSurface, IsDenseList, IsRecord] );
+DeclareOperation( "SetEdgeColours", [IsSimplicialSurface, IsList, IsRecord] );
 #! @Arguments surface, printRecord
 DeclareOperation( "GetEdgeColours", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetEdgeColour
 #! @Description
-#! Set the <A>colour</A> of the edge <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
+#! Set the <A>colour</A> of the edge <A>edge</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
-#! @Arguments surface, i, colour, printRecord
+#! @Arguments surface, edge, colour, printRecord
 DeclareOperation( "SetEdgeColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, edge, printRecord
 DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -387,18 +414,18 @@ DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! Set colours for all faces. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetFaceColours", [IsSimplicialSurface, IsDenseList, IsRecord] );
+DeclareOperation( "SetFaceColours", [IsSimplicialSurface, IsList, IsRecord] );
 #! @Arguments surface, printRecord
 DeclareOperation( "GetFaceColours", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetFaceColour
 #! @Description
-#! Set the <A>colour</A> of the face <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
+#! Set the <A>colour</A> of the face <A>face</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.  For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>).
 #! @Returns the updated print record.
-#! @Arguments surface, i, colour, printRecord
+#! @Arguments surface, face, colour, printRecord
 DeclareOperation( "SetFaceColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "GetFaceColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -460,13 +487,13 @@ DeclareOperation( "DeactivateInnerCircles", [IsSimplicialSurface, IsRecord] );
 
 #! @BeginGroup ActivateInnerCircle
 #! @Description
-#! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Activate the inner circle corresponding to the face <A>i</A> from surface. If an inner circle is active, then it is shown in the animation.
+#! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Activate the inner circle corresponding to the face <A>face</A> from surface. If an inner circle is active, then it is shown in the animation.
 #! @Returns the updated print record.
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "ActivateInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "DeactivateInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -475,18 +502,18 @@ DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecor
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set colours for all inner circles. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. Compare Section <Ref Sect="Section_LabelColouring"/> for a list of default colours.)
 #! @Returns the updated print record.
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetCircleColours", [IsSimplicialSurface, IsDenseList, IsRecord] );
+DeclareOperation( "SetCircleColours", [IsSimplicialSurface, IsList, IsRecord] );
 #! @Arguments surface, printRecord
 DeclareOperation( "GetCircleColours", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetCircleColour
 #! @Description
-#! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set the <A>colour</A> of the inner circle corresponding to the face <A>i</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. Compare Section <Ref Sect="Section_LabelColouring"/> for a list of default colours.)
+#! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>. Set the <A>colour</A> of the inner circle corresponding to the face <A>face</A> from surface. (Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code. Compare Section <Ref Sect="Section_LabelColouring"/> for a list of default colours.)
 #! @Returns the updated print record.
-#! @Arguments surface, i, colour, printRecord
+#! @Arguments surface, face, colour, printRecord
 DeclareOperation( "SetCircleColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "GetCircleColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
@@ -552,13 +579,13 @@ DeclareOperation( "DeactivateNormalOfInnerCircles", [IsSimplicialSurface, IsReco
 
 #! @BeginGroup ActivateNormalOfInnerCircle
 #! @Description
-#! For the description of normales of inner circles look at <Ref Sect="Section_LabelNormalesInnerCirclesAnimating"/>. Activate the normal of the face <A>i</A> from surface. If a normal is active, the normal is shown in the animation.
+#! For the description of normales of inner circles look at <Ref Sect="Section_LabelNormalesInnerCirclesAnimating"/>. Activate the normal of the face <A>face</A> from surface. If a normal is active, the normal is shown in the animation.
 #! @Returns the updated print record.
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "ActivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "DeactivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
+#! @Arguments surface, face, printRecord
 DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
