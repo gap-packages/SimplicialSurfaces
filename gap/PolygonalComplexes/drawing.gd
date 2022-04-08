@@ -561,3 +561,418 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #TODO modify boundaries of page (to center picture for printing)
 #TODO for triangles, the length information should overwrite the angle information
 #TODO for >triangles can we define a notion of "this was probably meant" by minimum distance or so?
+
+
+#! @BeginChunk DrawFacegraphToTikz_Tutorial
+#! The face graph of a simplicial surface is a graph whereby the vertices of
+#! the graph are given by the faces and the edges of the graph are given by
+#! the edges of the given simplicial surface. We can compute a straight-line
+#! embedding of the face graph by assigning 2D-coordinates to the faces.
+#! Note, <K>DrawFacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>) 
+#! only computes face graphs of spherical vertex faithful surfaces.
+#!  
+#! For example the face graph of an octahedron can be drawn like this:
+#! @BeginLog
+oct := Octahedron();;
+DrawFacegraphToTikz( oct, "facephgraph_oct_example" );;
+#! @EndLog
+#!
+#! This will write a file <E>facegraph_oct_example.tex</E> that contains the
+#! face graph of the octahedron, written in <K>TikZ</K>:
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct_Rescaled.tex}
+#! </Alt>
+#!
+#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! Each call of the drawing method creates one of those:
+#! @BeginLog
+pr := DrawFacegraphToTikz( oct, "facegraph_oct" );;
+#! @EndLog
+#!
+#! Maybe the edges should be labelled. Then they can be turned on:
+#! @BeginLog
+pr.edgeLabelsActive := true;;
+#! @EndLog
+#!
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct_edgelabels.tex}
+#! </Alt>
+#!
+#! The labels of the vertices can be turned on with 
+#! @BeginLog
+pr.vertexLabelsActive := true;;
+#! @EndLog
+#!
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct_vertexLabels.tex}
+#! </Alt>
+#!
+#! The colours of the edges and vertices can also be changed very easily 
+#! (especially if all colours should be changed at once). For example,
+#! let's make all edges green:
+#! @BeginLog
+pr.edgeColours := "green";;
+#! @EndLog
+
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct_greenEdges.tex}
+#! </Alt>
+#!
+#! We can even compute an embedding of the face graph with the corresponding 
+#! geodesics of the simplicial surface.
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_octGeodesics.tex}
+#! </Alt>
+#!
+#! If we are not happy with the position of a face node, we can change it  
+#! by adjusting the 2D-coordinate of the face.
+#!
+#! @BeginLog
+pr.faceCoordinates2D[1]:=[-2.,4.];;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct2.tex}
+#! </Alt>
+#!
+#! It is even possible to compute an embedding of the face graph of a given
+#! simplicial surface by manipulating all face coordinates. For example we
+#! can compute an embedding so that it is clear to see that the face graph
+#! of the octahedron is bipartite.
+#!
+#! @BeginLog
+pr.faceCoordinates2D[1]:=[0.,0.];;pr.faceCoordinates2D[4]:=[4.,0.];;
+pr.faceCoordinates2D[3]:=[4.,1.];;pr.faceCoordinates2D[7]:=[4.,2.];;
+pr.faceCoordinates2D[2]:=[0.,1.];;pr.faceCoordinates2D[6]:=[0.,2.];;
+pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct3.tex}
+#! </Alt>
+
+#! @EndChunk
+
+
+
+#! @BeginChunk DrawFacegraphToTikz_Colours
+#! This subsection covers how to change the colours of edges and faces  
+#! represented as vertices in the drawings 
+#! from <K>DrawFacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>).
+#! It covers the following parameters:
+#! * <E>faceColours</E>: Modify the colours of the vertices representing 
+#!   the faces (the default colour is gray).
+#! * <E>edgeColours</E>: Modify the colours of the edges (the default
+#!   colour is gray).
+#!
+#! We will exemplify them with the tetrahedron to make clear how the parameters 
+#! work:
+#! @BeginLog
+tetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
+[1,3,4],[2,3,4]]);;
+DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_tetrahedron.tex}
+#! </Alt>
+#! <List>
+#!   <Item><E>faceColours</E>: Modifies the colours of the vertices representing 
+#!     the faces. The colours are given in a list <A>colours</A> such that 
+#!     <A>colours[f]</A> is the colour of the vertex representing face <A>f</A>. If
+#!     face <A>f</A> is not in the surface, the colour is skipped. The colours are 
+#!     strings that are recognizable by &LaTeX;.
+#!
+#!     It is possible to leave some face colours unbound - those will be coloured
+#!     with the default face colour (gray).
+#! @BeginLog
+pr := rec( faceColours :=
+   ["blue", "green",, "black!20!yellow"] );;
+DrawFacegraphToTikz(tetra, 
+"tetrahedron_facegraph_vertexColouredLocal", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_tetrahedron_vertexColoured.tex}
+#! </Alt>
+#!   Instead of giving an entire list it is also possible to give just one
+#!   string defining a new colour for all vertices. It will be internally
+#!   converted into a list.
+#! @BeginLog
+pr := rec( vertexColours := "blue!60!white" );;
+DrawFacegraphToTikz(tetra, 
+"Image_facegraph_tetrahedron_vertexColouredGlobal.tex",pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_tetrahedron_vertexColouredGlobal.tex}
+#! </Alt>
+#!   </Item>
+#!
+#!   <Item><E>edgeColours</E>: Modifies the colours of the edges. The
+#!     colours are given in a list <A>colours</A> such that <A>colours[e]</A>
+#!     is the colour of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
+#!     the colour is skipped. The colours are strings that are
+#!     recognizable by &LaTeX;.
+#!
+#!     Is is possible to leave some edge colours unbound - those will be coloured 
+#!     with the default edge colour (gray).
+#! @BeginLog
+pr := rec( edgeColours :=
+   [,,"red","purple","blue","green!80!black"] );;
+DrawFacegraphToTikz(tetra,
+"Image_facegraph_tetrahedron_edgeColouredLocal.tex", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{Image_facegraph_tetrahedron_edgeColouredLocal.tex}
+#! </Alt>
+#!     Instead of giving an entire list it is also possible to give just one
+#!     string defining a new colour for all edges. It will be internally 
+#!     converted into a list.
+#! @BeginLog
+pr := rec( edgeColours := "red" );;
+DrawFacegraphToTikz( tetra, 
+"Image_facegraph_tetrahedron_edgeColouredGlobal.tex", pr );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{Image_facegraph_tetrahedron_edgeColouredGlobal.tex}
+#! </Alt>
+#!   </Item>
+#! </List>
+#! @EndChunk
+
+
+#! @BeginChunk DrawFacegraphToTikz_Labels
+#! This subsection covers the parameters that change the labels of vertices,
+#! edges and faces in the drawings of <K>DrawFacegraphToTikz</K>
+#! (<Ref Subsect="DrawFacegraphToTikz"/>).
+#! * <E>vertexLabelsActive</E>: Turn the vertex labels on or off (by default
+#!   they are turned off).
+#! * <E>vertexLabels</E>: Modify the vertex labels (by default they are 
+#!   labelled by their number).
+#! * <E>edgeLabelsActive</E>: Turn the edge labels on or off (by default
+#!   they are turned off).
+#! * <E>edgeLabels</E>: Modify the edge labels (by default they are 
+#!   labelled by their number).
+#! * <E>faceLabelsActive</E>: Turn the face labels on or off (by default
+#!   they are turned on).
+#! * <E>faceLabels</E>: Modify the face labels (by default they are 
+#!   labelled by their number).
+#! 
+#! We will exemplify these parameters on the example of a double-6-gon to 
+#! make clear how the parameters work:
+#! @BeginLog
+double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
+[1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;
+#! @EndLog
+#!
+#! <Alt Only="TikZ">
+#!    \input{Image_Double6gon.tex}
+#! </Alt>
+#! @BeginLog
+DrawFacegraphToTikz( double6Gon, "facegraph_Double6gon.tex" );;
+#! @EndLog
+#! 
+#! <Alt Only="TikZ">
+#!    \input{Image_facegraph_Double6Gon.tex }
+#! </Alt>
+#! <List>
+#!   <Item><E>vertexLabelsActive</E>: By default all vertices are not labelled. If they
+#!     should be labelled, this parameter can be set to <K>true</K>. Note,
+#!     the vertices of the simplicial surface can be identified by the faces of 
+#!     the facegraph.
+#! @BeginLog
+pr := rec( vertexLabelsActive := true);;
+DrawFacegraphToTikz( double6Gon,
+"facegraph_Double6Gon_VertexLabelsOn.tex" , pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_Double6Gon_VertexLabelsOn.tex }
+#! </Alt>
+#! </Item>
+#! <Item><E>vertexLabels</E>: By default the vertices are labelled by their 
+#!   number. This can be changed with this parameter (if you just want to
+#!   turn off the labels, use <E>vertexLabelsActive</E> instead).
+#! 
+#!   The labels are given as a list <A>labels</A> such that <A>labels[v]</A>
+#!   is the label of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface,
+#!   the label is skipped. It is possible to leave some 
+#!   vertex labels unbound - those will be labelled with their default label.
+#! @BeginLog
+pr := rec( vertexLabels := ["V_1", "X", , "++"] );;
+DrawFacegraphToTikz( double6Gon, "Double6Gon_vertexLabels", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{Image_facegraph_Double6Gon_vertexLabels.tex}
+#! </Alt>
+#!   </Item>
+#! 
+#!   <Item><E>edgeLabelsActive</E>: By default all edges are not labelled. If they
+#!     should be labelled, this parameter can be set to <K>true</K>.
+#! @BeginLog
+pr := rec( edgeLabelsActive := true  );;
+DrawFacegraphToTikz( double6Gon, "Double6Gon_edgeLabelsOn", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_Double6Gon_EdgeLabelsOn.tex}
+#! </Alt>
+#! </Item>
+#! <Item><E>edgeLabels</E>: By default the edges are labelled by their 
+#!   number. This can be changed with this parameter (if you just want to
+#!   turn off the labels, use <E>edgeLabelsActive</E> instead).
+#! 
+#!   The labels are given as a list <A>labels</A> such that <A>labels[e]</A>
+#!   is the label of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
+#!   the label is skipped. It is possible to leave some 
+#!   edge labels unbound - those will be labelled with their default label.
+#! @BeginLog
+pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
+DrawFacegraphToTikz( double6Gon, "Tetrahedron_edgeLabels", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{Image_facegraph_Double6Gon_EdgeLabels.tex}
+#! </Alt>
+#!   </Item>
+#!
+#!   <Item><E>faceLabelsActive</E>: By default all faces are labelled. If they
+#!     should not be labelled, this parameter can be set to <K>false</K>.
+#! @BeginLog
+pr := rec( faceLabelsActive := false );;
+DrawSurfaceToTikz( double6Gon, "Double6Gon_FaceLabelsOff", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_Double6Gon_FaceLabelsOff.tex }
+#! </Alt>
+#! </Item>
+#! <Item><E>faceLabels</E>: By default the faces are labelled by their 
+#!   number. This can be changed with this parameter (if you just want to
+#!   turn off the labels, use <E>faceLabelsActive</E> instead).
+#! 
+#!   The labels are given as a list <A>labels</A> such that <A>labels[f]</A>
+#!   is the label of the face <A>f</A>. If face <A>f</A> is not in the surface,
+#!   the label is skipped. It is possible to leave some 
+#!   face labels unbound - those will be labelled with their default label.
+#! @BeginLog
+pr := rec( faceLabels := ["I", "f_2", "42", ,] );;
+DrawFacegraphToTikz( double6Gon, "Double6Gon_FaceLabels", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{Image_facegraph_Double6Gon_FaceLabels.tex}
+#! </Alt>
+#!   </Item>
+#! </List>
+#! @EndChunk
+
+
+#! @BeginChunk DrawFacegraphToTikz_Scaling
+#! This subsection explains the parameters that modify the size of the drawings
+#! produced by the method <K>DrawFacegraphToTikz</K>
+#! (<Ref Subsect="DrawFacegraphToTikz"/>). More specifically it explains the
+#! following parameters:
+#! * <E>scale</E>: Globally scales the picture. The default is 2.
+#! * <E>floatAccuracy</E>: Internal parameter to decide when two floats are
+#!   regarded as equal. The default is 0.001. Usually it should not be 
+#!   necessary to modify this value.
+#!
+#! We will exemplify the parameter <E>scale</E> on the octahedron to make it more clear how the parameters works:
+#! @BeginLog
+oct:=Octahedron();;
+DrawFacegraphToTikz( oct, "facegraph_oct" );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!    \input{Image_facegraph_oct.tex}
+#! </Alt>
+#! <List>
+#!   <Item><E>scale</E>: By default the scale is 2. This can be changed with this parameter.
+#! @BeginLog
+pr := rec( scale := 1.5 );;
+DrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_oct_Rescaled.tex}
+#! </Alt>
+#! </Item>
+#! </List>
+#! @EndChunk
+
+ 
+#! @BeginChunk DrawFacegraphToTikz_FaceCoordinates
+#! This subsection covers how to change the position of the faces in the drawing
+#! computed by <K>DrawFacegraphToTikz</K> 
+#! (<Ref Subsect="DrawFacegraphToTikz"/>). It covers the following parameters:
+#! * <E>faceCoordinates2D</E>: Modify the coordinates of the faces which are
+#!   represented as vertices in the embedding.
+#!
+#! We will exemplify them with the tetrahedron to make clear how the parameters 
+#! work:
+#!
+#! @BeginLog
+tetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
+[1,3,4],[2,3,4]]);;
+DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
+#! @EndLog
+#!
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_tetrahedron.tex}
+#! </Alt>
+#! <List>
+#!   <Item><E>faceCoordinates2D</E>: Modifies the position of the vertices
+#!     representing the faces. The coordinates are given in a list
+#!     <A>faceCoordinates2D</A> such that <A>faceCoordinates2D[f]</A> is the
+#!     2D-coordinate of the vertex representing face <A>f</A>. The list of
+#!     bounded positions in <E>faceCoordinates2D</E> has to be equal to the
+#!     set of faces of the given surface, otherwise the function returns
+#!     an error.
+#!
+#! @BeginLog
+pr := rec( faceCoordinates2D:=[[0.,0.],[4.,0.],[4.,4.],[0.,4.]]);;
+DrawFacegraphToTikz(tetra, 
+"tetrahedron_facegraph_tetrahedron_Coordinates", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_tetrahedron_Coordinates.tex}
+#! </Alt>
+#!
+#!   </Item>
+#! </List>
+#! @EndChunk
+
+
+#! @BeginChunk DrawFacegraphToTikz_Geodesics
+#! This subsection covers the  usage of the parameter that adds geodesics into 
+#! the drawings of <K>DrawFacegraphToTikz</K>
+#! (<Ref Subsect="DrawFacegraphToTikz"/>). This parameter is designed for 
+#! simplicial surfaces whose face graphs are embedded with the help of the 
+#! coordinates computed in the implementations. 
+#!
+#! It covers the following parameters:
+#! * <E>geodesicsActice</E>: Turn the drawing of the geodesics on or off (by default
+#!   they are turned off). A geodesic of a simlpicial surface can be defined as a 
+#!   face-edge-path. This information can be used to draw the geodesic as polygon 
+#!   so that edges of the polygon and edges of the embedding of the face graph intersect
+#!   if and only if the corresponding edge of the simplicial surface lies on the 
+#!   defining face-edge-path. 
+#! 
+#! We will exemplify these parameter on the example of a octahedron
+#! to make it more clear how the parameters work:
+#! @BeginLog
+oct:=Octahedron();
+DrawFacegraphToTikz( oct, "facegraph_DoubleTetrahedron.tex" );;
+#! @EndLog
+#! 
+#! <Alt Only="TikZ">
+#!    \input{Image_facegraph_oct_Rescaled.tex }
+#! </Alt>
+#! <List>
+#!   <Item><E>geodesicsActive</E>: By default the geodics are not painted into
+#!   the .tex file. If they should be shown, this parameter can be set to
+#!   <K>true</K>. Note the octahedron has four geodesics which are all
+#!   represented in the drawing by polygons coloured in red, green, 
+#!   blue and yellow.
+#! @BeginLog
+pr := rec( geodesicActive := true);;
+DrawFacegraphToTikz( oct,
+"facegraph_octGeodesics.tex" , pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{Image_facegraph_octGeodesics.tex}
+#! </Alt>
+#! </Item>
+#! </List>
+#! @EndChunk
+
