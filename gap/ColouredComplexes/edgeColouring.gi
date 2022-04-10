@@ -63,6 +63,7 @@ InstallMethod( EdgeColouredTwistedPolygonalComplexNC,
             SetTwistedPolygonalComplex(obj, TwistedPolygonalComplex(complex));
         else
             SetTwistedPolygonalComplex(obj, complex);
+	    SetIsEdgeColouredPolygonalComplex(obj,true);
         fi;
 
         if ForAll(colouring, IsPosInt) then
@@ -154,7 +155,7 @@ InstallMethod( EdgeColouredPolygonalComplex,
         if not IsPolygonalComplex(complex) then
             Error("EdgeColouredPolygonalComplex: Given complex is not a polygonal complex.");
         fi;
-        return EdgeColouredTwistedPolygonalComplex(complex, colouring);
+        return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );
 # simplicial surface
@@ -176,7 +177,7 @@ InstallMethod( EdgeColouredSimplicialSurface,
         if not IsSimplicialSurface(complex) then
             Error("EdgeColouredSimplicialSurface: Given complex is not a simplicial surface.");
         fi;
-        return EdgeColouredTwistedPolygonalComplex(complex, colouring);
+        return EdgeColouredSimplicialSurfaceNC(complex, colouring);
     end
 );
 

@@ -370,7 +370,8 @@ InstallMethod( WildColouredSurfaceOfIsoscelesColouredSurface,
 #        SetLocalSymmetryOfEdgesAsNumbers(colSurf, partialLocalSym);
 #        SetColouredEdgesOfFaces(colSurf, edgesOfFacesByColour);
         SetPolygonalComplex(colSurf, obj);
-
+	SetIsEdgeColouredPolygonalComplex(colSurf, true);
+	
         return  colSurf;
     
 end
