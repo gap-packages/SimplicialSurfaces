@@ -53,15 +53,15 @@ InstallMethod( IsIsoscelesColouredSurface,
     end
 );
 
-#InstallOtherMethod( IsIsoscelesColouredSurface,
-#    "for an object", [IsObject], function(obj)
-#        if IsEdgeColouredPolygonalComplex(obj) then
-#            TryNextMethod();
-#        else
-#            return false;
-#       fi;
-#    end
-#);
+InstallOtherMethod( IsIsoscelesColouredSurface,
+    "for an object", [IsObject], function(obj)
+        if IsEdgeColouredPolygonalComplex(obj) then
+            TryNextMethod();
+        else
+            return false;
+       fi;
+    end
+);
 #######################################
 ##
 ##      ColouredEdgesOfFaces
