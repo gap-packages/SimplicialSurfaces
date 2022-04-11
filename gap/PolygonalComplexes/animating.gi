@@ -1,13 +1,10 @@
 BindGlobal( "__SIMPLICIAL_IsCoordinates3D",
     function(surface, coordinates)
-        local coord;
-
-        if not IsDenseList(coordinates) then
-            return false;
-        fi;
-        if Length(coordinates) <> NumberOfVertices(surface) then
+        local coord,i;
+        if Filtered([1..Length(coordinates)],i->IsBound(coordinates[i])) <> Vertices(surface) then
             return false;
 	fi;
+
         # Check whether all coordinates are 3D-coordinates
         for coord in coordinates do
             if not IsDenseList(coord) then
@@ -23,7 +20,7 @@ BindGlobal( "__SIMPLICIAL_IsCoordinates3D",
 
 InstallMethod( SetVertexCoordinates3D,
     "for a simplicial surface, a list of coordinates and a record",
-    [IsSimplicialSurface, IsDenseList, IsRecord],
+    [IsSimplicialSurface, IsList, IsRecord],
     function(surface, coordinates, printRecord)
 	if not __SIMPLICIAL_IsCoordinates3D(surface, coordinates) then
 	    Error( " invalid coordinate format " );
@@ -33,22 +30,22 @@ InstallMethod( SetVertexCoordinates3D,
 );
 RedispatchOnCondition( SetVertexCoordinates3D, true, 
     [IsTwistedPolygonalComplex,IsList,IsRecord], 
-    [IsSimplicialSurface, IsDenseList], 0 );
+    [IsSimplicialSurface, IsList], 0 );
 
 InstallOtherMethod( SetVertexCoordinates3D,
     "for a simplicial surface and a list of coordinates",
-    [IsSimplicialSurface, IsDenseList],
+    [IsSimplicialSurface, IsList],
     function(surface, coordinates)
 	return SetVertexCoordinates3D(surface, coordinates, rec());
     end
 );
 RedispatchOnCondition( SetVertexCoordinates3D, true, 
     [IsTwistedPolygonalComplex,IsList], 
-    [IsSimplicialSurface, IsDenseList], 0 );
+    [IsSimplicialSurface, IsList], 0 );
 
 InstallMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface, a list of coordinates and a record",
-    [IsSimplicialSurface, IsDenseList, IsRecord],
+    [IsSimplicialSurface, IsList, IsRecord],
     function(surface, coordinates, printRecord)
 	printRecord.vertexCoordinates3D := coordinates;
         return printRecord;
@@ -56,36 +53,36 @@ InstallMethod( SetVertexCoordinates3DNC,
 );
 RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
     [IsTwistedPolygonalComplex,IsList,IsRecord], 
-    [IsSimplicialSurface, IsDenseList], 0 );
+    [IsSimplicialSurface, IsList], 0 );
 InstallOtherMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface and a list of coordinates",
-    [IsSimplicialSurface, IsDenseList],
+    [IsSimplicialSurface, IsList],
     function(surface, coordinates)
 	return SetVertexCoordinates3DNC(coordinates, rec());
     end
 );
 RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
     [IsTwistedPolygonalComplex,IsList], 
-    [IsSimplicialSurface, IsDenseList], 0 );
+    [IsSimplicialSurface, IsList], 0 );
 
 InstallMethod( GetVertexCoordinates3D,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a vertex and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, vertex, printRecord)
 	if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
 	    Error( " invalid coordinate format " );
         fi;
-	return GetVertexCoordinates3DNC(surface, index, printRecord);
+	return GetVertexCoordinates3DNC(surface, vertex, printRecord);
     end
 );
 RedispatchOnCondition(GetVertexCoordinates3D, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
     [IsSimplicialSurface], 0);
 
 InstallMethod( GetVertexCoordinates3DNC,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a vertex and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
-	return 1.0*printRecord.vertexCoordinates3D[index];
+    function(surface, vertex, printRecord)
+	return 1.0*printRecord.vertexCoordinates3D[vertex];
     end
 );
 RedispatchOnCondition(GetVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
@@ -96,7 +93,7 @@ InstallMethod( CalculateParametersOfInnerCircle,
     "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-				local norm, distance, normalize, crossProd, Atan2, res, vertOfFace, P1, P2, P3, d1, d2, d3, incenter, s,
+				local norm, distance, normalize, crossProd, Atan2, res, vertOfFace, P1, P2, P3, d1, d2, d3, incenter, s,face,
 					radius, x, y, z, alpha, beta, gamma, normalVector, lengthNormalVector, normalVector_beta, normalVector_gamma;
 				if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
 					Error( " invalid coordinate format " );
@@ -127,7 +124,8 @@ InstallMethod( CalculateParametersOfInnerCircle,
 					return 0.;
 				end;
 				res := [];
-				for vertOfFace in VerticesOfFaces(surface) do
+				for face in Faces(surface) do
+					vertOfFace:=VerticesOfFaces(surface)[face];
 					if Length(vertOfFace) <> 3 then
 						Append(res, [[]]);
 						continue;
@@ -156,7 +154,7 @@ InstallMethod( CalculateParametersOfInnerCircle,
 					lengthNormalVector := 4*radius;
 					normalVector_beta := Atan2(-1.0*normalVector[3], 1.0*normalVector[1]);
 					normalVector_gamma := -Acos(1.0*normalVector[2]/norm(normalVector));
-					Append(res, [ [incenter, radius, [ alpha, beta, gamma ], [ 0., normalVector_beta, normalVector_gamma], lengthNormalVector ] ]);
+					res[face]:=[incenter, radius, [ alpha, beta, gamma ], [ 0., normalVector_beta, normalVector_gamma], lengthNormalVector ];
 				od;
 				printRecord.innerCircles := res;
 				return printRecord;
@@ -172,12 +170,12 @@ InstallMethod( ActivateInnerCircles,
     "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-	local i;
+	local face;
 	if not IsBound(printRecord.innerCircles) then
 	    printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
 	fi;
-	for i in [1..NumberOfFaces(surface)] do
-	    printRecord := ActivateInnerCircle(surface, i, printRecord);
+	for face in Faces(surface) do
+	    printRecord := ActivateInnerCircle(surface, face, printRecord);
 	od;
         return printRecord;
     end
@@ -198,46 +196,46 @@ InstallMethod( DeactivateInnerCircles,
 );
 
 InstallMethod( ActivateInnerCircle,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
 			fi;
 			if not IsBound(printRecord.drawInnerCircles) then
 				printRecord.drawInnerCircles := [];
 			fi;
-			printRecord.drawInnerCircles[index] := true;
+			printRecord.drawInnerCircles[face] := true;
 			return printRecord;
     end
 );
 
 InstallMethod( DeactivateInnerCircle,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 			if not IsBound(printRecord.drawInnerCircles) then
 				return printRecord;
 			fi;
-			printRecord.drawInnerCircles[index] := false;
+			printRecord.drawInnerCircles[face] := false;
 			return printRecord;
     end
 );
 
 InstallMethod( IsInnerCircleActive,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
 				fi;
-				if not IsBound(printRecord.drawInnerCircles) or (index <= 0) then
+				if not IsBound(printRecord.drawInnerCircles) or (face <= 0) then
 					return false;
 				fi;
-				if not IsBound(printRecord.drawInnerCircles[index]) then
+				if not IsBound(printRecord.drawInnerCircles[face]) then
 					return false;
 				fi;
-				return printRecord.drawInnerCircles[index] = true;
+				return printRecord.drawInnerCircles[face] = true;
     end
 );
 
@@ -245,12 +243,12 @@ InstallMethod( ActivateNormalOfInnerCircles,
     "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-			local i;
+			local face;
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
 			fi;
-			for i in [1..NumberOfFaces(surface)] do
-				printRecord := ActivateNormalOfInnerCircle(surface, i, printRecord);
+			for face in Faces(surface) do
+				printRecord := ActivateNormalOfInnerCircle(surface, face, printRecord);
 			od;
 			return printRecord;
     end
@@ -266,46 +264,46 @@ InstallMethod( DeactivateNormalOfInnerCircles,
 );
 
 InstallMethod( ActivateNormalOfInnerCircle,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
 			fi;
 			if not IsBound(printRecord.drawNormalOfInnerCircles) then
 				printRecord.drawNormalOfInnerCircles := [];
 			fi;
-			printRecord.drawNormalOfInnerCircles[index] := true;
+			printRecord.drawNormalOfInnerCircles[face] := true;
 			return printRecord;
     end
 );
 
 InstallMethod( DeactivateNormalOfInnerCircle,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 			if not IsBound(printRecord.drawNormalOfInnerCircles) then
 				return printRecord;
 			fi;
-			printRecord.drawNormalOfInnerCircles[index] := false;
+			printRecord.drawNormalOfInnerCircles[face] := false;
 			return printRecord;
     end
 );
 
 InstallMethod( IsNormalOfInnerCircleActive,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
 				fi;
-				if not IsBound(printRecord.drawNormalOfInnerCircles) or (index <= 0) then
+				if not IsBound(printRecord.drawNormalOfInnerCircles) or (face <= 0) then
 					return false;
 				fi;
-				if not IsBound(printRecord.drawNormalOfInnerCircles[index]) then
+				if not IsBound(printRecord.drawNormalOfInnerCircles[face]) then
 					return false;
 				fi;
-				return printRecord.drawNormalOfInnerCircles[index] = true;
+				return printRecord.drawNormalOfInnerCircles[face] = true;
     end
 );
 
@@ -313,7 +311,7 @@ InstallMethod( CalculateParametersOfEdges,
     "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-				local norm, distance, Atan2, res, vertOfEdge, P1, P2, d, mid, beta, gamma;
+				local norm, distance, Atan2, res, vertOfEdge, P1, P2, d, mid, beta, gamma,edge;
 				if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
 					Error( " invalid coordinate format " );
 				fi;
@@ -341,7 +339,8 @@ InstallMethod( CalculateParametersOfEdges,
 					return 0.;
 				end;
 				res := [];
-				for vertOfEdge in VerticesOfEdges(surface) do
+				for edge in Edges(surface) do
+					vertOfEdge:=VerticesOfEdges(surface)[edge];
 					P1 := GetVertexCoordinates3DNC(surface, vertOfEdge[1], printRecord);
 					P2 := GetVertexCoordinates3DNC(surface, vertOfEdge[2], printRecord);
 					# calculate distance
@@ -351,7 +350,7 @@ InstallMethod( CalculateParametersOfEdges,
 					# calculate rotation angles (from y-direction)
 					beta := Atan2(-1.0*(P2[3]-P1[3]), 1.0*(P2[1]-P1[1]));
 					gamma := -Acos(1.0*(P2[2]-P1[2])/d);
-					Append(res, [ [mid, d, [ 0., beta, gamma ] ] ]);
+					res[edge]:=[mid, d, [ 0., beta, gamma ] ];
 				od;
 				printRecord.edges := res;
 				return printRecord;
@@ -374,18 +373,18 @@ InstallMethod( DeactivateEdges,
     "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-			local i;
-			for i in [1..NumberOfEdges(surface)] do
-				printRecord := DeactivateEdge(surface, i, printRecord);
+			local edge;
+			for edge in Edges(surface) do
+				printRecord := DeactivateEdge(surface, edge, printRecord);
 			od;
 			return printRecord;
     end
 );
 
 InstallMethod( ActivateEdge,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, an edge and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, edge, printRecord)
 			if not IsBound(printRecord.edges) then
 				printRecord := CalculateParametersOfEdges(surface, printRecord);
 			fi;
@@ -393,40 +392,40 @@ InstallMethod( ActivateEdge,
 				printRecord.drawEdges := [];
 				return printRecord;
 			fi;
-			printRecord.drawEdges[index] := true;
+			printRecord.drawEdges[edge] := true;
 			return printRecord;
     end
 );
 
 InstallMethod( DeactivateEdge,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, an edge and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, edge, printRecord)
 			if not IsBound(printRecord.drawEdges) then
 				printRecord.drawEdges := [];
 			fi;
-			printRecord.drawEdges[index] := false;
+			printRecord.drawEdges[edge] := false;
 			return printRecord;
     end
 );
 
 InstallMethod( IsEdgeActive,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, an edge and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, edge, printRecord)
 			if not IsBound(printRecord.edges) then
 					return false;
 				fi;
 				if not IsBound(printRecord.drawEdges) then
 					return true;
 				fi;
-				if (index <= 0) then
+				if (edge <= 0) then
 					return false;
 				fi;
-				if not IsBound(printRecord.drawEdges[index]) then
+				if not IsBound(printRecord.drawEdges[edge]) then
 					return true;
 				fi;
-				return printRecord.drawEdges[index] = true;
+				return printRecord.drawEdges[edge] = true;
     end
 );
 
@@ -443,74 +442,74 @@ InstallMethod( DeactivateFaces,
     "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-			local i;
-			for i in [1..NumberOfFaces(surface)] do
-				printRecord := DeactivateFace(surface, i, printRecord);
+			local face;
+			for face in Faces(surface) do
+				printRecord := DeactivateFace(surface, face, printRecord);
 			od;
 			return printRecord;
     end
 );
 
 InstallMethod( ActivateFace,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 			if not IsBound(printRecord.drawFaces) then
 				printRecord.drawFaces := [];
 				return printRecord;
 			fi;
-			printRecord.drawFaces[index] := true;
+			printRecord.drawFaces[face] := true;
 			return printRecord;
     end
 );
 
 InstallMethod( DeactivateFace,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 			if not IsBound(printRecord.drawFaces) then
 				printRecord.drawFaces := [];
 			fi;
-			printRecord.drawFaces[index] := false;
+			printRecord.drawFaces[face] := false;
 			return printRecord;
     end
 );
 
 InstallMethod( IsFaceActive,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 				if not IsBound(printRecord.drawFaces) then
 					return true;
 				fi;
-				if (index <= 0) then
+				if (face <= 0) then
 					return false;
 				fi;
-				if not IsBound(printRecord.drawFaces[index]) then
+				if not IsBound(printRecord.drawFaces[face]) then
 					return true;
 				fi;
-				return printRecord.drawFaces[index] = true;
+				return printRecord.drawFaces[face] = true;
     end
 );
 
 InstallMethod( SetTransparencyJava,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord],
-    function(surface, index, value, printRecord)
+    function(surface, face, value, printRecord)
             if not IsBound(printRecord.FaceTransparency) then
                 printRecord.FaceTransparency := [];
             fi;
-            printRecord.FaceTransparency[index] := value;
+            printRecord.FaceTransparency[face] := value;
             return printRecord;
     end
 );
 
 InstallMethod( RemoveTransparencyJava,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
-            if IsBound(printRecord.FaceTransparency[index]) then
-                Unbind(printRecord.FaceTransparency[index]);
+    function(surface, face, printRecord)
+            if IsBound(printRecord.FaceTransparency[face]) then
+                Unbind(printRecord.FaceTransparency[face]);
                 return printRecord;
             fi;
             return printRecord;
@@ -518,19 +517,19 @@ InstallMethod( RemoveTransparencyJava,
 );
 
 InstallMethod( GetTransparencyJava,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
                 if not IsBound(printRecord.FaceTransparency) then
                     return 1;
                 fi;
-                if (index <= 0) then
+                if (face <= 0) then
                     return 0;
                 fi;
-                if not IsBound(printRecord.FaceTransparency[index]) then
+                if not IsBound(printRecord.FaceTransparency[face]) then
                     return 1;
                 fi;
-                return printRecord.FaceTransparency[index];
+                return printRecord.FaceTransparency[face];
     end
 );
 
@@ -550,18 +549,18 @@ InstallMethod( DeactivateVertices,
     "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-			local i;
-			for i in [1..NumberOfVertices(surface)] do
-				printRecord := DeactivateVertex(surface, i, printRecord);
+			local vertex;
+			for vertex in Vertices(surface) do
+				printRecord := DeactivateVertex(surface, vertex, printRecord);
 			od;
 			return printRecord;
     end
 );
 
 InstallMethod( ActivateVertex,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a vertex and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, vertex, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 				Error(" The 3D-coordinates of the vertices are not set ");
 			fi;
@@ -569,74 +568,74 @@ InstallMethod( ActivateVertex,
 				printRecord.drawVertices := [];
 				return printRecord;
 			fi;
-			printRecord.drawVertices[index] := true;
+			printRecord.drawVertices[vertex] := true;
 			return printRecord;
     end
 );
 
 InstallMethod( DeactivateVertex,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a vertex and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, vertex, printRecord)
 			if not IsBound(printRecord.drawVertices) then
 				printRecord.drawVertices := [];
 			fi;
-			printRecord.drawVertices[index] := false;
+			printRecord.drawVertices[vertex] := false;
 			return printRecord;
     end
 );
 
 InstallMethod( IsVertexActive,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a vertex and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, vertex, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 					return false;
 				fi;
 				if not IsBound(printRecord.drawVertices) then
 					return true;
 				fi;
-				if (index <= 0) then
+				if (vertex <= 0) then
 					return false;
 				fi;
-				if not IsBound(printRecord.drawVertices[index]) then
+				if not IsBound(printRecord.drawVertices[vertex]) then
 					return true;
 				fi;
-				return printRecord.drawVertices[index] = true;
+				return printRecord.drawVertices[vertex] = true;
     end
 );
 
 InstallMethod( SetFaceColour,
-    "for a simplicial surface, an index, a string and a record",
+    "for a simplicial surface, a face, a string and a record",
     [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
-    function(surface, index, colour, printRecord)
+    function(surface, face, colour, printRecord)
 				if not IsBound(printRecord.faceColours) then
 					printRecord.faceColours := [];
 				fi;
-				printRecord.faceColours[index] := colour;
+				printRecord.faceColours[face] := colour;
 				return printRecord;
     end
 );
 
 InstallMethod( GetFaceColour,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 				local default;
 				default := "0xFFFF00";
-				if not IsBound(printRecord.faceColours) or (index <= 0) then
+				if not IsBound(printRecord.faceColours) or (face <= 0) then
 					return default;
 				fi;
-				if not IsBound(printRecord.faceColours[index]) then
+				if not IsBound(printRecord.faceColours[face]) then
 					return default;
 				fi;
-				return printRecord.faceColours[index];
+				return printRecord.faceColours[face];
     end
 );
 
 InstallMethod( SetFaceColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsDenseList, IsRecord],
+    [IsSimplicialSurface, IsList, IsRecord],
     function(surface, faceColours, printRecord)
 				printRecord.faceColours := faceColours;
 				return printRecord;
@@ -655,36 +654,36 @@ InstallMethod( GetFaceColours,
 );
 
 InstallMethod( SetVertexColour,
-    "for a simplicial surface, an index, a string and a record",
+    "for a simplicial surface, a vertex, a string and a record",
     [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
-    function(surface, index, colour, printRecord)
+    function(surface, vertex, colour, printRecord)
 				if not IsBound(printRecord.vertexColours) then
 					printRecord.vertexColours := [];
 				fi;
-				printRecord.vertexColours[index] := colour;
+				printRecord.vertexColours[vertex] := colour;
 				return printRecord;
     end
 );
 
 InstallMethod( GetVertexColour,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a vertex and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, vertex, printRecord)
 				local default;
 				default := "0xF58137";
-				if not IsBound(printRecord.vertexColours) or (index <= 0) then
+				if not IsBound(printRecord.vertexColours) or (vertex <= 0) then
 					return default;
 				fi;
-				if not IsBound(printRecord.vertexColours[index]) then
+				if not IsBound(printRecord.vertexColours[vertex]) then
 					return default;
 				fi;
-				return printRecord.vertexColours[index];
+				return printRecord.vertexColours[vertex];
     end
 );
 
 InstallMethod( SetVertexColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsDenseList, IsRecord],
+    [IsSimplicialSurface, IsList, IsRecord],
     function(surface, vertexColours, printRecord)
 				printRecord.vertexColours := vertexColours;
 				return printRecord;
@@ -703,36 +702,36 @@ InstallMethod( GetVertexColours,
 );
 
 InstallMethod( SetEdgeColour,
-    "for a simplicial surface, an index, a string and a record",
+    "for a simplicial surface, an edge, a string and a record",
     [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
-    function(surface, index, colour, printRecord)
+    function(surface, edge, colour, printRecord)
 				if not IsBound(printRecord.edgeColours) then
 					printRecord.edgeColours := [];
 				fi;
-				printRecord.edgeColours[index] := colour;
+				printRecord.edgeColours[edge] := colour;
 				return printRecord;
     end
 );
 
 InstallMethod( GetEdgeColour,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, an edge and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, edge, printRecord)
 				local default;
 				default := "0xff0000";
-				if not IsBound(printRecord.edgeColours) or (index <= 0) then
+				if not IsBound(printRecord.edgeColours) or (edge <= 0) then
 					return default;
 				fi;
-				if not IsBound(printRecord.edgeColours[index]) then
+				if not IsBound(printRecord.edgeColours[edge]) then
 					return default;
 				fi;
-				return printRecord.edgeColours[index];
+				return printRecord.edgeColours[edge];
     end
 );
 
 InstallMethod( SetEdgeColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsDenseList, IsRecord],
+    [IsSimplicialSurface, IsList, IsRecord],
     function(surface, edgeColours, printRecord)
 				printRecord.edgeColours := edgeColours;
 				return printRecord;
@@ -751,36 +750,36 @@ InstallMethod( GetEdgeColours,
 );
 
 InstallMethod( SetCircleColour,
-    "for a simplicial surface, an index, a string and a record",
+    "for a simplicial surface, a face, a string and a record",
     [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
-    function(surface, index, colour, printRecord)
+    function(surface, face, colour, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					printRecord.circleColours := [];
 				fi;
-				printRecord.circleColours[index] := colour;
+				printRecord.circleColours[face] := colour;
 				return printRecord;
     end
 );
 
 InstallMethod( GetCircleColour,
-    "for a simplicial surface, an index and a record",
+    "for a simplicial surface, a face and a record",
     [IsSimplicialSurface, IsPosInt, IsRecord],
-    function(surface, index, printRecord)
+    function(surface, face, printRecord)
 				local default;
 				default := "0x000000";
-				if not IsBound(printRecord.circleColours) or (index <= 0) then
+				if not IsBound(printRecord.circleColours) or (face <= 0) then
 					return default;
 				fi;
-				if not IsBound(printRecord.circleColours[index]) then
+				if not IsBound(printRecord.circleColours[face]) then
 					return default;
 				fi;
-				return printRecord.circleColours[index];
+				return printRecord.circleColours[face];
     end
 );
 
 InstallMethod( SetCircleColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsDenseList, IsRecord],
+    [IsSimplicialSurface, IsList, IsRecord],
     function(surface, circleColours, printRecord)
 				printRecord.circleColours := circleColours;
 				return printRecord;
@@ -804,7 +803,13 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
     "for a simplicial surface, a filename and a record",
     [IsSimplicialSurface, IsString, IsRecord, IsBool],
     function(surface, fileName, printRecord, calculate)
-                local file, output, template, coords, i, j, colour, vertOfFace, vertOfEdge, parametersOfCircle, parametersOfEdge, temp;
+                local file, output, template, coords, i, j, colour,
+		      vertOfFace, vertOfEdge, parametersOfCircle, 
+		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
+		      faces;	
+	vertices:=Vertices(surface);
+	edges:=Edges(surface);
+	faces:=Faces(surface);
 
         # Make the file end with .html
         if not EndsWith( fileName, ".html" ) then
@@ -826,15 +831,15 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
                     Error( " invalid coordinate format " );
                 fi;
-                for i in [1..NumberOfVertices(surface)] do
-                    coords := GetVertexCoordinates3DNC(surface, i, printRecord);
+                for vertex in Vertices(surface) do
+                    coords := GetVertexCoordinates3DNC(surface, vertex, printRecord);
                     AppendTo(output, "\t\tallpoints.push(new PMPoint(", coords[1], ",", coords[2], ",", coords[3], "));\n");
                 od;
 
         # Add points to scenario
                 for i in [0..(NumberOfVertices(surface)-1)] do
-                    if IsVertexActive(surface, i+1, printRecord) then
-                        colour := GetVertexColour(surface, i+1, printRecord);
+                    if IsVertexActive(surface, vertices[i+1], printRecord) then
+                        colour := GetVertexColour(surface, vertices[i+1], printRecord);
                         if not StartsWith(colour, "0x") then
                             colour := Concatenation("\"", colour, "\"");
                         fi;
@@ -843,7 +848,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                         AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
                         AppendTo(output, "\t\t// draw a node as a sphere of radius 0.05\n");
                         AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material", i, ");\n");
-                        AppendTo(output, "\t\tallpoints[", i, "].makelabel(", i+1, ");\n");
+                        AppendTo(output, "\t\tallpoints[", i, "].makelabel(", vertices[i+1], ");\n");
                     fi;
                 od;
                 template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_associate_points_init_faces.html.template");
@@ -851,29 +856,29 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
                 # Add Faces to scenario
                 for i in [1..(NumberOfFaces(surface))] do
-                    if IsFaceActive(surface, i, printRecord) then
-                        vertOfFace := VerticesOfFaces(surface)[i];
-                        colour := GetFaceColour(surface, i, printRecord);
+                    if IsFaceActive(surface, faces[i], printRecord) then
+                        vertOfFace := VerticesOfFaces(surface)[faces[i]];
+                        colour := GetFaceColour(surface, faces[i], printRecord);
                         if not StartsWith(colour, "0x") then
                             colour := Concatenation("\"", colour, "\"");
                         fi;
-                        AppendTo(output, "\t\tvar face", i, " = new THREE.Geometry();\n");
+                        AppendTo(output, "\t\tvar face", faces[i], " = new THREE.Geometry();\n");
                         for j in [1..3] do
-                            AppendTo(output, "\t\tface", i, ".vertices.push(allpoints[", vertOfFace[j]-1, "\].vector);\n");
+                            AppendTo(output, "\t\tface", faces[i], ".vertices.push(allpoints[", Position(vertices,vertOfFace[j])-1, "\].vector);\n");
                         od;
-                        AppendTo(output, "\t\tcentroids.push(computeCentroid(face", i, "));\n");
-                        AppendTo(output, "\t\tvar face", i, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(surface, i, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
-                        AppendTo(output, "\t\tface", i, ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
-                        AppendTo(output, "\t\tvar face", i, "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
-                        AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", i, ", face", i, "_material) );\n");
+                        AppendTo(output, "\t\tcentroids.push(computeCentroid(face", faces[i], "));\n");
+                        AppendTo(output, "\t\tvar face", faces[i], "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(surface, i, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
+                        AppendTo(output, "\t\tface", faces[i], ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
+                        AppendTo(output, "\t\tvar face", faces[i], "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
+                        AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", faces[i], ", face", faces[i], "_material) );\n");
                     fi;
                 od;
 
                 AppendTo(output, "\n\n");
-                for i in [1..(NumberOfFaces(surface))] do
-                    if IsInnerCircleActive(surface, i, printRecord) then
-                        parametersOfCircle := printRecord.innerCircles[i];
-                        colour := GetCircleColour(surface, i, printRecord);
+                for face in faces do
+                    if IsInnerCircleActive(surface, face, printRecord) then
+                        parametersOfCircle := printRecord.innerCircles[face];
+                        colour := GetCircleColour(surface, face, printRecord);
                         if not StartsWith(colour, "0x") then
                             colour := Concatenation("\"", colour, "\"");
                         fi;
@@ -885,10 +890,10 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 od;
                 AppendTo(output, "\n\n");
 
-                for i in [1..(NumberOfFaces(surface))] do
-                    if IsNormalOfInnerCircleActive(surface, i, printRecord) then
-                        parametersOfCircle := printRecord.innerCircles[i];
-                        colour := GetCircleColour(surface, i, printRecord);
+                for face in faces do
+                    if IsNormalOfInnerCircleActive(surface, face, printRecord) then
+                        parametersOfCircle := printRecord.innerCircles[face];
+                        colour := GetCircleColour(surface, face, printRecord);
                         if not StartsWith(colour, "0x") then
                             colour := Concatenation("\"", colour, "\"");
                         fi;
@@ -909,27 +914,34 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 if calculate then
                     printRecord := CalculateParametersOfEdges(surface, printRecord);
                 fi;
-                for i in [1..(NumberOfEdges(surface))] do
-                    if IsEdgeActive(surface, i, printRecord) then
-                        parametersOfEdge := printRecord.edges[i];
-                        colour := GetEdgeColour(surface, i, printRecord);
+                for edge in edges do
+                    if IsEdgeActive(surface, edge, printRecord) then
+                        parametersOfEdge := printRecord.edges[edge];
+                        colour := GetEdgeColour(surface, edge, printRecord);
                         if not StartsWith(colour, "0x") then
                             colour := Concatenation("\"", colour, "\"");
                         fi;
-                        AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
-                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
-                        AppendTo(output, "\t\tobj.add(edge);\n");
+                        if IsBound(printRecord.edgeThickness) then
+	                        AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ",", printRecord.edgeThickness,",", parametersOfEdge[1][1], ", ",
+	                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
+	                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
+	                        AppendTo(output, "\t\tobj.add(edge);\n");
+	                    else
+	                    	AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
+	                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
+	                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
+	                        AppendTo(output, "\t\tobj.add(edge);\n");
+	                    fi;
                     fi;
                 od;
 
                 if IsBound(printRecord.FaceTransparency) then
                     template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_FooterFirst.html.template");
                     AppendTo( output, template );
-                    for i in [1..(NumberOfFaces(surface))] do
-                        if IsBound(printRecord.FaceTransparency[i]) then
+                    for face in faces do
+                        if IsBound(printRecord.FaceTransparency[face]) then
                             #face1_material.opacity = 0;
-                            AppendTo(output, "\t\t\tface", i , "_material.opacity = ", printRecord.FaceTransparency[i], ";\n");
+                            AppendTo(output, "\t\t\tface", face , "_material.opacity = ", printRecord.FaceTransparency[face], ";\n");
                         fi;
                     od;
                     template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_FooterSecond.html.template");
