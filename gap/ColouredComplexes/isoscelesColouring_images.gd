@@ -66,7 +66,7 @@ oct := Octahedron();;
 colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
 wildOct := WildColouredSurfaceOfIsoscelesColouredSurface(colOct);;
 #! @EndExample
-#! This subdivided surface be drawn with <K>DrawSurfaceToTikz</K> 
+#! This subdivided surface can be drawn with <K>DrawSurfaceToTikz</K> 
 #! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).
 #! @BeginLog
 pr := rec( edgeColourClassColours := ["red", "blue", "green"],

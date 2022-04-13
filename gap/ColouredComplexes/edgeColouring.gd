@@ -328,7 +328,7 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! @BeginExampleSession
 #! gap> colTetra := EdgeColouredPolygonalComplex(Tetrahedron(), [1,2,3,3,2,1]);;
 #! @EndExampleSession
-#! For example, is edge 1 incident to the vertices 1 and 2, incident to the faces 1 and 2 and has colour 1.
+#! For example edge 1 is incident to the vertices 1 and 2, incident to the faces 1 and 2 and has colour 1.
 #! Edge 1 has the label 5 in the incidence graph.
 #! This means that edge 5 must be adjacent to the vertices 1, 2, 11, 12 and 15 in the incidence graph:
 #! @BeginExampleSession
@@ -380,7 +380,8 @@ DeclareOperation( "IsIsomorphicEdgeColouredPolygonalComplex",
 #! tame coloured surface (RRR with 4 vertices, 6 edges and 4 faces)
 #! gap> IsIsomorphicEdgeColouredPolygonalComplex(colTetra1,colTetra2);
 #! true
-#! gap> Length(EdgeColouredPolygonalComplexIsomorphismRepresentatives([colTetra1,colTetra2]));
+#! gap> Length(
+#! > EdgeColouredPolygonalComplexIsomorphismRepresentatives([colTetra1,colTetra2]));
 #! 1
 #! @EndExampleSession
 #!
