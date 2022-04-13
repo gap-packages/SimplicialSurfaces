@@ -589,7 +589,7 @@ DrawFacegraphToTikz( oct, "facephgraph_oct_example" );;
 pr := DrawFacegraphToTikz( oct, "facegraph_oct" );;
 #! @EndLog
 #!
-#! Maybe the edges should be labelled. Then they can be turned on:
+#! If the edges should be labelled, they can be turned on as follows:
 #! @BeginLog
 pr.edgeLabelsActive := true;;
 #! @EndLog

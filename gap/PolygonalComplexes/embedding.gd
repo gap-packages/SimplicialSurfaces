@@ -275,7 +275,7 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! @EndGroup
 
 
-#! @Section Drawinig the face graph
+#! @Section Drawing the face graph
 #! @SectionLabel DrawFrGrTikz
 #!
 #! @InsertChunk DrawFacegraphToTikz_Tutorial
