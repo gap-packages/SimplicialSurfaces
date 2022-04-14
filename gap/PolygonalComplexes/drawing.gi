@@ -1790,6 +1790,17 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
         else
                 printRecord.vertexColours:=[];
         fi;
+        if not IsBound(printRecord.compileLateX) then
+	    printRecord.compileLateX :=false;
+	fi;
+        if not IsBound(printRecord.noOutput) then
+            printRecord.noOutput :=false;
+        fi;
+        if not IsBound(printRecord.onlyTikzpicture) then
+            printRecord.onlyTikzpicture:=false;
+        fi;
+
+
 	return printRecord;
     end
 );
@@ -1812,6 +1823,13 @@ InstallMethod( DrawFacegraphToTikz,
     if not( IsClosedSurface(surface) and IsVertexFaithful(surface) and EulerCharacteristic(surface)=2) and not IsBound(printRecord.faceCoordinates2D) then 
 	return fail;
     fi;
+        # Do something different for the manual
+        if __SIMPLICIAL_MANUAL_MODE then
+            printRecord!.onlyTikzpicture := true;
+            printRecord!.compileLaTeX := false;
+            printRecord!.noOutput := true;
+            file := Concatenation( "doc/_TIKZ_", file );
+        fi;
 
     sum:=function(L)
 	local g,s,n;
@@ -1963,6 +1981,24 @@ InstallMethod( DrawFacegraphToTikz,
 
     AppendTo(output,"\\end{tikzpicture}\n");
     AppendTo(output,"\\end{document}");
+    CloseStream(output);
+    if not printRecord!.noOutput then
+        Print( "Picture written in TikZ." );
+    fi;
+
+    if printRecord.compileLaTeX then
+        if not printRecord!.noOutput then
+            Print( "Start LaTeX-compilation (type 'x' and press ENTER to abort).\n" );
+        fi;
+
+        # Run pdfLaTeX on the file (without visible output)
+        Exec( "pdflatex ", file, " > /dev/null" );
+        if not printRecord!.noOutput then
+            Print( "Picture rendered (with pdflatex).\n");
+        fi;
+    fi;
+
+
     return printRecord;
 end
 );

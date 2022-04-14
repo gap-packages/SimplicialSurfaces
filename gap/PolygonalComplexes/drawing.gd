@@ -671,7 +671,7 @@ tetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
 DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{Image_facegraph_tetrahedron.tex}
+#!     \input{_TIKZ_facegraph_tetrahedron.tex}
 #! </Alt>
 #! <List>
 #!   <Item><E>faceColours</E>: Modifies the colours of the vertices representing 
@@ -942,7 +942,7 @@ DrawFacegraphToTikz(tetra,
 #!
 #! It covers the following parameters:
 #! * <E>geodesicsActice</E>: Turn the drawing of the geodesics on or off (by default
-#!   they are turned off). A geodesic of a simlpicial surface can be defined as a 
+#!   they are turned off). A geodesic of a simpicial surface can be defined as a 
 #!   face-edge-path. This information can be used to draw the geodesic as polygon 
 #!   so that edges of the polygon and edges of the embedding of the face graph intersect
 #!   if and only if the corresponding edge of the simplicial surface lies on the 
