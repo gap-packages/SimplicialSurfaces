@@ -566,7 +566,9 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #! @BeginChunk DrawFacegraphToTikz_Tutorial
 #! The face graph of a simplicial surface is a graph whereby the vertices of
 #! the graph are given by the faces and the edges of the graph are given by
-#! the edges of the given simplicial surface. We can compute a straight-line
+#! the edges of the given simplicial surface. For more specific access to the
+#! face graph of a simplicial surface, compare 
+#! (<Ref Subsect="FaceGraph"/>). We can compute a straight-line
 #! embedding of the face graph by assigning 2D-coordinates to the faces.
 #! Note, <K>DrawFacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>) 
 #! only computes face graphs of spherical vertex faithful surfaces.
@@ -671,7 +673,7 @@ tetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
 DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_tetrahedron.tex}
+#!     \input{_TIKZ_facegraph_tetrahedron.tex} 
 #! </Alt>
 #! <List>
 #!   <Item><E>faceColours</E>: Modifies the colours of the vertices representing 
@@ -686,10 +688,10 @@ DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 pr := rec( faceColours :=
    ["blue", "green",, "black!20!yellow"] );;
 DrawFacegraphToTikz(tetra, 
-"tetrahedron_facegraph_vertexColouredLocal", pr);;
+"facegraph_tetrahedron_vertexColouredLocal", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{Image_facegraph_tetrahedron_vertexColoured.tex}
+#!     \input{_TIKZ_facegraph_tetrahedron_vertexColouredLocal.tex}
 #! </Alt>
 #!   Instead of giving an entire list it is also possible to give just one
 #!   string defining a new colour for all vertices. It will be internally
@@ -697,10 +699,10 @@ DrawFacegraphToTikz(tetra,
 #! @BeginLog
 pr := rec( vertexColours := "blue!60!white" );;
 DrawFacegraphToTikz(tetra, 
-"Image_facegraph_tetrahedron_vertexColouredGlobal.tex",pr);;
+"facegraph_tetrahedron_vertexColouredGlobal.tex",pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{Image_facegraph_tetrahedron_vertexColouredGlobal.tex}
+#!     \input{_TIKZ_facegraph_tetrahedron_vertexColouredGlobal.tex}
 #! </Alt>
 #!   </Item>
 #!
@@ -716,10 +718,10 @@ DrawFacegraphToTikz(tetra,
 pr := rec( edgeColours :=
    [,,"red","purple","blue","green!80!black"] );;
 DrawFacegraphToTikz(tetra,
-"Image_facegraph_tetrahedron_edgeColouredLocal.tex", pr);;
+"facegraph_tetrahedron_edgeColouredLocal.tex", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!    \input{Image_facegraph_tetrahedron_edgeColouredLocal.tex}
+#!    \input{_TIKZ_facegraph_tetrahedron_edgeColouredLocal.tex}
 #! </Alt>
 #!     Instead of giving an entire list it is also possible to give just one
 #!     string defining a new colour for all edges. It will be internally 
@@ -727,10 +729,10 @@ DrawFacegraphToTikz(tetra,
 #! @BeginLog
 pr := rec( edgeColours := "red" );;
 DrawFacegraphToTikz( tetra, 
-"Image_facegraph_tetrahedron_edgeColouredGlobal.tex", pr );;
+"facegraph_tetrahedron_edgeColouredGlobal.tex", pr );;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!    \input{Image_facegraph_tetrahedron_edgeColouredGlobal.tex}
+#!    \input{_TIKZ_facegraph_tetrahedron_edgeColouredGlobal.tex}
 #! </Alt>
 #!   </Item>
 #! </List>
@@ -765,11 +767,11 @@ double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
 #!    \input{Image_Double6gon.tex}
 #! </Alt>
 #! @BeginLog
-DrawFacegraphToTikz( double6Gon, "facegraph_Double6gon.tex" );;
+DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 #! @EndLog
 #! 
 #! <Alt Only="TikZ">
-#!    \input{Image_facegraph_Double6Gon.tex }
+#!    \input{_TIKZ_facegraph_Double6Gon.tex }
 #! </Alt>
 #! <List>
 #!   <Item><E>vertexLabelsActive</E>: By default all vertices are not labelled. If they
@@ -782,7 +784,7 @@ DrawFacegraphToTikz( double6Gon,
 "facegraph_Double6Gon_VertexLabelsOn.tex" , pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{Image_facegraph_Double6Gon_VertexLabelsOn.tex }
+#!     \input{_TIKZ_facegraph_Double6Gon_VertexLabelsOn.tex }
 #! </Alt>
 #! </Item>
 #! <Item><E>vertexLabels</E>: By default the vertices are labelled by their 
@@ -795,10 +797,10 @@ DrawFacegraphToTikz( double6Gon,
 #!   vertex labels unbound - those will be labelled with their default label.
 #! @BeginLog
 pr := rec( vertexLabels := ["V_1", "X", , "++"] );;
-DrawFacegraphToTikz( double6Gon, "Double6Gon_vertexLabels", pr);;
+DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!    \input{Image_facegraph_Double6Gon_vertexLabels.tex}
+#!    \input{_TIKZ_facegraph_Double6Gon_vertexLabels.tex}
 #! </Alt>
 #!   </Item>
 #! 
@@ -806,10 +808,10 @@ DrawFacegraphToTikz( double6Gon, "Double6Gon_vertexLabels", pr);;
 #!     should be labelled, this parameter can be set to <K>true</K>.
 #! @BeginLog
 pr := rec( edgeLabelsActive := true  );;
-DrawFacegraphToTikz( double6Gon, "Double6Gon_edgeLabelsOn", pr);;
+DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{Image_facegraph_Double6Gon_EdgeLabelsOn.tex}
+#!     \input{_TIKZ_facegraph_Double6Gon_EdgeLabelsOn.tex}
 #! </Alt>
 #! </Item>
 #! <Item><E>edgeLabels</E>: By default the edges are labelled by their 
@@ -822,10 +824,10 @@ DrawFacegraphToTikz( double6Gon, "Double6Gon_edgeLabelsOn", pr);;
 #!   edge labels unbound - those will be labelled with their default label.
 #! @BeginLog
 pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
-DrawFacegraphToTikz( double6Gon, "Tetrahedron_edgeLabels", pr);;
+DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!    \input{Image_facegraph_Double6Gon_EdgeLabels.tex}
+#!    \input{_TIKZ_facegraph_Double6Gon_EdgeLabels.tex}
 #! </Alt>
 #!   </Item>
 #!
@@ -833,10 +835,10 @@ DrawFacegraphToTikz( double6Gon, "Tetrahedron_edgeLabels", pr);;
 #!     should not be labelled, this parameter can be set to <K>false</K>.
 #! @BeginLog
 pr := rec( faceLabelsActive := false );;
-DrawSurfaceToTikz( double6Gon, "Double6Gon_FaceLabelsOff", pr);;
+DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{Image_facegraph_Double6Gon_FaceLabelsOff.tex }
+#!     \input{_TIKZ_facegraph_Double6Gon_FaceLabelsOff.tex }
 #! </Alt>
 #! </Item>
 #! <Item><E>faceLabels</E>: By default the faces are labelled by their 
@@ -849,10 +851,10 @@ DrawSurfaceToTikz( double6Gon, "Double6Gon_FaceLabelsOff", pr);;
 #!   face labels unbound - those will be labelled with their default label.
 #! @BeginLog
 pr := rec( faceLabels := ["I", "f_2", "42", ,] );;
-DrawFacegraphToTikz( double6Gon, "Double6Gon_FaceLabels", pr);;
+DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!    \input{Image_facegraph_Double6Gon_FaceLabels.tex}
+#!    \input{_TIKZ_facegraph_Double6Gon_FaceLabels.tex}
 #! </Alt>
 #!   </Item>
 #! </List>
@@ -875,7 +877,7 @@ oct:=Octahedron();;
 DrawFacegraphToTikz( oct, "facegraph_oct" );;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!    \input{Image_facegraph_oct.tex}
+#!    \input{_TIKZ_facegraph_oct.tex}
 #! </Alt>
 #! <List>
 #!   <Item><E>scale</E>: By default the scale is 2. This can be changed with this parameter.
@@ -908,7 +910,7 @@ DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @EndLog
 #!
 #! <Alt Only="TikZ">
-#!     \input{Image_facegraph_tetrahedron.tex}
+#!     \input{_TIKZ_facegraph_tetrahedron.tex}
 #! </Alt>
 #! <List>
 #!   <Item><E>faceCoordinates2D</E>: Modifies the position of the vertices
@@ -922,10 +924,10 @@ DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @BeginLog
 pr := rec( faceCoordinates2D:=[[0.,0.],[4.,0.],[4.,4.],[0.,4.]]);;
 DrawFacegraphToTikz(tetra, 
-"tetrahedron_facegraph_tetrahedron_Coordinates", pr);;
+"facegraph_tetrahedron_Coordinates", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{Image_facegraph_tetrahedron_Coordinates.tex}
+#!     \input{_TIKZ_facegraph_tetrahedron_Coordinates.tex}
 #! </Alt>
 #!
 #!   </Item>
@@ -942,7 +944,7 @@ DrawFacegraphToTikz(tetra,
 #!
 #! It covers the following parameters:
 #! * <E>geodesicsActice</E>: Turn the drawing of the geodesics on or off (by default
-#!   they are turned off). A geodesic of a simpicial surface can be defined as a 
+#!   they are turned off). A geodesic of a simplicial surface can be defined as a 
 #!   face-edge-path. This information can be used to draw the geodesic as polygon 
 #!   so that edges of the polygon and edges of the embedding of the face graph intersect
 #!   if and only if the corresponding edge of the simplicial surface lies on the 
@@ -952,7 +954,7 @@ DrawFacegraphToTikz(tetra,
 #! to make it more clear how the parameters work:
 #! @BeginLog
 oct:=Octahedron();
-DrawFacegraphToTikz( oct, "facegraph_DoubleTetrahedron.tex" );;
+DrawFacegraphToTikz( oct, "facegraph_Octahedron.tex" );;
 #! @EndLog
 #! 
 #! <Alt Only="TikZ">
@@ -974,5 +976,27 @@ DrawFacegraphToTikz( oct,
 #! </Alt>
 #! </Item>
 #! </List>
+#! @EndChunk
+
+#! @BeginChunk DrawFacegraphToTikz_Output
+#! This subsection contains miscellaneous parameters to control the output
+#! of <K>DrawFacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>). It 
+#! contains the following options:
+#! * <E>compileLaTeX</E>: If this parameter is <K>true</K> (the default is
+#!   <K>false</K>) the generated tex-file will be automatically compiled
+#!   with <K>pdflatex</K>. In rare cases the compilation might run into
+#!   a problem and stop. To abort such a computation, type 'x' and hit
+#!   ENTER (this command is passed to <K>pdflatex</K>). If this happens,
+#!   please notify the developers so it can be fixed in a later version.
+#! * <E>latexDocumentclass</E>: Defines which documentclass is used for
+#!   the output. The default is <K>article</K>. If the picture should
+#!   not be cropped (and not be printed), <K>standalone</K> is recommended.
+#! * <E>noOutput</E>: If this parameter is <K>true</K> (the default is
+#!   <K>false</K>) the method <K>DrawSurfaceToTikz</K> will produce no
+#!   output on the console.
+#! * <E>onlyTikzpicture</E>: If this parameter is <K>true</K> (the default
+#!   is <K>false</K>) the generated tex-file will only consist of a 
+#!   <K>tikzpicture</K> without header (it is not possible to compile it on
+#!   its own).
 #! @EndChunk
 

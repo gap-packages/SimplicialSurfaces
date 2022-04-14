@@ -325,6 +325,10 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! * <E>Geodesics</E>
 #!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Geodesics"/>): Draw the 
 #!   geodesics of the simplicial surface into the file.
+#! * <E>Output control</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Output"/>): Modify how the
+#!   &LaTeX;-output behaves and how much information is printed to the 
+#!   console.
 #!
 #! If <K>surface</K> is a simplicial sphere without 2-waists, the function can
 #! be called without specifying the parameter <K>faceCoordinates2D</K>.
@@ -356,3 +360,6 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #! @SubsectionLabel DrawFacegraphToTikz_Geodesics
 #! @InsertChunk DrawFacegraphToTikz_Geodesics
 
+#! @Subsection Output control
+#! @SubsectionLabel DrawFacegraphToTikz_Output
+#! @InsertChunk DrawFacegraphToTikz_Output

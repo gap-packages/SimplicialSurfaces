@@ -1862,9 +1862,20 @@ InstallMethod( DrawFacegraphToTikz,
     tempRec.vertexColours:=printRecord.faceColours;
     tempRec.faceColours:=printRecord.vertexColours;
 
-    AppendTo( output,__SIMPLICIAL_PrintRecordGeneralHeader(tempRec));
-    AppendTo( output,__SIMPLICIAL_PrintRecordTikzHeader(tempRec));
-    AppendTo( output, "\n\n\\begin{document}\n");
+  # Write this data into the file
+    if not printRecord!.onlyTikzpicture then
+        AppendTo( output, __SIMPLICIAL_PrintRecordGeneralHeader(tempRec));
+        AppendTo( output, __SIMPLICIAL_PrintRecordTikzHeader(tempRec));
+        AppendTo( output, "\n\n\\begin{document}\n\n" );
+        if IsBound(printRecord!.caption) then
+            AppendTo( output,
+                "\\subsection*{", printRecord!.caption, "}\n \\bigskip\n");
+            fi;
+        fi;
+
+#    AppendTo( output,__SIMPLICIAL_PrintRecordGeneralHeader(tempRec));
+#    AppendTo( output,__SIMPLICIAL_PrintRecordTikzHeader(tempRec));
+#    AppendTo( output, "\n\n\\begin{document}\n");
     AppendTo( output, "\n\n\\begin{tikzpicture}[",
     __SIMPLICIAL_PrintRecordTikzOptions(tempRec, surface), "]\n\n" );
 
