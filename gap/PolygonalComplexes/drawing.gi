@@ -1991,7 +1991,10 @@ InstallMethod( DrawFacegraphToTikz,
     fi;
 
     AppendTo(output,"\\end{tikzpicture}\n");
-    AppendTo(output,"\\end{document}");
+    if not printRecord!.onlyTikzpicture then
+        AppendTo( output, "\n\\end{document}\n");
+    fi;
+
     CloseStream(output);
     if not printRecord!.noOutput then
         Print( "Picture written in TikZ." );

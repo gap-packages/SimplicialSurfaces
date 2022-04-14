@@ -784,7 +784,7 @@ DrawFacegraphToTikz( double6Gon,
 "facegraph_Double6Gon_VertexLabelsOn.tex" , pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_Double6Gon_VertexLabelsOn.tex }
+#!     \input{_TIKZ_facegraph_Double6Gon_VertexLabelsOn.tex}
 #! </Alt>
 #! </Item>
 #! <Item><E>vertexLabels</E>: By default the vertices are labelled by their 
