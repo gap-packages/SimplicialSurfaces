@@ -104,9 +104,9 @@ gap&gt; EulerCharacteristic(newSurf);
         be represented as a triangulation of the sphere. We might want to
         know how many vertices there are of different degrees. This
         can be found out by using <K>VertexCounter</K> 
-        (<Ref Subsect="VertexCounter"/>).
+        (<Ref Subsect="CounterOfVertices"/>).
 <Example>
-gap&gt; VertexCounter(newSurf);
+gap&gt; CounterList(CounterOfVertices(newSurf));
 [ [ 4, 8 ], [ 5, 2 ], [ 6, 5 ], [ 7, 1 ], [ 11, 1 ] ]
 </Example>
         This tells us that there are 8 vertices of degree 4, for example.

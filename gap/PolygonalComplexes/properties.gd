@@ -273,12 +273,21 @@ DeclareAttribute( "TotalDefect", IsSimplicialSurface );
 DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! @EndGroup
 
-
-
-
-#! @BeginGroup VertexCounter
+#! @BeginGroup Counter
 #! @Description
-#! Return the <E>vertex counter</E> of the given twisted polygonal complex.
+#! @Returns true or false
+#! @Arguments object
+DeclareCategory("IsCounter",IsObject);
+#! @EndGroup Counter
+
+DeclareOperation("Counter",[IsTwistedPolygonalComplex]);
+
+#! @BeginGroup CounterOfVertices
+#! @Description
+#! The method <K>CounterOfVertices</K> construct a new vertex counter from a
+#! twisted polygonal complex.
+#! The method <K>IsCounterOfVertices</K> checks if a given &GAP;-object
+#! represents such a vertex counter
 #! The vertex counter is a list that counts how many vertices are incident
 #! to how many faces. It is a list of pairs <E>[degree, number]</E>, where
 #! <E>number</E> counts the number of vertices with exactly <E>degree</E>
@@ -294,16 +303,19 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! @ExampleSession
 #! gap> List( FacesOfVertices(fiveStar), Size );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
-#! gap> VertexCounter(fiveStar);
+#! gap> countVert:=CounterOfVertices(fiveStar);;
+#! gap> CounterList(countVert);
 #! [ [ 2, 5 ], [ 5, 1 ] ]
 #! @EndExampleSession
 #!
-#! @Returns a list of pairs of positive integers
+#! @Returns CounterOfVertices/true or false
 #! @Arguments complex
-DeclareAttribute( "VertexCounter", IsTwistedPolygonalComplex );
+DeclareOperation("CounterOfVertices",[IsTwistedPolygonalComplex]);
+#! @Arguments counter
+DeclareProperty("IsCounterOfVertices",IsCounter);
 #! @EndGroup
 
-#! @BeginGroup EdgeCounter
+#! @BeginGroup CounterOfEdges
 #! @Description
 #! Return the <E>edge counter</E> of the given twisted polygonal complex.
 #! The edge counter is a list of pairs <E>[degreeList, number]</E>,
@@ -320,16 +332,19 @@ DeclareAttribute( "VertexCounter", IsTwistedPolygonalComplex );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> EdgeCounter(fiveStar);
+#! gap> countEdg := CounterOfEdges(fiveStar);;
+#! gap> CounterList(countEdg);
 #! [ [ [ 2, 2 ], 5 ], [ [ 2, 5 ], 5 ] ]
 #! @EndExampleSession
 #!
-#! @Returns a list of pairs
+#! @Returns CounterOfEdges/true or false
 #! @Arguments complex
-DeclareAttribute( "EdgeCounter", IsTwistedPolygonalComplex );
+DeclareOperation("CounterOfEdges",[IsTwistedPolygonalComplex]);
+#! @Arguments counter
+DeclareProperty("IsCounterOfEdges",IsCounter);
 #! @EndGroup
 
-#! @BeginGroup FaceCounter
+#! @BeginGroup CounterOfFaces
 #! @Description
 #! Return the <E>face counter</E> of the given twisted polygonal complex.
 #! The face counter is a list of pairs <E>[degreeList, number]</E>,
@@ -348,13 +363,55 @@ DeclareAttribute( "EdgeCounter", IsTwistedPolygonalComplex );
 #!   \end{tikzpicture}
 #! </Alt>
 #! @ExampleSession
-#! gap> FaceCounter(fiveStar);
+#! gap> countFac:=CounterOfFaces(fiveStar);;
+#! gap> CounterList(countFac);
 #! [ [ [ 2, 2, 5 ], 5 ] ]
 #! @EndExampleSession
 #!
-#! @Returns a list of pairs
+#! @Returns CounterOfFaces/true or false
 #! @Arguments complex
-DeclareAttribute( "FaceCounter", IsTwistedPolygonalComplex );
+DeclareOperation("CounterOfFaces",[IsTwistedPolygonalComplex]);
+#! @Arguments counter
+DeclareProperty("IsCounterOfFaces",IsCounter);
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! Return the list of pairs <E>[degreeList, number]</E> for the given counter.
+#! @BeginExampleSession
+#! gap> countFac:=CounterOfFaces(fiveStar);;
+#! gap> CounterList(countFac);
+#! [ [ [ 2, 2, 5 ], 5 ] ]
+#! @EndExampleSession
+#! 
+#! @Returns a list of pairs
+#! @Arguments counter
+DeclareAttribute("CounterList",IsCounter);
+#! @EndGroup
+
+#! @BeginGroup
+#!
+#! @Returns a list of positive integers/a positive integer
+#! @Arguments counterVert
+DeclareOperation("NumberOfDegrees",[IsCounterOfVertices]);
+#! @Arguments counterVert, degree
+DeclareOperation("NumberOfDegree",[IsCounterOfVertices, IsPosInt]);
+#! @EndGroup
+
+#! @BeginGroup
+#! @Returns a list of positive integers
+#! @Arguments counter
+DeclareOperation("Degrees",[IsCounter]);
+#! @Arguments counter
+DeclareOperation("DegreesOfNumbers",[IsCounter]);
+#! @Arguments counter, number
+DeclareOperation("DegreesOfNumber",[IsCounter, IsPosInt]);
+#! @EndGroup
+
+#! @BeginGroup
+#! @Returns a list of positive integers
+#! @Arguments counter
+DeclareOperation("Numbers",[IsCounter]);
 #! @EndGroup
 
 #! @BeginGroup ButterflyCounter

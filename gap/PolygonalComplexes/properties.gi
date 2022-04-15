@@ -165,9 +165,19 @@ InstallMethod( TotalInnerDefect, "for a simplicial surface", [IsSimplicialSurfac
 );
 RedispatchOnCondition( TotalInnerDefect, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
 
+BindGlobal("CounterFamily",NewFamily("CounterFamily",IsObject,IsCounter));
+DeclareRepresentation("IsCounterRep",IsCounter and IsAttributeStoringRep,[]);
+BindGlobal("IsCounterType",NewType(CounterFamily,IsCounterRep));
 
-InstallMethod( VertexCounter, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
+InstallMethod( Counter,
+    "method for twisted polygonal complexes",
+    [ IsTwistedPolygonalComplex ],
+    function( complex )
+    	return Objectify( NewType( CounterFamily, IsCounter and IsCounterRep ),rec());
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_VertexCounter",
     function(complex)
         local faceDegrees, faces, deg, counter;
 
@@ -189,14 +199,22 @@ InstallMethod( VertexCounter, "for a twisted polygonal complex",
         od;
 
         return counter;
-
-        #faceDegrees := List( FacesOfVertices(complex), Length );
-        #return Collected( Compacted( faceDegrees ) );
     end
 );
 
-InstallMethod( EdgeCounter, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
+InstallMethod( CounterOfVertices,
+    "method for twisted polygonal complexes",
+    [ IsTwistedPolygonalComplex ],
+    function( complex )
+                local counter;
+                counter:=Objectify( NewType( CounterFamily, IsCounter and IsCounterRep ),rec());
+                SetCounterList(counter,__SIMPLICIAL_VertexCounter(complex));
+                SetIsCounterOfVertices(counter,true);
+                return counter;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_EdgeCounter",
     function(complex)
         local faceDegrees, edgeDegrees;
 
@@ -207,8 +225,19 @@ InstallMethod( EdgeCounter, "for a twisted polygonal complex",
     end
 );
 
-InstallMethod( FaceCounter, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
+InstallMethod( CounterOfEdges,
+    "method for twisted polygonal complexes",
+    [ IsTwistedPolygonalComplex ],
+    function( complex )
+                local counter;
+                counter:=Objectify( NewType( CounterFamily,IsCounter and IsCounterRep ),rec());
+                SetCounterList(counter,__SIMPLICIAL_EdgeCounter(complex));
+                SetIsCounterOfEdges(counter,true);
+                return counter;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_FaceCounter",
     function(complex)
         local vertexDegrees, faceDegrees;
 
@@ -216,6 +245,18 @@ InstallMethod( FaceCounter, "for a twisted polygonal complex",
         faceDegrees := List( VerticesOfFaces(complex), vs -> List(vs, v -> vertexDegrees[v]) );
         Perform( faceDegrees, Sort );
         return Collected( Compacted( faceDegrees ) );
+    end
+);
+
+InstallMethod( CounterOfFaces,
+    "method for twisted polygonal complexes",
+    [ IsTwistedPolygonalComplex ],
+    function( complex )
+                local counter;
+                counter:=Objectify( NewType( CounterFamily, IsCounter and IsCounterRep ),rec());
+                SetCounterList(counter,__SIMPLICIAL_FaceCounter(complex));
+                SetIsCounterOfFaces(counter,true);
+                return counter;
     end
 );
 
@@ -369,7 +410,112 @@ InstallMethod( ThreeFaceCounter, "for a simplicial surface",
 end
 );
 
+InstallMethod( NumberOfDegrees,
+    "method for a counter of vertices",
+    [ IsCounterOfVertices ],
+    function( counter)
+		local counterList, maxDegree, numbers, c;
+		counterList:=CounterList(counter);
+		maxDegree:=Maximum(List(counterList,c->c[1]));
+		numbers:=EmptyPlist(maxDegree);
+		for c in counterList do
+			numbers[c[1]]:=c[2];
+		od;
+		return numbers;
+    end
+);	
+InstallMethod( NumberOfDegree,
+    "method for a counter of vertices and a degree",
+    [ IsCounterOfVertices, IsPosInt],
+    function( counter, degree)
+		if IsBound(NumberOfDegrees(counter)[degree]) then
+			return NumberOfDegrees(counter)[degree];
+		else 
+			Error(Concatenation("NumberOfDegree: Given counter ", String(counter), 
+                " does not have a vertex of the given degree ", String(degree), "." ));
+		fi;
+    end
+);
+InstallMethod( Degrees,
+    "method for a counter",
+    [ IsCounter ],
+    function(counter)
+		return List(CounterList(counter),c->c[1]);
+    end
+);
+InstallMethod( Numbers,
+    "method for a counter",
+    [ IsCounter ],
+    function( counter)
+		return List(CounterList(counter),c->c[2]);
+    end
+);
+InstallMethod( DegreesOfNumbers,
+    "method for a counter",
+    [ IsCounter ],
+    function(counter)
+		local counterList, number, degrees, c;
+		counterList:=CounterList(counter);
+		number:=Maximum(List(counterList,c->c[2]));
+		degrees:=EmptyPlist(number);
+		for c in counterList do
+			degrees[c[2]]:=c[1];
+		od;
+		return degrees;
+    end
+);
+InstallMethod( DegreesOfNumber,
+    "method for a counter and an integer",
+    [ IsCounter, IsPosInt],
+    function( counter, number)
+		if IsBound(DegreesOfNumbers(counter)[number]) then
+			return DegreesOfNumbers(counter)[number];
+		else 
+			Error(Concatenation("DegreesOfNumber: Given counter ", String(counter), 
+                " does not have ", String(number), " of same degree." ));
+		fi;
+    end
+);
 
+
+InstallMethod(ViewObj,"for a vertex counter", [IsCounterOfVertices],
+	function(counter)
+		local strList;
+		strList:=[];
+		Add(strList, ["VertexCounter( ",0]);
+		Add( strList, [Concatenation(String(Degrees(counter)), " degrees"), 1] );
+        Add( strList, [", ", 0] );
+        Add( strList, [Concatenation(String(Numbers(counter)), " numbers"), 2] );
+		Add(strList,[" )" ,0]);
+		Print(__SIMPLICIAL_UncolouredString(strList));
+	end
+);
+
+InstallMethod(ViewObj,"for a edge counter", [IsCounterOfEdges],
+	function(counter)
+		local strList;
+		strList:=[];
+		Add(strList, ["EdgeCounter( ",0]);
+		Add( strList, [Concatenation(String(Degrees(counter)), " degrees"), 1] );
+        Add( strList, [", ", 0] );
+        Add( strList, [Concatenation(String(Numbers(counter)), " numbers"), 2] );
+		Add(strList,[" )" ,0]);
+		Print(__SIMPLICIAL_UncolouredString(strList));
+	end
+);
+
+InstallMethod(ViewObj,"for a face counter", [IsCounterOfFaces],
+	function(counter)
+		local strList;
+		strList:=[];
+		Add(strList, ["FaceCounter( ",0]);
+		Add( strList, [Concatenation(String(Degrees(counter)), " degrees"), 1] );
+        Add( strList, [", ", 0] );
+        Add( strList, [Concatenation(String(Numbers(counter)), " numbers"), 2] );
+		Add(strList,[" )" ,0]);
+		Print(__SIMPLICIAL_UncolouredString(strList));
+	end
+);
 ##
 ##      End of degrees
 ##
