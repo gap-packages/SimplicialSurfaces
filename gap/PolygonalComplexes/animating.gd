@@ -51,7 +51,7 @@
 #!   <Item>Write your animation to a file calling the main method <K>DrawSurfaceToJavaScript</K>
 #!        (see Section <Ref Sect="Section_LabelCoordinatesAndCoreFunctionality"/>).</Item>
 #! </Enum>
-#! The output of the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) is a html file.
+#! The output of the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) is an html file.
 #! The file can be opened with any browser and then the animation is shown directly.
 
 #! @Section Coordinates and Core Functionality
@@ -67,7 +67,7 @@
 #! always calculates the edge locations depending on the current vertices positions.
 #! If you want to avoid that, you can use the method <K>DrawSurfaceToJavaScriptCalculate</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>)
 #! and set the last parameter to false. In this case, only the first call of the method computes the edge locations.
-#! Using this method can makes the animation inconsistent if the coordinates of the vertices have changed but the edge locations have stayed the same.
+#! Using this method can make the animation inconsistent if the coordinates of the vertices have changed but the edge locations have stayed the same.
 #!
 #! To show this problem animate a tetrahedron:
 #! @BeginLog
@@ -259,9 +259,9 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface, IsRecord] 
 
 #! @BeginGroup ActivateVertices
 #! @Description
-#! The method <K>ActivateVertex</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activate the vertex <A>i</A>.
+#! The method <K>ActivateVertex</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the vertex <A>i</A>.
 #! If a vertex is active, then the vertex is shown in the animation as a node with the number <A>i</A>.
-#! The method <K>ActivateVertices</K>(<A>surface</A>, <A>printRecord</A>) activate all vertices of <A>surface</A>.
+#! The method <K>ActivateVertices</K>(<A>surface</A>, <A>printRecord</A>) activates all vertices of <A>surface</A>.
 #! By default, all vertices are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
@@ -274,9 +274,9 @@ DeclareOperation( "IsVertexActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 
 #! @BeginGroup DeactivateVertices
 #! @Description
-#! The method <K>DeactivateVertex</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivate the vertex <A>i</A>.
+#! The method <K>DeactivateVertex</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivates the vertex <A>i</A>.
 #! If a vertex is inactive, then the vertex is not shown separately.
-#! The method <K>DeactivateVertices</K>(<A>surface</A>, <A>printRecord</A>) deactivate all vertices of <A>surface</A>.
+#! The method <K>DeactivateVertices</K>(<A>surface</A>, <A>printRecord</A>) deactivates all vertices of <A>surface</A>.
 #! By default, all vertices are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
@@ -287,9 +287,9 @@ DeclareOperation( "DeactivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] 
 
 #! @BeginGroup ActivateEdges
 #! @Description
-#! The method <K>ActivateEdge</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activate the edge <A>i</A>.
+#! The method <K>ActivateEdge</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the edge <A>i</A>.
 #! If an edge is active, then the edge is shown in the animation as a line.
-#! The method <K>ActivateEdges</K>(<A>surface</A>, <A>printRecord</A>) activate all edges of <A>surface</A>.
+#! The method <K>ActivateEdges</K>(<A>surface</A>, <A>printRecord</A>) activates all edges of <A>surface</A>.
 #! By default, all edges are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
@@ -302,9 +302,9 @@ DeclareOperation( "IsEdgeActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 
 #! @BeginGroup DeactivateEdges
 #! @Description
-#! The method <K>DeactivateEdge</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivate the edge <A>i</A>.
+#! The method <K>DeactivateEdge</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivates the edge <A>i</A>.
 #! If an edge is inactive, then the edge is not shown in the animation as a line.
-#! The method <K>DeactivateEdges</K>(<A>surface</A>, <A>printRecord</A>) deactivate all edges of <A>surface</A>.
+#! The method <K>DeactivateEdges</K>(<A>surface</A>, <A>printRecord</A>) deactivates all edges of <A>surface</A>.
 #! By default, all edges are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
@@ -315,9 +315,9 @@ DeclareOperation( "DeactivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
 
 #! @BeginGroup ActivateFaces
 #! @Description
-#! The method <K>ActivateFace</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activate the face <A>i</A>.
+#! The method <K>ActivateFace</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the face <A>i</A>.
 #! If a face is active, then the face is shown in the animation as an area.
-#! The method <K>ActivateFaces</K>(<A>surface</A>, <A>printRecord</A>) activate all faces of <A>surface</A>.
+#! The method <K>ActivateFaces</K>(<A>surface</A>, <A>printRecord</A>) activates all faces of <A>surface</A>.
 #! By default, all faces are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
@@ -330,9 +330,9 @@ DeclareOperation( "IsFaceActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 
 #! @BeginGroup DeactivateFaces
 #! @Description
-#! The method <K>DeactivateFace</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivate the face <A>i</A>.
+#! The method <K>DeactivateFace</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivates the face <A>i</A>.
 #! If an face is inactive, then the face is not shown in the animation as an area.
-#! The method <K>DeactivateFace</K>(<A>surface</A>, <A>printRecord</A>) deactivate all faces of <A>surface</A>.
+#! The method <K>DeactivateFace</K>(<A>surface</A>, <A>printRecord</A>) deactivates all faces of <A>surface</A>.
 #! By default, all faces are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
@@ -413,8 +413,8 @@ DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecor
 
 #! @BeginGroup SetVertexColours
 #! @Description
-#! The method <K>SetVertexColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) set the colour of vertex <A>i</A> to <A>colour</A>.
-#! The method <K>SetVertexColours</K>(<A>surface</A>,<A>newColoursList</A>, <A>printRecord</A>) set the colours for all vertices of <A>surface</A>.
+#! The method <K>SetVertexColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) sets the colour of vertex <A>i</A> to <A>colour</A>.
+#! The method <K>SetVertexColours</K>(<A>surface</A>,<A>newColoursList</A>, <A>printRecord</A>) sets the colours for all vertices of <A>surface</A>.
 #! That means the method set the colour of vertex <A>j</A> to <A>newColoursList[j]</A>.
 #! The default colour for all vertices is 0xF58137, an orange hue.
 #! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
@@ -443,8 +443,8 @@ DeclareOperation( "GetVertexColour", [IsSimplicialSurface, IsPosInt, IsRecord] )
 
 #! @BeginGroup SetEdgeColours
 #! @Description
-#! The method <K>SetEdgeColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) set the colour of edge <A>i</A> to <A>colour</A>.
-#! The method <K>SetEdgeColours</K>(<A>surface</A>,<A>newColoursList</A>, <A>printRecord</A>) set the colours for all edges of <A>surface</A>.
+#! The method <K>SetEdgeColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) sets the colour of edge <A>i</A> to <A>colour</A>.
+#! The method <K>SetEdgeColours</K>(<A>surface</A>,<A>newColoursList</A>, <A>printRecord</A>) sets the colours for all edges of <A>surface</A>.
 #! That means the method set the colour of edge <A>j</A> to <A>newColoursList[j]</A>.
 #! The default colour for all edges is 0xff0000, an red hue.
 #! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
@@ -473,8 +473,8 @@ DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 
 #! @BeginGroup SetFaceColours
 #! @Description
-#! The method <K>SetFaceColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) set the colour of face <A>i</A> to <A>colour</A>.
-#! The method <K>SetFaceColours</K>(<A>surface</A>,<A>newColoursList</A>, <A>printRecord</A>) set the colours for all faces of <A>surface</A>.
+#! The method <K>SetFaceColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) sets the colour of face <A>i</A> to <A>colour</A>.
+#! The method <K>SetFaceColours</K>(<A>surface</A>,<A>newColoursList</A>, <A>printRecord</A>) sets the colours for all faces of <A>surface</A>.
 #! That means the method set the colour of face <A>j</A> to <A>newColoursList[j]</A>.
 #! The default colour for all faces is 0xFFFF00, an yellow hue.
 #! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
@@ -554,8 +554,8 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 
 #! @BeginGroup ActivateInnerCircles
 #! @Description
-#! The method <K>ActivateInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activate the inner circle of face <A>i</A>.
-#! The method <K>ActivateInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) activate all inner circles of <A>surface</A>.
+#! The method <K>ActivateInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the inner circle of face <A>i</A>.
+#! The method <K>ActivateInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) activates all inner circles of <A>surface</A>.
 #! If an inner circle is active, then it is shown in the animation.
 #! By default, the inner circles are deactive.
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
@@ -570,8 +570,8 @@ DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecor
 
 #! @BeginGroup DeactivateInnerCircles
 #! @Description
-#! The method <K>DeactivateInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivate the inner circle of face <A>i</A>.
-#! The method <K>DeactivateInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) deactivate all inner circles of <A>surface</A>.
+#! The method <K>DeactivateInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivates the inner circle of face <A>i</A>.
+#! The method <K>DeactivateInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) deactivates all inner circles of <A>surface</A>.
 #! If an inner circle is deactive, then it is not shown in the animation.
 #! By default, the inner circles are deactive.
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
@@ -584,8 +584,8 @@ DeclareOperation( "DeactivateInnerCircle", [IsSimplicialSurface, IsPosInt, IsRec
 
 #! @BeginGroup SetCircleColours
 #! @Description
-#! The method <K>SetCircleColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) set the colour for the inner circle of face <A>i</A>.
-#! The method <K>SetCircleColours</K>(<A>surface</A>, <A>newColoursList</A>, <A>printRecord</A>) set the colour for all inner circles of <A>surface</A>.
+#! The method <K>SetCircleColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) sets the colour for the inner circle of face <A>i</A>.
+#! The method <K>SetCircleColours</K>(<A>surface</A>, <A>newColoursList</A>, <A>printRecord</A>) sets the colour for all inner circles of <A>surface</A>.
 #! That means the method set the colour of the inner circle of face <A>j</A> to <A>newColoursList[j]</A>.
 #! The default colour is 0x000000, an black hue.
 #! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
@@ -600,8 +600,8 @@ DeclareOperation( "SetCircleColour", [IsSimplicialSurface, IsPosInt, IsString, I
 
 #! @BeginGroup GetCircleColours
 #! @Description
-#! The method <K>GetCircleColour</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) return the colour for the inner circle of face <A>i</A>.
-#! The method <K>GetCircleColours</K>(<A>surface</A>, <A>printRecord</A>) return the colour for all inner circles of <A>surface</A>
+#! The method <K>GetCircleColour</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) returns the colour for the inner circle of face <A>i</A>.
+#! The method <K>GetCircleColours</K>(<A>surface</A>, <A>printRecord</A>) returns the colour for all inner circles of <A>surface</A>
 #! as a list <A>colours</A>, where the colour of the inner circle of face <A>j</A> is <A>colours[j]</A>.
 #! The default colour is 0x000000, an black hue.
 #! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
@@ -677,8 +677,8 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface, IsRe
 
 #! @BeginGroup ActivateNormalOfInnerCircles
 #! @Description
-#! The method <K>ActivateNormalOfInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activate the normal of the inner circle of face <A>i</A>.
-#! The method <K>ActivateNormalOfInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) activate all normals of the inner circles of <A>surface</A>.
+#! The method <K>ActivateNormalOfInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the normal of the inner circle of face <A>i</A>.
+#! The method <K>ActivateNormalOfInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) activates all normals of the inner circles of <A>surface</A>.
 #! If a normal is active, then the normal is shown in the animation.
 #! By default, the normals of inner circles are deactive.
 #! For the description of normals of inner circles look at <Ref Sect="Section_LabelNormalsInnerCirclesAnimating"/>.
@@ -693,8 +693,8 @@ DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface, IsPosInt,
 
 #! @BeginGroup DeactivateNormalOfInnerCircles
 #! @Description
-#! The method <K>DeactivateNormalOfInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivate the normal of the inner circle of face <A>i</A>.
-#! The method <K>DeactivateNormalOfInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) deactivate all normals of the inner circles of <A>surface</A>.
+#! The method <K>DeactivateNormalOfInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivates the normal of the inner circle of face <A>i</A>.
+#! The method <K>DeactivateNormalOfInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) deactivates all normals of the inner circles of <A>surface</A>.
 #! If a normal is deactive, then the normal is not shown in the animation.
 #! By default, the normals of inner circles are deactive.
 #! For the description of normals inner circles look at <Ref Sect="Section_LabelNormalsInnerCirclesAnimating"/>.
