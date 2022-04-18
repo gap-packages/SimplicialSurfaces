@@ -1,0 +1,58 @@
+\begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle,scale=2.5]
+
+\coordinate (V1_1) at (0., 0.);
+\coordinate (V2_1) at (1., 0.);
+\coordinate (V3_1) at (0.4999999999999999, 0.8660254037844386);
+\coordinate (V4_1) at (1.5, 0.8660254037844388);
+\coordinate (V5_1) at (2., 0.);
+\coordinate (V6_1) at (2.5, 0.866025403784439);
+\coordinate (V7_1) at (3., 1.732050807568878);
+\coordinate (V8_1) at (2., 1.732050807568878);
+\coordinate (V9_1) at (0.9999999999999996, 1.732050807568877);
+
+\fill[face]  (V2_1) -- (V3_1) -- (V1_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V1_1=1) {$I$};
+\fill[face]  (V2_1) -- (V4_1) -- (V3_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V4_1=1,V3_1=1) {$II$};
+\fill[face]  (V2_1) -- (V5_1) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V5_1=1,V4_1=1) {$III$};
+\fill[face]  (V5_1) -- (V6_1) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V5_1=1,V6_1=1,V4_1=1) {$IV$};
+\fill[face]  (V4_1) -- (V9_1) -- (V3_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V4_1=1,V9_1=1,V3_1=1) {$V$};
+\fill[face]  (V8_1) -- (V9_1) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V8_1=1,V9_1=1,V4_1=1) {$VI$};
+\fill[face]  (V6_1) -- (V8_1) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V6_1=1,V8_1=1,V4_1=1) {$VII$};
+\fill[face]  (V6_1) -- (V7_1) -- (V8_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V6_1=1,V7_1=1,V8_1=1) {$VIII$};
+
+\draw[edge] (V2_1) -- node[edgeLabel] {$1$} (V1_1);
+\draw[edge] (V1_1) -- node[edgeLabel] {$2$} (V3_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$3$} (V2_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$4$} (V2_1);
+\draw[edge] (V5_1) -- node[edgeLabel] {$5$} (V2_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$6$} (V4_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$7$} (V9_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$8$} (V5_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$9$} (V6_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$10$} (V8_1);
+\draw[edge] (V9_1) -- node[edgeLabel] {$11$} (V4_1);
+\draw[edge] (V6_1) -- node[edgeLabel] {$12$} (V5_1);
+\draw[edge] (V7_1) -- node[edgeLabel] {$13$} (V6_1);
+\draw[edge] (V8_1) -- node[edgeLabel] {$14$} (V6_1);
+\draw[edge] (V8_1) -- node[edgeLabel] {$15$} (V7_1);
+\draw[edge] (V9_1) -- node[edgeLabel] {$16$} (V8_1);
+
+\vertexLabelR{V1_1}{below}{$1$}
+\vertexLabelR{V2_1}{below}{$2$}
+\vertexLabelR{V3_1}{left}{$3$}
+\vertexLabelR{V4_1}{above}{$4$}
+\vertexLabelR{V5_1}{below}{$5$}
+\vertexLabelR{V6_1}{right}{$6$}
+\vertexLabelR{V7_1}{above}{$7$}
+\vertexLabelR{V8_1}{above}{$8$}
+\vertexLabelR{V9_1}{above}{$9$}
+
+\end{tikzpicture}
+\end{document}

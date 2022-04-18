@@ -587,13 +587,13 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
         "FacesOfEdges", "VerticesOfEdges", "RamifiedEdges"], ["IsPolygonalComplex"]);
 
 
-InstallMethod(StarNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
-	function(surface, vertex)
+InstallMethod(StarNC, "for a polygonal complex and an integer", [IsPolygonalComplex, IsInt],
+	function(complex, vertex)
 	
 		local faces;
 		
-		faces:=FacesOfVertex(surface,vertex);
-		return SubcomplexByFaces(surface,faces);
+		faces:=FacesOfVertex(complex,vertex);
+		return SubcomplexByFaces(complex,faces);
 	
 	end
 );
@@ -607,28 +607,28 @@ InstallMethod(Star, "for a polygonal surface and an integer", [IsPolygonalSurfac
 	end
 );
 
-InstallMethod(StarNC, "for a polygonal surface and a list", [IsPolygonalSurface, IsList],
-        function(surface, vertices)
+InstallMethod(StarNC, "for a polygonal complex and a list", [IsPolygonalComplex, IsList],
+        function(complex, vertices)
 
                 local faces, v;
 		faces:=[];
 		for v in vertices do
-                	Append(faces,FacesOfVertex(surface,v));
+                	Append(faces,FacesOfVertex(complex,v));
 		od;
-                return SubcomplexByFaces(surface,faces);
+                return SubcomplexByFaces(complex,faces);
 
         end
 );
 
-InstallMethod(Star, "for a polygonal surface and a list", [IsPolygonalSurface, IsList],
-        function(surface, vertices)
+InstallMethod(Star, "for a polygonal complex and a list", [IsPolygonalComplex, IsList],
+        function(complex, vertices)
 		
 		local v;
 
 		for v in vertices do
-                	__SIMPLICIAL_CheckVertex(surface,v, "Star");
+                	__SIMPLICIAL_CheckVertex(complex,v, "Star");
 		od;
-                return StarNC(surface,vertices);
+                return StarNC(complex,vertices);
 
         end
 );
@@ -680,7 +680,7 @@ InstallOtherMethod(Link, "for a polygonal surface", [IsPolygonalSurface],
 ##
 ##          Start of HolePerimeter
 ##
-InstallMethod( PerimeterOfHoles, "for a twisted polygonal surface",
+InstallOtherMethod( PerimeterOfHoles, "for a twisted polygonal surface",
     [IsTwistedPolygonalSurface], 
     function(surface)
         local boundVerts, boundEdges, res, transVert, e, incVert,
@@ -747,4 +747,23 @@ InstallMethod( PerimeterOfHoles, "for a twisted polygonal surface",
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( PerimeterOfHoles, true, [IsTwistedPolygonalComplex], [IsTwistedPolygonalSurface], 0 );
+fi;
+
+InstallMethod( PerimeterOfHoles, "for a twisted polygonal surface and an edge",
+    [IsTwistedPolygonalSurface, IsInt],
+    function(surface,edge)
+	local perims, p, perim;
+	perims := PerimeterOfHoles(surface);
+	perim := [];
+        for p in perims do
+        	if edge in EdgesAsList(p) then
+        		Add(perim, p);
+        	fi;
+	od;
+	Assert(0, Length(perim) = 1);
+	return perim[1];
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( PerimeterOfHoles, true, [IsTwistedPolygonalComplex, IsInt], [IsTwistedPolygonalSurface], 0 );
 fi;

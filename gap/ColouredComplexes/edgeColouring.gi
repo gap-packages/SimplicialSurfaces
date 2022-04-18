@@ -63,6 +63,7 @@ InstallMethod( EdgeColouredTwistedPolygonalComplexNC,
             SetTwistedPolygonalComplex(obj, TwistedPolygonalComplex(complex));
         else
             SetTwistedPolygonalComplex(obj, complex);
+	    SetIsEdgeColouredPolygonalComplex(obj,true);
         fi;
 
         if ForAll(colouring, IsPosInt) then
@@ -154,7 +155,7 @@ InstallMethod( EdgeColouredPolygonalComplex,
         if not IsPolygonalComplex(complex) then
             Error("EdgeColouredPolygonalComplex: Given complex is not a polygonal complex.");
         fi;
-        return EdgeColouredTwistedPolygonalComplex(complex, colouring);
+        return EdgeColouredPolygonalComplexNC(complex, colouring);
     end
 );
 # simplicial surface
@@ -176,7 +177,7 @@ InstallMethod( EdgeColouredSimplicialSurface,
         if not IsSimplicialSurface(complex) then
             Error("EdgeColouredSimplicialSurface: Given complex is not a simplicial surface.");
         fi;
-        return EdgeColouredTwistedPolygonalComplex(complex, colouring);
+        return EdgeColouredSimplicialSurfaceNC(complex, colouring);
     end
 );
 
@@ -412,7 +413,7 @@ InstallMethod( ViewInformationEdgeColoured,
         fi;
         if not IsWildColouredSurface(colComp) and 
             not IsIsoscelesColouredSurface(colComp) then
-            PrintTo( out, ", with" );
+            PrintTo( out, ", with " );
             PrintTo( out, String( Length( Colours(colComp) ) ) );
             PrintTo( out, " colours" );
         fi;
@@ -665,12 +666,12 @@ RedispatchOnCondition( DrawSurfaceToTikz, true,
     [IsEdgeColouredPolygonalComplex, IsString], 
     [IsNotEdgeRamified], 0 );
 
-InstallMethod( DrawSurfaceToTikz,
+InstallOtherMethod( DrawSurfaceToTikz,
     "for an edge coloured polygonal complex without edge ramifications, a file name and a print record",
     [IsEdgeColouredPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord],
     function(colComp,file,printRecord)
         local classLen, classCol, e, edgeLen, edgeCol;
-
+	
         if not IsBound(printRecord.edgeColourClassActive) then
             printRecord.edgeColourClassActive := true;
         fi;
@@ -863,7 +864,6 @@ if IsPackageMarkedForLoading("GRAPE", ">=0") then
 fi;
 
 if IsPackageMarkedForLoading("Digraphs", ">=0") and not ARCH_IS_WINDOWS() then
-
 #TODO install the digraphs function as soon as it is available
 fi;
 

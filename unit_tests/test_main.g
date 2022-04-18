@@ -48,6 +48,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     # Polygonal morphisms
     __SIMPLICIAL_Test_SourceRange();
+	
+    # Animating
+    __SIMPLICIAL_Test_Animating();
 
     # Graphs
     __SIMPLICIAL_Test_IncidenceDigraphsGraph();
