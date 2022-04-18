@@ -780,8 +780,7 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 #!     the facegraph.
 #! @BeginLog
 pr := rec( vertexLabelsActive := true);;
-DrawFacegraphToTikz( double6Gon,
-"facegraph_Double6Gon_VertexLabelsOn.tex" , pr);;
+DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_facegraph_Double6Gon_VertexLabelsOn.tex}
