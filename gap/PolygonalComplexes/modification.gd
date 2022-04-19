@@ -1096,6 +1096,33 @@ DeclareOperation( "JoinBoundary", [IsPolygonalComplex, IsInt] );
 DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
 #! @EndGroup
 
+#! @BeginGroup AllToriOfSimplicialSphere
+#! @Description
+#! Given a simplicial sphere this function returns the set of all tori that can 
+#! be constructed by identifying two faces of <A>surface</A>
+#! As an example consider the octahedron.
+#! Joining the boundary together of this surface gives a closed surface.
+#! <Alt Only="TikZ">
+#!  \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> alltori:=AllToriOfSimplicialSphere(Octahedron());
+#! [ simplicial surface (3 vertices, 9 edges, and 6 faces)]
+#! gap> torus:=alltori[1];;
+#! gap> EulerCharacteristic(torus);
+#! 0
+#! @EndExampleSession
+#! The simplicial surface <A>torus</A> is constructed by identifying the faces
+#! 1 and 8. Since mending two faces introduces an identification of the
+#! incident vertices and edges, there are new edge and vertex labels introduced.
+#! <Alt Only="TikZ">
+#!  \input{Image_TorusOcta.tex}
+#! </Alt>
+
+#! @Arguments surface
+DeclareOperation( "AllToriOfSimplicialSphere", [IsSimplicialSurface] );
+#! @EndGroup
+
 
 #! @Section Specific modifications
 #! @SectionLabel Modification_Applications
@@ -1774,7 +1801,9 @@ DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
 #! @EndGroup
 
 
+
 # These do not fit the above pattern:
 # CommonCover       -> does not fit here at all -> chapter Coverings (or only as a section in chapter "Associated Complexes" that also includes DualSurface?)
 # AddVertexIntoEdge (and the rest of Jesse's stuf) -> subdivision section?
+
 
