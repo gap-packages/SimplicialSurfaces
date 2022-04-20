@@ -773,9 +773,6 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 #! <Alt Only="TikZ">
 #!    \input{Image_facegraph_Double6Gon.tex}
 #! </Alt>
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_Double6Gon.tex}
-#! </Alt>
 #! <List>
 #!   <Item><E>vertexLabelsActive</E>: By default all vertices are not labelled. If they
 #!     should be labelled, this parameter can be set to <K>true</K>. Note,
@@ -841,9 +838,6 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;
 #! @EndLog
 #! <Alt Only="TikZ">
 #!     \input{Image_facegraph_Double6Gon_FaceLabelsOff.tex}
-#! </Alt>
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_Double6Gon_FaceLabelsOff.tex}
 #! </Alt>
 #! </Item>
 #! <Item><E>faceLabels</E>: By default the faces are labelled by their 
