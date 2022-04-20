@@ -2159,13 +2159,13 @@ end
 
 
 InstallMethod( AllToriOfSimplicialSphere, 
-    "for a simplicial surface and an edge",
+    "for a simplicial surface",
     [IsSimplicialSurface],
     function(surface)
         local help_FaceMender,help_MendableEdgeAssignments,res,ee,ff,combFaces,edgesOfFaces,
         orb,autGroup,faces,mendEdges,verticesOfFaces;
-        ## this method mends to faces of surface and removes the resulting face
-        ## from the constructed twisted polygonal complex to give rise to a simplcial surface 
+        ## this method mends two faces of surface and removes the resulting face
+        ## from the constructed triangular complex to give rise to a simplicial surface 
         help_FaceMender:=function(surface,faces,edges) 
 	    local surf,i,vertex1,vertex2,newEdges,newPartition,temp,joinF;
 	    surf:=surface;

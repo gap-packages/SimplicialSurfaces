@@ -1099,9 +1099,11 @@ DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
 #! @BeginGroup AllToriOfSimplicialSphere
 #! @Description
 #! Given a simplicial sphere this function returns the set of all tori that can 
-#! be constructed by identifying two faces of <A>surface</A>
+#! be constructed by identifying two faces of <A>surface</A> and removing 
+#! the resulting face from the constructed triangular complex.
+#! The function returns <A>fail</A>, if <A>surface</A> is not a simplicial
+#! sphere.
 #! As an example consider the octahedron.
-#! Joining the boundary together of this surface gives a closed surface.
 #! <Alt Only="TikZ">
 #!  \input{_TIKZ_Octahedron_constructor.tex}
 #! </Alt>
