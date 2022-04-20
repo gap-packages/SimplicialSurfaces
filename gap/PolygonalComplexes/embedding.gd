@@ -250,3 +250,116 @@ DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalComplex and IsNotEdgeRamified
 #! @InsertChunk DrawSurfaceToTikz_Data
 
 
+#! @BeginGroup SetFaceCoordinates2D
+#! @Description
+#! Save the given list of 2D-coordinates in the given or an empty print record.
+#! If the format of the 2D-coordinates (2D-coordinates have to be a list
+#! of 2 entries of floats) is not correct, then an error is shown.
+#! The NC-version does not check the coordinate format.
+#!
+#! For an example consider the tetrahedron.
+#! @BeginExampleSession
+#! gap> printRecord:=rec();;
+#! gap> SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]]);
+#! rec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )
+#! gap> SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]],
+#! > printRecord);;
+#! gap> printRecord;
+#! rec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )
+#! @EndExampleSession
+#! @Returns the updated print record
+#! @Arguments surface, coordinates[, printRecord]
+DeclareOperation("SetFaceCoordinates2D", [IsSimplicialSurface,IsList,IsRecord]);
+#! @Arguments surface, coordinates[, printRecord]
+DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord]);
+#! @EndGroup
+
+
+#! @Section Drawing the face graph
+#! @SectionLabel DrawFrGrTikz
+#!
+#! @InsertChunk DrawFacegraphToTikz_Tutorial
+#!
+#! @BeginGroup DrawFacegraphToTikz
+#! @Description
+#! Draw the face graph of the given <A>surface</A> into a tex-file (using TikZ).
+#! An introduction to the use of this method (along with several examples) 
+#! can be found at the start of section <Ref Sect="Section_DrawFrGrTikz"/>.
+#! If <K>surface</K> is a simplicial vertex faithful sphere and the function
+#! is used without the argument <K>printRecord</K>, then the drawing printed
+#! into <K>file</K> is a planar embedding of the face graph of <K>surface</K>,
+#! where the vertices of the surface are identified by the faces of the
+#! embedding. Trying to use the function for a surface that is not a 
+#! vertex-faithful sphere results in returning <K>fail</K>.
+#!
+#! * If the given <A>file</A> does not end in <E>.tex</E> the ending 
+#!   <E>.tex</E> will be added to it. 
+#! * The given file will be overwritten without asking if it already exists.
+#!   If you don't have permission to write in that file, this method will
+#!   throw an error.
+#! * The particulars of the drawing are determined by the 
+#!   given <A>printRecord</A>. If this is not given and <A>surface</A> is a
+#!   simplicial sphere, the default settings are used. 
+#! * The <A>printRecord</A> will be modified and returned by this method.
+#!   It contains the data to recreate the drawing of the surface.
+#! 
+#! 
+#! There are several parameters to change the output of this method. 
+#! Since the design of the parameters is similar to the design of the parameters
+#! of <K>DrawSurfaceToTikz</K>(<Ref Subsect="DrawSurfaceToTikz"/>),
+#! one can also refer to the corresponding subsections for a better 
+#! understanding.
+#! There are the following classes of parameters:
+#! * <E>Colours</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Colours"/>): Change the 
+#!   colours of edges and faces represented as vertices.
+#! * <E>Labels</E>
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Labels"/>): Modify the labels
+#!   of vertices, edges and faces.
+#! * <E>Scale</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Scaling"/>): These
+#!   parameters control the size of the drawing.
+#! * <E>faceCoordinates2D</E>
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_FaceCoordinates"/>):
+#!   Modify the 2D-coordinates of the faces.
+#! * <E>Geodesics</E>
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Geodesics"/>): Draw the 
+#!   geodesics of the simplicial surface into the file.
+#! * <E>Output control</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Output"/>): Modify how the
+#!   &LaTeX;-output behaves and how much information is printed to the 
+#!   console.
+#!
+#! If <K>surface</K> is a simplicial sphere without 2-waists, the function can
+#! be called without specifying the parameter <K>faceCoordinates2D</K>.
+#! In this case the implementation computes coordinates for the faces represented
+#! by vertices so that the embedded facegraph is planar.
+#!
+#! @Returns a record
+#! @Arguments surface, file[, printRecord]
+DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord]);
+#! @EndGroup
+   
+#! @Subsection Colours
+#! @SubsectionLabel DrawFacegraphToTikz_Colours
+#! @InsertChunk DrawFacegraphToTikz_Colours
+
+#! @Subsection Labels
+#! @SubsectionLabel DrawFacegraphToTikz_Labels
+#! @InsertChunk DrawFacegraphToTikz_Labels
+
+#! @Subsection Scaling
+#! @SubsectionLabel DrawFacegraphToTikz_Scaling
+#! @InsertChunk DrawFacegraphToTikz_Scaling
+
+#! @Subsection Face coordinates
+#! @SubsectionLabel DrawFacegraphToTikz_FaceCoordinates
+#! @InsertChunk DrawFacegraphToTikz_FaceCoordinates
+ 
+#! @Subsection Geodesics
+#! @SubsectionLabel DrawFacegraphToTikz_Geodesics
+#! @InsertChunk DrawFacegraphToTikz_Geodesics
+
+#! @Subsection Output control
+#! @SubsectionLabel DrawFacegraphToTikz_Output
+#! @InsertChunk DrawFacegraphToTikz_Output
