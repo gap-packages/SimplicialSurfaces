@@ -1281,8 +1281,160 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #!      \input{Image_TetrahedralExtension.tex}
 #! </Alt>
 #! @Returns a surface
-#! @Arguments surface, face
-DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments surface, face [,newVertexLable]
+DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt,IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup TetrahedralReduction
+#! @Description
+#! Given a simplicial surface and a vertex of face degree 3 a new surface can
+#! be constructed by removing the faces incident to <K>vertex</K> in
+#! <K>surface</K> and attaching a new face to the resulting boundary edges.
+#! <Alt Only="TikZ">
+#!      \input{Image_TetraRed.tex}
+#! </Alt>
+#! So, this modification results in decreasing the number of vertices by 1, the 
+#! number of edges by 3 and the number of faces by 2. As an Example consider
+#! the double tetrahedron.
+#! <Alt Only="TikZ">
+#!      \input{Image_DoubleTetrahedron.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> tet:=TetrahedralReduction(doubleTetra,4);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> IsIsomorphic(tet,Tetrahedron());
+#! true
+#! @EndExampleSession
+
+#! So performing the tetrahedral reduction with the double tetrahedron gives rise
+#! to the tetrahedron.
+#! @Returns a surface
+#! @Arguments surface,vertex 
+DeclareOperation( "TetrahedralReduction", [IsSimplicialSurface,IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup InnerMultiTetrahedralSphere
+#! @Description
+#! Return the inner multi tetrahedral sphere of a given twisted polygonal
+#! complex. If <K>complex</K> is a multi tetrahedral sphere, a new multi
+#! tetrahedral sphere can be obtained by applying a tetrahedral reduction
+#! to every vertex in <K>complex</K> with face degree 3. If <K>complex</K>
+#! is not a multi tetrahedral sphere, the function returns <K>fail</K>.
+#!
+#! As an example, consider the multi tetrahedral sphere obtained by applying 
+#! exactly two tetrahdral extensions to the tetrahedron with any two faces.
+#! Since this surface has exactly two vertices with face degree 3, removing 
+#! the attached tetrahedron gives rise to the tetrahedron.
+#! @BeginExampleSession
+#! gap> doubleTetra:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> multiTetra:=TetrahedralExtension(doubleTetra,2);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> tetra:=InnerMultiTetrahedralSphere(multiTetra);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> IsIsomorphic(tetra,Tetrahedron());
+#! true
+#! @EndExampleSession
+#! @Returns a complex
+#! @Arguments complex 
+DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
+## ! @EndGroup 
+
+#! @BeginGroup MultiTetrahedralSymbolOfComplex
+#! @Description
+#! Returns the multi tetrahedral symbol of a given multi tetrahedral sphere or
+#! <K>fail</K>.
+#!
+#! Since a multi tetrahedral sphere can be constructed by applying
+#! a finite number of tetrahedral extionsions to the the tetrahedron, we can 
+#! define a symbol describing the sphere by choosing helpful identifications
+#! for the faces and vertices of the tetrahedron and thus of the spheres
+#! constructed by the given tetrahedral extensions. 
+#!
+#! Since the symmetry group of a tetrahedron is the full symmetric group of 
+#! four faces, it makes sense to identify the faces with 1,2,3,4.
+#! The identifications of the vertices are given in such a way that a face is
+#! incident to a vertex if and only if both identifications differ, i.e.
+#! the face with the identification 1 is incident to the vertices with the 
+#! identifications 2,3 and 4. 
+#! We insist that attaching a tetrahedron to a given sphere only takes 
+#! place, if the vertices that are being identified through the tetrahedral
+#! extension can be sorted in pairs so that the vertices of each pair have 
+#! the same identification in the above sense. 
+#! 
+#! Not only vertices and faces are asigned to numbers, but also the 
+#! tetrahedra. The numbering of the tetrahedra starts from 1 and the later
+#! get numbers 2,3,.... in the order they are attached to obtain the given
+#! multi tetrahedral sphere.
+#! By using the numbers of the tetrahedra and their faces as indices we can
+#! derive the desired symbol.  
+#!
+#! So for instance the symbol <M>1_1</M> describes the multi tetrahedral 
+#! sphere constructed by attaching a tetrahedron to the first face of the
+#! tetrahedron, whereby the symbol <M>1_2</M> describes the sphere which arises
+#! from attaching a tetrahedron to the second face of the face tetrahedron.
+#!
+#! And the symbol <M>1_32_4</M> describes the multi tetrahedral sphere 
+#! computed by the following steps:
+#! At first a tetrahdron is attached to the third face of the first tetrahedron. 
+#! This results in the double tetrahedron, whereby the faces of both tetrahedra putting this
+#! double tetrahedron together are identified with 1,2,4.
+#! So now we attach a third tetrahedron to the fourth face of the second
+#! tetrahehon. 
+#! 
+#! If <K>complex</K> is not a multi tetrahedral sphere, the function returns
+#! <K>fail</K>.
+#! As first examples consider the tetrahedron and the double tetrahedron.
+#! @BeginExampleSession
+#! gap> MultiTetrahedralSymbolOfComplex(Tetrahedron());
+#! [  ]
+#! gap> doubleTet:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> MultiTetrahedralSymbolOfComplex(doubleTet);
+#! [ [ 1, 4 ] ]
+#! @EndExampleSession
+#!
+#! As another example consider the multi tetrahedral sphere constructed by 
+#! applying tetrahdral extensions (<Ref Subsect="TetrahedralExtension"/>) to 
+#! the tetradedron. 
+#! @BeginExampleSession
+#! gap> multiTet:=Tetrahedron();;
+#! gap> for f in Faces(multiTet) do
+#! > multiTet:=TetrahedralExtension(multiTet,f);
+#! > od;
+#! gap> FaceDegreesOfVertices(multiTet);
+#! [ 6, 6, 6, 6, 3, 3, 3, 3 ]
+#! gap> MultiTetrahedralSymbolOfComplex(multiTet);
+#! [ [ 1, 4 ], [ 2, 1 ], [ 2, 3 ], [ 2, 2 ] ]
+#! @EndExampleSession
+#! Note different symbols can give rise to isomorphic multi tetrahedral spheres.
+#! @Returns a list of pairs of positive integers
+#! @Arguments complex
+DeclareOperation( "MultiTetrahedralSymbolOfComplex", [IsTwistedPolygonalComplex] );
+#! @EndGroup
+
+#! @BeginGroup MultiTetrahedralSphereByTetrahedralSymbol
+#! @Description
+#! Returns a multi tetrahedral sphere with the given multi tetrahedral symbol
+#! (<Ref Subsect="MultiTetrahedralSymbolOfComplex"/>).
+#!
+#! As examples, consider the following two multi tetrahedral symbols.
+#! @BeginExampleSession
+#! gap> tetra:=MultiTetrahedralSphereByTetrahedralSymbol([]);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> VertexCounter(tetra);
+#! [ [ 3, 4 ] ]
+#! gap> doubleTet:=MultiTetrahedralSphereByTetrahedralSymbol([[1,1]]);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> VertexCounter(doubleTet);
+#! [ [ 3, 2 ], [ 4, 3 ] ]
+#! @EndExampleSession
+#! @Returns a simplicial surface
+#! @Arguments symbol
+DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
 #! @EndGroup
 
 #! @BeginGroup EdgeTurn
@@ -1331,6 +1483,49 @@ DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
 #! @Returns a simplicial surface or <K>fail</K>
 #! @Arguments surface,edge [,newedge]
 DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt,IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup BuildingBlocks
+#! @Description
+#! Return the building blocks of a vertex-faithful simplicial sphere.
+
+#! Given two closed simplicial surfaces with euler-characteristic 2 a new surface
+#! can be constructed by computing the connected-face sum 
+#! (<Ref Subsect="ConnectedFaceSum"/>) of this surfaces.
+#! This gives rise to a waist of length 3 in the resulting surface.
+ 
+#! Given a vertex-faithful simplicial sphere there exists a finite number of 
+#! simplicial spheres without waists of length 3, so that iteratively computing the 
+#! connected-face-sum of those surfaces gives rise to <K>surface</K>, up to 
+#! isomorphism. This surfaces which are unique up to isomorphism are called the 
+#! building blocks of the simplicial sphere <K>surface</K>. 
+#! Since building blocks only exist for vertex-faithful spheres the function returns
+#! <K>fail</K>, if <K>surface</K> does not satisfy this property. 
+#! As an example, consider the octahedron.
+#! @BeginExampleSession
+#! gap> BuildingBlocks(Octahedron());
+#! [ simplicial surface (6 vertices, 12 edges, and 8 faces)]
+#! @EndExampleSession
+#!
+#! As another example consider the double tetrahedron.
+#! Applying the connected sum to two tetrahedra with any two faces 
+#! gives rise to the double tetrahedron. So the double tetrahedron
+#! has two building blocks, namely two tetrahedron.
+#! @BeginExampleSession
+#! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> buildingBlocks:=BuildingBlocks(doubleTetra);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces)
+#!     , 
+#!   simplicial surface (4 vertices, 6 edges, and 4 faces) 
+#!  ]
+#! gap> List(buildingBlocks,g->IsIsomorphic(g,Tetrahedron()));
+#! [ true, true ]
+#! @EndExampleSession
+#! @Returns a set of simplicial surfaces
+#! @Arguments surface
+DeclareAttribute( "BuildingBlocks", IsSimplicialSurface);
 #! @EndGroup
 
 #TODO maybe move into chapter ExampleApplications?

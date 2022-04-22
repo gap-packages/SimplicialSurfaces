@@ -1014,6 +1014,64 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
 ## Coloured output-attributes
 DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 
+#! @Section Waists
+#! @SectionLabel waists
+
+#! @BeginGroup AllTwoWaistsOfWaistsOfComplex
+#! @Description
+#! Return the set of all waists of length 2 contained in the given
+#! twisted polygonal complex. A waist of length 2 is a closed
+#! vertex-edge-path in <A>complex</A> visiting exactly two edges and two
+#! vertices.
+#! As an example consider the following simplicial surfaces.
+#! @BeginExampleSession
+#! gap> AllTwoWaistsOfComplex(Octahedron());
+#! [  ]
+#! gap> voe:=[[3,4],[1,3],[1,4],[2,3],[2,4],[3,4]];;
+#! gap> eof:=[[1,2,3],[1,4,5],[4,5,6],[2,3,6]];;
+#! gap> s:=SimplicialSurfaceByDownwardIncidence(voe,eof);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> AllTwoWaistsOfComplex(s);
+#! [ ( v3, E1, v4, E6, v3 )]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!  \input{Image_Example2Waist.tex}
+#! </Alt>
+
+#! @Returns a set of closed vertex-edge-paths
+#! @Arguments complex
+DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
+#! @EndGroup
+
+
+#! @BeginGroup AllThreeWaistsOfSimplicalSurface
+#! @Description
+#! Return the set of all waists of length 3 contained in the given
+#! twisted polygonal complex. A waist of length 3 is a closed
+#! vertex-edge-path in <A>complex</A> visiting exactly three edges and
+#! vertices so that there exist no face in <A>complex</A> that is incident to more
+#! than one of the visited edges.
+#! As an example consider the following simplicial surfaces.
+#! @ExampleSession
+#! gap> AllThreeWaistsOfComplex(Tetrahedron());
+#! [  ]
+#! gap> vof:=[[1,3,5],[2,5,6],[2,3,5],[2,3,6],[1,4,5],[3,4,6],
+#! > [1,3,4],[4,5,6]];;
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> AllThreeWaistsOfComplex(s);
+#! [ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 )]
+#! @EndExampleSession
+#! <Alt Only="TikZ">
+#!  \input{Image_Example3Waist.tex}
+#! </Alt>
+
+#! @Returns a set of closed vertex-edge-paths
+#! @Arguments complex
+DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
+#! @EndGroup
+
+
 #! @Section Geodesic and umbrella paths
 #! @SectionLabel Paths_Geodesics
 #!
@@ -1345,7 +1403,6 @@ DeclareOperation( "MaximalDuplicateFreeGeodesicPathOfFlagNC", [IsPolygonalComple
 #! @Arguments closedGeodesic
 DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath );
 #TODO is this a good name?
-
 
 #! @Section Connectivity
 #! @SectionLabel Paths_Connectivity
