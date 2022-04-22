@@ -2151,3 +2151,89 @@ end
 ##
 #######################################
 
+
+#######################################
+##
+##      Tori construction
+##
+
+
+InstallMethod( AllToriOfSimplicialSphere, 
+    "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local help_FaceMender,help_MendableEdgeAssignments,res,ee,ff,combFaces,edgesOfFaces,
+        orb,autGroup,faces,mendEdges,verticesOfFaces;
+        ## this method mends two faces of surface and removes the resulting face
+        ## from the constructed triangular complex to give rise to a simplicial surface 
+        help_FaceMender:=function(surface,faces,edges) 
+	    local surf,i,vertex1,vertex2,newEdges,newPartition,temp,joinF;
+	    surf:=surface;
+            # mending of vertices
+	    for i in [[1,2],[1,3],[2,3]] do 
+	        vertex1:=Intersection(VerticesOfEdges(surf){edges[1]{i}})[1];
+	        vertex2:=Intersection(VerticesOfEdges(surf){edges[2]{i}})[1];
+	        if vertex1<>vertex2 then
+	            surf:=JoinVertices(surf,vertex1,vertex2)[1];
+	        fi;
+            od;
+            # mending of edges
+            for i in [1,2,3] do
+	        if edges[1][i]<> edges[2][i] then 
+	            surf:=JoinEdges(surf,edges[1][i],edges[2][i])[1];
+	        fi;
+            od;
+            # mending of faces
+	    joinF:=JoinFaces(surf,faces[1],faces[2]);
+            return RemoveFaceNC(joinF[1],joinF[2]);
+        end;
+
+	## given a surface and the edges of faces of two faces in the in given surface
+	## this function returns a list of possible identifications of the given edges. 
+
+        help_MendableEdgeAssignments:=function(surface,edgesOfFaces)
+            local g,edgeAssign,vof1,vof2,inter,arrangements,eov1,eov2,i,
+            edge1,edge2,ee,eof,help,res,help2,help1,v;
+
+	    arrangements:=Arrangements(edgesOfFaces[2],3);
+	    edgeAssign:=List([1..6],i->[edgesOfFaces[1],arrangements[i]]);
+	    res:=[];
+	    ## identified edges gives rise to an identification of the incident vertices
+	    ## edges can only be identified if and only if there exists no
+            help1:=function(surface,ee)
+	        local i,v1,v2;
+	        for i in [[1,2],[1,3],[2,3]] do 
+	            v1:=Intersection(VerticesOfEdges(surface){ee[1]{i}})[1];
+	            v2:=Intersection(VerticesOfEdges(surface){ee[2]{i}})[1];
+	            if Set([v1,v2]) in VerticesOfEdges(surface) then 
+		        return false; 
+	            fi;
+	        od;
+	        return true;
+            end;
+            return Filtered(edgeAssign,ee->help1(surface,ee));
+	end;
+	if EulerCharacteristic(surface) <> 2 or not IsClosedSurface(surface) then 
+	    return fail;
+	fi;
+        res:=[];
+        faces:=Faces(surface);
+        edgesOfFaces:=EdgesOfFaces(surface);
+        verticesOfFaces:=VerticesOfFaces(surface);
+        combFaces:=Combinations(faces,2);
+        combFaces:=Filtered(combFaces,ff->Intersection(verticesOfFaces{ff})=[]);
+        autGroup:=AutomorphismGroupOnFaces(surface);
+        orb:=Orbits(autGroup,combFaces,OnSets);
+        combFaces:=List(orb,g->g[1]);
+        for ff in combFaces do
+	    mendEdges:=help_MendableEdgeAssignments(surface,edgesOfFaces{ff});
+	    Append(res,IsomorphismRepresentatives(List(mendEdges,ee->help_FaceMender(surface,ff,ee))));	
+        od; 
+        return res;
+    end
+);
+##
+##      End of tori construction
+##
+#######################################
+
