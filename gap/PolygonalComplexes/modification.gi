@@ -251,7 +251,7 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
         starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
         if Length( Set(newVertexLabels) ) <> Length(starComp) then
             Error(Concatenation(
-                "SplitVertex: The number of new vertex labels has to be equal to the number of incident stars.TODO"
+                "SplitVertex: The number of new vertex labels has to be equal to the length of the umbrella partition."
             ));
         fi;
 
@@ -284,9 +284,11 @@ RedispatchOnCondition( SplitVertexNC, true, [IsTwistedPolygonalComplex,IsPosInt,
 BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
     function(oldComplex, vePath, newComplex, labelList)
         local partialPaths, i, newPaths, p, pNew, pOld, newEdge, used, 
-            newVertex, resPaths, extNew, extOld;
+            newVertex, resPaths, extNew, extOld, finishedParts,new;
 
         VerticesAttributeOfComplex(newComplex); # Compute this once to avoid scheduling
+	finishedParts:=[];
+	new:=0;
 
         partialPaths := [ [[],[]] ];
         for i in [1..Length(labelList)] do
@@ -295,6 +297,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                 # We have to add an edge => paths can't start here
                 newPaths := [];
                 for p in partialPaths do
+		    used := false;
                     pNew := p[1];
                     pOld := p[2];
                     for newEdge in labelList[i] do
@@ -306,13 +309,20 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                             Add(extOld, PathAsList(vePath)[i]);
 
                             Add(newPaths, [ extNew, extOld ]);
+			
+			    used:=true;
                         fi;
                     od;
+		    if new>=Position(partialPaths,p) and not used then
+			Add(finishedParts,p);
+		    fi;
                 od;
-                partialPaths := newPaths;
+		new:=0;
+		partialPaths := newPaths;
             else
                 # We have to add a vertex => paths can start here
                 newPaths := [];
+		
                 for newVertex in labelList[i] do
                     used := false;
                     for p in partialPaths do
@@ -330,13 +340,20 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                         fi;
                     od;
                     if not used then
+			# If there is no way to add the new vertex to the partial paths,
+			# a new path will start at the vertex 
+			if i>1 then
+                             new:=Length(partialPaths);
+                        fi;
                         Add(newPaths, 
                             [ [newVertex], [PathAsList(vePath)[i]] ]);
-                    fi;
+		    fi;
                 od;
                 partialPaths := newPaths;
             fi;
+	    
         od;
+	Append(newPaths,finishedParts);
 
         resPaths := [];
         for i in [1..Length(newPaths)] do
@@ -391,7 +408,6 @@ InstallMethod( SplitVertexEdgePathNC,
             newLabelList[2*size-1] := vertexSplit[2];
         fi;
         newComplex := swapComplex;
-
         return [newComplex, __SIMPLICIAL_ComputeNewVertexEdgePaths(
                     complex,vePath, newComplex, newLabelList)];
     end
@@ -1621,26 +1637,13 @@ InstallMethod(JoinBoundariesNC,
     "for a polygonal surface, two 2-flags and an integer",
     [IsPolygonalSurface, IsList, IsList, IsInt],
     function(surface, flag1, flag2, length)
-        local perims, perim1, perim2, bound1, bound2, Reorient, p, join, i;
+        local perim1, perim2, bound1, bound2, Reorient, p, join, i;
 
-        perims := PerimeterOfHoles(surface);
-        # Each edge can be in only one boundary path
-        # TODO could this become another VertexEdgePath-Constructor?
-        perim1 := [];
-        perim2 := [];
-        for p in perims do
-        	if flag1[2] in EdgesAsList(p) then
-        		Add(perim1, p);
-        	fi;
-        	if flag2[2] in EdgesAsList(p) then
-        		Add(perim2, p);
-        	fi;
-        od;
-        Assert(0, Length(perim1) = 1);
-        Assert(0, Length(perim2) = 1);
+        perim1 := PerimeterOfHoles(surface,flag1[2]);
+        perim2 := PerimeterOfHoles(surface,flag2[2]);
         
-	perim1:=ShiftCyclicPath(perim1[1],flag1[1],flag1[2]);
-        perim2:=ShiftCyclicPath(perim2[1], flag2[1], flag2[2]);
+	perim1:=ShiftCyclicPath(perim1,flag1[1],flag1[2]);
+        perim2:=ShiftCyclicPath(perim2, flag2[1], flag2[2]);
  
 	perim1:=ShallowCopy(EdgesAsList(perim1));
         perim2:=ShallowCopy(EdgesAsList(perim2));
@@ -2331,6 +2334,7 @@ end
 ##
 #######################################
 
+
 InstallMethod( BuildingBlocks, "for a simplicial surface",
     [IsSimplicialSurface],
     function( surface )
@@ -2354,4 +2358,91 @@ InstallMethod( BuildingBlocks, "for a simplicial surface",
         return ConnectedComponents(surf);
 end
 );
+
+
+#######################################
+##
+##      Tori construction
+##
+
+
+InstallMethod( AllToriOfSimplicialSphere, 
+    "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local help_FaceMender,help_MendableEdgeAssignments,res,ee,ff,combFaces,edgesOfFaces,
+        orb,autGroup,faces,mendEdges,verticesOfFaces;
+        ## this method mends two faces of surface and removes the resulting face
+        ## from the constructed triangular complex to give rise to a simplicial surface 
+        help_FaceMender:=function(surface,faces,edges) 
+	    local surf,i,vertex1,vertex2,newEdges,newPartition,temp,joinF;
+	    surf:=surface;
+            # mending of vertices
+	    for i in [[1,2],[1,3],[2,3]] do 
+	        vertex1:=Intersection(VerticesOfEdges(surf){edges[1]{i}})[1];
+	        vertex2:=Intersection(VerticesOfEdges(surf){edges[2]{i}})[1];
+	        if vertex1<>vertex2 then
+	            surf:=JoinVertices(surf,vertex1,vertex2)[1];
+	        fi;
+            od;
+            # mending of edges
+            for i in [1,2,3] do
+	        if edges[1][i]<> edges[2][i] then 
+	            surf:=JoinEdges(surf,edges[1][i],edges[2][i])[1];
+	        fi;
+            od;
+            # mending of faces
+	    joinF:=JoinFaces(surf,faces[1],faces[2]);
+            return RemoveFaceNC(joinF[1],joinF[2]);
+        end;
+
+	## given a surface and the edges of faces of two faces in the in given surface
+	## this function returns a list of possible identifications of the given edges. 
+
+        help_MendableEdgeAssignments:=function(surface,edgesOfFaces)
+            local g,edgeAssign,vof1,vof2,inter,arrangements,eov1,eov2,i,
+            edge1,edge2,ee,eof,help,res,help2,help1,v;
+
+	    arrangements:=Arrangements(edgesOfFaces[2],3);
+	    edgeAssign:=List([1..6],i->[edgesOfFaces[1],arrangements[i]]);
+	    res:=[];
+	    ## identified edges gives rise to an identification of the incident vertices
+	    ## edges can only be identified if and only if there exists no
+            help1:=function(surface,ee)
+	        local i,v1,v2;
+	        for i in [[1,2],[1,3],[2,3]] do 
+	            v1:=Intersection(VerticesOfEdges(surface){ee[1]{i}})[1];
+	            v2:=Intersection(VerticesOfEdges(surface){ee[2]{i}})[1];
+	            if Set([v1,v2]) in VerticesOfEdges(surface) then 
+		        return false; 
+	            fi;
+	        od;
+	        return true;
+            end;
+            return Filtered(edgeAssign,ee->help1(surface,ee));
+	end;
+	if EulerCharacteristic(surface) <> 2 or not IsClosedSurface(surface) then 
+	    return fail;
+	fi;
+        res:=[];
+        faces:=Faces(surface);
+        edgesOfFaces:=EdgesOfFaces(surface);
+        verticesOfFaces:=VerticesOfFaces(surface);
+        combFaces:=Combinations(faces,2);
+        combFaces:=Filtered(combFaces,ff->Intersection(verticesOfFaces{ff})=[]);
+        autGroup:=AutomorphismGroupOnFaces(surface);
+        orb:=Orbits(autGroup,combFaces,OnSets);
+        combFaces:=List(orb,g->g[1]);
+        for ff in combFaces do
+	    mendEdges:=help_MendableEdgeAssignments(surface,edgesOfFaces{ff});
+	    Append(res,IsomorphismRepresentatives(List(mendEdges,ee->help_FaceMender(surface,ff,ee))));	
+        od; 
+        return res;
+    end
+);
+##
+##      End of tori construction
+##
+#######################################
+
 

@@ -86,3 +86,76 @@ ColourInvolutions(colDisk);
 #! @EndExample
 #! @EndChunk
 
+#! @BeginChunk Example_ColouredTetrahedron_IsWildColoured
+#! For example, consider the tetrahedron. This colouring is a wild colouring of the tetrahedron:
+#! @BeginExample
+wildColTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,1]);;
+IsWildColouredSurface(wildColTetra);
+#! true
+#! @EndExample
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_WildColTetra.tex}
+#! </Alt>
+DrawSurfaceToTikz( wildColTetra, "WildColTetra", rec(
+   edgeColourClassColours := ["green","red","blue"],
+           scale := 2) );
+#! This colouring of the tetrahedron is an example for a coloring that is not a wild colouring:
+#! @BeginExample
+colTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,2]);;
+IsWildColouredSurface(colTetra);
+#! false
+#! @EndExample
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_NotWildColTetra.tex}
+#! </Alt>
+DrawSurfaceToTikz( colTetra, "NotWildColTetra", rec(
+    edgeColourClassColours := ["green","red","blue"],
+            scale := 2) );
+#! Using four colours leads to a colouring that is not a wild colouring:
+#! @BeginExample
+colFourTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,4]);;
+IsWildColouredSurface(colFourTetra);
+#! false
+#! @EndExample
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_NotWildColTetraFour.tex}
+#! </Alt>
+DrawSurfaceToTikz( colFourTetra, "NotWildColTetraFour", rec(
+    edgeColourClassColours := ["green","red","blue","pink"],
+            scale := 2) );
+#! @EndChunk
+
+#! @BeginChunk Example_TameColoured
+#! For example, consider the octahedron:
+#! @BeginExample
+oct := AllWildColouredSurfaces(Octahedron());;
+IsTameColouredSurface(oct[1]);
+#! true
+LocalSymmetryOfColours(oct[1]);
+#! [ "mirror", "mirror", "mirror" ]
+LocalSymmetryOfEdgesAsNumbers(oct[1]);
+#! [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+IsTameColouredSurface(oct[1]);
+#! true
+LocalSymmetryOfColours(oct[2]);
+#! [ "mirror", "rotation", "mirror" ]
+LocalSymmetryOfEdgesAsNumbers(oct[2]);
+#! [ 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2 ]
+#! @EndExample
+#! Consider the following edge coloured surface:
+#! @BeginExample
+surface:=SimplicialSurfaceByDownwardIncidence(
+  [[1,2],[1,3],[2,3],[2,4],[3,4],[3,5],[4,5],[2,4],[2,5],[1,5]],
+  [[1,2,3],[3,4,5],[5,6,7],[7,8,9],[9,10,1]]);;
+colSurface:=EdgeColouredSimplicialSurface(surface,[1,2,3,2,1,3,2,1,3,2]);;
+IsTameColouredSurface(colSurface);
+#! false
+#! @EndExample
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_NotTameCol.tex}
+#! </Alt>
+DrawSurfaceToTikz( colSurface, "NotTameCol", rec(
+    edgeColourClassColours := ["green","red","blue"],
+                scale := 2) );
+#! This is an example for a surface which is not tame coloured, since the blue edges do not have the same symmetry.
+#! @EndChunk

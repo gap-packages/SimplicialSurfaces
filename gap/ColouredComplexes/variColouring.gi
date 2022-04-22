@@ -322,11 +322,25 @@ InstallOtherMethod( AllWildColouredSurfaces, "for a simplicial surface",
         return AllWildColouredSurfaces(simpSurf, []);
     end
 );
+
+InstallOtherMethod( AllWildColouredSurfaces, "for a simplicial surface and a boolean",
+    [IsSimplicialSurface,IsBool],
+    function(simpSurf, noIsom)
+        return AllWildColouredSurfaces(simpSurf, [], noIsom);
+    end
+);
     RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex], [IsSimplicialSurface], 0);
 InstallOtherMethod( AllTameColouredSurfaces, "for a simplicial surface",
     [IsSimplicialSurface],
     function(simpSurf)
         return AllTameColouredSurfaces(simpSurf, []);
+    end
+);
+
+InstallOtherMethod( AllTameColouredSurfaces, "for a simplicial surfaceand a boolean",
+    [IsSimplicialSurface, IsBool],
+    function(simpSurf, noIsom)
+        return AllTameColouredSurfaces(simpSurf, [], noIsom);
     end
 );
     RedispatchOnCondition(AllTameColouredSurfaces, true, [IsPolygonalComplex], [IsSimplicialSurface], 0);
@@ -406,12 +420,10 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
 
             nextFacePos := NextBestFacePos( colEdgesOfFaces, todoFacePos,
                 localSymOfEdges);
-#Print( "Call ExtendColouring with nextFacePos ", nextFacePos, "\n" );
 
             if nextFacePos = 0 then
                 # colouring complete
                 Add( allColSurfaces, [generators, colEdgePos, localSymOfEdges] );
-#Print( "    Finished\n" );
                 return;
             fi;
             face := Faces(simpSurf)[nextFacePos];
@@ -419,43 +431,35 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
             CheckEdgeColour := function( face, edge, incVertex, incEdge )
                 local neighbour, neighEdge, colEdge;
 
-#Print( "        Call CheckEdgeColour for edge ", edge, "\n" );
                 neighbour := face^generators[colEdgePos[edgePosition[edge]]];
                 # By construction this can't be a boundary edge
                 neighEdge := OtherEdgeOfVertexInFaceNC(simpSurf, incVertex, edge, neighbour);
                 colEdge := colEdgePos[ edgePosition[edge] ];
                 if colEdgePos[ edgePosition[neighEdge] ] = colEdgePos[ edgePosition[incEdge] ] then
-#Print( "            Mirror case (edge ", edge, " with colour ", colEdge, "): " );
                     # mirror case
                     if localSymOfEdges[edge] = 2 or 
                             (onlyTame and symOfColour[colEdge] = 2) then # only bad case
-#Print( "break with localSymOfEdges ", localSymOfEdges, " and symOfColour ", symOfColour, ".\n" );
                         return false;
                     fi;
                     localSymOfEdges[edge] := 1;
                     if onlyTame then
                         symOfColour[colEdge] := 1;
                     fi;
-#Print( "success\n" );
                 else
                     # rotation case
-#Print( "            Rotation case (edge ", edge, " with colour ", colEdge, "): " );
                     if localSymOfEdges[edge] = 1  or 
                             (onlyTame and symOfColour[colEdge] = 1) then # only bad case
-#Print( "break with localSymOfEdges ", localSymOfEdges, " and symOfColour ", symOfColour, ".\n" );
                         return false;
                     fi;
                     localSymOfEdges[edge] := 2;
                     if onlyTame then
                         symOfColour[colEdge] := 2;
                     fi;
-#Print( "success\n" );
                 fi;
                 return true;
             end;
 
             if colEdgesOfFaces[3*nextFacePos] <> 0 then
-#Print( "    3 edges already coloured:\n" );
                 # all three edges are already coloured
                 # check for consistency (assume that coloured edges don't have their
                 # local symmetry defined)
@@ -474,10 +478,8 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                 fi;
 
                 todoFacePos[nextFacePos] := false;
-#Print( "          symOfColour: ", symOfColour, "\n" );
                 ExtendColouring(colEdgesOfFaces, todoFacePos, localSymOfEdges, generators, colEdgePos, symOfColour);
             elif colEdgesOfFaces[3*nextFacePos - 1] <> 0 then
-#Print( "    2 edges are already coloured:\n" );
                 # two edges are already coloured
                 edgeA := colEdgesOfFaces[3*nextFacePos-2];
                 edgeB := colEdgesOfFaces[3*nextFacePos-1];
@@ -509,13 +511,11 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                     colEdgePos) then
                     # Unique extension
                     todoFacePos[nextFacePos] := false;
-#Print( "          symOfColour: ", symOfColour, "\n" );
                     ExtendColouring(colEdgesOfFaces, todoFacePos, localSymOfEdges, generators, colEdgePos, symOfColour);
                 else
                     return;
                 fi;
             elif colEdgesOfFaces[3*nextFacePos-2] <> 0 then
-#Print( "    1 edge is already coloured:\n" );
                 # only one edge already coloured
                 edge := colEdgesOfFaces[3*nextFacePos-2];
                 colEdge := colEdgePos[edgePosition[edge]];
@@ -528,7 +528,6 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                 edge2 := OtherEdgeOfVertexInFaceNC(simpSurf, verts[2], edge, face);
 
                 if localSymOfEdges[edge] <> 2 and (not onlyTame or symOfColour[colEdge] <> 2) then
-#Print( "        Mirror is possible for facePos ", nextFacePos, ": \n" );
                     # mirror is possible
                     colEdgesOfFaces_c := ShallowCopy(colEdgesOfFaces);
                     todoFacePos_c := ShallowCopy(todoFacePos);
@@ -549,13 +548,11 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                         localSym_c[edge] := 1;
                         if onlyTame then
                             symOfColour_c[colEdge] := 1;
-#Print( "          symOfColour: ", symOfColour_c, "\n" );
                         fi;
                         ExtendColouring(colEdgesOfFaces_c, todoFacePos_c, localSym_c, generators_c, colEdgePos_c, symOfColour_c);
                     fi;
                 fi;
                 if localSymOfEdges[edge] <> 1 and (not onlyTame or symOfColour[colEdge] <> 1) then
-#Print( "        Rotation is possible for facePos ", nextFacePos, ": \n" );
                     # rotation is possible
                     colEdgesOfFaces_c := ShallowCopy(colEdgesOfFaces);
                     todoFacePos_c := ShallowCopy(todoFacePos);
@@ -576,7 +573,6 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                         localSym_c[edge] := 2;
                         if onlyTame then
                             symOfColour_c[colEdge] := 2;
-#Print( "          symOfColour: ", symOfColour_c, "\n" );
                         fi;
                         ExtendColouring(colEdgesOfFaces_c, todoFacePos_c, localSym_c, generators_c, colEdgePos_c, symOfColour_c);
                     fi;
@@ -591,7 +587,6 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
         SetEdgeToColour := function( edgePos, lastFacePos, colour, colEdgesOfFaces, 
                 todoFacePos, generators, colEdgePos)
             local neighbour, neighbourPos, lastFace, gen, basePos;
-#Print("            Call SetEdgeToColour for edge position ", edgePos, " and colour ", colour, ": " );
 
             neighbour := NeighbourFaceByEdgeNC( simpSurf, 
                 Faces(simpSurf)[lastFacePos], Edges(simpSurf)[edgePos] );
@@ -609,7 +604,6 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                     # Transposition is new
                     gen := gen * (lastFace, neighbour);
                 else
-#Print( "fail\n" );
                     return false;
                 fi;
                 generators[colour] := gen;
@@ -625,7 +619,6 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
                 fi;
 
             fi; # Otherwise boundary edge, nothing to do
-#Print( "success\n" );
             return true;
         end;
 
@@ -686,21 +679,49 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
     end
 );
 
-InstallMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
+InstallOtherMethod( AllWildColouredSurfaces, "for a simplicial surface and a list",
     [IsSimplicialSurface, IsList],
     function(simpSurf, localSymmetry);
-        # Initialize localSymmetry
-        localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllWildColouredSurfaces");
-        return __SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion(simpSurf, localSymmetry, false);
+        return AllWildColouredSurfaces(simpSurf, localSymmetry, true);
     end
 );
-    RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0);
-InstallMethod( AllTameColouredSurfaces, "for a simplicial surface and a list",
+
+InstallMethod( AllWildColouredSurfaces, "for a simplicial surface, a list and a boolean",
+    [IsSimplicialSurface, IsList, IsBool],
+    function(simpSurf, localSymmetry, noIsom)
+	local wildColSurfaces;
+        # Initialize localSymmetry
+        localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllWildColouredSurfaces");
+        wildColSurfaces := __SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion(simpSurf, localSymmetry, false);
+	if noIsom=true then
+            return  EdgeColouredPolygonalComplexIsomorphismRepresentatives(
+                wildColSurfaces);
+        else
+            return wildColSurfaces;
+        fi;
+    end
+);
+RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0);
+
+InstallOtherMethod( AllTameColouredSurfaces, "for a simplicial surface and a list",
     [IsSimplicialSurface, IsList],
     function(simpSurf, localSymmetry)
+        return AllTameColouredSurfaces(simpSurf, localSymmetry, true);
+    end
+);
+
+InstallMethod( AllTameColouredSurfaces, "for a simplicial surface, a list and a boolean",
+    [IsSimplicialSurface, IsList,IsBool],
+    function(simpSurf, localSymmetry, noIsom)
+	local allTameCol;
         # Initialize localSymmetry
         localSymmetry := __SIMPLICIAL_WildTameSurface_FixLocalSymmetry(simpSurf, localSymmetry, "AllTameColouredSurfaces");
-        return __SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion(simpSurf, localSymmetry, true);
+        allTameCol:=__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion(simpSurf, localSymmetry, true);
+	if noIsom then
+		return EdgeColouredPolygonalComplexIsomorphismRepresentatives(allTameCol);
+	else
+		return allTameCol;
+	fi;
     end
 );
     RedispatchOnCondition(AllTameColouredSurfaces, true, [IsPolygonalComplex,IsList], [IsSimplicialSurface], 0);
@@ -1050,7 +1071,6 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
             local firstEdge, localSym, lastEdge, lastFace, nextFace, prevEdge,
                 prevCol, lastCol, nextCol, nextEdge, partial_c;
 
-#Print("Call LoopOneVertex with umbrella ", umbrella, "\n");
             if umbrella[1] = umbrella[Length(umbrella)] then
                 # The umbrella closes
                 # We check which LocalSymmetry the first/last edge should
@@ -1062,14 +1082,12 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 else
                     localSym := 2;
                 fi;
-#Print("     Umbrella closes.\n");
 
                 if partialLocalSym[firstEdge] = 0 or 
                     partialLocalSym[firstEdge] = localSym then
                         partialLocalSym[firstEdge] := localSym;
                         Add(allUmbrellas, [umbrella, usedVertexNames, 
                             finVertsInFaces, partialLocalSym]);
-#Print("         Add ", umbrella, "\n");
                 fi;
                 # Otherwise this does not work out
                 return;
@@ -1083,27 +1101,22 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 # boundary edge
                 partialLocalSym[lastEdge] := 0; #MB should this rather throw an error?
 
-#Print("     Found boundary edge.\n");
                 # check first if the umbrella is complete
                 if Length(facesOfEdges[umbrella[1]]) = 1 then
                     # The other side of the umbrella is also a boundary edge
                     Add(allUmbrellas, [umbrella, usedVertexNames, 
                         finVertsInFaces, partialLocalSym]);
-#Print("         Add ", umbrella, "\n");
                     return;
                 fi;
 
                 # We have to reverse course
-#Print("         Reverse course.\n");
                 LoopOneVertex( Reversed(umbrella), knownFaces, 
                     usedVertexNames, finVertsInFaces, partialLocalSym );
                 return;
             elif knownFaces[nextFace] then
-#Print("         Illegal continuation. Abort.\n");
                 # this is an error since we never construct a face of an umbrella twice
                 return;
             else
-#Print("         Continue constructing along edge ", lastEdge, ".\n");
                 # continue construction of umbrella
                 prevEdge := umbrella[Length(umbrella)-2];
                 prevCol := coloursOfEdges[prevEdge];
@@ -1111,7 +1124,6 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 # For more than two local symmetries this will not work
                 if partialLocalSym[lastEdge] <> 2 then
                     # mirror is possible
-#Print("             Try out mirror.\n");
                     nextCol := prevCol;
                     nextEdge := edgesOfFacesByColour[nextFace][nextCol];
                     partial_c := ShallowCopy(partialLocalSym);
@@ -1121,7 +1133,6 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 fi;
                 if partialLocalSym[lastEdge] <> 1 then
                     # rotation is possible
-#Print("             Try out rotation.\n");
                     nextCol := 6 - lastCol - prevCol;
                     nextEdge := edgesOfFacesByColour[nextFace][nextCol];
                     partial_c := ShallowCopy(partialLocalSym);
@@ -1140,25 +1151,41 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
     end
 );
 
-InstallMethod( AllWildColouredSurfaces,
+InstallOtherMethod( AllWildColouredSurfaces,
     "for a list with three involutions and a list", [IsList, IsList],
     function(invList, localSymmetry)
-        local faces, facesOfEdges, coloursOfEdges, allWildSurfaces,
-            allUmbrellas, BestNextVertex, LoopOneVertex, FindWildColouredSurface,
-            facePosition, localSymOfEdges, invOfEdges, edgesOfFacesByColour,
-            vertexNames, AddUmbrellaStep, edgesOfFaces, setup;
+        return AllWildColouredSurfaces(invList, localSymmetry, true);
+    end
+);
+
+InstallMethod( AllWildColouredSurfaces,
+    "for a list with three involutions and a list", [IsList, IsList, IsBool],
+    function(invList, localSymmetry, noIsom)
+        local setup, wildColSurfaces;
 
         localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
                         invList, localSymmetry, "AllWildColouredSurfaces", false);
         setup := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup(invList, localSymmetry);
-        return __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion(
+        wildColSurfaces := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion(
             invList, localSymmetry, setup);
+	if noIsom then
+		return EdgeColouredPolygonalComplexIsomorphismRepresentatives(wildColSurfaces);
+	else
+		return wildColSurfaces;
+	fi;
+    end
+);
+
+InstallOtherMethod( AllTameColouredSurfaces,
+    "for a list with three involutions and a list", [IsList, IsList],
+    function(invList, localSymmetry)
+	return AllTameColouredSurfaces(invList, localSymmetry, true);
     end
 );
 
 InstallMethod( AllTameColouredSurfaces,
-    "for a list with three involutions and a list", [IsList, IsList],
-    function(invList, localSymmetry)
+    "for a list with three involutions, a list and a boolean", [IsList, IsList, IsBool],
+    function(invList, localSymmetry, noIsom)
         local setup, possTameSym, b, set, i, bound, poss, sym, allTameSurf;
 
         localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
@@ -1194,8 +1221,12 @@ InstallMethod( AllTameColouredSurfaces,
                 __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion(
                     invList, sym, setup));
         od;
-
-        return allTameSurf;
+	
+	if noIsom then 
+		return EdgeColouredPolygonalComplexIsomorphismRepresentatives(allTameSurf);
+	else
+        	return allTameSurf;
+	fi;
     end
 );
 
@@ -1395,8 +1426,18 @@ InstallMethod( CommonCover,
         edgePair := [e1,e2];
 
         # We need to find the adjacent faces
-        adFace1 := AdjacentFace(surf1, newFace[1], edgePair[1]);
-        adFace2 := AdjacentFace(surf2, newFace[2], edgePair[2]);
+        if NeighbourFacesByEdge(surf1, newFace[1], edgePair[1])=fail then
+		adFace1 := newFace[1];
+	else
+		adFace1 := NeighbourFacesByEdge(surf1, newFace[1], edgePair[1])[1];
+	fi;
+	if NeighbourFacesByEdge(surf2, newFace[2], edgePair[2])=fail then
+                adFace2 := newFace[2];
+        else
+                adFace2 := NeighbourFacesByEdge(surf2, newFace[2], edgePair[2])[1];
+        fi;
+        #adFace1 := AdjacentFace(surf1, newFace[1], edgePair[1]);
+        #adFace2 := AdjacentFace(surf2, newFace[2], edgePair[2]);
         # Define tau2 and tau1^(-1)
         tau2 := MappingByFunction( Range(newFace[3]), 
                       Domain(VerticesOfFaces(surf2)[adFace2]),

@@ -74,7 +74,7 @@ Colours(colPyr);
 #! @EndExample
 #! @EndChunk
 
-
+ 
 #! @BeginChunk Example_TwiceColoured_Pyramid
 #! As illustration we colour the pyramid from the start of section
 #! <Ref Sect="Section_EdgeColouring_Definition"/> in two different ways and
