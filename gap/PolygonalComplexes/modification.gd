@@ -9,7 +9,7 @@
 ## Licensed under the GPL 3 or later.
 ##
 #############################################################################
-
+ 
 #! @Chapter Modification of polygonal complexes
 #! @ChapterLabel Modification
 #!
@@ -128,7 +128,6 @@
 #! gap> NumberOfConnectedComponents(hexCut[1]);
 #! 2
 #! @EndExampleSession
-#TODO check second output
 #! <Alt Only="TikZ">
 #!   {
 #!     \def\splitCenter{1}
@@ -146,7 +145,6 @@
 #! gap> NumberOfConnectedComponents(hexOpen[1]);
 #! 1
 #! @EndExampleSession
-#TODO check second output
 #! <Alt Only="TikZ">
 #!   {
 #!     \def\splitCenter{1}
@@ -166,6 +164,9 @@
 #! changed. Otherwise the old edge label is no longer used and will be
 #! replaced by the appropriate number of new labels. The new labels can be
 #! defined by the optional argument <A>newEdgeLabels</A>.
+#! Let <A>numFaces</A> be the number of incident faces from <A>edge</A>, i.e. the number of new edges.
+#! By default, the list <A>newEdgeLabels</A> is the list <A>[1..numFaces]</A>,
+#! which is shifted by the maximal edge label in each entry.
 #!
 #! For example consider the following triangular complex:
 #! <Alt Only="TikZ">
@@ -178,8 +179,10 @@
 #! simplicial surface (4 vertices, 5 edges, and 2 faces)
 #! gap> eye:=SplitEdge(closeEye,2);
 #! [ triangular complex (4 vertices, 6 edges, and 2 faces), [ 6, 7 ] ] 
-#! @EndExampleSession
-#! 
+#! @EndExampleSession 
+#! [ 6, 7 ] are the new edge labels, because the new edge labels are not given and 
+#! edge 2 is incident to two faces and the maximal edge label is 5.
+#!
 #! <Alt Only="TikZ">
 #!      \input{Image_Eye_Open.tex}
 #! </Alt>
@@ -212,6 +215,9 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! label will stay the same. Otherwise the old label will be removed and
 #! replaced by new labels. The new labels can be defined by the optional
 #! argument <A>newVertexLabels</A>.
+#! Let <A>numVert</A> be the number of new vertices that are necessary to split <A>vertex</A>.
+#! By default, the list <A>newEdgeLabels</A> is the list <A>[1..numVert]</A>, 
+#! which is shifted by the maximal vertex label in each entry.
 #!
 #! For example consider the following triangular complex:
 #! <Alt Only="TikZ">
@@ -225,11 +231,17 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! gap> splittedComplex:=SplitVertex(ramSurf,1);
 #! [ simplicial surface (8 vertices, 11 edges, and 5 faces), [ 13, 14 ] ]
 #! @EndExampleSession
+#! [ 13, 14 ] are the new vertex labels, because new vertex labels are not given 
+#! and vertex 1 has two elements in the umbrella partition and the maximal vertex label is 12.
 #! Splitting the vertex 1 in the complex divides the complex into two components:
 #! @BeginExampleSession
 #! gap> NumberOfConnectedComponents(splittedComplex[1]);
 #! 2
 #! @EndExampleSession
+#! <Alt Only="TikZ">
+#!   \def\splitted{1}
+#!   \input{Image_EdgeFacePath_ramified.tex}
+#! </Alt>
 #!
 #! The NC-version does not check whether <A>vertex</A> is an actual vertex of
 #! <A>complex</A> and whether the new vertex labels are actually available.
@@ -270,8 +282,6 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! <A>oldPath</A> is the unique subpath of the original <A>vePath</A>, such
 #! that each element of <A>newPath</A> was obtained from the element at the
 #! same position in <A>oldPath</A>.
-#!
-#! TODO explain better
 #! 
 #! For example consider the following polygonal complex:
 #! @BeginExampleSession
@@ -282,15 +292,23 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #!   \input{Image_SplitEdgePath.tex}
 #! </Alt>
 #! @BeginExampleSession
-#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);
-#! | v1, E3, v3, E8, v6 |
+#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);;
 #! @EndExampleSession
 #! Splitting the complex along this path leads to four one faces:
 #! @BeginExampleSession
-#! gap> splitted:=SplitVertexEdgePath(complex,path);;
+#! gap> splitted:=SplitVertexEdgePath(complex,path);
+#! [ simplicial surface (12 vertices, 12 edges, and 4 faces),
+#! [ [ | v12, E13, v14 |, | v3, E8, v6 | ],
+#!   [ | v13, E14, v15 |, | v3, E8, v6 | ],
+#!   [ | v8, E11, v10 |, | v1, E3, v3 | ],
+#!   [ | v9, E12, v11 |, | v1, E3, v3 | ] ] ]
 #! gap> NumberOfConnectedComponents(splitted[1]);
 #! 4
 #! @EndExampleSession
+#! The second output shows in which two path the original path was splitted.
+#! <Alt Only="TikZ">	
+#!   \input{Image_SplittedVertexEdgePath.tex}
+#! </Alt>
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
@@ -333,8 +351,6 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! that each element of <A>newPath</A> was obtained from the element at the
 #! same position in <A>oldPath</A>.
 #!
-#! TODO explain better
-#!
 #! For example consider the following polygonal complex:
 #! @BeginExampleSession
 #! gap> complex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],
@@ -344,16 +360,24 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #!   \input{Image_SplitEdgePath.tex}
 #! </Alt>
 #! @BeginExampleSession
-#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);
-#! | v1, E3, v3, E8, v6 |
+#! gap> path:=VertexEdgePathByEdges(complex,[3,8]);;
 #! @EndExampleSession
 #! Splitting the complex along this path without the first and the last vertex leads
 #! to two components:
 #! @BeginExampleSession
-#! gap> splitted:=SplitEdgePath(complex,path);;
+#! gap> splitted:=SplitEdgePath(complex,path);
+#! [ triangular complex (10 vertices, 12 edges, and 4 faces),
+#! [ [ | v10, E13, v6 |, | v3, E8, v6 | ],
+#!   [ | v11, E14, v6 |, | v3, E8, v6 | ],
+#!   [ | v1, E11, v8 |, | v1, E3, v3 | ],
+#!   [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ]
 #! gap> NumberOfConnectedComponents(splitted[1]);
 #! 2
 #! @EndExampleSession
+#! The second output shows in which two path the original path was splitted.
+#! <Alt Only="TikZ">
+#!   \input{Image_SplittedEdgePath.tex}
+#! </Alt>
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
 #! the given <A>complex</A>.
@@ -449,6 +473,11 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsTwistedPolygonalComplex, IsSet] );
 #! will remain unaffected.
 #!
 #! For example consider the Tetrahedron and remove one face:
+#! <Alt Only="TikZ">
+#!  \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
+#!    \input{Image_Tetrahedron_Net.tex}
+#!  \end{tikzpicture}
+#! </Alt>
 #! @BeginExampleSession
 #! gap> tetraRemoved:=RemoveFace(Tetrahedron(),1);
 #! simplicial surface (4 vertices, 6 edges, and 3 faces)
@@ -675,8 +704,10 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #!      <K>fail</K> if the vertices are incident to a common face.
 #!
 #!      The optional argument <A>newVertexLabel</A> allows to set the
-#!      label of the new vertex. By default, an unused label will be
-#!      chosen.</Item>
+#!      label of the new vertex. By default, <A>newVertexLabel</A> is one 
+#!      higher than the maximal vertex label unless the vertices to be joined 
+#!      are equal or the length of <A>vertexList</A> is one. In these cases
+#!      the label does not change.</Item>
 #!   <Item>Combine two vertices <A>v1</A> and <A>v2</A> of two distinct
 #!      polygonal complexes <A>complex1</A> and <A>complex2</A>. This will
 #!      perform <K>DisjointUnion</K> (<Ref Subsect="DisjointUnion"/>) on
@@ -701,7 +732,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! gap> octJoin = fail;
 #! false
 #! @EndExampleSession
-#! This combines the vertices 1 and 6 into a new one, which becomes a 
+#! This combines the vertices 1 and 6 into a new vertex with label 7, which becomes a 
 #! ramified vertex (<Ref Subsect="RamifiedVertices"/>).
 #! @BeginExampleSession
 #! gap> octJoin[2];
@@ -782,7 +813,10 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! @Description
 #! Combine two edges <A>e1</A> and <A>e2</A> of a polygonal complex into one
 #! edge, whose new label can be given by the optional argument 
-#! <A>newEdgeLabel</A> (otherwise a default label is chosen). The edges have 
+#! <A>newEdgeLabel</A>. By default, <A>newEdgeLabel</A> is one higher 
+#! than the maximal edge label unless the edges to be joined
+#! are equal or the length of <A>edgeList</A> is one. In these cases
+#! the label does not change. The edges have 
 #! to have had the same incident vertices.
 #! 
 #! This method returns a pair, where the first entry is the modified polygonal
@@ -813,6 +847,7 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! gap> closeEye[2];
 #! 7
 #! @EndExampleSession
+#! Since 6 is the maximal edge label, 7 is the label of the new edge.
 #! <Alt Only="TikZ">
 #!     \input{Image_Eye_OpenClosed.tex}
 #! </Alt>
@@ -841,18 +876,28 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! @Description
 #! Combine two faces <A>F1</A> and <A>F2</A> of a polygonal complex into one
 #! face, whose new label can be given by the optional argument 
-#! <A>newFaceLabel</A> (otherwise a default label is chosen). The faces have 
+#! <A>newFaceLabel</A>. By default, <A>newFaceLabel</A> is one higher
+#! than the maximal face label unless the faces to be joined
+#! are equal or the length of <A>faceList</A> is one. In these cases
+#! the label does not change. The faces have 
 #! to have had the same incident edges.
 #! 
 #! This method returns a pair, where the first entry is the modified polygonal
 #! complex and the second entry is the label of the new face.
 #!
 #! For example consider the Janus-head. The two faces have equal incident edges so they can be joined:
+#! <Alt Only="TikZ">
+#!    \input{_TIKZ_Janus_constructor.tex}
+#! </Alt>
 #! @BeginExampleSession
-#! gap> JoinFaces(JanusHead(),1,2);
-#! [ simplicial surface (3 vertices, 3 edges, and 1 faces), 3 ]
+#! gap> JoinFaces(JanusHead(),1,2,1);
+#! [ simplicial surface (3 vertices, 3 edges, and 1 faces), 1 ]
 #! @EndExampleSession
-#! The resulting surface is the one-face.
+#! The resulting surface is the one-face. Since 1 is the optional argument
+#! <A>newFaceLabel</A>, 1 is the label of the new face.
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_theTriangle.tex}
+#! </Alt>
 #!
 #! The NC-versions do not check whether the given faces are distinct faces
 #! with the same incident edges of <A>complex</A> and whether the new face label is
@@ -891,7 +936,8 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! One thing that can be done is the construction of a ramified edge. 
 #! Consider just one triangle:
 #! @BeginExampleSession
-#! gap> triangle := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,3],[2,3]],[[1,2,3]] );;
+#! gap> triangle := SimplicialSurfaceByDownwardIncidence(
+#! >  [[1,2],[1,3],[2,3]],[[1,2,3]] );;
 #! @EndExampleSession
 #! <Alt Only="TikZ">
 #!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
@@ -907,7 +953,7 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #!     }
 #!   \end{tikzpicture}
 #! </Alt>
-#! First we combine two of them:
+#! First we combine two of them, which leads to a butterfly:
 #! @BeginExampleSession
 #! gap> joinPath := VertexEdgePathByVertices(triangle, [1,2]);
 #! | v1, E1, v2 |
@@ -915,6 +961,11 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! gap> join[2];
 #! | v7, E7, v8 |
 #! @EndExampleSession
+#! <Alt Only="TikZ">
+#! 	\def\join{1}
+#!	 \input{Image_Butterfly.tex}
+#! </Alt>
+#! 
 #! Along this vertex-edge-path another of the triangles can be added:
 #! @BeginExampleSession
 #! gap> tripleJoin := JoinVertexEdgePaths(join[1],join[2],triangle,joinPath);;
@@ -923,7 +974,14 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! gap> RamifiedEdges(tripleJoin[1]);
 #! [ 12 ]
 #! @EndExampleSession
-#! 
+#! The resulting surface is:
+#! <Alt Only="TikZ">
+#! 	\begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+#! 		\begin{scope}[xshift=10cm]
+#! 			\input{Image_ThreeBranchingTriangles.tex}
+#! 		\end{scope}
+#! 	\end{tikzpicture}
+#! </Alt>
 #! The NC-versions do not check whether the given vertex-edge-paths are
 #! actually vertex-edge-paths of the polygonal complexes.
 #! 
@@ -1016,6 +1074,10 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! >         [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;
 #! @EndExampleSession
 #! Joining the boundary together of this surface gives a closed surface.
+#! <Alt Only="TikZ">
+#!  \def\joined{1}	
+#!  \input{Image_FourGon.tex}
+#! </Alt>
 #! @BeginExampleSession
 #! gap> joined:=JoinBoundary(fourGon,2);
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces),
@@ -1032,6 +1094,35 @@ DeclareOperation("JoinVertexEdgePathsNC",
 DeclareOperation( "JoinBoundary", [IsPolygonalComplex, IsInt] );
 #! @Arguments complex, vertex
 DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
+#! @EndGroup
+
+#! @BeginGroup AllToriOfSimplicialSphere
+#! @Description
+#! Given a simplicial sphere this function returns the set of all tori that can 
+#! be constructed by identifying two faces of <A>surface</A> and removing 
+#! the resulting face from the constructed triangular complex.
+#! The function returns <A>fail</A>, if <A>surface</A> is not a simplicial
+#! sphere.
+#! As an example consider the octahedron.
+#! <Alt Only="TikZ">
+#!  \input{_TIKZ_Octahedron_constructor.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> alltori:=AllToriOfSimplicialSphere(Octahedron());
+#! [ simplicial surface (3 vertices, 9 edges, and 6 faces)]
+#! gap> torus:=alltori[1];;
+#! gap> EulerCharacteristic(torus);
+#! 0
+#! @EndExampleSession
+#! The simplicial surface <A>torus</A> is constructed by identifying the faces
+#! 1 and 8. Since mending two faces introduces an identification of the
+#! incident vertices and edges, there are new edge and vertex labels introduced.
+#! <Alt Only="TikZ">
+#!  \input{Image_TorusOcta.tex}
+#! </Alt>
+
+#! @Arguments surface
+DeclareOperation( "AllToriOfSimplicialSphere", [IsSimplicialSurface] );
 #! @EndGroup
 
 
@@ -1190,8 +1281,160 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #!      \input{Image_TetrahedralExtension.tex}
 #! </Alt>
 #! @Returns a surface
-#! @Arguments surface, face
-DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments surface, face [,newVertexLable]
+DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt,IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup TetrahedralReduction
+#! @Description
+#! Given a simplicial surface and a vertex of face degree 3 a new surface can
+#! be constructed by removing the faces incident to <K>vertex</K> in
+#! <K>surface</K> and attaching a new face to the resulting boundary edges.
+#! <Alt Only="TikZ">
+#!      \input{Image_TetraRed.tex}
+#! </Alt>
+#! So, this modification results in decreasing the number of vertices by 1, the 
+#! number of edges by 3 and the number of faces by 2. As an Example consider
+#! the double tetrahedron.
+#! <Alt Only="TikZ">
+#!      \input{Image_DoubleTetrahedron.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> tet:=TetrahedralReduction(doubleTetra,4);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> IsIsomorphic(tet,Tetrahedron());
+#! true
+#! @EndExampleSession
+
+#! So performing the tetrahedral reduction with the double tetrahedron gives rise
+#! to the tetrahedron.
+#! @Returns a surface
+#! @Arguments surface,vertex 
+DeclareOperation( "TetrahedralReduction", [IsSimplicialSurface,IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup InnerMultiTetrahedralSphere
+#! @Description
+#! Return the inner multi tetrahedral sphere of a given twisted polygonal
+#! complex. If <K>complex</K> is a multi tetrahedral sphere, a new multi
+#! tetrahedral sphere can be obtained by applying a tetrahedral reduction
+#! to every vertex in <K>complex</K> with face degree 3. If <K>complex</K>
+#! is not a multi tetrahedral sphere, the function returns <K>fail</K>.
+#!
+#! As an example, consider the multi tetrahedral sphere obtained by applying 
+#! exactly two tetrahdral extensions to the tetrahedron with any two faces.
+#! Since this surface has exactly two vertices with face degree 3, removing 
+#! the attached tetrahedron gives rise to the tetrahedron.
+#! @BeginExampleSession
+#! gap> doubleTetra:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> multiTetra:=TetrahedralExtension(doubleTetra,2);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> tetra:=InnerMultiTetrahedralSphere(multiTetra);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> IsIsomorphic(tetra,Tetrahedron());
+#! true
+#! @EndExampleSession
+#! @Returns a complex
+#! @Arguments complex 
+DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
+## ! @EndGroup 
+
+#! @BeginGroup MultiTetrahedralSymbolOfComplex
+#! @Description
+#! Returns the multi tetrahedral symbol of a given multi tetrahedral sphere or
+#! <K>fail</K>.
+#!
+#! Since a multi tetrahedral sphere can be constructed by applying
+#! a finite number of tetrahedral extionsions to the the tetrahedron, we can 
+#! define a symbol describing the sphere by choosing helpful identifications
+#! for the faces and vertices of the tetrahedron and thus of the spheres
+#! constructed by the given tetrahedral extensions. 
+#!
+#! Since the symmetry group of a tetrahedron is the full symmetric group of 
+#! four faces, it makes sense to identify the faces with 1,2,3,4.
+#! The identifications of the vertices are given in such a way that a face is
+#! incident to a vertex if and only if both identifications differ, i.e.
+#! the face with the identification 1 is incident to the vertices with the 
+#! identifications 2,3 and 4. 
+#! We insist that attaching a tetrahedron to a given sphere only takes 
+#! place, if the vertices that are being identified through the tetrahedral
+#! extension can be sorted in pairs so that the vertices of each pair have 
+#! the same identification in the above sense. 
+#! 
+#! Not only vertices and faces are asigned to numbers, but also the 
+#! tetrahedra. The numbering of the tetrahedra starts from 1 and the later
+#! get numbers 2,3,.... in the order they are attached to obtain the given
+#! multi tetrahedral sphere.
+#! By using the numbers of the tetrahedra and their faces as indices we can
+#! derive the desired symbol.  
+#!
+#! So for instance the symbol <M>1_1</M> describes the multi tetrahedral 
+#! sphere constructed by attaching a tetrahedron to the first face of the
+#! tetrahedron, whereby the symbol <M>1_2</M> describes the sphere which arises
+#! from attaching a tetrahedron to the second face of the face tetrahedron.
+#!
+#! And the symbol <M>1_32_4</M> describes the multi tetrahedral sphere 
+#! computed by the following steps:
+#! At first a tetrahdron is attached to the third face of the first tetrahedron. 
+#! This results in the double tetrahedron, whereby the faces of both tetrahedra putting this
+#! double tetrahedron together are identified with 1,2,4.
+#! So now we attach a third tetrahedron to the fourth face of the second
+#! tetrahehon. 
+#! 
+#! If <K>complex</K> is not a multi tetrahedral sphere, the function returns
+#! <K>fail</K>.
+#! As first examples consider the tetrahedron and the double tetrahedron.
+#! @BeginExampleSession
+#! gap> MultiTetrahedralSymbolOfComplex(Tetrahedron());
+#! [  ]
+#! gap> doubleTet:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> MultiTetrahedralSymbolOfComplex(doubleTet);
+#! [ [ 1, 4 ] ]
+#! @EndExampleSession
+#!
+#! As another example consider the multi tetrahedral sphere constructed by 
+#! applying tetrahdral extensions (<Ref Subsect="TetrahedralExtension"/>) to 
+#! the tetradedron. 
+#! @BeginExampleSession
+#! gap> multiTet:=Tetrahedron();;
+#! gap> for f in Faces(multiTet) do
+#! > multiTet:=TetrahedralExtension(multiTet,f);
+#! > od;
+#! gap> FaceDegreesOfVertices(multiTet);
+#! [ 6, 6, 6, 6, 3, 3, 3, 3 ]
+#! gap> MultiTetrahedralSymbolOfComplex(multiTet);
+#! [ [ 1, 4 ], [ 2, 1 ], [ 2, 3 ], [ 2, 2 ] ]
+#! @EndExampleSession
+#! Note different symbols can give rise to isomorphic multi tetrahedral spheres.
+#! @Returns a list of pairs of positive integers
+#! @Arguments complex
+DeclareOperation( "MultiTetrahedralSymbolOfComplex", [IsTwistedPolygonalComplex] );
+#! @EndGroup
+
+#! @BeginGroup MultiTetrahedralSphereByTetrahedralSymbol
+#! @Description
+#! Returns a multi tetrahedral sphere with the given multi tetrahedral symbol
+#! (<Ref Subsect="MultiTetrahedralSymbolOfComplex"/>).
+#!
+#! As examples, consider the following two multi tetrahedral symbols.
+#! @BeginExampleSession
+#! gap> tetra:=MultiTetrahedralSphereByTetrahedralSymbol([]);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> VertexCounter(tetra);
+#! [ [ 3, 4 ] ]
+#! gap> doubleTet:=MultiTetrahedralSphereByTetrahedralSymbol([[1,1]]);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> VertexCounter(doubleTet);
+#! [ [ 3, 2 ], [ 4, 3 ] ]
+#! @EndExampleSession
+#! @Returns a simplicial surface
+#! @Arguments symbol
+DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
 #! @EndGroup
 
 #! @BeginGroup EdgeTurn
@@ -1240,6 +1483,49 @@ DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt] );
 #! @Returns a simplicial surface or <K>fail</K>
 #! @Arguments surface,edge [,newedge]
 DeclareOperation( "EdgeTurn", [IsSimplicialSurface, IsPosInt,IsPosInt] );
+#! @EndGroup
+
+#! @BeginGroup BuildingBlocks
+#! @Description
+#! Return the building blocks of a vertex-faithful simplicial sphere.
+
+#! Given two closed simplicial surfaces with euler-characteristic 2 a new surface
+#! can be constructed by computing the connected-face sum 
+#! (<Ref Subsect="ConnectedFaceSum"/>) of this surfaces.
+#! This gives rise to a waist of length 3 in the resulting surface.
+ 
+#! Given a vertex-faithful simplicial sphere there exists a finite number of 
+#! simplicial spheres without waists of length 3, so that iteratively computing the 
+#! connected-face-sum of those surfaces gives rise to <K>surface</K>, up to 
+#! isomorphism. This surfaces which are unique up to isomorphism are called the 
+#! building blocks of the simplicial sphere <K>surface</K>. 
+#! Since building blocks only exist for vertex-faithful spheres the function returns
+#! <K>fail</K>, if <K>surface</K> does not satisfy this property. 
+#! As an example, consider the octahedron.
+#! @BeginExampleSession
+#! gap> BuildingBlocks(Octahedron());
+#! [ simplicial surface (6 vertices, 12 edges, and 8 faces)]
+#! @EndExampleSession
+#!
+#! As another example consider the double tetrahedron.
+#! Applying the connected sum to two tetrahedra with any two faces 
+#! gives rise to the double tetrahedron. So the double tetrahedron
+#! has two building blocks, namely two tetrahedron.
+#! @BeginExampleSession
+#! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> buildingBlocks:=BuildingBlocks(doubleTetra);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces)
+#!     , 
+#!   simplicial surface (4 vertices, 6 edges, and 4 faces) 
+#!  ]
+#! gap> List(buildingBlocks,g->IsIsomorphic(g,Tetrahedron()));
+#! [ true, true ]
+#! @EndExampleSession
+#! @Returns a set of simplicial surfaces
+#! @Arguments surface
+DeclareAttribute( "BuildingBlocks", IsSimplicialSurface);
 #! @EndGroup
 
 #TODO maybe move into chapter ExampleApplications?
@@ -1712,7 +1998,9 @@ DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
 #! @EndGroup
 
 
+
 # These do not fit the above pattern:
 # CommonCover       -> does not fit here at all -> chapter Coverings (or only as a section in chapter "Associated Complexes" that also includes DualSurface?)
 # AddVertexIntoEdge (and the rest of Jesse's stuf) -> subdivision section?
+
 

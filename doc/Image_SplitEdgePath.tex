@@ -8,15 +8,31 @@
 \coordinate (V6_1) at (2, 0);
 \coordinate (V7_1) at (1.5, -0.8660254037844384);
 
+\coordinate (V13_1) at (1,0.5);
+\coordinate (V14_1) at (2,0.5);
+\coordinate (V15_1) at (0,0.5);
+\coordinate (V2_2) at (0.5, 1.3660254037844386);
+\coordinate (V5_2) at (1.5, 1.3660254037844386);
 
-\fill[face]  (V2_1) -- (V3_1) -- (V1_1) -- cycle;
-\node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V1_1=1) {$I$};
-\fill[face]  (V3_1) -- (V4_1) -- (V1_1) -- cycle;
-\node[faceLabel] at (barycentric cs:V3_1=1,V4_1=1,V1_1=1) {$II$};
-\fill[face]  (V5_1) -- (V6_1) -- (V3_1) -- cycle;
-\node[faceLabel] at (barycentric cs:V5_1=1,V6_1=1,V3_1=1) {$III$};
-\fill[face]  (V6_1) -- (V7_1) -- (V3_1) -- cycle;
-\node[faceLabel] at (barycentric cs:V6_1=1,V7_1=1,V3_1=1) {$IV$};
+\ifdefined\splittedVertex
+	\fill[face]  (V2_2) -- (V13_1) -- (V15_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V2_2=1,V13_1=1,V15_1=1) {$I$};
+	\fill[face]  (V3_1) -- (V4_1) -- (V1_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V3_1=1,V4_1=1,V1_1=1) {$II$};
+	\fill[face]  (V5_2) -- (V14_1) -- (V13_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V5_2=1,V14_1=1,V13_1=1) {$III$};
+	\fill[face]  (V6_1) -- (V7_1) -- (V3_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V6_1=1,V7_1=1,V3_1=1) {$IV$};
+\else
+	\fill[face]  (V2_1) -- (V3_1) -- (V1_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V1_1=1) {$I$};
+	\fill[face]  (V3_1) -- (V4_1) -- (V1_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V3_1=1,V4_1=1,V1_1=1) {$II$};
+	\fill[face]  (V5_1) -- (V6_1) -- (V3_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V5_1=1,V6_1=1,V3_1=1) {$III$};
+	\fill[face]  (V6_1) -- (V7_1) -- (V3_1) -- cycle;
+	\node[faceLabel] at (barycentric cs:V6_1=1,V7_1=1,V3_1=1) {$IV$};
+\fi
 
 \draw[edge] (V2_1) -- node[edgeLabel] {$1$} (V1_1);
 \draw[edge] (V3_1) -- node[edgeLabel] {$2$} (V2_1);
@@ -34,7 +50,7 @@
 \vertexLabelR{V3_1}{above}{$3$}
 \vertexLabelR{V4_1}{below}{$4$}
 \vertexLabelR{V5_1}{right}{$5$}
-\vertexLabelR{V6_1}{above}{$6$}
+\vertexLabelR{V6_1}{right}{$6$}
 \vertexLabelR{V7_1}{below}{$7$}
 
 \end{tikzpicture}

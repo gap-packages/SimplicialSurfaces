@@ -200,7 +200,8 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( ChamberAdjacencyGraph, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],
         function(complex)
-            local nrNodes, i, chambersOfLabels, c, edges, cl, twoEdges;
+            local nrNodes, i, chambersOfLabels, c,class,edges, cl, 
+	    combCl,twoEdges;
 
             nrNodes := NumberOfChambers(complex);
             chambersOfLabels := [];
@@ -214,9 +215,12 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             Add(edges, List(ZeroAdjacencyClasses(complex), cl -> List(cl, c -> chambersOfLabels[c])));
             Add(edges, List(OneAdjacencyClasses(complex), cl -> List(cl, c -> chambersOfLabels[c])));
             twoEdges := [];
-            for cl in TwoAdjacencyClasses(complex) do
-                if Length(cl) > 1 then
-                    Add(twoEdges, List(cl, c -> chambersOfLabels[c]));
+            for class in TwoAdjacencyClasses(complex) do
+                if Length(class) > 1 then
+		    combCl:=Combinations(class,2);
+		    for cl in combCl do
+                        Add(twoEdges, List(cl, c -> chambersOfLabels[c]));
+		    od;
                 fi;
             od;
             Add(edges, twoEdges);
@@ -548,10 +552,10 @@ BindGlobal( "__SIMPLICIAL_RestrictToVertices",
 );
 BindGlobal( "__SIMPLICIAL_RestrictToEdges",
     function(complex,  g)
-        local maxVert, permList, c, eOfC;
+        local maxEdge, permList, c, eOfC;
 
-        maxVert := Maximum(Vertices(complex));
-        permList := [1..maxVert];
+        maxEdge := Maximum(Edges(complex));
+        permList := [1..maxEdge];
         eOfC := EdgesOfChambers(complex);
         for c in Chambers(complex) do
             permList[eOfC[c]] := eOfC[c^g];
@@ -562,10 +566,10 @@ BindGlobal( "__SIMPLICIAL_RestrictToEdges",
 
 BindGlobal( "__SIMPLICIAL_RestrictToFaces",
     function(complex, g)
-        local maxVert, permList, c, fOfC;
+        local maxFace, permList, c, fOfC;
 
-        maxVert := Maximum(Vertices(complex));
-        permList := [1..maxVert];
+        maxFace := Maximum(Faces(complex));
+        permList := [1..maxFace];
         fOfC := FacesOfChambers(complex);
         for c in Chambers(complex) do
             permList[fOfC[c]] := fOfC[c^g];

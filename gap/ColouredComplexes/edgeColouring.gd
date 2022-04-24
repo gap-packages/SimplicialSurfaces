@@ -205,7 +205,6 @@ DeclareOperation( "ColourOfEdgeNC", [IsEdgeColouredTwistedPolygonalComplex, IsPo
 DeclareAttribute( "EdgesOfColours", IsEdgeColouredTwistedPolygonalComplex );
 #! @Arguments colComplex, colour
 DeclareOperation( "EdgesOfColour", [IsEdgeColouredTwistedPolygonalComplex, IsPosInt] );
-#TODO is this the right way or should the wrong colour lead to an error?
 #! @EndGroup
 
 
@@ -322,7 +321,21 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! to different graph packages:
 #! @InsertChunk Graphs_Packages
 #! 
-#! TODO example
+#! As an example consider the coloured Tetrahedron:
+#! <Alt Only="TikZ">
+#!   \input{_TIKZ_ColouredTetrahedron.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> colTetra := EdgeColouredPolygonalComplex(Tetrahedron(), [1,2,3,3,2,1]);;
+#! @EndExampleSession
+#! For example edge 1 is incident to the vertices 1 and 2, incident to the faces 1 and 2 and has colour 1.
+#! Edge 1 has the label 5 in the incidence graph.
+#! This means that edge 5 must be adjacent to the vertices 1, 2, 11, 12 and 15 in the incidence graph:
+#! @BeginExampleSession
+#! gap> digraph:=ColourIncidenceDigraphsGraph(colTetra);;
+#! gap> InNeighboursOfVertex(digraph,5);
+#! [ 1, 2, 11, 12, 15 ]
+#! @EndExampleSession
 #! @Returns a graph as defined in the package <K>Digraphs</K>
 #! @Arguments colComplex
 DeclareAttribute( "ColourIncidenceDigraphsGraph", IsEdgeColouredPolygonalComplex );
@@ -359,10 +372,19 @@ DeclareOperation( "IsIsomorphicEdgeColouredPolygonalComplex",
 #! complexes and returns a reduced list in which no two entries are 
 #! isomorphic.
 #!
-#! TODO example
+#! For example, consider two isomorphic edge-coloured tetrahedra:
+#! @BeginExampleSession
+#! gap> colTetra1 := EdgeColouredPolygonalComplex(Tetrahedron(), [1,2,3,3,2,1]);
+#! tame coloured surface (RRR with 4 vertices, 6 edges and 4 faces)
+#! gap> colTetra2 := EdgeColouredPolygonalComplex(Tetrahedron(), [3,1,2,2,1,3]);
+#! tame coloured surface (RRR with 4 vertices, 6 edges and 4 faces)
+#! gap> IsIsomorphicEdgeColouredPolygonalComplex(colTetra1,colTetra2);
+#! true
+#! gap> Length(
+#! > EdgeColouredPolygonalComplexIsomorphismRepresentatives([colTetra1,colTetra2]));
+#! 1
+#! @EndExampleSession
 #!
 #! @Returns a list of edge coloured polygonal complexes
 #! @Arguments complexList
 DeclareOperation( "EdgeColouredPolygonalComplexIsomorphismRepresentatives", [IsList] );
-
-

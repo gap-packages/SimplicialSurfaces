@@ -251,7 +251,7 @@ InstallMethod( SplitVertex, "for a polygonal complex, a vertex and a list",
         starComp := __SIMPLICIAL_ConnectedStarComponents(complex, vertex);
         if Length( Set(newVertexLabels) ) <> Length(starComp) then
             Error(Concatenation(
-                "SplitVertex: The number of new vertex labels has to be equal to the number of incident stars.TODO"
+                "SplitVertex: The number of new vertex labels has to be equal to the length of the umbrella partition."
             ));
         fi;
 
@@ -284,9 +284,11 @@ RedispatchOnCondition( SplitVertexNC, true, [IsTwistedPolygonalComplex,IsPosInt,
 BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
     function(oldComplex, vePath, newComplex, labelList)
         local partialPaths, i, newPaths, p, pNew, pOld, newEdge, used, 
-            newVertex, resPaths, extNew, extOld;
+            newVertex, resPaths, extNew, extOld, finishedParts,new;
 
         VerticesAttributeOfComplex(newComplex); # Compute this once to avoid scheduling
+	finishedParts:=[];
+	new:=0;
 
         partialPaths := [ [[],[]] ];
         for i in [1..Length(labelList)] do
@@ -295,6 +297,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                 # We have to add an edge => paths can't start here
                 newPaths := [];
                 for p in partialPaths do
+		    used := false;
                     pNew := p[1];
                     pOld := p[2];
                     for newEdge in labelList[i] do
@@ -306,13 +309,20 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                             Add(extOld, PathAsList(vePath)[i]);
 
                             Add(newPaths, [ extNew, extOld ]);
+			
+			    used:=true;
                         fi;
                     od;
+		    if new>=Position(partialPaths,p) and not used then
+			Add(finishedParts,p);
+		    fi;
                 od;
-                partialPaths := newPaths;
+		new:=0;
+		partialPaths := newPaths;
             else
                 # We have to add a vertex => paths can start here
                 newPaths := [];
+		
                 for newVertex in labelList[i] do
                     used := false;
                     for p in partialPaths do
@@ -330,13 +340,20 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                         fi;
                     od;
                     if not used then
+			# If there is no way to add the new vertex to the partial paths,
+			# a new path will start at the vertex 
+			if i>1 then
+                             new:=Length(partialPaths);
+                        fi;
                         Add(newPaths, 
                             [ [newVertex], [PathAsList(vePath)[i]] ]);
-                    fi;
+		    fi;
                 od;
                 partialPaths := newPaths;
             fi;
+	    
         od;
+	Append(newPaths,finishedParts);
 
         resPaths := [];
         for i in [1..Length(newPaths)] do
@@ -391,7 +408,6 @@ InstallMethod( SplitVertexEdgePathNC,
             newLabelList[2*size-1] := vertexSplit[2];
         fi;
         newComplex := swapComplex;
-
         return [newComplex, __SIMPLICIAL_ComputeNewVertexEdgePaths(
                     complex,vePath, newComplex, newLabelList)];
     end
@@ -970,7 +986,14 @@ RedispatchOnCondition( JoinVerticesNC, true,
 InstallOtherMethod( JoinEdges, "for a polygonal complex and two edges",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, e1, e2)
-        return JoinEdges(complex, e1, e2, Edges(complex)[NumberOfEdges(complex)]+1);
+        local label;
+		
+	if e1 = e2 then
+		label := e1;
+	else
+		label := Last(Edges(complex))+1;
+	fi;
+        return JoinEdges(complex, e1, e2, label);
     end
 );
 RedispatchOnCondition( JoinEdges, true, 
@@ -979,7 +1002,14 @@ RedispatchOnCondition( JoinEdges, true,
 InstallOtherMethod( JoinEdgesNC, "for a polygonal complex and two edges",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, e1, e2)
-        return JoinEdgesNC(complex, e1, e2, Edges(complex)[NumberOfEdges(complex)]+1);
+        local label;
+		
+	if e1 = e2 then
+		label := e1;
+	else
+		label := Last(Edges(complex))+1;
+	fi;
+        return JoinEdgesNC(complex, e1, e2, label);
     end
 );
 RedispatchOnCondition( JoinEdgesNC, true, 
@@ -992,8 +1022,8 @@ InstallMethod( JoinEdges,
     function(complex, e1, e2, newEdgeLabel)
         __SIMPLICIAL_CheckEdge(complex, e1, "JoinEdges");
         __SIMPLICIAL_CheckEdge(complex, e2, "JoinEdges");
-        if e1 = e2 then
-            Error(Concatenation("JoinEdges: Given edges are identical: ", String(e1), "."));
+        if e1 = e2 and e1 = newEdgeLabel then
+            return [complex, newEdgeLabel];
         fi;
         if newEdgeLabel <> e1 and newEdgeLabel <> e2 and newEdgeLabel in Edges(complex) then
             Error(Concatenation("JoinEdges: Given new edge label ", 
@@ -1064,7 +1094,15 @@ InstallOtherMethod(JoinEdges,
 	"for a polygonal complex and a list",
 	[IsPolygonalComplex,IsList],
 	function(complex,edgeList)
-		return JoinEdges(complex,edgeList,Last(Edges(complex))+1);
+		local edgeSet, label;
+		
+		edgeSet := Set(edgeList);
+		if Length(edgeSet) = 1 then
+			label := edgeSet[1];
+		else
+			label := Last(Edges(complex))+1;
+		fi;
+		return JoinEdges(complex,edgeList,label);
 	end
 );
 RedispatchOnCondition( JoinEdges, true, 
@@ -1075,7 +1113,15 @@ InstallOtherMethod(JoinEdgesNC,
 	"for a polygonal complex and a list",
 	[IsPolygonalComplex,IsList],
 	function(complex,edgeList)
-		return JoinEdgesNC(complex,edgeList,Last(Edges(complex))+1);
+		local edgeSet, label;
+		
+		edgeSet := Set(edgeList);
+		if Length(edgeSet) = 1 then
+			label := edgeSet[1];
+		else
+			label := Last(Edges(complex))+1;
+		fi;
+		return JoinEdgesNC(complex,edgeList,label);
 	end
 );
 RedispatchOnCondition( JoinEdgesNC, true, 
@@ -1131,7 +1177,14 @@ RedispatchOnCondition( JoinEdgesNC, true,
 InstallOtherMethod( JoinFaces, "for a polygonal complex and two faces",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, F1, F2)
-        return JoinFaces(complex, F1, F2, Faces(complex)[NumberOfFaces(complex)]+1);
+	local label;
+		
+	if F1 = F2 then
+		label := F1;
+	else
+		label := Last(Faces(complex))+1;
+	fi;
+        return JoinFaces(complex, F1, F2, label);
     end
 );
 RedispatchOnCondition( JoinFaces, true, 
@@ -1141,7 +1194,14 @@ RedispatchOnCondition( JoinFaces, true,
 InstallOtherMethod( JoinFacesNC, "for a polygonal complex and two faces",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, F1, F2)
-        return JoinFacesNC(complex, F1, F2, Faces(complex)[NumberOfFaces(complex)]+1);
+	local label;
+
+        if F1 = F2 then
+                label := F1;
+        else
+                label := Last(Faces(complex))+1;
+        fi;
+        return JoinFacesNC(complex, F1, F2, label);
     end
 );
 RedispatchOnCondition( JoinFacesNC, true, 
@@ -1152,24 +1212,24 @@ InstallMethod( JoinFaces,
     "for a polygonal complex, two faces and a new face label",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
 	function(complex, F1, F2, newFaceLabel)
-			__SIMPLICIAL_CheckFace(complex, F1, "JoinFaces");
-			__SIMPLICIAL_CheckFace(complex, F2, "JoinFaces");
-			if F1 = F2 then
-				Error(Concatenation("JoinFaces: Given faces are identical: ", String(F1), "."));
-			fi;
-			if newFaceLabel <> F1 and newFaceLabel <> F2 and newFaceLabel in Faces(complex) then
-				Error(Concatenation("JoinFaces: Given new face label ", 
-					String(newFaceLabel), " conflicts with existing faces: ", 
-					String(Faces(complex)), "."));
-			fi;
-			if EdgesOfFaces(complex)[F1] <> EdgesOfFaces(complex)[F2] then
-				Error(Concatenation(
-					"JoinFaces: The two given faces are incident to different edges, namely ",
-					String(EdgesOfFaces(complex)[F1]), " and ",
-					String(EdgesOfFaces(complex)[F2]), "."));
-			fi;
+		__SIMPLICIAL_CheckFace(complex, F1, "JoinFaces");
+		__SIMPLICIAL_CheckFace(complex, F2, "JoinFaces");
+		if F1 = F2 and F1 = newFaceLabel then
+			return [complex, newFaceLabel];
+		fi;
+		if newFaceLabel <> F1 and newFaceLabel <> F2 and newFaceLabel in Faces(complex) then
+			Error(Concatenation("JoinFaces: Given new face label ", 
+				String(newFaceLabel), " conflicts with existing faces: ", 
+				String(Faces(complex)), "."));
+		fi;
+		if EdgesOfFaces(complex)[F1] <> EdgesOfFaces(complex)[F2] then
+			Error(Concatenation(
+				"JoinFaces: The two given faces are incident to different edges, namely ",
+				String(EdgesOfFaces(complex)[F1]), " and ",
+				String(EdgesOfFaces(complex)[F2]), "."));
+		fi;
 
-			return JoinFacesNC(complex, F1, F2, newFaceLabel);
+		return JoinFacesNC(complex, F1, F2, newFaceLabel);
 	end
 );
 RedispatchOnCondition( JoinFaces, true, 
@@ -1223,7 +1283,15 @@ InstallOtherMethod(JoinFaces,
 	"for a polygonal complex and a list",
 	[IsPolygonalComplex,IsList],
 	function(complex,faceList)
-		return JoinFaces(complex,faceList,Last(Faces(complex))+1);
+		local faceSet, label;
+		
+		faceSet := Set(faceList);
+		if Length(faceSet) = 1 then
+			label := faceSet[1];
+		else
+			label := Last(Faces(complex))+1;
+		fi;
+		return JoinFaces(complex,faceList,label);
 	end
 );
 RedispatchOnCondition( JoinFaces, true, 
@@ -1234,7 +1302,15 @@ InstallOtherMethod(JoinFacesNC,
 	"for a polygonal complex and a list",
 	[IsPolygonalComplex,IsList],
 	function(complex,faceList)
-		return JoinFacesNC(complex,faceList,Last(Faces(complex))+1);
+		local faceSet, label;
+
+                faceSet := Set(faceList);
+                if Length(faceSet) = 1 then
+                        label := faceSet[1];
+                else
+                        label := Last(Faces(complex))+1;
+                fi;
+                return JoinFacesNC(complex,faceList,label);
 	end
 );
 RedispatchOnCondition( JoinFacesNC, true, 
@@ -1561,26 +1637,13 @@ InstallMethod(JoinBoundariesNC,
     "for a polygonal surface, two 2-flags and an integer",
     [IsPolygonalSurface, IsList, IsList, IsInt],
     function(surface, flag1, flag2, length)
-        local perims, perim1, perim2, bound1, bound2, Reorient, p, join, i;
+        local perim1, perim2, bound1, bound2, Reorient, p, join, i;
 
-        perims := PerimeterOfHoles(surface);
-        # Each edge can be in only one boundary path
-        # TODO could this become another VertexEdgePath-Constructor?
-        perim1 := [];
-        perim2 := [];
-        for p in perims do
-        	if flag1[2] in EdgesAsList(p) then
-        		Add(perim1, p);
-        	fi;
-        	if flag2[2] in EdgesAsList(p) then
-        		Add(perim2, p);
-        	fi;
-        od;
-        Assert(0, Length(perim1) = 1);
-        Assert(0, Length(perim2) = 1);
+        perim1 := PerimeterOfHoles(surface,flag1[2]);
+        perim2 := PerimeterOfHoles(surface,flag2[2]);
         
-	perim1:=ShiftCyclicPath(perim1[1],flag1[1],flag1[2]);
-        perim2:=ShiftCyclicPath(perim2[1], flag2[1], flag2[2]);
+	perim1:=ShiftCyclicPath(perim1,flag1[1],flag1[2]);
+        perim2:=ShiftCyclicPath(perim2, flag2[1], flag2[2]);
  
 	perim1:=ShallowCopy(EdgesAsList(perim1));
         perim2:=ShallowCopy(EdgesAsList(perim2));
@@ -2003,36 +2066,219 @@ RedispatchOnCondition( SplitMend, true, [IsTwistedPolygonalComplex,IsList], [IsP
 ##
 ##      TetrahedralExtension
 ##
+InstallOtherMethod(TetrahedralExtension, 
+    "for a simplicial surface and a face",
+    [IsSimplicialSurface,IsPosInt],
+    function(surface,face)
+        return TetrahedralExtension(surface,face,Maximum(Vertices(surface))+1);
+    end
+);
+
 InstallMethod( TetrahedralExtension,
     "for a simplicial surface and a face",
-    [IsSimplicialSurface, IsPosInt],
-    function(surface, face)
+    [IsSimplicialSurface, IsPosInt,IsPosInt],
+    function(surface, face, vertex)
 	local voe,eof,nE,nV,g,L,M,VOE,EOF,edges,e,vof,rem;
 	rem:=function(L,g)
 	    local temp,i;
 	    temp:=[];
 	    for i in Difference([1..Length(L)],[g]) do
-		temp[i]:=L[i];
+		if IsBound(L[i]) then
+			temp[i]:=L[i];
+		fi;
 	    od;
 	    return temp;
 	end;
 	VOE:=ShallowCopy(VerticesOfEdges(surface));
 	EOF:=ShallowCopy(EdgesOfFaces(surface));
 	nE:=Length(VOE);
-	nV:=Length(Vertices(surface));
+
+	nV:=vertex-1;
 	vof:=VerticesOfFace(surface,face);
 	Add(VOE,[vof[1],nV+1]);
         Add(VOE,[vof[2],nV+1]);
         Add(VOE,[vof[3],nV+1]);
 	eof:=EOF[face];
-	EOF:=rem(EOF,face);
 	for e in eof do 
 		voe:=VerticesOfEdge(surface,e);
 		edges:=Filtered([nE+1,nE+2,nE+3],g->
 		Intersection(VOE[g],VerticesOfEdge(surface,e))<>[]);
 		Add(EOF,[e,edges[1],edges[2]]);
 	od;
+        EOF:=rem(EOF,face);
 	return SimplicialSurfaceByDownwardIncidence(VOE,EOF);
+end
+);
+
+InstallMethod( TetrahedralReduction,
+    "for a simplicial surface and a vertex",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, vertex)
+	local f,eof,voe,i,L,ind,faces,remElm,edges,verts,g;
+	remElm:=function(L,ind)
+		local i,res;
+		res:=[];
+		for i in [1..Length(L)] do
+			if IsBound(L[i]) and i <> ind then 
+				res[i]:=L[i];
+			fi;
+		od; 
+		return res;
+	end;
+
+	eof:=ShallowCopy(EdgesOfFaces(surface));
+	voe:=ShallowCopy(VerticesOfEdges(surface));
+	faces:=FacesOfVertex(surface,vertex);
+	## remove faces and replace the resulting 3-waist with a face
+	if Length(faces)=3 and IsInnerVertex(surface,vertex) then
+		for f in faces do
+			eof:=remElm(eof,f);
+		od;
+                verts:=Union(VerticesOfFace(surface,faces[1]),VerticesOfFace(surface,faces[2]));
+                verts:=Difference(verts,[vertex]);
+		edges:=[];
+		for i in [1,2,3] do
+			edges[i]:=Filtered(EdgesOfFace(surface,faces[i]),
+				g->VerticesOfEdge(surface,g) in Combinations(verts,2))[1];
+		od;
+                eof[Maximum(Faces(surface))+1]:=Set(edges);
+		for g in EdgesOfVertex(surface,vertex) do
+			voe:=remElm(voe,g);
+		od;
+	else
+		return fail;
+	fi;
+	
+	return SimplicialSurfaceByDownwardIncidence(voe,eof);
+end
+);
+
+InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local v,vert,comp;
+	comp:=complex;
+        vert:=Filtered(Vertices(comp),v->FaceDegreeOfVertex(comp,v)=3);
+        if IsMultiTetrahedralSphere(comp) then
+                if not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] then
+                        for v in vert do
+                               comp:=TetrahedralReduction(comp,v);
+                        od;
+                fi;
+		return comp;
+	else
+	        return fail;
+	fi;
+end
+);
+
+BindGlobal("__SIMPLICIAL_helpNameFacesAndVertices",
+    function(surf,idFOT,idVOT)
+	local idf,f,temp,newV,oldF,vertexIDs,faceIDs,idOfOldFace,idOfnewV,
+	newFaceIDs,idOfNeighVert,newVertIDs;
+## idFOT is list [t1,t2,t3,...] where ti is a tetrahedron represented by
+## the list. [[id1,f1],[id2,f2],[id3,f3],[id4,f4]] so that idj=1,2,3,4 is the
+## identification of face fj of surf idVOT is list [t1,t2,t3,...] where ti is
+## a tetrahedron represented by the list [[id1,v1],[id2,v2],[id3,v3],[id4,v4]]
+## so that idj=1,2,3,4 is the identification of vertex vj of surf
+	temp:=List(Union(idVOT),tup->tup[2]); 
+	newV:=Difference(Vertices(surf),temp)[1];
+	temp:=List(Union(idFOT),tup->tup[2]);
+	oldF:=Difference(temp,Faces(surf))[1];
+
+	vertexIDs:=Union(idVOT);
+	faceIDs:=Union(idFOT);
+	idOfNeighVert:=Filtered(vertexIDs,id->id[2] in NeighbourVerticesOfVertex(surf,newV));
+	idOfOldFace:=Filtered(faceIDs,id->id[2]=oldF)[1];
+	idOfnewV:=[idOfOldFace[1],newV];
+	newVertIDs:=Union([idOfnewV],idOfNeighVert);
+	Add(idVOT,Union([idOfnewV],newVertIDs));
+
+	newFaceIDs:=[];
+	for f in FacesOfVertex(surf,newV) do
+	    idf:=Filtered(newVertIDs,id->not id[2] in VerticesOfFace(surf,f))[1][1];
+	    Add(newFaceIDs,[idf,f]);
+	od;
+	Add(idFOT,Union(newFaceIDs,[idOfOldFace]));
+	return [idFOT,idVOT];
+    end
+);
+
+InstallMethod( MultiTetrahedralSphereByTetrahedralSymbol, 
+    "for a dense list",
+    [IsDenseList],
+    function(symbol)
+	local idenFaces,idenVertices,temp,tup,face,surf;
+
+	surf:=SimplicialSurfaceByVerticesInFaces([[2,3,4],[1,3,4],
+						[1,2,4],[1,2,3]]);
+	idenVertices:=[[[1,1],[2,2],[3,3],[4,4]]];
+	idenFaces:=[[[1,1],[2,2],[3,3],[4,4]]];
+
+	for tup in symbol do
+		face:=idenFaces[tup[1]][tup[2]][2];
+		surf:=TetrahedralExtension(surf,face);
+		temp:=__SIMPLICIAL_helpNameFacesAndVertices(surf,idenFaces,idenVertices);
+		idenFaces:=temp[1];
+		idenVertices:=temp[2];
+	od;
+	return surf;
+    end
+);
+
+
+InstallMethod( MultiTetrahedralSymbolOfComplex,
+    "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+	local helpNextVertex,v,i,f,symbol,temp,idenVertices,idenFaces,surf,vertices,neigh;
+
+	## surf is the bigger surface and vert the remaining vertices which are not yet
+	##identified
+	helpNextVertex:=function(surf,visitedVert)
+		local neighbours,v;
+		for v in Difference(Vertices(surf),visitedVert) do
+			neighbours:=NeighbourVerticesOfVertex(surf,v);
+			neighbours:=Intersection(neighbours,visitedVert);
+			if Length(neighbours)=3 then 
+				return [v,neighbours];
+			fi;
+		od;
+		return fail;
+	end;
+	if IsMultiTetrahedralSphere(complex) then 
+		symbol:=[];
+		v:=Position(FaceDegreesOfVertices(complex),3);
+		neigh:=NeighbourVerticesOfVertex(complex,v);
+		vertices:=[v,neigh[1],neigh[2],neigh[3]];
+		surf:=SimplicialSurfaceByVerticesInFaces([[v,neigh[1],neigh[2]],
+							  [v,neigh[1],neigh[3]],
+							  [v,neigh[2],neigh[3]],
+							  [neigh[1],neigh[2],neigh[3]]]);
+		idenVertices:=[[[1,vertices[4]],[2,vertices[3]],[3,vertices[2]],[4,vertices[1]]]];
+
+		idenFaces:=[[[1,1],[2,2],[3,3],[4,4]]];
+	## construct the sphere by attaching the tetrahedra with respect to the
+	## identified faces and vertices
+		while not IsIsomorphic(complex,surf) do
+			temp:=helpNextVertex(complex,Vertices(surf));
+			f:=Position(VerticesOfFaces(surf),temp[2]);
+			v:=temp[1];
+			for i in [1,2,3,4] do
+				temp:=Filtered(idenFaces,tut->[i,f] in tut);
+				if temp<>[] then 
+					Add(symbol,[Position(idenFaces,temp[1]),i]);
+				fi;
+			od;
+			surf:=TetrahedralExtension(surf,f,v);
+			temp:=__SIMPLICIAL_helpNameFacesAndVertices(surf,idenFaces,idenVertices);
+			idenFaces:=temp[1];
+			idenVertices:=temp[2];
+		od;
+		return symbol;
+	else 
+		return fail;
+	fi;
 end
 );
 ##
@@ -2087,4 +2333,116 @@ end
 ##      End of Edgeturn
 ##
 #######################################
+
+
+InstallMethod( BuildingBlocks, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function( surface )
+        local w,bound,surf,vof1,vof2,waists,v;
+        if not (IsClosedSurface(surface) and EulerCharacteristic(surface)=2 
+		and IsVertexFaithful(surface)) then
+                return false;
+        fi;
+        surf:=surface;
+        waists:=AllThreeWaistsOfComplex(surface);
+        while waists<>[] do
+                w:=EdgesAsList(waists[1]);
+		surf:=SplitVertexEdgePath(surface,waists[1])[1];
+                bound:=BoundaryVertices(surf);
+                vof1:=Intersection(bound,NeighbourVerticesOfVertex(surf,bound[1]));
+                vof1:=Union([bound[1]],vof1);
+                vof2:=Difference(bound,vof1);
+                surf:=SimplicialSurfaceByVerticesInFaces(Union(VerticesOfFaces(surf),[vof1,vof2]));
+                waists:=AllThreeWaistsOfComplex(surf);
+        od;
+        return ConnectedComponents(surf);
+end
+);
+
+
+#######################################
+##
+##      Tori construction
+##
+
+
+InstallMethod( AllToriOfSimplicialSphere, 
+    "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local help_FaceMender,help_MendableEdgeAssignments,res,ee,ff,combFaces,edgesOfFaces,
+        orb,autGroup,faces,mendEdges,verticesOfFaces;
+        ## this method mends two faces of surface and removes the resulting face
+        ## from the constructed triangular complex to give rise to a simplicial surface 
+        help_FaceMender:=function(surface,faces,edges) 
+	    local surf,i,vertex1,vertex2,newEdges,newPartition,temp,joinF;
+	    surf:=surface;
+            # mending of vertices
+	    for i in [[1,2],[1,3],[2,3]] do 
+	        vertex1:=Intersection(VerticesOfEdges(surf){edges[1]{i}})[1];
+	        vertex2:=Intersection(VerticesOfEdges(surf){edges[2]{i}})[1];
+	        if vertex1<>vertex2 then
+	            surf:=JoinVertices(surf,vertex1,vertex2)[1];
+	        fi;
+            od;
+            # mending of edges
+            for i in [1,2,3] do
+	        if edges[1][i]<> edges[2][i] then 
+	            surf:=JoinEdges(surf,edges[1][i],edges[2][i])[1];
+	        fi;
+            od;
+            # mending of faces
+	    joinF:=JoinFaces(surf,faces[1],faces[2]);
+            return RemoveFaceNC(joinF[1],joinF[2]);
+        end;
+
+	## given a surface and the edges of faces of two faces in the in given surface
+	## this function returns a list of possible identifications of the given edges. 
+
+        help_MendableEdgeAssignments:=function(surface,edgesOfFaces)
+            local g,edgeAssign,vof1,vof2,inter,arrangements,eov1,eov2,i,
+            edge1,edge2,ee,eof,help,res,help2,help1,v;
+
+	    arrangements:=Arrangements(edgesOfFaces[2],3);
+	    edgeAssign:=List([1..6],i->[edgesOfFaces[1],arrangements[i]]);
+	    res:=[];
+	    ## identified edges gives rise to an identification of the incident vertices
+	    ## edges can only be identified if and only if there exists no
+            help1:=function(surface,ee)
+	        local i,v1,v2;
+	        for i in [[1,2],[1,3],[2,3]] do 
+	            v1:=Intersection(VerticesOfEdges(surface){ee[1]{i}})[1];
+	            v2:=Intersection(VerticesOfEdges(surface){ee[2]{i}})[1];
+	            if Set([v1,v2]) in VerticesOfEdges(surface) then 
+		        return false; 
+	            fi;
+	        od;
+	        return true;
+            end;
+            return Filtered(edgeAssign,ee->help1(surface,ee));
+	end;
+	if EulerCharacteristic(surface) <> 2 or not IsClosedSurface(surface) then 
+	    return fail;
+	fi;
+        res:=[];
+        faces:=Faces(surface);
+        edgesOfFaces:=EdgesOfFaces(surface);
+        verticesOfFaces:=VerticesOfFaces(surface);
+        combFaces:=Combinations(faces,2);
+        combFaces:=Filtered(combFaces,ff->Intersection(verticesOfFaces{ff})=[]);
+        autGroup:=AutomorphismGroupOnFaces(surface);
+        orb:=Orbits(autGroup,combFaces,OnSets);
+        combFaces:=List(orb,g->g[1]);
+        for ff in combFaces do
+	    mendEdges:=help_MendableEdgeAssignments(surface,edgesOfFaces{ff});
+	    Append(res,IsomorphismRepresentatives(List(mendEdges,ee->help_FaceMender(surface,ff,ee))));	
+        od; 
+        return res;
+    end
+);
+##
+##      End of tori construction
+##
+#######################################
+
 

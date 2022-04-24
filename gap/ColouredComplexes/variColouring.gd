@@ -183,14 +183,12 @@ DeclareAttribute("ColourInvolutions",
     IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsEdgeVariColouring);
 #! @EndGroup
 
-#TODO Is this relabelling ok?
-
 #! @Section Wild coloured surfaces
 #! @SectionLabel EdgeVariColouring_Wild
 #!
 #! While the previous sections dealt with general edge vari-colourings,
 #! this section focuses exclusively on edge exact-coloured
-#! simplicial surfaces, i.,e. simplicial surfaces whose edges are coloured
+#! simplicial surfaces, i.e. simplicial surfaces whose edges are coloured
 #! with three colours such that the edges of each face have different colours.
 #! Since these are quite important structures, we will denote them by
 #! <E>wild-coloured surfaces</E> (<Ref Subsect="IsWildColouredSurface"/>).
@@ -220,7 +218,7 @@ DeclareAttribute("ColourInvolutions",
 #!   i.e. the edges are coloured by three colours and the edges of every
 #!   face have different colours.
 #!
-#! TODO example
+#! @InsertChunk Example_ColouredTetrahedron_IsWildColoured
 #!
 #! @Arguments colSurf
 DeclareProperty( "IsWildColouredSurface", IsEdgeColouredPolygonalComplex );
@@ -283,12 +281,13 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! @BeginExampleSession
 #! gap> oct := Octahedron();;
 #! gap> oct := AllWildColouredSurfaces(oct);;
+#! gap> LocalSymmetryOfEdges(oct[1]);
+#! [ "mirror", "mirror", "mirror", "mirror", "mirror", "mirror", "mirror",
+#!  "mirror", "mirror", "mirror", "mirror", "mirror" ]
 #! gap> LocalSymmetryOfEdges(oct[2]);
-#! [ "mirror", "rotation", "mirror", "rotation", "mirror", "mirror", "mirror", "mirror", 
-#!  "rotation", "mirror", "mirror", "rotation" ]
+#! [ "mirror", "rotation", "mirror", "rotation", "mirror", "mirror", "mirror",
+#!  "mirror", "rotation", "mirror", "mirror", "rotation" ]
 #! @EndExampleSession
-#!
-#! TODO tests
 #!
 #! @Returns a list of strings
 #! @Arguments colSurf
@@ -312,7 +311,7 @@ DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsWildColouredSurface );
 #! The method <K>LocalSymmetryOfColours</K> returns a list of local symmetries that is
 #! indexed by the colours.
 #! 
-#! TODO a lot of tests (how should this interact with other options?);
+#! @InsertChunk Example_TameColoured
 #! 
 #! @Arguments colSurf
 DeclareProperty( "IsTameColouredSurface", IsEdgeColouredPolygonalComplex);
@@ -328,8 +327,12 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 
 #! @BeginGroup AllWildColouredSurfaces
 #! @Description
-#! This method computes all wild-coloured surfaces based on the given
-#! information. The information can be given in one of two forms:
+#! This method computes all wild-coloured surfaces up to isomorphism
+#! based on the given information.
+#! If the optional parameter <A>noIsom</A> is set to false, the method computes all
+#! wild-coloured surfaces. This means the returned list contains
+#! isomorphic edge-coloured surfaces. By default, <A>noIsom</A> is true.
+#! The information can be given in one of two forms:
 #! <Enum>
 #!   <Item>A simplicial surface (<Ref Subsect="IsSimplicialSurface"/>).
 #!      The optional argument <A>localSymmetry</A> is a list that encodes
@@ -383,19 +386,22 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #! 1
 #! gap> octTame := AllTameColouredSurfaces(Octahedron());;
 #! gap> Size(octTame);
+#! 2
+#! gap> octTameIsom := AllTameColouredSurfaces(Octahedron(),false);;
+#! gap> Size(octTameIsom);
 #! 4
 #! @EndExampleSession
 #! TODO examples that use local symmetries -> what is interesting (but small)?
 #!
 #! @Returns a list of wild-coloured surfaces 
-#! @Arguments simpSurf[, localSymmetry]
-DeclareOperation( "AllWildColouredSurfaces", [IsSimplicialSurface, IsList] );
-#! @Arguments simpSurf[, localSymmetry]
-DeclareOperation( "AllTameColouredSurfaces", [IsSimplicialSurface, IsList] );
-#! @Arguments invList[, localSymmetry]
-DeclareOperation( "AllWildColouredSurfaces", [IsList, IsList] );
-#! @Arguments invList[, localSymmetry]
-DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList] );
+#! @Arguments simpSurf[, localSymmetry, noIsom]
+DeclareOperation( "AllWildColouredSurfaces", [IsSimplicialSurface, IsList, IsBool] );
+#! @Arguments simpSurf[, localSymmetry, noIsom]
+DeclareOperation( "AllTameColouredSurfaces", [IsSimplicialSurface, IsList, IsBool] );
+#! @Arguments invList[, localSymmetry, noIsom]
+DeclareOperation( "AllWildColouredSurfaces", [IsList, IsList, IsBool] );
+#! @Arguments invList[, localSymmetry, noIsom]
+DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #! @EndGroup
 
 

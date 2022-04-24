@@ -928,13 +928,13 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! 
 #! @Returns a subsurface
 #! @Arguments surface, vertex
-DeclareOperation("Star",[IsPolygonalSurface,IsInt]);
+DeclareOperation("Star",[IsPolygonalComplex,IsInt]);
 #! @Arguments surface, vertex
-DeclareOperation("StarNC",[IsPolygonalSurface,IsInt]);
+DeclareOperation("StarNC",[IsPolygonalComplex,IsInt]);
 #! @Arguments surface, vertices
-DeclareOperation("Star",[IsPolygonalSurface,IsList]);
+DeclareOperation("Star",[IsPolygonalComplex,IsList]);
 #! @Arguments surface, vertices
-DeclareOperation("StarNC",[IsPolygonalSurface,IsList]);
+DeclareOperation("StarNC",[IsPolygonalComplex,IsList]);
 #! @EndGroup
 
 #! @BeginGroup Link
@@ -1050,6 +1050,10 @@ DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
 #!
 #! All of those vertex-edge-paths are returned as a set.
 #!
+#! If the optional parameter <A>edge</A> is given, the method returns the
+#! unique perimeter path of the hole including <A>edge</A>.
+#! Each edge can be in only one boundary path.
+#!
 #! As an example, consider the surface from the start of section
 #! <Ref Sect="Section_Access_OrderedHoleAccess"/>:
 #! <Alt Only="TikZ">
@@ -1059,8 +1063,10 @@ DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
 #! gap> PerimeterOfHoles(holeSurf);
 #! [ ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, 
 #!     E4, v1 ), ( v5, E11, v8, E16, v10, E17, v5 ), ( v6, E9, v7, E15, v6 ) ]
+#! gap> PerimeterOfHoles(holeSurf,15);
+#! ( v6, E9, v7, E15, v6 )
 #! @EndExampleSession
 #!
 #! @Arguments surface
-#! @Returns a set of closed vertex-edge-paths
-DeclareAttribute( "PerimeterOfHoles", IsTwistedPolygonalComplex );
+#! @Returns a set of closed vertex-edge-paths[, edge]
+DeclareOperation( "PerimeterOfHoles", [IsTwistedPolygonalComplex,IsInt] );

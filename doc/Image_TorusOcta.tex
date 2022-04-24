@@ -1,0 +1,55 @@
+\begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2]
+
+% Define the coordinates of the vertices
+\coordinate (V7_1) at (0.4999999999999999, 0.8660254037844386);
+\coordinate (V7_2) at (0.5000000000000001, -0.8660254037844386);
+\coordinate (V7_3) at (2., -1.732050807568877);
+\coordinate (V8_1) at (0., 0.);
+\coordinate (V8_2) at (1.5, -0.8660254037844384);
+\coordinate (V9_1) at (1., 0.);
+\coordinate (V9_2) at (1., -1.732050807568877);
+\coordinate (V9_3) at (-0.5, 0.8660254037844384);
+
+
+% Fill in the faces
+\fill[face]  (V9_1) -- (V7_1) -- (V8_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V9_1=1,V7_1=1,V8_1=1) {$2$};
+\fill[face]  (V8_1) -- (V7_2) -- (V9_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V8_1=1,V7_2=1,V9_1=1) {$3$};
+\fill[face]  (V7_1) -- (V9_3) -- (V8_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_1=1,V9_3=1,V8_1=1) {$4$};
+\fill[face]  (V7_2) -- (V8_2) -- (V9_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_2=1,V8_2=1,V9_1=1) {$5$};
+\fill[face]  (V9_2) -- (V7_3) -- (V8_2) -- cycle;
+\node[faceLabel] at (barycentric cs:V9_2=1,V7_3=1,V8_2=1) {$6$};
+\fill[face]  (V7_2) -- (V9_2) -- (V8_2) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_2=1,V9_2=1,V8_2=1) {$7$};
+
+
+% Draw the edges
+\draw[edge] (V8_2) -- node[edgeLabel] {$3$} (V7_2);
+\draw[edge] (V9_1) -- node[edgeLabel] {$4$} (V7_2);
+\draw[edge] (V9_1) -- node[edgeLabel] {$6$} (V8_1);
+\draw[edge] (V8_1) -- node[edgeLabel] {$7$} (V7_1);
+\draw[edge] (V8_2) -- node[edgeLabel] {$8$} (V9_2);
+\draw[edge] (V9_3) -- node[edgeLabel] {$9$} (V7_1);
+\draw[edge] (V7_3) -- node[edgeLabel] {$9$} (V9_2);
+\draw[edge] (V7_2) -- node[edgeLabel] {$13$} (V8_1);
+\draw[edge] (V8_2) -- node[edgeLabel] {$13$} (V7_3);
+\draw[edge] (V7_1) -- node[edgeLabel] {$14$} (V9_1);
+\draw[edge] (V9_2) -- node[edgeLabel] {$14$} (V7_2);
+\draw[edge] (V9_1) -- node[edgeLabel] {$15$} (V8_2);
+\draw[edge] (V8_1) -- node[edgeLabel] {$15$} (V9_3);
+
+
+% Draw the vertices
+\vertexLabelR{V7_1}{left}{$7$}
+\vertexLabelR{V7_2}{left}{$7$}
+\vertexLabelR{V7_3}{left}{$7$}
+\vertexLabelR{V8_1}{left}{$8$}
+\vertexLabelR{V8_2}{left}{$8$}
+\vertexLabelR{V9_1}{left}{$9$}
+\vertexLabelR{V9_2}{left}{$9$}
+\vertexLabelR{V9_3}{left}{$9$}
+
+\end{tikzpicture}

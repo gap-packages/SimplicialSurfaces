@@ -31,10 +31,14 @@ InstallMethod( IsEdgeTwoColouring,
 
 InstallMethod( IsIsoscelesColouredSurface,
     "for an edge-coloured polygonal complex",
-    [IsEdgeColouredSimplicialSurface],
+    [IsEdgeColouredPolygonalComplex],
     function(colComp)
 
     local edges, colours, c, i;
+	
+    if not IsEdgeColouredSimplicialSurface(colComp) then
+	return false;
+    fi;
                
     edges := EdgesOfFaces( PolygonalComplex(colComp) );
     colours := List(edges, edg -> List(edg, e -> ColoursOfEdges(colComp)[e]));
@@ -49,14 +53,13 @@ InstallMethod( IsIsoscelesColouredSurface,
     end
 );
 
-
 InstallOtherMethod( IsIsoscelesColouredSurface,
     "for an object", [IsObject], function(obj)
         if IsEdgeColouredPolygonalComplex(obj) then
             TryNextMethod();
         else
             return false;
-        fi;
+       fi;
     end
 );
 #######################################
@@ -367,7 +370,8 @@ InstallMethod( WildColouredSurfaceOfIsoscelesColouredSurface,
 #        SetLocalSymmetryOfEdgesAsNumbers(colSurf, partialLocalSym);
 #        SetColouredEdgesOfFaces(colSurf, edgesOfFacesByColour);
         SetPolygonalComplex(colSurf, obj);
-
+	SetIsEdgeColouredPolygonalComplex(colSurf, true);
+	
         return  colSurf;
     
 end
@@ -477,37 +481,25 @@ InstallMethod( LocalSymmetryOfEdges,
         [IsEdgeColouredTwistedPolygonalComplex], 
         [IsIsoscelesColouredSurface], 0 );
 
-
-#######################################
-##
-##      AllIsosceles...
-##
-
-## Surface-variation
-
-
-
-## Surface-variation
-InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
-    [IsSimplicialSurface],
-    function(simpSurf)
-        return AllIsoscelesColouredSurfaces(simpSurf, []);
-    end
-);
-
 ################################
 ##
-#+ AllIsocelesColouredSurfaces( <surf> ) . . . find all isosceles colourings
+## AllIsocelesColouredSurfaces( <surf> ) . . . find all isosceles colourings
 ##
 ## This function determines all edge colourings of a simplicial surface such
 ## that two edges have the same colour, representing isosceles triangles. Note
 ## that not all isosceles colourings are obtained by setting two colours
 ## equal in a wild colouring.
 ##
-
 InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
-    [IsSimplicialSurface,IsList],
-            function( surf, li )
+    [IsSimplicialSurface],
+    function( surf)
+	return AllIsoscelesColouredSurfaces(surf, true);
+    end
+);
+
+InstallMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
+    [IsSimplicialSurface, IsBool],
+            function( surf, noIsom)
 
             local     umb, edges, faces, u, norepeatings, vertices,  info,
               assignagree, edgeassign, TestAssign, alledgeassignments,
@@ -528,7 +520,6 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
 
                n := Length(tup);
                if n <= 1 then Error("norepeatings: mistake in surface"); fi;
-#               if tup[1]=tup[n] and tup [1]="s" then return false; fi;
 
                for i in [ 2 .. n ] do
                    if tup[i]=tup[i-1] and tup[i]="s" then return false; fi;
@@ -630,7 +621,6 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
             if u > Length(Vertices(surf)) then
                 # we have succeeded to assign all edges around all vertices
                 Add(  alledgeassignments, edgeassign);
-#                Error("adding");
                 return;
             fi;
          
@@ -666,10 +656,6 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
             # will modify it
             origedgeassign := ShallowCopy(edgeassign);
             for assign in allassign do
-#                if u = 1 then
-#                    edgeassign := [];
-#                    for i in Edges(surf) do edgeassign[i] := 0; od;
-#                fi;
 
                 # we have to hand the original edge-assignment
                 # to the recursion
@@ -716,7 +702,6 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
                 SetPolygonalComplex(obj, surf);
             fi;
             SetIsIsoscelesColouredSurface(obj, true);
-#            SetColourInvolutions(obj, info[1]);
 
             colEdgePos := [];
             for i in [1..Length(info)] do
@@ -732,18 +717,18 @@ InstallOtherMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
             od;
             SetColoursOfEdges(obj, coloursOfEdges);
 
-#            SetLocalSymmetryOfEdgesAsNumbers(obj, info[3]);
-
             Add( isoscelesColSurfaces, obj );
         od;
-
-
-    return  EdgeColouredPolygonalComplexIsomorphismRepresentatives(
-            isoscelesColSurfaces);
+	
+        if noIsom=true then
+   	    return  EdgeColouredPolygonalComplexIsomorphismRepresentatives(
+                isoscelesColSurfaces);
+	else 
+	    return isoscelesColSurfaces;
+	fi;
 end
 );
 
-# TODO: Make a version without Isomorphism testing
 
 ##      End of AllIsosceles ...
 ##

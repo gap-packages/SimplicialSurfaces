@@ -61,18 +61,14 @@ DrawSurfaceToTikz(colOct, "Oct_isosccoloured", pr );;
 
 #! @BeginChunk Example_WildIsosceles
 #! We consider again the isosceles coloured octahedron from the start of the section.
-#! @BeginExampleSession
-#! gap> oct := Octahedron();;
-#! gap> colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
-#! gap> wildOct := WildColouredSurfaceOfIsoscelesColouredSurface(colOct);
-#! tame coloured surface (MMM with 10 vertices, 24 edges and 16 faces)
-#! @EndExampleSession
-#! This subdivided surface be drawn with <K>DrawSurfaceToTikz</K> 
-#! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).
-#! @BeginLog
+#! @BeginExample
 oct := Octahedron();;
 colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
 wildOct := WildColouredSurfaceOfIsoscelesColouredSurface(colOct);;
+#! @EndExample
+#! This subdivided surface can be drawn with <K>DrawSurfaceToTikz</K> 
+#! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).
+#! @BeginLog
 pr := rec( edgeColourClassColours := ["red", "blue", "green"],
 edgeColourClassLengths := [1.2,0.4,1.13137],
 edgeLabelsActive := false );;
@@ -115,8 +111,12 @@ surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 4, 5 ],
 [ 1, 4, 6 ], [ 1, 5, 7 ], [ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], 
 [ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );;
 isosceles := AllIsoscelesColouredSurfaces(surf);;
-isosceles := EdgeColouredPolygonalComplexIsomorphismRepresentatives(isosceles);;
 Size(isosceles);
+#! 3
+isoscelesAll:=AllIsoscelesColouredSurfaces(surf, false);;
+Size(isoscelesAll);
+#! 11
+Size(EdgeColouredPolygonalComplexIsomorphismRepresentatives(isoscelesAll));
 #! 3
 #! @EndExample
 #! Given a wild coloured surface, one can find an isosceles coloured surface by

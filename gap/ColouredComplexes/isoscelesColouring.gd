@@ -179,7 +179,7 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 
 #!
 #! @Arguments colSurf
-DeclareProperty( "IsIsoscelesColouredSurface", IsEdgeColouredSimplicialSurface);
+DeclareProperty( "IsIsoscelesColouredSurface", IsEdgeColouredPolygonalComplex);
 #! @Arguments object
 #! @EndGroup
 InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsIsoscelesColouredSurface );
@@ -409,11 +409,13 @@ DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsIsoscelesColouredSurface );
 #! @Description
 #! This method computes all isosceles-coloured surfaces up to isomorphism
 #! based for a given simplicial surface (<Ref Subsect="IsSimplicialSurface"/>).
-#!
+#! If the optional parameter <A>noIsom</A> is set to false, the method computes all
+#! isosceles-coloured surfaces. This means the returned list contains
+#! isomorphic edge-coloured surfaces. By default, <A>noIsom</A> is true.
 #!
 #! @Returns a list of isosceles-coloured surfaces 
-#! @Arguments simpSurf
-DeclareOperation( "AllIsoscelesColouredSurfaces", [IsSimplicialSurface, IsList] );
+#! @Arguments simpSurf [, noIsom]
+DeclareOperation( "AllIsoscelesColouredSurfaces", [IsSimplicialSurface, IsBool] );
 #! @EndGroup
 #! @InsertChunk Example_All_Isosceles 
 

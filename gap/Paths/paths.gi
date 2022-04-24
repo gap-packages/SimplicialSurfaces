@@ -303,7 +303,7 @@ InstallMethod( EdgesAsList, "for a vertex-edge-path", [IsVertexEdgePath],
     end
 );
 
-InstallMethod( Inverse, "for a vertex-edge-path", [IsVertexEdgePath],
+InstallMethod( ReversedPath, "for a vertex-edge-path", [IsVertexEdgePath],
     function(path)
         return VertexEdgePathNC( AssociatedPolygonalComplex(path),
             Reversed(Path(path)));
@@ -705,7 +705,12 @@ InstallOtherMethod( EdgeFacePathByFacesNC,
     [IsPolygonalComplex, IsDenseList],
     function(complex, faceList)
         local firstEdges, firstEdgesInner, firstEdge, lastEdges, lastEdgesInner, lastEdge;
-         
+ 		
+		if Length(faceList) = 0 then
+			return fail;
+		elif Length(faceList)=1 then
+			return EdgeFacePathByFaces(complex, faceList, EdgesOfFace(complex,faceList[1])[1], EdgesOfFace(complex,faceList[1])[1]);
+		fi;       
 		firstEdges:=Intersection(EdgesOfFace(complex,faceList[1]),EdgesOfFace(complex,faceList[2]));
 		if Length(firstEdges)<>3 then
 			firstEdgesInner:=Filtered(Difference(EdgesOfFace(complex,faceList[1]),firstEdges),e->IsInnerEdge(complex,e));
@@ -874,7 +879,7 @@ InstallMethod( FacesAsList, "for an edge-face-path", [IsEdgeFacePath],
     end
 );
 
-InstallMethod( Inverse, "for a edge-face-path on a polygonal complex", 
+InstallMethod( ReversedPath, "for a edge-face-path on a polygonal complex", 
     [IsEdgeFacePath],
     function(path)
         return EdgeFacePathNC( AssociatedPolygonalComplex(path), Reversed(Path(path)));
@@ -1020,7 +1025,7 @@ BindGlobal( "__SIMPLICIAL_ZigZagPath",
             # Complete last vertex
             vePath := VertexEdgePathNC(com, Concatenation([firstVertex], veList, [lastEdge, OtherVertexOfEdgeNC(com, veList[Length(veList)], lastEdge)]));
         fi;
-        SetVertexEdgePath(efPath, vePath);
+        SetVertexEdgePathOfGeodesic(efPath, vePath);
     end
 );
 InstallMethod( IsGeodesicPath, 
@@ -1033,14 +1038,14 @@ InstallMethod( IsGeodesicPath,
 );
 
 
-InstallMethod( VertexEdgePath, "for a geodesic path on a polygonal complex", 
+InstallMethod( VertexEdgePathOfGeodesic, "for a geodesic path on a polygonal complex", 
     [IsEdgeFacePath and IsGeodesicPath],
     function(geo)
         __SIMPLICIAL_ZigZagPath( AssociatedPolygonalComplex(geo), geo );
         return VertexEdgePath(geo);
     end
 );
-RedispatchOnCondition(VertexEdgePath, true, [IsEdgeFacePath], [IsGeodesicPath], 0);
+RedispatchOnCondition(VertexEdgePathOfGeodesic, true, [IsEdgeFacePath], [IsGeodesicPath], 0);
 
 
 InstallMethod( IsClosedGeodesicPath, 
@@ -1051,17 +1056,17 @@ InstallMethod( IsClosedGeodesicPath,
             return false;
         fi;
 
-        return IsClosedPath(path) and IsClosedPath( VertexEdgePath(path) );
+        return IsClosedPath(path) and IsClosedPath( VertexEdgePathOfGeodesic(path) );
     end
 );
 
 
-InstallMethod( DefiningFlags, "for a geodesic path on a polygonal complex", 
+InstallMethod( FlagsOfGeodesic, "for a geodesic path on a polygonal complex", 
     [IsEdgeFacePath and IsGeodesicPath],
     function(geo)
         local vePath, efPath, flags, i;
 
-        vePath := Path(VertexEdgePath(geo));
+        vePath := Path(VertexEdgePathOfGeodesic(geo));
         efPath := Path(geo);
         flags := [];
         for i in [2,4..Length(efPath)-1] do
@@ -1071,7 +1076,7 @@ InstallMethod( DefiningFlags, "for a geodesic path on a polygonal complex",
         return flags;
     end
 );
-RedispatchOnCondition( DefiningFlags, true, [IsEdgeFacePath], [IsGeodesicPath], 0 );
+RedispatchOnCondition( FlagsOfGeodesic, true, [IsEdgeFacePath], [IsGeodesicPath], 0 );
 
 
 
@@ -1083,11 +1088,11 @@ InstallMethod( MaximalGeodesicPathOfFlagNC,
 
         maxGeo := MaximalGeodesicPaths(ramSurf);
         for geo in maxGeo do
-            if flag in DefiningFlags(geo) then
+            if flag in FlagsOfGeodesic(geo) then
                 return geo;
             fi;
-            inv := Inverse(geo);
-            if flag in DefiningFlags(inv) then
+            inv := ReversedPath(geo);
+            if flag in FlagsOfGeodesic(inv) then
                 return inv;
             fi;
         od;
@@ -1114,7 +1119,7 @@ BindGlobal( "__SIMPLICIAL_DuplicateFreeGeodesic",
     function( ramSurf, geo, flag )
         local defFlags, indices, faces, pos, startPos;
     
-        defFlags := DefiningFlags(geo);
+        defFlags := FlagsOfGeodesic(geo);
         startPos := Position(defFlags, flag);
         indices := [ startPos ];
         faces := [ flag[3] ];
@@ -1179,11 +1184,11 @@ InstallMethod( MaximalDuplicateFreeGeodesicPaths,
         maxGeo := [];
         for geo in MaximalGeodesicPaths(ramSurf) do
             localGeo := [];
-            for flag in DefiningFlags(geo) do
+            for flag in FlagsOfGeodesic(geo) do
                 localGeo := Union( localGeo, [__SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, geo, flag)] );
             od;
-            inv := Inverse(geo);
-            for flag in DefiningFlags(inv) do
+            inv := ReversedPath(geo);
+            for flag in FlagsOfGeodesic(inv) do
                 localGeo := Union( localGeo, [__SIMPLICIAL_DuplicateFreeGeodesic(ramSurf, inv, flag)] );
             od;
             Append(maxGeo, localGeo);
@@ -1202,7 +1207,7 @@ InstallMethod( GeodesicFlagCycle,
     function(closedGeo)
         local vePath, flagPath, i, vertex, edge, face, flagPerm;
 
-        vePath := VertexEdgePath(closedGeo);
+        vePath := VertexEdgePathOfGeodesic(closedGeo);
         flagPath := [];
         for i in [1,3..Length(Path(vePath))-2] do
             vertex := Path(vePath)[i];
@@ -1300,12 +1305,12 @@ InstallMethod( MaximalGeodesicPaths,
             geo := EdgeFacePathNC(ramSurf, efPath);
             SetIsGeodesicPath(geo, true);
             SetIsClosedGeodesicPath(geo, closed);
-            SetVertexEdgePath(geo, VertexEdgePathNC(ramSurf, vePath));
+            SetVertexEdgePathOfGeodesic(geo, VertexEdgePathNC(ramSurf, vePath));
 
             geoFlags := flags{flagList};
-            SetDefiningFlags(geo, geoFlags);
+            SetFlagsOfGeodesic(geo, geoFlags);
             invFlags := flags{invList};
-            SetDefiningFlags(Inverse(geo), invFlags);
+            SetFlagsOfGeodesic(ReversedPath(geo), invFlags);
 
             Add( geos, geo );
             todoFlags := Difference( todoFlags, Concatenation( geoFlags, invFlags ) );
@@ -1386,3 +1391,46 @@ InstallMethod( ViewObj, "for an edge-coloured edge-face-path",
         fi;
     end
 );
+
+
+#######################################
+##
+##      Waists
+##
+
+InstallMethod( AllTwoWaistsOfComplex, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( surface )
+	local waists,i,j,edges,voe1,voe2;
+	waists:=[];
+	edges:=Edges(surface);
+	for i in [1..NumberOfEdges(surface)] do
+		for j in [i+1..NumberOfEdges(surface)] do 
+			voe1:=VerticesOfEdge(surface,edges[i]);
+			voe2:=VerticesOfEdge(surface,edges[j]);
+			if voe1=voe2 then
+				Add(waists,VertexEdgePathByEdges(surface,edges{[i,j]}));
+			fi;
+		od;
+	od;
+	return waists;
+end
+);
+
+InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( surface )
+        local w,eof,waists;
+        waists:=Combinations(Edges(surface),3);
+        waists:=Filtered(waists,w->Length(Union(VerticesOfEdges(surface){w}))=3);
+        waists:=Filtered(waists,w->Filtered(EdgesOfFaces(surface),
+        eof->Length(Intersection(w,eof))>=2)=[]);
+        return List(waists,w->VertexEdgePathByEdges(surface,w));
+end
+);
+
+##
+##      End of waists
+##
+#######################################
+
