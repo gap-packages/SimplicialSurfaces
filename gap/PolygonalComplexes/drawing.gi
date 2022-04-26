@@ -1790,8 +1790,8 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
         else
                 printRecord.vertexColours:=[];
         fi;
-        if not IsBound(printRecord.compileLateX) then
-	    printRecord.compileLateX :=false;
+        if not IsBound(printRecord.compileLaTeX) then
+	    printRecord.compileLaTeX :=false;
 	fi;
         if not IsBound(printRecord.noOutput) then
             printRecord.noOutput :=false;
