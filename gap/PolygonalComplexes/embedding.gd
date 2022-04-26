@@ -241,6 +241,10 @@ DeclareOperation( "DrawSurfaceToTikz", [IsPolygonalComplex and IsNotEdgeRamified
 #! @SubsectionLabel DrawSurfaceToTikz_DrawOrder
 #! @InsertChunk DrawSurfaceToTikz_DrawOrder
 #!
+#! @Subsection Text size
+#! @SubsectionLabel DrawSurfaceToTikz_TextSize
+#! @InsertChunk DrawSurfaceToTikz_TextSize
+#!
 #! @Subsection Output control
 #! @SubsectionLabel DrawSurfaceToTikz_Output
 #! @InsertChunk DrawSurfaceToTikz_Output

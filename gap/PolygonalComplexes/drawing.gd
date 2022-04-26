@@ -523,7 +523,7 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #!   ENTER (this command is passed to <K>pdflatex</K>). If this happens,
 #!   please notify the developers so it can be fixed in a later version.
 #! * <E>latexDocumentclass</E>: Defines which documentclass is used for
-#!   the output. The default is <K>article</K>. If the picture should
+#!   the output. The default is <K>extarticle</K>. If the picture should
 #!   not be cropped (and not be printed), <K>standalone</K> is recommended.
 #! * <E>noOutput</E>: If this parameter is <K>true</K> (the default is
 #!   <K>false</K>) the method <K>DrawSurfaceToTikz</K> will produce no
@@ -557,7 +557,33 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #!    The vertices are represented as <A>[v, index(v)]</A>.
 #! @EndChunk
 
-
+#! @BeginChunk DrawSurfaceToTikz_TextSize
+#! This subsection is concerned with the parameter that control the text Size of the drawings from
+#! <K>DrawSurfaceToTikz</K>.
+#! The text size is decided by the following parameter:
+#!  * <E>textSize</E> This parameter is a positive integer that describes the desired text Size in the drawings
+#!    of <K>DrawSurfaceToTikz</K>. By default the text size is 10.
+#! Note that not every text size is available for every document class. For example the standard classes article,
+#! report and book support three different text sizes namely 10pt,11pt and 12 pt. The class extarticle 
+#! which is the default document class allows the following text sizes: 8pt, 9pt, 10pt, 11pt, 12pt, 14pt,
+#! 17pt, 20pt. 
+#! For example consider the octahedron.
+#! @BeginLog
+oct := Octahedron();;
+pr:=DrawSurfaceToTikz( oct, "octahedron_example" );;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_octahedron_example.tex}
+#! </Alt>
+#! Change the text size to 20.
+#! @BeginLog
+pr.textSize:=20;
+DrawSurfaceToTikz( oct, "octahedron_textSize",pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_octahedron_textSize.tex}
+#! </Alt>
+#! @EndChunk
 #TODO modify boundaries of page (to center picture for printing)
 #TODO for triangles, the length information should overwrite the angle information
 #TODO for >triangles can we define a notion of "this was probably meant" by minimum distance or so?

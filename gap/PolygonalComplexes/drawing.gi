@@ -116,7 +116,10 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         if not IsBound( printRecord!.floatAccuracy ) then
             printRecord!.floatAccuracy := 0.001;
         fi;
-
+	#text size
+	if not IsBound(printRecord!.textSize) then
+	    printRecord!.textSize:=10;
+	fi;
         # coordinates (always recomputed)
         printRecord!.vertexCoordinates := [];
         for v in VerticesAttributeOfComplex(surface) do
@@ -133,7 +136,6 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
 
         # openEdges
         printRecord!.openEdges := [];
-
 
         # drawing options
         __SIMPLICIAL_PrintRecordInitBool( printRecord, "vertexLabelsActive", true );
@@ -180,7 +182,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordInit",
         fi;
 
         if not IsBound(printRecord.latexDocumentclass) then
-            printRecord.latexDocumentclass := "article";
+            printRecord.latexDocumentclass := "extarticle";
         fi;
 
         __SIMPLICIAL_PrintRecordInitBool(printRecord, "noOutput", false);
@@ -692,7 +694,7 @@ BindGlobal("__SIMPLICIAL_PrintRecordGeneralHeader",
         local res;
 
         res := Concatenation(
-            "\\documentclass{", printRecord.latexDocumentclass, "}\n\n" );
+            "\\documentclass[",String(printRecord.textSize),"pt]{",printRecord.latexDocumentclass, "}\n\n" );
 
         if printRecord.latexDocumentclass <> "standalone" then
             res := Concatenation( res,
