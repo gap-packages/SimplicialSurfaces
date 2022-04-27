@@ -2066,36 +2066,219 @@ RedispatchOnCondition( SplitMend, true, [IsTwistedPolygonalComplex,IsList], [IsP
 ##
 ##      TetrahedralExtension
 ##
+InstallOtherMethod(TetrahedralExtension, 
+    "for a simplicial surface and a face",
+    [IsSimplicialSurface,IsPosInt],
+    function(surface,face)
+        return TetrahedralExtension(surface,face,Maximum(Vertices(surface))+1);
+    end
+);
+
 InstallMethod( TetrahedralExtension,
     "for a simplicial surface and a face",
-    [IsSimplicialSurface, IsPosInt],
-    function(surface, face)
+    [IsSimplicialSurface, IsPosInt,IsPosInt],
+    function(surface, face, vertex)
 	local voe,eof,nE,nV,g,L,M,VOE,EOF,edges,e,vof,rem;
 	rem:=function(L,g)
 	    local temp,i;
 	    temp:=[];
 	    for i in Difference([1..Length(L)],[g]) do
-		temp[i]:=L[i];
+		if IsBound(L[i]) then
+			temp[i]:=L[i];
+		fi;
 	    od;
 	    return temp;
 	end;
 	VOE:=ShallowCopy(VerticesOfEdges(surface));
 	EOF:=ShallowCopy(EdgesOfFaces(surface));
 	nE:=Length(VOE);
-	nV:=Length(Vertices(surface));
+
+	nV:=vertex-1;
 	vof:=VerticesOfFace(surface,face);
 	Add(VOE,[vof[1],nV+1]);
         Add(VOE,[vof[2],nV+1]);
         Add(VOE,[vof[3],nV+1]);
 	eof:=EOF[face];
-	EOF:=rem(EOF,face);
 	for e in eof do 
 		voe:=VerticesOfEdge(surface,e);
 		edges:=Filtered([nE+1,nE+2,nE+3],g->
 		Intersection(VOE[g],VerticesOfEdge(surface,e))<>[]);
 		Add(EOF,[e,edges[1],edges[2]]);
 	od;
+        EOF:=rem(EOF,face);
 	return SimplicialSurfaceByDownwardIncidence(VOE,EOF);
+end
+);
+
+InstallMethod( TetrahedralReduction,
+    "for a simplicial surface and a vertex",
+    [IsSimplicialSurface, IsPosInt],
+    function(surface, vertex)
+	local f,eof,voe,i,L,ind,faces,remElm,edges,verts,g;
+	remElm:=function(L,ind)
+		local i,res;
+		res:=[];
+		for i in [1..Length(L)] do
+			if IsBound(L[i]) and i <> ind then 
+				res[i]:=L[i];
+			fi;
+		od; 
+		return res;
+	end;
+
+	eof:=ShallowCopy(EdgesOfFaces(surface));
+	voe:=ShallowCopy(VerticesOfEdges(surface));
+	faces:=FacesOfVertex(surface,vertex);
+	## remove faces and replace the resulting 3-waist with a face
+	if Length(faces)=3 and IsInnerVertex(surface,vertex) then
+		for f in faces do
+			eof:=remElm(eof,f);
+		od;
+                verts:=Union(VerticesOfFace(surface,faces[1]),VerticesOfFace(surface,faces[2]));
+                verts:=Difference(verts,[vertex]);
+		edges:=[];
+		for i in [1,2,3] do
+			edges[i]:=Filtered(EdgesOfFace(surface,faces[i]),
+				g->VerticesOfEdge(surface,g) in Combinations(verts,2))[1];
+		od;
+                eof[Maximum(Faces(surface))+1]:=Set(edges);
+		for g in EdgesOfVertex(surface,vertex) do
+			voe:=remElm(voe,g);
+		od;
+	else
+		return fail;
+	fi;
+	
+	return SimplicialSurfaceByDownwardIncidence(voe,eof);
+end
+);
+
+InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local v,vert,comp;
+	comp:=complex;
+        vert:=Filtered(Vertices(comp),v->FaceDegreeOfVertex(comp,v)=3);
+        if IsMultiTetrahedralSphere(comp) then
+                if not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] then
+                        for v in vert do
+                               comp:=TetrahedralReduction(comp,v);
+                        od;
+                fi;
+		return comp;
+	else
+	        return fail;
+	fi;
+end
+);
+
+BindGlobal("__SIMPLICIAL_helpNameFacesAndVertices",
+    function(surf,idFOT,idVOT)
+	local idf,f,temp,newV,oldF,vertexIDs,faceIDs,idOfOldFace,idOfnewV,
+	newFaceIDs,idOfNeighVert,newVertIDs;
+## idFOT is list [t1,t2,t3,...] where ti is a tetrahedron represented by
+## the list. [[id1,f1],[id2,f2],[id3,f3],[id4,f4]] so that idj=1,2,3,4 is the
+## identification of face fj of surf idVOT is list [t1,t2,t3,...] where ti is
+## a tetrahedron represented by the list [[id1,v1],[id2,v2],[id3,v3],[id4,v4]]
+## so that idj=1,2,3,4 is the identification of vertex vj of surf
+	temp:=List(Union(idVOT),tup->tup[2]); 
+	newV:=Difference(Vertices(surf),temp)[1];
+	temp:=List(Union(idFOT),tup->tup[2]);
+	oldF:=Difference(temp,Faces(surf))[1];
+
+	vertexIDs:=Union(idVOT);
+	faceIDs:=Union(idFOT);
+	idOfNeighVert:=Filtered(vertexIDs,id->id[2] in NeighbourVerticesOfVertex(surf,newV));
+	idOfOldFace:=Filtered(faceIDs,id->id[2]=oldF)[1];
+	idOfnewV:=[idOfOldFace[1],newV];
+	newVertIDs:=Union([idOfnewV],idOfNeighVert);
+	Add(idVOT,Union([idOfnewV],newVertIDs));
+
+	newFaceIDs:=[];
+	for f in FacesOfVertex(surf,newV) do
+	    idf:=Filtered(newVertIDs,id->not id[2] in VerticesOfFace(surf,f))[1][1];
+	    Add(newFaceIDs,[idf,f]);
+	od;
+	Add(idFOT,Union(newFaceIDs,[idOfOldFace]));
+	return [idFOT,idVOT];
+    end
+);
+
+InstallMethod( MultiTetrahedralSphereByTetrahedralSymbol, 
+    "for a dense list",
+    [IsDenseList],
+    function(symbol)
+	local idenFaces,idenVertices,temp,tup,face,surf;
+
+	surf:=SimplicialSurfaceByVerticesInFaces([[2,3,4],[1,3,4],
+						[1,2,4],[1,2,3]]);
+	idenVertices:=[[[1,1],[2,2],[3,3],[4,4]]];
+	idenFaces:=[[[1,1],[2,2],[3,3],[4,4]]];
+
+	for tup in symbol do
+		face:=idenFaces[tup[1]][tup[2]][2];
+		surf:=TetrahedralExtension(surf,face);
+		temp:=__SIMPLICIAL_helpNameFacesAndVertices(surf,idenFaces,idenVertices);
+		idenFaces:=temp[1];
+		idenVertices:=temp[2];
+	od;
+	return surf;
+    end
+);
+
+
+InstallMethod( MultiTetrahedralSymbolOfComplex,
+    "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+	local helpNextVertex,v,i,f,symbol,temp,idenVertices,idenFaces,surf,vertices,neigh;
+
+	## surf is the bigger surface and vert the remaining vertices which are not yet
+	##identified
+	helpNextVertex:=function(surf,visitedVert)
+		local neighbours,v;
+		for v in Difference(Vertices(surf),visitedVert) do
+			neighbours:=NeighbourVerticesOfVertex(surf,v);
+			neighbours:=Intersection(neighbours,visitedVert);
+			if Length(neighbours)=3 then 
+				return [v,neighbours];
+			fi;
+		od;
+		return fail;
+	end;
+	if IsMultiTetrahedralSphere(complex) then 
+		symbol:=[];
+		v:=Position(FaceDegreesOfVertices(complex),3);
+		neigh:=NeighbourVerticesOfVertex(complex,v);
+		vertices:=[v,neigh[1],neigh[2],neigh[3]];
+		surf:=SimplicialSurfaceByVerticesInFaces([[v,neigh[1],neigh[2]],
+							  [v,neigh[1],neigh[3]],
+							  [v,neigh[2],neigh[3]],
+							  [neigh[1],neigh[2],neigh[3]]]);
+		idenVertices:=[[[1,vertices[4]],[2,vertices[3]],[3,vertices[2]],[4,vertices[1]]]];
+
+		idenFaces:=[[[1,1],[2,2],[3,3],[4,4]]];
+	## construct the sphere by attaching the tetrahedra with respect to the
+	## identified faces and vertices
+		while not IsIsomorphic(complex,surf) do
+			temp:=helpNextVertex(complex,Vertices(surf));
+			f:=Position(VerticesOfFaces(surf),temp[2]);
+			v:=temp[1];
+			for i in [1,2,3,4] do
+				temp:=Filtered(idenFaces,tut->[i,f] in tut);
+				if temp<>[] then 
+					Add(symbol,[Position(idenFaces,temp[1]),i]);
+				fi;
+			od;
+			surf:=TetrahedralExtension(surf,f,v);
+			temp:=__SIMPLICIAL_helpNameFacesAndVertices(surf,idenFaces,idenVertices);
+			idenFaces:=temp[1];
+			idenVertices:=temp[2];
+		od;
+		return symbol;
+	else 
+		return fail;
+	fi;
 end
 );
 ##
@@ -2150,4 +2333,116 @@ end
 ##      End of Edgeturn
 ##
 #######################################
+
+
+InstallMethod( BuildingBlocks, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function( surface )
+        local w,bound,surf,vof1,vof2,waists,v;
+        if not (IsClosedSurface(surface) and EulerCharacteristic(surface)=2 
+		and IsVertexFaithful(surface)) then
+                return false;
+        fi;
+        surf:=surface;
+        waists:=AllThreeWaistsOfComplex(surface);
+        while waists<>[] do
+                w:=EdgesAsList(waists[1]);
+		surf:=SplitVertexEdgePath(surface,waists[1])[1];
+                bound:=BoundaryVertices(surf);
+                vof1:=Intersection(bound,NeighbourVerticesOfVertex(surf,bound[1]));
+                vof1:=Union([bound[1]],vof1);
+                vof2:=Difference(bound,vof1);
+                surf:=SimplicialSurfaceByVerticesInFaces(Union(VerticesOfFaces(surf),[vof1,vof2]));
+                waists:=AllThreeWaistsOfComplex(surf);
+        od;
+        return ConnectedComponents(surf);
+end
+);
+
+
+#######################################
+##
+##      Tori construction
+##
+
+
+InstallMethod( AllToriOfSimplicialSphere, 
+    "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local help_FaceMender,help_MendableEdgeAssignments,res,ee,ff,combFaces,edgesOfFaces,
+        orb,autGroup,faces,mendEdges,verticesOfFaces;
+        ## this method mends two faces of surface and removes the resulting face
+        ## from the constructed triangular complex to give rise to a simplicial surface 
+        help_FaceMender:=function(surface,faces,edges) 
+	    local surf,i,vertex1,vertex2,newEdges,newPartition,temp,joinF;
+	    surf:=surface;
+            # mending of vertices
+	    for i in [[1,2],[1,3],[2,3]] do 
+	        vertex1:=Intersection(VerticesOfEdges(surf){edges[1]{i}})[1];
+	        vertex2:=Intersection(VerticesOfEdges(surf){edges[2]{i}})[1];
+	        if vertex1<>vertex2 then
+	            surf:=JoinVertices(surf,vertex1,vertex2)[1];
+	        fi;
+            od;
+            # mending of edges
+            for i in [1,2,3] do
+	        if edges[1][i]<> edges[2][i] then 
+	            surf:=JoinEdges(surf,edges[1][i],edges[2][i])[1];
+	        fi;
+            od;
+            # mending of faces
+	    joinF:=JoinFaces(surf,faces[1],faces[2]);
+            return RemoveFaceNC(joinF[1],joinF[2]);
+        end;
+
+	## given a surface and the edges of faces of two faces in the in given surface
+	## this function returns a list of possible identifications of the given edges. 
+
+        help_MendableEdgeAssignments:=function(surface,edgesOfFaces)
+            local g,edgeAssign,vof1,vof2,inter,arrangements,eov1,eov2,i,
+            edge1,edge2,ee,eof,help,res,help2,help1,v;
+
+	    arrangements:=Arrangements(edgesOfFaces[2],3);
+	    edgeAssign:=List([1..6],i->[edgesOfFaces[1],arrangements[i]]);
+	    res:=[];
+	    ## identified edges gives rise to an identification of the incident vertices
+	    ## edges can only be identified if and only if there exists no
+            help1:=function(surface,ee)
+	        local i,v1,v2;
+	        for i in [[1,2],[1,3],[2,3]] do 
+	            v1:=Intersection(VerticesOfEdges(surface){ee[1]{i}})[1];
+	            v2:=Intersection(VerticesOfEdges(surface){ee[2]{i}})[1];
+	            if Set([v1,v2]) in VerticesOfEdges(surface) then 
+		        return false; 
+	            fi;
+	        od;
+	        return true;
+            end;
+            return Filtered(edgeAssign,ee->help1(surface,ee));
+	end;
+	if EulerCharacteristic(surface) <> 2 or not IsClosedSurface(surface) then 
+	    return fail;
+	fi;
+        res:=[];
+        faces:=Faces(surface);
+        edgesOfFaces:=EdgesOfFaces(surface);
+        verticesOfFaces:=VerticesOfFaces(surface);
+        combFaces:=Combinations(faces,2);
+        combFaces:=Filtered(combFaces,ff->Intersection(verticesOfFaces{ff})=[]);
+        autGroup:=AutomorphismGroupOnFaces(surface);
+        orb:=Orbits(autGroup,combFaces,OnSets);
+        combFaces:=List(orb,g->g[1]);
+        for ff in combFaces do
+	    mendEdges:=help_MendableEdgeAssignments(surface,edgesOfFaces{ff});
+	    Append(res,IsomorphismRepresentatives(List(mendEdges,ee->help_FaceMender(surface,ff,ee))));	
+        od; 
+        return res;
+    end
+);
+##
+##      End of tori construction
+##
+#######################################
+
 

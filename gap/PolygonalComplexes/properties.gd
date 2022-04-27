@@ -129,6 +129,134 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
 
+#! @BeginGroup IsMultiTetrahedralSphere
+#! @Description
+#! Check whether the given twisted polygonal complex is a multitetrahedral
+#! sphere. A multitetrahedral sphere can be obtained by starting with the
+#! tetrahedron and performing a finite number of tetrahedral extensions.
+#! So multi-tetrahedral spheres are closed simplicial surfaces with
+#! euler-characteristic 2. 
+#! As example consider the tetrahedron and the double tetrahedron. Up to
+#! isomorphism there is exactly one multi-tetrahedral sphere with 4
+#! faces, namely the tetradron.
+#! <Alt Only="TikZ">
+#! \begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=1]
+#!      \input{Image_Tetrahedron_Net.tex}
+#!  \end{tikzpicture}
+#! </Alt>
+#! And there is exactly one multi-tetrahedral sphere with 6 faces namely
+#! the double tetraedron which can be obtained by performing exactly one
+#! tetrahedral extension to the tetradron.
+#! <Alt Only="TikZ">
+#!      \input{Image_DoubleTetrahedron.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> IsMultiTetrahedralSphere(Tetrahedron());
+#! true
+#! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> IsMultiTetrahedralSphere(doubleTetra);
+#! true
+#! @EndExampleSession
+#!
+#! As another example, consider the octahedron.
+#!
+#! @BeginExampleSession
+#! gap> IsMultiTetrahedralSphere(Octahedron());
+#! false
+#! @EndExampleSession
+#! @Returns true or false
+#! @Arguments complex
+DeclareProperty( "IsMultiTetrahedralSphere", IsTwistedPolygonalComplex );
+#! @EndGroup 
+
+#! @BeginGroup TetrahedralNumber
+#! @Description
+#! Return the number of tetrahedra that are used to construct the given 
+#! twisted polygonal complex. If <K>complex</K> is a multi-tetrahedral sphere,
+#! this number is 1 greater than the number of tetrahedral extensions that 
+#! have to be applied to the tetrahedron to obtain <K>complex</K>.
+#! If <K>complex</K> is not a multi-tetrahedral sphere, the function returns
+#! fail.
+#!
+#! As example, consider the tetrahedron, the double tetrahedron and 
+#! the multi-tetrahedral sphere which can be obtained by
+#! applying exactly two tetrahedral extensions to the tetrahedron.  
+#! @BeginExampleSession
+#! gap> doubleTetra:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> multiTetra:=TetrahedralExtension(doubleTetra,2);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> TetrahedralNumber(Tetrahedron());
+#! 1
+#! gap> TetrahedralNumber(doubleTetra);
+#! 2
+#! gap> TetrahedralNumber(multiTetra);
+#! 3
+#! @EndExampleSession
+#! @Returns positive integer or fail
+#! @Arguments complex
+DeclareAttribute( "TetrahedralNumber", IsTwistedPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup TetrahedralType
+#! @Description
+#! Return the tetrahedral type of a given twisted polygonal complex or
+#! <K>fail</K>, if <K>complex</K> is not a multi tetrahedral sphere. 
+#! The tetrahedral type of a multi tetrahedral sphere is a tuple
+#! <K>[a0,...,ak]</K> satisfying the following property:
+#! <K>X</K> is a list of multi tetrahedral spheres of length <K>k</K> so that
+#! <K>X[1]=complex</K> and <K>X[k]</K> is either isomorphic to the tetrahedron 
+#! or the double tetrahedron. Furthermore <K>X[i]</K> is obtained by applying 
+#! tetrahedral reductions to all vertices with face degree 3 in <K>X[i-1]</K>.
+#! So <K>ai</K> is the number of vertices with face degree 3 in <K>X[i]</K>,
+#! if <K>X[k]</K> is isomorphic to the tetrahedron, the number <K>ak</K> is
+#! redefined as 1.
+#! As example, consider the tetrahedron, the double tetrahedron and 
+#! the multi-tetrahedral sphere which can be obtained by
+#! applying exactly two tetrahedral extensions to the tetrahedron.  
+#! @BeginExampleSession
+#! gap> doubleTetra:=TetrahedralExtension(Tetrahedron(),1);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> multiTetra:=TetrahedralExtension(doubleTetra,2);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> TetrahedralType(Tetrahedron());
+#! [ 1 ]
+#! gap> TetrahedralType(doubleTetra);
+#! [ 2 ]
+#! gap> TetrahedralType(multiTetra);
+#! [ 2, 1 ]
+#! @EndExampleSession
+#! @Returns a dense list or fail
+#! @Arguments complex
+DeclareAttribute( "TetrahedralType", IsTwistedPolygonalComplex );
+#! @EndGroup TetrahedralType
+
+#! @BeginGroup BlockType
+#! @Description
+#! Return the block type of a vertex-faithful simplicial sphere.
+#! The block type is a list of pairs <K>[num,numOfFaces]</K> where <K>num</K> 
+#! counts the building blocks(<Ref Subsect="BuildingBlocks"/>) of
+#! <K>surface</K> whose number of faces match <K>numOfFaces</K>.
+#! Since building blocks only exist for vertex-faithful spheres the function
+#! returns <K>fail</K>, if <K>surface</K> does not satisfy this property.  
+#!
+#! As examples, consider the tetrahedron and the double tetrahedron. 
+#! @BeginExampleSession
+#! gap> BlockType(Tetrahedron());
+#! [ [ 4, 1 ] ]
+#! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);
+#! simplicial surface (5 vertices, 9 edges, and 6 faces)
+#! gap> BlockType(doubleTetra);
+#! [ [ 4, 2 ] ]
+#! @EndExampleSession
+#! @Returns list of pairs or fail
+#! @Arguments surface
+DeclareAttribute( "BlockType",IsSimplicialSurface);
+#! @EndGroup
+
 
 #! @Section Degree-based properties and invariants
 #! @SectionLabel Properties_Degrees
@@ -1035,4 +1163,5 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex
 DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndGroup
+
 

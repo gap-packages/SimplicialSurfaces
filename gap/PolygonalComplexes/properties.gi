@@ -58,6 +58,71 @@ InstallOtherMethod( IsClosedSurface, "for a twisted polygonal complex",
     end
 );
 
+InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local waists;
+        if not (IsSimplicialSurface(complex) and IsClosedSurface(complex) and
+                EulerCharacteristic(complex)=2 and IsVertexFaithful(complex)) then
+                return false;
+        fi;
+	waists:=AllThreeWaistsOfComplex(complex);
+        if Length(waists)=NumberOfFaces(complex)/2-2 then
+                return true;
+        else
+                return false;
+        fi;
+end
+);
+
+InstallMethod( TetrahedralNumber, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+	if IsMultiTetrahedralSphere(complex) then
+		return NumberOfFaces(complex)/2-1;
+	else
+		return fail;
+	fi; 
+    end
+);
+InstallMethod( TetrahedralType, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+	local comp,v,tetratype;
+	comp:=complex;
+	tetratype:=[];
+	if IsMultiTetrahedralSphere(complex) then
+		while not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] do
+			Add(tetratype,Length(Filtered(Vertices(comp),
+				v->FaceDegreeOfVertex(comp,v)=3)));
+			comp:=InnerMultiTetrahedralSphere(comp);
+		od;
+		if VertexCounter(comp)=[[3,4]] then 
+			Add(tetratype,1);
+		fi;
+		if VertexCounter(comp)=[[3,2],[4,3]] then
+			Add(tetratype,2);
+		fi;
+	else
+		return fail;
+	fi;
+	return tetratype;
+end
+);
+
+InstallMethod( BlockType, "for a simplicial surface", 
+    [IsSimplicialSurface],
+    function( surface )
+	local bblocks,numOfFaces,s;
+	if not (EulerCharacteristic(surface)=2 and IsVertexFaithful(surface)
+	and IsClosedSurface(surface)) then
+		return fail;
+	fi;
+	bblocks:=BuildingBlocks(surface);
+	numOfFaces:=List(bblocks,s->NumberOfFaces(s));
+	return Collected(numOfFaces);
+end
+);
 ##
 ##      End of invariants
 ##

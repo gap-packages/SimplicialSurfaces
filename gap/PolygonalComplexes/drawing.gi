@@ -730,6 +730,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
     end
 );
 
+
 BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertex",
     function( printRecord, surface, vertex, vertexTikzCoord, vertexCoord )
         local res;
@@ -1158,4 +1159,871 @@ InstallOtherMethod( DrawSurfaceToTikz,
     end
 );
 RedispatchOnCondition( DrawSurfaceToTikz, true, [IsTwistedPolygonalComplex,IsString], [IsPolygonalComplex and IsNotEdgeRamified], 0  );
+
+############################################################
+
+BindGlobal( "__SIMPLICIAL_PrintRecordDrawFaceFG",
+    function( printRecord, surface, face, faceTikzCoord)
+        local res;
+
+        res := "\\vertexLabelR";
+        if IsBound( printRecord!.faceColours[face] ) then
+            res := Concatenation(res, "[", printRecord!.faceColours[face],"]");
+        fi;
+
+        res := Concatenation( res, "{", faceTikzCoord, "}{left}{$");
+        if IsBound(printRecord!.faceLabels[face]) then
+            Append(res, printRecord!.faceLabels[face]);
+        else
+            Append( res, String(face) );
+        fi;
+        Append(res,"$}\n" );
+
+        return res;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_PrintRecordDrawVertexFG",
+    function( printRecord, surface, vertex,vertexCoord )
+        local res, i, coord;
+
+        res := "";
+        Append(res, "\\node[faceLabel] at (");
+	Append(res,String(vertexCoord[1]));
+	Append(res,",");
+	Append(res,String(vertexCoord[2]));
+        Append(res, ") {$");
+        if IsBound( printRecord!.vertexLabels[vertex] ) then
+            Append(res, printRecord!.vertexLabels[vertex]);
+        else
+            Append(res, String(vertex));
+        fi;
+        Append(res, "$};\n" );
+
+        return res;
+    end
+);
+
+InstallMethod( SetFaceCoordinates2D,
+    "for a simplicial surface, a list of face coordinates and a record",
+    [IsSimplicialSurface, IsList, IsRecord],
+    function(surface, faceCoordinates, printRecord)
+	local i,temp;
+	temp:=Filtered([1..Length(faceCoordinates)], i-> IsBound(faceCoordinates[i]));
+	if Filtered(temp,i->Length(faceCoordinates[i])=2)<>Faces(surface) then 
+	    Error( " invalid coordinate format " );
+        fi;
+	return SetFaceCoordinates2DNC(surface,faceCoordinates,printRecord);
+    end
+);
+
+InstallOtherMethod( SetFaceCoordinates2D,
+    "for a simplicial surface and a list of coordinates",
+    [IsSimplicialSurface, IsList],
+    function(surface, faceCoordinates)
+        return SetFaceCoordinates2D(surface, faceCoordinates, rec());
+    end
+);
+
+InstallMethod( SetFaceCoordinates2DNC,
+    "for a simplicial surface, a list of coordinates and a record",
+    [IsSimplicialSurface, IsList, IsRecord],
+    function(surface, faceCoordinates, printRecord)
+        printRecord.faceCoordinates2D := faceCoordinates;
+        return printRecord;
+    end
+);
+
+InstallOtherMethod( SetFaceCoordinates2DNC,
+    "for a simplicial surface, a list of coordinates and a record",
+    [IsSimplicialSurface, IsList],
+    function(surface, faceCoordinates)
+        return rec(faceCoordinates2D := faceCoordinates);
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_IsCoordinates2D",
+    function(surface, coordinates)
+        local coord;
+        if not IsList(coordinates) then
+            return false;
+        fi;
+        if Filtered([1..Length(coordinates)],i->IsBound(coordinates[i])) <> Faces(surface) then
+            return false;
+	fi;
+        # Check whether all coordinates are 2D-coordinates
+        for coord in coordinates do
+            if not IsDenseList(coord) then
+                return false;
+            fi;
+            if Length(coord) <> 2 then
+                return false;
+            fi;
+        od;
+        return true;
+    end
+);
+
+
+#######################################
+
+    ## this help function takes a positive integer as input and returns a list of 2D-
+    ## coordinates, situated on a square with the vertices [0,0],[n,0],[n,n],[0,n]
+    ## so that each side has exactly n/4 or n/4+1 vertices
+BindGlobal( "__SIMPLICIAL_StartPositions",
+    function(n)
+	local k,startPositions;
+	startPositions:=[];
+	if n=1 then 
+	    return [[1.,1.]];
+	elif n=2 then
+	    return [[0.,2.],[2.,2.]];
+	elif n=3 then 
+	    return [[0.,3.],[3.,3.],[3.,0.]];	
+	elif n mod 4=0 then
+	    k:=n/4;
+	    Append(startPositions,List([0..k-1],i->[i*4,n]));
+	    Append(startPositions,List([0..k-1],i->[n,n-i*4]));
+	    Append(startPositions,List([0..k-1],i->[n-i*4,0]));
+	    Append(startPositions,List([0..k-1],i->[0,i*4]));
+	elif n mod 4=1 then
+	    k:=(n-1)/4;
+	    Append(startPositions,List([0..k],i->[i*(n-1)/(k+1),(n-1)]));
+	    Append(startPositions,List([0..k-1],i->[(n-1),(n-1)-i*4]));
+	    Append(startPositions,List([0..k-1],i->[(n-1)-i*4,0]));
+	    Append(startPositions,List([0..k-1],i->[0,i*4]));
+	elif n mod 4=2 then
+	    k:=(n-2)/4;
+	    Append(startPositions,List([0..k],i->[i*(n-2)/(k+1),(n-2)]));
+	    Append(startPositions,List([0..k-1],i->[(n-2),(n-2)-i*4]));
+	    Append(startPositions,List([0..k],i->[(n-2)-i*(n-2)/(k+1),0]));
+	    Append(startPositions,List([0..k-1],i->[0,i*4]));
+	elif n mod 4=3 then	 
+	    k:=(n-3)/4;
+	    Append(startPositions,List([0..k],i->[i*(n-3)/(k+1),(n-3)]));
+	    Append(startPositions,List([0..k],i->[(n-3),(n-3)-i*(k+1)]));
+	    Append(startPositions,List([0..k],i->[(n-3)-i*(n-3)/(k+1),0]));
+	    Append(startPositions,List([0..k-1],i->[0,i*(n-3)/4]));
+	fi;
+	return startPositions*1.0;
+    end
+);
+
+    # this function returns the face sequence of faces contained in the umbrella
+    # and not contained in visitedFaces
+BindGlobal( "__SIMPLICIAL_OrderFaces",
+    function(face1,face2,currUmb,visitedFaces)
+	local f,cyc,orderedFaces;
+	orderedFaces:=[];
+	cyc:=CycleFromList(currUmb);
+	if face1^cyc in visitedFaces then
+	    cyc:=cyc^(-1);	
+	fi;
+	f:=face1^cyc; 
+	while f<>face2 do 
+	    if not f in visitedFaces then 
+	        Add(orderedFaces,f);
+	        f:=f^(cyc);
+	    else 
+	        f:=f^(cyc);
+	    fi;
+	od;
+	return orderedFaces;
+    end
+);
+
+    ## given the face positions of some faces and the set of Umbrellas of a 
+    ## simplicial surface this function returns the list of faces that are incident to 
+    ## exactly two of the faces with a given coordinate in facePositions.
+    ## The returned list activeFaces is ordered in the sense that there exists 
+    ## a umbrella containing the faces activefaces[i], activeFaces[i+1] and 
+    ## faces whose coordinate has not been calculated yet
+BindGlobal( "__SIMPLICIAL_ActiveFaces",
+    function(facePositions,Umbrellas)
+	local g,activeFaces,minFace,maxFace,minX,maxX,minY,maxY,min,max,i,
+	xCoordinates,yCoordinates,posMinY,posMinX,posMaxY,posMaxX;
+	activeFaces:=[];
+	xCoordinates:=List(facePositions,g->g[1]);
+	minX:=Minimum(xCoordinates);	
+	maxX:=Maximum(xCoordinates);
+	yCoordinates:=List(facePositions,g->g[2]);
+	minY:=Minimum(yCoordinates);	
+	maxY:=Maximum(yCoordinates);
+
+	posMinX:=Filtered(facePositions,g->g[1]=minX);
+	while posMinX <> [] do
+		min:=Minimum(List(posMinX,g->g[2]));
+		minFace:=Position(facePositions,Filtered(posMinX,g->g[2]=min)[1]);
+		if Length(Filtered(Umbrellas,g->minFace in g))=2 then
+			Add(activeFaces,minFace);
+		fi;
+		posMinX:=Filtered(posMinX,g->g[2]<>min);
+	od;
+
+	posMaxY:=Filtered(facePositions,g->g[2]=maxY and g[1]<>minX);
+	while posMaxY <> [] do
+		min:=Minimum(List(posMaxY,g->g[1]));
+		minFace:=Position(facePositions,Filtered(posMaxY,g->g[1]=min)[1]);
+		if Length(Filtered(Umbrellas,g->minFace in g))=2 then
+			Add(activeFaces,minFace);
+		fi;
+		posMaxY:=Filtered(posMaxY,g->g[1]<>min);
+	od;
+
+	posMaxX:=Filtered(facePositions,g->g[1]=maxX and g[2]<>maxY);
+	while posMaxX <> [] do
+		max:=Maximum(List(posMaxX,g->g[2]));
+		maxFace:=Position(facePositions,Filtered(posMaxX,g->g[2]=max)[1]);
+		if Length(Filtered(Umbrellas,g->maxFace in g))=2 then
+			Add(activeFaces,maxFace);
+		fi;
+		posMaxX:=Filtered(posMaxX,g->g[2]<>max);
+	od;
+
+	posMinY:=Filtered(facePositions,g->g[2]=minY and not(g[1] in [minX,maxX]) );
+	while posMinY <> [] do
+		max:=Maximum(List(posMinY,g->g[1]));
+		maxFace:=Position(facePositions,Filtered(posMinY,g->g[1]=max)[1]);
+		if Length(Filtered(Umbrellas,g->maxFace in g))=2 then
+			Add(activeFaces,maxFace);
+		fi;
+		posMinY:=Filtered(posMinY,g->g[1]<>max);
+	od;
+	return activeFaces;
+    end
+);
+
+    ## this functions works as a heuristic to place new face coordinates 
+    ## the list activeFaces is a list of faces that are incident to a face 
+    ## whose coordinate hasn't been calculated yet.
+    ## so there exist a umbrella containing activeFaces[i],activeFaces[i+1] and a
+    ## face with no face coordinate. The faces in this umbrella which don't have a
+    ## face coordinate are given in nextFaces[i]
+    ## This method tries to apply coordinates to the faces in nextFaces[i] so the 
+    ## the embedding is still planar and vertices of the surface can be
+    ## identified as faces of the resulting face graph
+BindGlobal( "__SIMPLICIAL_NewFaceCoordinates",
+    function(activeFaces,nextFaces,Umbrellas,facePositions)
+	local g,l,numNewCoor,maxX,maxY,minX,minY,newPositions,face1,face2,t,
+	nextFacesSubDiv,i,xCoordinates,yCoordinates,pos;
+	xCoordinates:=List(facePositions,pos->pos[1]);
+	minX:=Minimum(xCoordinates);
+	maxX:=Maximum(xCoordinates);
+	yCoordinates:=List(facePositions,pos->pos[2]);
+	minY:=Minimum(yCoordinates);
+	maxY:=Maximum(yCoordinates);
+	numNewCoor:=[0,0,0,0];
+	nextFacesSubDiv:=[];
+	## the faces in activeFaces are situated on a rectangle. To construct an inner
+	## rectangle of the tutte embedding we have to assign the faces of nextFaces
+	## to the four sides of the inner rectangle
+	for i in [1..Length(activeFaces)-1] do
+	    l:=Length(nextFaces[i]); 
+	    face1:=facePositions[activeFaces[i]];
+	    face2:=facePositions[activeFaces[i+1]];
+	    if face1[1]=minX and face2[1]=minX then
+		if numNewCoor[1]=0 then 
+		    numNewCoor[1]:=l;
+		    nextFacesSubDiv[1]:=nextFaces[i];
+	        else
+		    numNewCoor[1]:=numNewCoor[1]+l-1;
+		    RemoveElmList(nextFacesSubDiv[1],Length(nextFacesSubDiv[1]));
+		    Append(nextFacesSubDiv[1],nextFaces[i]);
+	        fi;		
+	    elif face1[2]=maxY and face2[2]=maxY then
+		if numNewCoor[2]=0 then 
+		    numNewCoor[2]:=l;
+		    nextFacesSubDiv[2]:=nextFaces[i];
+	        else
+		    numNewCoor[2]:=numNewCoor[2]+l-1;
+		    RemoveElmList(nextFacesSubDiv[2],Length(nextFacesSubDiv[2]));
+		    Append(nextFacesSubDiv[2],nextFaces[i]);
+		fi;	
+	    elif face1[1]=maxX and face2[1]=maxX then
+		if numNewCoor[3]=0 then 
+		    numNewCoor[3]:=l;
+		    nextFacesSubDiv[3]:=nextFaces[i];
+		else
+		    numNewCoor[3]:=numNewCoor[3]+l-1;
+		    RemoveElmList(nextFacesSubDiv[3],Length(nextFacesSubDiv[3]));
+		    Append(nextFacesSubDiv[3],nextFaces[i]);
+		fi;
+	    elif face1[2]=minY and face2[2]=minY then
+		if numNewCoor[4]=0 then 
+		    numNewCoor[4]:=l;
+		    nextFacesSubDiv[4]:=nextFaces[i];
+		else
+		    numNewCoor[4]:=numNewCoor[4]+l-1;
+		    RemoveElmList(nextFacesSubDiv[4],Length(nextFacesSubDiv[4]));
+		    Append(nextFacesSubDiv[4],nextFaces[i]);
+		fi;		
+	    elif face1[1]=minX and face2[2]=maxY and not(face2[1]=minX) then
+		if l=1 then 
+		    if numNewCoor[1]=0 then 
+			numNewCoor[1]:=l;
+			nextFacesSubDiv[1]:=nextFaces[i];
+		    fi;
+		else	
+		    if numNewCoor[1]=0 then 
+			numNewCoor[1]:=l;
+			nextFacesSubDiv[1]:=nextFaces[i];
+		    else
+			numNewCoor[1]:=numNewCoor[1]+Length(nextFaces[i])-1;
+			RemoveElmList(nextFacesSubDiv[1],Length(nextFacesSubDiv[1]));
+			Append(nextFacesSubDiv[1],nextFaces[i]);
+		    fi;				
+		fi;
+	    elif face1[1]=minX and face2[1]=maxX and not(face2[2]=maxY) then
+		if l=1 then 
+		    if numNewCoor[2]=0 then 
+			numNewCoor[2]:=l;
+			nextFacesSubDiv[2]:=nextFaces[i];
+		    fi;
+		else	
+		    if numNewCoor[2]=0 then 
+			numNewCoor[2]:=l;
+			nextFacesSubDiv[2]:=nextFaces[i];
+		    else
+			numNewCoor[2]:=numNewCoor[2]+Length(nextFaces[i])-1;
+			RemoveElmList(nextFacesSubDiv[2],Length(nextFacesSubDiv[2]));
+			Append(nextFacesSubDiv[2],nextFaces[i]);
+		    fi;			
+		fi;
+	    elif face1[1]=minX and face2[2]=minY and not(face2[1] in [minX,maxX]) then
+		if l=1 then 
+		    if numNewCoor[1]=0 then 
+			numNewCoor[1]:=l;
+			nextFacesSubDiv[1]:=nextFaces[i];
+		    fi;
+		else	
+		    if numNewCoor[1]=0 then 
+			numNewCoor[1]:=l;
+			nextFacesSubDiv[1]:=nextFaces[i];
+		    else
+			numNewCoor[1]:=numNewCoor[1]+Length(nextFaces[i])-1;
+			RemoveElmList(nextFacesSubDiv[1],Length(nextFacesSubDiv[1]));
+			Append(nextFacesSubDiv[1],nextFaces[i]);
+		    fi;			
+		fi;
+	    elif face1[2]=maxY and face2[1]=maxX  and not(face2[2]=maxY) then
+		if l=1 then 
+		    if numNewCoor[3]=0 then 
+			numNewCoor[3]:=l;
+			nextFacesSubDiv[3]:=nextFaces[i];
+		    fi;
+		else	
+		    if numNewCoor[3]=0 then 
+			numNewCoor[3]:=l;
+			nextFacesSubDiv[3]:=nextFaces[i];
+		    else
+			numNewCoor[3]:=numNewCoor[3]+Length(nextFaces[i])-1;
+			RemoveElmList(nextFacesSubDiv[3],Length(nextFacesSubDiv[3]));
+			Append(nextFacesSubDiv[3],nextFaces[i]);
+		    fi;			
+		fi;
+	    elif face1[2]=maxY and face2[2]=minY and not(face2[1]=maxX) then
+		if l=1 then 
+		    if numNewCoor[3]=0 then 
+			numNewCoor[3]:=l;
+			nextFacesSubDiv[3]:=nextFaces[i];
+		    fi;
+		else	
+		    if numNewCoor[3]=0 then 
+			numNewCoor[3]:=l;
+			nextFacesSubDiv[3]:=nextFaces[i];
+		    else
+			numNewCoor[3]:=numNewCoor[3]+Length(nextFaces[i])-1;
+			RemoveElmList(nextFacesSubDiv[3],Length(nextFacesSubDiv[3]));
+			Append(nextFacesSubDiv[3],nextFaces[i]);
+		    fi;			
+		fi;
+	    elif face1[1]=maxX and face2[2]=minY and not(face2[1]=maxX) then
+		if l=1 then 
+		    if numNewCoor[3]=0 then 
+			numNewCoor[3]:=l;
+			nextFacesSubDiv[3]:=nextFaces[i];
+		    fi;
+	        else	
+		    if numNewCoor[3]=0 then 
+			numNewCoor[3]:=l;
+			nextFacesSubDiv[3]:=nextFaces[i];
+		    else
+			numNewCoor[3]:=numNewCoor[3]+Length(nextFaces[i])-1;
+		        RemoveElmList(nextFacesSubDiv[3],Length(nextFacesSubDiv[3]));
+		        Append(nextFacesSubDiv[3],nextFaces[i]);
+		    fi;			
+		fi;
+	    fi;	
+	od;
+
+	##compute the new face coordinates
+	if IsBound(nextFacesSubDiv[4]) and IsBound(nextFacesSubDiv[1]) then
+	    if Length(nextFacesSubDiv[4]) <>0 and Length(nextFacesSubDiv[1])<>0 then 	
+		if nextFacesSubDiv[4][Length(nextFacesSubDiv[4])]<>nextFacesSubDiv[1][1] then 	
+		    numNewCoor[4]:=numNewCoor[4]+1;
+		fi;
+	    fi;
+	fi;
+	newPositions:=[];
+	if numNewCoor[1]<>0 then
+	    if numNewCoor[1]<>1 then 
+		for t in [1..Length(nextFacesSubDiv[1])] do 
+		    newPositions[nextFacesSubDiv[1][t]]:=[minX+0.25*(maxX-minX),minY+0.25*(maxY-minY)+0.5*((t-1)/(numNewCoor[1]-1))*(maxY-minY)];
+		od;
+	    else
+		newPositions[nextFacesSubDiv[1][1]]:=[minX+0.25*(maxX-minX),minY+0.5*(maxY-minY)];
+	    fi;
+	fi;
+
+	if numNewCoor[2]<>0 then
+	    if numNewCoor[2]<>1 then 
+		if numNewCoor[1]<> 0 then 
+		    for t in [2..Length(nextFacesSubDiv[2])] do 
+			newPositions[nextFacesSubDiv[2][t]]:=[minX+0.25*(maxX-minX)+0.5*((t-1)/(numNewCoor[2]-1))*(maxX-minX),maxY-0.25*(maxY-minY)];
+		    od;
+		else
+		    for t in [1..Length(nextFacesSubDiv[2])] do
+			newPositions[nextFacesSubDiv[2][t]]:=[minX+0.25*(maxX-minX)+0.5*((t-1)/(numNewCoor[2]-1))*(maxX-minX),maxY-0.25*(maxY-minY)];
+		    od;
+		fi;
+	    else
+		newPositions[nextFacesSubDiv[2][1]]:=[minX+0.5*(maxX-minX),maxY-0.25*(maxY-minY)];
+	    fi;
+	fi;
+#######################################################
+	if numNewCoor[3]<>0 then
+	    if numNewCoor[3]<>1 then 
+		if numNewCoor[1]+numNewCoor[2]<> 0 then
+		    for t in [2..Length(nextFacesSubDiv[3])] do 
+			newPositions[nextFacesSubDiv[3][t]]:=[maxX-0.25*(maxX-minX),maxY-0.25*(maxY-minY)-0.5*((t-1)/(numNewCoor[3]-1))*(maxY-minY)];
+		    od;
+		else
+		    for t in [1..Length(nextFacesSubDiv[3])] do 
+			newPositions[nextFacesSubDiv[3][t]]:=[maxX-0.25*(maxX-minX),maxY-0.25*(maxY-minY)-0.5*((t-1)/(numNewCoor[3]-1))*(maxY-minY)];
+		    od;
+		fi;
+	    else
+		newPositions[nextFacesSubDiv[3][1]]:=[maxX-0.25*(maxX-minX),maxY-0.5*(maxY-minY)];
+	    fi;
+	fi;
+############################################
+	if numNewCoor[4]<>0 then
+	    if numNewCoor[4]<>1 then 
+		if numNewCoor[1]+numNewCoor[2]+numNewCoor[3]<>0 then
+		    for t in [2..Length(nextFacesSubDiv[4])] do 
+			newPositions[nextFacesSubDiv[4][t]]:=[maxX-0.25*(maxX-minX)-0.5*((t-1)/(numNewCoor[4]-1))*(maxX-minX),minY+0.25*(maxY-minY)];
+		    od;
+		else
+		    for t in [1..Length(nextFacesSubDiv[4])] do 
+			newPositions[nextFacesSubDiv[4][t]]:=[maxX-0.25*(maxX-minX)-0.5*((t-1)/(numNewCoor[4]-1))*(maxX-minX),minY+0.25*(maxY-minY)];
+		    od;
+		fi;
+	    else
+		newPositions[nextFacesSubDiv[4][1]]:=[maxX-0.5*(maxX-minX),minY+0.25*(maxY-minY)];
+	    fi;
+	fi;
+	return newPositions;
+    end
+);
+
+    ## this function returns the face sequence of an umbrella as a list
+BindGlobal( "__SIMPLICIAL_UmbrellaAsList",
+    function(cyc)
+	local i,f;
+	f:=1;	
+	while f^cyc=f do 
+	    f:=f+1;
+	od;
+	return List([0..Order(cyc)-1],i->f^(cyc^i));
+    end
+);
+
+
+    # compute the embedding of a face graph of a simplicial sphere
+    # by assigning 2D-coordinates to the faces
+
+BindGlobal( "__SIMPLICIAL_SetFaceCoordinates",
+    function(surface)
+	local activeFaces,face1,face2,f,facePositions,g,newCoor,Listact,output,temp,
+	visited,tempFacPos,currUmb,Umbrellas,i,startPositions,umb,coor,newFaces;
+	Umbrellas:=UmbrellaDescriptorOfSurface(surface);
+	Umbrellas:=List(Umbrellas,umb->__SIMPLICIAL_UmbrellaAsList(umb));
+	currUmb:=Filtered(Umbrellas,umb->Length(umb)= 
+					Maximum(FaceDegreesOfVertices(surface)))[1];
+	startPositions:=__SIMPLICIAL_StartPositions(Length(currUmb));
+	facePositions:=[];
+	for i in [1..Length(currUmb)] do 
+	    facePositions[currUmb[i]]:=startPositions[i];
+	od;
+	Umbrellas:=Difference(Umbrellas,[currUmb]);
+	visited:=currUmb;	
+	tempFacPos:=ShallowCopy(facePositions);
+	while Umbrellas <> [] do 
+	    activeFaces:=__SIMPLICIAL_ActiveFaces(tempFacPos,Umbrellas);
+	    Add(activeFaces,activeFaces[1]);
+	    Listact:=[];
+	    for i in [1..Length(activeFaces)-1] do
+	        face1:=activeFaces[i];
+	        face2:=activeFaces[i+1];
+	        currUmb:=Filtered(Umbrellas,umb->face1 in umb and face2 in umb and 
+							Intersection(umb,visited)<>[]);
+	        if currUmb<> [] then 
+		    currUmb:=currUmb[1];
+		    Add(Listact,__SIMPLICIAL_OrderFaces(face1,face2,currUmb,visited));
+		    Umbrellas:=Difference(Umbrellas,[currUmb]);
+	        else 
+		    Add(Listact,[]);
+	        fi;
+	    od;
+	    newCoor:=__SIMPLICIAL_NewFaceCoordinates(activeFaces,Listact,Umbrellas,tempFacPos);
+	    for coor in newCoor do
+	        tempFacPos[Position(newCoor,coor)]:=coor;
+	    od;
+	    newFaces:=List(newCoor,g->Position(newCoor,g));
+	    visited:=Union(visited,newFaces);
+	    Umbrellas:=Filtered(Umbrellas,g->not IsSubset(visited,g));
+	    temp:=[];
+	    for g in tempFacPos do
+	        if  Position(tempFacPos,g) in Union(Umbrellas) then 
+		    temp[Position(tempFacPos,g)]:=g;
+	        fi;
+	        facePositions[Position(tempFacPos,g)]:=g;
+	    od;
+	    tempFacPos:=temp;
+        od;
+        return facePositions;
+    end
+);
+
+
+
+    ## this functions manipulates the printRecord so that functionalities of 
+    ## DrawSurfaceToTikZ can be used 
+
+BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
+    function(surface,printRecord)
+	local g,colour,e,f,v;
+	if not IsBound(printRecord.vertexLabelsActive) then
+	    printRecord.vertexLabelsActive := false;
+	fi;
+	if not IsBound(printRecord.latexDocumentclass) then
+	    printRecord.latexDocumentclass := "article";
+	fi;
+	if not IsBound(printRecord.edgeLabelsActive) then
+	    printRecord.edgeLabelsActive := false; 
+	fi;
+	if not IsBound(printRecord.faceLabelsActive) then
+	    printRecord.faceLabelsActive := true;
+	fi;
+	if not IsBound(printRecord.scale) then
+	    printRecord.scale :=2;
+	fi;
+	if IsBound(printRecord.edgeColours) then
+	    if IsString(printRecord.edgeColours) then
+		colour:=printRecord.edgeColours; 
+		printRecord.edgeColours:=[];
+		for e in Edges(surface) do
+		    printRecord.edgeColours[e]:=colour;
+		od;
+	    fi;
+	else
+		printRecord.edgeColours:=[];
+	fi;	
+	if not IsBound(printRecord.edgeLabels) then
+	    printRecord.edgeLabels := [];
+	fi;
+        if not IsBound(printRecord.faceLabels) then
+            printRecord.faceLabels := [];
+        fi;
+        if not IsBound(printRecord.vertexLabels) then
+            printRecord.vertexLabels := [];
+        fi;
+	if not IsBound(printRecord.geodesicActive) then
+	    printRecord.geodesicActive:= false;
+	fi;	
+	if not IsBound(printRecord.faceCoordinates2D) then
+	    if IsClosedSurface(surface) and IsVertexFaithful(surface) and EulerCharacteristic(surface)=2 then
+		printRecord.faceCoordinates2D:= __SIMPLICIAL_SetFaceCoordinates(surface);
+	    else 
+		Error("face coordinates have to be specified");
+	   fi;
+	else 
+	    if not __SIMPLICIAL_IsCoordinates2D(surface,printRecord.faceCoordinates2D) then
+	        Error("face coordinates have to be in the correct format");
+	    fi;
+	fi;	
+	if printRecord.edgeLabelsActive and printRecord.edgeLabels=[] then
+	    for e in Edges(surface) do
+		printRecord.edgeLabels[e]:=String(e);
+	    od;
+	fi;
+        if printRecord.faceLabelsActive and printRecord.faceLabels=[] then
+            for f in Faces(surface) do
+                printRecord.faceLabels[f]:=String(f);
+            od;
+        fi;
+        if printRecord.vertexLabelsActive and printRecord.vertexLabels=[] then
+            for v in Vertices(surface) do
+                printRecord.vertexLabels[v]:=String(v);
+            od;
+        fi;
+        if IsBound(printRecord.faceColours) then
+            if IsString(printRecord.faceColours) then
+                colour:=printRecord.faceColours;
+                printRecord.faceColours:=[];
+                for f in Faces(surface) do
+                    printRecord.faceColours[f]:=colour;
+                od;
+            fi;
+        else
+                printRecord.faceColours:=[];
+        fi;
+
+        if IsBound(printRecord.vertexColours) then
+            if IsString(printRecord.vertexColours) then
+                colour:=printRecord.vertexColours;
+                printRecord.vertexColours:=[];
+                for v in Vertices(surface) do
+                    printRecord.vertexColours[v]:=colour;
+                od;
+            fi;
+        else
+                printRecord.vertexColours:=[];
+        fi;
+        if not IsBound(printRecord.compileLaTeX) then
+	    printRecord.compileLaTeX :=false;
+	fi;
+        if not IsBound(printRecord.noOutput) then
+            printRecord.noOutput :=false;
+        fi;
+        if not IsBound(printRecord.onlyTikzpicture) then
+            printRecord.onlyTikzpicture:=false;
+        fi;
+
+
+	return printRecord;
+    end
+);
+
+
+
+
+
+
+   #this function prints the embedding of the face graph of a 
+   #simplicial surface into a .tex file
+InstallMethod( DrawFacegraphToTikz,
+    "for a closed simplicial surface, a file and a record",
+    [IsSimplicialSurface, IsString, IsRecord],
+    function(surface, file,printRecord)
+    local e,e1,e2,f,f1,f2,f3,v,v1,v2,faceCoordTikZ,foe,output,umb,maxX,maxY,
+    sum,newCoor,minX,minY,mX,mY,geodesic,i,j,currUmb,coordinates,temp,
+    umbrellas,color,tempRec;
+
+    if not( IsClosedSurface(surface) and IsVertexFaithful(surface) and EulerCharacteristic(surface)=2) and not IsBound(printRecord.faceCoordinates2D) then 
+	return fail;
+    fi;
+        # Do something different for the manual
+        if __SIMPLICIAL_MANUAL_MODE then
+            printRecord!.onlyTikzpicture := true;
+            printRecord!.compileLaTeX := false;
+            printRecord!.noOutput := true;
+            file := Concatenation( "doc/_TIKZ_", file );
+        fi;
+
+    sum:=function(L)
+	local g,s,n;
+	s:=[0.,0.];
+	n:=Length(L);
+	for g in L do
+	    s:=1./n*g+s;
+	od;
+	return s;
+    end;
+    # Make the file end with .tex
+    if not EndsWith( file, ".tex" ) then
+        file := Concatenation( file, ".tex" );
+    fi;
+
+    f := Filename( DirectoryCurrent(), file );
+    output := OutputTextFile( f, false );
+    if output = fail then
+        Error(Concatenation("File ", String(file), " can't be opened.") );
+    fi;
+    printRecord:=__SIMPLICIAL_InitializePrintRecord(surface,printRecord);
+    SetPrintFormattingStatus( output, false );
+
+    # Add Header to .tex file 
+    tempRec:=ShallowCopy(printRecord);
+    tempRec.faceLabelsActive:= printRecord.vertexLabelsActive;
+    tempRec.vertexLabelsActive:= printRecord.faceLabelsActive;
+    tempRec.vertexLabels:=printRecord.faceLabels;
+    tempRec.faceLabels:=printRecord.vertexLabels;
+    tempRec.vertexColours:=printRecord.faceColours;
+    tempRec.faceColours:=printRecord.vertexColours;
+
+  # Write this data into the file
+    if not printRecord!.onlyTikzpicture then
+        AppendTo( output, __SIMPLICIAL_PrintRecordGeneralHeader(tempRec));
+        AppendTo( output, __SIMPLICIAL_PrintRecordTikzHeader(tempRec));
+        AppendTo( output, "\n\n\\begin{document}\n\n" );
+        if IsBound(printRecord!.caption) then
+            AppendTo( output,
+                "\\subsection*{", printRecord!.caption, "}\n \\bigskip\n");
+            fi;
+        fi;
+
+#    AppendTo( output,__SIMPLICIAL_PrintRecordGeneralHeader(tempRec));
+#    AppendTo( output,__SIMPLICIAL_PrintRecordTikzHeader(tempRec));
+#    AppendTo( output, "\n\n\\begin{document}\n");
+    AppendTo( output, "\n\n\\begin{tikzpicture}[",
+    __SIMPLICIAL_PrintRecordTikzOptions(tempRec, surface), "]\n\n" );
+
+    faceCoordTikZ:=[];
+    for f in Faces(surface) do
+        faceCoordTikZ[f]:=Concatenation("V",String(f));
+    od;
+    ##define face coordinates
+    for f in Faces(surface) do
+	AppendTo(output	,"\\coordinate (",faceCoordTikZ[f],") at (",
+	printRecord.faceCoordinates2D[f][1]," , ",printRecord.faceCoordinates2D[f][2],");\n");
+	#AppendTo(output,__SIMPLICIAL_PrintRecordDrawFaceFG(printRecord, surface, face, faceTikzCoord));
+   od;
+
+    ##draw edges
+    for e in InnerEdges(surface) do 
+	foe:=FacesOfEdge(surface,e);
+        AppendTo(output,__SIMPLICIAL_PrintRecordDrawEdge(printRecord,surface,e,
+	faceCoordTikZ{foe},printRecord.faceCoordinates2D{foe}));
+    od;
+    ##draw faces as nodes
+#    for f in Faces(surface) do
+#	AppendTo(output,"\\vertexLabelR{",faceCoordTikZ[f],"}{left}{$",f,"$}\n");
+#   od;
+
+    AppendTo( output, "% Draw the faces\n" );
+    for f in Faces(surface) do
+	AppendTo( output, __SIMPLICIAL_PrintRecordDrawFaceFG( printRecord, surface, f, faceCoordTikZ[f]));
+    od;
+
+    umbrellas:=UmbrellaDescriptorOfSurface(surface);
+    umbrellas:=List(umbrellas,umb->__SIMPLICIAL_UmbrellaAsList(umb));
+    currUmb:=Filtered(umbrellas,umb->Length(umb)=Maximum(FaceDegreesOfVertices(surface)))[1];
+
+    ## draw vertex labels
+    if IsBound(printRecord.vertexLabelsActive) then 
+	if printRecord.vertexLabelsActive then
+	   # at first draw vertex label of the outer umbrella
+	    v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(currUmb))[1];
+	    umbrellas:=Difference(umbrellas,[currUmb]);
+	    coordinates:=List(currUmb,f->printRecord.faceCoordinates2D[f]);
+	    maxX:=Maximum(List(coordinates,g->g[1]));
+	    maxY:=Maximum(List(coordinates,g->g[2]));
+	    minY:=Minimum(List(coordinates,g->g[2]));
+#	    AppendTo(output,"\\node[faceLabel,scale=1.5] at (",maxX+1.,",",minY+1/2*(maxY-minY),") {$",v,"$};\n");
+	    AppendTo(output,__SIMPLICIAL_PrintRecordDrawVertexFG(printRecord, surface, v,[maxX+1.,minY+1/2*(maxY-minY)]) ); 
+           ## now the other labels 
+	    for umb in umbrellas do
+		v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(umb))[1];
+		coordinates:=List(umb,f->printRecord.faceCoordinates2D[f]);
+		temp:=sum(coordinates);
+		AppendTo(output,__SIMPLICIAL_PrintRecordDrawVertexFG(printRecord,surface,v,temp));
+	    od; 
+	fi;
+    fi;
+
+    # draw geodesics 
+    if IsBound(printRecord.geodesicActive) then 
+	if printRecord.geodesicActive and EulerCharacteristic(surface)=2 then
+	    coordinates:=[]; 
+	    coordinates:=List(Vertices(surface),v->[]);
+	    for umb in umbrellas do
+		v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(umb))[1];
+		temp:=List(umb,f->printRecord.faceCoordinates2D[f]);
+		for f in umb do 
+		    coordinates[v][f]:=printRecord.faceCoordinates2D[f]+0.1*(sum(temp)-printRecord.faceCoordinates2D[f]);
+		od;
+	    od;
+	    v:=Filtered(Vertices(surface),v->Set(FacesOfVertex(surface,v))=Set(currUmb))[1];
+	    temp:=sum(List(currUmb,f->printRecord.faceCoordinates2D[f]));
+	    maxX:=Maximum(List(currUmb,f->printRecord.faceCoordinates2D[f][1]));
+	    maxY:=Maximum(List(currUmb,f->printRecord.faceCoordinates2D[f][2]));
+	    minX:=Minimum(List(currUmb,f->printRecord.faceCoordinates2D[f][1]));
+	    minY:=Minimum(List(currUmb,f->printRecord.faceCoordinates2D[f][2]));
+	    mX:=maxX-minX;
+	    mY:=maxY-minY;
+	    for f in currUmb do 
+		coordinates[v][f]:=printRecord.faceCoordinates2D[f];
+		if printRecord.faceCoordinates2D[f][1]=minX then 
+		    coordinates[v][f]:=coordinates[v][f]-[0.05*mX,0.];
+		fi;
+		if printRecord.faceCoordinates2D[f][2]=minY then 
+		    coordinates[v][f]:=coordinates[v][f]-[0.,0.05*mY];
+		fi;
+		if printRecord.faceCoordinates2D[f][1]=maxX then 
+		    coordinates[v][f]:=coordinates[v][f]+[0.05*mX,0.];
+		fi;
+		if printRecord.faceCoordinates2D[f][2]=maxY then 
+		    coordinates[v][f]:=coordinates[v][f]+[0.,0.05*mY];
+		fi;
+	    od;
+	    color:=["red","blue","green","yellow","brown","gray","pink"];
+	    geodesic:=MaximalGeodesicPaths(surface);
+	    geodesic:=List(geodesic,g->ShallowCopy(FacesAsList(g)));
+	    for i in [1..Length(geodesic)] do 
+		Add(geodesic[i],geodesic[i][1]);
+		Add(geodesic[i],geodesic[i][2]);
+		for j in [1..Length(geodesic[i])-2] do 
+		    f1:=geodesic[i][j];
+		    f2:=geodesic[i][j+1];
+		    f3:=geodesic[i][j+2];
+		    e1:=Filtered(Edges(surface),e->FacesOfEdge(surface,e)=Set([f1,f2]))[1];
+		    e2:=Filtered(Edges(surface),e->FacesOfEdge(surface,e)=Set([f2,f3]))[1];	
+		    v:=VerticesOfEdge(surface,e1);
+		    v1:=Filtered(v,g-> not g in VerticesOfEdge(surface,e2))[1];
+		    v2:=Difference(v,[v1])[1];
+		    AppendTo(output,"\\draw[edge=",color[i],"] (",
+				coordinates[v1][f1][1],",",coordinates[v1][f1][2],") -- (",
+				coordinates[v2][f2][1],",",coordinates[v2][f2][2],");\n");
+		od;
+	    od;
+	fi;
+    fi;
+
+    AppendTo(output,"\\end{tikzpicture}\n");
+    if not printRecord!.onlyTikzpicture then
+        AppendTo( output, "\n\\end{document}\n");
+    fi;
+
+    CloseStream(output);
+    if not printRecord!.noOutput then
+        Print( "Picture written in TikZ." );
+    fi;
+
+    if printRecord.compileLaTeX then
+        if not printRecord!.noOutput then
+            Print( "Start LaTeX-compilation (type 'x' and press ENTER to abort).\n" );
+        fi;
+
+        # Run pdfLaTeX on the file (without visible output)
+        Exec( "pdflatex ", file, " > /dev/null" );
+        if not printRecord!.noOutput then
+            Print( "Picture rendered (with pdflatex).\n");
+        fi;
+    fi;
+
+
+    return printRecord;
+end
+);
+
+
+InstallOtherMethod( DrawFacegraphToTikz,
+    "for a simplicial surface and a file name",
+    [IsSimplicialSurface,IsString],
+    function(surface,file)
+	    return DrawFacegraphToTikz(surface,file,rec());
+    end
+);
+
 
