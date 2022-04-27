@@ -493,70 +493,23 @@ DeclareOperation("ShiftCyclicPathNC", [IsVertexEdgePath, IsPosInt, IsPosInt]);
 DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! @EndGroup
 
-#! @BeginGroup
-#! @Description
-#! Return if the given path <A>vertexEdgePath</A> is a waist in <A>complex</A>. 
-#! A waist is a closed vertex-edge path such that all edges are inner and no two are incident to the same face.
-#!
-#! For example, consider the double tetrahedron:
-#! @BeginExampleSession
-#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ],
-#! > [ 1, 3, 4 ], [ 1, 2, 4 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 2, 4, 5] ] );;
-#! @EndExampleSession
-#! The path around a face is not a waist:
-#! @BeginExampleSession
-#! gap> path:=VertexEdgePathByEdges(doubleTetra,[1,2,3]);;
-#! gap> IsWaist(doubleTetra, path);
-#! false
-#! @EndExampleSession
-#! The path of length three, where the edges are pairwise incident to two different faces, is a waist:
-#! @BeginExampleSession
-#! gap> waist:=VertexEdgePathByEdges(doubleTetra,[4,5,7]);;
-#! gap> IsWaist(doubleTetra, waist);
-#! true
-#! @EndExampleSession
-#! 
-#! @Returns true or false
-#! @Arguments complex, vertexEdgePath
-DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
-#! @EndGroup
-
 #! @BeginGroup AllClosedVertexEdgePaths
 #! @Description
-#! Compute for the given polygonal complex <A>complex</A> all closed vertex-edge-path of the complex, which was introduced in section 
-#! <Ref Sect="Section_Paths_VertexEdge"/>).
+#! Compute for the given polygonal complex <A>complex</A> all closed vertex-edge-path.
 #!
 #! For example consider the following triangular complex:
 #! <Alt Only="TikZ">
 #!  \input{Image_Butterfly.tex}
 #! </Alt>
 #! @BeginExampleSession
-#! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
+#! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4]]);;
 #! gap> AllClosedVertexEdgePaths(butterfly);
-#! [ ( v2, E1, v1, E2, v3, E3, v2 ), ( v3, E3, v2, E4, v4, E5, v3 ),
-#!   ( v2, E1, v1, E2, v3, E5, v4, E4, v2 )]
+#! [ ( v1, E1, v2, E4, v3, E2, v1 ), ( v1, E1, v2, E4, v3, E5, v4, E3, v1 ),
+#!   ( v1, E3, v4, E5, v3, E2, v1 ) ]
 #! @EndExampleSession
 #! @Returns a list of vertex-edge-paths
 #! @Arguments complex
 DeclareOperation( "AllClosedVertexEdgePaths", [IsTwistedPolygonalComplex] );
-#! @EndGroup
-
-#! @BeginGroup AllWaists
-#! @Description
-#! Compute for the given polygonal complex <A>complex</A> all closed waists of the complex. 
-#! That means closed vertex-edge-path where the edges are not incident to the same faces. (Genauere Definition?)
-#!
-#! For example consider the double tetrahedron:
-#! @BeginExampleSession
-#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ],
-#! > [ 1, 3, 4 ], [ 1, 2, 4 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 2, 4, 5] ] );;
-#! gap> AllWaists(doubleTetra);
-#! [ ( v3, E4, v2, E5, v4, E7, v3 ) ]
-#! @EndExampleSession
-#!
-#! @Returns a list of vertex-edge-paths
-#! @Arguments complex
-DeclareOperation( "AllWaists", [IsTwistedPolygonalComplex] );
 #! @EndGroup
 
 
@@ -1081,7 +1034,41 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsEdgeFacePath );
 DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 
 #! @Section Waists
-#! @SectionLabel waists
+#! @SectionLabel Waists
+#! This section deals with a specific type of closed vertex-edge-paths, namely waists.
+#! A n-waist is a closed vertex-edge path of length n such that all edges are inner and no two are incident to the same face.
+#! This will be illustrated on the following double tetrahedron:
+#! <Alt Only="TikZ">
+#!  \input{Image_Example3Waist.tex}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(
+#! > [[1,3,5],[2,5,6],[2,3,5],[2,3,6],[1,4,5],[3,4,6],[1,3,4],[4,5,6]]);;
+#! @EndExampleSession
+
+#! @BeginGroup
+#! @Description
+#! Return whether the given path <A>vertexEdgePath</A> is a waist in <A>complex</A>.
+#! The definition of a waist is given at the beginning of section <Ref Sect="Section_Waists"/>.
+#!
+#! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>.
+#! The path around a face is not a waist:
+#! @BeginExampleSession
+#! gap> path:=VertexEdgePathByEdges(doubleTetra,[1,3,8]);;
+#! gap> IsWaist(doubleTetra, path);
+#! false
+#! @EndExampleSession
+#! A path of length three, where the edges are pairwise incident to two different faces, is a waist:
+#! @BeginExampleSession
+#! gap> waist:=VertexEdgePathByEdges(doubleTetra,[7,8,10]);;
+#! gap> IsWaist(doubleTetra, waist);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns true or false
+#! @Arguments complex, vertexEdgePath
+DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
+#! @EndGroup
 
 #! @BeginGroup AllTwoWaistsOfWaistsOfComplex
 #! @Description
@@ -1095,9 +1082,8 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! [  ]
 #! gap> voe:=[[3,4],[1,3],[1,4],[2,3],[2,4],[3,4]];;
 #! gap> eof:=[[1,2,3],[1,4,5],[4,5,6],[2,3,6]];;
-#! gap> s:=SimplicialSurfaceByDownwardIncidence(voe,eof);
-#! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> AllTwoWaistsOfComplex(s);
+#! gap> doubleJanus:=SimplicialSurfaceByDownwardIncidence(voe,eof);;
+#! gap> AllTwoWaistsOfComplex(doubleJanus);
 #! [ ( v3, E1, v4, E6, v3 )]
 #! @EndExampleSession
 #! <Alt Only="TikZ">
@@ -1117,26 +1103,38 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! vertex-edge-path in <A>complex</A> visiting exactly three edges and
 #! vertices so that there exist no face in <A>complex</A> that is incident to more
 #! than one of the visited edges.
-#! As an example consider the following simplicial surfaces.
-#! @ExampleSession
+#! 
+#! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>:
+#! @BeginExampleSession
+#! gap> AllThreeWaistsOfComplex(doubleTetra);
+#! [ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 ) ] 
+#! @EndExampleSession
+#! The tetrahedron does not have any 3-waist:
+#! @BeginExampleSession
 #! gap> AllThreeWaistsOfComplex(Tetrahedron());
 #! [  ]
-#! gap> vof:=[[1,3,5],[2,5,6],[2,3,5],[2,3,6],[1,4,5],[3,4,6],
-#! > [1,3,4],[4,5,6]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
-#! simplicial surface (6 vertices, 12 edges, and 8 faces)
-#! gap> AllThreeWaistsOfComplex(s);
-#! [ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 )]
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!  \input{Image_Example3Waist.tex}
-#! </Alt>
-
+#!
 #! @Returns a set of closed vertex-edge-paths
 #! @Arguments complex
 DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
 #! @EndGroup
 
+#! @BeginGroup AllWaistsOfComplex
+#! @Description
+#! Return the set of all waists contained in the given polygonal complex <A>complex</A>.
+#! The definition of a waist is given at the beginning of section <Ref Sect="Section_Waists"/>.
+#!
+#! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>:
+#! @BeginExampleSession
+#! gap> AllWaistsOfComplex(doubleTetra);
+#! [ ( v5, E10, v4, E7, v3, E8, v5 ), ( v5, E12, v6, E9, v3, E8, v5 ) ]
+#! @EndExampleSession
+#!
+#! @Returns a set of closed vertex-edge-paths
+#! @Arguments complex
+DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
+#! @EndGroup
 
 #! @Section Geodesic and umbrella paths
 #! @SectionLabel Paths_Geodesics
