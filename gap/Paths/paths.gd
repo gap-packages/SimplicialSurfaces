@@ -495,17 +495,18 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 
 #! @BeginGroup AllClosedVertexEdgePaths
 #! @Description
-#! Compute for the given polygonal complex <A>complex</A> all closed vertex-edge-path.
+#! Compute for the given polygonal complex <A>complex</A> all closed vertex-edge-paths.
 #!
 #! For example consider the following triangular complex:
 #! <Alt Only="TikZ">
 #!  \input{Image_Butterfly.tex}
 #! </Alt>
 #! @BeginExampleSession
-#! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4]]);;
+#! gap> butterfly:=SimplicialSurfaceByDownwardIncidence(
+#! > [[1,2],[1,3],[2,3],[3,4],[1,4]],[[1,2,3],[2,4,5]]);;
 #! gap> AllClosedVertexEdgePaths(butterfly);
-#! [ ( v1, E1, v2, E4, v3, E2, v1 ), ( v1, E1, v2, E4, v3, E5, v4, E3, v1 ),
-#!   ( v1, E3, v4, E5, v3, E2, v1 ) ]
+#! [ ( v1, E1, v2, E3, v3, E2, v1 ), ( v1, E1, v2, E3, v3, E4, v4, E5, v1 ),
+#!   ( v1, E5, v4, E4, v3, E2, v1 ) ]
 #! @EndExampleSession
 #! @Returns a list of vertex-edge-paths
 #! @Arguments complex
