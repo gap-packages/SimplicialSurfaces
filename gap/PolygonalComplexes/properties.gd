@@ -451,9 +451,15 @@ DeclareProperty("IsCounterOfVertices",IsCounter);
 
 #! @BeginGroup CounterOfEdges
 #! @Description
-#! Return the <E>edge counter</E> of the given twisted polygonal complex.
-#! The edge counter is a list of pairs <E>[degreeList, number]</E>,
-#! where <E>number</E> counts the number of edges whose vertices
+#! The method <K>CounterOfEdges</K> construct  a CounterOfEdges-&GAP;-object from a
+#! twisted polygonal complex.
+#! The method <K>IsCounterOfEdges</K> checks if a given &GAP;-object
+#! represents such an edge counter
+#! The edge counter saves the information about how many edges have vertices with the same degrees.
+#! To get this information there are different possibilities.
+#! For example, the method <A>CounterList</A> <Ref Subsect="CounterList"/> that
+#! returns this information as a list of pairs <E>[degreeList, number]</E>, where
+#! <E>number</E> counts the number of edges whose vertices
 #! are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces,
 #! respectively. The list <E>degreeList</E> is always sorted but may
 #! contain duplicates.
@@ -480,11 +486,17 @@ DeclareProperty("IsCounterOfEdges",IsCounter);
 
 #! @BeginGroup CounterOfFaces
 #! @Description
-#! Return the <E>face counter</E> of the given twisted polygonal complex.
-#! The face counter is a list of pairs <E>[degreeList, number]</E>,
-#! where <E>number</E> counts the number of faces whose vertex degrees
+#! The method <K>CounterOfFaces</K> construct  a CounterOfFaces-&GAP;-object from a
+#! twisted polygonal complex.
+#! The method <K>IsCounterOfFaces</K> checks if a given &GAP;-object
+#! represents such a face counter
+#! The face counter saves the information about how many faces have vertices with the same degrees.
+#! To get this information there are different possibilities.
+#! For example, the method <A>CounterList</A> <Ref Subsect="CounterList"/> that
+#! returns this information as a list of pairs <E>[degreeList, number]</E>, where
+#! <E>number</E> counts the number of faces whose vertex degrees
 #! match <E>degreeList</E>, i.e. for every vertex there is exactly one
-#! entry of <E>degreeList</E> such that the vertex is incident this 
+#! entry of <E>degreeList</E> such that the vertex is incident this
 #! number of faces.
 #!
 #! The <E>degreeList</E> is always sorted but may contain duplicates.
@@ -533,7 +545,8 @@ DeclareAttribute("CounterList",IsCounter);
 #! @Description
 #! The method <A>Numbers</A> returns the second entry of tupels contained in the list obtained from <A>CounterList</A>.
 #! That means for example that the method returns how many vertices have the same degree, if <A>counter</A> is a vertex counter.
-#! The method <A>NumberOfDegree</A> returns the number for the given <A>degree</A>.
+#! The method <A>NumberOfDegree</A> returns the number for the given <A>degree</A> and a vertex counter.
+#! The method <A>NumberOfDegreeList</A> do the same for the other counters and the given <A>degreeList</A>.
 #! The method <A>NumberOfDegrees</A> returns for a vertex counter a list <A>numbers</A> where <A>numbers[i]</A>
 #! is the number of often a vertex has degree <A>i</A>.
 #! @BeginExampleSession
@@ -541,7 +554,7 @@ DeclareAttribute("CounterList",IsCounter);
 #! gap> counterEd:=CounterOfEdges(fiveGon);;
 #! gap> Numbers(counterEd);
 #! [ 5, 5 ]
-#! gap> NumberOfDegree(counterEd,[2,5]);
+#! gap> NumberOfDegreeList(counterEd,[2,5]);
 #! 5
 #! gap> counterVert:=CounterOfVertices(fiveGon);;
 #! gap> NumberOfDegrees(counterVert);
@@ -553,7 +566,9 @@ DeclareOperation("Numbers",[IsCounter]);
 #! @Arguments counterVert
 DeclareOperation("NumberOfDegrees",[IsCounterOfVertices]);
 #! @Arguments counter, degree
-DeclareOperation("NumberOfDegree",[IsCounter, IsList]);
+DeclareOperation("NumberOfDegree",[IsCounterOfVertices, IsPosInt]);
+#! @Arguments counter, degreeList
+DeclareOperation("NumberOfDegreeList",[IsCounter, IsList]);
 #! @EndGroup
 
 #! @BeginGroup DegreesOfNumber
@@ -568,9 +583,9 @@ DeclareOperation("NumberOfDegree",[IsCounter, IsList]);
 #! gap> Degrees(counterEd);
 #! [ [ 2, 2 ], [ 2, 5 ] ]
 #! gap> DegreesOfNumbers(counterEd);
-#! [ ,,,, [ 2, 5 ] ]
+#! [ ,,,, [ [ 2, 2 ], [ 2, 5 ] ] ]
 #! gap> DegreesOfNumber(counterEd,5);
-#! [ 2, 5 ]
+#! [ [ 2, 2 ], [ 2, 5 ] ]
 #! @EndExampleSession
 #! @Returns a list of positive integers
 #! @Arguments counter

@@ -92,15 +92,15 @@ InstallMethod( TetrahedralType, "for a twisted polygonal complex",
 	comp:=complex;
 	tetratype:=[];
 	if IsMultiTetrahedralSphere(complex) then
-		while not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] do
+		while not CounterList(CounterOfVertices(comp)) in [[[3,4]],[[3,2],[4,3]]] do
 			Add(tetratype,Length(Filtered(Vertices(comp),
 				v->FaceDegreeOfVertex(comp,v)=3)));
 			comp:=InnerMultiTetrahedralSphere(comp);
 		od;
-		if VertexCounter(comp)=[[3,4]] then 
+		if CounterList(CounterOfVertices(comp))=[[3,4]] then 
 			Add(tetratype,1);
 		fi;
-		if VertexCounter(comp)=[[3,2],[4,3]] then
+		if CounterList(CounterOfVertices(comp))=[[3,2],[4,3]] then
 			Add(tetratype,2);
 		fi;
 	else
@@ -488,9 +488,28 @@ InstallMethod( NumberOfDegrees,
 		od;
 		return numbers;
     end
-);	
+);
+
 InstallMethod( NumberOfDegree,
-    "method for a counter and a degree",
+    "method for a vertex counter and a degree",
+    [ IsCounterOfVertices, IsPosInt],
+    function( counter, degree)
+                local tupel;
+                if degree in Degrees(counter) then
+                        for tupel in CounterList(counter) do
+                                if tupel[1]=degree then
+                                        return tupel[2];
+                                fi;
+                        od;
+                else
+                        Error(Concatenation("NumberOfDegree: Given counter ", String(counter),
+                " does not have a vertex of the given degree ", String(degree), "." ));
+                fi;
+    end
+);
+
+InstallMethod( NumberOfDegreeList,
+    "method for a counter and a degree list",
     [ IsCounter, IsList],
     function( counter, degree)
 		local tupel;
@@ -529,7 +548,11 @@ InstallMethod( DegreesOfNumbers,
 		number:=Maximum(List(counterList,c->c[2]));
 		degrees:=EmptyPlist(number);
 		for c in counterList do
-			degrees[c[2]]:=c[1];
+			if IsBound(degrees[c[2]]) then
+				Add(degrees[c[2]],c[1]);
+			else
+				degrees[c[2]]:=[c[1]];
+			fi;
 		od;
 		return degrees;
     end
