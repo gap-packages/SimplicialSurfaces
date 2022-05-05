@@ -1032,7 +1032,7 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #!  surface, where an umbrella descriptor is described in 
 #! (<Ref Sect="Section_Constructors_Umbrellas"/>).
 #!  The normed umbrella descriptor of a given umbrella descriptor <A>umdesc</A>
-#!  for the face <A>face</A> and an optional list of neighbours <A>neigh</A> 
+#!  for the face <A>face</A> and an optional list of neighbours <A>neighbours</A> 
 #!  of <A>face</A>  is an umbrella descriptor <A>normedumdesc</A> for an 
 #!  isomorphic surface. This new surface is obtained from the original surface
 #!  described by <A>umdesc</A> by a renumbering <A>f</A> of the faces, where
@@ -1040,8 +1040,8 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #!  [1,..,<M>n</M>], where <M>n</M> is the number of faces. This renumbering
 #!  is initialised follows:   <A>f(face) = 1</A>. The neighbours 
 #!  of <A>face</A> are assigned the numbers 2, 3, ... If the optional 
-#!  argument <A>neigh</A>  is present, it must be a subset of the neighbours
-#!  of <A>face</A>  and <A>f(neigh[i]) = i+1</A>  and <A>f(F)=infty</A> for
+#!  argument <A>neighbours</A> is present, it must be a subset of the neighbours
+#!  of <A>face</A>  and <A>f(neighbours[i]) = i+1</A>  and <A>f(F)=infty</A> for
 #!  all other faces <A>F</A>. Next the umbrellas of the original surface 
 #!  are sorted  lexicographically, that is umbrella <A>u</A> is
 #!  less than umbrella <A>v</A> if the image <A>f(u)</A>  is lexicographically 
