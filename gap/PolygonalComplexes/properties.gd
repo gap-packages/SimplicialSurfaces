@@ -586,6 +586,202 @@ DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface and IsClosedSurface);
 DeclareAttribute( "ThreeFaceCounter", IsSimplicialSurface);
 #! @EndGroup
 
+#! @Section Printing counter to latex 
+#! @SectionLabel LaTeX_Counters
+#! This section covers the options to produce an output that can be compiled
+#! and viewed in an .tex file. This options can be used in the following
+#! functions:
+#!
+#! * LaTeXVertexCounter (<Ref Subsect="LaTeXVertexCounter"/>)
+#! * LaTeXEdgeCounter (<Ref Subsect="LaTeXEdgeCounter"/>)
+#! * LaTeXFaceCounter (<Ref Subsect="LaTeXFaceCounter"/>)
+#! * LaTeXButterflyCounter (<Ref Subsect="LaTeXButterflyCounter"/>)
+#! * LaTeXUmbrellaCounter (<Ref Subsect="LaTeXUmbrellaCounter"/>)
+#! * LaTeXThreeFaceCounter (<Ref Subsect="LaTeXThreeFaceCounter"/>)
+#!
+#! There are several parameters to change the output of this methods.
+#! There are the following classes of parameters:
+#!
+#! * <E>Text size</E>
+#!   (<Ref Subsect="LaTeXCounter_Textsize"/>): Change the text
+#!   size of the text produced with the latex code.
+#! * <E>Colours</E> 
+#!   (<Ref Subsect="LaTeXCounter_Colours"/>): Change the 
+#!   colours of partial information in the text.
+#! * <E>Output control</E> 
+#!   (<Ref Subsect="LaTeXCounter_Output"/>): Modify how the
+#!   &LaTeX;-output behaves and how much information is printed to the 
+#!   console.
+#! 
+#! If the parameter <E>file</E> the expected output is printed into a .tex
+#! file. If the given <A>file</A> does not end in <E>.tex</E> the ending 
+#! <E>.tex</E> will be added to it. The given file will be overwritten
+#! without asking if it already exists. If you don't have permission to
+#! write in that file, this method will throw an error.
+#! For example consider the tetrahedron and write the different counters into
+#! .tex files. 
+
+#! @Subsection Text size
+#! @SubsectionLabel LaTeXCounter_Output
+#! @BeginExampleSession
+#! @EndExampleSession
+
+#! @Subsection Output control
+#! @SubsectionLabel LaTeXCounter_Output
+#! @BeginExampleSession
+#! @EndExampleSession
+
+#! @Subsection Output control
+#! @SubsectionLabel LaTeXCounter_Output
+#! @BeginExampleSession
+#! @EndExampleSession
+
+#! @BeginGroup LaTeXVertexCounter
+#! If the function is called without giving a <A>printRecord</A>, it
+#! returns a string that contains the information to view the vertex counter
+#! (<Ref Subsect="VertexCounter"/>) of <K>surface</K> in a .tex
+#! file otherwise it returns the modified <A>printRecord</A>. The
+#! particulars of the string are determined by the given
+#! <A>printRecord</A>. If this is not given, the default settings are used.
+#! It contains the data to recreate the string.
+#!
+#! For an example, consider the	octahedron.
+#! @BeginExampleSession
+#! gap> LaTeXVertexCounter(Octahedron());
+#! "v_{4}^{6}"
+#! gap> LaTeXVertexCounter(Octahedron(),rec());
+#! rec( Counter := "VC", DocumentClass := "extarticle", OnlyLaTeXCounter := true,
+#!  TextColour := [ "black", "black" ], TextSize := 12, 
+#!  laTeXCounter := "v_{4}^{6}" )
+#! @EndExampleSession
+#! For a more detailed introduction into the options of using the function
+#! with a record <A>printRecord</A>, refer to
+#! (<Ref Subsect="Subsection_LaTeXCounters"/>).
+#! @Returns a string or a record
+#! @Arguments surface [, printRecord]
+DeclareOperation( "LaTeXVertexCounter", [IsSimplicialSurface,IsRecord]);
+#! @EndGroup
+
+#! @BeginGroup LaTeXEdgeCounter
+#! Returns a string that contains the information to view the edge counter
+#! (<Ref Subsect="EdgeCounter"/>) of <K>surface</K> in a .tex 
+#! file. The particulars of the string are determined by the given 
+#! <A>printRecord</A>. If this is not given, the default settings are used. 
+#! The <A>printRecord</A> will be modified and returned by this method. 
+#! It contains the data to recreate the string.
+
+#! For an example, consider the octahedron.
+#! @BeginExampleSession
+#! gap> LaTeXEdgeCounter(Octahedron());
+#! "e_{4,4}^{12}"
+#! gap> LaTeXEdgeCounter(Octahedron(),rec());
+#! rec( Counter := "EC", DocumentClass := "extarticle", OnlyLaTeXCounter := true, 
+#! TextColour := [ "black", "black" ], TextSize := 12,
+#! laTeXCounter := "e_{4,4}^{12}" )
+#! @EndExampleSession
+#! For a more detailed introduction into the options of modyfying the
+#! computed string, refer to (<Ref Subsect="Subsection_LaTeXCounters"/>).
+#! @Returns a string or a record
+#! @Arguments surface, printRecord
+DeclareOperation( "LaTeXEdgeCounter", [IsSimplicialSurface,IsRecord]);
+#! @EndGroup
+
+#! @BeginGroup LaTeXFaceCounter
+#! Returns a string that contains the information to view the face counter
+#! (<Ref Subsect="FaceCounter"/>) of <K>surface</K> in a .tex 
+#! file. The particulars of the string are determined by the given 
+#! <A>printRecord</A>. If this is not given, the default settings are used. 
+#! The <A>printRecord</A> will be modified and returned by this method. 
+#! It contains the data to recreate the string.
+
+#! For an example, consider the octahedron.
+#! @BeginExampleSession
+#! gap> LaTeXFaceCounter(Octahedron());
+#! "f_{4,4,4}^{8}"
+#! gap> LaTeXFaceCounter(Octahedron(),rec());
+#! rec( Counter := "FC", DocumentClass := "extarticle", OnlyLaTeXCounter := true, 
+#! TextColour := [ "black", "black" ], TextSize := 12,
+#! laTeXCounter := "f_{4,4,4}^{8}" )
+#! @EndExampleSession
+#! For a more detailed introduction into the options of modyfying the
+#! computed string, refer to (<Ref Subsect="Subsection_LaTeXCounters"/>).
+#! @Returns a string or a record
+#! @Arguments surface[, printRecord]
+DeclareOperation( "LaTeXFaceCounter", [IsSimplicialSurface,IsRecord]);
+#! @EndGroup
+
+#! @BeginGroup LaTeXButterflyCounter
+#! Returns a string that contains the information to view the butterfly counter
+#! (<Ref Subsect="ButterflyCounter"/>) of <K>surface</K> in a .tex 
+#! file. The particulars of the string are determined by the given 
+#! <A>printRecord</A>. If this is not given, the default settings are used. 
+#! The <A>printRecord</A> will be modified and returned by this method. 
+#! It contains the data to recreate the string.
+
+#! For an example, consider the octahedron.
+#! @BeginExampleSession
+#! gap> LaTeXButterflyCounter(Octahedron(),rec());
+#! rec( Counter := "BC", DocumentClass := "extarticle", OnlyLaTeXCounter := true,
+#!  TextColour := [ "black", "black" ], TextSize := 12,
+#!  laTeXCounter := "b_{4,4;4,4}^{12}" )
+#! @EndExampleSession
+#! For a more detailed introduction into the options of modyfying the
+#! computed string, refer to (<Ref Subsect="Subsection_LaTeXCounters"/>).
+#! @Returns a string or a record
+#! @Arguments surface[, printRecord]
+DeclareOperation( "LaTeXButterflyCounter", [IsSimplicialSurface,IsRecord]);
+#! @EndGroup
+
+#! @BeginGroup LaTeXUmbrellaCounter
+#! Returns a string that contains the information to view the umbrella counter
+#! (<Ref Subsect="UmbrellaCounter"/>) of <K>surface</K> in a .tex
+#! file. The particulars of the string are determined by the given
+#! <A>printRecord</A>. If this is not given, the default settings are used.
+#! The <A>printRecord</A> will be modified and returned by this method.
+#! It contains the data to recreate the string.
+
+#! For an example, consider the octahedron.
+#! @BeginExampleSession
+#! gap> LaTeXUmbrellaCounter(Octahedron());
+#! "u^{6}_{4,4,4,4,4}"
+#! gap> LaTeXUmbrellaCounter(Octahedron(),rec());
+#! rec( Counter := "UC", DocumentClass := "extarticle", OnlyLaTeXCounter := true,
+#!  TextColour := [ "black", "black" ], TextSize := 12,
+#!  laTeXCounter := "u^{6}_{4,4,4,4,4}" )
+#! @EndExampleSession
+#! For a more detailed introduction into the options of modyfying the
+#! computed string, refer to (<Ref Subsect="Subsection_LaTeXCounters"/>).
+
+#! @Returns a string or a record
+#! @Arguments surface[, printRecord]
+DeclareOperation( "LaTeXUmbrellaCounter", [IsSimplicialSurface,IsRecord]);
+#! @EndGroup
+
+#! @BeginGroup LaTeXThreeFaceCounter
+#! Returns a string that contains the information to view the three face counter
+#! (<Ref Subsect="ThreeFaceCounter"/>) of <K>surface</K> in a .tex
+#! file. The particulars of the string are determined by the given
+#! <A>printRecord</A>. If this is not given, the default settings are used.
+#! The <A>printRecord</A> will be modified and returned by this method.
+#! It contains the data to recreate the string.
+
+#! For an example, consider the octahedron.
+#! @BeginExampleSession
+#! gap> LaTeXThreeFaceCounter(Octahedron());
+#! "t_{4;4,4;4,4}^{24}"
+#! gap> LaTeXThreeFaceCounter(Octahedron(),rec());
+#! rec( Counter := "TC", DocumentClass := "extarticle", OnlyLaTeXCounter := true, 
+#! TextColour := [ "black", "black" ], TextSize := 12, laTeXCounter := "s_{4;4,4;4,4}^{24}" )
+#! @EndExampleSession
+#! For a more detailed introduction into the options of modyfying the
+#! computed string, refer to (<Ref Subsect="Subsection_LaTeXCounters"/>).
+
+#! @Returns a string or a record
+#! @Arguments surface[, printRecord]
+DeclareOperation( "LaTeXThreeFaceCounter", [IsSimplicialSurface,IsRecord]);
+#! @EndGroup
+
+
 #! @Section Types of faces
 #! @SectionLabel Properties_FaceTypes
 #!

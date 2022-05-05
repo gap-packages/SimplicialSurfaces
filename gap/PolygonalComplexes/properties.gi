@@ -435,6 +435,219 @@ end
 );
 
 
+## printing counters
+BindGlobal( "__SIMPLICIAL_CounterToLatex",
+    function(counter,pr)
+	local g,c,i,j,res,f,output,help_colour;
+
+	help_colour:=function(n,colour)
+	    if colour="black" then 
+		return String(n);
+	    else
+		return Concatenation("\\textcolor{",colour,"}{",String(n),"}");
+	    fi;
+	end;	
+	## initialize printRecord
+#	if not IsBound(pr.OnlyLaTeXCounter) then
+#		pr.OnlyLaTeXCounter:=true;
+#	fi;
+	if not IsBound(pr.TextSize) then
+		pr.TextSize:=12;
+	fi;
+	if not IsBound(pr.DocumentClass) then
+		pr.DocumentClass:="extarticle";
+	fi;
+	if not IsBound(pr.TextColour) then
+		pr.TextColour:=[];
+		pr.TextColour:=["black","black"];
+	fi;
+	if not IsBound(pr.file) then 
+		f:=fail;
+		if not IsBound(pr.OnlyLaTeXCounter) then
+		    pr.OnlyLaTeXCounter:=true;
+		fi;
+	else
+	        if not IsBound(pr.OnlyLaTeXCounter) then
+		    pr.OnlyLaTeXCounter:=false;
+		fi;
+        # Do something different for the manual
+	        if __SIMPLICIAL_MANUAL_MODE then
+		    pr!.onlyLaTeXCounter := true;
+	            pr.file := Concatenation( "doc/_TIKZ_", fileName );
+		fi;
+		
+		f := Filename( DirectoryCurrent(), pr.file );
+	        output := OutputTextFile( f, false );
+	        if output = fail then
+	            Error(Concatenation("File ", String(pr.file), " can't be opened.") );
+	        fi;
+		SetPrintFormattingStatus( output, false );
+	fi;
+	if not IsBound(pr.Counter) then 
+	    Error("Specify the type of the counter");
+	fi;
+
+	##print Counter
+	res:="";
+	if not pr.OnlyLaTeXCounter then		
+	    res:=Concatenation(res,"\\documentclass[",String(pr.TextSize),"pt]{",pr.DocumentClass,"} \n","\\usepackage[dvipsnames]{xcolor} \n");
+	    res:=Concatenation(res,"\\begin{document} \n \\[ \n");
+	fi;
+	if pr.Counter="VC" then
+	    for c in counter do
+#		res:=Concatenation(res,"v_{\\textcolor{",String(pr.TextColour[1]),"}{",String(c[1]),"}}^{\\textcolor{",String(pr.TextColour[2]),"}{",String(c[2]),"}}");
+                res:=Concatenation(res,"v_{",help_colour(c[1],pr.TextColour[1]),"}^{",help_colour(c[2],pr.TextColour[2]),"}");
+	    od;				
+	elif pr.Counter="EC" then
+	    for c in counter do
+		#res:=Concatenation(res,"e_{\\textcolor{",String(pr.TextColour[1]),"}{",String(c[1][1]),",",String(c[1][2]),"}}^{\\textcolor{",String(pr.TextColour[2]),"}{",String(c[2]),"}}");
+		res:=Concatenation(res,"e_{",help_colour(c[1][1],pr.TextColour[1]),",",help_colour(c[1][2],pr.TextColour[1]),"}^{",help_colour(c[2],pr.TextColour[2]),"}");
+	    od;
+	elif pr.Counter="FC" then
+	    for c in counter do
+#res:=Concatenation(res,"f_{\\textcolor{",String(pr.TextColour[1]),"}{",String(c[1][1]),",",String(c[1][2]),",",String(c[1][3]),"}}","^{\\textcolor{",String(pr.TextColour[2]),"}{",String(c[2]),"}}");
+		res:=Concatenation(res,"f_{",help_colour(c[1][1],pr.TextColour[1]),",",help_colour(c[1][2],pr.TextColour[1]),",",help_colour(c[1][3],pr.TextColour[1]),"}^{",help_colour(c[2],pr.TextColour[2]),"}");
+	    od;	
+	elif pr.Counter="TC" then
+		for c in counter do
+#res:=Concatenation(res,"s_{\\textcolor{",String(pr.TextColour[1]),"}{",String(c[1][1]),",",String(c[1][2][1]),",",String(c[1][2][2]),";",String(c[1][3][1]),",",String(c[1][3][2]),"}}","^{\\textcolor{",String(pr.TextColour[2]),"}{",String(c[2]),"}}");
+		    res:=Concatenation(res,"t_{",help_colour(c[1][1],pr.TextColour[1]),";",help_colour(c[1][2][1],pr.TextColour[1]),",",help_colour(c[1][2][2],pr.TextColour[1]),";",help_colour(c[1][2][2],pr.TextColour[1]),",",help_colour(c[1][3][2],pr.TextColour[1]),"}^{",help_colour(c[2],pr.TextColour[2]),"}");
+		od;
+	elif pr.Counter="BC" then	
+		for c in counter do
+#res:=Concatenation(res,"b_{\\textcolor{",String(pr.TextColour[1]),"}{",String(c[1][1][1]),",",String(c[1][1][2]),";",String(c[1][2][1]),",",String(c[1][2][2]),"}}","^{\\textcolor{",String(pr.TextColour[2]),"}{",String(c[2]),"}}");
+		    res:=Concatenation(res,"b_{",help_colour(c[1][1][1],pr.TextColour[1]),",",help_colour(c[1][1][2],pr.TextColour[1]),";",help_colour(c[1][2][1],pr.TextColour[1]),",",help_colour(c[1][2][2],pr.TextColour[1]),"}^{",help_colour(c[2],pr.TextColour[2]),"}");
+		od;
+	elif pr.Counter="UC" then	
+	    for c in counter do
+	#	res:=Concatenation(res,"u^{\\textcolor{",String(pr.TextColour[1]),"}{",String(c[2]),"}}_{\\textcolor{",String(pr.TextColour[2]),"}{");
+                res:=Concatenation(res,"u^{",help_colour(c[2],pr.TextColour[2]),"}_{");
+		for i in [1..Length(c[1])] do
+		    res:=Concatenation(res,help_colour(c[1][i],pr.TextColour[1]),",");	
+		od;
+		res:=Concatenation(res,help_colour(c[1][Length(c)],pr.TextColour[1]),"}");
+	    od;
+	else 
+	    return fail;
+	fi;
+	if not pr.OnlyLaTeXCounter then		
+	    res:=Concatenation(res,"\n \\]\n \\end{document}");
+	fi;
+
+	if IsBound(pr.file) then 
+	    if pr.file<>fail then
+		AppendTo(output,res);
+		Print("Output has been printed into ",pr.file,"\n");
+	    fi;
+	fi;
+	pr.laTeXCounter:=res;
+	return pr;
+end
+);
+
+InstallMethod( LaTeXVertexCounter, "for a simplicial surface and a record",
+    [IsSimplicialSurface,IsRecord],
+    function(surface,printRecord)
+	printRecord.Counter:="VC";
+	return __SIMPLICIAL_CounterToLatex(VertexCounter(surface),printRecord);
+    end
+);
+
+InstallOtherMethod( LaTeXVertexCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local pr;
+        pr:=__SIMPLICIAL_CounterToLatex(VertexCounter(surface),rec(Counter:="VC"));
+	return pr.laTeXCounter;
+    end
+);
+
+InstallMethod( LaTeXEdgeCounter, "for a simplicial surface and a record",
+    [IsSimplicialSurface,IsRecord],
+    function(surface,printRecord)
+        printRecord.Counter:="EC";
+        return __SIMPLICIAL_CounterToLatex(EdgeCounter(surface),printRecord);
+    end
+);
+
+InstallOtherMethod( LaTeXEdgeCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local pr;
+	pr:=__SIMPLICIAL_CounterToLatex(EdgeCounter(surface),rec(Counter:="EC"));
+        return pr.laTeXCounter;
+
+    end
+);
+
+InstallMethod( LaTeXFaceCounter, "for a simplicial surface and a record",
+    [IsSimplicialSurface,IsRecord],
+    function(surface,printRecord)
+        printRecord.Counter:="FC";
+        return __SIMPLICIAL_CounterToLatex(FaceCounter(surface),printRecord);
+    end
+);
+
+InstallOtherMethod( LaTeXFaceCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local pr;
+	pr:=__SIMPLICIAL_CounterToLatex(FaceCounter(surface),rec(Counter:="FC"));
+        return pr.laTeXCounter;
+
+    end
+);
+
+InstallMethod( LaTeXButterflyCounter, "for a simplicial surface and a record",
+    [IsSimplicialSurface,IsRecord],
+    function(surface,printRecord)
+        printRecord.Counter:="BC";
+        return __SIMPLICIAL_CounterToLatex(ButterflyCounter(surface),printRecord);
+    end
+);
+InstallOtherMethod( LaTeXButterflyCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local pr;
+	pr:=__SIMPLICIAL_CounterToLatex(ButterflyCounter(surface),rec(Counter:="BC"));
+        return pr.laTeXCounter;
+
+    end
+);
+
+InstallMethod( LaTeXUmbrellaCounter, "for a simplicial surface and a printRecord",
+    [IsSimplicialSurface,IsRecord],
+    function(surface,printRecord)
+        printRecord.Counter:="UC";
+	return __SIMPLICIAL_CounterToLatex(UmbrellaCounter(surface),printRecord);
+    end
+);
+InstallOtherMethod( LaTeXUmbrellaCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+        local pr;
+        pr:=__SIMPLICIAL_CounterToLatex(UmbrellaCounter(surface),rec(Counter:="UC"));
+        return pr.laTeXCounter;
+    end
+);
+
+InstallMethod( LaTeXThreeFaceCounter, "for a simplicial surface and a record",
+    [IsSimplicialSurface, IsRecord],
+    function(surface,printRecord)
+        printRecord.Counter:="TC";
+        return __SIMPLICIAL_CounterToLatex(ThreeFaceCounter(surface),printRecord);
+    end
+);
+
+InstallOtherMethod( LaTeXThreeFaceCounter, "for a simplicial surface",
+    [IsSimplicialSurface],
+    function(surface)
+	local pr;
+	pr:=__SIMPLICIAL_CounterToLatex(ThreeFaceCounter(surface),rec(Counter:="TC"));
+        return pr.laTeXCounter;
+
+    end
+);
 ##
 ##      End of degrees
 ##
