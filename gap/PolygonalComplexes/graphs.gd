@@ -799,6 +799,10 @@ DeclareOperation( "OnEdgeFacePaths",
 #! edge graph are the vertices of <A>complex</A> and for every edge in
 #! <A>complex</A> there is a corresponding edge in the edge graph.
 #!
+#! The vertices of the resulting graph are always numbered from 1 to n,
+#! where n is the number of the vertices. That means if the vertex list of <A>surface</A>
+#! is not bounded, the vertices in the graph will have a different number than the vertices of <A>surface</A>.
+#! The same hold for the edges in Nauty.
 #! Since the edges in Digraphs are directed but the edge graph is undirected,
 #! each edge of the edge graph is represented by two directed edges in the <K>Digraphs</K> package.
 #! 
@@ -836,7 +840,11 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #!
 #! The returned graph cannot be given as a grape graph because the <K>GRAPE</K> 
 #! package does not allow multiple edges.
-#! 
+#!
+#! The vertices of the resulting graph are always numbered from 1 to n,
+#! where n is the number of the faces. That means if the face list of <A>surface</A>
+#! is not bounded, the vertices in the graph will have a different number than the faces of <A>surface</A>.
+#! The same hold for the edges in Nauty.
 #! Since the edges in Digraphs are directed but the face graph is undirected, 
 #! each edge of the face graph is represented by two directed edges in the <K>Digraphs</K> package. 
 #!
