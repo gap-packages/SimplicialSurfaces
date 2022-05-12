@@ -401,207 +401,156 @@ DeclareAttribute( "TotalDefect", IsSimplicialSurface );
 DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! @EndGroup
 
-# @BeginGroup Counter
-# @Description
-# Returns a Counter-&GAP;-object. The counter does not store any information. 
-# Specifications of the counter object are VertexCounter(<Ref Subsect="CounterOfVertices"/>),
-# EdgeCounter(<Ref Subsect="CounterOfEdges"/>), FaceCounter(<Ref Subsect="CounterOfFaces"/>),
-# ButterflyCounter(<Ref Subsect="CounterOfButterflies"/>), UmbrellaCounter(<Ref Subsect="CounterOfUmbrellas"/>)
-# and ThreeFaceCounter(<Ref Subsect="CounterOfThreeFaces"/>).
-# @Arguments object
-# @Returns A Counter-&GAP;-object/true or false
-DeclareOperation("Counter",[IsTwistedPolygonalComplex]);
-DeclareCategory("IsCounter",IsObject);
-# @EndGroup
+#! <ManSection Label="Counter">
+#!   <Oper Name="Counter" Arg="complex" 
+#!      Label="for IsTwistedPolygonalComplex"
+#!      Comm="Construct a counter from a twisted polygonal complex"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounter" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a Counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!     The method <K>Counter</K> constructs a new counter from
+#!     a polygonal complex. The method <K>IsCounter</K>
+#!     checks if a given &GAP;-object represents such a counter.
+#!     The counter stores just the associated twisted polygonal complex..
+#!     Specifications of the counter object are VertexCounter(<Ref Subsect="CounterOfVertices"/>),
+#!     EdgeCounter(<Ref Subsect="CounterOfEdges"/>), FaceCounter(<Ref Subsect="CounterOfFaces"/>),
+#!     ButterflyCounter(<Ref Subsect="CounterOfButterflies"/>), UmbrellaCounter(<Ref Subsect="CounterOfUmbrellas"/>)
+#!     and ThreeFaceCounter(<Ref Subsect="CounterOfThreeFaces"/>).
+#!   </Description>
+#! </ManSection>
 
-#! @BeginGroup CounterOfVertices
+#! @BeginGroup AssociatedPolygonalComplex
 #! @Description
-#! The method <K>CounterOfVertices</K> construct  a CounterOfVertices-&GAP;-object from a
-#! twisted polygonal complex.
-#! The method <K>IsCounterOfVertices</K> checks if a given &GAP;-object
-#! represents such a vertex counter
-#! The vertex counter saves the information about how many vertices are incident
-#! to how many faces. To get this information there are different possibilities.
-#! For example, the method <A>CounterList</A> <Ref Subsect="CounterList"/> that
-#! returns this information as a list of pairs <E>[degree, number]</E>, where
-#! <E>number</E> counts the number of vertices with exactly <E>degree</E>
-#! incident faces.
+#! Return the polygonal complex for which the given counter is
+#! defined.
 #!
-#! As an example, consider the five-star from the start of chapter
-#! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
-#! </Alt>
-#! @ExampleSession
+#! @Returns a polygonal complex
+#! @Arguments counter
+DeclareAttribute( "AssociatedPolygonalComplex", IsCounter );
+#! @EndGroup
+
+
+#! <ManSection Label="CounterOfVertices">
+#!   <Oper Name="CounterOfVertices" Arg="complex"
+#!      Label="for IsTwistedPolygonalComplex"
+#!      Comm="Construct a vertex counter from a twisted polygonal complex"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfVertices" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a vertex counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!     The method <K>CounterOfVertices</K> constructs a new vertex counter from
+#!     a polygonal complex. The method <K>IsCounterOfVertices</K>
+#!     checks if a given &GAP;-object represents such a vertex counter.
+#!     The vertex counter saves the information about how many vertices are incident
+#! 	to how many faces. To get this information there are different possibilities.
+#! 	For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>), which
+#! 	returns this information as a list of pairs <E>[degree, number]</E>, where
+#! 	<E>number</E> counts the number of vertices with exactly <E>degree</E>
+#! 	incident faces.
+#!
+#! 	As an example, consider the five-star from the start of chapter
+#!	<Ref Chap="Chapter_Properties"/>:
+#!	<Alt Only="TikZ">
+#!	    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      	\input{Image_FiveTrianglesInCycle.tex}
+#!	    \end{tikzpicture}
+#! 	</Alt>
+#! 	@ExampleSession
 #! gap> List( FacesOfVertices(fiveStar), Size );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
 #! gap> countVert:=CounterOfVertices(fiveStar);;
 #! gap> CounterList(countVert);
 #! [ [ 2, 5 ], [ 5, 1 ] ]
-#! @EndExampleSession
-#!
-#! @Returns CounterOfVertices/true or false
-#! @Arguments complex
-DeclareOperation("CounterOfVertices",[IsTwistedPolygonalComplex]);
-#! @Arguments counter
-DeclareProperty("IsCounterOfVertices",IsCounter);
-#! @EndGroup
+#! 	@EndExampleSession
+#!   </Description>
+#! </ManSection>
 
-#! @BeginGroup CounterOfEdges
-#! @Description
-#! The method <K>CounterOfEdges</K> construct  a CounterOfEdges-&GAP;-object from a
-#! twisted polygonal complex.
-#! The method <K>IsCounterOfEdges</K> checks if a given &GAP;-object
-#! represents such an edge counter
-#! The edge counter saves the information about how many edges have vertices with the same degrees.
-#! To get this information there are different possibilities.
-#! For example, the method <A>CounterList</A> <Ref Subsect="CounterList"/> that
-#! returns this information as a list of pairs <E>[degreeList, number]</E>, where
-#! <E>number</E> counts the number of edges whose vertices
-#! are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces,
-#! respectively. The list <E>degreeList</E> is always sorted but may
-#! contain duplicates.
+#! <ManSection Label="CounterOfEdges">
+#!   <Oper Name="CounterOfEdges" Arg="complex"
+#!      Label="for IsTwistedPolygonalComplex"
+#!      Comm="Construct an edge counter from a twisted polygonal complex"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfEdges" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is an edge counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!	The method <K>CounterOfEdges</K> constructs a new edge counter from
+#!	a polygonal complex. The method <K>IsCounterOfEdges</K>
+#!	checks if a given &GAP;-object represents such an edge counter.
+#! 	The edge counter saves the information about how many edges have vertices with the same degrees.
+#!	To get this information there are different possibilities.
+#!	For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>), which
+#!	returns this information as a list of pairs <E>[degreeList, number]</E>, where
+#!	<E>number</E> counts the number of edges whose vertices
+#!	are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces.
+#! 	The list <E>degreeList</E> is always sorted but may contain duplicates.
 #!
-#! As an example, consider the five-star from the start of chapter
-#! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
-#! </Alt>
-#! @BeginExampleSession
+#! 	As an example, consider the five-star from the start of chapter
+#! 	<Ref Chap="Chapter_Properties"/>:
+#! 	<Alt Only="TikZ">
+#!   	\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!      	\input{Image_FiveTrianglesInCycle.tex}
+#!   	\end{tikzpicture}
+#! 	</Alt>
+#! 	@BeginExampleSession
 #! gap> countEdg := CounterOfEdges(fiveStar);;
 #! gap> CounterList(countEdg);
 #! [ [ [ 2, 2 ], 5 ], [ [ 2, 5 ], 5 ] ]
-#! @EndExampleSession
-#!
-#! @Returns CounterOfEdges/true or false
-#! @Arguments complex
-DeclareOperation("CounterOfEdges",[IsTwistedPolygonalComplex]);
-#! @Arguments counter
-DeclareProperty("IsCounterOfEdges",IsCounter);
-#! @EndGroup
+#! 	@EndExampleSession
+#!   </Description>
+#! </ManSection>
 
-#! @BeginGroup CounterOfFaces
-#! @Description
-#! The method <K>CounterOfFaces</K> construct  a CounterOfFaces-&GAP;-object from a
-#! twisted polygonal complex.
-#! The method <K>IsCounterOfFaces</K> checks if a given &GAP;-object
-#! represents such a face counter
-#! The face counter saves the information about how many faces have vertices with the same degrees.
-#! To get this information there are different possibilities.
-#! For example, the method <A>CounterList</A> <Ref Subsect="CounterList"/> that
-#! returns this information as a list of pairs <E>[degreeList, number]</E>, where
-#! <E>number</E> counts the number of faces whose vertex degrees
-#! match <E>degreeList</E>, i.e. for every vertex there is exactly one
-#! entry of <E>degreeList</E> such that the vertex is incident this
-#! number of faces.
+#! <ManSection Label="CounterOfFaces">
+#!   <Oper Name="CounterOfFaces" Arg="complex"
+#!      Label="for IsTwistedPolygonalComplex"
+#!      Comm="Construct a face counter from a twisted polygonal complex"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfFaces" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a face counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!      The method <K>CounterOfFaces</K> constructs a new face counter from
+#!      a polygonal complex. The method <K>IsCounterOfFaces</K>
+#!      checks if a given &GAP;-object represents such a face counter.
+#!      The face counter saves the information about how many faces have vertices with the same degrees.
+#! 	To get this information there are different possibilities.
+#! 	For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>) that
+#! 	returns this information as a list of pairs <E>[degreeList, number]</E>, where
+#! 	<E>number</E> counts the number of faces whose vertex degrees
+#! 	match <E>degreeList</E>, i.e. for every vertex there is exactly one
+#! 	entry of <E>degreeList</E> such that the vertex is incident to this
+#! 	number of faces.
+#! 	The <E>degreeList</E> is always sorted but may contain duplicates.
 #!
-#! The <E>degreeList</E> is always sorted but may contain duplicates.
-#!
-#! As an example, consider the five-star from the start of chapter
-#! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
-#! </Alt>
-#! @BeginExampleSession
+#!	 As an example, consider the five-star from the start of chapter
+#! 	<Ref Chap="Chapter_Properties"/>:
+#! 	<Alt Only="TikZ">
+#!   	\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!   	   \input{Image_FiveTrianglesInCycle.tex}
+#!   	\end{tikzpicture}
+#! 	</Alt>
+#! 	@ExampleSession
 #! gap> countFac:=CounterOfFaces(fiveStar);;
 #! gap> CounterList(countFac);
 #! [ [ [ 2, 2, 5 ], 5 ] ]
-#! @EndExampleSession
-#!
-#! @Returns CounterOfFaces/true or false
-#! @Arguments complex
-DeclareOperation("CounterOfFaces",[IsTwistedPolygonalComplex]);
-#! @Arguments counter
-DeclareProperty("IsCounterOfFaces",IsCounter);
-#! @EndGroup
-
-#! @BeginGroup CounterList
-#! @Description
-#! Returns the information about different counters.
-#! For a vertex counter the moethod retuns the list of pairs
-#! <E>[degree, number]</E> for the given counter.
-#! For an edge counter, a face counter and an umbrella counter
-#! the method returns the list of pairs <E>[degreeList, number]</E>.
-#! For a butterfly counter the method returns the list of pairs <E>[[degList1,degList2], number]</E>.
-#! For a three face counter the method returns the list of pairs <E>[[deg,degList1,degList2], number]</E>.
-#! @BeginExampleSession
-#! gap> countFac:=CounterOfFaces(fiveStar);;
-#! gap> CounterList(countFac);
-#! [ [ [ 2, 2, 5 ], 5 ] ]
-#! @EndExampleSession
-#! 
-#! @Returns a list of pairs
-#! @Arguments counter
-DeclareAttribute("CounterList",IsCounter);
-#! @EndGroup
-
-#! @BeginGroup NumberOfDegree
-#! @Description
-#! The method <A>Numbers</A> returns the second entry of tupels contained in the list obtained from <A>CounterList</A>.
-#! That means for example that the method returns how many vertices have the same degree, if <A>counter</A> is a vertex counter.
-#! The method <A>NumberOfDegree</A> returns the number for the given <A>degree</A> and a vertex counter.
-#! The method <A>NumberOfDegreeList</A> do the same for the other counters and the given <A>degreeList</A>.
-#! The method <A>NumberOfDegrees</A> returns for a vertex counter a list <A>numbers</A> where <A>numbers[i]</A>
-#! is the number of often a vertex has degree <A>i</A>.
-#! @BeginExampleSession
-#! gap> fiveGon:=SimplicialUmbrella(5);;
-#! gap> counterEd:=CounterOfEdges(fiveGon);;
-#! gap> Numbers(counterEd);
-#! [ 5, 5 ]
-#! gap> NumberOfDegreeList(counterEd,[2,5]);
-#! 5
-#! gap> counterVert:=CounterOfVertices(fiveGon);;
-#! gap> NumberOfDegrees(counterVert);
-#! [ , 5,,, 1 ] 
-#! @EndExampleSession
-#! @Returns a list of positive integers/a positive integer
-#! @Arguments counter 
-DeclareOperation("Numbers",[IsCounter]);
-#! @Arguments counterVert
-DeclareOperation("NumberOfDegrees",[IsCounterOfVertices]);
-#! @Arguments counter, degree
-DeclareOperation("NumberOfDegree",[IsCounterOfVertices, IsPosInt]);
-#! @Arguments counter, degreeList
-DeclareOperation("NumberOfDegreeList",[IsCounter, IsList]);
-#! @EndGroup
-
-#! @BeginGroup DegreesOfNumber
-#! @Description
-#! The method <A>Degrees</A> returns the first entry of tupels contained in the list obtained from <A>CounterList</A>.
-#! That means for example that the method returns what are the different degrees of the vertices, if <A>counter</A> is a vertex counter.
-#! The method <A>DegreesOfNumbers</A> returns for a vertex counter a list <A>degrees</A> where <A>degrees[i]</A>
-#! is the degree that occurs <A>i</A> times.
-#! @BeginExampleSession
-#! gap> fiveGon:=SimplicialUmbrella(5);;
-#! gap> counterEd:=CounterOfEdges(fiveGon);;
-#! gap> Degrees(counterEd);
-#! [ [ 2, 2 ], [ 2, 5 ] ]
-#! gap> DegreesOfNumbers(counterEd);
-#! [ ,,,, [ [ 2, 2 ], [ 2, 5 ] ] ]
-#! gap> DegreesOfNumber(counterEd,5);
-#! [ [ 2, 2 ], [ 2, 5 ] ]
-#! @EndExampleSession
-#! @Returns a list of positive integers
-#! @Arguments counter
-DeclareOperation("Degrees",[IsCounter]);
-#! @Arguments counter
-DeclareOperation("DegreesOfNumbers",[IsCounter]);
-#! @Arguments counter, number
-DeclareOperation("DegreesOfNumber",[IsCounter, IsPosInt]);
-#! @EndGroup
+#! 	@EndExampleSession
+#!   </Description>
+#! </ManSection>
 
 #! @BeginGroup CounterOfButterflies
 #! @Description
-#! Return the <E>butterfly counter</E> of the given simplicial surface.
-#! The butterfly counter is a list of pairs
-#! <E>[[degList1,degList2],number]</E>, where <E>number</E> counts the
-#! number of butterflies whose vertex degrees match
+#! The method <K>CounterOfButterflies</K> construct  a CounterOfButterflies-&GAP;-object from a
+#! simplicial surface.
+#! The method <K>IsCounterOfButterflies</K> checks if a given Counter&GAP;-object (<Ref Subsect="Counter"/>)
+#! represents such a butterfly counter.
+#! The butterfly counter saves the information about how many butterflies have vertices with the same degrees.
+#! To get this information there are different possibilities.
+#! For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>), which
+#! returns this information as a list of pairs <E>[[degList1,degList2], number]</E>, where
+#! <E>number</E> counts the number of butterflies whose vertex degrees match
 #! <E>[degList1,degList2]</E>, whereby <E>degList1</E> denotes the
 #! vertex degree of the vertices that are incident to the edge
 #! inducing the corresponding butterfly and <E>degList2</E> contains
@@ -616,25 +565,30 @@ DeclareOperation("DegreesOfNumber",[IsCounter, IsPosInt]);
 #! > [2,4,6],[3,5,7],[3,6,7]];;
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
 #! simplicial surface (7 vertices, 15 edges, and 10 faces)
-#! gap> ButterflyCounter(s);
+#! gap> CounterList(CounterOfButterflies(s));
 #! [ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of pairs
 #! @Arguments surface
-DeclareAttribute( "ButterflyCounter", IsSimplicialSurface);
+#DeclareAttribute("CounterOfButterflies",IsSimplicialSurface);
 #! @EndGroup
 
 #! @BeginGroup CounterOfUmbrellas
 #! @Description
-#! Return the <E>umbrella counter</E> of the given closed simplicial surface.
-#! The umbrella counter is a list of pairs <E>[degreeList, number]</E>,
+#! The method <K>CounterOfUmbrellas</K> construct  a CounterOfUmbrellas-&GAP;-object from a
+#! simplicial surface.
+#! The method <K>IsCounterOfUmbrellas</K> checks if a given Counter&GAP;-object (<Ref Subsect="Counter"/>)
+#! represents such an umbrella counter.
+#! The umbrella counter saves the information about how many umbrellas have vertices with the same degrees.
+#! To get this information there are different possibilities.
+#! For example, the method (<A>CounterList</A> <Ref Subsect="CounterList"/>), which
+#! returns this information as a list of pairs <E>[degreeList, number]</E>,
 #! where <E>number</E> counts the number of umbrellas whose vertex degrees
 #! of vertices contained at the boundary of the umbrella match
 #! <E>degreeList</E>, i.e. for every vertex contained in the boundary
 #! of an umbrella there is exactly one entry of <E>degreeList</E> such that
 #! the vertex is incident to this number of faces.
-
 #! The list <E>degreeList</E> is not sorted but may contain duplicates.
 #!
 #! As an example, consider the double-6-gon:
@@ -646,19 +600,25 @@ DeclareAttribute( "ButterflyCounter", IsSimplicialSurface);
 #! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
 #! simplicial surface (8 vertices, 18 edges, and 12 faces)
-#! gap> UmbrellaCounter(s);
+#! gap> CounterList(CounterOfUmbrellas(s));
 #! [ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of pairs
 #! @Arguments surface
-DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface and IsClosedSurface);
+DeclareAttribute("CounterOfUmbrellas",IsSimplicialSurface and IsClosedSurface);
 #! @EndGroup
 
 #! @BeginGroup CounterOfThreeFaces
 #! @Description
-#! Return the <E>three-face counter</E> of the given simplicial surface.
-#! The three-face counter is a list of pairs 
+#! The method <K>CounterOfThreeFaces</K> construct  a CounterOfThreeFaces-&GAP;-object from a
+#! simplicial surface.
+#! The method <K>IsCounterOfThreeFaces</K> checks if a given Counter&GAP;-object (<Ref Subsect="Counter"/>)
+#! represents such a three-face counter.
+#! The umbrella counter saves the information about how many three-faces have vertices with the same degrees.
+#! To get this information there are different possibilities.
+#! For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>), which
+#! returns this information as a list of pairs
 #! <E>[[deg,degreeList1,degreeList2], number]</E>, whereby
 #! <E>[deg,degreeList1,degreeList2]</E> satisfies the following property:
 #! Assume that the vertices <E>v1,v2,v3</E> are all incident to the same
@@ -688,13 +648,88 @@ DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface and IsClosedSurface);
 #! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
 #! simplicial surface (8 vertices, 18 edges, and 12 faces)
-#! gap> ThreeFaceCounter(s);
+#! gap> CounterList(CounterOfThreeFaces(s));
 #! [ [ [ 4, [ 4, 6 ], [ 6, 4 ] ], 24 ], [ [ 6, [ 4, 4 ], [ 4, 4 ] ], 12 ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of pairs
 #! @Arguments surface
-DeclareAttribute( "ThreeFaceCounter", IsSimplicialSurface);
+#DeclareAttribute("CounterOfThreeFaces",IsSimplicialSurface);
+#! @EndGroup
+
+#! @BeginGroup CounterList
+#! @Description
+#! Returns the information about different counters.
+#! For a vertex counter the method returns the list of pairs
+#! <E>[degree, number]</E> for the given counter.
+#! For an edge counter, a face counter and an umbrella counter
+#! the method returns the list of pairs <E>[degreeList, number]</E>.
+#! For a butterfly counter the method returns the list of pairs <E>[[degList1,degList2], number]</E> and
+#! for a three face counter the method returns the list of pairs <E>[[deg,degList1,degList2], number]</E>.
+#! @BeginExampleSession
+#! gap> countFac:=CounterOfFaces(fiveStar);;
+#! gap> CounterList(countFac);
+#! [ [ [ 2, 2, 5 ], 5 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list of pairs
+#! @Arguments counter
+DeclareAttribute("CounterList",IsCounter);
+#! @EndGroup
+
+#! @BeginGroup NumberOfDegree
+#! @Description
+#! The method <A>Numbers</A> returns the second entry of the tupels contained in the list obtained from <A>CounterList</A>.
+#! That means for example that the method returns how many vertices have the same degree, if <A>counter</A> is a vertex counter.
+#! The method <A>NumberOfDegree</A> returns the number for the given <A>degree</A> and a vertex counter.
+#! The method <A>NumberOfDegreeList</A> do the same for the other counters and the given <A>degreeList</A>.
+#! The method <A>NumberOfDegrees</A> returns for a vertex counter a list <A>numbers</A> where <A>numbers[i]</A>
+#! is the number of often a vertex has degree <A>i</A>.
+#! @BeginExampleSession
+#! gap> fiveGon:=SimplicialUmbrella(5);;
+#! gap> counterEd:=CounterOfEdges(fiveGon);;
+#! gap> Numbers(counterEd);
+#! [ 5, 5 ]
+#! gap> NumberOfDegreeList(counterEd,[2,5]);
+#! 5
+#! gap> counterVert:=CounterOfVertices(fiveGon);;
+#! gap> NumberOfDegrees(counterVert);
+#! [ , 5,,, 1 ]
+#! @EndExampleSession
+#! @Returns a list of positive integers/a positive integer
+#! @Arguments counter
+DeclareOperation("Numbers",[IsCounter]);
+#! @Arguments counterVert
+DeclareOperation("NumberOfDegrees",[IsCounterOfVertices]);
+#! @Arguments counterVert, degree
+DeclareOperation("NumberOfDegree",[IsCounterOfVertices, IsPosInt]);
+#! @Arguments counter, degreeList
+DeclareOperation("NumberOfDegreeList",[IsCounter, IsList]);
+#! @EndGroup
+
+#! @BeginGroup DegreesOfNumber
+#! @Description
+#! The method <A>Degrees</A> returns the first entry of tupels contained in the list obtained from <A>CounterList</A>.
+#! That means for example that the method returns what are the different degrees of the vertices, if <A>counter</A> is a vertex counter.
+#! The method <A>DegreesOfNumbers</A> returns for a vertex counter a list <A>degrees</A> where <A>degrees[i]</A>
+#! is the degree that occurs <A>i</A> times. For the other counters the entries of the lists are degree lists.
+#! @BeginExampleSession
+#! gap> fiveGon:=SimplicialUmbrella(5);;
+#! gap> counterEd:=CounterOfEdges(fiveGon);;
+#! gap> Degrees(counterEd);
+#! [ [ 2, 2 ], [ 2, 5 ] ]
+#! gap> DegreesOfNumbers(counterEd);
+#! [ ,,,, [ [ 2, 2 ], [ 2, 5 ] ] ]
+#! gap> DegreesOfNumber(counterEd,5);
+#! [ [ 2, 2 ], [ 2, 5 ] ]
+#! @EndExampleSession
+#! @Returns a list of positive integers
+#! @Arguments counter
+DeclareOperation("Degrees",[IsCounter]);
+#! @Arguments counter
+DeclareOperation("DegreesOfNumbers",[IsCounter]);
+#! @Arguments counter, number
+DeclareOperation("DegreesOfNumber",[IsCounter, IsPosInt]);
 #! @EndGroup
 
 #! @Section Types of faces

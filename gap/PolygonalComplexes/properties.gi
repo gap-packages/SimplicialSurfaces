@@ -234,13 +234,13 @@ BindGlobal("CounterFamily",NewFamily("CounterFamily",IsObject,IsCounter));
 DeclareRepresentation("IsCounterRep",IsCounter and IsAttributeStoringRep,[]);
 BindGlobal("IsCounterType",NewType(CounterFamily,IsCounterRep));
 
-InstallMethod( Counter,
-    "method for twisted polygonal complexes",
-    [ IsTwistedPolygonalComplex ],
-    function( complex )
-    	return Objectify( NewType( CounterFamily, IsCounter and IsCounterRep ),rec());
-    end
-);
+#InstallMethod( Counter,
+#    "method for twisted polygonal complexes",
+#    [ IsTwistedPolygonalComplex ],
+#    function( complex )
+#    	return Objectify( NewType( CounterFamily, IsCounter and IsCounterRep ),rec());
+#    end
+#);
 
 BindGlobal( "__SIMPLICIAL_VertexCounter",
     function(complex)
@@ -267,14 +267,19 @@ BindGlobal( "__SIMPLICIAL_VertexCounter",
     end
 );
 
+DeclareRepresentation("CounterOfVerticesRep", 
+    IsCounterOfVertices and IsAttributeStoringRep, []);
+BindGlobal("CounterOfVerticesType", 
+    NewType(CounterOfVerticesFamily, CounterOfVerticesRep));
+
 InstallMethod( CounterOfVertices,
     "method for twisted polygonal complexes",
     [ IsTwistedPolygonalComplex ],
     function( complex )
                 local counter;
-                counter:=Objectify( NewType( CounterFamily, IsCounter and IsCounterRep ),rec());
+		counter:=Objectify(CounterOfVerticesType,rec());
                 SetCounterList(counter,__SIMPLICIAL_VertexCounter(complex));
-                SetIsCounterOfVertices(counter,true);
+		SetAssociatedPolygonalComplex(counter,complex);
                 return counter;
     end
 );
@@ -290,14 +295,19 @@ BindGlobal( "__SIMPLICIAL_EdgeCounter",
     end
 );
 
+DeclareRepresentation("CounterOfEdgesRep",
+    IsCounterOfEdges and IsAttributeStoringRep, []);
+BindGlobal("CounterOfEdgesType",
+    NewType(CounterOfEdgesFamily, CounterOfEdgesRep));
+
 InstallMethod( CounterOfEdges,
     "method for twisted polygonal complexes",
     [ IsTwistedPolygonalComplex ],
     function( complex )
                 local counter;
-                counter:=Objectify( NewType( CounterFamily,IsCounter and IsCounterRep ),rec());
+                counter:=Objectify(CounterOfEdgesType,rec());
                 SetCounterList(counter,__SIMPLICIAL_EdgeCounter(complex));
-                SetIsCounterOfEdges(counter,true);
+		SetAssociatedPolygonalComplex(counter,complex);
                 return counter;
     end
 );
@@ -313,20 +323,24 @@ BindGlobal( "__SIMPLICIAL_FaceCounter",
     end
 );
 
+DeclareRepresentation("CounterOfFacesRep",
+    IsCounterOfFaces and IsAttributeStoringRep, []);
+BindGlobal("CounterOfFacesType",
+    NewType(CounterOfFacesFamily, CounterOfFacesRep));
+
 InstallMethod( CounterOfFaces,
     "method for twisted polygonal complexes",
     [ IsTwistedPolygonalComplex ],
     function( complex )
                 local counter;
-                counter:=Objectify( NewType( CounterFamily, IsCounter and IsCounterRep ),rec());
+                counter:=Objectify(CounterOfFacesType,rec());
                 SetCounterList(counter,__SIMPLICIAL_FaceCounter(complex));
-                SetIsCounterOfFaces(counter,true);
+		SetAssociatedPolygonalComplex(counter,complex);
                 return counter;
     end
 );
 
-InstallMethod( ButterflyCounter, "for a simplicial surface",
-    [IsSimplicialSurface],
+BindGlobal( "__SIMPLICIAL_ButterflyCounter",
     function(surface)
 	local e,temp2,counter,g,VerticesOfOrthogonalEdge,voe1,voe2,degOfVert1,degOfVert2;
 
@@ -348,9 +362,25 @@ InstallMethod( ButterflyCounter, "for a simplicial surface",
 end
 );
 
+DeclareRepresentation("CounterOfButterfliesRep",
+    IsCounterOfButterflies and IsAttributeStoringRep, []);
+BindGlobal("CounterOfButterfliesType",
+    NewType(CounterOfButterfliesFamily, CounterOfButterfliesRep));
 
-InstallMethod( UmbrellaCounter, "for a closed simplicial surface",
-    [IsSimplicialSurface and IsClosedSurface],
+InstallMethod( CounterOfButterflies,
+    "method for a simplicial surface",
+    [ IsSimplicialSurface],
+    function( surf )
+	local counter;
+	counter:=Objectify(CounterOfButterfliesType,rec());
+	SetCounterList(counter,__SIMPLICIAL_ButterflyCounter(surf));
+	SetAssociatedPolygonalComplex(counter,surf);
+	return counter;
+    end 
+);
+
+
+BindGlobal( "__SIMPLICIAL_UmbrellaCounter",
     function(surface)
 	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,
 	verticesOfUmb,edgesOfUmb,facdegOfVert,temp1,EquivalentLists,
@@ -441,8 +471,24 @@ InstallMethod( UmbrellaCounter, "for a closed simplicial surface",
 end
 );
 
-InstallMethod( ThreeFaceCounter, "for a simplicial surface",
-    [IsSimplicialSurface],
+DeclareRepresentation("CounterOfUmbrellasRep",
+    IsCounterOfUmbrellas and IsAttributeStoringRep, []);
+BindGlobal("CounterOfUmbrellasType",
+    NewType(CounterOfUmbrellasFamily, CounterOfUmbrellasRep));
+
+InstallMethod( CounterOfUmbrellas,
+    "method for a closed simplicial surface",
+    [ IsSimplicialSurface and IsClosedSurface],
+    function( surf )
+	local counter;
+	counter:=Objectify(CounterOfUmbrellasType,rec());
+	SetCounterList(counter,__SIMPLICIAL_UmbrellaCounter(surf));
+	SetAssociatedPolygonalComplex(counter,surf);
+	return counter;
+    end 
+);
+
+BindGlobal( "__SIMPLICIAL_ThreeFaceCounter",
     function(surface)
 	local g,tempcounter,v,f,face,vert,vof,vof2,counter,i,temp,tup;
 	tempcounter:=[];
@@ -475,6 +521,23 @@ InstallMethod( ThreeFaceCounter, "for a simplicial surface",
 end
 );
 
+DeclareRepresentation("CounterOfThreeFacesRep",
+    IsCounterOfThreeFaces and IsAttributeStoringRep, []);
+BindGlobal("CounterOfThreeFacesType",
+    NewType(CounterOfThreeFacesFamily, CounterOfThreeFacesRep));
+
+InstallMethod( CounterOfThreeFaces,
+    "method for a simplicial surface",
+    [ IsSimplicialSurface ],
+    function( surf )
+	local counter;
+	counter:=Objectify(CounterOfThreeFacesType,rec());
+	SetCounterList(counter,__SIMPLICIAL_ThreeFaceCounter(surf));
+	SetAssociatedPolygonalComplex(counter,surf);
+	return counter;
+    end 
+);
+
 InstallMethod( NumberOfDegrees,
     "method for a counter of vertices",
     [ IsCounterOfVertices ],
@@ -503,7 +566,7 @@ InstallMethod( NumberOfDegree,
                         od;
                 else
                         Error(Concatenation("NumberOfDegree: Given counter ", String(counter),
-                " does not have a vertex of the given degree ", String(degree), "." ));
+                " does not have a vertex of degree ", String(degree), "." ));
                 fi;
     end
 );
@@ -520,8 +583,8 @@ InstallMethod( NumberOfDegreeList,
 				fi;
 			od;
 		else 
-			Error(Concatenation("NumberOfDegree: Given counter ", String(counter), 
-                " does not have a vertex of the given degree ", String(degree), "." ));
+			Error(Concatenation("NumberOfDegreeList: Given counter ", String(counter), 
+                " does not have the degree list", String(degree), "." ));
 		fi;
     end
 );
@@ -570,44 +633,91 @@ InstallMethod( DegreesOfNumber,
     end
 );
 
+BindGlobal( "__SIMPLICIAL_CounterName",
+    function(counter, big)
+        local nameList;
 
-InstallMethod(ViewObj,"for a vertex counter", [IsCounterOfVertices],
-	function(counter)
-		local strList;
-		strList:=[];
-		Add(strList, ["VertexCounter( ",0]);
-		Add( strList, [Concatenation(String(Degrees(counter)), " degrees"), 1] );
-        Add( strList, [", ", 0] );
+        if big then
+            nameList := ["CounterOfVertices", "CounterOfEdges", 
+                "CounterOfFaces", "CounterOfButterlies",
+                "CounterOfUmbrellas", "CounterOfThreeFaces", "Counter"];
+        else
+            nameList := ["counter of vertices", "counter of edges", 
+                "counter of faces", "counter of butterlies",
+                "counter of umbrellas", "counter of three faces", "counter"];
+        fi;
+
+        if IsCounterOfVertices(counter) then
+            return nameList[1];
+        elif IsCounterOfEdges(counter) then
+            return nameList[2];
+        elif IsCounterOfFaces(counter) then
+            return nameList[3];
+        elif IsCounterOfButterflies(counter) then
+            return nameList[4];
+		elif IsCounterOfUmbrellas(counter) then
+            return nameList[5];
+        elif IsCounterOfThreeFaces(counter) then
+            return nameList[6];
+        else
+            return nameList[7];
+        fi;
+    end
+);
+
+InstallOtherMethod( ViewInformation, "for a counter", 
+    [IsCounter],
+    function(counter)
+        local strList, str, out;
+
+        strList := [];
+        str := "";
+        out := OutputTextString(str,true);
+        PrintTo( out, __SIMPLICIAL_CounterName(counter, false) );
+        PrintTo(out, " (");
+        CloseStream(out);
+        Add( strList, [str, 0] );
+
+        Add( strList, [Concatenation(String(Degrees(counter)), " degrees"), 1] );
+        Add( strList, [", and ", 0] );
         Add( strList, [Concatenation(String(Numbers(counter)), " numbers"), 2] );
-		Add(strList,[" )" ,0]);
-		Print(__SIMPLICIAL_UncolouredString(strList));
+        Add( strList, [")", 0] );
+
+        return strList;
+    end
+);
+
+
+InstallMethod(ViewObj,"for a counter", [IsCounter],
+	function(counter)
+	    if SIMPLICIAL_COLOURS_ON then
+                __SIMPLICIAL_PrintColourString( ViewInformation(counter), 
+                    [ SIMPLICIAL_COLOURS_VERTICES, 
+                        SIMPLICIAL_COLOURS_EDGES]);
+            else
+                Print(__SIMPLICIAL_UncolouredString( ViewInformation(counter) ));
+            fi;
 	end
 );
 
-InstallMethod(ViewObj,"for a edge counter", [IsCounterOfEdges],
-	function(counter)
-		local strList;
-		strList:=[];
-		Add(strList, ["EdgeCounter( ",0]);
-		Add( strList, [Concatenation(String(Degrees(counter)), " degrees"), 1] );
-        Add( strList, [", ", 0] );
-        Add( strList, [Concatenation(String(Numbers(counter)), " numbers"), 2] );
-		Add(strList,[" )" ,0]);
-		Print(__SIMPLICIAL_UncolouredString(strList));
-	end
-);
+InstallMethod( String, "for a counter", [IsCounter],
+    function(counter)
+        local str, out, name;
+        
+        str := "";
+        out := OutputTextString(str,true);
+	name:=__SIMPLICIAL_CounterName(counter,true);
 
-InstallMethod(ViewObj,"for a face counter", [IsCounterOfFaces],
-	function(counter)
-		local strList;
-		strList:=[];
-		Add(strList, ["FaceCounter( ",0]);
-		Add( strList, [Concatenation(String(Degrees(counter)), " degrees"), 1] );
-        Add( strList, [", ", 0] );
-        Add( strList, [Concatenation(String(Numbers(counter)), " numbers"), 2] );
-		Add(strList,[" )" ,0]);
-		Print(__SIMPLICIAL_UncolouredString(strList));
-	end
+        PrintTo(out, name);
+	PrintTo(out, "( ");
+        PrintTo(out, AssociatedPolygonalComplex(counter));
+        PrintTo(out, ", ");
+        PrintTo(out, CounterList(counter));
+        PrintTo(out, ")");
+
+        CloseStream(out);
+        return str;
+    end
 );
 ##
 ##      End of degrees
