@@ -101,7 +101,6 @@ DeclareAttribute("CounterOfButterflies",IsSimplicialSurface);
 DeclareCategory( "IsCounterOfUmbrellas", IsCounter);
 BindGlobal( "CounterOfUmbrellasFamily",
     NewFamily("CounterOfUmbrellasFamily", IsObject, IsCounterOfUmbrellas));
-#DeclareAttribute("CounterOfUmbrellas",IsSimplicialSurface); #IsClosedSurface
 
 DeclareCategory( "IsCounterOfThreeFaces", IsCounter);
 BindGlobal( "CounterOfThreeFacesFamily",

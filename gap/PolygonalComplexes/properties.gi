@@ -553,7 +553,7 @@ InstallMethod( NumberOfDegrees,
     end
 );
 
-InstallMethod( NumberOfDegree,
+InstallOtherMethod( NumberOfDegree,
     "method for a vertex counter and a degree",
     [ IsCounterOfVertices, IsPosInt],
     function( counter, degree)
@@ -571,23 +571,24 @@ InstallMethod( NumberOfDegree,
     end
 );
 
-InstallMethod( NumberOfDegreeList,
-    "method for a counter and a degree list",
+InstallMethod( NumberOfDegree,
+    "method for a vertex counter and a degree",
     [ IsCounter, IsList],
     function( counter, degree)
-		local tupel;
-		if degree in Degrees(counter) then
-			for tupel in CounterList(counter) do
-				if tupel[1]=degree then
-					return tupel[2];
-				fi;
-			od;
-		else 
-			Error(Concatenation("NumberOfDegreeList: Given counter ", String(counter), 
-                " does not have the degree list", String(degree), "." ));
-		fi;
+                local tupel;
+                if degree in Degrees(counter) then
+                        for tupel in CounterList(counter) do
+                                if tupel[1]=degree then
+                                        return tupel[2];
+                                fi;
+                        od;
+                else
+                        Error(Concatenation("NumberOfDegree: Given counter ", String(counter),
+                " does not have a vertex of degree ", String(degree), "." ));
+                fi;
     end
 );
+
 InstallMethod( Degrees,
     "method for a counter",
     [ IsCounter ],
