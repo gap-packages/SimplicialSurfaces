@@ -234,14 +234,6 @@ BindGlobal("CounterFamily",NewFamily("CounterFamily",IsObject,IsCounter));
 DeclareRepresentation("IsCounterRep",IsCounter and IsAttributeStoringRep,[]);
 BindGlobal("IsCounterType",NewType(CounterFamily,IsCounterRep));
 
-#InstallMethod( Counter,
-#    "method for twisted polygonal complexes",
-#    [ IsTwistedPolygonalComplex ],
-#    function( complex )
-#    	return Objectify( NewType( CounterFamily, IsCounter and IsCounterRep ),rec());
-#    end
-#);
-
 BindGlobal( "__SIMPLICIAL_VertexCounter",
     function(complex)
         local faceDegrees, faces, deg, counter;
