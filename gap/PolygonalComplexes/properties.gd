@@ -23,7 +23,7 @@
 #! @ChapterLabel Properties
 #! 
 #! In chapter <Ref Chap="Chapter_AccessIncidenceGeometry"/> we introduced the incidence structures of polygonal complexes.
-#! Along with this we can consider various properties of surfaces and complexes that relies on the incidence structure.
+#! Along with this we can consider various properties of surfaces and complexes that rely on the incidence structure.
 #! In section <Ref Sect="Section_Properties_Invariants"/> some invariants of polygonal complexes are explained.
 #! Section <Ref Subsect="Section_Properties_Degrees"/> describes properties based on the degree of the vertices.
 #! Different types of faces, edges and vertices are introduced in section <Ref Sect="Section_Properties_FaceTypes"/>,
