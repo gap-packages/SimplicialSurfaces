@@ -103,7 +103,7 @@ gap&gt; EulerCharacteristic(newSurf);
         In our case, we can deduce that the surface <A>newSurf</A> can
         be represented as a triangulation of the sphere. We might want to
         know how many vertices there are of different degrees. This
-        can be found out by using <K>VertexCounter</K> 
+        can be found out by using <K>CounterOfVertices</K> 
         (<Ref Subsect="CounterOfVertices"/>).
 <Example>
 gap&gt; CounterList(CounterOfVertices(newSurf));

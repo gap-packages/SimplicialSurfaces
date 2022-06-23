@@ -279,9 +279,9 @@ DeclareAttribute( "BlockType",IsSimplicialSurface);
 #! vertex counter(<Ref Subsect="CounterOfVertices"/>), edge counter(<Ref Subsect="CounterOfEdges"/>),
 #! face counter(<Ref Subsect="CounterOfFaces"/>), butterfly counter(<Ref Subsect="CounterOfButterflies"/>),
 #! umbrella counter(<Ref Subsect="CounterOfUmbrellas"/>) and three face counter(<Ref Subsect="CounterOfThreeFaces"/>).
-#! The counters save information about the degrees. There are different methods to get these information
-#! like <A>CounterList</A>(<Ref Subsect="CounterList"/>), <A>Numbers</A>(<Ref Subsect="Numbers"/>) and
-#! <A>Degrees</A>(<Ref Subsect="Degrees"/>).
+#! For a given surface, the counters save information about the vertex, face or edge degrees.
+#! There are different methods to get these information like <A>CounterList</A>(<Ref Subsect="CounterList"/>),
+#! <A>Numbers</A>(<Ref Subsect="Numbers"/>) and <A>Degrees</A>(<Ref Subsect="Degrees"/>).
 
 
 #! @BeginGroup EdgeDegreesOfVertices

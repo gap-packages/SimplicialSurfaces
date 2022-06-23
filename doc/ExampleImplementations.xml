@@ -190,7 +190,7 @@ true
     </Section>
 
     <Section Label="Example_VertexCounter"><Heading>VertexCounter</Heading>
-        The method <K>VertexCounter</K> (<Ref Subsect="CounterOfVertices"/>) 
+        The method <K>CounterOfVertices</K> (<Ref Subsect="CounterOfVertices"/>) 
         creates a list of pairs <A>[degree,number]</A> such that the second 
         entry of each pair
         counts the number of vertices that have exactly <A>degree</A>
