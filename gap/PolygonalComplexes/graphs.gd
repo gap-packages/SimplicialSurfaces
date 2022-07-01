@@ -44,7 +44,7 @@
 #! described by its chamber adjacencies, which can be encoded
 #! as an edge-coloured graph. A polygonal complex is completely
 #! determined by its incidence structure, which can be encoded
-#! a a vertex-coloured graph. Thus, the isomorphism problem
+#! as a vertex-coloured graph. Thus, the isomorphism problem
 #! between (twisted) polygonal complexes reduces to the
 #! graph isomorphism problem.
 #!
@@ -58,9 +58,12 @@
 #! <Ref Sect="Section_Graphs_Discussion"/>.
 #!
 #! Sections <Ref Sect="Section_Graphs_Incidence"/> and <Ref Sect="Section_Graphs_Adjacency"/>
-#! introduce the incidence graph and the the chamber adjacency graph. Although
+#! introduce the incidence graph and the chamber adjacency graph. Although
 #! isomorphism testing and automorphism computation relies on them,
 #! these sections are in general not necessary in practice.
+#!
+#! Section <Ref Sect="Section_Graphs_Edge_Face"/> describes the edge graph and the face graph of a polygonal complex.
+#! They are used in practice like in <Ref Subsect="AllSimplicialSurfacesOfDigraph"/>.
 #!
 #! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the isomorphism 
 #! method
@@ -71,6 +74,43 @@
 #! how to use the automorphism group of (twisted) polygonal complexes. Section
 #! <Ref Sect="Section_Graphs_Automorphisms_PathActions"/> explores the action of
 #! automorphisms on paths.
+
+#! @Section Which graph package should be used?
+#! @SectionLabel Graphs_Discussion
+#!
+#! The <K>SimplicialSurface</K>-package supports three different graph
+#! packages:
+#! @InsertChunk Graphs_Packages
+#!
+#! They have different benefits and disadvantages and are therefore
+#! recommended for different uses:
+#! <List>
+#!  <Item><K>NautyTracesInterface</K>: This package is designed for the single
+#!   purpose of enabling a fast
+#!   interface to <K>Nauty/Traces</K>. In this measure it excells. On almost
+#!   all
+#!   other measures it does not compete.
+#!
+#!   Therefore it is recommended to have this package available to make
+#!   isomorphism testing and automorphism computation fast. For other
+#!   purposes it is not recommended.</Item>
+#!  <Item><K>GRAPE</K>: This package is designed to work with graphs that have
+#!   large automorphism groups. Unfortunately it is written in a way that
+#!   is not fully compatible with modern &GAP;. Therefore it is often
+#!   necessary to perform <K>ShallowCopy</K> on a graph before any
+#!   methods can be applied to it.
+#!
+#!   Its main advantage is that it works out of the box.</Item>
+#!  <Item><K>Digraphs</K>: This package has the goal of becoming the leading
+#!   graph package in &GAP;. It is still developed further but there are
+#!   sometimes problems with its installation.
+#!
+#!   If the installation is working though, it is recommended to use
+#!   <K>Digraphs</K> instead of <K>GRAPE</K>.</Item>
+#! </List>
+#! To get information about a graph is for <K>NautyTracesInterface</K> and <K>GRAPE</K>
+#! not so nice as for <K>Digraphs</K>. The different ways to get the information are shown
+#! in section <Ref Sect="Section_Graphs_Incidence"/>.
 
 #! @Section Incidence graph
 #! @SectionLabel Graphs_Incidence
@@ -129,28 +169,52 @@
 #! to different graph packages: 
 #! @InsertChunk Graphs_Packages
 #!
-#! @ExampleSession
+#! Consider the polygonal complex at the begin of section <Ref Sect="Section_Graphs_Incidence"/>:
+#! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence(
 #! >        [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ],
 #! >        [[6,8,9], , , [9,10,12,13]]);
 #! polygonal surface (5 vertices, 6 edges, and 2 faces)
-#! gap> digraph := IncidenceDigraphsGraph(complex);
-#! <immutable digraph with 13 vertices, 38 edges>
+#! @EndExampleSession
+#! First of all look at the graph given by <K>Digraphs</K>:
+#! @BeginExampleSession
+#! gap> digraph := IncidenceDigraphsGraph(complex);;
 #! gap> DigraphVertices(digraph);
 #! [ 1 .. 13 ]
 #! gap> DigraphVertexLabels(digraph);
 #! [ 2, 3, 5, 7, 11, 17, 19, 20, 21, 23, 24, 25, 28 ]
+#! gap> DigraphEdges(digraph);
+#! [ [ 1, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 2, 10 ], [ 3, 6 ], [ 3, 8 ],
+#! [ 3, 9 ], [ 4, 10 ], [ 4, 11 ], [ 5, 9 ], [ 5, 11 ], [ 6, 1 ], [ 6, 3 ],
+#! [ 6, 12 ], [ 7, 1 ], [ 7, 2 ], [ 7, 12 ], [ 8, 2 ], [ 8, 3 ], [ 8, 12 ],
+#! [ 8, 13 ], [ 9, 3 ], [ 9, 5 ], [ 9, 13 ], [ 10, 2 ], [ 10, 4 ], [ 10, 13 ],
+#! [ 11, 4 ], [ 11, 5 ], [ 11, 13 ], [ 12, 6 ], [ 12, 7 ], [ 12, 8 ], [ 13, 8 ],
+#! [ 13, 9 ], [ 13, 10 ], [ 13, 11 ] ] 
 #! @EndExampleSession
-#! 
-#! TODO find edges of digraph, do the same for grape and NautyTracesInterface
+#! Consider how getting information from a graph given by <K>GRAPE</K> looks like:
+#! @BeginExampleSession
+#! gap> grape := IncidenceGrapeGraph(complex).graph;;
+#! gap> DirectedEdges(grape)=DigraphEdges(digraph);
+#! true
+#! @EndExampleSession
+#! Finally, consider how getting information from a graph given by <K>NautyTracesInterface</K> looks like:
+#! @BeginExampleSession
+#! gap> nauty:=UnderlyingNautyGraph(IncidenceNautyGraph(complex));;
+#! gap> nautyEdges:=nauty!.edges;
+#! [ [ 1, 6 ], [ 3, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 5, 9 ],
+#! [ 2, 10 ], [ 4, 10 ], [ 4, 11 ], [ 5, 11 ], [ 6, 12 ],
+#! [ 7, 12 ], [ 8, 12 ], [ 8, 13 ], [ 9, 13 ], [ 10, 13 ], [ 11, 13 ] ]
+#! gap> nautyEdges=DigraphEdges(digraph);
+#! false
+#! @EndExampleSession
+#! The edges of the nauty incidence graph are not equal to the edges of the digraph,
+#! since the edges from the nauty graph are undirected.
 #!
-#! @Returns a graph as defined in the package <K>Digraphs</K>
+#! @Returns a graph as defined in the package <K>Digraphs</K>,<K>GRAPE</K> or <K>NautyTracesInterface</K>
 #! @Arguments complex
 DeclareAttribute( "IncidenceDigraphsGraph", IsPolygonalComplex );
-#! @Returns a graph as defined in the package <K>GRAPE</K>
 #! @Arguments complex
 DeclareAttribute( "IncidenceGrapeGraph", IsPolygonalComplex );
-#! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 #! @Arguments complex
 DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! @EndGroup
@@ -163,7 +227,7 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! <Ref Sect="PolygonalStructures_twisted"/>), it is sufficient
 #! to know its chambers and their adjacencies. These can be encoded
 #! as an edge-coloured graph:
-#! * The vertices are the set of chambers
+#! * The vertices are the set of chambers.
 #! * If two chambers are <M>k</M>-adjacent, there is an edge
 #!   labelled <M>k</M> between these two chambers.
 #! In this fashion, we obtain an undirected graph whose
@@ -197,6 +261,160 @@ DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 #! @Arguments complex
 DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
+#! @EndGroup
+
+#! @Section Edge and Face Graph
+#! @SectionLabel Graphs_Edge_Face
+#! 
+#! For some purposes it is useful to work with other associated graphs of
+#! polygonal complexes. In this section the edge graph of a polygonal complex
+#! and the face graph of a polygonal surface is introduced.
+#! Both of them are implemented for all supported graph packages:
+#! @InsertChunk Graphs_Packages
+#! These graphs are useful if it is not necessary to need all information of the complex.
+#! The edge graph only describes the incidence structure of vertices and edges.
+#! Instead, the face graph describes the incidence structure of edges and faces.
+#! Using method <Ref Subsect="AllSimplicialSurfacesOfDigraph"/> it is possible to get all surfaces
+#! that have a common face graph.
+#! 
+#! The face graph and the edge graph of a polygonal complex are dual graphs of each other.
+#! The dual graph of a planar graph G is a graph that has a vertex for each face of G
+#! and an edge for each pair of faces that intersect in at least one edge.
+#! For example, consider the ocathedron. The following graph is the face graph of the octahedron:
+#! <Alt Only="TikZ">
+#! 	\input{Image_FacegraphOct.tex}
+#! </Alt>
+#! The edge graph of the octahedron, i.e. the dual of the face graph, is the following graph:
+#! <Alt Only="TikZ">
+#! 	\input{Image_EdgegraphOct.tex}
+#! </Alt>
+#!
+#! The face graph of the octahedron is equivalent to the edge graph of the cube and vice versa.
+#! That means the dual polyhedron of the cube is the octahedron.
+#! In section <Ref Subsect="EdgeGraph"/> and <Ref Subsect="FaceGraph"/> is an example,
+#! where the edge graph respectively the face graph is self dual.
+#! That means that the edge graph and the face graph of a polygonal complex are equal.  
+
+#! @BeginGroup EdgeGraph
+#! @Description 
+#! Return the edge graph of the given polygonal complex. The vertices of the
+#! edge graph are the vertices of <A>complex</A> and for every edge in
+#! <A>complex</A> there is a corresponding edge in the edge graph.
+#!
+#! The vertices of the resulting graph are always numbered from 1 to n,
+#! where n is the number of the vertices. That means if the vertex list of <A>surface</A>
+#! is not bounded, the vertices in the graph will have a different number than the vertices of <A>surface</A>.
+#! The same hold for the edges in Nauty.
+#! Since the edges in Digraphs are directed but the edge graph is undirected,
+#! each edge of the edge graph is represented by two directed edges in the <K>Digraphs</K> package.
+#! 
+#! For example, consider the edge graph of the tetrahedron:
+#! @BeginExampleSession
+#! gap> digraph:=EdgeDigraphsGraph(Tetrahedron());
+#! <immutable digraph with 4 vertices, 12 edges>
+#! gap> DigraphEdges(digraph);
+#! [ [ 1, 2 ], [ 2, 1 ], [ 1, 3 ], [ 3, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 3 ], [ 3, 2 ], 
+#! [ 2, 4 ], [ 4, 2 ], [ 3, 4 ], [ 4, 3 ] ] 
+#! @EndExampleSession
+#! This is the edge graph of the tetrahedron with undirected edges:
+#! <Alt Only="TikZ">
+#!    \input{Image_FaceGraphTetra.tex}
+#! </Alt>
+#!
+#! @Arguments complex
+#! @Returns a graph as defined in the package <K>Digraphs</K>/<K>GRAPE</K>/<K>NautyTracesInterface</K>
+DeclareAttribute( "EdgeDigraphsGraph", IsPolygonalComplex );
+#! @Arguments complex
+DeclareAttribute( "EdgeGrapeGraph", IsPolygonalComplex );
+#! @Arguments complex
+DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup FaceGraph
+#! @Description
+#! Return the face graph of a given polygonal complex. The vertices of the
+#! face graph are the faces of <A>complex</A> and for every edge in
+#! <A>complex</A> there is a corresponding edge in the face graph.
+#!
+#! The returned graph can be given in two different formats, corresponding
+#! to different graph packages:
+#! <K>Digraphs</K> and <K>NautyTracesInterface</K>
+#!
+#! The returned graph cannot be given as a grape graph because the <K>GRAPE</K> 
+#! package does not allow multiple edges.
+#!
+#! The vertices of the resulting graph are always numbered from 1 to n,
+#! where n is the number of the faces. That means if the face list of <A>complex</A>
+#! is not bounded, the vertices in the graph will have a different number than the faces of <A>complex</A>.
+#! The same hold for the edges in Nauty.
+#! Since the edges in Digraphs are directed but the face graph is undirected, 
+#! each edge of the face graph is represented by two directed edges in the <K>Digraphs</K> package. 
+#!
+#! For example, consider the face graph of the tetrahedron:
+#! @BeginExampleSession
+#! gap> digraph:=FaceDigraphsGraph(Tetrahedron());
+#! <immutable digraph with 4 vertices, 12 edges>
+#! gap> digraphEdges:=DigraphEdges(digraph);
+#! [ [ 1, 2 ], [ 2, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 4 ], [ 4, 2 ], [ 1, 3 ], [ 3, 1 ],
+#! [ 2, 3 ], [ 3, 2 ], [ 3, 4 ], [ 4, 3 ] ]
+#! @EndExampleSession
+#!
+#! This is the face graph of the tetrahedron with undirected edges:
+#! <Alt Only="TikZ">
+#!    \input{Image_FaceGraphTetra.tex}
+#! </Alt>
+#!
+#! @Arguments complex
+#! @Returns a graph as defined in the package <K>Digraphs</K>/<K>NautyTracesInterface</K>
+DeclareAttribute( "FaceDigraphsGraph", IsPolygonalComplex );
+#! @Arguments complex
+DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup AllSimplicialSurfacesOfDigraph 
+#! @Description 
+#! Return all (vertex-faithful) simplicial surfaces, that have <K>digraph</K> as face graph. 
+#! If <K>digraph</K> is not a face graph of a (vertex-faithful) simplicial surface, the empty list is returned.
+#! The parameter <K>vertexfaithful</K> indicates whether only vertex-faithful simplicial surfaces are searched. 
+#! The parameter <K>vertexfaithful</K> is by default false.
+#! <K>digraph</K> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial 
+#! surface can be identified with certain cycles in the face graph. This method searches possible combinations of cycles, 
+#! with the cycles corresponding to the vertices of a simplicial surface.
+#!
+#!
+#! For example, consider the complete graph on four nodes:
+#! <Alt Only="TikZ">
+#!    \input{Image_FaceGraphTetra.tex}
+#! </Alt>
+#!
+#! @BeginExampleSession
+#! gap> digraph:=CompleteDigraph(4);;
+#! gap> tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+#! gap> IsIsomorphic(tet1[1],Tetrahedron());
+#! true
+#! @EndExampleSession
+#!
+#! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
+#! But there is another simplicial surface, which is not vertex-faithful:
+#! @BeginExampleSession
+#! gap> list := AllSimplicialSurfacesOfDigraph(digraph,false);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+#! simplicial surface (3 vertices, 6 edges, and 4 faces)]
+#! gap> tet2 := Filtered(list,IsVertexFaithful);
+#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+#! gap> IsIsomorphic(tet2[1],Tetrahedron());
+#! true
+#! @EndExampleSession
+#!
+#! Since the method takes a long time for a graph with many cycles, you should only call the method
+#! for digraphs with twenty-two or less nodes for <K>vertexfaithful</K> true. 
+#! For <K>vertexfaithful</K> false you should only call the function for twelve or less nodes. 
+#! In general, it is much faster to only look for vertex-faithful simplicial surfaces.
+#! 
+#! @Arguments digraph[, vertexfaithful]
+#! @Returns a list
+DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
 #! @EndGroup
 
 
@@ -235,7 +453,7 @@ DeclareOperation( "IsIsomorphic",
     [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex] );
 #! @EndGroup
 
-
+#! @BeginGroup IsomorphismRepresentatives
 #! @Description
 #! The method <K>IsomorphismRepresentatives</K> takes a list of twisted polygonal complexes 
 #! and returns a reduced list in which no two entries are 
@@ -257,13 +475,14 @@ DeclareOperation( "IsIsomorphic",
 #! @Returns a list of twisted polygonal complexes
 #! @Arguments complexList
 DeclareOperation( "IsomorphismRepresentatives", [IsList] );
+#! @EndGroup
 
 #! In many cases it is enough to know whether two twisted polygonal complexes are
 #! isomorphic. In some cases it is useful to know the concrete isomorphism
 #! between them.
 #! TODO can something be done about this? Currently the returned isomorphism does not match the labels (and group actions are hard to define);
 
-
+#! @BeginGroup CanonicalRepresentatives
 #! @Description
 #! Find the canonical representative of a polygonal surface, i.e. an 
 #! isomorphic surface with the following properties:
@@ -296,7 +515,8 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! gap> edges := [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];;
 #! gap> vertices := [ 12, 13, 14, 15, 16, 17, 18, 19 ];;
 #! gap> edgesOfFaces := [ ,,,,,,,,,,,,,,,,,,, [ 4, 5, 6, 7 ], [ 4, 8, 11, 15 ], 
-#! >        [ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ], [ 12, 13, 14, 15 ] ];;
+#! >        [ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ],
+#! >        [ 12, 13, 14, 15 ] ];;
 #! gap> verticesOfEdges := [ ,,, [ 12, 13 ], [ 13, 14 ], [ 14, 15 ], [ 12, 15 ], 
 #! >        [ 13, 17 ], [ 14, 18 ], [ 15, 19 ], [ 12, 16 ], [ 17, 18 ], [ 18, 19 ], 
 #! >        [ 16, 19 ], [ 16, 17 ] ];;
@@ -330,7 +550,7 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #!   polygonal morphism from the canonical surface to the original surface
 DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurface]);
 #TODO extend this to twisted polygonal complexes. This requires CanonicalLabelling for edge coloured graphs and (more importantly) homomorphisms between twisted polygonal complexes
-
+#! @EndGroup
 
 #! @Section Automorphism groups of polygonal complexes
 #! @SectionLabel Graphs_Automorphisms_Polygonal
@@ -399,7 +619,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! (<Ref Subsect="DisplayAsAutomorphism"/>) can be used.
 #!
 #! For example, the first generator of the tetrahedron automorphism group
-#! is <M>TODO</M>, which can be displayed like this:
+#! can be displayed like this:
 #! @ExampleSession
 #! gap> DisplayAsAutomorphism( tetra, 
 #! >  (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24));
@@ -500,7 +720,6 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! gap> StructureDescription(autIco);
 #! "C2 x A5"
 #! @EndExampleSession
-#TODO example with picture? or more of them? Is this really necessary for the kind of people who look at this method..
 #!
 #! @Arguments complex
 #! @Returns a permutation group
@@ -633,7 +852,7 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #! in GAP. Nevertheless, it is sometimes convenient (if slower) to act
 #! on some composite objects (like <K>VertexEdgePaths</K>) directly.
 
-
+#! @BeginGroup OnVertexEdgePaths
 #! @Description
 #! Apply the automorphism <A>aut</A> to the vertex-edge-path <A>vePath</A>
 #! (for their definition consult section 
@@ -687,8 +906,9 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #! @Returns a vertex-edge-path
 DeclareOperation( "OnVertexEdgePaths", 
     [ IsVertexEdgePath , IsPerm ] );
+#! @EndGroup
 
-
+#! @BeginGroup OnEdgeFacePaths
 #! @Description
 #! Apply the automorphism <A>aut</A> to the edge-face-path <A>efPath</A>
 #! (for their definition consult section 
@@ -747,170 +967,4 @@ DeclareOperation( "OnVertexEdgePaths",
 #! @Returns an edge-face-path
 DeclareOperation( "OnEdgeFacePaths", 
     [ IsEdgeFacePath , IsPerm ] );
-
-
-#! @Section Which graph package should be used?
-#! @SectionLabel Graphs_Discussion
-#! 
-#! The <K>SimplicialSurface</K>-package supports three different graph 
-#! packages:
-#! @InsertChunk Graphs_Packages
-#!
-#! They have different benefits and disadvantages and are therefore 
-#! recommended for different uses:
-#! <List>
-#!  <Item><K>NautyTracesInterface</K>: This package is designed for the single
-#!   purpose of enabling a fast
-#!   interface to <K>Nauty/Traces</K>. In this measure it excells. On almost
-#!   all
-#!   other measures it does not compete.
-#!
-#!   Therefore it is recommended to have this package available to make
-#!   isomorphism testing and automorphism computation fast. For other
-#!   purposes it is not recommended.</Item>
-#!  <Item><K>GRAPE</K>: This package is designed to work with graphs that have
-#!   large automorphism groups. Unfortunately it is written in a way that
-#!   is not fully compatible with modern &GAP;. Therefore it is often
-#!   necessary to perform <K>ShallowCopy</K> on a graph before any 
-#!   methods can be applied to it.
-#!
-#!   Its main advantage is that it works out of the box.</Item>
-#!  <Item><K>Digraphs</K>: This package has the goal of becoming the leading
-#!   graph package in &GAP;. It is still developed further but there are
-#!   sometimes problems with its installation.
-#! 
-#!   If the installation is working though, it is recommended to use 
-#!   <K>Digraphs</K> instead of <K>GRAPE</K>.</Item>
-#! </List>
-
-
-#! @Section Other graphs
-#! @SectionLabel Graphs_Others
-#! 
-#! For some purposes it is useful to work with other associated graphs of
-#! polygonal complexes. These are collected in this section. All of them are
-#! implemented for all supported graph packages:
-#! @InsertChunk Graphs_Packages
-#!
-
-#! @BeginGroup EdgeGraph
-#! @Description 
-#! Return the edge graph of the given polygonal complex. The vertices of the
-#! edge graph are the vertices of <A>complex</A> and for every edge in
-#! <A>complex</A> there is a corresponding edge in the edge graph.
-#!
-#! The vertices of the resulting graph are always numbered from 1 to n,
-#! where n is the number of the vertices. That means if the vertex list of <A>surface</A>
-#! is not bounded, the vertices in the graph will have a different number than the vertices of <A>surface</A>.
-#! The same hold for the edges in Nauty.
-#! Since the edges in Digraphs are directed but the edge graph is undirected,
-#! each edge of the edge graph is represented by two directed edges in the <K>Digraphs</K> package.
-#! 
-#! For example, consider the edge graph of the tetrahedron:
-#! @BeginExampleSession
-#! gap> digraph:=EdgeDigraphsGraph(Tetrahedron());
-#! <immutable digraph with 4 vertices, 12 edges>
-#! gap> DigraphEdges(digraph);
-#! [ [ 1, 2 ], [ 2, 1 ], [ 1, 3 ], [ 3, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 3 ], [ 3, 2 ], 
-#! [ 2, 4 ], [ 4, 2 ], [ 3, 4 ], [ 4, 3 ] ] 
-#! @EndExampleSession
-#! This is the edge graph of the tetrahedron with undirected edges:
-#! <Alt Only="TikZ">
-#!    \input{Image_FaceGraphTetra.tex}
-#! </Alt>
-#!
-#! @Arguments complex
-#! @Returns a graph as defined in the package <K>Digraphs</K>/<K>GRAPE</K>/<K>NautyTracesInterface</K>
-DeclareAttribute( "EdgeDigraphsGraph", IsPolygonalComplex );
-#! @Arguments complex
-DeclareAttribute( "EdgeGrapeGraph", IsPolygonalComplex );
-#! @Arguments complex
-DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
-#! @EndGroup
-
-#! @BeginGroup FaceGraph
-#! @Description
-#! Return the face graph of a given polygonal surface. The vertices of the
-#! face graph are the faces of <A>surface</A> and for every edge in
-#! <A>surface</A> there is a corresponding edge in the face graph.
-#!
-#! The returned graph can be given in two different formats, corresponding
-#! to different graph packages:
-#! <K>Digraphs</K> and <K>NautyTracesInterface</K>
-#!
-#! The returned graph cannot be given as a grape graph because the <K>GRAPE</K> 
-#! package does not allow multiple edges.
-#!
-#! The vertices of the resulting graph are always numbered from 1 to n,
-#! where n is the number of the faces. That means if the face list of <A>surface</A>
-#! is not bounded, the vertices in the graph will have a different number than the faces of <A>surface</A>.
-#! The same hold for the edges in Nauty.
-#! Since the edges in Digraphs are directed but the face graph is undirected, 
-#! each edge of the face graph is represented by two directed edges in the <K>Digraphs</K> package. 
-#!
-#! For example, consider the face graph of the tetrahedron:
-#! @BeginExampleSession
-#! gap> digraph:=FaceDigraphsGraph(Tetrahedron());
-#! <immutable digraph with 4 vertices, 12 edges>
-#! gap> digraphEdges:=DigraphEdges(digraph);
-#! [ [ 1, 2 ], [ 2, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 4 ], [ 4, 2 ], [ 1, 3 ], [ 3, 1 ],
-#! [ 2, 3 ], [ 3, 2 ], [ 3, 4 ], [ 4, 3 ] ]
-#! @EndExampleSession
-#!
-#! This is the face graph of the tetrahedron with undirected edges:
-#! <Alt Only="TikZ">
-#!    \input{Image_FaceGraphTetra.tex}
-#! </Alt>
-#!
-#! @Arguments surface
-#! @Returns a graph as defined in the package <K>Digraphs</K>/<K>NautyTracesInterface</K>
-DeclareAttribute( "FaceDigraphsGraph", IsPolygonalSurface );
-#! @Arguments surface
-DeclareAttribute( "FaceNautyGraph", IsPolygonalSurface );
-#! @EndGroup
-
-#! @BeginGroup AllSimplicialSurfacesOfDigraph 
-#! @Description 
-#! Return all (vertex-faithful) simplicial surfaces, that have <K>digraph</K> as face graph. 
-#! If <K>digraph</K> is not a face graph of a (vertex-faithful) simplicial surface, the empty list is returned.
-#! The parameter <K>vertexfaithful</K> indicates whether only vertex-faithful simplicial surfaces are searched. 
-#! The parameter <K>vertexfaithful</K> is by default false.
-#! <K>digraph</K> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial 
-#! surface can be identified with certain cycles in the face graph. This method searches possible combinations of cycles, 
-#! with the cycles corresponding to the vertices of a simplicial surface.
-#!
-#!
-#! For example, consider the complete graph on four nodes:
-#! <Alt Only="TikZ">
-#!    \input{Image_FaceGraphTetra.tex}
-#! </Alt>
-#!
-#! @BeginExampleSession
-#! gap> digraph:=CompleteDigraph(4);;
-#! gap> tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
-#! gap> IsIsomorphic(tet1[1],Tetrahedron());
-#! true
-#! @EndExampleSession
-#!
-#! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
-#! But there is another simplicial surface, which is not vertex-faithful:
-#! @BeginExampleSession
-#! gap> list := AllSimplicialSurfacesOfDigraph(digraph,false);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
-#! simplicial surface (3 vertices, 6 edges, and 4 faces)]
-#! gap> tet2 := Filtered(list,IsVertexFaithful);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
-#! gap> IsIsomorphic(tet2[1],Tetrahedron());
-#! true
-#! @EndExampleSession
-#!
-#! Since the method takes a long time for a graph with many cycles, you should only call the method
-#! for digraphs with twenty-two or less nodes for <K>vertexfaithful</K> true. 
-#! For <K>vertexfaithful</K> false you should only call the function for twelve or less nodes. 
-#! In general, it is much faster to only look for vertex-faithful simplicial surfaces.
-#! 
-#! @Arguments digraph[, vertexfaithful]
-#! @Returns a list
-DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
-#! @EndGroup
+#! @EndGroup OnEdgeFacePaths

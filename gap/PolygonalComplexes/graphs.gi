@@ -50,18 +50,18 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
         end
     );
 
-    InstallMethod(FaceDigraphsGraph, "for a polygonal surface",[IsPolygonalSurface],
-	function(surface)
+    InstallMethod(FaceDigraphsGraph, "for a polygonal complex",[IsPolygonalComplex],
+	function(complex)
 		local i, diedges, arcs, loops, graph;
 		
 		arcs := [];
-		diedges := Filtered( FacesOfEdges(surface), i->Length(i)=2);
+		diedges := Filtered( FacesOfEdges(complex), i->Length(i)=2);
 		for i in [1..Length(diedges)] do
 			arcs[2*i-1] := diedges[i];
 			arcs[2*i] := Reversed(diedges[i]);
 		od;
 		
-		loops:=Filtered( FacesOfEdges(surface), i->Length(i)=1);
+		loops:=Filtered( FacesOfEdges(complex), i->Length(i)=1);
 		for i in [1..Length(loops)] do
 			Add(arcs,[loops[i][1],loops[i][1]]);
 		od;
@@ -69,7 +69,7 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 		# Digraphs can only create graphs with vertices [1..n]
 		# Therefore we have to take a subgraph of this graph
 		graph:=DigraphByEdges(arcs);
-		return InducedSubdigraph( graph,Faces(surface) );
+		return InducedSubdigraph( graph,Faces(complex) );
 	end
 );
 fi;
@@ -237,16 +237,16 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         end
     );
 
-    InstallMethod(FaceNautyGraph, "for a polygonal surface",[IsPolygonalSurface],
-	function(surface)
+    InstallMethod(FaceNautyGraph, "for a polygonal complex",[IsPolygonalComplex],
+	function(complex)
 		local i, diedges, loops;
 			
-		diedges:=Filtered(FacesOfEdges(surface),i->Length(i)=2);	
-		loops:=Filtered(FacesOfEdges(surface),i->Length(i)=1);
+		diedges:=Filtered(FacesOfEdges(complex),i->Length(i)=2);	
+		loops:=Filtered(FacesOfEdges(complex),i->Length(i)=1);
 		loops:=List(loops,i->[i[1],i[1]]);
 			
 		return NautyGraphWithNodeLabels( Concatenation(diedges,loops), 
-                Faces(surface) );
+                Faces(complex) );
 	end
     );
 fi;
