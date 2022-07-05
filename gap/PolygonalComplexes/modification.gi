@@ -2160,7 +2160,7 @@ InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
 	comp:=complex;
         vert:=Filtered(Vertices(comp),v->FaceDegreeOfVertex(comp,v)=3);
         if IsMultiTetrahedralSphere(comp) then
-                if not CounterList(CounterOfVertices(comp)) in [[[3,4]],[[3,2],[4,3]]] then
+                if not ListCounter(CounterOfVertices(comp)) in [[[3,4]],[[3,2],[4,3]]] then
                         for v in vert do
                                comp:=TetrahedralReduction(comp,v);
                         od;

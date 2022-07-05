@@ -357,7 +357,7 @@ BindGlobal( "SIMPLICIAL_LIBRARY_INDEX",
             function(counter)
                 local str, sub;
                 str := "";
-                for sub in CounterList(counter) do
+                for sub in ListCounter(counter) do
                     Append(str, "__");
                     Append(str, String(sub[1]));
                     Append(str, "_");

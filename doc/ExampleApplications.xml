@@ -106,7 +106,7 @@ gap&gt; EulerCharacteristic(newSurf);
         can be found out by using <K>CounterOfVertices</K> 
         (<Ref Subsect="CounterOfVertices"/>).
 <Example>
-gap&gt; CounterList(CounterOfVertices(newSurf));
+gap&gt; ListCounter(CounterOfVertices(newSurf));
 [ [ 4, 8 ], [ 5, 2 ], [ 6, 5 ], [ 7, 1 ], [ 11, 1 ] ]
 </Example>
         This tells us that there are 8 vertices of degree 4, for example.

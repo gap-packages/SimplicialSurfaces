@@ -579,8 +579,8 @@ BindGlobal("__SIMPLICIAL_LexicographicCounterComparison",
     function(count1, count2)
         local i, l1, l2, min;
     
-	count1:=CounterList(count1);
-	count2:=CounterList(count2);
+	count1:=ListCounter(count1);
+	count2:=ListCounter(count2);
         l1 := Length(count1);
         l2 := Length(count2);
         if l1 < l2 then
@@ -614,12 +614,12 @@ InstallMethod( \<, "for two polygonal complexes",
         fi;
 
         # Compare VertexCounters lexicographically
-        if CounterList(CounterOfVertices(complex1)) <> CounterList(CounterOfVertices(complex2)) then
+        if ListCounter(CounterOfVertices(complex1)) <> ListCounter(CounterOfVertices(complex2)) then
             return __SIMPLICIAL_LexicographicCounterComparison(CounterOfVertices(complex1), CounterOfVertices(complex2));
         fi;
 
         # Compare FaceCounters lexicographically
-        if CounterList(CounterOfFaces(complex1)) <> CounterList(CounterOfFaces(complex2)) then
+        if ListCounter(CounterOfFaces(complex1)) <> ListCounter(CounterOfFaces(complex2)) then
             return __SIMPLICIAL_LexicographicCounterComparison(CounterOfFaces(complex1), CounterOfFaces(complex2));
         fi;
 

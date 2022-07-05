@@ -280,8 +280,8 @@ DeclareAttribute( "BlockType",IsSimplicialSurface);
 #! face counter(<Ref Subsect="CounterOfFaces"/>), butterfly counter(<Ref Subsect="CounterOfButterflies"/>),
 #! umbrella counter(<Ref Subsect="CounterOfUmbrellas"/>) and three face counter(<Ref Subsect="CounterOfThreeFaces"/>).
 #! For a given surface, the counters save information about the vertex, face or edge degrees.
-#! There are different methods to get these information like <A>CounterList</A>(<Ref Subsect="CounterList"/>),
-#! <A>Numbers</A>(<Ref Subsect="Numbers"/>) and <A>Degrees</A>(<Ref Subsect="Degrees"/>).
+#! There are different methods to get these information like <A>ListCounter</A>(<Ref Subsect="ListCounter"/>),
+#! <A>MultiplicitiesOfCounter</A>(<Ref Subsect="MultiplicitiesOfCounter"/>) and <A>DegreesOfCounter</A>(<Ref Subsect="DegreesOfCounter"/>).
 
 
 #! @BeginGroup EdgeDegreesOfVertices
@@ -416,14 +416,14 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!      Comm="Check whether a given object is a vertex counter"/>
 #!   <Returns><K>true</K> or <K>false</K></Returns>
 #!   <Description>
-#!     The method <K>CounterOfVertices</K> constructs a new vertex counter from
-#!     a polygonal complex. The method <K>IsCounterOfVertices</K>
-#!     checks if a given &GAP;-object represents such a vertex counter.
-#!     The vertex counter saves the information about how many vertices are incident
-#! 	to how many faces. To get this information there are different possibilities.
-#! 	For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>) that
-#! 	returns this information as a list of pairs <E>[degree, number]</E>, where
-#! 	<E>number</E> counts the number of vertices with exactly <E>degree</E>
+#!      The method <K>CounterOfVertices</K> constructs a new vertex counter from
+#!      a polygonal complex. The method <K>IsCounterOfVertices</K>
+#!      checks if a given &GAP;-object represents such a vertex counter.
+#!      The vertex counter saves the information about how many vertices are incident
+#!      to how many faces. To get this information there are different possibilities.
+#!      For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#!      returns this information as a list of pairs <E>[degree, multiplicity]</E>, where
+#! 	<E>multiplicity</E> counts the number of vertices with exactly <E>degree</E>
 #! 	incident faces.
 #!
 #! 	As an example, consider the five-star from the start of chapter
@@ -437,8 +437,8 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! gap> List( FacesOfVertices(fiveStar), Size );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
 #! gap> countVert:=CounterOfVertices(fiveStar);
-#! counter of vertices ([ 2, 5 ] degrees, and [ 5, 1 ] numbers)
-#! gap> CounterList(countVert);
+#! counter of vertices ([ 2, 5 ] degrees, and [ 5, 1 ] multiplicities)
+#! gap> ListCounter(countVert);
 #! [ [ 2, 5 ], [ 5, 1 ] ]
 #! 	@EndExampleSession
 #!   </Description>
@@ -458,9 +458,9 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!	checks if a given &GAP;-object represents such an edge counter.
 #! 	The edge counter saves the information about how many edges have vertices with the same degrees.
 #!	To get this information there are different possibilities.
-#!	For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>) that
-#!	returns this information as a list of pairs <E>[degreeList, number]</E>, where
-#!	<E>number</E> counts the number of edges whose vertices
+#!	For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#!	returns this information as a list of pairs <E>[degreeList, multiplicity]</E>, where
+#!	<E>multiplicity</E> counts the number of edges whose vertices
 #!	are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces.
 #! 	The list <E>degreeList</E> is always sorted but may contain duplicates.
 #!
@@ -473,8 +473,8 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! 	</Alt>
 #! 	@BeginExampleSession
 #! gap> countEdg := CounterOfEdges(fiveStar);
-#! counter of edges ([ [ 2, 2 ], [ 2, 5 ] ] degrees, and [ 5, 5 ] numbers)
-#! gap> CounterList(countEdg);
+#! counter of edges ([ [ 2, 2 ], [ 2, 5 ] ] degrees, and [ 5, 5 ] multiplicities)
+#! gap> ListCounter(countEdg);
 #! [ [ [ 2, 2 ], 5 ], [ [ 2, 5 ], 5 ] ]
 #! 	@EndExampleSession
 #!   </Description>
@@ -494,9 +494,9 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!      checks if a given &GAP;-object represents such a face counter.
 #!      The face counter saves the information about how many faces have vertices with the same degrees.
 #! 	To get this information there are different possibilities.
-#! 	For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>) that
-#! 	returns this information as a list of pairs <E>[degreeList, number]</E>, where
-#! 	<E>number</E> counts the number of faces whose vertex degrees
+#! 	For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#! 	returns this information as a list of pairs <E>[degreeList, multiplicity]</E>, where
+#! 	<E>multiplicity</E> counts the number of faces whose vertex degrees
 #! 	match <E>degreeList</E>, i.e. for every vertex there is exactly one
 #! 	entry of <E>degreeList</E> such that the vertex is incident to this
 #! 	number of faces.
@@ -511,8 +511,8 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! 	</Alt>
 #! 	@ExampleSession
 #! gap> countFac:=CounterOfFaces(fiveStar);
-#! counter of faces ([ [ 2, 2, 5 ] ] degrees, and [ 5 ] numbers) 
-#! gap> CounterList(countFac);
+#! counter of faces ([ [ 2, 2, 5 ] ] degrees, and [ 5 ] multiplicities) 
+#! gap> ListCounter(countFac);
 #! [ [ [ 2, 2, 5 ], 5 ] ]
 #! 	@EndExampleSession
 #!   </Description>
@@ -532,9 +532,9 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!       checks if a given &GAP;-object represents such a butterfly counter.
 #! 	 The butterfly counter saves the information about how many butterflies have vertices with the same degrees.
 #!       To get this information there are different possibilities.
-#!       For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>) that
-#!       returns this information as a list of pairs <E>[[degList1,degList2], number]</E>, where
-#!       <E>number</E> counts the number of butterflies whose vertex degrees match
+#!       For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#!       returns this information as a list of pairs <E>[[degList1,degList2], multiplicity]</E>, where
+#!       <E>multiplicity</E> counts the number of butterflies whose vertex degrees match
 #!       <E>[degList1,degList2]</E>, whereby <E>degList1</E> denotes the
 #!       vertex degree of the vertices that are incident to the edge
 #!       inducing the corresponding butterfly and <E>degList2</E> contains
@@ -550,8 +550,8 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);;
 #! gap> counter:=CounterOfButterflies(s);
 #! counter of butterlies ([ [ [ 4, 4 ], [ 5, 5 ] ], [ [ 4, 5 ], [ 4, 4 ] ] ]
-#! degrees, and [ 5, 10 ] numbers) 
-#! gap> CounterList(counter);
+#! degrees, and [ 5, 10 ] multiplicities) 
+#! gap> ListCounter(counter);
 #! [ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ]
 #!       @EndExampleSession
 #!   </Description>
@@ -571,9 +571,9 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!      checks if a given &GAP;-object represents such an umbrella counter.
 #!      The umbrella counter saves the information about how many umbrellas have vertices with the same degrees.
 #!	To get this information there are different possibilities.
-#! 	For example, the method (<A>CounterList</A> <Ref Subsect="CounterList"/>) that
-#! 	returns this information as a list of pairs <E>[degreeList, number]</E>,
-#! 	where <E>number</E> counts the number of umbrellas whose vertex degrees
+#! 	For example, the method (<A>ListCounter</A> <Ref Subsect="ListCounter"/>) that
+#! 	returns this information as a list of pairs <E>[degreeList, multiplicity]</E>,
+#! 	where <E>multiplicity</E> counts the number of umbrellas whose vertex degrees
 #! 	of vertices contained at the boundary of the umbrella match
 #! 	<E>degreeList</E>, i.e. for every vertex contained in the boundary
 #! 	of an umbrella there is exactly one entry of <E>degreeList</E> such that
@@ -590,8 +590,8 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);;
 #! gap> counter:=CounterOfUmbrellas(s);
 #! counter of umbrellas ([ [ 4, 6, 4, 6 ], [ 4, 4, 4, 4, 4, 4 ] ] degrees,
-#! and [ 6, 2 ] numbers)
-#! gap> CounterList(counter);
+#! and [ 6, 2 ] multiplicities)
+#! gap> ListCounter(counter);
 #! [ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
 #! @EndExampleSession
 #!   </Description>
@@ -613,9 +613,9 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #!      checks if a given &GAP;-object represents such a three face counter.
 #!	The three-face counter saves the information about how many three-faces have vertices with the same degrees.
 #!	To get this information there are different possibilities.
-#! 	For example, the method <A>CounterList</A> (<Ref Subsect="CounterList"/>) that
+#! 	For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
 #! 	returns this information as a list of pairs
-#! 	<E>[[deg,degreeList1,degreeList2], number]</E>, whereby
+#! 	<E>[[deg,degreeList1,degreeList2], multiplicity]</E>, whereby
 #! 	<E>[deg,degreeList1,degreeList2]</E> satisfies the following property:
 #! 	Assume that the vertices <E>v1,v2,v3</E> are all incident to the same
 #! 	face and there exist exactly two vertices <E>v4,v5</E> so that <E>v4</E>
@@ -629,7 +629,7 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! 	first resp. second entry of <E>degreeList1</E> is the vertex degree of
 #! 	<E>v2</E> resp <E>v3</E>. And the first resp. second
 #! 	entry of <E>degreeList2</E> is the vertex degree of <E>v4</E> resp.
-#! 	<E>v5</E>. The integer <E>number</E> counts the number of adjacent
+#! 	<E>v5</E>. The integer <E>multiplicity</E> counts the number of adjacent
 #! 	three-faces whose vertex degrees match <E>degreeList</E>.
 #!
 #! 	The different lists in <E>degreeList</E> are not sorted but may
@@ -645,8 +645,8 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);;
 #! gap> counter:=CounterOfThreeFaces(s);
 #! counter of three faces ([ [ 4, [ 4, 6 ], [ 6, 4 ] ], [ 6, [ 4, 4 ], [ 4, 4 ] ] ]
-#! degrees, and [ 24, 12 ] numbers)
-#! gap> CounterList(counter);
+#! degrees, and [ 24, 12 ] multiplicities)
+#! gap> ListCounter(counter);
 #! [ [ [ 4, [ 4, 6 ], [ 6, 4 ] ], 24 ], [ [ 6, [ 4, 4 ], [ 4, 4 ] ], 12 ] ]
 #! @EndExampleSession
 #!   </Description>
@@ -666,6 +666,24 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #!   </Description>
 #! </ManSection>
 
+#! @BeginGroup
+#! @Description
+#! Returns the type of the counter. That means if <A>counter<A/> is a
+#! CounterOfVertices(<Ref Subsect="CounterOfVertices"/>), CounterOfEdges(<Ref Subsect="CounterOfEdges"/>),
+#! CounterOfFaces(<Ref Subsect="CounterOfFaces"/>), CounterOfButterflies(<Ref Subsect="CounterOfButterflies"/>),
+#! CounterOfUmbrellas(<Ref Subsect="CounterOfUmbrellas"/>), CounterOfThreeFaces(<Ref Subsect="CounterOfThreeFaces"/>) 
+#! or a not specified counter object.
+#! 
+#! @BeginExampleSession
+#! gap> counter:=CounterOfVertices(fiveStar);;
+#! gap> TypeOfCounter(counter);
+#! CounterOfVertices
+#! @EndExampleSession
+#! 
+#! @Arguments counter
+DeclareOperation("TypeOfCounter", [IsCounter]);
+#! @EndGroup
+
 #! @BeginGroup AssociatedPolygonalComplex
 #! @Description
 #! Return the polygonal complex for which the given counter is
@@ -682,76 +700,76 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 DeclareAttribute( "AssociatedPolygonalComplex", IsCounter );
 #! @EndGroup
 
-#! @BeginGroup CounterList
+#! @BeginGroup ListCounter
 #! @Description
 #! Returns the information about different counters.
 #! For a vertex counter the method returns the list of pairs
-#! <E>[degree, number]</E> for <E>counter</E>.
+#! <E>[degree, multiplicity]</E> for <E>counter</E>.
 #! For an edge counter, a face counter and an umbrella counter
-#! the method returns the list of pairs <E>[degreeList, number]</E>.
-#! For a butterfly counter the method returns the list of pairs <E>[[degList1,degList2], number]</E> and
-#! for a three face counter the method returns the list of pairs <E>[[deg,degList1,degList2], number]</E>.
+#! the method returns the list of pairs <E>[degreeList, multiplicity]</E>.
+#! For a butterfly counter the method returns the list of pairs <E>[[degList1,degList2], multiplicity]</E> and
+#! for a three face counter the method returns the list of pairs <E>[[deg,degList1,degList2], multiplicity]</E>.
 #! @BeginExampleSession
 #! gap> countFac:=CounterOfFaces(fiveStar);;
-#! gap> CounterList(countFac);
+#! gap> ListCounter(countFac);
 #! [ [ [ 2, 2, 5 ], 5 ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of pairs
 #! @Arguments counter
-DeclareAttribute("CounterList",IsCounter);
+DeclareAttribute("ListCounter",IsCounter);
 #! @EndGroup
 
-#! @BeginGroup Numbers
+#! @BeginGroup MultiplicitiesOfCounter
 #! @Description
-#! The method <A>Numbers</A> returns the second entry of the tupels contained in the list obtained from <A>CounterList</A>.
+#! The method <A>Multiplicities</A> returns the second entry of the tupels contained in the list obtained from <A>ListCounter</A>.
 #! This means, for example, that the method returns how many vertices have the same degree if <A>counter</A> is a vertex counter.
-#! The method <A>NumberOfDegree</A> returns the number for the given <A>degree</A> or <A>degreeList</A> of <A>counter</A>.
-#! The method <A>NumberOfDegrees</A> returns a list <A>numbers</A> for a vertex counter where <A>numbers[i]</A>
+#! The method <A>MultiplicityOfDegree</A> returns the number for the given <A>degree</A> or <A>degreeList</A> of <A>counter</A>.
+#! The method <A>MultiplicitiesOfDegrees</A> returns a list <A>multiplicities</A> for a vertex counter where <A>multiplicities[i]</A>
 #! is the number of times a vertex has degree <A>i</A>.
 #! @BeginExampleSession
 #! gap> counterEd:=CounterOfEdges(fiveStar);;
-#! gap> Numbers(counterEd);
+#! gap> MultiplicitiesOfCounter(counterEd);
 #! [ 5, 5 ]
-#! gap> NumberOfDegree(counterEd,[2,5]);
+#! gap> MultiplicityOfDegree(counterEd,[2,5]);
 #! 5
 #! gap> counterVert:=CounterOfVertices(fiveStar);;
-#! gap> NumberOfDegrees(counterVert);
+#! gap> MultiplicitiesOfDegrees(counterVert);
 #! [ , 5,,, 1 ]
 #! @EndExampleSession
 #! @Returns a list of positive integers/a positive integer
 #! @Arguments counter
-DeclareOperation("Numbers",[IsCounter]);
+DeclareOperation("MultiplicitiesOfCounter",[IsCounter]);
 #! @Arguments counterVert
-DeclareOperation("NumberOfDegrees",[IsCounterOfVertices]);
+DeclareOperation("MultiplicitiesOfDegrees",[IsCounterOfVertices]);
 #! @Arguments counter, degreeList
-DeclareOperation("NumberOfDegree",[IsCounter, IsList]);
+DeclareOperation("MultiplicityOfDegree",[IsCounter, IsList]);
 #! @Arguments counterVert, degree
-DeclareOperation("NumberOfDegree",[IsCounterOfVertices, IsPosInt]);
+DeclareOperation("MultiplicityOfDegree",[IsCounterOfVertices, IsPosInt]);
 #! @EndGroup
 
-#! @BeginGroup Degrees
+#! @BeginGroup DegreesOfCounter
 #! @Description
-#! The method <A>Degrees</A> returns the first entry of tupels contained in the list obtained from <A>CounterList</A>.
+#! The method <A>Degrees</A> returns the first entry of tupels contained in the list obtained from <A>ListCounter</A>.
 #! This means, for example, that if <A>counter</A> is a vertex counter, the method returns what the different degrees of the vertices are.
-#! The method <A>DegreesOfNumbers</A> returns a list <A>degrees</A> for <A>counter</A>, where <A>degrees[i]</A>
+#! The method <A>DegreesOfMultiplicities</A> returns a list <A>degrees</A> for <A>counter</A>, where <A>degrees[i]</A>
 #! is the degree or degreeList that occurs <A>i</A> times.
 #! @BeginExampleSession
 #! gap> counterEd:=CounterOfEdges(fiveStar);;
-#! gap> Degrees(counterEd);
+#! gap> DegreesOfCounter(counterEd);
 #! [ [ 2, 2 ], [ 2, 5 ] ]
-#! gap> DegreesOfNumbers(counterEd);
+#! gap> DegreesOfMultiplicities(counterEd);
 #! [ ,,,, [ [ 2, 2 ], [ 2, 5 ] ] ]
-#! gap> DegreesOfNumber(counterEd,5);
+#! gap> DegreesOfMultiplicity(counterEd,5);
 #! [ [ 2, 2 ], [ 2, 5 ] ]
 #! @EndExampleSession
 #! @Returns a list of positive integers
 #! @Arguments counter
-DeclareOperation("Degrees",[IsCounter]);
+DeclareOperation("DegreesOfCounter",[IsCounter]);
 #! @Arguments counter
-DeclareOperation("DegreesOfNumbers",[IsCounter]);
-#! @Arguments counter, number
-DeclareOperation("DegreesOfNumber",[IsCounter, IsPosInt]);
+DeclareOperation("DegreesOfMultiplicities",[IsCounter]);
+#! @Arguments counter, multiplicity
+DeclareOperation("DegreesOfMultiplicity",[IsCounter, IsPosInt]);
 #! @EndGroup
 
 #! @Section Types of faces

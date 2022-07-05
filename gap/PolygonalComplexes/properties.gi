@@ -92,15 +92,15 @@ InstallMethod( TetrahedralType, "for a twisted polygonal complex",
 	comp:=complex;
 	tetratype:=[];
 	if IsMultiTetrahedralSphere(complex) then
-		while not CounterList(CounterOfVertices(comp)) in [[[3,4]],[[3,2],[4,3]]] do
+		while not ListCounter(CounterOfVertices(comp)) in [[[3,4]],[[3,2],[4,3]]] do
 			Add(tetratype,Length(Filtered(Vertices(comp),
 				v->FaceDegreeOfVertex(comp,v)=3)));
 			comp:=InnerMultiTetrahedralSphere(comp);
 		od;
-		if CounterList(CounterOfVertices(comp))=[[3,4]] then 
+		if ListCounter(CounterOfVertices(comp))=[[3,4]] then 
 			Add(tetratype,1);
 		fi;
-		if CounterList(CounterOfVertices(comp))=[[3,2],[4,3]] then
+		if ListCounter(CounterOfVertices(comp))=[[3,2],[4,3]] then
 			Add(tetratype,2);
 		fi;
 	else
@@ -270,7 +270,7 @@ InstallMethod( CounterOfVertices,
     function( complex )
                 local counter;
 		counter:=Objectify(CounterOfVerticesType,rec());
-                SetCounterList(counter,__SIMPLICIAL_VertexCounter(complex));
+                SetListCounter(counter,__SIMPLICIAL_VertexCounter(complex));
 		SetAssociatedPolygonalComplex(counter,complex);
                 return counter;
     end
@@ -298,7 +298,7 @@ InstallMethod( CounterOfEdges,
     function( complex )
                 local counter;
                 counter:=Objectify(CounterOfEdgesType,rec());
-                SetCounterList(counter,__SIMPLICIAL_EdgeCounter(complex));
+                SetListCounter(counter,__SIMPLICIAL_EdgeCounter(complex));
 		SetAssociatedPolygonalComplex(counter,complex);
                 return counter;
     end
@@ -326,7 +326,7 @@ InstallMethod( CounterOfFaces,
     function( complex )
                 local counter;
                 counter:=Objectify(CounterOfFacesType,rec());
-                SetCounterList(counter,__SIMPLICIAL_FaceCounter(complex));
+                SetListCounter(counter,__SIMPLICIAL_FaceCounter(complex));
 		SetAssociatedPolygonalComplex(counter,complex);
                 return counter;
     end
@@ -365,7 +365,7 @@ InstallMethod( CounterOfButterflies,
     function( surf )
 	local counter;
 	counter:=Objectify(CounterOfButterfliesType,rec());
-	SetCounterList(counter,__SIMPLICIAL_ButterflyCounter(surf));
+	SetListCounter(counter,__SIMPLICIAL_ButterflyCounter(surf));
 	SetAssociatedPolygonalComplex(counter,surf);
 	return counter;
     end 
@@ -474,7 +474,7 @@ InstallMethod( CounterOfUmbrellas,
     function( surf )
 	local counter;
 	counter:=Objectify(CounterOfUmbrellasType,rec());
-	SetCounterList(counter,__SIMPLICIAL_UmbrellaCounter(surf));
+	SetListCounter(counter,__SIMPLICIAL_UmbrellaCounter(surf));
 	SetAssociatedPolygonalComplex(counter,surf);
 	return counter;
     end 
@@ -524,18 +524,18 @@ InstallMethod( CounterOfThreeFaces,
     function( surf )
 	local counter;
 	counter:=Objectify(CounterOfThreeFacesType,rec());
-	SetCounterList(counter,__SIMPLICIAL_ThreeFaceCounter(surf));
+	SetListCounter(counter,__SIMPLICIAL_ThreeFaceCounter(surf));
 	SetAssociatedPolygonalComplex(counter,surf);
 	return counter;
     end 
 );
 
-InstallMethod( NumberOfDegrees,
+InstallMethod( MultiplicitiesOfDegrees,
     "method for a counter of vertices",
     [ IsCounterOfVertices ],
     function( counter)
 		local counterList, maxDegree, numbers, c;
-		counterList:=CounterList(counter);
+		counterList:=ListCounter(counter);
 		maxDegree:=Maximum(List(counterList,c->c[1]));
 		numbers:=EmptyPlist(maxDegree);
 		for c in counterList do
@@ -545,13 +545,13 @@ InstallMethod( NumberOfDegrees,
     end
 );
 
-InstallOtherMethod( NumberOfDegree,
+InstallOtherMethod( MultiplicityOfDegree,
     "method for a vertex counter and a degree",
     [ IsCounterOfVertices, IsPosInt],
     function( counter, degree)
                 local tupel;
-                if degree in Degrees(counter) then
-                        for tupel in CounterList(counter) do
+                if degree in DegreesOfCounter(counter) then
+                        for tupel in ListCounter(counter) do
                                 if tupel[1]=degree then
                                         return tupel[2];
                                 fi;
@@ -563,13 +563,13 @@ InstallOtherMethod( NumberOfDegree,
     end
 );
 
-InstallMethod( NumberOfDegree,
-    "method for a vertex counter and a degree",
+InstallMethod( MultiplicityOfDegree,
+    "method for a counter and a degree list",
     [ IsCounter, IsList],
     function( counter, degree)
                 local tupel;
-                if degree in Degrees(counter) then
-                        for tupel in CounterList(counter) do
+                if degree in DegreesOfCounter(counter) then
+                        for tupel in ListCounter(counter) do
                                 if tupel[1]=degree then
                                         return tupel[2];
                                 fi;
@@ -581,26 +581,26 @@ InstallMethod( NumberOfDegree,
     end
 );
 
-InstallMethod( Degrees,
+InstallMethod( DegreesOfCounter,
     "method for a counter",
     [ IsCounter ],
     function(counter)
-		return List(CounterList(counter),c->c[1]);
+		return List(ListCounter(counter),c->c[1]);
     end
 );
-InstallMethod( Numbers,
+InstallMethod( MultiplicitiesOfCounter,
     "method for a counter",
     [ IsCounter ],
     function( counter)
-		return List(CounterList(counter),c->c[2]);
+		return List(ListCounter(counter),c->c[2]);
     end
 );
-InstallMethod( DegreesOfNumbers,
+InstallMethod( DegreesOfMultiplicities,
     "method for a counter",
     [ IsCounter ],
     function(counter)
 		local counterList, number, degrees, c;
-		counterList:=CounterList(counter);
+		counterList:=ListCounter(counter);
 		number:=Maximum(List(counterList,c->c[2]));
 		degrees:=EmptyPlist(number);
 		for c in counterList do
@@ -613,15 +613,15 @@ InstallMethod( DegreesOfNumbers,
 		return degrees;
     end
 );
-InstallMethod( DegreesOfNumber,
+InstallMethod( DegreesOfMultiplicity,
     "method for a counter and an integer",
     [ IsCounter, IsPosInt],
-    function( counter, number)
-		if IsBound(DegreesOfNumbers(counter)[number]) then
-			return DegreesOfNumbers(counter)[number];
+    function( counter, multiplicity)
+		if IsBound(DegreesOfMultiplicities(counter)[multiplicity]) then
+			return DegreesOfMultiplicities(counter)[multiplicity];
 		else 
 			Error(Concatenation("DegreesOfNumber: Given counter ", String(counter), 
-                " does not have ", String(number), " of same degree." ));
+                " does not have ", String(multiplicity), " of same degree." ));
 		fi;
     end
 );
@@ -658,6 +658,13 @@ BindGlobal( "__SIMPLICIAL_CounterName",
     end
 );
 
+InstallMethod(TypeOfCounter, "for a counter",
+	[IsCounter],
+	function(counter)
+		 Print(__SIMPLICIAL_CounterName(counter,true)); 
+	end
+);
+
 InstallOtherMethod( ViewInformation, "for a counter", 
     [IsCounter],
     function(counter)
@@ -671,9 +678,9 @@ InstallOtherMethod( ViewInformation, "for a counter",
         CloseStream(out);
         Add( strList, [str, 0] );
 
-        Add( strList, [Concatenation(String(Degrees(counter)), " degrees"), 1] );
+        Add( strList, [Concatenation(String(DegreesOfCounter(counter)), " degrees"), 1] );
         Add( strList, [", and ", 0] );
-        Add( strList, [Concatenation(String(Numbers(counter)), " numbers"), 2] );
+        Add( strList, [Concatenation(String(MultiplicitiesOfCounter(counter)), " multiplicities"), 2] );
         Add( strList, [")", 0] );
 
         return strList;
@@ -705,12 +712,46 @@ InstallMethod( String, "for a counter", [IsCounter],
 	PrintTo(out, "( ");
         PrintTo(out, AssociatedPolygonalComplex(counter));
         PrintTo(out, ", ");
-        PrintTo(out, CounterList(counter));
+        PrintTo(out, ListCounter(counter));
         PrintTo(out, ")");
 
         CloseStream(out);
         return str;
     end
+);
+
+InstallOtherMethod(DisplayInformation, "for a counter", [IsCounter],
+    function(counter)
+	local strList, str, out;
+	strList:=[];
+	str := "";
+        out := OutputTextString(str, true);
+        PrintTo(out, __SIMPLICIAL_CounterName(counter, true) );
+	PrintTo(out,  "\n");
+	Add( strList, [ str, 0 ] );
+	
+	Add( strList, [ Concatenation(
+            "    DegreesOfCounter : ",
+            String(DegreesOfCounter(counter)), "\n"), 1 ] );
+	Add( strList, [ Concatenation(
+            "    MultiplicitiesOfCounter : ",
+            String(MultiplicitiesOfCounter(counter)), "\n"), 2 ] );
+	Add( strList, [ Concatenation(
+            "    ListCounter : ", 
+            String(ListCounter(counter)), "\n"), 3 ] );
+	return strList;
+    end
+);
+
+InstallMethod(Display, "for a counter", [IsCounter],
+    function(counter)
+    	if SIMPLICIAL_COLOURS_ON then
+               __SIMPLICIAL_PrintColourString( DisplayInformation(counter), 
+                    [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
+            else
+               Print(__SIMPLICIAL_UncolouredString( DisplayInformation(counter) ));
+            fi;
+    end 
 );
 ##
 ##      End of degrees
