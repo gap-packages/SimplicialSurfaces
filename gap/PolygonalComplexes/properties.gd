@@ -669,9 +669,9 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #!   </Description>
 #! </ManSection>
 
-#! @BeginGroup
+#! @BeginGroup TypeOfCounter
 #! @Description
-#! Returns the type of the counter. That means if <A>counter<A/> is a
+#! Returns the type of the counter. That means if <A>counter</A> is a
 #! CounterOfVertices(<Ref Subsect="CounterOfVertices"/>), CounterOfEdges(<Ref Subsect="CounterOfEdges"/>),
 #! CounterOfFaces(<Ref Subsect="CounterOfFaces"/>), CounterOfButterflies(<Ref Subsect="CounterOfButterflies"/>),
 #! CounterOfUmbrellas(<Ref Subsect="CounterOfUmbrellas"/>), CounterOfThreeFaces(<Ref Subsect="CounterOfThreeFaces"/>) 
