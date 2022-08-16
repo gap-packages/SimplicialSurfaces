@@ -460,7 +460,7 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 #######################################
 ##
-## UmbreallaDescriptors 
+##  UmbreallaDescriptors 
 ##
 
 
@@ -1633,6 +1633,160 @@ end);
 
 ##
 ##  End UmbrellaDescriptors
+##
+#######################################
+
+
+
+#######################################
+##
+##  DressGroups
+##
+
+
+#############################################################################
+##
+#F  SimplicalSurfaceByDressGroup . . . . . . . . .  .surface by dress group
+##
+##  Test whether the permutation group <D> defines a simplicial surface whose
+##  Dress group is <D> and if so, return the surface.
+##
+##
+InstallMethod( SimplicialSurfaceByDressGroup,
+    "for a permutation group",  [IsPermGroup], function(grp) 
+
+        local vertices, edges, faces, D0, D1, D2, dom,
+              t1, t2, t3, v, e, f, i, j, gens, infostr,
+              verticesofedge, facesofedges, edgesofvertices;
+
+        dom := MovedPoints(grp);
+        gens := GeneratorsOfGroup(grp);
+        if Length(gens)<>3 then
+            return false;
+        fi;
+
+        t0 := gens[1];
+        t1 := gens[2];
+        t2 := gens[3];
+        D0 := Group( [t1, t2] );
+        D1 := Group( [t0, t2] );
+        D2 := Group( [t0, t1] );
+
+        infostr := "the dress relations are not satisfied.";
+        # t0 and t1 are to have no fixed points
+        if Size(MovedPoints(t0)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t1)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t0*t1)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t0*t2)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t1*t2)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+
+
+        # all generators must be involutions
+        if IsOne(t0) or IsOne(t1) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if not IsOne(t0^2) or not IsOne(t1^2) or not IsOne(t2^2) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if IsOne( t0*t2) or not IsOne( (t0*t2)^2 ) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if IsOne( t0*t1) or not IsOne( (t0*t1)^3 ) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        # now we know that the group satisfies the dress relations
+
+        vertices := Orbits( D0, dom);
+        edges := Orbits( D1, dom);
+        faces := Orbits( D2, dom);
+
+        # now we test necessary conditions that we
+        # may have a surface
+        for f in faces do
+            if Length(f) <> 6 then
+                Info( InfoSimplicial,2, "Faces must have 6 flags" );
+                return false;
+            fi;
+        od;
+        for e in edges do
+            if not Length(e) in [2,4] then
+                Info( InfoSimplicial,2, "Edges must have 2 or 4 flags" );
+                return false;
+            fi;
+
+            # check that the vertices of e are all different
+            verticesofedge := Set([]);
+            for i in [ 1 .. Length(e) ] do
+                  for j in [ 1 .. Length(vertices)] do
+                      if e[i] in vertices[j] then
+                          AddSet(verticesofedge,j);
+                      fi;
+                  od;
+            od;
+            if Length(verticesofedge) <> 2 then
+                Info( InfoSimplicial,2, "Edges must have 2 vertices" );
+                return false;
+            fi;
+        od;
+
+        edgesofvertices := [];
+        for i in [1..Length(vertices)] do
+            v := vertices[i];
+            edgesofvertices[i]:=[];
+            for j in [ 1 .. Length(edges) ] do
+                e := edges[j];
+                if Intersection(e,v) <> [] then
+                  Add(edgesofvertices[i],j);
+                fi;
+            od;
+            if Length(edgesofvertices[i])<2 then
+                Info( InfoSimplicial,2, "Vertices must have at least 2 edges" );
+                return false;
+            fi;
+        od; 
+
+        facesofedges := [];
+        for i in [1..Length(edges)] do
+            e := edges[i];
+            facesofedges[i]:=[];
+            for j in [ 1 .. Length(faces) ] do
+                f := faces[j];
+                if Intersection(e,f) <> [] then
+                  Add(facesofedges[i],j);
+                  if Length(facesofedges[i])>2 then
+                      Info( InfoSimplicial,2, "Edges can have only 2 faces" );
+                      return false;
+                  fi;
+                fi;
+            od;
+        od; 
+
+    return SimplicialSurfaceByUpwardIncidence(edgesofvertices,facesofedges);
+end;
+
+
+
+##
+##  End DressGroups
 ##
 #######################################
 
