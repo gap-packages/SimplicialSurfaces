@@ -1204,23 +1204,34 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! @EndGroup
 
 
-#! @Section Dress Group 
+#! @Section Constructing surfaces via their Dress Group 
 #!
-#! A way of constructing surfaces is by computing its dress group. 
+#! In some constructions a surface may arrise from the knowledge
+#! of its Dress Group, see Section <Ref Sect="Section_Flags_DressGroup"/>.
+#! In this case, the surface can be reconstructed from its Dress group
+#! <M>D = \langle \theta_0, \theta_1, \theta_2</M> by computing the
+#! orbits of the dihedral subgroups
+#! <M>D_0 = \langle \theta_1, \theta_2\rangle</M>,
+#! <M>D_1 = \langle \theta_0, \theta_2\rangle</M>,
+#! <M>D_2 = \langle \theta_0, \theta_1\rangle</M>,
+#! where $\theta_0, \theta_1, \theta_2$ are the  Dress Involutions, 
+#! see <Ref Subsect="DressInvolutions"/>.
+#!
 #! @SectionLabel Constructors_DressGroup
 #!
 #! @BeginGroup
 #! @Description
 #! This method takes as input a permutation group <A>dress</A>,  and tests,
-#! whether <A>dress</A> is the Dress Group of a simplicial surface <A>surf</A>.
+#! whether <A>dress</A> is the Dress Group of a simplicial surface <A>surf</A>,
+#! see Section <Ref Sect="Section_Flags_DressGroup"/>.
 #! If this is the case, <A>surf</A> is constructed and returned. 
-#! (<Ref Sect="Section_Constructors_Umbrellas"/>).
 #!
 #! @BeginExampleSession
 #! gap> tet := Tetrahedron();;
 #! gap> dress := DressGroup(tet);
-#! Group([ (1,7)(2,8)(3,13)(4,14)(5,19)(6,20)(9,15)(10,16)(11,21)(12,22)(17,23)(18,24), (1,3)(2,5)(4,6)(7,9)(8,11)(10,12)(13,15)(14,18)(16,17)(19,21)(20,24)(22,23), (1,2)
-#!   (3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24) ])
+#! Group([ (1,7)(2,8)(3,13)(4,14)(5,19)(6,20)(9,15)(10,16)(11,21)(12,22)(17,23)(18,24), 
+#!   (1,3)(2,5)(4,6)(7,9)(8,11)(10,12)(13,15)(14,18)(16,17)(19,21)(20,24)(22,23), 
+#!   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24) ])
 #! gap> surf  := SimplicialSurfaceByDressGroup(dress);
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)
 #! gap>  IsIsomorphic(surf, tet);

@@ -1656,7 +1656,7 @@ InstallMethod( SimplicialSurfaceByDressGroup,
     "for a permutation group",  [IsPermGroup], function(grp) 
 
         local vertices, edges, faces, D0, D1, D2, dom,
-              t1, t2, t3, v, e, f, i, j, gens, infostr,
+              t0, t1, t2,  v, e, f, i, j, gens, infostr,
               verticesofedge, facesofedges, edgesofvertices;
 
         dom := MovedPoints(grp);
@@ -1781,7 +1781,7 @@ InstallMethod( SimplicialSurfaceByDressGroup,
         od; 
 
     return SimplicialSurfaceByUpwardIncidence(edgesofvertices,facesofedges);
-end;
+end);
 
 
 
