@@ -1209,13 +1209,17 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! In some constructions a surface may arrise from the knowledge
 #! of its Dress Group, see Section <Ref Sect="Section_Flags_DressGroup"/>.
 #! In this case, the surface can be reconstructed from its Dress group
-#! <M>D = \langle \theta_0, \theta_1, \theta_2</M> by computing the
+#! <M>D = \langle \theta_0, \theta_1, \theta_2\rangle</M> by computing the
 #! orbits of the dihedral subgroups
 #! <M>D_0 = \langle \theta_1, \theta_2\rangle</M>,
 #! <M>D_1 = \langle \theta_0, \theta_2\rangle</M>,
 #! <M>D_2 = \langle \theta_0, \theta_1\rangle</M>,
 #! where $\theta_0, \theta_1, \theta_2$ are the  Dress Involutions, 
-#! see <Ref Subsect="DressInvolutions"/>.
+#! see <Ref Subsect="DressInvolutions"/>. In particular, 
+#! the vertices correspond to the orbits of <M>D_0</M>,
+#! the edges correspond to the orbits of <M>D_1</M>,
+#! the faces correspond to the orbits of <M>D_2</M>, and
+#! incidence is given by non-empty set-intersection.
 #!
 #! @SectionLabel Constructors_DressGroup
 #!
@@ -1229,7 +1233,7 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! @BeginExampleSession
 #! gap> tet := Tetrahedron();;
 #! gap> dress := DressGroup(tet);
-#! Group([ (1,7)(2,8)(3,13)(4,14)(5,19)(6,20)(9,15)(10,16)(11,21)(12,22)(17,23)(18,24), 
+#! Group([(1,7)(2,8)(3,13)(4,14)(5,19)(6,20)(9,15)(10,16)(11,21)(12,22)(17,23)(18,24), 
 #!   (1,3)(2,5)(4,6)(7,9)(8,11)(10,12)(13,15)(14,18)(16,17)(19,21)(20,24)(22,23), 
 #!   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24) ])
 #! gap> surf  := SimplicialSurfaceByDressGroup(dress);

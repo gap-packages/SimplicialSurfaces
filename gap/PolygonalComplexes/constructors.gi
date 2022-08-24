@@ -1656,7 +1656,7 @@ InstallMethod( SimplicialSurfaceByDressGroup,
     "for a permutation group",  [IsPermGroup], function(grp) 
 
         local vertices, edges, faces, D0, D1, D2, dom,
-              t0, t1, t2,  v, e, f, i, j, gens, infostr,
+              t0, t1, t2,  v, e, f, i, j, gens, infostr, inci,
               verticesofedge, facesofedges, edgesofvertices;
 
         dom := MovedPoints(grp);
@@ -1727,58 +1727,49 @@ InstallMethod( SimplicialSurfaceByDressGroup,
                 return false;
             fi;
         od;
-        for e in edges do
+
+        facesofedges := List(edges,i->[]);
+        edgesofvertices := List(vertices,i->[]);
+        for i in [1..Length(edges)] do
+            e := edges[i];
             if not Length(e) in [2,4] then
                 Info( InfoSimplicial,2, "Edges must have 2 or 4 flags" );
                 return false;
             fi;
 
-            # check that the vertices of e are all different
-            verticesofedge := Set([]);
-            for i in [ 1 .. Length(e) ] do
-                  for j in [ 1 .. Length(vertices)] do
-                      if e[i] in vertices[j] then
-                          AddSet(verticesofedge,j);
-                      fi;
-                  od;
+            # find the faces on e
+            for j in [ 1 .. Length(faces) ] do
+                inci := Intersection(e,faces[j]);
+                if inci <> [] then
+		    # check that in this case 2 common flags exist
+		    if Length(inci) <> 2 then
+                        Info( InfoSimplicial,2, "Faces and edges can have only 2 common flags" );
+			return false;
+	            fi;
+                    Add(facesofedges[i],j);
+                fi;
             od;
-            if Length(verticesofedge) <> 2 then
-                Info( InfoSimplicial,2, "Edges must have 2 vertices" );
-                return false;
-            fi;
+
+            # find the vertices on e
+            for j in [ 1 .. Length(vertices)] do
+                  if Intersection(e,vertices[j]) <> [] then
+                      Add(edgesofvertices[j],i);
+                  fi;
+            od;
         od;
 
-        edgesofvertices := [];
-        for i in [1..Length(vertices)] do
-            v := vertices[i];
-            edgesofvertices[i]:=[];
-            for j in [ 1 .. Length(edges) ] do
-                e := edges[j];
-                if Intersection(e,v) <> [] then
-                  Add(edgesofvertices[i],j);
+        # now check that what we have is consistent
+	for i in [1..Length(faces)] do
+            for j in [ 1 .. Length(vertices)] do
+	        inci := Intersection(faces[i],vertices[j]);
+                if not Length(inci) in [0, 2] then
+                    Info( InfoSimplicial,2,
+		        "Faces and vertices can have only 2 common flags" );
+		    return false;
                 fi;
             od;
-            if Length(edgesofvertices[i])<2 then
-                Info( InfoSimplicial,2, "Vertices must have at least 2 edges" );
-                return false;
-            fi;
-        od; 
+	od;
 
-        facesofedges := [];
-        for i in [1..Length(edges)] do
-            e := edges[i];
-            facesofedges[i]:=[];
-            for j in [ 1 .. Length(faces) ] do
-                f := faces[j];
-                if Intersection(e,f) <> [] then
-                  Add(facesofedges[i],j);
-                  if Length(facesofedges[i])>2 then
-                      Info( InfoSimplicial,2, "Edges can have only 2 faces" );
-                      return false;
-                  fi;
-                fi;
-            od;
-        od; 
 
     return SimplicialSurfaceByUpwardIncidence(edgesofvertices,facesofedges);
 end);
