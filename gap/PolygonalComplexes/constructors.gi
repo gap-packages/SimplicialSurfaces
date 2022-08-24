@@ -1657,7 +1657,7 @@ InstallMethod( SimplicialSurfaceByDressGroup,
 
         local vertices, edges, faces, D0, D1, D2, dom,
               t0, t1, t2,  v, e, f, i, j, gens, infostr, inci,
-              verticesofedge, facesofedges, edgesofvertices;
+              facesofedges, edgesofvertices;
 
         dom := MovedPoints(grp);
         gens := GeneratorsOfGroup(grp);
