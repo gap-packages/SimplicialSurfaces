@@ -460,13 +460,13 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 #######################################
 ##
-##  UmbreallaDescriptors 
+##  UmbrellaDescriptors 
 ##
 
 
 #############################################################################
 ##
-#F  UmbrellaDescriptorOfSurface . . . . . compute the umbrella descriptor
+##  UmbrellaDescriptorOfSurface . . . . . compute the umbrella descriptor
 ##
 ##
 InstallMethod( UmbrellaDescriptorOfSurface, 
