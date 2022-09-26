@@ -1241,6 +1241,26 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! gap>  IsIsomorphic(surf, tet);
 #! true
 #! @EndExampleSession
+#!
+#! If the permutation group <A>dress</A> passed as an argument does not
+#! satisfy the conditions of being a dress group of a surface, 
+#! <A>false</A> is returned.
+#! @BeginExampleSession
+#! gap> SetInfoLevel(InfoSimplicial,3);
+#! gap> grp:=Group([(1,2)(3,4)(5,6)(7,8),(1,2)(3,5)(4,7)(6,8),(1,3)(2,4)(5,7)(6,8)]);  
+#! Group([ (1,2)(3,4)(5,6)(7,8), (1,2)(3,5)(4,7)(6,8), (1,3)(2,4)(5,7)(6,8) ])
+#! gap> SimplicialSurfaceByDressGroup(grp);
+#! #I  the dress relations are not satisfied.
+#! false
+#! gap> gens := [ ( 1, 6)( 2, 5)( 3, 4)( 7,12)( 8,11)( 9,10), 
+#! >   ( 1, 8)( 2, 7)( 3,12)( 4, 5)( 6, 9)(10,11), 
+#! >   ( 1,12)( 2,11)( 3,10)( 4, 9)( 5, 8)( 6, 7) ];
+#! [ (1,6)(2,5)(3,4)(7,12)(8,11)(9,10), (1,8)(2,7)(3,12)(4,5)(6,9)(10,11), 
+#!  (1,12)(2,11)(3,10)(4,9)(5,8)(6,7) ]
+#! gap> SimplicialSurfaceByDressGroup(Group(gens));
+#! #I  Faces and vertices can have only 2 common flags
+#! false
+#! @EndExampleSession
 #! @Returns a simplicial surface or false 
 #! @Arguments dress
 DeclareOperation( "SimplicialSurfaceByDressGroup",[IsPermGroup]);
