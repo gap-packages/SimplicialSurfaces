@@ -371,7 +371,7 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #! @Description
 #! Draw the net of the given <A>ramSurf</A> into an SVG-file.
 #! This method is motivated by printing and cutting out a net with flaps using the
-#! Cricut Maker Machine TODOcopyright. 
+#! Cricut Maker ©. 
 #! For cutting and printing with the CricutMaker please refer to Cricut.pdf in
 #! the doc folder.
 #! An introduction to the use of this method (along with several examples) 
@@ -388,11 +388,13 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #! * The <A>printRecord</A> will be modified and returned by this method.
 #!   It contains the data to recreate the drawing of the surface.
 #! 
-#! There are several parameters to change the output of this method, from 
-#! cosmetic changes to exactly controlling in which order the faces are drawn.
-#! Some of them work analogously as the ones for the 
+#! There are several parameters to change the output of this method.
+#! Some of them work analogously as the ones for the <K>DrawSurfaceToTikz</K> method (<Ref Subsect="DrawSurfaceToTikz"/>).
 #! There are the following classes of parameters which can be used analogously to the ones
 #! in the <K>DrawSurfaceToTikz</K> method (<Ref Subsect="DrawSurfaceToTikz"/>).
+#! * <E>Colours</E> 
+#!   (<Ref Subsect="TODO"/>): Change the 
+#!   colours of vertices, edges and faces.
 #! * <E>Lengths and angles</E> 
 #!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_LengthsAndAngles"/>): These
 #!   parameters control the size and shape of the drawing and the individual 
@@ -410,13 +412,12 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #!   recreate the drawing.
 #! * For drawing edge coloured surfaces one can use the same parameters as given in (<Ref Sect="Section_EdgeColouring_Drawing"/>).
 #! The following parameters are modified or used specifically for the DrawSurfaceToSVG method:
-#! * <E>Colours</E> 
-#!   (<Ref Subsect="TODO"/>): Change the 
-#!   colours of vertices, edges and faces.
-#! * <E>Labels</E>
-#!   (<Ref Subsect="TODO"/>): Modify the labels faces.
-#! * <E>Circle</E> Add a circle in the middle of each face. This can be useful when attaching magnets to each face.
-#! 
+#! * <E>drawfaceLabels</E>
+#!   :If this is set to true, face labels will be drawn.
+#! * <E>AddCircle</E> If set to true, this adds a circle in the middle of each face. This can be useful when attaching magnets to each face.
+#! * <E>AddFlapTriangle</E> If set to true, this adds a flap-triangle to one representative of each open edge in the net.
+#! * <E>scale</E> This scales the output. We recommend to set it to 100 or the output will be a bit small.
+#! * <E>AddFlaps</E> If set to true, this adds a flap to one representative of each open edge in the net. A regular flap is smaller than a flap triangle.
 #! For an example consider a will coloured surface based on the icosahedron.
 
 #! @BeginExampleSession
@@ -431,6 +432,15 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #! gap> pr.AddFlaps:=false;;
 #! gap> pr.AddCircle:=false;;
 #! gap> pr:=DrawSurfaceToSVG(ico,"Examples/wild_coloured_icosahedron",pr);;
+#! @EndExampleSession
+
+#! Another example with circles added to the faces of an Octahedron can be found below:
+#! @BeginExampleSession
+#! gap> pr:=rec();;
+#! gap> pr.scale:=100;;
+#! gap> pr.AddCircle:=true;;
+#! gap> pr.AddFlapTriangle:=true;;
+#! gap> DrawSurfaceToSVG(Octahedron(),"Examples/octahedron_circles",pr);;
 #! @EndExampleSession
 
 #! @Returns a record
