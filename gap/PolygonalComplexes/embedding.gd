@@ -410,15 +410,15 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Data"/>): These
 #!   parameters can't be influenced by the user and contain the information to
 #!   recreate the drawing.
-#! * For drawing edge coloured surfaces one can use the same parameters as given in (<Ref Sect="Section_EdgeColouring_Drawing"/>).
+#! * For drawing edge coloured surfaces one can use the same parameters as given in (<Ref Sect="Section_EdgeColouring_Drawing"/>). TODO default, TODO laschen überschneidungen werden getestet
 #! The following parameters are modified or used specifically for the DrawSurfaceToSVG method:
-#! * <E>drawfaceLabels</E>
+#! * <E>drawfaceLabels</E>:
 #!   :If this is set to true, face labels will be drawn.
-#! * <E>AddCircle</E> If set to true, this adds a circle in the middle of each face. This can be useful when attaching magnets to each face.
-#! * <E>AddFlapTriangle</E> If set to true, this adds a flap-triangle to one representative of each open edge in the net.
-#! * <E>scale</E> This scales the output. We recommend to set it to 100 or the output will be a bit small.
-#! * <E>AddFlaps</E> If set to true, this adds a flap to one representative of each open edge in the net. A regular flap is smaller than a flap triangle.
-#! For an example consider a will coloured surface based on the icosahedron.
+#! * <E>AddCircle</E>: If set to true, this adds a circle in the middle of each face. This can be useful when attaching magnets to each face.
+#! * <E>AddFlapTriangle</E>: If set to true, this adds a flap-triangle to one representative of each open edge in the net.
+#! * <E>scale</E>: This scales the output. We recommend to set it to 100 or the output will be a bit small.
+#! * <E>AddFlaps</E>: If set to true, this adds a flap to one representative of each open edge in the net. A regular flap is smaller than a flap triangle.
+#! For an example consider a wild coloured surface based on the icosahedron.
 
 #! @BeginExampleSession
 #! gap> ico:=AllWildColouredSurfaces(Icosahedron())[1];;
@@ -429,9 +429,7 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #! gap> pr.faceColours:=List(Faces(ico),i->"yellow");;
 #! gap> pr.scale:=100;;
 #! gap> pr.AddFlapTriangle:=true;;
-#! gap> pr.AddFlaps:=false;;
-#! gap> pr.AddCircle:=false;;
-#! gap> pr:=DrawSurfaceToSVG(ico,"Examples/wild_coloured_icosahedron",pr);;
+#! gap> pr:=DrawSurfaceToSVG(ico,"wild_coloured_icosahedron",pr);;
 #! @EndExampleSession
 
 #! Another example with circles added to the faces of an Octahedron can be found below:
@@ -440,7 +438,7 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #! gap> pr.scale:=100;;
 #! gap> pr.AddCircle:=true;;
 #! gap> pr.AddFlapTriangle:=true;;
-#! gap> DrawSurfaceToSVG(Octahedron(),"Examples/octahedron_circles",pr);;
+#! gap> DrawSurfaceToSVG(Octahedron(),"octahedron_circles",pr);;
 #! @EndExampleSession
 
 #! @Returns a record
