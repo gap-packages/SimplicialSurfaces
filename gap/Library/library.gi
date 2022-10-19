@@ -40,14 +40,14 @@ BindGlobal( "__SIMPLICIAL_WriteSurfaceListIntoFile",
 # Return all possible locations of the library
 BindGlobal( "__SIMPLICIAL_LibraryLocation",
     function()
-        local relPath, absPaths;
+        local absPaths;
 
-        relPath := "pkg/simplicial-surfaces/library/";
-        # Find all possible paths where GAP might be and add the relative directory
-        absPaths := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
-        absPaths := Filtered( absPaths, IsDirectoryPath ); # check which ones actually exist
-
-        return absPaths;
+        # FIXME: this function should perhaps be changed to just do this:
+        #   return DirectoriesPackageLibrary("SimplicialSurfaces", "library");
+        # and then callers should be adapted suitably. But I did not want to
+        # do this right now, for the sake of quickly making progress
+        absPaths := DirectoriesPackageLibrary("SimplicialSurfaces", "library");
+        return List(absPaths, p -> Filename(p, ""));
     end
 );
 
