@@ -108,11 +108,9 @@ BindGlobal( "__SIMPLICIAL_InitializeLibraryCache",
 __SIMPLICIAL_InitializeLibraryCache();
 
 
-DeclareGlobalFunction("__SIMPLICIAL_ParseLibraryQuery");
-
 # Given: Argument list from AllSimplicialSurfaces
 # Returns: List of pairs [function, result OR set of possible results]
-InstallGlobalFunction( "__SIMPLICIAL_ParseLibraryQuery", 
+BindGlobal( "__SIMPLICIAL_ParseLibraryQuery", 
     function( argList, fctName )
         local trueArg, ind;
 
@@ -183,7 +181,7 @@ BindGlobal( "__SIMPLICIAL_CheckQueryList",
 );
 
 DeclareGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive");
-InstallGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive",    
+InstallGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive",
     function(path)
         local subs, subfiles, subfolders, file, fileIn, posList,
             pos, line, out, folder;
@@ -233,9 +231,8 @@ BindGlobal("__SIMPLICIAL_LibraryConstructBinary",
 );
 
 DeclareGlobalFunction("__SIMPLICIAL_ReadLine");
-DeclareGlobalFunction("__SIMPLICIAL_LibraryParseString");
 
-InstallGlobalFunction( "__SIMPLICIAL_LibraryParseString",
+BindGlobal( "__SIMPLICIAL_LibraryParseString",
     function(string, startingDirectory)
         local split, surf, newPath;
     
