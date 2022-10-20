@@ -402,7 +402,7 @@ InstallMethod( FoldingComplexByFansAndBorders,
 				possBorders := Union( List( faceClass, f -> NamesOfFace( 
 					UnderlyingSimplicialSurface( surface ), f ) ) );
 				if not IsSubset( possBorders, borders ) then
-					Error("FoldingComplexByFansAndBorders: Some borders are incompatible with this coloured simplicial suface.");
+					Error("FoldingComplexByFansAndBorders: Some borders are incompatible with this coloured simplicial surface.");
 				fi;
 			fi;
 		od;

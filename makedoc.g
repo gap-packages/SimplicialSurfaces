@@ -67,7 +67,7 @@ preProcessTikz := function( node )
         # To circumvent this issue, we proceed as follows:
         # 1) Write the picture into a temporary file _IMAGE_TMP.tex
         #       We use a sed-command to remove all leading whitespaces
-        #       (othewise the same picture might be compiled twice).
+        #       (otherwise the same picture might be compiled twice).
         # 2) Call ../flatex/flatex _IMAGE_TMP.tex
         #       This creates the file _IMAGE_TMP.flt
         # 3) Calculate the hash of this file

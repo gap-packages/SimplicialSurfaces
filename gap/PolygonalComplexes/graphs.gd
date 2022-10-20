@@ -87,7 +87,7 @@
 #! <List>
 #!  <Item><K>NautyTracesInterface</K>: This package is designed for the single
 #!   purpose of enabling a fast
-#!   interface to <K>Nauty/Traces</K>. In this measure it excells. On almost
+#!   interface to <K>Nauty/Traces</K>. In this measure it excels. On almost
 #!   all
 #!   other measures it does not compete.
 #!

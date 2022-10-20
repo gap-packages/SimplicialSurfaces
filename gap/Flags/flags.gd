@@ -76,7 +76,7 @@
 #! (<Ref Subsect="TwoFlags"/>) exists.
 #!
 #! Since flags of length 1 are just vertices, edges, and faces, the usual
-#! accesss functions of Section <Ref Sect="Section_Access_LabelAccess"/> are 
+#! access functions of Section <Ref Sect="Section_Access_LabelAccess"/> are 
 #! sufficient most of the time. If they are needed in a combined format,
 #! the command <K>OneFlags</K> (<Ref Subsect="OneFlags"/>) is available.
 #!
@@ -530,7 +530,7 @@ DeclareOperation("OriginalEdges",[IsFlagComplex]);
 #! [ 1, 4 ]
 #! @EndExampleSession
 #!
-#! @Returns a set of postive integers
+#! @Returns a set of positive integers
 #! @Arguments flagComp
 DeclareOperation("OriginalFaces",[IsFlagComplex]);
 #! @EndGroup

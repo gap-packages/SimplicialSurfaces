@@ -625,7 +625,7 @@ DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
 #! @BeginGroup IsTriangular
 #! @Description
 #! Check whether all polygons in this twisted polygonal complex are triangles.
-#! If this is the case, the twisted polygonal compex is face homogeneous.
+#! If this is the case, the twisted polygonal complex is face homogeneous.
 #! 
 #! The tetrahedron consists only of triangles:
 #! @BeginExampleSession

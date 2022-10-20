@@ -11,7 +11,7 @@
 #############################################################################
 
 
-## The aim of this file is to automatize the method installation for the
+## The aim of this file is to automate the method installation for the
 ## diverse incidence relations
 ##
 ## We have:

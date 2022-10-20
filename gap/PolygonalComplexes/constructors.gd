@@ -135,10 +135,10 @@
 #! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
 #! information is checked for compatibility with them, that is 
 #! (1) the integers in <A>faces</A> correspond to the bound positions of 
-#! <A>edgesOfFaces</A>, (2) the integers in <A>edges</A> are those occuring 
+#! <A>edgesOfFaces</A>, (2) the integers in <A>edges</A> are those occurring 
 #! in the entries of <A>edgesOfFaces</A> and also correspond to the bound 
 #! entries of <A>verticesOfEdges</A> and 
-#! (3) the integers in <A>verties</A> are those occuring
+#! (3) the integers in <A>verties</A> are those occurring
 #! in the entries of <A>verticesOfEdges</A>. This is not strictly 
 #! necessary since this information can be deduced from the lists
 #! <A>verticesOfEdges</A> and <A>edgesOfFaces</A>.
@@ -1054,7 +1054,7 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #!
 #!   Consider the surface on 10 faces consisting of exactly two inner vertices
 #!   of degree 5 and having vertex counter $v_2^6v_3^2v_5^2.$ Its umbrella
-#!   descripter is given in the example below. 
+#!   descriptor is given in the example below. 
 #!   We initialise renumbering of the faces such that <A>f(3)=1</A>  and the
 #!   neighbours of 3, namely 2, 4, and 11  such that <A>f(2)=2</A>,
 #!   <A>f(4)=3</A>  and <A>f(11)=4,</A> and <A>f(F) = infty</A> for the

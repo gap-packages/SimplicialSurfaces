@@ -400,7 +400,7 @@ InstallMethod( SplitVertexEdgePathNC,
         od;
         size := Length(VerticesAsList(vePath));
         if IsClosedPath(vePath) then
-            # The last vertex has already be splitted!
+            # The last vertex has already be split!
             newLabelList[2*size-1] := newLabelList[1];
         else
             vertexSplit := SplitVertexNC(swapComplex, VerticesAsList(vePath)[size]);

@@ -169,7 +169,7 @@ DeclareOperation( "GetVertexCoordinates3DNC", [IsSimplicialSurface, IsPosInt, Is
 #! of the vertices of the surface (see <K>SetVertexCoordinates3D</K>).
 #!
 #! The method <K>DrawSurfaceToJavaScript</K> always calculates the locations of the edges,
-#! inner circles and normales of inner circles corresponding to the current positions of the vertices.
+#! inner circles and normals of inner circles corresponding to the current positions of the vertices.
 #! Therefore, the <A>printRecord</A> will be changed if some parameters are not set to the actual vertex positions.
 #!
 #! The method <K>DrawSurfaceToJavaScriptCalculate</K> has an extra parameter <A>calculate</A>
@@ -557,7 +557,7 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! The method <K>ActivateInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the inner circle of face <A>i</A>.
 #! The method <K>ActivateInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) activates all inner circles of <A>surface</A>.
 #! If an inner circle is active, then it is shown in the animation.
-#! By default, the inner circles are deactive.
+#! By default, the inner circles are deactivated.
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord
@@ -572,8 +572,8 @@ DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecor
 #! @Description
 #! The method <K>DeactivateInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivates the inner circle of face <A>i</A>.
 #! The method <K>DeactivateInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) deactivates all inner circles of <A>surface</A>.
-#! If an inner circle is deactive, then it is not shown in the animation.
-#! By default, the inner circles are deactive.
+#! If an inner circle is deactivated, then it is not shown in the animation.
+#! By default, the inner circles are deactivated.
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord
@@ -626,7 +626,7 @@ DeclareOperation( "GetCircleColour", [IsSimplicialSurface, IsPosInt, IsRecord] )
 #! if no locations are calculated for the inner circles. If parameters are set for the inner circles and the
 #! 3D-coordinates of a vertex has been changed, then you have to call the method <K>CalculateParametersOfInnerCircle</K>
 #! manual again if you use the method <K>DrawSurfaceToJavaScriptCalculate</K> with <A>calculate = false</A>.
-#! Otherwise the animation will be not necessarly correct. If you use the method
+#! Otherwise the animation will be not necessarily correct. If you use the method
 #! <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) the parameters will be updated automatically.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
@@ -680,7 +680,7 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface, IsRe
 #! The method <K>ActivateNormalOfInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the normal of the inner circle of face <A>i</A>.
 #! The method <K>ActivateNormalOfInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) activates all normals of the inner circles of <A>surface</A>.
 #! If a normal is active, then the normal is shown in the animation.
-#! By default, the normals of inner circles are deactive.
+#! By default, the normals of inner circles are deactivated.
 #! For the description of normals of inner circles look at <Ref Sect="Section_LabelNormalsInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord
@@ -695,8 +695,8 @@ DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface, IsPosInt,
 #! @Description
 #! The method <K>DeactivateNormalOfInnerCircles</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivates the normal of the inner circle of face <A>i</A>.
 #! The method <K>DeactivateNormalOfInnerCircle</K>(<A>surface</A>, <A>printRecord</A>) deactivates all normals of the inner circles of <A>surface</A>.
-#! If a normal is deactive, then the normal is not shown in the animation.
-#! By default, the normals of inner circles are deactive.
+#! If a normal is deactivated, then the normal is not shown in the animation.
+#! By default, the normals of inner circles are deactivated.
 #! For the description of normals inner circles look at <Ref Sect="Section_LabelNormalsInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord

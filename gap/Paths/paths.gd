@@ -103,7 +103,7 @@
 #!     <K>VerticesAsList</K> (<Ref Subsect="VertexEdge_VerticesAsList"/>) and 
 #!     <K>EdgesAsList</K> (<Ref Subsect="VertexEdge_EdgesAsList"/>).
 #!
-#!     Some shorter (but more ambigous) constructors are 
+#!     Some shorter (but more ambiguous) constructors are 
 #!     <K>VertexEdgePathByVertices</K> 
 #!     (<Ref Subsect="VertexEdgePathByVertices"/>) and
 #!     <K>VertexEdgePathByEdges</K> (<Ref Subsect="VertexEdgePathByEdges"/>).
@@ -176,7 +176,7 @@ DeclareOperation( "VertexEdgePathByVerticesNC", [IsPolygonalComplex, IsDenseList
 #! @Description
 #! Construct a new vertex-edge-path (<Ref Subsect="VertexEdgePath"/>) from a
 #! polygonal complex and a dense list of edges. Every two adjacent edges
-#! have to be connected by a vertex. If any vertex position is ambigous (for
+#! have to be connected by a vertex. If any vertex position is ambiguous (for
 #! example if only one edge is given), the smallest possible vertex is chosen
 #! to be traversed first.
 #!
@@ -1670,7 +1670,7 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsTwistedPolygonalCompl
 #! @BeginGroup NumberOfConnectedComponents
 #! @Description
 #! Return the number of (strongly) connected components of the given twisted polygonal
-#! complex. For the definition of connected compontents see <Ref Subsect="ConnectedComponents"/>
+#! complex. For the definition of connected components see <Ref Subsect="ConnectedComponents"/>
 #! and for strongly connected components see <Ref Subsect="StronglyConnectedComponents"/>
 #!
 #! For example consider the ramified simplicial surface from the start of
