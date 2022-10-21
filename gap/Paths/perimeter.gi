@@ -41,7 +41,7 @@ InstallMethod(PerimeterPath, "for a vertex-edge-path", [IsVertexEdgePath],
         fi;
         if Length(poss) > 1 then
             Error(Concatenation(
-                "PerimeterPath: There should be only one face that is incident to alle edges of the given vertex-edge-path, but ", 
+                "PerimeterPath: There should be only one face that is incident to all edges of the given vertex-edge-path, but ", 
                 poss, " were found."));
         fi;
 

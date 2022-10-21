@@ -970,7 +970,7 @@ InstallMethod( DrawSurfaceToTikz,
 
                     # do tests
                     # we rely on the fact that computed faces of a previous 
-                    # drawing component will keep beeing false (otherwise
+                    # drawing component will keep being false (otherwise
                     # the tried addition will produce an error).
                     success := true;
                     for j in [1..Length(checkFct)] do

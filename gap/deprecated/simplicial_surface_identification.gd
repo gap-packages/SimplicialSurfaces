@@ -165,7 +165,7 @@ DeclareOperation( "IsConstantOnIntersectionNCWellDefined",
 #!
 #!	@Arguments a (coloured) simplicial surface, two face numbers (for a coloured
 #!		simplicial surface these refer to the underlying simplicial surface).
-#!	@Returns a simplicial surface identifaction
+#!	@Returns a simplicial surface identification
 DeclareOperation( "NeighbourIdentification", 
 	[IsSimplicialSurface, IsPosInt, IsPosInt] );
 DeclareOperation( "NeighbourIdentificationNC", 

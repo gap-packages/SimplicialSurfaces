@@ -1,8 +1,8 @@
 /*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
  * flatex.c -
  *    Flatten a latex file into a single file, by explicitly including 
- *  the files inclued by \include and \input commands. Also, if bibtex is
- *  beeing used, then includes the .bbl file into the resulting file. Thus,
+ *  the files included by \include and \input commands. Also, if bibtex is
+ *  being used, then includes the .bbl file into the resulting file. Thus,
  *  creating a stand alone latex file that can be emailed to someone else. 
  *
  * Compile    : gcc -o flatex flatex.c

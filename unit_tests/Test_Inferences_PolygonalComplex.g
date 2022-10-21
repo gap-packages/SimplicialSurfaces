@@ -439,7 +439,7 @@ BindGlobal( "__SIMPLICIAL_Test_FaceTwoColouring", function()
     p:=PolygonalComplexByVerticesInFaces([[1,2,3,4],[1,2,5,6],[1,2,7,8]]);;
     SIMPLICIAL_TestAssert(FaceTwoColouring(p)=fail);
 
-    ## compute face-2-colouring of not strongly connected suface
+    ## compute face-2-colouring of not strongly connected surface
     s:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4]]);;
     s:=DisjointUnion(s,JanusHead())[1];;
     s:=DisjointUnion(s,PolygonalComplexByVerticesInFaces([[1,2,3,4,5]]))[1];;

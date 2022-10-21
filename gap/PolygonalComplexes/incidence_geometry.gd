@@ -70,7 +70,7 @@
 # experienced with our formalism.
 #
 # 
-# To make finding (C) easier, the names are choosen in an expressive way. If
+# To make finding (C) easier, the names are chosen in an expressive way. If
 # that is not sufficient, a short mentioning of them (without going into any 
 # details) will have to be sufficient.
 #
@@ -213,7 +213,7 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #! these two methods. For that we will use the following polygonal complex:
 
 ####
-# The picture and its labels are choosen very deliberately. They fulfill these
+# The picture and its labels are chosen very deliberately. They fulfill these
 # conditions:
 # 1) There are faces with different numbers of vertices. Especially one 
 #    triangle and one non-triangle.
