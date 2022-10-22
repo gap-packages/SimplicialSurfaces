@@ -1709,7 +1709,7 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
 	    printRecord.vertexLabelsActive := false;
 	fi;
 	if not IsBound(printRecord.latexDocumentclass) then
-	    printRecord.latexDocumentclass := "article";
+	    printRecord.latexDocumentclass := "extarticle";
 	fi;
 	if not IsBound(printRecord.edgeLabelsActive) then
 	    printRecord.edgeLabelsActive := false; 

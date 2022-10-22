@@ -558,7 +558,7 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToTikz_TextSize
-#! This subsection is concerned with the parameter that control the text Size of the drawings from
+#! This subsection is concerned with the parameter that control the text size of the drawings from
 #! <K>DrawSurfaceToTikz</K>.
 #! The text size is decided by the following parameter:
 #!  * <E>textSize</E> This parameter is a positive integer that describes the desired text Size in the drawings
