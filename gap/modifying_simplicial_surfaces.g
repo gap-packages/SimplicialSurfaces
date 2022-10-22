@@ -125,7 +125,7 @@ InstallMethod( ZeroSeperatedToList, "",
 
 
 # Takes a list of positive integers, none of which contain the digit zero, and returns a single positive integer
-# where each of the entries of the list has been concatenated and seperated by a zero.
+# where each of the entries of the list has been concatenated and separated by a zero.
 DeclareOperation( "ListToZeroSeperated",
 	[ IsList ] );
 
@@ -771,7 +771,7 @@ InstallOtherMethod(AddFaceAndRepair,"",
 
 
 ###################
-# consider spliting for larger polygons? is this necessary if repairs are conducted immediately after the face division?
+# consider splitting for larger polygons? is this necessary if repairs are conducted immediately after the face division?
 
 # RepairPolygonByDividing := function(surf, face1, vertex1, vertex2)
 

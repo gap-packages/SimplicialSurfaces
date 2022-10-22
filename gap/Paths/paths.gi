@@ -387,8 +387,62 @@ InstallMethod(ShiftCyclicPath,
             if not IsDuplicateFree(path) then
                 Error(Concatenation("ShiftCyclicPath: Given vertex-edge-path ",String(path)," is not duplicate free."));
             fi;
-        return ShiftCyclicPathNC(path,vertex,edge);
+            return ShiftCyclicPathNC(path,vertex,edge);
         end
+);
+
+InstallMethod(AllClosedVertexEdgePaths, "for a complex",
+	[IsTwistedPolygonalComplex],
+	function(complex)
+		local newComplexLi, newComplex, isom, graph, cycles, newCycles, c, nodesOfCycle,
+                      edgeList, edges, newEdgeList, new, i, e, list;
+		
+		# If the vertexlist of the complex is not bound, this information is lost by computing the edge graph.
+		# For this reason we calculate the canonical from of the surface.
+		newComplexLi:=CanonicalRepresentativeOfPolygonalSurface(complex);
+		newComplex:=newComplexLi[1];
+		isom:=newComplexLi[2];
+			
+		# First calculate all cycles of the edge graph.
+		# These cycles result in all closed vertex edge path of the complex except cycles of length two.
+		graph:=EdgeDigraphsGraph(newComplex);
+		cycles:=__SIMPLICIAL_AllCyclesOfGraph(graph);
+		newCycles:=[];
+		
+		# Compute for all cycles the corresponding edges in the complex.
+		for c in cycles do
+			nodesOfCycle:=Flat(__SIMPLICIAL_NodesOfCycle(c));
+			
+			# CommonEdgesOfVertices returns all edges that are possible between two vertices.
+			edgeList:=[];
+			for e in CommonEdgesOfVertices(newComplex, Last(nodesOfCycle),nodesOfCycle[1]) do
+				Add(edgeList,[e]);
+			od; 
+			for i in [1..Length(nodesOfCycle)-1] do
+				edges:=CommonEdgesOfVertices(newComplex, nodesOfCycle[i],nodesOfCycle[i+1]);
+				newEdgeList:=[];
+				
+				# Add the possibilities for the next edge to each edge list computed so far.
+				for e in edges do
+					for list in edgeList do
+						new:=ShallowCopy(list);
+						Add(new,e);
+						Add(newEdgeList,new);
+					od;
+				od;
+				edgeList:=newEdgeList;
+			od;
+		
+			for edges in edgeList do
+				# Compute the edges in the original complex
+				for i in [1..Length(edges)] do
+					edges[i]:=ImageOfEdge(isom,edges[i]);
+				od;
+				Add(newCycles,VertexEdgePathByEdges(complex,edges));
+			od;
+		od;
+		return Union(newCycles,AllTwoWaistsOfComplex(complex));
+	end
 );
 
 #######################################
@@ -890,6 +944,87 @@ InstallMethod(ShiftCyclicPath,
 );
 
 
+#######################################
+##
+##      Waists
+##
+InstallMethod(IsWaist, "for a complex and a vertex-edge path",
+        [IsTwistedPolygonalComplex, IsVertexEdgePath],
+        function(complex,path)
+                local edges, incidentFaces, e, foe;
+                edges:=EdgesAsList(path);
+
+                incidentFaces:=[];
+                if ForAll(edges, e->IsInnerEdge(complex,e)) and IsClosedPath(path) then
+		# check if the edges are not incident to the same faces
+                       for e in edges do
+                                foe:=FacesOfEdge(complex,e);
+                                if not foe[1] in incidentFaces and not foe[2] in incidentFaces then
+                                        Append(incidentFaces,FacesOfEdge(complex,e));
+                                else
+                                        return false;
+                                fi;
+                        od;
+                else
+                        return false;
+                fi;
+                return true;
+        end
+);
+
+
+InstallMethod( AllTwoWaistsOfComplex, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( surface )
+	local waists,i,j,edges,voe1,voe2;
+	waists:=[];
+	edges:=Edges(surface);
+	for i in [1..NumberOfEdges(surface)] do
+		for j in [i+1..NumberOfEdges(surface)] do 
+			voe1:=VerticesOfEdge(surface,edges[i]);
+			voe2:=VerticesOfEdge(surface,edges[j]);
+			if voe1=voe2 then
+				Add(waists,VertexEdgePathByEdges(surface,edges{[i,j]}));
+			fi;
+		od;
+	od;
+	return waists;
+end
+);
+
+InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( surface )
+        local w,eof,waists;
+        waists:=Combinations(Edges(surface),3);
+        waists:=Filtered(waists,w->Length(Union(VerticesOfEdges(surface){w}))=3);
+        waists:=Filtered(waists,w->Filtered(EdgesOfFaces(surface),
+        eof->Length(Intersection(w,eof))>=2)=[]);
+        return List(waists,w->VertexEdgePathByEdges(surface,w));
+end
+);
+
+InstallMethod(AllWaistsOfComplex, "for a twisted polygonal complex",
+        [IsTwistedPolygonalComplex],
+        function(complex)
+                local cycles, waists, c, edges, incident, incidentFaces, e, foe;
+
+                cycles:=AllClosedVertexEdgePaths(complex);
+                waists:=[];
+
+                for c in cycles do
+                        if IsWaist(complex,c) then
+                                Add(waists,c);
+                        fi;
+                od;
+                return waists;
+        end
+);
+##
+##      End of waists
+##
+########################################
+
 InstallMethod( IsUmbrellaPath, "for an edge-face-path on a polygonal complex", 
     [IsEdgeFacePath],
     function(path)
@@ -1307,46 +1442,3 @@ InstallMethod( ViewObj, "for an edge-coloured edge-face-path",
         fi;
     end
 );
-
-
-#######################################
-##
-##      Waists
-##
-
-InstallMethod( AllTwoWaistsOfComplex, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
-    function( surface )
-	local waists,i,j,edges,voe1,voe2;
-	waists:=[];
-	edges:=Edges(surface);
-	for i in [1..NumberOfEdges(surface)] do
-		for j in [i+1..NumberOfEdges(surface)] do 
-			voe1:=VerticesOfEdge(surface,edges[i]);
-			voe2:=VerticesOfEdge(surface,edges[j]);
-			if voe1=voe2 then
-				Add(waists,VertexEdgePathByEdges(surface,edges{[i,j]}));
-			fi;
-		od;
-	od;
-	return waists;
-end
-);
-
-InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
-    function( surface )
-        local w,eof,waists;
-        waists:=Combinations(Edges(surface),3);
-        waists:=Filtered(waists,w->Length(Union(VerticesOfEdges(surface){w}))=3);
-        waists:=Filtered(waists,w->Filtered(EdgesOfFaces(surface),
-        eof->Length(Intersection(w,eof))>=2)=[]);
-        return List(waists,w->VertexEdgePathByEdges(surface,w));
-end
-);
-
-##
-##      End of waists
-##
-#######################################
-

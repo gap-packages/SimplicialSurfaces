@@ -1,0 +1,71 @@
+
+% Define the coordinates of the vertices
+\coordinate (V1_1) at (0., 0.);
+\coordinate (V2_1) at (1., 0.);
+\coordinate (V3_1) at (0.5, 0.8660254037844386);
+\coordinate (V4_1) at (0.5, -0.8660254037844386);
+\coordinate (V5_1) at (-0.4999999999999999, -0.8660254037844386);
+\coordinate (V6_1) at (-0.9999999999999998, 0.);
+\coordinate (V7_1) at (-0.4999999999999999, 0.8660254037844386);
+\coordinate (V8_1) at (1.5, 0.8660254037844386);
+\coordinate (V9_1) at (2., 0.);
+\coordinate (V10_1) at (1.5, -0.8660254037844386);
+
+
+% Fill in the faces
+\fill[face=blue!20!white]  (V2_1) -- (V3_1) -- (V1_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V1_1=1) {$1$};
+\fill[face=blue!20!white]  (V1_1) -- (V4_1) -- (V2_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V1_1=1,V4_1=1,V2_1=1) {$2$};
+\fill[face=blue!20!white]  (V3_1) -- (V7_1) -- (V1_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V3_1=1,V7_1=1,V1_1=1) {$3$};
+\fill[face=blue!20!white]  (V2_1) -- (V8_1) -- (V3_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V8_1=1,V3_1=1) {$4$};
+\fill[face=blue!20!white]  (V1_1) -- (V5_1) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V1_1=1,V5_1=1,V4_1=1) {$5$};
+\fill[face=blue!20!white]  (V1_1) -- (V6_1) -- (V5_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V1_1=1,V6_1=1,V5_1=1) {$6$};
+\fill[face=blue!20!white]  (V7_1) -- (V6_1) -- (V1_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_1=1,V6_1=1,V1_1=1) {$7$};
+\fill[face=blue!20!white]  (V4_1) -- (V10_1) -- (V2_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V4_1=1,V10_1=1,V2_1=1) {$8$};
+\fill[face=blue!20!white]  (V10_1) -- (V9_1) -- (V2_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V10_1=1,V9_1=1,V2_1=1) {$9$};
+\fill[face=blue!20!white]  (V2_1) -- (V9_1) -- (V8_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V9_1=1,V8_1=1) {$10$};
+
+
+% Draw the edges
+\draw[edge] (V7_1) -- node[edgeLabel] {$1$} (V3_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$2$} (V8_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$3$} (V5_1);
+\draw[edge] (V5_1) -- node[edgeLabel] {$4$} (V6_1);
+\draw[edge] (V6_1) -- node[edgeLabel] {$5$} (V7_1);
+\draw[edge] (V10_1) -- node[edgeLabel] {$6$} (V4_1);
+\draw[edge] (V9_1) -- node[edgeLabel] {$7$} (V10_1);
+\draw[edge] (V8_1) -- node[edgeLabel] {$8$} (V9_1);
+\draw[edge] (V2_1) -- node[edgeLabel] {$9$} (V1_1);
+\draw[edge] (V1_1) -- node[edgeLabel] {$10$} (V3_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$11$} (V2_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$12$} (V1_1);
+\draw[edge] (V2_1) -- node[edgeLabel] {$13$} (V4_1);
+\draw[edge] (V1_1) -- node[edgeLabel] {$14$} (V7_1);
+\draw[edge] (V8_1) -- node[edgeLabel] {$15$} (V2_1);
+\draw[edge] (V5_1) -- node[edgeLabel] {$16$} (V1_1);
+\draw[edge] (V1_1) -- node[edgeLabel] {$17$} (V6_1);
+\draw[edge] (V2_1) -- node[edgeLabel] {$18$} (V10_1);
+\draw[edge] (V9_1) -- node[edgeLabel] {$19$} (V2_1);
+
+
+% Draw the vertices
+\vertexLabelR{V1_1}{left}{$2$}
+\vertexLabelR{V2_1}{left}{$3$} 
+\vertexLabelR{V3_1}{left}{$1$} 
+\vertexLabelR{V4_1}{left}{$6$} 
+\vertexLabelR{V5_1}{left}{$7$} 
+\vertexLabelR{V6_1}{left}{$8$} 
+\vertexLabelR{V7_1}{left}{$4$} 
+\vertexLabelR{V8_1}{left}{$5$} 
+\vertexLabelR{V9_1}{left}{$10$}
+\vertexLabelR{V10_1}{left}{$9$}
+

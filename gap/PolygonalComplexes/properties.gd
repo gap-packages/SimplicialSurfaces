@@ -22,7 +22,12 @@
 #! @Chapter Properties of surfaces and complexes
 #! @ChapterLabel Properties
 #! 
-#! TODO Introduction
+#! In chapter <Ref Chap="Chapter_AccessIncidenceGeometry"/> we introduced the incidence structures of polygonal complexes.
+#! Along with this we can consider various properties of surfaces and complexes that rely on the incidence structure.
+#! In section <Ref Sect="Section_Properties_Invariants"/> some invariants of polygonal complexes are explained.
+#! Section <Ref Subsect="Section_Properties_Degrees"/> describes properties based on the degree of the vertices.
+#! Different types of faces, edges and vertices are introduced in section <Ref Sect="Section_Properties_FaceTypes"/>,
+#! <Ref Sect="Section_Properties_EdgeTypes"/> and <Ref Sect="Section_Properties_VertexTypes"/>.
 #!
 #! We will showcase these properties on several examples. One of them is the
 #! <E>five-star</E>:
@@ -45,15 +50,16 @@
 #! @ExampleSession
 #! gap> triforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;
 #! @EndExampleSession
-#TODO projective plane on four faces?
 
 #! @Section Invariants
 #! @SectionLabel Properties_Invariants
 #!
-#! This section collects invariants of (twisted) polygonal complexes.
-#!
-#! TODO
-#!
+#! This section introduces invariants of (twisted) polygonal complexes.
+#! Invariants of (twisted) polygonal complexes are properties that are
+#! equal for each (twisted) polygonal complex in the same isomorphism class.
+#! Examples of such invariants are the Euler-characteristic <Ref Subsect="EulerCharacteristic"/>,
+#! whether a complex is closed or open <Ref Subsect="IsClosedSurface"/> and
+#! some other properties about multi tetrahedral spheres.
 
 #! @BeginGroup EulerCharacteristic
 #! @Description
@@ -261,21 +267,17 @@ DeclareAttribute( "BlockType",IsSimplicialSurface);
 #! @Section Degree-based properties and invariants
 #! @SectionLabel Properties_Degrees
 
-#TODO there is no good place for degrees, it seems.
-# separating them into an own section feels weird, but putting them under 
+# Separating degrees into an own section feels weird, but putting them under 
 # vertex properties feels weird as well (since there are methods like 
 # InnerVertices etc. that feel too connected to separate them by the degrees..);
 
-#TODO intro
 #! This section contains properties and invariants that are based on the
 #! degrees of the vertices. We have to distinguish two different definitions
 #! for the degree of a vertex - we can either count the number of incident
 #! edges of the number of incident faces.
-#!
 #! These two definitions are distinguished by calling them 
 #! <K>EdgeDegreesOfVertices</K> and <K>FaceDegreesOfVertices</K>.
-#! 
-#TODO mention vertexCounter, edgeCounter
+#! But there are also other degree-based properties.
 
 
 #! @BeginGroup EdgeDegreesOfVertices
@@ -400,9 +402,6 @@ DeclareAttribute( "TotalDefect", IsSimplicialSurface );
 #! @Arguments surface
 DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! @EndGroup
-
-
-
 
 #! @BeginGroup VertexCounter
 #! @Description
@@ -592,38 +591,79 @@ DeclareAttribute( "ThreeFaceCounter", IsSimplicialSurface);
 #! The faces in a (twisted) polygonal complex are (twisted) polygons. In
 #! particular there can be polygons with different numbers of vertices,
 #! i.e. triangle, quadrangles, and so on.
-#!
-#! TODO examples
 
-
+#! @BeginGroup IsFaceHomogenous
 #! @Description
 #! Check whether all polygons in this twisted polygonal complex have the same number
 #! of vertices.
+#!
+#! Consider the following polygonal complex:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence(
+#! > [ , , , , , [2,5], , [2,3], [3, 5], [11,5], , [3,7], [7,11] ],
+#! > [[6,8,9], , , [9,10,12,13]]);;
+#! gap> IsFaceHomogeneous(complex);
+#! false
+#! @EndExampleSession
+#! This complex is not face homogeneous, since it contains a face with three vertices
+#! and a face with four vertices.
+#! A tetrahedron is face homogeneous:
+#! @BeginExampleSession
+#! gap> IsFaceHomogeneous(Tetrahedron());
+#! true
+#! @EndExampleSession
 #! @Arguments complex
 DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
+#! @EndGroup
 
 
 #! @BeginGroup IsTriangular
 #! @Description
 #! Check whether all polygons in this twisted polygonal complex are triangles.
+#! If this is the case, the twisted polygonal complex is face homogeneous.
+#! 
+#! The tetrahedron consists only of triangles:
+#! @BeginExampleSession
+#! gap> IsTriangular(Tetrahedron());
+#! true
+#! @EndExampleSession
 #! @Arguments complex
 DeclareProperty( "IsTriangular", IsTwistedPolygonalComplex );
 InstallTrueMethod(IsFaceHomogeneous, IsTriangular);
 #! @EndGroup
 
-
+#! @BeginGroup IsQuadrangular
 #! @Description
 #! Check whether all polygons in this twisted polygonal complex are quadrangles.
+#!
+#! Consider the following polygonal complex:
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
+#! </Alt>
+#! @BeginExampleSession
+#! gap> complex := PolygonalComplexByDownwardIncidence(
+#! > [ , , , , , [2,5], , [2,3], [3, 5], [11,5], , [3,7], [7,11] ],
+#! > [[6,8,9], , , [9,10,12,13]]);;
+#! gap> IsQuadrangular(complex);
+#! false
+#! @EndExampleSession
+#! This complex is not quadrangular, since it contains a triangle.
 #! @Arguments complex
 DeclareProperty( "IsQuadrangular", IsTwistedPolygonalComplex );
 InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
-
+#! @EndGroup
 
 
 #! @Section Types of edges
 #! @SectionLabel Properties_EdgeTypes
 #!
-#TODO improve
 #! The edges of a twisted polygonal complex (defined in 
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
@@ -814,7 +854,6 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Section Types of vertices
 #! @SectionLabel Properties_VertexTypes
 #! 
-#TODO improve this description
 #! The vertices of a twisted polygonal complex (defined in 
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was

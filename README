@@ -6,7 +6,7 @@ To use this package, go into your local installation directory for GAP
 pkg/-subfolder:
 
 cd pkg/
-    git clone https://github.com/markusbaumeister/simplicial-surfaces.git
+    git clone https://github.com/gap-packages/SimplicialSurfaces.git
 
 You also need the following package:
 

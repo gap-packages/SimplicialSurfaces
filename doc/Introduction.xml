@@ -183,7 +183,7 @@ true
         solids (usually one already knows a lot about them). Therefore we need 
         a way to tell the package about the surfaces we are interested in. 
         <!-- This is an obvious point. We make it here to ensure the reader
-             that we do not go on irrelevant tangents for too long. Furthemore
+             that we do not go on irrelevant tangents for too long. Furthermore
              we are probably in agreement with the reader here, which will
              make them more positively inclined to our manual. -->
         <Alt Only="Text">
@@ -301,7 +301,7 @@ false
                  That being said, many people that do not actually care about
                  it will read this section (it does not matter if we told them
                  to stop), for various reasons:
-                 1) Some never skip. To accomodate them, the section should not
+                 1) Some never skip. To accommodate them, the section should not
                     be too taxing and it should have something of interest for
                     them.
                  2) Some hope to further their understanding of the material by
@@ -458,7 +458,7 @@ gap&gt; FacesOfVertices(surf);
         So the first vertex is incident to the face 1 and the fifth vertex is
         incident to face 3. We can also see that the second vertex is incident
         to the faces 1 and 2.<P/>
-        An additional advantage of the incidential information is that we can
+        An additional advantage of the incidental information is that we can
         determine a concrete global orientation if the surface is orientable.
         From the method <K>Orientation</K> (<Ref Subsect="Orientation"/>) we 
         can compute a list of 

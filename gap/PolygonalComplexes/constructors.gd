@@ -63,9 +63,12 @@
 #! * Use the surface database to find appropriate complexes. This will be 
 #!   handled in the first section of chapter <Ref Chap="Chapter_Library"/>.
 #!
-#! All general constructors are structured like [Type]By[Method](args), e.g.
+#! For simplicial surfaces another and more convenient constructor is
+#! the constructor
+#! * <K>SimplicialSurfaceByUmbrellaDescriptor</K>( <A>edgeFacePaths</A> ).
+#! All other constructures which work for general polygonal complexes
+#! are structured like [Type]By[Method](args), e.g.
 #! * <K>PolygonalComplexByDownwardIncidence</K>( <A>verticesOfEdges</A>, <A>edgesOfFaces</A> )
-# * <K>SimplicialSurfaceByUmbrellas</K>( <A>edgeFacePaths</A> )
 #!
 #! They are mainly distinguished by the different attributes they need to 
 #! construct the incidence structures:
@@ -130,7 +133,13 @@
 #! The <E>DownwardIncidence</E>-constructors also allow the optional arguments 
 #! <A>vertices</A>,
 #! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
-#! information is checked for compatibility with them. This is not strictly 
+#! information is checked for compatibility with them, that is 
+#! (1) the integers in <A>faces</A> correspond to the bound positions of 
+#! <A>edgesOfFaces</A>, (2) the integers in <A>edges</A> are those occurring 
+#! in the entries of <A>edgesOfFaces</A> and also correspond to the bound 
+#! entries of <A>verticesOfEdges</A> and 
+#! (3) the integers in <A>verties</A> are those occurring
+#! in the entries of <A>verticesOfEdges</A>. This is not strictly 
 #! necessary since this information can be deduced from the lists
 #! <A>verticesOfEdges</A> and <A>edgesOfFaces</A>.
 #!
@@ -908,19 +917,30 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsList] );
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
-#! @Section UmbrellaDescriptor 
-#! @SectionLabel UmbrellaDescriptor
+#! @Section Umbrella Descriptors
+#!
+#! A very useful way of describing surfaces is by listing the umbrella paths around
+#! each vertex. Formally, 
+#! @InsertChunk Documentation_UmbrellaDescriptor
+#!
+#! @SectionLabel Constructors_Umbrellas
 #!
 #! @BeginChunk Documentation_UmbrellaDescriptor
-#! an umbrella descriptor of a simplicial surface a list <A>umbdesc</A>, 
-#! describing the vertices of the surface such that the vertices are the 
-#! positive integers corresponding to the bound positions of <A>umbdesc</A>.
+#! an umbrella descriptor of a simplicial surface is a list <A>umbdesc</A>, 
+#! describing a simplicial surface.  The bound entries in <A>umbdesc</A> are
+#! cyclic permutations or lists of integers. The set of faces of the surface
+#! is the set of points which either are moved by a cyclic permutation or 
+#! occurs in a list in <A>umbdesc</A>. The edges of the surface correspond to
+#! pairs of faces <M>(i,j)</M>, where either some cycle in <A>umbdesc</A> maps
+#! <M>i</M> to  <M>j</M> or <M>i</M> and <M>j</M> occur as neighbours in a 
+#! list. The vertices of the surface are the positive integers
+#! corresponding to the bound positions of <A>umbdesc</A>.
 #! If position <M>i</M> of <A>umbdesc</A> is bound, then the 
-#! <M>i</M>-th entry represents the vertex <M>i</M>. 
-#! If vertex <M>i</M> is inner,  then the <M>i</M>-th entry in <A>umbdesc</A> 
+#! <M>i</M>-th entry represents the vertex with name <M>i</M>.  If the vertex 
+#! named <M>i</M> is inner,  then the <M>i</M>-th entry in <A>umbdesc</A> 
 #! is a cyclic permutation of the faces in the umbrella path around the 
 #! vertex, mapping a face to an adjacent face.  The order of the permutation
-#!  is equal to the degree of the vertex. If vertex <M>i</M> is a 
+#! is equal to the degree of the vertex. If the vertex named <M>i</M> is a 
 #! boundary vertex, then the <M>i</M>-th entry in <A>umbdesc</A> is a list 
 #! consisting of the faces in the umbrella path of the vertex such that 
 #! adjacent faces are consecutive and the two faces with boundary edges 
@@ -930,9 +950,8 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #!
 #! @BeginGroup
 #! @Description
-#!  Let <A>surf</A> be a simplicial surface. This method returns a list 
-#!  <A>umbdesc</A> of length equal to the number of vertices of <A>surf</A>. 
-#!  The list <A>umbdesc</A> is an umbrella descriptor of <A>surf</A>, where
+#!  Let <A>surf</A> be a simplicial surface. This method returns an
+#!  umbrella descriptor of <A>surf</A>, where
 #! @InsertChunk Documentation_UmbrellaDescriptor
 #!
 #! As an example consider the following net of a simplicial surface.
@@ -962,8 +981,8 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! @BeginGroup
 #! @Description
 #! This method takes as input a list <A>umbdesc</A>, which is an
-#! umbrella descriptor of a simplicial surface, where
-#! @InsertChunk Documentation_UmbrellaDescriptor
+#! umbrella descriptor of a simplicial surface, see
+#! (<Ref Sect="Section_Constructors_Umbrellas"/>).
 #! If the list  <A>umbdesc</A> is the umbrella descriptor of a surface 
 #! <A>surf</A>, the method returns <A>surf</A>. Otherwise it returns 
 #! <A>false</A>.
@@ -1005,3 +1024,183 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! @Arguments surface 
 DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #! @EndGroup
+#!
+#!
+#! @BeginGroup
+#! @Description
+#!  A normed umbrella descriptor is a special umbrella descriptor of a
+#!  surface, where an umbrella descriptor is described in 
+#! (<Ref Sect="Section_Constructors_Umbrellas"/>).
+#!  The normed umbrella descriptor of a given umbrella descriptor <A>umdesc</A>
+#!  for the face <A>face</A> and an optional list of neighbours <A>neighbours</A> 
+#!  of <A>face</A>  is an umbrella descriptor <A>normedumdesc</A> for an 
+#!  isomorphic surface. This new surface is obtained from the original surface
+#!  described by <A>umdesc</A> by a renumbering <A>f</A> of the faces, where
+#!  <A>f</A> is a bijection from the faces of the original surface  to
+#!  [1,..,<M>n</M>], where <M>n</M> is the number of faces. This renumbering
+#!  is initialised follows:   <A>f(face) = 1</A>. The neighbours 
+#!  of <A>face</A> are assigned the numbers 2, 3, ... If the optional 
+#!  argument <A>neighbours</A> is present, it must be a subset of the neighbours
+#!  of <A>face</A>  and <A>f(neighbours[i]) = i+1</A>  and <A>f(F)=infty</A> for
+#!  all other faces <A>F</A>. Next the umbrellas of the original surface 
+#!  are sorted  lexicographically, that is umbrella <A>u</A> is
+#!  less than umbrella <A>v</A> if the image <A>f(u)</A>  is lexicographically 
+#!  less that <A>f(v)</A>  as dihedral sequences. Each step takes the
+#!  lexicographically least umbrella <A>u</A> still containing a face <A>F</A>
+#!  for which <A>f(F)=infty</A> and renumbers each  such face in the umbrella
+#!  consecutively in the order in which they occur in  <A>u</A> with
+#!  numbers in [1,..,<M>n</M>] not yet used, that is <A>f(F)=j</A> for some <A>j</A> 
+#!  in [1,..,<M>n</M>]. 
+#!
+#!   Consider the surface on 10 faces consisting of exactly two inner vertices
+#!   of degree 5 and having vertex counter $v_2^6v_3^2v_5^2.$ Its umbrella
+#!   descriptor is given in the example below. 
+#!   We initialise renumbering of the faces such that <A>f(3)=1</A>  and the
+#!   neighbours of 3, namely 2, 4, and 11  such that <A>f(2)=2</A>,
+#!   <A>f(4)=3</A>  and <A>f(11)=4,</A> and <A>f(F) = infty</A> for the
+#!   faces <A>F</A> in [1,5,6,7,8,10]. The 
+#!   lexicographically least umbrella is the umbrella containing the faces
+#!   with new numbers 1, 2, and 3. This is the umbrella 
+#!   <A>u=(2,3,4,10,6,8)=(3,4,10,6,8,2)</A> as 
+#!   <A>f(u) = (1,2,infty,infty,infty,3)</A>. We rename the three face numbers
+#!   10, 6, 8 mapped to infty with the smallest consecutive numbers in 
+#!   [1..10] not yet used. Thus we set <A>f(10)=5</A>, <A>f(6)=6</A>, 
+#!   <A>f(8)=7</A>, that is we rename faces 8, 6 and 10 in this umbrella to 
+#!   5, 6, and 7. The lexicographically least umbrella whose image under 
+#!   <A>f</A> contains infty is <A>v = (1,5,2,3,11,7) = (3,2,5,1,7,11)</A> as
+#!   <A>f(v) = (1,2,infty,infty,infty,4)</A>.  Thus we renumber the faces 
+#!   5, 1, and 7 to  8, 9, 10. This defines <A>f</A> on all faces and  yields 
+#!   the normed umbrella descriptor:
+#!
+#! @BeginExampleSession
+#! gap>  ud := [ (1,5,2,3,11,7), (2,3,4,10,6,8),
+#! >   [ 4, 3, 11 ], [ 5, 2, 8 ], [ 1, 5 ], [ 1, 7 ], [ 7, 11 ], 
+#! >   [ 4, 10 ], [ 6, 10 ], [ 6, 8 ] ];;
+#! gap>  nud := NormedUmbrellaDescriptor( ud, 3, [2,4,11]);
+#! [ [ 3, 1, 4 ], (1,2,5,6,7,3), (1,2,8,9,10,4), [ 3, 7 ], [ 4, 10 ], 
+#!  [ 5, 2, 8 ], [ 5, 6 ], [ 6, 7 ], [ 8, 9 ], [ 9, 10 ] ]
+#! @EndExampleSession
+#!
+#!   The original surface is depicted on the left, the surface of the normed umbrella
+#!   descriptor is depicted on the right.
+#! <Alt Only="TikZ">
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorSecond,scale=1.5]
+#!          \input{Image_NormedUmbrella.tex} 
+#!      \end{tikzpicture}
+#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorSecond,scale=1.5]
+#!          \input{Image_NormedUmbrella2.tex} 
+#!      \end{tikzpicture}
+#! </Alt>
+#!
+#! As an example consider the following umbrella descriptor of a simplicial surface
+#! on 18 faces.
+#! @BeginExampleSession
+#! gap> ud1 := [ (4,21,20,25), (5,7,8,6), (5,9,10,6), (7,11,12,8), (5,9,13,14,11,7), 
+#! > (6,10,15,16,12,8), (9,13,17,21,20,15,10), (4,25,16,12,11,14,18),
+#! > (13,17,18,14), (15,16,25,20), (4,21,17,18) ];;
+#! gap> surf1 := SimplicialSurfaceByUmbrellaDescriptor(ud1);;
+#! gap> ud2 := NormedUmbrellaDescriptor(ud1, 7, [11, 8, 5]);
+#! [ (1,2,5,3), (1,2,6,7,8,4), (1,3,9,4), (2,5,10,11,12,13,6), (3,5,10,14,15,9),
+#!   (4,8,15,9), (6,7,16,13), (7,8,15,14,17,18,16), 
+#!   (10,11,17,14), (11,12,18,17), (12,13,16,18) ]
+#! gap>  surf2 := SimplicialSurfaceByUmbrellaDescriptor(ud2);;
+#! gap> IsIsomorphic(surf1,surf2);
+#! true
+#! @EndExampleSession
+#! Note that this function can also be applied to umbrella descriptors of surfaces
+#! which are not closed.
+#! @BeginExampleSession
+#! gap> ud1 := [ (1,2,3,4,5), (1,8,7,6,5), (1,8,19,20,9,2), (2,9,10,11,3), 
+#! >  (3,11,12,13,4), (4,13,14,15,6,5), (6,15,16,17,7), (7,17,18,19,8),
+#! > [ 10, 9, 20 ], [ 10, 11, 12 ], [ 12, 13, 14 ],
+#! > [ 14, 15, 16 ], [ 16, 17, 18 ], [ 18, 19, 20 ] ];;
+#! gap> surf1 := SimplicialSurfaceByUmbrellaDescriptor(ud1);;
+#! gap> ud2 := NormedUmbrellaDescriptor(ud1, 1, [2, 5, 8]);
+#! [ (1,2,5,6,3), (1,2,7,8,9,4), (1,3,10,11,4), (2,5,12,13,7), (3,6,14,15,16,10),
+#!   (4,9,17,18,11),   (5,6,14,19,12), [ 8, 7, 13 ], [ 8, 9, 17 ], (10,11,18,20,16),
+#!   [ 13, 12, 19 ],    [ 15, 14, 19 ], [ 15, 16, 20 ], [ 17, 18, 20 ] ]
+#! gap>  surf2 := SimplicialSurfaceByUmbrellaDescriptor(ud2);;
+#! gap> IsIsomorphic(surf1,surf2);
+#! true
+#! @EndExampleSession
+#! @Returns a list 
+#! @Arguments umbrelladescriptor, face 
+DeclareOperation( "NormedUmbrellaDescriptor",[IsList,IsPosInt]);
+#! @Arguments umbrelladescriptor, face, neighbours
+DeclareOperation( "NormedUmbrellaDescriptor",[IsList,IsPosInt,IsList]);
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
+#!  Suppose that <A>umdesc</A> is a valid umbrella descriptor of a surface
+#!  <M>S</M>, see (<Ref Sect="Section_Constructors_Umbrellas"/>).
+#!   The degree sequence of <A>umdesc</A>
+#!  is a list <E>degseq</E>. If the <M>i</M>-th entry of <A>umdesc</A> is
+#!  bound, then this entry corresponds to a vertex of <M>S</M>  and 
+#!  the <M>i</M>-th entry of <A>degseq</A> is a list <M>[d,b]</M>, where
+#!  <M>d</M>  is the degree of the <M>i</M>-th vertex,  and the boolean
+#!  <M>b</M> is  true, if the <M>i</M>-th vertex is inner and false else.
+#!
+#! @BeginExampleSession
+#! gap> vf := [ [ 1, 3, 4 ], [ 1, 2, 4 ], [ 2, 4, 5 ], [ 2, 5, 6 ],
+#!> [ 1, 2, 6 ], [ 1, 6, 7 ], [ 1, 7, 8 ], [ 1, 3, 8 ], [ 3, 4, 9 ],
+#!> [ 4, 9, 10 ], [ 4, 5, 10 ], [ 5, 10, 11 ], [ 5, 6, 11 ], [ 6, 11, 12 ],
+#!> [ 6, 7, 12 ], [ 7, 12, 13 ], [ 7, 8, 13 ], [ 8, 13, 14 ], [ 3, 8, 14 ],
+#!> [ 3, 9, 14 ] ];;
+#! gap> surf := SimplicialSurfaceByVerticesInFaces(vf);
+#! simplicial surface (14 vertices, 33 edges, and 20 faces)
+#! gap> ud := UmbrellaDescriptorOfSurface(surf);
+#! [ (1,8,7,6,5,2), (2,3,4,5), (1,9,20,19,8), (1,9,10,11,3,2), (3,11,12,13,4), 
+#!   (4,13,14,15,6,5), (6,15,16,17,7), (7,17,18,19,8), [ 10, 9, 20 ], 
+#!   [ 10, 11, 12 ], [ 12, 13, 14 ], [ 14, 15, 16 ], [ 16, 17, 18 ], 
+#!   [ 20, 19, 18 ] ]
+#! gap> DegreeSequenceOfUmbrellaDescriptor(ud);
+#! [ [ 6, true ], [ 4, true ], [ 5, true ], [ 6, true ], [ 5, true ], 
+#!   [ 6, true ], [ 5, true ], [ 5, true ], [ 3, false ], [ 3, false ], 
+#!   [ 3, false ], [ 3, false ], [ 3, false ], [ 3, false ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list 
+#! @Arguments umbdesc
+DeclareOperation( "DegreeSequenceOfUmbrellaDescriptor",[IsList]);
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#!  Given a DegreeSequence of a normed UmbrellaDescriptor for a closed
+#!  simplicial surface which has no vertices of degree 2, this function
+#!  returns the umbrella descriptors of all simplicial surfaces which
+#!  have a normed umbrella descriptor  matching this degree sequence.
+
+#!
+#! @BeginExampleSession
+#! gap> ud :=
+#! > [ (1,6,16,5), (1,6,15,4), (2,21,22,3), (9,11,12,10), (11,17,18,12), 
+#! >  (7,9,10,8), (7,13,14,8), (1,4,2,3,5), (17,23,21,22,24,18), 
+#! >  (3,22,24,20,16,5), (2,21,23,19,15,4), (6,16,20,14,13,19,15), 
+#! >  (7,13,19,23,17,11,9), (8,14,20,24,18,12,10) ];;
+#! gap> surf := SimplicialSurfaceByUmbrellaDescriptor( ud );
+#! simplicial surface (14 vertices, 36 edges, and 24 faces)
+#! gap> nud := NormedUmbrellaDescriptor(ud, 1 );
+#! [ (1,2,5,6,3), (1,2,7,4), (1,3,8,4), (2,5,9,10,11,7), (3,6,12,13,14,8), 
+#!   (4,7,11,15,16,14,8), (5,6,12,9), (9,10,17,18,13,12), 
+#!   (10,11,15,19,20,21,17), (13,14,16,22,23,24,18), (15,16,22,19), 
+#!   (17,18,24,21), (19,20,23,22), (20,21,24,23) ]
+#! gap> ds := DegreeSequenceOfUmbrellaDescriptor(nud);
+#! [ [ 5, true ], [ 4, true ], [ 4, true ], [ 6, true ], [ 6, true ], 
+#!   [ 7, true ], [ 4, true ], [ 6, true ], [ 7, true ], [ 7, true ], 
+#!   [ 4, true ], [ 4, true ], [ 4, true ], [ 4, true ] ]
+#! gap> AllUmbrellaDescriptorsOfDegreeSequence( ds );
+#! [ [ (1,2,5,6,3), (1,2,7,4), (1,3,8,4), (2,5,9,10,11,7), (3,6,12,13,14,8), 
+#!       (4,7,11,15,16,14,8), (5,6,12,9), (9,10,17,18,13,12), 
+#!       (10,11,15,19,20,21,17), (13,14,16,22,23,24,18), (15,16,22,19), 
+#!       (17,18,24,21), (19,20,23,22), (20,21,24,23) ] ]
+#! @EndExampleSession
+#!
+#! @Returns a list 
+#! @Arguments degreeseq
+DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
+#! @EndGroup
+
+

@@ -1,0 +1,21 @@
+\begin{tikzpicture}[scale=1]
+\tikzset{knoten/.style={circle,fill=black,inner sep=0.7mm}}
+\node [knoten] (a) at (0,0) {};
+\node [knoten] (b) at (-1,0) {};
+\node [knoten] (c) at (0,1) {};
+\node [knoten] (d) at (1,0) {};
+\node [knoten] (e) at (0,-1) {};
+\node [knoten] (f) at (0,2) {};
+\draw[-] (a) to (b);
+\draw[-] (a) to (c);
+\draw[-] (a) to (d);
+\draw[-] (a) to (e);
+\draw[-] (b) to (c);
+\draw[-] (c) to (d);
+\draw[-] (d) to (e);
+\draw[-] (e) to (b);
+\draw[-] (f) to (b);
+\draw[-] (f) to (c);
+\draw[-] (f) to (d);
+\draw[-] (f) arc (90:270:1.5cm);
+\end{tikzpicture}

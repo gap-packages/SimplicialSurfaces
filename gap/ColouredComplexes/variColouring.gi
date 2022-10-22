@@ -373,7 +373,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_SurfaceRecursion",
             generators, colEdgesOfFaces, startingFace, edges, edgeColSurfaces,
             info, coloursOfEdges, obj, symOfColour;
 
-        # Initialize localSymmetry (ony for onlyTame-case)
+        # Initialize localSymmetry (only for onlyTame-case)
         symOfColour := [0,0,0];
 
         edgePosition := [];

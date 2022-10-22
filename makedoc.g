@@ -67,7 +67,7 @@ preProcessTikz := function( node )
         # To circumvent this issue, we proceed as follows:
         # 1) Write the picture into a temporary file _IMAGE_TMP.tex
         #       We use a sed-command to remove all leading whitespaces
-        #       (othewise the same picture might be compiled twice).
+        #       (otherwise the same picture might be compiled twice).
         # 2) Call ../flatex/flatex _IMAGE_TMP.tex
         #       This creates the file _IMAGE_TMP.flt
         # 3) Calculate the hash of this file
@@ -269,7 +269,7 @@ BindGlobal( "CleanImageDirectory", function(  )
     local allFiles, file;
 
     # First we remove the temporary files
-    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force _IMAGE_TMP*;\"" );
+    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm -f _IMAGE_TMP*;\"" );
 
     # Secondly we remove all old image files
     allFiles := DirectoryContents( __SIMPLICIAL_DocDirectory );
@@ -280,11 +280,11 @@ BindGlobal( "CleanImageDirectory", function(  )
                 # This is a file to an existing picture
                 if not ForAny( [".tex", ".svg", ".pdf"], e -> EndsWith(file,e) ) then
                     # Does not end in one of those file extensions
-                    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force ", file, ";\"" );
+                    Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm -f ", file, ";\"" );
                 fi;
             else
                 # This is an old file that can be removed
-                Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force ", file, ";\"" );
+                Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm -f ", file, ";\"" );
             fi;
         fi;
     od;
@@ -333,7 +333,7 @@ BindGlobal("MakeGAPDocDoc", function(arg)
   
   
   #MB precompile the images
-        Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm --force _TIKZ_*;\"" );
+        Exec( "sh -c \" cd ", __SIMPLICIAL_DocDirectory, "; rm -f _TIKZ_*;\"" );
         __SIMPLICIAL_MANUAL_MODE := true;
         Read("gap/PolygonalComplexes/drawing.gd");
         Read("gap/Library/library_images.gd");

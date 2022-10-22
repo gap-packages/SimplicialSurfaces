@@ -113,7 +113,7 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #!    \input{_TIKZ_Octahedron_reshaped.tex}
 #! </Alt>
 #! 
-#! We can see that the programm chooses to display a different net to avoid
+#! We can see that the program chooses to display a different net to avoid
 #! self-intersections. If the system can not easily avoid intersections it
 #! will split up the surface and draw these components separately. This feature 
 #! can be turned off by setting the
@@ -413,7 +413,7 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLengths", pr);;
 #!   is the inner angle of vertex <A>v</A> in face <A>f</A>. The angle is represented as a 
 #!   list <A>[sin,cos]</A> with the sine and cosine of the angle.
 #!   In the case of a triangle, it is not possible to change the angles without 
-#!   specifiying the edge lengths, as the angles do not describe a unique triangle.
+#!   specifying the edge lengths, as the angles do not describe a unique triangle.
 #!
 #! We will exemplify this parameter on the example of a rectangle example. 
 #! In the case of a rectangle, changing the angles does not change the edge lengths.

@@ -114,7 +114,7 @@
         % okey  
         padding:0;
         margin:0;
-        % background-color:\#12ff55;  usefull for debugging positioning
+        % background-color:\#12ff55;  useful for debugging positioning
         text-align:center; % good for centered text nodes...will have to improve that later on...with more integration with pgf options for text nodes
       }
     }%
@@ -178,7 +178,7 @@
   }%
   \pgfsys@invoke{<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>\Hnewline% added that
   <?xml-stylesheet href="\pgfsys@foreignobject@css.css" type="text/css"?>\Hnewline}% added that 
-%%%%%%%%%%%%%%% maybee I should add an option to change the css, for the whole picture
+%%%%%%%%%%%%%%% maybe I should add an option to change the css, for the whole picture
   \pgfsys@invoke{<svg xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink" width="\the\pgf@xc"
     height="\the\pgf@yc" viewBox="}%
