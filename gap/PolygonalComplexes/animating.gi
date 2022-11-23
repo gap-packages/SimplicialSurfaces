@@ -646,10 +646,13 @@ InstallMethod( GetFaceColours,
     "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
-				if not IsBound(printRecord.faceColours) then
-					return [];
-				fi;
-				return printRecord.faceColours;
+    local res, i;
+                res := [];
+                for i in Faces(surface) do
+                    Add(res, GetFaceColour(surface, i, printRecord));
+                od;
+
+                return res;
     end
 );
 
