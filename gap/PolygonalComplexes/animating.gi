@@ -800,6 +800,36 @@ InstallMethod( GetCircleColours,
     end
 );
 
+BindGlobal( "__SIMPLICIAL_AddFaceToScenario",
+#    "outside the general method for using it recursively",
+#    [IsSimplicialSurface, IsRecord, IsString],
+    function(face, vertOfFace, printRecord, output)
+    local file, template, coords, i, j, colour,
+		      vertOfEdge, parametersOfCircle, 
+		      parametersOfEdge, temp, vertex, edge, vertices,edges,
+		      faces;
+        #this does nothting, but without it claims that the GetFaceColour does not have a matching function
+        IsSimplicialSurface(face);
+        
+        # colour := GetFaceColours(face, printRecord);
+        #vertOfFace := VerticesOfFaces(face)[1];
+
+        colour := GetFaceColour(face, Faces(face)[1], printRecord);
+        if not StartsWith(colour, "0x") then
+            colour := Concatenation("\"", colour, "\"");
+        fi;
+        AppendTo(output, "\t\tvar face", face, " = new THREE.Geometry();\n");
+        for j in [1..3] do
+            AppendTo(output, "\t\tface", face, ".vertices.push(allpoints[", Position(Vertices(face),vertOfFace[j])-1, "\].vector);\n");
+        od;
+        AppendTo(output, "\t\tcentroids.push(computeCentroid(face", face, "));\n");
+        AppendTo(output, "\t\tvar face", face, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(face, Faces(face)[1], printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
+        AppendTo(output, "\t\tface", face, ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
+        AppendTo(output, "\t\tvar face", face, "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
+        AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", face, ", face", face, "_material) );\n");
+        return "";
+    end
+);
 
 # general method
 InstallMethod( DrawSurfaceToJavaScriptCalculate,
@@ -861,19 +891,24 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 for i in [1..(NumberOfFaces(surface))] do
                     if IsFaceActive(surface, faces[i], printRecord) then
                         vertOfFace := VerticesOfFaces(surface)[faces[i]];
-                        colour := GetFaceColour(surface, faces[i], printRecord);
-                        if not StartsWith(colour, "0x") then
-                            colour := Concatenation("\"", colour, "\"");
-                        fi;
-                        AppendTo(output, "\t\tvar face", faces[i], " = new THREE.Geometry();\n");
-                        for j in [1..3] do
-                            AppendTo(output, "\t\tface", faces[i], ".vertices.push(allpoints[", Position(vertices,vertOfFace[j])-1, "\].vector);\n");
-                        od;
-                        AppendTo(output, "\t\tcentroids.push(computeCentroid(face", faces[i], "));\n");
-                        AppendTo(output, "\t\tvar face", faces[i], "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(surface, i, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
-                        AppendTo(output, "\t\tface", faces[i], ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
-                        AppendTo(output, "\t\tvar face", faces[i], "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
-                        AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", faces[i], ", face", faces[i], "_material) );\n");
+                        face := SubsurfaceByFaces(surface, [faces[i]]);
+                        __SIMPLICIAL_AddFaceToScenario(face, vertOfFace, printRecord, output);
+
+                        # original for docs
+                        # vertOfFace := VerticesOfFaces(surface)[faces[i]];
+                        # colour := GetFaceColour(surface, faces[i], printRecord);
+                        # if not StartsWith(colour, "0x") then
+                        #     colour := Concatenation("\"", colour, "\"");
+                        # fi;
+                        # AppendTo(output, "\t\tvar face", faces[i], " = new THREE.Geometry();\n");
+                        # for j in [1..3] do
+                        #     AppendTo(output, "\t\tface", faces[i], ".vertices.push(allpoints[", Position(vertices,vertOfFace[j])-1, "\].vector);\n");
+                        # od;
+                        # AppendTo(output, "\t\tcentroids.push(computeCentroid(face", faces[i], "));\n");
+                        # AppendTo(output, "\t\tvar face", faces[i], "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(surface, i, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
+                        # AppendTo(output, "\t\tface", faces[i], ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
+                        # AppendTo(output, "\t\tvar face", faces[i], "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
+                        # AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", faces[i], ", face", faces[i], "_material) );\n");
                     fi;
                 od;
 
