@@ -455,7 +455,7 @@ InstallMethod( ExtendByIdentificationNC,
 #!
 #!	@Arguments a (coloured) simplicial surface, two face numbers (for a coloured
 #!		simplicial surface these refer to the underlying simplicial surface).
-#!	@Returns a simplicial surface identifaction
+#!	@Returns a simplicial surface identification
 #TODO write the method for coloured simplicial surfaces
 InstallMethod( NeighbourIdentification, 
 	"for a simplicial surface and two faces",

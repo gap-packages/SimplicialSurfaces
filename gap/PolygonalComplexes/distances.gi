@@ -8,7 +8,7 @@ InstallMethod( NeighbourVerticesOfVertexNC,
         listOfNeighbourVertices:=[];
         for edge in EdgesOfVertexNC(polygonalComplex,vertex) do
             # Now we use that every edge of a polygonal complex is incident to
-            # excactly two vertices.
+            # exactly two vertices.
             Add(listOfNeighbourVertices, OtherVertexOfEdgeNC(polygonalComplex, vertex, edge) );
         od;
         return listOfNeighbourVertices;

@@ -19,7 +19,7 @@ PrintFoldIn := function ( filename, surf, sol )
         fi;
         AppendTo(filename, "\n");
 
-        # For each vertex print its numner, 
+        # For each vertex print its number, 
         # its three coordinates and then
         # a colour
         i := 1;

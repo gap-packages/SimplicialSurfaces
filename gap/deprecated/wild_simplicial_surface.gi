@@ -337,7 +337,7 @@ BindGlobal("__SIMPLICIAL_EdgeColoursFromFaceEdgePath", function(gens, path)
 );
 
 
-# auxilliary function
+# auxiliary function
 # v is a face-path and gens a list of generators
 # return a list with all coloured face-edge-paths that are compatible with these generators
 BindGlobal("__SIMPLICIAL_ColouredFaceEdgePathsFromFacePath",function( gens, v )
@@ -449,7 +449,7 @@ BindGlobal("__SIMPLICIAL_TestGeneratorsForFaceEdgePaths", function(gens, paths)
 
 end);
 
-##  auxilliary function
+##  auxiliary function
 ## Test whether the generators match up with a list of face-paths (for
 ## each vertex one path is given). DON'T confuse them with face-edge-paths
 BindGlobal("__SIMPLICIAL_TestGens", function(gens, paths)

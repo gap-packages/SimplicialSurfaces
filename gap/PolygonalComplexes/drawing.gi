@@ -707,16 +707,15 @@ BindGlobal("__SIMPLICIAL_PrintRecordGeneralHeader",
 
 BindGlobal( "__SIMPLICIAL_ReadTemplateFromFile",
     function(relPath)
-        local gapPath, path, input, content;
+        local path, input, content;
 
-        gapPath := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
-        gapPath := Filtered( gapPath, IsReadableFile );
-        for path in gapPath do
+        path := Filename(DirectoriesPackageLibrary("SimplicialSurfaces", "doc"), relPath);
+        if path <> fail then
             input := InputTextFile( path );
             content := ReadAll(input);
             CloseStream(input);
             return content;
-        od;
+        fi;
 
         Error("Internal Error: ", relPath, " not found in GAP root directories.");
     end
@@ -724,9 +723,7 @@ BindGlobal( "__SIMPLICIAL_ReadTemplateFromFile",
 
 BindGlobal( "__SIMPLICIAL_PrintRecordTikzHeader",
     function(printRecord)
-        local relPath;
-        relPath := "/pkg/simplicial-surfaces/doc/TikZHeader.tex";
-				return __SIMPLICIAL_ReadTemplateFromFile(relPath);
+        return __SIMPLICIAL_ReadTemplateFromFile("TikZHeader.tex");
     end
 );
 
@@ -973,7 +970,7 @@ InstallMethod( DrawSurfaceToTikz,
 
                     # do tests
                     # we rely on the fact that computed faces of a previous 
-                    # drawing component will keep beeing false (otherwise
+                    # drawing component will keep being false (otherwise
                     # the tried addition will produce an error).
                     success := true;
                     for j in [1..Length(checkFct)] do

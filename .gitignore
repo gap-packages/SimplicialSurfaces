@@ -1,10 +1,8 @@
 # Documentation and automatically generated files
 doc/chap*
-doc/_Chapter*
-doc/_Chunks.xml
 doc/title.xml
+doc/_*.xml
 doc/SimplicialSurfaces.tex
-doc/_AutoDocMainFile.xml
 doc/_IMAGE*
 doc/_TIKZ*
 doc/*.png
@@ -19,7 +17,9 @@ flatex/Makefile.in
 flatex/aclocal.m4
 flatex/autom4te.cache/
 flatex/compile
+flatex/config.guess
 flatex/config.status
+flatex/config.sub
 flatex/configure
 flatex/depcomp
 flatex/flatex

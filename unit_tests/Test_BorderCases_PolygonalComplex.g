@@ -199,7 +199,7 @@ end);
 BindGlobal( "__SIMPLICIAL_Test_SplitEdge", function()
     local oct, split, split2, split3, triangle, eye, eye1, eye2, hourglass, hourglass1;
 
-    #Test repeated spliting
+    #Test repeated splitting
     oct := Octahedron();
     split := SplitEdge(oct, 1);
     SIMPLICIAL_TestAssert(split[2] = [13, 14]);
@@ -213,7 +213,7 @@ BindGlobal( "__SIMPLICIAL_Test_SplitEdge", function()
     SIMPLICIAL_TestAssert(split3[2] = [17, 18]);
     SIMPLICIAL_TestAssert(split3 = SplitEdgeNC(split2[1], 5));
 
-    #Test if spliting outer edge changes anything
+    #Test if splitting outer edge changes anything
     triangle := SimplicialSurfaceByDownwardIncidence([[1,2], [1,3], [2,3]], [[1,2,3]]);
     split := SplitEdge(triangle, 3);
     SIMPLICIAL_TestAssert(split[2] = [3]);
@@ -334,13 +334,13 @@ BindGlobal( "__SIMPLICIAL_Test_SplitVertex", function()
     SIMPLICIAL_TestAssert(vertSplit[2] = [8,9]);
     SIMPLICIAL_TestAssert(vertSplit = SplitVertexNC(edgeSplit[1], 1));
 
-    #Test if spliting outer vertices changes anything
+    #Test if splitting outer vertices changes anything
     triangle := SimplicialSurfaceByDownwardIncidence([[1,2], [1,3], [2,3]], [[1,2,3]]);
     split2 := SplitVertex(triangle, 3);
     SIMPLICIAL_TestAssert(split2[2] = [3]);
     SIMPLICIAL_TestAssert(split2 = SplitVertexNC(triangle, 3));
 
-    #Test if spliting vertices with one umbrella partition changes anything
+    #Test if splitting vertices with one umbrella partition changes anything
     fiveGon:=SimplicialSurfaceByDownwardIncidence([[2,6], [2,3], [3,4], [4,5], [5,6], [1,2], [1,6], [1,3], [1,4], [1,5]],
 		[[1,6,7], [2,6,8], [3,8,9], [4,9,10], [5,7,10]]);
     split3 := SplitVertex(fiveGon, 1);

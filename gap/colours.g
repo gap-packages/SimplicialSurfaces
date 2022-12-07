@@ -107,4 +107,4 @@ BindGlobal( "__SIMPLICIAL_PrintColourString",
     end
 );
 
-#TODO the automatical row wrap makes some of the colour commands visible -> should be avoided
+#TODO the automatic row wrap makes some of the colour commands visible -> should be avoided

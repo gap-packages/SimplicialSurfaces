@@ -232,7 +232,7 @@ simplicial surface (10 vertices, 24 edges, and 16 faces)
 gap&gt; [ 17, 21, 11 ] in Flags(faceSum1);
 false
 </Example>
-        Such a combination might force a partical relabelling of the 
+        Such a combination might force a partial relabelling of the 
         surface and in our case, this has happened: the triple <M>[17,21,11]</M>
         is no flag of the new surface. Fortunately, it is easy to
         reconstruct: We are searching for a face whose vertices

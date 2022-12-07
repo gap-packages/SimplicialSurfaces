@@ -280,7 +280,7 @@ InstallMethod( ColourInvolutions,
 ##
 ##  WildColouredSurfaceOfIsoscelesColouredSurface
 ##
-##  Assosciated to an isosceles coloured surf is a wild coloured surface
+##  Associated to an isosceles coloured surf is a wild coloured surface
 ##  whose colour involutions are the colour involutions of the isosceles
 ##  coloured surface.
 ##

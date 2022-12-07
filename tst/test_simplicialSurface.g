@@ -470,7 +470,7 @@ end;
 
 ##
 ##	Test attributes of simplicial surfaces using a record with the
-##      following entrie:
+##      following entries:
 ##	vertexNr	number of vertices
 ##	edgeNr		number of edges
 ##	faceNr		number of faces

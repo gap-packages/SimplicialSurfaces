@@ -1341,7 +1341,7 @@ InstallMethod( AllUmbrellaDescriptorsOfDegreeSequence,
             return cud;
         end;
 
-        # This function finds all neigbours of the face F
+        # This function finds all neighbours of the face F
         # in ud up to position [c,p]
         # This function assumes ud[c][p] is valid and filled
         FindAllNeighs := function( ud, c, p, F )
@@ -1481,13 +1481,13 @@ InstallMethod( AllUmbrellaDescriptorsOfDegreeSequence,
                     r := oncyc[j][1]; # F occurs in row r
                     if Pos(ud[r],ucode[r][1],G) <> false then
                         # G also occurs in row r 
-                        # add neigbour pair of G
+                        # add neighbour pair of G
                         neighsG := findNeighs(ud[r],ucode[r][1],G,ucode[r][2]);
                         # the neighbour pairs of G in row r
                         if F in neighsG then i := i + 1; fi;
                         if i>= 3 then
                             # We are only allowed to have F and G
-                            # as neigbour pair twice
+                            # as neighbour pair twice
                             return false;
                         fi;
                     fi;
