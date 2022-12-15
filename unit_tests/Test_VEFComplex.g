@@ -79,8 +79,8 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         SIMPLICIAL_TestAssert(FaceDegreesOfVertices(ball)=[1,2,,1]);
 
         # VertexCounter
-        SIMPLICIAL_TestAssert(VertexCounter(torus)=[ [2,1] ]);
-        SIMPLICIAL_TestAssert(VertexCounter(ball)=[ [1,2], [2,1] ]);
+        SIMPLICIAL_TestAssert(ListCounter(CounterOfVertices(torus))=[ [2,1] ]);
+        SIMPLICIAL_TestAssert(ListCounter(CounterOfVertices(ball))=[ [1,2], [2,1] ]);
 
         # IsFaceHomogeneous
         SIMPLICIAL_TestAssert(IsFaceHomogeneous(torus));

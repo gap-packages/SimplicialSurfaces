@@ -1425,11 +1425,11 @@ DeclareOperation( "MultiTetrahedralSymbolOfComplex", [IsTwistedPolygonalComplex]
 #! @BeginExampleSession
 #! gap> tetra:=MultiTetrahedralSphereByTetrahedralSymbol([]);
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> VertexCounter(tetra);
+#! gap> ListCounter(CounterOfVertices(tetra));
 #! [ [ 3, 4 ] ]
 #! gap> doubleTet:=MultiTetrahedralSphereByTetrahedralSymbol([[1,1]]);
 #! simplicial surface (5 vertices, 9 edges, and 6 faces)
-#! gap> VertexCounter(doubleTet);
+#! gap> ListCounter(CounterOfVertices(doubleTet));
 #! [ [ 3, 2 ], [ 4, 3 ] ]
 #! @EndExampleSession
 #! @Returns a simplicial surface
