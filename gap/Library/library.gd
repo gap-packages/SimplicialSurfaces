@@ -100,7 +100,7 @@
 #!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
 #!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
 #! @EndExampleSession
-#! Since it is tedious to alway write <K>true</K>, there is a shortcut
+#! Since it is tedious to always write <K>true</K>, there is a shortcut
 #! implemented that interprets "missing" results as <K>true</K>: 
 #! @BeginExampleSession
 #! gap> AllPolygonalComplexes( IsConnected, IsOrientable, EulerCharacteristic, 0 );

@@ -137,7 +137,7 @@
 #!   }
 #! </Alt>
 #!
-#! If instead only the central vertex should be splitted (such that the
+#! If instead only the central vertex should be split (such that the
 #! edge split "opens" the surface), the method <K>SplitEdgePath</K>
 #! (<Ref Subsect="SplitEdgePath"/>) can be used instead.
 #! @BeginExampleSession
@@ -258,10 +258,10 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! @BeginGroup SplitVertexEdgePath
 #! @Description
 #! Split the given <A>complex</A> along the given <A>vePath</A>. First,
-#! all edges of the path are splitted by <K>SplitEdge</K> 
-#! (<Ref Subsect="SplitEdge"/>), then all vertices of the path are splitted
+#! all edges of the path are split by <K>SplitEdge</K> 
+#! (<Ref Subsect="SplitEdge"/>), then all vertices of the path are split
 #! by <K>SplitVertex</K> (<Ref Subsect="SplitVertex"/>). If the first and
-#! final vertex of <A>vePath</A> should not be splitted, the method
+#! final vertex of <A>vePath</A> should not be split, the method
 #! <K>SplitEdgePath</K> (<Ref Subsect="SplitEdgePath"/>) should be used
 #! instead. 
 #!
@@ -273,11 +273,11 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! (for the definition see <Ref Subsect="VertexEdgePath"/>) of <A>complex</A>.
 #! @InsertChunk VertexEdgePath_Construction
 #!
-#! This method returns a pair where the first component is the splitted
+#! This method returns a pair where the first component is the split
 #! <A>complex</A> and the second one contains the changed labels.
 #! The second component is a list of pairs [<A>newPath</A>, <A>oldPath</A>].
 #! These are computed as follows: If the original <A>vePath</A> would be 
-#! marked in the splitted complex, it would show up as multiple 
+#! marked in the split complex, it would show up as multiple 
 #! vertex-edge-paths. Each of those is a <A>newPath</A> and the corresponding
 #! <A>oldPath</A> is the unique subpath of the original <A>vePath</A>, such
 #! that each element of <A>newPath</A> was obtained from the element at the
@@ -296,16 +296,16 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! @EndExampleSession
 #! Splitting the complex along this path leads to four one faces:
 #! @BeginExampleSession
-#! gap> splitted:=SplitVertexEdgePath(complex,path);
+#! gap> split:=SplitVertexEdgePath(complex,path);
 #! [ simplicial surface (12 vertices, 12 edges, and 4 faces),
 #! [ [ | v12, E13, v14 |, | v3, E8, v6 | ],
 #!   [ | v13, E14, v15 |, | v3, E8, v6 | ],
 #!   [ | v8, E11, v10 |, | v1, E3, v3 | ],
 #!   [ | v9, E12, v11 |, | v1, E3, v3 | ] ] ]
-#! gap> NumberOfConnectedComponents(splitted[1]);
+#! gap> NumberOfConnectedComponents(split[1]);
 #! 4
 #! @EndExampleSession
-#! The second output shows in which two path the original path was splitted.
+#! The second output shows in which two path the original path was split.
 #! <Alt Only="TikZ">	
 #!   \input{Image_SplittedVertexEdgePath.tex}
 #! </Alt>
@@ -325,11 +325,11 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! @BeginGroup SplitEdgePath
 #! @Description
 #! Split the given <A>complex</A> along the given <A>vePath</A>. First,
-#! all edges of the path are splitted by <K>SplitEdge</K> 
+#! all edges of the path are split by <K>SplitEdge</K> 
 #! (<Ref Subsect="SplitEdge"/>), then all vertices of the path (except first
-#! and last) are splitted
+#! and last) are split
 #! by <K>SplitVertex</K> (<Ref Subsect="SplitVertex"/>). If the first and
-#! final vertex of <A>vePath</A> should also be splitted, the method
+#! final vertex of <A>vePath</A> should also be split, the method
 #! <K>SplitVertexEdgePath</K> (<Ref Subsect="SplitVertexEdgePath"/>) should
 #! be used instead.
 #!
@@ -341,11 +341,11 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! (for the definition see <Ref Subsect="VertexEdgePath"/>) of <A>complex</A>.
 #! @InsertChunk VertexEdgePath_Construction
 #!
-#! This method returns a pair where the first component is the splitted
+#! This method returns a pair where the first component is the split
 #! <A>complex</A> and the second one contains the changed labels.
 #! The second component is a list of pairs [<A>newPath</A>, <A>oldPath</A>].
 #! These are computed as follows: If the original <A>vePath</A> would be 
-#! marked in the splitted complex, it would show up as multiple 
+#! marked in the split complex, it would show up as multiple 
 #! vertex-edge-paths. Each of those is a <A>newPath</A> and the corresponding
 #! <A>oldPath</A> is the unique subpath of the original <A>vePath</A>, such
 #! that each element of <A>newPath</A> was obtained from the element at the
@@ -365,16 +365,16 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! Splitting the complex along this path without the first and the last vertex leads
 #! to two components:
 #! @BeginExampleSession
-#! gap> splitted:=SplitEdgePath(complex,path);
+#! gap> split:=SplitEdgePath(complex,path);
 #! [ triangular complex (10 vertices, 12 edges, and 4 faces),
 #! [ [ | v10, E13, v6 |, | v3, E8, v6 | ],
 #!   [ | v11, E14, v6 |, | v3, E8, v6 | ],
 #!   [ | v1, E11, v8 |, | v1, E3, v3 | ],
 #!   [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ]
-#! gap> NumberOfConnectedComponents(splitted[1]);
+#! gap> NumberOfConnectedComponents(split[1]);
 #! 2
 #! @EndExampleSession
-#! The second output shows in which two path the original path was splitted.
+#! The second output shows in which two path the original path was split.
 #! <Alt Only="TikZ">
 #!   \input{Image_SplittedEdgePath.tex}
 #! </Alt>
@@ -534,7 +534,7 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndExampleSession
 #! A disjoint union can't just combine these labels because it would not be
 #! clear to which component the vertex 2 is belonging. This conflict of labels
-#! is a common occurence and has to be handled delicately.
+#! is a common occurrence and has to be handled delicately.
 #!
 #! The <K>SimplicialSurface</K>-package deals with this problem by uniformly
 #! shifting the labels of the second argument.
@@ -1365,7 +1365,7 @@ DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
 #! extension can be sorted in pairs so that the vertices of each pair have 
 #! the same identification in the above sense. 
 #! 
-#! Not only vertices and faces are asigned to numbers, but also the 
+#! Not only vertices and faces are assigned to numbers, but also the 
 #! tetrahedra. The numbering of the tetrahedra starts from 1 and the later
 #! get numbers 2,3,.... in the order they are attached to obtain the given
 #! multi tetrahedral sphere.
@@ -1425,11 +1425,11 @@ DeclareOperation( "MultiTetrahedralSymbolOfComplex", [IsTwistedPolygonalComplex]
 #! @BeginExampleSession
 #! gap> tetra:=MultiTetrahedralSphereByTetrahedralSymbol([]);
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> VertexCounter(tetra);
+#! gap> ListCounter(CounterOfVertices(tetra));
 #! [ [ 3, 4 ] ]
 #! gap> doubleTet:=MultiTetrahedralSphereByTetrahedralSymbol([[1,1]]);
 #! simplicial surface (5 vertices, 9 edges, and 6 faces)
-#! gap> VertexCounter(doubleTet);
+#! gap> ListCounter(CounterOfVertices(doubleTet));
 #! [ [ 3, 2 ], [ 4, 3 ] ]
 #! @EndExampleSession
 #! @Returns a simplicial surface
@@ -1842,7 +1842,7 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! @BeginGroup SplitCut
 #! @Description
 #! Any inner edge (<Ref Subsect="InnerEdges"/>) with two incident
-#! boundary vertices (<Ref Subsect="InnerVertices"/>) can be splitted
+#! boundary vertices (<Ref Subsect="InnerVertices"/>) can be split
 #! into two boundary edges by a <K>SplitCut</K>. The attribute
 #! <K>SplitCuttableEdges</K>(<A>complex</A>) returns the set of all edges
 #! satisfying this property.

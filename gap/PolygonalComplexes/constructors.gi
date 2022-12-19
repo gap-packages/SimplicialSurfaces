@@ -460,13 +460,13 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 #######################################
 ##
-## UmbreallaDescriptors 
+##  UmbrellaDescriptors 
 ##
 
 
 #############################################################################
 ##
-#F  UmbrellaDescriptorOfSurface . . . . . compute the umbrella descriptor
+##  UmbrellaDescriptorOfSurface . . . . . compute the umbrella descriptor
 ##
 ##
 InstallMethod( UmbrellaDescriptorOfSurface, 
@@ -1341,7 +1341,7 @@ InstallMethod( AllUmbrellaDescriptorsOfDegreeSequence,
             return cud;
         end;
 
-        # This function finds all neigbours of the face F
+        # This function finds all neighbours of the face F
         # in ud up to position [c,p]
         # This function assumes ud[c][p] is valid and filled
         FindAllNeighs := function( ud, c, p, F )
@@ -1481,13 +1481,13 @@ InstallMethod( AllUmbrellaDescriptorsOfDegreeSequence,
                     r := oncyc[j][1]; # F occurs in row r
                     if Pos(ud[r],ucode[r][1],G) <> false then
                         # G also occurs in row r 
-                        # add neigbour pair of G
+                        # add neighbour pair of G
                         neighsG := findNeighs(ud[r],ucode[r][1],G,ucode[r][2]);
                         # the neighbour pairs of G in row r
                         if F in neighsG then i := i + 1; fi;
                         if i>= 3 then
                             # We are only allowed to have F and G
-                            # as neigbour pair twice
+                            # as neighbour pair twice
                             return false;
                         fi;
                     fi;
@@ -1633,6 +1633,151 @@ end);
 
 ##
 ##  End UmbrellaDescriptors
+##
+#######################################
+
+
+
+#######################################
+##
+##  DressGroups
+##
+
+
+#############################################################################
+##
+#F  SimplicalSurfaceByDressGroup . . . . . . . . .  .surface by dress group
+##
+##  Test whether the permutation group <D> defines a simplicial surface whose
+##  Dress group is <D> and if so, return the surface.
+##
+##
+InstallMethod( SimplicialSurfaceByDressGroup,
+    "for a permutation group",  [IsPermGroup], function(grp) 
+
+        local vertices, edges, faces, D0, D1, D2, dom,
+              t0, t1, t2,  v, e, f, i, j, gens, infostr, inci,
+              facesofedges, edgesofvertices;
+
+        dom := MovedPoints(grp);
+        gens := GeneratorsOfGroup(grp);
+        if Length(gens)<>3 then
+            return false;
+        fi;
+
+        t0 := gens[1];
+        t1 := gens[2];
+        t2 := gens[3];
+        D0 := Group( [t1, t2] );
+        D1 := Group( [t0, t2] );
+        D2 := Group( [t0, t1] );
+
+        infostr := "the dress relations are not satisfied.";
+        # t0 and t1 are to have no fixed points
+        if Size(MovedPoints(t0)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t1)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t0*t1)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t0*t2)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t1*t2)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+
+
+        # all generators must be involutions
+        if IsOne(t0) or IsOne(t1) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if not IsOne(t0^2) or not IsOne(t1^2) or not IsOne(t2^2) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if IsOne( t0*t2) or not IsOne( (t0*t2)^2 ) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if IsOne( t0*t1) or not IsOne( (t0*t1)^3 ) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        # now we know that the group satisfies the dress relations
+
+        vertices := Orbits( D0, dom);
+        edges := Orbits( D1, dom);
+        faces := Orbits( D2, dom);
+
+        # now we test necessary conditions that we
+        # may have a surface
+        for f in faces do
+            if Length(f) <> 6 then
+                Info( InfoSimplicial,2, "Faces must have 6 flags" );
+                return false;
+            fi;
+        od;
+
+        facesofedges := List(edges,i->[]);
+        edgesofvertices := List(vertices,i->[]);
+        for i in [1..Length(edges)] do
+            e := edges[i];
+            if not Length(e) in [2,4] then
+                Info( InfoSimplicial,2, "Edges must have 2 or 4 flags" );
+                return false;
+            fi;
+
+            # find the faces on e
+            for j in [ 1 .. Length(faces) ] do
+                inci := Intersection(e,faces[j]);
+                if inci <> [] then
+		    # check that in this case 2 common flags exist
+		    if Length(inci) <> 2 then
+                        Info( InfoSimplicial,2, "Faces and edges can have only 2 common flags" );
+			return false;
+	            fi;
+                    Add(facesofedges[i],j);
+                fi;
+            od;
+
+            # find the vertices on e
+            for j in [ 1 .. Length(vertices)] do
+                  if Intersection(e,vertices[j]) <> [] then
+                      Add(edgesofvertices[j],i);
+                  fi;
+            od;
+        od;
+
+        # now check that what we have is consistent
+	for i in [1..Length(faces)] do
+            for j in [ 1 .. Length(vertices)] do
+	        inci := Intersection(faces[i],vertices[j]);
+                if not Length(inci) in [0, 2] then
+                    Info( InfoSimplicial,2,
+		        "Faces and vertices can have only 2 common flags" );
+		    return false;
+                fi;
+            od;
+	od;
+
+
+    return SimplicialSurfaceByUpwardIncidence(edgesofvertices,facesofedges);
+end);
+
+
+
+##
+##  End DressGroups
 ##
 #######################################
 

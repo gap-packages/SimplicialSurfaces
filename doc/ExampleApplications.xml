@@ -103,10 +103,10 @@ gap&gt; EulerCharacteristic(newSurf);
         In our case, we can deduce that the surface <A>newSurf</A> can
         be represented as a triangulation of the sphere. We might want to
         know how many vertices there are of different degrees. This
-        can be found out by using <K>VertexCounter</K> 
-        (<Ref Subsect="VertexCounter"/>).
+        can be found out by using <K>CounterOfVertices</K> 
+        (<Ref Subsect="CounterOfVertices"/>).
 <Example>
-gap&gt; VertexCounter(newSurf);
+gap&gt; ListCounter(CounterOfVertices(newSurf));
 [ [ 4, 8 ], [ 5, 2 ], [ 6, 5 ], [ 7, 1 ], [ 11, 1 ] ]
 </Example>
         This tells us that there are 8 vertices of degree 4, for example.
@@ -232,7 +232,7 @@ simplicial surface (10 vertices, 24 edges, and 16 faces)
 gap&gt; [ 17, 21, 11 ] in Flags(faceSum1);
 false
 </Example>
-        Such a combination might force a partical relabelling of the 
+        Such a combination might force a partial relabelling of the 
         surface and in our case, this has happened: the triple <M>[17,21,11]</M>
         is no flag of the new surface. Fortunately, it is easy to
         reconstruct: We are searching for a face whose vertices

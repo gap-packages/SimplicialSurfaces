@@ -67,7 +67,7 @@ DeclareProperty( "IsFaceNamesDefault", IsSimplicialSurface );
 #! VerticesOfEdges or EdgesOfVertices, you can calculate the other. If you 
 #! additionally know either of EdgesOfFaces or FacesOfEdges, you can calculate
 #! all six of these attributes. This could have been implemented by a lot of
-#! specialized methods but the number of these methods rised exponentially
+#! specialized methods but the number of these methods rises exponentially
 #! with the number of attributes that are connected.
 #!
 #! Instead we only implement methods for the ``difficult'' parts (where work

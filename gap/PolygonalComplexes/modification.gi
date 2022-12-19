@@ -400,7 +400,7 @@ InstallMethod( SplitVertexEdgePathNC,
         od;
         size := Length(VerticesAsList(vePath));
         if IsClosedPath(vePath) then
-            # The last vertex has already be splitted!
+            # The last vertex has already be split!
             newLabelList[2*size-1] := newLabelList[1];
         else
             vertexSplit := SplitVertexNC(swapComplex, VerticesAsList(vePath)[size]);
@@ -2160,7 +2160,7 @@ InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
 	comp:=complex;
         vert:=Filtered(Vertices(comp),v->FaceDegreeOfVertex(comp,v)=3);
         if IsMultiTetrahedralSphere(comp) then
-                if not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] then
+                if not ListCounter(CounterOfVertices(comp)) in [[[3,4]],[[3,2],[4,3]]] then
                         for v in vert do
                                comp:=TetrahedralReduction(comp,v);
                         od;

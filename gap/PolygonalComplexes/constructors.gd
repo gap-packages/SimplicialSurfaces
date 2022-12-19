@@ -135,10 +135,10 @@
 #! <A>edges</A> and <A>faces</A>. If those sets are given, the incidence
 #! information is checked for compatibility with them, that is 
 #! (1) the integers in <A>faces</A> correspond to the bound positions of 
-#! <A>edgesOfFaces</A>, (2) the integers in <A>edges</A> are those occuring 
+#! <A>edgesOfFaces</A>, (2) the integers in <A>edges</A> are those occurring 
 #! in the entries of <A>edgesOfFaces</A> and also correspond to the bound 
 #! entries of <A>verticesOfEdges</A> and 
-#! (3) the integers in <A>verties</A> are those occuring
+#! (3) the integers in <A>verties</A> are those occurring
 #! in the entries of <A>verticesOfEdges</A>. This is not strictly 
 #! necessary since this information can be deduced from the lists
 #! <A>verticesOfEdges</A> and <A>edgesOfFaces</A>.
@@ -1054,7 +1054,7 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #!
 #!   Consider the surface on 10 faces consisting of exactly two inner vertices
 #!   of degree 5 and having vertex counter $v_2^6v_3^2v_5^2.$ Its umbrella
-#!   descripter is given in the example below. 
+#!   descriptor is given in the example below. 
 #!   We initialise renumbering of the faces such that <A>f(3)=1</A>  and the
 #!   neighbours of 3, namely 2, 4, and 11  such that <A>f(2)=2</A>,
 #!   <A>f(4)=3</A>  and <A>f(11)=4,</A> and <A>f(F) = infty</A> for the
@@ -1204,3 +1204,64 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! @EndGroup
 
 
+#! @Section Constructing surfaces via their Dress Group 
+#!
+#! In some constructions a surface may arrise from the knowledge
+#! of its Dress Group, see Section <Ref Sect="Section_Flags_DressGroup"/>.
+#! In this case, the surface can be reconstructed from its Dress group
+#! <M>D = \langle \theta_0, \theta_1, \theta_2\rangle</M> by computing the
+#! orbits of the dihedral subgroups
+#! <M>D_0 = \langle \theta_1, \theta_2\rangle</M>,
+#! <M>D_1 = \langle \theta_0, \theta_2\rangle</M>,
+#! <M>D_2 = \langle \theta_0, \theta_1\rangle</M>,
+#! where $\theta_0, \theta_1, \theta_2$ are the  Dress Involutions, 
+#! see <Ref Subsect="DressInvolutions"/>. In particular, 
+#! the vertices correspond to the orbits of <M>D_0</M>,
+#! the edges correspond to the orbits of <M>D_1</M>,
+#! the faces correspond to the orbits of <M>D_2</M>, and
+#! incidence is given by non-empty set-intersection.
+#!
+#! @SectionLabel Constructors_DressGroup
+#!
+#! @BeginGroup
+#! @Description
+#! This method takes as input a permutation group <A>dress</A>,  and tests,
+#! whether <A>dress</A> is the Dress Group of a simplicial surface <A>surf</A>,
+#! see Section <Ref Sect="Section_Flags_DressGroup"/>.
+#! If this is the case, <A>surf</A> is constructed and returned. 
+#!
+#! @BeginExampleSession
+#! gap> tet := Tetrahedron();;
+#! gap> dress := DressGroup(tet);
+#! Group([(1,7)(2,8)(3,13)(4,14)(5,19)(6,20)(9,15)(10,16)(11,21)(12,22)(17,23)(18,24), 
+#!   (1,3)(2,5)(4,6)(7,9)(8,11)(10,12)(13,15)(14,18)(16,17)(19,21)(20,24)(22,23), 
+#!   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24) ])
+#! gap> surf  := SimplicialSurfaceByDressGroup(dress);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap>  IsIsomorphic(surf, tet);
+#! true
+#! @EndExampleSession
+#!
+#! If the permutation group <A>dress</A> passed as an argument does not
+#! satisfy the conditions of being a dress group of a surface, 
+#! <A>false</A> is returned.
+#! @BeginExampleSession
+#! gap> SetInfoLevel(InfoSimplicial,3);
+#! gap> grp:=Group([(1,2)(3,4)(5,6)(7,8),(1,2)(3,5)(4,7)(6,8),(1,3)(2,4)(5,7)(6,8)]);  
+#! Group([ (1,2)(3,4)(5,6)(7,8), (1,2)(3,5)(4,7)(6,8), (1,3)(2,4)(5,7)(6,8) ])
+#! gap> SimplicialSurfaceByDressGroup(grp);
+#! #I  the dress relations are not satisfied.
+#! false
+#! gap> gens := [ ( 1, 6)( 2, 5)( 3, 4)( 7,12)( 8,11)( 9,10), 
+#! >   ( 1, 8)( 2, 7)( 3,12)( 4, 5)( 6, 9)(10,11), 
+#! >   ( 1,12)( 2,11)( 3,10)( 4, 9)( 5, 8)( 6, 7) ];
+#! [ (1,6)(2,5)(3,4)(7,12)(8,11)(9,10), (1,8)(2,7)(3,12)(4,5)(6,9)(10,11), 
+#!  (1,12)(2,11)(3,10)(4,9)(5,8)(6,7) ]
+#! gap> SimplicialSurfaceByDressGroup(Group(gens));
+#! #I  Faces and vertices can have only 2 common flags
+#! false
+#! @EndExampleSession
+#! @Returns a simplicial surface or false 
+#! @Arguments dress
+DeclareOperation( "SimplicialSurfaceByDressGroup",[IsPermGroup]);
+#! @EndGroup

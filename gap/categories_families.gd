@@ -70,6 +70,43 @@ BindGlobal( "EdgeColouredEdgeFacePathFamily",
     NewFamily("EdgeColouredEdgeFacePathFamily", IsObject, IsEdgeColouredEdgeFacePath));
 
 
+
+#######################################
+##
+##      Counters-part
+##
+## documented in gap/PolygonalComplexes/properties.gd
+DeclareCategory("IsCounter",IsObject);
+
+DeclareCategory( "IsCounterOfVertices", IsCounter);
+BindGlobal( "CounterOfVerticesFamily",
+    NewFamily("CounterOfVerticesFamily", IsObject, IsCounterOfVertices));
+DeclareAttribute("CounterOfVertices",IsTwistedPolygonalComplex);
+
+DeclareCategory( "IsCounterOfEdges", IsCounter);
+BindGlobal( "CounterOfEdgesFamily",
+    NewFamily("CounterOfEdgesFamily", IsObject, IsCounterOfEdges));
+DeclareAttribute("CounterOfEdges",IsTwistedPolygonalComplex);
+
+DeclareCategory( "IsCounterOfFaces", IsCounter);
+BindGlobal( "CounterOfFacesFamily",
+    NewFamily("CounterOfFacesFamily", IsObject, IsCounterOfFaces));
+DeclareAttribute("CounterOfFaces",IsTwistedPolygonalComplex);
+
+DeclareCategory( "IsCounterOfButterflies", IsCounter);
+BindGlobal( "CounterOfButterfliesFamily",
+    NewFamily("CounterOfButterliesFamily", IsObject, IsCounterOfButterflies));
+DeclareAttribute("CounterOfButterflies",IsSimplicialSurface);
+
+DeclareCategory( "IsCounterOfUmbrellas", IsCounter);
+BindGlobal( "CounterOfUmbrellasFamily",
+    NewFamily("CounterOfUmbrellasFamily", IsObject, IsCounterOfUmbrellas));
+
+DeclareCategory( "IsCounterOfThreeFaces", IsCounter);
+BindGlobal( "CounterOfThreeFacesFamily",
+    NewFamily("CounterOfThreeFacesFamily", IsObject, IsCounterOfThreeFaces));
+DeclareAttribute("CounterOfThreeFaces",IsSimplicialSurface);
+
 #######################################
 ##
 ##      Global variables

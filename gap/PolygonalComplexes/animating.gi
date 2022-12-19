@@ -824,7 +824,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         fi;
         SetPrintFormattingStatus( output, false );
 
-                template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Header.html.template");
+                template := __SIMPLICIAL_ReadTemplateFromFile("JS_Header.html.template");
                 AppendTo( output, template );
 
         # Set coordinates of vertices
@@ -851,7 +851,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                         AppendTo(output, "\t\tallpoints[", i, "].makelabel(", vertices[i+1], ");\n");
                     fi;
                 od;
-                template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_associate_points_init_faces.html.template");
+                template := __SIMPLICIAL_ReadTemplateFromFile("JS_associate_points_init_faces.html.template");
                 AppendTo( output, template );
 
                 # Add Faces to scenario
@@ -906,7 +906,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 AppendTo(output, "\n\n");
 
                 # Add Edges to scenario
-                template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_init_edges.html.template");
+                template := __SIMPLICIAL_ReadTemplateFromFile("JS_init_edges.html.template");
                 AppendTo( output, template );
                 if not IsBound(printRecord.edges) then
                     printRecord := CalculateParametersOfEdges(surface, printRecord);
@@ -936,7 +936,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 od;
 
                 if IsBound(printRecord.FaceTransparency) then
-                    template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_FooterFirst.html.template");
+                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterFirst.html.template");
                     AppendTo( output, template );
                     for face in faces do
                         if IsBound(printRecord.FaceTransparency[face]) then
@@ -944,10 +944,10 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                             AppendTo(output, "\t\t\tface", face , "_material.opacity = ", printRecord.FaceTransparency[face], ";\n");
                         fi;
                     od;
-                    template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_FooterSecond.html.template");
+                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterSecond.html.template");
                     AppendTo( output, template );
                 else
-                    template := __SIMPLICIAL_ReadTemplateFromFile("/pkg/simplicial-surfaces/doc/JS_Footer.html.template");
+                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_Footer.html.template");
                     AppendTo( output, template );
                 fi;
 

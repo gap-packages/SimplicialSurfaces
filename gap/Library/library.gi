@@ -40,14 +40,14 @@ BindGlobal( "__SIMPLICIAL_WriteSurfaceListIntoFile",
 # Return all possible locations of the library
 BindGlobal( "__SIMPLICIAL_LibraryLocation",
     function()
-        local relPath, absPaths;
+        local absPaths;
 
-        relPath := "pkg/simplicial-surfaces/library/";
-        # Find all possible paths where GAP might be and add the relative directory
-        absPaths := List( GAPInfo.RootPaths, p -> Concatenation(p, relPath) );
-        absPaths := Filtered( absPaths, IsDirectoryPath ); # check which ones actually exist
-
-        return absPaths;
+        # FIXME: this function should perhaps be changed to just do this:
+        #   return DirectoriesPackageLibrary("SimplicialSurfaces", "library");
+        # and then callers should be adapted suitably. But I did not want to
+        # do this right now, for the sake of quickly making progress
+        absPaths := DirectoriesPackageLibrary("SimplicialSurfaces", "library");
+        return List(absPaths, p -> Filename(p, ""));
     end
 );
 
@@ -108,11 +108,9 @@ BindGlobal( "__SIMPLICIAL_InitializeLibraryCache",
 __SIMPLICIAL_InitializeLibraryCache();
 
 
-DeclareGlobalFunction("__SIMPLICIAL_ParseLibraryQuery");
-
 # Given: Argument list from AllSimplicialSurfaces
 # Returns: List of pairs [function, result OR set of possible results]
-InstallGlobalFunction( "__SIMPLICIAL_ParseLibraryQuery", 
+BindGlobal( "__SIMPLICIAL_ParseLibraryQuery", 
     function( argList, fctName )
         local trueArg, ind;
 
@@ -183,7 +181,7 @@ BindGlobal( "__SIMPLICIAL_CheckQueryList",
 );
 
 DeclareGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive");
-InstallGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive",    
+InstallGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive",
     function(path)
         local subs, subfiles, subfolders, file, fileIn, posList,
             pos, line, out, folder;
@@ -233,9 +231,8 @@ BindGlobal("__SIMPLICIAL_LibraryConstructBinary",
 );
 
 DeclareGlobalFunction("__SIMPLICIAL_ReadLine");
-DeclareGlobalFunction("__SIMPLICIAL_LibraryParseString");
 
-InstallGlobalFunction( "__SIMPLICIAL_LibraryParseString",
+BindGlobal( "__SIMPLICIAL_LibraryParseString",
     function(string, startingDirectory)
         local split, surf, newPath;
     
@@ -353,11 +350,11 @@ InstallGlobalFunction( "__SIMPLICIAL_ReadLine",
 BindGlobal( "SIMPLICIAL_LIBRARY_INDEX",
     [
         # VertexCounter
-        [VertexCounter, 
+        [CounterOfVertices, 
             function(counter)
                 local str, sub;
                 str := "";
-                for sub in counter do
+                for sub in ListCounter(counter) do
                     Append(str, "__");
                     Append(str, String(sub[1]));
                     Append(str, "_");

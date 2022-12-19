@@ -81,7 +81,7 @@ Persons := [
 #IssueTrackerURL := "TODO",
 #SupportEmail := "TODO",
 
-PackageWWWHome := "https://github.com/gap-packages/simplicial-surfaces",
+PackageWWWHome := "https://github.com/gap-packages/SimplicialSurfaces",
 
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),

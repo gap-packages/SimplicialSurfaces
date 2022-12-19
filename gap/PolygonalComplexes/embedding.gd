@@ -20,7 +20,7 @@
 #! currently only be solved for small examples.
 #!
 #! Therefore the <K>SimplicialSurface</K>-package does not contain methods to
-#! compute general embeddings. This chapter contains some prerequesite methods
+#! compute general embeddings. This chapter contains some prerequisite methods
 #! in the direction of the general embedding-problem.
 #!
 #! Section <Ref Sect="Section_Embeddings_Anomalies"/> deals with properties 
@@ -125,7 +125,7 @@ DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 #! [ [ 1 ], [ 2 ], [ 3, 4 ] ]
 #! @EndExampleSession
 #!
-#! @Returns a set of sets of positve integers
+#! @Returns a set of sets of positive integers
 #! @Arguments complex
 DeclareAttribute( "EdgeAnomalyClasses", IsPolygonalComplex );
 #! @Returns a set of positive integers
@@ -160,7 +160,7 @@ DeclareOperation( "EdgeAnomalyClassOfEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! [ [ 1, 2 ] ]
 #! @EndExampleSession
 #!
-#! @Returns a set of sets of positve integers
+#! @Returns a set of sets of positive integers
 #! @Arguments complex
 DeclareAttribute( "FaceAnomalyClasses", IsPolygonalComplex );
 #! @Returns a set of positive integers
