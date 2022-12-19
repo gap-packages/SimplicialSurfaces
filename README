@@ -43,6 +43,12 @@ To compile the pictures, you also need the following bash-commands:
     pdflatex
     sed
     
+To create the tutorial go into the main folder of the package and type
+    cd tutorial/
+    gap maketut.g
+This compile the tutorial and the pictures, you also need the following 
+bash-commands
+    pdflatex
 
 If there are any questions, don't hesitate to ask me.
 
