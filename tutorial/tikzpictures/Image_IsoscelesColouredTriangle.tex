@@ -1,0 +1,16 @@
+\begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2, edgeStyle=nolabels,vertexStyle=nolabels]
+\coordinate (V1_1) at (0.5, 0.8660254037844386);
+\coordinate (V2_1) at (0, 0);
+\coordinate (V3_1) at (1, 0);
+
+\fill[face]  (V3_1) -- (V1_1) -- (V2_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V3_1=1,V1_1=1,V2_1=1) {};
+
+\draw[edge=red] (V1_1) -- (V2_1);
+\draw[edge=blue] (V2_1) -- (V3_1);
+\draw[edge=red] (V1_1) -- (V3_1);
+
+\vertexLabelR{V1_1}{left}{}
+\vertexLabelR{V2_1}{left}{}
+\vertexLabelR{V3_1}{left}{}
+\end{tikzpicture}
