@@ -980,6 +980,38 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #
 #! @BeginGroup
 #! @Description
+#!  Let <A>surf</A> be a simplicial surface. This method returns a list, <A>umbtipdesc</A>, of 
+#!  cyclic permutations and lists of integers like the umbrella descriptor of a surface. 
+#!  For the tip decriptor however the set of vertices (instead of the set of faces) of <A>surf</A> 
+#!  is the set of points which either are moved by a cyclic permutation or occurs in a list in 
+#!  <A>umbtipdesc</A>. Thus, the umbrella tip descriptor returns a list of, not the umbrella paths
+#!  of faces, but the umbrella paths of outer vertices for each vertex.
+#!  As an example consider the following net of a simplicial surface.
+#!  Note that the surface has boundary edges. Moreover, the vertices 
+#!  1,2,3, and 4 are inner vertices, while 5,6,7,8,9, and 10 are not.
+#!  Accordingly, the umbrella tip descriptor of the surface will consist of
+#!  cyclic permutations for the vertices 1,2,3, and 4 and of lists for
+#!  the remaining vertices.
+#!  <Alt Only="TikZ">
+#!       \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond,scale=1.5]
+#!           \input{Image_Constructor_Umbrella.tex}
+#!       \end{tikzpicture}
+#!  </Alt>
+#!  @BeginExampleSession
+#!  gap> surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 2, 5 ], [ 1, 3, 5 ],
+#!  >      [ 1, 3, 6 ], [ 1, 4, 6 ], [ 1, 4, 7 ], [ 1, 2, 7 ], [ 2, 7, 8 ], 
+#!  >      [ 2, 5, 8 ], [ 3, 5, 9 ], [ 3, 6, 9 ], [ 4, 6, 10 ], [ 4, 7, 10 ] ]);;
+#!  gap> UmbrellaTipDescriptorOfSurface(surf);
+#!  [ (2,5,3,6,4,7), (1,5,8,7), (1,5,9,6), (1,6,10,7), [ 2, 1, 3, 9, 8 ], 
+#!  [ 3, 1, 4, 10, 9 ], [ 2, 1, 4, 10, 8 ], [ 2, 7, 5 ], [ 3, 6, 5 ], [ 4, 7, 6 ] ]
+#!  @EndExampleSession
+#!  @Returns a list 
+#!  @Arguments surface 
+DeclareOperation( "UmbrellaTipDescriptorOfSurface", [IsSimplicialSurface and IsVertexFaithful] );
+#!  @EndGroup
+#
+#! @BeginGroup
+#! @Description
 #! This method takes as input a list <A>umbdesc</A>, which is an
 #! umbrella descriptor of a simplicial surface, see
 #! (<Ref Sect="Section_Constructors_Umbrellas"/>).
