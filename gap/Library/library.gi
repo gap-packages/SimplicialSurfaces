@@ -849,7 +849,7 @@ InstallMethod( SimplicialClosedGeodesic, "for an integer at least 3", [IsPosInt]
     function(nrFaces)
         local verticesOfEdges, edgesOfFaces, i;
 
-        if nrFaces = 1 then
+        if nrFaces < 3 then
             Error("SimplicialClosedGeodesic: Argument has to be greater than 2.");
         fi;
 
