@@ -1007,7 +1007,7 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #!  @EndExampleSession
 #!  @Returns a list 
 #!  @Arguments surface 
-DeclareOperation( "UmbrellaTipDescriptorOfSurface", [IsSimplicialSurface and IsVertexFaithful] );
+DeclareOperation( "UmbrellaTipDescriptorOfSurface", [IsSimplicialSurface] );
 #!  @EndGroup
 #
 #! @BeginGroup
