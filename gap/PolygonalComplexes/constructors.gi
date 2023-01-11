@@ -495,9 +495,12 @@ end);
 
 InstallMethod(UmbrellaTipDescriptorOfSurface, 
     "for a vertexfaithful simplicial surface", 
-    [IsSimplicialSurface and IsVertexFaithful],
+    [IsSimplicialSurface],
     function(surf)
-    local vertex, umbdesc, j, edge, vertEdges, umbVertices, umbPath;
+    local vertex, umbdesc, edge, vertEdges, umbVertices, umbPath;
+    if not IsVertexFaithful(surf) then
+        return fail;
+    fi;
     umbdesc:=[];
     for vertex in Vertices(surf) do
         #UmbrellaTipDescriptor for a vertex
