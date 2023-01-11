@@ -803,16 +803,19 @@ InstallMethod( GetCircleColours,
 BindGlobal( "__SIMPLICIAL_AddFaceToScenario",
 #    "outside the general method for using it recursively",
 #    [IsSimplicialSurface, IsRecord, IsString],
-    function(face, vertOfFace, printRecord, output)
+    function(face, printRecord, output)
     local file, template, coords, i, j, colour,
 		      vertOfEdge, parametersOfCircle, 
 		      parametersOfEdge, temp, vertex, edge, vertices,edges,
-		      faces;
+		      faces, vertOfFace;
         #this does nothting, but without it claims that the GetFaceColour does not have a matching function
         IsSimplicialSurface(face);
         
+        #the face we are currently working on 
+        faceNumber := Faces(face)[1]
+
         # colour := GetFaceColours(face, printRecord);
-        #vertOfFace := VerticesOfFaces(face)[1];
+        vertOfFace := VerticesOfFaces(face)[faceNumber];
 
         colour := GetFaceColour(face, Faces(face)[1], printRecord);
         if not StartsWith(colour, "0x") then
@@ -823,7 +826,7 @@ BindGlobal( "__SIMPLICIAL_AddFaceToScenario",
             AppendTo(output, "\t\tface", face, ".vertices.push(allpoints[", Position(Vertices(face),vertOfFace[j])-1, "\].vector);\n");
         od;
         AppendTo(output, "\t\tcentroids.push(computeCentroid(face", face, "));\n");
-        AppendTo(output, "\t\tvar face", face, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(face, Faces(face)[1], printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
+        AppendTo(output, "\t\tvar face", face, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(face, faceNumber, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
         AppendTo(output, "\t\tface", face, ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
         AppendTo(output, "\t\tvar face", face, "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
         AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", face, ", face", face, "_material) );\n");
@@ -892,7 +895,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                     if IsFaceActive(surface, faces[i], printRecord) then
                         vertOfFace := VerticesOfFaces(surface)[faces[i]];
                         face := SubsurfaceByFaces(surface, [faces[i]]);
-                        __SIMPLICIAL_AddFaceToScenario(face, vertOfFace, printRecord, output);
+                        __SIMPLICIAL_AddFaceToScenario(face, printRecord, output);
 
                         # original for docs
                         # vertOfFace := VerticesOfFaces(surface)[faces[i]];
