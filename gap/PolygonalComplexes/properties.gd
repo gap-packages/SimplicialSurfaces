@@ -1297,4 +1297,52 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup AdmissibleRelationsOfSurface
+#! An admissible relation of a simplicial surface is an equivalence relation on the surface satisfying the following properties:
+#! - Each equivalence class contains either vertices, edges or faces only.
+#! - We can define an incidence relation as follows: Let K and L be two equivalence classes. The class K is incident to the class L
+#!   if and only if there exist k in the class K and l in the class L so that k is incident to l as elements of the given simplicial surface.
+#! - The equivalence classes together with the introduced relation give rise to a triangulated surface without ramifications.    
+#!  Note, let X be a simplicial surface and Y be a simplicial constructed by an admissible relation on X. Then there exists an epimorphism from X to Y.
+#! This functions focuses on the admissible relation that yield butterfly friendly epimorphism. Here, an epimorphism from X to Y is called butterfly friendly, if for each inner 
+#! edge, the restriction of the epimorphism to the butterfly induced by e is surjective. 
+
+#! The function returns a list of tuples [s,relation], where s is a surface and rel is the admissible relation of the given surface that gives rise to the resulting surface X.
+#! The relation relation is given by the resulting partition of vertices, edges and faces.
+#! If bool=true then the lsit returned by the function contains all surfaces that can be constructed by forming an admissible relation of te given surface and if bool=false
+#! then the list only contains isomorphism representatives with their corresponding admissible relations.  
+
+#! As an example, consider the tetrahedron.
+#! @ExampleSession
+#! gap> AdmissibleRelationsOfSurface(Tetrahedron(),true);
+#! [ [ simplicial surface (4 vertices, 6 edges, and 4 faces)
+#!        , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ]
+#! gap> AdmissibleRelationsOfSurface(Tetrahedron(),false);
+#! [ [ simplicial surface (4 vertices, 6 edges, and 4 faces)
+#!         , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ]
+#! @EndExampleSession
+#! 
+#! As an example, consider the butterfly.
+#!
+#! @ExampleSession
+#! AdmissibleRelationsOfSurface(butterfly,false);
+#! [ [ simplicial surface (4 vertices, 5 edges, and 2 faces)
+#!         , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ] ],
+#!           [ [ 1 ], [ 2 ] ] ] ], 
+#!   [ simplicial surface (3 vertices, 3 edges, and 1 faces),
+#!       [ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], 
+#!           [ [ 1, 2 ] ] ] ] ]
+#! @EndExampleSession
+#! @Returns a list
+#! @Arguments surface,bool
+DeclareOperation( "AdmissibleRelationsOfSurface", [IsSimplicialSurface,IsBool] );
+#! @EndGroup
+
 
