@@ -1530,6 +1530,8 @@ InstallMethod( FaceTwoColouring,
 ##      epimorphic images 
 ##
 
+## this function returns the possibillies to identy the edges of Faces eof1 and eof2 in edges=[eof1,eof2]
+## in order to construct an admissible relation
 BindGlobal( "__SIMPLICIAL_MendableEdgeAssignments",
 function(surface,edges,verticesOfEdges,intSec)
     local g,edgeAssign,vof1,vof2,arrangements,eov1,eov2,i,
@@ -1800,7 +1802,7 @@ end
 # Strategy: We start from an vertex of the vertex and aim to build admissible relations containing the umbrella of the vertex. And then go on to add the umbrellas of
 # the neighbouring vertices to the umbrella and so on. 
 BindGlobal( "__SIMPLICIAL_AdmissibleRelationsHelp",
-function(surface,relation,bool)
+function(surface,relation,bool,bool2)
     local visitedFaces,visitedVertices,remainingVertices,v,vertices,
 	facesOfVertex,remainingFaces,relations,f,eof,rel,edgesOfFaces,temp,next,
 	vert,temp2,s,verticesOfEdges,numFaces,vis,faces,neighbours,
@@ -1837,6 +1839,10 @@ function(surface,relation,bool)
         while vis <> numFaces do
 	    f:=__SIMPLICIAL_nextFace(surface,v,relations[1],facesOfVertices,edgesOfFaces,edgesOfVertices);
 	    while f<>0 do
+		if bool2 then 
+		    Print("visited", vis, "faces\n" );
+		fi;
+
 	        relations:=Union(List(relations,
 		rel->__SIMPLICIAL_AddFaceToRelation(surface,v,f,rel,verticesOfEdges,facesOfVertices,edgesOfFaces,edgesOfVertices,intSec)));
 	        Add(visitedFaces,f);
@@ -1879,14 +1885,20 @@ function(surface,relation,bool)
 
 InstallMethod( AdmissibleRelationsOfSurface, 
     "for a simplicial surface and a bool",
-    [IsSimplicialSurface,IsBool],
-    function(surface,bool)	
-	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool);
+    [IsSimplicialSurface,IsBool,IsBool],
+    function(surface,bool,bool2)	
+	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,bool2);
   
 end
 );
 
-
+InstallOtherMethod( AdmissibleRelationsOfSurface, 
+    "for a simplicial surface and a bool",
+    [IsSimplicialSurface,IsBool],
+    function(surface,bool)	
+	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,false);  
+end
+);
 
 
 ##
