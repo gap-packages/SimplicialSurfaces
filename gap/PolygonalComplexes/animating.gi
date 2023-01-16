@@ -809,7 +809,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 local file, output, template, coords, i, j, colour,
 		      vertOfFace, vertOfEdge, parametersOfCircle, 
 		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
-              faceColors,
+              faceColors, addedFaceColors, addedFaces,
 		      faces;	
 	vertices:=Vertices(surface);
 	edges:=Edges(surface);
@@ -828,27 +828,51 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         fi;
         SetPrintFormattingStatus( output, false );
 
-                template := __SIMPLICIAL_ReadTemplateFromFile("JS_Header.html.template");
-                AppendTo( output, template );
+                # template := __SIMPLICIAL_ReadTemplateFromFile("JS_Header.html.template");
+                # AppendTo( output, template );
 
-        # Set coordinates of vertices
+        # Check if surface is in 3d coords
+        # TODO neccessary?
         if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
-                    Error( " invalid coordinate format " );
-                fi;
+            Error( " invalid coordinate format " );
+        fi;
 
         # add faces to geometry by iterating over all colors
+        # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the root group
         faceColors := GetFaceColours(surface, printRecord);
-        toDoFaceColor := [faceColors[0]];
-        while length(toDoFaceColor) > 0 do
-            for face in Faces(surface)
-                if GetFaceColour(surface, face, printRecord) notin toDoFaceColor then
-                    toDoFaceColor.Append(GetFaceColour(surface, face, printRecord));
-                else
+        addedFaces := 0;
+        uniqueFaceColors := [];
+
+        # generate a list of all unique colors of the faces
+        for color in faceColors do
+            if not color in uniqueFaceColors then
+                Add(uniqueFaceColors, color);
+            fi; 
+        od;
+
+        # for each of the unique colors add the faces to a gemeometry and generate a mesh with corresponding color from it
+        # if the wireframe option is active generate one for all geometries as well
+        for color in uniqueFaceColors do
+            colorPositions := Positions(faceColors, color);
+            for face in colorPositions do
+                if IsFaceActive(surface, face, printRecord) then
                     AppendTo(output, "facecoords");
                 fi;
             od;
             AppendTo(output, "generate mesh with color and add to root")
+            if IsWireframeActive(surface, printRecord) then
+                AppendTo(output, "generate a wireframe from the geometry above with line thickness as in the printrecord");
+            fi;
         od;
+
+        # add spheres and lables on all vertices if they are active
+        for vertex in [0..NumberOfVertices(surface)] do
+            if IsVertexActive(vertex) then
+                AppendTo(output, "add sphere with right color");
+                AppendTo(output, "add lable with number of vertex")
+            fi;
+        od;
+        
 
 
         # for vertex in Vertices(surface) do
@@ -957,21 +981,21 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         #             fi;
         #         od;
 
-                if IsBound(printRecord.FaceTransparency) then
-                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterFirst.html.template");
-                    AppendTo( output, template );
-                    for face in faces do
-                        if IsBound(printRecord.FaceTransparency[face]) then
-                            #face1_material.opacity = 0;
-                            AppendTo(output, "\t\t\tface", face , "_material.opacity = ", printRecord.FaceTransparency[face], ";\n");
-                        fi;
-                    od;
-                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterSecond.html.template");
-                    AppendTo( output, template );
-                else
-                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_Footer.html.template");
-                    AppendTo( output, template );
-                fi;
+                # if IsBound(printRecord.FaceTransparency) then
+                #     template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterFirst.html.template");
+                #     AppendTo( output, template );
+                #     for face in faces do
+                #         if IsBound(printRecord.FaceTransparency[face]) then
+                #             #face1_material.opacity = 0;
+                #             AppendTo(output, "\t\t\tface", face , "_material.opacity = ", printRecord.FaceTransparency[face], ";\n");
+                #         fi;
+                #     od;
+                #     template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterSecond.html.template");
+                #     AppendTo( output, template );
+                # else
+                #     template := __SIMPLICIAL_ReadTemplateFromFile("JS_Footer.html.template");
+                #     AppendTo( output, template );
+                # fi;
 
                 CloseStream(output);
         return printRecord;
