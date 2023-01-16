@@ -841,9 +841,9 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the root group
         faceColors := GetFaceColours(surface, printRecord);
         addedFaces := 0;
-        uniqueFaceColors := [];
 
         # generate a list of all unique colors of the faces
+        uniqueFaceColors := [];
         for color in faceColors do
             if not color in uniqueFaceColors then
                 Add(uniqueFaceColors, color);
@@ -853,64 +853,79 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         # for each of the unique colors add the faces to a gemeometry and generate a mesh with corresponding color from it
         # if the wireframe option is active generate one for all geometries as well
         for color in uniqueFaceColors do
+            #Faces(color);
             if not StartsWith(color, "0x") then
                 colour := Concatenation("\"", color, "\"");
             fi;
+
+            # generate a geometry with all vertices of the faces belonging to the current face
+            AppendTo(output, "const geometryA = new THREE.BufferGeometry();\n");
+            AppendTo(output, "const verticesA = new Float32Array( [\n ");
+
             colorPositions := Positions(faceColors, color);
             for face in colorPositions do
-                if IsFaceActive(surface, face, printRecord) then
-                    # generate a geometry with all vertices of the faces belonging to the current face
-                    AppendTo(output, "const geometryA = new THREE.BufferGeometry();\n");
-			        AppendTo(output, "const verticesA = new Float32Array( [\n ");
-                    
+                if IsFaceActive(surface, face, printRecord) then     
+                    # we assume there is always at least one active face               
                     # as we can assume that all faces of a simplicial surface have exactly 3 vertices we add them to the geometry individually
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord), "\n");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord), "\n");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord), "\n");
-                    
-                    AppendTo(output, "] ); \n\n");
-                    AppendTo(output, "geometryA.setAttribute( 'position', new THREE.BufferAttribute( verticesA, 3 ) );\n\n");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n");
+
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n");
+
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n");
                 fi;
             od;
+            AppendTo(output, "] ); \n\n");
+            AppendTo(output, "geometryA.setAttribute( 'position', new THREE.BufferAttribute( verticesA, 3 ) );\n\n");
+
             # generate a material with the corresponding color
             AppendTo(output, """
-                const materialA = new THREE.MeshPhongMaterial({         \n
-                    color: "color",                                     \n
-                    flatShading: true,                                  \n
-                });                                                     \n
-                materialA.transparent = true;                           \n
-                materialA.side = THREE.DoubleSide;""");
+                const materialA = new THREE.MeshPhongMaterial({
+                    color: """,GetFaceColour(surface, face, printRecord),""",          
+                    flatShading: true,       
+                });
+                materialA.transparent = true;
+                materialA.side = THREE.DoubleSide;
+            """);
 
             # generate a mesh from the geometry and material above
             AppendTo(output, """
-                const meshA = new THREE.Mesh( geometryA, materialA );   \n    
-                meshA.castShadow = true;                                \n
-                meshA.receiveShadow = true;                             \n
-                                                                        \n
-                root.add(meshA);""");
+                const meshA = new THREE.Mesh( geometryA, materialA );
+                meshA.castShadow = true;                         
+                meshA.receiveShadow = true;                      
+                                            
+                root.add(meshA);
+            """);
             
             #TODO: give meshes a usable name
             
             #TODO: write iswireframeactive
+            #TODO: edgeThickness
             #if IsWireframeActive(surface, printRecord) then
                 AppendTo(output, """
-                    const wireGeometryA = new THREE.WireframeGeometry(geometryA);   \n
-                                                                                    \n
-                    const wireMaterialA = new THREE.LineBasicMaterial( {            \n
-                        color: 0x000000,                                            \n
-                        linewidth: "printRecord.edgeThickness*100",                 \n
-                    } );                                                            \n
-                                                                                    \n
-                    const lineA = new THREE.Line( wireGeometryA, wireMaterialA );   \n
-                    root.add(lineA);""");
+                    const wireGeometryA = new THREE.WireframeGeometry(geometryA);
+                                                                        
+                    const wireMaterialA = new THREE.LineBasicMaterial( {         
+                        color: 0x000000,                      
+                        linewidth: 2,              
+                    } );                                                         
+                                                                        
+                    const lineA = new THREE.Line( wireGeometryA, wireMaterialA );
+                    root.add(lineA);
+                """);
             #fi;
         od;
 
         # add spheres and lables on all vertices if they are active
-        for vertex in [0..NumberOfVertices(surface)] do
-            if IsVertexActive(vertex) then
-                AppendTo(output, "//add sphere with right color");
-                AppendTo(output, "//add lable with number of vertex");
+        for vertex in Vertices(surface) do
+            if IsVertexActive(surface, vertex, printRecord) then
+                AppendTo(output, "//add sphere with right color\n");
+                AppendTo(output, "//add lable with number of vertex\n");
             fi;
         od;
 
