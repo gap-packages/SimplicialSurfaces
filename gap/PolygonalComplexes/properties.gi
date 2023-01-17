@@ -1525,4 +1525,383 @@ InstallMethod( FaceTwoColouring,
 ##
 #######################################
 
+#######################################
+##
+##      epimorphic images 
+##
 
+## this function returns the possibillies to identy the edges of Faces eof1 and eof2 in edges=[eof1,eof2]
+## in order to construct an admissible relation
+BindGlobal( "__SIMPLICIAL_MendableEdgeAssignments",
+function(surface,edges,verticesOfEdges,intSec)
+    local g,edgeAssign,vof1,vof2,arrangements,eov1,eov2,i,
+    edge1,edge2,ee,eof,help,res,help2,help1,v,inter;
+
+    arrangements:=Arrangements(edges[2],3);
+    edgeAssign:=List([1..6],i->[edges[1],arrangements[i]]);
+    res:=[];
+    help1:=function(surface,ee)
+	local i,v1,v2;
+	for i in [[1,2],[1,3],[2,3]] do 
+	    v1:=intSec[ee[1][i[1]]][ee[1][i[2]]][1];
+	    v2:=intSec[ee[2][i[1]]][ee[2][i[2]]][1];
+	    if Set([v1,v2]) in verticesOfEdges then 
+		return false; 
+	    fi;
+	od;
+	return true;
+    end;
+    help2:=function(surface,ee)
+	local i,v1,v2;
+	v1:=[];
+	v2:=[];
+	for i in [[1,2],[1,3],[2,3]] do 
+	    Add(v1,intSec[ee[1][i[1]]][ee[1][i[2]]][1]);
+	    Add(v2,intSec[ee[2][i[1]]][ee[2][i[2]]][1]);
+	od;
+	inter:=Intersection(v1,v2);
+	for v in inter do
+		if Position(v1,v)<>Position(v2,v) then
+			return false;
+		fi;
+	od;
+	return true;
+    end;
+    return Filtered(edgeAssign,ee->help1(surface,ee) and help2(surface,ee));
+  end
+);
+
+BindGlobal( "__SIMPLICIAL_Mendable",
+    function(surface,v,eof,edgesOfFaces,verticesOfEdges,intSec)
+	local temp,res,ee,mendable,edgeAssign,lm;
+	temp:=Arrangements(eof,3);
+	res:=[];
+	if edgesOfFaces=[] then 
+	    return [eof];
+	fi;
+	mendable:=List(edgesOfFaces,ee->__SIMPLICIAL_MendableEdgeAssignments(surface,[ee,eof],verticesOfEdges,intSec));
+	lm:=Length(mendable);
+	if not [] in mendable then
+	    for ee in temp do
+		if IsBound(Filtered(mendable,edgeAssign->Filtered(edgeAssign,e->e[2]=ee)<>[])[lm]) then	
+		    Add(res,ee);
+		fi;
+	    od;
+	fi;
+	return res;
+   end
+);
+
+## This function returns a tuple [s,equiv], where s is a simplicial surface and equiv is the ordered list containing the partitions of the vertices,edges and faces 
+# of the admissible relation 'relation' or fail if relation does not give rise to a simplical surface 
+BindGlobal( "__SIMPLICIAL_SimplicialSurfaceByRelation",
+    function(surface,relation,verticesOfEdges,intSec)
+	local g,vertexClasses,i,cl,f,EdgeClasses,visitedEdges,ee,vv,
+	vClass,edges,edgeClasses,eof,edge,vc1,vc2,voe,j,temp,vertices,e,edgesOfClasses,
+	eClass,edges1,edges2,tempE,tempE2,v,numV,numE,edgesOfFaces;
+	edgesOfClasses:=List(relation,r->Union(r));
+
+       ## construct the partition of the edges
+	edges:=[];	
+	edgeClasses:=[];
+	edgesOfFaces:=EdgesOfFaces(surface);
+	for cl in relation do
+	    for i in [1,2,3] do
+		temp:=List(cl, f-> f[i]);
+		edges:=Union(edges,[Set(temp)]);
+	    od;	
+	od;
+	for eClass in edges do
+	    temp:=Filtered(edges,e->Intersection(e,eClass)<>[]);
+	    temp:=Union(temp);
+	    while temp<> eClass do
+		eClass:=Union(eClass,temp);
+		temp:=Filtered(edges,e->Intersection(e,eClass)<>[]);
+		temp:=Union(temp);
+	    od;
+	    if IsBound(Filtered(edgesOfClasses,e->Intersection(e,eClass)<>[])[3]) then 
+		return fail;
+	    fi;
+	    edgeClasses:=Union(edgeClasses,[eClass]);
+	od;
+	## construct the partition of the vertices
+	vertexClasses:=[];
+	vertices:=[];
+	for cl in relation do
+	    for i in [[1,2],[2,3],[1,3]] do
+		temp:=List(cl, f->intSec[f[i[1]]][f[i[2]]][1]);
+		vertices:=Union(vertices,[Set(temp)]);
+	    od;
+	od;
+	for vClass in vertices do
+	    temp:=Filtered(vertices,vv->Intersection(vv,vClass)<>[]);
+	    temp:=Union(temp);
+	    while temp<> vClass do
+		vClass:=Union(vClass,temp);
+		temp:=Filtered(vertices,vv->Intersection(vv,vClass)<>[]);
+		temp:=Union(temp);
+	    od;
+	    vertexClasses:=Union(vertexClasses,[vClass]);
+	od;
+	## construct incidences
+	numE:=Length(edgeClasses);
+	numV:=Length(vertexClasses);
+	voe:=[];
+	for edge in edgeClasses do
+	    temp:=Union(List(edge,e->verticesOfEdges[e]));
+	    e:=Filtered([1..numV],i->Intersection(vertexClasses[i],temp)<>[]);
+	    Add(voe,e);
+	od;
+	visitedEdges:=[];
+	eof:=[];
+	for cl in relation do 		
+	    f:=Filtered([1..numE],i->Intersection(edgeClasses[i],Union(cl))<>[]);
+	    Add(eof,f);
+	od;
+	if Set(List(eof,f->Length(Set(f))))<>[3] or Set(List(voe,e->Length(Set(e))))<>[2] then 
+	    return fail;
+	fi;
+	
+	## construct partition of the faces
+	temp:=List(relation,cl->Set(List(cl,f->Position(edgesOfFaces,Set(f)))));
+	temp:=[vertexClasses,edgeClasses,temp];
+	return [TriangularComplexByDownwardIncidenceNC(voe,eof),temp];
+    end
+);
+
+# checks whether the edges of the face face have ramifications 
+BindGlobal( "__SIMPLICIAL_IsNotEdgeRamFace",
+    function(relation,face)
+	local g,vertexClasses,verticesOfEdges,i,cl,f,EdgeClasses,visitedEdges,ee,vv,
+	vClass,edges,edgeClasses,eof,edge,vc1,vc2,voe,j,temp,vertices,e,edgesOfClasses,
+	eClass;
+
+	edgesOfClasses:=List(relation,r->Union(r));
+	edges:=[];	
+	edgeClasses:=[];
+
+	for cl in relation do
+		for i in [1,2,3] do
+			temp:=List(cl,f-> f[i]);
+			edges:=Union(edges,[Set(temp)]);
+		od;	
+	od;
+
+	for e in face do 
+		temp:=Union(Filtered(edges,cl-> e in cl));
+		eClass:=[];
+		while temp <> eClass do
+			eClass:=Union(eClass,temp);
+			temp:=Filtered(edges,e->Intersection(e,eClass)<>[]);
+			temp:=Union(temp);
+		od;
+		if IsBound(Filtered(edgesOfClasses,e->Intersection(e,eClass)<>[])[3]) then
+			return false;
+		fi;	
+	od;
+	return true;
+end
+);
+BindGlobal( "__SIMPLICIAL_nextVertexHelp",
+    function(surface,v,relation,faces,neighbours,edgesOfFaces,facesOfVertices)
+	local vv,eof,f,temp;
+	temp:=List(Union(relation),eof->Set(eof));
+	temp:=Filtered(faces,f->edgesOfFaces[f] in temp);
+	temp:=Filtered(neighbours[v],vv->Difference(facesOfVertices[vv],temp)<>[]);
+	if temp <>[] then 
+	    return temp[1];
+	else 
+	    return 0;
+	fi;
+    end
+);
+
+
+BindGlobal( "__SIMPLICIAL_nextFace",
+    function(surface,v,relation,facesOfVertices,edgesOfFaces,edgesOfVertices)
+	local foe,edgesOfFaces2,temp,eof,ee;
+	foe:=facesOfVertices[v];
+	foe:=edgesOfFaces{foe};
+	edgesOfFaces2:=List(Union(relation),ee->Set(ee));
+	foe:=Difference(foe,edgesOfFaces2);
+	temp:=Intersection(Union(edgesOfFaces2),edgesOfVertices[v]);
+	temp:=Filtered(foe,eof->Intersection(eof,temp)<>[]);
+	if temp=[] then 
+	    return 0;
+	else
+	    return temp[1];
+	fi;
+    end
+);
+
+
+BindGlobal( "__SIMPLICIAL_AddFaceToRelation",
+    function(surface,v,eof,relation,verticesOfEdges,facesOfVertices,edgesOfFaces,edgesOfVertices,intSec)
+	local edgesOfClasses,edges,r,filtered,res,mendable,l,f,cl,fil,i,j,ee,temp,
+	umbClass,facesOfVert,face,n,e,eov,pos,lr;
+
+	res:=[];
+	r:=Length(relation);
+	lr:=[1..r];
+
+	eov:=Intersection(eof,edgesOfVertices[v]);
+	edgesOfClasses:=List(relation,cl->Union(cl));
+	facesOfVert:=facesOfVertices[v];
+	facesOfVert:=edgesOfFaces{facesOfVert};
+	umbClass:=Filtered(lr,i->Intersection(List(relation[i],f->Set(f)),facesOfVert)<>[]);
+
+	#add next face to one of the faceClasses of the vertex
+	for i in lr do
+	    mendable:=__SIMPLICIAL_Mendable(surface,v,eof,relation[i],verticesOfEdges,intSec);
+	    for ee in mendable do
+		temp:=List(lr,l->ShallowCopy(relation[l]));
+		AddSet(temp[i],ee);
+		Add(res,temp);
+	    od;
+	od;
+
+	# l is the number of the class neighbouring eof
+	l:=Filtered(umbClass,i->Intersection(eov,edgesOfClasses[i])<>[])[1];
+	e:=Intersection(edgesOfClasses[l],eov)[1];
+	pos:=0;
+	face:=relation[l];
+	for i in [1,2,3] do 
+	    if e in List(face,f->f[i]) then 
+		pos:=i;
+	    fi;
+	od;
+	edges:=List(face,f->f[pos]);
+	n:=Filtered(lr,i->Intersection(edges,edgesOfClasses[i])<>[] and l<>i);
+	if n<>[] then
+	    n:=n[1];
+	    mendable:=__SIMPLICIAL_Mendable(surface,v,eof,relation[n],verticesOfEdges,intSec);
+	    for ee in mendable do
+		temp:=List(lr,l->ShallowCopy(relation[l]));
+		AddSet(temp[n],ee);
+		Add(res,temp);
+	    od;
+	else
+	    temp:=List(lr,i->ShallowCopy(relation[i]));
+	    Add(temp,[eof]);
+	    Add(res,temp);
+	fi;		
+	return Filtered(res,r->__SIMPLICIAL_IsNotEdgeRamFace(r,eof));
+end
+);
+
+# the function returns a list of tuples [s,rel] where s is a simplicial surface and the rel is a admissible relation
+# on the given surface 'surface' that gives rise to s. 
+# Note that this function only focuses on admissible relation that yield butterfly friendly epimorphism from surface to s.
+# The idea is to build the adissible relation from scratch by adding more and more simplicies to the relation.
+# As data structure we use the edges of faces to carry on the computations, whereby the position of the edges is important for the admissible relation.
+# So the implementation uses equivalence classes that consists of edges of faces. For example if faces f_1=[1,2,3] and f_2=[6,5,4] happen to be in the same
+# class [f_1,f_2] then the following holds:
+# - In our relation f_1 and f_2 are identified. 
+# - the edge pairs 1,6 and 2,5 and 3,4 get identified
+# From this information we can also deduce the identified vertices by forming intersection 
+# Strategy: We start from an vertex of the vertex and aim to build admissible relations containing the umbrella of the vertex. And then go on to add the umbrellas of
+# the neighbouring vertices to the umbrella and so on. 
+BindGlobal( "__SIMPLICIAL_AdmissibleRelationsHelp",
+function(surface,relation,bool,bool2)
+    local visitedFaces,visitedVertices,remainingVertices,v,vertices,
+	facesOfVertex,remainingFaces,relations,f,eof,rel,edgesOfFaces,temp,next,
+	vert,temp2,s,verticesOfEdges,numFaces,vis,faces,neighbours,
+	facesOfVertices,edgesOfVertices,intSec,res;
+
+	## initialize the needed information
+	numFaces:=NumberOfFaces(surface);
+	verticesOfEdges:=VerticesOfEdges(surface);
+	edgesOfFaces:=EdgesOfFaces(surface);
+	facesOfVertices:=FacesOfVertices(surface);
+	vertices:=Vertices(surface);
+	edgesOfVertices:=EdgesOfVertices(surface);
+	visitedFaces:=List(Union(relation),eof->Set(eof));
+	temp:=List(visitedFaces,eof->Position(edgesOfFaces,eof));
+	visitedVertices:=Filtered(vertices,v->IsSubset(temp,FacesOfVertex(surface,v)));
+	v:=0;
+	neighbours:=List(vertices,v->NeighbourVerticesOfVertex(surface,v));
+	faces:=Faces(surface);
+	intSec:=List(verticesOfEdges,voe1->List(verticesOfEdges,voe2->Intersection(voe1,voe2)));
+	for vert in visitedVertices do
+	    next:=__SIMPLICIAL_nextVertexHelp(surface,vert,relation,faces,neighbours,edgesOfFaces,facesOfVertices); 
+	    if next<>0 then 
+		v:=next;
+	    fi;
+	od;
+	if v=0 and visitedVertices<>vertices then
+	    vert:=Filtered(vertices,vert->Intersection(temp,facesOfVertices[vert])<>[]);
+	    v:=vert[1];
+        fi;
+
+        ### main function
+        relations:=[relation];
+        vis:=Length(visitedFaces);
+        while vis <> numFaces do
+	    f:=__SIMPLICIAL_nextFace(surface,v,relations[1],facesOfVertices,edgesOfFaces,edgesOfVertices);
+	    while f<>0 do
+		if bool2 then 
+		    Print("visited", vis, "faces\n" );
+		fi;
+
+	        relations:=Union(List(relations,
+		rel->__SIMPLICIAL_AddFaceToRelation(surface,v,f,rel,verticesOfEdges,facesOfVertices,edgesOfFaces,edgesOfVertices,intSec)));
+	        Add(visitedFaces,f);
+	        vis:=vis+1;
+	        f:=__SIMPLICIAL_nextFace(surface,v,relations[1],facesOfVertices,edgesOfFaces,edgesOfVertices);
+	    od;
+	    Add(visitedVertices,v);
+	    if vis <> numFaces then 
+		v:=__SIMPLICIAL_nextVertexHelp(surface,v,relations[1],faces,neighbours,edgesOfFaces,facesOfVertices);
+	    fi;
+	od;
+
+	## just for the change of the return
+	res:=[];
+	if bool then 
+	    for rel in relations do 
+		s:=__SIMPLICIAL_SimplicialSurfaceByRelation(surface,rel,verticesOfEdges,intSec);
+		if s <>fail then 
+		    Add(res,s);
+		fi;
+	    od;
+	else
+	    temp2:=Set([]);
+	    for rel in relations do 
+		temp:=__SIMPLICIAL_SimplicialSurfaceByRelation(surface,rel,verticesOfEdges,intSec);
+		if temp<>fail then 
+		    s:=CanonicalRepresentativeOfPolygonalSurface(temp[1])[1];
+		    if not s in temp2 then 
+			AddSet(temp2,s);
+			Add(res,temp);
+		    fi;
+		fi;	
+	    od;
+	fi;
+	return res;
+
+    end
+);
+
+
+InstallMethod( AdmissibleRelationsOfSurface, 
+    "for a simplicial surface and a bool",
+    [IsSimplicialSurface,IsBool,IsBool],
+    function(surface,bool,bool2)	
+	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,bool2);
+  
+end
+);
+
+InstallOtherMethod( AdmissibleRelationsOfSurface, 
+    "for a simplicial surface and a bool",
+    [IsSimplicialSurface,IsBool],
+    function(surface,bool)	
+	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,false);  
+end
+);
+
+
+##
+##      End of epimorphic images
+##
+#######################################

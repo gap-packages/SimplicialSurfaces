@@ -1297,4 +1297,54 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup AdmissibleRelationsOfSurface
+#! @Description
+#! An admissible relation of a simplicial surface is an equivalence relation on the surface satisfying the following properties:
+#! - Each equivalence class contains either vertices, edges or faces only.
+#! - We can define an incidence relation as follows: Let <K>K</K> and <K>L</K> be two equivalence classes. The class <K>K</K> is incident to the class <K>L</K>
+#!   if and only if there exist <K>k</K> in the class <K>K</K> and <K>l</K> in the class <K>L</K> so that <K>k</K> is incident to <K>l</K> as elements of the given simplicial surface.
+#! - The equivalence classes together with the introduced relation gives rise to a triangulated surface without ramifications.    
+#!
+#!  Note, let <K>X</K> be a simplicial surface and <K>Y</K> be a simplicial constructed by an admissible relation on <K>X</K>. Then there exists an epimorphism from <K>X</K>
+#!  to <K>Y</K>.
+#! This functions focuses on the admissible relations that yield butterfly friendly epimorphisms. Here, an epimorphism from a simplicial surface <K>X</K> to another 
+#! simplicial surface <K>Y</K> is called butterfly friendly, if for each inner 
+#! edge <K>e</K>, the restriction of the epimorphism to the butterfly induced by <K>e</K> is surjective. 
+
+#! This function returns a list of tuples <K>[s,relation]</K>, where <K>s</K> is a simplicial surface and <K>relation</K> is the admissible relation of the given surface that gives rise to the resulting surface <K>X</K>.
+#! The relation <K>relation</K> is given by the resulting partition of vertices, edges and faces.
+#! If <K>bool=true</K> then the list which is returned by the function contains all surfaces that can be constructed by forming an admissible relation of the given surface and 
+#! if <K>bool=false</K> then the list only contains isomorphism representatives with their corresponding admissible relations.
+#! If <K>bool2=false</K> then the function prints how many faces are already visited while computating the admissible relations.
+
+#! As an example, consider the tetrahedron.
+#! @ExampleSession
+#! gap> AdmissibleRelationsOfSurface(Tetrahedron(),true);
+#! [ [ simplicial surface (4 vertices, 6 edges, and 4 faces)
+#!        , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ]
+#! @EndExampleSession
+#! 
+#! As an example, consider the butterfly.
+#! <Alt Only="TikZ">
+#!      \input{Image_butfly.tex}
+#! </Alt>
+#! @ExampleSession
+#! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
+#! gap> AdmissibleRelationsOfSurface(butterfly,false);
+#! [ [ simplicial surface (4 vertices, 5 edges, and 2 faces)
+#!         , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ] ],
+#!           [ [ 1 ], [ 2 ] ] ] ], 
+#!   [ simplicial surface (3 vertices, 3 edges, and 1 faces),
+#!       [ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], 
+#!           [ [ 1, 2 ] ] ] ] ]
+#! @EndExampleSession
+#! @Returns a list of tuples where the first entry is a surface and the second entry is a list of partitions
+#! @Arguments surface,bool [,bool2]
+DeclareOperation( "AdmissibleRelationsOfSurface", [IsSimplicialSurface,IsBool,IsBool] );
+#! @EndGroup
+
 
