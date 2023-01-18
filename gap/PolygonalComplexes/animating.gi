@@ -903,15 +903,14 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             """);
                         
             #TODO: edgeThickness
-            AppendTo(output, """
-                const wireGeometry""",i,""" = new THREE.WireframeGeometry(geometry""",i,""");
-                                                                    
-                const wireMaterial = new THREE.LineBasicMaterial( {         
+            AppendTo(output, """                                                                    
+                const wireMaterial = new THREE.MeshStandardMaterial( {         
                     color: 0x000000,
-                    linewidth: 2,
-                } );                                                         
+                    wireframeLinewidth: 2,
+                } );
+                wireMaterial.wireframe = true 
                                                                     
-                const line""",i,""" = new THREE.Line( wireGeometry""",i,""", wireMaterial );
+                const line""",i,""" = new THREE.Line( geometry""",i,""", wireMaterial );
                 wireRoot.add(line""",i,""");
             """);
             #fi;
