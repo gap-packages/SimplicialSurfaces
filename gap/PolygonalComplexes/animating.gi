@@ -828,8 +828,8 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         fi;
         SetPrintFormattingStatus( output, false );
 
-                # template := __SIMPLICIAL_ReadTemplateFromFile("JS_Header.html.template");
-                # AppendTo( output, template );
+        AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_header.template") );
+        AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_start.template") );
 
         # Check if surface is in 3d coords
         # TODO neccessary?
@@ -853,7 +853,6 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         # for each of the unique colors add the faces to a gemeometry and generate a mesh with corresponding color from it
         # if the wireframe option is active generate one for all geometries as well
         for color in uniqueFaceColors do
-            #Faces(color);
             if not StartsWith(color, "0x") then
                 colour := Concatenation("\"", color, "\"");
             fi;
@@ -865,18 +864,19 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             colorPositions := Positions(faceColors, color);
             for face in colorPositions do
                 if IsFaceActive(surface, face, printRecord) then     
+                            # Faces(color);
                     # we assume there is always at least one active face               
                     # as we can assume that all faces of a simplicial surface have exactly 3 vertices we add them to the geometry individually
                     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
                     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
                     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n");
 
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
                     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n");
 
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
+                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
                     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n");
                 fi;
             od;
@@ -899,7 +899,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 meshA.castShadow = true;                         
                 meshA.receiveShadow = true;                      
                                             
-                root.add(meshA);
+                meshRoot.add(meshA);
             """);
             
             #TODO: give meshes a usable name
@@ -916,7 +916,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                     } );                                                         
                                                                         
                     const lineA = new THREE.Line( wireGeometryA, wireMaterialA );
-                    root.add(lineA);
+                    wireRoot.add(lineA);
                 """);
             #fi;
         od;
@@ -929,7 +929,8 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             fi;
         od;
 
-        #TODO: find out where the templates are and replace them
+        AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_end.template") );
+        AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_footer.template") );
 
 
         # for vertex in Vertices(surface) do
