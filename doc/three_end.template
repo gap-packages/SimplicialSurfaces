@@ -31,6 +31,7 @@
             // add both roots to the scene
             scene.add( meshRoot );
             scene.add( wireRoot );
+            scene.add( sphereRoot );
 
 
             function animate() {

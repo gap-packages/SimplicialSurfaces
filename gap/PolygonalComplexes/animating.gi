@@ -622,7 +622,7 @@ InstallMethod( GetFaceColour,
     [IsSimplicialSurface, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 				local default;
-				default := "0xFFFF00";
+				default := "0x049EF4";
 				if not IsBound(printRecord.faceColours) or (face <= 0) then
 					return default;
 				fi;
@@ -809,7 +809,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 local file, output, template, coords, i, j, colour,
 		      vertOfFace, vertOfEdge, parametersOfCircle, 
 		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
-              faceColors, addedFaceColors, addedFaces, uniqueFaceColors, colorPositions, color,
+              faceColors, addedFaceColors, addedFaces, uniqueFaceColors, colorPositions, color, coordinateString,
 		      faces;	
 	vertices:=Vertices(surface);
 	edges:=Edges(surface);
@@ -852,19 +852,19 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
         # for each of the unique colors add the faces to a gemeometry and generate a mesh with corresponding color from it
         # if the wireframe option is active generate one for all geometries as well
-        for color in uniqueFaceColors do
+        for i in [1..Length(uniqueFaceColors)] do
+            color := uniqueFaceColors[i];
             if not StartsWith(color, "0x") then
                 colour := Concatenation("\"", color, "\"");
             fi;
 
             # generate a geometry with all vertices of the faces belonging to the current face
-            AppendTo(output, "const geometryA = new THREE.BufferGeometry();\n");
-            AppendTo(output, "const verticesA = new Float32Array( [\n ");
+            AppendTo(output, "const geometry",i," = new THREE.BufferGeometry();\n");
+            AppendTo(output, "const vertices",i," = new Float32Array( [\n ");
 
             colorPositions := Positions(faceColors, color);
             for face in colorPositions do
-                if IsFaceActive(surface, face, printRecord) then     
-                            # Faces(color);
+                if IsFaceActive(surface, face, printRecord) then
                     # we assume there is always at least one active face               
                     # as we can assume that all faces of a simplicial surface have exactly 3 vertices we add them to the geometry individually
                     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
@@ -881,51 +881,73 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 fi;
             od;
             AppendTo(output, "] ); \n\n");
-            AppendTo(output, "geometryA.setAttribute( 'position', new THREE.BufferAttribute( verticesA, 3 ) );\n\n");
+            AppendTo(output, "geometry",i,".setAttribute( 'position', new THREE.BufferAttribute( vertices",i,", 3 ) );\n\n");
 
             # generate a material with the corresponding color
             AppendTo(output, """
-                const materialA = new THREE.MeshPhongMaterial({
+                const material""",i,""" = new THREE.MeshPhongMaterial({
                     color: """,GetFaceColour(surface, face, printRecord),""",          
                     flatShading: true,       
                 });
-                materialA.transparent = true;
-                materialA.side = THREE.DoubleSide;
+                material""",i,""".transparent = true;
+                material""",i,""".side = THREE.DoubleSide;
             """);
 
             # generate a mesh from the geometry and material above
             AppendTo(output, """
-                const meshA = new THREE.Mesh( geometryA, materialA );
-                meshA.castShadow = true;                         
-                meshA.receiveShadow = true;                      
+                const mesh""",i,""" = new THREE.Mesh( geometry""",i,""", material""",i,""" );
+                mesh""",i,""".castShadow = true;                         
+                mesh""",i,""".receiveShadow = true;                      
                                             
-                meshRoot.add(meshA);
+                meshRoot.add(mesh""",i,""");
             """);
-            
-            #TODO: give meshes a usable name
-            
-            #TODO: write iswireframeactive
+                        
             #TODO: edgeThickness
-            #if IsWireframeActive(surface, printRecord) then
-                AppendTo(output, """
-                    const wireGeometryA = new THREE.WireframeGeometry(geometryA);
-                                                                        
-                    const wireMaterialA = new THREE.LineBasicMaterial( {         
-                        color: 0x000000,                      
-                        linewidth: 2,              
-                    } );                                                         
-                                                                        
-                    const lineA = new THREE.Line( wireGeometryA, wireMaterialA );
-                    wireRoot.add(lineA);
-                """);
+            AppendTo(output, """
+                const wireGeometry""",i,""" = new THREE.WireframeGeometry(geometry""",i,""");
+                                                                    
+                const wireMaterial = new THREE.LineBasicMaterial( {         
+                    color: 0x000000,
+                    linewidth: 2,
+                } );                                                         
+                                                                    
+                const line""",i,""" = new THREE.Line( wireGeometry""",i,""", wireMaterial );
+                wireRoot.add(line""",i,""");
+            """);
             #fi;
         od;
 
         # add spheres and lables on all vertices if they are active
+        AppendTo(output, "//add lables for the vertices\n");
         for vertex in Vertices(surface) do
-            if IsVertexActive(surface, vertex, printRecord) then
-                AppendTo(output, "//add sphere with right color\n");
-                AppendTo(output, "//add lable with number of vertex\n");
+            if IsVertexActive(surface, vertex, printRecord) then                
+                # generate a string with the coordinates for later use
+                coordinateString := "";
+                Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[1]));
+                Append(coordinateString, ",");
+                Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[2]));
+                Append(coordinateString, ",");
+                Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[3]));
+                Append(coordinateString, ",");
+
+                # add spheres with radius 0.05 around the active vertices
+                AppendTo(output, "const sphereMaterial",vertex," = new THREE.MeshBasicMaterial( { color: ",GetVertexColour(surface, vertex, printRecord)," } );\n");
+                AppendTo(output, "const sphere",vertex," = new THREE.Mesh( sphere_geometry, sphereMaterial",vertex," );\n");
+                AppendTo(output, "sphereRoot.add(sphere",vertex,");\n");
+                AppendTo(output, "sphere",vertex,".position.set(",coordinateString,");\n");
+
+                
+                # generate the lable for the given vertex
+                AppendTo(output, """
+                const lableDiv""",vertex,""" = document.createElement( 'div' );
+                lableDiv""",vertex,""".className = 'label';
+                lableDiv""",vertex,""".textContent = '""",vertex,"""';
+                lableDiv""",vertex,""".style.marginTop = '-1em';
+
+                const vertexLabel""",vertex,""" = new CSS2DObject( lableDiv""",vertex,""" );
+                vertexLabel""",vertex,""".position.set(""",coordinateString,""");
+                meshRoot.add( vertexLabel""",vertex,""" );
+                """);
             fi;
         od;
 

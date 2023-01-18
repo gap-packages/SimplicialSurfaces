@@ -41,6 +41,7 @@
 			//create groups to add everything to
             const meshRoot = new THREE.Group();
             const wireRoot = new THREE.Group();
+            const sphereRoot = new THREE.Group();
 
 			//parameters for the controls on the top right
             var guiParameters = new function() { 
@@ -50,4 +51,5 @@
                 this.wireframe = false;
             } ;
 
-            
+            //generate a sphere geometry for the vertices
+            const sphere_geometry = new THREE.SphereGeometry( 0.02, 32, 16 );
