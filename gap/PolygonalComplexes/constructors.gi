@@ -523,8 +523,6 @@ InstallMethod(UmbrellaTipDescriptorOfSurface,
             Add(umbdesc, CycleFromList(umbVertices));
         else
             #umbpath is not a closed umbrella
-            Add(umbVertices, umbVertices[1]);
-            Remove(umbVertices, 1);
             Add(umbdesc, umbVertices);            
         fi;
     od;

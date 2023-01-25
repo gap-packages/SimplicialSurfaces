@@ -930,7 +930,7 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! describing a simplicial surface.  The bound entries in <A>umbdesc</A> are
 #! cyclic permutations or lists of integers. The set of faces of the surface
 #! is the set of points which either are moved by a cyclic permutation or 
-#! occurs in a list in <A>umbdesc</A>. The edges of the surface correspond to
+#! occur in a list in <A>umbdesc</A>. The edges of the surface correspond to
 #! pairs of faces <M>(i,j)</M>, where either some cycle in <A>umbdesc</A> maps
 #! <M>i</M> to  <M>j</M> or <M>i</M> and <M>j</M> occur as neighbours in a 
 #! list. The vertices of the surface are the positive integers
@@ -978,14 +978,41 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! @EndGroup
 #
+#! @BeginChunk Documentation_UmbrellaTipDescriptor
+#! an umbrella tip descriptor of a simplicial surface is a list <A>umbtipdesc</A>, 
+#! describing a simplicial surface.  The bound entries in <A>umbtipdesc</A> are
+#! cyclic permutations or lists of integers. The set of vertices of the surface
+#! is the set of points which either are moved by a cyclic permutation or 
+#! occur in a list in <A>umbtipdesc</A>. The edges of the surface correspond to
+#! pairs of vertices <M>(i,j)</M>, where <M>i</M> is the bound position of a cycle or list 
+#! in <A>umbtipdesc</A> and <M>j</M> is a vertex that is moved by that cycle or in that list
+#! with position <M>i</M> in <A>umbtipdesc</A>.
+#! The faces correspond to tuples of vertices <M>(i,j,k)</M>, where <M>i</M> is the bound position 
+#! in <A>umbtipdesc</A> of a cycle or list and either that cycle maps <M>j</M> to <M>k</M>
+#! or <M>j</M> and <M>k</M> occur in that list as neighbours.
+#! The vertices of the surface can also be described as the positive integers
+#! corresponding to the bound positions of <A>umbtipdesc</A>.
+#! If position <M>i</M> of <A>umbtipdesc</A> is bound, then the 
+#! <M>i</M>-th entry represents the vertex with name <M>i</M>.  
+#! An umbrella tip path of a vertex is the umbrella path of a vertex, but instead
+#! of an edge-face path, one obtains the outer vertices of that edge path.  If the vertex 
+#! named <M>i</M> is inner, then the <M>i</M>-th entry in <A>umbtipdesc</A> 
+#! is a cyclic permutation of the vertices in the umbrella tip path around the 
+#! vertex, mapping a vertex to an adjacent vertex.  The order of the permutation
+#! is equal to the vertex- and edge-degree of the vertex. If the vertex named <M>i</M> is a 
+#! boundary vertex, then the <M>i</M>-th entry in <A>umbtipdesc</A> is a list 
+#! consisting of the vertices in the umbrella tip path of the vertex such that 
+#! adjacent vertices are consecutive and the two vertices with boundary edges 
+#! are the first and the  last entry of the list. The length of the list is 
+#! equal to the vertex- and edge-degree of the vertex.
+#! @EndChunk 
+#!
 #! @BeginGroup
 #! @Description
-#! Let <A>surf</A> be a simplicial surface. This method returns a list, <A>umbtipdesc</A>, of 
-#! cyclic permutations and lists of integers like the umbrella descriptor of a surface. 
-#! For the tip decriptor however the set of vertices (instead of the set of faces) of <A>surf</A> 
-#! is the set of points which either are moved by a cyclic permutation or occurs in a list in 
-#! <A>umbtipdesc</A>. Thus, the umbrella tip descriptor returns a list of, not the umbrella paths
-#! of faces, but the umbrella paths of outer vertices for each vertex.
+#! Let <A>surf</A> be a vertex faithful simplicial surface. This method returns an umbrella tip descriptor
+#! of <A>surf</A>, where
+#! @InsertChunk Documentation_UmbrellaTipDescriptor
+#! 
 #! As an example consider the following net of a simplicial surface.
 #! Note that the surface has boundary edges. Moreover, the vertices 
 #! 1,2,3, and 4 are inner vertices, while 5,6,7,8,9, and 10 are not.
@@ -1002,8 +1029,9 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! >      [ 1, 3, 6 ], [ 1, 4, 6 ], [ 1, 4, 7 ], [ 1, 2, 7 ], [ 2, 7, 8 ], 
 #! >      [ 2, 5, 8 ], [ 3, 5, 9 ], [ 3, 6, 9 ], [ 4, 6, 10 ], [ 4, 7, 10 ] ]);;
 #! gap> UmbrellaTipDescriptorOfSurface(surf);
-#! [ (2,5,3,6,4,7), (1,5,8,7), (1,5,9,6), (1,6,10,7), [ 2, 1, 3, 9, 8 ], 
-#! [ 3, 1, 4, 10, 9 ], [ 2, 1, 4, 10, 8 ], [ 2, 7, 5 ], [ 3, 6, 5 ], [ 4, 7, 6 ] ]
+#! [ (2,5,3,6,4,7), (1,5,8,7), (1,5,9,6), (1,6,10,7), [ 8, 2, 1, 3, 9 ], 
+#!  [ 9, 3, 1, 4, 10 ], [ 8, 2, 1, 4, 10 ], [ 5, 2, 7 ], [ 5, 3, 6 ], 
+#!  [ 6, 4, 7 ] ]
 #! @EndExampleSession
 #! @Returns a list 
 #! @Arguments surface 
