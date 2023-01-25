@@ -800,6 +800,18 @@ InstallMethod( GetCircleColours,
     end
 );
 
+# set neccessary values for the printrecord
+BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
+    function(surface,printRecord)
+	local g,colour,e,f,v;
+	if not IsBound(printRecord.edgeThickness) then
+	    printRecord.edgeThickness := 0.03;
+	fi;
+	
+
+	return printRecord;
+    end
+);
 
 # general method
 InstallMethod( DrawSurfaceToJavaScriptCalculate,
