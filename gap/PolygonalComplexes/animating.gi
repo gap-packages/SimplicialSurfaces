@@ -817,7 +817,7 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript",
 # TODO: change name to drawcomplex... ?
 InstallMethod( DrawSurfaceToJavaScriptCalculate,
     "for a simplicial surface, a filename and a record",
-    [IsSimplicialSurface, IsString, IsRecord, IsBool],
+    [IsTriangularComplex, IsString, IsRecord, IsBool],
     function(surface, fileName, printRecord, calculate)
                 local file, output, template, coords, i, j, colour,
 		      vertOfFace, vertOfEdge, parametersOfCircle, 
@@ -832,147 +832,147 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 	edges:=Edges(surface);
 	faces:=Faces(surface);
 
-        # Make the file end with .html
-        if not EndsWith( fileName, ".html" ) then
-            fileName := Concatenation( fileName, ".html" );
+    # Make the file end with .html
+    if not EndsWith( fileName, ".html" ) then
+        fileName := Concatenation( fileName, ".html" );
+    fi;
+
+    # Try to open the given file
+    file := Filename( DirectoryCurrent(), fileName ); #TODO allow absolute paths
+    output := OutputTextFile( file, false ); # override other files
+    if output = fail then
+        Error(Concatenation("File ", String(file), " can't be opened.") );
+    fi;
+    SetPrintFormattingStatus( output, false );
+
+    AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_header.template") );
+    AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_start.template") );
+
+    # Check if surface is in 3d coords
+    # TODO neccessary?
+    if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
+        Error( " invalid coordinate format " );
+    fi;
+
+    # add faces to geometry by iterating over all colors
+    # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the root group
+    faceColors := GetFaceColours(surface, printRecord);
+    addedFaces := 0;
+
+    # generate a list of all unique colors of the faces
+    uniqueFaceColors := [];
+    for color in faceColors do
+        if not color in uniqueFaceColors then
+            Add(uniqueFaceColors, color);
+        fi; 
+    od;
+
+    # for each of the unique colors add the faces to a gemeometry and generate a mesh with corresponding color from it
+    # if the wireframe option is active generate one for all geometries as well
+    for i in [1..Length(uniqueFaceColors)] do
+        color := uniqueFaceColors[i];
+        if not StartsWith(color, "0x") then
+            colour := Concatenation("\"", color, "\"");
         fi;
 
-        # Try to open the given file
-        file := Filename( DirectoryCurrent(), fileName ); #TODO allow absolute paths
-        output := OutputTextFile( file, false ); # override other files
-        if output = fail then
-            Error(Concatenation("File ", String(file), " can't be opened.") );
-        fi;
-        SetPrintFormattingStatus( output, false );
+        # generate a geometry with all vertices of the faces belonging to the current face
+        AppendTo(output, "const geometry",i," = new THREE.BufferGeometry();\n");
+        AppendTo(output, "const vertices",i," = new Float32Array( [\n ");
 
-        AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_header.template") );
-        AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_start.template") );
+        colorPositions := Positions(faceColors, color);
+        for face in colorPositions do
+            if IsFaceActive(surface, face, printRecord) then
+                # we assume there is always at least one active face               
+                # as we can assume that all faces of a simplicial surface have exactly 3 vertices we add them to the geometry individually
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n");
 
-        # Check if surface is in 3d coords
-        # TODO neccessary?
-        if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
-            Error( " invalid coordinate format " );
-        fi;
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n");
 
-        # add faces to geometry by iterating over all colors
-        # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the root group
-        faceColors := GetFaceColours(surface, printRecord);
-        addedFaces := 0;
-
-        # generate a list of all unique colors of the faces
-        uniqueFaceColors := [];
-        for color in faceColors do
-            if not color in uniqueFaceColors then
-                Add(uniqueFaceColors, color);
-            fi; 
-        od;
-
-        # for each of the unique colors add the faces to a gemeometry and generate a mesh with corresponding color from it
-        # if the wireframe option is active generate one for all geometries as well
-        for i in [1..Length(uniqueFaceColors)] do
-            color := uniqueFaceColors[i];
-            if not StartsWith(color, "0x") then
-                colour := Concatenation("\"", color, "\"");
-            fi;
-
-            # generate a geometry with all vertices of the faces belonging to the current face
-            AppendTo(output, "const geometry",i," = new THREE.BufferGeometry();\n");
-            AppendTo(output, "const vertices",i," = new Float32Array( [\n ");
-
-            colorPositions := Positions(faceColors, color);
-            for face in colorPositions do
-                if IsFaceActive(surface, face, printRecord) then
-                    # we assume there is always at least one active face               
-                    # as we can assume that all faces of a simplicial surface have exactly 3 vertices we add them to the geometry individually
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n");
-
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n");
-
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
-                    AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n");
-                fi;
-            od;
-            AppendTo(output, "] ); \n\n");
-            AppendTo(output, "geometry",i,".setAttribute( 'position', new THREE.BufferAttribute( vertices",i,", 3 ) );\n\n");
-
-            # generate a material with the corresponding color
-            AppendTo(output, """
-                const material""",i,""" = new THREE.MeshPhongMaterial({
-                    color: """,GetFaceColour(surface, face, printRecord),""",          
-                    flatShading: true,       
-                });
-                material""",i,""".transparent = true;
-                material""",i,""".side = THREE.DoubleSide;
-            """);
-
-            # generate a mesh from the geometry and material above
-            AppendTo(output, """
-                const mesh""",i,""" = new THREE.Mesh( geometry""",i,""", material""",i,""" );
-                mesh""",i,""".castShadow = true;                         
-                mesh""",i,""".receiveShadow = true;                      
-                                            
-                meshRoot.add(mesh""",i,""");
-            """);
-                        
-            #TODO: edgeThickness
-            edgeThickness := printRecord.edgeThickness*100;
-            AppendTo(output, """                                                                    
-                const wireMaterial = new THREE.MeshStandardMaterial( {         
-                    color: 0x000000,
-                    wireframeLinewidth: """,edgeThickness,""",
-                } );
-                wireMaterial.wireframe = true 
-                                                                    
-                const line""",i,""" = new THREE.Line( geometry""",i,""", wireMaterial );
-                wireRoot.add(line""",i,""");
-            """);
-            #fi;
-        od;
-
-        # add spheres and lables on all vertices if they are active
-        AppendTo(output, "//add lables for the vertices\n");
-        for vertex in Vertices(surface) do
-            if IsVertexActive(surface, vertex, printRecord) then                
-                # generate a string with the coordinates for later use
-                coordinateString := "";
-                Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[1]));
-                Append(coordinateString, ",");
-                Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[2]));
-                Append(coordinateString, ",");
-                Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[3]));
-                Append(coordinateString, ",");
-
-                # add spheres with radius 0.05 around the active vertices
-                AppendTo(output, "const sphereMaterial",vertex," = new THREE.MeshBasicMaterial( { color: ",GetVertexColour(surface, vertex, printRecord)," } );\n");
-                AppendTo(output, "const sphere",vertex," = new THREE.Mesh( sphere_geometry, sphereMaterial",vertex," );\n");
-                AppendTo(output, "sphereRoot.add(sphere",vertex,");\n");
-                AppendTo(output, "sphere",vertex,".position.set(",coordinateString,");\n");
-
-                
-                # generate the lable for the given vertex
-                AppendTo(output, """
-                const lableDiv""",vertex,""" = document.createElement( 'div' );
-                lableDiv""",vertex,""".className = 'label';
-                lableDiv""",vertex,""".textContent = '""",vertex,"""';
-                lableDiv""",vertex,""".style.marginTop = '-1em';
-
-                const vertexLabel""",vertex,""" = new CSS2DObject( lableDiv""",vertex,""" );
-                vertexLabel""",vertex,""".position.set(""",coordinateString,""");
-                meshRoot.add( vertexLabel""",vertex,""" );
-                """);
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n");
             fi;
         od;
+        AppendTo(output, "] ); \n\n");
+        AppendTo(output, "geometry",i,".setAttribute( 'position', new THREE.BufferAttribute( vertices",i,", 3 ) );\n\n");
 
-        AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_end.template") );
-        AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_footer.template") );
-    
-        CloseStream(output);
-        return printRecord;
+        # generate a material with the corresponding color
+        AppendTo(output, """
+            const material""",i,""" = new THREE.MeshPhongMaterial({
+                color: """,GetFaceColour(surface, face, printRecord),""",          
+                flatShading: true,       
+            });
+            material""",i,""".transparent = true;
+            material""",i,""".side = THREE.DoubleSide;
+        """);
+
+        # generate a mesh from the geometry and material above
+        AppendTo(output, """
+            const mesh""",i,""" = new THREE.Mesh( geometry""",i,""", material""",i,""" );
+            mesh""",i,""".castShadow = true;                         
+            mesh""",i,""".receiveShadow = true;                      
+                                        
+            meshRoot.add(mesh""",i,""");
+        """);
+                    
+        #TODO: edgeThickness
+        edgeThickness := printRecord.edgeThickness*100;
+        AppendTo(output, """                                                                    
+            const wireMaterial = new THREE.MeshStandardMaterial( {         
+                color: 0x000000,
+                wireframeLinewidth: """,edgeThickness,""",
+            } );
+            wireMaterial.wireframe = true 
+                                                                
+            const line""",i,""" = new THREE.Line( geometry""",i,""", wireMaterial );
+            wireRoot.add(line""",i,""");
+        """);
+        #fi;
+    od;
+
+    # add spheres and lables on all vertices if they are active
+    AppendTo(output, "//add lables for the vertices\n");
+    for vertex in Vertices(surface) do
+        if IsVertexActive(surface, vertex, printRecord) then                
+            # generate a string with the coordinates for later use
+            coordinateString := "";
+            Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[1]));
+            Append(coordinateString, ",");
+            Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[2]));
+            Append(coordinateString, ",");
+            Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[3]));
+            Append(coordinateString, ",");
+
+            # add spheres with radius 0.05 around the active vertices
+            AppendTo(output, "const sphereMaterial",vertex," = new THREE.MeshBasicMaterial( { color: ",GetVertexColour(surface, vertex, printRecord)," } );\n");
+            AppendTo(output, "const sphere",vertex," = new THREE.Mesh( sphere_geometry, sphereMaterial",vertex," );\n");
+            AppendTo(output, "sphereRoot.add(sphere",vertex,");\n");
+            AppendTo(output, "sphere",vertex,".position.set(",coordinateString,");\n");
+
+            
+            # generate the lable for the given vertex
+            AppendTo(output, """
+            const lableDiv""",vertex,""" = document.createElement( 'div' );
+            lableDiv""",vertex,""".className = 'label';
+            lableDiv""",vertex,""".textContent = '""",vertex,"""';
+            lableDiv""",vertex,""".style.marginTop = '-1em';
+
+            const vertexLabel""",vertex,""" = new CSS2DObject( lableDiv""",vertex,""" );
+            vertexLabel""",vertex,""".position.set(""",coordinateString,""");
+            meshRoot.add( vertexLabel""",vertex,""" );
+            """);
+        fi;
+    od;
+
+    AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_end.template") );
+    AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_footer.template") );
+
+    CloseStream(output);
+    return printRecord;
     end
 );
 
@@ -980,7 +980,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
 InstallMethod( DrawSurfaceToJavaScript,
     "for a simplicial surface, a filename and a record",
-    [IsSimplicialSurface, IsString, IsRecord],
+    [IsTriangularComplex, IsString, IsRecord],
     function(surface, fileName, printRecord)
         return DrawSurfaceToJavaScriptCalculate(surface,fileName,printRecord,true);
     end
