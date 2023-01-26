@@ -801,9 +801,9 @@ InstallMethod( GetCircleColours,
 );
 
 # set neccessary values for the printrecord
-BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
+BindGlobal( "__SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript",
     function(surface,printRecord)
-	local g,colour,e,f,v;
+	local edgeThickness;
 	if not IsBound(printRecord.edgeThickness) then
 	    printRecord.edgeThickness := 0.03;
 	fi;
@@ -814,6 +814,7 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecord",
 );
 
 # general method
+# TODO: change name to drawcomplex... ?
 InstallMethod( DrawSurfaceToJavaScriptCalculate,
     "for a simplicial surface, a filename and a record",
     [IsSimplicialSurface, IsString, IsRecord, IsBool],
@@ -821,8 +822,12 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 local file, output, template, coords, i, j, colour,
 		      vertOfFace, vertOfEdge, parametersOfCircle, 
 		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
-              faceColors, addedFaceColors, addedFaces, uniqueFaceColors, colorPositions, color, coordinateString,
+              faceColors, addedFaceColors, addedFaces, uniqueFaceColors, colorPositions, color, coordinateString, edgeThickness,
 		      faces;	
+    # make sure the defaults are filled in
+    printRecord := __SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript(surface, printRecord);
+    
+    #predefine some lists
 	vertices:=Vertices(surface);
 	edges:=Edges(surface);
 	faces:=Faces(surface);
@@ -915,10 +920,11 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             """);
                         
             #TODO: edgeThickness
+            edgeThickness := printRecord.edgeThickness*100;
             AppendTo(output, """                                                                    
                 const wireMaterial = new THREE.MeshStandardMaterial( {         
                     color: 0x000000,
-                    wireframeLinewidth: 2,
+                    wireframeLinewidth: """,edgeThickness,""",
                 } );
                 wireMaterial.wireframe = true 
                                                                     

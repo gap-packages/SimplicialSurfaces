@@ -45,6 +45,10 @@
                 wireRoot.rotation.y += guiParameters.speedY/100;
                 wireRoot.rotation.z += guiParameters.speedZ/100;
 
+                sphereRoot.rotation.x += guiParameters.speedX/100;
+                sphereRoot.rotation.y += guiParameters.speedY/100;
+                sphereRoot.rotation.z += guiParameters.speedZ/100;
+
                 //update the light when the camera moves (with orbitcontrols)
                 light.position.set(camera.position.x, camera.position.y, camera.position.z);
 
