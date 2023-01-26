@@ -824,7 +824,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
               faceColors, addedFaceColors, addedFaces, uniqueFaceColors, colorPositions, color, coordinateString, edgeThickness,
 		      faces;	
-    # make sure the defaults are filled in
+    # make sure the defaults are set
     printRecord := __SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript(surface, printRecord);
     
     #predefine some lists
@@ -970,131 +970,8 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
         AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_end.template") );
         AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_footer.template") );
-
-
-        # for vertex in Vertices(surface) do
-        #     coords := GetVertexCoordinates3DNC(surface, vertex, printRecord);
-        #     AppendTo(output, "\t\t\tconst vertices = new Float32Array( [", coords[1], ",", coords[2], ",", coords[3], "\n");
-        # od;
-
-        
-
-        # # Add points to scenario
-        #         for i in [0..(NumberOfVertices(surface)-1)] do
-        #             if IsVertexActive(surface, vertices[i+1], printRecord) then
-        #                 colour := GetVertexColour(surface, vertices[i+1], printRecord);
-        #                 if not StartsWith(colour, "0x") then
-        #                     colour := Concatenation("\"", colour, "\"");
-        #                 fi;
-        #                 AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
-        #                 AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
-        #                 AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
-        #                 AppendTo(output, "\t\t// draw a node as a sphere of radius 0.05\n");
-        #                 AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material", i, ");\n");
-        #                 AppendTo(output, "\t\tallpoints[", i, "].makelabel(", vertices[i+1], ");\n");
-        #             fi;
-        #         od;
-        #         template := __SIMPLICIAL_ReadTemplateFromFile("JS_associate_points_init_faces.html.template");
-        #         AppendTo( output, template );
-
-        #         # Add Faces to scenario
-        #         for i in [1..(NumberOfFaces(surface))] do
-        #             if IsFaceActive(surface, faces[i], printRecord) then
-        #                 vertOfFace := VerticesOfFaces(surface)[faces[i]];
-        #                 colour := GetFaceColour(surface, faces[i], printRecord);
-        #                 if not StartsWith(colour, "0x") then
-        #                     colour := Concatenation("\"", colour, "\"");
-        #                 fi;
-        #                 AppendTo(output, "\t\tvar face", faces[i], " = new THREE.Geometry();\n");
-        #                 for j in [1..3] do
-        #                     AppendTo(output, "\t\tface", faces[i], ".vertices.push(allpoints[", Position(vertices,vertOfFace[j])-1, "\].vector);\n");
-        #                 od;
-        #                 AppendTo(output, "\t\tcentroids.push(computeCentroid(face", faces[i], "));\n");
-        #                 AppendTo(output, "\t\tvar face", faces[i], "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(surface, i, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
-        #                 AppendTo(output, "\t\tface", faces[i], ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
-        #                 AppendTo(output, "\t\tvar face", faces[i], "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
-        #                 AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", faces[i], ", face", faces[i], "_material) );\n");
-        #             fi;
-        #         od;
-
-        #         AppendTo(output, "\n\n");
-        #         for face in faces do
-        #             if IsInnerCircleActive(surface, face, printRecord) then
-        #                 parametersOfCircle := printRecord.innerCircles[face];
-        #                 colour := GetCircleColour(surface, face, printRecord);
-        #                 if not StartsWith(colour, "0x") then
-        #                     colour := Concatenation("\"", colour, "\"");
-        #                 fi;
-        #                 AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
-        #                     parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
-        #                     parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
-        #                 AppendTo(output, "\t\tobj.add(circle);\n");
-        #             fi;
-        #         od;
-        #         AppendTo(output, "\n\n");
-
-        #         for face in faces do
-        #             if IsNormalOfInnerCircleActive(surface, face, printRecord) then
-        #                 parametersOfCircle := printRecord.innerCircles[face];
-        #                 colour := GetCircleColour(surface, face, printRecord);
-        #                 if not StartsWith(colour, "0x") then
-        #                     colour := Concatenation("\"", colour, "\"");
-        #                 fi;
-        #                 AppendTo(output, "\t\tvar normalVector = Edge(", parametersOfCircle[5], ", 0.002, ", parametersOfCircle[1][1], ", ",
-        #                     parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[4][1], ", ",
-        #                     parametersOfCircle[4][2], ", ", parametersOfCircle[4][3], ", ", colour, ");\n");
-        #                 AppendTo(output, "\t\tobj.add(normalVector);\n");
-        #             fi;
-        #         od;
-        #         AppendTo(output, "\n\n");
-
-        #         # Add Edges to scenario
-        #         template := __SIMPLICIAL_ReadTemplateFromFile("JS_init_edges.html.template");
-        #         AppendTo( output, template );
-        #         if not IsBound(printRecord.edges) then
-        #             printRecord := CalculateParametersOfEdges(surface, printRecord);
-        #         fi;
-        #         if calculate then
-        #             printRecord := CalculateParametersOfEdges(surface, printRecord);
-        #         fi;
-        #         for edge in edges do
-        #             if IsEdgeActive(surface, edge, printRecord) then
-        #                 parametersOfEdge := printRecord.edges[edge];
-        #                 colour := GetEdgeColour(surface, edge, printRecord);
-        #                 if not StartsWith(colour, "0x") then
-        #                     colour := Concatenation("\"", colour, "\"");
-        #                 fi;
-        #                 if IsBound(printRecord.edgeThickness) then
-	    #                     AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ",", printRecord.edgeThickness,",", parametersOfEdge[1][1], ", ",
-	    #                         parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-	    #                         parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
-	    #                     AppendTo(output, "\t\tobj.add(edge);\n");
-	    #                 else
-	    #                 	AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
-	    #                         parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-	    #                         parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
-	    #                     AppendTo(output, "\t\tobj.add(edge);\n");
-	    #                 fi;
-        #             fi;
-        #         od;
-
-                # if IsBound(printRecord.FaceTransparency) then
-                #     template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterFirst.html.template");
-                #     AppendTo( output, template );
-                #     for face in faces do
-                #         if IsBound(printRecord.FaceTransparency[face]) then
-                #             #face1_material.opacity = 0;
-                #             AppendTo(output, "\t\t\tface", face , "_material.opacity = ", printRecord.FaceTransparency[face], ";\n");
-                #         fi;
-                #     od;
-                #     template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterSecond.html.template");
-                #     AppendTo( output, template );
-                # else
-                #     template := __SIMPLICIAL_ReadTemplateFromFile("JS_Footer.html.template");
-                #     AppendTo( output, template );
-                # fi;
-
-                CloseStream(output);
+    
+        CloseStream(output);
         return printRecord;
     end
 );
