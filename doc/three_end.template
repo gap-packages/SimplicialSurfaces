@@ -21,6 +21,7 @@
 
             animationFolder.add(guiParameters, 'speedX', 0, 5);
             animationFolder.add(guiParameters, 'speedY', 0, 5);
+            animationFolder.add(guiParameters, 'speedZ', 0, 5);
             animationFolder.open();
 
             const controlFolder = gui.addFolder("Controls");
@@ -38,9 +39,11 @@
                 requestAnimationFrame( animate );
                 meshRoot.rotation.x += guiParameters.speedX/100;
                 meshRoot.rotation.y += guiParameters.speedY/100;
+                meshRoot.rotation.z += guiParameters.speedZ/100;
 
                 wireRoot.rotation.x += guiParameters.speedX/100;
                 wireRoot.rotation.y += guiParameters.speedY/100;
+                wireRoot.rotation.z += guiParameters.speedZ/100;
 
                 //update the light when the camera moves (with orbitcontrols)
                 light.position.set(camera.position.x, camera.position.y, camera.position.z);
