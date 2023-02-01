@@ -350,11 +350,11 @@ InstallGlobalFunction( "__SIMPLICIAL_ReadLine",
 BindGlobal( "SIMPLICIAL_LIBRARY_INDEX",
     [
         # VertexCounter
-        [VertexCounter, 
+        [CounterOfVertices, 
             function(counter)
                 local str, sub;
                 str := "";
-                for sub in counter do
+                for sub in ListCounter(counter) do
                     Append(str, "__");
                     Append(str, String(sub[1]));
                     Append(str, "_");
