@@ -52,7 +52,7 @@
 #!        (see Section <Ref Sect="Section_LabelCoordinatesAndCoreFunctionality"/>).</Item>
 #! </Enum>
 #! The output of the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) is an html file.
-#! The file can be opened with any browser and then the animation is shown directly.
+#! The file can be opened with most browsers and then the animation is shown. Because we load the three.js dependecies (and itself) from a CDN it requires an active internet connection.
 
 #! @Section Coordinates and Core Functionality
 #! @SectionLabel LabelCoordinatesAndCoreFunctionality
@@ -184,10 +184,10 @@ DeclareOperation( "GetVertexCoordinates3DNC", [IsSimplicialSurface, IsPosInt, Is
 #! There are the following classes of parameters:
 #! * <E>Visibility</E>
 #!   (<Ref Subsect="Section_LabelVisibility"/>): Change the
-#!   visibility of vertices, edges and faces.
+#!   visibility of vertices, and faces.
 #! * <E>Colours</E>
 #!   (<Ref Subsect="Section_LabelColouring"/>): Change the
-#!   colours of vertices, edges and faces.
+#!   colours of vertices, and faces.
 #!
 #! There are also options for inner circles (<Ref Subsect="Section_LabelInnerCirclesAnimating"/>)
 #! and normals of inner circles (<Ref Subsect="Section_LabelNormalsInnerCirclesAnimating"/>).
@@ -214,11 +214,10 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface, IsRecord] 
 #! Therefore, it is possible to make the following visible and invisible:
 #! <Enum>
 #!   <Item>Vertices (see <Ref Subsect="ActivateVertices"/>) </Item>
-#!   <Item>Edges (see <Ref Subsect="ActivateEdges"/>) </Item>
 #!   <Item>Faces (see <Ref Subsect="ActivateFaces"/>) </Item>
 #! </Enum>
-#! By default, all vertices, edges, and faces are visible.
-#! In <Ref Subsect="SetTransparency"/> it is described how we can change the transparency of the faces.
+#! By default, all vertices, and faces are visible. For the visibility of the edges, there will be a wireframe option in the GUI if the output file.
+#! It is also possible in the GUI to change the transparency of all faces. Otherwise all vertices which are active will be shown.
 
 #! The following example shows an animation with invisible vertices.
 #! @BeginLog
@@ -285,34 +284,6 @@ DeclareOperation( "DeactivateVertices", [IsSimplicialSurface, IsRecord] );
 DeclareOperation( "DeactivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
-#! @BeginGroup ActivateEdges
-#! @Description
-#! The method <K>ActivateEdge</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the edge <A>i</A>.
-#! If an edge is active, then the edge is shown in the animation as a line.
-#! The method <K>ActivateEdges</K>(<A>surface</A>, <A>printRecord</A>) activates all edges of <A>surface</A>.
-#! By default, all edges are activated.
-#! @Returns the updated print record
-#! @Arguments surface, printRecord
-DeclareOperation( "ActivateEdges", [IsSimplicialSurface, IsRecord] );
-#! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @Arguments surface, i, printRecord
-DeclareOperation( "IsEdgeActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @EndGroup
-
-#! @BeginGroup DeactivateEdges
-#! @Description
-#! The method <K>DeactivateEdge</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) deactivates the edge <A>i</A>.
-#! If an edge is inactive, then the edge is not shown in the animation as a line.
-#! The method <K>DeactivateEdges</K>(<A>surface</A>, <A>printRecord</A>) deactivates all edges of <A>surface</A>.
-#! By default, all edges are activated.
-#! @Returns the updated print record
-#! @Arguments surface, printRecord
-DeclareOperation( "DeactivateEdges", [IsSimplicialSurface, IsRecord] );
-#! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @EndGroup
-
 #! @BeginGroup ActivateFaces
 #! @Description
 #! The method <K>ActivateFace</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) activates the face <A>i</A>.
@@ -341,42 +312,13 @@ DeclareOperation( "DeactivateFaces", [IsSimplicialSurface, IsRecord] );
 DeclareOperation( "DeactivateFace", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
-#! @BeginGroup SetTransparency
-#! @Description
-#! Set the transparency of the face <A>face</A>. The parameter <A>value</A> has to be between 0 and 1.
-#! 0 means that the face is invisible and 1 means that the face is opaque.
-#! The face will not change its transparency by using the transparency controller.
-#! @Returns the updated print record
-#! @Arguments surface, face, value, printRecord
-DeclareOperation( "SetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord] );
-#! @EndGroup
-
-#! @BeginGroup RemoveTransparency
-#! @Description
-#! Remove the transparency of the face <A>face</A>.
-#! After this the face act as a normal face without a strict transparency value.
-#! @Returns the updated print record
-#! @Arguments surface, face, printRecord
-DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @EndGroup
-
-#! @BeginGroup GetTransparency
-#! @Description
-#! Get the transparency of the face <A>face</A>. If no transparency is set, the function returns 1.
-#! Otherwise the function returns the transparency value of the face <A>face</A>.
-#! @Returns the updated print record
-#! @Arguments surface, face, printRecord
-DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @EndGroup
-
 #! @Section Colouring
 #! @SectionLabel LabelColouring
 
 #! In this section, we describe how to colour the animation. The colours are stored in hexadecimal format, which starts with 0x.
 #! The following possibilities are available:
 #! <Enum>
-#!   <Item>Vertices (The default colour is 0xF58137, an orange hue. See <Ref Subsect="SetVertexColours"/>)</Item>
-#!   <Item>Edges (The default colour is 0xff0000, an red hue. See <Ref Subsect="SetEdgeColours"/>)</Item>
+#!   <Item>Vertices (The default colour is 0x049EF4, an light blue hue. See <Ref Subsect="SetVertexColours"/>)</Item>
 #!   <Item>Faces (The default colour is 0xFFFF00, an yellow hue. See <Ref Subsect="SetFaceColours"/>)</Item>
 #! </Enum>
 #! Some colours can also be referred to by strings, namely:
@@ -441,36 +383,6 @@ DeclareOperation( "GetVertexColours", [IsSimplicialSurface, IsRecord] );
 DeclareOperation( "GetVertexColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
-#! @BeginGroup SetEdgeColours
-#! @Description
-#! The method <K>SetEdgeColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) sets the colour of edge <A>i</A> to <A>colour</A>.
-#! The method <K>SetEdgeColours</K>(<A>surface</A>,<A>newColoursList</A>, <A>printRecord</A>) sets the colours for all edges of <A>surface</A>.
-#! That means the method set the colour of edge <A>j</A> to <A>newColoursList[j]</A>.
-#! The default colour for all edges is 0xff0000, an red hue.
-#! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
-#! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
-#! @Returns a print record
-#! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetEdgeColours", [IsSimplicialSurface, IsList, IsRecord] );
-#! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetEdgeColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
-#! @EndGroup
-
-#! @BeginGroup GetEdgeColours
-#! @Description
-#! The method <K>GetEdgeColour</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) returns the colour of edge <A>i</A>.
-#! The method <K>GetEdgeColours</K>(<A>surface</A>, <A>printRecord</A>) returns the colours for all edges of <A>surface</A>
-#! as a list <A>colours</A>, where the colour of edge <A>j</A> is <A>colours[j]</A>.
-#! The default colour for all edges is 0xff0000, an red hue.
-#! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
-#! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
-#! @Returns a print record
-#! @Arguments surface, printRecord
-DeclareOperation( "GetEdgeColours", [IsSimplicialSurface, IsRecord] );
-#! @Arguments surface, i, printRecord
-DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
-#! @EndGroup
-
 #! @BeginGroup SetFaceColours
 #! @Description
 #! The method <K>SetFaceColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) sets the colour of face <A>i</A> to <A>colour</A>.
@@ -503,6 +415,8 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 
 #! @Section Inner Circles
 #! @SectionLabel LabelInnerCirclesAnimating
+#! This is currently not working due to the newly implemented version of three.js. It is planned to reimplement these functions again in the future.
+#! 
 #! Inner circles are defined for triangular faces.
 #! In the animation, they are circles within the face that touch each edge in exactly one point.
 #!
@@ -636,6 +550,8 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface, IsRe
 #! @Section Normals of Inner Circles
 #! @SectionLabel LabelNormalsInnerCirclesAnimating
 #!
+#! This is currently not working due to the newly implemented version of three.js. It is planned to reimplement these functions again in the future.
+#! 
 
 #! A normal of an inner circle (compare Section <Ref Sect="Section_LabelInnerCirclesAnimating"/>) is a line
 #! intersecting the center of the circle orthogonally.
@@ -710,7 +626,8 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosIn
 #! The printRecord can have optional parameters to modify the output in the html file.
 
 #! In large examples it can be a little bit hard to recognize all the edges.
-#! For this, one could change the parameter <A>edgeThickness</A>. The default value is set to $0.01$. We recommend choosing a value in the range $0.01-0.05$.
+#! For this, one could change the parameter <A>edgeThickness</A>. The default value is set to $0.03$. We recommend choosing a value in the range $0.01-0.05$.
+#! If the value is not set, it will be set to the default in the printRecord when <K>DrawSurfaceToJavaScriptCalculate</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) is called.
 
 #! An image of an octahedron with thicker edges which is produced by the following code is shown below.
 #! @BeginLog
@@ -729,3 +646,46 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosIn
 #! @InsertChunk Example_OctahedronThickEdges
 
 
+#! @BeginGroup Deprecated functions
+#! @Description 
+#! There are several methods which are deprecated with the switch to the new three.js version, they are listed below:
+
+#! @Returns the updated print record
+#! @Arguments surface, printRecord
+DeclareOperation( "ActivateEdges", [IsSimplicialSurface, IsRecord] );
+#! @Arguments surface, i, printRecord
+DeclareOperation( "ActivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
+#! @Arguments surface, i, printRecord
+DeclareOperation( "IsEdgeActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
+
+#! @Returns the updated print record
+#! @Arguments surface, printRecord
+DeclareOperation( "DeactivateEdges", [IsSimplicialSurface, IsRecord] );
+#! @Arguments surface, i, printRecord
+DeclareOperation( "DeactivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
+
+#! @Returns a print record
+#! @Arguments surface, newColoursList, printRecord
+DeclareOperation( "SetEdgeColours", [IsSimplicialSurface, IsList, IsRecord] );
+#! @Arguments surface, i, colour, printRecord
+DeclareOperation( "SetEdgeColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
+
+#! @Returns a print record
+#! @Arguments surface, printRecord
+DeclareOperation( "GetEdgeColours", [IsSimplicialSurface, IsRecord] );
+#! @Arguments surface, i, printRecord
+DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
+
+#! @Returns the updated print record
+#! @Arguments surface, face, value, printRecord
+DeclareOperation( "SetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord] );
+
+#! @Returns the updated print record
+#! @Arguments surface, face, printRecord
+DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
+
+#! @Returns the updated print record
+#! @Arguments surface, face, printRecord
+DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
+
+#! @EndGroup

@@ -868,7 +868,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
     od;
 
     # for each of the unique colors add the faces to a gemeometry and generate a mesh with corresponding color from it
-    # if the wireframe option is active generate one for all geometries as well
+    # also generate a wireframe which can be made visible via the gui
     for i in [1..Length(uniqueFaceColors)] do
         color := uniqueFaceColors[i];
         if not StartsWith(color, "0x") then
@@ -947,7 +947,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[3]));
             Append(coordinateString, ",");
 
-            # add spheres with radius 0.05 around the active vertices
+            # add spheres with radius edgeThickness around the active vertices
             AppendTo(output, "const sphereMaterial",vertex," = new THREE.MeshBasicMaterial( { color: ",GetVertexColour(surface, vertex, printRecord)," } );\n");
             AppendTo(output, "const sphere",vertex," = new THREE.Mesh( sphere_geometry, sphereMaterial",vertex," );\n");
             AppendTo(output, "sphereRoot.add(sphere",vertex,");\n");
