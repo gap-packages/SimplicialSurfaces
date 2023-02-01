@@ -649,7 +649,7 @@ InstallMethod( GetFaceColours,
     local res, i;
                 res := [];
                 for i in Faces(surface) do
-                    Add(res, GetFaceColour(surface, i, printRecord));
+                    res[i]:= GetFaceColour(surface, i, printRecord);
                 od;
 
                 return res;
