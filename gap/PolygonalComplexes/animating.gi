@@ -919,7 +919,6 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             meshRoot.add(mesh""",i,""");
         """);
                     
-        #TODO: edgeThickness
         edgeThickness := printRecord.edgeThickness*100;
         AppendTo(output, """                                                                    
             const wireMaterial = new THREE.MeshStandardMaterial( {         
