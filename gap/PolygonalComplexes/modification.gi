@@ -599,7 +599,95 @@ if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( SubsurfaceByFacesNC, true, [IsTwistedPolygonalComplex, IsList], [IsTwistedPolygonalSurface], 0 );
 fi;
 
+InstallMethod( SubcomplexByFaces, "for a coloured twisted polygonal complex and a set of faces",
+    [IsEdgeColouredTwistedPolygonalComplex, IsSet],
+    function(complex, subfaces)
+	if not IsSubset( Faces(complex), subfaces ) then
+	    Error("SubcomplexByFaces: there are not only faces given.");
+	fi;
+    return SubcomplexByFacesNC(complex,subfaces);
+    end
+);
 
+InstallOtherMethod( SubcomplexByFaces, 
+    "for a coloured twisted polygonal complex and a list of faces",
+    [ IsEdgeColouredTwistedPolygonalComplex, IsList ],
+    function(complex, subfaces)
+        return SubcomplexByFaces(complex, Set(subfaces));
+    end
+);
+
+InstallMethod(SubcomplexByFacesNC, "for a coloured twisted polygonal complex and a set of faces",
+    [IsEdgeColouredTwistedPolygonalComplex, IsSet],
+    function(complex, subfaces)
+    	local colEdges,subcomplex,colEdgesSub,edge;
+
+    	colEdges:=ColoursOfEdges(complex);
+    	subcomplex:=SubcomplexByFacesNC( complex, subfaces );
+    	colEdgesSub:=[];
+    	for edge in Edges(subcomplex) do
+        	colEdgesSub[edge]:=colEdges[edge];
+    	od;
+    	return EdgeColouredTwistedPolygonalComplex(subcomplex,colEdgesSub);
+    end
+);
+
+InstallOtherMethod( SubcomplexByFacesNC, 
+    "for a coloured twisted polygonal complex and a list of faces",
+    [ IsEdgeColouredTwistedPolygonalComplex, IsList ],
+    function(complex, subfaces)
+        return SubcomplexByFacesNC(complex, Set(subfaces));
+    end
+);
+
+InstallMethod( SubsurfaceByFaces, "for a coloured twisted polygonal surface and a set of faces",
+    [IsEdgeColouredTwistedPolygonalComplex and IsTwistedPolygonalSurface, IsSet],
+    function(surface, subfaces)
+	local sub;
+        if not IsSubset( Faces(surface), subfaces ) then
+            Error("SubsurfaceByFaces: there are not only faces given.");
+        fi;
+        sub := SubcomplexByFaces(surface, subfaces);
+        if not IsTwistedPolygonalSurface(sub) then
+            return fail;
+        fi;
+
+        return sub;
+    end
+);
+
+InstallOtherMethod( SubsurfaceByFaces, 
+    "for a coloured twisted polygonal surface and a list of faces",
+    [ IsEdgeColouredTwistedPolygonalComplex and IsTwistedPolygonalSurface, IsList ],
+    function(surface, subfaces)
+        return SubsurfaceByFaces(surface, Set(subfaces));
+    end
+);
+
+InstallMethod(SubsurfaceByFacesNC, "for a coloured twisted polygonal surface and a set of faces",
+    [IsEdgeColouredTwistedPolygonalComplex and IsTwistedPolygonalSurface, IsSet],
+    function(surface, subfaces)
+        local colEdges,subsurface,colEdgesSub,edge;
+
+        colEdges:=ColoursOfEdges(surface);
+        subsurface:=SubcomplexByFacesNC( surface, subfaces );
+        SetIsNotVertexRamified(subsurface, true);
+        SetIsNotEdgeRamified(subsurface, true);
+        colEdgesSub:=[];
+        for edge in Edges(subsurface) do
+            colEdgesSub[edge]:=colEdges[edge];
+        od;
+        return EdgeColouredTwistedPolygonalComplex(subsurface,colEdgesSub);
+    end
+);
+
+InstallOtherMethod( SubsurfaceByFacesNC, 
+    "for a coloured twisted polygonal surface and a list of faces",
+    [IsEdgeColouredTwistedPolygonalComplex and IsTwistedPolygonalSurface, IsList ],
+    function(surface, subfaces)
+        return SubsurfaceByFacesNC(surface, Set(subfaces));
+    end
+);
 
 ####
 
