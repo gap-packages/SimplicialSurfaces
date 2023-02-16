@@ -1957,11 +1957,26 @@ DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
 #! >            verts1 := VerticesOfEdges(complex)[pair[1]];
 #! >            verts2 := VerticesOfEdges(complex)[pair[2]];
 #! >            if IsEmpty(Intersection(verts1, verts2)) then
-#! >                Append( flagPairs, [ 
-#! >                    Set( [ [ verts1[1], pair[1] ], [ verts2[1], pair[2] ] ] ),
-#! >                    Set( [ [ verts1[1], pair[1] ], [ verts2[2], pair[2] ] ] ),
-#! >                    Set( [ [ verts1[2], pair[1] ], [ verts2[1], pair[2] ] ] ),
-#! >                    Set( [ [ verts1[2], pair[1] ], [ verts2[2], pair[2] ] ] )] );
+#! >                if not [verts1[1],verts2[1]] in VerticesOfEdges(complex) and
+#! >                   not [verts2[1],verts1[1]] in VerticesOfEdges(complex) then
+#! >                	Add(flagPairs,Set([ [ verts1[1], pair[1] ],
+#! > 				[ verts2[1], pair[2] ] ]));
+#! >                fi;
+#! >                if not [verts1[1],verts2[2]] in VerticesOfEdges(complex) and
+#! >                   not [verts2[2],verts1[1]] in VerticesOfEdges(complex) then
+#! >                	Add(flagPairs,Set([ [ verts1[1], pair[1] ],
+#! > 				[ verts2[2], pair[2] ] ]));
+#! >                fi;
+#! >                if not [verts1[2],verts2[1]] in VerticesOfEdges(complex) and
+#! >                   not [verts2[1],verts1[2]] in VerticesOfEdges(complex) then
+#! >                	Add(flagPairs,Set([ [ verts1[2], pair[1] ],
+#! > 				[ verts2[1], pair[2] ] ]));
+#! >                fi;
+#! >                if not [verts1[2],verts2[2]] in VerticesOfEdges(complex) and
+#! >                   not [verts2[2],verts1[2]] in VerticesOfEdges(complex) then
+#! >                	Add(flagPairs,Set([ [ verts1[2], pair[1] ],
+#! > 				[ verts2[2], pair[2] ] ]));
+#! >                fi;
 #! >            fi;
 #! >        od;
 #! >    
