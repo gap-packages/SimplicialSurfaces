@@ -20,7 +20,7 @@ BindGlobal( "__SIMPLICIAL_IsCoordinates3D",
 
 InstallMethod( SetVertexCoordinates3D,
     "for a simplicial surface, a list of coordinates and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, coordinates, printRecord)
 	if not __SIMPLICIAL_IsCoordinates3D(surface, coordinates) then
 	    Error( " invalid coordinate format " );
@@ -30,22 +30,22 @@ InstallMethod( SetVertexCoordinates3D,
 );
 RedispatchOnCondition( SetVertexCoordinates3D, true, 
     [IsTwistedPolygonalComplex,IsList,IsRecord], 
-    [IsSimplicialSurface, IsList], 0 );
+    [IsTriangularComplex, IsList], 0 );
 
 InstallOtherMethod( SetVertexCoordinates3D,
     "for a simplicial surface and a list of coordinates",
-    [IsSimplicialSurface, IsList],
+    [IsTriangularComplex, IsList],
     function(surface, coordinates)
 	return SetVertexCoordinates3D(surface, coordinates, rec());
     end
 );
 RedispatchOnCondition( SetVertexCoordinates3D, true, 
     [IsTwistedPolygonalComplex,IsList], 
-    [IsSimplicialSurface, IsList], 0 );
+    [IsTriangularComplex, IsList], 0 );
 
 InstallMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface, a list of coordinates and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, coordinates, printRecord)
 	printRecord.vertexCoordinates3D := coordinates;
         return printRecord;
@@ -53,21 +53,21 @@ InstallMethod( SetVertexCoordinates3DNC,
 );
 RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
     [IsTwistedPolygonalComplex,IsList,IsRecord], 
-    [IsSimplicialSurface, IsList], 0 );
+    [IsTriangularComplex, IsList], 0 );
 InstallOtherMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface and a list of coordinates",
-    [IsSimplicialSurface, IsList],
+    [IsTriangularComplex, IsList],
     function(surface, coordinates)
 	return SetVertexCoordinates3DNC(coordinates, rec());
     end
 );
 RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
     [IsTwistedPolygonalComplex,IsList], 
-    [IsSimplicialSurface, IsList], 0 );
+    [IsTriangularComplex, IsList], 0 );
 
 InstallMethod( GetVertexCoordinates3D,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 	if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
 	    Error( " invalid coordinate format " );
@@ -76,22 +76,22 @@ InstallMethod( GetVertexCoordinates3D,
     end
 );
 RedispatchOnCondition(GetVertexCoordinates3D, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
-    [IsSimplicialSurface], 0);
+    [IsTriangularComplex], 0);
 
 InstallMethod( GetVertexCoordinates3DNC,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 	return 1.0*printRecord.vertexCoordinates3D[vertex];
     end
 );
 RedispatchOnCondition(GetVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
-    [IsSimplicialSurface], 0);
+    [IsTriangularComplex], 0);
 
 
 InstallMethod( CalculateParametersOfInnerCircle,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 				local norm, distance, normalize, crossProd, Atan2, res, vertOfFace, P1, P2, P3, d1, d2, d3, incenter, s,face,
 					radius, x, y, z, alpha, beta, gamma, normalVector, lengthNormalVector, normalVector_beta, normalVector_gamma;
@@ -162,13 +162,13 @@ InstallMethod( CalculateParametersOfInnerCircle,
 );
 RedispatchOnCondition(CalculateParametersOfInnerCircle, true, 
     [IsTwistedPolygonalComplex, IsRecord],
-    [IsSimplicialSurface], 0);
+    [IsTriangularComplex], 0);
 
 	
 
 InstallMethod( ActivateInnerCircles,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 	local face;
 	if not IsBound(printRecord.innerCircles) then
@@ -182,13 +182,13 @@ InstallMethod( ActivateInnerCircles,
 );
 RedispatchOnCondition( ActivateInnerCircles, true, 
     [IsTwistedPolygonalComplex, IsRecord],
-    [IsSimplicialSurface], 0);
+    [IsTriangularComplex], 0);
 
 
 
 InstallMethod( DeactivateInnerCircles,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			printRecord.drawInnerCircles := [];
 			return printRecord;
@@ -197,7 +197,7 @@ InstallMethod( DeactivateInnerCircles,
 
 InstallMethod( ActivateInnerCircle,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
@@ -212,7 +212,7 @@ InstallMethod( ActivateInnerCircle,
 
 InstallMethod( DeactivateInnerCircle,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.drawInnerCircles) then
 				return printRecord;
@@ -224,7 +224,7 @@ InstallMethod( DeactivateInnerCircle,
 
 InstallMethod( IsInnerCircleActive,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
@@ -241,7 +241,7 @@ InstallMethod( IsInnerCircleActive,
 
 InstallMethod( ActivateNormalOfInnerCircles,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			local face;
 			if not IsBound(printRecord.innerCircles) then
@@ -256,7 +256,7 @@ InstallMethod( ActivateNormalOfInnerCircles,
 
 InstallMethod( DeactivateNormalOfInnerCircles,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			printRecord.drawNormalOfInnerCircles := [];
 			return printRecord;
@@ -265,7 +265,7 @@ InstallMethod( DeactivateNormalOfInnerCircles,
 
 InstallMethod( ActivateNormalOfInnerCircle,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
@@ -280,7 +280,7 @@ InstallMethod( ActivateNormalOfInnerCircle,
 
 InstallMethod( DeactivateNormalOfInnerCircle,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.drawNormalOfInnerCircles) then
 				return printRecord;
@@ -292,7 +292,7 @@ InstallMethod( DeactivateNormalOfInnerCircle,
 
 InstallMethod( IsNormalOfInnerCircleActive,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
@@ -309,7 +309,7 @@ InstallMethod( IsNormalOfInnerCircleActive,
 
 InstallMethod( CalculateParametersOfEdges,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 				local norm, distance, Atan2, res, vertOfEdge, P1, P2, d, mid, beta, gamma,edge;
 				if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
@@ -359,7 +359,7 @@ InstallMethod( CalculateParametersOfEdges,
 
 InstallMethod( ActivateEdges,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			if not IsBound(printRecord.edges) then
 				printRecord := CalculateParametersOfEdges(surface, printRecord);
@@ -371,7 +371,7 @@ InstallMethod( ActivateEdges,
 
 InstallMethod( DeactivateEdges,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			local edge;
 			for edge in Edges(surface) do
@@ -383,7 +383,7 @@ InstallMethod( DeactivateEdges,
 
 InstallMethod( ActivateEdge,
     "for a simplicial surface, an edge and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 			if not IsBound(printRecord.edges) then
 				printRecord := CalculateParametersOfEdges(surface, printRecord);
@@ -399,7 +399,7 @@ InstallMethod( ActivateEdge,
 
 InstallMethod( DeactivateEdge,
     "for a simplicial surface, an edge and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 			if not IsBound(printRecord.drawEdges) then
 				printRecord.drawEdges := [];
@@ -411,7 +411,7 @@ InstallMethod( DeactivateEdge,
 
 InstallMethod( IsEdgeActive,
     "for a simplicial surface, an edge and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 			if not IsBound(printRecord.edges) then
 					return false;
@@ -431,7 +431,7 @@ InstallMethod( IsEdgeActive,
 
 InstallMethod( ActivateFaces,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			printRecord.drawFaces := [];
 			return printRecord;
@@ -440,7 +440,7 @@ InstallMethod( ActivateFaces,
 
 InstallMethod( DeactivateFaces,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			local face;
 			for face in Faces(surface) do
@@ -452,7 +452,7 @@ InstallMethod( DeactivateFaces,
 
 InstallMethod( ActivateFace,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.drawFaces) then
 				printRecord.drawFaces := [];
@@ -465,7 +465,7 @@ InstallMethod( ActivateFace,
 
 InstallMethod( DeactivateFace,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.drawFaces) then
 				printRecord.drawFaces := [];
@@ -477,7 +477,7 @@ InstallMethod( DeactivateFace,
 
 InstallMethod( IsFaceActive,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 				if not IsBound(printRecord.drawFaces) then
 					return true;
@@ -494,7 +494,7 @@ InstallMethod( IsFaceActive,
 
 InstallMethod( SetTransparencyJava,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsFloat, IsRecord],
     function(surface, face, value, printRecord)
             if not IsBound(printRecord.FaceTransparency) then
                 printRecord.FaceTransparency := [];
@@ -506,7 +506,7 @@ InstallMethod( SetTransparencyJava,
 
 InstallMethod( RemoveTransparencyJava,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
             if IsBound(printRecord.FaceTransparency[face]) then
                 Unbind(printRecord.FaceTransparency[face]);
@@ -518,7 +518,7 @@ InstallMethod( RemoveTransparencyJava,
 
 InstallMethod( GetTransparencyJava,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
                 if not IsBound(printRecord.FaceTransparency) then
                     return 1;
@@ -535,7 +535,7 @@ InstallMethod( GetTransparencyJava,
 
 InstallMethod( ActivateVertices,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 				Error(" The 3D-coordinates of the vertices are not set ");
@@ -547,7 +547,7 @@ InstallMethod( ActivateVertices,
 
 InstallMethod( DeactivateVertices,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			local vertex;
 			for vertex in Vertices(surface) do
@@ -559,7 +559,7 @@ InstallMethod( DeactivateVertices,
 
 InstallMethod( ActivateVertex,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 				Error(" The 3D-coordinates of the vertices are not set ");
@@ -575,7 +575,7 @@ InstallMethod( ActivateVertex,
 
 InstallMethod( DeactivateVertex,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 			if not IsBound(printRecord.drawVertices) then
 				printRecord.drawVertices := [];
@@ -587,7 +587,7 @@ InstallMethod( DeactivateVertex,
 
 InstallMethod( IsVertexActive,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 					return false;
@@ -607,7 +607,7 @@ InstallMethod( IsVertexActive,
 
 InstallMethod( SetFaceColour,
     "for a simplicial surface, a face, a string and a record",
-    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsString, IsRecord],
     function(surface, face, colour, printRecord)
 				if not IsBound(printRecord.faceColours) then
 					printRecord.faceColours := [];
@@ -619,7 +619,7 @@ InstallMethod( SetFaceColour,
 
 InstallMethod( GetFaceColour,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 				local default;
 				default := "0x049EF4";
@@ -635,7 +635,7 @@ InstallMethod( GetFaceColour,
 
 InstallMethod( SetFaceColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, faceColours, printRecord)
 				printRecord.faceColours := faceColours;
 				return printRecord;
@@ -644,7 +644,7 @@ InstallMethod( SetFaceColours,
 
 InstallMethod( GetFaceColours,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
     local res, i;
                 res := [];
@@ -658,7 +658,7 @@ InstallMethod( GetFaceColours,
 
 InstallMethod( SetVertexColour,
     "for a simplicial surface, a vertex, a string and a record",
-    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsString, IsRecord],
     function(surface, vertex, colour, printRecord)
 				if not IsBound(printRecord.vertexColours) then
 					printRecord.vertexColours := [];
@@ -670,7 +670,7 @@ InstallMethod( SetVertexColour,
 
 InstallMethod( GetVertexColour,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 				local default;
 				default := "0xF58137";
@@ -686,7 +686,7 @@ InstallMethod( GetVertexColour,
 
 InstallMethod( SetVertexColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, vertexColours, printRecord)
 				printRecord.vertexColours := vertexColours;
 				return printRecord;
@@ -695,7 +695,7 @@ InstallMethod( SetVertexColours,
 
 InstallMethod( GetVertexColours,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 				if not IsBound(printRecord.vertexColours) then
 					return [];
@@ -706,7 +706,7 @@ InstallMethod( GetVertexColours,
 
 InstallMethod( SetEdgeColour,
     "for a simplicial surface, an edge, a string and a record",
-    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsString, IsRecord],
     function(surface, edge, colour, printRecord)
 				if not IsBound(printRecord.edgeColours) then
 					printRecord.edgeColours := [];
@@ -718,7 +718,7 @@ InstallMethod( SetEdgeColour,
 
 InstallMethod( GetEdgeColour,
     "for a simplicial surface, an edge and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 				local default;
 				default := "0xff0000";
@@ -734,7 +734,7 @@ InstallMethod( GetEdgeColour,
 
 InstallMethod( SetEdgeColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, edgeColours, printRecord)
 				printRecord.edgeColours := edgeColours;
 				return printRecord;
@@ -743,7 +743,7 @@ InstallMethod( SetEdgeColours,
 
 InstallMethod( GetEdgeColours,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 				if not IsBound(printRecord.EdgeColours) then
 					return [];
@@ -754,7 +754,7 @@ InstallMethod( GetEdgeColours,
 
 InstallMethod( SetCircleColour,
     "for a simplicial surface, a face, a string and a record",
-    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsString, IsRecord],
     function(surface, face, colour, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					printRecord.circleColours := [];
@@ -766,7 +766,7 @@ InstallMethod( SetCircleColour,
 
 InstallMethod( GetCircleColour,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 				local default;
 				default := "0x000000";
@@ -782,7 +782,7 @@ InstallMethod( GetCircleColour,
 
 InstallMethod( SetCircleColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, circleColours, printRecord)
 				printRecord.circleColours := circleColours;
 				return printRecord;
@@ -791,7 +791,7 @@ InstallMethod( SetCircleColours,
 
 InstallMethod( GetCircleColours,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					return [];

@@ -129,9 +129,9 @@
 #! The NC-version does not check the coordinate format.
 #! @Returns the updated print record
 #! @Arguments surface, coordinates[, printRecord]
-DeclareOperation( "SetVertexCoordinates3D", [IsSimplicialSurface, IsList, IsRecord] );
+DeclareOperation( "SetVertexCoordinates3D", [IsTriangularComplex, IsList, IsRecord] );
 #! @Arguments surface, coordinates[, printRecord]
-DeclareOperation( "SetVertexCoordinates3DNC", [IsSimplicialSurface, IsList, IsRecord] );
+DeclareOperation( "SetVertexCoordinates3DNC", [IsTriangularComplex, IsList, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetVertexCoordinates3D
@@ -143,9 +143,9 @@ DeclareOperation( "SetVertexCoordinates3DNC", [IsSimplicialSurface, IsList, IsRe
 #! The NC-version does not check the coordinate format saved in the print record.
 #! @Returns a list
 #! @Arguments surface, vertex, printRecord
-DeclareOperation( "GetVertexCoordinates3D", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "GetVertexCoordinates3D", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @Arguments surface, vertex, printRecord
-DeclareOperation( "GetVertexCoordinates3DNC", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "GetVertexCoordinates3DNC", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup DrawSurfaceToJavaScript
@@ -264,11 +264,11 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface, IsRecord] 
 #! By default, all vertices are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateVertices", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "ActivateVertices", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "ActivateVertex", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsVertexActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "IsVertexActive", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup DeactivateVertices
@@ -279,9 +279,9 @@ DeclareOperation( "IsVertexActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! By default, all vertices are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateVertices", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "DeactivateVertices", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "DeactivateVertex", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup ActivateFaces
@@ -292,11 +292,11 @@ DeclareOperation( "DeactivateVertex", [IsSimplicialSurface, IsPosInt, IsRecord] 
 #! By default, all faces are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateFaces", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "ActivateFaces", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateFace", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "ActivateFace", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsFaceActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "IsFaceActive", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup DeactivateFaces
@@ -307,9 +307,9 @@ DeclareOperation( "IsFaceActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! By default, all faces are activated.
 #! @Returns the updated print record
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateFaces", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "DeactivateFaces", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateFace", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "DeactivateFace", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @Section Colouring
@@ -363,9 +363,9 @@ DeclareOperation( "DeactivateFace", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
 #! @Returns a print record
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetVertexColours", [IsSimplicialSurface, IsList, IsRecord] );
+DeclareOperation( "SetVertexColours", [IsTriangularComplex, IsList, IsRecord] );
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetVertexColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
+DeclareOperation( "SetVertexColour", [IsTriangularComplex, IsPosInt, IsString, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetVertexColours
@@ -378,9 +378,9 @@ DeclareOperation( "SetVertexColour", [IsSimplicialSurface, IsPosInt, IsString, I
 #! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
 #! @Returns a (list) of color values in the format explained here: <Ref Subsect="Section_LabelColouring"/>
 #! @Arguments surface, printRecord
-DeclareOperation( "GetVertexColours", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "GetVertexColours", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetVertexColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "GetVertexColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetFaceColours
@@ -393,9 +393,9 @@ DeclareOperation( "GetVertexColour", [IsSimplicialSurface, IsPosInt, IsRecord] )
 #! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
 #! @Returns a print record
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetFaceColours", [IsSimplicialSurface, IsList, IsRecord] );
+DeclareOperation( "SetFaceColours", [IsTriangularComplex, IsList, IsRecord] );
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetFaceColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
+DeclareOperation( "SetFaceColour", [IsTriangularComplex, IsPosInt, IsString, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetFaceColours
@@ -408,9 +408,9 @@ DeclareOperation( "SetFaceColour", [IsSimplicialSurface, IsPosInt, IsString, IsR
 #! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
 #! @Returns a (list) of color values in the format explained here: <Ref Subsect="Section_LabelColouring"/>
 #! @Arguments surface, printRecord
-DeclareOperation( "GetFaceColours", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "GetFaceColours", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetFaceColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "GetFaceColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @Section Inner Circles
@@ -475,11 +475,11 @@ DeclareOperation( "GetFaceColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateInnerCircles", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "ActivateInnerCircles", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "ActivateInnerCircle", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "IsInnerCircleActive", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup DeactivateInnerCircles
@@ -491,9 +491,9 @@ DeclareOperation( "IsInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecor
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateInnerCircles", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "DeactivateInnerCircles", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "DeactivateInnerCircle", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetCircleColours
@@ -507,9 +507,9 @@ DeclareOperation( "DeactivateInnerCircle", [IsSimplicialSurface, IsPosInt, IsRec
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetCircleColours", [IsSimplicialSurface, IsList, IsRecord] );
+DeclareOperation( "SetCircleColours", [IsTriangularComplex, IsList, IsRecord] );
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetCircleColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
+DeclareOperation( "SetCircleColour", [IsTriangularComplex, IsPosInt, IsString, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetCircleColours
@@ -523,9 +523,9 @@ DeclareOperation( "SetCircleColour", [IsSimplicialSurface, IsPosInt, IsString, I
 #! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord
-DeclareOperation( "GetCircleColours", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "GetCircleColours", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetCircleColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "GetCircleColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup CalculateParametersOfInnerCircle
@@ -544,7 +544,7 @@ DeclareOperation( "GetCircleColour", [IsSimplicialSurface, IsPosInt, IsRecord] )
 #! <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) the parameters will be updated automatically.
 #! @Returns the updated print record.
 #! @Arguments surface, printRecord
-DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "CalculateParametersOfInnerCircle", [IsTriangularComplex, IsRecord] );
 #! @EndGroup
 
 #! @Section Normals of Inner Circles
@@ -601,11 +601,11 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsSimplicialSurface, IsRe
 
 #! @Returns a print record
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateNormalOfInnerCircles", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "ActivateNormalOfInnerCircles", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "ActivateNormalOfInnerCircle", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "IsNormalOfInnerCircleActive", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup DeactivateNormalOfInnerCircles
@@ -617,9 +617,9 @@ DeclareOperation( "IsNormalOfInnerCircleActive", [IsSimplicialSurface, IsPosInt,
 #! For the description of normals inner circles look at <Ref Sect="Section_LabelNormalsInnerCirclesAnimating"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateNormalOfInnerCircles", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "DeactivateNormalOfInnerCircles", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "DeactivateNormalOfInnerCircle", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @Section Additional Parameters
@@ -653,34 +653,34 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsSimplicialSurface, IsPosIn
 #! There are several methods which are deprecated with the switch to the new three.js version, they are listed below:
 
 #! @Arguments surface, printRecord
-DeclareOperation( "ActivateEdges", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "ActivateEdges", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "ActivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "ActivateEdge", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "IsEdgeActive", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "IsEdgeActive", [IsTriangularComplex, IsPosInt, IsRecord] );
 
 #! @Arguments surface, printRecord
-DeclareOperation( "DeactivateEdges", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "DeactivateEdges", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "DeactivateEdge", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "DeactivateEdge", [IsTriangularComplex, IsPosInt, IsRecord] );
 
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetEdgeColours", [IsSimplicialSurface, IsList, IsRecord] );
+DeclareOperation( "SetEdgeColours", [IsTriangularComplex, IsList, IsRecord] );
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetEdgeColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
+DeclareOperation( "SetEdgeColour", [IsTriangularComplex, IsPosInt, IsString, IsRecord] );
 
 #! @Arguments surface, printRecord
-DeclareOperation( "GetEdgeColours", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "GetEdgeColours", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "GetEdgeColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 
 #! @Arguments surface, face, value, printRecord
-DeclareOperation( "SetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord] );
+DeclareOperation( "SetTransparencyJava", [IsTriangularComplex, IsPosInt, IsFloat, IsRecord] );
 
 #! @Arguments surface, face, printRecord
-DeclareOperation( "RemoveTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "RemoveTransparencyJava", [IsTriangularComplex, IsPosInt, IsRecord] );
 
 #! @Arguments surface, face, printRecord
-DeclareOperation( "GetTransparencyJava", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "GetTransparencyJava", [IsTriangularComplex, IsPosInt, IsRecord] );
 
 #! @EndGroup
