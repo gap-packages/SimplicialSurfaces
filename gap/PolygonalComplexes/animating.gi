@@ -309,7 +309,7 @@ InstallMethod( IsNormalOfInnerCircleActive,
 
 InstallMethod( CalculateParametersOfEdges,
     "for a simplicial surface and a record",
-    [IsTriangularComplex, IsRecord],
+    [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 				local norm, distance, Atan2, res, vertOfEdge, P1, P2, d, mid, beta, gamma,edge;
 				if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
