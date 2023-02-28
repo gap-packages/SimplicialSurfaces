@@ -70,32 +70,9 @@
 #! and set the last parameter to false. In this case, only the first call of the method computes the edge locations.
 #! Using this method can make the animation inconsistent if the coordinates of the vertices have changed but the edge locations have stayed the same.
 #!
-#! To show this problem animate a tetrahedron:
-#! @BeginLog
-#! gap> verticesPositions := [
-#! > [ 1, -1/Sqrt(3.), -1/Sqrt(6.) ],
-#! > [ -1, -1/Sqrt(3.), -1/Sqrt(6.) ],
-#! > [ 0, 2/Sqrt(3.) , -1/Sqrt(6.) ],
-#! > [ 0, 0, 3/Sqrt(6.) ] ];;
-#! gap> tet := Tetrahedron();;
-#! gap> printRecord := SetVertexCoordinates3D(tet, verticesPositions, rec());;
-#! gap> printRecord := CalculateParametersOfEdges(tet, printRecord);;
-#! gap> printRecord.edges[EdgeBetweenVertices(tet, 1, 2)][1];
-#! [ 0., -0.57735, -0.408248 ]
-#! @EndLog
-#! Now replace the vertex coordinates by their negatives but
-#! the coordinates of  the edges stay the same.
-#! This leads to an inconstistent animation:
-#! @BeginLog
-#! gap> verticesPositionsMirrored := -verticesPositions;;
-#! gap> printRecord := SetVertexCoordinates3D(tet, verticesPositionsMirrored,
-#! > printRecord);;
-#! gap> printRecord.edges[EdgeBetweenVertices(tet, 1, 2)][1];
-#! [ 0., -0.57735, -0.408248 ]
-#! gap> DrawSurfaceToJavaScriptCalculate(tet,
-#! > "Tetrahedron_PositionMirrored.html", printRecord, false);;
-#! @EndLog
-#! @InsertChunk Example_Tetrahedron_PositionMirrored
+#! The animation draws all faces and a wireframe for them individually. This wireframe can be enabled and disabled in the user interface.
+#! The vertices will be drawn as small spheres, with the corresponding number is displayed above the vertex. 
+#! These will be only drawn if they are active, see  <K>ActivateVertices</K> <Ref Subsect="ActivateVertices"/>
 #! 
 #! Note, it is also possible to animate simplicial surfaces whose vertices,
 #! edges and faces are not given by a dense list <K>[1..n]</K>.
