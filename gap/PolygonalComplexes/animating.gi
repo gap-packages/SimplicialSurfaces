@@ -927,7 +927,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             } );
             wireMaterial.wireframe = true 
                                                                 
-            const line""",i,""" = new THREE.Line( geometry""",i,""", wireMaterial );
+            const line""",i,""" = new THREE.LineSegments( geometry""",i,""", wireMaterial );
             wireRoot.add(line""",i,""");
         """);
         #fi;
