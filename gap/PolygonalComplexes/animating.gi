@@ -879,8 +879,8 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         fi;
 
         # generate a geometry with all vertices of the faces belonging to the current face
-        AppendTo(output, "const geometry",i," = new THREE.BufferGeometry();\n");
-        AppendTo(output, "const vertices",i," = new Float32Array( [\n ");
+        AppendTo(output, "\t \t \tconst geometry",i," = new THREE.BufferGeometry();\n");
+        AppendTo(output, "\t \t \tconst vertices",i," = new Float32Array( [\n \t \t \t \t");
 
         colorPositions := Positions(faceColors, color);
         for face in colorPositions do
@@ -889,19 +889,19 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 # as we can assume that all faces of a simplicial surface have exactly 3 vertices we add them to the geometry individually
                 AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
                 AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
-                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n \t \t \t \t");
 
                 AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
                 AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
-                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n\t \t \t \t");
 
                 AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
                 AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
-                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n\t \t \t \t");
             fi;
         od;
         AppendTo(output, "] ); \n\n");
-        AppendTo(output, "geometry",i,".setAttribute( 'position', new THREE.BufferAttribute( vertices",i,", 3 ) );\n\n");
+        AppendTo(output, "\t \t \tgeometry",i,".setAttribute( 'position', new THREE.BufferAttribute( vertices",i,", 3 ) );\n\n");
 
         # generate a material with the corresponding color
         AppendTo(output, """
@@ -927,7 +927,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
     # generate a matrial with the right thickness
     edgeThickness := printRecord.edgeThickness*100;
     AppendTo(output, """
-        const wireMaterial = new THREE.MeshStandardMaterial( {         
+            const wireMaterial = new THREE.MeshStandardMaterial( {         
                 color: 0x000000,
                 wireframeLinewidth: """,edgeThickness,""",
             } );
@@ -938,23 +938,23 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         face := faces[i];
         
         # generate a geometry from the face. This will always be a triangle
-        AppendTo(output, "const face",i," = new THREE.BufferGeometry();\n");
-        AppendTo(output, "const face_vertices",i," = new Float32Array( [\n ");
+        AppendTo(output, "\t \t const face",i," = new THREE.BufferGeometry();\n");
+        AppendTo(output, "\t \t \tconst face_vertices",i," = new Float32Array( [\n \t \t \t \t");
         
         # as we can assume that all faces in the triangular complex have exactly 3 vertices we add them to the geometry individually
         AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
         AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n\t \t \t \t");
 
         AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
         AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n\t \t \t \t");
 
         AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
         AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n\t \t \t");
         AppendTo(output, "] ); \n\n");
-        AppendTo(output, "face",i,".setAttribute( 'position', new THREE.BufferAttribute( face_vertices",i,", 3 ) );\n\n");
+        AppendTo(output, "\t \t \tface",i,".setAttribute( 'position', new THREE.BufferAttribute( face_vertices",i,", 3 ) );\n\n");
 
         # add the geometry to wireRoot 
         AppendTo(output, """                                                                
@@ -965,7 +965,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         
 
     # add spheres and lables on all vertices if they are active
-    AppendTo(output, "//add lables for the vertices\n");
+    AppendTo(output, "\n\n\t//add the vertices with lables\n \t \t \t");
     for vertex in Vertices(surface) do
         if IsVertexActive(surface, vertex, printRecord) then                
             # generate a string with the coordinates for later use
@@ -979,9 +979,9 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
             # add spheres with radius edgeThickness around the active vertices
             AppendTo(output, "const sphereMaterial",vertex," = new THREE.MeshBasicMaterial( { color: ",GetVertexColour(surface, vertex, printRecord)," } );\n");
-            AppendTo(output, "const sphere",vertex," = new THREE.Mesh( sphere_geometry, sphereMaterial",vertex," );\n");
-            AppendTo(output, "sphereRoot.add(sphere",vertex,");\n");
-            AppendTo(output, "sphere",vertex,".position.set(",coordinateString,");\n");
+            AppendTo(output, "\t \t \tconst sphere",vertex," = new THREE.Mesh( sphereGeometry, sphereMaterial",vertex," );\n");
+            AppendTo(output, "\t \t \tsphereRoot.add(sphere",vertex,");\n");
+            AppendTo(output, "\t \t \tsphere",vertex,".position.set(",coordinateString,");\n");
 
             
             # generate the lable for the given vertex
@@ -994,6 +994,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             const vertexLabel""",vertex,""" = new CSS2DObject( lableDiv""",vertex,""" );
             vertexLabel""",vertex,""".position.set(""",coordinateString,""");
             meshRoot.add( vertexLabel""",vertex,""" );
+
             """);
         fi;
     od;

@@ -53,4 +53,4 @@
             } ;
 
             //generate a sphere geometry for the vertices
-            const sphere_geometry = new THREE.SphereGeometry( 0.02, 32, 16 );
+            const sphereGeometry = new THREE.SphereGeometry( 0.02, 32, 16 );
