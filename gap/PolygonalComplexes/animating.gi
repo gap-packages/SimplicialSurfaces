@@ -918,20 +918,48 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                                         
             meshRoot.add(mesh""",i,""");
         """);
-                    
-        edgeThickness := printRecord.edgeThickness*100;
-        AppendTo(output, """                                                                    
-            const wireMaterial = new THREE.MeshStandardMaterial( {         
+    od;
+
+    # generate a wireframe from the faces
+    # generate a matrial with the right thickness
+    edgeThickness := printRecord.edgeThickness*100;
+    AppendTo(output, """
+        const wireMaterial = new THREE.MeshStandardMaterial( {         
                 color: 0x000000,
                 wireframeLinewidth: """,edgeThickness,""",
             } );
-            wireMaterial.wireframe = true 
-                                                                
-            const line""",i,""" = new THREE.LineSegments( geometry""",i,""", wireMaterial );
+            wireMaterial.wireframe = true;
+    """);
+
+    for i in [1..Length(faces)] do
+        face := faces[i];
+        
+        # generate a geometry from the face. This will always be a triangle
+        AppendTo(output, "const face",i," = new THREE.BufferGeometry();\n");
+        AppendTo(output, "const face_vertices",i," = new Float32Array( [\n ");
+        
+        # as we can assume that all faces in the triangular complex have exactly 3 vertices we add them to the geometry individually
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n");
+
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n");
+
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
+        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n");
+        AppendTo(output, "] ); \n\n");
+        AppendTo(output, "face",i,".setAttribute( 'position', new THREE.BufferAttribute( face_vertices",i,", 3 ) );\n\n");
+
+        # add the geometry to wireRoot 
+        AppendTo(output, """                                                                
+            const line""",i,""" = new THREE.LineSegments( face""",i,""", wireMaterial );
             wireRoot.add(line""",i,""");
         """);
-        #fi;
     od;
+        
 
     # add spheres and lables on all vertices if they are active
     AppendTo(output, "//add lables for the vertices\n");
