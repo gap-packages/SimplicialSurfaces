@@ -697,12 +697,9 @@ InstallMethod( GetVertexColours,
     "for a simplicial surface and a record",
     [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
-        local vertexColours;
-        if not IsBound(printRecord.vertexColours) then
-            return [];
-        fi;
+        local vertexColours, i;
         vertexColours := [];
-        for i in [1..Length[Vertices(surface)]] do
+        for i in [1..Length(Vertices(surface))] do
             Add(vertexColours, GetVertexColour(surface, i, printRecord));
         od;
 
