@@ -999,3 +999,20 @@ DrawFacegraphToTikz( oct,
 #!   its own).
 #! @EndChunk
 
+#! @BeginChunk DrawConvexFacegraphToTikz_example
+#! @BeginLog
+double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
+[1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;
+#! @EndLog
+#!
+#! <Alt Only="TikZ">
+#!    \input{Image_Double6gon.tex}
+#! </Alt>
+#! @BeginLog
+DrawConvexFacegraphToTikz( double6Gon, "convex_facegraph_Double6Gon.tex" );;
+#! @EndLog
+#! 
+#! <Alt Only="TikZ">
+#!    \input{Image_convex_facegraph_Double6Gon.tex}
+#! </Alt>
+#! @EndChunk
