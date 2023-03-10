@@ -954,8 +954,12 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 
 		for cyclePair in IteratorOfCombinations([1..Length(allCycles)],2) do
 			commonEdges:=Intersection(edgesOfCycles[cyclePair[1]],edgesOfCycles[cyclePair[2]]);
-			if Length(commonEdges)=1 then
+			if Length(commonEdges)=1 and vertexFaithful then
 				Add(possibleCyclesPairs[commonEdges[1]],cyclePair);
+			elif not vertexFaithful then
+				for e in commonEdges do
+					Add(possibleCyclesPairs[e],cyclePair);
+				od;
 			fi;
 		od;
 
