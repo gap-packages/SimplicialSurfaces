@@ -2107,14 +2107,14 @@ InstallMethod( DrawConvexFacegraphToTikz,
         end;
 
         WeightedCentric := function(list) # help function
-            return Float(2/3)*list[1]+Float(1/6)*(list[2]+list[3]);
+            return Float(1/2)*list[1]+Float(1/4)*(list[2]+list[3]);
         end;
 
         TwoWeightedCentric := function(list) # help function
             local res;
             res := [];
-            Add(res, Float(2/3)*list[1] + Float(5/18)*list[2] + Float(1/18)*list[3]);
-            Add(res, Float(2/3)*list[1] + Float(1/18)*list[2] + Float(5/18)*list[3]);
+            Add(res, Float(1/2)*list[1] + Float(7/18)*list[2] + Float(2/18)*list[3]);
+            Add(res, Float(1/2)*list[1] + Float(2/18)*list[2] + Float(7/18)*list[3]);
             return res;
         end;
 
