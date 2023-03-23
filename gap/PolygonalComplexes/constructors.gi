@@ -493,6 +493,42 @@ InstallMethod( UmbrellaDescriptorOfSurface,
         return umbdesc;
 end);
 
+InstallMethod(UmbrellaTipDescriptorOfSurface, 
+    "for a vertexfaithful simplicial surface", 
+    [IsSimplicialSurface],
+    function(surf)
+    local vertex, umbdesc, edge, vertEdges, umbVertices, umbPath;
+    if not IsVertexFaithful(surf) then
+        return fail;
+    fi;
+    umbdesc:=[];
+    for vertex in Vertices(surf) do
+        #UmbrellaTipDescriptor for a vertex
+        umbPath:=UmbrellaPathOfVertex(surf,vertex);
+        vertEdges:=EdgesAsList(umbPath);
+        vertEdges:=List(vertEdges, x -> VerticesOfEdges(surf)[x]);
+        umbVertices:=[];
+        for edge in vertEdges do
+            if not edge[1]=vertex then 
+                Add(umbVertices, edge[1]);
+            else
+                Add(umbVertices, edge[2]);
+            fi;
+        od;
+
+        #Adding the cycles/lists
+        if IsClosedPath(umbPath) then
+            #umbpath is a closed umbrella
+            Remove(umbVertices);
+            Add(umbdesc, CycleFromList(umbVertices));
+        else
+            #umbpath is not a closed umbrella
+            Add(umbdesc, umbVertices);            
+        fi;
+    od;
+    return umbdesc;
+end
+);
 
 ###
 ###
