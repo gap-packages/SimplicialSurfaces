@@ -55,6 +55,25 @@
 #! The file can be opened with most browsers and then the surface is shown as a 3D render with some manipulation options. 
 #! Because we load the three.js dependecies (and three.js itself) from a CDN (content delivery network) it requires an active internet connection.
 
+#! @Section Output files
+#! @SectionLabel output
+#! The files output by <K>DrawSurfaceToJavaScript</K> have some options that can be changed live in the html file. 
+#! These are in the graphical user interface (GUI). Here is an example:
+
+#! <Alt Only="JavaScript">
+#! GUI.html
+#! </Alt>
+
+#! Here you can change the following:
+#! <Enum>
+#!   <Item>The speed of rotation in the X, Y and Y direction</Item>
+#!   <Item>The transparency of the faces which are enabled</Item>
+#!   <Item>Show a wireframe. This goes around all faces even if they are not enabled</Item>
+#! </Enum>
+
+#! There are plans to implement more features to this GUI, keep an eye on new releases for that.
+#! This GUI is implemented using the dat.GUI package from three.js.  
+
 #! @Section Coordinates and Core Functionality
 #! @SectionLabel LabelCoordinatesAndCoreFunctionality
 
