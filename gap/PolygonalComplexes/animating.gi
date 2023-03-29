@@ -816,6 +816,27 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript",
     end
 );
 
+# function to calculate the incenter of a triangle/face. Used for inner circles
+# we follow the math and variable names from here: https://math.stackexchange.com/questions/740111/incenter-of-triangle-in-3d
+BindGlobal( "__SIMPLICIAL_CalculateIncenter",
+    function(surface,printRecord,face)
+	local a, b, c, A, B, C, incenter;
+
+    #get the coordinates
+    A := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1];
+    B := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2];
+    C := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3];
+
+    a := norm(B-C);
+    b := norm(C-A);
+    c := norm(A-B);
+
+    incenter := a/(a+b+c)*A + b/(a+b+c)*B + c/(a+b+c)*C;
+ 
+	return incenter;
+    end
+);
+
 # general method
 # TODO: change name to drawcomplex... ?
 InstallMethod( DrawSurfaceToJavaScriptCalculate,
