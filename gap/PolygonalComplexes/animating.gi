@@ -724,7 +724,7 @@ InstallMethod( GetEdgeColour,
     [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 				local default;
-				default := "0xff0000";
+				default := "0x000000";
 				if not IsBound(printRecord.edgeColours) or (edge <= 0) then
 					return default;
 				fi;
@@ -748,10 +748,13 @@ InstallMethod( GetEdgeColours,
     "for a simplicial surface and a record",
     [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
-				if not IsBound(printRecord.EdgeColours) then
-					return [];
-				fi;
-				return printRecord.EdgeColours;
+        local edgeColours, i;
+        edgeColours := [];
+        for i in [1..Length(Edges(surface))] do
+            Add(edgeColours, GetEdgeColour(surface, i, printRecord));
+        od;
+
+        return edgeColours;
     end
 );
 
@@ -846,7 +849,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 local file, output, template, coords, i, j, colour,
 		      vertOfFace, vertOfEdge, parametersOfCircle, 
 		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
-              faceColors, addedFaceColors, addedFaces, uniqueFaceColors, colorPositions, color, coordinateString, edgeThickness,
+              faceColors, addedFaceColors, uniqueFaceColors, colorPositions, color, coordinateString, edgeThickness,
 		      faces;	
     # make sure the defaults are set
     printRecord := __SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript(surface, printRecord);
@@ -881,7 +884,6 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
     # add faces to geometry by iterating over all colors
     # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the root group
     faceColors := GetFaceColours(surface, printRecord);
-    addedFaces := 0;
 
     # generate a list of all unique colors of the faces
     uniqueFaceColors := [];
@@ -946,43 +948,110 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
     # generate a wireframe from the faces
     # generate a matrial with the right thickness
-    edgeThickness := printRecord.edgeThickness*100;
-    AppendTo(output, """
-            const wireMaterial = new THREE.MeshStandardMaterial( {         
-                color: 0x000000,
-                wireframeLinewidth: """,edgeThickness,""",
-            } );
-            wireMaterial.wireframe = true;
-    """);
+    # edgeThickness := printRecord.edgeThickness*100;
+    # AppendTo(output, """
+    #         const edgeMaterial = new THREE.LineBasicMaterial( {         
+    #             color: 0x000000,
+    #             wireframeLinewidth: """,edgeThickness,""",
+    #         } );
+    # """);
 
-    for i in [1..Length(faces)] do
-        face := faces[i];
-        
-        # generate a geometry from the face. This will always be a triangle
-        AppendTo(output, "\t \t const face",i," = new THREE.BufferGeometry();\n");
-        AppendTo(output, "\t \t \tconst face_vertices",i," = new Float32Array( [\n \t \t \t \t");
-        
-        # as we can assume that all faces in the triangular complex have exactly 3 vertices we add them to the geometry individually
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n\t \t \t \t");
 
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n\t \t \t \t");
+    # add edges to geometry by iterating over all colors
+    # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the edgeRoot group
+    edgeColors := GetEdgeColours(surface, printRecord);
 
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
-        AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n\t \t \t");
-        AppendTo(output, "] ); \n\n");
-        AppendTo(output, "\t \t \tface",i,".setAttribute( 'position', new THREE.BufferAttribute( face_vertices",i,", 3 ) );\n\n");
-
-        # add the geometry to wireRoot 
-        AppendTo(output, """                                                                
-            const line""",i,""" = new THREE.LineSegments( face""",i,""", wireMaterial );
-            wireRoot.add(line""",i,""");
-        """);
+    # generate a list of all unique colors of the faces
+    uniqueEdgeColors := [];
+    for color in edgeColors do
+        if not color in uniqueEdgeColors then
+            Add(uniqueEdgeColors, color);
+        fi; 
     od;
+
+    # for each of the unique colors add the edges to a gemeometry and generate a mesh with corresponding color from it
+    # also generate a wireframe which can be made visible via the gui
+    for i in [1..Length(uniqueEdgeColors)] do
+        color := uniqueEdgeColors[i];
+        if not StartsWith(color, "0x") then
+            colour := Concatenation("\"", color, "\"");
+        fi;
+
+        edgeThickness := printRecord.edgeThickness*100;
+        AppendTo(output, """
+            const edgeMaterial""",i,""" = new THREE.LineBasicMaterial( {         
+                color: """,color,""",
+                linewidth: """,edgeThickness,""",
+            } );        
+        """);
+
+        AppendTo(output, "const edges",i," = new Float32Array( [");
+
+        colorPositions := Positions(edgeColors, color);
+        for edge in colorPositions do
+            # if IsEdgeActive(surface, edge, printRecord) then
+                # generate a string with the coordinates for later use
+                edgeVertexA := VerticesOfEdge(surface, edge)[1];
+                edgeVertexB := VerticesOfEdge(surface, edge)[2];
+                coordinateStringA := "";
+                Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, edgeVertexA, printRecord)[1]));
+                Append(coordinateStringA, ",");
+                Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, edgeVertexA, printRecord)[2]));
+                Append(coordinateStringA, ",");
+                Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, edgeVertexA, printRecord)[3]));
+                Append(coordinateStringA, ",");
+
+                coordinateStringB := "";
+                Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, edgeVertexB, printRecord)[1]));
+                Append(coordinateStringB, ",");
+                Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, edgeVertexB, printRecord)[2]));
+                Append(coordinateStringB, ",");
+                Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, edgeVertexB, printRecord)[3]));
+                Append(coordinateStringB, ",");
+
+                AppendTo(output, coordinateStringA,"\n",coordinateStringB,"\n \n");
+            # fi;
+        od;
+
+        AppendTo(output, "]);");
+        AppendTo(output, """
+            const edgeGeometry""",i,""" = new THREE.BufferGeometry();
+            edgeGeometry""",i,""".setAttribute( 'position', new THREE.BufferAttribute( edges""",i,""", 3 ) );
+
+            const edgeLine""",i,""" = new THREE.LineSegments( edgeGeometry""",i,""", edgeMaterial""",i,""" );
+            edgeRoot.add(edgeLine""",i,""");
+        """);
+        
+    od;
+    # for i in [1..Length(faces)] do
+    #     face := faces[i];
+        
+    #     # generate a geometry from the face. This will always be a triangle
+    #     AppendTo(output, "\t \t const face",i," = new THREE.BufferGeometry();\n");
+    #     AppendTo(output, "\t \t \tconst face_vertices",i," = new Float32Array( [\n \t \t \t \t");
+        
+    #     # as we can assume that all faces in the triangular complex have exactly 3 vertices we add them to the geometry individually
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n\t \t \t \t");
+
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n\t \t \t \t");
+
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
+    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n\t \t \t");
+    #     AppendTo(output, "] ); \n\n");
+    #     AppendTo(output, "\t \t \tface",i,".setAttribute( 'position', new THREE.BufferAttribute( face_vertices",i,", 3 ) );\n\n");
+
+    #     # add the geometry to wireRoot 
+    #     AppendTo(output, """                                                                
+    #         const line""",i,""" = new THREE.LineSegments( face""",i,""", wireMaterial );
+    #         wireRoot.add(line""",i,""");
+    #     """);
+    # od;
+    
         
 
     # add spheres and lables on all vertices if they are active

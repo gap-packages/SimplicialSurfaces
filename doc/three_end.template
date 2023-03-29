@@ -26,13 +26,14 @@
 
             const controlFolder = gui.addFolder("Controls");
             controlFolder.add(guiParameters, "transparency", 0, 1);
-            controlFolder.add(guiParameters, "wireframe");
+            controlFolder.add(guiParameters, "edgeVisibility");
             controlFolder.open();
 
             // add both roots to the scene
             scene.add( meshRoot );
             scene.add( wireRoot );
             scene.add( sphereRoot );
+            scene.add( edgeRoot );
 
 
             function animate() {
@@ -59,9 +60,9 @@
                     }
                 } );
 
-                wireRoot.traverse( function( node ) {
-                    if ( node instanceof THREE.Line ) {
-                        node.material.visible = guiParameters.wireframe;
+                edgeRoot.traverse( function( node ) {
+                    if ( node instanceof THREE.LineSegments ) {
+                        node.material.visible = guiParameters.edgeVisibility;
                     }
                 } );
 

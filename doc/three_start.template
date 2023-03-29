@@ -42,6 +42,7 @@
             const meshRoot = new THREE.Group();
             const wireRoot = new THREE.Group();
             const sphereRoot = new THREE.Group();
+			const edgeRoot = new THREE.Group();
 
 			//parameters for the controls on the top right
             var guiParameters = new function() { 
@@ -49,7 +50,7 @@
                 this.speedY = 0.0; 
                 this.speedZ = 0.0;
                 this.transparency = 1.0;
-                this.wireframe = false;
+                this.edgeVisibility = false;
             } ;
 
             //generate a sphere geometry for the vertices
