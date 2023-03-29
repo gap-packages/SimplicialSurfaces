@@ -691,16 +691,6 @@ DeclareOperation( "DeactivateEdges", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
 DeclareOperation( "DeactivateEdge", [IsTriangularComplex, IsPosInt, IsRecord] );
 
-#! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetEdgeColours", [IsTriangularComplex, IsList, IsRecord] );
-#! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetEdgeColour", [IsTriangularComplex, IsPosInt, IsString, IsRecord] );
-
-#! @Arguments surface, printRecord
-DeclareOperation( "GetEdgeColours", [IsTriangularComplex, IsRecord] );
-#! @Arguments surface, i, printRecord
-DeclareOperation( "GetEdgeColour", [IsTriangularComplex, IsPosInt, IsRecord] );
-
 #! @Arguments surface, face, value, printRecord
 DeclareOperation( "SetTransparencyJava", [IsTriangularComplex, IsPosInt, IsFloat, IsRecord] );
 
