@@ -830,9 +830,9 @@ BindGlobal( "__SIMPLICIAL_CalculateIncenter",
     B := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2];
     C := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3];
 
-    a := norm(B-C);
-    b := norm(C-A);
-    c := norm(A-B);
+    a := Norm(B-C);
+    b := Norm(C-A);
+    c := Norm(A-B);
 
     incenter := a/(a+b+c)*A + b/(a+b+c)*B + c/(a+b+c)*C;
  
@@ -850,7 +850,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 		      vertOfFace, vertOfEdge, parametersOfCircle, 
 		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
               faceColors, addedFaceColors, uniqueFaceColors, colorPositions, color, coordinateString, edgeThickness,
-		      faces;	
+		      faces, coordinateStringA, coordinateStringB, edgeVertexA, edgeVertexB, edgeColors, uniqueEdgeColors;	
     # make sure the defaults are set
     printRecord := __SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript(surface, printRecord);
     
@@ -985,7 +985,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             } );        
         """);
 
-        AppendTo(output, "const edges",i," = new Float32Array( [");
+        AppendTo(output, "\tconst edges",i," = new Float32Array( [");
 
         colorPositions := Positions(edgeColors, color);
         for edge in colorPositions do
@@ -1009,11 +1009,11 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, edgeVertexB, printRecord)[3]));
                 Append(coordinateStringB, ",");
 
-                AppendTo(output, coordinateStringA,"\n",coordinateStringB,"\n \n");
+                AppendTo(output, "\t \t \t",coordinateStringA,"\n",coordinateStringB,"\n \n");
             # fi;
         od;
 
-        AppendTo(output, "]);");
+        AppendTo(output, "\t \t \t]);");
         AppendTo(output, """
             const edgeGeometry""",i,""" = new THREE.BufferGeometry();
             edgeGeometry""",i,""".setAttribute( 'position', new THREE.BufferAttribute( edges""",i,""", 3 ) );

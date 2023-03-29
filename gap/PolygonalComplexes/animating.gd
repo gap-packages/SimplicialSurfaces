@@ -209,6 +209,7 @@ DeclareOperation( "CalculateParametersOfEdges", [IsSimplicialSurface, IsRecord] 
 #! Therefore, it is possible to make the following visible and invisible:
 #! <Enum>
 #!   <Item>Vertices (see <Ref Subsect="ActivateVertices"/>) </Item>
+#!   <Item>Edges (The default colour is 0x000000, black. See <Ref Subsect="SetEdgeColours"/>)</Item>
 #!   <Item>Faces (see <Ref Subsect="ActivateFaces"/>) </Item>
 #! </Enum>
 #! By default, all vertices, and faces are visible. For the visibility of the edges, there is a wireframe option in the GUI of the output file. 
@@ -377,6 +378,36 @@ DeclareOperation( "SetVertexColour", [IsTriangularComplex, IsPosInt, IsString, I
 DeclareOperation( "GetVertexColours", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
 DeclareOperation( "GetVertexColour", [IsTriangularComplex, IsPosInt, IsRecord] );
+#! @EndGroup
+
+#! @BeginGroup SetEdgeColours
+#! @Description
+#! The method <K>SetEdgeColour</K>(<A>surface</A>, <A>i</A>, <A>colour</A>, <A>printRecord</A>) sets the colour of edge <A>i</A> to <A>colour</A>.
+#! The method <K>SetEdgeColours</K>(<A>surface</A>,<A>newColoursList</A>, <A>printRecord</A>) sets the colours for all edges of <A>surface</A>.
+#! That means the method set the colour of edge <A>j</A> to <A>newColoursList[j]</A>.
+#! The default colour for all edges is 0x000000, black.
+#! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
+#! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
+#! @Returns a print record
+#! @Arguments surface, newColoursList, printRecord
+DeclareOperation( "SetEdgeColours", [IsSimplicialSurface, IsList, IsRecord] );
+#! @Arguments surface, i, colour, printRecord
+DeclareOperation( "SetEdgeColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
+#! @EndGroup
+
+#! @BeginGroup GetEdgeColours
+#! @Description
+#! The method <K>GetEdgeColour</K>(<A>surface</A>, <A>i</A>, <A>printRecord</A>) returns the colour of edge <A>i</A>.
+#! The method <K>GetEdgeColours</K>(<A>surface</A>, <A>printRecord</A>) returns the colours for all edges of <A>surface</A>
+#! as a list <A>colours</A>, where the colour of edge <A>j</A> is <A>colours[j]</A>.
+#! The default colour for all edges is 0x000000, black.
+#! Colours are stored in the format 0xABCDEF where A,B,C,D,E,F are elements of the hexadecimal code.
+#! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
+#! @Returns a print record
+#! @Arguments surface, printRecord
+DeclareOperation( "GetEdgeColours", [IsSimplicialSurface, IsRecord] );
+#! @Arguments surface, i, printRecord
+DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetFaceColours
