@@ -390,9 +390,9 @@ DeclareOperation( "GetVertexColour", [IsTriangularComplex, IsPosInt, IsRecord] )
 #! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
 #! @Returns a print record
 #! @Arguments surface, newColoursList, printRecord
-DeclareOperation( "SetEdgeColours", [IsSimplicialSurface, IsList, IsRecord] );
+DeclareOperation( "SetEdgeColours", [IsTriangularComplex, IsList, IsRecord] );
 #! @Arguments surface, i, colour, printRecord
-DeclareOperation( "SetEdgeColour", [IsSimplicialSurface, IsPosInt, IsString, IsRecord] );
+DeclareOperation( "SetEdgeColour", [IsTriangularComplex, IsPosInt, IsString, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup GetEdgeColours
@@ -405,9 +405,9 @@ DeclareOperation( "SetEdgeColour", [IsSimplicialSurface, IsPosInt, IsString, IsR
 #! For more information look at the start of the section <Ref Subsect="Section_LabelColouring"/>.
 #! @Returns a print record
 #! @Arguments surface, printRecord
-DeclareOperation( "GetEdgeColours", [IsSimplicialSurface, IsRecord] );
+DeclareOperation( "GetEdgeColours", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
-DeclareOperation( "GetEdgeColour", [IsSimplicialSurface, IsPosInt, IsRecord] );
+DeclareOperation( "GetEdgeColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup SetFaceColours
@@ -690,6 +690,8 @@ DeclareOperation( "IsEdgeActive", [IsTriangularComplex, IsPosInt, IsRecord] );
 DeclareOperation( "DeactivateEdges", [IsTriangularComplex, IsRecord] );
 #! @Arguments surface, i, printRecord
 DeclareOperation( "DeactivateEdge", [IsTriangularComplex, IsPosInt, IsRecord] );
+
+
 
 #! @Arguments surface, face, value, printRecord
 DeclareOperation( "SetTransparencyJava", [IsTriangularComplex, IsPosInt, IsFloat, IsRecord] );

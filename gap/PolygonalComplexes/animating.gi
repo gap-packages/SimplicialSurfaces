@@ -985,10 +985,11 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             } );        
         """);
 
-        AppendTo(output, "\tconst edges",i," = new Float32Array( [");
+        AppendTo(output, "\tconst edges",i," = new Float32Array( [\n");
 
         colorPositions := Positions(edgeColors, color);
-        for edge in colorPositions do
+        for j in colorPositions do
+            edge := Edges(surface)[j];
             # if IsEdgeActive(surface, edge, printRecord) then
                 # generate a string with the coordinates for later use
                 edgeVertexA := VerticesOfEdge(surface, edge)[1];
@@ -1009,7 +1010,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
                 Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, edgeVertexB, printRecord)[3]));
                 Append(coordinateStringB, ",");
 
-                AppendTo(output, "\t \t \t",coordinateStringA,"\n",coordinateStringB,"\n \n");
+                AppendTo(output, "\t \t \t",coordinateStringA,"\n \t \t \t",coordinateStringB,"\n \n");
             # fi;
         od;
 
