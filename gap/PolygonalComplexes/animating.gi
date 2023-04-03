@@ -1013,36 +1013,6 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         """);
         
     od;
-    # for i in [1..Length(faces)] do
-    #     face := faces[i];
-        
-    #     # generate a geometry from the face. This will always be a triangle
-    #     AppendTo(output, "\t \t const face",i," = new THREE.BufferGeometry();\n");
-    #     AppendTo(output, "\t \t \tconst face_vertices",i," = new Float32Array( [\n \t \t \t \t");
-        
-    #     # as we can assume that all faces in the triangular complex have exactly 3 vertices we add them to the geometry individually
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n\t \t \t \t");
-
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n\t \t \t \t");
-
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
-    #     AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n\t \t \t");
-    #     AppendTo(output, "] ); \n\n");
-    #     AppendTo(output, "\t \t \tface",i,".setAttribute( 'position', new THREE.BufferAttribute( face_vertices",i,", 3 ) );\n\n");
-
-    #     # add the geometry to wireRoot 
-    #     AppendTo(output, """                                                                
-    #         const line""",i,""" = new THREE.LineSegments( face""",i,""", wireMaterial );
-    #         wireRoot.add(line""",i,""");
-    #     """);
-    # od;
-    
-        
 
     # add spheres and lables on all vertices if they are active
     AppendTo(output, "\n\n\t//add the vertices with lables\n \t \t \t");
