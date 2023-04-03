@@ -66,7 +66,7 @@
 
 #! Here you can change the following:
 #! <Enum>
-#!   <Item>The speed of rotation in the X, Y and Y direction</Item>
+#!   <Item>The speed of rotation in the X, Y and Z direction</Item>
 #!   <Item>The transparency of the faces which are enabled</Item>
 #!   <Item>Show a wireframe. This goes around all faces even if they are not enabled</Item>
 #! </Enum>
