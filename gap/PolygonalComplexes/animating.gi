@@ -946,17 +946,6 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
         """);
     od;
 
-    # generate a wireframe from the faces
-    # generate a matrial with the right thickness
-    # edgeThickness := printRecord.edgeThickness*100;
-    # AppendTo(output, """
-    #         const edgeMaterial = new THREE.LineBasicMaterial( {         
-    #             color: 0x000000,
-    #             wireframeLinewidth: """,edgeThickness,""",
-    #         } );
-    # """);
-
-
     # add edges to geometry by iterating over all colors
     # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the edgeRoot group
     edgeColors := GetEdgeColours(surface, printRecord);
