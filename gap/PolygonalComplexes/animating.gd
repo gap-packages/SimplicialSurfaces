@@ -109,10 +109,8 @@
 #! gap> coor[3]:=[1,0,0];;coor[7]:=[0,1,0];;coor[10]:=[0,0,1];;
 #! gap> printRecord:=SetVertexCoordinates3D(oneFace,coor,rec());;
 #! gap> DrawSurfaceToJavaScript(oneFace,"OneFace_animating",printRecord);
-#! rec( edges := [ , [ [ 0.5, 0.5, 0. ], 1.41421, [ 0., 3.14159, -0.785398 ] ],, 
-#!      [ [ 0., 0.5, 0.5 ], 1.41421, [ 0., -1.5708, -2.35619 ] ],, 
-#!      [ [ 0.5, 0., 0.5 ], 1.41421, [ 0., -2.35619, -1.5708 ] ] ], 
-#!  vertexCoordinates3D := [ ,, [ 1, 0, 0 ],,,, [ 0, 1, 0 ],,, [ 0, 0, 1 ] ] )  
+#! rec( edgeThickness := 0.03, 
+#!  vertexCoordinates3D := [ ,, [ 1, 0, 0 ],,,, [ 0, 1, 0 ],,, [ 0, 0, 1 ] ] )
 #! @EndExampleSession
 #!
 #! @InsertChunk Example_OneFaceAnimating
