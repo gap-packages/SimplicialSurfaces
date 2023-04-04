@@ -150,7 +150,7 @@ DrawSurfaceToJavaScript(oneFace, "doc/OneFace_animated.html", printRecord);;
 oct := Octahedron();;
 verticesPositions := [ [ 0, 0, Sqrt(2.) ],[ 1, 1, 0 ],[ 1, -1, 0 ],[ -1, -1, 0 ],[ -1, 1, 0 ],[ 0, 0, -Sqrt(2.) ] ];;
 printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
-printRecord.edgeThickness:=0.03;
+printRecord.edgeThickness:=0.05;
 DrawSurfaceToJavaScript(oct, "doc/Octahedron_ThickEdges.html", printRecord);;
 #! <Alt Only="JavaScript">
 #! Octahedron_ThickEdges.html

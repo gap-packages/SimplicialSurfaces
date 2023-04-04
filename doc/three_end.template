@@ -1,0 +1,85 @@
+
+			camera.position.z = -5;
+            camera.lookAt(0,0,-1);
+
+            scene.background = new THREE.Color( 'white' );
+
+            //rederer for lables
+            const labelRenderer = new CSS2DRenderer();
+            labelRenderer.setSize( window.innerWidth, window.innerHeight );
+            labelRenderer.domElement.style.position = 'absolute';
+            labelRenderer.domElement.style.top = '0px';
+            document.body.appendChild( labelRenderer.domElement );
+            
+            //controls for mouse 
+            const controls = new OrbitControls( camera, labelRenderer.domElement );
+
+            //controls in the top right corner
+            var gui = new GUI();
+
+            const animationFolder = gui.addFolder("Animations");
+
+            animationFolder.add(guiParameters, 'speedX', 0, 5);
+            animationFolder.add(guiParameters, 'speedY', 0, 5);
+            animationFolder.add(guiParameters, 'speedZ', 0, 5);
+            animationFolder.open();
+
+            const controlFolder = gui.addFolder("Controls");
+            controlFolder.add(guiParameters, "transparency", 0, 1);
+            controlFolder.add(guiParameters, "edgeVisibility");
+            controlFolder.open();
+
+            // add both roots to the scene
+            scene.add( meshRoot );
+            scene.add( wireRoot );
+            scene.add( sphereRoot );
+            scene.add( edgeRoot );
+
+
+            function animate() {
+                requestAnimationFrame( animate );
+                meshRoot.rotation.x += guiParameters.speedX/100;
+                meshRoot.rotation.y += guiParameters.speedY/100;
+                meshRoot.rotation.z += guiParameters.speedZ/100;
+
+                wireRoot.rotation.x += guiParameters.speedX/100;
+                wireRoot.rotation.y += guiParameters.speedY/100;
+                wireRoot.rotation.z += guiParameters.speedZ/100;
+
+                sphereRoot.rotation.x += guiParameters.speedX/100;
+                sphereRoot.rotation.y += guiParameters.speedY/100;
+                sphereRoot.rotation.z += guiParameters.speedZ/100;
+
+                //update the light when the camera moves (with orbitcontrols)
+                light.position.set(camera.position.x, camera.position.y, camera.position.z);
+
+                //update stuff that changes from the gui
+                meshRoot.traverse( function( node ) {
+                    if ( node instanceof THREE.Mesh ) {
+                        node.material.opacity = guiParameters.transparency;
+                    }
+                } );
+
+                edgeRoot.traverse( function( node ) {
+                    if ( node instanceof THREE.LineSegments ) {
+                        node.material.visible = guiParameters.edgeVisibility;
+                    }
+                } );
+
+                controls.update();
+
+                renderer.render( scene, camera );
+                labelRenderer.render( scene, camera );
+            }
+            animate();
+
+            //resize of window size changes
+            window.addEventListener( 'resize', onWindowResize );
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                labelRenderer.setSize( window.innerWidth, window.innerHeight );
+            }
+</script>

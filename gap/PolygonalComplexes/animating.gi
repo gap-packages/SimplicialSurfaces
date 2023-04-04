@@ -20,7 +20,7 @@ BindGlobal( "__SIMPLICIAL_IsCoordinates3D",
 
 InstallMethod( SetVertexCoordinates3D,
     "for a simplicial surface, a list of coordinates and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, coordinates, printRecord)
 	if not __SIMPLICIAL_IsCoordinates3D(surface, coordinates) then
 	    Error( " invalid coordinate format " );
@@ -30,22 +30,22 @@ InstallMethod( SetVertexCoordinates3D,
 );
 RedispatchOnCondition( SetVertexCoordinates3D, true, 
     [IsTwistedPolygonalComplex,IsList,IsRecord], 
-    [IsSimplicialSurface, IsList], 0 );
+    [IsTriangularComplex, IsList], 0 );
 
 InstallOtherMethod( SetVertexCoordinates3D,
     "for a simplicial surface and a list of coordinates",
-    [IsSimplicialSurface, IsList],
+    [IsTriangularComplex, IsList],
     function(surface, coordinates)
 	return SetVertexCoordinates3D(surface, coordinates, rec());
     end
 );
 RedispatchOnCondition( SetVertexCoordinates3D, true, 
     [IsTwistedPolygonalComplex,IsList], 
-    [IsSimplicialSurface, IsList], 0 );
+    [IsTriangularComplex, IsList], 0 );
 
 InstallMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface, a list of coordinates and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, coordinates, printRecord)
 	printRecord.vertexCoordinates3D := coordinates;
         return printRecord;
@@ -53,21 +53,21 @@ InstallMethod( SetVertexCoordinates3DNC,
 );
 RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
     [IsTwistedPolygonalComplex,IsList,IsRecord], 
-    [IsSimplicialSurface, IsList], 0 );
+    [IsTriangularComplex, IsList], 0 );
 InstallOtherMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface and a list of coordinates",
-    [IsSimplicialSurface, IsList],
+    [IsTriangularComplex, IsList],
     function(surface, coordinates)
 	return SetVertexCoordinates3DNC(coordinates, rec());
     end
 );
 RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
     [IsTwistedPolygonalComplex,IsList], 
-    [IsSimplicialSurface, IsList], 0 );
+    [IsTriangularComplex, IsList], 0 );
 
 InstallMethod( GetVertexCoordinates3D,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 	if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
 	    Error( " invalid coordinate format " );
@@ -76,22 +76,22 @@ InstallMethod( GetVertexCoordinates3D,
     end
 );
 RedispatchOnCondition(GetVertexCoordinates3D, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
-    [IsSimplicialSurface], 0);
+    [IsTriangularComplex], 0);
 
 InstallMethod( GetVertexCoordinates3DNC,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 	return 1.0*printRecord.vertexCoordinates3D[vertex];
     end
 );
 RedispatchOnCondition(GetVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
-    [IsSimplicialSurface], 0);
+    [IsTriangularComplex], 0);
 
 
 InstallMethod( CalculateParametersOfInnerCircle,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 				local norm, distance, normalize, crossProd, Atan2, res, vertOfFace, P1, P2, P3, d1, d2, d3, incenter, s,face,
 					radius, x, y, z, alpha, beta, gamma, normalVector, lengthNormalVector, normalVector_beta, normalVector_gamma;
@@ -162,13 +162,13 @@ InstallMethod( CalculateParametersOfInnerCircle,
 );
 RedispatchOnCondition(CalculateParametersOfInnerCircle, true, 
     [IsTwistedPolygonalComplex, IsRecord],
-    [IsSimplicialSurface], 0);
+    [IsTriangularComplex], 0);
 
 	
 
 InstallMethod( ActivateInnerCircles,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 	local face;
 	if not IsBound(printRecord.innerCircles) then
@@ -182,13 +182,13 @@ InstallMethod( ActivateInnerCircles,
 );
 RedispatchOnCondition( ActivateInnerCircles, true, 
     [IsTwistedPolygonalComplex, IsRecord],
-    [IsSimplicialSurface], 0);
+    [IsTriangularComplex], 0);
 
 
 
 InstallMethod( DeactivateInnerCircles,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			printRecord.drawInnerCircles := [];
 			return printRecord;
@@ -197,7 +197,7 @@ InstallMethod( DeactivateInnerCircles,
 
 InstallMethod( ActivateInnerCircle,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
@@ -212,7 +212,7 @@ InstallMethod( ActivateInnerCircle,
 
 InstallMethod( DeactivateInnerCircle,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.drawInnerCircles) then
 				return printRecord;
@@ -224,7 +224,7 @@ InstallMethod( DeactivateInnerCircle,
 
 InstallMethod( IsInnerCircleActive,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
@@ -241,7 +241,7 @@ InstallMethod( IsInnerCircleActive,
 
 InstallMethod( ActivateNormalOfInnerCircles,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			local face;
 			if not IsBound(printRecord.innerCircles) then
@@ -256,7 +256,7 @@ InstallMethod( ActivateNormalOfInnerCircles,
 
 InstallMethod( DeactivateNormalOfInnerCircles,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			printRecord.drawNormalOfInnerCircles := [];
 			return printRecord;
@@ -265,7 +265,7 @@ InstallMethod( DeactivateNormalOfInnerCircles,
 
 InstallMethod( ActivateNormalOfInnerCircle,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 				printRecord := CalculateParametersOfInnerCircle(surface, printRecord);
@@ -280,7 +280,7 @@ InstallMethod( ActivateNormalOfInnerCircle,
 
 InstallMethod( DeactivateNormalOfInnerCircle,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.drawNormalOfInnerCircles) then
 				return printRecord;
@@ -292,7 +292,7 @@ InstallMethod( DeactivateNormalOfInnerCircle,
 
 InstallMethod( IsNormalOfInnerCircleActive,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.innerCircles) then
 					return false;
@@ -359,7 +359,7 @@ InstallMethod( CalculateParametersOfEdges,
 
 InstallMethod( ActivateEdges,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			if not IsBound(printRecord.edges) then
 				printRecord := CalculateParametersOfEdges(surface, printRecord);
@@ -371,7 +371,7 @@ InstallMethod( ActivateEdges,
 
 InstallMethod( DeactivateEdges,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			local edge;
 			for edge in Edges(surface) do
@@ -383,7 +383,7 @@ InstallMethod( DeactivateEdges,
 
 InstallMethod( ActivateEdge,
     "for a simplicial surface, an edge and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 			if not IsBound(printRecord.edges) then
 				printRecord := CalculateParametersOfEdges(surface, printRecord);
@@ -399,7 +399,7 @@ InstallMethod( ActivateEdge,
 
 InstallMethod( DeactivateEdge,
     "for a simplicial surface, an edge and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 			if not IsBound(printRecord.drawEdges) then
 				printRecord.drawEdges := [];
@@ -411,7 +411,7 @@ InstallMethod( DeactivateEdge,
 
 InstallMethod( IsEdgeActive,
     "for a simplicial surface, an edge and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 			if not IsBound(printRecord.edges) then
 					return false;
@@ -431,7 +431,7 @@ InstallMethod( IsEdgeActive,
 
 InstallMethod( ActivateFaces,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			printRecord.drawFaces := [];
 			return printRecord;
@@ -440,7 +440,7 @@ InstallMethod( ActivateFaces,
 
 InstallMethod( DeactivateFaces,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			local face;
 			for face in Faces(surface) do
@@ -452,7 +452,7 @@ InstallMethod( DeactivateFaces,
 
 InstallMethod( ActivateFace,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.drawFaces) then
 				printRecord.drawFaces := [];
@@ -465,7 +465,7 @@ InstallMethod( ActivateFace,
 
 InstallMethod( DeactivateFace,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 			if not IsBound(printRecord.drawFaces) then
 				printRecord.drawFaces := [];
@@ -477,7 +477,7 @@ InstallMethod( DeactivateFace,
 
 InstallMethod( IsFaceActive,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 				if not IsBound(printRecord.drawFaces) then
 					return true;
@@ -494,7 +494,7 @@ InstallMethod( IsFaceActive,
 
 InstallMethod( SetTransparencyJava,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsFloat, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsFloat, IsRecord],
     function(surface, face, value, printRecord)
             if not IsBound(printRecord.FaceTransparency) then
                 printRecord.FaceTransparency := [];
@@ -506,7 +506,7 @@ InstallMethod( SetTransparencyJava,
 
 InstallMethod( RemoveTransparencyJava,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
             if IsBound(printRecord.FaceTransparency[face]) then
                 Unbind(printRecord.FaceTransparency[face]);
@@ -518,7 +518,7 @@ InstallMethod( RemoveTransparencyJava,
 
 InstallMethod( GetTransparencyJava,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
                 if not IsBound(printRecord.FaceTransparency) then
                     return 1;
@@ -535,7 +535,7 @@ InstallMethod( GetTransparencyJava,
 
 InstallMethod( ActivateVertices,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 				Error(" The 3D-coordinates of the vertices are not set ");
@@ -547,7 +547,7 @@ InstallMethod( ActivateVertices,
 
 InstallMethod( DeactivateVertices,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 			local vertex;
 			for vertex in Vertices(surface) do
@@ -559,7 +559,7 @@ InstallMethod( DeactivateVertices,
 
 InstallMethod( ActivateVertex,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 				Error(" The 3D-coordinates of the vertices are not set ");
@@ -575,7 +575,7 @@ InstallMethod( ActivateVertex,
 
 InstallMethod( DeactivateVertex,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 			if not IsBound(printRecord.drawVertices) then
 				printRecord.drawVertices := [];
@@ -587,7 +587,7 @@ InstallMethod( DeactivateVertex,
 
 InstallMethod( IsVertexActive,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 			if not IsBound(printRecord.vertexCoordinates3D) then
 					return false;
@@ -607,7 +607,7 @@ InstallMethod( IsVertexActive,
 
 InstallMethod( SetFaceColour,
     "for a simplicial surface, a face, a string and a record",
-    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsString, IsRecord],
     function(surface, face, colour, printRecord)
 				if not IsBound(printRecord.faceColours) then
 					printRecord.faceColours := [];
@@ -619,10 +619,10 @@ InstallMethod( SetFaceColour,
 
 InstallMethod( GetFaceColour,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 				local default;
-				default := "0xFFFF00";
+				default := "0x049EF4";
 				if not IsBound(printRecord.faceColours) or (face <= 0) then
 					return default;
 				fi;
@@ -635,7 +635,7 @@ InstallMethod( GetFaceColour,
 
 InstallMethod( SetFaceColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, faceColours, printRecord)
 				printRecord.faceColours := faceColours;
 				return printRecord;
@@ -644,12 +644,12 @@ InstallMethod( SetFaceColours,
 
 InstallMethod( GetFaceColours,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
     local res, i;
                 res := [];
                 for i in Faces(surface) do
-                    Add(res, GetFaceColour(surface, i, printRecord));
+                    res[i]:= GetFaceColour(surface, i, printRecord);
                 od;
 
                 return res;
@@ -658,7 +658,7 @@ InstallMethod( GetFaceColours,
 
 InstallMethod( SetVertexColour,
     "for a simplicial surface, a vertex, a string and a record",
-    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsString, IsRecord],
     function(surface, vertex, colour, printRecord)
 				if not IsBound(printRecord.vertexColours) then
 					printRecord.vertexColours := [];
@@ -670,7 +670,7 @@ InstallMethod( SetVertexColour,
 
 InstallMethod( GetVertexColour,
     "for a simplicial surface, a vertex and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, vertex, printRecord)
 				local default;
 				default := "0xF58137";
@@ -686,7 +686,7 @@ InstallMethod( GetVertexColour,
 
 InstallMethod( SetVertexColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, vertexColours, printRecord)
 				printRecord.vertexColours := vertexColours;
 				return printRecord;
@@ -695,18 +695,21 @@ InstallMethod( SetVertexColours,
 
 InstallMethod( GetVertexColours,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
-				if not IsBound(printRecord.vertexColours) then
-					return [];
-				fi;
-				return printRecord.vertexColours;
+        local vertexColours, i;
+        vertexColours := [];
+        for i in [1..Length(Vertices(surface))] do
+            Add(vertexColours, GetVertexColour(surface, i, printRecord));
+        od;
+
+        return vertexColours;
     end
 );
 
 InstallMethod( SetEdgeColour,
     "for a simplicial surface, an edge, a string and a record",
-    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsString, IsRecord],
     function(surface, edge, colour, printRecord)
 				if not IsBound(printRecord.edgeColours) then
 					printRecord.edgeColours := [];
@@ -718,10 +721,10 @@ InstallMethod( SetEdgeColour,
 
 InstallMethod( GetEdgeColour,
     "for a simplicial surface, an edge and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, edge, printRecord)
 				local default;
-				default := "0xff0000";
+				default := "0x000000";
 				if not IsBound(printRecord.edgeColours) or (edge <= 0) then
 					return default;
 				fi;
@@ -734,7 +737,7 @@ InstallMethod( GetEdgeColour,
 
 InstallMethod( SetEdgeColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, edgeColours, printRecord)
 				printRecord.edgeColours := edgeColours;
 				return printRecord;
@@ -743,18 +746,21 @@ InstallMethod( SetEdgeColours,
 
 InstallMethod( GetEdgeColours,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
-				if not IsBound(printRecord.EdgeColours) then
-					return [];
-				fi;
-				return printRecord.EdgeColours;
+        local edgeColours, i;
+        edgeColours := [];
+        for i in [1..Length(Edges(surface))] do
+            Add(edgeColours, GetEdgeColour(surface, i, printRecord));
+        od;
+
+        return edgeColours;
     end
 );
 
 InstallMethod( SetCircleColour,
     "for a simplicial surface, a face, a string and a record",
-    [IsSimplicialSurface, IsPosInt, IsString, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsString, IsRecord],
     function(surface, face, colour, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					printRecord.circleColours := [];
@@ -766,7 +772,7 @@ InstallMethod( SetCircleColour,
 
 InstallMethod( GetCircleColour,
     "for a simplicial surface, a face and a record",
-    [IsSimplicialSurface, IsPosInt, IsRecord],
+    [IsTriangularComplex, IsPosInt, IsRecord],
     function(surface, face, printRecord)
 				local default;
 				default := "0x000000";
@@ -782,7 +788,7 @@ InstallMethod( GetCircleColour,
 
 InstallMethod( SetCircleColours,
     "for a simplicial surface, a list and a record",
-    [IsSimplicialSurface, IsList, IsRecord],
+    [IsTriangularComplex, IsList, IsRecord],
     function(surface, circleColours, printRecord)
 				printRecord.circleColours := circleColours;
 				return printRecord;
@@ -791,7 +797,7 @@ InstallMethod( SetCircleColours,
 
 InstallMethod( GetCircleColours,
     "for a simplicial surface and a record",
-    [IsSimplicialSurface, IsRecord],
+    [IsTriangularComplex, IsRecord],
     function(surface, printRecord)
 				if not IsBound(printRecord.circleColours) then
 					return [];
@@ -800,200 +806,253 @@ InstallMethod( GetCircleColours,
     end
 );
 
-BindGlobal( "__SIMPLICIAL_AddFaceToScenario",
-#    "outside the general method for using it recursively",
-#    [IsSimplicialSurface, IsRecord, IsString],
-    function(face, printRecord, output)
-    local file, template, coords, i, j, colour,
-		      vertOfEdge, parametersOfCircle, 
-		      parametersOfEdge, temp, vertex, edge, vertices,edges,
-		      faces, vertOfFace;
-        #this does nothting, but without it claims that the GetFaceColour does not have a matching function
-        IsSimplicialSurface(face);
-        
-        #the face we are currently working on 
-        faceNumber := Faces(face)[1]
+# set neccessary values for the printrecord
+BindGlobal( "__SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript",
+    function(surface,printRecord)
+	local edgeThickness;
+	if not IsBound(printRecord.edgeThickness) then
+	    printRecord.edgeThickness := 0.03;
+	fi;
+	
 
-        # colour := GetFaceColours(face, printRecord);
-        vertOfFace := VerticesOfFaces(face)[faceNumber];
-
-        colour := GetFaceColour(face, Faces(face)[1], printRecord);
-        if not StartsWith(colour, "0x") then
-            colour := Concatenation("\"", colour, "\"");
-        fi;
-        AppendTo(output, "\t\tvar face", face, " = new THREE.Geometry();\n");
-        for j in [1..3] do
-            AppendTo(output, "\t\tface", face, ".vertices.push(allpoints[", Position(Vertices(face),vertOfFace[j])-1, "\].vector);\n");
-        od;
-        AppendTo(output, "\t\tcentroids.push(computeCentroid(face", face, "));\n");
-        AppendTo(output, "\t\tvar face", face, "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(face, faceNumber, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
-        AppendTo(output, "\t\tface", face, ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
-        AppendTo(output, "\t\tvar face", face, "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
-        AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", face, ", face", face, "_material) );\n");
-        return "";
+	return printRecord;
     end
 );
 
+# function to calculate the incenter of a triangle/face. Used for inner circles
+# we follow the math and variable names from here: https://math.stackexchange.com/questions/740111/incenter-of-triangle-in-3d
+BindGlobal( "__SIMPLICIAL_CalculateIncenter",
+    function(surface,printRecord,face)
+	local a, b, c, A, B, C, incenter;
+
+    #get the coordinates
+    A := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1];
+    B := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2];
+    C := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3];
+
+    a := Norm(B-C);
+    b := Norm(C-A);
+    c := Norm(A-B);
+
+    incenter := a/(a+b+c)*A + b/(a+b+c)*B + c/(a+b+c)*C;
+ 
+	return incenter;
+);
+
 # general method
+# TODO: change name to drawcomplex... ?
 InstallMethod( DrawSurfaceToJavaScriptCalculate,
     "for a simplicial surface, a filename and a record",
-    [IsSimplicialSurface, IsString, IsRecord, IsBool],
+    [IsTriangularComplex, IsString, IsRecord, IsBool],
     function(surface, fileName, printRecord, calculate)
                 local file, output, template, coords, i, j, colour,
 		      vertOfFace, vertOfEdge, parametersOfCircle, 
 		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
-		      faces;	
+              faceColors, addedFaceColors, uniqueFaceColors, colorPositions, color, coordinateString, edgeThickness,
+		      faces, coordinateStringA, coordinateStringB, edgeVertexA, edgeVertexB, edgeColors, uniqueEdgeColors;	
+    # make sure the defaults are set
+    printRecord := __SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript(surface, printRecord);
+    
+    #predefine some lists
 	vertices:=Vertices(surface);
 	edges:=Edges(surface);
 	faces:=Faces(surface);
 
-        # Make the file end with .html
-        if not EndsWith( fileName, ".html" ) then
-            fileName := Concatenation( fileName, ".html" );
+    # Make the file end with .html
+    if not EndsWith( fileName, ".html" ) then
+        fileName := Concatenation( fileName, ".html" );
+    fi;
+
+    # Try to open the given file
+    file := Filename( DirectoryCurrent(), fileName ); #TODO allow absolute paths
+    output := OutputTextFile( file, false ); # override other files
+    if output = fail then
+        Error(Concatenation("File ", String(file), " can't be opened.") );
+    fi;
+    SetPrintFormattingStatus( output, false );
+
+    AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_header.template") );
+    AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_start.template") );
+
+    # Check if surface is in 3d coords
+    # TODO neccessary?
+    if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
+        Error( " invalid coordinate format " );
+    fi;
+
+    # add faces to geometry by iterating over all colors
+    # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the root group
+    faceColors := GetFaceColours(surface, printRecord);
+
+    # generate a list of all unique colors of the faces
+    uniqueFaceColors := [];
+    for color in faceColors do
+        if not color in uniqueFaceColors then
+            Add(uniqueFaceColors, color);
+        fi; 
+    od;
+
+    # for each of the unique colors add the faces to a gemeometry and generate a mesh with corresponding color from it
+    # also generate a wireframe which can be made visible via the gui
+    for i in [1..Length(uniqueFaceColors)] do
+        color := uniqueFaceColors[i];
+        if not StartsWith(color, "0x") then
+            colour := Concatenation("\"", color, "\"");
         fi;
 
-        # Try to open the given file
-        file := Filename( DirectoryCurrent(), fileName ); #TODO allow absolute paths
-        output := OutputTextFile( file, false ); # override other files
-        if output = fail then
-            Error(Concatenation("File ", String(file), " can't be opened.") );
+        # generate a geometry with all vertices of the faces belonging to the current face
+        AppendTo(output, "\t \t \tconst geometry",i," = new THREE.BufferGeometry();\n");
+        AppendTo(output, "\t \t \tconst vertices",i," = new Float32Array( [\n \t \t \t \t");
+
+        colorPositions := Positions(faceColors, color);
+        for face in colorPositions do
+            if IsFaceActive(surface, face, printRecord) then
+                # we assume there is always at least one active face               
+                # as we can assume that all faces of a simplicial surface have exactly 3 vertices we add them to the geometry individually
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3], ",\n \t \t \t \t");
+
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3], ",\n\t \t \t \t");
+
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2], ",");
+                AppendTo(output, GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3], ",\n\n\t \t \t \t");
+            fi;
+        od;
+        AppendTo(output, "] ); \n\n");
+        AppendTo(output, "\t \t \tgeometry",i,".setAttribute( 'position', new THREE.BufferAttribute( vertices",i,", 3 ) );\n\n");
+
+        # generate a material with the corresponding color
+        AppendTo(output, """
+            const material""",i,""" = new THREE.MeshPhongMaterial({
+                color: """,GetFaceColour(surface, face, printRecord),""",          
+                flatShading: true,       
+            });
+            material""",i,""".transparent = true;
+            material""",i,""".side = THREE.DoubleSide;
+        """);
+
+        # generate a mesh from the geometry and material above
+        AppendTo(output, """
+            const mesh""",i,""" = new THREE.Mesh( geometry""",i,""", material""",i,""" );
+            mesh""",i,""".castShadow = true;                         
+            mesh""",i,""".receiveShadow = true;                      
+                                        
+            meshRoot.add(mesh""",i,""");
+        """);
+    od;
+
+    # add edges to geometry by iterating over all colors
+    # for each color there is a new geometry and material generated. these are then combined into a mesh and added to the edgeRoot group
+    edgeColors := GetEdgeColours(surface, printRecord);
+
+    # generate a list of all unique colors of the faces
+    uniqueEdgeColors := [];
+    for color in edgeColors do
+        if not color in uniqueEdgeColors then
+            Add(uniqueEdgeColors, color);
+        fi; 
+    od;
+
+    # for each of the unique colors add the edges to a gemeometry and generate a mesh with corresponding color from it
+    # also generate a wireframe which can be made visible via the gui
+    for i in [1..Length(uniqueEdgeColors)] do
+        color := uniqueEdgeColors[i];
+        if not StartsWith(color, "0x") then
+            colour := Concatenation("\"", color, "\"");
         fi;
-        SetPrintFormattingStatus( output, false );
 
-                template := __SIMPLICIAL_ReadTemplateFromFile("JS_Header.html.template");
-                AppendTo( output, template );
+        edgeThickness := printRecord.edgeThickness*100;
+        AppendTo(output, """
+            const edgeMaterial""",i,""" = new THREE.LineBasicMaterial( {         
+                color: """,color,""",
+                linewidth: """,edgeThickness,""",
+            } );        
+        """);
 
-        # Set coordinates of vertices
-        if not __SIMPLICIAL_IsCoordinates3D(surface, printRecord.vertexCoordinates3D) then
-                    Error( " invalid coordinate format " );
-                fi;
-                for vertex in Vertices(surface) do
-                    coords := GetVertexCoordinates3DNC(surface, vertex, printRecord);
-                    AppendTo(output, "\t\tallpoints.push(new PMPoint(", coords[1], ",", coords[2], ",", coords[3], "));\n");
-                od;
+        AppendTo(output, "\tconst edges",i," = new Float32Array( [\n");
 
-        # Add points to scenario
-                for i in [0..(NumberOfVertices(surface)-1)] do
-                    if IsVertexActive(surface, vertices[i+1], printRecord) then
-                        colour := GetVertexColour(surface, vertices[i+1], printRecord);
-                        if not StartsWith(colour, "0x") then
-                            colour := Concatenation("\"", colour, "\"");
-                        fi;
-                        AppendTo(output, "\t\tvar points_material", i, " = new THREE.MeshBasicMaterial( {color: ", colour, " } );\n");
-                        AppendTo(output, "\t\tpoints_material", i, ".side = THREE.DoubleSide;\n");
-                        AppendTo(output, "\t\tpoints_material", i, ".transparent = true;\n");
-                        AppendTo(output, "\t\t// draw a node as a sphere of radius 0.05\n");
-                        AppendTo(output, "\t\tallpoints[", i, "].makesphere(0.05,points_material", i, ");\n");
-                        AppendTo(output, "\t\tallpoints[", i, "].makelabel(", vertices[i+1], ");\n");
-                    fi;
-                od;
-                template := __SIMPLICIAL_ReadTemplateFromFile("JS_associate_points_init_faces.html.template");
-                AppendTo( output, template );
+        colorPositions := Positions(edgeColors, color);
+        for j in colorPositions do
+            edge := Edges(surface)[j];
+            # if IsEdgeActive(surface, edge, printRecord) then
+                # generate a string with the coordinates for later use
+                edgeVertexA := VerticesOfEdge(surface, edge)[1];
+                edgeVertexB := VerticesOfEdge(surface, edge)[2];
+                coordinateStringA := "";
+                Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, edgeVertexA, printRecord)[1]));
+                Append(coordinateStringA, ",");
+                Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, edgeVertexA, printRecord)[2]));
+                Append(coordinateStringA, ",");
+                Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, edgeVertexA, printRecord)[3]));
+                Append(coordinateStringA, ",");
 
-                # Add Faces to scenario
-                for i in [1..(NumberOfFaces(surface))] do
-                    if IsFaceActive(surface, faces[i], printRecord) then
-                        vertOfFace := VerticesOfFaces(surface)[faces[i]];
-                        face := SubsurfaceByFaces(surface, [faces[i]]);
-                        __SIMPLICIAL_AddFaceToScenario(face, printRecord, output);
+                coordinateStringB := "";
+                Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, edgeVertexB, printRecord)[1]));
+                Append(coordinateStringB, ",");
+                Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, edgeVertexB, printRecord)[2]));
+                Append(coordinateStringB, ",");
+                Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, edgeVertexB, printRecord)[3]));
+                Append(coordinateStringB, ",");
 
-                        # original for docs
-                        # vertOfFace := VerticesOfFaces(surface)[faces[i]];
-                        # colour := GetFaceColour(surface, faces[i], printRecord);
-                        # if not StartsWith(colour, "0x") then
-                        #     colour := Concatenation("\"", colour, "\"");
-                        # fi;
-                        # AppendTo(output, "\t\tvar face", faces[i], " = new THREE.Geometry();\n");
-                        # for j in [1..3] do
-                        #     AppendTo(output, "\t\tface", faces[i], ".vertices.push(allpoints[", Position(vertices,vertOfFace[j])-1, "\].vector);\n");
-                        # od;
-                        # AppendTo(output, "\t\tcentroids.push(computeCentroid(face", faces[i], "));\n");
-                        # AppendTo(output, "\t\tvar face", faces[i], "_material = new THREE.MeshBasicMaterial ({color: ", colour, ", transparent: true, opacity: ", GetTransparencyJava(surface, i, printRecord) , ",side: THREE.DoubleSide , depthWrite: true,depthTest: true, } );\n");
-                        # AppendTo(output, "\t\tface", faces[i], ".faces.push(new THREE.Face3(0, 1, 2 ,undefined, undefined, 0));\n");
-                        # AppendTo(output, "\t\tvar face", faces[i], "_obj = new THREE.Face3(0,1,2,undefined, undefined, 0);\n");
-                        # AppendTo(output, "\t\tobj.add( new THREE.Mesh(face", faces[i], ", face", faces[i], "_material) );\n");
-                    fi;
-                od;
+                AppendTo(output, "\t \t \t",coordinateStringA,"\n \t \t \t",coordinateStringB,"\n \n");
+            # fi;
+        od;
 
-                AppendTo(output, "\n\n");
-                for face in faces do
-                    if IsInnerCircleActive(surface, face, printRecord) then
-                        parametersOfCircle := printRecord.innerCircles[face];
-                        colour := GetCircleColour(surface, face, printRecord);
-                        if not StartsWith(colour, "0x") then
-                            colour := Concatenation("\"", colour, "\"");
-                        fi;
-                        AppendTo(output, "\t\tvar circle = Circle(", parametersOfCircle[2], ", ", parametersOfCircle[1][1], ", ",
-                            parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[3][1], ", ",
-                            parametersOfCircle[3][2], ", ", parametersOfCircle[3][3], ", ", colour, ");\n");
-                        AppendTo(output, "\t\tobj.add(circle);\n");
-                    fi;
-                od;
-                AppendTo(output, "\n\n");
+        AppendTo(output, "\t \t \t]);");
+        AppendTo(output, """
+            const edgeGeometry""",i,""" = new THREE.BufferGeometry();
+            edgeGeometry""",i,""".setAttribute( 'position', new THREE.BufferAttribute( edges""",i,""", 3 ) );
 
-                for face in faces do
-                    if IsNormalOfInnerCircleActive(surface, face, printRecord) then
-                        parametersOfCircle := printRecord.innerCircles[face];
-                        colour := GetCircleColour(surface, face, printRecord);
-                        if not StartsWith(colour, "0x") then
-                            colour := Concatenation("\"", colour, "\"");
-                        fi;
-                        AppendTo(output, "\t\tvar normalVector = Edge(", parametersOfCircle[5], ", 0.002, ", parametersOfCircle[1][1], ", ",
-                            parametersOfCircle[1][2], ", ", parametersOfCircle[1][3], ", ", parametersOfCircle[4][1], ", ",
-                            parametersOfCircle[4][2], ", ", parametersOfCircle[4][3], ", ", colour, ");\n");
-                        AppendTo(output, "\t\tobj.add(normalVector);\n");
-                    fi;
-                od;
-                AppendTo(output, "\n\n");
+            const edgeLine""",i,""" = new THREE.LineSegments( edgeGeometry""",i,""", edgeMaterial""",i,""" );
+            edgeRoot.add(edgeLine""",i,""");
+        """);
+        
+    od;
 
-                # Add Edges to scenario
-                template := __SIMPLICIAL_ReadTemplateFromFile("JS_init_edges.html.template");
-                AppendTo( output, template );
-                if not IsBound(printRecord.edges) then
-                    printRecord := CalculateParametersOfEdges(surface, printRecord);
-                fi;
-                if calculate then
-                    printRecord := CalculateParametersOfEdges(surface, printRecord);
-                fi;
-                for edge in edges do
-                    if IsEdgeActive(surface, edge, printRecord) then
-                        parametersOfEdge := printRecord.edges[edge];
-                        colour := GetEdgeColour(surface, edge, printRecord);
-                        if not StartsWith(colour, "0x") then
-                            colour := Concatenation("\"", colour, "\"");
-                        fi;
-                        if IsBound(printRecord.edgeThickness) then
-	                        AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ",", printRecord.edgeThickness,",", parametersOfEdge[1][1], ", ",
-	                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-	                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
-	                        AppendTo(output, "\t\tobj.add(edge);\n");
-	                    else
-	                    	AppendTo(output, "\t\tvar edge = Edge(", parametersOfEdge[2], ", 0.01, ", parametersOfEdge[1][1], ", ",
-	                            parametersOfEdge[1][2], ", ", parametersOfEdge[1][3], ", ", parametersOfEdge[3][1], ", ",
-	                            parametersOfEdge[3][2], ", ", parametersOfEdge[3][3], ", ", colour, ");\n");
-	                        AppendTo(output, "\t\tobj.add(edge);\n");
-	                    fi;
-                    fi;
-                od;
+    # add spheres and lables on all vertices if they are active
+    AppendTo(output, "\n\n\t//add the vertices with lables\n \t \t \t");
+    for vertex in Vertices(surface) do
+        if IsVertexActive(surface, vertex, printRecord) then                
+            # generate a string with the coordinates for later use
+            coordinateString := "";
+            Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[1]));
+            Append(coordinateString, ",");
+            Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[2]));
+            Append(coordinateString, ",");
+            Append(coordinateString, String(GetVertexCoordinates3DNC(surface, vertex, printRecord)[3]));
+            Append(coordinateString, ",");
 
-                if IsBound(printRecord.FaceTransparency) then
-                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterFirst.html.template");
-                    AppendTo( output, template );
-                    for face in faces do
-                        if IsBound(printRecord.FaceTransparency[face]) then
-                            #face1_material.opacity = 0;
-                            AppendTo(output, "\t\t\tface", face , "_material.opacity = ", printRecord.FaceTransparency[face], ";\n");
-                        fi;
-                    od;
-                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_FooterSecond.html.template");
-                    AppendTo( output, template );
-                else
-                    template := __SIMPLICIAL_ReadTemplateFromFile("JS_Footer.html.template");
-                    AppendTo( output, template );
-                fi;
+            # add spheres with radius edgeThickness around the active vertices
+            AppendTo(output, "const sphereMaterial",vertex," = new THREE.MeshBasicMaterial( { color: ",GetVertexColour(surface, vertex, printRecord)," } );\n");
+            AppendTo(output, "\t \t \tconst sphere",vertex," = new THREE.Mesh( sphereGeometry, sphereMaterial",vertex," );\n");
+            AppendTo(output, "\t \t \tsphereRoot.add(sphere",vertex,");\n");
+            AppendTo(output, "\t \t \tsphere",vertex,".position.set(",coordinateString,");\n");
 
-                CloseStream(output);
-        return printRecord;
+            
+            # generate the lable for the given vertex
+            AppendTo(output, """
+            const lableDiv""",vertex,""" = document.createElement( 'div' );
+            lableDiv""",vertex,""".className = 'label';
+            lableDiv""",vertex,""".textContent = '""",vertex,"""';
+            lableDiv""",vertex,""".style.marginTop = '-1em';
+
+            const vertexLabel""",vertex,""" = new CSS2DObject( lableDiv""",vertex,""" );
+            vertexLabel""",vertex,""".position.set(""",coordinateString,""");
+            meshRoot.add( vertexLabel""",vertex,""" );
+
+            """);
+        fi;
+    od;
+
+    AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_end.template") );
+    AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_footer.template") );
+
+    CloseStream(output);
+    return printRecord;
     end
 );
 
@@ -1001,7 +1060,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
 InstallMethod( DrawSurfaceToJavaScript,
     "for a simplicial surface, a filename and a record",
-    [IsSimplicialSurface, IsString, IsRecord],
+    [IsTriangularComplex, IsString, IsRecord],
     function(surface, fileName, printRecord)
         return DrawSurfaceToJavaScriptCalculate(surface,fileName,printRecord,true);
     end
