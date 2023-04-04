@@ -92,15 +92,15 @@ InstallMethod( TetrahedralType, "for a twisted polygonal complex",
 	comp:=complex;
 	tetratype:=[];
 	if IsMultiTetrahedralSphere(complex) then
-		while not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] do
+		while not ListCounter(CounterOfVertices(comp)) in [[[3,4]],[[3,2],[4,3]]] do
 			Add(tetratype,Length(Filtered(Vertices(comp),
 				v->FaceDegreeOfVertex(comp,v)=3)));
 			comp:=InnerMultiTetrahedralSphere(comp);
 		od;
-		if VertexCounter(comp)=[[3,4]] then 
+		if ListCounter(CounterOfVertices(comp))=[[3,4]] then 
 			Add(tetratype,1);
 		fi;
-		if VertexCounter(comp)=[[3,2],[4,3]] then
+		if ListCounter(CounterOfVertices(comp))=[[3,2],[4,3]] then
 			Add(tetratype,2);
 		fi;
 	else
@@ -230,9 +230,11 @@ InstallMethod( TotalInnerDefect, "for a simplicial surface", [IsSimplicialSurfac
 );
 RedispatchOnCondition( TotalInnerDefect, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
 
+BindGlobal("CounterFamily",NewFamily("CounterFamily",IsObject,IsCounter));
+DeclareRepresentation("IsCounterRep",IsCounter and IsAttributeStoringRep,[]);
+BindGlobal("IsCounterType",NewType(CounterFamily,IsCounterRep));
 
-InstallMethod( VertexCounter, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
+BindGlobal( "__SIMPLICIAL_VertexCounter",
     function(complex)
         local faceDegrees, faces, deg, counter;
 
@@ -254,14 +256,27 @@ InstallMethod( VertexCounter, "for a twisted polygonal complex",
         od;
 
         return counter;
-
-        #faceDegrees := List( FacesOfVertices(complex), Length );
-        #return Collected( Compacted( faceDegrees ) );
     end
 );
 
-InstallMethod( EdgeCounter, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
+DeclareRepresentation("CounterOfVerticesRep", 
+    IsCounterOfVertices and IsAttributeStoringRep, []);
+BindGlobal("CounterOfVerticesType", 
+    NewType(CounterOfVerticesFamily, CounterOfVerticesRep));
+
+InstallMethod( CounterOfVertices,
+    "method for twisted polygonal complexes",
+    [ IsTwistedPolygonalComplex ],
+    function( complex )
+                local counter;
+		counter:=Objectify(CounterOfVerticesType,rec());
+                SetListCounter(counter,__SIMPLICIAL_VertexCounter(complex));
+		SetAssociatedPolygonalComplex(counter,complex);
+                return counter;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_EdgeCounter",
     function(complex)
         local faceDegrees, edgeDegrees;
 
@@ -272,8 +287,24 @@ InstallMethod( EdgeCounter, "for a twisted polygonal complex",
     end
 );
 
-InstallMethod( FaceCounter, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
+DeclareRepresentation("CounterOfEdgesRep",
+    IsCounterOfEdges and IsAttributeStoringRep, []);
+BindGlobal("CounterOfEdgesType",
+    NewType(CounterOfEdgesFamily, CounterOfEdgesRep));
+
+InstallMethod( CounterOfEdges,
+    "method for twisted polygonal complexes",
+    [ IsTwistedPolygonalComplex ],
+    function( complex )
+                local counter;
+                counter:=Objectify(CounterOfEdgesType,rec());
+                SetListCounter(counter,__SIMPLICIAL_EdgeCounter(complex));
+		SetAssociatedPolygonalComplex(counter,complex);
+                return counter;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_FaceCounter",
     function(complex)
         local vertexDegrees, faceDegrees;
 
@@ -284,8 +315,24 @@ InstallMethod( FaceCounter, "for a twisted polygonal complex",
     end
 );
 
-InstallMethod( ButterflyCounter, "for a simplicial surface",
-    [IsSimplicialSurface],
+DeclareRepresentation("CounterOfFacesRep",
+    IsCounterOfFaces and IsAttributeStoringRep, []);
+BindGlobal("CounterOfFacesType",
+    NewType(CounterOfFacesFamily, CounterOfFacesRep));
+
+InstallMethod( CounterOfFaces,
+    "method for twisted polygonal complexes",
+    [ IsTwistedPolygonalComplex ],
+    function( complex )
+                local counter;
+                counter:=Objectify(CounterOfFacesType,rec());
+                SetListCounter(counter,__SIMPLICIAL_FaceCounter(complex));
+		SetAssociatedPolygonalComplex(counter,complex);
+                return counter;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_ButterflyCounter",
     function(surface)
 	local e,temp2,counter,g,VerticesOfOrthogonalEdge,voe1,voe2,degOfVert1,degOfVert2;
 
@@ -307,9 +354,25 @@ InstallMethod( ButterflyCounter, "for a simplicial surface",
 end
 );
 
+DeclareRepresentation("CounterOfButterfliesRep",
+    IsCounterOfButterflies and IsAttributeStoringRep, []);
+BindGlobal("CounterOfButterfliesType",
+    NewType(CounterOfButterfliesFamily, CounterOfButterfliesRep));
 
-InstallMethod( UmbrellaCounter, "for a closed simplicial surface",
-    [IsSimplicialSurface and IsClosedSurface],
+InstallMethod( CounterOfButterflies,
+    "method for a simplicial surface",
+    [ IsSimplicialSurface],
+    function( surf )
+	local counter;
+	counter:=Objectify(CounterOfButterfliesType,rec());
+	SetListCounter(counter,__SIMPLICIAL_ButterflyCounter(surf));
+	SetAssociatedPolygonalComplex(counter,surf);
+	return counter;
+    end 
+);
+
+
+BindGlobal( "__SIMPLICIAL_UmbrellaCounter",
     function(surface)
 	local n,counter,v,temp,orb,tup,G,perm,OrbitOnList,tempcounter,
 	verticesOfUmb,edgesOfUmb,facdegOfVert,temp1,EquivalentLists,
@@ -400,8 +463,24 @@ InstallMethod( UmbrellaCounter, "for a closed simplicial surface",
 end
 );
 
-InstallMethod( ThreeFaceCounter, "for a simplicial surface",
-    [IsSimplicialSurface],
+DeclareRepresentation("CounterOfUmbrellasRep",
+    IsCounterOfUmbrellas and IsAttributeStoringRep, []);
+BindGlobal("CounterOfUmbrellasType",
+    NewType(CounterOfUmbrellasFamily, CounterOfUmbrellasRep));
+
+InstallMethod( CounterOfUmbrellas,
+    "method for a closed simplicial surface",
+    [ IsSimplicialSurface and IsClosedSurface],
+    function( surf )
+	local counter;
+	counter:=Objectify(CounterOfUmbrellasType,rec());
+	SetListCounter(counter,__SIMPLICIAL_UmbrellaCounter(surf));
+	SetAssociatedPolygonalComplex(counter,surf);
+	return counter;
+    end 
+);
+
+BindGlobal( "__SIMPLICIAL_ThreeFaceCounter",
     function(surface)
 	local g,tempcounter,v,f,face,vert,vof,vof2,counter,i,temp,tup;
 	tempcounter:=[];
@@ -434,7 +513,246 @@ InstallMethod( ThreeFaceCounter, "for a simplicial surface",
 end
 );
 
+DeclareRepresentation("CounterOfThreeFacesRep",
+    IsCounterOfThreeFaces and IsAttributeStoringRep, []);
+BindGlobal("CounterOfThreeFacesType",
+    NewType(CounterOfThreeFacesFamily, CounterOfThreeFacesRep));
 
+InstallMethod( CounterOfThreeFaces,
+    "method for a simplicial surface",
+    [ IsSimplicialSurface ],
+    function( surf )
+	local counter;
+	counter:=Objectify(CounterOfThreeFacesType,rec());
+	SetListCounter(counter,__SIMPLICIAL_ThreeFaceCounter(surf));
+	SetAssociatedPolygonalComplex(counter,surf);
+	return counter;
+    end 
+);
+
+InstallMethod( MultiplicitiesOfDegrees,
+    "method for a counter of vertices",
+    [ IsCounterOfVertices ],
+    function( counter)
+		local counterList, maxDegree, numbers, c;
+		counterList:=ListCounter(counter);
+		maxDegree:=Maximum(List(counterList,c->c[1]));
+		numbers:=EmptyPlist(maxDegree);
+		for c in counterList do
+			numbers[c[1]]:=c[2];
+		od;
+		return numbers;
+    end
+);
+
+InstallOtherMethod( MultiplicityOfDegree,
+    "method for a vertex counter and a degree",
+    [ IsCounterOfVertices, IsPosInt],
+    function( counter, degree)
+                local tupel;
+                if degree in DegreesOfCounter(counter) then
+                        for tupel in ListCounter(counter) do
+                                if tupel[1]=degree then
+                                        return tupel[2];
+                                fi;
+                        od;
+                else
+                        Error(Concatenation("NumberOfDegree: Given counter ", String(counter),
+                " does not have a vertex of degree ", String(degree), "." ));
+                fi;
+    end
+);
+
+InstallMethod( MultiplicityOfDegree,
+    "method for a counter and a degree list",
+    [ IsCounter, IsList],
+    function( counter, degree)
+                local tupel;
+                if degree in DegreesOfCounter(counter) then
+                        for tupel in ListCounter(counter) do
+                                if tupel[1]=degree then
+                                        return tupel[2];
+                                fi;
+                        od;
+                else
+                        Error(Concatenation("NumberOfDegree: Given counter ", String(counter),
+                " does not have a vertex of degree ", String(degree), "." ));
+                fi;
+    end
+);
+
+InstallMethod( DegreesOfCounter,
+    "method for a counter",
+    [ IsCounter ],
+    function(counter)
+		return List(ListCounter(counter),c->c[1]);
+    end
+);
+InstallMethod( MultiplicitiesOfCounter,
+    "method for a counter",
+    [ IsCounter ],
+    function( counter)
+		return List(ListCounter(counter),c->c[2]);
+    end
+);
+InstallMethod( DegreesOfMultiplicities,
+    "method for a counter",
+    [ IsCounter ],
+    function(counter)
+		local counterList, number, degrees, c;
+		counterList:=ListCounter(counter);
+		number:=Maximum(List(counterList,c->c[2]));
+		degrees:=EmptyPlist(number);
+		for c in counterList do
+			if IsBound(degrees[c[2]]) then
+				Add(degrees[c[2]],c[1]);
+			else
+				degrees[c[2]]:=[c[1]];
+			fi;
+		od;
+		return degrees;
+    end
+);
+InstallMethod( DegreesOfMultiplicity,
+    "method for a counter and an integer",
+    [ IsCounter, IsPosInt],
+    function( counter, multiplicity)
+		if IsBound(DegreesOfMultiplicities(counter)[multiplicity]) then
+			return DegreesOfMultiplicities(counter)[multiplicity];
+		else 
+			Error(Concatenation("DegreesOfNumber: Given counter ", String(counter), 
+                " does not have ", String(multiplicity), " of same degree." ));
+		fi;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_CounterName",
+    function(counter, big)
+        local nameList;
+
+        if big then
+            nameList := ["CounterOfVertices", "CounterOfEdges", 
+                "CounterOfFaces", "CounterOfButterlies",
+                "CounterOfUmbrellas", "CounterOfThreeFaces", "Counter"];
+        else
+            nameList := ["counter of vertices", "counter of edges", 
+                "counter of faces", "counter of butterlies",
+                "counter of umbrellas", "counter of three faces", "counter"];
+        fi;
+
+        if IsCounterOfVertices(counter) then
+            return nameList[1];
+        elif IsCounterOfEdges(counter) then
+            return nameList[2];
+        elif IsCounterOfFaces(counter) then
+            return nameList[3];
+        elif IsCounterOfButterflies(counter) then
+            return nameList[4];
+		elif IsCounterOfUmbrellas(counter) then
+            return nameList[5];
+        elif IsCounterOfThreeFaces(counter) then
+            return nameList[6];
+        else
+            return nameList[7];
+        fi;
+    end
+);
+
+InstallMethod(TypeOfCounter, "for a counter",
+	[IsCounter],
+	function(counter)
+		 Print(__SIMPLICIAL_CounterName(counter,true)); 
+	end
+);
+
+InstallOtherMethod( ViewInformation, "for a counter", 
+    [IsCounter],
+    function(counter)
+        local strList, str, out;
+
+        strList := [];
+        str := "";
+        out := OutputTextString(str,true);
+        PrintTo( out, __SIMPLICIAL_CounterName(counter, false) );
+        PrintTo(out, " (");
+        CloseStream(out);
+        Add( strList, [str, 0] );
+
+        Add( strList, [Concatenation(String(DegreesOfCounter(counter)), " degrees"), 1] );
+        Add( strList, [", and ", 0] );
+        Add( strList, [Concatenation(String(MultiplicitiesOfCounter(counter)), " multiplicities"), 2] );
+        Add( strList, [")", 0] );
+
+        return strList;
+    end
+);
+
+
+InstallMethod(ViewObj,"for a counter", [IsCounter],
+	function(counter)
+	    if SIMPLICIAL_COLOURS_ON then
+                __SIMPLICIAL_PrintColourString( ViewInformation(counter), 
+                    [ SIMPLICIAL_COLOURS_VERTICES, 
+                        SIMPLICIAL_COLOURS_EDGES]);
+            else
+                Print(__SIMPLICIAL_UncolouredString( ViewInformation(counter) ));
+            fi;
+	end
+);
+
+InstallMethod( String, "for a counter", [IsCounter],
+    function(counter)
+        local str, out, name;
+        
+        str := "";
+        out := OutputTextString(str,true);
+	name:=__SIMPLICIAL_CounterName(counter,true);
+
+        PrintTo(out, name);
+	PrintTo(out, "( ");
+        PrintTo(out, AssociatedPolygonalComplex(counter));
+        PrintTo(out, ", ");
+        PrintTo(out, ListCounter(counter));
+        PrintTo(out, ")");
+
+        CloseStream(out);
+        return str;
+    end
+);
+
+InstallOtherMethod(DisplayInformation, "for a counter", [IsCounter],
+    function(counter)
+	local strList, str, out;
+	strList:=[];
+	str := "";
+        out := OutputTextString(str, true);
+        PrintTo(out, __SIMPLICIAL_CounterName(counter, true) );
+	PrintTo(out,  "\n");
+	Add( strList, [ str, 0 ] );
+	
+	Add( strList, [ Concatenation(
+            "    DegreesOfCounter : ",
+            String(DegreesOfCounter(counter)), "\n"), 1 ] );
+	Add( strList, [ Concatenation(
+            "    MultiplicitiesOfCounter : ",
+            String(MultiplicitiesOfCounter(counter)), "\n"), 2 ] );
+	Add( strList, [ Concatenation(
+            "    ListCounter : ", 
+            String(ListCounter(counter)), "\n"), 3 ] );
+	return strList;
+    end
+);
+
+InstallMethod(Display, "for a counter", [IsCounter],
+    function(counter)
+    	if SIMPLICIAL_COLOURS_ON then
+               __SIMPLICIAL_PrintColourString( DisplayInformation(counter), 
+                    [ SIMPLICIAL_COLOURS_VERTICES, SIMPLICIAL_COLOURS_EDGES, SIMPLICIAL_COLOURS_FACES ]);
+            else
+               Print(__SIMPLICIAL_UncolouredString( DisplayInformation(counter) ));
+            fi;
+    end 
+);
 ##
 ##      End of degrees
 ##
@@ -1207,4 +1525,383 @@ InstallMethod( FaceTwoColouring,
 ##
 #######################################
 
+#######################################
+##
+##      epimorphic images 
+##
 
+## this function returns the possibillies to identy the edges of Faces eof1 and eof2 in edges=[eof1,eof2]
+## in order to construct an admissible relation
+BindGlobal( "__SIMPLICIAL_MendableEdgeAssignments",
+function(surface,edges,verticesOfEdges,intSec)
+    local g,edgeAssign,vof1,vof2,arrangements,eov1,eov2,i,
+    edge1,edge2,ee,eof,help,res,help2,help1,v,inter;
+
+    arrangements:=Arrangements(edges[2],3);
+    edgeAssign:=List([1..6],i->[edges[1],arrangements[i]]);
+    res:=[];
+    help1:=function(surface,ee)
+	local i,v1,v2;
+	for i in [[1,2],[1,3],[2,3]] do 
+	    v1:=intSec[ee[1][i[1]]][ee[1][i[2]]][1];
+	    v2:=intSec[ee[2][i[1]]][ee[2][i[2]]][1];
+	    if Set([v1,v2]) in verticesOfEdges then 
+		return false; 
+	    fi;
+	od;
+	return true;
+    end;
+    help2:=function(surface,ee)
+	local i,v1,v2;
+	v1:=[];
+	v2:=[];
+	for i in [[1,2],[1,3],[2,3]] do 
+	    Add(v1,intSec[ee[1][i[1]]][ee[1][i[2]]][1]);
+	    Add(v2,intSec[ee[2][i[1]]][ee[2][i[2]]][1]);
+	od;
+	inter:=Intersection(v1,v2);
+	for v in inter do
+		if Position(v1,v)<>Position(v2,v) then
+			return false;
+		fi;
+	od;
+	return true;
+    end;
+    return Filtered(edgeAssign,ee->help1(surface,ee) and help2(surface,ee));
+  end
+);
+
+BindGlobal( "__SIMPLICIAL_Mendable",
+    function(surface,v,eof,edgesOfFaces,verticesOfEdges,intSec)
+	local temp,res,ee,mendable,edgeAssign,lm;
+	temp:=Arrangements(eof,3);
+	res:=[];
+	if edgesOfFaces=[] then 
+	    return [eof];
+	fi;
+	mendable:=List(edgesOfFaces,ee->__SIMPLICIAL_MendableEdgeAssignments(surface,[ee,eof],verticesOfEdges,intSec));
+	lm:=Length(mendable);
+	if not [] in mendable then
+	    for ee in temp do
+		if IsBound(Filtered(mendable,edgeAssign->Filtered(edgeAssign,e->e[2]=ee)<>[])[lm]) then	
+		    Add(res,ee);
+		fi;
+	    od;
+	fi;
+	return res;
+   end
+);
+
+## This function returns a tuple [s,equiv], where s is a simplicial surface and equiv is the ordered list containing the partitions of the vertices,edges and faces 
+# of the admissible relation 'relation' or fail if relation does not give rise to a simplical surface 
+BindGlobal( "__SIMPLICIAL_SimplicialSurfaceByRelation",
+    function(surface,relation,verticesOfEdges,intSec)
+	local g,vertexClasses,i,cl,f,EdgeClasses,visitedEdges,ee,vv,
+	vClass,edges,edgeClasses,eof,edge,vc1,vc2,voe,j,temp,vertices,e,edgesOfClasses,
+	eClass,edges1,edges2,tempE,tempE2,v,numV,numE,edgesOfFaces;
+	edgesOfClasses:=List(relation,r->Union(r));
+
+       ## construct the partition of the edges
+	edges:=[];	
+	edgeClasses:=[];
+	edgesOfFaces:=EdgesOfFaces(surface);
+	for cl in relation do
+	    for i in [1,2,3] do
+		temp:=List(cl, f-> f[i]);
+		edges:=Union(edges,[Set(temp)]);
+	    od;	
+	od;
+	for eClass in edges do
+	    temp:=Filtered(edges,e->Intersection(e,eClass)<>[]);
+	    temp:=Union(temp);
+	    while temp<> eClass do
+		eClass:=Union(eClass,temp);
+		temp:=Filtered(edges,e->Intersection(e,eClass)<>[]);
+		temp:=Union(temp);
+	    od;
+	    if IsBound(Filtered(edgesOfClasses,e->Intersection(e,eClass)<>[])[3]) then 
+		return fail;
+	    fi;
+	    edgeClasses:=Union(edgeClasses,[eClass]);
+	od;
+	## construct the partition of the vertices
+	vertexClasses:=[];
+	vertices:=[];
+	for cl in relation do
+	    for i in [[1,2],[2,3],[1,3]] do
+		temp:=List(cl, f->intSec[f[i[1]]][f[i[2]]][1]);
+		vertices:=Union(vertices,[Set(temp)]);
+	    od;
+	od;
+	for vClass in vertices do
+	    temp:=Filtered(vertices,vv->Intersection(vv,vClass)<>[]);
+	    temp:=Union(temp);
+	    while temp<> vClass do
+		vClass:=Union(vClass,temp);
+		temp:=Filtered(vertices,vv->Intersection(vv,vClass)<>[]);
+		temp:=Union(temp);
+	    od;
+	    vertexClasses:=Union(vertexClasses,[vClass]);
+	od;
+	## construct incidences
+	numE:=Length(edgeClasses);
+	numV:=Length(vertexClasses);
+	voe:=[];
+	for edge in edgeClasses do
+	    temp:=Union(List(edge,e->verticesOfEdges[e]));
+	    e:=Filtered([1..numV],i->Intersection(vertexClasses[i],temp)<>[]);
+	    Add(voe,e);
+	od;
+	visitedEdges:=[];
+	eof:=[];
+	for cl in relation do 		
+	    f:=Filtered([1..numE],i->Intersection(edgeClasses[i],Union(cl))<>[]);
+	    Add(eof,f);
+	od;
+	if Set(List(eof,f->Length(Set(f))))<>[3] or Set(List(voe,e->Length(Set(e))))<>[2] then 
+	    return fail;
+	fi;
+	
+	## construct partition of the faces
+	temp:=List(relation,cl->Set(List(cl,f->Position(edgesOfFaces,Set(f)))));
+	temp:=[vertexClasses,edgeClasses,temp];
+	return [TriangularComplexByDownwardIncidenceNC(voe,eof),temp];
+    end
+);
+
+# checks whether the edges of the face face have ramifications 
+BindGlobal( "__SIMPLICIAL_IsNotEdgeRamFace",
+    function(relation,face)
+	local g,vertexClasses,verticesOfEdges,i,cl,f,EdgeClasses,visitedEdges,ee,vv,
+	vClass,edges,edgeClasses,eof,edge,vc1,vc2,voe,j,temp,vertices,e,edgesOfClasses,
+	eClass;
+
+	edgesOfClasses:=List(relation,r->Union(r));
+	edges:=[];	
+	edgeClasses:=[];
+
+	for cl in relation do
+		for i in [1,2,3] do
+			temp:=List(cl,f-> f[i]);
+			edges:=Union(edges,[Set(temp)]);
+		od;	
+	od;
+
+	for e in face do 
+		temp:=Union(Filtered(edges,cl-> e in cl));
+		eClass:=[];
+		while temp <> eClass do
+			eClass:=Union(eClass,temp);
+			temp:=Filtered(edges,e->Intersection(e,eClass)<>[]);
+			temp:=Union(temp);
+		od;
+		if IsBound(Filtered(edgesOfClasses,e->Intersection(e,eClass)<>[])[3]) then
+			return false;
+		fi;	
+	od;
+	return true;
+end
+);
+BindGlobal( "__SIMPLICIAL_nextVertexHelp",
+    function(surface,v,relation,faces,neighbours,edgesOfFaces,facesOfVertices)
+	local vv,eof,f,temp;
+	temp:=List(Union(relation),eof->Set(eof));
+	temp:=Filtered(faces,f->edgesOfFaces[f] in temp);
+	temp:=Filtered(neighbours[v],vv->Difference(facesOfVertices[vv],temp)<>[]);
+	if temp <>[] then 
+	    return temp[1];
+	else 
+	    return 0;
+	fi;
+    end
+);
+
+
+BindGlobal( "__SIMPLICIAL_nextFace",
+    function(surface,v,relation,facesOfVertices,edgesOfFaces,edgesOfVertices)
+	local foe,edgesOfFaces2,temp,eof,ee;
+	foe:=facesOfVertices[v];
+	foe:=edgesOfFaces{foe};
+	edgesOfFaces2:=List(Union(relation),ee->Set(ee));
+	foe:=Difference(foe,edgesOfFaces2);
+	temp:=Intersection(Union(edgesOfFaces2),edgesOfVertices[v]);
+	temp:=Filtered(foe,eof->Intersection(eof,temp)<>[]);
+	if temp=[] then 
+	    return 0;
+	else
+	    return temp[1];
+	fi;
+    end
+);
+
+
+BindGlobal( "__SIMPLICIAL_AddFaceToRelation",
+    function(surface,v,eof,relation,verticesOfEdges,facesOfVertices,edgesOfFaces,edgesOfVertices,intSec)
+	local edgesOfClasses,edges,r,filtered,res,mendable,l,f,cl,fil,i,j,ee,temp,
+	umbClass,facesOfVert,face,n,e,eov,pos,lr;
+
+	res:=[];
+	r:=Length(relation);
+	lr:=[1..r];
+
+	eov:=Intersection(eof,edgesOfVertices[v]);
+	edgesOfClasses:=List(relation,cl->Union(cl));
+	facesOfVert:=facesOfVertices[v];
+	facesOfVert:=edgesOfFaces{facesOfVert};
+	umbClass:=Filtered(lr,i->Intersection(List(relation[i],f->Set(f)),facesOfVert)<>[]);
+
+	#add next face to one of the faceClasses of the vertex
+	for i in lr do
+	    mendable:=__SIMPLICIAL_Mendable(surface,v,eof,relation[i],verticesOfEdges,intSec);
+	    for ee in mendable do
+		temp:=List(lr,l->ShallowCopy(relation[l]));
+		AddSet(temp[i],ee);
+		Add(res,temp);
+	    od;
+	od;
+
+	# l is the number of the class neighbouring eof
+	l:=Filtered(umbClass,i->Intersection(eov,edgesOfClasses[i])<>[])[1];
+	e:=Intersection(edgesOfClasses[l],eov)[1];
+	pos:=0;
+	face:=relation[l];
+	for i in [1,2,3] do 
+	    if e in List(face,f->f[i]) then 
+		pos:=i;
+	    fi;
+	od;
+	edges:=List(face,f->f[pos]);
+	n:=Filtered(lr,i->Intersection(edges,edgesOfClasses[i])<>[] and l<>i);
+	if n<>[] then
+	    n:=n[1];
+	    mendable:=__SIMPLICIAL_Mendable(surface,v,eof,relation[n],verticesOfEdges,intSec);
+	    for ee in mendable do
+		temp:=List(lr,l->ShallowCopy(relation[l]));
+		AddSet(temp[n],ee);
+		Add(res,temp);
+	    od;
+	else
+	    temp:=List(lr,i->ShallowCopy(relation[i]));
+	    Add(temp,[eof]);
+	    Add(res,temp);
+	fi;		
+	return Filtered(res,r->__SIMPLICIAL_IsNotEdgeRamFace(r,eof));
+end
+);
+
+# the function returns a list of tuples [s,rel] where s is a simplicial surface and the rel is a admissible relation
+# on the given surface 'surface' that gives rise to s. 
+# Note that this function only focuses on admissible relation that yield butterfly friendly epimorphism from surface to s.
+# The idea is to build the adissible relation from scratch by adding more and more simplicies to the relation.
+# As data structure we use the edges of faces to carry on the computations, whereby the position of the edges is important for the admissible relation.
+# So the implementation uses equivalence classes that consists of edges of faces. For example if faces f_1=[1,2,3] and f_2=[6,5,4] happen to be in the same
+# class [f_1,f_2] then the following holds:
+# - In our relation f_1 and f_2 are identified. 
+# - the edge pairs 1,6 and 2,5 and 3,4 get identified
+# From this information we can also deduce the identified vertices by forming intersection 
+# Strategy: We start from an vertex of the vertex and aim to build admissible relations containing the umbrella of the vertex. And then go on to add the umbrellas of
+# the neighbouring vertices to the umbrella and so on. 
+BindGlobal( "__SIMPLICIAL_AdmissibleRelationsHelp",
+function(surface,relation,bool,bool2)
+    local visitedFaces,visitedVertices,remainingVertices,v,vertices,
+	facesOfVertex,remainingFaces,relations,f,eof,rel,edgesOfFaces,temp,next,
+	vert,temp2,s,verticesOfEdges,numFaces,vis,faces,neighbours,
+	facesOfVertices,edgesOfVertices,intSec,res;
+
+	## initialize the needed information
+	numFaces:=NumberOfFaces(surface);
+	verticesOfEdges:=VerticesOfEdges(surface);
+	edgesOfFaces:=EdgesOfFaces(surface);
+	facesOfVertices:=FacesOfVertices(surface);
+	vertices:=Vertices(surface);
+	edgesOfVertices:=EdgesOfVertices(surface);
+	visitedFaces:=List(Union(relation),eof->Set(eof));
+	temp:=List(visitedFaces,eof->Position(edgesOfFaces,eof));
+	visitedVertices:=Filtered(vertices,v->IsSubset(temp,FacesOfVertex(surface,v)));
+	v:=0;
+	neighbours:=List(vertices,v->NeighbourVerticesOfVertex(surface,v));
+	faces:=Faces(surface);
+	intSec:=List(verticesOfEdges,voe1->List(verticesOfEdges,voe2->Intersection(voe1,voe2)));
+	for vert in visitedVertices do
+	    next:=__SIMPLICIAL_nextVertexHelp(surface,vert,relation,faces,neighbours,edgesOfFaces,facesOfVertices); 
+	    if next<>0 then 
+		v:=next;
+	    fi;
+	od;
+	if v=0 and visitedVertices<>vertices then
+	    vert:=Filtered(vertices,vert->Intersection(temp,facesOfVertices[vert])<>[]);
+	    v:=vert[1];
+        fi;
+
+        ### main function
+        relations:=[relation];
+        vis:=Length(visitedFaces);
+        while vis <> numFaces do
+	    f:=__SIMPLICIAL_nextFace(surface,v,relations[1],facesOfVertices,edgesOfFaces,edgesOfVertices);
+	    while f<>0 do
+		if bool2 then 
+		    Print("visited", vis, "faces\n" );
+		fi;
+
+	        relations:=Union(List(relations,
+		rel->__SIMPLICIAL_AddFaceToRelation(surface,v,f,rel,verticesOfEdges,facesOfVertices,edgesOfFaces,edgesOfVertices,intSec)));
+	        Add(visitedFaces,f);
+	        vis:=vis+1;
+	        f:=__SIMPLICIAL_nextFace(surface,v,relations[1],facesOfVertices,edgesOfFaces,edgesOfVertices);
+	    od;
+	    Add(visitedVertices,v);
+	    if vis <> numFaces then 
+		v:=__SIMPLICIAL_nextVertexHelp(surface,v,relations[1],faces,neighbours,edgesOfFaces,facesOfVertices);
+	    fi;
+	od;
+
+	## just for the change of the return
+	res:=[];
+	if bool then 
+	    for rel in relations do 
+		s:=__SIMPLICIAL_SimplicialSurfaceByRelation(surface,rel,verticesOfEdges,intSec);
+		if s <>fail then 
+		    Add(res,s);
+		fi;
+	    od;
+	else
+	    temp2:=Set([]);
+	    for rel in relations do 
+		temp:=__SIMPLICIAL_SimplicialSurfaceByRelation(surface,rel,verticesOfEdges,intSec);
+		if temp<>fail then 
+		    s:=CanonicalRepresentativeOfPolygonalSurface(temp[1])[1];
+		    if not s in temp2 then 
+			AddSet(temp2,s);
+			Add(res,temp);
+		    fi;
+		fi;	
+	    od;
+	fi;
+	return res;
+
+    end
+);
+
+
+InstallMethod( AdmissibleRelationsOfSurface, 
+    "for a simplicial surface and a bool",
+    [IsSimplicialSurface,IsBool,IsBool],
+    function(surface,bool,bool2)	
+	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,bool2);
+  
+end
+);
+
+InstallOtherMethod( AdmissibleRelationsOfSurface, 
+    "for a simplicial surface and a bool",
+    [IsSimplicialSurface,IsBool],
+    function(surface,bool)	
+	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,false);  
+end
+);
+
+
+##
+##      End of epimorphic images
+##
+#######################################

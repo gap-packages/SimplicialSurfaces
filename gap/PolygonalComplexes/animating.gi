@@ -837,7 +837,6 @@ BindGlobal( "__SIMPLICIAL_CalculateIncenter",
     incenter := a/(a+b+c)*A + b/(a+b+c)*B + c/(a+b+c)*C;
  
 	return incenter;
-    end
 );
 
 # general method
