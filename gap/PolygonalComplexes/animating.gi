@@ -823,16 +823,20 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript",
 # we follow the math and variable names from here: https://math.stackexchange.com/questions/740111/incenter-of-triangle-in-3d
 BindGlobal( "__SIMPLICIAL_CalculateIncenter",
     function(surface,printRecord,face)
-	local a, b, c, A, B, C, incenter;
+	local a, b, c, A, B, C, atemp, btemo, ctemp, incenter;
 
     #get the coordinates
-    A := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1];
-    B := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2];
-    C := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3];
+    A := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord);
+    B := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord);
+    C := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord);
 
-    a := Norm(B-C);
-    b := Norm(C-A);
-    c := Norm(A-B);
+    atemp := B-C;
+    btemp := C-A;
+    ctemp := A-B;
+
+    a := Sqrt(Float(a[1]^2+a[2]^2+a[3]^2));
+    b := Sqrt(Float(b[1]^2+b[2]^2+b[3]^2));
+    c := Sqrt(Float(c[1]^2+c[2]^2+c[3]^2));
 
     incenter := a/(a+b+c)*A + b/(a+b+c)*B + c/(a+b+c)*C;
  
@@ -1048,6 +1052,12 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             """);
         fi;
     od;
+
+    # generate innercircle for all (active) innercircle faces
+    for face in Faces(surface) do
+
+    od;
+        
 
     AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_end.template") );
     AppendTo( output, __SIMPLICIAL_ReadTemplateFromFile("three_footer.template") );
