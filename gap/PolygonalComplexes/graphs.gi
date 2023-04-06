@@ -935,8 +935,8 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		NodesOfCycle,cycle,cyclePair,IsPartOf,possibleCyclesPairs,commonEdges,Possible,e;
 
 		if IsMultiDigraph(digraph) or DigraphHasLoops(digraph) or not IsSymmetricDigraph(digraph) or not IsConnectedDigraph(digraph) then
-                        Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
-                fi;
+            		Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
+        	fi;
 
 		allCycles:=__SIMPLICIAL_AllCyclesOfGraph(digraph);
 
@@ -1065,11 +1065,13 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 				for edge in edgesOfCycle do
 					usedEdges[edge]:=usedEdges[edge]+1;
 				od;
-				
-				cyclesToUse:=BlistList([1..Length(allCycles)],[cycle+1..Length(allCycles)]);
-				cyclesToUse:=DifferenceBlist(cyclesToUse,cyclesOfFace);
-			
-				FindCycleComb(cyclesOfFace,usedEdges,1,graph,cyclesToUse);
+
+                		if ForAll(usedEdges,i->i<3) then
+					cyclesToUse:=BlistList([1..Length(allCycles)],[cycle+1..Length(allCycles)]);
+                   	 		cyclesToUse:=DifferenceBlist(cyclesToUse,cyclesOfFace);
+                    
+                   			FindCycleComb(cyclesOfFace,usedEdges,1,graph,cyclesToUse);
+                		fi;
 			od;
 		end;;
 
@@ -1082,19 +1084,30 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		# CyclesToUse is a Boolean list that stores all the cycles that we are currently allowed to use.
 		# A cycle must not be used if it contains an edge that has already been used twice.
 		FindCycleComb:=function(vertexCycleComb,usedEdges,k,graph,cyclesToUse)
-			local face,umbrellaDesk,kcycle,permissible,cycle,j,e,newUsedEdges,newVertexCycleComb,edgesOfCycle,newCyclesToUse,cy;
+			local admissible, cycleRem, face,umbrellaDesk,kcycle,permissible,cycle,j,e,newUsedEdges,newVertexCycleComb,edgesOfCycle,newCyclesToUse,cy;
 		
 			if ForAll(usedEdges,i->i=2) then
-				umbrellaDesk:=[];
+                		admissible:=true;
+                		for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
+                    			cycleRem:=ShallowCopy(vertexCycleComb);
+                    			cycleRem[cycle]:=false;
+                    			if not Possible(cycle, ListBlist([1..Length(vertexCycleComb)],cycleRem)) then
+                        			admissible:=false;
+                    			fi;
+                		od;
 
-				for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
-					Add(umbrellaDesk,NodesOfCycle(allCycles[cycle]));
-				od;
-			
-				face:=SimplicialSurfaceByUmbrellaDescriptor(umbrellaDesk);
-				if not IsPartOf(face,faces) then
-					Add(faces,face);
-				fi;
+                		if admissible then
+                    			umbrellaDesk:=[];
+
+                    			for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
+                        			Add(umbrellaDesk,NodesOfCycle(allCycles[cycle]));
+                    			od;
+                
+                    			face:=SimplicialSurfaceByUmbrellaDescriptor(umbrellaDesk);
+                    			if not IsPartOf(face,faces) then
+                        			Add(faces,face);
+                    			fi;
+                		fi;
 			else
 				if usedEdges[k]=1 and SizeBlist(cyclesToUse)>0 then
 				
