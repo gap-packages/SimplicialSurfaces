@@ -1088,13 +1088,15 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		
 			if ForAll(usedEdges,i->i=2) then
                 		admissible:=true;
-                		for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
-                    			cycleRem:=ShallowCopy(vertexCycleComb);
-                    			cycleRem[cycle]:=false;
-                    			if not Possible(cycle, ListBlist([1..Length(vertexCycleComb)],cycleRem)) then
-                        			admissible:=false;
-                    			fi;
-                		od;
+                        if vertexFaithful then
+                            for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
+                                    cycleRem:=ShallowCopy(vertexCycleComb);
+                                    cycleRem[cycle]:=false;
+                                    if not Possible(cycle, ListBlist([1..Length(vertexCycleComb)],cycleRem)) then
+                                        admissible:=false;
+                                    fi;
+                            od;
+                        fi;
 
                 		if admissible then
                     			umbrellaDesk:=[];
