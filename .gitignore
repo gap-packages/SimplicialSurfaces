@@ -9,6 +9,9 @@ doc/*.png
 doc/manual.pdf
 doc/manual.six
 tst/*.tst
+# allow the image which cannot be generated
+!doc/GUI.png
+!doc/GUI-1.png
 
 # flatex-folder
 flatex/.deps/

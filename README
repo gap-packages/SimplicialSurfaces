@@ -42,7 +42,8 @@ To compile the pictures, you also need the following bash-commands:
     md5sum
     pdflatex
     sed
-    
+
+For proper latex compilation you need the standalone mode, e.g. from texlive-latex-extra.    
 
 If there are any questions, don't hesitate to ask me.
 

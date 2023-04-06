@@ -1,0 +1,57 @@
+<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://unpkg.com/three@0.148.0/build/three.module.js",
+				"three/addons/": "https://unpkg.com/three@0.148.0/examples/jsm/",
+				"gui": "https://unpkg.com/dat.gui@0.7.9/build/dat.gui.module.js"
+			}
+		}
+	</script>
+
+
+		<script type="module">
+			import * as THREE from 'three';
+			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+			import { GUI } from 'gui';
+			import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+			//start scene and camera
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 100 );
+
+			const renderer = new THREE.WebGLRenderer({ antialias: true });
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			//Lights
+			const skyColor = 0xFFFFFF;
+			const skyIntensity = 0.3;
+			const skyLight = new THREE.AmbientLight(skyColor, skyIntensity);
+			scene.add(skyLight);
+
+			const color = 0xFFFFFF;
+			const intensity = 1;
+			const light = new THREE.PointLight(color, intensity);
+			light.position.set(0, 3, -5);
+			scene.add(light);
+
+			//create groups to add everything to
+            const meshRoot = new THREE.Group();
+            const wireRoot = new THREE.Group();
+            const sphereRoot = new THREE.Group();
+			const edgeRoot = new THREE.Group();
+
+			//parameters for the controls on the top right
+            var guiParameters = new function() { 
+                this.speedX = 0.0; 
+                this.speedY = 0.0; 
+                this.speedZ = 0.0;
+                this.transparency = 1.0;
+                this.edgeVisibility = false;
+            } ;
+
+            //generate a sphere geometry for the vertices
+            const sphereGeometry = new THREE.SphereGeometry( 0.02, 32, 16 );
