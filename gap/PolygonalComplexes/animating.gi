@@ -780,7 +780,7 @@ InstallMethod( GetCircleColour,
 					return default;
 				fi;
 				if not IsBound(printRecord.circleColours[face]) then
-					return default;
+					return default; 
 				fi;
 				return printRecord.circleColours[face];
     end
@@ -823,7 +823,7 @@ BindGlobal( "__SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript",
 # we follow the math and variable names from here: https://math.stackexchange.com/questions/740111/incenter-of-triangle-in-3d
 BindGlobal( "__SIMPLICIAL_CalculateIncenter",
     function(surface,printRecord,face)
-	local a, b, c, A, B, C, atemp, btemo, ctemp, incenter;
+	local a, b, c, A, B, C, atemp, btemp, ctemp, incenter;
 
     #get the coordinates
     A := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord);
@@ -834,13 +834,39 @@ BindGlobal( "__SIMPLICIAL_CalculateIncenter",
     btemp := C-A;
     ctemp := A-B;
 
-    a := Sqrt(Float(a[1]^2+a[2]^2+a[3]^2));
-    b := Sqrt(Float(b[1]^2+b[2]^2+b[3]^2));
-    c := Sqrt(Float(c[1]^2+c[2]^2+c[3]^2));
+    a := Sqrt(Float(atemp[1]^2+atemp[2]^2+atemp[3]^2));
+    b := Sqrt(Float(btemp[1]^2+btemp[2]^2+btemp[3]^2));
+    c := Sqrt(Float(ctemp[1]^2+ctemp[2]^2+ctemp[3]^2));
 
     incenter := a/(a+b+c)*A + b/(a+b+c)*B + c/(a+b+c)*C;
  
 	return incenter;
+    end
+);
+
+# function to calculate the inradius of a triangle/face. Used for inner circles
+# we follow the math and variable names from here: https://en.wikipedia.org/wiki/Incircle_and_excircles_of_a_triangle#Radius
+BindGlobal( "__SIMPLICIAL_CalculateInradius",
+    function(surface,printRecord,face)
+	local a, b, c, A, B, C, atemp, btemp, ctemp, s, inradius;
+
+    #get the coordinates
+    A := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord);
+    B := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord);
+    C := GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord);
+
+    atemp := B-C;
+    btemp := C-A;
+    ctemp := A-B;
+
+    a := Sqrt(Float(atemp[1]^2+atemp[2]^2+atemp[3]^2));
+    b := Sqrt(Float(btemp[1]^2+btemp[2]^2+btemp[3]^2));
+    c := Sqrt(Float(ctemp[1]^2+ctemp[2]^2+ctemp[3]^2));
+
+    s := (a+b+c)/2;
+    inradius := Sqrt(Float( ((s-a)*(s-b)*(s-c)) / s ));
+ 
+	return inradius;
     end
 );
 
@@ -854,7 +880,8 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 		      vertOfFace, vertOfEdge, parametersOfCircle, 
 		      parametersOfEdge, temp, vertex, edge ,face,vertices,edges,
               faceColors, addedFaceColors, uniqueFaceColors, colorPositions, color, coordinateString, edgeThickness,
-		      faces, coordinateStringA, coordinateStringB, edgeVertexA, edgeVertexB, edgeColors, uniqueEdgeColors;	
+		      faces, coordinateStringA, coordinateStringB, coordinateStringC, edgeVertexA, edgeVertexB, edgeColors, uniqueEdgeColors,
+              incenter,inradius;	
     # make sure the defaults are set
     printRecord := __SIMPLICIAL_InitializePrintRecordDrawSurfaceToJavascript(surface, printRecord);
     
@@ -963,7 +990,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
     od;
 
     # for each of the unique colors add the edges to a gemeometry and generate a mesh with corresponding color from it
-    # also generate a wireframe which can be made visible via the gui
+    # also generate a wireframe from the edges which can be made visible via the gui
     for i in [1..Length(uniqueEdgeColors)] do
         color := uniqueEdgeColors[i];
         if not StartsWith(color, "0x") then
@@ -972,7 +999,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
         edgeThickness := printRecord.edgeThickness*100;
         AppendTo(output, """
-            const edgeMaterial""",i,""" = new THREE.LineBasicMaterial( {         
+            const edgeMaterial""",i,""" = new THREE.LineBasicMaterial( {
                 color: """,color,""",
                 linewidth: """,edgeThickness,""",
             } );        
@@ -1055,7 +1082,63 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
     # generate innercircle for all (active) innercircle faces
     for face in Faces(surface) do
+        if(IsInnerCircleActive(surface, face, printRecord)) then
+            #TODO calculate right radius and apply
+            incenter := __SIMPLICIAL_CalculateIncenter(surface, printRecord, face);
+            inradius := __SIMPLICIAL_CalculateInradius(surface, printRecord, face);
+            AppendTo(output, "const ringGeometry",face," = new THREE.RingGeometry(",(inradius-0.005),",",inradius,", 32);\n");
+            AppendTo(output, "const ringMaterial",face," = new THREE.LineBasicMaterial( { color: ",GetCircleColour(surface, face, printRecord),", side: THREE.DoubleSide } );\n");
+            AppendTo(output, "const ringMesh",face," = new THREE.Mesh(ringGeometry",face,", ringMaterial",face,");\n");
 
+            # generate the right strings of the coordinates
+            coordinateStringA := "";
+            Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[1]));
+            Append(coordinateStringA, ",");
+            Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[2]));
+            Append(coordinateStringA, ",");
+            Append(coordinateStringA, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[1], printRecord)[3]));
+
+            coordinateStringB := "";
+            Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[1]));
+            Append(coordinateStringB, ",");
+            Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[2]));
+            Append(coordinateStringB, ",");
+            Append(coordinateStringB, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[2], printRecord)[3]));
+
+            coordinateStringC := "";
+            Append(coordinateStringC, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[1]));
+            Append(coordinateStringC, ",");
+            Append(coordinateStringC, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[2]));
+            Append(coordinateStringC, ",");
+            Append(coordinateStringC, String(GetVertexCoordinates3DNC(surface, VerticesOfFace(surface, face)[3], printRecord)[3]));
+
+            AppendTo(output, """
+                //translate ring to incenter
+                ringMesh""",face,""".translateX(""",incenter[1],""");
+                ringMesh""",face,""".translateY(""",incenter[2],""");
+                ringMesh""",face,""".translateZ(""",incenter[3],""");
+
+                // rotate ring to right angle
+                //calculations for this are done in THREE.js as there are already the right functions for generating and applying the rotation
+                const A""",face,""" = new THREE.Vector3(""",coordinateStringA,""");
+                const B""",face,""" = new THREE.Vector3(""",coordinateStringB,""");
+                const C""",face,""" = new THREE.Vector3(""",coordinateStringC,""");
+
+                const normalVec""",face,""" = new THREE.Vector3();
+                normalVec""",face,""".crossVectors(B""",face,""".sub(A""",face,"""), C""",face,""".sub(A""",face,"""));
+                normalVec""",face,""".normalize();
+
+                //initial normal vector of ringGeometry is (0,0,1), so we use that
+                const initialNormal""",face,""" = new THREE.Vector3(0,0,1);
+
+                const quaternionRotation""",face,""" = new THREE.Quaternion();
+                quaternionRotation""",face,""".setFromUnitVectors(initialNormal""",face,""", normalVec""",face,""");
+
+                ringMesh""",face,""".setRotationFromQuaternion(quaternionRotation""",face,""");
+
+                ringRoot.add(ringMesh""",face,""");
+            """);
+        fi;
     od;
         
 

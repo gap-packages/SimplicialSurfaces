@@ -34,6 +34,7 @@
             scene.add( wireRoot );
             scene.add( sphereRoot );
             scene.add( edgeRoot );
+            scene.add( ringRoot );
 
 
             function animate() {

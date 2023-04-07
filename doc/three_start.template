@@ -43,6 +43,7 @@
             const wireRoot = new THREE.Group();
             const sphereRoot = new THREE.Group();
 			const edgeRoot = new THREE.Group();
+			const ringRoot = new THREE.Group();
 
 			//parameters for the controls on the top right
             var guiParameters = new function() { 
