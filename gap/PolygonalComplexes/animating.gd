@@ -161,26 +161,15 @@ DeclareOperation( "GetVertexCoordinates3DNC", [IsTriangularComplex, IsPosInt, Is
 #! To use these methods it is necessary to set the 3D-coordinates 
 #! of the vertices of the surface (see <K>SetVertexCoordinates3D</K>).
 #!
-#! The method <K>DrawSurfaceToJavaScript</K> always calculates the locations of the edges,
-#! inner circles and normals of inner circles corresponding to the current positions of the vertices.
-#! Therefore, the <A>printRecord</A> will be changed if some parameters are not set to the actual vertex positions.
-#!
-#! The method <K>DrawSurfaceToJavaScriptCalculate</K> has an extra parameter <A>calculate</A>
-#! which is true or false. To avoid permanent recalculation of derived locations,
-#! like for edges, (which should not be an issue during regular usage), you can use the method
-#! <K>DrawSurfaceToJavaScriptCalculate</K> and set <A>calculate = false</A>.
-#! Calculations are only performed at the first call of the method that needs to draw the derived objects.
-#!
-#! If you use the method <K>DrawSurfaceToJavaScriptCalculate</K> with <A>calculate = true</A> the method works like <K>DrawSurfaceToJavaScript</K>.
 #!
 #! There are two parameters to change the output of this method.
 #! There are the following classes of parameters:
 #! * <E>Visibility</E>
 #!   (<Ref Subsect="Section_LabelVisibility"/>): Change the
-#!   visibility of vertices, and faces.
+#!   visibility of vertices, edges and faces.
 #! * <E>Colours</E>
 #!   (<Ref Subsect="Section_LabelColouring"/>): Change the
-#!   colours of vertices, and faces.
+#!   colours of vertices, edges and faces.
 #!
 #! There are also options for inner circles (<Ref Subsect="Section_LabelInnerCirclesAnimating"/>)
 #! and normals of inner circles (<Ref Subsect="Section_LabelNormalsInnerCirclesAnimating"/>).
@@ -579,7 +568,7 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsTriangularComplex, IsRe
 #! 
 
 #! A normal of an inner circle (compare Section <Ref Sect="Section_LabelInnerCirclesAnimating"/>) is a line
-#! intersecting the center of the circle orthogonally.
+#! intersecting the center of the incircle orthogonally or to say in other words it intersects the incenter and extends orthogonally w.r.t. the face in both directions.
 #!
 #! The normal vectors of inner circles can be (de-)activated like vertices, edges, and faces.
 #! If the are active, they have the colour of the corresponding inner circle.
