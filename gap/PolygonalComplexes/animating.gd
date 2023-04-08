@@ -429,7 +429,6 @@ DeclareOperation( "GetFaceColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 
 #! @Section Inner Circles
 #! @SectionLabel LabelInnerCirclesAnimating
-#! <E>This is currently not working due to the newly implemented version of three.js. It is planned to reimplement these functions again in the future.</E>
 #! 
 #! Inner circles are defined for triangular faces.
 #! In the animation, they are circles within the face that touch each edge in exactly one point.
@@ -564,9 +563,6 @@ DeclareOperation( "CalculateParametersOfInnerCircle", [IsTriangularComplex, IsRe
 #! @Section Normals of Inner Circles
 #! @SectionLabel LabelNormalsInnerCirclesAnimating
 #!
-#! <E>This is currently not working due to the newly implemented version of three.js. It is planned to reimplement these functions again in the future.</E>
-#! 
-
 #! A normal of an inner circle (compare Section <Ref Sect="Section_LabelInnerCirclesAnimating"/>) is a line
 #! intersecting the center of the incircle orthogonally or to say in other words it intersects the incenter and extends orthogonally w.r.t. the face in both directions.
 #!
