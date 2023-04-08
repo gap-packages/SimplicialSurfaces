@@ -1177,6 +1177,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             btemp := incenter+normal;
 
             # add to string for later use
+            Append(coordinateString, "\t \t \t");
             Append(coordinateString, String(atemp[1]));
             Append(coordinateString, ",");
             Append(coordinateString, String(atemp[2]));
@@ -1184,6 +1185,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
             Append(coordinateString, String(atemp[3]));
             Append(coordinateString, ", \n");
 
+            Append(coordinateString, "\t \t \t");
             Append(coordinateString, String(btemp[1]));
             Append(coordinateString, ",");
             Append(coordinateString, String(btemp[2]));
