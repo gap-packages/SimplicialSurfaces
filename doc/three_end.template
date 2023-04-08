@@ -35,6 +35,7 @@
             scene.add( sphereRoot );
             scene.add( edgeRoot );
             scene.add( ringRoot );
+            scene.add( normalsRoot );
 
 
             function animate() {
