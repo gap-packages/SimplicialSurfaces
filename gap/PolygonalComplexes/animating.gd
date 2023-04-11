@@ -459,21 +459,7 @@ DeclareOperation( "GetFaceColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! @EndLog
 #! @InsertChunk Example_OctahedronInnerCircle
 
-#! Consider the octahedron if the faces are deactivated:
-#! @BeginLog
-#! gap> oct := Octahedron();;
-#! gap> verticesPositions := [
-#! > [ 0, 0, Sqrt(2.) ],
-#! > [ 1, 1, 0 ],
-#! > [ 1, -1, 0 ],
-#! > [ -1, -1, 0 ],
-#! > [ -1, 1, 0 ],
-#! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
-#! gap> printRecord := DeactivateFaces(oct,printRecord);;
-#! gap> printRecord := ActivateInnerCircles(oct,printRecord);;
-#! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
-#! @EndLog
+#! Consider the same example if we increased the transparency of the faces:
 #! @InsertChunk Example_OctahedronInnerCircleWithoutFaces
 
 #! @BeginGroup ActivateInnerCircles
@@ -617,6 +603,8 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsTriangularComplex, IsPosIn
 
 #! @Section Additional Parameters
 #! @SectionLabel AdditionalParameters
+#! <E> This is currently not working, check https://github.com/schnellecom/SimplicialSurfaces/issues/14 </E> 
+#!
 #! The printRecord can have optional parameters to modify the output in the html file.
 
 #! In large examples it can be a hard to recognize the edges.
@@ -637,7 +625,8 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsTriangularComplex, IsPosIn
 #! gap> printRecord.edgeThickness:=0.05;
 #! gap> DrawSurfaceToJavaScript(oct, "doc/Octahedron_ThickEdges.html", printRecord);;
 #! @EndLog
-#! @InsertChunk Example_OctahedronThickEdges
+#TODO: activate as soon as it works again
+# @InsertChunk Example_OctahedronThickEdges
 
 #! @Section Deprecated functions
 #! @SectionLabel Deprecated functions
