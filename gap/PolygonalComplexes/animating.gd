@@ -161,26 +161,15 @@ DeclareOperation( "GetVertexCoordinates3DNC", [IsTriangularComplex, IsPosInt, Is
 #! To use these methods it is necessary to set the 3D-coordinates 
 #! of the vertices of the surface (see <K>SetVertexCoordinates3D</K>).
 #!
-#! The method <K>DrawSurfaceToJavaScript</K> always calculates the locations of the edges,
-#! inner circles and normals of inner circles corresponding to the current positions of the vertices.
-#! Therefore, the <A>printRecord</A> will be changed if some parameters are not set to the actual vertex positions.
-#!
-#! The method <K>DrawSurfaceToJavaScriptCalculate</K> has an extra parameter <A>calculate</A>
-#! which is true or false. To avoid permanent recalculation of derived locations,
-#! like for edges, (which should not be an issue during regular usage), you can use the method
-#! <K>DrawSurfaceToJavaScriptCalculate</K> and set <A>calculate = false</A>.
-#! Calculations are only performed at the first call of the method that needs to draw the derived objects.
-#!
-#! If you use the method <K>DrawSurfaceToJavaScriptCalculate</K> with <A>calculate = true</A> the method works like <K>DrawSurfaceToJavaScript</K>.
 #!
 #! There are two parameters to change the output of this method.
 #! There are the following classes of parameters:
 #! * <E>Visibility</E>
 #!   (<Ref Subsect="Section_LabelVisibility"/>): Change the
-#!   visibility of vertices, and faces.
+#!   visibility of vertices, edges and faces.
 #! * <E>Colours</E>
 #!   (<Ref Subsect="Section_LabelColouring"/>): Change the
-#!   colours of vertices, and faces.
+#!   colours of vertices, edges and faces.
 #!
 #! There are also options for inner circles (<Ref Subsect="Section_LabelInnerCirclesAnimating"/>)
 #! and normals of inner circles (<Ref Subsect="Section_LabelNormalsInnerCirclesAnimating"/>).
@@ -440,7 +429,6 @@ DeclareOperation( "GetFaceColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 
 #! @Section Inner Circles
 #! @SectionLabel LabelInnerCirclesAnimating
-#! <E>This is currently not working due to the newly implemented version of three.js. It is planned to reimplement these functions again in the future.</E>
 #! 
 #! Inner circles are defined for triangular faces.
 #! In the animation, they are circles within the face that touch each edge in exactly one point.
@@ -454,10 +442,6 @@ DeclareOperation( "GetFaceColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 #!   <Item>Activate and deactivate inner circles. If an inner circle is active, then it is shown in the animation.
 #!         (See <Ref Subsect="ActivateInnerCircles"/>)</Item>
 #!   <Item>Set colours of inner circles for the animation. (See <Ref Subsect="SetCircleColours"/>)</Item>
-#!   <Item> If the manual-calculation mode from Section <Ref Subsect="DrawSurfaceToJavaScript"/> is used,
-#!          inner circles (like edges) have to be manually recomputed. The method is <K>CalculateParametersOfInnerCircle</K>
-#!          (see <Ref Subsect="CalculateParametersOfInnerCircle"/>). Compare the description in Section
-#!          <Ref Subsect="DrawSurfaceToJavaScript"/> for more details on this mode. </Item>
 #! </Enum>
 #! For example, consider the octahedron:
 #! @BeginLog
@@ -474,21 +458,8 @@ DeclareOperation( "GetFaceColour", [IsTriangularComplex, IsPosInt, IsRecord] );
 #! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
 #! @EndLog
 #! @InsertChunk Example_OctahedronInnerCircle
-#! @BeginLog
-#! gap> oct := Octahedron();;
-#! gap> verticesPositions := [
-#! > [ 0, 0, Sqrt(2.) ],
-#! > [ 1, 1, 0 ],
-#! > [ 1, -1, 0 ],
-#! > [ -1, -1, 0 ],
-#! > [ -1, 1, 0 ],
-#! > [ 0, 0, -Sqrt(2.) ] ];;
-#! gap> printRecord := SetVertexCoordinates3D(oct, verticesPositions, rec());;
-#! gap> printRecord := DeactivateFaces(oct,printRecord);;
-#! gap> printRecord := ActivateInnerCircles(oct,printRecord);;
-#! gap> DrawSurfaceToJavaScript(oct, "Octahedron_InnerCircle.html", printRecord);;
-#! @EndLog
-#! Consider the octahedron if the faces are deactivated:
+
+#! Consider the same example if we increased the transparency of the faces:
 #! @InsertChunk Example_OctahedronInnerCircleWithoutFaces
 
 #! @BeginGroup ActivateInnerCircles
@@ -555,31 +526,14 @@ DeclareOperation( "GetCircleColour", [IsTriangularComplex, IsPosInt, IsRecord] )
 
 #! @BeginGroup CalculateParametersOfInnerCircle
 #! @Description
-#! This method calculates the parameters of the inner circles (incenter, radius, angles relative to x-y-plane)
-#! and their normal vectors (angles relative to x-direction) based on the
-#! 3D-coordinates of the vertices and saves those to the print record.
-#! For the description of inner circles look at <Ref Sect="Section_LabelInnerCirclesAnimating"/>.
-#!
-#! Note that this is necessary for the animation. Therefore, the method <K>CalculateParametersOfInnerCircle</K>
-#! gets called after using the method <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>)
-#! if no locations are calculated for the inner circles. If parameters are set for the inner circles and the
-#! 3D-coordinates of a vertex has been changed, then you have to call the method <K>CalculateParametersOfInnerCircle</K>
-#! manual again if you use the method <K>DrawSurfaceToJavaScriptCalculate</K> with <A>calculate = false</A>.
-#! Otherwise the animation will be not necessarily correct. If you use the method
-#! <K>DrawSurfaceToJavaScript</K>(<Ref Subsect="DrawSurfaceToJavaScript"/>) the parameters will be updated automatically.
-#! @Returns the updated print record.
-#! @Arguments surface, printRecord
-DeclareOperation( "CalculateParametersOfInnerCircle", [IsTriangularComplex, IsRecord] );
+#! This method was deprecated. As long as one InnerCircle is activated the parameters will be calculated
 #! @EndGroup
 
 #! @Section Normals of Inner Circles
 #! @SectionLabel LabelNormalsInnerCirclesAnimating
 #!
-#! <E>This is currently not working due to the newly implemented version of three.js. It is planned to reimplement these functions again in the future.</E>
-#! 
-
 #! A normal of an inner circle (compare Section <Ref Sect="Section_LabelInnerCirclesAnimating"/>) is a line
-#! intersecting the center of the circle orthogonally.
+#! intersecting the center of the incircle orthogonally or to say in other words it intersects the incenter and extends orthogonally w.r.t. the face in both directions.
 #!
 #! The normal vectors of inner circles can be (de-)activated like vertices, edges, and faces.
 #! If the are active, they have the colour of the corresponding inner circle.
@@ -649,6 +603,8 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsTriangularComplex, IsPosIn
 
 #! @Section Additional Parameters
 #! @SectionLabel AdditionalParameters
+#! <E> This is currently not working, check https://github.com/schnellecom/SimplicialSurfaces/issues/14 </E> 
+#!
 #! The printRecord can have optional parameters to modify the output in the html file.
 
 #! In large examples it can be a hard to recognize the edges.
@@ -669,7 +625,8 @@ DeclareOperation( "DeactivateNormalOfInnerCircle", [IsTriangularComplex, IsPosIn
 #! gap> printRecord.edgeThickness:=0.05;
 #! gap> DrawSurfaceToJavaScript(oct, "doc/Octahedron_ThickEdges.html", printRecord);;
 #! @EndLog
-#! @InsertChunk Example_OctahedronThickEdges
+#TODO: activate as soon as it works again
+# @InsertChunk Example_OctahedronThickEdges
 
 #! @Section Deprecated functions
 #! @SectionLabel Deprecated functions
@@ -699,5 +656,8 @@ DeclareOperation( "RemoveTransparencyJava", [IsTriangularComplex, IsPosInt, IsRe
 
 #! @Arguments surface, face, printRecord
 DeclareOperation( "GetTransparencyJava", [IsTriangularComplex, IsPosInt, IsRecord] );
+
+#! @Arguments surface, printRecord
+DeclareOperation( "CalculateParametersOfInnerCircle", [IsTriangularComplex, IsRecord] );
 
 #! @EndGroup
