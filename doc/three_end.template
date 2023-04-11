@@ -27,6 +27,7 @@
             const controlFolder = gui.addFolder("Controls");
             controlFolder.add(guiParameters, "transparency", 0, 1);
             controlFolder.add(guiParameters, "edgeVisibility");
+            controlFolder.add(guiParameters, "vertexVisibility");
             controlFolder.open();
 
             // add both roots to the scene
@@ -65,6 +66,12 @@
                 edgeRoot.traverse( function( node ) {
                     if ( node instanceof THREE.LineSegments ) {
                         node.material.visible = guiParameters.edgeVisibility;
+                    }
+                } );
+
+                sphereRoot.traverse( function( node ) {
+                    if ( node instanceof THREE.Mesh ) {
+                        node.material.visible = guiParameters.vertexVisibility;
                     }
                 } );
 

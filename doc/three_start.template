@@ -53,7 +53,9 @@
                 this.speedZ = 0.0;
                 this.transparency = 1.0;
                 this.edgeVisibility = false;
+				this.vertexVisibility = true;
             } ;
 
             //generate a sphere geometry for the vertices
             const sphereGeometry = new THREE.SphereGeometry( 0.02, 32, 16 );
+			sphereGeometry.transparent = guiParameters.vertexVisibility;
