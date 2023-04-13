@@ -14,6 +14,9 @@
 #! @Chapter Animating surfaces with Java Script
 #! @ChapterLabel AnimationJavaScript
 #!
+#! <E> There is a newer version available in beta at the following branch: <C>animations</C>. It implements a newer revision of the three.js framework
+#! and some other improvements. To use it, just type <C>git checkout animations</C>. </E>
+#! 
 #! This chapter deals with animating simplicial surfaces via Java Script
 #! using three.js, see <URL>https://threejs.org/</URL>.
 
