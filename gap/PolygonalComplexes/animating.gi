@@ -1098,7 +1098,7 @@ InstallMethod( DrawSurfaceToJavaScriptCalculate,
 
             const vertexLabel""",vertex,""" = new CSS2DObject( lableDiv""",vertex,""" );
             vertexLabel""",vertex,""".position.set(""",coordinateString,""");
-            meshRoot.add( vertexLabel""",vertex,""" );
+            sphereRoot.add( vertexLabel""",vertex,""" );
 
             """);
         fi;

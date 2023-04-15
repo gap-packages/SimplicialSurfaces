@@ -53,6 +53,18 @@
                 sphereRoot.rotation.y += guiParameters.speedY/100;
                 sphereRoot.rotation.z += guiParameters.speedZ/100;
 
+                edgeRoot.rotation.x += guiParameters.speedX/100;
+                edgeRoot.rotation.y += guiParameters.speedY/100;
+                edgeRoot.rotation.z += guiParameters.speedZ/100;
+
+                ringRoot.rotation.x += guiParameters.speedX/100;
+                ringRoot.rotation.y += guiParameters.speedY/100;
+                ringRoot.rotation.z += guiParameters.speedZ/100;
+
+                normalsRoot.rotation.x += guiParameters.speedX/100;
+                normalsRoot.rotation.y += guiParameters.speedY/100;
+                normalsRoot.rotation.z += guiParameters.speedZ/100;
+
                 //update the light when the camera moves (with orbitcontrols)
                 light.position.set(camera.position.x, camera.position.y, camera.position.z);
 
@@ -72,6 +84,9 @@
                 sphereRoot.traverse( function( node ) {
                     if ( node instanceof THREE.Mesh ) {
                         node.material.visible = guiParameters.vertexVisibility;
+                    }
+                    if( node instanceof CSS2DObject) {
+                        node.visible = guiParameters.vertexVisibility;
                     }
                 } );
 
