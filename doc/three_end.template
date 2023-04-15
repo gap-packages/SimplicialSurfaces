@@ -85,6 +85,9 @@
                     if ( node instanceof THREE.Mesh ) {
                         node.material.visible = guiParameters.vertexVisibility;
                     }
+                    if( node instanceof CSS2DObject) {
+                        node.visible = guiParameters.vertexVisibility;
+                    }
                 } );
 
                 controls.update();
