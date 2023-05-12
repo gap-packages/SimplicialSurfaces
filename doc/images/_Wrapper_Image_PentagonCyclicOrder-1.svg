@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?> 
+<?xml-stylesheet href="_Wrapper_Image_PentagonCyclicOrder.css" type="text/css"?> 
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="141.35782pt" height="121.8504pt" viewBox="-70.67891 -52.27345 141.35782 121.8504 "> 
+<g transform="translate(0,69.57695 ) scale(1,-1) translate(0,52.27345 )"> 
+             <g stroke="#000" fill="#000">
+ <g stroke-width="0.4">
+ <g stroke-linejoin="round">
+ <g stroke="#000">
+ <g fill="#ff6">
+ <path d=" M 33.44812 -46.03772 L 54.12082 17.58498 L 0.0 56.90549 L -54.12082 17.58498 L -33.44812 -46.03772 Z  " />
+ <g stroke="#00f" fill="#00f">
+ <g stroke="#00f" fill="#00f">
+ </g>
+ <g transform="translate(36.9811,-47.4405)">
+ <g fill="#00f">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.84607,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#00f">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">v</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">1</tspan></tspan></g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#ccf">
+ <g fill="#ccf">
+ <path d=" M 36.21803 -19.99684 h 15.13287 v 11.54092 h -15.13287 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(39.55101,-15.66388)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">1</tspan> </tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g stroke="#00f" fill="#00f">
+ <g stroke="#00f" fill="#00f">
+ </g>
+ <g transform="translate(57.6538,16.18219)">
+ <g fill="#00f">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.84607,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#00f">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">v</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">2</tspan></tspan></g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#ccf">
+ <g fill="#ccf">
+ <path d=" M 19.49397 31.47476 h 15.13287 v 11.54092 h -15.13287 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(22.82695,35.80772)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">2</tspan> </tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g stroke="#00f" fill="#00f">
+ <g stroke="#00f" fill="#00f">
+ </g>
+ <g transform="translate(-4.84607,61.93843)">
+ <g fill="#00f">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.84607,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#00f">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">v</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">3</tspan></tspan></g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#ccf">
+ <g fill="#ccf">
+ <path d=" M -34.62685 31.47478 h 15.13287 v 11.54092 h -15.13287 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(-31.29387,35.80774)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">3</tspan> </tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g stroke="#00f" fill="#00f">
+ <g stroke="#00f" fill="#00f">
+ </g>
+ <g transform="translate(-67.34593,16.18219)">
+ <g fill="#00f">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.84607,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#00f">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">v</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">4</tspan></tspan></g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#ccf">
+ <g fill="#ccf">
+ <path d=" M -51.3509 -19.99683 h 15.13287 v 11.54092 h -15.13287 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(-48.01793,-15.66386)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">4</tspan> </tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g stroke="#00f" fill="#00f">
+ <g stroke="#00f" fill="#00f">
+ </g>
+ <g transform="translate(-46.67323,-47.4405)">
+ <g fill="#00f">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.84607,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#00f">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">v</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">5</tspan></tspan></g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#ccf">
+ <g fill="#ccf">
+ <path d=" M -7.56644 -51.80818 h 15.13287 v 11.54092 h -15.13287 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(-4.23346,-47.47522)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">5</tspan> </tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ </g>
+ </g>
+ </g>
+ <g fill="#00f">
+ <g fill="#00f">
+ <path d=" M 35.44812 -46.03772 C 35.44812 -44.93314 34.5527 -44.03772 33.44812 -44.03772 C 32.34354 -44.03772 31.44812 -44.93314 31.44812 -46.03772 C 31.44812 -47.1423 32.34354 -48.03772 33.44812 -48.03772 C 34.5527 -48.03772 35.44812 -47.1423 35.44812 -46.03772 Z M 33.44812 -46.03772  " stroke="none"/>
+ </g>
+ <g transform="translate(33.44812,-46.03772)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(0.0,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#00f">
+ <g fill="#00f">
+ <path d=" M 56.12082 17.58498 C 56.12082 18.68956 55.2254 19.58498 54.12082 19.58498 C 53.01624 19.58498 52.12082 18.68956 52.12082 17.58498 C 52.12082 16.4804 53.01624 15.58498 54.12082 15.58498 C 55.2254 15.58498 56.12082 16.4804 56.12082 17.58498 Z M 54.12082 17.58498  " stroke="none"/>
+ </g>
+ <g transform="translate(54.12082,17.58498)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(0.0,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#00f">
+ <g fill="#00f">
+ <path d=" M 2.0 56.90549 C 2.0 58.01007 1.10458 58.90549 0.0 58.90549 C -1.10458 58.90549 -2.0 58.01007 -2.0 56.90549 C -2.0 55.8009 -1.10458 54.90549 0.0 54.90549 C 1.10458 54.90549 2.0 55.8009 2.0 56.90549 Z M 0.0 56.90549  " stroke="none"/>
+ </g>
+ <g transform="translate(0.0,56.90549)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(0.0,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#00f">
+ <g fill="#00f">
+ <path d=" M -52.12082 17.58498 C -52.12082 18.68956 -53.01624 19.58498 -54.12082 19.58498 C -55.2254 19.58498 -56.12082 18.68956 -56.12082 17.58498 C -56.12082 16.4804 -55.2254 15.58498 -54.12082 15.58498 C -53.01624 15.58498 -52.12082 16.4804 -52.12082 17.58498 Z M -54.12082 17.58498  " stroke="none"/>
+ </g>
+ <g transform="translate(-54.12082,17.58498)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(0.0,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g fill="#00f">
+ <g fill="#00f">
+ <path d=" M -31.44812 -46.03772 C -31.44812 -44.93314 -32.34354 -44.03772 -33.44812 -44.03772 C -34.5527 -44.03772 -35.44812 -44.93314 -35.44812 -46.03772 C -35.44812 -47.1423 -34.5527 -48.03772 -33.44812 -48.03772 C -32.34354 -48.03772 -31.44812 -47.1423 -31.44812 -46.03772 Z M -33.44812 -46.03772  " stroke="none"/>
+ </g>
+ <g transform="translate(-33.44812,-46.03772)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(0.0,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g transform="matrix(2.0,0.0,0.0,2.0,-10.55551,-5.0)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(5.27776,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none">  <tspan font-family="msam" font-size="10">&#x21BA;</tspan></g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ </g>
+ 
+                           </g> 
+</svg> 

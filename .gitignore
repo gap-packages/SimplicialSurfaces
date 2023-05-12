@@ -10,6 +10,9 @@ doc/manual.pdf
 doc/manual.six
 tst/*.tst
 
+# allow pre-generated images
+!doc/images/*
+
 # flatex-folder
 flatex/.deps/
 flatex/Makefile
