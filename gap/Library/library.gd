@@ -494,8 +494,14 @@ DeclareOperation( "SimplicialUmbrella", [ IsPosInt ] );
 #! with <A>nrFaces</A> triangles. The labels are assigned according
 #! to the following illustration (for <M>n</M> odd), 
 #! in which <M>n</M> is <A>nrFaces</A>.
-#! <Alt Only="TikZ">
-#!   \input{Image_SimplicialOpenGeodesic.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SimplicialOpenGeodesic-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SimplicialOpenGeodesic.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! @ExampleSession
@@ -533,8 +539,14 @@ DeclareOperation( "SimplicialStrip", [ IsPosInt ] );
 #! The labels are assigned according
 #! to the following illustration (for <M>n</M> odd), 
 #! in which <M>n</M> is <A>nrFaces</A>.
-#! <Alt Only="TikZ">
-#!   \input{Image_SimplicialClosedGeodesic.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SimplicialClosedGeodesic-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SimplicialClosedGeodesic.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! @ExampleSession

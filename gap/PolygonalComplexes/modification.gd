@@ -58,8 +58,14 @@
 #! return the new labels to make further modification easier.
 #!
 #! This will be illustrated on a hexagon.
-#! <Alt Only="TikZ">
-#!   \input{Image_SplitExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> hex := SimplicialSurfaceByDownwardIncidence(
@@ -120,8 +126,14 @@
 #! gap> VertexEdgePathByEdges(hex, [4,1]);
 #! | v4, E4, v7, E1, v1 |
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_SplitExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> hexCut := SplitVertexEdgePath( hex, cutPath );;
@@ -183,8 +195,14 @@
 #! [ 6, 7 ] are the new edge labels, because the new edge labels are not given and 
 #! edge 2 is incident to two faces and the maximal edge label is 5.
 #!
-#! <Alt Only="TikZ">
-#!      \input{Image_Eye_Open.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Eye_Open-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Eye_Open.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The NC-version does not check whether <A>edge</A> is an actual edge of
@@ -220,8 +238,14 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! which is shifted by the maximal vertex label in each entry.
 #!
 #! For example consider the following triangular complex:
-#! <Alt Only="TikZ">
-#!   \input{Image_EdgeFacePath_ramified.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_EdgeFacePath_ramified.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> ramSurf := PolygonalComplexByDownwardIncidence(
@@ -288,8 +312,14 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! gap> complex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],
 #! > [3,4],[3,5],[5,6],[3,6],[3,7],[6,7]],[[1,2,3],[3,4,5],[6,7,8],[8,9,10]]);;
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_SplitEdgePath.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitEdgePath-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitEdgePath.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> path:=VertexEdgePathByEdges(complex,[3,8]);;
@@ -356,8 +386,14 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! gap> complex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],
 #! > [3,4],[3,5],[5,6],[3,6],[3,7],[6,7]],[[1,2,3],[3,4,5],[6,7,8],[8,9,10]]);;
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_SplitEdgePath.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitEdgePath-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitEdgePath.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> path:=VertexEdgePathByEdges(complex,[3,8]);;
@@ -375,8 +411,14 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! 2
 #! @EndExampleSession
 #! The second output shows in which two path the original path was split.
-#! <Alt Only="TikZ">
-#!   \input{Image_SplittedEdgePath.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplittedEdgePath-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplittedEdgePath.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
@@ -399,8 +441,14 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! * restrict a polygonal complex to a subset of faces
 #!
 #! The functions will be illustrated on a hexagon.
-#! <Alt Only="TikZ">
-#!   \input{Image_SplitExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> hex := SimplicialSurfaceByDownwardIncidence(
@@ -443,8 +491,14 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! gap> SubcomplexByFaces(hex,[2,5]);
 #! triangular complex (5 vertices, 6 edges, and 2 faces)
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_Hexagon_RemovedFace.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Hexagon_RemovedFace-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Hexagon_RemovedFace.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The NC-version does not check whether the given set of <A>faces</A>
@@ -484,8 +538,14 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsTwistedPolygonalComplex, IsSet] );
 #! gap> IsClosedSurface(tetraRemoved);
 #! false
 #! @EndExampleSession
-#!  <Alt Only="TikZ">
-#!   \input{Image_Tetra_RemovedFace.tex}
+#!   <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Tetra_RemovedFace-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Tetra_RemovedFace.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The NC-version does not check whether the given set of <A>faces</A> 
@@ -653,8 +713,14 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! gap> edgeJoin[2];
 #! 1
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_SplitExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! These two joining operations can also be combined by using a vertex-edge-path 
 #! (introduced in section  <Ref Sect="Section_Paths_VertexEdge"/>).
@@ -691,8 +757,14 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! gap> NumberOfConnectedComponents(hex[1]);
 #! 1
 #! @EndExampleSession
-#!  <Alt Only="TikZ">
-#!   \input{Image_SplitExample.tex}
+#!   <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @BeginGroup JoinVertices
@@ -723,8 +795,14 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! @BeginExampleSession
 #! gap> octa := Octahedron();;
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Octahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! It is possible to join vertices on opposite sides, for example 1 and 6.
 #! @BeginExampleSession
@@ -848,8 +926,14 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! 7
 #! @EndExampleSession
 #! Since 6 is the maximal edge label, 7 is the label of the new edge.
-#! <Alt Only="TikZ">
-#!     \input{Image_Eye_OpenClosed.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Eye_OpenClosed-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Eye_OpenClosed.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> EdgeAnomalyClasses(closeEye[1]);
@@ -886,8 +970,14 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! complex and the second entry is the label of the new face.
 #!
 #! For example consider the Janus-head. The two faces have equal incident edges so they can be joined:
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Janus_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> JoinFaces(JanusHead(),1,2,1);
@@ -895,8 +985,14 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! @EndExampleSession
 #! The resulting surface is the one-face. Since 1 is the optional argument
 #! <A>newFaceLabel</A>, 1 is the label of the new face.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_theTriangle.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theTriangle-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_theTriangle.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The NC-versions do not check whether the given faces are distinct faces
@@ -1024,8 +1120,14 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! [<A>vertex</A>, <A>edge</A>].
 #!
 #! For example, consider the following simplicial surface:
-#! <Alt Only="TikZ">
-#!  \input{Image_FourGon.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FourGon-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_FourGon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
@@ -1065,8 +1167,14 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! two vertex-edge-paths.
 #!
 #! For example, consider the following simplicial surface:
-#! <Alt Only="TikZ">
-#!  \input{Image_FourGon.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FourGon-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_FourGon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
@@ -1104,8 +1212,14 @@ DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
 #! The function returns <A>fail</A>, if <A>surface</A> is not a simplicial
 #! sphere.
 #! As an example consider the octahedron.
-#! <Alt Only="TikZ">
-#!  \input{_TIKZ_Octahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> alltori:=AllToriOfSimplicialSphere(Octahedron());
@@ -1117,8 +1231,14 @@ DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
 #! The simplicial surface <A>torus</A> is constructed by identifying the faces
 #! 1 and 8. Since mending two faces introduces an identification of the
 #! incident vertices and edges, there are new edge and vertex labels introduced.
-#! <Alt Only="TikZ">
-#!  \input{Image_TorusOcta.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TorusOcta-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TorusOcta.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @Arguments surface
@@ -1256,8 +1376,14 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! tetrahedron on the given face. This can be seen as a subdivision of the 
 #! given surface which arises by subdividing a face into three
 #! new faces.
-#! <Alt Only="TikZ">
-#!      \input{Image_TetraExt.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TetraExt-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TetraExt.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! So, this modification results in increasing the number of
 #! vertices by 1, the number of edges by 3 and the number of faces by 2.
@@ -1277,8 +1403,14 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! [ 2, 3, 4, 5, 6, 7 ]
 #! @EndExampleSession
 #!
-#! <Alt Only="TikZ">
-#!      \input{Image_TetrahedralExtension.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TetrahedralExtension-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TetrahedralExtension.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @Returns a surface
 #! @Arguments surface, face [,newVertexLable]
@@ -1290,14 +1422,26 @@ DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt,IsPosIn
 #! Given a simplicial surface and a vertex of face degree 3 a new surface can
 #! be constructed by removing the faces incident to <K>vertex</K> in
 #! <K>surface</K> and attaching a new face to the resulting boundary edges.
-#! <Alt Only="TikZ">
-#!      \input{Image_TetraRed.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TetraRed-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TetraRed.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! So, this modification results in decreasing the number of vertices by 1, the 
 #! number of edges by 3 and the number of faces by 2. As an Example consider
 #! the double tetrahedron.
-#! <Alt Only="TikZ">
-#!      \input{Image_DoubleTetrahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_DoubleTetrahedron.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;
@@ -1454,8 +1598,14 @@ DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
 #! without relabelling this edge. So after this modification on the simplicial
 #! surface <K>surface</K> the set of edges remains the same.
 #! For example, consider the octahedron:
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Octahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! Turning the edge 1 results in
 #! @BeginExampleSession
@@ -1468,8 +1618,14 @@ DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
 #! [ [ 1, 2, 4 ], [ 6, 7, 12 ], [ 1, 5, 6 ], [ 5, 7, 9 ], [ 3, 4, 10 ], [ 8, 9, 11 ],
 #! [ 2, 3, 8 ], [ 10, 11, 12 ] ]
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_ETOctahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ETOctahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_ETOctahedron.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The same process can also be done by relabelling the turned edge.
@@ -1587,8 +1743,14 @@ DeclareAttribute( "BuildingBlocks", IsSimplicialSurface);
 #! edges that fulfill these conditions.
 #!
 #! For example, consider the Janus-head:
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Janus_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! Applying a crater cut to the Janus-head yields the open bag:
 #! @BeginExampleSession
@@ -1659,8 +1821,14 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! gap> IsIsomorphic(last,JanusHead());
 #! true
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Janus_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! This could be implemented like this:
@@ -1765,8 +1933,14 @@ DeclareAttribute( "RipCuttableEdges", IsPolygonalComplex );
 #! performed and <K>fail</K> will be returned.
 #!
 #! For example, consider the butterfly:
-#! <Alt Only="TikZ">
-#!       \input{Image_Butterfly.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);
@@ -1848,8 +2022,14 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! satisfying this property.
 #!
 #! For example, consider the butterfly:
-#! <Alt Only="TikZ">
-#!        \input{Image_Butterfly.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);
@@ -1868,8 +2048,14 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! gap> IsIsomorphic(butterflySplit,twoOneFaces);
 #! true
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_TwoDisjointOneFaces.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TwoDisjointOneFaces-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TwoDisjointOneFaces.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! This could be implemented like this:
@@ -1913,8 +2099,14 @@ DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
 #! be joined are connected by an edge), <K>fail</K> is returned.
 #!
 #! For example, consider the disjoint union of two one-faces:
-#! <Alt Only="TikZ">
-#!   \input{Image_TwoDisjointOneFaces.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TwoDisjointOneFaces-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TwoDisjointOneFaces.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> twoOneFaces:=DisjointUnion(oneFace,oneFace)[1];
@@ -1942,8 +2134,14 @@ DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
 #! gap> IsIsomorphic(last,butterfly);
 #! true
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!        \input{Image_Butterfly.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! This could be implemented like this:

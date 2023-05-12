@@ -76,9 +76,15 @@
 #!     We illustrate this with two paths on the simplicial surface that was
 #!     introduced at the start of section 
 #!     <Ref Sect="Section_Paths_VertexEdge"/>.
-#!     <Alt Only="TikZ">
-#!       \input{Image_SixTriangles_AlphaAndOmega.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SixTriangles_AlphaAndOmega.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #!     @ExampleSession
 #! gap> alphaPath := VertexEdgePath(hex, [2,2,7,5,5,10,4,9,3,3,7,6,6]);
 #! | v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
@@ -88,9 +94,15 @@
 #!
 #!     @InsertChunk Definition_VertexEdgePath
 #!
-#!     <Alt Only="TikZ">
-#!       \input{Image_SixTriangles_CircleAndClover.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_CircleAndClover-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SixTriangles_CircleAndClover.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #!     @ExampleSession
 #! gap> circlePath := VertexEdgePath( hex, [1,7,2,8,3,9,4,10,5,11,6,12,1] );
 #! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
@@ -140,9 +152,15 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #! gap> omegaPath = newOmega;
 #! true
 #! @EndExampleSession
-#!     <Alt Only="TikZ">
-#!       \input{Image_SixTriangles_AlphaAndOmega.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SixTriangles_AlphaAndOmega.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! 
 #! An example of the ambiguous nature is this triangular complex:
 #! <Alt Only="TikZ">
@@ -192,9 +210,15 @@ DeclareOperation( "VertexEdgePathByVerticesNC", [IsPolygonalComplex, IsDenseList
 #! gap> omegaPath = newOmega;
 #! true
 #! @EndExampleSession
-#!     <Alt Only="TikZ">
-#!       \input{Image_SixTriangles_AlphaAndOmega.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SixTriangles_AlphaAndOmega.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! 
 #! An example of the ambiguous nature is this triangular complex:
 #! <Alt Only="TikZ">
@@ -321,9 +345,15 @@ DeclareAttribute( "EdgesAsList", IsVertexEdgePath );
 #! gap> IsClosedPath( cloverPath );
 #! true
 #!     @EndExampleSession
-#!     <Alt Only="TikZ">
-#!       \input{Image_SixTriangles_CircleAndClover.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_CircleAndClover-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SixTriangles_CircleAndClover.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #!   </Description>
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
@@ -376,9 +406,15 @@ DeclareAttribute( "ReversedPath", IsVertexEdgePath );
 #! gap> IsDuplicateFree( cloverPath );
 #! false
 #!     @EndExampleSession
-#!     <Alt Only="TikZ">
-#!       \input{Image_SixTriangles_CircleAndOmega.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_CircleAndOmega-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SixTriangles_CircleAndOmega.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #!   </Description>
 #! </ManSection>
 # This is documentation for a declaration in dual_path.gd
@@ -393,9 +429,15 @@ DeclareAttribute( "ReversedPath", IsVertexEdgePath );
 #!     We illustrate this with
 #!     the circle path from <K>VertexEdgePath</K> 
 #!     (<Ref Sect="VertexEdgePath"/>).
-#!     <Alt Only="TikZ">
-#!       \input{Image_SixTriangles_Circle.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_Circle-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SixTriangles_Circle.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #!     @ExampleSession
 #! gap> circlePath;
 #! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
@@ -417,9 +459,15 @@ DeclareAttribute( "VerticesAsPerm", IsVertexEdgePath );
 #!     We illustrate this with
 #!     the circle path from <K>VertexEdgePath</K> 
 #!     (<Ref Sect="VertexEdgePath"/>).
-#!     <Alt Only="TikZ">
-#!       \input{Image_SixTriangles_Circle.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_Circle-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SixTriangles_Circle.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #!     @ExampleSession
 #! gap> circlePath;
 #! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
@@ -461,8 +509,14 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsVertexEd
 #! This method returns a vertex-edge-path.
 #!
 #! For example, consider the following simplicial surface:
-#! <Alt Only="TikZ">
-#!  \input{Image_FourGon.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FourGon-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_FourGon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
@@ -498,8 +552,14 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! Compute for the given polygonal complex <A>complex</A> all closed vertex-edge-paths.
 #!
 #! For example consider the following triangular complex:
-#! <Alt Only="TikZ">
-#!  \input{Image_Butterfly.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> butterfly:=SimplicialSurfaceByDownwardIncidence(
@@ -530,8 +590,14 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! Mathematically, a perimerter path is a closed vertex-edge-path that
 #! encircles a face. For example, consider the tetrahedron
 #! (<Ref Subsect="Tetrahedron"/>):
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Tetrahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> tet := Tetrahedron();;
@@ -548,8 +614,14 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! but there are some exceptions, like the Janus-head
 #! (<Ref Subsect="JanusHead"/>). For this reason, the attribute
 #! <K>Face</K> (<Ref Subsect="PerimeterPath_Face"/>) was introduced.
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Janus_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> janus := JanusHead();;
@@ -846,8 +918,14 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #! The example from <K>EdgeFacePath</K>
 #! (<Ref Subsect="EdgeFacePath"/>) is not closed but an extended version
 #! of the path is.
-#! <Alt Only="TikZ">
-#!   \input{Image_ThinTorus_longPath.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_ThinTorus_longPath.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> edgeFacePath;
@@ -930,8 +1008,14 @@ DeclareAttribute( "ReversedPath", IsEdgeFacePath );
 #! 
 #! We illustrate this on the long path from <K>IsClosed</K>
 #! (<Ref Subsect="EdgeFace_IsClosedPath"/>).
-#! <Alt Only="TikZ">
-#!  \input{Image_ThinTorus_longPath.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_ThinTorus_longPath.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> longPath;
@@ -954,8 +1038,14 @@ DeclareAttribute( "EdgesAsPerm", IsEdgeFacePath );
 #!
 #! We illustrate this on the long path from <K>IsClosed</K>
 #! (<Ref Subsect="EdgeFace_IsClosedPath"/>).
-#! <Alt Only="TikZ">
-#!  \input{Image_ThinTorus_longPath.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_ThinTorus_longPath.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> longPath;
@@ -999,8 +1089,14 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsEdgeFace
 #! This method returns a edge-face-path.
 #!
 #! For example, consider the following simplicial surface:
-#! <Alt Only="TikZ">
-#!  \input{Image_FourGon.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FourGon-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_FourGon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> fourGon := SimplicialSurfaceByDownwardIncidence(
@@ -1145,8 +1241,14 @@ DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
 #! edge-face-paths, namely umbrella and geodesic paths.
 #!
 #! This will be illustrated on the following torus:
-#! <Alt Only="TikZ">
-#!   \input{Image_Geodesics.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Geodesics-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Geodesics.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> torus := SimplicialSurfaceByDownwardIncidence(
@@ -1279,8 +1381,14 @@ DeclareAttribute( "VertexEdgePathOfGeodesic", IsEdgeFacePath and IsGeodesicPath 
 #!
 #! As an illustration consider the torus from the start of section
 #! <Ref Sect="Section_Paths_Geodesics"/>:
-#! <Alt Only="TikZ">
-#!      \input{Image_Geodesics.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Geodesics-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_Geodesics.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> MaximalGeodesicPaths(torus);
@@ -1292,8 +1400,14 @@ DeclareAttribute( "VertexEdgePathOfGeodesic", IsEdgeFacePath and IsGeodesicPath 
 #!  ( e9, F8, e12, F7, e11, F6, e10, F5, e9 ) ]
 #! @EndExampleSession
 #! Furthermore, consider an example of an surface with a boundary:
-#! <Alt Only="TikZ">
-#!      \input{Image_OpenGeodesics.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_OpenGeodesics-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_OpenGeodesics.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> openSurface:=SimplicialSurfaceByVerticesInFaces(
@@ -1373,8 +1487,14 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #!
 #! Consider the geodesic path
 #! <M>[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1]</M>.
-#! <Alt Only="TikZ">
-#!      \input{Image_FlagsOfGeodesic.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagsOfGeodesic-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_FlagsOfGeodesic.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The flags can be illustrated as follows:
 #! <Alt Only="TikZ">
@@ -1886,8 +2006,14 @@ DeclareAttribute( "Orientation", IsPolygonalComplex and IsNotEdgeRamified );
 #! Since the tetrahedron is orientable, the covering surface has two connected components
 #! both isomorphic to the tetrahedron.
 #! Consider a non orientable surface on four faces:
-#! <Alt Only="TikZ">
-#!      \input{Image_ProjectivePlane.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ProjectivePlane-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_ProjectivePlane.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> projPlane := SimplicialSurfaceByDownwardIncidence(

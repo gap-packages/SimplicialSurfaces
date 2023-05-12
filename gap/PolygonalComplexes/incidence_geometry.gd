@@ -109,8 +109,14 @@
 #!
 #! These labels do not have to be consecutive or disjoint, as shown in 
 #! the following example:
-#! <Alt Only="TikZ">
-#!      \input{Image_LabellingExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #TODO give a reference to the constructor
 #! @ExampleSession
@@ -132,8 +138,14 @@
 #! 
 #! As an example consider the polygonal complex from the beginning of Section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
-#! <Alt Only="TikZ">
-#!      \input{Image_LabellingExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> Vertices(complex);
@@ -159,8 +171,14 @@ DeclareAttribute( "NumberOfVertices", IsTwistedPolygonalComplex );
 #! 
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
-#! <Alt Only="TikZ">
-#!      \input{Image_LabellingExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> Edges(complex);
@@ -182,8 +200,14 @@ DeclareAttribute( "NumberOfEdges", IsTwistedPolygonalComplex );
 #! 
 #! As an example consider the polygonal complex from the beginning of section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
-#! <Alt Only="TikZ">
-#!      \input{Image_LabellingExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> Faces(complex);
@@ -523,8 +547,14 @@ DeclareOperation( "EdgesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! This might not be sufficient in the case of non-triangular faces, as
 #! shown in
 #! the following example.
-#! <Alt Only="TikZ">
-#!   \input{Image_PentagonCyclicOrder.tex}
+#!  <Alt Only="HTML">
+#! #! &lt;br>&lt;img src="./images/_Wrapper_Image_PentagonCyclicOrder-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_PentagonCyclicOrder.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> pentagon := PolygonalSurfaceByDownwardIncidence( 
@@ -616,8 +646,14 @@ DeclareOperation( "EdgesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! As an example consider the polygonal complex that was introduced at the
 #! start of section
 #! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PentagonCyclicOrder.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PentagonCyclicOrder-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_PentagonCyclicOrder.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> perim := PerimeterPathOfFace(pentagon, 2);
@@ -681,9 +717,15 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! This order is called <E>umbrella-path</E> and we formalize it
 #! by <E>edge-face-paths</E> (section <Ref Sect="Section_Paths_EdgeFace"/>
 #! contains the methods to access those paths).
-#!         <Alt Only="TikZ">
-#!           \input{Image_EdgeFacePath.tex}
-#!         </Alt>
+#!          <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_EdgeFacePath.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! 
 #! <#Include Label="Umbrella_Definition">
 #! 
@@ -815,8 +857,14 @@ DeclareOperation( "UmbrellaPathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! For ramified polygonal surfaces it might happen that there is no single
 #! umbrella-path that contains all edges and faces that are incident to one
 #! vertex.
-#! <Alt Only="TikZ">
-#!   \input{Image_EdgeFacePath_ramified.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_EdgeFacePath_ramified.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! But there is a set of umbrella-paths that <E>partitions</E> the incident
 #! edges and faces (i.e. every incident edge or face appears in exactly one
@@ -867,8 +915,14 @@ DeclareOperation( "UmbrellaPathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! 
 #! As example consider the following polygonal complex with 
 #! vertex-ramifications (but no edge-ramifications).
-#! <Alt Only="TikZ">
-#!   \input{Image_EdgeFacePath_ramified.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_EdgeFacePath_ramified.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> ramSurf := PolygonalComplexByDownwardIncidence(
@@ -908,8 +962,14 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>surface</A>.
 #! 
 #! For example, consider the hexagon:
-#! <Alt Only="TikZ">
-#!   \input{Image_SplitExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> hex := SimplicialSurfaceByDownwardIncidence( 
@@ -952,8 +1012,14 @@ DeclareOperation("StarNC",[IsPolygonalComplex,IsList]);
 #! All other positions of this list are not bound.
 #!
 #! For example, consider the hexagon:
-#! <Alt Only="TikZ">
-#!   \input{Image_SplitExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> hex := SimplicialSurfaceByDownwardIncidence(
@@ -1002,8 +1068,14 @@ DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
 #! <Ref Sect="Section_Paths_VertexEdge"/>.
 #!
 #! For example, consider the following polygonal surface:
-#! <Alt Only="TikZ">
-#!   \input{Image_HoleExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_HoleExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_HoleExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> holeSurf := PolygonalSurfaceByDownwardIncidence(
@@ -1056,8 +1128,14 @@ DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
 #!
 #! As an example, consider the surface from the start of section
 #! <Ref Sect="Section_Access_OrderedHoleAccess"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_HoleExample.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_HoleExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_HoleExample.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> PerimeterOfHoles(holeSurf);

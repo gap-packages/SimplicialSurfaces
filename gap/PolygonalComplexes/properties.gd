@@ -153,8 +153,14 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 #! And there is exactly one multi-tetrahedral sphere with 6 faces namely
 #! the double tetraedron which can be obtained by performing exactly one
 #! tetrahedral extension to the tetradron.
-#! <Alt Only="TikZ">
-#!      \input{Image_DoubleTetrahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_DoubleTetrahedron.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> IsMultiTetrahedralSphere(Tetrahedron());
@@ -922,8 +928,14 @@ DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! Return the set of all turnable edges of the given simplicial surface.
 #! Let <A>v1,v2</A> be the vertices of the subsurface
 #! induced by a given edge which are not incident to this edge.
-#! <Alt Only="TikZ">
-#!     \input{Image_ButIndEdg.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ButIndEdg-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_ButIndEdg.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The given edge is a turnable edge, if and only if <A>v1</A> is not equal to
 #! <A>v2</A> and there exist no edge whose incident vertices are exactly
@@ -1289,8 +1301,14 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! gap> FaceTwoColouring(Octahedron());
 #! [ [ 1, 2, 5, 6 ], [ 3, 4, 7, 8 ] ]
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!      \input{Image_TwoColouredOctahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TwoColouredOctahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TwoColouredOctahedron.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @Returns a pair where the first and second entry are sets of positive integers or <K>fail</K>
 #! @Arguments complex
@@ -1328,8 +1346,14 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndExampleSession
 #! 
 #! As an example, consider the butterfly.
-#! <Alt Only="TikZ">
-#!      \input{Image_butfly.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_butfly-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_butfly.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;

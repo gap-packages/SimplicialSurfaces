@@ -30,8 +30,14 @@ pyr := PolygonalSurfaceByDownwardIncidence(
 #! We would like to colour the edges in the following way:
 pr := rec( scale := 2.5, edgeColours := [,"blue","red","red","blue","green","red","green","blue"] );
 DrawSurfaceToTikz( pyr, "Pyramid_coloured", pr );
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Pyramid_coloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Pyramid_coloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! To do that we describe the colours by positive integers (for example 1,2,4).
 #! We can encode the edge colouring in two ways:
@@ -85,8 +91,14 @@ pyr := PolygonalSurfaceByDownwardIncidence(
     [ [2,3,4,5], , [2,6,9], [3,6,7], [4,7,8], [5,8,9] ] );;
 #! @EndExample
 DrawSurfaceToTikz( pyr, "Pyramid_uncoloured", rec(scale:=2.5, edgeColours:="black") );
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Pyramid_uncoloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Pyramid_uncoloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Pyramid_uncoloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! We use the first method of encoding the colouring (based on the edges):
 #! @BeginExample
@@ -111,8 +123,14 @@ DrawSurfaceToTikz( colPyr2, "Pyramid_coloured_2", rec(scale:=2.5, edgeColourClas
 #! @BeginChunk Example_ColoursOfEdges_Pyramid
 #! For example consider the coloured pyramid from the start of section
 #! <Ref Sect="Section_EdgeColouring_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Pyramid_coloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Pyramid_coloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExample
 ColourOfEdge( colPyr, 2 );
@@ -128,8 +146,14 @@ ColoursOfEdges( colPyr );
 #! @BeginChunk Example_EdgesOfColours_Pyramid
 #! For example consider the coloured pyramid from the start of section
 #! <Ref Sect="Section_EdgeColouring_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Pyramid_coloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Pyramid_coloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExample
 EdgesOfColour( colPyr, 1 );
@@ -158,8 +182,14 @@ tetra := Tetrahedron();;
 colTetra := EdgeColouredPolygonalComplex(tetra, [1,2,3,3,2,1]);;
 pr := DrawSurfaceToTikz( colTetra, "ColouredTetrahedron", rec(scale:=2.5) );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_ColouredTetrahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! If we now want to change edge lengths (such that edges of the same
 #! colour have the same length), we can do this very easily:
@@ -168,16 +198,28 @@ pr.edgeColourClassLengths := [5,4,3];;
 pr.scale := 1;;
 DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_rectangular", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_ColouredTetrahedron_rectangular.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_rectangular-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron_rectangular.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The colours can also be changed in the same fashion.
 #! @BeginLog
 pr.edgeColourClassColours := ["cyan","olive","magenta"];
 DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_coloured", pr );
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_ColouredTetrahedron_coloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_coloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron_coloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! While it is very easy to modify all edges of the same colour 
@@ -198,7 +240,13 @@ pr.edgeColourClassActive := false;;
 pr.edgeLengths := [4,4,3,4,4,5];;
 DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_modLengths", pr );
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_ColouredTetrahedron_modLengths.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_modLengths-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron_modLengths.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk

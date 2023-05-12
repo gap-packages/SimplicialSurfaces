@@ -49,8 +49,14 @@
 #! >      [[1,2],[2,3],,[1,5],[2,5],,[3,6],[3,7],,,[5,6],[6,7]],
 #! >      [[1,4,5],[2,5,11,7],[7,8,12]]);;
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> polMor := PolygonalMorphismByVertexImages(source,range, [5,6,7,6,,2,3]);
@@ -345,9 +351,15 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #!     All of the methods throw errors if their requirements are not met.
 #!
 #!     To illustrate, we use a relabelling of a five-umbrella.
-#!     <Alt Only="TikZ">
-#!       \input{Image_PolygonalMorphism_FiveUmbrella.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_FiveUmbrella-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_FiveUmbrella.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @ExampleSession
 #! gap> left := SimplicialSurfaceByDownwardIncidence( 
 #! >         [[1,2],[1,3],[1,4],[1,5],[1,6],[2,3],[3,4],[4,5],[5,6],[6,2]],
@@ -943,8 +955,14 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! We will illustrate them on the following polygonal morphism (on the
 #! sides are the VEF-labels):
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> source := PolygonalSurfaceByDownwardIncidence( 
@@ -1003,8 +1021,14 @@ DeclareAttribute( "RangeSurface", IsGeneralPolygonalMorphism );
 #!
 #! We illustrate this on the polygonal morphism from the start of
 #! section <Ref Sect="Section_Morphisms_Components"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> VertexMapAsImageList(polMor);
@@ -1027,8 +1051,14 @@ DeclareAttribute( "VertexMapAsImageList", IsPolygonalMorphism );
 #!
 #! We illustrate this on the polygonal morphism from the start of
 #! section <Ref Sect="Section_Morphisms_Components"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgeMapAsImageList(polMor);
@@ -1051,8 +1081,14 @@ DeclareAttribute( "EdgeMapAsImageList", IsPolygonalMorphism );
 #!
 #! We illustrate this on the polygonal morphism from the start of
 #! section <Ref Sect="Section_Morphisms_Components"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> FaceMapAsImageList(polMor);

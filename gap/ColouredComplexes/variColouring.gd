@@ -71,8 +71,14 @@
 #!
 #! We illustrate this on the prism that was introduced at the start of
 #! Section <Ref Sect="Section_EdgeVariColouring_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Prism_coloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Prism_coloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The given edge colouring is a vari-colouring but not an exact-colouring.
 #! @BeginExampleSession
@@ -116,8 +122,14 @@ InstallTrueMethod( IsEdgeVariColouring, IsEdgeExactColouring );
 #!
 #! Consider the prism example from the start of Section 
 #! <Ref Sect="Section_EdgeVariColouring_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Prism_coloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Prism_coloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> ColoursOfEdges(colPrism);
@@ -198,8 +210,14 @@ DeclareAttribute("ColourInvolutions",
 #! possible colourings of the adjacent faces, which can be described by a 
 #! symmetry with respect to the edge between them. The colours can either be
 #! mirrored or rotated into each other.
-#! <Alt Only="TikZ">
-#!   \input{Image_LocalSymmetry.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalSymmetry-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_LocalSymmetry.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
 #! Together with the <E>boundary</E>-type for the boundary edges
@@ -267,8 +285,14 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! there are two  possible colourings of the adjacent faces, which can be
 #! described by a symmetry with respect to the edge between them.
 #! The colours can either be  mirrored or rotated into each other.
-#! <Alt Only="TikZ">
-#!   \input{Image_LocalSymmetry.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalSymmetry-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_LocalSymmetry.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
 #! Together with the <E>boundary</E>-type for the boundary edges

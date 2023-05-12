@@ -127,8 +127,14 @@
 #! 
 #! As an example, consider the polygonal surface from section
 #! <Ref Sect="Section_Access_BasicAccess"/>:
-#! <Alt Only="TikZ">
-#!    \input{Image_IncidenceGraph.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_IncidenceGraph-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_IncidenceGraph.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! Unfortunately the vertex labels of the graph in &GAP; have to be distinct, 
@@ -317,8 +323,14 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! [ 2, 4 ], [ 4, 2 ], [ 3, 4 ], [ 4, 3 ] ] 
 #! @EndExampleSession
 #! This is the edge graph of the tetrahedron with undirected edges:
-#! <Alt Only="TikZ">
-#!    \input{Image_FaceGraphTetra.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_FaceGraphTetra.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! @Arguments complex
@@ -360,8 +372,14 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! @EndExampleSession
 #!
 #! This is the face graph of the tetrahedron with undirected edges:
-#! <Alt Only="TikZ">
-#!    \input{Image_FaceGraphTetra.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_FaceGraphTetra.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! @Arguments complex
@@ -383,8 +401,14 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
 #!
 #!
 #! For example, consider the complete graph on four nodes:
-#! <Alt Only="TikZ">
-#!    \input{Image_FaceGraphTetra.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_FaceGraphTetra.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! @BeginExampleSession
@@ -565,8 +589,14 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! In general it is not possible to define an automorphism by defining it just
 #! on the vertices (or edges, or faces). Whenever this is possible, the situation
 #! becomes much easier. This happens for example with the tetrahedron:
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Tetrahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> tetra := Tetrahedron();;
@@ -577,8 +607,14 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! @EndExampleSession
 #!
 #! For the janus-head this is not possible.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Janus_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> janus := JanusHead();;
@@ -595,8 +631,14 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! complex. Any polygonal complex can be interpreted as a twisted polygonal
 #! complex, as shown in Section <Ref Sect="Section_AccessTwisted_Polygonal"/>.
 #!
-#! <Alt Only="TikZ">
-#!    \input{Image_TetrahedronChambers.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TetrahedronChambers-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TetrahedronChambers.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> AutomorphismGroup(tetra);
@@ -679,8 +721,14 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #!   (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
 #!   (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!    \input{Image_TetrahedronChambers.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TetrahedronChambers-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_Image_TetrahedronChambers.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! 
 #! To see the action on vertices, edges, and faces simultaneously, use the method 
@@ -735,8 +783,14 @@ DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
 #!
 #! We illustrate this on the example of a tetrahedron.
-#! <Alt Only="TikZ">
-#!  \input{_TIKZ_Tetrahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> tetra := Tetrahedron();;
@@ -769,8 +823,14 @@ DeclareOperation( "DisplayAsAutomorphism", [IsTwistedPolygonalComplex, IsPerm] )
 #! isomorphic to the full automorphism group.
 #! 
 #! For the cube (<Ref Subsect="Cube"/>) we get:
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Cube_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> cube := Cube();;
@@ -796,8 +856,14 @@ DeclareProperty( "IsAutomorphismDefinedByVertices", IsTwistedPolygonalComplex );
 #! isomorphic to the full automorphism group.
 #! 
 #! For the cube (<Ref Subsect="Cube"/>) we get:
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Cube_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> cube := Cube();;
@@ -824,8 +890,14 @@ DeclareProperty( "IsAutomorphismDefinedByEdges", IsTwistedPolygonalComplex );
 #! isomorphic to the full automorphism group.
 #! 
 #! For the cube (<Ref Subsect="Cube"/>) we get:
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Cube_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> cube := Cube();;
@@ -870,8 +942,14 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #! @ExampleSession
 #! gap> oct := Octahedron();;
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Octahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! We compute all duplicate-free vertex-edge-paths of length 2.
@@ -926,8 +1004,14 @@ DeclareOperation( "OnVertexEdgePaths",
 #! @ExampleSession
 #! gap> oct := Octahedron();;
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Octahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! We compute all duplicate-free edge-face-paths of length 2.

@@ -33,8 +33,14 @@ colCube := EdgeColouredPolygonalComplex(cube, [1,2,2,2,1,1,1,1,2,1,2,2]);;
  edgeColourClassColours := ["red", "blue"] );;
 DrawSurfaceToTikz(colCube, "Cube_twocoloured", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Cube_twocoloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_twocoloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_twocoloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 
@@ -53,8 +59,14 @@ pr := rec( edgeColourClassColours := ["red", "blue"],
 edgeColourClassLengths := [1.2,0.8] );;
 DrawSurfaceToTikz(colOct, "Oct_isosccoloured", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Oct_isosccoloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Oct_isosccoloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Oct_isosccoloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 
@@ -74,16 +86,28 @@ edgeColourClassLengths := [1.2,0.4,1.13137],
 edgeLabelsActive := false );;
 DrawSurfaceToTikz(wildOct, "Octahedron_WildIsosceles", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Octahedron_WildIsosceles.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_WildIsosceles-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_WildIsosceles.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 
 
 #! @BeginChunk Example_Isosceles_ColourInvolutions
 #! We consider again the isosceles coloured octahedron from the start of the section.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Oct_isosccoloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Oct_isosccoloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Oct_isosccoloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExample
 ColourInvolutions( colOct );
@@ -91,8 +115,14 @@ ColourInvolutions( colOct );
 #!  (1,3)(2,4)(5,15)(6,12)(7,9)(8,14)(10,16)(11,13), 
 #!  (1,9)(2,10)(3,11)(4,12)(5,13)(6,14)(7,15)(8,16) ]
 #! @EndExample
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Octahedron_WildIsosceles.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_WildIsosceles-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_WildIsosceles.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The involutions correspond to a wild coloured surface on twice as many faces.
 #! Note that the first involution encodes the base coloured edges of this wild coloured surface,
@@ -184,8 +214,14 @@ DrawSurfaceToTikz(colIco, "Ico_isosccoloured", pr );;
 #! edge has colour "2" (blue).  Vertex 2 is an example of such a vertex.
 #! The vertices of the second type contain five equal angles and the opposite edges 
 #! have colour "2" (blue). Vertex 1 is an example of such a vertex.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Ico_isosccoloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Ico_isosccoloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Ico_isosccoloured.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 

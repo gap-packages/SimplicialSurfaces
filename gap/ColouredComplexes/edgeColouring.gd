@@ -322,8 +322,14 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! @InsertChunk Graphs_Packages
 #! 
 #! As an example consider the coloured Tetrahedron:
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_ColouredTetrahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> colTetra := EdgeColouredPolygonalComplex(Tetrahedron(), [1,2,3,3,2,1]);;

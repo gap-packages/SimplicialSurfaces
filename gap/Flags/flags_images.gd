@@ -51,8 +51,14 @@ DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=5,
     faceLabels := ThreeFlags(complex),
     startingFaces := 14));;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_FlagComplex_Labelled.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_FlagComplex_Labelled-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_FlagComplex_Labelled.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 #TODO write the View()-result there;
@@ -70,8 +76,14 @@ flagSurf := FlagSurface(complex);;
 #! @EndExample
 DrawSurfaceToTikz(flagSurf, "FlagSurface", 
                 rec(scale:=3, startingFaces:=14));;
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_FlagSurface.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_FlagSurface-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_FlagSurface.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 
