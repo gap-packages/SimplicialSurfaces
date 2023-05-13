@@ -1891,8 +1891,14 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! gap> IsIsomorphic(openBagRip,butterfly);
 #! true
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!	\input{Image_Butterfly.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_Butterfly.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! This could be implemented like this:

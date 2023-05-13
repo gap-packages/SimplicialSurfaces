@@ -287,12 +287,24 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! The dual graph of a planar graph G is a graph that has a vertex for each face of G
 #! and an edge for each pair of faces that intersect in at least one edge.
 #! For example, consider the ocathedron. The following graph is the face graph of the octahedron:
-#! <Alt Only="TikZ">
-#! 	\input{Image_FacegraphOct.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_FacegraphOct-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_FacegraphOct.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The edge graph of the octahedron, i.e. the dual of the face graph, is the following graph:
-#! <Alt Only="TikZ">
-#! 	\input{Image_EdgegraphOct.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_EdgegraphOct-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_EdgegraphOct.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The face graph of the octahedron is equivalent to the edge graph of the cube and vice versa.
