@@ -551,7 +551,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! 
 #! 	 As an example, consider the double-5-gon:
 #!        <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_Image_Double5gon-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_Image_Double5gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_Image_Double5gon.pdf}

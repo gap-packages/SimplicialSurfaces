@@ -831,7 +831,7 @@ pr.edgeColours := "green";;
 pr.faceCoordinates2D[1]:=[-2.,4.];;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_Image_facegraph_oct2-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_Image_facegraph_oct2-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_Image_facegraph_oct2.pdf}
@@ -852,7 +852,7 @@ pr.faceCoordinates2D[2]:=[0.,1.];;pr.faceCoordinates2D[6]:=[0.,2.];;
 pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_Image_facegraph_oct3-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_Image_facegraph_oct3-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_Image_facegraph_oct3.pdf}
@@ -1004,7 +1004,7 @@ double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
 #! @EndLog
 #!
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_Image_Double6gon.pdf}
@@ -1017,7 +1017,7 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 #! @EndLog
 #! 
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_Image_facegraph_Double6Gon-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_Image_facegraph_Double6Gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_Image_facegraph_Double6Gon.pdf}
@@ -1035,7 +1035,7 @@ pr := rec( vertexLabelsActive := true);;
 DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_VertexLabelsOn-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_VertexLabelsOn-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_VertexLabelsOn.pdf}
@@ -1057,7 +1057,7 @@ pr := rec( vertexLabels := ["V_1", "X", , "++"] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_vertexLabels-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_vertexLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_vertexLabels.pdf}
@@ -1074,7 +1074,7 @@ pr := rec( edgeLabelsActive := true  );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabelsOn-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabelsOn-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabelsOn.pdf}
@@ -1096,7 +1096,7 @@ pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabels-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabels.pdf}
@@ -1113,7 +1113,7 @@ pr := rec( faceLabelsActive := false );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff.pdf}
@@ -1135,7 +1135,7 @@ pr := rec( faceLabels := ["I", "f_2", "42", ,] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_FaceLabels-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_FaceLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_FaceLabels.pdf}

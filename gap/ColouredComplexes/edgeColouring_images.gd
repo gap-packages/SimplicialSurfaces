@@ -106,7 +106,7 @@ colPyr1 := EdgeColouredPolygonalComplex(pyr, [,2,1,1,2,3,1,3,2]);;
 #! @EndExample
 DrawSurfaceToTikz( colPyr1, "Pyramid_coloured_1", rec(scale:=2.5, edgeColourClassColours:=["red","blue","green"]) );
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_TIKZ_Pyramid_coloured_1-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured_1-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_TIKZ_Pyramid_coloured_1.pdf}
@@ -121,7 +121,7 @@ colPyr2 := EdgeColouredPolygonalComplex(pyr, [[2,6],[3,7],,[4,8],[5,9]]);;
 #! @EndExample
 DrawSurfaceToTikz( colPyr2, "Pyramid_coloured_2", rec(scale:=2.5, edgeColourClassColours:=["red","cyan",,"olive","green"]) );
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_TIKZ_Pyramid_coloured_2-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured_2-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_TIKZ_Pyramid_coloured_2.pdf}

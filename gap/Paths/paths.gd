@@ -1136,7 +1136,7 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! A n-waist is a closed vertex-edge path of length n such that all edges are inner and no two are incident to the same face.
 #! This will be illustrated on the following double tetrahedron:
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_Image_Example3Waist-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_Image_Example3Waist-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_Image_Example3Waist.pdf}
@@ -1190,7 +1190,7 @@ DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
 #! [ ( v3, E1, v4, E6, v3 )]
 #! @EndExampleSession
 #!  <Alt Only="HTML">
-#! &lt; img src="./images/_Wrapper_Image_Example2Waist-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_Image_Example2Waist-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \includegraphics{_Wrapper_Image_Example2Waist.pdf}
