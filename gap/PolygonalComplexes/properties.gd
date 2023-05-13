@@ -550,9 +550,15 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!       the vertex degrees of the two remaining vertices of the butterfly.
 #! 
 #! 	 As an example, consider the double-5-gon:
-#!       <Alt Only="TikZ">
-#!      \input{Image_Double5gon.tex}
-#!       </Alt>
+#!        <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper_Image_Double5gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_Double5gon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #!       @ExampleSession
 #! gap> vof:=[[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7]];;

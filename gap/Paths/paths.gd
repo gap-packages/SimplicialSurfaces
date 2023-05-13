@@ -1135,8 +1135,14 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! This section deals with a specific type of closed vertex-edge-paths, namely waists.
 #! A n-waist is a closed vertex-edge path of length n such that all edges are inner and no two are incident to the same face.
 #! This will be illustrated on the following double tetrahedron:
-#! <Alt Only="TikZ">
-#!  \input{Image_Example3Waist.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper_Image_Example3Waist-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_Example3Waist.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(
@@ -1183,8 +1189,14 @@ DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
 #! gap> AllTwoWaistsOfComplex(doubleJanus);
 #! [ ( v3, E1, v4, E6, v3 )]
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!  \input{Image_Example2Waist.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper_Image_Example2Waist-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_Example2Waist.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @Returns a set of closed vertex-edge-paths

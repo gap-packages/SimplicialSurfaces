@@ -830,8 +830,14 @@ pr.edgeColours := "green";;
 #! @BeginLog
 pr.faceCoordinates2D[1]:=[-2.,4.];;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct2.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper_Image_facegraph_oct2-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_facegraph_oct2.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! It is even possible to compute an embedding of the face graph of a given
@@ -845,8 +851,14 @@ pr.faceCoordinates2D[3]:=[4.,1.];;pr.faceCoordinates2D[7]:=[4.,2.];;
 pr.faceCoordinates2D[2]:=[0.,1.];;pr.faceCoordinates2D[6]:=[0.,2.];;
 pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct3.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper_Image_facegraph_oct3-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_facegraph_oct3.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @EndChunk
@@ -991,15 +1003,27 @@ double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
 [1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;
 #! @EndLog
 #!
-#! <Alt Only="TikZ">
-#!    \input{Image_Double6gon.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_Double6gon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginLog
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 #! @EndLog
 #! 
-#! <Alt Only="TikZ">
-#!    \input{Image_facegraph_Double6Gon.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper_Image_facegraph_Double6Gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_facegraph_Double6Gon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>vertexLabelsActive</E>: By default all vertices are not labelled. If they
@@ -1010,8 +1034,14 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 pr := rec( vertexLabelsActive := true);;
 DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_Double6Gon_VertexLabelsOn.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_VertexLabelsOn-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_VertexLabelsOn.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>vertexLabels</E>: By default the vertices are labelled by their 
@@ -1026,8 +1056,14 @@ DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;
 pr := rec( vertexLabels := ["V_1", "X", , "++"] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_Double6Gon_vertexLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_vertexLabels-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_vertexLabels.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #! 
@@ -1037,8 +1073,14 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;
 pr := rec( edgeLabelsActive := true  );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_Double6Gon_EdgeLabelsOn.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabelsOn-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabelsOn.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>edgeLabels</E>: By default the edges are labelled by their 
@@ -1053,8 +1095,14 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;
 pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_Double6Gon_EdgeLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabels-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabels.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #!
@@ -1064,8 +1112,14 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;
 pr := rec( faceLabelsActive := false );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_Double6Gon_FaceLabelsOff.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>faceLabels</E>: By default the faces are labelled by their 
@@ -1080,8 +1134,14 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;
 pr := rec( faceLabels := ["I", "f_2", "42", ,] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_Double6Gon_FaceLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt; img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_FaceLabels-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_FaceLabels.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #! </List>
