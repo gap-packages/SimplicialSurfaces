@@ -233,7 +233,7 @@ DeclareOperation( "PolygonalMorphismByVertexImagesNC",
 #!
 #! As an example, consider the tetrahedron:
 #! <Alt Only="TikZ">
-#!   \include{_TIKZ_Tetrahedron_constructor}
+#!   \include{_TIKZ_Tetrahedron_constructor.tex}
 #! </Alt>
 #! @BeginExampleSession
 #! gap> tetra := Tetrahedron();;

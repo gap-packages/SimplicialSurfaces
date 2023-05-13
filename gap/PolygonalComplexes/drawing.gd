@@ -1035,10 +1035,10 @@ pr := rec( vertexLabelsActive := true);;
 DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_VertexLabelsOn-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_VertexLabelsOn-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_VertexLabelsOn.pdf}
+#! \includegraphics{_Wrapper_TIKZ_facegraph_Double6Gon_VertexLabelsOn.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1057,10 +1057,10 @@ pr := rec( vertexLabels := ["V_1", "X", , "++"] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_vertexLabels-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_vertexLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_vertexLabels.pdf}
+#! \includegraphics{_Wrapper_TIKZ_facegraph_Double6Gon_vertexLabels.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1074,10 +1074,10 @@ pr := rec( edgeLabelsActive := true  );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabelsOn-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabelsOn-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabelsOn.pdf}
+#! \includegraphics{_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabelsOn.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1096,10 +1096,10 @@ pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabels-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_EdgeLabels.pdf}
+#! \includegraphics{_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabels.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1135,10 +1135,10 @@ pr := rec( faceLabels := ["I", "f_2", "42", ,] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;
 #! @EndLog
 #!  <Alt Only="HTML">
-#! &lt;img src="./images/_Wrapper__TIKZ_facegraph_Double6Gon_FaceLabels-1.svg"> &lt;/img>
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_FaceLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper__TIKZ_facegraph_Double6Gon_FaceLabels.pdf}
+#! \includegraphics{_Wrapper_TIKZ_facegraph_Double6Gon_FaceLabels.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
