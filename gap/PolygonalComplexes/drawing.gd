@@ -1268,8 +1268,14 @@ oct:=Octahedron();
 DrawFacegraphToTikz( oct, "facegraph_Octahedron.tex" );;
 #! @EndLog
 #! 
-#! <Alt Only="TikZ">
-#!    \input{Image_facegraph_oct_Rescaled.tex }
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_facegraph_oct_Rescaled.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>geodesicsActive</E>: By default the geodics are not painted into

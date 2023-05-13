@@ -596,9 +596,15 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! 	The list <E>degreeList</E> is not sorted but may contain duplicates.
 #!
 #! 	As an example, consider the double-6-gon:
-#! 	<Alt Only="TikZ">
-#!     	 \input{Image_Double6gon.tex}
-#! 	</Alt>
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_Double6gon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @ExampleSession
 #! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
@@ -651,9 +657,15 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! 	contain duplicates.
 #!
 #!	 As an example, consider the double-6-gon:
-#! 	<Alt Only="TikZ">
-#!     	 \input{Image_Double6gon.tex}
-#! 	</Alt>
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_Double6gon.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @ExampleSession
 #! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;

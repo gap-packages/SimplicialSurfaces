@@ -336,8 +336,14 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! 4
 #! @EndExampleSession
 #! The second output shows in which two path the original path was split.
-#! <Alt Only="TikZ">	
-#!   \input{Image_SplittedVertexEdgePath.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_SplittedVertexEdgePath-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_SplittedVertexEdgePath.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The NC-versions do not check whether the given vertex-edge-paths match
@@ -1318,10 +1324,14 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalComplex, IsList, IsPolygonalCo
 #! gap> EdgesOfFaces(complexWithoutEars);
 #! [ ,, [ 5, 6, 10 ], [ 6, 7, 8 ], [ 8, 9, 10 ] ]
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   {
-#!     \input{Image_ComplexWithEar.tex}
-#!   }
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_ComplexWithEar-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{_Wrapper_Image_ComplexWithEar.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! For a given face-anomaly [<A>face1</A>, <A>face2</A>] this could be
