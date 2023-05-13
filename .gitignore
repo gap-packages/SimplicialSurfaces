@@ -12,6 +12,7 @@ tst/*.tst
 
 # allow pre-generated images
 !doc/images/*
+!doc/tikz-files/*.tikz
 
 # flatex-folder
 flatex/.deps/
@@ -58,7 +59,6 @@ flatex/missing
 *.out
 *.pnr
 *.snm
-*.svg
 *.synctex.gz
 *.tmp
 *.toc
