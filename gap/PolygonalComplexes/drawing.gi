@@ -2048,7 +2048,7 @@ InstallMethod( DrawConvexFacegraphToTikz,
             return [res1,res2];
         end;
 
-        ThreeSplitListPosition := function(list, v, w) # helpt function
+        ThreeSplitListPosition := function(list, v, w) # help function
             local i, res1, res2, res3;
             if w > v then
                 res1 := [];
@@ -2130,9 +2130,9 @@ InstallMethod( DrawConvexFacegraphToTikz,
                     faceGraph := Set(Concatenation(faceGraph, mainHelpi[2]));
                 od;
                 return [res, faceGraph];
-            elif Length(cur)=1 then     # Only one convex drawing plane
+            elif Length(cur) = 1 then     # Only one convex drawing plane
                 cur := cur[1];
-                n:=Length(cur);
+                n := Length(cur);
                 if n < 2 then
                     return [[[]], faceGraph];
                 fi;
@@ -2142,13 +2142,21 @@ InstallMethod( DrawConvexFacegraphToTikz,
                     if Length(neighbours) = 2 then # There are only 2 neighbours which means no vertex has to be positioned
                         Remove(cur, 1);
                     else                           # There are 3 neighbours which means there is a new vertex that has to be positioned
+                        alreadyPositionedVertices := Difference(neighbours, [cur[2][1], cur[n][1]]);
+                        if Length(Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)) = 1 then     # case 2: edge slices convex drawing plane in two and splits it
+                            toSplitVertex := Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)[1];
+                            toSplitVertexPos := Position(List(cur, x -> x[1]), toSplitVertex);
+                            return [SplitListPosition(cur, toSplitVertexPos), faceGraph];
+                        fi;
                         for v in neighbours do
-                            if not v in verticesOfFaceGraph then
+                            if v=25 then Error(); fi; # debug
+                            if (not v in verticesOfFaceGraph) then # and (ForAny(VerticesOfFace(surf, v), faceVertex -> Length(Intersection(List(cur, x -> x[1]), FacesAsList(UmbrellaPathOfVertex(surf, faceVertex)))) >= 3))
                                 newv := [v, WeightedCentric([cur[1][2], cur[2][2], cur[n][2]])];
                                 Add(faceGraph, newv);
                                 Remove(cur, 1);
                                 Add(cur, newv);
                             fi;
+                            if v=25 then Error(); fi; # debug
                         od;
                     fi;
                     return [[cur], faceGraph];
@@ -2252,3 +2260,4 @@ InstallOtherMethod( DrawConvexFacegraphToTikz,
 	    return DrawConvexFacegraphToTikz(surf, name, rec());
     end
 );
+
