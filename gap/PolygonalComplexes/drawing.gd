@@ -899,11 +899,15 @@ DrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;
 #! * <E>faceCoordinates2D</E>: Modify the coordinates of the faces which are
 #!   represented as vertices in the embedding.
 #!
+#! * <E>spread</E> (Only available for <K>DrawConvexFacegraphToTikz</K> 
+#!    <Ref Subsect="DrawConvexFacegraphToTikz"/>): Modify the spread of 
+#!    the coordinates.
+#!
 #! We will exemplify them with the tetrahedron to make clear how the parameters 
 #! work:
 #!
 #! @BeginLog
-tetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
+tetra := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
 [1,3,4],[2,3,4]]);;
 DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @EndLog
@@ -931,6 +935,46 @@ DrawFacegraphToTikz(tetra,
 #!
 #!   </Item>
 #! </List>
+#!
+#!   <Item><E>spread</E>(Only available for <K>DrawConvexFacegraphToTikz</K> 
+#!    <Ref Subsect="DrawConvexFacegraphToTikz"/>): Modifies the position of the 
+#!    vertices representing the faces. The spread parameter can be chosen as a float in the
+#!    interval (0, 1). Choosing the parameter outside the interval results in
+#!    an error. Choosing a number close to 1 modifies the face coordinates such
+#!    that they tend torwards the outer ring of the face graph. Choosing a number
+#!    close to 0 modifies the face coordinates such that they tend torwards the
+#!    middle of the face graph. The default spread is set at 0.5.
+#!
+#! We will exemplify this parameter with the icosahedron.
+#! @BeginLog
+icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], [ 1, 2, 4 ], 
+  [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], [ 2, 4, 8 ], [ 4, 5, 9 ], 
+  [ 5, 6, 10 ], [ 3, 6, 11 ], [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], 
+  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], [ 10, 11, 12 ], 
+  [ 7, 11, 12 ] ]);;
+DrawConvexFacegraphToTikz(icosahedron, "convex_facegraph_icosahedron_default_spread");;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_convex_facegraph_icosahedron_default_spread.tex}
+#! </Alt>
+#!
+#! @BeginLog
+pr := rec(spread := 0.3);;
+DrawConvexFacegraphToTikz(icosahedron,
+ "convex_facegraph_icosahedron_low_spread", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_convex_facegraph_icosahedron_low_spread.tex}
+#! </Alt>
+#!
+#! @BeginLog
+pr := rec(spread := 0.7);;
+DrawConvexFacegraphToTikz(icosahedron,
+ "convex_facegraph_icosahedron_high_spread", pr);;
+#! @EndLog
+#! <Alt Only="TikZ">
+#!     \input{_TIKZ_convex_facegraph_icosahedron_high_spread.tex}
+#! </Alt>
 #! @EndChunk
 
 

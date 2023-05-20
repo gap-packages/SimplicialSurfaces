@@ -2028,8 +2028,10 @@ InstallMethod( DrawConvexFacegraphToTikz,
     "for a closed vertex-faithful simplicial sphere, a file name and a record",
     [IsSimplicialSurface, IsString, IsRecord],
     function(surf, name, record)
-        local graph, SplitListPosition, ThreeSplitListPosition, InFilterFunc, IntersectionFilterFunc, CorrectFacesOfVertexFilter, WeightedCentric, TwoWeightedCentric, MainHelp, RegularPolygon, DrawConvexFaceGraph, DrawGraph;
-        if not( IsClosedSurface(surf) and IsVertexFaithful(surf) and EulerCharacteristic(surf)=2) and not IsBound(printRecord.faceCoordinates2D) then 
+        local graph, SplitListPosition, InFilterFunc, 
+                IntersectionFilterFunc, CorrectFacesOfVertexFilter, WeightedCentricParameters, 
+                TwoWeightedCentricParameters, MainHelp, RegularPolygon, DrawConvexFaceGraph, DrawGraph, q;
+        if not (IsClosedSurface(surf) and IsVertexFaithful(surf) and EulerCharacteristic(surf) = 2) and not IsBound(printRecord.faceCoordinates2D) then
             return fail;
         fi;
 
@@ -2038,52 +2040,15 @@ InstallMethod( DrawConvexFacegraphToTikz,
             res1:=[];
             res2:=[];
             for i in [2..v] do
-                Add(res1,list[i]);
+                Add(res1, list[i]);
             od;
-            for i in [v..Length(list)] do
+            for i in [(v + 1)..Length(list)] do
                 Add(res2, list[i]);
             od;
-            Add(res1,list[1]);
+            Add(res1, list[1]);
             Add(res2, list[1]);
-            return [res1,res2];
-        end;
-
-        ThreeSplitListPosition := function(list, v, w) # help function
-            local i, res1, res2, res3;
-            if w > v then
-                res1 := [];
-                res2 := [];
-                res3 := [];
-                for i in [2..v] do
-                    Add(res1,list[i]);
-                od;
-                for i in [v..w] do
-                    Add(res2, list[i]);
-                od;
-                for i in [w..Length(list)] do
-                    Add(res3, list[i]);
-                od;
-                Add(res1, list[1]);
-                Add(res2, list[1]);
-                Add(res3, list[1]);
-            elif w < v then
-                res1 := [];
-                res2 := [];
-                res3 := [];
-                for i in [2..w] do
-                    Add(res1,list[i]);
-                od;
-                for i in [w..v] do
-                    Add(res2, list[i]);
-                od;
-                for i in [v..Length(list)] do
-                    Add(res3, list[i]);
-                od;
-                Add(res1, list[1]);
-                Add(res2, list[1]);
-                Add(res3, list[1]);
-            fi;
-            return [res1, res2, res3];
+            Add(res2, list[v]);
+            return [res1, res2];
         end;
 
         InFilterFunc := function(cur1, cur2, list) # help function
@@ -2106,105 +2071,81 @@ InstallMethod( DrawConvexFacegraphToTikz,
             return InFilterFunc(cur1, cur2, list) and IntersectionFilterFunc(faceGraph, list);
         end;
 
-        WeightedCentric := function(list) # help function
-            return Float(1/2)*list[1]+Float(1/4)*(list[2]+list[3]);
+        WeightedCentricParameters := function(list, p) # help function
+            return Float(p)*list[1] + Float((1-p)/2)*(list[2] + list[3]);
         end;
 
-        TwoWeightedCentric := function(list) # help function
+        TwoWeightedCentricParameters := function(list, p, q) # help function
             local res;
             res := [];
-            Add(res, Float(1/2)*list[1] + Float(7/18)*list[2] + Float(2/18)*list[3]);
-            Add(res, Float(1/2)*list[1] + Float(2/18)*list[2] + Float(7/18)*list[3]);
+            Add(res, p*list[1] + (1-p)*q*list[2] + (1-p)*(1-q)*list[3]);
+            Add(res, p*list[1] + (1-p)*(1-q)*list[2] + (1-p)*q*list[3]);
             return res;
         end;
 
-        MainHelp := function(surf, cur, faceGraph) #surf simp. surface, cur list of lists of [v,[x,y]], faceGraph list of [v,[x,y]] with the added vertices of wanted faceGraph 
-            local n, mainHelp1, mainHelp2, cur1, cur2, curi, mainHelpi, i, v, newv, res, neighbours, verticesOfFaceGraph, correctFacesOfVertex, toSplitVertex, toSplitVertex1, toSplitVertex2, toSplitVertexPos, toSplitVertexPos1, toSplitVertexPos2, alreadyPositionedVertices;
+        RegularPolygon := function(list) #returns vertices of a regular polygon as a list of [vert, [x,y]]
+            local n, res, i;
+            res := [];
+            n := Length(list);
+            for i in [1..n] do
+                Add(res, [list[i], [Cos(2*3.14159265*((i-1)/n)), Sin(2*3.14159265*((i-1)/n))]]);
+            od;
+            return res;
+        end;
+
+        MainHelp := function(surf, cur, faceGraph, spread, q)
+            local res, mainHelpi, curi, curLength, i, toSplitVertex, toSplitVertexPos, nodesOfFaceGraph, alreadyPositionedNeighbours, neighbours, v, newv, correctFacesOfVertex;
             if Length(cur) >= 2 then    # More than one convex drawing plane
                 res := [];
-                faceGraph := MainHelp(surf, [cur[1]], faceGraph)[2];
                 for i in [1..Length(cur)] do
-                    mainHelpi := MainHelp(surf, [cur[i]], faceGraph);
+                    mainHelpi := MainHelp(surf, [cur[i]], faceGraph, spread, q);
                     curi := mainHelpi[1];
                     res := Concatenation(res, curi);
                     faceGraph := Set(Concatenation(faceGraph, mainHelpi[2]));
                 od;
                 return [res, faceGraph];
-            elif Length(cur) = 1 then     # Only one convex drawing plane
-                cur := cur[1];
-                n := Length(cur);
-                if n < 2 then
+            else                        # Only one convex drawing plane
+                cur := cur[1]; # deabstracting the only current list
+                curLength := Length(cur);
+                if curLength < 2 then
                     return [[[]], faceGraph];
-                fi;
-                neighbours := NeighbourFacesOfFace(surf, cur[1][1]);
-                verticesOfFaceGraph := List(faceGraph, x -> x[1]);
-                if Length(Intersection(verticesOfFaceGraph, neighbours)) = 2 then                                       # 2 neighbours of cur[1] have been positioned already
-                    if Length(neighbours) = 2 then # There are only 2 neighbours which means no vertex has to be positioned
-                        Remove(cur, 1);
-                    else                           # There are 3 neighbours which means there is a new vertex that has to be positioned
-                        alreadyPositionedVertices := Difference(neighbours, [cur[2][1], cur[n][1]]);
-                        if Length(Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)) = 1 then     # case 2: edge slices convex drawing plane in two and splits it
-                            toSplitVertex := Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)[1];
-                            toSplitVertexPos := Position(List(cur, x -> x[1]), toSplitVertex);
-                            return [SplitListPosition(cur, toSplitVertexPos), faceGraph];
+                else
+                    neighbours := NeighbourFacesOfFace(surf, cur[1][1]);
+                    nodesOfFaceGraph := List(faceGraph, x -> x[1]);
+                    alreadyPositionedNeighbours := Difference(neighbours, [cur[2][1], cur[curLength][1]]);
+                    if Length(Intersection(List(cur, x -> x[1]), alreadyPositionedNeighbours)) = 0 then     # case 1: edge does not violate convex drawing plane
+                        if Length(Intersection(nodesOfFaceGraph, neighbours)) = 1 then                          # Only one neighbour has been positioned already, so 2 more have to be added
+                            correctFacesOfVertex := Filtered(FacesOfVertices(surf), x -> CorrectFacesOfVertexFilter(cur[1][1], cur[2][1], List(faceGraph, y -> y[1]), x));
+                            for v in Difference(Difference(neighbours, correctFacesOfVertex[1]), nodesOfFaceGraph) do
+                                newv := [v, TwoWeightedCentricParameters([cur[1][2], cur[2][2], cur[curLength][2]], spread, q)[2]];
+                                Add(faceGraph, newv);
+                                Add(cur, newv);
+                            od;
+                            for v in Difference(Intersection(neighbours, correctFacesOfVertex[1]), nodesOfFaceGraph) do
+                                newv := [v, TwoWeightedCentricParameters([cur[1][2], cur[2][2], cur[curLength][2]], spread, q)[1]];
+                                Add(faceGraph, newv);
+                                Add(cur, newv);
+                            od;
+                            Remove(cur, 1);
+                            return [[cur], faceGraph];
+                        elif Length(Intersection(nodesOfFaceGraph, neighbours)) = 2 then                        # Only two neighbours have been positioned already, so 1 more has to be added
+                            for v in neighbours do
+                                if not v in nodesOfFaceGraph then # and (ForAny(VerticesOfFace(surf, v), faceVertex -> Length(Intersection(List(cur, x -> x[1]), FacesAsList(UmbrellaPathOfVertex(surf, faceVertex)))) >= 3))
+                                    newv := [v, WeightedCentricParameters([cur[1][2], cur[2][2], cur[curLength][2]], spread)];
+                                    Add(faceGraph, newv);
+                                    Remove(cur, 1);
+                                    Add(cur, newv);
+                                fi;
+                            od;
+                            return [[cur], faceGraph];
+                        elif Length(Intersection(nodesOfFaceGraph, neighbours)) = 3 then                        # All three neighbours have been positioned already, so no more have to be added
+                            Remove(cur, 1);
+                            return [[cur], faceGraph]; 
                         fi;
-                        for v in neighbours do
-                            if v=25 then Error(); fi; # debug
-                            if (not v in verticesOfFaceGraph) then # and (ForAny(VerticesOfFace(surf, v), faceVertex -> Length(Intersection(List(cur, x -> x[1]), FacesAsList(UmbrellaPathOfVertex(surf, faceVertex)))) >= 3))
-                                newv := [v, WeightedCentric([cur[1][2], cur[2][2], cur[n][2]])];
-                                Add(faceGraph, newv);
-                                Remove(cur, 1);
-                                Add(cur, newv);
-                            fi;
-                            if v=25 then Error(); fi; # debug
-                        od;
-                    fi;
-                    return [[cur], faceGraph];
-                elif Length(Intersection(verticesOfFaceGraph, neighbours)) = 1 then                                     # 1 neighbour of cur[1] has been positioned already
-                    if Length(neighbours) = 1 then   # There is only 1 neighbour which means no vertex has to be positioned
-                        Remove(cur, 1);
-                    elif Length(neighbours) = 2 then # There are only 2 neighbours which means 1 vertex has to be positioned
-                        for v in neighbours do
-                            if not v in verticesOfFaceGraph then
-                                newv := [v, WeightedCentric([cur[1][2], cur[2][2], cur[n][2]])];
-                                Add(faceGraph, newv);
-                                Remove(cur, 1);
-                                Add(cur, newv);
-                            fi;
-                        od;
-                    else                             # There are 3 neighbours which means 2 vertices have to be positioned
-                        correctFacesOfVertex := Filtered(FacesOfVertices(surf), x -> CorrectFacesOfVertexFilter(cur[1][1], cur[2][1], List(faceGraph, y -> y[1]), x));
-                        for v in Difference(Difference(neighbours, correctFacesOfVertex[1]), verticesOfFaceGraph) do
-                            newv := [v, TwoWeightedCentric([cur[1][2], cur[2][2], cur[n][2]])[2]];
-                            Add(faceGraph, newv);
-                            Add(cur, newv);
-                        od;
-                        for v in Difference(Intersection(neighbours, correctFacesOfVertex[1]), verticesOfFaceGraph) do
-                            newv := [v, TwoWeightedCentric([cur[1][2], cur[2][2], cur[n][2]])[1]];
-                            Add(faceGraph, newv);
-                            Add(cur, newv);
-                        od;
-                    fi;
-                    Remove(cur, 1);
-                    return [[cur], faceGraph];
-                elif Length(Intersection(verticesOfFaceGraph, neighbours)) = 3 then                                     # 3 neighbours of cur[1] have been positioned already
-                    alreadyPositionedVertices := Difference(neighbours, [cur[2][1], cur[n][1]]);
-                    if Length(Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)) = 2 then       # case 3: edge slices convex drawing plane in three and splits it
-                        toSplitVertex1 := Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)[1];
-                        toSplitVertex2 := Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)[2];
-                        toSplitVertexPos1 := Position(List(cur, x -> x[1]), toSplitVertex1);
-                        toSplitVertexPos2 := Position(List(cur, x -> x[1]), toSplitVertex2);
-                        return [ThreeSplitListPosition(cur, toSplitVertexPos1, toSplitVertexPos2), faceGraph];
-                    elif Length(Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)) = 1 then     # case 2: edge slices convex drawing plane in two and splits it
-                        toSplitVertex := Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)[1];
+                    else                                                                                    # case 2: edge slices convex drawing plane in two and splits it
+                        toSplitVertex := Intersection(List(cur, x -> x[1]), alreadyPositionedNeighbours)[1];
                         toSplitVertexPos := Position(List(cur, x -> x[1]), toSplitVertex);
                         return [SplitListPosition(cur, toSplitVertexPos), faceGraph];
-                    elif Length(Intersection(List(cur, x -> x[1]), alreadyPositionedVertices)) = 0 then     # case 1: edge does not violate convex drawing plane
-                        Remove(cur, 1);
-                        return [[cur], faceGraph];              
-                    else                                            
-                        # Print("Failure at 3 neighbours of cur[1] have been positioned already!");
-                        Error();
                     fi;
                 fi;
             fi;
@@ -2220,22 +2161,28 @@ InstallMethod( DrawConvexFacegraphToTikz,
             return res;
         end;
 
-        DrawConvexFaceGraph := function(surf)
+        DrawConvexFaceGraph := function(surf, spread, q)
             local cur, faceGraph, path, mainHelp, maxPathPos;
             maxPathPos := PositionMaximum(List(UmbrellaPathsOfVertices(surf), x -> Length(FacesAsList(x))));
             path := UmbrellaPathOfVertex(surf, maxPathPos);             # Start with the biggest UmbrellaPath
             # path := UmbrellaPathOfVertex(surf, Vertices(surf)[1]);    # Start with the UmbrellaPath of the vertex 1
             cur := [RegularPolygon(FacesAsList(path))];
             faceGraph := RegularPolygon(FacesAsList(path));
-            while Length(faceGraph)<NumberOfFaces(surf) do
-                mainHelp := MainHelp(surf, cur, faceGraph);
+            while Length(faceGraph) < NumberOfFaces(surf) do
+                mainHelp := MainHelp(surf, cur, faceGraph, spread, q);
                 cur := mainHelp[1];
                 faceGraph := mainHelp[2];
             od; 
             return faceGraph;
         end;
 
-        graph := DrawConvexFaceGraph(surf);
+        if not "spread" in RecNames(record) then
+            record.spread := Float(1/2);
+        elif record.spread >= Float(1) or record.spread <= Float(0) then
+            Error("The spread parameter has to be chosen in the interval (0, 1) !");
+        fi;
+        q := Float(7/9); # another parameter that controls the spread but probably not important enough to let the user control it. q must be chosen in the interval ((1/2), 1).
+        graph := DrawConvexFaceGraph(surf, Float(record.spread), q);
         SortBy(graph, x -> x[1]);
         if "scale" in RecNames(record) and "faceCoordinates2D" in RecNames(record) then
             return DrawFacegraphToTikz(surf, name, record);
@@ -2249,7 +2196,6 @@ InstallMethod( DrawConvexFacegraphToTikz,
         fi;
         
         return DrawFacegraphToTikz(surf, name, record);
-
     end
 );
 
