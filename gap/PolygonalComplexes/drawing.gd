@@ -932,11 +932,8 @@ DrawFacegraphToTikz(tetra,
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_facegraph_tetrahedron_Coordinates.tex}
 #! </Alt>
-#!
 #!   </Item>
-#! </List>
-#!
-#!   <Item><E>spread</E>(Only available for <K>DrawConvexFacegraphToTikz</K> 
+#!   <Item><E>spread</E> (Only available for <K>DrawConvexFacegraphToTikz</K> 
 #!    <Ref Subsect="DrawConvexFacegraphToTikz"/>): Modifies the position of the 
 #!    vertices representing the faces. The spread parameter can be chosen as a float in the
 #!    interval (0, 1). Choosing the parameter outside the interval results in
@@ -947,12 +944,14 @@ DrawFacegraphToTikz(tetra,
 #!
 #! We will exemplify this parameter with the icosahedron.
 #! @BeginLog
-icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], [ 1, 2, 4 ], 
-  [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], [ 2, 4, 8 ], [ 4, 5, 9 ], 
-  [ 5, 6, 10 ], [ 3, 6, 11 ], [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], 
-  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], [ 10, 11, 12 ], 
-  [ 7, 11, 12 ] ]);;
-DrawConvexFacegraphToTikz(icosahedron, "convex_facegraph_icosahedron_default_spread");;
+icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], 
+  [ 1, 2, 4 ], [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], 
+  [ 2, 4, 8 ], [ 4, 5, 9 ], [ 5, 6, 10 ], [ 3, 6, 11 ], 
+  [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], 
+  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], 
+  [ 10, 11, 12 ], [ 7, 11, 12 ] ]);;
+DrawConvexFacegraphToTikz(icosahedron, 
+"convex_facegraph_icosahedron_default_spread");;
 #! @EndLog
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_convex_facegraph_icosahedron_default_spread.tex}
@@ -975,6 +974,8 @@ DrawConvexFacegraphToTikz(icosahedron,
 #! <Alt Only="TikZ">
 #!     \input{_TIKZ_convex_facegraph_icosahedron_high_spread.tex}
 #! </Alt>
+#! </Item>
+#! </List>
 #! @EndChunk
 
 
