@@ -1399,10 +1399,16 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! vertices by 1, the number of edges by 3 and the number of faces by 2.
 #! As an example consider the tetrahedron:
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!      \input{Image_Tetrahedron_Net.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Tetrahedron_Net-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Tetrahedron_Net.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! Subdividing face 1 of the tetrahedron results in the double tetrahedron:
@@ -1773,10 +1779,16 @@ DeclareAttribute( "BuildingBlocks", IsSimplicialSurface);
 #! gap> IsIsomorphic(openBag,janusCrater);
 #! true
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_OpenBag.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_OpenBag-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_OpenBag.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! This could be implemented like this:
@@ -1813,10 +1825,16 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! edge pairs that fulfill these conditions.
 #!
 #! For example, consider the open bag:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_OpenBag.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_OpenBag-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_OpenBag.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> openBag := SimplicialSurfaceByDownwardIncidence(
@@ -1881,10 +1899,16 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! edges with these properties.
 #!
 #! For example, consider the open bag:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_OpenBag.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_OpenBag-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_OpenBag.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> openBag := SimplicialSurfaceByDownwardIncidence(
@@ -1973,10 +1997,16 @@ DeclareAttribute( "RipCuttableEdges", IsPolygonalComplex );
 #! gap> IsIsomorphic(last,openBag);
 #! true
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_OpenBag.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_OpenBag-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_OpenBag.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! This could be implemented like this:

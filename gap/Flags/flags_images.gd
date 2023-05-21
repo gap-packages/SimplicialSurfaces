@@ -27,10 +27,16 @@ complex := PolygonalComplexByDownwardIncidence(
 #! @BeginChunk Example_FlagComplex
 #! For example consider the polygonal complex from the start of section
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExample
 flagComp := FlagComplex(complex);;
@@ -66,10 +72,16 @@ DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=5,
 #! @BeginChunk Example_FlagComplex_Construction
 #! As an example consider the polygonal complex from  the start of section
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExample
 flagSurf := FlagSurface(complex);;

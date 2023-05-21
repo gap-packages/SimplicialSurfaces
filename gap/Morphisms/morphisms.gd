@@ -701,10 +701,16 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #!
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> Vertices(cat);
@@ -736,10 +742,16 @@ DeclareAttribute( "VEFLabels", IsPolygonalComplex );
 #! 
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> VEFLabelOfVertex(cat, 3);
@@ -774,10 +786,16 @@ DeclareOperation( "VEFLabelOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> VEFLabelOfEdge(cat, 2);
@@ -812,10 +830,16 @@ DeclareOperation( "VEFLabelOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> VEFLabelOfFace(cat, 2);
@@ -844,10 +868,16 @@ DeclareOperation( "VEFLabelOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #!
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> VertexOfVEFLabel(cat, 1);
@@ -879,10 +909,16 @@ DeclareOperation( "VertexOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> EdgeOfVEFLabel(cat, 7);
@@ -916,10 +952,16 @@ DeclareOperation( "EdgeOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> FaceOfVEFLabel(cat, 17);

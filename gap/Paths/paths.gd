@@ -1948,10 +1948,16 @@ DeclareProperty( "IsOrientable", IsTwistedPolygonalComplex and IsNotEdgeRamified
 #!
 #! For example, consider the polygonal surface from the start of section
 #! <Ref Sect="Section_Orientability"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!      \input{Image_ConstructorExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ConstructorExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_ConstructorExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> orient := Orientation( surface );
