@@ -1,0 +1,1 @@
+s/<Alt Only="TikZ">%#!\s*\\begin{tikzpicture}\[vertexStyle, edgeStyle, faceStyle\]%#!\s*\\input{\([a-zA-Z0-9_]*\).tex}*%#! *<\/Alt>/ <Alt Only="HTML">%#! \&lt;img src=".\/images\/_Wrapper_\1-1.svg"> \&lt;\/img>%#! <\/Alt>%#! <Alt Only = "LaTeX">%#! \\includegraphics{_Wrapper_\1.pdf}%#! <\/Alt>%#! <Alt Only = "Text">%#! Image omitted in terminal text%#! <\/Alt>/g
