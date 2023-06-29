@@ -81,7 +81,7 @@ for filename in files do
             Print(file[finish]{[3..Size(file[finish])]},"\n");
             finish := finish+1;
         od;
-        endPositions[i] := finish;
+        endPositions[i] := finish-1;
         AppendTo(output, file[finish]{[3..Size(file[finish])]});
         Print(file[finish]{[3..Size(file[finish])]},"\n");
 
@@ -91,6 +91,7 @@ for filename in files do
     CloseStream(output);
 
     # write in original file with the changes
+    Print(filename);
     output := OutputTextFile( filename, false ); # override other files
     if output = fail then
         Error(Concatenation("File ", String(filename), " can't be opened.") );
@@ -112,10 +113,10 @@ for filename in files do
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
             """);
-            edit:=false
+            edit:=false;
         fi;
         if edit=false and i in endPositions then
-            edit=true;
+            edit:=true;
         fi;
     od;
     CloseStream(output);
