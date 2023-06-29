@@ -40,10 +40,11 @@ files:=[
 
 for filename in files do
     file:=SplitString(StringFile(filename), '\n');
-    positions:=Positions(file, "#! <Alt Only=\"TikZ\">\r");
-    number := 1;    
+    startPositions:=Positions(file, "#! <Alt Only=\"TikZ\">\r");
+    endPositions:= [];
+    number := 1;
 
-    for i in [1..Size(positions)] do
+    for i in [1..Size(startPositions)] do
         # get the name of the file without path or ending
         outputfilename := "doc/tikz-files/_Wrapper_";
         Append(outputfilename, SplitString(SplitString(filename, "/")[Size(SplitString(filename, "/"))] ,".")[1]);
@@ -72,7 +73,7 @@ for filename in files do
 \begin{document}
 """);
 
-        beginning := positions[i];
+        beginning := startPositions[i];
         finish := beginning;
         Print("write file: ",outputfilename,"\ncontent:\n");
         while not file[finish]="#! </Alt>\r" do
@@ -80,11 +81,43 @@ for filename in files do
             Print(file[finish]{[3..Size(file[finish])]},"\n");
             finish := finish+1;
         od;
+        endPositions[i] := finish;
         AppendTo(output, file[finish]{[3..Size(file[finish])]});
         Print(file[finish]{[3..Size(file[finish])]},"\n");
 
         AppendTo(output, "\end{document}");
 
     od;
+    CloseStream(output);
+
+    # write in original file with the changes
+    output := OutputTextFile( filename, false ); # override other files
+    if output = fail then
+        Error(Concatenation("File ", String(filename), " can't be opened.") );
+    fi;
+    SetPrintFormattingStatus( output, false );
+
+    edit := true;
+    for i in [1..Size(file)] do
+        if not i in startPositions and edit=true then
+            AppendTo(output, file[i],"\n");
+        else
+            AppendTo(output, """ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_""",filename,"""-""",Position(startPositions, i),"""'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_""",filename,"""-""",Position(startPositions, i),"""-1.svg}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            """);
+            edit:=false
+        fi;
+        if edit=false and i in endPositions then
+            edit=true;
+        fi;
+    od;
+    CloseStream(output);
 od;
 
