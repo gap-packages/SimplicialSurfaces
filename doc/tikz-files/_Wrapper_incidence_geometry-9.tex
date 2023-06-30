@@ -1,0 +1,33 @@
+
+\nonstopmode
+\documentclass{standalone}
+
+\input{TikZHeader.tex}
+
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+     \def\dist{1.8}
+     \coordinate (P2) at (0,0);
+     \coordinate (PEE) at (2*\dist,0);
+     \coordinate (PSE) at (\dist,-\dist);
+     \coordinate (PSW) at (-\dist,-\dist);
+     \coordinate (PNW) at (-\dist,\dist);
+     \coordinate (PNE) at (\dist,\dist);
+
+     \draw[edge, face]
+       (P2) -- (PNE) -- node[edgeLabel]{16} (PEE) -- node[edgeLabel]{17} (PSE) -- cycle
+       (P2) -- node[edgeLabel]{13} (PSE) -- node[edgeLabel]{18} (PSW) -- cycle
+       (P2) -- node[edgeLabel]{14} (PSW) -- node[edgeLabel]{19} (PNW) -- cycle
+       (P2) -- node[edgeLabel]{11} (PNW) -- node[edgeLabel]{15} (PNE) -- node[edgeLabel]{12} cycle;
+     \node[faceLabel] at (barycentric cs:P2=1,PNE=1,PEE=1,PSE=1) {$III$};
+     \node[faceLabel] at (barycentric cs:P2=1,PSE=1,PSW=1) {$IV$};
+     \node[faceLabel] at (barycentric cs:P2=1,PSW=1,PNW=1) {$V$};
+     \node[faceLabel] at (barycentric cs:P2=1,PNW=1,PNE=1) {$II$};
+
+     \foreach \p/\r/\n in {P2/right/1, PEE/right/8, PSE/below/9, PSW/below/10, PNW/above/6, PNE/above/7}{
+       \vertexLabelR{\p}{\r}{\n}
+     }
+   \end{tikzpicture}
+end{document}

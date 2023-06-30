@@ -48,12 +48,16 @@
 #! and one face. Thus, we can use *Of*-methods, similar as in Section
 #! <Ref Sect="Section_Access_BasicAccess"/>.
 #! As an example, we use the following twisted polygonal complex:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!      \def\chambers{1}
-#!      \input{Image_StarOfStarChamberExample.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-1.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> complex := TwistedPolygonalComplexByChamberRelations(
 #! >        [3,5,5,5,5,3,5,5,5,7,7,7,7,5],
@@ -72,12 +76,16 @@
 #! 
 #! As an example consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Incidence"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!      \def\chambers{1}
-#!      \input{Image_StarOfStarChamberExample.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-2.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> Chambers(complex);
 #! [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
@@ -107,12 +115,16 @@ DeclareAttribute( "NumberOfChambers", IsTwistedPolygonalComplex );
 #! 
 #! As an example consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Incidence"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
-#!       \def\chambers{1}
-#!       \input{Image_StarOfStarChamberExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-3.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> VertexOfChamber(complex, 2);
 #! 5
@@ -146,12 +158,16 @@ DeclareOperation( "VertexOfChamberNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Incidence"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
-#!       \def\chambers{1}
-#!       \input{Image_StarOfStarChamberExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-4.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> ChambersOfVertex(complex, 3);
 #! [ 1, 6 ]
@@ -185,12 +201,16 @@ DeclareOperation( "ChambersOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Incidence"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle=nolabels]
-#!       \def\chambers{1}
-#!       \input{Image_StarOfStarChamberExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-5.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> EdgeOfChamber(complex, 2);
 #! 2
@@ -223,12 +243,16 @@ DeclareOperation( "EdgeOfChamberNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Incidence"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle=nolabels]
-#!       \def\chambers{1}
-#!       \input{Image_StarOfStarChamberExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-6.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> ChambersOfEdge(complex, 4);
 #! [ 3, 4, 7, 8 ]
@@ -262,12 +286,16 @@ DeclareOperation( "ChambersOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Incidence"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle]
-#!       \def\chambers{1}
-#!       \input{Image_StarOfStarChamberExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-7.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> FaceOfChamber(complex, 2);
 #! 1
@@ -301,12 +329,16 @@ DeclareOperation( "FaceOfChamberNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Incidence"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle]
-#!       \def\chambers{1}
-#!       \input{Image_StarOfStarChamberExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-8.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> ChambersOfFace(complex, 9);
 #! [ 7, 8, 9, 10, 11, 12, 13, 14 ]
@@ -334,12 +366,16 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! dealing with twisted polygonal complexes. The most important
 #! aspects of chambers is their adjacency, which we illustrate
 #! with the following twisted polygonal complex:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
-#!          \def\chambers{1}
-#!          \input{Image_TwistedMedal.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-9.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> complex := TwistedPolygonalComplexByChamberAdjacencies(
 #! >    (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26),
@@ -423,12 +459,16 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example, consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
-#!          \def\chambers{1}
-#!          \input{Image_TwistedMedal.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-10.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> ZeroAdjacentChamber(complex, 4);
 #! 3
@@ -476,12 +516,16 @@ DeclareOperation( "TwoAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosInt]
 #! 
 #! As an example, consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
-#!          \def\chambers{1}
-#!          \input{Image_TwistedMedal.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-11.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> IsZeroAdjacentChambers(complex, 4,3);
 #! true
@@ -534,12 +578,16 @@ DeclareOperation( "IsTwoAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosIn
 #! 
 #! As an example, consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
-#!          \def\chambers{1}
-#!          \input{Image_TwistedMedal.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-12.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> ZeroAdjacencyInvolution(complex);
 #! (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26)
@@ -574,12 +622,16 @@ DeclareAttribute( "TwoAdjacencyInvolution", IsTwistedPolygonalComplex);
 #! 
 #! As an example, consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
-#!          \def\chambers{1}
-#!          \input{Image_TwistedMedal.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-13.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> ZeroAdjacencyClasses(complex);
 #! [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], [ 11, 12 ], [ 13, 14 ], 
@@ -617,12 +669,16 @@ DeclareAttribute( "TwoAdjacencyClasses", IsTwistedPolygonalComplex);
 #! 
 #! As an example, consider the twisted polygonal complex from the beginning of Section
 #! <Ref Sect="Section_AccessTwisted_Adjacency"/>:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels, faceStyle=nolabels]
-#!          \def\chambers{1}
-#!          \input{Image_TwistedMedal.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-14.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> e0 := ZeroAdjacencyRelation(complex);;
 #! gap> EquivalenceClasses(e0);
@@ -665,12 +721,16 @@ DeclareAttribute( "TwoAdjacencyRelation", IsTwistedPolygonalComplex);
 #!
 #! To exemplify these methods, all of them construct the twisted polygonal
 #! surface illustrated here:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle=nolabels,edgeStyle=nolabels,faceStyle=nolabels]
-#!          \def\chambers{1}
-#!          \input{Image_TwistedThreeStrip.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-15.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 
 #! @BeginGroup TwistedPolygonalComplexByChamberRelations
@@ -714,12 +774,16 @@ DeclareAttribute( "TwoAdjacencyRelation", IsTwistedPolygonalComplex);
 #! The NC-version does not check the consistency of this information.
 #!
 #! As an example, we construct the following twisted polygonal surface:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
-#!          \def\chambers{1}
-#!          \input{Image_TwistedThreeStrip.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-16.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> TwistedPolygonalComplexByChamberRelations(
 #! >    [3,7,7,5,5,3,5,7,7,5,5,5,5,7,7,3,3,5],
@@ -774,13 +838,16 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberRelationsNC", [IsList, IsList,
 #!
 #! As an example, we construct the following twisted polygonal 
 #! surface (the labels of vertices, edges, and faces are the default ones):
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
-#!          \def\chambers{1}
-#!          \def\default{1}
-#!          \input{Image_TwistedThreeStrip.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-17.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> complex := TwistedPolygonalComplexByChamberAdjacencies(
 #! >    [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18]],
@@ -831,13 +898,16 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberAdjacenciesNC", [IsList, IsLis
 #!
 #! As an example, we construct the following twisted polygonal 
 #! surface (the labels of vertices, edges, and faces are the default ones):
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
-#!          \def\chambers{1}
-#!          \def\default{1}
-#!          \input{Image_TwistedThreeStrip.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-18.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> complex := TwistedPolygonalSurfaceByChamberInvolutions(
 #! >    (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18),
@@ -899,12 +969,16 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberInvolutionsNC", [IsPerm, IsPer
 #! [ 1, 1, 1, 1, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4 ]
 #! @EndExampleSession
 #! Thus, the chambers can be illustrated like this:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \def\chambers{1}
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_twisted_polygonal_complex-19.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! Although the labels seem random at first, there is a
 #! pattern here. In polygonal complexes, each chamber corresponds
 #! to exactly one flag (a triple of vertex, edge, face, that are

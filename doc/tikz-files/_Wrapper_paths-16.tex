@@ -1,0 +1,14 @@
+
+\nonstopmode
+\documentclass{standalone}
+
+\input{TikZHeader.tex}
+
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+    \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle=nolabels, faceStyle]
+       \def\swapColors{1}
+       \input{Image_ButterflyOfTriangles.tex}
+    \end{tikzpicture}
+end{document}

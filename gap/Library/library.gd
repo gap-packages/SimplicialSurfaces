@@ -439,30 +439,16 @@ DeclareOperation( "JanusHead", [] );
 #! Return a simplicial surface consisting of one closed umbrella-path
 #! with <A>nrFaces</A> triangles. The labels are assigned according
 #! to the following illustration, in which <M>n</M> is <A>nrFaces</A>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!      \coordinate (Z) at (0,0);
-#!      \foreach \i in {1,...,5}{
-#!          \coordinate (A\i) at (-120+60*\i:2.5);
-#!      }
-#!
-#!      \draw[edge, face]
-#!          (Z) -- node[edgeLabel]{$n$} (A1) -- node[edgeLabel]{$2n$} (A2) -- (Z)
-#!          (Z) -- node[edgeLabel]{$1$} (A2) -- node[edgeLabel]{$n+1$} (A3) -- (Z)
-#!          (Z) -- node[edgeLabel]{$2$} (A3) -- node[edgeLabel]{$n+2$} (A4) -- (Z)
-#!          (Z) -- node[edgeLabel]{$3$} (A4) -- node[edgeLabel]{$n+3$} (A5) -- node[edgeLabel]{4} (Z);
-#!
-#!      \foreach \i/\j/\n in {1/2/$n$, 2/3/1, 3/4/2, 4/5/3}{
-#!          \node[faceLabel] at (barycentric cs:Z=1,A\i=1,A\j=1) {\n};
-#!      }
-#!
-#!      \foreach \p/\r/\n in {Z/below/$n+1$, A1/below right/$n$, A2/right/1, A3/above right/2, A4/above left/3, A5/left/4}{
-#!          \vertexLabelR{\p}{\r}{\n};
-#!      }
-#!
-#!      \draw[dashed] (200:1.5) arc(190:290:1.5);
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_library-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_library-1.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 #! @ExampleSession
 #! gap> umb4 := SimplicialUmbrella(4);

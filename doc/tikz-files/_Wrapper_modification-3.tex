@@ -1,0 +1,16 @@
+
+\nonstopmode
+\documentclass{standalone}
+
+\input{TikZHeader.tex}
+
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+   {
+     \def\splitCenter{1}
+     \def\splitBoundaryLeft{1}
+     \def\splitBoundaryRight{1}
+     \input{Image_SplitExample.tex}
+   }
+end{document}

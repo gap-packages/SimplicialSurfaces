@@ -323,11 +323,16 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
-#!       \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-1.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> EdgesOfVertex(complex, 2);
 #! [ 6, 8 ]
@@ -362,11 +367,16 @@ DeclareOperation( "EdgesOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-2.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> FacesOfVertex(complex, 2);
 #! [ 1 ]
@@ -400,11 +410,16 @@ DeclareOperation( "FacesOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
-#!     \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-3.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> VerticesOfEdge(complex, 8);
 #! [ 2, 3 ]
@@ -439,11 +454,16 @@ DeclareOperation( "VerticesOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
-#!     \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-4.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> FacesOfEdge(complex, 9);
 #! [ 1, 4 ]
@@ -478,11 +498,16 @@ DeclareOperation( "FacesOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-5.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> VerticesOfFace(complex, 1);
 #! [ 2, 3, 5 ]
@@ -517,11 +542,16 @@ DeclareOperation( "VerticesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
 #! start of section <Ref Sect="Section_Access_BasicAccess"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
-#!     \input{Image_StarOfStarExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-6.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> EdgesOfFace(complex, 1);
 #! [ 6, 8, 9 ]
@@ -735,11 +765,16 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! 
 #! <#Include Label="Umbrella_Definition">
 #! 
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle];
-#!      \input{Image_EdgeFacePath_open.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-7.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! In the image above we have two umbrella-paths that contain all edges and
 #! faces that are incident to the vertex <M>V</M>, namely
 #! <M>(e_1,f_1,e_2,f_2,e_3,f_3,e_4)</M> and 
@@ -748,11 +783,16 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! smaller first entry
 #! (<M>e_1</M> or <M>e_4</M>) to be <E>the</E> umbrella-path of <M>V</M>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle];
-#!     \input{Image_EdgeFacePath_closed.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-8.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! In this image we have ten different closed umbrella-paths that contain all
 #! edges and faces that are incident to the vertex <M>V</M>, like
 #!  <M>(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4, e_5, f_5, e_1)</M> and 
@@ -802,31 +842,16 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! those umbrella-paths.
 #! 
 #! As example consider the following polygonal surface:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \def\dist{1.8}
-#!     \coordinate (P2) at (0,0);
-#!     \coordinate (PEE) at (2*\dist,0);
-#!     \coordinate (PSE) at (\dist,-\dist);
-#!     \coordinate (PSW) at (-\dist,-\dist);
-#!     \coordinate (PNW) at (-\dist,\dist);
-#!     \coordinate (PNE) at (\dist,\dist);
-#!
-#!     \draw[edge, face]
-#!       (P2) -- (PNE) -- node[edgeLabel]{16} (PEE) -- node[edgeLabel]{17} (PSE) -- cycle
-#!       (P2) -- node[edgeLabel]{13} (PSE) -- node[edgeLabel]{18} (PSW) -- cycle
-#!       (P2) -- node[edgeLabel]{14} (PSW) -- node[edgeLabel]{19} (PNW) -- cycle
-#!       (P2) -- node[edgeLabel]{11} (PNW) -- node[edgeLabel]{15} (PNE) -- node[edgeLabel]{12} cycle;
-#!     \node[faceLabel] at (barycentric cs:P2=1,PNE=1,PEE=1,PSE=1) {$III$};
-#!     \node[faceLabel] at (barycentric cs:P2=1,PSE=1,PSW=1) {$IV$};
-#!     \node[faceLabel] at (barycentric cs:P2=1,PSW=1,PNW=1) {$V$};
-#!     \node[faceLabel] at (barycentric cs:P2=1,PNW=1,PNE=1) {$II$};
-#!
-#!     \foreach \p/\r/\n in {P2/right/1, PEE/right/8, PSE/below/9, PSW/below/10, PNW/above/6, PNE/above/7}{
-#!       \vertexLabelR{\p}{\r}{\n}
-#!     }
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-9.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> surface := PolygonalSurfaceByDownwardIncidence( 
 #! >    [,,,,,,,,,, [1,6],[1,7],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],
@@ -1056,16 +1081,16 @@ DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
 #! one "hole". For example the open pyramid and the open bag each have
 #! one hole:
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexPlain=nolabels,edgeStyle=nolabels,faceStyle=nolabels]
-#!     \begin{scope}[scale=2,xshift=0cm]
-#!       \input{Image_OpenPyramid.tex}
-#!     \end{scope}
-#!     \begin{scope}[scale=0.9,xshift=8cm]
-#!       \input{Image_OpenBag.tex}
-#!     \end{scope}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_incidence_geometry-10.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 #! Informally, a hole can be characterised by the vertices and edges along its
 #! perimeter. These can be given as an alternating path of vertices and edges

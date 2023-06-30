@@ -41,6 +41,7 @@ files:=[
 for filename in files do
     file:=SplitString(StringFile(filename), '\n');
     startPositions:=Positions(file, "#! <Alt Only=\"TikZ\">");
+    # startPositions:=Positions(file, "#! <Alt Only=\"TikZ\">\r");
     endPositions:= [];
     number := 1;
 
@@ -77,6 +78,7 @@ for filename in files do
         finish := beginning+1;
         Print("write file: ",outputfilename,"\ncontent:\n");
         while not file[finish]="#! </Alt>" do
+        # while not file[finish]="#! </Alt>\r" do
             AppendTo(output, file[finish]{[3..Size(file[finish])]},"\n");
             Print(file[finish]{[3..Size(file[finish])]},"\n");
             finish := finish+1;
@@ -106,10 +108,10 @@ for filename in files do
         if i in startPositions then
             AppendTo(output, """ 
 #!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_""",SplitString(SplitString(filename, "/")[Size(SplitString(filename, "/"))] ,".")[1],"""-""",Position(startPositions, i),"""'> &lt;/img> &lt;br>
+#! &lt;br>&lt;img src='./images/_Wrapper_""",SplitString(SplitString(filename, "/")[Size(SplitString(filename, "/"))] ,".")[1],"""-""",Position(startPositions, i),"""-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper_""",SplitString(SplitString(filename, "/")[Size(SplitString(filename, "/"))] ,".")[1],"""-""",Position(startPositions, i),"""-1.svg}
+#! \includegraphics{images/_Wrapper_""",SplitString(SplitString(filename, "/")[Size(SplitString(filename, "/"))] ,".")[1],"""-""",Position(startPositions, i),""".pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
