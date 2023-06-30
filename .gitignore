@@ -4,7 +4,6 @@ doc/title.xml
 doc/_*.xml
 doc/SimplicialSurfaces.tex
 doc/_IMAGE*
-doc/_TIKZ*
 doc/*.png
 doc/manual.pdf
 doc/manual.six
@@ -46,6 +45,8 @@ flatex/missing
 *.blg
 *.css
 *.dvi
+*.fdb_latexmk
+*.fls
 *.html
 *.idv
 *.idx
