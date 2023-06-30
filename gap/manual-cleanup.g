@@ -87,7 +87,7 @@ for filename in files do
         # AppendTo(output, file[finish]{[3..Size(file[finish])]});
         # Print(file[finish]{[3..Size(file[finish])]},"\n");
 
-        AppendTo(output, "\end{document}");
+        AppendTo(output, """\end{document}""");
         CloseStream(output);
     od;
     
