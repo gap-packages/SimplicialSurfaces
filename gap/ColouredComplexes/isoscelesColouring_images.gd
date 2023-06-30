@@ -176,14 +176,26 @@ pr := rec( edgeColourClassColours := ["red", "blue"],
 pr := rec( edgeColourClassColours := ["red", "blue", "green"]);
 pr := DrawSurfaceToTikz( wild, "Surf10_Wild", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Surf10_Isosc1.tex}
-#!   \input{_TIKZ_Surf10_Isosc2.tex}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_isoscelesColouring_images-1'> &lt;/img> &lt;br>
 #! </Alt>
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Surf10_Isosc3.tex}
-#!   \input{_TIKZ_Surf10_Wild.tex}
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_isoscelesColouring_images-1-1.svg}
 #! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_isoscelesColouring_images-2'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_isoscelesColouring_images-2-1.svg}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! It can easily be seen that the first and third isosceles coloured surface cannot arise
 #! from identifying two colours of a wild coloured surface: Note that each has a vertex of 
 #! degree 5 and all edges of this vertex are coloured red. If this isosceles colouring had

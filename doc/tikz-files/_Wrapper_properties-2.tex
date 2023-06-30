@@ -1,0 +1,86 @@
+
+\nonstopmode
+\documentclass{standalone}
+
+\input{TikZHeader.tex}
+
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+   	\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+      	\input{Image_FiveTrianglesInCycle.tex}
+   	\end{tikzpicture}
+ 	</Alt>
+ 	@BeginExampleSession
+ gap> countEdg := CounterOfEdges(fiveStar);
+ counter of edges ([ [ 2, 2 ], [ 2, 5 ] ] degrees, and [ 5, 5 ] multiplicities)
+ gap> ListCounter(countEdg);
+ [ [ [ 2, 2 ], 5 ], [ [ 2, 5 ], 5 ] ]
+ 	@EndExampleSession
+   </Description>
+ </ManSection>
+
+ <ManSection Label="CounterOfFaces">
+   <Oper Name="CounterOfFaces" Arg="complex"
+      Label="for IsTwistedPolygonalComplex"
+      Comm="Construct a face counter from a twisted polygonal complex"/>
+   <Returns>A Counter-&GAP;-object</Returns>
+   <Prop Name="IsCounterOfFaces" Arg="object" Label="for IsObject"
+      Comm="Check whether a given object is a face counter"/>
+   <Returns><K>true</K> or <K>false</K></Returns>
+   <Description>
+      The method <K>CounterOfFaces</K> constructs a new face counter from
+      a polygonal complex. The method <K>IsCounterOfFaces</K>
+      checks if a given &GAP;-object represents such a face counter.
+      The face counter saves the information about how many faces have vertices with the same degrees.
+ 	To get this information there are different possibilities.
+ 	For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+ 	returns this information as a list of pairs <E>[degreeList, multiplicity]</E>, where
+ 	<E>multiplicity</E> counts the number of faces whose vertex degrees
+ 	match <E>degreeList</E>, i.e. for every vertex there is exactly one
+ 	entry of <E>degreeList</E> such that the vertex is incident to this
+ 	number of faces.
+ 	The <E>degreeList</E> is always sorted but may contain duplicates.
+
+	 As an example, consider the five-star from the start of chapter
+ 	<Ref Chap="Chapter_Properties"/>:
+ <Alt Only="TikZ">
+   	\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+   	   \input{Image_FiveTrianglesInCycle.tex}
+   	\end{tikzpicture}
+ 	</Alt>
+ 	@ExampleSession
+ gap> countFac:=CounterOfFaces(fiveStar);
+ counter of faces ([ [ 2, 2, 5 ] ] degrees, and [ 5 ] multiplicities) 
+ gap> ListCounter(countFac);
+ [ [ [ 2, 2, 5 ], 5 ] ]
+ 	@EndExampleSession
+   </Description>
+ </ManSection>
+
+ <ManSection Label="CounterOfButterflies">
+   <Oper Name="CounterOfButterflies" Arg="surface"
+      Label="for IsSimplicialSurface"
+      Comm="Construct a butterfly counter from a simplicial surface"/>
+   <Returns>A Counter-&GAP;-object</Returns>
+   <Prop Name="IsCounterOfButterflies" Arg="object" Label="for IsObject"
+      Comm="Check whether a given object is a butterfly counter"/>
+   <Returns><K>true</K> or <K>false</K></Returns>
+   <Description>
+       The method <K>CounterOfButterflies</K> constructs a new butterfly counter from
+       a simplicial surface. The method <K>IsCounterOfButterflies</K>
+       checks if a given &GAP;-object represents such a butterfly counter.
+ 	 The butterfly counter saves the information about how many butterflies have vertices with the same degrees.
+       To get this information there are different possibilities.
+       For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+       returns this information as a list of pairs <E>[[degList1,degList2], multiplicity]</E>, where
+       <E>multiplicity</E> counts the number of butterflies whose vertex degrees match
+       <E>[degList1,degList2]</E>, whereby <E>degList1</E> denotes the
+       vertex degree of the vertices that are incident to the edge
+       inducing the corresponding butterfly and <E>degList2</E> contains
+       the vertex degrees of the two remaining vertices of the butterfly.
+ 
+ 	 As an example, consider the double-5-gon:
+        <Alt Only="HTML">
+ &lt;img src="./images/_Wrapper_Image_Double5gon-1.svg"> &lt;/img>
+end{document}

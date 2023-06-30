@@ -1,0 +1,183 @@
+
+\nonstopmode
+\documentclass{standalone}
+
+\input{TikZHeader.tex}
+
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+       \begin{tikzpicture}[vertexStyle=nolabels,edgePlain,faceStyle]
+         \def\edgeFacePath{1}
+         \input{Image_ThinTorus.tex}
+       \end{tikzpicture}
+     </Alt>
+
+     @InsertChunk Definition_EdgeFacePath
+
+     @ExampleSession
+ gap> edgeFacePath := EdgeFacePath( thinTorus, [13,7,14,8,15,9,11,3,7,4,8,5,9] );
+ | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+ gap> IsEdgeFacePath(edgeFacePath);
+ true
+ gap> IsList(edgeFacePath);
+ false
+ gap> IsEdgeFacePath( [13,7,14,8,15,9,11,3,7,4,8,5,9] );
+ false
+     @EndExampleSession
+  
+     The elements of a vertex-edge-path can be accessed by using the methods
+     <K>PathAsList</K> (<Ref Subsect="EdgeFace_PathAsList"/>),
+     <K>EdgesAsList</K> (<Ref Subsect="EdgeFace_EdgesAsList"/>) and 
+     <K>FacesAsList</K> (<Ref Subsect="EdgeFace_FacesAsList"/>).
+
+     The NC-version does not check if the
+     given <A>path</A> is a list 
+     <M>[e_1,f_1,e_2,f_2,\ldots,e_n,f_n,e_{{n+1}}]</M> that fulfills these
+     conditions.
+   </Description>
+ </ManSection>
+No AutoDoc-documentation since the order of the next two entries should
+be switched
+clareOperation( "EdgeFacePath", [IsPolygonalComplex, IsDenseList] );
+clareOperation( "EdgeFacePathNC", [IsPolygonalComplex, IsDenseList] );
+
+ @BeginGroup EdgeFacePathByEdges
+ @Description
+ Construct a new edge-face-path (<Ref Subsect="EdgeFacePath"/>) from a
+ polygonal complex and a dense list of edges. Every two adjacent edges
+ have to be connected by a face. If there are multiple such faces, the one
+ with the smallest label is used. If the given <A>edgeList</A> is empty,
+ <K>fail</K> is returned.
+
+ With this the paths from <Ref Subsect="EdgeFacePath"/> can be defined
+ more compactly:
+ @BeginExampleSession
+ gap> edgeFacePath:=EdgeFacePathByEdges(thinTorus,[13,14,15,11,7,8,9]);
+ | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+ gap> IsEdgeFacePath(edgeFacePath);
+ true
+ @EndExampleSession
+
+ The NC-version does not check whether the given <A>edgeList</A> consists
+ of edges in <A>complex</A> and whether every two adjacent edges are
+ connected by an face.
+
+ @Returns a edge-face-path or <K>fail</K>
+ @Arguments complex, vertexList
+clareOperation( "EdgeFacePathByEdges", [IsPolygonalComplex, IsDenseList] );
+ @Arguments complex, edgeList
+clareOperation( "EdgeFacePathByEdgesNC", [IsPolygonalComplex, IsDenseList] );
+ @EndGroup
+
+
+ @BeginGroup EdgeFacePathByFaces
+ @Description
+ Construct a new edge-face-path (<Ref Subsect="EdgeFacePath"/>) from a
+ polygonal complex and a dense list of faces. Every two adjacent faces
+ have to be connected by an edge.
+ The first and the last edge are not clearly given by the faces. 
+ So by default they are an edge which is not between the first and the 
+ second face and not between the penultimate and the last edge. 
+ If different edges are available inner edges are preferred and the 
+ smallest possible edge is chosen.
+
+ With this the paths from <Ref Subsect="EdgeFacePath"/> can be defined
+ more compactly:
+ @BeginExampleSession
+ gap> edgeFacePath1:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5],10,9);
+ | e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+ gap> IsEdgeFacePath(edgeFacePath1);
+ true
+ gap> edgeFacePath2:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5]);
+ | e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+ gap> IsEdgeFacePath(edgeFacePath2);
+ true
+ @EndExampleSession
+ Also for faces with the same edges you can build the edge-face-path by faces:
+ @BeginExampleSession
+ gap> EdgeFacePathByFaces(JanusHead(),[1,2]);
+ ( e1, F1, e2, F2, e1 )
+ @EndExampleSession 
+
+ The NC-version does not check whether the given <A>faceList</A> consists
+ of faces in <A>complex</A>.
+
+ @Returns a edge-face-path
+ @Arguments complex, faceList[, firstEdge, lastEdge]
+clareOperation( "EdgeFacePathByFaces", [IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt] );
+ @Arguments complex, faceList[, firstEdge, lastEdge]
+clareOperation( "EdgeFacePathByFacesNC", [IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt] );
+ @EndGroup
+
+ @BeginGroup EdgeFace_PathAsList
+ @Description
+   Return the complete edge-face-path as a list (with edges and
+   faces alternating), starting with an edge.
+   
+   For the examples from <K>EdgeFacePath</K> 
+   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
+   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
+   @ExampleSession
+ gap> edgeFacePath;
+ | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+ gap> PathAsList( edgeFacePath );
+ [ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 9 ]
+   @EndExampleSession
+ @Arguments edgeFacePath
+ @Returns a list of positive integers
+clareAttribute( "PathAsList", IsEdgeFacePath );
+ @EndGroup
+
+ @BeginGroup EdgeFace_EdgesAsList
+ @Description
+   Return the edges of the edge-face-path as a list.
+
+   For the examples from <K>EdgeFacePath</K> 
+   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
+   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
+   @ExampleSession
+ gap> edgeFacePath;
+ | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+ gap> EdgesAsList( edgeFacePath );
+ [ 13, 14, 15, 11, 7, 8, 9 ]
+   @EndExampleSession
+ @Arguments edgeFacePath
+ @Returns a list of positive integers
+clareAttribute( "EdgesAsList", IsEdgeFacePath );
+ @EndGroup
+
+ @BeginGroup EdgeFace_FacesAsList
+ @Description
+     Return the faces of the edge-face-path as a list.
+
+   For the examples from <K>EdgeFacePath</K> 
+   (<Ref Subsect="EdgeFacePath"/>) in the simplicial surface from the 
+   start of section <Ref Sect="Section_Paths_EdgeFace"/>:
+   @ExampleSession
+ gap> edgeFacePath;
+ | e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+ gap> FacesAsList( edgeFacePath );
+ [ 7, 8, 9, 3, 4, 5 ]
+   @EndExampleSession
+ @Arguments edgeFacePath
+ @Returns a list of positive integers
+clareAttribute( "FacesAsList", IsEdgeFacePath );
+ @EndGroup
+
+
+ <ManSection Label="EdgeFace_IsClosedPath">
+   <Prop Name="IsClosedPath" Arg="edgeFacePath"
+     Label="for IsEdgeFacePath"
+     Comm="Return whether the given path is closed"/>
+   <Returns><K>true</K> or <K>false</K></Returns>
+   <Description>
+     Check whether the given edge-face-path is closed, i.e. whether
+     the first and last vertex in this path are equal.
+
+ The example from <K>EdgeFacePath</K>
+ (<Ref Subsect="EdgeFacePath"/>) is not closed but an extended version
+ of the path is.
+  <Alt Only="HTML">
+ &lt;br>&lt;img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> &lt;/img> &lt;br>
+end{document}

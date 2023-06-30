@@ -1,0 +1,14 @@
+
+\nonstopmode
+\documentclass{standalone}
+
+\input{TikZHeader.tex}
+
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+   \begin{tikzpicture}[vertexPlain=nolabels, edgePlain=nolabels, faceStyle=nolabels]
+     \def\orientation{1}
+     \input{Image_ConstructorExample.tex}
+   \end{tikzpicture}
+end{document}

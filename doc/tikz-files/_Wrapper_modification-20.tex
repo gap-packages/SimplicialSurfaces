@@ -1,0 +1,15 @@
+
+\nonstopmode
+\documentclass{standalone}
+
+\input{TikZHeader.tex}
+
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+ 	\begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+ 		\begin{scope}[xshift=10cm]
+ 			\input{Image_ThreeBranchingTriangles.tex}
+ 		\end{scope}
+ 	\end{tikzpicture}
+end{document}
