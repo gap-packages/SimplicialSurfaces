@@ -130,16 +130,11 @@ DeclareAttribute( "ThreeFlags", IsPolygonalComplex );
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_flags-1'> &lt;/img> &lt;br>
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
 #! </Alt>
-#! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper_flags-1-1.svg}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
 #! @BeginExampleSession
 #! gap> VertexEdgeFlags(complex);
 #! [ [ 2, 6 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 3, 12 ], [ 5, 6 ], 
@@ -159,16 +154,11 @@ DeclareAttribute( "VertexEdgeFlags", IsPolygonalComplex );
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_flags-2'> &lt;/img> &lt;br>
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
 #! </Alt>
-#! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper_flags-2-1.svg}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
 #! @BeginExampleSession
 #! gap> VertexFaceFlags(complex);
 #! [ [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], [ 5, 1 ], [ 5, 4 ], [ 7, 4 ], [ 11, 4 ] ]
@@ -187,16 +177,11 @@ DeclareAttribute( "VertexFaceFlags", IsPolygonalComplex );
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_flags-3'> &lt;/img> &lt;br>
+#! <Alt Only="TikZ">
+#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
+#!       \input{Image_FlagComplexExample.tex}
+#!   \end{tikzpicture}
 #! </Alt>
-#! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper_flags-3-1.svg}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
 #! @BeginExampleSession
 #! gap> EdgeFaceFlags(complex);
 #! [ [ 6, 1 ], [ 8, 1 ], [ 9, 1 ], [ 9, 4 ], [ 10, 4 ], [ 12, 4 ], [ 13, 4 ] ]

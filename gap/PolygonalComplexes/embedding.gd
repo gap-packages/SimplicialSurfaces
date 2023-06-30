@@ -117,16 +117,11 @@ DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 #!
 #! Consider the open bag from the start of section 
 #! <Ref Sect="Section_Embeddings_Anomalies"/>:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_embedding-1'> &lt;/img> &lt;br>
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_OpenBag.tex}
+#!    \end{tikzpicture}
 #! </Alt>
-#! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper_embedding-1-1.svg}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
 #! @ExampleSession
 #! gap> EdgeAnomalyClassOfEdge( bag, 1 );
 #! [ 1 ]
@@ -159,16 +154,11 @@ DeclareOperation( "EdgeAnomalyClassOfEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! Consider the open bag from the start of section 
 #! <Ref Sect="Section_Embeddings_Anomalies"/>:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_embedding-2'> &lt;/img> &lt;br>
+#! <Alt Only="TikZ">
+#!    \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
+#!       \input{Image_OpenBag.tex}
+#!    \end{tikzpicture}
 #! </Alt>
-#! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper_embedding-2-1.svg}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
 #! @ExampleSession
 #! gap> FaceAnomalyClassOfFace( bag, 1 );
 #! [ 1, 2 ]

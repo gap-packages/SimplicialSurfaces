@@ -143,16 +143,12 @@
 #! the face labels by the sum of the maximal vertex and edge labels. In the
 #! example above the maximal vertex label is 11 and the maximal edge label 
 #! is 13. It would be modified like this:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_graphs-1'> &lt;/img> &lt;br>
+#! <Alt Only="TikZ">
+#!   {
+#!      \def\shiftLabels{1}
+#!      \input{Image_IncidenceGraph.tex}
+#!   }
 #! </Alt>
-#! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper_graphs-1-1.svg}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
 #!
 #! The incidence graph is given as a &GAP;-graph. Currently these packages
 #! are supported:
