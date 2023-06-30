@@ -86,9 +86,9 @@ for filename in files do
         Print(file[finish]{[3..Size(file[finish])]},"\n");
 
         AppendTo(output, "\end{document}");
-
+        CloseStream(output);
     od;
-    CloseStream(output);
+    
 
     # write in original file with the changes
     Print(filename);
@@ -102,7 +102,8 @@ for filename in files do
     for i in [1..Size(file)] do
         if not i in startPositions and edit=true then
             AppendTo(output, file[i],"\n");
-        else
+        fi;
+        if i in startPositions then
             AppendTo(output, """ 
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src='./images/_Wrapper_""",filename,"""-""",Position(startPositions, i),"""'> &lt;/img> &lt;br>
