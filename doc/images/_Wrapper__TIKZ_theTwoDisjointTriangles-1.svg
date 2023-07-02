@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?> 
+<?xml-stylesheet href="_Wrapper__TIKZ_theTwoDisjointTriangles.css" type="text/css"?> 
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="68.94917pt" height="60.69241pt" viewBox="-6.86595 -6.23297 68.94917 60.69241 "> 
+<g transform="translate(0, 54.45944 ) scale(1,-1) translate(0,6.23297 )"> 
+  <g stroke="#000" fill="#000">
+ <g stroke-width="0.4">
+ <g fill="#ff6">
+ <path d=" M 56.90549 0.0 L 28.45273 49.28171 L 0.0 0.0 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(25.9523,13.20476)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(2.5,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> 1</g> </g>
+ </text> 
+</g>
+ </g>
+ <g stroke-width="0.2">
+ <g stroke-linejoin="round">
+ <g stroke-width="1.2">
+ <path d=" M 56.90549 0.0 L 0.0 0.0  " fill="none"/>
+ <g stroke-width="0.8">
+ <g stroke="#8c8c8c">
+ <path d=" M 56.90549 0.0 L 0.0 0.0  " fill="none"/>
+ </g>
+ </g>
+ </g>
+ <g fill="#ccf">
+ <g fill="#ccf">
+ <path d=" M 22.8073 -6.23297 h 11.29092 v 12.46594 h -11.29092 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(26.14027,-2.9)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(2.31248,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmr" font-size="9">1</tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ </g>
+ </g>
+ <g stroke-width="0.2">
+ <g stroke-linejoin="round">
+ <g stroke-width="1.2">
+ <path d=" M 28.45273 49.28171 L 56.90549 0.0  " fill="none"/>
+ <g stroke-width="0.8">
+ <g stroke="#8c8c8c">
+ <path d=" M 28.45273 49.28171 L 56.90549 0.0  " fill="none"/>
+ </g>
+ </g>
+ </g>
+ <g fill="#ccf">
+ <g fill="#ccf">
+ <path d=" M 37.03365 18.4079 h 11.29092 v 12.46594 h -11.29092 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(40.36662,21.74088)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(2.31248,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmr" font-size="9">2</tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ </g>
+ </g>
+ <g stroke-width="0.2">
+ <g stroke-linejoin="round">
+ <g stroke-width="1.2">
+ <path d=" M 0.0 0.0 L 28.45273 49.28171  " fill="none"/>
+ <g stroke-width="0.8">
+ <g stroke="#8c8c8c">
+ <path d=" M 0.0 0.0 L 28.45273 49.28171  " fill="none"/>
+ </g>
+ </g>
+ </g>
+ <g fill="#ccf">
+ <g fill="#ccf">
+ <path d=" M 8.58089 18.40787 h 11.29092 v 12.46594 h -11.29092 Z  " stroke="none"/>
+ </g>
+ <g transform="translate(11.91386,21.74084)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(2.31248,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmr" font-size="9">3</tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ </g>
+ </g>
+ <g fill="#e6e6e6">
+ <g fill="#e6e6e6">
+ <path d=" M 5.17773 0.0 C 5.17773 2.85962 2.85962 5.17773 0.0 5.17773 C -2.85962 5.17773 -5.17773 2.85962 -5.17773 0.0 C -5.17773 -2.85962 -2.85962 -5.17773 0.0 -5.17773 C 2.85962 -5.17773 5.17773 -2.85962 5.17773 0.0 Z M 0.0 0.0  " stroke="none"/>
+ </g>
+ <g transform="translate(-1.70142,-1.6111)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(1.70142,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmr" font-size="5">1</tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g transform="translate(-3.53297,0.0)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(0.0,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> </g> </g>
+ </text> 
+</g>
+ </g>
+ <g fill="#e6e6e6">
+ <g fill="#e6e6e6">
+ <path d=" M 62.08322 0.0 C 62.08322 2.85962 59.7651 5.17773 56.90549 5.17773 C 54.04587 5.17773 51.72775 2.85962 51.72775 0.0 C 51.72775 -2.85962 54.04587 -5.17773 56.90549 -5.17773 C 59.7651 -5.17773 62.08322 -2.85962 62.08322 0.0 Z M 56.90549 0.0  " stroke="none"/>
+ </g>
+ <g transform="translate(55.20407,-1.6111)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(1.70142,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmr" font-size="5">2</tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g transform="translate(53.37251,0.0)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(0.0,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> </g> </g>
+ </text> 
+</g>
+ </g>
+ <g fill="#e6e6e6">
+ <g fill="#e6e6e6">
+ <path d=" M 33.63046 49.28171 C 33.63046 52.14133 31.31235 54.45944 28.45273 54.45944 C 25.59311 54.45944 23.275 52.14133 23.275 49.28171 C 23.275 46.42209 25.59311 44.10397 28.45273 44.10397 C 31.31235 44.10397 33.63046 46.42209 33.63046 49.28171 Z M 28.45273 49.28171  " stroke="none"/>
+ </g>
+ <g transform="translate(26.75131,47.67061)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(1.70142,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> <tspan font-family="cmr" font-size="5">3</tspan> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ <g transform="translate(24.91975,49.28171)">
+ <g fill="#000">
+ <text style="stroke:none" transform="scale(1,-1) translate(0.0,0)" text-anchor="middle"  font-size="10"> 
+<g fill="#000">
+ <g stroke="none"> </g> </g>
+ </text> 
+</g>
+ </g>
+ </g>
+ </g>
+ 
+                             </g> 
+</svg> 

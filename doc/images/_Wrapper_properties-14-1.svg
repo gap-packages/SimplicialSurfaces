@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?> 
+<?xml-stylesheet href="_Wrapper_properties-14.css" type="text/css"?> 
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="171.11646pt" height="99.98459pt" viewBox="-85.55823 -42.8791 171.11646 99.98459 "> 
+<g transform="translate(0,57.10548 ) scale(1,-1) translate(0,42.8791 )"> 
+                <g stroke="#000" fill="#000">
+ <g stroke-width="0.4">
+ <g stroke-linejoin="round">
+ <g stroke="#000">
+ <g fill="#ff6">
+ <path d=" M -85.35823 -28.45274 L -28.45274 -42.67911 L -56.90549 28.45274 Z M -28.45274 -42.67911 L -56.90549 28.45274 L 0.0 0.0 Z  " />
+ </g>
+ </g>
+ </g>
+ <g stroke-linejoin="round">
+ <g stroke="#000">
+ <g fill="#ff6">
+ <path d=" M 0.0 0.0 L 42.67911 56.90549 L 85.35823 -2.84544 Z  " />
+ </g>
+ </g>
+ </g>
+ <g stroke-linejoin="round">
+ <g stroke="#000">
+ <g stroke-dasharray="3.0,3.0" stroke-dashoffset="0.0">
+ <path d=" M -85.35823 -28.45274 L 0.0 0.0 M 85.35823 -2.84544 L 34.1432 28.45274 M 0.0 0.0 L 34.1432 28.45274 M 42.67911 56.90549 L 34.1432 28.45274  " fill="none"/>
+ </g>
+ </g>
+ </g>
+ <g stroke="#f00" fill="#f00">
+ <path d=" M 0.0 0.0 M 2.0 0.0 C 2.0 1.10458 1.10458 2.0 0.0 2.0 C -1.10458 2.0 -2.0 1.10458 -2.0 0.0 C -2.0 -1.10458 -1.10458 -2.0 0.0 -2.0 C 1.10458 -2.0 2.0 -1.10458 2.0 0.0 Z M 0.0 0.0  " stroke="none"/>
+ </g>
+ </g>
+ </g>
+ 
+                                 </g> 
+</svg> 

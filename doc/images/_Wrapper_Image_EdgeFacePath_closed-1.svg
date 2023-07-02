@@ -16,7 +16,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">1</tspan></tspan></g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">1</tspan></tspan></g> </g>
  </text> 
 </g>
  </g>
@@ -29,7 +29,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">2</tspan></tspan></g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">2</tspan></tspan></g> </g>
  </text> 
 </g>
  </g>
@@ -41,7 +41,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(5.22919,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">1</tspan></tspan></g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="7">1</tspan></tspan></g> </g>
  </text> 
 </g>
  </g>
@@ -57,7 +57,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">2</tspan> </tspan> </g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">2</tspan> </tspan> </g> </g>
  </text> 
 </g>
  </g>
@@ -70,7 +70,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">3</tspan> </tspan> </g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">3</tspan> </tspan> </g> </g>
  </text> 
 </g>
  </g>
@@ -82,7 +82,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(5.22919,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">2</tspan></tspan></g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="7">2</tspan></tspan></g> </g>
  </text> 
 </g>
  </g>
@@ -98,7 +98,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">3</tspan> </tspan> </g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">3</tspan> </tspan> </g> </g>
  </text> 
 </g>
  </g>
@@ -111,7 +111,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">4</tspan> </tspan> </g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">4</tspan> </tspan> </g> </g>
  </text> 
 </g>
  </g>
@@ -123,7 +123,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(5.22919,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">3</tspan></tspan></g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="7">3</tspan></tspan></g> </g>
  </text> 
 </g>
  </g>
@@ -139,7 +139,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">4</tspan> </tspan> </g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">4</tspan> </tspan> </g> </g>
  </text> 
 </g>
  </g>
@@ -152,7 +152,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">5</tspan> </tspan> </g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">5</tspan> </tspan> </g> </g>
  </text> 
 </g>
  </g>
@@ -164,7 +164,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(5.22919,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">4</tspan></tspan></g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="7">4</tspan></tspan></g> </g>
  </text> 
 </g>
  </g>
@@ -180,7 +180,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">5</tspan> </tspan> </g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">5</tspan> </tspan> </g> </g>
  </text> 
 </g>
  </g>
@@ -193,7 +193,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(4.23346,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan dy="3"><tspan font-family="cmr" font-size="6">1</tspan> </tspan> </g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="9">e</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="6">1</tspan> </tspan> </g> </g>
  </text> 
 </g>
  </g>
@@ -205,7 +205,7 @@
  <g fill="#000">
  <text style="stroke:none" transform="scale(1,-1) translate(5.22919,0)" text-anchor="middle"  font-size="10"> 
 <g fill="#000">
- <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan dy="3"><tspan font-family="cmr" font-size="7">5</tspan></tspan></g> </g>
+ <g stroke="none"> <tspan font-family="cmmi" font-size="10">f</tspan><tspan baseline-shift="sub"><tspan font-family="cmr" font-size="7">5</tspan></tspan></g> </g>
  </text> 
 </g>
  </g>

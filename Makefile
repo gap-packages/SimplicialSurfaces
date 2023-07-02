@@ -26,9 +26,9 @@ doc/manual.six: makedoc.g \
 		doc/PolygonalStructuresDefinitions.xml \
 		doc/ExampleImplementations.xml \
 		doc/ExampleApplications.xml \
-		doc/Image_* \
+		doc/images/Image_* \
 		doc/TableOfContents.autodoc\
-		doc/TikZHeader.tex
+		doc/tikz-files/TikZHeader.tex
 	gap makedoc.g
 
 flatex/flatex: flatex/flatex.c \
