@@ -900,7 +900,7 @@ pr.faceCoordinates2D[1]:=[-2.,4.];;
 #! &lt;img src="./images/_Wrapper_Image_facegraph_oct2-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_Image_facegraph_oct2.pdf\}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct2.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -921,7 +921,7 @@ pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
 #! &lt;img src="./images/_Wrapper_Image_facegraph_oct3-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_Image_facegraph_oct3.pdf\}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct3.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1083,7 +1083,7 @@ double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
 #! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_Image_Double6gon.pdf\}
+#! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1096,7 +1096,7 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 #! &lt;img src="./images/_Wrapper_Image_facegraph_Double6Gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_Image_facegraph_Double6Gon.pdf\}
+#! \includegraphics{images/_Wrapper_Image_facegraph_Double6Gon.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1114,7 +1114,7 @@ DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;
 #! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_VertexLabelsOn-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_TIKZ_facegraph_Double6Gon_VertexLabelsOn.pdf\}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_VertexLabelsOn.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1136,7 +1136,7 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;
 #! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_vertexLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_TIKZ_facegraph_Double6Gon_vertexLabels.pdf\}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_vertexLabels.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1153,7 +1153,7 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;
 #! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabelsOn-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabelsOn.pdf\}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabelsOn.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1175,7 +1175,7 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;
 #! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabels.pdf\}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabels.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1192,7 +1192,7 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;
 #! &lt;img src="./images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff.pdf\}
+#! \includegraphics{images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1214,7 +1214,7 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;
 #! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_FaceLabels-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_TIKZ_facegraph_Double6Gon_FaceLabels.pdf\}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_FaceLabels.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1356,7 +1356,7 @@ DrawFacegraphToTikz( oct, "facegraph_Octahedron.tex" );;
 #! &lt;img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_Image_facegraph_oct_Rescaled.pdf\}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct_Rescaled.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

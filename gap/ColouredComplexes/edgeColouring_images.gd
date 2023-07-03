@@ -113,7 +113,7 @@ DrawSurfaceToTikz( colPyr1, "Pyramid_coloured_1", rec(scale:=2.5, edgeColourClas
 #! &lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured_1-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_TIKZ_Pyramid_coloured_1.pdf\}
+#! \includegraphics{images/_Wrapper_TIKZ_Pyramid_coloured_1.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -128,7 +128,7 @@ DrawSurfaceToTikz( colPyr2, "Pyramid_coloured_2", rec(scale:=2.5, edgeColourClas
 #! &lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured_2-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_TIKZ_Pyramid_coloured_2.pdf\}
+#! \includegraphics{images/_Wrapper_TIKZ_Pyramid_coloured_2.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

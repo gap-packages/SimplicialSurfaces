@@ -1193,7 +1193,7 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! &lt;img src="./images/_Wrapper_Image_Example3Waist-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_Image_Example3Waist.pdf\}
+#! \includegraphics{images/_Wrapper_Image_Example3Waist.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1247,7 +1247,7 @@ DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
 #! &lt;img src="./images/_Wrapper_Image_Example2Waist-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics\{images/_Wrapper_Image_Example2Waist.pdf\}
+#! \includegraphics{images/_Wrapper_Image_Example2Waist.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

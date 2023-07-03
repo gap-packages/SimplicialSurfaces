@@ -34,10 +34,10 @@
     section <Ref Sect="PolygonalStructures_complex"/>).
 
     <Alt Only="HTML">
-    &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples.tex"> &lt;/img> &lt;br>
+    &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples.svg"> &lt;/img> &lt;br>
     </Alt>
     <Alt Only = "LaTeX">
-    \includegraphics{images/_Wrapper_Image_ManyExamples.tex}
+    \includegraphics{images/_Wrapper_Image_ManyExamples.pdf}
     </Alt>
     <Alt Only = "Text">
     Image omitted in terminal text
@@ -78,10 +78,10 @@
              be disjoint. While this is a serious concern, we feel that it is
              counteracted by enough contrary examples in the manual. -->
         <Alt Only="HTML">
-        &lt;br>&lt;img src="./images/_Wrapper_Image_StarOfStarExample.tex"> &lt;/img> &lt;br>
+        &lt;br>&lt;img src="./images/_Wrapper_Image_StarOfStarExample.svg"> &lt;/img> &lt;br>
         </Alt>
         <Alt Only = "LaTeX">
-        \includegraphics{images/_Wrapper_Image_StarOfStarExample.tex}
+        \includegraphics{images/_Wrapper_Image_StarOfStarExample.pdf}
         </Alt>
         <Alt Only = "Text">
         Image omitted in terminal text
@@ -187,10 +187,10 @@
         that the examples in the picture
 
         <Alt Only="HTML">
-        &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples.tex"> &lt;/img> &lt;br>
+        &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples.svg"> &lt;/img> &lt;br>
         </Alt>
         <Alt Only = "LaTeX">
-        \includegraphics{images/_Wrapper_Image_ManyExamples.tex}
+        \includegraphics{images/_Wrapper_Image_ManyExamples.pdf}
         </Alt>
         <Alt Only = "Text">
         Image omitted in terminal text
@@ -365,10 +365,10 @@
                 below but the aim of this condition is to exclude cases like 
                 these:
                 <Alt Only="HTML">
-                &lt;br>&lt;img src="./images/_Wrapper_Image_RamifiedExamples.tex"> &lt;/img> &lt;br>
+                &lt;br>&lt;img src="./images/_Wrapper_Image_RamifiedExamples.svg"> &lt;/img> &lt;br>
                 </Alt>
                 <Alt Only = "LaTeX">
-                \includegraphics{images/_Wrapper_Image_RamifiedExamples.tex}
+                \includegraphics{images/_Wrapper_Image_RamifiedExamples.pdf}
                 </Alt>
                 <Alt Only = "Text">
                 Image omitted in terminal text
@@ -413,10 +413,10 @@
             <Heading>Definition (Umbrella-path around a vertex)</Heading>
                 <#Include Label="Umbrella_Definition">
                 <Alt Only="HTML">
-                &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath.tex"> &lt;/img> &lt;br>
+                &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath.svg"> &lt;/img> &lt;br>
                 </Alt>
                 <Alt Only = "LaTeX">
-                \includegraphics{images/_Wrapper_Image_EdgeFacePath.tex}
+                \includegraphics{images/_Wrapper_Image_EdgeFacePath.pdf}
                 </Alt>
                 <Alt Only = "Text">
                 Image omitted in terminal text
