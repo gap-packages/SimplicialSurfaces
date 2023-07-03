@@ -32,8 +32,15 @@
     <E>Polygonal Complexes</E> are structures that are build from polygons, 
     like shown in the following figure (for the precise definition, see
     section <Ref Sect="PolygonalStructures_complex"/>).
-    <Alt Only="TikZ">
-        \input{Image_ManyExamples.tex}
+
+    <Alt Only="HTML">
+    <br><img src="./images/_Wrapper_Image_ManyExamples.tex"> </img> <br>
+    </Alt>
+    <Alt Only = "LaTeX">
+    \includegraphics{images/_Wrapper_Image_ManyExamples.tex}
+    </Alt>
+    <Alt Only = "Text">
+    Image omitted in terminal text
     </Alt>
     Surfaces are a special case of polygonal complexes and the package 
     provides functionality to determine whether a polygonal complex is
@@ -64,10 +71,14 @@
              Downside: It might give the impression that these numbers have to
              be disjoint. While this is a serious concern, we feel that it is
              counteracted by enough contrary examples in the manual. -->
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-                \input{Image_StarOfStarExample.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        <br><img src="./images/_Wrapper_Image_StarOfStarExample.tex"> </img> <br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \includegraphics{images/_Wrapper_Image_StarOfStarExample.tex}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         we have the sets
         <Par/>
@@ -169,8 +180,15 @@
 
         It is now easy to verify
         that the examples in the picture
-        <Alt Only="TikZ">
-            \input{Image_ManyExamples.tex}
+
+        <Alt Only="HTML">
+        <br><img src="./images/_Wrapper_Image_ManyExamples.tex"> </img> <br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \includegraphics{images/_Wrapper_Image_ManyExamples.tex}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         are all polygonal complexes.
         <Par/>
@@ -364,8 +382,14 @@
             <Item> There are no ramified vertices. We will formalize this
                 below but the aim of this condition is to exclude cases like 
                 these:
-                <Alt Only="TikZ">
-                    \input{Image_RamifiedExamples.tex}
+                <Alt Only="HTML">
+                <br><img src="./images/_Wrapper_Image_RamifiedExamples.tex"> </img> <br>
+                </Alt>
+                <Alt Only = "LaTeX">
+                \includegraphics{images/_Wrapper_Image_RamifiedExamples.tex}
+                </Alt>
+                <Alt Only = "Text">
+                Image omitted in terminal text
                 </Alt>
             </Item>
         </Enum>
@@ -401,8 +425,14 @@
         <Subsection Label="Definition_Umbrella">
             <Heading>Definition (Umbrella-path around a vertex)</Heading>
                 <#Include Label="Umbrella_Definition">
-                <Alt Only="Tikz">
-                    \input{Image_EdgeFacePath.tex}
+                <Alt Only="HTML">
+                <br><img src="./images/_Wrapper_Image_EdgeFacePath.tex"> </img> <br>
+                </Alt>
+                <Alt Only = "LaTeX">
+                \includegraphics{images/_Wrapper_Image_EdgeFacePath.tex}
+                </Alt>
+                <Alt Only = "Text">
+                Image omitted in terminal text
                 </Alt>
         </Subsection>
         With this definition in mind we can explicate the second property:
