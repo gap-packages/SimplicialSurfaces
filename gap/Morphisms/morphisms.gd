@@ -53,7 +53,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -377,7 +379,9 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_FiveUmbrella-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_FiveUmbrella.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1067,7 +1071,9 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1133,7 +1139,9 @@ DeclareAttribute( "RangeSurface", IsGeneralPolygonalMorphism );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1163,7 +1171,9 @@ DeclareAttribute( "VertexMapAsImageList", IsPolygonalMorphism );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1193,7 +1203,9 @@ DeclareAttribute( "EdgeMapAsImageList", IsPolygonalMorphism );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

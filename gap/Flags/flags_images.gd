@@ -61,7 +61,9 @@ DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=5,
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_FlagComplex_Labelled-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_FlagComplex_Labelled.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -92,7 +94,9 @@ DrawSurfaceToTikz(flagSurf, "FlagSurface",
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_FlagSurface-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_FlagSurface.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

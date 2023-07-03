@@ -113,7 +113,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -142,7 +144,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -175,7 +179,9 @@ DeclareAttribute( "NumberOfVertices", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -204,7 +210,9 @@ DeclareAttribute( "NumberOfEdges", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -587,7 +595,9 @@ DeclareOperation( "EdgesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! #! &lt;br>&lt;img src="./images/_Wrapper_Image_PentagonCyclicOrder-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_PentagonCyclicOrder.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -686,7 +696,9 @@ DeclareOperation( "EdgesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_PentagonCyclicOrder-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_PentagonCyclicOrder.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -757,7 +769,9 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EdgeFacePath.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -892,7 +906,9 @@ DeclareOperation( "UmbrellaPathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EdgeFacePath_ramified.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -950,7 +966,9 @@ DeclareOperation( "UmbrellaPathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EdgeFacePath_ramified.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -997,7 +1015,9 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1047,7 +1067,9 @@ DeclareOperation("StarNC",[IsPolygonalComplex,IsList]);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1103,7 +1125,9 @@ DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_HoleExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_HoleExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1163,7 +1187,9 @@ DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_HoleExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_HoleExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

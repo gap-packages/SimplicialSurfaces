@@ -484,7 +484,9 @@ DeclareOperation( "SimplicialUmbrella", [ IsPosInt ] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SimplicialOpenGeodesic-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SimplicialOpenGeodesic.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -529,7 +531,9 @@ DeclareOperation( "SimplicialStrip", [ IsPosInt ] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SimplicialClosedGeodesic-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SimplicialClosedGeodesic.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

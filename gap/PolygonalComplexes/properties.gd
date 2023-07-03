@@ -187,7 +187,9 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_DoubleTetrahedron.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1044,7 +1046,9 @@ DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ButIndEdg-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_ButIndEdg.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1466,7 +1470,9 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TwoColouredOctahedron-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TwoColouredOctahedron.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1511,7 +1517,9 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_butfly-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_butfly.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

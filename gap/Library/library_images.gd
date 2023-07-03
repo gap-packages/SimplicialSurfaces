@@ -31,7 +31,9 @@ DrawSurfaceToTikz(janus, "Janus_constructor", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -50,7 +52,9 @@ DrawSurfaceToTikz(tetra, "Tetrahedron_constructor_labelShift", pr);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -67,7 +71,9 @@ DrawSurfaceToTikz(cube, "Cube_constructor", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -84,7 +90,9 @@ DrawSurfaceToTikz(octa, "Octahedron_constructor", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -101,7 +109,9 @@ DrawSurfaceToTikz(dode, "Dodecahedron_constructor", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Dodecahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Dodecahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -118,7 +128,9 @@ DrawSurfaceToTikz(ico, "Icosahedron_constructor", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Icosahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Icosahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

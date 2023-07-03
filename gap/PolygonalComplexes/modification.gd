@@ -62,7 +62,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -138,7 +140,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -219,7 +223,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Eye_Open-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Eye_Open.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -262,7 +268,9 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EdgeFacePath_ramified.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -342,7 +350,9 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitEdgePath-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitEdgePath.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -422,7 +432,9 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitEdgePath-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitEdgePath.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -447,7 +459,9 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplittedEdgePath-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplittedEdgePath.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -477,7 +491,9 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -533,7 +549,9 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Hexagon_RemovedFace-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Hexagon_RemovedFace.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -585,7 +603,9 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsTwistedPolygonalComplex, IsSet] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Tetra_RemovedFace-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Tetra_RemovedFace.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -772,7 +792,9 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -818,7 +840,9 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SplitExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplitExample.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -856,7 +880,9 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1002,7 +1028,9 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Eye_OpenClosed-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Eye_OpenClosed.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1046,7 +1074,9 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1061,7 +1091,9 @@ DeclareOperation("JoinEdgesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theTriangle-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theTriangle.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1201,7 +1233,9 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_FourGon-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_FourGon.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1248,7 +1282,9 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_FourGon-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_FourGon.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1299,7 +1335,9 @@ DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1318,7 +1356,9 @@ DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TorusOcta-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TorusOcta.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1476,7 +1516,9 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TetraExt-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TetraExt.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1509,7 +1551,9 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TetrahedralExtension-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TetrahedralExtension.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1528,7 +1572,9 @@ DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt,IsPosIn
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TetraRed-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TetraRed.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1540,7 +1586,9 @@ DeclareOperation( "TetrahedralExtension", [IsSimplicialSurface, IsPosInt,IsPosIn
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_DoubleTetrahedron.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1704,7 +1752,9 @@ DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1724,7 +1774,9 @@ DeclareOperation( "MultiTetrahedralSphereByTetrahedralSymbol", [IsDenseList] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ETOctahedron-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_ETOctahedron.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1849,7 +1901,9 @@ DeclareAttribute( "BuildingBlocks", IsSimplicialSurface);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1939,7 +1993,9 @@ DeclareAttribute( "CraterCuttableEdges", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -2063,7 +2119,9 @@ DeclareAttribute( "RipCuttableEdges", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -2158,7 +2216,9 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -2184,7 +2244,9 @@ DeclareAttribute( "RipMendableEdgePairs", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TwoDisjointOneFaces-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TwoDisjointOneFaces.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -2235,7 +2297,9 @@ DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TwoDisjointOneFaces-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TwoDisjointOneFaces.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -2270,7 +2334,9 @@ DeclareAttribute( "SplitCuttableEdges", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

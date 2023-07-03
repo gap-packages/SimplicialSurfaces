@@ -41,7 +41,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -112,7 +114,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -161,7 +165,9 @@ DeclareOperation("IsVerticesAdjacentNC", [IsTwistedPolygonalComplex, IsPosInt, I
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -219,7 +225,9 @@ DeclareOperation("EdgeBetweenVerticesNC", [IsTwistedPolygonalComplex, IsPosInt, 
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -265,7 +273,9 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -333,7 +343,9 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -396,7 +408,9 @@ DeclareOperation("EdgesInFaceByVerticesNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -454,7 +468,9 @@ DeclareOperation("OtherEdgesOfVertexInFaceNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -509,7 +525,9 @@ DeclareOperation("OppositeVertexOfEdgeInTriangleNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -557,7 +575,9 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -615,7 +635,9 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -664,7 +686,9 @@ DeclareOperation("IsFacesAdjacentNC", [IsTwistedPolygonalComplex, IsPosInt, IsPo
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -725,7 +749,9 @@ DeclareOperation("EdgeBetweenFacesNC", [IsTwistedPolygonalComplex, IsPosInt, IsP
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -783,7 +809,9 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -891,7 +919,9 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -974,7 +1004,9 @@ DeclareOperation("AdjacentVerticesWithProperty",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1057,7 +1089,9 @@ DeclareOperation("EdgesWithVertexProperty", [IsTwistedPolygonalComplex, IsFuncti
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1141,7 +1175,9 @@ DeclareOperation("FacesWithVertexProperty", [IsTwistedPolygonalComplex, IsFuncti
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1209,7 +1245,9 @@ DeclareOperation("FacesWithEdgeProperty", [IsTwistedPolygonalComplex, IsFunction
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1250,7 +1288,9 @@ DeclareOperation( "CommonVerticesOfEdgesNC", [IsTwistedPolygonalComplex, IsList]
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1287,7 +1327,9 @@ DeclareOperation( "CommonEdgesOfFacesNC", [IsTwistedPolygonalComplex, IsList]);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1326,7 +1368,9 @@ DeclareOperation( "CommonVerticesOfFacesNC", [IsTwistedPolygonalComplex, IsList]
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1363,7 +1407,9 @@ DeclareOperation( "CommonEdgesOfVerticesNC", [IsTwistedPolygonalComplex, IsList]
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1402,7 +1448,9 @@ DeclareOperation( "CommonFacesOfEdgesNC", [IsTwistedPolygonalComplex, IsList]);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

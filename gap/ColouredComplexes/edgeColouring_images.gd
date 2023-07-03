@@ -34,7 +34,9 @@ DrawSurfaceToTikz( pyr, "Pyramid_coloured", pr );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Pyramid_coloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -95,7 +97,9 @@ DrawSurfaceToTikz( pyr, "Pyramid_uncoloured", rec(scale:=2.5, edgeColours:="blac
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Pyramid_uncoloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Pyramid_uncoloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -139,7 +143,9 @@ DrawSurfaceToTikz( colPyr2, "Pyramid_coloured_2", rec(scale:=2.5, edgeColourClas
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Pyramid_coloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -162,7 +168,9 @@ ColoursOfEdges( colPyr );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Pyramid_coloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -198,7 +206,9 @@ pr := DrawSurfaceToTikz( colTetra, "ColouredTetrahedron", rec(scale:=2.5) );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -214,7 +224,9 @@ DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_rectangular", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_rectangular-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron_rectangular.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -228,7 +240,9 @@ DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_coloured", pr );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_coloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron_coloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -256,7 +270,9 @@ DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_modLengths", pr );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_modLengths-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_ColouredTetrahedron_modLengths.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

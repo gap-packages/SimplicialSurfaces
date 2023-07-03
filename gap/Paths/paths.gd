@@ -85,7 +85,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SixTriangles_AlphaAndOmega.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -103,7 +105,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_CircleAndClover-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SixTriangles_CircleAndClover.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -161,7 +165,9 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SixTriangles_AlphaAndOmega.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -223,7 +229,9 @@ DeclareOperation( "VertexEdgePathByVerticesNC", [IsPolygonalComplex, IsDenseList
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SixTriangles_AlphaAndOmega.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -362,7 +370,9 @@ DeclareAttribute( "EdgesAsList", IsVertexEdgePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_CircleAndClover-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SixTriangles_CircleAndClover.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -423,7 +433,9 @@ DeclareAttribute( "ReversedPath", IsVertexEdgePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_CircleAndOmega-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SixTriangles_CircleAndOmega.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -446,7 +458,9 @@ DeclareAttribute( "ReversedPath", IsVertexEdgePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_Circle-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SixTriangles_Circle.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -476,7 +490,9 @@ DeclareAttribute( "VerticesAsPerm", IsVertexEdgePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SixTriangles_Circle-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SixTriangles_Circle.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -526,7 +542,9 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsVertexEd
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_FourGon-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_FourGon.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -569,7 +587,9 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -607,7 +627,9 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -631,7 +653,9 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -944,7 +968,9 @@ DeclareAttribute( "FacesAsList", IsEdgeFacePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_ThinTorus_longPath.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1034,7 +1060,9 @@ DeclareAttribute( "ReversedPath", IsEdgeFacePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_ThinTorus_longPath.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1064,7 +1092,9 @@ DeclareAttribute( "EdgesAsPerm", IsEdgeFacePath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_ThinTorus_longPath.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1115,7 +1145,9 @@ DeclareOperation( "ConcatenationOfPaths", [IsTwistedPolygonalComplex, IsEdgeFace
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_FourGon-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_FourGon.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1279,7 +1311,9 @@ DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Geodesics-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Geodesics.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1429,7 +1463,9 @@ DeclareAttribute( "VertexEdgePathOfGeodesic", IsEdgeFacePath and IsGeodesicPath 
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Geodesics-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Geodesics.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1448,7 +1484,9 @@ DeclareAttribute( "VertexEdgePathOfGeodesic", IsEdgeFacePath and IsGeodesicPath 
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_OpenGeodesics-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_OpenGeodesics.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1538,7 +1576,9 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagsOfGeodesic-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_FlagsOfGeodesic.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -2118,7 +2158,9 @@ DeclareAttribute( "Orientation", IsPolygonalComplex and IsNotEdgeRamified );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ProjectivePlane-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_ProjectivePlane.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

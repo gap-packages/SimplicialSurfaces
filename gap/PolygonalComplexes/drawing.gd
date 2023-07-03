@@ -36,7 +36,9 @@ DrawSurfaceToTikz( oct, "Octahedron_example" );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_example-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_example.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -67,7 +69,9 @@ DrawSurfaceToTikz( oct, "Octahedron_recoloured.tex", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_recoloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_recoloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -99,7 +103,9 @@ DrawSurfaceToTikz( oct, "Octahedron_customized.tex", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_customized-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_customized.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -117,7 +123,9 @@ pr.edgeLengths;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_edgeLabels-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_edgeLabels.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -137,7 +145,9 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_reshaped-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_reshaped.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -176,7 +186,9 @@ DrawSurfaceToTikz(cube, "Cube_example");;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_example-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_example.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -200,7 +212,9 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_vertexColouredLocal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_vertexColouredLocal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -216,7 +230,9 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_vertexColouredGlobal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_vertexColouredGlobal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -240,7 +256,9 @@ DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_edgeColouredLocal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_edgeColouredLocal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -256,7 +274,9 @@ DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_edgeColouredGlobal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_edgeColouredGlobal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -281,7 +301,9 @@ DrawSurfaceToTikz( cube, "Cube_faceColouredLocal", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_faceColouredLocal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_faceColouredLocal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -297,7 +319,9 @@ DrawSurfaceToTikz( cube, "Cube_faceColouredGlobal", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_faceColouredGlobal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_faceColouredGlobal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -335,7 +359,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_example-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_example.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -351,7 +377,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabelsOff", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_vertexLabelsOff-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_vertexLabelsOff.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -373,7 +401,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabels", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_vertexLabels-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_vertexLabels.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -390,7 +420,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabelsOff", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLabelsOff-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_edgeLabelsOff.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -412,7 +444,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabels", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLabels-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_edgeLabels.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -429,7 +463,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabelsOff", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_faceLabelsOff-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_faceLabelsOff.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -451,7 +487,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_faceLabels-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_faceLabels.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -498,7 +536,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_example-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_example.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -513,7 +553,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_rescaled", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_rescaled-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_rescaled.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -533,7 +575,9 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLengths", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLengths-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_edgeLengths.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -557,7 +601,9 @@ pr:=DrawSurfaceToTikz( rectangle, "Rectangle_example" );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Rectangle_example-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Rectangle_example.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -571,7 +617,9 @@ DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Rectangle_angles-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Rectangle_angles.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -620,7 +668,9 @@ pr := DrawSurfaceToTikz(butterfly,"Butterfly");;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Butterfly-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Butterfly.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -634,7 +684,9 @@ DrawSurfaceToTikz( butterfly, "Butterfly_startingFaces", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Butterfly_startingFaces-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Butterfly_startingFaces.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -656,7 +708,9 @@ pr:=DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon");;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_DoubleSixGon-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_DoubleSixGon.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -670,7 +724,9 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_DoubleSixGon_edgeDraw-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_DoubleSixGon_edgeDraw.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -753,7 +809,9 @@ DrawFacegraphToTikz( oct, "facephgraph_oct_example" );;
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_facegraph_oct_Rescaled.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -774,7 +832,9 @@ pr.edgeLabelsActive := true;;
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_edgelabels-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_facegraph_oct_edgelabels.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -789,7 +849,9 @@ pr.vertexLabelsActive := true;;
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_vertexLabels-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_facegraph_oct_vertexLabels.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -806,7 +868,9 @@ pr.edgeColours := "green";;
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_greenEdges-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_facegraph_oct_greenEdges.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -818,7 +882,9 @@ pr.edgeColours := "green";;
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_octGeodesics-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_facegraph_octGeodesics.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -886,7 +952,9 @@ DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -910,7 +978,9 @@ DrawFacegraphToTikz(tetra,
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredLocal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredLocal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -927,7 +997,9 @@ DrawFacegraphToTikz(tetra,
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredGlobal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredGlobal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -952,7 +1024,9 @@ DrawFacegraphToTikz(tetra,
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredLocal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredLocal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -969,7 +1043,9 @@ DrawFacegraphToTikz( tetra,
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredGlobal-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredGlobal.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1167,7 +1243,9 @@ DrawFacegraphToTikz( oct, "facegraph_oct" );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_oct-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_facegraph_oct.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1182,7 +1260,9 @@ DrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_facegraph_oct_Rescaled.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1212,7 +1292,9 @@ DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1235,7 +1317,9 @@ DrawFacegraphToTikz(tetra,
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_Coordinates-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_Coordinates.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1292,7 +1376,9 @@ DrawFacegraphToTikz( oct,
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_octGeodesics-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_facegraph_octGeodesics.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

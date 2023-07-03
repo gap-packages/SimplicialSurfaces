@@ -78,7 +78,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_twocoloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_twocoloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -117,7 +119,9 @@ DeclareProperty("IsEdgeTwoColouring", IsEdgeColouredPolygonalComplex);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_twocoloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_twocoloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -173,7 +177,9 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalLegSymmetry-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_LocalLegSymmetry.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -388,7 +394,9 @@ DeclareAttribute("ColourInvolutions", IsIsoscelesColouredSurface);
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalLegSymmetry-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_LocalLegSymmetry.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

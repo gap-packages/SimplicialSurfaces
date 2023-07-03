@@ -15,7 +15,9 @@ fi;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theTwoDisjointTriangles-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theTwoDisjointTriangles.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -30,7 +32,9 @@ DrawSurfaceToTikz(SimplicialSurfaceByDownwardIncidenceNC([[1,2],
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theTriangle-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theTriangle.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -45,7 +49,9 @@ DrawSurfaceToTikz(SimplicialSurfaceByDownwardIncidenceNC([[1,2],[2,3],[1,3]],
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theRestrSurf-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theRestrSurf.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -59,7 +65,9 @@ DrawSurfaceToTikz(RestrictionToNeighbourhoodOfFacesNC(Cube(),1,[1]),"theRestrSur
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theRestrIco-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theRestrIco.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -75,7 +83,9 @@ DrawSurfaceToTikz(restrictionOne,"theRestrIco",pr);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theRestrOcta-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theRestrOcta.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -89,7 +99,9 @@ DrawSurfaceToTikz(RestrictionToNeighbourhoodOfVerticesNC(Octahedron(),1,[1]),"th
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theRestrIcoOne-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theRestrIcoOne.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -103,7 +115,9 @@ DrawSurfaceToTikz(RestrictionToNeighbourhoodOfVerticesNC(Icosahedron(),1,[4]),"t
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theRestrIcoTwo-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theRestrIcoTwo.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -119,7 +133,9 @@ DrawSurfaceToTikz(restrictionTwo,"theRestrIcoTwo",pr);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theSquare-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theSquare.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -137,7 +153,9 @@ DrawSurfaceToTikz(mySquare,"theSquare");
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_theBat-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_theBat.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

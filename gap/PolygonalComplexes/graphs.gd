@@ -131,7 +131,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_IncidenceGraph-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_IncidenceGraph.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -343,7 +345,9 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_FaceGraphTetra.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -392,7 +396,9 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_FaceGraphTetra.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -421,7 +427,9 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_FaceGraphTetra.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -609,7 +617,9 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -627,7 +637,9 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Janus_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -651,7 +663,9 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TetrahedronChambers-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TetrahedronChambers.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -747,7 +761,9 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TetrahedronChambers-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_TetrahedronChambers.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -809,7 +825,9 @@ DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -849,7 +867,9 @@ DeclareOperation( "DisplayAsAutomorphism", [IsTwistedPolygonalComplex, IsPerm] )
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -882,7 +902,9 @@ DeclareProperty( "IsAutomorphismDefinedByVertices", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -916,7 +938,9 @@ DeclareProperty( "IsAutomorphismDefinedByEdges", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -968,7 +992,9 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1030,7 +1056,9 @@ DeclareOperation( "OnVertexEdgePaths",
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

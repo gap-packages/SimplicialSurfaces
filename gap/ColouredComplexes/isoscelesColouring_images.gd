@@ -37,7 +37,9 @@ DrawSurfaceToTikz(colCube, "Cube_twocoloured", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_twocoloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_twocoloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -63,7 +65,9 @@ DrawSurfaceToTikz(colOct, "Oct_isosccoloured", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Oct_isosccoloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Oct_isosccoloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -90,7 +94,9 @@ DrawSurfaceToTikz(wildOct, "Octahedron_WildIsosceles", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_WildIsosceles-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_WildIsosceles.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -104,7 +110,9 @@ DrawSurfaceToTikz(wildOct, "Octahedron_WildIsosceles", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Oct_isosccoloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Oct_isosccoloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -119,7 +127,9 @@ ColourInvolutions( colOct );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_WildIsosceles-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_WildIsosceles.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -230,7 +240,9 @@ DrawSurfaceToTikz(colIco, "Ico_isosccoloured", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Ico_isosccoloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Ico_isosccoloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

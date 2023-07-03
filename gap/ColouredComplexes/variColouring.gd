@@ -75,7 +75,9 @@
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Prism_coloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -126,7 +128,9 @@ InstallTrueMethod( IsEdgeVariColouring, IsEdgeExactColouring );
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Prism_coloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -214,7 +218,9 @@ DeclareAttribute("ColourInvolutions",
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalSymmetry-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_LocalSymmetry.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -289,7 +295,9 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalSymmetry-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_LocalSymmetry.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

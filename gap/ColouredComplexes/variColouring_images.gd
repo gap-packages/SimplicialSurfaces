@@ -39,7 +39,9 @@ DrawSurfaceToTikz(colPrism, "Prism_coloured", pr );;
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Prism_coloured.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -66,7 +68,9 @@ IsEdgeVariColouring(colDisk);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredDisk-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_ColouredDisk.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -93,7 +97,9 @@ ColourInvolutions(colDisk);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredDisk-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_ColouredDisk.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -115,7 +121,9 @@ IsWildColouredSurface(wildColTetra);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_WildColTetra-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_WildColTetra.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -133,7 +141,9 @@ IsWildColouredSurface(colTetra);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_NotWildColTetra-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_NotWildColTetra.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -151,7 +161,9 @@ IsWildColouredSurface(colFourTetra);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_NotWildColTetraFour-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_NotWildColTetraFour.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -191,7 +203,9 @@ IsTameColouredSurface(colSurface);
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_NotTameCol-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_NotTameCol.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
