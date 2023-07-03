@@ -59,6 +59,15 @@ true
                 <Alt Only="TikZ">
                     \input{Image_ManyExamples.tex}
                 </Alt>
+                <Alt Only="HTML">
+        <br><img src="./images/_Wrapper_Image_ManyExamples.tex"> </img> <br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \includegraphics{images/_Wrapper_Image_ManyExamples.tex}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
+        </Alt>
                 Instead of working with an embedding of these structures, we
                 see them as abstract surfaces and represent them by their
                 incidence geometry (for more details see section
