@@ -96,7 +96,7 @@
             <Par/>
             We illustrate this with an octahedron (<Ref Subsect="Octahedron"/>):
         <Alt Only="HTML">
-        <br><img src="./images/_Wrapper__TIKZ_Octahedron_constructor.tex"> </img> <br>
+        &lt;br>&lt;img src="./images/_Wrapper__TIKZ_Octahedron_constructor.tex"> &lt;/img> &lt;br>
         </Alt>
         <Alt Only = "LaTeX">
         \includegraphics{images/_Wrapper__TIKZ_Octahedron_constructor.tex}
@@ -204,7 +204,7 @@ true
         <Par/>
         We illustrate it on the example of a pyramid with square base.
         <Alt Only="HTML">
-        <br><img src="./images/_Wrapper_Image_SquarePyramid.tex"> </img> <br>
+        &lt;br>&lt;img src="./images/_Wrapper_Image_SquarePyramid.tex"> &lt;/img> &lt;br>
         </Alt>
         <Alt Only = "LaTeX">
         \includegraphics{images/_Wrapper_Image_SquarePyramid.tex}
@@ -213,7 +213,7 @@ true
         Image omitted in terminal text
         </Alt>
         <Alt Only="HTML">
-        <br><img src="./images/_Wrapper_Image_SquarePyramid.tex"> </img> <br>
+        &lt;br>&lt;img src="./images/_Wrapper_Image_SquarePyramid.tex"> &lt;/img> &lt;br>
         </Alt>
         <Alt Only = "LaTeX">
         \includegraphics{images/_Wrapper_Image_SquarePyramid.tex}

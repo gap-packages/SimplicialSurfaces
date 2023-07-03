@@ -34,7 +34,7 @@
     section <Ref Sect="PolygonalStructures_complex"/>).
 
     <Alt Only="HTML">
-    <br><img src="./images/_Wrapper_Image_ManyExamples.tex"> </img> <br>
+    &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples.tex"> &lt;/img> &lt;br>
     </Alt>
     <Alt Only = "LaTeX">
     \includegraphics{images/_Wrapper_Image_ManyExamples.tex}
@@ -72,7 +72,7 @@
              be disjoint. While this is a serious concern, we feel that it is
              counteracted by enough contrary examples in the manual. -->
         <Alt Only="HTML">
-        <br><img src="./images/_Wrapper_Image_StarOfStarExample.tex"> </img> <br>
+        &lt;br>&lt;img src="./images/_Wrapper_Image_StarOfStarExample.tex"> &lt;/img> &lt;br>
         </Alt>
         <Alt Only = "LaTeX">
         \includegraphics{images/_Wrapper_Image_StarOfStarExample.tex}
@@ -182,7 +182,7 @@
         that the examples in the picture
 
         <Alt Only="HTML">
-        <br><img src="./images/_Wrapper_Image_ManyExamples.tex"> </img> <br>
+        &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples.tex"> &lt;/img> &lt;br>
         </Alt>
         <Alt Only = "LaTeX">
         \includegraphics{images/_Wrapper_Image_ManyExamples.tex}
@@ -383,7 +383,7 @@
                 below but the aim of this condition is to exclude cases like 
                 these:
                 <Alt Only="HTML">
-                <br><img src="./images/_Wrapper_Image_RamifiedExamples.tex"> </img> <br>
+                &lt;br>&lt;img src="./images/_Wrapper_Image_RamifiedExamples.tex"> &lt;/img> &lt;br>
                 </Alt>
                 <Alt Only = "LaTeX">
                 \includegraphics{images/_Wrapper_Image_RamifiedExamples.tex}
@@ -426,7 +426,7 @@
             <Heading>Definition (Umbrella-path around a vertex)</Heading>
                 <#Include Label="Umbrella_Definition">
                 <Alt Only="HTML">
-                <br><img src="./images/_Wrapper_Image_EdgeFacePath.tex"> </img> <br>
+                &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath.tex"> &lt;/img> &lt;br>
                 </Alt>
                 <Alt Only = "LaTeX">
                 \includegraphics{images/_Wrapper_Image_EdgeFacePath.tex}
