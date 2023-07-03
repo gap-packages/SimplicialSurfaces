@@ -614,7 +614,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! &lt;img src="./images/_Wrapper_Image_Double5gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper_Image_Double5gon.pdf}
+#! \includegraphics\{images/_Wrapper_Image_Double5gon.pdf\}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -660,7 +660,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper_Image_Double6gon.pdf}
+#! \includegraphics\{images/_Wrapper_Image_Double6gon.pdf\}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -728,7 +728,7 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper_Image_Double6gon.pdf}
+#! \includegraphics\{images/_Wrapper_Image_Double6gon.pdf\}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

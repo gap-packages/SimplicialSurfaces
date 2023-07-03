@@ -366,7 +366,7 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! &lt;img src="./images/_Wrapper_Image_SplittedVertexEdgePath-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper_Image_SplittedVertexEdgePath.pdf}
+#! \includegraphics\{images/_Wrapper_Image_SplittedVertexEdgePath.pdf\}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1409,7 +1409,7 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalComplex, IsList, IsPolygonalCo
 #! &lt;img src="./images/_Wrapper_Image_ComplexWithEar-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper_Image_ComplexWithEar.pdf}
+#! \includegraphics\{images/_Wrapper_Image_ComplexWithEar.pdf\}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -2015,7 +2015,7 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! &lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper_Image_Butterfly.pdf}
+#! \includegraphics\{images/_Wrapper_Image_Butterfly.pdf\}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

@@ -295,7 +295,7 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! &lt;img src="./images/_Wrapper_Image_FacegraphOct-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper_Image_FacegraphOct.pdf}
+#! \includegraphics\{images/_Wrapper_Image_FacegraphOct.pdf\}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -305,7 +305,7 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! &lt;img src="./images/_Wrapper_Image_EdgegraphOct-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{_Wrapper_Image_EdgegraphOct.pdf}
+#! \includegraphics\{images/_Wrapper_Image_EdgegraphOct.pdf\}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
