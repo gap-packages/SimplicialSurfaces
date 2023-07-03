@@ -57,10 +57,16 @@
         be given at the end of this section in definition 
         <Ref Subsect="Def_PolygonalComplex"/>). We will exemplify this by 
         the following surface.
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-                \input{Image_StarOfStarExample.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_structs-1-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_structs-1.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         In a two-dimensional incidence geometry we have a set <M>V</M> of
         vertices, a set <M>E</M> of edges and a set <M>F</M> of faces. If we label
@@ -114,38 +120,32 @@
         example, every edge should consist of exactly two vertices (more
         formally, for every edge there should be exactly two vertices that
         are incident to it).
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle]
-                \coordinate (A) at (0,0);
-                \coordinate (B) at (3,1);
-
-                \draw[edge] (A) -- (B);
-
-                \foreach \p/\r/\n in {A/left/2, B/right/3}{
-                    \vertexLabelR{\p}{\r}{\n}
-                }
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_structs-2-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_structs-2.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         If we try to generalize this condition to the faces we encounter
         some difficulties. For example, if we only enforce that each face
         has exactly three edges and three vertices, it would be possible
         that two of those edges share all of their vertices. Therefore
         even the case of triangles is quite complicated.
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels]
-                \def\xs{2}
-                \coordinate (A) at (0,0);
-                \coordinate (B) at (\xs,1);
-                \coordinate (C) at (2*\xs,0);
-
-                \draw[edge] (A) to [bend left=30] (B);
-                \draw[edge] (A) to [bend right=30] (B);
-                \draw[edge] (B) -- (C);
-
-                \foreach \p/\r/\n in {A/left/1, B/above/2, C/right/3}{
-                    \vertexLabelR{\p}{\r}{\n}
-                }
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_structs-3-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_structs-3.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         We will solve this problem by imposing a cyclic ordering on the
         vertices and edges that are incident to each face, such that those
@@ -158,11 +158,16 @@
             <Item><#Include Label="PolygonalComplex_Face"></Item>
         </List>
 
-        <Alt Only="TikZ">
-            {
-                \def\abstractLabels{1}
-                \input{Image_PentagonCyclicOrder.tex}
-            }
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_structs-4-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_structs-4.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
 
         With these conditions we have guaranteed that all edges and faces
@@ -226,27 +231,16 @@
         can construct a torus from a single polygon by starting with a 
         square and identifying opposite edges.
 
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-                \def\off{0.3}
-                \def\len{2.2}
-
-                \coordinate (A) at (0,0);
-                \coordinate (B) at (\len,0);
-                \coordinate (D) at (0,\len);
-                \coordinate (C) at ($(B)+(D)$);
-
-                \draw[edge,face] (A) -- (B) -- (C) -- (D) -- cycle;
-
-                \foreach \p/\r in {A/left, B/right, C/right, D/left}{
-                    \vertexLabelR{\p}{\r}{}
-                }
-
-                \draw[blue,thick,->] ($(A)+(-\off,0)$) -- ($(D)+(-\off,0)$);
-                \draw[blue,thick,->] ($(B)+(\off,0)$) -- ($(C)+(\off,0)$);
-                \draw[red,thick,->] ($(A)+(0,-\off)$) -- ($(B)+(0,-\off)$);
-                \draw[red,thick,->] ($(D)+(0,\off)$) -- ($(C)+(0,\off)$);
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_structs-5-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_structs-5.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         Since all vertices of the square collapse into a single vertex, it
         is impossible to describe this situation by a polygonal complex (as
@@ -263,34 +257,16 @@
         In these cases, the more general formalism of
         <E>twisted polygonal complexes</E> is helpful. To interpret the
         torus as a twisted polygonal complex, we subdivide it barycentrically.
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-                \def\off{0.3}
-                \def\len{2.2}
-
-                \coordinate (A) at (0,0);
-                \coordinate (B) at (\len,0);
-                \coordinate (D) at (0,\len);
-                \coordinate (C) at ($(B)+(D)$);
-                \coordinate (Z) at (barycentric cs:A=1,B=1,C=1,D=1);
-
-                \draw[edge,face] (A) -- (B) -- (C) -- (D) -- cycle;
-
-                \foreach \x/\y/\n in {A/B/1, B/A/2, B/C/3, C/B/4, C/D/5, D/C/6, D/A/7, A/D/8}{
-                    \coordinate (mid) at ($(\x)!0.5!(\y)$);
-                    \draw[gray] (\x) -- (Z) -- (mid);
-                    \node at (barycentric cs:\x=1,mid=1,Z=1) {\n};
-                }
-
-                \foreach \p/\r in {A/left, B/right, C/right, D/left}{
-                    \vertexLabelR{\p}{\r}{}
-                }
-
-                \draw[blue,thick,->] ($(A)+(-\off,0)$) -- ($(D)+(-\off,0)$);
-                \draw[blue,thick,->] ($(B)+(\off,0)$) -- ($(C)+(\off,0)$);
-                \draw[red,thick,->] ($(A)+(0,-\off)$) -- ($(B)+(0,-\off)$);
-                \draw[red,thick,->] ($(D)+(0,\off)$) -- ($(C)+(0,\off)$);
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_structs-6-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_structs-6.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         The small triangles within each face are called <E>chambers</E>.
         A twisted polygonal complex stores the incidences between vertices,
@@ -373,10 +349,16 @@
             <Item> There are no ramified edges, i.e. every edge is incident to
                 at most two faces. This excludes cases like three triangles
                 that share one edge.
-                <Alt Only="TikZ">
-                    \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-                        \input{Image_ThreeBranchingTriangles.tex}
-                    \end{tikzpicture}
+                <Alt Only="HTML">
+                &lt;br>&lt;img src='./images/_Wrapper_structs-7-1.svg'> &lt;/img> &lt;br>
+                </Alt>
+                <Alt Only = "LaTeX">
+                \begin{center}
+                \includegraphics{images/_Wrapper_structs-7.pdf}
+                \end{center}
+                </Alt>
+                <Alt Only = "Text">
+                Image omitted in terminal text
                 </Alt>
             </Item>
             <Item> There are no ramified vertices. We will formalize this
@@ -414,11 +396,16 @@
     
         We now proceed to formalize the second condition. Intuitively we want to
         distinguish between the different coloured faces in these examples:
-        <Alt Only="TikZ">
-            {
-                \def\swapColors{1}
-                \input{Image_RamifiedExamples.tex}
-            }
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_structs-8-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_structs-8.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         They can be distinguished by the fact that faces of the same colour are
         connected by edges that are incident to the given vertex. More formally:

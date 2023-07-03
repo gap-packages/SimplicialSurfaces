@@ -1,0 +1,33 @@
+\nonstopmode
+\documentclass{standalone}
+\input{TikZHeader.tex}
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+\begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels]
+    % We need to define the drawing style
+
+    \coordinate (FDL) at (0,0); % front down left
+    \coordinate (FDR) at (2,0); % front down right
+    \coordinate (FUL) at (0,2); % front up left
+    \coordinate (BDL) at (1,1); % back up left
+    \coordinate (BDR) at ($(FDR)+(BDL)$); % back down right
+    \coordinate (FUR) at ($(FUL)+(FDR)$); % front up right
+    \coordinate (BUL) at ($(FUL)+(BDL)$); % back up left
+    \coordinate (BUR) at ($(FDR)+(FUL)+(BDL)$); % back up right
+
+    % Draw the edges
+    \foreach \x in {FDL, BDR, BUL}{
+        \draw[dashed, edge] (BDL) -- (\x);
+    }
+    \draw[edge] (FDL) -- (FDR) -- (FUR) -- (FUL) -- cycle;
+    \draw[edge] (FDR) -- (BDR) -- (BUR) -- (FUR) -- cycle;
+    \draw[edge] (FUL) -- (FUR) -- (BUR) -- (BUL) -- cycle;
+
+    % Draw the vertices
+    \foreach \x in {FDL, FDR, FUL, BDL, BDR, FUR, BUL, BUR} {
+        \vertexLabelR{\x}{left}{}
+    }
+\end{tikzpicture}
+
+\end{document}
