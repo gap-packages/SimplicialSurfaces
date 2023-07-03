@@ -26,7 +26,7 @@ doc/manual.six: makedoc.g \
 		doc/PolygonalStructuresDefinitions.xml \
 		doc/ExampleImplementations.xml \
 		doc/ExampleApplications.xml \
-		doc/images/Image_* \
+		doc/tikz-files/Image_* \
 		doc/TableOfContents.autodoc\
 		doc/tikz-files/TikZHeader.tex
 	gap makedoc.g
