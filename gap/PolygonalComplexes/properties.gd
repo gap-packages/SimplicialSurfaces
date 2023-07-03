@@ -482,11 +482,16 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!
 #! 	As an example, consider the five-star from the start of chapter
 #!	<Ref Chap="Chapter_Properties"/>:
-#!	<Alt Only="TikZ">
-#!	    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      	\input{Image_FiveTrianglesInCycle.tex}
-#!	    \end{tikzpicture}
-#! 	</Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-1-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_properties-1.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! 	@ExampleSession
 #! gap> List( FacesOfVertices(fiveStar), Size );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
@@ -520,11 +525,16 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!
 #! 	As an example, consider the five-star from the start of chapter
 #! 	<Ref Chap="Chapter_Properties"/>:
-#! 	<Alt Only="TikZ">
-#!   	\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      	\input{Image_FiveTrianglesInCycle.tex}
-#!   	\end{tikzpicture}
-#! 	</Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-2-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_properties-2.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! 	@BeginExampleSession
 #! gap> countEdg := CounterOfEdges(fiveStar);
 #! counter of edges ([ [ 2, 2 ], [ 2, 5 ] ] degrees, and [ 5, 5 ] multiplicities)
@@ -558,11 +568,16 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!
 #!	 As an example, consider the five-star from the start of chapter
 #! 	<Ref Chap="Chapter_Properties"/>:
-#! 	<Alt Only="TikZ">
-#!   	\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!   	   \input{Image_FiveTrianglesInCycle.tex}
-#!   	\end{tikzpicture}
-#! 	</Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-3-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_properties-3.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! 	@ExampleSession
 #! gap> countFac:=CounterOfFaces(fiveStar);
 #! counter of faces ([ [ 2, 2, 5 ] ] degrees, and [ 5 ] multiplicities) 
@@ -688,9 +703,16 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! 	resp. <E>v5</E> is the remaining vertex of the butterfly induced by
 #! 	the edge incident to the vertices <E>v1</E> and <E>v2</E> resp.<E>v1</E>
 #! 	and <E>v3</E>.
-#! 	<Alt Only="TikZ">
-#!     	 \input{Image_ThreeFaceCounter.tex}
-#! 	</Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-4-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_properties-4.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! 	So <E>deg</E> denotes the vertex degree of the vertex <E>v1</E>. The
 #! 	first resp. second entry of <E>degreeList1</E> is the vertex degree of
 #! 	<E>v2</E> resp <E>v3</E>. And the first resp. second

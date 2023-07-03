@@ -764,12 +764,16 @@ DeclareOperation( "PerimeterPath", [IsVertexEdgePath] );
 #!     We illustrate this with a path on the simplicial surface from the start
 #!     of section
 #!     <Ref Sect="Section_Paths_EdgeFace"/>.
-#!     <Alt Only="TikZ">
-#!       \begin{tikzpicture}[vertexStyle=nolabels,edgePlain,faceStyle]
-#!         \def\edgeFacePath{1}
-#!         \input{Image_ThinTorus.tex}
-#!       \end{tikzpicture}
-#!     </Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_paths-1-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_paths-1.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 #!     @InsertChunk Definition_EdgeFacePath
 #!

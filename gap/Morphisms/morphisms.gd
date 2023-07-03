@@ -297,11 +297,16 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #!     map, an error is raised.
 #!
 #!     We use a map from a six-umbrella to a three-umbrella as illustration.
-#!     <Alt Only="TikZ">
-#!       \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!         \input{Image_PolygonalMorphism_Hexagon.tex}
-#!       \end{tikzpicture}
-#!     </Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-1-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_morphisms-1.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> six := SimplicialSurfaceByDownwardIncidence(
 #! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
