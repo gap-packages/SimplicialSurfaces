@@ -94,10 +94,17 @@ DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosI
 #! [ 2, 3, 4 ]
 #! @EndExampleSession
 #!
-#! <Alt Only = "TikZ">
-#! \input{_TIKZ_Tetrahedron_constructor.tex}
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
-#!
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
 #! @Returns a list of positive integers
 #! @Arguments polygonalComplex, vertex
 DeclareOperation( "NeighbourVerticesOfVertex", [IsPolygonalComplex, IsPosInt] );
@@ -188,8 +195,14 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! [ 2, 4, 3 ]
 #! @EndExampleSession
 
-#! <Alt Only = "TikZ">
-#! \input{_TIKZ_Tetrahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @ExampleSession
@@ -266,8 +279,14 @@ DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! gap> ico := Icosahedron();;
 #! @EndExampleSession
 
-#! <Alt Only = "TikZ">
-#! \input{_TIKZ_Icosahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Icosahedron_constructor-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Icosahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @ExampleSession
@@ -307,8 +326,14 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! gap> octa := Octahedron();;
 #! @EndExampleSession
 
-#! <Alt Only = "TikZ">
-#! \input{_TIKZ_Octahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @ExampleSession
@@ -330,8 +355,14 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! gap> ico := Icosahedron();;
 #! @EndExampleSession
 
-#! <Alt Only = "TikZ">
-#! \input{_TIKZ_Icosahedron_constructor.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Icosahedron_constructor-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \includegraphics{images/_Wrapper_TIKZ_Icosahedron_constructor.pdf}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @ExampleSession
