@@ -79,10 +79,10 @@ DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosI
 #! @EndExampleSession
 
 #!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper__TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper__TIKZ_Cube_constructor.pdf}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -130,10 +130,10 @@ DeclareOperation( "NeighbourVerticesOfVertexNC", [IsPolygonalComplex, IsPosInt] 
 #! @EndExampleSession
 
 #!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper__TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper__TIKZ_Cube_constructor.pdf}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -173,10 +173,10 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! [ 1, 5, 2, 6 ]
 #! @EndExampleSession
 #!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper__TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper__TIKZ_Cube_constructor.pdf}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -233,10 +233,10 @@ DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndExampleSession
 
 #!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper__TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
+#! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \includegraphics{images/_Wrapper__TIKZ_Cube_constructor.pdf}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
