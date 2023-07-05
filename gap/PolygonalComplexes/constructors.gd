@@ -108,7 +108,9 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-1.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -240,7 +242,9 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-2.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -279,7 +283,9 @@ DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet,
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-3.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -323,7 +329,9 @@ DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet,
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-4.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -370,7 +378,9 @@ DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-5.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -425,7 +435,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-6.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -542,7 +554,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-7.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -580,7 +594,9 @@ DeclareOperation( "PolygonalComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, I
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-8.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -624,7 +640,9 @@ DeclareOperation( "PolygonalSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, I
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-9.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -672,7 +690,9 @@ DeclareOperation( "TriangularComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-10.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -734,7 +754,9 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-11.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -850,7 +872,9 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-12.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -887,7 +911,9 @@ DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-13.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -924,7 +950,9 @@ DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-14.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -960,7 +988,9 @@ DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-15.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1040,7 +1070,9 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-16.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1104,7 +1136,9 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-17.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1147,7 +1181,9 @@ DeclareOperation( "UmbrellaTipDescriptorOfSurface", [IsSimplicialSurface] );
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-18.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1238,7 +1274,9 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #! &lt;br>&lt;img src='./images/_Wrapper_constructors-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_constructors-19.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

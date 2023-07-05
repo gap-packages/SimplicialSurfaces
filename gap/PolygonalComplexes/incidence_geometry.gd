@@ -336,7 +336,9 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-1.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -380,7 +382,9 @@ DeclareOperation( "EdgesOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-2.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -423,11 +427,13 @@ DeclareOperation( "FacesOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-3.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #! @ExampleSession
 #! gap> VerticesOfEdge(complex, 8);
 #! [ 2, 3 ]
@@ -467,7 +473,9 @@ DeclareOperation( "VerticesOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-4.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -511,7 +519,9 @@ DeclareOperation( "FacesOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-5.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -555,7 +565,9 @@ DeclareOperation( "VerticesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-6.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -784,7 +796,9 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-7.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -802,7 +816,9 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-8.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -861,7 +877,9 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-9.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1108,7 +1126,9 @@ DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_incidence_geometry-10.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

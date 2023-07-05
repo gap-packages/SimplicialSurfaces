@@ -53,7 +53,9 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-1.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -81,7 +83,9 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-2.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -120,7 +124,9 @@ DeclareAttribute( "NumberOfChambers", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-3.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -163,7 +169,9 @@ DeclareOperation( "VertexOfChamberNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-4.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -206,7 +214,9 @@ DeclareOperation( "ChambersOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-5.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -248,7 +258,9 @@ DeclareOperation( "EdgeOfChamberNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-6.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -291,7 +303,9 @@ DeclareOperation( "ChambersOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-7.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -334,7 +348,9 @@ DeclareOperation( "FaceOfChamberNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-8.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -371,7 +387,9 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-9.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -464,7 +482,9 @@ DeclareOperation( "ChambersOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-10.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -521,7 +541,9 @@ DeclareOperation( "TwoAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosInt]
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-11.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -583,7 +605,9 @@ DeclareOperation( "IsTwoAdjacentChambersNC", [IsTwistedPolygonalComplex, IsPosIn
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-12.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -627,7 +651,9 @@ DeclareAttribute( "TwoAdjacencyInvolution", IsTwistedPolygonalComplex);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-13.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -674,7 +700,9 @@ DeclareAttribute( "TwoAdjacencyClasses", IsTwistedPolygonalComplex);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-14.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -726,7 +754,9 @@ DeclareAttribute( "TwoAdjacencyRelation", IsTwistedPolygonalComplex);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-15.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -779,7 +809,9 @@ DeclareAttribute( "TwoAdjacencyRelation", IsTwistedPolygonalComplex);
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-16.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -843,7 +875,9 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberRelationsNC", [IsList, IsList,
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-17.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -903,7 +937,9 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberAdjacenciesNC", [IsList, IsLis
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-18.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -974,7 +1010,9 @@ DeclareOperation("TwistedPolygonalSurfaceByChamberInvolutionsNC", [IsPerm, IsPer
 #! &lt;br>&lt;img src='./images/_Wrapper_twisted_polygonal_complex-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_twisted_polygonal_complex-19.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

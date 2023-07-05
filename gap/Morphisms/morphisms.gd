@@ -121,7 +121,9 @@ DeclareSynonym("IsPolygonalMorphism", IsGeneralPolygonalMorphism and IsTotal and
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-1.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -194,7 +196,9 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-2.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -249,7 +253,9 @@ DeclareOperation( "PolygonalMorphismByVertexImagesNC",
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-3.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -304,7 +310,9 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-1.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -437,7 +445,9 @@ DeclareAttribute( "InversePolygonalMorphism", IsPolygonalMorphism and IsBijectiv
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-4.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -473,7 +483,9 @@ DeclareAttribute( "InversePolygonalMorphism", IsPolygonalMorphism and IsBijectiv
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-5.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -512,7 +524,9 @@ DeclareOperation( "ImageOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-6.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -551,7 +565,9 @@ DeclareOperation( "ImageOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-7.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -592,7 +608,9 @@ DeclareOperation( "ImageOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-8.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -633,7 +651,9 @@ DeclareOperation( "PreImagesOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-9.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -674,7 +694,9 @@ DeclareOperation( "PreImagesOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-10.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -716,7 +738,9 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-11.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -741,7 +765,9 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-12.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -1237,7 +1263,9 @@ DeclareAttribute( "FaceMapAsImageList", IsPolygonalMorphism );
 #! &lt;br>&lt;img src='./images/_Wrapper_morphisms-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_morphisms-13.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text

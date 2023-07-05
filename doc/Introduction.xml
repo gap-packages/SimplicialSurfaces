@@ -68,17 +68,6 @@ true
                 <Alt Only = "Text">
                 Image omitted in terminal text
                 </Alt>
-                <Alt Only="HTML">
-                &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples.svg"> &lt;/img> &lt;br>
-                </Alt>
-                <Alt Only = "LaTeX">
-                \begin{center}
-                \includegraphics{images/_Wrapper_Image_ManyExamples.pdf}
-                \end{center}
-                </Alt>
-                <Alt Only = "Text">
-                Image omitted in terminal text
-                </Alt>
                 Instead of working with an embedding of these structures, we
                 see them as abstract surfaces and represent them by their
                 incidence geometry (for more details see section

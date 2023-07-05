@@ -13,6 +13,9 @@ tst/*.tst
 !doc/images/*
 !doc/tikz-files/*.tikz
 
+# ignore the files that get copied to doc/
+doc/_TIKZ_*.tex
+
 # flatex-folder
 flatex/.deps/
 flatex/Makefile

@@ -135,7 +135,9 @@ DeclareAttribute( "ThreeFlags", IsPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_flags-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_flags-1.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -164,7 +166,9 @@ DeclareAttribute( "VertexEdgeFlags", IsPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_flags-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_flags-2.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
@@ -192,7 +196,9 @@ DeclareAttribute( "VertexFaceFlags", IsPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_flags-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
+#! \end{center}
 #! \includegraphics{images/_Wrapper_flags-3.pdf}
+#! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
