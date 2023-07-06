@@ -297,7 +297,7 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
         function(complex1, complex2)
             local inc1, inc2;
 		
-            if CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+            if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
 		return false;
 	    fi;
             inc1 := IncidenceGrapeGraph(complex1);
@@ -317,7 +317,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         "for two twisted polygonal complexes", 
         [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
         function(complex1, complex2)
-	    if CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+	    if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
                 return false;
             fi;
             return IsomorphismGraphs( 
