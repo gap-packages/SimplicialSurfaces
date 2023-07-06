@@ -82,7 +82,7 @@ DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosI
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
 #! \end{center}
 #! </Alt>
@@ -101,7 +101,7 @@ DeclareOperation( "DistanceOfVerticesNC", [ IsPolygonalComplex, IsPosInt, IsPosI
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
 #! \end{center}
 #! </Alt>
@@ -144,7 +144,7 @@ DeclareOperation( "NeighbourVerticesOfVertexNC", [IsPolygonalComplex, IsPosInt] 
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
 #! \end{center}
 #! </Alt>
@@ -189,7 +189,7 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
 #! \end{center}
 #! </Alt>
@@ -207,7 +207,7 @@ DeclareOperation( "DistanceOfFacesNC", [ IsPolygonalComplex, IsPosInt, IsPosInt]
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_constructor.pdf}
 #! \end{center}
 #! </Alt>
@@ -259,7 +259,7 @@ DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Cube_constructor.pdf}
 #! \end{center}
 #! </Alt>
@@ -295,7 +295,7 @@ DeclareOperation( "NeighbourFacesOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Icosahedron_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Icosahedron_constructor.pdf}
 #! \end{center}
 #! </Alt>
@@ -344,7 +344,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Octahedron_constructor.pdf}
 #! \end{center}
 #! </Alt>
@@ -375,7 +375,7 @@ DeclareOperation( "RestrictionToNeighbourhoodOfFacesNC", [ IsPolygonalComplex, I
 #! &lt;br>&lt;img src='./images/_Wrapper_TIKZ_Icosahedron_constructor-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_TIKZ_Icosahedron_constructor.pdf}
 #! \end{center}
 #! </Alt>

@@ -87,7 +87,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-1.pdf}
 #! \end{center}
 #! </Alt>
@@ -115,7 +115,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-2.pdf}
 #! \end{center}
 #! </Alt>
@@ -161,7 +161,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-3.pdf}
 #! \end{center}
 #! </Alt>
@@ -182,7 +182,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-4.pdf}
 #! \end{center}
 #! </Alt>
@@ -212,7 +212,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-5.pdf}
 #! \end{center}
 #! </Alt>
@@ -305,7 +305,7 @@ DeclareOperation( "SplitEdgeNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-6.pdf}
 #! \end{center}
 #! </Alt>
@@ -388,7 +388,7 @@ DeclareOperation( "SplitVertexNC", [IsPolygonalComplex, IsPosInt, IsList] );
 #! &lt;img src="./images/_Wrapper_Image_SplittedVertexEdgePath-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_SplittedVertexEdgePath.pdf}
 #! \end{center}
 #! </Alt>
@@ -537,7 +537,7 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-7.pdf}
 #! \end{center}
 #! </Alt>
@@ -604,7 +604,7 @@ DeclareOperation( "SubsurfaceByFacesNC", [IsTwistedPolygonalComplex, IsSet] );
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-8.pdf}
 #! \end{center}
 #! </Alt>
@@ -664,7 +664,7 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-9.pdf}
 #! \end{center}
 #! </Alt>
@@ -700,7 +700,7 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-10.pdf}
 #! \end{center}
 #! </Alt>
@@ -783,7 +783,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-11.pdf}
 #! \end{center}
 #! </Alt>
@@ -801,7 +801,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-12.pdf}
 #! \end{center}
 #! </Alt>
@@ -839,7 +839,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-13.pdf}
 #! \end{center}
 #! </Alt>
@@ -948,7 +948,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-14.pdf}
 #! \end{center}
 #! </Alt>
@@ -963,7 +963,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-15.pdf}
 #! \end{center}
 #! </Alt>
@@ -982,7 +982,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-16.pdf}
 #! \end{center}
 #! </Alt>
@@ -1039,7 +1039,7 @@ DeclareOperation( "JoinVerticesNC", [IsPolygonalComplex, IsPosInt, IsPolygonalCo
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-17.pdf}
 #! \end{center}
 #! </Alt>
@@ -1180,7 +1180,7 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-18.pdf}
 #! \end{center}
 #! </Alt>
@@ -1200,7 +1200,7 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-19.pdf}
 #! \end{center}
 #! </Alt>
@@ -1222,7 +1222,7 @@ DeclareOperation("JoinFacesNC", [IsPolygonalComplex, IsList, IsPosInt]);
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-20-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-20.pdf}
 #! \end{center}
 #! </Alt>
@@ -1342,7 +1342,7 @@ DeclareOperation("JoinVertexEdgePathsNC",
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-21-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-21.pdf}
 #! \end{center}
 #! </Alt>
@@ -1472,7 +1472,7 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalComplex, IsList, IsPolygonalCo
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-22-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-22.pdf}
 #! \end{center}
 #! </Alt>
@@ -1495,7 +1495,7 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalComplex, IsList, IsPolygonalCo
 #! &lt;img src="./images/_Wrapper_Image_ComplexWithEar-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_ComplexWithEar.pdf}
 #! \end{center}
 #! </Alt>
@@ -1536,7 +1536,7 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 #! &lt;br>&lt;img src='./images/_Wrapper_modification-23-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_modification-23.pdf}
 #! \end{center}
 #! </Alt>
@@ -2121,7 +2121,7 @@ DeclareAttribute( "CraterMendableEdgePairs", IsPolygonalComplex );
 #! &lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
 #! \end{center}
 #! </Alt>

@@ -191,7 +191,7 @@ pr := DrawSurfaceToTikz( wild, "Surf10_Wild", pr );;
 #! &lt;br>&lt;img src='./images/_Wrapper_isoscelesColouring_images-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_isoscelesColouring_images-1.pdf}
 #! \end{center}
 #! </Alt>
@@ -203,7 +203,7 @@ pr := DrawSurfaceToTikz( wild, "Surf10_Wild", pr );;
 #! &lt;br>&lt;img src='./images/_Wrapper_isoscelesColouring_images-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_isoscelesColouring_images-2.pdf}
 #! \end{center}
 #! </Alt>

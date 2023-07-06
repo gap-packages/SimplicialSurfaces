@@ -36,7 +36,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-1.pdf}
 #! \end{center}
 #! </Alt>
@@ -54,7 +54,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-2.pdf}
 #! \end{center}
 #! </Alt>
@@ -89,7 +89,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-3.pdf}
 #! \end{center}
 #! </Alt>
@@ -137,7 +137,7 @@ DeclareAttribute( "EulerCharacteristic", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-4.pdf}
 #! \end{center}
 #! </Alt>
@@ -153,7 +153,7 @@ DeclareAttribute( "EulerCharacteristic", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-5.pdf}
 #! \end{center}
 #! </Alt>
@@ -185,7 +185,7 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-6.pdf}
 #! \end{center}
 #! </Alt>
@@ -357,7 +357,7 @@ DeclareAttribute( "BlockType",IsSimplicialSurface);
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-7.pdf}
 #! \end{center}
 #! </Alt>
@@ -404,7 +404,7 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] 
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-8.pdf}
 #! \end{center}
 #! </Alt>
@@ -460,7 +460,7 @@ DeclareOperation( "DegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-9.pdf}
 #! \end{center}
 #! </Alt>
@@ -507,7 +507,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-1.pdf}
 #! \end{center}
 #! </Alt>
@@ -552,7 +552,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-2.pdf}
 #! \end{center}
 #! </Alt>
@@ -597,7 +597,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-3.pdf}
 #! \end{center}
 #! </Alt>
@@ -640,7 +640,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! &lt;img src="./images/_Wrapper_Image_Double5gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Double5gon.pdf}
 #! \end{center}
 #! </Alt>
@@ -688,7 +688,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
 #! \end{center}
 #! </Alt>
@@ -738,7 +738,7 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-4.pdf}
 #! \end{center}
 #! </Alt>
@@ -760,7 +760,7 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
 #! \end{center}
 #! </Alt>
@@ -1000,7 +1000,7 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-10.pdf}
 #! \end{center}
 #! </Alt>
@@ -1022,13 +1022,13 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-11.pdf}
 #! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #! Edges with more than two incident faces are called <E>ramified edges</E>.
 #!
 
@@ -1188,7 +1188,7 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-12.pdf}
 #! \end{center}
 #! </Alt>
@@ -1230,7 +1230,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-13.pdf}
 #! \end{center}
 #! </Alt>
@@ -1250,7 +1250,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-14.pdf}
 #! \end{center}
 #! </Alt>
@@ -1266,7 +1266,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-15.pdf}
 #! \end{center}
 #! </Alt>
@@ -1296,7 +1296,7 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-16.pdf}
 #! \end{center}
 #! </Alt>
@@ -1349,7 +1349,7 @@ DeclareOperation( "IsInnerVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-17.pdf}
 #! \end{center}
 #! </Alt>
@@ -1378,7 +1378,7 @@ DeclareOperation( "IsInnerVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-18.pdf}
 #! \end{center}
 #! </Alt>
@@ -1425,7 +1425,7 @@ DeclareOperation( "IsBoundaryVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-19.pdf}
 #! \end{center}
 #! </Alt>
@@ -1472,7 +1472,7 @@ DeclareOperation( "IsRamifiedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-20-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_properties-20.pdf}
 #! \end{center}
 #! </Alt>

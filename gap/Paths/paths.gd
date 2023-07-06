@@ -41,7 +41,7 @@
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-1.pdf}
 #! \end{center}
 #! </Alt>
@@ -181,7 +181,7 @@ DeclareOperation( "VertexEdgePathNC", [IsPolygonalComplex, IsDenseList] );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-2.pdf}
 #! \end{center}
 #! </Alt>
@@ -247,7 +247,7 @@ DeclareOperation( "VertexEdgePathByVerticesNC", [IsPolygonalComplex, IsDenseList
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-3.pdf}
 #! \end{center}
 #! </Alt>
@@ -757,7 +757,7 @@ DeclareOperation( "PerimeterPath", [IsVertexEdgePath] );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-4.pdf}
 #! \end{center}
 #! </Alt>
@@ -801,7 +801,7 @@ DeclareOperation( "PerimeterPath", [IsVertexEdgePath] );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-1.pdf}
 #! \end{center}
 #! </Alt>
@@ -1203,7 +1203,7 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! &lt;img src="./images/_Wrapper_Image_Example3Waist-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Example3Waist.pdf}
 #! \end{center}
 #! </Alt>
@@ -1259,7 +1259,7 @@ DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
 #! &lt;img src="./images/_Wrapper_Image_Example2Waist-1.svg"> &lt;/img>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_Image_Example2Waist.pdf}
 #! \end{center}
 #! </Alt>
@@ -1351,7 +1351,7 @@ DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-5.pdf}
 #! \end{center}
 #! </Alt>
@@ -1387,7 +1387,7 @@ DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-6.pdf}
 #! \end{center}
 #! </Alt>
@@ -1406,7 +1406,7 @@ DeclareProperty( "IsUmbrellaPath", IsEdgeFacePath );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-7.pdf}
 #! \end{center}
 #! </Alt>
@@ -1436,7 +1436,7 @@ DeclareProperty( "IsGeodesicPath", IsEdgeFacePath );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-8.pdf}
 #! \end{center}
 #! </Alt>
@@ -1452,7 +1452,7 @@ DeclareProperty( "IsGeodesicPath", IsEdgeFacePath );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-9.pdf}
 #! \end{center}
 #! </Alt>
@@ -1557,7 +1557,7 @@ DeclareOperation( "MaximalGeodesicPathOfFlagNC", [IsPolygonalComplex and IsNotEd
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-10.pdf}
 #! \end{center}
 #! </Alt>
@@ -1573,7 +1573,7 @@ DeclareOperation( "MaximalGeodesicPathOfFlagNC", [IsPolygonalComplex and IsNotEd
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-11.pdf}
 #! \end{center}
 #! </Alt>
@@ -1617,7 +1617,7 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-12.pdf}
 #! \end{center}
 #! </Alt>
@@ -1632,7 +1632,7 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-13.pdf}
 #! \end{center}
 #! </Alt>
@@ -1648,7 +1648,7 @@ InstallTrueMethod( IsGeodesicPath, IsClosedGeodesicPath );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-14.pdf}
 #! \end{center}
 #! </Alt>
@@ -1741,7 +1741,7 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-15.pdf}
 #! \end{center}
 #! </Alt>
@@ -1766,7 +1766,7 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-16.pdf}
 #! \end{center}
 #! </Alt>
@@ -1800,7 +1800,7 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-17.pdf}
 #! \end{center}
 #! </Alt>
@@ -1834,7 +1834,7 @@ DeclareProperty( "IsConnected", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-18.pdf}
 #! \end{center}
 #! </Alt>
@@ -1888,7 +1888,7 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsTwistedPolygonalComplex, IsPo
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-19.pdf}
 #! \end{center}
 #! </Alt>
@@ -1922,7 +1922,7 @@ DeclareProperty( "IsStronglyConnected", IsTwistedPolygonalComplex );
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-20-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-20.pdf}
 #! \end{center}
 #! </Alt>
@@ -1969,7 +1969,7 @@ DeclareOperation( "StronglyConnectedComponentOfFaceNC", [IsTwistedPolygonalCompl
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-21-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-21.pdf}
 #! \end{center}
 #! </Alt>
@@ -2011,7 +2011,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-22-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-22.pdf}
 #! \end{center}
 #! </Alt>
@@ -2027,7 +2027,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-23-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-23.pdf}
 #! \end{center}
 #! </Alt>
@@ -2094,7 +2094,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-24-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_paths-24.pdf}
 #! \end{center}
 #! </Alt>

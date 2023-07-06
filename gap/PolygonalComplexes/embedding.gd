@@ -122,7 +122,7 @@ DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 #! &lt;br>&lt;img src='./images/_Wrapper_embedding-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_embedding-1.pdf}
 #! \end{center}
 #! </Alt>
@@ -166,7 +166,7 @@ DeclareOperation( "EdgeAnomalyClassOfEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! &lt;br>&lt;img src='./images/_Wrapper_embedding-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
-#! \end{center}
+#! \begin{center}
 #! \includegraphics{images/_Wrapper_embedding-2.pdf}
 #! \end{center}
 #! </Alt>
