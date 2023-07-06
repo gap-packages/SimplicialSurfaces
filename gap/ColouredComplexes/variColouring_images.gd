@@ -35,8 +35,16 @@ pr := rec( edgeDrawOrder := [1,5,6,7],
     edgeColourClassColours :=  ["magenta", "cyan", "olive", "lime", "pink"] );;
 DrawSurfaceToTikz(colPrism, "Prism_coloured", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Prism_coloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Prism_coloured.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 
@@ -56,8 +64,16 @@ colDisk := EdgeColouredPolygonalComplex(disk,
 IsEdgeVariColouring(colDisk);
 #! true
 #! @EndExample
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_ColouredDisk.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredDisk-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_ColouredDisk.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 DrawSurfaceToTikz( colDisk, "ColouredDisk", rec(
     edgeColourClassColours := ["green",,"red","pink","teal","cyan"],
@@ -77,8 +93,16 @@ ColourInvolutions(colDisk);
 #! @BeginChunk Example_ColouredDisk_ColourInvolutions
 #! This can be seen on the example from the start of section 
 #! <Ref Sect="Section_EdgeVariColouring_Permutations"/>.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_ColouredDisk.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_ColouredDisk-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_ColouredDisk.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExample
 ColourInvolutions(colDisk);
@@ -93,8 +117,16 @@ wildColTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,1]);;
 IsWildColouredSurface(wildColTetra);
 #! true
 #! @EndExample
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_WildColTetra.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_WildColTetra-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_WildColTetra.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 DrawSurfaceToTikz( wildColTetra, "WildColTetra", rec(
    edgeColourClassColours := ["green","red","blue"],
@@ -105,8 +137,16 @@ colTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,2]);;
 IsWildColouredSurface(colTetra);
 #! false
 #! @EndExample
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_NotWildColTetra.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_NotWildColTetra-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_NotWildColTetra.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 DrawSurfaceToTikz( colTetra, "NotWildColTetra", rec(
     edgeColourClassColours := ["green","red","blue"],
@@ -117,8 +157,16 @@ colFourTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,4]);;
 IsWildColouredSurface(colFourTetra);
 #! false
 #! @EndExample
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_NotWildColTetraFour.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_NotWildColTetraFour-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_NotWildColTetraFour.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 DrawSurfaceToTikz( colFourTetra, "NotWildColTetraFour", rec(
     edgeColourClassColours := ["green","red","blue","pink"],
@@ -151,8 +199,16 @@ colSurface:=EdgeColouredSimplicialSurface(surface,[1,2,3,2,1,3,2,1,3,2]);;
 IsTameColouredSurface(colSurface);
 #! false
 #! @EndExample
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_NotTameCol.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_NotTameCol-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_NotTameCol.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 DrawSurfaceToTikz( colSurface, "NotTameCol", rec(
     edgeColourClassColours := ["green","red","blue"],

@@ -27,10 +27,16 @@ complex := PolygonalComplexByDownwardIncidence(
 #! @BeginChunk Example_FlagComplex
 #! For example consider the polygonal complex from the start of section
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExample
 flagComp := FlagComplex(complex);;
@@ -51,8 +57,16 @@ DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=5,
     faceLabels := ThreeFlags(complex),
     startingFaces := 14));;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_FlagComplex_Labelled.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_FlagComplex_Labelled-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_FlagComplex_Labelled.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 #TODO write the View()-result there;
@@ -60,18 +74,32 @@ DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=5,
 #! @BeginChunk Example_FlagComplex_Construction
 #! As an example consider the polygonal complex from  the start of section
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExample
 flagSurf := FlagSurface(complex);;
 #! @EndExample
 DrawSurfaceToTikz(flagSurf, "FlagSurface", 
                 rec(scale:=3, startingFaces:=14));;
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_FlagSurface.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_FlagSurface-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_FlagSurface.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
 

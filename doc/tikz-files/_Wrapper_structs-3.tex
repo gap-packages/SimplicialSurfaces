@@ -1,0 +1,21 @@
+\nonstopmode
+\documentclass{standalone}
+\input{TikZHeader.tex}
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels]
+    \def\xs{2}
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (\xs,1);
+    \coordinate (C) at (2*\xs,0);
+
+    \draw[edge] (A) to [bend left=30] (B);
+    \draw[edge] (A) to [bend right=30] (B);
+    \draw[edge] (B) -- (C);
+
+    \foreach \p/\r/\n in {A/left/1, B/above/2, C/right/3}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+\end{tikzpicture}
+\end{document}

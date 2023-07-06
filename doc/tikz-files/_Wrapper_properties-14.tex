@@ -1,0 +1,14 @@
+
+\nonstopmode
+\documentclass{standalone}
+
+\input{TikZHeader.tex}
+
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
+      \def\emphVertex{1}
+      \input{Image_TwoJoinedTetrahedrons.tex}
+    \end{tikzpicture}
+\end{document}
