@@ -296,7 +296,10 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
         [IsPolygonalComplex, IsPolygonalComplex],
         function(complex1, complex2)
             local inc1, inc2;
-
+		
+            if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+		return false;
+	    fi;
             inc1 := IncidenceGrapeGraph(complex1);
             inc2 := IncidenceGrapeGraph(complex2);
             # We copy the structure fully, so that all components stay mutable
@@ -314,6 +317,9 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         "for two twisted polygonal complexes", 
         [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
         function(complex1, complex2)
+	    if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+                return false;
+            fi;
             return IsomorphismGraphs( 
                 ChamberAdjacencyGraph(complex1),
                 ChamberAdjacencyGraph(complex2)) <> fail;
