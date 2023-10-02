@@ -31,22 +31,36 @@
 #!
 #! We will showcase these properties on several examples. One of them is the
 #! <E>five-star</E>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-1.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], 5,
 #! >                [ [1,2,3], [1,3,5], [1,5,7], [1,7,11], [1,2,11] ] );;
 #! @EndExampleSession
 #!
 #! Another one is the <E>triforce</E>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_Triforce.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-2.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> triforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;
 #! @EndExampleSession
@@ -70,11 +84,18 @@
 #! @EndLogSession
 #! As an example, consider the five-star that was introduced at the
 #! start of chapter <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-3.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> NumberOfVertices(fiveStar);
 #! 6
@@ -111,20 +132,34 @@ DeclareAttribute( "EulerCharacteristic", IsTwistedPolygonalComplex );
 #! @EndExampleSession
 #! In contrast, the five-star and the triforce from the start of chapter
 #! <Ref Chap="Chapter_Properties"/> are not closed.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-4.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> IsClosedSurface(fiveStar);
 #! false
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_Triforce.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-5.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> IsClosedSurface(triforce);
 #! false
@@ -145,16 +180,31 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 #! As example consider the tetrahedron and the double tetrahedron. Up to
 #! isomorphism there is exactly one multi-tetrahedral sphere with 4
 #! faces, namely the tetradron.
-#! <Alt Only="TikZ">
-#! \begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=1]
-#!      \input{Image_Tetrahedron_Net.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-6.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! And there is exactly one multi-tetrahedral sphere with 6 faces namely
 #! the double tetraedron which can be obtained by performing exactly one
 #! tetrahedral extension to the tetradron.
-#! <Alt Only="TikZ">
-#!      \input{Image_DoubleTetrahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_DoubleTetrahedron.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> IsMultiTetrahedralSphere(Tetrahedron());
@@ -302,11 +352,18 @@ DeclareAttribute( "BlockType",IsSimplicialSurface);
 #!
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FiveTrianglesInCycle.tex}
-#!    \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-7.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> EdgeDegreeOfVertex( fiveStar, 1 );
 #! 5
@@ -342,11 +399,18 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] 
 #!
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FiveTrianglesInCycle.tex}
-#!    \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-8.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> FaceDegreeOfVertex( fiveStar, 1 );
 #! 5
@@ -391,11 +455,18 @@ DeclareOperation( "DegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! vertices.
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FiveTrianglesInCycle.tex}
-#!    \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-9.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> TotalDefect( fiveStar );
 #! 6
@@ -431,11 +502,18 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!
 #! 	As an example, consider the five-star from the start of chapter
 #!	<Ref Chap="Chapter_Properties"/>:
-#!	<Alt Only="TikZ">
-#!	    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      	\input{Image_FiveTrianglesInCycle.tex}
-#!	    \end{tikzpicture}
-#! 	</Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-1-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-1.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! 	@ExampleSession
 #! gap> List( FacesOfVertices(fiveStar), Size );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
@@ -469,11 +547,18 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!
 #! 	As an example, consider the five-star from the start of chapter
 #! 	<Ref Chap="Chapter_Properties"/>:
-#! 	<Alt Only="TikZ">
-#!   	\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      	\input{Image_FiveTrianglesInCycle.tex}
-#!   	\end{tikzpicture}
-#! 	</Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-2-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-2.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! 	@BeginExampleSession
 #! gap> countEdg := CounterOfEdges(fiveStar);
 #! counter of edges ([ [ 2, 2 ], [ 2, 5 ] ] degrees, and [ 5, 5 ] multiplicities)
@@ -507,11 +592,18 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!
 #!	 As an example, consider the five-star from the start of chapter
 #! 	<Ref Chap="Chapter_Properties"/>:
-#! 	<Alt Only="TikZ">
-#!   	\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!   	   \input{Image_FiveTrianglesInCycle.tex}
-#!   	\end{tikzpicture}
-#! 	</Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-3-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-3.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! 	@ExampleSession
 #! gap> countFac:=CounterOfFaces(fiveStar);
 #! counter of faces ([ [ 2, 2, 5 ] ] degrees, and [ 5 ] multiplicities) 
@@ -544,9 +636,17 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #!       the vertex degrees of the two remaining vertices of the butterfly.
 #! 
 #! 	 As an example, consider the double-5-gon:
-#!       <Alt Only="TikZ">
-#!      \input{Image_Double5gon.tex}
-#!       </Alt>
+#!        <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double5gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Double5gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #!       @ExampleSession
 #! gap> vof:=[[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7]];;
@@ -584,9 +684,17 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! 	The list <E>degreeList</E> is not sorted but may contain duplicates.
 #!
 #! 	As an example, consider the double-6-gon:
-#! 	<Alt Only="TikZ">
-#!     	 \input{Image_Double6gon.tex}
-#! 	</Alt>
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @ExampleSession
 #! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
@@ -625,9 +733,18 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! 	resp. <E>v5</E> is the remaining vertex of the butterfly induced by
 #! 	the edge incident to the vertices <E>v1</E> and <E>v2</E> resp.<E>v1</E>
 #! 	and <E>v3</E>.
-#! 	<Alt Only="TikZ">
-#!     	 \input{Image_ThreeFaceCounter.tex}
-#! 	</Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-4-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-4.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! 	So <E>deg</E> denotes the vertex degree of the vertex <E>v1</E>. The
 #! 	first resp. second entry of <E>degreeList1</E> is the vertex degree of
 #! 	<E>v2</E> resp <E>v3</E>. And the first resp. second
@@ -639,9 +756,17 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! 	contain duplicates.
 #!
 #!	 As an example, consider the double-6-gon:
-#! 	<Alt Only="TikZ">
-#!     	 \input{Image_Double6gon.tex}
-#! 	</Alt>
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @ExampleSession
 #! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
 #! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
@@ -788,10 +913,16 @@ DeclareOperation("DegreesOfMultiplicity",[IsCounter, IsPosInt]);
 #! of vertices.
 #!
 #! Consider the following polygonal complex:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence(
@@ -832,10 +963,16 @@ InstallTrueMethod(IsFaceHomogeneous, IsTriangular);
 #! Check whether all polygons in this twisted polygonal complex are quadrangles.
 #!
 #! Consider the following polygonal complex:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence(
@@ -858,11 +995,18 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-10.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! The edges that are incident to the vertex 1 are different from the other 
 #! edges since they lie "inside" the surface. Edges with two incident faces
 #! are called <E>inner edges</E> while edges with only one incident face are
@@ -873,11 +1017,17 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! general there might appear a third case (more than
 #! two faces incident to an edge). This is exemplified in the following
 #! example:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!      \def\emphEdge{1}
-#!      \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-11-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-11.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! Edges with more than two incident faces are called <E>ramified edges</E>.
 #!
@@ -893,10 +1043,16 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #!
 #! Consider the five-star from the start of chapter 
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FiveTrianglesInCycle-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FiveTrianglesInCycle.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> IsInnerEdge( fiveStar, 4 );
@@ -922,8 +1078,16 @@ DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! Return the set of all turnable edges of the given simplicial surface.
 #! Let <A>v1,v2</A> be the vertices of the subsurface
 #! induced by a given edge which are not incident to this edge.
-#! <Alt Only="TikZ">
-#!     \input{Image_ButIndEdg.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ButIndEdg-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_ButIndEdg.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The given edge is a turnable edge, if and only if <A>v1</A> is not equal to
 #! <A>v2</A> and there exist no edge whose incident vertices are exactly
@@ -978,10 +1142,16 @@ DeclareOperation( "IsTurnableEdgeNC", [IsSimplicialSurface, IsPosInt] );
 #!
 #! Consider the five-star from the start of chapter 
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FiveTrianglesInCycle-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FiveTrianglesInCycle.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> IsBoundaryEdge( fiveStar, 4 );
@@ -1013,11 +1183,18 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
 #! We illustrate it on the following triangular complex:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle, faceStyle]
-#!      \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-12.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> branch := TriangularComplexByDownwardIncidence(
 #! >        [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], 
@@ -1048,11 +1225,18 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-13.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! The vertex 1 is the only vertex that is completely surrounded by faces. It
 #! is called an <E>inner vertex</E> while the other vertices of the five-star
 #! are <E>boundary vertices</E>. This classifies all vertices of a twisted polygonal surface.
@@ -1061,22 +1245,34 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! vertex ramifications (defined in <Ref Sect="PolygonalStructures_surface"/>)
 #! there can be 
 #! <E>ramified vertices</E>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!      \def\emphVertex{1}
-#!      \input{Image_TwoJoinedTetrahedrons.tex}
-#!    \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-14.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 #! In the case of edge ramifications (also defined in 
 #! <Ref Sect="PolygonalStructures_surface"/>) there might be edges that are 
 #! incident to more than two faces.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexNormal=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!      \def\emphVertex{1}
-#!      \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-15.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! Vertices that are incident to such an edge are called 
 #! <E>chaotic vertices</E>.
 
@@ -1095,11 +1291,18 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! 
 #! Consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-16.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> IsInnerVertex( fiveStar, 1 );
 #! true
@@ -1141,11 +1344,18 @@ DeclareOperation( "IsInnerVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!
 #! Consider the triforce from the start of section
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_Triforce.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-17.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> IsBoundaryVertex( triforce, 6 );
 #! true
@@ -1163,11 +1373,18 @@ DeclareOperation( "IsInnerVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!
 #! Consider the five-star from the start of section 
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-18.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> IsBoundaryVertex( fiveStar, 5 );
 #! true
@@ -1203,11 +1420,18 @@ DeclareOperation( "IsBoundaryVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!
 #! Consider the triforce from the start of section
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_Triforce.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-19.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> IsRamifiedVertex( triforce, 3 );
 #! true
@@ -1243,11 +1467,18 @@ DeclareOperation( "IsRamifiedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
 #! As an example, we consider the following triangular complex:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle, faceStyle]
-#!      \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-20-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-20.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> branch := TriangularComplexByDownwardIncidence(
 #! >        [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], 
@@ -1289,12 +1520,78 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! gap> FaceTwoColouring(Octahedron());
 #! [ [ 1, 2, 5, 6 ], [ 3, 4, 7, 8 ] ]
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!      \input{Image_TwoColouredOctahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TwoColouredOctahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_TwoColouredOctahedron.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @Returns a pair where the first and second entry are sets of positive integers or <K>fail</K>
 #! @Arguments complex
 DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup AdmissibleRelationsOfSurface
+#! @Description
+#! An admissible relation of a simplicial surface is an equivalence relation on the surface satisfying the following properties:
+#! - Each equivalence class contains either vertices, edges or faces only.
+#! - We can define an incidence relation as follows: Let <K>K</K> and <K>L</K> be two equivalence classes. The class <K>K</K> is incident to the class <K>L</K>
+#!   if and only if there exist <K>k</K> in the class <K>K</K> and <K>l</K> in the class <K>L</K> so that <K>k</K> is incident to <K>l</K> as elements of the given simplicial surface.
+#! - The equivalence classes together with the introduced relation gives rise to a triangulated surface without ramifications.    
+#!
+#!  Note, let <K>X</K> be a simplicial surface and <K>Y</K> be a simplicial constructed by an admissible relation on <K>X</K>. Then there exists an epimorphism from <K>X</K>
+#!  to <K>Y</K>.
+#! This functions focuses on the admissible relations that yield butterfly friendly epimorphisms. Here, an epimorphism from a simplicial surface <K>X</K> to another 
+#! simplicial surface <K>Y</K> is called butterfly friendly, if for each inner 
+#! edge <K>e</K>, the restriction of the epimorphism to the butterfly induced by <K>e</K> is surjective. 
+
+#! This function returns a list of tuples <K>[s,relation]</K>, where <K>s</K> is a simplicial surface and <K>relation</K> is the admissible relation of the given surface that gives rise to the resulting surface <K>X</K>.
+#! The relation <K>relation</K> is given by the resulting partition of vertices, edges and faces.
+#! If <K>bool=true</K> then the list which is returned by the function contains all surfaces that can be constructed by forming an admissible relation of the given surface and 
+#! if <K>bool=false</K> then the list only contains isomorphism representatives with their corresponding admissible relations.
+#! If <K>bool2=false</K> then the function prints how many faces are already visited while computating the admissible relations.
+
+#! As an example, consider the tetrahedron.
+#! @ExampleSession
+#! gap> AdmissibleRelationsOfSurface(Tetrahedron(),true);
+#! [ [ simplicial surface (4 vertices, 6 edges, and 4 faces)
+#!        , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ]
+#! @EndExampleSession
+#! 
+#! As an example, consider the butterfly.
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_butfly-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_butfly.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @ExampleSession
+#! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
+#! gap> AdmissibleRelationsOfSurface(butterfly,false);
+#! [ [ simplicial surface (4 vertices, 5 edges, and 2 faces)
+#!         , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ] ],
+#!           [ [ 1 ], [ 2 ] ] ] ], 
+#!   [ simplicial surface (3 vertices, 3 edges, and 1 faces),
+#!       [ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], 
+#!           [ [ 1, 2 ] ] ] ] ]
+#! @EndExampleSession
+#! @Returns a list of tuples where the first entry is a surface and the second entry is a list of partitions
+#! @Arguments surface,bool [,bool2]
+DeclareOperation( "AdmissibleRelationsOfSurface", [IsSimplicialSurface,IsBool,IsBool] );
 #! @EndGroup
 
 

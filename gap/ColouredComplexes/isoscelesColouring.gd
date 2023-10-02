@@ -74,8 +74,16 @@
 #!
 #! We illustrate this on the cube that was introduced at the start of
 #! Section <Ref Sect="Section_EdgeTwoColouring_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Cube_twocoloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_twocoloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_twocoloured.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The given edge colouring is a two-colouring.
 #! @BeginExampleSession
@@ -107,8 +115,16 @@ DeclareProperty("IsEdgeTwoColouring", IsEdgeColouredPolygonalComplex);
 #!
 #! Consider the cube example from the start of Section 
 #! <Ref Sect="Section_EdgeTwoColouring_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \input{_TIKZ_Cube_twocoloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_twocoloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_twocoloured.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> ColoursOfEdges(colCube);
@@ -157,8 +173,16 @@ DeclareOperation( "ColouredEdgesOfFaceNC",
 #! symmetry with respect to the edge between them. The colours can either be
 #! mirrored or rotated into each other. For every base coloured edge, the
 #! local symmetry is mirrored.
-#! <Alt Only="TikZ">
-#!   \input{Image_LocalLegSymmetry.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalLegSymmetry-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_LocalLegSymmetry.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
 #! Together with the <E>boundary</E>-type for the boundary edges
@@ -366,8 +390,16 @@ DeclareAttribute("ColourInvolutions", IsIsoscelesColouredSurface);
 #! symmetry with respect to the edge between them. The colours can either be
 #! mirrored or rotated into each other. For every inner base coloured edge, the
 #! local symmetry is mirrored.
-#! <Alt Only="TikZ">
-#!   \input{Image_LocalLegSymmetry.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalLegSymmetry-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_LocalLegSymmetry.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
 #! Together with the <E>boundary</E>-type for the boundary edges
