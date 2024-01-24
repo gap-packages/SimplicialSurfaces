@@ -143,12 +143,15 @@ DeclareOperation( "SetVertexCoordinates3DNC", [IsSimplicialSurface, IsList, IsRe
 #! The 3D-coordinates of vertex <A>vertex</A> has to have the format <A>[x,y,z]</A>.
 #! If the format of the <A>coordinates</A> is not correct, then an error is shown.
 #! This can happen, if the NC version is used to store the 3D-coordinates.
-#! The NC-version does not check the coordinate format saved in the print record.
+#! The NC-version does not check the coordinate format saved in the print record. 
+#! The <A>GetAllVertexCoordinates3DNC</A> command returns all coordinates from the print record without checking them as a list.
 #! @Returns a list
 #! @Arguments surface, vertex, printRecord
 DeclareOperation( "GetVertexCoordinates3D", [IsSimplicialSurface, IsPosInt, IsRecord] );
 #! @Arguments surface, vertex, printRecord
 DeclareOperation( "GetVertexCoordinates3DNC", [IsSimplicialSurface, IsPosInt, IsRecord] );
+#! @Arguments surface, printRecord
+DeclareOperation( "GetAllVertexCoordinates3DNC", [IsSimplicialSurface, IsRecord] );
 #! @EndGroup
 
 #! @BeginGroup DrawSurfaceToJavaScript
