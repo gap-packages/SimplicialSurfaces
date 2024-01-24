@@ -144,7 +144,7 @@ DeclareOperation( "SetVertexCoordinates3DNC", [IsSimplicialSurface, IsList, IsRe
 #! If the format of the <A>coordinates</A> is not correct, then an error is shown.
 #! This can happen, if the NC version is used to store the 3D-coordinates.
 #! The NC-version does not check the coordinate format saved in the print record. 
-#! The <A>GetAllVertexCoordinates3DNC</A> command returns all coordinates from the print record without checking them as a list.
+#! The <A>GetAllVertexCoordinates3DNC</A> method returns all coordinates from the print record without checking them as a list.
 #! @Returns a list
 #! @Arguments surface, vertex, printRecord
 DeclareOperation( "GetVertexCoordinates3D", [IsSimplicialSurface, IsPosInt, IsRecord] );

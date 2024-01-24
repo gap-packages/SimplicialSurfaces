@@ -89,7 +89,7 @@ RedispatchOnCondition(GetVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex
     [IsSimplicialSurface], 0);
 
 InstallMethod( GetAllVertexCoordinates3DNC,
-    "for a simplicial surfaceand a record",
+    "for a simplicial surface and a record",
     [IsSimplicialSurface, IsRecord],
     function(surface, printRecord)
 	return printRecord.vertexCoordinates3D;
