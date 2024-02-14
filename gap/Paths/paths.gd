@@ -1197,7 +1197,10 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! @Section Waists
 #! @SectionLabel Waists
 #! This section deals with a specific type of closed vertex-edge-paths, namely waists.
-#! A n-waist is a closed vertex-edge path of length n such that all edges are inner and no two are incident to the same face.
+#! A <M>n</M>-waist is a closed vertex-edge path of length <M>n</M> such that all edges are inner and no two are incident to the same face.
+#! Moreover, a simplicial surface <M>X</M> can only have a <M>n</M>-waist for <M>n>3</M> if <M>X</M> does not have a 3-waist and the vertex-edge path describing the <M>n</M>-waist must be distance-faithful. 
+#! A closed vertex-edge path <M>P</M> is distance-faithful if for any two vertices of <M>P</M> at least one shortest edge path between them is contained in <M>P</M>.
+#!  
 #! This will be illustrated on the following double tetrahedron:
 #!  <Alt Only="HTML">
 #! &lt;img src="./images/_Wrapper_Image_Example3Waist-1.svg"> &lt;/img>
@@ -1305,7 +1308,7 @@ DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
 #! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginExampleSession
 #! gap> AllWaistsOfComplex(doubleTetra);
-#! [ ( v5, E10, v4, E7, v3, E8, v5 ), ( v5, E12, v6, E9, v3, E8, v5 ) ]
+#! [ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 ) ]
 #! @EndExampleSession
 #!
 #! @Returns a set of closed vertex-edge-paths

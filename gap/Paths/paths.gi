@@ -951,9 +951,9 @@ InstallMethod(ShiftCyclicPath,
 InstallMethod(IsWaist, "for a complex and a vertex-edge path",
         [IsTwistedPolygonalComplex, IsVertexEdgePath],
         function(complex,path)
-                local edges, incidentFaces, e, foe;
+                local edges, incidentFaces, e, foe, edgeGraph, vertices, subdigr, i, lastV, vertex;
+ 
                 edges:=EdgesAsList(path);
-
                 incidentFaces:=[];
                 if ForAll(edges, e->IsInnerEdge(complex,e)) and IsClosedPath(path) then
 		# check if the edges are not incident to the same faces
@@ -965,6 +965,21 @@ InstallMethod(IsWaist, "for a complex and a vertex-edge path",
                                         return false;
                                 fi;
                         od;
+
+			# check distance-faithful
+			if Length(edges)>3 then
+				edgeGraph:=EdgeDigraphsGraph(complex);
+				vertices:=ShallowCopy(VerticesAsList(path));
+				Remove(vertices);
+				subdigr:=InducedSubdigraph(edgeGraph,vertices);
+				lastV:=Position(DigraphVertexLabels(subdigr),Last(vertices));
+				for i in [1..Length(vertices)-1] do
+					vertex:=Position(DigraphVertexLabels(subdigr),vertices[i]);
+					if DigraphShortestDistance(edgeGraph,vertices[i],Last(vertices))<>DigraphShortestDistance(subdigr,vertex,lastV) then
+						return false;
+					fi;
+				od;
+			fi;
                 else
                         return false;
                 fi;
@@ -1007,14 +1022,18 @@ end
 InstallMethod(AllWaistsOfComplex, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],
         function(complex)
-                local cycles, waists, c, edges, incident, incidentFaces, e, foe;
-
-                cycles:=AllClosedVertexEdgePaths(complex);
+                local threeWaists, cycles, waists, c, edges, incident, incidentFaces, e, foe;
+	 	
+		threeWaists:=AllThreeWaistsOfComplex(complex);
+		if threeWaists<>[] then
+			return Concatenation(threeWaists,AllTwoWaistsOfComplex(complex));
+		fi;	
+		cycles:=AllClosedVertexEdgePaths(complex);
                 waists:=[];
 
                 for c in cycles do
-                        if IsWaist(complex,c) then
-                                Add(waists,c);
+                	if IsWaist(complex,c) then
+                        	Add(waists,c);
                         fi;
                 od;
                 return waists;
