@@ -1309,6 +1309,9 @@ DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
 #! @BeginExampleSession
 #! gap> AllWaistsOfComplex(doubleTetra);
 #! [ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 ) ]
+#! gap> AllWaistsOfComplex(Octahedron());
+#! [ ( v1, E1, v2, E7, v6, E11, v4, E3, v1 ), ( v3, E2, v1, E4, v5, E12, v6, E9, v3 ),
+#!   ( v3, E5, v2, E6, v5, E10, v4, E8, v3 ) ]
 #! @EndExampleSession
 #!
 #! @Returns a set of closed vertex-edge-paths
