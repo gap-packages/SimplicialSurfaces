@@ -32,8 +32,16 @@ DrawSurfaceToTikz( oct, "Octahedron_example" );;
 #!
 #! This will write a file <E>Octahedron_example.tex</E> that contains the net of
 #! the octahedron, written in <K>TikZ</K>:
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Octahedron_example.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_example-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_example.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! To customize this drawing, a record is used (called the <A>printRecord</A>).
@@ -57,8 +65,16 @@ pr.vertexColours := "green";;
 #! @BeginLog
 DrawSurfaceToTikz( oct, "Octahedron_recoloured.tex", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Octahedron_recoloured.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_recoloured-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_recoloured.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! It should be mentioned that all of these calls modify their 
 #! <A>printRecord</A>.
@@ -83,8 +99,16 @@ pr.scale := 3;;
 pr.faceLabels := ["I","II","III","IV","V","VI","VII","VIII"];;
 DrawSurfaceToTikz( oct, "Octahedron_customized.tex", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Octahedron_customized.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_customized-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_customized.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! Next we would like to change the shapes of the triangles. To do so we need
@@ -95,8 +119,16 @@ DrawSurfaceToTikz( oct, "Octahedron_edgeLabels", pr );;
 pr.edgeLengths;
 #! [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Octahedron_edgeLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_edgeLabels-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_edgeLabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! We want to make the angles around vertex 1 larger, for example:
@@ -109,8 +141,16 @@ pr.edgeLengths := [ 1, 1, 1, 1, 1.5, 1.5, 1, 1.5, 1, 1.5, 1, 1 ];;
 Unbind( pr.angles );
 DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Octahedron_reshaped.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_reshaped-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Octahedron_reshaped.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! 
 #! We can see that the program chooses to display a different net to avoid
@@ -142,8 +182,16 @@ cube := PolygonalComplexByDownwardIncidence([ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ],
 [ 4, 8, 9, 12 ], [ 3, 7, 8, 11 ], [ 10, 11, 12, 13 ] ]);;
 DrawSurfaceToTikz(cube, "Cube_example");;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Cube_example.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_example-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_example.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>vertexColours</E>: Modifies the colours of the vertices. The 
@@ -160,8 +208,16 @@ pr := rec( vertexColours :=
    ["red", "blue", "green",, "pink", "black!20!yellow"] );;
 DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Cube_vertexColouredLocal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_vertexColouredLocal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_vertexColouredLocal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   Instead of giving an entire list it is also possible to give just one
 #!   string defining a new colour for all vertices. It will be internally
@@ -170,8 +226,16 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;
 pr := rec( vertexColours := "blue!60!white" );;
 DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Cube_vertexColouredGlobal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_vertexColouredGlobal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_vertexColouredGlobal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #!
@@ -188,8 +252,16 @@ pr := rec( edgeColours :=
    [,,,,"red", "purple", "blue", "green!80!black"] );;
 DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Cube_edgeColouredLocal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_edgeColouredLocal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_edgeColouredLocal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!     Instead of giving an entire list it is also possible to give just one
 #!     string defining a new colour for all edges. It will be internally 
@@ -198,8 +270,16 @@ DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;
 pr := rec( edgeColours := "red" );;
 DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Cube_edgeColouredGlobal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_edgeColouredGlobal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_edgeColouredGlobal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #!
@@ -217,8 +297,16 @@ pr := rec( faceColours := ["\\faceColorY", "\\faceColorB",
     "\\faceColorC", "\\faceColorR", "\\faceColorG", "\\faceColorO"] );;
 DrawSurfaceToTikz( cube, "Cube_faceColouredLocal", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Cube_faceColouredLocal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_faceColouredLocal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_faceColouredLocal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!     Instead of giving an entire list it is also possible to give just one
 #!     string defining a new colour for all faces. It will be internally
@@ -227,8 +315,16 @@ DrawSurfaceToTikz( cube, "Cube_faceColouredLocal", pr );;
 pr := rec( faceColours := "olive!20!white" );;
 DrawSurfaceToTikz( cube, "Cube_faceColouredGlobal", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Cube_faceColouredGlobal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Cube_faceColouredGlobal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Cube_faceColouredGlobal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #! </List>
@@ -259,8 +355,16 @@ tetra := SimplicialSurfaceByDownwardIncidence([ [ 1, 3 ], [ 1, 4 ], [ 1, 5 ],
 [ 4, 6, 7 ], [ 2, 3, 7 ] ]);;
 DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Tetrahedron_example.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_example-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_example.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>vertexLabelsActive</E>: By default all vertices are labelled. If they
@@ -269,8 +373,16 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
 pr := rec( vertexLabelsActive := false );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabelsOff", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Tetrahedron_vertexLabelsOff.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_vertexLabelsOff-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_vertexLabelsOff.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>vertexLabels</E>: By default the vertices are labelled by their 
@@ -285,8 +397,16 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabelsOff", pr);;
 pr := rec( vertexLabels := ["V_1", "X", , "++"] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Tetrahedron_vertexLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_vertexLabels-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_vertexLabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #! 
@@ -296,8 +416,16 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabels", pr);;
 pr := rec( edgeLabelsActive := false );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabelsOff", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Tetrahedron_edgeLabelsOff.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLabelsOff-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_edgeLabelsOff.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>edgeLabels</E>: By default the edges are labelled by their 
@@ -312,8 +440,16 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabelsOff", pr);;
 pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Tetrahedron_edgeLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLabels-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_edgeLabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #!
@@ -323,8 +459,16 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabels", pr);;
 pr := rec( faceLabelsActive := false );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabelsOff", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Tetrahedron_faceLabelsOff.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_faceLabelsOff-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_faceLabelsOff.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>faceLabels</E>: By default the faces are labelled by their 
@@ -339,8 +483,16 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabelsOff", pr);;
 pr := rec( faceLabels := ["I", "f_2", "42", ,] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Tetrahedron_faceLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_faceLabels-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_faceLabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #! </List>
@@ -380,8 +532,16 @@ tetra := SimplicialSurfaceByDownwardIncidence([ [ 1, 3 ], [ 1, 4 ], [ 1, 5 ],
 [ 4, 6, 7 ], [ 2, 3, 7 ] ]);;
 DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Tetrahedron_example.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_example-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_example.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>scale</E>: By default the scale is 2. This can be changed with this parameter.
@@ -389,8 +549,16 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;
 pr := rec( scale := 1.5 );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_rescaled", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_Tetrahedron_rescaled.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_rescaled-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_rescaled.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>edgeLengths</E>: By default each edge has length 1. This can be changed with this parameter. 
@@ -403,8 +571,16 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_rescaled", pr);;
 pr := rec( edgeLengths := [1.5, 1.5, 1, 1.5, 2, 1, 1] );;
 DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLengths", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Tetrahedron_edgeLengths.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLengths-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Tetrahedron_edgeLengths.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>angles</E>: The angles can be changed with this parameter.
@@ -421,16 +597,32 @@ DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLengths", pr);;
 rectangle:=PolygonalSurfaceByVerticesInFaces([[1,2,3,4]]);;
 pr:=DrawSurfaceToTikz( rectangle, "Rectangle_example" );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Rectangle_example.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Rectangle_example-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Rectangle_example.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginLog
 pr.angles:=[[[ 0.866025, 0.5 ],[ 0.866025, -0.5 ],[ 0.866025, 0.5 ],
 [ 0.866025, -0.5 ]]];;
 DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Rectangle_angles.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Rectangle_angles-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Rectangle_angles.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! </List>
@@ -472,16 +664,32 @@ butterfly := TriangularComplexByVerticesInFaces( 7, 4, [ [1,2,3],
 [1,6,7], [1,3,4], [1,5,6] ]);;
 pr := DrawSurfaceToTikz(butterfly,"Butterfly");;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Butterfly.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Butterfly-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Butterfly.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! Changing the faces results in a different picture:
 #! @BeginLog
 pr := rec( startingFaces := [3,4] );;
 DrawSurfaceToTikz( butterfly, "Butterfly_startingFaces", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_Butterfly_startingFaces.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Butterfly_startingFaces-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_Butterfly_startingFaces.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>edgeDrawOrder</E>: After drawing this list contains a list of edges for each 
@@ -496,16 +704,32 @@ doubleSixGon:=SimplicialSurfaceByUmbrellaDescriptor([(1,2,3,4,5,6),
 (6,1,7,12)]);;
 pr:=DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon");;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_DoubleSixGon.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_DoubleSixGon-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_DoubleSixGon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! Changing the edge draw order results in a different picture:
 #! @BeginLog
 pr!.edgeDrawOrder:=[[1,2,10,8,6,4,7,15,13,14,18,17,16]];;
 DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_DoubleSixGon_edgeDraw.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_DoubleSixGon_edgeDraw-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_DoubleSixGon_edgeDraw.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! </List>
@@ -581,8 +805,16 @@ DrawFacegraphToTikz( oct, "facephgraph_oct_example" );;
 #!
 #! This will write a file <E>facegraph_oct_example.tex</E> that contains the
 #! face graph of the octahedron, written in <K>TikZ</K>:
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct_Rescaled.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct_Rescaled.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! To customize this drawing, a record is used (called the <A>printRecord</A>).
@@ -596,8 +828,16 @@ pr := DrawFacegraphToTikz( oct, "facegraph_oct" );;
 pr.edgeLabelsActive := true;;
 #! @EndLog
 #!
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct_edgelabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_edgelabels-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct_edgelabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The labels of the vertices can be turned on with 
@@ -605,8 +845,16 @@ pr.edgeLabelsActive := true;;
 pr.vertexLabelsActive := true;;
 #! @EndLog
 #!
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct_vertexLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_vertexLabels-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct_vertexLabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! The colours of the edges and vertices can also be changed very easily 
@@ -616,14 +864,30 @@ pr.vertexLabelsActive := true;;
 pr.edgeColours := "green";;
 #! @EndLog
 
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct_greenEdges.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_greenEdges-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct_greenEdges.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! We can even compute an embedding of the face graph with the corresponding 
 #! geodesics of the simplicial surface.
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_octGeodesics.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_octGeodesics-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_octGeodesics.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! If we are not happy with the position of a face node, we can change it  
@@ -632,8 +896,16 @@ pr.edgeColours := "green";;
 #! @BeginLog
 pr.faceCoordinates2D[1]:=[-2.,4.];;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct2.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_facegraph_oct2-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct2.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! It is even possible to compute an embedding of the face graph of a given
@@ -647,8 +919,16 @@ pr.faceCoordinates2D[3]:=[4.,1.];;pr.faceCoordinates2D[7]:=[4.,2.];;
 pr.faceCoordinates2D[2]:=[0.,1.];;pr.faceCoordinates2D[6]:=[0.,2.];;
 pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct3.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_facegraph_oct3-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct3.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 
 #! @EndChunk
@@ -672,8 +952,16 @@ tetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
 [1,3,4],[2,3,4]]);;
 DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_tetrahedron.tex} 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>faceColours</E>: Modifies the colours of the vertices representing 
@@ -690,8 +978,16 @@ pr := rec( faceColours :=
 DrawFacegraphToTikz(tetra, 
 "facegraph_tetrahedron_vertexColouredLocal", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_tetrahedron_vertexColouredLocal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredLocal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredLocal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   Instead of giving an entire list it is also possible to give just one
 #!   string defining a new colour for all vertices. It will be internally
@@ -701,8 +997,16 @@ pr := rec( vertexColours := "blue!60!white" );;
 DrawFacegraphToTikz(tetra, 
 "facegraph_tetrahedron_vertexColouredGlobal.tex",pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_tetrahedron_vertexColouredGlobal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredGlobal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredGlobal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #!
@@ -720,8 +1024,16 @@ pr := rec( edgeColours :=
 DrawFacegraphToTikz(tetra,
 "facegraph_tetrahedron_edgeColouredLocal.tex", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_tetrahedron_edgeColouredLocal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredLocal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredLocal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!     Instead of giving an entire list it is also possible to give just one
 #!     string defining a new colour for all edges. It will be internally 
@@ -731,8 +1043,16 @@ pr := rec( edgeColours := "red" );;
 DrawFacegraphToTikz( tetra, 
 "facegraph_tetrahedron_edgeColouredGlobal.tex", pr );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_tetrahedron_edgeColouredGlobal.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredGlobal-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredGlobal.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #! </List>
@@ -763,15 +1083,31 @@ double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
 [1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;
 #! @EndLog
 #!
-#! <Alt Only="TikZ">
-#!    \input{Image_Double6gon.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginLog
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 #! @EndLog
 #! 
-#! <Alt Only="TikZ">
-#!    \input{Image_facegraph_Double6Gon.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_facegraph_Double6Gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_Double6Gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>vertexLabelsActive</E>: By default all vertices are not labelled. If they
@@ -782,8 +1118,16 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;
 pr := rec( vertexLabelsActive := true);;
 DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_Double6Gon_VertexLabelsOn.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_VertexLabelsOn-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_VertexLabelsOn.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>vertexLabels</E>: By default the vertices are labelled by their 
@@ -798,8 +1142,16 @@ DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;
 pr := rec( vertexLabels := ["V_1", "X", , "++"] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_Double6Gon_vertexLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_vertexLabels-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_vertexLabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #! 
@@ -809,8 +1161,16 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;
 pr := rec( edgeLabelsActive := true  );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_Double6Gon_EdgeLabelsOn.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabelsOn-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabelsOn.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>edgeLabels</E>: By default the edges are labelled by their 
@@ -825,8 +1185,16 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;
 pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_Double6Gon_EdgeLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabels-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #!
@@ -836,8 +1204,16 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;
 pr := rec( faceLabelsActive := false );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_Double6Gon_FaceLabelsOff.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! <Item><E>faceLabels</E>: By default the faces are labelled by their 
@@ -852,8 +1228,16 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;
 pr := rec( faceLabels := ["I", "f_2", "42", ,] );;
 DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_Double6Gon_FaceLabels.tex}
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_FaceLabels-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_Double6Gon_FaceLabels.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
 #! </List>
@@ -875,8 +1259,16 @@ DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;
 oct:=Octahedron();;
 DrawFacegraphToTikz( oct, "facegraph_oct" );;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!    \input{_TIKZ_facegraph_oct.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_oct-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_oct.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>scale</E>: By default the scale is 2. This can be changed with this parameter.
@@ -884,8 +1276,16 @@ DrawFacegraphToTikz( oct, "facegraph_oct" );;
 pr := rec( scale := 1.5 );;
 DrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_oct_Rescaled.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct_Rescaled.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! </List>
@@ -912,8 +1312,16 @@ tetra := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
 DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @EndLog
 #!
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_tetrahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>faceCoordinates2D</E>: Modifies the position of the vertices
@@ -929,9 +1337,41 @@ pr := rec( faceCoordinates2D:=[[0.,0.],[4.,0.],[4.,4.],[0.,4.]]);;
 DrawFacegraphToTikz(tetra, 
 "facegraph_tetrahedron_Coordinates", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_facegraph_tetrahedron_Coordinates.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_Coordinates-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_TIKZ_facegraph_tetrahedron_Coordinates.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#!   </Item>
+
+#!   <Item><E>spread</E> (Only available for <K>DrawConvexFacegraphToTikz</K> 
+#!    <Ref Subsect="DrawConvexFacegraphToTikz"/>): Modifies the position of the 
+#!    vertices representing the faces. The spread parameter can be chosen as a float in the
+#!    interval (0, 1). Choosing the parameter outside the interval results in
+#!    an error. Choosing a number close to 1 modifies the face coordinates such
+#!    that they tend torwards the outer ring of the face graph. Choosing a number
+#!    close to 0 modifies the face coordinates such that they tend torwards the
+#!    middle of the face graph. The default spread is set at 0.5.
+#!
+#! We will exemplify this parameter with the icosahedron.
+#! @BeginLog
+icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], 
+  [ 1, 2, 4 ], [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], 
+  [ 2, 4, 8 ], [ 4, 5, 9 ], [ 5, 6, 10 ], [ 3, 6, 11 ], 
+  [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], 
+  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], 
+  [ 10, 11, 12 ], [ 7, 11, 12 ] ]);;
+DrawConvexFacegraphToTikz(icosahedron, 
+"convex_facegraph_icosahedron_default_spread");;
+#! @EndLog
+
+#!
 #!   </Item>
 #!   <Item><E>spread</E> (Only available for <K>DrawConvexFacegraphToTikz</K> 
 #!    <Ref Subsect="DrawConvexFacegraphToTikz"/>): Modifies the position of the 
@@ -1001,8 +1441,16 @@ oct:=Octahedron();
 DrawFacegraphToTikz( oct, "facegraph_Octahedron.tex" );;
 #! @EndLog
 #! 
-#! <Alt Only="TikZ">
-#!    \input{Image_facegraph_oct_Rescaled.tex }
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_oct_Rescaled.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! <List>
 #!   <Item><E>geodesicsActive</E>: By default the geodics are not painted into
@@ -1015,8 +1463,16 @@ pr := rec( geodesicActive := true);;
 DrawFacegraphToTikz( oct,
 "facegraph_octGeodesics.tex" , pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{Image_facegraph_octGeodesics.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_facegraph_octGeodesics-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_facegraph_octGeodesics.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! </List>

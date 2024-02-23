@@ -1,0 +1,17 @@
+\nonstopmode
+\documentclass{standalone}
+\input{TikZHeader.tex}
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+\begin{tikzpicture}[vertexStyle, edgeStyle]
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (3,1);
+
+    \draw[edge] (A) -- (B);
+
+    \foreach \p/\r/\n in {A/left/2, B/right/3}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+\end{tikzpicture}
+\end{document}
