@@ -1299,10 +1299,6 @@ DrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;
 #! * <E>faceCoordinates2D</E>: Modify the coordinates of the faces which are
 #!   represented as vertices in the embedding.
 #!
-#! * <E>spread</E> (Only available for <K>DrawConvexFacegraphToTikz</K> 
-#!    <Ref Subsect="DrawConvexFacegraphToTikz"/>): Modify the spread of 
-#!    the coordinates.
-#!
 #! We will exemplify them with the tetrahedron to make clear how the parameters 
 #! work:
 #!
@@ -1349,75 +1345,6 @@ DrawFacegraphToTikz(tetra,
 #! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
-
-#!   <Item><E>spread</E> (Only available for <K>DrawConvexFacegraphToTikz</K> 
-#!    <Ref Subsect="DrawConvexFacegraphToTikz"/>): Modifies the position of the 
-#!    vertices representing the faces. The spread parameter can be chosen as a float in the
-#!    interval (0, 1). Choosing the parameter outside the interval results in
-#!    an error. Choosing a number close to 1 modifies the face coordinates such
-#!    that they tend torwards the outer ring of the face graph. Choosing a number
-#!    close to 0 modifies the face coordinates such that they tend torwards the
-#!    middle of the face graph. The default spread is set at 0.5.
-#!
-#! We will exemplify this parameter with the icosahedron.
-#! @BeginLog
-icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], 
-  [ 1, 2, 4 ], [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], 
-  [ 2, 4, 8 ], [ 4, 5, 9 ], [ 5, 6, 10 ], [ 3, 6, 11 ], 
-  [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], 
-  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], 
-  [ 10, 11, 12 ], [ 7, 11, 12 ] ]);;
-DrawConvexFacegraphToTikz(icosahedron, 
-"convex_facegraph_icosahedron_default_spread");;
-#! @EndLog
-
-#!
-#!   </Item>
-#!   <Item><E>spread</E> (Only available for <K>DrawConvexFacegraphToTikz</K> 
-#!    <Ref Subsect="DrawConvexFacegraphToTikz"/>): Modifies the position of the 
-#!    vertices representing the faces. The spread parameter can be chosen as a float in the
-#!    interval (0, 1). Choosing the parameter outside the interval results in
-#!    an error. Choosing a number close to 1 modifies the face coordinates such
-#!    that they tend torwards the outer ring of the face graph. Choosing a number
-#!    close to 0 modifies the face coordinates such that they tend torwards the
-#!    middle of the face graph. The default spread is set at 0.5.
-#!
-#! We will exemplify this parameter with the icosahedron.
-#! @BeginLog
-icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], 
-  [ 1, 2, 4 ], [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], 
-  [ 2, 4, 8 ], [ 4, 5, 9 ], [ 5, 6, 10 ], [ 3, 6, 11 ], 
-  [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], 
-  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], 
-  [ 10, 11, 12 ], [ 7, 11, 12 ] ]);;
-DrawConvexFacegraphToTikz(icosahedron, 
-"convex_facegraph_icosahedron_default_spread");;
-#! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_convex_facegraph_icosahedron_default_spread.tex}
-#! </Alt>
-#!
-#! @BeginLog
-pr := rec(spread := 0.3);;
-DrawConvexFacegraphToTikz(icosahedron,
- "convex_facegraph_icosahedron_low_spread", pr);;
-#! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_convex_facegraph_icosahedron_low_spread.tex}
-#! </Alt>
-#!
-#! @BeginLog
-pr := rec(spread := 0.7);;
-DrawConvexFacegraphToTikz(icosahedron,
- "convex_facegraph_icosahedron_high_spread", pr);;
-#! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_convex_facegraph_icosahedron_high_spread.tex}
-#! </Alt>
-#! </Item>
-#! </List>
-#! @EndChunk
-
 
 #! @BeginChunk DrawFacegraphToTikz_Geodesics
 #! This subsection covers the  usage of the parameter that adds geodesics into 
@@ -1498,22 +1425,4 @@ DrawFacegraphToTikz( oct,
 #!   is <K>false</K>) the generated tex-file will only consist of a 
 #!   <K>tikzpicture</K> without header (it is not possible to compile it on
 #!   its own).
-#! @EndChunk
-
-#! @BeginChunk DrawConvexFacegraphToTikz_example
-#! @BeginLog
-double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
-[1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;
-#! @EndLog
-#!
-#! <Alt Only="TikZ">
-#!    \input{Image_Double6gon.tex}
-#! </Alt>
-#! @BeginLog
-DrawConvexFacegraphToTikz( double6Gon, "convex_facegraph_Double6Gon.tex" );;
-#! @EndLog
-#! 
-#! <Alt Only="TikZ">
-#!    \input{Image_convex_facegraph_Double6Gon.tex}
-#! </Alt>
 #! @EndChunk
