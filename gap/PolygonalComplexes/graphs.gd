@@ -461,9 +461,8 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
 #! true
 #! @EndExampleSession
 #!
-#! Since the method takes a long time for a graph with many cycles, you should only call the method
-#! for digraphs with twenty-two or less nodes for <K>vertexfaithful</K> true. 
-#! For <K>vertexfaithful</K> false you should only call the function for twelve or less nodes. 
+#! Since it takes a long time to compute all cycles, you should only call the method for digraphs with twelve or less nodes for <K>vertexfaithful</K> false.
+#! For <K>vertexfaithful</K> true, the method needs to consider only chordless and non-separating cycles. This makes the method fast for digraphs up to 28 nodes.
 #! In general, it is much faster to only look for vertex-faithful simplicial surfaces.
 #! 
 #! @Arguments digraph[, vertexfaithful]
