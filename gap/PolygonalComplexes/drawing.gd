@@ -1393,26 +1393,48 @@ icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ],
 DrawConvexFacegraphToTikz(icosahedron, 
 "convex_facegraph_icosahedron_default_spread");;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_convex_facegraph_icosahedron_default_spread.tex}
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_TIKZ_convex_facegraph_icosahedron_default_spread.svg"> &lt;/img> &lt;br>
 #! </Alt>
-#!
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_TIKZ_convex_facegraph_icosahedron_default_spread.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @BeginLog
 pr := rec(spread := 0.3);;
 DrawConvexFacegraphToTikz(icosahedron,
  "convex_facegraph_icosahedron_low_spread", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_convex_facegraph_icosahedron_low_spread.tex}
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_TIKZ_convex_facegraph_icosahedron_low_spread.svg"> &lt;/img> &lt;br>
 #! </Alt>
-#!
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_TIKZ_convex_facegraph_icosahedron_low_spread.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @BeginLog
 pr := rec(spread := 0.7);;
 DrawConvexFacegraphToTikz(icosahedron,
  "convex_facegraph_icosahedron_high_spread", pr);;
 #! @EndLog
-#! <Alt Only="TikZ">
-#!     \input{_TIKZ_convex_facegraph_icosahedron_high_spread.tex}
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_TIKZ_convex_facegraph_icosahedron_high_spread.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_TIKZ_convex_facegraph_icosahedron_high_spread.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! </Item>
 #! </List>
@@ -1506,14 +1528,30 @@ double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],
 [1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;
 #! @EndLog
 #!
-#! <Alt Only="TikZ">
-#!    \input{Image_Double6gon.tex}
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_Double6gon.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginLog
 DrawConvexFacegraphToTikz( double6Gon, "convex_facegraph_Double6Gon.tex" );;
 #! @EndLog
 #! 
-#! <Alt Only="TikZ">
-#!    \input{Image_convex_facegraph_Double6Gon.tex}
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_convex_facegraph_Double6Gon.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_convex_facegraph_Double6Gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @EndChunk
