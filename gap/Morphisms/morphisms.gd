@@ -435,11 +435,17 @@ DeclareAttribute( "InversePolygonalMorphism", IsPolygonalMorphism and IsBijectiv
 #!     becomes a bijection onto another butterfly. In other words, every butterfly of
 #!     <K>surf1</K> is being preserved and does not degenerate in <K>surf2</K>. 
 #!     As an example, consider the 3-half-umbrella and 6-umbrella.
-#!     <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!        \input{Image_Butterfly_Faithful_Monomorphism_Hexagon.tex}
-#!      \end{tikzpicture}
-#!     </Alt>
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_Butterfly_Faithful_Monomorphism_Hexagon.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_Butterfly_Faithful_Monomorphism_Hexagon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @ExampleSession
 #! gap> six := SimplicialSurfaceByDownwardIncidence(
 #! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
@@ -476,11 +482,17 @@ DeclareOperation( "ButterflyFaithfulMonomorphismIntoSimplicialSurface", [IsSimpl
 #!       butterfly-faithful monomorphisms, namely by aligning the 3-half umbrella with 3
 #!       consecutive faces of the 6-umbrella. There are 6 ways to do this and another 6 if
 #!       we flip the 3-half-umbrella first.
-#!       <Alt Only="TikZ">
-#!        \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!          \input{Image_Butterfly_Faithful_Monomorphism_Hexagon.tex}
-#!        \end{tikzpicture}
-#!       </Alt>
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_Butterfly_Faithful_Monomorphism_Hexagon.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_Butterfly_Faithful_Monomorphism_Hexagon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @ExampleSession
 #! gap> six := SimplicialSurfaceByDownwardIncidence(
 #! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
