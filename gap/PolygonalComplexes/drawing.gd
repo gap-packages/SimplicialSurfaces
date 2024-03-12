@@ -1345,6 +1345,8 @@ DrawFacegraphToTikz(tetra,
 #! Image omitted in terminal text
 #! </Alt>
 #!   </Item>
+#! </List>
+#! @EndChunk
 
 #! @BeginChunk DrawFacegraphToTikz_Geodesics
 #! This subsection covers the  usage of the parameter that adds geodesics into 
