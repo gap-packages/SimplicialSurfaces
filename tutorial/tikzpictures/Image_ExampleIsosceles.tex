@@ -1,0 +1,133 @@
+
+
+\begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2]
+
+% Define the coordinates of the vertices
+\coordinate (V1_1) at (0, 0);
+\coordinate (V2_1) at (2.5, -0.8660254037844385);
+\coordinate (V3_1) at (2, -1.732050807568877);
+\coordinate (V4_1) at (2, 0);
+\coordinate (V5_1) at (1.5, 0.8660254037844387);
+\coordinate (V5_2) at (1.5, -2.598076211353316);
+\coordinate (V6_1) at (1.5, -0.8660254037844386);
+\coordinate (V7_1) at (1, -1.732050807568877);
+\coordinate (V8_1) at (1, 0);
+\coordinate (V9_1) at (0.4999999999999999, 0.8660254037844386);
+\coordinate (V9_2) at (0.5000000000000007, -2.598076211353316);
+\coordinate (V10_1) at (0.5000000000000001, -0.8660254037844386);
+\coordinate (V11_1) at (-0.5, 0.8660254037844384);
+\coordinate (V11_2) at (-0.4999999999999998, -0.8660254037844388);
+\coordinate (V11_3) at (0, -1.732050807568878);
+\coordinate (V12_1) at (2.5, 0.8660254037844388);
+\coordinate (V12_2) at (3, 0);
+\coordinate (V12_3) at (3, -1.732050807568877);
+\coordinate (V12_4) at (2.5, -2.598076211353316);
+
+
+% Fill in the faces
+\fill[face]  (V8_1) -- (V9_1) -- (V1_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V8_1=1,V9_1=1,V1_1=1) {$1$};
+\fill[face]  (V1_1) -- (V10_1) -- (V8_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V1_1=1,V10_1=1,V8_1=1) {$2$};
+\fill[face]  (V9_1) -- (V11_1) -- (V1_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V9_1=1,V11_1=1,V1_1=1) {$3$};
+\fill[face]  (V1_1) -- (V11_2) -- (V10_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V1_1=1,V11_2=1,V10_1=1) {$4$};
+\fill[face]  (V6_1) -- (V3_1) -- (V2_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V6_1=1,V3_1=1,V2_1=1) {$5$};
+\fill[face]  (V3_1) -- (V12_3) -- (V2_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V3_1=1,V12_3=1,V2_1=1) {$6$};
+\fill[face]  (V6_1) -- (V2_1) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V6_1=1,V2_1=1,V4_1=1) {$7$};
+\fill[face]  (V2_1) -- (V12_2) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V12_2=1,V4_1=1) {$8$};
+\fill[face]  (V7_1) -- (V5_2) -- (V3_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_1=1,V5_2=1,V3_1=1) {$9$};
+\fill[face]  (V5_2) -- (V12_4) -- (V3_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V5_2=1,V12_4=1,V3_1=1) {$10$};
+\fill[face]  (V6_1) -- (V7_1) -- (V3_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V6_1=1,V7_1=1,V3_1=1) {$11$};
+\fill[face]  (V8_1) -- (V4_1) -- (V5_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V8_1=1,V4_1=1,V5_1=1) {$12$};
+\fill[face]  (V4_1) -- (V12_1) -- (V5_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V4_1=1,V12_1=1,V5_1=1) {$13$};
+\fill[face]  (V8_1) -- (V6_1) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V8_1=1,V6_1=1,V4_1=1) {$14$};
+\fill[face]  (V7_1) -- (V9_2) -- (V5_2) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_1=1,V9_2=1,V5_2=1) {$15$};
+\fill[face]  (V8_1) -- (V5_1) -- (V9_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V8_1=1,V5_1=1,V9_1=1) {$16$};
+\fill[face]  (V6_1) -- (V10_1) -- (V7_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V6_1=1,V10_1=1,V7_1=1) {$17$};
+\fill[face]  (V8_1) -- (V10_1) -- (V6_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V8_1=1,V10_1=1,V6_1=1) {$18$};
+\fill[face]  (V7_1) -- (V11_3) -- (V9_2) -- cycle;
+\node[faceLabel] at (barycentric cs:V7_1=1,V11_3=1,V9_2=1) {$19$};
+\fill[face]  (V10_1) -- (V11_3) -- (V7_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V10_1=1,V11_3=1,V7_1=1) {$20$};
+
+
+% Draw the edges
+\draw[edge] (V8_1) -- node[edgeLabel] {$1$} (V1_1);
+\draw[edge] (V1_1) -- node[edgeLabel] {$2$} (V9_1);
+\draw[edge] (V10_1) -- node[edgeLabel] {$3$} (V1_1);
+\draw[edge] (V1_1) -- node[edgeLabel] {$4$} (V11_1);
+\draw[edge] (V11_2) -- node[edgeLabel] {$4$} (V1_1);
+\draw[edge] (V2_1) -- node[edgeLabel] {$5$} (V3_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$6$} (V2_1);
+\draw[edge] (V2_1) -- node[edgeLabel] {$7$} (V6_1);
+\draw[edge] (V12_2) -- node[edgeLabel] {$8$} (V2_1);
+\draw[edge] (V2_1) -- node[edgeLabel] {$8$} (V12_3);
+\draw[edge] (V3_1) -- node[edgeLabel] {$9$} (V5_2);
+\draw[edge] (V3_1) -- node[edgeLabel] {$10$} (V6_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$11$} (V7_1);
+\draw[edge] (V12_3) -- node[edgeLabel] {$12$} (V3_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$12$} (V12_4);
+\draw[edge] (V5_1) -- node[edgeLabel] {$13$} (V4_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$14$} (V6_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$15$} (V8_1);
+\draw[edge] (V12_1) -- node[edgeLabel] {$16$} (V4_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$16$} (V12_2);
+\draw[edge] (V5_2) -- node[edgeLabel] {$17$} (V7_1);
+\draw[edge] (V5_1) -- node[edgeLabel] {$18$} (V8_1);
+\draw[edge] (V9_1) -- node[edgeLabel] {$19$} (V5_1);
+\draw[edge] (V5_2) -- node[edgeLabel] {$19$} (V9_2);
+\draw[edge] (V5_1) -- node[edgeLabel] {$20$} (V12_1);
+\draw[edge] (V12_4) -- node[edgeLabel] {$20$} (V5_2);
+\draw[edge] (V7_1) -- node[edgeLabel] {$21$} (V6_1);
+\draw[edge] (V6_1) -- node[edgeLabel] {$22$} (V8_1);
+\draw[edge] (V10_1) -- node[edgeLabel] {$23$} (V6_1);
+\draw[edge] (V9_2) -- node[edgeLabel] {$24$} (V7_1);
+\draw[edge] (V7_1) -- node[edgeLabel] {$25$} (V10_1);
+\draw[edge] (V11_3) -- node[edgeLabel] {$26$} (V7_1);
+\draw[edge] (V9_1) -- node[edgeLabel] {$27$} (V8_1);
+\draw[edge] (V8_1) -- node[edgeLabel] {$28$} (V10_1);
+\draw[edge] (V11_1) -- node[edgeLabel] {$29$} (V9_1);
+\draw[edge] (V9_2) -- node[edgeLabel] {$29$} (V11_3);
+\draw[edge] (V10_1) -- node[edgeLabel] {$30$} (V11_2);
+\draw[edge] (V11_3) -- node[edgeLabel] {$30$} (V10_1);
+
+
+% Draw the vertices
+\vertexLabelR{V1_1}{left}{$1$}
+\vertexLabelR{V2_1}{left}{$2$}
+\vertexLabelR{V3_1}{left}{$3$}
+\vertexLabelR{V4_1}{left}{$4$}
+\vertexLabelR{V5_1}{left}{$5$}
+\vertexLabelR{V5_2}{left}{$5$}
+\vertexLabelR{V6_1}{left}{$6$}
+\vertexLabelR{V7_1}{left}{$7$}
+\vertexLabelR{V8_1}{left}{$8$}
+\vertexLabelR{V9_1}{left}{$9$}
+\vertexLabelR{V9_2}{left}{$9$}
+\vertexLabelR{V10_1}{left}{$10$}
+\vertexLabelR{V11_1}{left}{$11$}
+\vertexLabelR{V11_2}{left}{$11$}
+\vertexLabelR{V11_3}{left}{$11$}
+\vertexLabelR{V12_1}{left}{$12$}
+\vertexLabelR{V12_2}{left}{$12$}
+\vertexLabelR{V12_3}{left}{$12$}
+\vertexLabelR{V12_4}{left}{$12$}
+
+\end{tikzpicture}
+

@@ -1,0 +1,33 @@
+\begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2, edgeStyle=nolabels,vertexStyle=nolabels]
+\coordinate (V1) at (-1.5, 0.8660254037844386);
+\coordinate (V2) at (-1, 0);
+\coordinate (V3) at (-2, 0);
+\coordinate (V4) at (1.5, 0.8660254037844386);
+\coordinate (V5) at (1, 0);
+\coordinate (V6) at (2, 0);
+\coordinate (V7) at (1.5, 0.34);
+
+\fill[face]  (0.5,-0.14) -- (2.5,-0.14) -- (2.5,1) -- (0.5,1) -- cycle;
+\fill[face]  (-0.5,-0.14) -- (-2.5,-0.14) -- (-2.5,1) -- (-0.5,1) -- cycle;
+
+\draw[edge=black] (-0.3,0.31) -- (0.3,0.31);
+\draw[edge=black] (0.15,0.41) -- (0.3,0.31);
+\draw[edge=black] (0.15,0.21) -- (0.3,0.31);
+\draw[edge=black] (V1) -- (V2);
+\draw[edge=black] (V2) -- (V3);
+\draw[edge=black] (V1) -- (V3);
+\draw[edge=black] (V4) -- (V5);
+\draw[edge=black] (V5) -- (V6);
+\draw[edge=black] (V4) -- (V6);
+\draw[edge=black] (V4) -- (V7);
+\draw[edge=black] (V5) -- (V7);
+\draw[edge=black] (V6) -- (V7);
+
+\vertexLabelR{V1}{left}{}
+\vertexLabelR{V2}{left}{}
+\vertexLabelR{V3}{left}{}
+\vertexLabelR{V4}{left}{}
+\vertexLabelR{V5}{left}{}
+\vertexLabelR{V6}{left}{}
+\vertexLabelR{V7}{left}{}
+\end{tikzpicture}

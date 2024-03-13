@@ -1,0 +1,44 @@
+
+
+\begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=1]
+
+% Define the coordinates of the vertices
+\coordinate (V1_1) at (0, 0);
+\coordinate (V2_1) at (4, 0);
+\coordinate (V3_1) at (4,4);
+\coordinate (V4_1) at (0,4);
+\coordinate (V5_1) at (-2,1);
+\coordinate (V6_1) at (2,1);
+\coordinate (V7_1) at (2,5);
+\coordinate (V8_1) at (-2,5);
+
+\draw [edge=black] (0,0)-- (4,0);
+\draw [edge=black] (4,0)-- (4,4);
+\draw [edge=black] (4,4)-- (0,4);
+\draw [edge=black] (-2,5)-- (-2,1);
+\draw [dashed, edge] (-2,1)-- (2,1);
+\draw [dashed, edge] (2,1)-- (2,5);
+\draw [edge=black] (2,5)-- (-2,5);
+\draw [edge=black] (0,0)-- (-2,1);
+\draw [dashed, edge] (4,0)-- (2,1);
+\draw [edge=black] (4,4)-- (2,5);
+\draw [edge=black] (0,4)-- (-2,5);
+\draw [dashed, edge=green] (-2,5)-- (4,4);
+\draw [dashed, edge=yellow] (0,4)-- (4,0);
+\draw [dashed, edge=yellow] (4,0)-- (-2,1);
+\draw [dashed, edge=yellow] (-2,1)-- (0,4);
+\draw [dashed, edge=green] (2,1)-- (4,4);
+\draw [dashed, edge=green] (2,1)-- (-2,5);
+\draw [edge=black] (0,4)-- (0,0);
+\vertexLabelR{V1_1}{left}{$1$}
+\vertexLabelR{V2_1}{left}{$2$}
+\vertexLabelR{V3_1}{left}{$3$}
+\vertexLabelR{V4_1}{left}{$4$}
+\vertexLabelR{V5_1}{left}{$5$}
+\vertexLabelR{V6_1}{left}{$6$}
+\vertexLabelR{V7_1}{left}{$7$}
+\vertexLabelR{V8_1}{left}{$8$}
+
+\end{tikzpicture}
+
+
