@@ -1430,4 +1430,3 @@ DrawFacegraphToTikz( oct,
 #!   <K>tikzpicture</K> without header (it is not possible to compile it on
 #!   its own).
 #! @EndChunk
-
