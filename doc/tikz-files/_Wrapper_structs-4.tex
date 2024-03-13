@@ -1,0 +1,45 @@
+\nonstopmode
+\documentclass{standalone}
+\input{TikZHeader.tex}
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+    {
+    \def\abstractLabels{1}
+    % Without parameters the picture will be labelled with
+    % concrete numbers.
+    % With the parameter abstractLabels we will label it
+    % with v_i and e_i.
+
+    \begin{tikzpicture}[vertexNormal, edgeStyle, faceStyle]
+        \def\r{2}
+        \coordinate (P1) at (306:\r);
+        \coordinate (P2) at (18:\r);
+        \coordinate (P3) at (90:\r);
+        \coordinate (P4) at (162:\r);
+        \coordinate (P5) at (234:\r);
+
+        \draw[edge, face]
+            (P1) node[vertexLabel, right] {\ifdefined\abstractLabels $v_1$ \else 2 \fi}
+                -- node[edgeLabel] {\ifdefined\abstractLabels $e_1$ \else 3 \fi} 
+            (P2) node[vertexLabel, right] {\ifdefined\abstractLabels $v_2$ \else 6 \fi} 
+                -- node[edgeLabel] {\ifdefined\abstractLabels $e_2$ \else 8 \fi} 
+            (P3) node[vertexLabel, above] {\ifdefined\abstractLabels $v_3$ \else 1 \fi}
+                -- node[edgeLabel] {\ifdefined\abstractLabels $e_3$ \else 4 \fi} 
+            (P4) node[vertexLabel, left] {\ifdefined\abstractLabels $v_4$ \else 9 \fi} 
+                -- node[edgeLabel] {\ifdefined\abstractLabels $e_4$ \else 2 \fi}
+            (P5) node[vertexLabel, left] {\ifdefined\abstractLabels $v_5$ \else 3 \fi} 
+                -- node[edgeLabel] {\ifdefined\abstractLabels $e_5$ \else 6 \fi} cycle;
+
+        \foreach \p in {P1,P2,P3,P4,P5}{
+            \node[vertexNode] at (\p) {};
+        }
+
+        \ifdefined\abstractLabels
+            \node[scale=2, faceLabel] at (0,0) {$\circlearrowleft$};
+        \else
+            \node[faceLabel] at (0,0) {$II$};
+        \fi
+    \end{tikzpicture}
+}
+\end{document}

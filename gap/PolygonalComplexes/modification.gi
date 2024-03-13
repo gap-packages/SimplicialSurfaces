@@ -2016,11 +2016,18 @@ InstallMethod( SplitMendableFlagPairs, "for a polygonal complex",
             verts1 := VerticesOfEdges(complex)[pair[1]];
             verts2 := VerticesOfEdges(complex)[pair[2]];
             if Length(Intersection(verts1, verts2)) = 0 then
-                Append( flagPairs, [ 
-                    Set( [ [ verts1[1], pair[1] ], [ verts2[1], pair[2] ] ] ),
-                    Set( [ [ verts1[1], pair[1] ], [ verts2[2], pair[2] ] ] ),
-                    Set( [ [ verts1[2], pair[1] ], [ verts2[1], pair[2] ] ] ),
-                    Set( [ [ verts1[2], pair[1] ], [ verts2[2], pair[2] ] ] )] );
+		if not Set([verts1[1],verts2[1]]) in VerticesOfEdges(complex) and not Set([verts2[1],verts1[1]]) in VerticesOfEdges(complex)  then
+		    Add(flagPairs,Set([ [ verts1[1], pair[1] ], [ verts2[1], pair[2] ] ]));
+		fi;
+		if not Set([verts1[1],verts2[2]]) in VerticesOfEdges(complex) and not Set([verts2[2],verts1[1]]) in VerticesOfEdges(complex) then
+		    Add(flagPairs,Set([ [ verts1[1], pair[1] ], [ verts2[2], pair[2] ] ]));
+		fi;
+		if not Set([verts1[2],verts2[1]]) in VerticesOfEdges(complex) and not Set([verts2[1],verts1[2]]) in VerticesOfEdges(complex)  then
+		    Add(flagPairs,Set([ [ verts1[2], pair[1] ], [ verts2[1], pair[2] ] ]));
+                fi;
+                if not Set([verts1[2],verts2[2]]) in VerticesOfEdges(complex) and not Set([verts2[2],verts1[2]]) in VerticesOfEdges(complex) then
+		    Add(flagPairs,Set([ [ verts1[2], pair[1] ], [ verts2[2], pair[2] ] ]));
+                fi;
             fi;
         od;
 
@@ -2160,7 +2167,7 @@ InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
 	comp:=complex;
         vert:=Filtered(Vertices(comp),v->FaceDegreeOfVertex(comp,v)=3);
         if IsMultiTetrahedralSphere(comp) then
-                if not VertexCounter(comp) in [[[3,4]],[[3,2],[4,3]]] then
+                if not ListCounter(CounterOfVertices(comp)) in [[[3,4]],[[3,2],[4,3]]] then
                         for v in vert do
                                comp:=TetrahedralReduction(comp,v);
                         od;

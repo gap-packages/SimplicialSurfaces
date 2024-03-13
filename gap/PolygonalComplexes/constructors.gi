@@ -460,13 +460,13 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 #######################################
 ##
-## UmbreallaDescriptors 
+##  UmbrellaDescriptors 
 ##
 
 
 #############################################################################
 ##
-#F  UmbrellaDescriptorOfSurface . . . . . compute the umbrella descriptor
+##  UmbrellaDescriptorOfSurface . . . . . compute the umbrella descriptor
 ##
 ##
 InstallMethod( UmbrellaDescriptorOfSurface, 
@@ -493,6 +493,42 @@ InstallMethod( UmbrellaDescriptorOfSurface,
         return umbdesc;
 end);
 
+InstallMethod(UmbrellaTipDescriptorOfSurface, 
+    "for a vertexfaithful simplicial surface", 
+    [IsSimplicialSurface],
+    function(surf)
+    local vertex, umbdesc, edge, vertEdges, umbVertices, umbPath;
+    if not IsVertexFaithful(surf) then
+        return fail;
+    fi;
+    umbdesc:=[];
+    for vertex in Vertices(surf) do
+        #UmbrellaTipDescriptor for a vertex
+        umbPath:=UmbrellaPathOfVertex(surf,vertex);
+        vertEdges:=EdgesAsList(umbPath);
+        vertEdges:=List(vertEdges, x -> VerticesOfEdges(surf)[x]);
+        umbVertices:=[];
+        for edge in vertEdges do
+            if not edge[1]=vertex then 
+                Add(umbVertices, edge[1]);
+            else
+                Add(umbVertices, edge[2]);
+            fi;
+        od;
+
+        #Adding the cycles/lists
+        if IsClosedPath(umbPath) then
+            #umbpath is a closed umbrella
+            Remove(umbVertices);
+            Add(umbdesc, CycleFromList(umbVertices));
+        else
+            #umbpath is not a closed umbrella
+            Add(umbdesc, umbVertices);            
+        fi;
+    od;
+    return umbdesc;
+end
+);
 
 ###
 ###
@@ -1633,6 +1669,151 @@ end);
 
 ##
 ##  End UmbrellaDescriptors
+##
+#######################################
+
+
+
+#######################################
+##
+##  DressGroups
+##
+
+
+#############################################################################
+##
+#F  SimplicalSurfaceByDressGroup . . . . . . . . .  .surface by dress group
+##
+##  Test whether the permutation group <D> defines a simplicial surface whose
+##  Dress group is <D> and if so, return the surface.
+##
+##
+InstallMethod( SimplicialSurfaceByDressGroup,
+    "for a permutation group",  [IsPermGroup], function(grp) 
+
+        local vertices, edges, faces, D0, D1, D2, dom,
+              t0, t1, t2,  v, e, f, i, j, gens, infostr, inci,
+              facesofedges, edgesofvertices;
+
+        dom := MovedPoints(grp);
+        gens := GeneratorsOfGroup(grp);
+        if Length(gens)<>3 then
+            return false;
+        fi;
+
+        t0 := gens[1];
+        t1 := gens[2];
+        t2 := gens[3];
+        D0 := Group( [t1, t2] );
+        D1 := Group( [t0, t2] );
+        D2 := Group( [t0, t1] );
+
+        infostr := "the dress relations are not satisfied.";
+        # t0 and t1 are to have no fixed points
+        if Size(MovedPoints(t0)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t1)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t0*t1)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t0*t2)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if Size(MovedPoints(t1*t2)) <> Length(dom) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+
+
+        # all generators must be involutions
+        if IsOne(t0) or IsOne(t1) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if not IsOne(t0^2) or not IsOne(t1^2) or not IsOne(t2^2) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if IsOne( t0*t2) or not IsOne( (t0*t2)^2 ) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        if IsOne( t0*t1) or not IsOne( (t0*t1)^3 ) then
+            Info( InfoSimplicial,2, infostr );
+            return false;
+        fi;
+        # now we know that the group satisfies the dress relations
+
+        vertices := Orbits( D0, dom);
+        edges := Orbits( D1, dom);
+        faces := Orbits( D2, dom);
+
+        # now we test necessary conditions that we
+        # may have a surface
+        for f in faces do
+            if Length(f) <> 6 then
+                Info( InfoSimplicial,2, "Faces must have 6 flags" );
+                return false;
+            fi;
+        od;
+
+        facesofedges := List(edges,i->[]);
+        edgesofvertices := List(vertices,i->[]);
+        for i in [1..Length(edges)] do
+            e := edges[i];
+            if not Length(e) in [2,4] then
+                Info( InfoSimplicial,2, "Edges must have 2 or 4 flags" );
+                return false;
+            fi;
+
+            # find the faces on e
+            for j in [ 1 .. Length(faces) ] do
+                inci := Intersection(e,faces[j]);
+                if inci <> [] then
+		    # check that in this case 2 common flags exist
+		    if Length(inci) <> 2 then
+                        Info( InfoSimplicial,2, "Faces and edges can have only 2 common flags" );
+			return false;
+	            fi;
+                    Add(facesofedges[i],j);
+                fi;
+            od;
+
+            # find the vertices on e
+            for j in [ 1 .. Length(vertices)] do
+                  if Intersection(e,vertices[j]) <> [] then
+                      Add(edgesofvertices[j],i);
+                  fi;
+            od;
+        od;
+
+        # now check that what we have is consistent
+	for i in [1..Length(faces)] do
+            for j in [ 1 .. Length(vertices)] do
+	        inci := Intersection(faces[i],vertices[j]);
+                if not Length(inci) in [0, 2] then
+                    Info( InfoSimplicial,2,
+		        "Faces and vertices can have only 2 common flags" );
+		    return false;
+                fi;
+            od;
+	od;
+
+
+    return SimplicialSurfaceByUpwardIncidence(edgesofvertices,facesofedges);
+end);
+
+
+
+##
+##  End DressGroups
 ##
 #######################################
 

@@ -296,7 +296,10 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
         [IsPolygonalComplex, IsPolygonalComplex],
         function(complex1, complex2)
             local inc1, inc2;
-
+		
+            if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+		return false;
+	    fi;
             inc1 := IncidenceGrapeGraph(complex1);
             inc2 := IncidenceGrapeGraph(complex2);
             # We copy the structure fully, so that all components stay mutable
@@ -314,6 +317,9 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         "for two twisted polygonal complexes", 
         [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
         function(complex1, complex2)
+	    if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+                return false;
+            fi;
             return IsomorphismGraphs( 
                 ChamberAdjacencyGraph(complex1),
                 ChamberAdjacencyGraph(complex2)) <> fail;
@@ -768,6 +774,35 @@ BindGlobal("__SIMPLICIAL_NodesOfCycle",
 	return cycles;
 end);	
 
+# We want to store graphs as adjacency matrices. This function
+# turns a cycle into a boolean lower triangular matrix.
+BindGlobal("__SIMPLICIAL_AdjacencyMatrixFromList",
+	function(cycle, n)
+        
+	local mat, i, j, k;
+
+        mat := [];
+        for i in [ 1 .. n] do
+        	mat[i] := BlistList([1..i],[]);
+        od;
+
+        for i in [ 1 .. Length(cycle)] do
+        	if i < Length(cycle) then
+        		j := cycle[i+1];
+        	else 
+			j := cycle[1];
+        	fi;
+        	k := cycle[i];
+        	if k < j then
+      		  	mat[j]:= UnionBlist(mat[j],BlistList( [1..j],[k] ));
+       		elif j < k then
+        		mat[k] := UnionBlist(mat[k],BlistList([1..k],[j]));
+        	fi;
+        od;
+
+        return mat;
+end);
+
 
 # The following function computes all cycles of a graph <dig> by:
 # 1. Calculation of a cycle base (CyclesBasisOfGraph) by first computing a spanning tree and then adding each edge 
@@ -777,35 +812,8 @@ end);
 BindGlobal("__SIMPLICIAL_AllCyclesOfGraph",
 	function(digraph)
 
-	local AdjacencyMatrixFromList,CycleOnEdge,CycleBasisOfGraph,XORAdjacencyMatrices,
+	local CycleOnEdge,CycleBasisOfGraph,XORAdjacencyMatrices,
 	MultipleCyclesInMatrix,cyclebasis, allcycles, nullmat, mat, i, k, pos, neighs,c,cycle;
-
-
-	# We want to store graphs as adjacency matrices. This function
-	# turns a cycle into a boolean lower triangular matrix.
-	AdjacencyMatrixFromList := function(cycle, n)
-		local mat, i, j, k;
-
-		mat := []; 
-		for i in [ 1 .. n] do
-			mat[i] := BlistList([1..i],[]);
-		od;
-
-		for i in [ 1 .. Length(cycle)] do
-			if i < Length(cycle) then 
-				 j := cycle[i+1];
-			else j := cycle[1];
-			fi;
-			k := cycle[i]; 
-			if k < j then 
-				mat[j]:= UnionBlist(mat[j],BlistList( [1..j],[k] )); 
-			elif j < k then 
-				mat[k] := UnionBlist(mat[k],BlistList([1..k],[j]));
-			fi;
-		od;
-		
-		 return mat;
-	end;;
 	   
 	# Find a cycle in the original graph all of whose edges are in
 	# tree except for the edge e.
@@ -835,7 +843,7 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfGraph",
 			Append(cycle, path1{[i..l1]});
 			Append(cycle, Reversed(path2{[i..l2]}));
 
-			return AdjacencyMatrixFromList(cycle,DigraphNrVertices(tree));
+			return __SIMPLICIAL_AdjacencyMatrixFromList(cycle,DigraphNrVertices(tree));
 	end;;
 
 	# This function computes a cycle basis for the undirected graph
@@ -906,7 +914,7 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfGraph",
 
 		if SizeBlist(Flat(mat))<>0 then
 			for c in __SIMPLICIAL_NodesOfCycle(mat) do
-				cycle:=AdjacencyMatrixFromList(c,Length(mat));
+				cycle:=__SIMPLICIAL_AdjacencyMatrixFromList(c,Length(mat));
 				if not cycle in allcycles then
 					Add(allcycles,cycle);
 				fi;
@@ -918,7 +926,150 @@ BindGlobal("__SIMPLICIAL_AllCyclesOfGraph",
 	end
 );
 
+BindGlobal("__SIMPLICIAL_AllChordlessCyclesOfGraph",
+	function(digraph)
 
+	local BlockNeighbours, UnblockNeighbours, DegreeLabeling, Triplets, CCExtension, temp, T, C, blocked, triple;
+	
+	if not IsSymmetricDigraph(digraph) then
+        	return false;
+    	fi;
+    	
+	BlockNeighbours:=function(digraph,v,blocked)
+        	local u;
+        	for u in OutNeighboursOfVertex(digraph,v) do
+           		blocked[u]:=blocked[u]+1;
+        	od;
+        	return blocked;
+    	end;
+
+    	UnblockNeighbours:=function(digraph,v,blocked)
+        	local u;
+        	for u in OutNeighboursOfVertex(digraph,v) do
+            		if blocked[u]>0 then
+                		blocked[u]:=blocked[u]-1;
+            		fi;
+        	od;
+        	return blocked;
+    	end;
+
+    	# Computes the degree labeling
+    	DegreeLabeling:=function(digraph)
+        	local degree,color,labeling,v,u,i,minDegree,x;
+
+        	degree:=List(DigraphVertices(digraph),i->0);
+        	color:=List(DigraphVertices(digraph),i->false);
+        	labeling:=List(DigraphVertices(digraph),i->0);
+        	degree:=List(DigraphVertices(digraph),i->OutDegreeOfVertex(digraph,i));
+
+        	for i in [1..DigraphNrVertices(digraph)] do
+            		minDegree:=DigraphNrVertices(digraph);
+            		for x in DigraphVertices(digraph) do
+                		if color[x]=false and degree[x]<minDegree then
+                    			v:=x;
+                    			minDegree:=degree[x];
+                		fi;
+            		od;
+            		labeling[v]:=i;
+            		color[v]:=true;
+            		for u in OutNeighboursOfVertex(digraph,v) do
+                		if color[u]=false then
+                    			degree[u]:=degree[u]-1;
+                		fi;
+            		od;
+        	od;
+        	return labeling;
+    	end;
+
+    	# Computes all possible triplets
+    	Triplets:=function(digraph)
+        	local T,C,u,pair,x,y,labels;
+       		T:=[];
+        	C:=[];
+        	for u in DigraphVertices(digraph) do
+            		for pair in Combinations(OutNeighboursOfVertex(digraph,u),2) do
+               			x:=pair[1];
+                		y:=pair[2];
+                		labels:=DigraphVertexLabels(digraph);
+                		if labels[u]<labels[x] and labels[x]<labels[y] then
+                    			if not IsDigraphEdge(digraph,x,y) then
+                        			Add(T,[x,u,y]);
+                    			else
+                        			Add(C,[x,u,y]);
+                    			fi;
+                		elif labels[u]<labels[y] and labels[y]<labels[x] then
+                    			if not IsDigraphEdge(digraph,x,y) then
+                        			Add(T,[y,u,x]);
+                    			else
+                        			Add(C,[y,u,x]);
+                    			fi;
+                		fi;
+            		od;
+        	od;
+        	return [T,C];
+    	end;
+
+	# Extends a given chordless path if possible
+	CCExtension:=function(digraph,path,C,key,blocked)
+        	local v,extendedPath,data;
+        	blocked:=BlockNeighbours(digraph,Last(path),blocked);
+        	for v in OutNeighboursOfVertex(digraph,Last(path)) do
+            		if DigraphVertexLabel(digraph,v)>key and blocked[v]=1 then
+                		extendedPath:=Concatenation(path,[v]);
+                		if IsDigraphEdge(digraph,v,First(path)) then  
+                    			Add(C,extendedPath);
+               	 		else
+                    			data:=CCExtension(digraph,extendedPath,C,key,blocked);
+                    			C:=data[1];
+                   			blocked:=data[2];
+                		fi;
+            		fi;
+        	od;
+        	blocked:=UnblockNeighbours(digraph,Last(path),blocked);
+        	return [C,blocked];
+    	end;
+
+    	SetDigraphVertexLabels(digraph,DegreeLabeling(digraph));
+    	temp:=Triplets(digraph);
+    	T:=temp[1];
+    	C:=temp[2];
+    	blocked:=List(DigraphVertices(digraph),i->0);
+    	while T<>[] do
+        	triple:=Remove(T);
+        	blocked:=BlockNeighbours(digraph,triple[2],blocked);
+        	temp:=CCExtension(digraph,triple,C,DigraphVertexLabel(digraph,triple[2]),blocked);
+        	C:=temp[1];
+       		blocked:=temp[2];
+       		blocked:=UnblockNeighbours(digraph,triple[2],blocked);
+    	od;
+    	return C;
+
+	end
+);
+
+BindGlobal("__SIMPLICIAL_IsNonSeparating",
+        function(digraph,cycle)
+
+    	local edgesOfCycle, e, digraphRemoved;
+
+    	if not IsSymmetricDigraph(digraph) then
+        	return false;
+    	fi;
+
+    	edgesOfCycle:=[];
+    	for e in __SIMPLICIAL_EdgesFromAdjacencyMat(cycle) do
+        	Append(edgesOfCycle,[e,Reversed(e)]);
+    	od;
+
+    	digraphRemoved:=DigraphRemoveEdges(digraph,edgesOfCycle);
+    	if IsConnectedDigraph(digraphRemoved) then
+        	return true;
+    	else
+        	return false;
+    	fi;
+
+	end
+);
 
 InstallOtherMethod(AllSimplicialSurfacesOfDigraph,"for a digraph",
 	[IsDigraph],
@@ -935,10 +1086,14 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		NodesOfCycle,cycle,cyclePair,IsPartOf,possibleCyclesPairs,commonEdges,Possible,e;
 
 		if IsMultiDigraph(digraph) or DigraphHasLoops(digraph) or not IsSymmetricDigraph(digraph) or not IsConnectedDigraph(digraph) then
-                        Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
-                fi;
-
-		allCycles:=__SIMPLICIAL_AllCyclesOfGraph(digraph);
+            		Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
+        	fi;
+		if vertexFaithful then
+			allCycles:=List(__SIMPLICIAL_AllChordlessCyclesOfGraph(digraph),c->__SIMPLICIAL_AdjacencyMatrixFromList(c,DigraphNrVertices(digraph)));
+            		allCycles:=Filtered(allCycles,c->__SIMPLICIAL_IsNonSeparating(digraph,c));
+		else
+			allCycles:=__SIMPLICIAL_AllCyclesOfGraph(digraph);
+		fi;
 
 		edgesOfGraph:=Filtered(DigraphEdges(digraph),e->not IsSortedList(e));
 
@@ -954,8 +1109,12 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 
 		for cyclePair in IteratorOfCombinations([1..Length(allCycles)],2) do
 			commonEdges:=Intersection(edgesOfCycles[cyclePair[1]],edgesOfCycles[cyclePair[2]]);
-			if Length(commonEdges)=1 then
+			if Length(commonEdges)=1 and vertexFaithful then
 				Add(possibleCyclesPairs[commonEdges[1]],cyclePair);
+			elif not vertexFaithful then
+				for e in commonEdges do
+					Add(possibleCyclesPairs[e],cyclePair);
+				od;
 			fi;
 		od;
 
@@ -1061,11 +1220,13 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 				for edge in edgesOfCycle do
 					usedEdges[edge]:=usedEdges[edge]+1;
 				od;
-				
-				cyclesToUse:=BlistList([1..Length(allCycles)],[cycle+1..Length(allCycles)]);
-				cyclesToUse:=DifferenceBlist(cyclesToUse,cyclesOfFace);
-			
-				FindCycleComb(cyclesOfFace,usedEdges,1,graph,cyclesToUse);
+
+                		if ForAll(usedEdges,i->i<3) then
+					cyclesToUse:=BlistList([1..Length(allCycles)],[cycle+1..Length(allCycles)]);
+                   	 		cyclesToUse:=DifferenceBlist(cyclesToUse,cyclesOfFace);
+                    
+                   			FindCycleComb(cyclesOfFace,usedEdges,1,graph,cyclesToUse);
+                		fi;
 			od;
 		end;;
 
@@ -1078,19 +1239,32 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		# CyclesToUse is a Boolean list that stores all the cycles that we are currently allowed to use.
 		# A cycle must not be used if it contains an edge that has already been used twice.
 		FindCycleComb:=function(vertexCycleComb,usedEdges,k,graph,cyclesToUse)
-			local face,umbrellaDesk,kcycle,permissible,cycle,j,e,newUsedEdges,newVertexCycleComb,edgesOfCycle,newCyclesToUse,cy;
+			local admissible, cycleRem, face,umbrellaDesk,kcycle,permissible,cycle,j,e,newUsedEdges,newVertexCycleComb,edgesOfCycle,newCyclesToUse,cy;
 		
 			if ForAll(usedEdges,i->i=2) then
-				umbrellaDesk:=[];
+                		admissible:=true;
+                        if vertexFaithful then
+                            for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
+                                    cycleRem:=ShallowCopy(vertexCycleComb);
+                                    cycleRem[cycle]:=false;
+                                    if not Possible(cycle, ListBlist([1..Length(vertexCycleComb)],cycleRem)) then
+                                        admissible:=false;
+                                    fi;
+                            od;
+                        fi;
 
-				for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
-					Add(umbrellaDesk,NodesOfCycle(allCycles[cycle]));
-				od;
-			
-				face:=SimplicialSurfaceByUmbrellaDescriptor(umbrellaDesk);
-				if not IsPartOf(face,faces) then
-					Add(faces,face);
-				fi;
+                		if admissible then
+                    			umbrellaDesk:=[];
+
+                    			for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
+                        			Add(umbrellaDesk,NodesOfCycle(allCycles[cycle]));
+                    			od;
+                
+                    			face:=SimplicialSurfaceByUmbrellaDescriptor(umbrellaDesk);
+                    			if not IsPartOf(face,faces) then
+                        			Add(faces,face);
+                    			fi;
+                		fi;
 			else
 				if usedEdges[k]=1 and SizeBlist(cyclesToUse)>0 then
 				

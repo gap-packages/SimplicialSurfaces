@@ -103,10 +103,17 @@
 #! * incidence between edges and faces (the argument <A>edgesOfFaces</A>)
 #!
 #! As an example, consider the following polygonal surface:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle, face/.default=\faceColorFirst]
-#!     \input{Image_ConstructorExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-1-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-1.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! Both of the incidence relations described above are given as lists. The list
@@ -230,11 +237,18 @@
 #! 
 #! As an example consider the following net of a polygonal complex (note, there
 #! are both vertex and edge ramifications):
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorFirst]
-#!          \input{Image_Constructor_PolygonalComplex.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-2.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence(
 #! >        [[1,2],[2,3],[1,3],[3,6],[1,6],[6,5],[2,5],[1,5]],
@@ -264,11 +278,18 @@ DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet,
 #! @InsertChunk Documentation_DownwardIncidence
 #!
 #! As an example consider the following net of a simplicial surface:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle,face/.default=\faceColorFirst]
-#!          \input{Image_Constructor_PolygonalSurface.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-3.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> surf := PolygonalSurfaceByDownwardIncidence(
 #! >      [[1,2],[2,3],[3,4],[4,5],[5,1],
@@ -303,11 +324,18 @@ DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet,
 #!
 #! As an example consider the following net of a triangular complex (at the
 #! vertices and edges marked red, there are ramifications):
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorFirst]
-#!          \input{Image_Constructor_TriangularComplex.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-4.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := TriangularComplexByDownwardIncidence(
 #! >        [[1,7],[2,7],[3,7],[4,7],[5,7],[6,7],
@@ -345,11 +373,18 @@ DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! @InsertChunk Documentation_DownwardIncidence
 #!
 #! As an example consider the following net of a simplicial surface:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle,face/.default=\faceColorFirst]
-#!          \input{Image_Constructor_SimplicialSurface.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-5.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> surf := SimplicialSurfaceByDownwardIncidence(
 #! >      [[1,5],[2,5],[5,6],[5,9],[4,5],,[1,4],[1,2],[2,6],,
@@ -395,11 +430,18 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! * incidence between faces and edges (the argument <A>facesOfEdges</A>)
 #!
 #! As an example, consider the following polygonal surface:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle, face/.default=\faceColorSecond]
-#!     \input{Image_ConstructorExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-6.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 #! Both of the incidence relations described above are given as lists. The list
 #! <A>edgesOfVertices</A> contains an entry for each vertex of the polygonal
@@ -507,11 +549,18 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! 
 #! As an example consider the following net of a polygonal complex (note, there
 #! are both vertex and edge ramifications):
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond]
-#!          \input{Image_Constructor_PolygonalComplex.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-7.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByUpwardIncidence(
 #! >        [[1,8,3,5],[1,2,7],[2,3,4],,[6,7,8],[4,5,6]],
@@ -540,11 +589,18 @@ DeclareOperation( "PolygonalComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, I
 #! @InsertChunk Documentation_UpwardIncidence
 #!
 #! As an example consider the following net of a simplicial surface:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle,face/.default=\faceColorSecond]
-#!          \input{Image_Constructor_PolygonalSurface.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-8.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> surf := PolygonalSurfaceByUpwardIncidence(
 #! >      [[1,5,6,15],[1,2,7,8],[2,3,9,10],[3,4,11,12],[4,5,13,14],
@@ -579,11 +635,18 @@ DeclareOperation( "PolygonalSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, I
 #!
 #! As an example consider the following net of a triangular complex (at the
 #! vertices and edges marked red, there are ramifications):
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond]
-#!          \input{Image_Constructor_TriangularComplex.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-9.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := TriangularComplexByUpwardIncidence(
 #! >        [[1,19,7,25,13,29],[2,19,20],
@@ -622,11 +685,18 @@ DeclareOperation( "TriangularComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! @InsertChunk Documentation_UpwardIncidence
 #!
 #! As an example consider the following net of a simplicial surface:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond]
-#!          \input{Image_Constructor_SimplicialSurface.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-10.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> surf := SimplicialSurfaceByUpwardIncidence(
 #! >      [[1,7,8,11],[2,8,9,12],,[5,7,15,18,20],[1,2,3,4,5],
@@ -679,11 +749,18 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! from chapter <Ref Chap="PolygonalStructures"/> can be build.
 #!
 #! Consider the following polygonal surface:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, face/.default=\faceColorThird]
-#!     \input{Image_ConstructorExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-11.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 #! The face with number <M>4</M> is incident to the vertices <M>[3,7,11]</M>.
 #! Since the edges of a triangle are uniquely determined by its vertices, the 
@@ -790,11 +867,18 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #!
 #! As an example consider the following net of a polygonal complex (note, there
 #! are both vertex and edge ramifications):
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorThird]
-#!          \input{Image_Constructor_PolygonalComplex.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-12.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByVerticesInFaces(
 #! >        [[1,2,5],[1,2,5],[2,3,6,5],[2,3,6,5],[1,6,3],[1,3,6]]);;
@@ -822,11 +906,18 @@ DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 #! @InsertChunk Documentation_VerticesInFaces
 #!
 #! As an example consider the following net of a simplicial surface:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle,face/.default=\faceColorThird]
-#!          \input{Image_Constructor_PolygonalSurface.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-13.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> surf := PolygonalSurfaceByVerticesInFaces(
 #! >      [[1,6,15],[1,2,7,6],[2,7,8],[2,3,9,8],[3,9,10],[3,4,11,10],[4,11,12],
@@ -854,11 +945,18 @@ DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] 
 #!
 #! As an example consider the following net of a triangular complex (at the
 #! vertices and edges marked red, there are ramifications):
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorThird]
-#!          \input{Image_Constructor_TriangularComplex.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-14.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := TriangularComplexByVerticesInFaces(
 #! >        [[1,2,7],[2,3,7],[3,4,7],[4,5,7],[5,6,7],
@@ -885,11 +983,18 @@ DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! @InsertChunk Documentation_VerticesInFaces
 #! 
 #! As an example consider the following net of a simplicial surface:
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorThird]
-#!          \input{Image_Constructor_SimplicialSurface.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-15.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> surf := SimplicialSurfaceByVerticesInFaces(
 #! >      [[1,4,5],[1,2,5],[2,5,6],[5,6,9],[4,5,9],,,,
@@ -930,7 +1035,7 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! describing a simplicial surface.  The bound entries in <A>umbdesc</A> are
 #! cyclic permutations or lists of integers. The set of faces of the surface
 #! is the set of points which either are moved by a cyclic permutation or 
-#! occurs in a list in <A>umbdesc</A>. The edges of the surface correspond to
+#! occur in a list in <A>umbdesc</A>. The edges of the surface correspond to
 #! pairs of faces <M>(i,j)</M>, where either some cycle in <A>umbdesc</A> maps
 #! <M>i</M> to  <M>j</M> or <M>i</M> and <M>j</M> occur as neighbours in a 
 #! list. The vertices of the surface are the positive integers
@@ -960,11 +1065,18 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! Accordingly, the umbrella descriptor of the surface will consist of
 #! cyclic permutations for the vertices 1,2,3, and 4 and of lists for
 #! the remaining vertices.
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond,scale=1.5]
-#!          \input{Image_Constructor_Umbrella.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-16.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 2, 5 ], [ 1, 3, 5 ],
 #! >      [ 1, 3, 6 ], [ 1, 4, 6 ], [ 1, 4, 7 ], [ 1, 2, 7 ], [ 2, 7, 8 ], 
@@ -976,6 +1088,73 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! @Returns a list 
 #! @Arguments surface 
 DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
+#! @EndGroup
+#
+#! @BeginChunk Documentation_UmbrellaTipDescriptor
+#! an umbrella tip descriptor of a simplicial surface is a list <A>umbtipdesc</A>, 
+#! describing a simplicial surface.  The bound entries in <A>umbtipdesc</A> are
+#! cyclic permutations or lists of integers. The set of vertices of the surface
+#! is the set of points which either are moved by a cyclic permutation or 
+#! occur in a list in <A>umbtipdesc</A>. The edges of the surface correspond to
+#! pairs of vertices <M>(i,j)</M>, where <M>i</M> is the bound position of a cycle or list 
+#! in <A>umbtipdesc</A> and <M>j</M> is a vertex that is moved by that cycle or in that list
+#! with position <M>i</M> in <A>umbtipdesc</A>.
+#! The faces correspond to tuples of vertices <M>(i,j,k)</M>, where <M>i</M> is the bound position 
+#! in <A>umbtipdesc</A> of a cycle or list and either that cycle maps <M>j</M> to <M>k</M>
+#! or <M>j</M> and <M>k</M> occur in that list as neighbours.
+#! The vertices of the surface can also be described as the positive integers
+#! corresponding to the bound positions of <A>umbtipdesc</A>.
+#! If position <M>i</M> of <A>umbtipdesc</A> is bound, then the 
+#! <M>i</M>-th entry represents the vertex with name <M>i</M>.  
+#! An umbrella tip path of a vertex is the umbrella path of a vertex, but instead
+#! of an edge-face path, one obtains the outer vertices of that edge path.  If the vertex 
+#! named <M>i</M> is inner, then the <M>i</M>-th entry in <A>umbtipdesc</A> 
+#! is a cyclic permutation of the vertices in the umbrella tip path around the 
+#! vertex, mapping a vertex to an adjacent vertex.  The order of the permutation
+#! is equal to the vertex- and edge-degree of the vertex. If the vertex named <M>i</M> is a 
+#! boundary vertex, then the <M>i</M>-th entry in <A>umbtipdesc</A> is a list 
+#! consisting of the vertices in the umbrella tip path of the vertex such that 
+#! adjacent vertices are consecutive and the two vertices with boundary edges 
+#! are the first and the  last entry of the list. The length of the list is 
+#! equal to the vertex- and edge-degree of the vertex.
+#! @EndChunk 
+#!
+#! @BeginGroup
+#! @Description
+#! Let <A>surf</A> be a vertex faithful simplicial surface. This method returns an umbrella tip descriptor
+#! of <A>surf</A>, where
+#! @InsertChunk Documentation_UmbrellaTipDescriptor
+#! 
+#! As an example consider the following net of a simplicial surface.
+#! Note that the surface has boundary edges. Moreover, the vertices 
+#! 1,2,3, and 4 are inner vertices, while 5,6,7,8,9, and 10 are not.
+#! Accordingly, the umbrella tip descriptor of the surface will consist of
+#! cyclic permutations for the vertices 1,2,3, and 4 and of lists for
+#! the remaining vertices.
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-17-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-17.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
+#! @BeginExampleSession
+#! gap> surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 2, 5 ], [ 1, 3, 5 ],
+#! >      [ 1, 3, 6 ], [ 1, 4, 6 ], [ 1, 4, 7 ], [ 1, 2, 7 ], [ 2, 7, 8 ], 
+#! >      [ 2, 5, 8 ], [ 3, 5, 9 ], [ 3, 6, 9 ], [ 4, 6, 10 ], [ 4, 7, 10 ] ]);;
+#! gap> UmbrellaTipDescriptorOfSurface(surf);
+#! [ (2,5,3,6,4,7), (1,5,8,7), (1,5,9,6), (1,6,10,7), [ 8, 2, 1, 3, 9 ], 
+#!  [ 9, 3, 1, 4, 10 ], [ 8, 2, 1, 4, 10 ], [ 5, 2, 7 ], [ 5, 3, 6 ], 
+#!  [ 6, 4, 7 ] ]
+#! @EndExampleSession
+#! @Returns a list 
+#! @Arguments surface 
+DeclareOperation( "UmbrellaTipDescriptorOfSurface", [IsSimplicialSurface] );
 #! @EndGroup
 #
 #! @BeginGroup
@@ -997,11 +1176,18 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! the remaining vertices, namely the umbrella descriptor is:
 #! [ (1,2,3,4,5,6), (1,8,7,6), (2,9,10,3), (4,11,12,5), [8,1,2,9],
 #! [10,3,4,11], [7,6,5,12], [8,7], [9,10], [11,12] ].
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle, face/.default=\faceColorSecond,scale=1.5]
-#!          \input{Image_Constructor_Umbrella.tex}
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-18.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> surf := SimplicialSurfaceByUmbrellaDescriptor( 
 #! > [ (1,2,3,4,5,6), (1,8,7,6), (2,9,10,3), (4,11,12,5), [ 8, 1, 2, 9 ],
@@ -1083,14 +1269,18 @@ DeclareOperation( "SimplicialSurfaceByUmbrellaDescriptor", [IsList] );
 #!
 #!   The original surface is depicted on the left, the surface of the normed umbrella
 #!   descriptor is depicted on the right.
-#! <Alt Only="TikZ">
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorSecond,scale=1.5]
-#!          \input{Image_NormedUmbrella.tex} 
-#!      \end{tikzpicture}
-#!      \begin{tikzpicture}[vertexStyle,edgeStyle=nolabels,faceStyle, face/.default=\faceColorSecond,scale=1.5]
-#!          \input{Image_NormedUmbrella2.tex} 
-#!      \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_constructors-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_constructors-19.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 #! As an example consider the following umbrella descriptor of a simplicial surface
 #! on 18 faces.
@@ -1204,3 +1394,64 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! @EndGroup
 
 
+#! @Section Constructing surfaces via their Dress Group 
+#!
+#! In some constructions a surface may arrise from the knowledge
+#! of its Dress Group, see Section <Ref Sect="Section_Flags_DressGroup"/>.
+#! In this case, the surface can be reconstructed from its Dress group
+#! <M>D = \langle \theta_0, \theta_1, \theta_2\rangle</M> by computing the
+#! orbits of the dihedral subgroups
+#! <M>D_0 = \langle \theta_1, \theta_2\rangle</M>,
+#! <M>D_1 = \langle \theta_0, \theta_2\rangle</M>,
+#! <M>D_2 = \langle \theta_0, \theta_1\rangle</M>,
+#! where $\theta_0, \theta_1, \theta_2$ are the  Dress Involutions, 
+#! see <Ref Subsect="DressInvolutions"/>. In particular, 
+#! the vertices correspond to the orbits of <M>D_0</M>,
+#! the edges correspond to the orbits of <M>D_1</M>,
+#! the faces correspond to the orbits of <M>D_2</M>, and
+#! incidence is given by non-empty set-intersection.
+#!
+#! @SectionLabel Constructors_DressGroup
+#!
+#! @BeginGroup
+#! @Description
+#! This method takes as input a permutation group <A>dress</A>,  and tests,
+#! whether <A>dress</A> is the Dress Group of a simplicial surface <A>surf</A>,
+#! see Section <Ref Sect="Section_Flags_DressGroup"/>.
+#! If this is the case, <A>surf</A> is constructed and returned. 
+#!
+#! @BeginExampleSession
+#! gap> tet := Tetrahedron();;
+#! gap> dress := DressGroup(tet);
+#! Group([(1,7)(2,8)(3,13)(4,14)(5,19)(6,20)(9,15)(10,16)(11,21)(12,22)(17,23)(18,24), 
+#!   (1,3)(2,5)(4,6)(7,9)(8,11)(10,12)(13,15)(14,18)(16,17)(19,21)(20,24)(22,23), 
+#!   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24) ])
+#! gap> surf  := SimplicialSurfaceByDressGroup(dress);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap>  IsIsomorphic(surf, tet);
+#! true
+#! @EndExampleSession
+#!
+#! If the permutation group <A>dress</A> passed as an argument does not
+#! satisfy the conditions of being a dress group of a surface, 
+#! <A>false</A> is returned.
+#! @BeginExampleSession
+#! gap> SetInfoLevel(InfoSimplicial,3);
+#! gap> grp:=Group([(1,2)(3,4)(5,6)(7,8),(1,2)(3,5)(4,7)(6,8),(1,3)(2,4)(5,7)(6,8)]);  
+#! Group([ (1,2)(3,4)(5,6)(7,8), (1,2)(3,5)(4,7)(6,8), (1,3)(2,4)(5,7)(6,8) ])
+#! gap> SimplicialSurfaceByDressGroup(grp);
+#! #I  the dress relations are not satisfied.
+#! false
+#! gap> gens := [ ( 1, 6)( 2, 5)( 3, 4)( 7,12)( 8,11)( 9,10), 
+#! >   ( 1, 8)( 2, 7)( 3,12)( 4, 5)( 6, 9)(10,11), 
+#! >   ( 1,12)( 2,11)( 3,10)( 4, 9)( 5, 8)( 6, 7) ];
+#! [ (1,6)(2,5)(3,4)(7,12)(8,11)(9,10), (1,8)(2,7)(3,12)(4,5)(6,9)(10,11), 
+#!  (1,12)(2,11)(3,10)(4,9)(5,8)(6,7) ]
+#! gap> SimplicialSurfaceByDressGroup(Group(gens));
+#! #I  Faces and vertices can have only 2 common flags
+#! false
+#! @EndExampleSession
+#! @Returns a simplicial surface or false 
+#! @Arguments dress
+DeclareOperation( "SimplicialSurfaceByDressGroup",[IsPermGroup]);
+#! @EndGroup

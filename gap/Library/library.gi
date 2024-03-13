@@ -350,11 +350,11 @@ InstallGlobalFunction( "__SIMPLICIAL_ReadLine",
 BindGlobal( "SIMPLICIAL_LIBRARY_INDEX",
     [
         # VertexCounter
-        [VertexCounter, 
+        [CounterOfVertices, 
             function(counter)
                 local str, sub;
                 str := "";
-                for sub in counter do
+                for sub in ListCounter(counter) do
                     Append(str, "__");
                     Append(str, String(sub[1]));
                     Append(str, "_");
@@ -846,7 +846,7 @@ InstallMethod( SimplicialClosedGeodesic, "for an integer at least 3", [IsPosInt]
     function(nrFaces)
         local verticesOfEdges, edgesOfFaces, i;
 
-        if nrFaces = 1 then
+        if nrFaces < 3 then
             Error("SimplicialClosedGeodesic: Argument has to be greater than 2.");
         fi;
 

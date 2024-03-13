@@ -31,22 +31,36 @@
 #!
 #! We will showcase these properties on several examples. One of them is the
 #! <E>five-star</E>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-1.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], 5,
 #! >                [ [1,2,3], [1,3,5], [1,5,7], [1,7,11], [1,2,11] ] );;
 #! @EndExampleSession
 #!
 #! Another one is the <E>triforce</E>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_Triforce.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-2.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> triforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;
 #! @EndExampleSession
@@ -70,11 +84,18 @@
 #! @EndLogSession
 #! As an example, consider the five-star that was introduced at the
 #! start of chapter <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-3.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> NumberOfVertices(fiveStar);
 #! 6
@@ -111,20 +132,34 @@ DeclareAttribute( "EulerCharacteristic", IsTwistedPolygonalComplex );
 #! @EndExampleSession
 #! In contrast, the five-star and the triforce from the start of chapter
 #! <Ref Chap="Chapter_Properties"/> are not closed.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-4.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> IsClosedSurface(fiveStar);
 #! false
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_Triforce.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-5.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> IsClosedSurface(triforce);
 #! false
@@ -145,16 +180,31 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 #! As example consider the tetrahedron and the double tetrahedron. Up to
 #! isomorphism there is exactly one multi-tetrahedral sphere with 4
 #! faces, namely the tetradron.
-#! <Alt Only="TikZ">
-#! \begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=1]
-#!      \input{Image_Tetrahedron_Net.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-6.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! And there is exactly one multi-tetrahedral sphere with 6 faces namely
 #! the double tetraedron which can be obtained by performing exactly one
 #! tetrahedral extension to the tetradron.
-#! <Alt Only="TikZ">
-#!      \input{Image_DoubleTetrahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_DoubleTetrahedron.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> IsMultiTetrahedralSphere(Tetrahedron());
@@ -277,7 +327,14 @@ DeclareAttribute( "BlockType",IsSimplicialSurface);
 #! edges of the number of incident faces.
 #! These two definitions are distinguished by calling them 
 #! <K>EdgeDegreesOfVertices</K> and <K>FaceDegreesOfVertices</K>.
-#! But there are also other degree-based properties.
+#! 
+#! A large part of this chapter are the counters. There are six different counter objects:
+#! vertex counter(<Ref Subsect="CounterOfVertices"/>), edge counter(<Ref Subsect="CounterOfEdges"/>),
+#! face counter(<Ref Subsect="CounterOfFaces"/>), butterfly counter(<Ref Subsect="CounterOfButterflies"/>),
+#! umbrella counter(<Ref Subsect="CounterOfUmbrellas"/>) and three face counter(<Ref Subsect="CounterOfThreeFaces"/>).
+#! For a given surface, the counters save information about the vertex, face or edge degrees.
+#! There are different methods to get these information like <A>ListCounter</A>(<Ref Subsect="ListCounter"/>),
+#! <A>MultiplicitiesOfCounter</A>(<Ref Subsect="MultiplicitiesOfCounter"/>) and <A>DegreesOfCounter</A>(<Ref Subsect="DegreesOfCounter"/>).
 
 
 #! @BeginGroup EdgeDegreesOfVertices
@@ -295,11 +352,18 @@ DeclareAttribute( "BlockType",IsSimplicialSurface);
 #!
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FiveTrianglesInCycle.tex}
-#!    \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-7.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> EdgeDegreeOfVertex( fiveStar, 1 );
 #! 5
@@ -335,11 +399,18 @@ DeclareOperation( "EdgeDegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] 
 #!
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FiveTrianglesInCycle.tex}
-#!    \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-8.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> FaceDegreeOfVertex( fiveStar, 1 );
 #! 5
@@ -384,11 +455,18 @@ DeclareOperation( "DegreeOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! vertices.
 #! As an example, consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FiveTrianglesInCycle.tex}
-#!    \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-9.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> TotalDefect( fiveStar );
 #! 6
@@ -403,186 +481,423 @@ DeclareAttribute( "TotalDefect", IsSimplicialSurface );
 DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! @EndGroup
 
-#! @BeginGroup VertexCounter
-#! @Description
-#! Return the <E>vertex counter</E> of the given twisted polygonal complex.
-#! The vertex counter is a list that counts how many vertices are incident
-#! to how many faces. It is a list of pairs <E>[degree, number]</E>, where
-#! <E>number</E> counts the number of vertices with exactly <E>degree</E>
-#! incident faces.
+#! <ManSection Label="CounterOfVertices">
+#!   <Oper Name="CounterOfVertices" Arg="complex"
+#!      Label="for IsTwistedPolygonalComplex"
+#!      Comm="Construct a vertex counter from a twisted polygonal complex"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfVertices" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a vertex counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!      The method <K>CounterOfVertices</K> constructs a new vertex counter from
+#!      a polygonal complex. The method <K>IsCounterOfVertices</K>
+#!      checks if a given &GAP;-object represents such a vertex counter.
+#!      The vertex counter saves the information about how many vertices are incident
+#!      to how many faces. To get this information there are different possibilities.
+#!      For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#!      returns this information as a list of pairs <E>[degree, multiplicity]</E>, where
+#! 	<E>multiplicity</E> counts the number of vertices with exactly <E>degree</E>
+#! 	incident faces.
 #!
-#! As an example, consider the five-star from the start of chapter
-#! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+#! 	As an example, consider the five-star from the start of chapter
+#!	<Ref Chap="Chapter_Properties"/>:
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
-#! @ExampleSession
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-1.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
+#! 	@ExampleSession
 #! gap> List( FacesOfVertices(fiveStar), Size );
 #! [ 5, 2, 2,, 2,, 2,,,, 2 ]
-#! gap> VertexCounter(fiveStar);
+#! gap> countVert:=CounterOfVertices(fiveStar);
+#! counter of vertices ([ 2, 5 ] degrees, and [ 5, 1 ] multiplicities)
+#! gap> ListCounter(countVert);
 #! [ [ 2, 5 ], [ 5, 1 ] ]
-#! @EndExampleSession
-#!
-#! @Returns a list of pairs of positive integers
-#! @Arguments complex
-DeclareAttribute( "VertexCounter", IsTwistedPolygonalComplex );
-#! @EndGroup
+#! 	@EndExampleSession
+#!   </Description>
+#! </ManSection>
 
-#! @BeginGroup EdgeCounter
-#! @Description
-#! Return the <E>edge counter</E> of the given twisted polygonal complex.
-#! The edge counter is a list of pairs <E>[degreeList, number]</E>,
-#! where <E>number</E> counts the number of edges whose vertices
-#! are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces,
-#! respectively. The list <E>degreeList</E> is always sorted but may
-#! contain duplicates.
+#! <ManSection Label="CounterOfEdges">
+#!   <Oper Name="CounterOfEdges" Arg="complex"
+#!      Label="for IsTwistedPolygonalComplex"
+#!      Comm="Construct an edge counter from a twisted polygonal complex"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfEdges" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is an edge counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!	The method <K>CounterOfEdges</K> constructs a new edge counter from
+#!	a polygonal complex. The method <K>IsCounterOfEdges</K>
+#!	checks if a given &GAP;-object represents such an edge counter.
+#! 	The edge counter saves the information about how many edges have vertices with the same degrees.
+#!	To get this information there are different possibilities.
+#!	For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#!	returns this information as a list of pairs <E>[degreeList, multiplicity]</E>, where
+#!	<E>multiplicity</E> counts the number of edges whose vertices
+#!	are incident to <E>degreeList[1]</E> and <E>degreeList[2]</E> faces.
+#! 	The list <E>degreeList</E> is always sorted but may contain duplicates.
 #!
-#! As an example, consider the five-star from the start of chapter
-#! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+#! 	As an example, consider the five-star from the start of chapter
+#! 	<Ref Chap="Chapter_Properties"/>:
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
-#! @ExampleSession
-#! gap> EdgeCounter(fiveStar);
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-2.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
+#! 	@BeginExampleSession
+#! gap> countEdg := CounterOfEdges(fiveStar);
+#! counter of edges ([ [ 2, 2 ], [ 2, 5 ] ] degrees, and [ 5, 5 ] multiplicities)
+#! gap> ListCounter(countEdg);
 #! [ [ [ 2, 2 ], 5 ], [ [ 2, 5 ], 5 ] ]
-#! @EndExampleSession
-#!
-#! @Returns a list of pairs
-#! @Arguments complex
-DeclareAttribute( "EdgeCounter", IsTwistedPolygonalComplex );
-#! @EndGroup
+#! 	@EndExampleSession
+#!   </Description>
+#! </ManSection>
 
-#! @BeginGroup FaceCounter
-#! @Description
-#! Return the <E>face counter</E> of the given twisted polygonal complex.
-#! The face counter is a list of pairs <E>[degreeList, number]</E>,
-#! where <E>number</E> counts the number of faces whose vertex degrees
-#! match <E>degreeList</E>, i.e. for every vertex there is exactly one
-#! entry of <E>degreeList</E> such that the vertex is incident this 
-#! number of faces.
+#! <ManSection Label="CounterOfFaces">
+#!   <Oper Name="CounterOfFaces" Arg="complex"
+#!      Label="for IsTwistedPolygonalComplex"
+#!      Comm="Construct a face counter from a twisted polygonal complex"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfFaces" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a face counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!      The method <K>CounterOfFaces</K> constructs a new face counter from
+#!      a polygonal complex. The method <K>IsCounterOfFaces</K>
+#!      checks if a given &GAP;-object represents such a face counter.
+#!      The face counter saves the information about how many faces have vertices with the same degrees.
+#! 	To get this information there are different possibilities.
+#! 	For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#! 	returns this information as a list of pairs <E>[degreeList, multiplicity]</E>, where
+#! 	<E>multiplicity</E> counts the number of faces whose vertex degrees
+#! 	match <E>degreeList</E>, i.e. for every vertex there is exactly one
+#! 	entry of <E>degreeList</E> such that the vertex is incident to this
+#! 	number of faces.
+#! 	The <E>degreeList</E> is always sorted but may contain duplicates.
 #!
-#! The <E>degreeList</E> is always sorted but may contain duplicates.
+#!	 As an example, consider the five-star from the start of chapter
+#! 	<Ref Chap="Chapter_Properties"/>:
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-3-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-3.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
+#! 	@ExampleSession
+#! gap> countFac:=CounterOfFaces(fiveStar);
+#! counter of faces ([ [ 2, 2, 5 ] ] degrees, and [ 5 ] multiplicities) 
+#! gap> ListCounter(countFac);
+#! [ [ [ 2, 2, 5 ], 5 ] ]
+#! 	@EndExampleSession
+#!   </Description>
+#! </ManSection>
+
+#! <ManSection Label="CounterOfButterflies">
+#!   <Oper Name="CounterOfButterflies" Arg="surface"
+#!      Label="for IsSimplicialSurface"
+#!      Comm="Construct a butterfly counter from a simplicial surface"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfButterflies" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a butterfly counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!       The method <K>CounterOfButterflies</K> constructs a new butterfly counter from
+#!       a simplicial surface. The method <K>IsCounterOfButterflies</K>
+#!       checks if a given &GAP;-object represents such a butterfly counter.
+#! 	 The butterfly counter saves the information about how many butterflies have vertices with the same degrees.
+#!       To get this information there are different possibilities.
+#!       For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#!       returns this information as a list of pairs <E>[[degList1,degList2], multiplicity]</E>, where
+#!       <E>multiplicity</E> counts the number of butterflies whose vertex degrees match
+#!       <E>[degList1,degList2]</E>, whereby <E>degList1</E> denotes the
+#!       vertex degree of the vertices that are incident to the edge
+#!       inducing the corresponding butterfly and <E>degList2</E> contains
+#!       the vertex degrees of the two remaining vertices of the butterfly.
+#! 
+#! 	 As an example, consider the double-5-gon:
+#!        <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double5gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Double5gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#!       @ExampleSession
+#! gap> vof:=[[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],
+#! > [2,4,6],[3,5,7],[3,6,7]];;
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);;
+#! gap> counter:=CounterOfButterflies(s);
+#! counter of butterlies ([ [ [ 4, 4 ], [ 5, 5 ] ], [ [ 4, 5 ], [ 4, 4 ] ] ]
+#! degrees, and [ 5, 10 ] multiplicities) 
+#! gap> ListCounter(counter);
+#! [ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ]
+#!       @EndExampleSession
+#!   </Description>
+#! </ManSection>
+
+#! <ManSection Label="CounterOfUmbrellas">
+#!   <Oper Name="CounterOfUmbrellas" Arg="surface"
+#!      Label="for IsSimplicialSurface"
+#!      Comm="Construct an umbrella counter from a simplicial surface"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfUmbrellas" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is an umbrella counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!      The method <K>CounterOfUmbrellas</K> constructs a new umbrella counter from
+#!      a simplicial surface. The method <K>IsCounterOfUmbrellas</K>
+#!      checks if a given &GAP;-object represents such an umbrella counter.
+#!      The umbrella counter saves the information about how many umbrellas have vertices with the same degrees.
+#!	To get this information there are different possibilities.
+#! 	For example, the method (<A>ListCounter</A> <Ref Subsect="ListCounter"/>) that
+#! 	returns this information as a list of pairs <E>[degreeList, multiplicity]</E>,
+#! 	where <E>multiplicity</E> counts the number of umbrellas whose vertex degrees
+#! 	of vertices contained at the boundary of the umbrella match
+#! 	<E>degreeList</E>, i.e. for every vertex contained in the boundary
+#! 	of an umbrella there is exactly one entry of <E>degreeList</E> such that
+#! 	the vertex is incident to this number of faces.
+#! 	The list <E>degreeList</E> is not sorted but may contain duplicates.
 #!
-#! As an example, consider the five-star from the start of chapter
-#! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+#! 	As an example, consider the double-6-gon:
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
-#! gap> FaceCounter(fiveStar);
+#! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
+#! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);;
+#! gap> counter:=CounterOfUmbrellas(s);
+#! counter of umbrellas ([ [ 4, 6, 4, 6 ], [ 4, 4, 4, 4, 4, 4 ] ] degrees,
+#! and [ 6, 2 ] multiplicities)
+#! gap> ListCounter(counter);
+#! [ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
+#! @EndExampleSession
+#!   </Description>
+#! </ManSection>
+# No AutoDoc-documentation
+DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
+
+#! <ManSection Label="CounterOfThreeFaces">
+#!   <Oper Name="CounterOfThreeFaces" Arg="surface"
+#!      Label="for IsSimplicialSurface"
+#!      Comm="Construct a three face counter from a simplicial surface"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfThreeFaces" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a three face counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!      The method <K>CounterOfThreeFaces</K> constructs a new three face counter from
+#!      a simplicial surface. The method <K>IsCounterOfThreeFaces</K>
+#!      checks if a given &GAP;-object represents such a three face counter.
+#!	The three-face counter saves the information about how many three-faces have vertices with the same degrees.
+#!	To get this information there are different possibilities.
+#! 	For example, the method <A>ListCounter</A> (<Ref Subsect="ListCounter"/>) that
+#! 	returns this information as a list of pairs
+#! 	<E>[[deg,degreeList1,degreeList2], multiplicity]</E>, whereby
+#! 	<E>[deg,degreeList1,degreeList2]</E> satisfies the following property:
+#! 	Assume that the vertices <E>v1,v2,v3</E> are all incident to the same
+#! 	face and there exist exactly two vertices <E>v4,v5</E> so that <E>v4</E>
+#! 	resp. <E>v5</E> is the remaining vertex of the butterfly induced by
+#! 	the edge incident to the vertices <E>v1</E> and <E>v2</E> resp.<E>v1</E>
+#! 	and <E>v3</E>.
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-4-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-4.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
+#! 	So <E>deg</E> denotes the vertex degree of the vertex <E>v1</E>. The
+#! 	first resp. second entry of <E>degreeList1</E> is the vertex degree of
+#! 	<E>v2</E> resp <E>v3</E>. And the first resp. second
+#! 	entry of <E>degreeList2</E> is the vertex degree of <E>v4</E> resp.
+#! 	<E>v5</E>. The integer <E>multiplicity</E> counts the number of adjacent
+#! 	three-faces whose vertex degrees match <E>degreeList</E>.
+#!
+#! 	The different lists in <E>degreeList</E> are not sorted but may
+#! 	contain duplicates.
+#!
+#!	 As an example, consider the double-6-gon:
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Double6gon-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Double6gon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @ExampleSession
+#! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
+#! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
+#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);;
+#! gap> counter:=CounterOfThreeFaces(s);
+#! counter of three faces ([ [ 4, [ 4, 6 ], [ 6, 4 ] ], [ 6, [ 4, 4 ], [ 4, 4 ] ] ]
+#! degrees, and [ 24, 12 ] multiplicities)
+#! gap> ListCounter(counter);
+#! [ [ [ 4, [ 4, 6 ], [ 6, 4 ] ], 24 ], [ [ 6, [ 4, 4 ], [ 4, 4 ] ], 12 ] ]
+#! @EndExampleSession
+#!   </Description>
+#! </ManSection>
+
+#! <ManSection Label="IsCounter">
+#!   <Prop Name="IsCounter" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a counter"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!      The method returns if the <E>object</E> is a vertex counter, edge counter, face counter,
+#! 	butterfly counter, umbrella counter or three face counter.
+#! @ExampleSession
+#! gap> IsCounter(CounterOfVertices(fiveStar));
+#! true
+#! @EndExampleSession
+#!   </Description>
+#! </ManSection>
+
+#! @BeginGroup TypeOfCounter
+#! @Description
+#! Returns the type of the counter. That means if <A>counter</A> is a
+#! CounterOfVertices(<Ref Subsect="CounterOfVertices"/>), CounterOfEdges(<Ref Subsect="CounterOfEdges"/>),
+#! CounterOfFaces(<Ref Subsect="CounterOfFaces"/>), CounterOfButterflies(<Ref Subsect="CounterOfButterflies"/>),
+#! CounterOfUmbrellas(<Ref Subsect="CounterOfUmbrellas"/>), CounterOfThreeFaces(<Ref Subsect="CounterOfThreeFaces"/>) 
+#! or a not specified counter object.
+#! 
+#! @BeginExampleSession
+#! gap> counter:=CounterOfVertices(fiveStar);;
+#! gap> TypeOfCounter(counter);
+#! CounterOfVertices
+#! @EndExampleSession
+#! 
+#! @Arguments counter
+DeclareOperation("TypeOfCounter", [IsCounter]);
+#! @EndGroup
+
+#! @BeginGroup AssociatedPolygonalComplex
+#! @Description
+#! Return the polygonal complex for which the given counter is
+#! defined.
+#! 
+#! @BeginExampleSession
+#! gap> assCom:=AssociatedPolygonalComplex(CounterOfVertices(fiveStar));;
+#! gap> IsIsomorphic(assCom, fiveStar);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a polygonal complex
+#! @Arguments counter
+DeclareAttribute( "AssociatedPolygonalComplex", IsCounter );
+#! @EndGroup
+
+#! @BeginGroup ListCounter
+#! @Description
+#! Returns the information about different counters.
+#! For a vertex counter the method returns the list of pairs
+#! <E>[degree, multiplicity]</E> for <E>counter</E>.
+#! For an edge counter, a face counter and an umbrella counter
+#! the method returns the list of pairs <E>[degreeList, multiplicity]</E>.
+#! For a butterfly counter the method returns the list of pairs <E>[[degList1,degList2], multiplicity]</E> and
+#! for a three face counter the method returns the list of pairs <E>[[deg,degList1,degList2], multiplicity]</E>.
+#! @BeginExampleSession
+#! gap> countFac:=CounterOfFaces(fiveStar);;
+#! gap> ListCounter(countFac);
 #! [ [ [ 2, 2, 5 ], 5 ] ]
 #! @EndExampleSession
 #!
 #! @Returns a list of pairs
-#! @Arguments complex
-DeclareAttribute( "FaceCounter", IsTwistedPolygonalComplex );
+#! @Arguments counter
+DeclareAttribute("ListCounter",IsCounter);
 #! @EndGroup
 
-#! @BeginGroup ButterflyCounter
+#! @BeginGroup MultiplicitiesOfCounter
 #! @Description
-#! Return the <E>butterfly counter</E> of the given simplicial surface.
-#! The butterfly counter is a list of pairs
-#! <E>[[degList1,degList2],number]</E>, where <E>number</E> counts the
-#! number of butterflies whose vertex degrees match
-#! <E>[degList1,degList2]</E>, whereby <E>degList1</E> denotes the
-#! vertex degree of the vertices that are incident to the edge
-#! inducing the corresponding butterfly and <E>degList2</E> contains
-#! the vertex degrees of the two remaining vertices of the butterfly.
-#!
-#! As an example, consider the double-5-gon:
-#! <Alt Only="TikZ">
-#!      \input{Image_Double5gon.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> vof:=[[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],
-#! > [2,4,6],[3,5,7],[3,6,7]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
-#! simplicial surface (7 vertices, 15 edges, and 10 faces)
-#! gap> ButterflyCounter(s);
-#! [ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ]
+#! The method <A>Multiplicities</A> returns the second entry of the tupels contained in the list obtained from <A>ListCounter</A>.
+#! This means, for example, that the method returns how many vertices have the same degree if <A>counter</A> is a vertex counter.
+#! The method <A>MultiplicityOfDegree</A> returns the number for the given <A>degree</A> or <A>degreeList</A> of <A>counter</A>.
+#! The method <A>MultiplicitiesOfDegrees</A> returns a list <A>multiplicities</A> for a vertex counter where <A>multiplicities[i]</A>
+#! is the number of times a vertex has degree <A>i</A>.
+#! @BeginExampleSession
+#! gap> counterEd:=CounterOfEdges(fiveStar);;
+#! gap> MultiplicitiesOfCounter(counterEd);
+#! [ 5, 5 ]
+#! gap> MultiplicityOfDegree(counterEd,[2,5]);
+#! 5
+#! gap> counterVert:=CounterOfVertices(fiveStar);;
+#! gap> MultiplicitiesOfDegrees(counterVert);
+#! [ , 5,,, 1 ]
 #! @EndExampleSession
-#!
-#! @Returns a list of pairs
-#! @Arguments surface
-DeclareAttribute( "ButterflyCounter", IsSimplicialSurface);
+#! @Returns a list of positive integers/a positive integer
+#! @Arguments counter
+DeclareOperation("MultiplicitiesOfCounter",[IsCounter]);
+#! @Arguments counterVert
+DeclareOperation("MultiplicitiesOfDegrees",[IsCounterOfVertices]);
+#! @Arguments counter, degreeList
+DeclareOperation("MultiplicityOfDegree",[IsCounter, IsList]);
+#! @Arguments counterVert, degree
+DeclareOperation("MultiplicityOfDegree",[IsCounterOfVertices, IsPosInt]);
 #! @EndGroup
 
-#! @BeginGroup UmbrellaCounter
+#! @BeginGroup DegreesOfCounter
 #! @Description
-#! Return the <E>umbrella counter</E> of the given closed simplicial surface.
-#! The umbrella counter is a list of pairs <E>[degreeList, number]</E>,
-#! where <E>number</E> counts the number of umbrellas whose vertex degrees
-#! of vertices contained at the boundary of the umbrella match
-#! <E>degreeList</E>, i.e. for every vertex contained in the boundary
-#! of an umbrella there is exactly one entry of <E>degreeList</E> such that
-#! the vertex is incident to this number of faces.
-
-#! The list <E>degreeList</E> is not sorted but may contain duplicates.
-#!
-#! As an example, consider the double-6-gon:
-#! <Alt Only="TikZ">
-#!      \input{Image_Double6gon.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
-#! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
-#! simplicial surface (8 vertices, 18 edges, and 12 faces)
-#! gap> UmbrellaCounter(s);
-#! [ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
+#! The method <A>Degrees</A> returns the first entry of tupels contained in the list obtained from <A>ListCounter</A>.
+#! This means, for example, that if <A>counter</A> is a vertex counter, the method returns what the different degrees of the vertices are.
+#! The method <A>DegreesOfMultiplicities</A> returns a list <A>degrees</A> for <A>counter</A>, where <A>degrees[i]</A>
+#! is the degree or degreeList that occurs <A>i</A> times.
+#! @BeginExampleSession
+#! gap> counterEd:=CounterOfEdges(fiveStar);;
+#! gap> DegreesOfCounter(counterEd);
+#! [ [ 2, 2 ], [ 2, 5 ] ]
+#! gap> DegreesOfMultiplicities(counterEd);
+#! [ ,,,, [ [ 2, 2 ], [ 2, 5 ] ] ]
+#! gap> DegreesOfMultiplicity(counterEd,5);
+#! [ [ 2, 2 ], [ 2, 5 ] ]
 #! @EndExampleSession
-#!
-#! @Returns a list of pairs
-#! @Arguments surface
-DeclareAttribute( "UmbrellaCounter", IsSimplicialSurface and IsClosedSurface);
-#! @EndGroup
-
-#! @BeginGroup ThreeFaceCounter
-#! @Description
-#! Return the <E>three-face counter</E> of the given simplicial surface.
-#! The three-face counter is a list of pairs 
-#! <E>[[deg,degreeList1,degreeList2], number]</E>, whereby
-#! <E>[deg,degreeList1,degreeList2]</E> satisfies the following property:
-#! Assume that the vertices <E>v1,v2,v3</E> are all incident to the same
-#! face and there exist exactly two vertices <E>v4,v5</E> so that <E>v4</E>
-#! resp. <E>v5</E> is the remaining vertex of the butterfly induced by
-#! the edge incident to the vertices <E>v1</E> and <E>v2</E> resp.<E>v1</E>
-#! and <E>v3</E>. 
-#! <Alt Only="TikZ">
-#!      \input{Image_ThreeFaceCounter.tex}
-#! </Alt>
-#! So <E>deg</E> denotes the vertex degree of the vertex <E>v1</E>. The
-#! first resp. second entry of <E>degreeList1</E> is the vertex degree of
-#! <E>v2</E> resp <E>v3</E>. And the first resp. second 
-#! entry of <E>degreeList2</E> is the vertex degree of <E>v4</E> resp.
-#! <E>v5</E>. The integer <E>number</E> counts the number of adjacent
-#! three-faces whose vertex degrees match <E>degreeList</E>.
-
-#! The different lists in <E>degreeList</E> are not sorted but may
-#! contain duplicates.
-#!
-#! As an example, consider the double-6-gon:
-#! <Alt Only="TikZ">                                            
-#!      \input{Image_Double6gon.tex}
-#! </Alt>
-#! @ExampleSession
-#! gap> vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],
-#! > [2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;
-#! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);
-#! simplicial surface (8 vertices, 18 edges, and 12 faces)
-#! gap> ThreeFaceCounter(s);
-#! [ [ [ 4, [ 4, 6 ], [ 6, 4 ] ], 24 ], [ [ 6, [ 4, 4 ], [ 4, 4 ] ], 12 ] ]
-#! @EndExampleSession
-#!
-#! @Returns a list of pairs
-#! @Arguments surface
-DeclareAttribute( "ThreeFaceCounter", IsSimplicialSurface);
+#! @Returns a list of positive integers
+#! @Arguments counter
+DeclareOperation("DegreesOfCounter",[IsCounter]);
+#! @Arguments counter
+DeclareOperation("DegreesOfMultiplicities",[IsCounter]);
+#! @Arguments counter, multiplicity
+DeclareOperation("DegreesOfMultiplicity",[IsCounter, IsPosInt]);
 #! @EndGroup
 
 #! @Section Types of faces
@@ -598,10 +913,16 @@ DeclareAttribute( "ThreeFaceCounter", IsSimplicialSurface);
 #! of vertices.
 #!
 #! Consider the following polygonal complex:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence(
@@ -642,10 +963,16 @@ InstallTrueMethod(IsFaceHomogeneous, IsTriangular);
 #! Check whether all polygons in this twisted polygonal complex are quadrangles.
 #!
 #! Consider the following polygonal complex:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence(
@@ -668,11 +995,18 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-10.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! The edges that are incident to the vertex 1 are different from the other 
 #! edges since they lie "inside" the surface. Edges with two incident faces
 #! are called <E>inner edges</E> while edges with only one incident face are
@@ -683,11 +1017,17 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #! general there might appear a third case (more than
 #! two faces incident to an edge). This is exemplified in the following
 #! example:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!      \def\emphEdge{1}
-#!      \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-11-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-11.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! Edges with more than two incident faces are called <E>ramified edges</E>.
 #!
@@ -703,10 +1043,16 @@ InstallTrueMethod(IsFaceHomogeneous, IsQuadrangular);
 #!
 #! Consider the five-star from the start of chapter 
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FiveTrianglesInCycle-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FiveTrianglesInCycle.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> IsInnerEdge( fiveStar, 4 );
@@ -732,8 +1078,16 @@ DeclareOperation( "IsInnerEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! Return the set of all turnable edges of the given simplicial surface.
 #! Let <A>v1,v2</A> be the vertices of the subsurface
 #! induced by a given edge which are not incident to this edge.
-#! <Alt Only="TikZ">
-#!     \input{Image_ButIndEdg.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ButIndEdg-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_ButIndEdg.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! The given edge is a turnable edge, if and only if <A>v1</A> is not equal to
 #! <A>v2</A> and there exist no edge whose incident vertices are exactly
@@ -788,10 +1142,16 @@ DeclareOperation( "IsTurnableEdgeNC", [IsSimplicialSurface, IsPosInt] );
 #!
 #! Consider the five-star from the start of chapter 
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FiveTrianglesInCycle-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FiveTrianglesInCycle.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> IsBoundaryEdge( fiveStar, 4 );
@@ -823,11 +1183,18 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
 #! We illustrate it on the following triangular complex:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle, faceStyle]
-#!      \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-12.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> branch := TriangularComplexByDownwardIncidence(
 #! >        [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], 
@@ -858,11 +1225,18 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! <Ref Sect="PolygonalStructures_complex"/>) can be in different local
 #! positions. This can be seen in the example of the five-star (which was
 #! introduced at the start of chapter <Ref Chap="Chapter_Properties"/>):
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!     \input{Image_FiveTrianglesInCycle.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-13.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! The vertex 1 is the only vertex that is completely surrounded by faces. It
 #! is called an <E>inner vertex</E> while the other vertices of the five-star
 #! are <E>boundary vertices</E>. This classifies all vertices of a twisted polygonal surface.
@@ -871,22 +1245,34 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! vertex ramifications (defined in <Ref Sect="PolygonalStructures_surface"/>)
 #! there can be 
 #! <E>ramified vertices</E>:
-#! <Alt Only="TikZ">
-#!    \begin{tikzpicture}[vertexPlain=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!      \def\emphVertex{1}
-#!      \input{Image_TwoJoinedTetrahedrons.tex}
-#!    \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-14-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-14.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #!
 #! In the case of edge ramifications (also defined in 
 #! <Ref Sect="PolygonalStructures_surface"/>) there might be edges that are 
 #! incident to more than two faces.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexNormal=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-#!      \def\emphVertex{1}
-#!      \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-15-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-15.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! Vertices that are incident to such an edge are called 
 #! <E>chaotic vertices</E>.
 
@@ -905,11 +1291,18 @@ DeclareOperation( "IsRamifiedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! 
 #! Consider the five-star from the start of chapter
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-16-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-16.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> IsInnerVertex( fiveStar, 1 );
 #! true
@@ -951,11 +1344,18 @@ DeclareOperation( "IsInnerVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!
 #! Consider the triforce from the start of section
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_Triforce.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-17.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> IsBoundaryVertex( triforce, 6 );
 #! true
@@ -973,11 +1373,18 @@ DeclareOperation( "IsInnerVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!
 #! Consider the five-star from the start of section 
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_FiveTrianglesInCycle.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-18-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-18.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> IsBoundaryVertex( fiveStar, 5 );
 #! true
@@ -1013,11 +1420,18 @@ DeclareOperation( "IsBoundaryVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #!
 #! Consider the triforce from the start of section
 #! <Ref Chap="Chapter_Properties"/>:
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!      \input{Image_Triforce.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-19-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-19.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> IsRamifiedVertex( triforce, 3 );
 #! true
@@ -1053,11 +1467,18 @@ DeclareOperation( "IsRamifiedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! <A>vertex</A> is an vertex of <A>complex</A>.
 #!
 #! As an example, we consider the following triangular complex:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[scale=2, vertexStyle, edgeStyle, faceStyle]
-#!      \input{Image_ThreeBranchingTriangles.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_properties-20-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_properties-20.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> branch := TriangularComplexByDownwardIncidence(
 #! >        [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], 
@@ -1099,12 +1520,78 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! gap> FaceTwoColouring(Octahedron());
 #! [ [ 1, 2, 5, 6 ], [ 3, 4, 7, 8 ] ]
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!      \input{Image_TwoColouredOctahedron.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_TwoColouredOctahedron-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_TwoColouredOctahedron.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @Returns a pair where the first and second entry are sets of positive integers or <K>fail</K>
 #! @Arguments complex
 DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup AdmissibleRelationsOfSurface
+#! @Description
+#! An admissible relation of a simplicial surface is an equivalence relation on the surface satisfying the following properties:
+#! - Each equivalence class contains either vertices, edges or faces only.
+#! - We can define an incidence relation as follows: Let <K>K</K> and <K>L</K> be two equivalence classes. The class <K>K</K> is incident to the class <K>L</K>
+#!   if and only if there exist <K>k</K> in the class <K>K</K> and <K>l</K> in the class <K>L</K> so that <K>k</K> is incident to <K>l</K> as elements of the given simplicial surface.
+#! - The equivalence classes together with the introduced relation gives rise to a triangulated surface without ramifications.    
+#!
+#!  Note, let <K>X</K> be a simplicial surface and <K>Y</K> be a simplicial constructed by an admissible relation on <K>X</K>. Then there exists an epimorphism from <K>X</K>
+#!  to <K>Y</K>.
+#! This functions focuses on the admissible relations that yield butterfly friendly epimorphisms. Here, an epimorphism from a simplicial surface <K>X</K> to another 
+#! simplicial surface <K>Y</K> is called butterfly friendly, if for each inner 
+#! edge <K>e</K>, the restriction of the epimorphism to the butterfly induced by <K>e</K> is surjective. 
+
+#! This function returns a list of tuples <K>[s,relation]</K>, where <K>s</K> is a simplicial surface and <K>relation</K> is the admissible relation of the given surface that gives rise to the resulting surface <K>X</K>.
+#! The relation <K>relation</K> is given by the resulting partition of vertices, edges and faces.
+#! If <K>bool=true</K> then the list which is returned by the function contains all surfaces that can be constructed by forming an admissible relation of the given surface and 
+#! if <K>bool=false</K> then the list only contains isomorphism representatives with their corresponding admissible relations.
+#! If <K>bool2=false</K> then the function prints how many faces are already visited while computating the admissible relations.
+
+#! As an example, consider the tetrahedron.
+#! @ExampleSession
+#! gap> AdmissibleRelationsOfSurface(Tetrahedron(),true);
+#! [ [ simplicial surface (4 vertices, 6 edges, and 4 faces)
+#!        , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], 
+#!           [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ]
+#! @EndExampleSession
+#! 
+#! As an example, consider the butterfly.
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_butfly-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_butfly.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @ExampleSession
+#! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
+#! gap> AdmissibleRelationsOfSurface(butterfly,false);
+#! [ [ simplicial surface (4 vertices, 5 edges, and 2 faces)
+#!         , 
+#!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ] ],
+#!           [ [ 1 ], [ 2 ] ] ] ], 
+#!   [ simplicial surface (3 vertices, 3 edges, and 1 faces),
+#!       [ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], 
+#!           [ [ 1, 2 ] ] ] ] ]
+#! @EndExampleSession
+#! @Returns a list of tuples where the first entry is a surface and the second entry is a list of partitions
+#! @Arguments surface,bool [,bool2]
+DeclareOperation( "AdmissibleRelationsOfSurface", [IsSimplicialSurface,IsBool,IsBool] );
 #! @EndGroup
 
 

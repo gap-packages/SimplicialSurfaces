@@ -56,8 +56,17 @@ true
                 <Ref Chap="PolygonalStructures"/>), for 
                 example:
                 <!-- TODO Alternative for text-version -->
-                <Alt Only="TikZ">
-                    \input{Image_ManyExamples.tex}
+
+                <Alt Only="HTML">
+                &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples.svg"> &lt;/img> &lt;br>
+                </Alt>
+                <Alt Only = "LaTeX">
+                \begin{center}
+                \includegraphics{images/_Wrapper_Image_ManyExamples.pdf}
+                \end{center}
+                </Alt>
+                <Alt Only = "Text">
+                Image omitted in terminal text
                 </Alt>
                 Instead of working with an embedding of these structures, we
                 see them as abstract surfaces and represent them by their
@@ -109,32 +118,16 @@ true
              but it is a bit less known. The octahedron is more difficult to
              grasp at a glance from a picture, the dodecahedron is usually
              not more than a curiosity while the icosahedron is too big. -->
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels]
-                % We need to define the drawing style
-	
-                \coordinate (FDL) at (0,0); % front down left
-                \coordinate (FDR) at (2,0); % front down right
-                \coordinate (FUL) at (0,2); % front up left
-                \coordinate (BDL) at (1,1); % back up left
-                \coordinate (BDR) at ($(FDR)+(BDL)$); % back down right
-                \coordinate (FUR) at ($(FUL)+(FDR)$); % front up right
-                \coordinate (BUL) at ($(FUL)+(BDL)$); % back up left
-                \coordinate (BUR) at ($(FDR)+(FUL)+(BDL)$); % back up right
-
-                % Draw the edges
-                \foreach \x in {FDL, BDR, BUL}{
-                    \draw[dashed, edge] (BDL) -- (\x);
-                }
-                \draw[edge] (FDL) -- (FDR) -- (FUR) -- (FUL) -- cycle;
-                \draw[edge] (FDR) -- (BDR) -- (BUR) -- (FUR) -- cycle;
-                \draw[edge] (FUL) -- (FUR) -- (BUR) -- (BUL) -- cycle;
-
-                % Draw the vertices
-                \foreach \x in {FDL, FDR, FUL, BDL, BDR, FUR, BUL, BUR} {
-                    \vertexLabelR{\x}{left}{}
-                }
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_intro-1-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_intro-1.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
 <Example>
 gap&gt; surface := Cube();;
@@ -195,10 +188,16 @@ true
             As a test case we consider a surface of three triangles that are 
             connected by edges, like this:
         </Alt>
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-                \input{Image_ThreeTrianglesInLine.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_intro-2-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_intro-2.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
 
         Disregarding lengths and angles, we can describe this surface quite
@@ -212,10 +211,16 @@ true
             V1,V2,V3. The face T2 contains V2,V3,V4 and the face T3 has 
             V2,V4,V5.
         </Alt>
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-                \input{Image_ThreeTrianglesInLine.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_intro-3-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_intro-3.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         <Alt Not="Text">
             For example the face I consists of the vertices [1, 2, 3] and the 
@@ -247,33 +252,16 @@ gap&gt; VerticesOfFaces(surf);
 
         A slightly more complicated example is a Möbius-strip.
         <!-- TODO better colour for identified edges? -->
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, ident/.style={very thick,purple}]
-                \coordinate (A) at (0,0);
-                \coordinate (B) at (1.5,2);
-                \coordinate (C) at (3,0);
-                \coordinate (D) at ($(B)+(C)$);
-                \coordinate (E) at ($2*(C)$);
-                \coordinate (F) at ($2*(C)+(B)$);
-                \coordinate (G) at ($3*(C)$);
-
-                \draw[edge, face]
-                    (A) -- (B) -- (C) -- cycle
-                    (B) -- (C) -- (D) -- cycle
-                    (C) -- (D) -- (E) -- cycle
-                    (D) -- (E) -- (F) -- cycle
-                    (E) -- (F) -- (G) -- cycle;
-                \draw[edge, ident] (A) -- (B);
-                \draw[edge, ident] (F) -- (G);
-                
-                \foreach \l/\a/\b/\c in {I/A/B/C, II/B/C/D, III/C/D/E, IV/D/E/F, V/E/F/G}
-                    \node[faceLabel] at (barycentric cs:\a=1,\b=1,\c=1) {\l};    
-                    
-                \foreach \p/\r/\n in {A/below/1, B/above/2, C/below/3, D/above/4, E/below/5, F/above/1, G/below/2}{
-                    \vertexLabelR{\p}{\r}{\n}
-                }
-
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_intro-5-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_intro-5.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         <Alt Not="Text">
             In this case the left-most and right-most edges are identified.
@@ -321,11 +309,16 @@ false
                  If someone only cares about triangles and is a bit impatient
                  they will hopefully say "I don't want that" and skip ahead.-->
             We consider the example of a pyramid with a square base.
-            <Alt Only="TikZ">
-                {
-                    \def\introLabels{1}
-                    \input{Image_SquarePyramid.tex}
-                }
+            <Alt Only="HTML">
+            &lt;br>&lt;img src='./images/_Wrapper_intro-6-1.svg'> &lt;/img> &lt;br>
+            </Alt>
+            <Alt Only = "LaTeX">
+            \begin{center}
+            \includegraphics{images/_Wrapper_intro-6.pdf}
+            \end{center}
+            </Alt>
+            <Alt Only = "Text">
+            Image omitted in terminal text
             </Alt>
             To encode this surface we have to enumerate the faces.
             <!-- TODO Is there a way to properly do this in the picture?-->
@@ -420,10 +413,16 @@ true
         and faces to get more detailed information about the surface. We will
         use the example from section
         <Ref Sect="Introduction_EasyConstruction"/>:
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-                \input{Image_ThreeTrianglesInLine.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_intro-4-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_intro-4.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
 <Example>
 gap&gt; surf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;
@@ -485,10 +484,16 @@ gap&gt; List( Orientation(surf), VerticesAsPerm );
         not important for the construction of our examples so far. But let us
         assume that we want to know which edges are incident to exactly two
         faces in our example from before.
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-                \input{Image_ThreeTrianglesInLine.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_intro-7-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_intro-7.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
 <Example>
 gap&gt; surf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;
@@ -506,10 +511,18 @@ gap&gt; VerticesOfEdges(surf);
         As before, the first entry of this list contains the vertices of the
         first edge. In our example the edge with number 1 is incident to the
         vertices 1 and 2. We can update our picture:
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-                \input{Image_ThreeTrianglesInLine.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_Image_ThreeTrianglesInLine.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \begin{center}
+        \includegraphics{images/_Wrapper_Image_ThreeTrianglesInLine.pdf}
+        \end{center}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         If we now want to know which edges are incident to exactly two
         faces, we only have to check
@@ -539,18 +552,30 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         </Enum>
         An example of the second situation is given by two triangles 
         that share exactly two edges. They can be visualized as an "open bag".
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle=nolabels]
-                \input{Image_OpenBag.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src='./images/_Wrapper_intro-8-1.svg'> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_intro-8.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         Since both faces share the same vertices we can't use 
         <K>SimplicialSurfaceByVerticesInFaces</K> here. Instead we need to label
         vertices, edges and faces individually: 
-        <Alt Only="TikZ">
-            \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-                \input{Image_OpenBag.tex}
-            \end{tikzpicture}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src="./images/_Wrapper_Image_OpenBag.svg"> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_Image_OpenBag.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
         Now we have to tell &GAP; which vertices are incident to which edges
 <Example>

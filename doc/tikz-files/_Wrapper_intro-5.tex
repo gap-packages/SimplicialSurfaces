@@ -1,0 +1,33 @@
+\nonstopmode
+\documentclass{standalone}
+\input{TikZHeader.tex}
+\def\pgfsysdriver{pgfsys-tex4ht.def}
+
+\begin{document}
+\begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle, ident/.style={very thick,purple}]
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (1.5,2);
+    \coordinate (C) at (3,0);
+    \coordinate (D) at ($(B)+(C)$);
+    \coordinate (E) at ($2*(C)$);
+    \coordinate (F) at ($2*(C)+(B)$);
+    \coordinate (G) at ($3*(C)$);
+
+    \draw[edge, face]
+        (A) -- (B) -- (C) -- cycle
+        (B) -- (C) -- (D) -- cycle
+        (C) -- (D) -- (E) -- cycle
+        (D) -- (E) -- (F) -- cycle
+        (E) -- (F) -- (G) -- cycle;
+    \draw[edge, ident] (A) -- (B);
+    \draw[edge, ident] (F) -- (G);
+    
+    \foreach \l/\a/\b/\c in {I/A/B/C, II/B/C/D, III/C/D/E, IV/D/E/F, V/E/F/G}
+        \node[faceLabel] at (barycentric cs:\a=1,\b=1,\c=1) {\l};    
+        
+    \foreach \p/\r/\n in {A/below/1, B/above/2, C/below/3, D/above/4, E/below/5, F/above/1, G/below/2}{
+        \vertexLabelR{\p}{\r}{\n}
+    }
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,165 @@
+
+
+\begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2]
+
+% Define the coordinates of the vertices
+\coordinate (V1_1) at (0., 0.);
+\coordinate (V2_1) at (1., 0.);
+\coordinate (V3_1) at (1.309016994374947, 0.9510565162951536);
+\coordinate (V4_1) at (0.4999999999999999, 1.538841768587627);
+\coordinate (V5_1) at (-0.3090169943749476, 0.9510565162951534);
+\coordinate (V6_1) at (-0.3090169943749473, -0.9510565162951536);
+\coordinate (V6_2) at (-0.8090169943749468, -0.5877852522924731);
+\coordinate (V7_1) at (0.5000000000000002, -1.538841768587627);
+\coordinate (V7_2) at (-1.118033988749894, -1.538841768587627);
+\coordinate (V7_3) at (2.118033988749895, -1.538841768587627);
+\coordinate (V8_1) at (1.309016994374947, -0.9510565162951532);
+\coordinate (V8_2) at (1.809016994374947, -0.5877852522924731);
+\coordinate (V9_1) at (2.618033988749895, 0.);
+\coordinate (V9_2) at (3.118033988749895, 1.538841768587627);
+\coordinate (V10_1) at (2.309016994374947, 0.9510565162951538);
+\coordinate (V10_2) at (2.118033988749895, 1.538841768587627);
+\coordinate (V11_1) at (1.809016994374947, 2.489898284882781);
+\coordinate (V12_1) at (0.809016994374947, 2.48989828488278);
+\coordinate (V12_2) at (0.1909830056250522, 2.489898284882781);
+\coordinate (V13_1) at (-0.8090169943749483, 2.48989828488278);
+\coordinate (V13_2) at (0.4999999999999982, 3.440954801177933);
+\coordinate (V14_1) at (-1.309016994374947, 0.9510565162951532);
+\coordinate (V14_2) at (-1.118033988749895, 1.538841768587626);
+\coordinate (V15_1) at (-1.618033988749894, 0.);
+\coordinate (V15_2) at (-2.118033988749896, 1.538841768587625);
+\coordinate (V16_1) at (-2.118033988749894, -1.538841768587627);
+\coordinate (V16_2) at (3.118033988749895, -1.538841768587626);
+\coordinate (V16_3) at (4.236067977499789, 3.077683537175255);
+\coordinate (V17_1) at (3.427050983124842, 2.489898284882781);
+\coordinate (V17_2) at (3.427050983124842, -0.5877852522924726);
+\coordinate (V18_1) at (2.618033988749894, 3.077683537175254);
+\coordinate (V18_2) at (2.118033988749894, 3.440954801177935);
+\coordinate (V19_1) at (-1.618033988749896, 3.077683537175253);
+\coordinate (V19_2) at (1.309016994374946, 4.028740053470408);
+\coordinate (V19_3) at (2.92705098312484, 4.028740053470408);
+\coordinate (V20_1) at (-2.427050983124844, 2.489898284882779);
+\coordinate (V20_2) at (-2.427050983124842, -0.5877852522924735);
+\coordinate (V20_3) at (3.927050983124841, 4.028740053470409);
+
+
+% Fill in the faces
+\fill[face]  (V2_1) -- (V3_1) -- (V4_1) -- (V5_1) -- (V1_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V3_1=1,V4_1=1,V5_1=1,V1_1=1) {$1$};
+\fill[face]  (V1_1) -- (V6_1) -- (V7_1) -- (V8_1) -- (V2_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V1_1=1,V6_1=1,V7_1=1,V8_1=1,V2_1=1) {$2$};
+\fill[face]  (V2_1) -- (V8_2) -- (V9_1) -- (V10_1) -- (V3_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V2_1=1,V8_2=1,V9_1=1,V10_1=1,V3_1=1) {$3$};
+\fill[face]  (V5_1) -- (V14_1) -- (V15_1) -- (V6_2) -- (V1_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V5_1=1,V14_1=1,V15_1=1,V6_2=1,V1_1=1) {$4$};
+\fill[face]  (V3_1) -- (V10_2) -- (V11_1) -- (V12_1) -- (V4_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V3_1=1,V10_2=1,V11_1=1,V12_1=1,V4_1=1) {$5$};
+\fill[face]  (V4_1) -- (V12_2) -- (V13_1) -- (V14_2) -- (V5_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V4_1=1,V12_2=1,V13_1=1,V14_2=1,V5_1=1) {$6$};
+\fill[face]  (V8_2) -- (V7_3) -- (V16_2) -- (V17_2) -- (V9_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V8_2=1,V7_3=1,V16_2=1,V17_2=1,V9_1=1) {$7$};
+\fill[face]  (V15_1) -- (V20_2) -- (V16_1) -- (V7_2) -- (V6_2) -- cycle;
+\node[faceLabel] at (barycentric cs:V15_1=1,V20_2=1,V16_1=1,V7_2=1,V6_2=1) {$8$};
+\fill[face]  (V10_2) -- (V9_2) -- (V17_1) -- (V18_1) -- (V11_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V10_2=1,V9_2=1,V17_1=1,V18_1=1,V11_1=1) {$9$};
+\fill[face]  (V13_1) -- (V19_1) -- (V20_1) -- (V15_2) -- (V14_2) -- cycle;
+\node[faceLabel] at (barycentric cs:V13_1=1,V19_1=1,V20_1=1,V15_2=1,V14_2=1) {$10$};
+\fill[face]  (V11_1) -- (V18_2) -- (V19_2) -- (V13_2) -- (V12_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V11_1=1,V18_2=1,V19_2=1,V13_2=1,V12_1=1) {$11$};
+\fill[face]  (V17_1) -- (V16_3) -- (V20_3) -- (V19_3) -- (V18_1) -- cycle;
+\node[faceLabel] at (barycentric cs:V17_1=1,V16_3=1,V20_3=1,V19_3=1,V18_1=1) {$12$};
+
+
+% Draw the edges
+\draw[edge] (V2_1) -- node[edgeLabel] {$1$} (V1_1);
+\draw[edge] (V1_1) -- node[edgeLabel] {$2$} (V5_1);
+\draw[edge] (V6_1) -- node[edgeLabel] {$3$} (V1_1);
+\draw[edge] (V1_1) -- node[edgeLabel] {$3$} (V6_2);
+\draw[edge] (V3_1) -- node[edgeLabel] {$4$} (V2_1);
+\draw[edge] (V2_1) -- node[edgeLabel] {$5$} (V8_1);
+\draw[edge] (V8_2) -- node[edgeLabel] {$5$} (V2_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$6$} (V3_1);
+\draw[edge] (V3_1) -- node[edgeLabel] {$7$} (V10_1);
+\draw[edge] (V10_2) -- node[edgeLabel] {$7$} (V3_1);
+\draw[edge] (V5_1) -- node[edgeLabel] {$8$} (V4_1);
+\draw[edge] (V4_1) -- node[edgeLabel] {$9$} (V12_1);
+\draw[edge] (V12_2) -- node[edgeLabel] {$9$} (V4_1);
+\draw[edge] (V14_1) -- node[edgeLabel] {$10$} (V5_1);
+\draw[edge] (V5_1) -- node[edgeLabel] {$10$} (V14_2);
+\draw[edge] (V7_1) -- node[edgeLabel] {$11$} (V6_1);
+\draw[edge] (V6_2) -- node[edgeLabel] {$11$} (V7_2);
+\draw[edge] (V6_2) -- node[edgeLabel] {$12$} (V15_1);
+\draw[edge] (V8_1) -- node[edgeLabel] {$13$} (V7_1);
+\draw[edge] (V7_3) -- node[edgeLabel] {$13$} (V8_2);
+\draw[edge] (V7_2) -- node[edgeLabel] {$14$} (V16_1);
+\draw[edge] (V16_2) -- node[edgeLabel] {$14$} (V7_3);
+\draw[edge] (V9_1) -- node[edgeLabel] {$15$} (V8_2);
+\draw[edge] (V10_1) -- node[edgeLabel] {$16$} (V9_1);
+\draw[edge] (V9_2) -- node[edgeLabel] {$16$} (V10_2);
+\draw[edge] (V17_1) -- node[edgeLabel] {$17$} (V9_2);
+\draw[edge] (V9_1) -- node[edgeLabel] {$17$} (V17_2);
+\draw[edge] (V11_1) -- node[edgeLabel] {$18$} (V10_2);
+\draw[edge] (V12_1) -- node[edgeLabel] {$19$} (V11_1);
+\draw[edge] (V11_1) -- node[edgeLabel] {$20$} (V18_1);
+\draw[edge] (V18_2) -- node[edgeLabel] {$20$} (V11_1);
+\draw[edge] (V13_1) -- node[edgeLabel] {$21$} (V12_2);
+\draw[edge] (V12_1) -- node[edgeLabel] {$21$} (V13_2);
+\draw[edge] (V14_2) -- node[edgeLabel] {$22$} (V13_1);
+\draw[edge] (V19_1) -- node[edgeLabel] {$23$} (V13_1);
+\draw[edge] (V13_2) -- node[edgeLabel] {$23$} (V19_2);
+\draw[edge] (V15_1) -- node[edgeLabel] {$24$} (V14_1);
+\draw[edge] (V14_2) -- node[edgeLabel] {$24$} (V15_2);
+\draw[edge] (V15_2) -- node[edgeLabel] {$25$} (V20_1);
+\draw[edge] (V20_2) -- node[edgeLabel] {$25$} (V15_1);
+\draw[edge] (V17_2) -- node[edgeLabel] {$26$} (V16_2);
+\draw[edge] (V16_3) -- node[edgeLabel] {$26$} (V17_1);
+\draw[edge] (V16_1) -- node[edgeLabel] {$27$} (V20_2);
+\draw[edge] (V20_3) -- node[edgeLabel] {$27$} (V16_3);
+\draw[edge] (V18_1) -- node[edgeLabel] {$28$} (V17_1);
+\draw[edge] (V19_2) -- node[edgeLabel] {$29$} (V18_2);
+\draw[edge] (V18_1) -- node[edgeLabel] {$29$} (V19_3);
+\draw[edge] (V20_1) -- node[edgeLabel] {$30$} (V19_1);
+\draw[edge] (V19_3) -- node[edgeLabel] {$30$} (V20_3);
+
+
+% Draw the vertices
+\vertexLabelR{V1_1}{left}{$1$}
+\vertexLabelR{V2_1}{left}{$2$}
+\vertexLabelR{V3_1}{left}{$3$}
+\vertexLabelR{V4_1}{left}{$4$}
+\vertexLabelR{V5_1}{left}{$5$}
+\vertexLabelR{V6_1}{left}{$6$}
+\vertexLabelR{V6_2}{left}{$6$}
+\vertexLabelR{V7_1}{left}{$7$}
+\vertexLabelR{V7_2}{left}{$7$}
+\vertexLabelR{V7_3}{left}{$7$}
+\vertexLabelR{V8_1}{left}{$8$}
+\vertexLabelR{V8_2}{left}{$8$}
+\vertexLabelR{V9_1}{left}{$9$}
+\vertexLabelR{V9_2}{left}{$9$}
+\vertexLabelR{V10_1}{left}{$10$}
+\vertexLabelR{V10_2}{left}{$10$}
+\vertexLabelR{V11_1}{left}{$11$}
+\vertexLabelR{V12_1}{left}{$12$}
+\vertexLabelR{V12_2}{left}{$12$}
+\vertexLabelR{V13_1}{left}{$13$}
+\vertexLabelR{V13_2}{left}{$13$}
+\vertexLabelR{V14_1}{left}{$14$}
+\vertexLabelR{V14_2}{left}{$14$}
+\vertexLabelR{V15_1}{left}{$15$}
+\vertexLabelR{V15_2}{left}{$15$}
+\vertexLabelR{V16_1}{left}{$16$}
+\vertexLabelR{V16_2}{left}{$16$}
+\vertexLabelR{V16_3}{left}{$16$}
+\vertexLabelR{V17_1}{left}{$17$}
+\vertexLabelR{V17_2}{left}{$17$}
+\vertexLabelR{V18_1}{left}{$18$}
+\vertexLabelR{V18_2}{left}{$18$}
+\vertexLabelR{V19_1}{left}{$19$}
+\vertexLabelR{V19_2}{left}{$19$}
+\vertexLabelR{V19_3}{left}{$19$}
+\vertexLabelR{V20_1}{left}{$20$}
+\vertexLabelR{V20_2}{left}{$20$}
+\vertexLabelR{V20_3}{left}{$20$}
+
+\end{tikzpicture}
