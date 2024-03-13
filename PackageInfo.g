@@ -105,7 +105,7 @@ AbstractHTML   :=  "The <span class='pkgname'>SimplicialSurfaces</span> package 
 PackageDoc := rec(
   BookName  := "SimplicialSurfaces",
   ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Computation with simplicial surfaces and folding processes.",
