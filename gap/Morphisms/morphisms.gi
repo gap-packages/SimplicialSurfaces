@@ -483,9 +483,9 @@ InstallMethod( InverseGeneralMapping, "for a polygonal morphism",
 InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simplicial surfaces",
     [IsSimplicialSurface, IsSimplicialSurface],
     function(surface1, surface2)
-        local PermuteList, AllBijections, AllOneFaceIsomorphisms, MyImage, MyPreImage, MyImageCat,
-        MyPreImages, MyPreImagesCat, MyUpdateMap, SurfaceIdentityMap, RemoveElement, MyLess, 
-        VertexDegreesOfFace, MyIsInjective, MonomorphismIntoSimplicialSurface;
+        local PermuteList, AllBijections, AllOneFaceIsomorphisms, MyPreImage, MyImageCat,
+        MyPreImages, MyPreImagesCat, MyUpdateMap,
+        MyIsInjective, MonomorphismIntoSimplicialSurface;
         PermuteList := function(list, perm)
             return List(list, x -> x^perm);
         end;
@@ -507,13 +507,8 @@ InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simpl
                     od;
                     Add(res, tmp);
                 od;
-                # res := List(AllPermutations, x -> IndexInducedMap(list1, x));
                 return res;
             fi;
-        end;
-
-        MyImage := function(map, x)
-            return map[x];
         end;
 
         MyImageCat := function(map, x_list)
@@ -551,18 +546,13 @@ InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simpl
             res := [];
             vertex_maps := AllBijections(VerticesOfFace(surface1, face1), 
                                             VerticesOfFace(surface2, face2));
-            # edge_map := [];
             for vertex_map in vertex_maps do
                 edge_map := [];
                 e := List([1,2,3], i -> Set(VerticesOfEdge(surface1, EdgesOfFace(surface1, face1)[i])));
                 mapped_e := List(e, e_i -> Set(List(e_i, v -> vertex_map[v])));
-                # Error();
                 for i in [1..3] do
                     for edge in EdgesOfFace(surface2, face2) do
-                        # Error();
                         if Set(VerticesOfEdge(surface2, edge)) = Set(mapped_e[i]) then
-                            # Error();
-                            # mapped_e[i] := edge;
                             edge_map[EdgesOfFace(surface1, face1)[i]]:= edge;
                             break;
                         fi;
@@ -586,26 +576,6 @@ InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simpl
             fi;
         end;
 
-        SurfaceIdentityMap := function(surface)
-            return [[1..NumberOfVertices(surface)], [1..NumberOfEdges(surface)], [1..NumberOfFaces(surface)]];
-        end;
-
-        RemoveElement := function(list, element)
-            if not element in list then
-                return fail;
-            else
-                Remove(list, Position(list, element));
-            fi;
-        end;
-
-        MyLess := function(fdeg1, fdeg2)
-            return fdeg1 < fdeg2;
-        end;
-
-        VertexDegreesOfFace := function(surface, face)
-            return Set(List(VerticesOfFace(surface, face), v -> DegreeOfVertex(surface, v)));
-        end;
-
         MyIsInjective := function(map)
             return IsDuplicateFree(Compacted(map));
         end;
@@ -622,12 +592,7 @@ InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simpl
             if not faces1 = [] then # inner vertex degrees heuristic
                 face_counter1 := List(faces1, face -> Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))));
                 face_counter2 := List(faces1, face -> Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
-                # face_counter1 := ListCounter(CounterOfFaces(surface1));
-                # face_counter2 := ListCounter(CounterOfFaces(surface2));
-                # face_degrees1 := List(face_counter1, fdegs1 -> Set(fdegs1[1]));
-                # face_degrees2 := List(face_counter2, fdegs2 -> Set(fdegs2[1]));
                 if ForAny(face_counter2, fdegs2 -> not fdegs2 in face_counter1) then
-                    # Error("heuristic");
                     return fail;
                 else 
                     min_pos := PositionMinimum(List(Collected(face_counter2), fdeg2 -> fdeg2[2]));
@@ -655,40 +620,30 @@ InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simpl
                     mapped_faces := MyPreImages(face_map);
                     while not IsEmpty(remaining_faces) do
                         cur_edge := cur_edges[1];
-                        # Error("Mono");
                         # update face_map
                         if Length(Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)) = 1 then
-                            # Error("Mono");
                             new_image_face := Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)[1];
-                        else # QUESTION not sure if this case is correct
-                            # Error("Mono");
+                        else 
                             is_correct_morphism := false;
                             break;
                         fi;
                         new_face := Difference(FacesOfEdge(surface1, cur_edge), mapped_faces)[1];
 
                         if not new_face in remaining_faces then
-                            # Error("Mono");
                             is_correct_morphism := false;
                             break;
                         fi; 
 
                         if MyUpdateMap(face_map, new_face, new_image_face) = false or MyIsInjective(face_map) = false then
-                            # Error("Mono");
                             is_correct_morphism := false;
                             break;
                         fi;
                         mapped_faces := MyPreImages(face_map);
 
                         # update vertex_map
-                        # new_vertex := Difference(VerticesOfFace(surface1, new_face), 
-                        #                          Intersection(List(FacesOfEdge(surface1, cur_edge), F -> VerticesOfFace(surface1, F))))[1]; # QUESTION requires vertex-faithful
                         new_vertex := Difference(VerticesOfFace(surface1, new_face), VerticesOfEdge(surface1, cur_edge))[1];
-                        # new_image_vertex := Difference(VerticesOfFace(surface2, new_image_face), 
-                                                    #    Intersection(List(FacesOfEdge(surface2, edge_map[cur_edge]), F -> VerticesOfFace(surface2, F))))[1]; # QUESTION requires vertex-faithful
                         new_image_vertex := Difference(VerticesOfFace(surface2, new_image_face), VerticesOfEdge(surface2, edge_map[cur_edge]))[1];
                         if MyUpdateMap(vertex_map, new_vertex, new_image_vertex) = false or MyIsInjective(vertex_map) = false then
-                            # Error("Mono");
                             is_correct_morphism := false;
                             break;
                         fi;
@@ -698,16 +653,13 @@ InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simpl
                         new_image_edges := Difference(EdgesOfFace(surface2, new_image_face), [edge_map[cur_edge]]);
                         for cur_new_edge in new_edges do
                             for cur_new_image_edge in new_image_edges do
-                                # Error("MonoEdge");
-                                if Set(MyImageCat(vertex_map, VerticesOfEdge(surface1, cur_new_edge))) = Set(VerticesOfEdge(surface2, cur_new_image_edge)) then # QUESTION requires vertex-faithful
+                                if Set(MyImageCat(vertex_map, VerticesOfEdge(surface1, cur_new_edge))) = Set(VerticesOfEdge(surface2, cur_new_image_edge)) then
                                     if MyUpdateMap(edge_map, cur_new_edge, cur_new_image_edge) = false or MyIsInjective(edge_map) = false then
-                                        # Error("Mono");
                                         is_correct_morphism := false;
                                     fi;
                                     if cur_new_edge in cur_edges then
                                         Add(finished_cur_edges, cur_new_edge);
                                     fi;
-                                    # Error("MonoEdge");
                                 fi;
                             od;
                         od;
@@ -722,12 +674,10 @@ InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simpl
 
                         # update remaining_faces
                         remaining_faces := Difference(remaining_faces, [new_face]);
-                        # Error("Mono");
                     od;
 
                     if is_correct_morphism = true then
-                        # return monomorphism; # uncomment for the lists that make the homomorphism FLAG(LISTS)
-                        return PolygonalMorphismByLists(surface1, surface2, monomorphism[1], monomorphism[2], monomorphism[3]); #FLAG(MORPHISMS)
+                        return PolygonalMorphismByLists(surface1, surface2, monomorphism[1], monomorphism[2], monomorphism[3]);
                     fi;
                 od;
             od;
@@ -740,9 +690,9 @@ InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simpl
 InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two simplicial surfaces",
     [IsSimplicialSurface, IsSimplicialSurface],
     function(surface1, surface2)
-        local PermuteList, AllBijections, AllOneFaceIsomorphisms, MyImage, MyPreImage, MyImageCat,
-        MyPreImages, MyPreImagesCat, MyUpdateMap, SurfaceIdentityMap, RemoveElement, MyLess, 
-        VertexDegreesOfFace, MyIsInjective, AllMonomorphismsIntoSimplicialSurface;
+        local PermuteList, AllBijections, AllOneFaceIsomorphisms, MyPreImage, MyImageCat,
+        MyPreImages, MyPreImagesCat, MyUpdateMap, 
+        MyIsInjective, AllMonomorphismsIntoSimplicialSurface;
         PermuteList := function(list, perm)
             return List(list, x -> x^perm);
         end;
@@ -764,13 +714,8 @@ InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two s
                     od;
                     Add(res, tmp);
                 od;
-                # res := List(AllPermutations, x -> IndexInducedMap(list1, x));
                 return res;
             fi;
-        end;
-
-        MyImage := function(map, x)
-            return map[x];
         end;
 
         MyImageCat := function(map, x_list)
@@ -808,18 +753,13 @@ InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two s
             res := [];
             vertex_maps := AllBijections(VerticesOfFace(surface1, face1), 
                                             VerticesOfFace(surface2, face2));
-            # edge_map := [];
             for vertex_map in vertex_maps do
                 edge_map := [];
                 e := List([1,2,3], i -> Set(VerticesOfEdge(surface1, EdgesOfFace(surface1, face1)[i])));
                 mapped_e := List(e, e_i -> Set(List(e_i, v -> vertex_map[v])));
-                # Error();
                 for i in [1..3] do
                     for edge in EdgesOfFace(surface2, face2) do
-                        # Error();
                         if Set(VerticesOfEdge(surface2, edge)) = Set(mapped_e[i]) then
-                            # Error();
-                            # mapped_e[i] := edge;
                             edge_map[EdgesOfFace(surface1, face1)[i]]:= edge;
                             break;
                         fi;
@@ -843,26 +783,6 @@ InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two s
             fi;
         end;
 
-        SurfaceIdentityMap := function(surface)
-            return [[1..NumberOfVertices(surface)], [1..NumberOfEdges(surface)], [1..NumberOfFaces(surface)]];
-        end;
-
-        RemoveElement := function(list, element)
-            if not element in list then
-                return fail;
-            else
-                Remove(list, Position(list, element));
-            fi;
-        end;
-
-        MyLess := function(fdeg1, fdeg2)
-            return fdeg1 < fdeg2;
-        end;
-
-        VertexDegreesOfFace := function(surface, face)
-            return Set(List(VerticesOfFace(surface, face), v -> DegreeOfVertex(surface, v)));
-        end;
-
         MyIsInjective := function(map)
             return IsDuplicateFree(Compacted(map));
         end;
@@ -881,12 +801,7 @@ InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two s
             if not faces1 = [] then # inner vertex degrees heuristic
                 face_counter1 := List(faces1, face -> Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))));
                 face_counter2 := List(faces1, face -> Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
-                # face_counter1 := ListCounter(CounterOfFaces(surface1));
-                # face_counter2 := ListCounter(CounterOfFaces(surface2));
-                # face_degrees1 := List(face_counter1, fdegs1 -> Set(fdegs1[1]));
-                # face_degrees2 := List(face_counter2, fdegs2 -> Set(fdegs2[1]));
                 if ForAny(face_counter2, fdegs2 -> not fdegs2 in face_counter1) then
-                    # Error("heuristic");
                     return res; # empty list
                 else 
                     min_pos := PositionMinimum(List(Collected(face_counter2), fdeg2 -> fdeg2[2]));
@@ -914,40 +829,28 @@ InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two s
                     mapped_faces := MyPreImages(face_map);
                     while not IsEmpty(remaining_faces) do
                         cur_edge := cur_edges[1];
-                        # Error("Mono");
-                        # update face_map
                         if Length(Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)) = 1 then
-                            # Error("Mono");
                             new_image_face := Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)[1];
-                        else # QUESTION not sure if this case is correct
-                            # Error("Mono");
+                        else 
                             is_correct_morphism := false;
                             break;
                         fi;
                         new_face := Difference(FacesOfEdge(surface1, cur_edge), mapped_faces)[1];
 
                         if not new_face in remaining_faces then
-                            # Error("Mono");
                             is_correct_morphism := false;
                             break;
                         fi; 
 
                         if MyUpdateMap(face_map, new_face, new_image_face) = false or MyIsInjective(face_map) = false then
-                            # Error("Mono");
                             is_correct_morphism := false;
                             break;
                         fi;
                         mapped_faces := MyPreImages(face_map);
 
-                        # update vertex_map
-                        # new_vertex := Difference(VerticesOfFace(surface1, new_face), 
-                        #                          Intersection(List(FacesOfEdge(surface1, cur_edge), F -> VerticesOfFace(surface1, F))))[1]; # QUESTION requires vertex-faithful
                         new_vertex := Difference(VerticesOfFace(surface1, new_face), VerticesOfEdge(surface1, cur_edge))[1];
-                        # new_image_vertex := Difference(VerticesOfFace(surface2, new_image_face), 
-                                                    #    Intersection(List(FacesOfEdge(surface2, edge_map[cur_edge]), F -> VerticesOfFace(surface2, F))))[1]; # QUESTION requires vertex-faithful
                         new_image_vertex := Difference(VerticesOfFace(surface2, new_image_face), VerticesOfEdge(surface2, edge_map[cur_edge]))[1];
                         if MyUpdateMap(vertex_map, new_vertex, new_image_vertex) = false or MyIsInjective(vertex_map) = false then
-                            # Error("Mono");
                             is_correct_morphism := false;
                             break;
                         fi;
@@ -957,16 +860,13 @@ InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two s
                         new_image_edges := Difference(EdgesOfFace(surface2, new_image_face), [edge_map[cur_edge]]);
                         for cur_new_edge in new_edges do
                             for cur_new_image_edge in new_image_edges do
-                                # Error("MonoEdge");
-                                if Set(MyImageCat(vertex_map, VerticesOfEdge(surface1, cur_new_edge))) = Set(VerticesOfEdge(surface2, cur_new_image_edge)) then # QUESTION requires vertex-faithful
+                                if Set(MyImageCat(vertex_map, VerticesOfEdge(surface1, cur_new_edge))) = Set(VerticesOfEdge(surface2, cur_new_image_edge)) then
                                     if MyUpdateMap(edge_map, cur_new_edge, cur_new_image_edge) = false or MyIsInjective(edge_map) = false then
-                                        # Error("Mono");
                                         is_correct_morphism := false;
                                     fi;
                                     if cur_new_edge in cur_edges then
                                         Add(finished_cur_edges, cur_new_edge);
                                     fi;
-                                    # Error("MonoEdge");
                                 fi;
                             od;
                         od;
@@ -981,12 +881,10 @@ InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two s
 
                         # update remaining_faces
                         remaining_faces := Difference(remaining_faces, [new_face]);
-                        # Error("Mono");
                     od;
 
                     if is_correct_morphism = true then
-                        # Add(res, monomorphism); # uncomment to add the list the monomorphism is made of FLAG(LISTS)
-                        Add(res,PolygonalMorphismByLists(surface1, surface2, monomorphism[1], monomorphism[2], monomorphism[3])); # FLAG(MORPHISMS)
+                        Add(res,PolygonalMorphismByLists(surface1, surface2, monomorphism[1], monomorphism[2], monomorphism[3]));
                     fi;
                 od;
             od;
