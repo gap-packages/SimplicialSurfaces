@@ -62,7 +62,7 @@ Persons := [
     IsMaintainer := true,
     FirstNames := "Meike",
     LastName := "Weiß",
-    Email := "meike.weiss@rwth-aachen.de",
+    Email := "weiss@art.rwth-aachen.de",
     PostalAddress := "--",
     Place := "Aachen",
     Institution := "Chair of Algebra and Representation Theory",
@@ -113,8 +113,8 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">= 4.11",
-  NeededOtherPackages := [ [ "Grape", ">=4.8.2" ], [ "AttributeScheduler", ">=2018.08.03" ], ["Digraphs", ">=1.1.1"]],
-  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2019.05.20"], [ "IO", ">=2.2" ], [ "NautyTracesInterface", ">=0.2" ]],
+  NeededOtherPackages := [ [ "Grape", ">=4.8.2" ], [ "AttributeScheduler", ">=2018.08.03" ], ["Digraphs", ">=1.1.1"],[ "NautyTracesInterface", ">=0.2" ]],
+  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2019.05.20"], [ "IO", ">=2.2" ]],
   ExternalConditions := [ ],
 ),
 
