@@ -67,6 +67,16 @@ Persons := [
     Place := "Aachen",
     Institution := "Chair of Algebra and Representation Theory",
   ),
+  rec(
+    IsAuthor := true,
+    IsMaintainer := true,
+    FirstNames := "Lukas",
+    LastName := "Schnelle",
+    Email := "lukas.schnelle1@rwth-aachen.de",
+    PostalAddress := "--",
+    Place := "Aachen",
+    Institution := "Chair of Algebra and Representation Theory",
+  ),
     rec(
     LastName      := "GAP Team",
     FirstNames    := "The",
