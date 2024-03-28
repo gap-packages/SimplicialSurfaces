@@ -1303,7 +1303,7 @@ DrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;
 #! work:
 #!
 #! @BeginLog
-tetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
+tetra := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],
 [1,3,4],[2,3,4]]);;
 DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #! @EndLog
@@ -1344,11 +1344,9 @@ DrawFacegraphToTikz(tetra,
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#!
 #!   </Item>
 #! </List>
 #! @EndChunk
-
 
 #! @BeginChunk DrawFacegraphToTikz_Geodesics
 #! This subsection covers the  usage of the parameter that adds geodesics into 
@@ -1430,4 +1428,3 @@ DrawFacegraphToTikz( oct,
 #!   <K>tikzpicture</K> without header (it is not possible to compile it on
 #!   its own).
 #! @EndChunk
-
