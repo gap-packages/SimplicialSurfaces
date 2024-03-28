@@ -1285,5 +1285,3 @@ DeclareAttribute( "VEFLabelMapAsImageList", IsPolygonalMorphism );
 # attribute VertexMapping
 # attribute EdgeMapping
 # attribute FaceMapping
-
-

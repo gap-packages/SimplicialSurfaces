@@ -478,8 +478,7 @@ InstallMethod( InverseGeneralMapping, "for a polygonal morphism",
 
         return InversePolygonalMorphism(polMor);
     end
-);
-
+);  
 
 ##
 ##      End of constructions
