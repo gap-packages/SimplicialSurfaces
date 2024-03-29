@@ -480,417 +480,330 @@ InstallMethod( InverseGeneralMapping, "for a polygonal morphism",
     end
 );  
 
-InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simplicial surfaces",
-    [IsSimplicialSurface, IsSimplicialSurface],
-    function(surface1, surface2)
-        local PermuteList, AllBijections, AllOneFaceIsomorphisms, MyPreImage, MyImageCat,
-        MyPreImages, MyPreImagesCat, MyUpdateMap,
-        MyIsInjective, MonomorphismIntoSimplicialSurface;
-        PermuteList := function(list, perm)
-            return List(list, x -> x^perm);
-        end;
+BindGlobal("__SIMPLICIAL_PermuteList",
+    function(list, perm)
+        return List(list, x -> x^perm);
+    end
+);
 
-        AllBijections := function(list1, list2)
-            local res, AllPermutations, i, bijection, g, tmp;
-            res := [];
-            if not (Length(list1) = Length(list2)) then
-                return [];
-            else
-                AllPermutations := [];
-                for g in SymmetricGroup(list2) do
-                    Add(AllPermutations, PermuteList(list2, g));
+BindGlobal("__SIMPLICIAL_AllBijections",
+    function(list1, list2)
+        local res, AllPermutations, i, bijection, g, tmp;
+        res := [];
+        if not (Length(list1) = Length(list2)) then
+            return [];
+        else
+            AllPermutations := [];
+            for g in SymmetricGroup(list2) do
+                Add(AllPermutations, __SIMPLICIAL_PermuteList(list2, g));
+            od;
+            for bijection in AllPermutations do
+                tmp := [];
+                for i in [1..Length(list1)] do
+                    tmp[list1[i]] := bijection[i];
                 od;
-                for bijection in AllPermutations do
-                    tmp := [];
-                    for i in [1..Length(list1)] do
-                        tmp[list1[i]] := bijection[i];
-                    od;
-                    Add(res, tmp);
-                od;
-                return res;
-            fi;
-        end;
-
-        MyImageCat := function(map, x_list)
-            local res, i;
-            res := [];
-            for i in x_list do
-                if IsBound(map[i]) then
-                    Add(res, map[i]);
-                fi;
+                Add(res, tmp);
             od;
             return res;
-        end;
+        fi;
+    end
+);
 
-        MyPreImage := function(map, y)
-            local res, i;
-            res := [];
-            for i in [1..Length(map)] do
-                if IsBound(map[i]) and map[i] = y then
-                    Add(res, i);
-                fi;
-            od;
-            return res;
-        end;
-
-        MyPreImagesCat := function(map, y_list)
-            return Concatenation(List(y_list, y -> MyPreImage(map, y)));
-        end;
-
-        MyPreImages := function(map)
-            return MyPreImagesCat(map, Compacted(map));
-        end;
-
-        AllOneFaceIsomorphisms := function(face1, surface1, face2, surface2)
-            local res, e, vertex_maps, vertex_map, mapped_e, i, edge, edge_map, face_map;
-            res := [];
-            vertex_maps := AllBijections(VerticesOfFace(surface1, face1), 
-                                            VerticesOfFace(surface2, face2));
-            for vertex_map in vertex_maps do
-                edge_map := [];
-                e := List([1,2,3], i -> Set(VerticesOfEdge(surface1, EdgesOfFace(surface1, face1)[i])));
-                mapped_e := List(e, e_i -> Set(List(e_i, v -> vertex_map[v])));
-                for i in [1..3] do
-                    for edge in EdgesOfFace(surface2, face2) do
-                        if Set(VerticesOfEdge(surface2, edge)) = Set(mapped_e[i]) then
-                            edge_map[EdgesOfFace(surface1, face1)[i]]:= edge;
-                            break;
-                        fi;
-                    od;
-                od;
-                face_map := [];
-                face_map[face1] := face2;
-                Add(res, [vertex_map, edge_map, face_map]);
-            od;
-            return res;
-        end;
-
-        MyUpdateMap := function(map, element, image_of_element) # is used to update maps with new images, also updates when used in if-clauses !
-            if not IsBound(map[element]) then
-                map[element] := image_of_element;
-                return true;
-            elif map[element] = image_of_element then
-                return true;
-            else
-                return false;
+BindGlobal("__SIMPLICIAL_ImageCatFromListmap",
+    function(map, x_list)
+        local res, i;
+        res := [];
+        for i in x_list do
+            if IsBound(map[i]) then
+                Add(res, map[i]);
             fi;
-        end;
+        od;
+        return res;
+    end
+);
 
-        MyIsInjective := function(map)
-            return IsDuplicateFree(Compacted(map));
-        end;
-        MonomorphismIntoSimplicialSurface := function(surface1, surface2)    
-            local possible_vertex_maps, possible_monomorphisms, starting_face, image_starting_face, mapped_edges, mapped_faces, 
-                remaining_faces, cur_edges, cur_edge, mapped_vertices, monomorphism, cur_face, face_map, edge_map,
-                vertex_map, i, new_face, new_image_face, is_correct_morphism, new_vertex, new_image_vertex, new_edges, new_image_edges,
-                cur_new_edge, cur_new_image_edge, finished_cur_edges, faces1, faces2, face_counter1, face_counter2, face_degrees1, face_degrees2,
-                min_degrees, min_pos, possible_image_faces;
-
-            faces1 := Filtered(Faces(surface1), face -> ForAll(VerticesOfFace(surface1, face), v -> IsInnerVertex(surface1, v)));
-            faces2 := Filtered(Faces(surface2), face -> ForAll(VerticesOfFace(surface2, face), v -> IsInnerVertex(surface2, v)));
-            possible_image_faces := Faces(surface2);
-            if not faces1 = [] then # inner vertex degrees heuristic
-                face_counter1 := List(faces1, face -> Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))));
-                face_counter2 := List(faces1, face -> Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
-                if ForAny(face_counter2, fdegs2 -> not fdegs2 in face_counter1) then
-                    return fail;
-                else 
-                    min_pos := PositionMinimum(List(Collected(face_counter2), fdeg2 -> fdeg2[2]));
-                    min_degrees := Collected(face_counter2)[min_pos][1];
-                    starting_face := Filtered(faces1, face -> min_degrees = Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))))[1];
-                    possible_image_faces := Filtered(faces2, face -> min_degrees = Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
-                fi;
-            else
-                starting_face := Faces(surface1)[1];
+BindGlobal("__SIMPLICIAL_PreImageFromListmap",
+    function(map, y)
+        local res, i;
+        res := [];
+        for i in [1..Length(map)] do
+            if IsBound(map[i]) and map[i] = y then
+                Add(res, i);
             fi;
+        od;
+        return res;
+    end
+);
 
-            for image_starting_face in possible_image_faces do
-                possible_monomorphisms := AllOneFaceIsomorphisms(starting_face, surface1, 
-                                                                 image_starting_face, surface2);
-                for i in [1..Length(possible_monomorphisms)] do
-                    is_correct_morphism := true;
-                    monomorphism := possible_monomorphisms[i];
-                    vertex_map := monomorphism[1];
-                    edge_map := monomorphism[2];
-                    face_map := monomorphism[3];
+BindGlobal("__SIMPLICIAL_PreImagesCatFromListmap",
+    function(map, y_list)
+        return Concatenation(List(y_list, y -> __SIMPLICIAL_PreImageFromListmap(map, y)));
+    end
+);
 
-                    cur_edges := Filtered(EdgesOfFace(surface1, starting_face), e -> IsInnerEdge(surface1, e));
-                    finished_cur_edges := [];
-                    remaining_faces := Difference(Faces(surface1), [starting_face]);
-                    mapped_faces := MyPreImages(face_map);
-                    while not IsEmpty(remaining_faces) do
-                        cur_edge := cur_edges[1];
-                        # update face_map
-                        if Length(Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)) = 1 then
-                            new_image_face := Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)[1];
-                        else 
-                            is_correct_morphism := false;
-                            break;
-                        fi;
-                        new_face := Difference(FacesOfEdge(surface1, cur_edge), mapped_faces)[1];
+BindGlobal("__SIMPLICIAL_PreImagesFromListmap",
+    function(map)
+        return __SIMPLICIAL_PreImagesCatFromListmap(map, Compacted(map));
+    end
+);
 
-                        if not new_face in remaining_faces then
-                            is_correct_morphism := false;
-                            break;
-                        fi; 
-
-                        if MyUpdateMap(face_map, new_face, new_image_face) = false or MyIsInjective(face_map) = false then
-                            is_correct_morphism := false;
-                            break;
-                        fi;
-                        mapped_faces := MyPreImages(face_map);
-
-                        # update vertex_map
-                        new_vertex := Difference(VerticesOfFace(surface1, new_face), VerticesOfEdge(surface1, cur_edge))[1];
-                        new_image_vertex := Difference(VerticesOfFace(surface2, new_image_face), VerticesOfEdge(surface2, edge_map[cur_edge]))[1];
-                        if MyUpdateMap(vertex_map, new_vertex, new_image_vertex) = false or MyIsInjective(vertex_map) = false then
-                            is_correct_morphism := false;
-                            break;
-                        fi;
-
-                        # update edge_map
-                        new_edges := Difference(EdgesOfFace(surface1, new_face), [cur_edge]);
-                        new_image_edges := Difference(EdgesOfFace(surface2, new_image_face), [edge_map[cur_edge]]);
-                        for cur_new_edge in new_edges do
-                            for cur_new_image_edge in new_image_edges do
-                                if Set(MyImageCat(vertex_map, VerticesOfEdge(surface1, cur_new_edge))) = Set(VerticesOfEdge(surface2, cur_new_image_edge)) then
-                                    if MyUpdateMap(edge_map, cur_new_edge, cur_new_image_edge) = false or MyIsInjective(edge_map) = false then
-                                        is_correct_morphism := false;
-                                    fi;
-                                    if cur_new_edge in cur_edges then
-                                        Add(finished_cur_edges, cur_new_edge);
-                                    fi;
-                                fi;
-                            od;
-                        od;
-                        if is_correct_morphism = false then
-                            break;
-                        fi;
-
-                        # update cur_edges
-                        cur_edges := Union(cur_edges, Filtered(EdgesOfFace(surface1, new_face), e -> IsInnerEdge(surface1, e)));
-                        Add(finished_cur_edges, cur_edge);
-                        cur_edges := Difference(cur_edges, finished_cur_edges);
-
-                        # update remaining_faces
-                        remaining_faces := Difference(remaining_faces, [new_face]);
-                    od;
-
-                    if is_correct_morphism = true then
-                        return PolygonalMorphismByLists(surface1, surface2, monomorphism[1], monomorphism[2], monomorphism[3]);
+BindGlobal("__SIMPLICIAL_AllOneFaceIsomorphisms",
+    function(face1, surface1, face2, surface2)
+        local res, e, vertex_maps, vertex_map, mapped_e, i, edge, edge_map, face_map;
+        res := [];
+        vertex_maps := __SIMPLICIAL_AllBijections(VerticesOfFace(surface1, face1), 
+                                        VerticesOfFace(surface2, face2));
+        for vertex_map in vertex_maps do
+            edge_map := [];
+            e := List([1,2,3], i -> Set(VerticesOfEdge(surface1, EdgesOfFace(surface1, face1)[i])));
+            mapped_e := List(e, e_i -> Set(List(e_i, v -> vertex_map[v])));
+            for i in [1..3] do
+                for edge in EdgesOfFace(surface2, face2) do
+                    if Set(VerticesOfEdge(surface2, edge)) = Set(mapped_e[i]) then
+                        edge_map[EdgesOfFace(surface1, face1)[i]]:= edge;
+                        break;
                     fi;
                 od;
             od;
-            return fail;
-        end;
-        return MonomorphismIntoSimplicialSurface(surface1, surface2);
+            face_map := [];
+            face_map[face1] := face2;
+            Add(res, [vertex_map, edge_map, face_map]);
+        od;
+        return res;
+    end
+);
+
+BindGlobal("__SIMPLICIAL_UpdateListmap",
+    function(map, element, image_of_element) # is used to update maps with new images, also updates when used in if-clauses !
+        if not IsBound(map[element]) then
+            map[element] := image_of_element;
+            return true;
+        elif map[element] = image_of_element then
+            return true;
+        else
+            return false;
+        fi;
+    end
+);
+
+BindGlobal("__SIMPLICIAL_IsInjectiveListmap",
+    function(map)
+        return IsDuplicateFree(Compacted(map));
+    end
+);
+
+InstallMethod(ButterflyFaithfulMonomorphismIntoSimplicialSurface, "for two simplicial surfaces",
+    [IsSimplicialSurface, IsSimplicialSurface],
+    function(surface1, surface2)  
+        local possible_vertex_maps, possible_monomorphisms, starting_face, image_starting_face, mapped_edges, mapped_faces, 
+            remaining_faces, cur_edges, cur_edge, mapped_vertices, monomorphism, cur_face, face_map, edge_map,
+            vertex_map, i, new_face, new_image_face, is_correct_morphism, new_vertex, new_image_vertex, new_edges, new_image_edges,
+            cur_new_edge, cur_new_image_edge, finished_cur_edges, faces1, faces2, face_counter1, face_counter2, face_degrees1, face_degrees2,
+            min_degrees, min_pos, possible_image_faces;
+
+        faces1 := Filtered(Faces(surface1), face -> ForAll(VerticesOfFace(surface1, face), v -> IsInnerVertex(surface1, v)));
+        faces2 := Filtered(Faces(surface2), face -> ForAll(VerticesOfFace(surface2, face), v -> IsInnerVertex(surface2, v)));
+        possible_image_faces := Faces(surface2);
+        if not faces1 = [] then # inner vertex degrees heuristic
+            face_counter1 := List(faces1, face -> Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))));
+            face_counter2 := List(faces1, face -> Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
+            if ForAny(face_counter2, fdegs2 -> not fdegs2 in face_counter1) then
+                return fail;
+            else 
+                min_pos := PositionMinimum(List(Collected(face_counter2), fdeg2 -> fdeg2[2]));
+                min_degrees := Collected(face_counter2)[min_pos][1];
+                starting_face := Filtered(faces1, face -> min_degrees = Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))))[1];
+                possible_image_faces := Filtered(faces2, face -> min_degrees = Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
+            fi;
+        else
+            starting_face := Faces(surface1)[1];
+        fi;
+
+        for image_starting_face in possible_image_faces do
+            possible_monomorphisms := __SIMPLICIAL_AllOneFaceIsomorphisms(starting_face, surface1, 
+                                                                image_starting_face, surface2);
+            for i in [1..Length(possible_monomorphisms)] do
+                is_correct_morphism := true;
+                monomorphism := possible_monomorphisms[i];
+                vertex_map := monomorphism[1];
+                edge_map := monomorphism[2];
+                face_map := monomorphism[3];
+
+                cur_edges := Filtered(EdgesOfFace(surface1, starting_face), e -> IsInnerEdge(surface1, e));
+                finished_cur_edges := [];
+                remaining_faces := Difference(Faces(surface1), [starting_face]);
+                mapped_faces := __SIMPLICIAL_PreImagesFromListmap(face_map);
+                while not IsEmpty(remaining_faces) do
+                    cur_edge := cur_edges[1];
+                    # update face_map
+                    if Length(Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)) = 1 then
+                        new_image_face := Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)[1];
+                    else 
+                        is_correct_morphism := false;
+                        break;
+                    fi;
+                    new_face := Difference(FacesOfEdge(surface1, cur_edge), mapped_faces)[1];
+
+                    if not new_face in remaining_faces then
+                        is_correct_morphism := false;
+                        break;
+                    fi; 
+
+                    if __SIMPLICIAL_UpdateListmap(face_map, new_face, new_image_face) = false or __SIMPLICIAL_IsInjectiveListmap(face_map) = false then
+                        is_correct_morphism := false;
+                        break;
+                    fi;
+                    mapped_faces := __SIMPLICIAL_PreImagesFromListmap(face_map);
+
+                    # update vertex_map
+                    new_vertex := Difference(VerticesOfFace(surface1, new_face), VerticesOfEdge(surface1, cur_edge))[1];
+                    new_image_vertex := Difference(VerticesOfFace(surface2, new_image_face), VerticesOfEdge(surface2, edge_map[cur_edge]))[1];
+                    if __SIMPLICIAL_UpdateListmap(vertex_map, new_vertex, new_image_vertex) = false or __SIMPLICIAL_IsInjectiveListmap(vertex_map) = false then
+                        is_correct_morphism := false;
+                        break;
+                    fi;
+
+                    # update edge_map
+                    new_edges := Difference(EdgesOfFace(surface1, new_face), [cur_edge]);
+                    new_image_edges := Difference(EdgesOfFace(surface2, new_image_face), [edge_map[cur_edge]]);
+                    for cur_new_edge in new_edges do
+                        for cur_new_image_edge in new_image_edges do
+                            if Set(__SIMPLICIAL_ImageCatFromListmap(vertex_map, VerticesOfEdge(surface1, cur_new_edge))) = Set(VerticesOfEdge(surface2, cur_new_image_edge)) then
+                                if __SIMPLICIAL_UpdateListmap(edge_map, cur_new_edge, cur_new_image_edge) = false or __SIMPLICIAL_IsInjectiveListmap(edge_map) = false then
+                                    is_correct_morphism := false;
+                                fi;
+                                if cur_new_edge in cur_edges then
+                                    Add(finished_cur_edges, cur_new_edge);
+                                fi;
+                            fi;
+                        od;
+                    od;
+                    if is_correct_morphism = false then
+                        break;
+                    fi;
+
+                    # update cur_edges
+                    cur_edges := Union(cur_edges, Filtered(EdgesOfFace(surface1, new_face), e -> IsInnerEdge(surface1, e)));
+                    Add(finished_cur_edges, cur_edge);
+                    cur_edges := Difference(cur_edges, finished_cur_edges);
+
+                    # update remaining_faces
+                    remaining_faces := Difference(remaining_faces, [new_face]);
+                od;
+
+                if is_correct_morphism = true then
+                    return PolygonalMorphismByLists(surface1, surface2, monomorphism[1], monomorphism[2], monomorphism[3]);
+                fi;
+            od;
+        od;
+        return fail;
     end
 );
 
 InstallMethod(AllButterflyFaithfulMonomorphismsIntoSimplicialSurface, "for two simplicial surfaces",
     [IsSimplicialSurface, IsSimplicialSurface],
     function(surface1, surface2)
-        local PermuteList, AllBijections, AllOneFaceIsomorphisms, MyPreImage, MyImageCat,
-        MyPreImages, MyPreImagesCat, MyUpdateMap, 
-        MyIsInjective, AllMonomorphismsIntoSimplicialSurface;
-        PermuteList := function(list, perm)
-            return List(list, x -> x^perm);
-        end;
+        local possible_vertex_maps, possible_monomorphisms, starting_face, image_starting_face, mapped_edges, mapped_faces, 
+            remaining_faces, cur_edges, cur_edge, mapped_vertices, monomorphism, cur_face, face_map, edge_map,
+            vertex_map, i, new_face, new_image_face, is_correct_morphism, new_vertex, new_image_vertex, new_edges, new_image_edges,
+            cur_new_edge, cur_new_image_edge, finished_cur_edges, faces1, faces2, face_counter1, face_counter2, face_degrees1, face_degrees2,
+            min_degrees, min_pos, possible_image_faces, res;
 
-        AllBijections := function(list1, list2)
-            local res, AllPermutations, i, bijection, g, tmp;
-            res := [];
-            if not (Length(list1) = Length(list2)) then
-                return [];
-            else
-                AllPermutations := [];
-                for g in SymmetricGroup(list2) do
-                    Add(AllPermutations, PermuteList(list2, g));
-                od;
-                for bijection in AllPermutations do
-                    tmp := [];
-                    for i in [1..Length(list1)] do
-                        tmp[list1[i]] := bijection[i];
-                    od;
-                    Add(res, tmp);
-                od;
-                return res;
+        res := [];
+        faces1 := Filtered(Faces(surface1), face -> ForAll(VerticesOfFace(surface1, face), v -> IsInnerVertex(surface1, v)));
+        faces2 := Filtered(Faces(surface2), face -> ForAll(VerticesOfFace(surface2, face), v -> IsInnerVertex(surface2, v)));
+        possible_image_faces := Faces(surface2);
+        if not faces1 = [] then # inner vertex degrees heuristic
+            face_counter1 := List(faces1, face -> Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))));
+            face_counter2 := List(faces1, face -> Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
+            if ForAny(face_counter2, fdegs2 -> not fdegs2 in face_counter1) then
+                return res; # empty list
+            else 
+                min_pos := PositionMinimum(List(Collected(face_counter2), fdeg2 -> fdeg2[2]));
+                min_degrees := Collected(face_counter2)[min_pos][1];
+                starting_face := Filtered(faces1, face -> min_degrees = Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))))[1];
+                possible_image_faces := Filtered(faces2, face -> min_degrees = Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
             fi;
-        end;
+        else
+            starting_face := Faces(surface1)[1];
+        fi;
 
-        MyImageCat := function(map, x_list)
-            local res, i;
-            res := [];
-            for i in x_list do
-                if IsBound(map[i]) then
-                    Add(res, map[i]);
-                fi;
-            od;
-            return res;
-        end;
+        for image_starting_face in possible_image_faces do
+            possible_monomorphisms := __SIMPLICIAL_AllOneFaceIsomorphisms(starting_face, surface1, 
+                                                                image_starting_face, surface2);
+            for i in [1..Length(possible_monomorphisms)] do
+                is_correct_morphism := true;
+                monomorphism := possible_monomorphisms[i];
+                vertex_map := monomorphism[1];
+                edge_map := monomorphism[2];
+                face_map := monomorphism[3];
 
-        MyPreImage := function(map, y)
-            local res, i;
-            res := [];
-            for i in [1..Length(map)] do
-                if IsBound(map[i]) and map[i] = y then
-                    Add(res, i);
-                fi;
-            od;
-            return res;
-        end;
-
-        MyPreImagesCat := function(map, y_list)
-            return Concatenation(List(y_list, y -> MyPreImage(map, y)));
-        end;
-
-        MyPreImages := function(map)
-            return MyPreImagesCat(map, Compacted(map));
-        end;
-
-        AllOneFaceIsomorphisms := function(face1, surface1, face2, surface2)
-            local res, e, vertex_maps, vertex_map, mapped_e, i, edge, edge_map, face_map;
-            res := [];
-            vertex_maps := AllBijections(VerticesOfFace(surface1, face1), 
-                                            VerticesOfFace(surface2, face2));
-            for vertex_map in vertex_maps do
-                edge_map := [];
-                e := List([1,2,3], i -> Set(VerticesOfEdge(surface1, EdgesOfFace(surface1, face1)[i])));
-                mapped_e := List(e, e_i -> Set(List(e_i, v -> vertex_map[v])));
-                for i in [1..3] do
-                    for edge in EdgesOfFace(surface2, face2) do
-                        if Set(VerticesOfEdge(surface2, edge)) = Set(mapped_e[i]) then
-                            edge_map[EdgesOfFace(surface1, face1)[i]]:= edge;
-                            break;
-                        fi;
-                    od;
-                od;
-                face_map := [];
-                face_map[face1] := face2;
-                Add(res, [vertex_map, edge_map, face_map]);
-            od;
-            return res;
-        end;
-
-        MyUpdateMap := function(map, element, image_of_element) # is used to update maps with new images, also updates when used in if-clauses !
-            if not IsBound(map[element]) then
-                map[element] := image_of_element;
-                return true;
-            elif map[element] = image_of_element then
-                return true;
-            else
-                return false;
-            fi;
-        end;
-
-        MyIsInjective := function(map)
-            return IsDuplicateFree(Compacted(map));
-        end;
-        
-        AllMonomorphismsIntoSimplicialSurface := function(surface1, surface2)
-            local possible_vertex_maps, possible_monomorphisms, starting_face, image_starting_face, mapped_edges, mapped_faces, 
-                remaining_faces, cur_edges, cur_edge, mapped_vertices, monomorphism, cur_face, face_map, edge_map,
-                vertex_map, i, new_face, new_image_face, is_correct_morphism, new_vertex, new_image_vertex, new_edges, new_image_edges,
-                cur_new_edge, cur_new_image_edge, finished_cur_edges, faces1, faces2, face_counter1, face_counter2, face_degrees1, face_degrees2,
-                min_degrees, min_pos, possible_image_faces, res;
-
-            res := [];
-            faces1 := Filtered(Faces(surface1), face -> ForAll(VerticesOfFace(surface1, face), v -> IsInnerVertex(surface1, v)));
-            faces2 := Filtered(Faces(surface2), face -> ForAll(VerticesOfFace(surface2, face), v -> IsInnerVertex(surface2, v)));
-            possible_image_faces := Faces(surface2);
-            if not faces1 = [] then # inner vertex degrees heuristic
-                face_counter1 := List(faces1, face -> Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))));
-                face_counter2 := List(faces1, face -> Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
-                if ForAny(face_counter2, fdegs2 -> not fdegs2 in face_counter1) then
-                    return res; # empty list
-                else 
-                    min_pos := PositionMinimum(List(Collected(face_counter2), fdeg2 -> fdeg2[2]));
-                    min_degrees := Collected(face_counter2)[min_pos][1];
-                    starting_face := Filtered(faces1, face -> min_degrees = Set(List(VerticesOfFace(surface1, face), v -> DegreeOfVertex(surface1, v))))[1];
-                    possible_image_faces := Filtered(faces2, face -> min_degrees = Set(List(VerticesOfFace(surface2, face), v -> DegreeOfVertex(surface2, v))));
-                fi;
-            else
-                starting_face := Faces(surface1)[1];
-            fi;
-
-            for image_starting_face in possible_image_faces do
-                possible_monomorphisms := AllOneFaceIsomorphisms(starting_face, surface1, 
-                                                                 image_starting_face, surface2);
-                for i in [1..Length(possible_monomorphisms)] do
-                    is_correct_morphism := true;
-                    monomorphism := possible_monomorphisms[i];
-                    vertex_map := monomorphism[1];
-                    edge_map := monomorphism[2];
-                    face_map := monomorphism[3];
-
-                    cur_edges := Filtered(EdgesOfFace(surface1, starting_face), e -> IsInnerEdge(surface1, e));
-                    finished_cur_edges := [];
-                    remaining_faces := Difference(Faces(surface1), [starting_face]);
-                    mapped_faces := MyPreImages(face_map);
-                    while not IsEmpty(remaining_faces) do
-                        cur_edge := cur_edges[1];
-                        if Length(Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)) = 1 then
-                            new_image_face := Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)[1];
-                        else 
-                            is_correct_morphism := false;
-                            break;
-                        fi;
-                        new_face := Difference(FacesOfEdge(surface1, cur_edge), mapped_faces)[1];
-
-                        if not new_face in remaining_faces then
-                            is_correct_morphism := false;
-                            break;
-                        fi; 
-
-                        if MyUpdateMap(face_map, new_face, new_image_face) = false or MyIsInjective(face_map) = false then
-                            is_correct_morphism := false;
-                            break;
-                        fi;
-                        mapped_faces := MyPreImages(face_map);
-
-                        new_vertex := Difference(VerticesOfFace(surface1, new_face), VerticesOfEdge(surface1, cur_edge))[1];
-                        new_image_vertex := Difference(VerticesOfFace(surface2, new_image_face), VerticesOfEdge(surface2, edge_map[cur_edge]))[1];
-                        if MyUpdateMap(vertex_map, new_vertex, new_image_vertex) = false or MyIsInjective(vertex_map) = false then
-                            is_correct_morphism := false;
-                            break;
-                        fi;
-
-                        # update edge_map
-                        new_edges := Difference(EdgesOfFace(surface1, new_face), [cur_edge]);
-                        new_image_edges := Difference(EdgesOfFace(surface2, new_image_face), [edge_map[cur_edge]]);
-                        for cur_new_edge in new_edges do
-                            for cur_new_image_edge in new_image_edges do
-                                if Set(MyImageCat(vertex_map, VerticesOfEdge(surface1, cur_new_edge))) = Set(VerticesOfEdge(surface2, cur_new_image_edge)) then
-                                    if MyUpdateMap(edge_map, cur_new_edge, cur_new_image_edge) = false or MyIsInjective(edge_map) = false then
-                                        is_correct_morphism := false;
-                                    fi;
-                                    if cur_new_edge in cur_edges then
-                                        Add(finished_cur_edges, cur_new_edge);
-                                    fi;
-                                fi;
-                            od;
-                        od;
-                        if is_correct_morphism = false then
-                            break;
-                        fi;
-
-                        # update cur_edges
-                        cur_edges := Union(cur_edges, Filtered(EdgesOfFace(surface1, new_face), e -> IsInnerEdge(surface1, e)));
-                        Add(finished_cur_edges, cur_edge);
-                        cur_edges := Difference(cur_edges, finished_cur_edges);
-
-                        # update remaining_faces
-                        remaining_faces := Difference(remaining_faces, [new_face]);
-                    od;
-
-                    if is_correct_morphism = true then
-                        Add(res,PolygonalMorphismByLists(surface1, surface2, monomorphism[1], monomorphism[2], monomorphism[3]));
+                cur_edges := Filtered(EdgesOfFace(surface1, starting_face), e -> IsInnerEdge(surface1, e));
+                finished_cur_edges := [];
+                remaining_faces := Difference(Faces(surface1), [starting_face]);
+                mapped_faces := __SIMPLICIAL_PreImagesFromListmap(face_map);
+                while not IsEmpty(remaining_faces) do
+                    cur_edge := cur_edges[1];
+                    if Length(Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)) = 1 then
+                        new_image_face := Difference(FacesOfEdge(surface2, edge_map[cur_edge]), face_map)[1];
+                    else 
+                        is_correct_morphism := false;
+                        break;
                     fi;
+                    new_face := Difference(FacesOfEdge(surface1, cur_edge), mapped_faces)[1];
+
+                    if not new_face in remaining_faces then
+                        is_correct_morphism := false;
+                        break;
+                    fi; 
+
+                    if __SIMPLICIAL_UpdateListmap(face_map, new_face, new_image_face) = false or __SIMPLICIAL_IsInjectiveListmap(face_map) = false then
+                        is_correct_morphism := false;
+                        break;
+                    fi;
+                    mapped_faces := __SIMPLICIAL_PreImagesFromListmap(face_map);
+
+                    new_vertex := Difference(VerticesOfFace(surface1, new_face), VerticesOfEdge(surface1, cur_edge))[1];
+                    new_image_vertex := Difference(VerticesOfFace(surface2, new_image_face), VerticesOfEdge(surface2, edge_map[cur_edge]))[1];
+                    if __SIMPLICIAL_UpdateListmap(vertex_map, new_vertex, new_image_vertex) = false or __SIMPLICIAL_IsInjectiveListmap(vertex_map) = false then
+                        is_correct_morphism := false;
+                        break;
+                    fi;
+
+                    # update edge_map
+                    new_edges := Difference(EdgesOfFace(surface1, new_face), [cur_edge]);
+                    new_image_edges := Difference(EdgesOfFace(surface2, new_image_face), [edge_map[cur_edge]]);
+                    for cur_new_edge in new_edges do
+                        for cur_new_image_edge in new_image_edges do
+                            if Set(__SIMPLICIAL_ImageCatFromListmap(vertex_map, VerticesOfEdge(surface1, cur_new_edge))) = Set(VerticesOfEdge(surface2, cur_new_image_edge)) then
+                                if __SIMPLICIAL_UpdateListmap(edge_map, cur_new_edge, cur_new_image_edge) = false or __SIMPLICIAL_IsInjectiveListmap(edge_map) = false then
+                                    is_correct_morphism := false;
+                                fi;
+                                if cur_new_edge in cur_edges then
+                                    Add(finished_cur_edges, cur_new_edge);
+                                fi;
+                            fi;
+                        od;
+                    od;
+                    if is_correct_morphism = false then
+                        break;
+                    fi;
+
+                    # update cur_edges
+                    cur_edges := Union(cur_edges, Filtered(EdgesOfFace(surface1, new_face), e -> IsInnerEdge(surface1, e)));
+                    Add(finished_cur_edges, cur_edge);
+                    cur_edges := Difference(cur_edges, finished_cur_edges);
+
+                    # update remaining_faces
+                    remaining_faces := Difference(remaining_faces, [new_face]);
                 od;
+
+                if is_correct_morphism = true then
+                    Add(res,PolygonalMorphismByLists(surface1, surface2, monomorphism[1], monomorphism[2], monomorphism[3]));
+                fi;
             od;
-            return res;
-        end;
-        return AllMonomorphismsIntoSimplicialSurface(surface1, surface2);
+        od;
+        return res;
     end
 );
 

@@ -436,11 +436,11 @@ DeclareAttribute( "InversePolygonalMorphism", IsPolygonalMorphism and IsBijectiv
 #!     <K>surf1</K> is being preserved and does not degenerate in <K>surf2</K>. 
 #!     As an example, consider the 3-half-umbrella and 6-umbrella.
 #! <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/Image_Butterfly_Faithful_Monomorphism_Hexagon.svg"> &lt;/img> &lt;br>
+#! &lt;br>&lt;img src="./images/_Wrapper_Butterfly_Faithful_Monomorphism_Hexagon.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \begin{center}
-#! \includegraphics{images/Image_Butterfly_Faithful_Monomorphism_Hexagon.pdf}
+#! \includegraphics{images/_Wrapper_Butterfly_Faithful_Monomorphism_Hexagon.pdf}
 #! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
@@ -483,11 +483,11 @@ DeclareOperation( "ButterflyFaithfulMonomorphismIntoSimplicialSurface", [IsSimpl
 #!       consecutive faces of the 6-umbrella. There are 6 ways to do this and another 6 if
 #!       we flip the 3-half-umbrella first.
 #! <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/Image_Butterfly_Faithful_Monomorphism_Hexagon.svg"> &lt;/img> &lt;br>
+#! &lt;br>&lt;img src="./images/_Wrapper_Butterfly_Faithful_Monomorphism_Hexagon.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \begin{center}
-#! \includegraphics{images/Image_Butterfly_Faithful_Monomorphism_Hexagon.pdf}
+#! \includegraphics{images/_Wrapper_Butterfly_Faithful_Monomorphism_Hexagon.pdf}
 #! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
