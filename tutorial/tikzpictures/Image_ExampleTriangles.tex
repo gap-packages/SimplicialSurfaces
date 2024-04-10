@@ -1,0 +1,84 @@
+\begin{tikzpicture}[vertexBall, edgeDouble, faceStyle, scale=2, edgeStyle=nolabels,vertexStyle=nolabels]
+\coordinate (V1) at (0.5, 0.8660254037844386);
+\coordinate (V2) at (0, 0);
+\coordinate (V3) at (1, 0);
+\coordinate (V4) at (0.5, -0.8660254037844386);
+
+\coordinate (V12) at (-1.5, 0.5);
+\coordinate (V22) at (-1, 0);
+\coordinate (V32) at (-2, 0);
+\coordinate (V42) at (-1.25, -0.5);
+\coordinate (V52) at (-1.8, 0.4);
+\coordinate (V62) at (-0.15, -0.4);
+
+
+\coordinate (V13) at ( 3.8090169943749475, 0.5877852522924731);
+\coordinate (V23) at ( 3.3090169943749475, 0.9510565162951535 );
+\coordinate (V33) at ( 2.69, 0.9510565162951536 );
+\coordinate (V43) at ( 2.19, 0.5877852522924732 );
+\coordinate (V53) at ( 2,0 );
+\coordinate (V63) at ( 2.191, -0.587785252292473 );
+\coordinate (V73) at ( 2.691, -0.9510565162951535 );
+\coordinate (V83) at ( 3.3090169943749472, -0.9510565162951536 );
+\coordinate (V93) at ( 3.8090169943749473, -0.5877852522924734 );
+\coordinate (V103) at ( 4, 0);
+\coordinate (z) at ( 3, 0);
+
+\fill[face]  (V3) -- (V1) -- (V2) -- cycle;
+\node[faceLabel] at (barycentric cs:V3=1,V1=1,V2=1) {};
+\fill[face]  (V3) -- (V4) -- (V2) -- cycle;
+\node[faceLabel] at (barycentric cs:V3=1,V4=1,V2=1) {};
+
+\fill[face]  (V32) -- (V12) -- (V22) -- cycle;
+\node[faceLabel] at (barycentric cs:V32=1,V12=1,V22=1) {};
+\fill[face]  (V32) -- (V42) -- (V22) -- cycle;
+\node[faceLabel] at (barycentric cs:V32=1,V12=1,V22=1) {};
+\fill[face]  (V52) -- (V32) -- (V12) -- cycle;
+\fill[face]  (V62) -- (V42) -- (V22) -- cycle;
+
+\fill[face]  (z) -- (V13) -- (V23) -- cycle;
+\fill[face]  (z) -- (V23) -- (V33) -- cycle;
+\fill[face]  (z) -- (V33) -- (V43) -- cycle;
+\fill[face]  (z) -- (V43) -- (V53) -- cycle;
+\fill[face]  (z) -- (V53) -- (V63) -- cycle;
+\fill[face]  (z) -- (V63) -- (V73) -- cycle;
+\fill[face]  (z) -- (V73) -- (V83) -- cycle;
+\fill[face]  (z) -- (V83) -- (V93) -- cycle;
+\fill[face]  (z) -- (V93) -- (V103) -- cycle;
+%\node[faceLabel] at (barycentric cs:V3=1,V1=1,V2=1) {};
+%\node[faceLabel] at (barycentric cs:V32=1,V12=1,V22=1) {};
+\draw[edge=black] (V1) -- (V2);
+\draw[edge=black] (V1) -- (V3);
+\draw[edge=black] (V3) -- (V2);
+\draw[edge=black] (V4) -- (V2);
+\draw[edge=black] (V3) -- (V4);
+
+\draw[edge=black] (V62) -- (V42);
+\draw[edge=black] (V62) -- (V22);
+\draw[edge=black] (V12) -- (V22);
+\draw[edge=black] (V12) -- (V32);
+\draw[edge=black] (V32) -- (V22);
+\draw[edge=black] (V42) -- (V22);
+\draw[edge=black] (V32) -- (V42);
+\draw[edge=black] (V12) -- (V52);
+\draw[edge=black] (V32) -- (V52);
+%\draw[edge=black] (V32) -- (V42);
+
+ \foreach \x in {V13,V23,V33,V43,V53,V63,V73,V83,V93,V103}{
+                    \draw[edge=black] (z) -- (\x);
+                }
+
+\draw[edge=black] (V13) -- (V23);
+\draw[edge=black] (V23) -- (V33);
+\draw[edge=black] (V33) -- (V43);
+\draw[edge=black] (V43) -- (V53);
+\draw[edge=black] (V53) -- (V63);
+\draw[edge=black] (V63) -- (V73);
+\draw[edge=black] (V73) -- (V83);
+\draw[edge=black] (V83) -- (V93);
+\draw[edge=black] (V93) -- (V103);
+
+
+
+\end{tikzpicture}
+
