@@ -39,7 +39,9 @@ jobs:
       - uses: gap-actions/build-pkg-docs@v1
       - uses: gap-actions/run-pkg-tests@v2
       - uses: gap-actions/process-coverage@v2
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # The documentation job
   manual:
