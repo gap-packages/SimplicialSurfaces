@@ -61,8 +61,6 @@ BindGlobal( "__SIMPLICIAL_LexicographicallyLeastDyclet",
 
     local n, min_dyclet, k, perm, mirror_dyclet;
 
-    # this test is not conclusive as a list with rationals but
-    # first entry an integer passes this test
     if (Filtered(dyclet,i-> not IsInt(i))<>[]) or (Length(dyclet)=0) then
         Error("Dyclet must be a list of integers");
         return fail;
