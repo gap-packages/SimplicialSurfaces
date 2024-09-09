@@ -42,10 +42,16 @@
 #! vertex-edge-face-triple.
 #! 
 #! For example, consider the following polygonal surface:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence( 
@@ -89,10 +95,16 @@
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> Flags(complex);
@@ -118,11 +130,18 @@ DeclareAttribute( "ThreeFlags", IsPolygonalComplex );
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle=nolabels]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_flags-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_flags-1.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> VertexEdgeFlags(complex);
 #! [ [ 2, 6 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 3, 12 ], [ 5, 6 ], 
@@ -142,11 +161,18 @@ DeclareAttribute( "VertexEdgeFlags", IsPolygonalComplex );
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_flags-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_flags-2.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> VertexFaceFlags(complex);
 #! [ [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], [ 5, 1 ], [ 5, 4 ], [ 7, 4 ], [ 11, 4 ] ]
@@ -165,11 +191,18 @@ DeclareAttribute( "VertexFaceFlags", IsPolygonalComplex );
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_flags-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_flags-3.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> EdgeFaceFlags(complex);
 #! [ [ 6, 1 ], [ 8, 1 ], [ 9, 1 ], [ 9, 4 ], [ 10, 4 ], [ 12, 4 ], [ 13, 4 ] ]
@@ -206,10 +239,16 @@ DeclareAttribute( "EdgeFaceFlags", IsPolygonalComplex );
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> TwoFlags(complex);
@@ -242,10 +281,16 @@ DeclareAttribute( "TwoFlags", IsPolygonalComplex );
 #!
 #! As an example consider the polygonal surface from the start of section 
 #! <Ref Sect="Section_Flags_Definition"/>.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> OneFlags(complex);
@@ -316,10 +361,16 @@ DeclareAttribute( "OneFlags", IsPolygonalComplex );
 #! >    [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ],
 #! >    [[6,8,9], , , [9,10,12,13]]);;
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> dressInv:=DressInvolutions(complex);
@@ -466,10 +517,16 @@ DeclareOperation("OriginalSurface", [IsFlagSurface]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> OriginalVertices(flagComp);
@@ -493,10 +550,16 @@ DeclareOperation("OriginalVertices",[IsFlagComplex]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> OriginalEdges(flagComp);
@@ -520,10 +583,16 @@ DeclareOperation("OriginalEdges",[IsFlagComplex]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> OriginalFaces(flagComp);
@@ -548,10 +617,16 @@ DeclareOperation("OriginalFaces",[IsFlagComplex]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> OneFlags(complex);
@@ -579,10 +654,16 @@ DeclareOperation("OriginalOneFlag",[IsFlagComplex,IsPosInt]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> TwoFlags(complex);
@@ -615,10 +696,16 @@ DeclareOperation("OriginalTwoFlag",[IsFlagComplex,IsPosInt]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> ThreeFlags(complex);
@@ -645,10 +732,16 @@ DeclareOperation("OriginalThreeFlag",[IsFlagComplex,IsPosInt]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> OneFlags(complex);
@@ -674,10 +767,16 @@ DeclareOperation("BarycentreOfVertex",[IsTwistedPolygonalComplex,IsPosInt]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> OneFlags(complex);
@@ -704,10 +803,16 @@ DeclareOperation("BarycentreOfEdge",[IsTwistedPolygonalComplex,IsPosInt]);
 #! <Ref Sect="Section_Flags_Definition"/> and its barycentric subdivision
 #! from <Ref Subsect="FlagComplex"/>.
 #!
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!       \input{Image_FlagComplexExample.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_FlagComplexExample.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> OneFlags(complex);

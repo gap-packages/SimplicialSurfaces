@@ -95,10 +95,18 @@
             the polygonal complex consisting of these faces.
             <Par/>
             We illustrate this with an octahedron (<Ref Subsect="Octahedron"/>):
-            <Alt Only="TikZ">
-                \input{_TIKZ_Octahedron_constructor.tex}
-            </Alt>
-<Example>
+        <Alt Only="HTML">
+        &lt;br>&lt;img src="./images/_Wrapper__TIKZ_Octahedron_constructor.svg"> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper__TIKZ_Octahedron_constructor.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
+        </Alt>
+        <Example>
 gap&gt; octa := Octahedron();;
 gap&gt; octa = StronglyConnectedComponentOfFace(octa,7);
 true
@@ -197,8 +205,16 @@ true
         incident faces.
         <Par/>
         We illustrate it on the example of a pyramid with square base.
-        <Alt Only="TikZ">
-            \input{Image_SquarePyramid.tex}
+        <Alt Only="HTML">
+        &lt;br>&lt;img src="./images/_Wrapper_Image_SquarePyramid.svg"> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_Image_SquarePyramid.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
         </Alt>
 <Example>
 gap&gt; pyr := PolygonalSurfaceByVerticesInFaces( 

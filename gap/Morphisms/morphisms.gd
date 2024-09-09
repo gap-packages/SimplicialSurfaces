@@ -49,8 +49,16 @@
 #! >      [[1,2],[2,3],,[1,5],[2,5],,[3,6],[3,7],,,[5,6],[6,7]],
 #! >      [[1,4,5],[2,5,11,7],[7,8,12]]);;
 #! @EndExampleSession
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> polMor := PolygonalMorphismByVertexImages(source,range, [5,6,7,6,,2,3]);
@@ -108,11 +116,18 @@ DeclareSynonym("IsPolygonalMorphism", IsGeneralPolygonalMorphism and IsTotal and
 #!
 #! As an illustration we define a polygonal morphisms from a 6-umbrella
 #! to a 3--umbrella.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!    \input{Image_PolygonalMorphism_Hexagon.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-1.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> six := SimplicialSurfaceByDownwardIncidence(
 #! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
@@ -176,11 +191,18 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #!
 #! As an illustration we define a polygonal morphisms from a 6-umbrella
 #! to a 3--umbrella.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!    \input{Image_PolygonalMorphism_Hexagon.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-2-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-2.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> six := SimplicialSurfaceByDownwardIncidence(
 #! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
@@ -226,9 +248,18 @@ DeclareOperation( "PolygonalMorphismByVertexImagesNC",
 #! sends this complex to itself (the identity morphism).
 #!
 #! As an example, consider the tetrahedron:
-#! <Alt Only="TikZ">
-#!   \include{_TIKZ_Tetrahedron_constructor}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-3-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-3.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> tetra := Tetrahedron();;
 #! gap> id := PolygonalIdentityMorphism(tetra);;
@@ -274,11 +305,18 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #!     map, an error is raised.
 #!
 #!     We use a map from a six-umbrella to a three-umbrella as illustration.
-#!     <Alt Only="TikZ">
-#!       \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!         \input{Image_PolygonalMorphism_Hexagon.tex}
-#!       \end{tikzpicture}
-#!     </Alt>
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-1-1.svg'> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-1.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> six := SimplicialSurfaceByDownwardIncidence(
 #! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
@@ -345,9 +383,17 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 #!     All of the methods throw errors if their requirements are not met.
 #!
 #!     To illustrate, we use a relabelling of a five-umbrella.
-#!     <Alt Only="TikZ">
-#!       \input{Image_PolygonalMorphism_FiveUmbrella.tex}
-#!     </Alt>
+#!      <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_FiveUmbrella-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_FiveUmbrella.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @ExampleSession
 #! gap> left := SimplicialSurfaceByDownwardIncidence( 
 #! >         [[1,2],[1,3],[1,4],[1,5],[1,6],[2,3],[3,4],[4,5],[5,6],[6,2]],
@@ -394,11 +440,18 @@ DeclareAttribute( "InversePolygonalMorphism", IsPolygonalMorphism and IsBijectiv
 #!   and <K>PreImagesOfFace</K> (<Ref Subsect="PreImagesOfFace"/>).
 #!
 #! We illustrate these methods on the following polygonal morphism.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!    \input{Image_PolygonalMorphism_Square.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-4-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-4.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> source := PolygonalComplexByDownwardIncidence(
 #! >                [[1,2],, [2,4],, [4,5], [5,6],, [6,8],, [8,10],, 
@@ -425,11 +478,18 @@ DeclareAttribute( "InversePolygonalMorphism", IsPolygonalMorphism and IsBijectiv
 #!
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
-#!    \input{Image_PolygonalMorphism_Square.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-5-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-5.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> ImageOfVertex(polMor, 1);
 #! 1
@@ -459,11 +519,18 @@ DeclareOperation( "ImageOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #!
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle=nolabels]
-#!    \input{Image_PolygonalMorphism_Square.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-6-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-6.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> ImageOfEdge(polMor, 1);
 #! 1
@@ -493,11 +560,18 @@ DeclareOperation( "ImageOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #!
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle]
-#!    \input{Image_PolygonalMorphism_Square.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-7-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-7.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> ImageOfFace(polMor, 1);
 #! 1
@@ -529,11 +603,18 @@ DeclareOperation( "ImageOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #!
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle, edgeStyle=nolabels, faceStyle=nolabels]
-#!    \input{Image_PolygonalMorphism_Square.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-8-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-8.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> PreImagesOfVertex(polMor, 1);
 #! [ 1 ]
@@ -565,11 +646,18 @@ DeclareOperation( "PreImagesOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #!
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle, faceStyle=nolabels]
-#!    \input{Image_PolygonalMorphism_Square.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-9-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-9.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> PreImagesOfEdge(polMor, 2);
 #! [ 6 ]
@@ -601,11 +689,18 @@ DeclareOperation( "PreImagesOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #!
 #! Consider the polygonal morphism from the start of section
 #! <Ref Sect="Section_Morphisms_Images"/> as illustration.
-#! <Alt Only="TikZ">
-#!  \begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels, faceStyle]
-#!    \input{Image_PolygonalMorphism_Square.tex}
-#!  \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-10-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-10.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> PreImagesOfFace(polMor, 2);
 #! [ 5 ]
@@ -638,11 +733,18 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #!
 #! The distinct label set is called <K>VEFLabels</K>. Consider the following
 #! polygonal surface:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
-#!     \input{Image_VEFLabelsExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-11-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-11.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> cat := PolygonalSurfaceByUpwardIncidence(
 #! >        [[1,2,4,5],, [1,7], [2,7,8], [8,9], [4,9,10], [5,10]],
@@ -658,12 +760,18 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! @EndExampleSession
 #! Using the VEF-labels shifts the labels of edges and faces upwards to
 #! avoid intersections.
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle,edgeStyle,faceStyle]
-#!     \def\veflabels{1}
-#!     \input{Image_VEFLabelsExample.tex}
-#!   \end{tikzpicture}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-12-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-12.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @BeginExampleSession
 #! gap> VEFLabels(cat);
 #! [ 1, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21 ]
@@ -689,10 +797,16 @@ DeclareOperation( "PreImagesOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #!
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> Vertices(cat);
@@ -724,10 +838,16 @@ DeclareAttribute( "VEFLabels", IsPolygonalComplex );
 #! 
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> VEFLabelOfVertex(cat, 3);
@@ -762,10 +882,16 @@ DeclareOperation( "VEFLabelOfVertexNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> VEFLabelOfEdge(cat, 2);
@@ -800,10 +926,16 @@ DeclareOperation( "VEFLabelOfEdgeNC", [IsPolygonalComplex, IsPosInt]);
 #! 
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> VEFLabelOfFace(cat, 2);
@@ -832,10 +964,16 @@ DeclareOperation( "VEFLabelOfFaceNC", [IsPolygonalComplex, IsPosInt]);
 #!
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> VertexOfVEFLabel(cat, 1);
@@ -867,10 +1005,16 @@ DeclareOperation( "VertexOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> EdgeOfVEFLabel(cat, 7);
@@ -904,10 +1048,16 @@ DeclareOperation( "EdgeOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! For example, consider the polygonal surface from the start of
 #! section <Ref Sect="Section_VEFLabels"/>:
-#! <Alt Only="TikZ">
-#!   \begin{tikzpicture}[vertexStyle, edgeStyle, faceStyle]
-#!     \input{Image_VEFLabels_SideBySide.tex}
-#!   \end{tikzpicture}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_VEFLabels_SideBySide-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_VEFLabels_SideBySide.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
 #! gap> FaceOfVEFLabel(cat, 17);
@@ -943,8 +1093,16 @@ DeclareOperation( "FaceOfVEFLabelNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! We will illustrate them on the following polygonal morphism (on the
 #! sides are the VEF-labels):
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> source := PolygonalSurfaceByDownwardIncidence( 
@@ -1003,8 +1161,16 @@ DeclareAttribute( "RangeSurface", IsGeneralPolygonalMorphism );
 #!
 #! We illustrate this on the polygonal morphism from the start of
 #! section <Ref Sect="Section_Morphisms_Components"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> VertexMapAsImageList(polMor);
@@ -1027,8 +1193,16 @@ DeclareAttribute( "VertexMapAsImageList", IsPolygonalMorphism );
 #!
 #! We illustrate this on the polygonal morphism from the start of
 #! section <Ref Sect="Section_Morphisms_Components"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgeMapAsImageList(polMor);
@@ -1051,8 +1225,16 @@ DeclareAttribute( "EdgeMapAsImageList", IsPolygonalMorphism );
 #!
 #! We illustrate this on the polygonal morphism from the start of
 #! section <Ref Sect="Section_Morphisms_Components"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_PolygonalMorphism_Strip-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_PolygonalMorphism_Strip.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> FaceMapAsImageList(polMor);
@@ -1076,10 +1258,18 @@ DeclareAttribute( "FaceMapAsImageList", IsPolygonalMorphism );
 #! We illustrate this on the polygonal morphism from the start of
 #! section <Ref Sect="Section_Morphisms_Components"/> (the VEF-labels
 #! are drawn on the sides).
-#! <Alt Only="TikZ">
-#!   \def\vefOn{1}
-#!   \input{Image_PolygonalMorphism_Strip.tex}
+ 
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src='./images/_Wrapper_morphisms-13-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_morphisms-13.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+            #! </Alt>
 #! @ExampleSession
 #! gap> VEFLabelMapAsImageList(polMor);
 #! [ 5, 6, 7, 6,, 2, 3, 18, 19, 19,, 12,, 14, 15, 14,,, 9,, 21, 22, 22 ]

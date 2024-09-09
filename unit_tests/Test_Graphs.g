@@ -71,7 +71,8 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 		Assert(0,IsIsomorphic(list1[1],surface));
 		
 		list2:=AllSimplicialSurfacesOfDigraph(dig);
-		Assert(0, Filtered(list2,IsVertexFaithful)=list1);
+		Assert(0, Length(Filtered(list2,IsVertexFaithful))=1);
+		Assert(0,IsIsomorphic(Filtered(list2,IsVertexFaithful)[1],surface));
 		Assert(0,Length(list2)=11);
 
 		dig:=DigraphByEdges([ [ 1, 2 ], [ 1, 4 ], [ 1, 5 ], [ 2, 1 ], [ 2, 3 ], [ 2, 6 ], [ 3, 2 ], [ 3, 4 ], [ 3, 5 ], [ 4, 1 ], [ 4, 3 ], 

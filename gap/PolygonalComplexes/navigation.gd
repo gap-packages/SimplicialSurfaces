@@ -37,8 +37,16 @@
 #!
 #! We will use the following polygonal complex to exemplify the methods
 #! in this chapter:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence( 
@@ -102,8 +110,16 @@
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> IsVerticesAdjacent( complex, 1, 2 );
@@ -145,8 +161,16 @@ DeclareOperation("IsVerticesAdjacentNC", [IsTwistedPolygonalComplex, IsPosInt, I
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgeBetweenVertices( complex, 1, 2 );
@@ -197,8 +221,16 @@ DeclareOperation("EdgeBetweenVerticesNC", [IsTwistedPolygonalComplex, IsPosInt, 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> OtherVertexOfEdge(complex, 7, 10);
@@ -237,8 +269,16 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! following methods (illustrated with the polygonal complex from the
 #! start of chapter
 #! <Ref Chap="Chapter_Navigation"/>):
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! * <K>EdgeInFaceByVertices</K> (<Ref Subsect="EdgeInFaceByVertices"/>)
 #!   returns the edge of a face that is incident to two vertices (and 
@@ -299,8 +339,16 @@ DeclareOperation("OtherVertexOfEdgeNC",
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgeInFaceByVertices(complex, 5, [2,6]);
@@ -356,8 +404,16 @@ DeclareOperation("EdgesInFaceByVerticesNC",
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> OtherEdgeOfVertexInFace(complex, 1, 5, 2);
@@ -408,8 +464,16 @@ DeclareOperation("OtherEdgesOfVertexInFaceNC",
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> OppositeVertexOfEdgeInTriangle( complex, 1, 1 );
@@ -457,8 +521,16 @@ DeclareOperation("OppositeVertexOfEdgeInTriangleNC",
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> OppositeEdgeOfVertexInTriangle( complex, 1, 1 );
@@ -499,8 +571,16 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 #! whether faces are adjacent and, if so, by which edge. It includes the
 #! following methods (illustrated on the polygonal complex
 #! from the start of chapter <Ref Chap="Chapter_Navigation"/>):
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #!
 #! * <K>IsFacesAdjacent</K> (<Ref Subsect="IsFacesAdjacent"/>) checks whether
@@ -551,8 +631,16 @@ DeclareOperation("OppositeEdgeOfVertexInTriangleNC",
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> IsFacesAdjacent( complex, 1, 2 );
@@ -594,8 +682,16 @@ DeclareOperation("IsFacesAdjacentNC", [IsTwistedPolygonalComplex, IsPosInt, IsPo
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgeBetweenFaces( complex, 2, 4 );
@@ -649,8 +745,16 @@ DeclareOperation("EdgeBetweenFacesNC", [IsTwistedPolygonalComplex, IsPosInt, IsP
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> NeighbourFaceByEdge(complex, 2, 8);
@@ -701,8 +805,16 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! In many cases it is necessary to find all vertices fulfilling a
 #! certain property. Consider the polygonal complex from the start
 #! of chapter <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! If we want to know all vertices that are incident to exactly three or four
 #! faces, we can use the <K>Filtered</K>-command.
@@ -803,8 +915,16 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> AdjacentVerticesWithProperty(complex, 
@@ -880,8 +1000,16 @@ DeclareOperation("AdjacentVerticesWithProperty",
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> EdgesWithVertexProperty(complex, v -> IsBoundaryVertex(complex, v));
@@ -957,8 +1085,16 @@ DeclareOperation("EdgesWithVertexProperty", [IsTwistedPolygonalComplex, IsFuncti
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> FacesWithVertexProperty( complex, v -> not IsInnerVertex(complex,v) );
@@ -1035,8 +1171,16 @@ DeclareOperation("FacesWithVertexProperty", [IsTwistedPolygonalComplex, IsFuncti
 #! 
 #! As an example consider the polygonal complex that was introduced at the
 #! start of chapter <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> FacesWithEdgeProperty(complex, e -> IsInnerEdge(complex, e));
@@ -1097,8 +1241,16 @@ DeclareOperation("FacesWithEdgeProperty", [IsTwistedPolygonalComplex, IsFunction
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> CommonVerticesOfEdges(complex,8,9);
@@ -1132,8 +1284,16 @@ DeclareOperation( "CommonVerticesOfEdgesNC", [IsTwistedPolygonalComplex, IsList]
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> CommonEdgesOfFaces(complex,[6,4]);
@@ -1163,8 +1323,16 @@ DeclareOperation( "CommonEdgesOfFacesNC", [IsTwistedPolygonalComplex, IsList]);
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> CommonVerticesOfFaces(complex,1,4);
@@ -1196,8 +1364,16 @@ DeclareOperation( "CommonVerticesOfFacesNC", [IsTwistedPolygonalComplex, IsList]
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap>  CommonEdgesOfVertices(complex,6,2);
@@ -1227,8 +1403,16 @@ DeclareOperation( "CommonEdgesOfVerticesNC", [IsTwistedPolygonalComplex, IsList]
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> CommonFacesOfEdges(complex,9,12);
@@ -1260,8 +1444,16 @@ DeclareOperation( "CommonFacesOfEdgesNC", [IsTwistedPolygonalComplex, IsList]);
 #! 
 #! As an example consider the polygonal complex from the start of chapter
 #! <Ref Chap="Chapter_Navigation"/>:
-#! <Alt Only="TikZ">
-#!   \input{Image_EyeStone.tex}
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_EyeStone-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_EyeStone.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
 #! </Alt>
 #! @ExampleSession
 #! gap> CommonFacesOfVertices(complex,9,5);

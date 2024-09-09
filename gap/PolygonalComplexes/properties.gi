@@ -626,6 +626,20 @@ InstallMethod( DegreesOfMultiplicity,
     end
 );
 
+InstallMethod( \=, "for two counters", 
+    [IsCounter, IsCounter],
+    function(counter1, counter2)
+        return ListCounter(counter1)=ListCounter(counter2);
+    end
+);
+
+InstallMethod( \<, "for two counters", 
+    [IsCounter, IsCounter],
+    function(counter1, counter2)
+        return ListCounter(counter1)<ListCounter(counter2);
+    end
+);
+
 BindGlobal( "__SIMPLICIAL_CounterName",
     function(counter, big)
         local nameList;
