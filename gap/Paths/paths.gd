@@ -1284,7 +1284,7 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginExampleSession
 #! gap> AllThreeWaistsOfComplex(doubleTetra);
-#! [ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 ) ] 
+#! [ ( v3, E7, v5, E8, v4, E10, v3 ), ( v3, E8, v6, E9, v5, E12, v3 ) ] 
 #! @EndExampleSession
 #! The tetrahedron does not have any 3-waist:
 #! @BeginExampleSession
