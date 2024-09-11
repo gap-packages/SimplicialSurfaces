@@ -995,7 +995,7 @@ end
 InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function( surface )
-        local w,voe1,vow2,voe3,v1,v2,v3,eof,waists,verticesOfEdges,facesOfEdges;
+        local w,voe1,voe2,voe3,v1,v2,v3,eof,waists,verticesOfEdges,facesOfEdges,temp;
         verticesOfEdges:=VerticesOfEdges(surface);
         facesOfEdges:=FacesOfEdges(surface);
         waists:=Combinations(InnerEdges(surface),3);
