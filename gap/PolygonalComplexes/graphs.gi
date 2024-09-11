@@ -722,87 +722,7 @@ InstallMethod( OnEdgeFacePaths,
 ##
 ##      All Surfaces Of A Graph
 ##
-
-# Calculate from a adjacency matrix the corresponding edges
-BindGlobal( "__SIMPLICIAL_EdgesFromAdjacencyMat",
-     function(mat)
-          local edges, i, j;
-
-       	  edges := Set([]);
-          for j in [1 .. Length(mat)] do
-		edges := Union(edges, List(ListBlist([1..j],mat[j]), i-> [j,i] ));
-          od;
-
-	  return edges;
-end);
-
-# The function converts a boolean list describing one or more cycles 
-# into lists of nodes of the cycles.
-BindGlobal("__SIMPLICIAL_NodesOfCycle",
-    function(cycle)
-	local edges,firstNod,actualNod,nodes,found,e,cycles;
-
-	edges:=__SIMPLICIAL_EdgesFromAdjacencyMat(cycle);
-	cycles:=[];
-	# We have to use each edge exactly one time
-	while edges<>[] do
-		firstNod:=(edges[1])[1];
-		actualNod:=(edges[1])[2];
-		Remove(edges,1);
-		nodes:=[actualNod];
-		# Walk along the cycle
-		while actualNod<>firstNod do
-			found:=false;
-			for e in edges do
-				if found=false then
-					if e[1]=actualNod then
-						actualNod:=e[2];
-						Add(nodes,actualNod);
-						Remove(edges,Position(edges,e));
-						found:=true; 
-					elif e[2]=actualNod then
-						actualNod:=e[1];
-						Add(nodes,actualNod);
-						Remove(edges,Position(edges,e));
-						found:=true;
-					fi;
-				fi;
-			od;
-		od;
-		Add(cycles,nodes);
-	od;
-	return cycles;
-end);	
-
-# We want to store graphs as adjacency matrices. This function
-# turns a cycle into a boolean lower triangular matrix.
-BindGlobal("__SIMPLICIAL_AdjacencyMatrixFromList",
-	function(cycle, n)
-        
-	local mat, i, j, k;
-
-        mat := [];
-        for i in [ 1 .. n] do
-        	mat[i] := BlistList([1..i],[]);
-        od;
-
-        for i in [ 1 .. Length(cycle)] do
-        	if i < Length(cycle) then
-        		j := cycle[i+1];
-        	else 
-			j := cycle[1];
-        	fi;
-        	k := cycle[i];
-        	if k < j then
-      		  	mat[j]:= UnionBlist(mat[j],BlistList( [1..j],[k] ));
-       		elif j < k then
-        		mat[k] := UnionBlist(mat[k],BlistList([1..k],[j]));
-        	fi;
-        od;
-
-        return mat;
-end);
-
+if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 BindGlobal("__SIMPLICIAL_EdgesFromCycle",
         function(digraph,cycle)
 
@@ -834,9 +754,6 @@ BindGlobal("__SIMPLICIAL_IsNonSeparating",
         fi;
 
         edgesOfCycle:=__SIMPLICIAL_EdgesFromCycle(digraph,cycle);
-        #for e in __SIMPLICIAL_EdgesFromAdjacencyMat(cycle) do
-        #       Append(edgesOfCycle,[e,Reversed(e)]);
-        #od;
 
         digraphRemoved:=DigraphRemoveEdges(digraph,edgesOfCycle);
         if IsConnectedDigraph(digraphRemoved) then
@@ -860,13 +777,12 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 	function(digraph,vertexFaithful)
 		
 		local allCycles,edgesOfGraph, faces,edgesOfCycles,CyclesOfEdges,cyclesOfEdges,FindSurface,FindCycleComb,
-		NodesOfCycle,cycle,cyclePair,IsPartOf,possibleCyclesPairs,commonEdges,Possible,e;
+		cycle,cyclePair,IsPartOf,possibleCyclesPairs,commonEdges,Possible,e;
 
 		if IsMultiDigraph(digraph) or DigraphHasLoops(digraph) or not IsSymmetricDigraph(digraph) or not IsConnectedDigraph(digraph) then
             		Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
         	fi;
 		if vertexFaithful then
-			#allCycles:=List(DigraphAllChordlessCycles(digraph),c->__SIMPLICIAL_AdjacencyMatrixFromList(c,DigraphNrVertices(digraph)));
 			allCycles:=DigraphAllChordlessCycles(digraph);
 			allCycles:=Filtered(allCycles,c->__SIMPLICIAL_IsNonSeparating(digraph,c));
 		else
@@ -928,34 +844,6 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 				fi; 
 			od;
 			return true;
-		end;;
-
-		# The function computes for a given cycle the sequence of nodes of the cycle.
-		NodesOfCycle:=function(cycle)
-			local edges,firstNod,actualNode,nodes,e;
-
-			edges:=__SIMPLICIAL_EdgesFromAdjacencyMat(cycle);
-		 
-			firstNod:=(edges[1])[1];
-			actualNode:=(edges[1])[2];
-			nodes:=[actualNode];
-			Remove(edges,1);
-
-			while actualNode<>firstNod do
-				for e in edges do
-					if e[1]=actualNode then
-						actualNode:=e[2];
-						Add(nodes,actualNode);
-						Remove(edges,Position(edges,e)); 
-					elif e[2]=actualNode then
-						actualNode:=e[1];
-						Add(nodes,actualNode);
-						Remove(edges,Position(edges,e));
-					fi; 
-				od;
-			od;
-
-			return CycleFromList(nodes);
 		end;;
 
 		IsPartOf:=function(face,faces)
@@ -1155,3 +1043,4 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		
 		end
 );
+fi;

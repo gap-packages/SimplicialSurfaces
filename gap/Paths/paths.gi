@@ -391,6 +391,7 @@ InstallMethod(ShiftCyclicPath,
         end
 );
 
+if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 InstallMethod(AllClosedVertexEdgePaths, "for a complex",
 	[IsTwistedPolygonalComplex],
 	function(complex)
@@ -443,6 +444,7 @@ InstallMethod(AllClosedVertexEdgePaths, "for a complex",
 		return Union(newCycles,AllTwoWaistsOfComplex(complex));
 	end
 );
+fi;
 
 #######################################
 ##
@@ -1003,6 +1005,7 @@ InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
 end
 );
 
+if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 InstallMethod(AllWaistsOfComplex, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],
         function(complex)
@@ -1019,6 +1022,7 @@ InstallMethod(AllWaistsOfComplex, "for a twisted polygonal complex",
                 return waists;
         end
 );
+fi;
 ##
 ##      End of waists
 ##
