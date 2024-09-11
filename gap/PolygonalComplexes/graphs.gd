@@ -441,13 +441,13 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
 #! Image omitted in terminal text
 #! </Alt>
 #!
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> digraph:=CompleteDigraph(4);;
 #! gap> tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
 #! gap> IsIsomorphic(tet1[1],Tetrahedron());
 #! true
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
 #! But there is another simplicial surface, which is not vertex-faithful:
