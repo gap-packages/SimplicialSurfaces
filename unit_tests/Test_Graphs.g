@@ -61,7 +61,9 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 		od;
 		Assert(0, Set(DigraphEdges(digButterfly))=Set(Filtered(Union(FacesOfEdges(butterfly),reversedButterfly),i->Length(i)=2)));
 	end);
+fi;
 
+if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 	BindGlobal( "__SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph", function()
 		local dig, surface, list1, list2;
 		surface:=SimplicialSurfaceByVerticesInFaces([[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],[2,4,6],[3,5,7],[3,6,7]]);
