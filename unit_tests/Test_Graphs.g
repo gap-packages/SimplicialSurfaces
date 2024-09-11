@@ -69,7 +69,7 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 		list1:=AllSimplicialSurfacesOfDigraph(dig,true);
 		Assert(0,Length(list1)=1);
 		Assert(0,IsIsomorphic(list1[1],surface));
-		
+	
 		list2:=AllSimplicialSurfacesOfDigraph(dig);
 		Assert(0, Length(Filtered(list2,IsVertexFaithful))=1);
 		Assert(0,IsIsomorphic(Filtered(list2,IsVertexFaithful)[1],surface));
