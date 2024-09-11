@@ -1233,7 +1233,7 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>.
 #! The path around a face is not a waist:
 #! @BeginExampleSession
-#! gap> path:=VertexEdgePathByEdges(triple,[1,3,8]);;
+#! gap> path:=VertexEdgePathByEdges(tripleTetra,[1,3,8]);;
 #! gap> IsWaist(tripleTetra, path);
 #! false
 #! @EndExampleSession
