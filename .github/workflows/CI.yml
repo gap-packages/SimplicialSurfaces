@@ -29,7 +29,7 @@ jobs:
           - stable-4.12
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
@@ -38,6 +38,9 @@ jobs:
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v1
       - uses: gap-actions/run-pkg-tests@v2
+      - uses: gap-actions/run-pkg-tests@v2
+        with:
+          only-needed: true
       - uses: gap-actions/process-coverage@v2
       - uses: codecov/codecov-action@v4
         with:
@@ -51,7 +54,7 @@ jobs:
     steps:
       - run: sudo apt-get update
       - run: sudo apt-get install sed texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-extra-utils texlive-fonts-recommended texlive-fonts-extra tex4ht 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
@@ -62,7 +65,7 @@ jobs:
         with:
           use-latex: 'true'
       - name: 'Upload documentation'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: manual
           path: ./doc/manual.pdf
