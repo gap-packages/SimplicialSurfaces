@@ -1243,6 +1243,13 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! gap> IsWaist(tripleTetra, waist);
 #! true
 #! @EndExampleSession
+#! The octahedron has a waist of length four:
+#! @BeginExampleSession
+#! gap> path:=VertexEdgePathByEdges(Octahedron(),[5,6,10,8]);
+#! ( v3, E5, v2, E6, v5, E10, v4, E8, v3 )
+#! gap> IsWaist(Octahedron(),path);
+#! true
+#! @EndExampleSession
 #!
 #! @Returns true or false
 #! @Arguments complex, vertexEdgePath
