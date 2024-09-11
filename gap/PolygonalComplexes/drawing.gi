@@ -2022,5 +2022,3 @@ InstallOtherMethod( DrawFacegraphToTikz,
 	    return DrawFacegraphToTikz(surface,file,rec());
     end
 );
-
-
