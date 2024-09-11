@@ -1202,11 +1202,11 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! a given simplicial surface is called distance-faithful if for any two vertices of the 
 #! path <M>P</M> at least one shortest edge path between them is contained in <M>P</M>. 
 #! Using the above notion we introduce waists of simplicial surfaces.
-#! Let therefore <M>n</M> be a natural number. If <M>n</M> satisfies <M>2<=n<=3</M>, 
+#! Let therefore <M>n</M> be a natural number. If <M>n</M> is equal to 2 or 3, 
 #! then an <M>n</M>-waist of a given simplicial surface is defined as a circular edge 
 #! path of length <M>n</M> such that all edges are inner and no two are incident to the same face.
-#! Moreover, if the given simplicial surface is closed without 3-waists and the inequality 
-#! <M>n>=4</M> holds, we define an n-waist as a closed distance-faithful edge path of length <M>n</M>.
+#! Moreover, if the given simplicial surface is closed without 3-waists and <M>n</M> is at least 4,
+#! then we define an <M>n</M>-waist as a closed distance-faithful edge path of length <M>n</M>.
 #!  
 #! This will be illustrated on the following simplicial surface constructed by three tetrahedra:
 #!  <Alt Only="HTML">
