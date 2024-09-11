@@ -604,8 +604,8 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! gap> butterfly:=SimplicialSurfaceByDownwardIncidence(
 #! > [[1,2],[1,3],[2,3],[3,4],[1,4]],[[1,2,3],[2,4,5]]);;
 #! gap> AllClosedVertexEdgePaths(butterfly);
-#! [ ( v1, E1, v2, E3, v3, E2, v1 ), ( v1, E1, v2, E3, v3, E4, v4, E5, v1 ),
-#!   ( v1, E5, v4, E4, v3, E2, v1 ) ]
+#! [ ( v3, E2, v1, E5, v4, E4, v3 ), ( v3, E3, v2, E1, v1, E2, v3 ),
+#!  ( v3, E3, v2, E1, v1, E5, v4, E4, v3 ) ]
 #! @EndLogSession
 #! @Returns a list of vertex-edge-paths
 #! @Arguments complex

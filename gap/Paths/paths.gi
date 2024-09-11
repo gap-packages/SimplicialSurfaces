@@ -391,6 +391,7 @@ InstallMethod(ShiftCyclicPath,
         end
 );
 
+if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 InstallMethod(AllClosedVertexEdgePaths, "for a complex",
 	[IsTwistedPolygonalComplex],
 	function(complex)
@@ -406,20 +407,19 @@ InstallMethod(AllClosedVertexEdgePaths, "for a complex",
 		# First calculate all cycles of the edge graph.
 		# These cycles result in all closed vertex edge path of the complex except cycles of length two.
 		graph:=EdgeDigraphsGraph(newComplex);
-		cycles:=__SIMPLICIAL_AllCyclesOfGraph(graph);
+		cycles:=DigraphAllUndirectedSimpleCircuits(graph);
 		newCycles:=[];
 		
 		# Compute for all cycles the corresponding edges in the complex.
 		for c in cycles do
-			nodesOfCycle:=Flat(__SIMPLICIAL_NodesOfCycle(c));
 			
 			# CommonEdgesOfVertices returns all edges that are possible between two vertices.
 			edgeList:=[];
-			for e in CommonEdgesOfVertices(newComplex, Last(nodesOfCycle),nodesOfCycle[1]) do
+			for e in CommonEdgesOfVertices(newComplex, Last(c),c[1]) do
 				Add(edgeList,[e]);
 			od; 
-			for i in [1..Length(nodesOfCycle)-1] do
-				edges:=CommonEdgesOfVertices(newComplex, nodesOfCycle[i],nodesOfCycle[i+1]);
+			for i in [1..Length(c)-1] do
+				edges:=CommonEdgesOfVertices(newComplex, c[i],c[i+1]);
 				newEdgeList:=[];
 				
 				# Add the possibilities for the next edge to each edge list computed so far.
@@ -444,6 +444,7 @@ InstallMethod(AllClosedVertexEdgePaths, "for a complex",
 		return Union(newCycles,AllTwoWaistsOfComplex(complex));
 	end
 );
+fi;
 
 #######################################
 ##
@@ -1019,6 +1020,7 @@ InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
 end
 );
 
+if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 InstallMethod(AllWaistsOfComplex, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],
         function(complex)
@@ -1039,6 +1041,7 @@ InstallMethod(AllWaistsOfComplex, "for a twisted polygonal complex",
                 return waists;
         end
 );
+fi;
 ##
 ##      End of waists
 ##
