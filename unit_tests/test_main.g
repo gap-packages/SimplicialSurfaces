@@ -61,7 +61,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_EdgeNautyGraph();
     __SIMPLICIAL_Test_FaceDigraphsGraph();
     __SIMPLICIAL_Test_FaceNautyGraph();
-    __SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph();
+    if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
+        __SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph();
+    fi;
 
     __SIMPLICIAL_Test_FaceTwoColouring();
 
