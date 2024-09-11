@@ -35,6 +35,7 @@
     <#Include SYSTEM "_Chapter_Navigation.xml">
     <#Include SYSTEM "_Chapter_Distances.xml">
     <#Include SYSTEM "_Chapter_Modification.xml">
+    <#Include SYSTEM "_Chapter_Generating.xml">
     <#Include SYSTEM "_Chapter_Library.xml">
     <#Include SYSTEM "_Chapter_Graphs.xml">
     <#Include SYSTEM "_Chapter_Embeddings.xml">

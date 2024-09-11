@@ -1556,6 +1556,43 @@ DeclareOperation( "SnippOffEars", [IsSimplicialSurface] );
 #! @Arguments complex
 DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 
+
+
+#! @BeginGroup ButterflyInsertionSurface
+#! @Description
+#! Given a simplicial surface a new surface is constructed by inserting a
+#! butterfly along an edge path of length 2. This can be viewed as splitting
+#! a vertex of a surface into two vertices. 
+#!
+#! Inserting a butterfly along the vertex path
+#! @BeginExampleSession
+#! gap> disc := SimplicialUmbrella(5);
+#! gap> t:= [1,2,6];
+#! gap> discbig:=ButterflyInsertionSurface(disc,1);
+#! simplicial surface (7 vertices, 13 edges, and 7 faces)
+#! gap> CounterOfVertices(discbig);  
+#! counter of vertices ([ 2, 3, 6 ] degrees, and [ 3, 3, 1 ] multiplicities)
+#! @EndExampleSession
+#!
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ButterflyInsertion-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_ButterflyInsertion.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @Returns a pair, where the first entry is a surface and the second entry is the vertex edgepath in the enlarged surface created by adjoining a butterfly along the path described by the second argument.
+#! @Arguments surface, list
+DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsList] );
+#! @Arguments surface, vertex-edge-path
+DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] );
+#! @EndGroup
+
+
 #! @BeginGroup TetrahedralExtension
 #! @Description
 #! Given a simplicial surface a new surface can be constructed by attaching a

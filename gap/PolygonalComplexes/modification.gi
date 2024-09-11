@@ -1859,6 +1859,101 @@ InstallMethod( SplitAllVertices, "for a polygonal complex",
 );
 RedispatchOnCondition( SplitAllVertices, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 
+InstallMethod( ButterflyInsertionSurface,
+"for a simplicial surface and a pair of edges or a vertex list", [IsSimplicialSurface,IsList],
+
+     function( surface, t )
+
+    local bound, path1, path2, newSurface, butterfly, edges, newverts, w, ime;
+
+    if Length(t) = 2 then
+        if  not IsSubset(Edges(surface),t) or 
+        Length(CommonVerticesOfEdgesNC(surface,t[1],t[2])) = 0 then
+          ErrorNoReturn("Requires a  pair of adjacent edges");
+        fi;
+    elif Length(t) = 3 then
+       # we expect a vertex path of length 3
+       if not IsSubset(Vertices(surface),t) or
+       not IsVerticesAdjacent(surface, t[1], t[2] ) or
+       not IsVerticesAdjacent(surface, t[2], t[3] ) then
+        ErrorNoReturn("Requires vertex path of length 3");fi;
+    fi;
+
+
+    # Define a butterfly
+    butterfly:=SimplicialSurfaceByDownwardIncidence(
+           [[1,2],[2,4],[3,4],[1,3],[2,3]],[[1,5,4],[2,3,5]]);
+
+    # find the path along which we split
+    path1 := VertexEdgePathByVertices(surface,t);
+    edges := EdgesAsList(path1);
+    # split along the middle vertex of the path
+    if IsInnerVertex(surface,t[2]) then
+        newSurface := SplitEdgePath(surface,path1);
+        # find the new path of the split surface
+        bound := newSurface[2];
+        # and the split surface
+        newSurface := newSurface[1];
+        # this is now the newly created path of length 4
+        path1:= ConcatenationOfPaths(newSurface,
+            bound[1][1],ReversedPath(bound[2][1]));
+        path2:=VertexEdgePathByEdges(butterfly,[1,2,3,4]);
+
+        return JoinVertexEdgePaths(newSurface,path1,butterfly,path2)[1];
+	        
+    elif not IsInnerEdge(surface,edges[1]) and
+        not IsInnerEdge(surface,edges[2]) then
+        # the path is a boundary path
+       
+        path2:=VertexEdgePathByEdges(butterfly,[1,2]);
+        return JoinVertexEdgePaths(surface,path1,butterfly,path2)[1];
+    else
+        # one edge is inner
+        if  IsInnerEdge(surface,edges[1]) then
+	        edges := Reversed(edges);
+        fi;
+        # edges[1] is a boundary edge, edges[2] is inner
+        w := CommonVerticesOfEdgesNC(surface,edges[1],edges[2])[1];
+
+        newSurface := SplitVertexEdgePath(surface,
+            VertexEdgePathByEdges(surface,[edges[2]]));
+        bound := newSurface[2];
+        # and the split surface
+        newSurface := newSurface[1];
+        # the images of the split edge are
+        ime := EdgesAsList(bound[1][1]);
+        ime := Union(ime,EdgesAsList(bound[2][1]));
+        # find the correct path of length 3
+        # we start with the vertex of edge[1] which is not w,
+        # which has the same name as in surface
+        newverts := [OtherVertexOfEdgeNC(surface,w,edges[1])];
+        newverts[2]:=OtherVertexOfEdgeNC(newSurface,newverts[1],edges[1]);
+        newverts[3]:=CommonVerticesOfEdgesNC(newSurface,ime[1],ime[2])[1];
+        if newverts[2] in VerticesOfEdge(newSurface,ime[1]) then
+           newverts[4] := OtherVertexOfEdgeNC(newSurface,newverts[3],ime[2]);
+        else
+           newverts[4] := OtherVertexOfEdgeNC(newSurface,newverts[3],ime[1]);
+        fi;
+	
+        path1 := VertexEdgePathByVertices(newSurface,newverts);
+        path2:=VertexEdgePathByEdges(butterfly,[1,2,3]);
+
+        return JoinVertexEdgePaths(newSurface,path1,butterfly,path2)[1];
+
+    fi;
+end
+);
+
+InstallMethod( ButterflyInsertionSurface,
+"for a simplicial surface and vertex-edge path", [IsSimplicialSurface,IsVertexEdgePath],
+
+     function( surface, t )
+
+     return ButterflyInsertionSurface( surface, VerticesAsList(t));
+
+end
+);
+
 ##
 ##      End Applications
 ##

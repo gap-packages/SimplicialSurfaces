@@ -27,6 +27,7 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/animating.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/discs.gd" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Morphisms/morphisms.gd" );
 
