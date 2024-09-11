@@ -1197,8 +1197,18 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! @Section Waists
 #! @SectionLabel Waists
 #! This section deals with a specific type of closed vertex-edge-paths, namely waists.
-#! A n-waist is a closed vertex-edge path of length n such that all edges are inner and no two are incident to the same face.
-#! This will be illustrated on the following double tetrahedron:
+#! In order to introduce the definition of a waist of a simplicial surface, we first 
+#! present the definition of a distance-faithful path. Here, a closed edge path <M>P</M> of 
+#! a given simplicial surface is called distance-faithful if for any two vertices of the 
+#! path <M>P</M> at least one shortest edge path between them is contained in <M>P</M>. 
+#! Using the above notion we introduce waists of simplicial surfaces.
+#! Let therefore <M>n</M> be a natural number. If <M>n</M> is equal to 2 or 3, 
+#! then an <M>n</M>-waist of a given simplicial surface is defined as a circular edge 
+#! path of length <M>n</M> such that all edges are inner and no two are incident to the same face.
+#! Moreover, if the given simplicial surface is closed without 3-waists and <M>n</M> is at least 4,
+#! then we define an <M>n</M>-waist as a closed distance-faithful edge path of length <M>n</M>.
+#!  
+#! This will be illustrated on the following simplicial surface constructed by three tetrahedra:
 #!  <Alt Only="HTML">
 #! &lt;img src="./images/_Wrapper_Image_Example3Waist-1.svg"> &lt;/img>
 #! </Alt>
@@ -1211,7 +1221,7 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! Image omitted in terminal text
 #! </Alt>
 #! @BeginExampleSession
-#! gap> doubleTetra:=SimplicialSurfaceByVerticesInFaces(
+#! gap> tripleTetra:=SimplicialSurfaceByVerticesInFaces(
 #! > [[1,3,5],[2,5,6],[2,3,5],[2,3,6],[1,4,5],[3,4,6],[1,3,4],[4,5,6]]);;
 #! @EndExampleSession
 
@@ -1220,17 +1230,24 @@ DeclareAttribute( "ViewInformation", IsEdgeFacePath );
 #! Return whether the given path <A>vertexEdgePath</A> is a waist in <A>complex</A>.
 #! The definition of a waist is given at the beginning of section <Ref Sect="Section_Waists"/>.
 #!
-#! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>.
+#! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>.
 #! The path around a face is not a waist:
 #! @BeginExampleSession
-#! gap> path:=VertexEdgePathByEdges(doubleTetra,[1,3,8]);;
-#! gap> IsWaist(doubleTetra, path);
+#! gap> path:=VertexEdgePathByEdges(tripleTetra,[1,3,8]);;
+#! gap> IsWaist(tripleTetra, path);
 #! false
 #! @EndExampleSession
 #! A path of length three, where the edges are pairwise incident to two different faces, is a waist:
 #! @BeginExampleSession
-#! gap> waist:=VertexEdgePathByEdges(doubleTetra,[7,8,10]);;
-#! gap> IsWaist(doubleTetra, waist);
+#! gap> waist:=VertexEdgePathByEdges(tripleTetra,[7,8,10]);;
+#! gap> IsWaist(tripleTetra, waist);
+#! true
+#! @EndExampleSession
+#! The octahedron has a waist of length four:
+#! @BeginExampleSession
+#! gap> path:=VertexEdgePathByEdges(Octahedron(),[5,6,10,8]);
+#! ( v3, E5, v2, E6, v5, E10, v4, E8, v3 )
+#! gap> IsWaist(Octahedron(),path);
 #! true
 #! @EndExampleSession
 #!
@@ -1281,9 +1298,9 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! vertices so that there exist no face in <A>complex</A> that is incident to more
 #! than one of the visited edges.
 #! 
-#! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>:
+#! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginExampleSession
-#! gap> AllThreeWaistsOfComplex(doubleTetra);
+#! gap> AllThreeWaistsOfComplex(tripleTetra);
 #! [ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 ) ] 
 #! @EndExampleSession
 #! The tetrahedron does not have any 3-waist:
@@ -1302,10 +1319,13 @@ DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
 #! Return the set of all waists contained in the given polygonal complex <A>complex</A>.
 #! The definition of a waist is given at the beginning of section <Ref Sect="Section_Waists"/>.
 #!
-#! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>:
+#! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginLogSession
-#! gap> AllWaistsOfComplex(doubleTetra);
+#! gap> AllWaistsOfComplex(tripleTetra);
 #! [ ( v5, E10, v4, E7, v3, E8, v5 ), ( v5, E12, v6, E9, v3, E8, v5 ) ]
+#! gap> AllWaistsOfComplex(Octahedron());
+#! [ ( v1, E1, v2, E7, v6, E11, v4, E3, v1 ), ( v3, E2, v1, E4, v5, E12, v6, E9, v3 ),
+#!   ( v3, E5, v2, E6, v5, E10, v4, E8, v3 ) ]
 #! @EndLogSession
 #!
 #! @Returns a set of closed vertex-edge-paths
