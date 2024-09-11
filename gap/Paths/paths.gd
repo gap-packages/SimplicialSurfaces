@@ -600,13 +600,13 @@ DeclareAttribute( "AssociatedPolygonalComplex", IsVertexEdgePath );
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> butterfly:=SimplicialSurfaceByDownwardIncidence(
 #! > [[1,2],[1,3],[2,3],[3,4],[1,4]],[[1,2,3],[2,4,5]]);;
 #! gap> AllClosedVertexEdgePaths(butterfly);
 #! [ ( v1, E1, v2, E3, v3, E2, v1 ), ( v1, E1, v2, E3, v3, E4, v4, E5, v1 ),
 #!   ( v1, E5, v4, E4, v3, E2, v1 ) ]
-#! @EndExampleSession
+#! @EndLogSession
 #! @Returns a list of vertex-edge-paths
 #! @Arguments complex
 DeclareOperation( "AllClosedVertexEdgePaths", [IsTwistedPolygonalComplex] );
@@ -1303,10 +1303,10 @@ DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
 #! The definition of a waist is given at the beginning of section <Ref Sect="Section_Waists"/>.
 #!
 #! For example, consider the double tetrahedron from the start of section <Ref Sect="Section_Waists"/>:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> AllWaistsOfComplex(doubleTetra);
 #! [ ( v5, E10, v4, E7, v3, E8, v5 ), ( v5, E12, v6, E9, v3, E8, v5 ) ]
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! @Returns a set of closed vertex-edge-paths
 #! @Arguments complex
