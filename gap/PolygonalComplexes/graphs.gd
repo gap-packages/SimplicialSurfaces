@@ -441,17 +441,17 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
 #! Image omitted in terminal text
 #! </Alt>
 #!
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> digraph:=CompleteDigraph(4);;
 #! gap> tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
 #! gap> IsIsomorphic(tet1[1],Tetrahedron());
 #! true
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
 #! But there is another simplicial surface, which is not vertex-faithful:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> list := AllSimplicialSurfacesOfDigraph(digraph,false);
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
 #! simplicial surface (3 vertices, 6 edges, and 4 faces)]
@@ -459,11 +459,10 @@ DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
 #! gap> IsIsomorphic(tet2[1],Tetrahedron());
 #! true
-#! @EndExampleSession
+#! @EndLogSession
 #!
-#! Since the method takes a long time for a graph with many cycles, you should only call the method
-#! for digraphs with twenty-two or less nodes for <K>vertexfaithful</K> true. 
-#! For <K>vertexfaithful</K> false you should only call the function for twelve or less nodes. 
+#! Since it takes a long time to compute all cycles, you should only call the method for digraphs with twelve or less nodes for <K>vertexfaithful</K> false.
+#! For <K>vertexfaithful</K> true, the method needs to consider only chordless and non-separating cycles. This makes the method fast for digraphs up to 28 nodes.
 #! In general, it is much faster to only look for vertex-faithful simplicial surfaces.
 #! 
 #! @Arguments digraph[, vertexfaithful]
