@@ -1313,14 +1313,10 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! gap> umbdesc:=[ (1,4,6,7,5,3), (1,7,5,8,2,3), (1,7,6,8,2,4),(2,4,6,8,5,3) ];;
 #! gap> s:=SimplicialSurfaceByUmbrellaDescriptor(umbdesc);;
 #! gap> AllThreeWaistsOfComplex(s);
-#! [ ( v2, E1, v3, E6, v1, E11, v2 ),
-#!   ( v1, E1, v4, E8, v2, E10, v1 ),
-#!   ( v3, E2, v2, E6, v1, E9, v3 ),
-#!   ( v1, E2, v4, E7, v3, E12, v1 ),
-#!   ( v2, E3, v4, E4, v3, E12, v2 ),
-#!   ( v3, E3, v4, E5, v2, E10, v3 ),
-#!   ( v4, E4, v1, E8, v2, E9, v4 ),
-#!   ( v4, E5, v1, E7, v3, E11, v4 )]
+#! [ ( v1, E1, v2, E6, v3, E11, v1 ), ( v2, E1, v1, E8, v4, E10, v2 ),
+#!   ( v1, E2, v3, E6, v2, E9, v1 ), ( v3, E2, v1, E7, v4, E12, v3 ),
+#!   ( v3, E3, v2, E4, v4, E12, v3 ), ( v2, E3, v3, E5, v4, E10, v2 ),
+#!   ( v2, E4, v4, E8, v1, E9, v2 ), ( v3, E5, v4, E7, v1, E11, v3 ) ]
 #! @EndExampleSession
 #!
 #! @Returns a set of closed vertex-edge-paths

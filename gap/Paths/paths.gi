@@ -1027,7 +1027,7 @@ InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
             v2:=Intersection(voe2,voe3)[1];
             v3:=Intersection(voe1,voe3)[1];
             if Length(Set([v1,v2,v3]))=3 then 
- 			    Add(waists,[v1,w[1],v2,w[2],v3,w[3],v1]);
+ 			    Add(waists,[v3,w[1],v1,w[2],v2,w[3],v3]);
  		    fi;
          od;
          return List(waists,w->VertexEdgePathNC(surface,w));
