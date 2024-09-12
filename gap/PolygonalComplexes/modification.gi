@@ -309,7 +309,7 @@ BindGlobal( "__SIMPLICIAL_ComputeNewVertexEdgePaths",
                             Add(extOld, PathAsList(vePath)[i]);
 
                             Add(newPaths, [ extNew, extOld ]);
-			
+			    new := new + 1; 
 			    used:=true;
                         fi;
                     od;
