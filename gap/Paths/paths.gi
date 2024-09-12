@@ -647,7 +647,7 @@ InstallMethod( EdgeFacePathByFaces,
         local i;
 
 	 __SIMPLICIAL_CheckEdge(complex, firstEdge, "EdgeFacePathByFaces");
-	 __SIMPLICIAL_CheckFace(complex, lastEdge, "EdgeFacePathByFaces");
+	 __SIMPLICIAL_CheckEdge(complex, lastEdge, "EdgeFacePathByFaces");
         if Length(faceList) > 0 then
             __SIMPLICIAL_CheckFace(complex, faceList[1], "EdgeFacePathByFaces");
             for i in [2..Length(faceList)] do
