@@ -576,6 +576,22 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! The NC-version does not check whether the given set of <A>faces</A>
 #! actually consists only of faces in <A>complex</A>. It also does not
 #! check whether the result of <K>SubsurfaceByFaces</K> is a surface.
+#!
+#! In Chapter <Ref Chap="Chapter_EdgeColouring"/> the edge colouring of twisted 
+#! polygonal complexes will be introduced.
+#! 
+#! The hexagon from above can be coloured as follows:
+#! @BeginExampleSession
+#! gap> colEdges:=[ 1, 2, 1, 2, 1, 2, 3, 3, 3, 3, 3, 3 ];;
+#! gap> colSurface:=EdgeColouredPolygonalComplex(hex,colEdges);
+#! tame coloured surface (MMB with 7 vertices, 12 edges and 6 faces)
+#! @EndExampleSession
+#! If we compute a subcomplex of an edge-coloured complex, it will be edge-coloured again,
+#! induced by the edge-colouring of the given complex:
+#! @BeginExampleSession
+#! gap> SubsurfaceByFaces(colSurface,[1,2]);
+#! tame coloured surface (BMB with 4 vertices, 5 edges and 2 faces)
+#! @EndExampleSession
 #! 
 #! @Returns a twisted polygonal complex
 #! @Arguments complex, faces

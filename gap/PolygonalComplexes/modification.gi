@@ -498,7 +498,8 @@ InstallOtherMethod( SubcomplexByFaces,
 InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces",
     [IsPolygonalComplex, IsSet],
     function(complex, subfaces)
-	local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f;
+	local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f,
+	    subcomplex, colEdges, colEdgesSub, edge;
 
 
         subEdges := __SIMPLICIAL_UnionSets( EdgesOfFaces(complex){subfaces} );
@@ -514,8 +515,18 @@ InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces"
 	    newEdgesOfFaces[f] := EdgesOfFaces(complex)[f];
 	od;
 
-	return PolygonalComplexByDownwardIncidenceNC( subVertices, subEdges,
+	subcomplex:=PolygonalComplexByDownwardIncidenceNC( subVertices, subEdges,
 			subfaces, newVerticesOfEdges, newEdgesOfFaces );
+	if IsEdgeColouredPolygonalComplex(complex) then
+		colEdges:=ColoursOfEdges(complex);
+        	colEdgesSub:=[];
+        	for edge in Edges(subcomplex) do
+                	colEdgesSub[edge]:=colEdges[edge];
+        	od;
+        	subcomplex:=EdgeColouredPolygonalComplexNC(subcomplex,colEdgesSub);
+	fi;
+	
+	return subcomplex;
     end
 );
 InstallMethod( SubcomplexByFacesNC, 
@@ -523,7 +534,7 @@ InstallMethod( SubcomplexByFacesNC,
     [IsTwistedPolygonalComplex, IsSet],
     function(complex, subfaces)
         local remChambers, vofC, eofC, fofC, c, zeroClass, oneClass,
-            twoClass, cl;
+            twoClass, cl, subcomplex, colEdges, colEdgesSub, edge;
 
         remChambers := Union( ChambersOfFaces(complex){subfaces} );
         vofC := [];
@@ -541,7 +552,16 @@ InstallMethod( SubcomplexByFacesNC,
         twoClass := Set(twoClass);
         twoClass := Difference(twoClass, [[]]);
         
-        return TwistedPolygonalComplexByChamberRelationsNC( vofC, eofC, fofC, zeroClass, oneClass, twoClass );
+        subcomplex:=TwistedPolygonalComplexByChamberRelationsNC( vofC, eofC, fofC, zeroClass, oneClass, twoClass );
+	if IsEdgeColouredTwistedPolygonalComplex(complex) then
+        	colEdges:=ColoursOfEdges(complex);
+                colEdgesSub:=[];
+                for edge in Edges(subcomplex) do
+                	colEdgesSub[edge]:=colEdges[edge];
+                od;
+                subcomplex:=EdgeColouredTwistedPolygonalComplexNC(subcomplex,colEdgesSub);
+        fi;
+	return subcomplex;
     end
 );
 InstallOtherMethod( SubcomplexByFacesNC, 
