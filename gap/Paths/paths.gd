@@ -1301,14 +1301,30 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginExampleSession
 #! gap> AllThreeWaistsOfComplex(tripleTetra);
-#! [ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 ) ] 
+#! [ ( v3, E7, v5, E8, v4, E10, v3 ), ( v3, E8, v6, E9, v5, E12, v3 ) ]
 #! @EndExampleSession
 #! The tetrahedron does not have any 3-waist:
 #! @BeginExampleSession
 #! gap> AllThreeWaistsOfComplex(Tetrahedron());
 #! [  ]
 #! @EndExampleSession
-#!
+#! As another example we consider the following simplcial surface:
+ #! @BeginExampleSession 
+ #! gap> umbdesc:=[ (1,4,6,7,5,3), (1,7,5,8,2,3), (1,7,6,8,2,4),(2,4,6,8,5,3) ];;
+ #! gap> s:=SimplicialSurfaceByUmbrellaDescriptor(umbdesc);
+ #! simplicial surface (4 vertices, 12 edges, and 8 faces)
+ #! gap> AllThreeWaistsOfComplex(s);
+ #! [ ( v2, E1, v3, E6, v1, E11, v2 )
+ #!     , ( v1, E1, v4, E8, v2, E10, v1 )
+ #!     , ( v3, E2, v2, E6, v1, E9, v3 )
+ #!     , ( v1, E2, v4, E7, v3, E12, v1 )
+ #!     , ( v2, E3, v4, E4, v3, E12, v2 )
+ #!     , ( v3, E3, v4, E5, v2, E10, v3 )
+ #!     , ( v4, E4, v1, E8, v2, E9, v4 )
+ #!     , 
+ #!   ( v4, E5, v1, E7, v3, E11, v4 ) 
+ #!  ]
+ #! @EndExampleSession
 #! @Returns a set of closed vertex-edge-paths
 #! @Arguments complex
 DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
