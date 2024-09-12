@@ -1864,19 +1864,31 @@ InstallMethod( ButterflyInsertionSurface,
 
      function( surface, t )
 
-    local bound, path1, path2, newSurface, butterfly, edges, newverts, w, ime;
+    local bound, path1, path2, newSurface, butterfly,
+          edges, newverts, w, i, e, v, ime;
 
     if Length(t) = 2 then
         if  not IsSubset(Edges(surface),t) or 
         Length(CommonVerticesOfEdgesNC(surface,t[1],t[2])) = 0 then
           ErrorNoReturn("Requires a  pair of adjacent edges");
         fi;
+	if CommonFacesOfEdges(surface, t[1],t[2]) <> [] then
+          ErrorNoReturn("Edges cannot be incident to common face");
+       fi;
+       t := Union(VerticesOfEdge(surface,t[1]),VerticesOfEdge(surface,t[2]));
+       if not t[2]  in CommonVerticesOfEdgesNC(surface,t[1],t[2]) then
+           w := t[2]; t[2] := t[1]; t[1] := w;
+       fi;
     elif Length(t) = 3 then
        # we expect a vertex path of length 3
        if not IsSubset(Vertices(surface),t) or
        not IsVerticesAdjacent(surface, t[1], t[2] ) or
        not IsVerticesAdjacent(surface, t[2], t[3] ) then
         ErrorNoReturn("Requires vertex path of length 3");fi;
+       if Intersection(CommonFacesOfVertices(surface, t[1],t[2]),
+          CommonFacesOfVertices(surface, t[2],t[3])) <> [] then
+          ErrorNoReturn("Edges cannot be incident to common face");
+       fi;
     fi;
 
 
@@ -1899,14 +1911,52 @@ InstallMethod( ButterflyInsertionSurface,
             bound[1][1],ReversedPath(bound[2][1]));
         path2:=VertexEdgePathByEdges(butterfly,[1,2,3,4]);
 
-        return JoinVertexEdgePaths(newSurface,path1,butterfly,path2)[1];
+        return JoinVertexEdgePaths(newSurface,path1,butterfly,path2);
 	        
+    elif IsInnerEdge(surface,edges[1]) and IsInnerEdge(surface,edges[2]) then
+
+        newSurface := SplitVertexEdgePath(surface, path1);
+        bound := newSurface[2];
+        Assert(0, Length(bound) = 3,"incorrect path");
+        # and the split surface
+        newSurface := newSurface[1];
+        # the images of the split edges are
+	e := List( bound, x-> List(x,EdgesAsList));
+	v := List( bound, x-> List(x,VerticesAsList));
+	i := First([1..3] , x-> Length(e[x][1])=1 and edges[1] in e[x][2] );
+        Assert(0,i<>fail,"incorrect path");
+	# now e[i] is a single edge, corresponding to first in the path
+	w := t[1];
+#        w := CommonVerticesOfEdgesNC(surface,edges[1],edges[2])[1];
+        # find the other vertex of the image of w in the image edge 
+        newverts := [];
+        newverts[1] := OtherVertexOfEdgeNC(newSurface,
+	                v[i][1][Position(v[i][2],w)],e[i][1][1]);
+	newverts[2] :=   v[i][1][Position(v[i][2],w)];
+
+	i := First([1..3] , x-> Length(e[x][1])=2 and edges[1] in e[x][2] );
+
+        newverts[3] := OtherVertexOfEdgeNC(newSurface, newverts[2],
+	                e[i][1][Position(e[i][2],edges[1])] );
+        newverts[4] := OtherVertexOfEdgeNC(newSurface, newverts[3],
+	                e[i][1][Position(e[i][2],edges[2])] );
+			
+	i := First([1..3] , x-> Length(e[x][1])=1 and edges[2] in e[x][2] );
+        newverts[5] := OtherVertexOfEdgeNC(newSurface, newverts[4],
+	                e[i][1][Position(e[i][2],edges[2])] );
+
+        path1 := VertexEdgePathByVertices(newSurface,newverts);
+        path2:=VertexEdgePathByEdges(butterfly,[1,4,3,2]);
+
+        return JoinVertexEdgePaths(newSurface,path1,butterfly,path2);
+
+
     elif not IsInnerEdge(surface,edges[1]) and
         not IsInnerEdge(surface,edges[2]) then
         # the path is a boundary path
        
         path2:=VertexEdgePathByEdges(butterfly,[1,2]);
-        return JoinVertexEdgePaths(surface,path1,butterfly,path2)[1];
+        return JoinVertexEdgePaths(surface,path1,butterfly,path2);
     else
         # one edge is inner
         if  IsInnerEdge(surface,edges[1]) then
@@ -1938,7 +1988,7 @@ InstallMethod( ButterflyInsertionSurface,
         path1 := VertexEdgePathByVertices(newSurface,newverts);
         path2:=VertexEdgePathByEdges(butterfly,[1,2,3]);
 
-        return JoinVertexEdgePaths(newSurface,path1,butterfly,path2)[1];
+        return JoinVertexEdgePaths(newSurface,path1,butterfly,path2);
 
     fi;
 end

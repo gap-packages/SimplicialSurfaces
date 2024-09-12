@@ -1560,11 +1560,24 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 
 #! @BeginGroup ButterflyInsertionSurface
 #! @Description
-#! Given a simplicial surface a new surface is constructed by inserting a
-#! butterfly along an edge path of length 2. This can be viewed as splitting
-#! a vertex of a surface into two vertices. 
+#! Given a simplicial surface <A>surface</A>, a new surface is constructed
+#! by inserting a
+#! butterfly along a edge-path of length 2. The edge-path is given either
+#! as a list of three vertices such that these three vertices determine two
+#! edges of <A>surface</A>, meeting in the middle vertex, or as a list
+#! of two adjacend edges, or as a vertex-edge-path. The operation
+#! <E>ButterflyInsertionSurface</E> can be viewed as splitting
+#! the middle vertex of the given vertex-edge path in <A>surface</A> into
+#! two new vertices.
 #!
-#! Inserting a butterfly along the vertex path
+#! The function returns a list, where the first entry is the enlarged surface
+#! <A>newSurface</A> which has two faces more than the input surface. The
+#! second entry is a vertex-edge path in <A>newSurface</A>, which consisting
+#! of all edges corresponding to the input vertex-edge path. The optional
+#! third entry is the offset to be applied to the butterfly with vertices
+#! [1,2,3,4] to locate it in <A>newSurface</A>.
+#!
+#! Inserting a butterfly along the vertex-edge path
 #! @BeginExampleSession
 #! gap> disc := SimplicialUmbrella(5);
 #! gap> t:= [1,2,6];
@@ -1574,6 +1587,14 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! counter of vertices ([ 2, 3, 6 ] degrees, and [ 3, 3, 1 ] multiplicities)
 #! @EndExampleSession
 #!
+#! The following image shows first the simplicial umbrella <A>disc</A>, which
+#! is a 5-gon and secondly the surface <A>discbig</A> resulting from inserting
+#! a butterfly along the path determined by the vertices <A> 1, 2, 6</A>. Note
+#! that the edge with label <A>6</A>, which is the edge with
+#! vertices <A>1, 2</A> is a boundary edge of <A>surface</A>, whereas 
+#! that the edge with label <A>2</A>, which is the edge with
+#! vertices <A>2,6</A> is an inner edge of <A>surface</A>. The inserted
+#! butterfly of <A>discbig</A> is shown in red.
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ButterflyInsertion-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -1585,11 +1606,11 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @Returns a pair, where the first entry is a surface and the second entry is the vertex edgepath in the enlarged surface created by adjoining a butterfly along the path described by the second argument.
+#! @Returns a pair, where the first entry is a surface and the second entry is the vertex edgepath encoding changes to the input surface.
 #! @Arguments surface, list
-DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsList] );
+DeclareOperation( "ButterflyInsertionSurface", [IsSimplicialSurface, IsList] );
 #! @Arguments surface, vertex-edge-path
-DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] );
+DeclareOperation( "ButterflyInsertionSurface", [IsSimplicialSurface, IsVertexEdgePath] );
 #! @EndGroup
 
 

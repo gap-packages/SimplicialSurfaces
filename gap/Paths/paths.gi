@@ -329,7 +329,7 @@ InstallMethod(ConcatenationOfPaths, "for a twisted polygonal complex and two ver
 	if Last(VerticesAsList(path1))<>VerticesAsList(path2)[1] then
 		Error("ConcatenationOfPaths: The last vertex of the first path has to be the first vertex of the second path");
 	fi;
-	edges:=Union(EdgesAsList(path1), EdgesAsList(path2));
+	edges:=Concatenation(EdgesAsList(path1), EdgesAsList(path2));
 	return VertexEdgePathByEdges(surface, edges);
 	end
 );
