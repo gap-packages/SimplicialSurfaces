@@ -133,3 +133,24 @@ end
 
 
 
+
+# Compute up to isomorphism all surfaces that can be obtained from
+# the surface surf by a butterfly insertion along a relevant 2-path
+
+InstallMethod( AllSimplicialSurfacesByEssentialButterflyInsertion,
+    "for a simplicial surface",
+    [IsSimplicialSurface],
+    
+
+    function(surf)
+
+        local allp, surfaces;
+
+        allp := __SIMPLICIAL_AllEssentialTwoPaths(surf);
+
+        surfaces := List(allp, t-> ButterflyInsertionSurface(surf, t)[1]);
+
+
+        return IsomorphismRepresentatives(surfaces);
+
+end);

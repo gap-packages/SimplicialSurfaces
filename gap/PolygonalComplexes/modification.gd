@@ -1596,8 +1596,9 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! Inserting a butterfly along the vertex-edge path
 #! @BeginExampleSession
 #! gap> disc := SimplicialUmbrella(5);
-#! gap> t:= [1,2,6];
-#! gap> discbig:=ButterflyInsertionSurface(disc,1);
+#! simplicial surface (6 vertices, 10 edges, and 5 faces)
+#! gap> t:= [1,2,6];;
+#! gap> discbig:=ButterflyInsertionSurface(disc,t)[1];
 #! simplicial surface (7 vertices, 13 edges, and 7 faces)
 #! gap> CounterOfVertices(discbig);  
 #! counter of vertices ([ 2, 3, 6 ] degrees, and [ 3, 3, 1 ] multiplicities)

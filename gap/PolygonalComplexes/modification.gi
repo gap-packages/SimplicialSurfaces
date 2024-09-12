@@ -1892,9 +1892,6 @@ InstallMethod( ButterflyInsertionSurface,
         Length(CommonVerticesOfEdgesNC(surface,t[1],t[2])) = 0 then
           ErrorNoReturn("Requires a  pair of adjacent edges");
         fi;
-	if CommonFacesOfEdges(surface, t[1],t[2]) <> [] then
-          ErrorNoReturn("Edges cannot be incident to common face");
-       fi;
        t := Union(VerticesOfEdge(surface,t[1]),VerticesOfEdge(surface,t[2]));
        if not t[2]  in CommonVerticesOfEdgesNC(surface,t[1],t[2]) then
            w := t[2]; t[2] := t[1]; t[1] := w;
@@ -1905,10 +1902,6 @@ InstallMethod( ButterflyInsertionSurface,
        not IsVerticesAdjacent(surface, t[1], t[2] ) or
        not IsVerticesAdjacent(surface, t[2], t[3] ) then
         ErrorNoReturn("Requires vertex path of length 3");fi;
-       if Intersection(CommonFacesOfVertices(surface, t[1],t[2]),
-          CommonFacesOfVertices(surface, t[2],t[3])) <> [] then
-          ErrorNoReturn("Edges cannot be incident to common face");
-       fi;
     fi;
 
 
