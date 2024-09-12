@@ -422,6 +422,93 @@ DeclareOperation( "PolygonalIdentityMorphism", [IsPolygonalComplex] );
 DeclareAttribute( "InversePolygonalMorphism", IsPolygonalMorphism and IsBijective );
 
 
+#! <ManSection Label="ButterflyFaithfulMonomorphismIntoSimplicialSurface">
+#!   <Oper Name="ButterflyFaithfulMonomorphismIntoSimplicialSurface" Arg="surf1, surf2" 
+#!      Label="for two simplicial surfaces"
+#!      Comm="Return a butterfly-faithful monomorphism if it exists."/>
+#!   <Returns>A polygonal morphism or <K>fail</K></Returns>
+#!   <Description>
+#!     Given two simplicial surfaces <K>surf1</K> and <K>surf2</K>, return a butterfly-faithful
+#!     monomorphism from <K>surf1</K> to <K>surf2</K> if it exists. Otherwise return <K>fail</K>.
+#!     A homomorphism of simplicial surfaces is called butterfly-faithful if the homomorphism
+#!     when restricted to a butterfly, i.e. restricted to two incident faces of an inner edge,
+#!     becomes a bijection onto another butterfly. In other words, every butterfly of
+#!     <K>surf1</K> is being preserved and does not degenerate in <K>surf2</K>. 
+#!     As an example, consider the 3-half-umbrella and 6-umbrella.
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Butterfly_Faithful_Monomorphism_Hexagon.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Butterfly_Faithful_Monomorphism_Hexagon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @ExampleSession
+#! gap> six := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
+#! >     [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;
+#! gap> three := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,4],[5,4],[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,4]]);;
+#! gap> mor_3_to_6 := ButterflyFaithfulMonomorphismIntoSimplicialSurface(three, 
+#! >     six);;
+#! gap> VertexMapAsImageList(mor_3_to_6);
+#! [ 1, 2, 3, 4, 8 ]
+#! gap> EdgeMapAsImageList(mor_3_to_6);
+#! [ 1, 2, 3, 11, 8, 9, 10 ]
+#! gap> FaceMapAsImageList(mor_3_to_6);
+#! [ 1, 2, 3 ]
+#! @EndExampleSession
+#!   </Description>
+#! </ManSection>
+#
+DeclareOperation( "ButterflyFaithfulMonomorphismIntoSimplicialSurface", [IsSimplicialSurface, IsSimplicialSurface]);
+
+#! <ManSection Label="AllButterflyFaithfulMonomorphismsIntoSimplicialSurface">
+#!     <Oper Name="AllButterflyFaithfulMonomorphismsIntoSimplicialSurface" Arg="surf1, surf2" 
+#!        Label="for two simplicial surfaces"
+#!        Comm="Return a list of all butterfly-faithful monomorphisms."/>
+#!     <Returns>A list of polygonal morphisms</Returns>
+#!     <Description>
+#!       Given two simplicial surfaces <K>surf1</K> and <K>surf2</K>, return a list of all
+#!       butterfly-faithful monomorphisms from <K>surf1</K> to <K>surf2</K>.
+#!       A homomorphism of simplicial surfaces is called butterfly-faithful if the homomorphism
+#!       when restricted to a butterfly, i.e. restricted to two incident faces of an inner edge,
+#!       becomes a bijection onto another butterfly. In other words, every butterfly of
+#!       <K>surf1</K> is being preserved and does not degenerate in <K>surf2</K>. 
+#!       As an example, consider the 3-half-umbrella and 6-umbrella. We would expect 12
+#!       butterfly-faithful monomorphisms, namely by aligning the 3-half umbrella with 3
+#!       consecutive faces of the 6-umbrella. There are 6 ways to do this and another 6 if
+#!       we flip the 3-half-umbrella first.
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Butterfly_Faithful_Monomorphism_Hexagon.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Butterfly_Faithful_Monomorphism_Hexagon.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @ExampleSession
+#! gap> six := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],
+#! >     [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;
+#! gap> three := SimplicialSurfaceByDownwardIncidence(
+#! >     [[1,2],[2,3],[3,4],[5,4],[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,4]]);;
+#! gap> all_mor_3_to_6 := AllButterflyFaithfulMonomorphismsIntoSimplicialSurface( 
+#! >     three, six);;
+#! gap> Length(all_mor_3_to_6);
+#! 12
+#! @EndExampleSession
+#!     </Description>
+#! </ManSection>
+#
+DeclareOperation( "AllButterflyFaithfulMonomorphismsIntoSimplicialSurface", [IsSimplicialSurface, IsSimplicialSurface]);
+
 #! @Section Images and pre-images
 #! @SectionLabel Morphisms_Images
 #!
