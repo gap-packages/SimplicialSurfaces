@@ -1581,10 +1581,11 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! butterfly along a edge-path of length 2. The edge-path is given either
 #! as a list of three vertices such that these three vertices determine two
 #! edges of <A>surface</A>, meeting in the middle vertex, or as a list
-#! of two adjacend edges, or as a vertex-edge-path. The operation
+#! of two adjacent edges, or as a vertex-edge path. The operation
 #! <E>ButterflyInsertionSurface</E> can be viewed as splitting
 #! the middle vertex of the given vertex-edge path in <A>surface</A> into
-#! two new vertices.
+#! two new vertices. The inner edge of the butterfly will be inserted such
+#! that it is adjacent to the new vertices created by splitting the middle vertex.
 #!
 #! The function returns a list, where the first entry is the enlarged surface
 #! <A>newSurface</A> which has two faces more than the input surface. The
@@ -1598,7 +1599,7 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! gap> disc := SimplicialUmbrella(5);
 #! simplicial surface (6 vertices, 10 edges, and 5 faces)
 #! gap> t:= [1,2,6];;
-#! gap> discbig:=ButterflyInsertionSurface(disc,t)[1];
+#! gap> discbig:=ButterflyInsertion(disc,t)[1];
 #! simplicial surface (7 vertices, 13 edges, and 7 faces)
 #! gap> CounterOfVertices(discbig);  
 #! counter of vertices ([ 2, 3, 6 ] degrees, and [ 3, 3, 1 ] multiplicities)
@@ -1623,11 +1624,11 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @Returns a pair, where the first entry is a surface and the second entry is the vertex edgepath encoding changes to the input surface.
+#! @Returns a pair, where the first entry is a surface and the second entry is the vertex-edge path encoding changes to the input surface.
 #! @Arguments surface, list
-DeclareOperation( "ButterflyInsertionSurface", [IsSimplicialSurface, IsList] );
+DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsList] );
 #! @Arguments surface, vertex-edge-path
-DeclareOperation( "ButterflyInsertionSurface", [IsSimplicialSurface, IsVertexEdgePath] );
+DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] );
 #! @EndGroup
 
 

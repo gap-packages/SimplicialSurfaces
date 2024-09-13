@@ -1879,7 +1879,7 @@ InstallMethod( SplitAllVertices, "for a polygonal complex",
 );
 RedispatchOnCondition( SplitAllVertices, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 
-InstallMethod( ButterflyInsertionSurface,
+InstallMethod( ButterflyInsertion,
 "for a simplicial surface and a pair of edges or a vertex list", [IsSimplicialSurface,IsList],
 
      function( surface, t )
@@ -1892,10 +1892,11 @@ InstallMethod( ButterflyInsertionSurface,
         Length(CommonVerticesOfEdgesNC(surface,t[1],t[2])) = 0 then
           ErrorNoReturn("Requires a  pair of adjacent edges");
         fi;
-       t := Union(VerticesOfEdge(surface,t[1]),VerticesOfEdge(surface,t[2]));
-       if not t[2]  in CommonVerticesOfEdgesNC(surface,t[1],t[2]) then
+        edges := t;
+        t := Union(VerticesOfEdge(surface,t[1]),VerticesOfEdge(surface,t[2]));
+        if not t[2]  in CommonVerticesOfEdgesNC(surface,edges[1],edgest[2]) then
            w := t[2]; t[2] := t[1]; t[1] := w;
-       fi;
+        fi;
     elif Length(t) = 3 then
        # we expect a vertex path of length 3
        if not IsSubset(Vertices(surface),t) or
@@ -1939,8 +1940,8 @@ InstallMethod( ButterflyInsertionSurface,
 	i := First([1..3] , x-> Length(e[x][1])=1 and edges[1] in e[x][2] );
         Assert(0,i<>fail,"incorrect path");
 	# now e[i] is a single edge, corresponding to first in the path
+	# w is set to the first vertex in the path to be split
 	w := t[1];
-#        w := CommonVerticesOfEdgesNC(surface,edges[1],edges[2])[1];
         # find the other vertex of the image of w in the image edge 
         newverts := [];
         newverts[1] := OtherVertexOfEdgeNC(newSurface,
@@ -2007,12 +2008,12 @@ InstallMethod( ButterflyInsertionSurface,
 end
 );
 
-InstallMethod( ButterflyInsertionSurface,
+InstallMethod( ButterflyInsertion,
 "for a simplicial surface and vertex-edge path", [IsSimplicialSurface,IsVertexEdgePath],
 
      function( surface, t )
 
-     return ButterflyInsertionSurface( surface, VerticesAsList(t));
+     return ButterflyInsertion( surface, VerticesAsList(t));
 
 end
 );

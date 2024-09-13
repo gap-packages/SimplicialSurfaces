@@ -148,7 +148,7 @@ InstallMethod( AllSimplicialSurfacesByEssentialButterflyInsertion,
 
         allp := __SIMPLICIAL_AllEssentialTwoPaths(surf);
 
-        surfaces := List(allp, t-> ButterflyInsertionSurface(surf, t)[1]);
+        surfaces := List(allp, t-> ButterflyInsertion(surf, t)[1]);
 
 
         return IsomorphismRepresentatives(surfaces);
