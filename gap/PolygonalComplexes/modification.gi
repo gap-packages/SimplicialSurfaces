@@ -1894,7 +1894,7 @@ InstallMethod( ButterflyInsertion,
         fi;
         edges := t;
         t := Union(VerticesOfEdge(surface,t[1]),VerticesOfEdge(surface,t[2]));
-        if not t[2]  in CommonVerticesOfEdgesNC(surface,edges[1],edgest[2]) then
+        if not t[2]  in CommonVerticesOfEdgesNC(surface,edges[1],edges[2]) then
            w := t[2]; t[2] := t[1]; t[1] := w;
         fi;
     elif Length(t) = 3 then
