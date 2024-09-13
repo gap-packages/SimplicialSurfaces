@@ -1011,12 +1011,26 @@ end
 InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function( surface )
-        local w,eof,waists;
-        waists:=Combinations(Edges(surface),3);
-        waists:=Filtered(waists,w->Length(Union(VerticesOfEdges(surface){w}))=3);
-        waists:=Filtered(waists,w->Filtered(EdgesOfFaces(surface),
-        eof->Length(Intersection(w,eof))>=2)=[]);
-        return List(waists,w->VertexEdgePathByEdges(surface,w));
+        local w,voe1,voe2,voe3,v1,v2,v3,eof,waists,verticesOfEdges,facesOfEdges,temp;
+         verticesOfEdges:=VerticesOfEdges(surface);
+         facesOfEdges:=FacesOfEdges(surface);
+         waists:=Combinations(InnerEdges(surface),3);
+         waists:=Filtered(waists,w->Length(Union(verticesOfEdges{w}))=3);
+         waists:=Filtered(waists,w->Length(Union(facesOfEdges{w}))=6);
+         temp:=waists;
+         waists:=[];
+         for w in temp do 
+            voe1:=verticesOfEdges[w[1]];
+            voe2:=verticesOfEdges[w[2]];
+            voe3:=verticesOfEdges[w[3]];
+ 		    v1:=Intersection(voe1,voe2)[1];
+            v2:=Intersection(voe2,voe3)[1];
+            v3:=Intersection(voe1,voe3)[1];
+            if Length(Set([v1,v2,v3]))=3 then 
+ 			    Add(waists,[v3,w[1],v1,w[2],v2,w[3],v3]);
+ 		    fi;
+         od;
+         return List(waists,w->VertexEdgePathNC(surface,w));
 end
 );
 
