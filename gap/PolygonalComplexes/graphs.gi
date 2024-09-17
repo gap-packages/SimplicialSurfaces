@@ -523,7 +523,6 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
             inversevertexmap[i-n1-n2] := VerticesAttributeOfComplex(surf)[i^perminv - n1 - n2];
         od;
 
-#        surf2 := PolygonalSurfaceByDownwardIncidenceNC(verticesofedgesofsurf2, edgesoffacesofsurf2);
 
         # Use the correct constructor 
         if IsSimplicialSurface(surf) then
