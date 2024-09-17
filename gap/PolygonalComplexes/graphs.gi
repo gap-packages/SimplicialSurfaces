@@ -523,7 +523,14 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
             inversevertexmap[i-n1-n2] := VerticesAttributeOfComplex(surf)[i^perminv - n1 - n2];
         od;
 
-        surf2 := PolygonalSurfaceByDownwardIncidenceNC(verticesofedgesofsurf2, edgesoffacesofsurf2);
+
+        # Use the correct constructor 
+        if IsSimplicialSurface(surf) then
+            surf2 := SimplicialSurfaceByDownwardIncidence(verticesofedgesofsurf2, edgesoffacesofsurf2);
+        else
+            surf2 := PolygonalSurfaceByDownwardIncidence(verticesofedgesofsurf2, edgesoffacesofsurf2);
+        fi;
+
 
         # return the canonical form of the surface and
         # the bijections mapping the new elements to old, by element i in canonical surface
