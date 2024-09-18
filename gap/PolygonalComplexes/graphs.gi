@@ -315,8 +315,9 @@ fi;
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( IsIsomorphic, 
         "for two twisted polygonal complexes", 
-        [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
+        [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],5,
         function(complex1, complex2)
+       
 	    if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
                 return false;
             fi;
