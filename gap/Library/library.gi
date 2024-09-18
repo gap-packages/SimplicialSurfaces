@@ -827,6 +827,30 @@ InstallMethod( SimplicialUmbrella, "for an integer at least 2", [IsPosInt],
     end
 );
 
+InstallMethod(SimplicialDoubleUmbrella, "for an integer at least 2", [IsPosInt],
+    function(nrFaces)
+    local umbr, verticesOfEdges, edgesOfFaces, i;
+
+    if nrFaces = 1 then
+        Error("SimplicialUmbrella: Argument has to be greater than 1.");
+    fi;
+
+    umbr:=SimplicialUmbrella(nrFaces);
+    verticesOfEdges:=ShallowCopy(VerticesOfEdges(umbr));
+    edgesOfFaces:=ShallowCopy(EdgesOfFaces(umbr));
+
+    for i in [1..nrFaces-1] do
+        edgesOfFaces[i+nrFaces] := [i+nrFaces,2*nrFaces+i,2*nrFaces+i+1];
+
+        verticesOfEdges[2*nrFaces+i] := [i,nrFaces+2];
+    od;
+    edgesOfFaces[2*nrFaces] := [2*nrFaces,2*nrFaces+nrFaces, 2*nrFaces+1];
+    verticesOfEdges[2*nrFaces+nrFaces]:=[nrFaces, nrFaces+2];
+
+    return SimplicialSurfaceByDownwardIncidence(verticesOfEdges, edgesOfFaces);
+end);
+
+
 InstallMethod( SimplicialOpenGeodesic, "for an integer at least 1", [IsPosInt],
     function(nrFaces)
         local verticesOfFaces;
