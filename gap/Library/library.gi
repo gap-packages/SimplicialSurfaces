@@ -847,7 +847,7 @@ InstallMethod(SimplicialDoubleUmbrella, "for an integer at least 2", [IsPosInt],
     edgesOfFaces[2*nrFaces] := [2*nrFaces,2*nrFaces+nrFaces, 2*nrFaces+1];
     verticesOfEdges[2*nrFaces+nrFaces]:=[nrFaces, nrFaces+2];
 
-    return SimplicialSurfaceByDownwardIncidence(verticesOfEdges, edgesOfFaces);
+    return SimplicialSurfaceByDownwardIncidenceNC(verticesOfEdges, edgesOfFaces);
 end);
 
 
