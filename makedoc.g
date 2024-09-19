@@ -1,4 +1,4 @@
-if fail = LoadPackage("AutoDoc", "2019.05.20") then
+if fail = LoadPackage("AutoDoc", "2019.05.20") then 
     Error("AutoDoc version 2019.05.20 or newer is required.");
     QUIT_GAP(1);
 fi;
