@@ -433,13 +433,14 @@ DeclareOperation( "Icosahedron", [] );
 DeclareOperation( "JanusHead", [] );
 
 
-
-#! @BeginGroup SimplicialUmbrella
-#! @Description
-#! Return a simplicial surface consisting of one closed umbrella-path
-#! with <A>nrFaces</A> triangles. The labels are assigned according
-#! to the following illustration, in which <M>n</M> is <A>nrFaces</A>:
- 
+#! <ManSection Label="SimplicialUmbrella"> 
+#!   <Oper Name="SimplicialUmbrella" Arg="nrFaces" Label="for IsPosInt"/>
+#!   <Filt Name="SimplicialGon" Arg="nrFaces" Type="operation"/>
+#!   <Returns><K>a simplicial surface</K></Returns>
+#!   <Description>
+#!   Return a simplicial surface consisting of one closed umbrella-path
+#!   with <A>nrFaces</A> triangles. The labels are assigned according
+#!   to the following illustration, in which <M>n</M> is <A>nrFaces</A>:
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src='./images/_Wrapper_library-1-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
@@ -450,7 +451,7 @@ DeclareOperation( "JanusHead", [] );
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #!
 #! @ExampleSession
 #! gap> umb4 := SimplicialUmbrella(4);
@@ -468,13 +469,12 @@ DeclareOperation( "JanusHead", [] );
 #! [ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ] ]
 #! gap> EdgesOfFaces(umb2);
 #! [ [ 1, 2, 3 ], [ 1, 2, 4 ] ]
-#! @EndExampleSession
-#!
-#!
-#! @Returns a simplicial surface
-#! @Arguments nrFaces
-DeclareOperation( "SimplicialUmbrella", [ IsPosInt ] );
-#! @EndGroup
+#! @EndExampleSession 
+#!   </Description>
+#! </ManSection>
+# here no AutoDoc documentation since synonyms can't be handled automatically
+DeclareOperation("SimplicialUmbrella", [ IsPosInt ] );
+DeclareSynonym("SimplicialGon", SimplicialUmbrella);
 
 #! @BeginGroup SimplicialOpenGeodesic
 #! @Description
