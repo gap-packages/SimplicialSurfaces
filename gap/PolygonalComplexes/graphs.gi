@@ -318,7 +318,8 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
         function(complex1, complex2)
 	    if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
-                return false;
+                
+		return false;
             fi;
             return IsomorphismGraphs( 
                 ChamberAdjacencyGraph(complex1),
