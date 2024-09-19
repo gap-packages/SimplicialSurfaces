@@ -480,7 +480,7 @@ DeclareOperation( "SimplicialUmbrella", [ IsPosInt ] );
 #!   <Filt Name="SimplicialDoubleGon" Arg="nrFaces" Type="operation"/>
 #!   <Returns><K>a simplicial surface</K></Returns>
 #!   <Description>
-#!   Return a simplicial surface consisting of two closed umbrella-path
+#!   Return a simplicial surface consisting of two closed umbrella-paths
 #!   with <A>nrFaces</A> triangles which are joined at their boundary. 
 #!   The labels of one umbrella are assigned according to the illustration for <E>SimplicialUmbrella</E>,
 #!   the additional vertex is labelled with <A>nrFaces+2</A>, the incident edges to this vertex 
