@@ -192,10 +192,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
                 od;
             od;
             Append(vertexList, Faces(complex) + maxVertex + maxEdge);
- 
-            if IsSimplicialSurface(complex) then return
-                NautyColoredGraph(edgeList, colourList);
-            fi;
+
             return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
         end
     );
@@ -321,19 +318,13 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         "for two twisted polygonal complexes", 
         [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],5,
         function(complex1, complex2)
-       
-	    if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2)  then
-                if CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
-                    return false;
-                fi;
-                return IsomorphismGraphs( 
-                    IncidenceNautyGraph(complex1),
-                    IncidenceNautyGraph(complex2)) <> fail;
-            fi;
+        if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+              return false;
+        fi;
 
-            return IsomorphismGraphs( 
-                ChamberAdjacencyGraph(complex1),
-                ChamberAdjacencyGraph(complex2)) <> fail;
+        return IsomorphismGraphs( 
+            ChamberAdjacencyGraph(complex1),
+            ChamberAdjacencyGraph(complex2)) <> fail;
         end
     );
 
