@@ -462,7 +462,6 @@ DeclareOperation( "JanusHead", [] );
 #! [ [ 1, 2, 5 ], [ 2, 3, 6 ], [ 3, 4, 7 ], [ 1, 4, 8 ] ]
 #! gap> VerticesOfFaces(umb4);
 #! [ [ 1, 2, 5 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 1, 4, 5 ] ]
-#! gap> 
 #! gap> umb2 := SimplicialUmbrella(2);
 #! simplicial surface (3 vertices, 4 edges, and 2 faces)
 #! gap> VerticesOfEdges(umb2);
@@ -475,6 +474,35 @@ DeclareOperation( "JanusHead", [] );
 # here no AutoDoc documentation since synonyms can't be handled automatically
 DeclareOperation("SimplicialUmbrella", [ IsPosInt ] );
 DeclareSynonym("SimplicialGon", SimplicialUmbrella);
+
+#! <ManSection Label="SimplicialDoubleUmbrella"> 
+#!   <Oper Name="SimplicialDoubleUmbrella" Arg="nrFaces" Label="for IsPosInt"/>
+#!   <Filt Name="SimplicialDoubleGon" Arg="nrFaces" Type="operation"/>
+#!   <Returns><K>a simplicial surface</K></Returns>
+#!   <Description>
+#!   Return a simplicial surface consisting of two closed umbrella-paths
+#!   with <A>nrFaces</A> triangles which are joined at their boundary. 
+#!   The labels of one umbrella are assigned according to the illustration for <E>SimplicialUmbrella</E>,
+#!   the additional vertex is labelled with <A>nrFaces+2</A>, the incident edges to this vertex 
+#!   are labelled from <A>2*nrFaces+1</A> to <A>4*nrFaces</A> and the incident faces are labelled from
+#!   <A>nrFaces+1</A> to <A>2*nrFaces</A>.
+#! @ExampleSession
+#! gap> doubleumb2:=SimplicialDoubleUmbrella(2);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> VerticesOfEdges(doubleumb2);
+#! [ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ], [ 1, 4 ], [ 2, 4 ] ]
+#! gap> EdgesOfFaces(doubleumb2);
+#! [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 3, 5, 6 ], [ 4, 5, 6 ] ]
+#! gap> doubleumb4:=SimplicialDoubleUmbrella(4);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> IsIsomorphic(doubleumb4,Octahedron());
+#! true
+#! @EndExampleSession
+#!   </Description>
+#! </ManSection>
+# here no AutoDoc documentation since synonyms can't be handled automatically
+DeclareOperation("SimplicialDoubleUmbrella", [ IsPosInt ] );
+DeclareSynonym("SimplicialDoubleGon", SimplicialDoubleUmbrella);
 
 #! @BeginGroup SimplicialOpenGeodesic
 #! @Description
