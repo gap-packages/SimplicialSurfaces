@@ -2023,6 +2023,7 @@ InstallOtherMethod( DrawFacegraphToTikz,
     end
 );
 
+
 InstallMethod( DrawConvexFacegraphToTikz,
     "for a closed vertex-faithful simplicial sphere, a file name and a record",
     [IsSimplicialSurface, IsString, IsRecord],
@@ -2205,3 +2206,4 @@ InstallOtherMethod( DrawConvexFacegraphToTikz,
 	    return DrawConvexFacegraphToTikz(surf, name, rec());
     end
 );
+
