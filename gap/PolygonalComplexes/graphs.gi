@@ -756,7 +756,7 @@ BindGlobal("__SIMPLICIAL_EdgesFromCycle",
 BindGlobal("__SIMPLICIAL_IsNonSeparating",
         function(digraph,cycle)
 
-        local verticesOfCycle, digraphRemoved;
+        local digraphRemoved;
 
         if not IsSymmetricDigraph(digraph) then
                 return false;
