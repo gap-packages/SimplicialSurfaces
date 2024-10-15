@@ -756,15 +756,13 @@ BindGlobal("__SIMPLICIAL_EdgesFromCycle",
 BindGlobal("__SIMPLICIAL_IsNonSeparating",
         function(digraph,cycle)
 
-        local edgesOfCycle, e, digraphRemoved;
+        local digraphRemoved;
 
         if not IsSymmetricDigraph(digraph) then
                 return false;
         fi;
 
-        edgesOfCycle:=__SIMPLICIAL_EdgesFromCycle(digraph,cycle);
-
-        digraphRemoved:=DigraphRemoveEdges(digraph,edgesOfCycle);
+        digraphRemoved:=DigraphRemoveVertices(digraph,cycle);
         if IsConnectedDigraph(digraphRemoved) then
                 return true;
         else
