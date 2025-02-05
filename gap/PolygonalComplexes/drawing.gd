@@ -797,47 +797,33 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #!
 #! For example, the net of an icosahedron can be drawn like this:
 #! @BeginLog
-ico:=Icosahedron();
-pr:=DrawComplexToSVG(ico,"Icosahedron_example1");;
+ico:=Icosahedron();;
+pr:=DrawComplexToSVG(ico,"Icosahedron");;
 #! @EndLog
 #!
 #! This will write a file <E>Icosahedron_example.svg</E> that contains the net of
 #! the isocahedron:
-#! @BeginChunk Example_IcosahedronSVG1
-ico:=Icosahedron();
-pr:=DrawComplexToSVG(ico,"doc/Icosahedron_example1");;
-#! <Alt Only="HTML">
-#!    &lt;br>&lt;img src="doc/Icosahedron_example1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! @EndChunk
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/Icosahedron_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/Icosahedron_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/Icosahedron_svg.png]</Alt>
 #!
 #! To customize this drawing, a record is used (called the <A>printRecord</A>).
 #! We can change the edge lengths to 1,2 and 2 and give a specific edge
 #! draw order by the following:
 #! @BeginLog
-ico:=AllWildColouredSurfaces(ico)[1];
-pr:=rec();
-pr.edgeDrawOrder:=[[29,26,17,13,3,7,14,24,25,21,8,6,2,5,16,19,20,12,22,30]];
-pr.edgeColourClassLengths:=[1,2,2];
-pr.edgeColourClassColours:=["red","green","blue"];
-pr.AddFlapTriangle:=true;
-pr:=DrawComplexToSVG(ico,"Icosahedron_example2",pr);;
+ico:=AllWildColouredSurfaces(ico)[1];;
+pr:=rec();;
+pr.edgeDrawOrder:=[[29,26,17,13,3,7,14,24,25,21,8,6,2,5,16,19,20,12,22,30]];;
+pr.edgeColourClassLengths:=[1,2,2];;
+pr.edgeColourClassColours:=["red","green","blue"];;
+pr.AddFlapTriangle:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_example",pr);;
 #! @EndLog
 #!
-#! Then we obtain the following net.
-#! @BeginChunk Example_IcosahedronSVG1
-ico:=Icosahedron();
-ico:=AllWildColouredSurfaces(ico)[1];
-pr:=rec();
-pr.edgeDrawOrder:=[[29,26,17,13,3,7,14,24,25,21,8,6,2,5,16,19,20,12,22,30]];
-pr.edgeColourClassLengths:=[1,2,2];
-pr.edgeColourClassColours:=["red","green","blue"];
-pr.AddFlapTriangle:=true;
-pr:=DrawComplexToSVG(ico,"doc/Icosahedron_example2",pr);;
-#! <Alt Only="SVG">
-#!    Icosahedron_example2.svg
-#! </Alt>
-#! @EndChunk
+#! Then we obtain the following net:
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronExample_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.5]{images/IcosahedronExample_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronExample_svg.png]</Alt>
 #! @EndChunk
 
 #! @BeginChunk DrawComplexToSVG_Flaps
@@ -849,7 +835,28 @@ pr:=DrawComplexToSVG(ico,"doc/Icosahedron_example2",pr);;
 #! * <E>AddFlapTriangle</E>: If this parameter is <K>true</K> (the default is
 #!   <K>false</K>) the generated svg-file will compute flaps which are triangles.
 #!
-#!  TODO Example
+#! For example, consider icosahedron at the begin of this section. Here we added
+#! the flaps with four coners:
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=rec();;
+pr.AddFlaps:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_Flaps");;
+#! @EndLog
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronFlap_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronFlap_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronFlap_svg.png]</Alt>
+#!
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=rec();;
+pr.AddFlapTriangle:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_FlapTriangle");;
+#! @EndLog
+#! In the following the triangular flaps are drawn:
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronFlapTriangle_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronFlapTriangle_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronFlapTriangle_svg.png]</Alt>
 #! @EndChunk
 
 #! @BeginChunk DrawComplexToSVG_Circles
@@ -858,7 +865,16 @@ pr:=DrawComplexToSVG(ico,"doc/Icosahedron_example2",pr);;
 #! This can be used, for example, to place magnets in the surfaces that 
 #! can be constructed by gluing the folding plan together.
 #!
-#! TODO Example
+#! Consider the icosahedron at the begin of this section where the circle are drawn:
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=rec();;
+pr.AddCircle:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_Circle");;
+#! @EndLog
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronCircle_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronCircle_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronCircle_svg.png]</Alt>
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToSVG_Geodesic
@@ -866,7 +882,16 @@ pr:=DrawComplexToSVG(ico,"doc/Icosahedron_example2",pr);;
 #! <K>false</K>) all geodesics are drawn on the surface.
 #! This only works for equilateral triangles otherwise a warning is printed.
 #!
-#! TODO Example
+#! Consider the icosahedron at the begin of this section with equilateral triangle where the geodesics are drawn:
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=rec();;
+pr.AddGeodesic:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_Geodesic");;
+#! @EndLog
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronGeodesic_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronGeodesic_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronGeodesic_svg.png]</Alt>
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToSVG_FaceLabels
@@ -875,8 +900,7 @@ pr:=DrawComplexToSVG(ico,"doc/Icosahedron_example2",pr);;
 #! The face labels can be defined with the parameter <E>faceLabels</E>, as described
 #! in <Ref Subsect="Subsection_DrawSurfaceToTikz_Labels"/>.
 #! The default labeling is the numbering of the given polygonal complex.
-#!
-#! TODO Example
+# TODO As soon as the method works, here an example
 #! @EndChunk
 
 #! @BeginChunk Cricut_Maker
