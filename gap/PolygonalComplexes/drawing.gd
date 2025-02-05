@@ -801,7 +801,7 @@ ico:=Icosahedron();;
 pr:=DrawComplexToSVG(ico,"Icosahedron");;
 #! @EndLog
 #!
-#! This will write a file <E>Icosahedron_example.svg</E> that contains the net of
+#! This will write a file <E>Icosahedron.svg</E> that contains the net of
 #! the isocahedron:
 #! <Alt Only="HTML">&lt;br>&lt;img src="images/Icosahedron_svg.png">&lt;/img>&lt;/br></Alt>
 #! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/Icosahedron_svg.png}\end{center}</Alt>
@@ -831,9 +831,9 @@ pr:=DrawComplexToSVG(ico,"Icosahedron_example",pr);;
 #! of <K>DrawComplexToSVG</K> (<Ref Subsect="DrawComplexToSVG"/>).
 #! There are two different kind of flaps which can be added:
 #! * <E>AddFlaps</E>: If this parameter is <K>true</K> (the default is
-#!   <K>false</K>) the generated svg-file will compute flaps with four corners.
+#!   <K>false</K>) the generated <E>.svg</E> file will compute flaps with four corners.
 #! * <E>AddFlapTriangle</E>: If this parameter is <K>true</K> (the default is
-#!   <K>false</K>) the generated svg-file will compute flaps which are triangles.
+#!   <K>false</K>) the generated <E>.svg</E> file will compute flaps which are triangles.
 #!
 #! For example, consider icosahedron at the begin of this section. Here we added
 #! the flaps with four coners:
@@ -847,13 +847,13 @@ pr:=DrawComplexToSVG(ico,"Icosahedron_Flaps");;
 #! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronFlap_svg.png}\end{center}</Alt>
 #! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronFlap_svg.png]</Alt>
 #!
+#! In the following the triangular flaps are drawn:
 #! @BeginLog
 ico:=Icosahedron();;
 pr:=rec();;
 pr.AddFlapTriangle:=true;;
 pr:=DrawComplexToSVG(ico,"Icosahedron_FlapTriangle");;
 #! @EndLog
-#! In the following the triangular flaps are drawn:
 #! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronFlapTriangle_svg.png">&lt;/img>&lt;/br></Alt>
 #! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronFlapTriangle_svg.png}\end{center}</Alt>
 #! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronFlapTriangle_svg.png]</Alt>
