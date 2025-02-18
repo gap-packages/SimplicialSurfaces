@@ -357,10 +357,6 @@ DeclareOperation( "DrawComplexToSVG", [IsPolygonalComplex and IsNotEdgeRamified,
 #! @SubsectionLabel DrawSurfaceToSVG_Geodesic
 #! @InsertChunk DrawSurfaceToSVG_Geodesic
 #! 
-#! @Subsection Face_Labels
-#! @SubsectionLabel DrawSurfaceToSVG_FaceLabels
-#! @InsertChunk DrawSurfaceToSVG_FaceLabels
-#!
 #! @Subsection Cricut_Maker
 #! @SubsectionLabel Cricut_Maker
 #! @InsertChunk Cricut_Maker

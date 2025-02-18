@@ -894,15 +894,6 @@ pr:=DrawComplexToSVG(ico,"Icosahedron_Geodesic");;
 #! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronGeodesic_svg.png]</Alt>
 #! @EndChunk
 
-#! @BeginChunk DrawSurfaceToSVG_FaceLabels
-#! If the paramterer <E>drawfaceLabels</E> is <K>true</K> (the default is
-#! <K>false</K>) all face lables are drawn in the center of each face.
-#! The face labels can be defined with the parameter <E>faceLabels</E>, as described
-#! in <Ref Subsect="Subsection_DrawSurfaceToTikz_Labels"/>.
-#! The default labeling is the numbering of the given polygonal complex.
-# TODO As soon as the method works, here an example
-#! @EndChunk
-
 #! @BeginChunk Cricut_Maker
 #! This is a short manual on how to use the Cricut Maker together with the output 
 #! from the <K>DrawSurfaceToSVG</K> method.
