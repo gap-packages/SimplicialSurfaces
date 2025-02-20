@@ -295,6 +295,74 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! @EndGroup
 
 
+#! @Section Drawing a net in SVG
+#! @SectionLabel Embeddings_SVG
+#!
+#! @InsertChunk DrawComplexToSVG_Tutorial
+#!
+#! @BeginGroup DrawComplexToSVG
+#! @Description
+#! Draw the net of the given <A>complex</A> into a svg-file.
+#! An introduction to the use of this method (along with several examples) 
+#! can be found at the start of section 
+#! <Ref Sect="Section_Embeddings_SVG"/>. It is possible to use
+#! the <E>svg</E>-file as an input for a Cricut Maker to create a nice net
+#! which can be folded and glued together.
+#! A short description for this is written in <Ref Subsect="Subsection_Cricut_Maker"/>.
+#!
+#! * If the given <A>fileName</A> does not end in <E>.svg</E> the ending 
+#!   <E>.svg</E> will be added to it. 
+#! * The given file will be overwritten without asking if it already exists.
+#!   If you don't have permission to write in that file, this method will
+#!   throw an error.
+#! * The particulars of the drawing are determined by the 
+#!   given <A>printRecord</A>. If this is not given, the default settings are 
+#!   used. 
+#! * The <A>printRecord</A> will be modified and returned by this method.
+#!   It contains the data to recreate the drawing of the surface.
+#! 
+#! There are several parameters to change the output of this method, similar
+#! to the options of <K>DrawSurfaceToTikz</K> as described in 
+#! <Ref Sect="Section_Embeddings_DrawTikz"/>.
+#! This includes the parameters for changing the colours of edges and faces
+#!(<Ref Subsect="Subsection_DrawSurfaceToTikz_Colours"/>),
+#! the lengths (<Ref Subsect="Subsection_DrawSurfaceToTikz_LengthsAndAngles"/>), 
+#! the edge draw order (<Ref Subsect="Subsection_DrawSurfaceToTikz_DrawOrder"/>).
+#!
+#! Moreover, there are additional parameters especially only for 
+#! the method <K>DrawComplexToSVG</K>:
+#! * <E>Flaps</E> 
+#!   (<Ref Subsect="Subsection_DrawComplexToSVG_Flaps"/>): Draw flaps.
+#! * <E>Circles</E>
+#!   (<Ref Subsect="Subsection_DrawComplexToSVG_Circles"/>): Draw circles for each face.
+#! * <E>Geodesic</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToSVG_Geodesic"/>): Draw Geodesics.
+#! * <E>Labels</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToSVG_FaceLabels"/>): Draw face labels.
+#! 
+#! @Returns a record
+#! @Arguments complex, fileName[, printRecord]
+DeclareOperation( "DrawComplexToSVG", [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord] );
+#! @EndGroup
+
+#! @Subsection Flaps
+#! @SubsectionLabel DrawComplexToSVG_Flaps
+#! @InsertChunk DrawComplexToSVG_Flaps
+#!
+#! @Subsection Circles
+#! @SubsectionLabel DrawComplexToSVG_Circles
+#! @InsertChunk DrawComplexToSVG_Circles
+#!
+#! @Subsection Geodesic
+#! @SubsectionLabel DrawSurfaceToSVG_Geodesic
+#! @InsertChunk DrawSurfaceToSVG_Geodesic
+#! 
+#! @Subsection Cricut_Maker
+#! @SubsectionLabel Cricut_Maker
+#! @InsertChunk Cricut_Maker
+
+
+
 #! @Section Drawing the face graph
 #! @SectionLabel DrawFrGrTikz
 #!

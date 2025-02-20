@@ -161,6 +161,7 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #
 #! @EndChunk
 
+
 #! @BeginChunk DrawSurfaceToTikz_Colours
 #! This subsection covers how to change the colours of vertices, edges and 
 #! faces in the drawings 
@@ -785,6 +786,137 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #TODO modify boundaries of page (to center picture for printing)
 #TODO for triangles, the length information should overwrite the angle information
 #TODO for >triangles can we define a notion of "this was probably meant" by minimum distance or so?
+
+
+#! @BeginChunk DrawComplexToSVG_Tutorial
+#! As we saw in <Ref Sect="Section_Embeddings_DrawTikz"/> it is quite easy to draw the 
+#! net of a ramified polygonal surface into a plane. 
+#! Instead of drawing them in a <E>.tex</E> file we can draw them
+#! in a <E>.svg</E> file and add for example flaps so that it is possible to clue
+#! the folding plan together to obatin an embedding in <M>&RR;^3</M>.
+#!
+#! For example, the net of an icosahedron can be drawn like this:
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=DrawComplexToSVG(ico,"Icosahedron");;
+#! @EndLog
+#!
+#! This will write a file <E>Icosahedron.svg</E> that contains the net of
+#! the isocahedron:
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/Icosahedron_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/Icosahedron_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/Icosahedron_svg.png]</Alt>
+#!
+#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! We can change the edge lengths to 1,2 and 2 and give a specific edge
+#! draw order by the following:
+#! @BeginLog
+ico:=AllWildColouredSurfaces(ico)[1];;
+pr:=rec();;
+pr.edgeDrawOrder:=[[29,26,17,13,3,7,14,24,25,21,8,6,2,5,16,19,20,12,22,30]];;
+pr.edgeColourClassLengths:=[1,2,2];;
+pr.edgeColourClassColours:=["red","green","blue"];;
+pr.AddFlapTriangle:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_example",pr);;
+#! @EndLog
+#!
+#! Then we obtain the following net:
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronExample_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.5]{images/IcosahedronExample_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronExample_svg.png]</Alt>
+#! @EndChunk
+
+#! @BeginChunk DrawComplexToSVG_Flaps
+#! This subsection contains parameters to add flaps to the drawing
+#! of <K>DrawComplexToSVG</K> (<Ref Subsect="DrawComplexToSVG"/>).
+#! There are two different kind of flaps which can be added:
+#! * <E>AddFlaps</E>: If this parameter is <K>true</K> (the default is
+#!   <K>false</K>) the generated <E>.svg</E> file will compute flaps with four corners.
+#! * <E>AddFlapTriangle</E>: If this parameter is <K>true</K> (the default is
+#!   <K>false</K>) the generated <E>.svg</E> file will compute flaps which are triangles.
+#!
+#! For example, consider icosahedron at the begin of this section. Here we added
+#! the flaps with four coners:
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=rec();;
+pr.AddFlaps:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_Flaps");;
+#! @EndLog
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronFlap_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronFlap_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronFlap_svg.png]</Alt>
+#!
+#! In the following the triangular flaps are drawn:
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=rec();;
+pr.AddFlapTriangle:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_FlapTriangle");;
+#! @EndLog
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronFlapTriangle_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronFlapTriangle_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronFlapTriangle_svg.png]</Alt>
+#! @EndChunk
+
+#! @BeginChunk DrawComplexToSVG_Circles
+#! If the paramterer <E>AddCircle</E> is <K>true</K> (the default is
+#! <K>false</K>) circles are drawn at the center of each face.
+#! This can be used, for example, to place magnets in the surfaces that 
+#! can be constructed by gluing the folding plan together.
+#!
+#! Consider the icosahedron at the begin of this section where the circle are drawn:
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=rec();;
+pr.AddCircle:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_Circle");;
+#! @EndLog
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronCircle_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronCircle_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronCircle_svg.png]</Alt>
+#! @EndChunk
+
+#! @BeginChunk DrawSurfaceToSVG_Geodesic
+#! If the paramterer <E>AddGeodesic</E> is <K>true</K> (the default is
+#! <K>false</K>) all geodesics are drawn on the surface.
+#! This only works for equilateral triangles otherwise a warning is printed.
+#!
+#! Consider the icosahedron at the begin of this section with equilateral triangle where the geodesics are drawn:
+#! @BeginLog
+ico:=Icosahedron();;
+pr:=rec();;
+pr.AddGeodesic:=true;;
+pr:=DrawComplexToSVG(ico,"Icosahedron_Geodesic");;
+#! @EndLog
+#! <Alt Only="HTML">&lt;br>&lt;img src="images/IcosahedronGeodesic_svg.png">&lt;/img>&lt;/br></Alt>
+#! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/IcosahedronGeodesic_svg.png}\end{center}</Alt>
+#! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/IcosahedronGeodesic_svg.png]</Alt>
+#! @EndChunk
+
+#! @BeginChunk Cricut_Maker
+#! This is a short manual on how to use the Cricut Maker together with the output 
+#! from the <K>DrawSurfaceToSVG</K> method.
+#! After you have created an output-file with the name <E>name.svg</E> you can use 
+#! the Cricut Maker to create a nice net which can be folded and glued together:
+#! <Enum>
+#!   <Item> Start Cricut Design Space on your Computer and sign in.</Item>
+#!   <Item> Go to Canvas and then click on <E>Upload</E>.</Item>
+#!   <Item> Click <E>Upload Image</E> and upload your SVG file. Then click <E>Continue</E>
+#!          and then <E>Upload</E></Item>
+#!   <Item> First you need to select all groups and change the operation to <E>Print then Cut</E> and then click on <E>Attach</E>.</Item>
+#!   <Item> Adjust the size of your model so that the Cricut Maker supports the size 
+#!          (currently up to 16.54cm x 25.22 cm). You can also rotate your model if that helps.</Item>
+#!   <Item> Click <E>Make</E> and <E>Continue</E>. Choose a printer and then print the file.</Item>
+#!   <Item> Then cancel the <E>Make</E> process to get back to Canvas.</Item>
+#!   <Item> Delete all the groups which do not contain scoring and flap edges.</Item>
+#!   <Item> Change the operation for the inner edges to score and keep the print then cut option for the flaps.</Item>
+#!   <Item> Click <E>Make</E> and select then <E>I've already printed</E> option.</Item>
+#!   <Item> Choose the correct paper setting and put the printed paper on the mat.</Item>
+#!   <Item> First, you need to put the scoring wheel into the machine. After some time, the program tells you to switch to the cutter.</Item>
+#!   <Item> After the Cricut Maker is done, you can take out the model and glue it together.</Item>
+#! </Enum>
+#! @EndChunk
 
 
 #! @BeginChunk DrawFacegraphToTikz_Tutorial
