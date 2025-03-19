@@ -1567,17 +1567,6 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndExampleSession
 #! 
 #! As an example, consider the butterfly.
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_butfly-1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_Image_butfly.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
 #! @ExampleSession
 #! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
 #! gap> AdmissibleRelationsOfSurface(butterfly,false);
