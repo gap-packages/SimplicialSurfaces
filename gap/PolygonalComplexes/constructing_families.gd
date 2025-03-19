@@ -28,7 +28,7 @@
 #! and non-orientable surfaces of genus two are Klein bottles.
 #!
 #! For example, consider the complete graph on four vertices:
-#! @BeginLogSession
+#! @BeginExampleSession
 #! gap> digraph:=CompleteDigraph(4);;
 #! gap> ReembeddingsOfDigraph(digraph,1,false);
 #! [ simplicial surface (3 vertices, 6 edges, and 4 faces) ]
@@ -36,13 +36,13 @@
 #! [ ]
 #! gap> ReembeddingsOfDigraph(digraph,2,false);
 #! [ ]
-#! @EndLogSession
+#! @EndExampleSession
 #! So the complete graph on four vertices has exactly one re-embedding on a projective plane but no
 #! re-embedding on the torus or the Klein bottle. Note that the complete graph on four vertices is the face graph
 #! of the tetrahedron.
 #! The octahedron has for example no edge-face equivalent projective plane but three edge-face equivalent tori
 #! and two edge-face equivalent Klein bottles.
-#! @BeginLogSession
+#! @BeginExampleSession
 #! gap> oct:=Octahedron();;
 #! gap> ReembeddingsOfSimplicialSphere(Octahedron(),1,false);
 #! [ ]
@@ -53,7 +53,7 @@
 #! gap> ReembeddingsOfSimplicialSphere(Octahedron(),2,false);
 #! [ simplicial surface (4 vertices, 12 edges, and 8 faces),
 #!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
-#! @EndLogSession
+#! @EndExampleSession
 #! 
 #! @Arguments digraph, g, oriented
 #! @Returns a list

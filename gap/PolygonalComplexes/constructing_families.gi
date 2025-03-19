@@ -3,7 +3,7 @@
 ##      Reembedding of Simplicial Spheres
 ##
 
-
+if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
 # Algorithm from Enami and Weiß 
 # Computes for a given vertex-faithful simplicial sphere
 # all edge-face equivalent simplicial projective planes, tori, klein bottles
@@ -324,3 +324,4 @@ InstallMethod(ReembeddingsOfDigraph,
     subdigraphs:=RemoveTwistedSubgraphs(subdigraphs,digraph);
     return DigraphsToSurf(digraph,subdigraphs,facialCycles,rotationSystem);
 end);
+fi;
