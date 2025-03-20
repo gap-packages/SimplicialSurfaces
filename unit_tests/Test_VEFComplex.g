@@ -67,8 +67,8 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         SIMPLICIAL_TestAssert(EulerCharacteristic(ball)=2);
 
         # IsClosedSurface
-        SIMPLICIAL_TestAssert(IsClosedSurface(torus));
-        SIMPLICIAL_TestAssert(IsClosedSurface(ball));
+        SIMPLICIAL_TestAssert(IsClosedComplex(torus));
+        SIMPLICIAL_TestAssert(IsClosedComplex(ball));
 
         # EdgeDegrees
         SIMPLICIAL_TestAssert(EdgeDegreeOfVertex(torus,2)=3);

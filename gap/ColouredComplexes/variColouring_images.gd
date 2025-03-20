@@ -57,7 +57,7 @@ disk := PolygonalSurfaceByDownwardIncidence(
         [4,11],[4,12],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[5,12]],
     [[13,6,5],[14,7,2,6],[15,8,7],[5,1,12,20],[2,3,4,1],
         [8,16,9,3],[12,11,19],[4,10,18,11],[9,17,10]] );;
-IsClosedSurface(disk);
+IsClosedComplex(disk);
 #! false
 colDisk := EdgeColouredPolygonalComplex(disk, 
     [[13,15,17,19],,[5,2,8,18],[14,12,4,9],[20,7,3,10],[6,1,11,16]] );;

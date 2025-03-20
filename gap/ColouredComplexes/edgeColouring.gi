@@ -480,7 +480,7 @@ InstallMethod( DisplayInformationEdgeColoured,
 
         # Special information for edge coloured polygonal surfaces
         if IsPolygonalSurface(PolygonalComplex(colComp)) then # more information
-            if IsClosedSurface(complex) then
+            if IsClosedComplex(complex) then
                 PrintTo(out, "closed, ");
             fi;
             

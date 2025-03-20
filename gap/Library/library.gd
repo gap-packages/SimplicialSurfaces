@@ -188,7 +188,7 @@
 #! restricted:
 #! @BeginExampleSession
 #! gap> plat := AllPolygonalComplexes( [4,8], 
-#! >               EulerCharacteristic, 2, IsConnectedComplex, IsClosedSurface );;
+#! >               EulerCharacteristic, 2, IsConnectedComplex, IsClosedComplex );;
 #! gap> Size(plat);
 #! 2
 #! @EndExampleSession

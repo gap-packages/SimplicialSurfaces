@@ -405,7 +405,7 @@ InstallMethod( DisplayInformation, "for a twisted polygonal complex",
         PrintTo(out, __SIMPLICIAL_PolygonalComplexName(complex, true) );
         if IsPolygonalSurface(complex) then # more information
             PrintTo(out,  " (" );
-            if IsClosedSurface(complex) then
+            if IsClosedComplex(complex) then
                 PrintTo(out, "closed, ");
             fi;
             
