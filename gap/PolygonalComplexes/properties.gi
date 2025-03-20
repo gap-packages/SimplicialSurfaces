@@ -647,11 +647,11 @@ BindGlobal( "__SIMPLICIAL_CounterName",
         if big then
             nameList := ["CounterOfVertices", "CounterOfEdges", 
                 "CounterOfFaces", "CounterOfButterlies",
-                "CounterOfUmbrellas", "CounterOfThreeFaces", "Counter"];
+                "CounterOfUmbrellas", "CounterOfThreeFaces","CounterOfVerticesByAngle", "Counter"];
         else
             nameList := ["counter of vertices", "counter of edges", 
                 "counter of faces", "counter of butterlies",
-                "counter of umbrellas", "counter of three faces", "counter"];
+                "counter of umbrellas", "counter of three faces","counter of vertices by angle", "counter"];
         fi;
 
         if IsCounterOfVertices(counter) then
@@ -666,8 +666,10 @@ BindGlobal( "__SIMPLICIAL_CounterName",
             return nameList[5];
         elif IsCounterOfThreeFaces(counter) then
             return nameList[6];
-        else
+        elif IsCounterOfVerticesByAngle(counter) then
             return nameList[7];
+        else
+            return nameList[8];
         fi;
     end
 );
