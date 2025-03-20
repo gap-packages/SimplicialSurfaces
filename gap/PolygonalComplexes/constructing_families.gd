@@ -20,9 +20,11 @@
 #! of the given vertex-faithful simplicial sphere <K>surf</K> with the given genus <K>g</K> if these
 #! simplicial surfaces are orientable or not is given by <K>oriented</K>. Note that two simplicial surfaces are edge-face equivalent
 #! if the corresponding face graphs are isomorphic (see <Ref Subsect="FaceGraph"/> for a definition of the face graph).
-#! The method <K>ReembeddingsOfDigraph</K> computes all simplicial surfaces with the given genus <K>g</K>  and if these
-#! simplicial surfaces are orientable or not is given by <K>oriented</K> that have <K>digraph</K> as their face graph.
-#! We call this a re-embedding of a digraph or a simplicial sphere.
+#! The method <K>ReembeddingsOfDigraph</K> computes for a 3-connected cubic planar graph all simplicial surfaces with the
+#! given genus <K>g</K> and if these simplicial surfaces are orientable or not is given by <K>oriented</K> that
+#! have <K>digraph</K> as their face graph. We call this a re-embedding of a digraph or a simplicial sphere.
+#! If <K>surf</K> is not a vertex-faithful simplicial sphere or <K>digraph</K> is not planar and cubic, an error is printed.
+#! It is not checked whether <K>digraph</K> is a 3-connected graph.
 #!
 #! Note that, non-orientable surfaces of genus one are projective planes, orientable surfaces of genus one are tori
 #! and non-orientable surfaces of genus two are Klein bottles.
