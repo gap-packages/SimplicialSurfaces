@@ -1786,7 +1786,7 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! <Ref Sect="Section_Graphs_Incidence"/>) is 
 #! connected.
 #! @ExampleSession
-#! gap> IsConnected( butterfly );
+#! gap> IsConnectedComplex( butterfly );
 #! true
 #! @EndExampleSession
 #! But in several situations it is convenient to regard this
@@ -1810,7 +1810,7 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! For a polygonal surface <E>strong connectivity</E> is equivalent to
 #! <E>connectivity</E> since there are no ramified vertices.
 #! @ExampleSession
-#! gap> IsStronglyConnected( butterfly );
+#! gap> IsStronglyConnectedComplex( butterfly );
 #! false
 #! @EndExampleSession
 #!
@@ -1818,15 +1818,13 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! @BeginGroup IsConnected
 #! @Description
 #! Check whether the given twisted polygonal complex is connected. A twisted
-#! polygonal complex
-#! is connected if and only if its incidence graph (compare section 
-#! <Ref Sect="Section_Graphs_Incidence"/>) is 
-#! connected.
+#! polygonal complex is connected if and only if its incidence graph 
+#! (compare section <Ref Sect="Section_Graphs_Incidence"/>) is connected.
 #!
-#! For example, consider the ramified simplicial surface from the start of 
+#! For example, consider the triangular complex from the start of 
 #! section <Ref Sect="Section_Paths_Connectivity"/>:
  
-#!  <Alt Only="HTML">
+#! <Alt Only="HTML">
 #! &lt;br>&lt;img src='./images/_Wrapper_paths-17-1.svg'> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
@@ -1836,14 +1834,16 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #! @ExampleSession
-#! gap> IsConnected( butterfly );
+#! gap> IsConnectedComplex( butterfly );
 #! true
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-DeclareProperty( "IsConnected", IsTwistedPolygonalComplex );
+DeclareProperty( "IsConnectedComplex", IsTwistedPolygonalComplex );
+#! @Arguments surface
+DeclareProperty( "IsConnectedSurface", IsPolygonalSurface );
 #! @EndGroup
 
 #! @BeginGroup ConnectedComponents
@@ -1870,7 +1870,7 @@ DeclareProperty( "IsConnected", IsTwistedPolygonalComplex );
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #! @ExampleSession
 #! gap> comp := ConnectedComponents( butterfly );;
 #! gap> Size(comp);
@@ -1903,15 +1903,13 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsTwistedPolygonalComplex, IsPo
 #! @BeginGroup IsStronglyConnected
 #! @Description
 #! Check whether the given twisted polygonal complex is strongly connected. 
-#! A twisted polygonal 
-#! complex
-#! is strongly connected if and only if one of the following equivalent 
-#! conditions hold:
-#! * It is still connected after removal of all vertices. 
+#! A twisted polygonal complex is strongly connected if and only if one of
+#! the following equivalent conditions hold:
+#! * It is still connected after removing an arbitary vertex. 
 #! * For each pair of faces there is an edge-face-path (compare section 
 #!   <Ref Sect="Section_Access_OrderedVertexAccess"/>) that connects them.
 #!
-#! For example, consider the ramified simplicial surface from the start of 
+#! For example, consider the triangular complex from the start of 
 #! section <Ref Sect="Section_Paths_Connectivity"/>:
  
 #!  <Alt Only="HTML">
@@ -1926,12 +1924,14 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsTwistedPolygonalComplex, IsPo
 #! Image omitted in terminal text
             #! </Alt>
 #! @ExampleSession
-#! gap> IsStronglyConnected( butterfly );
+#! gap> IsStronglyConnectedComplex( butterfly );
 #! false
 #! @EndExampleSession
 #! 
 #! @Arguments complex
-DeclareProperty( "IsStronglyConnected", IsTwistedPolygonalComplex );
+DeclareProperty( "IsStronglyConnectedComplex", IsTwistedPolygonalComplex );
+#! @Arguments surf
+DeclareProperty( "IsStronglyConnectedSurface", IsPolygonalSurface );
 #! @EndGroup
 
 

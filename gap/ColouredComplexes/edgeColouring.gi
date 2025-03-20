@@ -490,7 +490,7 @@ InstallMethod( DisplayInformationEdgeColoured,
                 PrintTo(out, "non-orientable, ");
             fi;
 
-            if IsConnected(complex) then
+            if IsConnectedSurface(complex) then
                 PrintTo(out, "Euler-characteristic ", EulerCharacteristic(complex) );
             else
                 PrintTo(out,  NumberOfConnectedComponents(complex), " connected components" );

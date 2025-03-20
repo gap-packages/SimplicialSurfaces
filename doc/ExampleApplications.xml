@@ -86,14 +86,14 @@ simplicial surface (17 vertices, 45 edges, and 30 faces)
         We can already read of the number of vertices, edges, and faces.
         Some other elementary properties are orientability 
         (<K>IsOrientable</K>, <Ref Subsect="IsOrientable"/>),
-        connectivity (<K>IsConnected</K>, <Ref Subsect="IsConnected"/>),
+        connectivity (<K>IsConnectedComplex</K>, <Ref Subsect="IsConnected"/>),
         closedness (<K>IsClosedSurface</K>, <Ref Subsect="IsClosedSurface"/>),
         and the Euler-characteristic (<K>EulerCharacteristic</K>,
         <Ref Subsect="EulerCharacteristic"/>).
 <Example>
 gap&gt; IsOrientable(newSurf);
 true
-gap&gt; IsConnected(newSurf);
+gap&gt; IsConnectedSurface(newSurf);
 true
 gap&gt; IsClosedSurface(newSurf);
 true

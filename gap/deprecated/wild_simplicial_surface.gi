@@ -554,7 +554,7 @@ end);
 ##
 ##	Check connectivity
 ##
-InstallMethod( IsConnected, "for a wild simplicial surface",
+InstallMethod( IsConnectedSurface, "for a wild simplicial surface",
 	[IsWildSimplicialSurface],
 	function(simpsurf)
 		return Length( Orbits( GroupOfWildSimplicialSurface(simpsurf), 

@@ -158,7 +158,7 @@ gap&gt; EulerCharacteristic(surface);
 <Example>
 gap&gt; IsClosedSurface(surface);
 true
-gap&gt; IsConnected(surface);
+gap&gt; IsConnectedSurface(surface);
 true
 gap&gt; IsOrientable(surface);
 true

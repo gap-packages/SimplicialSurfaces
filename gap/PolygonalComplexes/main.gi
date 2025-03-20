@@ -415,7 +415,7 @@ InstallMethod( DisplayInformation, "for a twisted polygonal complex",
                 PrintTo(out, "non-orientable, ");
             fi;
 
-            if IsConnected(complex) then
+            if IsConnectedComplex(complex) then
                 PrintTo(out, "Euler-characteristic ", EulerCharacteristic(complex) );
             else
                 PrintTo(out,  NumberOfConnectedComponents(complex), " connected components" );

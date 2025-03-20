@@ -2,7 +2,7 @@
 ##
 ##  SimplicialSurface package
 ##
-##  Copyright 2012-2016
+##  Copyright 2012-2025
 ##    Markus Baumeister, RWTH Aachen University
 ##    Alice Niemeyer, RWTH Aachen University 
 ##
@@ -82,7 +82,7 @@ BindGlobal( "__SIMPLICIAL_AbstractConnectedComponent",
 ##
 ## general connectivity
 ##
-InstallMethod( IsConnected, "for a twisted polygonal complex", [IsTwistedPolygonalComplex], 
+InstallMethod( IsConnectedComplex, "for a twisted polygonal complex", [IsTwistedPolygonalComplex], 
     function(complex)
 	local component;
 
@@ -96,7 +96,7 @@ InstallMethod( IsConnected, "for a twisted polygonal complex", [IsTwistedPolygon
         return Length( component ) = NumberOfFaces(complex);
     end
 );
-InstallImmediateMethod( IsConnected, 
+InstallImmediateMethod( IsConnectedComplex, 
     IsTwistedPolygonalComplex and HasConnectedComponentsAttributeOfComplex,0, 
     function(complex)
 	local components;
@@ -106,7 +106,13 @@ InstallImmediateMethod( IsConnected,
     end
 );
 
-InstallMethod( IsStronglyConnected, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
+InstallMethod( IsConnectedSurface, "for a surface", [IsPolygonalSurface], 
+    function(surf)
+        return IsConnectedComplex(surf);
+    end
+);
+
+InstallMethod( IsStronglyConnectedComplex, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
 	local component;
 
@@ -120,7 +126,7 @@ InstallMethod( IsStronglyConnected, "for a twisted polygonal complex", [IsTwiste
         return Length( component ) = NumberOfFaces(complex);
     end
 );
-InstallImmediateMethod( IsStronglyConnected, 
+InstallImmediateMethod( IsStronglyConnectedComplex, 
     IsTwistedPolygonalComplex and HasStronglyConnectedComponentsAttributeOfComplex, 0, 
     function(complex)
 	local components;
@@ -130,7 +136,7 @@ InstallImmediateMethod( IsStronglyConnected,
     end
 );
 
-InstallImmediateMethod( IsStronglyConnected, IsTwistedPolygonalComplex and 
+InstallImmediateMethod( IsStronglyConnectedComplex, IsTwistedPolygonalComplex and 
     HasConnectedComponentsAttributeOfComplex, 0,
     function(complex)
         local components;
@@ -143,13 +149,19 @@ InstallImmediateMethod( IsStronglyConnected, IsTwistedPolygonalComplex and
     end
 );
 
-InstallImmediateMethod( IsStronglyConnected, 
-    IsTwistedPolygonalComplex and HasIsConnected, 0,
+InstallImmediateMethod( IsStronglyConnectedComplex, 
+    IsTwistedPolygonalComplex and HasIsConnectedComplex, 0,
     function(complex)
-        if not IsConnected(complex) then
+        if not IsConnectedComplex(complex) then
             return false;
         fi;
         TryNextMethod();
+    end
+);
+
+InstallMethod( IsStronglyConnectedSurface, "for a surface", [IsPolygonalSurface],
+    function(surf)
+        return IsStronglyConnectedComplex(surf);
     end
 );
 
@@ -166,12 +178,12 @@ InstallMethod( ConnectedComponentOfFaceNC, "for a twisted polygonal complex",
 
 	subsurf := SubcomplexByFacesNC( complex, comp);
 	# this component is connected by construction, so we set the property
-	SetIsConnected( subsurf, true );
+	SetIsConnectedComplex( subsurf, true );
 	return subsurf;
     end
 );
 InstallMethod( ConnectedComponentOfFaceNC, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex and IsConnected, IsPosInt],
+    [IsTwistedPolygonalComplex and IsConnectedComplex, IsPosInt],
     function(complex, f)
 	return complex; # A connected surface has only one connected component
     end
@@ -197,12 +209,12 @@ InstallMethod( StronglyConnectedComponentOfFaceNC, "for a twisted polygonal comp
 
 	subsurf := SubcomplexByFacesNC( complex, comp);
 	# this component is strongly connected by construction, so we set the property
-	SetIsStronglyConnected( subsurf, true );
+	SetIsStronglyConnectedComplex( subsurf, true );
 	return subsurf;
     end
 );
 InstallMethod( StronglyConnectedComponentOfFaceNC, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex and IsStronglyConnected, IsPosInt],
+    [IsTwistedPolygonalComplex and IsStronglyConnectedComplex, IsPosInt],
     function(complex, face)
 	return complex; # A strongly connected surface has only one strongly connected component
     end
@@ -270,7 +282,7 @@ InstallMethod( ConnectedComponentsAttributeOfComplex,
     end
 );
 InstallImmediateMethod( ConnectedComponentsAttributeOfComplex,
-    IsTwistedPolygonalComplex and IsConnected, 0, 
+    IsTwistedPolygonalComplex and IsConnectedComplex, 0, 
     function(complex)
 	return [complex];
     end
@@ -295,7 +307,7 @@ InstallMethod( StronglyConnectedComponentsAttributeOfComplex,
     end
 );
 InstallImmediateMethod( StronglyConnectedComponentsAttributeOfComplex,
-    IsTwistedPolygonalComplex and IsStronglyConnected, 0,
+    IsTwistedPolygonalComplex and IsStronglyConnectedComplex, 0,
     function(complex)
         return [complex];
     end
@@ -306,7 +318,7 @@ InstallImmediateMethod( StronglyConnectedComponentsAttributeOfComplex,
 ## After implementing connectivity and strong connectivity for themselves, we
 ## also want to work with the connection between them. We start with the
 ## direction "strongly connected"->"connected"
-InstallImmediateMethod( IsConnected, 
+InstallImmediateMethod( IsConnectedComplex, 
     IsTwistedPolygonalComplex and HasStronglyConnectedComponentsAttributeOfComplex, 0, 
     function( complex )
         local components;
@@ -401,7 +413,7 @@ InstallMethod( StronglyConnectedComponentsAttributeOfComplex,
     end
 );
 InstallImmediateMethod( StronglyConnectedComponentsAttributeOfComplex,
-    IsTwistedPolygonalSurface and IsConnected, 0, 
+    IsTwistedPolygonalSurface and IsConnectedComplex, 0, 
     function(surf)
         return [surf];
     end
