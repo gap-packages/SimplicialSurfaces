@@ -392,7 +392,7 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     # If the surface is not orientable, then we don't have an orientation
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
-    SetIsOrientable(obj, false);
+    SetIsOrientableComplex(obj, false);
     SetIsPolygonalComplex(obj, true);
     SIMPLICIAL_TestAssert(fail=Orientation(obj));
     SetFaces(obj, faces);
@@ -405,12 +405,12 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     SetIsPolygonalComplex(obj, true);
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, List(perim, p -> VertexEdgePathNC(obj,p) ) );
-    SIMPLICIAL_TestAssert(IsOrientable(obj));
+    SIMPLICIAL_TestAssert(IsOrientableComplex(obj));
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsPolygonalComplex(obj, true);
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, fail );
-    SIMPLICIAL_TestAssert(not IsOrientable(obj));
+    SIMPLICIAL_TestAssert(not IsOrientableComplex(obj));
 end);
 
 #################################################################################

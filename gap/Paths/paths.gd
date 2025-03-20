@@ -2068,7 +2068,7 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! gap> surface := PolygonalSurfaceByDownwardIncidence(
 #! > [,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]],
 #! > [ [2,6,12,14],,, [6,8,10],,,,, [10,14,15] ]);;
-#! gap> IsOrientable(surface);
+#! gap> IsOrientableSurface(surface);
 #! true
 #! @EndExampleSession
 #!
@@ -2130,20 +2130,22 @@ DeclareAttribute( "NumberOfStronglyConnectedComponents", IsTwistedPolygonalCompl
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #! @ExampleSession
-#! gap> IsOrientable( surface );
+#! gap> IsOrientableSurface( surface );
 #! true
 #! @EndExampleSession
 #! An example for a non orientable surface is the Möbius-strip:
 #! @BeginExampleSession
 #! gap> moebius := SimplicialSurfaceByVerticesInFaces( 
 #! > [[1,2,3],[2,3,4],[3, 4,5],[4,5,1],[5,2,1] ]);;
-#! gap> IsOrientable(moebius); 
+#! gap> IsOrientableSurface(moebius); 
 #! false
 #! @EndExampleSession
-#! @Arguments ramSurf
-DeclareProperty( "IsOrientable", IsTwistedPolygonalComplex and IsNotEdgeRamified );
+#! @Arguments complex
+DeclareProperty( "IsOrientableComplex", IsTwistedPolygonalComplex and IsNotEdgeRamified );
+#! @Arguments surf
+DeclareProperty( "IsOrientableSurface", IsPolygonalSurface );
 #! @EndGroup
 
 #! @BeginGroup Orientation

@@ -95,7 +95,7 @@
 #! the following command returns all predefined tori:
 #! @BeginExampleSession
 #! gap> AllPolygonalComplexes( IsConnectedComplex, true, 
-#! >            IsOrientable, true, EulerCharacteristic, 0 );
+#! >            IsOrientableComplex, true, EulerCharacteristic, 0 );
 #! [ simplicial surface (3 vertices, 9 edges, and 6 faces), 
 #!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
 #!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
@@ -103,7 +103,7 @@
 #! Since it is tedious to always write <K>true</K>, there is a shortcut
 #! implemented that interprets "missing" results as <K>true</K>: 
 #! @BeginExampleSession
-#! gap> AllPolygonalComplexes( IsConnectedComplex, IsOrientable, EulerCharacteristic, 0 );
+#! gap> AllPolygonalComplexes( IsConnectedComplex, IsOrientableComplex, EulerCharacteristic, 0 );
 #! [ simplicial surface (3 vertices, 9 edges, and 6 faces), 
 #!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
 #!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
@@ -120,7 +120,7 @@
 #! >        return Length(intersect) > 0;
 #! > end;
 #! function( surface ) ... end
-#! gap> AllSimplicialSurfaces(IsOrientable, false, HasCentralVertex);
+#! gap> AllSimplicialSurfaces(IsOrientableSurface, false, HasCentralVertex);
 #! [ simplicial surface (3 vertices, 6 edges, and 3 faces), 
 #!   simplicial surface (3 vertices, 6 edges, and 4 faces), 
 #!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
@@ -136,7 +136,7 @@
 #! the second argument is either the result of that function or a list of
 #! accepted results. For example
 #! @BeginLog
-#! gap> AllTwistedPolygonalComplexes( NumberOfVertices, [10,12], IsOrientable, false );
+#! gap> AllTwistedPolygonalComplexes( NumberOfVertices, [10,12], IsOrientableComplex, false );
 #! @EndLog
 #! returns all non-orientable twisted polygonal complexes with 10 or 12 vertices from
 #! the library.

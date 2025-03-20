@@ -409,7 +409,7 @@ InstallMethod( DisplayInformation, "for a twisted polygonal complex",
                 PrintTo(out, "closed, ");
             fi;
             
-            if IsOrientable(complex) then
+            if IsOrientableComplex(complex) then
                 PrintTo(out, "orientable, ");
             else
                 PrintTo(out, "non-orientable, ");

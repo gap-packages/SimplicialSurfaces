@@ -59,8 +59,8 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         SIMPLICIAL_TestAssert(NeighbourFaceByEdge(ball,1,2)=1);
 
         # Orientation
-        SIMPLICIAL_TestAssert(IsOrientable(torus));
-        SIMPLICIAL_TestAssert(IsOrientable(ball));
+        SIMPLICIAL_TestAssert(IsOrientableComplex(torus));
+        SIMPLICIAL_TestAssert(IsOrientableComplex(ball));
 
         # Euler-characteristic
         SIMPLICIAL_TestAssert(EulerCharacteristic(torus)=0);

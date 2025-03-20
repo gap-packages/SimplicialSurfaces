@@ -484,7 +484,7 @@ InstallMethod( DisplayInformationEdgeColoured,
                 PrintTo(out, "closed, ");
             fi;
             
-            if IsOrientable(complex) then
+            if IsOrientableComplex(complex) then
                 PrintTo(out, "orientable, ");
             else
                 PrintTo(out, "non-orientable, ");
