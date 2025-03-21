@@ -163,7 +163,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
 		eye := PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]],[[1,2,3],[4,5,6]]);
 		nautyEye:=UnderlyingNautyGraph(EdgeNautyGraph(eye));
-		Assert(0, nautyEye!.edges=Set(VerticesOfEdges(eye)));
+		Assert(0, nautyEye!.edges=VerticesOfEdges(eye));
 	end);
 
 	BindGlobal( "__SIMPLICIAL_Test_FaceNautyGraph", function()
