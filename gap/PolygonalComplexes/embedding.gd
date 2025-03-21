@@ -337,8 +337,6 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #!   (<Ref Subsect="Subsection_DrawComplexToSVG_Circles"/>): Draw circles for each face.
 #! * <E>Geodesic</E> 
 #!   (<Ref Subsect="Subsection_DrawSurfaceToSVG_Geodesic"/>): Draw Geodesics.
-#! * <E>Labels</E> 
-#!   (<Ref Subsect="Subsection_DrawSurfaceToSVG_FaceLabels"/>): Draw face labels.
 #! 
 #! @Returns a record
 #! @Arguments complex, fileName[, printRecord]

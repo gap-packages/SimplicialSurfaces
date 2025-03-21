@@ -24,6 +24,7 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/navigation.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/distances.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructing_families.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/animating.gi" );
