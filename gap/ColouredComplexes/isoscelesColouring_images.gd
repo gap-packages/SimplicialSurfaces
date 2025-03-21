@@ -222,9 +222,12 @@ pr := DrawSurfaceToTikz( wild, "Surf10_Wild", pr );;
 
 #! @BeginChunk Example_IsoscelesIcosahedron
 #! @BeginExample
-ico := Icosahedron();;
-colIco := AllIsoscelesColouredSurfaces(ico)[1];;
-VertexCounterByAngle( colIco );
+#! gap> ico := Icosahedron();;
+#! gap> colIco := AllIsoscelesColouredSurfaces(ico)[1];;
+#! gap> counter := CounterOfVerticesByAngle( colIco );
+#! counter of vertices by angle ([ [ [ 1, 4 ], [ 2, 1 ] ], [ [ 2, 5 ] ] ] degrees, 
+#!      and [ 10, 2 ] multiplicities)
+#! gap> ListCounter(counter);
 #! [ [ [ [ 1, 4 ], [ 2, 1 ] ], 10 ], [ [ [ 2, 5 ] ], 2 ] ]
 #! @EndExample
 #! This can be drawn by <K>DrawSurfaceToTikz</K> 
