@@ -59,16 +59,16 @@ BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
         SIMPLICIAL_TestAssert(NeighbourFaceByEdge(ball,1,2)=1);
 
         # Orientation
-        SIMPLICIAL_TestAssert(IsOrientable(torus));
-        SIMPLICIAL_TestAssert(IsOrientable(ball));
+        SIMPLICIAL_TestAssert(IsOrientableComplex(torus));
+        SIMPLICIAL_TestAssert(IsOrientableComplex(ball));
 
         # Euler-characteristic
         SIMPLICIAL_TestAssert(EulerCharacteristic(torus)=0);
         SIMPLICIAL_TestAssert(EulerCharacteristic(ball)=2);
 
         # IsClosedSurface
-        SIMPLICIAL_TestAssert(IsClosedSurface(torus));
-        SIMPLICIAL_TestAssert(IsClosedSurface(ball));
+        SIMPLICIAL_TestAssert(IsClosedComplex(torus));
+        SIMPLICIAL_TestAssert(IsClosedComplex(ball));
 
         # EdgeDegrees
         SIMPLICIAL_TestAssert(EdgeDegreeOfVertex(torus,2)=3);

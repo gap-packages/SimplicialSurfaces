@@ -782,7 +782,7 @@ BindGlobal( "__SIMPLICIAL_PrintRecordDrawFace",
         Append(res, "\\fill[");
         #TODO this does not make sense without mirror/rotation edges -> revisit this problem then
         # Determine if the swap colour is used
-#        if IsOrientable(surface) and printRecord!.faceVertices[face][2][1]^OrientationByVerticesAsPerm(surface)[face] = printRecord!.faceVertices[face][1][1] then
+#        if IsOrientableComplex(surface) and printRecord!.faceVertices[face][2][1]^OrientationByVerticesAsPerm(surface)[face] = printRecord!.faceVertices[face][1][1] then
 #            Append(res, "faceSwap");
 #        else
             Append(res, "face");

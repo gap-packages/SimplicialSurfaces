@@ -480,17 +480,17 @@ InstallMethod( DisplayInformationEdgeColoured,
 
         # Special information for edge coloured polygonal surfaces
         if IsPolygonalSurface(PolygonalComplex(colComp)) then # more information
-            if IsClosedSurface(complex) then
+            if IsClosedComplex(complex) then
                 PrintTo(out, "closed, ");
             fi;
             
-            if IsOrientable(complex) then
+            if IsOrientableComplex(complex) then
                 PrintTo(out, "orientable, ");
             else
                 PrintTo(out, "non-orientable, ");
             fi;
 
-            if IsConnected(complex) then
+            if IsConnectedSurface(complex) then
                 PrintTo(out, "Euler-characteristic ", EulerCharacteristic(complex) );
             else
                 PrintTo(out,  NumberOfConnectedComponents(complex), " connected components" );
