@@ -295,6 +295,74 @@ DeclareOperation("SetFaceCoordinates2DNC", [IsSimplicialSurface, IsList,IsRecord
 #! @EndGroup
 
 
+#! @Section Drawing a net in SVG
+#! @SectionLabel Embeddings_SVG
+#!
+#! @InsertChunk DrawComplexToSVG_Tutorial
+#!
+#! @BeginGroup DrawComplexToSVG
+#! @Description
+#! Draw the net of the given <A>complex</A> into a svg-file.
+#! An introduction to the use of this method (along with several examples) 
+#! can be found at the start of section 
+#! <Ref Sect="Section_Embeddings_SVG"/>. It is possible to use
+#! the <E>svg</E>-file as an input for a Cricut Maker to create a nice net
+#! which can be folded and glued together.
+#! A short description for this is written in <Ref Subsect="Subsection_Cricut_Maker"/>.
+#!
+#! * If the given <A>fileName</A> does not end in <E>.svg</E> the ending 
+#!   <E>.svg</E> will be added to it. 
+#! * The given file will be overwritten without asking if it already exists.
+#!   If you don't have permission to write in that file, this method will
+#!   throw an error.
+#! * The particulars of the drawing are determined by the 
+#!   given <A>printRecord</A>. If this is not given, the default settings are 
+#!   used. 
+#! * The <A>printRecord</A> will be modified and returned by this method.
+#!   It contains the data to recreate the drawing of the surface.
+#! 
+#! There are several parameters to change the output of this method, similar
+#! to the options of <K>DrawSurfaceToTikz</K> as described in 
+#! <Ref Sect="Section_Embeddings_DrawTikz"/>.
+#! This includes the parameters for changing the colours of edges and faces
+#!(<Ref Subsect="Subsection_DrawSurfaceToTikz_Colours"/>),
+#! the lengths (<Ref Subsect="Subsection_DrawSurfaceToTikz_LengthsAndAngles"/>), 
+#! the edge draw order (<Ref Subsect="Subsection_DrawSurfaceToTikz_DrawOrder"/>).
+#!
+#! Moreover, there are additional parameters especially only for 
+#! the method <K>DrawComplexToSVG</K>:
+#! * <E>Flaps</E> 
+#!   (<Ref Subsect="Subsection_DrawComplexToSVG_Flaps"/>): Draw flaps.
+#! * <E>Circles</E>
+#!   (<Ref Subsect="Subsection_DrawComplexToSVG_Circles"/>): Draw circles for each face.
+#! * <E>Geodesic</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToSVG_Geodesic"/>): Draw Geodesics.
+#! * <E>Labels</E> 
+#!   (<Ref Subsect="Subsection_DrawSurfaceToSVG_FaceLabels"/>): Draw face labels.
+#! 
+#! @Returns a record
+#! @Arguments complex, fileName[, printRecord]
+DeclareOperation( "DrawComplexToSVG", [IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord] );
+#! @EndGroup
+
+#! @Subsection Flaps
+#! @SubsectionLabel DrawComplexToSVG_Flaps
+#! @InsertChunk DrawComplexToSVG_Flaps
+#!
+#! @Subsection Circles
+#! @SubsectionLabel DrawComplexToSVG_Circles
+#! @InsertChunk DrawComplexToSVG_Circles
+#!
+#! @Subsection Geodesic
+#! @SubsectionLabel DrawSurfaceToSVG_Geodesic
+#! @InsertChunk DrawSurfaceToSVG_Geodesic
+#! 
+#! @Subsection Cricut_Maker
+#! @SubsectionLabel Cricut_Maker
+#! @InsertChunk Cricut_Maker
+
+
+
 #! @Section Drawing the face graph
 #! @SectionLabel DrawFrGrTikz
 #!
@@ -383,3 +451,67 @@ DeclareOperation( "DrawFacegraphToTikz", [IsSimplicialSurface ,IsString,IsRecord
 #! @Subsection Output control
 #! @SubsectionLabel DrawFacegraphToTikz_Output
 #! @InsertChunk DrawFacegraphToTikz_Output
+#! 
+#! @BeginGroup DrawConvexFacegraphToTikz
+#! @Description
+#! Draw the face graph of the given <A>surface</A> into a tex-file (using TikZ).
+#! An introduction to the use of this method (along with several examples) 
+#! can be found at the start of section <Ref Sect="Section_DrawFrGrTikz"/>.
+#! If <K>surface</K> is a simplicial vertex faithful sphere and the function
+#! is used without the argument <K>printRecord</K>, then the drawing printed
+#! into <K>file</K> is a planar embedding of the face graph of <K>surface</K>,
+#! where the vertices of the surface are identified by the faces of the
+#! embedding. <K>DrawConvexFacegraphToTikz</K> differs from <K>DrawFacegraphToTikz</K> 
+#! (<Ref Subsect="DrawFacegraphToTikz"/>) by constructing the face graph 
+#! by successively manipulating a convex drawing plane and calculating new face coordinates.
+#! The new coordinates are then drawn with <K>DrawFacegraphToTikz</K>. 
+#! This results in an embedding which maps the faces
+#! of one of the largest umbrella paths on the outer ring as a 
+#! regular polygon. Trying to use the function for a surface that is not a 
+#! vertex-faithful sphere results in returning <K>fail</K>.
+#!
+#! * If the given <A>file</A> does not end in <E>.tex</E> the ending 
+#!   <E>.tex</E> will be added to it. 
+#! * The given file will be overwritten without asking if it already exists.
+#!   If you don't have permission to write in that file, this method will
+#!   throw an error.
+#! * The particulars of the drawing are determined by the 
+#!   given <A>printRecord</A>. If this is not given and <A>surface</A> is a
+#!   simplicial sphere, the default settings are used. 
+#! * The <A>printRecord</A> will be modified and returned by this method.
+#!   It contains the data to recreate the drawing of the surface.
+#! 
+#! 
+#! There are several parameters to change the output of this method. 
+#! Since the design of the parameters is the design of the parameters
+#! of <K>DrawFacegraphToTikz</K>(<Ref Subsect="DrawFacegraphToTikz"/>),
+#! one can also refer to the corresponding subsections for a better 
+#! understanding.
+#! There are the following classes of parameters:
+#! * <E>Colours</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Colours"/>): Change the 
+#!   colours of edges and faces represented as vertices.
+#! * <E>Labels</E>
+#!   (<Ref Subsect="Subsection_DrawSurfaceToTikz_Labels"/>): Modify the labels
+#!   of vertices, edges and faces.
+#! * <E>Scale</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Scaling"/>): These
+#!   parameters control the size of the drawing.
+#! * <E>faceCoordinates2D</E>
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_FaceCoordinates"/>):
+#!   Modify the 2D-coordinates of the faces.
+#! * <E>Geodesics</E>
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Geodesics"/>): Draw the 
+#!   geodesics of the simplicial surface into the file.
+#! * <E>Output control</E> 
+#!   (<Ref Subsect="Subsection_DrawFacegraphToTikz_Output"/>): Modify how the
+#!   &LaTeX;-output behaves and how much information is printed to the 
+#!   console.
+#! 
+#! Consider the following example of the double-6-gon:
+#! @InsertChunk DrawConvexFacegraphToTikz_example
+#!
+#! @Returns a record
+#! @Arguments surface, file[, printRecord]
+DeclareOperation( "DrawConvexFacegraphToTikz", [IsSimplicialSurface, IsString, IsRecord]);
+#! @EndGroup

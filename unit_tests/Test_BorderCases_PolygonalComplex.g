@@ -18,7 +18,7 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
     SetIsPolygonalComplex(tet, true);
-    SIMPLICIAL_TestAssert(IsClosedSurface(tet));
+    SIMPLICIAL_TestAssert(IsClosedComplex(tet));
 
 
     # Test the InnerVertices-method for the general case
@@ -32,7 +32,7 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
-    SetIsClosedSurface(tet, true);
+    SetIsClosedComplex(tet, true);
     SIMPLICIAL_TestAssert(InnerVertices(tet) = tet_verts);
 
 
@@ -47,7 +47,7 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
-    SetIsClosedSurface(tet, true);
+    SetIsClosedComplex(tet, true);
     SIMPLICIAL_TestAssert(BoundaryVertices(tet) = []);
 
     #TODO tests for other kinds of vertices and edges, preferably with more

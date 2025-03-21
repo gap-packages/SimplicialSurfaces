@@ -265,77 +265,77 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     # If the connected components are known, the connectivity is known
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetConnectedComponentsAttributeOfComplex( obj, [] );
-    SIMPLICIAL_TestAssert(IsConnected(obj));
+    SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetConnectedComponentsAttributeOfComplex( obj, [ 1 ] );
-    SIMPLICIAL_TestAssert(IsConnected(obj));
+    SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetConnectedComponentsAttributeOfComplex( obj, [ 1, 2 ] );
-    SIMPLICIAL_TestAssert(not IsConnected(obj));
+    SIMPLICIAL_TestAssert(not IsConnectedComplex(obj));
 
 
     # If the strongly connected components are known, the strong connectivity is known
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [] );
-    SIMPLICIAL_TestAssert(IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(IsStronglyConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [ obj ] );
-    SIMPLICIAL_TestAssert(IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(IsStronglyConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [ 1, 2 ] );
-    SIMPLICIAL_TestAssert(not IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(not IsStronglyConnectedComplex(obj));
 
 
     # If there is more than one connected component, the complex is not strongly connected
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetConnectedComponentsAttributeOfComplex(obj, [1,2]);
-    SIMPLICIAL_TestAssert(not IsStronglyConnected(obj));
+    SIMPLICIAL_TestAssert(not IsStronglyConnectedComplex(obj));
 
 
     # If the complex is not connected, it is not strongly connected
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsConnected(obj, false);
-    SIMPLICIAL_TestAssert(not IsStronglyConnected(obj));
+    SetIsConnectedComplex(obj, false);
+    SIMPLICIAL_TestAssert(not IsStronglyConnectedComplex(obj));
 
 
     # If a complex is connected, every face has the same connected component
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetFaces(obj, [1]);
-    SetIsConnected(obj, true);
+    SetIsConnectedComplex(obj, true);
     SIMPLICIAL_TestAssert(ConnectedComponentOfFace(obj,1) = obj);
 
 
     # If a complex is strongly connected, every face has the same strongly connected component
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetFaces(obj, [1]);
-    SetIsStronglyConnected(obj, true);
+    SetIsStronglyConnectedComplex(obj, true);
     SIMPLICIAL_TestAssert(StronglyConnectedComponentOfFace(obj,1) = obj);
 
 
     # If a complex is connected, there is only one connected component
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsConnected(obj, true);
+    SetIsConnectedComplex(obj, true);
     SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfComplex(obj)=[obj]);
 
 
     # If a complex is strongly connected, there is only one strongly connected component
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsStronglyConnected(obj, true);
+    SetIsStronglyConnectedComplex(obj, true);
     SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj)=[obj]);
 
 
     # If there is only one strongly connected component, then the complex is connected
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [] );
-    SIMPLICIAL_TestAssert(IsConnected(obj));
+    SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [obj] );
-    SIMPLICIAL_TestAssert(IsConnected(obj));
+    SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
 
     # If we have a polygonal surface, connected = strongly connected
@@ -354,7 +354,7 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
-    SetIsConnected(obj, true);
+    SetIsConnectedComplex(obj, true);
     SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj)=[obj]);
 end);
 
@@ -392,7 +392,7 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     # If the surface is not orientable, then we don't have an orientation
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
-    SetIsOrientable(obj, false);
+    SetIsOrientableComplex(obj, false);
     SetIsPolygonalComplex(obj, true);
     SIMPLICIAL_TestAssert(fail=Orientation(obj));
     SetFaces(obj, faces);
@@ -405,12 +405,12 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     SetIsPolygonalComplex(obj, true);
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, List(perim, p -> VertexEdgePathNC(obj,p) ) );
-    SIMPLICIAL_TestAssert(IsOrientable(obj));
+    SIMPLICIAL_TestAssert(IsOrientableComplex(obj));
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsPolygonalComplex(obj, true);
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, fail );
-    SIMPLICIAL_TestAssert(not IsOrientable(obj));
+    SIMPLICIAL_TestAssert(not IsOrientableComplex(obj));
 end);
 
 #################################################################################

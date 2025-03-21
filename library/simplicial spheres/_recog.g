@@ -9,9 +9,9 @@ return function( queryList )
         for pair in [
                 [EulerCharacteristic,2], 
                 [IsTriangularComplex,true],
-                [IsClosedSurface,true],
-                [IsConnected, true],
-                [IsOrientable, true]
+                [IsClosedComplex,true],
+                [IsConnectedComplex, true],
+                [IsOrientableComplex, true]
                 ] do
             if query[1] = pair[1] and not __SIMPLICIAL_LibraryRecogUniqueResult(pair[2],query[2]) then
                 return false;

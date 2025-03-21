@@ -166,9 +166,9 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 ##
 InstallImmediateMethod( Orientation, 
     "for a polygonal complex without edge ramifications with known orientation",
-    IsPolygonalComplex and IsNotEdgeRamified and HasIsOrientable, 0,
+    IsPolygonalComplex and IsNotEdgeRamified and HasIsOrientableComplex, 0,
     function(ramSurf)
-        if not IsOrientable(ramSurf) then
+        if not IsOrientableComplex(ramSurf) then
             return fail;
         fi;
         TryNextMethod();
@@ -178,7 +178,7 @@ InstallImmediateMethod( Orientation,
 ##
 ##  Now we write the method to only check if an orientation exists
 ##
-InstallImmediateMethod( IsOrientable,
+InstallImmediateMethod( IsOrientableComplex,
     "for a polygonal complex without edge ramifications with Orientation",
     IsPolygonalComplex and IsNotEdgeRamified and HasOrientation, 0,
     function(ramSurf)
@@ -188,7 +188,7 @@ InstallImmediateMethod( IsOrientable,
 
 ## If we can't compute IsOrientable any other way, we try computing a global
 ## orientation first
-InstallMethod( IsOrientable,
+InstallMethod( IsOrientableComplex,
     "for a polygonal complex without edge ramifications",
     [IsPolygonalComplex and IsNotEdgeRamified],
     function(ramSurf)
@@ -196,12 +196,12 @@ InstallMethod( IsOrientable,
             TryNextMethod();
         fi;
         Orientation(ramSurf);
-        return IsOrientable(ramSurf);
+        return IsOrientableComplex(ramSurf);
     end
 );
 
 ## global orientation computation for twisted polygonal complexes
-InstallMethod( IsOrientable,
+InstallMethod( IsOrientableComplex,
     "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex and IsNotEdgeRamified],
     function(complex)
@@ -261,6 +261,14 @@ InstallMethod( IsOrientable,
             od;
         od;
         return true;
+    end
+);
+
+InstallMethod( IsOrientableSurface,
+    "for a polygonal surface",
+    [IsPolygonalSurface],
+    function(surf)
+        return IsOrientableComplex(surf);
     end
 );
 

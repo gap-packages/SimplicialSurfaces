@@ -158,9 +158,9 @@ gap&gt; EulerCharacteristic(surface);
 <Example>
 gap&gt; IsClosedSurface(surface);
 true
-gap&gt; IsConnected(surface);
+gap&gt; IsConnectedSurface(surface);
 true
-gap&gt; IsOrientable(surface);
+gap&gt; IsOrientableSurface(surface);
 true
 </Example>
         We can also compute more complicated properties like the 
@@ -269,7 +269,7 @@ gap&gt; VerticesOfFaces(surf);
 <Example>
 gap&gt; moebius := SimplicialSurfaceByVerticesInFaces(
 &gt;                            [[1,2,3],[2,3,4],[3,4,5],[4,5,1],[5,2,1]]);;
-gap&gt; IsOrientable(moebius);
+gap&gt; IsOrientableSurface(moebius);
 false
 </Example>
 <!-- TODO can you avoid the colour loss? Can't we just use the gap-prompt as a left fixture -->

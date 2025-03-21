@@ -94,8 +94,8 @@
 #! Obviously, we can use functions defined by this package. For example,
 #! the following command returns all predefined tori:
 #! @BeginExampleSession
-#! gap> AllPolygonalComplexes( IsConnected, true, 
-#! >            IsOrientable, true, EulerCharacteristic, 0 );
+#! gap> AllPolygonalComplexes( IsConnectedComplex, true, 
+#! >            IsOrientableComplex, true, EulerCharacteristic, 0 );
 #! [ simplicial surface (3 vertices, 9 edges, and 6 faces), 
 #!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
 #!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
@@ -103,7 +103,7 @@
 #! Since it is tedious to always write <K>true</K>, there is a shortcut
 #! implemented that interprets "missing" results as <K>true</K>: 
 #! @BeginExampleSession
-#! gap> AllPolygonalComplexes( IsConnected, IsOrientable, EulerCharacteristic, 0 );
+#! gap> AllPolygonalComplexes( IsConnectedComplex, IsOrientableComplex, EulerCharacteristic, 0 );
 #! [ simplicial surface (3 vertices, 9 edges, and 6 faces), 
 #!   simplicial surface (9 vertices, 27 edges, and 18 faces), 
 #!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
@@ -120,7 +120,7 @@
 #! >        return Length(intersect) > 0;
 #! > end;
 #! function( surface ) ... end
-#! gap> AllSimplicialSurfaces(IsOrientable, false, HasCentralVertex);
+#! gap> AllSimplicialSurfaces(IsOrientableSurface, false, HasCentralVertex);
 #! [ simplicial surface (3 vertices, 6 edges, and 3 faces), 
 #!   simplicial surface (3 vertices, 6 edges, and 4 faces), 
 #!   simplicial surface (4 vertices, 12 edges, and 8 faces) ]
@@ -136,7 +136,7 @@
 #! the second argument is either the result of that function or a list of
 #! accepted results. For example
 #! @BeginLog
-#! gap> AllTwistedPolygonalComplexes( NumberOfVertices, [10,12], IsOrientable, false );
+#! gap> AllTwistedPolygonalComplexes( NumberOfVertices, [10,12], IsOrientableComplex, false );
 #! @EndLog
 #! returns all non-orientable twisted polygonal complexes with 10 or 12 vertices from
 #! the library.
@@ -151,7 +151,7 @@
 #! >    end;;
 #! gap> plat := AllPolygonalComplexes( IsPolygonalSurface, true,
 #! >      EulerCharacteristic, 2, DegreeRegular, true,
-#! >      IsConnected, true, IsClosedSurface, true);;
+#! >      IsConnectedSurface, true, IsClosedSurface, true);;
 #! gap> Size(plat);
 #! 5
 #! @EndExampleSession
@@ -171,7 +171,7 @@
 #! as follows:
 #! @BeginExampleSession
 #! gap> plat := AllPolygonalSurfaces( EulerCharacteristic, 2, DegreeRegular,
-#! >      IsConnected, IsClosedSurface );;
+#! >      IsConnectedSurface, IsClosedSurface );;
 #! gap> Size(plat);
 #! 5
 #! @EndExampleSession
@@ -179,7 +179,7 @@
 #! command may be used:
 #! @BeginExampleSession
 #! gap> plat := AllSimplicialSurfaces( EulerCharacteristic, 2, DegreeRegular,
-#! >      IsConnected, IsClosedSurface );;
+#! >      IsConnectedSurface, IsClosedSurface );;
 #! gap> Size(plat);
 #! 3
 #! @EndExampleSession
@@ -188,7 +188,7 @@
 #! restricted:
 #! @BeginExampleSession
 #! gap> plat := AllPolygonalComplexes( [4,8], 
-#! >               EulerCharacteristic, 2, IsConnected, IsClosedSurface );;
+#! >               EulerCharacteristic, 2, IsConnectedComplex, IsClosedComplex );;
 #! gap> Size(plat);
 #! 2
 #! @EndExampleSession
@@ -462,7 +462,6 @@ DeclareOperation( "JanusHead", [] );
 #! [ [ 1, 2, 5 ], [ 2, 3, 6 ], [ 3, 4, 7 ], [ 1, 4, 8 ] ]
 #! gap> VerticesOfFaces(umb4);
 #! [ [ 1, 2, 5 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 1, 4, 5 ] ]
-#! gap> 
 #! gap> umb2 := SimplicialUmbrella(2);
 #! simplicial surface (3 vertices, 4 edges, and 2 faces)
 #! gap> VerticesOfEdges(umb2);
@@ -475,6 +474,35 @@ DeclareOperation( "JanusHead", [] );
 # here no AutoDoc documentation since synonyms can't be handled automatically
 DeclareOperation("SimplicialUmbrella", [ IsPosInt ] );
 DeclareSynonym("SimplicialGon", SimplicialUmbrella);
+
+#! <ManSection Label="SimplicialDoubleUmbrella"> 
+#!   <Oper Name="SimplicialDoubleUmbrella" Arg="nrFaces" Label="for IsPosInt"/>
+#!   <Filt Name="SimplicialDoubleGon" Arg="nrFaces" Type="operation"/>
+#!   <Returns><K>a simplicial surface</K></Returns>
+#!   <Description>
+#!   Return a simplicial surface consisting of two closed umbrella-paths
+#!   with <A>nrFaces</A> triangles which are joined at their boundary. 
+#!   The labels of one umbrella are assigned according to the illustration for <E>SimplicialUmbrella</E>,
+#!   the additional vertex is labelled with <A>nrFaces+2</A>, the incident edges to this vertex 
+#!   are labelled from <A>2*nrFaces+1</A> to <A>4*nrFaces</A> and the incident faces are labelled from
+#!   <A>nrFaces+1</A> to <A>2*nrFaces</A>.
+#! @ExampleSession
+#! gap> doubleumb2:=SimplicialDoubleUmbrella(2);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> VerticesOfEdges(doubleumb2);
+#! [ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ], [ 1, 4 ], [ 2, 4 ] ]
+#! gap> EdgesOfFaces(doubleumb2);
+#! [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 3, 5, 6 ], [ 4, 5, 6 ] ]
+#! gap> doubleumb4:=SimplicialDoubleUmbrella(4);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> IsIsomorphic(doubleumb4,Octahedron());
+#! true
+#! @EndExampleSession
+#!   </Description>
+#! </ManSection>
+# here no AutoDoc documentation since synonyms can't be handled automatically
+DeclareOperation("SimplicialDoubleUmbrella", [ IsPosInt ] );
+DeclareSynonym("SimplicialDoubleGon", SimplicialDoubleUmbrella);
 
 #! @BeginGroup SimplicialOpenGeodesic
 #! @Description

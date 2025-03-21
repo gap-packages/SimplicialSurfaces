@@ -20,7 +20,7 @@ InstallMethod( IsEssentialDisc,
 
            if not IsSimplicialSurface(disc) then return false; fi;
 
-           if not IsConnected(disc) then return false; fi;
+           if not IsConnectedSurface(disc) then return false; fi;
            if EulerCharacteristic(disc)<>1 then return false; fi;
 
            bound := BoundaryVertices(disc);

@@ -405,17 +405,17 @@ InstallMethod( DisplayInformation, "for a twisted polygonal complex",
         PrintTo(out, __SIMPLICIAL_PolygonalComplexName(complex, true) );
         if IsPolygonalSurface(complex) then # more information
             PrintTo(out,  " (" );
-            if IsClosedSurface(complex) then
+            if IsClosedComplex(complex) then
                 PrintTo(out, "closed, ");
             fi;
             
-            if IsOrientable(complex) then
+            if IsOrientableComplex(complex) then
                 PrintTo(out, "orientable, ");
             else
                 PrintTo(out, "non-orientable, ");
             fi;
 
-            if IsConnected(complex) then
+            if IsConnectedComplex(complex) then
                 PrintTo(out, "Euler-characteristic ", EulerCharacteristic(complex) );
             else
                 PrintTo(out,  NumberOfConnectedComponents(complex), " connected components" );
