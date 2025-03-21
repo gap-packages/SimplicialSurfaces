@@ -228,7 +228,7 @@
 #! @Arguments complex
 DeclareAttribute( "IncidenceDigraphsGraph", IsPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "IncidenceGrapeGraph", IsPolygonalComplex );
+DeclareAttribute( "IncidenceGrapeGraph", IsPolygonalComplex, "mutable" );
 #! @Arguments complex
 DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
 #! @EndGroup
