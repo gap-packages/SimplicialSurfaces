@@ -742,13 +742,10 @@ end
 
 #############################################################################
 ##
-##  VertexCounterByAngle ( <surf> ) . . . . for a coloured simplicial surface
+##  CounterOfVerticesByAngle ( <surf> ) . . . . for a coloured simplicial surface
 ##
 
-
-InstallMethod( VertexCounterByAngle,
-    "refined vertex counter for an edge coloured surface",
-    [IsEdgeColouredSimplicialSurface],
+BindGlobal( "__SIMPLICIAL_VertexCounterByAngle",
      function (surf)
         local faceDegrees, vertex, face, faces, thisvertex, e, counter;
 
@@ -764,7 +761,22 @@ InstallMethod( VertexCounterByAngle,
         od;
 
         return Collected(counter);
+    end
+);
 
-    end)
-;
+DeclareRepresentation("CounterOfVerticesByAngleRep", 
+    IsCounterOfVerticesByAngle and IsAttributeStoringRep, []);
+BindGlobal("CounterOfVerticesByAngleType", 
+    NewType(CounterOfVerticesByAngleFamily, CounterOfVerticesByAngleRep));
 
+InstallMethod( CounterOfVerticesByAngle,
+    "refined vertex counter for an edge coloured surface",
+    [IsEdgeColouredSimplicialSurface],
+    function( surf)
+        local counter;
+		counter:=Objectify(CounterOfVerticesByAngleType,rec());
+        SetListCounter(counter,__SIMPLICIAL_VertexCounterByAngle(surf));
+		SetAssociatedPolygonalComplex(counter,surf);
+        return counter;
+    end
+);
