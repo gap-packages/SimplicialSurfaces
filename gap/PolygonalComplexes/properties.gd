@@ -193,7 +193,7 @@ DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
 #! Example for simplex rings can be found in <Ref Subsect="SimplexStringByIsomorphismType"/>.
 #!
 #! @Arguments complex
-DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
+DeclareProperty( "IsSimplexString", IsTwistedPolygonalComplex);
 #! @EndGroup
 
 #! @BeginGroup IsMultiTetrahedralSphere

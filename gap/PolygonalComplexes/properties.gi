@@ -78,8 +78,8 @@ InstallMethod( IsSimplexRing, "for a twisted polygonal complex",
         boundaryEdges:=BoundaryEdges(complex);
 
         for face in Faces(complex) do
-            edges:=EdgesOfFaces(complex,face);
-            if Intersection(edges,innerEdges)<>2 or Intersection(edges,boundaryEdges)<>1 then
+            edges:=EdgesOfFace(complex,face);
+            if Length(Intersection(edges,innerEdges))<>2 or Length(Intersection(edges,boundaryEdges))<>1 then
                 return false;
             fi;
         od;
@@ -105,17 +105,16 @@ InstallMethod( IsSimplexString, "for a twisted polygonal complex",
         endFaces:=0;
 
         for face in Faces(complex) do
-            edges:=EdgesOfFaces(complex,face);
-            if Intersection(edges,innerEdges)=1 and Intersection(edges,boundaryEdges)=2 then
+            edges:=EdgesOfFace(complex,face);
+            if Length(Intersection(edges,innerEdges))=1 and Length(Intersection(edges,boundaryEdges))=2 then
                 endFaces:=endFaces+1;
-            elif Intersection(edges,innerEdges)<>2 and Intersection(edges,boundaryEdges)<>1 then
-                return false;
-            fi;
-
-            if endFaces>2 then
+            elif Length(Intersection(edges,innerEdges))<>2 and Length(Intersection(edges,boundaryEdges))<>1 then
                 return false;
             fi;
         od;
+        if endFaces<>2 then
+            return false;
+        fi;
         return true;
     end
 );

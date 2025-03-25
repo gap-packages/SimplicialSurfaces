@@ -632,14 +632,15 @@ DeclareOperation( "SimplicialGeodesic", [ IsPosInt ] );
 #! The simplex ring with isomorphism type <K>[n_1,...,n_k]</K> has <K>n_1+...+n_k</K> faces
 #! and is constructed based on a closed geodesic with <K>k</K> faces where the i-th faces is subdivided in <K>n_i</K>
 #! faces. How the subdivision is defined can be seen in the picture below.
+#! The incidences between vertices and faces can also be observed there.
 #! 
-#! As an example consider the simplex ring with isomorphism type <K>[1,2,3]</K>: TODO add picture
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_constructors-15-1.svg'> &lt;/img> &lt;br>
+#! As an example consider the simplex ring with isomorphism type <K>[1,2,3]</K>, where the left and right edge have to be identified:
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SimplexString-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \begin{center}
-#! \includegraphics{images/_Wrapper_constructors-15.pdf}
+#! \includegraphics{images/_Wrapper_Image_SimplexString.pdf}
 #! \end{center}
 #! </Alt>
 #! <Alt Only = "Text">
@@ -668,7 +669,7 @@ DeclareOperation( "SimplexRingByIsomorphismType", [IsList] );
 #! This method constructs a simplex string given its isomorphism type.
 #! A simplicial surface is a simplex string if it is connected and it is a face or
 #! exactly two of its faces (end faces) have two boundary edges and all other
-#! faces have exactly one inner and two outer edges .
+#! faces have exactly one inner and two outer edges.
 #! They can be described uniquely by their isomorphism type which is a list
 #! <K>[n_1,...,n_k]</K>. 
 #! The simplex string with isomorphism type <K>[n_1,...,n_k]</K> has <K>n_1+...+n_k</K> faces
@@ -680,7 +681,8 @@ DeclareOperation( "SimplexRingByIsomorphismType", [IsList] );
 #! gap> string:=SimplexStringByIsomorphismType([1,2,3]);
 #! simplicial surface (8 vertices, 13 edges, and 6 faces)
 #! gap> UmbrellaDescriptorOfSurface(string);
-#! [ [ 1 ], [ 1, 2 ], [ 4, 3, 2, 1 ], [ 2, 3 ], [ 3, 4, 5, 6 ], [ 4, 5 ], [ 5, 6 ], [ 6 ] ]
+#! [ [ 1 ], [ 1, 2 ], [ 4, 3, 2, 1 ], [ 2, 3 ], [ 3, 4, 5, 6 ], [ 4, 5 ], [ 5, 6 ], 
+#!   [ 6 ] ]
 #! gap> IsSimplexString(string);
 #! true
 #! @EndExampleSession
