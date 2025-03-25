@@ -170,6 +170,31 @@ DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamif
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
 
+#! @BeginGroup IsSimplexRing
+#! @Description
+#! Check whether the given twisted polygonal complex is 
+#! a simplex ring.
+#! A simplex ring is a connected simplicial surface where
+#! each face has exactly one inner and two outer edges.
+#! Example for simplex rings can be found in <Ref Subsect="SimplexRingByIsomorphismType"/>
+#!
+#! @Arguments complex
+DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
+#! @EndGroup
+
+#! @BeginGroup IsSimplexString
+#! @Description
+#! Check whether the given twisted polygonal complex is 
+#! a simplex string.
+#! A simplex ring is either a triangle or a connected simplicial surface where
+#! exactly two faces have two boundary edges and all other
+#! faces have exactly one inner and two outer edges.
+#! Example for simplex rings can be found in <Ref Subsect="SimplexStringByIsomorphismType"/>.
+#!
+#! @Arguments complex
+DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
+#! @EndGroup
+
 #! @BeginGroup IsMultiTetrahedralSphere
 #! @Description
 #! Check whether the given twisted polygonal complex is a multitetrahedral
