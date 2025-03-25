@@ -451,24 +451,34 @@ DeclareOperation( "AllIsoscelesColouredSurfaces", [IsSimplicialSurface, IsBool] 
 #! @EndGroup
 #! @InsertChunk Example_All_Isosceles 
 
-#! @BeginGroup VertexCounterByAngle
-#! @Description
-#! The function VertexCounterByAngle is a refinement of the function
-#! VertexCounter: For an edge coloured simplicial surface which is either
-#! edge vari-coloured or isosceles coloured it determines
-#! for every vertex how many faces are incident to that vertex at a given
-#! angle. In both cases, the angle of a face at a particular vertex is determined by
-#! the colour of the opposite edge. The function VertexCounterByAngle returns a
-#! list. The entries of this lists are lists of the form <A>[s,i]</A>, where 
-#! <A>i</A> is a number counting how often the vertex angle described by the 
-#! list <A>s</A> is encountered.
-#! The entry <A>s</A> is itself a list which describes the angles around a vertex by
-#! recording pairs <A>[a,j],</A> where <A>a</A> is the colour of an edge opposite 
-#! the vertex and
-#! <A>j</A> counts how many times this angle was counted.
-#! @Returns a list 
-#! @Arguments colSimSurf
-DeclareOperation( "VertexCounterByAngle", [IsEdgeColouredSimplicialSurface]);
-#! @EndGroup
+DeclareCategory( "IsCounterOfVerticesByAngle", IsCounter);
+BindGlobal( "CounterOfVerticesByAngleFamily",
+    NewFamily("CounterOfVerticesByAngleFamily", IsObject, IsCounterOfVerticesByAngle));
+DeclareAttribute("CounterOfVerticesByAngle",IsEdgeColouredSimplicialSurface);
+
+#! <ManSection Label="CounterOfVerticesByAngle">
+#!   <Oper Name="CounterOfVerticesByAngle" Arg="surf"
+#!      Label="for IsEdgeColouredSimplicialSurface"
+#!      Comm="Construct a vertex counter by angle from an edge coloured simplicial surface"/>
+#!   <Returns>A Counter-&GAP;-object</Returns>
+#!   <Prop Name="IsCounterOfVerticesByAngle" Arg="object" Label="for IsObject"
+#!      Comm="Check whether a given object is a vertex counter by angle"/>
+#!   <Returns><K>true</K> or <K>false</K></Returns>
+#!   <Description>
+#!      The function VertexCounterByAngle is a refinement of the function
+#!      VertexCounter: For an edge coloured simplicial surface which is either
+#!      edge vari-coloured or isosceles coloured it determines
+#!      for every vertex how many faces are incident to that vertex at a given
+#!      angle. In both cases, the angle of a face at a particular vertex is determined by
+#!      the colour of the opposite edge. The function VertexCounterByAngle returns a
+#!      list. The entries of this lists are lists of the form <A>[s,i]</A>, where 
+#!      <A>i</A> is a number counting how often the vertex angle described by the 
+#!      list <A>s</A> is encountered.
+#!      The entry <A>s</A> is itself a list which describes the angles around a vertex by
+#!      recording pairs <A>[a,j],</A> where <A>a</A> is the colour of an edge opposite 
+#!      the vertex and <A>j</A> counts how many times this angle was counted.
+#!
 #! @InsertChunk Example_IsoscelesIcosahedron
+#!   </Description>
+#! </ManSection>
 ##

@@ -118,8 +118,7 @@ DeclareAttribute( "EulerCharacteristic", IsTwistedPolygonalComplex );
 #! Check whether the given twisted polygonal complex without edge ramifications is 
 #! <E>closed</E>.
 #! A twisted polygonal complex without edge ramifications is closed if every edge is 
-#! incident to <E>exactly</E> 
-#! two
+#! incident to <E>exactly</E> two
 #! faces (whereas the absence of edge ramifications only means that
 #! every edge is incident to <E>at most</E> two faces).
 #!
@@ -161,12 +160,14 @@ DeclareAttribute( "EulerCharacteristic", IsTwistedPolygonalComplex );
 #! Image omitted in terminal text
             #! </Alt>
 #! @ExampleSession
-#! gap> IsClosedSurface(triforce);
+#! gap> IsClosedComplex(triforce);
 #! false
 #! @EndExampleSession
 #!
-#! @Arguments ramSurf
-DeclareProperty( "IsClosedSurface", IsTwistedPolygonalComplex and IsNotEdgeRamified );
+#! @Arguments complex
+DeclareProperty( "IsClosedComplex", IsTwistedPolygonalComplex and IsNotEdgeRamified );
+#! @Arguments surf
+DeclareProperty( "IsClosedSurface", IsPolygonalSurface );
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
 

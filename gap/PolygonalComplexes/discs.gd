@@ -44,7 +44,7 @@
 #! >    [ 3, 9, 10 ], [ 4, 10, 11 ], [ 11, 12, 16 ], [ 12, 13, 17 ],
 #! >    [ 5, 6, 13 ] ] );
 #! simplicial surface (8 vertices, 17 edges, and 10 faces)
-#! gap> IsConnected(disc);
+#! gap> IsConnectedSurface(disc);
 #! true
 #! gap> EulerCharacteristic(disc);
 #! 1
@@ -74,7 +74,7 @@ DeclareOperation( "IsEssentialDisc", [IsTwistedPolygonalComplex] );
 #! > [ [1, 2, 3], [1, 4, 5], [6, 7, 14], [2, 7, 8], [8, 9, 15],
 #! > [3, 9, 10], [10, 11, 16], [4, 11, 12], [12, 13, 17], [5, 6, 13] ]);
 #! simplicial surface (8 vertices, 17 edges, and 10 faces)
-#! gap> IsConnected(surface);
+#! gap> IsConnectedSurface(surface);
 #! true
 #! gap> EulerCharacteristic(surface);
 #! 1

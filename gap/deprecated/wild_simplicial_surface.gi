@@ -554,7 +554,7 @@ end);
 ##
 ##	Check connectivity
 ##
-InstallMethod( IsConnected, "for a wild simplicial surface",
+InstallMethod( IsConnectedSurface, "for a wild simplicial surface",
 	[IsWildSimplicialSurface],
 	function(simpsurf)
 		return Length( Orbits( GroupOfWildSimplicialSurface(simpsurf), 
@@ -566,7 +566,7 @@ InstallMethod( IsConnected, "for a wild simplicial surface",
 ##	Check orientability
 ##
 #TODO how should be handle the assumption of connectivity?
-InstallMethod( IsOrientable, "for a wild simplicial surface", true, 
+InstallMethod( IsOrientableSurface, "for a wild simplicial surface", true, 
 	[ IsWildSimplicialSurface and IsPathConnected], 0,
         function(simpsurf)
 
@@ -616,7 +616,7 @@ InstallMethod( IsOrientable, "for a wild simplicial surface", true,
         elif Length(orb) = 2 then
             return true;
         fi;
-        Error("IsOrientable: unknown orientability of wild simplicial surface");
+        Error("IsOrientableSurface: unknown orientability of wild simplicial surface");
 
 	end
 );

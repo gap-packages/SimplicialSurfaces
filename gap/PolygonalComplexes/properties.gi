@@ -22,7 +22,7 @@ InstallMethod( EulerCharacteristic, "for a twisted polygonal complex",
     end
 );
 
-InstallMethod( IsClosedSurface, "for a polygonal complex without edge ramifications",
+InstallMethod( IsClosedComplex, "for a polygonal complex without edge ramifications",
     [IsPolygonalComplex and IsNotEdgeRamified],
     function( ramSurf )
         local faces;
@@ -35,7 +35,7 @@ InstallMethod( IsClosedSurface, "for a polygonal complex without edge ramificati
         return true;
     end
 );
-InstallMethod( IsClosedSurface, "for a twisted polygonal complex without edge ramifications",
+InstallMethod( IsClosedComplex, "for a twisted polygonal complex without edge ramifications",
     [IsTwistedPolygonalComplex and IsNotEdgeRamified],
     function( ramSurf )
         local edgeClass;
@@ -48,13 +48,20 @@ InstallMethod( IsClosedSurface, "for a twisted polygonal complex without edge ra
         return true;
     end
 );
-InstallOtherMethod( IsClosedSurface, "for a twisted polygonal complex",
+InstallOtherMethod( IsClosedComplex, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
         if not IsNotEdgeRamified(complex) then
-            Error("IsClosedSurface: Given twisted polygonal complex complex contains ramified edges.");
+            Error("IsClosedComplex: Given twisted polygonal complex complex contains ramified edges.");
         fi;
-        return IsClosedSurface(complex); # Call the function above
+        return IsClosedComplex(complex); # Call the function above
+    end
+);
+
+InstallMethod( IsClosedSurface, "for a polygonal surface",
+    [IsPolygonalSurface],
+    function( surf )
+        return IsClosedComplex(surf);
     end
 );
 
@@ -117,7 +124,7 @@ InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
         local waists;
-        if not (IsSimplicialSurface(complex) and IsClosedSurface(complex) and
+        if not (IsSimplicialSurface(complex) and IsClosedComplex(complex) and
                 EulerCharacteristic(complex)=2 and IsVertexFaithful(complex)) then
                 return false;
         fi;
@@ -702,11 +709,11 @@ BindGlobal( "__SIMPLICIAL_CounterName",
         if big then
             nameList := ["CounterOfVertices", "CounterOfEdges", 
                 "CounterOfFaces", "CounterOfButterlies",
-                "CounterOfUmbrellas", "CounterOfThreeFaces", "Counter"];
+                "CounterOfUmbrellas", "CounterOfThreeFaces","CounterOfVerticesByAngle", "Counter"];
         else
             nameList := ["counter of vertices", "counter of edges", 
                 "counter of faces", "counter of butterlies",
-                "counter of umbrellas", "counter of three faces", "counter"];
+                "counter of umbrellas", "counter of three faces","counter of vertices by angle", "counter"];
         fi;
 
         if IsCounterOfVertices(counter) then
@@ -721,8 +728,10 @@ BindGlobal( "__SIMPLICIAL_CounterName",
             return nameList[5];
         elif IsCounterOfThreeFaces(counter) then
             return nameList[6];
-        else
+        elif IsCounterOfVerticesByAngle(counter) then
             return nameList[7];
+        else
+            return nameList[8];
         fi;
     end
 );
@@ -919,7 +928,7 @@ InstallMethod( InnerVertices, "for a polygonal surface",
     end
 );
 InstallMethod( InnerVertices, "for a closed twisted polygonal complex",
-    [IsTwistedPolygonalComplex and IsClosedSurface],
+    [IsTwistedPolygonalComplex and IsClosedComplex],
     function(complex)
         return VerticesAttributeOfComplex(complex);
     end
@@ -979,7 +988,7 @@ InstallMethod( BoundaryVertices, "for a polygonal complex",
 );
 # Special case closed surface
 InstallMethod( BoundaryVertices, "for a closed twisted polygonal complex",
-    [IsTwistedPolygonalComplex and IsClosedSurface],
+    [IsTwistedPolygonalComplex and IsClosedComplex],
     function(complex)
         return [];
     end
@@ -1281,7 +1290,7 @@ InstallMethod( BoundaryEdges, "for a twisted polygonal complex",
     end
 );
 InstallMethod( BoundaryEdges, "for a closed polygonal complex",
-    [IsPolygonalComplex and IsClosedSurface],
+    [IsPolygonalComplex and IsClosedComplex],
     function(complex)
         return [];
     end
