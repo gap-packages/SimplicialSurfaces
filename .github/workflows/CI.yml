@@ -61,7 +61,6 @@ jobs:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
           GAP_PKGS_TO_CLONE: "sebasguts/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
       - uses: gap-actions/build-pkg@v1
-      - run: cd flatex && ./autogen.sh && ./configure && make && cd -
       - uses: gap-actions/build-pkg-docs@v1
         with:
           use-latex: 'true'

@@ -1,4 +1,4 @@
-all: flatex/flatex doc
+all: doc
 
 doc: doc/manual.six
 
@@ -31,9 +31,4 @@ doc/manual.six: makedoc.g \
 		doc/tikz-files/TikZHeader.tex
 	gap makedoc.g
 
-flatex/flatex: flatex/flatex.c \
-    		flatex/configure.ac \
-		flatex/autogen.sh \
-		flatex/Makefile.am
-	cd flatex && ./autogen.sh && ./configure && make
 
