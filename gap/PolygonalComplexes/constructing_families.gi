@@ -325,3 +325,16 @@ InstallMethod(ReembeddingsOfDigraph,
     return DigraphsToSurf(digraph,subdigraphs,facialCycles,rotationSystem);
 end);
 fi;
+
+InstallMethod( ReembeddingsOfDigraph, "for a 3-connected planar graph, a genus and a boolean", 
+[IsDigraph, IsInt, IsBool], function(digraph, g, orientable)
+        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.10.0.");
+    end
+);
+
+InstallMethod(ReembeddingsOfSimplicialSphere,"for a vertex-faithful simplicial sphere, a genus and a boolean",
+	[IsSimplicialSurface, IsInt, IsBool],
+	function(surf, g, orientable)
+        Error("ReembeddingsOfSimplicialSphere: The package Digraph has to be available with version at least 1.10.0.");
+	end
+);
