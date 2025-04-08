@@ -1,4 +1,4 @@
-The GAP 4 package 'SimplicialSurfaces'
+The GAP 4 package  `SimplicialSurfaces`
 ==============================
 
 ## Installation
@@ -19,7 +19,7 @@ It is suggested that you also use the NautyTracesInterface for faster isomorphis
 git clone https://github.com/gap-packages/NautyTracesInterface.git
 ```
 
-Then install NautytracesInterface by running the `install.sh` file in the newly created NautytracesInterface directory. For more information we refer to the package itself.
+To install NautytracesInterface you can run the `install.sh` script in the newly created NautytracesInterface directory. For more information we refer to the package itself.
 
 For using the Package, call
 ```
@@ -33,14 +33,14 @@ To create the manual you have to type
 ```
 make
 ```
-in the main folder of the SimplicialSurfaces-package. This requires GAPDoc version >= 1.6 and AutoDoc version >= 2017.09.15. These are deposited packages, so usually are shipped with your GAP installation. If you don't have those, go to the folder of your local GAP installation and type
+in the main folder of the SimplicialSurfaces-package. This requires `GAPDoc` version `>= 1.6` and `AutoDoc` version `>= 2017.09.15`. These are deposited packages, so usually are shipped with your GAP installation. If you don't have those, go to the folder of your local GAP installation and type
 ```
 cd pkg/
 git clone https://github.com/frankluebeck/GAPDoc.git
 git clone https://github.com/gap-packages/AutoDoc.git
 ```
 ### Regenerating images
-To compile the pictures, you also can run the following script:
+To compile the pictures, you can run the following script:
 ```
 doc/tikz-files/recompile-images.sh
 ```    
