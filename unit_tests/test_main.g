@@ -64,6 +64,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
         __SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph();
     fi;
+    if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
+        __SIMPLICIAL_Test_ReembeddingsOfDigraph
+    fi;
 
     __SIMPLICIAL_Test_FaceTwoColouring();
 
