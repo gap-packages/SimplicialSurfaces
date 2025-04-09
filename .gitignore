@@ -16,23 +16,6 @@ tst/*.tst
 # ignore the files that get copied to doc/
 doc/_TIKZ_*.tex
 
-# flatex-folder
-flatex/.deps/
-flatex/Makefile
-flatex/Makefile.in
-flatex/aclocal.m4
-flatex/autom4te.cache/
-flatex/compile
-flatex/config.guess
-flatex/config.status
-flatex/config.sub
-flatex/configure
-flatex/depcomp
-flatex/flatex
-flatex/flatex.o
-flatex/install-sh
-flatex/missing
-
 # Automatically generated library stuff
 *.bin
 */_index/
