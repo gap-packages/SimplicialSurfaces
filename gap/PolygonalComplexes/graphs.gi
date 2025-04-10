@@ -385,6 +385,7 @@ InstallMethod( IsomorphismRepresentatives,
     end
 );
 
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 InstallMethod( CanonicalRepresentativeOfPolygonalSurface, 
     "for a polygonal surface", [IsPolygonalSurface],
     function( surf )
@@ -563,6 +564,7 @@ InstallMethod( CanonicalRepresentativeOfPolygonalSurface,
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( CanonicalRepresentativeOfPolygonalSurface, true, 
         [IsPolygonalComplex], [IsPolygonalSurface], 0 );
+fi;
 fi;
 
 

@@ -562,7 +562,7 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! mapping the canonical representative under its preimage map returns the 
 #! cube again.
 
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> faces := [ 20, 21, 22, 23, 24, 25 ];;
 #! gap> edges := [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];;
 #! gap> vertices := [ 12, 13, 14, 15, 16, 17, 18, 19 ];;
@@ -595,7 +595,7 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! gap> original := RangeSurface(canonicalCube[2]);;
 #! gap> original=cube;
 #! true
-#! @EndExampleSession
+#! @EndLogSession
 
 #! @Arguments surface
 #! @Returns A list containing the canonical form of the surface and a

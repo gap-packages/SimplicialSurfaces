@@ -1824,6 +1824,7 @@ end
 # From this information we can also deduce the identified vertices by forming intersection 
 # Strategy: We start from an vertex of the vertex and aim to build admissible relations containing the umbrella of the vertex. And then go on to add the umbrellas of
 # the neighbouring vertices to the umbrella and so on. 
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 BindGlobal( "__SIMPLICIAL_AdmissibleRelationsHelp",
 function(surface,relation,bool,bool2)
     local visitedFaces,visitedVertices,remainingVertices,v,vertices,
@@ -1922,7 +1923,7 @@ InstallOtherMethod( AdmissibleRelationsOfSurface,
 	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,false);  
 end
 );
-
+fi;
 
 ##
 ##      End of epimorphic images
