@@ -97,7 +97,7 @@ if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 
 fi;
 
-if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
+if IsPackageMarkedForLoading( "GRAPE", ">=4.8.2" ) then
 	BindGlobal( "__SIMPLICIAL_Test_IncidenceGrapeGraph", function()
 		local grapeTetra, grapeTetraEdges, vertex, edges, edge, faces;
 		grapeTetra:=IncidenceGrapeGraph(Tetrahedron()).graph;
@@ -136,7 +136,7 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	end);
 fi;
 
-if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
 	BindGlobal( "__SIMPLICIAL_Test_IncidenceNautyGraph", function()
 		local nautyTetra, nautyTetraEdges, vertex, edges, edge, faces;
 		nautyTetra:=UnderlyingNautyGraph(IncidenceNautyGraph(Tetrahedron()));
