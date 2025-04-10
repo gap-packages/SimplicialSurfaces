@@ -2,7 +2,7 @@
 ##
 ##  SimplicialSurface package
 ##
-##  Copyright 2012-2019
+##  Copyright 2012-2025
 ##    Markus Baumeister, RWTH Aachen University
 ##    Alice Niemeyer, RWTH Aachen University 
 ##

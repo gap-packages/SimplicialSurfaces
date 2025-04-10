@@ -1,3 +1,14 @@
+#############################################################################
+##
+##  SimplicialSurface package
+##
+##  Copyright 2012-2025
+##    Alice Niemeyer, RWTH Aachen University 
+##
+## Licensed under the GPL 3 or later.
+##
+#############################################################################
+
 if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 	BindGlobal( "__SIMPLICIAL_Test_IncidenceDigraphsGraph", function()
 		local digTetra, digTetraEdges, vertex, edges, edge, faces;

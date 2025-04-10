@@ -2,7 +2,7 @@
 ##
 ##  SimplicialSurface package
 ##
-##  Copyright 2012-2024
+##  Copyright 2012-2025
 ##    Alice Niemeyer, RWTH Aachen University 
 ##
 ## Licensed under the GPL 3 or later.

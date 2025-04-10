@@ -2,8 +2,8 @@
 ##
 ##  init.g                simplicial surface package
 ##
-#Y  Copyright (C) 2016-2017, Alice Niemeyer, Lehrstuhl B für Mathematik,
-#Y  RWTH Aachen
+##  Copyright (C) 2016-2025, Alice Niemeyer, Lehrstuhl für Algebra und Darstellungstheorie
+##  RWTH Aachen
 ##
 ##  Reading the declaration part of the simplicial surface package.
 ##

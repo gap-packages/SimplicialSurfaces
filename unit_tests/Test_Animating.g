@@ -1,3 +1,15 @@
+#############################################################################
+##
+##  SimplicialSurface package
+##
+##  Copyright 2012-2025
+##    Markus Baumeister, RWTH Aachen University
+##    Alice Niemeyer, RWTH Aachen University 
+##
+## Licensed under the GPL 3 or later.
+##
+#############################################################################
+
 BindGlobal( "__SIMPLICIAL_Test_Animating", function()
     local oct, verticesPositions, printRecord, printRecordVert, printRecordEd, printRecordFa, printRecordTrans,
 	printRecordVertCol, printRecordEdCol, printRecordFaCol, printRecordCirc, printRecordNorm;

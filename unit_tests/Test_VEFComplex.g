@@ -1,3 +1,15 @@
+#############################################################################
+##
+##  SimplicialSurface package
+##
+##  Copyright 2012-2025
+##    Markus Baumeister, RWTH Aachen University
+##    Alice Niemeyer, RWTH Aachen University 
+##
+## Licensed under the GPL 3 or later.
+##
+#############################################################################
+
 BindGlobal( "__SIMPLICIAL_Test_VEF_SpecialisedIncidence",
     function()
         local torus, torus_ve, torus_vf, torus_ef, ball, ball_ve, ball_vf, 

@@ -1,8 +1,18 @@
+#############################################################################
+##
+##  SimplicialSurface package
+##
+##  Copyright 2012-2025
+##    Alice Niemeyer, RWTH Aachen University 
+##
+## Licensed under the GPL 3 or later.
+##
+#############################################################################
 
 
 #############################################################################
 ##
-#F IsEssentialDisc( <disc> ) . . . . . . . . test whether <disc> is essential
+## IsEssentialDisc( <disc> ) . . . . . . . . test whether <disc> is essential
 ##
 ## A simplicial surface <disc> is called an essential simplicial disc, if
 ## it is a connected simplicial surface of Euler Characteristic 1, no
