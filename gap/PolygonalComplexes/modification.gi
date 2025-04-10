@@ -2531,7 +2531,7 @@ end
 ##      Tori construction
 ##
 
-
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 InstallMethod( AllToriOfSimplicialSphere, 
     "for a simplicial surface",
     [IsSimplicialSurface],
@@ -2606,6 +2606,7 @@ InstallMethod( AllToriOfSimplicialSphere,
         return res;
     end
 );
+fi;
 ##
 ##      End of tori construction
 ##

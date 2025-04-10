@@ -66,7 +66,7 @@ DeclareOperation( "IsEssentialDisc", [IsTwistedPolygonalComplex] );
 #! An essential butterfly insertion is a butterfly insertion that does not
 #! create a 3-waist.
 #!
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> surface := SimplicialSurfaceByDownwardIncidence(
 #! > [ [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ], [ 1, 5 ], [ 1, 6 ],
 #! > [ 2, 6 ], [ 2, 7 ], [ 3, 7 ], [ 3, 8 ], [ 4, 8 ], [ 4, 5 ],  [ 5, 6 ],
@@ -83,7 +83,7 @@ DeclareOperation( "IsEssentialDisc", [IsTwistedPolygonalComplex] );
 #! simplicial surface (9 vertices, 20 edges, and 12 faces)
 #!     , simplicial surface (9 vertices, 20 edges, and 12 faces), 
 #!  simplicial surface (9 vertices, 20 edges, and 12 faces) ]
-#! @EndExampleSession
+#! @EndLogSession
 #! @Arguments surface
 #! @Returns a list of simplicial surfaces
 DeclareOperation( "AllSimplicialSurfacesByEssentialButterflyInsertion", [IsSimplicialSurface] );

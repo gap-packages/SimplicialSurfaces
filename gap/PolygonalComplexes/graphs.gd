@@ -628,7 +628,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginExampleSession
 #! gap> tetra := Tetrahedron();;
 #! gap> IsAutomorphismDefinedByFaces(tetra);
 #! true
@@ -674,7 +674,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> AutomorphismGroup(tetra);
 #! Group([ 
 #!   (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
@@ -687,7 +687,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #!    (1,5)(2,6)(3,7)(4,8)(9,11)(10,12) ])
 #! gap> Size( last );
 #! 12
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! Unfortunately, this makes it more complicated to understand the 
 #! automorphisms at a glance. To see the individual action on vertices,
@@ -731,10 +731,10 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! @EndExampleSession
 #! Therefore, the automorphism group is best represented by its action on
 #! the edges.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> AutomorphismGroupOnEdges(openBag);
 #! Group([ (3,4), (1,2) ])
-#! @EndExampleSession
+#! @EndLogSession
 
 #! @BeginGroup AutomorphismGroup
 #! @Description
@@ -745,7 +745,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
 #! 
 #! For the tetrahedron this gives the following result:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> tetra := Tetrahedron();;
 #! gap> Vertices(tetra);
 #! [ 1, 2, 3, 4 ]
@@ -760,7 +760,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #!   (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
 #!   (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
 #!   (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
-#! @EndExampleSession
+#! @EndLogSession
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TetrahedronChambers-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -775,14 +775,14 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! 
 #! To see the action on vertices, edges, and faces simultaneously, use the method 
 #! <K>DisplayAsAutomorphism</K> (<Ref Subsect="DisplayAsAutomorphism"/>).
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> DisplayAsAutomorphism( tetra, aut.1 );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
 #! gap> DisplayAsAutomorphism( tetra, aut.2 );
 #! [ (2,3), (1,2)(5,6), (2,4) ]
 #! gap> DisplayAsAutomorphism( tetra, aut.3 );
 #! [ (1,2), (2,4)(3,5), (3,4) ]
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! To compute the action on vertices, edges or faces individually, use
 #! the methods <K>AutomorphismGroupOnVertices</K> 
@@ -791,25 +791,25 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! (<Ref Subsect="AutomorphismGroupOnEdges"/>) or
 #! <K>AutomorphismGroupOnFaces</K>
 #! (<Ref Subsect="AutomorphismGroupOnFaces"/>).
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> AutomorphismGroupOnVertices(tetra);
 #! Group([ (3,4), (2,3), (1,2) ])
 #! gap> AutomorphismGroupOnEdges(tetra);
 #! Group([ (2,3)(4,5), (1,2)(5,6), (2,4)(3,5) ])
 #! gap> AutomorphismGroupOnFaces(tetra);
 #! Group([ (1,2), (2,4), (3,4) ])
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! For example, the automorphism group of an icosahedron 
 #! (<Ref Subsect="Icosahedron"/>) is the direct product of a cyclic group
 #! of order 2 and an alternating group of order 60.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> autIco := AutomorphismGroup( Icosahedron() );;
 #! gap> Size(autIco);
 #! 120
 #! gap> StructureDescription(autIco);
 #! "C2 x A5"
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! @Arguments complex
 #! @Returns a permutation group
@@ -836,7 +836,7 @@ DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> tetra := Tetrahedron();;
 #! gap> aut := AutomorphismGroup( tetra );
 #! Group([ 
@@ -851,7 +851,7 @@ DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! [ (1,2), (2,4)(3,5), (3,4) ]
 #! gap> DisplayAsAutomorphism( tetra, aut.1 );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! @Arguments complex, perm
 #! @Returns A list of three permutations
@@ -878,13 +878,13 @@ DeclareOperation( "DisplayAsAutomorphism", [IsTwistedPolygonalComplex, IsPerm] )
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> cube := Cube();;
 #! gap> IsAutomorphismDefinedByVertices(cube);
 #! true
 #! gap> AutomorphismGroupOnVertices(cube);
 #! Group([ (3,6)(4,5), (2,4)(6,8), (1,2)(3,4)(5,6)(7,8) ])
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
@@ -913,14 +913,14 @@ DeclareProperty( "IsAutomorphismDefinedByVertices", IsTwistedPolygonalComplex );
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> cube := Cube();;
 #! gap> IsAutomorphismDefinedByEdges(cube);
 #! true
 #! gap> AutomorphismGroupOnEdges(cube);
 #! Group([ (2,5)(3,12)(4,8)(6,9)(7,11), (1,4)(2,3)(5,7)(9,10)(11,12), 
 #!    (2,4)(5,8)(6,7)(9,11) ])
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
@@ -949,13 +949,13 @@ DeclareProperty( "IsAutomorphismDefinedByEdges", IsTwistedPolygonalComplex );
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> cube := Cube();;
 #! gap> IsAutomorphismDefinedByFaces(cube);
 #! true
 #! gap> AutomorphismGroupOnFaces(cube);
 #! Group([ (1,2)(5,6), (2,4)(3,5), (3,4) ])
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
@@ -1019,7 +1019,7 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #!
 #! The automorphism group has exactly two orbits on this
 #! set of paths (either the two edges belong to one triangle, or they don't).
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> autOct := AutomorphismGroup(oct);;
 #! gap> pathOrbits := Orbits(autOct, paths, OnVertexEdgePaths);;
 #! gap> Length(pathOrbits);
@@ -1030,7 +1030,7 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #! | v2, E1, v1, E3, v4 |
 #! gap> List( pathOrbits, Length );
 #! [ 48, 24 ]
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! @Arguments vePath, aut
 #! @Returns a vertex-edge-path
@@ -1088,7 +1088,7 @@ DeclareOperation( "OnVertexEdgePaths",
 #!
 #! The automorphism group has exactly two orbits on this
 #! set of paths.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> autOct := AutomorphismGroup(oct);;
 #! gap> pathOrbits := Orbits(autOct, paths, OnEdgeFacePaths);;
 #! gap> Length(pathOrbits);
@@ -1099,7 +1099,7 @@ DeclareOperation( "OnVertexEdgePaths",
 #! | e1, F1, e2, F7, e8 |
 #! gap> List( pathOrbits, Length );
 #! [ 48, 48 ]
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! @Arguments efPath, aut
 #! @Returns an edge-face-path

@@ -275,7 +275,7 @@ InstallMethod( IsIsomorphic, "for two twisted polygonal complexes",
 InstallOtherMethod( IsIsomorphic, "for two polygonal complexes",
     [IsPolygonalComplex, IsPolygonalComplex],
     function(complex1, complex2)
-        Error("IsIsomorphic for polygonal complexes: One of the packages NautyTracesInterface or GRAPE have to be available.");
+        Error("IsIsomorphic for polygonal complexes: One of the packages Digraphs, NautyTracesInterface or GRAPE have to be available.");
     end
 );
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
@@ -290,6 +290,25 @@ InstallMethod( AutomorphismGroup, "for a twisted polygonal complex",
         Error("AutomorphismGroup: The package NautyTracesInterface has to be available.");
     end
 );
+
+if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
+    InstallOtherMethod( IsIsomorphic,
+        "for two polygonal complexes",
+        [IsPolygonalComplex, IsPolygonalComplex],
+        function(complex1, complex2)
+            local inc1, inc2;
+		
+            if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+                return false;
+            fi;
+
+            inc1 := IncidenceDigraphsGraph(complex1);
+            inc2 := IncidenceDigraphsGraph(complex2);
+            return IsIsomorphicDigraph(inc1,inc2);
+        end
+    );
+fi;
+
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
     InstallOtherMethod( IsIsomorphic,
         "for two polygonal complexes",
@@ -607,6 +626,8 @@ InstallMethod( DisplayAsAutomorphism,
     end
 );
 
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
+
 InstallMethod( AutomorphismGroupOnVertices, "for a polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
@@ -649,6 +670,8 @@ InstallMethod( AutomorphismGroupOnFaces, "for a polygonal complex",
         return Group( gens );
     end
 );
+
+fi;
 
 
 InstallMethod( IsAutomorphismDefinedByVertices, "for a polygonal complex",

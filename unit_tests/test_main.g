@@ -54,15 +54,17 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     # Graphs
     __SIMPLICIAL_Test_IncidenceDigraphsGraph();
-     if IsPackageMarkedForLoading( "Grape", ">=0" ) then
+    if IsPackageMarkedForLoading( "Grape", ">=0" ) then
         __SIMPLICIAL_Test_IncidenceGrapeGraph();
         __SIMPLICIAL_Test_EdgeGrapeGraph();
     fi;
-    __SIMPLICIAL_Test_IncidenceNautyGraph();
+    if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
+        __SIMPLICIAL_Test_IncidenceNautyGraph();
+        __SIMPLICIAL_Test_EdgeNautyGraph();
+        __SIMPLICIAL_Test_FaceNautyGraph();
+    fi;
     __SIMPLICIAL_Test_EdgeDigraphsGraph();
-    __SIMPLICIAL_Test_EdgeNautyGraph();
     __SIMPLICIAL_Test_FaceDigraphsGraph();
-    __SIMPLICIAL_Test_FaceNautyGraph();
     if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
         __SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph();
     fi;
