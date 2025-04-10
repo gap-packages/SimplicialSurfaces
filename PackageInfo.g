@@ -8,8 +8,8 @@ SetPackageInfo( rec(
 PackageName := "GitHubPagesForGAP",
 
 Subtitle := "A GitHub Pages generator for GAP packages",
-Version := "0.3",
-Date := "10/11/2019", # dd/mm/yyyy format
+Version := "0.4",
+Date := "10/04/2025", # dd/mm/yyyy format
 License := "0BSD",
 
 Persons := [
