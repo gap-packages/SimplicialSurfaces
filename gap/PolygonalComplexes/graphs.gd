@@ -206,13 +206,13 @@
 #! [ 13, 9 ], [ 13, 10 ], [ 13, 11 ] ] 
 #! @EndExampleSession
 #! Consider how getting information from a graph given by <K>GRAPE</K> looks like:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> grape := IncidenceGrapeGraph(complex).graph;;
 #! gap> DirectedEdges(grape)=DigraphEdges(digraph);
 #! true
-#! @EndExampleSession
+#! @EndLogSession
 #! Finally, consider how getting information from a graph given by <K>NautyTracesInterface</K> looks like:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> nauty:=UnderlyingNautyGraph(IncidenceNautyGraph(complex));;
 #! gap> nautyEdges:=nauty!.edges;
 #! [ [ 1, 6 ], [ 3, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 5, 9 ],
@@ -220,7 +220,7 @@
 #! [ 7, 12 ], [ 8, 12 ], [ 8, 13 ], [ 9, 13 ], [ 10, 13 ], [ 11, 13 ] ]
 #! gap> nautyEdges=DigraphEdges(digraph);
 #! false
-#! @EndExampleSession
+#! @EndLogSession
 #! The edges of the nauty incidence graph are not equal to the edges of the digraph,
 #! since the edges from the nauty graph are undirected.
 #!
