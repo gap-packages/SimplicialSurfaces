@@ -736,7 +736,7 @@ RedispatchOnCondition( DrawSurfaceToTikz, true,
 ##      Isomorphism testing
 ##
 
-if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
+if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) and IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
     InstallMethod( ColourIncidenceDigraphsGraph, 
         "for an edge coloured polygonal complex",
         [IsEdgeColouredPolygonalComplex],
