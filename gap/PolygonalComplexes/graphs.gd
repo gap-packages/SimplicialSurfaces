@@ -156,7 +156,7 @@
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #!
 #! The incidence graph is given as a &GAP;-graph. Currently these packages
 #! are supported:
@@ -183,6 +183,12 @@
 #! to different graph packages: 
 #! @InsertChunk Graphs_Packages
 #!
+#! Note that if <K>IncidenceDigraphsGraph</K>  is used the output is a list,
+#! where the first entry is a digraph and the second a list of vertex colours, with the colours 1...4.
+#! There are isolated vertices of the digraph which correspond to labels of vertices, edges and faces 
+#! that do not exists in the given polygonal complex.
+#! These are coloured with colour 4 and the other vertices are coloured as described above but increased by one.
+#!
 #! Consider the polygonal complex at the begin of section <Ref Sect="Section_Graphs_Incidence"/>:
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence(
@@ -191,20 +197,19 @@
 #! polygonal surface (5 vertices, 6 edges, and 2 faces)
 #! @EndExampleSession
 #! First of all look at the graph given by <K>Digraphs</K>:
-#! @BeginLogSession
-#! gap> digraph := IncidenceDigraphsGraph(complex);;
+#! @BeginExampleSession
+#! gap> digraph := IncidenceDigraphsGraph(complex)[1];;
 #! gap> DigraphVertices(digraph);
-#! [ 1 .. 13 ]
-#! gap> DigraphVertexLabels(digraph);
-#! [ 2, 3, 5, 7, 11, 17, 19, 20, 21, 23, 24, 25, 28 ]
+#! [ 1 .. 28 ]
 #! gap> DigraphEdges(digraph);
-#! [ [ 1, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 2, 10 ], [ 3, 6 ], [ 3, 8 ],
-#! [ 3, 9 ], [ 4, 10 ], [ 4, 11 ], [ 5, 9 ], [ 5, 11 ], [ 6, 1 ], [ 6, 3 ],
-#! [ 6, 12 ], [ 7, 1 ], [ 7, 2 ], [ 7, 12 ], [ 8, 2 ], [ 8, 3 ], [ 8, 12 ],
-#! [ 8, 13 ], [ 9, 3 ], [ 9, 5 ], [ 9, 13 ], [ 10, 2 ], [ 10, 4 ], [ 10, 13 ],
-#! [ 11, 4 ], [ 11, 5 ], [ 11, 13 ], [ 12, 6 ], [ 12, 7 ], [ 12, 8 ], [ 13, 8 ],
-#! [ 13, 9 ], [ 13, 10 ], [ 13, 11 ] ] 
-#! @EndLogSession
+#! [ [ 2, 17 ], [ 2, 19 ], [ 3, 19 ], [ 3, 20 ], [ 3, 23 ], [ 5, 17 ],
+#!  [ 5, 20 ], [ 5, 21 ], [ 7, 23 ], [ 7, 24 ], [ 11, 21 ], [ 11, 24 ],
+#!  [ 17, 2 ], [ 17, 5 ], [ 17, 25 ], [ 19, 2 ], [ 19, 3 ], [ 19, 25 ],
+#!  [ 20, 3 ], [ 20, 5 ], [ 20, 25 ], [ 20, 28 ], [ 21, 5 ], [ 21, 11 ],
+#!  [ 21, 28 ], [ 23, 3 ], [ 23, 7 ], [ 23, 28 ], [ 24, 7 ], [ 24, 11 ],
+#!  [ 24, 28 ], [ 25, 17 ], [ 25, 19 ], [ 25, 20 ], [ 28, 20 ], [ 28, 21 ],
+#!  [ 28, 23 ], [ 28, 24 ] ]
+#! @EndExampleSession
 #! Consider how getting information from a graph given by <K>GRAPE</K> looks like:
 #! @BeginLogSession
 #! gap> grape := IncidenceGrapeGraph(complex).graph;;
@@ -491,8 +496,6 @@ DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
 #! are isomorphic. If both twisted polygonal complexes are polygonal complexes,
 #! this can equivalently be described as isomorphism between their incidence
 #! graphs (compare <Ref Subsect="Section_Graphs_Incidence"/>).
-#!
-#! The isomorphism check needs the package <K>NautyTracesInterface</K> to work.
 #!
 #! @ExampleSession
 #! gap> IsIsomorphic( Cube(), Octahedron() );

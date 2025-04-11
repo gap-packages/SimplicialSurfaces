@@ -861,6 +861,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         "for an edge coloured polygonal complex",
         [IsEdgeColouredPolygonalComplex],
         function(colComplex)
+            local data;
             data:=__SIMPLICIAL_ColourIncidenceGraph(colComplex);
             return NautyColoredGraphWithNodeLabels( data[1], data[2], data[3]);
         end

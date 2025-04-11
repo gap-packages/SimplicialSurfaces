@@ -1,29 +1,26 @@
-if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
-	BindGlobal( "__SIMPLICIAL_Test_IncidenceDigraphsGraph", function()
-		local digTetra, digTetraEdges, vertex, edges, edge, faces;
-		digTetra:=IncidenceDigraphsGraph(Tetrahedron());
-		digTetraEdges:=ShallowCopy(DigraphEdges(digTetra));
-		Assert(0,Length(digTetraEdges)=48);
-		for edge in [1..Length(digTetraEdges)] do
-			digTetraEdges[edge]:=[DigraphVertexLabel(digTetra,digTetraEdges[edge][1]),DigraphVertexLabel(digTetra,digTetraEdges[edge][2])];
+
+BindGlobal( "__SIMPLICIAL_Test_IncidenceDigraphsGraph", function()
+	local digTetra, digTetraEdges, vertex, edges, edge, faces;
+	digTetra:=IncidenceDigraphsGraph(Tetrahedron());
+	digTetraEdges:=ShallowCopy(DigraphEdges(digTetra));
+	Assert(0,Length(digTetraEdges)=48);
+	for edge in [1..Length(digTetraEdges)] do
+		digTetraEdges[edge]:=[DigraphVertexLabel(digTetra,digTetraEdges[edge][1]),DigraphVertexLabel(digTetra,digTetraEdges[edge][2])];
+	od;
+	
+	for vertex in EdgesOfVertices(Tetrahedron()) do
+		for edges in vertex do
+			Assert(0,[Position(EdgesOfVertices(Tetrahedron()),vertex),edges+Last(Vertices(Tetrahedron()))] in digTetraEdges);
 		od;
-		
-		for vertex in EdgesOfVertices(Tetrahedron()) do
-			for edges in vertex do
-				Assert(0,[Position(EdgesOfVertices(Tetrahedron()),vertex),edges+Last(Vertices(Tetrahedron()))] in digTetraEdges);
-			od;
+	od;
+	
+	for edge in FacesOfEdges(Tetrahedron()) do
+		for faces in edge do
+			Assert(0,[Position(FacesOfEdges(Tetrahedron()),edge)+Last(Vertices(Tetrahedron())),faces+Last(Vertices(Tetrahedron()))+
+			Last(Edges(Tetrahedron()))] in digTetraEdges);
 		od;
-		
-		for edge in FacesOfEdges(Tetrahedron()) do
-			for faces in edge do
-				Assert(0,[Position(FacesOfEdges(Tetrahedron()),edge)+Last(Vertices(Tetrahedron())),faces+Last(Vertices(Tetrahedron()))+
-				Last(Edges(Tetrahedron()))] in digTetraEdges);
-			od;
-		od;
-	end);
-else
-	BindGlobal( "__SIMPLICIAL_Test_IncidenceDigraphsGraph", function() end);
-fi;
+	od;
+end);
 	
 BindGlobal( "__SIMPLICIAL_Test_EdgeDigraphsGraph", function()
 	local digTetra, reversedTetra, vertices, eye, digEye, reversedEye;

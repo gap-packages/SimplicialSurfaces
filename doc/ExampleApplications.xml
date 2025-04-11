@@ -67,11 +67,10 @@ simplicial surface (17 vertices, 45 edges, and 30 faces)
         To check whether this new surface has trivial automorphism group,
         we compute the automorphism group with <K>AutomorphismGroup</K>
         (<Ref Subsect="AutomorphismGroup"/>).
-<Example>
-gap&gt; not IsPackageMarkedForLoading("NautyTracesInterface", ">=0")  
-> or IsTrivial(AutomorphismGroup(newSurf));
+<Log>
+gap&gt; IsTrivial(AutomorphismGroup(newSurf));
 true
-</Example>
+</Log>
         Since this is the trivial group, we succeeded in our goal.
     </Section>
 

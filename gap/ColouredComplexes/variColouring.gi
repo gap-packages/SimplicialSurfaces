@@ -1255,39 +1255,6 @@ BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
         return DigraphConnectedComponents(digraph);
     end
 );
-if IsPackageMarkedForLoading( "GRAPE", "4.7" ) then
-    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
-        function(adjacencyList)
-            local symAd, graph, max, pos, pair,
-                comps, compRec, v, id;
-
-            max := 0;
-            symAd := [];
-            pos := 1;
-            for pair in adjacencyList do
-                # Each pair is a set
-                if pair[2] > max then
-                    max := pair[2];
-                fi;
-                symAd[pos] := pair;
-                symAd[pos+1] := [pair[2],pair[1]];
-                pos := pos+2;
-            od;
-            graph := EdgeOrbitsGraph( Group(()), symAd, max );
-
-            comps := ConnectedComponents(graph);
-            # This is a list of vertex lists
-            compRec := rec();
-            compRec.comps := comps;
-            id := [];
-            for v in Vertices(graph) do
-                id[v] := PositionProperty(comps, c -> v in c);
-            od;
-            compRec.id := id;
-            return compRec;
-        end
-    );
-fi;
 
 InstallMethod( CommonCover, 
         "for two simplicial surfaces and local symmetries of edges",

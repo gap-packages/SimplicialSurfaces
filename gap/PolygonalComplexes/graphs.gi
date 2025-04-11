@@ -291,27 +291,6 @@ fi;
 ##      Isomorphism test and automorphism group
 ##
 
-
-## The order of installation describes which of these functions is
-## preferred - the last one has highest priority.
-InstallMethod( IsIsomorphic, "for two twisted polygonal complexes",
-    [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
-    function(complex1, complex2)
-        Error("IsIsomorphic: The package NautyTracesInterface has to be available.");
-    end
-);
-InstallOtherMethod( IsIsomorphic, "for two polygonal complexes",
-    [IsPolygonalComplex, IsPolygonalComplex],
-    function(complex1, complex2)
-        Error("IsIsomorphic for polygonal complexes: One of the packages Digraphs, NautyTracesInterface or GRAPE have to be available.");
-    end
-);
-if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( IsIsomorphic, true, 
-        [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
-        [IsPolygonalComplex, IsPolygonalComplex], 0);
-fi;
-
 InstallMethod( AutomorphismGroup, "for a twisted polygonal complex", 
     [IsTwistedPolygonalComplex],
     function(complex)
@@ -320,8 +299,8 @@ InstallMethod( AutomorphismGroup, "for a twisted polygonal complex",
 );
 
 InstallOtherMethod( IsIsomorphic,
-    "for two polygonal complexes",
-    [IsPolygonalComplex, IsPolygonalComplex],
+    "for two twisted polygonal complexes",
+    [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
     function(complex1, complex2)
         local inc1, inc2, g1, g2, iso1, iso2, c1, c2;
     
