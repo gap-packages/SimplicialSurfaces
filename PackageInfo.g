@@ -91,6 +91,7 @@ Persons := [
 #IssueTrackerURL := "TODO",
 #SupportEmail := "TODO",
 
+SourceRepository := rec( Type := "git", URL := "https://github.com/gap-packages/SimplicialSurfaces" ),
 PackageWWWHome := "https://github.com/gap-packages/SimplicialSurfaces",
 
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
