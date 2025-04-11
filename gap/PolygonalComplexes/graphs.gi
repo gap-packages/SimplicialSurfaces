@@ -1,16 +1,3 @@
-#############################################################################
-##
-##  SimplicialSurface package
-##
-##  Copyright 2012-2022
-##    Markus Baumeister, RWTH Aachen University
-##    Alice Niemeyer, RWTH Aachen University 
-##    Meike Weiß, RWTH Aachen University
-##
-## Licensed under the GPL 3 or later.
-##
-#############################################################################
-
 #####
 #####
 #####   This file contains the implementations for the incidence graphs

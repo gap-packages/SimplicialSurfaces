@@ -1,14 +1,3 @@
-#############################################################################
-##
-##  read.g                simplicial surface package
-##
-#Y  Copyright (C) 2016-2017, Alice Niemeyer, Lehrstuhl B für Mathematik,
-#Y  RWTH Aachen
-##
-##  Reading the implementation part of the simplicial surface package.
-##
-#############################################################################
-
 ReadPackage( "SimplicialSurfaces", "gap/utilities.g" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gi" );
