@@ -198,7 +198,10 @@ InstallMethod( SimplicialSurface, "for an edge coloured simplicial surface",
         return PolygonalComplex(colComplex);
     end
 );
-RedispatchOnCondition( SimplicialSurface, true, [IsEdgeColouredTwistedPolygonalComplex], [IsEdgeColouredSimplicialSurface], 0 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SimplicialSurface, true, [IsEdgeColouredTwistedPolygonalComplex], [IsEdgeColouredSimplicialSurface], 0 );
+fi;
 
 InstallMethod( TwistedPolygonalComplex,
     "for an edge coloured twisted polygonal complex with SimplicialSurface",

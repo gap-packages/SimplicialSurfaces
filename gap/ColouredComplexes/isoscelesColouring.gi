@@ -134,10 +134,11 @@ InstallMethod( ApexVertexOfFace,
 end
 );               
 
-RedispatchOnCondition( ApexVertexOfFace, true, 
-        [IsEdgeColouredTwistedPolygonalComplex,IsPosInt],
-    [IsIsoscelesColouredSurface],	0 );
-
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( ApexVertexOfFace, true, 
+            [IsEdgeColouredTwistedPolygonalComplex,IsPosInt],
+        [IsIsoscelesColouredSurface],	0 );
+fi;
 
 InstallMethod( BaseEdgeOfFace,
     [IsIsoscelesColouredSurface, IsPosInt],
@@ -156,11 +157,11 @@ InstallMethod( BaseEdgeOfFace,
 end
 );
 
-
-RedispatchOnCondition( BaseEdgeOfFace, true, 
-        [IsEdgeColouredTwistedPolygonalComplex,IsPosInt],
-    [IsIsoscelesColouredSurface],	0 );
-
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( BaseEdgeOfFace, true, 
+            [IsEdgeColouredTwistedPolygonalComplex,IsPosInt],
+        [IsIsoscelesColouredSurface],	0 );
+fi;
 
 __SIMPLICIAL_Legfaces := function( surf, e)
 
@@ -389,9 +390,12 @@ InstallMethod( ColouredUmbrellaOfVertexNC,
         return ColouredUmbrellasOfVertices(isoscelesSurf)[vertex];
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( ColouredUmbrellaOfVertexNC, true, 
         [IsEdgeColouredTwistedPolygonalComplex, IsPosInt], 
         [IsIsoscelesColouredSurface], 0 );
+fi;
 
 InstallMethod( ColouredUmbrellaOfVertex,
     "for an isosceles coloured surface and a vertex",
@@ -401,9 +405,12 @@ InstallMethod( ColouredUmbrellaOfVertex,
         return ColouredUmbrellaOfVertexNC(isoscelesSurf,vertex);
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( ColouredUmbrellaOfVertex, true, 
         [IsEdgeColouredTwistedPolygonalComplex,IsPosInt], 
         [IsIsoscelesColouredSurface], 0 );
+fi;
 
 InstallMethod( ColouredUmbrellasOfVertices,
     "for an isosceles coloured surface",
@@ -424,9 +431,11 @@ InstallMethod( ColouredUmbrellasOfVertices,
         return colUmbs;
     end
 );
-RedispatchOnCondition( ColouredUmbrellasOfVertices, true,
-    [IsEdgeColouredTwistedPolygonalComplex], [IsIsoscelesColouredSurface], 0);
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( ColouredUmbrellasOfVertices, true,
+        [IsEdgeColouredTwistedPolygonalComplex], [IsIsoscelesColouredSurface], 0);
+fi;
 
 #######################################
 ##
@@ -462,10 +471,12 @@ InstallMethod( LocalSymmetryOfEdgesAsNumbers,
         return mr;
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( LocalSymmetryOfEdgesAsNumbers, true, 
         [IsEdgeColouredTwistedPolygonalComplex], 
         [IsIsoscelesColouredSurface], 0 );
-
+fi;
 
 InstallMethod( LocalSymmetryOfEdges, 
     "for an edge-coloured simplicial surface",
@@ -477,9 +488,11 @@ InstallMethod( LocalSymmetryOfEdges,
         return List(mr, __SIMPLICIAL_LocalSymmetryNamesOfNumber );
     end
 );
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( LocalSymmetryOfEdges, true, 
         [IsEdgeColouredTwistedPolygonalComplex], 
         [IsIsoscelesColouredSurface], 0 );
+fi;
 
 ################################
 ##
