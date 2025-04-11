@@ -14,6 +14,7 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/navigation.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/distances.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructing_families.gd");
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/discs.gd" );
 

@@ -55,6 +55,60 @@ InstallMethod( IsClosedSurface, "for a polygonal surface",
     end
 );
 
+InstallMethod( IsSimplexRing, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( complex )
+        local innerEdges, boundaryEdges, face, edges;
+
+        if not IsSimplicialSurface(complex) or not IsConnectedComplex(complex) then
+            return false;
+        fi;
+
+        innerEdges:=InnerEdges(complex);
+        boundaryEdges:=BoundaryEdges(complex);
+
+        for face in Faces(complex) do
+            edges:=EdgesOfFace(complex,face);
+            if Length(Intersection(edges,innerEdges))<>2 or Length(Intersection(edges,boundaryEdges))<>1 then
+                return false;
+            fi;
+        od;
+        return true;
+    end
+);
+
+InstallMethod( IsSimplexString, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( complex )
+        local innerEdges, boundaryEdges, endFaces, face, edges;
+
+        if IsIsomorphic(complex,OneFace()) then
+            return true;
+        fi;
+
+        if not IsSimplicialSurface(complex) or not IsConnectedComplex(complex) then
+            return false;
+        fi;
+
+        innerEdges:=InnerEdges(complex);
+        boundaryEdges:=BoundaryEdges(complex);
+        endFaces:=0;
+
+        for face in Faces(complex) do
+            edges:=EdgesOfFace(complex,face);
+            if Length(Intersection(edges,innerEdges))=1 and Length(Intersection(edges,boundaryEdges))=2 then
+                endFaces:=endFaces+1;
+            elif Length(Intersection(edges,innerEdges))<>2 and Length(Intersection(edges,boundaryEdges))<>1 then
+                return false;
+            fi;
+        od;
+        if endFaces<>2 then
+            return false;
+        fi;
+        return true;
+    end
+);
+
 InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
@@ -1808,6 +1862,8 @@ BindGlobal( "__SIMPLICIAL_AddFaceToRelation",
 end
 );
 
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
 # the function returns a list of tuples [s,rel] where s is a simplicial surface and the rel is a admissible relation
 # on the given surface 'surface' that gives rise to s. 
 # Note that this function only focuses on admissible relation that yield butterfly friendly epimorphism from surface to s.
@@ -1918,8 +1974,7 @@ InstallOtherMethod( AdmissibleRelationsOfSurface,
 	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,false);  
 end
 );
-
-
+fi;
 ##
 ##      End of epimorphic images
 ##

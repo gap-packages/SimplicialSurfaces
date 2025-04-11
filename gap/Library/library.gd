@@ -412,6 +412,32 @@ DeclareOperation( "Icosahedron", [] );
 #! This section contains all other pre-defined surfaces that are not
 #! covered in one of the other sections.
 
+#! @Description
+#! Return a <E>one-face</E> as a simplicial surface. A one-face consists
+#! of one triangular face.
+#! 
+#! @Returns a simplicial surface
+DeclareOperation( "OneFace", [] );
+
+#! @Description
+#! Return a <E>butterfly</E> as a simplicial surface. A butterfly consists
+#! of two triangular faces that share an edge.
+#!
+#! <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_Butterfly-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_Butterfly.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! 
+#! @Returns a simplicial surface
+DeclareOperation( "Butterfly", [] );
+
 
 #! @Description
 #! Return a <E>Janus-Head</E> as a simplicial surface. A Janus-Head consists
@@ -586,4 +612,72 @@ DeclareOperation( "SimplicialClosedGeodesic", [ IsPosInt ] );
 DeclareOperation( "SimplicialGeodesic", [ IsPosInt ] );
 #! @EndGroup
 
+#! @BeginGroup SimplexRingByIsomorphismType
+#! @Description
+#! This method constructs a simplex ring given its isomorphism type.
+#! A simplicial surface is a simplex ring if it is connected and each face
+#! has exactly one inner and two outer edges.
+#! They can be described uniquely by their isomorphism type which is a list
+#! <K>[n_1,...,n_k]</K>. 
+#! The simplex ring with isomorphism type <K>[n_1,...,n_k]</K> has <K>n_1+...+n_k</K> faces
+#! and is constructed based on a closed geodesic with <K>k</K> faces where the i-th faces is subdivided in <K>n_i</K>
+#! faces. How the subdivision is defined can be seen in the picture below.
+#! The incidences between vertices and faces can also be observed there.
+#! 
+#! As an example consider the simplex ring with isomorphism type <K>[1,2,3]</K>, where the left and right edge have to be identified:
+#! <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_SimplexString-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_SimplexString.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @BeginExampleSession
+#! gap> ring:=SimplexRingByIsomorphismType([1,2,3]);
+#! simplicial surface (6 vertices, 12 edges, and 6 faces)
+#! gap> UmbrellaDescriptorOfSurface(ring);
+#! [ [ 2, 1, 6 ], [ 1, 2, 3, 4 ], [ 2, 3 ], [ 1, 6, 5, 4, 3 ], [ 4, 5 ], [ 5, 6 ] ]
+#! gap> IsClosedSurface(ring);
+#! false
+#! gap> IsOrientableSurface(ring);
+#! false
+#! gap> IsSimplexRing(ring);
+#! true
+#! @EndExampleSession
+#! 
+#! @Returns a simplicial surface
+#! @Arguments isomorphismType
+DeclareOperation( "SimplexRingByIsomorphismType", [IsList] );
+#! @EndGroup
 
+#! @BeginGroup SimplexStringByIsomorphismType
+#! @Description
+#! This method constructs a simplex string given its isomorphism type.
+#! A simplicial surface is a simplex string if it is connected and it is a face or
+#! exactly two of its faces (end faces) have two boundary edges and all other
+#! faces have exactly one inner and two outer edges.
+#! They can be described uniquely by their isomorphism type which is a list
+#! <K>[n_1,...,n_k]</K>. 
+#! The simplex string with isomorphism type <K>[n_1,...,n_k]</K> has <K>n_1+...+n_k</K> faces
+#! and is constructed based on a strip with <K>k</K> faces where the i-th faces is subdivided in <K>n_i</K>
+#! faces, as shown in <Ref Subsect="SimplexRingByIsomorphismType"/>.
+#! 
+#! As an example consider the simplex string with isomorphism type <K>[1,2,3]</K>:
+#! @BeginExampleSession
+#! gap> string:=SimplexStringByIsomorphismType([1,2,3]);
+#! simplicial surface (8 vertices, 13 edges, and 6 faces)
+#! gap> UmbrellaDescriptorOfSurface(string);
+#! [ [ 1 ], [ 1, 2 ], [ 4, 3, 2, 1 ], [ 2, 3 ], [ 3, 4, 5, 6 ], [ 4, 5 ], [ 5, 6 ], 
+#!   [ 6 ] ]
+#! gap> IsSimplexString(string);
+#! true
+#! @EndExampleSession
+#! 
+#! @Returns a simplicial surface
+#! @Arguments isomorphismType
+DeclareOperation( "SimplexStringByIsomorphismType", [IsList] );
+#! @EndGroup

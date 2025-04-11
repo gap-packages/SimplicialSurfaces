@@ -2598,8 +2598,6 @@ fi;
 ##
 ##      Tori construction
 ##
-
-
 InstallMethod( AllToriOfSimplicialSphere, 
     "for a simplicial surface",
     [IsSimplicialSurface],
