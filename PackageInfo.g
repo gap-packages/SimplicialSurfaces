@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "SimplicialSurfaces",
 Subtitle := "Computing with simplicial surfaces and folding processes.",
-Version := "0.6",
-Date := "23/09/2021", # dd/mm/yyyy format
+Version := "0.7",
+Date := "11/04/2025", # dd/mm/yyyy format
 License := "GPL-3.0-or-later",
 
 Persons := [
