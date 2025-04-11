@@ -55,6 +55,60 @@ InstallMethod( IsClosedSurface, "for a polygonal surface",
     end
 );
 
+InstallMethod( IsSimplexRing, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( complex )
+        local innerEdges, boundaryEdges, face, edges;
+
+        if not IsSimplicialSurface(complex) or not IsConnectedComplex(complex) then
+            return false;
+        fi;
+
+        innerEdges:=InnerEdges(complex);
+        boundaryEdges:=BoundaryEdges(complex);
+
+        for face in Faces(complex) do
+            edges:=EdgesOfFace(complex,face);
+            if Length(Intersection(edges,innerEdges))<>2 or Length(Intersection(edges,boundaryEdges))<>1 then
+                return false;
+            fi;
+        od;
+        return true;
+    end
+);
+
+InstallMethod( IsSimplexString, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( complex )
+        local innerEdges, boundaryEdges, endFaces, face, edges;
+
+        if IsIsomorphic(complex,OneFace()) then
+            return true;
+        fi;
+
+        if not IsSimplicialSurface(complex) or not IsConnectedComplex(complex) then
+            return false;
+        fi;
+
+        innerEdges:=InnerEdges(complex);
+        boundaryEdges:=BoundaryEdges(complex);
+        endFaces:=0;
+
+        for face in Faces(complex) do
+            edges:=EdgesOfFace(complex,face);
+            if Length(Intersection(edges,innerEdges))=1 and Length(Intersection(edges,boundaryEdges))=2 then
+                endFaces:=endFaces+1;
+            elif Length(Intersection(edges,innerEdges))<>2 and Length(Intersection(edges,boundaryEdges))<>1 then
+                return false;
+            fi;
+        od;
+        if endFaces<>2 then
+            return false;
+        fi;
+        return true;
+    end
+);
+
 InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
