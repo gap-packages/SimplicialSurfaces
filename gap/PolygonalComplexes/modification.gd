@@ -1392,13 +1392,13 @@ DeclareOperation( "JoinBoundaryNC", [IsPolygonalComplex, IsInt] );
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> alltori:=AllToriOfSimplicialSphere(Octahedron());
 #! [ simplicial surface (3 vertices, 9 edges, and 6 faces)]
 #! gap> torus:=alltori[1];;
 #! gap> EulerCharacteristic(torus);
 #! 0
-#! @EndExampleSession
+#! @EndLogSession
 #! The simplicial surface <A>torus</A> is constructed by identifying the faces
 #! 1 and 8. Since mending two faces introduces an identification of the
 #! incident vertices and edges, there are new edge and vertex labels introduced.
@@ -1484,7 +1484,7 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalComplex, IsList, IsPolygonalCo
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #! @BeginExampleSession
 #! gap> complex:=SimplicialSurfaceByDownwardIncidence(
 #! >             [[1,2],[2,3],[1,3],[1,3],[3,4],[1,4],[4,5],[1,5],[3,5]],

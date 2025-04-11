@@ -161,6 +161,31 @@ DeclareProperty( "IsClosedSurface", IsPolygonalSurface );
 ## We can't use IsClosed since this is blocked by the orb-package
 #! @EndGroup
 
+#! @BeginGroup IsSimplexRing
+#! @Description
+#! Check whether the given twisted polygonal complex is 
+#! a simplex ring.
+#! A simplex ring is a connected simplicial surface where
+#! each face has exactly one inner and two outer edges.
+#! Example for simplex rings can be found in <Ref Subsect="SimplexRingByIsomorphismType"/>
+#!
+#! @Arguments complex
+DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
+#! @EndGroup
+
+#! @BeginGroup IsSimplexString
+#! @Description
+#! Check whether the given twisted polygonal complex is 
+#! a simplex string.
+#! A simplex ring is either a triangle or a connected simplicial surface where
+#! exactly two faces have two boundary edges and all other
+#! faces have exactly one inner and two outer edges.
+#! Example for simplex rings can be found in <Ref Subsect="SimplexStringByIsomorphismType"/>.
+#!
+#! @Arguments complex
+DeclareProperty( "IsSimplexString", IsTwistedPolygonalComplex);
+#! @EndGroup
+
 #! @BeginGroup IsMultiTetrahedralSphere
 #! @Description
 #! Check whether the given twisted polygonal complex is a multitetrahedral
@@ -1548,28 +1573,17 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! If <K>bool2=false</K> then the function prints how many faces are already visited while computating the admissible relations.
 
 #! As an example, consider the tetrahedron.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> AdmissibleRelationsOfSurface(Tetrahedron(),true);
 #! [ [ simplicial surface (4 vertices, 6 edges, and 4 faces)
 #!        , 
 #!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], 
 #!           [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], 
 #!           [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ]
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! As an example, consider the butterfly.
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_butfly-1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_Image_butfly.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
 #! gap> AdmissibleRelationsOfSurface(butterfly,false);
 #! [ [ simplicial surface (4 vertices, 5 edges, and 2 faces)
@@ -1579,7 +1593,7 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #!   [ simplicial surface (3 vertices, 3 edges, and 1 faces),
 #!       [ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], 
 #!           [ [ 1, 2 ] ] ] ] ]
-#! @EndExampleSession
+#! @EndLogSession
 #! @Returns a list of tuples where the first entry is a surface and the second entry is a list of partitions
 #! @Arguments surface,bool [,bool2]
 DeclareOperation( "AdmissibleRelationsOfSurface", [IsSimplicialSurface,IsBool,IsBool] );

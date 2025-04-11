@@ -784,6 +784,15 @@ InstallMethod( Icosahedron, "", [], function()
 ##
 ##      Other examples
 ##
+InstallMethod( OneFace, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces( [[1,2,3]] );
+    end
+);
+
+InstallMethod( Butterfly, "", [], function()
+    return SimplicialSurfaceByVerticesInFaces( [[1,2,3],[1,3,4]] );
+    end
+);
 
 InstallMethod( JanusHead, "", [], function()
     return SimplicialSurfaceByVerticesInFaces( 3, 2, 
@@ -885,3 +894,98 @@ InstallMethod( SimplicialGeodesic, "for an integer at least 3", [IsPosInt],
         return SimplicialClosedGeodesic(nrFaces);
     end
 );
+
+# The length of the given list defines the number of faces in the geodesic which is subdivided
+# The i-th entry defines in how many faces the i-th face of the geodesic subdivided
+InstallMethod( SimplexRingByIsomorphismType, "for a list",[IsList],
+    function(list)                                  
+    local k, sum, m, umbr, i, u, j;
+    if 0 in list then
+        Error("This is not a valid isomorphism type for a simplex ring.");    
+    fi; 
+    k:=Length(list);
+    sum:= Sum(list); # number of the faces n=n_1+...+n_k
+    m:=0; # number of faces that are used so far                                                      
+    umbr:=[];
+    # constructing the umbrella descriptor
+    if k > 2 then
+        # go through all n_i
+        for i in [1..k] do
+                # constructing the umbrella of the essential vertex
+                u:=[(m-1) mod sum +1]; # adding the predecessor face
+                for j in [1..list[i]+1] do # adding the faces made by subdivision and the last face to the umbrella
+                    Add(u, (m+j-1)mod sum +1); 
+                od;        
+                Add(umbr,u);  
+                # constructing the umbrella of the inessential vertices
+                if list[i]>1 then
+                    for j in [1..list[i]-1] do
+                        m:=m+1;
+                        u:=[m,m+1];
+                        #u:=[(m-1) mod sum+1,m mod sum+1]; # each umbrella has only those two faces 
+                        Add(umbr,u); 
+                    od;
+                    m:=m+1;
+                else
+                    m:=m+list[i];
+                fi;
+        od;
+        return SimplicialSurfaceByUmbrellaDescriptor(umbr);
+    elif k=1 then
+        return SimplicialUmbrella(list[1]);    
+    else
+        Error("This is not a valid isomorphism type for a simplex ring.");   
+    fi;
+end);
+
+
+# The length of the given list defines the number of faces in the strip which is subdivided
+# The i-th entry defines in how many faces the i-th face of the strip subdivided
+InstallMethod( SimplexStringByIsomorphismType, "for a list",[IsList],
+    function(list)                                  
+    local k, sum, m, umbr, i, u, j;
+    if 0 in list then
+        Error("This is not a valid isomorphism type for a simplex string.");    
+    fi; 
+    k:=Length(list);
+    sum:= Sum(list); # number of the faces n=n_1+...+n_k
+    m:=0; # number of faces that are used so far                                                      
+    umbr:=[[1]];
+    # constructing the umbrella descriptor
+    if k > 2 then
+        # go through all n_i
+        for i in [1..k] do
+                # constructing the umbrella of the essential vertex
+                if i>1 then
+                    u:=[(m-1) mod sum +1];
+                else
+                    u:=[];
+                fi;
+                for j in [1..list[i]] do # adding the faces made by subdivision and the last face to the umbrella
+                    Add(u, (m+j-1)mod sum +1); 
+                od;
+                if i<>k then
+                    Add(u, m+list[i]+1);
+                fi;
+                Add(umbr,u);  
+                # constructing the umbrella of the inessential vertices
+                if list[i]>1 then
+                    for j in [1..list[i]-1] do
+                        m:=m+1;
+                        u:=[m,m+1]; # each umbrella has only those two faces 
+                        Add(umbr,u); 
+                    od;
+                    m:=m+1;
+                else
+                    m:=m+list[i];
+                fi;
+        od;
+        Add(umbr,[m]);
+        #Error();
+        return SimplicialSurfaceByUmbrellaDescriptor(umbr);
+    elif k=1 then
+        #return SimplicialOneFace();    
+    else
+        Error("This is not a valid isomorphism type for a simplex ring.");   
+    fi;
+end);

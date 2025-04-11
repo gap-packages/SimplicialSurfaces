@@ -146,7 +146,7 @@
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #!
 #! The incidence graph is given as a &GAP;-graph. Currently these packages
 #! are supported:
@@ -173,6 +173,12 @@
 #! to different graph packages: 
 #! @InsertChunk Graphs_Packages
 #!
+#! Note that if <K>IncidenceDigraphsGraph</K>  is used the output is a list,
+#! where the first entry is a digraph and the second a list of vertex colours, with the colours 1...4.
+#! There are isolated vertices of the digraph which correspond to labels of vertices, edges and faces 
+#! that do not exists in the given polygonal complex.
+#! These are coloured with colour 4 and the other vertices are coloured as described above but increased by one.
+#!
 #! Consider the polygonal complex at the begin of section <Ref Sect="Section_Graphs_Incidence"/>:
 #! @BeginExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence(
@@ -182,27 +188,26 @@
 #! @EndExampleSession
 #! First of all look at the graph given by <K>Digraphs</K>:
 #! @BeginExampleSession
-#! gap> digraph := IncidenceDigraphsGraph(complex);;
+#! gap> digraph := IncidenceDigraphsGraph(complex)[1];;
 #! gap> DigraphVertices(digraph);
-#! [ 1 .. 13 ]
-#! gap> DigraphVertexLabels(digraph);
-#! [ 2, 3, 5, 7, 11, 17, 19, 20, 21, 23, 24, 25, 28 ]
+#! [ 1 .. 28 ]
 #! gap> DigraphEdges(digraph);
-#! [ [ 1, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 2, 10 ], [ 3, 6 ], [ 3, 8 ],
-#! [ 3, 9 ], [ 4, 10 ], [ 4, 11 ], [ 5, 9 ], [ 5, 11 ], [ 6, 1 ], [ 6, 3 ],
-#! [ 6, 12 ], [ 7, 1 ], [ 7, 2 ], [ 7, 12 ], [ 8, 2 ], [ 8, 3 ], [ 8, 12 ],
-#! [ 8, 13 ], [ 9, 3 ], [ 9, 5 ], [ 9, 13 ], [ 10, 2 ], [ 10, 4 ], [ 10, 13 ],
-#! [ 11, 4 ], [ 11, 5 ], [ 11, 13 ], [ 12, 6 ], [ 12, 7 ], [ 12, 8 ], [ 13, 8 ],
-#! [ 13, 9 ], [ 13, 10 ], [ 13, 11 ] ] 
+#! [ [ 2, 17 ], [ 2, 19 ], [ 3, 19 ], [ 3, 20 ], [ 3, 23 ], [ 5, 17 ],
+#!  [ 5, 20 ], [ 5, 21 ], [ 7, 23 ], [ 7, 24 ], [ 11, 21 ], [ 11, 24 ],
+#!  [ 17, 2 ], [ 17, 5 ], [ 17, 25 ], [ 19, 2 ], [ 19, 3 ], [ 19, 25 ],
+#!  [ 20, 3 ], [ 20, 5 ], [ 20, 25 ], [ 20, 28 ], [ 21, 5 ], [ 21, 11 ],
+#!  [ 21, 28 ], [ 23, 3 ], [ 23, 7 ], [ 23, 28 ], [ 24, 7 ], [ 24, 11 ],
+#!  [ 24, 28 ], [ 25, 17 ], [ 25, 19 ], [ 25, 20 ], [ 28, 20 ], [ 28, 21 ],
+#!  [ 28, 23 ], [ 28, 24 ] ]
 #! @EndExampleSession
 #! Consider how getting information from a graph given by <K>GRAPE</K> looks like:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> grape := IncidenceGrapeGraph(complex).graph;;
 #! gap> DirectedEdges(grape)=DigraphEdges(digraph);
 #! true
-#! @EndExampleSession
+#! @EndLogSession
 #! Finally, consider how getting information from a graph given by <K>NautyTracesInterface</K> looks like:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> nauty:=UnderlyingNautyGraph(IncidenceNautyGraph(complex));;
 #! gap> nautyEdges:=nauty!.edges;
 #! [ [ 1, 6 ], [ 3, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 5, 9 ],
@@ -210,7 +215,7 @@
 #! [ 7, 12 ], [ 8, 12 ], [ 8, 13 ], [ 9, 13 ], [ 10, 13 ], [ 11, 13 ] ]
 #! gap> nautyEdges=DigraphEdges(digraph);
 #! false
-#! @EndExampleSession
+#! @EndLogSession
 #! The edges of the nauty incidence graph are not equal to the edges of the digraph,
 #! since the edges from the nauty graph are undirected.
 #!
@@ -482,8 +487,6 @@ DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
 #! this can equivalently be described as isomorphism between their incidence
 #! graphs (compare <Ref Subsect="Section_Graphs_Incidence"/>).
 #!
-#! The isomorphism check needs the package <K>NautyTracesInterface</K> to work.
-#!
 #! @ExampleSession
 #! gap> IsIsomorphic( Cube(), Octahedron() );
 #! false
@@ -552,7 +555,7 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! mapping the canonical representative under its preimage map returns the 
 #! cube again.
 
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> faces := [ 20, 21, 22, 23, 24, 25 ];;
 #! gap> edges := [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];;
 #! gap> vertices := [ 12, 13, 14, 15, 16, 17, 18, 19 ];;
@@ -585,7 +588,7 @@ DeclareOperation( "IsomorphismRepresentatives", [IsList] );
 #! gap> original := RangeSurface(canonicalCube[2]);;
 #! gap> original=cube;
 #! true
-#! @EndExampleSession
+#! @EndLogSession
 
 #! @Arguments surface
 #! @Returns A list containing the canonical form of the surface and a
@@ -618,13 +621,13 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> tetra := Tetrahedron();;
 #! gap> IsAutomorphismDefinedByFaces(tetra);
 #! true
 #! gap> AutomorphismGroupOnFaces(tetra);
 #! Group([ (1,2), (2,4), (3,4) ])
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! For the janus-head this is not possible.
 #!  <Alt Only="HTML">
@@ -664,7 +667,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> AutomorphismGroup(tetra);
 #! Group([ 
 #!   (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
@@ -677,7 +680,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #!    (1,5)(2,6)(3,7)(4,8)(9,11)(10,12) ])
 #! gap> Size( last );
 #! 12
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! Unfortunately, this makes it more complicated to understand the 
 #! automorphisms at a glance. To see the individual action on vertices,
@@ -721,10 +724,10 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! @EndExampleSession
 #! Therefore, the automorphism group is best represented by its action on
 #! the edges.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> AutomorphismGroupOnEdges(openBag);
 #! Group([ (3,4), (1,2) ])
-#! @EndExampleSession
+#! @EndLogSession
 
 #! @BeginGroup AutomorphismGroup
 #! @Description
@@ -735,7 +738,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! <Ref Sect="Section_Graphs_Automorphisms_Polygonal"/>.
 #! 
 #! For the tetrahedron this gives the following result:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> tetra := Tetrahedron();;
 #! gap> Vertices(tetra);
 #! [ 1, 2, 3, 4 ]
@@ -750,7 +753,7 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #!   (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
 #!   (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
 #!   (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
-#! @EndExampleSession
+#! @EndLogSession
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_TetrahedronChambers-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -765,14 +768,14 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! 
 #! To see the action on vertices, edges, and faces simultaneously, use the method 
 #! <K>DisplayAsAutomorphism</K> (<Ref Subsect="DisplayAsAutomorphism"/>).
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> DisplayAsAutomorphism( tetra, aut.1 );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
 #! gap> DisplayAsAutomorphism( tetra, aut.2 );
 #! [ (2,3), (1,2)(5,6), (2,4) ]
 #! gap> DisplayAsAutomorphism( tetra, aut.3 );
 #! [ (1,2), (2,4)(3,5), (3,4) ]
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! To compute the action on vertices, edges or faces individually, use
 #! the methods <K>AutomorphismGroupOnVertices</K> 
@@ -781,25 +784,25 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! (<Ref Subsect="AutomorphismGroupOnEdges"/>) or
 #! <K>AutomorphismGroupOnFaces</K>
 #! (<Ref Subsect="AutomorphismGroupOnFaces"/>).
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> AutomorphismGroupOnVertices(tetra);
 #! Group([ (3,4), (2,3), (1,2) ])
 #! gap> AutomorphismGroupOnEdges(tetra);
 #! Group([ (2,3)(4,5), (1,2)(5,6), (2,4)(3,5) ])
 #! gap> AutomorphismGroupOnFaces(tetra);
 #! Group([ (1,2), (2,4), (3,4) ])
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! For example, the automorphism group of an icosahedron 
 #! (<Ref Subsect="Icosahedron"/>) is the direct product of a cyclic group
 #! of order 2 and an alternating group of order 60.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> autIco := AutomorphismGroup( Icosahedron() );;
 #! gap> Size(autIco);
 #! 120
 #! gap> StructureDescription(autIco);
 #! "C2 x A5"
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! @Arguments complex
 #! @Returns a permutation group
@@ -826,7 +829,7 @@ DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> tetra := Tetrahedron();;
 #! gap> aut := AutomorphismGroup( tetra );
 #! Group([ 
@@ -841,7 +844,7 @@ DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! [ (1,2), (2,4)(3,5), (3,4) ]
 #! gap> DisplayAsAutomorphism( tetra, aut.1 );
 #! [ (3,4), (2,3)(4,5), (1,2) ]
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! @Arguments complex, perm
 #! @Returns A list of three permutations
@@ -868,13 +871,13 @@ DeclareOperation( "DisplayAsAutomorphism", [IsTwistedPolygonalComplex, IsPerm] )
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> cube := Cube();;
 #! gap> IsAutomorphismDefinedByVertices(cube);
 #! true
 #! gap> AutomorphismGroupOnVertices(cube);
 #! Group([ (3,6)(4,5), (2,4)(6,8), (1,2)(3,4)(5,6)(7,8) ])
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
@@ -903,14 +906,14 @@ DeclareProperty( "IsAutomorphismDefinedByVertices", IsTwistedPolygonalComplex );
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> cube := Cube();;
 #! gap> IsAutomorphismDefinedByEdges(cube);
 #! true
 #! gap> AutomorphismGroupOnEdges(cube);
 #! Group([ (2,5)(3,12)(4,8)(6,9)(7,11), (1,4)(2,3)(5,7)(9,10)(11,12), 
 #!    (2,4)(5,8)(6,7)(9,11) ])
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
@@ -939,13 +942,13 @@ DeclareProperty( "IsAutomorphismDefinedByEdges", IsTwistedPolygonalComplex );
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> cube := Cube();;
 #! gap> IsAutomorphismDefinedByFaces(cube);
 #! true
 #! gap> AutomorphismGroupOnFaces(cube);
 #! Group([ (1,2)(5,6), (2,4)(3,5), (3,4) ])
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! @Arguments complex
 #! @Returns a permutation group
@@ -1009,7 +1012,7 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #!
 #! The automorphism group has exactly two orbits on this
 #! set of paths (either the two edges belong to one triangle, or they don't).
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> autOct := AutomorphismGroup(oct);;
 #! gap> pathOrbits := Orbits(autOct, paths, OnVertexEdgePaths);;
 #! gap> Length(pathOrbits);
@@ -1020,7 +1023,7 @@ DeclareProperty( "IsAutomorphismDefinedByFaces", IsTwistedPolygonalComplex );
 #! | v2, E1, v1, E3, v4 |
 #! gap> List( pathOrbits, Length );
 #! [ 48, 24 ]
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! @Arguments vePath, aut
 #! @Returns a vertex-edge-path
@@ -1078,7 +1081,7 @@ DeclareOperation( "OnVertexEdgePaths",
 #!
 #! The automorphism group has exactly two orbits on this
 #! set of paths.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> autOct := AutomorphismGroup(oct);;
 #! gap> pathOrbits := Orbits(autOct, paths, OnEdgeFacePaths);;
 #! gap> Length(pathOrbits);
@@ -1089,7 +1092,7 @@ DeclareOperation( "OnVertexEdgePaths",
 #! | e1, F1, e2, F7, e8 |
 #! gap> List( pathOrbits, Length );
 #! [ 48, 48 ]
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! @Arguments efPath, aut
 #! @Returns an edge-face-path
