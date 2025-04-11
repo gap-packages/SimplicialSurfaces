@@ -1,14 +1,4 @@
-#############################################################################
-##
-##  SimplicialSurface package
-##
-##  Copyright 2012-2016
-##    Markus Baumeister, RWTH Aachen University
-##    Alice Niemeyer, RWTH Aachen University 
-##
-## Licensed under the GPL 3 or later.
-##
-#############################################################################
+
 
 # This is the document that manages all other tests
 
@@ -48,9 +38,6 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     # Polygonal morphisms
     __SIMPLICIAL_Test_SourceRange();
-	
-    # Animating
-    __SIMPLICIAL_Test_Animating();
 
     # Graphs
     if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
@@ -71,6 +58,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     
     if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
         __SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph();
+    fi;
+    if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
+        __SIMPLICIAL_Test_ReembeddingsOfDigraph();
     fi;
 
     __SIMPLICIAL_Test_FaceTwoColouring();

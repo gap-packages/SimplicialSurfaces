@@ -1,14 +1,3 @@
-#############################################################################
-##
-##  read.g                simplicial surface package
-##
-#Y  Copyright (C) 2016-2017, Alice Niemeyer, Lehrstuhl B für Mathematik,
-#Y  RWTH Aachen
-##
-##  Reading the implementation part of the simplicial surface package.
-##
-#############################################################################
-
 ReadPackage( "SimplicialSurfaces", "gap/utilities.g" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/main.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gi" );
@@ -24,9 +13,9 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructors.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/properties.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/navigation.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/distances.gi" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructing_families.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/animating.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/discs.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Morphisms/morphisms.gi" );
@@ -56,5 +45,4 @@ ReadPackage( "SimplicialSurfaces", "unit_tests/Test_VEFComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_Morphisms.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_UmbrellaDescriptor.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Graphs.g" );
-ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Animating.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );
