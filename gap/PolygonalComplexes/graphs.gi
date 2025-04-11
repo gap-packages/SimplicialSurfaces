@@ -230,7 +230,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             local data;
             data := __SIMPLICIAL_IncidenceGraph(complex);
 
-            return NautyColoredGraphWithNodeLabels( data[1], data[2], data[2] );
+            return NautyColoredGraphWithNodeLabels( data[1], data[2], data[3] );
         end
     );
 

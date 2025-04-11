@@ -1,7 +1,7 @@
 
 BindGlobal( "__SIMPLICIAL_Test_IncidenceDigraphsGraph", function()
 	local digTetra, digTetraEdges, vertex, edges, edge, faces;
-	digTetra:=IncidenceDigraphsGraph(Tetrahedron());
+	digTetra:=IncidenceDigraphsGraph(Tetrahedron())[1];
 	digTetraEdges:=ShallowCopy(DigraphEdges(digTetra));
 	Assert(0,Length(digTetraEdges)=48);
 	for edge in [1..Length(digTetraEdges)] do
