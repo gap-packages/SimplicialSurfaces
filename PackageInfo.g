@@ -95,8 +95,7 @@ PackageWWWHome := "https://github.com/gap-packages/SimplicialSurfaces",
 
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
-ArchiveURL     := Concatenation( ~.PackageWWWHome,
-                                 "/", ~.PackageName),
+ArchiveURL     := Concatenation( ~.PackageWWWHome),
 
 ArchiveFormats := ".tar.gz",
 
